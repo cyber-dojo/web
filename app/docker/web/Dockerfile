@@ -42,7 +42,7 @@ ENTRYPOINT ["/sbin/tini", "--"]
 # This means there is no host<-container uid dependency.
 # But there is a host<-container docker version dependency.
 #
-# docker 1.11.0 now relies on four binaries
+# docker 1.11.0+ now relies on four binaries
 # See https://github.com/docker/docker/wiki/Engine-1.11.0
 # See https://docs.docker.com/engine/installation/binaries/
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -57,7 +57,7 @@ RUN apk --update add curl \
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # 3. lib/runner sh files needs to run /usr/bin/docker
-# after this, the sh file (running as cyber-dojo user) can do
+# After this, the sh file (running as cyber-dojo user) can do
 #     $ sudo -u docker-runner sudo docker run ...
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -78,6 +78,7 @@ RUN  echo "${GETS_DOCKER_SUDO}  ALL=NOPASSWD: ${DOCKER_BINARY} *"       >>  ${SU
 # - - - - - - - - - - - - - - - - - - - - - -
 # 4. bundle install from cyber-dojo's Gemfile
 # o) ruby, ruby-io-console ruby-bigdecimal, tzdata (for rails server)
+# o) ruby-irb (for debugging)
 # o) git (for cyber-dojo)
 # o) bash (test scripts are written in bash)
 

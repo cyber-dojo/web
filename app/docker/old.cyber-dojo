@@ -42,11 +42,6 @@ fi
 
 if [ -z "${CYBER_DOJO_KATAS_ROOT}" ]; then
     echo "CYBER_DOJO_KATAS_ROOT env-var is not set"
-    # TODO: see if katas data container exists
-    #       if it does show command to extract katas from it to tgz file
-    #       and then show example of untarring it to a folder
-    #       and naming that folder in CYBER_DOJO_KATAS_ROOT en-var
-    # TODO: remove backup command from cyber-dojo.rb
     exit 1
 fi
 
@@ -62,6 +57,65 @@ DOCKER_VERSION=$(docker --version | awk '{print $3}' | sed '$s/.$//')
 SERVER_NAME=web:${DOCKER_VERSION}
 DOCKER_HUB_USERNAME=cyberdojofoundation
 CYBER_DOJO_HOME=/usr/src/cyber-dojo     # *inside* the server image
+
+
+# Comment out whole section which creates data-container
+: <<'COMMENT-END'
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# ensure katas-data-container exists.
+# o) if it doesn't and /var/www/cyber-dojo/katas exists on the host
+#    then assume it holds practice sessions and _copy_ them into the new katas-data-container.
+# o) if it doesn't and /var/www/cyber-dojo/katas does not exist on the host
+#    then create new _empty_ katas-data-container
+
+HOME=/usr/src/cyber-dojo           # *inside* the server image
+KATAS_ROOT=/var/www/cyber-dojo/katas
+KATAS_DATA_CONTAINER=cdf-katas-DATA-CONTAINER
+
+docker ps -a | grep -q ${KATAS_DATA_CONTAINER}
+if [ $? != 0 ]; then
+  # 1. extract Dockerfile (to create katas-data-container) from web image
+  if [ -d "${KATAS_ROOT}" ]; then
+    echo "copying ${KATAS_ROOT} into new ${KATAS_DATA_CONTAINER}"
+    SUFFIX=copied
+    CONTEXT_DIR=${KATAS_ROOT}
+  else
+    echo "creating new empty ${KATAS_DATA_CONTAINER}"
+    SUFFIX=empty
+    CONTEXT_DIR=.
+  fi
+
+  # 2. extract appropriate Dockerfile from web image
+  KATAS_DOCKERFILE=${CONTEXT_DIR}/Dockerfile
+  CID=$(docker create ${DOCKER_HUB_USERNAME}/${SERVER_NAME})
+  docker cp ${CID}:${HOME}/app/docker/katas/Dockerfile.${SUFFIX} \
+            ${KATAS_DOCKERFILE}
+  docker rm -v ${CID} > /dev/null
+
+  # 3. extract appropriate .dockerignore from web image
+  KATAS_DOCKERIGNORE=${CONTEXT_DIR}/.dockerignore
+  CID=$(docker create ${DOCKER_HUB_USERNAME}/${SERVER_NAME})
+  docker cp ${CID}:${HOME}/app/docker/katas/Dockerignore.${SUFFIX} \
+            ${KATAS_DOCKERIGNORE}
+  docker rm -v ${CID} > /dev/null
+
+  # 4. use Dockerfile to build image
+  TAG=${DOCKER_HUB_USERNAME}/katas
+  docker build \
+           --build-arg=CYBER_DOJO_KATAS_ROOT=${HOME}/katas \
+           --tag=${TAG} \
+           --file=${KATAS_DOCKERFILE} \
+           ${CONTEXT_DIR}
+
+  # 5. use image to create data-container
+  docker create \
+         --name ${KATAS_DATA_CONTAINER} \
+         ${TAG} \
+         echo 'cdfKatasDC'
+fi
+
+COMMENT-END
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # delegate to ruby script inside web image
