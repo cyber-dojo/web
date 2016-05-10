@@ -3,6 +3,11 @@
 ME="./$( basename ${0} )"
 MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 
+# TODO: un-hardwire these
+export CYBER_DOJO_KATAS_ROOT="/home/docker/katas"
+export CYBER_DOJO_LANGUAGES_ROOT="/home/docker/start_points/languages"
+export CYBER_DOJO_EXERCISES_ROOT="/home/docker/start_points/exercises"
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # cyber-dojo web server image is docker version sensitive.
 # See app/docker/web/Dockerfile ~ line 49
@@ -86,21 +91,30 @@ if [ -z "${CYBER_DOJO_KATAS_ROOT}" ]; then
 fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# delegate to ruby script inside web image
+# ensure CYBER_DOJO_LANGUAGES_ROOT env-var is set
 
-if [ -z "${CYBER_DOJO_START_POINTS_ROOT}" ]; then
-    echo "CYBER_DOJO_START_POINTS_ROOT env-var is not set"
+if [ -z "${CYBER_DOJO_LANGUAGES_ROOT}" ]; then
+    echo "CYBER_DOJO_LANGUAGES_ROOT env-var is not set"
     exit 1
 fi
 
-#CYBER_DOJO_START_POINTS_ROOT=/home/docker/start_points
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# ensure CYBER_DOJO_EXERCISES_ROOT env-var is set
+
+if [ -z "${CYBER_DOJO_EXERCISES_ROOT}" ]; then
+    echo "CYBER_DOJO_EXERCISES_ROOT env-var is not set"
+    exit 1
+fi
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# delegate to ruby script inside web image
 
 docker run \
   --rm \
   --user=root \
   --env=DOCKER_VERSION=${DOCKER_VERSION} \
   --volume=/var/run/docker.sock:/var/run/docker.sock \
-  --volume=${CYBER_DOJO_START_POINTS_ROOT}:${CYBER_DOJO_HOME}/app/start_points \
+  --volume=${CYBER_DOJO_LANGUAGES_ROOT}:${CYBER_DOJO_HOME}/app/start_points/languages \
   ${DOCKER_HUB_USERNAME}/${SERVER_NAME} \
   ${CYBER_DOJO_HOME}/app/docker/cyber-dojo.rb $@
 
@@ -128,23 +142,6 @@ export CYBER_DOJO_GIT_CLASS=${CYBER_DOJO_GIT_CLASS:=HostGit}
 export CYBER_DOJO_RUNNER_CLASS=${CYBER_DOJO_RUNNER_CLASS:=DockerTarPipeRunner}
 export CYBER_DOJO_RUNNER_SUDO='sudo -u docker-runner sudo'
 export CYBER_DOJO_RUNNER_TIMEOUT=${CYBER_DOJO_RUNNER_TIMEOUT:=10}
-
-export CYBER_DOJO_KATAS_ROOT=${CYBER_DOJO_KATAS_ROOT}
-export CYBER_DOJO_START_POINTS_ROOT=${CYBER_DOJO_START_POINTS_ROOT}
-
-# Problem with volumes: for start_points is that the web container
-# needs permission to create cache.json file
-# Create an app/config folder?
-# Give each cache file its own specific name
-# eg languages/cache.json -> config/languages_cache.json
-# or
-# eg languages/cache.json -> config/languages/cache.json
-#
-# This makes sense, since the cache is something created by the
-# server session and its lifetime should be tied to the server
-# session and *NOT* to the start_points folder which is the read-only
-# source of the languages/exercises/
-
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # up/down/restart/sh
