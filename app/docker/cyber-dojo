@@ -3,6 +3,20 @@
 ME="./$( basename ${0} )"
 MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# cyber-dojo web server image is docker version sensitive.
+# See app/docker/web/Dockerfile ~ line 49
+#
+# docker --version  -->  Docker version 1.11.1, build 5604cbe
+# awk '{print $3}'  -->  1.11.1,           (third field)
+# sed '$s/.$//'     -->  1.11.1            (lose last comma)
+
+DOCKER_VERSION=$(docker --version | awk '{print $3}' | sed '$s/.$//')
+SERVER_NAME=web:${DOCKER_VERSION}
+DOCKER_HUB_USERNAME=cyberdojofoundation
+CYBER_DOJO_HOME=/usr/src/cyber-dojo     # *inside* the server image
+KATAS_DATA_CONTAINER=cdf-katas-DATA-CONTAINER
+
 # The main cyber-dojo shell script.
 # Works in combination with the cyber-dojo.rb ruby script.
 # It [docker run]s cyber-dojo.rb from inside cyberdojofoundation/web which has ruby.
@@ -42,35 +56,51 @@ fi
 
 if [ -z "${CYBER_DOJO_KATAS_ROOT}" ]; then
     echo "CYBER_DOJO_KATAS_ROOT env-var is not set"
-    # TODO: see if katas data container exists
-    #       if it does show command to extract katas from it to tgz file
-    #       and then show example of untarring it to a folder
-    #       and naming that folder in CYBER_DOJO_KATAS_ROOT en-var
+    docker ps -a | grep -q ${KATAS_DATA_CONTAINER}
+    if [ $? == 0 ]; then
+      echo "${KATAS_DATA_CONTAINER} exists"
+      echo 'to create a zipped, tar file of the katas inside it...'
+      echo ''
+      CMD="docker run \
+            --user=root \
+            --rm \
+            --volumes-from=${KATAS_DATA_CONTAINER} \
+            --volume=/tmp:/tmp \
+            ${DOCKER_HUB_USERNAME}/${SERVER_NAME} \
+            tar -cvz -f /tmp/katas.tgz -C ${CYBER_DOJO_HOME} katas"
+      echo ${CMD}
+      echo ''
+      echo '  note: if you are in a Docker-Quickstart-Terminal this will'
+      echo '        create /tmp/katas.tgz on the default VM. To ssh into default'
+      echo '          docker-machine ssh default'
+
+      echo 'to extract katas from /tmp/katas.tgz ...'
+      echo 'tar -xvf /tmp/katas.tgz'
+      CMD=""
+      # TODO: show how to set CYBER_DOJO_KATAS_ROOT to folder untarred to
+      # TODO: use tar pipe to create katas folder directly?
+
+    fi
     # TODO: remove backup command from cyber-dojo.rb
     exit 1
 fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# cyber-dojo web server image is docker version sensitive.
-# See app/docker/web/Dockerfile ~ line 49
-#
-# docker --version  -->  Docker version 1.11.1, build 5604cbe
-# awk '{print $3}'  -->  1.11.1,           (third field)
-# sed '$s/.$//'     -->  1.11.1            (lose last comma)
-
-DOCKER_VERSION=$(docker --version | awk '{print $3}' | sed '$s/.$//')
-SERVER_NAME=web:${DOCKER_VERSION}
-DOCKER_HUB_USERNAME=cyberdojofoundation
-CYBER_DOJO_HOME=/usr/src/cyber-dojo     # *inside* the server image
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # delegate to ruby script inside web image
+
+if [ -z "${CYBER_DOJO_START_POINTS_ROOT}" ]; then
+    echo "CYBER_DOJO_START_POINTS_ROOT env-var is not set"
+    exit 1
+fi
+
+#CYBER_DOJO_START_POINTS_ROOT=/home/docker/start_points
 
 docker run \
   --rm \
   --user=root \
   --env=DOCKER_VERSION=${DOCKER_VERSION} \
   --volume=/var/run/docker.sock:/var/run/docker.sock \
+  --volume=${CYBER_DOJO_START_POINTS_ROOT}:${CYBER_DOJO_HOME}/app/start_points \
   ${DOCKER_HUB_USERNAME}/${SERVER_NAME} \
   ${CYBER_DOJO_HOME}/app/docker/cyber-dojo.rb $@
 
@@ -100,6 +130,21 @@ export CYBER_DOJO_RUNNER_SUDO='sudo -u docker-runner sudo'
 export CYBER_DOJO_RUNNER_TIMEOUT=${CYBER_DOJO_RUNNER_TIMEOUT:=10}
 
 export CYBER_DOJO_KATAS_ROOT=${CYBER_DOJO_KATAS_ROOT}
+export CYBER_DOJO_START_POINTS_ROOT=${CYBER_DOJO_START_POINTS_ROOT}
+
+# Problem with volumes: for start_points is that the web container
+# needs permission to create cache.json file
+# Create an app/config folder?
+# Give each cache file its own specific name
+# eg languages/cache.json -> config/languages_cache.json
+# or
+# eg languages/cache.json -> config/languages/cache.json
+#
+# This makes sense, since the cache is something created by the
+# server session and its lifetime should be tied to the server
+# session and *NOT* to the start_points folder which is the read-only
+# source of the languages/exercises/
+
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # up/down/restart/sh

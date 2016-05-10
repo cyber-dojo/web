@@ -75,7 +75,7 @@ KATAS_DATA_CONTAINER=cdf-katas-DATA-CONTAINER
 
 docker ps -a | grep -q ${KATAS_DATA_CONTAINER}
 if [ $? != 0 ]; then
-  # 1. extract Dockerfile (to create katas-data-container) from web image
+  # 1. determine appropriate Dockerfile (to create katas-data-container)
   if [ -d "${KATAS_ROOT}" ]; then
     echo "copying ${KATAS_ROOT} into new ${KATAS_DATA_CONTAINER}"
     SUFFIX=copied

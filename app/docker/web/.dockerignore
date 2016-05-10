@@ -13,7 +13,6 @@
 !app/helpers
 !app/lib
 !app/models
-!app/start_points
 !app/views
 !script
 !config
@@ -26,5 +25,5 @@
 !config.ru
 
 #-----Except do ignore the caches
-app/start_points/languages/cache.json
-app/start_points/exercises/cache.json
+# app/start_points/languages/cache.json
+# app/start_points/exercises/cache.json
