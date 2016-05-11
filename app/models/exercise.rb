@@ -7,8 +7,6 @@ class Exercise
     @instructions = instructions
   end
 
-  # queries
-
   attr_reader :exercises, :name
 
   def parent
