@@ -4,10 +4,7 @@ ME="./$( basename ${0} )"
 MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 
 # TODO: un-hardwire these
-export CYBER_DOJO_LANGUAGES_ROOT="/home/docker/start_points/languages"
-export CYBER_DOJO_EXERCISES_ROOT="/home/docker/start_points/exercises"
-export CYBER_DOJO_CUSTOM_ROOT="/home/docker/start_points/custom"
-# TODO: collapse the above 3 into 1 ?
+export CYBER_DOJO_DATA_ROOT="/home/docker/data"
 export CYBER_DOJO_KATAS_ROOT="/home/docker/katas"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -93,26 +90,10 @@ if [ -z "${CYBER_DOJO_KATAS_ROOT}" ]; then
 fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# ensure CYBER_DOJO_LANGUAGES_ROOT env-var is set
+# ensure CYBER_DOJO_DATA_ROOT env-var is set
 
-if [ -z "${CYBER_DOJO_LANGUAGES_ROOT}" ]; then
-    echo "CYBER_DOJO_LANGUAGES_ROOT env-var is not set"
-    exit 1
-fi
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# ensure CYBER_DOJO_EXERCISES_ROOT env-var is set
-
-if [ -z "${CYBER_DOJO_EXERCISES_ROOT}" ]; then
-    echo "CYBER_DOJO_EXERCISES_ROOT env-var is not set"
-    exit 1
-fi
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# ensure CYBER_DOJO_CUSTOM_ROOT env-var is set
-
-if [ -z "${CYBER_DOJO_CUSTOM_ROOT}" ]; then
-    echo "CYBER_DOJO_CUSTOM_ROOT env-var is not set"
+if [ -z "${CYBER_DOJO_DATA_ROOT}" ]; then
+    echo "CYBER_DOJO_DATA_ROOT env-var is not set"
     exit 1
 fi
 
@@ -124,7 +105,7 @@ docker run \
   --user=root \
   --env=DOCKER_VERSION=${DOCKER_VERSION} \
   --volume=/var/run/docker.sock:/var/run/docker.sock \
-  --volume=${CYBER_DOJO_LANGUAGES_ROOT}:${CYBER_DOJO_HOME}/app/start_points/languages \
+  --volume=${CYBER_DOJO_DATA_ROOT}/languages:${CYBER_DOJO_HOME}/app/data/languages:ro \
   ${DOCKER_HUB_USERNAME}/${SERVER_NAME} \
   ${CYBER_DOJO_HOME}/app/docker/cyber-dojo.rb $@
 
