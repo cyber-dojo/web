@@ -31,7 +31,7 @@ web:
     - CYBER_DOJO_LANGUAGES_ROOT=${CYBER_DOJO_HOME}/app/data/languages
     - CYBER_DOJO_EXERCISES_ROOT=${CYBER_DOJO_HOME}/app/data/exercises
     - CYBER_DOJO_CUSTOM_ROOT=${CYBER_DOJO_HOME}/app/data/custom
-    - CYBER_DOJO_KATAS_ROOT=${CYBER_DOJO_HOME}/katas
+    - CYBER_DOJO_KATAS_ROOT=${CYBER_DOJO_HOME}/app/data/katas
   ports:
     - "3000:3000"
   volumes:
@@ -39,4 +39,4 @@ web:
     - ${CYBER_DOJO_DATA_ROOT}/languages:${CYBER_DOJO_HOME}/app/data/languages:ro
     - ${CYBER_DOJO_DATA_ROOT}/exercises:${CYBER_DOJO_HOME}/app/data/exercises:ro
     - ${CYBER_DOJO_DATA_ROOT}/custom:${CYBER_DOJO_HOME}/app/data/custom:rw
-    - ${CYBER_DOJO_KATAS_ROOT}:${CYBER_DOJO_HOME}/katas:rw
+    - ${CYBER_DOJO_KATAS_ROOT}:${CYBER_DOJO_HOME}/app/data/katas:rw

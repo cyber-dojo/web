@@ -5,8 +5,7 @@ MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 
 # TODO: un-hardwire these
 export CYBER_DOJO_DATA_ROOT="/home/docker/data"
-# TODO: enforce katas living at .../data/katas ?
-export CYBER_DOJO_KATAS_ROOT="/home/docker/katas"
+export CYBER_DOJO_KATAS_ROOT="/home/docker/data/katas"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # cyber-dojo web server image is docker version sensitive.
