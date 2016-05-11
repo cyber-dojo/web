@@ -30,6 +30,7 @@ web:
     - CYBER_DOJO_RUNNER_TIMEOUT
     - CYBER_DOJO_LANGUAGES_ROOT=${CYBER_DOJO_HOME}/app/start_points/languages
     - CYBER_DOJO_EXERCISES_ROOT=${CYBER_DOJO_HOME}/app/start_points/exercises
+    - CYBER_DOJO_CUSTOM_ROOT=${CYBER_DOJO_HOME}/app/start_points/custom
     - CYBER_DOJO_KATAS_ROOT=${CYBER_DOJO_HOME}/katas
   ports:
     - "3000:3000"
@@ -38,3 +39,4 @@ web:
     - ${CYBER_DOJO_KATAS_ROOT}:${CYBER_DOJO_HOME}/katas:rw
     - ${CYBER_DOJO_LANGUAGES_ROOT}:${CYBER_DOJO_HOME}/app/start_points/languages:ro
     - ${CYBER_DOJO_EXERCISES_ROOT}:${CYBER_DOJO_HOME}/app/start_points/exercises:ro
+    - ${CYBER_DOJO_CUSTOM_ROOT}:${CYBER_DOJO_HOME}/app/start_points/custom:rw

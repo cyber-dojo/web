@@ -5,8 +5,10 @@ MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 
 # TODO: un-hardwire these
 export CYBER_DOJO_KATAS_ROOT="/home/docker/katas"
+# TODO: collapse these 3 into 1 ?
 export CYBER_DOJO_LANGUAGES_ROOT="/home/docker/start_points/languages"
 export CYBER_DOJO_EXERCISES_ROOT="/home/docker/start_points/exercises"
+export CYBER_DOJO_CUSTOM_ROOT="/home/docker/start_points/custom"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # cyber-dojo web server image is docker version sensitive.
@@ -103,6 +105,14 @@ fi
 
 if [ -z "${CYBER_DOJO_EXERCISES_ROOT}" ]; then
     echo "CYBER_DOJO_EXERCISES_ROOT env-var is not set"
+    exit 1
+fi
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# ensure CYBER_DOJO_CUSTOM_ROOT env-var is set
+
+if [ -z "${CYBER_DOJO_CUSTOM_ROOT}" ]; then
+    echo "CYBER_DOJO_CUSTOM_ROOT env-var is not set"
     exit 1
 fi
 
