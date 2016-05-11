@@ -25,7 +25,5 @@
 !Gemfile
 !config.ru
 
-#-----Except do ignore the caches
-app/caches/languages_cache.json
-app/caches/exercises_cache.json
-app/caches/custom_cache.json
+#-----Except do ignore everything in caches
+app/caches/*
