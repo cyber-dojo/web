@@ -23,7 +23,6 @@ def help
     '     sh                   Shell into the server container',
     '     up                   Creates and starts the server containers',
     '',
-    '     backup               Creates a tgz file of all practice sessions',
     '     catalog              Lists all language images',
     '     clean                Deletes dead images',
     '     images               Lists pulled language images',
@@ -39,20 +38,6 @@ end
 def run(command)
   puts command
   `#{command}`
-end
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-def backup
-  cmd = 'docker run' +
-    ' --user=root' +
-    ' --rm' +
-    ' --volumes-from=cdf-katas-DATA-CONTAINER' +
-    " --volume=/backup:/backup" +
-    " #{docker_hub_username}/web:#{docker_version}" +
-    " tar -cvz -f /backup/cyber-dojo_katas_backup.tgz -C #{home} katas"
-  `#{cmd}`
-  puts 'Created /backup/cyber-dojo_katas_backup.tgz'
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -190,7 +175,7 @@ end
 options = {}
 arg = ARGV[0].to_sym
 container_commands = [:down, :restart, :sh, :up]
-image_commands = [:backup, :clean, :catalog, :images, :pull, :remove, :upgrade]
+image_commands = [:clean, :catalog, :images, :pull, :remove, :upgrade]
 all_commands = [:help] + container_commands + image_commands
 if all_commands.include? arg
   options[arg] = true
@@ -205,7 +190,6 @@ end
 puts help       if options[:help]
 up              if options[:up]
 
-backup          if options[:backup]
 puts catalog    if options[:catalog]
 clean           if options[:clean]
 puts images     if options[:images]
