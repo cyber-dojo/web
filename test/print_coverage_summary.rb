@@ -38,7 +38,7 @@ def line_width
 end
 
 def print_line
-  puts ' -' * ((line_width+1)/2)
+  puts '- ' * ((line_width+1)/2)
 end
 
 #- - - - - - - - - - - - - - - - - - - - -
