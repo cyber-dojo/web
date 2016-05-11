@@ -4,6 +4,7 @@
   manifest_property
 
   dojo
+  custom_exercises
   language
   languages_rename
   languages

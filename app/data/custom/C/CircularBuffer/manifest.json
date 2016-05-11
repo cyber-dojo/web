@@ -1,5 +1,11 @@
 {
-    "visible_filenames": [ 
+    "unit_test_framework":  "cpputest",
+
+    "display_name": "C, CircularBuffer",
+
+    "image_name": "cyberdojofoundation/gcc_assert",
+
+    "visible_filenames": [
        "AllTests.cpp",
        "CircularBuffer.c",
        "CircularBuffer.h",
@@ -8,18 +14,19 @@
        "makefile",
        "please-sign-in"
     ],
-    
-    "highlight_filenames": [ 
+
+    "highlight_filenames": [
        "CircularBuffer.c",
        "CircularBuffer.h",
        "CircularBufferTest.cpp"
     ],
 
-    "support_filenames": [ 
+    "support_filenames": [
        "make-gcov.sh"
     ],
 
-    "unit_test_framework":  "cpputest",
-    "display_name": "C, CircularBuffer",
-    "image_name": "cyberdojofoundation/gpp_cpputest", "progress_regexs" : [ "Errors \(.* ms\)", "OK \(.* ms\)" ]
+    "progress_regexs" : [
+      "Errors \(.* ms\)",
+      "OK \(.* ms\)"
+    ]
 }

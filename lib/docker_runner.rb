@@ -5,7 +5,7 @@ module DockerRunner # mixin
     "#{File.dirname(__FILE__)}/"
   end
 
-  def runnable_languages
+  def runnable(languages)
     languages.select { |language| runnable?(language.image_name) }
   end
 
