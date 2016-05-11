@@ -1,8 +1,6 @@
 
 <% id       = @kata.id[0..5] %>
-<% language = @kata.language.display_name.split(',')[0].strip %>
-<% test     = @kata.language.display_name.split(',')[1].strip %>
-<% exercise = @kata.exercise.name.gsub('_',' ') %>
+<% exercise = @kata.exercise_name.gsub('_',' ') %>
 
 <div id="footer">
   <table>
@@ -16,10 +14,6 @@
       <td><%= render partial: 'shared/accu' %></td>
       <td><%= render partial: 'shared/bullet' %></td>
       <td><%= id %></td>
-      <td><%= render partial: 'shared/bullet' %></td>
-      <td><%= language %></td>
-      <td><%= render partial: 'shared/bullet' %></td>
-      <td><%= test %></td>
       <td><%= render partial: 'shared/bullet' %></td>
       <td><%= exercise %></td>
     </tr>

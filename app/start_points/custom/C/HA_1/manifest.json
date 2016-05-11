@@ -1,0 +1,40 @@
+{
+    "visible_filenames": [ 
+       "AllTests.cpp",
+       "FakeTimeService.c",
+       "FakeTimeService.h",
+       "FakeTimeServiceTest.cpp",
+       "LightController.h",
+       "LightControllerSpy.c",
+       "LightControllerSpy.h",
+       "LightControllerSpyTest.cpp",
+       "LightScheduler.c",
+       "LightScheduler.h",
+       "LightSchedulerTest.cpp",
+       "M42LightController.h",
+       "M42LightController.c",
+       "TimeService.h",
+       "cyber-dojo.sh",
+       "makefile",
+       "please-sign-in"
+    ],
+
+    "highlight_filenames": [ 
+       "LightControllerSpy.c",
+	   "LightControllerSpy.h",
+       "LightControllerSpyTest.cpp",
+       "LightScheduler.c",
+       "LightScheduler.h",
+       "LightSchedulerTest.cpp"
+    ],
+
+    "support_filenames": [ 
+       "make-gcov.sh"
+    ],
+
+    "unit_test_framework":  "cpputest",
+    "display_name": "C, HA_1",
+    "image_name": "cyberdojofoundation/gpp_cpputest", 
+    "progress_regexs" : [ "Errors \(.* ms\)", "OK \(.* ms\)" ]
+
+}

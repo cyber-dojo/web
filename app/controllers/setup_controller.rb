@@ -1,6 +1,25 @@
 
 class SetupController < ApplicationController
 
+  def show_custom_exercises
+    @id = id
+    @title = 'create'
+    languages_names = read_custom_exercises
+    index = choose_language(languages_names, id, dojo.katas)
+    @languages = ::LanguagesDisplayNamesSplitter.new(languages_names, index)
+    @initial_language_index = @languages.selected_index
+  end
+
+  def save_custom_exercise
+    language_name = params['language']
+    exercise_name = params['exercise']
+    exercise = custom[language_name + '-' + exercise_name]
+    kata = katas.create_custom_kata(language_name, exercise)
+    render json: { id: kata.id }
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
   def show_languages_and_tests
     @id = id
     @title = 'create'

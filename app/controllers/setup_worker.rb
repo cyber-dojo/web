@@ -3,6 +3,11 @@ module SetupWorker # mix-in
 
   module_function
 
+  def read_custom_exercises
+    # SLIMED
+    [ 'C, CircularBuffer', 'C, Flash_CppUMock', 'C, HA_1' ]
+  end
+
   def read_languages
     dojo.runner.runnable_languages.map { |language| language.display_name }.sort
   end

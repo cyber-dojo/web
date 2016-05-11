@@ -16,12 +16,13 @@ popd > /dev/null
 
 export CYBER_DOJO_LANGUAGES_ROOT=${HOME}/app/start_points/languages
 export CYBER_DOJO_EXERCISES_ROOT=${HOME}/app/start_points/exercises
+export CYBER_DOJO_CUSTOM_ROOT=${HOME}/app/start_points/custom
+export CYBER_DOJO_KATAS_ROOT=${HOME}/tmp/katas
+
 export CYBER_DOJO_SHELL_CLASS=HostShell
 export CYBER_DOJO_DISK_CLASS=HostDisk
 export CYBER_DOJO_LOG_CLASS=StdoutLog
 export CYBER_DOJO_GIT_CLASS=HostGit
-
-export CYBER_DOJO_KATAS_ROOT=${HOME}/tmp/katas
 export CYBER_DOJO_KATAS_CLASS=HostDiskKatas
 
 export CYBER_DOJO_RUNNER_CLASS=${RUNNER}

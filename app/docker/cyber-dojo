@@ -4,11 +4,11 @@ ME="./$( basename ${0} )"
 MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 
 # TODO: un-hardwire these
-export CYBER_DOJO_KATAS_ROOT="/home/docker/katas"
-# TODO: collapse these 3 into 1 ?
 export CYBER_DOJO_LANGUAGES_ROOT="/home/docker/start_points/languages"
 export CYBER_DOJO_EXERCISES_ROOT="/home/docker/start_points/exercises"
 export CYBER_DOJO_CUSTOM_ROOT="/home/docker/start_points/custom"
+# TODO: collapse the above 3 into 1 ?
+export CYBER_DOJO_KATAS_ROOT="/home/docker/katas"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # cyber-dojo web server image is docker version sensitive.

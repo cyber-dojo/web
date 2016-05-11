@@ -23,6 +23,7 @@ coverage
 
 app/caches/languages_cache.json
 app/caches/exercises_cache.json
+app/caches/custom_cache.json
 
 .dockerignore
 Dockerfile

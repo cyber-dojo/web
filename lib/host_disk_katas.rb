@@ -15,6 +15,20 @@ class HostDiskKatas
   # Katas
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
+  def create_custom_kata(language_name, exercise, id = unique_id, now = time_now)
+    manifest = {
+                       id: id,
+                  created: now,
+                 language: language_name,
+                 exercise: exercise.name,
+      unit_test_framework: exercise.unit_test_framework,
+                 tab_size: exercise.tab_size
+    }
+    manifest[:visible_files] = exercise.visible_files
+    manifest[:visible_files]['output'] = ''
+    create_kata_from_manifest(manifest)
+  end
+
   def create_kata(language, exercise, id = unique_id, now = time_now)
     manifest = create_kata_manifest(language, exercise, id, now)
     create_kata_from_manifest(manifest)
