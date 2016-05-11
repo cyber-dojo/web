@@ -1,10 +1,9 @@
 
 class Language
 
-  def initialize(languages, dir_name, test_dir_name, display_name = nil, image_name = nil)
+  def initialize(languages, dir_name, display_name = nil, image_name = nil)
     @languages = languages
     @dir_name = dir_name
-    @test_dir_name = test_dir_name
     @display_name = display_name
     @image_name = image_name
   end
@@ -18,7 +17,7 @@ class Language
   end
 
   def path
-    parent.path + '/' + @dir_name + '/' + @test_dir_name
+    parent.path + '/' + @dir_name
   end
 
   # required manifest properties

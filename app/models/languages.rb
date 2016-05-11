@@ -40,9 +40,8 @@ class Languages
     cache = {}
     disk[cache_path].read_json(cache_filename).each do |display_name, language|
            dir_name = language['dir_name']
-      test_dir_name = language['test_dir_name']
          image_name = language['image_name']
-      cache[display_name] = make_language(dir_name, test_dir_name, display_name, image_name)
+      cache[display_name] = make_language(dir_name, display_name, image_name)
     end
     cache
   end
@@ -52,10 +51,9 @@ class Languages
     disk[path].each_dir do |dir_name|
       disk[path + '/' + dir_name].each_dir do |test_dir_name|
         next if test_dir_name == '_docker_context'
-        language = make_language(dir_name, test_dir_name)
+        language = make_language(dir_name + '/' + test_dir_name)
         cache[language.display_name] = {
-               dir_name: dir_name,
-          test_dir_name: test_dir_name,
+               dir_name: dir_name + '/' + test_dir_name,
              image_name: language.image_name
         }
       end
@@ -63,8 +61,8 @@ class Languages
     cache
   end
 
-  def make_language(dir_name, test_dir_name, display_name = nil, image_name = nil)
-    Language.new(self, dir_name, test_dir_name, display_name, image_name)
+  def make_language(dir_name, display_name = nil, image_name = nil)
+    Language.new(self, dir_name, display_name, image_name)
   end
 
   def commad(name)

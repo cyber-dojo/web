@@ -247,7 +247,7 @@ class LanguageTest < AppModelsTestBase
   private
 
   def make_language(language_dir, test_dir)
-    Language.new(languages, language_dir, test_dir)
+    Language.new(languages, language_dir + '/' + test_dir)
   end
 
   def spy_manifest(manifest)
