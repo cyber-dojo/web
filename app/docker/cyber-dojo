@@ -5,6 +5,7 @@ MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 
 # TODO: un-hardwire these
 export CYBER_DOJO_DATA_ROOT="/home/docker/data"
+# TODO: enforce katas living at .../data/katas ?
 export CYBER_DOJO_KATAS_ROOT="/home/docker/katas"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -19,7 +20,6 @@ DOCKER_VERSION=$(docker --version | awk '{print $3}' | sed '$s/.$//')
 SERVER_NAME=web:${DOCKER_VERSION}
 DOCKER_HUB_USERNAME=cyberdojofoundation
 CYBER_DOJO_HOME=/usr/src/cyber-dojo     # *inside* the server image
-KATAS_DATA_CONTAINER=cdf-katas-DATA-CONTAINER
 
 # The main cyber-dojo shell script.
 # Works in combination with the cyber-dojo.rb ruby script.
@@ -60,6 +60,7 @@ fi
 
 if [ -z "${CYBER_DOJO_KATAS_ROOT}" ]; then
     echo "CYBER_DOJO_KATAS_ROOT env-var is not set"
+    KATAS_DATA_CONTAINER=cdf-katas-DATA-CONTAINER
     docker ps -a | grep -q ${KATAS_DATA_CONTAINER}
     if [ $? == 0 ]; then
       echo "${KATAS_DATA_CONTAINER} exists"
