@@ -8,8 +8,6 @@ class Language
     @image_name = image_name
   end
 
-  # queries
-
   attr_reader :languages
 
   def parent

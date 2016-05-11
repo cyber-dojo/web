@@ -39,9 +39,8 @@ class CustomExercises
     cache = {}
     disk[cache_path].read_json(cache_filename).each do |display_name, exercise|
                dir_name = exercise['dir_name']
-      exercise_dir_name = exercise['exercise_dir_name']
              image_name = exercise['image_name']
-      cache[display_name] = make_language(dir_name, exercise_dir_name, display_name, image_name)
+      cache[display_name] = make_language(dir_name, display_name, image_name)
     end
     cache
   end
@@ -50,10 +49,9 @@ class CustomExercises
     cache = {}
     disk[path].each_dir do |dir_name|
       disk[path + '/' + dir_name].each_dir do |exercise_dir_name|
-        exercise = make_language(dir_name, exercise_dir_name)
+        exercise = make_language(dir_name + '/' + exercise_dir_name)
         cache[exercise.display_name] = {
-                   dir_name: dir_name,
-          exercise_dir_name: exercise_dir_name,
+                   dir_name: dir_name + '/' + exercise_dir_name,
                  image_name: exercise.image_name
         }
       end
@@ -61,8 +59,8 @@ class CustomExercises
     cache
   end
 
-  def make_language(dir_name, exercise_dir_name, display_name = nil, image_name = nil)
-    Language.new(self, dir_name, exercise_dir_name, display_name, image_name)
+  def make_language(dir_name, display_name = nil, image_name = nil)
+    Language.new(self, dir_name, display_name, image_name)
   end
 
   def commad(name)

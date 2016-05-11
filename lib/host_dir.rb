@@ -14,6 +14,16 @@ class HostDir
     @disk
   end
 
+  # Use in languages.make_cache
+  # Note: language.path will be rooted from / so does not need [parent.path +]
+  #
+  # def each_rdir(pattern)
+  #   # eg pattern = '**/manifest.json'
+  #   Dir.glob(path + pattern).each do |entry|
+  #     yield File.dirname(entry)
+  #   end
+  # end
+
   def each_dir
     return enum_for(:each_dir) unless block_given?
     Dir.entries(path).each do |entry|
