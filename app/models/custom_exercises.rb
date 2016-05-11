@@ -49,9 +49,10 @@ class CustomExercises
     cache = {}
     disk[path].each_dir do |dir_name|
       disk[path + '/' + dir_name].each_dir do |exercise_dir_name|
-        exercise = make_language(dir_name + '/' + exercise_dir_name)
+        full_path = path + '/' + dir_name + '/' + exercise_dir_name
+        exercise = make_language(full_path)
         cache[exercise.display_name] = {
-                   dir_name: dir_name + '/' + exercise_dir_name,
+                   dir_name: full_path,
                  image_name: exercise.image_name
         }
       end

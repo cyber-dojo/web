@@ -7,7 +7,7 @@ class LanguageTest < AppModelsTestBase
 
   def setup
     super
-    set_languages_root(tmp_root + '/languages')
+    set_languages_root(tmp_root + '/' + 'languages')
     disk[languages.path].make
   end
 
@@ -247,7 +247,7 @@ class LanguageTest < AppModelsTestBase
   private
 
   def make_language(language_dir, test_dir)
-    Language.new(languages, language_dir + '/' + test_dir)
+    Language.new(languages, tmp_root + '/' + language_dir + '/' + test_dir)
   end
 
   def spy_manifest(manifest)

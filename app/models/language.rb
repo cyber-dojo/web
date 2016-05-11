@@ -1,21 +1,17 @@
 
 class Language
 
-  def initialize(languages, dir_name, display_name = nil, image_name = nil)
+  def initialize(languages, path, display_name = nil, image_name = nil)
     @languages = languages
-    @dir_name = dir_name
+    @path = path
     @display_name = display_name
     @image_name = image_name
   end
 
-  attr_reader :languages
+  attr_reader :path, :languages
 
   def parent
     languages
-  end
-
-  def path
-    parent.path + '/' + @dir_name
   end
 
   # required manifest properties

@@ -51,9 +51,11 @@ class Languages
     disk[path].each_dir do |dir_name|
       disk[path + '/' + dir_name].each_dir do |test_dir_name|
         next if test_dir_name == '_docker_context'
-        language = make_language(dir_name + '/' + test_dir_name)
+        full_path = path + '/' + dir_name + '/' + test_dir_name
+        #p full_path
+        language = make_language(full_path)
         cache[language.display_name] = {
-               dir_name: dir_name + '/' + test_dir_name,
+               dir_name: full_path,
              image_name: language.image_name
         }
       end
