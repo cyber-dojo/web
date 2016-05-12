@@ -59,7 +59,7 @@ end
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 def catalog
-  `#{my_dir}/../start_points/languages/list_all_images.rb`
+  `#{my_dir}/../data/languages/list_all_images.rb`
   # LANGUAGE          TESTS                IMAGE
   # Asm               assert               nasm_assert
   # BCPL              all_tests_passed     bcpl-all_tests_passed
