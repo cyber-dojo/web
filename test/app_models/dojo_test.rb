@@ -84,7 +84,7 @@ class DojoTest < AppModelsTestBase
 
   test prefix+'F2D',
   'katas.path is set off /tmp by test setup because tests write to katas' do
-    test_set_path = dojo.env('katas', 'root')
+    test_set_path = dojo.env('katas_root')
     assert test_set_path.include?('/tmp')
     assert katas.path.include?('/tmp')
   end

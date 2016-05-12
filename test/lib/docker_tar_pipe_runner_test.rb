@@ -20,7 +20,7 @@ class DockerTarPipeRunnerTest < LibTestBase
 
   test '75909D',
   'mock_execs used to create runner cache' do
-    sudo = dojo.env('runner', 'sudo')
+    sudo = dojo.env('runner_sudo')
     command = [sudo,'docker images'].join(' ').strip
     shell.mock_exec([command], docker_images_python_pytest, success)
     expected = ['Python, py.test']
@@ -60,7 +60,7 @@ class DockerTarPipeRunnerTest < LibTestBase
   'when run() times out',
   'then output is replaced by unable-to-complete message' do
     output = mock_run('ach-so-it-timed-out', times_out)
-    max_seconds = dojo.env('runner', 'timeout')
+    max_seconds = dojo.env('runner_timeout')
     expected = "Unable to complete the tests in #{max_seconds} seconds."
     assert output.start_with?(expected), output
   end
@@ -92,8 +92,8 @@ class DockerTarPipeRunnerTest < LibTestBase
     args = [
       katas.path_of(lion.sandbox),
       kata.language.image_name,
-      dojo.env('runner', 'timeout'),
-      quoted(dojo.env('runner','sudo'))
+      dojo.env('runner_timeout'),
+      quoted(dojo.env('runner_sudo'))
     ].join(space = ' ')
 
     shell.mock_cd_exec(

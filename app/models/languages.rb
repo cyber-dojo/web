@@ -10,7 +10,7 @@ class Languages
   attr_reader :parent
 
   def path
-    @path ||= parent.env('languages', 'root')
+    @path ||= parent.env('languages_root')
   end
 
   def each(&block)
@@ -22,7 +22,8 @@ class Languages
   end
 
   def cache_filename
-    'languages_cache.json'
+    'languages_root'.split('_')[0] + '.json'
+    #'languages.json'
   end
 
   include CachePath

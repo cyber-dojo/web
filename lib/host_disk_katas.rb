@@ -11,7 +11,7 @@ class HostDiskKatas
   attr_reader :parent
 
   def path
-    @path ||= parent.env('katas', 'root')
+    @path ||= parent.env('katas_root')
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -

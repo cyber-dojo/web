@@ -25,7 +25,7 @@ module DockerRunner # mixin
   def make_cache
     # [docker images] must be made by a user that has sufficient rights.
     # See docker/web/Dockerfile
-    sudo = parent.env('runner', 'sudo')
+    sudo = parent.env('runner_sudo')
     command = [sudo, 'docker images'].join(space = ' ').strip
     output, _ = shell.exec(command)
     # This will put all cyberdojofoundation image names into the runner cache,

@@ -13,12 +13,12 @@ class Dojo
   def       log;       @log ||= external_object; end
   def       git;       @git ||= external_object; end
 
-  def env_name(key, suffix) #
-    'CYBER_DOJO_' + key.upcase + '_' + suffix.upcase
+  def env_name(suffix) #
+    'CYBER_DOJO_' + suffix.upcase
   end
 
-  def env(key, suffix)
-    name = env_name(key, suffix)
+  def env(suffix)
+    name = env_name(suffix)
     unslashed(ENV[name] || fail("ENV[#{name}] not set"))
   end
 
@@ -29,7 +29,7 @@ class Dojo
 
   def external_object
     key = name_of(caller)
-    var = env(key, 'class')
+    var = env(key + '_class')
     Object.const_get(var).new(self)
   end
 

@@ -10,7 +10,7 @@ class CustomExercises
   attr_reader :parent
 
   def path
-    @path ||= parent.env('custom', 'root')
+    @path ||= parent.env('custom_root')
   end
 
   def each(&block)
@@ -22,7 +22,8 @@ class CustomExercises
   end
 
   def cache_filename
-    'custom_cache.json'
+    'custom_root'.split('_')[0] + '.json'
+    #'custom.json'
   end
 
   include CachePath

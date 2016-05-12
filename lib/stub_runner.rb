@@ -29,7 +29,7 @@ class StubRunner
 
   def run(avatar, _delta, _files, _image_name)
     output = read_stub(avatar)
-    max_seconds = @dojo.env('runner', 'timeout')
+    max_seconds = @dojo.env('runner_timeout')
     output_or_timed_out(output, success=0, max_seconds)
   end
 

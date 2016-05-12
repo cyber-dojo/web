@@ -32,9 +32,9 @@ class DockerTarPipeRunner
     sandbox = avatar.sandbox
     katas.sandbox_save(sandbox, delta, files)
     katas_sandbox_path = katas.path_of(sandbox)
-    max_seconds = parent.env('runner', 'timeout')
+    max_seconds = parent.env('runner_timeout')
     # See sudo comments in docker/web/Dockerfile
-    sudo = parent.env('runner', 'sudo')
+    sudo = parent.env('runner_sudo')
     args = [ katas_sandbox_path, image_name, max_seconds, quoted(sudo) ].join(space = ' ')
     output, exit_status = shell.cd_exec(path, "./docker_tar_pipe_runner.sh #{args}")
     output_or_timed_out(output, exit_status, max_seconds)
