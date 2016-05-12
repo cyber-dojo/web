@@ -3,7 +3,7 @@
 
     "display_name": "C, Flash_CppUMock",
 
-    "image_name": "cyberdojofoundation/gcc_assert",
+    "image_name": "cyberdojofoundation/gpp_cpputest",
 
     "visible_filenames": [
        "AllTests.cpp",
