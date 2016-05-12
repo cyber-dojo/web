@@ -10,7 +10,7 @@ class Languages
   attr_reader :parent
 
   def path
-    @path ||= unslashed(parent.env('languages', 'root'))
+    @path ||= parent.env('languages', 'root')
   end
 
   def each(&block)
@@ -31,7 +31,6 @@ class Languages
 
   include ExternalParentChainer
   include LanguagesRename
-  include Unslashed
 
   def languages
     @languages ||= read_cache

@@ -10,7 +10,7 @@ class Exercises
   attr_reader :parent
 
   def path
-    @path ||= unslashed(parent.env('exercises', 'root'))
+    @path ||= parent.env('exercises', 'root')
   end
 
   def each(&block)
@@ -30,7 +30,6 @@ class Exercises
   private
 
   include ExternalParentChainer
-  include Unslashed
 
   def exercises
     @exercises ||= read_cache

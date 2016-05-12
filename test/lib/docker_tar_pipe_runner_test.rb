@@ -24,7 +24,7 @@ class DockerTarPipeRunnerTest < LibTestBase
     command = [sudo,'docker images'].join(' ').strip
     shell.mock_exec([command], docker_images_python_pytest, success)
     expected = ['Python, py.test']
-    actual = runner.runnable_languages.map { |language| language.display_name }.sort
+    actual = runner.runnable(languages).map { |language| language.display_name }.sort
     assert_equal expected, actual
   end
 

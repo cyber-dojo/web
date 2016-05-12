@@ -19,12 +19,13 @@ class Dojo
 
   def env(key, suffix)
     name = env_name(key, suffix)
-    ENV[name] || fail("ENV[#{name}] not set")
+    unslashed(ENV[name] || fail("ENV[#{name}] not set"))
   end
 
   private
 
   include NameOfCaller
+  include Unslashed
 
   def external_object
     key = name_of(caller)

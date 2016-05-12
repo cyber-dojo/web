@@ -11,7 +11,7 @@ class HostDiskKatas
   attr_reader :parent
 
   def path
-    @path ||= unslashed(parent.env('katas', 'root'))
+    @path ||= parent.env('katas', 'root')
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -217,7 +217,6 @@ class HostDiskKatas
   include StderrRedirect
   include TimeNow
   include UniqueId
-  include Unslashed
 
   def exists?(obj)
     dir(obj).exists?
