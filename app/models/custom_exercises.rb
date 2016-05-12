@@ -18,13 +18,11 @@ class CustomExercises
     exercises[commad(name)]
   end
 
-  def cache_path
-    File.expand_path('..', File.dirname(__FILE__)) + '/caches'
-  end
-
   def cache_filename
     'custom_cache.json'
   end
+
+  include CachePath
 
   private
 

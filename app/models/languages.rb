@@ -18,13 +18,11 @@ class Languages
     languages[commad(name)] || languages[renamed(name)]
   end
 
-  def cache_path
-    File.expand_path('..', File.dirname(__FILE__)) + '/caches'
-  end
-
   def cache_filename
     'languages_cache.json'
   end
+
+  include CachePath
 
   private
 

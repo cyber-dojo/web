@@ -18,13 +18,11 @@ class Exercises
     exercises[name]
   end
 
-  def cache_path
-    File.expand_path('..', File.dirname(__FILE__)) + '/caches'
-  end
-
   def cache_filename
     'exercises_cache.json'
   end
+
+  include CachePath
 
   private
 
@@ -44,6 +42,7 @@ class Exercises
   end
 
   def make_cache
+    # TODO: use disk[path].rdir globbing
     cache = {}
     disk[path].each_dir do |sub_dir|
       exercise = make_exercise(sub_dir)
