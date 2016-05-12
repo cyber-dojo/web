@@ -26,10 +26,10 @@ class DojoTest < AppModelsTestBase
   end
 
   test prefix+'6F9',
-  'using an unset external root raises StandardError' do
-    unset_exercises_root && assert_raises(StandardError) { exercises.class }
-    unset_languages_root && assert_raises(StandardError) { languages.class }
-    unset_katas_root     && assert_raises(StandardError) {     katas.class }
+  'using an unset external root path raises StandardError' do
+    unset_exercises_root && assert_raises(StandardError) { exercises.path }
+    unset_languages_root && assert_raises(StandardError) { languages.path }
+    unset_katas_root     && assert_raises(StandardError) {     katas.path }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -

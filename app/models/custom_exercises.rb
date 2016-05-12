@@ -4,11 +4,14 @@ class CustomExercises
 
   def initialize(dojo)
     @parent = dojo
-    @path = unslashed(dojo.env('custom', 'root'))
     disk[cache_path].write_json_once(cache_filename) { make_cache }
   end
 
-  attr_reader :path, :parent
+  attr_reader :parent
+
+  def path
+    @path ||= unslashed(parent.env('custom', 'root'))
+  end
 
   def each(&block)
     exercises.values.each(&block)
