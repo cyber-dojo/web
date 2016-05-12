@@ -4,7 +4,7 @@
   manifest_property
 
   dojo
-  cache_path
+  cache
   custom_exercises
   language
   languages_rename

@@ -2,15 +2,16 @@
 class Languages
   include Enumerable
 
-  def initialize(dojo)
+  def initialize(dojo, key)
     @parent = dojo
+    @key = key
     disk[cache_path].write_json_once(cache_filename) { make_cache }
   end
 
   attr_reader :parent
 
   def path
-    @path ||= parent.env('languages_root')
+    @path ||= parent.env(@key)
   end
 
   def each(&block)
@@ -21,12 +22,7 @@ class Languages
     languages[commad(name)] || languages[renamed(name)]
   end
 
-  def cache_filename
-    'languages_root'.split('_')[0] + '.json'
-    #'languages.json'
-  end
-
-  include CachePath
+  include Cache
 
   private
 

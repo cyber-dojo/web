@@ -2,15 +2,16 @@
 class Exercises
   include Enumerable
 
-  def initialize(dojo)
+  def initialize(dojo, key)
     @parent = dojo
+    @key = key
     disk[cache_path].write_json_once(cache_filename) { make_cache }
   end
 
   attr_reader :parent
 
   def path
-    @path ||= parent.env('exercises_root')
+    @path ||= parent.env(@key)
   end
 
   def each(&block)
@@ -21,12 +22,7 @@ class Exercises
     exercises[name]
   end
 
-  def cache_filename
-    'exercises_root'.split('_')[0] + '.json'
-    #'exercises.json'
-  end
-
-  include CachePath
+  include Cache
 
   private
 
