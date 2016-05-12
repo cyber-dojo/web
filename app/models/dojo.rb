@@ -2,7 +2,7 @@
 
 class Dojo
 
-  def    custom; @custom    ||= CustomExercises.new(self, 'custom_root'); end
+  def    custom; @custom    ||= Languages.new(self, 'custom_root'); end
   def languages; @languages ||= Languages.new(self, 'languages_root'); end
   def exercises; @exercises ||= Exercises.new(self, 'exercises_root'); end
 

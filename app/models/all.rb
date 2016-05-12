@@ -5,7 +5,6 @@
 
   dojo
   cache
-  custom_exercises
   language
   languages_rename
   languages
