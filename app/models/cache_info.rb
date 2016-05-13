@@ -1,5 +1,5 @@
 
-module Cache # mix-in
+module CacheInfo # mix-in
 
   def cache_path
     File.expand_path('..', File.dirname(__FILE__)) + '/caches'

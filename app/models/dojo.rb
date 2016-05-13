@@ -4,7 +4,8 @@ class Dojo
 
   def    custom; @custom    ||= Languages.new(self, 'custom_root'); end
   def languages; @languages ||= Languages.new(self, 'languages_root'); end
-  def exercises; @exercises ||= Exercises.new(self, 'exercises_root'); end
+
+  def instructions; @instructions ||= Instructions.new(self, 'instructions_root'); end
 
   def    runner;    @runner ||= external_object; end
   def     katas;     @katas ||= external_object; end

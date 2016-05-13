@@ -4,12 +4,12 @@
   manifest_property
 
   dojo
-  cache
+  cache_info
   language
   languages_rename
   languages
-  exercise
-  exercises
+  instruction
+  instructions
   kata
   avatar
   avatars

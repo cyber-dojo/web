@@ -4,9 +4,9 @@ class SetupController < ApplicationController
   def show_custom_exercises
     @id = id
     @title = 'create'
-    languages_names = read_custom_exercises
-    index = choose_language(languages_names, id, dojo.katas)
-    @languages = ::LanguagesDisplayNamesSplitter.new(languages_names, index)
+    exercises_names = read(custom)
+    index = choose_language(exercises_names, id, dojo.katas)
+    @languages = ::LanguagesDisplayNamesSplitter.new(exercises_names, index)
     @initial_language_index = @languages.selected_index
   end
 
@@ -23,7 +23,7 @@ class SetupController < ApplicationController
   def show_languages_and_tests
     @id = id
     @title = 'create'
-    languages_names = read_languages
+    languages_names = read(languages)
     index = choose_language(languages_names, id, dojo.katas)
     @languages = ::LanguagesDisplayNamesSplitter.new(languages_names, index)
     @initial_language_index = @languages.selected_index
@@ -34,17 +34,17 @@ class SetupController < ApplicationController
     @title = 'create'
     @language = params[:language]
     @test = params[:test]
-    @exercises_names,@instructions = read_exercises
+    @exercises_names,@instructions = read_instructions
     @initial_exercise_index = choose_exercise(@exercises_names, id, dojo.katas)
   end
 
   def save
     language_name = params['language']
         test_name = params['test'    ]
-    exercise_name = params['exercise']
+    instruction_name = params['exercise']
     language = languages[language_name + '-' + test_name]
-    exercise = exercises[exercise_name]
-    kata = katas.create_kata(language, exercise)
+    instruction = instructions[instruction_name]
+    kata = katas.create_kata(language, instruction)
     render json: { id: kata.id }
   end
 

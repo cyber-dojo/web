@@ -3,20 +3,16 @@ module SetupWorker # mix-in
 
   module_function
 
-  def read_custom_exercises
-    dojo.runner.runnable(custom).map { |exercise| exercise.display_name }.sort
+  def read(manifests)
+    dojo.runner.runnable(manifests).map { |manifest| manifest.display_name }.sort
   end
 
-  def read_languages
-    dojo.runner.runnable(languages).map { |language| language.display_name }.sort
-  end
-
-  def read_exercises
+  def read_instructions
     names = []
     instructions_hash =  {}
-    exercises.each do |exercise|
-      names << exercise.name
-      instructions_hash[exercise.name] = exercise.instructions
+    instructions.each do |instruction|
+      names << instruction.name
+      instructions_hash[instruction.name] = instruction.text
     end
     [names.sort, instructions_hash]
   end

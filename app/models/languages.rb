@@ -15,47 +15,42 @@ class Languages
   end
 
   def each(&block)
-    languages.values.each(&block)
+    all.values.each(&block)
   end
 
   def [](name)
-    languages[commad(name)] || languages[renamed(name)]
+    all[commad(name)] || all[renamed(name)]
   end
 
-  include Cache
+  include CacheInfo
 
   private
 
   include ExternalParentChainer
   include LanguagesRename
 
-  def languages
-    @languages ||= read_cache
-  end
-
-  def read_cache
-    cache = {}
-    disk[cache_path].read_json(cache_filename).each do |display_name, language|
-           dir_name = language['dir_name']
-         image_name = language['image_name']
-      cache[display_name] = make_language(dir_name, display_name, image_name)
-    end
-    cache
+  def all
+    @all ||= read_cache
   end
 
   def make_cache
     cache = {}
     disk[path].each_rdir('manifest.json') do |dir_name|
-      language = make_language(dir_name)
-      cache[language.display_name] = {
-             dir_name: dir_name,
-           image_name: language.image_name
-      }
+      its = make(dir_name)
+      cache[its.display_name] = { dir_name: dir_name, image_name: its.image_name }
     end
     cache
   end
 
-  def make_language(dir_name, display_name = nil, image_name = nil)
+  def read_cache
+    cache = {}
+    disk[cache_path].read_json(cache_filename).each do |display_name, hash|
+      cache[display_name] = make(hash['dir_name'], display_name, hash['image_name'])
+    end
+    cache
+  end
+
+  def make(dir_name, display_name = nil, image_name = nil)
     Language.new(self, dir_name, display_name, image_name)
   end
 
