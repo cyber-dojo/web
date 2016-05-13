@@ -1,0 +1,44 @@
+
+How to get the data folder(s) onto the server running the docker daemon?
+
+1. create a temporary folder
+2. git clone repos into the temp folder
+3. create a temporary docker image using the folder as its context
+4. issue a docker command to extract the folder from the docker-container
+
+I did before for [cyber-dojo backup] command.
+However, that happened inside the web container (in cyber-dojo.rb)
+So I think the 'scp' utility (see below) will also need to be
+embedded inside cyber-dojo.rb
+
+SCP utility
+-----------
+sh script to do this will use one parameter,
+the name of source folder to copy (on host)
+
+I may also need a [cyber-dojo] script command
+to determine if the docker server already has a
+given folder - I only want to do the default
+folder copying once.
+
+cyber-dojo up exercises=Xpath
+cyber-dojo up languages=Lpath
+
+where Lpath and Xpath are local folders.
+
+Or
+
+cyber-dojo languages path
+cyber-dojo exercises path
+cyber-dojo instructions path
+
+This approach means I don't have to name the destination folder
+on the docker server.
+What about copying new exercises back from the docker-server, eg for backup
+
+cyber-dojo languages    [push|pull] path
+cyber-dojo exercises    [push|pull] path
+cyber-dojo instructions [push|pull] path
+
+where path could be a github url, which would do a git clone to get the source.
+
