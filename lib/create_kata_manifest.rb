@@ -17,7 +17,7 @@ module CreateKataManifest # mix-in
     }
     manifest[:visible_files] = language.visible_files
     manifest[:visible_files]['output'] = ''
-    manifest[:visible_files]['instructions'] = exercise.instructions
+    manifest[:visible_files]['instructions'] = exercise.text
     manifest
   end
 

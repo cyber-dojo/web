@@ -21,7 +21,7 @@ module TestDomainHelpers # mix-in
     hash[:language] ||= default_language_name
     hash[:exercise] ||= default_exercise_name
     language = languages[hash[:language]]
-    exercise = exercises[hash[:exercise]]
+    exercise = instructions[hash[:exercise]]
     katas.create_kata(language, exercise, hash[:id])
   end
 

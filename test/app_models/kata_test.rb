@@ -97,7 +97,7 @@ class KataTest < AppModelsTestBase
   'kata.exercise_name, kata.visible_files',
   'all read from manifest' do
     language = languages['Java-JUnit']
-    exercise = exercises['Fizz_Buzz']
+    exercise = instructions['Fizz_Buzz']
     id = unique_id
     now = [2014, 7, 17, 21, 15, 45]
     kata = katas.create_kata(language, exercise, id, now)
@@ -105,7 +105,7 @@ class KataTest < AppModelsTestBase
     assert_equal Time.mktime(*now), kata.created
     assert_equal language.name, kata.language.name
     assert_equal exercise.name, kata.exercise.name
-    assert_equal exercise.instructions, kata.visible_files['instructions']
+    assert_equal exercise.text, kata.visible_files['instructions']
     assert_equal '', kata.visible_files['output']
   end
 

@@ -48,7 +48,7 @@ class Kata
   end
 
   def exercise
-    exercises[exercise_name]
+    instructions[exercise_name]
   end
 
   def language_name

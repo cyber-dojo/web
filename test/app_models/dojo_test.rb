@@ -63,7 +63,7 @@ class DojoTest < AppModelsTestBase
 
   test prefix+'EA1',
   'setting an external root succeeds' do
-    set_exercises_root(path = tmp_root + '/exercises') && assert_equal(path, exercises.path)
+    set_exercises_root(path = tmp_root + '/instructions') && assert_equal(path, instructions.path)
     set_languages_root(path = tmp_root + '/languages') && assert_equal(path, languages.path)
     set_katas_root(    path = tmp_root + '/katas'    ) && assert_equal(path, katas.path)
   end
@@ -72,8 +72,8 @@ class DojoTest < AppModelsTestBase
 
   test prefix+'D52',
   'setting an external root with a trailing slash chops off the trailing slash' do
-    path = tmp_root + '/exercises'
-    set_exercises_root(path + '/') && assert_equal(path, exercises.path)
+    path = tmp_root + '/instructions'
+    set_exercises_root(path + '/') && assert_equal(path, instructions.path)
     path = tmp_root + '/languages'
     set_languages_root(path + '/') && assert_equal(path, languages.path)
     path = tmp_root + '/katas'
