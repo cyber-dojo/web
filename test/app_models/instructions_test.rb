@@ -53,15 +53,15 @@ class InstructionsTest < AppModelsTestBase
   test prefix+'65F',
   'instructions are loaded from file of same name via the cache' do
     exercise = exercises['Fizz_Buzz']
-    assert exercise.instructions.start_with? 'Write a program that prints'
+    assert exercise.text.start_with? 'Write a program that prints'
   end
 
   #- - - - - - - - - - - - - - - - - - - - - -
 
   test prefix+'280',
   'instructions are loaded from file of same name directly' do
-    exercise = Exercise.new(dojo.exercises, 'Fizz_Buzz')
-    assert exercise.instructions.start_with? 'Write a program that prints'
+    i = Instruction.new(dojo.instructions, 'Fizz_Buzz')
+    assert i.text.start_with? 'Write a program that prints'
   end
 
   #- - - - - - - - - - - - - - - - - - - - - -
@@ -90,7 +90,13 @@ class InstructionsTest < AppModelsTestBase
     doors = '100_doors'
     assert exercises_names.size > 20
     assert exercises_names.include?(doors)
-    assert exercises['100_doors'].instructions.start_with?('100 doors in a row')
+    assert exercises['100_doors'].text.start_with?('100 doors in a row')
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - -
+
+  def exercises
+    instructions
   end
 
 end

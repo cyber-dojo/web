@@ -6,7 +6,9 @@ module TestDomainHelpers # mix-in
   def dojo; @dojo ||= Dojo.new; end
 
   def languages; dojo.languages; end
-  def exercises; dojo.exercises; end
+  #def exercises; dojo.exercises; end
+  def instructions; dojo.instructions; end
+
   def runner;    dojo.runner;    end
   def katas;     dojo.katas;     end
   def shell;     dojo.shell;     end

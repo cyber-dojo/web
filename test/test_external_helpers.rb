@@ -25,7 +25,7 @@ module TestExternalHelpers # mix-in
   # - - - - - - - - - - - - - - - - - - -
 
   def unset_languages_root; unset_root('languages'); end
-  def unset_exercises_root; unset_root('exercises'); end
+  def unset_exercises_root; unset_root('instructions'); end
   def     unset_katas_root; unset_root(    'katas'); end
 
   def unset_runner_class; unset_class('runner'); end
@@ -38,7 +38,7 @@ module TestExternalHelpers # mix-in
   # - - - - - - - - - - - - - - - - - - -
 
   def set_languages_root(value); set_root('languages', value); end
-  def set_exercises_root(value); set_root('exercises', value); end
+  def set_exercises_root(value); set_root('instructions', value); end
   def     set_katas_root(value); set_root(    'katas', value); end
 
   def   set_runner_class(value); set_class('runner', value); end
@@ -51,7 +51,7 @@ module TestExternalHelpers # mix-in
   # - - - - - - - - - - - - - - - - - - -
 
   def get_languages_root; get_root('languages'); end
-  def get_exercises_root; get_root('exercises'); end
+  def get_exercises_root; get_root('instructions'); end
   def     get_katas_root; get_root(    'katas'); end
 
   def   get_runner_class; get_class('runner'); end
