@@ -8,7 +8,7 @@ $(function() {
   $('#ok').click(function() {
     var language = $('[id^=language_][class~=selected]').data('language');
     var exercise = $('[id^=test_][class~=selected]').data('test');
-    $.getJSON('/setup/save_custom_exercise', {
+    $.getJSON('/setup/save_exercise', {
           language: language,
           exercise: exercise,
       }, function(dojo) {

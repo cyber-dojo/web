@@ -21,11 +21,11 @@ CyberDojo::Application.routes.draw do
   end
 
   scope path: '/setup', controller: :setup do
-    get 'show_custom_exercises(/:id)' => :show_custom_exercises
-    get 'save_custom_exercise'        => :save_custom_exercise, :constraints => { :format => :json }
+    get 'show_exercises(/:id)' => :show_exercises
+    get 'save_exercise'        => :save_exercise, :constraints => { :format => :json }
 
     get 'show_languages_and_tests(/:id)' => :show_languages_and_tests
-    get 'show_exercises(/:id)' => :show_exercises
+    get 'show_instructions(/:id)' => :show_instructions
     get 'save' => :save, :constraints => { :format => :json }
   end
 

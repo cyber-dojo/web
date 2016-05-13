@@ -16,8 +16,8 @@ class SetupControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test 'BB9967',
-  'show_exercises page uses cached exercises' do
-    get 'setup/show_exercises'
+  'show_instructions page uses cached instructions' do
+    get 'setup/show_instructions'
     assert_response :success
     assert /data-exercise\=\"#{print_diamond}/.match(html), print_diamond
     assert /data-exercise\=\"#{roman_numerals}/.match(html), roman_numerals
@@ -27,7 +27,7 @@ class SetupControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test 'D79BA3',
-  'setup/show_languages_and_tests defaults to language and exercise of kata',
+  'setup/show_languages_and_tests defaults to language and instructions of kata',
   'whose full-id is passed in URL (to encourage repetition)' do
     languages_display_names = runner.runnable(languages).map(&:display_name).sort
     language_display_name = languages_display_names.sample
@@ -49,20 +49,20 @@ class SetupControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test '82562A',
-  'setup/show_exercises defaults to exercise of kata',
+  'setup/show_instructions defaults to instructions of kata',
   'whose full-id is passed in URL (to encourage repetition)' do
     languages_display_names = runner.runnable(languages).map(&:display_name).sort
     language_display_name = languages_display_names.sample
-    exercises_names = instructions.map(&:name).sort
-    exercise_name = exercises_names.sample
-    id = create_kata(language_display_name, exercise_name)
+    instructions_names = instructions.map(&:name).sort
+    instructions_name = instructions_names.sample
+    id = create_kata(language_display_name, instructions_name)
 
-    get 'setup/show_exercises', :id => id
+    get 'setup/show_instructions', :id => id
     assert_response :success
 
     md = /var selectedExercise = \$\('#exercise_' \+ (\d+)/.match(html)
-    selected_exercise = exercises_names[md[1].to_i]
-    assert_equal exercise_name, selected_exercise, 'exercise'
+    selected_instructions_name = instructions_names[md[1].to_i]
+    assert_equal instructions_name, selected_instructions_name, 'instructions'
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -

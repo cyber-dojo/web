@@ -12,11 +12,11 @@ class ApplicationController < ActionController::Base
   def dojo; @dojo ||= Dojo.new; end
 
   def languages; dojo.languages; end
-  def    custom; dojo.custom   ; end
+  def exercises; dojo.exercises; end
 
   def instructions; dojo.instructions; end
 
-  def     katas; dojo.katas    ; end
+  def katas; dojo.katas; end
 
   def id         ; params[:id     ]; end
   def avatar_name; params[:avatar ]; end

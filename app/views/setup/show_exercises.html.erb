@@ -1,28 +1,32 @@
 
-<%= render partial: 'exercise_chooser' %>
+<%= render partial: 'language_chooser' %>
 
-<div id="setup-exercise-page">
+<div id="setup-language-page">
 
   <table>
-    <tr>
-      <td colspan="2">
+    <tr class="valign-top">
+      <td colspan="3">
         <div id="create-a-practice-session">
           create&nbsp;a&nbsp;practice&nbsp;session
         </div>
       </td>
     </tr>
-    <tr class="valign-top" id="exercises-container">
-      <td>
-        <div id="exercise-title">exercise?</div>
-        <%= render partial: 'exercises_list' %>
+    <tr class="valign-top">
+      <td id="info-container">
+        <%= render partial: 'language_info' %>
       </td>
-      <td>
-        <%= render partial: 'exercises_instructions' %>
+      <td id="languages-container">
+        <div id="language-title">language?</div>
+        <%= render partial: 'languages_list' %>
+      </td>
+      <td id="tests-container">
+        <div id="tests-title">exercise?</div>
+        <%= render partial: 'tests_list' %>
       </td>
     </tr>
     <tr class="valign-top">
-      <td colspan="2" align="right">
-        <%= render partial: 'ok_button' %>
+      <td colspan="3" align="right">
+        <%= render partial: 'exercises_ok_button' %>
       </td>
     </tr>
   </table>
