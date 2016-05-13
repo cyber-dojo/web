@@ -11,7 +11,7 @@
   string_truncater
   stderr_redirect
   unslashed
-  languages_display_names_splitter
+  display_names_splitter
 
   runner
   stub_runner

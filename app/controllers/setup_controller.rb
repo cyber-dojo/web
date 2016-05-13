@@ -6,7 +6,7 @@ class SetupController < ApplicationController
     @title = 'create'
     exercises_names = read(exercises)
     index = choose_language(exercises_names, id, dojo.katas)
-    @languages = ::LanguagesDisplayNamesSplitter.new(exercises_names, index)
+    @languages = ::DisplayNamesSplitter.new(exercises_names, index)
     @initial_language_index = @languages.selected_index
   end
 
@@ -25,7 +25,7 @@ class SetupController < ApplicationController
     @title = 'create'
     languages_names = read(languages)
     index = choose_language(languages_names, id, dojo.katas)
-    @languages = ::LanguagesDisplayNamesSplitter.new(languages_names, index)
+    @languages = ::DisplayNamesSplitter.new(languages_names, index)
     @initial_language_index = @languages.selected_index
   end
 

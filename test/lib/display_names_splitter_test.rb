@@ -2,7 +2,7 @@
 
 require_relative './lib_test_base'
 
-class LanguagesDisplayNamesSplitterTest < LibTestBase
+class DisplayNamesSplitterTest < LibTestBase
 
   test '0B2D3E',
   'display_names is split on comma into [languages_names,tests_names]' do
@@ -28,7 +28,7 @@ class LanguagesDisplayNamesSplitterTest < LibTestBase
     selected_index = languages_display_names.index('C++, assert')
     assert_equal 1, selected_index
 
-    languages = LanguagesDisplayNamesSplitter.new(languages_display_names, selected_index)
+    languages = DisplayNamesSplitter.new(languages_display_names, selected_index)
 
     assert_equal [
       'C',
