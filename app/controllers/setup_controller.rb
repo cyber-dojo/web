@@ -20,7 +20,7 @@ class SetupController < ApplicationController
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def show_languages_and_tests
+  def show_languages
     @id = id
     @title = 'create'
     languages_names = read(languages)

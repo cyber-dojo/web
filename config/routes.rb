@@ -24,7 +24,7 @@ CyberDojo::Application.routes.draw do
     get 'show_exercises(/:id)' => :show_exercises
     get 'save_exercise'        => :save_exercise, :constraints => { :format => :json }
 
-    get 'show_languages_and_tests(/:id)' => :show_languages_and_tests
+    get 'show_languages(/:id)' => :show_languages
     get 'show_instructions(/:id)' => :show_instructions
     get 'save' => :save, :constraints => { :format => :json }
   end
