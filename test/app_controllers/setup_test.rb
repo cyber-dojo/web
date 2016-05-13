@@ -31,7 +31,7 @@ class SetupControllerTest < AppControllerTestBase
   'whose full-id is passed in URL (to encourage repetition)' do
     languages_display_names = runner.runnable(languages).map(&:display_name).sort
     language_display_name = languages_display_names.sample
-    exercises_names = exercises.map(&:name).sort
+    exercises_names = instructions.map(&:name).sort
     exercise_name = exercises_names.sample
     id = create_kata(language_display_name, exercise_name)
 
@@ -53,7 +53,7 @@ class SetupControllerTest < AppControllerTestBase
   'whose full-id is passed in URL (to encourage repetition)' do
     languages_display_names = runner.runnable(languages).map(&:display_name).sort
     language_display_name = languages_display_names.sample
-    exercises_names = exercises.map(&:name).sort
+    exercises_names = instructions.map(&:name).sort
     exercise_name = exercises_names.sample
     id = create_kata(language_display_name, exercise_name)
 
