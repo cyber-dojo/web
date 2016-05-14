@@ -57,6 +57,8 @@ git checkout drop-katas-data-container
 Edited app/docker/cyber-dojo to make two hard-wired env-vars for paths
 point to new locations (under tryout)
 
+Built a new web image
+
 Tried to create a new server ontop of old one.
 Could not do [./cyber-dojo restart]
 It complained that cdf-nginx and cdf-web already existed.
@@ -70,11 +72,8 @@ cat /etc/passwd
 cyber-dojo:x:19661:19661:Linux User,,,:/home/cyber-dojo:/bin/sh
 
 And this user does not exist on James's machine (Ubuntu)
-
 $ adduser --disabled-password --no-create-home --uid 19661 cyber-dojo
-
 Then
-
 $ cd app/data
 $ chown -R cyber-dojo katas
 
@@ -89,8 +88,9 @@ Indeed there is no root folder /cpputest
 
 
 Tried to recreate gpp_cpputest docker image
-There are no Dockerfile's underneath /app/data/languages
-.gitignore seems to be the culprit.
+
+>>>>>>There are no Dockerfile's underneath /app/data/languages
+>>>>>>.gitignore seems to be the culprit.
 
 
 Manually added Dockerfile for C++ (g++ 5.3)/CppuTest/_docker_context
@@ -99,8 +99,6 @@ didn't work
 There is no user called cyber-dojo *inside* the gpp_cpputest container
 Problem is that the image gpp_cpputest is not based FROM user-base
 and so does not have cyber-dojo user inside it.
-
-
 
 
 
@@ -122,26 +120,47 @@ to "C++ (g++)-CppUTest"
 and it worked. Woooooohoooooo
 
 So the problem is the creation of the kata's manifest.
+Looked at the code and fixed the errors.
+Works for both setup cases now: languages and exercises.
 
 
+-------------
 
+Tried again.
 
+new server
+installed docker
+pulled from gihub
+pulled new branch
+edited app/docker/cyber-dojo to make two hard-wired env-vars for paths
+built a new web image
+tried to create kata - failed with nil Rails error.
 
+Look into this on my own server.
 
+--------------
 
+Features James mentioned during our chat
+- - - - - - - - - - - - - - - - - - - -
 
+revert button is in diff dialog again
 
+on enter page, when kata id is entered and buttons become enabled
+it would be nice to see the language and exercise names in the footer.
 
+feature: sed in the editor (search and replace)
 
+feature: copy one animal to a new one (keeping whole traffic-light history)
 
+feature: fork giving two options, viz create new exercise-starting-point.
 
+feature: replace duration on dashboard with time-ticks on top of minute columns.
 
+feature: hovering over a traffic-light gives more detail, viz for changed files (not output)
+         name of file, no of deleted lines, no of added lines
 
-
-
-
-
-
-
-
+feature: traffic-lights have some visual indication if there is a
+         "suspiciously large change"
+         eg more than 1 file changed
+         eg more than 3 lines changed in a non-test file
 
