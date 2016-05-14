@@ -169,3 +169,10 @@ feature: traffic-lights have some visual indication if there is a
          eg more than 1 file changed
          eg more than 3 lines changed in a non-test file
 
+feature: hyperlink of compiler error on output to file and line number
+
+feature: one one error in C/C++ projects
+
+feature: colour syntax
+
+
