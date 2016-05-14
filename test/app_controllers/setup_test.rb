@@ -5,8 +5,8 @@ require_relative './app_controller_test_base'
 class SetupControllerTest < AppControllerTestBase
 
   test '9F4020',
-  'show_languages_and_tests page uses cached language+tests that are runnable' do
-    get 'setup/show_languages_and_tests'
+  'show_languages page uses cached language+tests that are runnable' do
+    get 'setup/show_languages'
     assert_response :success
     assert /data-language\=\"#{get_language_from(cpp_assert)}/.match(html), cpp_assert
     assert /data-language\=\"#{get_language_from(asm_assert)}/.match(html), asm_assert
@@ -27,7 +27,7 @@ class SetupControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test 'D79BA3',
-  'setup/show_languages_and_tests defaults to language and instructions of kata',
+  'setup/show_languages defaults to language and instructions of kata',
   'whose full-id is passed in URL (to encourage repetition)' do
     languages_display_names = runner.runnable(languages).map(&:display_name).sort
     language_display_name = languages_display_names.sample
@@ -35,7 +35,7 @@ class SetupControllerTest < AppControllerTestBase
     exercise_name = exercises_names.sample
     id = create_kata(language_display_name, exercise_name)
 
-    get 'setup/show_languages_and_tests', :id => id
+    get 'setup/show_languages', :id => id
     assert_response :success
 
     # next bit is tricky because language.display_name
