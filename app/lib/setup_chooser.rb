@@ -14,7 +14,7 @@ module SetupChooser # mix-in
   end
 
   def choose_exercise(exercises, id, katas)
-    chooser(exercises, id, katas) { |kata| kata.exercise.name }
+    chooser(exercises, id, katas) { |kata| kata.exercise_name }
   end
 
   def chooser(choices, id, katas)

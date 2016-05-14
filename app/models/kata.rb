@@ -44,7 +44,12 @@ class Kata
   end
 
   def language
-    languages[language_name]
+    # TODO: This is a bit of a hack. Revisit.
+    #  The language is now doing double duty.
+    #  Its an actual language (+test) for the regular case of
+    #    starting from an empty instruction file.
+    #  Its a manifested exercise (like James uses) - the new case
+    languages[language_name] || exercises[language_name]
   end
 
   def exercise

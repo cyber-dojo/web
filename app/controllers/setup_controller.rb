@@ -14,7 +14,7 @@ class SetupController < ApplicationController
     language_name = params['language'] # s/languages/better-name/
     exercise_name = params['exercise']
     exercise = exercises[language_name + '-' + exercise_name]
-    kata = katas.create_custom_kata(language_name, exercise)
+    kata = katas.create_custom_kata(exercise, language_name)
     render json: { id: kata.id }
   end
 

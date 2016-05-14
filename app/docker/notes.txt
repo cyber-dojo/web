@@ -42,3 +42,106 @@ cyber-dojo instructions [push|pull] path
 
 where path could be a github url, which would do a git clone to get the source.
 
+----------------------------------------
+
+Day with James :-)
+
+
+mkdir tryout
+cd tryout
+git clone https://github.com/JonJagger/cyber-dojo.git
+cd cyber-dojo
+git branch drop-katas-data-container origin/drop-katas-data-container
+git checkout drop-katas-data-container
+
+Edited app/docker/cyber-dojo to make two hard-wired env-vars for paths
+point to new locations (under tryout)
+
+Tried to create a new server ontop of old one.
+Could not do [./cyber-dojo restart]
+It complained that cdf-nginx and cdf-web already existed.
+Manually deleted them.
+
+Started server.
+Failed to create a kata because of permissions.
+There is no cyber-dojo user.
+On my dev default server
+cat /etc/passwd
+cyber-dojo:x:19661:19661:Linux User,,,:/home/cyber-dojo:/bin/sh
+
+And this user does not exist on James's machine (Ubuntu)
+
+$ adduser --disabled-password --no-create-home --uid 19661 cyber-dojo
+
+Then
+
+$ cd app/data
+$ chown -R cyber-dojo katas
+
+Then could create kata :-)
+But problem with no root /cpputest folder (same as I had on my dev macbook)
+
+$ docker run --rm -it cyberdojofoundation/cpp_cpputest sh
+$ cd /
+$ ls -al
+
+Indeed there is no root folder /cpputest
+
+
+Tried to recreate gpp_cpputest docker image
+There are no Dockerfile's underneath /app/data/languages
+.gitignore seems to be the culprit.
+
+
+Manually added Dockerfile for C++ (g++ 5.3)/CppuTest/_docker_context
+rebuilt image
+didn't work
+There is no user called cyber-dojo *inside* the gpp_cpputest container
+Problem is that the image gpp_cpputest is not based FROM user-base
+and so does not have cyber-dojo user inside it.
+
+
+
+
+
+
+Switched create page to show plain languages
+Make katas using C++, CppUTest (and C, CppUTest)
+was ok, edited cyber-dojo.sh, /cpputest was there, got a red traffic-light
+on the server went to katas/50/5C05.../manifest.json
+language:C++ (g++)-CppUTest
+
+Switched create page back to custom exercises.
+Made new kata
+katas/21/AD6F.../manifest.json
+language:C
+
+Aha!!!!
+Manually edited the katas manifest.json
+to "C++ (g++)-CppUTest"
+and it worked. Woooooohoooooo
+
+So the problem is the creation of the kata's manifest.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

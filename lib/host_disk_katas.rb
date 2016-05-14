@@ -18,12 +18,12 @@ class HostDiskKatas
   # Katas
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def create_custom_kata(language_name, exercise, id = unique_id, now = time_now)
+  def create_custom_kata(exercise, language_name, id = unique_id, now = time_now)
     manifest = {
                        id: id,
                   created: now,
-                 language: language_name,
-                 exercise: exercise.name,
+                 language: exercise.name,
+                 exercise: language_name,
       unit_test_framework: exercise.unit_test_framework,
                  tab_size: exercise.tab_size
     }
