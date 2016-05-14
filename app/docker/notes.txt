@@ -138,6 +138,11 @@ tried to create kata - failed with nil Rails error.
 
 Look into this on my own server.
 
+Remember
+>>>>>>There are no Dockerfile's underneath /app/data/languages
+>>>>>>.gitignore seems to be the culprit
+>>>>>>It has Dockerfile instead of /Dockerfile (eg)
+
 --------------
 
 Features James mentioned during our chat
