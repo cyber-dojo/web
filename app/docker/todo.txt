@@ -1,0 +1,45 @@
+
+cyber-dojo script needs new commands to push/pull data sets from path/url
+  see notes.txt
+
+cyber-dojo update command needs to update cyber-dojo script itself.
+  make cyber-dojo a super-thin outer 'handle' script that delegates to the
+  'body' script. The handle processes an update by pulling a new body script.
+  All commands then forward to the body script.
+
+un-hardwire setting of 2 core env-vars in cyber-dojo script.
+  export CYBER_DOJO_DATA_ROOT="/home/docker/data"
+  export CYBER_DOJO_KATAS_ROOT="/home/docker/data/katas"
+
+3 data sets need to go into their own github repositories.
+
+instructions refactored to be manifest'ed
+  use disk[path].each_rdir('instructions') in its make_cache()
+
+refactor Languages to accept the make_cache()'s argument to each_dir() as a parameter.
+
+rename Lanuage(s) to Manifest(s) and create
+  super think wrapper classes for Languages,Exercises,Instructions
+  which all delegate to Manifests class.
+
+Put two tabs onto the setup/show page.
+  One tab for languages, this will have a second step for instructions.
+  One tab for exercises.
+
+If there are no images installed handle setup pages gracefully.
+
+-----------------------------------
+
+With James
+
+Setup the new code on James machine.
+  o) pull from branch drop-katas-data-container
+  o) create new web image
+  o) create data folder on docker server from your exercises.
+  o) set hard-wired paths to data folders at top of cyber-dojo script.
+
+
+Agree labels to use for 2 columns in setup/show_exercises page.
+  ideally this would become configurable somehow.
+  maybe a manifest.json file in the top level folder?
+
