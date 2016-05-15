@@ -53,6 +53,7 @@ export DOCKER_VERSION=$(docker --version | awk '{print $3}' | sed '$s/.$//')
 export SERVER_NAME=web:${DOCKER_VERSION}
 export DOCKER_HUB_USERNAME=cyberdojofoundation
 export DOCKER_COMPOSE_FILE=docker-compose.yml
+export CYBER_DOJO_HOME=/usr/src/cyber-dojo
 export CYBER_DOJO_SH=cyber-dojo.sh
 
 ME="./$( basename ${0} )"
