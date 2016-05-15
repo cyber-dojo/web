@@ -20,17 +20,20 @@ SERVER_NAME=web:${DOCKER_VERSION}
 DOCKER_HUB_USERNAME=cyberdojofoundation
 CYBER_DOJO_HOME=/usr/src/cyber-dojo     # *inside* the server image
 
-# The main cyber-dojo shell script.
+# The entry-point cyber-dojo shell script.
 # Works in combination with the cyber-dojo.rb ruby script.
 # It [docker run]s cyber-dojo.rb from inside cyberdojofoundation/web which has ruby.
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # ensure docker-engine is installed
 
+INSTALL_URL=http://blog.cyber-dojo.org/2016/03/running-your-own-cyber-dojo-server.html
+
 hash docker 2> /dev/null
 if [ $? != 0 ]; then
   echo
   echo 'docker is not installed'
+  echo "See step 1 of ${INSTALL_URL}"
   exit
 fi
 
@@ -41,6 +44,7 @@ hash docker-machine 2> /dev/null
 if [ $? != 0 ]; then
   echo
   echo 'docker-machine is not installed'
+  echo "See step 1 of ${INSTALL_URL}"
   exit
 fi
 
@@ -51,6 +55,7 @@ hash docker-compose 2> /dev/null
 if [ $? != 0 ]; then
   echo
   echo 'docker-compose is not installed'
+  echo "See step 1 of ${INSTALL_URL}"
   exit
 fi
 
