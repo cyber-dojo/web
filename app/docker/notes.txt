@@ -6,10 +6,14 @@ How to get the data folder(s) onto the server running the docker daemon?
 3. create a temporary docker image using the folder as its context
 4. issue a docker command to extract the folder from the docker-container
 
-I did before for [cyber-dojo backup] command.
-However, that happened inside the web container (in cyber-dojo.rb)
-So I think the 'scp' utility (see below) will also need to be
+Like I did before for [cyber-dojo backup] command.
+That happened from inside the web container (in cyber-dojo.rb)
+So the 'scp' utility (see below) will also need to be
 embedded inside cyber-dojo.rb
+But I guess it would anyway.
+What I mean is it won't have any remnant in the sh script
+(like up/down/restart to)
+
 
 SCP utility
 -----------

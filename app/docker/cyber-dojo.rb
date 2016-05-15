@@ -20,7 +20,7 @@ def help
     '',
     '     down                 Stops and removes server containers',
     '     restart              Runs down followed by up',
-    '     sh                   Shell into the server container',
+    '     sh                   Shell into the main server container',
     '     up                   Creates and starts the server containers',
     '',
     '     catalog              Lists all language images',

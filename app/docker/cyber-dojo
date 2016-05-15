@@ -115,6 +115,9 @@ docker run \
 DOCKER_COMPOSE_FILE=docker-compose.yml
 
 CID=$(docker create ${DOCKER_HUB_USERNAME}/${SERVER_NAME})
+#doing local development (without going through web image) means not doing this step
+#since the docker-compose.yml file may have been locally edited.
+echo ">>>>>>NOT COPYING ${DOCKER_COMPOSE_FILE}<<<<<<"
 #docker cp ${CID}:${CYBER_DOJO_HOME}/app/docker/${DOCKER_COMPOSE_FILE} ${MY_DIR}/${DOCKER_COMPOSE_FILE}
 docker rm -v ${CID} > /dev/null
 
