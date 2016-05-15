@@ -1,24 +1,6 @@
 #!/bin/sh
 
-ME="./$( basename ${0} )"
-MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
-
-# TODO: un-hardwire these
-export CYBER_DOJO_DATA_ROOT="/home/docker/data"
-export CYBER_DOJO_KATAS_ROOT="/home/docker/data/katas"
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# cyber-dojo web server image is docker version sensitive.
-# See app/docker/web/Dockerfile ~ line 49
-#
-# docker --version  -->  Docker version 1.11.1, build 5604cbe
-# awk '{print $3}'  -->  1.11.1,           (third field)
-# sed '$s/.$//'     -->  1.11.1            (lose last comma)
-
-DOCKER_VERSION=$(docker --version | awk '{print $3}' | sed '$s/.$//')
-SERVER_NAME=web:${DOCKER_VERSION}
-DOCKER_HUB_USERNAME=cyberdojofoundation
-CYBER_DOJO_HOME=/usr/src/cyber-dojo     # *inside* the server image
+export CYBER_DOJO_SCRIPT_WRAPPER=inprogress
 
 # The entry-point cyber-dojo shell script.
 # Works in combination with the cyber-dojo.rb ruby script.
@@ -60,107 +42,47 @@ if [ $? != 0 ]; then
 fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# ensure CYBER_DOJO_KATAS_ROOT env-var is set
+# cyber-dojo web server image is docker version sensitive.
+# See app/docker/web/Dockerfile ~ line 49
+#
+# docker --version  -->  Docker version 1.11.1, build 5604cbe
+# awk '{print $3}'  -->  1.11.1,           (third field)
+# sed '$s/.$//'     -->  1.11.1            (lose last comma)
 
-if [ -z "${CYBER_DOJO_KATAS_ROOT}" ]; then
-    echo "CYBER_DOJO_KATAS_ROOT env-var is not set"
-    KATAS_DATA_CONTAINER=cdf-katas-DATA-CONTAINER
-    docker ps -a | grep -q ${KATAS_DATA_CONTAINER}
-    if [ $? == 0 ]; then
-      echo "${KATAS_DATA_CONTAINER} exists"
-      echo 'to create a zipped, tar file of the katas inside it...'
-      echo ''
-      CMD="docker run \
-            --user=root \
-            --rm \
-            --volumes-from=${KATAS_DATA_CONTAINER} \
-            --volume=/tmp:/tmp \
-            ${DOCKER_HUB_USERNAME}/${SERVER_NAME} \
-            tar -cvz -f /tmp/katas.tgz -C ${CYBER_DOJO_HOME} katas"
-      echo ${CMD}
-      echo ''
-      echo '  note: if you are in a Docker-Quickstart-Terminal this will'
-      echo '        create /tmp/katas.tgz on the default VM. To ssh into default'
-      echo '          docker-machine ssh default'
+export DOCKER_VERSION=$(docker --version | awk '{print $3}' | sed '$s/.$//')
+export SERVER_NAME=web:${DOCKER_VERSION}
+export DOCKER_HUB_USERNAME=cyberdojofoundation
+export DOCKER_COMPOSE_FILE=docker-compose.yml
+export CYBER_DOJO_SH=cyber-dojo.sh
 
-      echo 'to extract katas from /tmp/katas.tgz ...'
-      echo 'tar -xvf /tmp/katas.tgz'
-      CMD=""
-      # TODO: show how to set CYBER_DOJO_KATAS_ROOT to folder untarred to
-      # TODO: use tar pipe to create katas folder directly?
+ME="./$( basename ${0} )"
+MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 
-    fi
-    # TODO: remove backup command from cyber-dojo.rb
-    exit 1
+if [ "$*" = "update" ]; then
+  # doing local development (without going through web image) means not doing these
+  # steps since the two files may have been locally edited.
+  echo ">>>>>>NOT DOING [docker pull] UPDATES"
+  echo ">>>>>>NOT COPYING ${CYBER_DOJO_SH}<<<<<<"
+  echo ">>>>>>NOT COPYING ${DOCKER_COMPOSE_FILE}<<<<<<"
+
+  # update server images
+  # docker pull ${DOCKER_HUB_USERNAME}/nginx:latest
+  # docker pull ${DOCKER_HUB_USERNAME}/${SERVER_NAME}
+
+  # extract cyber-dojo.sh from web image
+  CID=$(docker create ${DOCKER_HUB_USERNAME}/${SERVER_NAME})
+  #docker cp ${CID}:${CYBER_DOJO_HOME}/app/docker/${CYBER_DOJO_SH} ${MY_DIR}/${CYBER_DOJO_SH}
+  docker rm -v ${CID} > /dev/null
+
+  # extract docker-compose.yml file from web image
+  CID=$(docker create ${DOCKER_HUB_USERNAME}/${SERVER_NAME})
+  #docker cp ${CID}:${CYBER_DOJO_HOME}/app/docker/${DOCKER_COMPOSE_FILE} ${MY_DIR}/${DOCKER_COMPOSE_FILE}
+  docker rm -v ${CID} > /dev/null
 fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# ensure CYBER_DOJO_DATA_ROOT env-var is set
+# delegate to cyber-dojo.sh
 
-if [ -z "${CYBER_DOJO_DATA_ROOT}" ]; then
-    echo "CYBER_DOJO_DATA_ROOT env-var is not set"
-    exit 1
-fi
+${MY_DIR}/${CYBER_DOJO_SH} $@
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# delegate to ruby script inside web image
 
-docker run \
-  --rm \
-  --user=root \
-  --env=DOCKER_VERSION=${DOCKER_VERSION} \
-  --volume=/var/run/docker.sock:/var/run/docker.sock \
-  --volume=${CYBER_DOJO_DATA_ROOT}/languages:${CYBER_DOJO_HOME}/app/data/languages:ro \
-  ${DOCKER_HUB_USERNAME}/${SERVER_NAME} \
-  ${CYBER_DOJO_HOME}/app/docker/cyber-dojo.rb $@
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# extract docker-compose.yml file from web image
-
-DOCKER_COMPOSE_FILE=docker-compose.yml
-
-CID=$(docker create ${DOCKER_HUB_USERNAME}/${SERVER_NAME})
-#doing local development (without going through web image) means not doing this step
-#since the docker-compose.yml file may have been locally edited.
-echo ">>>>>>NOT COPYING ${DOCKER_COMPOSE_FILE}<<<<<<"
-#docker cp ${CID}:${CYBER_DOJO_HOME}/app/docker/${DOCKER_COMPOSE_FILE} ${MY_DIR}/${DOCKER_COMPOSE_FILE}
-docker rm -v ${CID} > /dev/null
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# set environment variables required by docker-compose.yml
-
-export DOCKER_VERSION=${DOCKER_VERSION}
-export CYBER_DOJO_HOME=${CYBER_DOJO_HOME}
-
-export CYBER_DOJO_KATAS_CLASS=${CYBER_DOJO_KATAS_CLASS:=HostDiskKatas}
-export CYBER_DOJO_SHELL_CLASS=${CYBER_DOJO_SHELL_CLASS:=HostShell}
-export CYBER_DOJO_DISK_CLASS=${CYBER_DOJO_DISK_CLASS:=HostDisk}
-export CYBER_DOJO_LOG_CLASS=${CYBER_DOJO_LOG_CLASS:=StdoutLog}
-export CYBER_DOJO_GIT_CLASS=${CYBER_DOJO_GIT_CLASS:=HostGit}
-
-export CYBER_DOJO_RUNNER_CLASS=${CYBER_DOJO_RUNNER_CLASS:=DockerTarPipeRunner}
-export CYBER_DOJO_RUNNER_SUDO='sudo -u docker-runner sudo'
-export CYBER_DOJO_RUNNER_TIMEOUT=${CYBER_DOJO_RUNNER_TIMEOUT:=10}
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# up/down/restart/sh
-
-DOCKER_COMPOSE_CMD="docker-compose --file=${MY_DIR}/${DOCKER_COMPOSE_FILE}"
-
-if [ "$*" = "up" ]; then
-  ${DOCKER_COMPOSE_CMD} up -d
-fi
-
-if [ "$*" = "down" ]; then
-  ${DOCKER_COMPOSE_CMD} down
-fi
-
-if [ "$*" = "restart" ]; then
-  ${DOCKER_COMPOSE_CMD} down
-  ${DOCKER_COMPOSE_CMD} up -d
-fi
-
-if [ "$*" = "sh" ]; then
-  # cdf-web name is from docker-compose.yml file
-  docker exec --interactive --tty cdf-web sh
-fi

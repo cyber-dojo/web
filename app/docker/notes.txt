@@ -30,19 +30,23 @@ cyber-dojo up languages=Lpath
 
 where Lpath and Xpath are local folders.
 
-Or
+Or make setting of languages/exercises/instructions a separate command.
+Yes I prefer this.
 
-cyber-dojo languages path
-cyber-dojo exercises path
-cyber-dojo instructions path
+cyber-dojo    languages-push path
+cyber-dojo    exercises-push path
+cyber-dojo instructions-push path
+cyber-dojo up
+cyber-dojo down
+cyber-dojo restart
 
 This approach means I don't have to name the destination folder
-on the docker server.
-What about copying new exercises back from the docker-server, eg for backup
+on the docker server. It will always be the same folder.
+And for copying new exercises/etc back from the docker-server, eg for backup
 
-cyber-dojo languages    [push|pull] path
-cyber-dojo exercises    [push|pull] path
-cyber-dojo instructions [push|pull] path
+cyber-dojo    languages-pull path
+cyber-dojo    exercises-pull path
+cyber-dojo instructions-pull path
 
 where path could be a github url, which would do a git clone to get the source.
 
