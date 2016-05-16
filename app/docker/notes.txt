@@ -152,6 +152,12 @@ Remember
 >>>>>>.gitignore seems to be the culprit
 >>>>>>It has Dockerfile instead of /Dockerfile (eg)
 
+
+Inside web image ls at root shows this
+....  20530566 May 10 10:53 docker-1.11.1.tgz
+This can be removed in the Dockerfile
+
+
 --------------
 
 Features James mentioned during our chat
