@@ -2,7 +2,7 @@
 For info on how to run your own cyber-dojo server see
 http://blog.cyber-dojo.org/2016/03/running-your-own-cyber-dojo-server.html
 
-Extra information if you want to do some development.
+Extra information if you want to do some development...
 
 The cyber-dojo server now lives inside a docker image called cyberdojofoundation/web
 The script to build this image is
@@ -14,8 +14,7 @@ the web image, then bring down the old server and bring up the new one.
 $ cd cyber-dojo/app/docker/web
 $ ./build-image.sh
 $ cd cyber-dojo/app/docker
-$ ./cyber-dojo down
-$ ./cyber-dojo up
+$ ./cyber-dojo restart
 
 You can run the tests from inside the running web server. First shell in
 $ docker exec --interactive --tty cdf-web sh
@@ -31,6 +30,7 @@ $ cd cyber-dojo/script
 $ ./dev-server.sh
 
 You can also run the tests locally too. Note that the work to get the server running
-inside a docker container *and* locally has left a few diagnostics that need attention.
+inside a docker container *and* locally has left a few (tar related) diagnostics that
+need attention.
 $ cd cyber-dojo/test
 $ ./run.sh

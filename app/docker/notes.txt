@@ -70,11 +70,12 @@ Built a new web image
 
 Tried to create a new server ontop of old one.
 Could not do [./cyber-dojo restart]
-It complained that cdf-nginx and cdf-web already existed.
+>>>>>>It complained that cdf-nginx and cdf-web already existed.
 Manually deleted them.
 
 Started server.
 Failed to create a kata because of permissions.
+   (Note that katas is being volume-mounted (not volumes-from) in docker-compose.yml)
 There is no cyber-dojo user.
 On my dev default server
 cat /etc/passwd
@@ -95,21 +96,12 @@ $ ls -al
 
 Indeed there is no root folder /cpputest
 
-
 Tried to recreate gpp_cpputest docker image
-
->>>>>>There are no Dockerfile's underneath /app/data/languages
->>>>>>.gitignore seems to be the culprit.
-
-
-Manually added Dockerfile for C++ (g++ 5.3)/CppuTest/_docker_context
 rebuilt image
 didn't work
 There is no user called cyber-dojo *inside* the gpp_cpputest container
 Problem is that the image gpp_cpputest is not based FROM user-base
 and so does not have cyber-dojo user inside it.
-
-
 
 
 Switched create page to show plain languages
@@ -129,7 +121,7 @@ to "C++ (g++)-CppUTest"
 and it worked. Woooooohoooooo
 
 So the problem is the creation of the kata's manifest.
-Looked at the code and fixed the errors.
+Looked at the code and fixed up the errors.
 Works for both setup cases now: languages and exercises.
 
 
