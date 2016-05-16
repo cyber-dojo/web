@@ -19,7 +19,7 @@ DATA_ROOT=${HOME}/app/data
 export CYBER_DOJO_LANGUAGES_ROOT=${DATA_ROOT}/languages
 export CYBER_DOJO_EXERCISES_ROOT=${DATA_ROOT}/exercises
 export CYBER_DOJO_INSTRUCTIONS_ROOT=${DATA_ROOT}/instructions
-export CYBER_DOJO_KATAS_ROOT=${HOME}/tmp/katas
+export CYBER_DOJO_KATAS_ROOT=${DATA_ROOT}/katas
 
 export CYBER_DOJO_SHELL_CLASS=HostShell
 export CYBER_DOJO_DISK_CLASS=HostDisk
