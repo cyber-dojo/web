@@ -3,8 +3,11 @@
 export CYBER_DOJO_SCRIPT_WRAPPER=inprogress
 
 # The entry-point cyber-dojo shell script.
-# Works in combination with the cyber-dojo.rb ruby script.
-# It [docker run]s cyber-dojo.rb from inside cyberdojofoundation/web which has ruby.
+# Checks docker is installed, sets up env-vars
+# and handles the [cyber-dojo upgrade]
+# Then delegates to the cyber-dojo.sh script, which
+# in turn [docker run]s cyber-dojo.rb from inside
+# cyberdojofoundation/web which has ruby.
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # ensure docker-engine is installed

@@ -118,11 +118,6 @@ end
 
 def upgrade
   languages.each { |image| docker_pull(image, 'latest') }
-  # these service names must match those used in the cyber-dojo script
-  # there is a [docker-compose config --services] command to retrieve these
-  # but that would require docker-compose being installed inside the web image
-  docker_pull('web', docker_version)
-  docker_pull('nginx', 'latest')
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
