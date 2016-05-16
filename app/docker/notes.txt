@@ -143,19 +143,23 @@ pulled from gihub
 pulled new branch
 edited app/docker/cyber-dojo to make two hard-wired env-vars for paths
 built a new web image
-tried to create kata - failed with nil Rails error.
-
+>>>>>>>>tried to create kata - failed with nil Rails error.
 Look into this on my own server.
-
-Remember
->>>>>>There are no Dockerfile's underneath /app/data/languages
->>>>>>.gitignore seems to be the culprit
->>>>>>It has Dockerfile instead of /Dockerfile (eg)
 
 
 Inside web image ls at root shows this
 ....  20530566 May 10 10:53 docker-1.11.1.tgz
-This can be removed in the Dockerfile
+There is also an empty docker folder there too.
+These can be removed in the Dockerfile
+>>>>>>>>Needs to be...
+
+RUN apk --update add curl \
+  && curl -OL https://get.docker.com/builds/Linux/x86_64/docker-${DOCKER_VERSION}.tgz \
+  && tar -xvzf docker-${DOCKER_VERSION}.tgz \
+  && mv docker/* /usr/bin/ \
+  && rmdir /docker \
+  && rm /docker-${DOCKER_VERSION}.tgz \
+  && apk del curl \
 
 
 --------------
