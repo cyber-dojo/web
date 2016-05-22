@@ -67,6 +67,19 @@ class SetupControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
+=begin
+  test 'EB77D9',
+  'show_exercises page uses cached exercises that are runnable' do
+    get 'setup/show_exercises'
+    assert_response :success
+    assert /data-language\=\"#{get_language_from(cpp_assert)}/.match(html), cpp_assert
+    assert /data-language\=\"#{get_language_from(asm_assert)}/.match(html), asm_assert
+    refute /data-language\=\"Java/.match(html), 'Java'
+  end
+=end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
   private
 
   def get_language_from(name); commad(name)[0].strip; end
