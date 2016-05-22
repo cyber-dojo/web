@@ -4,9 +4,7 @@ require_relative './app_controller_test_base'
 
 class DojoControllerTest < AppControllerTestBase
 
-  prefix = '103'
-
-  test prefix+'BF7',
+  test '103BF7',
   'index without id' do
     get 'dojo/index'
     assert_response :success
@@ -14,7 +12,7 @@ class DojoControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test prefix+'957',
+  test '103957',
   'index with id' do
     get 'dojo/index', id:'1234512345'
     assert_response :success
@@ -22,7 +20,7 @@ class DojoControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test prefix+'78E',
+  test '10378E',
   'check_id exists=false when no kata for id' do
     @id = 'abcdef'
     check_id
@@ -30,7 +28,7 @@ class DojoControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test prefix+'90C',
+  test '10390C',
   'check_id exists=true when id.length ~ 6 and kata exists' do
     [5,6,7].each do |n|
       create_kata
@@ -44,14 +42,14 @@ class DojoControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test prefix+'8EE',
+  test '1038EE',
   'show with no id' do
     get '/enter/show'
   end
 
   #- - - - - - - - - - - - - - - -
 
-  test prefix+'E3E',
+  test '103E3E',
   'show with an id' do
     create_kata
     get '/enter/show', { :id => @id }
@@ -59,14 +57,14 @@ class DojoControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test prefix+'F15',
+  test '103F15',
   'start with no id raises' do
     assert_raises { start }
   end
 
   #- - - - - - - - - - - - - - - -
 
-  test prefix+'B84',
+  test '103B84',
   'start with empty string id raises' do
     @id = ''
     assert_raises { start }
@@ -74,7 +72,7 @@ class DojoControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test prefix+'A79',
+  test '103A79',
   'start with id that does not exist raises' do
     @id = 'ab00ab11ab'
     assert_raise { start }
@@ -82,7 +80,7 @@ class DojoControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test prefix+'BEE',
+  test '103BEE',
   'enter with id that does exist => !full,avatar_name' do
     create_kata
     start
@@ -93,7 +91,7 @@ class DojoControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test prefix+'2AE',
+  test '1032AE',
   'enter succeeds once for each avatar name, then dojo is full' do
     create_kata
     Avatars.names.each do |avatar_name|
@@ -110,7 +108,7 @@ class DojoControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test prefix+'5BD',
+  test '1035BD',
   'continue with id that exists but is empty' do
     create_kata
     continue
@@ -120,7 +118,7 @@ class DojoControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test prefix+'DEB',
+  test '103DEB',
   'continue with id that exists and is not empty' do
     create_kata
     start
