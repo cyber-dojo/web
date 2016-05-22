@@ -23,7 +23,7 @@ class DownloadControllerTest < AppControllerTestBase
 
   test 'C44849',
   'download with bad id raises' do
-    assert_raises(StandardError) { get 'downloader/download', :id => XX+@id }
+    assert_raises(StandardError) { get 'downloader/download', :id => 'XX'+@id }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
