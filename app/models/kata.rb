@@ -69,11 +69,6 @@ class Kata
     manifest['exercise']
   end
 
-  #def exercise_name
-  #  # used in forker_controller
-  #  manifest['exercise']
-  #end
-
   private
 
   include ExternalParentChainer
