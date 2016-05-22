@@ -30,6 +30,9 @@ class Kata
   end
 
   def age(now = Time.now.to_a[0..5].reverse)
+    # Time.now.to_a     [18, 7, 11, 22, 5, 2016, 0, 143, true, "BST"]
+    # [0..5]            [18, 7, 11, 22, 5, 2016]
+    # reverse           [2016, 5, 22, 11, 7, 18] = 2016 May 22nd, 11:07:18
     return 0 unless active?
     return (Time.mktime(*now) - earliest_light).to_i
   end
@@ -43,9 +46,9 @@ class Kata
   end
 
   def language
-    # TODO: This is a bit of a hack. Revisit.
+    # TODO: This is a hack. Revisit.
     #  The language is now doing double duty.
-    #  Its an actual language (+test) for the regular case of
+    #  Its a manifested language (+test) for the regular case of
     #    starting from an empty instruction file.
     #  Its a manifested exercise (like James uses) - the new case
     languages[language_name] || exercises[language_name]
@@ -53,7 +56,7 @@ class Kata
 
   def instructions
     # careful not to recurse here
-    parent.instructions[exercise_name]
+    parent.instructions[instructions_name]
   end
 
   def language_name
@@ -61,10 +64,15 @@ class Kata
     manifest['language']
   end
 
-  def exercise_name
+  def instructions_name
     # used in forker_controller
     manifest['exercise']
   end
+
+  #def exercise_name
+  #  # used in forker_controller
+  #  manifest['exercise']
+  #end
 
   private
 

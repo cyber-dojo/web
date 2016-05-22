@@ -14,23 +14,21 @@ class DownloadControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  prefix = 'C44'
-
-  test prefix+'0EF',
+  test 'C440EF',
   'download with empty id raises' do
     assert_raises(StandardError) { get 'downloader/download', :id => '' }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test prefix+'849',
+  test 'C44849',
   'download with bad id raises' do
     assert_raises(StandardError) { get 'downloader/download', :id => XX+@id }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test prefix+'561',
+  test 'C44561',
   'downloaded of empty dojo with no avatars yet untars to same as original folder' do
     get 'downloader/download', :id => @id
     assert_downloaded
@@ -38,7 +36,7 @@ class DownloadControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test prefix+'1B1',
+  test 'C441B1',
   'downloaded of dojo with one avatar and one traffic-light untars to same as original folder' do
     start
     kata_edit
@@ -50,7 +48,7 @@ class DownloadControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test prefix+'E9B',
+  test 'C44E9B',
   'downloaded of dojo with five animals and five traffic-lights untars to same as original folder' do
     5.times do
       start

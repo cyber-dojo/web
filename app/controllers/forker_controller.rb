@@ -33,13 +33,13 @@ class ForkerController < ApplicationController
     if !error
       language = kata.language
       tag = params['tag'].to_i
-      # don't use kata.exercise.name because
-      # the exercise might have been renamed
+      # don't use kata.instructions.name because
+      # the instructions might have been renamed
       manifest = {
                          id: unique_id,
                     created: time_now,
                    language: language.name,
-                   exercise: kata.exercise_name,
+                   exercise: kata.instructions_name,
         unit_test_framework: language.unit_test_framework,
                    tab_size: language.tab_size,
               visible_files: avatar.tags[tag].visible_files
