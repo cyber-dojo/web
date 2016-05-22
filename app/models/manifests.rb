@@ -1,5 +1,5 @@
 
-class Languages
+class Manifests
   include Enumerable
 
   def initialize(dojo, key)
@@ -51,7 +51,7 @@ class Languages
   end
 
   def make(dir_name, display_name = nil, image_name = nil)
-    Language.new(self, dir_name, display_name, image_name)
+    Manifest.new(self, dir_name, display_name, image_name)
   end
 
   def commad(name)

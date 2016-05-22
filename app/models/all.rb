@@ -5,9 +5,9 @@
 
   dojo
   cache_info
-  language
   languages_rename
-  languages
+  manifest
+  manifests
   instruction
   instructions
   kata

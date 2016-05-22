@@ -102,6 +102,9 @@ didn't work
 There is no user called cyber-dojo *inside* the gpp_cpputest container
 Problem is that the image gpp_cpputest is not based FROM user-base
 and so does not have cyber-dojo user inside it.
+>>>>>>>I think this is not relevant. The user that runs inside the test container
+is nobody. The cyber-dojo user is needed only inside the web container
+(and also possibly on the host server for volume-mount interactions)
 
 
 Switched create page to show plain languages
@@ -124,6 +127,8 @@ So the problem is the creation of the kata's manifest.
 Looked at the code and fixed up the errors.
 Works for both setup cases now: languages and exercises.
 
+Retro: would be nice if you can find out the name of the
+container/image from inside the container.
 
 -------------
 

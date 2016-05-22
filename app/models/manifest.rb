@@ -1,5 +1,5 @@
 
-class Language
+class Manifest
 
   def initialize(languages, path, display_name = nil, image_name = nil)
     @languages = languages
@@ -22,7 +22,8 @@ class Language
   end
 
   def image_name
-    # cached to optimize displaying all languages on cyber-dojo create
+    # cached to optimize displaying all languages on cyber-dojo create.
+    # (only languages whose docker image has been pulled are offered).
     @image_name ||= manifest_property
   end
 
