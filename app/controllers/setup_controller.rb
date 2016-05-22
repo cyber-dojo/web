@@ -1,25 +1,9 @@
 
 class SetupController < ApplicationController
 
-  def show_exercises
-    @id = id
-    @title = 'create'
-    exercises_names = read(exercises)
-    index = choose_language(exercises_names, id, dojo.katas)
-    @languages = ::DisplayNamesSplitter.new(exercises_names, index)
-    @initial_language_index = @languages.selected_index
-  end
-
-  def save_exercise
-    language_name = params['language'] # s/languages/better-name/
-    exercise_name = params['exercise']
-    exercise = exercises[language_name + '-' + exercise_name]
-    kata = katas.create_custom_kata(exercise, language_name)
-    render json: { id: kata.id }
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - -
-
+  # Regular two step setup
+  # step 1. languages(+test in column 2)  (eg Java+JUnit)
+  # step 2. instructions                  (eg Fizz_Buzz)
   def show_languages
     @id = id
     @title = 'create'
@@ -35,7 +19,7 @@ class SetupController < ApplicationController
     @language = params[:language]
     @test = params[:test]
     @exercises_names,@instructions = read_instructions
-    @initial_exercise_index = choose_exercise(@exercises_names, id, dojo.katas)
+    @initial_exercise_index = choose_instructions(@exercises_names, id, dojo.katas)
   end
 
   def save
@@ -45,6 +29,26 @@ class SetupController < ApplicationController
     language = languages[language_name + '-' + test_name]
     instruction = instructions[instruction_name]
     kata = katas.create_kata(language, instruction)
+    render json: { id: kata.id }
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+  # New one step setup
+
+  def show_exercises
+    @id = id
+    @title = 'create'
+    exercises_names = read(exercises)
+    index = choose_language(exercises_names, id, dojo.katas)
+    @languages = ::DisplayNamesSplitter.new(exercises_names, index)
+    @initial_language_index = @languages.selected_index
+  end
+
+  def save_exercise
+    language_name = params['language']
+    exercise_name = params['exercise']
+    exercise = exercises[language_name + '-' + exercise_name]
+    kata = katas.create_custom_kata(exercise, language_name)
     render json: { id: kata.id }
   end
 

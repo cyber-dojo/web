@@ -1,7 +1,7 @@
 
 # When the [create] button is clicked (on home page) then if
 # there is an id present make the initial selection of the
-# language and the exercise (on the create page) the same as the
+# language and the instructions (on the create page) the same as the
 # kata with that id - if it still exists.
 # This helps to re-inforce the idea of repetition.
 
@@ -13,8 +13,8 @@ module SetupChooser # mix-in
     chooser(languages, id, katas) { |kata| kata.language.display_name }
   end
 
-  def choose_exercise(exercises, id, katas)
-    chooser(exercises, id, katas) { |kata| kata.instructions_name }
+  def choose_instructions(instructions, id, katas)
+    chooser(instructions, id, katas) { |kata| kata.instructions_name }
   end
 
   def chooser(choices, id, katas)
