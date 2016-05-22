@@ -12,6 +12,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   include TestHexIdHelpers
 
   def setup
+    @dojo = Dojo.new
     super
     set_runner_class('StubRunner')
   end

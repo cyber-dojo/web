@@ -39,11 +39,11 @@ class StubRunner
   include Runner
 
   def runnable?(image_name)
-    cdf = 'cyberdojofoundation'
     [
       "#{cdf}/nasm_assert",
       "#{cdf}/gcc_assert",
-      "#{cdf}/csharp_nunit"
+      "#{cdf}/csharp_nunit",
+      "#{cdf}/gpp_cpputest"
     ].include?(image_name)
   end
 
@@ -81,6 +81,10 @@ class StubRunner
 
   def stub_run_filename
     'stub_run.json'
+  end
+
+  def cdf
+    'cyberdojofoundation'
   end
 
 end
