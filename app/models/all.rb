@@ -4,7 +4,7 @@
   manifest_property
 
   dojo
-  cache_info
+  cache_properties
   languages_rename
   manifest
   manifests

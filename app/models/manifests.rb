@@ -22,7 +22,7 @@ class Manifests
     all[commad(name)] || all[renamed(name)]
   end
 
-  include CacheInfo
+  include CacheProperties
 
   private
 

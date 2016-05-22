@@ -22,7 +22,7 @@ class Instructions
     all[name]
   end
 
-  include CacheInfo
+  include CacheProperties
 
   private
 
