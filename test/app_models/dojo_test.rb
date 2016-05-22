@@ -9,13 +9,11 @@ end
 
 class DojoTest < AppModelsTestBase
 
-  prefix = 'FB7'
-
   #- - - - - - - - - - - - - - - - - - - - - - - - -
   # external classes and roots have no defaults
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test prefix+'E2A',
+  test 'FB7E2A',
   'using an unset external class raises StandardError' do
     unset_runner_class && assert_raises(StandardError) { runner.class }
     unset_katas_class  && assert_raises(StandardError) {  katas.class }
@@ -25,18 +23,19 @@ class DojoTest < AppModelsTestBase
     unset_log_class    && assert_raises(StandardError) {    log.class }
   end
 
-  test prefix+'6F9',
+  test 'FB76F9',
   'using an unset external root path raises StandardError' do
-    unset_exercises_root && assert_raises(StandardError) { exercises.path }
-    unset_languages_root && assert_raises(StandardError) { languages.path }
-    unset_katas_root     && assert_raises(StandardError) {     katas.path }
+    unset_instructions_root && assert_raises(StandardError) { instructions.path }
+    unset_exercises_root    && assert_raises(StandardError) { exercises.path }
+    unset_languages_root    && assert_raises(StandardError) { languages.path }
+    unset_katas_root        && assert_raises(StandardError) {     katas.path }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
   # external classes can be set via environment variables
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test prefix+'880',
+  test 'FB7880',
   'setting an external class to the name of an existing class succeeds' do
     exists = 'ExternalDouble'
     set_runner_class(exists) && assert_equal(exists, runner.class.name)
@@ -47,7 +46,7 @@ class DojoTest < AppModelsTestBase
     set_log_class(   exists) && assert_equal(exists,    log.class.name)
   end
 
-  test prefix+'7E4',
+  test 'FB77E4',
   'setting an external class to the name of a non-existant class raises StandardError' do
     set_runner_class(does_not_exist) && assert_raises(StandardError) { runner.class }
     set_katas_class( does_not_exist) && assert_raises(StandardError) {  katas.class }
@@ -61,28 +60,34 @@ class DojoTest < AppModelsTestBase
   # external roots can be set via environment variables
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test prefix+'EA1',
+  test 'FB7EA1',
   'setting an external root succeeds' do
-    set_exercises_root(path = tmp_root + '/instructions') && assert_equal(path, instructions.path)
-    set_languages_root(path = tmp_root + '/languages') && assert_equal(path, languages.path)
-    set_katas_root(    path = tmp_root + '/katas'    ) && assert_equal(path, katas.path)
+    set_instructions_root(path = tmp_root + '/instructions') && assert_equal(path, instructions.path)
+    set_exercises_root(   path = tmp_root + '/exercises')    && assert_equal(path, exercises.path)
+    set_languages_root(   path = tmp_root + '/languages')    && assert_equal(path, languages.path)
+    set_katas_root(       path = tmp_root + '/katas'    )    && assert_equal(path, katas.path)
   end
 
   # - - - - - -
 
-  test prefix+'D52',
+  test 'FB7D52',
   'setting an external root with a trailing slash chops off the trailing slash' do
     path = tmp_root + '/instructions'
-    set_exercises_root(path + '/') && assert_equal(path, instructions.path)
+    set_instructions_root(path + '/') && assert_equal(path, instructions.path)
+
+    path = tmp_root + '/exercises'
+    set_exercises_root(path + '/') && assert_equal(path, exercises.path)
+
     path = tmp_root + '/languages'
     set_languages_root(path + '/') && assert_equal(path, languages.path)
+
     path = tmp_root + '/katas'
     set_katas_root(path + '/')     && assert_equal(path, katas.path)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - -
 
-  test prefix+'F2D',
+  test 'FB7F2D',
   'katas.path is set off /tmp by test setup because tests write to katas' do
     test_set_path = dojo.env('katas_root')
     assert test_set_path.include?('/tmp')

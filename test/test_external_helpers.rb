@@ -24,9 +24,22 @@ module TestExternalHelpers # mix-in
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def unset_languages_root; unset_root('languages'); end
-  def unset_exercises_root; unset_root('instructions'); end
-  def     unset_katas_root; unset_root(    'katas'); end
+  def unset_instructions_root; unset_root('instructions'); end
+  def    unset_languages_root; unset_root('languages'); end
+  def    unset_exercises_root; unset_root('exercises'); end
+  def        unset_katas_root; unset_root(    'katas'); end
+
+  def set_instructions_root(value); set_root('instructions', value); end
+  def    set_languages_root(value); set_root('languages', value); end
+  def    set_exercises_root(value); set_root('exercises', value); end
+  def        set_katas_root(value); set_root(    'katas', value); end
+
+  def get_instructions_root; get_root('instructions'); end
+  def    get_languages_root; get_root('languages'); end
+  def    get_exercises_root; get_root('exercises'); end
+  def        get_katas_root; get_root(    'katas'); end
+
+  # - - - - - - - - - - - - - - - - - - -
 
   def unset_runner_class; unset_class('runner'); end
   def  unset_katas_class; unset_class( 'katas'); end
@@ -35,24 +48,12 @@ module TestExternalHelpers # mix-in
   def    unset_git_class; unset_class(   'git'); end
   def    unset_log_class; unset_class(   'log'); end
 
-  # - - - - - - - - - - - - - - - - - - -
-
-  def set_languages_root(value); set_root('languages', value); end
-  def set_exercises_root(value); set_root('instructions', value); end
-  def     set_katas_root(value); set_root(    'katas', value); end
-
   def   set_runner_class(value); set_class('runner', value); end
   def    set_katas_class(value); set_class( 'katas', value); end
   def    set_shell_class(value); set_class( 'shell', value); end
   def     set_disk_class(value); set_class(  'disk', value); end
   def      set_git_class(value); set_class(   'git', value); end
   def      set_log_class(value); set_class(   'log', value); end
-
-  # - - - - - - - - - - - - - - - - - - -
-
-  def get_languages_root; get_root('languages'); end
-  def get_exercises_root; get_root('instructions'); end
-  def     get_katas_root; get_root(    'katas'); end
 
   def   get_runner_class; get_class('runner'); end
   def    get_katas_class; get_class( 'katas'); end

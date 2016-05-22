@@ -88,7 +88,7 @@ class ForkerControllerTest < AppControllerTestBase
     assert_not_nil forked_kata
     kata = @avatar.kata
     assert_equal kata.language.name, forked_kata.language.name
-    assert_equal kata.exercise.name, forked_kata.exercise.name
+    assert_equal kata.instructions.name, forked_kata.instructions.name
 
     assert_equal kata.visible_files.tap { |hs| hs.delete('output') },
            forked_kata.visible_files.tap { |hs| hs.delete('output') }

@@ -5,9 +5,7 @@ require_relative './delta_maker'
 
 class AvatarTest < AppModelsTestBase
 
-  prefix = 'FB7'
-
-  test prefix+'E81',
+  test 'FB7E81',
   "an avatar's kata is the kata it was created with" do
     kata = make_kata
     avatar = kata.start_avatar
@@ -16,7 +14,7 @@ class AvatarTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test prefix+'D2B',
+  test 'FB7D2B',
   "an avatar's' initial visible_files are:",
   '1. the language visible_files,',
   '2. the exercise instructions,',
@@ -29,14 +27,14 @@ class AvatarTest < AppModelsTestBase
       assert_equal avatar.visible_files[filename], content
     end
     assert avatar.visible_filenames.include? 'instructions'
-    assert avatar.visible_files['instructions'].include? kata.exercise.text
+    assert avatar.visible_files['instructions'].include? kata.instructions.text
     assert avatar.visible_filenames.include? 'output'
     assert_equal '', avatar.visible_files['output']
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test prefix+'92F',
+  test 'FB792F',
   'when an avatar has zero traffic-lights it is not active?' do
     kata = make_kata
     lion = kata.start_avatar(['lion'])
@@ -46,7 +44,7 @@ class AvatarTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test prefix+'BAB',
+  test 'FB7BAB',
   'when an avatar has one or more traffic-lights it is active?' do
     kata = make_kata
     lion = kata.start_avatar(['lion'])
@@ -60,7 +58,7 @@ class AvatarTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test prefix+'0CA',
+  test 'FB70CA',
   'test() output is added to visible_files' do
     kata = make_kata
     @avatar = kata.start_avatar
@@ -74,7 +72,7 @@ class AvatarTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test prefix+'E11',
+  test 'FB7E11',
   'test() does not truncate output less than or equal to 10K characters' do
     kata = make_kata
     @avatar = kata.start_avatar
@@ -86,7 +84,7 @@ class AvatarTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test prefix+'E5A',
+  test 'FB7E5A',
   'test() truncates output greater 10K characters' do
     kata = make_kata
     @avatar = kata.start_avatar
@@ -99,7 +97,7 @@ class AvatarTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test prefix+'925',
+  test 'FB7925',
   'test():delta[:changed] files are changed' do
     kata = make_kata
     @avatar = kata.start_avatar
@@ -115,7 +113,7 @@ class AvatarTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test prefix+'749',
+  test 'FB7749',
   'test():delta[:unchanged] files are unchanged' do
     kata = make_kata
     @avatar = kata.start_avatar
@@ -129,7 +127,7 @@ class AvatarTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test prefix+'683',
+  test 'FB7683',
   'test():delta[:new] files are created' do
     kata = make_kata
     @avatar = kata.start_avatar
@@ -143,7 +141,7 @@ class AvatarTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test prefix+'DEC',
+  test 'FB7DEC',
   'diff(was_tag, now_tag) returns sandbox/git-diff output' do
     set_runner_class('DockerTarPipeRunner')
     kata = make_kata( { language: 'C (gcc)-assert' })

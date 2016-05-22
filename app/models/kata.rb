@@ -2,8 +2,7 @@
 class Kata
 
   def initialize(katas, id)
-    # Does *not* validate.
-    # All access to kata object must come through dojo.katas[id]
+    # Does *not* validate. All access to kata object must come through dojo.katas[id]
     @katas = katas
     @id = id
   end
@@ -52,8 +51,9 @@ class Kata
     languages[language_name] || exercises[language_name]
   end
 
-  def exercise
-    instructions[exercise_name]
+  def instructions
+    # careful not to recurse here
+    parent.instructions[exercise_name]
   end
 
   def language_name

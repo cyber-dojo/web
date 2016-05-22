@@ -14,7 +14,7 @@ class KatasTest < AppModelsTestBase
     manifest = katas.kata_manifest(kata)
     assert_equal kata.id, manifest['id']
     assert_equal kata.language.name, manifest['language']
-    assert_equal kata.exercise.name, manifest['exercise']
+    assert_equal kata.instructions.name, manifest['exercise'] # legacy
     refute_nil manifest['created']
     refute_nil manifest['unit_test_framework']
     refute_nil manifest['tab_size']
@@ -62,25 +62,25 @@ class KatasTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '603735',
-  'each() yields empty array when there are no katas' do
+  'each() yielding empty array when there are no katas' do
     assert_equal [], all_ids
   end
 
   test '5A2932',
-  'each() yields array with the one kata-id when there is one kata' do
+  'each() yielding array of one kata-id' do
     kata = make_kata
     assert_equal [kata.id.to_s], all_ids
   end
 
   test '24894F',
-  'each() with two unrelated ids' do
+  'each() yielding array of two unrelated kata-ids' do
     kata1 = make_kata
     kata2 = make_kata
     assert_equal all_ids([kata1, kata2]).sort, all_ids.sort
   end
 
   test '29DFD1',
-  'each() with several ids with common first two characters' do
+  'each() yielding array of several kata-ids with common first two characters' do
     id = 'ABCDE1234'
     assert_equal 10-1, id.length
     kata1 = make_kata({ id:id + '1' })
