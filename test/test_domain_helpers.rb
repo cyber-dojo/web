@@ -19,16 +19,24 @@ module TestDomainHelpers # mix-in
 
   def make_kata(hash = {})
     hash[:id] ||= unique_id
+    hash[:now] ||= time_now
     hash[:language] ||= default_language_name
     hash[:exercise] ||= default_exercise_name
     language = languages[hash[:language]]
-    exercise = instructions[hash[:exercise]]
-    katas.create_kata(language, exercise, hash[:id])
+    instruction = instructions[hash[:exercise]]
+    manifest = katas.create_manifest(language, hash[:id], hash[:now])
+    manifest[:exercise] = instruction.name
+    manifest[:visible_files]['instructions'] = instruction.text
+    katas.create_kata_from_manifest(manifest)
   end
 
   def unique_id
     hex_chars = "0123456789ABCDEF".split(//)
     Array.new(10) { hex_chars.sample }.shuffle.join
+  end
+
+  def time_now(now = Time.now)
+    [now.year, now.month, now.day, now.hour, now.min, now.sec]
   end
 
   def default_language_name

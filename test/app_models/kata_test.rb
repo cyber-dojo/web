@@ -96,15 +96,20 @@ class KataTest < AppModelsTestBase
   'kata.id, kata.created, kata.language.name,',
   'kata.instructions.name, kata.visible_files',
   'all read from manifest' do
-    java_junit = languages['Java-JUnit']
-    fizz_buzz = instructions['Fizz_Buzz']
     id = unique_id
     now = [2014, 7, 17, 21, 15, 45]
-    kata = katas.create_kata(java_junit, fizz_buzz, id, now)
+    hash = {
+      id: id,
+      now: now,
+      language: 'Java-JUnit',
+      exercise: 'Fizz_Buzz',
+    }
+    java_junit = languages[hash[:language]]
+    fizz_buzz = instructions[hash[:exercise]]
+    kata = make_kata(hash)
     assert_equal id, kata.id.to_s
     assert_equal Time.mktime(*now), kata.created
     assert_equal java_junit.name, kata.language.name
-    assert_equal fizz_buzz.name, kata.instructions.name
     assert_equal fizz_buzz.text, kata.visible_files['instructions']
     assert_equal '', kata.visible_files['output']
   end

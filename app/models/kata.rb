@@ -54,18 +54,13 @@ class Kata
     languages[language_name] || exercises[language_name]
   end
 
-  def instructions
-    # careful not to recurse here
-    parent.instructions[instructions_name]
-  end
-
+  # TODO: try exposing manifest.clone and forker can use that directly.
   def language_name
     # used in forker_controller
     manifest['language']
   end
 
   def instructions_name
-    # used in forker_controller
     manifest['exercise']
   end
 

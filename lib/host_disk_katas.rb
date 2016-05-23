@@ -14,11 +14,7 @@ class HostDiskKatas
     @path ||= parent.env('katas_root')
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - - - -
-  # Katas
-  # - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def create_kata(language, instructions, id = unique_id, now = time_now)
+  def create_manifest(language, id = unique_id, now = time_now)
     # a kata's id has 10 hex chars. This gives 16^10 possibilities
     # which is 1,099,511,627,776 which is big enough to not
     # need to check that a kata with the id already exists.
@@ -26,36 +22,17 @@ class HostDiskKatas
                        id: id,
                   created: now,
                  language: language.name,
-                 exercise: instructions.name,
       unit_test_framework: language.unit_test_framework,
                  tab_size: language.tab_size
     }
     manifest[:visible_files] = language.visible_files
     manifest[:visible_files]['output'] = ''
-    manifest[:visible_files]['instructions'] = instructions.text
-    create_kata_from_manifest(manifest)
+    manifest
   end
 
-  def create_custom_kata(exercise, language_name, id = unique_id, now = time_now)
-    manifest = {
-                       id: id,
-                  created: now,
-                 language: exercise.name,
-                 exercise: language_name,
-      unit_test_framework: exercise.unit_test_framework,
-                 tab_size: exercise.tab_size
-    }
-    manifest[:visible_files] = exercise.visible_files
-    manifest[:visible_files]['output'] = ''
-    create_kata_from_manifest(manifest)
-  end
-
-  def create_kata_from_manifest(manifest)
-    kata = Kata.new(self, manifest[:id])
-    dir(kata).make
-    dir(kata).write_json(manifest_filename, manifest)
-    kata
-  end
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+  # Katas
+  # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def completed(id)
     # Used only in enter_controller/check
@@ -89,6 +66,13 @@ class HostDiskKatas
   # - - - - - - - - - - - - - - - - - - - - - - - -
   # Kata
   # - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def create_kata_from_manifest(manifest)
+    kata = Kata.new(self, manifest[:id])
+    dir(kata).make
+    dir(kata).write_json(manifest_filename, manifest)
+    kata
+  end
 
   def [](id)
     return nil unless valid?(id)
@@ -224,7 +208,6 @@ class HostDiskKatas
 
   private
 
-  #include CreateKataManifest
   include ExternalParentChainer
   include IdSplitter
   include StderrRedirect

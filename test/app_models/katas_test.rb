@@ -14,7 +14,6 @@ class KatasTest < AppModelsTestBase
     manifest = katas.kata_manifest(kata)
     assert_equal kata.id, manifest['id']
     assert_equal kata.language.name, manifest['language']
-    assert_equal kata.instructions.name, manifest['exercise'] # legacy
     refute_nil manifest['created']
     refute_nil manifest['unit_test_framework']
     refute_nil manifest['tab_size']

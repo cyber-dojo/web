@@ -27,7 +27,6 @@ class AvatarTest < AppModelsTestBase
       assert_equal avatar.visible_files[filename], content
     end
     assert avatar.visible_filenames.include? 'instructions'
-    assert avatar.visible_files['instructions'].include? kata.instructions.text
     assert avatar.visible_filenames.include? 'output'
     assert_equal '', avatar.visible_files['output']
   end
