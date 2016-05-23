@@ -1,6 +1,5 @@
 
 <% id       = @kata.id[0..5] %>
-<% exercise = @kata.instructions_name.gsub('_',' ') %>
 
 <div id="footer">
   <table>
@@ -14,8 +13,6 @@
       <td><%= render partial: 'shared/accu' %></td>
       <td><%= render partial: 'shared/bullet' %></td>
       <td><%= id %></td>
-      <td><%= render partial: 'shared/bullet' %></td>
-      <td><%= exercise %></td>
     </tr>
   </table>
 </div>
