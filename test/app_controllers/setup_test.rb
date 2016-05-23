@@ -60,7 +60,6 @@ class SetupControllerTest < AppControllerTestBase
     md = /var selectedLanguage = \$\('#language_' \+ (\d+)/.match(html)
     languages_names = languages_display_names.map { |name| get_language_from(name) }.uniq.sort
     selected_language = languages_names[md[1].to_i]
-    p selected_language
     assert_equal get_language_from(language_display_name), selected_language, 'language'
 
     # checking the initial test-framework looks to be nigh on impossible on static html
