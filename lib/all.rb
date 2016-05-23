@@ -19,7 +19,6 @@
   docker_tar_pipe_runner
   docker_machine_runner
 
-  create_kata_manifest
   host_disk_katas
 
   host_shell
