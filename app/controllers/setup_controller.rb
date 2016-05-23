@@ -33,7 +33,7 @@ class SetupController < ApplicationController
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
-  # New one step setup
+  # New one step exercise setup
 
   def show_exercises
     @id = id
@@ -55,6 +55,19 @@ class SetupController < ApplicationController
   private
 
   include SetupChooser
-  include SetupWorker
+
+  def read(manifests)
+    dojo.runner.runnable(manifests).map { |manifest| manifest.display_name }.sort
+  end
+
+  def read_instructions
+    names = []
+    instructions_hash =  {}
+    instructions.each do |instruction|
+      names << instruction.name
+      instructions_hash[instruction.name] = instruction.text
+    end
+    [names.sort, instructions_hash]
+  end
 
 end

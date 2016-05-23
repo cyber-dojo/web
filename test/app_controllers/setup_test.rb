@@ -8,6 +8,9 @@ class SetupControllerTest < AppControllerTestBase
   #       means a new Dojo object will be created which is
   #       a different Dojo object to the one created in
   #       test/test_domain_helpers.rb
+  #       There may be a way to fix/fudge this.
+  #       Create a dummy route which leads to a dummy controller method
+  #       which inserts the current dojo object into the current Thread's hash.
 
   test '9F4020',
   'show_languages page only uses cached language+tests that are runnable' do
