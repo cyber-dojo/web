@@ -30,7 +30,7 @@ class ForkerControllerTest < AppControllerTestBase
     manifest[:visible_files] = language.visible_files
     manifest[:visible_files]['output'] = ''
     manifest[:visible_files]['instructions'] = 'your task...'
-    kata = katas.create_kata_from_manifest(manifest)
+    kata = katas.create_kata_from_kata_manifest(manifest)
 
     fork(kata.id, 'hippo', tag = 1)
     refute forked?
@@ -126,7 +126,7 @@ class ForkerControllerTest < AppControllerTestBase
     manifest[:visible_files] = language.visible_files
     manifest[:visible_files]['output'] = ''
     manifest[:visible_files]['instructions'] = 'your task...'
-    kata = katas.create_kata_from_manifest(manifest)
+    kata = katas.create_kata_from_kata_manifest(manifest)
     @id = kata.id
     @avatar = start # 0
     run_tests       # 1
@@ -153,7 +153,7 @@ class ForkerControllerTest < AppControllerTestBase
     manifest[:visible_files] = language.visible_files
     manifest[:visible_files]['output'] = ''
     manifest[:visible_files]['instructions'] = 'your task...'
-    kata = katas.create_kata_from_manifest(manifest)
+    kata = katas.create_kata_from_kata_manifest(manifest)
     @id = kata.id
     @avatar = start # 0
     run_tests       # 1

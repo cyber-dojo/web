@@ -14,22 +14,6 @@ class HostDiskKatas
     @path ||= parent.env('katas_root')
   end
 
-  def create_manifest(language, id = unique_id, now = time_now)
-    # a kata's id has 10 hex chars. This gives 16^10 possibilities
-    # which is 1,099,511,627,776 which is big enough to not
-    # need to check that a kata with the id already exists.
-    manifest = {
-                       id: id,
-                  created: now,
-                 language: language.name,
-      unit_test_framework: language.unit_test_framework,
-                 tab_size: language.tab_size
-    }
-    manifest[:visible_files] = language.visible_files
-    manifest[:visible_files]['output'] = ''
-    manifest
-  end
-
   # - - - - - - - - - - - - - - - - - - - - - - - -
   # Katas
   # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -67,12 +51,30 @@ class HostDiskKatas
   # Kata
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def create_kata_from_manifest(manifest)
+  def create_kata_manifest(language, id = unique_id, now = time_now)
+    manifest = {
+                       id: id,
+                  created: now,
+                 language: language.name,
+      unit_test_framework: language.unit_test_framework,
+                 tab_size: language.tab_size
+    }
+    manifest[:visible_files] = language.visible_files
+    manifest[:visible_files]['output'] = ''
+    manifest
+  end
+
+  def create_kata_from_kata_manifest(manifest)
+    # a kata's id has 10 hex chars. This gives 16^10 possibilities
+    # which is 1,099,511,627,776 which is big enough to not
+    # need to check that a kata with the id already exists.
     kata = Kata.new(self, manifest[:id])
     dir(kata).make
     dir(kata).write_json(manifest_filename, manifest)
     kata
   end
+
+  # - - - - - - - - - - - - - - - -
 
   def [](id)
     return nil unless valid?(id)

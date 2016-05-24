@@ -35,7 +35,6 @@ class Instructions
   def make_cache
     # TODO: use disk[path].rdir globbing
     #       this will impact instruction{path,name}
-    #       suggests using a manifest for instructions which can hold name as display_name
     cache = {}
     disk[path].each_dir do |dir_name|
       cache[dir_name] = { text: make(dir_name).text }

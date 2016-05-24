@@ -21,13 +21,15 @@ module TestDomainHelpers # mix-in
     hash[:id] ||= unique_id
     hash[:now] ||= time_now
     hash[:language] ||= default_language_name
-    hash[:exercise] ||= default_exercise_name
     language = languages[hash[:language]]
+    manifest = katas.create_kata_manifest(language, hash[:id], hash[:now])
+
+    hash[:exercise] ||= default_exercise_name
     instruction = instructions[hash[:exercise]]
-    manifest = katas.create_manifest(language, hash[:id], hash[:now])
     manifest[:exercise] = instruction.name
     manifest[:visible_files]['instructions'] = instruction.text
-    katas.create_kata_from_manifest(manifest)
+
+    katas.create_kata_from_kata_manifest(manifest)
   end
 
   def unique_id
