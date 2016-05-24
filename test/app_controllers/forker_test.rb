@@ -123,20 +123,6 @@ class ForkerControllerTest < AppControllerTestBase
     language = languages['C#-NUnit']
     manifest = katas.create_kata_manifest(language)
     manifest[:language] = 'C#' # old-name
-
-=begin
-    manifest = {
-                       id: @id,
-                  created: [2016,1,9,17,50,45],
-                 language: 'C#', #old-name
-                 exercise: default_exercise_name,
-      unit_test_framework: language.unit_test_framework,
-                 tab_size: language.tab_size
-    }
-    manifest[:visible_files] = language.visible_files
-    manifest[:visible_files]['output'] = ''
-    manifest[:visible_files]['instructions'] = 'your task...'
-=end
     kata = katas.create_kata_from_kata_manifest(manifest)
     @id = kata.id
     @avatar = start # 0
