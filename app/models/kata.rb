@@ -46,32 +46,22 @@ class Kata
   end
 
   def language
+    name = manifest['language']
     # TODO: This is a hack. Revisit.
-    #  The language is now doing double duty.
     #  Its a manifested language (+test) for the regular case of
     #    starting from an empty instruction file.
     #  Its a manifested exercise (like James uses) - the new case
-    languages[language_name] || exercises[language_name]
+    languages[name] || exercises[name]
   end
 
-  def language_name
-    # used in forker_controller
-    manifest['language']
-  end
-
-  def instructions_name
-    # used in setup_chooser
-    manifest['exercise']
+  def manifest
+    @manifest ||= katas.kata_manifest(self)
   end
 
   private
 
   include ExternalParentChainer
   include ManifestProperty
-
-  def manifest
-    @manifest ||= katas.kata_manifest(self)
-  end
 
   def earliest_light
     Time.mktime(*avatars.active.map { |avatar| avatar.lights[0].time }.sort[0])

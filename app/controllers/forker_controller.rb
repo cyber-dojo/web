@@ -12,7 +12,7 @@ class ForkerController < ApplicationController
 
     if !error && kata.language.nil?
       error = true
-      result[:reason] = "language(#{kata.language_name})"
+      result[:reason] = "language(#{kata.manifest['language']})"
     end
 
     if !error && avatar.nil?
@@ -39,7 +39,7 @@ class ForkerController < ApplicationController
                          id: unique_id,
                     created: time_now,
                    language: language.name,
-                   exercise: kata.instructions_name,
+                   exercise: kata.manifest['exercise'],
         unit_test_framework: language.unit_test_framework,
                    tab_size: language.tab_size,
               visible_files: avatar.tags[tag].visible_files
