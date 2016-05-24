@@ -16,22 +16,11 @@ class ForkerControllerTest < AppControllerTestBase
 
   test 'EAE021',
   'when language no longer exists, the fork fails, and the reason given is language' do
-    id = unique_id
     language = languages['C#-NUnit']
+    manifest = katas.create_kata_manifest(language)
     bad_language = 'does-not-exist'
-    manifest = {
-                       id: id,
-                  created: [2016,1,9,17,50,45],
-                 language: bad_language,
-                 exercise: default_exercise_name,
-      unit_test_framework: language.unit_test_framework,
-                 tab_size: language.tab_size
-    }
-    manifest[:visible_files] = language.visible_files
-    manifest[:visible_files]['output'] = ''
-    manifest[:visible_files]['instructions'] = 'your task...'
+    manifest[:language] = bad_language
     kata = katas.create_kata_from_kata_manifest(manifest)
-
     fork(kata.id, 'hippo', tag = 1)
     refute forked?
     assert_reason_is("language(#{bad_language})")
@@ -113,19 +102,9 @@ class ForkerControllerTest < AppControllerTestBase
   test '5EA04E',
   'when the exercise no longer exists and everything else',
   'is ok then fork works and the new dojos id is returned' do
-    @id = unique_id
     language = languages[default_language_name]
-    manifest = {
-                       id: @id,
-                  created: [2016,1,9,17,50,45],
-                 language: language.name,
-                 exercise: 'exercise-name-that-does-not-exist',
-      unit_test_framework: language.unit_test_framework,
-                 tab_size: language.tab_size
-    }
-    manifest[:visible_files] = language.visible_files
-    manifest[:visible_files]['output'] = ''
-    manifest[:visible_files]['instructions'] = 'your task...'
+    manifest = katas.create_kata_manifest(language)
+    manifest[:exercise] = 'exercise-name-that-does-not-exist'
     kata = katas.create_kata_from_kata_manifest(manifest)
     @id = kata.id
     @avatar = start # 0
@@ -142,6 +121,10 @@ class ForkerControllerTest < AppControllerTestBase
   'is ok then fork works and the new dojos id is returned' do
     @id = unique_id
     language = languages['C#-NUnit']
+    manifest = katas.create_kata_manifest(language)
+    manifest[:language] = 'C#' # old-name
+
+=begin
     manifest = {
                        id: @id,
                   created: [2016,1,9,17,50,45],
@@ -153,6 +136,7 @@ class ForkerControllerTest < AppControllerTestBase
     manifest[:visible_files] = language.visible_files
     manifest[:visible_files]['output'] = ''
     manifest[:visible_files]['instructions'] = 'your task...'
+=end
     kata = katas.create_kata_from_kata_manifest(manifest)
     @id = kata.id
     @avatar = start # 0
