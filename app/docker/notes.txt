@@ -13,43 +13,50 @@ So the 'scp' utility (see below) will also need to be
 embedded inside cyber-dojo.rb
 But I guess it would anyway.
 What I mean is it won't have any remnant in the sh script
-(like up/down/restart to)
+(like up/down/restart)
 
 
-SCP utility
------------
-sh script to do this will use one parameter,
-the name of source folder to copy (on host)
-
-I may also need a [cyber-dojo] script command
-to determine if the docker server already has a
-given folder - I only want to do the default
-folder copying once.
-
-cyber-dojo up exercises=Xpath
-cyber-dojo up languages=Lpath
-
-where Lpath and Xpath are local folders.
-
-Or make setting of languages/exercises/instructions a separate command.
+Make setting of languages/exercises/instructions a separate command.
 Yes I prefer this.
 
-cyber-dojo    languages-push path
-cyber-dojo    exercises-push path
-cyber-dojo instructions-push path
+cyber-dojo    languages-pull path
+cyber-dojo    exercises-pull path
+cyber-dojo instructions-pull path
+
 cyber-dojo up
 cyber-dojo down
 cyber-dojo restart
 
 This approach means I don't have to name the destination folder
 on the docker server. It will always be the same folder.
-And for copying new exercises/etc back from the docker-server, eg for backup
-
-cyber-dojo    languages-pull path
-cyber-dojo    exercises-pull path
-cyber-dojo instructions-pull path
 
 where path could be a github url, which would do a git clone to get the source.
+This means I will need git on the server.
+
+example
+cyber-dojo    languages-pull https://github.com/JonJagger/cyber-dojo-languages.git
+
+Working
+-------
+Clone repo to named folder
+$ git clone --depth 1 https://github.com/JonJagger/cyber-dojo-languages.git /tmp/cyber-dojo-languages
+
+This includes .git folder.
+Next step is to create docker image from this.
+Need Dockerfile and .dockerignore
+
+Should I load from hard disk volume or from data-container?
+
+
+
+
+
+
+
+
+This approach also suggests that the pulling of docker images is tied
+to the selection of language-manifests that are pulled via the
+cyber-dojo    languages-push path
 
 ----------------------------------------
 
