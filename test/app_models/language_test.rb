@@ -40,18 +40,6 @@ class LanguageTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '3D9F75',
-  'when :visible_filenames is not in manifest',
-  'then visible_files is empty hash',
-  'and visible_filenames is empty array' do
-    @language = make_language('C#', 'NUnit')
-    spy_manifest({})
-    assert_equal({}, @language.visible_files)
-    assert_equal([], @language.visible_filenames)
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test 'B426B4',
   'when :visible_filenames is empty array in manifest',
   'then visible_files is empty hash',

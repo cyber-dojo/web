@@ -32,7 +32,7 @@ class Manifest
   end
 
   def visible_filenames
-    manifest_property || []
+    manifest_property
   end
 
   def visible_files
