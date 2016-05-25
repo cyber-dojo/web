@@ -45,12 +45,10 @@ class SetupControllerTest < AppControllerTestBase
   'setup/show_languages defaults to language and test-framework of kata',
   'whose full-id is passed in URL (to encourage repetition)' do
     languages_display_names = runner.runnable(languages).map(&:display_name).sort
-    language_display_name = languages_display_names.sample
-    # language_display_name   eg "C++ (g++), CppUTest"
+    language_display_name = languages_display_names.sample # eg "C++ (g++), CppUTest"
 
     instructions_names = instructions.map(&:name).sort
-    instructions_name = instructions_names.sample
-    # instructions_name    eg "Word_Wrap"
+    instructions_name = instructions_names.sample # eg "Word_Wrap"
 
     id = create_kata(language_display_name, instructions_name)
 
@@ -90,9 +88,19 @@ class SetupControllerTest < AppControllerTestBase
   'show_exercises page uses cached exercises that are runnable' do
     get 'setup/show_exercises'
     assert_response :success
+
+    assert /data-language\=\"C/.match(html)
+
     assert /data-test\=\"CircularBuffer/.match(html)
     assert /data-test\=\"Flash_CppUMock/.match(html)
     assert /data-test\=\"HA_1/.match(html)
+
+    params = {
+      language: 'C',
+      exercise: 'CircularBuffer'
+    }
+    get 'setup/save_exercise', params
+    assert_response :success
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
