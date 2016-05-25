@@ -57,7 +57,6 @@ class SetupController < ApplicationController
     exercise = exercises[language_name + '-' + exercise_name]
 
     manifest = katas.create_kata_manifest(exercise)
-    manifest[:exercise] = language_name
 
     kata = katas.create_kata_from_kata_manifest(manifest)
 
