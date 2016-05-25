@@ -47,12 +47,53 @@ Need Dockerfile and .dockerignore
 
 Should I load from hard disk volume or from data-container?
 
+Also, implicit in this design is that a new languages data-container
+overwrites the current one. That is not so good. It would be better
+to be able to choose from several that are available. How about...
 
+$ ./cyber-dojo volume name URL
 
+which you can use for languages,instructions,exercises.
+Then have defaults for each of them which correspond to
+the default data images on the cdf hub. Then also
 
+$ ./cyber-dojo up [languages=NAME] [exercises=NAME] [instructions=NAME]
 
+Will this work? When you create a volume do you set the path it is
+mapped to? Or is that set in the Dockerfile's VOLUME command?
+Think I need to incorporate LEI into the command
 
+$ ./cyber-dojo languages name URL
+$ ./cyber-dojo exercise name URL
+$ ./cyber-dojo instructions name URL
 
+Maybe
+
+$ ./cyber-dojo languages name=URL
+$ ./cyber-dojo exercise name=URL
+$ ./cyber-dojo instructions name=URL
+
+This means the name's will need to be passed into to docker-compose.yml
+so it can use volumes_from: to mount them.
+
+For the default-language data-container, the default-language image
+will exist but I will still need to create the data-container
+from the image when using [$ ./cyber-dojo up]
+Implies script will need to detect if data-container already exists.
+
+Another option is to create the containers only when the
+$ ./cyber-dojo up ...
+command is issued.
+
+Another thorny issue could be that the
+$ ./cyber-dojo catalog
+command also requires the language volume.
+
+This suggests a config file that stores the current
+choice of language,exercise,instructions.
+
+Would be nice to allow several data-containers to be "unioned"
+$ ./cyber-dojo up languages=jon1,jon2
 
 This approach also suggests that the pulling of docker images is tied
 to the selection of language-manifests that are pulled via the
