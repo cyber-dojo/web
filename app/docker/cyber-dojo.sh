@@ -115,6 +115,10 @@ if [ "$1" = "up" ]; then
   DC=$(echo ${SPEC_DC} | cut -f2 -s -d=)
 
 
+  # This might benefit from refactoring to null object
+  # with an eye to mixin's when multiple options are specified.
+  # eg ./cyber-dojo up languages=L instructions=I
+
   if [ "${SPEC_DC}" = "" ]; then
     # create dc from cyberdojofoundation/default_exercises
     export DOCKER_COMPOSE_FILE=docker-compose.yml
