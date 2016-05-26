@@ -1,0 +1,3 @@
+[submodule "app/data/languages"]
+	path = app/data/languages
+	url = https://github.com/JonJagger/cyber-dojo-languages.git
