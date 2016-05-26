@@ -5,43 +5,56 @@ if [ "${CYBER_DOJO_SCRIPT_WRAPPER}" = "" ]; then
   exit 1
 fi
 
-# TODO: un-hardwire these
-export CYBER_DOJO_DATA_ROOT="/home/docker/data"
-export CYBER_DOJO_KATAS_ROOT="/home/docker/data/katas"
-
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# ensure CYBER_DOJO_KATAS_ROOT env-var is set
+# ensure katas-data-container exists.
+# o) if it doesn't and /var/www/cyber-dojo/katas exists on the host
+#    then assume it holds practice sessions and _copy_ them into the new katas-data-container.
+# o) if it doesn't and /var/www/cyber-dojo/katas does not exist on the host
+#    then create new _empty_ katas-data-container
 
-if [ -z "${CYBER_DOJO_KATAS_ROOT}" ]; then
-    echo "CYBER_DOJO_KATAS_ROOT env-var is not set"
-    KATAS_DATA_CONTAINER=cdf-katas-DATA-CONTAINER
-    docker ps -a | grep -q ${KATAS_DATA_CONTAINER}
-    if [ $? == 0 ]; then
-      echo "${KATAS_DATA_CONTAINER} exists"
-      echo 'to create a zipped, tar file of the katas inside it...'
-      echo ''
-      CMD="docker run \
-            --user=root \
-            --rm \
-            --volumes-from=${KATAS_DATA_CONTAINER} \
-            --volume=/tmp:/tmp \
-            ${DOCKER_HUB_USERNAME}/${SERVER_NAME} \
-            tar -cvz -f /tmp/katas.tgz -C ${CYBER_DOJO_HOME} katas"
-      echo ${CMD}
-      echo ''
-      echo '  note: if you are in a Docker-Quickstart-Terminal this will'
-      echo '        create /tmp/katas.tgz on the default VM. To ssh into default'
-      echo '          docker-machine ssh default'
+KATAS_ROOT=/var/www/cyber-dojo/katas
+KATAS_DATA_CONTAINER=cdf-katas-DATA-CONTAINER
 
-      echo 'to extract katas from /tmp/katas.tgz ...'
-      echo 'tar -xvf /tmp/katas.tgz'
-      CMD=""
-      # TODO: show how to set CYBER_DOJO_KATAS_ROOT to folder untarred to
-      # TODO: use tar pipe to create katas folder directly?
+docker ps -a | grep -q ${KATAS_DATA_CONTAINER}
+if [ $? != 0 ]; then
+  # 1. determine appropriate Dockerfile (to create katas-data-container)
+  if [ -d "${KATAS_ROOT}" ]; then
+    echo "copying ${KATAS_ROOT} into new ${KATAS_DATA_CONTAINER}"
+    SUFFIX=copied
+    CONTEXT_DIR=${KATAS_ROOT}
+  else
+    echo "creating new empty ${KATAS_DATA_CONTAINER}"
+    SUFFIX=empty
+    CONTEXT_DIR=.
+  fi
 
-    fi
-    # TODO: remove backup command from cyber-dojo.rb
-    exit 1
+  # 2. extract appropriate Dockerfile from web image
+  KATAS_DOCKERFILE=${CONTEXT_DIR}/Dockerfile
+  CID=$(docker create ${DOCKER_HUB_USERNAME}/${SERVER_NAME})
+  docker cp ${CID}:${CYBER_DOJO_HOME}/app/docker/katas/Dockerfile.${SUFFIX} \
+            ${KATAS_DOCKERFILE}
+  docker rm -v ${CID} > /dev/null
+
+  # 3. extract appropriate .dockerignore from web image
+  KATAS_DOCKERIGNORE=${CONTEXT_DIR}/.dockerignore
+  CID=$(docker create ${DOCKER_HUB_USERNAME}/${SERVER_NAME})
+  docker cp ${CID}:${CYBER_DOJO_HOME}/app/docker/katas/Dockerignore.${SUFFIX} \
+            ${KATAS_DOCKERIGNORE}
+  docker rm -v ${CID} > /dev/null
+
+  # 4. use Dockerfile to build image
+  TAG=${DOCKER_HUB_USERNAME}/katas
+  docker build \
+           --build-arg=CYBER_DOJO_KATAS_ROOT=${CYBER_DOJO_HOME}/katas \
+           --tag=${TAG} \
+           --file=${KATAS_DOCKERFILE} \
+           ${CONTEXT_DIR}
+
+  # 5. use image to create data-container
+  docker create \
+         --name ${KATAS_DATA_CONTAINER} \
+         ${TAG} \
+         echo 'cdfKatasDC'
 fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -116,8 +129,8 @@ if [ "$1" = "exercises" ]; then
   CONTEXT_DIR=${TMP_DIR}/exercises
   git clone --depth 1 ${URL} ${CONTEXT_DIR}
   # build docker image
-  cp ${MY_DIR}/Dockerfile   ${CONTEXT_DIR}
-  cp ${MY_DIR}/.dockerignore ${CONTEXT_DIR}
+  cp ${MY_DIR}/exercises/Dockerfile    ${CONTEXT_DIR}
+  cp ${MY_DIR}/exercises/.dockerignore ${CONTEXT_DIR}
   docker build \
           --build-arg=CYBER_DOJO_PATH=${CYBER_DOJO_HOME}/app/data/exercises \
           --tag=${NAME} \
