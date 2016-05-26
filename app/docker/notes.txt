@@ -153,6 +153,18 @@ This creates a new languages volume and mounts that which overwrites the default
 $ ./cyber-dojo create-volume jon=https://github.com/JonJagger/cyber-dojo-exercises.git
 $ ./cyber-dojo up languages=james
 
+Possibly a better name is
+$ ./cyber-dojo create-collection jon=https://github.com/JonJagger/cyber-dojo-exercises.git
+
+Seems like a good idea to require that each git repo has a meta-data file in it
+which specifies whether its [languages/exercises/instructions].
+
+Union of several languages volumes, eg
+$ ./cyber-dojo up languages=james,jon
+This will require the following folder structure
+/usr/src/cyber-dojo/app/data/languages/jon/...
+/usr/src/cyber-dojo/app/data/languages/james/...
+
 - - - - - - - - - - - - - - - - - - - - -
 
 sub repos?
