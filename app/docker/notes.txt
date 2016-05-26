@@ -137,6 +137,13 @@ The quotes are necessary.
 I can still create a cyber-dojo script for use in the QuickStart terminal
 and all it does it delegate to the proper cyber-dojo script inside the default VM.
 
+- - - - - - - - - - - - - - - - - - - - -
+
+install nano inside default VM
+$ tce-load -wi nano
+$ export TERM=xterm
+
+
 ----------------------------------------
 
 Day with James :-)
