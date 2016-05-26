@@ -57,6 +57,8 @@ if [ $? != 0 ]; then
          echo 'cdfKatasDC'
 fi
 
+: <<'BLOCK_COMMENT'
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # ensure CYBER_DOJO_DATA_ROOT env-var is set
 
@@ -76,6 +78,8 @@ docker run \
   --volume=${CYBER_DOJO_DATA_ROOT}/languages:${CYBER_DOJO_HOME}/app/data/languages:ro \
   ${DOCKER_HUB_USERNAME}/${SERVER_NAME} \
   ${CYBER_DOJO_HOME}/app/docker/cyber-dojo.rb $@
+
+BLOCK_COMMENT
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # set environment variables required by docker-compose.yml
