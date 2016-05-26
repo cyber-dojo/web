@@ -36,6 +36,6 @@ web:
     - "3000:3000"
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock
-    - ${CYBER_DOJO_EXERCISES_DC}:${CYBER_DOJO_HOME}/app/data/exercises:ro
   volumes_from:
     - cdf-katas-DATA-CONTAINER:rw
+

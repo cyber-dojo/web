@@ -101,6 +101,8 @@ export CYBER_DOJO_RUNNER_TIMEOUT=${CYBER_DOJO_RUNNER_TIMEOUT:=10}
 ME="./$( basename ${0} )"
 MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 
+export DOCKER_COMPOSE_FILE=docker-compose.yml
+
 DOCKER_COMPOSE_CMD="docker-compose --file=${MY_DIR}/${DOCKER_COMPOSE_FILE}"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -112,21 +114,22 @@ if [ "$1" = "up" ]; then
   SPEC=$(echo ${SPEC_DC} | cut -f1 -s -d=)
   DC=$(echo ${SPEC_DC} | cut -f2 -s -d=)
 
-  # TODO: set default exercises DC if none is specified
+
   if [ "${SPEC_DC}" = "" ]; then
     # create dc from cyberdojofoundation/default_exercises
-    export CYBER_DOJO_EXERCISES_DC=${DC}
-
+    export DOCKER_COMPOSE_FILE=docker-compose.yml
+    DOCKER_COMPOSE_CMD="docker-compose --file=${MY_DIR}/${DOCKER_COMPOSE_FILE}"
+    ${DOCKER_COMPOSE_CMD} up -d
   fi
 
-  if [ "${SPEC}" = "exercises" ] && [ "${DC}" != "" ]; then
+  if [ "${SPEC}" = "languages" ] && [ "${DC}" != "" ]; then
     # TODO: DC = "" --> diagnostic
-    export CYBER_DOJO_EXERCISES_DC=${DC}
+    export DOCKER_COMPOSE_FILE=docker-compose.yml
+    DOCKER_COMPOSE_CMD="docker-compose --file=${MY_DIR}/${DOCKER_COMPOSE_FILE} --file=${MY_DIR}/docker-compose.languages.yml"
+    export CYBER_DOJO_LANGUAGES_DC=${DC}
+    ${DOCKER_COMPOSE_CMD} up -d
   fi
 
-
-
-  ${DOCKER_COMPOSE_CMD} up -d
 fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -154,19 +157,23 @@ if [ "$*" = "sh" ]; then
 fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# create an exercises-data-container
+# create an languages-data-container
 
-if [ "$1" = "exercises" ]; then
+if [ "$1" = "languages" ]; then
   NAME_URL=$2
   NAME=$(echo ${NAME_URL} | cut -f1 -s -d=)
   URL=$(echo ${NAME_URL} | cut -f2 -s -d=)
   if [ "${NAME}" = "" ] || [ "${URL}" = "" ]; then
     # TODO: decent diagnostic
-    echo ./cyber-dojo exercises NAME=URL
+    echo ./cyber-dojo languages NAME=URL
     exit 1
   fi
+
+  if [ $(docker volume ls --quiet | grep ${NAME}) ]; then
+    docker volume rm ${NAME}
+  fi
   docker volume create --name=${NAME}
-  CONTEXT_DIR=${CYBER_DOJO_HOME}/app/data/exercises
+  CONTEXT_DIR=${CYBER_DOJO_HOME}/app/data/languages
   docker run --rm -v ${NAME}:${CONTEXT_DIR} cyberdojofoundation/user-base sh -c \
     "git clone --depth 1 ${URL} ${CONTEXT_DIR}"
 fi
