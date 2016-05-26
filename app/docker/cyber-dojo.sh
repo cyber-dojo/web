@@ -113,7 +113,6 @@ if [ "$1" = "up" ]; then
   EXERCISES=$(echo ${EXERCISES_DC} | cut -f1 -s -d=)
   DC=$(echo ${EXERCISES_DC} | cut -f2 -s -d=)
   if [ "${EXERCISES}" = "exercises" ] && [ "${DC}" != "" ]; then
-    echo "UP with EXERCISES specified as ${DC}"
     export CYBER_DOJO_EXERCISES_DC=${DC}
     ${DOCKER_COMPOSE_CMD} up -d
   fi
