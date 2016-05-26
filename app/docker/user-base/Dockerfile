@@ -23,3 +23,6 @@ MAINTAINER Jon Jagger <jon@jaggersoft.com>
 USER root
 # -D=no password, -H=no home directory
 RUN adduser -D -H -u 19661 cyber-dojo
+
+# git is needed for commands that build data-containers from URLs
+RUN apk add --update --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ git

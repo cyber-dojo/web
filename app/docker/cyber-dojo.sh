@@ -163,63 +163,15 @@ if [ "$1" = "exercises" ]; then
     echo ./cyber-dojo exercises NAME=URL
     exit 1
   fi
-
-  TMP_DIR=`mktemp -d 2>/dev/null || mktemp -d -t 'mytmpdir'`
-  CONTEXT_DIR=${TMP_DIR}/exercises
-  git clone --depth 1 ${URL} ${CONTEXT_DIR}
-  # build docker image
-  cp ${MY_DIR}/exercises/Dockerfile    ${CONTEXT_DIR}
-  cp ${MY_DIR}/exercises/.dockerignore ${CONTEXT_DIR}
-  docker build \
-          --build-arg=CYBER_DOJO_PATH=${CYBER_DOJO_HOME}/app/data/exercises \
-          --tag=${NAME} \
-          --file=${CONTEXT_DIR}/Dockerfile \
-          ${CONTEXT_DIR}
-
-  # build docker container
-  docker create \
-         --name ${NAME} \
-         ${NAME} \
-         echo "cdf ${NAME}-data-container"
-
-  rm ${CONTEXT_DIR}/Dockerfile
-  rm ${CONTEXT_DIR}/.dockerignore
+  docker volume create --name=${NAME}
+  CONTEXT_DIR=${CYBER_DOJO_HOME}/app/data/exercises
+  docker run --rm -v ${NAME}:${CONTEXT_DIR} cyberdojofoundation/user-base sh -c \
+    "git clone --depth 1 ${URL} ${CONTEXT_DIR}"
 fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # create a languages-data-container
-
-if [ "$1" = "languages" ]; then
-  NAME_URL=$2
-  NAME=$(echo ${NAME_URL} | cut -f1 -s -d=)
-  URL=$(echo ${NAME_URL} | cut -f2 -s -d=)
-  if [ "${NAME}" = "" ] || [ "${URL}" = "" ]; then
-    # TODO: decent diagnostic
-    echo ./cyber-dojo languages NAME=URL
-    exit 1
-  fi
-
-  TMP_DIR=`mktemp -d 2>/dev/null || mktemp -d -t 'mytmpdir'`
-  CONTEXT_DIR=${TMP_DIR}/languages
-  git clone --depth 1 ${URL} ${CONTEXT_DIR}
-  # build docker image
-  cp ${MY_DIR}/languages/Dockerfile    ${CONTEXT_DIR}
-  cp ${MY_DIR}/languages/.dockerignore ${CONTEXT_DIR}
-  docker build \
-          --build-arg=CYBER_DOJO_PATH=${CYBER_DOJO_HOME}/app/data/languages \
-          --tag=${NAME} \
-          --file=${CONTEXT_DIR}/Dockerfile \
-          ${CONTEXT_DIR}
-
-  # build docker container
-  docker create \
-         --name ${NAME} \
-         ${NAME} \
-         echo "cdf ${NAME}-data-container"
-
-  rm ${CONTEXT_DIR}/Dockerfile
-  rm ${CONTEXT_DIR}/.dockerignore
-fi
+# TODO
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
