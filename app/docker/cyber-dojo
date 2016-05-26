@@ -28,9 +28,10 @@ fi
 hash docker-machine 2> /dev/null
 if [ $? != 0 ]; then
   echo
-  echo 'docker-machine is not installed'
-  echo "See step 1 of ${INSTALL_URL}"
-  exit
+  # Commented out - trying out doing docker-compose inside default
+  # echo 'docker-machine is not installed'
+  # echo "See step 1 of ${INSTALL_URL}"
+  # exit
 fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

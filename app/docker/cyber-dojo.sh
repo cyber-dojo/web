@@ -103,23 +103,23 @@ if [ "$*" = "sh" ]; then
   docker exec --interactive --tty cdf-web sh
 fi
 
-if [ "$1" = "languages" ]; then
+if [ "$1" = "exercises" ]; then
   NAME_URL=$2
   NAME=$(echo ${NAME_URL} | cut -f1 -s -d=)
   URL=$(echo ${NAME_URL} | cut -f2 -s -d=)
   if [ "${NAME}" = "" ] || [ "${URL}" = "" ]; then
-    echo ./cyber-dojo languages NAME=URL
+    echo ./cyber-dojo exercises NAME=URL
     exit 1
   fi
 
   TMP_DIR=`mktemp -d 2>/dev/null || mktemp -d -t 'mytmpdir'`
-  CONTEXT_DIR=${TMP_DIR}/languages
+  CONTEXT_DIR=${TMP_DIR}/exercises
   git clone --depth 1 ${URL} ${CONTEXT_DIR}
   # build docker image
   cp ${MY_DIR}/Dockerfile   ${CONTEXT_DIR}
   cp ${MY_DIR}/.dockerignore ${CONTEXT_DIR}
   docker build \
-          --build-arg=CYBER_DOJO_PATH=${CYBER_DOJO_HOME}/app/data/languages \
+          --build-arg=CYBER_DOJO_PATH=${CYBER_DOJO_HOME}/app/data/exercises \
           --tag=${NAME} \
           --file=${CONTEXT_DIR}/Dockerfile \
           ${CONTEXT_DIR}
