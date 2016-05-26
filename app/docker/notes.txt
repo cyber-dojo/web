@@ -121,6 +121,10 @@ git push
 
 - - - - - - - - - - - - - - - - - - - - -
 
+Note: languages/cache.json.readme has old paths in it.
+
+- - - - - - - - - - - - - - - - - - - - -
+
 ./cyber-dojo catalog
 This could be available only when the server is up...
 Does it show the catalog of the languages? the exercises?
