@@ -98,50 +98,68 @@ export CYBER_DOJO_RUNNER_CLASS=${CYBER_DOJO_RUNNER_CLASS:=DockerTarPipeRunner}
 export CYBER_DOJO_RUNNER_SUDO='sudo -u docker-runner sudo'
 export CYBER_DOJO_RUNNER_TIMEOUT=${CYBER_DOJO_RUNNER_TIMEOUT:=10}
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# up/down/restart/sh
-
 ME="./$( basename ${0} )"
 MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 
 DOCKER_COMPOSE_CMD="docker-compose --file=${MY_DIR}/${DOCKER_COMPOSE_FILE}"
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# bring up the web server's container
+
 if [ "$1" = "up" ]; then
-  # bring up the web server's container
-  # TODO: what is default exercises?
-  EXERCISES_DC=$2
-  EXERCISES=$(echo ${EXERCISES_DC} | cut -f1 -s -d=)
-  DC=$(echo ${EXERCISES_DC} | cut -f2 -s -d=)
-  if [ "${EXERCISES}" = "exercises" ] && [ "${DC}" != "" ]; then
+  # TODO: loop for multiple args, eg [exercises=URL languages=URL]
+  SPEC_DC=$2
+  SPEC=$(echo ${SPEC_DC} | cut -f1 -s -d=)
+  DC=$(echo ${SPEC_DC} | cut -f2 -s -d=)
+
+  if [ "${SPEC}" = "exercises" ] && [ "${DC}" != "" ]; then
+    # TODO: DC = "" --> diagnostic
     export CYBER_DOJO_EXERCISES_DC=${DC}
-    ${DOCKER_COMPOSE_CMD} up -d
   fi
+  # TODO: set default exercises DC if none is specified
+
+  if [ "${SPEC}" = "languages" ] && [ "${DC}" != "" ]; then
+    # TODO: DC = "" --> diagnostic
+    export CYBER_DOJO_LANGUAGES_DC=${DC}
+  fi
+  # TODO: set default exercises DC if none is specified
+
+  ${DOCKER_COMPOSE_CMD} up -d
 fi
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# bring down the web server's container
+
 if [ "$*" = "down" ]; then
-  # bring down the web server's container
   ${DOCKER_COMPOSE_CMD} down
 fi
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# restart the web server's container
+
 if [ "$*" = "restart" ]; then
-  # restart the web server's container
   # TODO: logically I guess this also needs to handle optional [exercises=DC] arguments
   ${DOCKER_COMPOSE_CMD} down
   ${DOCKER_COMPOSE_CMD} up -d
 fi
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# shell into the web container
+
 if [ "$*" = "sh" ]; then
-  # shell into the web container
   # cdf-web name is from docker-compose.yml file
   docker exec --interactive --tty cdf-web sh
 fi
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# create an exercises-data-container
+
 if [ "$1" = "exercises" ]; then
-  # create an exercises-data-container
   NAME_URL=$2
   NAME=$(echo ${NAME_URL} | cut -f1 -s -d=)
   URL=$(echo ${NAME_URL} | cut -f2 -s -d=)
   if [ "${NAME}" = "" ] || [ "${URL}" = "" ]; then
+    # TODO: decent diagnostic
     echo ./cyber-dojo exercises NAME=URL
     exit 1
   fi
@@ -167,4 +185,41 @@ if [ "$1" = "exercises" ]; then
   rm ${CONTEXT_DIR}/Dockerfile
   rm ${CONTEXT_DIR}/.dockerignore
 fi
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# create a languages-data-container
+
+if [ "$1" = "languages" ]; then
+  NAME_URL=$2
+  NAME=$(echo ${NAME_URL} | cut -f1 -s -d=)
+  URL=$(echo ${NAME_URL} | cut -f2 -s -d=)
+  if [ "${NAME}" = "" ] || [ "${URL}" = "" ]; then
+    # TODO: decent diagnostic
+    echo ./cyber-dojo languages NAME=URL
+    exit 1
+  fi
+
+  TMP_DIR=`mktemp -d 2>/dev/null || mktemp -d -t 'mytmpdir'`
+  CONTEXT_DIR=${TMP_DIR}/languages
+  git clone --depth 1 ${URL} ${CONTEXT_DIR}
+  # build docker image
+  cp ${MY_DIR}/languages/Dockerfile    ${CONTEXT_DIR}
+  cp ${MY_DIR}/languages/.dockerignore ${CONTEXT_DIR}
+  docker build \
+          --build-arg=CYBER_DOJO_PATH=${CYBER_DOJO_HOME}/app/data/languages \
+          --tag=${NAME} \
+          --file=${CONTEXT_DIR}/Dockerfile \
+          ${CONTEXT_DIR}
+
+  # build docker container
+  docker create \
+         --name ${NAME} \
+         ${NAME} \
+         echo "cdf ${NAME}-data-container"
+
+  rm ${CONTEXT_DIR}/Dockerfile
+  rm ${CONTEXT_DIR}/.dockerignore
+fi
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
