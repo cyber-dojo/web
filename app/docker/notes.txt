@@ -1,61 +1,4 @@
 
-How to get the data folder(s) onto the server running the docker daemon?
-
-1. create a temporary folder
-2. git clone repos into the temp folder
-3. create a temporary docker image using the folder as its context
-4. issue a docker command to extract the folder from the docker-container
-
-Like I did before for the creation of the katas data-container
-plus the [cyber-dojo backup] command.
-That happened from inside the web container (in cyber-dojo.rb)
-So the 'scp' utility (see below) will also need to be
-embedded inside cyber-dojo.rb
-But I guess it would anyway.
-What I mean is it won't have any remnant in the sh script
-(like up/down/restart)
-
-
-Make setting of languages/exercises/instructions a separate command.
-Yes I prefer this.
-
-cyber-dojo    languages-pull path
-cyber-dojo    exercises-pull path
-cyber-dojo instructions-pull path
-
-cyber-dojo up
-cyber-dojo down
-cyber-dojo restart
-
-This approach means I don't have to name the destination folder
-on the docker server. It will always be the same folder.
-
-where path could be a github url, which would do a git clone to get the source.
-This means I will need git on the server.
-
-example
-cyber-dojo    languages-pull https://github.com/JonJagger/cyber-dojo-languages.git
-
-Working
--------
-Clone repo to named folder
-$ git clone --depth 1 https://github.com/JonJagger/cyber-dojo-languages.git /tmp/cyber-dojo-languages
-
-This includes .git folder.
-Next step is to create docker image from this.
-Need Dockerfile and .dockerignore
-
-Should I load from hard disk volume or from data-container?
-
-Also, implicit in this design is that a new languages data-container
-overwrites the current one. That is not so good. It would be better
-to be able to choose from several that are available. How about...
-
-$ ./cyber-dojo volume name URL
-
-which you can use for languages,instructions,exercises.
-Then have defaults for each of them which correspond to
-the default data images on the cdf hub. Then also
 
 $ ./cyber-dojo up [languages=NAME] [exercises=NAME] [instructions=NAME]
 
@@ -167,7 +110,14 @@ This will require the following folder structure
 
 - - - - - - - - - - - - - - - - - - - - -
 
-sub repos?
+git sub modules
+---------------
+cd cyber-dojo
+cd app/data
+git rm -r languages
+git submodule add https://github.com/JonJagger/cyber-dojo-languages.git languages
+git commit -am "changed app/data/languages to be a submodule"
+git push
 
 - - - - - - - - - - - - - - - - - - - - -
 
