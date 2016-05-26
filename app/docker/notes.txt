@@ -125,6 +125,20 @@ Note: languages/cache.json.readme has old paths in it.
 
 - - - - - - - - - - - - - - - - - - - - -
 
+0. finish the what/how separation
+1. add another docker-compose.yml for main prod server (not using katas DC yet)
+2. get latest image running on GCE
+3. get travis to push images
+4. add tests in travis
+5. concept of collections with defined api and meta-data
+   Each collection specifies in meta-data whether each docker-image
+   should be auto pulled or not.
+6. ./cyber-dojo update [needs fixing]
+7. documentation
+8.
+
+- - - - - - - - - - - - - - - - - - - - -
+
 ./cyber-dojo catalog
 This could be available only when the server is up...
 Does it show the catalog of the languages? the exercises?
