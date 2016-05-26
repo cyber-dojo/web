@@ -61,13 +61,7 @@ $ ./cyber-dojo up [languages=NAME] [exercises=NAME] [instructions=NAME]
 
 Will this work? When you create a volume do you set the path it is
 mapped to? Or is that set in the Dockerfile's VOLUME command?
-Think I need to incorporate LEI into the command
-
-$ ./cyber-dojo languages name URL
-$ ./cyber-dojo exercise name URL
-$ ./cyber-dojo instructions name URL
-
-Maybe
+I need to incorporate LEI into the command
 
 $ ./cyber-dojo languages name=URL
 $ ./cyber-dojo exercise name=URL
@@ -80,6 +74,8 @@ For the default-language data-container, the default-language image
 will exist but I will still need to create the data-container
 from the image when using [$ ./cyber-dojo up]
 Implies script will need to detect if data-container already exists.
+Unless I just remove the container and then create it.
+But that will lose updates if there have been any (to exercises).
 
 Another option is to create the containers only when the
 $ ./cyber-dojo up ...
@@ -97,7 +93,46 @@ $ ./cyber-dojo up languages=jon1,jon2
 
 This approach also suggests that the pulling of docker images is tied
 to the selection of language-manifests that are pulled via the
-cyber-dojo    languages-push path
+$ ./cyber-dojo languages-push path
+
+Maybe it is simpler to specify that if you are on a Docker-Quickstart-Terminal
+you have to first ssh into the default VM and then run all the commands from there.
+This means changes people make to the laptop when installing and using cyber-dojo
+locally are more isolated. For example you wouldn't have to do anything as root on you
+bare laptop it would all be inside the default VM.
+A downside with this is the probable lack of dev tools on default if you wanted to
+work on the code (eg Frank)
+This would mean installing docker and docker-machine on the laptop - but not docker-compose.
+Then ssh'ing into default and installing docker-compose inside default.
+
+$ docker-machine ssh default
+$$ curl -L https://github.com/docker/compose/releases/download/1.7.0/docker-compose-`uname -s`-`uname -m` > docker-compose
+$$ chmod +x docker-compose
+$$ sudo mv docker-compose /usr/local/bin/docker-compose
+
+That should be scriptable from the Quickstart Terminal.
+
+docker-machine ssh default curl -L https://github.com/docker/compose/releases/download/1.7.0/docker-compose-`uname -s`-`uname -m` > docker-compose
+
+Nope. Sheesh this is not so easy. The `uname -s` has to be executed in default.
+10 mins and no obvious solution.
+Instead create this as a script called install-docker-compose.sh
+
+curl -L https://github.com/docker/compose/releases/download/1.7.0/docker-compose-`uname -s`-`uname -m` > docker-compose
+chmod +x docker-compose
+sudo mv docker-compose /usr/local/bin/docker-compose
+
+Then do this
+$ docker-machine ssh default curl URL-TO-THAT-SCRIPT && chmod +x install-docker-compose.sh && ./install-docker-compose.sh
+
+
+
+
+
+
+
+Of course I can still create a cyber-dojo script for use in the QuickStart terminal
+and all it does it delegate to the proper cyber-dojo script inside the default VM.
 
 ----------------------------------------
 
