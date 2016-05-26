@@ -37,5 +37,5 @@ web:
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock
   volumes_from:
-    - james
+    - ${CYBER_DOJO_EXERCISES_DC}
     - cdf-katas-DATA-CONTAINER:rw

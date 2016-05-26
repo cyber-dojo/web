@@ -106,25 +106,39 @@ MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 
 DOCKER_COMPOSE_CMD="docker-compose --file=${MY_DIR}/${DOCKER_COMPOSE_FILE}"
 
-if [ "$*" = "up" ]; then
-  ${DOCKER_COMPOSE_CMD} up -d
+if [ "$1" = "up" ]; then
+  # bring up the web server's container
+  # TODO: what is default exercises?
+  EXERCISES_DC=$2
+  EXERCISES=$(echo ${EXERCISES_DC} | cut -f1 -s -d=)
+  DC=$(echo ${EXERCISES_DC} | cut -f2 -s -d=)
+  if [ "${EXERCISES}" = "exercises" ] && [ "${DC}" != "" ]; then
+    echo "UP with EXERCISES specified as ${DC}"
+    export CYBER_DOJO_EXERCISES_DC=${DC}
+    ${DOCKER_COMPOSE_CMD} up -d
+  fi
 fi
 
 if [ "$*" = "down" ]; then
+  # bring down the web server's container
   ${DOCKER_COMPOSE_CMD} down
 fi
 
 if [ "$*" = "restart" ]; then
+  # restart the web server's container
+  # TODO: logically I guess this also needs to handle optional [exercises=DC] arguments
   ${DOCKER_COMPOSE_CMD} down
   ${DOCKER_COMPOSE_CMD} up -d
 fi
 
 if [ "$*" = "sh" ]; then
+  # shell into the web container
   # cdf-web name is from docker-compose.yml file
   docker exec --interactive --tty cdf-web sh
 fi
 
 if [ "$1" = "exercises" ]; then
+  # create an exercises-data-container
   NAME_URL=$2
   NAME=$(echo ${NAME_URL} | cut -f1 -s -d=)
   URL=$(echo ${NAME_URL} | cut -f2 -s -d=)
