@@ -143,6 +143,23 @@ install nano inside default VM
 $ tce-load -wi nano
 $ export TERM=xterm
 
+- - - - - - - - - - - - - - - - - - - - -
+ok. with the cyber-dojo.rb script call commented out I can now do this...
+$ docker-machine ssh default
+
+$ ./cyber-dojo exercises james=https://github.com/JonJagger/cyber-dojo-exercises.git
+$ ./cyber-dojo up
+
+And it's hard-wired to show james' style exercises but it works.
+Next step is to pass james as parameter
+
+$ ./cyber-dojo up exercises=james
+
+- - - - - - - - - - - - - - - - - - - - -
+
+./cyber-dojo catalog
+This could be available only when the server is up...
+Does it show the catalog of the languages? the exercises?
 
 ----------------------------------------
 

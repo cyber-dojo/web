@@ -58,6 +58,10 @@ if [ $? != 0 ]; then
 fi
 
 : <<'BLOCK_COMMENT'
+# Commented out because the call to cyber-dojo.rb inside the web container
+# relies on volume mounting the languages folder. Simplest option here
+# is to only allow the command when the web server is already running
+# and shells into it.
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # ensure CYBER_DOJO_DATA_ROOT env-var is set
