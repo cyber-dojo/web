@@ -4,3 +4,6 @@
 [submodule "app/data/exercises"]
 	path = app/data/exercises
 	url = https://github.com/JonJagger/cyber-dojo-exercises.git
+[submodule "app/data/instructions"]
+	path = app/data/instructions
+	url = https://github.com/JonJagger/cyber-dojo-instructions.git
