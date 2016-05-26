@@ -148,11 +148,6 @@ ok. with the cyber-dojo.rb script call commented out I can now do this...
 $ docker-machine ssh default
 
 $ ./cyber-dojo exercises james=https://github.com/JonJagger/cyber-dojo-exercises.git
-$ ./cyber-dojo up
-
-And it's hard-wired to show james' style exercises but it works.
-Next step is to pass james as parameter
-
 $ ./cyber-dojo up exercises=james
 
 - - - - - - - - - - - - - - - - - - - - -
