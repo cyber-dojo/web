@@ -112,17 +112,19 @@ if [ "$1" = "up" ]; then
   SPEC=$(echo ${SPEC_DC} | cut -f1 -s -d=)
   DC=$(echo ${SPEC_DC} | cut -f2 -s -d=)
 
+  # TODO: set default exercises DC if none is specified
+  if [ "${SPEC_DC}" = "" ]; then
+    # create dc from cyberdojofoundation/default_exercises
+    export CYBER_DOJO_EXERCISES_DC=${DC}
+
+  fi
+
   if [ "${SPEC}" = "exercises" ] && [ "${DC}" != "" ]; then
     # TODO: DC = "" --> diagnostic
     export CYBER_DOJO_EXERCISES_DC=${DC}
   fi
-  # TODO: set default exercises DC if none is specified
 
-  if [ "${SPEC}" = "languages" ] && [ "${DC}" != "" ]; then
-    # TODO: DC = "" --> diagnostic
-    export CYBER_DOJO_LANGUAGES_DC=${DC}
-  fi
-  # TODO: set default exercises DC if none is specified
+
 
   ${DOCKER_COMPOSE_CMD} up -d
 fi

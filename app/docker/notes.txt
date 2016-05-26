@@ -147,8 +147,17 @@ $ export TERM=xterm
 ok. with the cyber-dojo.rb script call commented out I can now do this...
 $ docker-machine ssh default
 
-$ ./cyber-dojo exercises james=https://github.com/JonJagger/cyber-dojo-exercises.git
+$ ./cyber-dojo exercises https://github.com/JonJagger/cyber-dojo-exercises.git --data_label=james
 $ ./cyber-dojo up exercises=james
+$ ./cyber-dojo up
+$ ./cyber-dojo up exercises=default_exercise
+
+- - - - - - - - - - - - - - - - - - - - -
+
+2. different compose files for default, for custom volume mount, and custom volumes_from
+3. common yml file
+
+sub repos?
 
 - - - - - - - - - - - - - - - - - - - - -
 
