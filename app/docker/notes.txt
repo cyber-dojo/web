@@ -122,16 +122,19 @@ curl -L https://github.com/docker/compose/releases/download/1.7.0/docker-compose
 chmod +x docker-compose
 sudo mv docker-compose /usr/local/bin/docker-compose
 
+Suppose its saved at this URL (note the //raw)
+
+https://raw.githubusercontent.com/JonJagger/cyber-dojo/drop-katas-data-container/app/docker/install-docker-compose.sh
+
 Then do this
-$ docker-machine ssh default curl URL-TO-THAT-SCRIPT && chmod +x install-docker-compose.sh && ./install-docker-compose.sh
 
+$ docker-machine ssh default "curl -O https://raw.githubusercontent.com/JonJagger/cyber-dojo/drop-katas-data-container/app/docker/install-docker-compose.sh && chmod +x install-docker-compose.sh && ./install-docker-compose.sh"
 
+The quotes are necessary.
 
+- - - - - - - - - - - - - - - - - - - - -
 
-
-
-
-Of course I can still create a cyber-dojo script for use in the QuickStart terminal
+I can still create a cyber-dojo script for use in the QuickStart terminal
 and all it does it delegate to the proper cyber-dojo script inside the default VM.
 
 ----------------------------------------
