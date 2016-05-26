@@ -157,15 +157,15 @@ if [ "$*" = "sh" ]; then
 fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# create an languages-data-container
+# create a volume
 
-if [ "$1" = "languages" ]; then
+if [ "$1" = "create-volume" ]; then
   NAME_URL=$2
   NAME=$(echo ${NAME_URL} | cut -f1 -s -d=)
   URL=$(echo ${NAME_URL} | cut -f2 -s -d=)
   if [ "${NAME}" = "" ] || [ "${URL}" = "" ]; then
     # TODO: decent diagnostic
-    echo ./cyber-dojo languages NAME=URL
+    echo ./cyber-dojo create-volume NAME=URL
     exit 1
   fi
 
@@ -173,9 +173,8 @@ if [ "$1" = "languages" ]; then
     docker volume rm ${NAME}
   fi
   docker volume create --name=${NAME}
-  CONTEXT_DIR=${CYBER_DOJO_HOME}/app/data/languages
-  docker run --rm -v ${NAME}:${CONTEXT_DIR} cyberdojofoundation/user-base sh -c \
-    "git clone --depth 1 ${URL} ${CONTEXT_DIR}"
+  docker run --rm -v ${NAME}:/data cyberdojofoundation/user-base sh -c \
+    "git clone --depth 1 ${URL} /data"
 fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - -

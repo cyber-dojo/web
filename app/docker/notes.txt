@@ -150,7 +150,7 @@ This uses the languages *inside* the web image
 $ ./cyber-dojo up
 
 This creates a new languages volume and mounts that which overwrites the default
-$ ./cyber-dojo languages jon=https://github.com/JonJagger/cyber-dojo-exercises.git
+$ ./cyber-dojo create-volume jon=https://github.com/JonJagger/cyber-dojo-exercises.git
 $ ./cyber-dojo up languages=james
 
 - - - - - - - - - - - - - - - - - - - - -
