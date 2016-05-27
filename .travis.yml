@@ -31,5 +31,9 @@ script:
     - docker-compose version
     - docker images
     # Build the cyber-dojo images
+    - cd app/docker/nginx
+    - ./build-image.sh
+    - cd app/docker/user-base
+    - ./build-image.sh
     - cd app/docker/web
     - ./build-image.sh
