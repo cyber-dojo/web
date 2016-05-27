@@ -48,13 +48,12 @@ Note: languages/cache.json.readme has old paths in it.
 
 2. get latest image running on GCE
 
-3. get travis to push images to cdf hub
-   needs to also build nginx,user-base
-   needs to push images to cyberdiojofoundation hub
-
-4. run tests in travis (via exec into web container)
+3. run tests in travis (via exec into web container)
    this will probably require some language images to be pulled
-   these should be Apline'd
+   these should be Alpine'd
+
+4. get travis to push images to cdf hub
+   push images to cyberdiojofoundation hub if tests pass
 
 5. ./cyber-dojo update
      needs fixing
