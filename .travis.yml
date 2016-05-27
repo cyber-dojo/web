@@ -31,10 +31,9 @@ script:
     - docker-compose version
     - docker images
     # Build the cyber-dojo images
-    - echo ${TRAVIS_BUILD_DIR}
     - cd ${TRAVIS_BUILD_DIR}/app/docker/nginx
     - ./build-image.sh
-    #- cd app/docker/user-base
-    #- ./build-image.sh
-    #- cd app/docker/web
-    #- ./build-image.sh
+    - cd ${TRAVIS_BUILD_DIR}/app/docker/user-base
+    - ./build-image.sh
+    - cd ${TRAVIS_BUILD_DIR}/app/docker/web
+    - ./build-image.sh
