@@ -17,7 +17,10 @@ Note: languages/cache.json.readme has old paths in it.
         Use meta-data to confirm a,b are both exercises.
         With meta-data the command could simplify to [./cyber-dojo up a,b] ?? no.
 
-     which will somehow need to create multiple docker-compose yml files
+     Putting collection name as part of path
+              app/data/exercises/a/...
+              app/data/exercises/b/...
+     means I will somehow need to create multiple docker-compose yml files
      from a 'template'
 
      Note - it is possible 2 manifests from different collections
@@ -35,7 +38,8 @@ Note: languages/cache.json.readme has old paths in it.
 2. get latest image running on GCE
 
 3. get travis to push images to cdf hub
-   needs to build and push nginx,user-base,web
+   needs to also build nginx,user-base
+   needs to push images to cyberdiojofoundation hub
 
 4. add tests in travis
 
