@@ -17,8 +17,6 @@ Note: languages/cache.json.readme has old paths in it.
         Use meta-data to confirm a,b are both exercises.
         With meta-data the command could simplify to [./cyber-dojo up a,b] ?? no.
 
-     This will need app/data/exercises/a/...
-                    app/data/exercises/b/...
      which will somehow need to create multiple docker-compose yml files
      from a 'template'
 
