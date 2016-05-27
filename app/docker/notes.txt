@@ -1,40 +1,36 @@
 
-ok. with the cyber-dojo.rb script call commented out I can now do this...
-
 The default is to use the languages *inside* the web image
 $ ./cyber-dojo up
 
-Whereas this creates a new languages volume and mounts that which overwrites the default
+Whereas this creates a new languages volume and mounts that which replaces the default
 $ ./cyber-dojo create-collection jon=https://github.com/JonJagger/cyber-dojo-exercises.git
 $ ./cyber-dojo up languages=jon
+
 
 Note: languages/cache.json.readme has old paths in it.
 
 - - - - - - - - - - - - - - - - - - - - -
 
-cd cyber-dojo/app/data/languages
-git push
-cd cyber-dojo
-git commit -am "notes update"
-git push
-
-- - - - - - - - - - - - - - - - - - - - -
-
 0. finish the what/how separation
-     ./cyber-dojo up exercises=a,b   --> union of collections
-        Use meta-data to confirm a,b are both exercises.
+
+     ./cyber-dojo up exercises=a
+        Use meta-data to confirm a is an exercise collection.
+
+     Union of collection. Do in later release.
+     ./cyber-dojo up exercises=a,b
         With meta-data the command could simplify to [./cyber-dojo up a,b] ?? no.
 
-     Putting collection name as part of path
-              app/data/exercises/a/...
-              app/data/exercises/b/...
-     means I will somehow need to create multiple docker-compose yml files
-     from a 'template'
-     Don't really want multiple yml files - much simpler to pull just one
-     from the web image when doing a [./cyber-dojo update]
+        unioning affects the UX quite a lot.
+        It also introduces the possiblity of manifests from different collections
+        having an identical display_name...
 
-     it is possible 2 manifests from different collections
-     could have an identical display_name...
+        DONT add the collection name to the path because then it will *NOT* replace
+        the default it will union with it...
+
+        Unioning means I will somehow need to create multiple docker-compose yml files
+        from a 'template'
+        Don't really want multiple yml files - much simpler to pull just one
+        from the web image when doing a [./cyber-dojo update]
 
      git submodules should be data only; move .rb files somewhere else.
 
@@ -46,6 +42,9 @@ git push
     [./cyber-dojo up] handling in cyber-dojo.sh needs refactoring.
 
 1. add another docker-compose.yml for main prod server (not using katas DC yet)
+     prod server uses volume-mount for katas (not data-container)
+     so I will need to use an docker-compose extension .yml file for
+     specifying the katas (like I'll be doing for exercises/languages/instructions)
 
 2. get latest image running on GCE
 
