@@ -1,4 +1,15 @@
 
+ok. with the cyber-dojo.rb script call commented out I can now do this...
+
+The default is to use the languages *inside* the web image
+$ ./cyber-dojo up
+
+Whereas this creates a new languages volume and mounts that which overwrites the default
+$ ./cyber-dojo create-collection jon=https://github.com/JonJagger/cyber-dojo-exercises.git
+$ ./cyber-dojo up languages=james
+
+- - - - - - - - - - - - - - - - - - - - -
+
 0. finish the what/how separation
      ./cyber-dojo up exercises=a,b   --> union of collections
         Use meta-data to confirm a,b are both exercises.
@@ -36,33 +47,9 @@
 
 - - - - - - - - - - - - - - - - - - - - -
 
-Create the containers only when the
+Pull the images only when the
 $ ./cyber-dojo up ...
 command is issued.
-
-
-This approach also suggests that the pulling of individual docker images is tied
-to the selection of language-manifests that are pulled via the
-$ ./cyber-dojo languages-push path
-
-- - - - - - - - - - - - - - - - - - - - -
-
-install nano inside default VM
-$ tce-load -wi nano
-$ export TERM=xterm
-
-- - - - - - - - - - - - - - - - - - - - -
-ok. with the cyber-dojo.rb script call commented out I can now do this...
-
-This uses the languages *inside* the web image
-$ ./cyber-dojo up
-
-This creates a new languages volume and mounts that which overwrites the default
-$ ./cyber-dojo create-volume jon=https://github.com/JonJagger/cyber-dojo-exercises.git
-$ ./cyber-dojo up languages=james
-
-Possibly a better name is
-$ ./cyber-dojo create-collection jon=https://github.com/JonJagger/cyber-dojo-exercises.git
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -78,8 +65,6 @@ git push
 - - - - - - - - - - - - - - - - - - - - -
 
 Note: languages/cache.json.readme has old paths in it.
-
-- - - - - - - - - - - - - - - - - - - - -
 
 ----------------------------------------
 

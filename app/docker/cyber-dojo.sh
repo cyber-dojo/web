@@ -58,18 +58,9 @@ if [ $? != 0 ]; then
 fi
 
 : <<'BLOCK_COMMENT'
-# Commented out because the call to cyber-dojo.rb inside the web container
-# relies on volume mounting the languages folder. Simplest option here
-# is to only allow the command when the web server is already running
-# and shells into it.
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# ensure CYBER_DOJO_DATA_ROOT env-var is set
-
-if [ -z "${CYBER_DOJO_DATA_ROOT}" ]; then
-    echo "CYBER_DOJO_DATA_ROOT env-var is not set"
-    exit 1
-fi
+# TODO: if web container is running exec into that and issue cyber-dojo.rb
+#       if not issue it on web image and use --rm
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # delegate to ruby script inside web image
@@ -109,7 +100,7 @@ DOCKER_COMPOSE_CMD="docker-compose --file=${MY_DIR}/${DOCKER_COMPOSE_FILE}"
 # bring up the web server's container
 
 if [ "$1" = "up" ]; then
-  # TODO: loop for multiple args, eg [exercises=URL languages=URL]
+  # TODO: loop for multiple args, eg [exercises=URL1,URL2 languages=URL3,URL4]
   SPEC_DC=$2
   SPEC=$(echo ${SPEC_DC} | cut -f1 -s -d=)
   DC=$(echo ${SPEC_DC} | cut -f2 -s -d=)
@@ -117,7 +108,7 @@ if [ "$1" = "up" ]; then
 
   # This might benefit from refactoring to null object
   # with an eye to mixin's when multiple options are specified.
-  # eg ./cyber-dojo up languages=L instructions=I
+  # eg ./cyber-dojo up languages=L1,L2 instructions=I1,I2
 
   if [ "${SPEC_DC}" = "" ]; then
     # create dc from cyberdojofoundation/default_exercises
@@ -144,15 +135,6 @@ if [ "$*" = "down" ]; then
 fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# restart the web server's container
-
-if [ "$*" = "restart" ]; then
-  # TODO: logically I guess this also needs to handle optional [exercises=DC] arguments
-  ${DOCKER_COMPOSE_CMD} down
-  ${DOCKER_COMPOSE_CMD} up -d
-fi
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # shell into the web container
 
 if [ "$*" = "sh" ]; then
@@ -161,29 +143,24 @@ if [ "$*" = "sh" ]; then
 fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# create a volume
+# create a collection
 
-if [ "$1" = "create-volume" ]; then
+if [ "$1" = "create-collection" ]; then
   NAME_URL=$2
   NAME=$(echo ${NAME_URL} | cut -f1 -s -d=)
   URL=$(echo ${NAME_URL} | cut -f2 -s -d=)
   if [ "${NAME}" = "" ] || [ "${URL}" = "" ]; then
     # TODO: decent diagnostic
-    echo ./cyber-dojo create-volume NAME=URL
+    echo ./cyber-dojo create-collection NAME=URL
     exit 1
   fi
 
   if [ $(docker volume ls --quiet | grep ${NAME}) ]; then
-    docker volume rm ${NAME}
+    docker volume rm ${NAME} > /dev/null
   fi
-  docker volume create --name=${NAME}
+  docker volume create --name=${NAME} > /dev/null
   docker run --rm -v ${NAME}:/data cyberdojofoundation/user-base sh -c \
     "git clone --depth 1 ${URL} /data"
+  echo "created collection ${NAME}"
 fi
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# create a languages-data-container
-# TODO
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

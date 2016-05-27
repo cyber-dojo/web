@@ -27,11 +27,9 @@ fi
 
 hash docker-machine 2> /dev/null
 if [ $? != 0 ]; then
-  echo
-  # Commented out - trying out doing docker-compose inside default
-  # echo 'docker-machine is not installed'
-  # echo "See step 1 of ${INSTALL_URL}"
-  # exit
+  echo 'docker-machine is not installed'
+  echo "See step 1 of ${INSTALL_URL}"
+  exit
 fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -79,6 +77,7 @@ if [ "$*" = "update" ]; then
   #docker cp ${CID}:${CYBER_DOJO_HOME}/app/docker/${CYBER_DOJO_SH} ${MY_DIR}/${CYBER_DOJO_SH}
   docker rm -v ${CID} > /dev/null
 
+  # TODO: how will this work when there are multiple .yml files...
   # extract docker-compose.yml file from web image
   CID=$(docker create ${DOCKER_HUB_USERNAME}/${SERVER_NAME})
   #docker cp ${CID}:${CYBER_DOJO_HOME}/app/docker/${DOCKER_COMPOSE_FILE} ${MY_DIR}/${DOCKER_COMPOSE_FILE}
