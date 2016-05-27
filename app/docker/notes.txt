@@ -8,6 +8,8 @@ Whereas this creates a new languages volume and mounts that which overwrites the
 $ ./cyber-dojo create-collection jon=https://github.com/JonJagger/cyber-dojo-exercises.git
 $ ./cyber-dojo up languages=james
 
+Note: languages/cache.json.readme has old paths in it.
+
 - - - - - - - - - - - - - - - - - - - - -
 
 0. finish the what/how separation
@@ -31,19 +33,27 @@ $ ./cyber-dojo up languages=james
        each language manifest specifies whether its docker-image should be auto pulled. default=no
 
 1. add another docker-compose.yml for main prod server (not using katas DC yet)
+
 2. get latest image running on GCE
+
 3. get travis to push images to cdf hub
+   needs to build and push nginx,user-base,web
+
 4. add tests in travis
+
 5. ./cyber-dojo update
      needs fixing
+
 6. ./cyber-dojo catalog
      if web container is not running do catalog on web image
      if web container is running do catalog on web container
      specify catalog of what... exercises/languages/instructions ?
      catalog listing should say whether docker-image has been pulled
      make refactoring exercises the default git sub-module instead of James'
+
 7. documentation
-8.
+
+8. switch default-exercises to the refactoring katas
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -61,10 +71,6 @@ git rm -r languages
 git submodule add https://github.com/JonJagger/cyber-dojo-languages.git languages
 git commit -am "changed app/data/languages to be a submodule"
 git push
-
-- - - - - - - - - - - - - - - - - - - - -
-
-Note: languages/cache.json.readme has old paths in it.
 
 ----------------------------------------
 
@@ -157,22 +163,6 @@ edited app/docker/cyber-dojo to make two hard-wired env-vars for paths
 built a new web image
 >>>>>>>>tried to create kata - failed with nil Rails error.
 Look into this on my own server.
-
-
-Inside web image ls at root shows this
-....  20530566 May 10 10:53 docker-1.11.1.tgz
-There is also an empty docker folder there too.
-These can be removed in the Dockerfile
->>>>>>>>Needs to be...
-
-RUN apk --update add curl \
-  && curl -OL https://get.docker.com/builds/Linux/x86_64/docker-${DOCKER_VERSION}.tgz \
-  && tar -xvzf docker-${DOCKER_VERSION}.tgz \
-  && mv docker/* /usr/bin/ \
-  && rmdir /docker \
-  && rm /docker-${DOCKER_VERSION}.tgz \
-  && apk del curl \
-
 
 --------------
 
