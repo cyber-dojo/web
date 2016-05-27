@@ -1,84 +1,49 @@
 
+0. finish the what/how separation
+     ./cyber-dojo up exercises=a,b   --> union of collections
+        Use meta-data to confirm a,b are both exercises.
+        With meta-data the command could simplify to [./cyber-dojo up a,b] ?? no.
 
-$ ./cyber-dojo up [languages=NAME] [exercises=NAME] [instructions=NAME]
+     This will need app/data/exercises/a/...
+                    app/data/exercises/b/...
+     which will somehow need to create multiple docker-compose yml files
+     from a 'template'
 
-Will this work? When you create a volume do you set the path it is
-mapped to? Or is that set in the Dockerfile's VOLUME command?
-I need to incorporate LEI into the command
+     Note - it is possible 2 manifests from different collections
+     could have an identical display_name...
 
-$ ./cyber-dojo languages name=URL
-$ ./cyber-dojo exercise name=URL
-$ ./cyber-dojo instructions name=URL
+     git submodules should be data only; move .rb files somewhere else.
 
-This means the name's will need to be passed into to docker-compose.yml
-so it can use volumes_from: to mount them.
+     give collections a defined api and meta-data
+       each collection manifest specifies if is for languages/exercises/instructions
+       each collection manifest adds the URL it was created from
+       each language manifest specifies whether its docker-image should be auto pulled. default=no
 
-For the default-language data-container, the default-language image
-will exist but I will still need to create the data-container
-from the image when using [$ ./cyber-dojo up]
-Implies script will need to detect if data-container already exists.
-Unless I just remove the container and then create it.
-But that will lose updates if there have been any (to exercises).
-
-Another option is to create the containers only when the
-$ ./cyber-dojo up ...
-command is issued.
-
-Another thorny issue could be that the
-$ ./cyber-dojo catalog
-command also requires the language volume.
-
-This suggests a config file that stores the current
-choice of language,exercise,instructions.
-
-Would be nice to allow several data-containers to be "unioned"
-$ ./cyber-dojo up languages=jon1,jon2
-
-This approach also suggests that the pulling of docker images is tied
-to the selection of language-manifests that are pulled via the
-$ ./cyber-dojo languages-push path
-
-Maybe it is simpler to specify that if you are on a Docker-Quickstart-Terminal
-you have to first ssh into the default VM and then run all the commands from there.
-This means changes people make to the laptop when installing and using cyber-dojo
-locally are more isolated. For example you wouldn't have to do anything as root on you
-bare laptop it would all be inside the default VM.
-A downside with this is the probable lack of dev tools on default if you wanted to
-work on the code (eg Frank)
-This would mean installing docker and docker-machine on the laptop - but not docker-compose.
-Then ssh'ing into default and installing docker-compose inside default.
-
-$ docker-machine ssh default
-$$ curl -L https://github.com/docker/compose/releases/download/1.7.0/docker-compose-`uname -s`-`uname -m` > docker-compose
-$$ chmod +x docker-compose
-$$ sudo mv docker-compose /usr/local/bin/docker-compose
-
-That should be scriptable from the Quickstart Terminal.
-
-docker-machine ssh default curl -L https://github.com/docker/compose/releases/download/1.7.0/docker-compose-`uname -s`-`uname -m` > docker-compose
-
-Nope. Sheesh this is not so easy. The `uname -s` has to be executed in default.
-10 mins and no obvious solution.
-Instead create this as a script called install-docker-compose.sh
-
-curl -L https://github.com/docker/compose/releases/download/1.7.0/docker-compose-`uname -s`-`uname -m` > docker-compose
-chmod +x docker-compose
-sudo mv docker-compose /usr/local/bin/docker-compose
-
-Suppose its saved at this URL (note the //raw)
-
-https://raw.githubusercontent.com/JonJagger/cyber-dojo/drop-katas-data-container/app/docker/install-docker-compose.sh
-
-Then do this
-
-$ docker-machine ssh default "curl -O https://raw.githubusercontent.com/JonJagger/cyber-dojo/drop-katas-data-container/app/docker/install-docker-compose.sh && chmod +x install-docker-compose.sh && ./install-docker-compose.sh"
-
-The quotes are necessary.
+1. add another docker-compose.yml for main prod server (not using katas DC yet)
+2. get latest image running on GCE
+3. get travis to push images to cdf hub
+4. add tests in travis
+5. ./cyber-dojo update
+     needs fixing
+6. ./cyber-dojo catalog
+     if web container is not running do catalog on web image
+     if web container is running do catalog on web container
+     specify catalog of what... exercises/languages/instructions ?
+     catalog listing should say whether docker-image has been pulled
+     make refactoring exercises the default git sub-module instead of James'
+7. documentation
+8.
 
 - - - - - - - - - - - - - - - - - - - - -
 
-I can still create a cyber-dojo script for use in the QuickStart terminal
-and all it does it delegate to the proper cyber-dojo script inside the default VM.
+Create the containers only when the
+$ ./cyber-dojo up ...
+command is issued.
+
+
+This approach also suggests that the pulling of individual docker images is tied
+to the selection of language-manifests that are pulled via the
+$ ./cyber-dojo languages-push path
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -99,15 +64,6 @@ $ ./cyber-dojo up languages=james
 Possibly a better name is
 $ ./cyber-dojo create-collection jon=https://github.com/JonJagger/cyber-dojo-exercises.git
 
-Seems like a good idea to require that each git repo has a meta-data file in it
-which specifies whether its [languages/exercises/instructions].
-
-Union of several languages volumes, eg
-$ ./cyber-dojo up languages=james,jon
-This will require the following folder structure
-/usr/src/cyber-dojo/app/data/languages/jon/...
-/usr/src/cyber-dojo/app/data/languages/james/...
-
 - - - - - - - - - - - - - - - - - - - - -
 
 git sub modules
@@ -124,24 +80,6 @@ git push
 Note: languages/cache.json.readme has old paths in it.
 
 - - - - - - - - - - - - - - - - - - - - -
-
-0. finish the what/how separation
-1. add another docker-compose.yml for main prod server (not using katas DC yet)
-2. get latest image running on GCE
-3. get travis to push images
-4. add tests in travis
-5. concept of collections with defined api and meta-data
-   Each collection specifies in meta-data whether each docker-image
-   should be auto pulled or not.
-6. ./cyber-dojo update [needs fixing]
-7. documentation
-8.
-
-- - - - - - - - - - - - - - - - - - - - -
-
-./cyber-dojo catalog
-This could be available only when the server is up...
-Does it show the catalog of the languages? the exercises?
 
 ----------------------------------------
 
