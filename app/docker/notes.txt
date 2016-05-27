@@ -22,8 +22,10 @@ Note: languages/cache.json.readme has old paths in it.
               app/data/exercises/b/...
      means I will somehow need to create multiple docker-compose yml files
      from a 'template'
+     Don't really want multiple yml files because it makes it harder to
+     pull them all from the web image when doing a [./cyber-dojo update]
 
-     Note - it is possible 2 manifests from different collections
+     it is possible 2 manifests from different collections
      could have an identical display_name...
 
      git submodules should be data only; move .rb files somewhere else.
@@ -33,6 +35,8 @@ Note: languages/cache.json.readme has old paths in it.
        each collection manifest adds the URL it was created from
        each language manifest specifies whether its docker-image should be auto pulled. default=no
 
+    [./cyber-dojo up] handling in cyber-dojo.sh needs refactoring.
+
 1. add another docker-compose.yml for main prod server (not using katas DC yet)
 
 2. get latest image running on GCE
@@ -41,7 +45,9 @@ Note: languages/cache.json.readme has old paths in it.
    needs to also build nginx,user-base
    needs to push images to cyberdiojofoundation hub
 
-4. add tests in travis
+4. run tests in travis (via exec into web container)
+   this will probably require some language images to be pulled
+   these should be Apline'd
 
 5. ./cyber-dojo update
      needs fixing
@@ -51,11 +57,28 @@ Note: languages/cache.json.readme has old paths in it.
      if web container is running do catalog on web container
      specify catalog of what... exercises/languages/instructions ?
      catalog listing should say whether docker-image has been pulled
-     make refactoring exercises the default git sub-module instead of James'
+
+     app/docker/cyber-dojo.rb (called from app/docker/cyber-dojo.sh) has this
+     list_all_images.rb needs to move out of the data folder
+     def catalog
+       `#{my_dir}/../data/languages/list_all_images.rb`
+     Also list_all_images.rb contains this
+       languages_home = File.expand_path('.', File.dirname(__FILE__))
+       ...
+       Dir.glob("#{languages_home}/*/*/manifest.json") do |file|
+     This will need a different path and a recursive glob
 
 7. documentation
 
-8. switch default-exercises to the refactoring katas
+8. make refactoring exercises the default git sub-module instead of James'
+
+9. add confirmation diagnostic to each [cyber-dojo] command.
+
+10. ./cyber-dojo catalog
+   this command should not assume the docker-image name exists in
+   the cyberdojofoundation hub. Better to get all a list of all docker
+   images and don't filter, instead look for specific image-names as
+   specified in the manifests.
 
 - - - - - - - - - - - - - - - - - - - - -
 

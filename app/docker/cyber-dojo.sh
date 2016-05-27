@@ -57,24 +57,21 @@ if [ $? != 0 ]; then
          echo 'cdfKatasDC'
 fi
 
-: <<'BLOCK_COMMENT'
-
-# TODO: if web container is running exec into that and issue cyber-dojo.rb
-#       if not issue it on web image and use --rm
-
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# delegate to ruby script inside web image
+# delegate to ruby script inside web container or web image
 
-docker run \
-  --rm \
-  --user=root \
-  --env=DOCKER_VERSION=${DOCKER_VERSION} \
-  --volume=/var/run/docker.sock:/var/run/docker.sock \
-  --volume=${CYBER_DOJO_DATA_ROOT}/languages:${CYBER_DOJO_HOME}/app/data/languages:ro \
-  ${DOCKER_HUB_USERNAME}/${SERVER_NAME} \
-  ${CYBER_DOJO_HOME}/app/docker/cyber-dojo.rb $@
-
-BLOCK_COMMENT
+docker ps -a | grep -q cdf-web
+if [ $? = 0 ]; then
+  docker exec cdf-web sh -c "${CYBER_DOJO_HOME}/app/docker/cyber-dojo.rb $@"
+else
+  docker run \
+    --rm \
+    --user=root \
+    --env=DOCKER_VERSION=${DOCKER_VERSION} \
+    --volume=/var/run/docker.sock:/var/run/docker.sock \
+    ${DOCKER_HUB_USERNAME}/${SERVER_NAME} \
+    ${CYBER_DOJO_HOME}/app/docker/cyber-dojo.rb $@
+fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # set environment variables required by docker-compose.yml

@@ -65,8 +65,8 @@ if [ "$*" = "update" ]; then
   # doing local development (without going through web image) means not doing these
   # steps since the two files may have been locally edited.
   echo ">>>>>>NOT DOING [docker pull] UPDATES"
-  echo ">>>>>>NOT COPYING ${CYBER_DOJO_SH}<<<<<<"
-  echo ">>>>>>NOT COPYING ${DOCKER_COMPOSE_FILE}<<<<<<"
+  echo ">>>>>>NOT EXTRACTING ${CYBER_DOJO_SH}<<<<<<"
+  echo ">>>>>>NOT EXTRACTING ${DOCKER_COMPOSE_FILE}<<<<<<"
 
   # update server images
   # docker pull ${DOCKER_HUB_USERNAME}/nginx:latest
