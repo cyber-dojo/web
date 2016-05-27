@@ -6,9 +6,17 @@ $ ./cyber-dojo up
 
 Whereas this creates a new languages volume and mounts that which overwrites the default
 $ ./cyber-dojo create-collection jon=https://github.com/JonJagger/cyber-dojo-exercises.git
-$ ./cyber-dojo up languages=james
+$ ./cyber-dojo up languages=jon
 
 Note: languages/cache.json.readme has old paths in it.
+
+- - - - - - - - - - - - - - - - - - - - -
+
+cd cyber-dojo/app/data/languages
+git push
+cd cyber-dojo
+git commit -am "notes update"
+git push
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -22,8 +30,8 @@ Note: languages/cache.json.readme has old paths in it.
               app/data/exercises/b/...
      means I will somehow need to create multiple docker-compose yml files
      from a 'template'
-     Don't really want multiple yml files because it makes it harder to
-     pull them all from the web image when doing a [./cyber-dojo update]
+     Don't really want multiple yml files - much simpler to pull just one
+     from the web image when doing a [./cyber-dojo update]
 
      it is possible 2 manifests from different collections
      could have an identical display_name...
@@ -53,20 +61,25 @@ Note: languages/cache.json.readme has old paths in it.
      needs fixing
 
 6. ./cyber-dojo catalog
-     if web container is not running do catalog on web image
-     if web container is running do catalog on web container
-     specify catalog of what... exercises/languages/instructions ?
+
+     if web container is not running do catalog on web image.
+     if web container is running do catalog on web container.
+     specify catalog of what...? exercises/languages/instructions
      catalog listing should say whether docker-image has been pulled
 
      app/docker/cyber-dojo.rb (called from app/docker/cyber-dojo.sh) has this
-     list_all_images.rb needs to move out of the data folder
      def catalog
        `#{my_dir}/../data/languages/list_all_images.rb`
+     list_all_images.rb needs to move out of the data folder
      Also list_all_images.rb contains this
        languages_home = File.expand_path('.', File.dirname(__FILE__))
        ...
        Dir.glob("#{languages_home}/*/*/manifest.json") do |file|
-     This will need a different path and a recursive glob
+     This will need a different path and a recursive glob **
+
+     All of list_all_images.rb should go into app/docker/cyber-dojo.rb !!
+     cyber-dojo.rb could do with some documentation showing example output
+     of various internal commands.
 
 7. documentation
 
