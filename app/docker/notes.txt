@@ -3,7 +3,7 @@ The default is to use the languages *inside* the web image
 $ ./cyber-dojo up
 
 Whereas this creates a new languages volume and mounts that which replaces the default
-$ ./cyber-dojo create-collection jon=https://github.com/JonJagger/cyber-dojo-exercises.git
+$ ./cyber-dojo create-collection jon=https://github.com/JonJagger/cyber-dojo-languages.git
 $ ./cyber-dojo up languages=jon
 
 
