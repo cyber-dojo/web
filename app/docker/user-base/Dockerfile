@@ -18,11 +18,12 @@ MAINTAINER Jon Jagger <jon@jaggersoft.com>
 # 2. if katas is a data-container (eg volumes_from: in the docker-compose.yml file)
 #    then the rails app on the inside needs to match uid with the cyber-dojo user
 #    that owns the katas inside the data-container (no dependencies to the host)
-#    So build both containers (rails app, katas) from an image which has this as a base image.
+#    So both web and katas images use this as their FROM image.
 
 USER root
 # -D=no password, -H=no home directory
 RUN adduser -D -H -u 19661 cyber-dojo
 
-# git is needed for commands that build data-containers from URLs
+# git is needed inside commands that build collection volumes from URLs
+# eg ./cyber-dojo create-collection name=URL
 RUN apk add --update --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ git

@@ -8,6 +8,7 @@ $ ./cyber-dojo up languages=jon
 
 
 Note: languages/cache.json.readme has old paths in it.
+Note: need a check that each docker image has a user in it called nobody whose id=19661
 
 - - - - - - - - - - - - - - - - - - - - -
 
