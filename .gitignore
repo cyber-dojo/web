@@ -20,6 +20,3 @@ script/stats/exceptions.log
 
 test/*/coverage/
 coverage
-
-/.dockerignore
-/Dockerfile
