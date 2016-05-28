@@ -3,8 +3,8 @@ The default is to use the languages *inside* the web image
 $ ./cyber-dojo up
 
 Whereas this creates a new languages volume and mounts that which replaces the default
-$ ./cyber-dojo create-collection jon=https://github.com/JonJagger/cyber-dojo-languages.git
-$ ./cyber-dojo up languages=jon
+$ ./cyber-dojo create-collection refactoring=https://github.com/JonJagger/cyber-dojo-refactoring-exercises.git
+$ ./cyber-dojo up exercises=refactoring
 
 
 Note: [cyber-dojo up] should check it server is already up and ask you to do [down]

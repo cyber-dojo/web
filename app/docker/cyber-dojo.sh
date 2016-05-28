@@ -124,6 +124,14 @@ if [ "$1" = "up" ]; then
     ${DOCKER_COMPOSE_CMD} up -d
   fi
 
+  if [ "${SPEC}" = "exercises" ] && [ "${DC}" != "" ]; then
+    # TODO: DC = "" --> diagnostic
+    export DOCKER_COMPOSE_FILE=docker-compose.yml
+    DOCKER_COMPOSE_CMD="docker-compose --file=${MY_DIR}/${DOCKER_COMPOSE_FILE} --file=${MY_DIR}/docker-compose.exercises.yml"
+    export CYBER_DOJO_EXERCISES_DC=${DC}
+    ${DOCKER_COMPOSE_CMD} up -d
+  fi
+
 fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
