@@ -130,6 +130,13 @@ git push
 ...
 git submodule update
 
+To get latest commit from sub repo
+$ cd app/data/languages
+$ git pull origin master
+
+To ignore changes in submodules
+$ git status --ignore-submodules=all
+
 ----------------------------------------
 
 Day with James :-)
