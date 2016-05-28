@@ -2,11 +2,11 @@
 	path = app/data/languages
 	url = https://github.com/JonJagger/cyber-dojo-languages.git
         ignore = dirty
-[submodule "app/data/exercises"]
-	path = app/data/exercises
-	url = https://github.com/JonJagger/cyber-dojo-exercises.git
-        ignore = dirty
 [submodule "app/data/instructions"]
 	path = app/data/instructions
 	url = https://github.com/JonJagger/cyber-dojo-instructions.git
+        ignore = dirty
+[submodule "app/data/exercises"]
+	path = app/data/exercises
+	url = https://github.com/JonJagger/cyber-dojo-refactoring-exercises.git
         ignore = dirty
