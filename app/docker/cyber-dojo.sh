@@ -55,6 +55,8 @@ if [ $? != 0 ]; then
          --name ${KATAS_DATA_CONTAINER} \
          ${TAG} \
          echo 'cdfKatasDC'
+
+  # TODO: delete Dockerfile and .dockerignore
 fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

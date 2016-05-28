@@ -82,6 +82,25 @@ Note: languages/cache.json.readme has old paths in it.
 7. documentation
 
 8. make refactoring exercises the default git sub-module instead of James'
+   use folder structure like this...
+      Yahtzy/C
+      Yahtzy/C++
+      Tennis/Python
+      Tennis/Ruby
+   which suggests that the meta-data should be able to provide the
+   name of the left and right colums.
+      manifest.json
+      {
+          'type':'exercises',
+          'lhs-column-text':'name',
+          'rhs-column-text':'language'
+      }
+   It would be nice if you could provide some kind of overview text
+   to display which gave general instructions on the collection;
+   in this case that they are all refactoring exercises.
+
+   Ask James if he can put his 3 exercises onto his github account
+   and I will use it as part of documentation.
 
 9. add confirmation diagnostic to each [cyber-dojo] command.
 
@@ -89,7 +108,8 @@ Note: languages/cache.json.readme has old paths in it.
    this command should not assume the docker-image name exists in
    the cyberdojofoundation hub. Better to get all a list of all docker
    images and don't filter, instead look for specific image-names as
-   specified in the manifests.
+   specified in the manifests. Whatever the name of the image it will
+   always be pullable. You only need rights to push.
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -107,6 +127,8 @@ git rm -r languages
 git submodule add https://github.com/JonJagger/cyber-dojo-languages.git languages
 git commit -am "changed app/data/languages to be a submodule"
 git push
+...
+git submodule update
 
 ----------------------------------------
 
