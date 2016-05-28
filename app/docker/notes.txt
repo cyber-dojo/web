@@ -7,6 +7,7 @@ $ ./cyber-dojo create-collection jon=https://github.com/JonJagger/cyber-dojo-lan
 $ ./cyber-dojo up languages=jon
 
 
+Note: [cyber-dojo up] should check it server is already up and ask you to do [down]
 Note: languages/cache.json.readme has old paths in it.
 Note: need a check that each docker image has a user in it called nobody whose id=19661
 
