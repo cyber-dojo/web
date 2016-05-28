@@ -1,5 +1,5 @@
 
 web:
   volumes:
-    - ${CYBER_DOJO_LANGUAGES_DC}:${CYBER_DOJO_HOME}/app/data/languages/${CYBER_DOJO_LANGUAGES_DC}:ro
+    - ${CYBER_DOJO_LANGUAGES_COLLECTION}:${CYBER_DOJO_HOME}/app/data/languages/${CYBER_DOJO_LANGUAGES_COLLECTION}:ro
 

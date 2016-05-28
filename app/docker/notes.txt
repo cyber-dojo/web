@@ -83,14 +83,8 @@ Note: need a check that each docker image has a user in it called nobody whose i
 
 7. documentation
 
-8. make refactoring exercises the default git sub-module instead of James'
-   use folder structure like this...
-      Yahtzy/C
-      Yahtzy/C++
-      Tennis/Python
-      Tennis/Ruby
-   which suggests that the meta-data should be able to provide the
-   name of the left and right colums.
+8. submodule meta-data should be able to provide the
+   name of the left and right columns.
       manifest.json
       {
           'type':'exercises',
@@ -100,6 +94,10 @@ Note: need a check that each docker image has a user in it called nobody whose i
    It would be nice if you could provide some kind of overview text
    to display which gave general instructions on the collection;
    in this case that they are all refactoring exercises.
+
+   If multiple collections can be unioned, eg
+      cyber-dojo up exercises=refactoring,james
+   how will they be distinguished from each other?
 
    Ask James if he can put his 3 exercises onto his github account
    and I will use it as part of documentation.

@@ -100,35 +100,35 @@ DOCKER_COMPOSE_CMD="docker-compose --file=${MY_DIR}/${DOCKER_COMPOSE_FILE}"
 
 if [ "$1" = "up" ]; then
   # TODO: loop for multiple args, eg [exercises=URL1,URL2 languages=URL3,URL4]
-  SPEC_DC=$2
-  SPEC=$(echo ${SPEC_DC} | cut -f1 -s -d=)
-  DC=$(echo ${SPEC_DC} | cut -f2 -s -d=)
+  SPEC_COLLECTION=$2
+  SPEC=$(echo ${SPEC_COLLECTION} | cut -f1 -s -d=)
+  COLLECTION=$(echo ${SPEC_COLLECTION} | cut -f2 -s -d=)
 
 
   # This might benefit from refactoring to null object
   # with an eye to mixin's when multiple options are specified.
   # eg ./cyber-dojo up languages=L1,L2 instructions=I1,I2
 
-  if [ "${SPEC_DC}" = "" ]; then
+  if [ "${SPEC_COLLECTION}" = "" ]; then
     # create dc from cyberdojofoundation/default_exercises
     export DOCKER_COMPOSE_FILE=docker-compose.yml
     DOCKER_COMPOSE_CMD="docker-compose --file=${MY_DIR}/${DOCKER_COMPOSE_FILE}"
     ${DOCKER_COMPOSE_CMD} up -d
   fi
 
-  if [ "${SPEC}" = "languages" ] && [ "${DC}" != "" ]; then
-    # TODO: DC = "" --> diagnostic
+  if [ "${SPEC}" = "languages" ] && [ "${COLLECTION}" != "" ]; then
+    # TODO: COLLECTION = "" --> diagnostic
     export DOCKER_COMPOSE_FILE=docker-compose.yml
     DOCKER_COMPOSE_CMD="docker-compose --file=${MY_DIR}/${DOCKER_COMPOSE_FILE} --file=${MY_DIR}/docker-compose.languages.yml"
-    export CYBER_DOJO_LANGUAGES_DC=${DC}
+    export CYBER_DOJO_LANGUAGES_COLLECTION=${COLLECTION}
     ${DOCKER_COMPOSE_CMD} up -d
   fi
 
-  if [ "${SPEC}" = "exercises" ] && [ "${DC}" != "" ]; then
-    # TODO: DC = "" --> diagnostic
+  if [ "${SPEC}" = "exercises" ] && [ "${COLLECTION}" != "" ]; then
+    # TODO: COLLECTION = "" --> diagnostic
     export DOCKER_COMPOSE_FILE=docker-compose.yml
     DOCKER_COMPOSE_CMD="docker-compose --file=${MY_DIR}/${DOCKER_COMPOSE_FILE} --file=${MY_DIR}/docker-compose.exercises.yml"
-    export CYBER_DOJO_EXERCISES_DC=${DC}
+    export CYBER_DOJO_EXERCISES_COLLECTION=${COLLECTION}
     ${DOCKER_COMPOSE_CMD} up -d
   fi
 
