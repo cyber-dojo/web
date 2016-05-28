@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+require 'json'
+
 def me; 'cyber-dojo'; end
 
 def my_dir; File.expand_path(File.dirname(__FILE__)); end
@@ -56,9 +58,54 @@ def up
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# catalog
+
+def languages_home
+  File.expand_path('../data/languages', File.dirname(__FILE__))
+end
+
+def max_size(lhs, rhs)
+  lhs.size > rhs.size ? lhs : rhs
+end
+
+def spacer(longest, name)
+  ' ' * (longest.size - name.size)
+end
+
+$longest_test = ''
+$longest_language = ''
+
+def catalog_line(language, test, image)
+  language_spacer = spacer($longest_language, language)
+  test_spacer = spacer($longest_test, test)
+  spacer = ' ' * 5
+  language + language_spacer + spacer + test + test_spacer + spacer + image
+end
+
+def docker_images_from_manifests
+  hash = {}
+  Dir.glob("#{languages_home}/**/manifest.json") do |file|
+    manifest = JSON.parse(IO.read(file))
+    language, test = manifest['display_name'].split(',').map { |s| s.strip }
+    $longest_language = max_size($longest_language, language)
+    $longest_test = max_size($longest_test, test)
+    image = manifest['image_name'].split('/')[1].strip
+    hash[language] ||= {}
+    hash[language][test] = image
+  end
+  hash
+end
 
 def catalog
-  `#{my_dir}/../data/languages/list_all_images.rb`
+  all = docker_images_from_manifests
+  lines = []
+  lines << catalog_line('LANGUAGE', 'TESTS', 'IMAGE')
+  all.sort.map do |language,tests|
+    tests.sort.map do |test, image|
+      lines << catalog_line(language, test, image)
+    end
+  end
+  lines.join("\n")
   # LANGUAGE          TESTS                IMAGE
   # Asm               assert               nasm_assert
   # BCPL              all_tests_passed     bcpl-all_tests_passed
@@ -67,6 +114,8 @@ def catalog
   # C (gcc)           CppUTest             gcc_cpputest
   # ...
 end
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 def all_languages
   catalog.split("\n").drop(1).map{ |line| line.split[-1] }
