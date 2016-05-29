@@ -20,16 +20,22 @@ def help
     "Use: #{me} COMMAND",
     "     #{me} [help]",
     '',
-    '     down                 Stops and removes server containers',
-    '     sh                   Shell into the main server container',
-    '     up                   Creates and starts the server containers',
+    '     create-collection NAME=URL  Creats a collection named NAME from URL',
+  # '     list-collection NAME',
+  # '     pull-collection NAME        Pulls all the docker IMAGES in collection named NAME',
+  # '     up use-collection NAME      Starts the server using the named collection',
     '',
-    '     catalog              Lists all language images',
-    '     clean                Deletes dead images',
-    '     images               Lists pulled language images',
-    '     pull [IMAGE|all]     Pulls one language IMAGE or all images',
-    '     remove IMAGE         Removes a pulled language IMAGE',
-    '     upgrade              Pulls the latest server and language images',
+    '     down                        Stops the server',
+    '     sh [COMMAND]                Shell into the server',
+    '     up                          Starts the server using the default collections',
+    '',
+  #  '     catalog                     Lists all language images',
+    '     clean                       Deletes dead images',
+    '     pull IMAGE                  Pulls the named docker IMAGE',
+#    '     pull all                    Pulls one language IMAGE or all images',
+#
+    '     remove IMAGE                Removes a pulled language IMAGE',
+    '     upgrade                     Pulls the latest server and language images',
     ''
   ].join("\n") + "\n"
 end
@@ -60,6 +66,36 @@ end
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # catalog
 
+def docker_images_pulled
+  `docker images`.split("\n").map{ |line| line.split[0] }
+  # cyberdojofoundation/visual-basic_nunit   latest  eb5f54114fe6 4 months ago 497.4 MB
+  # cyberdojofoundation/ruby_mini_test       latest  c7d7733d5f54 4 months ago 793.4 MB
+  # cyberdojofoundation/ruby_rspec           latest  ce9425d1690d 4 months ago 411.2 MB
+  # -->
+  # cyberdojofoundation/visual-basic_nunit
+  # cyberdojofoundation/ruby_mini_test
+  # cyberdojofoundation/ruby_rspec
+  # ...
+end
+
+def docker_images_from_manifests
+  pulled = docker_images_pulled
+  hash = {}
+  Dir.glob("#{languages_home}/**/manifest.json") do |file|
+    manifest = JSON.parse(IO.read(file))
+    language, test = manifest['display_name'].split(',').map { |s| s.strip }
+    $longest_language = max_size($longest_language, language)
+    $longest_test = max_size($longest_test, test)
+    image = manifest['image_name']
+    hash[language] ||= {}
+    hash[language][test] = {
+      'image' => image,
+      'pulled' => pulled.include?(image) ? 'yes' : 'no'
+    }
+  end
+  hash
+end
+
 def languages_home
   File.expand_path('../data/languages', File.dirname(__FILE__))
 end
@@ -75,43 +111,34 @@ end
 $longest_test = ''
 $longest_language = ''
 
-def catalog_line(language, test, image)
+def catalog_line(language, test, pulled, image)
   language_spacer = spacer($longest_language, language)
   test_spacer = spacer($longest_test, test)
-  spacer = ' ' * 5
-  language + language_spacer + spacer + test + test_spacer + spacer + image
-end
-
-def docker_images_from_manifests
-  hash = {}
-  Dir.glob("#{languages_home}/**/manifest.json") do |file|
-    manifest = JSON.parse(IO.read(file))
-    language, test = manifest['display_name'].split(',').map { |s| s.strip }
-    $longest_language = max_size($longest_language, language)
-    $longest_test = max_size($longest_test, test)
-    image = manifest['image_name']
-    hash[language] ||= {}
-    hash[language][test] = image
-  end
-  hash
+  pulled_spacer = spacer(3, pulled)
+  gap = ' ' * 3
+  line = ''
+  line += language + language_spacer + gap
+  line += test + test_spacer + gap
+  line += pulled + pulled_spacer + gap
+  line += image
 end
 
 def catalog
   all = docker_images_from_manifests
   lines = []
-  lines << catalog_line('LANGUAGE', 'TESTS', 'IMAGE')
+  lines << catalog_line('LANGUAGE', 'TESTS', 'PULLED', 'IMAGE')
   all.sort.map do |language,tests|
-    tests.sort.map do |test, image|
-      lines << catalog_line(language, test, image)
+    tests.sort.map do |test, hash|
+      lines << catalog_line(language, test, hash['pulled'], hash['image'])
     end
   end
   lines.join("\n")
-  # LANGUAGE          TESTS                IMAGE
-  # Asm               assert               cyberdojofoundation/nasm_assert
-  # BCPL              all_tests_passed     cyberdojofoundation/bcpl-all_tests_passed
-  # Bash              shunit2              cyberdojofoundation/bash_shunit2
-  # C (clang)         assert               cyberdojofoundation/clang_assert
-  # C (gcc)           CppUTest             cyberdojofoundation/gcc_cpputest
+  # LANGUAGE          TESTS                PULLED  IMAGE
+  # Asm               assert               yes     cyberdojofoundation/nasm_assert
+  # BCPL              all_tests_passed     no      cyberdojofoundation/bcpl-all_tests_passed
+  # Bash              shunit2              no      cyberdojofoundation/bash_shunit2
+  # C (clang)         assert               yes     cyberdojofoundation/clang_assert
+  # C (gcc)           CppUTest             yes     cyberdojofoundation/gcc_cpputest
   # ...
 end
 
@@ -124,20 +151,6 @@ end
 
 def in_catalog?(image)
   all_languages.include?(image)
-end
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-def all_docker_images
-  `docker images`.split("\n").map{ |line| line.split[0] }
-  # cyberdojofoundation/visual-basic_nunit   latest  eb5f54114fe6 4 months ago 497.4 MB
-  # cyberdojofoundation/ruby_mini_test       latest  c7d7733d5f54 4 months ago 793.4 MB
-  # cyberdojofoundation/ruby_rspec           latest  ce9425d1690d 4 months ago 411.2 MB
-  # -->
-  # cyberdojofoundation/visual-basic_nunit
-  # cyberdojofoundation/ruby_mini_test
-  # cyberdojofoundation/ruby_rspec
-  # ...
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
