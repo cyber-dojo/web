@@ -89,7 +89,7 @@ def docker_images_from_manifests
     language, test = manifest['display_name'].split(',').map { |s| s.strip }
     $longest_language = max_size($longest_language, language)
     $longest_test = max_size($longest_test, test)
-    image = manifest['image_name'].split('/')[1].strip
+    image = manifest['image_name']
     hash[language] ||= {}
     hash[language][test] = image
   end
@@ -107,11 +107,11 @@ def catalog
   end
   lines.join("\n")
   # LANGUAGE          TESTS                IMAGE
-  # Asm               assert               nasm_assert
-  # BCPL              all_tests_passed     bcpl-all_tests_passed
-  # Bash              shunit2              bash_shunit2
-  # C (clang)         assert               clang_assert
-  # C (gcc)           CppUTest             gcc_cpputest
+  # Asm               assert               cyberdojofoundation/nasm_assert
+  # BCPL              all_tests_passed     cyberdojofoundation/bcpl-all_tests_passed
+  # Bash              shunit2              cyberdojofoundation/bash_shunit2
+  # C (clang)         assert               cyberdojofoundation/clang_assert
+  # C (gcc)           CppUTest             cyberdojofoundation/gcc_cpputest
   # ...
 end
 
@@ -128,23 +128,22 @@ end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def all_cdf_images
-  di = `docker images | grep #{docker_hub_username}`
+def all_docker_images
+  `docker images`.split("\n").map{ |line| line.split[0] }
   # cyberdojofoundation/visual-basic_nunit   latest  eb5f54114fe6 4 months ago 497.4 MB
   # cyberdojofoundation/ruby_mini_test       latest  c7d7733d5f54 4 months ago 793.4 MB
   # cyberdojofoundation/ruby_rspec           latest  ce9425d1690d 4 months ago 411.2 MB
-  # ...
-  di.split("\n").map{ |line| line.split[0].split('/')[1] }
-  # visual-basic_nunit
-  # ruby_mini_test
-  # ruby_rspec
+  # -->
+  # cyberdojofoundation/visual-basic_nunit
+  # cyberdojofoundation/ruby_mini_test
+  # cyberdojofoundation/ruby_rspec
   # ...
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 def images
-  pulled = all_cdf_images
+  pulled = all_docker_images
   all = catalog.split("\n")
   heading = [ all.shift ]
   languages = all.select do |line|
@@ -152,6 +151,11 @@ def images
     pulled.include? image
   end
   (heading + languages).join("\n")
+  # LANGUAGE          TESTS                IMAGE
+  # Asm               assert               cyberdojofoundation/nasm_assert
+  # C (gcc)           assert               cyberdojofoundation/gcc_assert
+  # F#                NUnit                cyberdojofoundation/fsharp_nunit
+  # Go                testing              cyberdojofoundation/go_testing
 end
 
 def languages

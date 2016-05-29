@@ -62,24 +62,19 @@ Note: need a check that each docker image has a user in it called nobody whose i
 
 6. ./cyber-dojo catalog
 
-     if web container is not running do catalog on web image.
-     if web container is running do catalog on web container.
      specify catalog of what...? exercises/languages/instructions
      catalog listing should say whether docker-image has been pulled
-
-     app/docker/cyber-dojo.rb (called from app/docker/cyber-dojo.sh) has this
-     def catalog
-       `#{my_dir}/../data/languages/list_all_images.rb`
-     list_all_images.rb needs to move out of the data folder
-     Also list_all_images.rb contains this
-       languages_home = File.expand_path('.', File.dirname(__FILE__))
-       ...
-       Dir.glob("#{languages_home}/*/*/manifest.json") do |file|
-     This will need a different path and a recursive glob **
+     This means I probably don't need catalog and image commands.
 
      All of list_all_images.rb should go into app/docker/cyber-dojo.rb !!
      cyber-dojo.rb could do with some documentation showing example output
      of various internal commands.
+
+     This command should not assume the docker-image name exists in
+     the cyberdojofoundation hub. Better to get all a list of all docker
+     images and don't filter, instead look for specific image-names as
+     specified in the manifests. Whatever the name of the image it will
+     always be pullable. You only need rights to push.
 
 7. documentation
 
@@ -103,13 +98,6 @@ Note: need a check that each docker image has a user in it called nobody whose i
    and I will use it as part of documentation.
 
 9. add confirmation diagnostic to each [cyber-dojo] command.
-
-10. ./cyber-dojo catalog
-   this command should not assume the docker-image name exists in
-   the cyberdojofoundation hub. Better to get all a list of all docker
-   images and don't filter, instead look for specific image-names as
-   specified in the manifests. Whatever the name of the image it will
-   always be pullable. You only need rights to push.
 
 - - - - - - - - - - - - - - - - - - - - -
 
