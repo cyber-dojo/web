@@ -24,13 +24,3 @@ $ pwd
 $ cd test
 $ ./run.sh
 
-This is a slow cycle. There is a faster one. Instead of running the cyber-dojo
-rails app from inside the docker web image you can simply run it locally "raw".
-$ cd cyber-dojo/script
-$ ./dev-server.sh
-
-You can also run the tests locally too. Note that the work to get the server running
-inside a docker container *and* locally has left a few (tar related) diagnostics that
-need attention.
-$ cd cyber-dojo/test
-$ ./run.sh
