@@ -137,6 +137,11 @@ $ git pull origin master
 To ignore changes in submodules
 $ git status --ignore-submodules=all
 
+Added the following to .git/config
+[alias]
+        st = "!sh -c 'echo git status; git status'"
+        smu = "!sh -c 'echo git submodule update; git submodule update'"
+
 ----------------------------------------
 
 Day with James :-)
