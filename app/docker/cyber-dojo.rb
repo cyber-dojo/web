@@ -66,6 +66,9 @@ end
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # catalog
 
+$longest_test = ''
+$longest_language = ''
+
 def docker_images_pulled
   `docker images`.split("\n").map{ |line| line.split[0] }
   # cyberdojofoundation/visual-basic_nunit   latest  eb5f54114fe6 4 months ago 497.4 MB
@@ -75,13 +78,12 @@ def docker_images_pulled
   # cyberdojofoundation/visual-basic_nunit
   # cyberdojofoundation/ruby_mini_test
   # cyberdojofoundation/ruby_rspec
-  # ...
 end
 
-def docker_images_from_manifests
+def docker_images_from_manifests(root)
   pulled = docker_images_pulled
   hash = {}
-  Dir.glob("#{languages_home}/**/manifest.json") do |file|
+  Dir.glob("#{root}/**/manifest.json") do |file|
     manifest = JSON.parse(IO.read(file))
     language, test = manifest['display_name'].split(',').map { |s| s.strip }
     $longest_language = max_size($longest_language, language)
@@ -96,10 +98,6 @@ def docker_images_from_manifests
   hash
 end
 
-def languages_home
-  File.expand_path('../data/languages', File.dirname(__FILE__))
-end
-
 def max_size(lhs, rhs)
   lhs.size > rhs.size ? lhs : rhs
 end
@@ -107,9 +105,6 @@ end
 def spacer(longest, name)
   ' ' * (longest.size - name.size)
 end
-
-$longest_test = ''
-$longest_language = ''
 
 def catalog_line(language, test, pulled, image)
   language_spacer = spacer($longest_language, language)
@@ -124,12 +119,15 @@ def catalog_line(language, test, pulled, image)
 end
 
 def catalog
-  all = docker_images_from_manifests
+  root = File.expand_path('../data/languages', File.dirname(__FILE__))
+  all = docker_images_from_manifests(root)
   lines = []
   lines << catalog_line('LANGUAGE', 'TESTS', 'PULLED', 'IMAGE')
   all.sort.map do |language,tests|
     tests.sort.map do |test, hash|
-      lines << catalog_line(language, test, hash['pulled'], hash['image'])
+      pulled = hash['pulled']
+      image = hash['image']
+      lines << catalog_line(language, test, pulled, image)
     end
   end
   lines.join("\n")
@@ -155,24 +153,9 @@ end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def images
-  pulled = all_docker_images
-  all = catalog.split("\n")
-  heading = [ all.shift ]
-  languages = all.select do |line|
-    image = line.split[-1]
-    pulled.include? image
-  end
-  (heading + languages).join("\n")
-  # LANGUAGE          TESTS                IMAGE
-  # Asm               assert               cyberdojofoundation/nasm_assert
-  # C (gcc)           assert               cyberdojofoundation/gcc_assert
-  # F#                NUnit                cyberdojofoundation/fsharp_nunit
-  # Go                testing              cyberdojofoundation/go_testing
-end
-
 def languages
-  images.split("\n").drop(1).map { |line| line.split[-1] }
+  lines = catalog.split("\n").drop(1)
+  lines.select { |line| line.split[-2] == 'yes' }.map { |line| line.split[-1] }
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -235,7 +218,7 @@ end
 options = {}
 arg = ARGV[0].to_sym
 container_commands = [:down, :restart, :sh, :up]
-image_commands = [:clean, :catalog, :images, :pull, :remove, :upgrade]
+image_commands = [:clean, :catalog, :pull, :remove, :upgrade]
 all_commands = [:help] + container_commands + image_commands
 if all_commands.include? arg
   options[arg] = true
@@ -252,7 +235,6 @@ up              if options[:up]
 
 puts catalog    if options[:catalog]
 clean           if options[:clean]
-puts images     if options[:images]
 pull(ARGV[1])   if options[:pull]
 remove(ARGV[1]) if options[:remove]
 upgrade         if options[:upgrade]
