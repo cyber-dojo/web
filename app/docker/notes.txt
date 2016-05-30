@@ -13,6 +13,44 @@ Note: need a check that each docker image has a user in it called nobody
 
 - - - - - - - - - - - - - - - - - - - - -
 
+)) is Clojure manifest from Frederick in the main web image?
+   If not build a new web image and push it to cdf.
+
+- - - - - - - - - - - - - - - - - - - - -
+
+)) ./cyber-dojo catalog
+
+     design issue here is that I need a command that can be used for the default
+     manifests and also when a custom manifest collection is used.
+
+     I could just list the one in use in the web container but I'd like an api
+     that allows you to list a create but not-yet used (up'd) collection.
+
+     It would also make sense to have a command that lists the name of the
+     custom collections that have been created. tags? Or are tags only for data-collections?
+     $ docker volume create --help
+     Suggests --label=[]
+     $ docker volume ls --help
+     Suggests --filter=[]
+
+     $ docker volume create --name=${NAME} > /dev/null
+     Suggests mimicking the docker api
+     Viz
+     $ ./cyber-dojo volume create --name=NAME --git=URL
+       This would check that the URL adhered to the api,
+       viz it specified whether it was languages/exercises/instructions
+       If ok it would add a label, eg cyber-dojo-volume
+     $ ./cyber-dojo volume ls
+       This would filter on the label set
+     $ ./cyber-dojo volume rm VOL [VOL...]
+     $ ./cyber-dojo volume inspect VOL [VOL...]
+       This would do the old catalog listing
+
+     cyber-dojo.rb could do with some documentation showing example output
+     of various internal commands.
+
+- - - - - - - - - - - - - - - - - - - - -
+
 )) finish the what/how separation
 
      ./cyber-dojo up exercises=a
@@ -42,24 +80,6 @@ Note: need a check that each docker image has a user in it called nobody
        each language manifest specifies whether its docker-image should be auto pulled. default=no
 
     [./cyber-dojo up] handling in cyber-dojo.sh needs refactoring.
-
-- - - - - - - - - - - - - - - - - - - - -
-
-)) ./cyber-dojo catalog
-
-     specify catalog of what...? exercises/languages/instructions
-     catalog listing should say whether docker-image has been pulled
-     This means I probably don't need catalog and image commands.
-
-     All of list_all_images.rb should go into app/docker/cyber-dojo.rb !!
-     cyber-dojo.rb could do with some documentation showing example output
-     of various internal commands.
-
-     This command should not assume the docker-image name exists in
-     the cyberdojofoundation hub. Better to get all a list of all docker
-     images and don't filter, instead look for specific image-names as
-     specified in the manifests. Whatever the name of the image it will
-     always be pullable. You only need rights to push.
 
 - - - - - - - - - - - - - - - - - - - - -
 
