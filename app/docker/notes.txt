@@ -20,44 +20,48 @@ Note: need a check that each docker image has a user in it called nobody
 
 )) ./cyber-dojo catalog
 
-     design issue here is that I need a command that can be used for the default
-     manifests and also when a custom manifest collection is used.
-
-     I could just list the one in use in the web container but I'd like an api
-     that allows you to list a create but not-yet used (up'd) collection.
-
-     It would also make sense to have a command that lists the name of the
-     custom collections that have been created. tags? Or are tags only for data-collections?
-     $ docker volume create --help
-     Suggests --label=[]
-     $ docker volume ls --help
-     Suggests --filter=[]
-
-     $ docker volume create --name=${NAME} > /dev/null
-     Suggests mimicking the docker api
-     Viz
      $ ./cyber-dojo volume create --name=NAME --git=URL
        This would check that the URL adhered to the api,
        viz it specified whether it was languages/exercises/instructions
-       If ok it would add a label, eg cyber-dojo-volume
+       If ok it would add a label, eg --label=cyber-dojo-volume
+
      $ ./cyber-dojo volume ls
-       This would filter on the label set
+       This would filter on the label set, --filter=cyber-dojo-volume
+
      $ ./cyber-dojo volume rm VOL [VOL...]
+
      $ ./cyber-dojo volume inspect VOL [VOL...]
        This would do the old catalog listing.
        This should show the origin (URL) of the volume.
 
+     These commands should all be done inside the cyber-dojo.rb file.
+     There is no need to do them in the cyber-dojo.sh file.
+     Only up/down/sh need to happen in the cyber-dojo.sh file.
+     Need to make more use of invoking commands inside an image
+     and passing in a volume for it to operate on.
+
      Coming round to the idea that the main cyber-dojo repo does *not* contain
-     app/data/languages etc. There is no default. The [cyber-dojo up] command
-     adds the defaults if you don't provide any. First time you call that
-     it builds the three default volumes (like it builds katas data-container)
-     and uses them.
+     app/data/languages etc. There is no default inside the image.
+     The [cyber-dojo up] command adds the defaults if you don't provide any.
+     The first time you call that it builds the three default volumes (like it builds
+     katas data-container) and uses them.
+
      Issue then becomes are you allowed to delete the default volumes by name?
      I think yes, since then you could create a new one to install your own
      default. If you delete the default and try [cyber-dojo up] then it will
      recreate it. Similarly if you delete the default, try to recreate your
      own and misname it, then again it will try to recreate it.
 
+     Also, do you have to specify
+         ./cyber-dojo up languages=VOL
+     or
+         ./cyber-dojo up VOL [VOL...]
+
+     I think the latter. Makes it easier to extend when allowing unioning.
+     What should volume manifest.json file contain?
+        type: languages/exercises/instructions
+        col-names: [ TEXT, TEXT ],
+     Creation of the volume should ADD the source URL.
 
      cyber-dojo.rb could do with some documentation showing example output
      of various internal commands.

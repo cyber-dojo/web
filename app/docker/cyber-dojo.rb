@@ -20,23 +20,15 @@ def help
     "Use: #{me} COMMAND",
     "     #{me} [help]",
     '',
-    '     create-collection NAME=URL  Creats a collection named NAME from URL',
-  # '     list-collection NAME',
-  # '     pull-collection NAME        Pulls all the docker IMAGES in collection named NAME',
-  # '     up use-collection NAME      Starts the server using the named collection',
+    '    clean                          Removes dead images',
+    '    down                           Brings down the server',
+    '    pull IMAGE                     Pulls the named docker IMAGE',
+    '    remove IMAGE                   Removes a pulled language IMAGE',
+    '    sh [COMMAND]                   Shells into the server (and run COMMAND if provided)',
+    '    up [NAME...]                   Brings up the server using the default/named volumes',
+    '    upgrade                        Pulls the latest server and language images',
+    '    volume                         Manage cyber-dojo volumes',
     '',
-    '     down                        Stops the server',
-    '     sh [COMMAND]                Shell into the server',
-    '     up                          Starts the server using the default collections',
-    '',
-  #  '     catalog                     Lists all language images',
-    '     clean                       Deletes dead images',
-    '     pull IMAGE                  Pulls the named docker IMAGE',
-#    '     pull all                    Pulls one language IMAGE or all images',
-#
-    '     remove IMAGE                Removes a pulled language IMAGE',
-    '     upgrade                     Pulls the latest server and language images',
-    ''
   ].join("\n") + "\n"
 end
 
@@ -63,6 +55,107 @@ def up
   starting.each { |image| pull(image) }
 end
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# volume
+
+def space
+  ' '
+end
+
+def tab
+  space * 4
+end
+
+def minitab
+  space * 2
+end
+
+def volume
+  lines = [
+    '',
+    'Use: cyber-dojo volume [COMMAND]',
+    '',
+    'Commands:',
+    minitab + 'create              Creates a new volume to use with the [up] command',
+    minitab + 'rm                  Removes one or more volumes',
+    minitab + 'ls                  Lists the names of all volumes',
+    minitab + 'inspect             Displays details of one or more volume',
+    minitab + 'pull                Pulls docker images named in one or more volumes',
+    '',
+    "Run 'cyber-dojo volume COMMAND --help' for more information on a command",
+  ]
+  if [nil,'help','--help'].include? ARGV[1]
+    lines.each { |line| puts line }
+  else
+    case ARGV[1]
+    when 'create'  then volume_create
+    when 'rm'      then volume_rm
+    when 'ls'      then volume_ls
+    when 'inspect' then volume_inspect
+    when 'pull'    then volume_pull
+    #...otherwise...
+    end
+  end
+end
+
+# - - - - - - - - - - - - - - -
+
+def volume_create
+  lines = [
+    '',
+    "Use: #{me} volume create --name=NAME --git=URL",
+    '',
+    '     Creates a volume named NAME as git clone of URL',
+    '     and pulls all its docker images marked auto_pull:true'
+  ]
+  if [nil,'help','--help'].include? ARGV[2]
+    lines.each { |line| puts line }
+  else
+    p "do volume create..."
+  end
+end
+
+# - - - - - - - - - - - - - - -
+
+def volume_rm
+  lines = [
+    '',
+    "Use: #{me} volume rm VOL [VOL...]",
+    '',
+    '     Removes one or more volumes created with the command',
+    "     #{me} volume create"
+  ]
+  if [nil,'help','--help'].include? ARGV[2]
+    lines.each { |line| puts line }
+  else
+    p "do volume rm..."
+  end
+end
+
+# - - - - - - - - - - - - - - -
+
+def volume_ls
+  p 'volume ls'
+  #minitab + 'ls                  Lists the names of all volumes',
+end
+
+# - - - - - - - - - - - - - - -
+
+def volume_inspect
+  p 'volume inspect'
+  # was catalog
+  #minitab + 'inspect NAME        Shows details of the named volume', #(WAS catalog)
+end
+
+# - - - - - - - - - - - - - - -
+
+def volume_pull
+  p 'volume pull'
+  #minitab + 'pull NAME           ....',
+end
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # catalog
 
@@ -216,25 +309,26 @@ end
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 options = {}
-arg = ARGV[0].to_sym
-container_commands = [:down, :restart, :sh, :up]
-image_commands = [:clean, :catalog, :pull, :remove, :upgrade]
-all_commands = [:help] + container_commands + image_commands
+arg = ARGV[0]
+container_commands = ['down', 'sh', 'up']
+image_commands = ['clean', 'catalog', 'pull', 'remove', 'upgrade']
+all_commands = ['--help','help'] + ['volume'] + container_commands + image_commands
 if all_commands.include? arg
   options[arg] = true
 else
-  puts "#{me}: #{arg} ?"
-  puts "Try '#{me} help"
+  puts "#{me}: '#{arg}' is not a command."
+  puts "See '#{me} --help'."
   exit
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-puts help       if options[:help]
-up              if options[:up]
+puts help       if options['--help'] || options['help']
+volume          if options['volume']
+up              if options['up']
 
-puts catalog    if options[:catalog]
-clean           if options[:clean]
-pull(ARGV[1])   if options[:pull]
-remove(ARGV[1]) if options[:remove]
-upgrade         if options[:upgrade]
+puts catalog    if options['catalog']
+clean           if options['clean']
+pull(ARGV[1])   if options['pull']
+remove(ARGV[1]) if options['remove']
+upgrade         if options['upgrade']
