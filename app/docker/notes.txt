@@ -45,6 +45,8 @@ Note: need a check that each docker image has a user in it called nobody
      The first time you call that it builds the three default volumes (like it builds
      katas data-container) and uses them.
      Make default-volumes for all 3, then drop submodules.
+     http://stackoverflow.com/questions/1260748/how-do-i-remove-a-submodule
+
      Hmmmm. Dropping submodules. Will that break any tests?
      Can't see because tests don't run inside web container.
      Problem with coverage again...

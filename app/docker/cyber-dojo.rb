@@ -166,8 +166,13 @@ end
 
 def volume_ls
   p 'volume ls'
-  #minitab + 'ls                  Lists the names of all volumes
+  #minitab + 'ls                  Lists the names of all cyber-dojo volumes
   #filter on label from [volume create]
+  #There is no [--filter label=L]  option on [docker volume ls]
+  #https://github.com/docker/docker/pull/21567
+  #Hmmmm. How to work round that?!
+  # How about creating a volume called cyber-dojo-X
+  # when you specify a name of X.
 end
 
 # - - - - - - - - - - - - - - -
@@ -177,6 +182,7 @@ def volume_inspect
   # was catalog
   #minitab + 'inspect NAME        Shows details of the named volume', #(WAS catalog)
   # filter on label from [volume create]
+  # docker volume inspect #{name} | grep cyber-dojo-volume
 end
 
 # - - - - - - - - - - - - - - -
