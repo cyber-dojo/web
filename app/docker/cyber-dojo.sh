@@ -56,7 +56,8 @@ if [ $? != 0 ]; then
          ${TAG} \
          echo 'cdfKatasDC'
 
-  # TODO: delete Dockerfile and .dockerignore
+  rm KATAS_DOCKERFILE
+  rm KATAS_DOCKERIGNORE
 fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -88,57 +89,50 @@ export CYBER_DOJO_RUNNER_CLASS=${CYBER_DOJO_RUNNER_CLASS:=DockerTarPipeRunner}
 export CYBER_DOJO_RUNNER_SUDO='sudo -u docker-runner sudo'
 export CYBER_DOJO_RUNNER_TIMEOUT=${CYBER_DOJO_RUNNER_TIMEOUT:=10}
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# setup docker-compose command
+
 ME="./$( basename ${0} )"
 MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
-
-export DOCKER_COMPOSE_FILE=docker-compose.yml
-
+DOCKER_COMPOSE_FILE=docker-compose.yml
 DOCKER_COMPOSE_CMD="docker-compose --file=${MY_DIR}/${DOCKER_COMPOSE_FILE}"
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# bring up the web server's container
-
-if [ "$1" = "up" ]; then
-  SPEC_VOLUME=$2
-  SPEC=$(echo ${SPEC_VOLUME} | cut -f1 -s -d=)
-  VOLUME=$(echo ${SPEC_VOLUME} | cut -f2 -s -d=)
-
-  # TODO: this creates the volume if it does not already exist. WRONG.
-
-  # This might benefit from refactoring to null object
-
-  if [ "${SPEC_VOLUME}" = "" ]; then
-    # create dc from cyberdojofoundation/default_exercises
-    export DOCKER_COMPOSE_FILE=docker-compose.yml
-    DOCKER_COMPOSE_CMD="docker-compose --file=${MY_DIR}/${DOCKER_COMPOSE_FILE}"
-    ${DOCKER_COMPOSE_CMD} up -d
-  fi
-
-  if [ "${SPEC}" = "languages" ] && [ "${VOLUME}" != "" ]; then
-
-    # TODO: COLLECTION = "" --> diagnostic
-
-    export DOCKER_COMPOSE_FILE=docker-compose.yml
-    DOCKER_COMPOSE_CMD="docker-compose --file=${MY_DIR}/${DOCKER_COMPOSE_FILE} --file=${MY_DIR}/docker-compose.languages.yml"
-    export CYBER_DOJO_LANGUAGES_VOLUME=${VOLUME}
-    ${DOCKER_COMPOSE_CMD} up -d
-  fi
-
-  if [ "${SPEC}" = "exercises" ] && [ "${VOLUME}" != "" ]; then
-    # TODO: COLLECTION = "" --> diagnostic
-    export DOCKER_COMPOSE_FILE=docker-compose.yml
-    DOCKER_COMPOSE_CMD="docker-compose --file=${MY_DIR}/${DOCKER_COMPOSE_FILE} --file=${MY_DIR}/docker-compose.exercises.yml"
-    export CYBER_DOJO_EXERCISES_VOLUME=${VOLUME}
-    ${DOCKER_COMPOSE_CMD} up -d
-  fi
-
-fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # bring down the web server's container
 
 if [ "$*" = "down" ]; then
   ${DOCKER_COMPOSE_CMD} down
+fi
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# bring up the web server's container
+
+if [ "$1" = "up" ]; then
+  # TODO: loop for $2 $3 $4
+  SPEC_VOLUME=$2
+  SPEC=$(echo ${SPEC_VOLUME} | cut -f1 -s -d=)
+  VOLUME=$(echo ${SPEC_VOLUME} | cut -f2 -s -d=)
+
+  if [ "${SPEC}" = "languages" ] && [ "${VOLUME}" != "" ]; then
+    # TODO: VOLUME = "" --> diagnostic
+    export CYBER_DOJO_LANGUAGES_VOLUME=${VOLUME}
+    DOCKER_COMPOSE_CMD="${DOCKER_COMPOSE_CMD} --file=${MY_DIR}/docker-compose.languages.yml"
+  fi
+
+  if [ "${SPEC}" = "exercises" ] && [ "${VOLUME}" != "" ]; then
+    # TODO: VOLUME = "" --> diagnostic
+    export CYBER_DOJO_EXERCISES_VOLUME=${VOLUME}
+    DOCKER_COMPOSE_CMD="${DOCKER_COMPOSE_CMD} --file=${MY_DIR}/docker-compose.exercises.yml"
+  fi
+
+  if [ "${SPEC}" = "instructions" ] && [ "${VOLUME}" != "" ]; then
+    # TODO: VOLUME = "" --> diagnostic
+    export CYBER_DOJO_INSTRUCTIONS_VOLUME=${VOLUME}
+    DOCKER_COMPOSE_CMD="${DOCKER_COMPOSE_CMD} --file=${MY_DIR}/docker-compose.instructions.yml"
+  fi
+
+  # TODO: this creates the volume if it does not already exist. WRONG.
+  ${DOCKER_COMPOSE_CMD} up -d
 fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
