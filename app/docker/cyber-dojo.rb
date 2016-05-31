@@ -23,7 +23,7 @@ def help
     '    clean    Removes dead images',
     '    down     Brings down the server',
     '    pull     Pulls a docker image',
-    '    remove   Removes a docker image',  # should be rm
+    '    rm       Removes a docker image',
     '    sh       Shells into the server',
     '    up       Brings up the server',
     '    upgrade  Upgrades the server and languages',
@@ -35,12 +35,6 @@ def help
   #'    remove IMAGE                   Removes a docker image', #pulled language IMAGE',
   #'    sh [COMMAND]             Shells into the server', #' (and run COMMAND if provided)',
   #'    up [NAME...]             Brings up the server using the default/named volumes',
-
-  # up/down/sh/upgrade  should be under server
-  #
-  # server [ down sh up upgrade ]
-  # image  [ clean pull rm ]
-  # volume [ create inspect ls pull rm ]
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -92,11 +86,11 @@ def volume
     "Use: #{me} volume [COMMAND]",
     '',
     'Commands:',
-    minitab('create              Creates a new volume to use with the [up] command'),
-    minitab('rm                  Removes one or more volumes'),
-    minitab('ls                  Lists the names of all volumes'),
-    minitab('inspect             Displays details of one or more volume'),
-    minitab('pull                Pulls docker images named in one or more volumes'),
+    minitab('create         Creates a new volume to use with the [up] command'),
+    minitab('rm             Removes one or more volumes'),
+    minitab('ls             Lists the names of all volumes'),
+    minitab('inspect        Displays details of one or more volume'),
+    minitab('pull           Pulls all docker images named in one or more volumes'),
     '',
     "Run '#{me} volume COMMAND --help' for more information on a command",
   ]
@@ -124,7 +118,8 @@ def volume_create
     show(help)
   else
     p "do volume create..."
-    # parse args
+
+
   end
 end
 
@@ -300,7 +295,7 @@ end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def remove(image)
+def rm(image)
   if languages.include?(image)
     run "docker rmi #{docker_hub_username}/#{image}"
   elsif all_languages.include?(image)
@@ -323,7 +318,7 @@ end
 options = {}
 arg = ARGV[0]
 container_commands = ['down', 'sh', 'up']
-image_commands = ['clean', 'catalog', 'pull', 'remove', 'upgrade']
+image_commands = ['clean', 'catalog', 'pull', 'rm', 'upgrade']
 all_commands = ['--help','help'] + ['volume'] + container_commands + image_commands
 if all_commands.include? arg
   options[arg] = true
@@ -342,5 +337,5 @@ up              if options['up']
 puts catalog    if options['catalog']
 clean           if options['clean']
 pull(ARGV[1])   if options['pull']
-remove(ARGV[1]) if options['remove']
+rm(ARGV[1])     if options['rm']
 upgrade         if options['upgrade']
