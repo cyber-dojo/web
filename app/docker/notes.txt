@@ -38,14 +38,16 @@ Note: need a check that each docker image has a user in it called nobody
      These commands should all be done inside the cyber-dojo.rb file.
      There is no need to do them in the cyber-dojo.sh file.
      Only up/down/sh need to happen in the cyber-dojo.sh file.
-     Need to make more use of invoking commands inside an image
-     and passing in a volume for it to operate on.
 
      Coming round to the idea that the main cyber-dojo repo does *not* contain
      app/data/languages etc. There is no default inside the image.
      The [cyber-dojo up] command adds the defaults if you don't provide any.
      The first time you call that it builds the three default volumes (like it builds
      katas data-container) and uses them.
+     Make default-volumes for all 3, then drop submodules.
+     Hmmmm. Dropping submodules. Will that break any tests?
+     Can't see because tests don't run inside web container.
+     Problem with coverage again...
 
      Issue then becomes are you allowed to delete the default volumes by name?
      I think yes, since then you could create a new one to install your own
