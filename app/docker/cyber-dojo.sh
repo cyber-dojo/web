@@ -115,7 +115,9 @@ if [ "$1" = "up" ]; then
   fi
 
   if [ "${SPEC}" = "languages" ] && [ "${VOLUME}" != "" ]; then
+
     # TODO: COLLECTION = "" --> diagnostic
+
     export DOCKER_COMPOSE_FILE=docker-compose.yml
     DOCKER_COMPOSE_CMD="docker-compose --file=${MY_DIR}/${DOCKER_COMPOSE_FILE} --file=${MY_DIR}/docker-compose.languages.yml"
     export CYBER_DOJO_LANGUAGES_VOLUME=${VOLUME}

@@ -3,7 +3,7 @@ The default is to use the languages *inside* the web image
 $ ./cyber-dojo up
 
 Whereas this creates a new languages volume and mounts that which replaces the default
-$ ./cyber-dojo create-collection refactoring=https://github.com/JonJagger/cyber-dojo-refactoring-exercises.git
+$ ./cyber-dojo volume create --name=refactoring --git=https://github.com/JonJagger/cyber-dojo-refactoring-exercises.git
 $ ./cyber-dojo up exercises=refactoring
 
 
@@ -24,6 +24,7 @@ Note: need a check that each docker image has a user in it called nobody
        This would check that the URL adhered to the api,
        viz it specified whether it was languages/exercises/instructions
        If ok it would add a label, eg --label=cyber-dojo-volume
+       Could add specific label, eg --label=cyber-dojo-languages-volume
 
      $ ./cyber-dojo volume ls
        This would filter on the label set, --filter=cyber-dojo-volume

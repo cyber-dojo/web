@@ -111,9 +111,6 @@ def get_arg(name, argv)
 
   args = argv.select{ |arg| arg.start_with?(name + '=')}.map{ |arg| arg.split('=')[1] }
   args.size == 1 ? args[0] : nil
-  #args.each do |arg|
-  #  got = arg.split('=')[1] if arg.start_with?(name + '=')
-  #  if !got.nil? && got != '' ? got : nil
 end
 
 def volume_create
@@ -139,7 +136,7 @@ def volume_create
         puts "Cannot create volume #{name} because it already exists."
         puts "To remove it use: ./cyber-dojo volume rm #{name}"
       else
-        quiet_run("docker volume create --name=#{name}")
+        quiet_run("docker volume create --name=#{name} --label=cyber-dojo-volume")
         command = quoted("git clone --depth 1 #{url} /data")
         run("docker run --rm -v #{name}:/data #{docker_hub_username}/user-base sh -c #{command}")
       end
