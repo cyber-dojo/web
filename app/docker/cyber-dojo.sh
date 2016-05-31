@@ -151,6 +151,7 @@ fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # create a collection
+# TODO: move inside cyber-dojo.rb
 
 if [ "$1" = "create-collection" ]; then
   NAME_URL=$2

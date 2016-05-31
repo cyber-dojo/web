@@ -20,16 +20,27 @@ def help
     "Use: #{me} COMMAND",
     "     #{me} [help]",
     '',
-    '    clean                          Removes dead images',
-    '    down                           Brings down the server',
-    '    pull IMAGE                     Pulls the named docker IMAGE',
-    '    remove IMAGE                   Removes a pulled language IMAGE',
-    '    sh [COMMAND]                   Shells into the server (and run COMMAND if provided)',
-    '    up [NAME...]                   Brings up the server using the default/named volumes',
-    '    upgrade                        Pulls the latest server and language images',
-    '    volume                         Manage cyber-dojo volumes',
+    '    clean    Removes dead images',
+    '    down     Brings down the server',
+    '    pull     Pulls a docker image',
+    '    remove   Removes a docker image',  # should be rm
+    '    sh       Shells into the server',
+    '    up       Brings up the server',
+    '    upgrade  Upgrades the server and languages',
+    '    volume   Manage cyber-dojo data volumes',
     '',
   ].join("\n") + "\n"
+
+  #'    pull IMAGE                     Pulls the named docker IMAGE',
+  #'    remove IMAGE                   Removes a docker image', #pulled language IMAGE',
+  #'    sh [COMMAND]             Shells into the server', #' (and run COMMAND if provided)',
+  #'    up [NAME...]             Brings up the server using the default/named volumes',
+
+  # up/down/sh/upgrade  should be under server
+  #
+  # server [ down sh up upgrade ]
+  # image  [ clean pull rm ]
+  # volume [ create inspect ls pull rm ]
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -59,75 +70,76 @@ end
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # volume
 
+def show(lines)
+  lines.each { |line| puts line }
+end
+
 def space
   ' '
 end
 
-def tab
-  space * 4
+def tab(line = '')
+  (space * 4) + line
 end
 
-def minitab
-  space * 2
+def minitab(line = '')
+  (space * 2) + line
 end
 
 def volume
-  lines = [
+  help = [
     '',
-    'Use: cyber-dojo volume [COMMAND]',
+    "Use: #{me} volume [COMMAND]",
     '',
     'Commands:',
-    minitab + 'create              Creates a new volume to use with the [up] command',
-    minitab + 'rm                  Removes one or more volumes',
-    minitab + 'ls                  Lists the names of all volumes',
-    minitab + 'inspect             Displays details of one or more volume',
-    minitab + 'pull                Pulls docker images named in one or more volumes',
+    minitab('create              Creates a new volume to use with the [up] command'),
+    minitab('rm                  Removes one or more volumes'),
+    minitab('ls                  Lists the names of all volumes'),
+    minitab('inspect             Displays details of one or more volume'),
+    minitab('pull                Pulls docker images named in one or more volumes'),
     '',
-    "Run 'cyber-dojo volume COMMAND --help' for more information on a command",
+    "Run '#{me} volume COMMAND --help' for more information on a command",
   ]
-  if [nil,'help','--help'].include? ARGV[1]
-    lines.each { |line| puts line }
-  else
-    case ARGV[1]
+  case ARGV[1]
     when 'create'  then volume_create
     when 'rm'      then volume_rm
     when 'ls'      then volume_ls
     when 'inspect' then volume_inspect
     when 'pull'    then volume_pull
-    #...otherwise...
-    end
+    else                show(help)
   end
 end
 
 # - - - - - - - - - - - - - - -
 
 def volume_create
-  lines = [
+  help = [
     '',
     "Use: #{me} volume create --name=NAME --git=URL",
     '',
-    '     Creates a volume named NAME as git clone of URL',
-    '     and pulls all its docker images marked auto_pull:true'
+    tab('Creates a volume named NAME as git clone of URL'),
+    tab('and pulls all its docker images marked auto_pull:true')
   ]
   if [nil,'help','--help'].include? ARGV[2]
-    lines.each { |line| puts line }
+    show(help)
   else
     p "do volume create..."
+    # parse args
   end
 end
 
 # - - - - - - - - - - - - - - -
 
 def volume_rm
-  lines = [
+  help = [
     '',
     "Use: #{me} volume rm VOL [VOL...]",
     '',
-    '     Removes one or more volumes created with the command',
-    "     #{me} volume create"
+    tab('Removes one or more volumes created with the command'),
+    tab("#{me} volume create")
   ]
   if [nil,'help','--help'].include? ARGV[2]
-    lines.each { |line| puts line }
+    show(help)
   else
     p "do volume rm..."
   end
