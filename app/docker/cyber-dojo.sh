@@ -99,36 +99,34 @@ DOCKER_COMPOSE_CMD="docker-compose --file=${MY_DIR}/${DOCKER_COMPOSE_FILE}"
 # bring up the web server's container
 
 if [ "$1" = "up" ]; then
-  # TODO: loop for multiple args, eg [exercises=URL1,URL2 languages=URL3,URL4]
-  SPEC_COLLECTION=$2
-  SPEC=$(echo ${SPEC_COLLECTION} | cut -f1 -s -d=)
-  COLLECTION=$(echo ${SPEC_COLLECTION} | cut -f2 -s -d=)
+  SPEC_VOLUME=$2
+  SPEC=$(echo ${SPEC_VOLUME} | cut -f1 -s -d=)
+  VOLUME=$(echo ${SPEC_VOLUME} | cut -f2 -s -d=)
 
+  # TODO: this creates the volume if it does not already exist. WRONG.
 
   # This might benefit from refactoring to null object
-  # with an eye to mixin's when multiple options are specified.
-  # eg ./cyber-dojo up languages=L1,L2 instructions=I1,I2
 
-  if [ "${SPEC_COLLECTION}" = "" ]; then
+  if [ "${SPEC_VOLUME}" = "" ]; then
     # create dc from cyberdojofoundation/default_exercises
     export DOCKER_COMPOSE_FILE=docker-compose.yml
     DOCKER_COMPOSE_CMD="docker-compose --file=${MY_DIR}/${DOCKER_COMPOSE_FILE}"
     ${DOCKER_COMPOSE_CMD} up -d
   fi
 
-  if [ "${SPEC}" = "languages" ] && [ "${COLLECTION}" != "" ]; then
+  if [ "${SPEC}" = "languages" ] && [ "${VOLUME}" != "" ]; then
     # TODO: COLLECTION = "" --> diagnostic
     export DOCKER_COMPOSE_FILE=docker-compose.yml
     DOCKER_COMPOSE_CMD="docker-compose --file=${MY_DIR}/${DOCKER_COMPOSE_FILE} --file=${MY_DIR}/docker-compose.languages.yml"
-    export CYBER_DOJO_LANGUAGES_COLLECTION=${COLLECTION}
+    export CYBER_DOJO_LANGUAGES_VOLUME=${VOLUME}
     ${DOCKER_COMPOSE_CMD} up -d
   fi
 
-  if [ "${SPEC}" = "exercises" ] && [ "${COLLECTION}" != "" ]; then
+  if [ "${SPEC}" = "exercises" ] && [ "${VOLUME}" != "" ]; then
     # TODO: COLLECTION = "" --> diagnostic
     export DOCKER_COMPOSE_FILE=docker-compose.yml
     DOCKER_COMPOSE_CMD="docker-compose --file=${MY_DIR}/${DOCKER_COMPOSE_FILE} --file=${MY_DIR}/docker-compose.exercises.yml"
-    export CYBER_DOJO_EXERCISES_COLLECTION=${COLLECTION}
+    export CYBER_DOJO_EXERCISES_VOLUME=${VOLUME}
     ${DOCKER_COMPOSE_CMD} up -d
   fi
 
