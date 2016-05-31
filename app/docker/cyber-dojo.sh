@@ -148,27 +148,3 @@ if [ "$*" = "sh" ]; then
   # cdf-web name is from docker-compose.yml file
   docker exec --interactive --tty cdf-web sh
 fi
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# create a collection
-# TODO: move inside cyber-dojo.rb
-
-if [ "$1" = "create-collection" ]; then
-  NAME_URL=$2
-  NAME=$(echo ${NAME_URL} | cut -f1 -s -d=)
-  URL=$(echo ${NAME_URL} | cut -f2 -s -d=)
-  if [ "${NAME}" = "" ] || [ "${URL}" = "" ]; then
-    # TODO: decent diagnostic
-    echo ./cyber-dojo create-collection NAME=URL
-    exit 1
-  fi
-
-  if [ $(docker volume ls --quiet | grep ${NAME}) ]; then
-    docker volume rm ${NAME} > /dev/null
-  fi
-  docker volume create --name=${NAME} > /dev/null
-  docker run --rm -v ${NAME}:/data cyberdojofoundation/user-base sh -c \
-    "git clone --depth 1 ${URL} /data"
-  echo "created collection ${NAME}"
-fi
-

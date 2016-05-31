@@ -12,7 +12,21 @@ def docker_version; ENV['DOCKER_VERSION']; end
 
 def home; '/usr/src/cyber-dojo'; end  # home folder *inside* the server image
 
+def space; ' '; end
+
+def tab(line = ''); (space * 4) + line; end
+
+def minitab(line = ''); (space * 2) + line; end
+
+def quiet_run(command); `#{command}`; end
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def run(command)
+  puts command
+  quiet_run(command)
+  #TODO: diagnostic if command fails
+end
 
 def help
   [
@@ -39,13 +53,6 @@ end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def run(command)
-  puts command
-  `#{command}`
-end
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 def clean
   run "docker images -q -f='dangling=true' | xargs docker rmi --force"
 end
@@ -66,18 +73,6 @@ end
 
 def show(lines)
   lines.each { |line| puts line }
-end
-
-def space
-  ' '
-end
-
-def tab(line = '')
-  (space * 4) + line
-end
-
-def minitab(line = '')
-  (space * 2) + line
 end
 
 def volume
@@ -106,6 +101,21 @@ end
 
 # - - - - - - - - - - - - - - -
 
+def quoted(s)
+  '"' + s + '"'
+end
+
+def get_arg(name, argv)
+  # eg name=--git  arg=--git=https://github.com/JonJagger/cyber-dojo-refactoring-exercises.git
+  #   ---> https://github.com/JonJagger/cyber-dojo-refactoring-exercises.git
+
+  args = argv.select{ |arg| arg.start_with?(name + '=')}.map{ |arg| arg.split('=')[1] }
+  args.size == 1 ? args[0] : nil
+  #args.each do |arg|
+  #  got = arg.split('=')[1] if arg.start_with?(name + '=')
+  #  if !got.nil? && got != '' ? got : nil
+end
+
 def volume_create
   help = [
     '',
@@ -117,9 +127,23 @@ def volume_create
   if [nil,'help','--help'].include? ARGV[2]
     show(help)
   else
-    p "do volume create..."
-
-
+    args = ARGV[2..-1]
+    name = get_arg('--name', args)
+    url = get_arg('--git', args)
+    if name.nil? || url.nil?
+      show(help)
+    else
+      matching = quiet_run("docker volume ls --quiet | grep #{name}")
+      already_exists = matching.include? name
+      if already_exists
+        puts "Cannot create volume #{name} because it already exists."
+        puts "To remove it use: ./cyber-dojo volume rm #{name}"
+      else
+        quiet_run("docker volume create --name=#{name}")
+        command = quoted("git clone --depth 1 #{url} /data")
+        run("docker run --rm -v #{name}:/data #{docker_hub_username}/user-base sh -c #{command}")
+      end
+    end
   end
 end
 
