@@ -137,7 +137,7 @@ def volume_create
         puts "To remove it use: ./cyber-dojo volume rm #{name}"
       else
         quiet_run("docker volume create --name=#{name} --label=cyber-dojo-volume")
-        command = quoted("git clone --depth 1 #{url} /data")
+        command = quoted("git clone --depth=1 --branch=master #{url} /data && rm -rf /data/.git")
         run("docker run --rm -v #{name}:/data #{docker_hub_username}/user-base sh -c #{command}")
       end
     end
