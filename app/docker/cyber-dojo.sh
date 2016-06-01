@@ -61,19 +61,33 @@ if [ $? != 0 ]; then
 fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# delegate to ruby script inside web container or web image
 
-docker ps -all | grep --silent cdf-web
-if [ $? = 0 ]; then
-  docker exec cdf-web sh -c "${CYBER_DOJO_HOME}/app/docker/cyber-dojo.rb $@"
-else
+cyber_dojo_rb() {
   docker run \
     --rm \
     --user=root \
     --env=DOCKER_VERSION=${DOCKER_VERSION} \
     --volume=/var/run/docker.sock:/var/run/docker.sock \
     ${DOCKER_HUB_USERNAME}/${SERVER_NAME} \
-    ${CYBER_DOJO_HOME}/app/docker/cyber-dojo.rb $@
+    ${CYBER_DOJO_HOME}/app/docker/cyber-dojo.rb $1
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+volume_create() {
+  name=$1
+  url=$2
+  cyber_dojo_rb "volume create --name=${name} --git=${url}"
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# delegate to ruby script inside web container or web image
+
+docker ps -all | grep --silent cdf-web
+if [ $? = 0 ]; then
+  docker exec cdf-web sh -c "${CYBER_DOJO_HOME}/app/docker/cyber-dojo.rb $@"
+else
+  cyber_dojo_rb "$*"
 fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -136,12 +150,15 @@ if [ "$1" = "up" ]; then
     fi
   done
 
+  github_jon_jagger='https://github.com/JonJagger'
   # when volume not specified create & use default volume
   if [ -z ${CYBER_DOJO_LANGUAGES_VOLUME+x} ]; then
     export CYBER_DOJO_LANGUAGES_VOLUME=default_languages
     docker volume ls | grep --silent "${CYBER_DOJO_LANGUAGES_VOLUME}"
     if [ $? != 0 ]; then
-      echo "TODO: create cyber-dojo volume default_languages"
+      name='default_languages'
+      url="${github_jon_jagger}/cyber-dojo-languages.git"
+      volume_create ${name} ${url}
     fi
     echo "Using ${CYBER_DOJO_LANGUAGES_VOLUME} volume"
   fi
@@ -149,7 +166,10 @@ if [ "$1" = "up" ]; then
     export CYBER_DOJO_EXERCISES_VOLUME=default_exercises
     docker volume ls | grep --silent "${CYBER_DOJO_EXERCISES_VOLUME}"
     if [ $? != 0 ]; then
-      echo "TODO: create cyber-dojo volume default_exercises"
+      name='default_exercises'
+      url="${github_jon_jagger}/cyber-dojo-refactoring-exercises.git"
+      command="volume create --name=${name} --git=${url}"
+      volume_create ${name} ${url}
     fi
     echo "Using ${CYBER_DOJO_EXERCISES_VOLUME} volume"
   fi
@@ -157,7 +177,9 @@ if [ "$1" = "up" ]; then
     export CYBER_DOJO_INSTRUCTIONS_VOLUME=default_instructions
     docker volume ls | grep --silent "${CYBER_DOJO_INSTRUCTIONS_VOLUME}"
     if [ $? != 0 ]; then
-      echo "TODO: create cyber-dojo volume default_instructions"
+      name='default_instructions'
+      url="${github_jon_jagger}/cyber-dojo-instructions.git"
+      volume_create ${name} ${url}
     fi
     echo "Using ${CYBER_DOJO_INSTRUCTIONS_VOLUME} volume"
   fi

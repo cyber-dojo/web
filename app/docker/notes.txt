@@ -9,6 +9,7 @@ $ ./cyber-dojo up exercises=refactoring
 - - - - - - - - - - - - - - - - - - - - -
 
 Build defaults
+
 ruby ./cyber-dojo.rb volume create --name=default_instructions --git=https://github.com/JonJagger/cyber-dojo-instructions.git
 
 ruby ./cyber-dojo.rb volume create --name=default_exercises --git=https://github.com/JonJagger/cyber-dojo-refactoring-exercises.git
