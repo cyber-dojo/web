@@ -136,39 +136,48 @@ if [ "$1" = "up" ]; then
     fi
   done
 
-  # create & use default volumes where not specified
+  # when volume not specified create & use default volume
   if [ -z ${CYBER_DOJO_LANGUAGES_VOLUME+x} ]; then
     export CYBER_DOJO_LANGUAGES_VOLUME=default_languages
+    docker volume ls | grep --silent "${CYBER_DOJO_LANGUAGES_VOLUME}"
+    if [ $? != 0 ]; then
+      echo "TODO: create cyber-dojo volume default_languages"
+    fi
     echo "Using ${CYBER_DOJO_LANGUAGES_VOLUME} volume"
-    echo "TODO:    create default_languages if it does not yet exist"
   fi
   if [ -z ${CYBER_DOJO_EXERCISES_VOLUME+x} ]; then
     export CYBER_DOJO_EXERCISES_VOLUME=default_exercises
+    docker volume ls | grep --silent "${CYBER_DOJO_EXERCISES_VOLUME}"
+    if [ $? != 0 ]; then
+      echo "TODO: create cyber-dojo volume default_exercises"
+    fi
     echo "Using ${CYBER_DOJO_EXERCISES_VOLUME} volume"
-    echo "TODO:    create default_exercises if it does not yet exist"
   fi
   if [ -z ${CYBER_DOJO_INSTRUCTIONS_VOLUME+x} ]; then
     export CYBER_DOJO_INSTRUCTIONS_VOLUME=default_instructions
+    docker volume ls | grep --silent "${CYBER_DOJO_INSTRUCTIONS_VOLUME}"
+    if [ $? != 0 ]; then
+      echo "TODO: create cyber-dojo volume default_instructions"
+    fi
     echo "Using ${CYBER_DOJO_INSTRUCTIONS_VOLUME} volume"
-    echo "TODO:    create default if it does not yet exist"
   fi
 
   # check volume exists
   docker volume ls | grep --silent "${CYBER_DOJO_LANGUAGES_VOLUME}"
   if [ $? != 0 ]; then
-    echo "cyber-dojo languages volume ${CYBER_DOJO_LANGUAGES_VOLUME} does not exist"
+    echo "cyber-dojo volume languages=${CYBER_DOJO_LANGUAGES_VOLUME} does not exist"
     exit 1
   fi
 
   docker volume ls | grep --silent "${CYBER_DOJO_EXERCISES_VOLUME}"
   if [ $? != 0 ]; then
-    echo "cyber-dojo exercises volume ${CYBER_DOJO_EXERCISES_VOLUME} does not exist"
+    echo "cyber-dojo volume exercises=${CYBER_DOJO_EXERCISES_VOLUME} does not exist"
     exit 1
   fi
 
   docker volume ls | grep --silent "${CYBER_DOJO_INSTRUCTIONS_VOLUME}"
   if [ $? != 0 ]; then
-    echo "cyber-dojo instructions volume ${CYBER_DOJO_INSTRUCTIONS_VOLUME} does not exist"
+    echo "cyber-dojo volume instructions=${CYBER_DOJO_INSTRUCTIONS_VOLUME} does not exist"
     exit 1
   fi
 
