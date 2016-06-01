@@ -1,0 +1,5 @@
+
+web:
+  volumes:
+    - ${CYBER_DOJO_INSTRUCTIONS_VOLUME}:${CYBER_DOJO_HOME}/app/data/instructions:ro
+
