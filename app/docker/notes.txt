@@ -1,23 +1,4 @@
 
-The default is to use the languages *inside* the web image
-$ ./cyber-dojo up
-
-Whereas this creates a new languages volume and mounts that which replaces the default
-$ ./cyber-dojo volume create --name=refactoring --git=https://github.com/JonJagger/cyber-dojo-refactoring-exercises.git
-$ ./cyber-dojo up exercises=refactoring
-
-- - - - - - - - - - - - - - - - - - - - -
-
-Build defaults
-
-ruby ./cyber-dojo.rb volume create --name=default_instructions --git=https://github.com/JonJagger/cyber-dojo-instructions.git
-
-ruby ./cyber-dojo.rb volume create --name=default_exercises --git=https://github.com/JonJagger/cyber-dojo-refactoring-exercises.git
-
-ruby ./cyber-dojo.rb volume create --name=default_languages --git=https://github.com/JonJagger/cyber-dojo-languages.git
-
-- - - - - - - - - - - - - - - - - - - - -
-
 Note: [cyber-dojo up] should check it server is already up and ask you to do [down]
 Note: need a check that each docker image has a user in it called nobody
       (don't think it's uid is important)

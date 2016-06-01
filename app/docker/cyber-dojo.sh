@@ -150,8 +150,8 @@ if [ "$1" = "up" ]; then
     fi
   done
 
-  github_jon_jagger='https://github.com/JonJagger'
   # when volume not specified create & use default volume
+  github_jon_jagger='https://github.com/JonJagger'
   if [ -z ${CYBER_DOJO_LANGUAGES_VOLUME+x} ]; then
     export CYBER_DOJO_LANGUAGES_VOLUME=default_languages
     docker volume ls | grep --silent "${CYBER_DOJO_LANGUAGES_VOLUME}"
@@ -162,6 +162,7 @@ if [ "$1" = "up" ]; then
     fi
     echo "Using ${CYBER_DOJO_LANGUAGES_VOLUME} volume"
   fi
+
   if [ -z ${CYBER_DOJO_EXERCISES_VOLUME+x} ]; then
     export CYBER_DOJO_EXERCISES_VOLUME=default_exercises
     docker volume ls | grep --silent "${CYBER_DOJO_EXERCISES_VOLUME}"
@@ -173,6 +174,7 @@ if [ "$1" = "up" ]; then
     fi
     echo "Using ${CYBER_DOJO_EXERCISES_VOLUME} volume"
   fi
+
   if [ -z ${CYBER_DOJO_INSTRUCTIONS_VOLUME+x} ]; then
     export CYBER_DOJO_INSTRUCTIONS_VOLUME=default_instructions
     docker volume ls | grep --silent "${CYBER_DOJO_INSTRUCTIONS_VOLUME}"
