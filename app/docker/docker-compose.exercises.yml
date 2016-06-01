@@ -1,5 +1,0 @@
-
-web:
-  volumes:
-    - ${CYBER_DOJO_EXERCISES_VOLUME}:${CYBER_DOJO_HOME}/app/data/exercises:ro
-

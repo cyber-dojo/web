@@ -1,5 +1,0 @@
-
-web:
-  volumes:
-    - ${CYBER_DOJO_LANGUAGES_VOLUME}:${CYBER_DOJO_HOME}/app/data/languages:ro
-

@@ -110,6 +110,10 @@ MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 DOCKER_COMPOSE_FILE=docker-compose.yml
 DOCKER_COMPOSE_CMD="docker-compose --file=${MY_DIR}/${DOCKER_COMPOSE_FILE}"
 
+export CYBER_DOJO_LANGUAGES_VOLUME=default_languages
+export CYBER_DOJO_EXERCISES_VOLUME=default_exercises
+export CYBER_DOJO_INSTRUCTIONS_VOLUME=default_instructions
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # bring down the web server's container
 
@@ -122,11 +126,8 @@ fi
 
 if [ "$1" = "up" ]; then
 
+  # - - - - - - - - - - - - -
   # process volume arguments
-  unset CYBER_DOJO_LANGUAGES_VOLUME
-  unset CYBER_DOJO_EXERCISES_VOLUME
-  unset CYBER_DOJO_INSTRUCTIONS_VOLUME
-
   args=("$2" "$3" "$4")
   for arg in "${args[@]}"
   do
@@ -136,56 +137,49 @@ if [ "$1" = "up" ]; then
 
     if [ "${NAME}" = "languages" ] && [ "${VOLUME}" != "" ]; then
       export CYBER_DOJO_LANGUAGES_VOLUME=${VOLUME}
-      DOCKER_COMPOSE_CMD="${DOCKER_COMPOSE_CMD} --file=${MY_DIR}/docker-compose.languages.yml"
     fi
 
     if [ "${NAME}" = "exercises" ] && [ "${VOLUME}" != "" ]; then
       export CYBER_DOJO_EXERCISES_VOLUME=${VOLUME}
-      DOCKER_COMPOSE_CMD="${DOCKER_COMPOSE_CMD} --file=${MY_DIR}/docker-compose.exercises.yml"
     fi
 
     if [ "${NAME}" = "instructions" ] && [ "${VOLUME}" != "" ]; then
       export CYBER_DOJO_INSTRUCTIONS_VOLUME=${VOLUME}
-      DOCKER_COMPOSE_CMD="${DOCKER_COMPOSE_CMD} --file=${MY_DIR}/docker-compose.instructions.yml"
     fi
   done
 
+  # - - - - - - - - - - - - -
   # when volume not specified create & use default volume
   github_jon_jagger='https://github.com/JonJagger'
-  if [ -z ${CYBER_DOJO_LANGUAGES_VOLUME+x} ]; then
-    export CYBER_DOJO_LANGUAGES_VOLUME=default_languages
-    docker volume ls | grep --silent "${CYBER_DOJO_LANGUAGES_VOLUME}"
+
+  name='default_languages'
+  if [ "${CYBER_DOJO_LANGUAGES_VOLUME}" = "${name}" ]; then
+    docker volume ls | grep --silent "${name}"
     if [ $? != 0 ]; then
-      name='default_languages'
-      url="${github_jon_jagger}/cyber-dojo-languages.git"
-      volume_create ${name} ${url}
+      volume_create ${name} "${github_jon_jagger}/cyber-dojo-languages.git"
     fi
-    echo "Using ${CYBER_DOJO_LANGUAGES_VOLUME} volume"
+    echo "Using ${name} volume"
   fi
 
-  if [ -z ${CYBER_DOJO_EXERCISES_VOLUME+x} ]; then
-    export CYBER_DOJO_EXERCISES_VOLUME=default_exercises
-    docker volume ls | grep --silent "${CYBER_DOJO_EXERCISES_VOLUME}"
+  name='default_exercises'
+  if [ "${CYBER_DOJO_EXERCISES_VOLUME}" = "${name}" ]; then
+    docker volume ls | grep --silent "${name}"
     if [ $? != 0 ]; then
-      name='default_exercises'
-      url="${github_jon_jagger}/cyber-dojo-refactoring-exercises.git"
-      command="volume create --name=${name} --git=${url}"
-      volume_create ${name} ${url}
+      volume_create ${name} "${github_jon_jagger}/cyber-dojo-refactoring-exercises.git"
     fi
     echo "Using ${CYBER_DOJO_EXERCISES_VOLUME} volume"
   fi
 
-  if [ -z ${CYBER_DOJO_INSTRUCTIONS_VOLUME+x} ]; then
-    export CYBER_DOJO_INSTRUCTIONS_VOLUME=default_instructions
-    docker volume ls | grep --silent "${CYBER_DOJO_INSTRUCTIONS_VOLUME}"
+  name='default_instructions'
+  if [ "${CYBER_DOJO_INSTRUCTIONS_VOLUME}" = "${name}" ]; then
+    docker volume ls | grep --silent "${name}"
     if [ $? != 0 ]; then
-      name='default_instructions'
-      url="${github_jon_jagger}/cyber-dojo-instructions.git"
-      volume_create ${name} ${url}
+      volume_create ${name} "${github_jon_jagger}/cyber-dojo-instructions.git"
     fi
     echo "Using ${CYBER_DOJO_INSTRUCTIONS_VOLUME} volume"
   fi
 
+  # - - - - - - - - - - - - -
   # check volume exists
   docker volume ls | grep --silent "${CYBER_DOJO_LANGUAGES_VOLUME}"
   if [ $? != 0 ]; then
@@ -205,6 +199,7 @@ if [ "$1" = "up" ]; then
     exit 1
   fi
 
+  # - - - - - - - - - - - - -
   # bring up server with volumes
   ${DOCKER_COMPOSE_CMD} up -d
 fi
