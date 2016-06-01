@@ -92,7 +92,6 @@ export CYBER_DOJO_RUNNER_TIMEOUT=${CYBER_DOJO_RUNNER_TIMEOUT:=10}
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # setup docker-compose command
 
-ME="./$( basename ${0} )"
 MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 DOCKER_COMPOSE_FILE=docker-compose.yml
 DOCKER_COMPOSE_CMD="docker-compose --file=${MY_DIR}/${DOCKER_COMPOSE_FILE}"
@@ -108,30 +107,47 @@ fi
 # bring up the web server's container
 
 if [ "$1" = "up" ]; then
-  # TODO: loop for $2 $3 $4
-  SPEC_VOLUME=$2
-  SPEC=$(echo ${SPEC_VOLUME} | cut -f1 -s -d=)
-  VOLUME=$(echo ${SPEC_VOLUME} | cut -f2 -s -d=)
 
-  if [ "${SPEC}" = "languages" ] && [ "${VOLUME}" != "" ]; then
-    # TODO: VOLUME = "" --> diagnostic
-    export CYBER_DOJO_LANGUAGES_VOLUME=${VOLUME}
-    DOCKER_COMPOSE_CMD="${DOCKER_COMPOSE_CMD} --file=${MY_DIR}/docker-compose.languages.yml"
+  unset CYBER_DOJO_LANGUAGES_VOLUME
+  unset CYBER_DOJO_EXERCISES_VOLUME
+  unset CYBER_DOJO_INSTRUCTIONS_VOLUME
+
+  args=("$2" "$3" "$4")
+  for arg in "${args[@]}"
+  do
+    NAME_VOLUME=${arg}
+    NAME=$(echo ${NAME_VOLUME} | cut -f1 -s -d=)
+    VOLUME=$(echo ${NAME_VOLUME} | cut -f2 -s -d=)
+
+    if [ "${NAME}" = "languages" ] && [ "${VOLUME}" != "" ]; then
+      export CYBER_DOJO_LANGUAGES_VOLUME=${VOLUME}
+      DOCKER_COMPOSE_CMD="${DOCKER_COMPOSE_CMD} --file=${MY_DIR}/docker-compose.languages.yml"
+    fi
+
+    if [ "${NAME}" = "exercises" ] && [ "${VOLUME}" != "" ]; then
+      export CYBER_DOJO_EXERCISES_VOLUME=${VOLUME}
+      DOCKER_COMPOSE_CMD="${DOCKER_COMPOSE_CMD} --file=${MY_DIR}/docker-compose.exercises.yml"
+    fi
+
+    if [ "${NAME}" = "instructions" ] && [ "${VOLUME}" != "" ]; then
+      export CYBER_DOJO_INSTRUCTIONS_VOLUME=${VOLUME}
+      DOCKER_COMPOSE_CMD="${DOCKER_COMPOSE_CMD} --file=${MY_DIR}/docker-compose.instructions.yml"
+    fi
+  done
+
+  if [ -z ${CYBER_DOJO_LANGUAGES_VOLUME+x} ]; then
+    echo "TODO: languages languages not set: specify default"
+  fi
+  if [ -z ${CYBER_DOJO_EXERCISES_VOLUME+x} ]; then
+    echo "TODO: exercises volume not set: specify default"
+  fi
+  if [ -z ${CYBER_DOJO_INSTRUCTIONS_VOLUME+x} ]; then
+    echo "TODO: instructions volume not set: specify default"
   fi
 
-  if [ "${SPEC}" = "exercises" ] && [ "${VOLUME}" != "" ]; then
-    # TODO: VOLUME = "" --> diagnostic
-    export CYBER_DOJO_EXERCISES_VOLUME=${VOLUME}
-    DOCKER_COMPOSE_CMD="${DOCKER_COMPOSE_CMD} --file=${MY_DIR}/docker-compose.exercises.yml"
-  fi
+  # TODO: check the volumes exists
+  # (currently this creates empty volume if they do not already exist). WRONG
 
-  if [ "${SPEC}" = "instructions" ] && [ "${VOLUME}" != "" ]; then
-    # TODO: VOLUME = "" --> diagnostic
-    export CYBER_DOJO_INSTRUCTIONS_VOLUME=${VOLUME}
-    DOCKER_COMPOSE_CMD="${DOCKER_COMPOSE_CMD} --file=${MY_DIR}/docker-compose.instructions.yml"
-  fi
-
-  # TODO: this creates the volume if it does not already exist. WRONG.
   ${DOCKER_COMPOSE_CMD} up -d
 fi
 
