@@ -15,7 +15,7 @@ fi
 KATAS_ROOT=/var/www/cyber-dojo/katas
 KATAS_DATA_CONTAINER=cdf-katas-DATA-CONTAINER
 
-docker ps -a | grep -q ${KATAS_DATA_CONTAINER}
+docker ps --all | grep --silent ${KATAS_DATA_CONTAINER}
 if [ $? != 0 ]; then
   # 1. determine appropriate Dockerfile (to create katas-data-container)
   if [ -d "${KATAS_ROOT}" ]; then
@@ -63,7 +63,7 @@ fi
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # delegate to ruby script inside web container or web image
 
-docker ps -a | grep -q cdf-web
+docker ps -all | grep --silent cdf-web
 if [ $? = 0 ]; then
   docker exec cdf-web sh -c "${CYBER_DOJO_HOME}/app/docker/cyber-dojo.rb $@"
 else
@@ -108,6 +108,7 @@ fi
 
 if [ "$1" = "up" ]; then
 
+  # process volume arguments
   unset CYBER_DOJO_LANGUAGES_VOLUME
   unset CYBER_DOJO_EXERCISES_VOLUME
   unset CYBER_DOJO_INSTRUCTIONS_VOLUME
@@ -135,19 +136,43 @@ if [ "$1" = "up" ]; then
     fi
   done
 
+  # create & use default volumes where not specified
   if [ -z ${CYBER_DOJO_LANGUAGES_VOLUME+x} ]; then
-    echo "TODO: languages languages not set: specify default"
+    export CYBER_DOJO_LANGUAGES_VOLUME=default_languages
+    echo "Using ${CYBER_DOJO_LANGUAGES_VOLUME} volume"
+    echo "TODO:    create default_languages if it does not yet exist"
   fi
   if [ -z ${CYBER_DOJO_EXERCISES_VOLUME+x} ]; then
-    echo "TODO: exercises volume not set: specify default"
+    export CYBER_DOJO_EXERCISES_VOLUME=default_exercises
+    echo "Using ${CYBER_DOJO_EXERCISES_VOLUME} volume"
+    echo "TODO:    create default_exercises if it does not yet exist"
   fi
   if [ -z ${CYBER_DOJO_INSTRUCTIONS_VOLUME+x} ]; then
-    echo "TODO: instructions volume not set: specify default"
+    export CYBER_DOJO_INSTRUCTIONS_VOLUME=default_instructions
+    echo "Using ${CYBER_DOJO_INSTRUCTIONS_VOLUME} volume"
+    echo "TODO:    create default if it does not yet exist"
   fi
 
-  # TODO: check the volumes exists
-  # (currently this creates empty volume if they do not already exist). WRONG
+  # check volume exists
+  docker volume ls | grep --silent "${CYBER_DOJO_LANGUAGES_VOLUME}"
+  if [ $? != 0 ]; then
+    echo "cyber-dojo languages volume ${CYBER_DOJO_LANGUAGES_VOLUME} does not exist"
+    exit 1
+  fi
 
+  docker volume ls | grep --silent "${CYBER_DOJO_EXERCISES_VOLUME}"
+  if [ $? != 0 ]; then
+    echo "cyber-dojo exercises volume ${CYBER_DOJO_EXERCISES_VOLUME} does not exist"
+    exit 1
+  fi
+
+  docker volume ls | grep --silent "${CYBER_DOJO_INSTRUCTIONS_VOLUME}"
+  if [ $? != 0 ]; then
+    echo "cyber-dojo instructions volume ${CYBER_DOJO_INSTRUCTIONS_VOLUME} does not exist"
+    exit 1
+  fi
+
+  # bring up server with volumes
   ${DOCKER_COMPOSE_CMD} up -d
 fi
 

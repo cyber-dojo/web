@@ -139,6 +139,10 @@ def volume_create
         quiet_run("docker volume create --name=#{name} --label=cyber-dojo-volume")
         command = quoted("git clone --depth=1 --branch=master #{url} /data && rm -rf /data/.git")
         run("docker run --rm -v #{name}:/data #{docker_hub_username}/user-base sh -c #{command}")
+
+        puts "TODO: check if that worked. git URL could be wrong."
+        puts "TODO: if it is this will still create a volume but with nothing in it."
+
       end
     end
   end
