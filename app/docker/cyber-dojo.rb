@@ -34,14 +34,14 @@ def help
     "Use: #{me} COMMAND",
     "     #{me} [help]",
     '',
-    '    clean    Removes dead images',
-    '    down     Brings down the server',
-    '    pull     Pulls a docker image',
-    '    rm       Removes a docker image',
-    '    sh       Shells into the server',
-    '    up       Brings up the server',
-    '    upgrade  Upgrades the server and languages',
-    '    volume   Manage cyber-dojo data volumes',
+    '    clean     Removes dead images',
+    '    down      Brings down the server',
+    '    pull      Pulls a docker image',
+    '    rm        Removes a docker image',
+    '    sh        Shells into the server',
+    '    up        Brings up the server',
+    '    upgrade   Upgrades the server and languages',
+    '    volume    Manage cyber-dojo data volumes',
     '',
   ].join("\n") + "\n"
 
@@ -203,6 +203,8 @@ def volume_inspect # was catalog
     p 'TODO: volume inspect'
     # filter on label from [volume create]
     # docker volume inspect #{name} | grep cyber-dojo-volume
+    # Note: this will volume mount the named VOL to find its info
+    #       it does not show the details of what volumes are inside the web container.
   end
 end
 

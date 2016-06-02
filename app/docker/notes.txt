@@ -18,6 +18,18 @@ Note: need a check that each docker image has a user in it called nobody
        If ok it would add a label, eg --label=cyber-dojo-volume
        Could add specific label, eg --label=cyber-dojo-languages-volume
 
+       manifest.json in the github source will specify
+         . column-names
+         . type (languages/exercises/instructions)
+       creation of volume will then add
+         . name
+         . url
+       Then volume can be mounted read-only.
+
+       Currently cyber-dojo.sh delegtes to cyber-dojo.rb
+       inside the web container if it exists otherwise creates a new container from image.
+       I don't think it needs to do this. It can just use the image.
+
      $ ./cyber-dojo volume ls
        This would filter on the label set, --filter=cyber-dojo-volume
 
