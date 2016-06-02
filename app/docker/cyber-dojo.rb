@@ -81,11 +81,11 @@ def volume
     "Use: #{me} volume [COMMAND]",
     '',
     'Commands:',
-    minitab('create         Creates a new volume to use with the [up] command'),
-    minitab('rm             Removes one or more volumes'),
-    minitab('ls             Lists the names of all volumes'),
-    minitab('inspect        Displays details of one or more volume'),
-    minitab('pull           Pulls all docker images named in one or more volumes'),
+    minitab('create         Creates a new cyber-dojo volume'),
+    minitab('rm             Removes cyber-dojo volumes'),
+    minitab('ls             Lists the names of all cyber-dojo volumes'),
+    minitab('inspect        Displays cyber-dojo volume details'),
+    minitab('pull           Pulls the docker images inside cyber-dojo volumes'),
     '',
     "Run '#{me} volume COMMAND --help' for more information on a command",
   ]
@@ -161,7 +161,7 @@ def volume_rm
   if [nil,'help','--help'].include? ARGV[2]
     show(help)
   else
-    p "do volume rm..."
+    p "TODO: volume rm..."
     # check the volume exists and is labelled as per the [volume create] command.
   end
 end
@@ -169,8 +169,17 @@ end
 # - - - - - - - - - - - - - - -
 
 def volume_ls
-  p 'volume ls'
-  #minitab + 'ls                  Lists the names of all cyber-dojo volumes
+  help = [
+    '',
+    "Use: #{me} volume ls",
+    '',
+    tab('Lists the names of all cyber-dojo volumes'),
+  ]
+  if ['help','--help'].include? ARGV[2]
+    show(help)
+  else
+    p 'TODO: volume ls'
+  end
   #filter on label from [volume create]
   #There is no [--filter label=L]  option on [docker volume ls]
   #https://github.com/docker/docker/pull/21567
@@ -181,21 +190,38 @@ end
 
 # - - - - - - - - - - - - - - -
 
-def volume_inspect
-  p 'volume inspect'
-  # was catalog
-  #minitab + 'inspect NAME        Shows details of the named volume', #(WAS catalog)
-  # filter on label from [volume create]
-  # docker volume inspect #{name} | grep cyber-dojo-volume
+def volume_inspect # was catalog
+  help = [
+    '',
+    "Use: #{me} volume inspect VOL [VOL...]",
+    '',
+    tab('Displays details of the named cyber-dojo volumes'),
+  ]
+  if [nil,'help','--help'].include? ARGV[2]
+    show(help)
+  else
+    p 'TODO: volume inspect'
+    # filter on label from [volume create]
+    # docker volume inspect #{name} | grep cyber-dojo-volume
+  end
 end
 
 # - - - - - - - - - - - - - - -
 
 def volume_pull
-  p 'volume pull'
-  #minitab + 'pull NAME           ....',
-  #check volume is labelled as per [volume create]
-  #Then have to extract all image names from all manifest.json files.
+  help = [
+    '',
+    "Use: #{me} volume pull VOL [VOL...]",
+    '',
+    tab('Pulls the docker images inside the named cyber-dojo volumes'),
+  ]
+  if [nil,'help','--help'].include? ARGV[2]
+    show(help)
+  else
+    p 'TODO: volume pull'
+    #check volume is labelled as per [volume create]
+    #Then have to extract all image names from all manifest.json files.
+  end
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
