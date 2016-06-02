@@ -115,19 +115,17 @@ cyber_dojo_up() {
     local name=$(echo ${name_volume} | cut -f1 -s -d=)
     local volume=$(echo ${name_volume} | cut -f2 -s -d=)
 
-    if [ "${name}" = "languages" ] && [ "${volume}" != "" ]; then
+    if [ "${name}" = "--languages" ] && [ "${volume}" != "" ]; then
       export CYBER_DOJO_LANGUAGES_VOLUME=${volume}
     fi
 
-    if [ "${name}" = "exercises" ] && [ "${volume}" != "" ]; then
+    if [ "${name}" = "--exercises" ] && [ "${volume}" != "" ]; then
       export CYBER_DOJO_EXERCISES_VOLUME=${volume}
     fi
 
-    if [ "${name}" = "instructions" ] && [ "${volume}" != "" ]; then
+    if [ "${name}" = "--instructions" ] && [ "${volume}" != "" ]; then
       export CYBER_DOJO_INSTRUCTIONS_VOLUME=${volume}
     fi
-
-    #TODO: check if ${name} != languages/exercises/instructions
   done
 
   # create default volumes if necessary
@@ -157,19 +155,19 @@ cyber_dojo_up() {
   # check volumes exist
   volume_exists ${CYBER_DOJO_LANGUAGES_VOLUME}
   if [ $? != 0 ]; then
-    echo "cyber-dojo volume languages=${CYBER_DOJO_LANGUAGES_VOLUME} does not exist"
+    echo "volume ${CYBER_DOJO_LANGUAGES_VOLUME} does not exist"
     exit 1
   fi
 
   volume_exists ${CYBER_DOJO_EXERCISES_VOLUME}
   if [ $? != 0 ]; then
-    echo "cyber-dojo volume exercises=${CYBER_DOJO_EXERCISES_VOLUME} does not exist"
+    echo "volume ${CYBER_DOJO_EXERCISES_VOLUME} does not exist"
     exit 1
   fi
 
   volume_exists ${CYBER_DOJO_INSTRUCTIONS_VOLUME}
   if [ $? != 0 ]; then
-    echo "cyber-dojo volume instructions=${CYBER_DOJO_INSTRUCTIONS_VOLUME} does not exist"
+    echo "volume ${CYBER_DOJO_INSTRUCTIONS_VOLUME} does not exist"
     exit 1
   fi
 
@@ -184,13 +182,12 @@ cyber_dojo_up() {
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # delegate to ruby script inside web container or web image
 
-docker ps -all | grep --silent cdf-web
-if [ $? = 0 ]; then
-  # cdf-web name is from docker-compose.yml file
-  docker exec cdf-web sh -c "${CYBER_DOJO_HOME}/app/docker/cyber-dojo.rb $@"
-else
-  cyber_dojo_rb "$*"
-fi
+cyber_dojo_rb "$*"
+# TODO: make cyber-dojo.rb return an exit code indicating whether
+#       to continue or not
+#TODO: eg for [up] check if args != --languages/--exercises/--instructions
+#      and if so don't do real up execution
+
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # set environment variables required by docker-compose.yml

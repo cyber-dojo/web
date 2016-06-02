@@ -45,10 +45,10 @@ def help
     '',
   ].join("\n") + "\n"
 
-  #'    pull IMAGE                     Pulls the named docker IMAGE',
-  #'    remove IMAGE                   Removes a docker image', #pulled language IMAGE',
+  # TODO: add sh function so it can process [help,--help]
   #'    sh [COMMAND]             Shells into the server', #' (and run COMMAND if provided)',
-  #'    up [NAME...]             Brings up the server using the default/named volumes',
+
+  # TODO: add [help,--help] processing for all commands, eg clean,down,up
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -90,6 +90,7 @@ def volume
     "Run '#{me} volume COMMAND --help' for more information on a command",
   ]
   case ARGV[1]
+    when 'up'      then volume_up
     when 'create'  then volume_create
     when 'rm'      then volume_rm
     when 'ls'      then volume_ls
@@ -106,12 +107,33 @@ def quoted(s)
 end
 
 def get_arg(name, argv)
-  # eg name=--git  arg=--git=https://github.com/JonJagger/cyber-dojo-refactoring-exercises.git
+  # eg name=--git
+  #    argv=[--git=https://github.com/JonJagger/cyber-dojo-refactoring-exercises.git, ...]
   #   ---> https://github.com/JonJagger/cyber-dojo-refactoring-exercises.git
 
   args = argv.select{ |arg| arg.start_with?(name + '=')}.map{ |arg| arg.split('=')[1] }
   args.size == 1 ? args[0] : nil
 end
+
+# - - - - - - - - - - - - - - -
+
+def volume_up
+  help = [
+    '',
+    "Use: #{me} volume up [OPTIONS]",
+    '',
+    'Brings up the cyber-dojo server using default/named volumes',
+    '',
+    minitab('--languages=VOL      Specify name of languages volume'),
+    minitab('--exercises=VOL      Specify name of exercises volume'),
+    minitab('--instructions=VOL   Specify name of instructions volume')
+  ]
+  if [nil,'help','--help'].include? ARGV[2]
+    show(help)
+  end
+end
+
+# - - - - - - - - - - - - - - -
 
 def volume_create
   help = [
@@ -346,6 +368,7 @@ end
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 def pull(image)
+  #'    pull IMAGE                     Pulls the named docker IMAGE',
   if image == 'all'
     all_languages.each do |language|
       docker_pull(language, 'latest')
@@ -360,6 +383,7 @@ end
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 def rm(image)
+  #'    rm IMAGE                   Removes a docker image', #pulled language IMAGE',
   if languages.include?(image)
     run "docker rmi #{docker_hub_username}/#{image}"
   elsif all_languages.include?(image)
