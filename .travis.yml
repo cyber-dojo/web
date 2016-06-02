@@ -15,10 +15,11 @@ env:
 
 before_install:
     # list docker-engine versions
+    - apt-cache madison docker-engine
+
     # This is currently failing
     # https://forums.docker.com/t/unable-to-install-docker-engine-on-ubuntu-14/14409
     # suggests its the GPG key
-    # - apt-cache madison docker-engine
 
     # upgrade docker-engine to specific version
     - sudo apt-get -o Dpkg::Options::="--force-confnew" install -y docker-engine=${DOCKER_VERSION}
