@@ -236,8 +236,15 @@ def volume_rm
     show(help)
     exit 1
   end
-  p "TODO: volume rm..."
-  # check the volume exists and is labelled as per the [volume create] command.
+
+  # TODO: check the volume is labelled as per the [volume create] command.
+  name = ARGV[2]
+  if !volume_exists?(name)
+    puts "Cannot remove volume #{name} because it does not exist."
+    exit 1
+  end
+
+  quiet_run("docker volume rm #{name}")
 end
 
 # - - - - - - - - - - - - - - -
@@ -255,9 +262,10 @@ def volume_ls
   end
   p 'TODO: volume ls'
   #filter on label from [volume create]
-  #There is no [--filter label=L]  option on [docker volume ls]
+  #There seems to be no [--filter label=L]  option on [docker volume ls]
   #https://github.com/docker/docker/pull/21567
   #Hmmmm. How to work round that?!
+  # Is there a general {{ ... }} filter?
   # How about creating a volume called cyber-dojo-X
   # when you specify a name of X.
 end
