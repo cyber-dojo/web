@@ -240,7 +240,7 @@ def volume_rm
   # TODO: check the volume is labelled as per the [volume create] command.
   name = ARGV[2]
   if !volume_exists?(name)
-    puts "Cannot remove volume #{name} because it does not exist."
+    puts "Cannot do [volume rm #{name}] because it does not exist."
     exit 1
   end
 
@@ -299,6 +299,12 @@ def volume_inspect # was catalog
   ]
   if [nil,'help','--help'].include? ARGV[2]
     show(help)
+    exit 1
+  end
+
+  name = ARGV[2]
+  if !volume_exists?(name)
+    puts "Cannot do [volume inspect #{name}] because it does not exist."
     exit 1
   end
 
