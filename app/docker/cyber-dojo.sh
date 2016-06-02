@@ -83,7 +83,7 @@ volume_create() {
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 volume_exists() {
-  # do not match substring
+  # careful to not match substring
   local space=' '
   local end_of_line='$'
   docker volume ls | grep --silent "${space}${1}${end_of_line}"
@@ -111,10 +111,9 @@ default_instructions_volume=default_instructions
 cyber_dojo_up() {
   # process volume arguments
   shift
-  local args=($*)
-  for arg in "${args[@]}"
+  for arg in "$*"
   do
-    # eg exercises=james
+    # eg --exercises=james
     local name_volume=${arg}
     local name=$(echo ${name_volume} | cut -f1 -s -d=)
     local volume=$(echo ${name_volume} | cut -f2 -s -d=)
@@ -136,41 +135,35 @@ cyber_dojo_up() {
   local github_jon_jagger='https://github.com/JonJagger'
 
   if [ "${CYBER_DOJO_LANGUAGES_VOLUME}" = "${default_languages_volume}" ]; then
-    volume_exists ${default_languages_volume}
-    if [ $? != 0 ]; then
+    if ! volume_exists ${default_languages_volume}; then
       volume_create ${default_languages_volume} "${github_jon_jagger}/cyber-dojo-languages.git"
     fi
   fi
 
   if [ "${CYBER_DOJO_EXERCISES_VOLUME}" = "${default_exercises_volume}" ]; then
-    volume_exists ${default_exercises_volume}
-    if [ $? != 0 ]; then
+    if ! volume_exists ${default_exercises_volume}; then
       volume_create ${default_exercises_volume} "${github_jon_jagger}/cyber-dojo-refactoring-exercises.git"
     fi
   fi
 
   if [ "${CYBER_DOJO_INSTRUCTIONS_VOLUME}" = "${default_instructions_volume}" ]; then
-    volume_exists ${default_instructions_volume}
-    if [ $? != 0 ]; then
+    if ! volume_exists ${default_instructions_volume}; then
       volume_create ${default_instructions_volume} "${github_jon_jagger}/cyber-dojo-instructions.git"
     fi
   fi
 
-  # check volumes exist
-  volume_exists ${CYBER_DOJO_LANGUAGES_VOLUME}
-  if [ $? != 0 ]; then
+  # - - - - - - - - - - - - - - -
+  if ! volume_exists ${CYBER_DOJO_LANGUAGES_VOLUME}; then
     echo "volume ${CYBER_DOJO_LANGUAGES_VOLUME} does not exist"
     exit 1
   fi
 
-  volume_exists ${CYBER_DOJO_EXERCISES_VOLUME}
-  if [ $? != 0 ]; then
+  if ! volume_exists ${CYBER_DOJO_EXERCISES_VOLUME}; then
     echo "volume ${CYBER_DOJO_EXERCISES_VOLUME} does not exist"
     exit 1
   fi
 
-  volume_exists ${CYBER_DOJO_INSTRUCTIONS_VOLUME}
-  if [ $? != 0 ]; then
+  if ! volume_exists ${CYBER_DOJO_INSTRUCTIONS_VOLUME}; then
     echo "volume ${CYBER_DOJO_INSTRUCTIONS_VOLUME} does not exist"
     exit 1
   fi

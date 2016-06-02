@@ -42,7 +42,7 @@ def clean
     '',
     'Removes all dangling docker images',
   ]
-  if ['help','--help'].include? ARGV[2]
+  if ['help','--help'].include? ARGV[1]
     show(help)
     exit 1
   end
@@ -60,7 +60,7 @@ def down
     '',
     "Stops and removes docker containers created with 'up'",
   ]
-  if ['help','--help'].include? ARGV[2]
+  if ['help','--help'].include? ARGV[1]
     show(help)
     exit 1
   end
@@ -77,7 +77,7 @@ def sh
     '',
     "Shells into the cyber-dojo web server docker container",
   ]
-  if ['help','--help'].include? ARGV[2]
+  if ['help','--help'].include? ARGV[1]
     show(help)
     exit 1
   end
@@ -92,13 +92,25 @@ def up
     '',
     "Use: #{me} up [OPTIONS]",
     '',
-    'Brings up the cyber-dojo server using default/named volumes',
+    'Creates and starts the cyber-dojo server using default/named volumes',
     '',
     minitab('--languages=VOL      Specify the languages volume (otherwise default_languages)'),
     minitab('--exercises=VOL      Specify the exercises volume (otherwise default_exercises)'),
     minitab('--instructions=VOL   Specify the instructions volume (otherwise default_instructions)')
   ]
-  if ['help','--help'].include? ARGV[2]
+
+  if ['help','--help'].include? ARGV[1]
+    show(help)
+    exit 1
+  end
+
+  unknown = ARGV[1..-1].select do |arg|
+    !arg.start_with?('--languages=') &&
+    !arg.start_with?('--exercises=') &&
+    !arg.start_with?('--instructions=')
+  end
+
+  if unknown != []
     show(help)
     exit 1
   end
