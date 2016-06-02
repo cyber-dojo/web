@@ -1,5 +1,8 @@
 #!/usr/bin/env ruby
 
+# Called from cyber-dojo.sh
+# Returns non-zero to indicate cyber-dojo.sh should not proceed.
+
 require 'json'
 
 def me; 'cyber-dojo'; end
@@ -60,12 +63,31 @@ end
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 def up
-  return unless languages == []
+  help = [
+    '',
+    "Use: #{me} up [OPTIONS]",
+    '',
+    'Brings up the cyber-dojo server using default/named volumes',
+    '',
+    minitab('--languages=VOL      Specify name of languages volume'),
+    minitab('--exercises=VOL      Specify name of exercises volume'),
+    minitab('--instructions=VOL   Specify name of instructions volume')
+  ]
+  if ['help','--help'].include? ARGV[2]
+    show(help)
+    exit 1
+  end
+end
+
+=begin
+def up
+ return unless languages == []
   puts 'No language images pulled'
   puts 'Pulling a small starting collection of common language images'
   starting = %w( gcc_assert gpp_assert csharp_nunit java_junit python_pytest ruby_mini_test )
   starting.each { |image| pull(image) }
 end
+=end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -90,7 +112,6 @@ def volume
     "Run '#{me} volume COMMAND --help' for more information on a command",
   ]
   case ARGV[1]
-    when 'up'      then volume_up
     when 'create'  then volume_create
     when 'rm'      then volume_rm
     when 'ls'      then volume_ls
@@ -117,21 +138,6 @@ end
 
 # - - - - - - - - - - - - - - -
 
-def volume_up
-  help = [
-    '',
-    "Use: #{me} volume up [OPTIONS]",
-    '',
-    'Brings up the cyber-dojo server using default/named volumes',
-    '',
-    minitab('--languages=VOL      Specify name of languages volume'),
-    minitab('--exercises=VOL      Specify name of exercises volume'),
-    minitab('--instructions=VOL   Specify name of instructions volume')
-  ]
-  if [nil,'help','--help'].include? ARGV[2]
-    show(help)
-  end
-end
 
 # - - - - - - - - - - - - - - -
 
@@ -145,6 +151,7 @@ def volume_create
   ]
   if [nil,'help','--help'].include? ARGV[2]
     show(help)
+    exit 1
   else
     args = ARGV[2..-1]
     name = get_arg('--name', args)

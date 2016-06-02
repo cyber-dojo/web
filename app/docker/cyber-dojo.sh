@@ -107,6 +107,7 @@ default_instructions_volume=default_instructions
 
 cyber_dojo_up() {
   # process volume arguments
+  shift
   local args=($*)
   for arg in "${args[@]}"
   do
@@ -180,16 +181,6 @@ cyber_dojo_up() {
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# delegate to ruby script inside web container or web image
-
-cyber_dojo_rb "$*"
-# TODO: make cyber-dojo.rb return an exit code indicating whether
-#       to continue or not
-#TODO: eg for [up] check if args != --languages/--exercises/--instructions
-#      and if so don't do real up execution
-
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # set environment variables required by docker-compose.yml
 
 export CYBER_DOJO_KATAS_CLASS=${CYBER_DOJO_KATAS_CLASS:=HostDiskKatas}
@@ -210,18 +201,23 @@ MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 DOCKER_COMPOSE_FILE=docker-compose.yml
 DOCKER_COMPOSE_CMD="docker-compose --file=${MY_DIR}/${DOCKER_COMPOSE_FILE}"
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# delegate to ruby script inside web container or web image
+
+cyber_dojo_rb "$*"
+if [ $? != 0  ]; then
+  exit 1
+fi
 
 if [ "$1" = "up" ]; then
-  shift
   cyber_dojo_up $@
 fi
 
-if [ "$*" = "sh" ]; then
+if [ "$1" = "sh" ]; then
   cyber_dojo_sh
 fi
 
-if [ "$*" = "down" ]; then
+if [ "$1" = "down" ]; then
   cyber_dojo_down
 fi
 

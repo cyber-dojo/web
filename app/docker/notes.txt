@@ -26,13 +26,6 @@ Note: need a check that each docker image has a user in it called nobody
          . url
        Then volume can be mounted read-only.
 
-       cyber-dojo up --help
-       Should NOT bring up the server.
-
-       cyber-dojo.sh delegates to cyber-dojo.rb
-       This should return status indicating if there was an error
-       Or rather indicating if cyber-dojo.sh can proceed.
-
      $ ./cyber-dojo volume ls
        This would filter on the label set, --filter=cyber-dojo-volume
 
