@@ -31,29 +31,6 @@ def run(command)
   #TODO: diagnostic if command fails
 end
 
-def help
-  [
-    '',
-    "Use: #{me} COMMAND",
-    "     #{me} [help]",
-    '',
-    '    clean     Removes dead images',
-    '    down      Brings down the server',
-    '    pull      Pulls a docker image',
-    '    rm        Removes a docker image',
-    '    sh        Shells into the server',
-    '    up        Brings up the server',
-    '    upgrade   Upgrades the server and languages',
-    '    volume    Manage cyber-dojo data volumes',
-    '',
-  ].join("\n") + "\n"
-
-  # TODO: add sh function so it can process [help,--help]
-  #'    sh [COMMAND]             Shells into the server', #' (and run COMMAND if provided)',
-
-  # TODO: add [help,--help] processing for all commands, eg clean,down,up
-end
-
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 def clean
@@ -403,34 +380,45 @@ end
 
 #= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
-if ARGV.length == 0
-  puts help
-  exit
+def help
+  puts [
+    '',
+    "Use: #{me} COMMAND",
+    "     #{me} [help]",
+    '',
+    '    clean     Removes dead images',
+    '    down      Brings down the server',
+    '    pull      Pulls a docker image',
+    '    rm        Removes a docker image',
+    '    sh        Shells into the server',
+    '    up        Brings up the server',
+    '    upgrade   Upgrades the server and languages',
+    '    volume    Manage cyber-dojo data volumes',
+    '',
+  ].join("\n") + "\n"
+
+  # TODO: add sh function so it can process [help,--help]
+  #'    sh [COMMAND]             Shells into the server', #' (and run COMMAND if provided)',
+
+  # TODO: add [help,--help] processing for all commands, eg clean,down,up
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-options = {}
-arg = ARGV[0]
-container_commands = ['down', 'sh', 'up']
-image_commands = ['clean', 'catalog', 'pull', 'rm', 'upgrade']
-all_commands = ['--help','help'] + ['volume'] + container_commands + image_commands
-if all_commands.include? arg
-  options[arg] = true
+case ARGV[0]
+when nil       then help
+when '--help'  then help
+when 'help'    then help
+when 'clean'   then clean
+when 'pull'    then pull(ARGV[1])
+when 'rm'      then rm(ARGV[1])
+when 'up'      then up
+when 'upgrade' then upgrade
+when 'volume'  then volume
 else
-  puts "#{me}: '#{arg}' is not a command."
+  puts "#{me}: '#{ARGV[0]}' is not a command."
   puts "See '#{me} --help'."
-  exit
+  exit 1
 end
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-puts help       if options['--help'] || options['help']
-volume          if options['volume']
-up              if options['up']
-
-puts catalog    if options['catalog']
-clean           if options['clean']
-pull(ARGV[1])   if options['pull']
-rm(ARGV[1])     if options['rm']
-upgrade         if options['upgrade']
+exit 0
