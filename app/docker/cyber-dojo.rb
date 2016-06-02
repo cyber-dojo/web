@@ -211,18 +211,20 @@ def volume_create
   command = quoted("git clone --depth=1 --branch=master #{url} /data && rm -rf /data/.git")
   run("docker run --rm -v #{name}:/data #{docker_hub_username}/user-base sh -c #{command}")
 
-  puts "TODO: check if that worked. git URL could be wrong."
-  puts "TODO: if it is this will still create a volume but with nothing in it."
-  puts "TODO: add details to top-level manifest"
-  puts "TODO:    type: languages/exercises/instructions"
-  puts "TODO:    columns: [ 'lhs', 'rhs' ]"
+  # TODO: check if that worked. git URL could be wrong.
+  # TODO:   (does URL have to end in .git)
+  # TODO: if it is WRONG this will still create a volume but with nothing in it.
+  # TODO:   in which case delete the empty volume
+  # TODO: add details to top-level manifest
+  # TODO:    type: languages/exercises/instructions
+  # TODO:    columns: [ 'lhs', 'rhs' ]
 end
 
 # - - - - - - - - - - - - - - -
 
 def volume_rm
-  # Are you allowed to delete the default volumes?
-  # Yes. This allows you to create a new default (from a given URL) if you want.
+  # You are allowed to delete a default volume.
+  # This allows you to create a new default (from a given URL).
   help = [
     '',
     "Use: #{me} volume rm VOL [VOL...]",
