@@ -83,7 +83,10 @@ volume_create() {
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 volume_exists() {
-  docker volume ls | grep --silent "${1}"
+  # do not match substring
+  local space=' '
+  local end_of_line='$'
+  docker volume ls | grep --silent "${space}${1}${end_of_line}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

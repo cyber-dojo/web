@@ -36,6 +36,16 @@ end
 #=========================================================================================
 
 def clean
+  help = [
+    '',
+    "Use: #{me} clean",
+    '',
+    'Removes all dangling docker images',
+  ]
+  if ['help','--help'].include? ARGV[2]
+    show(help)
+    exit 1
+  end
   run "docker images -q -f='dangling=true' | xargs docker rmi --force"
 end
 
@@ -44,7 +54,16 @@ end
 #=========================================================================================
 
 def down
-  puts "TODO: down"
+  help = [
+    '',
+    "Use: #{me} down",
+    '',
+    "Stops and removes docker containers created with 'up'",
+  ]
+  if ['help','--help'].include? ARGV[2]
+    show(help)
+    exit 1
+  end
 end
 
 #=========================================================================================
@@ -52,7 +71,16 @@ end
 #=========================================================================================
 
 def sh
-  puts "TODO: sh"
+  help = [
+    '',
+    "Use: #{me} sh",
+    '',
+    "Shells into the cyber-dojo web server docker container",
+  ]
+  if ['help','--help'].include? ARGV[2]
+    show(help)
+    exit 1
+  end
 end
 
 #=========================================================================================
@@ -66,9 +94,9 @@ def up
     '',
     'Brings up the cyber-dojo server using default/named volumes',
     '',
-    minitab('--languages=VOL      Specify name of languages volume'),
-    minitab('--exercises=VOL      Specify name of exercises volume'),
-    minitab('--instructions=VOL   Specify name of instructions volume')
+    minitab('--languages=VOL      Specify the languages volume (otherwise default_languages)'),
+    minitab('--exercises=VOL      Specify the exercises volume (otherwise default_exercises)'),
+    minitab('--instructions=VOL   Specify the instructions volume (otherwise default_instructions)')
   ]
   if ['help','--help'].include? ARGV[2]
     show(help)
@@ -167,6 +195,9 @@ def volume_create
 
   puts "TODO: check if that worked. git URL could be wrong."
   puts "TODO: if it is this will still create a volume but with nothing in it."
+  puts "TODO: add details to top-level manifest"
+  puts "TODO:    type: languages/exercises/instructions"
+  puts "TODO:    columns: [ 'lhs', 'rhs' ]"
 end
 
 # - - - - - - - - - - - - - - -
@@ -216,7 +247,7 @@ def volume_pull
     '',
     "Use: #{me} volume pull VOL [VOL...]",
     '',
-    tab('Pulls the docker images inside the named cyber-dojo volumes'),
+    tab('Pulls the docker images named inside the cyber-dojo volumes'),
   ]
   if [nil,'help','--help'].include? ARGV[2]
     show(help)
