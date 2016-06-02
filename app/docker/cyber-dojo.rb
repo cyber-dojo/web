@@ -169,6 +169,14 @@ def get_arg(name, argv)
   args.size == 1 ? args[0] : nil
 end
 
+def volume_exists?(name)
+  # careful to not match substring
+  space = ' '
+  end_of_line = '$'
+  pattern = "#{space}#{name}#{end_of_line}"
+  quiet_run("docker volume ls --quiet | grep #{pattern}").include? name
+end
+
 # - - - - - - - - - - - - - - -
 
 def volume_create
@@ -193,9 +201,7 @@ def volume_create
     exit 1
   end
 
-  matching = quiet_run("docker volume ls --quiet | grep #{name}")
-  already_exists = matching.include? name
-  if already_exists
+  if volume_exists?(name) #already_exists
     puts "Cannot create volume #{name} because it already exists."
     puts "To remove it use: ./cyber-dojo volume rm #{name}"
     exit 1
