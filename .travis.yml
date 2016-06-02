@@ -10,7 +10,7 @@ script:
 
 env:
     global:
-        - DOCKER_VERSION=1.11.2-0~trusty
+        - DOCKER_VERSION=1.11.1-0~trusty
         - DOCKER_COMPOSE_VERSION=1.7.0
 
 before_install:
