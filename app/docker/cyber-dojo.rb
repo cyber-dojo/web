@@ -95,9 +95,9 @@ def up
     '',
     'Creates and starts the cyber-dojo server using default/named volumes',
     '',
-    minitab('--languages=VOL      Specify the languages volume (otherwise default_languages)'),
-    minitab('--exercises=VOL      Specify the exercises volume (otherwise default_exercises)'),
-    minitab('--instructions=VOL   Specify the instructions volume (otherwise default_instructions)')
+    minitab('--languages=VOLUME      Specify the languages volume (otherwise default_languages)'),
+    minitab('--exercises=VOLUME      Specify the exercises volume (otherwise default_exercises)'),
+    minitab('--instructions=VOLUME   Specify the instructions volume (otherwise default_instructions)')
   ]
 
   if ['help','--help'].include? ARGV[1]
@@ -228,9 +228,9 @@ def volume_rm
   # This allows you to create a new default (from a given URL).
   help = [
     '',
-    "Use: #{me} volume rm VOL [VOL...]",
+    "Use: #{me} volume rm VOLUME",
     '',
-    tab('Removes one or more volumes created with the command'),
+    tab('Removes a volume created with the command'),
     tab("#{me} volume create")
   ]
   if [nil,'help','--help'].include? ARGV[2]
@@ -276,9 +276,9 @@ end
 def volume_pull
   help = [
     '',
-    "Use: #{me} volume pull VOL [VOL...]",
+    "Use: #{me} volume pull VOLUME",
     '',
-    tab('Pulls the docker images named inside the cyber-dojo volumes'),
+    tab('Pulls the docker images named inside the cyber-dojo volume'),
   ]
   if [nil,'help','--help'].include? ARGV[2]
     show(help)
@@ -294,9 +294,9 @@ end
 def volume_inspect # was catalog
   help = [
     '',
-    "Use: #{me} volume inspect VOL [VOL...]",
+    "Use: #{me} volume inspect VOLUME",
     '',
-    tab('Displays details of the named cyber-dojo volumes'),
+    tab('Displays details of the named cyber-dojo volume'),
   ]
   if [nil,'help','--help'].include? ARGV[2]
     show(help)
