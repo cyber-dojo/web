@@ -40,13 +40,14 @@ def clean
     '',
     "Use: #{me} clean",
     '',
-    'Removes all dangling docker images',
+    'Removes all dangling docker images and volumes',
   ]
   if ['help','--help'].include? ARGV[1]
     show(help)
     exit 1
   end
-  run "docker images -q -f='dangling=true' | xargs docker rmi --force"
+  run "docker images --quiet --filter='dangling=true' | xargs docker rmi --force"
+  run "docker volume ls --quiet --filter='dangling=true' | xargs docker volume rm"
 end
 
 #=========================================================================================
@@ -479,7 +480,7 @@ def help
     "Use: #{me} COMMAND",
     "     #{me} [help]",
     '',
-    '    clean     Removes dead images',
+    '    clean     Removes dangling docker images and volumes',
     '    down      Brings down the server',
     '    pull      Pulls a docker image',
     '    rm        Removes a docker image',
