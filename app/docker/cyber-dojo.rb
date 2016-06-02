@@ -201,7 +201,7 @@ def volume_create
     exit 1
   end
 
-  if volume_exists?(name) #already_exists
+  if volume_exists?(name)
     puts "Cannot create volume #{name} because it already exists."
     puts "To remove it use: ./cyber-dojo volume rm #{name}"
     exit 1
