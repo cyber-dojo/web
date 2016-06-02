@@ -215,6 +215,8 @@ end
 # - - - - - - - - - - - - - - -
 
 def volume_rm
+  # Are you allowed to delete the default volumes?
+  # Yes. This allows you to create a new default (from a given URL) if you want.
   help = [
     '',
     "Use: #{me} volume rm VOL [VOL...]",

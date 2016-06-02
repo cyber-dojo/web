@@ -15,7 +15,7 @@ Note: need a check that each docker image has a user in it called nobody
      $ ./cyber-dojo volume create --name=NAME --git=URL
        This would check that the URL adhered to the api,
        viz it specified whether it was languages/exercises/instructions
-       If ok it would add a label, eg --label=cyber-dojo-volume
+       If ok it will add a label, eg --label=cyber-dojo-volume
        Could add specific label, eg --label=cyber-dojo-languages-volume
 
        manifest.json in the github source will specify
@@ -35,34 +35,11 @@ Note: need a check that each docker image has a user in it called nobody
        This would do the old catalog listing.
        This should show the origin (URL) of the volume.
 
-     These commands should all be done inside the cyber-dojo.rb file.
-     There is no need to do them in the cyber-dojo.sh file.
-     Only up/down/sh need to happen in the cyber-dojo.sh file.
-
-     Coming round to the idea that the main cyber-dojo repo does *not* contain
-     app/data/languages etc. There is no default inside the image.
-     The [cyber-dojo up] command adds the defaults if you don't provide any.
-     The first time you call that it builds the three default volumes (like it builds
-     katas data-container) and uses them.
-     Make default-volumes for all 3, then drop submodules.
-     http://stackoverflow.com/questions/1260748/how-do-i-remove-a-submodule
-
-     Hmmmm. Dropping submodules. Will that break any tests?
+     >>>>>>>Dropping submodules. Will that break any tests?
      Can't see because tests don't run inside web container.
      Problem with coverage again...
+     Shouldn't if I start with default volumes.
 
-     Issue then becomes are you allowed to delete the default volumes by name?
-     I think yes, since then you could create a new one to install your own
-     default. If you delete the default and try [cyber-dojo up] then it will
-     recreate it. Similarly if you delete the default, try to recreate your
-     own and misname it, then again it will try to recreate it.
-
-     Also, do you have to specify
-         ./cyber-dojo up languages=VOL
-     or
-         ./cyber-dojo up VOL [VOL...]
-
-     I think the latter. Makes it easier to extend when allowing unioning.
      What should volume manifest.json file contain?
         type: languages/exercises/instructions
         col-names: [ TEXT, TEXT ],
@@ -75,11 +52,11 @@ Note: need a check that each docker image has a user in it called nobody
 
 )) finish the what/how separation
 
-     ./cyber-dojo up exercises=a
+     ./cyber-dojo up --exercises=a
         Use meta-data to confirm a is an exercise collection?
 
      Union of collection. Do in later release.
-     ./cyber-dojo up exercises=a,b
+     ./cyber-dojo up --exercises=a,b
         With meta-data the command could simplify to [./cyber-dojo up a,b] ?? no.
 
         unioning affects the UX quite a lot.
