@@ -23,7 +23,7 @@ def minitab(line = ''); (space * 2) + line; end
 
 def quiet_run(command); `#{command}`; end
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+def show(lines); lines.each { |line| puts line }; end
 
 def run(command)
   puts command
@@ -31,13 +31,33 @@ def run(command)
   #TODO: diagnostic if command fails
 end
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#=========================================================================================
+# clean
+#=========================================================================================
 
 def clean
   run "docker images -q -f='dangling=true' | xargs docker rmi --force"
 end
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#=========================================================================================
+# down
+#=========================================================================================
+
+def down
+  puts "TODO: down"
+end
+
+#=========================================================================================
+# sh
+#=========================================================================================
+
+def sh
+  puts "TODO: sh"
+end
+
+#=========================================================================================
+# up
+#=========================================================================================
 
 def up
   help = [
@@ -66,13 +86,9 @@ def up
 end
 =end
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#=========================================================================================
 # volume
-
-def show(lines)
-  lines.each { |line| puts line }
-end
+#=========================================================================================
 
 def volume
   help = [
@@ -115,9 +131,6 @@ end
 
 # - - - - - - - - - - - - - - -
 
-
-# - - - - - - - - - - - - - - -
-
 def volume_create
   help = [
     '',
@@ -126,32 +139,34 @@ def volume_create
     tab('Creates a volume named NAME as git clone of URL'),
     tab('and pulls all its docker images marked auto_pull:true')
   ]
+
   if [nil,'help','--help'].include? ARGV[2]
     show(help)
     exit 1
-  else
-    args = ARGV[2..-1]
-    name = get_arg('--name', args)
-    url = get_arg('--git', args)
-    if name.nil? || url.nil?
-      show(help)
-    else
-      matching = quiet_run("docker volume ls --quiet | grep #{name}")
-      already_exists = matching.include? name
-      if already_exists
-        puts "Cannot create volume #{name} because it already exists."
-        puts "To remove it use: ./cyber-dojo volume rm #{name}"
-      else
-        quiet_run("docker volume create --name=#{name} --label=cyber-dojo-volume")
-        command = quoted("git clone --depth=1 --branch=master #{url} /data && rm -rf /data/.git")
-        run("docker run --rm -v #{name}:/data #{docker_hub_username}/user-base sh -c #{command}")
-
-        puts "TODO: check if that worked. git URL could be wrong."
-        puts "TODO: if it is this will still create a volume but with nothing in it."
-
-      end
-    end
   end
+
+  args = ARGV[2..-1]
+  name = get_arg('--name', args)
+  url = get_arg('--git', args)
+  if name.nil? || url.nil?
+    show(help)
+    exit 1
+  end
+
+  matching = quiet_run("docker volume ls --quiet | grep #{name}")
+  already_exists = matching.include? name
+  if already_exists
+    puts "Cannot create volume #{name} because it already exists."
+    puts "To remove it use: ./cyber-dojo volume rm #{name}"
+    exit 1
+  end
+
+  quiet_run("docker volume create --name=#{name} --label=cyber-dojo-volume")
+  command = quoted("git clone --depth=1 --branch=master #{url} /data && rm -rf /data/.git")
+  run("docker run --rm -v #{name}:/data #{docker_hub_username}/user-base sh -c #{command}")
+
+  puts "TODO: check if that worked. git URL could be wrong."
+  puts "TODO: if it is this will still create a volume but with nothing in it."
 end
 
 # - - - - - - - - - - - - - - -
@@ -166,10 +181,10 @@ def volume_rm
   ]
   if [nil,'help','--help'].include? ARGV[2]
     show(help)
-  else
-    p "TODO: volume rm..."
-    # check the volume exists and is labelled as per the [volume create] command.
+    exit 1
   end
+  p "TODO: volume rm..."
+  # check the volume exists and is labelled as per the [volume create] command.
 end
 
 # - - - - - - - - - - - - - - -
@@ -183,35 +198,15 @@ def volume_ls
   ]
   if ['help','--help'].include? ARGV[2]
     show(help)
-  else
-    p 'TODO: volume ls'
+    exit 1
   end
+  p 'TODO: volume ls'
   #filter on label from [volume create]
   #There is no [--filter label=L]  option on [docker volume ls]
   #https://github.com/docker/docker/pull/21567
   #Hmmmm. How to work round that?!
   # How about creating a volume called cyber-dojo-X
   # when you specify a name of X.
-end
-
-# - - - - - - - - - - - - - - -
-
-def volume_inspect # was catalog
-  help = [
-    '',
-    "Use: #{me} volume inspect VOL [VOL...]",
-    '',
-    tab('Displays details of the named cyber-dojo volumes'),
-  ]
-  if [nil,'help','--help'].include? ARGV[2]
-    show(help)
-  else
-    p 'TODO: volume inspect'
-    # filter on label from [volume create]
-    # docker volume inspect #{name} | grep cyber-dojo-volume
-    # Note: this will volume mount the named VOL to find its info
-    #       it does not show the details of what volumes are inside the web container.
-  end
 end
 
 # - - - - - - - - - - - - - - -
@@ -225,16 +220,37 @@ def volume_pull
   ]
   if [nil,'help','--help'].include? ARGV[2]
     show(help)
-  else
-    p 'TODO: volume pull'
-    #check volume is labelled as per [volume create]
-    #Then have to extract all image names from all manifest.json files.
+    exit 1
   end
+  p 'TODO: volume pull'
+  #check volume is labelled as per [volume create]
+  #Then have to extract all image names from all manifest.json files.
+end
+
+# - - - - - - - - - - - - - - -
+
+def volume_inspect # was catalog
+  help = [
+    '',
+    "Use: #{me} volume inspect VOL [VOL...]",
+    '',
+    tab('Displays details of the named cyber-dojo volumes'),
+  ]
+  if [nil,'help','--help'].include? ARGV[2]
+    show(help)
+    exit 1
+  end
+
+  p 'TODO: volume inspect'
+  # filter on label from [volume create]
+  # docker volume inspect #{name} | grep cyber-dojo-volume
+  # Note: this will volume mount the named VOL to find its info
+  #       it does not show the details of what volumes are inside the web container.
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # catalog
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 $longest_test = ''
 $longest_language = ''
@@ -334,6 +350,10 @@ def docker_pull(image, tag)
   run "docker pull #{docker_hub_username}/#{image}:#{tag}"
 end
 
+#=========================================================================================
+# upgrade
+#=========================================================================================
+
 def upgrade
   languages.each { |image| docker_pull(image, 'latest') }
 end
@@ -349,10 +369,13 @@ def bad_image(image)
   puts "Try '#{me} help'"
 end
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#=========================================================================================
+# pull
+#=========================================================================================
 
-def pull(image)
+def pull
   #'    pull IMAGE                     Pulls the named docker IMAGE',
+  image = ARGV[1]
   if image == 'all'
     all_languages.each do |language|
       docker_pull(language, 'latest')
@@ -364,10 +387,13 @@ def pull(image)
   end
 end
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#=========================================================================================
+# rm
+#=========================================================================================
 
-def rm(image)
+def rm
   #'    rm IMAGE                   Removes a docker image', #pulled language IMAGE',
+  image = ARGV[1]
   if languages.include?(image)
     run "docker rmi #{docker_hub_username}/#{image}"
   elsif all_languages.include?(image)
@@ -400,25 +426,27 @@ def help
   # TODO: add sh function so it can process [help,--help]
   #'    sh [COMMAND]             Shells into the server', #' (and run COMMAND if provided)',
 
-  # TODO: add [help,--help] processing for all commands, eg clean,down,up
+  # TODO: add [help,--help] processing for ALL commands, eg clean,down,up
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 case ARGV[0]
-when nil       then help
-when '--help'  then help
-when 'help'    then help
-when 'clean'   then clean
-when 'pull'    then pull(ARGV[1])
-when 'rm'      then rm(ARGV[1])
-when 'up'      then up
-when 'upgrade' then upgrade
-when 'volume'  then volume
-else
-  puts "#{me}: '#{ARGV[0]}' is not a command."
-  puts "See '#{me} --help'."
-  exit 1
+  when nil       then help
+  when '--help'  then help
+  when 'help'    then help
+  when 'clean'   then clean
+  when 'down'    then down
+  when 'pull'    then pull
+  when 'rm'      then rm
+  when 'sh'      then sh
+  when 'up'      then up
+  when 'upgrade' then upgrade
+  when 'volume'  then volume
+  else
+    puts "#{me}: '#{ARGV[0]}' is not a command."
+    puts "See '#{me} --help'."
+    exit 1
 end
 
 exit 0
