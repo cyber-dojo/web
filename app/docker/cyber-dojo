@@ -75,6 +75,7 @@ if [ "$*" = "update" ]; then
   # extract cyber-dojo.sh from web image
   CID=$(docker create ${DOCKER_HUB_USERNAME}/${SERVER_NAME})
   #docker cp ${CID}:${CYBER_DOJO_HOME}/app/docker/${CYBER_DOJO_SH} ${MY_DIR}/${CYBER_DOJO_SH}
+  #TODO: should I chmod cyber-dojo.sh ?
   docker rm -v ${CID} > /dev/null
 
   # TODO: how will this work when there are multiple .yml files...

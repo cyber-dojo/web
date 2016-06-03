@@ -65,6 +65,7 @@ def down
     show(help)
     exit 1
   end
+  # Nothing else to do. cyber-dojo.sh handles [down]
 end
 
 #=========================================================================================
@@ -82,6 +83,7 @@ def sh
     show(help)
     exit 1
   end
+  # Nothing else to do. cyber-dojo.sh handles [sh]
 end
 
 #=========================================================================================
@@ -115,6 +117,7 @@ def up
     show(help)
     exit 1
   end
+  # Nothing else to do. cyber-dojo.sh handles [up]
 end
 
 =begin
@@ -204,7 +207,6 @@ def volume_create
 
   if volume_exists?(name)
     puts "Cannot create volume #{name} because it already exists."
-    puts "To remove it use: ./cyber-dojo volume rm #{name}"
     exit 1
   end
 
@@ -213,9 +215,11 @@ def volume_create
   run("docker run --rm -v #{name}:/data #{docker_hub_username}/user-base sh -c #{command}")
 
   # TODO: check if that worked. git URL could be wrong.
-  # TODO:   (does URL have to end in .git)
+  # TODO:   (does URL have to end in .git ?)
+
   # TODO: if it is WRONG this will still create a volume but with nothing in it.
   # TODO:   in which case delete the empty volume
+
   # TODO: add details to top-level manifest
   # TODO:    type: languages/exercises/instructions
   # TODO:    columns: [ 'lhs', 'rhs' ]
@@ -442,7 +446,17 @@ end
 #=========================================================================================
 
 def pull
-  #'    pull IMAGE                     Pulls the named docker IMAGE',
+  help = [
+    '',
+    "Use: #{me} pull IMAGE",
+    '',
+    tab('Pulls the named docker image'),
+  ]
+  if [nil,'help','--help'].include? ARGV[1]
+    show(help)
+    exit 1
+  end
+
   image = ARGV[1]
   if image == 'all'
     all_languages.each do |language|
@@ -460,7 +474,17 @@ end
 #=========================================================================================
 
 def rm
-  #'    rm IMAGE                   Removes a docker image', #pulled language IMAGE',
+  help = [
+    '',
+    "Use: #{me} rm IMAGE",
+    '',
+    tab('Removes the named docker image'),
+  ]
+  if [nil,'help','--help'].include? ARGV[1]
+    show(help)
+    exit 1
+  end
+
   image = ARGV[1]
   if languages.include?(image)
     run "docker rmi #{docker_hub_username}/#{image}"
