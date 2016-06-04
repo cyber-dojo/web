@@ -2,6 +2,10 @@
 Note: need a check that each docker image has a user in it called nobody
       (don't think it's uid is important)
 
+
+cyber-dojo volume create --name=X --git=https://github.com/JonJagger/cyber-dojo-refactoring-exercises.git
+
+
 - - - - - - - - - - - - - - - - - - - - -
 
 )) the rails log folder needs to be volume-mounted so if the server

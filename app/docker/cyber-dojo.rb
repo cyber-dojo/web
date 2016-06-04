@@ -208,6 +208,13 @@ def volume_create
     exit 1
   end
 
+  if name.length == 1
+    puts "Cannot create volume #{name} because of a bug/restriction in docker."
+    puts "volume names must be at least two characters long."
+    puts "See https://github.com/docker/docker/issues/20122"
+    exit 1
+  end
+
   if volume_exists?(name)
     puts "Cannot create volume #{name} because it already exists."
     exit 1
@@ -218,13 +225,11 @@ def volume_create
 
   quiet_run("docker volume create --name=#{name} --label=cyber-dojo-volume")
   command = quoted("git clone --depth=1 --branch=master #{url} /data && rm -rf /data/.git")
-  run("docker run --rm -v #{name}:/data #{cyber_dojo_hub}/user-base sh -c #{command}")
-
-  # TODO: check if that worked. git URL could be wrong.
-  # TODO:   (does URL have to end in .git ?)
-
-  # TODO: if it is WRONG this will still create a volume but with nothing in it.
-  # TODO:   in which case delete the empty volume
+  output = run("docker run --rm -v #{name}:/data #{cyber_dojo_hub}/user-base sh -c #{command}")
+  if $?.exitstatus != 0
+    quiet_run("docker volume rm #{name}")
+    exit 1
+  end
 
   # TODO: add details to top-level manifest
   # TODO:    type: languages/exercises/instructions
@@ -278,7 +283,8 @@ def volume_ls
 
   # There seems to be no [--filter label=L]  option on [docker volume ls]
   # https://github.com/docker/docker/pull/21567
-  # So I have to inspect all volumes. Will be slow if there are a lot of volumes
+  # So I have to inspect all volumes.
+  # Could be slow if lots of volumes.
 
   volumes = quiet_run("docker volume ls --quiet").split
   puts volumes.select{ |volume| is_cyber_dojo_volume?(volume) }.join("\n")
@@ -387,8 +393,8 @@ def catalog_line(language, test, pulled, image)
   gap = ' ' * 3
   line = ''
   line += language + language_spacer + gap
-  line += test + test_spacer + gap
-  line += pulled + pulled_spacer + gap
+  line += test     + test_spacer     + gap
+  line += pulled   + pulled_spacer   + gap
   line += image
 end
 
@@ -474,6 +480,7 @@ def pull
   end
 
   image = ARGV[1]
+  # TODO: this should be --all
   if image == 'all'
     all_languages.each do |language|
       docker_pull(language, 'latest')
@@ -489,10 +496,10 @@ end
 # rm
 #=========================================================================================
 
-def rm
+def rmi
   help = [
     '',
-    "Use: #{me} rm IMAGE",
+    "Use: #{me} rmi IMAGE",
     '',
     tab('Removes the named docker image'),
   ]
@@ -523,7 +530,7 @@ def help
     '    clean     Removes dangling docker images and volumes',
     '    down      Brings down the server',
     '    pull      Pulls a docker image',
-    '    rm        Removes a docker image',
+    '    rmi       Removes a docker image',
     '    sh        Shells into the server',
     '    up        Brings up the server',
     '    upgrade   Upgrades the server and languages',
@@ -546,7 +553,7 @@ case ARGV[0]
   when 'clean'   then clean
   when 'down'    then down
   when 'pull'    then pull
-  when 'rm'      then rm
+  when 'rmi'     then rmi
   when 'sh'      then sh
   when 'up'      then up
   when 'upgrade' then upgrade
