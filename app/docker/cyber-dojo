@@ -1,93 +1,83 @@
 #!/bin/sh
 
-export CYBER_DOJO_SCRIPT_WRAPPER=inprogress
+install_url=http://blog.cyber-dojo.org/2016/03/running-your-own-cyber-dojo-server.html
+my_dir="$( cd "$( dirname "${0}" )" && pwd )"
+cyber_dojo_sh=cyber-dojo.sh
 
-# The entry-point cyber-dojo shell script.
-# Checks docker is installed, sets up env-vars
-# and handles the [cyber-dojo upgrade]
-# Then delegates to the cyber-dojo.sh script, which
-# in turn [docker run]s cyber-dojo.rb from inside
-# cyberdojofoundation/web which has ruby.
+exit_if_docker_not_installed() {
+  hash docker 2> /dev/null
+  if [ $? != 0 ]; then
+    echo
+    echo 'docker is not installed'
+    echo "See step 1 of ${install_url}"
+    exit 1
+  fi
+}
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# ensure docker-engine is installed
+exit_if_docker_machine_not_installed() {
+  hash docker-machine 2> /dev/null
+  if [ $? != 0 ]; then
+    echo 'docker-machine is not installed'
+    echo "See step 1 of ${install_url}"
+    exit 1
+  fi
+}
 
-INSTALL_URL=http://blog.cyber-dojo.org/2016/03/running-your-own-cyber-dojo-server.html
+exit_if_docker_compose_not_installed() {
+  hash docker-compose 2> /dev/null
+  if [ $? != 0 ]; then
+    echo
+    echo 'docker-compose is not installed'
+    echo "See step 1 of ${install_url}"
+    exit 1
+  fi
+}
 
-hash docker 2> /dev/null
-if [ $? != 0 ]; then
-  echo
-  echo 'docker is not installed'
-  echo "See step 1 of ${INSTALL_URL}"
-  exit
-fi
+cyber_dojo_update() {
+  # cyber-dojo web server image is docker version sensitive.
+  # See app/docker/web/Dockerfile ~ line 49
+  #    docker --version  -->  Docker version 1.11.1, build 5604cbe
+  #    awk '{print $3}'  -->  1.11.1,           (third field)
+  #    sed '$s/.$//'     -->  1.11.1            (lose last comma)
+  local docker_version=$(docker --version | awk '{print $3}' | sed '$s/.$//')
+  local server_name=web:${docker_version}
+  local docker_hub_username=cyberdojofoundation
+  local cyber_dojo_home=/usr/src/cyber-dojo
+  local docker_compose_file=docker-compose.yml
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# ensure docker-machine is installed
-
-hash docker-machine 2> /dev/null
-if [ $? != 0 ]; then
-  echo 'docker-machine is not installed'
-  echo "See step 1 of ${INSTALL_URL}"
-  exit
-fi
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# ensure docker-compose is installed
-
-hash docker-compose 2> /dev/null
-if [ $? != 0 ]; then
-  echo
-  echo 'docker-compose is not installed'
-  echo "See step 1 of ${INSTALL_URL}"
-  exit
-fi
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# cyber-dojo web server image is docker version sensitive.
-# See app/docker/web/Dockerfile ~ line 49
-#
-# docker --version  -->  Docker version 1.11.1, build 5604cbe
-# awk '{print $3}'  -->  1.11.1,           (third field)
-# sed '$s/.$//'     -->  1.11.1            (lose last comma)
-
-export DOCKER_VERSION=$(docker --version | awk '{print $3}' | sed '$s/.$//')
-export SERVER_NAME=web:${DOCKER_VERSION}
-export DOCKER_HUB_USERNAME=cyberdojofoundation
-export DOCKER_COMPOSE_FILE=docker-compose.yml
-export CYBER_DOJO_HOME=/usr/src/cyber-dojo
-export CYBER_DOJO_SH=cyber-dojo.sh
-
-ME="./$( basename ${0} )"
-MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
-
-if [ "$*" = "update" ]; then
   # doing local development (without going through web image) means not doing these
   # steps since the two files may have been locally edited.
   echo ">>>>>>NOT DOING [docker pull] UPDATES"
-  echo ">>>>>>NOT EXTRACTING ${CYBER_DOJO_SH}<<<<<<"
-  echo ">>>>>>NOT EXTRACTING ${DOCKER_COMPOSE_FILE}<<<<<<"
+  echo ">>>>>>NOT EXTRACTING ${cyber_dojo_sh}<<<<<<"
+  echo ">>>>>>NOT EXTRACTING ${docker_compose_file}<<<<<<"
 
   # update server images
-  # docker pull ${DOCKER_HUB_USERNAME}/nginx:latest
-  # docker pull ${DOCKER_HUB_USERNAME}/${SERVER_NAME}
+  # docker pull ${docker_hub_username}/nginx:latest
+  # docker pull ${docker_hub_username}/${server_name}
 
   # extract cyber-dojo.sh from web image
-  CID=$(docker create ${DOCKER_HUB_USERNAME}/${SERVER_NAME})
-  #docker cp ${CID}:${CYBER_DOJO_HOME}/app/docker/${CYBER_DOJO_SH} ${MY_DIR}/${CYBER_DOJO_SH}
+  local cid=$(docker create ${docker_hub_username}/${server_name})
+  #docker cp ${cid}:${cyber_dojo_home}/app/docker/${cyber_dojo_sh} ${my_dir}/${cyber_dojo_sh}
   #TODO: should I chmod cyber-dojo.sh ?
-  docker rm -v ${CID} > /dev/null
+  docker rm -v ${cid} > /dev/null
 
-  # TODO: how will this work when there are multiple .yml files...
   # extract docker-compose.yml file from web image
-  CID=$(docker create ${DOCKER_HUB_USERNAME}/${SERVER_NAME})
-  #docker cp ${CID}:${CYBER_DOJO_HOME}/app/docker/${DOCKER_COMPOSE_FILE} ${MY_DIR}/${DOCKER_COMPOSE_FILE}
-  docker rm -v ${CID} > /dev/null
-fi
+  local cid=$(docker create ${docker_hub_username}/${server_name})
+  #docker cp ${cid}:${cyber_dojo_home}/app/docker/${docker_compose_file} ${my_dir}/${docker_compose_file}
+  docker rm -v ${cid} > /dev/null
+}
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# delegate to cyber-dojo.sh
 
-${MY_DIR}/${CYBER_DOJO_SH} $@
+exit_if_docker_not_installed
+exit_if_docker_machine_not_installed
+exit_if_docker_compose_not_installed
+
+if [ "$*" = "update" ]; then
+  cyber_dojo_update
+fi
+
+export CYBER_DOJO_SCRIPT_WRAPPER=inprogress
+${my_dir}/${cyber_dojo_sh} $@
 
 
