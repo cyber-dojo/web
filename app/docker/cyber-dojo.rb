@@ -177,7 +177,7 @@ def volume_exists?(name)
   quiet_run("docker volume ls --quiet | grep #{pattern}").include? name
 end
 
-def is_cyber_dojo_volume(volume)
+def is_cyber_dojo_volume?(volume)
   info = quiet_run("docker volume inspect #{volume}")
   manifest = JSON.parse(info)[0]
   labels = manifest['Labels'] || []
@@ -281,7 +281,7 @@ def volume_ls
   # So I have to inspect all volumes. Will be slow if there are a lot of volumes
 
   volumes = quiet_run("docker volume ls --quiet").split
-  puts volumes.select{ |volume| is_cyber_dojo_volume(volume) }.join("\n")
+  puts volumes.select{ |volume| is_cyber_dojo_volume?(volume) }.join("\n")
 end
 
 # - - - - - - - - - - - - - - -
@@ -297,6 +297,7 @@ def volume_pull
     show(help)
     exit 1
   end
+
   p 'TODO: volume pull'
   #check volume is labelled as per [volume create]
   #Then have to extract all image names from all manifest.json files.
@@ -318,15 +319,20 @@ def volume_inspect # was catalog
 
   name = ARGV[2]
   if !volume_exists?(name)
-    puts "Cannot do [volume inspect #{name}] because it does not exist."
+    puts "volume #{name} does not exist."
+    exit 1
+  end
+
+  if !is_cyber_dojo_volume?(name)
+    puts "volume #{name} is not a cyber-dojo volume."
     exit 1
   end
 
   p 'TODO: volume inspect'
-  # filter on label from [volume create]
-  # docker volume inspect #{name} | grep cyber-dojo-volume
+
   # Note: this will volume mount the named VOL to find its info
-  #       it does not show the details of what volumes are inside the web container.
+  #       then use globbing as per line 359
+  #       it does not show the details of what volumes are inside the running web container.
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -337,7 +343,8 @@ $longest_test = ''
 $longest_language = ''
 
 def docker_images_pulled
-  `docker images`.split("\n").map{ |line| line.split[0] }
+  `docker images`.drop(1).split("\n").map{ |line| line.split[0] }
+  # REPOSITORY                               TAG     IMAGE ID     CREATED      SIZE
   # cyberdojofoundation/visual-basic_nunit   latest  eb5f54114fe6 4 months ago 497.4 MB
   # cyberdojofoundation/ruby_mini_test       latest  c7d7733d5f54 4 months ago 793.4 MB
   # cyberdojofoundation/ruby_rspec           latest  ce9425d1690d 4 months ago 411.2 MB
