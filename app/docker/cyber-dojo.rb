@@ -9,11 +9,7 @@ def me; 'cyber-dojo'; end
 
 def my_dir; File.expand_path(File.dirname(__FILE__)); end
 
-def docker_hub_username; 'cyberdojofoundation'; end
-
-def docker_version; ENV['DOCKER_VERSION']; end
-
-def home; '/usr/src/cyber-dojo'; end  # home folder *inside* the server image
+def cyber_dojo_hub; ENV['CYBER_DOJO_HUB']; end
 
 def space; ' '; end
 
@@ -212,7 +208,7 @@ def volume_create
 
   quiet_run("docker volume create --name=#{name} --label=cyber-dojo-volume")
   command = quoted("git clone --depth=1 --branch=master #{url} /data && rm -rf /data/.git")
-  run("docker run --rm -v #{name}:/data #{docker_hub_username}/user-base sh -c #{command}")
+  run("docker run --rm -v #{name}:/data #{cyber_dojo_hub}/user-base sh -c #{command}")
 
   # TODO: check if that worked. git URL could be wrong.
   # TODO:   (does URL have to end in .git ?)
@@ -419,7 +415,7 @@ end
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 def docker_pull(image, tag)
-  run "docker pull #{docker_hub_username}/#{image}:#{tag}"
+  run "docker pull #{cyber_dojo_hub}/#{image}:#{tag}"
 end
 
 #=========================================================================================
@@ -487,7 +483,7 @@ def rm
 
   image = ARGV[1]
   if languages.include?(image)
-    run "docker rmi #{docker_hub_username}/#{image}"
+    run "docker rmi #{cyber_dojo_hub}/#{image}"
   elsif all_languages.include?(image)
     puts "IMAGE #{image} is not installed"
     puts "Try '#{me} help'"

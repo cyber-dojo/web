@@ -1,14 +1,6 @@
 #!/bin/sh
 
-# TODO:
-# cdf-web name is from docker-compose.yml file
-# reverse this dependency so the name is passed from here.
-# repeat for other similar variables.
-
-# TODO:
-# SERVER_NAME=web:${DOCKER_VERSION}
-# DOCKER_HUB_USERNAME=cyberdojofoundation
-# These two are always used together. Do as a single variable
+# TODO: is katas at app/data/katas or /katas
 
 if [ "${CYBER_DOJO_SCRIPT_WRAPPER}" = "" ]; then
   echo "Do not call this script directly. Use cyber-dojo (no .sh) instead"
@@ -17,6 +9,10 @@ fi
 
 my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 docker_compose_cmd="docker-compose --file=${my_dir}/docker-compose.yml"
+docker_version=$(docker --version | awk '{print $3}' | sed '$s/.$//')
+
+cyber_dojo_hub=cyberdojofoundation
+cyber_dojo_home=/usr/src/cyber-dojo
 
 default_languages_volume=default_languages
 default_exercises_volume=default_exercises
@@ -24,8 +20,10 @@ default_instructions_volume=default_instructions
 
 # set environment variables required by docker-compose.yml
 
-export DOCKER_VERSION=$(docker --version | awk '{print $3}' | sed '$s/.$//')
-export CYBER_DOJO_HOME=/usr/src/cyber-dojo
+export CYBER_DOJO_DATA_HOME=${cyber_dojo_home}/app/data
+export CYBER_DOJO_WEB_SERVER=${cyber_dojo_hub}/web:${docker_version}
+export CYBER_DOJO_WEB_CONTAINER=cdf-web
+export CYBER_DOJO_KATAS_DATA_CONTAINER=cdf-katas-DATA-CONTAINER
 
 export CYBER_DOJO_KATAS_CLASS=${CYBER_DOJO_KATAS_CLASS:=HostDiskKatas}
 export CYBER_DOJO_SHELL_CLASS=${CYBER_DOJO_SHELL_CLASS:=HostShell}
@@ -43,8 +41,6 @@ export CYBER_DOJO_INSTRUCTIONS_VOLUME=${default_instructions_volume}
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-SERVER_NAME=web:${DOCKER_VERSION}
-DOCKER_HUB_USERNAME=cyberdojofoundation
 
 one_time_creation_of_katas_data_container() {
   # ensure katas-data-container exists.
@@ -54,46 +50,45 @@ one_time_creation_of_katas_data_container() {
   #    then create new _empty_ katas-data-container
 
   local katas_root=/var/www/cyber-dojo/katas
-  local katas_data_container=cdf-katas-DATA-CONTAINER
 
-  docker ps --all | grep --silent ${katas_data_container}
+  docker ps --all | grep --silent ${CYBER_DOJO_KATAS_DATA_CONTAINER}
   if [ $? != 0 ]; then
-    # determine appropriate Dockerfile (to create katas-data-container)
+    # determine appropriate Dockerfile (to create katas data container)
     if [ -d "${katas_root}" ]; then
-      echo "copying ${katas_root} into new ${katas_data_container}"
+      echo "copying ${katas_root} into new ${CYBER_DOJO_KATAS_DATA_CONTAINER}"
       SUFFIX=copied
       CONTEXT_DIR=${katas_root}
     else
-      echo "creating new empty ${katas_data_container}"
+      echo "creating new empty ${CYBER_DOJO_KATAS_DATA_CONTAINER}"
       SUFFIX=empty
       CONTEXT_DIR=.
     fi
 
     # extract appropriate Dockerfile from web image
     local katas_dockerfile=${CONTEXT_DIR}/Dockerfile
-    local cid=$(docker create ${DOCKER_HUB_USERNAME}/${SERVER_NAME})
-    docker cp ${cid}:${CYBER_DOJO_HOME}/app/docker/katas/Dockerfile.${SUFFIX} \
+    local cid=$(docker create ${CYBER_DOJO_SERVER})
+    docker cp ${cid}:${cyber_dojo_home}/app/docker/katas/Dockerfile.${SUFFIX} \
               ${katas_dockerfile}
     docker rm -v ${cid} > /dev/null
 
     # 3. extract appropriate .dockerignore from web image
     local katas_docker_ignore=${CONTEXT_DIR}/.dockerignore
-    local cid=$(docker create ${DOCKER_HUB_USERNAME}/${SERVER_NAME})
-    docker cp ${cid}:${CYBER_DOJO_HOME}/app/docker/katas/Dockerignore.${SUFFIX} \
+    local cid=$(docker create ${CYBER_DOJO_SERVER})
+    docker cp ${cid}:${cyber_dojo_home}/app/docker/katas/Dockerignore.${SUFFIX} \
               ${katas_docker_ignore}
     docker rm -v ${cid} > /dev/null
 
     # use Dockerfile to build image
-    local tag=${DOCKER_HUB_USERNAME}/katas
+    local tag=${cyber_dojo_hub}/katas
     docker build \
-             --build-arg=CYBER_DOJO_KATAS_ROOT=${CYBER_DOJO_HOME}/katas \
+             --build-arg=CYBER_DOJO_KATAS_ROOT=${cyber_dojo_home}/katas \
              --tag=${tag} \
              --file=${katas_dockerfile} \
              ${CONTEXT_DIR}
 
     # use image to create data-container
     docker create \
-           --name ${katas_data_container} \
+           --name ${CYBER_DOJO_KATAS_DATA_CONTAINER} \
            ${tag} \
            echo 'cdfKatasDC'
 
@@ -108,10 +103,10 @@ cyber_dojo_rb() {
   docker run \
     --rm \
     --user=root \
-    --env=DOCKER_VERSION=${DOCKER_VERSION} \
+    --env=CYBER_DOJO_HUB=${cyber_dojo_hub} \
     --volume=/var/run/docker.sock:/var/run/docker.sock \
-    ${DOCKER_HUB_USERNAME}/${SERVER_NAME} \
-    ${CYBER_DOJO_HOME}/app/docker/cyber-dojo.rb $1
+    ${CYBER_DOJO_WEB_SERVER} \
+    ${cyber_dojo_home}/app/docker/cyber-dojo.rb $1
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -140,8 +135,7 @@ cyber_dojo_down() {
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 cyber_dojo_sh() {
-  # cdf-web name is from docker-compose.yml file
-  docker exec --interactive --tty cdf-web sh
+  docker exec --interactive --tty ${CYBER_DOJO_WEB_CONTAINER} sh
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

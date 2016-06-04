@@ -40,9 +40,9 @@ cyber_dojo_update() {
   #    awk '{print $3}'  -->  1.11.1,           (third field)
   #    sed '$s/.$//'     -->  1.11.1            (lose last comma)
   local docker_version=$(docker --version | awk '{print $3}' | sed '$s/.$//')
-  local server_name=web:${docker_version}
-  local docker_hub_username=cyberdojofoundation
   local cyber_dojo_home=/usr/src/cyber-dojo
+  local cyber_dojo_hub=cyberdojofoundation
+  local cyber_dojo_web_server=${cyber_dojo_hub}:/web:${docker_version}
   local docker_compose_file=docker-compose.yml
 
   # doing local development (without going through web image) means not doing these
@@ -52,17 +52,17 @@ cyber_dojo_update() {
   echo ">>>>>>NOT EXTRACTING ${docker_compose_file}<<<<<<"
 
   # update server images
-  # docker pull ${docker_hub_username}/nginx:latest
-  # docker pull ${docker_hub_username}/${server_name}
+  # docker pull ${cyber_dojo_hub}/nginx:latest
+  # docker pull ${cyber_dojo_web_server}
 
   # extract cyber-dojo.sh from web image
-  local cid=$(docker create ${docker_hub_username}/${server_name})
+  local cid=$(docker create ${cyber_dojo_web_server})
   #docker cp ${cid}:${cyber_dojo_home}/app/docker/${cyber_dojo_sh} ${my_dir}/${cyber_dojo_sh}
   #TODO: should I chmod cyber-dojo.sh ?
   docker rm -v ${cid} > /dev/null
 
   # extract docker-compose.yml file from web image
-  local cid=$(docker create ${docker_hub_username}/${server_name})
+  local cid=$(docker create ${cyber_dojo_web_server})
   #docker cp ${cid}:${cyber_dojo_home}/app/docker/${docker_compose_file} ${my_dir}/${docker_compose_file}
   docker rm -v ${cid} > /dev/null
 }
