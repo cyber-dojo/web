@@ -177,6 +177,13 @@ def volume_exists?(name)
   quiet_run("docker volume ls --quiet | grep #{pattern}").include? name
 end
 
+def is_cyber_dojo_volume(volume)
+  info = quiet_run("docker volume inspect #{volume}")
+  manifest = JSON.parse(info)[0]
+  labels = manifest['Labels'] || []
+  labels.include? 'cyber-dojo-volume'
+end
+
 # - - - - - - - - - - - - - - -
 
 def volume_create
@@ -205,6 +212,9 @@ def volume_create
     puts "Cannot create volume #{name} because it already exists."
     exit 1
   end
+
+  # TODO: get top level manifest from URL. Indicates type: languages/exercises/instructions
+  #       then do '--label=cyber-dojo-volume=exercises
 
   quiet_run("docker volume create --name=#{name} --label=cyber-dojo-volume")
   command = quoted("git clone --depth=1 --branch=master #{url} /data && rm -rf /data/.git")
@@ -239,6 +249,7 @@ def volume_rm
   end
 
   # TODO: check the volume is labelled as per the [volume create] command.
+
   name = ARGV[2]
   if !volume_exists?(name)
     puts "Cannot do [volume rm #{name}] because it does not exist."
@@ -261,14 +272,16 @@ def volume_ls
     show(help)
     exit 1
   end
-  p 'TODO: volume ls'
-  #filter on label from [volume create]
-  #There seems to be no [--filter label=L]  option on [docker volume ls]
-  #https://github.com/docker/docker/pull/21567
-  #Hmmmm. How to work round that?!
-  # Is there a general {{ ... }} filter?
-  # How about creating a volume called cyber-dojo-X
-  # when you specify a name of X.
+
+  # TODO: this could display the volume type [languages/exercises/instructions]
+  # TODO: add --quiet option to display only the names
+
+  # There seems to be no [--filter label=L]  option on [docker volume ls]
+  # https://github.com/docker/docker/pull/21567
+  # So I have to inspect all volumes. Will be slow if there are a lot of volumes
+
+  volumes = quiet_run("docker volume ls --quiet").split
+  puts volumes.select{ |volume| is_cyber_dojo_volume(volume) }.join("\n")
 end
 
 # - - - - - - - - - - - - - - -
