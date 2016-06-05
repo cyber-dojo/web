@@ -25,5 +25,5 @@ USER root
 RUN adduser -D -H -u 19661 cyber-dojo
 
 # git is needed inside commands that build collection volumes from URLs
-# eg ./cyber-dojo create-collection name=URL
+# eg ./cyber-dojo volume create --name=VOL --git=URL
 RUN apk add --update --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ git
