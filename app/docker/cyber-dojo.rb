@@ -197,14 +197,14 @@ end
 def volume_create
   help = [
     '',
-    "Use: #{me} volume create --name=VOL --git=URL",
+    "Use: #{me} volume create --name=VOLUME --git=URL",
     '',
-    tab('Creates a volume named VOL as git clone of URL'),
+    tab('Creates a volume named VOLUME as git clone of URL'),
     tab('and pulls all its docker images marked auto_pull:true')
   ]
 
   if [nil,'help','--help'].include? ARGV[2]
-    show(help)
+    show help
     exit 1
   end
 
@@ -212,44 +212,44 @@ def volume_create
   vol = get_arg('--name', args)
   url = get_arg('--git', args)
   if vol.nil? || url.nil?
-    show(help)
+    show help
     exit 1
   end
 
   if vol.length == 1
-    puts "Cannot create volume #{vol} because of a restriction in docker."
+    puts "FAILED [volume create --name=#{vol}] because of a restriction in docker."
     puts "volume names must be at least two characters long."
     puts "See https://github.com/docker/docker/issues/20122"
     exit 1
   end
 
-  if volume_exists?(vol)
-    puts "FAILED [volume create #{vol}] because #{vol} already exists."
+  if volume_exists? vol
+    puts "FAILED [volume create --name=#{vol}] because #{vol} already exists."
     exit 1
   end
 
-  quiet_run("docker volume create --name=#{vol} --label=cyber-dojo-volume=#{url}")
-  command = quoted("git clone --depth=1 --branch=master #{url} /data && rm -rf /data/.git")
-  output = run("docker run --rm -v #{vol}:/data #{cyber_dojo_hub}/user-base sh -c #{command}")
+  quiet_run "docker volume create --name=#{vol} --label=cyber-dojo-volume=#{url}"
+  command = quoted "git clone --depth=1 --branch=master #{url} /data && rm -rf /data/.git"
+  output = run "docker run --rm -v #{vol}:/data #{cyber_dojo_hub}/user-base sh -c #{command}"
   if $?.exitstatus != 0
-    quiet_run("docker volume rm #{vol}")
+    quiet_run "docker volume rm #{vol}"
     exit 1
   end
 
-  command = quoted("cat /data/volume.json")
-  output = quiet_run("docker run --rm -v #{vol}:/data #{cyber_dojo_hub}/user-base sh -c #{command}")
+  command = quoted "cat /data/volume.json"
+  output = quiet_run "docker run --rm -v #{vol}:/data #{cyber_dojo_hub}/user-base sh -c #{command}"
   if $?.exitstatus != 0
-    quiet_run("docker volume rm #{vol}")
-    puts "FAILED [volume create #{vol}] because #{vol} does not have a well-formed /volume.json"
+    quiet_run "docker volume rm #{vol}"
+    puts "FAILED [volume create --name=#{vol}] because #{vol} does not have a well-formed /volume.json"
     exit 1
   end
 
   manifest = json_parse(output)
 
   type = manifest['type']
-  if !['languages','exercises','instructions'].include?(type)
-    quiet_run("docker volume rm #{vol}")
-    puts "FAILED [volume create #{vol}] because #{vol} does not have a well-formed /volume.json"
+  if !['languages','exercises','instructions'].include? type
+    quiet_run "docker volume rm #{vol}"
+    puts "FAILED [volume create --name=#{vol}] because #{vol} does not have a well-formed /volume.json"
     puts "volume.json must include one of..."
     puts "{ 'type': 'languages' }"
     puts "{ 'type': 'exercises' }"
@@ -277,23 +277,24 @@ def volume_rm
     tab('Removes a volume created with the command'),
     tab("#{me} volume create")
   ]
-  if [nil,'help','--help'].include? ARGV[2]
-    show(help)
+
+  vol = ARGV[2]
+  if [nil,'help','--help'].include? vol
+    show help
     exit 1
   end
 
-  vol = ARGV[2]
-  if !volume_exists?(vol)
+  if !volume_exists? vol
     puts "FAILED [volume rm #{vol}] because #{vol} does not exist."
     exit 1
   end
 
-  if !cyber_dojo_volume?(vol)
+  if !cyber_dojo_volume? vol
     puts "FAILED [volume rm #{vol}] because #{vol} is not a cyber-dojo volume."
     exit 1
   end
 
-  quiet_run("docker volume rm #{vol}")
+  quiet_run "docker volume rm #{vol}"
 end
 
 # - - - - - - - - - - - - - - -
@@ -305,12 +306,14 @@ def volume_ls
     '',
     tab('Lists the names of all cyber-dojo volumes'),
   ]
+
   if ['help','--help'].include? ARGV[2]
-    show(help)
+    show help
     exit 1
   end
 
-  # TODO: this could display the volume type [languages/exercises/instructions]
+  # TODO: display the volume's TYPE [languages/exercises/instructions]
+  # TODO: display the volume's URL (from the label)
   # TODO: add --quiet option to display only the names
 
   # There seems to be no [--filter label=L]  option on [docker volume ls]
@@ -331,8 +334,9 @@ def volume_pull
     '',
     tab('Pulls the docker images named inside the cyber-dojo volume'),
   ]
-  if [nil,'help','--help'].include? ARGV[2]
-    show(help)
+  vol = ARGV[2]
+  if [nil,'help','--help'].include? vol
+    show help
     exit 1
   end
 
@@ -350,18 +354,19 @@ def volume_inspect # was catalog
     '',
     tab('Displays details of the named cyber-dojo volume'),
   ]
-  if [nil,'help','--help'].include? ARGV[2]
-    show(help)
+
+  vol = ARGV[2]
+  if [nil,'help','--help'].include? vol
+    show help
     exit 1
   end
 
-  vol = ARGV[2]
-  if !volume_exists?(vol)
+  if !volume_exists? vol
     puts "FAILED [volume inspect #{vol}] because #{vol} does not exist."
     exit 1
   end
 
-  if !cyber_dojo_volume?(vol)
+  if !cyber_dojo_volume? vol
     puts "FAILED [volume inspect #{vol}] because #{vol} is not a cyber-dojo volume."
     exit 1
   end

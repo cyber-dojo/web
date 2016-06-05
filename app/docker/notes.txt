@@ -28,11 +28,6 @@ ruby cyber-dojo.rb volume create --name=abc --git=https://github.com/JonJagger/c
        and if not instructions type
           'lhs-column-title': 'name',
           'rhs-column-title': 'language'
-       creation of volume will then add
-         . name?
-         . url?
-       Why not add the url in the label!
-       --label=cyber-dojo-volume=${URL}
 
        Then volume can be mounted read-only.
 
