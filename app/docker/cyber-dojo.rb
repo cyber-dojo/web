@@ -216,31 +216,80 @@ def volume_create
     exit 1
   end
 
+  create_failed_message = lambda { |vol, reason=''|
+    reason = ' ' + reason if reason != ''
+    puts "FAILED [volume create --name=#{vol}]#{reason}."
+  }
+
   if vol.length == 1
-    puts "FAILED [volume create --name=#{vol}] because of a restriction in docker."
+    reason = because of a restriction in docker
+    create_failed_message(vol, reason)
     puts "volume names must be at least two characters long."
     puts "See https://github.com/docker/docker/issues/20122"
     exit 1
   end
 
+  # Struggling to implement volume create
+  # Problem is that if one of the [docker run] commands fails then docker sometimes reports...
+  #
+  # Error response from daemon: Unable to remove volume, volume still in use: remove abcd: volume is in use -
+  #    [9b2bd7be08e38a7315fec421e2a05442ff2ed2e533f10835514ac9a928a5a370]
+  #
+  # when the given 9b2bd... volume does *not* exist (as reported by [docker volume ls])
+  # https://github.com/docker/docker/issues/22093
+  # Reports this is a known error and says you can fix it by stopping and starting the docker daemon
+  #     $ docker-machine restart default
+  # (but that should not be necessary)
+  #
+  # Sometimes there appears to be a background process which ends after a few seconds
+  # and only then can you remove the volume.
+
+
+  volume_rm = lambda { |vol|
+    output =  quiet_run "docker volume rm #{vol}"
+    if $?.exitstatus != 0
+      # 2.times
+      #   pause 1 second
+      #   try again
+    end
+  }
+
   if volume_exists? vol
-    puts "FAILED [volume create --name=#{vol}] because #{vol} already exists."
+    reason = "because #{vol} already exists"
+    create_failed_message.call(vol, reason)
     exit 1
   end
 
-  quiet_run "docker volume create --name=#{vol} --label=cyber-dojo-volume=#{url}"
-  command = quoted "git clone --depth=1 --branch=master #{url} /data && rm -rf /data/.git"
-  output = run "docker run --rm -v #{vol}:/data #{cyber_dojo_hub}/user-base sh -c #{command}"
+  #command = quoted("chown -R cyber-dojo:cyber-dojo /data")
+  #run "docker run --rm -v #{vol}:/data #{cyber_dojo_hub}/user-base sh -c #{command}"
+
+  begin
+    quiet_run "docker volume create --name=#{vol} --label=cyber-dojo-volume=#{url}"
+    commands = [
+      "git clone --depth=1 --branch=master #{url} /data",
+      "rm -rf /data/.git",
+      "chown -R cyber-dojo:cyber-dojo /data"
+    ]
+    command = quoted commands.join(" && ")
+    output = run "docker run --rm -v #{vol}:/data #{cyber_dojo_hub}/user-base sh -c #{command}"
+  rescue Exception => e
+    puts "....RESCUE'd from volume creation [git clone]"
+    create_failed_message.call(vol)
+    volume_rm.call(vol)
+    exit 1
+  end
+
   if $?.exitstatus != 0
-    quiet_run "docker volume rm #{vol}"
+    volume_rm.call(vol)
     exit 1
   end
 
   command = quoted "cat /data/volume.json"
   output = quiet_run "docker run --rm -v #{vol}:/data #{cyber_dojo_hub}/user-base sh -c #{command}"
   if $?.exitstatus != 0
-    quiet_run "docker volume rm #{vol}"
-    puts "FAILED [volume create --name=#{vol}] because #{vol} does not have a well-formed /volume.json"
+    volume_rm.call(vol)
+    reason = "because #{vol} does not have a well-formed /volume.json"
+    create_failed_message.call(reason)
     exit 1
   end
 
@@ -263,6 +312,7 @@ def volume_create
 
   # TODO: in other commands extract the type dynamically from the volume's volume.json manifest
 
+  # TODO: pull docker images marked auto_pull:true
 end
 
 # - - - - - - - - - - - - - - -
