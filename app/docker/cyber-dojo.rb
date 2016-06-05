@@ -228,8 +228,7 @@ def volume_create
     exit 1
   end
 
-  # TODO: --label=cyber-dojo-volume=#{url}")
-  quiet_run("docker volume create --name=#{vol} --label=cyber-dojo-volume")
+  quiet_run("docker volume create --name=#{vol} --label=cyber-dojo-volume=#{url}")
   command = quoted("git clone --depth=1 --branch=master #{url} /data && rm -rf /data/.git")
   output = run("docker run --rm -v #{vol}:/data #{cyber_dojo_hub}/user-base sh -c #{command}")
   if $?.exitstatus != 0
@@ -294,7 +293,7 @@ def volume_rm
     exit 1
   end
 
-  quiet_run("docker volume rm #{name}")
+  quiet_run("docker volume rm #{vol}")
 end
 
 # - - - - - - - - - - - - - - -
