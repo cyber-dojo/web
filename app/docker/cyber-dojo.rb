@@ -17,7 +17,7 @@ def tab(line = ''); (space * 4) + line; end
 
 def minitab(line = ''); (space * 2) + line; end
 
-def quiet_run(command); `#{command}`; end
+def quiet_run(command); `#{command} 2>&1`; end
 
 def show(lines); lines.each { |line| puts line }; end
 
@@ -185,11 +185,53 @@ def volume_exists?(name)
   quiet_run("docker volume ls --quiet | grep #{pattern}").include? name
 end
 
-def cyber_dojo_volume?(volume)
-  info = quiet_run("docker volume inspect #{volume}")
-  manifest = JSON.parse(info)[0]
-  labels = manifest['Labels'] || []
+def cyber_dojo_inspect(vol)
+  info = quiet_run("docker volume inspect #{vol}")
+  JSON.parse(info)[0]
+end
+
+def cyber_dojo_volume?(vol)
+  labels = cyber_dojo_inspect(vol)['Labels'] || []
   labels.include? 'cyber-dojo-volume'
+end
+
+def cyber_dojo_label(vol)
+  cyber_dojo_inspect(vol)['Labels']['cyber-dojo-volume']
+end
+
+def cyber_dojo_manifest(vol)
+  command = quoted "cat /data/volume.json"
+  JSON.parse(quiet_run "docker run --rm -v #{vol}:/data #{cyber_dojo_hub}/user-base sh -c #{command}")
+end
+
+def cyber_dojo_type(vol)
+  cyber_dojo_manifest(vol)['type']
+end
+
+# - - - - - - - - - - - - - - -
+
+class VolumeCreateFailed < Exception
+  def initialize(hash)
+    @hash = hash
+  end
+  def [](key)
+    @hash[key]
+  end
+end
+
+def raising_run(command, hash = {})
+  output = ''
+  hash[:exit] ||= true
+  hash[:rm] ||= true
+  begin
+    output = run command
+    if $?.exitstatus != 0
+      raise VolumeCreateFailed.new(hash)
+    end
+  rescue Exception => e
+    raise VolumeCreateFailed.new(hash)
+  end
+  output
 end
 
 # - - - - - - - - - - - - - - -
@@ -216,111 +258,112 @@ def volume_create
     exit 1
   end
 
-  create_failed_message = lambda { |vol, reason=''|
-    reason = ' ' + reason if reason != ''
-    puts "FAILED [volume create --name=#{vol}]#{reason}."
-  }
-
   if vol.length == 1
-    reason = [
-      "because volume names must be at least two characters long.",
-      "See https://github.com/docker/docker/issues/20122"
-    ]
-    create_failed_message(vol, reason.join("\n"))
-    exit 1
+    raise VolumeCreateFailed.new({
+      rm:false,
+      msg:[
+        "because volume names must be at least two characters long.",
+        "See https://github.com/docker/docker/issues/20122"
+      ].join("\n")
+    })
   end
-
-  # Struggling to implement volume create
-  # Problem is that if one of the [docker run] commands fails then docker sometimes reports...
-  #
-  # Error response from daemon: Unable to remove volume, volume still in use: remove abcd: volume is in use -
-  #    [9b2bd7be08e38a7315fec421e2a05442ff2ed2e533f10835514ac9a928a5a370]
-  #
-  # when the given 9b2bd... volume does *not* exist (as reported by [docker volume ls])
-  # https://github.com/docker/docker/issues/22093
-  # Reports this is a known error and says you can fix it by stopping and starting the docker daemon
-  #     $ docker-machine restart default
-  # (but that should not be necessary)
-  #
-  # Sometimes there appears to be a background process which ends after a few seconds
-  # and only then can you remove the volume.
-
-
-  volume_rm = lambda { |vol|
-    output =  quiet_run "docker volume rm #{vol}"
-    if $?.exitstatus != 0
-      # 2.times
-      #   pause 1 second
-      #   try again
-    end
-  }
 
   if volume_exists? vol
-    reason = "because #{vol} already exists"
-    create_failed_message.call(vol, reason)
-    exit 1
+    raise VolumeCreateFailed.new({
+      rm:false,
+      msg:"because #{vol} already exists"
+    })
   end
 
-  #command = quoted("chown -R cyber-dojo:cyber-dojo /data")
-  #run "docker run --rm -v #{vol}:/data #{cyber_dojo_hub}/user-base sh -c #{command}"
+  # make empty volume
+  raising_run "docker volume create --name=#{vol} --label=cyber-dojo-volume=#{url}"
 
-  begin
-    quiet_run "docker volume create --name=#{vol} --label=cyber-dojo-volume=#{url}"
-    commands = [
-      "git clone --depth=1 --branch=master #{url} /data",
-      "rm -rf /data/.git",
-      "chown -R cyber-dojo:cyber-dojo /data"
-    ]
-    command = quoted commands.join(" && ")
-    output = run "docker run --rm -v #{vol}:/data #{cyber_dojo_hub}/user-base sh -c #{command}"
-  rescue Exception => e
-    puts "....RESCUE'd from volume creation [git clone]"
-    create_failed_message.call(vol)
-    volume_rm.call(vol)
-    exit 1
-  end
+  # fill it from git repo
+  command = quoted [
+    "git clone --depth=1 --branch=master #{url} /data",
+    "rm -rf /data/.git",
+    "chown -R cyber-dojo:cyber-dojo /data"
+  ].join("\n")
+  raising_run "docker run --rm -v #{vol}:/data #{cyber_dojo_hub}/user-base sh -c #{command}"
+  # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+  # TODO: if that fails is can leave the container still existing (--rm fails too)
+  #       and the subsequent [docker volume rm] then also fails
+  #       Probably need a cid file
+  # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-  if $?.exitstatus != 0
-    volume_rm.call(vol)
-    exit 1
-  end
-
+  # get its volume.json if it has one
   command = quoted "cat /data/volume.json"
-  output = quiet_run "docker run --rm -v #{vol}:/data #{cyber_dojo_hub}/user-base sh -c #{command}"
-  if $?.exitstatus != 0
-    volume_rm.call(vol)
-    reason = "because #{vol} does not have a well-formed /volume.json"
-    create_failed_message.call(reason)
-    exit 1
-  end
-
+  output = raising_run "docker run --rm -v #{vol}:/data #{cyber_dojo_hub}/user-base sh -c #{command}", {
+    msg:"because #{vol} does not contain /volume.json"
+  }
   manifest = json_parse(output)
 
+  # check volume.json is well-formed
   type = manifest['type']
-  if !['languages','exercises','instructions'].include? type
-    quiet_run "docker volume rm #{vol}"
-    puts "FAILED [volume create --name=#{vol}] because #{vol} does not have a well-formed /volume.json"
-    puts "volume.json must include one of..."
-    puts "{ 'type': 'languages' }"
-    puts "{ 'type': 'exercises' }"
-    puts "{ 'type': 'instructions' }"
-    exit 1
+  unless ['languages','exercises','instructions'].include? type
+    raise VolumeCreateFailed.new({
+      msg: [
+        "because #{vol} does not have a well-formed /volume.json",
+        "volume.json must include one of...",
+        "{ 'type': 'languages' }",
+        "{ 'type': 'exercises' }",
+        "{ 'type': 'instructions' }"
+      ].join("\n")
+    })
   end
 
   # TODO:    if 'type' != 'instructions' check manifest contains...
   # TODO:    'lhs-column-title': 'name',
   # TODO:    'rhs-column-title': 'language'
 
-  # TODO: in other commands extract the type dynamically from the volume's volume.json manifest
-
   # TODO: pull docker images marked auto_pull:true
+
+  rescue VolumeCreateFailed => error
+    # If one of the [docker run] commands fails then docker sometimes reports...
+    #   Error response from daemon: Unable to remove volume, volume still in use: remove abcd: volume is in use -
+    #      [9b2bd7be08e38a7315fec421e2a05442ff2ed2e533f10835514ac9a928a5a370]
+    # when the given 9b2bd... volume does *not* exist (as reported by [docker volume ls])
+    # https://github.com/docker/docker/issues/22093
+    # Reports this is a known error and says you can fix it by stopping and starting the docker daemon
+    #     $ docker-machine restart default
+    # (but that should not be necessary)
+    reason = error[:msg] || ''
+    reason = ' ' + reason if reason != ''
+    puts "FAILED [volume create --name=#{vol}]#{reason}."
+
+    unless error[:rm] === false
+      # Sometimes there appears to be a background process which ends
+      # after a few seconds and only then can you remove the volume?!
+      quiet_run "docker volume rm #{vol}"
+      if $?.exitstatus != 0
+        sleep 1
+        quiet_run "docker volume rm #{vol}"
+      end
+    end
+
+    exit 1 unless error[:exit] == false
+end
+
+# - - - - - - - - - - - - - - -
+
+def exit_unless_exists_and_is_cyber_dojo_volume(vol, command)
+  # TODO: when done, use [volume ls --quiet]
+  if !volume_exists? vol
+    puts "FAILED [volume #{command} #{vol}] because #{vol} does not exist."
+    exit 1
+  end
+
+  if !cyber_dojo_volume? vol
+    puts "FAILED [volume #{command} #{vol}] because #{vol} is not a cyber-dojo volume."
+    exit 1
+  end
 end
 
 # - - - - - - - - - - - - - - -
 
 def volume_rm
-  # You are allowed to delete a default volume.
-  # This allows you to create default volumes.
+  # Allow deletion of a default volume.
+  # This allows you to create custom default volumes.
   help = [
     '',
     "Use: #{me} volume rm VOLUME",
@@ -335,16 +378,7 @@ def volume_rm
     exit 1
   end
 
-  if !volume_exists? vol
-    puts "FAILED [volume rm #{vol}] because #{vol} does not exist."
-    exit 1
-  end
-
-  if !cyber_dojo_volume? vol
-    puts "FAILED [volume rm #{vol}] because #{vol} is not a cyber-dojo volume."
-    exit 1
-  end
-
+  exit_unless_exists_and_is_cyber_dojo_volume(vol, 'rm')
   quiet_run "docker volume rm #{vol}"
 end
 
@@ -363,8 +397,7 @@ def volume_ls
     exit 1
   end
 
-  # TODO: display the volume's TYPE [languages/exercises/instructions]
-  # TODO: display the volume's URL (from the label)
+  # TODO: add spacing at '--' as per catalog
   # TODO: add --quiet option to display only the names
 
   # There seems to be no [--filter label=L]  option on [docker volume ls]
@@ -373,7 +406,13 @@ def volume_ls
   # Could be slow if lots of volumes.
 
   volumes = quiet_run("docker volume ls --quiet").split
-  puts volumes.select{ |volume| cyber_dojo_volume?(volume) }.join("\n")
+  volumes = volumes.select{ |volume| cyber_dojo_volume?(volume) }
+  puts "NAME  TYPE  URL"
+  puts volumes.map { |volume|
+    type = "#{cyber_dojo_type(volume)}"
+    url = "#{cyber_dojo_label(volume)}"
+    "#{volume} -- #{type} -- #{url}"
+  }.join("\n")
 end
 
 # - - - - - - - - - - - - - - -
@@ -390,6 +429,8 @@ def volume_pull
     show help
     exit 1
   end
+
+  exit_unless_exists_and_is_cyber_dojo_volume(vol, 'pull')
 
   p 'TODO: volume pull'
   #check volume is labelled as per [volume create]
@@ -412,15 +453,7 @@ def volume_inspect # was catalog
     exit 1
   end
 
-  if !volume_exists? vol
-    puts "FAILED [volume inspect #{vol}] because #{vol} does not exist."
-    exit 1
-  end
-
-  if !cyber_dojo_volume? vol
-    puts "FAILED [volume inspect #{vol}] because #{vol} is not a cyber-dojo volume."
-    exit 1
-  end
+  exit_unless_exists_and_is_cyber_dojo_volume(vol, 'inspect')
 
   p 'TODO: volume inspect'
 
