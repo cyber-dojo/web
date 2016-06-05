@@ -223,8 +223,7 @@ def volume_create
 
   if vol.length == 1
     reason = [
-      "because of a restriction in docker",
-      "volume names must be at least two characters long.",
+      "because volume names must be at least two characters long.",
       "See https://github.com/docker/docker/issues/20122"
     ]
     create_failed_message(vol, reason.join("\n"))
