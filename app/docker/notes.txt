@@ -3,8 +3,7 @@ Note: need a check that each docker image has a user in it called nobody
       (don't think it's uid is important)
 
 
-cyber-dojo volume create --name=X --git=https://github.com/JonJagger/cyber-dojo-refactoring-exercises.git
-
+ruby cyber-dojo.rb volume create --name=abc --git=https://github.com/JonJagger/cyber-dojo-refactoring-exercises.git
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -15,22 +14,20 @@ cyber-dojo volume create --name=X --git=https://github.com/JonJagger/cyber-dojo-
 
 )) ./cyber-dojo catalog
 
-     $ ./cyber-dojo volume create --name=NAME --git=URL
-       This would check that the URL adhered to the api,
+     $ ./cyber-dojo volume create --name=VOL --git=URL
+       This will check that the URL adhered to the api,
        viz it specified whether it was languages/exercises/instructions
-       If ok it will add a label, eg --label=cyber-dojo-volume
-       Could add specific label, eg --label=cyber-dojo-languages-volume
+       If ok it will add a label, --label=cyber-dojo-volume=languages
 
        manifest.json in the github source will specify
-         . column-names
-         . type (languages/exercises/instructions)
+          'type': (languages/exercises/instructions)
+       and if not instructions type
+          'lhs-column-title': 'name',
+          'rhs-column-title': 'language'
        creation of volume will then add
-         . name
+         . name?
          . url
        Then volume can be mounted read-only.
-
-     $ ./cyber-dojo volume ls
-       This would filter on the label set, --filter=cyber-dojo-volume
 
      $ ./cyber-dojo volume rm VOL [VOL...]
 
@@ -46,7 +43,6 @@ cyber-dojo volume create --name=X --git=https://github.com/JonJagger/cyber-dojo-
      What should volume manifest.json file contain?
         type: languages/exercises/instructions
         col-names: [ TEXT, TEXT ],
-     Creation of the volume should ADD the source URL.
 
      cyber-dojo.rb could do with some documentation showing example output
      of various internal commands.
@@ -55,11 +51,11 @@ cyber-dojo volume create --name=X --git=https://github.com/JonJagger/cyber-dojo-
 
 )) finish the what/how separation
 
-     ./cyber-dojo up --exercises=a
+     ./cyber-dojo up --exercises=abc
         Use meta-data to confirm a is an exercise collection?
 
      Union of collection. Do in later release.
-     ./cyber-dojo up --exercises=a,b
+     ./cyber-dojo up --exercises=alpha,beta
         With meta-data the command could simplify to [./cyber-dojo up a,b] ?? no.
 
         unioning affects the UX quite a lot.
@@ -113,7 +109,7 @@ cyber-dojo volume create --name=X --git=https://github.com/JonJagger/cyber-dojo-
 - - - - - - - - - - - - - - - - - - - - -
 
 )) get travis to push images to cdf hub
-   push images to cyberdiojofoundation hub if tests pass
+   push images to cyberdojofoundation hub if tests pass
 
 - - - - - - - - - - - - - - - - - - - - -
 

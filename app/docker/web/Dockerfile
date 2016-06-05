@@ -114,6 +114,8 @@ RUN  mkdir -p ${CYBER_DOJO_HOME}
 COPY . ${CYBER_DOJO_HOME}
 RUN  chown -R cyber-dojo ${CYBER_DOJO_HOME}
 
+RUN apk --update add curl
+
 # - - - - - - - - - - - - - - - - - - - - - -
 WORKDIR ${CYBER_DOJO_HOME}
 USER    cyber-dojo

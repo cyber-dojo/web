@@ -24,7 +24,15 @@ def show(lines); lines.each { |line| puts line }; end
 def run(command)
   puts command
   quiet_run(command)
-  #TODO: diagnostic if command fails
+end
+
+def json_parse(s)
+  manifest = {}
+  begin
+    manifest = JSON.parse(s)
+  rescue
+  end
+  manifest
 end
 
 #=========================================================================================
@@ -189,9 +197,9 @@ end
 def volume_create
   help = [
     '',
-    "Use: #{me} volume create --name=NAME --git=URL",
+    "Use: #{me} volume create --name=VOL --git=URL",
     '',
-    tab('Creates a volume named NAME as git clone of URL'),
+    tab('Creates a volume named VOL as git clone of URL'),
     tab('and pulls all its docker images marked auto_pull:true')
   ]
 
@@ -201,39 +209,60 @@ def volume_create
   end
 
   args = ARGV[2..-1]
-  name = get_arg('--name', args)
+  vol = get_arg('--name', args)
   url = get_arg('--git', args)
-  if name.nil? || url.nil?
+  if vol.nil? || url.nil?
     show(help)
     exit 1
   end
 
-  if name.length == 1
-    puts "Cannot create volume #{name} because of a bug/restriction in docker."
+  if vol.length == 1
+    puts "Cannot create volume #{vol} because of a restriction in docker."
     puts "volume names must be at least two characters long."
     puts "See https://github.com/docker/docker/issues/20122"
     exit 1
   end
 
-  if volume_exists?(name)
+  if volume_exists?(vol)
     puts "Cannot create volume #{name} because it already exists."
     exit 1
   end
 
-  # TODO: get top level manifest from URL. Indicates type: languages/exercises/instructions
-  #       then do '--label=cyber-dojo-volume=exercises
-
-  quiet_run("docker volume create --name=#{name} --label=cyber-dojo-volume")
+  quiet_run("docker volume create --name=#{vol} --label=cyber-dojo-volume")
   command = quoted("git clone --depth=1 --branch=master #{url} /data && rm -rf /data/.git")
-  output = run("docker run --rm -v #{name}:/data #{cyber_dojo_hub}/user-base sh -c #{command}")
+  output = run("docker run --rm -v #{vol}:/data #{cyber_dojo_hub}/user-base sh -c #{command}")
   if $?.exitstatus != 0
-    quiet_run("docker volume rm #{name}")
+    quiet_run("docker volume rm #{vol}")
     exit 1
   end
 
-  # TODO: add details to top-level manifest
-  # TODO:    type: languages/exercises/instructions
-  # TODO:    columns: [ 'lhs', 'rhs' ]
+  command = quoted("cat /data/volume.json")
+  output = quiet_run("docker run --rm -v #{vol}:/data #{cyber_dojo_hub}/user-base sh -c #{command}")
+  if $?.exitstatus != 0
+    quiet_run("docker volume rm #{vol}")
+    puts "Cannot create volume #{vol} because it does not have a well-formed /volume.json"
+    exit 1
+  end
+
+  manifest = json_parse(output)
+
+  type = manifest['type']
+  if !['languages','exercises','instructions'].include?(type)
+    quiet_run("docker volume rm #{vol}")
+    puts "Cannot create volume #{vol} because it does not have a well-formed /volume.json"
+    puts "volume.json must include one of..."
+    puts "{ 'type': 'languages' }"
+    puts "{ 'type': 'exercises' }"
+    puts "{ 'type': 'instructions' }"
+    exit 1
+  end
+
+  # TODO:    if 'type' != 'instructions' check manifest contains...
+  # TODO:    'lhs-column-title': 'name',
+  # TODO:    'rhs-column-title': 'language'
+
+  # TODO: in other commands extract the type dynamically from the volume
+
 end
 
 # - - - - - - - - - - - - - - -

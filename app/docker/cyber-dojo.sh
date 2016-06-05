@@ -112,9 +112,9 @@ cyber_dojo_rb() {
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 volume_create() {
-  local name=$1
+  local vol=$1
   local url=$2
-  cyber_dojo_rb "volume create --name=${name} --git=${url}"
+  cyber_dojo_rb "volume create --name=${vol} --git=${url}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
