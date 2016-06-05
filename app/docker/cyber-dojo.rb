@@ -185,7 +185,7 @@ def volume_exists?(name)
   quiet_run("docker volume ls --quiet | grep #{pattern}").include? name
 end
 
-def is_cyber_dojo_volume?(volume)
+def cyber_dojo_volume?(volume)
   info = quiet_run("docker volume inspect #{volume}")
   manifest = JSON.parse(info)[0]
   labels = manifest['Labels'] || []
@@ -224,10 +224,11 @@ def volume_create
   end
 
   if volume_exists?(vol)
-    puts "Cannot create volume #{name} because it already exists."
+    puts "FAILED [volume create #{vol}] because #{vol} already exists."
     exit 1
   end
 
+  # TODO: --label=cyber-dojo-volume=#{url}")
   quiet_run("docker volume create --name=#{vol} --label=cyber-dojo-volume")
   command = quoted("git clone --depth=1 --branch=master #{url} /data && rm -rf /data/.git")
   output = run("docker run --rm -v #{vol}:/data #{cyber_dojo_hub}/user-base sh -c #{command}")
@@ -240,7 +241,7 @@ def volume_create
   output = quiet_run("docker run --rm -v #{vol}:/data #{cyber_dojo_hub}/user-base sh -c #{command}")
   if $?.exitstatus != 0
     quiet_run("docker volume rm #{vol}")
-    puts "Cannot create volume #{vol} because it does not have a well-formed /volume.json"
+    puts "FAILED [volume create #{vol}] because #{vol} does not have a well-formed /volume.json"
     exit 1
   end
 
@@ -249,7 +250,7 @@ def volume_create
   type = manifest['type']
   if !['languages','exercises','instructions'].include?(type)
     quiet_run("docker volume rm #{vol}")
-    puts "Cannot create volume #{vol} because it does not have a well-formed /volume.json"
+    puts "FAILED [volume create #{vol}] because #{vol} does not have a well-formed /volume.json"
     puts "volume.json must include one of..."
     puts "{ 'type': 'languages' }"
     puts "{ 'type': 'exercises' }"
@@ -261,7 +262,7 @@ def volume_create
   # TODO:    'lhs-column-title': 'name',
   # TODO:    'rhs-column-title': 'language'
 
-  # TODO: in other commands extract the type dynamically from the volume
+  # TODO: in other commands extract the type dynamically from the volume's volume.json manifest
 
 end
 
@@ -269,7 +270,7 @@ end
 
 def volume_rm
   # You are allowed to delete a default volume.
-  # This allows you to create a new default (from a given URL).
+  # This allows you to create default volumes.
   help = [
     '',
     "Use: #{me} volume rm VOLUME",
@@ -282,11 +283,14 @@ def volume_rm
     exit 1
   end
 
-  # TODO: check the volume is labelled as per the [volume create] command.
+  vol = ARGV[2]
+  if !volume_exists?(vol)
+    puts "FAILED [volume rm #{vol}] because #{vol} does not exist."
+    exit 1
+  end
 
-  name = ARGV[2]
-  if !volume_exists?(name)
-    puts "Cannot do [volume rm #{name}] because it does not exist."
+  if !cyber_dojo_volume?(vol)
+    puts "FAILED [volume rm #{vol}] because #{vol} is not a cyber-dojo volume."
     exit 1
   end
 
@@ -316,7 +320,7 @@ def volume_ls
   # Could be slow if lots of volumes.
 
   volumes = quiet_run("docker volume ls --quiet").split
-  puts volumes.select{ |volume| is_cyber_dojo_volume?(volume) }.join("\n")
+  puts volumes.select{ |volume| cyber_dojo_volume?(volume) }.join("\n")
 end
 
 # - - - - - - - - - - - - - - -
@@ -352,14 +356,14 @@ def volume_inspect # was catalog
     exit 1
   end
 
-  name = ARGV[2]
-  if !volume_exists?(name)
-    puts "volume #{name} does not exist."
+  vol = ARGV[2]
+  if !volume_exists?(vol)
+    puts "FAILED [volume inspect #{vol}] because #{vol} does not exist."
     exit 1
   end
 
-  if !is_cyber_dojo_volume?(name)
-    puts "volume #{name} is not a cyber-dojo volume."
+  if !cyber_dojo_volume?(vol)
+    puts "FAILED [volume inspect #{vol}] because #{vol} is not a cyber-dojo volume."
     exit 1
   end
 

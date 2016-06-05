@@ -2,6 +2,11 @@
 Note: need a check that each docker image has a user in it called nobody
       (don't think it's uid is important)
 
+Once the caches are made, if you do [docker rmi image] then the cache will be
+wrong. Suggests that when you do [cyber-dojo rm IMAGE] it should either
+1) warn you to bring the server down and then back up
+2) not allow it if the server is up
+
 ruby cyber-dojo.rb volume create --name=abc --git=https://github.com/JonJagger/cyber-dojo-refactoring-exercises.git
 
 - - - - - - - - - - - - - - - - - - - - -
@@ -25,7 +30,10 @@ ruby cyber-dojo.rb volume create --name=abc --git=https://github.com/JonJagger/c
           'rhs-column-title': 'language'
        creation of volume will then add
          . name?
-         . url
+         . url?
+       Why not add the url in the label!
+       --label=cyber-dojo-volume=${URL}
+
        Then volume can be mounted read-only.
 
      $ ./cyber-dojo volume rm VOL [VOL...]
