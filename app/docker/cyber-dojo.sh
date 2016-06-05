@@ -41,7 +41,6 @@ export CYBER_DOJO_INSTRUCTIONS_VOLUME=${default_instructions_volume}
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-
 one_time_creation_of_katas_data_container() {
   # ensure katas-data-container exists.
   # o) if it doesn't and /var/www/cyber-dojo/katas exists on the host
@@ -66,14 +65,14 @@ one_time_creation_of_katas_data_container() {
 
     # extract appropriate Dockerfile from web image
     local katas_dockerfile=${CONTEXT_DIR}/Dockerfile
-    local cid=$(docker create ${CYBER_DOJO_SERVER})
+    local cid=$(docker create ${CYBER_DOJO_WEB_SERVER})
     docker cp ${cid}:${cyber_dojo_home}/app/docker/katas/Dockerfile.${SUFFIX} \
               ${katas_dockerfile}
     docker rm -v ${cid} > /dev/null
 
     # 3. extract appropriate .dockerignore from web image
     local katas_docker_ignore=${CONTEXT_DIR}/.dockerignore
-    local cid=$(docker create ${CYBER_DOJO_SERVER})
+    local cid=$(docker create ${CYBER_DOJO_WEB_SERVER})
     docker cp ${cid}:${cyber_dojo_home}/app/docker/katas/Dockerignore.${SUFFIX} \
               ${katas_docker_ignore}
     docker rm -v ${cid} > /dev/null
