@@ -2,10 +2,8 @@
 Note: need a check that each docker image has a user in it called nobody
       (don't think it's uid is important)
 
-Once the caches are made, if you do [docker rmi image] then the cache will be
-wrong. Suggests that when you do [cyber-dojo rm IMAGE] it should either
-1) warn you to bring the server down and then back up
-2) not allow it if the server is up
+If the server is up you can still do [docker rmi image]
+So I still need proper nil error handling on the setup pages
 
 ruby cyber-dojo.rb volume create --name=abc --git=https://github.com/JonJagger/cyber-dojo-refactoring-exercises.git
 
@@ -53,9 +51,6 @@ ruby cyber-dojo.rb volume create --name=abc --git=https://github.com/JonJagger/c
 
 )) finish the what/how separation
 
-     ./cyber-dojo up --exercises=abc
-        Use meta-data to confirm a is an exercise collection?
-
      Union of collection. Do in later release.
      ./cyber-dojo up --exercises=alpha,beta
         With meta-data the command could simplify to [./cyber-dojo up a,b] ?? no.
@@ -74,7 +69,7 @@ ruby cyber-dojo.rb volume create --name=abc --git=https://github.com/JonJagger/c
 
      give collections a defined api and meta-data
        each collection manifest specifies if is for languages/exercises/instructions
-       each collection manifest adds the URL it was created from
+       each volume label adds the URL it was created from
        each language manifest specifies whether its docker-image should be auto pulled. default=no
 
 - - - - - - - - - - - - - - - - - - - - -
