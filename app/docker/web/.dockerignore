@@ -27,5 +27,6 @@
 !app/docker/cyber-dojo.rb
 !app/docker/docker-compose.yml
 
-#-----Except do ignore everything in caches
+#-----Except do ignore everything in caches and downloads
 app/caches/*.json
+app/downloads/*
