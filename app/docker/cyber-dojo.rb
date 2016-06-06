@@ -144,6 +144,8 @@ def volume
     '',
     "Use: #{me} volume [COMMAND]",
     '',
+    'Manage cyber-dojo volumes',
+    '',
     'Commands:',
     minitab('create         Creates a new cyber-dojo volume'),
     minitab('rm             Removes a cyber-dojo volumea'),
@@ -292,8 +294,7 @@ def volume_create
     '',
     "Use: #{me} volume create --name=VOLUME --git=URL",
     '',
-    tab('Creates a volume named VOLUME as git clone of URL'),
-    tab('and pulls all its docker images marked auto_pull:true')
+    'Creates a volume named VOLUME as git clone of URL and pulls all its docker images marked auto_pull:true'
   ]
 
   if [nil,'help','--help'].include? ARGV[2]
@@ -393,8 +394,7 @@ def volume_rm
     '',
     "Use: #{me} volume rm VOLUME",
     '',
-    tab('Removes a volume created with the command'),
-    tab("#{me} volume create")
+    "Removes a volume created with the [#{me} volume create] command"
   ]
 
   vol = ARGV[2]
@@ -414,7 +414,9 @@ def volume_ls
     '',
     "Use: #{me} volume ls",
     '',
-    tab('Lists the names of all cyber-dojo volumes'),
+    'Lists the names of all cyber-dojo volumes',
+    '',
+    minitab('--quiet     Only display volume names')
   ]
 
   if ['help','--help'].include? ARGV[2]
@@ -422,34 +424,39 @@ def volume_ls
     exit 1
   end
 
-  # TODO: add --quiet option to display only the names
-
-  # There seems to be no [--filter label=L]  option on [docker volume ls]
+  # There is currently no [--filter label=LABEL]  option on [docker volume ls]
   # https://github.com/docker/docker/pull/21567
-  # So I have to inspect all volumes.
-  # Could be slow if lots of volumes.
+  # So I have to inspect all volumes. Could be slow if lots of volumes.
 
   volumes = silent_run("docker volume ls --quiet").split
   volumes = volumes.select{ |volume| cyber_dojo_volume?(volume) }
-  types   = volumes.map   { |volume| cyber_dojo_type(volume)    }
-  urls    = volumes.map   { |volume| cyber_dojo_label(volume)   }
 
-  max_volume = (['VOLUME'] + volumes).max_by(&:length).length + 3
-  max_type   = (['TYPE'  ] + types  ).max_by(&:length).length + 3
-  max_url    = (['URL'   ] + urls   ).max_by(&:length).length + 3
+  if ARGV[2] == '--quiet'
+    volumes.each { |volume| puts volume }
+  else
+    types   = volumes.map { |volume| cyber_dojo_type(volume)    }
+    urls    = volumes.map { |volume| cyber_dojo_label(volume)   }
 
-  spaced = lambda { |max,s|
-    s + (' ' * (max - s.length))
-  }
+    headings = { :volume => 'VOLUME', :type => 'TYPE', :url => 'URL' }
 
-  heading = spaced.call(max_volume, 'VOLUME') + spaced.call(max_type, 'TYPE') + spaced.call(max_url, 'URL')
-  puts heading
+    gap = 3
+    max_volume = ([headings[:volume]] + volumes).max_by(&:length).length + gap
+    max_type   = ([headings[:type  ]] + types  ).max_by(&:length).length + gap
+    max_url    = ([headings[:url   ]] + urls   ).max_by(&:length).length + gap
 
-  volumes.length.times do |n|
-    volume = spaced.call(max_volume, volumes[n])
-    type   = spaced.call(max_type, types[n])
-    url    = spaced.call(max_url, urls[n])
-    puts volume + type + url
+    spaced = lambda { |max,s| s + (' ' * (max - s.length)) }
+
+    heading = ''
+    heading += spaced.call(max_volume, headings[:volume])
+    heading += spaced.call(max_type, headings[:type])
+    heading += spaced.call(max_url, headings[:url])
+    puts heading
+    volumes.length.times do |n|
+      volume = spaced.call(max_volume, volumes[n])
+      type   = spaced.call(max_type, types[n])
+      url    = spaced.call(max_url, urls[n])
+      puts volume + type + url
+    end
   end
 
 end
@@ -461,7 +468,7 @@ def volume_pull
     '',
     "Use: #{me} volume pull VOLUME",
     '',
-    tab('Pulls all the docker images named inside the cyber-dojo volume'),
+    'Pulls all the docker images named inside the cyber-dojo volume',
   ]
   vol = ARGV[2]
   if [nil,'help','--help'].include? vol
@@ -483,7 +490,7 @@ def volume_inspect # was catalog
     '',
     "Use: #{me} volume inspect VOLUME",
     '',
-    tab('Displays details of the named cyber-dojo volume'),
+    'Displays details of the named cyber-dojo volume',
   ]
 
   vol = ARGV[2]
@@ -685,17 +692,19 @@ def help
   puts [
     '',
     "Use: #{me} COMMAND",
-    "     #{me} [help]",
+    "     #{me} --help",
     '',
-    '    clean     Removes dangling docker images and volumes',
-    '    down      Brings down the server',
-    '    pull      Pulls a docker image',
-    '    rmi       Removes a docker image',
-    '    sh        Shells into the server',
-    '    up        Brings up the server',
-    '    upgrade   Upgrades the server and languages',
-    '    volume    Manage cyber-dojo data volumes',
+    'Commands:',
+    tab('clean     Removes dangling docker images and volumes'),
+    tab('down      Brings down the server'),
+    tab('pull      Pulls a docker image'),
+    tab('rmi       Removes a docker image'),
+    tab('sh        Shells into the server'),
+    tab('up        Brings up the server'),
+    tab('upgrade   Upgrades the server and languages'),
+    tab('volume    Manage cyber-dojo data volumes'),
     '',
+    "Run '#{me} COMMAND --help' for more information on a command."
   ].join("\n") + "\n"
 
   # TODO: add sh function so it can process [help,--help]
