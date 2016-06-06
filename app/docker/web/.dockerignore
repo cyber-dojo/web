@@ -7,9 +7,7 @@
 #-----!Except these folders
 
 !app/assets
-!app/caches
 !app/controllers
-!app/downloads
 !app/helpers
 !app/lib
 !app/models
@@ -19,14 +17,22 @@
 !lib
 !test
 
+#-----!Except these empty folders
+!app/caches
+!app/downloads
+app/caches/*
+app/downloads/*
+
 #-----!Except these files
 
+# Dockerfile needs to run [bundle install]
 !Gemfile
+
 !config.ru
+
+# cyber-dojo copies these from web image on [update]
 !app/docker/cyber-dojo.sh
-!app/docker/cyber-dojo.rb
 !app/docker/docker-compose.yml
 
-#-----Except do ignore everything in caches and downloads
-app/caches/*.json
-app/downloads/*
+# cyber-dojo.sh delegates to this inside web container
+!app/docker/cyber-dojo.rb
