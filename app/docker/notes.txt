@@ -50,30 +50,6 @@ docker-compose.yml
 
 - - - - - - - - - - - - - - - - - - - - -
 
-PATHS CONTAINING DATA
-
-app/docker/web/.dockerignore
- has these entries
-
-!app/data/caches
-!app/data/languages
-!app/data/instructions
-!app/data/exercises
-
-I can lose languages/instructions/exercises
-Need
-  app/caches       edit path in domain
-  app/downloads    edit path in controller
-
-Also has
-  !app/docker
-
-And I dont need most of that. Only really need
-  docker-compose.yml  (which is cp'd out)
-  cyber-dojo.sh       (which is cp'd out)
-
-- - - - - - - - - - - - - - - - - - - - -
-
 Note: need a check that each docker image has a user in it called nobody
       (don't think it's uid is important)
 
