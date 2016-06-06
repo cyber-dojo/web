@@ -18,9 +18,9 @@ web:
   user: cyber-dojo
   image: ${CYBER_DOJO_WEB_SERVER}
   container_name: ${CYBER_DOJO_WEB_CONTAINER}
-  command: rails server --environment=development    # WORKS
-  #command: rails server --environment=production     # FAILS
-  #command: rails server --environment=test           # FAILS
+  #command: rails server --environment=development    # OK
+  command: rails server --environment=production     # FAILS
+  #command: rails server --environment=test           # OK
   environment:
     - CYBER_DOJO_SHELL_CLASS
     - CYBER_DOJO_DISK_CLASS

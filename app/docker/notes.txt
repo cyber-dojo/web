@@ -12,12 +12,14 @@ The nokogiri stuff etc is such a lot of hassle...
 Working towards getting docker-compose to be able to bring up web server in all 3 modes
 docker-compose.yml
 
+  DEVELOPMENT
   #command: rails server --environment=development    # OK
   Server comes up.
   Can create a kata. Ok.
 
   # - - - -
 
+  PRODUCTION
   #command: rails server --environment=production    # FAILS. web:1.11.2 exits immediately
   $ docker logs [web-container-id]
   /usr/lib/ruby/gems/2.3.0/gems/activesupport-4.1.0/lib/active_support/dependencies.rb:247:in `require':
@@ -33,15 +35,42 @@ docker-compose.yml
     Exiting
   That seems to indicate the command line arguments are being passed to tini...
   But that would mean it would fail for --environment=development too...
+  Something in config????
 
   # - - - -
 
+  TEST
   #command: rails server --environment=test          # FAILS. web:1.11.2 exits immediately
    /usr/lib/ruby/gems/2.3.0/gems/nokogiri-1.6.7.2/lib/nokogiri.rb:29:in `require':
      Error loading shared library libexslt.so.0: No such file or directory
      (needed by /usr/lib/ruby/gems/2.3.0/gems/nokogiri-1.6.7.2/lib/nokogiri/nokogiri.so) -
      /usr/lib/ruby/gems/2.3.0/gems/nokogiri-1.6.7.2/lib/nokogiri/nokogiri.so (LoadError)
-     Stack trace shows capybara...
+     Stack trace shows capybara...approvals..
+     Commented both out
+     That now comes up too.
+     Not really a solution though.
+
+- - - - - - - - - - - - - - - - - - - - -
+
+app/docker/web/.dockerignore
+ has these entries
+
+!app/data/caches
+!app/data/languages
+!app/data/instructions
+!app/data/exercises
+
+I can lose languages/instructions/exercises
+Need
+  app/caches       edit path in domain
+  app/downloads    edit path in controller
+
+Also has
+  !app/docker
+
+And I dont need most of that. Only really need
+  docker-compose.yml  (which is cp'd out)
+  cyber-dojo.sh       (which is cp'd out)
 
 - - - - - - - - - - - - - - - - - - - - -
 
