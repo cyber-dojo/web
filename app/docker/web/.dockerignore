@@ -9,7 +9,6 @@
 !app/assets
 !app/caches
 !app/controllers
-!app/docker
 !app/downloads
 !app/helpers
 !app/lib
@@ -24,6 +23,9 @@
 
 !Gemfile
 !config.ru
+!app/docker/cyber-dojo.sh
+!app/docker/cyber-dojo.rb
+!app/docker/docker-compose.yml
 
 #-----Except do ignore everything in caches
 app/caches/*.json
