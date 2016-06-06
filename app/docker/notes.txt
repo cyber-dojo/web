@@ -59,6 +59,18 @@ docker-compose.yml
   That seems to indicate the command line arguments are being passed to tini...
   But that would mean it would fail for --environment=development too...
   Something in config????
+  Yes...
+  config/environments/development.rb
+    contains the line
+      config.eager_load = false
+  config/environments/production.rb
+    contains the line
+      config.eager_load = true
+  Editing config/environments/production.rb so its line is
+      config.eager_load = false
+  then rebuilding the web image, bringing the server down then up again
+  with --environment=production
+  and it comes up ok and I can do a kata.
 
   # - - - -
 
