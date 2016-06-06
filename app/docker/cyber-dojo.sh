@@ -12,7 +12,7 @@ docker_compose_cmd="docker-compose --file=${my_dir}/docker-compose.yml"
 docker_version=$(docker --version | awk '{print $3}' | sed '$s/.$//')
 
 cyber_dojo_hub=cyberdojofoundation
-cyber_dojo_home=/usr/src/cyber-dojo
+cyber_dojo_root=/usr/src/cyber-dojo
 
 default_languages_volume=default_languages
 default_exercises_volume=default_exercises
@@ -20,10 +20,15 @@ default_instructions_volume=default_instructions
 
 # set environment variables required by docker-compose.yml
 
-export CYBER_DOJO_DATA_HOME=${cyber_dojo_home}/app/data
+# important that data-home is not under app so any ruby files it might contain
+# are *not* slurped by the web server as it starts!
+export CYBER_DOJO_DATA_ROOT=${cyber_dojo_root}/data
+
 export CYBER_DOJO_WEB_SERVER=${cyber_dojo_hub}/web:${docker_version}
 export CYBER_DOJO_WEB_CONTAINER=cdf-web
+
 export CYBER_DOJO_KATAS_DATA_CONTAINER=cdf-katas-DATA-CONTAINER
+export CYBER_DOJO_KATAS_ROOT=${cyber_dojo_root}/katas
 
 export CYBER_DOJO_KATAS_CLASS=${CYBER_DOJO_KATAS_CLASS:=HostDiskKatas}
 export CYBER_DOJO_SHELL_CLASS=${CYBER_DOJO_SHELL_CLASS:=HostShell}
@@ -66,21 +71,21 @@ one_time_creation_of_katas_data_container() {
     # extract appropriate Dockerfile from web image
     local katas_dockerfile=${CONTEXT_DIR}/Dockerfile
     local cid=$(docker create ${CYBER_DOJO_WEB_SERVER})
-    docker cp ${cid}:${cyber_dojo_home}/app/docker/katas/Dockerfile.${SUFFIX} \
+    docker cp ${cid}:${cyber_dojo_root}/app/docker/katas/Dockerfile.${SUFFIX} \
               ${katas_dockerfile}
     docker rm -v ${cid} > /dev/null
 
     # 3. extract appropriate .dockerignore from web image
     local katas_docker_ignore=${CONTEXT_DIR}/.dockerignore
     local cid=$(docker create ${CYBER_DOJO_WEB_SERVER})
-    docker cp ${cid}:${cyber_dojo_home}/app/docker/katas/Dockerignore.${SUFFIX} \
+    docker cp ${cid}:${cyber_dojo_root}/app/docker/katas/Dockerignore.${SUFFIX} \
               ${katas_docker_ignore}
     docker rm -v ${cid} > /dev/null
 
     # use Dockerfile to build image
     local tag=${cyber_dojo_hub}/katas
     docker build \
-             --build-arg=CYBER_DOJO_KATAS_ROOT=${cyber_dojo_home}/katas \
+             --build-arg=CYBER_DOJO_KATAS_ROOT=${CYBER_DOJO_KATAS_ROOT} \
              --tag=${tag} \
              --file=${katas_dockerfile} \
              ${CONTEXT_DIR}
@@ -105,7 +110,7 @@ cyber_dojo_rb() {
     --env=CYBER_DOJO_HUB=${cyber_dojo_hub} \
     --volume=/var/run/docker.sock:/var/run/docker.sock \
     ${CYBER_DOJO_WEB_SERVER} \
-    ${cyber_dojo_home}/app/docker/cyber-dojo.rb $1
+    ${cyber_dojo_root}/app/docker/cyber-dojo.rb $1
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

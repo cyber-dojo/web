@@ -1,9 +1,59 @@
 
+./cyber-dojo up
+NEEDS to check if web-container does not immediately exit
+
+- - - - - - - - - - - - - - - - - - - - -
+
+I think I should be basing web's Dockerfile off an Alpine Linux ruby base.
+The nokogiri stuff etc is such a lot of hassle...
+
+- - - - - - - - - - - - - - - - - - - - -
+
+Working towards getting docker-compose to be able to bring up web server in all 3 modes
+docker-compose.yml
+
+  #command: rails server --environment=development    # OK
+  Server comes up.
+  Can create a kata. Ok.
+
+  # - - - -
+
+  #command: rails server --environment=production    # FAILS. web:1.11.2 exits immediately
+  $ docker logs [web-container-id]
+  /usr/lib/ruby/gems/2.3.0/gems/activesupport-4.1.0/lib/active_support/dependencies.rb:247:in `require':
+     No such file to load -- test/unit (LoadError)
+  Coming from
+     /usr/src/cyber-dojo/app/data/exercises/Tennis/Ruby/tennis_test.rb:3:in `<top (required)>'
+  Aha... I think I need to put data at / and not /app
+  That got me further...
+  Now says
+    => Ctrl-C to shutdown server
+    cyber-dojo: '--environment=production' is not a command.
+    See 'cyber-dojo --help'.
+    Exiting
+  That seems to indicate the command line arguments are being passed to tini...
+  But that would mean it would fail for --environment=development too...
+
+  # - - - -
+
+  #command: rails server --environment=test          # FAILS. web:1.11.2 exits immediately
+   /usr/lib/ruby/gems/2.3.0/gems/nokogiri-1.6.7.2/lib/nokogiri.rb:29:in `require':
+     Error loading shared library libexslt.so.0: No such file or directory
+     (needed by /usr/lib/ruby/gems/2.3.0/gems/nokogiri-1.6.7.2/lib/nokogiri/nokogiri.so) -
+     /usr/lib/ruby/gems/2.3.0/gems/nokogiri-1.6.7.2/lib/nokogiri/nokogiri.so (LoadError)
+     Stack trace shows capybara...
+
+- - - - - - - - - - - - - - - - - - - - -
+
 Note: need a check that each docker image has a user in it called nobody
       (don't think it's uid is important)
 
+- - - - - - - - - - - - - - - - - - - - -
+
 If the server is up you can still do [docker rmi image]
 So I still need proper nil error handling on the setup pages
+
+- - - - - - - - - - - - - - - - - - - - -
 
 ruby cyber-dojo.rb volume create --name=abc --git=https://github.com/JonJagger/cyber-dojo-refactoring-exercises.git
 

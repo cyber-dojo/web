@@ -19,8 +19,8 @@ web:
   image: ${CYBER_DOJO_WEB_SERVER}
   container_name: ${CYBER_DOJO_WEB_CONTAINER}
   command: rails server --environment=development    # WORKS
-  #command: rails server --environment=production    # FAILS. web:1.11.2 exits immediately
-  #command: rails server --environment=test          # FAILS. web:1.11.2 exits immediately
+  #command: rails server --environment=production     # FAILS
+  #command: rails server --environment=test           # FAILS
   environment:
     - CYBER_DOJO_SHELL_CLASS
     - CYBER_DOJO_DISK_CLASS
@@ -30,17 +30,17 @@ web:
     - CYBER_DOJO_RUNNER_CLASS
     - CYBER_DOJO_RUNNER_SUDO
     - CYBER_DOJO_RUNNER_TIMEOUT
-    - CYBER_DOJO_LANGUAGES_ROOT=${CYBER_DOJO_DATA_HOME}/languages
-    - CYBER_DOJO_EXERCISES_ROOT=${CYBER_DOJO_DATA_HOME}/exercises
-    - CYBER_DOJO_INSTRUCTIONS_ROOT=${CYBER_DOJO_DATA_HOME}/instructions
-    - CYBER_DOJO_KATAS_ROOT=${CYBER_DOJO_DATA_HOME}/katas
+    - CYBER_DOJO_LANGUAGES_ROOT=${CYBER_DOJO_DATA_ROOT}/languages
+    - CYBER_DOJO_EXERCISES_ROOT=${CYBER_DOJO_DATA_ROOT}/exercises
+    - CYBER_DOJO_INSTRUCTIONS_ROOT=${CYBER_DOJO_DATA_ROOT}/instructions
+    - CYBER_DOJO_KATAS_ROOT=${CYBER_DOJO_KATAS_ROOT}
   ports:
     - "3000:3000"
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock
-    - ${CYBER_DOJO_LANGUAGES_VOLUME}:${CYBER_DOJO_DATA_HOME}/languages:ro
-    - ${CYBER_DOJO_EXERCISES_VOLUME}:${CYBER_DOJO_DATA_HOME}/exercises:ro
-    - ${CYBER_DOJO_INSTRUCTIONS_VOLUME}:${CYBER_DOJO_DATA_HOME}/instructions:ro
+    - ${CYBER_DOJO_LANGUAGES_VOLUME}:${CYBER_DOJO_DATA_ROOT}/languages:ro
+    - ${CYBER_DOJO_EXERCISES_VOLUME}:${CYBER_DOJO_DATA_ROOT}/exercises:ro
+    - ${CYBER_DOJO_INSTRUCTIONS_VOLUME}:${CYBER_DOJO_DATA_ROOT}/instructions:ro
   volumes_from:
     - ${CYBER_DOJO_KATAS_DATA_CONTAINER}:rw
 
