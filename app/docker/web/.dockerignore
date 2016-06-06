@@ -17,7 +17,7 @@
 !lib
 !test
 
-#-----!Except these empty folders
+#-----!Except these _empty_ folders
 !app/caches
 !app/downloads
 app/caches/*
@@ -25,14 +25,15 @@ app/downloads/*
 
 #-----!Except these files
 
-# Dockerfile needs to run [bundle install]
+# {bundle install} in web's Dockerfile needs this
 !Gemfile
 
+# {rails server} in web's docker-compose.yml needs this
 !config.ru
 
-# cyber-dojo copies these from web image on [update]
+# {./cyber-dojo update} copies these out of web container
 !app/docker/cyber-dojo.sh
 !app/docker/docker-compose.yml
 
-# cyber-dojo.sh delegates to this inside web container
+# {./cyber-dojo} delegates to cyber-dojo.sh which delegates to this inside web container
 !app/docker/cyber-dojo.rb
