@@ -38,30 +38,22 @@ docker-compose.yml
   Can create a kata. Ok.
   Can't test.
   Shell in
-  $ cd test/app_models
-  $ ./light_test.rb
-    SimpleCov failed to recognize the test framework and/or suite used.
-      Please specify manually using SimpleCov.command_name 'Unit Tests'.
-    /usr/lib/ruby/2.3.0/rubygems/core_ext/kernel_require.rb:127:in `require':
-      cannot load such file -- minitest/autorun (LoadError)
+  $ cd test
+  $ ./run.sh
+  ...
+                      t      a  f  e  s   secs  t/sec  a/sec      cov
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  app_helpers        12     24  0  0  0   1.10     10     21   100.00
+  app_lib           113    586  1  0  0   0.57    198   1030   100.00
+  app_models        116    649  0  0  0   6.91     16     93   100.00
+  languages           5     62  0  0  0   0.07     75    932    60.00
+  lib                80    515  0  0  0  10.76      7     47    79.38
+  app_controllers    54    630  1  5  0   8.96      6     70    95.91
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  total             380   2466  2  5  0  28.37     13     86
 
-  I'm assuming these two are related...
-  Gemfile definitely has line
-    gem 'minitest', '5.8.1'
-  Hmmm. That is not
-    gem 'minitest', '>= 5.8.1'
-
-  Note too that inside the web container I can load minitest inside irb....
-    $ irb
-    irb(main):001:0> require 'minitest/autorun'
-    => true
-  >>>>>>>>>>>So why is minitest/autorun not being seen?<<<<<<<<<<<<<<
-  Got it.
-  It was because test/test_base.rb had this
-    gem 'minitest'
-    require 'minitest/autorun'
-  and it needs to be just
-    require 'minitest/autorun'
+  So 2 faults and 5 errors.
+  Getting there :-)
 
 - - - - - - - - - - - - - - - - - - - - -
 
