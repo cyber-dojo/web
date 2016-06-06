@@ -444,7 +444,7 @@ def volume_ls
     max_type   = ([headings[:type  ]] + types  ).max_by(&:length).length + gap
     max_url    = ([headings[:url   ]] + urls   ).max_by(&:length).length + gap
 
-    spaced = lambda { |max,s| s + (' ' * (max - s.length)) }
+    spaced = lambda { |max,s| s + (space * (max - s.length)) }
 
     heading = ''
     heading += spaced.call(max_volume, headings[:volume])

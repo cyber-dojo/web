@@ -94,6 +94,9 @@ ARG  CYBER_DOJO_HOME
 USER root
 RUN  mkdir -p ${CYBER_DOJO_HOME}
 COPY Gemfile  ${CYBER_DOJO_HOME}
+# ffi is tricksy (libffi-dev)
+# nokogiri is tricksy (libxml2 libxslt-dev libxml2-dev)
+# See https://github.com/ffi/ffi/issues/485
 RUN  apk --update \
         add --virtual build-dependencies \
           build-base \
@@ -102,9 +105,14 @@ RUN  apk --update \
           postgresql-dev \
           libc-dev \
           linux-headers \
-       && gem install bundler --no-ri --no-rdoc \
-       && cd ${CYBER_DOJO_HOME} ; bundle install --without development test \
-     && apk del build-dependencies
+          libffi-dev libxml2 libxslt-dev libxml2-dev
+RUN gem install bundler --no-ri --no-rdoc
+# nokogiri is tricksy
+# See http://stackoverflow.com/questions/23668684/failed-to-build-gem-native-extension-when-i-run-bundle-install
+RUN bundle config build.nokogiri --use-system-libraries
+RUN cd ${CYBER_DOJO_HOME} ; bundle install
+
+RUN apk del build-dependencies
 
 # - - - - - - - - - - - - - - - - - - - - - -
 # 5. Copy the app source
