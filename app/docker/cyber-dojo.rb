@@ -10,13 +10,13 @@ def me; 'cyber-dojo'; end
 
 def my_dir; File.expand_path(File.dirname(__FILE__)); end
 
-def cyber_dojo_hub; ENV['CYBER_DOJO_HUB']; end
+def cyber_dojo_hub; ENV['CYBER_DOJO_HUB'] || 'cyberdojofoundation'; end
 
 def space; ' '; end
 
-def tab(line = ''); (space * 4) + line; end
+def tab; space * 4; end
 
-def minitab(line = ''); (space * 2) + line; end
+def minitab; space * 2; end
 
 def silent_run(command); `#{command} 2>&1`; end
 
@@ -102,9 +102,9 @@ def up
     '',
     'Creates and starts the cyber-dojo server using default/named volumes',
     '',
-    minitab('--languages=VOLUME      Specify the languages volume (otherwise default_languages)'),
-    minitab('--exercises=VOLUME      Specify the exercises volume (otherwise default_exercises)'),
-    minitab('--instructions=VOLUME   Specify the instructions volume (otherwise default_instructions)')
+    minitab + '--languages=VOLUME      Specify the languages volume (otherwise default_languages)',
+    minitab + '--exercises=VOLUME      Specify the exercises volume (otherwise default_exercises)',
+    minitab + '--instructions=VOLUME   Specify the instructions volume (otherwise default_instructions)'
   ]
 
   if ['help','--help'].include? ARGV[1]
@@ -147,11 +147,11 @@ def volume
     'Manage cyber-dojo volumes',
     '',
     'Commands:',
-    minitab('create         Creates a new cyber-dojo volume'),
-    minitab('rm             Removes a cyber-dojo volumea'),
-    minitab('ls             Lists the names of all cyber-dojo volumes'),
-    minitab('inspect        Displays details of a cyber-dojo volume'),
-    minitab('pull           Pulls the docker images inside a cyber-dojo volume'),
+    minitab + 'create         Creates a new cyber-dojo volume',
+    minitab + 'rm             Removes a cyber-dojo volumea',
+    minitab + 'ls             Lists the names of all cyber-dojo volumes',
+    minitab + 'inspect        Displays details of a cyber-dojo volume',
+    minitab + 'pull           Pulls the docker images inside a cyber-dojo volume',
     '',
     "Run '#{me} volume COMMAND --help' for more information on a command",
   ]
@@ -416,7 +416,7 @@ def volume_ls
     '',
     'Lists the names of all cyber-dojo volumes',
     '',
-    minitab('--quiet     Only display volume names')
+    minitab + '--quiet     Only display volume names'
   ]
 
   if ['help','--help'].include? ARGV[2]
@@ -639,7 +639,7 @@ def pull
     '',
     "Use: #{me} pull IMAGE",
     '',
-    tab('Pulls the named docker image'),
+    'Pulls the named docker image',
   ]
   if [nil,'help','--help'].include? ARGV[1]
     show(help)
@@ -668,7 +668,7 @@ def rmi
     '',
     "Use: #{me} rmi IMAGE",
     '',
-    tab('Removes the named docker image'),
+    'Removes the named docker image',
   ]
   if [nil,'help','--help'].include? ARGV[1]
     show(help)
@@ -695,14 +695,14 @@ def help
     "     #{me} --help",
     '',
     'Commands:',
-    tab('clean     Removes dangling docker images and volumes'),
-    tab('down      Brings down the server'),
-    tab('pull      Pulls a docker image'),
-    tab('rmi       Removes a docker image'),
-    tab('sh        Shells into the server'),
-    tab('up        Brings up the server'),
-    tab('upgrade   Upgrades the server and languages'),
-    tab('volume    Manage cyber-dojo data volumes'),
+    tab + 'clean     Removes dangling docker images and volumes',
+    tab + 'down      Brings down the server',
+    tab + 'pull      Pulls a docker image',
+    tab + 'rmi       Removes a docker image',
+    tab + 'sh        Shells into the server',
+    tab + 'up        Brings up the server',
+    tab + 'upgrade   Upgrades the server and languages',
+    tab + 'volume    Manage cyber-dojo data volumes',
     '',
     "Run '#{me} COMMAND --help' for more information on a command."
   ].join("\n") + "\n"
