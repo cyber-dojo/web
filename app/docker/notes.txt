@@ -56,6 +56,12 @@ docker-compose.yml
     irb(main):001:0> require 'minitest/autorun'
     => true
   >>>>>>>>>>>So why is minitest/autorun not being seen?<<<<<<<<<<<<<<
+  Got it.
+  It was because test/test_base.rb had this
+    gem 'minitest'
+    require 'minitest/autorun'
+  and it needs to be just
+    require 'minitest/autorun'
 
 - - - - - - - - - - - - - - - - - - - - -
 

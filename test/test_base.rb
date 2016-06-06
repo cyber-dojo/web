@@ -1,5 +1,4 @@
 
-gem 'minitest'
 require 'minitest/autorun'
 
 require_relative './test_domain_helpers'
