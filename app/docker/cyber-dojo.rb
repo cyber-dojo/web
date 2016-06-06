@@ -4,6 +4,7 @@
 # Returns non-zero to indicate cyber-dojo.sh should not proceed.
 
 require 'json'
+require 'tempfile'
 
 def me; 'cyber-dojo'; end
 
@@ -17,17 +18,17 @@ def tab(line = ''); (space * 4) + line; end
 
 def minitab(line = ''); (space * 2) + line; end
 
-def quiet_run(command); `#{command} 2>&1`; end
+def silent_run(command); `#{command} 2>&1`; end
 
 def show(lines); lines.each { |line| puts line }; end
 
 def run(command)
   puts command
-  quiet_run(command)
+  silent_run(command)
 end
 
 def json_parse(s)
-  manifest = {}
+  manifest = nil
   begin
     manifest = JSON.parse(s)
   rescue
@@ -179,11 +180,11 @@ def volume_exists?(name)
   space = ' '
   end_of_line = '$'
   pattern = "#{space}#{name}#{end_of_line}"
-  quiet_run("docker volume ls --quiet | grep #{pattern}").include? name
+  silent_run("docker volume ls --quiet | grep #{pattern}").include? name
 end
 
 def cyber_dojo_inspect(vol)
-  info = quiet_run("docker volume inspect #{vol}")
+  info = silent_run("docker volume inspect #{vol}")
   JSON.parse(info)[0]
 end
 
@@ -198,7 +199,7 @@ end
 
 def cyber_dojo_manifest(vol)
   command = quoted "cat /data/volume.json"
-  JSON.parse(quiet_run "docker run --rm -v #{vol}:/data #{cyber_dojo_hub}/user-base sh -c #{command}")
+  JSON.parse(silent_run "docker run --rm -v #{vol}:/data #{cyber_dojo_hub}/user-base sh -c #{command}")
 end
 
 def cyber_dojo_type(vol)
@@ -208,24 +209,78 @@ end
 # - - - - - - - - - - - - - - -
 
 class VolumeCreateFailed < Exception
+
   def initialize(hash)
     @hash = hash
-    hash[:exit] ||= true
-    hash[:rm] ||= true
+    hash[:exit] = true unless hash.key? :exit
+    hash[:rm]   = true unless hash.key? :rm
   end
+
   def [](key)
     @hash[key]
   end
+
+  def handle(vol)
+    # If a [docker run] commands fails then docker sometimes reports...
+    #   Error response from daemon: Unable to remove volume, volume still in use: remove abcd: volume is in use -
+    #      [9b2bd7be08e38a7315fec421e2a05442ff2ed2e533f10835514ac9a928a5a370]
+    # when the given 9b2bd... volume does *not* exist (as reported by [docker volume ls])
+    # https://github.com/docker/docker/issues/22093
+    # Reports this is a known error and says you can fix it by stopping and starting the docker daemon
+    #     $ docker-machine restart default
+    # (but that should not be necessary)
+
+    puts "#{self[:output]}" unless self[:output].nil?
+
+    msg = self[:msg] || ''
+    msg = ' - ' + msg unless msg == ''
+    puts "FAILED [volume create --name=#{vol}]#{msg}"
+
+    unless self[:cidfile].nil?
+      cid = IO.read self[:cidfile]
+      silent_run "docker rm #{cid}"
+    end
+
+    unless self[:rm] === false
+      # Sometimes there appears to be a background process which ends
+      # after a few seconds and only then can you remove the volume?!
+      silent_run "docker volume rm #{vol}"
+      if $?.exitstatus != 0
+        sleep 1
+        silent_run "docker volume rm #{vol}"
+      end
+    end
+
+    exit 1 unless self[:exit] === false
+  end
+
 end
 
+# - - - - - - - - - - - - - - -
+
 def raising_run(command, hash = {})
+  is_docker_run = command.start_with?('docker run')
+  if is_docker_run
+    # cidfile must not exist prior to use
+    tmpfile = Tempfile.new('cyber-dojo')
+    cidfile = tmpfile.path
+    tmpfile.close
+    tmpfile.unlink
+    command.slice! 'docker run'
+    command = "docker run --cidfile=#{cidfile}" + command
+    hash[:cidfile] = cidfile
+  end
   output = ''
   begin
-    output = run command
+    output = silent_run command
     if $?.exitstatus != 0
+      hash[:command] = command
+      hash[:exit_status] = $?.exitstatus
+      hash[:output] = output
       raise VolumeCreateFailed.new(hash)
     end
-  rescue Exception => e
+  rescue Exception
+    hash[:command] = command
     raise VolumeCreateFailed.new(hash)
   end
   output
@@ -258,10 +313,7 @@ def volume_create
   if vol.length == 1
     raise VolumeCreateFailed.new({
       rm:false,
-      msg:[
-        "volume names must be at least two characters long.",
-        "See https://github.com/docker/docker/issues/20122"
-      ].join("\n")
+      msg:"volume names must be at least two characters long. See https://github.com/docker/docker/issues/20122"
     })
   end
 
@@ -280,20 +332,15 @@ def volume_create
     "git clone --depth=1 --branch=master #{url} /data",
     "rm -rf /data/.git",
     "chown -R cyber-dojo:cyber-dojo /data"
-  ].join("\n")
+  ].join(" && ")
   raising_run "docker run --rm -v #{vol}:/data #{cyber_dojo_hub}/user-base sh -c #{command}"
-  # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-  # TODO: if that fails (^C sometimes) the --rm can fail and the container still exists
-  #       and the subsequent [docker volume rm] then also fails because the volume is in use
-  #       Probably need a cid file to force deletion of the container.
-  # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   # get its volume.json if it has one
   command = quoted "cat /data/volume.json"
   output = raising_run "docker run --rm -v #{vol}:/data #{cyber_dojo_hub}/user-base sh -c #{command}", {
-    msg:"does #{vol} contain /volume.json ?"
+    msg:"#{vol} cannot read /volume.json"
   }
-  manifest = json_parse(output)
+  manifest = json_parse(output) || {}
 
   # check volume.json is well-formed
   type = manifest['type']
@@ -319,29 +366,8 @@ def volume_create
   # TODO: pull docker images marked auto_pull:true
 
   rescue VolumeCreateFailed => error
-    # If a [docker run] commands fails then docker sometimes reports...
-    #   Error response from daemon: Unable to remove volume, volume still in use: remove abcd: volume is in use -
-    #      [9b2bd7be08e38a7315fec421e2a05442ff2ed2e533f10835514ac9a928a5a370]
-    # when the given 9b2bd... volume does *not* exist (as reported by [docker volume ls])
-    # https://github.com/docker/docker/issues/22093
-    # Reports this is a known error and says you can fix it by stopping and starting the docker daemon
-    #     $ docker-machine restart default
-    # (but that should not be necessary)
-    msg = error[:msg] || ''
-    msg = ' - ' + msg if msg != ''
-    puts "FAILED [volume create --name=#{vol}]#{msg}."
+    error.handle(vol)
 
-    unless error[:rm] === false
-      # Sometimes there appears to be a background process which ends
-      # after a few seconds and only then can you remove the volume?!
-      quiet_run "docker volume rm #{vol}"
-      if $?.exitstatus != 0
-        sleep 1
-        quiet_run "docker volume rm #{vol}"
-      end
-    end
-
-    exit 1 unless error[:exit] === false
 end
 
 # - - - - - - - - - - - - - - -
@@ -379,7 +405,7 @@ def volume_rm
   end
 
   exit_unless_exists_and_is_cyber_dojo_volume(vol, 'rm')
-  quiet_run "docker volume rm #{vol}"
+  silent_run "docker volume rm #{vol}"
 end
 
 # - - - - - - - - - - - - - - -
@@ -405,7 +431,7 @@ def volume_ls
   # So I have to inspect all volumes.
   # Could be slow if lots of volumes.
 
-  volumes = quiet_run("docker volume ls --quiet").split
+  volumes = silent_run("docker volume ls --quiet").split
   volumes = volumes.select{ |volume| cyber_dojo_volume?(volume) }
   puts "NAME  TYPE  URL"
   puts volumes.map { |volume|
