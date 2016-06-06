@@ -112,8 +112,6 @@ RUN gem install bundler --no-ri --no-rdoc
 RUN bundle config build.nokogiri --use-system-libraries
 RUN cd ${CYBER_DOJO_HOME} ; bundle install
 
-RUN apk del build-dependencies
-
 # - - - - - - - - - - - - - - - - - - - - - -
 # 5. Copy the app source
 

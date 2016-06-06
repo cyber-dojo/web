@@ -82,7 +82,10 @@ docker-compose.yml
      ....
      I think I should be basing web's Dockerfile off an Alpine Linux ruby base.
      The nokogiri stuff etc is getting to be a right hassle...
-
+  Found it!
+  web's Dockerfile was doing
+  RUN apk del build-dependencies
+  Doh!
 
 - - - - - - - - - - - - - - - - - - - - -
 
