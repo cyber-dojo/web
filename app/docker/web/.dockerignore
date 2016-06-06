@@ -8,9 +8,6 @@
 
 !app/assets
 !app/data/caches
-!app/data/languages
-!app/data/instructions
-!app/data/exercises
 !app/controllers
 !app/docker
 !app/downloads

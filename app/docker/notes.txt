@@ -4,11 +4,6 @@ NEEDS to check if web-container does not immediately exit
 
 - - - - - - - - - - - - - - - - - - - - -
 
-I think I should be basing web's Dockerfile off an Alpine Linux ruby base.
-The nokogiri stuff etc is such a lot of hassle...
-
-- - - - - - - - - - - - - - - - - - - - -
-
 Working towards getting docker-compose to be able to bring up web server in all 3 modes
 docker-compose.yml
 
@@ -45,12 +40,17 @@ docker-compose.yml
      Error loading shared library libexslt.so.0: No such file or directory
      (needed by /usr/lib/ruby/gems/2.3.0/gems/nokogiri-1.6.7.2/lib/nokogiri/nokogiri.so) -
      /usr/lib/ruby/gems/2.3.0/gems/nokogiri-1.6.7.2/lib/nokogiri/nokogiri.so (LoadError)
-     Stack trace shows capybara...approvals..
-     Commented both out
+     Stack trace shows capybara...
+     Commented it out
      That now comes up too.
+     Can create a kata. Ok.
      Not really a solution though.
+     I think I should be basing web's Dockerfile off an Alpine Linux ruby base.
+     The nokogiri stuff etc is such a lot of hassle...
 
 - - - - - - - - - - - - - - - - - - - - -
+
+PATHS CONTAINING DATA
 
 app/docker/web/.dockerignore
  has these entries
@@ -88,12 +88,8 @@ ruby cyber-dojo.rb volume create --name=abc --git=https://github.com/JonJagger/c
 
 - - - - - - - - - - - - - - - - - - - - -
 
-)) the rails log folder needs to be volume-mounted so if the server
-   goes down I can inspect the log file.
-
-- - - - - - - - - - - - - - - - - - - - -
-
-)) volume creation needs to chown /data to cyber-dojo user
+)) Does the rails log folder needs to be volume-mounted so if the server
+   goes down I can inspect the rails log file?
 
 - - - - - - - - - - - - - - - - - - - - -
 
