@@ -4,6 +4,18 @@ NEEDS to check if web-container does not immediately exit
 
 - - - - - - - - - - - - - - - - - - - - -
 
+tests are now mostly broken outside of web container.
+on local machine there is no longer a resident data directory.
+There seems to be other failures for other reasons too... possibly domain-helpers?
+Investigate.
+
+Starting to wonder if not having default data (exercises/languages)
+is a good idea. Makes it harder to run local dev server. How could I do that?
+I guess I could put copies of the data into a /data folder and .gitignore it.
+Bad idea. Have subrepos again?
+
+- - - - - - - - - - - - - - - - - - - - -
+
 Working towards getting docker-compose to be able to bring up web server in all 3 modes
 docker-compose.yml
 
@@ -11,19 +23,35 @@ docker-compose.yml
   #command: rails server --environment=development    # OK
   Server comes up.
   Can create a kata. Ok.
+  Can't test.
+  Shell in
+  $ cd test/app_models
+  $ ./light_test.rb
+  SimpleCov failed to recognize the test framework and/or suite used.
+    Please specify manually using SimpleCov.command_name 'Unit Tests'.
+  /usr/lib/ruby/2.3.0/rubygems/core_ext/kernel_require.rb:127:in `require':
+    cannot load such file -- minitest/autorun (LoadError)
+
+  I'm assuming these two are related...
+  Gemfile definitely has line
+    gem 'minitest', '5.8.1'
+  Hmmm. That is not
+    gem 'minitest', '>= 5.8.1'
+
+  Note too that inside the web container I can load minitest....
+  $ irb
+  irb(main):001:0> require 'minitest/autorun'
+  => true
+
+  Is it something to do with paths settings in the config file?
+
+  >>>>>>>>>>>So why is minitest/autorun not being seen?<<<<<<<<<<<<<<
 
   # - - - -
 
   PRODUCTION
   #command: rails server --environment=production    # FAILS. web:1.11.2 exits immediately
   $ docker logs [web-container-id]
-  /usr/lib/ruby/gems/2.3.0/gems/activesupport-4.1.0/lib/active_support/dependencies.rb:247:in `require':
-     No such file to load -- test/unit (LoadError)
-  Coming from
-     /usr/src/cyber-dojo/app/data/exercises/Tennis/Ruby/tennis_test.rb:3:in `<top (required)>'
-  Aha... I think I need to put data at / and not /app
-  That got me further...
-  Now says
     => Ctrl-C to shutdown server
     cyber-dojo: '--environment=production' is not a command.
     See 'cyber-dojo --help'.
@@ -40,11 +68,10 @@ docker-compose.yml
      Error loading shared library libexslt.so.0: No such file or directory
      (needed by /usr/lib/ruby/gems/2.3.0/gems/nokogiri-1.6.7.2/lib/nokogiri/nokogiri.so) -
      /usr/lib/ruby/gems/2.3.0/gems/nokogiri-1.6.7.2/lib/nokogiri/nokogiri.so (LoadError)
-     Stack trace shows capybara...
+     Stack trace shows capybara wants nokogiri
      Commented it out
-     That now comes up too.
-     Can create a kata. Ok.
-     Not really a solution though.
+     Stack trace now shows approvals wants nokogiri
+     ....
      I think I should be basing web's Dockerfile off an Alpine Linux ruby base.
      The nokogiri stuff etc is such a lot of hassle...
 

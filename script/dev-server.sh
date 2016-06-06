@@ -14,7 +14,7 @@ cd ..
 HOME=${PWD}
 popd > /dev/null
 
-DATA_ROOT=${HOME}/app/data
+DATA_ROOT=${HOME}/data
 
 export CYBER_DOJO_LANGUAGES_ROOT=${DATA_ROOT}/languages
 export CYBER_DOJO_EXERCISES_ROOT=${DATA_ROOT}/exercises
