@@ -422,7 +422,6 @@ def volume_ls
     exit 1
   end
 
-  # TODO: add spacing at '--' as per catalog
   # TODO: add --quiet option to display only the names
 
   # There seems to be no [--filter label=L]  option on [docker volume ls]
@@ -432,12 +431,27 @@ def volume_ls
 
   volumes = silent_run("docker volume ls --quiet").split
   volumes = volumes.select{ |volume| cyber_dojo_volume?(volume) }
-  puts "NAME  TYPE  URL"
-  puts volumes.map { |volume|
-    type = "#{cyber_dojo_type(volume)}"
-    url = "#{cyber_dojo_label(volume)}"
-    "#{volume} -- #{type} -- #{url}"
-  }.join("\n")
+  types   = volumes.map   { |volume| cyber_dojo_type(volume)    }
+  urls    = volumes.map   { |volume| cyber_dojo_label(volume)   }
+
+  max_volume = (['VOLUME'] + volumes).max_by(&:length).length + 3
+  max_type   = (['TYPE'  ] + types  ).max_by(&:length).length + 3
+  max_url    = (['URL'   ] + urls   ).max_by(&:length).length + 3
+
+  spaced = lambda { |max,s|
+    s + (' ' * (max - s.length))
+  }
+
+  heading = spaced.call(max_volume, 'VOLUME') + spaced.call(max_type, 'TYPE') + spaced.call(max_url, 'URL')
+  puts heading
+
+  volumes.length.times do |n|
+    volume = spaced.call(max_volume, volumes[n])
+    type   = spaced.call(max_type, types[n])
+    url    = spaced.call(max_url, urls[n])
+    puts volume + type + url
+  end
+
 end
 
 # - - - - - - - - - - - - - - -
