@@ -31,8 +31,9 @@ Bad idea. Have subrepos again?
 Working towards getting docker-compose to be able to bring up web server in all 3 modes
 docker-compose.yml
 
-  DEVELOPMENT -------------------------------------
-  #command: rails server --environment=development    # OK
+  #command: rails server --environment=development   # OK
+  #command: rails server --environment=production    # OK
+  #command: rails server --environment=test          # OK
   Server comes up.
   Can create a kata. Ok.
   Can't test.
@@ -55,37 +56,6 @@ docker-compose.yml
     irb(main):001:0> require 'minitest/autorun'
     => true
   >>>>>>>>>>>So why is minitest/autorun not being seen?<<<<<<<<<<<<<<
-
-  PRODUCTION -------------------------------------
-  #command: rails server --environment=production    # OK
-  Comes up now I've set [config.eager_load = false]
-  I can do a kata.
-  Shell in
-  $ cd test/app_models
-  $ ./light_test.rb
-    SimpleCov failed to recognize the test framework and/or suite used.
-      Please specify manually using SimpleCov.command_name 'Unit Tests'.
-    /usr/lib/ruby/2.3.0/rubygems/core_ext/kernel_require.rb:127:in `require':
-      cannot load such file -- minitest/autorun (LoadError)
-  Same as in development mode.
-
-  TEST -------------------------------------
-  #command: rails server --environment=test          # FAILS. web:1.11.2 exits immediately
-    /usr/lib/ruby/gems/2.3.0/gems/nokogiri-1.6.7.2/lib/nokogiri.rb:29:in `require':
-       Error loading shared library libexslt.so.0: No such file or directory
-         (needed by /usr/lib/ruby/gems/2.3.0/gems/nokogiri-1.6.7.2/lib/nokogiri/nokogiri.so) -
-         /usr/lib/ruby/gems/2.3.0/gems/nokogiri-1.6.7.2/lib/nokogiri/nokogiri.so (LoadError)
-
-     Stack trace shows gem [capybara] wants nokogiri
-     Commented capaybara out of the Gemfile. Rebuilt web image. Brought server down and up.
-     Stack trace now shows gem [approvals] wants nokogiri
-     ....
-     I think I should be basing web's Dockerfile off an Alpine Linux ruby base.
-     The nokogiri stuff etc is getting to be a right hassle...
-  Found it!
-  web's Dockerfile was doing
-  RUN apk del build-dependencies
-  Doh!
 
 - - - - - - - - - - - - - - - - - - - - -
 
