@@ -238,7 +238,7 @@ class VolumeCreateFailed < Exception
 
     unless self[:cidfile].nil?
       cid = IO.read self[:cidfile]
-      silent_run "docker rm #{cid}"
+      silent_run "docker rm --force #{cid}"
     end
 
     unless self[:rm] === false
@@ -259,11 +259,10 @@ end
 # - - - - - - - - - - - - - - -
 
 def raising_run(command, hash = {})
-  is_docker_run = command.start_with?('docker run')
-  if is_docker_run
-    # cidfile must not exist prior to use
+  if command.start_with? 'docker run'
     tmpfile = Tempfile.new('cyber-dojo')
     cidfile = tmpfile.path
+    # cidfile must not exist prior to use
     tmpfile.close
     tmpfile.unlink
     command.slice! 'docker run'
@@ -372,7 +371,7 @@ end
 
 # - - - - - - - - - - - - - - -
 
-def exit_unless_exists_and_is_cyber_dojo_volume(vol, command)
+def exit_unless_is_cyber_dojo_volume(vol, command)
   # TODO: when its implemented, use [volume ls --quiet]
   if !volume_exists? vol
     puts "FAILED [volume #{command} #{vol}] - #{vol} does not exist."
@@ -404,7 +403,7 @@ def volume_rm
     exit 1
   end
 
-  exit_unless_exists_and_is_cyber_dojo_volume(vol, 'rm')
+  exit_unless_is_cyber_dojo_volume(vol, 'rm')
   silent_run "docker volume rm #{vol}"
 end
 
@@ -456,7 +455,7 @@ def volume_pull
     exit 1
   end
 
-  exit_unless_exists_and_is_cyber_dojo_volume(vol, 'pull')
+  exit_unless_is_cyber_dojo_volume(vol, 'pull')
 
   p 'TODO: volume pull'
   #check volume is labelled as per [volume create]
@@ -479,7 +478,7 @@ def volume_inspect # was catalog
     exit 1
   end
 
-  exit_unless_exists_and_is_cyber_dojo_volume(vol, 'inspect')
+  exit_unless_is_cyber_dojo_volume(vol, 'inspect')
 
   p 'TODO: volume inspect'
 
