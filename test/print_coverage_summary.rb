@@ -62,7 +62,7 @@ end
 def columns
   names = column_names
   n = -1
-  {
+  { #              [0]=indent, [1]=abbreviated, [2]=unabbreviated
     names[n += 1] => [  5, 't',      'number of tests'       ],
     names[n += 1] => [  7, 'a',      'number of assertions'  ],
     names[n += 1] => [  3, 'f',      'number of failures'    ],
@@ -136,18 +136,57 @@ end
 
 #- - - - - - - - - - - - - - - - - - - - -
 
-def print_totals(stats)
-  pr = lambda { |key,value| print_right(columns[key][0], value) }
+def gather_totals(stats)
+  totals = {}
+  fill = lambda { |key,value| totals[key] = value }
   stat = lambda { |key| stats.map{|_,h| h[key].to_i}.reduce(:+) }
+  fill.call(name=:test_count,              test_count = stat.call(name))
+  fill.call(name=:assertion_count,    assertion_count = stat.call(name))
+  fill.call(name=:failure_count,                        stat.call(name))
+  fill.call(name=:error_count,                          stat.call(name))
+  fill.call(name=:skip_count,                           stat.call(name))
+  fill.call(name=:time,                          secs = stats.map { |_,h| h[name].to_f }.reduce(:+))
+  fill.call(     :tests_per_sec,      (test_count / secs.to_f).to_i)
+  fill.call(     :assertions_per_sec, (assertion_count / secs.to_f).to_i)
+  totals
+end
+
+def print_totals(totals)
+  pr = lambda { |key| print_right(columns[key][0], totals[key]) }
   print_left(indent, 'total')
-  pr.call(name=:test_count, c = stat.call(name))
-  pr.call(name=:assertion_count, a = stat.call(name))
-  pr.call(name=:failure_count, stat.call(name))
-  pr.call(name=:error_count, stat.call(name))
-  pr.call(name=:skip_count, stat.call(name))
-  pr.call(name=:time, t = f2(stats.map { |_,h| h[name].to_f }.reduce(:+)))
-  pr.call(:tests_per_sec,        (c / t.to_f).to_i)
-  pr.call(:assertions_per_sec,   (a / t.to_f).to_i)
+  pr.call(:test_count)
+  pr.call(:assertion_count)
+  pr.call(:failure_count)
+  pr.call(:error_count)
+  pr.call(:skip_count)
+  pr.call(:time)
+  pr.call(:tests_per_sec)
+  pr.call(:assertions_per_sec)
+end
+
+#- - - - - - - - - - - - - - - - - - - - -
+
+def stats_metric(stats, key, name)
+  stat = stats[key][name]
+  done = yield stat
+  [ "#{key} #{name} = #{stat}", done ]
+end
+
+#- - - - - - - - - - - - - - - - - - - - -
+
+def gather_done(stats, totals)
+  p "gathering done..."
+  [
+     stats_metric(stats, 'app_helpers', :coverage) { |percent| percent == '100.00' },
+     [ "total secs < 300", totals[:time] < 300 ]
+  ]
+end
+
+#- - - - - - - - - - - - - - - - - - - - -
+
+def print_done(done)
+  print "Done?\n"
+  done.each { |criteria| p criteria }
 end
 
 #- - - - - - - - - - - - - - - - - - - - -
@@ -159,6 +198,11 @@ print_heading
 print_line
 print_stats(stats)
 print_line
-print_totals(stats)
+totals = gather_totals(stats)
+print_totals(totals)
 print "\n"
 print "\n"
+done = gather_done(stats, totals)
+print_done(done)
+
+exit done.all? { |criteria| criteria[1] } ? 0 : 1
