@@ -67,11 +67,24 @@ travis now runs tests in pipeline
     TypeError: no implicit conversion from nil to integer
     /usr/src/cyber-dojo/lib/display_names_splitter.rb:14:in `[]'
        this is failing because the refactoring exercises have no pulled images
+
   KataControllerTest#test_'BE89DC'
     when cyber-dojo.sh removes a file then it stays removed.(viz, tar pipe is not affected by previous state)
     [/usr/src/cyber-dojo/test/app_controllers/kata_test.rb:110]:
+    total 52
+    drwxr-xr-x    2 nobody   19661         4096 Jun  7 19:45 .
+    drwxr-xr-x   32 root     root          4096 Jun  7 19:45 ..
+    -rwxr-xr-x    1 nobody   19661           29 Jun  7 19:45 cyber-dojo.sh
+    ...
+    -rw-r--r--    1 nobody   19661            0 Jun  7 19:45 wibble.txt
+    ...
       I think this fails because of the bug Byran found about not keeping a
-      deleted file deleted.
+      deleted file deleted. Yes.
+    Line in docker_tar_pipe_runner.rb is this...
+               sh -c "cd ${SANDBOX} && tar -zcf - ." \
+    And I think it needs to be this
+               sh -c "cd ${SANDBOX} && find . -name . -o -prune -exec rm -- {} + && tar -zcf - ." \
+
 
   Would be really handy to be able to pass command to cyber-dojo sh, eg
      ./cyber-dojo sh "cd test/path && ./file_test.rb EB77D9"

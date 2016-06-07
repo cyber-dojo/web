@@ -86,18 +86,20 @@ class SetupControllerTest < AppControllerTestBase
 
   test 'EB77D9',
   'show_exercises page uses cached exercises that are runnable' do
+    # this depends on what exercises volume is in use
+    # and what docker images have been pulled...
     get 'setup/show_exercises'
     assert_response :success
 
-    assert /data-language\=\"C/.match(html)
+    assert /data-language\=\"Tennis/.match(html)
+    assert /data-language\=\"Yahtzee/.match(html)
 
-    assert /data-test\=\"CircularBuffer/.match(html)
-    assert /data-test\=\"Flash_CppUMock/.match(html)
-    assert /data-test\=\"HA_1/.match(html)
+    assert /data-test\=\"C# NUnit/.match(html), html
+    assert /data-test\=\"Java JUnit/.match(html), html
 
     params = {
-      language: 'C',
-      exercise: 'CircularBuffer'
+      language: 'Tennis',
+      exercise: 'C# NUnit'
     }
     get 'setup/save_exercise', params
     assert_response :success
