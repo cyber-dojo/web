@@ -10,7 +10,7 @@ script:
 
 env:
     global:
-        - DOCKER_VERSION=1.11.1-0~trusty
+        - DOCKER_VERSION=1.11.2-0~trusty
         - DOCKER_COMPOSE_VERSION=1.7.0
 
 before_install:
@@ -38,4 +38,4 @@ script:
     - cd ${TRAVIS_BUILD_DIR}/app/docker/user-base
     - ./build-image.sh
     - cd ${TRAVIS_BUILD_DIR}/app/docker/web
-    - ./build-image.sh OSX
+    - ./build-image.sh Linux

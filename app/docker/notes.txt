@@ -1,12 +1,15 @@
 
-Travis: failed to build nokogiri.
-I'm guessing this is a OSX/Ubuntu difference.
-I need to get a more regular build of nokogiri working.
-Or I could have two Dockerfiles, one for OSX one for not
-and build-install.sh could detect the OS and use
-appropriate one. Hmmm, don't need to detect it.
-Pass as argument instead. So travis will use Linux
-and if building locally I will pass OSX.
+Travis: failed to build ffi/nokogiri.
+Too much hassle for now. Commenting out all test gems
+which hopefully will remove the dependency.
+If it does
+o) Dockerfile: remove bundler 1.10.6 version
+o) add comments to Gemfile on why all gems are commented out
+o) drop Dockerfile.OSX/Linux difference. That was stupid anyway.
+o) add final line to travis.yml
+   docker run --rm -
+o) Later: restore Dockerfile so build-dependencies is deleted from single-bundle-install-command
+   how much does this reduce the image size by?
 
 - - - - - - - - - - - - - - - - - - - - -
 
