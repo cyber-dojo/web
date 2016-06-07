@@ -3,8 +3,8 @@ set -e
 
 OS=$1
 if [ "${OS}" != "OSX" ] && [ "${OS}" != "Linux" ]; then
-  echo "Use: build-image.sh OSX"
-  echo "Use: build-image.sh Linux"
+  echo "Use: build-image.sh OSX [OPTIONS]"
+  echo "Use: build-image.sh Linux [OPTIONS]"
   exit 1
 fi
 
@@ -13,11 +13,11 @@ fi
 # on the host. Thus, the web Dockerfile accepts the docker-version
 # to install as a parameter, and the built web image is tagged with
 # this version number.
-DOCKER_VERSION=${1:-1.11.2}
+DOCKER_VERSION=${2:-1.11.2}
 
 # the 'home' directory inside the web image. I don't expect
 # this to change, it's parameterized to avoid duplication.
-CYBER_DOJO_HOME=${2:-/usr/src/cyber-dojo}
+CYBER_DOJO_HOME=${3:-/usr/src/cyber-dojo}
 
 MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 
