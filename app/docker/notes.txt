@@ -1,14 +1,11 @@
 
-Travis: failed to build ffi/nokogiri.
-Too much hassle for now. Commenting out all test gems
-which hopefully will remove the dependency.
-If it does
-o) add final line to travis.yml
-   docker run --rm cyberdojofoundation/web:1.11.2 sh -c "cd test && ./run.sh"
-   No. That won't work. It won't have data dependencies.
-   Need to bring server up and then get its cid.
-   CID=`docker ps -aqf "name=cdf-web"`
-   docker exec ${CID} sh -c "cd test && ./run.sh"
+- - - - - - - - - - - - - - - - - - - - -
+
+Get scripts/dev_server.sh running again by making X...ROOT env-vars
+point to where the data repos live. Then try out docker_tar_pipe_runner.sh
+idea below and see if it fixes the warning.
+
+- - - - - - - - - - - - - - - - - - - - -
 
 web Dockerfile dependencies
 I may also be able to remove some apk dependencies for a small speed up.
@@ -70,6 +67,13 @@ travis now runs tests in pipeline
 
   Would be really handy to be able to pass command to cyber-dojo sh, eg
      ./cyber-dojo sh "cd test/app_controllers && ./setup_test.rb EB77D9"
+
+  docker_tar_pipe_runner.sh
+  has this
+    sh -c "cd ${SANDBOX} &&  find . -mindepth 1 -delete && tar -zcf - ." \
+  could this be simplified to
+    sh -c "find ${SANDBOX} -mindepth 1 -delete && tar -zcf - ${SANDBOX}" \
+  That might fix the warning mentioned in sh file's comments when running under OSX
 
 - - - - - - - - - - - - - - - - - - - - -
 

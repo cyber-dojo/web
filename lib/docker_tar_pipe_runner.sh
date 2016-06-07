@@ -143,6 +143,8 @@ echo "${OUTPUT}"
 # As best I can tell this is because of the . in one of the tar-commands
 # and refers the dot as in the current directory. It seems to be harmless.
 # The files are tarred back, are saved, are git commited, and git diff works.
+# Also, you only get the warning under OSX.
+#
 # The command [ find . -mindepth 1 -delete]
 # deletes all files (including dot file) and subdirs
 
