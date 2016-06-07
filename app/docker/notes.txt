@@ -58,9 +58,9 @@ travis now runs tests in pipeline
   app_models        116    649  0  0  0   6.91     16     93   100.00
   languages           5     62  0  0  0   0.07     75    932    60.00
   lib                80    515  0  0  0  10.76      7     47    79.38
-  app_controllers    54    630  1  1  0   8.96      6     70    97.77
+  app_controllers    54    630  0  1  0   8.96      6     70    97.77
   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  total             380   2466  1  1  0  28.37     13     86
+  total             380   2466  0  1  0  28.37     13     86
 
   SetupControllerTest#test_'EB77D9'
     show_exercises page uses cached exercises that are runnable
@@ -68,26 +68,8 @@ travis now runs tests in pipeline
     /usr/src/cyber-dojo/lib/display_names_splitter.rb:14:in `[]'
        this is failing because the refactoring exercises have no pulled images
 
-  KataControllerTest#test_'BE89DC'
-    when cyber-dojo.sh removes a file then it stays removed.(viz, tar pipe is not affected by previous state)
-    [/usr/src/cyber-dojo/test/app_controllers/kata_test.rb:110]:
-    total 52
-    drwxr-xr-x    2 nobody   19661         4096 Jun  7 19:45 .
-    drwxr-xr-x   32 root     root          4096 Jun  7 19:45 ..
-    -rwxr-xr-x    1 nobody   19661           29 Jun  7 19:45 cyber-dojo.sh
-    ...
-    -rw-r--r--    1 nobody   19661            0 Jun  7 19:45 wibble.txt
-    ...
-      I think this fails because of the bug Byran found about not keeping a
-      deleted file deleted. Yes.
-    Line in docker_tar_pipe_runner.rb is this...
-               sh -c "cd ${SANDBOX} && tar -zcf - ." \
-    And I think it needs to be this
-               sh -c "cd ${SANDBOX} && find . -name . -o -prune -exec rm -- {} + && tar -zcf - ." \
-
-
   Would be really handy to be able to pass command to cyber-dojo sh, eg
-     ./cyber-dojo sh "cd test/path && ./file_test.rb EB77D9"
+     ./cyber-dojo sh "cd test/app_controllers && ./setup_test.rb EB77D9"
 
 - - - - - - - - - - - - - - - - - - - - -
 
