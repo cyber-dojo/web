@@ -1,6 +1,4 @@
 
-Drop [gem install bundler] from travis.yml
-
 Travis: failed to build ffi/nokogiri.
 Too much hassle for now. Commenting out all test gems
 which hopefully will remove the dependency.
@@ -12,7 +10,7 @@ o) add final line to travis.yml
    CID=`docker ps -aqf "name=cdf-web"`
    docker exec ${CID} sh -c "cd test && ./run.sh"
 
-web Dockerfile  dependencies
+web Dockerfile dependencies
 I may also be able to remove some apk dependencies for a small speed up.
 
 - - - - - - - - - - - - - - - - - - - - -
