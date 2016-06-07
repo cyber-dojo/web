@@ -1,0 +1,5 @@
+FAIL "about life, the universe, and everything" at (hiker_test.clj:6)
+    Expected: 42
+      Actual: 54
+FAILURE: 1 check failed.
+Subprocess failed
