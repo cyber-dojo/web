@@ -23,13 +23,6 @@ in cyber-dojo.rb
 
 - - - - - - - - - - - - - - - - - - - - -
 
-./cyber-dojo up
-Needs to check if web-container does not immediately exit
-eg if config/application.rb has this
-   config.eager_load = true
-
-- - - - - - - - - - - - - - - - - - - - -
-
 Add option to ./cyber-dojo up to pass in --environment
 (checking it is production/development/test)
 
@@ -56,31 +49,32 @@ Gemfile.lock out of web container into main git repo.
 
 - - - - - - - - - - - - - - - - - - - - -
 
-Getting docker-compose to be able to bring up web server in all 3 modes
-docker-compose.yml
+travis now runs tests in pipeline
 
-  #command: rails server --environment=development   # OK
-  #command: rails server --environment=production    # OK
-  #command: rails server --environment=test          # OK
-  Server comes up.
-  Can create a kata. Ok.
-  Shell in
-  $ cd test
-  $ ./run.sh
-  ...
                       t      a  f  e  s   secs  t/sec  a/sec      cov
   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   app_helpers        12     24  0  0  0   1.10     10     21   100.00
-  app_lib           113    586  1  0  0   0.57    198   1030   100.00
+  app_lib           113    586  0  0  0   0.57    198   1030   100.00
   app_models        116    649  0  0  0   6.91     16     93   100.00
   languages           5     62  0  0  0   0.07     75    932    60.00
   lib                80    515  0  0  0  10.76      7     47    79.38
-  app_controllers    54    630  1  5  0   8.96      6     70    95.91
+  app_controllers    54    630  1  1  0   8.96      6     70    97.77
   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  total             380   2466  2  5  0  28.37     13     86
+  total             380   2466  1  1  0  28.37     13     86
 
-  Getting there :-)
-  Get these passing.
+  SetupControllerTest#test_'EB77D9'
+    show_exercises page uses cached exercises that are runnable
+    TypeError: no implicit conversion from nil to integer
+    /usr/src/cyber-dojo/lib/display_names_splitter.rb:14:in `[]'
+       this is failing because the refactoring exercises have no pulled images
+  KataControllerTest#test_'BE89DC'
+    when cyber-dojo.sh removes a file then it stays removed.(viz, tar pipe is not affected by previous state)
+    [/usr/src/cyber-dojo/test/app_controllers/kata_test.rb:110]:
+      I think this fails because of the bug Byran found about not keeping a
+      deleted file deleted.
+
+  Would be really handy to be able to pass command to cyber-dojo sh, eg
+     ./cyber-dojo sh "cd test/path && ./file_test.rb EB77D9"
 
 - - - - - - - - - - - - - - - - - - - - -
 
