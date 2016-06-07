@@ -37,3 +37,7 @@ script:
     - ./build-image.sh
     - cd ${TRAVIS_BUILD_DIR}/app/docker/web
     - ./build-image.sh
+    - cd ${TRAVIS_BUILD_DIR}/app/docker
+    - ./cyber-dojo up
+    - cid=`docker ps --all --quiet --filter "name=cdf-web"`
+    - docker exec ${cid} sh -c "cd test && ./run.sh"
