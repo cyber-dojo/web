@@ -42,18 +42,6 @@ Make tests/run.sh return zero only if
   o) total time is above minimum threshold
 Make these criteria part of output
 
-def metric(stats, key, name)
-  stat = stats[key][name]
-  done = yield stat
-  [ "#{key} #{name} = #{stat}", done ]
-end
-
-def show_metrics(stats)
-  p "Done?"
-  p metric(stats, 'app_helpers', :coverage) { |percent| percent == '100.00' }
-  p metric(stats, 'app_models',  :coverage) { |percent| percent == '100.00' }
-end
-
 - - - - - - - - - - - - - - - - - - - - -
 
 ./cyber-dojo up

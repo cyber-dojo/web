@@ -145,7 +145,7 @@ def gather_totals(stats)
   fill.call(name=:failure_count,                        stat.call(name))
   fill.call(name=:error_count,                          stat.call(name))
   fill.call(name=:skip_count,                           stat.call(name))
-  fill.call(name=:time,                          secs = stats.map { |_,h| h[name].to_f }.reduce(:+))
+  fill.call(name=:time,                          secs = f2(stats.map { |_,h| h[name].to_f }.reduce(:+)))
   fill.call(     :tests_per_sec,      (test_count / secs.to_f).to_i)
   fill.call(     :assertions_per_sec, (assertion_count / secs.to_f).to_i)
   totals
@@ -166,27 +166,34 @@ end
 
 #- - - - - - - - - - - - - - - - - - - - -
 
-def stats_metric(stats, key, name)
-  stat = stats[key][name]
-  done = yield stat
-  [ "#{key} #{name} = #{stat}", done ]
+def coverage(stats, name)
+  percent = stats[name][:coverage]
+  [ "#{name} coverage = 100.00", percent == '100.00' ]
 end
 
 #- - - - - - - - - - - - - - - - - - - - -
 
 def gather_done(stats, totals)
-  p "gathering done..."
   [
-     stats_metric(stats, 'app_helpers', :coverage) { |percent| percent == '100.00' },
-     [ "total secs < 300", totals[:time] < 300 ]
+     [ "total failures == 0", totals[:failure_count] == 0 ],
+     [ "total errors == 0", totals[:error_count] == 0 ],
+     coverage(stats, 'app_helpers'),
+     coverage(stats, 'app_lib'),
+     coverage(stats, 'app_models'),
+     coverage(stats, 'app_controllers'),
+     [ "total secs < 60", totals[:time].to_f < 60 ],
+     [ "total assertions per sec > 50", totals[:assertions_per_sec] > 50 ]
   ]
 end
 
 #- - - - - - - - - - - - - - - - - - - - -
 
 def print_done(done)
-  print "Done?\n"
-  done.each { |criteria| p criteria }
+  puts "DONE"
+  done.each { |criteria| puts criteria[0] if criteria[1] }
+  print "\n"
+  puts "!DONE"
+  done.each { |criteria| puts criteria[0] if !criteria[1] }
 end
 
 #- - - - - - - - - - - - - - - - - - - - -
