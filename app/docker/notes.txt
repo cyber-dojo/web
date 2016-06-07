@@ -16,19 +16,20 @@ And try it.
 
 - - - - - - - - - - - - - - - - - - - - -
 
-tests are now mostly broken outside of web container.
-on local machine there is no longer a resident data directory.
-There seems to be other failures for other reasons too... possibly domain-helpers?
-Investigate.
-
-Starting to wonder if not having default data (exercises/languages)
-is a good idea. Makes it harder to run local dev server. How could I do that?
-I guess I could put copies of the data into a /data folder and .gitignore it.
-Bad idea. Have subrepos again?
+How to run local server? Have the 3 git data repos on the local hard disk and
+make the CYBER_DOJO_LANGUAGES_ROOT env-vars point to these in script/dev-server.sh
+Do that and get tests running locally and inside web container.
+Document which (if any) docker images are required for tests to run.
+Make these small Alpine-based images.
 
 - - - - - - - - - - - - - - - - - - - - -
 
-Working towards getting docker-compose to be able to bring up web server in all 3 modes
+Copy Gemfile.lock out of working web container onto local repo.
+Push that to github and check travis works again.
+
+- - - - - - - - - - - - - - - - - - - - -
+
+Getting docker-compose to be able to bring up web server in all 3 modes
 docker-compose.yml
 
   #command: rails server --environment=development   # OK
@@ -54,6 +55,10 @@ docker-compose.yml
 
   So 2 faults and 5 errors.
   Getting there :-)
+  Get these passing.
+  Then make tests/run.sh return zero only if all tests pass and coverage
+  of 4 app_X folders are all 100%
+  Then call tests/run.sh as new last line of travis.yml
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -67,6 +72,7 @@ So I still need proper nil error handling on the setup pages
 
 - - - - - - - - - - - - - - - - - - - - -
 
+Crib
 ruby cyber-dojo.rb volume create --name=abc --git=https://github.com/JonJagger/cyber-dojo-refactoring-exercises.git
 
 - - - - - - - - - - - - - - - - - - - - -
