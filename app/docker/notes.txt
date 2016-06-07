@@ -12,35 +12,8 @@ o) add final line to travis.yml
    CID=`docker ps -aqf "name=cdf-web"`
    docker exec ${CID} sh -c "cd test && ./run.sh"
 
-o) Later: restore Dockerfile so build-dependencies is deleted from single-bundle-install-command
-   And see if everything still works.
-   See below.
-   How much does this reduce the image size by?
-   From: 423.6 MB
-     to:
-
-RUN  apk --update \
-        add --virtual build-dependencies \
-          build-base \
-          ruby-dev \
-          openssl-dev \
-          postgresql-dev \
-          libc-dev \
-          linux-headers \
-       && gem install bundler --no-ri --no-rdoc \
-       && cd ${CYBER_DOJO_HOME} ; bundle install --without development test \
-     && apk del build-dependencies
-
-o) I may also be able to remove some apk dependencies for a small speed up.
-
-- - - - - - - - - - - - - - - - - - - - -
-
-Make tests/run.sh return zero only if
-  o) all tests pass
-  o) coverage of 4 app_X folders are all 100%
-  o) assertions per second is above minimum threshold
-  o) total time is above minimum threshold
-Make these criteria part of output
+web Dockerfile  dependencies
+I may also be able to remove some apk dependencies for a small speed up.
 
 - - - - - - - - - - - - - - - - - - - - -
 

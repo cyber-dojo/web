@@ -83,6 +83,8 @@ RUN  echo "${GETS_DOCKER_SUDO}  ALL=NOPASSWD: ${DOCKER_BINARY} *"       >>  ${SU
 # o) ruby-irb (for debugging)
 # o) git (for cyber-dojo)
 # o) bash (test scripts are written in bash)
+# Doing the apk del build-dependencies in the same RUN command reduces the web
+# image size from 437.3 MB to 265.9 MB
 
 USER root
 RUN  apk --update add \
@@ -101,9 +103,10 @@ RUN  apk --update \
           openssl-dev \
           postgresql-dev \
           libc-dev \
-          linux-headers
-RUN gem install bundler --no-ri --no-rdoc
-RUN cd ${CYBER_DOJO_HOME} ; bundle install
+          linux-headers \
+        && gem install bundler --no-ri --no-rdoc \
+        && cd ${CYBER_DOJO_HOME} ; bundle install --without development test \
+        && apk del build-dependencies
 
 # - - - - - - - - - - - - - - - - - - - - - -
 # 5. Copy the app source
