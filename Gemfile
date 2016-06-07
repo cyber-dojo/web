@@ -7,6 +7,10 @@ gem 'minitest', '5.8.1'
 gem 'uuidtools', '>= 2.1.5'
 gem 'simplecov', '>= 0.9.0'
 
+# Removed all test gems because some of them have a dependency on ffi
+# and I cannot get that building. I don't use any of these yet anyway
+# so it serves me right.
+
 group :test do
   #gem 'rspec'
   #gem 'shoulda-matchers'

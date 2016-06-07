@@ -102,4 +102,4 @@ DEPENDENCIES
   uuidtools (>= 2.1.5)
 
 BUNDLED WITH
-   1.10.6
+   1.10.5

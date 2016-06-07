@@ -102,9 +102,7 @@ RUN  apk --update \
           postgresql-dev \
           libc-dev \
           linux-headers
-# Need bundler 1.10.6
-# See https://github.com/bundler/bundler/issues/3799
-RUN gem install bundler -v '1.10.6' --no-ri --no-rdoc
+RUN gem install bundler --no-ri --no-rdoc
 RUN cd ${CYBER_DOJO_HOME} ; bundle install
 
 # - - - - - - - - - - - - - - - - - - - - - -
