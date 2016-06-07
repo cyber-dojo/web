@@ -248,7 +248,7 @@ class VolumeCreateFailed < Exception
       # after a few seconds and only then can you remove the volume?!
       silent_run "docker volume rm #{vol}"
       if $?.exitstatus != 0
-        sleep 1
+        sleep 2
         silent_run "docker volume rm #{vol}"
       end
     end

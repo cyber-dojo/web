@@ -16,6 +16,14 @@ I may also be able to remove some apk dependencies for a small speed up.
 - - - - - - - - - - - - - - - - - - - - -
 
 ./cyber-dojo up
+First this will need to create the default-volumes
+This takes a while and for a short period there is
+no output on the terminal. Print message in volume_create()
+in cyber-dojo.rb
+
+- - - - - - - - - - - - - - - - - - - - -
+
+./cyber-dojo up
 Needs to check if web-container does not immediately exit
 eg if config/application.rb has this
    config.eager_load = true
@@ -71,11 +79,8 @@ docker-compose.yml
   - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   total             380   2466  2  5  0  28.37     13     86
 
-  So 2 faults and 5 errors.
   Getting there :-)
   Get these passing.
-  Many are download test failures because of path change. Add CYBER_DOJO_DOWNLOADS_ROOT
-  Then call tests/run.sh as new last line of travis.yml (see above)
 
 - - - - - - - - - - - - - - - - - - - - -
 
