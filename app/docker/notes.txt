@@ -10,7 +10,22 @@ o) add final line to travis.yml
    docker run --rm -
 o) Later: restore Dockerfile so build-dependencies is deleted from single-bundle-install-command
    how much does this reduce the image size by?
-o) I can probably remove some apk dependencies too.
+   From: 423.6 MB
+     to:
+
+RUN  apk --update \
+        add --virtual build-dependencies \
+          build-base \
+          ruby-dev \
+          openssl-dev \
+          postgresql-dev \
+          libc-dev \
+          linux-headers \
+       && gem install bundler --no-ri --no-rdoc \
+       && cd ${CYBER_DOJO_HOME} ; bundle install --without development test \
+     && apk del build-dependencies
+
+o) I can probably remove some apk dependencies too for a small speed up.
 
 - - - - - - - - - - - - - - - - - - - - -
 
