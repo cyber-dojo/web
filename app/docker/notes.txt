@@ -3,13 +3,17 @@ Travis: failed to build ffi/nokogiri.
 Too much hassle for now. Commenting out all test gems
 which hopefully will remove the dependency.
 If it does
-o) Dockerfile: remove bundler 1.10.6 version
-o) add comments to Gemfile on why all gems are commented out
-o) drop Dockerfile.OSX/Linux difference. That was stupid anyway.
 o) add final line to travis.yml
-   docker run --rm -
+   docker run --rm cyberdojofoundation/web:1.11.2 sh -c "cd test && ./run.sh"
+   No. That won't work. It won't have data dependencies.
+   Need to bring server up and then get its cid.
+   CID=`docker ps -aqf "name=cdf-web"`
+   docker exec ${CID} sh -c "cd test && ./run.sh"
+
 o) Later: restore Dockerfile so build-dependencies is deleted from single-bundle-install-command
-   how much does this reduce the image size by?
+   And see if everything still works.
+   See below.
+   How much does this reduce the image size by?
    From: 423.6 MB
      to:
 
@@ -25,7 +29,7 @@ RUN  apk --update \
        && cd ${CYBER_DOJO_HOME} ; bundle install --without development test \
      && apk del build-dependencies
 
-o) I can probably remove some apk dependencies too for a small speed up.
+o) I may also be able to remove some apk dependencies for a small speed up.
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -88,10 +92,10 @@ docker-compose.yml
   So 2 faults and 5 errors.
   Getting there :-)
   Get these passing.
-  Many are download test fails because of path change. Add CYBER_DOJO_DOWNLOADS_ROOT
+  Many are download test failures because of path change. Add CYBER_DOJO_DOWNLOADS_ROOT
   Make tests/run.sh return zero only if all tests pass and coverage
   of 4 app_X folders are all 100%
-  Then call tests/run.sh as new last line of travis.yml
+  Then call tests/run.sh as new last line of travis.yml (see above)
 
 - - - - - - - - - - - - - - - - - - - - -
 
