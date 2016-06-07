@@ -111,6 +111,7 @@ RUN  apk --update \
 RUN gem install bundler --no-ri --no-rdoc
 # nokogiri needs special care
 # See http://stackoverflow.com/questions/23668684/failed-to-build-gem-native-extension-when-i-run-bundle-install
+RUN gem install bundler -v '1.10.6' --no-ri --no-rdoc
 RUN bundle config build.nokogiri --use-system-libraries
 RUN cd ${CYBER_DOJO_HOME} ; bundle install
 
