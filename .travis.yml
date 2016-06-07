@@ -10,16 +10,17 @@ script:
 
 env:
     global:
-        - DOCKER_ENGINE_VERSION=1.11.2-0~trusty
+        - DOCKER_ENGINE_VERSION=1.11.2
         - DOCKER_COMPOSE_VERSION=1.7.0
         - DOCKER_MACHINE_VERSION=0.6.0
+        - APP_DOCKER_DIR=${TRAVIS_BUILD_DIR}/app/docker
 
 before_install:
     # list docker-engine versions
     - apt-cache madison docker-engine
 
     # upgrade docker-engine to specific version
-    - sudo apt-get -o Dpkg::Options::="--force-confnew" install -y docker-engine=${DOCKER_ENGINE_VERSION}
+    - sudo apt-get -o Dpkg::Options::="--force-confnew" install -y docker-engine=${DOCKER_ENGINE_VERSION}-0~trusty
 
     # reinstall docker-compose at specific version
     - sudo rm /usr/local/bin/docker-compose
@@ -38,13 +39,13 @@ script:
     - docker-compose version
     - docker images
     # Build the cyber-dojo images
-    - cd ${TRAVIS_BUILD_DIR}/app/docker/nginx
+    - cd ${APP_DOCKER_DIR}/nginx
     - ./build-image.sh
-    - cd ${TRAVIS_BUILD_DIR}/app/docker/user-base
+    - cd ${APP_DOCKER_DIR}/user-base
     - ./build-image.sh
-    - cd ${TRAVIS_BUILD_DIR}/app/docker/web
-    - ./build-image.sh
-    - cd ${TRAVIS_BUILD_DIR}/app/docker
+    - cd ${APP_DOCKER_DIR}/web
+    - ./build-image.sh ${DOCKER_ENGINE_VERSION}
+    - cd ${APP_DOCKER_DIR}
     - ./cyber-dojo up
     - cid=`docker ps --all --quiet --filter "name=cdf-web"`
     - docker exec ${cid} sh -c "cd test && ./run.sh"
