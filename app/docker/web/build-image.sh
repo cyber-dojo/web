@@ -1,6 +1,13 @@
 #!/bin/sh
 set -e
 
+echo ${OS}
+if [ "${OS}" != "OSX" ] && [ "${OS}" != "Linux" ]; then
+  echo "Use: build-image.sh OSX"
+  echo "Use: build-image.sh Linux"
+  exit 1
+fi
+
 # A docker-client binary is installed *inside* the web image
 # This creates a dependency on the docker-version installed
 # on the host. Thus, the web Dockerfile accepts the docker-version
@@ -16,8 +23,8 @@ MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 
 CONTEXT_DIR=${MY_DIR}/../../..
 
-cp ${MY_DIR}/Dockerfile    ${CONTEXT_DIR}
-cp ${MY_DIR}/.dockerignore ${CONTEXT_DIR}
+cp ${MY_DIR}/Dockerfile.${OS}  ${CONTEXT_DIR}/Dockerfile
+cp ${MY_DIR}/.dockerignore     ${CONTEXT_DIR}
 
 docker build \
   --build-arg=CYBER_DOJO_HOME=${CYBER_DOJO_HOME} \

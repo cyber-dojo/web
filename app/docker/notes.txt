@@ -1,7 +1,19 @@
 
+Travis: failed to build nokogiri.
+I'm guessing this is a OSX/Ubuntu difference.
+I need to get a more regular build of nokogiri working.
+Or I could have two Dockerfiles, one for OSX one for not
+and build-install.sh could detect the OS and use
+appropriate one. Hmmm, don't need to detect it.
+Pass as argument instead. So travis will use Linux
+and if building locally I will pass OSX.
+
+- - - - - - - - - - - - - - - - - - - - -
+
 ./cyber-dojo up
 Needs to check if web-container does not immediately exit
-(which it currently does with --environment-=test)
+eg if config/application.rb has this
+   config.eager_load = true
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -24,14 +36,10 @@ Make these small Alpine-based images.
 
 - - - - - - - - - - - - - - - - - - - - -
 
-Copy Gemfile.lock out of working web container onto local repo.
-Push that to github and check travis works again.
-Travis says
-  Warning: the running version of Bundler is older than the version that created the lockfile.
-  We suggest you upgrade to the latest version of Bundler by running `gem install bundler`.
-Gemfile.lock says 'bundled with 1.12.5'
-I guess that goes into travis.yml
-Hmmm. bundle install on travis failed to build nokogiri.
+Copy Gemfile.lock out of working web container onto local repo for travis.
+Affects app/docker/web/build-image.sh
+If it successfully builds the web image then I need to copy
+Gemfile.lock out of web container into main git repo.
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -43,7 +51,6 @@ docker-compose.yml
   #command: rails server --environment=test          # OK
   Server comes up.
   Can create a kata. Ok.
-  Can't test.
   Shell in
   $ cd test
   $ ./run.sh
