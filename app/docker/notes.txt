@@ -26,6 +26,12 @@ Make these small Alpine-based images.
 
 Copy Gemfile.lock out of working web container onto local repo.
 Push that to github and check travis works again.
+Travis says
+  Warning: the running version of Bundler is older than the version that created the lockfile.
+  We suggest you upgrade to the latest version of Bundler by running `gem install bundler`.
+Gemfile.lock says 'bundled with 1.12.5'
+I guess that goes into travis.yml
+Hmmm. bundle install on travis failed to build nokogiri.
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -56,7 +62,8 @@ docker-compose.yml
   So 2 faults and 5 errors.
   Getting there :-)
   Get these passing.
-  Then make tests/run.sh return zero only if all tests pass and coverage
+  Many are download test fails because of path change. Add CYBER_DOJO_DOWNLOADS_ROOT
+  Make tests/run.sh return zero only if all tests pass and coverage
   of 4 app_X folders are all 100%
   Then call tests/run.sh as new last line of travis.yml
 
@@ -198,6 +205,7 @@ ruby cyber-dojo.rb volume create --name=abc --git=https://github.com/JonJagger/c
    It would be nice if you could provide some kind of overview text
    to display which gave general instructions on the collection;
    in this case that they are all refactoring exercises.
+   Would a simple readme.txt file in the repos root do?
 
    If multiple collections can be unioned, eg
       cyber-dojo up exercises=refactoring,james
@@ -208,13 +216,13 @@ ruby cyber-dojo.rb volume create --name=abc --git=https://github.com/JonJagger/c
 
 - - - - - - - - - - - - - - - - - - - - -
 
-)) add confirmation diagnostic to each [cyber-dojo] command.
+)) add confirmation diagnostic to each [cyber-dojo] command?
 
 - - - - - - - - - - - - - - - - - - - - -
 
 Pull the images only when the
 $ ./cyber-dojo up ...
-command is issued.
+command is issued?
 
 ----------------------------------------
 
