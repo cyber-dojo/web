@@ -31,9 +31,12 @@ app/downloads/*
 # {rails server} in web's docker-compose.yml needs this
 !config.ru
 
-# {./cyber-dojo update} copies these out of web container
+# {cyber-dojo update} copies these out of web container
 !app/docker/cyber-dojo.sh
 !app/docker/docker-compose.yml
 
-# {./cyber-dojo} delegates to cyber-dojo.sh which delegates to this inside web container
+# {cyber-dojo.sh} copies these out of web container
+!app/docker/katas/*
+
+# {cyber-dojo} delegates to cyber-dojo.sh which delegates to this inside web container
 !app/docker/cyber-dojo.rb
