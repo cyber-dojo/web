@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-echo ${OS}
+OS=$1
 if [ "${OS}" != "OSX" ] && [ "${OS}" != "Linux" ]; then
   echo "Use: build-image.sh OSX"
   echo "Use: build-image.sh Linux"
