@@ -33,6 +33,15 @@ o) I may also be able to remove some apk dependencies for a small speed up.
 
 - - - - - - - - - - - - - - - - - - - - -
 
+Make tests/run.sh return zero only if
+  o) all tests pass
+  o) coverage of 4 app_X folders are all 100%
+  o) assertions per second is above minimum threshold
+  o) total time is above minimum threshold
+Make these 4 criteria part of output
+
+- - - - - - - - - - - - - - - - - - - - -
+
 ./cyber-dojo up
 Needs to check if web-container does not immediately exit
 eg if config/application.rb has this
@@ -93,8 +102,6 @@ docker-compose.yml
   Getting there :-)
   Get these passing.
   Many are download test failures because of path change. Add CYBER_DOJO_DOWNLOADS_ROOT
-  Make tests/run.sh return zero only if all tests pass and coverage
-  of 4 app_X folders are all 100%
   Then call tests/run.sh as new last line of travis.yml (see above)
 
 - - - - - - - - - - - - - - - - - - - - -
