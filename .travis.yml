@@ -37,5 +37,5 @@ script:
     - ./build-image.sh
     - cd ${TRAVIS_BUILD_DIR}/app/docker/user-base
     - ./build-image.sh
-    - cd ${TRAVIS_BUILD_DIR}/app/docker/web Linux
-    - ./build-image.sh
+    - cd ${TRAVIS_BUILD_DIR}/app/docker/web
+    - ./build-image.sh Linux
