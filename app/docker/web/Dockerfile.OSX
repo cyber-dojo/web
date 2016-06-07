@@ -58,8 +58,8 @@ RUN apk --update add curl \
   && apk del curl
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# 3. lib/runner sh files needs to run /usr/bin/docker
-# After this, the sh file (running as cyber-dojo user) can do
+# 3. lib/runner files needs to run /usr/bin/docker commands
+# After this, the cyber-dojo user can do
 #     $ sudo -u docker-runner sudo docker run ...
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -94,8 +94,10 @@ ARG  CYBER_DOJO_HOME
 USER root
 RUN  mkdir -p ${CYBER_DOJO_HOME}
 COPY Gemfile  ${CYBER_DOJO_HOME}
-# ffi is tricksy (libffi-dev)
-# nokogiri is tricksy (libxml2 libxslt-dev libxml2-dev)
+
+# tricksyness on OSX
+# ffi needs (libffi-dev)
+# nokogiri needs (libxml2 libxslt-dev libxml2-dev)
 # See https://github.com/ffi/ffi/issues/485
 RUN  apk --update \
         add --virtual build-dependencies \
@@ -107,7 +109,7 @@ RUN  apk --update \
           linux-headers \
           libffi-dev libxml2 libxslt-dev libxml2-dev
 RUN gem install bundler --no-ri --no-rdoc
-# nokogiri is tricksy
+# nokogiri needs special care
 # See http://stackoverflow.com/questions/23668684/failed-to-build-gem-native-extension-when-i-run-bundle-install
 RUN bundle config build.nokogiri --use-system-libraries
 RUN cd ${CYBER_DOJO_HOME} ; bundle install

@@ -49,8 +49,8 @@ ENTRYPOINT ["/sbin/tini", "--"]
 
 ARG  DOCKER_VERSION
 USER root
-RUN apk --update add curl
-RUN  curl -OL https://get.docker.com/builds/Linux/x86_64/docker-${DOCKER_VERSION}.tgz \
+RUN apk --update add curl \
+  && curl -OL https://get.docker.com/builds/Linux/x86_64/docker-${DOCKER_VERSION}.tgz \
   && tar -xvzf docker-${DOCKER_VERSION}.tgz \
   && mv docker/* /usr/bin/ \
   && rmdir /docker \
@@ -58,8 +58,8 @@ RUN  curl -OL https://get.docker.com/builds/Linux/x86_64/docker-${DOCKER_VERSION
   && apk del curl
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# 3. lib/runner sh files needs to run /usr/bin/docker
-# After this, the sh file (running as cyber-dojo user) can do
+# 3. lib/runner files needs to run /usr/bin/docker commands
+# After this, the cyber-dojo user can do
 #     $ sudo -u docker-runner sudo docker run ...
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -102,7 +102,9 @@ RUN  apk --update \
           postgresql-dev \
           libc-dev \
           linux-headers
-RUN gem install bundler --no-ri --no-rdoc
+# Need bundler 1.10.6
+# See https://github.com/bundler/bundler/issues/3799
+RUN gem install bundler -v '1.10.6' --no-ri --no-rdoc
 RUN cd ${CYBER_DOJO_HOME} ; bundle install
 
 # - - - - - - - - - - - - - - - - - - - - - -
