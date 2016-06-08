@@ -83,6 +83,14 @@ class HostDiskDirTest < LibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test '601891',
+  'read_json(filename) raises RuntimeError when filename is empty' do
+    dir.write(filename='601891.json', empty='')
+    assert_raises(RuntimeError) { dir.read_json(filename)}
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '3356EE',
   'read_json(filename) raises RuntimeError when filename does not end in .json' do
     assert_raises(RuntimeError) { dir.read_json('file.txt') }

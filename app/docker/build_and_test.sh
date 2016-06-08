@@ -11,6 +11,5 @@ cd ${my_dir}
 ./cyber-dojo up
 cid=`docker ps --all --quiet --filter "name=cdf-web"`
 docker exec ${cid} sh -c "cd test && ./run.sh"
-#docker exec ${cid} sh -c "cd test/app_controllers && ./run.sh"
 done=$?
 exit $done

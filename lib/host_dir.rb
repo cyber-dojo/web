@@ -72,7 +72,12 @@ class HostDir
 
   def read_json(filename)
     fail RuntimeError.new("#{filename} doesn't end in .json") unless filename.end_with? '.json'
-    JSON.parse(read(filename))
+    content = read(filename)
+    if content.empty?
+      message = "#{self.class.name}.read_json(#{filename}) - empty file"
+      fail RuntimeError.new(message)
+    end
+    JSON.parse(content)
   end
 
   def read(filename)
