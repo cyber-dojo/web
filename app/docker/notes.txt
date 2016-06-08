@@ -1,7 +1,31 @@
 
+- - - - - - - - - - - - - - - - - - - - -
+
+Looking to make some smaller alpine-linux language images.
+Specifically, C#-NUnit and Java-JUnit
+This will allow me to [docker pull] them both before running travis tests
+which hopefully will give me all tests passing.
+In fact, I should be able to get away with just Java-JUnit if I tweak the test.
+
+C#
+frolvlad/alpine-mono
+  How big is it?  ~175.5 MB  (vs  845.7 MB)
+  docker run --rm frolvlad/alpine-mono sh -c  "dmcs --version"
+    Mono C# compiler version 4.4.0.0
+  Does it have nunit?
+
+Java
+frolvlad/alpine-oraclejdk8:slim
+  How big is it? ~166.9 MB  (vs 843.7 MB)
+  docker run --rm frolvlad/alpine-oraclejdk8:slim sh -c "javac -version"
+    javac 1.8.0_92
+  There is a package called junit (branch=edge, repo=testing)
+
+- - - - - - - - - - - - - - - - - - - - -
+
 app_controllers tests has this warning
 /usr/lib/ruby/gems/2.3.0/gems/activesupport-4.1.0/lib/active_support/values/time_zone.rb:285: warning: circular argument reference - now
-Upgrading to Ruby 4.2.6
+Tried upgrading to Ruby 4.2.6
 solves this as long Gemfile.lock is not part of the docker context
 (remove it from web's dockerignore file)
 This causes a few app_controller deprecation warnings
