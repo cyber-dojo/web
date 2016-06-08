@@ -154,15 +154,7 @@ fi
 
 echo "${OUTPUT}"
 
-# When this [docker exec] command runs it outputs the following diagnostic to stdout/stderr
-#    tar: .: Not found in archive
-#    tar: Error exit delayed from previous errors.
-# As best I can tell this is because of the . in one of the tar-commands
-# and refers to the dot as in the current directory. It seems to be harmless.
-# The files are tarred back, are saved, are git commited, and git diff works.
-# Also, you only get the warning under OSX.
-#
-# The command [ find . -mindepth 1 -delete] deletes all files (including dot file)
+# The command [ find . -mindepth 1 -delete] deletes all files (including dot files)
 # and subdirs. This is so the transfer of files is always 'total' in both
 # directions. That is, from the katas subdir into the test-container, and from the
 # test-container back into the katas subdir.

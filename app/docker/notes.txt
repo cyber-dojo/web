@@ -82,37 +82,6 @@ Make these small Alpine-based images.
 
 - - - - - - - - - - - - - - - - - - - - -
 
-travis now runs tests in pipeline
-
-                      t      a  f  e  s   secs  t/sec  a/sec      cov
-  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  app_helpers        12     24  0  0  0   1.10     10     21   100.00
-  app_lib           113    586  0  0  0   0.57    198   1030   100.00
-  app_models        116    649  0  0  0   6.91     16     93   100.00
-  languages           5     62  0  0  0   0.07     75    932    60.00
-  lib                80    515  0  0  0  10.76      7     47    79.38
-  app_controllers    54    630  0  1  0   8.96      6     70    97.77
-  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  total             380   2466  0  1  0  28.37     13     86
-
-  SetupControllerTest#test_'EB77D9'
-    show_exercises page uses cached exercises that are runnable
-    TypeError: no implicit conversion from nil to integer
-    /usr/src/cyber-dojo/lib/display_names_splitter.rb:14:in `[]'
-       this is failing because the refactoring exercises have no pulled images
-
-  Would be really handy to be able to pass command to cyber-dojo sh, eg
-     ./cyber-dojo sh "cd test/app_controllers && ./setup_test.rb EB77D9"
-
-  docker_tar_pipe_runner.sh
-  has this
-    sh -c "cd ${SANDBOX} &&  find . -mindepth 1 -delete && tar -zcf - ." \
-  could this be simplified to
-    sh -c "find ${SANDBOX} -mindepth 1 -delete && tar -zcf - ${SANDBOX}" \
-  That might fix the warning mentioned in sh file's comments when running under OSX
-
-- - - - - - - - - - - - - - - - - - - - -
-
 Note: need a check that each docker image has a user in it called nobody
       (I don't think it's uid is important)
 
