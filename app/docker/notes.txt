@@ -41,8 +41,34 @@ example, you bump the rails version in Gemfile.
 
 Occasional test failure...
   ForkerControllerTest#test_'EAE021',
-   when language no longer exists, the fork fails, and the reason given is language
-     JSON::ParserError: A JSON text must at least contain two octets!
+    when language no longer exists, the fork fails, and the reason given is language
+    JSON::ParserError: A JSON text must at least contain two octets!
+    /usr/src/cyber-dojo/lib/host_dir.rb:75:in `read_json'
+    /usr/src/cyber-dojo/app/models/manifests.rb:47:in `read_cache'
+    /usr/src/cyber-dojo/app/models/manifests.rb:33:in `all'
+    /usr/src/cyber-dojo/app/models/manifests.rb:22:in `[]'
+    /usr/src/cyber-dojo/app/models/kata.rb:54:in `language'
+    /usr/src/cyber-dojo/app/controllers/forker_controller.rb:13:in `fork'
+
+  SetupControllerTest#test_'EB77D9',
+    show_exercises page uses cached exercises that are runnable
+    JSON::ParserError: A JSON text must at least contain two octets!
+    /usr/src/cyber-dojo/lib/host_dir.rb:75:in `read_json'
+    /usr/src/cyber-dojo/app/models/manifests.rb:47:in `read_cache'
+    /usr/src/cyber-dojo/app/models/manifests.rb:33:in `all'
+    /usr/src/cyber-dojo/app/models/manifests.rb:18:in `each'
+    /usr/src/cyber-dojo/lib/stub_runner.rb:18:in `select'
+    /usr/src/cyber-dojo/lib/stub_runner.rb:18:in `runnable'
+    /usr/src/cyber-dojo/app/controllers/setup_controller.rb:71:in `read'
+    /usr/src/cyber-dojo/app/controllers/setup_controller.rb:48:in `show_exercises'
+
+Same problem both times. Need a better diagnostic. What is the filename?
+
+Also, if I build and then shell in an do
+cd test/app_controllers
+./setup_test.rb EB77D9
+I get a different error.
+This suggests caches are being created in previous tests in the later case.
 
 - - - - - - - - - - - - - - - - - - - - -
 
