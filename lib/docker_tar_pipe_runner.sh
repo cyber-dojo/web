@@ -83,14 +83,20 @@ SANDBOX=/sandbox
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # 3. After max_seconds, remove the container
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# Doing [docker stop ${CID}] is not enough to stop a container
-# that is printing in an infinite loop.
-# Any zombie processes this backgrounded process creates are reaped by tini.
-# See app/docker/web/Dockerfile
-# The parentheses put the commands into a child process.
-# The & backgrounds it
+# o) Doing [docker stop ${CID}] is not enough to stop a container
+#    that is printing in an infinite loop (for example).
+#
+# o) Any zombie processes this backgrounded process creates are reaped by tini.
+#    See top of app/docker/web/Dockerfile
+#
+# o) The parentheses put the commands into a child process.
+#
+# o) The trailing & backgrounds it
+#
+# o) Piping stdout and stderr of both sub-commands (&>) to dev/null ensures
+#    that normal shell output [Terminated] from the pkill (6) is suppressed.
 
-(sleep ${MAX_SECS} && ${SUDO} docker rm --force ${CID} &> /dev/null) &
+(sleep ${MAX_SECS} &> /dev/null && ${SUDO} docker rm --force ${CID} &> /dev/null) &
 SLEEP_DOCKER_RM_PID=$!
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -113,7 +119,7 @@ OUTPUT=$(${SUDO} docker exec \
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # 6. If the sleep-docker-rm process (3) is still alive race to
 #    kill it before it does [docker rm ${CID}]
-#      - pkill == kill processes
+#      pkill   == kill processes
 #      -P PID  == whose parent pid is PID
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

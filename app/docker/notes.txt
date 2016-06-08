@@ -1,25 +1,10 @@
 
+app_controllers tests has this warning
+/usr/lib/ruby/gems/2.3.0/gems/activesupport-4.1.0/lib/active_support/values/time_zone.rb:285: warning: circular argument reference - now
+
 - - - - - - - - - - - - - - - - - - - - -
 
-docker_tar_pipe_runner.sh
-On Alpine-linux usermod is not installed by default.
-It's in the shadow package. Need to install it into Alpine images.
-   RUN  apk --update add shadow
-Checking what's the FROM in Alpine-linux based images such as gcc-assert...
-Its FROM cyberdojofoundation/language-base
-app/docker/language-base is no longer in the git repo!
-How many other images also have that as their FROM?
-Last commit that had it?
-$ git log --name-status -- app/docker/language-base
-commit 2fa1c01ca0b4fd0e9ad33cc117d6648a5d685f3d
-Author: Jon Jagger <jon@jaggersoft.com>
-Date:   Tue Mar 22 13:51:44 2016 +0000
-    added alpine_base folder to app/languages
-$ git show 2fa1c01:app/docker/language-base/Dockerfile
-FROM alpine:edge
-MAINTAINER Jon Jagger <jon@jaggersoft.com>
-USER root
-RUN  apk --update add sudo
+lib tests has [can't cd to zzzz] warning
 
 - - - - - - - - - - - - - - - - - - - - -
 
