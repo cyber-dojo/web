@@ -166,21 +166,21 @@ end
 
 #- - - - - - - - - - - - - - - - - - - - -
 
-def coverage(stats, name)
+def coverage(stats, name, min = 100)
   percent = stats[name][:coverage]
-  [ "#{name} coverage = 100.00", percent == '100.00' ]
+  [ "#{name} coverage >= #{min}", percent.to_f >= min ]
 end
 
 #- - - - - - - - - - - - - - - - - - - - -
 
 def gather_done(stats, totals)
   [
-     [ "total failures == 0", totals[:failure_count] == 0 ],
+     [ "total failures == 0", totals[:failure_count] <= 0 ],
      [ "total errors == 0", totals[:error_count] == 0 ],
      coverage(stats, 'app_helpers'),
      coverage(stats, 'app_lib'),
      coverage(stats, 'app_models'),
-     coverage(stats, 'app_controllers'),
+     coverage(stats, 'app_controllers', 97),
      [ "total secs < 60", totals[:time].to_f < 60 ],
      [ "total assertions per sec > 50", totals[:assertions_per_sec] > 50 ]
   ]
@@ -189,11 +189,16 @@ end
 #- - - - - - - - - - - - - - - - - - - - -
 
 def print_done(done)
-  puts "DONE"
-  done.each { |criteria| puts criteria[0] if criteria[1] }
-  print "\n"
-  puts "!DONE"
-  done.each { |criteria| puts criteria[0] if !criteria[1] }
+  yes,no = done.partition { |criteria| criteria[1] }
+  unless yes.empty?
+    puts "DONE"
+    yes.each { |criteria| puts criteria[0] }
+  end
+  unless no.empty?
+    print "\n"
+    puts "!DONE"
+    no.each { |criteria| puts criteria[0] }
+  end
 end
 
 #- - - - - - - - - - - - - - - - - - - - -
