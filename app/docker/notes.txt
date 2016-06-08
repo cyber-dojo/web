@@ -1,10 +1,24 @@
 
 app_controllers tests has this warning
 /usr/lib/ruby/gems/2.3.0/gems/activesupport-4.1.0/lib/active_support/values/time_zone.rb:285: warning: circular argument reference - now
+Upgrading to Ruby 4.2.6
+solves this as long Gemfile.lock is not part of the docker context
+(remove it from web's dockerignore file)
+This causes a few app_controller deprecation warnings
+and a load of app_controller test fails which seem to be due to bad URLs
 
 - - - - - - - - - - - - - - - - - - - - -
 
-lib tests has [can't cd to zzzz] warning
+Having Gemfile as part of web's docker image context is unfortunate.
+It means the Alpine apk update stuff repeats unnecessarily if, for
+example, you bump the rails version in Gemfile.
+
+- - - - - - - - - - - - - - - - - - - - -
+
+Occasional test failure...
+  ForkerControllerTest#test_'EAE021',
+   when language no longer exists, the fork fails, and the reason given is language
+     JSON::ParserError: A JSON text must at least contain two octets!
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -17,11 +31,6 @@ Look at moving to an alpine image with a version number.
 Get scripts/dev_server.sh running again by making X...ROOT env-vars
 point to where the data repos live. Then try out docker_tar_pipe_runner.sh
 mods (above and below) and see if it fixes the warnings.
-
-- - - - - - - - - - - - - - - - - - - - -
-
-web Dockerfile dependencies
-I may also be able to remove some apk dependencies for a small speed up.
 
 - - - - - - - - - - - - - - - - - - - - -
 
