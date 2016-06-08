@@ -5,11 +5,11 @@ RUN mozroots --import --sync
 RUN wget http://nuget.org/nuget.exe
 COPY packages.config .
 RUN mono --runtime=v4.0 nuget.exe restore -PackagesDirectory .
-RUN gacutil /i Moq.4.0.10827/lib/NET40/Moq.dll
-RUN gacutil -l | grep Moq
-
 RUN cp Moq.4.0.10827/lib/NET40/Moq.dll .
-COPY demo.cs .
-RUN dmcs -t:exe -r:Moq.dll demo.cs
-RUN mono ./demo.exe
+RUN cp NUnit.2.6.2/lib/nunit.framework.dll .
 
+COPY *.cs ./
+
+RUN dmcs -t:library -r:Moq.dll -r:nunit.framework.dll -out:RunTests.dll *.cs
+
+RUN nunit-console -nologo RunTests.dll
