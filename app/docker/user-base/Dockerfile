@@ -1,4 +1,4 @@
-FROM alpine:edge
+FROM alpine:3.4
 MAINTAINER Jon Jagger <jon@jaggersoft.com>
 
 # The rails app runs docker run/exec commands as the cyber-dojo user
@@ -26,4 +26,5 @@ RUN adduser -D -H -u 19661 cyber-dojo
 
 # git is needed inside commands that build collection volumes from URLs
 # eg ./cyber-dojo volume create --name=VOL --git=URL
-RUN apk add --update --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ git
+#RUN apk add --update --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ git
+RUN apk add --update git
