@@ -63,12 +63,21 @@ Occasional test failure...
     /usr/src/cyber-dojo/app/controllers/setup_controller.rb:48:in `show_exercises'
 
 Same problem both times. Need a better diagnostic. What is the filename?
+This diagnostic is consistent with the file existing but being empty.
 
 Also, if I build and then shell in an do
 cd test/app_controllers
 ./setup_test.rb EB77D9
-I get a different error.
-This suggests caches are being created in previous tests in the later case.
+I get a different error, the nil conversion error.
+Possible reasons
+o) caches are being created in previous tests in the later case?
+o) previous tests are doing auto [docker pull]?
+   unlikely since the failure repeats
+   unless it was going on in the background? also unlikely
+
+I guess the first step is to get main travis working by doing check
+inside tests to see if there are no exercises with an image.
+If none, abandon the test.
 
 - - - - - - - - - - - - - - - - - - - - -
 

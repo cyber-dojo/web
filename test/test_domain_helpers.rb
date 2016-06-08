@@ -42,6 +42,7 @@ module TestDomainHelpers # mix-in
   end
 
   def default_language_name
+    # The first to be Alpine'd and so the smallest
     'C (clang)-assert'
   end
 

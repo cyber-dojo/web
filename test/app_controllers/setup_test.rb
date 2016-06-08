@@ -86,8 +86,13 @@ class SetupControllerTest < AppControllerTestBase
 
   test 'EB77D9',
   'show_exercises page uses cached exercises that are runnable' do
-    # this depends on what exercises volume is in use
-    # and what docker images have been pulled...
+    # TODO: this depends on what exercises volume is in use
+    # and what StubRunner calls have been made...
+
+    if exercises.count == 0
+      skip "CANT RUN EB77D9 because no exercises"
+    end
+
     get 'setup/show_exercises'
     assert_response :success
 
