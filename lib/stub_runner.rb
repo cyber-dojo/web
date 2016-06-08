@@ -14,8 +14,8 @@ class StubRunner
     @dojo
   end
 
-  def runnable(languages)
-    languages.select { |language| runnable?(language.image_name) }
+  def runnable(manifests)
+    manifests.select { |manifest| runnable?(manifest.image_name) }
   end
 
   def stub_run_colour(avatar, rag)

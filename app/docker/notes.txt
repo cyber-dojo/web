@@ -71,9 +71,24 @@ cd test/app_controllers
 I get a different error, the nil conversion error.
 Possible reasons
 o) caches are being created in previous tests in the later case?
-o) previous tests are doing auto [docker pull]?
-   unlikely since the failure repeats
-   unless it was going on in the background? also unlikely
+   Is this possibly related to tests being run with a random seed
+   So sometimes a previous test has accessed exercises without
+   a StubRunner in place?
+   --seed 38100 gave [] instead of ['Tennis, C# Nunit', 'Yahtzee C# NUnit']
+   Tests are defintely not unit-tests and almost certainly have order
+   dependencies. How to resolve?
+   I could reinstate FakeDisk, leave env-vars for data ROOTs, then
+   fill FakeDisk with known content, then do access to dojo methods
+   such as dojo.exercises
+
+   Now rebuild web image, restart web container,
+   shell in and run only
+   ./setup_test.rb EB77D9
+   And no app/cache/exercises.json exists
+   And the StubRunner works.
+   Previous test is setting the exercises cache to "{}"
+
+
 
 I guess the first step is to get main travis working by doing check
 inside tests to see if there are no exercises with an image.

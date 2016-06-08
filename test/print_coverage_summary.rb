@@ -177,11 +177,11 @@ def gather_done(stats, totals)
   [
      [ "total failures == 0", totals[:failure_count] <= 0 ],
      [ "total errors == 0", totals[:error_count] == 0 ],
-     [ "total skips <= 1", totals[:skip_count] <= 1],
+     [ "total skips == 0", totals[:skip_count] == 0],
      coverage(stats, 'app_helpers'),
      coverage(stats, 'app_lib'),
      coverage(stats, 'app_models'),
-     coverage(stats, 'app_controllers', 95),
+     coverage(stats, 'app_controllers'),
      [ "total secs < 60", totals[:time].to_f < 60 ],
      [ "total assertions per sec > 50", totals[:assertions_per_sec] > 50 ]
   ]

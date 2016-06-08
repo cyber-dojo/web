@@ -86,12 +86,11 @@ class SetupControllerTest < AppControllerTestBase
 
   test 'EB77D9',
   'show_exercises page uses cached exercises that are runnable' do
-    # TODO: this depends on what exercises volume is in use
-    # and what StubRunner calls have been made...
+    # TODO: This assumes the exercises volume is the refactoring-exercises
 
-    if exercises.count == 0
-      skip "CANT RUN EB77D9 because no exercises"
-    end
+    exercises_display_names = runner.runnable(exercises).map(&:display_name).sort
+    # StubRunner returns true for C#-NUnit
+    assert_equal ["Tennis, C# NUnit", "Yahtzee, C# NUnit"], exercises_display_names
 
     get 'setup/show_exercises'
     assert_response :success
@@ -100,7 +99,6 @@ class SetupControllerTest < AppControllerTestBase
     assert /data-language\=\"Yahtzee/.match(html)
 
     assert /data-test\=\"C# NUnit/.match(html), html
-    assert /data-test\=\"Java JUnit/.match(html), html
 
     params = {
       language: 'Tennis',
