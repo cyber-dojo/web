@@ -7,13 +7,6 @@ This will allow me to [docker pull] them both before running travis tests
 which hopefully will give me all tests passing.
 In fact, I should be able to get away with just Java-JUnit if I tweak the test.
 
-C#
-frolvlad/alpine-mono
-  How big is it?  ~175.5 MB  (vs  845.7 MB)
-  docker run --rm frolvlad/alpine-mono sh -c  "dmcs --version"
-    Mono C# compiler version 4.4.0.0
-  Does it have nunit?
-
 Java
 frolvlad/alpine-oraclejdk8:slim
   How big is it? ~166.9 MB  (vs 843.7 MB)
@@ -39,60 +32,20 @@ example, you bump the rails version in Gemfile.
 
 - - - - - - - - - - - - - - - - - - - - -
 
-Occasional test failure...
+Occasional test failures...
   ForkerControllerTest#test_'EAE021',
     when language no longer exists, the fork fails, and the reason given is language
-    JSON::ParserError: A JSON text must at least contain two octets!
-    /usr/src/cyber-dojo/lib/host_dir.rb:75:in `read_json'
-    /usr/src/cyber-dojo/app/models/manifests.rb:47:in `read_cache'
-    /usr/src/cyber-dojo/app/models/manifests.rb:33:in `all'
-    /usr/src/cyber-dojo/app/models/manifests.rb:22:in `[]'
-    /usr/src/cyber-dojo/app/models/kata.rb:54:in `language'
-    /usr/src/cyber-dojo/app/controllers/forker_controller.rb:13:in `fork'
-
   SetupControllerTest#test_'EB77D9',
     show_exercises page uses cached exercises that are runnable
-    JSON::ParserError: A JSON text must at least contain two octets!
-    /usr/src/cyber-dojo/lib/host_dir.rb:75:in `read_json'
-    /usr/src/cyber-dojo/app/models/manifests.rb:47:in `read_cache'
-    /usr/src/cyber-dojo/app/models/manifests.rb:33:in `all'
-    /usr/src/cyber-dojo/app/models/manifests.rb:18:in `each'
-    /usr/src/cyber-dojo/lib/stub_runner.rb:18:in `select'
-    /usr/src/cyber-dojo/lib/stub_runner.rb:18:in `runnable'
-    /usr/src/cyber-dojo/app/controllers/setup_controller.rb:71:in `read'
-    /usr/src/cyber-dojo/app/controllers/setup_controller.rb:48:in `show_exercises'
 
-Same problem both times. Need a better diagnostic. What is the filename?
-This diagnostic is consistent with the file existing but being empty.
+  Tests are defintely not unit-tests and almost certainly have order
+  dependencies. State of cache files. How to resolve?
 
-Also, if I build and then shell in an do
-cd test/app_controllers
-./setup_test.rb EB77D9
-I get a different error, the nil conversion error.
-Possible reasons
-o) caches are being created in previous tests in the later case?
-   Is this possibly related to tests being run with a random seed
-   So sometimes a previous test has accessed exercises without
-   a StubRunner in place?
-   --seed 38100 gave [] instead of ['Tennis, C# Nunit', 'Yahtzee C# NUnit']
-   Tests are defintely not unit-tests and almost certainly have order
-   dependencies. How to resolve?
-   I could reinstate FakeDisk, leave env-vars for data ROOTs, then
-   fill FakeDisk with known content, then do access to dojo methods
-   such as dojo.exercises
+  I could reinstate FakeDisk, leave env-vars for data ROOTs, then
+  fill FakeDisk with known content, then do access to dojo methods
+  such as dojo.exercises
 
-   Now rebuild web image, restart web container,
-   shell in and run only
-   ./setup_test.rb EB77D9
-   And no app/cache/exercises.json exists
-   And the StubRunner works.
-   Previous test is setting the exercises cache to "{}"
-
-
-
-I guess the first step is to get main travis working by doing check
-inside tests to see if there are no exercises with an image.
-If none, abandon the test.
+  For now, deleting caches at start of app_controller tests.
 
 - - - - - - - - - - - - - - - - - - - - -
 
