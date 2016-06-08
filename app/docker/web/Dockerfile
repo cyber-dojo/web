@@ -81,7 +81,6 @@ RUN  echo "${GETS_DOCKER_SUDO}  ALL=NOPASSWD: ${DOCKER_BINARY} *"       >>  ${SU
 # 4. bundle install from cyber-dojo's Gemfile
 # o) ruby, ruby-io-console ruby-bigdecimal, tzdata (for rails server)
 # o) ruby-irb (for debugging)
-# o) git (for cyber-dojo)
 # o) bash (test scripts are written in bash)
 # Doing the apk del build-dependencies in the same RUN command reduces the web
 # image size from 437.3 MB to 265.9 MB
@@ -89,7 +88,6 @@ RUN  echo "${GETS_DOCKER_SUDO}  ALL=NOPASSWD: ${DOCKER_BINARY} *"       >>  ${SU
 USER root
 RUN  apk --update add \
            ruby ruby-irb ruby-io-console ruby-bigdecimal tzdata \
-           git \
            bash
 
 ARG  CYBER_DOJO_HOME
