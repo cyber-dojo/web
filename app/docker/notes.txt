@@ -3,11 +3,12 @@
 
 docker_tar_pipe_runner.sh
 On Alpine-linux usermod is not installed by default.
-It's in the shadow package. Need to install it into user-base image.
-Checking user-base is the base for Alpine-linux based images such as gcc-assert...
-Not true! Its specified as FROM cyberdojofoundation/language-base
-How many other images also have that as their FROM?
+It's in the shadow package. Need to install it into Alpine images.
+   RUN  apk --update add shadow
+Checking what's the FROM in Alpine-linux based images such as gcc-assert...
+Its FROM cyberdojofoundation/language-base
 app/docker/language-base is no longer in the git repo!
+How many other images also have that as their FROM?
 Last commit that had it?
 $ git log --name-status -- app/docker/language-base
 commit 2fa1c01ca0b4fd0e9ad33cc117d6648a5d685f3d
@@ -22,9 +23,15 @@ RUN  apk --update add sudo
 
 - - - - - - - - - - - - - - - - - - - - -
 
+app/docker/user-base/Dockerfile has this
+FROM alpine:edge
+Look at moving to an alpine image with a version number.
+
+- - - - - - - - - - - - - - - - - - - - -
+
 Get scripts/dev_server.sh running again by making X...ROOT env-vars
 point to where the data repos live. Then try out docker_tar_pipe_runner.sh
-idea below and see if it fixes the warning.
+mods (above and below) and see if it fixes the warnings.
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -92,7 +99,7 @@ travis now runs tests in pipeline
 - - - - - - - - - - - - - - - - - - - - -
 
 Note: need a check that each docker image has a user in it called nobody
-      (don't think it's uid is important)
+      (I don't think it's uid is important)
 
 - - - - - - - - - - - - - - - - - - - - -
 

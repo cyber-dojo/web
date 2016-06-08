@@ -1,8 +1,10 @@
 #!/bin/sh
 
-# A runner whose access to the avatar's source files is via a data-container
-# containing files for *all* katas/... sub folders.
-# The tar-piping is to isolate the avatar's sub-dir in the katas-data-container.
+# A runner that tar-pipes files from the avatar's sandbox into and out of
+# of the test container, regardless of whether the avatar's sandbox comes
+# from a host-disk volume or a data-container volumes_from.
+# This gives isolation, which you would not get if, for example, there is a
+# single katas data-container holding all the katas.
 
 SRC_DIR=$1     # Where the source files are
 IMAGE=$2       # What they'll run in, eg cyberdojofoundation/gcc_assert
@@ -29,11 +31,25 @@ CID=$(${SUDO} docker run --detach \
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # http://blog.extracheese.org/2010/05/the-tar-pipe.html
 #
+# o) The LHS end of the pipe...
+#
+#      [tar -zcf]  create a compressed tar file
+#             [-]  don't write to a named file but to STDOUT
+#             [.]  tar the current directory
+#                    which is why there's a preceding cd
+#
+# o) The RHS end of the pipe...
+#
+#           [tar -zxf]   extract files from the compressed tar file
+#                  [-]   don't read from a named file but from STDIN
+#      [-C ${SANDBOX}]   save the extracted files to the ${SANDBOX} directory
+#                           which is why there's a preceding mkdir
+#
 # o) The tar-pipe has to be this...
 #      (cd ${SRC_DIR} && tar -zcf - .) | ${SUDO} docker exec ...
 #    it cannot be this...
 #      tar -zcf - ${SRC_DIR} | ${SUDO} docker exec ...
-#    because that would retain the path of each file.
+#    because that retains the full path of each file.
 #
 # o) chown -R nobody ${SANDBOX} \
 #    && usermod --home ${SANDBOX} nobody"
@@ -51,18 +67,6 @@ CID=$(${SUDO} docker run --detach \
 # o) The F#-NUnit cyber-dojo.sh names the /sandbox folder
 #    So SANDBOX has to be /sandbox for backward compatibility.
 #    F#-NUnit is the only cyber-dojo.sh that names /sandbox.
-#
-# o) The LHS end of the pipe...
-#      [tar -zcf] means create a compressed tar file
-#      [-] means don't write to a named file but to STDOUT
-#      [.] means tar the current directory
-#      which is why there's a preceding cd
-#
-# o) The RHS end of the pipe...
-#      [tar -zxf] means extract files from the compressed tar file
-#      [-] means don't read from a named file but from STDIN
-#      [-C ${SANDBOX}] means save the extracted files to the ${SANDBOX} directory
-#      which is why there's a preceding mkdir
 
 SANDBOX=/sandbox
 
