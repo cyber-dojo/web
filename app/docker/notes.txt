@@ -1,6 +1,27 @@
 
 - - - - - - - - - - - - - - - - - - - - -
 
+docker_tar_pipe_runner.sh
+On Alpine-linux usermod is not installed by default.
+It's in the shadow package. Need to install it into user-base image.
+Checking user-base is the base for Alpine-linux based images such as gcc-assert...
+Not true! Its specified as FROM cyberdojofoundation/language-base
+How many other images also have that as their FROM?
+app/docker/language-base is no longer in the git repo!
+Last commit that had it?
+$ git log --name-status -- app/docker/language-base
+commit 2fa1c01ca0b4fd0e9ad33cc117d6648a5d685f3d
+Author: Jon Jagger <jon@jaggersoft.com>
+Date:   Tue Mar 22 13:51:44 2016 +0000
+    added alpine_base folder to app/languages
+$ git show 2fa1c01:app/docker/language-base/Dockerfile
+FROM alpine:edge
+MAINTAINER Jon Jagger <jon@jaggersoft.com>
+USER root
+RUN  apk --update add sudo
+
+- - - - - - - - - - - - - - - - - - - - -
+
 Get scripts/dev_server.sh running again by making X...ROOT env-vars
 point to where the data repos live. Then try out docker_tar_pipe_runner.sh
 idea below and see if it fixes the warning.
@@ -36,13 +57,6 @@ make the CYBER_DOJO_LANGUAGES_ROOT env-vars point to these in script/dev-server.
 Do that and get tests running locally and inside web container.
 Document which (if any) docker images are required for tests to run.
 Make these small Alpine-based images.
-
-- - - - - - - - - - - - - - - - - - - - -
-
-Copy Gemfile.lock out of working web container onto local repo for travis.
-Affects app/docker/web/build-image.sh
-If it successfully builds the web image then I need to copy
-Gemfile.lock out of web container into main git repo.
 
 - - - - - - - - - - - - - - - - - - - - -
 

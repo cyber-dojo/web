@@ -12,11 +12,11 @@ SUDO=$4        # sudo incantation for docker commands
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # 1. Start the container running
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# --detach       ; get the CID for [sleep && docker rm] before [docker exec]
-# --interactive  ; we tar-pipe later
-# --net=none     ; for security
-# --user=nobody  ; for security
-# Note that the --net=none setting is inherited by [docker exec]
+#   --detach       ; get the CID for [sleep && docker rm] before [docker exec]
+#   --interactive  ; we tar-pipe later
+#   --net=none     ; for security
+#   --user=nobody  ; for security
+#   Note that the --net=none setting is inherited by [docker exec]
 
 CID=$(${SUDO} docker run --detach \
                          --interactive \
@@ -29,39 +29,40 @@ CID=$(${SUDO} docker run --detach \
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # http://blog.extracheese.org/2010/05/the-tar-pipe.html
 #
-# The existing C#-NUnit image picks up HOME from the *current* user.
-# By default, nobody's entry in /etc/passwd is
-#     nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
-# and nobody does not have a home dir.
-# I usermod to solve this.
+# o) The tar-pipe has to be this...
+#      (cd ${SRC_DIR} && tar -zcf - .) | ${SUDO} docker exec ...
+#    it cannot be this...
+#      tar -zcf - ${SRC_DIR} | ${SUDO} docker exec ...
+#    because that would retain the path of each file.
 #
-# Has to be interactive for the tar-pipe.
-# The tar-pipe has to be this...
-#   (cd ${SRC_DIR} && tar -zcf - .)         | ${SUDO} docker exec ...
-# it cannot be this...
-#                     tar -zcf - ${SRC_DIR} | ${SUDO} docker exec ...
-# because that would retain the path of each file.
+# o) chown -R nobody ${SANDBOX} \
+#    && usermod --home ${SANDBOX} nobody"
 #
-# On Alpine-linux usermod is not installed by default.
-# It's in the shadow package. See docker/language-base for
-# ongoing work to get the usermod call to work in new Alpine
-# based language-images too.
+#    The existing C#-NUnit image picks up HOME from the *current* user.
+#    By default, nobody's entry in /etc/passwd is
+#       nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+#    and nobody does not have a home dir.
+#    I usermod to solve this. The C#-NUnit docker image is built
+#    from an Ubuntu base which has usermod.
+#    Of course, the usermod runs if you are not using C#-NUnit too.
+#    In particular usermod is not installed in a default Alpine linux.
+#    It's in the shadow package.
 #
-# The existing F#-NUnit cyber-dojo.sh names the /sandbox folder
-# So SANDBOX has to be /sandbox for backward compatibility.
-# F#-NUnit is the only cyber-dojo.sh that names /sandbox.
+# o) The F#-NUnit cyber-dojo.sh names the /sandbox folder
+#    So SANDBOX has to be /sandbox for backward compatibility.
+#    F#-NUnit is the only cyber-dojo.sh that names /sandbox.
 #
-# The LHS end of the pipe...
-#    [tar -zcf] means create a compressed tar file
-#    [-] means don't write to a named file but to STDOUT
-#    [.] means tar the current directory
-#    which is why there's a preceding cd
+# o) The LHS end of the pipe...
+#      [tar -zcf] means create a compressed tar file
+#      [-] means don't write to a named file but to STDOUT
+#      [.] means tar the current directory
+#      which is why there's a preceding cd
 #
-# The RHS end of the pipe...
-#    [tar -zxf] means extract files from the compressed tar file
-#    [-] means don't read from a named file but from STDIN
-#    [-C ${SANDBOX}] means save the extracted files to the ${SANDBOX} directory
-#    which is why there's a preceding mkdir
+# o) The RHS end of the pipe...
+#      [tar -zxf] means extract files from the compressed tar file
+#      [-] means don't read from a named file but from STDIN
+#      [-C ${SANDBOX}] means save the extracted files to the ${SANDBOX} directory
+#      which is why there's a preceding mkdir
 
 SANDBOX=/sandbox
 
@@ -81,7 +82,7 @@ SANDBOX=/sandbox
 # Doing [docker stop ${CID}] is not enough to stop a container
 # that is printing in an infinite loop.
 # Any zombie processes this backgrounded process creates are reaped by tini.
-# See docker/web/Dockerfile
+# See app/docker/web/Dockerfile
 # The parentheses put the commands into a child process.
 # The & backgrounds it
 
@@ -102,13 +103,14 @@ OUTPUT=$(${SUDO} docker exec \
 # 5. Don't use the exit-status of cyber-dojo.sh
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Using it to determine red/amber/green status is unreliable
-# o) not all test frameworks set their exit-status properly
-# o) cyber-dojo.sh is editable (suppose it ended [exit 137])
+#   - not all test frameworks set their exit-status properly
+#   - cyber-dojo.sh is editable (suppose it ended [exit 137])
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# 6. If the sleep-docker-rm process is still alive race to kill it
-#    before it does [docker rm ${CID}]
-#    pkill == kill processes, -P PID == whose parent pid is PID
+# 6. If the sleep-docker-rm process (3) is still alive race to
+#    kill it before it does [docker rm ${CID}]
+#      - pkill == kill processes
+#      -P PID  == whose parent pid is PID
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 pkill -P ${SLEEP_DOCKER_RM_PID}
@@ -120,7 +122,10 @@ if [ "$?" != "0" ]; then
 fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# 7. Check that CID container is still running (belt and braces)
+# 7. Check the CID container is still running (belt and braces)
+#    We're aiming for
+#      - the background 10-second kill process is dead
+#      - the test-run container is still alive
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 RUNNING=$(${SUDO} docker inspect --format="{{ .State.Running }}" ${CID})
@@ -129,24 +134,29 @@ if [ "${RUNNING}" != "true" ]; then
 fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# 8. The container completed and is still running
+# 8. We're not using the exit status (5) of the test container
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# o) Echo the output so it can be red/amber/green regex'd (see 5)
-# o) Tar-pipe *everything* out of the run-container's sandbox back to SRC_DIR
-# o) Remove the container.
+#   Instead
+#     - echo the output so it can be red/amber/green regex'd (see 5)
+#     - tar-pipe *everything* out of the run-container's sandbox back to SRC_DIR
+#     - remove the container
+#     - exit 0
 
 echo "${OUTPUT}"
 
-# When this runs it outputs the following diagnostic to stdout/stderr
+# When this [docker exec] command runs it outputs the following diagnostic to stdout/stderr
 #    tar: .: Not found in archive
 #    tar: Error exit delayed from previous errors.
 # As best I can tell this is because of the . in one of the tar-commands
-# and refers the dot as in the current directory. It seems to be harmless.
+# and refers to the dot as in the current directory. It seems to be harmless.
 # The files are tarred back, are saved, are git commited, and git diff works.
 # Also, you only get the warning under OSX.
 #
-# The command [ find . -mindepth 1 -delete]
-# deletes all files (including dot file) and subdirs
+# The command [ find . -mindepth 1 -delete] deletes all files (including dot file)
+# and subdirs. This is so the transfer of files is always 'total' in both
+# directions. That is, from the katas subdir into the test-container, and from the
+# test-container back into the katas subdir.
+# See test/app_controllers/kata_test.rb - test 'BE89DC' (line 78)
 
 ${SUDO} docker exec \
                --user=root \

@@ -10,10 +10,10 @@ MAINTAINER Jon Jagger <jon@jaggersoft.com>
 # 1. if katas is accessed via a folder on host (eg volumes: in the docker-compose yml file)
 #    then the rails app on the inside needs to match uid with the cyber-dojo user
 #    that owns the katas on the host on the outside
-#    eg on Docker-Quickstart-Terminal (Windows/OSX).
+#    eg on Docker-Quickstart-Terminal (Windows/OSX)
 #       $ docker-machine ssh default
 #       $ sudo adduser -D -H -u 19661 cyber-dojo
-#       $ sudo chown -R cyber-dojo /usr/src/cyber-dojo/app/katas
+#       $ sudo chown -R cyber-dojo /var/www/cyber-dojo/katas
 #
 # 2. if katas is a data-container (eg volumes_from: in the docker-compose.yml file)
 #    then the rails app on the inside needs to match uid with the cyber-dojo user
