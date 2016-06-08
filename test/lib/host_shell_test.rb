@@ -33,7 +33,7 @@ class HostShellTest < LibTestBase
   end
 
   test '565ACD',
-  'when the cd fails the command is not executed and exit-status is non-zero' do
+  "when the cd_exec's cd fails the command is not executed and exit-status is non-zero" do
     output, exit_status = shell.cd_exec('zzzz', 'echo Hello')
     assert_equal '', output
     refute_equal 0, exit_status

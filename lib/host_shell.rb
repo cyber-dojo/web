@@ -20,7 +20,7 @@ class HostShell
   # modifiers
 
   def cd_exec(path, *commands)
-    output, exit_status = exec(["cd #{path}"] + commands)
+    output, exit_status = exec(["[[ -d #{path} ]]", "cd #{path}"] + commands)
     return output, exit_status
   end
 
