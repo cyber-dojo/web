@@ -9,6 +9,19 @@ a local (not inside docker) web server?
 
 - - - - - - - - - - - - - - - - - - - - -
 
+If I'm building a new default_languages and I ^C I get these two lines...
+^CFAILED [volume create --name=default_languages]
+volume default_languages does not exist
+
+- - - - - - - - - - - - - - - - - - - - -
+
+Now that I am building volumes as git clones having big jar files
+(for example) inside the cyber-dojo-languages's _docker_context
+files is making the volume download slower and making the volumes
+a lot bigger than they need to be.
+
+- - - - - - - - - - - - - - - - - - - - -
+
 Looking to make some smaller alpine-linux language images.
 Specifically, C#-NUnit and Java-JUnit
 This will allow me to [docker pull] them both before running travis tests
