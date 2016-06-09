@@ -2,8 +2,10 @@
 - - - - - - - - - - - - - - - - - - - - -
 
 Now that data is externalized I can arrange for it to
-alawys be at the same locations inside the web container!
+always be at the same locations inside the web container!
 I don't need CYBER_DOJO_EXERCISES_ROOT et al.
+But it is worth keeping them anyway for setting up
+a local (not inside docker) web server?
 
 - - - - - - - - - - - - - - - - - - - - -
 
