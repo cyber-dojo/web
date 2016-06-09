@@ -36,9 +36,9 @@ exit_if_docker_compose_not_installed() {
 cyber_dojo_update() {
   # cyber-dojo web server image is docker version sensitive.
   # See app/docker/web/Dockerfile ~ line 49
-  #    docker --version  -->  Docker version 1.11.1, build 5604cbe
-  #    awk '{print $3}'  -->  1.11.1,           (third field)
-  #    sed '$s/.$//'     -->  1.11.1            (lose last comma)
+  #    docker --version  -->  Docker version 1.11.2, build 5604cbe
+  #    awk '{print $3}'  -->  1.11.2,           (third field)
+  #    sed '$s/.$//'     -->  1.11.2            (lose last comma)
   local docker_version=$(docker --version | awk '{print $3}' | sed '$s/.$//')
   local cyber_dojo_home=/usr/src/cyber-dojo
   local cyber_dojo_hub=cyberdojofoundation

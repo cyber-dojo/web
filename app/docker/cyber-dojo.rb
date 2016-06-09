@@ -48,7 +48,7 @@ def clean
     'Removes all dangling docker images and volumes',
   ]
   if ['help','--help'].include? ARGV[1]
-    show(help)
+    show help
     exit 1
   end
   run "docker images --quiet --filter='dangling=true' | xargs docker rmi --force"
@@ -67,7 +67,7 @@ def down
     "Stops and removes docker containers created with 'up'",
   ]
   if ['help','--help'].include? ARGV[1]
-    show(help)
+    show help
     exit 1
   end
   # Nothing else to do. cyber-dojo.sh handles [down]
@@ -85,10 +85,34 @@ def sh
     "Shells into the cyber-dojo web server docker container",
   ]
   if ['help','--help'].include? ARGV[1]
-    show(help)
+    show help
     exit 1
   end
   # Nothing else to do. cyber-dojo.sh handles [sh]
+end
+
+#=========================================================================================
+# logs
+#=========================================================================================
+
+def logs
+  help = [
+    '',
+    "Use: #{me} logs",
+    '',
+    "Fetches and prints the logs of the web server (if present)",
+  ]
+  if ['help','--help'].include? ARGV[1]
+    show help
+    exit 1
+  end
+
+  if `docker ps --quiet --filter "name=cdf-web"` == ''
+    puts "Cannot show logs - there web server is not running"
+    exit 1
+  else
+    puts `docker logs cdf-web`
+  end
 end
 
 #=========================================================================================
@@ -108,7 +132,7 @@ def up
   ]
 
   if ['help','--help'].include? ARGV[1]
-    show(help)
+    show help
     exit 1
   end
 
@@ -119,7 +143,7 @@ def up
   end
 
   if unknown != []
-    show(help)
+    show help
     exit 1
   end
   # Nothing else to do. cyber-dojo.sh handles [up]
@@ -161,7 +185,7 @@ def volume
     when 'ls'      then volume_ls
     when 'inspect' then volume_inspect
     when 'pull'    then volume_pull
-    else                show(help)
+    else                show help
   end
 end
 
@@ -468,7 +492,7 @@ def volume_pull
     '',
     "Use: #{me} volume pull VOLUME",
     '',
-    'Pulls all the docker images named inside the cyber-dojo volume',
+    'Pulls all the docker images named inside the cyber-dojo volume'
   ]
   vol = ARGV[2]
   if [nil,'help','--help'].include? vol
@@ -697,6 +721,7 @@ def help
     'Commands:',
     tab + 'clean     Removes dangling docker images and volumes',
     tab + 'down      Brings down the server',
+    tab + 'logs      Fetch the logs from the server',
     tab + 'pull      Pulls a docker image',
     tab + 'rmi       Removes a docker image',
     tab + 'sh        Shells into the server',
@@ -721,6 +746,7 @@ case ARGV[0]
   when 'help'    then help
   when 'clean'   then clean
   when 'down'    then down
+  when 'logs'    then logs
   when 'pull'    then pull
   when 'rmi'     then rmi
   when 'sh'      then sh

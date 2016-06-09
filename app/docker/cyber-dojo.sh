@@ -1,7 +1,5 @@
 #!/bin/sh
 
-# TODO: is katas at app/data/katas or /katas
-
 if [ "${CYBER_DOJO_SCRIPT_WRAPPER}" = "" ]; then
   echo "Do not call this script directly. Use cyber-dojo (no .sh) instead"
   exit 1
@@ -20,7 +18,7 @@ default_instructions_volume=default_instructions
 
 # set environment variables required by docker-compose.yml
 
-# important that data-home is not under app so any ruby files it might contain
+# important that data-root is not under app so any ruby files it might contain
 # are *not* slurped by the web server as it starts!
 export CYBER_DOJO_DATA_ROOT=${cyber_dojo_root}/data
 
