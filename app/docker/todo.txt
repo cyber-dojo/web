@@ -1,23 +1,27 @@
 
-cyber-dojo script needs new commands to push/pull data sets from path/url
-  see notes.txt
+
+cyber-dojo script needs new commands to push/pull data sets from path/url (see notes.txt too)
+  o) cyber-dojo volume create --name=VOL --git=URL
+     chosen manifests need auto_pull:true
+     this needs to be added as new property of manifest
+     then add to cyber-dojo-languages repo
+     then recreate default_languages vol
+  o) cyber-dojo up
+     pulls any docker image not already pulled whose manifest is auto_pull:true
+  o) cyber-dojo volume inspect VOL <------
+  o) lhs,rhs titles in setup page
+  o) 2 tabs in setup page
+  o) cyber-dojo volume pull VOL
+
+-----------------------------------
 
 un-hardwire setting of 2 core env-vars in cyber-dojo script.
   export CYBER_DOJO_DATA_ROOT="/home/docker/data"
   export CYBER_DOJO_KATAS_ROOT="/home/docker/data/katas"
 
-3 data sets need to go into their own github repositories.
-
 instructions refactored to be manifest'ed
   use disk[path].each_rdir('instructions') in its make_cache()
   Only instructions file would be shown on 2nd setup page.
-
-refactor Languages to accept the make_cache()'s argument to each_dir() as a parameter.
-  Needed if instructions is manifested.
-
-rename Lanuage(s) to Manifest(s) and create
-  super think wrapper classes for Languages,Exercises,Instructions
-  which all delegate to Manifests class.
 
 Put two tabs onto the setup/show page.
   One tab for languages, this will have a second step for instructions.

@@ -11,7 +11,10 @@ a local (not inside docker) web server?
 
 If I'm building a new default_languages and I ^C I get these two lines...
 ^CFAILED [volume create --name=default_languages]
-volume default_languages does not exist
+volume default_languages does not exist.
+I think this is because in cyber-dojo.sh  volume_create()'s
+call to [docker volume ls...] is unchecked.
+If it exits with 0 it then cyber-dojo.sh should exit immediately.
 
 - - - - - - - - - - - - - - - - - - - - -
 
