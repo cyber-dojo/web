@@ -139,11 +139,9 @@ def up
     exit 1
   end
 
-  unknown = ARGV[1..-1].select do |arg|
-    !arg.start_with?('--env') &&
-    !arg.start_with?('--languages=') &&
-    !arg.start_with?('--exercises=') &&
-    !arg.start_with?('--instructions=')
+  knowns = ['env','languages','exercises','instructions']
+  unknown = ARGV[1..-1].select do |argv|
+    knowns.none? { |known| argv.start_with?('--' + known + '=') }
   end
 
   if unknown != []
