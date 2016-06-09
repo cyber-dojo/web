@@ -120,6 +120,7 @@ cyber_dojo_rb() {
 volume_create() {
   local vol=$1
   local url=$2
+  echo "Creating ${vol} from ${url}"
   cyber_dojo_rb "volume create --name=${vol} --git=${url}"
 }
 
