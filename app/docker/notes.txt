@@ -1,6 +1,12 @@
 
 - - - - - - - - - - - - - - - - - - - - -
 
+Now that data is externalized I can arrange for it to
+alawys be at the same locations inside the web container!
+I don't need CYBER_DOJO_EXERCISES_ROOT et al.
+
+- - - - - - - - - - - - - - - - - - - - -
+
 Looking to make some smaller alpine-linux language images.
 Specifically, C#-NUnit and Java-JUnit
 This will allow me to [docker pull] them both before running travis tests
