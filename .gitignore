@@ -18,3 +18,7 @@ script/stats/exceptions.log
 
 test/*/coverage/
 coverage
+
+# When web image is being built these files are temporarily placed in the root
+/Dockerfile
+/.dockerignore

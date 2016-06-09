@@ -15,7 +15,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     @dojo = Dojo.new
     super
     set_runner_class('StubRunner')
-    `rm -f /usr/src/cyber-dojo/app/caches/exercises.json`
+    `rm -f /usr/src/cyber-dojo/app/caches/*.json`
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
