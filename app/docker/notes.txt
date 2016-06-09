@@ -76,19 +76,6 @@ mods (above and below) and see if it fixes the warnings.
 
 - - - - - - - - - - - - - - - - - - - - -
 
-./cyber-dojo up
-First this will need to create the default-volumes
-This takes a while and for a short period there is
-no output on the terminal. Print message in volume_create()
-in cyber-dojo.rb
-
-- - - - - - - - - - - - - - - - - - - - -
-
-Add option to ./cyber-dojo up to pass in --environment
-(checking it is production/development/test)
-
-- - - - - - - - - - - - - - - - - - - - -
-
 Does the Tennis-Ruby exercise still crash the web server?
 $ docker pull cyberdojofoundation/ruby_test_unit
 And try it.
