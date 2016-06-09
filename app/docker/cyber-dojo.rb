@@ -128,7 +128,10 @@ def up
     '',
     minitab + '--languages=VOLUME      Specify the languages volume (otherwise default_languages)',
     minitab + '--exercises=VOLUME      Specify the exercises volume (otherwise default_exercises)',
-    minitab + '--instructions=VOLUME   Specify the instructions volume (otherwise default_instructions)'
+    minitab + '--instructions=VOLUME   Specify the instructions volume (otherwise default_instructions)',
+    minitab + '--env=development       Brings up the web server in development environment',
+    minitab + '--env=production        Brings up the web server in production environment',
+    minitab + '--env=test              Brings up the web server in test environment',
   ]
 
   if ['help','--help'].include? ARGV[1]
@@ -137,6 +140,7 @@ def up
   end
 
   unknown = ARGV[1..-1].select do |arg|
+    !arg.start_with?('--env') &&
     !arg.start_with?('--languages=') &&
     !arg.start_with?('--exercises=') &&
     !arg.start_with?('--instructions=')

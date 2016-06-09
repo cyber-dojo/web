@@ -16,6 +16,8 @@ default_languages_volume=default_languages
 default_exercises_volume=default_exercises
 default_instructions_volume=default_instructions
 
+default_rails_environment=production
+
 # set environment variables required by docker-compose.yml
 
 # important that data-root is not under app so any ruby files it might contain
@@ -41,6 +43,8 @@ export CYBER_DOJO_RUNNER_TIMEOUT=${CYBER_DOJO_RUNNER_TIMEOUT:=10}
 export CYBER_DOJO_LANGUAGES_VOLUME=${default_languages_volume}
 export CYBER_DOJO_EXERCISES_VOLUME=${default_exercises_volume}
 export CYBER_DOJO_INSTRUCTIONS_VOLUME=${default_instructions_volume}
+
+export CYBER_DOJO_RAILS_ENVIRONMENT=${default_rails_environment}
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -147,20 +151,31 @@ cyber_dojo_up() {
   shift
   for arg in "$*"
   do
-    # eg --exercises=james
     local name=$(echo ${arg} | cut -f1 -s -d=)
-    local volume=$(echo ${arg} | cut -f2 -s -d=)
+    local value=$(echo ${arg} | cut -f2 -s -d=)
 
-    if [ "${name}" = "--languages" ] && [ "${volume}" != "" ]; then
-      export CYBER_DOJO_LANGUAGES_VOLUME=${volume}
+    # eg --env=production
+    if [ "${name}" = "--env" ] && [ "${value}" = "development" ]; then
+      export CYBER_DOJO_RAILS_ENVIRONMENT=development
+    fi
+    if [ "${name}" = "--env" ] && [ "${value}" = "production" ]; then
+      export CYBER_DOJO_RAILS_ENVIRONMENT=production
+    fi
+    if [ "${name}" = "--env" ] && [ "${value}" = "test" ]; then
+      export CYBER_DOJO_RAILS_ENVIRONMENT=test
     fi
 
-    if [ "${name}" = "--exercises" ] && [ "${volume}" != "" ]; then
-      export CYBER_DOJO_EXERCISES_VOLUME=${volume}
+    # eg --languages=james
+    if [ "${name}" = "--languages" ] && [ "value" != "" ]; then
+      export CYBER_DOJO_LANGUAGES_VOLUME=value
     fi
 
-    if [ "${name}" = "--instructions" ] && [ "${volume}" != "" ]; then
-      export CYBER_DOJO_INSTRUCTIONS_VOLUME=${volume}
+    if [ "${name}" = "--exercises" ] && [ "value" != "" ]; then
+      export CYBER_DOJO_EXERCISES_VOLUME=value
+    fi
+
+    if [ "${name}" = "--instructions" ] && [ "value" != "" ]; then
+      export CYBER_DOJO_INSTRUCTIONS_VOLUME=value
     fi
   done
 
@@ -201,10 +216,11 @@ cyber_dojo_up() {
     exit 1
   fi
 
-  # bring up server with volumes
+  echo "Using rails --environment=${CYBER_DOJO_RAILS_ENVIRONMENT}"
   echo "Using volume languages=${CYBER_DOJO_LANGUAGES_VOLUME}"
   echo "Using volume exercises=${CYBER_DOJO_EXERCISES_VOLUME}"
   echo "Using volume instructions=${CYBER_DOJO_INSTRUCTIONS_VOLUME}"
+  # bring up server with volumes
   ${docker_compose_cmd} up -d
 }
 
