@@ -505,8 +505,8 @@ def volume_pull
   exit_unless_is_cyber_dojo_volume(vol, 'pull')
 
   p 'TODO: volume pull'
-  #check volume is labelled as per [volume create]
   #Then have to extract all image names from all manifest.json files.
+  #Then do [docker pull IMAGE] for any not present
 end
 
 # - - - - - - - - - - - - - - -
