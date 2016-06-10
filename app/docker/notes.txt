@@ -9,6 +9,21 @@ a local (not inside docker) web server?
 
 - - - - - - - - - - - - - - - - - - - - -
 
+dialog for [create practice session]
+                new your new id is
+is better as
+           [new practice session created]
+                its id is
+
+- - - - - - - - - - - - - - - - - - - - -
+
+Front page - have two buttons for creating a practice session.
+What wording?
+  Create an empty practice session
+  Create an custom practice session
+
+- - - - - - - - - - - - - - - - - - - - -
+
 Get scripts/dev_server.sh running again by making X...ROOT env-vars
 point to where the data repos live. Then try out docker_tar_pipe_runner.sh
 mods (above and below) and see if it fixes the warnings.
@@ -35,7 +50,7 @@ If it exits with 0 it then cyber-dojo.sh should exit immediately.
 Now that I am building volumes as git clones having big jar files
 (for example) inside the cyber-dojo-languages's _docker_context
 files is making the volume download slower and making the volumes
-a lot bigger than they need to be.
+a lot bigger than they need to be. scalatest.jar is nearly 7MB for example.
 There does not appear to be an obvious way to filter on a git-clone.
 It makes sense as git-clone wants to preserve a whole repo.
 Interestingly, since the web server is run inside a docker container
@@ -77,7 +92,6 @@ o) svn export
    svn export --quiet --trust-server-cert --non-interactive \
       https://github.com/JonJagger/cyber-dojo-languages.git/trunk try1
    That works but cant see a way to filter.
-   Maybe
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -179,6 +193,12 @@ ruby cyber-dojo.rb volume create --name=abc --git=https://github.com/JonJagger/c
        passed a path (there are now 2 manifest locations, exercises and languages)
        Then [volume inspect] call with then do
          docker run --rm -v THE-VOL sh -c "path/to/languages/checker.rb"
+
+       test/languages/test_languages_manifest.rb
+         Rework to utility rather than test with asserts.
+         Also, ownership of all files should be cyber-dojo
+           (comes in from a volume)
+
 
      What should volume manifest.json file contain?
         type: languages/exercises/instructions
