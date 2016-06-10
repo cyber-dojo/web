@@ -323,7 +323,7 @@ class LanguagesManifestsTests < LanguagesTestBase
   def colour_method_for_unit_test_framework_output_exists?
     has_parse_method = true
     begin
-      OutputColour.of(unit_test_framework, 'xx')
+      OutputColour.of(unit_test_framework, any_output='xx')
     rescue
       has_parse_method = false
     end
