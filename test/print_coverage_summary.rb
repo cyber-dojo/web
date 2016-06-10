@@ -205,6 +205,7 @@ end
 #- - - - - - - - - - - - - - - - - - - - -
 
 stats = gather_stats
+print "\n"
 print_column_keys
 print "\n"
 print_heading
