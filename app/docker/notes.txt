@@ -22,6 +22,48 @@ Now that I am building volumes as git clones having big jar files
 (for example) inside the cyber-dojo-languages's _docker_context
 files is making the volume download slower and making the volumes
 a lot bigger than they need to be.
+There does not appear to be an obvious way to filter on a git-clone.
+It makes sense as git-clone wants to preserve a whole repo.
+Interestingly, since the web server is run inside a docker container
+I could choose to preserve the _docker_context dirs as this would allow
+the web server to do a [docker build] to build the images it needed rather
+than pulling them from the cdf hub. Probably not useful.
+
+http://stackoverflow.com/questions/14326365/git-clone-ignoring-a-directory
+ git archive?
+   https://feeding.cloud.geek.nz/posts/excluding-files-from-git-archive/
+     shows .gitattributes export-ignore option
+   git archive supports remote repos
+     http://stackoverflow.com/questions/160608/do-a-git-export-like-svn-export
+     git archive --format=tar --remote=ssh://remote_server/remote_repository master | tar -xf -
+
+   git archive --remote=https://github.com/JonJagger/cyber-dojo-languages.git master
+      Operation not supported by protocol
+      github restriction?
+      Need to use git protocol?
+   git archive --remote=git://github.com/JonJagger/cyber-dojo-languages.git master
+      fatal: The remote end hung up unexpectedly
+
+   If looks like if I put a .gitattributes file into the repo itself then I have a chance
+   What will it look like
+     .gitattributes      export-ignore
+     .gitignore          export-ignore
+     README.me           export-ignore
+     **/_docker_context  export-ignore
+
+   https://help.github.com/articles/can-i-archive-a-repository/
+      Github does not provide archiving... :-(
+
+   Maybe the best I can do is add another rm (for _docker_context) to the
+   command passed to [docker run] in volume_create() in cyber-dojo.rb
+   Keeps volumes smaller but clone will still be slow.
+
+
+o) svn export
+   svn export --quiet --trust-server-cert --non-interactive \
+      https://github.com/JonJagger/cyber-dojo-languages.git/trunk try1
+   That works but cant see a way to filter.
+   Maybe
 
 - - - - - - - - - - - - - - - - - - - - -
 
