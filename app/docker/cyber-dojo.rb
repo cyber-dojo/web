@@ -174,7 +174,7 @@ def volume
     '',
     'Commands:',
     minitab + 'create         Creates a new cyber-dojo volume',
-    minitab + 'rm             Removes a cyber-dojo volumea',
+    minitab + 'rm             Removes a cyber-dojo volume',
     minitab + 'ls             Lists the names of all cyber-dojo volumes',
     minitab + 'inspect        Displays details of a cyber-dojo volume',
     minitab + 'pull           Pulls the docker images inside a cyber-dojo volume',

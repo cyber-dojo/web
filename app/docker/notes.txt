@@ -17,6 +17,11 @@ is better as
 
 - - - - - - - - - - - - - - - - - - - - -
 
+$ ./cyber-dojo volume rm NAME
+This fails if the server is up, presumably because the volume is in use.
+
+- - - - - - - - - - - - - - - - - - - - -
+
 Front page - have two buttons for creating a practice session.
 What wording?
   Create an empty practice session
@@ -35,15 +40,6 @@ make the CYBER_DOJO_LANGUAGES_ROOT env-vars point to these in script/dev-server.
 Do that and get tests running locally and inside web container.
 Document which (if any) docker images are required for tests to run.
 Make these small Alpine-based images.
-
-- - - - - - - - - - - - - - - - - - - - -
-
-If I'm building a new default_languages and I ^C I get these two lines...
-^CFAILED [volume create --name=default_languages]
-volume default_languages does not exist.
-I think this is because in cyber-dojo.sh  volume_create()'s
-call to [docker volume ls...] is unchecked.
-If it exits with 0 it then cyber-dojo.sh should exit immediately.
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -161,6 +157,8 @@ So I still need proper nil error handling on the setup pages
 
 Crib
 ruby cyber-dojo.rb volume create --name=abc --git=https://github.com/JonJagger/cyber-dojo-refactoring-exercises.git
+
+ruby ./cyber-dojo.rb volume create --name=default_languages --git=https://github.com/JonJagger/cyber-dojo-languages.git
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -432,5 +430,6 @@ feature: hyperlink of compiler error on output to file and line number
 feature: one one error in C/C++ projects
 
 feature: colour syntax
+
 
 
