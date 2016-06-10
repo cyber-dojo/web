@@ -9,6 +9,20 @@ a local (not inside docker) web server?
 
 - - - - - - - - - - - - - - - - - - - - -
 
+Get scripts/dev_server.sh running again by making X...ROOT env-vars
+point to where the data repos live. Then try out docker_tar_pipe_runner.sh
+mods (above and below) and see if it fixes the warnings.
+
+- - - - - - - - - - - - - - - - - - - - -
+
+How to run local server? Have the 3 git data repos on the local hard disk and
+make the CYBER_DOJO_LANGUAGES_ROOT env-vars point to these in script/dev-server.sh
+Do that and get tests running locally and inside web container.
+Document which (if any) docker images are required for tests to run.
+Make these small Alpine-based images.
+
+- - - - - - - - - - - - - - - - - - - - -
+
 If I'm building a new default_languages and I ^C I get these two lines...
 ^CFAILED [volume create --name=default_languages]
 volume default_languages does not exist.
@@ -115,23 +129,9 @@ Occasional test failures...
 
 - - - - - - - - - - - - - - - - - - - - -
 
-Get scripts/dev_server.sh running again by making X...ROOT env-vars
-point to where the data repos live. Then try out docker_tar_pipe_runner.sh
-mods (above and below) and see if it fixes the warnings.
-
-- - - - - - - - - - - - - - - - - - - - -
-
 Does the Tennis-Ruby exercise still crash the web server?
 $ docker pull cyberdojofoundation/ruby_test_unit
 And try it.
-
-- - - - - - - - - - - - - - - - - - - - -
-
-How to run local server? Have the 3 git data repos on the local hard disk and
-make the CYBER_DOJO_LANGUAGES_ROOT env-vars point to these in script/dev-server.sh
-Do that and get tests running locally and inside web container.
-Document which (if any) docker images are required for tests to run.
-Make these small Alpine-based images.
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -175,11 +175,10 @@ ruby cyber-dojo.rb volume create --name=abc --git=https://github.com/JonJagger/c
      $ ./cyber-dojo volume inspect VOL [VOL...]
        This would do the old catalog listing.
        This should show the origin (URL) of the volume.
-
-     >>>>>>>Dropping submodules. Will that break any tests?
-     Can't see because tests don't run inside web container.
-     Problem with coverage again...
-     Shouldn't if I start with default volumes.
+       Need to make the languages checker work by being
+       passed a path (there are now 2 manifest locations, exercises and languages)
+       Then [volume inspect] call with then do
+         docker run --rm -v THE-VOL sh -c "path/to/languages/checker.rb"
 
      What should volume manifest.json file contain?
         type: languages/exercises/instructions
@@ -227,7 +226,7 @@ ruby cyber-dojo.rb volume create --name=abc --git=https://github.com/JonJagger/c
 - - - - - - - - - - - - - - - - - - - - -
 
 )) get latest image running on GCE
-   Done with hacked cyber-dojo script file that does not extract docker-compose.yml file
+   Did it with hacked cyber-dojo script file that does not extract docker-compose.yml file
    from web container and mounts katas as a volume rather than a data-container.
    Had to make sure katas folder had user-rights matching user inside the web container.
    $ userdel cyber-dojo
