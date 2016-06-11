@@ -59,4 +59,5 @@ script:
     - cid=`docker ps --all --quiet --filter "name=cdf-web"`
     - echo ${cid}
     - sleep 5
+    - docker ps -a
     - docker --debug exec ${cid} sh -c "cd test && ./run.sh"
