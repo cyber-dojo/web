@@ -25,7 +25,6 @@ before_install:
     - apt-cache madison docker-engine
 
     # upgrade docker-engine to specific version
-    - sudo apt-get -qq update
     - sudo apt-get -o Dpkg::Options::="--force-confnew" install -y docker-engine=${DOCKER_ENGINE_VERSION}-0~trusty
 
     # reinstall docker-compose at specific version
@@ -57,8 +56,8 @@ script:
     - cd ${APP_DOCKER_DIR}
     - ./cyber-dojo up
     - cid=`docker ps --all --quiet --filter "name=cdf-web"`
-    - echo ${cid}
-    - sleep 5
-    - docker ps -a
     - docker logs cdf-web
-    - docker --debug exec ${cid} sh -c "cd test && ./run.sh"
+    - docker inspect -f {{.State.Running}} ${cid}
+    - docker ps -a
+   #- docker --debug exec ${cid} sh -c "cd test && ./run.sh"
+    - docker         exec ${cid} sh -c "cd test && ./run.sh"

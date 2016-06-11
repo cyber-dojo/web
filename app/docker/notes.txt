@@ -24,6 +24,7 @@ Error response from daemon: Container d51548afc9eba0143f6d3947c6d909338f53f4cd48
 $ docker logs web-cdf
 --->Could not find rake-11.1.2 in any of the sources (Bundler::GemNotFound)
 Progress!
+Problem was Gemfile.lock. Need to ensure it is not inside web's docker context.
 
 - - - - - - - - - - - - - - - - - - - - -
 

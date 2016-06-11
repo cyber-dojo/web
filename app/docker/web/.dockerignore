@@ -25,9 +25,8 @@ app/downloads/*
 
 #-----!Except these files
 
-# {bundle install} in web's Dockerfile (inside Travis pipeline) needs these
+# {bundle install} in web's Dockerfile (inside Travis pipeline) needs this
 !Gemfile
-#!Gemfile.lock
 
 # {rails server} in web's docker-compose.yml needs this
 !config.ru
