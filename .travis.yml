@@ -26,9 +26,6 @@ before_install:
 
     # upgrade docker-engine to specific version
     - sudo apt-get -qq update
-    - openssl version -a
-    - sudo apt-get install -y openssl
-    - openssl version -a
     - sudo apt-get -o Dpkg::Options::="--force-confnew" install -y docker-engine=${DOCKER_ENGINE_VERSION}-0~trusty
 
     # reinstall docker-compose at specific version
@@ -61,4 +58,5 @@ script:
     - ./cyber-dojo up
     - cid=`docker ps --all --quiet --filter "name=cdf-web"`
     - echo ${cid}
+    - sleep 5
     - docker --debug exec ${cid} sh -c "cd test && ./run.sh"
