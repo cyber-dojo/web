@@ -48,4 +48,5 @@ script:
     - cd ${APP_DOCKER_DIR}
     - ./cyber-dojo up
     - cid=`docker ps --all --quiet --filter "name=cdf-web"`
+    - echo ${cid}
     - docker exec ${cid} sh -c "cd test && ./run.sh"
