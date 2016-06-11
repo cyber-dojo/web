@@ -60,4 +60,5 @@ script:
     - echo ${cid}
     - sleep 5
     - docker ps -a
+    - docker logs cdf-web
     - docker --debug exec ${cid} sh -c "cd test && ./run.sh"
