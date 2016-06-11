@@ -10,7 +10,7 @@ script:
 
 env:
     global:
-        - DOCKER_ENGINE_VERSION=1.11.1
+        - DOCKER_ENGINE_VERSION=1.11.2
         - DOCKER_COMPOSE_VERSION=1.7.0
         - DOCKER_MACHINE_VERSION=0.6.0
         - APP_DOCKER_DIR=${TRAVIS_BUILD_DIR}/app/docker
@@ -20,7 +20,9 @@ before_install:
     - apt-cache madison docker-engine
 
     # upgrade docker-engine to specific version
+    - sudo service docker stop
     - sudo apt-get -o Dpkg::Options::="--force-confnew" install -y docker-engine=${DOCKER_ENGINE_VERSION}-0~trusty
+    - sudo service docker start
 
     # reinstall docker-compose at specific version
     - sudo rm /usr/local/bin/docker-compose
