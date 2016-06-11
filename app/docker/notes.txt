@@ -1,25 +1,22 @@
 
 - - - - - - - - - - - - - - - - - - - - -
 
+Get scripts/dev_server.sh running again by making X...ROOT env-vars
+point to where the data repos live. Then try out docker_tar_pipe_runner.sh
+mods (above and below) and see if it fixes the warnings.
+Have the 3 git data repos on the local hard disk and make the
+CYBER_DOJO_LANGUAGES_ROOT env-vars point to these in script/dev-server.sh
+Document which (if any) docker images are required for tests to run.
+Make these small Alpine-based images.
+
+- - - - - - - - - - - - - - - - - - - - -
+
 Now that data is externalized I can arrange for it to
 always be at the same locations inside the web container!
 I don't need CYBER_DOJO_EXERCISES_ROOT et al.
 But it is worth keeping them anyway for setting up
 a local (not inside docker) web server?
-
-- - - - - - - - - - - - - - - - - - - - -
-
-Get scripts/dev_server.sh running again by making X...ROOT env-vars
-point to where the data repos live. Then try out docker_tar_pipe_runner.sh
-mods (above and below) and see if it fixes the warnings.
-
-- - - - - - - - - - - - - - - - - - - - -
-
-How to run local server? Have the 3 git data repos on the local hard disk and
-make the CYBER_DOJO_LANGUAGES_ROOT env-vars point to these in script/dev-server.sh
-Do that and get tests running locally and inside web container.
-Document which (if any) docker images are required for tests to run.
-Make these small Alpine-based images.
+No I don't need them for that either.
 
 - - - - - - - - - - - - - - - - - - - - -
 
