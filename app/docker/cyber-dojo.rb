@@ -433,7 +433,13 @@ def volume_rm
   end
 
   exit_unless_is_cyber_dojo_volume(vol, 'rm')
+
   silent_run "docker volume rm #{vol}"
+  if $?.exitstatus != 0
+    puts "FAILED [volume rm #{vol}] can't remove volume if it's in use"
+    exit 1
+  end
+
 end
 
 # - - - - - - - - - - - - - - -
