@@ -1,6 +1,18 @@
 
 - - - - - - - - - - - - - - - - - - - - -
 
+travis.yml run is failing with error from very last [docker run]
+command to run the tests..
+   'rpc error: code = 2 desc = oci runtime error'
+Searching finds this.
+https://github.com/docker/docker/issues/22648
+Which mentions a zombie process eating all the cpu. Sounds familiar.
+And this
+https://github.com/docker/docker/issues/22650
+which mentions bug in aufs kernel
+
+- - - - - - - - - - - - - - - - - - - - -
+
 $ ./cyber-dojo volume rm NAME
 This fails if the server is up, presumably because the volume is in use.
 

@@ -16,6 +16,11 @@ env:
         - APP_DOCKER_DIR=${TRAVIS_BUILD_DIR}/app/docker
 
 before_install:
+    # what am I on?
+    - uname -a
+    - uname -r
+    - lsb_release -a
+
     # list docker-engine versions
     - apt-cache madison docker-engine
 
@@ -34,6 +39,8 @@ before_install:
     - chmod +x docker-machine
     - sudo mv docker-machine /usr/local/bin
 
+    # smoke test
+    - sudo docker run hello-world
 
 script:
     - docker version
