@@ -39,7 +39,7 @@ before_install:
     - sudo mv docker-machine /usr/local/bin
 
     # smoke test
-    - sudo docker run hello-world
+    - sudo docker --rm run hello-world
 
 script:
     - docker version
