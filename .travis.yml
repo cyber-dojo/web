@@ -10,8 +10,7 @@ script:
 
 env:
     global:
-        #- DOCKER_ENGINE_VERSION=1.11.2
-        - DOCKER_ENGINE_VERSION=1.10.3
+        - DOCKER_ENGINE_VERSION=1.11.1
         - DOCKER_COMPOSE_VERSION=1.7.0
         - DOCKER_MACHINE_VERSION=0.6.0
         - APP_DOCKER_DIR=${TRAVIS_BUILD_DIR}/app/docker
@@ -50,4 +49,4 @@ script:
     - ./cyber-dojo up
     - cid=`docker ps --all --quiet --filter "name=cdf-web"`
     - echo ${cid}
-    - docker exec ${cid} sh -c "cd test && ./run.sh"
+    - docker --debug exec ${cid} sh -c "cd test && ./run.sh"
