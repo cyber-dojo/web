@@ -6,6 +6,7 @@ class LanguagesManifestsTests < LanguagesTestBase
 
   test 'F6B9D6',
   'no known flaws in Dockerfiles of each base language/' do
+    skip "Dockerfiles moved into dedicated github repo"
     Dir.glob("#{languages.path}/*/").sort.each do |dir|
       check_Dockerfile(dir)
     end
@@ -15,6 +16,7 @@ class LanguagesManifestsTests < LanguagesTestBase
 
   test 'B892AA',
   'no known flaws in Dockerfiles of each language/test/' do
+    skip "Dockerfiles moved into dedicated github repo"
     manifests.each do |filename|
       dir = File.dirname(filename)
       check_Dockerfile(dir)
