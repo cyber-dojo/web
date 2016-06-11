@@ -10,7 +10,7 @@ script:
 
 env:
     global:
-        - DOCKER_ENGINE_VERSION=1.11.3
+        - DOCKER_ENGINE_VERSION=1.11.2
         - DOCKER_COMPOSE_VERSION=1.7.1
         - DOCKER_MACHINE_VERSION=0.7.0
         - APP_DOCKER_DIR=${TRAVIS_BUILD_DIR}/app/docker
