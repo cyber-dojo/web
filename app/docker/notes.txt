@@ -10,6 +10,18 @@ Which mentions a zombie process eating all the cpu. Sounds familiar.
 And this
 https://github.com/docker/docker/issues/22650
 which mentions bug in aufs kernel
+See
+https://github.com/docker/docker/issues/18180#issuecomment-187583209
+Which says on 14.04 you need kernel 3.13.0-79.123 or later
+But $uname -r
+Says
+3.19.0-30-generic
+--debug option on final [docker exec] says
+DEBU[0000] framesize: 60
+rpc error: code = 2 desc = "containerd: container not found"DEBU[0000] Corrupted prefix: []
+DEBU[0000] [hijack] End of stdout
+Error response from daemon: Container d51548afc9eba0143f6d3947c6d909338f53f4cd48779664b11ba22b8df6fb20 is not running: Exited (1) Less than a second ago
+
 
 - - - - - - - - - - - - - - - - - - - - -
 
