@@ -1,0 +1,18 @@
+
+<script type="text/javascript"><!--
+
+$(function() {
+
+  $('#create-bare-session-button').click(function() {
+    cd.dialog_ie(function() {
+      var id = "<%= @id %>";
+      var url = '/setup/show_languages/' + id;
+      window.location = url;
+    });
+  });
+
+});
+
+//--></script>
+
+<button type="button" id="create-bare-session-button">create a bare practice session</button>

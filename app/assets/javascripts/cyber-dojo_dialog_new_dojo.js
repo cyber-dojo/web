@@ -13,7 +13,7 @@ var cyberDojo = (function(cd, $) {
     var html = '' +
       "<div class='align-center'>" +
         "<div style='font-size:1.0em;'>" +
-          'your new id is' +
+          "it's id is" +
         '</div>' +
         "<div class='avatar-background'>" +
           "<span class='centerer'></span>" +
@@ -26,7 +26,7 @@ var cyberDojo = (function(cd, $) {
     $('<div>')
       .html(html)
       .dialog({
-        title: cd.dialogTitle('create&nbsp;a&nbsp;practice&nbsp;session'),
+        title: cd.dialogTitle('new&nbsp;practice&nbsp;session&nbsp;created'),
         autoOpen: true,
         modal: true,
         width: 435,
