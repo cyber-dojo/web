@@ -1,6 +1,11 @@
 
 - - - - - - - - - - - - - - - - - - - - -
 
+$ ./cyber-dojo volume rm NAME
+This fails if the server is up, presumably because the volume is in use.
+
+- - - - - - - - - - - - - - - - - - - - -
+
 Now that data is externalized I can arrange for it to
 always be at the same locations inside the web container!
 I don't need CYBER_DOJO_EXERCISES_ROOT et al.
@@ -14,11 +19,6 @@ dialog for [create practice session]
 is better as
            [new practice session created]
                 its id is
-
-- - - - - - - - - - - - - - - - - - - - -
-
-$ ./cyber-dojo volume rm NAME
-This fails if the server is up, presumably because the volume is in use.
 
 - - - - - - - - - - - - - - - - - - - - -
 
