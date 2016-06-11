@@ -21,7 +21,9 @@ DEBU[0000] framesize: 60
 rpc error: code = 2 desc = "containerd: container not found"DEBU[0000] Corrupted prefix: []
 DEBU[0000] [hijack] End of stdout
 Error response from daemon: Container d51548afc9eba0143f6d3947c6d909338f53f4cd48779664b11ba22b8df6fb20 is not running: Exited (1) Less than a second ago
-
+$ docker logs web-cdf
+--->Could not find rake-11.1.2 in any of the sources (Bundler::GemNotFound)
+Progress!
 
 - - - - - - - - - - - - - - - - - - - - -
 
