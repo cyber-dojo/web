@@ -1,33 +1,6 @@
 
 - - - - - - - - - - - - - - - - - - - - -
 
-travis.yml run is failing with error from very last [docker run]
-command to run the tests..
-   'rpc error: code = 2 desc = oci runtime error'
-Searching finds this.
-https://github.com/docker/docker/issues/22648
-Which mentions a zombie process eating all the cpu. Sounds familiar.
-And this
-https://github.com/docker/docker/issues/22650
-which mentions bug in aufs kernel
-See
-https://github.com/docker/docker/issues/18180#issuecomment-187583209
-Which says on 14.04 you need kernel 3.13.0-79.123 or later
-But $uname -r
-Says
-3.19.0-30-generic
---debug option on final [docker exec] says
-DEBU[0000] framesize: 60
-rpc error: code = 2 desc = "containerd: container not found"DEBU[0000] Corrupted prefix: []
-DEBU[0000] [hijack] End of stdout
-Error response from daemon: Container d51548afc9eba0143f6d3947c6d909338f53f4cd48779664b11ba22b8df6fb20 is not running: Exited (1) Less than a second ago
-$ docker logs web-cdf
---->Could not find rake-11.1.2 in any of the sources (Bundler::GemNotFound)
-Progress!
-Problem was Gemfile.lock. Need to ensure it is not inside web's docker context.
-
-- - - - - - - - - - - - - - - - - - - - -
-
 $ ./cyber-dojo volume rm NAME
 This fails if the server is up, presumably because the volume is in use.
 
@@ -38,14 +11,6 @@ always be at the same locations inside the web container!
 I don't need CYBER_DOJO_EXERCISES_ROOT et al.
 But it is worth keeping them anyway for setting up
 a local (not inside docker) web server?
-
-- - - - - - - - - - - - - - - - - - - - -
-
-dialog for [create practice session]
-                new your new id is
-is better as
-           [new practice session created]
-                its id is
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -65,9 +30,6 @@ Make these small Alpine-based images.
 
 Looking to make some smaller alpine-linux language images.
 Specifically, C#-NUnit and Java-JUnit
-This will allow me to [docker pull] them both before running travis tests
-which hopefully will give me all tests passing.
-In fact, I should be able to get away with just Java-JUnit if I tweak the test.
 
 Java
 frolvlad/alpine-oraclejdk8:slim
@@ -131,11 +93,6 @@ Crib
 ruby cyber-dojo.rb volume create --name=abc --git=https://github.com/JonJagger/cyber-dojo-refactoring-exercises.git
 
 ruby ./cyber-dojo.rb volume create --name=default_languages --git=https://github.com/JonJagger/cyber-dojo-languages.git
-
-- - - - - - - - - - - - - - - - - - - - -
-
-)) Does the rails log folder needs to be volume-mounted so if the server
-   goes down I can inspect the rails log file?
 
 - - - - - - - - - - - - - - - - - - - - -
 
