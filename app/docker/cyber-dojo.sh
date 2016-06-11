@@ -184,23 +184,23 @@ cyber_dojo_up() {
   done
 
   # create default volumes if necessary
-  local github_jon_jagger='https://github.com/JonJagger'
+  local github_cyber_dojo='https://github.com/cyber-dojo'
 
   if [ "${CYBER_DOJO_LANGUAGES_VOLUME}" = "${default_languages_volume}" ]; then
     if ! volume_exists ${default_languages_volume}; then
-      volume_create ${default_languages_volume} "${github_jon_jagger}/cyber-dojo-languages.git"
+      volume_create ${default_languages_volume} "${github_cyber_dojo}/default-languages.git"
     fi
   fi
 
   if [ "${CYBER_DOJO_EXERCISES_VOLUME}" = "${default_exercises_volume}" ]; then
     if ! volume_exists ${default_exercises_volume}; then
-      volume_create ${default_exercises_volume} "${github_jon_jagger}/cyber-dojo-refactoring-exercises.git"
+      volume_create ${default_exercises_volume} "${github_cyber_dojo}/default-exercises.git"
     fi
   fi
 
   if [ "${CYBER_DOJO_INSTRUCTIONS_VOLUME}" = "${default_instructions_volume}" ]; then
     if ! volume_exists ${default_instructions_volume}; then
-      volume_create ${default_instructions_volume} "${github_jon_jagger}/cyber-dojo-instructions.git"
+      volume_create ${default_instructions_volume} "${github_cyber_dojo}/default-instructions.git"
     fi
   fi
 
