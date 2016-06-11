@@ -361,6 +361,9 @@ def volume_create
   ].join(" && ")
   raising_run "docker run --rm -v #{vol}:/data #{cyber_dojo_hub}/user-base sh -c #{command}"
 
+  # TODO: do ALL verification that volume adheres to specification inside
+  #       a check function inside main web server container.
+
   # get its volume.json if it has one
   command = quoted "cat /data/volume.json"
   output = raising_run "docker run --rm -v #{vol}:/data #{cyber_dojo_hub}/user-base sh -c #{command}", {
