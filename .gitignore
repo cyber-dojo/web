@@ -24,5 +24,4 @@ coverage
 /.dockerignore
 
 /caches/*
-
-/data/*
+/katas/*
