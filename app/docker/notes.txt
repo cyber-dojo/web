@@ -21,7 +21,6 @@ These can all be off APP_ROOT and they can all have their own readme.txt
   katas/
   data/
 
-
 - - - - - - - - - - - - - - - - - - - - -
 
 lib/HostDir.read_json needs exception test (message includes dir path)
