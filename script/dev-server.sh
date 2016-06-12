@@ -10,8 +10,9 @@
 
 MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 
-CACHES_DIR=${MY_DIR}/../caches
-rm ${CACHES_DIR}/*.json
+ROOT_DIR=${MY_DIR}/..
+
+rm ${ROOT_DIR}/caches/*.json
 
 REPO_ROOT=${1:-/Users/jonjagger/repos}
 
@@ -19,7 +20,7 @@ export CYBER_DOJO_LANGUAGES_ROOT=${REPO_ROOT}/default-languages
 export CYBER_DOJO_EXERCISES_ROOT=${REPO_ROOT}/default-exercises
 export CYBER_DOJO_INSTRUCTIONS_ROOT=${REPO_ROOT}/default-instructions
 
-export CYBER_DOJO_KATAS_ROOT=${MY_DIR}/../katas
+export CYBER_DOJO_KATAS_ROOT=${ROOT_DIR}/katas
 
 export CYBER_DOJO_SHELL_CLASS=HostShell
 export CYBER_DOJO_DISK_CLASS=HostDisk
