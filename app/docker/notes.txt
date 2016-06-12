@@ -1,7 +1,4 @@
 
-app/data    DROP
-app/katas   DROP
-
 Now that data is externalized I can arrange for it to
 always be at the same locations inside the web container!
 I don't need CYBER_DOJO_EXERCISES_ROOT et al.
