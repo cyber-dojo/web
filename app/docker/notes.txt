@@ -12,7 +12,19 @@ Remove a volume
 
 - - - - - - - - - - - - - - - - - - - - -
 
-app/caches should really be data/caches
+caches_dir needs to be ENV_VAR
+Its used in app_controllers/setup_test.rb
+
+These can all be off APP_ROOT and they can all have their own readme.txt
+  caches/
+  downloads/
+  katas/
+  data/
+
+
+- - - - - - - - - - - - - - - - - - - - -
+
+lib/HostDir.read_json needs exception test (message includes dir path)
 
 - - - - - - - - - - - - - - - - - - - - -
 

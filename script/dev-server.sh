@@ -2,13 +2,16 @@
 
 # Run's a local rails-server.
 # Assumes
-# o) bundle install has run
 # o) docker is installed
+# o) bundle install has run
 # o) some language-images have been pulled.
-# o) app/caches has been cleared out
 # o) current user can run docker commands without sudo
 
+
 MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
+
+CACHES_DIR=${MY_DIR}/../caches
+rm ${CACHES_DIR}/*.json
 
 REPO_ROOT=${1:-/Users/jonjagger/repos}
 
