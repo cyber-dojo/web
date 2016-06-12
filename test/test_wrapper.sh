@@ -46,12 +46,14 @@ HOME_DIR="$( cd "$( dirname "${0}" )/.." && pwd )"
 
 export CYBER_DOJO_LOG_CLASS=MemoryLog
 
-VAR=${CYBER_DOJO_LANGUAGES_ROOT:-${HOME_DIR}/app/data/languages}
+# Assumes repos for default-languages et all are sibling folders
+VAR=${CYBER_DOJO_LANGUAGES_ROOT:-${HOME_DIR}/../default_languages}
 export CYBER_DOJO_LANGUAGES_ROOT=${VAR}
-VAR=${CYBER_DOJO_EXERCISES_ROOT:-${HOME_DIR}/app/data/exercises}
+VAR=${CYBER_DOJO_EXERCISES_ROOT:-${HOME_DIR}/../default-exercises}
 export CYBER_DOJO_EXERCISES_ROOT=${VAR}
-VAR=${CYBER_DOJO_INSTRUCTIONS_ROOT:-${HOME_DIR}/app/data/instructions}
+VAR=${CYBER_DOJO_INSTRUCTIONS_ROOT:-${HOME_DIR}/../default-instructions}
 export CYBER_DOJO_INSTRUCTIONS_ROOT=${VAR}
+
 VAR=${CYBER_DOJO_KATAS_CLASS:-HostDiskKatas}
 export CYBER_DOJO_KATAS_CLASS=${VAR}
 VAR=${CYBER_DOJO_SHELL_CLASS:-HostShell}
@@ -59,6 +61,7 @@ export CYBER_DOJO_SHELL_CLASS=${VAR}
 VAR=${CYBER_DOJO_DISK_CLASS:-HostDisk}
 export CYBER_DOJO_DISK_CLASS=${VAR}
 VAR=${CYBER_DOJO_GIT_CLASS:-HostGit}
+
 export CYBER_DOJO_GIT_CLASS=${VAR}
 VAR=${CYBER_DOJO_RUNNER_TIMEOUT:=10}
 export CYBER_DOJO_RUNNER_TIMEOUT=${VAR}

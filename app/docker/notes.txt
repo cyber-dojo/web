@@ -19,7 +19,9 @@ These can all be off RAILS_ROOT and they can all have their own readme.txt
 CYBER_DOJO_DATA_ROOT
  can be anywhere inside web server, docker-compose.yml should just work
   as it volume-mounts to data-root automatically.
- points to fata-repos on local server
+ points to data-repos on local server
+
+get tests running and passing on local server first?
 
 - - - - - - - - - - - - - - - - - - - - -
 
