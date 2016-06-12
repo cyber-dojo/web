@@ -100,6 +100,3 @@ DEPENDENCIES
   sass-rails (~> 4.0.3)
   simplecov (>= 0.9.0)
   uuidtools (>= 2.1.5)
-
-BUNDLED WITH
-   1.10.5

@@ -1,4 +1,21 @@
 
+./cyber-dojo clean
+Not working... Gives
+docker: "rmi" requires a minimum of 1 argument.
+See 'docker rmi --help'.
+Usage:	docker rmi [OPTIONS] IMAGE [IMAGE...]
+Remove one or more images
+docker: "volume rm" requires a minimum of 1 argument.
+See 'docker volume rm --help'.
+Usage:	docker volume rm [OPTIONS] VOLUME [VOLUME...]
+Remove a volume
+
+- - - - - - - - - - - - - - - - - - - - -
+
+app/caches should really be data/caches
+
+- - - - - - - - - - - - - - - - - - - - -
+
 Get scripts/dev_server.sh running again by making X...ROOT env-vars
 point to where the data repos live. Then try out docker_tar_pipe_runner.sh
 mods (above and below) and see if it fixes the warnings.
