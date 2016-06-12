@@ -209,9 +209,9 @@ end
 
 def volume_exists?(name)
   # careful to not match substring
-  space = ' '
+  start_of_line = '^'
   end_of_line = '$'
-  pattern = "#{space}#{name}#{end_of_line}"
+  pattern = "#{start_of_line}#{name}#{end_of_line}"
   run("docker volume ls --quiet | grep '#{pattern}'").include? name
 end
 
