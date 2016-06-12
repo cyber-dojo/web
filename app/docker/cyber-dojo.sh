@@ -131,9 +131,10 @@ volume_create() {
 
 volume_exists() {
   # careful to not match substring
-  local space=' '
+  local start_of_line='^'
+  local name=$1
   local end_of_line='$'
-  docker volume ls | grep --silent "${space}${1}${end_of_line}"
+  docker volume ls --quiet | grep --silent "${start_of_line}${name}${end_of_line}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
