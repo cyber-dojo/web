@@ -21,8 +21,8 @@
 !caches
 caches/*
 
-!app/downloads
-app/downloads/*
+!downloads
+downloads/*
 
 #-----!Except these files
 

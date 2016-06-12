@@ -6,9 +6,9 @@ class DownloaderController < ApplicationController
     raise "sorry can't do that" if katas[id].nil?
 
     cd_cmd = "cd #{katas.path}"
-    tar_cmd = "tar -zcf ../app/downloads/#{id}.tgz #{outer(id)}/#{inner(id)}"
+    tar_cmd = "tar -zcf ../downloads/#{id}.tgz #{outer(id)}/#{inner(id)}"
     system(cd_cmd + ' && ' + tar_cmd)
-    tar_filename = "#{katas.path}/../app/downloads/#{id}.tgz"
+    tar_filename = "#{katas.path}/../downloads/#{id}.tgz"
     send_file tar_filename
     # would like to delete this tar file
     # but download tests untar them to verify
