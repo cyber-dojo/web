@@ -6,6 +6,9 @@
 require 'json'
 require 'tempfile'
 
+$debug_mode = false
+$exit_status = 0
+
 def me; 'cyber-dojo'; end
 
 def my_dir; File.expand_path(File.dirname(__FILE__)); end
@@ -18,13 +21,14 @@ def tab; space * 4; end
 
 def minitab; space * 2; end
 
-def silent_run(command); `#{command} 2>&1`; end
-
 def show(lines); lines.each { |line| puts line }; end
 
 def run(command)
-  puts command
-  silent_run(command)
+  puts command if $debug_mode
+  output = `#{command}`
+  $exit_status = $?.exitstatus
+  puts output if $debug_mode
+  output
 end
 
 def json_parse(s)
@@ -208,11 +212,11 @@ def volume_exists?(name)
   space = ' '
   end_of_line = '$'
   pattern = "#{space}#{name}#{end_of_line}"
-  silent_run("docker volume ls --quiet | grep #{pattern}").include? name
+  run("docker volume ls --quiet | grep '#{pattern}'").include? name
 end
 
 def cyber_dojo_inspect(vol)
-  info = silent_run("docker volume inspect #{vol}")
+  info = run("docker volume inspect #{vol}")
   JSON.parse(info)[0]
 end
 
@@ -227,7 +231,7 @@ end
 
 def cyber_dojo_manifest(vol)
   command = quoted "cat /data/volume.json"
-  JSON.parse(silent_run "docker run --rm -v #{vol}:/data #{cyber_dojo_hub}/user-base sh -c #{command}")
+  JSON.parse(run "docker run --rm -v #{vol}:/data #{cyber_dojo_hub}/user-base sh -c #{command}")
 end
 
 def cyber_dojo_type(vol)
@@ -266,16 +270,16 @@ class VolumeCreateFailed < Exception
 
     unless self[:cidfile].nil?
       cid = IO.read self[:cidfile]
-      silent_run "docker rm --force #{cid}"
+      run "docker rm --force #{cid}"
     end
 
     unless self[:rm] === false
       # Sometimes there appears to be a background process which ends
       # after a few seconds and only then can you remove the volume?!
-      silent_run "docker volume rm #{vol}"
-      if $?.exitstatus != 0
+      run "docker volume rm #{vol}"
+      if $exit_status != 0
         sleep 2
-        silent_run "docker volume rm #{vol}"
+        run "docker volume rm #{vol}"
       end
     end
 
@@ -299,10 +303,10 @@ def raising_run(command, hash = {})
   end
   output = ''
   begin
-    output = silent_run command
-    if $?.exitstatus != 0
+    output = run command
+    if $exit_status != 0
       hash[:command] = command
-      hash[:exit_status] = $?.exitstatus
+      hash[:exit_status] = $exit_status
       hash[:output] = output
       raise VolumeCreateFailed.new(hash)
     end
@@ -434,8 +438,8 @@ def volume_rm
 
   exit_unless_is_cyber_dojo_volume(vol, 'rm')
 
-  silent_run "docker volume rm #{vol}"
-  if $?.exitstatus != 0
+  run "docker volume rm #{vol}"
+  if $exit_status != 0
     puts "FAILED [volume rm #{vol}] can't remove volume if it's in use"
     exit 1
   end
@@ -463,7 +467,7 @@ def volume_ls
   # https://github.com/docker/docker/pull/21567
   # So I have to inspect all volumes. Could be slow if lots of volumes.
 
-  volumes = silent_run("docker volume ls --quiet").split
+  volumes = run("docker volume ls --quiet").split
   volumes = volumes.select{ |volume| cyber_dojo_volume?(volume) }
 
   if ARGV[2] == '--quiet'
@@ -726,7 +730,7 @@ end
 def help
   puts [
     '',
-    "Use: #{me} COMMAND",
+    "Use: #{me} [--debug] COMMAND",
     "     #{me} --help",
     '',
     'Commands:',
@@ -750,6 +754,11 @@ def help
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+if ARGV[0] == '--debug'
+  $debug_mode = true
+  ARGV.shift
+end
 
 case ARGV[0]
   when nil       then help

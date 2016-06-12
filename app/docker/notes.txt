@@ -1,6 +1,11 @@
 
 - - - - - - - - - - - - - - - - - - - - -
 
+Add --debug/--verbose option to cyber-dojo script.
+Use it to select silent_run() or run()
+
+- - - - - - - - - - - - - - - - - - - - -
+
 Get scripts/dev_server.sh running again by making X...ROOT env-vars
 point to where the data repos live. Then try out docker_tar_pipe_runner.sh
 mods (above and below) and see if it fixes the warnings.
