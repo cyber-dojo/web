@@ -25,10 +25,6 @@ get tests running and passing on local server first?
 
 - - - - - - - - - - - - - - - - - - - - -
 
-lib/HostDir.read_json needs exception test (message includes dir path)
-
-- - - - - - - - - - - - - - - - - - - - -
-
 Looking to make some smaller alpine-linux language images.
 Specifically, C#-NUnit and Java-JUnit
 

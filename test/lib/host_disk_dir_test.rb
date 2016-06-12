@@ -83,10 +83,21 @@ class HostDiskDirTest < LibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  def assert_raises_with_message(exception, msg, &block)
+    block.call
+  rescue exception => e
+      assert_equal msg, e.message
+  else
+      raise "Expected to raise #{exception} w/ message #{msg}, none raised"
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '601891',
   'read_json(filename) raises RuntimeError when filename is empty' do
     dir.write(filename='601891.json', empty='')
-    assert_raises(RuntimeError) { dir.read_json(filename)}
+    expected_message = "HostDir(#{path}/).read_json(#{filename}) - empty file"
+    assert_raises_with_message(RuntimeError, expected_message) { dir.read_json(filename) }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
