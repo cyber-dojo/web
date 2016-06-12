@@ -1,21 +1,9 @@
 
-./cyber-dojo clean
-Not working... Gives
-docker: "rmi" requires a minimum of 1 argument.
-See 'docker rmi --help'.
-Usage:	docker rmi [OPTIONS] IMAGE [IMAGE...]
-Remove one or more images
-docker: "volume rm" requires a minimum of 1 argument.
-See 'docker volume rm --help'.
-Usage:	docker volume rm [OPTIONS] VOLUME [VOLUME...]
-Remove a volume
-
-- - - - - - - - - - - - - - - - - - - - -
-
 caches_dir needs to be ENV_VAR
 Its used in app_controllers/setup_test.rb
+Or rather a ROOT_DIR is needed. Really its RAILS_ROOT
 
-These can all be off APP_ROOT and they can all have their own readme.txt
+These can all be off RAILS_ROOT and they can all have their own readme.txt
   caches/
   downloads/
   katas/

@@ -41,25 +41,6 @@ def json_parse(s)
 end
 
 #=========================================================================================
-# clean
-#=========================================================================================
-
-def clean
-  help = [
-    '',
-    "Use: #{me} clean",
-    '',
-    'Removes all dangling docker images and volumes',
-  ]
-  if ['help','--help'].include? ARGV[1]
-    show help
-    exit 1
-  end
-  run "docker images --quiet --filter='dangling=true' | xargs docker rmi --force"
-  run "docker volume ls --quiet --filter='dangling=true' | xargs docker volume rm"
-end
-
-#=========================================================================================
 # down
 #=========================================================================================
 
@@ -734,7 +715,6 @@ def help
     "     #{me} --help",
     '',
     'Commands:',
-    tab + 'clean     Removes dangling docker images and volumes',
     tab + 'down      Brings down the server',
     tab + 'logs      Fetch the logs from the server',
     tab + 'pull      Pulls a docker image',
@@ -764,7 +744,6 @@ case ARGV[0]
   when nil       then help
   when '--help'  then help
   when 'help'    then help
-  when 'clean'   then clean
   when 'down'    then down
   when 'logs'    then logs
   when 'pull'    then pull
