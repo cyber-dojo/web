@@ -1,4 +1,11 @@
 
+Now that data is externalized I can arrange for it to
+always be at the same locations inside the web container!
+I don't need CYBER_DOJO_EXERCISES_ROOT et al.
+But it is worth keeping them anyway for setting up
+a local (not inside docker) web server?
+No I don't need them for that either.
+
 caches_dir needs to be ENV_VAR
 Its used in app_controllers/setup_test.rb
 Or rather a ROOT_DIR is needed. Really its RAILS_ROOT
@@ -9,18 +16,14 @@ These can all be off RAILS_ROOT and they can all have their own readme.txt
   katas/
   data/
 
+CYBER_DOJO_DATA_ROOT
+ can be anywhere inside web server, docker-compose.yml should just work
+  as it volume-mounts to data-root automatically.
+ points to fata-repos on local server
+
 - - - - - - - - - - - - - - - - - - - - -
 
 lib/HostDir.read_json needs exception test (message includes dir path)
-
-- - - - - - - - - - - - - - - - - - - - -
-
-Now that data is externalized I can arrange for it to
-always be at the same locations inside the web container!
-I don't need CYBER_DOJO_EXERCISES_ROOT et al.
-But it is worth keeping them anyway for setting up
-a local (not inside docker) web server?
-No I don't need them for that either.
 
 - - - - - - - - - - - - - - - - - - - - -
 
