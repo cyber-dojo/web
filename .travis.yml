@@ -59,5 +59,4 @@ script:
     - docker inspect -f {{.State.Running}} ${cid}
     - docker ps -a
    #- docker --debug exec ${cid} sh -c "cd test && ./run.sh"
-   #- docker         exec ${cid} sh -c "cd test && ./run.sh"
-    - docker exec ${cid} sh -c "ls -al"
+    - docker         exec ${cid} sh -c "cd test && ./run.sh"
