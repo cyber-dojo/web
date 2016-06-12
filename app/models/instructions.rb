@@ -33,11 +33,14 @@ class Instructions
   end
 
   def make_cache
-    # TODO: use disk[path].rdir globbing
-    #       this will impact instruction{path,name}
     cache = {}
     disk[path].each_dir do |dir_name|
-      cache[dir_name] = { text: make(dir_name).text }
+      # .git dir is stripped out if running on web server
+      # with named data volumes from [./cyber-dojo volume create...]
+      # but .git dir is not stripped out if running on local server
+      if dir_name != '.git'
+        cache[dir_name] = { text: make(dir_name).text }
+      end
     end
     cache
   end

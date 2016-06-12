@@ -74,7 +74,7 @@ class HostDir
     fail RuntimeError.new("#{filename} doesn't end in .json") unless filename.end_with? '.json'
     content = read(filename)
     if content.empty?
-      message = "#{self.class.name}.read_json(#{filename}) - empty file"
+      message = "#{self.class.name}(#{path}).read_json(#{filename}) - empty file"
       fail RuntimeError.new(message)
     end
     JSON.parse(content)
