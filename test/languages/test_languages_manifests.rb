@@ -20,7 +20,7 @@ class CyberDojoVolumeChecker
   def all_manifests_have_a_unique_image_name?
     image_names = {}
     manifest_filenames.each do |filename|
-      manifest = JSON.parse(IO.read(filename)) # TODO: put rescue around this
+      manifest = json_parse(filename)
       image_name = manifest['image_name']
       image_names[image_name] ||= []
       image_names[image_name] << filename
@@ -34,14 +34,35 @@ class CyberDojoVolumeChecker
     messages
   end
 
+  # - - - - - - - - - - - - - - - - - - - -
+
+  def all_manifests_have_a_unique_display_name?
+    display_names = {}
+    manifest_filenames.each do |filename|
+      manifest = json_parse(filename)
+      display_name = manifest['display_name']
+      display_names[display_name] ||= []
+      display_names[display_name] << filename
+    end
+    messages = []
+    display_names.each do |display_name,manifest_paths|
+      if manifest_paths.size != 1
+        messages << "these manifests have the same display_name(#{display_name}) : #{manifest_paths}"
+      end
+    end
+    messages
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
   private
 
   def manifest_filenames
     Dir.glob("#{@path}/*/*/manifest.json").sort
   end
 
-  def message(info)
-    @messages << info
+  def json_parse(filename)
+    JSON.parse(IO.read(filename)) # TODO: put rescue around this
   end
 
 end
@@ -72,13 +93,7 @@ class LanguagesManifestsTests < LanguagesTestBase
 
   test '16735B',
   'no two language manifests have the same display_name' do
-    so_far = []
-    manifests.each do |filename|
-      manifest = JSON.parse(IO.read(filename))
-      display_name = manifest['display_name']
-      refute so_far.include?(display_name), display_name
-      so_far << display_name
-    end
+    check CyberDojoVolumeChecker.new(languages.path).all_manifests_have_a_unique_display_name?
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -93,7 +108,6 @@ class LanguagesManifestsTests < LanguagesTestBase
 
   def check_manifest(dir)
     @language = dir
-    assert manifest_file_exists?
     assert all_files_are_named_in_manifest?
     assert required_keys_exist?
     refute unknown_keys_exist?
@@ -111,15 +125,6 @@ class LanguagesManifestsTests < LanguagesTestBase
     refute any_files_group_is_root?
     refute any_file_is_unreadable?
     assert created_kata_manifests_language_entry_round_trips?
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def manifest_file_exists?
-    unless File.exists? manifest_filename
-      return false_puts_alert "#{manifest_filename} does not exist"
-    end
-    true_dot
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -142,7 +147,11 @@ class LanguagesManifestsTests < LanguagesTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def required_keys_exist?
-    required_keys = %w( display_name image_name unit_test_framework visible_filenames )
+    required_keys = %w( display_name
+                        image_name
+                        unit_test_framework
+                        visible_filenames
+                      )
     required_keys.each do |key|
       unless manifest.keys.include? key
         return false_puts_alert "#{manifest_filename} must contain key '#{key}'"
