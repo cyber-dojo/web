@@ -10,7 +10,7 @@ caches_dir needs to be ENV_VAR
 Its used in app_controllers/setup_test.rb
 Or rather a ROOT_DIR is needed. Really its RAILS_ROOT
 
-Canthese just be off RAILS_ROOT?
+Can these just be off RAILS_ROOT?
   caches/  YES
   downloads/  YES
   katas/ YES. Even if server uses non data-container /var/www/cyber-dojo/katas
@@ -24,6 +24,23 @@ CYBER_DOJO_DATA_ROOT
  points to data-repos on local server
 
 get tests running and passing on local server first?
+
+- - - - - - - - - - - - - - - - - - - - -
+
+No need for _docker_context folders in Dockerfiles repo anymore.
+Instead I can have
+
+Java/...
+    /test-frameworks/
+                    /JUNit/...
+                    /JMock/...
+
+and Java/.dockerignore includes test-frameworks
+Or just keep top-level docker-context
+
+Java/_docker_context
+    /JUNit/...
+    /JMock/...
 
 - - - - - - - - - - - - - - - - - - - - -
 

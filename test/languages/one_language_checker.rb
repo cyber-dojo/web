@@ -3,6 +3,7 @@ require_relative '../all'
 require_relative '../test_domain_helpers'
 require_relative '../test_external_helpers'
 
+# Red/Amber/Green tests [image + output-regex]
 class OneLanguageChecker
 
   include TestDomainHelpers
