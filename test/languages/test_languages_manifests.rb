@@ -11,16 +11,20 @@
 #   create local assert/refute functions?
 # Print dot on success or fail. Issue all diagnostics at the end?
 
-class CyberDojoVolumeChecker
+class CyberDojoVolumeManifestChecker
 
   def initialize(path)
-    @path = path
+    @manifests = {}
+    Dir.glob("#{path}/*/*/manifest.json").each do |filename|
+      @manifests[filename] = JSON.parse(IO.read(filename))
+    end
   end
+
+  # - - - - - - - - - - - - - - - - - - - -
 
   def all_manifests_have_a_unique_image_name?
     image_names = {}
-    manifest_filenames.each do |filename|
-      manifest = json_parse(filename)
+    @manifests.each do |filename, manifest|
       image_name = manifest['image_name']
       image_names[image_name] ||= []
       image_names[image_name] << filename
@@ -38,8 +42,7 @@ class CyberDojoVolumeChecker
 
   def all_manifests_have_a_unique_display_name?
     display_names = {}
-    manifest_filenames.each do |filename|
-      manifest = json_parse(filename)
+    @manifests.each do |filename, manifest|
       display_name = manifest['display_name']
       display_names[display_name] ||= []
       display_names[display_name] << filename
@@ -56,14 +59,6 @@ class CyberDojoVolumeChecker
   # - - - - - - - - - - - - - - - - - - - -
 
   private
-
-  def manifest_filenames
-    Dir.glob("#{@path}/*/*/manifest.json").sort
-  end
-
-  def json_parse(filename)
-    JSON.parse(IO.read(filename)) # TODO: put rescue around this
-  end
 
 end
 
@@ -86,14 +81,14 @@ class LanguagesManifestsTests < LanguagesTestBase
 
   test 'D00EFE',
   'no two language manifests have the same image_name' do
-    check CyberDojoVolumeChecker.new(languages.path).all_manifests_have_a_unique_image_name?
+    check CyberDojoVolumeManifestChecker.new(languages.path).all_manifests_have_a_unique_image_name?
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '16735B',
   'no two language manifests have the same display_name' do
-    check CyberDojoVolumeChecker.new(languages.path).all_manifests_have_a_unique_display_name?
+    check CyberDojoVolumeManifestChecker.new(languages.path).all_manifests_have_a_unique_display_name?
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
