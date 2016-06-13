@@ -27,23 +27,6 @@ get tests running and passing on local server first?
 
 - - - - - - - - - - - - - - - - - - - - -
 
-No need for _docker_context folders in Dockerfiles repo anymore.
-Instead I can have
-
-Java/...
-    /test-frameworks/
-                    /JUNit/...
-                    /JMock/...
-
-and Java/.dockerignore includes test-frameworks
-Or just keep top-level docker-context
-
-Java/_docker_context
-    /JUNit/...
-    /JMock/...
-
-- - - - - - - - - - - - - - - - - - - - -
-
 Looking to make some smaller alpine-linux language images.
 Specifically, C#-NUnit and Java-JUnit
 
