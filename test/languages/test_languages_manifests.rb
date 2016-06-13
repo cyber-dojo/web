@@ -11,46 +11,53 @@ class VolumeManifestChecker
 
   def initialize(path)
     @manifests = {}
+    @errors = {}
     Dir.glob("#{path}/*/*/manifest.json").each do |filename|
       content = IO.read(filename)                 # TODO: add rescue handling
       @manifests[filename] = JSON.parse(content)  # TODO: add rescue handling
+      @errors[filename] = []
     end
+  end
+
+  attr_reader :errors # mapped per manifest-filename
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  def check
+    check_all_manifests_have_a_unique_image_name
+    check_all_manifests_have_a_unique_display_name
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  def all_manifests_have_a_unique_image_name?
+  def check_all_manifests_have_a_unique_image_name
     image_names = {}
     @manifests.each do |filename, manifest|
       image_name = manifest['image_name']
       image_names[image_name] ||= []
       image_names[image_name] << filename
     end
-    messages = []
-    image_names.each do |image_name,manifest_paths|
-      if manifest_paths.size != 1
-        messages << "these manifests have the same image_name(#{image_name}) : #{manifest_paths}"
+    image_names.each do |image_name, filenames|
+      if filenames.size != 1
+        @errors[filenames[0]] << "duplicate image_name:'#{image_name}' => #{filenames}"
       end
     end
-    messages
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  def all_manifests_have_a_unique_display_name?
+  def check_all_manifests_have_a_unique_display_name
     display_names = {}
     @manifests.each do |filename, manifest|
       display_name = manifest['display_name']
       display_names[display_name] ||= []
       display_names[display_name] << filename
     end
-    messages = []
-    display_names.each do |display_name,manifest_paths|
-      if manifest_paths.size != 1
-        messages << "these manifests have the same display_name(#{display_name}) : #{manifest_paths}"
+    display_names.each do |display_name, filenames|
+      if filenames.size != 1
+        @errors[filenames[0]] << "duplicate display_name:'#{display_name}' => #{filenames}"
       end
     end
-    messages
   end
 
   # - - - - - - - - - - - - - - - - - - - -
@@ -71,21 +78,30 @@ class LanguagesManifestsTests < LanguagesTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def check(messages)
-    messages.each { |message| puts message }
-    assert messages.size == 0
+  def assert_zero(errors)
+    count = 0
+    errors.each do |filename,messages|
+      puts filename if messages.size != 0
+      messages.each { |message| puts "\t" + message }
+      count += messages.size
+    end
+    assert_equal 0, count
   end
 
   test 'D00EFE',
   'no two language manifests have the same image_name' do
-    check VolumeManifestChecker.new(languages.path).all_manifests_have_a_unique_image_name?
+    checker = VolumeManifestChecker.new(languages.path)
+    checker.check_all_manifests_have_a_unique_image_name
+    assert_zero checker.errors
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '16735B',
   'no two language manifests have the same display_name' do
-    check VolumeManifestChecker.new(languages.path).all_manifests_have_a_unique_display_name?
+    checker = VolumeManifestChecker.new(languages.path)
+    checker.check_all_manifests_have_a_unique_display_name
+    assert_zero checker.errors
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
