@@ -47,7 +47,7 @@ HOME_DIR="$( cd "$( dirname "${0}" )/.." && pwd )"
 export CYBER_DOJO_LOG_CLASS=MemoryLog
 
 # Assumes repos for default-languages et all are sibling folders to main repo folder
-VAR=${CYBER_DOJO_LANGUAGES_ROOT:-${HOME_DIR}/../default_languages}
+VAR=${CYBER_DOJO_LANGUAGES_ROOT:-${HOME_DIR}/../default-languages}
 export CYBER_DOJO_LANGUAGES_ROOT=${VAR}
 VAR=${CYBER_DOJO_EXERCISES_ROOT:-${HOME_DIR}/../default-exercises}
 export CYBER_DOJO_EXERCISES_ROOT=${VAR}
