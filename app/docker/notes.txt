@@ -10,11 +10,13 @@ caches_dir needs to be ENV_VAR
 Its used in app_controllers/setup_test.rb
 Or rather a ROOT_DIR is needed. Really its RAILS_ROOT
 
-These can all be off RAILS_ROOT and they can all have their own readme.txt
-  caches/
-  downloads/
-  katas/
-  data/
+Canthese just be off RAILS_ROOT?
+  caches/  YES
+  downloads/  YES
+  katas/ YES. Even if server uses non data-container /var/www/cyber-dojo/katas
+              this can be mapped to /usr/src/cyber-dojo/katas
+  data/  NO. not for local dev-server
+
 
 CYBER_DOJO_DATA_ROOT
  can be anywhere inside web server, docker-compose.yml should just work
