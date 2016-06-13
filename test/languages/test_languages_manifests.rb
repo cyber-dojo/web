@@ -6,17 +6,14 @@
 #       Replace test methods with calls to this program.
 #
 # Note. visible_filenames cannot include 'manifest.json'
-#
-# It has limited assert/refutes
-#   create local assert/refute functions?
-# Print dot on success or fail. Issue all diagnostics at the end?
 
-class CyberDojoVolumeManifestChecker
+class VolumeManifestChecker
 
   def initialize(path)
     @manifests = {}
     Dir.glob("#{path}/*/*/manifest.json").each do |filename|
-      @manifests[filename] = JSON.parse(IO.read(filename))
+      content = IO.read(filename)                 # TODO: add rescue handling
+      @manifests[filename] = JSON.parse(content)  # TODO: add rescue handling
     end
   end
 
@@ -81,14 +78,14 @@ class LanguagesManifestsTests < LanguagesTestBase
 
   test 'D00EFE',
   'no two language manifests have the same image_name' do
-    check CyberDojoVolumeManifestChecker.new(languages.path).all_manifests_have_a_unique_image_name?
+    check VolumeManifestChecker.new(languages.path).all_manifests_have_a_unique_image_name?
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '16735B',
   'no two language manifests have the same display_name' do
-    check CyberDojoVolumeManifestChecker.new(languages.path).all_manifests_have_a_unique_display_name?
+    check VolumeManifestChecker.new(languages.path).all_manifests_have_a_unique_display_name?
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
