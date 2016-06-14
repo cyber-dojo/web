@@ -5,7 +5,12 @@ require 'json'
 
 class SetupDataCheckerTest < AppLibTestBase
 
-  # test bad shell command raises
+  test '2F9E46',
+  'bad shell command raises' do
+    assert_raises(RuntimeError) { shell 'sdsdsdsd' }
+  end
+
+  # test_data master (instructions) has no errors  ... hmm split into two?
 
   test '0C1F2F',
   'test_data master (manifested) has no errors' do
@@ -15,15 +20,26 @@ class SetupDataCheckerTest < AppLibTestBase
     assert_equal 5, checker.manifests.size
   end
 
-  # test_data master (instructions) has no errors  ... hmm split into two?
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  # test that mal-formed manifest.json file is seen as checker error and not test exception
+  test '1A351C',
+  'malformed manifest.json file is seen as checker error and not test exception' do
+    Dir.mktmpdir('cyber-dojo-6F36A3') do |tmp_dir|
+      copy_good_master_to(tmp_dir)
+      junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
+      IO.write(junit_manifest_filename, bad_json='xxx')
+      @checker = SetupDataChecker.new(tmp_dir)
+      assert_nil @checker.manifests[junit_manifest_filename]
+      assert_error junit_manifest_filename, 'malformed JSON'
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '6F36A3',
   'manifests with the same image_name are detected' do
     Dir.mktmpdir('cyber-dojo-6F36A3') do |tmp_dir|
-      # copy master data to tmp_dir
-      shell "cp -r #{setup_data_path}/* #{tmp_dir}"
+      copy_good_master_to(tmp_dir)
       # peturb copy appropriately
       junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
       content = IO.read(junit_manifest_filename)
@@ -42,11 +58,12 @@ class SetupDataCheckerTest < AppLibTestBase
     end
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '2C7CFC',
   'manifests with the same display_name are detected' do
     Dir.mktmpdir('cyber-dojo-2C7CFC') do |tmp_dir|
-      # copy master data to tmp_dir
-      shell "cp -r #{setup_data_path}/* #{tmp_dir}"
+      copy_good_master_to(tmp_dir)
       # peturb copy appropriately
       junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
       content = IO.read(junit_manifest_filename)
@@ -68,6 +85,12 @@ class SetupDataCheckerTest < AppLibTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   private
+
+  def copy_good_master_to(tmp_dir)
+    shell "cp -r #{setup_data_path}/* #{tmp_dir}"
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def assert_zero(errors)
     count = 0
@@ -92,11 +115,9 @@ class SetupDataCheckerTest < AppLibTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def shell(command)
-    output = `#{command}`
-    if $?.exitstatus != 0
-      fail "#{command} returned non-zero (#{$?.exitstatus}): output: #{output}"
-    end
-    output
+    `#{command}`
+  rescue
+    raise RuntimeError.new("#{command} returned non-zero (#{$?.exitstatus})")
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

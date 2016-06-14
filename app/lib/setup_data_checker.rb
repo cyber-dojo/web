@@ -5,9 +5,13 @@ class SetupDataChecker
     @manifests = {}
     @errors = {}
     Dir.glob("#{path}/**/manifest.json").each do |filename|
-      content = IO.read(filename)                 # TODO: add rescue handling
-      @manifests[filename] = JSON.parse(content)  # TODO: add rescue handling
       @errors[filename] = []
+      content = IO.read(filename)
+      begin
+        @manifests[filename] = JSON.parse(content)
+      rescue JSON::ParserError
+        @errors[filename] << 'malformed JSON'
+      end
     end
   end
 
