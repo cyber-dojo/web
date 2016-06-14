@@ -1,7 +1,10 @@
 
+require 'json'
+
 class SetupDataChecker
 
   def initialize(path)
+    @path = path.chomp('/')
     @manifests = {}
     @errors = {}
     Dir.glob("#{path}/**/manifest.json").each do |filename|
@@ -21,8 +24,20 @@ class SetupDataChecker
   # - - - - - - - - - - - - - - - - - - - -
 
   def check
+    check_root_setup_json_exists
     check_all_manifests_have_a_unique_image_name
     check_all_manifests_have_a_unique_display_name
+    errors
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  def check_root_setup_json_exists
+    full_path = @path + '/setup.json'
+    unless File.exists?(full_path)
+      @errors[full_path] = []
+      @errors[full_path] << 'missing'
+    end
     errors
   end
 

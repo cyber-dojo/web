@@ -1,13 +1,7 @@
 
 
 test/languages/test_languages_manifests.rb
-  rename VolumeManifestChecker to SetupDataChecker (instructions volume does not have manifests)
-  put SetupDataChecker into app/lib
-  on startup the app should run the tests to check all 3 setup volumes are well-formed.
-  put tests for SetupVolumeChecker into test/app_lib
-    these tests should take well-formed test-data-folders (of the 2 types, instructions and manifested)
-    and copy&peturb it for each test to verify the SetupVolumeChecker detects the peturbation
-    as a diagnostic.
+  on startup the app should run the tests/checks to verify 3 setup volumes are well-formed.
 
 - - - - - - - - - - - - - - - - - - - - -
 

@@ -27,6 +27,8 @@ class LanguagesManifestsTests < LanguagesTestBase
     assert_equal 0, count
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test 'D00EFE',
   'no two language manifests have the same image_name' do
     checker = SetupDataChecker.new(languages.path)

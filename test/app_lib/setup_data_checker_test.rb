@@ -18,8 +18,19 @@ class SetupDataCheckerTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  # test 'C6D738',
-  # 'missing setup.json is diagnosed as error'
+  test 'C6D738',
+  'missing setup.json is diagnosed as error' do
+    Dir.mktmpdir('cyber-dojo-6F36A3') do |tmp_dir|
+      copy_good_master_to(tmp_dir)
+      setup_filename = "#{tmp_dir}/setup.json"
+      shell "mv #{setup_filename} #{tmp_dir}/setup.json.missing"
+      @checker = SetupDataChecker.new(tmp_dir)
+      @checker.check_root_setup_json_exists
+      assert_error setup_filename, 'missing'
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   # test '2F42DF',
   # 'bad json in root setup.json is diagnosed as error'
