@@ -5,7 +5,7 @@ MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 
 pushd ${MY_DIR} > /dev/null
 
-CONTEXT_DIR=../../../public
+CONTEXT_DIR=../../public
 
 cp ./Dockerfile ${CONTEXT_DIR}
 cp ./nginx.conf ${CONTEXT_DIR}

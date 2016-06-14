@@ -10,7 +10,7 @@ env:
         - DOCKER_ENGINE_VERSION=1.11.2
         - DOCKER_COMPOSE_VERSION=1.7.1
         - DOCKER_MACHINE_VERSION=0.7.0
-        - APP_DOCKER_DIR=${TRAVIS_BUILD_DIR}/app/docker
+        - DOCKER_DIR=${TRAVIS_BUILD_DIR}/docker
 
 before_install:
     # list docker-engine versions
@@ -41,13 +41,13 @@ before_install:
 
 script:
     # Build the cyber-dojo images
-    - cd ${APP_DOCKER_DIR}/nginx
+    - cd ${DOCKER_DIR}/nginx
     - ./build-image.sh
-    - cd ${APP_DOCKER_DIR}/user-base
+    - cd ${DOCKER_DIR}/user-base
     - ./build-image.sh
-    - cd ${APP_DOCKER_DIR}/web
+    - cd ${DOCKER_DIR}/web
     - ./build-image.sh ${DOCKER_ENGINE_VERSION}
-    - cd ${APP_DOCKER_DIR}
+    - cd ${DOCKER_DIR}
     - ./cyber-dojo up
     - cid=`docker ps --all --quiet --filter "name=cdf-web"`
     - docker logs cdf-web

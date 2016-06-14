@@ -73,14 +73,14 @@ one_time_creation_of_katas_data_container() {
     # extract appropriate Dockerfile from web image
     local katas_dockerfile=${CONTEXT_DIR}/Dockerfile
     local cid=$(docker create ${CYBER_DOJO_WEB_SERVER})
-    docker cp ${cid}:${cyber_dojo_root}/app/docker/katas/Dockerfile.${SUFFIX} \
+    docker cp ${cid}:${cyber_dojo_root}/docker/katas/Dockerfile.${SUFFIX} \
               ${katas_dockerfile}
     docker rm -v ${cid} > /dev/null
 
     # 3. extract appropriate .dockerignore from web image
     local katas_docker_ignore=${CONTEXT_DIR}/.dockerignore
     local cid=$(docker create ${CYBER_DOJO_WEB_SERVER})
-    docker cp ${cid}:${cyber_dojo_root}/app/docker/katas/Dockerignore.${SUFFIX} \
+    docker cp ${cid}:${cyber_dojo_root}/docker/katas/Dockerignore.${SUFFIX} \
               ${katas_docker_ignore}
     docker rm -v ${cid} > /dev/null
 
@@ -112,7 +112,7 @@ cyber_dojo_rb() {
     --env=CYBER_DOJO_HUB=${cyber_dojo_hub} \
     --volume=/var/run/docker.sock:/var/run/docker.sock \
     ${CYBER_DOJO_WEB_SERVER} \
-    ${cyber_dojo_root}/app/docker/cyber-dojo.rb $1
+    ${cyber_dojo_root}/docker/cyber-dojo.rb $1
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

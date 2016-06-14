@@ -14,7 +14,7 @@ CYBER_DOJO_HOME=${2:-/usr/src/cyber-dojo}
 
 MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 
-CONTEXT_DIR=${MY_DIR}/../../..
+CONTEXT_DIR=${MY_DIR}/../..
 
 cp ${MY_DIR}/Dockerfile     ${CONTEXT_DIR}
 cp ${MY_DIR}/.dockerignore  ${CONTEXT_DIR}

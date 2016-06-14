@@ -47,6 +47,7 @@ cyber_dojo_update() {
 
   # doing local development (without going through web image) means not doing these
   # steps since the two files may have been locally edited.
+  echo ">>>>>>WORK IN PROGRESS"
   echo ">>>>>>NOT DOING [docker pull] UPDATES"
   echo ">>>>>>NOT EXTRACTING ${cyber_dojo_sh}<<<<<<"
   echo ">>>>>>NOT EXTRACTING ${docker_compose_file}<<<<<<"
