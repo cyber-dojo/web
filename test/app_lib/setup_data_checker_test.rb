@@ -5,10 +5,6 @@ require 'json'
 
 class SetupDataCheckerTest < AppLibTestBase
 
-  test '2F9E46',
-  'bad shell command raises' do
-    assert_raises(RuntimeError) { shell 'sdsdsdsd' }
-  end
 
   # test_data master (instructions) has no errors  ... hmm split into two?
 
@@ -22,8 +18,29 @@ class SetupDataCheckerTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  # test 'C6D738',
+  # 'missing setup.json is diagnosed as error'
+
+  # test '2F42DF',
+  # 'bad json in root setup.json is diagnosed as error'
+  # end
+
+  # test '28599A',
+  # 'setup.json with no type is diagnosed as error'
+  # end
+
+  # test '1B01F7',
+  # 'setup.json with no lhs-column-title is diagnosed as error'
+  # end
+
+  # test '993BE1',
+  # 'setup.json with no rhs-column-title is diagnosed as error'
+  # end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '1A351C',
-  'malformed manifest.json file is seen as checker error and not test exception' do
+  'bad json in a manifest.json file is diagnosed as error' do
     Dir.mktmpdir('cyber-dojo-6F36A3') do |tmp_dir|
       copy_good_master_to(tmp_dir)
       junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
@@ -37,7 +54,7 @@ class SetupDataCheckerTest < AppLibTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '6F36A3',
-  'manifests with the same image_name are detected' do
+  'manifests with the same image_name is diagnosed as error' do
     Dir.mktmpdir('cyber-dojo-6F36A3') do |tmp_dir|
       copy_good_master_to(tmp_dir)
       # peturb copy appropriately
@@ -61,7 +78,7 @@ class SetupDataCheckerTest < AppLibTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '2C7CFC',
-  'manifests with the same display_name are detected' do
+  'manifests with the same display_name is diagnosed as error' do
     Dir.mktmpdir('cyber-dojo-2C7CFC') do |tmp_dir|
       copy_good_master_to(tmp_dir)
       # peturb copy appropriately
@@ -83,6 +100,15 @@ class SetupDataCheckerTest < AppLibTestBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '2F9E46',
+  'bad shell command raises' do
+    assert_raises(RuntimeError) { shell 'sdsdsdsd' }
+  end
 
   private
 
