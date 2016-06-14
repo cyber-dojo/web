@@ -349,19 +349,19 @@ def volume_create
   # TODO: do ALL verification that volume adheres to specification inside
   #       a check function inside main web server container.
 
-  # get its volume.json if it has one
-  command = quoted "cat /data/volume.json"
+  # get its setup.json if it has one
+  command = quoted "cat /data/setup.json"
   output = raising_run "docker run --rm -v #{vol}:/data #{cyber_dojo_hub}/user-base sh -c #{command}", {
-    msg:"#{vol} cannot read /volume.json"
+    msg:"#{vol} cannot read /setup.json"
   }
   manifest = json_parse(output) || {}
 
-  # check volume.json is well-formed
+  # check setup.json is well-formed
   type = manifest['type']
   unless ['languages','exercises','instructions'].include? type
     raise VolumeCreateFailed.new({
       msg: [
-        "#{vol}'s /volume.json must include one of...",
+        "#{vol}'s /setup.json must include one of...",
         "{ 'type': 'languages' }",
         "{ 'type': 'exercises' }",
         "{ 'type': 'instructions' }"
