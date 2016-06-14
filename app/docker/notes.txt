@@ -1,4 +1,14 @@
 
+
+test/languages/test_languages_manifests.rb
+  rename VolumeManifestChecker to SetupVolumeChecker (instructions volume does not have manifests)
+  put SetupVolumeChecker into app_lib
+  put tests for SetupVolumeChecker into test/app_lib
+
+move app/docker into /docker
+
+- - - - - - - - - - - - - - - - - - - - -
+
 Now that data is externalized I can arrange for it to
 always be at the same locations inside the web container!
 I don't need CYBER_DOJO_EXERCISES_ROOT et al.
