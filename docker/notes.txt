@@ -1,11 +1,13 @@
 
 
 test/languages/test_languages_manifests.rb
-  rename VolumeManifestChecker to SetupVolumeChecker (instructions volume does not have manifests)
-  put SetupVolumeChecker into app_lib
+  rename VolumeManifestChecker to SetupDataChecker (instructions volume does not have manifests)
+  put SetupDataChecker into app/lib
+  on startup the app should run the tests to check all 3 setup volumes are well-formed.
   put tests for SetupVolumeChecker into test/app_lib
-
-move app/docker into /docker
+    these tests should take well-formed test-data-folders (of the 2 types, instructions and manifested)
+    and copy&peturb it for each test to verify the SetupVolumeChecker detects the peturbation
+    as a diagnostic.
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -120,25 +122,32 @@ ruby ./cyber-dojo.rb volume create --name=default_languages --git=https://github
 
        Then volume can be mounted read-only.
 
-     $ ./cyber-dojo volume rm VOL [VOL...]
-
      $ ./cyber-dojo volume inspect VOL [VOL...]
+
        This would do the old catalog listing.
        This should show the origin (URL) of the volume.
        Need to make the languages checker work by being
        passed a path (there are now 2 manifest locations, exercises and languages)
-       Then [volume inspect] call with then do
-         docker run --rm -v THE-VOL sh -c "path/to/languages/checker.rb"
+       Then [volume inspect] call will then do
+         docker run --rm -v VOL:/data sh -c "app/lib/check_setup_volume.rb /data"
+           check_setup_volume.rb will parse ARGV etc and delegates to setup_volume_checker.rb
 
        test/languages/test_languages_manifest.rb
          Rework to utility rather than test with asserts.
-         Also, ownership of all files should be cyber-dojo
+
+       Ownership of all files should be cyber-dojo
            (comes in from a volume)
 
+       Manifest must specify at least one file as auto_pull:true
+           do I really want this?
+           How about simply making this part of the app startup.
+           And check the state inside the app and disable home page [create]
+           buttons if their setup page would have nothing to show (no matching docker image)
 
      What should volume manifest.json file contain?
         type: languages/exercises/instructions
-        col-names: [ TEXT, TEXT ],
+        col-names: [ TEXT, TEXT ]
+        auto_pull: true/false  (default for all images?)
 
      cyber-dojo.rb could do with some documentation showing example output
      of various internal commands.

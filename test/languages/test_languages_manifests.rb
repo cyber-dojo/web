@@ -7,67 +7,6 @@
 #
 # Note. visible_filenames cannot include 'manifest.json'
 
-class VolumeManifestChecker
-
-  def initialize(path)
-    @manifests = {}
-    @errors = {}
-    Dir.glob("#{path}/**/manifest.json").each do |filename|
-      content = IO.read(filename)                 # TODO: add rescue handling
-      @manifests[filename] = JSON.parse(content)  # TODO: add rescue handling
-      @errors[filename] = []
-    end
-  end
-
-  attr_reader :errors # mapped per manifest-filename
-
-  # - - - - - - - - - - - - - - - - - - - -
-
-  def check
-    check_all_manifests_have_a_unique_image_name
-    check_all_manifests_have_a_unique_display_name
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
-  def check_all_manifests_have_a_unique_image_name
-    image_names = {}
-    @manifests.each do |filename, manifest|
-      image_name = manifest['image_name']
-      image_names[image_name] ||= []
-      image_names[image_name] << filename
-    end
-    image_names.each do |image_name, filenames|
-      if filenames.size != 1
-        @errors[filenames[0]] << "duplicate image_name:'#{image_name}' => #{filenames}"
-      end
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
-  def check_all_manifests_have_a_unique_display_name
-    display_names = {}
-    @manifests.each do |filename, manifest|
-      display_name = manifest['display_name']
-      display_names[display_name] ||= []
-      display_names[display_name] << filename
-    end
-    display_names.each do |display_name, filenames|
-      if filenames.size != 1
-        @errors[filenames[0]] << "duplicate display_name:'#{display_name}' => #{filenames}"
-      end
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
-  private
-
-end
-
-# =================================================================
-
 require_relative './languages_test_base'
 
 class LanguagesManifestsTests < LanguagesTestBase
@@ -90,7 +29,7 @@ class LanguagesManifestsTests < LanguagesTestBase
 
   test 'D00EFE',
   'no two language manifests have the same image_name' do
-    checker = VolumeManifestChecker.new(languages.path)
+    checker = SetupDataChecker.new(languages.path)
     checker.check_all_manifests_have_a_unique_image_name
     assert_zero checker.errors
   end
@@ -99,7 +38,7 @@ class LanguagesManifestsTests < LanguagesTestBase
 
   test '16735B',
   'no two language manifests have the same display_name' do
-    checker = VolumeManifestChecker.new(languages.path)
+    checker = SetupDataChecker.new(languages.path)
     checker.check_all_manifests_have_a_unique_display_name
     assert_zero checker.errors
   end

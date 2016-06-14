@@ -1,6 +1,7 @@
 
 %w(
   setup_chooser
+  setup_data_checker
   file_delta_maker
   git_diff_parser
   git_diff_builder

@@ -38,7 +38,7 @@ class DeltaMaker
   end
 
   def stub_colour(colour)
-    root = File.expand_path(File.dirname(__FILE__)) + '/../app_lib/test_output'
+    root = File.expand_path(File.dirname(__FILE__)) + '/../app_lib/output'
     path = "#{root}/#{@avatar.kata.language.unit_test_framework}/#{colour}"
     all_outputs = Dir.glob(path + '/*')
     filename = all_outputs.sample
