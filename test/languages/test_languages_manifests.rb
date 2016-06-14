@@ -12,7 +12,7 @@ class VolumeManifestChecker
   def initialize(path)
     @manifests = {}
     @errors = {}
-    Dir.glob("#{path}/*/*/manifest.json").each do |filename|
+    Dir.glob("#{path}/**/manifest.json").each do |filename|
       content = IO.read(filename)                 # TODO: add rescue handling
       @manifests[filename] = JSON.parse(content)  # TODO: add rescue handling
       @errors[filename] = []
@@ -73,7 +73,7 @@ require_relative './languages_test_base'
 class LanguagesManifestsTests < LanguagesTestBase
 
   def manifests
-    Dir.glob("#{languages.path}/*/*/manifest.json").sort
+    Dir.glob("#{languages.path}/**/manifest.json").sort
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
