@@ -27,11 +27,12 @@ downloads/*
 
 #-----!Except these files
 
-# {bundle install} in web's Dockerfile (inside Travis pipeline) needs this but _not_
-# Gemfile.lock which is for the local server and not for the server running inside web container
+# {bundle install} in web's Dockerfile (inside Travis pipeline) needs Gemfile
+# but does _not_ need Gemfile.lock which is for the local server and not for
+# the Travis server running inside a docker container
 !Gemfile
 
-# {rails server} in web's docker-compose.yml needs this
+# {docker-compose.yml} [web: command: rails server...] needs this
 !config.ru
 
 # {cyber-dojo update} copies these out of web container

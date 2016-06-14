@@ -51,7 +51,8 @@ export CYBER_DOJO_RAILS_ENVIRONMENT=${default_rails_environment}
 one_time_creation_of_katas_data_container() {
   # ensure katas-data-container exists.
   # o) if it doesn't and /var/www/cyber-dojo/katas exists on the host
-  #    then assume it holds practice sessions and _copy_ them into the new katas-data-container.
+  #    then assume it holds practice sessions from old server and _copy_ them
+  #    into the new katas-data-container.
   # o) if it doesn't and /var/www/cyber-dojo/katas does not exist on the host
   #    then create new _empty_ katas-data-container
 
@@ -75,14 +76,14 @@ one_time_creation_of_katas_data_container() {
     local cid=$(docker create ${CYBER_DOJO_WEB_SERVER})
     docker cp ${cid}:${cyber_dojo_root}/docker/katas/Dockerfile.${SUFFIX} \
               ${katas_dockerfile}
-    docker rm -v ${cid} > /dev/null
+    docker rm --volumes ${cid} > /dev/null
 
     # 3. extract appropriate .dockerignore from web image
     local katas_docker_ignore=${CONTEXT_DIR}/.dockerignore
     local cid=$(docker create ${CYBER_DOJO_WEB_SERVER})
     docker cp ${cid}:${cyber_dojo_root}/docker/katas/Dockerignore.${SUFFIX} \
               ${katas_docker_ignore}
-    docker rm -v ${cid} > /dev/null
+    docker rm --volumes ${cid} > /dev/null
 
     # use Dockerfile to build image
     local tag=${cyber_dojo_hub}/katas
@@ -205,7 +206,7 @@ cyber_dojo_up() {
     fi
   fi
 
-  # - - - - - - - - - - - - - - -
+  # check default/explicit volumes exist
   if ! volume_exists ${CYBER_DOJO_LANGUAGES_VOLUME}; then
     echo "volume ${CYBER_DOJO_LANGUAGES_VOLUME} does not exist"
     exit 1
@@ -222,9 +223,9 @@ cyber_dojo_up() {
   fi
 
   echo "Using rails --environment=${CYBER_DOJO_RAILS_ENVIRONMENT}"
-  echo "Using volume languages=${CYBER_DOJO_LANGUAGES_VOLUME}"
-  echo "Using volume exercises=${CYBER_DOJO_EXERCISES_VOLUME}"
-  echo "Using volume instructions=${CYBER_DOJO_INSTRUCTIONS_VOLUME}"
+  echo "Using volume --languages=${CYBER_DOJO_LANGUAGES_VOLUME}"
+  echo "Using volume --exercises=${CYBER_DOJO_EXERCISES_VOLUME}"
+  echo "Using volume --instructions=${CYBER_DOJO_INSTRUCTIONS_VOLUME}"
   # bring up server with volumes
   ${docker_compose_cmd} up -d
 }
