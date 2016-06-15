@@ -5,13 +5,21 @@ Check what [docker] does and mimic that.
 
 - - - - - - - - - - - - - - - - - - - - -
 
+cyber-dojo volume create --name=VOL --git=URL
+this URL cannot be on the local disk, since by default
+its path will not be visible inside the docker container
+(which on OSX is running elsewhere, on the default VM)
+
+- - - - - - - - - - - - - - - - - - - - -
+
 default-pulled images are
 %w( gcc_assert gpp_assert csharp_nunit java_junit python_pytest ruby_mini_test )
 
 - - - - - - - - - - - - - - - - - - - - -
 
 test/languages/test_languages_manifests.rb
-  on startup the app should run the tests/checks to verify 3 setup volumes are well-formed.
+  on startup the app should run the tests/checks
+  to verify 3 setup volumes are well-formed.
 
 - - - - - - - - - - - - - - - - - - - - -
 
