@@ -322,17 +322,15 @@ def volume_create
   end
 
   if vol.length == 1
-    raise VolumeCreateFailed.new({
-      rm:false,
-      msg:"volume names must be at least two characters long. See https://github.com/docker/docker/issues/20122"
-    })
+    msg = 'volume names must be at least two characters long. See https://github.com/docker/docker/issues/20122'
+    puts "FAILED [volume create --name=#{vol}] #{msg}"
+    exit 1
   end
 
   if volume_exists? vol
-    raise VolumeCreateFailed.new({
-      rm:false,
-      msg:"#{vol} already exists"
-    })
+    msg = "#{vol} already exists"
+    puts "FAILED [volume create --name=#{vol}] #{msg}"
+    exit 1
   end
 
   # make empty volume
@@ -344,10 +342,27 @@ def volume_create
     "rm -rf /data/.git",
     "chown -R cyber-dojo:cyber-dojo /data"
   ].join(" && ")
-  raising_run "docker run --rm -v #{vol}:/data #{cyber_dojo_hub}/user-base sh -c #{command}"
+  raising_run "docker run --rm --volume #{vol}:/data #{cyber_dojo_hub}/user-base sh -c #{command}"
 
   # TODO: do ALL verification that volume adheres to specification inside
   #       a check function inside main web server container.
+
+
+  # fill it from git repo, chown it, check it
+  command = quoted [
+    "git clone --depth=1 --branch=master #{url} /data",
+    'rm -rf /data/.git',
+    'chown -R cyber-dojo:cyber-dojo /data',
+    'app/lib/check_setup_data.rb /data'
+  ].join(" && ")
+  # raising_run "docker run --rm --volume #{vol}:/data #{cyber_dojo_hub}/web:1.11.2 sh -c #{command}"
+
+
+  # TODO: put all checks below into app/lib/check_setup_data.rb
+  # TODO: make sure there is at least one sub-dir with a manifest.json file
+  # TODO: make sure at least one manifest has auto_pull:true
+  # TODO: pull docker images marked auto_pull:true
+
 
   # get its setup.json if it has one
   command = quoted "cat /data/setup.json"
@@ -368,16 +383,9 @@ def volume_create
       ].join("\n")
     })
   end
-
   # TODO:    if 'type' != 'instructions' check manifest contains...
   # TODO:    'lhs-column-title': 'name',
   # TODO:    'rhs-column-title': 'language'
-
-  # TODO: run all tests/languages checks if its not an instructions manifest
-  # TODO: also make sure there is at least one sub-dir with a manifest.json file
-  # TODO: also make sure at least one manifest has auto_pull:true
-
-  # TODO: pull docker images marked auto_pull:true
 
   rescue VolumeCreateFailed => error
     error.handle(vol)
@@ -387,7 +395,7 @@ end
 # - - - - - - - - - - - - - - -
 
 def exit_unless_is_cyber_dojo_volume(vol, command)
-  # TODO: when its implemented, use [volume ls --quiet]
+  # TODO: when its implemented, use [volume ls --quiet] ?
   if !volume_exists? vol
     puts "FAILED [volume #{command} #{vol}] - #{vol} does not exist."
     exit 1

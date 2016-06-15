@@ -20,8 +20,7 @@ class SetupDataCheckerTest < AppLibTestBase
 
   test 'C6D738',
   'missing setup.json is diagnosed as error' do
-    Dir.mktmpdir('cyber-dojo-6F36A3') do |tmp_dir|
-      copy_good_master_to(tmp_dir)
+    copy_good_master_to('C6D738') do |tmp_dir|
       setup_filename = "#{tmp_dir}/setup.json"
       shell "mv #{setup_filename} #{tmp_dir}/setup.json.missing"
       @checker = SetupDataChecker.new(tmp_dir)
@@ -52,8 +51,7 @@ class SetupDataCheckerTest < AppLibTestBase
 
   test '1A351C',
   'bad json in a manifest.json file is diagnosed as error' do
-    Dir.mktmpdir('cyber-dojo-6F36A3') do |tmp_dir|
-      copy_good_master_to(tmp_dir)
+    copy_good_master_to('1A351C') do |tmp_dir|
       junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
       IO.write(junit_manifest_filename, bad_json='xxx')
       @checker = SetupDataChecker.new(tmp_dir)
@@ -66,8 +64,7 @@ class SetupDataCheckerTest < AppLibTestBase
 
   test '6F36A3',
   'manifests with the same image_name is diagnosed as error' do
-    Dir.mktmpdir('cyber-dojo-6F36A3') do |tmp_dir|
-      copy_good_master_to(tmp_dir)
+    copy_good_master_to('6F36A3') do |tmp_dir|
       # peturb copy appropriately
       junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
       content = IO.read(junit_manifest_filename)
@@ -90,8 +87,7 @@ class SetupDataCheckerTest < AppLibTestBase
 
   test '2C7CFC',
   'manifests with the same display_name is diagnosed as error' do
-    Dir.mktmpdir('cyber-dojo-2C7CFC') do |tmp_dir|
-      copy_good_master_to(tmp_dir)
+    copy_good_master_to('2C7CFC') do |tmp_dir|
       # peturb copy appropriately
       junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
       content = IO.read(junit_manifest_filename)
@@ -123,8 +119,11 @@ class SetupDataCheckerTest < AppLibTestBase
 
   private
 
-  def copy_good_master_to(tmp_dir)
-    shell "cp -r #{setup_data_path}/* #{tmp_dir}"
+  def copy_good_master_to(id)
+    Dir.mktmpdir('cyber-dojo-' + id) do |tmp_dir|
+      shell "cp -r #{setup_data_path}/* #{tmp_dir}"
+      yield tmp_dir
+    end
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

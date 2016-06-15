@@ -6,7 +6,7 @@ class SetupDataChecker
   def initialize(path)
     @path = path.chomp('/')
     @manifests = {}
-    @errors = {}
+    @errors = { setup_path => [] }
     Dir.glob("#{path}/**/manifest.json").each do |filename|
       @errors[filename] = []
       content = IO.read(filename)
@@ -33,11 +33,7 @@ class SetupDataChecker
   # - - - - - - - - - - - - - - - - - - - -
 
   def check_root_setup_json_exists
-    full_path = @path + '/setup.json'
-    unless File.exists?(full_path)
-      @errors[full_path] = []
-      @errors[full_path] << 'missing'
-    end
+    @errors[setup_path] << 'missing' unless File.exists?(setup_path)
     errors
   end
 
@@ -85,5 +81,9 @@ class SetupDataChecker
   # - - - - - - - - - - - - - - - - - - - -
 
   private
+
+  def setup_path
+    @path + '/setup.json'
+  end
 
 end
