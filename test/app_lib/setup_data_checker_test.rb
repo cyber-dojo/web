@@ -24,7 +24,6 @@ class SetupDataCheckerTest < AppLibTestBase
       setup_filename = "#{tmp_dir}/setup.json"
       shell "mv #{setup_filename} #{tmp_dir}/setup.json.missing"
       @checker = SetupDataChecker.new(tmp_dir)
-      @checker.check_root_setup_json_exists
       assert_error setup_filename, 'missing'
     end
   end
@@ -37,14 +36,22 @@ class SetupDataCheckerTest < AppLibTestBase
       setup_filename = "#{tmp_dir}/setup.json"
       IO.write(setup_filename, any_bad_json)
       @checker = SetupDataChecker.new(tmp_dir)
-      @checker.check_root_setup_json_ness
       assert_error setup_filename, 'bad JSON'
     end
   end
 
-  # test '28599A',
-  # 'setup.json with no type is diagnosed as error' do
-  # end
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '28599A',
+  'setup.json with no type is diagnosed as error' do
+    copy_good_master_to('28599A') do |tmp_dir|
+      setup_filename = "#{tmp_dir}/setup.json"
+      IO.write(setup_filename, '{}')
+      @checker = SetupDataChecker.new(tmp_dir)
+      @checker.check
+      assert_error setup_filename, 'no type: entry'
+    end
+  end
 
   # test '1B01F7',
   # 'setup.json with no lhs-column-title is diagnosed as error' do
@@ -84,7 +91,7 @@ class SetupDataCheckerTest < AppLibTestBase
       IO.write(cucumber_manifest_filename, JSON.unparse(cucumber_manifest))
       # check peturbation
       @checker = SetupDataChecker.new(tmp_dir)
-      @checker.check_all_manifests_have_a_unique_image_name
+      @checker.check
       assert_error junit_manifest_filename, 'duplicate image_name'
       assert_error cucumber_manifest_filename, 'duplicate image_name'
     end
@@ -107,7 +114,7 @@ class SetupDataCheckerTest < AppLibTestBase
       IO.write(cucumber_manifest_filename, JSON.unparse(cucumber_manifest))
       # check peturbation
       @checker = SetupDataChecker.new(tmp_dir)
-      @checker.check_all_manifests_have_a_unique_display_name
+      @checker.check
       assert_error junit_manifest_filename, 'duplicate display_name'
       assert_error cucumber_manifest_filename, 'duplicate display_name'
     end
@@ -168,6 +175,8 @@ class SetupDataCheckerTest < AppLibTestBase
   def setup_data_path
     File.expand_path(File.dirname(__FILE__)) + '/setup_data'
   end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def any_bad_json
     'xxx'

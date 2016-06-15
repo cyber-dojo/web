@@ -6,9 +6,9 @@ class SetupDataChecker
   def initialize(path)
     @path = path.chomp('/')
     @manifests = {}
-    @errors = { setup_path => [] }
+    @errors = {}
+    fill_manifest(setup_filename)
     Dir.glob("#{path}/**/manifest.json").each do |filename|
-      @errors[filename] = []
       fill_manifest(filename)
     end
   end
@@ -19,25 +19,19 @@ class SetupDataChecker
   # - - - - - - - - - - - - - - - - - - - -
 
   def check
-    check_root_setup_json_exists
-    check_root_setup_json_ness
+    check_setup_json_meets_its_spec
     check_all_manifests_have_a_unique_image_name
     check_all_manifests_have_a_unique_display_name
     errors
   end
 
-  # - - - - - - - - - - - - - - - - - - - -
+  private
 
-  def check_root_setup_json_exists
-    @errors[setup_path] << 'missing' unless File.exists?(setup_path)
-    errors
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
-  def check_root_setup_json_ness
-    fill_manifest(setup_path)
-    errors
+  def check_setup_json_meets_its_spec
+    manifest = @manifests[setup_filename]
+    if manifest['type'].nil?
+      @errors[setup_filename] << 'no type: entry'
+    end
   end
 
   # - - - - - - - - - - - - - - - - - - - -
@@ -59,7 +53,6 @@ class SetupDataChecker
         end
       end
     end
-    errors
   end
 
   # - - - - - - - - - - - - - - - - - - - -
@@ -78,22 +71,28 @@ class SetupDataChecker
         end
       end
     end
-    errors
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  private
-
-  def setup_path
+  def setup_filename
     @path + '/setup.json'
   end
 
+  # - - - - - - - - - - - - - - - - - - - -
+
   def fill_manifest(filename)
-    content = IO.read(filename)
-    @manifests[filename] = JSON.parse(content)
-  rescue JSON::ParserError
-    @errors[filename] << 'bad JSON'
+    @errors[filename] = []
+    if ! File.exists?(filename)
+      @errors[filename] << 'missing'
+    else
+      begin
+        content = IO.read(filename)
+        @manifests[filename] = JSON.parse(content)
+      rescue JSON::ParserError
+        @errors[filename] << 'bad JSON'
+      end
+    end
   end
 
 end
