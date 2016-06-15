@@ -11,14 +11,9 @@ require_relative './languages_test_base'
 
 class LanguagesManifestsTests < LanguagesTestBase
 
-  def manifests
-    Dir.glob("#{languages.path}/**/manifest.json").sort
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test '8B45E1',
   'no known flaws in manifests of any language/test/' do
+    manifests = Dir.glob("#{languages.path}/**/manifest.json").sort
     manifests.each do |filename|
       dir = File.dirname(filename)
       check_manifest(dir)

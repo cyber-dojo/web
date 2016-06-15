@@ -170,7 +170,7 @@ class SetupDataCheckerTest < AppLibTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def setup_data_path
-    File.expand_path(File.dirname(__FILE__)) + '/setup_data'
+    File.expand_path(File.dirname(__FILE__)) + '/setup_data/languages'
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

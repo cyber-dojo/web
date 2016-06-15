@@ -17,13 +17,15 @@ class SetupDataChecker
   def check
     manifest = json_manifest(setup_filename)
     check_setup_json_meets_its_spec(manifest) unless manifest.nil?
-
     Dir.glob("#{@path}/**/manifest.json").each do |filename|
       manifest = json_manifest(filename)
       @manifests[filename] = manifest unless manifest.nil?
     end
-
+    # TODO: instructions-checks are different to languages/exercises checks
     check_all_manifests_have_a_unique_display_name
+    @manifests.each do |filename, manifest|
+      # check_X(filename, manifest)
+    end
     errors
   end
 
