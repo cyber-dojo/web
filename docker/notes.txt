@@ -5,6 +5,11 @@ Check what [docker] does and mimic that.
 
 - - - - - - - - - - - - - - - - - - - - -
 
+default-pulled images are
+%w( gcc_assert gpp_assert csharp_nunit java_junit python_pytest ruby_mini_test )
+
+- - - - - - - - - - - - - - - - - - - - -
+
 test/languages/test_languages_manifests.rb
   on startup the app should run the tests/checks to verify 3 setup volumes are well-formed.
 

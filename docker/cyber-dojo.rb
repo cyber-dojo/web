@@ -101,6 +101,35 @@ end
 # up
 #=========================================================================================
 
+def process_up_volume_arg(help, args, name)
+  github_cyber_dojo = 'https://github.com/cyber-dojo'
+  default_name = 'default-'+name
+  vol = get_arg("--#{name}", args) || default_name
+  if vol == ''
+    show help
+    puts "FAILED: missing argument value --#{name}=[???]"
+    return false
+  end
+  if !volume_exists?(vol)
+    if vol == default_name
+      git_clone_into_new_volume(default_name, "#{github_cyber_dojo}/#{default_name}.git")
+    else
+      show help
+      puts "FAILED: volume #{vol} does not exist"
+      return false
+    end
+  end
+  type = cyber_dojo_type(vol)
+  if type != name
+    show help
+    puts "FAILED: #{vol} is not a #{name} volume (it's #{type})"
+    return false
+  end
+  return true
+end
+
+# - - - - - - - - - - - - - - - - - - - - - - - - -
+
 def up
   help = [
     '',
@@ -115,15 +144,11 @@ def up
     minitab + '--env=production        Brings up the web server in production environment (default)',
     minitab + '--env=test              Brings up the web server in test environment',
   ]
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - -
   # asked for help?
   if ['help','--help'].include? ARGV[1]
     show help
     exit 1
   end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - -
   # unknown arguments?
   knowns = ['env','languages','exercises','instructions']
   unknown = ARGV[1..-1].select do |argv|
@@ -134,8 +159,6 @@ def up
     unknown.each { |arg| puts "FAILED: unknown argument [#{arg}]" }
     exit 1
   end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - -
   # --env=
   args = ARGV[1..-1]
   env = get_arg('--env', args)
@@ -144,93 +167,12 @@ def up
     puts "FAILED: bad argument value --env=[#{env}]"
     exit 1
   end
-
-  github_cyber_dojo = 'https://github.com/cyber-dojo'
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - -
-  # --languages=
-  languages_vol = get_arg('--languages', args) || 'default-languages'
-  if languages_vol == ''
-    show help
-    puts "FAILED: missing argument value --languages=[???]"
-    exit 1
-  end
-  if !volume_exists?(languages_vol)
-    if languages_vol == 'default-languages'
-      git_clone_into_new_volume('default-languages', "#{github_cyber_dojo}/default-languages.git")
-    else
-      show help
-      puts "FAILED: volume #{languages_vol} does not exist"
-      exit 1
-    end
-  end
-  type = cyber_dojo_type(languages_vol)
-  if type != 'languages'
-    show help
-    puts "FAILED: #{languages_vol} is not a languages volume (it's #{type})"
-    exit 1
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - -
-  # --exercises=
-  exercises_vol = get_arg('--exercises', args) || 'default-exercises'
-  if exercises_vol == ''
-    show help
-    puts "FAILED: missing argument value --exercises=[???]"
-    exit 1
-  end
-  if !volume_exists?(exercises_vol)
-    if exercises_vol == 'default-exercises'
-      git_clone_into_new_volume('default-exercises', "#{github_cyber_dojo}/default-exercises.git")
-    else
-      show help
-      puts "FAILED: volume #{exercises_vol} does not exist"
-      exit 1
-    end
-  end
-  type = cyber_dojo_type(exercises_vol)
-  if type != 'exercises'
-    show help
-    puts "FAILED: #{exercises_vol} is not an exercise volume (it's #{type})"
-    exit 1
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - -
-  # --instructions=
-  instructions_vol = get_arg('--instructions', args) || 'default-instructions'
-  if instructions_vol == ''
-    show help
-    puts "FAILED: missing argument value --instructions=[???]"
-    exit 1
-  end
-  if !volume_exists?(instructions_vol)
-    if instructions_vol == 'default-instructions'
-      git_clone_into_new_volume('default-instructions', "#{github_cyber_dojo}/default-instructions.git")
-    else
-      show help
-      puts "FAILED: volume #{instructions_vol} does not exist"
-      exit 1
-    end
-  end
-  type = cyber_dojo_type(instructions_vol)
-  if type != 'instructions'
-    show help
-    puts "FAILED: #{instructions_vol} is not an instructions volume (it's #{type})"
-    exit 1
-  end
-
+  # explicit volumes?
+  exit 1 unless process_up_volume_arg(help, args, 'languages')     # --languages=VOL
+  exit 1 unless process_up_volume_arg(help, args, 'exercises')     # --exercises=VOL
+  exit 1 unless process_up_volume_arg(help, args, 'instructions')  # --instructions=VOL
   # cyber-dojo.sh does actual [up]
 end
-
-=begin
-def up
- return unless languages == []
-  puts 'No language images pulled'
-  puts 'Pulling a small starting collection of common language images'
-  starting = %w( gcc_assert gpp_assert csharp_nunit java_junit python_pytest ruby_mini_test )
-  starting.each { |image| pull(image) }
-end
-=end
 
 #=========================================================================================
 # volume
