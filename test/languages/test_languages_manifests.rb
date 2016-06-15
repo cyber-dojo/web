@@ -29,24 +29,6 @@ class LanguagesManifestsTests < LanguagesTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'D00EFE',
-  'no two language manifests have the same image_name' do
-    checker = SetupDataChecker.new(languages.path)
-    checker.check_all_manifests_have_a_unique_image_name
-    assert_zero checker.errors
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '16735B',
-  'no two language manifests have the same display_name' do
-    checker = SetupDataChecker.new(languages.path)
-    checker.check_all_manifests_have_a_unique_display_name
-    assert_zero checker.errors
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test '8B45E1',
   'no known flaws in manifests of any language/test/' do
     manifests.each do |filename|

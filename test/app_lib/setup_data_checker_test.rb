@@ -10,10 +10,10 @@ class SetupDataCheckerTest < AppLibTestBase
 
   test '0C1F2F',
   'test_data master (manifested) has no errors' do
-    @checker = SetupDataChecker.new(setup_data_path)
-    @checker.check
-    assert_zero @checker.errors
-    assert_equal 6, @checker.manifests.size
+    checker = SetupDataChecker.new(setup_data_path)
+    errors = checker.check
+    assert_zero errors
+    assert_equal 6, checker.manifests.size
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -69,11 +69,11 @@ class SetupDataCheckerTest < AppLibTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   #test '1B01F7',
-  # 'setup.json with no lhs-column-title is diagnosed as error' do
+  # 'setup.json for exercises with no lhs-column-title is diagnosed as error' do
   # end
 
   # test '993BE1',
-  # 'setup.json with no rhs-column-title is diagnosed as error' do
+  # 'setup.json for exercises with no rhs-column-title is diagnosed as error' do
   # end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -95,9 +95,10 @@ So I still need proper nil error handling on the setup pages
 - - - - - - - - - - - - - - - - - - - - -
 
 Crib
-ruby cyber-dojo.rb volume create --name=abc --git=https://github.com/JonJagger/cyber-dojo-refactoring-exercises.git
 
-ruby ./cyber-dojo.rb volume create --name=default_languages --git=https://github.com/JonJagger/cyber-dojo-languages.git
+ruby ./cyber-dojo.rb volume create --name=default-languages    --git=https://github.com/cyber-dojo/default-languages.git
+ruby ./cyber-dojo.rb volume create --name=default-exercises    --git=https://github.com/cyber-dojo/default-execises.git
+ruby ./cyber-dojo.rb volume create --name=default-instructions --git=https://github.com/cyber-dojo/default-instructions.git
 
 - - - - - - - - - - - - - - - - - - - - -
 

@@ -9,8 +9,8 @@ class SetupDataChecker
     @errors = {}
   end
 
-  attr_reader :manifests # mapped per manifest-filename
-  attr_reader :errors    # mapped per manifest-filename
+  attr_reader :manifests # [manifest-filename] => json-manifest-object
+  attr_reader :errors    # [manifest-filename] => [ error, ... ]
 
   # - - - - - - - - - - - - - - - - - - - -
 
@@ -22,7 +22,10 @@ class SetupDataChecker
     Dir.glob("#{@path}/**/manifest.json").each do |filename|
       fill_manifest(filename)
     end
-    check_all_manifests_have_a_unique_image_name
+
+    #This is wrong. In an exercises volume you are very likely to have duplicate image_names
+    #check_all_manifests_have_a_unique_image_name
+
     check_all_manifests_have_a_unique_display_name
     errors
   end

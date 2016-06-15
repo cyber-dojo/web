@@ -12,9 +12,9 @@ docker_version=$(docker --version | awk '{print $3}' | sed '$s/.$//')
 cyber_dojo_hub=cyberdojofoundation
 cyber_dojo_root=/usr/src/cyber-dojo
 
-default_languages_volume=default_languages
-default_exercises_volume=default_exercises
-default_instructions_volume=default_instructions
+default_languages_volume=default-languages
+default_exercises_volume=default-exercises
+default_instructions_volume=default-instructions
 
 default_rails_environment=production
 

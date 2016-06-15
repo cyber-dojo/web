@@ -55,7 +55,7 @@ def down
     show help
     exit 1
   end
-  # Nothing else to do. cyber-dojo.sh handles [down]
+  # invoking cyber-dojo.sh does actual [down]
 end
 
 #=========================================================================================
@@ -73,7 +73,7 @@ def sh
     show help
     exit 1
   end
-  # Nothing else to do. cyber-dojo.sh handles [sh]
+  # invoking cyber-dojo.sh does actual [sh]
 end
 
 #=========================================================================================
@@ -133,7 +133,16 @@ def up
     show help
     exit 1
   end
-  # Nothing else to do. cyber-dojo.sh handles [up]
+
+  # TODO: check --env is one of [development,production,test]
+
+  # TODO: pull all up-handling from cyber-dojo.sh into here...
+
+  # TODO: check that --languages=VOL is a language volume
+  # TODO: check that --exercises=VOL is an exercise volume
+  # TODO: check that --instructions=VOL is an instructions volume
+
+  # invoking cyber-dojo.sh does actual [up]
 end
 
 =begin
@@ -211,7 +220,7 @@ def cyber_dojo_label(vol)
 end
 
 def cyber_dojo_manifest(vol)
-  command = quoted "cat /data/volume.json"
+  command = quoted "cat /data/setup.json"
   JSON.parse(run "docker run --rm -v #{vol}:/data #{cyber_dojo_hub}/user-base sh -c #{command}")
 end
 
@@ -336,18 +345,6 @@ def volume_create
   # make empty volume
   raising_run "docker volume create --name=#{vol} --label=cyber-dojo-volume=#{url}"
 
-  # fill it from git repo
-  command = quoted [
-    "git clone --depth=1 --branch=master #{url} /data",
-    "rm -rf /data/.git",
-    "chown -R cyber-dojo:cyber-dojo /data"
-  ].join(" && ")
-  raising_run "docker run --rm --volume #{vol}:/data #{cyber_dojo_hub}/user-base sh -c #{command}"
-
-  # TODO: do ALL verification that volume adheres to specification inside
-  #       a check function inside main web server container.
-
-
   # fill it from git repo, chown it, check it
   command = quoted [
     "git clone --depth=1 --branch=master #{url} /data",
@@ -355,37 +352,13 @@ def volume_create
     'chown -R cyber-dojo:cyber-dojo /data',
     'app/lib/check_setup_data.rb /data'
   ].join(" && ")
-  # raising_run "docker run --rm --volume #{vol}:/data #{cyber_dojo_hub}/web:1.11.2 sh -c #{command}"
 
+  raising_run "docker run --user=root --rm --volume #{vol}:/data #{cyber_dojo_hub}/web:1.11.2 sh -c #{command}"
 
   # TODO: put all checks below into app/lib/check_setup_data.rb
   # TODO: make sure there is at least one sub-dir with a manifest.json file
   # TODO: make sure at least one manifest has auto_pull:true
   # TODO: pull docker images marked auto_pull:true
-
-
-  # get its setup.json if it has one
-  command = quoted "cat /data/setup.json"
-  output = raising_run "docker run --rm -v #{vol}:/data #{cyber_dojo_hub}/user-base sh -c #{command}", {
-    msg:"#{vol} cannot read /setup.json"
-  }
-  manifest = json_parse(output) || {}
-
-  # check setup.json is well-formed
-  type = manifest['type']
-  unless ['languages','exercises','instructions'].include? type
-    raise VolumeCreateFailed.new({
-      msg: [
-        "#{vol}'s /setup.json must include one of...",
-        "{ 'type': 'languages' }",
-        "{ 'type': 'exercises' }",
-        "{ 'type': 'instructions' }"
-      ].join("\n")
-    })
-  end
-  # TODO:    if 'type' != 'instructions' check manifest contains...
-  # TODO:    'lhs-column-title': 'name',
-  # TODO:    'rhs-column-title': 'language'
 
   rescue VolumeCreateFailed => error
     error.handle(vol)
