@@ -13,7 +13,7 @@ class SetupDataCheckerTest < AppLibTestBase
     checker = SetupDataChecker.new(setup_data_path)
     errors = checker.check
     assert_zero errors
-    assert_equal 6, checker.manifests.size
+    assert_equal 5, checker.manifests.size
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -15,12 +15,12 @@ class SetupDataChecker
   # - - - - - - - - - - - - - - - - - - - -
 
   def check
-    if fill_manifest(setup_filename)
-      check_setup_json_meets_its_spec
-    end
+    manifest = json_manifest(setup_filename)
+    check_setup_json_meets_its_spec(manifest) unless manifest.nil?
 
     Dir.glob("#{@path}/**/manifest.json").each do |filename|
-      fill_manifest(filename)
+      manifest = json_manifest(filename)
+      @manifests[filename] = manifest unless manifest.nil?
     end
 
     check_all_manifests_have_a_unique_display_name
@@ -32,8 +32,7 @@ class SetupDataChecker
   # TODO: check there is at least one sub-dir with a manifest.json file
   # TODO: check at least one manifest has auto_pull:true ?
 
-  def check_setup_json_meets_its_spec
-    manifest = @manifests[setup_filename]
+  def check_setup_json_meets_its_spec(manifest)
     type = manifest['type']
     if type.nil?
       @errors[setup_filename] << 'no type: entry'
@@ -70,21 +69,19 @@ class SetupDataChecker
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  def fill_manifest(filename)
+  def json_manifest(filename)
     @errors[filename] = []
-    if ! File.exists?(filename)
+    unless File.exists?(filename)
       @errors[filename] << 'missing'
-      return false
+      return nil
     end
-
     begin
       content = IO.read(filename)
-      @manifests[filename] = JSON.parse(content)
-      return true
+      return JSON.parse(content)
     rescue JSON::ParserError
       @errors[filename] << 'bad JSON'
     end
-    return false
+    return nil
   end
 
 end
