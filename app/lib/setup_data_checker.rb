@@ -9,12 +9,7 @@ class SetupDataChecker
     @errors = { setup_path => [] }
     Dir.glob("#{path}/**/manifest.json").each do |filename|
       @errors[filename] = []
-      content = IO.read(filename)
-      begin
-        @manifests[filename] = JSON.parse(content)
-      rescue JSON::ParserError
-        @errors[filename] << 'malformed JSON'
-      end
+      fill_manifest(filename)
     end
   end
 
@@ -25,6 +20,7 @@ class SetupDataChecker
 
   def check
     check_root_setup_json_exists
+    check_root_setup_json_ness
     check_all_manifests_have_a_unique_image_name
     check_all_manifests_have_a_unique_display_name
     errors
@@ -34,6 +30,13 @@ class SetupDataChecker
 
   def check_root_setup_json_exists
     @errors[setup_path] << 'missing' unless File.exists?(setup_path)
+    errors
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  def check_root_setup_json_ness
+    fill_manifest(setup_path)
     errors
   end
 
@@ -84,6 +87,13 @@ class SetupDataChecker
 
   def setup_path
     @path + '/setup.json'
+  end
+
+  def fill_manifest(filename)
+    content = IO.read(filename)
+    @manifests[filename] = JSON.parse(content)
+  rescue JSON::ParserError
+    @errors[filename] << 'bad JSON'
   end
 
 end

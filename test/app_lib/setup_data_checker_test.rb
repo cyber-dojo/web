@@ -13,7 +13,7 @@ class SetupDataCheckerTest < AppLibTestBase
     checker = SetupDataChecker.new(setup_data_path)
     checker.check
     assert_zero checker.errors
-    assert_equal 5, checker.manifests.size
+    assert_equal 6, checker.manifests.size
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -31,20 +31,27 @@ class SetupDataCheckerTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  # test '2F42DF',
-  # 'bad json in root setup.json is diagnosed as error'
-  # end
+  test '2F42DF',
+  'bad json in root setup.json is diagnosed as error' do
+    copy_good_master_to('C6D738') do |tmp_dir|
+      setup_filename = "#{tmp_dir}/setup.json"
+      IO.write(setup_filename, any_bad_json)
+      @checker = SetupDataChecker.new(tmp_dir)
+      @checker.check_root_setup_json_ness
+      assert_error setup_filename, 'bad JSON'
+    end
+  end
 
   # test '28599A',
-  # 'setup.json with no type is diagnosed as error'
+  # 'setup.json with no type is diagnosed as error' do
   # end
 
   # test '1B01F7',
-  # 'setup.json with no lhs-column-title is diagnosed as error'
+  # 'setup.json with no lhs-column-title is diagnosed as error' do
   # end
 
   # test '993BE1',
-  # 'setup.json with no rhs-column-title is diagnosed as error'
+  # 'setup.json with no rhs-column-title is diagnosed as error' do
   # end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -53,10 +60,10 @@ class SetupDataCheckerTest < AppLibTestBase
   'bad json in a manifest.json file is diagnosed as error' do
     copy_good_master_to('1A351C') do |tmp_dir|
       junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
-      IO.write(junit_manifest_filename, bad_json='xxx')
+      IO.write(junit_manifest_filename, any_bad_json)
       @checker = SetupDataChecker.new(tmp_dir)
       assert_nil @checker.manifests[junit_manifest_filename]
-      assert_error junit_manifest_filename, 'malformed JSON'
+      assert_error junit_manifest_filename, 'bad JSON'
     end
   end
 
@@ -65,7 +72,7 @@ class SetupDataCheckerTest < AppLibTestBase
   test '6F36A3',
   'manifests with the same image_name is diagnosed as error' do
     copy_good_master_to('6F36A3') do |tmp_dir|
-      # peturb copy appropriately
+      # peturb
       junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
       content = IO.read(junit_manifest_filename)
       junit_manifest = JSON.parse(content)
@@ -88,7 +95,7 @@ class SetupDataCheckerTest < AppLibTestBase
   test '2C7CFC',
   'manifests with the same display_name is diagnosed as error' do
     copy_good_master_to('2C7CFC') do |tmp_dir|
-      # peturb copy appropriately
+      # peturb
       junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
       content = IO.read(junit_manifest_filename)
       junit_manifest = JSON.parse(content)
@@ -117,7 +124,7 @@ class SetupDataCheckerTest < AppLibTestBase
     assert_raises(RuntimeError) { shell 'sdsdsdsd' }
   end
 
-  private
+  private # = = = = = = = = = = = = = = = = = = = = = = = = = =
 
   def copy_good_master_to(id)
     Dir.mktmpdir('cyber-dojo-' + id) do |tmp_dir|
@@ -160,6 +167,10 @@ class SetupDataCheckerTest < AppLibTestBase
 
   def setup_data_path
     File.expand_path(File.dirname(__FILE__)) + '/setup_data'
+  end
+
+  def any_bad_json
+    'xxx'
   end
 
 end
