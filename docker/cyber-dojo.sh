@@ -160,7 +160,7 @@ cyber_dojo_up() {
     local name=$(echo ${arg} | cut -f1 -s -d=)
     local value=$(echo ${arg} | cut -f2 -s -d=)
 
-    # eg --env=production
+    # eg --env=[development|production|test]
     if [ "${name}" = "--env" ] && [ "${value}" = "development" ]; then
       export CYBER_DOJO_RAILS_ENVIRONMENT=development
     fi
@@ -175,11 +175,11 @@ cyber_dojo_up() {
     if [ "${name}" = "--languages" ] && [ "value" != "" ]; then
       export CYBER_DOJO_LANGUAGES_VOLUME=value
     fi
-
+    # eg --exercises=mike
     if [ "${name}" = "--exercises" ] && [ "value" != "" ]; then
       export CYBER_DOJO_EXERCISES_VOLUME=value
     fi
-
+    # eg --instructions=olve
     if [ "${name}" = "--instructions" ] && [ "value" != "" ]; then
       export CYBER_DOJO_INSTRUCTIONS_VOLUME=value
     fi

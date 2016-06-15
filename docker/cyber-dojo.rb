@@ -21,7 +21,7 @@ def tab; space * 4; end
 
 def minitab; space * 2; end
 
-def show(lines); lines.each { |line| puts line }; end
+def show(lines); lines.each { |line| puts line }; print "\n"; end
 
 def run(command)
   puts command if $debug_mode
@@ -31,13 +31,10 @@ def run(command)
   output
 end
 
-def json_parse(s)
-  manifest = nil
-  begin
-    manifest = JSON.parse(s)
-  rescue
-  end
-  manifest
+def get_arg(name, argv)
+  # eg name=--git argv=--git=URL ====> returns URL
+  args = argv.select{ |arg| arg.start_with?(name + '=')}.map{ |arg| arg.split('=')[1] || '' }
+  args.size == 1 ? args[0] : nil
 end
 
 #=========================================================================================
@@ -55,7 +52,7 @@ def down
     show help
     exit 1
   end
-  # invoking cyber-dojo.sh does actual [down]
+  # cyber-dojo.sh does actual [down]
 end
 
 #=========================================================================================
@@ -73,7 +70,7 @@ def sh
     show help
     exit 1
   end
-  # invoking cyber-dojo.sh does actual [sh]
+  # cyber-dojo.sh does actual [sh]
 end
 
 #=========================================================================================
@@ -85,7 +82,7 @@ def logs
     '',
     "Use: #{me} logs",
     '',
-    "Fetches and prints the logs of the web server (if present)",
+    "Fetches and prints the logs of the web server (if running)",
   ]
   if ['help','--help'].include? ARGV[1]
     show help
@@ -93,7 +90,7 @@ def logs
   end
 
   if `docker ps --quiet --filter "name=cdf-web"` == ''
-    puts "Cannot show logs - there web server is not running"
+    puts "Cannot show logs - the web server is not running"
     exit 1
   else
     puts `docker logs cdf-web`
@@ -111,38 +108,116 @@ def up
     '',
     'Creates and starts the cyber-dojo server using default/named volumes',
     '',
-    minitab + '--languages=VOLUME      Specify the languages volume (otherwise default_languages)',
-    minitab + '--exercises=VOLUME      Specify the exercises volume (otherwise default_exercises)',
-    minitab + '--instructions=VOLUME   Specify the instructions volume (otherwise default_instructions)',
+    minitab + '--languages=VOLUME      Specify the languages volume (otherwise default-languages)',
+    minitab + '--exercises=VOLUME      Specify the exercises volume (otherwise default-exercises)',
+    minitab + '--instructions=VOLUME   Specify the instructions volume (otherwise default-instructions)',
     minitab + '--env=development       Brings up the web server in development environment',
-    minitab + '--env=production        Brings up the web server in production environment',
+    minitab + '--env=production        Brings up the web server in production environment (default)',
     minitab + '--env=test              Brings up the web server in test environment',
   ]
 
+  # - - - - - - - - - - - - - - - - - - - - - - - - -
+  # asked for help?
   if ['help','--help'].include? ARGV[1]
     show help
     exit 1
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - - -
+  # unknown arguments?
   knowns = ['env','languages','exercises','instructions']
   unknown = ARGV[1..-1].select do |argv|
     knowns.none? { |known| argv.start_with?('--' + known + '=') }
   end
-
   if unknown != []
     show help
+    unknown.each { |arg| puts "unknown argument [#{arg}]" }
     exit 1
   end
 
-  # TODO: check --env is one of [development,production,test]
+  # - - - - - - - - - - - - - - - - - - - - - - - - -
+  # --env=
+  args = ARGV[1..-1]
+  env = get_arg('--env', args)
+  if !env.nil? && !['development','production','test'].include?(env)
+    show help
+    puts "bad argument value --env=[#{env}]"
+    exit 1
+  end
 
-  # TODO: pull all up-handling from cyber-dojo.sh into here...
+  # - - - - - - - - - - - - - - - - - - - - - - - - -
+  # --languages=
+  languages_vol = get_arg('--languages', args) || 'default-languages'
+  if languages_vol == ''
+    show help
+    puts "missing argument value --languages=[???]"
+    exit 1
+  end
+  if !volume_exists?(languages_vol)
+    if languages_vol == 'default-languages'
+      # TODO: create it
+    else
+      show help
+      puts "volume #{languages_vol} does not exist"
+      exit 1
+    end
+  end
+  type = cyber_dojo_type(languages_vol)
+  if type != 'languages'
+    show help
+    puts "#{languages_vol} is not a languages volume (it's #{type})"
+    exit 1
+  end
 
-  # TODO: check that --languages=VOL is a language volume
-  # TODO: check that --exercises=VOL is an exercise volume
-  # TODO: check that --instructions=VOL is an instructions volume
+  # - - - - - - - - - - - - - - - - - - - - - - - - -
+  # --exercises=
+  exercises_vol = get_arg('--exercises', args) || 'default-exercises'
+  if exercises_vol == ''
+    show help
+    puts "missing argument value --exercises=[???]"
+    exit 1
+  end
+  if !volume_exists?(exercises_vol)
+    if exercises_vol == 'default-exercises'
+      # TODO: create it
+    else
+      show help
+      puts "volume #{exercises_vol} does not exist"
+      exit 1
+    end
+  end
+  type = cyber_dojo_type(exercises_vol)
+  if type != 'exercises'
+    show help
+    puts "#{exercises_vol} is not an exercise volume (it's #{type})"
+    exit 1
+  end
 
-  # invoking cyber-dojo.sh does actual [up]
+  # - - - - - - - - - - - - - - - - - - - - - - - - -
+  # --instructions=
+  instructions_vol = get_arg('--instructions', args) || 'default-instructions'
+  if instructions_vol == ''
+    show help
+    puts "missing argument value --instructions=[???]"
+    exit 1
+  end
+  if !volume_exists?(instructions_vol)
+    if exercises_vol == 'default-instructions'
+      # TODO: create it
+    else
+      show help
+      puts "volume #{instructions_vol} does not exist"
+      exit 1
+    end
+  end
+  type = cyber_dojo_type(instructions_vol)
+  if type != 'instructions'
+    show help
+    puts "#{instructions_vol} is not an instructions volume (it's #{type})"
+    exit 1
+  end
+
+  # cyber-dojo.sh does actual [up]
 end
 
 =begin
@@ -189,12 +264,6 @@ end
 
 def quoted(s)
   '"' + s + '"'
-end
-
-def get_arg(name, argv)
-  # eg name=--git argv=--git=URL ====> returns URL
-  args = argv.select{ |arg| arg.start_with?(name + '=')}.map{ |arg| arg.split('=')[1] }
-  args.size == 1 ? args[0] : nil
 end
 
 def volume_exists?(name)
