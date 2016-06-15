@@ -93,6 +93,7 @@ class SetupDataCheckerTest < AppLibTestBase
 
   test '6F36A3',
   'manifests with the same image_name is diagnosed as error' do
+    skip 'manifests from exercises-volume are likely to have duplicated image_names'
     copy_good_master_to('6F36A3') do |tmp_dir|
       # peturb
       junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"

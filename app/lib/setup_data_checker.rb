@@ -46,7 +46,8 @@ class SetupDataChecker
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  def check_all_manifests_have_a_unique_image_name
+=begin
+    def check_all_manifests_have_a_unique_image_name
     # It's not unreasonable for two manifests to use the same docker image
     # But you can't do that. If necessary create an empty Dockerfile and
     # create an image with a different name.
@@ -64,6 +65,7 @@ class SetupDataChecker
       end
     end
   end
+=end
 
   # - - - - - - - - - - - - - - - - - - - -
 
