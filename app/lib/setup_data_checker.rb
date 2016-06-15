@@ -31,8 +31,13 @@ class SetupDataChecker
 
   def check_setup_json_meets_its_spec
     manifest = @manifests[setup_filename]
-    if manifest['type'].nil?
+    type = manifest['type']
+    if type.nil?
       @errors[setup_filename] << 'no type: entry'
+    else
+      if ! ['languages','exercises','instructions'].include? type
+        @errors[setup_filename] << 'bad type: entry'
+      end
     end
   end
 

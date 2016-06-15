@@ -57,7 +57,22 @@ class SetupDataCheckerTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  # test '1B01F7',
+  test 'D7B64D',
+  'setup.json with bad type is diagnosed as error' do
+    copy_good_master_to('D7B64D') do |tmp_dir|
+      setup_filename = "#{tmp_dir}/setup.json"
+      IO.write(setup_filename, JSON.unparse({
+        'type' => 'salmon'
+      }))
+      @checker = SetupDataChecker.new(tmp_dir)
+      @checker.check
+      assert_error setup_filename, 'bad type: entry'
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  #test '1B01F7',
   # 'setup.json with no lhs-column-title is diagnosed as error' do
   # end
 
