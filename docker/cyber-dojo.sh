@@ -118,18 +118,6 @@ cyber_dojo_rb() {
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-volume_create() {
-  local vol=$1
-  local url=$2
-  echo "Creating ${vol} from ${url}"
-  cyber_dojo_rb "volume create --name=${vol} --git=${url}"
-  if [ "$?" != "0" ]; then
-    exit 1
-  fi
-}
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 volume_exists() {
   # careful to not match substring
   local start_of_line='^'
@@ -153,7 +141,7 @@ cyber_dojo_sh() {
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 cyber_dojo_up() {
-  # process volume arguments
+  # process arguments
   shift
   for arg in "$*"
   do
@@ -185,40 +173,19 @@ cyber_dojo_up() {
     fi
   done
 
-  # create default volumes if necessary
-  local github_cyber_dojo='https://github.com/cyber-dojo'
-
-  if [ "${CYBER_DOJO_LANGUAGES_VOLUME}" = "${default_languages_volume}" ]; then
-    if ! volume_exists ${default_languages_volume}; then
-      volume_create ${default_languages_volume} "${github_cyber_dojo}/default-languages.git"
-    fi
-  fi
-
-  if [ "${CYBER_DOJO_EXERCISES_VOLUME}" = "${default_exercises_volume}" ]; then
-    if ! volume_exists ${default_exercises_volume}; then
-      volume_create ${default_exercises_volume} "${github_cyber_dojo}/default-exercises.git"
-    fi
-  fi
-
-  if [ "${CYBER_DOJO_INSTRUCTIONS_VOLUME}" = "${default_instructions_volume}" ]; then
-    if ! volume_exists ${default_instructions_volume}; then
-      volume_create ${default_instructions_volume} "${github_cyber_dojo}/default-instructions.git"
-    fi
-  fi
-
   # check default/explicit volumes exist
   if ! volume_exists ${CYBER_DOJO_LANGUAGES_VOLUME}; then
-    echo "volume ${CYBER_DOJO_LANGUAGES_VOLUME} does not exist"
+    echo "FAILED: volume ${CYBER_DOJO_LANGUAGES_VOLUME} does not exist"
     exit 1
   fi
 
   if ! volume_exists ${CYBER_DOJO_EXERCISES_VOLUME}; then
-    echo "volume ${CYBER_DOJO_EXERCISES_VOLUME} does not exist"
+    echo "FAILED: volume ${CYBER_DOJO_EXERCISES_VOLUME} does not exist"
     exit 1
   fi
 
   if ! volume_exists ${CYBER_DOJO_INSTRUCTIONS_VOLUME}; then
-    echo "volume ${CYBER_DOJO_INSTRUCTIONS_VOLUME} does not exist"
+    echo "FAILED: volume ${CYBER_DOJO_INSTRUCTIONS_VOLUME} does not exist"
     exit 1
   fi
 
@@ -226,6 +193,7 @@ cyber_dojo_up() {
   echo "Using volume --languages=${CYBER_DOJO_LANGUAGES_VOLUME}"
   echo "Using volume --exercises=${CYBER_DOJO_EXERCISES_VOLUME}"
   echo "Using volume --instructions=${CYBER_DOJO_INSTRUCTIONS_VOLUME}"
+
   # bring up server with volumes
   ${docker_compose_cmd} up -d
 }

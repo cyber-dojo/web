@@ -1,4 +1,9 @@
 
+cyber-dojo.rb failure messages are
+FAILED: ....
+Check what [docker] does and mimic that.
+
+- - - - - - - - - - - - - - - - - - - - -
 
 test/languages/test_languages_manifests.rb
   on startup the app should run the tests/checks to verify 3 setup volumes are well-formed.
@@ -94,7 +99,7 @@ So I still need proper nil error handling on the setup pages
 
 - - - - - - - - - - - - - - - - - - - - -
 
-Crib
+Cribs
 
 ruby ./cyber-dojo.rb volume create --name=default-languages    --git=https://github.com/cyber-dojo/default-languages.git
 ruby ./cyber-dojo.rb volume create --name=default-exercises    --git=https://github.com/cyber-dojo/default-execises.git

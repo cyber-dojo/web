@@ -90,7 +90,7 @@ def logs
   end
 
   if `docker ps --quiet --filter "name=cdf-web"` == ''
-    puts "Cannot show logs - the web server is not running"
+    puts "FAILED: Cannot show logs - the web server is not running"
     exit 1
   else
     puts `docker logs cdf-web`
@@ -106,7 +106,7 @@ def up
     '',
     "Use: #{me} up [OPTIONS]",
     '',
-    'Creates and starts the cyber-dojo server using default/named volumes',
+    'Creates and starts the cyber-dojo server using named/default volumes',
     '',
     minitab + '--languages=VOLUME      Specify the languages volume (otherwise default-languages)',
     minitab + '--exercises=VOLUME      Specify the exercises volume (otherwise default-exercises)',
@@ -131,7 +131,7 @@ def up
   end
   if unknown != []
     show help
-    unknown.each { |arg| puts "unknown argument [#{arg}]" }
+    unknown.each { |arg| puts "FAILED: unknown argument [#{arg}]" }
     exit 1
   end
 
@@ -141,31 +141,33 @@ def up
   env = get_arg('--env', args)
   if !env.nil? && !['development','production','test'].include?(env)
     show help
-    puts "bad argument value --env=[#{env}]"
+    puts "FAILED: bad argument value --env=[#{env}]"
     exit 1
   end
+
+  github_cyber_dojo = 'https://github.com/cyber-dojo'
 
   # - - - - - - - - - - - - - - - - - - - - - - - - -
   # --languages=
   languages_vol = get_arg('--languages', args) || 'default-languages'
   if languages_vol == ''
     show help
-    puts "missing argument value --languages=[???]"
+    puts "FAILED: missing argument value --languages=[???]"
     exit 1
   end
   if !volume_exists?(languages_vol)
     if languages_vol == 'default-languages'
-      # TODO: create it
+      git_clone_into_new_volume('default-languages', "#{github_cyber_dojo}/default-languages.git")
     else
       show help
-      puts "volume #{languages_vol} does not exist"
+      puts "FAILED: volume #{languages_vol} does not exist"
       exit 1
     end
   end
   type = cyber_dojo_type(languages_vol)
   if type != 'languages'
     show help
-    puts "#{languages_vol} is not a languages volume (it's #{type})"
+    puts "FAILED: #{languages_vol} is not a languages volume (it's #{type})"
     exit 1
   end
 
@@ -174,22 +176,22 @@ def up
   exercises_vol = get_arg('--exercises', args) || 'default-exercises'
   if exercises_vol == ''
     show help
-    puts "missing argument value --exercises=[???]"
+    puts "FAILED: missing argument value --exercises=[???]"
     exit 1
   end
   if !volume_exists?(exercises_vol)
     if exercises_vol == 'default-exercises'
-      # TODO: create it
+      git_clone_into_new_volume('default-exercises', "#{github_cyber_dojo}/default-exercises.git")
     else
       show help
-      puts "volume #{exercises_vol} does not exist"
+      puts "FAILED: volume #{exercises_vol} does not exist"
       exit 1
     end
   end
   type = cyber_dojo_type(exercises_vol)
   if type != 'exercises'
     show help
-    puts "#{exercises_vol} is not an exercise volume (it's #{type})"
+    puts "FAILED: #{exercises_vol} is not an exercise volume (it's #{type})"
     exit 1
   end
 
@@ -198,22 +200,22 @@ def up
   instructions_vol = get_arg('--instructions', args) || 'default-instructions'
   if instructions_vol == ''
     show help
-    puts "missing argument value --instructions=[???]"
+    puts "FAILED: missing argument value --instructions=[???]"
     exit 1
   end
   if !volume_exists?(instructions_vol)
     if exercises_vol == 'default-instructions'
-      # TODO: create it
+      git_clone_into_new_volume('default-instructions', "#{github_cyber_dojo}/default-instructions.git")
     else
       show help
-      puts "volume #{instructions_vol} does not exist"
+      puts "FAILED: volume #{instructions_vol} does not exist"
       exit 1
     end
   end
   type = cyber_dojo_type(instructions_vol)
   if type != 'instructions'
     show help
-    puts "#{instructions_vol} is not an instructions volume (it's #{type})"
+    puts "FAILED: #{instructions_vol} is not an instructions volume (it's #{type})"
     exit 1
   end
 
@@ -325,7 +327,7 @@ class VolumeCreateFailed < Exception
 
     msg = self[:msg] || ''
     msg = ' - ' + msg unless msg == ''
-    puts "FAILED [volume create --name=#{vol}]#{msg}"
+    puts "FAILED: [volume create --name=#{vol}]#{msg}"
 
     unless self[:cidfile].nil?
       cid = IO.read self[:cidfile]
@@ -380,6 +382,23 @@ end
 # volume create
 #=========================================================================================
 
+def git_clone_into_new_volume(name, url)
+  puts "Creating #{name} from #{url}"
+  # make empty volume
+  raising_run "docker volume create --name=#{name} --label=cyber-dojo-volume=#{url}"
+  # fill it from git repo, chown it, check it
+  command = quoted [
+    "git clone --depth=1 --branch=master #{url} /data",
+    'rm -rf /data/.git',
+    'chown -R cyber-dojo:cyber-dojo /data',
+    'app/lib/check_setup_data.rb /data'
+  ].join(" && ")
+
+  raising_run "docker run --user=root --rm --volume #{name}:/data #{cyber_dojo_hub}/web:1.11.2 sh -c #{command}"
+end
+
+# - - - - - - - - - - - - - - - - - -
+
 def volume_create
   help = [
     '',
@@ -405,30 +424,17 @@ def volume_create
 
   if vol.length == 1
     msg = 'volume names must be at least two characters long. See https://github.com/docker/docker/issues/20122'
-    puts "FAILED [volume create --name=#{vol}] #{msg}"
+    puts "FAILED: [volume create --name=#{vol}] #{msg}"
     exit 1
   end
 
   if volume_exists? vol
     msg = "#{vol} already exists"
-    puts "FAILED [volume create --name=#{vol}] #{msg}"
+    puts "FAILED: [volume create --name=#{vol}] #{msg}"
     exit 1
   end
 
-  # TODO: add code from cyber-dojo.sh here
-
-  # make empty volume
-  raising_run "docker volume create --name=#{vol} --label=cyber-dojo-volume=#{url}"
-
-  # fill it from git repo, chown it, check it
-  command = quoted [
-    "git clone --depth=1 --branch=master #{url} /data",
-    'rm -rf /data/.git',
-    'chown -R cyber-dojo:cyber-dojo /data',
-    'app/lib/check_setup_data.rb /data'
-  ].join(" && ")
-
-  raising_run "docker run --user=root --rm --volume #{vol}:/data #{cyber_dojo_hub}/web:1.11.2 sh -c #{command}"
+  git_clone_into_new_volume(vol, url)
 
   # TODO: pull docker images marked auto_pull:true
 
@@ -442,12 +448,12 @@ end
 def exit_unless_is_cyber_dojo_volume(vol, command)
   # TODO: when its implemented, use [volume ls --quiet] ?
   if !volume_exists? vol
-    puts "FAILED [volume #{command} #{vol}] - #{vol} does not exist."
+    puts "FAILED: [volume #{command} #{vol}] - #{vol} does not exist."
     exit 1
   end
 
   if !cyber_dojo_volume? vol
-    puts "FAILED [volume #{command} #{vol}] - #{vol} is not a cyber-dojo volume."
+    puts "FAILED: [volume #{command} #{vol}] - #{vol} is not a cyber-dojo volume."
     exit 1
   end
 end
