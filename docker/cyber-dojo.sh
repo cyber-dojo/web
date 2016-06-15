@@ -12,12 +12,6 @@ docker_version=$(docker --version | awk '{print $3}' | sed '$s/.$//')
 cyber_dojo_hub=cyberdojofoundation
 cyber_dojo_root=/usr/src/cyber-dojo
 
-default_languages_volume=default-languages
-default_exercises_volume=default-exercises
-default_instructions_volume=default-instructions
-
-default_rails_environment=production
-
 # set environment variables required by docker-compose.yml
 
 # important that data-root is not under app so any ruby files it might contain
@@ -40,11 +34,10 @@ export CYBER_DOJO_RUNNER_CLASS=${CYBER_DOJO_RUNNER_CLASS:=DockerTarPipeRunner}
 export CYBER_DOJO_RUNNER_SUDO='sudo -u docker-runner sudo'
 export CYBER_DOJO_RUNNER_TIMEOUT=${CYBER_DOJO_RUNNER_TIMEOUT:=10}
 
-export CYBER_DOJO_LANGUAGES_VOLUME=${default_languages_volume}
-export CYBER_DOJO_EXERCISES_VOLUME=${default_exercises_volume}
-export CYBER_DOJO_INSTRUCTIONS_VOLUME=${default_instructions_volume}
-
-export CYBER_DOJO_RAILS_ENVIRONMENT=${default_rails_environment}
+export CYBER_DOJO_RAILS_ENVIRONMENT=production
+export CYBER_DOJO_LANGUAGES_VOLUME=default-languages
+export CYBER_DOJO_EXERCISES_VOLUME=default-exercises
+export CYBER_DOJO_INSTRUCTIONS_VOLUME=default-instructions
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -147,29 +140,29 @@ cyber_dojo_up() {
   do
     local name=$(echo ${arg} | cut -f1 -s -d=)
     local value=$(echo ${arg} | cut -f2 -s -d=)
-
-    # eg --env=[development|production|test]
+    # --env=development
     if [ "${name}" = "--env" ] && [ "${value}" = "development" ]; then
       export CYBER_DOJO_RAILS_ENVIRONMENT=development
     fi
+    # --env=production
     if [ "${name}" = "--env" ] && [ "${value}" = "production" ]; then
       export CYBER_DOJO_RAILS_ENVIRONMENT=production
     fi
+    # --env=test
     if [ "${name}" = "--env" ] && [ "${value}" = "test" ]; then
       export CYBER_DOJO_RAILS_ENVIRONMENT=test
     fi
-
-    # eg --languages=james
-    if [ "${name}" = "--languages" ] && [ "value" != "" ]; then
-      export CYBER_DOJO_LANGUAGES_VOLUME=value
+    # --languages=james
+    if [ "${name}" = "--languages" ] && [ "${value}" != "" ]; then
+      export CYBER_DOJO_LANGUAGES_VOLUME=${value}
     fi
-    # eg --exercises=mike
-    if [ "${name}" = "--exercises" ] && [ "value" != "" ]; then
-      export CYBER_DOJO_EXERCISES_VOLUME=value
+    # --exercises=mike
+    if [ "${name}" = "--exercises" ] && [ "${value}" != "" ]; then
+      export CYBER_DOJO_EXERCISES_VOLUME=${value}
     fi
-    # eg --instructions=olve
-    if [ "${name}" = "--instructions" ] && [ "value" != "" ]; then
-      export CYBER_DOJO_INSTRUCTIONS_VOLUME=value
+    # --instructions=olve
+    if [ "${name}" = "--instructions" ] && [ "${value}" != "" ]; then
+      export CYBER_DOJO_INSTRUCTIONS_VOLUME=${value}
     fi
   done
 
@@ -178,12 +171,10 @@ cyber_dojo_up() {
     echo "FAILED: volume ${CYBER_DOJO_LANGUAGES_VOLUME} does not exist"
     exit 1
   fi
-
   if ! volume_exists ${CYBER_DOJO_EXERCISES_VOLUME}; then
     echo "FAILED: volume ${CYBER_DOJO_EXERCISES_VOLUME} does not exist"
     exit 1
   fi
-
   if ! volume_exists ${CYBER_DOJO_INSTRUCTIONS_VOLUME}; then
     echo "FAILED: volume ${CYBER_DOJO_INSTRUCTIONS_VOLUME} does not exist"
     exit 1
