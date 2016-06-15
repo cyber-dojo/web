@@ -7,10 +7,6 @@ class SetupDataChecker
     @path = path.chomp('/')
     @manifests = {}
     @errors = {}
-    fill_manifest(setup_filename)
-    Dir.glob("#{path}/**/manifest.json").each do |filename|
-      fill_manifest(filename)
-    end
   end
 
   attr_reader :manifests # mapped per manifest-filename
@@ -19,7 +15,13 @@ class SetupDataChecker
   # - - - - - - - - - - - - - - - - - - - -
 
   def check
-    check_setup_json_meets_its_spec
+    if fill_manifest(setup_filename)
+      check_setup_json_meets_its_spec
+    end
+
+    Dir.glob("#{@path}/**/manifest.json").each do |filename|
+      fill_manifest(filename)
+    end
     check_all_manifests_have_a_unique_image_name
     check_all_manifests_have_a_unique_display_name
     errors
@@ -85,14 +87,17 @@ class SetupDataChecker
     @errors[filename] = []
     if ! File.exists?(filename)
       @errors[filename] << 'missing'
-    else
-      begin
-        content = IO.read(filename)
-        @manifests[filename] = JSON.parse(content)
-      rescue JSON::ParserError
-        @errors[filename] << 'bad JSON'
-      end
+      return false
     end
+
+    begin
+      content = IO.read(filename)
+      @manifests[filename] = JSON.parse(content)
+      return true
+    rescue JSON::ParserError
+      @errors[filename] << 'bad JSON'
+    end
+    return false
   end
 
 end

@@ -10,10 +10,10 @@ class SetupDataCheckerTest < AppLibTestBase
 
   test '0C1F2F',
   'test_data master (manifested) has no errors' do
-    checker = SetupDataChecker.new(setup_data_path)
-    checker.check
-    assert_zero checker.errors
-    assert_equal 6, checker.manifests.size
+    @checker = SetupDataChecker.new(setup_data_path)
+    @checker.check
+    assert_zero @checker.errors
+    assert_equal 6, @checker.manifests.size
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -24,6 +24,7 @@ class SetupDataCheckerTest < AppLibTestBase
       setup_filename = "#{tmp_dir}/setup.json"
       shell "mv #{setup_filename} #{tmp_dir}/setup.json.missing"
       @checker = SetupDataChecker.new(tmp_dir)
+      @checker.check
       assert_error setup_filename, 'missing'
     end
   end
@@ -32,10 +33,11 @@ class SetupDataCheckerTest < AppLibTestBase
 
   test '2F42DF',
   'bad json in root setup.json is diagnosed as error' do
-    copy_good_master_to('C6D738') do |tmp_dir|
+    copy_good_master_to('2F42DF') do |tmp_dir|
       setup_filename = "#{tmp_dir}/setup.json"
       IO.write(setup_filename, any_bad_json)
       @checker = SetupDataChecker.new(tmp_dir)
+      @checker.check
       assert_error setup_filename, 'bad JSON'
     end
   end
@@ -53,6 +55,8 @@ class SetupDataCheckerTest < AppLibTestBase
     end
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   # test '1B01F7',
   # 'setup.json with no lhs-column-title is diagnosed as error' do
   # end
@@ -69,6 +73,7 @@ class SetupDataCheckerTest < AppLibTestBase
       junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
       IO.write(junit_manifest_filename, any_bad_json)
       @checker = SetupDataChecker.new(tmp_dir)
+      @checker.check
       assert_nil @checker.manifests[junit_manifest_filename]
       assert_error junit_manifest_filename, 'bad JSON'
     end
