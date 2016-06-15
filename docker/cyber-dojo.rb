@@ -204,7 +204,7 @@ def up
     exit 1
   end
   if !volume_exists?(instructions_vol)
-    if exercises_vol == 'default-instructions'
+    if instructions_vol == 'default-instructions'
       git_clone_into_new_volume('default-instructions', "#{github_cyber_dojo}/default-instructions.git")
     else
       show help
