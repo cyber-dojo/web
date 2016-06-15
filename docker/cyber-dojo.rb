@@ -164,14 +164,14 @@ def volume
     '',
     "Use: #{me} volume [COMMAND]",
     '',
-    'Manage cyber-dojo volumes',
+    'Manage cyber-dojo setup volumes',
     '',
     'Commands:',
-    minitab + 'create         Creates a new cyber-dojo volume',
-    minitab + 'rm             Removes a cyber-dojo volume',
-    minitab + 'ls             Lists the names of all cyber-dojo volumes',
-    minitab + 'inspect        Displays details of a cyber-dojo volume',
-    minitab + 'pull           Pulls the docker images inside a cyber-dojo volume',
+    minitab + 'create         Creates a new volume',
+    minitab + 'rm             Removes a volume',
+    minitab + 'ls             Lists the names of all volumes',
+    minitab + 'inspect        Displays details of a volume',
+    minitab + 'pull           Pulls the docker images inside a volume',
     '',
     "Run '#{me} volume COMMAND --help' for more information on a command",
   ]
@@ -307,7 +307,9 @@ def raising_run(command, hash = {})
   output
 end
 
-# - - - - - - - - - - - - - - -
+#=========================================================================================
+# volume create
+#=========================================================================================
 
 def volume_create
   help = [
@@ -321,6 +323,8 @@ def volume_create
     show help
     exit 1
   end
+
+  # TODO: check for unknown args
 
   args = ARGV[2..-1]
   vol = get_arg('--name', args)
@@ -342,6 +346,8 @@ def volume_create
     exit 1
   end
 
+  # TODO: add code from cyber-dojo.sh here
+
   # make empty volume
   raising_run "docker volume create --name=#{vol} --label=cyber-dojo-volume=#{url}"
 
@@ -355,9 +361,6 @@ def volume_create
 
   raising_run "docker run --user=root --rm --volume #{vol}:/data #{cyber_dojo_hub}/web:1.11.2 sh -c #{command}"
 
-  # TODO: put all checks below into app/lib/check_setup_data.rb
-  # TODO: make sure there is at least one sub-dir with a manifest.json file
-  # TODO: make sure at least one manifest has auto_pull:true
   # TODO: pull docker images marked auto_pull:true
 
   rescue VolumeCreateFailed => error
@@ -380,7 +383,9 @@ def exit_unless_is_cyber_dojo_volume(vol, command)
   end
 end
 
-# - - - - - - - - - - - - - - -
+#=========================================================================================
+# volume rm
+#=========================================================================================
 
 def volume_rm
   # Allow deletion of a default volume.
@@ -408,7 +413,9 @@ def volume_rm
 
 end
 
-# - - - - - - - - - - - - - - -
+#=========================================================================================
+# volume ls
+#=========================================================================================
 
 def volume_ls
   help = [
@@ -462,7 +469,9 @@ def volume_ls
 
 end
 
-# - - - - - - - - - - - - - - -
+#=========================================================================================
+# volume pull
+#=========================================================================================
 
 def volume_pull
   help = [
@@ -484,7 +493,9 @@ def volume_pull
   #Then do [docker pull IMAGE] for any not present
 end
 
-# - - - - - - - - - - - - - - -
+#=========================================================================================
+# volume inspect
+#=========================================================================================
 
 def volume_inspect # was catalog
   help = [
@@ -506,8 +517,20 @@ def volume_inspect # was catalog
 
   # Note: this will volume mount the named VOL to find its info
   #       then use globbing as per line 359
-  #       it does not show the details of what volumes are inside the running web container.
+  #       it does *not* show the details of what volumes are inside the running web container.
 end
+
+
+#=========================================================================================
+#=========================================================================================
+#=========================================================================================
+#=========================================================================================
+# old code below here
+#=========================================================================================
+#=========================================================================================
+#=========================================================================================
+#=========================================================================================
+
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # catalog
@@ -703,7 +726,7 @@ def help
     tab + 'sh        Shells into the server',
     tab + 'up        Brings up the server',
     tab + 'upgrade   Upgrades the server and languages',
-    tab + 'volume    Manage cyber-dojo data volumes',
+    tab + 'volume    Manage cyber-dojo setup volumes',
     '',
     "Run '#{me} COMMAND --help' for more information on a command."
   ].join("\n") + "\n"
