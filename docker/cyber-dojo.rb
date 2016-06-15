@@ -335,7 +335,7 @@ def git_clone_into_new_volume(name, url)
     'chown -R cyber-dojo:cyber-dojo /data',
     'app/lib/check_setup_data.rb /data'
   ].join(" && ")
-
+  # TODO: get proper docker version
   raising_run "docker run --user=root --rm --volume #{name}:/data #{cyber_dojo_hub}/web:1.11.2 sh -c #{command}"
 end
 

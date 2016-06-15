@@ -17,18 +17,6 @@ class LanguagesManifestsTests < LanguagesTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def assert_zero(errors)
-    count = 0
-    errors.each do |filename,messages|
-      puts filename if messages.size != 0
-      messages.each { |message| puts "\t" + message }
-      count += messages.size
-    end
-    assert_equal 0, count
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test '8B45E1',
   'no known flaws in manifests of any language/test/' do
     manifests.each do |filename|
