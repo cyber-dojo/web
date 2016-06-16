@@ -11,11 +11,15 @@ Check what [docker] does and mimic that.
 - - - - - - - - - - - - - - - - - - - - -
 
 cyber-dojo volume create --name=VOL --git=URL
-this URL cannot be on the local disk, since by default
-its path will not be visible inside the docker container
+this URL cannot (at present) be on the local disk, since
+the docker command is run *inside* the docker container
 (which on OSX is running elsewhere, on the default VM)
-Could handle this in cyber-dojo.sh and somehow mount the local path
-inside the docker container.
+Could handle this in cyber-dojo.sh ... (somewhat like katas-data-container)
+  o) git clone the URL locally
+  o) create an empty named volume
+  o) docker create a container and volume mount empty volume
+  o) docker cp the locally cloned repo into the volume's path
+  o) check it inside the container
 
 - - - - - - - - - - - - - - - - - - - - -
 
