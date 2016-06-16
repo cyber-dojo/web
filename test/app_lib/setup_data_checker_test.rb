@@ -193,7 +193,7 @@ class SetupDataCheckerTest < AppLibTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'ABD942',
-  'display_name without a comma is diagnosed as error' do
+  'invalid display_name is diagnosed as error' do
     bad_display_name = lambda do |bad|
       copy_good_master_to('ABD942') do |tmp_dir|
         # peturn
@@ -206,10 +206,27 @@ class SetupDataCheckerTest < AppLibTestBase
         assert_error junit_manifest_filename, "display_name not in 'A,B' format"
       end
     end
+    bad_display_name.call('')
     bad_display_name.call('no comma')
     bad_display_name.call('one,two,commas')
     bad_display_name.call(',nothing to left')
     bad_display_name.call('nothing to right,')
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '75CBD4',
+  'empty image_name is diagnosed as error' do
+    copy_good_master_to('75CBD4') do |tmp_dir|
+      # peturn
+      junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
+      content = IO.read(junit_manifest_filename)
+      junit_manifest = JSON.parse(content)
+      junit_manifest['image_name'] = ''
+      IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
+      check
+      assert_error junit_manifest_filename, "image_name is empty"
+    end
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -22,7 +22,6 @@ class LanguagesManifestsTests < LanguagesTestBase
 
   def check_manifest(dir)
     @language = dir
-    assert image_name_valid?
     assert highlight_filenames_are_subset_of_visible_filenames?
     assert progress_regexs_valid?
     refute filename_extension_starts_with_dot?
@@ -51,32 +50,6 @@ class LanguagesManifestsTests < LanguagesTestBase
         Regexp.new(s)
       rescue
         return false_puts_alert "#{manifest_filename} cannot create a Regexp from #{s}"
-      end
-    end
-    true_dot
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def image_name_valid?
-    parts = image_name.split('_')
-    if parts.size < 2
-      message = "#{manifest_filename}'s 'image_name':'#{image_name}'" +
-                " is not in 'language_test' format"
-      return false_puts_alert message
-    end
-    language_name = parts[0]
-    test_name = parts[1..-1].join('_')
-    if language_name.count("0-9") > 0
-      message = "#{manifest_filename}'s 'image_name':'#{image_name}'" +
-                " contains digits in the language name '#{language_name}"
-      return false_puts_alert message
-    end
-    if test_name.count(".0-9") > 0
-      unless [language_name,test_name] == ['bash','shunit2']
-        message = "#{manifest_filename}'s 'image_name':'#{image_name}'" +
-                  " contains digits in the test name '#{test_name}"
-        return false_puts_alert message
       end
     end
     true_dot

@@ -33,6 +33,7 @@ class SetupDataChecker
       check_all_visible_files_exist(filename, manifest)
       check_no_duplicate_visible_files(filename, manifest)
       check_display_name_is_valid(filename, manifest)
+      check_image_name_is_not_empty(filename, manifest)
     end
     errors
   end
@@ -147,6 +148,14 @@ class SetupDataChecker
     parts = display_name.split(',').select { |part| part.strip != '' }
     unless parts.length == 2
       @errors[manifest_filename] << "display_name not in 'A,B' format"
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  def check_image_name_is_not_empty(manifest_filename, manifest)
+    if manifest['image_name'] == ''
+      @errors[manifest_filename] << 'image_name is empty'
     end
   end
 
