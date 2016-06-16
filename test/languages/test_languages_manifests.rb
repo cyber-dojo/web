@@ -23,7 +23,6 @@ class LanguagesManifestsTests < LanguagesTestBase
   def check_manifest(dir)
     @language = dir
     assert highlight_filenames_are_subset_of_visible_filenames?
-    assert progress_regexs_valid?
     refute filename_extension_starts_with_dot?
     assert cyberdojo_sh_exists?
     assert cyberdojo_sh_has_execute_permission?
@@ -32,27 +31,6 @@ class LanguagesManifestsTests < LanguagesTestBase
     refute any_files_group_is_root?
     refute any_file_is_unreadable?
     assert created_kata_manifests_language_entry_round_trips?
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def progress_regexs_valid?
-    if progress_regexs.class.name != 'Array'
-      message = "#{manifest_filename}'s progress_regexs entry is not an array"
-      return false_puts_alert message
-    end
-    if progress_regexs.length != 0 && progress_regexs.length != 2
-      message = "#{manifest_filename}'s 'progress_regexs' entry does not contain 2 entries"
-      return false_puts_alert message
-    end
-    progress_regexs.each do |s|
-      begin
-        Regexp.new(s)
-      rescue
-        return false_puts_alert "#{manifest_filename} cannot create a Regexp from #{s}"
-      end
-    end
-    true_dot
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

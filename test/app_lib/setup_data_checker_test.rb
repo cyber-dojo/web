@@ -127,16 +127,25 @@ class SetupDataCheckerTest < AppLibTestBase
 
   test '243554',
   'missing required key is diagnosed as error' do
-    copy_good_master_to('243554') do |tmp_dir|
-      # peturb
-      junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
-      content = IO.read(junit_manifest_filename)
-      junit_manifest = JSON.parse(content)
-      junit_manifest.delete('display_name')
-      IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
-      check
-      assert_error junit_manifest_filename, "missing required key 'display_name'"
+    missing_require_key = lambda do |key|
+      copy_good_master_to('243554_'+key) do |tmp_dir|
+        # peturb
+        junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
+        content = IO.read(junit_manifest_filename)
+        junit_manifest = JSON.parse(content)
+        assert junit_manifest.keys.include? key
+        junit_manifest.delete(key)
+        IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
+        check
+        assert_error junit_manifest_filename, "missing required key '#{key}'"
+      end
     end
+    required_keys = %w( display_name
+                        image_name
+                        unit_test_framework
+                        visible_filenames
+                      )
+    required_keys.each { |key| missing_require_key.call(key) }
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -227,6 +236,29 @@ class SetupDataCheckerTest < AppLibTestBase
       check
       assert_error junit_manifest_filename, "image_name is empty"
     end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '2B1623',
+  'invalid progress_regexs is diagnosed as error' do
+    bad_progress_regexs = lambda do |bad, expected|
+      copy_good_master_to('2B1623') do |tmp_dir|
+        # peturn
+        junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
+        content = IO.read(junit_manifest_filename)
+        junit_manifest = JSON.parse(content)
+        junit_manifest['progress_regexs'] = bad
+        IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
+        check
+        assert_error junit_manifest_filename, expected
+      end
+    end
+    bad_progress_regexs.call({}, 'progress_regexs: must be an Array')
+    bad_progress_regexs.call([], 'progress_regexs: must contain 2 items')
+    bad_progress_regexs.call([1,2], 'progress_regexs: must contain 2 strings')
+    bad_progress_regexs.call(['(\\','ok'], 'progress_regexs: cannot create regex from (\\')
+    bad_progress_regexs.call(['ok','(\\'], 'progress_regexs: cannot create regex from (\\')
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
