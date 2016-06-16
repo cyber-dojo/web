@@ -26,7 +26,6 @@ class LanguagesManifestsTests < LanguagesTestBase
     refute filename_extension_starts_with_dot?
     assert cyberdojo_sh_exists?
     assert cyberdojo_sh_has_execute_permission?
-    assert colour_method_for_unit_test_framework_output_exists?
     refute any_files_owner_is_root?
     refute any_files_group_is_root?
     refute any_file_is_unreadable?
@@ -88,23 +87,6 @@ class LanguagesManifestsTests < LanguagesTestBase
   def cyberdojo_sh_has_execute_permission?
     unless File.stat(language_dir + '/' + 'cyber-dojo.sh').executable?
       return false_puts_alert 'cyber-dojo.sh does not have execute permission'
-    end
-    true_dot
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def colour_method_for_unit_test_framework_output_exists?
-    has_parse_method = true
-    begin
-      OutputColour.of(unit_test_framework, any_output='xx')
-    rescue
-      has_parse_method = false
-    end
-    unless has_parse_method
-      message = "app/lib/OutputColour.rb does not contain a " +
-                "parse_#{unit_test_framework}(output) method"
-      return false_puts_alert message
     end
     true_dot
   end

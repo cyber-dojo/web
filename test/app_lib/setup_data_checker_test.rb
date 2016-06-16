@@ -50,7 +50,7 @@ class SetupDataCheckerTest < AppLibTestBase
       setup_filename = "#{tmp_dir}/setup.json"
       IO.write(setup_filename, '{}')
       check
-      assert_error setup_filename, 'no type: entry'
+      assert_error setup_filename, 'type: missing'
     end
   end
 
@@ -199,6 +199,7 @@ class SetupDataCheckerTest < AppLibTestBase
     replace_in_manifest(tid, key, 1    , key + ': must be a String')
     replace_in_manifest(tid, key, [ 1 ], key + ': must be a String')
     replace_in_manifest(tid, key, ''   , key + ': is empty')
+    replace_in_manifest(tid, key, 'xx' , key + ': no OutputColour.parse_xx method')
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -332,8 +333,7 @@ class SetupDataCheckerTest < AppLibTestBase
   def assert_error filename, expected
     messages = @checker.errors[filename]
     assert_equal 'Array', messages.class.name
-    assert_equal 1, messages.size, "no errors for #{filename}!"
-    assert_equal expected, messages[0]
+    assert_equal [ expected ], messages
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
