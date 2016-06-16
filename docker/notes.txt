@@ -15,11 +15,32 @@ this URL cannot (at present) be on the local disk, since
 the docker command is run *inside* the docker container
 (which on OSX is running elsewhere, on the default VM)
 Could handle this in cyber-dojo.sh ... (somewhat like katas-data-container)
-  o) git clone the URL locally
-  o) create an empty named volume
-  o) docker create a container and volume mount empty volume
-  o) docker cp the locally cloned repo into the volume's path
-  o) check it inside the container
+
+$ cd /tmp
+$ git clone --depth=1 --branch=master file:///Users/jonjagger/repos/default-exercises jj
+$ docker volume create --name=jon --label=cyber-dojo-volume=file:///Users/jonjagger/repos/default-exercises
+$ cid=$(docker run --detach \
+                   --interactive \
+                   --net=none \
+                   --user=root \
+                   --volume=jon:/data \
+                   cyberdojofoundation/web:1.11.2 sh)
+
+$ docker cp jj/. ${cid}:/data
+
+$ docker exec ${cid} sh -c "cd /data && rm -rf .git"
+$ docker exec ${cid} sh -c "chown -R cyber-dojo:cyber-dojo /data"
+$ docker exec ${cid} sh -c "cd /data && ls -al"
+$ docker exec ${cid} sh -c "cd /usr/src/cyber-dojo/app/lib && ./check_setup_data.rb /data"
+$ success=$?
+$ docker rm -f ${cid}
+$ docker volume ls
+
+Note the line 29 is
+$ docker cp jj/. ${cid}:/data
+and not
+$ docker cp jj ${cid}:/data
+When the src ends in /. its contents are copied.
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -29,8 +50,8 @@ default-pulled images are
 - - - - - - - - - - - - - - - - - - - - -
 
 test/languages/test_languages_manifests.rb
-  on startup the app should run the tests/checks
-  to verify 3 setup volumes are well-formed.
+  on startup should the app should run the tests/checks
+  to verify 3 setup volumes are well-formed?
 
 - - - - - - - - - - - - - - - - - - - - -
 
