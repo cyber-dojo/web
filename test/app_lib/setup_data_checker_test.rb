@@ -157,6 +157,22 @@ class SetupDataCheckerTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test '1FEC31',
+  'missing visible file is diagnosed as error' do
+    copy_good_master_to('1FEC31') do |tmp_dir|
+      # peturn
+      junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
+      content = IO.read(junit_manifest_filename)
+      junit_manifest = JSON.parse(content)
+      missing_file = junit_manifest['visible_filenames'][0]
+      File.delete("#{tmp_dir}/Java/JUnit/#{missing_file}")
+      check
+      assert_error junit_manifest_filename, "missing visible_filename '#{missing_file}'"
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '2F9E46',
   'bad shell command raises' do
     assert_raises(RuntimeError) { shell 'sdsdsdsd' }

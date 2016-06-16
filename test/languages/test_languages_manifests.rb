@@ -22,7 +22,6 @@ class LanguagesManifestsTests < LanguagesTestBase
 
   def check_manifest(dir)
     @language = dir
-    assert all_visible_files_exist?
     refute duplicate_visible_filenames?
     assert highlight_filenames_are_subset_of_visible_filenames?
     assert progress_regexs_valid?
@@ -157,12 +156,6 @@ class LanguagesManifestsTests < LanguagesTestBase
       return true_puts_alert message
     end
     false_dot
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def all_visible_files_exist?
-    all_files_exist?(:visible_filenames)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -30,6 +30,7 @@ class SetupDataChecker
       check_all_files_present_in_visible_filenames(filename, manifest)
       check_all_required_keys_exist(filename, manifest)
       check_no_unknown_keys_exist(filename, manifest)
+      check_all_visible_files_exist(filename, manifest)
     end
     errors
   end
@@ -83,7 +84,11 @@ class SetupDataChecker
   # - - - - - - - - - - - - - - - - - - - -
 
   def check_all_required_keys_exist(manifest_filename, manifest)
-    required_keys = %w( display_name image_name unit_test_framework visible_filenames )
+    required_keys = %w( display_name
+                        image_name
+                        unit_test_framework
+                        visible_filenames
+                      )
     required_keys.each do |key|
       unless manifest.keys.include? key
         @errors[manifest_filename] << "missing required key '#{key}'"
@@ -106,6 +111,17 @@ class SetupDataChecker
     manifest.keys.each do |key|
       unless known_keys.include? key
         @errors[manifest_filename] << "unknown key '#{key}'"
+      end
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  def check_all_visible_files_exist(manifest_filename, manifest)
+    dir = File.dirname(manifest_filename)
+    manifest['visible_filenames'].each do |filename|
+      unless File.exists?(dir + '/' + filename)
+        @errors[manifest_filename] << "missing visible_filename '#{filename}'"
       end
     end
   end
