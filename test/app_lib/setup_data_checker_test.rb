@@ -125,6 +125,22 @@ class SetupDataCheckerTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test '243554',
+  'missing required key is diagnosed as error' do
+    copy_good_master_to('243554') do |tmp_dir|
+      # peturb
+      junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
+      content = IO.read(junit_manifest_filename)
+      junit_manifest = JSON.parse(content)
+      junit_manifest.delete('display_name')
+      IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
+      check
+      assert_error junit_manifest_filename, "required key 'display_name' not present"
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '2F9E46',
   'bad shell command raises' do
     assert_raises(RuntimeError) { shell 'sdsdsdsd' }

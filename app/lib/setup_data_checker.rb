@@ -28,6 +28,7 @@ class SetupDataChecker
     check_all_manifests_have_a_unique_display_name
     @manifests.each do |filename, manifest|
       check_all_files_present_in_visible_filenames(filename, manifest)
+      check_all_required_keys_exist(filename, manifest)
     end
     errors
   end
@@ -74,6 +75,17 @@ class SetupDataChecker
     filenames.each do |filename|
       unless visible_filenames.include? filename
         @errors[manifest_filename] << "#{filename} not present in visible_filenames:"
+      end
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  def check_all_required_keys_exist(manifest_filename, manifest)
+    required_keys = %w( display_name image_name unit_test_framework visible_filenames )
+    required_keys.each do |key|
+      unless manifest.keys.include? key
+        @errors[manifest_filename] << "required key '#{key}' not present"
       end
     end
   end

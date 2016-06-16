@@ -22,7 +22,6 @@ class LanguagesManifestsTests < LanguagesTestBase
 
   def check_manifest(dir)
     @language = dir
-    assert required_keys_exist?
     refute unknown_keys_exist?
     assert all_visible_files_exist?
     refute duplicate_visible_filenames?
@@ -38,22 +37,6 @@ class LanguagesManifestsTests < LanguagesTestBase
     refute any_files_group_is_root?
     refute any_file_is_unreadable?
     assert created_kata_manifests_language_entry_round_trips?
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def required_keys_exist?
-    required_keys = %w( display_name
-                        image_name
-                        unit_test_framework
-                        visible_filenames
-                      )
-    required_keys.each do |key|
-      unless manifest.keys.include? key
-        return false_puts_alert "#{manifest_filename} must contain key '#{key}'"
-      end
-    end
-    true_dot
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
