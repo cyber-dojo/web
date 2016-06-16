@@ -9,6 +9,8 @@ cyber-dojo volume create --name=VOL --git=URL
 this URL cannot be on the local disk, since by default
 its path will not be visible inside the docker container
 (which on OSX is running elsewhere, on the default VM)
+Could handle this in cyber-dojo.sh and somehow mount the local path
+inside the docker container.
 
 - - - - - - - - - - - - - - - - - - - - -
 
