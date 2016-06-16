@@ -31,6 +31,7 @@ class SetupDataChecker
       check_all_required_keys_exist(filename, manifest)
       check_no_unknown_keys_exist(filename, manifest)
       check_all_visible_files_exist(filename, manifest)
+      check_no_duplicate_visible_files(filename, manifest)
     end
     errors
   end
@@ -122,6 +123,17 @@ class SetupDataChecker
     manifest['visible_filenames'].each do |filename|
       unless File.exists?(dir + '/' + filename)
         @errors[manifest_filename] << "missing visible_filename '#{filename}'"
+      end
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  def check_no_duplicate_visible_files(manifest_filename, manifest)
+    visible_filenames = manifest['visible_filenames']
+    visible_filenames.uniq.each do |filename|
+      unless visible_filenames.count(filename) == 1
+        @errors[manifest_filename] << "duplicate visible_filename '#{filename}'"
       end
     end
   end

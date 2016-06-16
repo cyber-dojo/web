@@ -164,10 +164,29 @@ class SetupDataCheckerTest < AppLibTestBase
       junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
       content = IO.read(junit_manifest_filename)
       junit_manifest = JSON.parse(content)
-      missing_file = junit_manifest['visible_filenames'][0]
-      File.delete("#{tmp_dir}/Java/JUnit/#{missing_file}")
+      missing_filename = junit_manifest['visible_filenames'][0]
+      File.delete("#{tmp_dir}/Java/JUnit/#{missing_filename}")
       check
-      assert_error junit_manifest_filename, "missing visible_filename '#{missing_file}'"
+      assert_error junit_manifest_filename, "missing visible_filename '#{missing_filename}'"
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '685935',
+  'duplicate visible file is diagnosed as error' do
+    copy_good_master_to('685935') do |tmp_dir|
+      # peturn
+      junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
+      content = IO.read(junit_manifest_filename)
+      junit_manifest = JSON.parse(content)
+      visible_filenames = junit_manifest['visible_filenames']
+      duplicate_filename = visible_filenames[0]
+      visible_filenames << duplicate_filename
+      junit_manifest['visible_filenames'] = visible_filenames
+      IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
+      check
+      assert_error junit_manifest_filename, "duplicate visible_filename '#{duplicate_filename}'"
     end
   end
 

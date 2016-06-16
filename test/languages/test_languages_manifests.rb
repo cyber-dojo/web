@@ -22,11 +22,10 @@ class LanguagesManifestsTests < LanguagesTestBase
 
   def check_manifest(dir)
     @language = dir
-    refute duplicate_visible_filenames?
-    assert highlight_filenames_are_subset_of_visible_filenames?
-    assert progress_regexs_valid?
     assert display_name_valid?
     assert image_name_valid?
+    assert highlight_filenames_are_subset_of_visible_filenames?
+    assert progress_regexs_valid?
     refute filename_extension_starts_with_dot?
     assert cyberdojo_sh_exists?
     assert cyberdojo_sh_has_execute_permission?
@@ -35,56 +34,6 @@ class LanguagesManifestsTests < LanguagesTestBase
     refute any_files_group_is_root?
     refute any_file_is_unreadable?
     assert created_kata_manifests_language_entry_round_trips?
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def created_kata_manifests_language_entry_round_trips?
-    skip "Round-trip test failing..."
-    language = languages[display_name]
-    assert !language.nil?, "!language.nil? display_name=#{display_name}"
-
-    exercise = exercises['Print_Diamond']
-    assert !exercise.nil?, '!exercise.nil?'
-
-    kata = katas.create_kata(language, exercise)
-    manifest = katas.kata_manifest(kata)
-    lang = manifest['language']
-    if lang.count('-') != 1
-      message =
-        "#{kata.id}'s manifest 'language' entry is #{lang}" +
-        ' which does not contain a - '
-      return false_puts_alert message
-    end
-    print '.'
-    round_tripped = languages[lang]
-    unless File.directory? round_tripped.path
-      message =
-        "kata #{kata.id}'s manifest 'language' entry is #{lang}" +
-        ' which does not round-trip back to its own languages/sub/folder.' +
-        ' Please check app/models/Languages.rb:new_name()'
-      return false_puts_alert message
-    end
-    print '.'
-    if lang != 'Bash-shunit2' && lang.each_char.any? { |ch| '0123456789'.include?(ch) }
-      message = "#{kata.id}'s manifest 'language' entry is #{lang}" +
-                ' which contains digits and looks like it contains a version number'
-      return false_puts_alert message
-    end
-    true_dot
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def duplicate_visible_filenames?
-    visible_filenames.each do |filename|
-      if visible_filenames.count(filename) > 1
-        message = "#{manifest_filename}'s 'visible_filenames' contains" +
-                  " #{filename} more than once"
-        return false_puts_alert message
-      end
-    end
-    false_dot
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -332,6 +281,43 @@ class LanguagesManifestsTests < LanguagesTestBase
   def manifest_property
     property_name = /`(?<name>[^']*)/ =~ caller[0] && name
     manifest[property_name]
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def created_kata_manifests_language_entry_round_trips?
+    skip "Round-trip test failing..."
+    language = languages[display_name]
+    assert !language.nil?, "!language.nil? display_name=#{display_name}"
+
+    exercise = exercises['Print_Diamond']
+    assert !exercise.nil?, '!exercise.nil?'
+
+    kata = katas.create_kata(language, exercise)
+    manifest = katas.kata_manifest(kata)
+    lang = manifest['language']
+    if lang.count('-') != 1
+      message =
+        "#{kata.id}'s manifest 'language' entry is #{lang}" +
+        ' which does not contain a - '
+      return false_puts_alert message
+    end
+    print '.'
+    round_tripped = languages[lang]
+    unless File.directory? round_tripped.path
+      message =
+        "kata #{kata.id}'s manifest 'language' entry is #{lang}" +
+        ' which does not round-trip back to its own languages/sub/folder.' +
+        ' Please check app/models/Languages.rb:new_name()'
+      return false_puts_alert message
+    end
+    print '.'
+    if lang != 'Bash-shunit2' && lang.each_char.any? { |ch| '0123456789'.include?(ch) }
+      message = "#{kata.id}'s manifest 'language' entry is #{lang}" +
+                ' which contains digits and looks like it contains a version number'
+      return false_puts_alert message
+    end
+    true_dot
   end
 
 end
