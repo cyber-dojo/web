@@ -105,14 +105,23 @@ class SetupDataCheckerTest < AppLibTestBase
       cucumber_manifest['display_name'] = junit_display_name
       IO.write(cucumber_manifest_filename, JSON.unparse(cucumber_manifest))
       check
-      assert_error junit_manifest_filename, 'duplicate display_name'
-      assert_error cucumber_manifest_filename, 'duplicate display_name'
+      assert_error junit_manifest_filename,    "duplicate display_name:'Java, JUnit'"
+      assert_error cucumber_manifest_filename, "duplicate display_name:'Java, JUnit'"
     end
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  # ...
+  test '67307A',
+  'file not present in visible_filename is diagnosed as error' do
+    copy_good_master_to('67307A') do |tmp_dir|
+      # peturb
+      junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
+      IO.write("#{tmp_dir}/Java/Junit/new_file.jj", 'hello world')
+      check
+      assert_error junit_manifest_filename, 'new_file.jj not present in visible_filenames:'
+    end
+  end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -144,19 +153,20 @@ class SetupDataCheckerTest < AppLibTestBase
     messages = @checker.errors[filename]
     assert_equal 'Array', messages.class.name
     assert_equal 1, messages.size, "no errors for #{filename}!"
-    assert messages[0].include?(expected), "expected[#{expected}] in #{messages}"
+    assert_equal expected, messages[0]
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def assert_zero(errors)
+    diagnostic = ''
     count = 0
     errors.each do |filename,messages|
-      puts filename if messages.size != 0
-      messages.each { |message| puts "\t" + message }
+      diagnostic += filename if messages.size != 0
+      messages.each { |message| diagnostic += ("\t" + message + "\n") }
       count += messages.size
     end
-    assert_equal 0, count
+    assert_equal 0, count, diagnostic
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

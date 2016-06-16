@@ -22,7 +22,6 @@ class LanguagesManifestsTests < LanguagesTestBase
 
   def check_manifest(dir)
     @language = dir
-    assert all_files_are_named_in_manifest?
     assert required_keys_exist?
     refute unknown_keys_exist?
     assert all_visible_files_exist?
@@ -39,23 +38,6 @@ class LanguagesManifestsTests < LanguagesTestBase
     refute any_files_group_is_root?
     refute any_file_is_unreadable?
     assert created_kata_manifests_language_entry_round_trips?
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def all_files_are_named_in_manifest?
-    dir = File.dirname(manifest_filename)
-    files = Dir.entries(dir).reject { |entry| File.directory?(entry) }
-    # for some reason this does not reject _docker_context which is a dir
-    files -= [ '_docker_context', 'manifest.json' ]
-    files.each do |filename|
-      # shunit2 is only hidden file
-      next if filename == 'shunit2' && language_dir.end_with?('Bash/shunit2')
-      unless visible_filenames.include? filename
-        return false_puts_alert "#{filename} not present in visible_filenames"
-      end
-    end
-    true_dot
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

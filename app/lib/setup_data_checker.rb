@@ -24,7 +24,7 @@ class SetupDataChecker
     # TODO: instructions-checks are different to languages/exercises checks
     check_all_manifests_have_a_unique_display_name
     @manifests.each do |filename, manifest|
-      # check_X(filename, manifest)
+      check_all_files_present_in_visible_filenames(filename, manifest)
     end
     errors
   end
@@ -59,6 +59,20 @@ class SetupDataChecker
         filenames.each do |filename|
           @errors[filename] << "duplicate display_name:'#{display_name}'"
         end
+      end
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  def check_all_files_present_in_visible_filenames(manifest_filename, manifest)
+    dir = File.dirname(manifest_filename)
+    visible_filenames = manifest['visible_filenames']
+    filenames = Dir.entries(dir).reject { |entry| File.directory?(entry) }
+    filenames -= [ 'manifest.json' ]
+    filenames.each do |filename|
+      unless visible_filenames.include? filename
+        @errors[manifest_filename] << "#{filename} not present in visible_filenames:"
       end
     end
   end
