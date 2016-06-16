@@ -1,4 +1,9 @@
 
+git 2.9+ has new  `--compaction-heuristic`
+for improved diffs. Try to get this in place.
+
+- - - - - - - - - - - - - - - - - - - - -
+
 cyber-dojo.rb failure messages are
 FAILED: ....
 Check what [docker] does and mimic that.

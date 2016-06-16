@@ -1,5 +1,6 @@
 
 require 'json'
+require_relative './output_colour.rb'
 
 class SetupDataChecker
 

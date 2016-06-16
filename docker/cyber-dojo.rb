@@ -126,6 +126,10 @@ def process_up_volume_arg(help, args, name)
     return false
   end
   return true
+
+  rescue VolumeCreateFailed => error
+    error.handle(vol)
+
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -171,6 +175,7 @@ def up
   exit 1 unless process_up_volume_arg(help, args, 'languages')     # --languages=VOL
   exit 1 unless process_up_volume_arg(help, args, 'exercises')     # --exercises=VOL
   exit 1 unless process_up_volume_arg(help, args, 'instructions')  # --instructions=VOL
+
   # cyber-dojo.sh does actual [up]
 end
 
