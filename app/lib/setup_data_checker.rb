@@ -32,6 +32,7 @@ class SetupDataChecker
       check_visible_files_is_valid(filename, manifest)
       check_display_name_is_valid(filename, manifest)
       check_image_name_is_valid(filename, manifest)
+      check_unit_test_framework_is_valid(filename, manifest)
       check_progress_regexs_is_valid(filename, manifest)
     end
     errors
@@ -166,7 +167,21 @@ class SetupDataChecker
       return
     end
     if image_name == ''
-      @errors[manifest_filename] << 'image_name: empty'
+      @errors[manifest_filename] << 'image_name: is empty'
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  def check_unit_test_framework_is_valid(manifest_filename, manifest)
+    unit_test_framework = manifest['unit_test_framework']
+    return if unit_test_framework.nil? # required-key different check
+    unless unit_test_framework.class.name == 'String'
+      @errors[manifest_filename] << 'unit_test_framework: must be a String'
+      return
+    end
+    if unit_test_framework == ''
+      @errors[manifest_filename] << 'unit_test_framework: is empty'
     end
   end
 
