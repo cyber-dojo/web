@@ -8,7 +8,7 @@ pushd ${MY_DIR} > /dev/null
 CONTEXT_DIR=.
 
 docker build \
-  --tag=cyberdojofoundation/${PWD##*/} \
+  --tag=cyberdojo/${PWD##*/} \
   --file=${CONTEXT_DIR}/Dockerfile \
   ${CONTEXT_DIR}
 

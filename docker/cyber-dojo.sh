@@ -9,7 +9,7 @@ my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 docker_compose_cmd="docker-compose --file=${my_dir}/docker-compose.yml"
 docker_version=$(docker --version | awk '{print $3}' | sed '$s/.$//')
 
-cyber_dojo_hub=cyberdojofoundation
+cyber_dojo_hub=cyberdojo
 cyber_dojo_root=/usr/src/cyber-dojo
 
 # set environment variables required by docker-compose.yml
@@ -19,9 +19,9 @@ cyber_dojo_root=/usr/src/cyber-dojo
 export CYBER_DOJO_DATA_ROOT=${cyber_dojo_root}/data
 
 export CYBER_DOJO_WEB_SERVER=${cyber_dojo_hub}/web:${docker_version}
-export CYBER_DOJO_WEB_CONTAINER=cdf-web
+export CYBER_DOJO_WEB_CONTAINER=cyber-dojo-web
 
-export CYBER_DOJO_KATAS_DATA_CONTAINER=cdf-katas-DATA-CONTAINER
+export CYBER_DOJO_KATAS_DATA_CONTAINER=cyber-dojo-katas-DATA-CONTAINER
 export CYBER_DOJO_KATAS_ROOT=${cyber_dojo_root}/katas
 
 export CYBER_DOJO_KATAS_CLASS=${CYBER_DOJO_KATAS_CLASS:=HostDiskKatas}

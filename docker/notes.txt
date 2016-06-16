@@ -24,7 +24,7 @@ $ cid=$(docker run --detach \
                    --net=none \
                    --user=root \
                    --volume=jon:/data \
-                   cyberdojofoundation/web:1.11.2 sh)
+                   cyberdojo/web:1.11.2 sh)
 
 $ docker cp jj/. ${cid}:/data
 

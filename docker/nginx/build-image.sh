@@ -11,7 +11,7 @@ cp ./Dockerfile ${CONTEXT_DIR}
 cp ./nginx.conf ${CONTEXT_DIR}
 
 docker build \
-  --tag=cyberdojofoundation/${PWD##*/} \
+  --tag=cyberdojo/${PWD##*/} \
   --file=${CONTEXT_DIR}/Dockerfile \
   ${CONTEXT_DIR}
 

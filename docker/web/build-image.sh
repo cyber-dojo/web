@@ -22,7 +22,7 @@ cp ${MY_DIR}/.dockerignore  ${CONTEXT_DIR}
 docker build \
   --build-arg=CYBER_DOJO_HOME=${CYBER_DOJO_HOME} \
   --build-arg=DOCKER_VERSION=${DOCKER_VERSION} \
-  --tag=cyberdojofoundation/${PWD##*/}:${DOCKER_VERSION} \
+  --tag=cyberdojo/${PWD##*/}:${DOCKER_VERSION} \
   --file=${CONTEXT_DIR}/Dockerfile \
   ${CONTEXT_DIR}
 

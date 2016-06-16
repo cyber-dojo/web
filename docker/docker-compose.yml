@@ -1,7 +1,7 @@
 
 nginx:
-  image: cyberdojofoundation/nginx
-  container_name: cdf-nginx
+  image: cyberdojo/nginx
+  container_name: cyber-dojo-nginx
   links:
     - "web:cyberdojo_web"
   ports:
