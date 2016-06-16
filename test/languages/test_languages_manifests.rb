@@ -22,7 +22,6 @@ class LanguagesManifestsTests < LanguagesTestBase
 
   def check_manifest(dir)
     @language = dir
-    assert display_name_valid?
     assert image_name_valid?
     assert highlight_filenames_are_subset_of_visible_filenames?
     assert progress_regexs_valid?
@@ -59,18 +58,6 @@ class LanguagesManifestsTests < LanguagesTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def display_name_valid?
-    parts = display_name.split(',').select { |part| part.strip != '' }
-    if parts.count != 2
-      message = "#{manifest_filename}'s 'display_name':'#{display_name}'" +
-                " is not in 'language,test' format"
-      return false_puts_alert message
-    end
-    true_dot
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   def image_name_valid?
     parts = image_name.split('_')
     if parts.size < 2
@@ -81,8 +68,6 @@ class LanguagesManifestsTests < LanguagesTestBase
     language_name = parts[0]
     test_name = parts[1..-1].join('_')
     if language_name.count("0-9") > 0
-
-
       message = "#{manifest_filename}'s 'image_name':'#{image_name}'" +
                 " contains digits in the language name '#{language_name}"
       return false_puts_alert message

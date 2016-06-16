@@ -32,6 +32,7 @@ class SetupDataChecker
       check_no_unknown_keys_exist(filename, manifest)
       check_all_visible_files_exist(filename, manifest)
       check_no_duplicate_visible_files(filename, manifest)
+      check_display_name_is_valid(filename, manifest)
     end
     errors
   end
@@ -135,6 +136,17 @@ class SetupDataChecker
       unless visible_filenames.count(filename) == 1
         @errors[manifest_filename] << "duplicate visible_filename '#{filename}'"
       end
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  def check_display_name_is_valid(manifest_filename, manifest)
+    return if manifest['display_name'].nil? # different check
+    display_name = manifest['display_name']
+    parts = display_name.split(',').select { |part| part.strip != '' }
+    unless parts.length == 2
+      @errors[manifest_filename] << "display_name not in 'A,B' format"
     end
   end
 

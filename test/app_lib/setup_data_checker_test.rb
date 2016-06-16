@@ -192,6 +192,28 @@ class SetupDataCheckerTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test 'ABD942',
+  'display_name without a comma is diagnosed as error' do
+    bad_display_name = lambda do |bad|
+      copy_good_master_to('ABD942') do |tmp_dir|
+        # peturn
+        junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
+        content = IO.read(junit_manifest_filename)
+        junit_manifest = JSON.parse(content)
+        junit_manifest['display_name'] = bad
+        IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
+        check
+        assert_error junit_manifest_filename, "display_name not in 'A,B' format"
+      end
+    end
+    bad_display_name.call('no comma')
+    bad_display_name.call('one,two,commas')
+    bad_display_name.call(',nothing to left')
+    bad_display_name.call('nothing to right,')
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '2F9E46',
   'bad shell command raises' do
     assert_raises(RuntimeError) { shell 'sdsdsdsd' }
