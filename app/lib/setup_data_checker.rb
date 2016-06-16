@@ -89,9 +89,9 @@ class SetupDataChecker
   # - - - - - - - - - - - - - - - - - - - -
 
   def check_all_files_present_in_visible_filenames(manifest_filename, manifest)
-    return if manifest['visible_filenames'].nil? # different check
-    dir = File.dirname(manifest_filename)
     visible_filenames = manifest['visible_filenames']
+    return if visible_filenames.nil? # different check
+    dir = File.dirname(manifest_filename)
     filenames = Dir.entries(dir).reject { |entry| File.directory?(entry) }
     filenames -= [ 'manifest.json' ]
     filenames.each do |filename|
@@ -123,9 +123,9 @@ class SetupDataChecker
   # - - - - - - - - - - - - - - - - - - - -
 
   def check_all_visible_files_exist(manifest_filename, manifest)
-    return if manifest['visible_filenames'].nil? # different check
-    dir = File.dirname(manifest_filename)
     visible_filenames = manifest['visible_filenames']
+    return if visible_filenames.nil? # required-key different check
+    dir = File.dirname(manifest_filename)
     visible_filenames.each do |filename|
       unless File.exists?(dir + '/' + filename)
         @errors[manifest_filename] << "missing visible_filename '#{filename}'"
@@ -136,8 +136,8 @@ class SetupDataChecker
   # - - - - - - - - - - - - - - - - - - - -
 
   def check_no_duplicate_visible_files(manifest_filename, manifest)
-    return if manifest['visible_filenames'].nil? # different check
     visible_filenames = manifest['visible_filenames']
+    return if visible_filenames.nil? # required-key different check
     visible_filenames.uniq.each do |filename|
       unless visible_filenames.count(filename) == 1
         @errors[manifest_filename] << "duplicate visible_filename '#{filename}'"
@@ -148,8 +148,8 @@ class SetupDataChecker
   # - - - - - - - - - - - - - - - - - - - -
 
   def check_display_name_is_valid(manifest_filename, manifest)
-    return if manifest['display_name'].nil? # different check
     display_name = manifest['display_name']
+    return if display_name.nil? # required-key different check
     parts = display_name.split(',').select { |part| part.strip != '' }
     unless parts.length == 2
       @errors[manifest_filename] << "display_name not in 'A,B' format"
@@ -159,7 +159,9 @@ class SetupDataChecker
   # - - - - - - - - - - - - - - - - - - - -
 
   def check_image_name_is_not_empty(manifest_filename, manifest)
-    if manifest['image_name'] == ''
+    image_name = manifest['image_name']
+    return if image_name.nil? # required-key different check
+    if image_name == ''
       @errors[manifest_filename] << 'image_name is empty'
     end
   end
@@ -168,7 +170,7 @@ class SetupDataChecker
 
   def check_progress_regexs_is_valid(manifest_filename, manifest)
     regexs = manifest['progress_regexs']
-    return if regexs.nil?  # optional
+    return if regexs.nil?  # optional-key
     if regexs.class.name != 'Array'
       @errors[manifest_filename] << 'progress_regexs: must be an Array'
       return
