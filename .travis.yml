@@ -49,8 +49,8 @@ script:
     - ./build-image.sh ${DOCKER_ENGINE_VERSION}
     - cd ${DOCKER_DIR}
     - ./cyber-dojo up
-    - cid=`docker ps --all --quiet --filter "name=cdf-web"`
-    - docker logs cdf-web
+    - cid=`docker ps --all --quiet --filter "name=cyber-dojo-web"`
+    - docker logs cyber-dojo-web
     - docker inspect -f {{.State.Running}} ${cid}
     - docker ps -a
    #- docker --debug exec ${cid} sh -c "cd test && ./run.sh"
