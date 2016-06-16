@@ -280,11 +280,12 @@ class SetupDataCheckerTest < AppLibTestBase
   'invalid progress_regexs is an error' do
     tid = '2B1623'
     key = 'progress_regexs'
-    replace_in_manifest(tid, key, 1           , key + ': must be an Array')
-    replace_in_manifest(tid, key, []          , key + ': must contain 2 items')
-    replace_in_manifest(tid, key, [1,2]       , key + ': must contain 2 strings')
-    replace_in_manifest(tid, key, ['(\\','ok'], key + ': cannot create regex from (\\')
-    replace_in_manifest(tid, key, ['ok','(\\'], key + ': cannot create regex from (\\')
+    bad_regex = '(\\'
+    replace_in_manifest(tid, key, 1               , key + ': must be an Array')
+    replace_in_manifest(tid, key, []              , key + ': must contain 2 items')
+    replace_in_manifest(tid, key, [1,2]           , key + ': must contain 2 strings')
+    replace_in_manifest(tid, key, [bad_regex,'ok'], key + ": cannot create regex from #{bad_regex}")
+    replace_in_manifest(tid, key, ['ok',bad_regex], key + ": cannot create regex from #{bad_regex}")
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
