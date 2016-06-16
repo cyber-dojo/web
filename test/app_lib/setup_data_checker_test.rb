@@ -150,6 +150,77 @@ class SetupDataCheckerTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test 'C27D67',
+  'display_name not a String is diagnosed as error' do
+    copy_good_master_to('C27D67') do |tmp_dir|
+      # peturb
+      junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
+      content = IO.read(junit_manifest_filename)
+      junit_manifest = JSON.parse(content)
+      junit_manifest['display_name'] = [ 1 ]
+      IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
+      check
+      assert_error junit_manifest_filename, 'display_name must be a String'
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'ABD942',
+  'invalid display_name is diagnosed as error' do
+    bad_display_name = lambda do |bad|
+      copy_good_master_to('ABD942') do |tmp_dir|
+        # peturn
+        junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
+        content = IO.read(junit_manifest_filename)
+        junit_manifest = JSON.parse(content)
+        junit_manifest['display_name'] = bad
+        IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
+        check
+        assert_error junit_manifest_filename, "display_name not in 'A,B' format"
+      end
+    end
+    bad_display_name.call('')
+    bad_display_name.call('no comma')
+    bad_display_name.call('one,two,commas')
+    bad_display_name.call(',nothing to left')
+    bad_display_name.call('nothing to right,')
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'A9D696',
+  'image_name not a String is diagnosed as error' do
+    copy_good_master_to('A9D696') do |tmp_dir|
+      # peturb
+      junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
+      content = IO.read(junit_manifest_filename)
+      junit_manifest = JSON.parse(content)
+      junit_manifest['image_name'] = [ 1 ]
+      IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
+      check
+      assert_error junit_manifest_filename, 'image_name must be a String'
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '75CBD4',
+  'empty image_name is diagnosed as error' do
+    copy_good_master_to('75CBD4') do |tmp_dir|
+      # peturn
+      junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
+      content = IO.read(junit_manifest_filename)
+      junit_manifest = JSON.parse(content)
+      junit_manifest['image_name'] = ''
+      IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
+      check
+      assert_error junit_manifest_filename, "image_name is empty"
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '748CC7',
   'unknown key is diagnosed as error' do
     copy_good_master_to('748CC7') do |tmp_dir|
@@ -196,45 +267,6 @@ class SetupDataCheckerTest < AppLibTestBase
       IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
       check
       assert_error junit_manifest_filename, "duplicate visible_filename '#{duplicate_filename}'"
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'ABD942',
-  'invalid display_name is diagnosed as error' do
-    bad_display_name = lambda do |bad|
-      copy_good_master_to('ABD942') do |tmp_dir|
-        # peturn
-        junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
-        content = IO.read(junit_manifest_filename)
-        junit_manifest = JSON.parse(content)
-        junit_manifest['display_name'] = bad
-        IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
-        check
-        assert_error junit_manifest_filename, "display_name not in 'A,B' format"
-      end
-    end
-    bad_display_name.call('')
-    bad_display_name.call('no comma')
-    bad_display_name.call('one,two,commas')
-    bad_display_name.call(',nothing to left')
-    bad_display_name.call('nothing to right,')
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '75CBD4',
-  'empty image_name is diagnosed as error' do
-    copy_good_master_to('75CBD4') do |tmp_dir|
-      # peturn
-      junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
-      content = IO.read(junit_manifest_filename)
-      junit_manifest = JSON.parse(content)
-      junit_manifest['image_name'] = ''
-      IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
-      check
-      assert_error junit_manifest_filename, "image_name is empty"
     end
   end
 

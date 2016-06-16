@@ -33,7 +33,7 @@ class SetupDataChecker
       check_all_visible_files_exist(filename, manifest)
       check_no_duplicate_visible_files(filename, manifest)
       check_display_name_is_valid(filename, manifest)
-      check_image_name_is_not_empty(filename, manifest)
+      check_image_name_is_valid(filename, manifest)
       check_progress_regexs_is_valid(filename, manifest)
     end
     errors
@@ -150,6 +150,10 @@ class SetupDataChecker
   def check_display_name_is_valid(manifest_filename, manifest)
     display_name = manifest['display_name']
     return if display_name.nil? # required-key different check
+    unless display_name.class.name == 'String'
+      @errors[manifest_filename] << 'display_name must be a String'
+      return
+    end
     parts = display_name.split(',').select { |part| part.strip != '' }
     unless parts.length == 2
       @errors[manifest_filename] << "display_name not in 'A,B' format"
@@ -158,9 +162,13 @@ class SetupDataChecker
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  def check_image_name_is_not_empty(manifest_filename, manifest)
+  def check_image_name_is_valid(manifest_filename, manifest)
     image_name = manifest['image_name']
     return if image_name.nil? # required-key different check
+    unless image_name.class.name == 'String'
+      @errors[manifest_filename] << 'image_name must be a String'
+      return
+    end
     if image_name == ''
       @errors[manifest_filename] << 'image_name is empty'
     end
@@ -170,7 +178,7 @@ class SetupDataChecker
 
   def check_progress_regexs_is_valid(manifest_filename, manifest)
     regexs = manifest['progress_regexs']
-    return if regexs.nil?  # optional-key
+    return if regexs.nil?  # it's optional
     if regexs.class.name != 'Array'
       @errors[manifest_filename] << 'progress_regexs: must be an Array'
       return
