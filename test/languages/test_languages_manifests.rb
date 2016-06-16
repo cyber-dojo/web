@@ -22,7 +22,6 @@ class LanguagesManifestsTests < LanguagesTestBase
 
   def check_manifest(dir)
     @language = dir
-    refute unknown_keys_exist?
     assert all_visible_files_exist?
     refute duplicate_visible_filenames?
     assert highlight_filenames_are_subset_of_visible_filenames?
@@ -37,26 +36,6 @@ class LanguagesManifestsTests < LanguagesTestBase
     refute any_files_group_is_root?
     refute any_file_is_unreadable?
     assert created_kata_manifests_language_entry_round_trips?
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def unknown_keys_exist?
-    known_keys = %w( display_name
-                     filename_extension
-                     highlight_filenames
-                     image_name
-                     progress_regexs
-                     tab_size
-                     unit_test_framework
-                     visible_filenames
-                   )
-    manifest.keys.each do |key|
-      unless known_keys.include? key
-        return true_puts_alert "#{manifest_filename} contains unknown key '#{key}'"
-      end
-    end
-    false_dot
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

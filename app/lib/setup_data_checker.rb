@@ -29,6 +29,7 @@ class SetupDataChecker
     @manifests.each do |filename, manifest|
       check_all_files_present_in_visible_filenames(filename, manifest)
       check_all_required_keys_exist(filename, manifest)
+      check_no_unknown_keys_exist(filename, manifest)
     end
     errors
   end
@@ -85,7 +86,26 @@ class SetupDataChecker
     required_keys = %w( display_name image_name unit_test_framework visible_filenames )
     required_keys.each do |key|
       unless manifest.keys.include? key
-        @errors[manifest_filename] << "required key '#{key}' not present"
+        @errors[manifest_filename] << "missing required key '#{key}'"
+      end
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  def check_no_unknown_keys_exist(manifest_filename, manifest)
+    known_keys = %w( display_name
+                     filename_extension
+                     highlight_filenames
+                     image_name
+                     progress_regexs
+                     tab_size
+                     unit_test_framework
+                     visible_filenames
+                   )
+    manifest.keys.each do |key|
+      unless known_keys.include? key
+        @errors[manifest_filename] << "unknown key '#{key}'"
       end
     end
   end

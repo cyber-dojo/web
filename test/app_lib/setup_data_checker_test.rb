@@ -135,7 +135,23 @@ class SetupDataCheckerTest < AppLibTestBase
       junit_manifest.delete('display_name')
       IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
       check
-      assert_error junit_manifest_filename, "required key 'display_name' not present"
+      assert_error junit_manifest_filename, "missing required key 'display_name'"
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '748CC7',
+  'unknown key is diagnosed as error' do
+    copy_good_master_to('748CC7') do |tmp_dir|
+      # peturn
+      junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
+      content = IO.read(junit_manifest_filename)
+      junit_manifest = JSON.parse(content)
+      junit_manifest['salmon'] = 'hello'
+      IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
+      check
+      assert_error junit_manifest_filename, "unknown key 'salmon'"
     end
   end
 
