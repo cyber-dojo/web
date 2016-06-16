@@ -165,27 +165,14 @@ class SetupDataCheckerTest < AppLibTestBase
 
   test 'ABD942',
   'invalid display_name is an error' do
+    tid = 'ABD942'
     key = 'display_name'
-    bad_display_name = lambda do |bad, expected|
-      expected ||=
-      copy_good_master_to('ABD942') do |tmp_dir|
-        # peturn
-        junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
-        content = IO.read(junit_manifest_filename)
-        junit_manifest = JSON.parse(content)
-        junit_manifest[key] = bad
-        IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
-        check
-        assert_error junit_manifest_filename, expected
-      end
-    end
-    expected = key + ": not in 'A,B' format"
-    bad_display_name.call(1,                 key + ': must be a String')
-    bad_display_name.call(''                 , expected)
-    bad_display_name.call('no comma'         , expected)
-    bad_display_name.call('one,two,commas'   , expected)
-    bad_display_name.call(',nothing to left' , expected)
-    bad_display_name.call('nothing to right,', expected)
+    replace_in_manifest(tid, key, 1               , key + ': must be a String')
+    replace_in_manifest(tid, key, ''              , key + ": not in 'A,B' format")
+    replace_in_manifest(tid, key, 'no comma'      , key + ": not in 'A,B' format")
+    replace_in_manifest(tid, key, 'one,two,commas', key + ": not in 'A,B' format")
+    replace_in_manifest(tid, key, ',right only'   , key + ": not in 'A,B' format")
+    replace_in_manifest(tid, key, 'left only,'    , key + ": not in 'A,B' format")
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -194,22 +181,11 @@ class SetupDataCheckerTest < AppLibTestBase
 
   test 'A9D696',
   'invalid image_name not an error' do
+    tid = 'A9D696'
     key = 'image_name'
-    bad_image_name = lambda do |bad, expected|
-      copy_good_master_to('A9D696') do |tmp_dir|
-        # peturb
-        junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
-        content = IO.read(junit_manifest_filename)
-        junit_manifest = JSON.parse(content)
-        junit_manifest[key] = bad
-        IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
-        check
-        assert_error junit_manifest_filename, expected
-      end
-    end
-    bad_image_name.call(1,     key + ': must be a String')
-    bad_image_name.call([ 1 ], key + ': must be a String')
-    bad_image_name.call('',    key + ': is empty')
+    replace_in_manifest(tid, key, 1    , key + ': must be a String')
+    replace_in_manifest(tid, key, [ 1 ], key + ': must be a String')
+    replace_in_manifest(tid, key, ''   , key + ': is empty')
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -218,22 +194,11 @@ class SetupDataCheckerTest < AppLibTestBase
 
   test 'B84696',
   'invalid unit_test_framework is an error' do
+    tid = 'B84696'
     key = 'unit_test_framework'
-    bad_unit_test_framework = lambda do |bad, expected|
-      copy_good_master_to('B84696') do |tmp_dir|
-        # peturn
-        junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
-        content = IO.read(junit_manifest_filename)
-        junit_manifest = JSON.parse(content)
-        junit_manifest[key] = bad
-        IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
-        check
-        assert_error junit_manifest_filename, expected
-      end
-    end
-    bad_unit_test_framework.call( 1   , key + ': must be a String')
-    bad_unit_test_framework.call([ 1 ], key + ': must be a String')
-    bad_unit_test_framework.call(''   , key + ': is empty')
+    replace_in_manifest(tid, key, 1    , key + ': must be a String')
+    replace_in_manifest(tid, key, [ 1 ], key + ': must be a String')
+    replace_in_manifest(tid, key, ''   , key + ': is empty')
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -313,24 +278,13 @@ class SetupDataCheckerTest < AppLibTestBase
 
   test '2B1623',
   'invalid progress_regexs is an error' do
+    tid = '2B1623'
     key = 'progress_regexs'
-    bad_progress_regexs = lambda do |bad, expected|
-      copy_good_master_to('2B1623') do |tmp_dir|
-        # peturn
-        junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
-        content = IO.read(junit_manifest_filename)
-        junit_manifest = JSON.parse(content)
-        junit_manifest[key] = bad
-        IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
-        check
-        assert_error junit_manifest_filename, expected
-      end
-    end
-    bad_progress_regexs.call({}          , key + ': must be an Array')
-    bad_progress_regexs.call([]          , key + ': must contain 2 items')
-    bad_progress_regexs.call([1,2]       , key + ': must contain 2 strings')
-    bad_progress_regexs.call(['(\\','ok'], key + ': cannot create regex from (\\')
-    bad_progress_regexs.call(['ok','(\\'], key + ': cannot create regex from (\\')
+    replace_in_manifest(tid, key, 1           , key + ': must be an Array')
+    replace_in_manifest(tid, key, []          , key + ': must contain 2 items')
+    replace_in_manifest(tid, key, [1,2]       , key + ': must contain 2 strings')
+    replace_in_manifest(tid, key, ['(\\','ok'], key + ': cannot create regex from (\\')
+    replace_in_manifest(tid, key, ['ok','(\\'], key + ': cannot create regex from (\\')
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -341,6 +295,21 @@ class SetupDataCheckerTest < AppLibTestBase
   end
 
   private # = = = = = = = = = = = = = = = = = = = = = = = = = =
+
+  def replace_in_manifest(tid, key, bad, expected)
+    copy_good_master_to('ABD942') do |tmp_dir|
+      # peturn
+      junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
+      content = IO.read(junit_manifest_filename)
+      junit_manifest = JSON.parse(content)
+      junit_manifest[key] = bad
+      IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
+      check
+      assert_error junit_manifest_filename, expected
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def copy_good_master_to(id)
     Dir.mktmpdir('cyber-dojo-' + id) do |tmp_dir|
