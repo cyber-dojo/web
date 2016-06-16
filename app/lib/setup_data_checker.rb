@@ -27,11 +27,9 @@ class SetupDataChecker
     # TODO: instructions-checks are different to languages/exercises checks
     check_all_manifests_have_a_unique_display_name
     @manifests.each do |filename, manifest|
-      check_all_required_keys_exist(filename, manifest)
-      check_all_files_present_in_visible_filenames(filename, manifest)
       check_no_unknown_keys_exist(filename, manifest)
-      check_all_visible_files_exist(filename, manifest)
-      check_no_duplicate_visible_files(filename, manifest)
+      check_all_required_keys_exist(filename, manifest)
+      check_visible_files_is_valid(filename, manifest)
       check_display_name_is_valid(filename, manifest)
       check_image_name_is_valid(filename, manifest)
       check_progress_regexs_is_valid(filename, manifest)
@@ -49,7 +47,7 @@ class SetupDataChecker
     if type.nil?
       @errors[setup_filename] << 'no type: entry'
     elsif ! ['languages','exercises','instructions'].include? type
-      @errors[setup_filename] << 'bad type: entry'
+      @errors[setup_filename] << 'type: must be [languages|exercises|languages]'
     end
   end
 
@@ -65,38 +63,8 @@ class SetupDataChecker
     display_names.each do |display_name, filenames|
       if filenames.size > 1
         filenames.each do |filename|
-          @errors[filename] << "duplicate display_name:'#{display_name}'"
+          @errors[filename] << "display_name: duplicate '#{display_name}'"
         end
-      end
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
-  def check_all_required_keys_exist(manifest_filename, manifest)
-    required_keys = %w( display_name
-                        image_name
-                        unit_test_framework
-                        visible_filenames
-                      )
-    required_keys.each do |key|
-      unless manifest.keys.include? key
-        @errors[manifest_filename] << "missing required key '#{key}'"
-      end
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
-  def check_all_files_present_in_visible_filenames(manifest_filename, manifest)
-    visible_filenames = manifest['visible_filenames']
-    return if visible_filenames.nil? # different check
-    dir = File.dirname(manifest_filename)
-    filenames = Dir.entries(dir).reject { |entry| File.directory?(entry) }
-    filenames -= [ 'manifest.json' ]
-    filenames.each do |filename|
-      unless visible_filenames.include? filename
-        @errors[manifest_filename] << "#{filename} not present in visible_filenames:"
       end
     end
   end
@@ -122,25 +90,53 @@ class SetupDataChecker
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  def check_all_visible_files_exist(manifest_filename, manifest)
-    visible_filenames = manifest['visible_filenames']
-    return if visible_filenames.nil? # required-key different check
-    dir = File.dirname(manifest_filename)
-    visible_filenames.each do |filename|
-      unless File.exists?(dir + '/' + filename)
-        @errors[manifest_filename] << "missing visible_filename '#{filename}'"
+  def check_all_required_keys_exist(manifest_filename, manifest)
+    required_keys = %w( display_name
+                        image_name
+                        unit_test_framework
+                        visible_filenames
+                      )
+    required_keys.each do |key|
+      unless manifest.keys.include? key
+        @errors[manifest_filename] << "#{key}: missing"
       end
     end
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  def check_no_duplicate_visible_files(manifest_filename, manifest)
+  def check_visible_files_is_valid(manifest_filename, manifest)
     visible_filenames = manifest['visible_filenames']
     return if visible_filenames.nil? # required-key different check
+    # check its form
+    if visible_filenames.class.name != 'Array'
+      @errors[manifest_filename] << "visible_filenames: must be an Array of Strings"
+      return
+    end
+    if visible_filenames.any?{ |filename| filename.class.name != 'String' }
+      @errors[manifest_filename] << "visible_filenames: must be an Array of Strings"
+      return
+    end
+    # check all visible files exist
+    dir = File.dirname(manifest_filename)
+    visible_filenames.each do |filename|
+      unless File.exists?(dir + '/' + filename)
+        @errors[manifest_filename] << "visible_filenames: missing '#{filename}'"
+      end
+    end
+    # check no duplicate visible files
     visible_filenames.uniq.each do |filename|
       unless visible_filenames.count(filename) == 1
-        @errors[manifest_filename] << "duplicate visible_filename '#{filename}'"
+        @errors[manifest_filename] << "visible_filenames: duplicate '#{filename}'"
+      end
+    end
+    # check all files in dir are in visible_filenames
+    dir = File.dirname(manifest_filename)
+    filenames = Dir.entries(dir).reject { |entry| File.directory?(entry) }
+    filenames -= [ 'manifest.json' ]
+    filenames.each do |filename|
+      unless visible_filenames.include? filename
+        @errors[manifest_filename] << "visible_filenames: #{filename} not present"
       end
     end
   end
@@ -151,12 +147,12 @@ class SetupDataChecker
     display_name = manifest['display_name']
     return if display_name.nil? # required-key different check
     unless display_name.class.name == 'String'
-      @errors[manifest_filename] << 'display_name must be a String'
+      @errors[manifest_filename] << 'display_name: must be a String'
       return
     end
     parts = display_name.split(',').select { |part| part.strip != '' }
     unless parts.length == 2
-      @errors[manifest_filename] << "display_name not in 'A,B' format"
+      @errors[manifest_filename] << "display_name: not in 'A,B' format"
     end
   end
 
@@ -166,11 +162,11 @@ class SetupDataChecker
     image_name = manifest['image_name']
     return if image_name.nil? # required-key different check
     unless image_name.class.name == 'String'
-      @errors[manifest_filename] << 'image_name must be a String'
+      @errors[manifest_filename] << 'image_name: must be a String'
       return
     end
     if image_name == ''
-      @errors[manifest_filename] << 'image_name is empty'
+      @errors[manifest_filename] << 'image_name: empty'
     end
   end
 

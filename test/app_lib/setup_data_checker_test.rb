@@ -17,6 +17,8 @@ class SetupDataCheckerTest < AppLibTestBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # setup.json
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'C6D738',
   'missing setup.json is diagnosed as error' do
@@ -62,7 +64,7 @@ class SetupDataCheckerTest < AppLibTestBase
         'type' => 'salmon'
       }))
       check
-      assert_error setup_filename, 'bad type: entry'
+      assert_error setup_filename, 'type: must be [languages|exercises|languages]'
     end
   end
 
@@ -76,6 +78,8 @@ class SetupDataCheckerTest < AppLibTestBase
   # 'setup.json for exercises with no rhs-column-title is diagnosed as error' do
   # end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # manifest.json
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '1A351C',
@@ -105,120 +109,13 @@ class SetupDataCheckerTest < AppLibTestBase
       cucumber_manifest['display_name'] = junit_display_name
       IO.write(cucumber_manifest_filename, JSON.unparse(cucumber_manifest))
       check
-      assert_error junit_manifest_filename,    "duplicate display_name:'Java, JUnit'"
-      assert_error cucumber_manifest_filename, "duplicate display_name:'Java, JUnit'"
+      assert_error junit_manifest_filename,    "display_name: duplicate 'Java, JUnit'"
+      assert_error cucumber_manifest_filename, "display_name: duplicate 'Java, JUnit'"
     end
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '67307A',
-  'file not present in visible_filename is diagnosed as error' do
-    copy_good_master_to('67307A') do |tmp_dir|
-      # peturb
-      junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
-      IO.write("#{tmp_dir}/Java/JUnit/new_file.jj", 'hello world')
-      check
-      assert_error junit_manifest_filename, 'new_file.jj not present in visible_filenames:'
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '243554',
-  'missing required key is diagnosed as error' do
-    missing_require_key = lambda do |key|
-      copy_good_master_to('243554_'+key) do |tmp_dir|
-        # peturb
-        junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
-        content = IO.read(junit_manifest_filename)
-        junit_manifest = JSON.parse(content)
-        assert junit_manifest.keys.include? key
-        junit_manifest.delete(key)
-        IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
-        check
-        assert_error junit_manifest_filename, "missing required key '#{key}'"
-      end
-    end
-    required_keys = %w( display_name
-                        image_name
-                        unit_test_framework
-                        visible_filenames
-                      )
-    required_keys.each { |key| missing_require_key.call(key) }
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'C27D67',
-  'display_name not a String is diagnosed as error' do
-    copy_good_master_to('C27D67') do |tmp_dir|
-      # peturb
-      junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
-      content = IO.read(junit_manifest_filename)
-      junit_manifest = JSON.parse(content)
-      junit_manifest['display_name'] = [ 1 ]
-      IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
-      check
-      assert_error junit_manifest_filename, 'display_name must be a String'
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'ABD942',
-  'invalid display_name is diagnosed as error' do
-    bad_display_name = lambda do |bad|
-      copy_good_master_to('ABD942') do |tmp_dir|
-        # peturn
-        junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
-        content = IO.read(junit_manifest_filename)
-        junit_manifest = JSON.parse(content)
-        junit_manifest['display_name'] = bad
-        IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
-        check
-        assert_error junit_manifest_filename, "display_name not in 'A,B' format"
-      end
-    end
-    bad_display_name.call('')
-    bad_display_name.call('no comma')
-    bad_display_name.call('one,two,commas')
-    bad_display_name.call(',nothing to left')
-    bad_display_name.call('nothing to right,')
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'A9D696',
-  'image_name not a String is diagnosed as error' do
-    copy_good_master_to('A9D696') do |tmp_dir|
-      # peturb
-      junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
-      content = IO.read(junit_manifest_filename)
-      junit_manifest = JSON.parse(content)
-      junit_manifest['image_name'] = [ 1 ]
-      IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
-      check
-      assert_error junit_manifest_filename, 'image_name must be a String'
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '75CBD4',
-  'empty image_name is diagnosed as error' do
-    copy_good_master_to('75CBD4') do |tmp_dir|
-      # peturn
-      junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
-      content = IO.read(junit_manifest_filename)
-      junit_manifest = JSON.parse(content)
-      junit_manifest['image_name'] = ''
-      IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
-      check
-      assert_error junit_manifest_filename, "image_name is empty"
-    end
-  end
-
+  # unknown keys
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '748CC7',
@@ -236,6 +133,143 @@ class SetupDataCheckerTest < AppLibTestBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # missing required keys
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '243554',
+  'missing required key is diagnosed as error' do
+    missing_require_key = lambda do |key|
+      copy_good_master_to('243554_'+key) do |tmp_dir|
+        # peturb
+        junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
+        content = IO.read(junit_manifest_filename)
+        junit_manifest = JSON.parse(content)
+        assert junit_manifest.keys.include? key
+        junit_manifest.delete(key)
+        IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
+        check
+        assert_error junit_manifest_filename, "#{key}: missing"
+      end
+    end
+    required_keys = %w( display_name
+                        image_name
+                        unit_test_framework
+                        visible_filenames
+                      )
+    required_keys.each { |key| missing_require_key.call(key) }
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # display_name
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'C27D67',
+  'display_name not a String is diagnosed as error' do
+    copy_good_master_to('C27D67') do |tmp_dir|
+      # peturb
+      junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
+      content = IO.read(junit_manifest_filename)
+      junit_manifest = JSON.parse(content)
+      junit_manifest['display_name'] = [ 1 ]
+      IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
+      check
+      assert_error junit_manifest_filename, 'display_name: must be a String'
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'ABD942',
+  'invalid display_name is diagnosed as error' do
+    bad_display_name = lambda do |bad|
+      copy_good_master_to('ABD942') do |tmp_dir|
+        # peturn
+        junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
+        content = IO.read(junit_manifest_filename)
+        junit_manifest = JSON.parse(content)
+        junit_manifest['display_name'] = bad
+        IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
+        check
+        assert_error junit_manifest_filename, "display_name: not in 'A,B' format"
+      end
+    end
+    bad_display_name.call('')
+    bad_display_name.call('no comma')
+    bad_display_name.call('one,two,commas')
+    bad_display_name.call(',nothing to left')
+    bad_display_name.call('nothing to right,')
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # image_name
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'A9D696',
+  'image_name not a String is diagnosed as error' do
+    copy_good_master_to('A9D696') do |tmp_dir|
+      # peturb
+      junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
+      content = IO.read(junit_manifest_filename)
+      junit_manifest = JSON.parse(content)
+      junit_manifest['image_name'] = [ 1 ]
+      IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
+      check
+      assert_error junit_manifest_filename, 'image_name: must be a String'
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '75CBD4',
+  'empty image_name is diagnosed as error' do
+    copy_good_master_to('75CBD4') do |tmp_dir|
+      # peturn
+      junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
+      content = IO.read(junit_manifest_filename)
+      junit_manifest = JSON.parse(content)
+      junit_manifest['image_name'] = ''
+      IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
+      check
+      assert_error junit_manifest_filename, "image_name: empty"
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # visible_filenames
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'E6D4DE',
+  'visible_filenames not an Array of Strings is diagnosed as error' do
+    bad_visible_filenames = lambda do |value|
+      copy_good_master_to('E6D4DE') do |tmp_dir|
+        # peturb
+        junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
+        content = IO.read(junit_manifest_filename)
+        junit_manifest = JSON.parse(content)
+        junit_manifest['visible_filenames'] = value
+        IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
+        check
+        assert_error junit_manifest_filename, 'visible_filenames: must be an Array of Strings'
+      end
+    end
+    bad_visible_filenames.call(1)
+    bad_visible_filenames.call([1])
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '67307A',
+  'file in dir not present in visible_filename is diagnosed as error' do
+    copy_good_master_to('67307A') do |tmp_dir|
+      # peturb
+      junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
+      IO.write("#{tmp_dir}/Java/JUnit/new_file.jj", 'hello world')
+      check
+      assert_error junit_manifest_filename, 'visible_filenames: new_file.jj not present'
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '1FEC31',
   'missing visible file is diagnosed as error' do
@@ -247,7 +281,7 @@ class SetupDataCheckerTest < AppLibTestBase
       missing_filename = junit_manifest['visible_filenames'][0]
       File.delete("#{tmp_dir}/Java/JUnit/#{missing_filename}")
       check
-      assert_error junit_manifest_filename, "missing visible_filename '#{missing_filename}'"
+      assert_error junit_manifest_filename, "visible_filenames: missing '#{missing_filename}'"
     end
   end
 
@@ -266,7 +300,7 @@ class SetupDataCheckerTest < AppLibTestBase
       junit_manifest['visible_filenames'] = visible_filenames
       IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
       check
-      assert_error junit_manifest_filename, "duplicate visible_filename '#{duplicate_filename}'"
+      assert_error junit_manifest_filename, "visible_filenames: duplicate '#{duplicate_filename}'"
     end
   end
 
