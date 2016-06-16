@@ -15,12 +15,15 @@ class SetupDataChecker
   # - - - - - - - - - - - - - - - - - - - -
 
   def check
+    # check setup.json in root but do not add to manifests[]
     manifest = json_manifest(setup_filename)
     check_setup_json_meets_its_spec(manifest) unless manifest.nil?
+    # json-parse all manifest.json files and add to manifests[]
     Dir.glob("#{@path}/**/manifest.json").each do |filename|
       manifest = json_manifest(filename)
       @manifests[filename] = manifest unless manifest.nil?
     end
+    # check manifests
     # TODO: instructions-checks are different to languages/exercises checks
     check_all_manifests_have_a_unique_display_name
     @manifests.each do |filename, manifest|
@@ -38,10 +41,8 @@ class SetupDataChecker
     type = manifest['type']
     if type.nil?
       @errors[setup_filename] << 'no type: entry'
-    else
-      if ! ['languages','exercises','instructions'].include? type
-        @errors[setup_filename] << 'bad type: entry'
-      end
+    elsif ! ['languages','exercises','instructions'].include? type
+      @errors[setup_filename] << 'bad type: entry'
     end
   end
 

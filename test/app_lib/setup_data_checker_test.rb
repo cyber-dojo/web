@@ -10,7 +10,7 @@ class SetupDataCheckerTest < AppLibTestBase
 
   test '0C1F2F',
   'test_data master (manifested) has no errors' do
-    checker = SetupDataChecker.new(setup_data_path)
+    checker = SetupDataChecker.new(setup_data_path + '/languages')
     errors = checker.check
     assert_zero errors
     assert_equal 5, checker.manifests.size
@@ -117,7 +117,7 @@ class SetupDataCheckerTest < AppLibTestBase
     copy_good_master_to('67307A') do |tmp_dir|
       # peturb
       junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
-      IO.write("#{tmp_dir}/Java/Junit/new_file.jj", 'hello world')
+      IO.write("#{tmp_dir}/Java/JUnit/new_file.jj", 'hello world')
       check
       assert_error junit_manifest_filename, 'new_file.jj not present in visible_filenames:'
     end
@@ -134,8 +134,8 @@ class SetupDataCheckerTest < AppLibTestBase
 
   def copy_good_master_to(id)
     Dir.mktmpdir('cyber-dojo-' + id) do |tmp_dir|
+      shell "cp -r #{setup_data_path}/languages/* #{tmp_dir}"
       @tmp_dir = tmp_dir
-      shell "cp -r #{setup_data_path}/* #{tmp_dir}"
       yield tmp_dir
     end
   end
@@ -180,7 +180,7 @@ class SetupDataCheckerTest < AppLibTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def setup_data_path
-    File.expand_path(File.dirname(__FILE__)) + '/setup_data/languages'
+    File.expand_path(File.dirname(__FILE__)) + '/setup_data'
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
