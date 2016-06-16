@@ -8,6 +8,9 @@ cd ${my_dir}/web
 cd ${my_dir}
 
 ./cyber-dojo down
+./cyber-dojo volume rm default-languages
+./cyber-dojo volume rm default-exercises
+./cyber-dojo volume rm default-instructions
 ./cyber-dojo up
 cid=`docker ps --all --quiet --filter "name=cdf-web"`
 docker exec ${cid} sh -c "cd test && ./run.sh"
