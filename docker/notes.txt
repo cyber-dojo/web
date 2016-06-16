@@ -4,6 +4,11 @@ for improved diffs. Try to get this in place.
 
 - - - - - - - - - - - - - - - - - - - - -
 
+add [ci skip] to git commit messages if you want
+to skip the travis build
+
+- - - - - - - - - - - - - - - - - - - - -
+
 cyber-dojo.rb failure messages are
 FAILED: ....
 Check what [docker] does and mimic that.
