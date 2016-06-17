@@ -15,7 +15,7 @@ cd ${my_dir}
 
 ./cyber-dojo up
 
-cid=`docker ps --all --quiet --filter "name=cdf-web"`
+cid=`docker ps --all --quiet --filter "name=cyber-dojo-web"`
 docker exec ${cid} sh -c "cd test && ./run.sh"
 done=$?
 
