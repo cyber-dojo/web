@@ -192,12 +192,12 @@ volume_create() {
   local url=$2
   echo "Creating ${vol} from ${url}"
 
-  g_tmp_dir=`mktemp -d -t cyber-dojo`
+  g_tmp_dir=`mktemp -d -t cyber-dojo.XXXXXX`
   if [ $? != 0 ]; then
     echo "FAILED: Could not create temporary directory!"
     exit 1
   fi
-  g_cidfile=`mktemp -t cyber-dojo.cid`
+  g_cidfile=`mktemp -t cyber-dojo.cid.XXXXXX`
   if [ $? != 0 ]; then
     echo "FAILED: Could not create temporary file!"
     exit 1
