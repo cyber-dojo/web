@@ -101,7 +101,7 @@ end
 # up
 #=========================================================================================
 
-def process_up_volume_arg(help, args, name)
+def up_arg_ok(help, args, name)
   vol = get_arg("--#{name}", args)
   if vol.nil? || vol == 'default-' + name # handled in cyber-dojo.sh
     return true
@@ -169,10 +169,9 @@ def up
     exit 1
   end
   # explicit volumes?
-  exit 1 unless process_up_volume_arg(help, args, 'languages')     # --languages=VOL
-  exit 1 unless process_up_volume_arg(help, args, 'exercises')     # --exercises=VOL
-  exit 1 unless process_up_volume_arg(help, args, 'instructions')  # --instructions=VOL
-
+  exit 1 unless up_arg_ok(help, args, 'languages')     # --languages=VOL
+  exit 1 unless up_arg_ok(help, args, 'exercises')     # --exercises=VOL
+  exit 1 unless up_arg_ok(help, args, 'instructions')  # --instructions=VOL
   # cyber-dojo.sh does actual [up]
 end
 

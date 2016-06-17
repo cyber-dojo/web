@@ -18,10 +18,6 @@ default_instructions_volume=default-instructions
 
 # set environment variables required by docker-compose.yml
 
-# important that data-root is not under app so any ruby files it might contain
-# are *not* slurped by the rails web server as it starts!
-export CYBER_DOJO_DATA_ROOT=${cyber_dojo_root}/data
-
 export CYBER_DOJO_WEB_SERVER=${cyber_dojo_hub}/web:${docker_version}
 export CYBER_DOJO_WEB_CONTAINER=cyber-dojo-web
 
@@ -37,6 +33,10 @@ export CYBER_DOJO_GIT_CLASS=${CYBER_DOJO_GIT_CLASS:=HostGit}
 export CYBER_DOJO_RUNNER_CLASS=${CYBER_DOJO_RUNNER_CLASS:=DockerTarPipeRunner}
 export CYBER_DOJO_RUNNER_SUDO='sudo -u docker-runner sudo'
 export CYBER_DOJO_RUNNER_TIMEOUT=${CYBER_DOJO_RUNNER_TIMEOUT:=10}
+
+# important data-root is not under app so any ruby files it might contain
+# are *not* slurped by the rails web server as it starts!
+export CYBER_DOJO_DATA_ROOT=${cyber_dojo_root}/data
 
 export CYBER_DOJO_RAILS_ENVIRONMENT=production
 export CYBER_DOJO_LANGUAGES_VOLUME=default-languages
@@ -203,10 +203,12 @@ volume_create() {
     exit 1
   fi
 
+  # 1. make an empty docker volume
   command="docker volume create --name=${vol} --label=cyber-dojo-volume=${url}"
   run "${command}" || (clean_up && exit 1)
   g_vol=${vol}
 
+  # 2. clone git repo to local folder
   command="git clone --depth=1 --branch=master ${url} ${g_tmp_dir}"
   run "${command}" || (clean_up && exit 1)
 
@@ -214,6 +216,7 @@ volume_create() {
   command="rm ${g_cidfile}"
   run "${command}" || (clean_up && exit 1)
 
+  # 3. mount empty volume inside docker container
   command="docker run --detach
                --cidfile=${g_cidfile}
                --interactive
@@ -222,22 +225,26 @@ volume_create() {
                --volume=${vol}:/data
                ${CYBER_DOJO_WEB_SERVER} sh"
   run "${command}" || (clean_up && exit 1)
-
   g_cid=`cat ${g_cidfile}`
 
+  # 4. fill empty volume from local folder created in 2
   # NB: [cp DIR/.] != [cp DIR];  DIR/. means copy the contents
   command="docker cp ${g_tmp_dir}/. ${g_cid}:/data"
   run "${command}" || (clean_up && exit 1)
 
+  # 5. remove .git from volume, only interested in contents
   command="docker exec ${g_cid} sh -c 'cd /data && rm -rf .git'"
   run "${command}" || (clean_up && exit 1)
 
+  # 6. ensure cyber-dojo owns everything in the volume
   command="docker exec ${g_cid} sh -c 'chown -R cyber-dojo:cyber-dojo /data'"
   run "${command}" || (clean_up && exit 1)
 
+  # 7. check the volume's contents adhere to the API
   command="docker exec ${g_cid} sh -c 'cd /usr/src/cyber-dojo/app/lib && ./check_setup_data.rb /data'"
   run "${command}" || (clean_up && exit 1)
 
+  # clean up everything used to create the volume, but not the volume itself
   g_vol=''
   clean_up
 }
@@ -302,15 +309,15 @@ cyber_dojo_up() {
     if [ "${name}" = "--env" ] && [ "${value}" = 'test' ]; then
       export CYBER_DOJO_RAILS_ENVIRONMENT=test
     fi
-    # --languages=james
+    # --languages=vol
     if [ "${name}" = "--languages" ] && [ "${value}" != '' ]; then
       export CYBER_DOJO_LANGUAGES_VOLUME=${value}
     fi
-    # --exercises=mike
+    # --exercises=vol
     if [ "${name}" = "--exercises" ] && [ "${value}" != '' ]; then
       export CYBER_DOJO_EXERCISES_VOLUME=${value}
     fi
-    # --instructions=olve
+    # --instructions=vol
     if [ "${name}" = "--instructions" ] && [ "${value}" != '' ]; then
       export CYBER_DOJO_INSTRUCTIONS_VOLUME=${value}
     fi
@@ -334,7 +341,7 @@ cyber_dojo_up() {
     fi
   fi
 
-  # check default/explicit volumes exist
+  # check volumes exist
   if ! volume_exists ${CYBER_DOJO_LANGUAGES_VOLUME}; then
     echo "FAILED: volume ${CYBER_DOJO_LANGUAGES_VOLUME} does not exist"
     exit 1
