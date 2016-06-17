@@ -166,7 +166,7 @@ clean_up() {
 
 run() {
   local me='run'
-  local command=$*
+  local command="$1"
   debug "${me}: command=${command}"
   eval ${command} > /dev/null 2>&1
   local exit_status=$?
