@@ -4,11 +4,6 @@ for improved diffs. Try to get this in place.
 
 - - - - - - - - - - - - - - - - - - - - -
 
-move command-line files (cyber-dojo.sh/rb etc)
-into new cli folder and out of docker folder
-
-- - - - - - - - - - - - - - - - - - - - -
-
 add [ci skip] to git commit messages if you want
 to skip the travis build
 

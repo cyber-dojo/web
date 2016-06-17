@@ -110,7 +110,7 @@ cyber_dojo_rb() {
     --env=CYBER_DOJO_HUB=${cyber_dojo_hub} \
     --volume=/var/run/docker.sock:/var/run/docker.sock \
     ${CYBER_DOJO_WEB_SERVER} \
-    ${cyber_dojo_root}/docker/cyber-dojo.rb $1
+    ${cyber_dojo_root}/cli/cyber-dojo.rb $1
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

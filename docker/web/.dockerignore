@@ -36,8 +36,8 @@ downloads/*
 !config.ru
 
 # {cyber-dojo update} copies these out of web container
-!docker/cyber-dojo.sh
-!docker/docker-compose.yml
+!cli/cyber-dojo.sh
+!cli/docker-compose.yml
 
 # {cyber-dojo.sh} copies these out of web container to make katas data-container
 !docker/katas/Dockerfile.copied
@@ -46,4 +46,4 @@ downloads/*
 !docker/katas/Dockerignore.empty
 
 # {cyber-dojo.sh} delegates to this inside web container
-!docker/cyber-dojo.rb
+!cli/cyber-dojo.rb

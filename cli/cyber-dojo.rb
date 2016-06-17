@@ -11,8 +11,6 @@ $exit_status = 0
 
 def me; 'cyber-dojo'; end
 
-def my_dir; File.expand_path(File.dirname(__FILE__)); end
-
 def cyber_dojo_hub; ENV['CYBER_DOJO_HUB'] || 'cyberdojo'; end
 
 def space; ' '; end
