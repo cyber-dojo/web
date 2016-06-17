@@ -382,13 +382,13 @@ def volume_inspect
     'docker run',
     '--rm',
     "--volume=#{vol}:/data:#{read_only}",
-    # "--user=cyber-dojo",
+    "--user=cyber-dojo",
     "#{cyber_dojo_hub}/web:#{docker_version}",
-    "sh -c 'cd /usr/src/cyber-dojo/cli && ./volume_inspect.rb /data'"
+    "sh -c 'cd /usr/src/cyber-dojo/cli && ./inspect_volume.rb /data'"
   ].join(space=' ')
 
-  p command
-  `#{command}`
+  inspection = `#{command}`
+  p inspection
 
 end
 

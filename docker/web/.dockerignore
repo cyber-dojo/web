@@ -50,6 +50,6 @@ downloads/*
 !cli/check_setup_data.rb
 
 # {cyber-dojo.rb} delegates to this inside web container
-!cli/volume_inspect.rb
+!cli/inspect_volume.rb
 
 

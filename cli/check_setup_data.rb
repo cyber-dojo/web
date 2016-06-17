@@ -2,7 +2,7 @@
 
 require_relative './../app/lib/setup_data_checker'
 
-def fail; 1; end
+def failed; 1; end
 
 def show_use(message = '')
   STDERR.puts
@@ -14,16 +14,18 @@ def show_use(message = '')
   STDERR.puts
 end
 
-path = ARGV[0]
+def path
+  ARGV[0]
+end
 
 if path.nil?
   show_use
-  exit fail
+  exit failed
 end
 
 if !File.directory?(path)
   show_use "#{path} not found"
-  exit fail
+  exit failed
 end
 
 checker = SetupDataChecker.new(path)

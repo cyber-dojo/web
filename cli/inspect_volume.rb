@@ -3,16 +3,18 @@
 def failed; 1; end
 
 def show_use(message = '')
-  puts
-  puts 'USE: volume_inspect.rb PATH'
-  puts
+  STDERR.puts
+  STDERR.puts 'USE: volume_inspect.rb PATH'
+  STDERR.puts
   #puts 'Checks PATH is suitable to create a cyber-dojo volume from.'
   #puts
-  puts "   ERROR: #{message}" if message != ''
-  puts
+  STDERR.puts "   ERROR: #{message}" if message != ''
+  STDERR.puts
 end
 
-path = ARGV[0]
+def path
+  ARGV[0]
+end
 
 if path.nil?
   show_use
@@ -27,7 +29,8 @@ end
 p "TODO: ./cyber-dojo volume inspect #{path}"
 
 # does *not* show the details of what volumes are inside the running web container.
+# use globbing
+# Dir.glob("#{path}/**/manifest.json").each do |filename|
 #
-# use globbing as per line 359
 # shows whether image has been pulled or not
 # shows whether image is auto-pull or not
