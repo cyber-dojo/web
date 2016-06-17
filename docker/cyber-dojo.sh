@@ -225,6 +225,7 @@ volume_create() {
 
   g_cid=`cat ${g_cidfile}`
 
+  # NB: [cp DIR/.] != [cp DIR];  DIR/. means copy the contents
   command="docker cp ${g_tmp_dir}/. ${g_cid}:/data"
   run "${command}" || (clean_up && exit 1)
 

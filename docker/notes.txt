@@ -20,33 +20,6 @@ Check what [docker] does and mimic that.
 
 - - - - - - - - - - - - - - - - - - - - -
 
-$ cd /tmp
-$ git clone --depth=1 --branch=master file:///Users/jonjagger/repos/default-exercises jj
-$ docker volume create --name=jon --label=cyber-dojo-volume=file:///Users/jonjagger/repos/default-exercises
-$ cid=$(docker run --detach \
-                   --interactive \
-                   --net=none \
-                   --user=root \
-                   --volume=jon:/data \
-                   cyberdojo/web:1.11.2 sh)
-
-$ docker cp jj/. ${cid}:/data
-
-$ docker exec ${cid} sh -c "cd /data && rm -rf .git"
-$ docker exec ${cid} sh -c "chown -R cyber-dojo:cyber-dojo /data"
-$ docker exec ${cid} sh -c "cd /usr/src/cyber-dojo/app/lib && ./check_setup_data.rb /data"
-$ success=$?
-$ docker rm -f ${cid}
-$ docker volume ls
-
-Note the line 29 is
-$ docker cp jj/. ${cid}:/data
-and not
-$ docker cp jj ${cid}:/data
-When the src ends in /. its contents are copied.
-
-- - - - - - - - - - - - - - - - - - - - -
-
 default-pulled images are
 %w( gcc_assert gpp_assert csharp_nunit java_junit python_pytest ruby_mini_test )
 
