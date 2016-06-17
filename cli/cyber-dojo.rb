@@ -23,6 +23,8 @@ def show(lines); lines.each { |line| puts line }; print "\n"; end
 
 def quoted(s); '"' + s + '"'; end
 
+def exit_fail; exit 1; end
+
 def run(command)
   puts command if $debug_mode
   output = `#{command}`
@@ -50,7 +52,7 @@ def down
   ]
   if ['help','--help'].include? ARGV[1]
     show help
-    exit 1
+    exit_fail
   end
   # cyber-dojo.sh does actual [down]
 end
@@ -68,7 +70,7 @@ def sh
   ]
   if ['help','--help'].include? ARGV[1]
     show help
-    exit 1
+    exit_fail
   end
   # cyber-dojo.sh does actual [sh]
 end
@@ -86,12 +88,12 @@ def logs
   ]
   if ['help','--help'].include? ARGV[1]
     show help
-    exit 1
+    exit_fail
   end
 
   if `docker ps --quiet --filter "name=cdf-web"` == ''
     puts "FAILED: Cannot show logs - the web server is not running"
-    exit 1
+    exit_fail
   else
     puts `docker logs cdf-web`
   end
@@ -148,7 +150,7 @@ def up
   # asked for help?
   if ['help','--help'].include? ARGV[1]
     show help
-    exit 1
+    exit_fail
   end
   # unknown arguments?
   knowns = ['env','languages','exercises','instructions']
@@ -158,7 +160,7 @@ def up
   if unknown != []
     show help
     unknown.each { |arg| puts "FAILED: unknown argument [#{arg}]" }
-    exit 1
+    exit_fail
   end
   # --env=
   args = ARGV[1..-1]
@@ -166,12 +168,12 @@ def up
   if !env.nil? && !['development','production','test'].include?(env)
     show help
     puts "FAILED: bad argument value --env=[#{env}]"
-    exit 1
+    exit_fail
   end
   # explicit volumes?
-  exit 1 unless up_arg_ok(help, args, 'languages')     # --languages=VOL
-  exit 1 unless up_arg_ok(help, args, 'exercises')     # --exercises=VOL
-  exit 1 unless up_arg_ok(help, args, 'instructions')  # --instructions=VOL
+  exit_fail unless up_arg_ok(help, args, 'languages')     # --languages=VOL
+  exit_fail unless up_arg_ok(help, args, 'exercises')     # --exercises=VOL
+  exit_fail unless up_arg_ok(help, args, 'instructions')  # --instructions=VOL
   # cyber-dojo.sh does actual [up]
 end
 
@@ -252,7 +254,7 @@ def volume_create
 
   if [nil,'help','--help'].include? ARGV[2]
     show help
-    exit 1
+    exit_fail
   end
 
   # TODO: check for unknown args
@@ -262,19 +264,19 @@ def volume_create
   url = get_arg('--git', args)
   if vol.nil? || url.nil?
     show help
-    exit 1
+    exit_fail
   end
 
   if vol.length == 1
     msg = 'volume names must be at least two characters long. See https://github.com/docker/docker/issues/20122'
     puts "FAILED: [volume create --name=#{vol}] #{msg}"
-    exit 1
+    exit_fail
   end
 
   if volume_exists? vol
     msg = "#{vol} already exists"
     puts "FAILED: [volume create --name=#{vol}] #{msg}"
-    exit 1
+    exit_fail
   end
   # cyber-dojo.sh does actual [volume create]
 end
@@ -285,12 +287,12 @@ def exit_unless_is_cyber_dojo_volume(vol, command)
   # TODO: when its implemented, use [volume ls --quiet] ?
   if !volume_exists? vol
     puts "FAILED: [volume #{command} #{vol}] - #{vol} does not exist."
-    exit 1
+    exit_fail
   end
 
   if !cyber_dojo_volume? vol
     puts "FAILED: [volume #{command} #{vol}] - #{vol} is not a cyber-dojo volume."
-    exit 1
+    exit_fail
   end
 end
 
@@ -310,7 +312,7 @@ def volume_ls
 
   if ['help','--help'].include? ARGV[2]
     show help
-    exit 1
+    exit_fail
   end
 
   # There is currently no [--filter label=LABEL]  option on [docker volume ls]
@@ -352,7 +354,7 @@ end
 # $ ./cyber-dojo volume inspect
 #=========================================================================================
 
-def volume_inspect # was catalog
+def volume_inspect
   help = [
     '',
     "Use: #{me} volume inspect VOLUME",
@@ -363,7 +365,7 @@ def volume_inspect # was catalog
   vol = ARGV[2]
   if [nil,'help','--help'].include? vol
     show help
-    exit 1
+    exit_fail
   end
 
   # TODO: check for unknown args
@@ -397,7 +399,7 @@ def volume_rm
   vol = ARGV[2]
   if [nil,'help','--help'].include? vol
     show help
-    exit 1
+    exit_fail
   end
 
   exit_unless_is_cyber_dojo_volume(vol, 'rm')
@@ -405,7 +407,7 @@ def volume_rm
   run "docker volume rm #{vol}"
   if $exit_status != 0
     puts "FAILED [volume rm #{vol}] can't remove volume if it's in use"
-    exit 1
+    exit_fail
   end
 
 end
@@ -428,7 +430,7 @@ def volume_pull
   vol = ARGV[2]
   if [nil,'help','--help'].include? vol
     show help
-    exit 1
+    exit_fail
   end
 
   exit_unless_is_cyber_dojo_volume(vol, 'pull')
@@ -484,7 +486,7 @@ case ARGV[0]
   else
     puts "#{me}: '#{ARGV[0]}' is not a command."
     puts "See '#{me} --help'."
-    exit 1
+    exit_fail
 end
 
 exit 0
