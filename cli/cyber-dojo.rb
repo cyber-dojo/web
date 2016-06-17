@@ -258,6 +258,7 @@ def volume_create
   end
 
   # TODO: check for unknown args
+  # TODO: make sure you don't do -name=... instead of --name=...
 
   args = ARGV[2..-1]
   vol = get_arg('--name', args)
@@ -278,6 +279,7 @@ def volume_create
     puts "FAILED: [volume create --name=#{vol}] #{msg}"
     exit failed
   end
+
   # cyber-dojo.sh does actual [volume create]
 end
 
@@ -499,6 +501,7 @@ end
 
 exit 0
 
+=begin
 #=========================================================================================
 #=========================================================================================
 #=========================================================================================
@@ -688,3 +691,4 @@ def rmi
   end
 end
 
+=end

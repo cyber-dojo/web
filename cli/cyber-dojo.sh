@@ -215,7 +215,7 @@ run() {
   local me='run'
   local command="$1"
   debug "${me}: command=${command}"
-  eval ${command} #> /dev/null 2>&1
+  eval ${command} > /dev/null 2>&1
   local exit_status=$?
   debug "${me}: exit_status=${exit_status}"
   if [ "${exit_status}" = 0 ]; then
