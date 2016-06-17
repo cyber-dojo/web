@@ -159,7 +159,7 @@ def up
   end
   if unknown != []
     show help
-    unknown.each { |arg| puts "FAILED: unknown argument [#{arg}]" }
+    unknown.each { |arg| puts "FAILED: unknown argument [#{arg.split('=')[0]}]" }
     exit failed
   end
   # --env=
@@ -251,14 +251,21 @@ def volume_create
     '',
     'Creates a volume named VOLUME as git clone of URL and pulls all its docker images marked auto_pull:true'
   ]
-
+  # asked for help?
   if [nil,'help','--help'].include? ARGV[2]
     show help
     exit failed
   end
-
-  # TODO: check for unknown args
-  # TODO: make sure you don't do -name=... instead of --name=...
+  # unknown arguments?
+  knowns = ['name','git']
+  unknown = ARGV[2..-1].select do |argv|
+    knowns.none? { |known| argv.start_with?('--' + known + '=') }
+  end
+  if unknown != []
+    show help
+    unknown.each { |arg| puts "FAILED: unknown argument [#{arg.split('=')[0]}]" }
+    exit failed
+  end
 
   args = ARGV[2..-1]
   vol = get_arg('--name', args)
