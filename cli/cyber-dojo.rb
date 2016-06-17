@@ -366,6 +366,8 @@ def volume_inspect # was catalog
     exit 1
   end
 
+  # TODO: check for unknown args
+
   exit_unless_is_cyber_dojo_volume(vol, 'inspect')
 
   p 'TODO: volume inspect'
@@ -373,6 +375,7 @@ def volume_inspect # was catalog
   # Note: this will volume mount the named VOL to find its info
   #       then use globbing as per line 359
   #       it does *not* show the details of what volumes are inside the running web container.
+  #
   # TODO: make it show whether image has been pulled or not
   # TODO: make it show whether image is auto-pull or not
 end
