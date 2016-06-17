@@ -215,7 +215,7 @@ run() {
   local me='run'
   local command="$1"
   debug "${me}: command=${command}"
-  eval ${command} > /dev/null 2>&1
+  eval ${command} > /dev/null #2>&1
   local exit_status=$?
   debug "${me}: exit_status=${exit_status}"
   if [ "${exit_status}" = 0 ]; then
@@ -231,14 +231,14 @@ clean_up() {
   local me='clean_up'
   if [ "${g_tmp_dir}" != '' ]; then
     debug "${me}: doing [rm -rf ${g_tmp_dir}]"
-    rm -rf ${g_tmp_dir}
+    rm -rf ${g_tmp_dir} > /dev/null 2>&1
   else
     debug "{me}: g_tmp_dir='' -> NOT doing [rm]"
   fi
 
   if [ "${g_cidfile}" != '' ]; then
     debug "${me}: doing [rm ${g_cidfile}]"
-    rm ${g_cidfile}
+    rm -f ${g_cidfile} > /dev/null 2>&1
   else
     debug "${me}: g_cidfile='' -> NOT doing [rm]"
   fi
@@ -254,7 +254,7 @@ clean_up() {
     # previous command seems to sometimes complete
     # before it is safe to remove its volume?!
     sleep 1
-    docker volume rm ${g_vol}
+    docker volume rm ${g_vol} > /dev/null 2>&1
   else
     debug "${me}: g_vol='' -> NOT doing [docker volume rm]"
   fi

@@ -12,7 +12,7 @@ and then create a volume from it, the change should be seen inside the volume, b
 Am I mis-understanding how [docker cp] works?
 No. The change was not commited to the git repo!
 However, debug logging seems to show clean_up being called twice...
-Is this because (clean_up && exit_fail) is in () and so is a sub-shell.
+Is this because (clean_up && exit_fail) is in () and so is a sub-shell?
 
 Can't pipe stdout and stderr to /dev/null in cyber-dojo.sh run()
 or [check_setup_data.rb /data] output will be lost
