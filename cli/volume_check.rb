@@ -27,7 +27,7 @@ if !File.directory?(path)
 end
 
 hash = SetupDataChecker.new(path).check
-error_count = hash.values.reduce(:+).size
+error_count = hash.reduce(0) { |memo,(filename,messages)| memo + messages.length }
 STDERR.puts "FAILED..." unless error_count == 0
 hash.each do |filename, messages|
   messages.each { |message| STDERR.puts filename + ': ' + message }
