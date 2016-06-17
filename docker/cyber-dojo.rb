@@ -102,22 +102,23 @@ end
 #=========================================================================================
 
 def process_up_volume_arg(help, args, name)
-  github_cyber_dojo = 'https://github.com/cyber-dojo'
-  default_name = 'default-'+name
-  vol = get_arg("--#{name}", args) || default_name
+  vol = get_arg("--#{name}", args)
+  if vol.nil? || vol == 'default-' + name # handled in cyber-dojo.sh
+    return true
+  end
+
+  # TODO: edge case... this is not type checked
+  # cyber-dojo up --languages=default-exercises
+
   if vol == ''
     show help
     puts "FAILED: missing argument value --#{name}=[???]"
     return false
   end
   if !volume_exists?(vol)
-    if vol == default_name
-      git_clone_into_new_volume(default_name, "#{github_cyber_dojo}/#{default_name}.git")
-    else
-      show help
-      puts "FAILED: volume #{vol} does not exist"
-      return false
-    end
+    show help
+    puts "FAILED: volume #{vol} does not exist"
+    return false
   end
   type = cyber_dojo_type(vol)
   if type != name
@@ -126,10 +127,6 @@ def process_up_volume_arg(help, args, name)
     return false
   end
   return true
-
-  rescue VolumeCreateFailed => error
-    error.handle(vol)
-
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -246,105 +243,9 @@ def cyber_dojo_type(vol)
   cyber_dojo_manifest(vol)['type']
 end
 
-# - - - - - - - - - - - - - - -
-
-class VolumeCreateFailed < Exception
-
-  def initialize(hash)
-    @hash = hash
-    hash[:exit] = true unless hash.key? :exit
-    hash[:rm]   = true unless hash.key? :rm
-  end
-
-  def [](key)
-    @hash[key]
-  end
-
-  def handle(vol)
-    # If a [docker run] commands fails then docker sometimes reports...
-    #   Error response from daemon: Unable to remove volume, volume still in use: remove abcd: volume is in use -
-    #      [9b2bd7be08e38a7315fec421e2a05442ff2ed2e533f10835514ac9a928a5a370]
-    # when the given 9b2bd... volume does *not* exist (as reported by [docker volume ls])
-    # https://github.com/docker/docker/issues/22093
-    # Reports this is a known error and says you can fix it by stopping and starting the docker daemon
-    #     $ docker-machine restart default
-    # (but that should not be necessary)
-
-    puts "#{self[:output]}" unless self[:output].nil?
-
-    msg = self[:msg] || ''
-    msg = ' - ' + msg unless msg == ''
-    puts "FAILED: [volume create --name=#{vol}]#{msg}"
-
-    unless self[:cidfile].nil?
-      cid = IO.read self[:cidfile]
-      run "docker rm --force #{cid}"
-    end
-
-    unless self[:rm] === false
-      # Sometimes there appears to be a background process which ends
-      # after a few seconds and only then can you remove the volume?!
-      run "docker volume rm #{vol}"
-      if $exit_status != 0
-        sleep 2
-        run "docker volume rm #{vol}"
-      end
-    end
-
-    exit 1 unless self[:exit] === false
-  end
-
-end
-
-# - - - - - - - - - - - - - - -
-
-def raising_run(command, hash = {})
-  if command.start_with? 'docker run'
-    tmpfile = Tempfile.new('cyber-dojo')
-    cidfile = tmpfile.path
-    # cidfile must not exist prior to use
-    tmpfile.close
-    tmpfile.unlink
-    command.slice! 'docker run'
-    command = "docker run --cidfile=#{cidfile}" + command
-    hash[:cidfile] = cidfile
-  end
-  output = ''
-  begin
-    output = run command
-    if $exit_status != 0
-      hash[:command] = command
-      hash[:exit_status] = $exit_status
-      hash[:output] = output
-      raise VolumeCreateFailed.new(hash)
-    end
-  rescue Exception
-    hash[:command] = command
-    raise VolumeCreateFailed.new(hash)
-  end
-  output
-end
-
 #=========================================================================================
 # volume create
 #=========================================================================================
-
-def git_clone_into_new_volume(name, url)
-  puts "Creating #{name} from #{url}"
-  # make empty volume
-  raising_run "docker volume create --name=#{name} --label=cyber-dojo-volume=#{url}"
-  # fill it from git repo, chown it, check it
-  command = quoted [
-    "git clone --depth=1 --branch=master #{url} /data",
-    'rm -rf /data/.git',
-    'chown -R cyber-dojo:cyber-dojo /data',
-    'app/lib/check_setup_data.rb /data'
-  ].join(" && ")
-  # TODO: get proper docker version
-  raising_run "docker run --user=root --rm --volume #{name}:/data #{cyber_dojo_hub}/web:1.11.2 sh -c #{command}"
-end
-
-# - - - - - - - - - - - - - - - - - -
 
 def volume_create
   help = [
@@ -380,13 +281,6 @@ def volume_create
     puts "FAILED: [volume create --name=#{vol}] #{msg}"
     exit 1
   end
-
-  git_clone_into_new_volume(vol, url)
-
-  # TODO: pull docker images marked auto_pull:true
-
-  rescue VolumeCreateFailed => error
-    error.handle(vol)
 
 end
 
@@ -458,37 +352,35 @@ def volume_ls
   # https://github.com/docker/docker/pull/21567
   # So I have to inspect all volumes. Could be slow if lots of volumes.
 
-  volumes = run("docker volume ls --quiet").split
-  volumes = volumes.select{ |volume| cyber_dojo_volume?(volume) }
+  names = run("docker volume ls --quiet").split
+  names = names.select{ |name| cyber_dojo_volume?(name) }
 
   if ARGV[2] == '--quiet'
-    volumes.each { |volume| puts volume }
+    names.each { |name| puts name }
   else
-    types   = volumes.map { |volume| cyber_dojo_type(volume)    }
-    urls    = volumes.map { |volume| cyber_dojo_label(volume)   }
+    types = names.map { |name| cyber_dojo_type(name)  }
+    urls  = names.map { |name| cyber_dojo_label(name) }
 
-    headings = { :volume => 'VOLUME', :type => 'TYPE', :url => 'URL' }
+    headings = { :name => 'NAME', :type => 'TYPE', :url => 'URL' }
 
     gap = 3
-    max_volume = ([headings[:volume]] + volumes).max_by(&:length).length + gap
-    max_type   = ([headings[:type  ]] + types  ).max_by(&:length).length + gap
-    max_url    = ([headings[:url   ]] + urls   ).max_by(&:length).length + gap
+    max_name = ([headings[:name]] + names).max_by(&:length).length + gap
+    max_type = ([headings[:type]] + types).max_by(&:length).length + gap
+    max_url  = ([headings[:url ]] + urls ).max_by(&:length).length + gap
 
     spaced = lambda { |max,s| s + (space * (max - s.length)) }
 
-    heading = ''
-    heading += spaced.call(max_volume, headings[:volume])
-    heading += spaced.call(max_type, headings[:type])
-    heading += spaced.call(max_url, headings[:url])
-    puts heading
-    volumes.length.times do |n|
-      volume = spaced.call(max_volume, volumes[n])
-      type   = spaced.call(max_type, types[n])
-      url    = spaced.call(max_url, urls[n])
-      puts volume + type + url
+    name = spaced.call(max_name, headings[:name])
+    type = spaced.call(max_type, headings[:type])
+    url  = spaced.call(max_url , headings[:url ])
+    puts name + type + url
+    names.length.times do |n|
+      name = spaced.call(max_name, names[n])
+      type = spaced.call(max_type, types[n])
+      url  = spaced.call(max_url ,  urls[n])
+      puts name + type + url
     end
   end
-
 end
 
 #=========================================================================================
