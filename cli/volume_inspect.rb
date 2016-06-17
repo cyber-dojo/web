@@ -2,6 +2,8 @@
 
 def failed; 1; end
 
+def path; ARGV[0]; end
+
 def show_use(message = '')
   STDERR.puts
   STDERR.puts 'USE: volume_inspect.rb PATH'
@@ -12,9 +14,6 @@ def show_use(message = '')
   STDERR.puts
 end
 
-def path
-  ARGV[0]
-end
 
 if path.nil?
   show_use

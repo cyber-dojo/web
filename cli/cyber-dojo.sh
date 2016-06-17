@@ -150,7 +150,6 @@ volume_create() {
 
   local vol=$1
   local url=$2
-  echo "Creating ${vol} from ${url}"
 
   g_tmp_dir=`mktemp -d -t cyber-dojo.XXXXXX`
   if [ $? != 0 ]; then
@@ -201,8 +200,8 @@ volume_create() {
   run "${command}" || (clean_up && exit_fail)
 
   # 7. check the volume's contents adhere to the API
-  command="docker exec ${g_cid} sh -c 'cd /usr/src/cyber-dojo/cli && ./check_setup_data.rb /data'"
-  run "${command}" || (clean_up && exit_fail)
+  command="docker exec ${g_cid} sh -c 'cd /usr/src/cyber-dojo/cli && ./volume_check.rb /data'"
+  run_loud "${command}" || (clean_up && exit_fail)
 
   # clean up everything used to create the volume, but not the volume itself
   g_vol=''
@@ -215,7 +214,23 @@ run() {
   local me='run'
   local command="$1"
   debug "${me}: command=${command}"
-  eval ${command} > /dev/null #2>&1
+  eval ${command} > /dev/null 2>&1
+  local exit_status=$?
+  debug "${me}: exit_status=${exit_status}"
+  if [ "${exit_status}" = 0 ]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+run_loud() {
+  local me='run'
+  local command="$1"
+  debug "${me}: command=${command}"
+  eval ${command} > /dev/null
   local exit_status=$?
   debug "${me}: exit_status=${exit_status}"
   if [ "${exit_status}" = 0 ]; then

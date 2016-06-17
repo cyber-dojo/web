@@ -47,9 +47,9 @@ downloads/*
 
 # {cyber-dojo.sh} delegates to these inside web container
 !cli/cyber-dojo.rb
-!cli/check_setup_data.rb
+!cli/volume_check.rb
 
 # {cyber-dojo.rb} delegates to this inside web container
-!cli/inspect_volume.rb
+!cli/volume_inspect.rb
 
 
