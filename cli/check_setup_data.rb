@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 
-require_relative './setup_data_checker'
+require_relative './../app/lib/setup_data_checker'
+
+def fail; 1; end
 
 def show_use(message = '')
   puts
@@ -16,12 +18,12 @@ path = ARGV[0]
 
 if path.nil?
   show_use
-  exit 1
+  exit fail
 end
 
 if !File.directory?(path)
   show_use "#{path} not found"
-  exit
+  exit fail
 end
 
 checker = SetupDataChecker.new(path)

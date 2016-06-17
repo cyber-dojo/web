@@ -35,15 +35,21 @@ downloads/*
 # {docker-compose.yml} [web: command: rails server...] needs this
 !config.ru
 
-# {cyber-dojo update} copies these out of web container
-!cli/cyber-dojo.sh
-!cli/docker-compose.yml
-
 # {cyber-dojo.sh} copies these out of web container to make katas data-container
 !docker/katas/Dockerfile.copied
 !docker/katas/Dockerfile.empty
 !docker/katas/Dockerignore.copied
 !docker/katas/Dockerignore.empty
 
-# {cyber-dojo.sh} delegates to this inside web container
+# {cyber-dojo update} copies these out of web container
+!cli/cyber-dojo.sh
+!cli/docker-compose.yml
+
+# {cyber-dojo.sh} delegates to these inside web container
 !cli/cyber-dojo.rb
+!cli/check_setup_data.rb
+
+# {cyber-dojo.rb} delegates to this inside web container
+!cli/volume_inspect.rb
+
+

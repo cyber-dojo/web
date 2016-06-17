@@ -201,7 +201,7 @@ volume_create() {
   run "${command}" || (clean_up && exit_fail)
 
   # 7. check the volume's contents adhere to the API
-  command="docker exec ${g_cid} sh -c 'cd /usr/src/cyber-dojo/app/lib && ./check_setup_data.rb /data'"
+  command="docker exec ${g_cid} sh -c 'cd /usr/src/cyber-dojo/cli && ./check_setup_data.rb /data'"
   run "${command}" || (clean_up && exit_fail)
 
   # clean up everything used to create the volume, but not the volume itself
@@ -215,7 +215,7 @@ run() {
   local me='run'
   local command="$1"
   debug "${me}: command=${command}"
-  eval ${command} > /dev/null 2>&1
+  eval ${command} #> /dev/null 2>&1
   local exit_status=$?
   debug "${me}: exit_status=${exit_status}"
   if [ "${exit_status}" = 0 ]; then

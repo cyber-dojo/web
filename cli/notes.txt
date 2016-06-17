@@ -1,4 +1,18 @@
 
+If I make a change in default-exercises local repo
+/Users/jonjagger/repos/default-exercises/Java/JUnit/manifest.json
+and then create a volume from it, the change should be seen inside the volume, but its not
+
+./cyber-dojo down
+./cyber-dojo volume rm default-exercises
+./cyber-dojo volume create --name=default-exercises --git=file:///Users/jonjagger/repos/default-exercises
+./cyber-dojo up
+./cyber-dojo sh
+
+Am I mis-understanding how [docker cp] works?
+
+- - - - - - - - - - - - - - - - - - - - -
+
 git 2.9+ has new  `--compaction-heuristic`
 for improved diffs. Try to get this in place.
 
