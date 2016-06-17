@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# Run's a local rails-server.
+# Runs a local rails-server.
 # Assumes
 # o) docker is installed
 # o) bundle install has run
 # o) some language-images have been pulled.
 # o) current user can run docker commands without sudo
-
+# o) setup data is in local git repos
 
 MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 
