@@ -21,6 +21,8 @@ def minitab; space * 2; end
 
 def show(lines); lines.each { |line| puts line }; print "\n"; end
 
+def quoted(s); '"' + s + '"'; end
+
 def run(command)
   puts command if $debug_mode
   output = `#{command}`
@@ -36,7 +38,7 @@ def get_arg(name, argv)
 end
 
 #=========================================================================================
-# down
+# $ ./cyber-dojo down
 #=========================================================================================
 
 def down
@@ -54,7 +56,7 @@ def down
 end
 
 #=========================================================================================
-# sh
+# $ ./cyber-dojo sh
 #=========================================================================================
 
 def sh
@@ -72,7 +74,7 @@ def sh
 end
 
 #=========================================================================================
-# logs
+# $ ./cyber-dojo logs
 #=========================================================================================
 
 def logs
@@ -96,7 +98,7 @@ def logs
 end
 
 #=========================================================================================
-# up
+# $ ./cyber-dojo up
 #=========================================================================================
 
 def up_arg_ok(help, args, name)
@@ -174,7 +176,7 @@ def up
 end
 
 #=========================================================================================
-# volume
+# $ ./cyber-dojo volume
 #=========================================================================================
 
 def volume
@@ -205,10 +207,6 @@ end
 
 # - - - - - - - - - - - - - - -
 
-def quoted(s)
-  '"' + s + '"'
-end
-
 def volume_exists?(name)
   # careful to not match substring
   start_of_line = '^'
@@ -231,17 +229,17 @@ def cyber_dojo_label(vol)
   cyber_dojo_inspect(vol)['Labels']['cyber-dojo-volume']
 end
 
-def cyber_dojo_manifest(vol)
+def cyber_dojo_data_manifest(vol)
   command = quoted "cat /data/setup.json"
   JSON.parse(run "docker run --rm -v #{vol}:/data #{cyber_dojo_hub}/user-base sh -c #{command}")
 end
 
 def cyber_dojo_type(vol)
-  cyber_dojo_manifest(vol)['type']
+  cyber_dojo_data_manifest(vol)['type']
 end
 
 #=========================================================================================
-# volume create
+# $ ./cyber-dojo volume create
 #=========================================================================================
 
 def volume_create
@@ -278,7 +276,7 @@ def volume_create
     puts "FAILED: [volume create --name=#{vol}] #{msg}"
     exit 1
   end
-
+  # cyber-dojo.sh does actual [volume create]
 end
 
 # - - - - - - - - - - - - - - -
@@ -297,37 +295,7 @@ def exit_unless_is_cyber_dojo_volume(vol, command)
 end
 
 #=========================================================================================
-# volume rm
-#=========================================================================================
-
-def volume_rm
-  # Allow deletion of a default volume.
-  # This allows you to create custom default volumes.
-  help = [
-    '',
-    "Use: #{me} volume rm VOLUME",
-    '',
-    "Removes a volume created with the [#{me} volume create] command"
-  ]
-
-  vol = ARGV[2]
-  if [nil,'help','--help'].include? vol
-    show help
-    exit 1
-  end
-
-  exit_unless_is_cyber_dojo_volume(vol, 'rm')
-
-  run "docker volume rm #{vol}"
-  if $exit_status != 0
-    puts "FAILED [volume rm #{vol}] can't remove volume if it's in use"
-    exit 1
-  end
-
-end
-
-#=========================================================================================
-# volume ls
+# $ ./cyber-dojo volume ls
 #=========================================================================================
 
 def volume_ls
@@ -381,31 +349,7 @@ def volume_ls
 end
 
 #=========================================================================================
-# volume pull
-#=========================================================================================
-
-def volume_pull
-  help = [
-    '',
-    "Use: #{me} volume pull VOLUME",
-    '',
-    'Pulls all the docker images named inside the cyber-dojo volume'
-  ]
-  vol = ARGV[2]
-  if [nil,'help','--help'].include? vol
-    show help
-    exit 1
-  end
-
-  exit_unless_is_cyber_dojo_volume(vol, 'pull')
-
-  p 'TODO: volume pull'
-  #Then have to extract all image names from all manifest.json files.
-  #Then do [docker pull IMAGE] for any not present
-end
-
-#=========================================================================================
-# volume inspect
+# $ ./cyber-dojo volume inspect
 #=========================================================================================
 
 def volume_inspect # was catalog
@@ -429,8 +373,118 @@ def volume_inspect # was catalog
   # Note: this will volume mount the named VOL to find its info
   #       then use globbing as per line 359
   #       it does *not* show the details of what volumes are inside the running web container.
+  # TODO: make it show whether image has been pulled or not
+  # TODO: make it show whether image is auto-pull or not
 end
 
+#=========================================================================================
+# $ ./cyber-dojo volume rm
+#=========================================================================================
+
+def volume_rm
+  # Allow deletion of a default volume.
+  # This allows you to create custom default volumes.
+  help = [
+    '',
+    "Use: #{me} volume rm VOLUME",
+    '',
+    "Removes a volume created with the [#{me} volume create] command"
+  ]
+
+  vol = ARGV[2]
+  if [nil,'help','--help'].include? vol
+    show help
+    exit 1
+  end
+
+  exit_unless_is_cyber_dojo_volume(vol, 'rm')
+
+  run "docker volume rm #{vol}"
+  if $exit_status != 0
+    puts "FAILED [volume rm #{vol}] can't remove volume if it's in use"
+    exit 1
+  end
+
+end
+
+#=========================================================================================
+# $ ./cyber-dojo volume pull
+#=========================================================================================
+#
+# TODO: Should this pull images?
+#       Or should images be pulled when a volume is used in an UP command?
+#
+
+def volume_pull
+  help = [
+    '',
+    "Use: #{me} volume pull VOLUME",
+    '',
+    'Pulls all the docker images named inside the cyber-dojo volume'
+  ]
+  vol = ARGV[2]
+  if [nil,'help','--help'].include? vol
+    show help
+    exit 1
+  end
+
+  exit_unless_is_cyber_dojo_volume(vol, 'pull')
+
+  p 'TODO: volume pull'
+  #Then have to extract all image names from all manifest.json files.
+  #Then do [docker pull IMAGE] for any not present
+end
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+def help
+  puts [
+    '',
+    "Use: #{me} [--debug] COMMAND",
+    "     #{me} --help",
+    '',
+    'Commands:',
+    tab + 'down      Brings down the server',
+    tab + 'logs      Fetch the logs from the server',
+    #tab + 'pull      Pulls a docker image',
+    #tab + 'rmi       Removes a docker image',
+    tab + 'sh        Shells into the server',
+    tab + 'up        Brings up the server',
+    tab + 'upgrade   Upgrades the server and languages',
+    tab + 'volume    Manage cyber-dojo setup volumes',
+    '',
+    "Run '#{me} COMMAND --help' for more information on a command."
+  ].join("\n") + "\n"
+
+  # TODO: add [help,--help] processing for ALL commands, eg clean,down,up
+end
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+if ARGV[0] == '--debug'
+  $debug_mode = true
+  ARGV.shift
+end
+
+case ARGV[0]
+  when nil       then help
+  when '--help'  then help
+  when 'help'    then help
+  when 'down'    then down
+  when 'logs'    then logs
+  #when 'pull'    then pull
+  #when 'rmi'     then rmi
+  when 'sh'      then sh
+  when 'up'      then up
+  when 'upgrade' then upgrade
+  when 'volume'  then volume
+  else
+    puts "#{me}: '#{ARGV[0]}' is not a command."
+    puts "See '#{me} --help'."
+    exit 1
+end
+
+exit 0
 
 #=========================================================================================
 #=========================================================================================
@@ -621,56 +675,3 @@ def rmi
   end
 end
 
-#= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-
-def help
-  puts [
-    '',
-    "Use: #{me} [--debug] COMMAND",
-    "     #{me} --help",
-    '',
-    'Commands:',
-    tab + 'down      Brings down the server',
-    tab + 'logs      Fetch the logs from the server',
-    tab + 'pull      Pulls a docker image',
-    tab + 'rmi       Removes a docker image',
-    tab + 'sh        Shells into the server',
-    tab + 'up        Brings up the server',
-    tab + 'upgrade   Upgrades the server and languages',
-    tab + 'volume    Manage cyber-dojo setup volumes',
-    '',
-    "Run '#{me} COMMAND --help' for more information on a command."
-  ].join("\n") + "\n"
-
-  # TODO: add sh function so it can process [help,--help]
-  #'    sh [COMMAND]             Shells into the server', #' (and run COMMAND if provided)',
-
-  # TODO: add [help,--help] processing for ALL commands, eg clean,down,up
-end
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-if ARGV[0] == '--debug'
-  $debug_mode = true
-  ARGV.shift
-end
-
-case ARGV[0]
-  when nil       then help
-  when '--help'  then help
-  when 'help'    then help
-  when 'down'    then down
-  when 'logs'    then logs
-  when 'pull'    then pull
-  when 'rmi'     then rmi
-  when 'sh'      then sh
-  when 'up'      then up
-  when 'upgrade' then upgrade
-  when 'volume'  then volume
-  else
-    puts "#{me}: '#{ARGV[0]}' is not a command."
-    puts "See '#{me} --help'."
-    exit 1
-end
-
-exit 0
