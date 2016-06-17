@@ -4,6 +4,11 @@ for improved diffs. Try to get this in place.
 
 - - - - - - - - - - - - - - - - - - - - -
 
+move command-line files (cyber-dojo.sh/rb etc)
+into new cli folder and out of docker folder
+
+- - - - - - - - - - - - - - - - - - - - -
+
 add [ci skip] to git commit messages if you want
 to skip the travis build
 
@@ -14,12 +19,6 @@ FAILED: ....
 Check what [docker] does and mimic that.
 
 - - - - - - - - - - - - - - - - - - - - -
-
-cyber-dojo volume create --name=VOL --git=URL
-this URL cannot (at present) be on the local disk, since
-the docker command is run *inside* the docker container
-(which on OSX is running elsewhere, on the default VM)
-Could handle this in cyber-dojo.sh ... (somewhat like katas-data-container)
 
 $ cd /tmp
 $ git clone --depth=1 --branch=master file:///Users/jonjagger/repos/default-exercises jj
@@ -150,9 +149,13 @@ So I still need proper nil error handling on the setup pages
 
 Cribs
 
-ruby ./cyber-dojo.rb volume create --name=default-languages    --git=https://github.com/cyber-dojo/default-languages.git
-ruby ./cyber-dojo.rb volume create --name=default-exercises    --git=https://github.com/cyber-dojo/default-execises.git
+Network repo
+ruby ./cyber-dojo.rb volume create --name=default-languages --git=https://github.com/cyber-dojo/default-languages.git
+ruby ./cyber-dojo.rb volume create --name=default-exercises --git=https://github.com/cyber-dojo/default-execises.git
 ruby ./cyber-dojo.rb volume create --name=default-instructions --git=https://github.com/cyber-dojo/default-instructions.git
+
+Local repo
+ruby ./cyber-dojo.rb volume create --name=default-exercises --git=file:///Users/jonjagger/repos/default-exercises
 
 - - - - - - - - - - - - - - - - - - - - -
 
