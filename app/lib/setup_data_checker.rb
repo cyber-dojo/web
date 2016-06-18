@@ -28,6 +28,8 @@ class SetupDataChecker
     # TODO: instructions-checks are different to languages/exercises checks
     check_all_manifests_have_a_unique_display_name
     @manifests.each do |filename, manifest|
+      @manifest_filename = filename
+      @manifest = manifest
       check_no_unknown_keys_exist(filename, manifest)
       check_all_required_keys_exist(filename, manifest)
       check_visible_files_is_valid(filename, manifest)
@@ -35,7 +37,7 @@ class SetupDataChecker
       check_image_name_is_valid(filename, manifest)
       check_unit_test_framework_is_valid(filename, manifest)
       check_progress_regexs_is_valid(filename, manifest)
-      check_filename_extension_is_valid(filename, manifest)
+      check_filename_extension_is_valid
     end
     errors
   end
@@ -232,27 +234,35 @@ class SetupDataChecker
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  def check_filename_extension_is_valid(manifest_filename, manifest)
+  def check_filename_extension_is_valid
     @key = 'filename_extension'
-    filename_extension = manifest[@key]
     return if filename_extension.nil? # it's optional
     if filename_extension.class.name != 'String'
-      @errors[manifest_filename] << error('must be a String')
+      error('must be a String')
       return
     end
     if filename_extension == ''
-      @errors[manifest_filename] << error('is empty')
+      error('is empty')
       return
     end
     if filename_extension[0] != '.'
-      @errors[manifest_filename] << error('must start with a dot')
+      error('must start with a dot')
       return
     end
     if filename_extension == '.'
-      @errors[manifest_filename] << error('must be more than just a dot')
+      error('must be more than just a dot')
       return
     end
   end
+
+  def filename_extension
+    @manifest[@key]
+  end
+
+  def error(msg)
+    @errors[@manifest_filename] << (@key + ': ' + msg)
+  end
+
 
   # - - - - - - - - - - - - - - - - - - - -
 
@@ -261,10 +271,6 @@ class SetupDataChecker
   end
 
   # - - - - - - - - - - - - - - - - - - - -
-
-  def error(msg)
-    @key + ': ' + msg
-  end
 
   def json_manifest(filename)
     @errors[filename] = []
