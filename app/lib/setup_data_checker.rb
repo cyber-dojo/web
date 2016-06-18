@@ -147,6 +147,10 @@ class SetupDataChecker
         error "missing '#{filename}'"
       end
     end
+    # check cyber-dojo.sh is visible_filename
+    unless visible_filenames.include? 'cyber-dojo.sh'
+      error "must contain 'cyber-dojo.sh'"
+    end
   end
 
   # - - - - - - - - - - - - - - - - - - - -

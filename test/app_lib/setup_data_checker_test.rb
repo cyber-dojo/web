@@ -60,9 +60,7 @@ class SetupDataCheckerTest < AppLibTestBase
   'setup.json with bad type is an error' do
     copy_good_master do |tmp_dir|
       setup_filename = "#{tmp_dir}/setup.json"
-      IO.write(setup_filename, JSON.unparse({
-        'type' => 'salmon'
-      }))
+      IO.write(setup_filename, JSON.unparse({ 'type' => 'salmon' }))
       check
       assert_error setup_filename, 'type: must be [languages|exercises|languages]'
     end
@@ -102,20 +100,21 @@ class SetupDataCheckerTest < AppLibTestBase
       junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
       content = IO.read(junit_manifest_filename)
       junit_manifest = JSON.parse(content)
-      junit_display_name = junit_manifest['display_name']
+      key = 'display_name'
+      junit_display_name = junit_manifest[key]
       cucumber_manifest_filename = "#{tmp_dir}/Java/Cucumber/manifest.json"
       content = IO.read(cucumber_manifest_filename)
       cucumber_manifest = JSON.parse(content)
-      cucumber_manifest['display_name'] = junit_display_name
+      cucumber_manifest[key] = junit_display_name
       IO.write(cucumber_manifest_filename, JSON.unparse(cucumber_manifest))
       check
-      assert_error junit_manifest_filename,    "display_name: duplicate 'Java, JUnit'"
-      assert_error cucumber_manifest_filename, "display_name: duplicate 'Java, JUnit'"
+      assert_error junit_manifest_filename,    "#{key}: duplicate 'Java, JUnit'"
+      assert_error cucumber_manifest_filename, "#{key}: duplicate 'Java, JUnit'"
     end
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # unknown keys
+  # unknown keys exist
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '748CC7',
@@ -133,7 +132,7 @@ class SetupDataCheckerTest < AppLibTestBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # missing required keys
+  # required keys do not exist
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '243554',
@@ -274,6 +273,25 @@ class SetupDataCheckerTest < AppLibTestBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'B3ECF5',
+  'no cyber-dojo.sh in visible_filenames is an error' do
+    copy_good_master do |tmp_dir|
+      # peturn
+      junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
+      content = IO.read(junit_manifest_filename)
+      junit_manifest = JSON.parse(content)
+      visible_filenames = junit_manifest['visible_filenames']
+      visible_filenames.delete('cyber-dojo.sh')
+      junit_manifest['visible_filenames'] = visible_filenames
+      IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
+      File.delete(File.dirname(junit_manifest_filename) + '/cyber-dojo.sh')
+      check
+      assert_error junit_manifest_filename, "visible_filenames: must contain 'cyber-dojo.sh'"
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # optional-key: progress_regexs
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -295,11 +313,11 @@ class SetupDataCheckerTest < AppLibTestBase
   test '97F363',
   'invalid filename_extension is an error' do
     key = 'filename_extension'
-    replace_in_manifest(key, 1  , key + ': must be a String')
-    replace_in_manifest(key, []  , key + ': must be a String')
-    replace_in_manifest(key, '' , key + ': is empty')
+    replace_in_manifest(key, 1     , key + ': must be a String')
+    replace_in_manifest(key, []   , key + ': must be a String')
+    replace_in_manifest(key, ''   , key + ': is empty')
     replace_in_manifest(key, 'cs' , key + ': must start with a dot')
-    replace_in_manifest(key, '.' , key + ': must be more than just a dot')
+    replace_in_manifest(key, '.'  , key + ': must be more than just a dot')
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -309,7 +327,7 @@ class SetupDataCheckerTest < AppLibTestBase
     assert_raises(RuntimeError) { shell 'sdsdsdsd' }
   end
 
-  private # = = = = = = = = = = = = = = = = = = = = = = = = = =
+  private
 
   def replace_in_manifest(key, bad, expected)
     copy_good_master do |tmp_dir|
