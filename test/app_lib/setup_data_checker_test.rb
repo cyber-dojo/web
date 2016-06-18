@@ -322,6 +322,14 @@ class SetupDataCheckerTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  #test '81A98B', 'all files are owned by cyber-dojo user' do
+    # After [cp -r] the files have the same permissions
+    # I can't chown a file unless I sudo.
+    # Do this as a positive test?
+    # Use rsync with --chown?
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '2F9E46',
   'bad shell command raises' do
     assert_raises(RuntimeError) { shell 'sdsdsdsd' }

@@ -32,20 +32,6 @@ class LanguagesManifestsTests < LanguagesTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def all_files_exist?(symbol)
-    (manifest[symbol] || []).each do |filename|
-      unless File.exists?(language_dir + '/' + filename)
-        message =
-          "#{manifest_filename} contains a '#{symbol}' entry [#{filename}]\n" +
-          " but the #{language_dir}/ dir does not contain a file called #{filename}"
-        return false_puts_alert message
-      end
-    end
-    true_dot
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   def highlight_filenames_are_subset_of_visible_filenames?
     highlight_filenames.each do |filename|
       if filename != 'instructions' &&
