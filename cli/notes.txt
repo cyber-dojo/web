@@ -8,6 +8,14 @@ Need to write to stderr and pipe stdout to dev/null only
 
 - - - - - - - - - - - - - - - - - - - - -
 
+setup page -> new kata has been created dialog box, and here is its HEX-ID
+this could offer several buttons instead of just ok (which takes you back to home page)
+o) button to take you to home page
+o) button to take you to enter page
+o) button to immediately start an avatar
+
+- - - - - - - - - - - - - - - - - - - - -
+
 git 2.9+ has new  `--compaction-heuristic`
 for improved diffs. Try to get this in place.
 
@@ -24,6 +32,7 @@ Check what [docker] does and mimic that.
 $ docker images --ssss
 flag provided but not defined: --ssss
 See 'docker images --help'.
+Test these with shunit2 tests.
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -108,12 +117,6 @@ Occasional test failures...
   such as dojo.exercises
 
   For now, deleting caches at start of app_controller tests.
-
-- - - - - - - - - - - - - - - - - - - - -
-
-Does the Tennis-Ruby exercise still crash the web server?
-$ docker pull cyberdojofoundation/ruby_test_unit
-And try it.
 
 - - - - - - - - - - - - - - - - - - - - -
 
