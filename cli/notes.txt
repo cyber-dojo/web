@@ -9,20 +9,6 @@ Needs some TLC.
 
 - - - - - - - - - - - - - - - - - - - - -
 
-test/app_lib/setup_data_checker_test.rb
-has code like this..
-  test '2F42DF',
-  'bad json in root setup.json is an error' do
-    copy_good_master_to('2F42DF') do |tmp_dir|
-      ...
-    end
-  end
-It would be nice if the test() function in
-test/hex_id_helpers.rb automatically inserted a @variable
-holding the hex-id inside the object. Can you do that in ruby.
-
-- - - - - - - - - - - - - - - - - - - - -
-
 setup page -> new kata has been created dialog box, and here is its HEX-ID
 this could offer several buttons instead of just ok (which takes you back to home page)
 o) button to take you to home page

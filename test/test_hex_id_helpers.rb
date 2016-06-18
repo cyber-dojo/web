@@ -28,7 +28,13 @@ module TestHexIdHelpers # mix-in
         raise "duplicate hex_ID: #{diagnostic}" if @@seen_ids.include?(id)
         @@seen_ids << id
         name = lines.join(' ')
-        define_method("test_'#{id}',\n #{name}\n".to_sym, &block)
+        # make test_id attribute available inside defined method
+        block_with_test_id = lambda {
+          self.instance_eval { class << self; self end }.send(:attr_accessor, 'test_id')
+          self.test_id = id
+          self.instance_eval &block
+        }
+        define_method("test_'#{id}',\n #{name}\n".to_sym, &block_with_test_id)
       end
     end
 

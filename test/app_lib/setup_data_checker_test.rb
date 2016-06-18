@@ -5,7 +5,6 @@ require 'json'
 
 class SetupDataCheckerTest < AppLibTestBase
 
-
   # test_data master (instructions) has no errors  ... hmm split into two?
 
   test '0C1F2F',
@@ -22,7 +21,7 @@ class SetupDataCheckerTest < AppLibTestBase
 
   test 'C6D738',
   'missing setup.json is an error' do
-    copy_good_master_to('C6D738') do |tmp_dir|
+    copy_good_master do |tmp_dir|
       setup_filename = "#{tmp_dir}/setup.json"
       shell "mv #{setup_filename} #{tmp_dir}/setup.json.missing"
       check
@@ -34,7 +33,8 @@ class SetupDataCheckerTest < AppLibTestBase
 
   test '2F42DF',
   'bad json in root setup.json is an error' do
-    copy_good_master_to('2F42DF') do |tmp_dir|
+    copy_good_master do |tmp_dir|
+    #copy_good_master_to('2F42DF') do |tmp_dir|
       setup_filename = "#{tmp_dir}/setup.json"
       IO.write(setup_filename, any_bad_json)
       check
@@ -46,7 +46,7 @@ class SetupDataCheckerTest < AppLibTestBase
 
   test '28599A',
   'setup.json with no type is an error' do
-    copy_good_master_to('28599A') do |tmp_dir|
+    copy_good_master do |tmp_dir|
       setup_filename = "#{tmp_dir}/setup.json"
       IO.write(setup_filename, '{}')
       check
@@ -58,7 +58,7 @@ class SetupDataCheckerTest < AppLibTestBase
 
   test 'D7B64D',
   'setup.json with bad type is an error' do
-    copy_good_master_to('D7B64D') do |tmp_dir|
+    copy_good_master do |tmp_dir|
       setup_filename = "#{tmp_dir}/setup.json"
       IO.write(setup_filename, JSON.unparse({
         'type' => 'salmon'
@@ -84,7 +84,7 @@ class SetupDataCheckerTest < AppLibTestBase
 
   test '1A351C',
   'bad json in a manifest.json file is an error' do
-    copy_good_master_to('1A351C') do |tmp_dir|
+    copy_good_master do |tmp_dir|
       junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
       IO.write(junit_manifest_filename, any_bad_json)
       check
@@ -97,7 +97,7 @@ class SetupDataCheckerTest < AppLibTestBase
 
   test '2C7CFC',
   'manifests with the same display_name is an error' do
-    copy_good_master_to('2C7CFC') do |tmp_dir|
+    copy_good_master do |tmp_dir|
       # peturb
       junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
       content = IO.read(junit_manifest_filename)
@@ -120,7 +120,7 @@ class SetupDataCheckerTest < AppLibTestBase
 
   test '748CC7',
   'unknown key is an error' do
-    copy_good_master_to('748CC7') do |tmp_dir|
+    copy_good_master do |tmp_dir|
       # peturn
       junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
       content = IO.read(junit_manifest_filename)
@@ -139,7 +139,7 @@ class SetupDataCheckerTest < AppLibTestBase
   test '243554',
   'missing required key is an error' do
     missing_require_key = lambda do |key|
-      copy_good_master_to('243554_'+key) do |tmp_dir|
+      copy_good_master('243554_'+key+'_') do |tmp_dir|
         # peturb
         junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
         content = IO.read(junit_manifest_filename)
@@ -165,14 +165,13 @@ class SetupDataCheckerTest < AppLibTestBase
 
   test 'ABD942',
   'invalid display_name is an error' do
-    tid = 'ABD942'
     key = 'display_name'
-    replace_in_manifest(tid, key, 1               , key + ': must be a String')
-    replace_in_manifest(tid, key, ''              , key + ": not in 'A,B' format")
-    replace_in_manifest(tid, key, 'no comma'      , key + ": not in 'A,B' format")
-    replace_in_manifest(tid, key, 'one,two,commas', key + ": not in 'A,B' format")
-    replace_in_manifest(tid, key, ',right only'   , key + ": not in 'A,B' format")
-    replace_in_manifest(tid, key, 'left only,'    , key + ": not in 'A,B' format")
+    replace_in_manifest(key, 1               , key + ': must be a String')
+    replace_in_manifest(key, ''              , key + ": not in 'A,B' format")
+    replace_in_manifest(key, 'no comma'      , key + ": not in 'A,B' format")
+    replace_in_manifest(key, 'one,two,commas', key + ": not in 'A,B' format")
+    replace_in_manifest(key, ',right only'   , key + ": not in 'A,B' format")
+    replace_in_manifest(key, 'left only,'    , key + ": not in 'A,B' format")
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -181,11 +180,10 @@ class SetupDataCheckerTest < AppLibTestBase
 
   test 'A9D696',
   'invalid image_name not an error' do
-    tid = 'A9D696'
     key = 'image_name'
-    replace_in_manifest(tid, key, 1    , key + ': must be a String')
-    replace_in_manifest(tid, key, [ 1 ], key + ': must be a String')
-    replace_in_manifest(tid, key, ''   , key + ': is empty')
+    replace_in_manifest(key, 1    , key + ': must be a String')
+    replace_in_manifest(key, [ 1 ], key + ': must be a String')
+    replace_in_manifest(key, ''   , key + ': is empty')
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -194,12 +192,11 @@ class SetupDataCheckerTest < AppLibTestBase
 
   test 'B84696',
   'invalid unit_test_framework is an error' do
-    tid = 'B84696'
     key = 'unit_test_framework'
-    replace_in_manifest(tid, key, 1    , key + ': must be a String')
-    replace_in_manifest(tid, key, [ 1 ], key + ': must be a String')
-    replace_in_manifest(tid, key, ''   , key + ': is empty')
-    replace_in_manifest(tid, key, 'xx' , key + ': no OutputColour.parse_xx method')
+    replace_in_manifest(key, 1    , key + ': must be a String')
+    replace_in_manifest(key, [ 1 ], key + ': must be a String')
+    replace_in_manifest(key, ''   , key + ': is empty')
+    replace_in_manifest(key, 'xx' , key + ': no OutputColour.parse_xx method')
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -210,7 +207,7 @@ class SetupDataCheckerTest < AppLibTestBase
   'visible_filenames not an Array of Strings is an error' do
     key = 'visible_filenames'
     bad_visible_filenames = lambda do |value|
-      copy_good_master_to('E6D4DE') do |tmp_dir|
+      copy_good_master do |tmp_dir|
         # peturb
         junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
         content = IO.read(junit_manifest_filename)
@@ -229,7 +226,7 @@ class SetupDataCheckerTest < AppLibTestBase
 
   test '67307A',
   'file in dir not present in visible_filename is an error' do
-    copy_good_master_to('67307A') do |tmp_dir|
+    copy_good_master do |tmp_dir|
       # peturb
       junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
       IO.write("#{tmp_dir}/Java/JUnit/new_file.jj", 'hello world')
@@ -242,7 +239,7 @@ class SetupDataCheckerTest < AppLibTestBase
 
   test '1FEC31',
   'missing visible file is an error' do
-    copy_good_master_to('1FEC31') do |tmp_dir|
+    copy_good_master do |tmp_dir|
       # peturn
       junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
       content = IO.read(junit_manifest_filename)
@@ -258,7 +255,7 @@ class SetupDataCheckerTest < AppLibTestBase
 
   test '685935',
   'duplicate visible file is an error' do
-    copy_good_master_to('685935') do |tmp_dir|
+    copy_good_master do |tmp_dir|
       # peturn
       junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
       content = IO.read(junit_manifest_filename)
@@ -279,14 +276,13 @@ class SetupDataCheckerTest < AppLibTestBase
 
   test '2B1623',
   'invalid progress_regexs is an error' do
-    tid = '2B1623'
     key = 'progress_regexs'
     bad_regex = '(\\'
-    replace_in_manifest(tid, key, 1               , key + ': must be an Array')
-    replace_in_manifest(tid, key, []              , key + ': must contain 2 items')
-    replace_in_manifest(tid, key, [1,2]           , key + ': must contain 2 strings')
-    replace_in_manifest(tid, key, [bad_regex,'ok'], key + ": cannot create regex from #{bad_regex}")
-    replace_in_manifest(tid, key, ['ok',bad_regex], key + ": cannot create regex from #{bad_regex}")
+    replace_in_manifest(key, 1               , key + ': must be an Array')
+    replace_in_manifest(key, []              , key + ': must contain 2 items')
+    replace_in_manifest(key, [1,2]           , key + ': must contain 2 strings')
+    replace_in_manifest(key, [bad_regex,'ok'], key + ": cannot create regex from #{bad_regex}")
+    replace_in_manifest(key, ['ok',bad_regex], key + ": cannot create regex from #{bad_regex}")
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -298,8 +294,8 @@ class SetupDataCheckerTest < AppLibTestBase
 
   private # = = = = = = = = = = = = = = = = = = = = = = = = = =
 
-  def replace_in_manifest(tid, key, bad, expected)
-    copy_good_master_to('ABD942') do |tmp_dir|
+  def replace_in_manifest(key, bad, expected)
+    copy_good_master do |tmp_dir|
       # peturn
       junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
       content = IO.read(junit_manifest_filename)
@@ -313,8 +309,8 @@ class SetupDataCheckerTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def copy_good_master_to(id)
-    Dir.mktmpdir('cyber-dojo-' + id) do |tmp_dir|
+  def copy_good_master(id = test_id)
+    Dir.mktmpdir('cyber-dojo-' + id + '_') do |tmp_dir|
       shell "cp -r #{setup_data_path}/languages/* #{tmp_dir}"
       @tmp_dir = tmp_dir
       yield tmp_dir
