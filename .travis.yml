@@ -1,9 +1,5 @@
 sudo: required
 
-git:
-  # https://github.com/travis-ci/travis-ci/issues/4575
-  depth: 5
-
 services:
   - docker
 
