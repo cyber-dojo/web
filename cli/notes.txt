@@ -1,10 +1,25 @@
 
-Debug logging seems to show clean_up being called twice...
+Debug logging seems to show clean_up (in cyber-dojo.sh) being called twice...
 Is this because (clean_up && exit_fail) is in () and so is a sub-shell?
 
 Can't pipe stdout and stderr to /dev/null in cyber-dojo.sh run()
 or [check_setup_data.rb /data] output will be lost
-Need to write to stderr and pipe stdout to dev/null only
+Need to write to stderr and pipe stdout to dev/null only.
+Needs some TLC.
+
+- - - - - - - - - - - - - - - - - - - - -
+
+test/app_lib/setup_data_checker_test.rb
+has code like this..
+  test '2F42DF',
+  'bad json in root setup.json is an error' do
+    copy_good_master_to('2F42DF') do |tmp_dir|
+      ...
+    end
+  end
+It would be nice if the test() function in
+test/hex_id_helpers.rb automatically inserted a @variable
+holding the hex-id inside the object. Can you do that in ruby.
 
 - - - - - - - - - - - - - - - - - - - - -
 
