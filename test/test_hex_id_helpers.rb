@@ -1,5 +1,21 @@
 
-# Uses hex-id on each test to selectively run specific tests.
+# Uses a hex-id on each test to selectively run specific tests.
+# A good way to generate unique hex-ids is uuidgen.
+# Write your test methods as follows:
+#
+#    class SomeTest < MiniTest::Test
+#
+#      include TestHexIdHelpers
+#
+#      test '0C1F2F',
+#      'some long description poossibly spanning',
+#      'several lines' do
+#        ...
+#        ...
+#        ...
+#      end
+#
+#    end
 
 module TestHexIdHelpers # mix-in
 
@@ -9,10 +25,11 @@ module TestHexIdHelpers # mix-in
 
   module ClassMethods
 
-    @@args = (ARGV.sort.uniq - ['--']).map(&:upcase)  # eg  2DD6F3 eg 2dd
+    @@args = (ARGV.sort.uniq - ['--']).map(&:upcase)  # eg 2DD6F3 eg 2dd
     @@seen_ids = []
 
     def test(id, *lines, &block)
+      # check hex-id is well-formed
       diagnostic = "'#{id}',#{lines.join}"
       hex_chars = '0123456789ABCDEF'
       is_hex_id = id.chars.all? { |ch| hex_chars.include? ch }
@@ -22,6 +39,8 @@ module TestHexIdHelpers # mix-in
       raise "bad hex-ID: #{diagnostic}" unless is_hex_id
       raise "empty line: #{diagnostic}" if has_empty_line
       raise "space line: #{diagnostic}" if has_space_line
+      # if no hex-id supplied, or test method matches any supplied hex-id
+      # then define a mini_test method using the hex-id
       no_args = @@args == []
       any_arg_is_part_of_id = @@args.any?{ |arg| id.include?(arg) }
       if no_args || any_arg_is_part_of_id
@@ -38,15 +57,16 @@ module TestHexIdHelpers # mix-in
       end
     end
 
+    # complain about any unfound hex-id args
     ObjectSpace.define_finalizer(self, proc {
       unseen_arg = lambda { |arg| @@seen_ids.none? { |id| id.include?(arg) } }
       unseen_args = @@args.find_all { |arg| unseen_arg.call(arg) }
       if unseen_args != []
-        # can't raise in a finalizer
         message = 'the following test id arguments were *not* found'
         bar = 'X' * message.length
         lines = [ '', bar, message, "#{unseen_args}", bar, '' ]
-        lines.each { |line| puts line }
+        # can't raise in a finalizer
+        lines.each { |line| STDERR.puts line }
       end
     })
 
