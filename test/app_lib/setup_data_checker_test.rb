@@ -128,7 +128,7 @@ class SetupDataCheckerTest < AppLibTestBase
       junit_manifest['salmon'] = 'hello'
       IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
       check
-      assert_error junit_manifest_filename, "unknown key 'salmon'"
+      assert_error junit_manifest_filename, 'salmon: unknown key'
     end
   end
 
@@ -234,7 +234,7 @@ class SetupDataCheckerTest < AppLibTestBase
       junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
       IO.write("#{tmp_dir}/Java/JUnit/new_file.jj", 'hello world')
       check
-      assert_error junit_manifest_filename, 'visible_filenames: new_file.jj not present'
+      assert_error junit_manifest_filename, "visible_filenames: missing 'new_file.jj'"
     end
   end
 

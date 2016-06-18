@@ -30,13 +30,13 @@ class SetupDataChecker
     @manifests.each do |filename, manifest|
       @manifest_filename = filename
       @manifest = manifest
-      check_no_unknown_keys_exist(filename, manifest)
-      check_all_required_keys_exist(filename, manifest)
-      check_visible_files_is_valid(filename, manifest)
-      check_display_name_is_valid(filename, manifest)
-      check_image_name_is_valid(filename, manifest)
-      check_unit_test_framework_is_valid(filename, manifest)
-      check_progress_regexs_is_valid(filename, manifest)
+      check_no_unknown_keys_exist
+      check_all_required_keys_exist
+      check_visible_files_is_valid
+      check_display_name_is_valid
+      check_image_name_is_valid
+      check_unit_test_framework_is_valid
+      check_progress_regexs_is_valid
       check_filename_extension_is_valid
     end
     errors
@@ -77,7 +77,7 @@ class SetupDataChecker
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  def check_no_unknown_keys_exist(manifest_filename, manifest)
+  def check_no_unknown_keys_exist
     known_keys = %w( display_name
                      filename_extension
                      highlight_filenames
@@ -87,110 +87,108 @@ class SetupDataChecker
                      unit_test_framework
                      visible_filenames
                    )
-    manifest.keys.each do |key|
+    @manifest.keys.each do |key|
       unless known_keys.include? key
-        @errors[manifest_filename] << "unknown key '#{key}'"
+        @key = key
+        error 'unknown key'
       end
     end
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  def check_all_required_keys_exist(manifest_filename, manifest)
+  def check_all_required_keys_exist
     required_keys = %w( display_name
                         image_name
                         unit_test_framework
                         visible_filenames
                       )
     required_keys.each do |key|
-      unless manifest.keys.include? key
-        @errors[manifest_filename] << "#{key}: missing"
+      unless @manifest.keys.include? key
+        @key = key
+        error 'missing'
       end
     end
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  def check_visible_files_is_valid(manifest_filename, manifest)
-    key = 'visible_filenames'
-    visible_filenames = manifest[key]
+  def check_visible_files_is_valid
+    @key = 'visible_filenames'
     return if visible_filenames.nil? # required-key different check
     # check its form
     if visible_filenames.class.name != 'Array'
-      @errors[manifest_filename] << "#{key}: must be an Array of Strings"
+      error 'must be an Array of Strings'
       return
     end
     if visible_filenames.any?{ |filename| filename.class.name != 'String' }
-      @errors[manifest_filename] << "#{key}: must be an Array of Strings"
+      error 'must be an Array of Strings'
       return
     end
     # check all visible files exist
-    dir = File.dirname(manifest_filename)
+    dir = File.dirname(@manifest_filename)
     visible_filenames.each do |filename|
       unless File.exists?(dir + '/' + filename)
-        @errors[manifest_filename] << "#{key}: missing '#{filename}'"
+        error "missing '#{filename}'"
       end
     end
     # check no duplicate visible files
     visible_filenames.uniq.each do |filename|
       unless visible_filenames.count(filename) == 1
-        @errors[manifest_filename] << "#{key}: duplicate '#{filename}'"
+        error "duplicate '#{filename}'"
       end
     end
     # check all files in dir are in visible_filenames
-    dir = File.dirname(manifest_filename)
+    dir = File.dirname(@manifest_filename)
     filenames = Dir.entries(dir).reject { |entry| File.directory?(entry) }
     filenames -= [ 'manifest.json' ]
     filenames.each do |filename|
       unless visible_filenames.include? filename
-        @errors[manifest_filename] << "#{key}: #{filename} not present"
+        error "missing '#{filename}'"
       end
     end
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  def check_display_name_is_valid(manifest_filename, manifest)
-    key = 'display_name'
-    display_name = manifest[key]
+  def check_display_name_is_valid
+    @key = 'display_name'
     return if display_name.nil? # required-key different check
     unless display_name.class.name == 'String'
-      @errors[manifest_filename] << "#{key}: must be a String"
+      error 'must be a String'
       return
     end
     parts = display_name.split(',').select { |part| part.strip != '' }
     unless parts.length == 2
-      @errors[manifest_filename] << "#{key}: not in 'A,B' format"
+      error "not in 'A,B' format"
     end
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  def check_image_name_is_valid(manifest_filename, manifest)
-    key = 'image_name'
-    image_name = manifest[key]
+  def check_image_name_is_valid
+    @key = 'image_name'
     return if image_name.nil? # required-key different check
     unless image_name.class.name == 'String'
-      @errors[manifest_filename] << "#{key}: must be a String"
+      error 'must be a String'
       return
     end
     if image_name == ''
-      @errors[manifest_filename] << "#{key}: is empty"
+      error 'is empty'
     end
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  def check_unit_test_framework_is_valid(manifest_filename, manifest)
-    key = 'unit_test_framework'
-    unit_test_framework = manifest[key]
+  def check_unit_test_framework_is_valid
+    @key = 'unit_test_framework'
     return if unit_test_framework.nil? # required-key different check
     unless unit_test_framework.class.name == 'String'
-      @errors[manifest_filename] << "#{key}: must be a String"
+      error 'must be a String'
       return
     end
     if unit_test_framework == ''
-      @errors[manifest_filename] << "#{key}: is empty"
+      error 'is empty'
       return
     end
     has_parse_method = true
@@ -200,33 +198,32 @@ class SetupDataChecker
       has_parse_method = false
     end
     unless has_parse_method
-      @errors[manifest_filename]  << "#{key}: no OutputColour.parse_#{unit_test_framework} method"
+      error "no OutputColour.parse_#{unit_test_framework} method"
     end
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  def check_progress_regexs_is_valid(manifest_filename, manifest)
-    key = 'progress_regexs'
-    regexs = manifest[key]
-    return if regexs.nil?  # it's optional
-    if regexs.class.name != 'Array'
-      @errors[manifest_filename] << "#{key}: must be an Array"
+  def check_progress_regexs_is_valid
+    @key = 'progress_regexs'
+    return if progress_regexs.nil?  # it's optional
+    if progress_regexs.class.name != 'Array'
+      error 'must be an Array'
       return
     end
-    if regexs.length != 2
-      @errors[manifest_filename] << "#{key}: must contain 2 items"
+    if progress_regexs.length != 2
+      error 'must contain 2 items'
       return
     end
-    if regexs.any? { |item| item.class.name != 'String' }
-      @errors[manifest_filename] << "#{key}: must contain 2 strings"
+    if progress_regexs.any? { |item| item.class.name != 'String' }
+      error 'must contain 2 strings'
       return
     end
-    regexs.each do |s|
+    progress_regexs.each do |s|
       begin
         Regexp.new(s)
       rescue
-        @errors[manifest_filename] << "#{key}: cannot create regex from #{s}"
+        error "cannot create regex from #{s}"
       end
     end
 
@@ -238,31 +235,22 @@ class SetupDataChecker
     @key = 'filename_extension'
     return if filename_extension.nil? # it's optional
     if filename_extension.class.name != 'String'
-      error('must be a String')
+      error 'must be a String'
       return
     end
     if filename_extension == ''
-      error('is empty')
+      error 'is empty'
       return
     end
     if filename_extension[0] != '.'
-      error('must start with a dot')
+      error 'must start with a dot'
       return
     end
     if filename_extension == '.'
-      error('must be more than just a dot')
+      error 'must be more than just a dot'
       return
     end
   end
-
-  def filename_extension
-    @manifest[@key]
-  end
-
-  def error(msg)
-    @errors[@manifest_filename] << (@key + ': ' + msg)
-  end
-
 
   # - - - - - - - - - - - - - - - - - - - -
 
@@ -286,5 +274,37 @@ class SetupDataChecker
     end
     return nil
   end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  def visible_filenames
+    @manifest['visible_filenames']
+  end
+
+  def display_name
+    @manifest['display_name']
+  end
+
+  def image_name
+    @manifest['image_name']
+  end
+
+  def unit_test_framework
+    @manifest['unit_test_framework']
+  end
+
+  def progress_regexs
+    @manifest['progress_regexs']
+  end
+
+  def filename_extension
+    @manifest['filename_extension']
+  end
+
+  def error(msg)
+    @errors[@manifest_filename] << (@key + ': ' + msg)
+  end
+
+
 
 end
