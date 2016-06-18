@@ -118,15 +118,8 @@ class SetupDataCheckerTest < AppLibTestBase
 
   test '748CC7',
   'unknown key is an error' do
-    copy_good_master do |tmp_dir|
-      junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
-      content = IO.read(junit_manifest_filename)
-      junit_manifest = JSON.parse(content)
-      junit_manifest['salmon'] = 'hello'
-      IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
-      check
-      assert_error junit_manifest_filename, 'salmon: unknown key'
-    end
+    @key = 'salmon'
+    assert_key_error 1               , 'unknown key'
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -161,16 +154,16 @@ class SetupDataCheckerTest < AppLibTestBase
 
   test 'ABD942',
   'invalid display_name is an error' do
-    key = 'display_name'
-    must_be_a_String        = key + ': must be a String'
-    not_in_A_comma_B_format = key + ": not in 'A,B' format"
-    replace_in_manifest(key, 1               , must_be_a_String)
-    replace_in_manifest(key, [ 1 ]           , must_be_a_String)
-    replace_in_manifest(key, ''              , not_in_A_comma_B_format)
-    replace_in_manifest(key, 'no comma'      , not_in_A_comma_B_format)
-    replace_in_manifest(key, 'one,two,commas', not_in_A_comma_B_format)
-    replace_in_manifest(key, ',right only'   , not_in_A_comma_B_format)
-    replace_in_manifest(key, 'left only,'    , not_in_A_comma_B_format)
+    @key = 'display_name'
+    must_be_a_String        = 'must be a String'
+    not_in_A_comma_B_format = "not in 'A,B' format"
+    assert_key_error 1               , must_be_a_String
+    assert_key_error [ 1 ]           , must_be_a_String
+    assert_key_error ''              , not_in_A_comma_B_format
+    assert_key_error 'no comma'      , not_in_A_comma_B_format
+    assert_key_error 'one,two,commas', not_in_A_comma_B_format
+    assert_key_error ',right only'   , not_in_A_comma_B_format
+    assert_key_error 'left only,'    , not_in_A_comma_B_format
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -179,10 +172,10 @@ class SetupDataCheckerTest < AppLibTestBase
 
   test 'A9D696',
   'invalid image_name not an error' do
-    key = 'image_name'
-    replace_in_manifest(key, 1    , key + ': must be a String')
-    replace_in_manifest(key, [ 1 ], key + ': must be a String')
-    replace_in_manifest(key, ''   , key + ': is empty')
+    @key = 'image_name'
+    assert_key_error 1    , 'must be a String'
+    assert_key_error [ 1 ], 'must be a String'
+    assert_key_error ''   , 'is empty'
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -191,11 +184,11 @@ class SetupDataCheckerTest < AppLibTestBase
 
   test 'B84696',
   'invalid unit_test_framework is an error' do
-    key = 'unit_test_framework'
-    replace_in_manifest(key, 1    , key + ': must be a String')
-    replace_in_manifest(key, [ 1 ], key + ': must be a String')
-    replace_in_manifest(key, ''   , key + ': is empty')
-    replace_in_manifest(key, 'xx' , key + ': no OutputColour.parse_xx method')
+    @key = 'unit_test_framework'
+    assert_key_error 1    , 'must be a String'
+    assert_key_error [ 1 ], 'must be a String'
+    assert_key_error ''   , 'is empty'
+    assert_key_error 'xx' , 'no OutputColour.parse_xx method'
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -204,21 +197,9 @@ class SetupDataCheckerTest < AppLibTestBase
 
   test 'E6D4DE',
   'visible_filenames not an Array of Strings is an error' do
-    key = 'visible_filenames'
-    bad_visible_filenames = lambda do |value|
-      copy_good_master do |tmp_dir|
-        junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
-        content = IO.read(junit_manifest_filename)
-        junit_manifest = JSON.parse(content)
-        junit_manifest[key] = value
-        IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
-        check
-        assert_error junit_manifest_filename, key + ': must be an Array of Strings'
-      end
-    end
-    # TODO: refactor to use replace_in_manifest
-    bad_visible_filenames.call(1)
-    bad_visible_filenames.call([1])
+    @key = 'visible_filenames'
+    assert_key_error 1     , 'must be an Array of Strings'
+    assert_key_error [ 1 ] , 'must be an Array of Strings'
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -290,13 +271,13 @@ class SetupDataCheckerTest < AppLibTestBase
 
   test '2B1623',
   'invalid progress_regexs is an error' do
-    key = 'progress_regexs'
+    @key = 'progress_regexs'
     bad_regex = '(\\'
-    replace_in_manifest(key, 1               , key + ': must be an Array')
-    replace_in_manifest(key, []              , key + ': must contain 2 items')
-    replace_in_manifest(key, [1,2]           , key + ': must contain 2 strings')
-    replace_in_manifest(key, [bad_regex,'ok'], key + ": cannot create regex from #{bad_regex}")
-    replace_in_manifest(key, ['ok',bad_regex], key + ": cannot create regex from #{bad_regex}")
+    assert_key_error 1               , 'must be an Array of 2 Strings'
+    assert_key_error []              , 'must be an Array of 2 Strings'
+    assert_key_error [1,2]           , 'must be an Array of 2 Strings'
+    assert_key_error [bad_regex,'ok'], "cannot create regex from #{bad_regex}"
+    assert_key_error ['ok',bad_regex], "cannot create regex from #{bad_regex}"
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -305,12 +286,12 @@ class SetupDataCheckerTest < AppLibTestBase
 
   test '97F363',
   'invalid filename_extension is an error' do
-    key = 'filename_extension'
-    replace_in_manifest(key, 1    , key + ': must be a String')
-    replace_in_manifest(key, []   , key + ': must be a String')
-    replace_in_manifest(key, ''   , key + ': is empty')
-    replace_in_manifest(key, 'cs' , key + ': must start with a dot')
-    replace_in_manifest(key, '.'  , key + ': must be more than just a dot')
+    @key = 'filename_extension'
+    assert_key_error 1    , 'must be a String'
+    assert_key_error []   , 'must be a String'
+    assert_key_error ''   , 'is empty'
+    assert_key_error 'cs' , 'must start with a dot'
+    assert_key_error '.'  , 'must be more than just a dot'
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -319,12 +300,12 @@ class SetupDataCheckerTest < AppLibTestBase
 
   test 'C50652',
   'highlight_filename not also a visible_filename is an error' do
-    key = 'highlight_filenames'
-    replace_in_manifest(key, 1              , key + ': must be an Array')
-    replace_in_manifest(key, [ 1 ]          , key + ': must be an Array of Strings')
-    replace_in_manifest(key, [ 'wibble.txt'], key + ": 'wibble.txt' must be in visible_filenames")
     duplicated = [ 'cyber-dojo.sh', 'cyber-dojo.sh' ]
-    replace_in_manifest(key, duplicated,      key + ": duplicate 'cyber-dojo.sh'")
+    @key = 'highlight_filenames'
+    assert_key_error 1              , 'must be an Array of Strings'
+    assert_key_error [ 1 ]          , 'must be an Array of Strings'
+    assert_key_error [ 'wibble.txt'], "'wibble.txt' must be in visible_filenames"
+    assert_key_error duplicated     , "duplicate 'cyber-dojo.sh'"
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -347,16 +328,15 @@ class SetupDataCheckerTest < AppLibTestBase
 
   private
 
-  def replace_in_manifest(key, bad, expected)
+  def assert_key_error(bad, expected)
     copy_good_master do |tmp_dir|
-      # peturn
       junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
       content = IO.read(junit_manifest_filename)
       junit_manifest = JSON.parse(content)
-      junit_manifest[key] = bad
+      junit_manifest[@key] = bad
       IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
       check
-      assert_error junit_manifest_filename, expected
+      assert_error junit_manifest_filename, @key + ': ' + expected
     end
   end
 

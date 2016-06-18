@@ -22,7 +22,6 @@ class LanguagesManifestsTests < LanguagesTestBase
 
   def check_manifest(dir)
     @language = dir
-    assert highlight_filenames_are_subset_of_visible_filenames?
     assert cyberdojo_sh_has_execute_permission?
     refute any_files_owner_is_root?
     refute any_files_group_is_root?

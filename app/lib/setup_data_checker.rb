@@ -161,7 +161,7 @@ class SetupDataChecker
     return if highlight_filenames.nil? # it's optional
     # check its form
     if highlight_filenames.class.name != 'Array'
-      error 'must be an Array'
+      error 'must be an Array of Strings'
       return
     end
     if highlight_filenames.any?{ |filename| filename.class.name != 'String' }
@@ -241,15 +241,15 @@ class SetupDataChecker
     @key = 'progress_regexs'
     return if progress_regexs.nil?  # it's optional
     if progress_regexs.class.name != 'Array'
-      error 'must be an Array'
+      error 'must be an Array of 2 Strings'
       return
     end
     if progress_regexs.length != 2
-      error 'must contain 2 items'
+      error 'must be an Array of 2 Strings'
       return
     end
     if progress_regexs.any? { |item| item.class.name != 'String' }
-      error 'must contain 2 strings'
+      error 'must be an Array of 2 Strings'
       return
     end
     progress_regexs.each do |s|
