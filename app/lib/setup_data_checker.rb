@@ -80,15 +80,6 @@ class SetupDataChecker
   # - - - - - - - - - - - - - - - - - - - -
 
   def check_no_unknown_keys_exist
-    known_keys = %w( display_name
-                     filename_extension
-                     highlight_filenames
-                     image_name
-                     progress_regexs
-                     tab_size
-                     unit_test_framework
-                     visible_filenames
-                   )
     @manifest.keys.each do |key|
       unless known_keys.include? key
         @key = key
@@ -100,11 +91,6 @@ class SetupDataChecker
   # - - - - - - - - - - - - - - - - - - - -
 
   def check_all_required_keys_exist
-    required_keys = %w( display_name
-                        image_name
-                        unit_test_framework
-                        visible_filenames
-                      )
     required_keys.each do |key|
       unless @manifest.keys.include? key
         @key = key
@@ -119,11 +105,11 @@ class SetupDataChecker
     @key = 'visible_filenames'
     return if visible_filenames.nil? # required-key different check
     # check its form
-    if visible_filenames.class.name != 'Array'
+    unless visible_filenames.is_a? Array
       error 'must be an Array of Strings'
       return
     end
-    if visible_filenames.any?{ |filename| filename.class.name != 'String' }
+    unless visible_filenames.all?{ |item| item.is_a? String }
       error 'must be an Array of Strings'
       return
     end
@@ -161,11 +147,11 @@ class SetupDataChecker
     @key = 'highlight_filenames'
     return if highlight_filenames.nil? # it's optional
     # check its form
-    if highlight_filenames.class.name != 'Array'
+    unless highlight_filenames.is_a? Array
       error 'must be an Array of Strings'
       return
     end
-    if highlight_filenames.any?{ |filename| filename.class.name != 'String' }
+    unless highlight_filenames.all?{ |item| item.is_a? String }
       error 'must be an Array of Strings'
       return
     end
@@ -188,7 +174,7 @@ class SetupDataChecker
   def check_display_name_is_valid
     @key = 'display_name'
     return if display_name.nil? # required-key different check
-    unless display_name.class.name == 'String'
+    unless display_name.is_a? String
       error 'must be a String'
       return
     end
@@ -203,7 +189,7 @@ class SetupDataChecker
   def check_image_name_is_valid
     @key = 'image_name'
     return if image_name.nil? # required-key different check
-    unless image_name.class.name == 'String'
+    unless image_name.is_a? String
       error 'must be a String'
       return
     end
@@ -217,7 +203,7 @@ class SetupDataChecker
   def check_unit_test_framework_is_valid
     @key = 'unit_test_framework'
     return if unit_test_framework.nil? # required-key different check
-    unless unit_test_framework.class.name == 'String'
+    unless unit_test_framework.is_a? String
       error 'must be a String'
       return
     end
@@ -241,7 +227,7 @@ class SetupDataChecker
   def check_progress_regexs_is_valid
     @key = 'progress_regexs'
     return if progress_regexs.nil?  # it's optional
-    if progress_regexs.class.name != 'Array'
+    unless progress_regexs.is_a? Array
       error 'must be an Array of 2 Strings'
       return
     end
@@ -249,7 +235,7 @@ class SetupDataChecker
       error 'must be an Array of 2 Strings'
       return
     end
-    if progress_regexs.any? { |item| item.class.name != 'String' }
+    unless progress_regexs.all? { |item| item.is_a? String }
       error 'must be an Array of 2 Strings'
       return
     end
@@ -268,7 +254,7 @@ class SetupDataChecker
   def check_filename_extension_is_valid
     @key = 'filename_extension'
     return if filename_extension.nil? # it's optional
-    if filename_extension.class.name != 'String'
+    unless filename_extension.is_a? String
       error 'must be a String'
       return
     end
@@ -291,7 +277,7 @@ class SetupDataChecker
   def check_tab_size_is_valid
     @key = 'tab_size'
     return if tab_size.nil? # it's optional
-    if tab_size.class.name != 'Fixnum'
+    unless tab_size.is_a? Fixnum
       error 'must be an int'
       return
     end
@@ -326,6 +312,28 @@ class SetupDataChecker
       @errors[filename] << 'bad JSON'
     end
     return nil
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  def known_keys
+    %w( display_name
+        filename_extension
+        highlight_filenames
+        image_name
+        progress_regexs
+        tab_size
+        unit_test_framework
+        visible_filenames
+      )
+  end
+
+  def required_keys
+    %w( display_name
+        image_name
+        unit_test_framework
+        visible_filenames
+      )
   end
 
   # - - - - - - - - - - - - - - - - - - - -

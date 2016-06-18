@@ -16,17 +16,13 @@ class LanguagesManifestsTests < LanguagesTestBase
     manifests = Dir.glob("#{languages.path}/**/manifest.json").sort
     manifests.each do |filename|
       dir = File.dirname(filename)
-      check_manifest(dir)
+      @language = dir
+      assert cyberdojo_sh_has_execute_permission?
+      refute any_files_owner_is_root?
+      refute any_files_group_is_root?
+      refute any_file_is_unreadable?
+      assert created_kata_manifests_language_entry_round_trips?
     end
-  end
-
-  def check_manifest(dir)
-    @language = dir
-    assert cyberdojo_sh_has_execute_permission?
-    refute any_files_owner_is_root?
-    refute any_files_group_is_root?
-    refute any_file_is_unreadable?
-    assert created_kata_manifests_language_entry_round_trips?
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
