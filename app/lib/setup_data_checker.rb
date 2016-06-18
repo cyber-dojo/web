@@ -35,6 +35,7 @@ class SetupDataChecker
       check_image_name_is_valid(filename, manifest)
       check_unit_test_framework_is_valid(filename, manifest)
       check_progress_regexs_is_valid(filename, manifest)
+      check_filename_extension_is_valid(filename, manifest)
     end
     errors
   end
@@ -231,16 +232,44 @@ class SetupDataChecker
 
   # - - - - - - - - - - - - - - - - - - - -
 
+  def check_filename_extension_is_valid(manifest_filename, manifest)
+    @key = 'filename_extension'
+    filename_extension = manifest[@key]
+    return if filename_extension.nil? # it's optional
+    if filename_extension.class.name != 'String'
+      @errors[manifest_filename] << error('must be a String')
+      return
+    end
+    if filename_extension == ''
+      @errors[manifest_filename] << error('is empty')
+      return
+    end
+    if filename_extension[0] != '.'
+      @errors[manifest_filename] << error('must start with a dot')
+      return
+    end
+    if filename_extension == '.'
+      @errors[manifest_filename] << error('must be more than just a dot')
+      return
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
   def setup_filename
     @path + '/setup.json'
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
+  def error(msg)
+    @key + ': ' + msg
+  end
+
   def json_manifest(filename)
     @errors[filename] = []
     unless File.exists?(filename)
-      @errors[filename] << 'missing'
+      @errors[filename] << 'is missing'
       return nil
     end
     begin

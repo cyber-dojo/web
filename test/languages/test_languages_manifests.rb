@@ -23,23 +23,12 @@ class LanguagesManifestsTests < LanguagesTestBase
   def check_manifest(dir)
     @language = dir
     assert highlight_filenames_are_subset_of_visible_filenames?
-    refute filename_extension_starts_with_dot?
     assert cyberdojo_sh_exists?
     assert cyberdojo_sh_has_execute_permission?
     refute any_files_owner_is_root?
     refute any_files_group_is_root?
     refute any_file_is_unreadable?
     assert created_kata_manifests_language_entry_round_trips?
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def filename_extension_starts_with_dot?
-    if manifest['filename_extension'][0] != '.'
-      message = "#{manifest_filename}'s 'filename_extension' does not start with a ."
-      return true_puts_alert message
-    end
-    false_dot
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

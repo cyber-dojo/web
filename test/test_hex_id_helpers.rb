@@ -8,7 +8,8 @@
 #      include TestHexIdHelpers
 #
 #      test '0C1F2F',
-#      'some long description poossibly spanning',
+#      'some long description',
+#      'possibly spanning',
 #      'several lines' do
 #        ...
 #        ...

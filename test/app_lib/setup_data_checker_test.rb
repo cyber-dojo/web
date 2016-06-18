@@ -25,7 +25,7 @@ class SetupDataCheckerTest < AppLibTestBase
       setup_filename = "#{tmp_dir}/setup.json"
       shell "mv #{setup_filename} #{tmp_dir}/setup.json.missing"
       check
-      assert_error setup_filename, 'missing'
+      assert_error setup_filename, 'is missing'
     end
   end
 
@@ -286,6 +286,20 @@ class SetupDataCheckerTest < AppLibTestBase
     replace_in_manifest(key, [1,2]           , key + ': must contain 2 strings')
     replace_in_manifest(key, [bad_regex,'ok'], key + ": cannot create regex from #{bad_regex}")
     replace_in_manifest(key, ['ok',bad_regex], key + ": cannot create regex from #{bad_regex}")
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # optional-key: filename_extension
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '97F363',
+  'invalid filename_extension is an error' do
+    key = 'filename_extension'
+    replace_in_manifest(key, 1  , key + ': must be a String')
+    replace_in_manifest(key, []  , key + ': must be a String')
+    replace_in_manifest(key, '' , key + ': is empty')
+    replace_in_manifest(key, 'cs' , key + ': must start with a dot')
+    replace_in_manifest(key, '.' , key + ': must be more than just a dot')
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
