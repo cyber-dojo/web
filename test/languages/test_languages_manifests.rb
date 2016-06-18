@@ -32,22 +32,6 @@ class LanguagesManifestsTests < LanguagesTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def highlight_filenames_are_subset_of_visible_filenames?
-    highlight_filenames.each do |filename|
-      if filename != 'instructions' &&
-           filename != 'output' &&
-           !visible_filenames.include?(filename)
-        message =
-          "#{manifest_filename} contains a 'highlight_filenames' entry ['#{filename}'] " +
-          " but visible_filenames does not include '#{filename}'"
-        return false_puts_alert message
-      end
-    end
-    true_dot
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   def cyberdojo_sh_has_execute_permission?
     unless File.stat(language_dir + '/' + 'cyber-dojo.sh').executable?
       return false_puts_alert 'cyber-dojo.sh does not have execute permission'
@@ -100,20 +84,8 @@ class LanguagesManifestsTests < LanguagesTestBase
     manifest_property
   end
 
-  def image_name
-    manifest_property.split('/')[1]
-  end
-
   def visible_filenames
     manifest_property
-  end
-
-  def unit_test_framework
-    manifest_property
-  end
-
-  def progress_regexs
-    manifest_property || []
   end
 
   def highlight_filenames

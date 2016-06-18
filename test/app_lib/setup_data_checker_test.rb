@@ -96,7 +96,6 @@ class SetupDataCheckerTest < AppLibTestBase
   test '2C7CFC',
   'manifests with the same display_name is an error' do
     copy_good_master do |tmp_dir|
-      # peturb
       junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
       content = IO.read(junit_manifest_filename)
       junit_manifest = JSON.parse(content)
@@ -120,7 +119,6 @@ class SetupDataCheckerTest < AppLibTestBase
   test '748CC7',
   'unknown key is an error' do
     copy_good_master do |tmp_dir|
-      # peturn
       junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
       content = IO.read(junit_manifest_filename)
       junit_manifest = JSON.parse(content)
@@ -139,7 +137,6 @@ class SetupDataCheckerTest < AppLibTestBase
   'missing required key is an error' do
     missing_require_key = lambda do |key|
       copy_good_master('243554_'+key+'_') do |tmp_dir|
-        # peturb
         junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
         content = IO.read(junit_manifest_filename)
         junit_manifest = JSON.parse(content)
@@ -210,7 +207,6 @@ class SetupDataCheckerTest < AppLibTestBase
     key = 'visible_filenames'
     bad_visible_filenames = lambda do |value|
       copy_good_master do |tmp_dir|
-        # peturb
         junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
         content = IO.read(junit_manifest_filename)
         junit_manifest = JSON.parse(content)
@@ -220,6 +216,7 @@ class SetupDataCheckerTest < AppLibTestBase
         assert_error junit_manifest_filename, key + ': must be an Array of Strings'
       end
     end
+    # TODO: refactor to use replace_in_manifest
     bad_visible_filenames.call(1)
     bad_visible_filenames.call([1])
   end
@@ -229,7 +226,6 @@ class SetupDataCheckerTest < AppLibTestBase
   test '67307A',
   'file in dir not present in visible_filename is an error' do
     copy_good_master do |tmp_dir|
-      # peturb
       junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
       IO.write("#{tmp_dir}/Java/JUnit/new_file.jj", 'hello world')
       check
@@ -242,7 +238,6 @@ class SetupDataCheckerTest < AppLibTestBase
   test '1FEC31',
   'missing visible file is an error' do
     copy_good_master do |tmp_dir|
-      # peturn
       junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
       content = IO.read(junit_manifest_filename)
       junit_manifest = JSON.parse(content)
@@ -258,7 +253,6 @@ class SetupDataCheckerTest < AppLibTestBase
   test '685935',
   'duplicate visible file is an error' do
     copy_good_master do |tmp_dir|
-      # peturn
       junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
       content = IO.read(junit_manifest_filename)
       junit_manifest = JSON.parse(content)
@@ -277,7 +271,6 @@ class SetupDataCheckerTest < AppLibTestBase
   test 'B3ECF5',
   'no cyber-dojo.sh in visible_filenames is an error' do
     copy_good_master do |tmp_dir|
-      # peturn
       junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
       content = IO.read(junit_manifest_filename)
       junit_manifest = JSON.parse(content)
@@ -313,13 +306,30 @@ class SetupDataCheckerTest < AppLibTestBase
   test '97F363',
   'invalid filename_extension is an error' do
     key = 'filename_extension'
-    replace_in_manifest(key, 1     , key + ': must be a String')
+    replace_in_manifest(key, 1    , key + ': must be a String')
     replace_in_manifest(key, []   , key + ': must be a String')
     replace_in_manifest(key, ''   , key + ': is empty')
     replace_in_manifest(key, 'cs' , key + ': must start with a dot')
     replace_in_manifest(key, '.'  , key + ': must be more than just a dot')
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # optional-key: highlight_filenames
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'C50652',
+  'highlight_filename not also a visible_filename is an error' do
+    key = 'highlight_filenames'
+    replace_in_manifest(key, 1              , key + ': must be an Array')
+    replace_in_manifest(key, [ 1 ]          , key + ': must be an Array of Strings')
+    replace_in_manifest(key, [ 'wibble.txt'], key + ": 'wibble.txt' must be in visible_filenames")
+    duplicated = [ 'cyber-dojo.sh', 'cyber-dojo.sh' ]
+    replace_in_manifest(key, duplicated,      key + ": duplicate 'cyber-dojo.sh'")
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # optional-key: tab-size:
+  # TODO:
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   #test '81A98B', 'all files are owned by cyber-dojo user' do

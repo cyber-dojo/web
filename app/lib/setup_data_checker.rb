@@ -32,7 +32,8 @@ class SetupDataChecker
       @manifest = manifest
       check_no_unknown_keys_exist
       check_all_required_keys_exist
-      check_visible_files_is_valid
+      check_visible_filenames_is_valid
+      check_highlight_filenames_is_valid
       check_display_name_is_valid
       check_image_name_is_valid
       check_unit_test_framework_is_valid
@@ -113,7 +114,7 @@ class SetupDataChecker
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  def check_visible_files_is_valid
+  def check_visible_filenames_is_valid
     @key = 'visible_filenames'
     return if visible_filenames.nil? # required-key different check
     # check its form
@@ -132,12 +133,6 @@ class SetupDataChecker
         error "missing '#{filename}'"
       end
     end
-    # check no duplicate visible files
-    visible_filenames.uniq.each do |filename|
-      unless visible_filenames.count(filename) == 1
-        error "duplicate '#{filename}'"
-      end
-    end
     # check all files in dir are in visible_filenames
     dir = File.dirname(@manifest_filename)
     filenames = Dir.entries(dir).reject { |entry| File.directory?(entry) }
@@ -150,6 +145,40 @@ class SetupDataChecker
     # check cyber-dojo.sh is visible_filename
     unless visible_filenames.include? 'cyber-dojo.sh'
       error "must contain 'cyber-dojo.sh'"
+    end
+    # check no duplicate visible files
+    visible_filenames.uniq.each do |filename|
+      unless visible_filenames.count(filename) == 1
+        error "duplicate '#{filename}'"
+      end
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  def check_highlight_filenames_is_valid
+    @key = 'highlight_filenames'
+    return if highlight_filenames.nil? # it's optional
+    # check its form
+    if highlight_filenames.class.name != 'Array'
+      error 'must be an Array'
+      return
+    end
+    if highlight_filenames.any?{ |filename| filename.class.name != 'String' }
+      error 'must be an Array of Strings'
+      return
+    end
+    # check all are visible
+    highlight_filenames.each do |h_filename|
+      if visible_filenames.none? {|v_filename| v_filename == h_filename }
+        error "'#{h_filename}' must be in visible_filenames"
+      end
+    end
+    # check no duplicates
+    highlight_filenames.uniq.each do |filename|
+      unless highlight_filenames.count(filename) == 1
+        error "duplicate '#{filename}'"
+      end
     end
   end
 
@@ -285,6 +314,10 @@ class SetupDataChecker
     @manifest['visible_filenames']
   end
 
+  def highlight_filenames
+    @manifest['highlight_filenames']
+  end
+
   def display_name
     @manifest['display_name']
   end
@@ -308,7 +341,5 @@ class SetupDataChecker
   def error(msg)
     @errors[@manifest_filename] << (@key + ': ' + msg)
   end
-
-
 
 end
