@@ -166,12 +166,15 @@ class SetupDataCheckerTest < AppLibTestBase
   test 'ABD942',
   'invalid display_name is an error' do
     key = 'display_name'
-    replace_in_manifest(key, 1               , key + ': must be a String')
-    replace_in_manifest(key, ''              , key + ": not in 'A,B' format")
-    replace_in_manifest(key, 'no comma'      , key + ": not in 'A,B' format")
-    replace_in_manifest(key, 'one,two,commas', key + ": not in 'A,B' format")
-    replace_in_manifest(key, ',right only'   , key + ": not in 'A,B' format")
-    replace_in_manifest(key, 'left only,'    , key + ": not in 'A,B' format")
+    must_be_a_String        = key + ': must be a String'
+    not_in_A_comma_B_format = key + ": not in 'A,B' format"
+    replace_in_manifest(key, 1               , must_be_a_String)
+    replace_in_manifest(key, [ 1 ]           , must_be_a_String)
+    replace_in_manifest(key, ''              , not_in_A_comma_B_format)
+    replace_in_manifest(key, 'no comma'      , not_in_A_comma_B_format)
+    replace_in_manifest(key, 'one,two,commas', not_in_A_comma_B_format)
+    replace_in_manifest(key, ',right only'   , not_in_A_comma_B_format)
+    replace_in_manifest(key, 'left only,'    , not_in_A_comma_B_format)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
