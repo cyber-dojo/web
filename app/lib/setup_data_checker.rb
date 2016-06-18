@@ -39,6 +39,7 @@ class SetupDataChecker
       check_unit_test_framework_is_valid
       check_progress_regexs_is_valid
       check_filename_extension_is_valid
+      check_tab_size_is_valid
     end
     errors
   end
@@ -287,6 +288,25 @@ class SetupDataChecker
 
   # - - - - - - - - - - - - - - - - - - - -
 
+  def check_tab_size_is_valid
+    @key = 'tab_size'
+    return if tab_size.nil? # it's optional
+    if tab_size.class.name != 'Fixnum'
+      error 'must be an int'
+      return
+    end
+    if tab_size.to_i == 0
+      error 'must be an int > 0'
+      return
+    end
+    if tab_size.to_i > 8
+      error 'must be an int <= 8'
+      return
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
   def setup_filename
     @path + '/setup.json'
   end
@@ -336,6 +356,10 @@ class SetupDataChecker
 
   def filename_extension
     @manifest['filename_extension']
+  end
+
+  def tab_size
+    @manifest['tab_size']
   end
 
   def error(msg)
