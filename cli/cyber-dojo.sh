@@ -156,11 +156,6 @@ volume_create_git() {
     echo "FAILED: Could not create temporary directory!"
     exit_fail
   fi
-  g_cidfile=`mktemp -t cyber-dojo.cid.XXXXXX`
-  if [ $? != 0 ]; then
-    echo "FAILED: Could not create temporary file!"
-    exit_fail
-  fi
 
   # 1. make an empty docker volume
   command="docker volume create --name=${vol} --label=cyber-dojo-volume=${url}"
@@ -175,12 +170,29 @@ volume_create_git() {
   command="rm -rf ${g_tmp_dir}/.git"
   run "${command}" || (clean_up && exit_fail)
 
+  volume_create_dir "${vol}" "${g_tmp_dir}"
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+volume_create_dir() {
+
+  local vol=$1
+  local dir=$2
+
+  g_cidfile=`mktemp -t cyber-dojo.cid.XXXXXX`
+  if [ $? != 0 ]; then
+    echo "FAILED: Could not create temporary file!"
+    exit_fail
+  fi
+
   # docker run --cid=cidfile requires that the cidfile does not already exist
   command="rm ${g_cidfile}"
   run "${command}" || (clean_up && exit_fail)
 
-  # 4. mount empty volume inside docker container
-  command="docker run --detach
+  # 1. mount empty volume inside docker container
+  command="docker run
+               --detach
                --cidfile=${g_cidfile}
                --interactive
                --net=none
@@ -190,16 +202,16 @@ volume_create_git() {
   run "${command}" || (clean_up && exit_fail)
   g_cid=`cat ${g_cidfile}`
 
-  # 5. fill empty volume from local folder created in 2
+  # 2. fill empty volume from local folder created in 2
   # NB: [cp DIR/.] != [cp DIR];  DIR/. means copy the contents
-  command="docker cp ${g_tmp_dir}/. ${g_cid}:/data"
+  command="docker cp ${dir}/. ${g_cid}:/data"
   run "${command}" || (clean_up && exit_fail)
 
-  # 6. ensure cyber-dojo owns everything in the volume
+  # 3. ensure cyber-dojo user owns everything in the volume
   command="docker exec ${g_cid} sh -c 'chown -R cyber-dojo:cyber-dojo /data'"
   run "${command}" || (clean_up && exit_fail)
 
-  # 7. check the volume's contents adhere to the API
+  # 4. check the volume's contents adhere to the API
   command="docker exec ${g_cid} sh -c 'cd /usr/src/cyber-dojo/cli && ./volume_check.rb /data'"
   run_loud "${command}" || (clean_up && exit_fail)
 
@@ -266,7 +278,7 @@ clean_up() {
   fi
   if [ "${g_vol}" != '' ]; then
     debug "${me}: doing [docker volume rm ${g_vol}]"
-    # previous command seems to sometimes complete
+    # previous [docker rm] command seems to sometimes complete
     # before it is safe to remove its volume?!
     sleep 1
     docker volume rm ${g_vol} > /dev/null 2>&1
