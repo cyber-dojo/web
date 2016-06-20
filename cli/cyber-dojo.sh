@@ -117,10 +117,10 @@ cyber_dojo_rb() {
 # $ ./cyber-dojo volume create
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
-g_tmp_dir=''
-g_cidfile=''
-g_cid=''
-g_vol=''
+g_tmp_dir=''  # if this is not '' then clean_up deletes it
+g_cidfile=''  # if this is not '' then clean_up deletes it
+g_cid=''      # if this is not '' then clean_up [docker rm]'s the container
+g_vol=''      # if this is not '' then clean_up [docker volume rm]'s the volume
 
 cyber_dojo_volume_create() {
   # cyber-dojo.rb has already been called to check arguments and print help
@@ -145,8 +145,6 @@ volume_create_git() {
   # actual volume creation takes place _here_ and not inside cyber-dojo.rb
   # This is so it executes on the host and not inside a docker container.
   # This allows the --git=URL argument to specify a _local_ git repo (eg file:///...)
-  # I also plan to add a --dir=PATH which will create a volume from a
-  # regular _local_ dir.
 
   local vol=$1
   local url=$2
@@ -177,6 +175,8 @@ volume_create_git() {
 
 volume_create_dir() {
 
+  # Add a --dir=PATH option which will create a volume from a regular _local_ dir.
+
   local vol=$1
   local dir=$2
 
@@ -202,7 +202,7 @@ volume_create_dir() {
   run "${command}" || (clean_up && exit_fail)
   g_cid=`cat ${g_cidfile}`
 
-  # 2. fill empty volume from local folder created in 2
+  # 2. fill empty volume from local folder created in 1
   # NB: [cp DIR/.] != [cp DIR];  DIR/. means copy the contents
   command="docker cp ${dir}/. ${g_cid}:/data"
   run "${command}" || (clean_up && exit_fail)
@@ -239,7 +239,7 @@ run() {
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 run_loud() {
-  local me='run'
+  local me='run_loud'
   local command="$1"
   debug "${me}: command=${command}"
   eval ${command} > /dev/null
