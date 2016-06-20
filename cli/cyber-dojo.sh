@@ -223,7 +223,7 @@ volume_create_dir() {
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 run() {
-  local me='run'
+  local me="${FUNCNAME[0]}"
   local command="$1"
   debug "${me}: command=${command}"
   eval ${command} > /dev/null 2>&1
@@ -239,7 +239,7 @@ run() {
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 run_loud() {
-  local me='run_loud'
+  local me="${FUNCNAME[0]}"
   local command="$1"
   debug "${me}: command=${command}"
   eval ${command} > /dev/null
@@ -255,7 +255,7 @@ run_loud() {
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 clean_up() {
-  local me='clean_up'
+  local me="${FUNCNAME[0]}"
   if [ "${g_tmp_dir}" != '' ]; then
     debug "${me}: doing [rm -rf ${g_tmp_dir}]"
     rm -rf ${g_tmp_dir} > /dev/null 2>&1
