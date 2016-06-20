@@ -135,12 +135,12 @@ cyber_dojo_volume_create() {
       local url=${value}
     fi
   done
-  volume_create ${vol} ${url}
+  volume_create_git ${vol} ${url}
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-volume_create() {
+volume_create_git() {
   # cyber-dojo.rb has already processed the command line options but the
   # actual volume creation takes place _here_ and not inside cyber-dojo.rb
   # This is so it executes on the host and not inside a docker container.
@@ -171,11 +171,15 @@ volume_create() {
   command="git clone --depth=1 --branch=master ${url} ${g_tmp_dir}"
   run "${command}" || (clean_up && exit_fail)
 
+  # 3. remove .git repo
+  command="rm -rf ${g_tmp_dir}/.git"
+  run "${command}" || (clean_up && exit_fail)
+
   # docker run --cid=cidfile requires that the cidfile does not already exist
   command="rm ${g_cidfile}"
   run "${command}" || (clean_up && exit_fail)
 
-  # 3. mount empty volume inside docker container
+  # 4. mount empty volume inside docker container
   command="docker run --detach
                --cidfile=${g_cidfile}
                --interactive
@@ -186,13 +190,9 @@ volume_create() {
   run "${command}" || (clean_up && exit_fail)
   g_cid=`cat ${g_cidfile}`
 
-  # 4. fill empty volume from local folder created in 2
+  # 5. fill empty volume from local folder created in 2
   # NB: [cp DIR/.] != [cp DIR];  DIR/. means copy the contents
   command="docker cp ${g_tmp_dir}/. ${g_cid}:/data"
-  run "${command}" || (clean_up && exit_fail)
-
-  # 5. remove .git from volume, only interested in contents
-  command="docker exec ${g_cid} sh -c 'cd /data && rm -rf .git'"
   run "${command}" || (clean_up && exit_fail)
 
   # 6. ensure cyber-dojo owns everything in the volume
@@ -338,17 +338,17 @@ cyber_dojo_up() {
   local github_cyber_dojo='https://github.com/cyber-dojo'
   if [ "${CYBER_DOJO_LANGUAGES_VOLUME}" = "${default_languages_volume}" ]; then
     if ! volume_exists ${default_languages_volume}; then
-      volume_create ${default_languages_volume} "${github_cyber_dojo}/default-languages.git"
+      volume_create_git ${default_languages_volume} "${github_cyber_dojo}/default-languages.git"
     fi
   fi
   if [ "${CYBER_DOJO_EXERCISES_VOLUME}" = "${default_exercises_volume}" ]; then
     if ! volume_exists ${default_exercises_volume}; then
-      volume_create ${default_exercises_volume} "${github_cyber_dojo}/default-exercises.git"
+      volume_create_git ${default_exercises_volume} "${github_cyber_dojo}/default-exercises.git"
     fi
   fi
   if [ "${CYBER_DOJO_INSTRUCTIONS_VOLUME}" = "${default_instructions_volume}" ]; then
     if ! volume_exists ${default_instructions_volume}; then
-      volume_create ${default_instructions_volume} "${github_cyber_dojo}/default-instructions.git"
+      volume_create_git ${default_instructions_volume} "${github_cyber_dojo}/default-instructions.git"
     fi
   fi
 
