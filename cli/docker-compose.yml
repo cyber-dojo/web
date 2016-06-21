@@ -2,6 +2,7 @@
 nginx:
   image: cyberdojo/nginx
   container_name: cyber-dojo-nginx
+  restart: always
   links:
     - "web:cyberdojo_web"
   ports:
@@ -13,6 +14,7 @@ web:
   user: cyber-dojo
   image: ${CYBER_DOJO_WEB_SERVER}
   container_name: ${CYBER_DOJO_WEB_CONTAINER}
+  restart: always
   command: rails server --environment=${CYBER_DOJO_RAILS_ENVIRONMENT}
   environment:
     - CYBER_DOJO_SHELL_CLASS
