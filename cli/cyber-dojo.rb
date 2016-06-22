@@ -266,7 +266,7 @@ def volume_create
     unknown.each { |arg| puts "FAILED: unknown argument [#{arg.split('=')[0]}]" }
     exit failed
   end
-
+  # required known arguments
   args = ARGV[2..-1]
   vol = get_arg('--name', args)
   url = get_arg('--git', args)
@@ -274,19 +274,16 @@ def volume_create
     show help
     exit failed
   end
-
   if vol.length == 1
     msg = 'volume names must be at least two characters long. See https://github.com/docker/docker/issues/20122'
     puts "FAILED: [volume create --name=#{vol}] #{msg}"
     exit failed
   end
-
   if volume_exists? vol
     msg = "#{vol} already exists"
     puts "FAILED: [volume create --name=#{vol}] #{msg}"
     exit failed
   end
-
   # cyber-dojo.sh does actual [volume create]
 end
 
@@ -370,7 +367,7 @@ def volume_inspect
     '',
     'Displays details of the named cyber-dojo volume',
   ]
-
+  # asked for help?
   vol = ARGV[2]
   if [nil,'help','--help'].include? vol
     show help
@@ -518,64 +515,6 @@ exit 0
 #=========================================================================================
 #=========================================================================================
 #=========================================================================================
-
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# catalog
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-$longest_test = ''
-$longest_language = ''
-
-def docker_images_pulled
-  `docker images`.drop(1).split("\n").map{ |line| line.split[0] }
-  # REPOSITORY                               TAG     IMAGE ID     CREATED      SIZE
-  # cyberdojofoundation/visual-basic_nunit   latest  eb5f54114fe6 4 months ago 497.4 MB
-  # cyberdojofoundation/ruby_mini_test       latest  c7d7733d5f54 4 months ago 793.4 MB
-  # cyberdojofoundation/ruby_rspec           latest  ce9425d1690d 4 months ago 411.2 MB
-  # -->
-  # cyberdojofoundation/visual-basic_nunit
-  # cyberdojofoundation/ruby_mini_test
-  # cyberdojofoundation/ruby_rspec
-end
-
-def docker_images_from_manifests(root)
-  pulled = docker_images_pulled
-  hash = {}
-  Dir.glob("#{root}/**/manifest.json") do |file|
-    manifest = JSON.parse(IO.read(file))
-    language, test = manifest['display_name'].split(',').map { |s| s.strip }
-    $longest_language = max_size($longest_language, language)
-    $longest_test = max_size($longest_test, test)
-    image = manifest['image_name']
-    hash[language] ||= {}
-    hash[language][test] = {
-      'image' => image,
-      'pulled' => pulled.include?(image) ? 'yes' : 'no'
-    }
-  end
-  hash
-end
-
-def max_size(lhs, rhs)
-  lhs.size > rhs.size ? lhs : rhs
-end
-
-def spacer(longest, name)
-  ' ' * (longest.size - name.size)
-end
-
-def catalog_line(language, test, pulled, image)
-  language_spacer = spacer($longest_language, language)
-  test_spacer = spacer($longest_test, test)
-  pulled_spacer = spacer(3, pulled)
-  gap = ' ' * 3
-  line = ''
-  line += language + language_spacer + gap
-  line += test     + test_spacer     + gap
-  line += pulled   + pulled_spacer   + gap
-  line += image
-end
 
 def catalog
   root = File.expand_path('../data/languages', File.dirname(__FILE__))
