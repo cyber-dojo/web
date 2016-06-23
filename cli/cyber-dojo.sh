@@ -110,8 +110,8 @@ cyber_dojo_rb() {
 # $ ./cyber-dojo volume create
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
-g_tmp_dir=''  # if this is not '' then clean_up deletes it
-g_cidfile=''  # if this is not '' then clean_up deletes it
+g_tmp_dir=''  # if this is not '' then clean_up [rm -rf]'s it
+g_cidfile=''  # if this is not '' then clean_up [rm]'s it
 g_cid=''      # if this is not '' then clean_up [docker rm]'s the container
 g_vol=''      # if this is not '' then clean_up [docker volume rm]'s the volume
 
@@ -134,9 +134,9 @@ cyber_dojo_volume_create() {
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 volume_create_git() {
-  # cyber-dojo.rb has already processed the command line options but the
-  # actual volume creation takes place _here_ and not inside cyber-dojo.rb
-  # This is so it executes on the host and not inside a docker container.
+  # cyber-dojo.rb has already processed the command line options but the actual volume
+  # creation takes place here in cyber-dojo.sh and not inside cyber-dojo.rb
+  # This is so it executes on the _host_ and not inside a docker container.
   # This allows the --git=URL argument to specify a _local_ git repo (eg file:///...)
   local vol=$1
   local url=$2
@@ -145,24 +145,19 @@ volume_create_git() {
     echo "FAILED: Could not create temporary directory!"
     exit_fail
   fi
-  # 1. make an empty docker volume
-  command="docker volume create --name=${vol} --label=cyber-dojo-volume=${url}"
-  run "${command}" || (clean_up && exit_fail)
-  g_vol=${vol}
-  # 2. clone git repo to local folder
+  # 1. clone git repo to local folder
   command="git clone --depth=1 --branch=master ${url} ${g_tmp_dir}"
   run "${command}" || (clean_up && exit_fail)
-  # 3. remove .git repo
+  # 2. remove .git repo
   command="rm -rf ${g_tmp_dir}/.git"
   run "${command}" || (clean_up && exit_fail)
-  # 4. delegate
+  # 3. delegate
   volume_create_dir "${vol}" "${g_tmp_dir}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 volume_create_dir() {
-  # Add a --dir=PATH option which will create a volume from a regular _local_ dir.
   local vol=$1
   local dir=$2
   g_cidfile=`mktemp -t cyber-dojo.cid.XXXXXX`
@@ -173,7 +168,12 @@ volume_create_dir() {
   # docker run --cid=cidfile requires that the cidfile does not already exist
   command="rm ${g_cidfile}"
   run "${command}" || (clean_up && exit_fail)
-  # 1. mount empty volume inside docker container
+
+  # 1. make an empty docker volume
+  command="docker volume create --name=${vol} --label=cyber-dojo-volume=${url}"
+  run "${command}" || (clean_up && exit_fail)
+  g_vol=${vol}
+  # 2. mount empty volume inside docker container
   command="docker run
                --detach
                --cidfile=${g_cidfile}
@@ -184,14 +184,14 @@ volume_create_dir() {
                ${CYBER_DOJO_WEB_SERVER} sh"
   run "${command}" || (clean_up && exit_fail)
   g_cid=`cat ${g_cidfile}`
-  # 2. fill empty volume from local folder created in 1
+  # 3. fill empty volume from local dir
   # NB: [cp DIR/.] != [cp DIR];  DIR/. means copy the contents
   command="docker cp ${dir}/. ${g_cid}:/data"
   run "${command}" || (clean_up && exit_fail)
-  # 3. ensure cyber-dojo user owns everything in the volume
+  # 4. ensure cyber-dojo user owns everything in the volume
   command="docker exec ${g_cid} sh -c 'chown -R cyber-dojo:cyber-dojo /data'"
   run "${command}" || (clean_up && exit_fail)
-  # 4. check the volume's contents adhere to the API
+  # 5. check the volume's contents adhere to the API
   command="docker exec ${g_cid} sh -c 'cd /usr/src/cyber-dojo/cli && ./volume_check.rb /data'"
   run_loud "${command}" || (clean_up && exit_fail)
   # clean up everything used to create the volume, but not the volume itself
@@ -330,16 +330,19 @@ cyber_dojo_up() {
   local github_cyber_dojo='https://github.com/cyber-dojo'
   if [ "${CYBER_DOJO_LANGUAGES_VOLUME}" = "${default_languages_volume}" ]; then
     if ! volume_exists ${default_languages_volume}; then
+      echo "Creating ${default_languages_volume} from ${github_cyber_dojo}/default-languages.git"
       volume_create_git ${default_languages_volume} "${github_cyber_dojo}/default-languages.git"
     fi
   fi
   if [ "${CYBER_DOJO_EXERCISES_VOLUME}" = "${default_exercises_volume}" ]; then
     if ! volume_exists ${default_exercises_volume}; then
+      echo "Creating ${default_exercises_volume} from ${github_cyber_dojo}/default-exercises.git"
       volume_create_git ${default_exercises_volume} "${github_cyber_dojo}/default-exercises.git"
     fi
   fi
   if [ "${CYBER_DOJO_INSTRUCTIONS_VOLUME}" = "${default_instructions_volume}" ]; then
     if ! volume_exists ${default_instructions_volume}; then
+      echo "Creating ${default_instructions_volume}  from ${github_cyber_dojo}/default-instructions.git"
       volume_create_git ${default_instructions_volume} "${github_cyber_dojo}/default-instructions.git"
     fi
   fi
@@ -356,10 +359,10 @@ cyber_dojo_up() {
     echo "FAILED: volume ${CYBER_DOJO_INSTRUCTIONS_VOLUME} does not exist"
     exit_fail
   fi
-  echo "Using --environment=${CYBER_DOJO_RAILS_ENVIRONMENT}"
   echo "Using --languages=${CYBER_DOJO_LANGUAGES_VOLUME}"
   echo "Using --exercises=${CYBER_DOJO_EXERCISES_VOLUME}"
   echo "Using --instructions=${CYBER_DOJO_INSTRUCTIONS_VOLUME}"
+  echo "Using --environment=${CYBER_DOJO_RAILS_ENVIRONMENT}"
 
   # bring up server with volumes
   ${docker_compose_cmd} up -d

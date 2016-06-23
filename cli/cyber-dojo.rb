@@ -260,6 +260,8 @@ end
 #=========================================================================================
 
 def volume_create
+  # TODO: Add a --dir=PATH option which will create a volume from a regular _local_ dir.
+
   help = [
     '',
     "Use: #{me} volume create --name=VOLUME --git=URL",
