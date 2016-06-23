@@ -47,6 +47,9 @@ end
 #=========================================================================================
 
 def clean
+  # TODO: help?
+  # TODO: check for unknown args
+
   # Can give the following
   # Error response from daemon: conflict: unable to delete cfc459985b4b (cannot be forced)
   #   image is being used by running container a7108a524a4d
@@ -69,6 +72,7 @@ def down
     show help
     exit failed
   end
+  # TODO: check for unknown args
   # cyber-dojo.sh does actual [down]
 end
 
@@ -87,6 +91,7 @@ def sh
     show help
     exit failed
   end
+  # TODO: check for unknown args
   # cyber-dojo.sh does actual [sh]
 end
 
@@ -105,7 +110,7 @@ def logs
     show help
     exit failed
   end
-
+  # TODO: check for unknown args
   if `docker ps --quiet --filter "name=cdf-web"` == ''
     puts "FAILED: Cannot show logs - the web server is not running"
     exit failed
@@ -402,8 +407,8 @@ def volume_inspect
   [
     'docker run',
     '--rm',
-    "--volume=#{vol}:/data:#{read_only}",
     "--user=root",
+    "--volume=#{vol}:/data:#{read_only}",
     '--volume=/var/run/docker.sock:/var/run/docker.sock',
     "#{cyber_dojo_hub}/web:#{docker_version}",
     "sh -c 'cd /usr/src/cyber-dojo/cli && ./volume_inspect.rb /data'"
