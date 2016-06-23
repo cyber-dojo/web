@@ -393,8 +393,7 @@ def volume_inspect
 
   exit_unless_is_cyber_dojo_volume(vol, 'inspect')
 
-  #docker_version = `docker --version`.split()[2].chomp(',')
-  docker_version = '1.11.2'
+  docker_version = `docker --version`.split()[2].chomp(',')
   read_only = 'ro'
 
   command =
@@ -408,7 +407,7 @@ def volume_inspect
     "sh -c 'cd /usr/src/cyber-dojo/cli && ./volume_inspect.rb /data'"
   ].join(space=' ')
 
-  print `#{command}`
+  print run(command)
 end
 
 #=========================================================================================

@@ -6,7 +6,6 @@
 
 # TODO: shows whether image has been pulled or not?
 # TODO: shows whether image is auto-pull or not?
-# TODO: change name of catalog_line()
 
 require 'json'
 
@@ -48,7 +47,7 @@ end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def catalog_line(language, test, image, pulled)
+def inspect_line(language, test, image, pulled)
   language_spacer = spacer($longest_language, language)
   test_spacer = spacer($longest_test, test)
   image_spacer = spacer($longest_image_name, image)
@@ -107,6 +106,6 @@ inspect_from_manifests.sort.map do |language,tests|
   tests.sort.map do |test, hash|
     image_name = hash['image_name']
     pulled = hash['pulled']
-    puts catalog_line(language, test, image_name, pulled)
+    puts inspect_line(language, test, image_name, pulled)
   end
 end
