@@ -26,10 +26,13 @@ def show(lines); lines.each { |line| puts line }; print "\n"; end
 def quoted(s); '"' + s + '"'; end
 
 def run(command)
-  puts command if $debug_mode
   output = `#{command}`
   $exit_status = $?.exitstatus
-  puts output if $debug_mode
+  if $debug_mode
+    puts command
+    puts $exit_status
+    puts output
+  end
   output
 end
 
@@ -390,6 +393,7 @@ def volume_inspect
 
   exit_unless_is_cyber_dojo_volume(vol, 'inspect')
 
+  #docker_version = `docker --version`.split()[2].chomp(',')
   docker_version = '1.11.2'
   read_only = 'ro'
 
@@ -398,14 +402,13 @@ def volume_inspect
     'docker run',
     '--rm',
     "--volume=#{vol}:/data:#{read_only}",
-    "--user=cyber-dojo",
+    "--user=root",
+    '--volume=/var/run/docker.sock:/var/run/docker.sock',
     "#{cyber_dojo_hub}/web:#{docker_version}",
     "sh -c 'cd /usr/src/cyber-dojo/cli && ./volume_inspect.rb /data'"
   ].join(space=' ')
 
-  inspection = `#{command}`
-  p inspection
-
+  print `#{command}`
 end
 
 #=========================================================================================

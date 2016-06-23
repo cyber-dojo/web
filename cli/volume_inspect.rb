@@ -8,7 +8,7 @@
 # TODO: shows whether image is auto-pull or not?
 # TODO: change name of catalog_line()
 
-require 'JSON'
+require 'json'
 
 def failed; 1; end
 
@@ -107,7 +107,6 @@ inspect_from_manifests.sort.map do |language,tests|
   tests.sort.map do |test, hash|
     image_name = hash['image_name']
     pulled = hash['pulled']
-    lines << catalog_line(language, test, image_name, pulled)
+    puts catalog_line(language, test, image_name, pulled)
   end
 end
-puts lines.join("\n")
