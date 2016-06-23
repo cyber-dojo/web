@@ -64,6 +64,7 @@ end
 
 def docker_images_pulled
   `docker images`.split("\n").drop(1).map{ |line| line.split[0] }.sort - ['<none>']
+  # eg
   # REPOSITORY                               TAG     IMAGE ID     CREATED      SIZE
   # cyberdojofoundation/visual-basic_nunit   latest  eb5f54114fe6 4 months ago 497.4 MB
   # cyberdojofoundation/ruby_mini_test       latest  c7d7733d5f54 4 months ago 793.4 MB

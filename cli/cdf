@@ -80,13 +80,6 @@ build()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-clean()
-{
-  docker images -q -f='dangling=true' | xargs docker rmi --force
-}
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 logs_rails()
 {
   # TODO: get container name properly
@@ -248,5 +241,4 @@ if [ -n "${doPush}"      ]; then push ; exit; fi
 if [ -n "${doRmi}"       ]; then rmi  ; exit; fi
 
 if [ -n "${doHelp}"      ]; then show_use; exit; fi
-if [ -n "${doClean}"     ]; then clean   ; exit; fi
 

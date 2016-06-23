@@ -40,6 +40,18 @@ def get_arg(name, argv)
 end
 
 #=========================================================================================
+# $ ./cyber-dojo clean
+#=========================================================================================
+
+def clean
+  # Can give the following
+  # Error response from daemon: conflict: unable to delete cfc459985b4b (cannot be forced)
+  #   image is being used by running container a7108a524a4d
+  command = "docker images -q -f='dangling=true' | xargs docker rmi --force"
+  run command
+end
+
+#=========================================================================================
 # $ ./cyber-dojo down
 #=========================================================================================
 
@@ -463,6 +475,7 @@ def help
     "     #{me} --help",
     '',
     'Commands:',
+    tab + 'clean     Removes dangling images',
     tab + 'down      Brings down the server',
     tab + 'logs      Fetch the logs from the server',
     #tab + 'pull      Pulls a docker image',
@@ -489,6 +502,7 @@ case ARGV[0]
   when nil       then help
   when '--help'  then help
   when 'help'    then help
+  when 'clean'   then clean
   when 'down'    then down
   when 'logs'    then logs
   #when 'pull'    then pull
