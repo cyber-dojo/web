@@ -73,7 +73,7 @@ class SetupDataCheckerTest < AppLibTestBase
       setup_filename = "#{tmp_dir}/setup.json"
       IO.write(setup_filename, JSON.unparse({
         'type' => 'exercises',
-        'rhs_columns_name' => 'languages'
+        'rhs_column_name' => 'languages'
       }))
       check
       assert_error setup_filename, 'lhs_column_name: is missing'
@@ -85,10 +85,19 @@ class SetupDataCheckerTest < AppLibTestBase
   test '61A72F',
   'invalid lhs_column_name is an error' do
     @key = 'lhs_column_name'
-    must_be_a_String = 'must be a String'
-    assert_key_error 1    , must_be_a_String, 'exercises'
-    assert_key_error [ 1 ], must_be_a_String, 'exercises'
-    assert_key_error ''   , 'is empty', 'exercises'
+    assert_setup_key_error 1    , must_be_a_String
+    assert_setup_key_error [ 1 ], must_be_a_String
+    assert_setup_key_error ''   , is_empty
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '7A67F4',
+  'invalid rhs_column_name is an error' do
+    @key = 'rhs_column_name'
+    assert_setup_key_error 1    , must_be_a_String
+    assert_setup_key_error [ 1 ], must_be_a_String
+    assert_setup_key_error ''   , is_empty
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -104,17 +113,6 @@ class SetupDataCheckerTest < AppLibTestBase
       check
       assert_error setup_filename, 'rhs_column_name: is missing'
     end
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '7A67F4',
-  'invalid rhs_column_name is an error' do
-    @key = 'rhs_column_name'
-    must_be_a_String = 'must be a String'
-    assert_key_error 1    , must_be_a_String, 'exercises'
-    assert_key_error [ 1 ], must_be_a_String, 'exercises'
-    assert_key_error ''   , 'is empty', 'exercises'
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -196,7 +194,6 @@ class SetupDataCheckerTest < AppLibTestBase
   test 'ABD942',
   'invalid display_name is an error' do
     @key = 'display_name'
-    must_be_a_String        = 'must be a String'
     not_in_A_comma_B_format = "not in 'A,B' format"
     assert_key_error 1               , must_be_a_String
     assert_key_error [ 1 ]           , must_be_a_String
@@ -214,9 +211,9 @@ class SetupDataCheckerTest < AppLibTestBase
   test 'A9D696',
   'invalid image_name not an error' do
     @key = 'image_name'
-    assert_key_error 1    , 'must be a String'
-    assert_key_error [ 1 ], 'must be a String'
-    assert_key_error ''   , 'is empty'
+    assert_key_error 1    , must_be_a_String
+    assert_key_error [ 1 ], must_be_a_String
+    assert_key_error ''   , is_empty
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -226,9 +223,9 @@ class SetupDataCheckerTest < AppLibTestBase
   test 'B84696',
   'invalid unit_test_framework is an error' do
     @key = 'unit_test_framework'
-    assert_key_error 1    , 'must be a String'
-    assert_key_error [ 1 ], 'must be a String'
-    assert_key_error ''   , 'is empty'
+    assert_key_error 1    , must_be_a_String
+    assert_key_error [ 1 ], must_be_a_String
+    assert_key_error ''   , is_empty
     assert_key_error 'xx' , 'no OutputColour.parse_xx method'
   end
 
@@ -328,9 +325,9 @@ class SetupDataCheckerTest < AppLibTestBase
   test '97F363',
   'invalid filename_extension is an error' do
     @key = 'filename_extension'
-    assert_key_error 1    , 'must be a String'
-    assert_key_error []   , 'must be a String'
-    assert_key_error ''   , 'is empty'
+    assert_key_error 1    , must_be_a_String
+    assert_key_error []   , must_be_a_String
+    assert_key_error ''   , is_empty
     assert_key_error 'cs' , 'must start with a dot'
     assert_key_error '.'  , 'must be more than just a dot'
   end
@@ -376,6 +373,22 @@ class SetupDataCheckerTest < AppLibTestBase
   end
 
   private
+
+  def assert_setup_key_error(bad, expected)
+    ['exercises','languages'].each do |type|
+      copy_good_master(type) do |tmp_dir|
+        manifest_filename = "#{tmp_dir}/setup.json"
+        content = IO.read(manifest_filename)
+        manifest = JSON.parse(content)
+        manifest[@key] = bad
+        IO.write(manifest_filename, JSON.unparse(manifest))
+        check
+        assert_error manifest_filename, @key + ': ' + expected
+      end
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def assert_key_error(bad, expected, type = 'languages')
     copy_good_master(type) do |tmp_dir|
@@ -456,6 +469,18 @@ class SetupDataCheckerTest < AppLibTestBase
 
   def any_bad_json
     'xxx'
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def must_be_a_String
+    'must be a String'
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def is_empty
+    'is empty'
   end
 
 end

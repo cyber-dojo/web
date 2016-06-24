@@ -1,4 +1,6 @@
 {
-  "type": "languages"
+  "type": "languages",
+  "lhs_column_name": "language",
+  "rhs_column_name": "test"
 }
 

@@ -61,7 +61,7 @@ class SetupDataChecker
       setup_error 'must be [languages|exercises|instructions]'
       return
     end
-    if type == 'exercises'
+    if type != 'instructions'
       @key = 'lhs_column_name'
       lhs_column_name = manifest[@key]
       if lhs_column_name.nil?
