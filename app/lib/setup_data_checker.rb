@@ -58,7 +58,7 @@ class SetupDataChecker
       return
     end
     unless ['languages','exercises','instructions'].include? type
-      setup_error 'must be [languages|exercises|languages]'
+      setup_error 'must be [languages|exercises|instructions]'
       return
     end
     if type == 'exercises'
