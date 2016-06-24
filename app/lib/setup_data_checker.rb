@@ -2,6 +2,11 @@
 require 'json'
 require_relative './output_colour.rb'
 
+# TODO: instructions-checks are different to languages/exercises checks
+# TODO: check there is at least one sub-dir with a manifest.json file
+# TODO: check at least one manifest has auto_pull:true ?
+# TODO: line 25: move nil? check inside method
+
 class SetupDataChecker
 
   def initialize(path)
@@ -18,14 +23,13 @@ class SetupDataChecker
   def check
     # check setup.json is in root but do not add to manifests[]
     manifest = json_manifest(setup_filename)
-    check_setup_json_meets_its_spec(manifest) unless manifest.nil? #TODO: move nil? check inside method
+    check_setup_json_meets_its_spec(manifest) unless manifest.nil?
     # json-parse all manifest.json files and add to manifests[]
     Dir.glob("#{@path}/**/manifest.json").each do |filename|
       manifest = json_manifest(filename)
       @manifests[filename] = manifest unless manifest.nil?
     end
     # check manifests
-    # TODO: instructions-checks are different to languages/exercises checks
     check_all_manifests_have_a_unique_display_name
     @manifests.each do |filename, manifest|
       @manifest_filename = filename
@@ -46,44 +50,44 @@ class SetupDataChecker
 
   private
 
-  # TODO: check there is at least one sub-dir with a manifest.json file
-  # TODO: check at least one manifest has auto_pull:true ?
-
   def check_setup_json_meets_its_spec(manifest)
-    type = manifest['type']
+    @key = 'type'
+    type = manifest[@key]
     if type.nil?
-      @errors[setup_filename] << 'type: missing'
+      setup_error 'missing'
       return
     end
     unless ['languages','exercises','instructions'].include? type
-      @errors[setup_filename] << 'type: must be [languages|exercises|languages]'
+      setup_error 'must be [languages|exercises|languages]'
       return
     end
     if type == 'exercises'
-      lhs_column_name = manifest['lhs_column_name']
+      @key = 'lhs_column_name'
+      lhs_column_name = manifest[@key]
       if lhs_column_name.nil?
-        @errors[setup_filename] << 'lhs_column_name: is missing'
+        setup_error 'is missing'
         return
       end
       if lhs_column_name == ''
-        @errors[setup_filename] << 'lhs_column_name: is empty'
+        setup_error 'is empty'
         return
       end
       unless lhs_column_name.is_a? String
-        @errors[setup_filename] << 'lhs_column_name: must be a String'
+        setup_error 'must be a String'
         return
       end
-      rhs_column_name = manifest['rhs_column_name']
+      @key = 'rhs_column_name'
+      rhs_column_name = manifest[@key]
       if rhs_column_name.nil?
-        @errors[setup_filename] << 'rhs_column_name: is missing'
+        setup_error 'is missing'
         return
       end
       if rhs_column_name == ''
-        @errors[setup_filename] << 'rhs_column_name: is empty'
+        setup_error 'is empty'
         return
       end
       unless rhs_column_name.is_a? String
-        @errors[setup_filename] << 'rhs_column_name: must be a String'
+        setup_error 'must be a String'
         return
       end
     end
@@ -403,6 +407,10 @@ class SetupDataChecker
 
   def error(msg)
     @errors[@manifest_filename] << (@key + ': ' + msg)
+  end
+
+  def setup_error(msg)
+    @errors[setup_filename] << (@key + ': ' + msg)
   end
 
 end
