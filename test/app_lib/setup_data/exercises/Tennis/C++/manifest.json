@@ -1,0 +1,17 @@
+{
+  "visible_filenames": [
+    "all_tests.hpp",
+    "all_tests.cpp",
+    "tennis1.cpp",
+    "tennis2.cpp",
+    "tennis3.cpp",
+    "tennis_suite.tests.cpp",
+    "instructions",
+    "makefile",
+    "cyber-dojo.sh"
+  ],
+  "filename_extension" : ".cpp",
+  "display_name": "Tennis refactoring, C++ (g++) assert",
+  "unit_test_framework": "cassert",
+  "image_name": "cyberdojofoundation/gpp_assert"
+}

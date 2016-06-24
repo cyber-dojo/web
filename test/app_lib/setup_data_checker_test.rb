@@ -67,9 +67,29 @@ class SetupDataCheckerTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  #test '1B01F7',
-  # 'setup.json for exercises with no lhs-column-title is diagnosed as error' do
-  # end
+  test '1B01F7',
+  'setup.json for exercises with no lhs_column_name is diagnosed as error' do
+    copy_good_master do |tmp_dir|
+      setup_filename = "#{tmp_dir}/setup.json"
+      IO.write(setup_filename, JSON.unparse({ 'type' => 'exercises' }))
+      check
+      assert_error setup_filename, 'lhs_column_name: is missing'
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '61A72F',
+  'invalid lhs_column_name is an error' do
+    @key = 'lhs_column_name'
+    must_be_a_String = 'must be a String'
+    assert_key_error 1    , must_be_a_String, 'exercises'
+    assert_key_error [ 1 ], must_be_a_String, 'exercises'
+    assert_key_error ''   , 'is empty', 'exercises'
+
+   end
+
+   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   # test '993BE1',
   # 'setup.json for exercises with no rhs-column-title is diagnosed as error' do
@@ -128,7 +148,7 @@ class SetupDataCheckerTest < AppLibTestBase
   test '243554',
   'missing required key is an error' do
     missing_require_key = lambda do |key|
-      copy_good_master('243554_'+key+'_') do |tmp_dir|
+      copy_good_master('languages', '243554_'+key+'_') do |tmp_dir|
         junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
         content = IO.read(junit_manifest_filename)
         junit_manifest = JSON.parse(content)
@@ -335,23 +355,34 @@ class SetupDataCheckerTest < AppLibTestBase
 
   private
 
-  def assert_key_error(bad, expected)
-    copy_good_master do |tmp_dir|
-      junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
-      content = IO.read(junit_manifest_filename)
-      junit_manifest = JSON.parse(content)
-      junit_manifest[@key] = bad
-      IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
-      check
-      assert_error junit_manifest_filename, @key + ': ' + expected
+  def assert_key_error(bad, expected, type = 'languages')
+    copy_good_master(type) do |tmp_dir|
+      if type == 'languages'
+        junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
+        content = IO.read(junit_manifest_filename)
+        junit_manifest = JSON.parse(content)
+        junit_manifest[@key] = bad
+        IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
+        check
+        assert_error junit_manifest_filename, @key + ': ' + expected
+      end
+      if type == 'exercises'
+        manifest_filename = "#{tmp_dir}/setup.json"
+        content = IO.read(manifest_filename)
+        manifest = JSON.parse(content)
+        manifest[@key] = bad
+        IO.write(manifest_filename, JSON.unparse(manifest))
+        check
+        assert_error manifest_filename, @key + ': ' + expected
+      end
     end
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def copy_good_master(id = test_id)
+  def copy_good_master(type = 'languages', id = test_id)
     Dir.mktmpdir('cyber-dojo-' + id + '_') do |tmp_dir|
-      shell "cp -r #{setup_data_path}/languages/* #{tmp_dir}"
+      shell "cp -r #{setup_data_path}/#{type}/* #{tmp_dir}"
       @tmp_dir = tmp_dir
       yield tmp_dir
     end

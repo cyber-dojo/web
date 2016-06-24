@@ -16,7 +16,7 @@ class SetupDataChecker
   # - - - - - - - - - - - - - - - - - - - -
 
   def check
-    # check setup.json in root but do not add to manifests[]
+    # check setup.json is in root but do not add to manifests[]
     manifest = json_manifest(setup_filename)
     check_setup_json_meets_its_spec(manifest) unless manifest.nil? #TODO: move nil? check inside method
     # json-parse all manifest.json files and add to manifests[]
@@ -53,8 +53,26 @@ class SetupDataChecker
     type = manifest['type']
     if type.nil?
       @errors[setup_filename] << 'type: missing'
-    elsif ! ['languages','exercises','instructions'].include? type
+      return
+    end
+    unless ['languages','exercises','instructions'].include? type
       @errors[setup_filename] << 'type: must be [languages|exercises|languages]'
+      return
+    end
+    if type == 'exercises'
+      lhs_column_name = manifest['lhs_column_name']
+      if lhs_column_name.nil?
+        @errors[setup_filename] << 'lhs_column_name: is missing'
+        return
+      end
+      if lhs_column_name == ''
+        @errors[setup_filename] << 'lhs_column_name: is empty'
+        return
+      end
+      unless lhs_column_name.is_a? String
+        @errors[setup_filename] << 'lhs_column_name: must be a String'
+        return
+      end
     end
   end
 

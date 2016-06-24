@@ -1,0 +1,12 @@
+{
+  "visible_filenames": [
+    "YahtzeeTest.java",
+    "Yahtzee.java",
+    "instructions",
+    "cyber-dojo.sh"
+  ],
+  "filename_extension" : ".java",
+  "display_name": "Yahtzee refactoring, Java JUnit",
+  "unit_test_framework": "junit",
+  "image_name": "cyberdojofoundation/java_junit"
+}
