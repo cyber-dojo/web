@@ -26,16 +26,12 @@ class SetupController < ApplicationController
     language_name = params['language']
         test_name = params['test'    ]
     language = languages[language_name + '-' + test_name]
-
     instruction_name = params['exercise']
     instruction = instructions[instruction_name]
-
     manifest = katas.create_kata_manifest(language)
     manifest[:exercise] = instruction.name
     manifest[:visible_files]['instructions'] = instruction.text
-
     kata = katas.create_kata_from_kata_manifest(manifest)
-
     render json: { id: kata.id }
   end
 
@@ -55,11 +51,8 @@ class SetupController < ApplicationController
     language_name = params['language']
     exercise_name = params['exercise']
     exercise = exercises[language_name + '-' + exercise_name]
-
     manifest = katas.create_kata_manifest(exercise)
-
     kata = katas.create_kata_from_kata_manifest(manifest)
-
     render json: { id: kata.id }
   end
 
