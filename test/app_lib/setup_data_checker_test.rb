@@ -34,7 +34,6 @@ class SetupDataCheckerTest < AppLibTestBase
   test '2F42DF',
   'bad json in root setup.json is an error' do
     copy_good_master do |tmp_dir|
-    #copy_good_master_to('2F42DF') do |tmp_dir|
       setup_filename = "#{tmp_dir}/setup.json"
       IO.write(setup_filename, any_bad_json)
       check

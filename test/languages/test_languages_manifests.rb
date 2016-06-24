@@ -83,10 +83,6 @@ class LanguagesManifestsTests < LanguagesTestBase
     manifest_property
   end
 
-  def highlight_filenames
-    manifest_property || []
-  end
-
   def manifest
     JSON.parse(IO.read(manifest_filename))
   end
