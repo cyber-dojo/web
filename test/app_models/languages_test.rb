@@ -58,20 +58,6 @@ class LanguagesTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - -
 
-  test '743EBB',
-  'languages ignores nested _docker_context folder because',
-  'it is not the name of a test-framework, it is the docker-context',
-  'for the language itself' do
-    n = 0
-    languages.each do |language|
-      n += 1
-      refute language.path.include? '_docker_context'
-    end
-    assert n > 45
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - -
-
   test '743BBE',
   'name is translated when katas manifest.json language entry has been renamed' do
     historical_language_names do |old_name|
@@ -229,25 +215,6 @@ class LanguagesTest < AppModelsTestBase
     ].each do |entry|
       yield entry.split[0]
     end
-  end
-
-  private
-
-  def exists?(lang, test)
-    File.directory?("#{cyber_dojo_root}/languages/#{lang}/#{test}") ||
-    File.directory?("#{cyber_dojo_root}/languages_offline/#{lang}/#{test}")
-  end
-
-  def cyber_dojo_root
-    Dir.pwd + '/../..'
-  end
-
-  def cache_filename
-    'languages_cache.json'
-  end
-
-  def set_caches_root_tmp
-    set_caches_root(tmp_root + 'caches')
   end
 
 end
