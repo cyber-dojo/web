@@ -71,7 +71,10 @@ class SetupDataCheckerTest < AppLibTestBase
   'setup.json for exercises with no lhs_column_name is diagnosed as error' do
     copy_good_master do |tmp_dir|
       setup_filename = "#{tmp_dir}/setup.json"
-      IO.write(setup_filename, JSON.unparse({ 'type' => 'exercises' }))
+      IO.write(setup_filename, JSON.unparse({
+        'type' => 'exercises',
+        'rhs_columns_name' => 'languages'
+      }))
       check
       assert_error setup_filename, 'lhs_column_name: is missing'
     end
@@ -86,14 +89,33 @@ class SetupDataCheckerTest < AppLibTestBase
     assert_key_error 1    , must_be_a_String, 'exercises'
     assert_key_error [ 1 ], must_be_a_String, 'exercises'
     assert_key_error ''   , 'is empty', 'exercises'
+  end
 
-   end
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  test 'CD33AC',
+  'setup.json for exercises with no rhs_column_name is diagnosed as error' do
+    copy_good_master do |tmp_dir|
+      setup_filename = "#{tmp_dir}/setup.json"
+      IO.write(setup_filename, JSON.unparse({
+         'type' => 'exercises',
+         'lhs_column_name' => 'refactoring'
+      }))
+      check
+      assert_error setup_filename, 'rhs_column_name: is missing'
+    end
+  end
 
-  # test '993BE1',
-  # 'setup.json for exercises with no rhs-column-title is diagnosed as error' do
-  # end
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '7A67F4',
+  'invalid rhs_column_name is an error' do
+    @key = 'rhs_column_name'
+    must_be_a_String = 'must be a String'
+    assert_key_error 1    , must_be_a_String, 'exercises'
+    assert_key_error [ 1 ], must_be_a_String, 'exercises'
+    assert_key_error ''   , 'is empty', 'exercises'
+  end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # manifest.json

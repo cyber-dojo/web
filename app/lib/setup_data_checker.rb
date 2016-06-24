@@ -73,6 +73,19 @@ class SetupDataChecker
         @errors[setup_filename] << 'lhs_column_name: must be a String'
         return
       end
+      rhs_column_name = manifest['rhs_column_name']
+      if rhs_column_name.nil?
+        @errors[setup_filename] << 'rhs_column_name: is missing'
+        return
+      end
+      if rhs_column_name == ''
+        @errors[setup_filename] << 'rhs_column_name: is empty'
+        return
+      end
+      unless rhs_column_name.is_a? String
+        @errors[setup_filename] << 'rhs_column_name: must be a String'
+        return
+      end
     end
   end
 
