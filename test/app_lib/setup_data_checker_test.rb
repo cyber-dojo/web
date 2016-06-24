@@ -3,9 +3,9 @@
 require_relative './app_lib_test_base'
 require 'json'
 
-class SetupDataCheckerTest < AppLibTestBase
+# TODO: test_data master (instructions) has no errors  ... hmm split into two?
 
-  # test_data master (instructions) has no errors  ... hmm split into two?
+class SetupDataCheckerTest < AppLibTestBase
 
   test '0C1F2F',
   'test_data master (manifested) has no errors' do
@@ -20,7 +20,7 @@ class SetupDataCheckerTest < AppLibTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'C6D738',
-  'missing setup.json is an error' do
+  'setup.json missing is an error' do
     copy_good_master do |tmp_dir|
       setup_filename = "#{tmp_dir}/setup.json"
       shell "mv #{setup_filename} #{tmp_dir}/setup.json.missing"
@@ -32,7 +32,7 @@ class SetupDataCheckerTest < AppLibTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '2F42DF',
-  'bad json in root setup.json is an error' do
+  'setup.json with bad json is an error' do
     copy_good_master do |tmp_dir|
       setup_filename = "#{tmp_dir}/setup.json"
       IO.write(setup_filename, any_bad_json)
@@ -68,12 +68,12 @@ class SetupDataCheckerTest < AppLibTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '1B01F7',
-  'setup.json for exercises with no lhs_column_name is diagnosed as error' do
+  'setup.json (not instructions) with no lhs_column_name is diagnosed as error' do
     copy_good_master do |tmp_dir|
       setup_filename = "#{tmp_dir}/setup.json"
       IO.write(setup_filename, JSON.unparse({
         'type' => 'exercises',
-        'rhs_column_name' => 'languages'
+        'rhs_column_name' => 'language'
       }))
       check
       assert_error setup_filename, 'lhs_column_name: is missing'
@@ -82,28 +82,8 @@ class SetupDataCheckerTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '61A72F',
-  'invalid lhs_column_name is an error' do
-    @key = 'lhs_column_name'
-    assert_setup_key_error 1    , must_be_a_String
-    assert_setup_key_error [ 1 ], must_be_a_String
-    assert_setup_key_error ''   , is_empty
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '7A67F4',
-  'invalid rhs_column_name is an error' do
-    @key = 'rhs_column_name'
-    assert_setup_key_error 1    , must_be_a_String
-    assert_setup_key_error [ 1 ], must_be_a_String
-    assert_setup_key_error ''   , is_empty
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test 'CD33AC',
-  'setup.json for exercises with no rhs_column_name is diagnosed as error' do
+  'setup.json (not instructions) with no rhs_column_name is diagnosed as error' do
     copy_good_master do |tmp_dir|
       setup_filename = "#{tmp_dir}/setup.json"
       IO.write(setup_filename, JSON.unparse({
@@ -113,6 +93,26 @@ class SetupDataCheckerTest < AppLibTestBase
       check
       assert_error setup_filename, 'rhs_column_name: is missing'
     end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '61A72F',
+  'setup.json (not instrutions) invalid lhs_column_name is an error' do
+    @key = 'lhs_column_name'
+    assert_setup_key_error 1    , must_be_a_String
+    assert_setup_key_error [ 1 ], must_be_a_String
+    assert_setup_key_error ''   , is_empty
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '7A67F4',
+  'setup.json (not instrutions) invalid rhs_column_name is an error' do
+    @key = 'rhs_column_name'
+    assert_setup_key_error 1    , must_be_a_String
+    assert_setup_key_error [ 1 ], must_be_a_String
+    assert_setup_key_error ''   , is_empty
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -158,7 +158,7 @@ class SetupDataCheckerTest < AppLibTestBase
   test '748CC7',
   'unknown key is an error' do
     @key = 'salmon'
-    assert_key_error 1               , 'unknown key'
+    assert_key_error 1, 'unknown key'
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -390,26 +390,15 @@ class SetupDataCheckerTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def assert_key_error(bad, expected, type = 'languages')
-    copy_good_master(type) do |tmp_dir|
-      if type == 'languages'
-        junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
-        content = IO.read(junit_manifest_filename)
-        junit_manifest = JSON.parse(content)
-        junit_manifest[@key] = bad
-        IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
-        check
-        assert_error junit_manifest_filename, @key + ': ' + expected
-      end
-      if type == 'exercises'
-        manifest_filename = "#{tmp_dir}/setup.json"
-        content = IO.read(manifest_filename)
-        manifest = JSON.parse(content)
-        manifest[@key] = bad
-        IO.write(manifest_filename, JSON.unparse(manifest))
-        check
-        assert_error manifest_filename, @key + ': ' + expected
-      end
+  def assert_key_error(bad, expected)
+    copy_good_master('languages') do |tmp_dir|
+      junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
+      content = IO.read(junit_manifest_filename)
+      junit_manifest = JSON.parse(content)
+      junit_manifest[@key] = bad
+      IO.write(junit_manifest_filename, JSON.unparse(junit_manifest))
+      check
+      assert_error junit_manifest_filename, @key + ': ' + expected
     end
   end
 
