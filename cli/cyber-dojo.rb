@@ -270,8 +270,10 @@ def volume_create
   help = [
     '',
     "Use: #{me} volume create --name=VOLUME --git=URL",
+    "Use: #{me} volume create --name=VOLUME --dir=PATH",
     '',
-    'Creates a volume named VOLUME as git clone of URL and pulls all its docker images marked auto_pull:true'
+    'Creates a volume named VOLUME from a git clone of URL', #' and pulls all its docker images marked auto_pull:true'
+    'Creates a volume named VOLUME from a copy of PATH'
   ]
   # asked for help?
   if [nil,'help','--help'].include? ARGV[2]
@@ -279,7 +281,7 @@ def volume_create
     exit failed
   end
   # unknown arguments?
-  knowns = ['name','git']
+  knowns = ['name','git','dir']
   unknown = ARGV[2..-1].select do |argv|
     knowns.none? { |known| argv.start_with?('--' + known + '=') }
   end
@@ -292,7 +294,8 @@ def volume_create
   args = ARGV[2..-1]
   vol = get_arg('--name', args)
   url = get_arg('--git', args)
-  if vol.nil? || url.nil?
+  dir = get_arg('--dir', args)
+  if vol.nil? || (url.nil? && dir.nil?)
     show help
     exit failed
   end
@@ -356,7 +359,7 @@ def volume_ls
     types = names.map { |name| cyber_dojo_type(name)  }
     urls  = names.map { |name| cyber_dojo_label(name) }
 
-    headings = { :name => 'NAME', :type => 'TYPE', :url => 'URL' }
+    headings = { :name => 'NAME', :type => 'TYPE', :url => 'SRC' }
 
     gap = 3
     max_name = ([headings[:name]] + names).max_by(&:length).length + gap

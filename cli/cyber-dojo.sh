@@ -125,9 +125,13 @@ cyber_dojo_volume_create() {
     fi
     if [ "${name}" = '--git' ]; then
       local url=${value}
+      volume_create_git ${vol} ${url}
+    fi
+    if [ "${name}" = '--dir' ]; then
+      local dir=${value}
+      volume_create_dir ${vol} ${dir} ${dir}
     fi
   done
-  volume_create_git ${vol} ${url}
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -151,7 +155,7 @@ volume_create_git() {
   command="rm -rf ${g_tmp_dir}/.git"
   run "${command}" || (clean_up && exit_fail)
   # 3. delegate
-  volume_create_dir "${vol}" "${g_tmp_dir}"
+  volume_create_dir "${vol}" "${g_tmp_dir}" "${url}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -159,6 +163,7 @@ volume_create_git() {
 volume_create_dir() {
   local vol=$1
   local dir=$2
+  local src=$3
   g_cidfile=`mktemp -t cyber-dojo.cid.XXXXXX`
   if [ $? != 0 ]; then
     echo "FAILED: Could not create temporary file!"
@@ -169,7 +174,7 @@ volume_create_dir() {
   run "${command}" || (clean_up && exit_fail)
 
   # 1. make an empty docker volume
-  command="docker volume create --name=${vol} --label=cyber-dojo-volume=${url}"
+  command="docker volume create --name=${vol} --label=cyber-dojo-volume=${src}"
   run "${command}" || (clean_up && exit_fail)
   g_vol=${vol}
   # 2. mount empty volume inside docker container
