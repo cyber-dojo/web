@@ -16,11 +16,11 @@
         <%= render partial: 'language_info' %>
       </td>
       <td id="languages-container">
-        <div id="language-title">language?</div>
+        <div id="language-title"><%= @lhs_column_name %></div>
         <%= render partial: 'languages_list' %>
       </td>
       <td id="tests-container">
-        <div id="tests-title">tests?</div>
+        <div id="tests-title"><%= @rhs_column_name %></div>
         <%= render partial: 'tests_list' %>
       </td>
     </tr>
