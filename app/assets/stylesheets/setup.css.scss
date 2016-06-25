@@ -6,7 +6,7 @@
   margin: { top: 55px; }
   font-size: 1.15em;
 
-  #create-a-practice-session {
+  #setup-a-practice-session {
     @include non-code-font();
          color: $lighter-color;
      font-size: 3.5em;
@@ -61,12 +61,12 @@
 
 #setup-language-page {
 
-  margin: { left: 250px; }
+  margin: { left: 150px; }
 
   #info-container {
     @include plaintext-font();
         height: 365px;
-         width: 145px;
+         width: 300px;
        padding: { left: 100px; }
     text-align: right;
   }
@@ -76,11 +76,12 @@
 
 #setup-exercise-page {
 
-  margin: { left: 216px; }
+  margin: { left: 150px; }
 
   #exercises-container {
 
     padding: 10px !important;
+    margin-left: 110px;
 
     #exercises-list { width: 165px; }
 

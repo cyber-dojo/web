@@ -3,7 +3,7 @@
 
 $(function() {
 
-  $('#create-custom-session-button').click(function() {
+  $('#setup-custom-session-button').click(function() {
     cd.dialog_ie(function() {
       var id = "<%= @id %>";
       var url = '/setup/show_exercises/' + id;
@@ -15,4 +15,4 @@ $(function() {
 
 //--></script>
 
-<button type="button" id="create-custom-session-button">create a custom practice session</button>
+<button type="button" id="setup-custom-session-button">setup a custom practice session</button>

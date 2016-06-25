@@ -3,7 +3,7 @@
 
 $(function() {
 
-  $('#create-bare-session-button').click(function() {
+  $('#setup-default-session-button').click(function() {
     cd.dialog_ie(function() {
       var id = "<%= @id %>";
       var url = '/setup/show_languages/' + id;
@@ -15,4 +15,4 @@ $(function() {
 
 //--></script>
 
-<button type="button" id="create-bare-session-button">create a bare practice session</button>
+<button type="button" id="setup-default-session-button">setup a default practice session</button>
