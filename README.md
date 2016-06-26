@@ -2,7 +2,7 @@
 
 <img src="https://raw.githubusercontent.com/cyber-dojo/web/master/public/images/home_page_logo.png" alt="cyber-dojo yin/yang logo" width="50px" height="50px"/>
 
-Main repo for a [cyber-dojo](http://cyber-dojo) web server.
+Main repo for a [cyber-dojo](http://cyber-dojo.org) web server.
 
 Work in progress.
 Still need to auto-pull selection of docker images for setup pages.
