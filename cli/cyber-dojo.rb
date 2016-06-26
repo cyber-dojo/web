@@ -494,7 +494,7 @@ def help
     #tab + 'rmi       Removes a docker image',
     tab + 'sh        Shells into the server',
     tab + 'up        Brings up the server',
-    tab + 'upgrade   Upgrades the server and languages',
+    tab + 'upgrade   Upgrades the server',
     tab + 'volume    Manage cyber-dojo setup volumes',
     '',
     "Run '#{me} COMMAND --help' for more information on a command."
@@ -533,79 +533,8 @@ exit 0
 
 =begin
 #=========================================================================================
-#=========================================================================================
-#=========================================================================================
-#=========================================================================================
 # old code below here
 #=========================================================================================
-#=========================================================================================
-#=========================================================================================
-#=========================================================================================
-
-def catalog
-  root = File.expand_path('../data/languages', File.dirname(__FILE__))
-  all = docker_images_from_manifests(root)
-  lines = []
-  lines << catalog_line('LANGUAGE', 'TESTS', 'PULLED', 'IMAGE')
-  all.sort.map do |language,tests|
-    tests.sort.map do |test, hash|
-      pulled = hash['pulled']
-      image = hash['image']
-      lines << catalog_line(language, test, pulled, image)
-    end
-  end
-  lines.join("\n")
-  # LANGUAGE          TESTS                PULLED  IMAGE
-  # Asm               assert               yes     cyberdojofoundation/nasm_assert
-  # BCPL              all_tests_passed     no      cyberdojofoundation/bcpl-all_tests_passed
-  # Bash              shunit2              no      cyberdojofoundation/bash_shunit2
-  # C (clang)         assert               yes     cyberdojofoundation/clang_assert
-  # C (gcc)           CppUTest             yes     cyberdojofoundation/gcc_cpputest
-  # ...
-end
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-def all_languages
-  catalog.split("\n").drop(1).map{ |line| line.split[-1] }
-  # [ bcpl-all_tests_passed, bash_shunit2, clang_assert, gcc_cpputest, ...]
-end
-
-def in_catalog?(image)
-  all_languages.include?(image)
-end
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-def languages
-  lines = catalog.split("\n").drop(1)
-  lines.select { |line| line.split[-2] == 'yes' }.map { |line| line.split[-1] }
-end
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-def docker_pull(image, tag)
-  run "docker pull #{cyber_dojo_hub}/#{image}:#{tag}"
-end
-
-#=========================================================================================
-# upgrade
-#=========================================================================================
-
-def upgrade
-  languages.each { |image| docker_pull(image, 'latest') }
-end
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-def bad_image(image)
-  if image.nil?
-    puts 'missing IMAGE'
-  else
-    puts "unknown IMAGE #{image}"
-  end
-  puts "Try '#{me} help'"
-end
 
 #=========================================================================================
 # pull
