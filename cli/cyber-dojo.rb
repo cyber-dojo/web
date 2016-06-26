@@ -45,10 +45,10 @@ def get_arg(name, argv)
 end
 
 #=========================================================================================
-# $ ./cyber-dojo upgrade
+# $ ./cyber-dojo update
 #=========================================================================================
 
-def upgrade
+def update
   # TODO: help?
   # TODO: check for unknown args
 end
@@ -503,7 +503,7 @@ def help
     #tab + 'rmi       Removes a docker image',
     tab + 'sh        Shells into the server',
     tab + 'up        Brings up the server',
-    tab + 'upgrade   Upgrades the server',
+    tab + 'update    Updates the server to the latest image',
     tab + 'volume    Manage cyber-dojo setup volumes',
     '',
     "Run '#{me} COMMAND --help' for more information on a command."
@@ -530,7 +530,7 @@ case ARGV[0]
   #when 'rmi'     then rmi
   when 'sh'      then sh
   when 'up'      then up
-  when 'upgrade' then upgrade
+  when 'update'  then update
   when 'volume'  then volume
   else
     puts "#{me}: '#{ARGV[0]}' is not a command."

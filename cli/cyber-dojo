@@ -45,6 +45,7 @@ cyber_dojo_update() {
   local cyber_dojo_web_server=${cyber_dojo_hub}:/web:${docker_version}
   local docker_compose_file=docker-compose.yml
 
+  echo "GOT HERE"
   # update server images
   docker pull ${cyber_dojo_hub}/nginx:latest
   docker pull ${cyber_dojo_web_server}
