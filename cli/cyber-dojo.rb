@@ -215,7 +215,7 @@ def volume
     minitab + 'rm             Removes a volume',
     minitab + 'ls             Lists the names of all volumes',
     minitab + 'inspect        Displays details of a volume',
-    minitab + 'pull           Pulls the docker images inside a volume',
+    #minitab + 'pull           Pulls the docker images inside a volume',
     '',
     "Run '#{me} volume COMMAND --help' for more information on a command",
   ]
