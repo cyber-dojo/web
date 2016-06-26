@@ -42,7 +42,7 @@ cyber_dojo_update() {
   local docker_version=$(docker --version | awk '{print $3}' | sed '$s/.$//')
   local cyber_dojo_home=/usr/src/cyber-dojo
   local cyber_dojo_hub=cyberdojo
-  local cyber_dojo_web_server=${cyber_dojo_hub}:/web:${docker_version}
+  local cyber_dojo_web_server=${cyber_dojo_hub}/web:${docker_version}
   local docker_compose_file=docker-compose.yml
 
   echo "GOT HERE"
