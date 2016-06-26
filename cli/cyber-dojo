@@ -49,12 +49,12 @@ cyber_dojo_update() {
   docker pull ${cyber_dojo_hub}/nginx:latest
   docker pull ${cyber_dojo_web_server}
 
-  # extract cyber-dojo.sh from web image
+  # extract cyber-dojo.sh from new web image
   local cid=$(docker create ${cyber_dojo_web_server})
   docker cp ${cid}:${cyber_dojo_home}/cli/${cyber_dojo_sh} ${my_dir}/${cyber_dojo_sh}
   docker rm -v ${cid} > /dev/null
 
-  # extract docker-compose.yml file from web image
+  # extract docker-compose.yml file from new web image
   local cid=$(docker create ${cyber_dojo_web_server})
   docker cp ${cid}:${cyber_dojo_home}/cli/${docker_compose_file} ${my_dir}/${docker_compose_file}
   docker rm -v ${cid} > /dev/null
