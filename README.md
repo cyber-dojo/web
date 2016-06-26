@@ -10,20 +10,25 @@ But this is useable if you manually pull your docker images.
 
 First make sure docker is installed
 
->curl -O https://raw.githubusercontent.com/cyber-dojo/web/master/cli/install-docker.sh
->chmod +x install-docker.sh
->sudo ./install-docker.sh
+```
+curl -O https://raw.githubusercontent.com/cyber-dojo/web/master/cli/install-docker.sh
+chmod +x install-docker.sh
+sudo ./install-docker.sh
+```
 
 Then download cyber-dojo shell script
 
->curl -O https://raw.githubusercontent.com/cyber-dojo/web/master/cli/cyber-dojo
->chmod +x cyber-dojo
+```
+curl -O https://raw.githubusercontent.com/cyber-dojo/web/master/cli/cyber-dojo
+chmod +x cyber-dojo
+```
 
 Then use the script to control your server
 
->sudo ./cyber-dojo --help
->sudo ./cyber-dojo volume ls
->sudo ./cyber-dojo volume inspect default-languages
->sudo docker pull cyberdojofoundation/java_cucumber
->sudo ./cyber-dojo up
-
+```
+sudo ./cyber-dojo --help
+sudo ./cyber-dojo volume ls
+sudo ./cyber-dojo volume inspect default-languages
+sudo docker pull cyberdojofoundation/java_cucumber
+sudo ./cyber-dojo up
+```
