@@ -3,6 +3,8 @@
 # Called from cyber-dojo.sh
 # Returns non-zero to indicate cyber-dojo.sh should not proceed.
 
+# TODO: auto-pull docker images marked auto_pull:true when using volume
+
 require 'json'
 require 'tempfile'
 
@@ -164,8 +166,8 @@ def up
     minitab + '--exercises=VOLUME      Specify the exercises volume (otherwise default-exercises)',
     minitab + '--instructions=VOLUME   Specify the instructions volume (otherwise default-instructions)',
     minitab + '--env=development       Brings up the web server in development environment',
-    minitab + '--env=production        Brings up the web server in production environment (default)',
     minitab + '--env=test              Brings up the web server in test environment',
+    minitab + '--env=production        Brings up the web server in production environment (default)',
   ]
   # asked for help?
   if ['help','--help'].include? ARGV[1]
@@ -265,14 +267,12 @@ end
 #=========================================================================================
 
 def volume_create
-  # TODO: Add a --dir=PATH option which will create a volume from a regular _local_ dir.
-
   help = [
     '',
     "Use: #{me} volume create --name=VOLUME --git=URL",
     "Use: #{me} volume create --name=VOLUME --dir=PATH",
     '',
-    'Creates a volume named VOLUME from a git clone of URL', #' and pulls all its docker images marked auto_pull:true'
+    'Creates a volume named VOLUME from a git clone of URL',
     'Creates a volume named VOLUME from a copy of PATH'
   ]
   # asked for help?

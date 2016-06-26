@@ -4,8 +4,7 @@
 # Does *not* (necessarily) show the details of what volumes are
 # inside the running web container.
 
-# TODO: shows whether image has been pulled or not?
-# TODO: shows whether image is auto-pull or not?
+# TODO: shows whether image is marked pull-on-use or not
 
 require 'json'
 
@@ -23,19 +22,9 @@ def show_use(message = '')
   STDERR.puts
 end
 
-if path.nil?
-  show_use
-  exit failed
-end
-
-if !File.directory?(path)
-  show_use "#{path} not found"
-  exit failed
-end
-
-$longest_test = ''
+$longest_test     = ''
 $longest_language = ''
-$longest_image_name = ''
+$longest_image    = ''
 
 def max_size(lhs, rhs)
   lhs.size > rhs.size ? lhs : rhs
@@ -49,13 +38,13 @@ end
 
 def inspect_line(language, test, image, pulled)
   language_spacer = spacer($longest_language, language)
-  test_spacer = spacer($longest_test, test)
-  image_spacer = spacer($longest_image_name, image)
+      test_spacer = spacer($longest_test    , test    )
+     image_spacer = spacer($longest_image   , image   )
   gap = ' ' * 3
   line = ''
   line += language + language_spacer + gap
-  line += test     + test_spacer     + gap
-  line += image    + image_spacer   + gap
+  line +=     test +     test_spacer + gap
+  line +=    image +    image_spacer + gap
   line += pulled
 end
 
@@ -84,9 +73,9 @@ def inspect_from_manifests
     manifest = JSON.parse(content)
     language, test = manifest['display_name'].split(',').map { |s| s.strip }
     image_name = manifest['image_name']
-    $longest_language = max_size($longest_language, language)
-    $longest_test = max_size($longest_test, test)
-    $longest_image_name = max_size($longest_image_name, image_name)
+    $longest_language = max_size($longest_language, language  )
+    $longest_test     = max_size($longest_test    , test      )
+    $longest_image    = max_size($longest_image   , image_name)
     hash[language] ||= {}
     hash[language][test] = {
       'image_name' => image_name,
@@ -98,14 +87,36 @@ end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-lines = []
-# TODO: these will have to come from setup.json
-# TODO: thse also affect $longest_test and $longest_language
-#lines << catalog_line('LANGUAGE', 'TESTS', 'IMAGE')
-inspect_from_manifests.sort.map do |language,tests|
+def setup
+  content = IO.read("#{path}/setup.json")
+  JSON.parse(content)
+end
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+if path.nil?
+  show_use
+  exit failed
+end
+
+if !File.directory?(path)
+  show_use "#{path} not found"
+  exit failed
+end
+
+lhs_column_name = setup['lhs_column_name']
+rhs_column_name = setup['rhs_column_name']
+
+$longest_language = max_size($longest_language, lhs_column_name)
+$longest_test     = max_size($longest_test    , rhs_column_name)
+$longest_image    = max_size($longest_image   , 'IMAGE')
+inspection = inspect_from_manifests
+
+puts inspect_line(lhs_column_name.upcase, rhs_column_name.upcase, 'IMAGE', 'PULLED')
+inspection.sort.map do |language,tests|
   tests.sort.map do |test, hash|
-    image_name = hash['image_name']
+    image = hash['image_name']
     pulled = hash['pulled']
-    puts inspect_line(language, test, image_name, pulled)
+    puts inspect_line(language, test, image, pulled)
   end
 end
