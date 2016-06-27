@@ -5,8 +5,8 @@
 Main repo for a [cyber-dojo](http://cyber-dojo.org) web server.
 
 Work in progress.
-Still need to auto-pull selection of docker images for setup pages.
-But this is useable if you manually pull your docker images.
+Auto-pulling a selection of docker images is not done yet.
+You have to manually pull your docker images.
 
 First make sure docker is installed
 
@@ -26,9 +26,10 @@ chmod +x cyber-dojo
 Then use the script to control your server
 
 ```
+sudo ./cyber-dojo up
 sudo ./cyber-dojo --help
 sudo ./cyber-dojo volume ls
 sudo ./cyber-dojo volume inspect default-languages
 sudo docker pull cyberdojofoundation/java_cucumber
-sudo ./cyber-dojo up
+sudo docker pull cyberdojofoundation/java_junit
 ```
