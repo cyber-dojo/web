@@ -102,6 +102,7 @@ def sh
     exit failed
   end
   # TODO: check for unknown args
+  # TODO: check if server is running (as per [logs] command below)
   # cyber-dojo.sh does actual [sh]
 end
 
