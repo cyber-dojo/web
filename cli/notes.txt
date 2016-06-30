@@ -1,4 +1,10 @@
 
+Should I allow lhs_column_name to be empty?
+That could then be the default if they are not present in the
+setup.json file.
+
+- - - - - - - - - - - - - - - - - - - - -
+
 Debug logging seems to show clean_up (in cyber-dojo.sh) being called twice...
 Is this because (clean_up && exit_fail) is in () and so is a sub-shell?
 
