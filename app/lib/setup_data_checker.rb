@@ -405,10 +405,6 @@ class SetupDataChecker
     @manifest['tab_size']
   end
 
-  def auto_pull
-    @manifest['auto_pull']
-  end
-
   def error(msg)
     @errors[@manifest_filename] << (@key + ': ' + msg)
   end
