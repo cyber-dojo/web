@@ -36,7 +36,7 @@ var cyberDojo = (function(cd, $) {
           $(this).remove();
         },
         buttons: {
-          ok: function() {
+          'ok': function() {
             goToHomePage(id);
             $(this).remove();
           }
