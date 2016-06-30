@@ -25,7 +25,6 @@ end
 $longest_test     = ''
 $longest_language = ''
 $longest_image    = ''
-$longest_auto     = ''
 
 def max_size(lhs, rhs)
   lhs.size > rhs.size ? lhs : rhs
@@ -37,17 +36,15 @@ end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def inspect_line(language, test, image, auto, pulled)
+def inspect_line(language, test, image, pulled)
   language_spacer = spacer($longest_language, language)
       test_spacer = spacer($longest_test    , test    )
      image_spacer = spacer($longest_image   , image   )
-      auto_spacer = spacer($longest_auto    , auto    )
   gap = ' ' * 3
   line = ''
   line += language + language_spacer + gap
   line +=     test +     test_spacer + gap
   line +=    image +    image_spacer + gap
-  line +=     auto +     auto_spacer + gap
   line += pulled
 end
 
@@ -80,11 +77,9 @@ def inspect_from_manifests
     $longest_language = max_size($longest_language, language  )
     $longest_test     = max_size($longest_test    , test      )
     $longest_image    = max_size($longest_image   , image_name)
-    $longest_auto     = max_size($longest_auto    , auto_pull)
     hash[language] ||= {}
     hash[language][test] = {
       'image_name' => image_name,
-      'auto_pull' => auto_pull,
       'pulled' => pulled.include?(image_name) ? 'yes' : 'no'
     }
   end
@@ -116,15 +111,13 @@ rhs_column_name = setup['rhs_column_name']
 $longest_language = max_size($longest_language, lhs_column_name)
 $longest_test     = max_size($longest_test    , rhs_column_name)
 $longest_image    = max_size($longest_image   , 'IMAGE')
-$longest_auto     = max_size($longest_auto    , 'AUTO_PULL')
 inspection = inspect_from_manifests
 
-puts inspect_line(lhs_column_name.upcase, rhs_column_name.upcase, 'IMAGE', 'AUTO_PULL', 'PULLED')
+puts inspect_line(lhs_column_name.upcase, rhs_column_name.upcase, 'IMAGE', 'PULLED')
 inspection.sort.map do |language,tests|
   tests.sort.map do |test, hash|
     image = hash['image_name']
     pulled = hash['pulled']
-    auto = hash['auto_pull']
-    puts inspect_line(language, test, image, auto, pulled)
+    puts inspect_line(language, test, image, pulled)
   end
 end

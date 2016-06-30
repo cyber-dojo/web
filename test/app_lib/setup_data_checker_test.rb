@@ -366,17 +366,6 @@ class SetupDataCheckerTest < AppLibTestBase
     # Use rsync with --chown?
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # optional-key: auto-pull:
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'F193DF',
-  'invalid auto_pull is an error' do
-    @key = 'auto_pull'
-    assert_key_error 's'   , 'must be true/false'
-    assert_key_error 'True', 'must be true/false'
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '2F9E46',
   'bad shell command raises' do

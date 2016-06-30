@@ -57,10 +57,6 @@ class Manifest
     manifest_property || 4
   end
 
-  def auto_pull
-    manifest_property || false
-  end
-
   # not manifest properties
 
   def tab
