@@ -195,7 +195,7 @@ volume_create_dir() {
   # 4. ensure cyber-dojo user owns everything in the volume
   command="docker exec ${g_cid} sh -c 'chown -R cyber-dojo:cyber-dojo /data'"
   run "${command}" || (clean_up && exit_fail)
-  # 5. check the volume's contents adhere to the API
+  # 5. check the volume's contents adheres to the API
   command="docker exec ${g_cid} sh -c 'cd /usr/src/cyber-dojo/cli && ./volume_check.rb /data'"
   run_loud "${command}" || (clean_up && exit_fail)
   # clean up everything used to create the volume, but not the volume itself
