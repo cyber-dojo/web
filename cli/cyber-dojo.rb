@@ -3,8 +3,6 @@
 # Called from cyber-dojo.sh
 # Returns non-zero to indicate cyber-dojo.sh should not proceed.
 
-# TODO: auto-pull docker images marked auto_pull:true when using volume
-
 require 'json'
 require 'tempfile'
 
