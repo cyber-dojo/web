@@ -293,4 +293,12 @@ module OutputColour # mix-in
     return :green if /^All checks .* succeeded./.match(output)
     return :amber
   end
+
+  def self.parse_xctest(output)
+    matches = output.scan(/Executed (\d*) test(s?), with (\d*) failure/)
+    return :amber if matches.count == 0
+    matches.each { |m| return :red if m[2].to_i > 0 }
+    return :green
+  end
+
 end

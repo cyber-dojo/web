@@ -1,0 +1,12 @@
+Test Suite 'All tests' started at 23:17:12.343
+Test Suite 'sandbox.xctest' started at 23:17:12.350
+Test Suite 'CalculatorTests' started at 23:17:12.350
+Test Case 'CalculatorTests.testAddCheck' started at 23:17:12.350
+hikertests.swift:12: error: CalculatorTests.testAddCheck : XCTAssertEqual failed: ("Optional(0)") is not equal to ("Optional(2)") -
+Test Case 'CalculatorTests.testAddCheck' failed (0.0 seconds).
+Test Suite 'CalculatorTests' failed at 23:17:12.350
+	 Executed 1 test, with 1 failure (0 unexpected) in 0.0 (0.0) seconds
+Test Suite 'sandbox.xctest' failed at 23:17:12.350
+	 Executed 1 test, with 1 failure (0 unexpected) in 0.0 (0.0) seconds
+Test Suite 'All tests' failed at 23:17:12.350
+	 Executed 1 test, with 1 failure (0 unexpected) in 0.0 (0.0) seconds
