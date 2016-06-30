@@ -4,8 +4,6 @@
 # Does *not* (necessarily) show the details of what volumes are
 # inside the running web container.
 
-# TODO: shows whether image is marked pull-on-use or not
-
 require 'json'
 
 def failed; 1; end
@@ -16,8 +14,6 @@ def show_use(message = '')
   STDERR.puts
   STDERR.puts 'USE: volume_inspect.rb PATH'
   STDERR.puts
-  #puts 'Checks PATH is suitable to create a cyber-dojo volume from.'
-  #puts
   STDERR.puts "   ERROR: #{message}" if message != ''
   STDERR.puts
 end
@@ -73,7 +69,6 @@ def inspect_from_manifests
     manifest = JSON.parse(content)
     language, test = manifest['display_name'].split(',').map { |s| s.strip }
     image_name = manifest['image_name']
-    auto_pull = manifest['auto_pull'] || 'false'
     $longest_language = max_size($longest_language, language  )
     $longest_test     = max_size($longest_test    , test      )
     $longest_image    = max_size($longest_image   , image_name)

@@ -10,7 +10,7 @@ def show_use(message = '')
   STDERR.puts
   STDERR.puts 'USE: volume_check.rb PATH'
   STDERR.puts
-  STDERR.puts 'Checks PATH is suitable to create a cyber-dojo volume from.'
+  STDERR.puts 'Checks if PATH is suitable to create a cyber-dojo volume from.'
   STDERR.puts
   STDERR.puts "   ERROR: #{message}" if message != ''
   STDERR.puts

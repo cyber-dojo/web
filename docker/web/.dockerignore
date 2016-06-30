@@ -45,11 +45,12 @@ downloads/*
 !cli/cyber-dojo.sh
 !cli/docker-compose.yml
 
-# {cyber-dojo.sh} delegates to these inside web container
+# {cyber-dojo.sh} delegates to this inside web container
 !cli/cyber-dojo.rb
-!cli/volume_check.rb
 
-# {cyber-dojo.rb} delegates to this inside web container
+# {cyber-dojo.rb} delegates to these inside web container
+!cli/volume_check.rb
 !cli/volume_inspect.rb
+!cli/volume_pull.rb
 
 

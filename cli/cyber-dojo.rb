@@ -25,6 +25,10 @@ def show(lines); lines.each { |line| puts line }; print "\n"; end
 
 def quoted(s); '"' + s + '"'; end
 
+def docker_version; `docker --version`.split()[2].chomp(','); end
+
+def read_only; 'ro'; end
+
 def run(command)
   output = `#{command}`
   $exit_status = $?.exitstatus
@@ -222,7 +226,7 @@ def volume
     minitab + 'rm             Removes a volume',
     minitab + 'ls             Lists the names of all volumes',
     minitab + 'inspect        Displays details of a volume',
-    #minitab + 'pull           Pulls the docker images inside a volume',
+    minitab + "pull           Pulls the docker images inside a volume's manifest.json files",
     '',
     "Run '#{me} volume COMMAND --help' for more information on a command",
   ]
@@ -410,9 +414,6 @@ def volume_inspect
 
   exit_unless_is_cyber_dojo_volume(vol, 'inspect')
 
-  docker_version = `docker --version`.split()[2].chomp(',')
-  read_only = 'ro'
-
   command =
   [
     'docker run',
@@ -461,10 +462,6 @@ end
 # $ ./cyber-dojo volume pull
 #=========================================================================================
 #
-# TODO: Should this pull images?
-#       Or should images be pulled when a volume is used in an UP command?
-#
-
 def volume_pull
   help = [
     '',
@@ -480,9 +477,19 @@ def volume_pull
 
   exit_unless_is_cyber_dojo_volume(vol, 'pull')
 
-  p 'TODO: volume pull'
-  #Then have to extract all image names from all manifest.json files.
-  #Then do [docker pull IMAGE] for any not present
+  command =
+  [
+    'docker run',
+    '--rm',
+    '--tty',
+    "--user=root",
+    "--volume=#{vol}:/data:#{read_only}",
+    '--volume=/var/run/docker.sock:/var/run/docker.sock',
+    "#{cyber_dojo_hub}/web:#{docker_version}",
+    "sh -c 'cd /usr/src/cyber-dojo/cli && ./volume_pull.rb /data'"
+  ].join(space=' ')
+
+  system(command)
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
