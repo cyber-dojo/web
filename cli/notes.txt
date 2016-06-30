@@ -11,6 +11,12 @@ Makes its a yes/no field (like PULLED)
 Hmmm that also creates an option to mark the whole repo as
 auto-pull: true
 which means you don't have to name the individual image names.
+Or maybe just drop the setting completely?
+And create a new "admin" page which lists the display-names
+with check-boxes.
+Or... merge this idea with the regular setup page. Make *ALL*
+display-names visible, but mark (eg with a *) the ones whose image-name
+has NOT been pulled and if that is selected then it is pulled.
 
 - - - - - - - - - - - - - - - - - - - - -
 
