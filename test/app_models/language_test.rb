@@ -169,6 +169,25 @@ class LanguageTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test 'EA4C38',
+  'auto_pull is read back as set' do
+    @language = make_language('Ruby', 'Test::Unit')
+    auto_pull = true
+    spy_manifest({ 'auto_pull' => auto_pull })
+    assert_equal auto_pull, @language.auto_pull
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '436214',
+  'auto_pull defaults to false' do
+    @language = make_language('Ruby', 'Test::Unit')
+    spy_manifest({})
+    assert_equal false, @language.auto_pull
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '7E38C3',
   'tab is 7 spaces when tab_size is 7' do
     @language = make_language('Ruby', 'Test::Unit')
