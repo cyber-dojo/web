@@ -98,7 +98,7 @@ class SetupDataCheckerTest < AppLibTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '61A72F',
-  'setup.json (not instrutions) invalid lhs_column_name is an error' do
+  'setup.json (not instructions) invalid lhs_column_name is an error' do
     @key = 'lhs_column_name'
     assert_setup_key_error 1    , must_be_a_String
     assert_setup_key_error [ 1 ], must_be_a_String
@@ -108,7 +108,7 @@ class SetupDataCheckerTest < AppLibTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '7A67F4',
-  'setup.json (not instrutions) invalid rhs_column_name is an error' do
+  'setup.json (not instructions) invalid rhs_column_name is an error' do
     @key = 'rhs_column_name'
     assert_setup_key_error 1    , must_be_a_String
     assert_setup_key_error [ 1 ], must_be_a_String
