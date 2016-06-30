@@ -5,6 +5,15 @@ setup.json file.
 
 - - - - - - - - - - - - - - - - - - - - -
 
+Did a first cut of auto-pull in manifest.json
+Now realize it should be an array entry in setup.json
+Makes its a yes/no field (like PULLED)
+Hmmm that also creates an option to mark the whole repo as
+auto-pull: true
+which means you don't have to name the individual image names.
+
+- - - - - - - - - - - - - - - - - - - - -
+
 Debug logging seems to show clean_up (in cyber-dojo.sh) being called twice...
 Is this because (clean_up && exit_fail) is in () and so is a sub-shell?
 
