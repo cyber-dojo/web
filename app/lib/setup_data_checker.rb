@@ -44,6 +44,7 @@ class SetupDataChecker
       check_progress_regexs_is_valid
       check_filename_extension_is_valid
       check_tab_size_is_valid
+      check_auto_pull_is_valid
     end
     errors
   end
@@ -328,6 +329,17 @@ class SetupDataChecker
 
   # - - - - - - - - - - - - - - - - - - - -
 
+  def check_auto_pull_is_valid
+    @key = 'auto_pull'
+    return if auto_pull.nil? # it's optional
+    unless ['true','false'].include?(auto_pull)
+      error 'must be true/false'
+      return
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
   def setup_filename
     @path + '/setup.json'
   end
@@ -360,6 +372,7 @@ class SetupDataChecker
         tab_size
         unit_test_framework
         visible_filenames
+        auto_pull
       )
   end
 
@@ -403,6 +416,10 @@ class SetupDataChecker
 
   def tab_size
     @manifest['tab_size']
+  end
+
+  def auto_pull
+    @manifest['auto_pull']
   end
 
   def error(msg)
