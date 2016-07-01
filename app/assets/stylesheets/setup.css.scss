@@ -20,13 +20,13 @@
 
   #languages-list, #tests-list, #exercises-list {
     @include non-code-font();
-     height: 345px;
-    padding: { right: 3px; }
+     height: 370px;
+    padding: 6px;
      margin: { right: 5px; }
 
     overflow-y: auto;
     overflow-x: none;
-    &::-webkit-scrollbar:vertical { width: 6px; }
+    &::-webkit-scrollbar:vertical { width: 10px; }
 
     .filename {
       @include font-size-medium();
@@ -39,15 +39,6 @@
              color: darken($lighter-color, 5%);
       }
     }
-  }
-
-  #language-title, #tests-title, #exercise-title {
-    @include non-code-font();
-    @include font-size-larger();
-         color: darken($lighter-color, 5%);
-        margin: { bottom: 5px; }
-       padding: {   left: 0px; }
-    text-align: right;
   }
 
   #ok, #next {
@@ -87,7 +78,7 @@
 
     #instructions {
       @include code-font();
-      &::-webkit-scrollbar:vertical { width: 5px; }
+      &::-webkit-scrollbar:vertical { width: 10px; }
       border-top-left-radius: 5px;
            width: 450px;
          padding: 6px;
@@ -100,8 +91,6 @@
       overflow-y: scroll;
          outline: none;
           resize: none;
-        position: relative;
-             top: 5px;
     }
   }
 }

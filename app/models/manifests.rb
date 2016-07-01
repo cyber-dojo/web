@@ -22,14 +22,6 @@ class Manifests
     all[commad(name)] || all[renamed(name)]
   end
 
-  def lhs_column_name
-    setup['lhs_column_name']
-  end
-
-  def rhs_column_name
-    setup['rhs_column_name']
-  end
-
   include CacheProperties
 
   private
@@ -64,10 +56,6 @@ class Manifests
 
   def commad(name)
     name.split('-').join(', ')
-  end
-
-  def setup
-    @setup ||= disk[path].read_json('setup.json')
   end
 
 end

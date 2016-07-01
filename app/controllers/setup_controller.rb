@@ -11,8 +11,6 @@ class SetupController < ApplicationController
     index = choose_language(languages_names, id, dojo.katas)
     @languages = ::DisplayNamesSplitter.new(languages_names, index)
     @initial_language_index = @languages.selected_index
-    @lhs_column_name = languages.lhs_column_name
-    @rhs_column_name = languages.rhs_column_name
   end
 
   def show_instructions
@@ -47,8 +45,6 @@ class SetupController < ApplicationController
     index = choose_language(exercises_names, id, dojo.katas)
     @languages = ::DisplayNamesSplitter.new(exercises_names, index)
     @initial_language_index = @languages.selected_index
-    @lhs_column_name = exercises.lhs_column_name
-    @rhs_column_name = exercises.rhs_column_name
   end
 
   def save_exercise
