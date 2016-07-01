@@ -4,7 +4,6 @@ require_relative './output_colour.rb'
 
 # TODO: instructions-checks are different to languages/exercises checks
 # TODO: check there is at least one sub-dir with a manifest.json file
-# TODO: check at least one manifest has auto_pull:true ?
 # TODO: line 25: move nil? check inside method
 
 class SetupDataChecker
