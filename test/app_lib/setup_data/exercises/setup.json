@@ -1,6 +1,4 @@
 {
-  "type": "exercises",
-  "lhs_column_name": "refactoring",
-  "rhs_column_name": "language+test"
+  "type": "exercises"
 }
 
