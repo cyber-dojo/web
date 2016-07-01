@@ -1,24 +1,15 @@
 
-Should I allow lhs_column_name to be empty?
-That could then be the default if they are not present in the
-setup.json file.
+test/app_lib/setup_data/exercises
+test/app_lib/setup_data/languages
+test/app_lib/setup_data/instructions
+These should all have the data-checker run against them as part of the tests.
 
 - - - - - - - - - - - - - - - - - - - - -
 
-Did a first cut of auto-pull in manifest.json
-Now realize it should be an array entry in setup.json
-Makes its a yes/no field (like PULLED)
-Hmmm that also creates an option to mark the whole repo as
-auto-pull: true
-which means you don't have to name the individual image names.
-Or maybe just drop the setting completely?
-And create a new "admin" page which lists the display-names
-with check-boxes.
-Or... merge this idea with the regular setup page. Make *ALL*
-display-names visible, but mark (eg with a *) the ones whose image-name
-has NOT been pulled and if that is selected then it is pulled.
-Yes. This is the way to proceed.
-And have an option on the cyber-dojo cli to pull all images in a volume.
+Make setup-page show everything. But entries whose docker image has not
+yet been pulled are marked with a * suffix.
+If one like this is selected then the creation of the kata first does a [docker pull].
+This really needs a browser progress-bar.
 
 - - - - - - - - - - - - - - - - - - - - -
 
