@@ -28,9 +28,7 @@ def inspect_from_manifests
     language, test = manifest['display_name'].split(',').map { |s| s.strip }
     image_name = manifest['image_name']
     hash[language] ||= {}
-    hash[language][test] = {
-      'image_name' => image_name
-    }
+    hash[language][test] = { 'image_name' => image_name }
   end
   hash
 end

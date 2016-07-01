@@ -66,56 +66,6 @@ class SetupDataCheckerTest < AppLibTestBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '1B01F7',
-  'setup.json (not instructions) with no lhs_column_name is diagnosed as error' do
-    copy_good_master do |tmp_dir|
-      setup_filename = "#{tmp_dir}/setup.json"
-      IO.write(setup_filename, JSON.unparse({
-        'type' => 'exercises',
-        'rhs_column_name' => 'language'
-      }))
-      check
-      assert_error setup_filename, 'lhs_column_name: is missing'
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'CD33AC',
-  'setup.json (not instructions) with no rhs_column_name is diagnosed as error' do
-    copy_good_master do |tmp_dir|
-      setup_filename = "#{tmp_dir}/setup.json"
-      IO.write(setup_filename, JSON.unparse({
-         'type' => 'exercises',
-         'lhs_column_name' => 'refactoring'
-      }))
-      check
-      assert_error setup_filename, 'rhs_column_name: is missing'
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '61A72F',
-  'setup.json (not instructions) invalid lhs_column_name is an error' do
-    @key = 'lhs_column_name'
-    assert_setup_key_error 1    , must_be_a_String
-    assert_setup_key_error [ 1 ], must_be_a_String
-    assert_setup_key_error ''   , is_empty
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '7A67F4',
-  'setup.json (not instructions) invalid rhs_column_name is an error' do
-    @key = 'rhs_column_name'
-    assert_setup_key_error 1    , must_be_a_String
-    assert_setup_key_error [ 1 ], must_be_a_String
-    assert_setup_key_error ''   , is_empty
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # manifest.json
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

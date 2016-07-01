@@ -61,36 +61,6 @@ class SetupDataChecker
       setup_error 'must be [languages|exercises|instructions]'
       return
     end
-    if type != 'instructions'
-      @key = 'lhs_column_name'
-      lhs_column_name = manifest[@key]
-      if lhs_column_name.nil?
-        setup_error 'is missing'
-        return
-      end
-      if lhs_column_name == ''
-        setup_error 'is empty'
-        return
-      end
-      unless lhs_column_name.is_a? String
-        setup_error 'must be a String'
-        return
-      end
-      @key = 'rhs_column_name'
-      rhs_column_name = manifest[@key]
-      if rhs_column_name.nil?
-        setup_error 'is missing'
-        return
-      end
-      if rhs_column_name == ''
-        setup_error 'is empty'
-        return
-      end
-      unless rhs_column_name.is_a? String
-        setup_error 'must be a String'
-        return
-      end
-    end
   end
 
   # - - - - - - - - - - - - - - - - - - - -
