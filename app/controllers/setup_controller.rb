@@ -62,6 +62,7 @@ class SetupController < ApplicationController
 
   def read(manifests)
     dojo.runner.runnable(manifests).map { |manifest| manifest.display_name }.sort
+    #manifests.map { |manifest| manifest.display_name }.sort
   end
 
   def read_instructions

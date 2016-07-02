@@ -9,6 +9,15 @@ These should all have the data-checker run against them as part of the tests.
 http://localhost:3000/dojo/index/1E7A8E7168
 and then click [setup default practice session]
 this fails. I think the reason is the kata-id is bad.
+No its not. The id is good. The problem is that its manifest.json looks like this
+{
+  "id":"1E7A8E7168",
+  "created":[2016,6,30,15,42,8],
+  "language":"Yahtzee-C# NUnit",
+  ...
+}
+and I think language is not being recognised because it's doing "double-duty"
+for default-exercises.
 
 - - - - - - - - - - - - - - - - - - - - -
 
