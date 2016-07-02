@@ -6,6 +6,12 @@ These should all have the data-checker run against them as part of the tests.
 
 - - - - - - - - - - - - - - - - - - - - -
 
+http://localhost:3000/dojo/index/1E7A8E7168
+and then click [setup default practice session]
+this fails. I think the reason is the kata-id is bad.
+
+- - - - - - - - - - - - - - - - - - - - -
+
 Make setup-page show everything. But entries whose docker image has not
 yet been pulled are marked with a * suffix.
 If one like this is selected then the creation of the kata first does a [docker pull].
