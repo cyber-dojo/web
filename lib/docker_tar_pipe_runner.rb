@@ -28,6 +28,10 @@ class DockerTarPipeRunner
 
   # modifiers
 
+  def pulled?(image_name)
+    image_names.include?(image_name)
+  end
+
   def run(avatar, delta, files, image_name)
     sandbox = avatar.sandbox
     katas.sandbox_save(sandbox, delta, files)

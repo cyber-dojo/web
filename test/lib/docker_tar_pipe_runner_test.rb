@@ -18,10 +18,34 @@ class DockerTarPipeRunnerTest < LibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test '22CD45',
+  'pulled? returns true when docker image is already pulled' do
+    sudo = dojo.env('runner_sudo')
+    command = [sudo,'docker images'].join(space=' ').strip
+    shell.mock_exec([command], docker_images_python_pytest, success)
+    display_name = 'Python, py.test'
+    image_name = languages[display_name].image_name
+    assert runner.pulled?(image_name)
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '342EF2',
+  'pulled? returns false when docker image is not already pulled' do
+    sudo = dojo.env('runner_sudo')
+    command = [sudo,'docker images'].join(space=' ').strip
+    shell.mock_exec([command], docker_images_python_pytest, success)
+    display_name = 'Python, py.test'
+    image_name = languages[display_name].image_name + 'X'
+    refute runner.pulled?(image_name)
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '75909D',
   'mock_execs used to create runner cache' do
     sudo = dojo.env('runner_sudo')
-    command = [sudo,'docker images'].join(' ').strip
+    command = [sudo,'docker images'].join(space=' ').strip
     shell.mock_exec([command], docker_images_python_pytest, success)
     expected = ['Python, py.test']
     actual = runner.runnable(languages).map { |language| language.display_name }.sort
