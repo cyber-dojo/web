@@ -17,7 +17,6 @@
   stub_runner
   docker_runner
   docker_tar_pipe_runner
-  docker_machine_runner
 
   host_disk_katas
 
