@@ -28,11 +28,6 @@ Make [cyber-dojo clean] remove dead containers as well as dead images.
 Debug logging seems to show clean_up (in cyber-dojo.sh) being called twice...
 Is this because (clean_up && exit_fail) is in () and so is a sub-shell?
 
-Can't pipe stdout and stderr to /dev/null in cyber-dojo.sh run()
-or [check_setup_data.rb /data] output will be lost
-Need to write to stderr and pipe stdout to dev/null only.
-Needs some TLC.
-
 - - - - - - - - - - - - - - - - - - - - -
 
 setup page -> new kata has been created dialog box, and here is its HEX-ID
@@ -60,11 +55,6 @@ $ docker images --ssss
 flag provided but not defined: --ssss
 See 'docker images --help'.
 Test these with shunit2 tests.
-
-- - - - - - - - - - - - - - - - - - - - -
-
-default-pulled images are
-%w( gcc_assert gpp_assert csharp_nunit java_junit python_pytest ruby_mini_test )
 
 - - - - - - - - - - - - - - - - - - - - -
 
