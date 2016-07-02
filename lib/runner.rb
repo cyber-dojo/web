@@ -18,13 +18,6 @@ module Runner # mix-in
     (timeout = 128) + (kill = 9)
   end
 
-  def write_files(tmp_path, files)
-    # Used by docker_machine_runner.rb
-    dir = disk[tmp_path]
-    dir.make
-    files.each { |filename, content| dir.write(filename, content) }
-  end
-
   include StringCleaner
   include StringTruncater
   include StderrRedirect
