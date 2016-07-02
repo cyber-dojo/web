@@ -16,6 +16,8 @@ Make setup-page show everything. But entries whose docker image has not
 yet been pulled are marked with a * suffix.
 If one like this is selected then the creation of the kata first does a [docker pull].
 This really needs a browser progress-bar.
+Simpler git-it-working-first option is to extend the timeout and let docker
+auto-pull the image.
 
 - - - - - - - - - - - - - - - - - - - - -
 
