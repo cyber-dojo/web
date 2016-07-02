@@ -90,7 +90,7 @@ class SetupControllerTest < AppControllerTestBase
 
     exercises_display_names = runner.runnable(exercises).map(&:display_name).sort
     # StubRunner returns true for C#-NUnit
-    assert_equal ["Tennis, C# NUnit", "Yahtzee, C# NUnit"], exercises_display_names
+    assert_equal ["Tennis refactoring, C# NUnit", "Yahtzee refactoring, C# NUnit"], exercises_display_names
 
     get 'setup/show_exercises'
     assert_response :success
@@ -101,7 +101,7 @@ class SetupControllerTest < AppControllerTestBase
     assert /data-test\=\"C# NUnit/.match(html), html
 
     params = {
-      language: 'Tennis',
+      language: 'Tennis refactoring',
       exercise: 'C# NUnit'
     }
     get 'setup/save_exercise', params
