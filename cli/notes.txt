@@ -6,15 +6,14 @@ These should all have the data-checker run against them as part of the tests.
 
 - - - - - - - - - - - - - - - - - - - - -
 
-Reinstate the word "refactoring" in display_names of
-default-exercises.
-
-- - - - - - - - - - - - - - - - - - - - -
-
 Make setup-page show everything. But entries whose docker image has not
 yet been pulled are marked with a * suffix.
 If one like this is selected then the creation of the kata first does a [docker pull].
 This really needs a browser progress-bar.
+
+- - - - - - - - - - - - - - - - - - - - -
+
+Make [cyber-dojo clean] remove dead containers as well as dead images.
 
 - - - - - - - - - - - - - - - - - - - - -
 
