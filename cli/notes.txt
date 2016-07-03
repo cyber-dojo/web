@@ -17,7 +17,10 @@ No its not. The id is good. The problem is that its manifest.json looks like thi
   ...
 }
 and I think language is not being recognised because it's doing "double-duty"
-for default-exercises.
+for >>>>>default-exercises<<<<
+Using display_name inside the kata's manifest.json was a mistake.
+The manifest.json file for a kata needs to store the image_name and this
+needs to be read when cloning/forking. Combines well with new auto-docker-pull.
 
 - - - - - - - - - - - - - - - - - - - - -
 

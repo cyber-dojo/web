@@ -31,7 +31,7 @@ class DockerTarPipeRunner
   end
 
   def pulled?(image_name)
-    !image_names.include?(image_name)
+    image_names.include?(image_name)
   end
 
   # modifiers
@@ -64,7 +64,7 @@ class DockerTarPipeRunner
     @image_names ||= make_cache
   end
 
-  def make_cache # DROP?
+  def make_cache
     # [docker images] must be made by a user that has sufficient rights.
     # See docker/web/Dockerfile
     sudo = parent.env('runner_sudo')

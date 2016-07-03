@@ -18,7 +18,7 @@ class SetupController < ApplicationController
         test_name = params['test'    ]
     language = languages[language_name + '-' + test_name]
     image_name = language.image_name
-    answer = dojo.runner.pulled?(image_name)
+    answer = !dojo.runner.pulled?(image_name)
     render json: { pull_needed: answer }
   end
 
@@ -79,7 +79,7 @@ class SetupController < ApplicationController
   include SetupChooser
 
   def read(manifests)
-    manifests.map { |manifest| manifest.display_name }.sort
+    manifests.map(&:display_name).sort
   end
 
   def read_instructions

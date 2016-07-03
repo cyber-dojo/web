@@ -13,19 +13,19 @@ class SetupControllerTest < AppControllerTestBase
   #       which inserts the current dojo object into the current Thread's hash.
 
   test '9F4020',
-  'show_languages page only uses cached language+tests that are runnable' do
+  'show_languages page shows all language+tests' do
     get 'setup/show_languages'
     assert_response :success
 
     assert /data-language\=\"#{get_language_from(cpp_assert)}/.match(html), cpp_assert
     assert /data-language\=\"#{get_language_from(asm_assert)}/.match(html), asm_assert
     assert /data-language\=\"#{get_language_from(csharp_nunit)}/.match(html), csharp_nunit
-    refute /data-language\=\"Java/.match(html), 'Java'
+    assert /data-language\=\"#{get_language_from(java_junit)}/.match(html), java_junit
 
     assert /data-test\=\"#{get_test_from(cpp_assert)}/.match(html), cpp_assert
     assert /data-test\=\"#{get_test_from(asm_assert)}/.match(html), asm_assert
     assert /data-test\=\"#{get_test_from(csharp_nunit)}/.match(html), csharp_nunit
-    refute /data-test\=\"JUnit/.match(html), 'JUnit'
+    assert /data-test\=\"#{get_test_from(java_junit)}/.match(html), java_junit
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -44,7 +44,7 @@ class SetupControllerTest < AppControllerTestBase
   test 'D79BA3',
   'setup/show_languages defaults to language and test-framework of kata',
   'whose full-id is passed in URL (to encourage repetition)' do
-    languages_display_names = runner.runnable(languages).map(&:display_name).sort
+    languages_display_names = languages.map(&:display_name).sort
     language_display_name = languages_display_names.sample # eg "C++ (g++), CppUTest"
 
     instructions_names = instructions.map(&:name).sort
@@ -58,6 +58,7 @@ class SetupControllerTest < AppControllerTestBase
     md = /var selectedLanguage = \$\('#language_' \+ (\d+)/.match(html)
     languages_names = languages_display_names.map { |name| get_language_from(name) }.uniq.sort
     selected_language = languages_names[md[1].to_i]
+
     assert_equal get_language_from(language_display_name), selected_language, 'language'
 
     # checking the initial test-framework looks to be nigh on impossible on static html
@@ -84,6 +85,7 @@ class SetupControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
+  # TODO: exercises needs to abandon only only showing pulled images
   test 'EB77D9',
   'show_exercises page uses cached exercises that are runnable' do
     # TODO: This assumes the exercises volume is the refactoring-exercises

@@ -11,7 +11,7 @@ MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 
 ROOT_DIR=${MY_DIR}/..
 
-rm ${ROOT_DIR}/caches/*.json
+rm -f ${ROOT_DIR}/caches/*.json
 
 REPO_ROOT=${1:-/Users/jonjagger/repos}
 

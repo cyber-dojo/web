@@ -22,12 +22,17 @@ $(function() {
     };
 
     var pullImageThenCreateDojo = function() {
-      //TODO: Add jQuery progress-dialog
+
+      //show dialog
+      //start spinner?
+
       $.getJSON('/setup/pull', {
             language: language,
                 test: test,
         }, function() {
           createDojo();
+          // stop spinner?
+          // remove dialog
         }
       );
     };
@@ -49,5 +54,7 @@ $(function() {
 });
 
 //--></script>
+
+<div id="progress-bar"></div>
 
 <button type="button" id="ok">ok</button>

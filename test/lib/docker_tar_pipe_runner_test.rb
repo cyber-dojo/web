@@ -21,7 +21,7 @@ class DockerTarPipeRunnerTest < LibTestBase
   test '22CD45',
   'pulled? returns true when docker image is already pulled' do
     sudo = dojo.env('runner_sudo')
-    command = [sudo,'docker images'].join(space=' ').strip
+    command = [sudo, 'docker', 'images'].join(space).strip
     shell.mock_exec([command], docker_images_python_pytest, success)
     display_name = 'Python, py.test'
     image_name = languages[display_name].image_name
@@ -33,11 +33,22 @@ class DockerTarPipeRunnerTest < LibTestBase
   test '342EF2',
   'pulled? returns false when docker image is not already pulled' do
     sudo = dojo.env('runner_sudo')
-    command = [sudo,'docker images'].join(space=' ').strip
+    command = [sudo, 'docker', 'images'].join(space).strip
     shell.mock_exec([command], docker_images_python_pytest, success)
     display_name = 'Python, py.test'
     image_name = languages[display_name].image_name + 'X'
     refute runner.pulled?(image_name)
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '44BF36',
+  'pull issues shell command to pull image' do
+    sudo = dojo.env('runner_sudo')
+    image_name = 'cyberdojofoundation/csharp_moq'
+    command = [sudo, 'docker', 'pull', image_name].join(space).strip
+    shell.mock_exec([command], '', success)
+    runner.pull(image_name)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -121,6 +132,10 @@ class DockerTarPipeRunnerTest < LibTestBase
 
   def quoted(s)
     "'" + s + "'"
+  end
+
+  def space
+    ' '
   end
 
 end
