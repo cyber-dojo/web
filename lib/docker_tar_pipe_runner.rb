@@ -31,14 +31,17 @@ class DockerTarPipeRunner
   end
 
   def pulled?(image_name)
-    image_names.include?(image_name)
-  end
-
-  def runnable(languages)
-    languages.select { |language| runnable?(language.image_name) }
+    !image_names.include?(image_name)
   end
 
   # modifiers
+
+  def pull(image_name)
+    sudo = parent.env('runner_sudo')
+    command = [ sudo, 'docker', 'pull', image_name].join(space = ' ').strip
+    output,_ = shell.exec(command)
+    make_cache # DROP?
+  end
 
   def run(avatar, delta, files, image_name)
     sandbox = avatar.sandbox
@@ -57,19 +60,15 @@ class DockerTarPipeRunner
   include ExternalParentChainer
   include Runner
 
-  def runnable?(image_name)
-    image_names.include?(image_name)
-  end
-
   def image_names
     @image_names ||= make_cache
   end
 
-  def make_cache
+  def make_cache # DROP?
     # [docker images] must be made by a user that has sufficient rights.
     # See docker/web/Dockerfile
     sudo = parent.env('runner_sudo')
-    command = [sudo, 'docker images'].join(space = ' ').strip
+    command = [sudo, 'docker', 'images'].join(space = ' ').strip
     output, _ = shell.exec(command)
     # This will put all cyberdojofoundation image names into the runner cache,
     # even nginx and web. This is harmless.

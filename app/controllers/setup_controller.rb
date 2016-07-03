@@ -13,6 +13,24 @@ class SetupController < ApplicationController
     @initial_language_index = @languages.selected_index
   end
 
+  def pull_needed
+    language_name = params['language']
+        test_name = params['test'    ]
+    language = languages[language_name + '-' + test_name]
+    image_name = language.image_name
+    answer = dojo.runner.pulled?(image_name)
+    render json: { pull_needed: answer }
+  end
+
+  def pull
+    language_name = params['language']
+        test_name = params['test'    ]
+    language = languages[language_name + '-' + test_name]
+    image_name = language.image_name
+    dojo.runner.pull(image_name)
+    render json: { }
+  end
+
   def show_instructions
     @id = id
     @title = 'create'
@@ -36,7 +54,7 @@ class SetupController < ApplicationController
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
-  # New one step exercise setup
+  # Custom exercise one-step setup
 
   def show_exercises
     @id = id
@@ -61,8 +79,7 @@ class SetupController < ApplicationController
   include SetupChooser
 
   def read(manifests)
-    dojo.runner.runnable(manifests).map { |manifest| manifest.display_name }.sort
-    #manifests.map { |manifest| manifest.display_name }.sort
+    manifests.map { |manifest| manifest.display_name }.sort
   end
 
   def read_instructions

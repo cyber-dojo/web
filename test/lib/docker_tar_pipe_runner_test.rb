@@ -42,18 +42,6 @@ class DockerTarPipeRunnerTest < LibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '75909D',
-  'mock_execs used to create runner cache' do
-    sudo = dojo.env('runner_sudo')
-    command = [sudo,'docker images'].join(space=' ').strip
-    shell.mock_exec([command], docker_images_python_pytest, success)
-    expected = ['Python, py.test']
-    actual = runner.runnable(languages).map { |language| language.display_name }.sort
-    assert_equal expected, actual
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test '2E8517',
   'run() passes correct parameters to dedicated shell script' do
     mock_run_assert('output', 'output', success)

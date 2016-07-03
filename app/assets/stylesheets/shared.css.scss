@@ -100,10 +100,11 @@ a:link, a:visited { color: $text-color; }
     @include rounded-corner(5px);
     @include non-code-font();
     @include font-size-largest();
-     background: lighten($green, 20%);
-          color: $darker-color;
-         margin: { left:  2px; right:  2px; top: 4px; bottom: 4px; }
-        padding: { left: 20px; right: 20px; top: 2px; bottom: 0px; }
-     text-align: right;
+    background: lighten($green, 20%);
+           color: $darker-color;
+          margin: { left:  2px; right:  2px; top: 4px; bottom: 4px; }
+         padding: { left: 20px; right: 20px; top: 2px; bottom: 0px; }
+      text-align: right;
   }
 }
+

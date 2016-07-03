@@ -26,6 +26,8 @@ CyberDojo::Application.routes.draw do
 
     get 'show_languages(/:id)' => :show_languages
     get 'show_instructions(/:id)' => :show_instructions
+    get 'pull_needed' => :pull_needed, :constraints => { :format => :json }
+    get 'pull' => :pull, :constraints => { :format => :json }
     get 'save' => :save, :constraints => { :format => :json }
   end
 

@@ -9,13 +9,41 @@ $(function() {
     var language = "<%= @language %>";
     var     test = "<%= @test %>";
     var exercise = $('[id^=exercise_][class~=selected]').data('exercise');
-    $.getJSON('/setup/save', {
-          language: language,
-              test: test,
-          exercise: exercise,
+
+    var createDojo = function() {
+      $.getJSON('/setup/save', {
+            language: language,
+                test: test,
+            exercise: exercise,
+        }, function(dojo) {
+            cd.newDojoDialog(dojo.id);
+        }
+      );
+    };
+
+    var pullImageThenCreateDojo = function() {
+      //TODO: Add jQuery progress-dialog
+      $.getJSON('/setup/pull', {
+            language: language,
+                test: test,
+        }, function() {
+          createDojo();
+        }
+      );
+    };
+
+    $.getJSON('/setup/pull_needed', {
+        language: language,
+            test: test
       }, function(dojo) {
-          cd.newDojoDialog(dojo.id);
-    });
+        if (dojo.pull_needed) {
+          pullImageThenCreateDojo();
+        } else {
+          createDojo();
+        }
+      }
+    );
+
   });
 
 });
