@@ -14,8 +14,13 @@ class StubRunner
     @dojo
   end
 
-  def runnable(manifests)
-    manifests.select { |manifest| runnable?(manifest.image_name) }
+  def pulled?(image_name)
+    [
+      "#{cdf}/nasm_assert",
+      "#{cdf}/gcc_assert",
+      "#{cdf}/csharp_nunit",
+      "#{cdf}/gpp_cpputest"
+    ].include?(image_name)
   end
 
   def stub_run_colour(avatar, rag)
@@ -37,15 +42,6 @@ class StubRunner
 
   include ExternalParentChainer
   include Runner
-
-  def runnable?(image_name)
-    [
-      "#{cdf}/nasm_assert",
-      "#{cdf}/gcc_assert",
-      "#{cdf}/csharp_nunit",
-      "#{cdf}/gpp_cpputest"
-    ].include?(image_name)
-  end
 
   def save_stub(avatar, json)
     # Better - combine test's hex-id with avater.name

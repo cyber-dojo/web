@@ -30,13 +30,41 @@ class SetupControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
+  test '406596',
+  'pull_needed is true if docker image is not already pulled' do
+    params = {
+      format: :js,
+      language: 'C#',
+          test: 'Moq'
+    }
+    get 'setup/pull_needed', params
+    assert_response :success
+    assert_equal true, json['pull_needed']
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'B28A3D',
+  'pull_needed is false if docker image not already pulled' do
+    params = {
+      format: :js,
+      language: 'C#',
+          test: 'NUnit'
+    }
+    get 'setup/pull_needed', params
+    assert_response :success
+    assert_equal false, json['pull_needed']
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
   test 'BB9967',
   'show_instructions page uses cached instructions' do
     get 'setup/show_instructions'
     assert_response :success
     assert /data-exercise\=\"#{print_diamond}/.match(html), print_diamond
     assert /data-exercise\=\"#{roman_numerals}/.match(html), roman_numerals
-    assert /data-exercise\=\"Bowling_Game/.match(html), bowling_game
+    assert /data-exercise\=\"#{bowling_game}/.match(html), bowling_game
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -44,10 +72,7 @@ class SetupControllerTest < AppControllerTestBase
   test 'D79BA3',
   'setup/show_languages defaults to language and test-framework of kata',
   'whose full-id is passed in URL (to encourage repetition)' do
-    languages_display_names = languages.map(&:display_name).sort
     language_display_name = languages_display_names.sample # eg "C++ (g++), CppUTest"
-
-    instructions_names = instructions.map(&:name).sort
     instructions_name = instructions_names.sample # eg "Word_Wrap"
 
     id = create_kata(language_display_name, instructions_name)
@@ -69,9 +94,7 @@ class SetupControllerTest < AppControllerTestBase
   test '82562A',
   'setup/show_instructions defaults to instructions of kata',
   'whose full-id is passed in URL (to encourage repetition)' do
-    languages_display_names = runner.runnable(languages).map(&:display_name).sort
     language_display_name = languages_display_names.sample
-    instructions_names = instructions.map(&:name).sort
     instructions_name = instructions_names.sample
     id = create_kata(language_display_name, instructions_name)
 
@@ -85,20 +108,27 @@ class SetupControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  # TODO: exercises needs to abandon only only showing pulled images
   test 'EB77D9',
-  'show_exercises page uses cached exercises that are runnable' do
-    # TODO: This assumes the exercises volume is the refactoring-exercises
-
-    exercises_display_names = runner.runnable(exercises).map(&:display_name).sort
-    # StubRunner returns true for C#-NUnit
-    assert_equal ["Tennis refactoring, C# NUnit", "Yahtzee refactoring, C# NUnit"], exercises_display_names
+  'show_exercises page shows all exercises' do
+    # This assumes the exercises volume is default-exercises (refactoring)
+    assert_equal [
+      "Tennis refactoring, C# NUnit",
+      "Tennis refactoring, C++ (g++) assert",
+      "Tennis refactoring, Java JUnit",
+      "Tennis refactoring, Python unitttest",
+      "Tennis refactoring, Ruby Test::Unit",
+      "Yahtzee refactoring, C# NUnit",
+      "Yahtzee refactoring, C++ (g++) assert",
+      "Yahtzee refactoring, Java JUnit",
+      "Yahtzee refactoring, Python unitttest"
+      ],
+      exercises_display_names
 
     get 'setup/show_exercises'
     assert_response :success
 
-    assert /data-language\=\"Tennis/.match(html)
-    assert /data-language\=\"Yahtzee/.match(html)
+    assert /data-language\=\"Tennis refactoring/.match(html)
+    assert /data-language\=\"Yahtzee refactoring/.match(html)
 
     assert /data-test\=\"C# NUnit/.match(html), html
 
@@ -113,6 +143,10 @@ class SetupControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - -
 
   private
+
+  def languages_display_names; languages.map(&:display_name).sort; end
+  def instructions_names; instructions.map(&:name).sort; end
+  def exercises_display_names; exercises.map(&:display_name).sort; end
 
   def get_language_from(name); commad(name)[0].strip; end
   def get_test_from(name)    ; commad(name)[1].strip; end
