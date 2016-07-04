@@ -24,6 +24,11 @@ needs to be read when cloning/forking. Combines well with new auto-docker-pull.
 
 - - - - - - - - - - - - - - - - - - - - -
 
+Need to add a cpu limit to running docker containers.
+This will stop 100% rogue cpu process.
+
+- - - - - - - - - - - - - - - - - - - - -
+
 Would be good to have a [cyber-dojo] cli command to export
 a specific kata to a given folder. This would make it easier
 to create custom exercises.
