@@ -58,6 +58,21 @@ class SetupControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
+  test '0A8080',
+  'pull issues docker-pull command for appropriate image_name' do
+    set_shell_class('MockHostShell')
+    params = {
+      format: :js,
+      language: 'C#',
+          test: 'NUnit'
+    }
+    shell.mock_exec("docker pull cyberdojofoundation/csharp_nunit", '', 0)
+    get 'setup/pull', params
+    assert_response :success
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
   test 'BB9967',
   'show_instructions page uses cached instructions' do
     get 'setup/show_instructions'

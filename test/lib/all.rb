@@ -1,5 +1,2 @@
 
-%w{
-  mock_host_shell
-  moxy
-}.each { |sourcefile| require_relative './' + sourcefile }
+%w{ }.each { |sourcefile| require_relative './' + sourcefile }

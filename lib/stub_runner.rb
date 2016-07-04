@@ -23,6 +23,10 @@ class StubRunner
     ].include?(image_name)
   end
 
+  def pull(image_name)
+    shell.exec("docker pull #{image_name}")
+  end
+
   def stub_run_colour(avatar, rag)
     raise "invalid colour #{rag}" if ![:red,:amber,:green].include? rag
     save_stub(avatar, { :colour => rag })
