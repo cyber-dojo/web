@@ -3,58 +3,22 @@
 
 $(function() {
 
-  var page = $('#setup-page');
-
   $('#ok').click(function() {
     var language = "<%= @language %>";
     var     test = "<%= @test %>";
     var exercise = $('[id^=exercise_][class~=selected]').data('exercise');
 
-    var createDojo = function() {
-      $.getJSON('/setup/save', {
-            language: language,
-                test: test,
-            exercise: exercise,
-        }, function(dojo) {
-            cd.newDojoDialog(dojo.id);
-        }
-      );
-    };
-
-    var pullImageThenCreateDojo = function() {
-
-      //show dialog
-      //start spinner?
-
-      $.getJSON('/setup/pull', {
-            language: language,
-                test: test,
-        }, function() {
-          createDojo();
-          // stop spinner?
-          // remove dialog
-        }
-      );
-    };
-
-    $.getJSON('/setup/pull_needed', {
-        language: language,
-            test: test
+    $.getJSON('/setup/save', {
+          language: language,
+              test: test,
+          exercise: exercise,
       }, function(dojo) {
-        if (dojo.pull_needed) {
-          pullImageThenCreateDojo();
-        } else {
-          createDojo();
-        }
-      }
-    );
-
+          cd.newDojoDialog(dojo.id);
+      });
   });
 
 });
 
 //--></script>
-
-<div id="progress-bar"></div>
 
 <button type="button" id="ok">ok</button>

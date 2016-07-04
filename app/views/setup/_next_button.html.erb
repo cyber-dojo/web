@@ -4,13 +4,66 @@
 $(function() {
 
   $('#next').click(function() {
+
     var id = "<%= @id %>";
+
     var language = $('[id^=language_][class~=selected]').data('language');
     var     test = $('[id^=test_][class~=selected]').data('test');
-    var url = '/setup/show_instructions/' + id +
-      '?language=' + encodeURIComponent(language) +
-      '&test=' + encodeURIComponent(test);
-    window.location = url;
+
+    var gotoChooseInstructionsPage = function() {
+      var url = '/setup/show_instructions/' + id +
+        '?language=' + encodeURIComponent(language) +
+        '&test=' + encodeURIComponent(test);
+      window.location = url;
+    };
+
+    var pullSpinner = $('#pull-spinner');
+    var pullOverlay = $('<div id="pull-overlay"></div>');
+    var pullDialog = function() {
+      var html = '' +
+        'This is the first time ' + language + ', ' + test + ' has been chosen. ' +
+        'The appropriate docker image is now being pulled.';
+      return $('<div>')
+        .html(html)
+        .dialog({
+          title: cd.dialogTitle('please wait ...'),
+          closeOnEscape: true,
+          close: function() { $(this).remove(); },
+          autoOpen: false,
+          width: 500,
+          height: 200,
+          modal: true,
+        });
+    }();
+
+    var pullImageThenGotoInstructionsPage = function() {
+      pullDialog.dialog('open');
+      pullOverlay.insertAfter($('body'));
+      pullSpinner.show();
+      $.getJSON('/setup/pull', {
+            language: language,
+                test: test,
+        }, function() {
+          pullSpinner.hide();
+          pullOverlay.remove();
+          pullDialog.dialog('close');
+          gotoChooseInstructionsPage();
+        }
+      );
+    };
+
+    $.getJSON('/setup/pull_needed', {
+        language: language,
+            test: test
+      }, function(dojo) {
+        if (dojo.pull_needed) {
+          pullImageThenGotoInstructionsPage();
+        } else {
+          gotoChooseInstructionsPage();
+        }
+      }
+    );
+
   });
 
 });

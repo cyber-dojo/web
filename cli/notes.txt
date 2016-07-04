@@ -24,6 +24,12 @@ needs to be read when cloning/forking. Combines well with new auto-docker-pull.
 
 - - - - - - - - - - - - - - - - - - - - -
 
+Would be good to have a [cyber-dojo] cli command to export
+a specific kata to a given folder. This would make it easier
+to create custom exercises.
+
+- - - - - - - - - - - - - - - - - - - - -
+
 Make setup-page show everything.
 If you want a setup page with less languages showing then create
 your own volume.
