@@ -1,8 +1,10 @@
 
-test/app_lib/setup_data/exercises
-test/app_lib/setup_data/languages
-test/app_lib/setup_data/instructions
-These should all have the data-checker run against them as part of the tests.
+Make custom exercise setup-page do [docker pull] if necessary.
+
+- - - - - - - - - - - - - - - - - - - - -
+
+Need to add a cpu limit to running docker containers.
+This will stop 100% rogue cpu process.
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -24,29 +26,27 @@ needs to be read when cloning/forking. Combines well with new auto-docker-pull.
 
 - - - - - - - - - - - - - - - - - - - - -
 
-Need to add a cpu limit to running docker containers.
-This will stop 100% rogue cpu process.
-
-- - - - - - - - - - - - - - - - - - - - -
-
 Would be good to have a [cyber-dojo] cli command to export
 a specific kata to a given folder. This would make it easier
 to create custom exercises.
 
 - - - - - - - - - - - - - - - - - - - - -
 
-Make setup-page show everything.
-If you want a setup page with less languages showing then create
-your own volume.
-
-When ok button is clicked see if image needs pulling.
-If so do sync call to pull it with progress bar (jQuery) in browser.
-Then do getJSON call to create the kata.
-See app/assets/javascripts/cyber-dojo_dialog_new_dojo.js
+Make [cyber-dojo clean] remove dead containers as well as dead images.
 
 - - - - - - - - - - - - - - - - - - - - -
 
-Make [cyber-dojo clean] remove dead containers as well as dead images.
+Looking to make some smaller alpine-linux language images.
+Specifically, C#-NUnit and Java-JUnit
+
+Java
+frolvlad/alpine-oraclejdk8:slim
+  How big is it? ~166.9 MB  (vs 843.7 MB)
+  docker run --rm frolvlad/alpine-oraclejdk8:slim sh -c "javac -version"
+    javac 1.8.0_92
+  There is a package called junit (branch=edge, repo=testing)
+
+Put Alpine based small images into cyberdojo repo.
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -65,6 +65,13 @@ o) button to immediately start an avatar
 
 git 2.9+ has new  `--compaction-heuristic`
 for improved diffs. Try to get this in place.
+
+- - - - - - - - - - - - - - - - - - - - -
+
+test/app_lib/setup_data/exercises
+test/app_lib/setup_data/languages
+test/app_lib/setup_data/instructions
+These should all have the data-checker run against them as part of the tests.
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -114,18 +121,6 @@ CYBER_DOJO_DATA_ROOT
  points to data-repos on local server
 
 get tests running and passing on local server first?
-
-- - - - - - - - - - - - - - - - - - - - -
-
-Looking to make some smaller alpine-linux language images.
-Specifically, C#-NUnit and Java-JUnit
-
-Java
-frolvlad/alpine-oraclejdk8:slim
-  How big is it? ~166.9 MB  (vs 843.7 MB)
-  docker run --rm frolvlad/alpine-oraclejdk8:slim sh -c "javac -version"
-    javac 1.8.0_92
-  There is a package called junit (branch=edge, repo=testing)
 
 - - - - - - - - - - - - - - - - - - - - -
 
