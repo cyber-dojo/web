@@ -1,8 +1,4 @@
 
-Make custom exercise setup-page do [docker pull] if necessary.
-
-- - - - - - - - - - - - - - - - - - - - -
-
 Need to add a cpu limit to running docker containers.
 This will stop 100% rogue cpu process.
 
@@ -15,7 +11,7 @@ No its not. The id is good. The problem is that its manifest.json looks like thi
 {
   "id":"1E7A8E7168",
   "created":[2016,6,30,15,42,8],
-  "language":"Yahtzee-C# NUnit",
+  "language":"Yahtzee refactoring-C# NUnit",
   ...
 }
 and I think language is not being recognised because it's doing "double-duty"

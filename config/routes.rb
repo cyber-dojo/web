@@ -22,13 +22,15 @@ CyberDojo::Application.routes.draw do
 
   scope path: '/setup', controller: :setup do
     get 'show_exercises(/:id)' => :show_exercises
-    get 'save_exercise'        => :save_exercise, :constraints => { :format => :json }
+    get 'exercise_pull_needed' => :exercise_pull_needed, :constraints => { :format => :json }
+    get 'exercise_pull'        => :exercise_pull, :constraints => { :format => :json }
+    get 'exercise_save'        => :exercise_save, :constraints => { :format => :json }
 
-    get 'show_languages(/:id)' => :show_languages
+    get 'show_languages(/:id)'    => :show_languages
+    get 'language_pull_needed'    => :language_pull_needed, :constraints => { :format => :json }
+    get 'language_pull'           => :language_pull, :constraints => { :format => :json }
+    get 'language_save'           => :language_save, :constraints => { :format => :json }
     get 'show_instructions(/:id)' => :show_instructions
-    get 'pull_needed' => :pull_needed, :constraints => { :format => :json }
-    get 'pull' => :pull, :constraints => { :format => :json }
-    get 'save' => :save, :constraints => { :format => :json }
   end
 
   scope path: '/enter', controller: :enter do

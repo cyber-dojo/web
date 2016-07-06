@@ -4,17 +4,14 @@
 $(function() {
 
   $('#ok').click(function() {
-    var language = "<%= @language %>";
-    var     test = "<%= @test %>";
-    var exercise = $('[id^=exercise_][class~=selected]').data('exercise');
-
-    $.getJSON('/setup/save', {
-          language: language,
-              test: test,
-          exercise: exercise,
-      }, function(dojo) {
-          cd.newDojoDialog(dojo.id);
-      });
+    var params = {
+      language: "<%= @language %>",
+          test: "<%= @test %>",
+      exercise: $('[id^=exercise_][class~=selected]').data('exercise'),
+    };
+    $.getJSON('/setup/language_save', params, function(dojo) {
+      cd.newDojoDialog(dojo.id);
+    });
   });
 
 });

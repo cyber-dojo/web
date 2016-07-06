@@ -13,7 +13,7 @@ class SetupController < ApplicationController
     @initial_language_index = @languages.selected_index
   end
 
-  def pull_needed
+  def language_pull_needed
     language_name = params['language']
         test_name = params['test'    ]
     language = languages[language_name + '-' + test_name]
@@ -22,7 +22,7 @@ class SetupController < ApplicationController
     render json: { pull_needed: answer }
   end
 
-  def pull
+  def language_pull
     language_name = params['language']
         test_name = params['test'    ]
     language = languages[language_name + '-' + test_name]
@@ -40,7 +40,7 @@ class SetupController < ApplicationController
     @initial_exercise_index = choose_instructions(@exercises_names, id, dojo.katas)
   end
 
-  def save
+  def language_save
     language_name = params['language']
         test_name = params['test'    ]
     language = languages[language_name + '-' + test_name]
@@ -65,10 +65,28 @@ class SetupController < ApplicationController
     @initial_language_index = @languages.selected_index
   end
 
-  def save_exercise
+  def exercise_pull_needed
     language_name = params['language']
-    exercise_name = params['exercise']
-    exercise = exercises[language_name + '-' + exercise_name]
+        test_name = params['test'    ]
+    exercise = exercises[language_name + '-' + test_name]
+    image_name = exercise.image_name
+    answer = !dojo.runner.pulled?(image_name)
+    render json: { pull_needed: answer }
+  end
+
+  def exercise_pull
+    language_name = params['language']
+        test_name = params['test'    ]
+    exercise = exercises[language_name + '-' + test_name]
+    image_name = exercise.image_name
+    dojo.runner.pull(image_name)
+    render json: { }
+  end
+
+  def exercise_save
+    language_name = params['language']
+        test_name = params['test']
+    exercise = exercises[language_name + '-' + test_name]
     manifest = katas.create_kata_manifest(exercise)
     kata = katas.create_kata_from_kata_manifest(manifest)
     render json: { id: kata.id }

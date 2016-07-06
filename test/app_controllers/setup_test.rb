@@ -31,13 +31,13 @@ class SetupControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test '406596',
-  'pull_needed is true if docker image is not already pulled' do
+  'language_pull_needed is true if docker image is not pulled' do
     params = {
       format: :js,
       language: 'C#',
           test: 'Moq'
     }
-    get 'setup/pull_needed', params
+    get 'setup/language_pull_needed', params
     assert_response :success
     assert_equal true, json['pull_needed']
   end
@@ -45,13 +45,41 @@ class SetupControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test 'B28A3D',
-  'pull_needed is false if docker image not already pulled' do
+  'language_pull_needed is false if docker image is pulled' do
     params = {
       format: :js,
       language: 'C#',
           test: 'NUnit'
     }
-    get 'setup/pull_needed', params
+    get 'setup/language_pull_needed', params
+    assert_response :success
+    assert_equal false, json['pull_needed']
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  test '294C10',
+  'exercise_pull_needed is true if docker image is not pulled' do
+    params = {
+      format: :js,
+      language: 'Tennis refactoring',
+          test: 'Python unitttest'
+    }
+    get 'setup/exercise_pull_needed', params
+    assert_response :success
+    assert_equal true, json['pull_needed']
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  test '9D3E9A',
+  'exercise_pull_needed is false if docker image is pulled' do
+    params = {
+      format: :js,
+      language: 'Tennis refactoring',
+          test: 'C# NUnit'
+    }
+    get 'setup/exercise_pull_needed', params
     assert_response :success
     assert_equal false, json['pull_needed']
   end
@@ -59,7 +87,7 @@ class SetupControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test '0A8080',
-  'pull issues docker-pull command for appropriate image_name' do
+  'language_pull issues docker-pull command for appropriate image_name' do
     set_shell_class('MockHostShell')
     params = {
       format: :js,
@@ -67,7 +95,22 @@ class SetupControllerTest < AppControllerTestBase
           test: 'NUnit'
     }
     shell.mock_exec("docker pull cyberdojofoundation/csharp_nunit", '', 0)
-    get 'setup/pull', params
+    get 'setup/language_pull', params
+    assert_response :success
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  test '4694A0',
+  'exercise_pull issues docker-pull command for appropriate image_name' do
+    set_shell_class('MockHostShell')
+    params = {
+      format: :js,
+      language: 'Tennis refactoring',
+          test: 'Python unitttest'
+    }
+    shell.mock_exec("docker pull cyberdojofoundation/python_unittest", '', 0)
+    get 'setup/exercise_pull', params
     assert_response :success
   end
 
@@ -127,15 +170,15 @@ class SetupControllerTest < AppControllerTestBase
   'show_exercises page shows all exercises' do
     # This assumes the exercises volume is default-exercises (refactoring)
     assert_equal [
-      "Tennis refactoring, C# NUnit",
-      "Tennis refactoring, C++ (g++) assert",
-      "Tennis refactoring, Java JUnit",
-      "Tennis refactoring, Python unitttest",
-      "Tennis refactoring, Ruby Test::Unit",
-      "Yahtzee refactoring, C# NUnit",
-      "Yahtzee refactoring, C++ (g++) assert",
-      "Yahtzee refactoring, Java JUnit",
-      "Yahtzee refactoring, Python unitttest"
+      'Tennis refactoring, C# NUnit',
+      'Tennis refactoring, C++ (g++) assert',
+      'Tennis refactoring, Java JUnit',
+      'Tennis refactoring, Python unitttest',
+      'Tennis refactoring, Ruby Test::Unit',
+      'Yahtzee refactoring, C# NUnit',
+      'Yahtzee refactoring, C++ (g++) assert',
+      'Yahtzee refactoring, Java JUnit',
+      'Yahtzee refactoring, Python unitttest'
       ],
       exercises_display_names
 
@@ -149,9 +192,9 @@ class SetupControllerTest < AppControllerTestBase
 
     params = {
       language: 'Tennis refactoring',
-      exercise: 'C# NUnit'
+          test: 'C# NUnit'
     }
-    get 'setup/save_exercise', params
+    get 'setup/exercise_save', params
     assert_response :success
   end
 
