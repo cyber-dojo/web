@@ -4,6 +4,22 @@ This will stop 100% rogue cpu process.
 
 - - - - - - - - - - - - - - - - - - - - -
 
+Split setup_controller into two controllers.
+
+- - - - - - - - - - - - - - - - - - - - -
+
+Change front page's 3 button's wording...
+
+Setup a practice session
+from a DEFAULT starting position
+
+Setup a practice session
+from a CUSTOM starting position
+
+Enter a practice sesson
+
+- - - - - - - - - - - - - - - - - - - - -
+
 http://localhost:3000/dojo/index/1E7A8E7168
 and then click [setup default practice session]
 this fails. I think the reason is the kata-id is bad.
@@ -24,7 +40,8 @@ needs to be read when cloning/forking. Combines well with new auto-docker-pull.
 
 Would be good to have a [cyber-dojo] cli command to export
 a specific kata to a given folder. This would make it easier
-to create custom exercises.
+to create custom exercises. But that would export to default
+on Mac/Windows quickstart-terminal.
 
 - - - - - - - - - - - - - - - - - - - - -
 
