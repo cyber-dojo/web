@@ -8,6 +8,10 @@ Split setup_controller into two controllers.
 
 - - - - - - - - - - - - - - - - - - - - -
 
+for setup-controlller, change names of language,test to major,minor
+
+- - - - - - - - - - - - - - - - - - - - -
+
 Change front page's 3 button's wording...
 
 Setup a practice session

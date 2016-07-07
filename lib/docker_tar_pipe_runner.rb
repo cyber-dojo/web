@@ -13,7 +13,6 @@
 # o) State _is_ retained across tests.
 # o) Untouched files _retain_ the same date-time stamp.
 # o) cyber-dojo.sh _can_ do incremental makes (for example).
-#
 
 class DockerTarPipeRunner
 
