@@ -35,8 +35,7 @@ class DockerTarPipeRunner
 
   def pull(image_name)
     command = [ sudo, 'docker', 'pull', image_name].join(space).strip
-    output,_ = shell.exec(command)
-    make_cache # DROP?
+    _output,_exit_status = shell.exec(command)
   end
 
   def run(avatar, delta, files, image_name)
@@ -55,10 +54,6 @@ class DockerTarPipeRunner
   include Runner
 
   def image_names
-    @image_names ||= make_cache
-  end
-
-  def make_cache
     # [docker images] must be made by a user that has sufficient rights.
     # See docker/web/Dockerfile
     command = [sudo, 'docker', 'images'].join(space).strip
