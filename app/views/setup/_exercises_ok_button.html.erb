@@ -23,8 +23,9 @@ $(function() {
   var pullOverlay = $('<div id="pull-overlay"></div>');
   var pullDialog = function() {
     var html = '' +
-      'This is the first time ' + chosenLanguage() + ', ' + chosenTest() +
-      ' has been chosen. The appropriate docker image is now being pulled.';
+    'This is the first time [' + chosenLanguage() + ']+[' + chosenTest() + ']' +
+    " has been chosen. It's docker image is now being pulled." +
+    ' This may take a minute or two.';
     return $('<div>')
       .html(html)
       .dialog({
