@@ -34,7 +34,6 @@ class DockerTarPipeRunner
   end
 
   def pull(image_name)
-    sudo = parent.env('runner_sudo')
     command = [ sudo, 'docker', 'pull', image_name].join(space).strip
     output,_ = shell.exec(command)
     make_cache # DROP?
@@ -45,8 +44,6 @@ class DockerTarPipeRunner
     katas.sandbox_save(sandbox, delta, files)
     katas_sandbox_path = katas.path_of(sandbox)
     max_seconds = parent.env('runner_timeout')
-    # See sudo comments in docker/web/Dockerfile
-    sudo = parent.env('runner_sudo')
     args = [ katas_sandbox_path, image_name, max_seconds, quoted(sudo) ].join(space)
     output, exit_status = shell.cd_exec(path, "./docker_tar_pipe_runner.sh #{args}")
     output_or_timed_out(output, exit_status, max_seconds)
@@ -64,7 +61,6 @@ class DockerTarPipeRunner
   def make_cache
     # [docker images] must be made by a user that has sufficient rights.
     # See docker/web/Dockerfile
-    sudo = parent.env('runner_sudo')
     command = [sudo, 'docker', 'images'].join(space).strip
     output, _ = shell.exec(command)
     # This will put all cyberdojofoundation image names into the runner cache,
@@ -79,6 +75,11 @@ class DockerTarPipeRunner
 
   def space
     ' '
+  end
+
+  def sudo
+    # See sudo comments in docker/web/Dockerfile
+    parent.env('runner_sudo')
   end
 
 end
