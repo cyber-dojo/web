@@ -21,25 +21,21 @@ class DockerTarPipeRunner
     @dojo = dojo
   end
 
-  # queries
+  def parent
+    @dojo
+  end
 
   def path
     "#{File.dirname(__FILE__)}/"
-  end
-
-  def parent
-    @dojo
   end
 
   def pulled?(image_name)
     image_names.include?(image_name)
   end
 
-  # modifiers
-
   def pull(image_name)
     sudo = parent.env('runner_sudo')
-    command = [ sudo, 'docker', 'pull', image_name].join(space = ' ').strip
+    command = [ sudo, 'docker', 'pull', image_name].join(space).strip
     output,_ = shell.exec(command)
     make_cache # DROP?
   end
@@ -51,7 +47,7 @@ class DockerTarPipeRunner
     max_seconds = parent.env('runner_timeout')
     # See sudo comments in docker/web/Dockerfile
     sudo = parent.env('runner_sudo')
-    args = [ katas_sandbox_path, image_name, max_seconds, quoted(sudo) ].join(space = ' ')
+    args = [ katas_sandbox_path, image_name, max_seconds, quoted(sudo) ].join(space)
     output, exit_status = shell.cd_exec(path, "./docker_tar_pipe_runner.sh #{args}")
     output_or_timed_out(output, exit_status, max_seconds)
   end
@@ -69,7 +65,7 @@ class DockerTarPipeRunner
     # [docker images] must be made by a user that has sufficient rights.
     # See docker/web/Dockerfile
     sudo = parent.env('runner_sudo')
-    command = [sudo, 'docker', 'images'].join(space = ' ').strip
+    command = [sudo, 'docker', 'images'].join(space).strip
     output, _ = shell.exec(command)
     # This will put all cyberdojofoundation image names into the runner cache,
     # even nginx and web. This is harmless.
@@ -79,6 +75,10 @@ class DockerTarPipeRunner
 
   def quoted(s)
     "'" + s + "'"
+  end
+
+  def space
+    ' '
   end
 
 end
