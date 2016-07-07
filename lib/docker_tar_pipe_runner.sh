@@ -1,14 +1,12 @@
 #!/bin/sh
 
 # A runner that tar-pipes files from the avatar's sandbox into and out of
-# of the test container, regardless of whether the avatar's sandbox comes
-# from a host-disk volume or a data-container volumes_from.
-# This gives isolation, which you would not get if, for example, there is a
-# single katas data-container holding all the katas.
+# of the test-run container, regardless of whether the avatar's sandbox comes
+# from a host-disk [volume] or a data-container [volumes_from].
 
 SRC_DIR=$1     # Where the source files are
 IMAGE=$2       # What they'll run in, eg cyberdojofoundation/gcc_assert
-MAX_SECS=$3    # How long they've got, eg 10
+MAX_SECS=$3    # How long they've got to complete, eg 10
 SUDO=$4        # sudo incantation for docker commands
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -89,9 +87,9 @@ SANDBOX=/sandbox
 # o) Any zombie processes this backgrounded process creates are reaped by tini.
 #    See top of app/docker/web/Dockerfile
 #
-# o) The parentheses put the commands into a child process.
+# o) The parentheses puts the commands into a child process.
 #
-# o) The trailing & backgrounds it
+# o) The trailing & backgrounds it.
 #
 # o) Piping stdout and stderr of both sub-commands (&>) to dev/null ensures
 #    that normal shell output [Terminated] from the pkill (6) is suppressed.
@@ -156,9 +154,9 @@ echo "${OUTPUT}"
 
 # The command [ find . -mindepth 1 -delete] deletes all files (including dot files)
 # and subdirs. This is so the transfer of files is always 'total' in both
-# directions. That is, from the katas subdir into the test-container, and from the
-# test-container back into the katas subdir.
-# See test/app_controllers/kata_test.rb - test 'BE89DC' (line 78)
+# directions. That is, from the katas subdir into the test-run-container,
+# and from the test-run-container back into the katas subdir.
+# Eg., See test/app_controllers/kata_test.rb - test 'BE89DC' (line 78)
 
 ${SUDO} docker exec \
                --user=root \
