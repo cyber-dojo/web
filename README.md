@@ -26,8 +26,7 @@ Then use the script to control your server
 ```
 sudo ./cyber-dojo up
 sudo ./cyber-dojo --help
+sudo ./cyber-dojo volume --help
 sudo ./cyber-dojo volume ls
 sudo ./cyber-dojo volume inspect default-languages
-sudo docker pull cyberdojofoundation/java_cucumber
-sudo docker pull cyberdojofoundation/java_junit
 ```
