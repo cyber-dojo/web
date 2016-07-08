@@ -20,9 +20,7 @@ class DockerTarPipeRunnerTest < LibTestBase
 
   test '22CD45',
   'pulled? returns true when docker image is already pulled' do
-    sudo = dojo.env('runner_sudo')
-    command = [sudo, 'docker', 'images'].join(space).strip
-    shell.mock_exec([command], docker_images_python_pytest, success)
+    shell.mock_exec([sudo_docker_images], docker_images_python_pytest, success)
     display_name = 'Python, py.test'
     image_name = languages[display_name].image_name
     assert runner.pulled?(image_name)
@@ -32,30 +30,20 @@ class DockerTarPipeRunnerTest < LibTestBase
 
   test '342EF2',
   'pulled? returns false when docker image is not already pulled' do
-    sudo = dojo.env('runner_sudo')
-    command = [sudo, 'docker', 'images'].join(space).strip
-    shell.mock_exec([command], docker_images_python_pytest, success)
+    shell.mock_exec([sudo_docker_images], docker_images_python_pytest, success)
     display_name = 'Python, py.test'
-    image_name = languages[display_name].image_name + 'X'
-    refute runner.pulled?(image_name)
+    not_image_name = languages[display_name].image_name + 'X'
+    refute runner.pulled?(not_image_name)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '44BF36',
-  'pull issues shell command to pull image' do
-    sudo = dojo.env('runner_sudo')
+  'pull issues shell command [docker pull image]' do
     image_name = 'cyberdojofoundation/csharp_moq'
     command = [sudo, 'docker', 'pull', image_name].join(space).strip
-    shell.mock_exec([command], '', success)
+    shell.mock_exec([command], any_output, success)
     runner.pull(image_name)
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '2E8517',
-  'run() passes correct parameters to dedicated shell script' do
-    mock_run_assert('output', 'output', success)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -71,7 +59,7 @@ class DockerTarPipeRunnerTest < LibTestBase
 
   test '87A438',
   'when run() completes and output is larger than 10K',
-  'then output is truncated to 10K and message is appended' do
+  'then output is truncated to 10K and it-got-truncated-message is appended' do
     massive_output = '.' * 75*1024
     expected_output = '.' * 10*1024 + "\n" + 'output truncated by cyber-dojo server'
     mock_run_assert(expected_output, massive_output, success)
@@ -116,7 +104,7 @@ class DockerTarPipeRunnerTest < LibTestBase
       katas.path_of(lion.sandbox),
       kata.language.image_name,
       dojo.env('runner_timeout'),
-      quoted(dojo.env('runner_sudo'))
+      quoted(sudo)
     ].join(space = ' ')
 
     shell.mock_cd_exec(
@@ -130,12 +118,24 @@ class DockerTarPipeRunnerTest < LibTestBase
 
   # - - - - - - - - - - - - - - -
 
+  def sudo
+    dojo.env('runner_sudo')
+  end
+
+  def sudo_docker_images
+    [sudo, 'docker', 'images'].join(space).strip
+  end
+
   def quoted(s)
     "'" + s + "'"
   end
 
   def space
     ' '
+  end
+
+  def any_output
+    'sdsd'
   end
 
 end
