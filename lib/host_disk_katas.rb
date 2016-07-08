@@ -55,6 +55,7 @@ class HostDiskKatas
     manifest = {
                        id: id,
                   created: now,
+               image_name: language.image_name,
                  language: language.name,
       unit_test_framework: language.unit_test_framework,
                  tab_size: language.tab_size
@@ -259,31 +260,17 @@ class HostDiskKatas
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-# There are three main moving parts in cyber-dojo:
-#
-# 1. READ
-#    the [languages,exercises,caches] folders which are
-#    local to the cyber-dojo server and read-only.
-#
-# 2. EXECUTE
-#    the runners which produce an output file from a set
-#    of source files and a language's image_name. This
-#    output is regex'd to get its Red/Amber/Green colour.
-#
-# 3. WRITE
-#    the files+output from each [test] event are saved as
-#    a tag in a git repo associated with the kata+avatar.
-#    There are also writes associated with creating each
-#    kata and starting each avatar.
-#
-# - - - - - - - - - - - - - - - - - - - - - - - -
-# This class's methods holds all the reads/writes for 3.
+# The files+output from each [test] event are saved as
+# a tag in a git repo associated with the kata+avatar.
+# There are also writes associated with creating each
+# kata and starting each avatar.
+# - - - - - - - - - - - - - - - - - - - - - - -
+# This class's methods holds all the reads/writes for these.
 # It uses the cyber-dojo server's file-system [katas] folder.
-# This is *an* implementation of katas.
+
+# In this is *an* implementation of katas...
 #
-# There are two good reasons for using this implementation.
-#
-# 1. Suppose your cyber-dojo.sh files do an incremental make.
+# 1. cyber-dojo.sh can do an incremental make.
 #    In this case, the date-time stamp of the source files
 #    is important and you want untouched files to retain
 #    their old date-time stamp. This means you need to save
