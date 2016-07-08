@@ -5,8 +5,6 @@
 Main repo for a [cyber-dojo](http://cyber-dojo.org) web server.
 
 Work in progress.
-Auto-pulling a selection of docker images is not done yet.
-You have to manually pull your docker images.
 
 First make sure docker is installed
 
