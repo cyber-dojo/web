@@ -12,6 +12,11 @@ for setup-controlller, change names of language,test to major,minor
 
 - - - - - - - - - - - - - - - - - - - - -
 
+if [docker pull] command on new setup pages fails then I need to
+bail out of creating the kata.
+
+- - - - - - - - - - - - - - - - - - - - -
+
 Change front page's 3 button's wording...
 
 Setup a practice session
