@@ -14,6 +14,7 @@ class KatasTest < AppModelsTestBase
     manifest = katas.kata_manifest(kata)
     assert_equal kata.id, manifest['id']
     assert_equal kata.language.name, manifest['language']
+    refute_nil manifest['image_name']
     refute_nil manifest['created']
     refute_nil manifest['unit_test_framework']
     refute_nil manifest['tab_size']
@@ -61,25 +62,25 @@ class KatasTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '603735',
-  'each() yielding empty array when there are no katas' do
+  'each() yields empty array when there are no katas' do
     assert_equal [], all_ids
   end
 
   test '5A2932',
-  'each() yielding array of one kata-id' do
+  'each() yields one kata-id' do
     kata = make_kata
     assert_equal [kata.id.to_s], all_ids
   end
 
   test '24894F',
-  'each() yielding array of two unrelated kata-ids' do
+  'each() yields two unrelated kata-ids' do
     kata1 = make_kata
     kata2 = make_kata
     assert_equal all_ids([kata1, kata2]).sort, all_ids.sort
   end
 
   test '29DFD1',
-  'each() yielding array of several kata-ids with common first two characters' do
+  'each() yields several kata-ids with common first two characters' do
     id = 'ABCDE1234'
     assert_equal 10-1, id.length
     kata1 = make_kata({ id:id + '1' })
@@ -120,7 +121,7 @@ class KatasTest < AppModelsTestBase
   test '42EA20',
   'completed(id) does not complete when id is less than 6 chars in length',
   'because trying to complete from a short id will waste time going through',
-  'lots of candidates with the likely outcome of no unique result' do
+  'lots of candidates (on disk) with the likely outcome of no unique result' do
     id = unique_id[0..4]
     assert_equal 5, id.length
     assert_equal id, katas.completed(id)
@@ -129,29 +130,29 @@ class KatasTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '071A62',
-  'completed(id) does not complete when 6+ chars long and no matches' do
-    id = unique_id[0..5]
-    assert_equal 6, id.length
-    assert_equal id, katas.completed(id)
+  'completed(id) unchanged when no matches' do
+    id = unique_id
+    (0..7).each { |size| assert_equal id[0..size], katas.completed(id[0..size]) }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '23B4F1',
-  'completed(id) does not complete when 6+ chars and 2+ matches' do
-    id = 'ABCDE1'
-    make_kata({ id:id + '2345' })
-    make_kata({ id:id + '2346' })
-    assert_equal id, katas.completed(id)
+  'completed(id) does not complete when 6+ chars and more than one match' do
+    uncompleted_id = 'ABCDE1'
+    make_kata({ id:uncompleted_id + '234' + '5' })
+    make_kata({ id:uncompleted_id + '234' + '6' })
+    assert_equal uncompleted_id, katas.completed(uncompleted_id)
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '0934BF',
   'completed(id) completes when 6+ chars and 1 match' do
-    id = 'A1B2C3D4E5'
-    make_kata({ id:id })
-    assert_equal id, katas.completed(id.downcase[0..5])
+    completed_id = 'A1B2C3D4E5'
+    make_kata({ id:completed_id })
+    uncompleted_id = completed_id.downcase[0..5]
+    assert_equal completed_id, katas.completed(uncompleted_id)
   end
 
 end
