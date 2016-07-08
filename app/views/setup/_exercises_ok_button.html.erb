@@ -39,7 +39,7 @@ $(function() {
       });
   }();
 
-  var pullImageThenCreateDojo = function() {
+  var pullImageThen = function(f) {
     pullDialog.dialog('open');
     pullOverlay.insertAfter($('body'));
     pullSpinner.show();
@@ -47,7 +47,7 @@ $(function() {
       pullSpinner.hide();
       pullOverlay.remove();
       pullDialog.dialog('close');
-      createDojo();
+      f();
     });
   };
 
@@ -60,7 +60,7 @@ $(function() {
   $('#ok').click(function() {
     $.getJSON('/setup/exercise_pull_needed', chosenLanguageAndTest(), function(dojo) {
       if (dojo.pull_needed) {
-        pullImageThenCreateDojo();
+        pullImageThen(createDojo);
       } else {
         createDojo();
       }

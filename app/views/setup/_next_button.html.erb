@@ -47,7 +47,7 @@ $(function() {
       });
   }();
 
-  var pullImageThenGotoInstructionsPage = function() {
+  var pullImageThen = function(f) {
     pullDialog.dialog('open');
     pullOverlay.insertAfter($('body'));
     pullSpinner.show();
@@ -55,14 +55,14 @@ $(function() {
       pullSpinner.hide();
       pullOverlay.remove();
       pullDialog.dialog('close');
-      gotoChooseInstructionsPage();
+      f();
     });
   };
 
   $('#next').click(function() {
     $.getJSON('/setup/language_pull_needed', chosenLanguageAndTest(), function(dojo) {
         if (dojo.pull_needed) {
-          pullImageThenGotoInstructionsPage();
+          pullImageThen(gotoChooseInstructionsPage);
         } else {
           gotoChooseInstructionsPage();
         }
