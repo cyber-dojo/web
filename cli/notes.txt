@@ -42,6 +42,10 @@ needs to be read when cloning/forking. Combines well with new auto-docker-pull.
 
 - - - - - - - - - - - - - - - - - - - - -
 
+diff-dialog from test page should have fork button.
+
+- - - - - - - - - - - - - - - - - - - - -
+
 Would be good to have a [cyber-dojo] cli command to export
 a specific kata to a given folder. This would make it easier
 to create custom exercises. But that would export to default
