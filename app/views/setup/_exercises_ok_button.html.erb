@@ -1,66 +1,18 @@
 
-
 <script type="text/javascript"><!--
 
 $(function() {
 
-  var chosenLanguage = function() {
-    return $('[id^=language_][class~=selected]').data('language');
-  };
-
-  var chosenTest = function() {
-    return $('[id^=test_][class~=selected]').data('test');
-  };
-
-  var chosenLanguageAndTest = function() {
-    return {
-      language: chosenLanguage(),
-          test: chosenTest()
-    };
-  };
-
-  var pullSpinner = $('#pull-spinner');
-  var pullOverlay = $('<div id="pull-overlay"></div>');
-  var pullDialog = function() {
-    var html = '' +
-    'This is the first time [' + chosenLanguage() + ']+[' + chosenTest() + ']' +
-    " has been chosen. It's docker image is now being pulled." +
-    ' This may take a minute or two.';
-    return $('<div>')
-      .html(html)
-      .dialog({
-        title: cd.dialogTitle('please wait ...'),
-        closeOnEscape: true,
-        close: function() { $(this).remove(); },
-        autoOpen: false,
-        width: 500,
-        height: 200,
-        modal: true,
-      });
-  }();
-
-  var pullImageThen = function(f) {
-    pullDialog.dialog('open');
-    pullOverlay.insertAfter($('body'));
-    pullSpinner.show();
-    $.getJSON('/setup/exercise_pull', chosenLanguageAndTest(), function() {
-      pullSpinner.hide();
-      pullOverlay.remove();
-      pullDialog.dialog('close');
-      f();
-    });
-  };
-
   var createDojo = function() {
-    $.getJSON('/setup/exercise_save', chosenLanguageAndTest(), function(dojo) {
+    $.getJSON('/setup/exercise_save', cd.chosenLanguageAndTest(), function(dojo) {
       cd.newDojoDialog(dojo.id);
     });
   };
 
   $('#ok').click(function() {
-    $.getJSON('/setup/exercise_pull_needed', chosenLanguageAndTest(), function(dojo) {
+    $.getJSON('/setup/exercise_pull_needed', cd.chosenLanguageAndTest(), function(dojo) {
       if (dojo.pull_needed) {
-        pullImageThen(createDojo);
+        cd.dialog_pullImageThen('/setup/exercise_pull', createDojo);
       } else {
         createDojo();
       }

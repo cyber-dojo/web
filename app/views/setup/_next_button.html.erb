@@ -3,66 +3,18 @@
 
 $(function() {
 
-  var id = "<%= @id %>";
-
-  var chosenLanguage = function() {
-    return $('[id^=language_][class~=selected]').data('language');
-  };
-
-  var chosenTest = function() {
-    return $('[id^=test_][class~=selected]').data('test');
-  };
-
-  var chosenLanguageAndTest = function() {
-    return {
-      language: chosenLanguage(),
-          test: chosenTest()
-    };
-  };
-
   var gotoChooseInstructionsPage = function() {
+    var id = "<%= @id %>";
     var url = '/setup/show_instructions/' + id +
-      '?language=' + encodeURIComponent(chosenLanguage()) +
-      '&test=' + encodeURIComponent(chosenTest());
+      '?language=' + encodeURIComponent(cd.chosenLanguage()) +
+      '&test=' + encodeURIComponent(cd.chosenTest());
     window.location = url;
   };
 
-  var pullSpinner = $('#pull-spinner');
-  var pullOverlay = $('<div id="pull-overlay"></div>');
-  var pullDialog = function() {
-    var html = '' +
-      'This is the first time [' + chosenLanguage() + ']+[' + chosenTest() + ']' +
-      " has been chosen. It's docker image is now being pulled." +
-      ' This may take a minute or two.';
-    return $('<div>')
-      .html(html)
-      .dialog({
-        title: cd.dialogTitle('please wait ...'),
-        closeOnEscape: true,
-        close: function() { $(this).remove(); },
-        autoOpen: false,
-        width: 500,
-        height: 200,
-        modal: true,
-      });
-  }();
-
-  var pullImageThen = function(f) {
-    pullDialog.dialog('open');
-    pullOverlay.insertAfter($('body'));
-    pullSpinner.show();
-    $.getJSON('/setup/language_pull', chosenLanguageAndTest(), function() {
-      pullSpinner.hide();
-      pullOverlay.remove();
-      pullDialog.dialog('close');
-      f();
-    });
-  };
-
   $('#next').click(function() {
-    $.getJSON('/setup/language_pull_needed', chosenLanguageAndTest(), function(dojo) {
+    $.getJSON('/setup/language_pull_needed', cd.chosenLanguageAndTest(), function(dojo) {
         if (dojo.pull_needed) {
-          pullImageThen(gotoChooseInstructionsPage);
+          cd.dialog_pullImageThen('/setup/language_pull', gotoChooseInstructionsPage);
         } else {
           gotoChooseInstructionsPage();
         }
