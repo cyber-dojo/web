@@ -4,6 +4,11 @@ This will stop 100% rogue cpu process.
 
 - - - - - - - - - - - - - - - - - - - - -
 
+Add C# XUnit test framework.
+http://xunit.github.io/
+
+- - - - - - - - - - - - - - - - - - - - -
+
 Split setup_controller into two controllers.
 
 - - - - - - - - - - - - - - - - - - - - -
@@ -14,18 +19,6 @@ for setup-controlller, change names of language,test to major,minor
 
 if [docker pull] command on new setup pages fails then I need to
 bail out of creating the kata.
-
-- - - - - - - - - - - - - - - - - - - - -
-
-Change front page's 3 button's wording...
-
-Setup a practice session
-from a DEFAULT starting position
-
-Setup a practice session
-from a CUSTOM starting position
-
-Enter a practice sesson
 
 - - - - - - - - - - - - - - - - - - - - -
 
