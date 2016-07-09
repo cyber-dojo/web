@@ -1,7 +1,6 @@
 #!/bin/bash ../test_wrapper.sh
 
 require_relative './lib_test_base'
-require_relative './docker_test_helpers'
 
 class DockerTarPipeRunnerTest < LibTestBase
 
@@ -40,7 +39,7 @@ class DockerTarPipeRunnerTest < LibTestBase
 
   test '44BF36',
   'pull issues shell command [docker pull image]' do
-    image_name = 'cyberdojofoundation/csharp_moq'
+    image_name = "#{cdf}/csharp_moq"
     command = [sudo, 'docker', 'pull', image_name].join(space).strip
     shell.mock_exec([command], any_output, success)
     runner.pull(image_name)
@@ -78,10 +77,6 @@ class DockerTarPipeRunnerTest < LibTestBase
 
   private
 
-  include DockerTestHelpers
-
-  # - - - - - - - - - - - - - - -
-
   def mock_run_assert(expected_output, mock_output, mock_exit_status)
     output = mock_run(mock_output, mock_exit_status)
     assert_equal expected_output, output
@@ -118,24 +113,26 @@ class DockerTarPipeRunnerTest < LibTestBase
 
   # - - - - - - - - - - - - - - -
 
-  def sudo
-    dojo.env('runner_sudo')
+  def docker_images_python_pytest
+    [
+      'REPOSITORY             TAG     IMAGE ID      CREATED        VIRTUAL SIZE',
+      '<none>                 <none>  b7253690a1dd  2 weeks ago    1.266 GB',
+      "#{cdf}/python_pytest   latest  d9603e342b22  13 months ago  692.9 MB",
+      '<none>                 <none>  0ebf80aa0a8a  2 weeks ago    569.8 MB'
+    ].join("\n")
   end
 
-  def sudo_docker_images
-    [sudo, 'docker', 'images'].join(space).strip
-  end
+  # - - - - - - - - - - - - - - -
 
-  def quoted(s)
-    "'" + s + "'"
-  end
-
-  def space
-    ' '
-  end
-
-  def any_output
-    'sdsd'
-  end
+  def sudo; dojo.env('runner_sudo'); end
+  def sudo_docker_images; [sudo, 'docker', 'images'].join(space).strip; end
+  def quoted(s); "'" + s + "'"; end
+  def space; ' '; end
+  def any_output; 'sdsd'; end
+  def cdf; 'cyberdojofoundation'; end
+  def times_out; fatal_error(kill); end
+  def success; 0; end
+  def kill; 9; end
+  def fatal_error(signal); 128 + signal; end
 
 end
