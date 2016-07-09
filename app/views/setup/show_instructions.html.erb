@@ -5,22 +5,28 @@
 
   <table>
     <tr>
-      <td colspan="2">
+      <td>
         <div id="setup-a-practice-session">
-          setup&nbsp;a&nbsp;default&nbsp;practice&nbsp;session
+setup&nbsp;a&nbsp;new&nbsp;practice&nbsp;session&nbsp;from&nbsp;a&nbsp;<em>default</em>&nbsp;&nbsp;start&nbsp;position&nbsp;
         </div>
       </td>
     </tr>
-    <tr class="valign-top" id="exercises-container">
-      <td>
-        <%= render partial: 'exercises_list' %>
-      </td>
-      <td>
-        <%= render partial: 'exercises_instructions' %>
+    <tr>
+      <td align="right">
+        <table>
+          <tr id="exercises-container">
+            <td>
+              <%= render partial: 'exercises_list' %>
+            </td>
+            <td>
+              <%= render partial: 'exercises_instructions' %>
+            </td>
+          </tr>
+        </table>
       </td>
     </tr>
     <tr class="valign-top">
-      <td colspan="2" align="right">
+      <td align="right">
         <%= render partial: 'ok_button' %>
       </td>
     </tr>
