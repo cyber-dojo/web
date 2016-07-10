@@ -9,7 +9,11 @@ http://xunit.github.io/
 
 - - - - - - - - - - - - - - - - - - - - -
 
-for setup-controlller, change names of language,test to major,minor
+rename language,test to major,minor (setup-controlller)
+
+- - - - - - - - - - - - - - - - - - - - -
+
+rename manifest(s) to start_point(s)
 
 - - - - - - - - - - - - - - - - - - - - -
 
