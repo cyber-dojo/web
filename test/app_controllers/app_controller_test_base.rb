@@ -30,7 +30,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
           test: parts[1].strip,
       exercise: instructions_name
     }
-    get 'setup/language_save', params
+    get 'setup_default_start_point/save', params
     @id = json['id']
   end
 

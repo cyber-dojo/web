@@ -14,7 +14,7 @@ class SetupControllerTest < AppControllerTestBase
 
   test '9F4020',
   'show_languages page shows all language+tests' do
-    get 'setup/show_languages'
+    get 'setup_default_start_point/show_languages'
     assert_response :success
 
     assert /data-language\=\"#{get_language_from(cpp_assert)}/.match(html), cpp_assert
@@ -37,7 +37,7 @@ class SetupControllerTest < AppControllerTestBase
       language: 'C#',
           test: 'Moq'
     }
-    get 'setup/language_pull_needed', params
+    get 'setup_default_start_point/pull_needed', params
     assert_response :success
     assert_equal true, json['pull_needed']
   end
@@ -51,7 +51,7 @@ class SetupControllerTest < AppControllerTestBase
       language: 'C#',
           test: 'NUnit'
     }
-    get 'setup/language_pull_needed', params
+    get 'setup_default_start_point/pull_needed', params
     assert_response :success
     assert_equal false, json['pull_needed']
   end
@@ -65,7 +65,7 @@ class SetupControllerTest < AppControllerTestBase
       language: 'Tennis refactoring',
           test: 'Python unitttest'
     }
-    get 'setup/exercise_pull_needed', params
+    get 'setup_custom_start_point/pull_needed', params
     assert_response :success
     assert_equal true, json['pull_needed']
   end
@@ -73,13 +73,13 @@ class SetupControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test '9D3E9A',
-  'exercise_pull_needed is false if docker image is pulled' do
+  'pull_needed is false if docker image is pulled' do
     params = {
       format: :js,
       language: 'Tennis refactoring',
           test: 'C# NUnit'
     }
-    get 'setup/exercise_pull_needed', params
+    get 'setup_custom_start_point/pull_needed', params
     assert_response :success
     assert_equal false, json['pull_needed']
   end
@@ -95,7 +95,7 @@ class SetupControllerTest < AppControllerTestBase
           test: 'NUnit'
     }
     shell.mock_exec("docker pull cyberdojofoundation/csharp_nunit", '', 0)
-    get 'setup/language_pull', params
+    get 'setup_default_start_point/pull', params
     assert_response :success
   end
 
@@ -110,7 +110,7 @@ class SetupControllerTest < AppControllerTestBase
           test: 'Python unitttest'
     }
     shell.mock_exec("docker pull cyberdojofoundation/python_unittest", '', 0)
-    get 'setup/exercise_pull', params
+    get 'setup_custom_start_point/pull', params
     assert_response :success
   end
 
@@ -118,7 +118,7 @@ class SetupControllerTest < AppControllerTestBase
 
   test 'BB9967',
   'show_instructions page uses cached instructions' do
-    get 'setup/show_instructions'
+    get 'setup_default_start_point/show_instructions'
     assert_response :success
     assert /data-exercise\=\"#{print_diamond}/.match(html), print_diamond
     assert /data-exercise\=\"#{roman_numerals}/.match(html), roman_numerals
@@ -135,7 +135,7 @@ class SetupControllerTest < AppControllerTestBase
 
     id = create_kata(language_display_name, instructions_name)
 
-    get 'setup/show_languages', :id => id
+    get 'setup_default_start_point/show_languages', :id => id
     assert_response :success
 
     md = /var selectedLanguage = \$\('#language_' \+ (\d+)/.match(html)
@@ -156,7 +156,7 @@ class SetupControllerTest < AppControllerTestBase
     instructions_name = instructions_names.sample
     id = create_kata(language_display_name, instructions_name)
 
-    get 'setup/show_instructions', :id => id
+    get 'setup_default_start_point/show_instructions', :id => id
     assert_response :success
 
     md = /var selectedExercise = \$\('#exercise_' \+ (\d+)/.match(html)
@@ -182,7 +182,7 @@ class SetupControllerTest < AppControllerTestBase
       ],
       exercises_display_names
 
-    get 'setup/show_exercises'
+    get 'setup_custom_start_point/show_exercises'
     assert_response :success
 
     assert /data-language\=\"Tennis refactoring/.match(html)
@@ -194,7 +194,7 @@ class SetupControllerTest < AppControllerTestBase
       language: 'Tennis refactoring',
           test: 'C# NUnit'
     }
-    get 'setup/exercise_save', params
+    get 'setup_custom_start_point/save', params
     assert_response :success
   end
 
