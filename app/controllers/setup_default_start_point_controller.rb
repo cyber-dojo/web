@@ -1,9 +1,10 @@
 
-class SetupController < ApplicationController
+class SetupDefaultStartPointController < ApplicationController
 
   # Regular two step setup
-  # step 1. languages(+test in column 2)  (eg Java+JUnit)
-  # step 2. instructions                  (eg Fizz_Buzz)
+  # step 1. languages+test in column 1,2)  (eg Java+JUnit)
+  # step 2. instructions                   (eg Fizz_Buzz)
+
   def show_languages
     @id = id
     @title = 'create'
@@ -13,7 +14,7 @@ class SetupController < ApplicationController
     @initial_language_index = @languages.selected_index
   end
 
-  def language_pull_needed
+  def pull_needed
     language_name = params['language']
         test_name = params['test'    ]
     language = languages[language_name + '-' + test_name]
@@ -22,7 +23,7 @@ class SetupController < ApplicationController
     render json: { pull_needed: answer }
   end
 
-  def language_pull
+  def pull
     language_name = params['language']
         test_name = params['test'    ]
     language = languages[language_name + '-' + test_name]
@@ -40,7 +41,7 @@ class SetupController < ApplicationController
     @initial_exercise_index = choose_instructions(@exercises_names, id, dojo.katas)
   end
 
-  def language_save
+  def save
     language_name = params['language']
         test_name = params['test'    ]
     language = languages[language_name + '-' + test_name]
@@ -49,45 +50,6 @@ class SetupController < ApplicationController
     manifest = katas.create_kata_manifest(language)
     manifest[:exercise] = instruction.name
     manifest[:visible_files]['instructions'] = instruction.text
-    kata = katas.create_kata_from_kata_manifest(manifest)
-    render json: { id: kata.id }
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - -
-  # Custom exercise one-step setup
-
-  def show_exercises
-    @id = id
-    @title = 'create'
-    exercises_names = read(exercises)
-    index = choose_language(exercises_names, id, dojo.katas)
-    @languages = ::DisplayNamesSplitter.new(exercises_names, index)
-    @initial_language_index = @languages.selected_index
-  end
-
-  def exercise_pull_needed
-    language_name = params['language']
-        test_name = params['test'    ]
-    exercise = exercises[language_name + '-' + test_name]
-    image_name = exercise.image_name
-    answer = !dojo.runner.pulled?(image_name)
-    render json: { pull_needed: answer }
-  end
-
-  def exercise_pull
-    language_name = params['language']
-        test_name = params['test'    ]
-    exercise = exercises[language_name + '-' + test_name]
-    image_name = exercise.image_name
-    dojo.runner.pull(image_name)
-    render json: { }
-  end
-
-  def exercise_save
-    language_name = params['language']
-        test_name = params['test']
-    exercise = exercises[language_name + '-' + test_name]
-    manifest = katas.create_kata_manifest(exercise)
     kata = katas.create_kata_from_kata_manifest(manifest)
     render json: { id: kata.id }
   end

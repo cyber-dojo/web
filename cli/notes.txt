@@ -9,10 +9,6 @@ http://xunit.github.io/
 
 - - - - - - - - - - - - - - - - - - - - -
 
-Split setup_controller into two controllers.
-
-- - - - - - - - - - - - - - - - - - - - -
-
 for setup-controlller, change names of language,test to major,minor
 
 - - - - - - - - - - - - - - - - - - - - -

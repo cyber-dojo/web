@@ -9,7 +9,7 @@ $(function() {
           test: "<%= @test %>",
       exercise: $('[id^=exercise_][class~=selected]').data('exercise'),
     };
-    $.getJSON('/setup/language_save', params, function(dojo) {
+    $.getJSON('/setup_default_start_point/save', params, function(dojo) {
       cd.newDojoDialog(dojo.id);
     });
   });

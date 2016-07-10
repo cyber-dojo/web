@@ -5,16 +5,16 @@ $(function() {
 
   var gotoChooseInstructionsPage = function() {
     var id = "<%= @id %>";
-    var url = '/setup/show_instructions/' + id +
+    var url = '/setup_default_start_point/show_instructions/' + id +
       '?language=' + encodeURIComponent(cd.chosenLanguage()) +
       '&test=' + encodeURIComponent(cd.chosenTest());
     window.location = url;
   };
 
   $('#next').click(function() {
-    $.getJSON('/setup/language_pull_needed', cd.chosenLanguageAndTest(), function(dojo) {
+    $.getJSON('/setup_default_start_point/pull_needed', cd.chosenLanguageAndTest(), function(dojo) {
         if (dojo.pull_needed) {
-          cd.dialog_pullImageThen('/setup/language_pull', gotoChooseInstructionsPage);
+          cd.dialog_pullImageThen('/setup_default_start_point/pull', gotoChooseInstructionsPage);
         } else {
           gotoChooseInstructionsPage();
         }

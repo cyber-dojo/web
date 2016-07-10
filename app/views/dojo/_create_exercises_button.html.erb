@@ -6,7 +6,7 @@ $(function() {
   $('#setup-custom-session-button').click(function() {
     cd.dialog_ie(function() {
       var id = "<%= @id %>";
-      var url = '/setup/show_exercises/' + id;
+      var url = '/setup_custom_start_point/show_exercises/' + id;
       window.location = url;
     });
   });
