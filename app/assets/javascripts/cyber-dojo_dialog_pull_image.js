@@ -35,20 +35,21 @@ var cyberDojo = (function(cd, $) {
 
   var makePullDialog = function() {
     var html = '' +
-      'This is the first time ' +
-       '[' + cd.chosenLanguage() + ']+[' + cd.chosenTest() + '] ' +
-       'has been chosen.<br/>' +
+      'This is the first time anyone has selected<br/>' +
+      '&nbsp;&nbsp;&nbsp;&rarr;&nbsp;' + cd.chosenLanguage() + '<br/>' +
+      '&nbsp;&nbsp;&nbsp;&rarr;&nbsp;' + cd.chosenTest() + '<br/>' +
       "It's docker image is now being pulled onto the server.<br/>" +
-      'This may take a minute or two.';
+      'It will take a minute or two.<br/>' +
+      'Please wait.';
     return $('<div>')
       .html(html)
       .dialog({
-        title: cd.dialogTitle('please wait ...'),
+        title: cd.dialogTitle('setup a new practice session'),
         closeOnEscape: true,
         close: function() { $(this).remove(); },
         autoOpen: false,
-        width: 500,
-        height: 200,
+        width: 550,
+        height: 210,
         modal: true,
       });
   };
