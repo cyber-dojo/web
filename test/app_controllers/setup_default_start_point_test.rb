@@ -2,7 +2,7 @@
 
 require_relative './app_controller_test_base'
 
-class SetupControllerTest < AppControllerTestBase
+class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   # Note: going through the rails route into the controller
   #       means a new Dojo object will be created which is
@@ -14,7 +14,7 @@ class SetupControllerTest < AppControllerTestBase
 
   test '9F4020',
   'show_languages page shows all language+tests' do
-    get 'setup_default_start_point/show_languages'
+    do_get 'show_languages'
     assert_response :success
 
     assert /data-language\=\"#{get_language_from(cpp_assert)}/.match(html), cpp_assert
@@ -31,13 +31,13 @@ class SetupControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test '406596',
-  'language_pull_needed is true if docker image is not pulled' do
+  'pull_needed is true if docker image is not pulled' do
     params = {
       format: :js,
       language: 'C#',
           test: 'Moq'
     }
-    get 'setup_default_start_point/pull_needed', params
+    do_get 'pull_needed', params
     assert_response :success
     assert_equal true, json['pull_needed']
   end
@@ -45,41 +45,13 @@ class SetupControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test 'B28A3D',
-  'language_pull_needed is false if docker image is pulled' do
+  'pull_needed is false if docker image is pulled' do
     params = {
       format: :js,
       language: 'C#',
           test: 'NUnit'
     }
-    get 'setup_default_start_point/pull_needed', params
-    assert_response :success
-    assert_equal false, json['pull_needed']
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
-  test '294C10',
-  'exercise_pull_needed is true if docker image is not pulled' do
-    params = {
-      format: :js,
-      language: 'Tennis refactoring',
-          test: 'Python unitttest'
-    }
-    get 'setup_custom_start_point/pull_needed', params
-    assert_response :success
-    assert_equal true, json['pull_needed']
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
-  test '9D3E9A',
-  'pull_needed is false if docker image is pulled' do
-    params = {
-      format: :js,
-      language: 'Tennis refactoring',
-          test: 'C# NUnit'
-    }
-    get 'setup_custom_start_point/pull_needed', params
+    do_get 'pull_needed', params
     assert_response :success
     assert_equal false, json['pull_needed']
   end
@@ -87,38 +59,24 @@ class SetupControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test '0A8080',
-  'language_pull issues docker-pull command for appropriate image_name' do
-    set_shell_class('MockHostShell')
+  'pull issues docker-pull command for appropriate image_name' do
+    #set_shell_class('MockHostShell')
+    #shell.mock_exec("docker pull cyberdojofoundation/csharp_nunit", '', 0)
     params = {
       format: :js,
       language: 'C#',
           test: 'NUnit'
     }
-    shell.mock_exec("docker pull cyberdojofoundation/csharp_nunit", '', 0)
-    get 'setup_default_start_point/pull', params
+    do_get 'pull', params
     assert_response :success
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
-  test '4694A0',
-  'exercise_pull issues docker-pull command for appropriate image_name' do
-    set_shell_class('MockHostShell')
-    params = {
-      format: :js,
-      language: 'Tennis refactoring',
-          test: 'Python unitttest'
-    }
-    shell.mock_exec("docker pull cyberdojofoundation/python_unittest", '', 0)
-    get 'setup_custom_start_point/pull', params
-    assert_response :success
+    #shell.teardown
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test 'BB9967',
   'show_instructions page uses cached instructions' do
-    get 'setup_default_start_point/show_instructions'
+    do_get 'show_instructions'
     assert_response :success
     assert /data-exercise\=\"#{print_diamond}/.match(html), print_diamond
     assert /data-exercise\=\"#{roman_numerals}/.match(html), roman_numerals
@@ -135,7 +93,7 @@ class SetupControllerTest < AppControllerTestBase
 
     id = create_kata(language_display_name, instructions_name)
 
-    get 'setup_default_start_point/show_languages', :id => id
+    do_get 'show_languages', :id => id
     assert_response :success
 
     md = /var selectedLanguage = \$\('#language_' \+ (\d+)/.match(html)
@@ -156,7 +114,7 @@ class SetupControllerTest < AppControllerTestBase
     instructions_name = instructions_names.sample
     id = create_kata(language_display_name, instructions_name)
 
-    get 'setup_default_start_point/show_instructions', :id => id
+    do_get 'show_instructions', :id => id
     assert_response :success
 
     md = /var selectedExercise = \$\('#exercise_' \+ (\d+)/.match(html)
@@ -166,45 +124,13 @@ class SetupControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'EB77D9',
-  'show_exercises page shows all exercises' do
-    # This assumes the exercises volume is default-exercises (refactoring)
-    assert_equal [
-      'Tennis refactoring, C# NUnit',
-      'Tennis refactoring, C++ (g++) assert',
-      'Tennis refactoring, Java JUnit',
-      'Tennis refactoring, Python unitttest',
-      'Tennis refactoring, Ruby Test::Unit',
-      'Yahtzee refactoring, C# NUnit',
-      'Yahtzee refactoring, C++ (g++) assert',
-      'Yahtzee refactoring, Java JUnit',
-      'Yahtzee refactoring, Python unitttest'
-      ],
-      exercises_display_names
-
-    get 'setup_custom_start_point/show_exercises'
-    assert_response :success
-
-    assert /data-language\=\"Tennis refactoring/.match(html)
-    assert /data-language\=\"Yahtzee refactoring/.match(html)
-
-    assert /data-test\=\"C# NUnit/.match(html), html
-
-    params = {
-      language: 'Tennis refactoring',
-          test: 'C# NUnit'
-    }
-    get 'setup_custom_start_point/save', params
-    assert_response :success
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
   private
+
+  def do_get(route, params = {}); get "#{controller}/#{route}", params; end
+  def controller; 'setup_default_start_point'; end
 
   def languages_display_names; languages.map(&:display_name).sort; end
   def instructions_names; instructions.map(&:name).sort; end
-  def exercises_display_names; exercises.map(&:display_name).sort; end
 
   def get_language_from(name); commad(name)[0].strip; end
   def get_test_from(name)    ; commad(name)[1].strip; end

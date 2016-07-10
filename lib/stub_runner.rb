@@ -48,7 +48,7 @@ class StubRunner
   include Runner
 
   def save_stub(avatar, json)
-    # Better - combine test's hex-id with avater.name
+    # Better - combine test's hex-id with avater.name in tmp folder
     katas.dir(avatar).write_json(stub_run_filename, json)
   end
 
