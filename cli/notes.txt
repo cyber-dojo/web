@@ -4,11 +4,6 @@ This will stop 100% rogue cpu process.
 
 - - - - - - - - - - - - - - - - - - - - -
 
-DockerTarPipeRunner: split pulled? pull methods off
-into new DockerImagePuller class.
-
-- - - - - - - - - - - - - - - - - - - - -
-
 test/app_controllers/setup_xxxx
 has tests with MockHostShell commented out.
 This is because each GET/POST is serviced in a new thread which creates a
@@ -18,6 +13,8 @@ Create a lib/MockRunner which uses the test's hex-id to save/retrieve expectatio
 A test class that already does this is
 test/app_lib/setup_data_checker_test.rb
 See 357: def copy_good_master(type = 'languages', id = test_id)
+Problem: how will the test's hex-id be passed into the MockHostShell?
+Could I use the kata's id? That wouldn't help for setup though...
 
 - - - - - - - - - - - - - - - - - - - - -
 

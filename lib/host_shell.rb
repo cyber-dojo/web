@@ -21,7 +21,7 @@ class HostShell
 
   def cd_exec(path, *commands)
     output, exit_status = exec(["[[ -d #{path} ]]", "cd #{path}"] + commands)
-    return output, exit_status
+    [output, exit_status]
   end
 
   def exec(*commands)
@@ -33,7 +33,7 @@ class HostShell
     log << "shell.exec:NO-OUTPUT:" if output == ''
     log << "shell.exec:OUTPUT:#{output}" if output != ''
     log << "shell.exec:EXITED:#{exit_status}"
-    return cleaned(output), exit_status
+    [cleaned(output), exit_status]
   end
 
   private
