@@ -4,6 +4,11 @@ This will stop 100% rogue cpu process.
 
 - - - - - - - - - - - - - - - - - - - - -
 
+DockerTarPipeRunner: split pulled? pull methods off
+into new DockerImagePuller class.
+
+- - - - - - - - - - - - - - - - - - - - -
+
 test/app_controllers/setup_xxxx
 has tests with MockHostShell commented out.
 This is because each GET/POST is serviced in a new thread which creates a
