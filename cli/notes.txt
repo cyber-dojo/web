@@ -4,20 +4,6 @@ This will stop 100% rogue cpu process.
 
 - - - - - - - - - - - - - - - - - - - - -
 
-test/app_controllers/setup_xxxx
-has tests with MockHostShell commented out.
-This is because each GET/POST is serviced in a new thread which creates a
-new dojo object and thus a new runner object. To ensure state is preserved
-from the setup to the call it has to be saved to disk and then retrieved.
-Create a lib/MockRunner which uses the test's hex-id to save/retrieve expectations.
-A test class that already does this is
-test/app_lib/setup_data_checker_test.rb
-See 357: def copy_good_master(type = 'languages', id = test_id)
-Problem: how will the test's hex-id be passed into the MockHostShell?
-Could I use the kata's id? That wouldn't help for setup though...
-
-- - - - - - - - - - - - - - - - - - - - -
-
 Add C# XUnit test framework.
 http://xunit.github.io/
 

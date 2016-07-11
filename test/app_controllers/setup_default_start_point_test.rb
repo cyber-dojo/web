@@ -60,8 +60,12 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   test '0A8080',
   'pull issues docker-pull command for appropriate image_name' do
-    #set_shell_class('MockHostShell')
-    #shell.mock_exec("docker pull cyberdojofoundation/csharp_nunit", '', 0)
+    setup_mock_shell
+    shell.mock_exec(
+      ['docker pull cyberdojofoundation/csharp_nunit'],
+      docker_pull_output,
+      exit_success
+    )
     params = {
       format: :js,
       language: 'C#',
@@ -69,7 +73,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     }
     do_get 'pull', params
     assert_response :success
-    #shell.teardown
+    shell.teardown
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -

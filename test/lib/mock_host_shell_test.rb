@@ -4,6 +4,30 @@ require_relative './lib_test_base'
 
 class MockHostShellTest < LibTestBase
 
+  def setup_mock_shell
+    ENV['CYBER_DOJO_TEST_ID'] = test_id
+    set_shell_class('MockHostShell')
+  end
+
+  # - - - - - - - - - - - - - - -
+  # initialize
+  # - - - - - - - - - - - - - - -
+
+  test 'B51EFC',
+  'MockHostShell ctor only sets mocks=[] if file does not already exist' do
+    # when a test issues a controller GET then it goes through the rails routes
+    # which creates a new MockHostShell object in a new thread.
+    # So the Mock has to work when it is "re-created" in different threads
+    setup_mock_shell
+    shell_1 = MockHostShell.new(nil)
+    shell_1.mock_exec(pwd, wd, success)
+    shell_2 = MockHostShell.new(test_id)
+    output,exit_status = shell_2.exec('pwd')
+    assert_equal wd, output
+    assert_equal success, exit_status
+    shell_2.teardown
+  end
+
   # - - - - - - - - - - - - - - -
   # teardown
   # - - - - - - - - - - - - - - -
@@ -11,7 +35,7 @@ class MockHostShellTest < LibTestBase
   test '4A5F79',
   'teardown does not raise if no mocks are setup and no calls are made' do
     assert_equal '4A5F79', test_id
-    shell = MockHostShell.new(test_id)
+    setup_mock_shell
     shell.teardown
   end
 
@@ -19,7 +43,7 @@ class MockHostShellTest < LibTestBase
 
   test 'B4EA4E',
   'teardown does not raise if one mock exec setup and matching exec is made' do
-    shell = MockHostShell.new(test_id)
+    setup_mock_shell
     shell.mock_exec(pwd, wd, success)
     output,exit_status = shell.exec('pwd')
     assert_equal wd, output
@@ -31,7 +55,7 @@ class MockHostShellTest < LibTestBase
 
   test 'E93DEE',
   'teardown does not raise if one mock cd_exec setup and matching cd_exec is made' do
-    shell = MockHostShell.new(test_id)
+    setup_mock_shell
     shell.mock_cd_exec(wd, pwd, wd, success)
     output,exit_status = shell.cd_exec(wd, 'pwd')
     assert_equal wd, output
@@ -43,7 +67,7 @@ class MockHostShellTest < LibTestBase
 
   test 'D0C5BF',
   'teardown raises if one mock exec setup and no calls are made' do
-    shell = MockHostShell.new(test_id)
+    setup_mock_shell
     shell.mock_exec(pwd, wd, success)
     assert_raises { shell.teardown }
   end
@@ -52,7 +76,7 @@ class MockHostShellTest < LibTestBase
 
   test '093B43',
   'teardown raises if one mock cd_exec setup and no calls are made' do
-    shell = MockHostShell.new(test_id)
+    setup_mock_shell
     shell.mock_cd_exec(wd, pwd, wd, success)
     assert_raises { shell.teardown }
   end
@@ -63,7 +87,7 @@ class MockHostShellTest < LibTestBase
 
   test 'F00C49',
   'cd_exec raises if mock for exec has been setup' do
-    shell = MockHostShell.new(test_id)
+    setup_mock_shell
     shell.mock_exec(pwd, wd, success)
     assert_raises { shell.cd_exec(wd, pwd) }
   end
@@ -72,7 +96,7 @@ class MockHostShellTest < LibTestBase
 
   test '77C7CB',
   'cd_exec raises if mock for cd_exec has dfferent cd-path' do
-    shell = MockHostShell.new(test_id)
+    setup_mock_shell
     shell.mock_cd_exec(wd, pwd, wd, success)
     assert_raises { shell.cd_exec(wd+'X', pwd) }
   end
@@ -81,7 +105,7 @@ class MockHostShellTest < LibTestBase
 
   test 'E0578A',
   'cd_exec raises if mock for cd_exec has dfferent command' do
-    shell = MockHostShell.new(test_id)
+    setup_mock_shell
     shell.mock_cd_exec(wd, pwd, wd, success)
     assert_raises { shell.cd_exec(wd, pwd+pwd) }
   end
@@ -92,7 +116,7 @@ class MockHostShellTest < LibTestBase
 
   test '4C1ACE',
   'exec raises if mock for cd_exec has been setup' do
-    shell = MockHostShell.new(test_id)
+    setup_mock_shell
     shell.mock_cd_exec(wd, pwd, wd, success)
     assert_raises { shell.exec(pwd) }
   end
@@ -101,7 +125,7 @@ class MockHostShellTest < LibTestBase
 
   test '181EC6',
   'exec raises if mock for exec has dfferent command' do
-    shell = MockHostShell.new(test_id)
+    setup_mock_shell
     shell.mock_exec(pwd, wd, success)
     assert_raises { shell.exec(not_pwd = "cd #{wd}") }
   end

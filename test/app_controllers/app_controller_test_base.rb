@@ -21,6 +21,11 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     `rm -f #{path_locally}/caches/*.json`
   end
 
+  def setup_mock_shell
+    ENV['CYBER_DOJO_TEST_ID'] = test_id
+    set_shell_class('MockHostShell')
+  end
+
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def create_kata(language_name = default_language, instructions_name = default_instructions)
@@ -106,6 +111,19 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   def default_instructions
     'Yatzy'
+  end
+
+  def docker_pull_output
+    [
+      'Using default tag: latest',
+      'latest: Pulling from cyberdojofoundation/python_unittest',
+      'Digest: sha256:189ff7f8b3803815c5ad07c70830da0cbca0e62c01b0354cccc059dda8cf78bc',
+      'Status: Image is up to date for cyberdojofoundation/python_unittest:latest'
+    ].join("\n")
+  end
+
+  def exit_success
+    0
   end
 
 end
