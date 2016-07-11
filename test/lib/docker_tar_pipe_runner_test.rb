@@ -6,7 +6,7 @@ class DockerTarPipeRunnerTest < LibTestBase
 
   def setup
     super
-    set_shell_class 'MockHostShell'
+    set_shell_class 'MockProxyHostShell'
     set_runner_class 'DockerTarPipeRunner'
   end
 

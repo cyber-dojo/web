@@ -20,7 +20,7 @@
   host_disk_katas
 
   host_shell
-  mock_host_shell
+  mock_proxy_host_shell
   host_disk
   host_dir
   host_git
