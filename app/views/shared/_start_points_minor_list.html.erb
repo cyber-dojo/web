@@ -2,7 +2,7 @@
 <div id="tests-list">
   <% @start_points.minor_names.each_with_index do |minor_name,index| %>
     <div class="filename"
-         id="test_<%= index %>"
+         id="minor_<%= index %>"
 	       data-index="<%= index %>"
          data-minor="<%= minor_name %>">
       <%= minor_name %>

@@ -2,10 +2,10 @@
 <div id="languages-list">
   <% @start_points.major_names.each_with_index do |major_name, index| %>
     <div class="filename"
-         id="language_<%= index %>"
+         id="major_<%= index %>"
          data-major="<%= major_name %>"
          data-index="<%= index %>"
-         data-test-index="<%= @start_points.minor_indexes[index][0] %>">
+         data-minor-index="<%= @start_points.minor_indexes[index][0] %>">
       <%= major_name %>
     </div>
   <% end %>
