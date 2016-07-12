@@ -5,9 +5,9 @@ $(function() {
 
   $('#ok').click(function() {
     var params = {
-      language: "<%= @language %>",
-          test: "<%= @test %>",
-      exercise: $('[id^=instructions_name_][class~=selected]').data('exercise'),
+          language: "<%= @language %>",
+              test: "<%= @test %>",
+      instructions: $('[id^=instructions_name_][class~=selected]').data('name'),
     };
     $.getJSON('/setup_default_start_point/save', params, function(dojo) {
       cd.newDojoDialog(dojo.id);

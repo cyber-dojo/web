@@ -31,9 +31,9 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   def create_kata(language_name = default_language, instructions_name = default_instructions)
     parts = language_name.split(',')
     params = {
-      language: parts[0].strip,
-          test: parts[1].strip,
-      exercise: instructions_name
+          language: parts[0].strip,
+              test: parts[1].strip,
+      instructions: instructions_name
     }
     get 'setup_default_start_point/save', params
     @id = json['id']

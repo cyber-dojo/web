@@ -3,7 +3,7 @@
   <% @instructions_names.each_with_index do |name,index| %>
     <div class='filename'
          id="instructions_name_<%= index %>"
-         data-exercise="<%= name %>" >
+         data-name="<%= name %>" >
       <%= name.gsub('_', ' ') %>
     </div>
   <% end %>

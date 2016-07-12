@@ -77,19 +77,18 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   test 'BB9967',
   'show_instructions page uses cached instructions' do
     do_get 'show_instructions'
-    assert /data-exercise\=\"#{print_diamond}/.match(html), print_diamond
-    assert /data-exercise\=\"#{roman_numerals}/.match(html), roman_numerals
-    assert /data-exercise\=\"#{bowling_game}/.match(html), bowling_game
+    assert /data-name\=\"#{print_diamond}/.match(html), print_diamond
+    assert /data-name\=\"#{roman_numerals}/.match(html), roman_numerals
+    assert /data-name\=\"#{bowling_game}/.match(html), bowling_game
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test 'D79BA3',
-  'setup/show_languages defaults to language and test-framework of kata',
+  'show_languages defaults to language and test-framework of kata',
   'whose full-id is passed in URL (to encourage repetition)' do
     language_display_name = languages_display_names.sample # eg "C++ (g++), CppUTest"
     instructions_name = instructions_names.sample # eg "Word_Wrap"
-
     id = create_kata(language_display_name, instructions_name)
 
     do_get 'show_languages', :id => id
@@ -97,16 +96,14 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     md = /var selectedLanguage = \$\('#language_' \+ (\d+)/.match(html)
     languages_names = languages_display_names.map { |name| get_language_from(name) }.uniq.sort
     selected_language = languages_names[md[1].to_i]
-
     assert_equal get_language_from(language_display_name), selected_language, 'language'
-
     # checking the initial test-framework looks to be nigh on impossible on static html
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test '82562A',
-  'setup/show_instructions defaults to instructions of kata',
+  'show_instructions defaults to instructions of kata',
   'whose full-id is passed in URL (to encourage repetition)' do
     language_display_name = languages_display_names.sample
     instructions_name = instructions_names.sample
@@ -114,7 +111,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
     do_get 'show_instructions', :id => id
 
-    md = /var selectedExercise = \$\('#exercise_' \+ (\d+)/.match(html)
+    md = /var selected = \$\('#instructions_name_' \+ (\d+)/.match(html)
     selected_instructions_name = instructions_names[md[1].to_i]
     assert_equal instructions_name, selected_instructions_name, 'instructions'
   end

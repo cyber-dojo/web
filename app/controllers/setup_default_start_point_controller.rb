@@ -45,12 +45,16 @@ class SetupDefaultStartPointController < ApplicationController
     language_name = params['language']
         test_name = params['test'    ]
     language = languages[language_name + '-' + test_name]
-    instruction_name = params['exercise']
-    instruction = instructions[instruction_name]
+
     manifest = katas.create_kata_manifest(language)
+
+    instruction_name = params['instructions']
+    instruction = instructions[instruction_name]
     manifest[:exercise] = instruction.name
     manifest[:visible_files]['instructions'] = instruction.text
+
     kata = katas.create_kata_from_kata_manifest(manifest)
+
     render json: { id: kata.id }
   end
 
