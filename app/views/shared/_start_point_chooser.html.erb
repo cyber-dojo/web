@@ -3,12 +3,12 @@
 
 $(function() {
 
-  var testIndexes = $.parseJSON('<%= @display_names.minor_indexes.inspect.html_safe %>');
+  var testIndexes = $.parseJSON('<%= @start_points.minor_indexes.inspect.html_safe %>');
 
   var previousLanguage = undefined;
   var previousTest     = undefined;
 
-  var selectedLanguage = $('#language_' + <%= @initial_index %>);
+  var selectedLanguage = $('#language_' + <%= @start_points.initial_index %>);
 
   $('[id^=language_]').each(function() {
     var language = $(this);

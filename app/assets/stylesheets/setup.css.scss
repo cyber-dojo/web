@@ -13,7 +13,7 @@
     text-align: right;
   }
 
-  #display-names-major-container, #display-names-minor-container, #exercises-container {
+  #start-points-major-container, #start-points-minor-container, #exercises-container {
     @include edged-panel();
     padding: 10px !important;
   }

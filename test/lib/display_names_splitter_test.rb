@@ -34,7 +34,7 @@ class DisplayNamesSplitterTest < LibTestBase
       'C',
       'C++',  # <----- selected_index
       'Go'
-    ], split_names.major
+    ], split_names.major_names
 
     assert_equal [
       'GoogleTest',  # 0
@@ -42,7 +42,7 @@ class DisplayNamesSplitterTest < LibTestBase
       'Unity',       # 2
       'assert',      # 3
       'testing'      # 4
-    ], split_names.minor
+    ], split_names.minor_names
 
     # Need to know which tests names to display and initially select
     # Make the indexes *not* sorted and the

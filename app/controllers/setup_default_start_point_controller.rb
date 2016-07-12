@@ -10,8 +10,7 @@ class SetupDefaultStartPointController < ApplicationController
     @title = 'create'
     languages_names = display_names_of(languages)
     index = choose_language(languages_names, id, dojo.katas)
-    @display_names = ::DisplayNamesSplitter.new(languages_names, index)
-    @initial_index = @display_names.initial_index
+    @start_points = ::DisplayNamesSplitter.new(languages_names, index)
     @max_seconds = dojo.runner.max_seconds
   end
 
