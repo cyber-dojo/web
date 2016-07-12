@@ -13,10 +13,6 @@ rename language,test to major,minor (setup-controlller)
 
 - - - - - - - - - - - - - - - - - - - - -
 
-rename manifest(s) to start_point(s)
-
-- - - - - - - - - - - - - - - - - - - - -
-
 if [docker pull] command on new setup pages fails then I need to
 bail out of creating the kata.
 
