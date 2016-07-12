@@ -1,7 +1,7 @@
 
 #setup-page.busy * { cursor: wait !important; }
 
-#setup-start-point-page, #setup-instructions-page {
+#setup-start-point-page, #setup-exercises-page {
 
   margin: { top: 55px; }
   font-size: 1.15em;
@@ -18,7 +18,7 @@
     padding: 10px !important;
   }
 
-  #languages-list, #tests-list, #instructions-list {
+  #languages-list, #tests-list, #exercises-list {
     @include non-code-font();
      height: 370px;
       width: 140px;
@@ -64,18 +64,18 @@
 
 // - - - - - - - - - - - - - - - - - - - -
 
-#setup-instructions-page {
+#setup-exercises-page {
 
   margin: { left: 150px; }
 
-  #instructions-container {
+  #exercises-container {
 
         padding: 10px !important;
     margin-left: 110px;
 
-    #instructions-list { width: 165px; }
+    #exercises-list { width: 165px; }
 
-    #instructions {
+    #exercises {
       @include code-font();
       &::-webkit-scrollbar:vertical { width: 10px; }
       border-top-left-radius: 5px;

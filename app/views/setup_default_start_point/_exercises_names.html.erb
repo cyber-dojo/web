@@ -1,8 +1,8 @@
 
-<div id="instructions-list">
-  <% @instructions_names.each_with_index do |name,index| %>
+<div id="exercises-list">
+  <% @exercises_names.each_with_index do |name, index| %>
     <div class='filename'
-         id="instructions_name_<%= index %>"
+         id="exercises_name_<%= index %>"
          data-name="<%= name %>" >
       <%= name.gsub('_', ' ') %>
     </div>

@@ -1,12 +1,12 @@
 
-<textarea name="instructions"
-          id="instructions"
+<textarea name="exercises"
+          id="exercises"
           readonly="readonly"
           cols="62"
           rows="30">
 </textarea>
 
-<% @instructions_names.each_with_index do |choice,index| %>
+<% @exercises_names.each_with_index do |choice,index| %>
    <textarea style="display:none;"
-             id="instructions_<%= index %>"><%=h @instructions[choice] %></textarea>
+             id="exercises_<%= index %>"><%=h @exercises[choice] %></textarea>
 <% end %>

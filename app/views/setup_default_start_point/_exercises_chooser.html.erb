@@ -4,15 +4,15 @@
 $(function() {
 
   var previous = undefined;
-  var selected = $('#instructions_name_' + <%= @initial_index %>);
+  var selected = $('#exercises_name_' + <%= @initial_index %>);
 
-  $('[id^=instructions_name_]').each(function(index) {
+  $('[id^=exercises_name_]').each(function(index) {
      var name = $(this);
      name.click(function() {
-       var instructions = $('#instructions_' + index).val();
+       var exercise = $('#exercises_' + index).val();
        cd.radioEntrySwitch(previous, name);
        previous = name;
-       $('#instructions').val(instructions);
+       $('#exercises').val(exercise);
      });
    });
 

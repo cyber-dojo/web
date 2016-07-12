@@ -89,7 +89,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
     do_get 'show_exercises', :id => id
 
-    md = /var selected = \$\('#instructions_name_' \+ (\d+)/.match(html)
+    md = /var selected = \$\('#exercises_name_' \+ (\d+)/.match(html)
     selected_exercise_name = exercises_names[md[1].to_i]
     assert_equal exercise_name, selected_exercise_name, 'exercises'
   end
