@@ -26,11 +26,11 @@ var cyberDojo = (function(cd, $) {
   };
 
   cd.chosenLanguage = function() {
-    return $('[id^=language_][class~=selected]').data('language');
+    return $('[id^=language_][class~=selected]').data('major');
   };
 
   cd.chosenTest = function() {
-    return $('[id^=test_][class~=selected]').data('test');
+    return $('[id^=test_][class~=selected]').data('minor');
   };
 
   var makePullDialog = function() {
