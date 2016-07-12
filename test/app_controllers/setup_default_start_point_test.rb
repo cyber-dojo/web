@@ -31,12 +31,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   test '406596',
   'pull_needed is true if docker image is not pulled' do
-    params = {
-      format: :js,
-       major: 'C#',
-       minor: 'Moq'
-    }
-    do_get 'pull_needed', params
+    do_get 'pull_needed', major_minor_js('C#', 'Moq')
     assert json['pull_needed']
   end
 
@@ -44,12 +39,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   test 'B28A3D',
   'pull_needed is false if docker image is pulled' do
-    params = {
-      format: :js,
-       major: 'C#',
-       minor: 'NUnit'
-    }
-    do_get 'pull_needed', params
+    do_get 'pull_needed', major_minor_js('C#', 'NUnit')
     refute json['pull_needed']
   end
 
@@ -63,12 +53,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
       docker_pull_output,
       exit_success
     )
-    params = {
-      format: :js,
-       major: 'C#',
-       minor: 'NUnit'
-    }
-    do_get 'pull', params
+    do_get 'pull', major_minor_js('C#', 'NUnit')
     shell.teardown
   end
 
@@ -127,8 +112,12 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     assert_response :success
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - -
+
   def languages_display_names; languages.map(&:display_name).sort; end
   def instructions_names; instructions.map(&:name).sort; end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
 
   def get_language_from(name); commad(name)[0].strip; end
   def get_test_from(name)    ; commad(name)[1].strip; end
@@ -140,9 +129,21 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   def roman_numerals; 'Roman_Numerals'; end
   def   bowling_game;   'Bowling_Game'; end
 
+  # - - - - - - - - - - - - - - - - - - - - - -
+
   def cpp_assert;   'C++, assert'; end
   def asm_assert;   'Asm, assert'; end
   def csharp_nunit; 'C#, NUnit'  ; end
   def java_junit;   'Java, JUnit'; end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  def major_minor_js(major, minor)
+    {
+      format: :js,
+       major: major,
+       minor: minor
+    }
+  end
 
 end

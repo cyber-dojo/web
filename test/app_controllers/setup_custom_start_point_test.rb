@@ -38,12 +38,7 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
 
   test '294C10',
   'pull_needed is true if docker image is not pulled' do
-    params = {
-      format: :js,
-       major: 'Tennis refactoring',
-       minor: 'Python unitttest'
-    }
-    do_get 'pull_needed', params
+    do_get 'pull_needed', major_minor_js('Tennis refactoring', 'Python unitttest')
     assert json['pull_needed']
   end
 
@@ -51,12 +46,7 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
 
   test '9D3E9A',
   'pull_needed is false if docker image is pulled' do
-    params = {
-      format: :js,
-       major: 'Tennis refactoring',
-       minor: 'C# NUnit'
-    }
-    do_get 'pull_needed', params
+    do_get 'pull_needed', major_minor_js('Tennis refactoring', 'C# NUnit')
     refute json['pull_needed']
   end
 
@@ -70,12 +60,7 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
       docker_pull_output,
       exit_success
     )
-    params = {
-      format: :js,
-       major: 'Tennis refactoring',
-       minor: 'Python unitttest'
-    }
-    do_get 'pull', params
+    do_get 'pull', major_minor_js('Tennis refactoring', 'Python unitttest')
     shell.teardown
   end
 
@@ -89,8 +74,20 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
     assert_response :success
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - -
+
   def exercises_display_names
     exercises.map(&:display_name).sort
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  def major_minor_js(major, minor)
+    {
+      format: :js,
+       major: major,
+       minor: minor
+    }
   end
 
 end
