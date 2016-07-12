@@ -16,15 +16,15 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   'show_languages page shows all language+tests' do
     do_get 'show_languages'
 
-    assert /data-language\=\"#{get_language_from(cpp_assert)}/.match(html), cpp_assert
-    assert /data-language\=\"#{get_language_from(asm_assert)}/.match(html), asm_assert
-    assert /data-language\=\"#{get_language_from(csharp_nunit)}/.match(html), csharp_nunit
-    assert /data-language\=\"#{get_language_from(java_junit)}/.match(html), java_junit
+    assert /data-major\=\"#{get_language_from(cpp_assert)}/.match(html), cpp_assert
+    assert /data-major\=\"#{get_language_from(asm_assert)}/.match(html), asm_assert
+    assert /data-major\=\"#{get_language_from(csharp_nunit)}/.match(html), csharp_nunit
+    assert /data-major\=\"#{get_language_from(java_junit)}/.match(html), java_junit
 
-    assert /data-test\=\"#{get_test_from(cpp_assert)}/.match(html), cpp_assert
-    assert /data-test\=\"#{get_test_from(asm_assert)}/.match(html), asm_assert
-    assert /data-test\=\"#{get_test_from(csharp_nunit)}/.match(html), csharp_nunit
-    assert /data-test\=\"#{get_test_from(java_junit)}/.match(html), java_junit
+    assert /data-minor\=\"#{get_test_from(cpp_assert)}/.match(html), cpp_assert
+    assert /data-minor\=\"#{get_test_from(asm_assert)}/.match(html), asm_assert
+    assert /data-minor\=\"#{get_test_from(csharp_nunit)}/.match(html), csharp_nunit
+    assert /data-minor\=\"#{get_test_from(java_junit)}/.match(html), java_junit
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -33,8 +33,8 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   'pull_needed is true if docker image is not pulled' do
     params = {
       format: :js,
-      language: 'C#',
-          test: 'Moq'
+       major: 'C#',
+       minor: 'Moq'
     }
     do_get 'pull_needed', params
     assert json['pull_needed']
@@ -46,8 +46,8 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   'pull_needed is false if docker image is pulled' do
     params = {
       format: :js,
-      language: 'C#',
-          test: 'NUnit'
+       major: 'C#',
+       minor: 'NUnit'
     }
     do_get 'pull_needed', params
     refute json['pull_needed']
@@ -65,8 +65,8 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     )
     params = {
       format: :js,
-      language: 'C#',
-          test: 'NUnit'
+       major: 'C#',
+       minor: 'NUnit'
     }
     do_get 'pull', params
     shell.teardown
@@ -93,7 +93,8 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
     do_get 'show_languages', :id => id
 
-    md = /var selectedLanguage = \$\('#language_' \+ (\d+)/.match(html)
+    md = /var selectedMajor = \$\('#major_' \+ (\d+)/.match(html)
+    refute_nil md
     languages_names = languages_display_names.map { |name| get_language_from(name) }.uniq.sort
     selected_language = languages_names[md[1].to_i]
     assert_equal get_language_from(language_display_name), selected_language, 'language'

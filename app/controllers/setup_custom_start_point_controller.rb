@@ -12,14 +12,11 @@ class SetupCustomStartPointController < ApplicationController
   end
 
   def pull_needed
-    image_name = exercise.image_name
-    answer = !dojo.runner.pulled?(image_name)
-    render json: { pull_needed: answer }
+    render json: { pull_needed: !dojo.runner.pulled?(exercise.image_name) }
   end
 
   def pull
-    image_name = exercise.image_name
-    dojo.runner.pull(image_name)
+    dojo.runner.pull(exercise.image_name)
     render json: { }
   end
 
@@ -40,6 +37,5 @@ class SetupCustomStartPointController < ApplicationController
   def exercise
     exercises[params['major'] + '-' + params['minor']]
   end
-
 
 end

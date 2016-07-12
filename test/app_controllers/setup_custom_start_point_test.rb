@@ -22,14 +22,14 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
 
     do_get 'show_exercises'
 
-    assert /data-language\=\"Tennis refactoring/.match(html)
-    assert /data-language\=\"Yahtzee refactoring/.match(html)
+    assert /data-major\=\"Tennis refactoring/.match(html)
+    assert /data-major\=\"Yahtzee refactoring/.match(html)
 
-    assert /data-test\=\"C# NUnit/.match(html), html
+    assert /data-minor\=\"C# NUnit/.match(html), html
 
     params = {
-      language: 'Tennis refactoring',
-          test: 'C# NUnit'
+      major: 'Tennis refactoring',
+      minor: 'C# NUnit'
     }
     do_get 'save', params
   end
@@ -40,8 +40,8 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
   'pull_needed is true if docker image is not pulled' do
     params = {
       format: :js,
-      language: 'Tennis refactoring',
-          test: 'Python unitttest'
+       major: 'Tennis refactoring',
+       minor: 'Python unitttest'
     }
     do_get 'pull_needed', params
     assert json['pull_needed']
@@ -53,8 +53,8 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
   'pull_needed is false if docker image is pulled' do
     params = {
       format: :js,
-      language: 'Tennis refactoring',
-          test: 'C# NUnit'
+       major: 'Tennis refactoring',
+       minor: 'C# NUnit'
     }
     do_get 'pull_needed', params
     refute json['pull_needed']
@@ -72,8 +72,8 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
     )
     params = {
       format: :js,
-      language: 'Tennis refactoring',
-          test: 'Python unitttest'
+       major: 'Tennis refactoring',
+       minor: 'Python unitttest'
     }
     do_get 'pull', params
     shell.teardown

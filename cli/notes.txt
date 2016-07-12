@@ -4,6 +4,14 @@ This will stop 100% rogue cpu process.
 
 - - - - - - - - - - - - - - - - - - - - -
 
+lib/MockHostShell
+  this only writes the empty expectations file if it doesnt already exist.
+  if the test fails then the file is not deleted and incorrectly
+    affects future tests. Need to ensure expectations file (dir) is deleted
+    in test/test_hex_id_helpers.rb
+
+- - - - - - - - - - - - - - - - - - - - -
+
 Add C# XUnit test framework.
 http://xunit.github.io/
 
@@ -82,11 +90,20 @@ Is this because (clean_up && exit_fail) is in () and so is a sub-shell?
 
 - - - - - - - - - - - - - - - - - - - - -
 
-setup page -> new kata has been created dialog box, and here is its HEX-ID
-this could offer several buttons instead of just ok (which takes you back to home page)
-o) button to take you to home page
-o) button to take you to enter page
-o) button to immediately start an avatar
+new kata has been created dialog box, and here is its HEX-ID
+  this could offer several buttons instead of just ok (which takes you back to home page)
+    o) button to take you to home page
+    o) button to take you to enter page
+    o) button to immediately start an avatar
+
+- - - - - - - - - - - - - - - - - - - - -
+
+default-setup-page
+  one 1st step have 2 buttons
+    [choose exercise] [setup now]
+or
+  on 2nd step
+    [setup with no exercise] [setup now]
 
 - - - - - - - - - - - - - - - - - - - - -
 
