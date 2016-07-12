@@ -12,6 +12,7 @@ class SetupDefaultStartPointController < ApplicationController
     index = choose_language(languages_names, id, dojo.katas)
     @display_names = ::DisplayNamesSplitter.new(languages_names, index)
     @initial_index = @display_names.initial_index
+    @max_seconds = dojo.runner.max_seconds
   end
 
   def pull_needed
