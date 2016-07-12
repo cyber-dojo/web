@@ -71,9 +71,12 @@ export CYBER_DOJO_RUNNER_SUDO=${VAR}
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # run-the-tests!
 
+
 rm -rf ../../coverage/.resultset.json
 mkdir -p coverage
 test_log='coverage/test.log'
+# ensure Mocks saving to Dir.tmpdir have clean start
+rm -rf ${TMPDIR}/cyber-dojo-*
 ruby -e "%w( ${testFiles[*]} ).map{ |file| './'+file }.each { |file| require file }" -- ${args[*]} 2>&1 | tee ${test_log}
 
 cp -R ../../coverage .

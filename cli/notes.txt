@@ -9,6 +9,7 @@ lib/MockHostShell
   if the test fails then the file is not deleted and incorrectly
     affects future tests. Need to ensure expectations file (dir) is deleted
     in test/test_hex_id_helpers.rb
+  Or I could delete in test_wrapper.sh
 
 - - - - - - - - - - - - - - - - - - - - -
 
