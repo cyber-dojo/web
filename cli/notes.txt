@@ -10,20 +10,18 @@ http://xunit.github.io/
 - - - - - - - - - - - - - - - - - - - - -
 
 On github rename
-  default-languages    => languages ? start-points-languages
-  default-instructions => exercises ? start-points-exercises
-  default-exercises    => custom    ? start-points-custom
-
-- - - - - - - - - - - - - - - - - - - - -
-
-In cli, rename names of default volumes?
-  default-languages    => languages
-  default-instructions => exercises
-  default-exericses    => custom
+  default-languages    => start-points-languages
+  default-instructions => start-points-exercises
+  default-exercises    => start-points-custom
 
 - - - - - - - - - - - - - - - - - - - - -
 
 In cli, change terminology from volume to start-point ?
+
+In cli, rename *names* of default volumes?
+  default-languages    => languages
+  default-instructions => exercises
+  default-exericses    => custom
 
 - - - - - - - - - - - - - - - - - - - - -
 
