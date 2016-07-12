@@ -8,10 +8,10 @@ class SetupDefaultStartPointController < ApplicationController
   def show_languages
     @id = id
     @title = 'create'
-    languages_names = read_display_names(languages)
+    languages_names = display_names_of(languages)
     index = choose_language(languages_names, id, dojo.katas)
     @display_names = ::DisplayNamesSplitter.new(languages_names, index)
-    @initial_index = @display_names.selected_index
+    @initial_index = @display_names.initial_index
   end
 
   def pull_needed
@@ -62,7 +62,7 @@ class SetupDefaultStartPointController < ApplicationController
 
   include SetupChooser
 
-  def read_display_names(start_points)
+  def display_names_of(start_points)
     start_points.map(&:display_name).sort
   end
 

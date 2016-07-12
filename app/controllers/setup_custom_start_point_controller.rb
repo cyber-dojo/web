@@ -6,10 +6,10 @@ class SetupCustomStartPointController < ApplicationController
   def show_exercises
     @id = id
     @title = 'create'
-    exercises_names = read(exercises)
+    exercises_names = display_names_of(exercises)
     index = choose_language(exercises_names, id, dojo.katas)
     @display_names = ::DisplayNamesSplitter.new(exercises_names, index)
-    @initial_index = @display_names.selected_index
+    @initial_index = @display_names.initial_index
   end
 
   def pull_needed
@@ -43,8 +43,8 @@ class SetupCustomStartPointController < ApplicationController
 
   include SetupChooser
 
-  def read(manifests)
-    manifests.map(&:display_name).sort
+  def display_names_of(start_points)
+    start_points.map(&:display_name).sort
   end
 
 end

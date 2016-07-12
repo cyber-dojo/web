@@ -1,26 +1,26 @@
 
 class DisplayNamesSplitter
 
-  def initialize(display_names, selected_index)
+  def initialize(display_names, initial_index)
     @display_names = display_names
-    @selected_index = selected_index
+    @initial_index = initial_index
   end
 
-  def names
-    @names ||= split(0)
+  def major
+    @major ||= split(0)
   end
 
-  def selected_index
-    name = @display_names[@selected_index].split(',')[0].strip
-    names.index(name)
+  def initial_index
+    name = @display_names[@initial_index].split(',')[0].strip
+    major.index(name)
   end
 
-  def tests_names
-    @tests_names ||= split(1)
+  def minor
+    @minor ||= split(1)
   end
 
-  def tests_indexes
-    names.map { |name| make_test_indexes(name) }
+  def minor_indexes
+    major.map { |major_name| make_minor_indexes(major_name) }
   end
 
 private
@@ -29,38 +29,38 @@ private
     @display_names.map { |name| name.split(',')[n].strip }.sort.uniq
   end
 
-  def make_test_indexes(language_name)
-    result = []
-    @display_names.each do |name|
-      if name.start_with?(language_name + ',')
-        test_name = name.split(',')[1].strip
-        result << tests_names.index(test_name)
+  def make_minor_indexes(major_name)
+    indexes = []
+    @display_names.each do |display_name|
+      if display_name.start_with?(major_name + ',')
+        minor_name = display_name.split(',')[1].strip
+        indexes << minor.index(minor_name)
       end
     end
-    result.shuffle
+    indexes.shuffle
 
     # if this is the tests index array for the selected-language
     # then make sure the index for the selected-language's test
     # is at position zero.
     # Why?
-    # See /app/views/setup/_list_languages.hmtl.erb
-    #     8     data-test-index="<%= @split.tests_indexes[index][0] %>"
+    # See /app/views/shared/_languages_list.hmtl.erb
+    #     8     data-test-index="<%= @display_names.minor_indexes[index][0] %>"
     #
-    # and /app/views/setup/_chooser.html.erb
+    # and /app/views/shared/_start_point_chooser.html.erb
     #     25 var ti = language.data('test-index');
     #     26 $('[id=test_' + ti +']').click();
     #
     # These ensure the initial selection of the language causes the correct
     # initial selection of the test for that language.
 
-    if language_name == names[selected_index]
-      test_name = @display_names[@selected_index].split(',')[1].strip
-      test_index = tests_names.index(test_name)
-      result.delete(test_index)
-      result.unshift(test_index)
+    if major_name == major[initial_index]
+      minor_name = @display_names[@initial_index].split(',')[1].strip
+      minor_index = minor.index(minor_name)
+      indexes.delete(minor_index)
+      indexes.unshift(minor_index)
     end
 
-    result
+    indexes
   end
 
 end
