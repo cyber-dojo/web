@@ -9,7 +9,19 @@ http://xunit.github.io/
 
 - - - - - - - - - - - - - - - - - - - - -
 
-rename language,test to major,minor (setup-controlller)
+In dojo
+  default (2 step)
+    languages
+    instructions
+  custom (1 step)
+    exercises
+
+rename to
+  default (2 step)
+    languages
+    exercises   ('instructions_root' -> 'exercises_root')
+  custom (1 step)
+    custom      ('exercises_root' -> 'custom_root')
 
 - - - - - - - - - - - - - - - - - - - - -
 

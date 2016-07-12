@@ -10,7 +10,7 @@ var cyberDojo = (function(cd, $) {
     pullDialog.dialog('open');
     pullOverlay.insertAfter($('body'));
     pullSpinner.show();
-    $.getJSON(route, cd.chosenLanguageAndTest(), function() {
+    $.getJSON(route, cd.chosenMajorMinor(), function() {
       pullSpinner.hide();
       pullOverlay.remove();
       pullDialog.dialog('close');
@@ -18,26 +18,26 @@ var cyberDojo = (function(cd, $) {
     });
   };
 
-  cd.chosenLanguageAndTest = function() {
+  cd.chosenMajorMinor = function() {
     return {
-      language: cd.chosenLanguage(),
-          test: cd.chosenTest()
+      major: cd.chosenMajor(),
+      minor: cd.chosenMinor()
     };
   };
 
-  cd.chosenLanguage = function() {
+  cd.chosenMajor = function() {
     return $('[id^=major_][class~=selected]').data('major');
   };
 
-  cd.chosenTest = function() {
+  cd.chosenMinor = function() {
     return $('[id^=minor_][class~=selected]').data('minor');
   };
 
   var makePullDialog = function() {
     var html = '' +
       'This is the first time anyone has selected<br/>' +
-      '&nbsp;&nbsp;&nbsp;&rarr;&nbsp;' + cd.chosenLanguage() + '<br/>' +
-      '&nbsp;&nbsp;&nbsp;&rarr;&nbsp;' + cd.chosenTest() + '<br/>' +
+      '&nbsp;&nbsp;&nbsp;&rarr;&nbsp;' + cd.chosenMajor() + '<br/>' +
+      '&nbsp;&nbsp;&nbsp;&rarr;&nbsp;' + cd.chosenMinor() + '<br/>' +
       "It's docker image is now being pulled onto the server.<br/>" +
       'It will take a minute or two.<br/>' +
       'Please wait.';

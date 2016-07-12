@@ -12,8 +12,8 @@ class SetupCustomStartPointController < ApplicationController
   end
 
   def pull_needed
-    language_name = params['language']
-        test_name = params['test'    ]
+    language_name = params['major']
+        test_name = params['minor']
     exercise = exercises[language_name + '-' + test_name]
     image_name = exercise.image_name
     answer = !dojo.runner.pulled?(image_name)
@@ -21,8 +21,8 @@ class SetupCustomStartPointController < ApplicationController
   end
 
   def pull
-    language_name = params['language']
-        test_name = params['test'    ]
+    language_name = params['major']
+        test_name = params['minor']
     exercise = exercises[language_name + '-' + test_name]
     image_name = exercise.image_name
     dojo.runner.pull(image_name)
@@ -30,8 +30,8 @@ class SetupCustomStartPointController < ApplicationController
   end
 
   def save
-    language_name = params['language']
-        test_name = params['test']
+    language_name = params['major']
+        test_name = params['minor']
     exercise = exercises[language_name + '-' + test_name]
     manifest = katas.create_kata_manifest(exercise)
     kata = katas.create_kata_from_kata_manifest(manifest)

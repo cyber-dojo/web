@@ -4,13 +4,13 @@
 $(function() {
 
   var createDojo = function() {
-    $.getJSON('/setup_custom_start_point/save', cd.chosenLanguageAndTest(), function(dojo) {
+    $.getJSON('/setup_custom_start_point/save', cd.chosenMajorMinor(), function(dojo) {
       cd.newDojoDialog(dojo.id);
     });
   };
 
   $('#ok').click(function() {
-    $.getJSON('/setup_custom_start_point/pull_needed', cd.chosenLanguageAndTest(), function(dojo) {
+    $.getJSON('/setup_custom_start_point/pull_needed', cd.chosenMajorMinor(), function(dojo) {
       if (dojo.pull_needed) {
         cd.dialog_pullImageThen('/setup_custom_start_point/pull', createDojo);
       } else {

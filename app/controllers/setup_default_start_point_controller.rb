@@ -15,8 +15,8 @@ class SetupDefaultStartPointController < ApplicationController
   end
 
   def pull_needed
-    language_name = params['language']
-        test_name = params['test'    ]
+    language_name = params['major']
+        test_name = params['minor']
     language = languages[language_name + '-' + test_name]
     image_name = language.image_name
     answer = !dojo.runner.pulled?(image_name)
@@ -24,8 +24,8 @@ class SetupDefaultStartPointController < ApplicationController
   end
 
   def pull
-    language_name = params['language']
-        test_name = params['test'    ]
+    language_name = params['major']
+        test_name = params['minor']
     language = languages[language_name + '-' + test_name]
     image_name = language.image_name
     dojo.runner.pull(image_name)

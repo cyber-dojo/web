@@ -6,13 +6,13 @@ $(function() {
   var gotoChooseInstructionsPage = function() {
     var id = "<%= @id %>";
     var url = '/setup_default_start_point/show_instructions/' + id +
-      '?language=' + encodeURIComponent(cd.chosenLanguage()) +
-      '&test=' + encodeURIComponent(cd.chosenTest());
+      '?language=' + encodeURIComponent(cd.chosenMajor()) +
+      '&test=' + encodeURIComponent(cd.chosenMinor());
     window.location = url;
   };
 
   $('#next').click(function() {
-    $.getJSON('/setup_default_start_point/pull_needed', cd.chosenLanguageAndTest(), function(dojo) {
+    $.getJSON('/setup_default_start_point/pull_needed', cd.chosenMajorMinor(), function(dojo) {
         if (dojo.pull_needed) {
           cd.dialog_pullImageThen('/setup_default_start_point/pull', gotoChooseInstructionsPage);
         } else {
