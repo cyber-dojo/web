@@ -21,7 +21,6 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
       exercises_display_names
 
     do_get 'show_exercises'
-    assert_response :success
 
     assert /data-language\=\"Tennis refactoring/.match(html)
     assert /data-language\=\"Yahtzee refactoring/.match(html)
@@ -33,7 +32,6 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
           test: 'C# NUnit'
     }
     do_get 'save', params
-    assert_response :success
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -46,8 +44,7 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
           test: 'Python unitttest'
     }
     do_get 'pull_needed', params
-    assert_response :success
-    assert_equal true, json['pull_needed']
+    assert json['pull_needed']
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -60,8 +57,7 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
           test: 'C# NUnit'
     }
     do_get 'pull_needed', params
-    assert_response :success
-    assert_equal false, json['pull_needed']
+    refute json['pull_needed']
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -80,7 +76,6 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
           test: 'Python unitttest'
     }
     do_get 'pull', params
-    assert_response :success
     shell.teardown
   end
 
@@ -88,9 +83,14 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
 
   private
 
-  def do_get(route, params = {}); get "#{controller}/#{route}", params; end
-  def controller; 'setup_custom_start_point'; end
+  def do_get(route, params = {})
+    controller = 'setup_custom_start_point'
+    get "#{controller}/#{route}", params
+    assert_response :success
+  end
 
-  def exercises_display_names; exercises.map(&:display_name).sort; end
+  def exercises_display_names
+    exercises.map(&:display_name).sort
+  end
 
 end

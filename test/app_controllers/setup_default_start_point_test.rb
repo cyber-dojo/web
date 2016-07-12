@@ -15,7 +15,6 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   test '9F4020',
   'show_languages page shows all language+tests' do
     do_get 'show_languages'
-    assert_response :success
 
     assert /data-language\=\"#{get_language_from(cpp_assert)}/.match(html), cpp_assert
     assert /data-language\=\"#{get_language_from(asm_assert)}/.match(html), asm_assert
@@ -38,8 +37,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
           test: 'Moq'
     }
     do_get 'pull_needed', params
-    assert_response :success
-    assert_equal true, json['pull_needed']
+    assert json['pull_needed']
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -52,8 +50,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
           test: 'NUnit'
     }
     do_get 'pull_needed', params
-    assert_response :success
-    assert_equal false, json['pull_needed']
+    refute json['pull_needed']
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -72,7 +69,6 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
           test: 'NUnit'
     }
     do_get 'pull', params
-    assert_response :success
     shell.teardown
   end
 
@@ -81,7 +77,6 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   test 'BB9967',
   'show_instructions page uses cached instructions' do
     do_get 'show_instructions'
-    assert_response :success
     assert /data-exercise\=\"#{print_diamond}/.match(html), print_diamond
     assert /data-exercise\=\"#{roman_numerals}/.match(html), roman_numerals
     assert /data-exercise\=\"#{bowling_game}/.match(html), bowling_game
@@ -98,7 +93,6 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     id = create_kata(language_display_name, instructions_name)
 
     do_get 'show_languages', :id => id
-    assert_response :success
 
     md = /var selectedLanguage = \$\('#language_' \+ (\d+)/.match(html)
     languages_names = languages_display_names.map { |name| get_language_from(name) }.uniq.sort
@@ -119,7 +113,6 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     id = create_kata(language_display_name, instructions_name)
 
     do_get 'show_instructions', :id => id
-    assert_response :success
 
     md = /var selectedExercise = \$\('#exercise_' \+ (\d+)/.match(html)
     selected_instructions_name = instructions_names[md[1].to_i]
@@ -130,8 +123,11 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   private
 
-  def do_get(route, params = {}); get "#{controller}/#{route}", params; end
-  def controller; 'setup_default_start_point'; end
+  def do_get(route, params = {})
+    controller = 'setup_default_start_point'
+    get "#{controller}/#{route}", params
+    assert_response :success
+  end
 
   def languages_display_names; languages.map(&:display_name).sort; end
   def instructions_names; instructions.map(&:name).sort; end
