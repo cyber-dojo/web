@@ -40,7 +40,7 @@ export CYBER_DOJO_DATA_ROOT=${cyber_dojo_root}/data
 
 export CYBER_DOJO_RAILS_ENVIRONMENT=production
 export CYBER_DOJO_LANGUAGES_VOLUME=default-languages
-export CYBER_DOJO_INSTRUCTIONS_VOLUME=default-instructions
+export CYBER_DOJO_EXERCISES_VOLUME=default-instructions
 export CYBER_DOJO_CUSTOM_VOLUME=default-exercises
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

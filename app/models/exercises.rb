@@ -1,5 +1,5 @@
 
-class Instructions
+class Exercises
   include Enumerable
 
   def initialize(dojo, key)
@@ -54,7 +54,7 @@ class Instructions
   end
 
   def make(dir_name, text = nil)
-    Instruction.new(self, dir_name, text)
+    Exercise.new(self, dir_name, text)
   end
 
 end

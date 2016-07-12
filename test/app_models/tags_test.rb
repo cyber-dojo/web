@@ -10,7 +10,7 @@ class TagsTest < AppModelsTestBase
   'and before first [test] is run',
   'and contains all visible files' do
     language = languages['C (clang)-assert']
-    exercise = instructions['Fizz_Buzz']
+    exercise = exercises['Fizz_Buzz']
     kata = make_kata({ language:'C (clang)-assert', exercise:'Fizz_Buzz' })
     avatar = kata.start_avatar
     tags = avatar.tags

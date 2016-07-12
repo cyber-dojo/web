@@ -8,8 +8,8 @@
   languages_rename
   start_point
   start_points
-  instruction
-  instructions
+  exercise
+  exercises
   kata
   avatar
   avatars

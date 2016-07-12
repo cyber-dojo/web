@@ -25,10 +25,10 @@ class DojoTest < AppModelsTestBase
 
   test 'FB76F9',
   'using an unset external root path raises StandardError' do
-    unset_instructions_root && assert_raises(StandardError) { instructions.path }
-    unset_languages_root    && assert_raises(StandardError) {    languages.path }
-    unset_custom_root       && assert_raises(StandardError) {       custom.path }
-    unset_katas_root        && assert_raises(StandardError) {        katas.path }
+    unset_languages_root && assert_raises(StandardError) { languages.path }
+    unset_exercises_root && assert_raises(StandardError) { exercises.path }
+    unset_custom_root    && assert_raises(StandardError) {    custom.path }
+    unset_katas_root     && assert_raises(StandardError) {     katas.path }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -62,21 +62,21 @@ class DojoTest < AppModelsTestBase
 
   test 'FB7EA1',
   'setting an external root succeeds' do
-    set_instructions_root(path = tmp_root + '/instructions') && assert_equal(path, instructions.path)
-    set_languages_root(   path = tmp_root + '/languages'   ) && assert_equal(path,    languages.path)
-    set_custom_root(      path = tmp_root + '/custom'      ) && assert_equal(path,       custom.path)
-    set_katas_root(       path = tmp_root + '/katas'       ) && assert_equal(path,        katas.path)
+    set_languages_root(path = tmp_root + '/languages') && assert_equal(path, languages.path)
+    set_exercises_root(path = tmp_root + '/exercises') && assert_equal(path, exercises.path)
+    set_custom_root(   path = tmp_root + '/custom'   ) && assert_equal(path,    custom.path)
+    set_katas_root(    path = tmp_root + '/katas'    ) && assert_equal(path,     katas.path)
   end
 
   # - - - - - -
 
   test 'FB7D52',
   'setting an external root with a trailing slash chops off the trailing slash' do
-    path = tmp_root + '/instructions'
-    set_instructions_root(path + '/') && assert_equal(path, instructions.path)
-
     path = tmp_root + '/languages'
     set_languages_root(path + '/') && assert_equal(path, languages.path)
+
+    path = tmp_root + '/exercises'
+    set_exercises_root(path + '/') && assert_equal(path, exercises.path)
 
     path = tmp_root + '/custom'
     set_custom_root(path + '/') && assert_equal(path, custom.path)

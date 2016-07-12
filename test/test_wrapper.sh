@@ -49,8 +49,8 @@ export CYBER_DOJO_LOG_CLASS=MemoryLog
 # Assumes repos for default-languages et all are sibling folders to main repo folder
 VAR=${CYBER_DOJO_LANGUAGES_ROOT:-${HOME_DIR}/../default-languages}
 export CYBER_DOJO_LANGUAGES_ROOT=${VAR}
-VAR=${CYBER_DOJO_INSTRUCTIONS_ROOT:-${HOME_DIR}/../default-instructions}
-export CYBER_DOJO_INSTRUCTIONS_ROOT=${VAR}
+VAR=${CYBER_DOJO_EXERCISES_ROOT:-${HOME_DIR}/../default-instructions}
+export CYBER_DOJO_EXERCISES_ROOT=${VAR}
 
 VAR=${CYBER_DOJO_CUSTOM_ROOT:-${HOME_DIR}/../default-exercises}
 export CYBER_DOJO_CUSTOM_ROOT=${VAR}

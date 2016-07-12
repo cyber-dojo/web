@@ -5,10 +5,10 @@ module TestDomainHelpers # mix-in
 
   def dojo; @dojo ||= Dojo.new; end
 
-  def custom; dojo.custom; end
-
   def languages; dojo.languages; end
-  def instructions; dojo.instructions; end
+  def exercises; dojo.exercises; end
+
+  def custom; dojo.custom; end
 
   def runner;    dojo.runner;    end
   def katas;     dojo.katas;     end
@@ -25,9 +25,9 @@ module TestDomainHelpers # mix-in
     manifest = katas.create_kata_manifest(language, hash[:id], hash[:now])
 
     hash[:exercise] ||= default_exercise_name
-    instruction = instructions[hash[:exercise]]
-    manifest[:exercise] = instruction.name
-    manifest[:visible_files]['instructions'] = instruction.text
+    exercise = exercises[hash[:exercise]]
+    manifest[:exercise] = exercise.name
+    manifest[:visible_files]['instructions'] = exercise.text
 
     katas.create_kata_from_kata_manifest(manifest)
   end

@@ -105,7 +105,7 @@ class KataTest < AppModelsTestBase
       exercise: 'Fizz_Buzz',
     }
     java_junit = languages[hash[:language]]
-    fizz_buzz = instructions[hash[:exercise]]
+    fizz_buzz  = exercises[hash[:exercise]]
     kata = make_kata(hash)
     assert_equal id, kata.id.to_s
     assert_equal Time.mktime(*now), kata.created

@@ -21,11 +21,11 @@ CyberDojo::Application.routes.draw do
   end
 
   scope path: '/setup_default_start_point', controller: :setup_default_start_point do
-    get 'show_languages(/:id)'    => :show_languages
-    get 'pull_needed'             => :pull_needed, :constraints => { :format => :json }
-    get 'pull'                    => :pull,        :constraints => { :format => :json }
-    get 'show_instructions(/:id)' => :show_instructions
-    get 'save'                    => :save,        :constraints => { :format => :json }
+    get 'show_languages(/:id)' => :show_languages
+    get 'pull_needed'          => :pull_needed, :constraints => { :format => :json }
+    get 'pull'                 => :pull,        :constraints => { :format => :json }
+    get 'show_exercises(/:id)' => :show_exercises
+    get 'save'                 => :save,        :constraints => { :format => :json }
   end
 
   scope path: '/setup_custom_start_point', controller: :setup_custom_start_point do

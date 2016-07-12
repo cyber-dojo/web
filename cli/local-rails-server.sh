@@ -16,7 +16,7 @@ rm -f ${ROOT_DIR}/caches/*.json
 REPO_ROOT=${1:-/Users/jonjagger/repos}
 
 export CYBER_DOJO_LANGUAGES_ROOT=${REPO_ROOT}/default-languages
-export CYBER_DOJO_INSTRUCTIONS_ROOT=${REPO_ROOT}/default-instructions
+export CYBER_DOJO_EXERCISES_ROOT=${REPO_ROOT}/default-instructions
 export CYBER_DOJO_CUSTOM_ROOT=${REPO_ROOT}/default-exercises
 
 export CYBER_DOJO_KATAS_ROOT=${ROOT_DIR}/katas

@@ -26,7 +26,7 @@ web:
     - CYBER_DOJO_RUNNER_SUDO
     - CYBER_DOJO_RUNNER_TIMEOUT
     - CYBER_DOJO_LANGUAGES_ROOT=${CYBER_DOJO_DATA_ROOT}/languages
-    - CYBER_DOJO_INSTRUCTIONS_ROOT=${CYBER_DOJO_DATA_ROOT}/instructions
+    - CYBER_DOJO_EXERCISES_ROOT=${CYBER_DOJO_DATA_ROOT}/instructions
     - CYBER_DOJO_CUSTOM_ROOT=${CYBER_DOJO_DATA_ROOT}/exercises
     - CYBER_DOJO_KATAS_ROOT=${CYBER_DOJO_KATAS_ROOT}
   ports:
@@ -34,7 +34,7 @@ web:
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock
     - ${CYBER_DOJO_LANGUAGES_VOLUME}:${CYBER_DOJO_DATA_ROOT}/languages:ro
-    - ${CYBER_DOJO_INSTRUCTIONS_VOLUME}:${CYBER_DOJO_DATA_ROOT}/instructions:ro
+    - ${CYBER_DOJO_EXERCISES_VOLUME}:${CYBER_DOJO_DATA_ROOT}/instructions:ro
     - ${CYBER_DOJO_CUSTOM_VOLUME}:${CYBER_DOJO_DATA_ROOT}/exercises:ro
   volumes_from:
     - ${CYBER_DOJO_KATAS_DATA_CONTAINER}:rw

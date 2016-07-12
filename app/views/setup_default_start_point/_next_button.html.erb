@@ -3,9 +3,9 @@
 
 $(function() {
 
-  var gotoChooseInstructionsPage = function() {
+  var gotoChooseExercisesPage = function() {
     var id = "<%= @id %>";
-    var url = '/setup_default_start_point/show_instructions/' + id +
+    var url = '/setup_default_start_point/show_exercises/' + id +
       '?language=' + encodeURIComponent(cd.chosenMajor()) +
       '&test=' + encodeURIComponent(cd.chosenMinor());
     window.location = url;
@@ -14,9 +14,9 @@ $(function() {
   $('#next').click(function() {
     $.getJSON('/setup_default_start_point/pull_needed', cd.chosenMajorMinor(), function(dojo) {
         if (dojo.pull_needed) {
-          cd.dialog_pullImageThen('/setup_default_start_point/pull', gotoChooseInstructionsPage);
+          cd.dialog_pullImageThen('/setup_default_start_point/pull', gotoChooseExercisesPage);
         } else {
-          gotoChooseInstructionsPage();
+          gotoChooseExercisesPage();
         }
     });
   });

@@ -28,12 +28,12 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def create_kata(language_name = default_language, instructions_name = default_instructions)
+  def create_kata(language_name = default_language, exercise_name = default_exercise)
     parts = language_name.split(',')
     params = {
-             major: parts[0].strip,
-             minor: parts[1].strip,
-      instructions: instructions_name
+         major: parts[0].strip,
+         minor: parts[1].strip,
+      exercise: exercise_name
     }
     get 'setup_default_start_point/save', params
     @id = json['id']
@@ -109,7 +109,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     'Ruby, TestUnit'
   end
 
-  def default_instructions
+  def default_exercise
     'Yatzy'
   end
 

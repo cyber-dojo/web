@@ -1,8 +1,8 @@
 
-class Instruction
+class Exercise
 
-  def initialize(instructions, dir_name, text = nil)
-    @instructions = instructions
+  def initialize(exercises, dir_name, text = nil)
+    @exercises = exercises
     @name = dir_name
     @text = text
   end
@@ -10,7 +10,7 @@ class Instruction
   attr_reader :name
 
   def parent
-    @instructions
+    @exercises
   end
 
   def path

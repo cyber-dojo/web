@@ -23,21 +23,21 @@ class SetupDefaultStartPointController < ApplicationController
     render json: { }
   end
 
-  def show_instructions
+  def show_exercises
     @id = id
     @title = 'create'
     @language = params[:language]
     @test = params[:test]
-    @instructions_names,@instructions = read_instructions
+    @instructions_names,@instructions = read_exercises
     @initial_index = choose_instructions(@instructions_names, id, dojo.katas)
   end
 
   def save
     manifest = katas.create_kata_manifest(language)
-    instruction_name = params['instructions']
-    instruction = instructions[instruction_name]
-    manifest[:exercise] = instruction.name
-    manifest[:visible_files]['instructions'] = instruction.text
+    exercise_name = params['exercise']
+    exercise = exercises[exercise_name]
+    manifest[:exercise] = exercise.name
+    manifest[:visible_files]['instructions'] = exercise.text
     kata = katas.create_kata_from_kata_manifest(manifest)
     render json: { id: kata.id }
   end
@@ -50,14 +50,14 @@ class SetupDefaultStartPointController < ApplicationController
     start_points.map(&:display_name).sort
   end
 
-  def read_instructions
+  def read_exercises
     names = []
-    instructions_hash =  {}
-    instructions.each do |instruction|
-      names << instruction.name
-      instructions_hash[instruction.name] = instruction.text
+    hash =  {}
+    exercises.each do |exercise|
+      names << exercise.name
+      hash[exercise.name] = exercise.text
     end
-    [names.sort, instructions_hash]
+    [names.sort, hash]
   end
 
   def language
