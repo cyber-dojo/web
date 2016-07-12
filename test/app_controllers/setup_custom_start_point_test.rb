@@ -5,7 +5,7 @@ require_relative './app_controller_test_base'
 class SetupCustomStartPointControllerTest < AppControllerTestBase
 
   test 'EB77D9',
-  'show_exercises shows all exercises' do
+  'show shows all custom exercises' do
     # This assumes the exercises volume is default-exercises (refactoring)
     assert_equal [
       'Tennis refactoring, C# NUnit',
@@ -18,9 +18,9 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
       'Yahtzee refactoring, Java JUnit',
       'Yahtzee refactoring, Python unitttest'
       ],
-      exercises_display_names
+      custom_display_names
 
-    do_get 'show_exercises'
+    do_get 'show'
 
     assert /data-major\=\"Tennis refactoring/.match(html)
     assert /data-major\=\"Yahtzee refactoring/.match(html)
@@ -76,8 +76,8 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def exercises_display_names
-    exercises.map(&:display_name).sort
+  def custom_display_names
+    custom.map(&:display_name).sort
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -

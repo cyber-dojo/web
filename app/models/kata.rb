@@ -50,8 +50,8 @@ class Kata
     # TODO: This is a hack. Revisit.
     #  Its a manifested language (+test) for the regular case of
     #    starting from an empty instruction file.
-    #  Its a manifested exercise (like James uses) - the new case
-    languages[name] || exercises[name]
+    #  Its a manifested custom exercise (like James uses) - the new case
+    languages[name] || custom[name]
   end
 
   def manifest

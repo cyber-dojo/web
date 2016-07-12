@@ -3,25 +3,25 @@ class SetupCustomStartPointController < ApplicationController
 
   # Custom exercise (one-step setup)
 
-  def show_exercises
+  def show
     @id = id
     @title = 'create'
-    exercises_names = display_names_of(exercises)
-    index = choose_language(exercises_names, id, dojo.katas)
-    @start_points = ::DisplayNamesSplitter.new(exercises_names, index)
+    custom_names = display_names_of(dojo.custom)
+    index = choose_language(custom_names, id, dojo.katas)
+    @start_points = ::DisplayNamesSplitter.new(custom_names, index)
   end
 
   def pull_needed
-    render json: { pull_needed: !dojo.runner.pulled?(exercise.image_name) }
+    render json: { pull_needed: !dojo.runner.pulled?(custom.image_name) }
   end
 
   def pull
-    dojo.runner.pull(exercise.image_name)
+    dojo.runner.pull(custom.image_name)
     render json: { }
   end
 
   def save
-    manifest = katas.create_kata_manifest(exercise)
+    manifest = katas.create_kata_manifest(custom)
     kata = katas.create_kata_from_kata_manifest(manifest)
     render json: { id: kata.id }
   end
@@ -34,8 +34,8 @@ class SetupCustomStartPointController < ApplicationController
     start_points.map(&:display_name).sort
   end
 
-  def exercise
-    exercises[params['major'] + '-' + params['minor']]
+  def custom
+    dojo.custom[params['major'] + '-' + params['minor']]
   end
 
 end

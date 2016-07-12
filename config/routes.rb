@@ -29,10 +29,10 @@ CyberDojo::Application.routes.draw do
   end
 
   scope path: '/setup_custom_start_point', controller: :setup_custom_start_point do
-    get 'show_exercises(/:id)' => :show_exercises
-    get 'pull_needed'          => :pull_needed, :constraints => { :format => :json }
-    get 'pull'                 => :pull,        :constraints => { :format => :json }
-    get 'save'                 => :save,        :constraints => { :format => :json }
+    get 'show(/:id)'  => :show
+    get 'pull_needed' => :pull_needed, :constraints => { :format => :json }
+    get 'pull'        => :pull,        :constraints => { :format => :json }
+    get 'save'        => :save,        :constraints => { :format => :json }
   end
 
   scope path: '/enter', controller: :enter do
