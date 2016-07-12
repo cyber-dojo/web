@@ -9,22 +9,6 @@ http://xunit.github.io/
 
 - - - - - - - - - - - - - - - - - - - - -
 
-In dojo
-  default (2 step)
-    languages
-    instructions
-  custom (1 step)
-    exercises
-
-rename to
-  default (2 step)
-    languages
-    exercises   ('instructions_root' -> 'exercises_root')
-  custom (1 step)
-    custom      ('exercises_root' -> 'custom_root')
-
-- - - - - - - - - - - - - - - - - - - - -
-
 On github rename
   default-languages    => languages ? start-points-languages
   default-instructions => exercises ? start-points-exercises
@@ -36,6 +20,8 @@ In cli, rename names of default volumes?
   default-languages    => languages
   default-instructions => exercises
   default-exericses    => custom
+
+- - - - - - - - - - - - - - - - - - - - -
 
 In cli, change terminology from volume to start-point ?
 
