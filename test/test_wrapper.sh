@@ -71,7 +71,6 @@ export CYBER_DOJO_RUNNER_SUDO=${VAR}
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # run-the-tests!
 
-
 rm -rf ../../coverage/.resultset.json
 mkdir -p coverage
 test_log='coverage/test.log'
