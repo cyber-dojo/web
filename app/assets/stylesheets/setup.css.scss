@@ -13,7 +13,7 @@
     text-align: right;
   }
 
-  #languages-container, #tests-container, #exercises-container {
+  #display-names-major-container, #display-names-minor-container, #exercises-container {
     @include edged-panel();
     padding: 10px !important;
   }
