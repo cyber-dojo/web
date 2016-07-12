@@ -37,8 +37,8 @@ class SetupDefaultStartPointController < ApplicationController
     @title = 'create'
     @language = params[:language]
     @test = params[:test]
-    @exercises_names,@instructions = read_instructions
-    @initial_index = choose_instructions(@exercises_names, id, dojo.katas)
+    @instructions_names,@instructions = read_instructions
+    @initial_index = choose_instructions(@instructions_names, id, dojo.katas)
   end
 
   def save
