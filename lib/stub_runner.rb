@@ -42,6 +42,10 @@ class StubRunner
     output_or_timed_out(output, success=0, max_seconds)
   end
 
+  def max_seconds
+    10
+  end
+
   private
 
   include ExternalParentChainer

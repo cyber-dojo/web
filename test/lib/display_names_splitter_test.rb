@@ -17,8 +17,8 @@ class DisplayNamesSplitterTest < LibTestBase
     # docker image to build FROM in their Dockerfile
 
     languages_display_names = [
-      'C++, GoogleTest',
-      'C++, assert',      # <----- selected
+      'C++, GoogleTest',  # 0
+      'C++, assert',      # 1 <----- selected
       'C, assert',
       'C, Unity',
       'C, Igloo',
@@ -28,13 +28,13 @@ class DisplayNamesSplitterTest < LibTestBase
     selected_index = languages_display_names.index('C++, assert')
     assert_equal 1, selected_index
 
-    languages = DisplayNamesSplitter.new(languages_display_names, selected_index)
+    split_names = DisplayNamesSplitter.new(languages_display_names, selected_index)
 
     assert_equal [
       'C',
       'C++',  # <----- selected_index
       'Go'
-    ], languages.names
+    ], split_names.major
 
     assert_equal [
       'GoogleTest',  # 0
@@ -42,7 +42,7 @@ class DisplayNamesSplitterTest < LibTestBase
       'Unity',       # 2
       'assert',      # 3
       'testing'      # 4
-    ], languages.tests_names
+    ], split_names.minor
 
     # Need to know which tests names to display and initially select
     # Make the indexes *not* sorted and the
@@ -64,15 +64,15 @@ class DisplayNamesSplitterTest < LibTestBase
       ]
     ]
 
-    actual = languages.tests_indexes
+    actual = split_names.minor_indexes
     assert_equal indexes.length, actual.length
 
     indexes.each_with_index {|array,at|
       assert_equal array, actual[at].sort
     }
 
-    assert_equal 1, languages.selected_index         # C++
-    assert_equal 3, languages.tests_indexes[1][0]    # assert
+    assert_equal 1, split_names.initial_index         # C++
+    assert_equal 3, split_names.minor_indexes[1][0]    # assert
 
   end
 
