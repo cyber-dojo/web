@@ -8,8 +8,8 @@ class SetupCustomStartPointController < ApplicationController
     @title = 'create'
     exercises_names = read(exercises)
     index = choose_language(exercises_names, id, dojo.katas)
-    @languages = ::DisplayNamesSplitter.new(exercises_names, index)
-    @initial_language_index = @languages.selected_index
+    @display_names = ::DisplayNamesSplitter.new(exercises_names, index)
+    @initial_index = @display_names.selected_index
   end
 
   def pull_needed
