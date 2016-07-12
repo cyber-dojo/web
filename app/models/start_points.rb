@@ -1,5 +1,5 @@
 
-class Manifests
+class StartPoints
   include Enumerable
 
   def initialize(dojo, key)
@@ -51,7 +51,7 @@ class Manifests
   end
 
   def make(dir_name, display_name = nil, image_name = nil)
-    Manifest.new(self, dir_name, display_name, image_name)
+    StartPoint.new(self, dir_name, display_name, image_name)
   end
 
   def commad(name)

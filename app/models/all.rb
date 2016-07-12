@@ -6,8 +6,8 @@
   dojo
   cache_properties
   languages_rename
-  manifest
-  manifests
+  start_point
+  start_points
   instruction
   instructions
   kata

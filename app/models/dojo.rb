@@ -2,8 +2,8 @@
 
 class Dojo
 
-  def languages; @languages ||= Manifests.new(self, 'languages_root'); end
-  def exercises; @exercises ||= Manifests.new(self, 'exercises_root'); end
+  def languages; @languages ||= StartPoints.new(self, 'languages_root'); end
+  def exercises; @exercises ||= StartPoints.new(self, 'exercises_root'); end
 
   def instructions; @instructions ||= Instructions.new(self, 'instructions_root'); end
 

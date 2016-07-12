@@ -1,5 +1,5 @@
 
-class Manifest
+class StartPoint
 
   def initialize(languages, path, display_name = nil, image_name = nil)
     @languages = languages
