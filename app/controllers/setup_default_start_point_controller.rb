@@ -29,7 +29,7 @@ class SetupDefaultStartPointController < ApplicationController
     @language = params[:language]
     @test = params[:test]
     @exercises_names,@exercises = read_exercises
-    @initial_index = choose_instructions(@exercises_names, id, dojo.katas)
+    @initial_index = choose_exercise(@exercises_names, id, dojo.katas)
   end
 
   def save

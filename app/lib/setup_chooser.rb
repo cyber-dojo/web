@@ -13,8 +13,8 @@ module SetupChooser # mix-in
     chooser(languages, id, katas) { |kata| kata.language.display_name }
   end
 
-  def choose_instructions(instructions, id, katas)
-    chooser(instructions, id, katas) { |kata| kata.manifest['exercise'] }
+  def choose_exercise(exercises, id, katas)
+    chooser(exercises, id, katas) { |kata| kata.manifest['exercise'] }
   end
 
   def chooser(choices, id, katas)
