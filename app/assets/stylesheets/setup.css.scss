@@ -18,7 +18,7 @@
     padding: 10px !important;
   }
 
-  #languages-list, #tests-list, #exercises-list {
+  #languages-list, #tests-list, #instructions-list {
     @include non-code-font();
      height: 370px;
       width: 140px;
@@ -68,12 +68,12 @@
 
   margin: { left: 150px; }
 
-  #exercises-container {
+  #instructions-container {
 
         padding: 10px !important;
     margin-left: 110px;
 
-    #exercises-list { width: 165px; }
+    #instructions-list { width: 165px; }
 
     #instructions {
       @include code-font();

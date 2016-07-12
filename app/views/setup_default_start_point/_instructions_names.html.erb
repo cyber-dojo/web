@@ -1,10 +1,10 @@
 
-<div id="exercises-list">
-  <% @instructions_names.each_with_index do |choice,index| %>
+<div id="instructions-list">
+  <% @instructions_names.each_with_index do |name,index| %>
     <div class='filename'
-         id="exercise_<%= index %>"
-         data-exercise="<%= choice %>" >
-      <%= choice.gsub('_', ' ') %>
+         id="instructions_name_<%= index %>"
+         data-exercise="<%= name %>" >
+      <%= name.gsub('_', ' ') %>
     </div>
   <% end %>
 </div>

@@ -7,7 +7,7 @@ $(function() {
     var params = {
       language: "<%= @language %>",
           test: "<%= @test %>",
-      exercise: $('[id^=exercise_][class~=selected]').data('exercise'),
+      exercise: $('[id^=instructions_name_][class~=selected]').data('exercise'),
     };
     $.getJSON('/setup_default_start_point/save', params, function(dojo) {
       cd.newDojoDialog(dojo.id);
