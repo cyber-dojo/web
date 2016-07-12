@@ -347,7 +347,7 @@ cyber_dojo_up() {
   if [ "${CYBER_DOJO_CUSTOM_VOLUME}" = "${default_custom_volume}" ]; then
     if ! volume_exists ${default_custom_volume}; then
       echo "Creating ${default_custom_volume}  from ${github_cyber_dojo}/default-exercises.git"
-      volume_create_git ${default_instructions_volume} "${github_cyber_dojo}/default-exercises.git"
+      volume_create_git ${default_custom_volume} "${github_cyber_dojo}/default-exercises.git"
     fi
   fi
   # check volumes exist
