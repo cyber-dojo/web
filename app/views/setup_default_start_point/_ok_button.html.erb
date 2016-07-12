@@ -5,8 +5,8 @@ $(function() {
 
   $('#ok').click(function() {
     var params = {
-          language: "<%= @language %>",
-              test: "<%= @test %>",
+             major: "<%= @language %>",
+             minor: "<%= @test %>",
       instructions: $('[id^=instructions_name_][class~=selected]').data('name'),
     };
     $.getJSON('/setup_default_start_point/save', params, function(dojo) {

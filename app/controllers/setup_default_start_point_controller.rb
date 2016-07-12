@@ -2,7 +2,7 @@
 class SetupDefaultStartPointController < ApplicationController
 
   # Regular two step setup
-  # step 1. languages+test in column 1,2)  (eg Java+JUnit)
+  # step 1. languages+test in column 1,2   (eg Java+JUnit)
   # step 2. instructions                   (eg Fizz_Buzz)
 
   def show_languages
@@ -15,20 +15,11 @@ class SetupDefaultStartPointController < ApplicationController
   end
 
   def pull_needed
-    language_name = params['major']
-        test_name = params['minor']
-    language = languages[language_name + '-' + test_name]
-    image_name = language.image_name
-    answer = !dojo.runner.pulled?(image_name)
-    render json: { pull_needed: answer }
+    render json: { pull_needed: !dojo.runner.pulled?(language.image_name) }
   end
 
   def pull
-    language_name = params['major']
-        test_name = params['minor']
-    language = languages[language_name + '-' + test_name]
-    image_name = language.image_name
-    dojo.runner.pull(image_name)
+    dojo.runner.pull(language.image_name)
     render json: { }
   end
 
@@ -42,19 +33,12 @@ class SetupDefaultStartPointController < ApplicationController
   end
 
   def save
-    language_name = params['language']
-        test_name = params['test'    ]
-    language = languages[language_name + '-' + test_name]
-
     manifest = katas.create_kata_manifest(language)
-
     instruction_name = params['instructions']
     instruction = instructions[instruction_name]
     manifest[:exercise] = instruction.name
     manifest[:visible_files]['instructions'] = instruction.text
-
     kata = katas.create_kata_from_kata_manifest(manifest)
-
     render json: { id: kata.id }
   end
 
@@ -74,6 +58,10 @@ class SetupDefaultStartPointController < ApplicationController
       instructions_hash[instruction.name] = instruction.text
     end
     [names.sort, instructions_hash]
+  end
+
+  def language
+    languages[params['major'] + '-' + params['minor']]
   end
 
 end
