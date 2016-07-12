@@ -13,8 +13,8 @@ cyber_dojo_hub=cyberdojo
 cyber_dojo_root=/usr/src/cyber-dojo
 
 default_languages_volume=default-languages
-default_exercises_volume=default-exercises
-default_instructions_volume=default-instructions
+default_exercises_volume=default-instructions
+default_custom_volume=default-exercises
 
 # set environment variables required by docker-compose.yml
 
@@ -326,8 +326,8 @@ cyber_dojo_up() {
       export CYBER_DOJO_EXERCISES_VOLUME=${value}
     fi
     # --instructions=vol
-    if [ "${name}" = "--instructions" ] && [ "${value}" != '' ]; then
-      export CYBER_DOJO_INSTRUCTIONS_VOLUME=${value}
+    if [ "${name}" = "--custom" ] && [ "${value}" != '' ]; then
+      export CYBER_DOJO_CUSTOM_VOLUME=${value}
     fi
   done
   # create default volumes if necessary
@@ -340,14 +340,14 @@ cyber_dojo_up() {
   fi
   if [ "${CYBER_DOJO_EXERCISES_VOLUME}" = "${default_exercises_volume}" ]; then
     if ! volume_exists ${default_exercises_volume}; then
-      echo "Creating ${default_exercises_volume} from ${github_cyber_dojo}/default-exercises.git"
-      volume_create_git ${default_exercises_volume} "${github_cyber_dojo}/default-exercises.git"
+      echo "Creating ${default_exercises_volume} from ${github_cyber_dojo}/default-instructions.git"
+      volume_create_git ${default_exercises_volume} "${github_cyber_dojo}/default-instructions.git"
     fi
   fi
-  if [ "${CYBER_DOJO_INSTRUCTIONS_VOLUME}" = "${default_instructions_volume}" ]; then
-    if ! volume_exists ${default_instructions_volume}; then
-      echo "Creating ${default_instructions_volume}  from ${github_cyber_dojo}/default-instructions.git"
-      volume_create_git ${default_instructions_volume} "${github_cyber_dojo}/default-instructions.git"
+  if [ "${CYBER_DOJO_CUSTOM_VOLUME}" = "${default_custom_volume}" ]; then
+    if ! volume_exists ${default_custom_volume}; then
+      echo "Creating ${default_custom_volume}  from ${github_cyber_dojo}/default-exercises.git"
+      volume_create_git ${default_instructions_volume} "${github_cyber_dojo}/default-exercises.git"
     fi
   fi
   # check volumes exist
@@ -359,13 +359,13 @@ cyber_dojo_up() {
     echo "FAILED: volume ${CYBER_DOJO_EXERCISES_VOLUME} does not exist"
     exit_fail
   fi
-  if ! volume_exists ${CYBER_DOJO_INSTRUCTIONS_VOLUME}; then
-    echo "FAILED: volume ${CYBER_DOJO_INSTRUCTIONS_VOLUME} does not exist"
+  if ! volume_exists ${CYBER_DOJO_CUSTOM_VOLUME}; then
+    echo "FAILED: volume ${CYBER_DOJO_CUSTOM_VOLUME} does not exist"
     exit_fail
   fi
   echo "Using --languages=${CYBER_DOJO_LANGUAGES_VOLUME}"
   echo "Using --exercises=${CYBER_DOJO_EXERCISES_VOLUME}"
-  echo "Using --instructions=${CYBER_DOJO_INSTRUCTIONS_VOLUME}"
+  echo "Using --custom=${CYBER_DOJO_CUSTOM_VOLUME}"
   echo "Using --environment=${CYBER_DOJO_RAILS_ENVIRONMENT}"
 
   # bring up server with volumes

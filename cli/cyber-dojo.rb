@@ -175,7 +175,7 @@ def up
     '',
     minitab + '--languages=VOLUME      Specify the languages volume (otherwise default-languages)',
     minitab + '--exercises=VOLUME      Specify the exercises volume (otherwise default-exercises)',
-    minitab + '--instructions=VOLUME   Specify the instructions volume (otherwise default-instructions)',
+    minitab + '--custom=VOLUME         Specify the custom    volume (otherwise default-custom)',
     minitab + '--env=development       Brings up the web server in development environment',
     minitab + '--env=test              Brings up the web server in test environment',
     minitab + '--env=production        Brings up the web server in production environment (default)',
@@ -186,7 +186,7 @@ def up
     exit failed
   end
   # unknown arguments?
-  knowns = ['env','languages','exercises','instructions']
+  knowns = ['env','languages','exercises','custom']
   unknown = ARGV[1..-1].select do |argv|
     knowns.none? { |known| argv.start_with?('--' + known + '=') }
   end
@@ -204,9 +204,9 @@ def up
     exit failed
   end
   # explicit volumes?
-  exit failed unless up_arg_ok(help, args, 'languages')     # --languages=VOL
-  exit failed unless up_arg_ok(help, args, 'exercises')     # --exercises=VOL
-  exit failed unless up_arg_ok(help, args, 'instructions')  # --instructions=VOL
+  exit failed unless up_arg_ok(help, args, 'languages')  # --languages=VOL
+  exit failed unless up_arg_ok(help, args, 'exercises')  # --exercises=VOL
+  exit failed unless up_arg_ok(help, args,    'custom')  # --custom=VOL
   # cyber-dojo.sh does actual [up]
 end
 
