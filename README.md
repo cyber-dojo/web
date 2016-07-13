@@ -14,7 +14,7 @@ chmod +x install-docker.sh
 sudo ./install-docker.sh
 ```
 
-Then download cyber-dojo shell script
+Then download the cyber-dojo shell script
 
 ```
 curl -O https://raw.githubusercontent.com/cyber-dojo/web/master/cli/cyber-dojo
