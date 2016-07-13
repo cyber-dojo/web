@@ -2,7 +2,22 @@
 
 install_url=https://github.com/cyber-dojo/web/blob/master/README.md
 my_dir="$( cd "$( dirname "${0}" )" && pwd )"
+
+# cyber-dojo web server image is docker version sensitive.
+# See app/docker/web/Dockerfile ~ line 49
+#    docker --version  -->  Docker version 1.11.2, build 5604cbe
+#    awk '{print $3}'  -->  1.11.2,           (third field)
+#    sed '$s/.$//'     -->  1.11.2            (lose last comma)
+docker_version=$(docker --version | awk '{print $3}' | sed '$s/.$//')
+
+cyber_dojo_home=/usr/src/cyber-dojo
+cyber_dojo_hub=cyberdojo
+cyber_dojo_web_server=${cyber_dojo_hub}/web:${docker_version}
+
 cyber_dojo_sh=cyber-dojo.sh
+docker_compose_yml=docker-compose.yml
+
+# - - - - - - - - - - - - - - - - - - - - - - -
 
 exit_if_docker_not_installed() {
   hash docker 2> /dev/null
@@ -14,6 +29,8 @@ exit_if_docker_not_installed() {
   fi
 }
 
+# - - - - - - - - - - - - - - - - - - - - - - -
+
 exit_if_docker_machine_not_installed() {
   hash docker-machine 2> /dev/null
   if [ $? != 0 ]; then
@@ -22,6 +39,8 @@ exit_if_docker_machine_not_installed() {
     exit 1
   fi
 }
+
+# - - - - - - - - - - - - - - - - - - - - - - -
 
 exit_if_docker_compose_not_installed() {
   hash docker-compose 2> /dev/null
@@ -33,31 +52,35 @@ exit_if_docker_compose_not_installed() {
   fi
 }
 
-cyber_dojo_update() {
-  # cyber-dojo web server image is docker version sensitive.
-  # See app/docker/web/Dockerfile ~ line 49
-  #    docker --version  -->  Docker version 1.11.2, build 5604cbe
-  #    awk '{print $3}'  -->  1.11.2,           (third field)
-  #    sed '$s/.$//'     -->  1.11.2            (lose last comma)
-  local docker_version=$(docker --version | awk '{print $3}' | sed '$s/.$//')
-  local cyber_dojo_home=/usr/src/cyber-dojo
-  local cyber_dojo_hub=cyberdojo
-  local cyber_dojo_web_server=${cyber_dojo_hub}/web:${docker_version}
-  local docker_compose_file=docker-compose.yml
+# - - - - - - - - - - - - - - - - - - - - - - -
 
-  # update server images
-  docker pull ${cyber_dojo_hub}/nginx:latest
-  docker pull ${cyber_dojo_web_server}
-
-  # extract cyber-dojo.sh from new web image
+extract_cyber_dojo_sh() {
+  # extract cyber-dojo.sh from web image
   local cid=$(docker create ${cyber_dojo_web_server})
   docker cp ${cid}:${cyber_dojo_home}/cli/${cyber_dojo_sh} ${my_dir}/${cyber_dojo_sh}
   docker rm -v ${cid} > /dev/null
+}
 
+# - - - - - - - - - - - - - - - - - - - - - - -
+
+extract_docker_compose_yml() {
   # extract docker-compose.yml file from new web image
   local cid=$(docker create ${cyber_dojo_web_server})
-  docker cp ${cid}:${cyber_dojo_home}/cli/${docker_compose_file} ${my_dir}/${docker_compose_file}
+  docker cp ${cid}:${cyber_dojo_home}/cli/${docker_compose_yml} ${my_dir}/${docker_compose_yml}
   docker rm -v ${cid} > /dev/null
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+
+cyber_dojo_update() {
+  local docker_version=$(docker --version | awk '{print $3}' | sed '$s/.$//')
+  local cyber_dojo_hub=cyberdojo
+  # update server images
+  docker pull ${cyber_dojo_hub}/nginx:latest
+  docker pull ${cyber_dojo_web_server}
+  # extract new files from web image
+  extract_cyber_dojo_sh
+  extract_docker_compose_yml
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -65,6 +88,14 @@ cyber_dojo_update() {
 exit_if_docker_not_installed
 exit_if_docker_machine_not_installed
 exit_if_docker_compose_not_installed
+
+if [ ! -f ${my_dir}/${cyber_dojo_sh} ]; then
+  extract_cyber_dojo_sh
+fi
+
+if [ ! -f ${my_dir}/${docker_compose_yml} ]; then
+  extract_docker_compose_yml
+fi
 
 if [ "$*" = "update" ]; then
   cyber_dojo_update
