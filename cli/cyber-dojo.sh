@@ -139,8 +139,8 @@ cyber_dojo_volume_create() {
 volume_create_git() {
   # cyber-dojo.rb has already processed the command line options but the actual volume
   # creation takes place here in cyber-dojo.sh and not inside cyber-dojo.rb
-  # This is so it executes on the _host_ and not inside a docker container.
-  # This allows the --git=URL argument to specify a _local_ git repo (eg file:///...)
+  # This is so it executes on the *host* and not inside a docker container.
+  # This allows the --git=URL argument to specify a *local* git repo (eg file:///...)
   local vol=$1
   local url=$2
   g_tmp_dir=`mktemp -d -t cyber-dojo.XXXXXX`

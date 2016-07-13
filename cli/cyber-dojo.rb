@@ -173,9 +173,9 @@ def up
     '',
     'Creates and starts the cyber-dojo server using named/default volumes',
     '',
-    minitab + '--languages=VOLUME      Specify the languages volume (otherwise default-languages)',
-    minitab + '--exercises=VOLUME      Specify the exercises volume (otherwise default-exercises)',
-    minitab + '--custom=VOLUME         Specify the custom    volume (otherwise default-custom)',
+    minitab + '--languages=VOLUME      Specify the languages volume (otherwise languages)',
+    minitab + '--exercises=VOLUME      Specify the exercises volume (otherwise exercises)',
+    minitab + '--custom=VOLUME         Specify the custom    volume (otherwise custom)',
     minitab + '--env=development       Brings up the web server in development environment',
     minitab + '--env=test              Brings up the web server in test environment',
     minitab + '--env=production        Brings up the web server in production environment (default)',
@@ -544,66 +544,3 @@ case ARGV[0]
 end
 
 exit 0
-
-=begin
-#=========================================================================================
-# old code below here
-#=========================================================================================
-
-#=========================================================================================
-# pull
-#=========================================================================================
-
-def pull
-  help = [
-    '',
-    "Use: #{me} pull IMAGE",
-    '',
-    'Pulls the named docker image',
-  ]
-  if [nil,'help','--help'].include? ARGV[1]
-    show(help)
-    exit 1
-  end
-
-  image = ARGV[1]
-  # TODO: this should be --all
-  if image == 'all'
-    all_languages.each do |language|
-      docker_pull(language, 'latest')
-    end
-  elsif in_catalog?(image)
-    docker_pull(image, 'latest')
-  else
-    bad_image(image)
-  end
-end
-
-#=========================================================================================
-# rm
-#=========================================================================================
-
-def rmi
-  help = [
-    '',
-    "Use: #{me} rmi IMAGE",
-    '',
-    'Removes the named docker image',
-  ]
-  if [nil,'help','--help'].include? ARGV[1]
-    show(help)
-    exit 1
-  end
-
-  image = ARGV[1]
-  if languages.include?(image)
-    run "docker rmi #{cyber_dojo_hub}/#{image}"
-  elsif all_languages.include?(image)
-    puts "IMAGE #{image} is not installed"
-    puts "Try '#{me} help'"
-  else
-    bad_image(image)
-  end
-end
-
-=end

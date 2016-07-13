@@ -9,19 +9,16 @@ http://xunit.github.io/
 
 - - - - - - - - - - - - - - - - - - - - -
 
-In new start-point github repos change setup.json
-  languages    => languages
-  instructions => exercises
-  exericses    => custom
+In cli, change terminology from volume to start-point ?
 
 - - - - - - - - - - - - - - - - - - - - -
 
-In cli, change terminology from volume to start-point ?
-
-In cli, rename *names* of default volumes?
-  default-languages    => languages
-  default-instructions => exercises
-  default-exericses    => custom
+$ cyber-dojo up
+Have this display the arguments that are defaulted?, viz
+Start-point: languages, https://github.com/start-point-languages.git
+Start-point: exercises, https://github.com/start-point-exercises.git
+Start-point:    custom, https://github.com/start-point-custom.git
+cyber-dojo up --languages=languages --exercises=exercises --custom=custom
 
 - - - - - - - - - - - - - - - - - - - - -
 

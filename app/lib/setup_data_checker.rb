@@ -2,7 +2,7 @@
 require 'json'
 require_relative './output_colour.rb'
 
-# TODO: instructions-checks are different to languages/exercises checks
+# TODO: exercises-checks are different to languages/custom checks
 # TODO: check there is at least one sub-dir with a manifest.json file
 # TODO: line 25: move nil? check inside method
 
@@ -56,8 +56,8 @@ class SetupDataChecker
       setup_error 'missing'
       return
     end
-    unless ['languages','exercises','instructions'].include? type
-      setup_error 'must be [languages|exercises|instructions]'
+    unless ['languages','exercises','custom'].include? type
+      setup_error 'must be [languages|exercises|custom]'
       return
     end
   end
