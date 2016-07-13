@@ -5,14 +5,17 @@ cyber-dojo/app/docker/web/build-image.sh
 
 If you're running this image and you make a change to local source files the
 changes will not be seen inside the server of course. You'll need to recreate
-the web image, then bring down the old server and bring up the new one.
-$ cd cyber-dojo/app/docker/web
+the web image...
+$ cd web/docker/web
 $ ./build-image.sh
-$ cd cyber-dojo/app/docker
+
+then bring down the old server and bring up the new one...
+$ cd cli
 $ ./cyber-dojo down
 $ ./cyber-dojo up
 
 You can run the tests from inside the running web server. First shell in
+$ cd cli
 $ ./cyber-dojo sh
 $ cd test && ./run.sh
 

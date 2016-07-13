@@ -4,7 +4,7 @@
 
 Main repo for a [cyber-dojo](http://cyber-dojo.org) web server.
 
-Work in progress.
+Work in progress. Forking from a custom-start-point is not yet implemented.
 
 First make sure docker is installed
 
@@ -28,5 +28,5 @@ sudo ./cyber-dojo up
 sudo ./cyber-dojo --help
 sudo ./cyber-dojo volume --help
 sudo ./cyber-dojo volume ls
-sudo ./cyber-dojo volume inspect default-languages
+sudo ./cyber-dojo volume inspect languages
 ```
