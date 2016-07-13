@@ -12,9 +12,9 @@ docker_version=$(docker --version | awk '{print $3}' | sed '$s/.$//')
 cyber_dojo_hub=cyberdojo
 cyber_dojo_root=/usr/src/cyber-dojo
 
-default_languages_volume=default-languages
-default_exercises_volume=default-instructions
-default_custom_volume=default-exercises
+default_languages_volume=languages
+default_exercises_volume=exercises
+default_custom_volume=custom
 
 # set environment variables required by docker-compose.yml
 
@@ -39,9 +39,9 @@ export CYBER_DOJO_RUNNER_TIMEOUT=${CYBER_DOJO_RUNNER_TIMEOUT:=10}
 export CYBER_DOJO_DATA_ROOT=${cyber_dojo_root}/data
 
 export CYBER_DOJO_RAILS_ENVIRONMENT=production
-export CYBER_DOJO_LANGUAGES_VOLUME=default-languages
-export CYBER_DOJO_EXERCISES_VOLUME=default-instructions
-export CYBER_DOJO_CUSTOM_VOLUME=default-exercises
+export CYBER_DOJO_LANGUAGES_VOLUME=languages
+export CYBER_DOJO_EXERCISES_VOLUME=exercises
+export CYBER_DOJO_CUSTOM_VOLUME=custom
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -325,7 +325,7 @@ cyber_dojo_up() {
     if [ "${name}" = "--exercises" ] && [ "${value}" != '' ]; then
       export CYBER_DOJO_EXERCISES_VOLUME=${value}
     fi
-    # --instructions=vol
+    # --custom=vol
     if [ "${name}" = "--custom" ] && [ "${value}" != '' ]; then
       export CYBER_DOJO_CUSTOM_VOLUME=${value}
     fi
@@ -334,20 +334,20 @@ cyber_dojo_up() {
   local github_cyber_dojo='https://github.com/cyber-dojo'
   if [ "${CYBER_DOJO_LANGUAGES_VOLUME}" = "${default_languages_volume}" ]; then
     if ! volume_exists ${default_languages_volume}; then
-      echo "Creating ${default_languages_volume} from ${github_cyber_dojo}/default-languages.git"
-      volume_create_git ${default_languages_volume} "${github_cyber_dojo}/default-languages.git"
+      echo "Creating ${default_languages_volume} from ${github_cyber_dojo}/start-points-languages.git"
+      volume_create_git ${default_languages_volume} "${github_cyber_dojo}/start-points-languages.git"
     fi
   fi
   if [ "${CYBER_DOJO_EXERCISES_VOLUME}" = "${default_exercises_volume}" ]; then
     if ! volume_exists ${default_exercises_volume}; then
-      echo "Creating ${default_exercises_volume} from ${github_cyber_dojo}/default-instructions.git"
-      volume_create_git ${default_exercises_volume} "${github_cyber_dojo}/default-instructions.git"
+      echo "Creating ${default_exercises_volume} from ${github_cyber_dojo}/start-points-exercises.git"
+      volume_create_git ${default_exercises_volume} "${github_cyber_dojo}/start-points-exercises.git"
     fi
   fi
   if [ "${CYBER_DOJO_CUSTOM_VOLUME}" = "${default_custom_volume}" ]; then
     if ! volume_exists ${default_custom_volume}; then
-      echo "Creating ${default_custom_volume}  from ${github_cyber_dojo}/default-exercises.git"
-      volume_create_git ${default_custom_volume} "${github_cyber_dojo}/default-exercises.git"
+      echo "Creating ${default_custom_volume}  from ${github_cyber_dojo}/start-points-custom.git"
+      volume_create_git ${default_custom_volume} "${github_cyber_dojo}/start-points-custom.git"
     fi
   fi
   # check volumes exist
