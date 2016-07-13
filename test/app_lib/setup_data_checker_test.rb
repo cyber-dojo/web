@@ -61,7 +61,7 @@ class SetupDataCheckerTest < AppLibTestBase
       setup_filename = "#{tmp_dir}/setup.json"
       IO.write(setup_filename, JSON.unparse({ 'type' => 'salmon' }))
       check
-      assert_error setup_filename, 'type: must be [languages|exercises|instructions]'
+      assert_error setup_filename, 'type: must be [languages|exercises|custom]'
     end
   end
 
