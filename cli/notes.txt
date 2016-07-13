@@ -9,10 +9,10 @@ http://xunit.github.io/
 
 - - - - - - - - - - - - - - - - - - - - -
 
-On github rename
-  default-languages    => start-points-languages
-  default-instructions => start-points-exercises
-  default-exercises    => start-points-custom
+In new start-point github repos change setup.json
+  languages    => languages
+  instructions => exercises
+  exericses    => custom
 
 - - - - - - - - - - - - - - - - - - - - -
 
