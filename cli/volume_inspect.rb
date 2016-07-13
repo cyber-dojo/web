@@ -100,15 +100,15 @@ if !File.directory?(path)
   exit failed
 end
 
-lhs_column_name = setup['lhs_column_name']
-rhs_column_name = setup['rhs_column_name']
+major_name = 'DISPLAY_NAME_MAJOR'
+minor_name = 'DISPLAY_NAME_MINOR'
 
-$longest_language = max_size($longest_language, lhs_column_name)
-$longest_test     = max_size($longest_test    , rhs_column_name)
+$longest_language = max_size($longest_language, major_name)
+$longest_test     = max_size($longest_test    , minor_name)
 $longest_image    = max_size($longest_image   , 'IMAGE')
 inspection = inspect_from_manifests
 
-puts inspect_line(lhs_column_name.upcase, rhs_column_name.upcase, 'IMAGE', 'PULLED')
+puts inspect_line(major_name.upcase, minor_name.upcase, 'IMAGE', 'PULLED')
 inspection.sort.map do |language,tests|
   tests.sort.map do |test, hash|
     image = hash['image_name']
