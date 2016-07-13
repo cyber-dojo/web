@@ -1,4 +1,22 @@
 
+http://localhost:3000/dojo/index/1E7A8E7168
+and then click [setup default practice session]
+this fails. I think the reason is the kata-id is bad.
+No its not. The id is good. The problem is that its manifest.json looks like this
+{
+  "id":"1E7A8E7168",
+  "created":[2016,6,30,15,42,8],
+  "language":"Yahtzee refactoring-C# NUnit",
+  ...
+}
+and I think language is not being recognised because it's doing "double-duty"
+for >>>>>default-exercises<<<<
+Using display_name inside the kata's manifest.json was a mistake.
+The manifest.json file for a kata needs to store the image_name and this
+needs to be read when cloning/forking. Combines well with new auto-docker-pull.
+
+- - - - - - - - - - - - - - - - - - - - -
+
 Need to add a cpu limit to running docker containers.
 This will stop 100% rogue cpu process.
 
@@ -24,24 +42,6 @@ cyber-dojo up --languages=languages --exercises=exercises --custom=custom
 
 if [docker pull] command on new setup pages fails then I need to
 bail out of creating the kata.
-
-- - - - - - - - - - - - - - - - - - - - -
-
-http://localhost:3000/dojo/index/1E7A8E7168
-and then click [setup default practice session]
-this fails. I think the reason is the kata-id is bad.
-No its not. The id is good. The problem is that its manifest.json looks like this
-{
-  "id":"1E7A8E7168",
-  "created":[2016,6,30,15,42,8],
-  "language":"Yahtzee refactoring-C# NUnit",
-  ...
-}
-and I think language is not being recognised because it's doing "double-duty"
-for >>>>>default-exercises<<<<
-Using display_name inside the kata's manifest.json was a mistake.
-The manifest.json file for a kata needs to store the image_name and this
-needs to be read when cloning/forking. Combines well with new auto-docker-pull.
 
 - - - - - - - - - - - - - - - - - - - - -
 

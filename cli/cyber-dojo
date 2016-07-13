@@ -1,6 +1,6 @@
 #!/bin/sh
 
-install_url=http://blog.cyber-dojo.org/2016/03/running-your-own-cyber-dojo-server.html
+install_url=https://github.com/cyber-dojo/web/blob/master/README.md
 my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 cyber_dojo_sh=cyber-dojo.sh
 

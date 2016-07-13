@@ -6,7 +6,7 @@ Main repo for a [cyber-dojo](http://cyber-dojo.org) web server.
 
 Work in progress. Forking from a custom-start-point is not yet implemented.
 
-First make sure docker is installed
+1. make sure docker is installed
 
 ```
 curl -O https://raw.githubusercontent.com/cyber-dojo/web/master/cli/install-docker.sh
@@ -14,14 +14,14 @@ chmod +x install-docker.sh
 sudo ./install-docker.sh
 ```
 
-Then download the cyber-dojo shell script
+2. download the cyber-dojo shell script
 
 ```
 curl -O https://raw.githubusercontent.com/cyber-dojo/web/master/cli/cyber-dojo
 chmod +x cyber-dojo
 ```
 
-Then use the script to control your server
+3. use the script to control your server
 
 ```
 sudo ./cyber-dojo up
