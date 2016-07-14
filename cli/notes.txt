@@ -1,4 +1,12 @@
 
+How do you add a new output-parse function when installing a
+new language+test_framework?
+Ideally the parse function should be inside the start-point
+volume so you do not need to add to the web server source and
+then rebuild the web server.
+
+- - - - - - - - - - - - - - - - - - - - -
+
 diff-dialog from test page should have fork button.
 
 - - - - - - - - - - - - - - - - - - - - -

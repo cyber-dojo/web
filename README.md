@@ -4,6 +4,9 @@
 
 Main repo for a [cyber-dojo](http://cyber-dojo.org) web server.
 
+Running a server will the default start-points works.
+Creating (and using) your own start-points is still in progress.
+
 (1) make sure docker is installed
 
 ```

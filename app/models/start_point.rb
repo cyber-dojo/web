@@ -1,8 +1,8 @@
 
 class StartPoint
 
-  def initialize(languages, path, display_name = nil, image_name = nil)
-    @languages = languages
+  def initialize(start_points, path, display_name = nil, image_name = nil)
+    @start_points = start_points
     @path = path
     @display_name = display_name
     @image_name = image_name
@@ -11,18 +11,18 @@ class StartPoint
   attr_reader :path, :languages
 
   def parent
-    languages
+    @start_points
   end
 
   # required manifest properties
 
   def display_name
-    # cached to optimize displaying all languages on cyber-dojo create
+    # See comments below
     @display_name ||= manifest_property
   end
 
   def image_name
-    # cached to optimize displaying all languages on cyber-dojo create.
+    # See comments below
     @image_name ||= manifest_property
   end
 
@@ -59,6 +59,7 @@ class StartPoint
   # not manifest properties
 
   def lowlight_filenames
+    # See comments below
     if highlight_filenames.empty?
       ['cyber-dojo.sh', 'makefile', 'Makefile', 'unity.license.txt']
     else
@@ -90,6 +91,24 @@ class StartPoint
   end
 
 end
+
+# - - - - - - - - - - - - - - - - - - - -
+# display_name
+# - - - - - - - - - - - - - - - - - - - -
+# ||= caching is to optimize the setup page
+# - - - - - - - - - - - - - - - - - - - -
+
+
+# - - - - - - - - - - - - - - - - - - - -
+# image_name
+# - - - - - - - - - - - - - - - - - - - -
+# ||= caching is to optimize the setup page
+# If you upgrade a start-point, eg to a newer compiler version,
+# or a newer test-framework, do *not* change the image_name.
+# Keeping any version numbers out of the image_name and
+# not changing it ensures forking always works.
+# - - - - - - - - - - - - - - - - - - - -
+
 
 # - - - - - - - - - - - - - - - - - - - -
 # lowlight_filenames

@@ -78,20 +78,17 @@ end
 #    Ruby2.1.3/MiniTest
 #
 # I didn't want to have to upgrade the existing Ruby1.9.3 test-frameworks
-# to Ruby2.1.3. But... on the create page I wanted all the different
+# to Ruby2.1.3. But... on the setup page I wanted all the different
 # Ruby test-frameworks (from two different versions of Ruby) to appear
 # under the *same* language name in the language? column.
 # This is why a language/test's  manifest.json file has a display_name entry.
 # It is the display_name that governs the language/test's names as they appear
 # on the create page. Not the folder names. Not the docker image_name.
 #
-# Further, if you upgrade a language/test to a newer version
-# and delete the old version of the docker container from your server,
-# you still want to be able to fork from a kata done in the old version
-# (particularly for well known katas's such as the refactoring ones).
-# And when you do such a fork you want the new kata to use the new version.
-# So what is stored in the kata's manifest is *not* the docker container's
-# image_name but the display_name.
+# The display_name should have been used *only* for the setup page.
+# However, I also stored it in the kata's manifest and used it to look up
+# the language (now start_point) to get the image_name when forking.
+# That was a mistake. The kata's manifest now stores the image_name directly.
 #
 # rename() is a bit fiddly because historically the language-&-test
 # were *not* separated into distinct nested folders.
