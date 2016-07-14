@@ -38,10 +38,11 @@ export CYBER_DOJO_RUNNER_TIMEOUT=${CYBER_DOJO_RUNNER_TIMEOUT:=10}
 # are *not* slurped by the rails web server as it starts!
 export CYBER_DOJO_DATA_ROOT=${cyber_dojo_root}/data
 
-export CYBER_DOJO_RAILS_ENVIRONMENT=production
 export CYBER_DOJO_LANGUAGES_VOLUME=languages
 export CYBER_DOJO_EXERCISES_VOLUME=exercises
 export CYBER_DOJO_CUSTOM_VOLUME=custom
+
+export CYBER_DOJO_RAILS_ENVIRONMENT=production
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
