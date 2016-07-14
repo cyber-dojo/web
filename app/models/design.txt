@@ -17,7 +17,10 @@ does not use a database.
 In a ruby script you create a dojo object like this...
 
 <code>
-load 'app/models/domain.rb'
+require 'json'
+require_relative '../../lib/all'
+require_relative '../lib/all'
+require_relative '../models/all'
 dojo = Dojo.new
 </code>
 
