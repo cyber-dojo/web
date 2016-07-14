@@ -10,7 +10,7 @@ No its not. The id is good. The problem is that its manifest.json looks like thi
   ...
 }
 and I think language is not being recognised because it's doing "double-duty"
-for >>>>>default-exercises<<<<
+for >>>>>start-points-custom<<<<
 Using display_name inside the kata's manifest.json was a mistake.
 The manifest.json file for a kata needs to store the image_name and this
 needs to be read when cloning/forking. Combines well with new auto-docker-pull.
@@ -33,9 +33,9 @@ In cli, change terminology from volume to start-point ?
 
 $ cyber-dojo up
 Have this display the arguments that are defaulted?, viz
-Start-point: languages, https://github.com/start-point-languages.git
-Start-point: exercises, https://github.com/start-point-exercises.git
-Start-point:    custom, https://github.com/start-point-custom.git
+Start-point: languages -> https://github.com/start-point-languages.git
+Start-point: exercises -> https://github.com/start-point-exercises.git
+Start-point:    custom -> https://github.com/start-point-custom.git
 cyber-dojo up --languages=languages --exercises=exercises --custom=custom
 
 - - - - - - - - - - - - - - - - - - - - -
@@ -51,12 +51,12 @@ diff-dialog from test page should have fork button.
 
 Would be good to have a [cyber-dojo] cli command to export
 a specific kata to a given folder. This would make it easier
-to create custom exercises. But that would export to default
+to create custom exercises. Must not export to default VM
 on Mac/Windows quickstart-terminal.
 
 - - - - - - - - - - - - - - - - - - - - -
 
-Make [cyber-dojo clean] remove dead containers as well as dead images.
+Make [cyber-dojo clean] remove dead containers as well as dead images?
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -101,9 +101,9 @@ for improved diffs. Try to get this in place.
 
 - - - - - - - - - - - - - - - - - - - - -
 
-test/app_lib/setup_data/exercises
 test/app_lib/setup_data/languages
-test/app_lib/setup_data/instructions
+test/app_lib/setup_data/exercises
+test/app_lib/setup_data/custom
 These should all have the data-checker run against them as part of the tests.
 
 - - - - - - - - - - - - - - - - - - - - -
@@ -203,29 +203,16 @@ So I still need proper nil error handling on the setup pages
 Cribs
 
 Network repo
-ruby ./cyber-dojo.rb volume create --name=default-languages --git=https://github.com/cyber-dojo/default-languages.git
-ruby ./cyber-dojo.rb volume create --name=default-exercises --git=https://github.com/cyber-dojo/default-execises.git
-ruby ./cyber-dojo.rb volume create --name=default-instructions --git=https://github.com/cyber-dojo/default-instructions.git
+ruby ./cyber-dojo.rb volume create --name=languages --git=https://github.com/cyber-dojo/start-points-languages.git
+ruby ./cyber-dojo.rb volume create --name=exercises --git=https://github.com/cyber-dojo/start-points-execises.git
+ruby ./cyber-dojo.rb volume create --name=custom --git=https://github.com/cyber-dojo/start-points-custom.git
 
 Local repo
-ruby ./cyber-dojo.rb volume create --name=default-exercises --git=file:///Users/jonjagger/repos/default-exercises
+ruby ./cyber-dojo.rb volume create --name=jon --git=file:///Users/jonjagger/repos/start-points-exercises
 
 - - - - - - - - - - - - - - - - - - - - -
 
 )) ./cyber-dojo catalog
-
-     $ ./cyber-dojo volume create --name=VOL --git=URL
-       This will check that the URL adhered to the api,
-       viz it specified whether it was languages/exercises/instructions
-       If ok it will add a label, --label=cyber-dojo-volume=languages
-
-       manifest.json in the github source will specify
-          'type': (languages/exercises/instructions)
-       and if not instructions type
-          'lhs-column-title': 'name',
-          'rhs-column-title': 'language'
-
-       Then volume can be mounted read-only.
 
      $ ./cyber-dojo volume inspect VOL [VOL...]
 
@@ -242,17 +229,6 @@ ruby ./cyber-dojo.rb volume create --name=default-exercises --git=file:///Users/
 
        Ownership of all files should be cyber-dojo
            (comes in from a volume)
-
-       Manifest must specify at least one file as auto_pull:true
-           do I really want this?
-           How about simply making this part of the app startup.
-           And check the state inside the app and disable home page [create]
-           buttons if their setup page would have nothing to show (no matching docker image)
-
-     What should volume manifest.json file contain?
-        type: languages/exercises/instructions
-        col-names: [ TEXT, TEXT ]
-        auto_pull: true/false  (default for all images?)
 
      cyber-dojo.rb could do with some documentation showing example output
      of various internal commands.
@@ -309,19 +285,8 @@ ruby ./cyber-dojo.rb volume create --name=default-exercises --git=file:///Users/
 
 - - - - - - - - - - - - - - - - - - - - -
 
-)) run tests in travis (via exec into web container)
-   this will probably require some language images to be pulled
-   these should be Alpine'd
-
-- - - - - - - - - - - - - - - - - - - - -
-
 )) get travis to push images to cdf hub
    push images to cyberdojofoundation hub if tests pass
-
-- - - - - - - - - - - - - - - - - - - - -
-
-)) ./cyber-dojo update
-     needs fixing
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -329,22 +294,8 @@ ruby ./cyber-dojo.rb volume create --name=default-exercises --git=file:///Users/
 
 - - - - - - - - - - - - - - - - - - - - -
 
-)) submodule meta-data should be able to provide the
-   name of the left and right columns.
-      manifest.json
-      {
-          'type': 'exercises',
-          'lhs-column-title': 'name',
-          'rhs-column-title': 'language'
-      }
-   It would be nice if you could provide some kind of overview text
-   to display which gave general instructions on the collection;
-   in this case that they are all refactoring exercises.
-   Would a simple readme.txt file in the repos root do?
-
-   If multiple collections can be unioned, eg
-      cyber-dojo up exercises=refactoring,james
-   how will they be distinguished from each other?
+)) abandoned the column titles on left/right lists on setup page.
+   instead use info panel.
 
    Ask James if he can put his 3 exercises onto his github account
    and I will use it as part of documentation.
@@ -352,12 +303,6 @@ ruby ./cyber-dojo.rb volume create --name=default-exercises --git=file:///Users/
 - - - - - - - - - - - - - - - - - - - - -
 
 )) add confirmation diagnostic to each [cyber-dojo] command?
-
-- - - - - - - - - - - - - - - - - - - - -
-
-Pull the images only when the
-$ ./cyber-dojo up ...
-command is issued?
 
 ----------------------------------------
 
@@ -458,14 +403,14 @@ Features James mentioned during our chat
 
 revert button is in diff dialog again
 
-on enter page, when kata id is entered and buttons become enabled
-it would be nice to see the language and exercise names in the footer.
+feature: on enter page, when kata id is entered and buttons become enabled
+         it would be nice to see the language and exercise names in the footer.
 
 feature: sed in the editor (search and replace)
 
 feature: copy one animal to a new one (keeping whole traffic-light history)
 
-feature: fork giving two options, viz create new exercise-starting-point.
+feature: fork giving two options, viz create new start-points data.
 
 feature: replace duration on dashboard with time-ticks on top of minute columns.
 
@@ -479,7 +424,7 @@ feature: traffic-lights have some visual indication if there is a
 
 feature: hyperlink of compiler error on output to file and line number
 
-feature: one one error in C/C++ projects
+feature: only one error in C/C++ projects
 
 feature: colour syntax
 
@@ -489,21 +434,6 @@ feature: colour syntax
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
-cyber-dojo script needs new commands to push/pull data sets from path/url (see notes.txt too)
-  o) cyber-dojo volume create --name=VOL --git=URL
-     chosen manifests need auto_pull:true
-     this needs to be added as new property of manifest
-     then add to cyber-dojo-languages repo
-     then recreate default_languages vol
-  o) cyber-dojo up
-     pulls any docker image not already pulled whose manifest is auto_pull:true
-  o) cyber-dojo volume inspect VOL <------
-  o) lhs,rhs titles in setup page
-  o) 2 tabs in setup page
-  o) cyber-dojo volume pull VOL
-
------------------------------------
-
 un-hardwire setting of 2 core env-vars in cyber-dojo script.
   export CYBER_DOJO_DATA_ROOT="/home/docker/data"
   export CYBER_DOJO_KATAS_ROOT="/home/docker/data/katas"
@@ -511,39 +441,3 @@ un-hardwire setting of 2 core env-vars in cyber-dojo script.
 instructions refactored to be manifest'ed
   use disk[path].each_rdir('instructions') in its make_cache()
   Only instructions file would be shown on 2nd setup page.
-
-Put two tabs onto the setup/show page.
-  One tab for languages, this will have a second step for instructions.
-  One tab for exercises.
-  Don't put these on the outer top left position.
-  Make the tabs as central as possible.
-  Below the title [create a practice session]
-
-If there are no images installed handle setup pages gracefully.
-  At the moment you get a nil exception from the chooser I think.
-
-Now that exercises are manifested (like Languages) how does that
-impact the [docker pull IMAGE] since the catalog listed is
-a language catalog? Perhaps
-$ ./cyber-dojo languages catalog
-$ ./cyber-dojo exercises catalog
-
-Will instructions need to be in the commands somewhere since presumably
-the instructions data-set will be in a git repo (just as languages and
-exercises will be)
-
------------------------------------
-
-With James
-
-Setup the new code on James machine.
-  o) pull from branch drop-katas-data-container
-  o) create new web image
-  o) create data folder on docker server from your exercises.
-  o) set hard-wired paths to data folders at top of cyber-dojo script.
-
-
-Agree labels to use for 2 columns in setup/show_exercises page.
-  ideally this would become configurable somehow.
-  maybe a manifest.json file in the top level folder?
-
