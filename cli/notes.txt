@@ -1,30 +1,20 @@
 
-How do you add a new output-parse function when installing a new language+test_framework?
-Adding it to the to the web server source and then rebuild the web server is not
-going to work for the new start-points architecture...
-Obvious options are
-1) inside the manifest.json file (requires eval)
-2) inside the image itself! - a plain .rb file in a known location
-3) inside the start-point volume in colour_of.rb file next to manifest.json
+In the new start-points architecture how do you add a new
+output-parse function when installing a new language+test_framework?
+Inside the start-point volume add colour_of.rb file next to manifest.json
    (means I would not need the unit_test_framework inside manifest.json)
-I think 3 is the best option.
-Eg contents of colour_of.rb
-def colour_of(output)
-    return :amber if /PHP Parse error:/.match(output)
-    return :red   if /FAILURES!/.match(output)
-    return :green if /OK \(/.match(output)
-    return :amber
-end
+contents of colour_of.rb
 #-----
-eval(IO.read('colour_of.rb'))
-colour_of('FAILURES!')
-....Or contents of colour_of.rb
 lambda { |output|
     return :amber if /PHP Parse error:/.match(output)
     return :red   if /FAILURES!/.match(output)
     return :green if /OK \(/.match(output)
     return :amber
 }
+#-----
+Then copy the output_of.rb file into the kata's folder (next to
+the kata's manifest.json) when the kata is created
+(to avoid dependency on navigating from kata back to language/start-point)
 #-----
 colour_of = eval(IO.read('colour_of.rb'))
 colour_of.call('FAILURES!')
