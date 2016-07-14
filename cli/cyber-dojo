@@ -1,5 +1,10 @@
 #!/bin/sh
 
+# minimal script file (without a .sh extension) to control a cyber-dojo web server.
+# The only command this script processes is "update".
+# All other commands delegate to its partner script cyber-dojo.sh
+# which is one of the files that "update" updates.
+
 my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 
 # cyber-dojo web server image is docker version sensitive.
