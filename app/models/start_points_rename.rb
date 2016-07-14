@@ -1,5 +1,5 @@
 
-module LanguagesRename # mix-in
+module StartPointsRename # mix-in
 
   module_function
 

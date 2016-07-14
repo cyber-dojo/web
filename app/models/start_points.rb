@@ -27,7 +27,7 @@ class StartPoints
   private
 
   include ExternalParentChainer
-  include LanguagesRename
+  include StartPointsRename
 
   def all
     @all ||= read_cache

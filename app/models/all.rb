@@ -5,8 +5,8 @@
 
   dojo
   cache_properties
-  languages_rename
   start_point
+  start_points_rename
   start_points
   exercise
   exercises
