@@ -7,7 +7,7 @@ class SetupCustomStartPointController < ApplicationController
     @id = id
     @title = 'create'
     custom_names = display_names_of(dojo.custom)
-    index = choose_language(custom_names, id, dojo.katas)
+    index = choose_language(custom_names, dojo.katas[id])
     @start_points = ::DisplayNamesSplitter.new(custom_names, index)
   end
 

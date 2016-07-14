@@ -9,7 +9,7 @@ class SetupDefaultStartPointController < ApplicationController
     @id = id
     @title = 'create'
     languages_names = display_names_of(languages)
-    index = choose_language(languages_names, id, dojo.katas)
+    index = choose_language(languages_names, dojo.katas[id])
     @start_points = ::DisplayNamesSplitter.new(languages_names, index)
     @max_seconds = dojo.runner.max_seconds
   end
@@ -29,7 +29,7 @@ class SetupDefaultStartPointController < ApplicationController
     @language = params[:language]
     @test = params[:test]
     @exercises_names,@exercises = read_exercises
-    @initial_index = choose_exercise(@exercises_names, id, dojo.katas)
+    @initial_index = choose_exercise(@exercises_names, dojo.katas[id])
   end
 
   def save

@@ -9,18 +9,18 @@ module SetupChooser # mix-in
 
   module_function
 
-  def choose_language(languages, id, katas)
-    chooser(languages, id, katas) { |kata| kata.display_name }
+  def choose_language(languages, kata)
+    chooser(languages, kata) { kata.display_name }
   end
 
-  def choose_exercise(exercises, id, katas)
-    chooser(exercises, id, katas) { |kata| kata.manifest['exercise'] }
+  def choose_exercise(exercises, kata)
+    chooser(exercises, kata) { kata.manifest['exercise'] }
   end
 
-  def chooser(choices, id, katas)
+  def chooser(choices, kata)
     choice = [*0...choices.length].sample
-    unless katas[id].nil?
-      index = choices.index(yield(katas[id]))
+    unless kata.nil?
+      index = choices.index(yield)
       choice = index unless index.nil?
     end
     choice
