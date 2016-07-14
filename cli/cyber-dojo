@@ -55,7 +55,7 @@ exit_if_docker_compose_not_installed() {
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 extract_cyber_dojo_sh() {
-  # extract cyber-dojo.sh from web image
+  echo "Extracting ${cyber_dojo_sh} from ${cyber_dojo_web_server}"
   local cid=$(docker create ${cyber_dojo_web_server})
   docker cp ${cid}:${cyber_dojo_home}/cli/${cyber_dojo_sh} ${my_dir}/${cyber_dojo_sh}
   docker rm -v ${cid} > /dev/null
@@ -64,7 +64,7 @@ extract_cyber_dojo_sh() {
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 extract_docker_compose_yml() {
-  # extract docker-compose.yml file from new web image
+  echo "Extracting ${docker_compose_yml} from ${cyber_dojo_web_server}"
   local cid=$(docker create ${cyber_dojo_web_server})
   docker cp ${cid}:${cyber_dojo_home}/cli/${docker_compose_yml} ${my_dir}/${docker_compose_yml}
   docker rm -v ${cid} > /dev/null
