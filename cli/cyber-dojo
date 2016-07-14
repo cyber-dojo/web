@@ -19,34 +19,11 @@ docker_compose_yml=docker-compose.yml
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 
-exit_if_docker_not_installed() {
-  hash docker 2> /dev/null
+exit_if_not_installed() {
+  hash ${1} 2> /dev/null
   if [ $? != 0 ]; then
     echo
-    echo 'docker is not installed'
-    echo "See step 1 of ${install_url}"
-    exit 1
-  fi
-}
-
-# - - - - - - - - - - - - - - - - - - - - - - -
-
-exit_if_docker_machine_not_installed() {
-  hash docker-machine 2> /dev/null
-  if [ $? != 0 ]; then
-    echo 'docker-machine is not installed'
-    echo "See step 1 of ${install_url}"
-    exit 1
-  fi
-}
-
-# - - - - - - - - - - - - - - - - - - - - - - -
-
-exit_if_docker_compose_not_installed() {
-  hash docker-compose 2> /dev/null
-  if [ $? != 0 ]; then
-    echo
-    echo 'docker-compose is not installed'
+    echo "${1} is not installed"
     echo "See step 1 of ${install_url}"
     exit 1
   fi
@@ -73,8 +50,6 @@ extract_docker_compose_yml() {
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 cyber_dojo_update() {
-  local docker_version=$(docker --version | awk '{print $3}' | sed '$s/.$//')
-  local cyber_dojo_hub=cyberdojo
   # update server images
   docker pull ${cyber_dojo_hub}/nginx:latest
   docker pull ${cyber_dojo_web_server}
@@ -83,11 +58,11 @@ cyber_dojo_update() {
   extract_docker_compose_yml
 }
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# - - - - - - - - - - - - - - - - - - - - - - -
 
-exit_if_docker_not_installed
-exit_if_docker_machine_not_installed
-exit_if_docker_compose_not_installed
+exit_if_not_installed 'docker'
+exit_if_not_installed 'docker-machine'
+exit_if_not_installed 'docker-compose'
 
 if [ ! -f ${my_dir}/${cyber_dojo_sh} ]; then
   extract_cyber_dojo_sh
