@@ -4,8 +4,6 @@
 
 Main repo for a [cyber-dojo](http://cyber-dojo.org) web server.
 
-Work in progress. Forking from a custom-start-point is not yet implemented.
-
 (1) make sure docker is installed
 
 ```
