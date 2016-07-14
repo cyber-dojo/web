@@ -6,7 +6,7 @@ Main repo for a [cyber-dojo](http://cyber-dojo.org) web server.<br/>
 Running a server with the default start-points works.<br/>
 Creating (and using) your own start-points is still in progress.
 
-(1) make sure docker is installed
+(1) make sure docker, docker-engine, and docker-compose are installed
 
 ```
 curl -O https://raw.githubusercontent.com/cyber-dojo/web/master/cli/install-docker.sh
