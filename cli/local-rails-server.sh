@@ -3,23 +3,20 @@
 # Assumes
 # o) docker is installed
 # o) bundle install has run
-# o) some language-images have been pulled
 # o) current user can run docker commands without sudo
-# o) setup data is in local git repos
+# o) start-points repos are in dir $1
 
-MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
+my_dir="$( cd "$( dirname "${0}" )" && pwd )"
+root_dir=${my_dir}/..
+repo_root=${1:-/Users/jonjagger/repos}
 
-ROOT_DIR=${MY_DIR}/..
+rm -f ${root_dir}/caches/*.json
 
-rm -f ${ROOT_DIR}/caches/*.json
+export CYBER_DOJO_LANGUAGES_ROOT=${repo_root}/start-points-languages
+export CYBER_DOJO_EXERCISES_ROOT=${repo_root}/start-points-exercises
+export CYBER_DOJO_CUSTOM_ROOT=${repo_root}/start-points-custom
 
-REPO_ROOT=${1:-/Users/jonjagger/repos}
-
-export CYBER_DOJO_LANGUAGES_ROOT=${REPO_ROOT}/start-points-languages
-export CYBER_DOJO_EXERCISES_ROOT=${REPO_ROOT}/start-points-exercises
-export CYBER_DOJO_CUSTOM_ROOT=${REPO_ROOT}/start-points-custom
-
-export CYBER_DOJO_KATAS_ROOT=${ROOT_DIR}/katas
+export CYBER_DOJO_KATAS_ROOT=${root_dir}/katas
 
 export CYBER_DOJO_SHELL_CLASS=HostShell
 export CYBER_DOJO_DISK_CLASS=HostDisk
