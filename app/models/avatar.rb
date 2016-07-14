@@ -11,7 +11,7 @@ class Avatar
   # modifier
 
   def test(delta, files)
-    runner.run(self, delta, files, language.image_name)
+    runner.run(self, delta, files, kata.image_name)
   end
 
   # queries
@@ -20,14 +20,6 @@ class Avatar
 
   def parent
     kata
-  end
-
-  def language
-    # Each avatar does _not_ choose their own language+test.
-    # The language+test is chosen for the _dojo_.
-    # cyber-dojo is a team-based Interactive Dojo Environment,
-    # not an Individual Development Environment
-    kata.language
   end
 
   def diff(was_tag, now_tag)

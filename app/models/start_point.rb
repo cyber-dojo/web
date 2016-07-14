@@ -23,7 +23,6 @@ class StartPoint
 
   def image_name
     # cached to optimize displaying all languages on cyber-dojo create.
-    # (only languages whose docker image has been pulled are offered).
     @image_name ||= manifest_property
   end
 
@@ -59,10 +58,6 @@ class StartPoint
 
   # not manifest properties
 
-  def tab
-    ' ' * tab_size
-  end
-
   def lowlight_filenames
     if highlight_filenames.empty?
       ['cyber-dojo.sh', 'makefile', 'Makefile', 'unity.license.txt']
@@ -74,10 +69,6 @@ class StartPoint
   def name
     # as stored in the kata's manifest
     display_name.split(',').map(&:strip).join('-')
-  end
-
-  def colour(output)
-    OutputColour.of(unit_test_framework, output)
   end
 
   private

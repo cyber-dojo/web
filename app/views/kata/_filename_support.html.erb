@@ -8,15 +8,15 @@ $(function() {
   };
 
   cd.highlightFilenames = function() {
-    return $.parseJSON('<%= @kata.language.highlight_filenames.inspect.html_safe %>');
+    return $.parseJSON('<%= @kata.highlight_filenames.inspect.html_safe %>');
   };
 
   cd.lowlightFilenames = function() {
-    return $.parseJSON('<%= @kata.language.lowlight_filenames.inspect.html_safe %>');
+    return $.parseJSON('<%= @kata.lowlight_filenames.inspect.html_safe %>');
   };
 
   cd.extensionFilename = function() {
-    return "<%= @kata.language.filename_extension %>";
+    return "<%= @kata.filename_extension %>";
   };
 
 });

@@ -87,7 +87,7 @@ class DockerTarPipeRunnerTest < LibTestBase
   def mock_run(mock_output, mock_exit_status)
     lion = mock_run_setup(mock_output, mock_exit_status)
     delta = { deleted: {}, new: {}, changed: {} }
-    runner.run(lion, delta, files={}, lion.kata.language.image_name)
+    runner.run(lion, delta, files={}, lion.kata.image_name)
   end
 
   # - - - - - - - - - - - - - - -
@@ -97,7 +97,7 @@ class DockerTarPipeRunnerTest < LibTestBase
     lion = kata.start_avatar(['lion'])
     args = [
       katas.path_of(lion.sandbox),
-      kata.language.image_name,
+      kata.image_name,
       dojo.env('runner_timeout'),
       quoted(sudo)
     ].join(space = ' ')

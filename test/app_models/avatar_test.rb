@@ -19,8 +19,8 @@ class AvatarTest < AppModelsTestBase
   '1. the language visible_files,',
   '2. the exercise instructions,',
   '3. empty output' do
-    kata = make_kata
-    language = kata.language
+    kata = make_kata({ :language => default_language_name })
+    language = languages[default_language_name]
     avatar = kata.start_avatar
     language.visible_files.each do |filename, content|
       assert avatar.visible_filenames.include?(filename)

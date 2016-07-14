@@ -24,7 +24,7 @@ module DashboardWorker # mixin
     max_seconds_uncollapsed = seconds_per_column * 5
     gapper = TdGapper.new(@kata.created, seconds_per_column, max_seconds_uncollapsed)
     @gapped = gapper.fully_gapped(all_lights, time_now)
-    @progress = @kata.language.progress_regexs != [ ]
+    @progress = @kata.progress_regexs != [ ]
     @avatar_names = @kata.avatars.active.map { |avatar| avatar.name }.sort
   end
 
@@ -41,7 +41,7 @@ module DashboardWorker # mixin
   end
 
   def most_recent_progress(avatar)
-    regexs = avatar.kata.language.progress_regexs
+    regexs = avatar.kata.progress_regexs
     non_amber = avatar.lights.reverse.find{ |light|
       [:red,:green].include?(light.colour)
     }

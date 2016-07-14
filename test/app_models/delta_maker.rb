@@ -39,7 +39,7 @@ class DeltaMaker
 
   def stub_colour(colour)
     root = File.expand_path(File.dirname(__FILE__)) + '/../app_lib/output'
-    path = "#{root}/#{@avatar.kata.language.unit_test_framework}/#{colour}"
+    path = "#{root}/#{@avatar.kata.unit_test_framework}/#{colour}"
     all_outputs = Dir.glob(path + '/*')
     filename = all_outputs.sample
     output = File.read(filename)
@@ -50,7 +50,7 @@ class DeltaMaker
     visible_files = now
     delta = make_delta(@was, @now)
     output = @avatar.test(delta, visible_files)
-    colour = @avatar.language.colour(output)
+    colour = @avatar.kata.colour(output)
     @avatar.katas.avatar_ran_tests(@avatar, delta, visible_files, at, output, colour)
     [delta, visible_files, output]
   end

@@ -4,7 +4,7 @@ class KataController < ApplicationController
   def edit
     @kata = kata
     @avatar = avatar
-    @tab = @kata.language.tab
+    @tab = ' ' * @kata.tab_size
     @visible_files = @avatar.visible_files
     @traffic_lights = @avatar.lights
     @output = @visible_files['output']
@@ -20,7 +20,7 @@ class KataController < ApplicationController
     delta = FileDeltaMaker.make_delta(incoming, outgoing)
     files = received_files
     @output = @avatar.test(delta, files)
-    @test_colour = kata.language.colour(@output)
+    @test_colour = kata.colour(@output)
     katas.sandbox_save(@avatar.sandbox, delta, files)
     katas.avatar_ran_tests(@avatar, delta, files, time_now, @output, @test_colour)
 

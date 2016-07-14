@@ -93,9 +93,7 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '6AF51F',
-  'kata.id, kata.created, kata.language.name,',
-  'kata.instructions.name, kata.visible_files',
-  'all read from manifest' do
+  'kata properties are union of language properties and exercise instruction' do
     id = unique_id
     now = [2014, 7, 17, 21, 15, 45]
     hash = {
@@ -109,7 +107,13 @@ class KataTest < AppModelsTestBase
     kata = make_kata(hash)
     assert_equal id, kata.id.to_s
     assert_equal Time.mktime(*now), kata.created
-    assert_equal java_junit.name, kata.language.name
+    assert_equal java_junit.image_name, kata.image_name
+    assert_equal java_junit.tab_size, kata.tab_size
+    assert_equal java_junit.display_name, kata.display_name
+    assert_equal java_junit.filename_extension, kata.filename_extension
+    assert_equal java_junit.progress_regexs, kata.progress_regexs
+    assert_equal java_junit.highlight_filenames, kata.highlight_filenames
+    assert_equal java_junit.lowlight_filenames, kata.lowlight_filenames
     assert_equal fizz_buzz.text, kata.visible_files['instructions']
     assert_equal '', kata.visible_files['output']
   end

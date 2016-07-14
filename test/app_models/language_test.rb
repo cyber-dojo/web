@@ -169,25 +169,6 @@ class LanguageTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '7E38C3',
-  'tab is 7 spaces when tab_size is 7' do
-    @language = make_language('Ruby', 'Test::Unit')
-    tab_size = 7
-    spy_manifest({ 'tab_size' => tab_size })
-    assert_equal ' ' * tab_size, @language.tab
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '227942',
-  'tab defaults to 4 spaces when not set' do
-    @language = make_language('Ruby', 'Test::Unit')
-    spy_manifest({})
-    assert_equal ' ' * 4, @language.tab
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test 'F9DC8D',
   'progress_regexs reads back as set' do
     @language = make_language('Ruby', 'Test::Unit')

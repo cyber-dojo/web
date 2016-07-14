@@ -14,21 +14,6 @@ class ForkerControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'EAE021',
-  'when language no longer exists, the fork fails, and the reason given is language' do
-    language = languages['C#-NUnit']
-    manifest = katas.create_kata_manifest(language)
-    bad_language = 'does-not-exist'
-    manifest[:language] = bad_language
-    kata = katas.create_kata_from_kata_manifest(manifest)
-    fork(kata.id, 'hippo', tag = 1)
-    refute forked?
-    assert_reason_is("language(#{bad_language})")
-    assert_nil forked_kata_id
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test '67725B',
   'when avatar not started, the fork fails, and the reason given is avatar' do
     id = create_kata
@@ -76,7 +61,7 @@ class ForkerControllerTest < AppControllerTestBase
     forked_kata = katas[forked_kata_id]
     assert_not_nil forked_kata
     kata = @avatar.kata
-    assert_equal kata.language.name, forked_kata.language.name
+    assert_equal kata.image_name, forked_kata.image_name
     assert_equal kata.visible_files.tap { |hs| hs.delete('output') },
            forked_kata.visible_files.tap { |hs| hs.delete('output') }
   end
