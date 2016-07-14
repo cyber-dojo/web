@@ -1,5 +1,19 @@
 #!/bin/sh
 
+# This script delegate as much as possible to cyber-dojo.rb
+# inside a web container. However, there are some commands it
+# has to handle itself...
+#
+# 1. cyber-dojo volume create
+#       as the --git/--dir options can specify local paths
+#
+# 2. cyber-dojo up
+#      relies on a local docker-compose.yml file
+#
+# 3. cyber-down down
+#      relies on a local docker-compose.yml file
+#
+
 if [ "${CYBER_DOJO_SCRIPT_WRAPPER}" = "" ]; then
   echo "Do not call this script directly. Use cyber-dojo (no .sh) instead"
   exit 1
@@ -116,7 +130,7 @@ g_cid=''      # if this is not '' then clean_up [docker rm]'s the container
 g_vol=''      # if this is not '' then clean_up [docker volume rm]'s the volume
 
 cyber_dojo_volume_create() {
-  # cyber-dojo.rb has already been called to check arguments and print help
+  # cyber-dojo.rb has already been called to check arguments and handle --help
   for arg in $@
   do
     local name=$(echo ${arg} | cut -f1 -s -d=)
@@ -301,7 +315,7 @@ volume_exists() {
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
 cyber_dojo_up() {
-  # cyber-dojo.rb has already been called to check arguments and print help
+  # cyber-dojo.rb has already been called to check arguments and handle --help
   for arg in $@
   do
     local name=$(echo ${arg} | cut -f1 -s -d=)

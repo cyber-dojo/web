@@ -1,26 +1,11 @@
 #!/bin/sh
 
 # minimal script file (without a .sh extension) to control a cyber-dojo web server.
-# The only command this script processes is "update".
+# The only command this script handles is "update".
 # All other commands delegate to its partner script cyber-dojo.sh
 # which is one of the files that "update" updates.
 
 my_dir="$( cd "$( dirname "${0}" )" && pwd )"
-
-# cyber-dojo web server image is docker version sensitive.
-# See docker/web/Dockerfile ~ line 49
-#    docker --version  -->  Docker version 1.11.2, build 5604cbe
-#    awk '{print $3}'  -->  1.11.2,           (third field)
-#    sed '$s/.$//'     -->  1.11.2            (lose last comma)
-docker_version=$(docker --version | awk '{print $3}' | sed '$s/.$//')
-
-cyber_dojo_hub=cyberdojo
-cyber_dojo_web_server=${cyber_dojo_hub}/web:${docker_version}
-
-cyber_dojo_sh=cyber-dojo.sh
-docker_compose_yml=docker-compose.yml
-
-# - - - - - - - - - - - - - - - - - - - - - - -
 
 exit_if_not_installed() {
   hash ${1} 2> /dev/null
@@ -31,6 +16,21 @@ exit_if_not_installed() {
     exit 1
   fi
 }
+
+exit_if_not_installed 'docker'
+exit_if_not_installed 'docker-machine'
+exit_if_not_installed 'docker-compose'
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+# cyber-dojo web server image is docker version sensitive.
+# See docker/web/Dockerfile ~ line 49
+#    docker --version  -->  Docker version 1.11.2, build 5604cbe
+#    awk '{print $3}'  -->  1.11.2,           (third field)
+#    sed '$s/.$//'     -->  1.11.2            (lose last comma)
+
+cyber_dojo_hub=cyberdojo
+docker_version=$(docker --version | awk '{print $3}' | sed '$s/.$//')
+cyber_dojo_web_server=${cyber_dojo_hub}/web:${docker_version}
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -43,9 +43,8 @@ get_file_from_web_image() {
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 
-exit_if_not_installed 'docker'
-exit_if_not_installed 'docker-machine'
-exit_if_not_installed 'docker-compose'
+cyber_dojo_sh=cyber-dojo.sh
+docker_compose_yml=docker-compose.yml
 
 if [ ! -f ${my_dir}/${cyber_dojo_sh} ]; then
   get_file_from_web_image ${cyber_dojo_sh}
