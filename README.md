@@ -2,9 +2,8 @@
 
 <img src="https://raw.githubusercontent.com/cyber-dojo/web/master/public/images/home_page_logo.png" alt="cyber-dojo yin/yang logo" width="50px" height="50px"/>
 
-Main repo for a [cyber-dojo](http://cyber-dojo.org) web server.
-
-Running a server will the default start-points works.
+Main repo for a [cyber-dojo](http://cyber-dojo.org) web server.<br/>
+Running a server will the default start-points works.<br/>
 Creating (and using) your own start-points is still in progress.
 
 (1) make sure docker is installed
@@ -22,12 +21,8 @@ curl -O https://raw.githubusercontent.com/cyber-dojo/web/master/cli/cyber-dojo
 chmod +x cyber-dojo
 ```
 
-(3) use the script to control your server
+(3) use the script to bring up your server
 
 ```
 sudo ./cyber-dojo up
-sudo ./cyber-dojo --help
-sudo ./cyber-dojo volume --help
-sudo ./cyber-dojo volume ls
-sudo ./cyber-dojo volume inspect languages
 ```
