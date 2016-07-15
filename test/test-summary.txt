@@ -11,24 +11,24 @@ cov == coverage %
 
                     t      a  f  e  s   secs  t/sec  a/sec      cov
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-app_helpers        12     24  0  0  0   1.64      7     14   100.00
-app_lib           132    757  0  0  0   2.02     65    375   100.00
-app_models        113    606  1  0  0  23.63      4     25   100.00
-languages           3      4  0  0  3   0.03     92    122    63.95
-lib                80    513  0  0  0  12.96      6     39   100.00
-app_controllers    59    659  0  0  0  21.97      2     29   100.00
+app_helpers        12     24  0  0  0   1.42      8     16   100.00
+app_lib           130    752  0  0  0   1.90     68    396   100.00
+app_models        115    612  0  0  0  24.25      4     25   100.00
+languages           3      4  0  0  3   0.03    105    141    63.95
+lib                80    513  0  0  0  13.09      6     39   100.00
+app_controllers    59    659  0  0  0  22.98      2     28   100.00
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-total             399   2563  1  0  3  62.25      6     41
+total             399   2564  0  0  3  63.67      6     40
 
 DONE
+total failures == 0
 total errors == 0
 total skips <= 3
 app_helpers coverage >= 100
 app_lib coverage >= 100
 app_models coverage >= 100
 app_controllers coverage >= 100
-total assertions per sec > 40
 
 !DONE
-total failures == 0
 total secs < 60
+total assertions per sec > 40

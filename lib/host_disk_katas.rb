@@ -51,16 +51,17 @@ class HostDiskKatas
   # Kata
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def create_kata_manifest(language, id = unique_id, now = time_now)
+  def create_kata_manifest(start_point, id = unique_id, now = time_now)
     manifest = {
                        id: id,
                   created: now,
-               image_name: language.image_name,
-                 language: language.name,
-      unit_test_framework: language.unit_test_framework,
-                 tab_size: language.tab_size
+               image_name: start_point.image_name,
+          red_amber_green: start_point.red_amber_green,
+                 language: start_point.name,
+      unit_test_framework: start_point.unit_test_framework,
+                 tab_size: start_point.tab_size
     }
-    manifest[:visible_files] = language.visible_files
+    manifest[:visible_files] = start_point.visible_files
     manifest[:visible_files]['output'] = ''
     manifest
   end

@@ -1,4 +1,7 @@
 
+# Used only for katas created before the start-point volume re-architecture.
+# See app/models/katas.rb:colour()
+
 module OutputColour # mix-in
 
   module_function
@@ -6,14 +9,9 @@ module OutputColour # mix-in
   #  'red'   - the tests ran but at least one failed
   #  'amber' - the tests could not be run (eg syntax error)
   #  'green' - the tests ran and all passed
-  #  'timed_out' - the tests did not complete in time
 
   def self.of(unit_test_framework, output)
-    if Regexp.new('Unable to complete the test').match(output)
-      'timed_out'
-    else
-      self.send("parse_#{unit_test_framework}", output).to_s
-    end
+    self.send("parse_#{unit_test_framework}", output).to_s
   end
 
   def self.parse_d_unittest(output)
@@ -131,7 +129,7 @@ module OutputColour # mix-in
   end
 
   def self.parse_nunit(output)
-    return :red   if /^Errors and Failures\:/.match(output)
+    return :red   if /^Errors and Failures:/.match(output)
     return :green if /^Tests run: (\d*), Errors: 0, Failures: 0/.match(output)
     return :amber
   end

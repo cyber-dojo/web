@@ -4,15 +4,6 @@ require_relative './app_lib_test_base'
 
 class OutputColourTest < AppLibTestBase
 
-  test '24C561',
-  'terminated by the server after n seconds gives timed_out colour' do
-    [1,5,10].each do |n|
-      assert_equal 'timed_out', OutputColour::of('ignored', terminated(n))
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test '9DBD7D',
   'all saved Runner outputs are correctly coloured red/amber/green' do
     root = output_path
@@ -67,10 +58,6 @@ class OutputColourTest < AppLibTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   private
-
-  def terminated(n)
-    "Unable to complete the test in #{n} seconds"
-  end
 
   def output_path
     File.expand_path(File.dirname(__FILE__)) + '/output'

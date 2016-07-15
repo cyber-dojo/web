@@ -1,8 +1,7 @@
 
 In the new start-points architecture how do you add a new
 output-parse function when installing a new language+test_framework?
-Inside the start-point volume add colour_of.rb file next to manifest.json
-   (means I would not need the unit_test_framework inside manifest.json)
+Inside the start-point volume add colour_of.rb file next to each manifest.json
 contents of colour.rb
 #-----
 lambda { |output|
@@ -11,12 +10,43 @@ lambda { |output|
     return :amber
 }
 #-----
-Then copy the output.rb file into the kata's folder (next to
-the kata's manifest.json) when the kata is created
-(to avoid dependency on navigating from kata back to language/start-point)
+Then do this...
 #-----
 colour = eval(IO.read('colour.rb'))
 colour.call('FAILURES!')
+
+Once this is in place I need an extra
+test/app_lib/setup_data_checker_test
+to verfiy each start-point has a colour.rb file
+
+This works for katas done before the re-architecture.
+It will fail if you switch start-points. I think that is a natural
+consequence of the new architecture.
+
+Need to do a lookup based on the unit_test_framework
+Do a lookup in the languages and custom start-points for a matching unit_test_framework.
+
+Or have a fall-back like I do for image_name.
+See if colour-lanbda is stored locally in the kata.
+If it is use it. This gives independence from start-point.
+If its not, fall back to using parse_funcions inside the web image.
+Will be much easier if I can embed the lambda inside the start-point manifest.
+Can then simply copy the lambda into the kata manifest.
+
+This also means I need to have the same kind of fall-back
+when *forking* an old kata.
+
+- - - - - - - - - - - - - - - - - - - - -
+
+Inside the web container s/data/start-points/
+is a good folder rename.
+
+- - - - - - - - - - - - - - - - - - - - -
+
+When creating a kata (host_disk_katas.rb)
+save language manifest properties into katas manifest
+so all kata's methods look at least like image_name, viz
+  manifest_property || start_point.NAME
 
 - - - - - - - - - - - - - - - - - - - - -
 

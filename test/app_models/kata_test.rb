@@ -81,7 +81,7 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '78A205',
-  'make_kata with default-now uses-time-now' do
+  'make_kata with default-now uses time-now' do
     now = Time.now
     kata = make_kata
     created = Time.mktime(*kata.created)
@@ -215,10 +215,45 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test '24C561',
+  'terminated by the server after n seconds gives timed_out colour' do
+    kata = make_kata
+    [1,5,10].each do |n|
+      assert_equal 'timed_out', kata.red_amber_green(terminated(n))
+    end
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'E391FE',
+  'after start-points volume re-architecture, initial colour is red/amber/green' +
+  'determined by lambda held in kata manifest' do
+    hash = {
+      language: 'C#-Moq',
+      exercise: 'Fizz_Buzz',
+    }
+    kata = make_kata(hash)
+    assert_equal 'red'  , kata.red_amber_green('Errors and Failures:'), :red
+    assert_equal 'amber', kata.red_amber_green('sdfsdfsdf'), :amber
+    assert_equal 'green', kata.red_amber_green('Tests run: 3, Errors: 0, Failures: 0'), :green
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  # Once all manifests have red_amber_green lambda I think I will need
+  # another test here to get coverage of using the original OutputColour.of
+  # call path
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   private
 
   def avatars_names
     @kata.avatars.map(&:name).sort
+  end
+
+  def terminated(n)
+    "Unable to complete the test in #{n} seconds"
   end
 
 end

@@ -50,7 +50,7 @@ class DeltaMaker
     visible_files = now
     delta = make_delta(@was, @now)
     output = @avatar.test(delta, visible_files)
-    colour = @avatar.kata.colour(output)
+    colour = @avatar.kata.red_amber_green(output)
     @avatar.katas.avatar_ran_tests(@avatar, delta, visible_files, at, output, colour)
     [delta, visible_files, output]
   end

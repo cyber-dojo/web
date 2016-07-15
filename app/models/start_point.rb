@@ -27,6 +27,12 @@ class StartPoint
   end
 
   def unit_test_framework
+    # before start-points re-architecture
+    manifest_property
+  end
+
+  def red_amber_green
+    # after start-points re-architecture
     manifest_property
   end
 

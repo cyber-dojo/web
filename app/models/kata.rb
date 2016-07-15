@@ -62,27 +62,12 @@ class Kata
   end
 
   def image_name
-    # Not stored in the kata's manifest until July 2016.
-    # Meant that display-name changes made it impossible to
-    # fork from a traffic-light since you could not get back to
-    # the kata's start-point object to get its image_name.
-    # For old kata's, attempt to retrieve the image_name from the
-    # start-point object, which would fail if...
-    #   o) the start-point's display_name has changed
-    #   o) the start-point was from a different start-points volume
+    # Not stored in the kata's manifest until the
+    # start-points volume re-architecture (July 2016)
     manifest_property || start_point.image_name
   end
 
   def display_name
-    # Could do...
-    #    manifest['language'].split('-').join(', ')
-    # This would assume...
-    #    o) there is only one hyphen
-    #    o) there is a space after the comma in display_name
-    # Example
-    #    manifest['language'] = 'Java-JUnit'
-    #    --> split('-').join(', ')
-    #    --> 'Java, JUnit'
     start_point.display_name
   end
 
@@ -102,8 +87,18 @@ class Kata
     start_point.lowlight_filenames
   end
 
-  def colour(output)
-    OutputColour.of(unit_test_framework, output)
+  def red_amber_green(output)
+    if Regexp.new('Unable to complete the test').match(output)
+      return 'timed_out'
+    end
+    # before or after start-points re-architecture?
+    src = manifest['red_amber_green']
+    if src.nil? # before
+      OutputColour.of(unit_test_framework, output)
+    else # after
+      red_amber_green = eval(src.join("\n"))
+      red_amber_green.call(output).to_s
+    end
   end
 
   private
@@ -116,15 +111,15 @@ class Kata
   end
 
   def start_point
-    # Each avatar does _not_ choose their own language+test.
-    # The language+test is chosen for the _kata_.
-    # cyber-dojo is a team-based Interactive Dojo Environment,
-    # not an Individual Development Environment
+    # A kata's manifest should store everything it needs so it
+    # never has to go back to its originating language+test manifest.
+    # e,g, the image_name and a red_amber_green parse lambda.
+    # katas created after the start-point volume re-architecture do that :-)
+    # katas created before the start-point volume re-architecture don't :-()
+    # So for katas before I attempt to navigate back to the originating
+    # language+test. Note that this affects forking too.
     name = manifest['language']
-    # TODO: This is a hack. Revisit.
-    #  Its a manifested language (+test) for the regular case of
-    #    starting from an empty instruction file.
-    #  Its a manifested custom exercise (like James uses) - the new case
+    # There are now two start-points origins...
     languages[name] || custom[name]
   end
 
@@ -133,3 +128,8 @@ class Kata
   end
 
 end
+
+# Each avatar does _not_ choose their own language+test.
+# The language+test is chosen for the _kata_.
+# cyber-dojo is a team-based Interactive Dojo Environment,
+# not an Individual Development Environment
