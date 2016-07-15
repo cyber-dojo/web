@@ -1,45 +1,24 @@
 
-In the new start-points architecture how do you add a new
-output-parse function when installing a new language+test_framework?
-Inside the start-point volume add colour_of.rb file next to each manifest.json
-contents of colour.rb
-#-----
-lambda { |output|
-    return :red   if /^Errors and Failures\:/.match(output)
-    return :green if /^Tests run: (\d*), Errors: 0, Failures: 0/.match(output)
-    return :amber
-}
-#-----
-Then do this...
-#-----
-colour = eval(IO.read('colour.rb'))
-colour.call('FAILURES!')
 
-Once this is in place I need an extra
-test/app_lib/setup_data_checker_test
-to verfiy each start-point has a colour.rb file
+I need red_green_amber lambda fall-back when *forking* an old kata.
 
-This works for katas done before the re-architecture.
-It will fail if you switch start-points. I think that is a natural
-consequence of the new architecture.
+- - - - - - - - - - - - - - - - - - - - -
 
-Need to do a lookup based on the unit_test_framework
-Do a lookup in the languages and custom start-points for a matching unit_test_framework.
-
-Or have a fall-back like I do for image_name.
-See if colour-lanbda is stored locally in the kata.
-If it is use it. This gives independence from start-point.
-If its not, fall back to using parse_funcions inside the web image.
-Will be much easier if I can embed the lambda inside the start-point manifest.
-Can then simply copy the lambda into the kata manifest.
-
-This also means I need to have the same kind of fall-back
-when *forking* an old kata.
+Plan.
+create red_amber_green lambdas for all start-points
+get 100% coverage for app_models/kata again by faking old-style kata
+add new app_lib/setup_data_checker_test for red_amber_green being required
+make red_amber_green required key in start-point volume
 
 - - - - - - - - - - - - - - - - - - - - -
 
 Inside the web container s/data/start-points/
 is a good folder rename.
+
+- - - - - - - - - - - - - - - - - - - - -
+
+if [docker pull] command on new setup pages fails then I need to
+bail out of creating the kata.
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -74,11 +53,6 @@ Start-point: languages -> https://github.com/start-point-languages.git
 Start-point: exercises -> https://github.com/start-point-exercises.git
 Start-point:    custom -> https://github.com/start-point-custom.git
 cyber-dojo up --languages=languages --exercises=exercises --custom=custom
-
-- - - - - - - - - - - - - - - - - - - - -
-
-if [docker pull] command on new setup pages fails then I need to
-bail out of creating the kata.
 
 - - - - - - - - - - - - - - - - - - - - -
 

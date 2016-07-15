@@ -180,6 +180,11 @@ class SetupDataCheckerTest < AppLibTestBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # WILL BE required-key: red_amber_green
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # required-key: visible_filenames
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -296,12 +301,6 @@ class SetupDataCheckerTest < AppLibTestBase
     assert_key_error 0     , 'must be an int > 0'
     assert_key_error 9     , 'must be an int <= 8'
   end
-
-  #test '81A98B', 'all files are owned by cyber-dojo user' do
-    # After [cp -r] the files have the same permissions
-    # I can't chown a file unless I sudo.
-    # Do this as a positive test?
-    # Use rsync with --chown?
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
