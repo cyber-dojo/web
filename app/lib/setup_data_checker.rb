@@ -320,6 +320,7 @@ class SetupDataChecker
         progress_regexs
         tab_size
         unit_test_framework
+        red_amber_green
         visible_filenames
       )
   end
