@@ -124,16 +124,8 @@ class SetupDataChecker
         error "missing '#{filename}'"
       end
     end
-    # check all files in dir are in visible_filenames
-    dir = File.dirname(@manifest_filename)
-    filenames = Dir.entries(dir).reject { |entry| File.directory?(entry) }
-    filenames -= [ 'manifest.json' ]
-    filenames.each do |filename|
-      unless visible_filenames.include? filename
-        error "missing '#{filename}'"
-      end
-    end
-    # check cyber-dojo.sh is visible_filename
+
+    # check cyber-dojo.sh is a visible_filename
     unless visible_filenames.include? 'cyber-dojo.sh'
       error "must contain 'cyber-dojo.sh'"
     end

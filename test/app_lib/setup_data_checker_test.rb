@@ -192,18 +192,6 @@ class SetupDataCheckerTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '67307A',
-  'file in dir not present in visible_filename is an error' do
-    copy_good_master do |tmp_dir|
-      junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
-      IO.write("#{tmp_dir}/Java/JUnit/new_file.jj", 'hello world')
-      check
-      assert_error junit_manifest_filename, "visible_filenames: missing 'new_file.jj'"
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test '1FEC31',
   'missing visible file is an error' do
     copy_good_master do |tmp_dir|
