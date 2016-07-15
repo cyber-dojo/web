@@ -20,9 +20,9 @@
       <td><%= render partial: 'shared/bullet' %></td>
       <td><%= test %></td>
 
-      <% if @kata.manifest['exercise'] %>
+      <% if @kata.exercise %>
         <td><%= render partial: 'shared/bullet' %></td>
-        <td><%= @kata.manifest['exercise'].gsub('_',' ') %></td>
+        <td><%= @kata.exercise.gsub('_',' ') %></td>
       <% end %>
 
     </tr>

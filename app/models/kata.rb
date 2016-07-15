@@ -53,54 +53,57 @@ class Kata
     manifest_property
   end
 
+  def exercise
+    manifest_property
+  end
+
+  def language
+    manifest_property
+  end
+
   def image_name
     # Not stored in the kata's manifest until July 2016.
     # Meant that display-name changes made it impossible to
     # fork from a traffic-light since you could not get back to
-    # the kata's language object to get its image_name.
+    # the kata's start-point object to get its image_name.
     # For old kata's, attempt to retrieve the image_name from the
-    # language object, which may fail if...
-    #   o) the language has been renamed
-    #   o) language was from a different start-points volume
-    manifest_property || language.image_name
+    # start-point object, which would fail if...
+    #   o) the start-point's display_name has changed
+    #   o) the start-point was from a different start-points volume
+    manifest_property || start_point.image_name
   end
 
   def display_name
     # Could do...
     #    manifest['language'].split('-').join(', ')
-    # assumes
+    # This would assume...
     #    o) there is only one hyphen
     #    o) there is a space after the comma in display_name
     # Example
     #    manifest['language'] = 'Java-JUnit'
     #    --> split('-').join(', ')
     #    --> 'Java, JUnit'
-    language.display_name
+    start_point.display_name
   end
 
   def filename_extension
-    language.filename_extension
+    start_point.filename_extension
   end
 
   def progress_regexs
-    language.progress_regexs
+    start_point.progress_regexs
   end
 
   def highlight_filenames
-    language.highlight_filenames
+    start_point.highlight_filenames
   end
 
   def lowlight_filenames
-    language.lowlight_filenames
+    start_point.lowlight_filenames
   end
 
   def colour(output)
     OutputColour.of(unit_test_framework, output)
-  end
-
-  # TODO: make private?
-  def manifest
-    @manifest ||= katas.kata_manifest(self)
   end
 
   private
@@ -112,9 +115,9 @@ class Kata
     Time.mktime(*avatars.active.map { |avatar| avatar.lights[0].time }.sort[0])
   end
 
-  def language
+  def start_point
     # Each avatar does _not_ choose their own language+test.
-    # The language+test is chosen for the _dojo_.
+    # The language+test is chosen for the _kata_.
     # cyber-dojo is a team-based Interactive Dojo Environment,
     # not an Individual Development Environment
     name = manifest['language']
@@ -123,6 +126,10 @@ class Kata
     #    starting from an empty instruction file.
     #  Its a manifested custom exercise (like James uses) - the new case
     languages[name] || custom[name]
+  end
+
+  def manifest
+    @manifest ||= katas.kata_manifest(self)
   end
 
 end

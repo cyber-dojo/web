@@ -80,10 +80,10 @@ end
 # I didn't want to have to upgrade the existing Ruby1.9.3 test-frameworks
 # to Ruby2.1.3. But... on the setup page I wanted all the different
 # Ruby test-frameworks (from two different versions of Ruby) to appear
-# under the *same* language name in the language? column.
+# under the *same* language name in the left column.
 # This is why a language/test's  manifest.json file has a display_name entry.
 # It is the display_name that governs the language/test's names as they appear
-# on the create page. Not the folder names. Not the docker image_name.
+# on the setup page. Not the folder name. Not the docker image_name.
 #
 # The display_name should have been used *only* for the setup page.
 # However, I also stored it in the kata's manifest and used it to look up

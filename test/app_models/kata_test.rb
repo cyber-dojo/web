@@ -105,7 +105,7 @@ class KataTest < AppModelsTestBase
     java_junit = languages[hash[:language]]
     fizz_buzz  = exercises[hash[:exercise]]
     kata = make_kata(hash)
-    assert_equal id, kata.id.to_s
+    assert_equal id, kata.id
     assert_equal Time.mktime(*now), kata.created
     assert_equal java_junit.image_name, kata.image_name
     assert_equal java_junit.tab_size, kata.tab_size
@@ -114,6 +114,8 @@ class KataTest < AppModelsTestBase
     assert_equal java_junit.progress_regexs, kata.progress_regexs
     assert_equal java_junit.highlight_filenames, kata.highlight_filenames
     assert_equal java_junit.lowlight_filenames, kata.lowlight_filenames
+    assert_equal java_junit.name, kata.language
+    assert_equal fizz_buzz.name, kata.exercise
     assert_equal fizz_buzz.text, kata.visible_files['instructions']
     assert_equal '', kata.visible_files['output']
   end

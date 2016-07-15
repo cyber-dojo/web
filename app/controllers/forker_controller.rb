@@ -33,8 +33,8 @@ class ForkerController < ApplicationController
                          id: unique_id,
                     created: time_now,
                  image_name: kata.image_name,
-                   language: kata.manifest['language'],
-                   exercise: kata.manifest['exercise'],
+                   language: kata.language,
+                   exercise: kata.exercise,
         unit_test_framework: kata.unit_test_framework,
                    tab_size: kata.tab_size,
               visible_files: avatar.tags[tag].visible_files

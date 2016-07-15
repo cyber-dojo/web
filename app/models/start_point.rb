@@ -8,7 +8,7 @@ class StartPoint
     @image_name = image_name
   end
 
-  attr_reader :path, :languages
+  attr_reader :path
 
   def parent
     @start_points
@@ -81,8 +81,8 @@ class StartPoint
     @manifest ||= disk[path].read_json(manifest_filename)
   rescue StandardError => e
     message = "disk[path].read_json(#{manifest_filename}) exception" + "\n" +
-      'language: ' + path + "\n" +
-      ' message: ' + e.message
+      'start-point: ' + path + "\n" +
+      '    message: ' + e.message
     fail message
   end
 
@@ -114,10 +114,7 @@ end
 # lowlight_filenames
 # - - - - - - - - - - - - - - - - - - - -
 # Caters for two uses
-# 1. carefully constructed set of start files
-#    (like James Grenning uses)
-#    with explicitly set highlight_filenames entry
-#    in manifest
-# 2. default set of files direct from languages/
-#    viz, no highlight_filenames entry in manifest
+# 1. carefully constructed (custom) set of start files (like James Grenning uses)
+#    with explicitly set highlight_filenames entry in manifest
+# 2. default start-points files viz, no highlight_filenames entry in manifest
 # - - - - - - - - - - - - - - - - - - - -

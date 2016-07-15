@@ -14,7 +14,7 @@ module SetupChooser # mix-in
   end
 
   def choose_exercise(exercises, kata)
-    chooser(exercises, kata) { kata.manifest['exercise'] }
+    chooser(exercises, kata) { kata.exercise }
   end
 
   def chooser(choices, kata)
