@@ -10,8 +10,18 @@
     "makefile",
     "cyber-dojo.sh"
   ],
+
   "filename_extension" : ".cpp",
+
   "display_name": "Tennis refactoring, C++ (g++) assert",
-  "unit_test_framework": "cassert",
-  "image_name": "cyberdojofoundation/gpp_assert"
+
+  "image_name": "cyberdojofoundation/gpp_assert",
+
+  "red_amber_green" : [
+    "lambda { |output|",
+    "  return :red   if /(.*)Assertion(.*)failed./.match(output)",
+    "  return :green if /(All|\\d*) tests passed/.match(output)",
+    "  return :amber",
+    "}"
+  ]
 }

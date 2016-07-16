@@ -5,8 +5,18 @@
     "instructions",
     "cyber-dojo.sh"
   ],
+
   "filename_extension" : ".java",
+
   "display_name": "Yahtzee refactoring, Java JUnit",
-  "unit_test_framework": "junit",
-  "image_name": "cyberdojofoundation/java_junit"
+
+  "image_name": "cyberdojofoundation/java_junit",
+
+  "red_amber_green" : [
+    "lambda { |output|",
+    "  return :red   if /^Tests run: (\\d*),(\\s)+Failures: (\\d*)/.match(output)",
+    "  return :green if /^OK \\((\\d*) test/.match(output)",
+    "  return :amber",
+    "}"
+  ]
 }
