@@ -10,8 +10,6 @@
 
   "display_name": "Java, JUnit",
 
-  "unit_test_framework": "junit",
-
   "image_name": "cyberdojofoundation/java_junit",
 
   "progress_regexs": [

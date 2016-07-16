@@ -225,6 +225,21 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test '1CD446',
+  'red_amber_green(nil) returns the lamda source' do
+    kata = make_kata
+    expected = [
+      "lambda { |output|",
+      "  return :red   if /(.*)Assertion(.*)failed./.match(output)",
+      "  return :green if /(All|\\d*) tests passed/.match(output)",
+      "  return :amber",
+      "}"
+    ]
+    assert_equal expected, kata.red_amber_green(nil)
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test 'E391FE',
   'after start-points volume re-architecture, initial colour is red/amber/green' +
   'determined by lambda held in kata manifest' do
@@ -233,6 +248,9 @@ class KataTest < AppModelsTestBase
       exercise: 'Fizz_Buzz',
     }
     kata = make_kata(hash)
+    manifest = IO.read(katas.path_of(kata) + '/manifest.json')
+    json = JSON.parse(manifest)
+    refute_nil json['red_amber_green']
     assert_equal 'red'  , kata.red_amber_green('Errors and Failures:'), :red
     assert_equal 'amber', kata.red_amber_green('sdfsdfsdf'), :amber
     assert_equal 'green', kata.red_amber_green('Tests run: 3, Errors: 0, Failures: 0'), :green
@@ -240,9 +258,22 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  # Once all manifests have red_amber_green lambda I think I will need
-  # another test here to get coverage of using the original OutputColour.of
-  # call path
+  test '5177CC',
+  'before start-points volume re-architecture, initial colour is red/amber/green' do
+    hash = {
+      language: 'C#-Moq',
+      exercise: 'Fizz_Buzz',
+    }
+    kata = make_kata(hash)
+    filename = katas.path_of(kata) + '/manifest.json'
+    json = JSON.parse(IO.read(filename))
+    json.delete('red_amber_green')
+    json['unit_test_framework'] = 'nunit'
+    IO.write(filename, JSON.unparse(json))
+    assert_equal 'red'  , kata.red_amber_green('Errors and Failures:'), :red
+    assert_equal 'amber', kata.red_amber_green('sdfsdfsdf'), :amber
+    assert_equal 'green', kata.red_amber_green('Tests run: 3, Errors: 0, Failures: 0'), :green
+  end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

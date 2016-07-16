@@ -94,7 +94,6 @@ class ForkerControllerTest < AppControllerTestBase
     @id = kata.id
     @avatar = start # 0
     run_tests       # 1
-
     fork(@id, @avatar.name, tag = 1)
     assert forked?
   end
@@ -112,9 +111,26 @@ class ForkerControllerTest < AppControllerTestBase
     @id = kata.id
     @avatar = start # 0
     run_tests       # 1
-
     fork(@id, @avatar.name, tag = 1)
     assert forked?
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '467D4A',
+  'forking kata from before start-point volume re-architecture works' do
+    @id = unique_id
+    language = languages['C#-NUnit']
+    manifest = katas.create_kata_manifest(language)
+    manifest.delete(:red_amber_green)
+    manifest[:unit_test_framework] = 'nunit'
+    kata = katas.create_kata_from_kata_manifest(manifest)
+    @id = kata.id
+    @avatar = start # 0
+    run_tests       # 1
+    fork(@id, @avatar.name, tag = 1)
+    assert forked?
+
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -

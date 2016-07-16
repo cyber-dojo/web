@@ -1,4 +1,6 @@
 
+require_relative '../app/lib/unit_test_framework_lookup'
+
 # Each GET/POST is serviced in a new thread which creates a
 # new dojo object and thus a new runner object. To ensure
 # state is preserved from the setup to the call it has
@@ -50,6 +52,7 @@ class StubRunner
 
   include ExternalParentChainer
   include Runner
+  include UnitTestFrameworkLookup
 
   def save_stub(avatar, json)
     # Better - combine test's hex-id with avater.name in tmp folder
@@ -73,7 +76,10 @@ class StubRunner
     # ?better in test/languages/outputs
     raise "#{rag} must be red/amber/green" unless red_amber_green.include?(rag)
     root = File.expand_path(File.dirname(__FILE__) + '/../test') + '/app_lib/output'
-    path = "#{root}/#{avatar.kata.unit_test_framework}/#{rag}"
+
+    unit_test_framework = lookup(avatar.kata.display_name)
+
+    path = "#{root}/#{unit_test_framework}/#{rag}"
     all_output_samples = disk[path].each_file.collect { |filename| filename }
     filename = all_output_samples.sample
     disk[path].read(filename)

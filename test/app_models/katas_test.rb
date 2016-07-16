@@ -15,7 +15,6 @@ class KatasTest < AppModelsTestBase
     assert_equal kata.id, manifest['id']
     refute_nil manifest['image_name']
     refute_nil manifest['language']
-    refute_nil manifest['unit_test_framework']
     refute_nil manifest['tab_size']
     refute_nil manifest['id']
     refute_nil manifest['created']

@@ -93,6 +93,9 @@ class Kata
     end
     # before or after start-points re-architecture?
     src = manifest['red_amber_green']
+    if output.nil?
+      return src
+    end
     if src.nil? # before
       OutputColour.of(unit_test_framework, output)
     else # after

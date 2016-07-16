@@ -131,7 +131,7 @@ class SetupDataCheckerTest < AppLibTestBase
     end
     required_keys = %w( display_name
                         image_name
-                        unit_test_framework
+                        red_amber_green
                         visible_filenames
                       )
     required_keys.each { |key| missing_require_key.call(key) }

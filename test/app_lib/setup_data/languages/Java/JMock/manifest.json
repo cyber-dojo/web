@@ -11,8 +11,6 @@
 
   "display_name": "Java, JMock",
 
-  "unit_test_framework": "junit",
-
   "image_name": "cyberdojofoundation/java_jmock",
 
   "red_amber_green" : [

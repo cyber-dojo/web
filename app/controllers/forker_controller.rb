@@ -27,18 +27,26 @@ class ForkerController < ApplicationController
 
     if !error
       tag = params['tag'].to_i
-      # don't use kata.instructions.name because
-      # the instructions might have been renamed
       manifest = {
                          id: unique_id,
                     created: time_now,
                  image_name: kata.image_name,
                    language: kata.language,
                    exercise: kata.exercise,
-        unit_test_framework: kata.unit_test_framework,
                    tab_size: kata.tab_size,
               visible_files: avatar.tags[tag].visible_files
       }
+
+      # before or after start-points volume re-architecture?
+      if !kata.unit_test_framework.nil?
+        # before
+        manifest[:unit_test_framework] = kata.unit_test_framework
+      else
+        # after
+        lambda_src = kata.red_amber_green(nil)
+        manifest[:red_amber_green] = lambda_src
+      end
+
       forked_kata = katas.create_kata_from_kata_manifest(manifest)
 
       result[:forked] = true

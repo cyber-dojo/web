@@ -35,15 +35,17 @@ class SetupDataChecker
       @manifest = manifest
       check_no_unknown_keys_exist
       check_all_required_keys_exist
+      # required
       check_visible_filenames_is_valid
-      check_highlight_filenames_is_valid
       check_display_name_is_valid
       check_image_name_is_valid
+      check_red_amber_green_is_valid
+      # optional
       check_unit_test_framework_is_valid
       check_progress_regexs_is_valid
       check_filename_extension_is_valid
       check_tab_size_is_valid
-      check_red_amber_green_is_valid
+      check_highlight_filenames_is_valid
     end
     errors
   end
@@ -227,7 +229,7 @@ class SetupDataChecker
 
   def check_unit_test_framework_is_valid
     @key = 'unit_test_framework'
-    return if unit_test_framework.nil? # required-key different check
+    return if unit_test_framework.nil? # it's optional
     unless unit_test_framework.is_a? String
       error 'must be a String'
       return
@@ -358,7 +360,6 @@ class SetupDataChecker
     %w( display_name
         image_name
         red_amber_green
-        unit_test_framework
         visible_filenames
       )
   end

@@ -11,8 +11,6 @@
 
   "display_name": "Java, PowerMockito",
 
-  "unit_test_framework": "junit",
-
   "image_name": "cyberdojofoundation/java_powermockito",
 
   "red_amber_green" : [

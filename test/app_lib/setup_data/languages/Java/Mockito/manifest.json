@@ -11,8 +11,6 @@
 
   "display_name": "Java, Mockito",
 
-  "unit_test_framework": "junit",
-
   "image_name": "cyberdojofoundation/java_mockito",
 
   "red_amber_green" : [

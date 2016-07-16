@@ -1,5 +1,6 @@
 
 require_relative '../../app/lib/file_delta_maker'
+require_relative '../../app/lib/unit_test_framework_lookup'
 
 class DeltaMaker
 
@@ -39,7 +40,10 @@ class DeltaMaker
 
   def stub_colour(colour)
     root = File.expand_path(File.dirname(__FILE__)) + '/../app_lib/output'
-    path = "#{root}/#{@avatar.kata.unit_test_framework}/#{colour}"
+    # since start-points volume re-architecture
+    # unit_test_framework is no longer directly available...
+    unit_test_framework = lookup(@avatar.kata.display_name)
+    path = "#{root}/#{unit_test_framework}/#{colour}"
     all_outputs = Dir.glob(path + '/*')
     filename = all_outputs.sample
     output = File.read(filename)
@@ -70,6 +74,7 @@ class DeltaMaker
   private
 
   include TimeNow
+  include UnitTestFrameworkLookup
 
   def assert(&pred)
     fail RuntimeError.new('DeltaMaker.assert') unless pred.call
