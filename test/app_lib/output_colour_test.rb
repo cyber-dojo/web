@@ -1,6 +1,7 @@
 #!/bin/bash ../test_wrapper.sh
 
 require_relative './app_lib_test_base'
+require_relative '../../app/lib/unit_test_framework_lookup'
 
 class OutputColourTest < AppLibTestBase
 
@@ -30,10 +31,11 @@ class OutputColourTest < AppLibTestBase
     count = 0
     dojo.languages.each do |language|
       count += 1
-      path = output_path + '/' + language.unit_test_framework
+      unit_test_framework = lookup(language.display_name)
+      path = output_path + '/' + unit_test_framework
       diagnostic = '' +
         "language: #{language.name}\n" +
-        "unit_test_framework: #{language.unit_test_framework}\n" +
+        "unit_test_framework: #{unit_test_framework}\n" +
         "...#{path}/ does not exist"
       assert disk[path].exists?, diagnostic
     end
@@ -55,7 +57,8 @@ class OutputColourTest < AppLibTestBase
         lambda_yes_count += 1
       end
       ['red', 'amber', 'green'].each do |expected|
-        path = "#{output_path}/#{language.unit_test_framework}/#{expected}"
+      unit_test_framework = lookup(language.display_name)
+        path = "#{output_path}/#{unit_test_framework}/#{expected}"
         dir = disk[path]
         assert dir.exists?, "#{path} does not exist"
         dir.each_file do |filename|
@@ -64,7 +67,7 @@ class OutputColourTest < AppLibTestBase
           actual = red_amber_green.call(output).to_s
           diagnostic = '' +
             "#{language.name}\n" +
-            "#{language.unit_test_framework}\n" +
+            "#{unit_test_framework}\n" +
             "output read from: #{path}/#{filename}\n" +
             "red_amber_green.call()"
           assert_equal expected, actual, diagnostic
@@ -78,6 +81,8 @@ class OutputColourTest < AppLibTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   private
+
+  include UnitTestFrameworkLookup
 
   def output_path
     File.expand_path(File.dirname(__FILE__)) + '/output'

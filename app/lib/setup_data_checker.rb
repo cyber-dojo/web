@@ -41,7 +41,6 @@ class SetupDataChecker
       check_image_name_is_valid
       check_red_amber_green_is_valid
       # optional
-      check_unit_test_framework_is_valid
       check_progress_regexs_is_valid
       check_filename_extension_is_valid
       check_tab_size_is_valid
@@ -227,30 +226,6 @@ class SetupDataChecker
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  def check_unit_test_framework_is_valid
-    @key = 'unit_test_framework'
-    return if unit_test_framework.nil? # it's optional
-    unless unit_test_framework.is_a? String
-      error 'must be a String'
-      return
-    end
-    if unit_test_framework == ''
-      error 'is empty'
-      return
-    end
-    has_parse_method = true
-    begin
-      OutputColour.of(unit_test_framework, any_output='xx')
-    rescue
-      has_parse_method = false
-    end
-    unless has_parse_method
-      error "no OutputColour.parse_#{unit_test_framework} method"
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
   def check_progress_regexs_is_valid
     @key = 'progress_regexs'
     return if progress_regexs.nil?  # it's optional
@@ -350,7 +325,6 @@ class SetupDataChecker
         image_name
         progress_regexs
         tab_size
-        unit_test_framework
         red_amber_green
         visible_filenames
       )
@@ -384,10 +358,6 @@ class SetupDataChecker
 
   def red_amber_green
     @manifest['red_amber_green']
-  end
-
-  def unit_test_framework
-    @manifest['unit_test_framework']
   end
 
   def progress_regexs

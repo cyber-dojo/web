@@ -140,16 +140,6 @@ class LanguageTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '56CB2A',
-  'unit_test_framework is read back as set' do
-    @language = make_language('Ruby', 'Test::Unit')
-    unit_test_framework = 'Satchmo'
-    spy_manifest({ 'unit_test_framework' => unit_test_framework })
-    assert_equal unit_test_framework, @language.unit_test_framework
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test '07290B',
   'tab_size is read back as set' do
     @language = make_language('Ruby', 'Test::Unit')

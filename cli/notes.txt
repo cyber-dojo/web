@@ -12,7 +12,9 @@ done: add test that creates old kata (delete red_amber_green) and check it works
 done: make unit_test_framework optional key (app_lib/setup_data_checker and its tests)
 done: don't save unit_test_framework when creating kata manifest
 done: don't save unit_test_framework when creating kata manifest (when forking)
-delete unit_test_framework from all start-point manifests
+done: delete unit_test_framework from all start-point manifests
+done: make unit_test_framework unknown key in setup_data_checker and its tests
+done: remove unit_test_framework from start-point
 
 - - - - - - - - - - - - - - - - - - - - -
 

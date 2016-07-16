@@ -76,9 +76,7 @@ class StubRunner
     # ?better in test/languages/outputs
     raise "#{rag} must be red/amber/green" unless red_amber_green.include?(rag)
     root = File.expand_path(File.dirname(__FILE__) + '/../test') + '/app_lib/output'
-
     unit_test_framework = lookup(avatar.kata.display_name)
-
     path = "#{root}/#{unit_test_framework}/#{rag}"
     all_output_samples = disk[path].each_file.collect { |filename| filename }
     filename = all_output_samples.sample

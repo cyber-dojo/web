@@ -167,19 +167,6 @@ class SetupDataCheckerTest < AppLibTestBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # required-key: unit_test_framework
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'B84696',
-  'invalid unit_test_framework is an error' do
-    @key = 'unit_test_framework'
-    assert_key_error 1    , must_be_a_String
-    assert_key_error [ 1 ], must_be_a_String
-    assert_key_error ''   , is_empty
-    assert_key_error 'xx' , 'no OutputColour.parse_xx method'
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # required-key: red_amber_green
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
