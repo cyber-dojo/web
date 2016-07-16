@@ -136,7 +136,7 @@ module OutputColour # mix-in
 
   def self.parse_runit(output)
     return :red   if /Error in check(.*)/.match(output)
-    return :green if /\"All tests passed\"/.match(output)
+    return :green if /All tests passed/.match(output)
     return :amber
   end
 

@@ -7,8 +7,20 @@
     "RunCukesTest.java",
     "cyber-dojo.sh"
   ],
+
   "filename_extension" : ".java",
+
   "display_name": "Java, Cucumber",
+
   "unit_test_framework": "java_cucumber",
-  "image_name": "cyberdojofoundation/java_cucumber"
+
+  "image_name": "cyberdojofoundation/java_cucumber",
+
+  "red_amber_green" : [
+    "lambda { |output|",
+    "  return :red   if /FAILURES!!!/.match(output)",
+    "  return :green if /OK \\((\\d*) tests\\)/.match(output)",
+    "  return :amber",
+    "}"
+  ]
 }

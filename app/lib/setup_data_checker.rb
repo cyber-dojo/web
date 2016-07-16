@@ -43,6 +43,7 @@ class SetupDataChecker
       check_progress_regexs_is_valid
       check_filename_extension_is_valid
       check_tab_size_is_valid
+      check_red_amber_green_is_valid
     end
     errors
   end
@@ -196,6 +197,30 @@ class SetupDataChecker
 
   # - - - - - - - - - - - - - - - - - - - -
 
+  def check_red_amber_green_is_valid
+    @key = 'red_amber_green'
+    return if red_amber_green.nil? # required-key different check
+    unless red_amber_green.is_a? Array
+      error 'must be an Array of Strings'
+      return
+    end
+    unless red_amber_green.all? { |item| item.is_a? String }
+      error 'must be an Array of Strings'
+      return
+    end
+    begin
+      lambda = eval(red_amber_green.join("\n"))
+      colour = lambda.call('sdsd')
+      unless [:red,:amber,:green].include?(colour)
+        error "lambda.call('sdsd') expecting one of :red,:amber,:green (got #{colour})"
+      end
+    rescue
+      error "cannot create lambda from #{red_amber_green}"
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
   def check_unit_test_framework_is_valid
     @key = 'unit_test_framework'
     return if unit_test_framework.nil? # required-key different check
@@ -328,6 +353,7 @@ class SetupDataChecker
   def required_keys
     %w( display_name
         image_name
+        red_amber_green
         unit_test_framework
         visible_filenames
       )
@@ -349,6 +375,10 @@ class SetupDataChecker
 
   def image_name
     @manifest['image_name']
+  end
+
+  def red_amber_green
+    @manifest['red_amber_green']
   end
 
   def unit_test_framework

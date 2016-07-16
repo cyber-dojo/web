@@ -72,8 +72,7 @@ class OutputColourTest < AppLibTestBase
       end
     end
     assert lambda_yes_count > 0, 'no languages'
-    p "#{lambda_yes_count} languages have working red_amber_green lambdas"
-    p "#{lambda_no_count} languages dont"
+    assert_equal 0, lambda_no_count, 'missing lambdas'
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

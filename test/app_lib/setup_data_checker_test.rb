@@ -180,9 +180,23 @@ class SetupDataCheckerTest < AppLibTestBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # WILL BE required-key: red_amber_green
+  # required-key: red_amber_green
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test 'A60C2A',
+  'invalid red_amber_green is an error' do
+    @key = 'red_amber_green'
+    not_lambda = ['o','k']
+    assert_key_error 1     , must_be_an_Array_of_Strings
+    assert_key_error [ 1 ] , must_be_an_Array_of_Strings
+    assert_key_error not_lambda, "cannot create lambda from #{not_lambda}"
+    bad_lambda = [
+      "lambda { |output|",
+      "  return :yellow",
+      "}"
+    ]
+    assert_key_error bad_lambda, "lambda.call('sdsd') expecting one of :red,:amber,:green (got yellow)"
+  end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # required-key: visible_filenames
@@ -191,8 +205,8 @@ class SetupDataCheckerTest < AppLibTestBase
   test 'E6D4DE',
   'visible_filenames not an Array of Strings is an error' do
     @key = 'visible_filenames'
-    assert_key_error 1     , 'must be an Array of Strings'
-    assert_key_error [ 1 ] , 'must be an Array of Strings'
+    assert_key_error 1     , must_be_an_Array_of_Strings
+    assert_key_error [ 1 ] , must_be_an_Array_of_Strings
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -401,6 +415,12 @@ class SetupDataCheckerTest < AppLibTestBase
 
   def must_be_a_String
     'must be a String'
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def must_be_an_Array_of_Strings
+    'must be an Array of Strings'
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -1,14 +1,17 @@
 
-
 I need red_green_amber lambda fall-back when *forking* an old kata.
+Should get that for free as long as I copy unit_test_framework if it exists
 
 - - - - - - - - - - - - - - - - - - - - -
 
 Plan.
-create red_amber_green lambdas for all start-points
-get 100% coverage for app_models/kata again by faking old-style kata
-add new app_lib/setup_data_checker_test for red_amber_green being required
-make red_amber_green required key in start-point volume
+done: get 100% coverage for app_models/kata again by faking old-style kata
+done: add new app_lib/setup_data_checker_test for red_amber_green being required
+done : make red_amber_green required key in start-point volume
+add test that creates old kata (delete red_amber_green) and check it works ok
+make unit_test_framework optional key (app_lib/setup_data_checker and its tests)
+don't save unit_test_framework when creating kata manifest
+don't save unit_test_framework when creating kata manifest (when forking)
 
 - - - - - - - - - - - - - - - - - - - - -
 
