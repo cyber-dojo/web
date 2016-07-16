@@ -10,6 +10,7 @@ done: add new app_lib/setup_data_checker_test for red_amber_green being required
 done : make red_amber_green required key in start-point volume
 add test that creates old kata (delete red_amber_green) and check it works ok
 make unit_test_framework optional key (app_lib/setup_data_checker and its tests)
+delete unit_test_framework from all start-point manifests
 don't save unit_test_framework when creating kata manifest
 don't save unit_test_framework when creating kata manifest (when forking)
 

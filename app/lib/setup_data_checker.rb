@@ -211,6 +211,10 @@ class SetupDataChecker
     begin
       lambda = eval(red_amber_green.join("\n"))
       colour = lambda.call('sdsd')
+      # Most test frameworks have specific patterns for red/green
+      # and you get amber if its not red or green.
+      # But a few test frameworks have a specific pattern for amber
+      # so 'sdsd' is not amber for these.
       unless [:red,:amber,:green].include?(colour)
         error "lambda.call('sdsd') expecting one of :red,:amber,:green (got #{colour})"
       end
