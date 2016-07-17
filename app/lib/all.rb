@@ -14,5 +14,6 @@
   output_colour
   td_gapper
   delta_maker
+  display_names_splitter
 ).each { |sourcefile| require_relative './' + sourcefile }
 

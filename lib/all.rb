@@ -11,7 +11,6 @@
   string_truncater
   stderr_redirect
   unslashed
-  display_names_splitter
 
   runner
   stub_runner
