@@ -44,7 +44,7 @@ class SetupDefaultStartPointController < ApplicationController
 
   private
 
-  include SetupChooser
+  include StartPointChooser
 
   def display_names_of(start_points)
     start_points.map(&:display_name).sort

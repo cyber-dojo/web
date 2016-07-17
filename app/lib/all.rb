@@ -1,6 +1,6 @@
 
 %w(
-  setup_chooser
+  start_point_chooser
   start_point_checker
   file_delta_maker
   unit_test_framework_lookup

@@ -1,11 +1,11 @@
 
 # When the [create] button is clicked (on home page) then if
 # there is an id present make the initial selection of the
-# language+test and the instructions (on the create pages) the
-# same as the kata with that id - if it still exists.
+# language+test and the exercise the same as the kata with
+# that id - if it still exists.
 # This helps to re-inforce the idea of repetition.
 
-module SetupChooser # mix-in
+module StartPointChooser # mix-in
 
   module_function
 

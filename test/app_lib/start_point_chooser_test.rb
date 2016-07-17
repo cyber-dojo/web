@@ -2,9 +2,9 @@
 
 require_relative './app_lib_test_base'
 
-class SetupChooserTest < AppLibTestBase
+class StartPointChooserTest < AppLibTestBase
 
-  include SetupChooser
+  include StartPointChooser
 
   def setup
     super
