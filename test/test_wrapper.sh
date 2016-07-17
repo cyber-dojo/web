@@ -49,6 +49,7 @@ export CYBER_DOJO_LOG_CLASS=MemoryLog
 # Assumes repos for start-points et all are sibling folders to main repo folder
 VAR=${CYBER_DOJO_LANGUAGES_ROOT:-${HOME_DIR}/../start-points-languages}
 export CYBER_DOJO_LANGUAGES_ROOT=${VAR}
+
 VAR=${CYBER_DOJO_EXERCISES_ROOT:-${HOME_DIR}/../start-points-exercises}
 export CYBER_DOJO_EXERCISES_ROOT=${VAR}
 
@@ -57,15 +58,19 @@ export CYBER_DOJO_CUSTOM_ROOT=${VAR}
 
 VAR=${CYBER_DOJO_KATAS_CLASS:-HostDiskKatas}
 export CYBER_DOJO_KATAS_CLASS=${VAR}
+
 VAR=${CYBER_DOJO_SHELL_CLASS:-HostShell}
 export CYBER_DOJO_SHELL_CLASS=${VAR}
+
 VAR=${CYBER_DOJO_DISK_CLASS:-HostDisk}
 export CYBER_DOJO_DISK_CLASS=${VAR}
-VAR=${CYBER_DOJO_GIT_CLASS:-HostGit}
 
+VAR=${CYBER_DOJO_GIT_CLASS:-HostGit}
 export CYBER_DOJO_GIT_CLASS=${VAR}
+
 VAR=${CYBER_DOJO_RUNNER_TIMEOUT:=10}
 export CYBER_DOJO_RUNNER_TIMEOUT=${VAR}
+
 VAR=${CYBER_DOJO_RUNNER_SUDO:-''}
 export CYBER_DOJO_RUNNER_SUDO=${VAR}
 
