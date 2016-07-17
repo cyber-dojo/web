@@ -3,6 +3,10 @@ In cli, change terminology from volume to start-point ?
 
 - - - - - - - - - - - - - - - - - - - - -
 
+Move appropriate lib/code into app/lib/code
+
+- - - - - - - - - - - - - - - - - - - - -
+
 if [docker pull] command on new setup pages fails then I need to
 bail out of creating the kata.
 

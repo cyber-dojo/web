@@ -49,8 +49,8 @@ downloads/*
 !cli/cyber-dojo.rb
 
 # {cyber-dojo.rb} delegates to these inside web container
-!cli/volume_check.rb
-!cli/volume_inspect.rb
-!cli/volume_pull.rb
+!cli/start_point_check.rb
+!cli/start_point_inspect.rb
+!cli/start_point_pull.rb
 
 

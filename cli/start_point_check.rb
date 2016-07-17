@@ -8,7 +8,7 @@ def path; ARGV[0]; end
 
 def show_use(message = '')
   STDERR.puts
-  STDERR.puts 'USE: volume_check.rb PATH'
+  STDERR.puts 'USE: start_point_check.rb PATH'
   STDERR.puts
   STDERR.puts 'Checks if PATH is suitable to create a cyber-dojo start-point volume from.'
   STDERR.puts

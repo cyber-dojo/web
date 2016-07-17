@@ -428,7 +428,7 @@ def volume_inspect
     "--volume=#{vol}:/data:#{read_only}",
     '--volume=/var/run/docker.sock:/var/run/docker.sock',
     "#{cyber_dojo_hub}/web:#{docker_version}",
-    "sh -c 'cd /usr/src/cyber-dojo/cli && ./volume_inspect.rb /data'"
+    "sh -c 'cd /usr/src/cyber-dojo/cli && ./start_point_inspect.rb /data'"
   ].join(space=' ')
 
   print run(command)
@@ -492,7 +492,7 @@ def volume_pull
     "--volume=#{vol}:/data:#{read_only}",
     '--volume=/var/run/docker.sock:/var/run/docker.sock',
     "#{cyber_dojo_hub}/web:#{docker_version}",
-    "sh -c 'cd /usr/src/cyber-dojo/cli && ./volume_pull.rb /data'"
+    "sh -c 'cd /usr/src/cyber-dojo/cli && ./start_point_pull.rb /data'"
   ].join(space=' ')
 
   system(command)

@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
-# Shows details of the volume that has been mounted to path.
-# Does *not* (necessarily) show the details of what volumes are
+# Shows details of the start-point volume that has been mounted to path.
+# Not (necessarily) related to the details of what start-point volumes are
 # inside the running web container.
 
 require 'json'
@@ -12,7 +12,7 @@ def path; ARGV[0]; end
 
 def show_use(message = '')
   STDERR.puts
-  STDERR.puts 'USE: volume_inspect.rb PATH'
+  STDERR.puts 'USE: start_point_inspect.rb PATH'
   STDERR.puts
   STDERR.puts "   ERROR: #{message}" if message != ''
   STDERR.puts

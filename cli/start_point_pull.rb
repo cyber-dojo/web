@@ -2,8 +2,6 @@
 
 # Pulls all docker images named in manifest.json files below path.
 
-# TODO: make the output of the [docker pull] command appear on the terminal
-
 require 'json'
 
 def failed; 1; end
@@ -12,7 +10,7 @@ def path; ARGV[0]; end
 
 def show_use(message = '')
   STDERR.puts
-  STDERR.puts 'USE: volume_pull.rb PATH'
+  STDERR.puts 'USE: start_point_pull.rb PATH'
   STDERR.puts
   STDERR.puts "   ERROR: #{message}" if message != ''
   STDERR.puts
