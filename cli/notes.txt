@@ -4,6 +4,10 @@ is a good folder rename.
 
 - - - - - - - - - - - - - - - - - - - - -
 
+Look at 3 skipped tests.
+
+- - - - - - - - - - - - - - - - - - - - -
+
 if [docker pull] command on new setup pages fails then I need to
 bail out of creating the kata.
 
