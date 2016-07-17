@@ -3,7 +3,7 @@ In cli, change terminology from volume to start-point ?
 
 - - - - - - - - - - - - - - - - - - - - -
 
-Move appropriate lib/code into app/lib/code
+Move runners from lib/code to app/lib/code
 
 - - - - - - - - - - - - - - - - - - - - -
 

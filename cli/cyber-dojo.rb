@@ -152,13 +152,13 @@ def up_arg_ok(help, args, name)
   end
   if !volume_exists?(vol)
     show help
-    puts "FAILED: volume #{vol} does not exist"
+    puts "FAILED: start-point #{vol} does not exist"
     return false
   end
   type = cyber_dojo_type(vol)
   if type != name
     show help
-    puts "FAILED: #{vol} is not a #{name} volume (it's #{type})"
+    puts "FAILED: #{vol} is not a #{name} start-point (it's #{type})"
     return false
   end
   return true
@@ -171,20 +171,20 @@ def up
     '',
     "Use: #{me} up [OPTIONS]",
     '',
-    'Creates and starts the cyber-dojo server using named/default volumes',
+    'Creates and starts the cyber-dojo server using named/default start-points',
     '',
-    minitab + '--languages=VOLUME      Specify the languages volume.',
-    minitab + "                        Defaults to a volume named 'languages' created from",
-    minitab + '                        https://github.com/cyber-dojo/start-points-languages.git',
-    minitab + '--exercises=VOLUME      Specify the exercises volume.',
-    minitab + "                        Defaults to a volume named 'exercises' created from",
-    minitab + '                        https://github.com/cyber-dojo/start-points-exercises.git',
-    minitab + '--custom=VOLUME         Specify the custom volume.',
-    minitab + "                        Defaults to a volume named 'custom' created from",
-    minitab + '                        https://github.com/cyber-dojo/start-points-custom.git',
-    minitab + '--env=development       Brings up the web server in development environment',
-    minitab + '--env=test              Brings up the web server in test environment',
-    minitab + '--env=production        Brings up the web server in production environment (default)',
+    minitab + '--languages=START-POINT  Specify the languages start-point.',
+    minitab + "                         Defaults to a start-point named 'languages' created from",
+    minitab + '                         https://github.com/cyber-dojo/start-points-languages.git',
+    minitab + '--exercises=START-POINT  Specify the exercises start-point.',
+    minitab + "                         Defaults to a start-point named 'exercises' created from",
+    minitab + '                         https://github.com/cyber-dojo/start-points-exercises.git',
+    minitab + '--custom=START-POINT     Specify the custom start-point.',
+    minitab + "                         Defaults to a start-point named 'custom' created from",
+    minitab + '                         https://github.com/cyber-dojo/start-points-custom.git',
+    minitab + '--env=development        Brings up the web server in development environment',
+    minitab + '--env=test               Brings up the web server in test environment',
+    minitab + '--env=production         Brings up the web server in production environment (default)',
   ]
   # asked for help?
   if ['help','--help'].include? ARGV[1]
@@ -209,39 +209,39 @@ def up
     puts "FAILED: bad argument value --env=[#{env}]"
     exit failed
   end
-  # explicit volumes?
-  exit failed unless up_arg_ok(help, args, 'languages')  # --languages=VOL
-  exit failed unless up_arg_ok(help, args, 'exercises')  # --exercises=VOL
-  exit failed unless up_arg_ok(help, args,    'custom')  # --custom=VOL
+  # explicit start-points?
+  exit failed unless up_arg_ok(help, args, 'languages')  # --languages=START-POINT
+  exit failed unless up_arg_ok(help, args, 'exercises')  # --exercises=START-POINT
+  exit failed unless up_arg_ok(help, args,    'custom')  # --custom=START-POINT
   # cyber-dojo.sh does actual [up]
 end
 
 #=========================================================================================
-# $ ./cyber-dojo volume
+# $ ./cyber-dojo start_point
 #=========================================================================================
 
-def volume
+def start_point
   help = [
     '',
-    "Use: #{me} volume [COMMAND]",
+    "Use: #{me} start-point [COMMAND]",
     '',
-    'Manage cyber-dojo setup volumes',
+    'Manage cyber-dojo start-points',
     '',
     'Commands:',
-    minitab + 'create         Creates a new volume',
-    minitab + 'rm             Removes a volume',
-    minitab + 'ls             Lists the names of all volumes',
-    minitab + 'inspect        Displays details of a volume',
-    minitab + "pull           Pulls the docker images inside a volume's manifest.json files",
+    minitab + 'create         Creates a new start-point',
+    minitab + 'rm             Removes a start-point',
+    minitab + 'ls             Lists the names of all start-points',
+    minitab + 'inspect        Displays details of a start-point',
+    minitab + 'pull           Pulls the docker images inside a start-point',
     '',
-    "Run '#{me} volume COMMAND --help' for more information on a command",
+    "Run '#{me} start-point COMMAND --help' for more information on a command",
   ]
   case ARGV[1]
-    when 'create'  then volume_create
-    when 'rm'      then volume_rm
-    when 'ls'      then volume_ls
-    when 'inspect' then volume_inspect
-    when 'pull'    then volume_pull
+    when 'create'  then start_point_create
+    when 'rm'      then start_point_rm
+    when 'ls'      then start_point_ls
+    when 'inspect' then start_point_inspect
+    when 'pull'    then start_point_pull
     else                show help
   end
 end
@@ -263,11 +263,11 @@ end
 
 def cyber_dojo_volume?(vol)
   labels = cyber_dojo_inspect(vol)['Labels'] || []
-  labels.include? 'cyber-dojo-volume'
+  labels.include? 'cyber-dojo-start-point'
 end
 
 def cyber_dojo_label(vol)
-  cyber_dojo_inspect(vol)['Labels']['cyber-dojo-volume']
+  cyber_dojo_inspect(vol)['Labels']['cyber-dojo-start-point']
 end
 
 def cyber_dojo_data_manifest(vol)
@@ -280,17 +280,17 @@ def cyber_dojo_type(vol)
 end
 
 #=========================================================================================
-# $ ./cyber-dojo volume create
+# $ ./cyber-dojo start-point create
 #=========================================================================================
 
-def volume_create
+def start_point_create
   help = [
     '',
-    "Use: #{me} volume create --name=VOLUME --git=URL",
-    "Use: #{me} volume create --name=VOLUME --dir=PATH",
+    "Use: #{me} start-point create --name=VOLUME --git=URL",
+    "Use: #{me} start-point create --name=VOLUME --dir=PATH",
     '',
-    'Creates a volume named VOLUME from a git clone of URL',
-    'Creates a volume named VOLUME from a copy of PATH'
+    'Creates a start-point named VOLUME from a git clone of URL',
+    'Creates a start-point named VOLUME from a copy of PATH'
   ]
   # asked for help?
   if [nil,'help','--help'].include? ARGV[2]
@@ -317,16 +317,16 @@ def volume_create
     exit failed
   end
   if vol.length == 1
-    msg = 'volume names must be at least two characters long. See https://github.com/docker/docker/issues/20122'
-    puts "FAILED: [volume create --name=#{vol}] #{msg}"
+    msg = 'start-point names must be at least two characters long. See https://github.com/docker/docker/issues/20122'
+    puts "FAILED: [start-point create --name=#{vol}] #{msg}"
     exit failed
   end
   if volume_exists? vol
     msg = "#{vol} already exists"
-    puts "FAILED: [volume create --name=#{vol}] #{msg}"
+    puts "FAILED: [start-point create --name=#{vol}] #{msg}"
     exit failed
   end
-  # cyber-dojo.sh does actual [volume create]
+  # cyber-dojo.sh does actual [start-point create]
 end
 
 # - - - - - - - - - - - - - - -
@@ -334,28 +334,28 @@ end
 def exit_unless_is_cyber_dojo_volume(vol, command)
   # TODO: when its implemented, use [volume ls --quiet] ?
   if !volume_exists? vol
-    puts "FAILED: [volume #{command} #{vol}] - #{vol} does not exist."
+    puts "FAILED: [start-point #{command} #{vol}] - #{vol} does not exist."
     exit failed
   end
 
   if !cyber_dojo_volume? vol
-    puts "FAILED: [volume #{command} #{vol}] - #{vol} is not a cyber-dojo volume."
+    puts "FAILED: [start-point #{command} #{vol}] - #{vol} is not a cyber-dojo start-point."
     exit failed
   end
 end
 
 #=========================================================================================
-# $ ./cyber-dojo volume ls
+# $ ./cyber-dojo start-point ls
 #=========================================================================================
 
-def volume_ls
+def start_point_ls
   help = [
     '',
-    "Use: #{me} volume ls",
+    "Use: #{me} start-point ls",
     '',
-    'Lists the names of all cyber-dojo volumes',
+    'Lists the names of all cyber-dojo start-points',
     '',
-    minitab + '--quiet     Only display volume names'
+    minitab + '--quiet     Only display start-point names'
   ]
 
   if ['help','--help'].include? ARGV[2]
@@ -399,15 +399,15 @@ def volume_ls
 end
 
 #=========================================================================================
-# $ ./cyber-dojo volume inspect
+# $ ./cyber-dojo start-point inspect
 #=========================================================================================
 
-def volume_inspect
+def start_point_inspect
   help = [
     '',
-    "Use: #{me} volume inspect VOLUME",
+    "Use: #{me} start-point inspect VOLUME",
     '',
-    'Displays details of the named cyber-dojo volume',
+    'Displays details of the named cyber-dojo start-point',
   ]
   # asked for help?
   vol = ARGV[2]
@@ -435,17 +435,17 @@ def volume_inspect
 end
 
 #=========================================================================================
-# $ ./cyber-dojo volume rm
+# $ ./cyber-dojo start-point rm
 #=========================================================================================
 
-def volume_rm
+def start_point_rm
   # Allow deletion of a default volume.
   # This allows you to create custom default volumes.
   help = [
     '',
-    "Use: #{me} volume rm VOLUME",
+    "Use: #{me} start-point rm VOLUME",
     '',
-    "Removes a volume created with the [#{me} volume create] command"
+    "Removes a start-point created with the [#{me} start-point create] command"
   ]
 
   vol = ARGV[2]
@@ -458,22 +458,22 @@ def volume_rm
 
   run "docker volume rm #{vol}"
   if $exit_status != 0
-    puts "FAILED [volume rm #{vol}] can't remove volume if it's in use"
+    puts "FAILED [start-point rm #{vol}] can't remove start-point if it's in use"
     exit failed
   end
 
 end
 
 #=========================================================================================
-# $ ./cyber-dojo volume pull
+# $ ./cyber-dojo start-point pull
 #=========================================================================================
 #
-def volume_pull
+def start_point_pull
   help = [
     '',
-    "Use: #{me} volume pull VOLUME",
+    "Use: #{me} start-point pull VOLUME",
     '',
-    'Pulls all the docker images named inside the cyber-dojo volume'
+    'Pulls all the docker images named inside the cyber-dojo start-point'
   ]
   vol = ARGV[2]
   if [nil,'help','--help'].include? vol
@@ -507,15 +507,13 @@ def help
     "     #{me} --help",
     '',
     'Commands:',
-    tab + 'clean     Removes dangling images',
-    tab + 'down      Brings down the server',
-    tab + 'logs      Fetch the logs from the server',
-    #tab + 'pull      Pulls a docker image',
-    #tab + 'rmi       Removes a docker image',
-    tab + 'sh        Shells into the server',
-    tab + 'up        Brings up the server',
-    tab + 'update    Updates the server to the latest image',
-    tab + 'volume    Manage cyber-dojo start-points volumes',
+    tab + 'clean        Removes dangling images',
+    tab + 'down         Brings down the server',
+    tab + 'logs         Fetch the logs from the server',
+    tab + 'sh           Shells into the server',
+    tab + 'up           Brings up the server',
+    tab + 'update       Updates the server to the latest image',
+    tab + 'start-point  Manage cyber-dojo start-points',
     '',
     "Run '#{me} COMMAND --help' for more information on a command."
   ].join("\n") + "\n"
@@ -531,18 +529,16 @@ if ARGV[0] == '--debug'
 end
 
 case ARGV[0]
-  when nil       then help
-  when '--help'  then help
-  when 'help'    then help
-  when 'clean'   then clean
-  when 'down'    then down
-  when 'logs'    then logs
-  #when 'pull'    then pull
-  #when 'rmi'     then rmi
-  when 'sh'      then sh
-  when 'up'      then up
-  when 'update'  then update
-  when 'volume'  then volume
+  when nil            then help
+  when '--help'       then help
+  when 'help'         then help
+  when 'clean'        then clean
+  when 'down'         then down
+  when 'logs'         then logs
+  when 'sh'           then sh
+  when 'up'           then up
+  when 'update'       then update
+  when 'start-point'  then start_point
   else
     puts "#{me}: '#{ARGV[0]}' is not a command."
     puts "See '#{me} --help'."

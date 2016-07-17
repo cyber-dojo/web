@@ -100,19 +100,18 @@ if !File.directory?(path)
   exit failed
 end
 
-major_name = 'DISPLAY_NAME_MAJOR'
-minor_name = 'DISPLAY_NAME_MINOR'
+major_name = 'MAJOR_NAME'
+minor_name = 'MINOR_NAME'
+image_name = 'IMAGE_NAME'
 
 $longest_language = max_size($longest_language, major_name)
 $longest_test     = max_size($longest_test    , minor_name)
-$longest_image    = max_size($longest_image   , 'IMAGE')
+$longest_image    = max_size($longest_image   , image_name)
 inspection = inspect_from_manifests
 
-puts inspect_line(major_name.upcase, minor_name.upcase, 'IMAGE', 'PULLED')
-inspection.sort.map do |language,tests|
-  tests.sort.map do |test, hash|
-    image = hash['image_name']
-    pulled = hash['pulled']
-    puts inspect_line(language, test, image, pulled)
+puts inspect_line(major_name, minor_name, image_name, 'PULLED?')
+inspection.sort.map do |major,minors|
+  minors.sort.map do |minor, hash|
+    puts inspect_line(major, minor, hash['image_name'], hash['pulled'])
   end
 end

@@ -33,9 +33,9 @@ web:
     - "3000:3000"
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock
-    - ${CYBER_DOJO_LANGUAGES_VOLUME}:${CYBER_DOJO_ROOT}/start_points/languages:ro
-    - ${CYBER_DOJO_EXERCISES_VOLUME}:${CYBER_DOJO_ROOT}/start_points/exercises:ro
-    - ${CYBER_DOJO_CUSTOM_VOLUME}:${CYBER_DOJO_ROOT}/start_points/custom:ro
+    - ${CYBER_DOJO_START_POINT_LANGUAGES}:${CYBER_DOJO_ROOT}/start_points/languages:ro
+    - ${CYBER_DOJO_START_POINT_EXERCISES}:${CYBER_DOJO_ROOT}/start_points/exercises:ro
+    - ${CYBER_DOJO_START_POINT_CUSTOM}:${CYBER_DOJO_ROOT}/start_points/custom:ro
   volumes_from:
     - ${CYBER_DOJO_KATAS_DATA_CONTAINER}:rw
 

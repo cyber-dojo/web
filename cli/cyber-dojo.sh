@@ -4,7 +4,7 @@
 # inside a web container. However, there are some commands it
 # has to handle itself...
 #
-# 1. cyber-dojo volume create
+# 1. cyber-dojo start-point create
 #       as the --git/--dir options can specify *local* paths
 #
 # 2. cyber-dojo up
@@ -26,9 +26,9 @@ docker_version=$(docker --version | awk '{print $3}' | sed '$s/.$//')
 cyber_dojo_hub=cyberdojo
 cyber_dojo_root=/usr/src/cyber-dojo
 
-default_languages_volume=languages
-default_exercises_volume=exercises
-default_custom_volume=custom
+default_start_point_languages=languages
+default_start_point_exercises=exercises
+default_start_point_custom=custom
 
 # set environment variables required by docker-compose.yml
 
@@ -52,9 +52,9 @@ export CYBER_DOJO_RUNNER_TIMEOUT=${CYBER_DOJO_RUNNER_TIMEOUT:=10}
 # are *not* slurped by the rails web server as it starts!
 export CYBER_DOJO_ROOT=${cyber_dojo_root}
 
-export CYBER_DOJO_LANGUAGES_VOLUME=languages
-export CYBER_DOJO_EXERCISES_VOLUME=exercises
-export CYBER_DOJO_CUSTOM_VOLUME=custom
+export CYBER_DOJO_START_POINT_LANGUAGES=${default_start_point_languages}
+export CYBER_DOJO_START_POINT_EXERCISES=${default_start_point_exercises}
+export CYBER_DOJO_START_POINT_CUSTOM=${default_start_point_custom}
 
 export CYBER_DOJO_RAILS_ENVIRONMENT=production
 
@@ -129,34 +129,30 @@ g_cidfile=''  # if this is not '' then clean_up [rm]'s it
 g_cid=''      # if this is not '' then clean_up [docker rm]'s the container
 g_vol=''      # if this is not '' then clean_up [docker volume rm]'s the volume
 
-cyber_dojo_volume_create() {
+cyber_dojo_start_point_create() {
   # cyber-dojo.rb has already been called to check arguments and handle --help
   for arg in $@
   do
     local name=$(echo ${arg} | cut -f1 -s -d=)
     local value=$(echo ${arg} | cut -f2 -s -d=)
     if [ "${name}" = '--name' ]; then
-      local vol=${value}
+      local start_point=${value}
     fi
     if [ "${name}" = '--git' ]; then
       local url=${value}
-      volume_create_git ${vol} ${url}
+      start_point_create_git ${start_point} ${url}
     fi
     if [ "${name}" = '--dir' ]; then
       local dir=${value}
-      volume_create_dir ${vol} ${dir} ${dir}
+      start_point_create_dir ${start_point} ${dir} ${dir}
     fi
   done
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-volume_create_git() {
-  # cyber-dojo.rb has already processed the command line options but the actual volume
-  # creation takes place here in cyber-dojo.sh and not inside cyber-dojo.rb
-  # This is so it executes on the *host* and not inside a docker container.
-  # This allows the --git=URL argument to specify a *local* git repo (eg file:///...)
-  local vol=$1
+start_point_create_git() {
+  local start_point=$1
   local url=$2
   g_tmp_dir=`mktemp -d -t cyber-dojo.XXXXXX`
   if [ $? != 0 ]; then
@@ -170,13 +166,13 @@ volume_create_git() {
   command="rm -rf ${g_tmp_dir}/.git"
   run "${command}" || (clean_up && exit_fail)
   # 3. delegate
-  volume_create_dir "${vol}" "${g_tmp_dir}" "${url}"
+  start_point_create_dir "${start_point}" "${g_tmp_dir}" "${url}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-volume_create_dir() {
-  local vol=$1
+start_point_create_dir() {
+  local start_point=$1
   local dir=$2
   local src=$3
   g_cidfile=`mktemp -t cyber-dojo.cid.XXXXXX`
@@ -189,7 +185,7 @@ volume_create_dir() {
   run "${command}" || (clean_up && exit_fail)
 
   # 1. make an empty docker volume
-  command="docker volume create --name=${vol} --label=cyber-dojo-volume=${src}"
+  command="docker volume create --name=${start_point} --label=cyber-dojo-start-point=${src}"
   run "${command}" || (clean_up && exit_fail)
   g_vol=${vol}
   # 2. mount empty volume inside docker container
@@ -199,7 +195,7 @@ volume_create_dir() {
                --interactive
                --net=none
                --user=root
-               --volume=${vol}:/data
+               --volume=${start_point}:/data
                ${CYBER_DOJO_WEB_SERVER} sh"
   run "${command}" || (clean_up && exit_fail)
   g_cid=`cat ${g_cidfile}`
@@ -302,12 +298,12 @@ debug() {
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-volume_exists() {
+start_point_exists() {
   # don't match a substring
   local start_of_line='^'
-  local name=$1
+  local start_point=$1
   local end_of_line='$'
-  docker volume ls --quiet | grep --silent "${start_of_line}${name}${end_of_line}"
+  docker volume ls --quiet | grep --silent "${start_of_line}${start_point}${end_of_line}"
 }
 
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
@@ -332,55 +328,55 @@ cyber_dojo_up() {
     if [ "${name}" = "--env" ] && [ "${value}" = 'test' ]; then
       export CYBER_DOJO_RAILS_ENVIRONMENT=test
     fi
-    # --languages=vol
+    # --languages=start-point
     if [ "${name}" = "--languages" ] && [ "${value}" != '' ]; then
-      export CYBER_DOJO_LANGUAGES_VOLUME=${value}
+      export CYBER_DOJO_START_POINT_LANGUAGES=${value}
     fi
-    # --exercises=vol
+    # --exercises=start-point
     if [ "${name}" = "--exercises" ] && [ "${value}" != '' ]; then
-      export CYBER_DOJO_EXERCISES_VOLUME=${value}
+      export CYBER_DOJO_START_POINT_EXERCISES=${value}
     fi
-    # --custom=vol
+    # --custom=start-point
     if [ "${name}" = "--custom" ] && [ "${value}" != '' ]; then
-      export CYBER_DOJO_CUSTOM_VOLUME=${value}
+      export CYBER_DOJO_START_POINT_CUSTOM=${value}
     fi
   done
-  # create default volumes if necessary
+  # create default start-points if necessary
   local github_cyber_dojo='https://github.com/cyber-dojo'
-  if [ "${CYBER_DOJO_LANGUAGES_VOLUME}" = "${default_languages_volume}" ]; then
-    if ! volume_exists ${default_languages_volume}; then
-      echo "Creating ${default_languages_volume} from ${github_cyber_dojo}/start-points-languages.git"
-      volume_create_git ${default_languages_volume} "${github_cyber_dojo}/start-points-languages.git"
+  if [ "${CYBER_DOJO_START_POINT_LANGUAGES}" = "${default_start_point_languages}" ]; then
+    if ! start_point_exists ${default_start_point_languages}; then
+      echo "Creating start-point ${default_start_point_languages} from ${github_cyber_dojo}/start-points-languages.git"
+      start_point_create_git ${default_start_point_languages} "${github_cyber_dojo}/start-points-languages.git"
     fi
   fi
-  if [ "${CYBER_DOJO_EXERCISES_VOLUME}" = "${default_exercises_volume}" ]; then
-    if ! volume_exists ${default_exercises_volume}; then
-      echo "Creating ${default_exercises_volume} from ${github_cyber_dojo}/start-points-exercises.git"
-      volume_create_git ${default_exercises_volume} "${github_cyber_dojo}/start-points-exercises.git"
+  if [ "${CYBER_DOJO_START_POINT_EXERCISES}" = "${default_start_point_exercises}" ]; then
+    if ! start_point_exists ${default_start_point_exercises}; then
+      echo "Creating start-point ${default_start_point_exercises} from ${github_cyber_dojo}/start-points-exercises.git"
+      start_point_create_git ${default_start_point_exercises} "${github_cyber_dojo}/start-points-exercises.git"
     fi
   fi
-  if [ "${CYBER_DOJO_CUSTOM_VOLUME}" = "${default_custom_volume}" ]; then
-    if ! volume_exists ${default_custom_volume}; then
-      echo "Creating ${default_custom_volume}  from ${github_cyber_dojo}/start-points-custom.git"
-      volume_create_git ${default_custom_volume} "${github_cyber_dojo}/start-points-custom.git"
+  if [ "${CYBER_DOJO_START_POINT_CUSTOM}" = "${default_start_point_custom}" ]; then
+    if ! start_point_exists ${default_start_point_custom}; then
+      echo "Creating start-point ${default_start_point_custom}  from ${github_cyber_dojo}/start-points-custom.git"
+      start_point_create_git ${default_start_point_custom} "${github_cyber_dojo}/start-points-custom.git"
     fi
   fi
   # check volumes exist
-  if ! volume_exists ${CYBER_DOJO_LANGUAGES_VOLUME}; then
-    echo "FAILED: volume ${CYBER_DOJO_LANGUAGES_VOLUME} does not exist"
+  if ! start_point_exists ${CYBER_DOJO_START_POINT_LANGUAGES}; then
+    echo "FAILED: start-point ${CYBER_DOJO_START_POINT_LANGUAGES} does not exist"
     exit_fail
   fi
-  if ! volume_exists ${CYBER_DOJO_EXERCISES_VOLUME}; then
-    echo "FAILED: volume ${CYBER_DOJO_EXERCISES_VOLUME} does not exist"
+  if ! start_point_exists ${CYBER_DOJO_START_POINT_EXERCISES}; then
+    echo "FAILED: start-point ${CYBER_DOJO_START_POINT_EXERCISES} does not exist"
     exit_fail
   fi
-  if ! volume_exists ${CYBER_DOJO_CUSTOM_VOLUME}; then
-    echo "FAILED: volume ${CYBER_DOJO_CUSTOM_VOLUME} does not exist"
+  if ! start_point_exists ${CYBER_DOJO_START_POINT_CUSTOM}; then
+    echo "FAILED: start-point ${CYBER_DOJO_START_POINT_CUSTOM} does not exist"
     exit_fail
   fi
-  echo "Using --languages=${CYBER_DOJO_LANGUAGES_VOLUME}"
-  echo "Using --exercises=${CYBER_DOJO_EXERCISES_VOLUME}"
-  echo "Using --custom=${CYBER_DOJO_CUSTOM_VOLUME}"
+  echo "Using start-point --languages=${CYBER_DOJO_START_POINT_LANGUAGES}"
+  echo "Using start-point --exercises=${CYBER_DOJO_START_POINT_EXERCISES}"
+  echo "Using start-point --custom=${CYBER_DOJO_START_POINT_CUSTOM}"
   echo "Using --environment=${CYBER_DOJO_RAILS_ENVIRONMENT}"
 
   # bring up server with volumes
@@ -417,10 +413,10 @@ if [ $? != 0  ]; then
   exit_fail
 fi
 
-if [ "$1" = 'volume' ] && [ "$2" = 'create' ]; then
-  shift # volume
+if [ "$1" = 'start-point' ] && [ "$2" = 'create' ]; then
+  shift # start-point
   shift # create
-  cyber_dojo_volume_create "$@"
+  cyber_dojo_start_point_create "$@"
 fi
 
 if [ "$1" = 'up' ]; then
