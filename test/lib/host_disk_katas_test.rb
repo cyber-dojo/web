@@ -1,7 +1,6 @@
 #!/bin/bash ../test_wrapper.sh
 
 require_relative './lib_test_base'
-require_relative '../app_models/delta_maker'
 
 class HostDiskKatasTest < LibTestBase
 

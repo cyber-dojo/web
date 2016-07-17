@@ -1,8 +1,8 @@
 #!/bin/bash ../test_wrapper.sh
 
-require_relative './lib_test_base'
+require_relative './app_lib_test_base'
 
-class DockerTarPipeRunnerTest < LibTestBase
+class DockerTarPipeRunnerTest < AppLibTestBase
 
   def setup
     super
