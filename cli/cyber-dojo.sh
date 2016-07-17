@@ -5,13 +5,13 @@
 # has to handle itself...
 #
 # 1. cyber-dojo volume create
-#       as the --git/--dir options can specify local paths
+#       as the --git/--dir options can specify *local* paths
 #
 # 2. cyber-dojo up
-#      relies on a local docker-compose.yml file
+#      relies on a *local* docker-compose.yml file
 #
 # 3. cyber-down down
-#      relies on a local docker-compose.yml file
+#      relies on a *local* docker-compose.yml file
 #
 
 if [ "${CYBER_DOJO_SCRIPT_WRAPPER}" = "" ]; then
@@ -36,7 +36,6 @@ export CYBER_DOJO_WEB_SERVER=${cyber_dojo_hub}/web:${docker_version}
 export CYBER_DOJO_WEB_CONTAINER=cyber-dojo-web
 
 export CYBER_DOJO_KATAS_DATA_CONTAINER=cyber-dojo-katas-DATA-CONTAINER
-export CYBER_DOJO_KATAS_ROOT=${cyber_dojo_root}/katas
 
 export CYBER_DOJO_KATAS_CLASS=${CYBER_DOJO_KATAS_CLASS:=HostDiskKatas}
 export CYBER_DOJO_SHELL_CLASS=${CYBER_DOJO_SHELL_CLASS:=HostShell}
@@ -48,9 +47,10 @@ export CYBER_DOJO_RUNNER_CLASS=${CYBER_DOJO_RUNNER_CLASS:=DockerTarPipeRunner}
 export CYBER_DOJO_RUNNER_SUDO='sudo -u docker-runner sudo'
 export CYBER_DOJO_RUNNER_TIMEOUT=${CYBER_DOJO_RUNNER_TIMEOUT:=10}
 
-# important data-root is not under app so any ruby files it might contain
+# start-points are held off CYBER_DOJO_ROOT/start_points/
+# it's important they are not under app so any ruby files they might contain
 # are *not* slurped by the rails web server as it starts!
-export CYBER_DOJO_DATA_ROOT=${cyber_dojo_root}/data
+export CYBER_DOJO_ROOT=${cyber_dojo_root}
 
 export CYBER_DOJO_LANGUAGES_VOLUME=languages
 export CYBER_DOJO_EXERCISES_VOLUME=exercises
@@ -95,7 +95,7 @@ one_time_creation_of_katas_data_container() {
     # use Dockerfile to build image
     local tag=${cyber_dojo_hub}/katas
     docker build \
-             --build-arg=CYBER_DOJO_KATAS_ROOT=${CYBER_DOJO_KATAS_ROOT} \
+             --build-arg=CYBER_DOJO_KATAS_ROOT=${CYBER_DOJO_ROOT}/katas \
              --tag=${tag} \
              --file=${katas_dockerfile} \
              ${CONTEXT_DIR}
