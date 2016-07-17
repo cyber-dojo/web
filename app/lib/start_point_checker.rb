@@ -1,12 +1,11 @@
 
 require 'json'
-require_relative './output_colour.rb'
+#require_relative './output_colour.rb'
 
-# TODO: exercises-checks are different to languages/custom checks
-# TODO: check there is at least one sub-dir with a manifest.json file
-# TODO: line 25: move nil? check inside method
+# TODO?: exercises-checks are different to languages/custom checks
+# TODO?: check there is at least one sub-dir with a manifest.json file
 
-class SetupDataChecker
+class StartPointChecker
 
   def initialize(path)
     @path = path.chomp('/')

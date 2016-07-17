@@ -1,10 +1,5 @@
 
-Inside the web container s/data/start-points/
-is a good folder rename.
-
-- - - - - - - - - - - - - - - - - - - - -
-
-Look at 3 skipped tests.
+In cli, change terminology from volume to start-point ?
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -29,21 +24,32 @@ This will stop 100% rogue cpu process.
 
 - - - - - - - - - - - - - - - - - - - - -
 
+new kata has been created dialog box, and here is its HEX-ID
+  this could offer several buttons instead of just ok (which takes you back to home page)
+    o) button to take you to home page
+    o) button to take you to enter page
+    o) button to immediately start an avatar
+
+- - - - - - - - - - - - - - - - - - - - -
+
+setup page default-start-points
+  on 1st step have 2 buttons
+    [choose exercise] [setup now]
+or
+  on 2nd step
+    [setup with no exercise] [setup now]
+
+- - - - - - - - - - - - - - - - - - - - -
+
 Add C# XUnit test framework.
 http://xunit.github.io/
 
 - - - - - - - - - - - - - - - - - - - - -
 
-In cli, change terminology from volume to start-point ?
-
-- - - - - - - - - - - - - - - - - - - - -
-
 $ cyber-dojo up
-Have this display the arguments that are defaulted?, viz
-Start-point: languages -> https://github.com/start-point-languages.git
-Start-point: exercises -> https://github.com/start-point-exercises.git
-Start-point:    custom -> https://github.com/start-point-custom.git
-cyber-dojo up --languages=languages --exercises=exercises --custom=custom
+Using --languages=languages (from https://github.com/start-point-languages.git)
+Using --exercises=exercises (from https://github.com/start-point-exercises.git)
+Using --custom=custom (from https://github.com/start-point-custom.git)
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -72,25 +78,12 @@ Put Alpine based small images into cyberdojo repo.
 
 - - - - - - - - - - - - - - - - - - - - -
 
+Look at 3 skipped tests.
+
+- - - - - - - - - - - - - - - - - - - - -
+
 Debug logging seems to show clean_up (in cyber-dojo.sh) being called twice...
 Is this because (clean_up && exit_fail) is in () and so is a sub-shell?
-
-- - - - - - - - - - - - - - - - - - - - -
-
-new kata has been created dialog box, and here is its HEX-ID
-  this could offer several buttons instead of just ok (which takes you back to home page)
-    o) button to take you to home page
-    o) button to take you to enter page
-    o) button to immediately start an avatar
-
-- - - - - - - - - - - - - - - - - - - - -
-
-default-setup-page
-  one 1st step have 2 buttons
-    [choose exercise] [setup now]
-or
-  on 2nd step
-    [setup with no exercise] [setup now]
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -99,9 +92,9 @@ for improved diffs. Try to get this in place.
 
 - - - - - - - - - - - - - - - - - - - - -
 
-test/app_lib/setup_data/languages
-test/app_lib/setup_data/exercises
-test/app_lib/setup_data/custom
+test/app_lib/start_points/languages
+test/app_lib/start_points/exercises
+test/app_lib/start_points/custom
 These should all have the data-checker run against them as part of the tests.
 
 - - - - - - - - - - - - - - - - - - - - -
@@ -118,40 +111,6 @@ $ docker images --ssss
 flag provided but not defined: --ssss
 See 'docker images --help'.
 Test these with shunit2 tests.
-
-- - - - - - - - - - - - - - - - - - - - -
-
-test/languages/test_languages_manifests.rb
-  on startup should the app should run the tests/checks
-  to verify 3 setup volumes are well-formed?
-
-- - - - - - - - - - - - - - - - - - - - -
-
-Now that data is externalized I can arrange for it to
-always be at the same locations inside the web container!
-I don't need CYBER_DOJO_EXERCISES_ROOT et al.
-But it is worth keeping them anyway for setting up
-a local (not inside docker) web server?
-No I don't need them for that either.
-
-caches_dir needs to be ENV_VAR
-Its used in app_controllers/setup_test.rb
-Or rather a ROOT_DIR is needed. Really its RAILS_ROOT
-
-Can these just be off RAILS_ROOT?
-  caches/  YES
-  downloads/  YES
-  katas/ YES. Even if server uses non data-container /var/www/cyber-dojo/katas
-              this can be mapped to /usr/src/cyber-dojo/katas
-  data/  NO. not for local dev-server
-
-
-CYBER_DOJO_DATA_ROOT
- can be anywhere inside web server, docker-compose.yml should just work
-  as it volume-mounts to data-root automatically.
- points to data-repos on local server
-
-get tests running and passing on local server first?
 
 - - - - - - - - - - - - - - - - - - - - -
 

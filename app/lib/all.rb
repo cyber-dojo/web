@@ -1,7 +1,7 @@
 
 %w(
   setup_chooser
-  setup_data_checker
+  start_point_checker
   file_delta_maker
   unit_test_framework_lookup
   git_diff_parser

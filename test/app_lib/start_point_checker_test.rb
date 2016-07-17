@@ -3,13 +3,11 @@
 require_relative './app_lib_test_base'
 require 'json'
 
-# TODO: test_data master (instructions) has no errors  ... hmm split into two?
-
-class SetupDataCheckerTest < AppLibTestBase
+class StartPointCheckerTest < AppLibTestBase
 
   test '0C1F2F',
   'test_data master (manifested) has no errors' do
-    checker = SetupDataChecker.new(setup_data_path + '/languages')
+    checker = StartPointChecker.new(start_points_path + '/languages')
     errors = checker.check
     assert_zero errors
     assert_equal 5, checker.manifests.size
@@ -344,7 +342,7 @@ class SetupDataCheckerTest < AppLibTestBase
 
   def copy_good_master(type = 'languages', id = test_id)
     Dir.mktmpdir('cyber-dojo-' + id + '_') do |tmp_dir|
-      shell "cp -r #{setup_data_path}/#{type}/* #{tmp_dir}"
+      shell "cp -r #{start_points_path}/#{type}/* #{tmp_dir}"
       @tmp_dir = tmp_dir
       yield tmp_dir
     end
@@ -353,7 +351,7 @@ class SetupDataCheckerTest < AppLibTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def check
-    @checker = SetupDataChecker.new(@tmp_dir)
+    @checker = StartPointChecker.new(@tmp_dir)
     @checker.check
   end
 
@@ -388,8 +386,8 @@ class SetupDataCheckerTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def setup_data_path
-    File.expand_path(File.dirname(__FILE__)) + '/setup_data'
+  def start_points_path
+    File.expand_path(File.dirname(__FILE__)) + '/start_points'
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
