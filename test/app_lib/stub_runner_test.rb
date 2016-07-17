@@ -31,7 +31,7 @@ class StubTest < AppLibTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'FCBC01',
-  'pull issues shell command [docker pull image]' do
+  'pull issues shell command [sudo docker pull image_name]' do
     setup_mock_shell
     image_name = "#{cdf}/csharp_moq"
     command = [sudo, 'docker', 'pull', image_name].join(space).strip
@@ -51,7 +51,7 @@ class StubTest < AppLibTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '84A5A6',
-  'stub_run_colour(red/amber/green) stubs reda/amber/green output for following runner.run' do
+  'stub_run_colour(red/amber/green) stubs red/amber/green output for following run()' do
     kata = make_kata
     lion = kata.start_avatar(['lion'])
     [:red,:amber,:green].each do |colour|
@@ -66,18 +66,20 @@ class StubTest < AppLibTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'A986E6',
-  'runner.run() with no preceeding stub gives random output sample' do
+  'run() with no preceeding stub() gives random red/amber/green output sample' do
     kata = make_kata
     lion = kata.start_avatar(['lion'])
-    actual = runner.run(lion, nil, nil, nil)
-    assert_equal 'String', actual.class.name
-    assert actual.length > 0
+    output = runner.run(lion, nil, nil, nil)
+    assert_equal 'String', output.class.name
+    assert output.length > 0
+    colour = lion.kata.red_amber_green(output)
+    assert ['red','amber','green'].include?(colour)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '81BA2C',
-  'stub_run_output() stubs output for following runner.run' do
+  'stub_run_output() stubs output for following run()' do
     expected = 'this is what you get'
     kata = make_kata
     lion = kata.start_avatar(['lion'])
