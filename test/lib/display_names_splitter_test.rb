@@ -1,8 +1,8 @@
 #!/bin/bash ../test_wrapper.sh
 
-require_relative './app_lib_test_base'
+require_relative './lib_test_base'
 
-class DisplayNamesSplitterTest < AppLibTestBase
+class DisplayNamesSplitterTest < LibTestBase
 
   test '0B2D3E',
   'display_names is split on comma into [languages_names,tests_names]' do

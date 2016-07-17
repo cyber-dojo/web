@@ -13,10 +13,5 @@
   makefile_filter
   output_colour
   td_gapper
-  delta_maker
-  display_names_splitter
-  runner
-  docker_tar_pipe_runner
-  stub_runner
 ).each { |sourcefile| require_relative './' + sourcefile }
 

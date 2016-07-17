@@ -1,10 +1,4 @@
 
-Reverting back to commit before I moved delta_maker
-as tests seem to be passing locally but not inside the
-web container
-
-- - - - - - - - - - - - - - - - - - - - -
-
 In cli, change terminology from volume to start-point ?
 
 - - - - - - - - - - - - - - - - - - - - -

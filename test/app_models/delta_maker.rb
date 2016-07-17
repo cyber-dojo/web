@@ -1,4 +1,7 @@
 
+require_relative '../../app/lib/file_delta_maker'
+require_relative '../../app/lib/unit_test_framework_lookup'
+
 class DeltaMaker
 
   include FileDeltaMaker
@@ -36,7 +39,7 @@ class DeltaMaker
   end
 
   def stub_colour(colour)
-    root = File.expand_path(File.dirname(__FILE__)) + '/../../test/app_lib/output'
+    root = File.expand_path(File.dirname(__FILE__)) + '/../app_lib/output'
     # since start-points volume re-architecture
     # unit_test_framework is no longer directly available...
     unit_test_framework = lookup(@avatar.kata.display_name)
