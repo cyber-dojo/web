@@ -1,9 +1,8 @@
 #!/bin/bash ../test_wrapper.sh
 
-require_relative './app_models_test_base'
-require_relative './delta_maker'
+require_relative './app_lib_test_base'
 
-class DeltaMakerTest < AppModelsTestBase
+class DeltaMakerTest < AppLibTestBase
 
   def setup
     super

@@ -9,5 +9,5 @@ require_relative '../app/helpers/all'
 require_relative '../app/lib/all'
 require_relative '../app/models/all'
 
-require_relative './app_models/delta_maker'
+#require_relative './app_models/delta_maker'
 

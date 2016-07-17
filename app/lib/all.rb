@@ -13,5 +13,6 @@
   makefile_filter
   output_colour
   td_gapper
+  delta_maker
 ).each { |sourcefile| require_relative './' + sourcefile }
 
