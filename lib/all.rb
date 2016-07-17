@@ -12,10 +12,6 @@
   stderr_redirect
   unslashed
 
-  runner
-  stub_runner
-  docker_tar_pipe_runner
-
   host_disk_katas
 
   host_shell
