@@ -157,70 +157,6 @@ So I still need proper nil error handling on the setup pages
 
 - - - - - - - - - - - - - - - - - - - - -
 
-Cribs
-
-Network repo
-ruby ./cyber-dojo.rb volume create --name=languages --git=https://github.com/cyber-dojo/start-points-languages.git
-ruby ./cyber-dojo.rb volume create --name=exercises --git=https://github.com/cyber-dojo/start-points-execises.git
-ruby ./cyber-dojo.rb volume create --name=custom --git=https://github.com/cyber-dojo/start-points-custom.git
-
-Local repo
-ruby ./cyber-dojo.rb volume create --name=jon --git=file:///Users/jonjagger/repos/start-points-exercises
-
-- - - - - - - - - - - - - - - - - - - - -
-
-)) ./cyber-dojo catalog
-
-     $ ./cyber-dojo volume inspect VOL [VOL...]
-
-       This would do the old catalog listing.
-       This should show the origin (URL) of the volume.
-       Need to make the languages checker work by being
-       passed a path (there are now 2 manifest locations, exercises and languages)
-       Then [volume inspect] call will then do
-         docker run --rm -v VOL:/data sh -c "app/lib/check_setup_volume.rb /data"
-           check_setup_volume.rb will parse ARGV etc and delegates to setup_volume_checker.rb
-
-       test/languages/test_languages_manifest.rb
-         Rework to utility rather than test with asserts.
-
-       Ownership of all files should be cyber-dojo
-           (comes in from a volume)
-
-     cyber-dojo.rb could do with some documentation showing example output
-     of various internal commands.
-
-- - - - - - - - - - - - - - - - - - - - -
-
-)) finish the what/how separation
-
-     Union of collection. Do in later release.
-     ./cyber-dojo up --exercises=alpha,beta
-        With meta-data the command could simplify to [./cyber-dojo up a,b] ?? no.
-
-        unioning affects the UX quite a lot.
-        It also introduces the possiblity of manifests from different collections
-        having an identical display_name...
-
-        DONT add the collection name to the path because then it will *NOT* replace
-        the default it will union with it...
-
-        Unioning means I will somehow need to create multiple docker-compose yml files
-        from a 'template'
-        Don't really want multiple yml files - much simpler to pull just one
-        from the web image when doing a [./cyber-dojo update]
-
-     give collections a defined api and meta-data
-       each collection manifest specifies if is for languages/exercises/instructions
-       each volume label adds the URL it was created from
-       each language manifest specifies whether its docker-image should be auto pulled. default=no
-
-- - - - - - - - - - - - - - - - - - - - -
-
-)) cyber-dojo data repos should be data only; move .rb files somewhere else.
-
-- - - - - - - - - - - - - - - - - - - - -
-
 )) add another docker-compose.yml for main prod server
      prod server uses volume-mount for katas (not data-container)
      so I will need to use an docker-compose extension .yml file for
@@ -251,109 +187,9 @@ ruby ./cyber-dojo.rb volume create --name=jon --git=file:///Users/jonjagger/repo
 
 - - - - - - - - - - - - - - - - - - - - -
 
-)) abandoned the column titles on left/right lists on setup page.
-   instead use info panel.
-
-   Ask James if he can put his 3 exercises onto his github account
-   and I will use it as part of documentation.
-
-- - - - - - - - - - - - - - - - - - - - -
-
 )) add confirmation diagnostic to each [cyber-dojo] command?
 
 ----------------------------------------
-
-Day with James :-)
-
-
-mkdir tryout
-cd tryout
-git clone https://github.com/JonJagger/cyber-dojo.git
-cd cyber-dojo
-git branch drop-katas-data-container origin/drop-katas-data-container
-git checkout drop-katas-data-container
-
-Edited app/docker/cyber-dojo to make two hard-wired env-vars for paths
-point to new locations (under tryout)
-
-Built a new web image
-
-Tried to create a new server ontop of old one.
-Could not do [./cyber-dojo restart]
->>>>>>It complained that cdf-nginx and cdf-web already existed.
-Manually deleted them.
-
-Started server.
-Failed to create a kata because of permissions.
-   (Note that katas is being volume-mounted (not volumes-from) in docker-compose.yml)
-There is no cyber-dojo user.
-On my dev default server
-cat /etc/passwd
-cyber-dojo:x:19661:19661:Linux User,,,:/home/cyber-dojo:/bin/sh
-
-And this user does not exist on James's machine (Ubuntu)
-$ adduser --disabled-password --no-create-home --uid 19661 cyber-dojo
-Then
-$ cd app/data
-$ chown -R cyber-dojo katas
-
-Then could create kata :-)
-But problem with no root /cpputest folder (same as I had on my dev macbook)
-
-$ docker run --rm -it cyberdojofoundation/cpp_cpputest sh
-$ cd /
-$ ls -al
-
-Indeed there is no root folder /cpputest
-
-Tried to recreate gpp_cpputest docker image
-rebuilt image
-didn't work
-There is no user called cyber-dojo *inside* the gpp_cpputest container
-Problem is that the image gpp_cpputest is not based FROM user-base
-and so does not have cyber-dojo user inside it.
->>>>>>>I think this is not relevant. The user that runs inside the test container
-is nobody. The cyber-dojo user is needed only inside the web container
-(and also possibly on the host server for volume-mount interactions)
-
-
-Switched create page to show plain languages
-Make katas using C++, CppUTest (and C, CppUTest)
-was ok, edited cyber-dojo.sh, /cpputest was there, got a red traffic-light
-on the server went to katas/50/5C05.../manifest.json
-language:C++ (g++)-CppUTest
-
-Switched create page back to custom exercises.
-Made new kata
-katas/21/AD6F.../manifest.json
-language:C
-
-Aha!!!!
-Manually edited the katas manifest.json
-to "C++ (g++)-CppUTest"
-and it worked. Woooooohoooooo
-
-So the problem is the creation of the kata's manifest.
-Looked at the code and fixed up the errors.
-Works for both setup cases now: languages and exercises.
-
-Retro: would be nice if you can find out the name of the
-container/image from inside the container.
-
--------------
-
-Tried again.
-
-new server
-installed docker
-pulled from gihub
-pulled new branch
-edited app/docker/cyber-dojo to make two hard-wired env-vars for paths
-built a new web image
->>>>>>>>tried to create kata - failed with nil Rails error.
-Look into this on my own server.
-
---------------
 
 Features James mentioned during our chat
 - - - - - - - - - - - - - - - - - - - -
@@ -361,13 +197,13 @@ Features James mentioned during our chat
 revert button is in diff dialog again
 
 feature: on enter page, when kata id is entered and buttons become enabled
-         it would be nice to see the language and exercise names in the footer.
+         it would be nice to see the display_name in the footer.
 
 feature: sed in the editor (search and replace)
 
 feature: copy one animal to a new one (keeping whole traffic-light history)
 
-feature: fork giving two options, viz create new start-points data.
+feature: fork giving two options, viz create new kata and create start-point
 
 feature: replace duration on dashboard with time-ticks on top of minute columns.
 
