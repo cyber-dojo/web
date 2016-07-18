@@ -1,7 +1,7 @@
 
-The cyber-dojo server now lives inside a docker image called cyberdojofoundation/web
+The cyber-dojo web server now lives inside a docker image called cyberdojofoundation/web
 The script to build this image is
-cyber-dojo/app/docker/web/build-image.sh
+app/docker/web/build-image.sh
 
 If you're running this image and you make a change to local source files the
 changes will not be seen inside the server of course. You'll need to recreate
@@ -14,8 +14,7 @@ $ cd cli
 $ ./cyber-dojo down
 $ ./cyber-dojo up
 
-You can run the tests from inside the running web server. First shell in
+You can run the tests from inside the running web server...
 $ cd cli
 $ ./cyber-dojo sh
 $ cd test && ./run.sh
-
