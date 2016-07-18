@@ -67,7 +67,7 @@ end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def inspect_from_manifests
+def manifests_hash
   hash = {}
   pulled = docker_images_pulled
   Dir.glob("#{path}/**/manifest.json").each do |filename|
@@ -106,10 +106,9 @@ if !File.directory?(path)
   exit failed
 end
 
-inspection = inspect_from_manifests
-
+hash = manifests_hash
 puts inspect_line(major_name, minor_name, image_name, 'PULLED?')
-inspection.sort.map do |major,minors|
+hash.sort.map do |major,minors|
   minors.sort.map do |minor, hash|
     puts inspect_line(major, minor, hash['image_name'], hash['pulled'])
   end

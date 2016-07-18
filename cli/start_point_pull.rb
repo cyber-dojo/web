@@ -18,15 +18,15 @@ end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-def inspect_from_manifests
+def manifests_hash
   hash = {}
   Dir.glob("#{path}/**/manifest.json").each do |filename|
     content = IO.read(filename)
     manifest = JSON.parse(content)
-    language, test = manifest['display_name'].split(',').map { |s| s.strip }
+    major, minor = manifest['display_name'].split(',').map { |s| s.strip }
     image_name = manifest['image_name']
-    hash[language] ||= {}
-    hash[language][test] = { 'image_name' => image_name }
+    hash[major] ||= {}
+    hash[major][minor] = { 'image_name' => image_name }
   end
   hash
 end
@@ -43,10 +43,10 @@ if !File.directory?(path)
   exit failed
 end
 
-inspect_from_manifests.sort.map do |language,tests|
-  tests.sort.map do |test, hash|
+manifests_hash.sort.map do |major,minors|
+  minors.sort.map do |minor, hash|
     image = hash['image_name']
-    puts "PULLING #{image} (#{language}, #{test})"
+    puts "PULLING #{image} (#{major}, #{minor})"
     system("docker pull #{image}")
   end
 end
