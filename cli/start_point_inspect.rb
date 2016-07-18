@@ -6,6 +6,16 @@
 
 require 'json'
 
+major_name = 'MAJOR_NAME'
+minor_name = 'MINOR_NAME'
+image_name = 'IMAGE_NAME'
+
+$max_major = major_name.size
+$max_minor = minor_name.size
+$max_image = image_name.size
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 def failed; 1; end
 
 def path; ARGV[0]; end
@@ -18,29 +28,19 @@ def show_use(message = '')
   STDERR.puts
 end
 
-$longest_test     = ''
-$longest_language = ''
-$longest_image    = ''
-
-def max_size(lhs, rhs)
-  lhs.size > rhs.size ? lhs : rhs
-end
-
 def spacer(longest, name)
   ' ' * (longest.size - name.size)
 end
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-def inspect_line(language, test, image, pulled)
-  language_spacer = spacer($longest_language, language)
-      test_spacer = spacer($longest_test    , test    )
-     image_spacer = spacer($longest_image   , image   )
+def inspect_line(major, minor, image, pulled)
+  major_spacer = spacer($max_major, major)
+  minor_spacer = spacer($max_minor, minor)
+  image_spacer = spacer($max_image, image)
   gap = ' ' * 3
   line = ''
-  line += language + language_spacer + gap
-  line +=     test +     test_spacer + gap
-  line +=    image +    image_spacer + gap
+  line += major + major_spacer + gap
+  line += minor + minor_spacer + gap
+  line += image + image_spacer + gap
   line += pulled
 end
 
@@ -61,19 +61,25 @@ end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+def max_size(lhs, rhs)
+  lhs.size > rhs.size ? lhs : rhs
+end
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 def inspect_from_manifests
   hash = {}
   pulled = docker_images_pulled
   Dir.glob("#{path}/**/manifest.json").each do |filename|
     content = IO.read(filename)
     manifest = JSON.parse(content)
-    language, test = manifest['display_name'].split(',').map { |s| s.strip }
+    major, minor = manifest['display_name'].split(',').map { |s| s.strip }
     image_name = manifest['image_name']
-    $longest_language = max_size($longest_language, language  )
-    $longest_test     = max_size($longest_test    , test      )
-    $longest_image    = max_size($longest_image   , image_name)
-    hash[language] ||= {}
-    hash[language][test] = {
+    $max_major = max_size($max_major, major)
+    $max_minor = max_size($max_minor, minor)
+    $max_image = max_size($max_image, image_name)
+    hash[major] ||= {}
+    hash[major][minor] = {
       'image_name' => image_name,
       'pulled' => pulled.include?(image_name) ? 'yes' : 'no'
     }
@@ -100,13 +106,6 @@ if !File.directory?(path)
   exit failed
 end
 
-major_name = 'MAJOR_NAME'
-minor_name = 'MINOR_NAME'
-image_name = 'IMAGE_NAME'
-
-$longest_language = max_size($longest_language, major_name)
-$longest_test     = max_size($longest_test    , minor_name)
-$longest_image    = max_size($longest_image   , image_name)
 inspection = inspect_from_manifests
 
 puts inspect_line(major_name, minor_name, image_name, 'PULLED?')
