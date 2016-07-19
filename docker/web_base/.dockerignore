@@ -1,0 +1,10 @@
+#-----Ignore everything
+
+*
+
+#-----!Except these files
+
+# {bundle install} in web's Dockerfile (inside Travis pipeline) needs Gemfile
+# but does _not_ need Gemfile.lock which is for the local server and not for
+# the Travis server running inside a docker container
+!Gemfile

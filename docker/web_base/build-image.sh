@@ -16,11 +16,12 @@ MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 
 CONTEXT_DIR=${MY_DIR}/../..
 
-cat ${MY_DIR}/Dockerfile | sed "1 s/DOCKER_VERSION/${DOCKER_VERSION}/" > ${CONTEXT_DIR}/Dockerfile
+cp ${MY_DIR}/Dockerfile     ${CONTEXT_DIR}
 cp ${MY_DIR}/.dockerignore  ${CONTEXT_DIR}
 
 docker build \
   --build-arg=CYBER_DOJO_HOME=${CYBER_DOJO_HOME} \
+  --build-arg=DOCKER_VERSION=${DOCKER_VERSION} \
   --tag=cyberdojo/${PWD##*/}:${DOCKER_VERSION} \
   --file=${CONTEXT_DIR}/Dockerfile \
   ${CONTEXT_DIR}
