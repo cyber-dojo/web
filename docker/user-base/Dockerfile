@@ -18,12 +18,12 @@ MAINTAINER Jon Jagger <jon@jaggersoft.com>
 # 2. if katas is a data-container (eg volumes_from: in the docker-compose.yml file)
 #    then the rails app on the inside needs to match uid with the cyber-dojo user
 #    that owns the katas inside the data-container (no dependencies to the host)
-#    So both web and katas images use this as their FROM image.
+#    So both web_base and katas images use this as their FROM image.
 
 USER root
 # -D=no password, -H=no home directory
 RUN adduser -D -H -u 19661 cyber-dojo
 
-# git is needed inside commands that build start-point volumes from URLs/DIRs
-# eg ./cyber-dojo volume create --name=VOL --git=URL
+# git is needed inside commands that build start-point volumes from git repos or dirs
+# eg ./cyber-dojo start-point create --name=NAME --git=URL
 RUN apk add --update git

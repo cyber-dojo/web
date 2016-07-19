@@ -1,4 +1,9 @@
 
+web_base/Dockerfile still has this line
+   && cd ${CYBER_DOJO_HOME} ; bundle install --without development test \
+
+- - - - - - - - - - - - - - - - - - - - -
+
 Move runners from lib/code to app/lib/code
 
 - - - - - - - - - - - - - - - - - - - - -
