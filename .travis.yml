@@ -40,11 +40,11 @@ before_install:
     - docker images
 
 script:
-    # Build the cyber-dojo images
-    - cd ${DOCKER_DIR}/nginx
-    - ./build-image.sh
-    - cd ${DOCKER_DIR}/user-base
-    - ./build-image.sh
+    # Build the cyber-dojo web image
+    #- cd ${DOCKER_DIR}/nginx
+    #- ./build-image.sh
+    #- cd ${DOCKER_DIR}/user-base
+    #- ./build-image.sh
     - cd ${DOCKER_DIR}/web
     - ./build-image.sh ${DOCKER_ENGINE_VERSION}
     - cd ${TRAVIS_BUILD_DIR}/cli
