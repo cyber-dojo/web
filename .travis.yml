@@ -45,6 +45,8 @@ script:
     #- ./build-image.sh
     #- cd ${DOCKER_DIR}/user-base
     #- ./build-image.sh
+    #- cd ${DOCKER_DIR}/web-base
+    #- ./build-image.sh
     - cd ${DOCKER_DIR}/web
     - ./build-image.sh ${DOCKER_ENGINE_VERSION}
     - cd ${TRAVIS_BUILD_DIR}/cli
