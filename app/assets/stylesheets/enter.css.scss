@@ -2,13 +2,13 @@
 #enter-page {
 
   font-size: 1.15em;
-  margin: { top: 55px; left: 305px; }
+  margin: { top: 55px; left: 265px; }
 
   #avatars-grid {
-    width: 273px;
+    width: 330px;
     position: relative;
-    left: 30px;
-    top: 3px;
+    left: 4px;
+    top: 0px;
   }
 
   #enter-your-practice-session {
@@ -28,8 +28,8 @@
     background: lighten($green, 20%);
     color: $darker-color;
     @include font-size-largest();
-    width: 215px;
-    margin: { top: 4px; bottom: 5px; right: 2px; }
+    width: 265px;
+    margin: { top: 4px; bottom: 10px; right: 2px; }
     padding: { right: 20px; bottom: 0px; top: 2px; }
     text-align: right;
     @include gradient-lighten($green, 40%, 30%, 20%);
@@ -38,13 +38,18 @@
     right: -1px;
   }
 
-  #start-button, #continue-button, #dashboard-button, #review-button {
+  #start-button, #dashboard-button, #review-button, #resume-button {
     @include non-code-font();
-    width: 242px;
+    width: 292px;
     padding-right: 20px;
+    padding: { top: 8px; bottom: 8px; }
     @include font-size-large();
-    margin: { left: 10px; bottom: 5px; }
+    margin: { left: 10px; bottom: 10px; }
     text-align: right;
+  }
+
+  #resume-button {
+    @include font-size-medium();
   }
 }
 
