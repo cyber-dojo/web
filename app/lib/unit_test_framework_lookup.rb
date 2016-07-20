@@ -1,4 +1,10 @@
 
+# Maps from display_name to unit_test_framework.
+# Used by test/lib/stub_runner.rb
+# Used by test/app_models/delta_maker.rb
+# Used by test/app_lib/output_colour_test.rb
+# which were all written before the start-point re-architecture.
+
 module UnitTestFrameworkLookup
 
   module_function
@@ -69,7 +75,3 @@ module UnitTestFrameworkLookup
   end
 
 end
-
-# Used by test/lib/stub_runner.rb
-# Used by test/app_models/delta_maker.rb
-# Used by test/app_lib/output_colour_test.rb

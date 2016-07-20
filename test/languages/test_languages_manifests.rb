@@ -1,7 +1,6 @@
 #!/bin/bash ../test_wrapper.sh
 
 # Plan. Convert this to regular ruby program/class (keep inside web)
-#          CyberDojoVolumeChecker
 #       Has to return non-zero if issue found.
 #       Replace test methods with calls to this program.
 #
