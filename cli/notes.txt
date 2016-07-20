@@ -51,13 +51,6 @@ http://xunit.github.io/
 
 - - - - - - - - - - - - - - - - - - - - -
 
-$ cyber-dojo up
-Using --languages=languages (from https://github.com/start-point-languages.git)
-Using --exercises=exercises (from https://github.com/start-point-exercises.git)
-Using --custom=custom (from https://github.com/start-point-custom.git)
-
-- - - - - - - - - - - - - - - - - - - - -
-
 Would be good to have a [cyber-dojo] cli command to export
 a specific kata to a given folder. This would make it easier
 to create custom exercises. Must not export to default VM
@@ -126,12 +119,6 @@ solves this as long Gemfile.lock is not part of the docker context
 (remove it from web's dockerignore file)
 This causes a few app_controller deprecation warnings
 and a load of app_controller test fails which seem to be due to bad URLs
-
-- - - - - - - - - - - - - - - - - - - - -
-
-Having Gemfile as part of web's docker image context is unfortunate.
-It means the Alpine apk update stuff repeats unnecessarily if, for
-example, you bump the rails version in Gemfile.
 
 - - - - - - - - - - - - - - - - - - - - -
 
