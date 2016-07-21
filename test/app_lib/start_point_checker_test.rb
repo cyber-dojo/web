@@ -254,7 +254,20 @@ class StartPointCheckerTest < AppLibTestBase
       cyber_dojo_sh = "#{tmp_dir}/Java/JUnit/cyber-dojo.sh"
       File.chmod(0604, cyber_dojo_sh)
       check
-      assert_error junit_manifest_filename, "visible_filenames: cyber-dojo.sh must be executable"
+      assert_error junit_manifest_filename, "visible_filenames: 'cyber-dojo.sh' must be executable"
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '2EA7EA',
+  'visible file not world-readable is an error' do
+    copy_good_master do |tmp_dir|
+      junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
+      cyber_dojo_sh = "#{tmp_dir}/Java/JUnit/cyber-dojo.sh"
+      File.chmod(0111, cyber_dojo_sh)
+      check
+      assert_error junit_manifest_filename, "visible_filenames: 'cyber-dojo.sh' must be world-readable"
     end
   end
 

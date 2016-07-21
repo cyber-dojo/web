@@ -118,11 +118,14 @@ class StartPointChecker
       error 'must be an Array of Strings'
       return
     end
-    # check all visible files exist
+    # check all visible files exist and are world-readable
     dir = File.dirname(@manifest_filename)
     visible_filenames.each do |filename|
       unless File.exists?(dir + '/' + filename)
         error "missing '#{filename}'"
+      end
+      unless File.stat(dir + '/' + filename).world_readable?
+        error "'#{filename}' must be world-readable"
       end
     end
     # check cyber-dojo.sh is a visible_filename
@@ -131,7 +134,7 @@ class StartPointChecker
     end
     # check cyber-dojo.sh has execute permission
     unless File.stat(dir + '/' + 'cyber-dojo.sh').executable?
-      error "cyber-dojo.sh must be executable"
+      error "'cyber-dojo.sh' must be executable"
     end
     # check no duplicate visible files
     visible_filenames.uniq.each do |filename|

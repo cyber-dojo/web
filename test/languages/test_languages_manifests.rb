@@ -15,21 +15,8 @@ class LanguagesManifestsTests < LanguagesTestBase
       dir = File.dirname(filename)
       @language = dir
 
-      refute any_file_is_unreadable?
-
       assert created_kata_manifests_language_entry_round_trips?
     end
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def any_file_is_unreadable?
-    (visible_filenames + ['manifest.json']).each do |filename|
-      unless File.stat(language_dir + '/' + filename).world_readable?
-        return true_puts_alert "#{language_dir}/#{filename} is not world-readable"
-      end
-    end
-    false_dot
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
