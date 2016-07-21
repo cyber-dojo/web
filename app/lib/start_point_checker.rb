@@ -1,9 +1,9 @@
 
 require 'json'
-#require_relative './output_colour.rb'
 
 # TODO?: exercises-checks are different to languages/custom checks
-# TODO?: check there is at least one sub-dir with a manifest.json file
+# TODO?: check there is at least one sub-dir with instructions file (exercises)
+# TODO?: check there is at least one sub-dir with a manifest.json file (non exercises)
 
 class StartPointChecker
 
@@ -125,10 +125,13 @@ class StartPointChecker
         error "missing '#{filename}'"
       end
     end
-
     # check cyber-dojo.sh is a visible_filename
     unless visible_filenames.include? 'cyber-dojo.sh'
       error "must contain 'cyber-dojo.sh'"
+    end
+    # check cyber-dojo.sh has execute permission
+    unless File.stat(dir + '/' + 'cyber-dojo.sh').executable?
+      error "cyber-dojo.sh must be executable"
     end
     # check no duplicate visible files
     visible_filenames.uniq.each do |filename|

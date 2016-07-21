@@ -3,8 +3,6 @@
 # Plan. Convert this to regular ruby program/class (keep inside web)
 #       Has to return non-zero if issue found.
 #       Replace test methods with calls to this program.
-#
-# Note. visible_filenames cannot include 'manifest.json'
 
 require_relative './languages_test_base'
 
@@ -16,47 +14,11 @@ class LanguagesManifestsTests < LanguagesTestBase
     manifests.each do |filename|
       dir = File.dirname(filename)
       @language = dir
-      assert cyberdojo_sh_has_execute_permission?
-      refute any_files_owner_is_root?
-      refute any_files_group_is_root?
+
       refute any_file_is_unreadable?
+
       assert created_kata_manifests_language_entry_round_trips?
     end
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def cyberdojo_sh_has_execute_permission?
-    unless File.stat(language_dir + '/' + 'cyber-dojo.sh').executable?
-      return false_puts_alert 'cyber-dojo.sh does not have execute permission'
-    end
-    true_dot
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def any_files_owner_is_root?
-    (visible_filenames + ['manifest.json']).each do |filename|
-      uid = File.stat(language_dir + '/' + filename).uid
-      owner = Etc.getpwuid(uid).name
-      if owner == 'root'
-        return true_puts_alert "owner of #{language_dir}/#{filename} is root"
-      end
-    end
-    false_dot
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def any_files_group_is_root?
-    (visible_filenames + ['manifest.json']).each do |filename|
-      gid = File.stat(language_dir + '/' + filename).gid
-      owner = Etc.getgrgid(gid).name
-      if owner == 'root'
-        return true_puts_alert "owner of #{language_dir}/#{filename} is root"
-      end
-    end
-    false_dot
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

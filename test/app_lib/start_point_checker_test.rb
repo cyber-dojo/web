@@ -246,6 +246,19 @@ class StartPointCheckerTest < AppLibTestBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '90C1DF',
+  'cyber-dojo.sh not executable is an error' do
+    copy_good_master do |tmp_dir|
+      junit_manifest_filename = "#{tmp_dir}/Java/JUnit/manifest.json"
+      cyber_dojo_sh = "#{tmp_dir}/Java/JUnit/cyber-dojo.sh"
+      File.chmod(0604, cyber_dojo_sh)
+      check
+      assert_error junit_manifest_filename, "visible_filenames: cyber-dojo.sh must be executable"
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # optional-key: progress_regexs
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
