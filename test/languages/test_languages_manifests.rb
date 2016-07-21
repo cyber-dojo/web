@@ -1,9 +1,5 @@
 #!/bin/bash ../test_wrapper.sh
 
-# Plan. Convert this to regular ruby program/class (keep inside web)
-#       Has to return non-zero if issue found.
-#       Replace test methods with calls to this program.
-
 require_relative './languages_test_base'
 
 class LanguagesManifestsTests < LanguagesTestBase
@@ -14,66 +10,8 @@ class LanguagesManifestsTests < LanguagesTestBase
     manifests.each do |filename|
       dir = File.dirname(filename)
       @language = dir
-
       assert created_kata_manifests_language_entry_round_trips?
     end
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  private
-
-  def display_name
-    manifest_property
-  end
-
-  def visible_filenames
-    manifest_property
-  end
-
-  def manifest
-    JSON.parse(IO.read(manifest_filename))
-  end
-
-  def manifest_filename
-    language_dir + '/' + 'manifest.json'
-  end
-
-  def language_dir
-    @language
-  end
-
-  def false_puts_alert(message)
-    puts_alert message
-    false
-  end
-
-  def true_puts_alert(message)
-    puts_alert message
-    true
-  end
-
-  def puts_alert(message)
-    puts alert + '  ' + message
-  end
-
-  def alert
-    "\n>>>>>>> #{language_dir} <<<<<<<\n"
-  end
-
-  def false_dot
-    print '.'
-    false
-  end
-
-  def true_dot
-    #print '.'
-    true
-  end
-
-  def manifest_property
-    property_name = /`(?<name>[^']*)/ =~ caller[0] && name
-    manifest[property_name]
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -84,7 +22,7 @@ class LanguagesManifestsTests < LanguagesTestBase
 
     manifest = katas.create_kata_manifest(language)
     kata = katas.create_kata_from_kata_manifest(manifest)
-    lang = kata.language #manifest['language']
+    lang = kata.language
     if lang.count('-') != 1
       message =
         "#{kata.id}'s manifest 'language' entry is #{lang}" +
@@ -106,7 +44,44 @@ class LanguagesManifestsTests < LanguagesTestBase
                 ' which contains digits and looks like it contains a version number'
       return false_puts_alert message
     end
-    true_dot
+    print '.'
+    true
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def display_name
+    manifest_property
+  end
+
+  def false_puts_alert(message)
+    puts_alert message
+    false
+  end
+
+  def puts_alert(message)
+    puts alert + '  ' + message
+  end
+
+  def alert
+    "\n>>>>>>> #{language_dir} <<<<<<<\n"
+  end
+
+  def manifest
+    JSON.parse(IO.read(manifest_filename))
+  end
+
+  def manifest_filename
+    language_dir + '/' + 'manifest.json'
+  end
+
+  def language_dir
+    @language
+  end
+
+  def manifest_property
+    property_name = /`(?<name>[^']*)/ =~ caller[0] && name
+    manifest[property_name]
   end
 
 end
