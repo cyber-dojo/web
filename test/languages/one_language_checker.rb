@@ -58,7 +58,7 @@ private
     filename = filename_6times9(from)
     to = pattern[colour]
 
-    # Cucumber tests special case handling
+    # Java-Cucumber tests special case handling
     if @language.name == 'Java-Cucumber' && colour == :amber
       filename = 'Hiker.java'
       from = '}'
