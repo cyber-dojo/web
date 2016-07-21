@@ -9,9 +9,15 @@ cd ${my_dir}
 
 ./cyber-dojo down
 
-./cyber-dojo volume ls --quiet | grep 'default-languages'    && ./cyber-dojo volume rm default-languages
-./cyber-dojo volume ls --quiet | grep 'default-exercises'    && ./cyber-dojo volume rm default-exercises
-./cyber-dojo volume ls --quiet | grep 'default-instructions' && ./cyber-dojo volume rm default-instructions
+./cyber-dojo start-point ls --quiet | grep 'languages' && ./cyber-dojo start-point rm languages
+./cyber-dojo start-point ls --quiet | grep 'exercises' && ./cyber-dojo start-point rm exercises
+./cyber-dojo start-point ls --quiet | grep 'custom'    && ./cyber-dojo start-point rm custom
+./cyber-dojo start-point ls
+
+./cyber-dojo start-point create --name=languages --dir=./../../start-points-languages
+./cyber-dojo start-point create --name=exercises --dir=./../../start-points-exercises
+./cyber-dojo start-point create --name=custom    --dir=./../../start-points-custom
+./cyber-dojo start-point ls
 
 ./cyber-dojo up
 
