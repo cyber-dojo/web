@@ -123,24 +123,26 @@ class StartPointChecker
     visible_filenames.each do |filename|
       unless File.exists?(dir + '/' + filename)
         error "missing '#{filename}'"
+        next
       end
       unless File.stat(dir + '/' + filename).world_readable?
         error "'#{filename}' must be world-readable"
       end
-    end
-    # check cyber-dojo.sh is a visible_filename
-    unless visible_filenames.include? 'cyber-dojo.sh'
-      error "must contain 'cyber-dojo.sh'"
-    end
-    # check cyber-dojo.sh has execute permission
-    unless File.stat(dir + '/' + 'cyber-dojo.sh').executable?
-      error "'cyber-dojo.sh' must be executable"
     end
     # check no duplicate visible files
     visible_filenames.uniq.each do |filename|
       unless visible_filenames.count(filename) == 1
         error "duplicate '#{filename}'"
       end
+    end
+    # check cyber-dojo.sh is a visible_filename
+    unless visible_filenames.include? 'cyber-dojo.sh'
+      error "must contain 'cyber-dojo.sh'"
+      return
+    end
+    # check cyber-dojo.sh has execute permission
+    unless File.stat(dir + '/' + 'cyber-dojo.sh').executable?
+      error "'cyber-dojo.sh' must be executable"
     end
   end
 

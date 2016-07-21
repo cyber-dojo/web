@@ -177,7 +177,7 @@ def gather_done(stats, totals)
   [
      [ "total failures == 0", totals[:failure_count] <= 0 ],
      [ "total errors == 0", totals[:error_count] == 0 ],
-     [ "total skips <= 3", totals[:skip_count] <= 3],
+     [ "total skips <= 2", totals[:skip_count] <= 2],
      coverage(stats, 'app_helpers'),
      coverage(stats, 'app_lib'),
      coverage(stats, 'app_models'),

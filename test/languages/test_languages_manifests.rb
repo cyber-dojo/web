@@ -79,16 +79,12 @@ class LanguagesManifestsTests < LanguagesTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def created_kata_manifests_language_entry_round_trips?
-    skip "Round-trip test failing..."
     language = languages[display_name]
     assert !language.nil?, "!language.nil? display_name=#{display_name}"
 
-    exercise = exercises['Print_Diamond']
-    assert !exercise.nil?, '!exercise.nil?'
-
-    kata = katas.create_kata(language, exercise)
-    manifest = katas.kata_manifest(kata)
-    lang = manifest['language']
+    manifest = katas.create_kata_manifest(language)
+    kata = katas.create_kata_from_kata_manifest(manifest)
+    lang = kata.language #manifest['language']
     if lang.count('-') != 1
       message =
         "#{kata.id}'s manifest 'language' entry is #{lang}" +
