@@ -20,7 +20,7 @@ web:
   cpu_shares: 512
   restart: on-failure
   mem_limit: 50M
-  memswap_limit: 50M
+  memswap_limit: 500M
   command: rails server --environment=${CYBER_DOJO_RAILS_ENVIRONMENT}
   environment:
     - CYBER_DOJO_SHELL_CLASS
