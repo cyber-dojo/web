@@ -124,11 +124,12 @@ def logs
     exit failed
   end
   # TODO: check for unknown args
-  if `docker ps --quiet --filter "name=cdf-web"` == ''
+  name='cyber-dojo-web'
+  if `docker ps --quiet --filter "name=#{name}"` == ''
     puts "FAILED: Cannot show logs - the web server is not running"
     exit failed
   else
-    puts `docker logs cdf-web`
+    puts `docker logs #{name}`
   end
 end
 
