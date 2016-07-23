@@ -24,11 +24,6 @@ diff-dialog from test page should have fork button.
 
 - - - - - - - - - - - - - - - - - - - - -
 
-Need to add a cpu limit to running docker containers.
-This will stop 100% rogue cpu process.
-
-- - - - - - - - - - - - - - - - - - - - -
-
 new kata has been created dialog box, and here is its HEX-ID
   this could offer several buttons instead of just ok (which takes you back to home page)
     o) button to take you to home page
