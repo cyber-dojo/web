@@ -12,6 +12,11 @@ nginx:
     - "80:80"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# I'd like to set cpu/memory limits on the test-run containers
+# independently of cpu/memory limits on the web server container.
+# This appears to be impossible so I have to try to get some kind
+# of compromise; I don't want to limit the web-server but I do want
+# to limit the test-containers.
 
 web:
   user: cyber-dojo
