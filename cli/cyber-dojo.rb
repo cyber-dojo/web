@@ -414,8 +414,6 @@ def start_point_ls
     exit failed
   end
 
-  # TODO: check for unknown args
-
   # There is currently no [--filter label=LABEL]  option on [docker volume ls]
   # https://github.com/docker/docker/pull/21567
   # So I have to inspect all volumes. Could be slow if lots of volumes.
@@ -426,6 +424,12 @@ def start_point_ls
   if ARGV[2] == '--quiet'
     names.each { |name| puts name }
   else
+
+    unless ARGV[2].nil?
+      puts "FAILED: unknown argument [#{ARGV[2]}]"
+      exit failed
+    end
+
     types = names.map { |name| cyber_dojo_type(name)  }
     urls  = names.map { |name| cyber_dojo_label(name) }
 
@@ -458,7 +462,7 @@ end
 def start_point_inspect
   help = [
     '',
-    "Use: #{me} start-point inspect VOLUME",
+    "Use: #{me} start-point inspect NAME",
     '',
     'Displays details of the named cyber-dojo start-point',
   ]
@@ -469,9 +473,12 @@ def start_point_inspect
     exit failed
   end
 
-  # TODO: check for unknown args
-
   exit_unless_is_cyber_dojo_volume(vol, 'inspect')
+
+  unless ARGV[3].nil?
+    puts "FAILED: unknown argument [#{ARGV[3]}]"
+    exit failed
+  end
 
   command =
   [
@@ -496,7 +503,7 @@ def start_point_rm
   # This allows you to create custom default volumes.
   help = [
     '',
-    "Use: #{me} start-point rm VOLUME",
+    "Use: #{me} start-point rm NAME",
     '',
     "Removes a start-point created with the [#{me} start-point create] command"
   ]
@@ -509,7 +516,10 @@ def start_point_rm
 
   exit_unless_is_cyber_dojo_volume(vol, 'rm')
 
-  # TODO: check for unknown args
+  unless ARGV[3].nil?
+    puts "FAILED: unknown argument [#{ARGV[3]}]"
+    exit failed
+  end
 
   run "docker volume rm #{vol}"
   if $exit_status != 0
@@ -526,7 +536,7 @@ end
 def start_point_pull
   help = [
     '',
-    "Use: #{me} start-point pull VOLUME",
+    "Use: #{me} start-point pull NAME",
     '',
     'Pulls all the docker images named inside the cyber-dojo start-point'
   ]
@@ -538,7 +548,10 @@ def start_point_pull
 
   exit_unless_is_cyber_dojo_volume(vol, 'pull')
 
-  # TODO: check for unknown args
+  unless ARGV[3].nil?
+    puts "FAILED: unknown argument [#{ARGV[3]}]"
+    exit failed
+  end
 
   command =
   [
