@@ -27,6 +27,10 @@ def quoted(s); '"' + s + '"'; end
 
 def docker_version; `docker --version`.split()[2].chomp(','); end
 
+def web_container_name; 'cyber-dojo-web'; end
+
+def web_server_running; `docker ps --quiet --filter "name=#{web_container_name}"` != ''; end
+
 def read_only; 'ro'; end
 
 def run(command)
@@ -41,7 +45,9 @@ def run(command)
 end
 
 def get_arg(name, argv)
-  # eg name=--git argv=--git=URL ====> returns URL
+  # eg name: --git
+  #    argv: --git=URL
+  #    ====> returns URL
   args = argv.select{ |arg| arg.start_with?(name + '=')}.map{ |arg| arg.split('=')[1] || '' }
   args.size == 1 ? args[0] : nil
 end
@@ -51,6 +57,22 @@ end
 #=========================================================================================
 
 def update
+  help = [
+    '',
+    "Use: #{me} update",
+    '',
+    'Installs latest web server docker images and associated script files'
+  ]
+  if ['help','--help'].include? ARGV[1]
+    show help
+    exit failed
+  end
+
+  unless ARGV[1].nil?
+    puts "FAILED: unknown argument [#{ARGV[1]}]"
+    exit failed
+  end
+
   # cyber-dojo.sh does actual [update]
 end
 
@@ -59,8 +81,21 @@ end
 #=========================================================================================
 
 def clean
-  # TODO: help?
-  # TODO: check for unknown args
+  help = [
+    '',
+    "Use: #{me} clean",
+    '',
+    'Removes dangling docker images',
+  ]
+  if ['help','--help'].include? ARGV[1]
+    show help
+    exit failed
+  end
+
+  unless ARGV[1].nil?
+    puts "FAILED: unknown argument [#{ARGV[1]}]"
+    exit failed
+  end
 
   # Can give the following
   # Error response from daemon: conflict: unable to delete cfc459985b4b (cannot be forced)
@@ -84,7 +119,12 @@ def down
     show help
     exit failed
   end
-  # TODO: check for unknown args
+
+  unless ARGV[1].nil?
+    puts "FAILED: unknown argument [#{ARGV[1]}]"
+    exit failed
+  end
+
   # cyber-dojo.sh does actual [down]
 end
 
@@ -103,8 +143,17 @@ def sh
     show help
     exit failed
   end
-  # TODO: check for unknown args
-  # TODO: check if server is running (as per [logs] command below)
+
+  unless ARGV[1].nil?
+    puts "FAILED: unknown argument [#{ARGV[1]}]"
+    exit failed
+  end
+
+  unless web_server_running
+    puts "FAILED: Cannot shell in - the web server is not running"
+    exit failed
+  end
+
   # cyber-dojo.sh does actual [sh]
 end
 
@@ -123,13 +172,17 @@ def logs
     show help
     exit failed
   end
-  # TODO: check for unknown args
-  name='cyber-dojo-web'
-  if `docker ps --quiet --filter "name=#{name}"` == ''
+
+  unless ARGV[1].nil?
+    puts "FAILED: unknown argument [#{ARGV[1]}]"
+    exit failed
+  end
+
+  unless web_server_running
     puts "FAILED: Cannot show logs - the web server is not running"
     exit failed
   else
-    puts `docker logs #{name}`
+    puts `docker logs #{web_container_name}`
   end
 end
 
@@ -139,19 +192,16 @@ end
 
 def up_arg_ok(help, args, name)
   vol = get_arg("--#{name}", args)
-  if vol.nil? || vol == 'default-' + name # handled in cyber-dojo.sh
+  if vol.nil? || vol == name # handled in cyber-dojo.sh
     return true
   end
-
-  # TODO: edge case... this is not type checked
-  # cyber-dojo up --languages=default-exercises
 
   if vol == ''
     show help
     puts "FAILED: missing argument value --#{name}=[???]"
     return false
   end
-  if !volume_exists?(vol)
+  unless volume_exists?(vol)
     show help
     puts "FAILED: start-point #{vol} does not exist"
     return false
@@ -159,7 +209,7 @@ def up_arg_ok(help, args, name)
   type = cyber_dojo_type(vol)
   if type != name
     show help
-    puts "FAILED: #{vol} is not a #{name} start-point (it's #{type})"
+    puts "FAILED: #{vol} is not a #{name} start-point (it's type from setup.json is #{type})"
     return false
   end
   return true
@@ -211,9 +261,9 @@ def up
     exit failed
   end
   # explicit start-points?
-  exit failed unless up_arg_ok(help, args, 'languages')  # --languages=START-POINT
-  exit failed unless up_arg_ok(help, args, 'exercises')  # --exercises=START-POINT
-  exit failed unless up_arg_ok(help, args,    'custom')  # --custom=START-POINT
+  exit failed unless up_arg_ok(help, args, 'languages')  # --languages=NAME
+  exit failed unless up_arg_ok(help, args, 'exercises')  # --exercises=NAME
+  exit failed unless up_arg_ok(help, args,    'custom')  # --custom=NAME
   # cyber-dojo.sh does actual [up]
 end
 
@@ -364,6 +414,8 @@ def start_point_ls
     exit failed
   end
 
+  # TODO: check for unknown args
+
   # There is currently no [--filter label=LABEL]  option on [docker volume ls]
   # https://github.com/docker/docker/pull/21567
   # So I have to inspect all volumes. Could be slow if lots of volumes.
@@ -457,6 +509,8 @@ def start_point_rm
 
   exit_unless_is_cyber_dojo_volume(vol, 'rm')
 
+  # TODO: check for unknown args
+
   run "docker volume rm #{vol}"
   if $exit_status != 0
     puts "FAILED [start-point rm #{vol}] can't remove start-point if it's in use"
@@ -483,6 +537,8 @@ def start_point_pull
   end
 
   exit_unless_is_cyber_dojo_volume(vol, 'pull')
+
+  # TODO: check for unknown args
 
   command =
   [
