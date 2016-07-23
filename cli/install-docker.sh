@@ -3,7 +3,7 @@ set -e
 
 # These commands are from the docker website.
 # This script is part of the server installation instructions
-# described at http://blog.cyber-dojo.org/2016/03/running-your-own-cyber-dojo-server.html
+# described at http://blog.cyber-dojo.org/2016/07/running-your-own-cyber-dojo-web-server.html
 
 echo 'installing docker'
 curl -sSL https://get.docker.com/ | sh

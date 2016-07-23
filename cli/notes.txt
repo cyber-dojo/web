@@ -1,22 +1,16 @@
 
-web_base/Dockerfile still has this line
-   && cd ${CYBER_DOJO_HOME} ; bundle install --without development test \
+cyber-dojo.rb check for incorrect arguments to sub-commands
 
 - - - - - - - - - - - - - - - - - - - - -
 
-Move runners from lib/code to app/lib/code
+start-point-checker.rb
+  check for no instructions files
+  check for no mainifest.json files
 
 - - - - - - - - - - - - - - - - - - - - -
 
 if [docker pull] command on new setup pages fails then I need to
 bail out of creating the kata.
-
-- - - - - - - - - - - - - - - - - - - - -
-
-When creating a kata (host_disk_katas.rb)
-save language manifest properties into katas manifest
-so all kata's methods look at least like image_name, viz
-  manifest_property || start_point.NAME
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -39,10 +33,27 @@ or
   on 2nd step
     [setup with no exercise] [setup now]
 
+=========================================
+=========================================
+
+When creating a kata (host_disk_katas.rb)
+save language manifest properties into katas manifest
+so all kata's methods look at least like image_name, viz
+  manifest_property || start_point.NAME
+
 - - - - - - - - - - - - - - - - - - - - -
 
 Add C# XUnit test framework.
 http://xunit.github.io/
+
+- - - - - - - - - - - - - - - - - - - - -
+
+Move runners from lib/code to app/lib/code
+
+- - - - - - - - - - - - - - - - - - - - -
+
+web_base/Dockerfile still has this line
+   && cd ${CYBER_DOJO_HOME} ; bundle install --without development test \
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -158,6 +169,15 @@ So I still need proper nil error handling on the setup pages
    $ cd ~
    $ sudo ./cyber-dojo pull all
    $ sudo ./cyber-dojo up
+
+   Need to comment out this line in cyber-dojo.sh
+     # one_time_creation_of_katas_data_container
+   Need to remove this line from docker-compose.yml
+     volumes_from:
+       - ${CYBER_DOJO_KATAS_DATA_CONTAINER}:rw
+   Need to add this
+     volumes:
+       - /var/www/cyber-dojo/katas:${CYBER_DOJO_ROOT}/katas:rw
 
 - - - - - - - - - - - - - - - - - - - - -
 
