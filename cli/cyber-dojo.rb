@@ -233,7 +233,7 @@ def start_point
     minitab + 'rm             Removes a start-point',
     minitab + 'ls             Lists the names of all start-points',
     minitab + 'inspect        Displays details of a start-point',
-    minitab + 'pull           Pulls the docker images inside a start-point',
+    minitab + 'pull           Pulls all the docker images named inside a start-point',
     '',
     "Run '#{me} start-point COMMAND --help' for more information on a command",
   ]
@@ -287,11 +287,11 @@ end
 def start_point_create
   help = [
     '',
-    "Use: #{me} start-point create --name=VOLUME --git=URL",
-    "Use: #{me} start-point create --name=VOLUME --dir=PATH",
+    "Use: #{me} start-point create --name=NAME --git=URL",
+    "Use: #{me} start-point create --name=NAME --dir=PATH",
     '',
-    'Creates a start-point named VOLUME from a git clone of URL',
-    'Creates a start-point named VOLUME from a copy of PATH'
+    'Creates a start-point named NAME from a git clone of URL',
+    'Creates a start-point named NAME from a copy of PATH'
   ]
   # asked for help?
   if [nil,'help','--help'].include? ARGV[2]
