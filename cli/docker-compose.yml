@@ -16,7 +16,9 @@ nginx:
 # independently of cpu/memory limits on the web server container.
 # This appears to be impossible so I have to try to get some kind
 # of compromise; I don't want to limit the web-server but I do want
-# to limit the test-containers.
+# to limit the test-containers. However if the limits are too low
+# the web server container is unable to [docker pull] images on-demand
+# in the setup pages.
 
 web:
   user: cyber-dojo
@@ -24,8 +26,8 @@ web:
   container_name: ${CYBER_DOJO_WEB_CONTAINER}
   cpu_shares: 512
   restart: on-failure
-  mem_limit: 50M
-  memswap_limit: 500M
+  mem_limit: 2G
+  memswap_limit: 2G
   command: rails server --environment=${CYBER_DOJO_RAILS_ENVIRONMENT}
   environment:
     - CYBER_DOJO_SHELL_CLASS

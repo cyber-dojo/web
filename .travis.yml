@@ -55,8 +55,5 @@ script:
     - docker logs cyber-dojo-web
     - docker inspect -f {{.State.Running}} ${cid}
     - docker ps -a
-    # pull image used by tests. Do it here and not on-demand
-    # inside the test run so docker-compose.yml memory limits do not interfere
-    - docker pull cyberdojofoundation/gcc_assert:latest
     #- docker --debug exec ${cid} sh -c "cd test && ./run.sh"
     - docker         exec ${cid} sh -c "cd test && ./run.sh"
