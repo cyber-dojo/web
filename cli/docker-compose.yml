@@ -5,8 +5,8 @@ nginx:
   cpu_shares: 512
   #restart: always
   restart: on-failure
-  #mem_limit: 50M
-  #memswap_limit: 50M
+  mem_limit: 50M
+  memswap_limit: 50M
   links:
     - "web:cyberdojo_web"
   ports:
