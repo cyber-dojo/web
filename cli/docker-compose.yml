@@ -3,7 +3,6 @@ nginx:
   image: cyberdojo/nginx
   container_name: cyber-dojo-nginx
   cpu_shares: 512
-  #restart: always
   restart: on-failure
   mem_limit: 50M
   memswap_limit: 50M
@@ -24,10 +23,9 @@ web:
   image: ${CYBER_DOJO_WEB_SERVER}
   container_name: ${CYBER_DOJO_WEB_CONTAINER}
   cpu_shares: 512
-  #restart: always
   restart: on-failure
-  mem_limit: 5G
-  #memswap_limit: 5G
+  mem_limit: 50M
+  memswap_limit: 50M
   command: rails server --environment=${CYBER_DOJO_RAILS_ENVIRONMENT}
   environment:
     - CYBER_DOJO_SHELL_CLASS
