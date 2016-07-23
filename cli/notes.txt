@@ -76,10 +76,6 @@ Put Alpine based small images into cyberdojo repo.
 
 - - - - - - - - - - - - - - - - - - - - -
 
-Look at 3 skipped tests.
-
-- - - - - - - - - - - - - - - - - - - - -
-
 Debug logging seems to show clean_up (in cyber-dojo.sh) being called twice...
 Is this because (clean_up && exit_fail) is in () and so is a sub-shell?
 
