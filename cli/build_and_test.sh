@@ -14,9 +14,9 @@ cd ${my_dir}
 ./cyber-dojo start-point ls --quiet | grep 'custom'    && ./cyber-dojo start-point rm custom
 ./cyber-dojo start-point ls
 
-./cyber-dojo start-point create --name=languages --dir=./../../start-points-languages
-./cyber-dojo start-point create --name=exercises --dir=./../../start-points-exercises
-./cyber-dojo start-point create --name=custom    --dir=./../../start-points-custom
+./cyber-dojo start-point create languages --dir=./../../start-points-languages
+./cyber-dojo start-point create exercises --dir=./../../start-points-exercises
+./cyber-dojo start-point create custom    --dir=./../../start-points-custom
 ./cyber-dojo start-point ls
 
 ./cyber-dojo up
