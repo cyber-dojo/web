@@ -6,11 +6,27 @@ require 'json'
 class StartPointCheckerTest < AppLibTestBase
 
   test '0C1F2F',
-  'test_data master (manifested) has no errors' do
+  'test_data/languages master has no errors' do
     checker = StartPointChecker.new(start_points_path + '/languages')
     errors = checker.check
     assert_zero errors
     assert_equal 5, checker.manifests.size
+  end
+
+  test '6E4112',
+  'test_data/custom has no errors' do
+    checker = StartPointChecker.new(start_points_path + '/custom')
+    errors = checker.check
+    assert_zero errors
+    assert_equal 9, checker.manifests.size
+  end
+
+  test '8EC270',
+  'test_data/exercises has no errors' do
+    checker = StartPointChecker.new(start_points_path + '/exercises')
+    errors = checker.check
+    assert_zero errors
+    assert_equal 0, checker.manifests.size
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -64,6 +80,19 @@ class StartPointCheckerTest < AppLibTestBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # instructions
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'DF073F',
+  'exercises start-point with no instructions files is an error' do
+    copy_good_master('exercises') do |tmp_dir|
+      Dir.glob("#{tmp_dir}/**/instructions") { |filename| File.delete(filename) }
+      check
+      assert_error tmp_dir, 'no instructions files'
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # manifest.json
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -75,6 +104,17 @@ class StartPointCheckerTest < AppLibTestBase
       check
       assert_nil @checker.manifests[junit_manifest_filename]
       assert_error junit_manifest_filename, 'bad JSON'
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '3B832B',
+  'languages/custom start-point with no manifest.json files is an error' do
+    copy_good_master do |tmp_dir|
+      Dir.glob("#{tmp_dir}/**/manifest.json") { |filename| File.delete(filename) }
+      check
+      assert_error tmp_dir, 'no manifest.json files'
     end
   end
 

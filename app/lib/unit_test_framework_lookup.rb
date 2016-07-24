@@ -13,6 +13,7 @@ module UnitTestFrameworkLookup
     table = {
       'Asm, assert'               => 'cassert',
       'Bash, shunit2'             => 'bash_shunit2',
+      'Bash, bash_unit'           => 'bash_unit',
       'BCPL, all_tests_passed'    => 'bcpl_all_tests_passed',
       'C (clang), Cgreen'         => 'cgreen',
       'C (gcc), Cgreen'           => 'cgreen',

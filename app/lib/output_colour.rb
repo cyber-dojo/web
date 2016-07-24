@@ -153,6 +153,13 @@ module OutputColour # mix-in
     return :amber
   end
 
+  def self.parse_bash_unit(output)
+    return :amber if /line (\d*): syntax error/.match(output)
+    return :red   if /\.\.\. FAILURE/.match(output)
+    return :green if /\.\.\. SUCCESS/.match(output)
+    return :amber
+  end
+
   def self.parse_rust_test(output)
     return :red   if /test result: FAILED/.match(output)
     return :green if /test result: ok/.match(output)

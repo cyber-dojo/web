@@ -1,10 +1,6 @@
 
 require 'json'
 
-# TODO?: exercises-checks are different to languages/custom checks
-# TODO?: check there is at least one sub-dir with instructions file (exercises)
-# TODO?: check there is at least one sub-dir with a manifest.json file (non exercises)
-
 class StartPointChecker
 
   def initialize(path)
@@ -21,13 +17,22 @@ class StartPointChecker
   def check
     # check setup.json is in root but do not add to manifests[]
     manifest = json_manifest(setup_filename)
-    check_setup_json_meets_its_spec(manifest) unless manifest.nil?
+    if manifest.nil?
+      return errors
+    end
+    check_setup_json_meets_its_spec(manifest)
+    if manifest['type'] == 'exercises'
+      check_at_least_one_instructions
+      return errors
+    end
+
     # json-parse all manifest.json files and add to manifests[]
     Dir.glob("#{@path}/**/manifest.json").each do |filename|
       manifest = json_manifest(filename)
       @manifests[filename] = manifest unless manifest.nil?
     end
     # check manifests
+    check_at_least_one_manifest
     check_all_manifests_have_a_unique_display_name
     @manifests.each do |filename, manifest|
       @manifest_filename = filename
@@ -60,6 +65,24 @@ class StartPointChecker
     unless ['languages','exercises','custom'].include? type
       setup_error 'must be [languages|exercises|custom]'
       return
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  def check_at_least_one_instructions
+    unless Dir.glob("#{@path}/**/instructions").count > 0
+      @errors[@path] ||= []
+      @errors[@path] << 'no instructions files'
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  def check_at_least_one_manifest
+    unless @manifests.size > 0
+      @errors[@path] ||= []
+      @errors[@path] << 'no manifest.json files'
     end
   end
 

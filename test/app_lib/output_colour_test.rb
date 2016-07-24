@@ -57,7 +57,8 @@ class OutputColourTest < AppLibTestBase
         lambda_yes_count += 1
       end
       ['red', 'amber', 'green'].each do |expected|
-      unit_test_framework = lookup(language.display_name)
+        unit_test_framework = lookup(language.display_name)
+        refute_nil unit_test_framework, "no lookup() for #{language.display_name}"
         path = "#{output_path}/#{unit_test_framework}/#{expected}"
         dir = disk[path]
         assert dir.exists?, "#{path} does not exist"
@@ -74,7 +75,7 @@ class OutputColourTest < AppLibTestBase
         end
       end
     end
-    assert_equal 59, lambda_yes_count
+    assert_equal 60, lambda_yes_count
     assert_equal 0, lambda_no_count
   end
 
