@@ -3,60 +3,30 @@
 
   <%= render partial: 'custom' %>
 
-  <table class="align-right" cellpadding="0" cellspacing="0">
-
-    <tr>
-      <td colspan="2">
-        <%= render partial: 'heading' %>
-      </td>
-    </tr>
-
-    <tr>
-      <td colspan="2">
-        <%= render partial: 'the_place_to_practice_programming' %>
-      </td>
-    </tr>
-
-    <tr>
-      <td rowspan="3">
-        <%= render partial: 'shared/avatar_grid_colour' %>
-      </td>
-      <td>
-        <%= render partial: 'setup_default_button' %>
-      </td>
-    </tr>
-
+  <table>
     <tr>
       <td>
-        <%= render partial: 'setup_custom_button' %>
+        <table>
+          <tr><td><img class="bray-pic" src="/images/Bray1.jpg"></td></tr>
+          <tr><td><img class="bray-pic" src="/images/Bray2.jpg"></td></tr>
+          <tr><td><img class="bray-pic" src="/images/Bray3.jpg"></td></tr>
+          <tr><td><img class="bray-pic" src="/images/Bray4.jpg"></td></tr>
+        </table>
+      </td>
+
+      <td><%= render partial: 'cyber_dojo' %></td>
+
+      <td>
+        <table>
+          <tr><td><img class="bray-pic" src="/images/Bray4.jpg"></td></tr>
+          <tr><td><img class="bray-pic" src="/images/Bray3.jpg"></td></tr>
+          <tr><td><img class="bray-pic" src="/images/Bray1.jpg"></td></tr>
+          <tr><td><img class="bray-pic" src="/images/Bray2.jpg"></td></tr>
+        </table>
       </td>
     </tr>
-
-    <tr>
-      <td>
-        <%= render partial: 'enter_button' %>
-      </td>
-    </tr>
-
-    <tr>
-      <td>
-        <%= render partial: 'licensing' %>
-      </td>
-      <td>
-        <%= render partial: 'donate' %>
-      </td>
-    </tr>
-
-    <tr>
-      <td>
-        <%= render partial: 'info' %>
-      </td>
-      <td>
-        <%= render partial: 'charity' %>
-      </td>
-    </tr>
-
   </table>
+
 </div>
 
 <%= render partial: 'shared/footer_short',
