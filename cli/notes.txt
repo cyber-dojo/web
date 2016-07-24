@@ -1,8 +1,4 @@
 
-cyber-dojo.rb check for incorrect arguments to sub-commands
-
-- - - - - - - - - - - - - - - - - - - - -
-
 start-point-checker.rb
   check for no instructions files
   check for no mainifest.json files

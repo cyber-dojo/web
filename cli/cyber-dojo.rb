@@ -247,7 +247,7 @@ def up
   unknown = ARGV[1..-1].select do |argv|
     knowns.none? { |known| argv.start_with?('--' + known + '=') }
   end
-  if unknown != []
+  unless unknown == []
     show help
     unknown.each { |arg| puts "FAILED: unknown argument [#{arg.split('=')[0]}]" }
     exit failed
@@ -337,8 +337,8 @@ end
 def start_point_create
   help = [
     '',
-    "Use: #{me} start-point create --name=NAME --git=URL",
-    "Use: #{me} start-point create --name=NAME --dir=PATH",
+    "Use: #{me} start-point create NAME --git=URL",
+    "Use: #{me} start-point create NAME --dir=PATH",
     '',
     'Creates a start-point named NAME from a git clone of URL',
     'Creates a start-point named NAME from a copy of PATH'
@@ -348,33 +348,38 @@ def start_point_create
     show help
     exit failed
   end
+  vol = ARGV[2]
   # unknown arguments?
-  knowns = ['name','git','dir']
-  unknown = ARGV[2..-1].select do |argv|
+  knowns = ['git','dir']
+  unknown = ARGV[3..-1].select do |argv|
     knowns.none? { |known| argv.start_with?('--' + known + '=') }
   end
-  if unknown != []
+  unless unknown == []
     show help
     unknown.each { |arg| puts "FAILED: unknown argument [#{arg.split('=')[0]}]" }
     exit failed
   end
   # required known arguments
-  args = ARGV[2..-1]
-  vol = get_arg('--name', args)
+  args = ARGV[3..-1]
   url = get_arg('--git', args)
   dir = get_arg('--dir', args)
   if vol.nil? || (url.nil? && dir.nil?)
     show help
     exit failed
   end
+  if url && dir
+    msg = 'Specify only one of --git/--dir'
+    puts "FAILED: [start-point create #{vol}] #{msg}"
+    exit failed
+  end
   if vol.length == 1
     msg = 'start-point names must be at least two characters long. See https://github.com/docker/docker/issues/20122'
-    puts "FAILED: [start-point create --name=#{vol}] #{msg}"
+    puts "FAILED: [start-point create #{vol}] #{msg}"
     exit failed
   end
   if volume_exists? vol
     msg = "#{vol} already exists"
-    puts "FAILED: [start-point create --name=#{vol}] #{msg}"
+    puts "FAILED: [start-point create #{vol}] #{msg}"
     exit failed
   end
   # cyber-dojo.sh does actual [start-point create]
@@ -383,7 +388,6 @@ end
 # - - - - - - - - - - - - - - -
 
 def exit_unless_is_cyber_dojo_volume(vol, command)
-  # TODO: when its implemented, use [volume ls --quiet] ?
   if !volume_exists? vol
     puts "FAILED: [start-point #{command} #{vol}] - #{vol} does not exist."
     exit failed
@@ -402,7 +406,7 @@ end
 def start_point_ls
   help = [
     '',
-    "Use: #{me} start-point ls",
+    "Use: #{me} start-point [OPTIONS] ls",
     '',
     'Lists the names of all cyber-dojo start-points',
     '',

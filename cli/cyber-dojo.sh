@@ -131,13 +131,12 @@ g_vol=''      # if this is not '' then clean_up [docker volume rm]'s the volume
 
 cyber_dojo_start_point_create() {
   # cyber-dojo.rb has already been called to check arguments and handle --help
+  local start_point=$1
+  shift
   for arg in $@
   do
     local name=$(echo ${arg} | cut -f1 -s -d=)
     local value=$(echo ${arg} | cut -f2 -s -d=)
-    if [ "${name}" = '--name' ]; then
-      local start_point=${value}
-    fi
     if [ "${name}" = '--git' ]; then
       local url=${value}
       start_point_create_git ${start_point} ${url}
@@ -161,10 +160,10 @@ start_point_create_git() {
   fi
   # 1. clone git repo to local folder
   command="git clone --depth=1 --branch=master ${url} ${g_tmp_dir}"
-  run "${command}" || (clean_up && exit_fail)
+  run "${command}" || clean_up_and_exit_fail "FAILED: git repo '${url}' does not exist"
   # 2. remove .git repo
   command="rm -rf ${g_tmp_dir}/.git"
-  run "${command}" || (clean_up && exit_fail)
+  run "${command}" || clean_up_and_exit_fail
   # 3. delegate
   start_point_create_dir "${start_point}" "${g_tmp_dir}" "${url}"
 }
@@ -182,12 +181,12 @@ start_point_create_dir() {
   fi
   # docker run --cid=cidfile requires that the cidfile does not already exist
   command="rm ${g_cidfile}"
-  run "${command}" || (clean_up && exit_fail)
+  run "${command}" || clean_up_and_exit_fail
 
   # 1. make an empty docker volume
   command="docker volume create --name=${start_point} --label=cyber-dojo-start-point=${src}"
-  run "${command}" || (clean_up && exit_fail)
-  g_vol=${vol}
+  run "${command}" || clean_up_and_exit_fail
+  g_vol=${start_point}
   # 2. mount empty volume inside docker container
   command="docker run
                --detach
@@ -197,18 +196,18 @@ start_point_create_dir() {
                --user=root
                --volume=${start_point}:/data
                ${CYBER_DOJO_WEB_SERVER} sh"
-  run "${command}" || (clean_up && exit_fail)
+  run "${command}" || clean_up_and_exit_fail
   g_cid=`cat ${g_cidfile}`
   # 3. fill empty volume from local dir
   # NB: [cp DIR/.] != [cp DIR];  DIR/. means copy the contents
   command="docker cp ${dir}/. ${g_cid}:/data"
-  run "${command}" || (clean_up && exit_fail)
+  run "${command}" || clean_up_and_exit_fail "FAILED: dir '${dir}' does not exist"
   # 4. ensure cyber-dojo user owns everything in the volume
   command="docker exec ${g_cid} sh -c 'chown -R cyber-dojo:cyber-dojo /data'"
-  run "${command}" || (clean_up && exit_fail)
+  run "${command}" || clean_up_and_exit_fail
   # 5. check the volume is a good start-point
   command="docker exec ${g_cid} sh -c 'cd /usr/src/cyber-dojo/cli && ./start_point_check.rb /data'"
-  run_loud "${command}" || (clean_up && exit_fail)
+  run_loud "${command}" || clean_up_and_exit_fail
   # clean up everything used to create the volume, but not the volume itself
   g_vol=''
   clean_up
@@ -244,6 +243,14 @@ run_loud() {
   else
     return 1
   fi
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+clean_up_and_exit_fail() {
+  echo $1
+  clean_up
+  exit_fail
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
