@@ -4,11 +4,10 @@
 $(function() {
 
   //---------------------------------------------------------------------
-  // The review page doubles, in one place, as a review dialog,
-  // from the kata/edit page traffic-light click handlers.
-  // Everywhere else review is its own page with its own URL.
-  // The [branch] button is available only from the review *page*.
-  // The [checkout] button is available only from the review *dialog*.
+  // This review page doubles as a review *dialog* from the kata/edit page
+  // traffic-light click handlers.
+  // Everywhere else review is its own *page* with its own URL.
+  // The [revert] button is available only from the review *dialog*.
   //---------------------------------------------------------------------
 
   cd.setReviewDialogData = function(id, avatar, wasTag, nowTag) {
@@ -454,11 +453,11 @@ $(function() {
   };
 
   //-----------------------------------------
-  // refresh [fork] {create a practice-session} (from page only)
+  // refresh [fork] {create a practice-session}
   //-----------------------------------------
 
   var refreshForkButton = function() {
-    var value = 'create a practice session from ' + param.avatar + ' ' + param.nowTag;
+    var value = 'create a new practice session from ' + param.avatar + ' ' + param.nowTag;
     $('#fork-button').text(value);
   };
 
@@ -497,7 +496,7 @@ $(function() {
   //-----------------------------------------
 
   var refreshRevertButton = function() {
-    var value = 'revert to ' + param.avatar + ' ' + param.nowTag;
+    var value = 'revert back to ' + param.avatar + ' ' + param.nowTag;
     $('#revert-button').text(value);
   };
 
@@ -555,12 +554,11 @@ $(function() {
 
   if (inDialog()) {
     setupButton('close',  function() { $('#review-dialog').dialog('close'); });
-    //TODO:fork from dialog will need to open home page in new tab
-    //setupButton('fork', function() { doFork(); });
+    setupButton('fork', function() { doFork(); });
     setupButton('revert', function() { doRevert(); });
   } else {
     reviewRefresh();
-    setupButton('fork',   function() { doFork(); });
+    setupButton('fork', function() { doFork(); });
   }
 
 });

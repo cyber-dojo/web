@@ -4,10 +4,6 @@ bail out of creating the kata.
 
 - - - - - - - - - - - - - - - - - - - - -
 
-diff-dialog from test page should have fork button.
-
-- - - - - - - - - - - - - - - - - - - - -
-
 new kata has been created dialog box, and here is its HEX-ID
   this could offer several buttons instead of just ok (which takes you back to home page)
     o) button to take you to home page

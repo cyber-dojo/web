@@ -7,7 +7,7 @@ var cyberDojo = (function(cd, $) {
 
     var goToHomePage = function() {
       var url = '/dojo/index/' + id;
-      window.location = url;
+      window.open(url);
     };
 
     var html = '' +
