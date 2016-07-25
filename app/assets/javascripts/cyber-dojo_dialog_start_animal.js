@@ -14,7 +14,7 @@ var cyberDojo = (function(cd, $) {
     $('<div class="dialog">')
       .html(dialogHtml)
       .dialog({
-        title: cd.dialogTitle('start'),
+        title: cd.dialogTitle('start coding'),
         autoOpen: true,
         width: 350,
         modal: true,
@@ -27,7 +27,7 @@ var cyberDojo = (function(cd, $) {
   cd.startAnimal = function(id, from) {
     $.getJSON('/enter/start', { id: id }, function(dojo) {
       if (dojo.full) {
-        cd.dialog(dojo.full_dialog_html, 'start', 'ok').dialog('open');
+        cd.dialog(dojo.full_dialog_html, 'start coding', 'ok').dialog('open');
       } else {
         startDialog(id, dojo.avatar_name, dojo.start_dialog_html, from);
       }

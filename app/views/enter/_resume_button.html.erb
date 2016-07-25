@@ -11,7 +11,7 @@ $(function() {
     button.css('cursor', 'wait');
     $.getJSON('/enter/continue', { id: id }, function(dojo) {
       button.css('cursor', cursor);
-      cd.continueDialog('continue', dojo.html);
+      cd.resumeDialog('resume coding', dojo.html);
     });
   });
 
@@ -20,5 +20,5 @@ $(function() {
 //--></script>
 
 <button type="button" id="resume-button">
-  resume a started animal
+  resume coding
 </button>

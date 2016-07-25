@@ -54,7 +54,7 @@ var cyberDojo = (function(cd, $) {
             gotoPage('/enter/show/' + id);
             removeDialog($(this));
           },
-          'start an animal': function() {
+          'start coding': function() {
             cd.startAnimal(id, from);
             removeDialog($(this));
           },
