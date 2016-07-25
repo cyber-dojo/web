@@ -9,8 +9,6 @@ var cyberDojo = (function(cd, $) {
     window.open(url);
   };
 
-  // Used on the enter page by the [continue], and also by the
-  //  [dashboard] and [review] buttons when the dojo is empty.
   cd.resumeDialog = function(title, dialogHtml) {
     var buttons = { };
     buttons['cancel'] = function() { $(this).dialog('close'); };
