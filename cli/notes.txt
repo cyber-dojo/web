@@ -8,22 +8,11 @@ Add display-name (major,minor) etc to footer on enter page.
 
 - - - - - - - - - - - - - - - - - - - - -
 
-new kata has been created dialog box, and here is its HEX-ID
-  this could offer several buttons instead of just ok (which takes you back to home page)
-    o) button to take you to home page
-    o) button to take you to enter page
-    o) button to immediately start an avatar
-       from revert this needs to leave originating page alone
-       from setup page this needs to put page back to home
-
-- - - - - - - - - - - - - - - - - - - - -
-
 setup page default-start-points
   on 1st step have 2 buttons
-    [choose exercise] [setup now]
-or
-  on 2nd step
-    [setup with no exercise] [setup now]
+    [choose exercise] [no exercise]
+  and no exercise goes straight to new-dojo-dialog
+  for a kata which has no instructions file.
 
 =========================================
 =========================================

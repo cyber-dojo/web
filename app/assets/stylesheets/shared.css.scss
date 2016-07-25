@@ -72,6 +72,33 @@ a:link, a:visited { color: $text-color; }
 
 //----------------------------------------------
 
+.dojo-id {
+  position: absolute;
+  left: 120px;
+  top: 30px;
+}
+
+.new-dojo-dialog-button {
+  width: 155px;
+  margin-left: 20px !important;
+
+  &.home-page {
+    position: absolute;
+    left: 120px;
+    top: 180px;
+  }
+  &.enter-page {
+    position: absolute;
+    left: 120px;
+    top: 230px;
+  }
+  &.start-coding {
+    position: absolute;
+    left: 120px;
+    top: 280px;
+  }
+}
+
 .avatar-background {
   @include center-align();
   background: url('/images/avatars/all_avatars_background.png') no-repeat;

@@ -15,19 +15,9 @@ var cyberDojo = (function(cd, $) {
       }
     };
 
-    var removeDialog = function(dialog) {
-      if (from == 'from_setup') {
-        dialog.remove();
-      }
-    };
-
     var html = '' +
       "<div class='align-center'>" +
-        "<div style='font-size:1.0em;'>" +
-          "it's id is" +
-        '</div>' +
         "<div class='avatar-background'>" +
-          "<span class='centerer'></span>" +
           "<span class='dojo-id'>" +
             id.substring(0,6) +
           '</span>' +
@@ -42,23 +32,26 @@ var cyberDojo = (function(cd, $) {
         modal: true,
         width: 435,
         closeOnEscape: true,
+        open: function() {
+          var pane = $('.ui-dialog-buttonpane');
+          pane.find('button:contains("goto home page")').addClass('new-dojo-dialog-button home-page');
+          pane.find('button:contains("goto enter page")').addClass('new-dojo-dialog-button enter-page');
+          pane.find('button:contains("start coding")').addClass('new-dojo-dialog-button start-coding');
+        },
         close: function() {
           $(this).remove();
         },
         buttons: {
           'goto home page': function() {
             gotoPage(cd.homePageUrl(id));
-            removeDialog($(this));
+            $(this).remove();
           },
           'goto enter page': function() {
             gotoPage('/enter/show/' + id);
-            removeDialog($(this));
+            $(this).remove();
           },
           'start coding': function() {
             cd.startAnimal(id, from);
-            removeDialog($(this));
-          },
-          'close': function() {
             $(this).remove();
           }
         }
