@@ -10,7 +10,7 @@ $(function() {
       exercise: $('[id^=exercises_name_][class~=selected]').data('name'),
     };
     $.getJSON('/setup_default_start_point/save', params, function(dojo) {
-      cd.newDojoDialog(dojo.id);
+      cd.newDojoDialog(dojo.id, 'from_setup');
     });
   });
 

@@ -4,11 +4,17 @@ bail out of creating the kata.
 
 - - - - - - - - - - - - - - - - - - - - -
 
+Add display-name (major,minor) etc to footer on enter page.
+
+- - - - - - - - - - - - - - - - - - - - -
+
 new kata has been created dialog box, and here is its HEX-ID
   this could offer several buttons instead of just ok (which takes you back to home page)
     o) button to take you to home page
     o) button to take you to enter page
     o) button to immediately start an avatar
+       from revert this needs to leave originating page alone
+       from setup page this needs to put page back to home
 
 - - - - - - - - - - - - - - - - - - - - -
 

@@ -469,7 +469,7 @@ $(function() {
     },
     function(data) {
       if (data.forked) {
-        cd.newDojoDialog(data.id);
+        cd.newDojoDialog(data.id, 'from_fork');
       } else {
         forkFailedDialog(data.reason);
       }

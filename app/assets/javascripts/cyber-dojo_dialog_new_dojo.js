@@ -3,11 +3,22 @@
 var cyberDojo = (function(cd, $) {
   "use strict";
 
-  cd.newDojoDialog = function(id) {
 
-    var goToHomePage = function() {
-      var url = '/dojo/index/' + id;
-      window.open(url);
+  cd.newDojoDialog = function(id, from) {
+
+    var gotoPage = function(url) {
+      if (from == 'from_setup') {
+        window.location = url;
+      }
+      if (from == 'from_fork') {
+        window.open(url);
+      }
+    };
+
+    var removeDialog = function(dialog) {
+      if (from == 'from_setup') {
+        dialog.remove();
+      }
     };
 
     var html = '' +
@@ -32,12 +43,22 @@ var cyberDojo = (function(cd, $) {
         width: 435,
         closeOnEscape: true,
         close: function() {
-          goToHomePage();
           $(this).remove();
         },
         buttons: {
-          'ok': function() {
-            goToHomePage(id);
+          'goto home page': function() {
+            gotoPage(cd.homePageUrl(id));
+            removeDialog($(this));
+          },
+          'goto enter page': function() {
+            gotoPage('/enter/show/' + id);
+            removeDialog($(this));
+          },
+          'start an animal': function() {
+            cd.startAnimal(id, from);
+            removeDialog($(this));
+          },
+          'close': function() {
             $(this).remove();
           }
         }

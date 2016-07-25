@@ -5,7 +5,7 @@ $(function() {
 
   var createDojo = function() {
     $.getJSON('/setup_custom_start_point/save', cd.chosenMajorMinor(), function(dojo) {
-      cd.newDojoDialog(dojo.id);
+      cd.newDojoDialog(dojo.id, 'from_setup');
     });
   };
 
