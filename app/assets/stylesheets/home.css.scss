@@ -1,13 +1,13 @@
 
 #home-page {
 
-  margin-left: 85px;
+  margin-left: 100px;
 
   .kids-pic {
     width: 130px;
     height: 90px;
     margin-top: 5px;
-    margin-left: 45px;
+    margin-left: 32px;
     margin-right: 30px;
     border: 3px solid lighten($text-color, 5%);
     @include rounded-corner();
@@ -17,7 +17,7 @@
     @include plaintext-font();
     @include font-size-tiny();
     padding: 10px;
-    margin: { left: 45px; top: 6px; }
+    margin: { left: 32px; top: 6px; }
     width: 114px;
   }
 
