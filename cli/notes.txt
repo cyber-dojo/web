@@ -34,7 +34,9 @@ for itself. The output 'file' should only be in the manifest.
 differ is a good candidate for separating out into its own service.
 it can received two json strings contains the visible_files of the
 was_tag and the now_tag. It can return a json string of the diff
-(but not html-ified).
+(but not html-ified). web service would link to differ service
+and web service would need to use ENV-vars to find its IP address etc
+CYBER_DOJO_DIFFER_PORT='tcp://172.17.0.3:3000'
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -53,7 +55,7 @@ Move runners from lib/code to app/lib/code
 - - - - - - - - - - - - - - - - - - - - -
 
 for tests I have to put red_amber_green lambdas (such as bash_unit)
-into the output.colour_of
+into the output.colour_of. Can this dependency be broken?
 
 - - - - - - - - - - - - - - - - - - - - -
 
