@@ -27,7 +27,7 @@ var cyberDojo = (function(cd, $) {
     $('<div>')
       .html(html)
       .dialog({
-        title: cd.dialogTitle('new&nbsp;practice&nbsp;session&nbsp;created'),
+        title: cd.dialogTitle('new&nbsp;practice&nbsp;session&nbsp;set&nbsp;up'),
         autoOpen: true,
         modal: true,
         width: 435,
