@@ -1,14 +1,24 @@
 
 #home-page {
 
-  margin: { top: 2px; left: 85px; }
+  margin-left: 85px;
 
-  .bray-pic {
-    width: 180px;
+  .kids-pic {
+    width: 130px;
+    height: 90px;
     margin-top: 5px;
-    margin-left: 15px;
+    margin-left: 45px;
+    margin-right: 30px;
     border: 3px solid lighten($text-color, 5%);
     @include rounded-corner();
+  }
+  .bought-pies {
+    @include edged-panel();
+    @include plaintext-font();
+    @include font-size-tiny();
+    padding: 10px;
+    margin: { left: 45px; top: 6px; }
+    width: 114px;
   }
 
   #cyber-dojo {
@@ -70,38 +80,38 @@
     @include plaintext-font();
     @include edged-panel();
           width: 368px;
-          height: 60px;
+          height: 80px;
           padding: { right: 15px; }
          margin: { top: 4px; left: 15px; bottom: 4px; }
      text-align: right;
-      font-size: 0.8em;
+      font-size: 1.0em;
   }
 
   #licensing-container,
   #info-container {
     @include plaintext-font();
     @include edged-panel();
-          width: 200px;
-          height: 60px;
-          padding: { left: 15px; right: 15px; }
-         margin: { top: 4px; left: 15px; bottom: 4px; }
-     text-align: right;
+          width: 230px;
+          height: 80px;
+          padding: { left: 0px; right: 0px; }
+         margin: { top: 4px; left: 0px; right: 0px; bottom: 4px; }
+     text-align: left;
       font-size: 0.8em;
   }
 
   #donate-container #donate-button,
   #charity-container #charity-button {
-          width: 120px;
+          width: 140px;
          margin: { right: 0px; top: 5px; bottom: 5px; }
-        padding: 6px;
+        padding: 10px;
      text-align: center;
-      font-size: 1.60em;
+      font-size: 1.70em;
     line-height: 95%;
   }
 
-  #donate-container {
+  #xdonate-container {
       font-size: 1.02em;
-    #donate-button {
+    #xdonate-button {
       font-size: 1.8em;
       margin: { right: 0px; top: 3px; bottom: 3px; }
       padding: 4px;
