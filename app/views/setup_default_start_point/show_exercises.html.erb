@@ -16,12 +16,12 @@ create&nbsp;a&nbsp;new&nbsp;practice&nbsp;session&nbsp;from&nbsp;a&nbsp;<em>defa
         <table>
           <tr id="exercises-container">
             <td>
+              <%= render partial: 'exercises_contents' %>
+            </td>
+            <td>
               <div class="title">exercise?</div>
               <hr/>
               <%= render partial: 'exercises_names' %>
-            </td>
-            <td>
-              <%= render partial: 'exercises_contents' %>
             </td>
           </tr>
         </table>
