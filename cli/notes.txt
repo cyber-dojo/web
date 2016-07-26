@@ -31,6 +31,13 @@ for itself. The output 'file' should only be in the manifest.
 
 - - - - - - - - - - - - - - - - - - - - -
 
+differ is a good candidate for separating out into its own service.
+it can received two json strings contains the visible_files of the
+was_tag and the now_tag. It can return a json string of the diff
+(but not html-ified).
+
+- - - - - - - - - - - - - - - - - - - - -
+
 change output of [./cyber-dojo start-point ls] from relative paths to absolute paths
 viz from
   NAME        TYPE        SRC
