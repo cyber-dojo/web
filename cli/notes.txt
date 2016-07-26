@@ -23,6 +23,15 @@ was_tag and the now_tag. It can return a json string of the diff
 (but not html-ified). web service would link to differ service
 and web service would need to use ENV-vars to find its IP address etc
 CYBER_DOJO_DIFFER_PORT='tcp://172.17.0.3:3000'
+See https://github.com/sashaegorov/docker-alpine-sinatra
+It seems like this would mean the katas (saver) does not need git, and
+you could save each incoming set of visible files into a new (tag) folder.
+This is not so, assuming you want to allow incremental makes (for example).
+There needs to be *one* katas folder per animal and it needs to retain date-time
+stamps and be tar-piped to/from the runner's container.
+There could *also* be a git'ed repo per animal containing only
+o) an increments.json file (for traffic-light colours)
+o) a visible_files.json file
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -79,20 +88,8 @@ Put Alpine based small images into cyberdojo repo.
 
 - - - - - - - - - - - - - - - - - - - - -
 
-Debug logging seems to show clean_up (in cyber-dojo.sh) being called twice...
-Is this because (clean_up && exit_fail) is in () and so is a sub-shell?
-
-- - - - - - - - - - - - - - - - - - - - -
-
 git 2.9+ has new  `--compaction-heuristic`
 for improved diffs. Try to get this in place.
-
-- - - - - - - - - - - - - - - - - - - - -
-
-test/app_lib/start_points/languages
-test/app_lib/start_points/exercises
-test/app_lib/start_points/custom
-These should all have the data-checker run against them as part of the tests.
 
 - - - - - - - - - - - - - - - - - - - - -
 
