@@ -1,0 +1,30 @@
+
+<script type="text/javascript"><!--
+
+$(function() {
+
+  var createIt = function() {
+    var params = {
+         major: cd.chosenMajor(),
+         minor: cd.chosenMinor()
+    };
+    $.getJSON('/setup_default_start_point/save_no_exercise', params, function(dojo) {
+      cd.newDojoDialog(dojo.id, 'from_setup');
+    });
+  };
+
+  $('#no-exercise').click(function() {
+    $.getJSON('/setup_default_start_point/pull_needed', cd.chosenMajorMinor(), function(dojo) {
+      if (dojo.pull_needed) {
+        cd.dialog_pullImageThen('/setup_default_start_point/pull', createIt);
+      } else {
+        createIt();
+      }
+    });
+  });
+
+});
+
+//--></script>
+
+<button type="button" id="no-exercise">no exercise</button>

@@ -52,7 +52,7 @@
       }
     }
   }
-  #ok, #next {
+  #create-it, #choose-exercise, #no-exercise {
     @include non-code-font();
     @include font-size-large();
     margin: { top: 5px; }

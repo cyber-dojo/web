@@ -3,7 +3,7 @@ class SetupDefaultStartPointController < ApplicationController
 
   # Regular two step setup
   # step 1. languages+test in column 1,2   (eg Java+JUnit)
-  # step 2. instructions                   (eg Fizz_Buzz)
+  # step 2. exercise                       (eg Fizz_Buzz)
 
   def show_languages
     @id = id
@@ -21,6 +21,12 @@ class SetupDefaultStartPointController < ApplicationController
   def pull
     dojo.runner.pull(language.image_name)
     render json: { }
+  end
+
+  def save_no_exercise
+    manifest = katas.create_kata_manifest(language)
+    kata = katas.create_kata_from_kata_manifest(manifest)
+    render json: { id: kata.id }
   end
 
   def show_exercises

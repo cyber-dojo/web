@@ -11,7 +11,7 @@ $(function() {
     window.location = url;
   };
 
-  $('#next').click(function() {
+  $('#choose-exercise').click(function() {
     $.getJSON('/setup_default_start_point/pull_needed', cd.chosenMajorMinor(), function(dojo) {
         if (dojo.pull_needed) {
           cd.dialog_pullImageThen('/setup_default_start_point/pull', gotoChooseExercisesPage);
@@ -25,4 +25,4 @@ $(function() {
 
 //--></script>
 
-<button type="button" id="next">choose exercise</button>
+<button type="button" id="choose-exercise">choose exercise</button>

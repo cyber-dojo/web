@@ -21,8 +21,23 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
+  test '4CD472',
+  'save (no exercise) creates a new kata with language+test but no exercise' do
+    params = {
+      major: 'C#',
+      minor: 'Moq'
+    }
+    do_get 'save_no_exercise', params
+    kata = katas[json['id']]
+    assert_equal 'C#-Moq', kata.language
+    assert_nil kata.exercise
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
   test '406596',
   'pull_needed is true if docker image is not pulled' do
+    # AppControllerTestBase sets StubRunner
     do_get 'pull_needed', major_minor_js('C#', 'Moq')
     assert json['pull_needed']
   end
@@ -31,6 +46,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   test 'B28A3D',
   'pull_needed is false if docker image is pulled' do
+    # AppControllerTestBase sets StubRunner
     do_get 'pull_needed', major_minor_js('C#', 'NUnit')
     refute json['pull_needed']
   end
@@ -57,6 +73,21 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     assert /data-name\=\"#{print_diamond}/.match(html),  print_diamond
     assert /data-name\=\"#{roman_numerals}/.match(html), roman_numerals
     assert /data-name\=\"#{bowling_game}/.match(html),   bowling_game
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  test '7433D8',
+  'save creates a new kata with language+test and exercise' do
+    params = {
+         major: 'C#',
+         minor: 'Moq',
+      exercise: print_diamond
+    }
+    do_get 'save', params
+    kata = katas[json['id']]
+    assert_equal 'C#-Moq', kata.language
+    assert_equal 'Print_Diamond', kata.exercise
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
