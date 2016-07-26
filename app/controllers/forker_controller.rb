@@ -44,7 +44,12 @@ class ForkerController < ApplicationController
       else
         # after
         lambda_src = kata.red_amber_green(nil)
-        manifest[:red_amber_green] = lambda_src
+        manifest[:red_amber_green    ] = lambda_src
+        manifest[:display_name       ] = kata.display_name
+        manifest[:filename_extension ] = kata.filename_extension
+        manifest[:progress_regexs    ] = kata.progress_regexs
+        manifest[:highlight_filenames] = kata.highlight_filenames
+        manifest[:lowlight_filenames ] = kata.lowlight_filenames
       end
 
       forked_kata = katas.create_kata_from_kata_manifest(manifest)

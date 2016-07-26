@@ -157,7 +157,7 @@ class HostDiskKatas
     dir(avatar.sandbox).write('output', output)
     files['output'] = output
     write_avatar_manifest(avatar, files)
-    # update the increments Red/Amber/Green
+    # update the Red/Amber/Green increments
     rags = avatar_increments(avatar)
     tag = rags.length + 1
     rags << { 'colour' => colour, 'time' => now, 'number' => tag }

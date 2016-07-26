@@ -41,11 +41,15 @@ class Kata
     Time.mktime(*manifest_property)
   end
 
+  # - - - - - - - - - - - - -
+
   def visible_files
     manifest_property
   end
 
   def unit_test_framework
+    # not stored in manifest after start-point volume re-architecture
+    # which replaced it with red_amber_green lambda
     manifest_property
   end
 
@@ -60,6 +64,8 @@ class Kata
   def language
     manifest_property
   end
+
+  # - - - - - - - - - - - - -
 
   def image_name
     full_manifest_property
@@ -92,6 +98,7 @@ class Kata
     # before or after start-points re-architecture?
     src = manifest['red_amber_green']
     if output.nil?
+      # so lambda src can be saved when forking
       return src
     end
     if src.nil? # before
@@ -108,22 +115,17 @@ class Kata
   include ManifestProperty
 
   def full_manifest_property
-    # Not stored in the kata's manifest until the
-    # start-points volume re-architecture (July 2016)
+    # A kata's manifest should store everything it needs so it never has
+    # to go back to its originating language+test manifest (decoupling).
+    # Katas created after the start-point volume re-architecture do that :-)
+    # Katas created before the start-point volume re-architecture don't :-(
+    # For katas before I attempt to navigate back to the originating language+test.
     property_name = name_of(caller)
     manifest[property_name] || start_point.send(property_name)
   end
 
   def start_point
-    # A kata's manifest should store everything it needs so it
-    # never has to go back to its originating language+test manifest.
-    # e,g, the image_name and a red_amber_green parse lambda.
-    # katas created after the start-point volume re-architecture do that :-)
-    # katas created before the start-point volume re-architecture don't :-(
-    # So for katas before I attempt to navigate back to the originating
-    # language+test. Note that this affects forking too.
     name = manifest['language']
-    # There are now two start-points origins...
     languages[name] || custom[name]
   end
 
