@@ -25,6 +25,12 @@ http://xunit.github.io/
 
 - - - - - - - - - - - - - - - - - - - - -
 
+an output file is actually stored in the sandbox of an avatar.
+this is not right. it means the avatar cant create an output file
+for itself. The output 'file' should only be in the manifest.
+
+- - - - - - - - - - - - - - - - - - - - -
+
 change output of [./cyber-dojo start-point ls] from relative paths to absolute paths
 viz from
   NAME        TYPE        SRC
@@ -233,3 +239,4 @@ un-hardwire setting of 2 core env-vars in cyber-dojo script.
 instructions refactored to be manifest'ed
   use disk[path].each_rdir('instructions') in its make_cache()
   Only instructions file would be shown on 2nd setup page.
+
