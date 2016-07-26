@@ -68,8 +68,8 @@
   #info-container {
     @include plaintext-font();
         height: 365px;
-         width: 400px;
-       padding: { left: 100px; }
+         width: 300px;
+       padding: { left: 159px; top: 50px; }
     text-align: right;
   }
 }
