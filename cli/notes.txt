@@ -1,10 +1,25 @@
 
-if [docker pull] command on new setup pages fails then I need to
-bail out of creating the kata.
+Check I can resume and fork from a kata even if the start-point no
+longer exists. I think at the moment it will fail because of, for
+example, display_name (which is used by shared/_footer_long.html.erb)
 
 - - - - - - - - - - - - - - - - - - - - -
 
-Add display-name (major,minor) etc to footer on enter page.
+all kata methods such as
+  def display_name
+    start_point.display_name
+  end
+refactor to
+  def display_name
+    manifest_property || start_point.display_name
+  end
+and store it in the kata's manifest. Break the dependency to
+the start-point.
+
+- - - - - - - - - - - - - - - - - - - - -
+
+if [docker pull] command on new setup pages fails then I need to
+bail out of creating the kata.
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -30,6 +45,15 @@ http://xunit.github.io/
 - - - - - - - - - - - - - - - - - - - - -
 
 Move runners from lib/code to app/lib/code
+
+- - - - - - - - - - - - - - - - - - - - -
+
+for tests I have to put red_amber_green lambdas (such as bash_unit)
+into the output.colour_of
+
+- - - - - - - - - - - - - - - - - - - - -
+
+Add display-name (major,minor) etc to footer on enter page?
 
 - - - - - - - - - - - - - - - - - - - - -
 

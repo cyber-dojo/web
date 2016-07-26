@@ -56,6 +56,11 @@ class HostDiskKatas
                        id: id,
                   created: now,
                image_name: start_point.image_name,
+             display_name: start_point.display_name,
+       filename_extension: start_point.filename_extension,
+          progress_regexs: start_point.progress_regexs,
+      highlight_filenames: start_point.highlight_filenames,
+       lowlight_filenames: start_point.lowlight_filenames,
           red_amber_green: start_point.red_amber_green,
                  language: start_point.name,
                  tab_size: start_point.tab_size
@@ -285,16 +290,22 @@ end
 # - - - - - - - - - - - - - - - - - - - - - - - -
 # An alternative implementation could save the manifest containing
 # the visible files for each test to a database. Then, to get a
-# git diff it could
+# git diff it could do something like this...
+#
 #    o) create a temporary git repository
-#    o) save the files from was_tag to it
+#    o) get the visible_files for was_tag
+#    o) save the visible_files in the git repo
 #    o) git tag and git commit
-#    o) save the files from now_tag to it
+#    o) get the visible_files from now_tag
+#    o) calculate the [was_tag,now_tag] delta between the visible_files
+#    o) delete any deleted files from the git repo
+#    o) save the visible_files int the git repo
 #    o) git tag and git commit
 #    o) do a git diff
 #    o) delete the temporary git repository
+#
 # There is probably a library to do this in ram bypassing
 # the need for a file-system completely.
-# This would make creation of the tar file for
+# Note: This would make creation of the tar file for
 # a whole cyber-dojo potentially very slow.
 # - - - - - - - - - - - - - - - - - - - - - - - -

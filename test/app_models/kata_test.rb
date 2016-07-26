@@ -242,13 +242,14 @@ class KataTest < AppModelsTestBase
 
   test 'E391FE',
   'after start-points volume re-architecture, initial colour is red/amber/green' +
-  'determined by lambda held in kata manifest' do
+  ' determined by lambda held in kata manifest' do
     hash = {
       language: 'C#-Moq',
       exercise: 'Fizz_Buzz',
     }
     kata = make_kata(hash)
-    manifest = IO.read(katas.path_of(kata) + '/manifest.json')
+    filename = katas.path_of(kata) + '/manifest.json'
+    manifest = IO.read(filename)
     json = JSON.parse(manifest)
     refute_nil json['red_amber_green']
     assert_equal 'red'  , kata.red_amber_green('Errors and Failures:'), :red
@@ -259,7 +260,8 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '5177CC',
-  'before start-points volume re-architecture, initial colour is red/amber/green' do
+  'before start-points volume re-architecture, initial colour is red/amber/green' +
+  ' determined by OutputColour.of()' do
     hash = {
       language: 'C#-Moq',
       exercise: 'Fizz_Buzz',
@@ -270,9 +272,40 @@ class KataTest < AppModelsTestBase
     json.delete('red_amber_green')
     json['unit_test_framework'] = 'nunit'
     IO.write(filename, JSON.unparse(json))
+    assert_nil kata.red_amber_green(nil)
     assert_equal 'red'  , kata.red_amber_green('Errors and Failures:'), :red
     assert_equal 'amber', kata.red_amber_green('sdfsdfsdf'), :amber
     assert_equal 'green', kata.red_amber_green('Tests run: 3, Errors: 0, Failures: 0'), :green
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'B80712',
+  'when the start_point the kata was created from is no longer loaded' +
+  " the kata's properties are all still available" do
+    hash = {
+      language: 'C#-Moq',
+      exercise: 'Fizz_Buzz',
+    }
+    kata = make_kata(hash)
+    refute_nil kata
+    filename = katas.path_of(kata) + '/manifest.json'
+
+    property_names = %w(
+      display_name
+      image_name
+      filename_extension
+      progress_regexs
+      highlight_filenames
+      lowlight_filenames
+    )
+
+    json = JSON.parse(IO.read(filename))
+    property_names.each { |property_name| json.delete(property_name) }
+    IO.write(filename, JSON.unparse(json))
+
+    property_names.each { |property_name| refute_nil kata.send(property_name) }
+    assert_equal 'C#, Moq', kata.display_name
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

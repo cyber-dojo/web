@@ -62,29 +62,27 @@ class Kata
   end
 
   def image_name
-    # Not stored in the kata's manifest until the
-    # start-points volume re-architecture (July 2016)
-    manifest_property || start_point.image_name
+    full_manifest_property
   end
 
   def display_name
-    start_point.display_name
+    full_manifest_property
   end
 
   def filename_extension
-    start_point.filename_extension
+    full_manifest_property
   end
 
   def progress_regexs
-    start_point.progress_regexs
+    full_manifest_property
   end
 
   def highlight_filenames
-    start_point.highlight_filenames
+    full_manifest_property
   end
 
   def lowlight_filenames
-    start_point.lowlight_filenames
+    full_manifest_property
   end
 
   def red_amber_green(output)
@@ -99,8 +97,8 @@ class Kata
     if src.nil? # before
       OutputColour.of(unit_test_framework, output)
     else # after
-      red_amber_green = eval(src.join("\n"))
-      red_amber_green.call(output).to_s
+      colour = eval(src.join("\n"))
+      colour.call(output).to_s
     end
   end
 
@@ -109,8 +107,11 @@ class Kata
   include ExternalParentChainer
   include ManifestProperty
 
-  def earliest_light
-    Time.mktime(*avatars.active.map { |avatar| avatar.lights[0].time }.sort[0])
+  def full_manifest_property
+    # Not stored in the kata's manifest until the
+    # start-points volume re-architecture (July 2016)
+    property_name = name_of(caller)
+    manifest[property_name] || start_point.send(property_name)
   end
 
   def start_point
@@ -118,7 +119,7 @@ class Kata
     # never has to go back to its originating language+test manifest.
     # e,g, the image_name and a red_amber_green parse lambda.
     # katas created after the start-point volume re-architecture do that :-)
-    # katas created before the start-point volume re-architecture don't :-()
+    # katas created before the start-point volume re-architecture don't :-(
     # So for katas before I attempt to navigate back to the originating
     # language+test. Note that this affects forking too.
     name = manifest['language']
@@ -128,6 +129,10 @@ class Kata
 
   def manifest
     @manifest ||= katas.kata_manifest(self)
+  end
+
+  def earliest_light
+    Time.mktime(*avatars.active.map { |avatar| avatar.lights[0].time }.sort[0])
   end
 
 end
