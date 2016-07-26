@@ -16,6 +16,18 @@
   #start-points-major-container, #start-points-minor-container, #exercises-container {
     @include edged-panel();
     padding: 10px !important;
+    .title {
+      @include font-size-medium();
+      color: lighten($darker-color, 30%);
+      text-align: right;
+      padding-right: 10px;
+      font-weight: bold;
+    }
+    hr {
+      border: 0;
+      border-bottom: 1px dotted gray;
+      background: black;
+    }
   }
 
   #languages-list, #tests-list, #exercises-list {
@@ -85,7 +97,7 @@
            color: $lighter-color;
       background: lighten($darker-color, 5%);
           border: none;
-          height: 370px;
+          height: 420px;
           margin: { left: 0px; }
       overflow-y: scroll;
          outline: none;
