@@ -1,23 +1,4 @@
 
-Check I can resume and fork from a kata even if the start-point no
-longer exists. I think at the moment it will fail because of, for
-example, display_name (which is used by shared/_footer_long.html.erb)
-
-- - - - - - - - - - - - - - - - - - - - -
-
-all kata methods such as
-  def display_name
-    start_point.display_name
-  end
-refactor to
-  def display_name
-    manifest_property || start_point.display_name
-  end
-and store it in the kata's manifest. Break the dependency to
-the start-point.
-
-- - - - - - - - - - - - - - - - - - - - -
-
 if [docker pull] command on new setup pages fails then I need to
 bail out of creating the kata.
 
@@ -41,6 +22,16 @@ so all kata's methods look at least like image_name, viz
 
 Add C# XUnit test framework.
 http://xunit.github.io/
+
+- - - - - - - - - - - - - - - - - - - - -
+
+change output of [./cyber-dojo start-point ls] from relative paths to absolute paths
+viz from
+  NAME        TYPE        SRC
+  custom      custom      ./../../start-points-custom
+to
+  NAME        TYPE        SRC
+  custom      custom      /Users/jonjagger/repos/start-points-custom
 
 - - - - - - - - - - - - - - - - - - - - -
 
