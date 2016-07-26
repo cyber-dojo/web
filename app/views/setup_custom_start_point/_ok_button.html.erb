@@ -10,8 +10,8 @@ $(function() {
   };
 
   $('#create-it').click(function() {
-    $.getJSON('/setup_custom_start_point/pull_needed', cd.chosenMajorMinor(), function(dojo) {
-      if (dojo.pull_needed) {
+    $.getJSON('/setup_custom_start_point/pull_needed', cd.chosenMajorMinor(), function(pull) {
+      if (pull.needed) {
         cd.dialog_pullImageThen('/setup_custom_start_point/pull', createDojo);
       } else {
         createDojo();

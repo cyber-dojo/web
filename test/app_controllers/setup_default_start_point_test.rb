@@ -36,25 +36,25 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test '406596',
-  'pull_needed is true if docker image is not pulled' do
+  'pull.needed is true if docker image is not pulled' do
     # AppControllerTestBase sets StubRunner
     do_get 'pull_needed', major_minor_js('C#', 'Moq')
-    assert json['pull_needed']
+    assert json['needed']
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test 'B28A3D',
-  'pull_needed is false if docker image is pulled' do
+  'pull.needed is false if docker image is pulled' do
     # AppControllerTestBase sets StubRunner
     do_get 'pull_needed', major_minor_js('C#', 'NUnit')
-    refute json['pull_needed']
+    refute json['needed']
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test '0A8080',
-  'pull issues docker-pull command for appropriate image_name' do
+  'pull issues docker-pull image_name command and returns succeeded=true if pull succeeds' do
     setup_mock_shell
     shell.mock_exec(
       ['docker pull cyberdojofoundation/csharp_nunit'],
@@ -62,6 +62,22 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
       exit_success
     )
     do_get 'pull', major_minor_js('C#', 'NUnit')
+    assert json['succeeded']
+    shell.teardown
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  test '4DB3FD',
+  'pull issues docker-pull image_name command and returns succeeded=false if pull fails' do
+    setup_mock_shell
+    shell.mock_exec(
+      ['docker pull cyberdojofoundation/csharp_nunit'],
+      any_output='456ersfdg',
+      exit_failure=34
+    )
+    do_get 'pull', major_minor_js('C#', 'NUnit')
+    refute json['succeeded']
     shell.teardown
   end
 

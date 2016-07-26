@@ -3,18 +3,44 @@
 var cyberDojo = (function(cd, $) {
   "use strict";
 
-  cd.dialog_pullImageThen = function(route, f) {
+  var makePullFailedDialog = function() {
+    var html = '' +
+      'Sorry... pulling the docker image to the server failed.<br/>' +
+      'Please check the logs<br/>';
+    return $('<div>')
+      .html(html)
+      .dialog({
+        title: cd.dialogTitle('setup a new practice session'),
+        closeOnEscape: true,
+        close: function() { $(this).remove(); },
+        autoOpen: false,
+        buttons: {
+          'close': function() {
+            $(this).remove();
+          }
+        },
+        width: 550,
+        height: 210,
+        modal: true,
+      });
+  };
+
+  cd.dialog_pullImageThen = function(route, fn) {
     var pullDialog = makePullDialog();
     var pullOverlay = $('<div id="pull-overlay"></div>');
     var pullSpinner = $('#pull-spinner');
     pullDialog.dialog('open');
     pullOverlay.insertAfter($('body'));
     pullSpinner.show();
-    $.getJSON(route, cd.chosenMajorMinor(), function() {
+    $.getJSON(route, cd.chosenMajorMinor(), function(pull) {
       pullSpinner.hide();
       pullOverlay.remove();
       pullDialog.dialog('close');
-      f();
+      if (pull.succeeded) {
+        fn();
+      } else {
+        makePullFailedDialog().dialog('open');
+      }
     });
   };
 
@@ -39,8 +65,8 @@ var cyberDojo = (function(cd, $) {
       '&nbsp;&nbsp;&nbsp;&rarr;&nbsp;' + cd.chosenMajor() + '<br/>' +
       '&nbsp;&nbsp;&nbsp;&rarr;&nbsp;' + cd.chosenMinor() + '<br/>' +
       "It's docker image is now being pulled onto the server.<br/>" +
-      'It will take a minute or two.<br/>' +
-      'Please wait.';
+      'It may take a minute or two.<br/>' +
+      'Please wait...';
     return $('<div>')
       .html(html)
       .dialog({

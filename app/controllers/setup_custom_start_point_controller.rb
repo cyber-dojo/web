@@ -12,12 +12,12 @@ class SetupCustomStartPointController < ApplicationController
   end
 
   def pull_needed
-    render json: { pull_needed: !dojo.runner.pulled?(custom.image_name) }
+    render json: { needed: !dojo.runner.pulled?(custom.image_name) }
   end
 
   def pull
-    dojo.runner.pull(custom.image_name)
-    render json: { }
+    _output, exit_status = dojo.runner.pull(custom.image_name)
+    render json: { succeeded: exit_status == 0 }
   end
 
   def save

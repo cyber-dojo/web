@@ -37,9 +37,9 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test '294C10',
-  'pull_needed is true if docker image is not pulled' do
+  'pull.needed is true if docker image is not pulled' do
     do_get 'pull_needed', major_minor_js('Tennis refactoring', 'Python unitttest')
-    assert json['pull_needed']
+    assert json['needed']
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -47,13 +47,13 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
   test '9D3E9A',
   'pull_needed is false if docker image is pulled' do
     do_get 'pull_needed', major_minor_js('Tennis refactoring', 'C# NUnit')
-    refute json['pull_needed']
+    refute json['needed']
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test '4694A0',
-  'pull issues docker-pull command for appropriate image_name' do
+  'pull issues docker-pull image_name command and returns succeeded=true if pull succeeds' do
     setup_mock_shell
     shell.mock_exec(
       ['docker pull cyberdojofoundation/python_unittest'],
@@ -61,6 +61,22 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
       exit_success
     )
     do_get 'pull', major_minor_js('Tennis refactoring', 'Python unitttest')
+    assert json['succeeded']
+    shell.teardown
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  test '05C5E7',
+  'pull issues docker-pull image_name command and returns succeeded=false if pull fails' do
+    setup_mock_shell
+    shell.mock_exec(
+      ['docker pull cyberdojofoundation/python_unittest'],
+      any_output='sdfsdfsdf',
+      exit_failure=34
+    )
+    do_get 'pull', major_minor_js('Tennis refactoring', 'Python unitttest')
+    refute json['succeeded']
     shell.teardown
   end
 

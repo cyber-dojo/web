@@ -1,18 +1,4 @@
 
-if [docker pull] command on new setup pages fails then I need to
-bail out of creating the kata.
-
-- - - - - - - - - - - - - - - - - - - - -
-
-setup page default-start-points
-  on 1st step have 2 buttons
-    [choose exercise] [no exercise]
-  and no exercise goes straight to new-dojo-dialog
-  for a kata which has no instructions file.
-
-=========================================
-=========================================
-
 When creating a kata (host_disk_katas.rb)
 save language manifest properties into katas manifest
 so all kata's methods look at least like image_name, viz
