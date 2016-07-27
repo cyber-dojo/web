@@ -8,10 +8,10 @@ var cyberDojo = (function(cd, $) {
 
     var gotoPage = function(url) {
       if (from == 'from_setup') {
-        window.location = url;
+        window.location = url; // same tab
       }
       if (from == 'from_fork') {
-        window.open(url);
+        window.open(url); // new tab
       }
     };
 
@@ -34,7 +34,6 @@ var cyberDojo = (function(cd, $) {
         closeOnEscape: true,
         open: function() {
           var pane = $('.ui-dialog-buttonpane');
-          pane.find('button:contains("goto home page")').addClass('new-dojo-dialog-button home-page');
           pane.find('button:contains("goto enter page")').addClass('new-dojo-dialog-button enter-page');
           pane.find('button:contains("start coding")').addClass('new-dojo-dialog-button start-coding');
         },
@@ -42,10 +41,6 @@ var cyberDojo = (function(cd, $) {
           $(this).remove();
         },
         buttons: {
-          'goto home page': function() {
-            gotoPage(cd.homePageUrl(id));
-            $(this).remove();
-          },
           'goto enter page': function() {
             gotoPage('/enter/show/' + id);
             $(this).remove();

@@ -1,6 +1,6 @@
 
-Drop goto-home page button from new-dojo dialog.
-goto enter page is enough.
+
+Check if docker-pull is needed when forking.
 
 - - - - - - - - - - - - - - - - - - - - -
 
