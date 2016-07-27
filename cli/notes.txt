@@ -1,8 +1,6 @@
 
-When creating a kata (host_disk_katas.rb)
-save language manifest properties into katas manifest
-so all kata's methods look at least like image_name, viz
-  manifest_property || start_point.NAME
+Drop goto-home page button from new-dojo dialog.
+goto enter page is enough.
 
 - - - - - - - - - - - - - - - - - - - - -
 
