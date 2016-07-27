@@ -38,6 +38,7 @@ o) hold one folder per tag storing visible_files.json for that tag
 
 git 2.9+ has new  `--compaction-heuristic`
 for improved diffs. Try to get this in place.
+(git version in web image is 2.8.3)
 
 - - - - - - - - - - - - - - - - - - - - -
 
