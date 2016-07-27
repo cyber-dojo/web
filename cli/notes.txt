@@ -24,14 +24,28 @@ was_tag and the now_tag. It can return a json string of the diff
 and web service would need to use ENV-vars to find its IP address etc
 CYBER_DOJO_DIFFER_PORT='tcp://172.17.0.3:3000'
 See https://github.com/sashaegorov/docker-alpine-sinatra
-It seems like this would mean the katas (saver) does not need git, and
-you could save each incoming set of visible files into a new (tag) folder.
-This is not so, assuming you want to allow incremental makes (for example).
-There needs to be *one* katas folder per animal and it needs to retain date-time
-stamps and be tar-piped to/from the runner's container.
-There could *also* be a git'ed repo per animal containing only
-o) an increments.json file (for traffic-light colours)
-o) a visible_files.json file
+If the katas object (saver) can be decoupled from git it will be a big
+win for testing as I could then re-instate FakeDisk. Katas object could
+o) have a single not-git'ed folder structure per animal
+   use sandbox directly for tar-piping
+      new/changed files get added to it
+      deleted files get rm'd from it
+   above sandbox
+      manifest.json (one time creation)
+      increments.json (appended to each test-event)
+o) hold one folder per tag storing visible_files.json for that tag
+   this allows diff re-creation. Possibly store this in compressed form.
+
+- - - - - - - - - - - - - - - - - - - - -
+
+git 2.9+ has new  `--compaction-heuristic`
+for improved diffs. Try to get this in place.
+
+- - - - - - - - - - - - - - - - - - - - -
+
+Having differ as a separate service will make the (re)creation of the
+kata's tar file for the download button more involved.
+Downloader could also be a new service.
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -51,10 +65,6 @@ Move runners from lib/code to app/lib/code
 
 for tests I have to put red_amber_green lambdas (such as bash_unit)
 into the output.colour_of. Can this dependency be broken?
-
-- - - - - - - - - - - - - - - - - - - - -
-
-Add display-name (major,minor) etc to footer on enter page?
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -88,13 +98,20 @@ Put Alpine based small images into cyberdojo repo.
 
 - - - - - - - - - - - - - - - - - - - - -
 
-git 2.9+ has new  `--compaction-heuristic`
-for improved diffs. Try to get this in place.
+add [ci skip] to git commit messages if you want
+to skip the travis build
 
 - - - - - - - - - - - - - - - - - - - - -
 
-add [ci skip] to git commit messages if you want
-to skip the travis build
+un-hardwire setting of 2 core env-vars in cyber-dojo script.
+  export CYBER_DOJO_DATA_ROOT="/home/docker/data"
+  export CYBER_DOJO_KATAS_ROOT="/home/docker/data/katas"
+
+- - - - - - - - - - - - - - - - - - - - -
+
+instructions refactored to be manifest'ed
+  use disk[path].each_rdir('instructions') in its make_cache()
+  Only instructions file would be shown on 2nd setup page.
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -191,8 +208,6 @@ So I still need proper nil error handling on the setup pages
 Features James mentioned during our chat
 - - - - - - - - - - - - - - - - - - - -
 
-revert button is in diff dialog again
-
 feature: on enter page, when kata id is entered and buttons become enabled
          it would be nice to see the display_name in the footer.
 
@@ -217,18 +232,4 @@ feature: hyperlink of compiler error on output to file and line number
 feature: only one error in C/C++ projects
 
 feature: colour syntax
-
-# = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-# = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-# = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-# = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-# = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-
-un-hardwire setting of 2 core env-vars in cyber-dojo script.
-  export CYBER_DOJO_DATA_ROOT="/home/docker/data"
-  export CYBER_DOJO_KATAS_ROOT="/home/docker/data/katas"
-
-instructions refactored to be manifest'ed
-  use disk[path].each_rdir('instructions') in its make_cache()
-  Only instructions file would be shown on 2nd setup page.
 
