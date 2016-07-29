@@ -1,8 +1,6 @@
 
 Check if docker-pull is needed when forking.
 
-Home page needs to be properly centered.
-
 Documentation for adding a new language.
 
 Upgrade
