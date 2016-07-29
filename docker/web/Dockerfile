@@ -1,4 +1,4 @@
-FROM cyberdojo/web_base:DOCKER_VERSION
+FROM cyberdojo/web-base:DOCKER_VERSION
 MAINTAINER Jon Jagger <jon@jaggersoft.com>
 
 # Copy the app source
