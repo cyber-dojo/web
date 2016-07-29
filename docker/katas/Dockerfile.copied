@@ -1,4 +1,4 @@
-FROM cyberdojofoundation/user-base
+FROM cyberdojo/user-base
 MAINTAINER Jon Jagger <jon@jaggersoft.com>
 
 ARG CYBER_DOJO_KATAS_ROOT

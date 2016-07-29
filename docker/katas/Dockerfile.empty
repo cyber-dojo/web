@@ -1,4 +1,4 @@
-FROM cyberdojofoundation/user-base
+FROM cyberdojo/user-base
 ARG CYBER_DOJO_KATAS_ROOT
 
 USER root
