@@ -1,7 +1,7 @@
 
 #home-page {
 
-  margin-left: 100px;
+  #content { @include center-align(); }
 
   .kids-pic {
     width: 130px;
@@ -108,7 +108,6 @@
       font-size: 1.70em;
     line-height: 95%;
   }
-
 }
 
 
