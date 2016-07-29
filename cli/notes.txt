@@ -1,7 +1,33 @@
 
-
 Check if docker-pull is needed when forking.
 
+Home page needs to be properly centered.
+
+Documentation for adding a new language.
+
+Upgrade
+  o) copy disk on cyber-dojo.org
+  o) create new server from disk-copy using Ubuntu 14.04 as base OS
+  o) use modified docker-compose.yml
+     Need to remove this line from docker-compose.yml
+       volumes_from:
+         - ${CYBER_DOJO_KATAS_DATA_CONTAINER}:rw
+     Need to add this
+       volumes:
+         - /var/www/cyber-dojo/katas:${CYBER_DOJO_ROOT}/katas:rw
+  o) Make sure katas folder had user-rights matching user inside the web container.
+     $ userdel cyber-dojo
+     $ adduser --disabled-password --disabled-login --uid 19661 cyber-dojo
+     $ cd /var/www/cyber-dojo
+     $ sudo chown -R cyber-dojo:cyber-dojo katas
+     $ cd ~
+     $ sudo ./cyber-dojo pull all
+     $ sudo ./cyber-dojo up
+
+     Need to comment out this line in cyber-dojo.sh
+       # one_time_creation_of_katas_data_container
+
+- - - - - - - - - - - - - - - - - - - - -
 - - - - - - - - - - - - - - - - - - - - -
 
 Add C# XUnit test framework.
@@ -195,7 +221,7 @@ and a load of app_controller test fails which seem to be due to bad URLs
 
 - - - - - - - - - - - - - - - - - - - - -
 
-Occasional test failures...
+Occasional test failures (when run locally)...
   ForkerControllerTest#test_'EAE021',
     when language no longer exists, the fork fails, and the reason given is language
   SetupControllerTest#test_'EB77D9',
@@ -217,47 +243,8 @@ Note: need a check that each docker image has a user in it called nobody
 
 - - - - - - - - - - - - - - - - - - - - -
 
-If the server is up you can still do [docker rmi image]
-So I still need proper nil error handling on the setup pages
-
-- - - - - - - - - - - - - - - - - - - - -
-
-)) add another docker-compose.yml for main prod server
-     prod server uses volume-mount for katas (not data-container)
-     so I will need to use an docker-compose extension .yml file for
-     specifying the katas (like I'll be doing for exercises/languages/instructions)
-
-- - - - - - - - - - - - - - - - - - - - -
-
-)) get latest image running on GCE
-   Did it with hacked cyber-dojo script file that does not extract docker-compose.yml file
-   from web container and mounts katas as a volume rather than a data-container.
-   Had to make sure katas folder had user-rights matching user inside the web container.
-   $ userdel cyber-dojo
-   $ adduser --disabled-password --disabled-login --uid 19661 cyber-dojo
-   $ cd /var/www/cyber-dojo
-   $ sudo chown -R cyber-dojo:cyber-dojo katas
-   $ cd ~
-   $ sudo ./cyber-dojo pull all
-   $ sudo ./cyber-dojo up
-
-   Need to comment out this line in cyber-dojo.sh
-     # one_time_creation_of_katas_data_container
-   Need to remove this line from docker-compose.yml
-     volumes_from:
-       - ${CYBER_DOJO_KATAS_DATA_CONTAINER}:rw
-   Need to add this
-     volumes:
-       - /var/www/cyber-dojo/katas:${CYBER_DOJO_ROOT}/katas:rw
-
-- - - - - - - - - - - - - - - - - - - - -
-
-)) get travis to push images to cdf hub
+)) get travis to push images to cdf hub?
    push images to cyberdojofoundation hub if tests pass
-
-- - - - - - - - - - - - - - - - - - - - -
-
-)) documentation
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -268,16 +255,18 @@ So I still need proper nil error handling on the setup pages
 Features James mentioned during our chat
 - - - - - - - - - - - - - - - - - - - -
 
-feature: on enter page, when kata id is entered and buttons become enabled
-         it would be nice to see the display_name in the footer.
+feature: only one error in C/C++ projects
+
+feature: replace duration on dashboard with time-ticks on top of minute columns.
 
 feature: sed in the editor (search and replace)
+
+feature: on enter page, when kata id is entered and buttons become enabled
+         it would be nice to see the display_name in the footer.
 
 feature: copy one animal to a new one (keeping whole traffic-light history)
 
 feature: fork giving two options, viz create new kata and create start-point
-
-feature: replace duration on dashboard with time-ticks on top of minute columns.
 
 feature: hovering over a traffic-light gives more detail, viz for changed files (not output)
          name of file, no of deleted lines, no of added lines
@@ -289,7 +278,4 @@ feature: traffic-lights have some visual indication if there is a
 
 feature: hyperlink of compiler error on output to file and line number
 
-feature: only one error in C/C++ projects
-
-feature: colour syntax
-
+feature: colour syntax?
