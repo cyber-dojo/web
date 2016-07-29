@@ -5,8 +5,12 @@ set -e
 # This script is part of the server installation instructions
 # described at http://blog.cyber-dojo.org/2016/07/running-your-own-cyber-dojo-web-server.html
 
-echo 'installing docker'
-curl -sSL https://get.docker.com/ | sh
+echo 'installing docker 1.11.2'
+curl -L https://get.docker.com/builds/Linux/x86_64/docker-1.11.2.tgz > docker-1.11.2.tgz
+tar -xvzf docker-1.11.2.tgz
+rm docker-1.11.2.tgz
+mv docker/* /usr/bin/
+rmdir docker
 
 echo 'installing docker-machine 0.7.0'
 curl -L https://github.com/docker/machine/releases/download/v0.6.0/docker-machine-`uname -s`-`uname -m` > docker-machine
