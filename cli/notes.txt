@@ -64,7 +64,12 @@ for itself. The output 'file' should only be in the manifest.
 
 - - - - - - - - - - - - - - - - - - - - -
 
-If the katas object (saver) can be decoupled from git it will be a big
+When you do a git tag do you have to supply
+user-name and user-email?
+
+- - - - - - - - - - - - - - - - - - - - -
+
+If the katas object (saver) can be decoupled from git it could be a big
 win for testing as I could then probably re-instate FakeDisk.
 I think there are 3 kinds of 'storer'.
 
@@ -231,9 +236,9 @@ un-hardwire setting of 2 core env-vars in cyber-dojo script.
 
 - - - - - - - - - - - - - - - - - - - - -
 
-instructions refactored to be manifest'ed
+exercises refactoring
   use disk[path].each_rdir('instructions') in its make_cache()
-  Only instructions file would be shown on 2nd setup page.
+  so you can have whatever folder structure you like.
 
 - - - - - - - - - - - - - - - - - - - - -
 
