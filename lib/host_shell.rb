@@ -1,6 +1,4 @@
 
-require 'tempfile'
-
 class HostShell
 
   def initialize(dojo)

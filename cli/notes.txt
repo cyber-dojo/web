@@ -3,9 +3,30 @@ Check if docker-pull is needed when forking.
 
 Documentation for adding a new language.
 
-Upgrade
+Server Upgrade
   o) copy disk on cyber-dojo.org
-  o) create new server from disk-copy using Ubuntu 14.04 as base OS
+     Current disk is SSD 200GB and is 75% inode full.
+     Current spec is 2CPU, 7.5GB.
+
+     On web-console page
+     Disks choose cdf-server
+     Click CreateSnapshot
+     called it cdf-server-snaphot-for-new-server
+     Being created now...
+     Then created new-instance from it.
+     Then edited its disk - resized to 300GB
+     Then ssh'd in
+     How can I check how big disk is?
+     sudo fdisk -l | grep Disk
+       confirms disk is 300GB
+     df -H -i
+       shows still 75% Inode full :-(
+    Ah but https://cloud.google.com/compute/docs/disks/add-persistent-disk
+    says you have to resize the filesystem.
+    Didn't work :-(
+    How about rsync/scp'ing across?
+
+  o) create new server from disk-copy using Ubuntu 15.10 as base OS
   o) use modified docker-compose.yml
      Need to remove this line from docker-compose.yml
        volumes_from:
@@ -25,12 +46,16 @@ Upgrade
      Need to comment out this line in cyber-dojo.sh
        # one_time_creation_of_katas_data_container
 
-- - - - - - - - - - - - - - - - - - - - -
-- - - - - - - - - - - - - - - - - - - - -
+  o) This should hopefully fix the 100% cpu bug I've been occasionally hitting
+     See https://github.com/docker/docker/issues/18180
+     One GCE creating a bare server using Ubuntu 14.04 shows
+     $ uname -r
+     3.19.0-64-generic
+     One GCE creating a bare server using Ubuntu 15.10 shows
+     $ uname -r
+     4.2.0-42-generic
 
-Add C# XUnit test framework.
-http://xunit.github.io/
-
+- - - - - - - - - - - - - - - - - - - - -
 - - - - - - - - - - - - - - - - - - - - -
 
 an output file is actually stored in the sandbox of an avatar.
@@ -115,8 +140,15 @@ Make [cyber-dojo clean] remove dead containers as well as dead images?
 
 - - - - - - - - - - - - - - - - - - - - -
 
+Add C# XUnit test framework.
+http://xunit.github.io/
+
+- - - - - - - - - - - - - - - - - - - - -
+
 Looking to make some smaller alpine-linux language images.
 Specifically, C#-NUnit and Java-JUnit
+Once I've got new base-image it should, in theory, just be
+a case of changing the FROM command in each test-framework's Dockerfile
 
 Java
 frolvlad/alpine-oraclejdk8:slim
