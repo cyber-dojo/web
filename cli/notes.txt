@@ -64,44 +64,50 @@ for itself. The output 'file' should only be in the manifest.
 
 - - - - - - - - - - - - - - - - - - - - -
 
-differ is a good candidate for separating out into its own service.
-it can received two json strings contains the visible_files of the
-was_tag and the now_tag. It can return a json string of the diff
-(but not html-ified). web service would link to differ service
-and web service would need to use ENV-vars to find its IP address etc
-CYBER_DOJO_DIFFER_PORT='tcp://172.17.0.3:3000'
-See https://github.com/sashaegorov/docker-alpine-sinatra
 If the katas object (saver) can be decoupled from git it will be a big
-win for testing as I could then re-instate FakeDisk. Katas object could
-o) have a single not-git'ed folder structure per animal
-   use sandbox directly for tar-piping
-      new/changed files get added to it
-      deleted files get rm'd from it
-   above sandbox
-      manifest.json (one time creation)
-      increments.json (appended to each test-event)
-o) hold one folder per tag storing visible_files.json for that tag
-   this allows diff re-creation. Possibly store this in compressed form.
-Created a spike repo for this... https://github.com/JonJagger/differ
+win for testing as I could then probably re-instate FakeDisk.
+I think there are 3 kinds of 'storer'.
+
+1. katas_storer
+   Holds manifest.json as a direct copy of start-point info
+   which it is then decoupled from.
+   Should also have method to colour(output)
+
+2. avatar_storer
+   Holds the sandbox which may hold binary files (.class, .so, etc)
+   What the avatar's run-test uses (currently tar-piped in-out)
+
+3. tag_storer
+   Holds increments.json which contains date-time-stamp info
+   on each traffic-light.
+   Also holds one folder per tag which can contain single json
+   file (possibly compressed) holding
+     o) visible_files
+     o) output
+     o) colour (red/amber/green)
+
+- - - - - - - - - - - - - - - - - - - - -
+
+downloader could also be a new service...
+downloader currently returns a zip file of the whole kata with a git repo
+per animal.  To decouple this from git I could return a zip in  the tag-storer
+format (one subdir per tag).
+I could insert a shell script file into this zip which would convert it into
+the current (git) format (it would also check that git was installed)
 
 - - - - - - - - - - - - - - - - - - - - -
 
 git 2.9+ has new  `--compaction-heuristic`
 for improved diffs. Try to get this in place.
 (git version in web image is 2.8.3)
-
-- - - - - - - - - - - - - - - - - - - - -
-
-Having differ as a separate service will make the (re)creation of the
-kata's tar file for the download button more involved.
-Downloader could also be a new service.
+Alpine-linux has a package for 2.9.1-r0 (branch=edge, repo=main)
 
 - - - - - - - - - - - - - - - - - - - - -
 
 Have 'storer' as a separate service is also something I've been thinking about.
-This will involve send tgz files back and forth. This makes it very important
-that the sandbox folders do *not* contains files such as nunit.framework.dll
-which will bloat the tgz file size and should be in the docker-image.
+This may involve send tgz files back and forth. This makes it important the
+sandbox folders do *not* contain files such as nunit.framework.dll
+which will bloat the tgz file size (such files should be in the docker-image).
 
 - - - - - - - - - - - - - - - - - - - - -
 
