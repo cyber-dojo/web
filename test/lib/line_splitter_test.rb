@@ -1,8 +1,8 @@
 #!/bin/bash ../test_wrapper.sh
 
-require_relative './app_lib_test_base'
+require_relative './lib_test_base'
 
-class LineSplitterTest < AppLibTestBase
+class LineSplitterTest < LibTestBase
 
   test 'B2BCCA',
   'splitting nil is an empty array' do
