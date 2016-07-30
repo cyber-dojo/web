@@ -86,10 +86,20 @@ I think there are 3 kinds of 'storer'.
    Holds increments.json which contains date-time-stamp info
    on each traffic-light.
    Also holds one folder per tag which can contain single json
-   file (possibly compressed) holding
+   file holding
      o) visible_files
      o) output
      o) colour (red/amber/green)
+
+- - - - - - - - - - - - - - - - - - - - -
+
+I would still need a 'converter' service which would be given a kata id
+and would check if this was stored in (current) git format on hard-disk.
+If it was it would issue all commands necessary to the storers and then
+delete the kata from the hard-disk.
+It would need
+o) katas mounted
+o) link to all 3 storers.
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -99,6 +109,18 @@ per animal.  To decouple this from git I could return a zip in  the tag-storer
 format (one subdir per tag).
 I could insert a shell script file into this zip which would convert it into
 the current (git) format (it would also check that git was installed)
+Should this be a new service or in the storer?
+
+- - - - - - - - - - - - - - - - - - - - -
+
+Possible services
+- tag_differ
+- tag_storer
+- avatar_storer
+- kata_storer
+- kata_converter
+- downloader????
+- avatar_runner
 
 - - - - - - - - - - - - - - - - - - - - -
 
