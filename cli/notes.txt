@@ -64,12 +64,7 @@ for itself. The output 'file' should only be in the manifest.
 
 - - - - - - - - - - - - - - - - - - - - -
 
-When you do a git tag do you have to supply
-user-name and user-email?
-
-- - - - - - - - - - - - - - - - - - - - -
-
-If the katas object (saver) can be decoupled from git it could be a big
+If the katas object (saver/storer) can be decoupled from git it could be a big
 win for testing as I could then probably re-instate FakeDisk.
 I think there are 3 kinds of 'storer'.
 
@@ -105,10 +100,11 @@ o) link to all 3 storers.
 
 downloader could also be a new service...
 downloader currently returns a zip file of the whole kata with a git repo
-per animal.  To decouple this from git I could return a zip in  the tag-storer
+per animal.  To decouple this from git I could return a zip in the tag-storer
 format (one subdir per tag).
-I could insert a shell script file into this zip which would convert it into
-the current (git) format (it would also check that git was installed)
+I could insert a shell script file into this zip which (when run) would convert
+the unzipped structure it into the current (git) format (it would also check
+that git was installed)
 Should this be a new service or in the storer?
 
 - - - - - - - - - - - - - - - - - - - - -
@@ -128,6 +124,9 @@ git 2.9+ has new  `--compaction-heuristic`
 for improved diffs. Try to get this in place.
 (git version in web image is 2.8.3)
 Alpine-linux has a package for 2.9.1-r0 (branch=edge, repo=main)
+
+When you do a git tag do you have to supply
+user-name and user-email?
 
 - - - - - - - - - - - - - - - - - - - - -
 
