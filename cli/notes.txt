@@ -191,58 +191,9 @@ frolvlad/alpine-oraclejdk8:slim
 
 Put Alpine based small images into cyberdojo repo.
 
-Dockerfiles/C#/Moq is now Alpine-based. Dockerfile starts
-FROM frolvlad/alpine-mono
-whose Dockerfile is
-
-FROM frolvlad/alpine-glibc:alpine-3.4
-
-RUN apk add --no-cache --virtual=.build-dependencies wget ca-certificates tar xz && \
-    wget "https://www.archlinux.org/packages/extra/x86_64/mono/download/" -O "/tmp/mono.pkg.tar.xz" && \
-    tar -xJf "/tmp/mono.pkg.tar.xz" && \
-    cert-sync /etc/ssl/certs/ca-certificates.crt && \
-    apk del .build-dependencies && \
-    rm /tmp/*
-
-And frolvlad/alpine-glibc:alpine-3.4
-has this Dockefile
-
-FROM alpine:3.4
-
-# Here we install GNU libc (aka glibc) and set C.UTF-8 locale as default.
-
-RUN ALPINE_GLIBC_BASE_URL="https://github.com/sgerrand/alpine-pkg-glibc/releases/download" && \
-    ALPINE_GLIBC_PACKAGE_VERSION="2.23-r3" && \
-    ALPINE_GLIBC_BASE_PACKAGE_FILENAME="glibc-$ALPINE_GLIBC_PACKAGE_VERSION.apk" && \
-    ALPINE_GLIBC_BIN_PACKAGE_FILENAME="glibc-bin-$ALPINE_GLIBC_PACKAGE_VERSION.apk" && \
-    ALPINE_GLIBC_I18N_PACKAGE_FILENAME="glibc-i18n-$ALPINE_GLIBC_PACKAGE_VERSION.apk" && \
-    apk add --no-cache --virtual=.build-dependencies wget ca-certificates && \
-    wget \
-        "https://raw.githubusercontent.com/andyshinn/alpine-pkg-glibc/master/sgerrand.rsa.pub" \
-        -O "/etc/apk/keys/sgerrand.rsa.pub" && \
-    wget \
-        "$ALPINE_GLIBC_BASE_URL/$ALPINE_GLIBC_PACKAGE_VERSION/$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" \
-        "$ALPINE_GLIBC_BASE_URL/$ALPINE_GLIBC_PACKAGE_VERSION/$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" \
-        "$ALPINE_GLIBC_BASE_URL/$ALPINE_GLIBC_PACKAGE_VERSION/$ALPINE_GLIBC_I18N_PACKAGE_FILENAME" && \
-    apk add --no-cache \
-        "$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" \
-        "$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" \
-        "$ALPINE_GLIBC_I18N_PACKAGE_FILENAME" && \
-    \
-    rm "/etc/apk/keys/sgerrand.rsa.pub" && \
-    /usr/glibc-compat/bin/localedef --force --inputfile POSIX --charmap UTF-8 C.UTF-8 || true && \
-    echo "export LANG=C.UTF-8" > /etc/profile.d/locale.sh && \
-    \
-    apk del glibc-i18n && \
-    \
-    rm "/root/.wget-hsts" && \
-    apk del .build-dependencies && \
-    rm \
-        "$ALPINE_GLIBC_BASE_PACKAGE_FILENAME" \
-        "$ALPINE_GLIBC_BIN_PACKAGE_FILENAME" \
-        "$ALPINE_GLIBC_I18N_PACKAGE_FILENAME"
-
-ENV LANG=C.UTF-8
+Note that upgrading Dockerfiles and images might break cyber-dojo.sh
+files since paths can be different...
+Does the cyber-dojo.sh file belong to the image rather than the start-point?
 
 - - - - - - - - - - - - - - - - - - - - -
 
