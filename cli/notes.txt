@@ -64,25 +64,38 @@ shell script creates a speed-bump for OS portability.
 Ideally what I want is a super-simple, super-small cyber-dojo.bat file
 that is *much* more minimal and that forwards on to a 'startup container'.
 The only commands that the shell script currently actually handles
-are (update, up, down). Could these be done in inside a cyber-dojo-startup
-container with its own volume? The main issue is
-start-point --dir= volume creation is not be able to access *local* dirs.
+are (update, up, down). Could these be done in inside a web container.
+The main issue is start-point --git/--dir= volume creation is not be able
+to access *local* dirs.
 You could [docker-machine ssh] in and create the dir on default. Nope.
-I should be able to use [docker cp] to copy --dir= into the
-container so it can run from there. Could be as simple as
+I should be able to use [docker cp] to copy --git/--dir= into the
+container (as a volume directly maybe) so it can run from there.
+Something using ExecuteAround...
 
-if [docker cp needed for --dir supplied in args]
-  docker cp local-dir into known location into start-up-container
-end
-delegate to start-up-container
+   call [docker run 'before' arguments] and get returned string
+   if exit_success && string != ""
+     execute string locally (it will be a docker command)
+     if !exit_success
+       clean_up and fail
+     end
+   end
+   call [docker run 'call' arguments] - does not need to return a string
+   if !exit_success
+     clean_up and fail
+   end
 
-Might be possible to simplify this to
-  check docker is installed
-  run known command on start-up-container that returns 2 strings
-  if the 1st string is not "" it must be executed (locally)
-    This does docker cp for local --dir
-  if the 2nd string is not "" it must be executed (locally)
-    This delegate to start-up-container
+Specifically, the 'before' call will only actually do something if
+the call is a [cyber-dojo start-point create] and what it will do is...
+  # 1. make an empty docker volume of the specified name
+  #    Check it worked
+  # 2. [docker run] to mount empty volume inside docker container and get container CID
+  #    Check it worked
+  # 3. return a string that is command to fill empty volume from local dir into container
+  #    Will name the CID created in step 2
+
+Then the 'call' step will happen. For [cyber-dojo start-point create] this will...
+  # 4. ensure cyber-dojo user owns everything in the volume
+  # 5. check the volume is a good start-point
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -155,11 +168,10 @@ Should this be a new service or in the storer?
 Possible services
 - tag_differ
 - tag_storer
-- avatar_storer
+- avatar_storer+runner
 - kata_storer
 - kata_converter
 - downloader????
-- avatar_runner
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -173,9 +185,7 @@ user-name and user-email?
 
 - - - - - - - - - - - - - - - - - - - - -
 
-Have 'storer' as a separate service is also something I've been thinking about.
-This may involve send tgz files back and forth. This makes it important the
-sandbox folders do *not* contain files such as nunit.framework.dll
+Check sandbox folders do *not* contain files such as nunit.framework.dll
 which will bloat the tgz file size (such files should be in the docker-image).
 
 - - - - - - - - - - - - - - - - - - - - -
