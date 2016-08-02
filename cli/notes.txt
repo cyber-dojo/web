@@ -77,6 +77,7 @@ end
 delegate to start-up-container
 
 Might be possible to simplify this to
+  check docker is installed
   run known command on start-up-container that returns 2 strings
   if the 1st string is not "" it must be executed (locally)
     This does docker cp for local --dir
@@ -103,6 +104,21 @@ I think there are 3 kinds of 'storer'.
 2. avatar_storer
    Holds the sandbox which may hold binary files (.class, .so, etc)
    What the avatar's run-test uses (currently tar-piped in-out)
+   This could use one volume per avatar. This means I do not need to
+   tar-pipe in/out.
+   NB: Need to ensure cyber-dojo.sh cannot use docker to volume
+       mount another avatar's volume.
+   NB: iterating through all the avatars in a kata needs to happen here.
+       Eg suppose I have volumes called
+           123456789A_lion
+           123456789B_hippo
+           123456789A_elephant
+       Suppose there are 10000's of avatars across all katas.
+       I need an efficient way of finding the avatars in kata
+       123456789A are [lion, elephant]
+       With docker 1.12 there is now at last a --filter option on [docker volume ls]
+       So...
+           $ docker volume ls --filter name=^123456789A
 
 3. tag_storer
    Holds increments.json which contains date-time-stamp info
