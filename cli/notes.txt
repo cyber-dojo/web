@@ -1,12 +1,4 @@
 
-$ ./cyber-dojo start-point create --name=exercises --dir=...
-Should be
-$ ./cyber-dojo start-point create exercises --dir=...
-
-This fails with no diagnostic.
-
-- - - - - - - - - - - - - - - - - - - - -
-
 Check if docker-pull is needed when forking.
 
 Documentation for adding a new language.
