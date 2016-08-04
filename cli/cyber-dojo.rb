@@ -150,7 +150,7 @@ def sh
   end
 
   unless web_server_running
-    puts "FAILED: Cannot shell in - the web server is not running"
+    puts "FAILED: cannot shell in - the web server is not running"
     exit failed
   end
 
@@ -179,7 +179,7 @@ def logs
   end
 
   unless web_server_running
-    puts "FAILED: Cannot show logs - the web server is not running"
+    puts "FAILED: cannot show logs - the web server is not running"
     exit failed
   else
     puts `docker logs #{web_container_name}`
@@ -242,6 +242,7 @@ def up
     show help
     exit failed
   end
+
   # unknown arguments?
   knowns = ['env','languages','exercises','custom']
   unknown = ARGV[1..-1].select do |argv|
@@ -252,6 +253,7 @@ def up
     unknown.each { |arg| puts "FAILED: unknown argument [#{arg.split('=')[0]}]" }
     exit failed
   end
+
   # --env=
   args = ARGV[1..-1]
   env = get_arg('--env', args)
@@ -260,10 +262,12 @@ def up
     puts "FAILED: bad argument value --env=[#{env}]"
     exit failed
   end
+
   # explicit start-points?
   exit failed unless up_arg_ok(help, args, 'languages')  # --languages=NAME
   exit failed unless up_arg_ok(help, args, 'exercises')  # --exercises=NAME
   exit failed unless up_arg_ok(help, args,    'custom')  # --custom=NAME
+
   # cyber-dojo.sh does actual [up]
 end
 
@@ -550,7 +554,7 @@ def start_point_rm
 
   run "docker volume rm #{vol}"
   if $exit_status != 0
-    puts "FAILED Can't remove start-point #{vol}. Is it in use?"
+    puts "FAILED cannot remove start-point #{vol}. Is it in use?"
     exit failed
   end
 
