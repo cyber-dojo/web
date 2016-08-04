@@ -140,8 +140,7 @@ cyber_dojo_start_point_create() {
     if [ "${name}" = '--git' ]; then
       local url=${value}
       start_point_create_git ${start_point} ${url}
-    fi
-    if [ "${name}" = '--dir' ]; then
+    elif [ "${name}" = '--dir' ]; then
       local dir=${value}
       start_point_create_dir ${start_point} ${dir} ${dir}
     fi
@@ -185,7 +184,7 @@ start_point_create_dir() {
 
   # 1. make an empty docker volume
   command="docker volume create --name=${start_point} --label=cyber-dojo-start-point=${src}"
-  run "${command}" || clean_up_and_exit_fail
+  run "${command}" || clean_up_and_exit_fail "FAILED: check command carefully"
   g_vol=${start_point}
   # 2. mount empty volume inside docker container
   command="docker run
@@ -196,7 +195,7 @@ start_point_create_dir() {
                --user=root
                --volume=${start_point}:/data
                ${CYBER_DOJO_WEB_SERVER} sh"
-  run "${command}" || clean_up_and_exit_fail
+  run "${command}" || clean_up_and_exit_fail "FAILED: check command carefully"
   g_cid=`cat ${g_cidfile}`
   # 3. fill empty volume from local dir
   # NB: [cp DIR/.] != [cp DIR];  DIR/. means copy the contents
@@ -299,6 +298,7 @@ exit_fail() {
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 debug() {
+  # Use 'echo $1' to debug. Use ':' to not debug
   #echo $1
   :
 }

@@ -348,6 +348,7 @@ def start_point_create
     show help
     exit failed
   end
+
   vol = ARGV[2]
   # unknown arguments?
   knowns = ['git','dir']
