@@ -341,7 +341,11 @@ def start_point_create
     "Use: #{me} start-point create NAME --dir=PATH",
     '',
     'Creates a start-point named NAME from a git clone of URL',
-    'Creates a start-point named NAME from a copy of PATH'
+    'Creates a start-point named NAME from a copy of PATH',
+    '',
+    "NAME's first letter must be [a-zA-Z0-9]",
+    "NAME's remaining letters must be [a-zA-Z0-9_.-]",
+    "NAME must be at least two letters long"
   ]
   # asked for help?
   if [nil,'help','--help'].include? ARGV[2]
@@ -349,7 +353,33 @@ def start_point_create
     exit failed
   end
 
+  # If you do
+  #   [docker volume create --name=-name=sdsd]
+  # You get: Error response from daemon: create --name=sdsd: "--name=sdsd"
+  #          includes invalid characters for a local volume name,
+  #          only "[a-zA-Z0-9][a-zA-Z0-9_.-]" are allowed
+  # Experimenting with [docker volume create] reveals this means
+  # [a-zA-Z0-9] for the first letter
+  # [a-zA-Z0-9_.-] for the remaining letters
+  # Also, docker volume names must be at least 2 letters long
+  # See https://github.com/docker/docker/issues/20122'
+
   vol = ARGV[2]
+  unless vol =~ /^[a-zA-Z0-9][a-zA-Z0-9_.-]+$/
+    msg = [
+      "FAILED: #{vol} is an illegal NAME",
+      "Use [a-ZA-Z0-9] for the first character",
+      "Use [a-zA-Z0-9_.-] for the remaining characters",
+      "NAME must be at least two letters long"
+    ]
+    puts msg.join("\n")
+    exit failed
+  end
+  if volume_exists? vol
+    puts "FAILED: a start-point called #{vol} already exists"
+    exit failed
+  end
+
   # unknown arguments?
   knowns = ['git','dir']
   unknown = ARGV[3..-1].select do |argv|
@@ -360,6 +390,7 @@ def start_point_create
     unknown.each { |arg| puts "FAILED: unknown argument [#{arg.split('=')[0]}]" }
     exit failed
   end
+
   # required known arguments
   args = ARGV[3..-1]
   url = get_arg('--git', args)
@@ -369,18 +400,7 @@ def start_point_create
     exit failed
   end
   if url && dir
-    msg = 'Specify only one of --git/--dir'
-    puts "FAILED: [start-point create #{vol}] #{msg}"
-    exit failed
-  end
-  if vol.length == 1
-    msg = 'start-point names must be at least two characters long. See https://github.com/docker/docker/issues/20122'
-    puts "FAILED: [start-point create #{vol}] #{msg}"
-    exit failed
-  end
-  if volume_exists? vol
-    msg = "#{vol} already exists"
-    puts "FAILED: [start-point create #{vol}] #{msg}"
+    puts 'FAILED: specify --git=... OR --dir=... but not both'
     exit failed
   end
   # cyber-dojo.sh does actual [start-point create]
@@ -390,12 +410,12 @@ end
 
 def exit_unless_is_cyber_dojo_volume(vol, command)
   if !volume_exists? vol
-    puts "FAILED: [start-point #{command} #{vol}] - #{vol} does not exist."
+    puts "FAILED: #{vol} does not exist."
     exit failed
   end
 
   if !cyber_dojo_volume? vol
-    puts "FAILED: [start-point #{command} #{vol}] - #{vol} is not a cyber-dojo start-point."
+    puts "FAILED: #{vol} is not a cyber-dojo start-point."
     exit failed
   end
 end
@@ -419,6 +439,8 @@ def start_point_ls
     exit failed
   end
 
+  # UPDATE: There now is, in docker 1.12
+  #
   # There is currently no [--filter label=LABEL]  option on [docker volume ls]
   # https://github.com/docker/docker/pull/21567
   # So I have to inspect all volumes. Could be slow if lots of volumes.
@@ -528,7 +550,7 @@ def start_point_rm
 
   run "docker volume rm #{vol}"
   if $exit_status != 0
-    puts "FAILED [start-point rm #{vol}] can't remove start-point if it's in use"
+    puts "FAILED Can't remove start-point #{vol}. Is it in use?"
     exit failed
   end
 

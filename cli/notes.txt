@@ -1,4 +1,13 @@
 
+Update [cyber-dojo start-point ls] now that [docker volume ls] has a --filter option.
+
+- - - - - - - - - - - - - - - - - - - - -
+
+cyber-dojo.rb
+Revisit def up_arg_ok(help, args, name) as its out of date. Is it called anywhere?
+
+- - - - - - - - - - - - - - - - - - - - -
+
 Check if docker-pull is needed when forking.
 
 Documentation for adding a new language.
