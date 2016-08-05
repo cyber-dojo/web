@@ -61,10 +61,9 @@ Server Upgrade
 Docker for Mac and Docker for Windows is now out.
 It makes me realize that the current way of having a cyber-dojo
 shell script creates a speed-bump for OS portability.
-Ideally what I want is a super-simple, super-small cyber-dojo.bat file
-that is *much* more minimal and that forwards on to a 'startup container'.
+Ideally what I want is a super-simple, super-small cyber-dojo.bat file.
 The only commands that the shell script currently actually handles
-are (update, up, down). Could these be done in inside a web container.
+are (update, up, down). Could these be done in inside a web container?
 The main issue is start-point --git/--dir= volume creation is not be able
 to access *local* dirs.
 You could [docker-machine ssh] in and create the dir on default. Nope.
@@ -79,7 +78,7 @@ Something using ExecuteAround...
        clean_up and fail
      end
    end
-   call [docker run 'call' arguments] - does not need to return a string
+   call [docker run 'after' arguments] - does not need to return a string
    if !exit_success
      clean_up and fail
    end
@@ -93,7 +92,7 @@ the call is a [cyber-dojo start-point create] and what it will do is...
   # 3. return a string that is command to fill empty volume from local dir into container
   #    Will name the CID created in step 2
 
-Then the 'call' step will happen. For [cyber-dojo start-point create] this will...
+Then the 'after' step will happen. For [cyber-dojo start-point create] this will...
   # 4. ensure cyber-dojo user owns everything in the volume
   # 5. check the volume is a good start-point
 
