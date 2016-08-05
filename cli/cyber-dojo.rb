@@ -63,6 +63,7 @@ def update
     '',
     'Installs latest web server docker images and associated script files'
   ]
+
   if ['help','--help'].include? ARGV[1]
     show help
     exit failed
@@ -87,6 +88,7 @@ def clean
     '',
     'Removes dangling docker images',
   ]
+
   if ['help','--help'].include? ARGV[1]
     show help
     exit failed
@@ -115,6 +117,7 @@ def down
     '',
     "Stops and removes docker containers created with 'up'",
   ]
+
   if ['help','--help'].include? ARGV[1]
     show help
     exit failed
@@ -139,6 +142,7 @@ def sh
     '',
     "Shells into the cyber-dojo web server docker container",
   ]
+
   if ['help','--help'].include? ARGV[1]
     show help
     exit failed
@@ -237,7 +241,7 @@ def up
     minitab + '--env=test               Brings up the web server in test environment',
     minitab + '--env=production         Brings up the web server in production environment (default)',
   ]
-  # asked for help?
+
   if ['help','--help'].include? ARGV[1]
     show help
     exit failed
@@ -304,7 +308,7 @@ end
 # - - - - - - - - - - - - - - -
 
 def volume_exists?(name)
-  # careful to not match substring
+  # careful to match whole string
   start_of_line = '^'
   end_of_line = '$'
   pattern = "#{start_of_line}#{name}#{end_of_line}"
@@ -351,7 +355,7 @@ def start_point_create
     "NAME's remaining letters must be [a-zA-Z0-9_.-]",
     "NAME must be at least two letters long"
   ]
-  # asked for help?
+
   if [nil,'help','--help'].include? ARGV[2]
     show help
     exit failed
@@ -369,6 +373,7 @@ def start_point_create
   # See https://github.com/docker/docker/issues/20122'
 
   vol = ARGV[2]
+  args = ARGV[3..-1]
   unless vol =~ /^[a-zA-Z0-9][a-zA-Z0-9_.-]+$/
     msg = [
       "FAILED: #{vol} is an illegal NAME",
@@ -386,7 +391,7 @@ def start_point_create
 
   # unknown arguments?
   knowns = ['git','dir']
-  unknown = ARGV[3..-1].select do |argv|
+  unknown = args.select do |argv|
     knowns.none? { |known| argv.start_with?('--' + known + '=') }
   end
   unless unknown == []
@@ -396,10 +401,9 @@ def start_point_create
   end
 
   # required known arguments
-  args = ARGV[3..-1]
   url = get_arg('--git', args)
   dir = get_arg('--dir', args)
-  if vol.nil? || (url.nil? && dir.nil?)
+  if url.nil? && dir.nil?
     show help
     exit failed
   end
@@ -418,7 +422,7 @@ def exit_unless_is_cyber_dojo_volume(vol, command)
     exit failed
   end
 
-  if !cyber_dojo_volume? vol
+  unless cyber_dojo_volume? vol
     puts "FAILED: #{vol} is not a cyber-dojo start-point."
     exit failed
   end
@@ -443,10 +447,7 @@ def start_point_ls
     exit failed
   end
 
-  # UPDATE: There now is, in docker 1.12
-  #
-  # There is currently no [--filter label=LABEL]  option on [docker volume ls]
-  # https://github.com/docker/docker/pull/21567
+  # As of docker 1.12.0 there is no [--filter label=LABEL]  option on [docker volume ls]
   # So I have to inspect all volumes. Could be slow if lots of volumes.
 
   names = run("docker volume ls --quiet").split
@@ -471,16 +472,16 @@ def start_point_ls
     max_type = ([headings[:type]] + types).max_by(&:length).length + gap
     max_url  = ([headings[:url ]] + urls ).max_by(&:length).length + gap
 
-    spaced = lambda { |max,s| s + (space * (max - s.length)) }
+    spacer = lambda { |max,s| s + (space * (max - s.length)) }
 
-    name = spaced.call(max_name, headings[:name])
-    type = spaced.call(max_type, headings[:type])
-    url  = spaced.call(max_url , headings[:url ])
+    name = spacer.call(max_name, headings[:name])
+    type = spacer.call(max_type, headings[:type])
+    url  = spacer.call(max_url , headings[:url ])
     puts name + type + url
     names.length.times do |n|
-      name = spaced.call(max_name, names[n])
-      type = spaced.call(max_type, types[n])
-      url  = spaced.call(max_url ,  urls[n])
+      name = spacer.call(max_name, names[n])
+      type = spacer.call(max_type, types[n])
+      url  = spacer.call(max_url ,  urls[n])
       puts name + type + url
     end
   end
@@ -497,7 +498,7 @@ def start_point_inspect
     '',
     'Displays details of the named cyber-dojo start-point',
   ]
-  # asked for help?
+
   vol = ARGV[2]
   if [nil,'help','--help'].include? vol
     show help
@@ -571,6 +572,7 @@ def start_point_pull
     '',
     'Pulls all the docker images named inside the cyber-dojo start-point'
   ]
+
   vol = ARGV[2]
   if [nil,'help','--help'].include? vol
     show help
@@ -610,11 +612,11 @@ def help
     'Commands:',
     tab + 'clean        Removes dangling images',
     tab + 'down         Brings down the server',
-    tab + 'logs         Fetch the logs from the server',
+    tab + 'logs         Prints the logs from the server',
     tab + 'sh           Shells into the server',
     tab + 'up           Brings up the server',
     tab + 'update       Updates the server to the latest image',
-    tab + 'start-point  Manage cyber-dojo start-points',
+    tab + 'start-point  Manages cyber-dojo start-points',
     '',
     "Run '#{me} COMMAND --help' for more information on a command."
   ].join("\n") + "\n"
