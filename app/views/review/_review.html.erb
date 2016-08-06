@@ -390,13 +390,15 @@ $(function() {
     return holder;
   };
 
-  //-----------------------------------------
+  // - - - - - - - - - - - - - - - - - - - - - - - -
 
   var showFile = function(filenameId) {
     var filename =  $('#radio_' + filenameId);
     filename.click();
     filename.scrollIntoView({ direction: 'vertical' });
   };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
 
   var show = function(tag) {
     // preserve diff on/off state
@@ -405,12 +407,16 @@ $(function() {
     refresh();
   };
 
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
   var showLatestNoDiff = function() {
     var lastTag = -1;
     param.wasTag = lastTag;
     param.nowTag = lastTag;
     refresh();
   };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
 
   var refresh = function() {
     if (inDialog()) {
@@ -420,36 +426,37 @@ $(function() {
     }
   };
 
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
   var inDialog = function() {
     var dialog = $('div.ui-dialog-content');
     return dialog.size() == 1;
   };
 
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
   var reviewRefresh = function() {
     $('.ui-dialog').addClass('busy');
-    $.getJSON('/differ/diff',
-      {
-                      id: param.id,
-                  avatar: param.avatar,
-                 was_tag: param.wasTag,
-                 now_tag: param.nowTag,
-        current_filename: currentFilename
-      },
-      function(reviewParam) {
-        $('.ui-dialog').removeClass('busy');
-        param = reviewParam;
-        refreshDiffCheckBox();
-        refreshTrafficLights();
-        refreshAvatarControls();
-        refreshTagControls();
-        refreshFiles();
-        refreshRevertButton();
-        refreshForkButton();
-        var light = $('img[src$="_bar.png"]');
-        var options = { direction: 'horizontal', duration: 'slow' };
-        light.scrollIntoView(options);
-      }
-    );
+    var params = {  id: param.id,
+                avatar: param.avatar,
+               was_tag: param.wasTag,
+               now_tag: param.nowTag,
+      current_filename: currentFilename
+    };
+    $.getJSON('/differ/diff', params, function(reviewParam) {
+      $('.ui-dialog').removeClass('busy');
+      param = reviewParam;
+      refreshDiffCheckBox();
+      refreshTrafficLights();
+      refreshAvatarControls();
+      refreshTagControls();
+      refreshFiles();
+      refreshRevertButton();
+      refreshForkButton();
+      var light = $('img[src$="_bar.png"]');
+      var options = { direction: 'horizontal', duration: 'slow' };
+      light.scrollIntoView(options);
+    });
   };
 
   //-----------------------------------------
@@ -461,17 +468,19 @@ $(function() {
     $('#fork-button').text(value);
   };
 
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
   var doFork = function() {
 
     // TODO: is docker-pull needed?
     //       pass param.id to image_puller_controller
 
-    $.getJSON('/forker/fork', {
+    var params = {
           id: param.id,
       avatar: param.avatar,
          tag: param.nowTag
-    },
-    function(data) {
+    };
+    $.getJSON('/forker/fork', params, function(data) {
       if (data.forked) {
         cd.newDojoDialog(data.id, 'from_fork');
       } else {
@@ -479,6 +488,8 @@ $(function() {
       }
     });
   };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
 
   var forkFailedDialog = function(reason) {
     var message =
@@ -504,13 +515,15 @@ $(function() {
     $('#revert-button').text(value);
   };
 
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
   var doRevert = function() {
-    $.getJSON('/reverter/revert', {
+    var params = {
           id: param.id,
       avatar: param.avatar,
          tag: param.nowTag
-    },
-    function(data) {
+    };
+    $.getJSON('/reverter/revert', params, function(data) {
       $('#review-dialog').dialog('close');
       deleteAllCurrentFiles();
       copyRevertFilesToCurrentFiles(data.visibleFiles);
@@ -518,7 +531,7 @@ $(function() {
     });
   };
 
-  //- - - - - - - - - - - - - - -
+  // - - - - - - - - - - - - - - - - - - - - - - - -
 
   var deleteAllCurrentFiles = function() {
     $.each(cd.filenames(), function(_, filename) {
@@ -528,7 +541,7 @@ $(function() {
     });
   };
 
-  //- - - - - - - - - - - - - - -
+  // - - - - - - - - - - - - - - - - - - - - - - - -
 
   var copyRevertFilesToCurrentFiles = function(visibleFiles) {
     var filename;
@@ -539,7 +552,7 @@ $(function() {
     }
   };
 
-  //-----------------------------------------
+  // - - - - - - - - - - - - - - - - - - - - - - - -
 
   var setupButton = function(name, handler) {
     $('#'+name+'-button-container').html('<button id="'+name+'-button" type="button"></button>');
