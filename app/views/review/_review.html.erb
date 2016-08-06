@@ -463,7 +463,8 @@ $(function() {
 
   var doFork = function() {
 
-    // TODO: is docker-pull needed? pass param.id to image_puller_controller
+    // TODO: is docker-pull needed?
+    //       pass param.id to image_puller_controller
 
     $.getJSON('/forker/fork', {
           id: param.id,
@@ -539,7 +540,6 @@ $(function() {
   };
 
   //-----------------------------------------
-  //-----------------------------------------
 
   var setupButton = function(name, handler) {
     $('#'+name+'-button-container').html('<button id="'+name+'-button" type="button"></button>');
@@ -555,9 +555,12 @@ $(function() {
     }
   };
 
+  //-----------------------------------------
+  //-----------------------------------------
+
   if (inDialog()) {
     setupButton('close',  function() { $('#review-dialog').dialog('close'); });
-    setupButton('fork', function() { doFork(); });
+    setupButton('fork',   function() { doFork(); });
     setupButton('revert', function() { doRevert(); });
   } else {
     reviewRefresh();
