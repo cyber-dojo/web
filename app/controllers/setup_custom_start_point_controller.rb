@@ -11,15 +11,6 @@ class SetupCustomStartPointController < ApplicationController
     @start_points = ::DisplayNamesSplitter.new(custom_names, index)
   end
 
-  def pull_needed
-    render json: { needed: !dojo.runner.pulled?(custom.image_name) }
-  end
-
-  def pull
-    _output, exit_status = dojo.runner.pull(custom.image_name)
-    render json: { succeeded: exit_status == 0 }
-  end
-
   def save
     manifest = katas.create_kata_manifest(custom)
     kata = katas.create_kata_from_kata_manifest(manifest)

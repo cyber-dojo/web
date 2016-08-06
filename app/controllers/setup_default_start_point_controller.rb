@@ -14,15 +14,6 @@ class SetupDefaultStartPointController < ApplicationController
     @max_seconds = dojo.runner.max_seconds
   end
 
-  def pull_needed
-    render json: { needed: !dojo.runner.pulled?(language.image_name) }
-  end
-
-  def pull
-    _output, exit_status = dojo.runner.pull(language.image_name)
-    render json: { succeeded: exit_status == 0 }
-  end
-
   def save_no_exercise
     manifest = katas.create_kata_manifest(language)
     kata = katas.create_kata_from_kata_manifest(manifest)

@@ -22,8 +22,6 @@ CyberDojo::Application.routes.draw do
 
   scope path: '/setup_default_start_point', controller: :setup_default_start_point do
     get 'show_languages(/:id)' => :show_languages
-    get 'pull_needed'          => :pull_needed,      :constraints => { :format => :json }
-    get 'pull'                 => :pull,             :constraints => { :format => :json }
     get 'save_no_exercise'     => :save_no_exercise, :constraints => { :format => :json }
     get 'show_exercises(/:id)' => :show_exercises
     get 'save'                 => :save,             :constraints => { :format => :json }
@@ -31,9 +29,14 @@ CyberDojo::Application.routes.draw do
 
   scope path: '/setup_custom_start_point', controller: :setup_custom_start_point do
     get 'show(/:id)'  => :show
-    get 'pull_needed' => :pull_needed, :constraints => { :format => :json }
-    get 'pull'        => :pull,        :constraints => { :format => :json }
-    get 'save'        => :save,        :constraints => { :format => :json }
+    get 'save'        => :save, :constraints => { :format => :json }
+  end
+
+  scope path: '/image_puller', controller: :image_puller do
+    get 'language_pull_needed' => :language_pull_needed, :constraints => { :format => :json }
+    get 'language_pull'        => :language_pull,        :constraints => { :format => :json }
+    get 'custom_pull_needed'   => :custom_pull_needed,   :constraints => { :format => :json }
+    get 'custom_pull'          => :custom_pull,          :constraints => { :format => :json }
   end
 
   scope path: '/enter', controller: :enter do

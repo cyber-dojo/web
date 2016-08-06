@@ -453,7 +453,7 @@ $(function() {
   };
 
   //-----------------------------------------
-  // refresh [fork] {create a practice-session}
+  // refresh [fork] {create a new practice-session}
   //-----------------------------------------
 
   var refreshForkButton = function() {
@@ -462,6 +462,9 @@ $(function() {
   };
 
   var doFork = function() {
+
+    // TODO: is docker-pull needed? pass param.id to image_puller_controller
+
     $.getJSON('/forker/fork', {
           id: param.id,
       avatar: param.avatar,
