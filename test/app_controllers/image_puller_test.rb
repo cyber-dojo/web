@@ -4,13 +4,19 @@ require_relative './app_controller_test_base'
 
 class ImagePullerTest < AppControllerTestBase
 
+  # Note: AppControllerTestBase sets StubRunner
+  # which assumes the current state of [docker images] to be
+  #    cyberdojofoundation/nasm_assert
+  #    cyberdojofoundation/gcc_assert
+  #    cyberdojofoundation/csharp_nunit
+  #    cyberdojofoundation/gpp_cpputest
+
   # - - - - - - - - - - - - - - - - - - - - - -
   # from Language+Test setup page
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test '406596',
   'language pull.needed is true if docker image is not pulled' do
-    # AppControllerTestBase sets StubRunner
     do_get 'language_pull_needed', major_minor_js('C#', 'Moq')
     assert json['needed']
   end
@@ -19,7 +25,6 @@ class ImagePullerTest < AppControllerTestBase
 
   test 'B28A3D',
   'language pull.needed is false if docker image is pulled' do
-    # AppControllerTestBase sets StubRunner
     do_get 'language_pull_needed', major_minor_js('C#', 'NUnit')
     refute json['needed']
   end
@@ -29,11 +34,7 @@ class ImagePullerTest < AppControllerTestBase
   test '0A8080',
   'language pull issues docker-pull image_name command and returns succeeded=true if pull succeeds' do
     setup_mock_shell
-    shell.mock_exec(
-      ['docker pull cyberdojofoundation/csharp_nunit'],
-      docker_pull_output,
-      exit_success
-    )
+    mock_docker_pull_success('csharp_nunit')
     do_get 'language_pull', major_minor_js('C#', 'NUnit')
     assert json['succeeded']
     shell.teardown
@@ -44,11 +45,7 @@ class ImagePullerTest < AppControllerTestBase
   test '4DB3FD',
   'language pull issues docker-pull image_name command and returns succeeded=false if pull fails' do
     setup_mock_shell
-    shell.mock_exec(
-      ['docker pull cyberdojofoundation/csharp_nunit'],
-      any_output='456ersfdg',
-      exit_failure=34
-    )
+    mock_docker_pull_failure('csharp_nunit')
     do_get 'language_pull', major_minor_js('C#', 'NUnit')
     refute json['succeeded']
     shell.teardown
@@ -77,11 +74,7 @@ class ImagePullerTest < AppControllerTestBase
   test '4694A0',
   'custom pull issues docker-pull image_name command and returns succeeded=true if pull succeeds' do
     setup_mock_shell
-    shell.mock_exec(
-      ['docker pull cyberdojofoundation/python_unittest'],
-      docker_pull_output,
-      exit_success
-    )
+    mock_docker_pull_success('python_unittest')
     do_get 'custom_pull', major_minor_js('Tennis refactoring', 'Python unitttest')
     assert json['succeeded']
     shell.teardown
@@ -92,11 +85,7 @@ class ImagePullerTest < AppControllerTestBase
   test '05C5E7',
   'custom pull issues docker-pull image_name command and returns succeeded=false if pull fails' do
     setup_mock_shell
-    shell.mock_exec(
-      ['docker pull cyberdojofoundation/python_unittest'],
-      any_output='sdfsdfsdf',
-      exit_failure=34
-    )
+    mock_docker_pull_failure('python_unittest')
     do_get 'custom_pull', major_minor_js('Tennis refactoring', 'Python unitttest')
     refute json['succeeded']
     shell.teardown
@@ -109,7 +98,6 @@ class ImagePullerTest < AppControllerTestBase
   test '6F2269',
   'kata pull.needed is false if image (from post start-point re-architecture) kata.id has already been pulled' do
     create_kata('C#, NUnit')
-    # AppControllerTestBase sets StubRunner
     do_get 'kata_pull_needed', id_js
     refute json['needed']
   end
@@ -119,7 +107,6 @@ class ImagePullerTest < AppControllerTestBase
   test 'A9FA97',
   'kata pull.needed is true if image (from post start-point re-architecture) kata.id has not been pulled' do
     create_kata('C#, Moq')
-    # AppControllerTestBase sets StubRunner
     do_get 'kata_pull_needed', id_js
     assert json['needed']
   end
@@ -129,12 +116,7 @@ class ImagePullerTest < AppControllerTestBase
   test '317E66',
   'kata pull issues docker-pull image_name command and returns succeeded=true if pull succeeds' do
     create_kata('C#, Moq')
-    setup_mock_shell
-    shell.mock_exec(
-      ['docker pull cyberdojofoundation/csharp_moq'],
-      docker_pull_output,
-      exit_success
-    )
+    mock_docker_pull_success('csharp_moq')
     do_get 'kata_pull', id_js
     assert json['succeeded']
     shell.teardown
@@ -145,18 +127,35 @@ class ImagePullerTest < AppControllerTestBase
   test 'B45B07',
   'kata pull issues docker-pull image_name command and returns succeeded=false if pull fails' do
     create_kata('C#, Moq')
-    setup_mock_shell
-    shell.mock_exec(
-      ['docker pull cyberdojofoundation/csharp_moq'],
-      any_output='456ersfdg',
-      exit_failure=34
-    )
+    mock_docker_pull_failure('csharp_moq')
     do_get 'kata_pull', id_js
     refute json['succeeded']
     shell.teardown
   end
 
   private
+
+  def mock_docker_pull_failure(image_name)
+    setup_mock_shell
+    shell.mock_exec(
+      ["docker pull cyberdojofoundation/#{image_name}"],
+      any_output='456ersfdg',
+      exit_failure=34
+    )
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  def mock_docker_pull_success(image_name)
+    setup_mock_shell
+    shell.mock_exec(
+      ["docker pull cyberdojofoundation/#{image_name}"],
+      docker_pull_output,
+      exit_success
+    )
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
 
   def do_get(route, params = {})
     controller = 'image_puller'
