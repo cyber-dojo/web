@@ -37,6 +37,8 @@ CyberDojo::Application.routes.draw do
     get 'language_pull'        => :language_pull,        :constraints => { :format => :json }
     get 'custom_pull_needed'   => :custom_pull_needed,   :constraints => { :format => :json }
     get 'custom_pull'          => :custom_pull,          :constraints => { :format => :json }
+    get 'kata_pull_needed'     => :kata_pull_needed,     :constraints => { :format => :json }
+    get 'kata_pull'            => :kata_pull,            :constraints => { :format => :json }
   end
 
   scope path: '/enter', controller: :enter do

@@ -25,7 +25,14 @@ class ImagePullerController < ApplicationController
 
   # From fork page/dialog
 
-  # ...
+  def kata_pull_needed
+    render json: { needed: !dojo.runner.pulled?(kata.image_name) }
+  end
+
+  def kata_pull
+    _output, exit_status = dojo.runner.pull(kata.image_name)
+    render json: { succeeded: exit_status == 0 }
+  end
 
   private
 
@@ -35,6 +42,10 @@ class ImagePullerController < ApplicationController
 
   def custom
     dojo.custom[params['major'] + '-' + params['minor']]
+  end
+
+  def kata
+    dojo.katas[params['id']]
   end
 
 end
