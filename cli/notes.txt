@@ -6,24 +6,6 @@ Server Upgrade
      Current disk is SSD 200GB and is 75% inode full.
      Current spec is 2CPU, 7.5GB.
 
-     On web-console page
-     Disks choose cdf-server
-     Click CreateSnapshot
-     called it cdf-server-snaphot-for-new-server
-     Being created now...
-     Then created new-instance from it.
-     Then edited its disk - resized to 300GB
-     Then ssh'd in
-     How can I check how big disk is?
-     sudo fdisk -l | grep Disk
-       confirms disk is 300GB
-     df -H -i
-       shows still 75% Inode full :-(
-    Ah but https://cloud.google.com/compute/docs/disks/add-persistent-disk
-    says you have to resize the filesystem.
-    Didn't work :-(
-    How about rsync/scp'ing across?
-
   o) create new server from disk-copy using Ubuntu 15.10 as base OS
   o) use modified docker-compose.yml
      Need to remove this line from docker-compose.yml
@@ -32,6 +14,7 @@ Server Upgrade
      Need to add this
        volumes:
          - /var/www/cyber-dojo/katas:${CYBER_DOJO_ROOT}/katas:rw
+
   o) Make sure katas folder had user-rights matching user inside the web container.
      $ userdel cyber-dojo
      $ adduser --disabled-password --disabled-login --uid 19661 cyber-dojo
@@ -57,14 +40,13 @@ Server Upgrade
 - - - - - - - - - - - - - - - - - - - - -
 
 Docker for Mac and Docker for Windows is now out.
-It makes me realize that the current way of having a cyber-dojo
+It makes me realize that the current design of the cyber-dojo
 shell script creates a speed-bump for OS portability.
 Ideally what I want is a super-simple, super-small cyber-dojo.bat file.
 The only commands that the shell script currently actually handles
 are (update, up, down). Could these be done in inside a web container?
 The main issue is start-point --git/--dir= volume creation is not be able
 to access *local* dirs.
-You could [docker-machine ssh] in and create the dir on default. Nope.
 I should be able to use [docker cp] to copy --git/--dir= into the
 container (as a volume directly maybe) so it can run from there.
 Something using ExecuteAround...
