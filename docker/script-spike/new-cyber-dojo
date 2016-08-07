@@ -1,0 +1,39 @@
+#!/bin/sh
+set -e
+
+# Script file to control a cyber-dojo web server.
+# Minimal design is to aid OS portability
+
+exit_if_not_installed() {
+  hash ${1} 2> /dev/null
+  if [ $? != 0 ]; then
+    echo
+    echo "${1} is not installed"
+    echo 'See step 1 of https://github.com/cyber-dojo/web/blob/master/README.md'
+    exit 1
+  fi
+}
+
+exit_if_not_installed 'docker'
+exit_if_not_installed 'docker-machine'
+exit_if_not_installed 'docker-compose'
+
+docker_version=$(docker --version | awk '{print $3}' | sed '$s/.$//')
+image=cyberdojo/script-spike:${docker_version}
+
+output=$(docker run \
+  --rm \
+  --user=root \
+  --volume=/var/run/docker.sock:/var/run/docker.sock \
+  ${image} \
+  /usr/src/cyber-dojo/docker/script-spike/cyber-dojo.rb $*)
+
+exit_status=$?
+echo "before:exit_status=${exit_status}"
+#echo "before:output=${output}"
+
+output=`eval ${output}`
+exit_status=$?
+echo "after:exit_status=${exit_status}"
+#echo "after:output=${output}"
+

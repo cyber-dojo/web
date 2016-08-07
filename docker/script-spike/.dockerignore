@@ -1,0 +1,11 @@
+#-----Ignore everything
+
+*
+
+#-----!Except these folders
+
+!app/lib
+
+!cli
+!docker/script-spike
+
