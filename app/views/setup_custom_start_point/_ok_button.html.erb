@@ -4,15 +4,17 @@
 $(function() {
 
   var createDojo = function() {
-    $.getJSON('/setup_custom_start_point/save', cd.chosenMajorMinor(), function(dojo) {
+    var params = cd.chosenMajorMinor();
+    $.getJSON('/setup_custom_start_point/save', params, function(dojo) {
       cd.newDojoDialog(dojo.id, 'from_setup');
     });
   };
 
   $('#create-it').click(function() {
-    $.getJSON('/image_puller/custom_pull_needed', cd.chosenMajorMinor(), function(pull) {
+    var params = cd.chosenMajorMinor();
+    $.getJSON('/image_puller/custom_pull_needed', params, function(pull) {
       if (pull.needed) {
-        cd.dialog_pullImageThen('/image_puller/custom_pull', createDojo);
+        cd.dialog_pullImageThen('/image_puller/custom_pull', params, createDojo);
       } else {
         createDojo();
       }

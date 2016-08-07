@@ -25,14 +25,14 @@ var cyberDojo = (function(cd, $) {
       });
   };
 
-  cd.dialog_pullImageThen = function(route, fn) {
+  cd.dialog_pullImageThen = function(route, params, fn) {
     var pullDialog = makePullDialog();
     var pullOverlay = $('<div id="pull-overlay"></div>');
     var pullSpinner = $('#pull-spinner');
     pullDialog.dialog('open');
     pullOverlay.insertAfter($('body'));
     pullSpinner.show();
-    $.getJSON(route, cd.chosenMajorMinor(), function(pull) {
+    $.getJSON(route, params, function(pull) {
       pullSpinner.hide();
       pullOverlay.remove();
       pullDialog.dialog('close');
@@ -61,10 +61,7 @@ var cyberDojo = (function(cd, $) {
 
   var makePullDialog = function() {
     var html = '' +
-      'This is the first time anyone has selected<br/>' +
-      '&nbsp;&nbsp;&nbsp;&rarr;&nbsp;' + cd.chosenMajor() + '<br/>' +
-      '&nbsp;&nbsp;&nbsp;&rarr;&nbsp;' + cd.chosenMinor() + '<br/>' +
-      "It's docker image is now being pulled onto the server.<br/>" +
+      'The appropriate runtime environment is being set.<br/>' +
       'It may take a minute or two.<br/>' +
       'Please wait...';
     return $('<div>')
@@ -75,7 +72,7 @@ var cyberDojo = (function(cd, $) {
         close: function() { $(this).remove(); },
         autoOpen: false,
         width: 550,
-        height: 210,
+        height: 185,
         modal: true,
       });
   };

@@ -472,19 +472,27 @@ $(function() {
 
   var doFork = function() {
 
-    // TODO: is docker-pull needed?
-    //       pass param.id to image_puller_controller
-
-    var params = {
-          id: param.id,
-      avatar: param.avatar,
-         tag: param.nowTag
+    var doForkAfterPull = function() {
+      var fork_params = {
+            id: param.id,
+        avatar: param.avatar,
+           tag: param.nowTag
+      };
+      $.getJSON('/forker/fork', fork_params, function(data) {
+        if (data.forked) {
+          cd.newDojoDialog(data.id, 'from_fork');
+        } else {
+          forkFailedDialog(data.reason);
+        }
+      });
     };
-    $.getJSON('/forker/fork', params, function(data) {
-      if (data.forked) {
-        cd.newDojoDialog(data.id, 'from_fork');
+
+    var params = { id: param.id };
+    $.getJSON('/image_puller/kata_pull_needed', params, function(pull) {
+      if (pull.needed) {
+        cd.dialog_pullImageThen('/image_puller/kata_pull', params, doForkAfterPull);
       } else {
-        forkFailedDialog(data.reason);
+        doForkAfterPull();
       }
     });
   };

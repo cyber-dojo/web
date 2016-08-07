@@ -1,6 +1,4 @@
 
-Check if docker-pull is needed when forking.
-
 Documentation for adding a new language.
 
 Server Upgrade

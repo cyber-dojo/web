@@ -4,19 +4,17 @@
 $(function() {
 
   var createIt = function() {
-    var params = {
-         major: cd.chosenMajor(),
-         minor: cd.chosenMinor()
-    };
+    var params = cd.chosenMajorMinor();
     $.getJSON('/setup_default_start_point/save_no_exercise', params, function(dojo) {
       cd.newDojoDialog(dojo.id, 'from_setup');
     });
   };
 
   $('#no-exercise').click(function() {
-    $.getJSON('/image_puller/language_pull_needed', cd.chosenMajorMinor(), function(pull) {
+    var params = cd.chosenMajorMinor();
+    $.getJSON('/image_puller/language_pull_needed', params, function(pull) {
       if (pull.needed) {
-        cd.dialog_pullImageThen('/image_puller/language_pull', createIt);
+        cd.dialog_pullImageThen('/image_puller/language_pull', params, createIt);
       } else {
         createIt();
       }

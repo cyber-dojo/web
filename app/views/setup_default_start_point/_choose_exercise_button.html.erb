@@ -12,9 +12,10 @@ $(function() {
   };
 
   $('#choose-exercise').click(function() {
-    $.getJSON('/image_puller/language_pull_needed', cd.chosenMajorMinor(), function(pull) {
+    var params = cd.chosenMajorMinor();
+    $.getJSON('/image_puller/language_pull_needed', params, function(pull) {
         if (pull.needed) {
-          cd.dialog_pullImageThen('/image_puller/language_pull', gotoChooseExercisesPage);
+          cd.dialog_pullImageThen('/image_puller/language_pull', params, gotoChooseExercisesPage);
         } else {
           gotoChooseExercisesPage();
         }
