@@ -15,6 +15,7 @@ Main repo for a [cyber-dojo](http://cyber-dojo.org) web server.<br/>
   * [how do I use cyber-dojo?](http://blog.cyber-dojo.org/2014/08/getting-started.html)
   * [learn more](http://blog.cyber-dojo.org/p/learn-more.html)
 
+---
 
 Running your own cyber-dojo server...
 
