@@ -7,6 +7,7 @@ to look at the exercises...
 
 The test folder is 45MB
 Mount this as a volume when wanting to run the tests inside the container.
+web image is 275MB would bring it down to 230MB
 
 - - - - - - - - - - - - - - - - - - - - -
 
