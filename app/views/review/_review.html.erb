@@ -488,13 +488,7 @@ $(function() {
     };
 
     var params = { type: 'kata', id: param.id };
-    $.getJSON('/image_puller/pull_needed', params, function(pull) {
-      if (pull.needed) {
-        cd.dialog_pullImageThen('/image_puller/pull', params, doForkAfterPull);
-      } else {
-        doForkAfterPull();
-      }
-    });
+    cd.dialog_pullImageIfNeededThen(params, doForkAfterPull);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -

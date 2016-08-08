@@ -3,6 +3,16 @@
 var cyberDojo = (function(cd, $) {
   "use strict";
 
+  cd.dialog_pullImageIfNeededThen = function(params, fn) {
+    $.getJSON('/image_puller/pull_needed', params, function(pull) {
+      if (pull.needed) {
+        dialog_pullImageThen('/image_puller/pull', params, fn);
+      } else {
+        fn();
+      }
+    });
+  };
+
   var makePullFailedDialog = function() {
     var html = '' +
       'Sorry... pulling the docker image to the server failed.<br/>' +
@@ -25,7 +35,7 @@ var cyberDojo = (function(cd, $) {
       });
   };
 
-  cd.dialog_pullImageThen = function(route, params, fn) {
+  var dialog_pullImageThen = function(route, params, fn) {
     var pullDialog = makePullDialog();
     var pullOverlay = $('<div id="pull-overlay"></div>');
     var pullSpinner = $('#pull-spinner');
@@ -72,7 +82,7 @@ var cyberDojo = (function(cd, $) {
         close: function() { $(this).remove(); },
         autoOpen: false,
         width: 550,
-        height: 170,
+        height: 165,
         modal: true,
       });
   };

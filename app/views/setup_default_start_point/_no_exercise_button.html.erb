@@ -13,13 +13,7 @@ $(function() {
   $('#no-exercise').click(function() {
     var params = cd.chosenMajorMinor();
     params['type'] = 'language'
-    $.getJSON('/image_puller/pull_needed', params, function(pull) {
-      if (pull.needed) {
-        cd.dialog_pullImageThen('/image_puller/pull', params, createIt);
-      } else {
-        createIt();
-      }
-    });
+    cd.dialog_pullImageIfNeededThen(params, createIt);
   });
 
 });

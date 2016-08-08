@@ -13,13 +13,7 @@ $(function() {
   $('#create-it').click(function() {
     var params = cd.chosenMajorMinor();
     params['type'] = 'custom'
-    $.getJSON('/image_puller/pull_needed', params, function(pull) {
-      if (pull.needed) {
-        cd.dialog_pullImageThen('/image_puller/pull', params, createDojo);
-      } else {
-        createDojo();
-      }
-    });
+    cd.dialog_pullImageIfNeededThen(params, createDojo);
   });
 
 });

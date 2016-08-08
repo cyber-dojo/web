@@ -1,4 +1,8 @@
 
+Pulling the docker image (if needed) when you choose an exercise...
+This should happen at the exercises page. What if you just want
+to look at the exercises...
+
 Documentation for adding a new language.
 
 Server Upgrade
