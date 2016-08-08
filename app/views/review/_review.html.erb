@@ -487,10 +487,10 @@ $(function() {
       });
     };
 
-    var params = { id: param.id };
-    $.getJSON('/image_puller/kata_pull_needed', params, function(pull) {
+    var params = { type: 'kata', id: param.id };
+    $.getJSON('/image_puller/pull_needed', params, function(pull) {
       if (pull.needed) {
-        cd.dialog_pullImageThen('/image_puller/kata_pull', params, doForkAfterPull);
+        cd.dialog_pullImageThen('/image_puller/pull', params, doForkAfterPull);
       } else {
         doForkAfterPull();
       }

@@ -12,9 +12,10 @@ $(function() {
 
   $('#no-exercise').click(function() {
     var params = cd.chosenMajorMinor();
-    $.getJSON('/image_puller/language_pull_needed', params, function(pull) {
+    params['type'] = 'language'
+    $.getJSON('/image_puller/pull_needed', params, function(pull) {
       if (pull.needed) {
-        cd.dialog_pullImageThen('/image_puller/language_pull', params, createIt);
+        cd.dialog_pullImageThen('/image_puller/pull', params, createIt);
       } else {
         createIt();
       }

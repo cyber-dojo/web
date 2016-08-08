@@ -45,6 +45,8 @@ def process(params)
     g_cid = `cat #{g_cidfile}`.strip
     # TODO: add error check
 
+    # TODO: rm g_cidfile
+
     command = [
       # 3. fill empty volume from local dir
       # NB: [cp DIR/.] != [cp DIR];  DIR/. means copy the contents

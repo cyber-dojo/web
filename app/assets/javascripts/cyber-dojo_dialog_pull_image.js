@@ -61,8 +61,8 @@ var cyberDojo = (function(cd, $) {
 
   var makePullDialog = function() {
     var html = '' +
-      'The appropriate runtime environment is being set.<br/>' +
-      'It may take a minute or two.<br/>' +
+      'The appropriate runtime environment is being set up.<br/>' +
+      'It typically takes a minute or two.<br/>' +
       'Please wait...';
     return $('<div>')
       .html(html)
@@ -72,7 +72,7 @@ var cyberDojo = (function(cd, $) {
         close: function() { $(this).remove(); },
         autoOpen: false,
         width: 550,
-        height: 185,
+        height: 170,
         modal: true,
       });
   };

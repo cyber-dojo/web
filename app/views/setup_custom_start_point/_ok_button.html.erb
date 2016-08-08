@@ -12,9 +12,10 @@ $(function() {
 
   $('#create-it').click(function() {
     var params = cd.chosenMajorMinor();
-    $.getJSON('/image_puller/custom_pull_needed', params, function(pull) {
+    params['type'] = 'custom'
+    $.getJSON('/image_puller/pull_needed', params, function(pull) {
       if (pull.needed) {
-        cd.dialog_pullImageThen('/image_puller/custom_pull', params, createDojo);
+        cd.dialog_pullImageThen('/image_puller/pull', params, createDojo);
       } else {
         createDojo();
       }

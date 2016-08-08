@@ -17,7 +17,7 @@ class ImagePullerTest < AppControllerTestBase
 
   test '406596',
   'language pull.needed is true if docker image is not pulled' do
-    do_get 'language_pull_needed', major_minor_js('C#', 'Moq')
+    do_get 'pull_needed', major_minor_js('language', 'C#', 'Moq')
     assert json['needed']
   end
 
@@ -25,7 +25,7 @@ class ImagePullerTest < AppControllerTestBase
 
   test 'B28A3D',
   'language pull.needed is false if docker image is pulled' do
-    do_get 'language_pull_needed', major_minor_js('C#', 'NUnit')
+    do_get 'pull_needed', major_minor_js('language', 'C#', 'NUnit')
     refute json['needed']
   end
 
@@ -35,7 +35,7 @@ class ImagePullerTest < AppControllerTestBase
   'language pull issues docker-pull image_name command and returns succeeded=true if pull succeeds' do
     setup_mock_shell
     mock_docker_pull_success('csharp_nunit')
-    do_get 'language_pull', major_minor_js('C#', 'NUnit')
+    do_get 'pull', major_minor_js('language', 'C#', 'NUnit')
     assert json['succeeded']
     shell.teardown
   end
@@ -46,7 +46,7 @@ class ImagePullerTest < AppControllerTestBase
   'language pull issues docker-pull image_name command and returns succeeded=false if pull fails' do
     setup_mock_shell
     mock_docker_pull_failure('csharp_nunit')
-    do_get 'language_pull', major_minor_js('C#', 'NUnit')
+    do_get 'pull', major_minor_js('language', 'C#', 'NUnit')
     refute json['succeeded']
     shell.teardown
   end
@@ -57,7 +57,7 @@ class ImagePullerTest < AppControllerTestBase
 
   test '294C10',
   'custom pull.needed is true if docker image is not pulled' do
-    do_get 'custom_pull_needed', major_minor_js('Tennis refactoring', 'Python unitttest')
+    do_get 'pull_needed', major_minor_js('custom', 'Tennis refactoring', 'Python unitttest')
     assert json['needed']
   end
 
@@ -65,7 +65,7 @@ class ImagePullerTest < AppControllerTestBase
 
   test '9D3E9A',
   'custom pull_needed is false if docker image is pulled' do
-    do_get 'custom_pull_needed', major_minor_js('Tennis refactoring', 'C# NUnit')
+    do_get 'pull_needed', major_minor_js('custom', 'Tennis refactoring', 'C# NUnit')
     refute json['needed']
   end
 
@@ -75,7 +75,7 @@ class ImagePullerTest < AppControllerTestBase
   'custom pull issues docker-pull image_name command and returns succeeded=true if pull succeeds' do
     setup_mock_shell
     mock_docker_pull_success('python_unittest')
-    do_get 'custom_pull', major_minor_js('Tennis refactoring', 'Python unitttest')
+    do_get 'pull', major_minor_js('custom', 'Tennis refactoring', 'Python unitttest')
     assert json['succeeded']
     shell.teardown
   end
@@ -86,7 +86,7 @@ class ImagePullerTest < AppControllerTestBase
   'custom pull issues docker-pull image_name command and returns succeeded=false if pull fails' do
     setup_mock_shell
     mock_docker_pull_failure('python_unittest')
-    do_get 'custom_pull', major_minor_js('Tennis refactoring', 'Python unitttest')
+    do_get 'pull', major_minor_js('custom', 'Tennis refactoring', 'Python unitttest')
     refute json['succeeded']
     shell.teardown
   end
@@ -98,7 +98,7 @@ class ImagePullerTest < AppControllerTestBase
   test '6F2269',
   'kata pull.needed is false if image (from post start-point re-architecture) kata.id has already been pulled' do
     create_kata('C#, NUnit')
-    do_get 'kata_pull_needed', id_js
+    do_get 'pull_needed', id_js
     refute json['needed']
   end
 
@@ -107,7 +107,7 @@ class ImagePullerTest < AppControllerTestBase
   test 'A9FA97',
   'kata pull.needed is true if image (from post start-point re-architecture) kata.id has not been pulled' do
     create_kata('C#, Moq')
-    do_get 'kata_pull_needed', id_js
+    do_get 'pull_needed', id_js
     assert json['needed']
   end
 
@@ -117,7 +117,7 @@ class ImagePullerTest < AppControllerTestBase
   'kata pull issues docker-pull image_name command and returns succeeded=true if pull succeeds' do
     create_kata('C#, Moq')
     mock_docker_pull_success('csharp_moq')
-    do_get 'kata_pull', id_js
+    do_get 'pull', id_js
     assert json['succeeded']
     shell.teardown
   end
@@ -128,7 +128,7 @@ class ImagePullerTest < AppControllerTestBase
   'kata pull issues docker-pull image_name command and returns succeeded=false if pull fails' do
     create_kata('C#, Moq')
     mock_docker_pull_failure('csharp_moq')
-    do_get 'kata_pull', id_js
+    do_get 'pull', id_js
     refute json['succeeded']
     shell.teardown
   end
@@ -165,9 +165,10 @@ class ImagePullerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def major_minor_js(major, minor)
+  def major_minor_js(type, major, minor)
     {
       format: :js,
+        type: type,
        major: major,
        minor: minor
     }
@@ -177,6 +178,7 @@ class ImagePullerTest < AppControllerTestBase
 
   def id_js
     {
+        type: :kata,
       format: :js,
           id: @id
     }
