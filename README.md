@@ -4,7 +4,7 @@
 
 Main repo for a [cyber-dojo](http://cyber-dojo.org) web server.<br/>
 
- * Hi. I'm [Jon Jagger](http://jonjagger.blogspot.co.uk/). Welcome to cyber-dojo :-)
+  * Hi. I'm [Jon Jagger](http://jonjagger.blogspot.co.uk/). Welcome to cyber-dojo :-)
   * a [dojo](http://en.wikipedia.org/wiki/Dojo) is a place where martial artists meet to practice their martial art
   * a cyber-dojo is where programmers meet to [practice](http://jonjagger.blogspot.co.uk/2013/10/practice.html) programming!
   * a cyber-dojo is <em>not</em> an Individual Development Environment
