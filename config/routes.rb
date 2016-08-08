@@ -42,7 +42,6 @@ CyberDojo::Application.routes.draw do
     get 'check'      => :check,    :constraints => { :format => :json }
     get 'start'      => :start,    :constraints => { :format => :json }
     get 'continue'   => :continue, :constraints => { :format => :json }
-
   end
 
   scope path: '/kata', controller: :kata do
