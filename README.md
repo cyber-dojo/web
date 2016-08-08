@@ -13,7 +13,6 @@ Main repo for a [cyber-dojo](http://cyber-dojo.org) web server.<br/>
   * in a cyber-dojo you [practice](http://jonjagger.blogspot.co.uk/2013/10/practice.html) by going <em>slower</em> and focusing on [improving](http://jonjagger.blogspot.co.uk/2014/02/improving.html) rather than finishing
   * [cyber-dojo foundation](http://blog.cyber-dojo.org/2015/08/cyber-dojo-foundation.html) is a registered Scottish Charitable Incorporated Organisation
   * [how do I use cyber-dojo?](http://blog.cyber-dojo.org/2014/08/getting-started.html)
-  * [how do I run my own cyber-dojo server?](http://blog.cyber-dojo.org/2016/03/running-your-own-cyber-dojo-server.html)
   * [learn more](http://blog.cyber-dojo.org/p/learn-more.html)
 
 
