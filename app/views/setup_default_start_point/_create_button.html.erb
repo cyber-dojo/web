@@ -3,7 +3,7 @@
 
 $(function() {
 
-  $('#create-it').click(function() {
+  var saveAndCreateNewDojo = function() {
     var params = {
          major: "<%= @language %>",
          minor: "<%= @test %>",
@@ -12,6 +12,15 @@ $(function() {
     $.getJSON('/setup_default_start_point/save', params, function(dojo) {
       cd.newDojoDialog(dojo.id, 'from_setup');
     });
+  };
+
+  $('#create-it').click(function() {
+    var params = {
+         major: "<%= @language %>",
+         minor: "<%= @test %>",
+         type: 'language'
+    };
+    cd.dialog_pullImageIfNeededThen(params, saveAndCreateNewDojo);
   });
 
 });

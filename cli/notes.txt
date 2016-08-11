@@ -1,10 +1,4 @@
 
-Pulling the docker image (if needed) when you choose an exercise...
-This should happen at the exercises page. What if you just want
-to look at the exercises...
-
-- - - - - - - - - - - - - - - - - - - - -
-
 The test folder is 45MB
 Mount this as a volume when wanting to run the tests inside the container.
 web image is 275MB would bring it down to 230MB

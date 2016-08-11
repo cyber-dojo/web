@@ -3,18 +3,12 @@
 
 $(function() {
 
-  var gotoChooseExercisesPage = function() {
+  $('#choose-exercise').click(function() {
     var id = "<%= @id %>";
     var url = '/setup_default_start_point/show_exercises/' + id +
       '?language=' + encodeURIComponent(cd.chosenMajor()) +
       '&test=' + encodeURIComponent(cd.chosenMinor());
     window.location = url;
-  };
-
-  $('#choose-exercise').click(function() {
-    var params = cd.chosenMajorMinor();
-    params['type'] = 'language'
-    cd.dialog_pullImageIfNeededThen(params, gotoChooseExercisesPage);
   });
 
 });
