@@ -1,13 +1,51 @@
 
-Documentation for adding a new language.
-
 Server Upgrade
-  o) copy disk on cyber-dojo.org
+  o) copy katas/ on current server to new server
      Current disk is SSD 200GB and is 75% inode full.
      Current spec is 2CPU, 7.5GB.
 
-  o) create new server from disk-copy using Ubuntu 15.10 as base OS
+     Copying files from old-server to new-server using rsync
+     http://www.jveweb.net/en/archives/2011/01/running-rsync-as-a-daemon.html
+
+     On the server I'm copying FROM I created /etc/rsyncd.conf
+     and put the INTERNAL ip address of the machine I'm copying TO in the hosts-allow
+
+     lock file = /var/run/rsync.lock
+     log file = /var/log/rsyncd.log
+     pid file = /var/run/rsyncd.pid
+     [katas]
+         path = /var/www/cyber-dojo/katas
+         comment = cyber-dojo katas
+         read only = yes
+         list = yes
+         auth users = jj
+         secrets file = /etc/rsyncd.secrets
+         hosts allow = 10.240.0.5/255.255.255.0
+
+     Then I created an /etc/rsyncd.secrets file
+     jj:password-goes-here
+
+     Then I started the server
+     $ sudo rsync --daemon
+
+     Then on the server I'm copying to, cd to the folder where I want all the katas (00,01,etc)
+     $ rsync -rtv jj@104.199.4.146::katas .
+     $ enter password
+
+     Note jj is not a real user.
+     Note :: has two colons
+     Note katas is the [katas] from the rsyncd.conf file
+
+
+  o) Make sure katas folder had user-rights matching user inside the web container.
+     On Ubuntu 16.04 ($ lsb_release -a)
+     $ userdel cyber-dojo
+     $ sudo adduser --disabled-password --disabled-login --uid 19661 cyber-dojo
+     $ cd /var/www/cyber-dojo
+     $ sudo chown -R cyber-dojo:cyber-dojo katas
+
   o) use modified docker-compose.yml
+
      Need to remove this line from docker-compose.yml
        volumes_from:
          - ${CYBER_DOJO_KATAS_DATA_CONTAINER}:rw
@@ -15,14 +53,9 @@ Server Upgrade
        volumes:
          - /var/www/cyber-dojo/katas:${CYBER_DOJO_ROOT}/katas:rw
 
-  o) Make sure katas folder had user-rights matching user inside the web container.
-     $ userdel cyber-dojo
-     $ adduser --disabled-password --disabled-login --uid 19661 cyber-dojo
-     $ cd /var/www/cyber-dojo
-     $ sudo chown -R cyber-dojo:cyber-dojo katas
      $ cd ~
-     $ sudo ./cyber-dojo pull all
      $ sudo ./cyber-dojo up
+     $ sudo ./cyber-dojo start-point languages pull
 
      Need to comment out this line in cyber-dojo.sh
        # one_time_creation_of_katas_data_container
@@ -121,11 +154,6 @@ Alpine-linux has a package for 2.9.1-r0 (branch=edge, repo=main)
 
 When you do a git tag do you have to supply
 user-name and user-email?
-
-- - - - - - - - - - - - - - - - - - - - -
-
-Check sandbox folders do *not* contain files such as nunit.framework.dll
-which will bloat the tgz file size (such files should be in the docker-image).
 
 - - - - - - - - - - - - - - - - - - - - -
 
