@@ -181,16 +181,6 @@ Test these with shunit2 tests.
 
 - - - - - - - - - - - - - - - - - - - - -
 
-app_controllers tests has this warning
-/usr/lib/ruby/gems/2.3.0/gems/activesupport-4.1.0/lib/active_support/values/time_zone.rb:285: warning: circular argument reference - now
-Tried upgrading to Ruby 4.2.6
-solves this as long Gemfile.lock is not part of the docker context
-(remove it from web's dockerignore file)
-This causes a few app_controller deprecation warnings
-and a load of app_controller test fails which seem to be due to bad URLs
-
-- - - - - - - - - - - - - - - - - - - - -
-
 Occasional test failures (when run locally)...
   ForkerControllerTest#test_'EAE021',
     when language no longer exists, the fork fails, and the reason given is language
