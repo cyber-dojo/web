@@ -1,5 +1,10 @@
 
 Server Upgrade
+  o) install docker on new server
+     $ curl -O https://raw.githubusercontent.com/cyber-dojo/web/master/cli/install-docker.sh
+     $ chmod +x install-docker.sh
+     $ sudo ./install-docker.sh
+
   o) copy katas/ on current server to new server
      Current disk is SSD 200GB and is 75% inode full.
      Current spec is 2CPU, 7.5GB.
@@ -43,6 +48,11 @@ Server Upgrade
      $ sudo adduser --disabled-password --disabled-login --uid 19661 cyber-dojo
      $ cd /var/www/cyber-dojo
      $ sudo chown -R cyber-dojo:cyber-dojo katas
+       This will take a while...
+
+  o) install cyber-dojo
+     $ curl -O https://raw.githubusercontent.com/cyber-dojo/web/master/cli/cyber-dojo
+     $ chmod +x cyber-dojo
 
   o) use modified docker-compose.yml
 
@@ -51,7 +61,7 @@ Server Upgrade
          - ${CYBER_DOJO_KATAS_DATA_CONTAINER}:rw
      Need to add this
        volumes:
-         - /var/www/cyber-dojo/katas:${CYBER_DOJO_ROOT}/katas:rw
+         - /PATH/TO/katas:${CYBER_DOJO_ROOT}/katas:rw
 
      $ cd ~
      $ sudo ./cyber-dojo up
