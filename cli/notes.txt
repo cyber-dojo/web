@@ -84,15 +84,12 @@ I think there are 3 kinds of 'storer'.
 1. katas_storer
    Holds manifest.json as a direct copy of start-point info
    which it is then decoupled from.
-   Should also have method to colour(output)
 
 2. avatar_storer
    Holds the sandbox which may hold binary files (.class, .so, etc)
    What the avatar's run-test uses (currently tar-piped in-out)
    This could use one volume per avatar. This means I do not need to
    tar-pipe in/out.
-   NB: Need to ensure cyber-dojo.sh cannot use docker to volume
-       mount another avatar's volume.
    NB: iterating through all the avatars in a kata needs to happen here.
        Eg suppose I have volumes called
            123456789A_lion
@@ -101,7 +98,7 @@ I think there are 3 kinds of 'storer'.
        Suppose there are 10000's of avatars across all katas.
        I need an efficient way of finding the avatars in kata
        123456789A are [lion, elephant]
-       With docker 1.12 there is now at last a --filter option on [docker volume ls]
+       With docker 1.12 there is a --filter option on [docker volume ls]
        So...
            $ docker volume ls --filter name=^123456789A
 
