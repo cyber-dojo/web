@@ -1,10 +1,4 @@
 
-The test folder is 45MB
-Mount this as a volume when wanting to run the tests inside the container.
-web image is 275MB would bring it down to 230MB
-
-- - - - - - - - - - - - - - - - - - - - -
-
 Documentation for adding a new language.
 
 Server Upgrade
@@ -165,40 +159,15 @@ http://xunit.github.io/
 
 - - - - - - - - - - - - - - - - - - - - -
 
-Looking to make some smaller alpine-linux language images.
-Specifically, C#-NUnit and Java-JUnit
-Once I've got new base-image it should, in theory, just be
-a case of changing the FROM command in each test-framework's Dockerfile
-
-Java
-frolvlad/alpine-oraclejdk8:slim
-  How big is it? ~166.9 MB  (vs 843.7 MB)
-  docker run --rm frolvlad/alpine-oraclejdk8:slim sh -c "javac -version"
-    javac 1.8.0_92
-  There is a package called junit (branch=edge, repo=testing)
-
-Put Alpine based small images into cyberdojo repo.
-
 Note that upgrading Dockerfiles and images might break cyber-dojo.sh
 files since paths can be different...
 Does the cyber-dojo.sh file belong to the image rather than the start-point?
 
 - - - - - - - - - - - - - - - - - - - - -
 
-add [ci skip] to git commit messages if you want
-to skip the travis build
-
-- - - - - - - - - - - - - - - - - - - - -
-
 un-hardwire setting of 2 core env-vars in cyber-dojo script.
   export CYBER_DOJO_DATA_ROOT="/home/docker/data"
   export CYBER_DOJO_KATAS_ROOT="/home/docker/data/katas"
-
-- - - - - - - - - - - - - - - - - - - - -
-
-exercises refactoring
-  use disk[path].each_rdir('instructions') in its make_cache()
-  so you can have whatever folder structure you like.
 
 - - - - - - - - - - - - - - - - - - - - -
 
