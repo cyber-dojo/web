@@ -1,6 +1,5 @@
 
 %w(
-  name_of_caller
   manifest_property
 
   dojo

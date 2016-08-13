@@ -2,6 +2,7 @@
 # this list has order dependencies
 
 %w{
+  name_of_caller
   external_parent_chainer
 
   time_now

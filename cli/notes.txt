@@ -65,19 +65,22 @@ Server Upgrade
 
      $ cd ~
      $ sudo ./cyber-dojo up
-     $ sudo ./cyber-dojo start-point languages pull
+     $ sudo ./cyber-dojo start-point pull languages
 
      Need to comment out this line in cyber-dojo.sh
        # one_time_creation_of_katas_data_container
 
   o) This should hopefully fix the 100% cpu bug I've been occasionally hitting
      See https://github.com/docker/docker/issues/18180
-     One GCE creating a bare server using Ubuntu 14.04 shows
+     On GCE creating a bare server using Ubuntu 14.04 shows
      $ uname -r
      3.19.0-64-generic
-     One GCE creating a bare server using Ubuntu 15.10 shows
+     On GCE creating a bare server using Ubuntu 15.10 shows
      $ uname -r
      4.2.0-42-generic
+     On GCE creating a bare server using Ubuntu 16.04 shows
+     $ uname -r
+     ????????
 
 - - - - - - - - - - - - - - - - - - - - -
 
