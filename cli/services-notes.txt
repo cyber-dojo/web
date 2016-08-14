@@ -1,0 +1,67 @@
+
+If the katas object (saver/storer) can be decoupled from git it could be a big
+win for testing as I could then probably re-instate FakeDisk.
+I think there are 3 kinds of 'storer'.
+
+1. katas_storer
+   Holds manifest.json as a direct copy of start-point info
+   which it is then decoupled from.
+
+2. avatar_storer
+   Holds the sandbox which may hold binary files (.class, .so, etc)
+   What the avatar's run-test uses (currently tar-piped in-out)
+   This could use one volume per avatar. This means I do not need to
+   tar-pipe in/out.
+   NB: iterating through all the avatars in a kata needs to happen here.
+       Eg suppose I have volumes called
+           123456789A_lion
+           123456789B_hippo
+           123456789A_elephant
+       Suppose there are 10000's of avatars across all katas.
+       I need an efficient way of finding the avatars in kata
+       123456789A are [lion, elephant]
+       With docker 1.12 there is a --filter option on [docker volume ls]
+       So...
+           $ docker volume ls --filter name=^123456789A
+
+3. tag_storer
+   Holds increments.json which contains date-time-stamp info
+   on each traffic-light.
+   Also holds one folder per tag which can contain single json
+   file holding
+     o) visible_files
+     o) output
+     o) colour (red/amber/green)
+
+- - - - - - - - - - - - - - - - - - - - -
+
+I would still need a 'converter' service which would be given a kata id
+and would check if this was stored in (current) git format on hard-disk.
+If it was it would issue all commands necessary to the storers and then
+delete the kata from the hard-disk.
+It would need
+o) katas mounted
+o) link to all 3 storers.
+
+- - - - - - - - - - - - - - - - - - - - -
+
+downloader could also be a new service...
+downloader currently returns a zip file of the whole kata with a git repo
+per animal.  To decouple this from git I could return a zip in the tag-storer
+format (one subdir per tag).
+I could insert a shell script file into this zip which (when run) would convert
+the unzipped structure it into the current (git) format (it would also check
+that git was installed)
+Should this be a new service or in the storer?
+
+- - - - - - - - - - - - - - - - - - - - -
+
+Possible services
+- tag_differ
+- tag_storer
+- avatar_storer+runner
+- kata_storer
+- kata_converter
+- downloader????
+
+- - - - - - - - - - - - - - - - - - - - -
