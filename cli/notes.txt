@@ -166,16 +166,6 @@ Possible services
 
 - - - - - - - - - - - - - - - - - - - - -
 
-git 2.9+ has new  `--compaction-heuristic`
-for improved diffs. Try to get this in place.
-(git version in web image is 2.8.3)
-Alpine-linux has a package for 2.9.1-r0 (branch=edge, repo=main)
-
-When you do a git tag do you have to supply
-user-name and user-email?
-
-- - - - - - - - - - - - - - - - - - - - -
-
 Move runners from lib/code to app/lib/code
 
 - - - - - - - - - - - - - - - - - - - - -
