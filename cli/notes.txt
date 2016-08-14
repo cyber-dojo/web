@@ -21,6 +21,8 @@ Server Upgrade
      [katas]
          path = /var/www/cyber-dojo/katas
          comment = cyber-dojo katas
+         uid = 19661
+         gid = 19661
          read only = yes
          list = yes
          auth users = jj
@@ -34,21 +36,13 @@ Server Upgrade
      $ sudo rsync --daemon
 
      Then on the server I'm copying to, cd to the folder where I want all the katas (00,01,etc)
+     $ cd ~/katas
      $ rsync -rtv jj@104.199.4.146::katas .
      $ enter password
 
      Note jj is not a real user.
      Note :: has two colons
      Note katas is the [katas] from the rsyncd.conf file
-
-
-  o) Make sure katas folder had user-rights matching user inside the web container.
-     On Ubuntu 16.04 ($ lsb_release -a)
-     $ userdel cyber-dojo
-     $ sudo adduser --disabled-password --disabled-login --uid 19661 cyber-dojo
-     $ cd /var/www/cyber-dojo
-     $ sudo chown -R cyber-dojo:cyber-dojo katas
-       This will take a while...
 
   o) install cyber-dojo
      $ curl -O https://raw.githubusercontent.com/cyber-dojo/web/master/cli/cyber-dojo
@@ -80,7 +74,22 @@ Server Upgrade
      4.2.0-42-generic
      On GCE creating a bare server using Ubuntu 16.04 shows
      $ uname -r
-     ????????
+     4.4.0-34-generic
+
+  o) Make sure katas folder had user-rights matching user inside the web container.
+     On Ubuntu 16.04 ($ lsb_release -a)
+     $ userdel cyber-dojo
+     $ sudo adduser --disabled-password --disabled-login --uid 19661 cyber-dojo
+     $ cd /var/www/cyber-dojo
+     $ sudo chown -R cyber-dojo:cyber-dojo katas
+       This will take a while...
+       Too long. Lost connection. New script...
+       dirs=$(printf "%02X " {0..255})
+       for d in $dirs
+       do
+         echo $d
+         sudo chown -R cyber-dojo:cyber-dojo katas/$d
+       done
 
 - - - - - - - - - - - - - - - - - - - - -
 
