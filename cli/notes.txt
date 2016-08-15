@@ -1,4 +1,11 @@
 
+- - - - - - - - - - - - - - - - - - - - -
+
+o) 100% test coverage for libs
+o) tests for cyber-dojo script
+
+- - - - - - - - - - - - - - - - - - - - -
+
 an output file is actually stored in the sandbox of an avatar.
 this is not right. it means the avatar cant create an output file
 for itself. The output 'file' should only be in the manifest.
@@ -27,11 +34,6 @@ on Mac/Windows quickstart-terminal.
 - - - - - - - - - - - - - - - - - - - - -
 
 Make [cyber-dojo clean] remove dead containers as well as dead images?
-
-- - - - - - - - - - - - - - - - - - - - -
-
-Add C# XUnit test framework.
-http://xunit.github.io/
 
 - - - - - - - - - - - - - - - - - - - - -
 

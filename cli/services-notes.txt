@@ -23,6 +23,9 @@ I think there are 3 kinds of 'storer'.
        With docker 1.12 there is a --filter option on [docker volume ls]
        So...
            $ docker volume ls --filter name=^123456789A
+   I need to
+   o) remove deleted files from the volume
+   o) add new/changed files to the volume
 
 3. tag_storer
    Holds increments.json which contains date-time-stamp info

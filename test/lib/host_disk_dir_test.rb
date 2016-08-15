@@ -208,6 +208,25 @@ class HostDiskDirTest < LibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test 'E73637',
+  'dir.each_rdir yields dirs of given filename at any dir depth' do
+    disk[path].write('a.txt', 'content')
+    disk[path + '/' + 'alpha'].make
+    disk[path + '/' + 'alpha'].write('a.txt', 'a')
+    disk[path + '/' + 'alpha' + '/' + 'beta'].make
+    disk[path + '/' + 'alpha' + '/' + 'beta'].write('a.txt', 'a')
+    dir_names = []
+    disk[path].each_rdir('a.txt') { |dir_name| dir_names << dir_name }
+    expected = [
+      path,
+      path + '/' + 'alpha',
+      path + '/' + 'alpha' + '/' + 'beta',
+    ]
+    assert_equal expected, dir_names
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '91E408',
   'disk[path].each_dir does not give filenames' do
     disk[path].write('beta.txt', 'content')
