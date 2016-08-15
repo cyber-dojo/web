@@ -222,7 +222,7 @@ class HostDiskDirTest < LibTestBase
       path + '/' + 'alpha',
       path + '/' + 'alpha' + '/' + 'beta',
     ]
-    assert_equal expected, dir_names
+    assert_equal expected.sort, dir_names.sort
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
