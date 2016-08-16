@@ -6,10 +6,6 @@ class TipTest < AppHelpersTestBase
 
   include TipHelper
 
-  def setup
-    super
-  end
-
   #- - - - - - - - - - - - - - - - - -
 
   test 'BDAD52',

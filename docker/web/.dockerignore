@@ -17,14 +17,6 @@
 !lib
 !test
 
-#-----!Except these _empty_ folders
-
-!caches
-caches/*
-
-!downloads
-downloads/*
-
 #-----!Except these files
 
 # {docker-compose.yml} [web: command: rails server...] needs this

@@ -74,6 +74,9 @@ export CYBER_DOJO_RUNNER_TIMEOUT=${VAR}
 VAR=${CYBER_DOJO_RUNNER_SUDO:-''}
 export CYBER_DOJO_RUNNER_SUDO=${VAR}
 
+# ensure empty dirs exist
+mkdir -p ${HOME_DIR}/caches
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # run-the-tests!
 
@@ -83,7 +86,6 @@ test_log='coverage/test.log'
 # ensure Mocks saving to Dir.tmpdir have clean start
 rm -rf ${TMPDIR}/cyber-dojo-*
 ruby -e "%w( ${testFiles[*]} ).map{ |file| './'+file }.each { |file| require file }" -- ${args[*]} 2>&1 | tee ${test_log}
-
 cp -R ../../coverage .
 #pwd                       # eg  .../cyber-dojo/test/app_lib
 cwd=${PWD##*/}             # eg  app_lib
