@@ -7,7 +7,7 @@
     @include non-code-font();
     font-size: 8.50em;
         color: $text-color;
-       margin: { bottom: 0px; }
+       margin: { bottom: 0px; top: 15px; }
       padding: { bottom: 0px; }
     .dot-org { font-size: 0.43em; }
   }
@@ -15,7 +15,7 @@
   #the-place-to-practice-programming {
     @include non-code-font();
        margin: { right: 0px; bottom: 3px; }
-    font-size: 1.12em;
+    font-size: 1.42em;
         color: lighten($text-color, 5%);
      position: relative;
           top: -9px;
