@@ -1,6 +1,12 @@
 
 - - - - - - - - - - - - - - - - - - - - -
 
+have some way of choosing which setup page gets shown when
+you click the [setup a new practice session] button.
+Default will be languages.
+
+- - - - - - - - - - - - - - - - - - - - -
+
 o) 100% test coverage for libs
 o) tests for cyber-dojo script
 
