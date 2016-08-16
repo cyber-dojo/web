@@ -81,9 +81,9 @@ Note: need a check that each docker image has a user in it called nobody
 
 - - - - - - - - - - - - - - - - - - - - -
 
-)) get travis to push images to cdf hub?
-   push images to cyberdojofoundation hub if tests pass
+get travis to push images to cdf hub?
+push images to cyberdojofoundation hub if tests pass
 
 - - - - - - - - - - - - - - - - - - - - -
 
-)) add confirmation diagnostic to each [cyber-dojo] command?
+add confirmation diagnostic to each [cyber-dojo] command?

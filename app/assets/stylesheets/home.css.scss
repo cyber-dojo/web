@@ -1,25 +1,7 @@
 
 #home-page {
 
-  #content { @include center-align(); }
-
-  .kids-pic {
-    width: 130px;
-    height: 90px;
-    margin-top: 5px;
-    margin-left: 32px;
-    margin-right: 30px;
-    border: 3px solid lighten($text-color, 5%);
-    @include rounded-corner();
-  }
-  .bought-pies {
-    @include edged-panel();
-    @include plaintext-font();
-    @include font-size-tiny();
-    padding: 10px;
-    margin: { left: 0px; top: 6px; }
-    width: 114px;
-  }
+  .center-content { @include center-align(); }
 
   #cyber-dojo {
     @include non-code-font();
@@ -43,8 +25,73 @@
        width: 235px;
     position: relative;
         left: 2px;
-         top: 2px;
+         top: -1px;
   }
+
+  hr {
+    height: 30px;
+    margin-top: 50px;
+    border-style: solid;
+    border-color: #8c8b8b;
+    border-width: 1px 0 0 0;
+    border-radius: 20px;
+  }
+  hr:before {
+    display: block;
+    content: "";
+    height: 30px;
+    margin-top: -31px;
+    border-style: solid;
+    border-color: #8c8b8b;
+    border-width: 0 0 1px 0;
+    border-radius: 20px;
+  }
+
+  //------------------------------------------
+
+  h1 {
+    @include non-code-font();
+    font-size: 4.25em;
+        color: $text-color;
+  }
+
+  .kids-pic {
+    width: 150px;
+    height: 100px;
+    margin-top: 5px;
+    margin-left: 10px;
+    margin-right: 0px;
+    border: 3px solid lighten($text-color, 5%);
+    @include rounded-corner();
+  }
+  .bought-pies {
+    border: 3px solid lighten($text-color, 5%);
+    @include rounded-corner();
+    @include plaintext-font();
+    @include font-size-small();
+    padding: 10px;
+    width: 160px;
+  }
+
+  //------------------------------------------
+
+  #scio {
+    @include plaintext-font();
+    font-size: 1.25em;
+  }
+  #magic-number {
+    @include plaintext-font();
+    font-size: 0.90em;
+  }
+
+  //------------------------------------------
+
+  .licensing-text, .info-text {
+    @include plaintext-font();
+    font-size: 1.25em;
+  }
+
+  //------------------------------------------
 
   #custom-container {
     position: absolute;
@@ -75,23 +122,32 @@
          margin: { top: 6px; bottom: 6px; }
   }
 
-  #donate-container,
-  #charity-container {
+  #donate-container {
     @include plaintext-font();
     @include edged-panel();
           width: 368px;
-          height: 80px;
+          height: 89px;
           padding: { right: 15px; }
-         margin: { top: 4px; left: 15px; bottom: 4px; }
-     text-align: right;
+         margin: { top: 9px; left: 15px; bottom: 9px; }
+     text-align: left; //right;
       font-size: 1.0em;
   }
 
-  #licensing-container,
+  #licensing-container {
+    @include plaintext-font();
+    @include edged-panel();
+          width: 388px;
+          height: 80px;
+          padding: { left: 0px; right: 0px; }
+         margin: { top: 4px; left: 0px; right: 0px; bottom: 4px; }
+     text-align: left;
+      font-size: 0.8em;
+  }
+
   #info-container {
     @include plaintext-font();
     @include edged-panel();
-          width: 230px;
+          width: 238px;
           height: 80px;
           padding: { left: 0px; right: 0px; }
          margin: { top: 4px; left: 0px; right: 0px; bottom: 4px; }

@@ -1,4 +1,9 @@
 
+Note that once web is split into services I could no longer run cyber-dojo
+as a local rails server. I think that's the right thing to do.
+
+- - - - - - - - - - - - - - - - - - - - -
+
 If the katas object (saver/storer) can be decoupled from git it could be a big
 win for testing as I could then probably re-instate FakeDisk.
 I think there are 3 kinds of 'storer'.
@@ -68,3 +73,4 @@ Possible services
 - downloader????
 
 - - - - - - - - - - - - - - - - - - - - -
+

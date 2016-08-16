@@ -3,65 +3,63 @@
 
   <%= render partial: 'custom' %>
 
-  <table id="content">
+  <table class="center-content">
     <tr>
-
-      <td>
-        <table>
-          <tr>
-            <td><img class="kids-pic" src="/images/Coimbatore1.jpg"
-              title="5 Raspberry Pi'es sent to Coimbatore in India"></td>
-          </tr>
-          <tr>
-            <td><img class="kids-pic" src="/images/Coimbatore2.jpg"
-              title="5 Raspberry Pi'es sent to Coimbatore in India"></td>
-          </tr>
-          <tr>
-            <td><img class="kids-pic" src="/images/Coimbatore3.jpg"
-              title="5 Raspberry Pi'es sent to Coimbatore in India"></td>
-          </tr>
-          <tr>
-            <td>
-              <div class="bought-pies">
-                Your donations are helping children learn to program in<br/>
-                Coimbatore, India.
-              </div>
-            </td>
-          </tr>
-        </table>
-      </td>
-
       <td><%= render partial: 'cyber_dojo' %></td>
-
-      <td>
-        <table>
-          <tr>
-            <td><img class="kids-pic" src="/images/Bray1.jpg"
-              title="5 Raspberry Pi'es sent to Bray, Ireland"></td>
-          </tr>
-          <tr>
-            <td><img class="kids-pic" src="/images/Bray2.jpg"
-              title="5 Raspberry Pi'es sent to Bray, Ireland"></td>
-          </tr>
-          <tr>
-            <td><img class="kids-pic" src="/images/Bray3.jpg"
-              title="5 Raspberry Pi'es sent to Bray, Ireland"></td>
-          </tr>
-          <tr>
-            <td>
-              <div class="bought-pies">
-                Your donations are helping children learn to program in<br/>
-                Bray, Ireland.
-              </div>
-            </td>
-          </tr>
-        </table>
-      </td>
-
     </tr>
   </table>
+
+
+  <hr/>
+
+
+  <h1 class="center-content">
+    <a href="http://blog.cyber-dojo.org/2015/08/cyber-dojo-foundation.html">
+      cyber-dojo Foundation
+    </a>
+  </h1>
+  <table class="center-content">
+      <%= render partial: 'pics_coimbatore' %>
+      <%= render partial: 'pics_bray' %>
+  </table>
+
+  <br/>
+  <br/>
+
+  <div class="center-content">
+    <div id="scio">Scottish Charitable Incorporated Organisation</div>
+    <div id="magic-number">(magic number SC045890)</div>
+  </div>
+
+  <hr/>
+
+  <h1 class="center-content">licensing</h1>
+  <div class="licensing-text center-content">
+    <div>cyber-dojo is free for <em>non</em>-commercial use</div>
+    <div>commercial use requires a license</div>
+    <div>the <a href="http://blog.cyber-dojo.org/2015/08/cyber-dojo-foundation.html">cyberdojo Foundation</a> issues licenses
+    </div>
+  </div>
+
+  <hr/>
+
+  <h1 class="center-content">info</h1>
+  <div class="info-text center-content">
+    <div>cyber-dojo is designed and built by <a href="http://jonjagger.blogspot.co.uk/">Jon Jagger</a>
+    </div>
+    <div>
+      <a href="https://www.behance.net/NadyaSivers">Nadya Sivers</a> drew the animals
+    </div>
+    <div>open sourced on <a href="https://github.com/cyber-dojo/web">github</a>
+    </div>
+  </div>
+
+  <br/>
+  <br/>
+  <br/>
 
 </div>
 
 <%= render partial: 'shared/footer_short',
     locals: { help_url: "http://blog.cyber-dojo.org/p/learn-more.html" } %>
+
