@@ -15,6 +15,7 @@
 
   #start-points-major-container, #start-points-minor-container, #exercises-container {
     @include edged-panel();
+    margin-top: 15px;
     padding: 10px !important;
     .title {
       @include font-size-medium();
