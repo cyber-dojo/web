@@ -1,5 +1,5 @@
 
-The cyber-dojo web server now lives inside a docker image called cyberdojofoundation/web
+The cyber-dojo web server now lives inside a docker image called cyberdojo/web
 The script to build this image is
 app/docker/web/build-image.sh
 
@@ -17,4 +17,4 @@ $ ./cyber-dojo up
 You can run the tests from inside the running web server...
 $ cd cli
 $ ./cyber-dojo sh
-$ cd test && ./run.sh
+/usr/src/cyber-dojo$ cd test && ./run.sh
