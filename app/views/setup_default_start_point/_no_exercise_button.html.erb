@@ -3,15 +3,21 @@
 
 $(function() {
 
+  var makeParams = function() {
+    return {
+         major: "<%= @language %>",
+         minor: "<%= @test %>"
+    };
+  };
+
   var createIt = function() {
-    var params = cd.chosenMajorMinor();
-    $.getJSON('/setup_default_start_point/save_no_exercise', params, function(dojo) {
+    $.getJSON('/setup_default_start_point/save_no_exercise', makeParams(), function(dojo) {
       cd.newDojoDialog(dojo.id, 'from_setup');
     });
   };
 
   $('#no-exercise').click(function() {
-    var params = cd.chosenMajorMinor();
+    var params = makeParams();
     params['type'] = 'language'
     cd.dialog_pullImageIfNeededThen(params, createIt);
   });
@@ -20,4 +26,4 @@ $(function() {
 
 //--></script>
 
-<button type="button" id="no-exercise">no exercise</button>
+<button type="button" id="no-exercise">set it up with no exercise</button>
