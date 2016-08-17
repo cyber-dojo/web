@@ -3,7 +3,7 @@
 
 $(function() {
 
-  $('#setup-default-session-button').click(function() {
+  $('#setup-a-new-practice-session-button').click(function() {
     cd.dialog_ie(function() {
       var id = "<%= @id %>";
       var url = '/setup_default_start_point/show_languages/' + id;
@@ -15,6 +15,6 @@ $(function() {
 
 //--></script>
 
-<button type="button" id="setup-default-session-button">
+<button type="button" id="setup-a-new-practice-session-button">
 setup a new practice session
 </button>

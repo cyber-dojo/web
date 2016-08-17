@@ -28,6 +28,8 @@
          top: -1px;
   }
 
+  //------------------------------------------
+
   hr {
     height: 30px;
     margin-top: 50px;
@@ -99,10 +101,10 @@
         top: 350px;
   }
 
-  #setup-default-session-button,
-  #setup-custom-session-button,
+  //------------------------------------------
+
+  #setup-a-new-practice-session-button,
   #enter-button,
-  #charity-button,
   #donate-button {
     @include non-code-font();
     @include font-size-largest();
@@ -112,8 +114,7 @@
     text-align: right;
   }
 
-  #setup-default-session-button,
-  #setup-custom-session-button,
+  #setup-a-new-practice-session-button,
   #enter-button {
           width: 390px;
       font-size: 1.97em;
@@ -133,30 +134,7 @@
       font-size: 1.0em;
   }
 
-  #licensing-container {
-    @include plaintext-font();
-    @include edged-panel();
-          width: 388px;
-          height: 80px;
-          padding: { left: 0px; right: 0px; }
-         margin: { top: 4px; left: 0px; right: 0px; bottom: 4px; }
-     text-align: left;
-      font-size: 0.8em;
-  }
-
-  #info-container {
-    @include plaintext-font();
-    @include edged-panel();
-          width: 238px;
-          height: 80px;
-          padding: { left: 0px; right: 0px; }
-         margin: { top: 4px; left: 0px; right: 0px; bottom: 4px; }
-     text-align: left;
-      font-size: 0.8em;
-  }
-
-  #donate-container #donate-button,
-  #charity-container #charity-button {
+  #donate-container #donate-button {
           width: 140px;
          margin: { right: 0px; top: 5px; bottom: 5px; }
         padding: 10px;
@@ -165,7 +143,3 @@
     line-height: 95%;
   }
 }
-
-
-
-
