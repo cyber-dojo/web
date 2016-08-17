@@ -79,7 +79,7 @@
 
 #setup-exercises-page {
 
-  margin: { left: 150px; }
+  margin: { left: 205px; }
 
   #exercises-container {
 
@@ -98,11 +98,13 @@
            color: $lighter-color;
       background: lighten($darker-color, 5%);
           border: none;
-          height: 420px;
+          height: 380px;
           margin: { left: 0px; }
       overflow-y: scroll;
          outline: none;
           resize: none;
+          position: relative;
+          top: 20px;
     }
   }
 }

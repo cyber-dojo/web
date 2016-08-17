@@ -14,12 +14,6 @@ class SetupDefaultStartPointController < ApplicationController
     @max_seconds = dojo.runner.max_seconds
   end
 
-  def save_no_exercise
-    manifest = katas.create_kata_manifest(language)
-    kata = katas.create_kata_from_kata_manifest(manifest)
-    render json: { id: kata.id }
-  end
-
   def show_exercises
     @id = id
     @title = 'create'

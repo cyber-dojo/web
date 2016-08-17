@@ -22,9 +22,8 @@ CyberDojo::Application.routes.draw do
 
   scope path: '/setup_default_start_point', controller: :setup_default_start_point do
     get 'show_languages(/:id)' => :show_languages
-    get 'save_no_exercise'     => :save_no_exercise, :constraints => { :format => :json }
     get 'show_exercises(/:id)' => :show_exercises
-    get 'save'                 => :save,             :constraints => { :format => :json }
+    get 'save'                 => :save, :constraints => { :format => :json }
   end
 
   scope path: '/setup_custom_start_point', controller: :setup_custom_start_point do
