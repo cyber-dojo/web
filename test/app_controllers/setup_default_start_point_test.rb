@@ -21,20 +21,6 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  test '4CD472',
-  'save (no exercise) creates a new kata with language+test but no exercise' do
-    params = {
-      major: 'C#',
-      minor: 'Moq'
-    }
-    do_get 'save_no_exercise', params
-    kata = katas[json['id']]
-    assert_equal 'C#-Moq', kata.language
-    assert_nil kata.exercise
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
   test 'BB9967',
   'show_exercises page uses cached exercises' do
     do_get 'show_exercises'
