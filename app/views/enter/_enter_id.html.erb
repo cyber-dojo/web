@@ -32,10 +32,10 @@ $(function() {
     e.preventDefault();
     return false;
   });
-
   kataIdInput.keyup(function() {
     enableDisableStartContinueDashboardReview();
   });
+  kataIdInput.focus();
 
   enableDisableStartContinueDashboardReview();
 

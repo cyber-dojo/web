@@ -2,7 +2,7 @@
 #enter-page {
 
   font-size: 1.15em;
-  margin: { top: 55px; left: 265px; }
+  margin: { top: 55px; left: 285px; }
 
   #avatars-grid {
     width: 330px;
@@ -19,7 +19,7 @@
 
   #enter-id-prompt {
     @include non-code-font();
-    @include font-size-tiny();
+    @include font-size-small();
     color: lighten($green, 35%);
   }
 
