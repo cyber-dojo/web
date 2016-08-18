@@ -1,6 +1,21 @@
 
 - - - - - - - - - - - - - - - - - - - - -
 
+cyber-dojo shell script is a bit of a mess.
+It's because of three commands
+1. cyber-dojo up
+2. cyber-dojo down
+3. cyber-dojo start-point create name --dir=...
+
+I have been assuming that 1 and 2 require a local docker-compose.yml
+file. However, what if there was a web_cli image which held the
+docker-compose.yml file (as well as the cyber-dojo.sh file)
+I have also been assuming 3 requires access to the local disk.
+But that is not necessarily true either. I could volume mount the named
+dir into the web_cli container.
+
+- - - - - - - - - - - - - - - - - - - - -
+
 have some way of choosing which setup page gets shown when
 you click the [setup a new practice session] button.
 Default will be languages.
