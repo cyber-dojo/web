@@ -130,16 +130,16 @@
           height: 89px;
           padding: { right: 15px; }
          margin: { top: 9px; left: 15px; bottom: 9px; }
-     text-align: left; //right;
+     text-align: left;
       font-size: 1.0em;
-  }
 
-  #donate-container #donate-button {
-          width: 140px;
-         margin: { right: 0px; top: 5px; bottom: 5px; }
-        padding: 10px;
-     text-align: center;
-      font-size: 1.70em;
-    line-height: 95%;
+    #donate-button {
+            width: 140px;
+           margin: { right: 0px; top: 5px; bottom: 5px; }
+          padding: 10px;
+       text-align: center;
+       font-size: 1.70em;
+      line-height: 95%;
+    }
   }
 }
