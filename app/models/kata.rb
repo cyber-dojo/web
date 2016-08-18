@@ -95,12 +95,12 @@ class Kata
     if Regexp.new('Unable to complete the test').match(output)
       return 'timed_out'
     end
-    # before or after start-points re-architecture?
     src = manifest['red_amber_green']
     if output.nil?
       # so lambda src can be saved when forking
       return src
     end
+    # before or after start-points re-architecture?
     if src.nil? # before
       OutputColour.of(unit_test_framework, output)
     else # after

@@ -25,6 +25,22 @@ Move runners from lib/code to app/lib/code
 for tests I have to put red_amber_green lambdas (such as bash_unit)
 into the output.colour_of. Can this dependency be broken?
 
+lib/unit_test_framework_lookup.rb is used only by tests.
+it maps from display_name to unit_test_framework which is then
+used to determine output.colour_of method.
+
+- - - - - - - - - - - - - - - - - - - - -
+
+Storing the red_amber_green lambda inside the kata's manifest.json
+file seems to be essential now that setup start-points can be customized.
+However, it creates duplication, and it means that if you find
+a fault in the lambda and want to upgrade it, you can't fix it for past katas.
+Eg suppose you fork from an existing kata and its unit-test framework has
+been upgraded. You cannot edit the lambda.
+If could refactor lib/unit_test_framework_lookup.rb so it mapped
+from image_name to lamda-src. Then when forking I could see if there was
+a (new) master in the lookup.
+
 - - - - - - - - - - - - - - - - - - - - -
 
 web_base/Dockerfile still has this line
