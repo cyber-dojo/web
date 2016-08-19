@@ -22,7 +22,7 @@ class MockProxyHostShellTest < LibTestBase
   # - - - - - - - - - - - - - - -
 
   test 'C3467F',
-  'teardown does not raise if one mock exec setup and matching exec is made' do
+  'teardown does not raise if exec() calls have matching mock_exec()s' do
     shell.mock_exec(pwd, wd, success)
     output,exit_status = shell.exec('pwd')
     assert_equal wd, output
@@ -33,7 +33,7 @@ class MockProxyHostShellTest < LibTestBase
   # - - - - - - - - - - - - - - -
 
   test 'D75668',
-  'teardown does not raise if one mock cd_exec setup and matching cd_exec is made' do
+  'teardown does not raise if cd_exec() calls have matching mock_cd_exec()s' do
     shell.mock_cd_exec(wd, pwd, wd, success)
     output,exit_status = shell.cd_exec(wd, 'pwd')
     assert_equal wd, output
@@ -44,7 +44,7 @@ class MockProxyHostShellTest < LibTestBase
   # - - - - - - - - - - - - - - -
 
   test '2B5145',
-  'teardown raises if one mock exec setup and no calls are made' do
+  'teardown raises if unrequited mock_exec() calls exist' do
     shell.mock_exec(pwd, wd, success)
     assert_raises { shell.teardown }
   end
@@ -52,7 +52,7 @@ class MockProxyHostShellTest < LibTestBase
   # - - - - - - - - - - - - - - -
 
   test '3BC432',
-  'teardown raises if one mock cd_exec setup and no calls are made' do
+  'teardown raises if unrequited mock_cd_exec() calls exist' do
     shell.mock_cd_exec(wd, pwd, wd, success)
     assert_raises { shell.teardown }
   end
