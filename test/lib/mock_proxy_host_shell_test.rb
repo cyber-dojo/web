@@ -86,7 +86,7 @@ class MockProxyHostShellTest < LibTestBase
   end
 
   # - - - - - - - - - - - - - - -
-  # exec
+  # success
   # - - - - - - - - - - - - - - -
 
   test '8E667B',
