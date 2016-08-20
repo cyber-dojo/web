@@ -178,6 +178,8 @@ class HostDiskKatasTest < LibTestBase
     end
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   private
 
   def correct_path_format?(object)
