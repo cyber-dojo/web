@@ -160,6 +160,59 @@ class HostDiskKatasTest < LibTestBase
   end
 
   #- - - - - - - - - - - - - - - -
+  # start_avatar
+  #- - - - - - - - - - - - - - - -
+
+  test '16F7BB',
+  'started avatar exists' do
+    kata = make_kata
+    assert_equal [], katas.kata_started_avatars(kata)
+    salmon = kata.start_avatar(['salmon'])
+    assert_equal ['salmon'], katas.kata_started_avatars(kata)
+    assert katas.avatar_exists?(salmon)
+  end
+
+  test '81C023',
+  'unstarted avatar does not exist' do
+    kata = make_kata
+    lion = Avatar.new(kata, 'lion')
+    refute katas.avatar_exists?(lion)
+    assert_equal [], katas.kata_started_avatars(kata)
+  end
+
+  #- - - - - - - - - - - - - - - -
+  # avatar_increments
+  #- - - - - - - - - - - - - - - -
+
+  test '83EF2E',
+  'started avatar has empty increments before any tests run' do
+    kata = make_kata
+    lion = kata.start_avatar(['lion'])
+    incs = katas.avatar_increments(lion)
+    assert_equal [], incs
+  end
+
+  #- - - - - - - - - - - - - - - -
+  # avatar_ran_tests
+  #- - - - - - - - - - - - - - - -
+
+  test '89817A',
+  'after avatar_ran_tests() one more increment' do
+    kata = make_kata
+    lion = kata.start_avatar(['lion'])
+    maker = DeltaMaker.new(lion)
+    now = time_now
+    katas.avatar_ran_tests(lion, maker.delta, maker.visible_files, now, output='xx', 'amber')
+    incs = katas.avatar_increments(lion)
+    assert_equal [{
+      'colour' => 'amber',
+      'time' => now,
+      'number' => 1
+    }], incs
+  end
+
+  #- - - - - - - - - - - - - - - -
+  # paths
   #- - - - - - - - - - - - - - - -
 
   test 'B55710',
@@ -218,6 +271,7 @@ class HostDiskKatasTest < LibTestBase
   end
 
   #- - - - - - - - - - - - - - - -
+  #- - - - - - - - - - - - - - - -
 
   test 'CE9083',
   'make_kata saves manifest in kata dir' do
@@ -274,11 +328,48 @@ class HostDiskKatasTest < LibTestBase
 
   #- - - - - - - - - - - - - - - -
 
+  test '0BF880',
+  "sandbox_save(... delta[:changed] ... files are not re git add'ed" do
+    kata = make_kata
+    avatar = kata.start_avatar
+    maker = DeltaMaker.new(avatar)
+    maker.change_file('makefile', 'sdsdsd')
+    kata.katas.sandbox_save(avatar.sandbox, maker.delta, maker.visible_files)
+  end
+
+  #- - - - - - - - - - - - - - - -
+
   test '2D9F15',
   'sandbox dir is initially created' do
     kata = make_kata
-    avatar = kata.start_avatar(['hippo'])
-    assert katas.dir(avatar.sandbox).exists?
+    hippo = kata.start_avatar(['hippo'])
+    assert katas.dir(hippo.sandbox).exists?
+  end
+
+  #- - - - - - - - - - - - - - - -
+  # tags
+  #- - - - - - - - - - - - - - - -
+
+  test 'C42CB0',
+  'tag_visible_files' do
+    kata = make_kata
+    hippo = kata.start_avatar(['hippo'])
+    visible_files = katas.tag_visible_files(hippo, tag=0)
+    assert 6, visible_files.length
+    assert visible_files.keys.include? 'makefile'
+  end
+
+  test '2E6296',
+  'tag_git_diff' do
+    kata = make_kata
+    hippo = kata.start_avatar(['hippo'])
+    new_filename = 'ab.c'
+    maker = DeltaMaker.new(hippo)
+    maker.new_file(new_filename, new_content = 'content for new file')
+    now = time_now
+    katas.avatar_ran_tests(hippo, maker.delta, maker.visible_files, now, output='xx', 'amber')
+    diff = katas.tag_git_diff(hippo, was_tag=0, now_tag=1)
+    assert diff.start_with? 'diff --git'
   end
 
   #- - - - - - - - - - - - - - - -
@@ -334,6 +425,8 @@ class HostDiskKatasTest < LibTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   private
+
+  include TimeNow
 
   def correct_path_format?(object)
     ends_in_slash = path_of(object).end_with?('/')

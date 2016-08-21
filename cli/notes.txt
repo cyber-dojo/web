@@ -22,9 +22,6 @@ Default will be languages.
 
 - - - - - - - - - - - - - - - - - - - - -
 
-o) 100% test coverage for libs
-   test/app_models/katas_test.rb can be moved to test/lib
-
 o) tests for cyber-dojo script
 
 - - - - - - - - - - - - - - - - - - - - -
