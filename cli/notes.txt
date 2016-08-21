@@ -1,4 +1,6 @@
 
+test/lib/host_disk_katas_test.rb belongs in app_lib
+
 - - - - - - - - - - - - - - - - - - - - -
 
 cyber-dojo shell script is a bit of a mess.
