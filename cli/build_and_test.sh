@@ -3,6 +3,10 @@ set -e
 
 my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 
+cd ${my_dir}/../docker/web-base
+./build-image.sh
+cd ${my_dir}
+
 cd ${my_dir}/../docker/web
 ./build-image.sh
 cd ${my_dir}

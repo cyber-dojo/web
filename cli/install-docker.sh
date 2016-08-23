@@ -6,11 +6,11 @@ set -e
 # described at http://blog.cyber-dojo.org/2016/07/running-your-own-cyber-dojo-web-server.html
 
 echo 'installing docker'
-# This currently installs docker 1.12.0
+# This currently installs docker 1.12.1
 curl -sSL https://get.docker.com/ | sh
 
-echo 'installing docker-machine 0.8.0'
-curl -L https://github.com/docker/machine/releases/download/v0.8.0/docker-machine-`uname -s`-`uname -m` > docker-machine
+echo 'installing docker-machine 0.8.1'
+curl -L https://github.com/docker/machine/releases/download/v0.8.1/docker-machine-`uname -s`-`uname -m` > docker-machine
 mv docker-machine /usr/local/bin/docker-machine
 chmod +x /usr/local/bin/docker-machine
 
