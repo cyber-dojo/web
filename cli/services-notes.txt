@@ -1,12 +1,23 @@
 
-Note that once web is split into services I could no longer run cyber-dojo
-as a local rails server. I think that's the right thing to do.
+Note that once web is split into services it will be slightly tricker to
+run cyber-dojo as a local rails server. Still the right thing to do.
 
 - - - - - - - - - - - - - - - - - - - - -
 
 If the katas object (saver/storer) can be decoupled from git it could be a big
 win for testing as I could then probably re-instate FakeDisk.
-I think there are 3 kinds of 'storer'.
+I think there could ultimately be 3 kinds of 'storer' (see below)
+But for now the simplest is to simply create one 'storer' than still uses
+git and behave exactly the same as the current host_disk_katas.rb except
+that each kata has its own volume. This is also the simplest step to
+get a converter service running.
+A 'converter' service would be given a kata id and would check if this was yet
+stored in its own named docker volume. If not it would convert it.
+It would then delete the kata from the hard-disk.
+Main issue with this is that you cannot now rsync from one server to another.
+And this affects backups too.
+
+- - - - - - - - - - - - - - - - - - - - -
 
 1. katas_storer
    Holds manifest.json as a direct copy of start-point info
@@ -40,16 +51,6 @@ I think there are 3 kinds of 'storer'.
      o) visible_files
      o) output
      o) colour (red/amber/green)
-
-- - - - - - - - - - - - - - - - - - - - -
-
-I would still need a 'converter' service which would be given a kata id
-and would check if this was stored in (current) git format on hard-disk.
-If it was it would issue all commands necessary to the storers and then
-delete the kata from the hard-disk.
-It would need
-o) katas mounted
-o) link to all 3 storers.
 
 - - - - - - - - - - - - - - - - - - - - -
 
