@@ -14,5 +14,6 @@
   td_gapper
   delta_maker
   display_names_splitter
+  host_disk_katas
 ).each { |sourcefile| require_relative './' + sourcefile }
 

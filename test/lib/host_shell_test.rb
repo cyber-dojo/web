@@ -39,4 +39,11 @@ class HostShellTest < LibTestBase
     refute_equal 0, exit_status
   end
 
+  # - - - - - - - - - - - - - - - - -
+
+  test '655F6F',
+  'success is zero' do
+    assert_equal 0, shell.success
+  end
+
 end

@@ -1,8 +1,4 @@
 
-test/lib/host_disk_katas_test.rb belongs in app_lib
-
-- - - - - - - - - - - - - - - - - - - - -
-
 cyber-dojo shell script is a bit of a mess.
 It's because of three commands
 1. cyber-dojo up
@@ -34,7 +30,7 @@ for itself. The output 'file' should only be in the manifest.
 
 - - - - - - - - - - - - - - - - - - - - -
 
-Move runners from lib/code to app/lib/code
+Move runners from lib/ to app/lib/
 
 - - - - - - - - - - - - - - - - - - - - -
 
