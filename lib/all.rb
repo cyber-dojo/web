@@ -14,10 +14,6 @@
   stderr_redirect
   unslashed
 
-  runner
-  stub_runner
-  docker_tar_pipe_runner
-
   host_shell
   mock_host_shell
   mock_proxy_host_shell

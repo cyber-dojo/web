@@ -1,5 +1,5 @@
 
-require_relative '../app/lib/unit_test_framework_lookup'
+require_relative './unit_test_framework_lookup'
 
 # Each GET/POST is serviced in a new thread which creates a
 # new dojo object and thus a new runner object. To ensure
@@ -75,7 +75,7 @@ class StubRunner
   def sample(avatar, rag)
     # ?better in test/languages/outputs
     raise "#{rag} must be red/amber/green" unless red_amber_green.include?(rag)
-    root = File.expand_path(File.dirname(__FILE__) + '/../test') + '/app_lib/output'
+    root = File.expand_path(File.dirname(__FILE__) + '/../../test') + '/app_lib/output'
     unit_test_framework = lookup(avatar.kata.display_name)
     path = "#{root}/#{unit_test_framework}/#{rag}"
     all_output_samples = disk[path].each_file.collect { |filename| filename }

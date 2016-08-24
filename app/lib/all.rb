@@ -15,5 +15,8 @@
   delta_maker
   display_names_splitter
   host_disk_katas
+  runner
+  stub_runner
+  docker_tar_pipe_runner
 ).each { |sourcefile| require_relative './' + sourcefile }
 
