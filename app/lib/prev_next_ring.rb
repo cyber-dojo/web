@@ -1,4 +1,7 @@
 
+# On the edit-page you can cycle through the files in the
+# file-knave using Alt-J (next file) and Alt-K *(prev file).
+
 module PrevNextRing # mix-in
 
   module_function
