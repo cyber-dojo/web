@@ -1,8 +1,4 @@
 
-Move runners from lib/ to app/lib/
-
-- - - - - - - - - - - - - - - - - - - - -
-
 cyber-dojo shell script is a bit of a mess.
 It's because of three commands
 1. cyber-dojo up
