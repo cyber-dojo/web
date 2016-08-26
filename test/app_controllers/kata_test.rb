@@ -14,7 +14,7 @@ class KataControllerTest  < AppControllerTestBase
 
   test 'BE83FD',
   'run_tests with good kata id but bad avatar name raises' do
-    kata_id = create_kata('C (gcc), assert')
+    kata_id = create_gcc_assert_kata
     params = { :format => :js, :id => kata_id, :avatar => 'bad' }
     assert_raises(StandardError) { post 'kata/run_tests', params }
   end
@@ -23,7 +23,7 @@ class KataControllerTest  < AppControllerTestBase
 
   test 'BE8B75',
   'show-json (for Atom editor)' do
-    create_kata('C (gcc), assert')
+    create_gcc_assert_kata
     @avatar = start
     kata_edit
     run_tests
@@ -35,7 +35,7 @@ class KataControllerTest  < AppControllerTestBase
 
   test 'BE80F6',
   'edit and then run-tests' do
-    create_kata('C (gcc), assert')
+    create_gcc_assert_kata
     @avatar = start
     kata_edit
     run_tests
@@ -49,7 +49,7 @@ class KataControllerTest  < AppControllerTestBase
   'run_tests() saves changed makefile with leading spaces converted to tabs',
   'and these changes are made to the visible_files parameter too',
   'so they also occur in the manifest file' do
-    create_kata('C (gcc), assert')
+    create_gcc_assert_kata
     @avatar = start
     kata_edit
     run_tests
@@ -64,7 +64,7 @@ class KataControllerTest  < AppControllerTestBase
   'run_tests() saves *new* makefile with leading spaces converted to tabs',
   'and these changes are made to the visible_files parameter too',
   'so they also occur in the manifest file' do
-    create_kata('C (gcc), assert')
+    create_gcc_assert_kata
     @avatar = start
     delete_file(makefile)
     run_tests
@@ -79,7 +79,7 @@ class KataControllerTest  < AppControllerTestBase
   'when cyber-dojo.sh removes a file then it stays removed.' +
     '(viz, tar pipe is not affected by previous state)' do
     set_runner_class('DockerTarPipeRunner')
-    create_kata('C (gcc), assert')
+    create_gcc_assert_kata
     @avatar = start
     before = content('cyber-dojo.sh')
     filename = 'wibble.txt'
@@ -111,6 +111,10 @@ class KataControllerTest  < AppControllerTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def create_gcc_assert_kata
+    create_kata('C (gcc), assert')
+  end
 
   def assert_file(filename, expected)
     assert_equal expected, @avatar.visible_files[filename], 'saved_to_manifest'
