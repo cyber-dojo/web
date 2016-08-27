@@ -14,6 +14,10 @@ dir into the web_cli container.
 
 - - - - - - - - - - - - - - - - - - - - -
 
+add tool-tip for keyboard short-cuts.
+
+- - - - - - - - - - - - - - - - - - - - -
+
 have some way of choosing which setup page gets shown when
 you click the [setup a new practice session] button.
 Default will be languages.

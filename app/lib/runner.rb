@@ -1,4 +1,6 @@
 
+# Code common to DockerTarPipeRunner and StubRunner
+
 module Runner # mix-in
 
   module_function
