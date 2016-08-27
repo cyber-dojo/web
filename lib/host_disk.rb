@@ -1,6 +1,4 @@
 
-#
-
 class HostDisk
 
   def initialize(dojo)

@@ -55,7 +55,7 @@ class StartPoints
   end
 
   def commad(name)
-    name.split('-').join(', ')
+    name.split('-', 2).join(', ')
   end
 
 end
