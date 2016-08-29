@@ -163,21 +163,20 @@ class HostDiskKatasTest < AppLibTestBase
   # start_avatar
   #- - - - - - - - - - - - - - - -
 
+  test '81C023',
+  'unstarted avatar does not exist' do
+    kata = make_kata
+    refute katas.avatar_exists?(kata.id, 'lion')
+    assert_equal [], kata.avatars.started.keys
+  end
+
   test '16F7BB',
   'started avatar exists' do
     kata = make_kata
     assert_equal [], kata.avatars.started.keys
-    salmon = kata.start_avatar(['salmon'])
-    assert_equal ['salmon'], kata.avatars.started.keys
-    assert katas.avatar_exists?(salmon)
-  end
-
-  test '81C023',
-  'unstarted avatar does not exist' do
-    kata = make_kata
-    lion = Avatar.new(kata, 'lion')
-    refute katas.avatar_exists?(lion)
-    assert_equal [], kata.avatars.started.keys
+    kata.start_avatar(['lion'])
+    assert_equal ['lion'], kata.avatars.started.keys
+    assert katas.avatar_exists?(kata.id, 'lion')
   end
 
   #- - - - - - - - - - - - - - - -
@@ -188,7 +187,7 @@ class HostDiskKatasTest < AppLibTestBase
   'started avatar has empty increments before any tests run' do
     kata = make_kata
     lion = kata.start_avatar(['lion'])
-    incs = katas.avatar_increments(lion)
+    incs = katas.avatar_increments(kata.id, 'lion')
     assert_equal [], incs
   end
 
@@ -197,13 +196,13 @@ class HostDiskKatasTest < AppLibTestBase
   #- - - - - - - - - - - - - - - -
 
   test '89817A',
-  'after avatar_ran_tests() one more increment' do
+  'after avatar_tested() one more increment' do
     kata = make_kata
     lion = kata.start_avatar(['lion'])
     maker = DeltaMaker.new(lion)
     now = time_now
-    katas.avatar_ran_tests(lion, maker.delta, maker.visible_files, now, output='xx', 'amber')
-    incs = katas.avatar_increments(lion)
+    lion.tested(maker.visible_files, now, output='xx', 'amber')
+    incs = katas.avatar_increments(kata.id, 'lion')
     assert_equal [{
       'colour' => 'amber',
       'time' => now,
@@ -367,7 +366,7 @@ class HostDiskKatasTest < AppLibTestBase
     maker = DeltaMaker.new(hippo)
     maker.new_file(new_filename, new_content = 'content for new file')
     now = time_now
-    katas.avatar_ran_tests(hippo, maker.delta, maker.visible_files, now, output='xx', 'amber')
+    hippo.tested(maker.visible_files, now, output='xx', 'amber')
     diff = katas.tag_git_diff(hippo, was_tag=0, now_tag=1)
     assert diff.start_with? 'diff --git'
   end

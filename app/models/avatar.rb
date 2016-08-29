@@ -14,6 +14,10 @@ class Avatar
     runner.run(self, delta, files, kata.image_name)
   end
 
+  def tested(files, at, output, colour)
+    katas.avatar_ran_tests(kata.id, name, files, at, output, colour)
+  end
+
   # queries
 
   attr_reader :kata, :name
@@ -31,7 +35,7 @@ class Avatar
     # instructions. I don't want these avatars appearing on the dashboard.
     # When forking a new kata you can enter as one animal to sanity check
     # it is ok (but not press [test])
-    katas.avatar_exists?(self) && !lights.empty?
+    katas.avatar_exists?(kata.id, name) && !lights.empty?
   end
 
   def tags
@@ -47,7 +51,7 @@ class Avatar
   end
 
   def visible_files
-    katas.avatar_visible_files(self)
+    katas.avatar_visible_files(kata.id, name)
   end
 
   def sandbox
@@ -63,7 +67,7 @@ class Avatar
   include TimeNow
 
   def increments
-    katas.avatar_increments(self)
+    katas.avatar_increments(kata.id, name)
   end
 
   def tag0

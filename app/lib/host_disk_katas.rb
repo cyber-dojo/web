@@ -121,26 +121,30 @@ class HostDiskKatas
   # Avatar
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def avatar_exists?(avatar)
+  def avatar_exists?(id, name)
+    avatar = Avatar.new(self[id], name)
     exists?(avatar)
   end
 
-  def avatar_increments(avatar)
+  def avatar_increments(id, name)
     # implicitly for current tag
+    avatar = Avatar.new(self[id], name)
     dir(avatar).read_json(increments_filename)
   end
 
-  def avatar_visible_files(avatar)
+  def avatar_visible_files(id, name)
     # implicitly for current tag
+    avatar = Avatar.new(self[id], name)
     dir(avatar).read_json(manifest_filename)
   end
 
-  def avatar_ran_tests(avatar, delta, files, now, output, colour)
+  def avatar_ran_tests(id, name, files, now, output, colour)
+    avatar = Avatar.new(self[id], name)
     dir(avatar.sandbox).write('output', output)
     files['output'] = output
     write_avatar_manifest(avatar, files)
     # update the Red/Amber/Green increments
-    rags = avatar_increments(avatar)
+    rags = avatar_increments(id, name)
     tag = rags.length + 1
     rags << { 'colour' => colour, 'time' => now, 'number' => tag }
     write_avatar_increments(avatar, rags)

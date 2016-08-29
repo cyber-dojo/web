@@ -22,7 +22,7 @@ class KataController < ApplicationController
     @output = @avatar.test(delta, files)
     @test_colour = kata.red_amber_green(@output)
     katas.sandbox_save(@avatar.sandbox, delta, files)
-    katas.avatar_ran_tests(@avatar, delta, files, time_now, @output, @test_colour)
+    @avatar.tested(files, time_now, @output, @test_colour)
 
     respond_to do |format|
       format.js   { render layout: false }
