@@ -77,7 +77,7 @@ class HostDiskKatas
     lines.split("\n") & Avatars.names
   end
 
-  def kata_start_avatar(id, avatar_names = Avatars.names.shuffle)
+  def kata_start_avatar(id, avatar_names)
     # Needs to be atomic otherwise two laptops in the same practice session
     # could start as the same animal. This relies on mkdir being atomic on
     # a (non NFS) POSIX file system.
