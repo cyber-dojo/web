@@ -1,4 +1,9 @@
 
+app/lib/StubRunner
+combine test's hex-id with avater.name in tmp folder
+
+- - - - - - - - - - - - - - - - - - - - -
+
 cyber-dojo shell script is a bit of a mess.
 It's because of three commands
 1. cyber-dojo up
