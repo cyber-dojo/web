@@ -98,9 +98,9 @@ class HostDiskKatas
   end
 
   def kata_start_avatar(kata, avatar_names = Avatars.names.shuffle)
-    # Needs to be atomic otherwise two laptops in a cyber-dojo
-    # could start as the same animal. This relies on mkdir being
-    # atomic on a non NFS POSIX file system.
+    # Needs to be atomic otherwise two laptops in the same practice session
+    # could start as the same animal. This relies on mkdir being atomic on
+    # a (non NFS) POSIX file system.
     # Don't do the & with operands swapped - you lose randomness
     valid_names = avatar_names & Avatars.names
     name = valid_names.detect do |valid_name|
