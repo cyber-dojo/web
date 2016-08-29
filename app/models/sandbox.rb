@@ -13,8 +13,4 @@ class Sandbox
     avatar
   end
 
-  private
-
-  include ExternalParentChainer
-
 end

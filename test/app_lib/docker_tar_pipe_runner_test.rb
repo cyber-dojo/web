@@ -96,7 +96,7 @@ class DockerTarPipeRunnerTest < AppLibTestBase
     kata = make_kata
     lion = kata.start_avatar(['lion'])
     args = [
-      katas.path_of(lion.sandbox),
+      katas.sandbox_path(kata.id, 'lion'),
       kata.image_name,
       dojo.env('runner_timeout'),
       quoted(sudo)

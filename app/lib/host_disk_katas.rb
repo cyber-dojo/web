@@ -55,22 +55,22 @@ class HostDiskKatas
     # a kata's id has 10 hex chars. This gives 16^10 possibilities
     # which is 1,099,511,627,776 which is big enough to not
     # need to check that a kata with the id already exists.
-    kata = Kata.new(self, manifest[:id])
-    dir(kata).make
-    dir(kata).write_json(manifest_filename, manifest)
-    kata
+    id = manifest[:id]
+    dir = disk[kata_path(id)]
+    dir.make
+    dir.write_json(manifest_filename, manifest)
+    Kata.new(self, id)
   end
 
   # - - - - - - - - - - - - - - - -
 
   def [](id)
-    return nil unless valid?(id)
-    kata = Kata.new(self, id)
-    exists?(kata) ? kata : nil
+    return nil unless valid?(id) && disk[kata_path(id)].exists?
+    Kata.new(self, id)
   end
 
   def kata_manifest(id)
-    dir(self[id]).read_json(manifest_filename)
+    disk[kata_path(id)].read_json(manifest_filename)
   end
 
   def kata_started_avatars(id)
@@ -119,8 +119,7 @@ class HostDiskKatas
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def avatar_exists?(id, name)
-    avatar = Avatar.new(self[id], name)
-    exists?(avatar)
+    disk[avatar_path(id, name)].exists?
   end
 
   def avatar_increments(id, name)
@@ -151,17 +150,16 @@ class HostDiskKatas
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def sandbox_save(id, name, delta, files)
-    sandbox = Avatar.new(self[id], name).sandbox
     # Unchanged files are *not* re-saved.
     delta[:deleted].each do |filename|
       git.rm(sandbox_path(id, name), filename)
     end
     delta[:new].each do |filename|
-      write(sandbox, filename, files[filename])
+      sandbox_write(id, name, filename, files[filename])
       git.add(sandbox_path(id, name), filename)
     end
     delta[:changed].each do |filename|
-      write(sandbox, filename, files[filename])
+      sandbox_write(id, name, filename, files[filename])
     end
   end
 
@@ -182,15 +180,15 @@ class HostDiskKatas
   # Path
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def dir(obj)
-    disk[path_of(obj)]
+  def dir(obj)  # Currently still used by StubRunner
+    disk[XX_path_of(obj)]
   end
 
-  def path_of(obj)
+  def XX_path_of(obj)
     case obj.class.name
-    when 'Sandbox' then path_of(obj.parent) + '/' + 'sandbox'
-    when 'Avatar'  then path_of(obj.parent) + '/' + obj.name
-    when 'Kata'    then path_of(obj.parent) + '/' + outer(obj.id) + '/' + inner(obj.id)
+    when 'Sandbox' then XX_path_of(obj.parent) + '/' + 'sandbox'
+    when 'Avatar'  then XX_path_of(obj.parent) + '/' + obj.name
+    when 'Kata'    then XX_path_of(obj.parent) + '/' + outer(obj.id) + '/' + inner(obj.id)
     when self.class.name then path
     end
   end
@@ -213,12 +211,8 @@ class HostDiskKatas
   include IdSplitter
   include StderrRedirect
 
-  def exists?(obj)
-    dir(obj).exists?
-  end
-
-  def write(sandbox, filename, content)
-    dir(sandbox).write(filename, content)
+  def sandbox_write(id, name, filename, content)
+    disk[sandbox_path(id, name)].write(filename, content)
   end
 
   def valid?(id)

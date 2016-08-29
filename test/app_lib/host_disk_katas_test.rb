@@ -219,7 +219,7 @@ class HostDiskKatasTest < AppLibTestBase
     path = '/tmp/folder'
     set_katas_root(path + '/')
     assert_equal path, katas.path
-    assert correct_path_format?(katas)
+    assert correct_path_format?(katas.path)
   end
 
   #- - - - - - - - - - - - - - - -
@@ -229,7 +229,7 @@ class HostDiskKatasTest < AppLibTestBase
     path = '/tmp/folder'
     set_katas_root(path)
     assert_equal path, katas.path
-    assert correct_path_format?(katas)
+    assert correct_path_format?(katas.path)
   end
 
   #- - - - - - - - - - - - - - - -
@@ -237,7 +237,7 @@ class HostDiskKatasTest < AppLibTestBase
   test '6F3999',
   'kata-path has correct format' do
     kata = make_kata
-    assert correct_path_format?(kata)
+    assert correct_path_format?(katas.kata_path(kata.id))
   end
 
   #- - - - - - - - - - - - - - - -
@@ -246,7 +246,7 @@ class HostDiskKatasTest < AppLibTestBase
   'kata-path is split ala git' do
     kata = make_kata
     split = kata.id[0..1] + '/' + kata.id[2..-1]
-    assert path_of(kata).include?(split)
+    assert katas.kata_path(kata.id).include?(split)
   end
 
   #- - - - - - - - - - - - - - - -
@@ -255,7 +255,7 @@ class HostDiskKatasTest < AppLibTestBase
   "avatar-path has correct format" do
     kata = make_kata
     avatar = kata.start_avatar(Avatars.names)
-    assert correct_path_format?(avatar)
+    assert correct_path_format?(katas.avatar_path(kata.id, avatar.name))
   end
 
   #- - - - - - - - - - - - - - - -
@@ -264,9 +264,9 @@ class HostDiskKatasTest < AppLibTestBase
   'sandbox-path has correct format' do
     kata = make_kata
     avatar = kata.start_avatar(Avatars.names)
-    sandbox = avatar.sandbox
-    assert correct_path_format?(sandbox)
-    assert path_of(sandbox).include?('sandbox')
+    sandbox_path = katas.sandbox_path(kata.id, avatar.name)
+    assert correct_path_format?(sandbox_path)
+    assert sandbox_path.include?('sandbox')
   end
 
   #- - - - - - - - - - - - - - - -
@@ -427,9 +427,9 @@ class HostDiskKatasTest < AppLibTestBase
 
   include TimeNow
 
-  def correct_path_format?(object)
-    ends_in_slash = path_of(object).end_with?('/')
-    has_doubled_separator = path_of(object).scan('/' * 2).length != 0
+  def correct_path_format?(path)
+    ends_in_slash = path.end_with?('/')
+    has_doubled_separator = path.scan('/' * 2).length != 0
     !ends_in_slash && !has_doubled_separator
   end
 
@@ -450,11 +450,8 @@ class HostDiskKatasTest < AppLibTestBase
   end
 
   def pathed(command)
-    "cd #{path_of(@avatar.sandbox)} && #{command}"
-  end
-
-  def path_of(object)
-    katas.path_of(object)
+    sandbox_path = katas.sandbox_path(@avatar.kata.id, @avatar.name)
+    "cd #{sandbox_path} && #{command}"
   end
 
 end
