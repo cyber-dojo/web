@@ -51,25 +51,6 @@ class HostDiskKatas
   # Kata
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def create_kata_manifest(start_point, id = unique_id, now = time_now)
-    manifest = {
-                       id: id,
-                  created: now,
-               image_name: start_point.image_name,
-             display_name: start_point.display_name,
-       filename_extension: start_point.filename_extension,
-          progress_regexs: start_point.progress_regexs,
-      highlight_filenames: start_point.highlight_filenames,
-       lowlight_filenames: start_point.lowlight_filenames,
-          red_amber_green: start_point.red_amber_green,
-                 language: start_point.name,
-                 tab_size: start_point.tab_size
-    }
-    manifest[:visible_files] = start_point.visible_files
-    manifest[:visible_files]['output'] = ''
-    manifest
-  end
-
   def create_kata_from_kata_manifest(manifest)
     # a kata's id has 10 hex chars. This gives 16^10 possibilities
     # which is 1,099,511,627,776 which is big enough to not
@@ -219,8 +200,6 @@ class HostDiskKatas
   include ExternalParentChainer
   include IdSplitter
   include StderrRedirect
-  include TimeNow
-  include UniqueId
 
   def exists?(obj)
     dir(obj).exists?

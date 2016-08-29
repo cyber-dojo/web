@@ -14,6 +14,25 @@ class StartPoint
     @start_points
   end
 
+  def create_kata_manifest(id = unique_id, now = time_now)
+    manifest = {
+                       id: id,
+                  created: now,
+               image_name: image_name,
+             display_name: display_name,
+       filename_extension: filename_extension,
+          progress_regexs: progress_regexs,
+      highlight_filenames: highlight_filenames,
+       lowlight_filenames: lowlight_filenames,
+          red_amber_green: red_amber_green,
+                 language: name,
+                 tab_size: tab_size
+    }
+    manifest[:visible_files] = visible_files
+    manifest[:visible_files]['output'] = ''
+    manifest
+  end
+
   # required manifest properties
 
   def display_name
@@ -76,6 +95,8 @@ class StartPoint
 
   include ExternalParentChainer
   include ManifestProperty
+  include TimeNow
+  include UniqueId
 
   def manifest
     @manifest ||= disk[path].read_json(manifest_filename)

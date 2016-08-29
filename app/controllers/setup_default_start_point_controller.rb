@@ -24,7 +24,7 @@ class SetupDefaultStartPointController < ApplicationController
   end
 
   def save
-    manifest = katas.create_kata_manifest(language)
+    manifest = language.create_kata_manifest
     exercise_name = params['exercise']
     exercise = exercises[exercise_name]
     manifest[:exercise] = exercise.name

@@ -12,7 +12,7 @@ class SetupCustomStartPointController < ApplicationController
   end
 
   def save
-    manifest = katas.create_kata_manifest(custom)
+    manifest = custom.create_kata_manifest
     kata = katas.create_kata_from_kata_manifest(manifest)
     render json: { id: kata.id }
   end

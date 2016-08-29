@@ -88,7 +88,7 @@ class ForkerControllerTest < AppControllerTestBase
   'when the exercise no longer exists and everything else',
   'is ok then fork works and the new dojos id is returned' do
     language = languages[default_language_name]
-    manifest = katas.create_kata_manifest(language)
+    manifest = language.create_kata_manifest
     manifest[:exercise] = 'exercise-name-that-does-not-exist'
     kata = katas.create_kata_from_kata_manifest(manifest)
     @id = kata.id
@@ -105,7 +105,7 @@ class ForkerControllerTest < AppControllerTestBase
   'is ok then fork works and the new dojos id is returned' do
     @id = unique_id
     language = languages['C#-NUnit']
-    manifest = katas.create_kata_manifest(language)
+    manifest = language.create_kata_manifest
     manifest[:language] = 'C#' # old-name
     kata = katas.create_kata_from_kata_manifest(manifest)
     @id = kata.id
@@ -121,7 +121,7 @@ class ForkerControllerTest < AppControllerTestBase
   'forking kata from before start-point volume re-architecture works' do
     @id = unique_id
     language = languages['C#-NUnit']
-    manifest = katas.create_kata_manifest(language)
+    manifest = language.create_kata_manifest
     manifest.delete(:red_amber_green)
     manifest[:unit_test_framework] = 'nunit'
     kata = katas.create_kata_from_kata_manifest(manifest)

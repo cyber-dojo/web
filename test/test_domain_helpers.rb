@@ -22,7 +22,7 @@ module TestDomainHelpers # mix-in
     hash[:now] ||= time_now
     hash[:language] ||= default_language_name
     language = languages[hash[:language]]
-    manifest = katas.create_kata_manifest(language, hash[:id], hash[:now])
+    manifest = language.create_kata_manifest(hash[:id], hash[:now])
     hash[:exercise] ||= default_exercise_name
     exercise = exercises[hash[:exercise]]
     manifest[:exercise] = exercise.name
