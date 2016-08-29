@@ -56,11 +56,11 @@ class StubRunner
 
   def save_stub(avatar, json)
     # Better - combine test's hex-id with avater.name in tmp folder
-    katas.dir(avatar).write_json(stub_run_filename, json)
+    disk[katas.avatar_path(avatar.kata.id, avatar.name)].write_json(stub_run_filename, json)
   end
 
   def read_stub(avatar)
-    dir = katas.dir(avatar)
+    dir = disk[katas.avatar_path(avatar.kata.id, avatar.name)]
     if dir.exists?(stub_run_filename)
       json = dir.read_json(stub_run_filename)
       output = json['output']

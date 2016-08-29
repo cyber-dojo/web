@@ -180,18 +180,6 @@ class HostDiskKatas
   # Path
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def dir(obj)  # Currently still used by StubRunner
-    disk[XX_path_of(obj)]
-  end
-
-  def XX_path_of(obj)
-    case obj.class.name
-    when 'Avatar'  then XX_path_of(obj.parent) + '/' + obj.name
-    when 'Kata'    then XX_path_of(obj.parent) + '/' + outer(obj.id) + '/' + inner(obj.id)
-    when self.class.name then path
-    end
-  end
-
   def kata_path(id)
     path + '/' + outer(id) + '/' + inner(id)
   end
