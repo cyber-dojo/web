@@ -186,7 +186,6 @@ class HostDiskKatas
 
   def XX_path_of(obj)
     case obj.class.name
-    when 'Sandbox' then XX_path_of(obj.parent) + '/' + 'sandbox'
     when 'Avatar'  then XX_path_of(obj.parent) + '/' + obj.name
     when 'Kata'    then XX_path_of(obj.parent) + '/' + outer(obj.id) + '/' + inner(obj.id)
     when self.class.name then path

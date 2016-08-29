@@ -9,8 +9,4 @@ class Sandbox
 
   attr_reader :avatar
 
-  def parent
-    avatar
-  end
-
 end

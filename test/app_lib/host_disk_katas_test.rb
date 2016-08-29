@@ -342,7 +342,7 @@ class HostDiskKatasTest < AppLibTestBase
   'sandbox dir is initially created' do
     kata = make_kata
     hippo = kata.start_avatar(['hippo'])
-    assert katas.dir(hippo.sandbox).exists?
+    assert disk[katas.sandbox_path(kata.id, 'hippo')].exists?
   end
 
   #- - - - - - - - - - - - - - - -
@@ -434,7 +434,7 @@ class HostDiskKatasTest < AppLibTestBase
   end
 
   def assert_file(filename, expected)
-    assert_equal expected, katas.dir(@avatar.sandbox).read(filename), 'saved_to_sandbox'
+    assert_equal expected, disk[katas.sandbox_path(@avatar.kata.id, @avatar.name)].read(filename), 'saved_to_sandbox'
   end
 
   def assert_log_include?(command)

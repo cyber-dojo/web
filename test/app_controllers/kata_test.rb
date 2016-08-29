@@ -115,12 +115,14 @@ class KataControllerTest  < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def create_gcc_assert_kata
-    create_kata('C (gcc), assert')
+    id = create_kata('C (gcc), assert')
+    @kata = Kata.new(katas, id)
+    id
   end
 
   def assert_file(filename, expected)
     assert_equal expected, @avatar.visible_files[filename], 'saved_to_manifest'
-    assert_equal expected, katas.dir(@avatar.sandbox).read(filename), 'saved_to_sandbox'
+    assert_equal expected, disk[katas.sandbox_path(@kata.id, @avatar.name)].read(filename), 'saved_to_sandbox'
   end
 
   def makefile_with_leading_tab

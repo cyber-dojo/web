@@ -10,7 +10,6 @@ class SandboxTest < AppModelsTestBase
     avatar = kata.start_avatar(['hippo'])
     sandbox = avatar.sandbox
     assert_equal avatar, sandbox.avatar
-    assert_equal avatar, sandbox.parent
   end
 
 end
