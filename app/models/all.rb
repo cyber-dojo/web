@@ -12,6 +12,5 @@
   kata
   avatar
   avatars
-  sandbox
   tag
 ).each { |sourcefile| require_relative './' + sourcefile }

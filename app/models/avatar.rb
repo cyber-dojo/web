@@ -54,13 +54,6 @@ class Avatar
     katas.avatar_visible_files(kata.id, name)
   end
 
-  def sandbox
-    # An avatar's source files are _not_ held in its own folder
-    # (but in the it's sandbox folder) because its own folder
-    # is used for the manifest.json and increments.json files.
-    Sandbox.new(self)
-  end
-
   private
 
   include ExternalParentChainer

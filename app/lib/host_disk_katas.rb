@@ -189,6 +189,9 @@ class HostDiskKatas
   end
 
   def sandbox_path(id, name)
+    # An avatar's source files are _not_ held in its own folder
+    # (but in the it's sandbox folder) because its own folder
+    # is used for the manifest.json and increments.json files.
     avatar_path(id, name) + '/sandbox'
   end
 
