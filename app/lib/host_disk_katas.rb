@@ -55,8 +55,7 @@ class HostDiskKatas
     # a kata's id has 10 hex chars. This gives 16^10 possibilities
     # which is 1,099,511,627,776 which is big enough to not
     # need to check that a kata with the id already exists.
-    id = manifest[:id]
-    dir = disk[kata_path(id)]
+    dir = disk[kata_path(manifest[:id])]
     dir.make
     dir.write_json(manifest_filename, manifest)
   end
@@ -94,20 +93,18 @@ class HostDiskKatas
     user_email = name + '@cyber-dojo.org'
     git.setup(avatar_path(id, name), user_name, user_email)
 
-    kata = Kata.new(self, id)
-    visible_files = kata.visible_files
+    disk[sandbox_path(id, name)].make
+    visible_files = kata_manifest(id)['visible_files']
+    visible_files.each do |filename, content|
+      disk[sandbox_path(id, name)].write(filename, content)
+      git.add(sandbox_path(id, name), filename)
+    end
 
     write_avatar_manifest(id, name, visible_files)
     git.add(avatar_path(id, name), manifest_filename)
 
     write_avatar_increments(id, name, [])
     git.add(avatar_path(id, name), increments_filename)
-
-    disk[sandbox_path(id, name)].make
-    visible_files.each do |filename, content|
-      disk[sandbox_path(id, name)].write(filename, content)
-      git.add(sandbox_path(id, name), filename)
-    end
 
     git.commit(avatar_path(id, name), tag=0)
 
