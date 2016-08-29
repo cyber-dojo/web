@@ -156,7 +156,8 @@ class HostDiskKatas
   # Sandbox
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def sandbox_save(sandbox, delta, files)
+  def sandbox_save(id, name, delta, files)
+    sandbox = Avatar.new(self[id], name).sandbox
     # Unchanged files are *not* re-saved.
     delta[:deleted].each do |filename|
       git.rm(path_of(sandbox), filename)

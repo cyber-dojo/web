@@ -38,9 +38,8 @@ class DockerTarPipeRunner
   end
 
   def run(avatar, delta, files, image_name)
-    sandbox = avatar.sandbox
-    katas.sandbox_save(sandbox, delta, files)
-    katas_sandbox_path = katas.path_of(sandbox)
+    katas.sandbox_save(avatar.kata.id, avatar.name, delta, files)
+    katas_sandbox_path = katas.path_of(avatar.sandbox)
     args = [ katas_sandbox_path, image_name, max_seconds, quoted(sudo) ].join(space)
     output, exit_status = shell.cd_exec(path, "./docker_tar_pipe_runner.sh #{args}")
     output_or_timed_out(output, exit_status, max_seconds)

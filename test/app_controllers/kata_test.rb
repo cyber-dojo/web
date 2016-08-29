@@ -49,6 +49,7 @@ class KataControllerTest  < AppControllerTestBase
   'run_tests() saves changed makefile with leading spaces converted to tabs',
   'and these changes are made to the visible_files parameter too',
   'so they also occur in the manifest file' do
+    set_runner_class('DockerTarPipeRunner')
     create_gcc_assert_kata
     @avatar = start
     kata_edit
@@ -64,6 +65,7 @@ class KataControllerTest  < AppControllerTestBase
   'run_tests() saves *new* makefile with leading spaces converted to tabs',
   'and these changes are made to the visible_files parameter too',
   'so they also occur in the manifest file' do
+    set_runner_class('DockerTarPipeRunner')
     create_gcc_assert_kata
     @avatar = start
     delete_file(makefile)

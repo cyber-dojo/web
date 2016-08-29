@@ -21,7 +21,6 @@ class KataController < ApplicationController
     files = received_files
     @output = @avatar.test(delta, files)
     @test_colour = kata.red_amber_green(@output)
-    katas.sandbox_save(@avatar.sandbox, delta, files)
     @avatar.tested(files, time_now, @output, @test_colour)
 
     respond_to do |format|

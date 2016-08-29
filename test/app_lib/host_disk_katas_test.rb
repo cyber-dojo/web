@@ -301,7 +301,7 @@ class HostDiskKatasTest < AppLibTestBase
     git_evidence = "git add '#{new_filename}'"
     refute_log_include?(pathed(git_evidence))
 
-    kata.katas.sandbox_save(@avatar.sandbox, maker.delta, maker.visible_files)
+    kata.katas.sandbox_save(kata.id, @avatar.name, maker.delta, maker.visible_files)
 
     assert_log_include?(pathed(git_evidence))
     assert_file new_filename, new_content
@@ -319,7 +319,7 @@ class HostDiskKatasTest < AppLibTestBase
     git_evidence = "git rm 'makefile'"
     refute_log_include?(pathed(git_evidence))
 
-    kata.katas.sandbox_save(@avatar.sandbox, maker.delta, maker.visible_files)
+    kata.katas.sandbox_save(kata.id, @avatar.name, maker.delta, maker.visible_files)
 
     assert_log_include?(pathed(git_evidence))
     refute maker.visible_files.keys.include? 'makefile'
@@ -333,7 +333,7 @@ class HostDiskKatasTest < AppLibTestBase
     avatar = kata.start_avatar
     maker = DeltaMaker.new(avatar)
     maker.change_file('makefile', 'sdsdsd')
-    kata.katas.sandbox_save(avatar.sandbox, maker.delta, maker.visible_files)
+    kata.katas.sandbox_save(kata.id, avatar.name, maker.delta, maker.visible_files)
   end
 
   #- - - - - - - - - - - - - - - -

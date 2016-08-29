@@ -36,6 +36,7 @@ class DifferControllerTest < AppControllerTestBase
 
   test 'BEC2BF',
   'one line different in one file between successive tags' do
+    set_runner_class('DockerTarPipeRunner')
     @id = create_kata
     @avatar = start # 0
     filename = 'hiker.rb'
