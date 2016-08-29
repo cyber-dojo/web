@@ -74,7 +74,7 @@ class HostDiskKatas
   end
 
   def kata_started_avatars(id)
-    lines, _ = shell.cd_exec(path_of(self[id]), 'ls -F | grep / | tr -d /')
+    lines, _ = shell.cd_exec(kata_path(id), 'ls -F | grep / | tr -d /')
     lines.split("\n") & Avatars.names
   end
 
@@ -86,33 +86,30 @@ class HostDiskKatas
     # Don't do the & with operands swapped - you lose randomness
     valid_names = avatar_names & Avatars.names
     name = valid_names.detect do |valid_name|
-      _, exit_status = shell.cd_exec(path_of(kata), "mkdir #{valid_name} > /dev/null #{stderr_2_stdout}")
+      _, exit_status = shell.cd_exec(kata_path(id), "mkdir #{valid_name} > /dev/null #{stderr_2_stdout}")
       exit_status == shell.success
     end
 
     return nil if name.nil? # full!
 
-    avatar = Avatar.new(kata, name)
-    # it's dir has already been created in the mkdir above
-
     user_name = name + '_' + kata.id
     user_email = name + '@cyber-dojo.org'
-    git.setup(path_of(avatar), user_name, user_email)
+    git.setup(avatar_path(id, name), user_name, user_email)
 
-    write_avatar_manifest(avatar, kata.visible_files)
-    git.add(path_of(avatar), manifest_filename)
+    write_avatar_manifest(id, name, kata.visible_files)
+    git.add(avatar_path(id, name), manifest_filename)
 
-    write_avatar_increments(avatar, [])
-    git.add(path_of(avatar), increments_filename)
+    write_avatar_increments(id, name, [])
+    git.add(avatar_path(id, name), increments_filename)
 
-    sandbox = Sandbox.new(avatar)
-    dir(sandbox).make
+    disk[sandbox_path(id, name)].make
+    avatar = Avatar.new(kata, name) # it's dir has already been created in the mkdir above
     avatar.visible_files.each do |filename, content|
-      dir(sandbox).write(filename, content)
-      git.add(path_of(sandbox), filename)
+      disk[sandbox_path(id, name)].write(filename, content)
+      git.add(sandbox_path(id, name), filename)
     end
 
-    git.commit(path_of(avatar), tag=0)
+    git.commit(avatar_path(id, name), tag=0)
 
     name
   end
@@ -128,28 +125,25 @@ class HostDiskKatas
 
   def avatar_increments(id, name)
     # implicitly for current tag
-    avatar = Avatar.new(self[id], name)
-    dir(avatar).read_json(increments_filename)
+    disk[avatar_path(id, name)].read_json(increments_filename)
   end
 
   def avatar_visible_files(id, name)
     # implicitly for current tag
-    avatar = Avatar.new(self[id], name)
-    dir(avatar).read_json(manifest_filename)
+    disk[avatar_path(id, name)].read_json(manifest_filename)
   end
 
   def avatar_ran_tests(id, name, files, now, output, colour)
-    avatar = Avatar.new(self[id], name)
-    dir(avatar.sandbox).write('output', output)
+    disk[sandbox_path(id, name)].write('output', output)
     files['output'] = output
-    write_avatar_manifest(avatar, files)
+    write_avatar_manifest(id, name, files)
     # update the Red/Amber/Green increments
     rags = avatar_increments(id, name)
     tag = rags.length + 1
     rags << { 'colour' => colour, 'time' => now, 'number' => tag }
-    write_avatar_increments(avatar, rags)
+    write_avatar_increments(id, name, rags)
     # git-commit the manifest, increments, and visible-files
-    git.commit(path_of(avatar), tag)
+    git.commit(avatar_path(id, name), tag)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -160,11 +154,11 @@ class HostDiskKatas
     sandbox = Avatar.new(self[id], name).sandbox
     # Unchanged files are *not* re-saved.
     delta[:deleted].each do |filename|
-      git.rm(path_of(sandbox), filename)
+      git.rm(sandbox_path(id, name), filename)
     end
     delta[:new].each do |filename|
       write(sandbox, filename, files[filename])
-      git.add(path_of(sandbox), filename)
+      git.add(sandbox_path(id, name), filename)
     end
     delta[:changed].each do |filename|
       write(sandbox, filename, files[filename])
@@ -176,14 +170,12 @@ class HostDiskKatas
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def tag_visible_files(id, name, tag)
-    avatar = Avatar.new(self[id], name)
     # retrieve all the files in one go
-    JSON.parse(git.show(path_of(avatar), "#{tag}:#{manifest_filename}"))
+    JSON.parse(git.show(avatar_path(id, name), "#{tag}:#{manifest_filename}"))
   end
 
   def tag_git_diff(id, name, was_tag, now_tag)
-    avatar = Avatar.new(self[id], name)
-    git.diff(path_of(avatar), was_tag, now_tag)
+    git.diff(avatar_path(id, name), was_tag, now_tag)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -201,6 +193,18 @@ class HostDiskKatas
     when 'Kata'    then path_of(obj.parent) + '/' + outer(obj.id) + '/' + inner(obj.id)
     when self.class.name then path
     end
+  end
+
+  def kata_path(id)
+    path + '/' + outer(id) + '/' + inner(id)
+  end
+
+  def avatar_path(id, name)
+    kata_path(id) + '/' + name
+  end
+
+  def sandbox_path(id, name)
+    avatar_path(id, name) + '/sandbox'
   end
 
   private
@@ -227,12 +231,12 @@ class HostDiskKatas
     '0123456789ABCDEF'.include?(char)
   end
 
-  def write_avatar_manifest(avatar, files)
-    dir(avatar).write_json(manifest_filename, files)
+  def write_avatar_manifest(id, name, files)
+    disk[avatar_path(id, name)].write_json(manifest_filename, files)
   end
 
-  def write_avatar_increments(avatar, increments)
-    dir(avatar).write_json(increments_filename, increments)
+  def write_avatar_increments(id, name, increments)
+    disk[avatar_path(id, name)].write_json(increments_filename, increments)
   end
 
   def increments_filename
