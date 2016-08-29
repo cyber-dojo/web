@@ -16,7 +16,7 @@ class HostDiskKatasTest < AppLibTestBase
   test 'B9916D',
   'after create_kata() manifest file holds kata properties' do
     kata = make_kata
-    manifest = katas.kata_manifest(kata)
+    manifest = katas.kata_manifest(kata.id)
     assert_equal kata.id, manifest['id']
     refute_nil manifest['image_name']
     refute_nil manifest['language']
@@ -166,9 +166,9 @@ class HostDiskKatasTest < AppLibTestBase
   test '16F7BB',
   'started avatar exists' do
     kata = make_kata
-    assert_equal [], katas.kata_started_avatars(kata)
+    assert_equal [], kata.avatars.started.keys
     salmon = kata.start_avatar(['salmon'])
-    assert_equal ['salmon'], katas.kata_started_avatars(kata)
+    assert_equal ['salmon'], kata.avatars.started.keys
     assert katas.avatar_exists?(salmon)
   end
 
@@ -177,7 +177,7 @@ class HostDiskKatasTest < AppLibTestBase
     kata = make_kata
     lion = Avatar.new(kata, 'lion')
     refute katas.avatar_exists?(lion)
-    assert_equal [], katas.kata_started_avatars(kata)
+    assert_equal [], kata.avatars.started.keys
   end
 
   #- - - - - - - - - - - - - - - -

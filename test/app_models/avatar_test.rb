@@ -8,7 +8,7 @@ class AvatarTest < AppModelsTestBase
   "an avatar's kata is the kata it was created with" do
     kata = make_kata
     avatar = kata.start_avatar
-    assert_equal kata, avatar.kata
+    assert_equal kata.id, avatar.kata.id
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

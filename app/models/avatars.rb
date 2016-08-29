@@ -26,12 +26,17 @@ class Avatars
     kata
   end
 
+  def started
+    names = katas.kata_started_avatars(kata.id)
+    Hash[names.map { |name| [name, Avatar.new(kata, name)] }]
+  end
+
   def each(&block)
-    started_avatars.values.each(&block)
+    started.values.each(&block)
   end
 
   def [](name)
-    started_avatars[name]
+    started[name]
   end
 
   def active
@@ -45,10 +50,5 @@ class Avatars
   private
 
   include ExternalParentChainer
-
-  def started_avatars
-    names = katas.kata_started_avatars(kata)
-    Hash[names.map { |name| [name, Avatar.new(kata, name)] }]
-  end
 
 end

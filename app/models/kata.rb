@@ -10,7 +10,8 @@ class Kata
   # modifiers
 
   def start_avatar(avatar_names = Avatars.names.shuffle)
-    katas.kata_start_avatar(self, avatar_names)
+    name = katas.kata_start_avatar(id, avatar_names)
+    name.nil? ? nil : Avatar.new(self, name)
   end
 
   # queries
@@ -130,7 +131,7 @@ class Kata
   end
 
   def manifest
-    @manifest ||= katas.kata_manifest(self)
+    @manifest ||= katas.kata_manifest(id)
   end
 
   def earliest_light

@@ -69,16 +69,17 @@ class HostDiskKatas
     exists?(kata) ? kata : nil
   end
 
-  def kata_manifest(kata)
-    dir(kata).read_json(manifest_filename)
+  def kata_manifest(id)
+    dir(self[id]).read_json(manifest_filename)
   end
 
-  def kata_started_avatars(kata)
-    lines, _ = shell.cd_exec(path_of(kata), 'ls -F | grep / | tr -d /')
+  def kata_started_avatars(id)
+    lines, _ = shell.cd_exec(path_of(self[id]), 'ls -F | grep / | tr -d /')
     lines.split("\n") & Avatars.names
   end
 
-  def kata_start_avatar(kata, avatar_names = Avatars.names.shuffle)
+  def kata_start_avatar(id, avatar_names = Avatars.names.shuffle)
+    kata = self[id]
     # Needs to be atomic otherwise two laptops in the same practice session
     # could start as the same animal. This relies on mkdir being atomic on
     # a (non NFS) POSIX file system.
@@ -113,7 +114,7 @@ class HostDiskKatas
 
     git.commit(path_of(avatar), tag=0)
 
-    avatar
+    name
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
