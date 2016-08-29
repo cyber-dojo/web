@@ -78,7 +78,6 @@ class HostDiskKatas
   end
 
   def kata_start_avatar(id, avatar_names = Avatars.names.shuffle)
-    kata = self[id]
     # Needs to be atomic otherwise two laptops in the same practice session
     # could start as the same animal. This relies on mkdir being atomic on
     # a (non NFS) POSIX file system.
@@ -91,19 +90,21 @@ class HostDiskKatas
 
     return nil if name.nil? # full!
 
-    user_name = name + '_' + kata.id
+    user_name = name + '_' + id
     user_email = name + '@cyber-dojo.org'
     git.setup(avatar_path(id, name), user_name, user_email)
 
-    write_avatar_manifest(id, name, kata.visible_files)
+    kata = Kata.new(self, id)
+    visible_files = kata.visible_files
+
+    write_avatar_manifest(id, name, visible_files)
     git.add(avatar_path(id, name), manifest_filename)
 
     write_avatar_increments(id, name, [])
     git.add(avatar_path(id, name), increments_filename)
 
     disk[sandbox_path(id, name)].make
-    avatar = Avatar.new(kata, name) # it's dir has already been created in the mkdir above
-    avatar.visible_files.each do |filename, content|
+    visible_files.each do |filename, content|
       disk[sandbox_path(id, name)].write(filename, content)
       git.add(sandbox_path(id, name), filename)
     end
