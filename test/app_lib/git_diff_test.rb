@@ -9,7 +9,6 @@ class GitDiffTest < AppLibTestBase
   test '5F8D2A',
   'avatar_git_diff() with modified file' do
     set_runner_class('StubRunner')
-
     kata = make_kata
     lion = kata.start_avatar(['lion']) # tag 0
     maker = DeltaMaker.new(lion)

@@ -90,8 +90,8 @@ class ForkerControllerTest < AppControllerTestBase
     language = languages[default_language_name]
     manifest = language.create_kata_manifest
     manifest[:exercise] = 'exercise-name-that-does-not-exist'
-    kata = katas.create_kata_from_kata_manifest(manifest)
-    @id = kata.id
+    katas.create_kata_from_kata_manifest(manifest)
+    @id = manifest[:id]
     @avatar = start # 0
     run_tests       # 1
     fork(@id, @avatar.name, tag = 1)
@@ -103,12 +103,11 @@ class ForkerControllerTest < AppControllerTestBase
   test '9D85BF',
   'when language has been renamed and everything else',
   'is ok then fork works and the new dojos id is returned' do
-    @id = unique_id
     language = languages['C#-NUnit']
     manifest = language.create_kata_manifest
     manifest[:language] = 'C#' # old-name
-    kata = katas.create_kata_from_kata_manifest(manifest)
-    @id = kata.id
+    katas.create_kata_from_kata_manifest(manifest)
+    @id = manifest[:id]
     @avatar = start # 0
     run_tests       # 1
     fork(@id, @avatar.name, tag = 1)
@@ -119,13 +118,12 @@ class ForkerControllerTest < AppControllerTestBase
 
   test '467D4A',
   'forking kata from before start-point volume re-architecture works' do
-    @id = unique_id
     language = languages['C#-NUnit']
     manifest = language.create_kata_manifest
     manifest.delete(:red_amber_green)
     manifest[:unit_test_framework] = 'nunit'
-    kata = katas.create_kata_from_kata_manifest(manifest)
-    @id = kata.id
+    katas.create_kata_from_kata_manifest(manifest)
+    @id = manifest[:id]
     @avatar = start # 0
     run_tests       # 1
     fork(@id, @avatar.name, tag = 1)

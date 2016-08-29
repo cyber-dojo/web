@@ -59,7 +59,6 @@ class HostDiskKatas
     dir = disk[kata_path(id)]
     dir.make
     dir.write_json(manifest_filename, manifest)
-    Kata.new(self, id)
   end
 
   # - - - - - - - - - - - - - - - -

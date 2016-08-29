@@ -52,10 +52,10 @@ class ForkerController < ApplicationController
         manifest[:lowlight_filenames ] = kata.lowlight_filenames
       end
 
-      forked_kata = katas.create_kata_from_kata_manifest(manifest)
+      katas.create_kata_from_kata_manifest(manifest)
 
       result[:forked] = true
-      result[:id] = forked_kata.id
+      result[:id] = manifest[:id]
     end
 
     respond_to do |format|
