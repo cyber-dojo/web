@@ -175,12 +175,14 @@ class HostDiskKatas
   # Tag
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def tag_visible_files(avatar, tag)
+  def tag_visible_files(id, name, tag)
+    avatar = Avatar.new(self[id], name)
     # retrieve all the files in one go
     JSON.parse(git.show(path_of(avatar), "#{tag}:#{manifest_filename}"))
   end
 
-  def tag_git_diff(avatar, was_tag, now_tag)
+  def tag_git_diff(id, name, was_tag, now_tag)
+    avatar = Avatar.new(self[id], name)
     git.diff(path_of(avatar), was_tag, now_tag)
   end
 

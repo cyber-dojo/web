@@ -15,7 +15,7 @@ class Tag
   end
 
   def visible_files
-    @manifest ||= katas.tag_visible_files(avatar, number)
+    @manifest ||= katas.tag_visible_files(avatar.kata.id, avatar.name, number)
   end
 
   def output

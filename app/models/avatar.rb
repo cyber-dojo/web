@@ -27,7 +27,7 @@ class Avatar
   end
 
   def diff(was_tag, now_tag)
-    katas.tag_git_diff(self, was_tag, now_tag)
+    katas.tag_git_diff(kata.id, name, was_tag, now_tag)
   end
 
   def active?

@@ -353,7 +353,7 @@ class HostDiskKatasTest < AppLibTestBase
   'tag_visible_files' do
     kata = make_kata
     hippo = kata.start_avatar(['hippo'])
-    visible_files = katas.tag_visible_files(hippo, tag=0)
+    visible_files = katas.tag_visible_files(kata.id, 'hippo', tag=0)
     assert 6, visible_files.length
     assert visible_files.keys.include? 'makefile'
   end
@@ -367,7 +367,7 @@ class HostDiskKatasTest < AppLibTestBase
     maker.new_file(new_filename, new_content = 'content for new file')
     now = time_now
     hippo.tested(maker.visible_files, now, output='xx', 'amber')
-    diff = katas.tag_git_diff(hippo, was_tag=0, now_tag=1)
+    diff = katas.tag_git_diff(kata.id, 'hippo', was_tag=0, now_tag=1)
     assert diff.start_with? 'diff --git'
   end
 
