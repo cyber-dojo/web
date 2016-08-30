@@ -2,11 +2,11 @@
 
 require_relative './app_lib_test_base'
 
-class TdGapperTest < AppLibTestBase
+class DashboardTdGapperTest < AppLibTestBase
 
   def setup
     super
-    @gapper = TdGapper.new(start, seconds_per_td, max_seconds_uncollapsed)
+    @gapper = DashboardTdGapper.new(start, seconds_per_td, max_seconds_uncollapsed)
   end
 
   attr_reader :gapper

@@ -1,7 +1,7 @@
 
 # See comments at end of file
 
-class TdGapper
+class DashboardTdGapper
 
   def initialize(start, seconds_per_td, max_seconds_uncollapsed)
     @start = start

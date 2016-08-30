@@ -11,8 +11,8 @@ class DifferController < ApplicationController
                      nowTag: now_tag,
                      lights: @lights,
 	                    diffs: diffs,
-                 prevAvatar: prev_ring(active_avatar_names, avatar.name),
-                 nextAvatar: next_ring(active_avatar_names, avatar.name),
+                 prevAvatar: ring_prev(active_avatar_names, avatar.name),
+                 nextAvatar: ring_next(active_avatar_names, avatar.name),
 	      idsAndSectionCounts: prune(diffs),
           currentFilenameId: pick_file_id(diffs, current_filename),
 	  }

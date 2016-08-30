@@ -2,9 +2,9 @@
 
 require_relative './app_lib_test_base'
 
-class PrevNextRingTest < AppLibTestBase
+class RingPickerTest < AppLibTestBase
 
-  include PrevNextRing
+  include RingPicker
 
   test '9A9099',
   'previous when single entry is empty string' do
@@ -64,15 +64,15 @@ class PrevNextRingTest < AppLibTestBase
 
   private
 
-  def assert_prev(arg,entries,expected)
+  def assert_prev(arg, entries, expected)
     clone = entries.clone
-    assert_equal expected, prev_ring(clone,arg)
+    assert_equal expected, ring_prev(clone, arg)
     assert_equal clone, entries
   end
 
-  def assert_next(arg,entries,expected)
+  def assert_next(arg, entries, expected)
     clone = entries.clone
-    assert_equal expected, next_ring(clone,arg)
+    assert_equal expected, ring_next(clone, arg)
     assert_equal clone, entries
   end
 

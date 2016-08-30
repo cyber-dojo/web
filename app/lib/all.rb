@@ -8,10 +8,10 @@
   git_diff_builder
   git_diff
   review_file_picker
-  prev_next_ring
+  ring_picker
   makefile_filter
   output_colour
-  td_gapper
+  dashboard_td_gapper
   delta_maker
   display_names_splitter
   host_disk_katas

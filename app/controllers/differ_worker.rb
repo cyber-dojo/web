@@ -28,8 +28,8 @@ module DifferWorker
     array.map { |hash| { :id => hash[:id], :section_count => hash[:section_count] } }
   end
 
+  include RingPicker
   include GitDiff
   include ReviewFilePicker
-  include PrevNextRing
 
 end
