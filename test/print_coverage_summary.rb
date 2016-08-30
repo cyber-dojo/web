@@ -184,8 +184,8 @@ def gather_done(stats, totals)
      coverage(stats, 'app_models'),
      coverage(stats, 'lib'),
      coverage(stats, 'app_controllers'),
-     [ "total secs < 70", totals[:time].to_f < 70 ],
-     [ "total assertions per sec > 40", totals[:assertions_per_sec] > 40 ]
+     [ "total secs < 60", totals[:time].to_f < 60 ],
+     [ "total assertions per sec > 50", totals[:assertions_per_sec] > 50 ]
   ]
 end
 
