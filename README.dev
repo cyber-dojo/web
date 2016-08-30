@@ -1,20 +1,18 @@
 
 The cyber-dojo web server now lives inside a docker image called cyberdojo/web
-The script to build this image is
-app/docker/web/build-image.sh
 
-If you're running this image and you make a change to local source files the
-changes will not be seen inside the server of course. You'll need to recreate
-the web image...
-$ cd web/docker/web
-$ ./build-image.sh
-
-then bring down the old server and bring up the new one...
+To rebuild the image and run all the tests inside it
 $ cd cli
-$ ./cyber-dojo down
-$ ./cyber-dojo up
+$ ./build_and_test.sh
 
 You can run the tests from inside the running web server...
 $ cd cli
 $ ./cyber-dojo sh
-/usr/src/cyber-dojo$ cd test && ./run.sh
+$ cd test && ./run.sh
+
+If you make changes to local source files the changes will not be seen inside
+the server. You'll need to rebuild the image and bring up the new server...
+$ cd web/docker/web
+$ ./build-image.sh
+$ cd cli
+$ ./cyber-dojo up
