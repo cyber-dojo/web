@@ -90,7 +90,7 @@ class ForkerControllerTest < AppControllerTestBase
     language = languages[default_language_name]
     manifest = language.create_kata_manifest
     manifest[:exercise] = 'exercise-name-that-does-not-exist'
-    katas.create_kata_from_kata_manifest(manifest)
+    katas.create_kata(manifest)
     @id = manifest[:id]
     @avatar = start # 0
     run_tests       # 1
@@ -106,7 +106,7 @@ class ForkerControllerTest < AppControllerTestBase
     language = languages['C#-NUnit']
     manifest = language.create_kata_manifest
     manifest[:language] = 'C#' # old-name
-    katas.create_kata_from_kata_manifest(manifest)
+    katas.create_kata(manifest)
     @id = manifest[:id]
     @avatar = start # 0
     run_tests       # 1
@@ -122,7 +122,7 @@ class ForkerControllerTest < AppControllerTestBase
     manifest = language.create_kata_manifest
     manifest.delete(:red_amber_green)
     manifest[:unit_test_framework] = 'nunit'
-    katas.create_kata_from_kata_manifest(manifest)
+    katas.create_kata(manifest)
     @id = manifest[:id]
     @avatar = start # 0
     run_tests       # 1

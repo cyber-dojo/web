@@ -51,7 +51,7 @@ class HostDiskKatas
   # Kata
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def create_kata_from_kata_manifest(manifest)
+  def create_kata(manifest)
     # a kata's id has 10 hex chars. This gives 16^10 possibilities
     # which is 1,099,511,627,776 which is big enough to not
     # need to check that a kata with the id already exists.

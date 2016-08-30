@@ -252,7 +252,7 @@ class HostDiskKatasTest < AppLibTestBase
   #- - - - - - - - - - - - - - - -
 
   test '2ED22E',
-  "avatar-path has correct format" do
+  'avatar-path has correct format' do
     kata = make_kata
     avatar = kata.start_avatar(Avatars.names)
     assert correct_path_format?(katas.avatar_path(kata.id, avatar.name))
@@ -291,7 +291,7 @@ class HostDiskKatasTest < AppLibTestBase
   #- - - - - - - - - - - - - - - -
 
   test '8EF1A3',
-  "sandbox_save(... delta[:new] ...) files are git add'ed" do
+  'sandbox_save(... delta[:new] ...) files are git add.ed' do
     kata = make_kata
     @avatar = kata.start_avatar
     new_filename = 'ab.c'
@@ -310,7 +310,7 @@ class HostDiskKatasTest < AppLibTestBase
   #- - - - - - - - - - - - - - - -
 
   test 'A66E09',
-  "sandbox_save(... delta[:deleted] ...) files are git rm'ed" do
+  'sandbox_save(... delta[:deleted] ...) files are git rm.ed' do
     kata = make_kata
     @avatar = kata.start_avatar
     maker = DeltaMaker.new(@avatar)
@@ -328,12 +328,13 @@ class HostDiskKatasTest < AppLibTestBase
   #- - - - - - - - - - - - - - - -
 
   test '0BF880',
-  "sandbox_save(... delta[:changed] ... files are not re git add'ed" do
+  'sandbox_save(... delta[:changed] ... files are not re git add.ed' do
     kata = make_kata
     avatar = kata.start_avatar
     maker = DeltaMaker.new(avatar)
     maker.change_file('makefile', 'sdsdsd')
     kata.katas.sandbox_save(kata.id, avatar.name, maker.delta, maker.visible_files)
+    #??
   end
 
   #- - - - - - - - - - - - - - - -
@@ -434,7 +435,8 @@ class HostDiskKatasTest < AppLibTestBase
   end
 
   def assert_file(filename, expected)
-    assert_equal expected, disk[katas.sandbox_path(@avatar.kata.id, @avatar.name)].read(filename), 'saved_to_sandbox'
+    actual = disk[katas.sandbox_path(@avatar.kata.id, @avatar.name)].read(filename)
+    assert_equal expected, actual, 'saved_to_sandbox'
   end
 
   def assert_log_include?(command)
