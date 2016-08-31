@@ -84,6 +84,40 @@ class KatasTest < AppModelsTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # katas.each
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test '9F12BA',
+  'each() yielding empty array when there are no katas' do
+    assert_equal [], all_ids
+  end
+
+  test '29C86F',
+  'each() yielding one kata' do
+    kata = make_kata
+    assert_equal [kata.id], all_ids
+  end
+
+  test '10D000',
+  'each() yielding two katas with unrelated ids' do
+    kata1 = make_kata
+    kata2 = make_kata
+    assert_equal [kata1.id, kata2.id].sort, all_ids.sort
+  end
+
+  test 'BB0A82',
+  'each() yielding several kata with common first two characters' do
+    id = 'ABCDE1234'
+    assert_equal 10-1, id.length
+    kata1 = make_kata({ id:id + '1' })
+    kata2 = make_kata({ id:id + '2' })
+    kata3 = make_kata({ id:id + '3' })
+    assert_equal [kata1.id, kata2.id, kata3.id].sort, all_ids.sort
+  end
+
+  def all_ids
+    # katas is Enumerable so .each not needed if doing map
+    katas.map { |kata| kata.id }
+  end
 
 end

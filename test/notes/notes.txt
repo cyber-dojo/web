@@ -1,6 +1,4 @@
 
-refactor host_disk_storer.each to return id strings instead of Kata object
-
 move setting of environment variables inside rails startup code
 and out of docker-compose.yml
 

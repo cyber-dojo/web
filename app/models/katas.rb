@@ -10,8 +10,8 @@ class Katas
 
   attr_reader :parent
 
-  def each(&block)
-    storer.each(&block)
+  def each
+    storer.each { |id| yield Kata.new(self, id) }
   end
 
   def completed(id)
