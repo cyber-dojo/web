@@ -27,7 +27,7 @@ class Avatars
   end
 
   def started
-    names = katas.kata_started_avatars(kata.id)
+    names = storer.kata_started_avatars(kata.id)
     Hash[names.map { |name| [name, Avatar.new(kata, name)] }]
   end
 

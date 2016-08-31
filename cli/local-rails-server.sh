@@ -22,7 +22,7 @@ export CYBER_DOJO_SHELL_CLASS=HostShell
 export CYBER_DOJO_DISK_CLASS=HostDisk
 export CYBER_DOJO_LOG_CLASS=StdoutLog
 export CYBER_DOJO_GIT_CLASS=HostGit
-export CYBER_DOJO_KATAS_CLASS=HostDiskStorer
+export CYBER_DOJO_STORER_CLASS=HostDiskStorer
 
 export CYBER_DOJO_RUNNER_CLASS=DockerTarPipeRunner
 export CYBER_DOJO_RUNNER_SUDO=''

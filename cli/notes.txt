@@ -2,6 +2,14 @@
 app/lib/StubRunner
 combine test's hex-id with avater.name in tmp folder
 
+create test/app_models/katas_test.rb
+
+look for storer.path and refactor to katas.path
+
+storer.each needs to return arrays of kata-ids
+katas.each needs to create the Kata objects.
+storer.each needs to accept first 2 digits and katas.each loops 256 times.
+
 - - - - - - - - - - - - - - - - - - - - -
 
 cyber-dojo shell script is a bit of a mess.

@@ -16,7 +16,7 @@ class DojoTest < AppModelsTestBase
   test 'FB7E2A',
   'using an unset external class raises StandardError' do
     unset_runner_class && assert_raises(StandardError) { runner.class }
-    unset_katas_class  && assert_raises(StandardError) {  katas.class }
+    unset_storer_class && assert_raises(StandardError) { storer.class }
     unset_shell_class  && assert_raises(StandardError) {  shell.class }
     unset_disk_class   && assert_raises(StandardError) {   disk.class }
     unset_git_class    && assert_raises(StandardError) {    git.class }
@@ -39,7 +39,7 @@ class DojoTest < AppModelsTestBase
   'setting an external class to the name of an existing class succeeds' do
     exists = 'ExternalDouble'
     set_runner_class(exists) && assert_equal(exists, runner.class.name)
-    set_katas_class( exists) && assert_equal(exists,  katas.class.name)
+    set_storer_class(exists) && assert_equal(exists, storer.class.name)
     set_shell_class( exists) && assert_equal(exists,  shell.class.name)
     set_disk_class(  exists) && assert_equal(exists,   disk.class.name)
     set_git_class(   exists) && assert_equal(exists,    git.class.name)
@@ -49,7 +49,7 @@ class DojoTest < AppModelsTestBase
   test 'FB77E4',
   'setting an external class to the name of a non-existant class raises StandardError' do
     set_runner_class(does_not_exist) && assert_raises(StandardError) { runner.class }
-    set_katas_class( does_not_exist) && assert_raises(StandardError) {  katas.class }
+    set_storer_class(does_not_exist) && assert_raises(StandardError) { storer.class }
     set_shell_class( does_not_exist) && assert_raises(StandardError) {  shell.class }
     set_disk_class(  does_not_exist) && assert_raises(StandardError) {   disk.class }
     set_git_class(   does_not_exist) && assert_raises(StandardError) {    git.class }
@@ -65,7 +65,7 @@ class DojoTest < AppModelsTestBase
     set_languages_root(path = tmp_root + '/languages') && assert_equal(path, languages.path)
     set_exercises_root(path = tmp_root + '/exercises') && assert_equal(path, exercises.path)
     set_custom_root(   path = tmp_root + '/custom'   ) && assert_equal(path,    custom.path)
-    set_katas_root(    path = tmp_root + '/katas'    ) && assert_equal(path,     katas.path)
+    set_katas_root(    path = tmp_root + '/katas'    ) && assert_equal(path,    storer.path)
   end
 
   # - - - - - -
@@ -82,16 +82,16 @@ class DojoTest < AppModelsTestBase
     set_custom_root(path + '/') && assert_equal(path, custom.path)
 
     path = tmp_root + '/katas'
-    set_katas_root(path + '/')     && assert_equal(path, katas.path)
+    set_katas_root(path + '/')     && assert_equal(path, storer.path)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'FB7F2D',
-  'katas.path is set off /tmp by test setup because tests write to katas' do
+  'storer.path is set off /tmp by test setup because tests write to katas' do
     test_set_path = dojo.env('katas_root')
     assert test_set_path.include?('/tmp')
-    assert katas.path.include?('/tmp')
+    assert storer.path.include?('/tmp')
   end
 
   private

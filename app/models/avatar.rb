@@ -15,7 +15,7 @@ class Avatar
   end
 
   def tested(files, at, output, colour)
-    katas.avatar_ran_tests(kata.id, name, files, at, output, colour)
+    storer.avatar_ran_tests(kata.id, name, files, at, output, colour)
   end
 
   # queries
@@ -27,7 +27,7 @@ class Avatar
   end
 
   def diff(was_tag, now_tag)
-    katas.tag_git_diff(kata.id, name, was_tag, now_tag)
+    storer.tag_git_diff(kata.id, name, was_tag, now_tag)
   end
 
   def active?
@@ -35,7 +35,7 @@ class Avatar
     # instructions. I don't want these avatars appearing on the dashboard.
     # When forking a new kata you can enter as one animal to sanity check
     # it is ok (but not press [test])
-    katas.avatar_exists?(kata.id, name) && !lights.empty?
+    storer.avatar_exists?(kata.id, name) && !lights.empty?
   end
 
   def tags
@@ -51,7 +51,7 @@ class Avatar
   end
 
   def visible_files
-    katas.avatar_visible_files(kata.id, name)
+    storer.avatar_visible_files(kata.id, name)
   end
 
   private
@@ -60,7 +60,7 @@ class Avatar
   include TimeNow
 
   def increments
-    katas.avatar_increments(kata.id, name)
+    storer.avatar_increments(kata.id, name)
   end
 
   def tag0

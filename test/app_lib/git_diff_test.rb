@@ -12,7 +12,7 @@ class GitDiffTest < AppLibTestBase
     kata = make_kata
     lion = kata.start_avatar(['lion']) # tag 0
     maker = DeltaMaker.new(lion)
-    kata.katas.sandbox_save(kata.id, 'lion', maker.delta, maker.visible_files)
+    storer.sandbox_save(kata.id, 'lion', maker.delta, maker.visible_files)
     maker.stub_colour(:red)
     maker.run_test # tag 1
     assert_equal :red, lion.lights[-1].colour
@@ -22,7 +22,7 @@ class GitDiffTest < AppLibTestBase
     content = maker.content(filename)
     refute_nil content
     maker.change_file(filename, content.sub('6 * 9', '6 * 7'))
-    kata.katas.sandbox_save(kata.id, 'lion', maker.delta, maker.visible_files)
+    storer.sandbox_save(kata.id, 'lion', maker.delta, maker.visible_files)
     maker.stub_colour(:green)
     maker.run_test # tag 2
 

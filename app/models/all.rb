@@ -4,13 +4,14 @@
 
   dojo
   cache_properties
-  start_point
   start_points_rename
   start_points
-  exercise
+  start_point
   exercises
+  exercise
+  katas
   kata
-  avatar
   avatars
+  avatar
   tag
 ).each { |sourcefile| require_relative './' + sourcefile }

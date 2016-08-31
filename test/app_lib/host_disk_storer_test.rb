@@ -16,7 +16,7 @@ class HostDiskStorerTest < AppLibTestBase
   test 'B9916D',
   'after create_kata() manifest file holds kata properties' do
     kata = make_kata
-    manifest = katas.kata_manifest(kata.id)
+    manifest = storer.kata_manifest(kata.id)
     assert_equal kata.id, manifest['id']
     refute_nil manifest['image_name']
     refute_nil manifest['language']
@@ -166,7 +166,7 @@ class HostDiskStorerTest < AppLibTestBase
   test '81C023',
   'unstarted avatar does not exist' do
     kata = make_kata
-    refute katas.avatar_exists?(kata.id, 'lion')
+    refute storer.avatar_exists?(kata.id, 'lion')
     assert_equal [], kata.avatars.started.keys
   end
 
@@ -176,7 +176,7 @@ class HostDiskStorerTest < AppLibTestBase
     assert_equal [], kata.avatars.started.keys
     kata.start_avatar(['lion'])
     assert_equal ['lion'], kata.avatars.started.keys
-    assert katas.avatar_exists?(kata.id, 'lion')
+    assert storer.avatar_exists?(kata.id, 'lion')
   end
 
   #- - - - - - - - - - - - - - - -
@@ -187,7 +187,7 @@ class HostDiskStorerTest < AppLibTestBase
   'started avatar has empty increments before any tests run' do
     kata = make_kata
     lion = kata.start_avatar(['lion'])
-    incs = katas.avatar_increments(kata.id, 'lion')
+    incs = storer.avatar_increments(kata.id, 'lion')
     assert_equal [], incs
   end
 
@@ -202,7 +202,7 @@ class HostDiskStorerTest < AppLibTestBase
     maker = DeltaMaker.new(lion)
     now = time_now
     lion.tested(maker.visible_files, now, output='xx', 'amber')
-    incs = katas.avatar_increments(kata.id, 'lion')
+    incs = storer.avatar_increments(kata.id, 'lion')
     assert_equal [{
       'colour' => 'amber',
       'time' => now,
@@ -218,8 +218,8 @@ class HostDiskStorerTest < AppLibTestBase
   'katas-path has correct format when set with trailing slash' do
     path = '/tmp/folder'
     set_katas_root(path + '/')
-    assert_equal path, katas.path
-    assert correct_path_format?(katas.path)
+    assert_equal path, storer.path
+    assert correct_path_format?(storer.path)
   end
 
   #- - - - - - - - - - - - - - - -
@@ -228,8 +228,8 @@ class HostDiskStorerTest < AppLibTestBase
   'katas-path has correct format when set without trailing slash' do
     path = '/tmp/folder'
     set_katas_root(path)
-    assert_equal path, katas.path
-    assert correct_path_format?(katas.path)
+    assert_equal path, storer.path
+    assert correct_path_format?(storer.path)
   end
 
   #- - - - - - - - - - - - - - - -
@@ -237,7 +237,7 @@ class HostDiskStorerTest < AppLibTestBase
   test '6F3999',
   'kata-path has correct format' do
     kata = make_kata
-    assert correct_path_format?(katas.kata_path(kata.id))
+    assert correct_path_format?(storer.kata_path(kata.id))
   end
 
   #- - - - - - - - - - - - - - - -
@@ -246,7 +246,7 @@ class HostDiskStorerTest < AppLibTestBase
   'kata-path is split ala git' do
     kata = make_kata
     split = kata.id[0..1] + '/' + kata.id[2..-1]
-    assert katas.kata_path(kata.id).include?(split)
+    assert storer.kata_path(kata.id).include?(split)
   end
 
   #- - - - - - - - - - - - - - - -
@@ -255,7 +255,7 @@ class HostDiskStorerTest < AppLibTestBase
   'avatar-path has correct format' do
     kata = make_kata
     avatar = kata.start_avatar(Avatars.names)
-    assert correct_path_format?(katas.avatar_path(kata.id, avatar.name))
+    assert correct_path_format?(storer.avatar_path(kata.id, avatar.name))
   end
 
   #- - - - - - - - - - - - - - - -
@@ -264,7 +264,7 @@ class HostDiskStorerTest < AppLibTestBase
   'sandbox-path has correct format' do
     kata = make_kata
     avatar = kata.start_avatar(Avatars.names)
-    sandbox_path = katas.sandbox_path(kata.id, avatar.name)
+    sandbox_path = storer.sandbox_path(kata.id, avatar.name)
     assert correct_path_format?(sandbox_path)
     assert sandbox_path.include?('sandbox')
   end
@@ -275,7 +275,7 @@ class HostDiskStorerTest < AppLibTestBase
   test 'CE9083',
   'make_kata saves manifest in kata dir' do
     kata = make_kata
-    assert disk[katas.kata_path(kata.id)].exists?('manifest.json')
+    assert disk[storer.kata_path(kata.id)].exists?('manifest.json')
   end
 
   #- - - - - - - - - - - - - - - -
@@ -301,7 +301,7 @@ class HostDiskStorerTest < AppLibTestBase
     git_evidence = "git add '#{new_filename}'"
     refute_log_include?(pathed(git_evidence))
 
-    kata.katas.sandbox_save(kata.id, @avatar.name, maker.delta, maker.visible_files)
+    storer.sandbox_save(kata.id, @avatar.name, maker.delta, maker.visible_files)
 
     assert_log_include?(pathed(git_evidence))
     assert_file new_filename, new_content
@@ -319,7 +319,7 @@ class HostDiskStorerTest < AppLibTestBase
     git_evidence = "git rm 'makefile'"
     refute_log_include?(pathed(git_evidence))
 
-    kata.katas.sandbox_save(kata.id, @avatar.name, maker.delta, maker.visible_files)
+    storer.sandbox_save(kata.id, @avatar.name, maker.delta, maker.visible_files)
 
     assert_log_include?(pathed(git_evidence))
     refute maker.visible_files.keys.include? 'makefile'
@@ -333,7 +333,7 @@ class HostDiskStorerTest < AppLibTestBase
     avatar = kata.start_avatar
     maker = DeltaMaker.new(avatar)
     maker.change_file('makefile', 'sdsdsd')
-    kata.katas.sandbox_save(kata.id, avatar.name, maker.delta, maker.visible_files)
+    storer.sandbox_save(kata.id, avatar.name, maker.delta, maker.visible_files)
     #??
   end
 
@@ -343,7 +343,7 @@ class HostDiskStorerTest < AppLibTestBase
   'sandbox dir is initially created' do
     kata = make_kata
     hippo = kata.start_avatar(['hippo'])
-    assert disk[katas.sandbox_path(kata.id, 'hippo')].exists?
+    assert disk[storer.sandbox_path(kata.id, 'hippo')].exists?
   end
 
   #- - - - - - - - - - - - - - - -
@@ -354,7 +354,7 @@ class HostDiskStorerTest < AppLibTestBase
   'tag_visible_files' do
     kata = make_kata
     hippo = kata.start_avatar(['hippo'])
-    visible_files = katas.tag_visible_files(kata.id, 'hippo', tag=0)
+    visible_files = storer.tag_visible_files(kata.id, 'hippo', tag=0)
     assert 6, visible_files.length
     assert visible_files.keys.include? 'makefile'
   end
@@ -368,7 +368,7 @@ class HostDiskStorerTest < AppLibTestBase
     maker.new_file(new_filename, new_content = 'content for new file')
     now = time_now
     hippo.tested(maker.visible_files, now, output='xx', 'amber')
-    diff = katas.tag_git_diff(kata.id, 'hippo', was_tag=0, now_tag=1)
+    diff = storer.tag_git_diff(kata.id, 'hippo', was_tag=0, now_tag=1)
     assert diff.start_with? 'diff --git'
   end
 
@@ -435,7 +435,7 @@ class HostDiskStorerTest < AppLibTestBase
   end
 
   def assert_file(filename, expected)
-    actual = disk[katas.sandbox_path(@avatar.kata.id, @avatar.name)].read(filename)
+    actual = disk[storer.sandbox_path(@avatar.kata.id, @avatar.name)].read(filename)
     assert_equal expected, actual, 'saved_to_sandbox'
   end
 
@@ -452,7 +452,7 @@ class HostDiskStorerTest < AppLibTestBase
   end
 
   def pathed(command)
-    sandbox_path = katas.sandbox_path(@avatar.kata.id, @avatar.name)
+    sandbox_path = storer.sandbox_path(@avatar.kata.id, @avatar.name)
     "cd #{sandbox_path} && #{command}"
   end
 

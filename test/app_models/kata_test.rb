@@ -248,7 +248,7 @@ class KataTest < AppModelsTestBase
       exercise: 'Fizz_Buzz',
     }
     kata = make_kata(hash)
-    filename = katas.kata_path(kata.id) + '/manifest.json'
+    filename = storer.kata_path(kata.id) + '/manifest.json'
     manifest = IO.read(filename)
     json = JSON.parse(manifest)
     refute_nil json['red_amber_green']
@@ -267,7 +267,7 @@ class KataTest < AppModelsTestBase
       exercise: 'Fizz_Buzz',
     }
     kata = make_kata(hash)
-    filename = katas.kata_path(kata.id) + '/manifest.json'
+    filename = storer.kata_path(kata.id) + '/manifest.json'
     json = JSON.parse(IO.read(filename))
     json.delete('red_amber_green')
     json['unit_test_framework'] = 'nunit'
@@ -289,7 +289,7 @@ class KataTest < AppModelsTestBase
     }
     kata = make_kata(hash)
     refute_nil kata
-    filename = katas.kata_path(kata.id) + '/manifest.json'
+    filename = storer.kata_path(kata.id) + '/manifest.json'
 
     property_names = %w(
       display_name
