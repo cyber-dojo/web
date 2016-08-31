@@ -5,14 +5,11 @@ my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 
 cd ${my_dir}/../docker/web-base
 ./build-image.sh
-cd ${my_dir}
 
 cd ${my_dir}/../docker/web
 ./build-image.sh
-cd ${my_dir}
 
-./cyber-dojo down
-
+cd ${my_dir}/../cli
 ./cyber-dojo start-point ls --quiet | grep 'languages' && ./cyber-dojo start-point rm languages
 ./cyber-dojo start-point ls --quiet | grep 'exercises' && ./cyber-dojo start-point rm exercises
 ./cyber-dojo start-point ls --quiet | grep 'custom'    && ./cyber-dojo start-point rm custom
