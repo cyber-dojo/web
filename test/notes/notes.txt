@@ -1,10 +1,14 @@
 
+move setting of environment variables inside rails startup code
+and out of docker-compose.yml
+
 app/lib/StubRunner
 combine test's hex-id with avater.name in tmp folder
 
 create test/app_models/katas_test.rb
 
-look for storer.path and refactor to katas.path
+look for katas.path and refactor to storer.path
+rename storer to katas_storer?
 
 storer.each needs to return arrays of kata-ids
 katas.each needs to create the Kata objects.
