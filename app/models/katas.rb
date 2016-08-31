@@ -10,10 +10,6 @@ class Katas
 
   attr_reader :parent
 
-  def path
-    storer.path
-  end
-
   def each(&block)
     storer.each(&block)
   end

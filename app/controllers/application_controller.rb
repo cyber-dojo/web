@@ -13,8 +13,7 @@ class ApplicationController < ActionController::Base
 
   def languages; dojo.languages; end
   def exercises; dojo.exercises; end
-
-  def custom; dojo.custom; end
+  def custom;    dojo.custom;    end
 
   def katas; dojo.katas; end
 

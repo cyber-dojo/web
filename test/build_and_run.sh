@@ -10,6 +10,7 @@ cd ${my_dir}/../docker/web
 ./build-image.sh
 
 cd ${my_dir}/../cli
+./cyber-dojo down
 ./cyber-dojo start-point ls --quiet | grep 'languages' && ./cyber-dojo start-point rm languages
 ./cyber-dojo start-point ls --quiet | grep 'exercises' && ./cyber-dojo start-point rm exercises
 ./cyber-dojo start-point ls --quiet | grep 'custom'    && ./cyber-dojo start-point rm custom
