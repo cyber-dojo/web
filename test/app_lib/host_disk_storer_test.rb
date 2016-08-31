@@ -2,7 +2,7 @@
 
 require_relative './app_lib_test_base'
 
-class HostDiskKatasTest < AppLibTestBase
+class HostDiskStorerTest < AppLibTestBase
 
   def setup
     super

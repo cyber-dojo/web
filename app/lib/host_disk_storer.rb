@@ -1,7 +1,7 @@
 
 # See comments at end of file
 
-class HostDiskKatas
+class HostDiskStorer
   include Enumerable
 
   def initialize(dojo)
@@ -245,7 +245,7 @@ end
 # This class's methods holds all the reads/writes for these.
 # It uses the cyber-dojo server's file-system [katas] folder.
 
-# In this is *an* implementation of katas...
+# In this is *an* implementation...
 #
 # 1. cyber-dojo.sh can do an incremental make.
 #    In this case, the date-time stamp of the source files
