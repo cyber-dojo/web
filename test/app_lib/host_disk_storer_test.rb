@@ -102,14 +102,14 @@ class HostDiskStorerTest < AppLibTestBase
 
   test 'B652EC',
   'completed(id=nil) is empty string' do
-    assert_equal '', katas.completed(nil)
+    assert_equal '', storer.completed(nil)
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'D391CE',
   'completed(id="") is empty string' do
-    assert_equal '', katas.completed('')
+    assert_equal '', storer.completed('')
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -120,7 +120,7 @@ class HostDiskStorerTest < AppLibTestBase
   'lots of candidates (on disk) with the likely outcome of no unique result' do
     id = unique_id[0..4]
     assert_equal 5, id.length
-    assert_equal id, katas.completed(id)
+    assert_equal id, storer.completed(id)
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -128,7 +128,7 @@ class HostDiskStorerTest < AppLibTestBase
   test '071A62',
   'completed(id) unchanged when no matches' do
     id = unique_id
-    (0..7).each { |size| assert_equal id[0..size], katas.completed(id[0..size]) }
+    (0..7).each { |size| assert_equal id[0..size], storer.completed(id[0..size]) }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -138,7 +138,7 @@ class HostDiskStorerTest < AppLibTestBase
     uncompleted_id = 'ABCDE1'
     make_kata({ id:uncompleted_id + '234' + '5' })
     make_kata({ id:uncompleted_id + '234' + '6' })
-    assert_equal uncompleted_id, katas.completed(uncompleted_id)
+    assert_equal uncompleted_id, storer.completed(uncompleted_id)
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -148,7 +148,7 @@ class HostDiskStorerTest < AppLibTestBase
     completed_id = 'A1B2C3D4E5'
     make_kata({ id:completed_id })
     uncompleted_id = completed_id.downcase[0..5]
-    assert_equal completed_id, katas.completed(uncompleted_id)
+    assert_equal completed_id, storer.completed(uncompleted_id)
   end
 
   #- - - - - - - - - - - - - - - -
