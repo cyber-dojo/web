@@ -4,7 +4,7 @@ require_relative './app_models_test_base'
 
 class KatasTest < AppModelsTestBase
 
-test 'F3B8B1',
+  test 'F3B8B1',
   'attempting to access a Kata with an invalid is nil' do
     bad_ids = [
       nil,          # not string
@@ -28,9 +28,9 @@ test 'F3B8B1',
   test '075B3E',
   'katas[id] is kata with existing id' do
     kata = make_kata
-    k = katas[kata.id.to_s]
+    k = katas[kata.id]
     refute_nil k
-    assert_equal k.id.to_s, kata.id.to_s
+    assert_equal k.id, kata.id
   end
 
 end
