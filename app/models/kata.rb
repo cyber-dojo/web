@@ -16,10 +16,10 @@ class Kata
 
   # queries
 
-  attr_reader :katas, :id
+  attr_reader :id
 
   def parent
-    katas
+    @katas
   end
 
   def avatars
