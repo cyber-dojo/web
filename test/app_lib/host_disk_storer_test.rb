@@ -27,38 +27,36 @@ class HostDiskStorerTest < AppLibTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # katas[id]
+  # katas.kata_exists?(id)
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'DFB053',
-  'katas[id] is kata with existing id' do
-    kata = make_kata
-    k = katas[kata.id.to_s]
-    refute_nil k
-    assert_equal k.id.to_s, kata.id.to_s
-  end
-
   test 'D0A1F6',
-  'katas[id] for id that is not a string is nil' do
+  'kata_exists?(id) for id that is not a string is false' do
     not_string = Object.new
-    assert_nil katas[not_string]
+    refute storer.kata_exists?(not_string)
     nine = unique_id[0..-2]
     assert_equal 9, nine.length
-    assert_nil katas[nine]
+    refute storer.kata_exists?(nine)
   end
 
   test 'A0DF10',
-  'katas[id] for 10 digit id with non hex-chars is nil' do
+  'kata.exists?(id) for 10 digit id with non hex-chars is false' do
     has_a_g = '123456789G'
     assert_equal 10, has_a_g.length
-    assert_nil katas[has_a_g]
+    refute storer.kata_exists?(has_a_g)
   end
 
   test '64F53B',
-  'katas[id] for non-existing id is nil' do
+  'kata.exists?(id) for non-existing id is false' do
     id = '123456789A'
     assert_equal 10, id.length
-    assert_nil katas[id]
+    refute storer.kata_exists?(id)
+  end
+
+  test 'DFB053',
+  'kata.exists?(id) is kata with existing id is true' do
+    kata = make_kata
+    assert storer.kata_exists?(kata.id)
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
