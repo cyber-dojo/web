@@ -42,7 +42,7 @@ class HostDiskStorer
     return enum_for(:each) unless block_given?
     disk[path].each_dir do |outer_dir|
       disk[path + '/' + outer_dir].each_dir do |inner_dir|
-        yield  Kata.new(self, outer_dir + inner_dir)
+        yield outer_dir + inner_dir
       end
     end
   end

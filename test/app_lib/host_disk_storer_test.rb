@@ -78,7 +78,7 @@ class HostDiskStorerTest < AppLibTestBase
   'each() yields two unrelated kata-ids' do
     kata1 = make_kata
     kata2 = make_kata
-    assert_equal all_ids([kata1, kata2]).sort, all_ids.sort
+    assert_equal [kata1.id, kata2.id].sort, all_ids.sort
   end
 
   test '29DFD1',
@@ -88,18 +88,12 @@ class HostDiskStorerTest < AppLibTestBase
     kata1 = make_kata({ id:id + '1' })
     kata2 = make_kata({ id:id + '2' })
     kata3 = make_kata({ id:id + '3' })
-    assert_equal all_ids([kata1, kata2, kata3]).sort, all_ids.sort
+    assert_equal [kata1.id, kata2.id, kata3.id].sort, all_ids.sort
   end
 
-  test 'F71C21',
-  'is Enumerable: so .each not needed if doing map' do
-    kata1 = make_kata
-    kata2 = make_kata
-    assert_equal all_ids([kata1, kata2]).sort, all_ids.sort
-  end
-
-  def all_ids(k = katas)
-    k.map { |kata| kata.id }
+  def all_ids
+    # storer is Enumerable so .each not needed if doing map
+    storer.map { |id| id }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
