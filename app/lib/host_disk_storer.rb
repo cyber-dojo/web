@@ -51,6 +51,10 @@ class HostDiskStorer
   # Kata
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
+  def kata_exists?(id)
+    valid?(id) && disk[kata_path(id)].exists?
+  end
+
   def create_kata(manifest)
     # a kata's id has 10 hex chars. This gives 16^10 possibilities
     # which is 1,099,511,627,776 which is big enough to not
@@ -61,11 +65,6 @@ class HostDiskStorer
   end
 
   # - - - - - - - - - - - - - - - -
-
-  def [](id)
-    return nil unless valid?(id) && disk[kata_path(id)].exists?
-    Kata.new(self, id)
-  end
 
   def kata_manifest(id)
     disk[kata_path(id)].read_json(manifest_filename)
