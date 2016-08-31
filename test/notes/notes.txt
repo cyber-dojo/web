@@ -1,6 +1,4 @@
 
-look for id.to_s and refactor to just id (to .to_s)
-
 refactor host_disk_storer.each to return id strings instead of Kata object
 
 move setting of environment variables inside rails startup code

@@ -63,7 +63,7 @@ class AvatarsTest < AppModelsTestBase
     kata = make_kata
     kata.start_avatar([panda])
     assert_equal [panda], kata.avatars.names
-    assert_equal panda, katas[kata.id.to_s].avatars[panda].name
+    assert_equal panda, katas[kata.id].avatars[panda].name
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

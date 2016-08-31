@@ -71,7 +71,7 @@ class HostDiskStorerTest < AppLibTestBase
   test '5A2932',
   'each() yields one kata-id' do
     kata = make_kata
-    assert_equal [kata.id.to_s], all_ids
+    assert_equal [kata.id], all_ids
   end
 
   test '24894F',
