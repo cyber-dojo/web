@@ -32,6 +32,7 @@ class OutputColourTest < AppLibTestBase
     dojo.languages.each do |language|
       count += 1
       unit_test_framework = lookup(language.display_name)
+      refute unit_test_framework.nil?, language.display_name
       path = output_path + '/' + unit_test_framework
       diagnostic = '' +
         "language: #{language.name}\n" +
@@ -75,7 +76,7 @@ class OutputColourTest < AppLibTestBase
         end
       end
     end
-    assert_equal 60, lambda_yes_count
+    assert_equal 61, lambda_yes_count
     assert_equal 0, lambda_no_count
   end
 

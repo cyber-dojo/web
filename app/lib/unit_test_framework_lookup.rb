@@ -49,6 +49,7 @@ module UnitTestFrameworkLookup
       'Groovy, Spock'             => 'groovy_spock',
       'Haskell, hunit'            => 'hunit',
       'Java, Cucumber'            => 'java_cucumber',
+      'Java, Cucumber-Spring'     => 'java_cucumber',
       'Java, JMock'               => 'junit',
       'Java, JUnit'               => 'junit',
       'Java, Mockito'             => 'junit',
