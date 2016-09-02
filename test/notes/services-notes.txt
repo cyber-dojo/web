@@ -4,6 +4,12 @@ run cyber-dojo as a local rails server. Still the right thing to do.
 
 - - - - - - - - - - - - - - - - - - - - -
 
+runner as a separate service...
+this would need docker installed. It would free the main web image
+from having to have docker installed.
+
+- - - - - - - - - - - - - - - - - - - - -
+
 If the katas object (saver/storer) can be decoupled from git it could be a big
 win for testing as I could then probably re-instate FakeDisk.
 I think there could ultimately be 3 kinds of 'storer' (see below)
