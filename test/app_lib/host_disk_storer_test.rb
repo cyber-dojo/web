@@ -92,8 +92,16 @@ class HostDiskStorerTest < AppLibTestBase
   end
 
   def all_ids
-    # storer is Enumerable so .each not needed if doing map
-    storer.map { |id| id }
+    ids = []
+    hex_chars = '0123456789ABCDEF'
+    hex_chars.each_char do |outer|
+      hex_chars.each_char do |inner|
+        storer.ids_for(outer + inner).each do |eight|
+          ids << (outer + inner + eight)
+        end
+      end
+    end
+    ids
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

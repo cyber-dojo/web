@@ -2,7 +2,7 @@
 # See comments at end of file
 
 class HostDiskStorer
-  include Enumerable
+  #include Enumerable
 
   def initialize(dojo)
     @parent = dojo
@@ -38,13 +38,13 @@ class HostDiskStorer
     id || ''
   end
 
-  def each
-    return enum_for(:each) unless block_given?
-    disk[path].each_dir do |outer_dir|
-      disk[path + '/' + outer_dir].each_dir do |inner_dir|
-        yield outer_dir + inner_dir
-      end
+  def ids_for(outer_dir)
+    ids = []
+    return [] unless disk[path + '/' + outer_dir].exists?
+    disk[path + '/' + outer_dir].each_dir do |inner_dir|
+      ids << inner_dir
     end
+    ids
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
