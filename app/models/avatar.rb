@@ -11,7 +11,7 @@ class Avatar
   # modifier
 
   def test(delta, files)
-    runner.run(self, delta, files, kata.image_name)
+    runner.run(kata.id, name, delta, files, kata.image_name)
   end
 
   def tested(files, at, output, colour)

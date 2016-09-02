@@ -49,7 +49,7 @@ class StubRunnerTest < AppLibTestBase
     kata = make_kata
     lion = kata.start_avatar(['lion'])
     runner.stub_run_output(lion, output='syntax error line 1')
-    assert_equal output, runner.run(lion, _delta=nil, _files=nil, _image_name=nil)
+    assert_equal output, runner.run(kata.id, 'lion', _delta=nil, _files=nil, _image_name=nil)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -60,7 +60,7 @@ class StubRunnerTest < AppLibTestBase
     lion = kata.start_avatar(['lion'])
     [:red, :amber, :green].each do |colour|
       runner.stub_run_colour(lion, colour)
-      output = runner.run(lion, _delta=nil, _files=nil, _image_name=nil)
+      output = runner.run(kata.id, 'lion', _delta=nil, _files=nil, _image_name=nil)
       assert_equal colour.to_s, kata.red_amber_green(output)
     end
   end
@@ -73,7 +73,7 @@ class StubRunnerTest < AppLibTestBase
     kata = make_kata
     lion = kata.start_avatar(['lion'])
     (1..30).each do
-      output = runner.run(lion, _delta=nil, _files=nil, _image_name=nil)
+      output = runner.run(kata.id, 'lion', _delta=nil, _files=nil, _image_name=nil)
       colour = kata.red_amber_green(output)
       assert %w(red amber green).include? colour
       counts[colour] += 1

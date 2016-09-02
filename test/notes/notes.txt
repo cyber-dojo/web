@@ -8,8 +8,6 @@ combine test's hex-id with avater.name in tmp folder
 if I do disk[storer.avatar_path(...)] a lot it might be worth adding
 storer.avatar_dir(...)
 
-would be better to pass kata.id and avatar.name to runner.run()
-
 - - - - - - - - - - - - - - - - - - - - -
 
 cyber-dojo shell script is a bit of a mess.

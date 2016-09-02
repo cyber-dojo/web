@@ -87,7 +87,7 @@ class DockerTarPipeRunnerTest < AppLibTestBase
   def mock_run(mock_output, mock_exit_status)
     lion = mock_run_setup(mock_output, mock_exit_status)
     delta = { deleted: {}, new: {}, changed: {} }
-    runner.run(lion, delta, files={}, lion.kata.image_name)
+    runner.run(lion.kata.id, 'lion', delta, files={}, lion.kata.image_name)
   end
 
   # - - - - - - - - - - - - - - -
