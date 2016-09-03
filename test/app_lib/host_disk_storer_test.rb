@@ -93,12 +93,10 @@ class HostDiskStorerTest < AppLibTestBase
 
   def all_ids
     ids = []
-    hex_chars = '0123456789ABCDEF'
-    hex_chars.each_char do |outer|
-      hex_chars.each_char do |inner|
-        storer.ids_for(outer + inner).each do |eight|
-          ids << (outer + inner + eight)
-        end
+    (0..255).each do |n|
+      outer = '%02X' % n
+      storer.ids_for(outer).each do |inner|
+        ids << (outer + inner)
       end
     end
     ids

@@ -11,11 +11,10 @@ class Katas
   attr_reader :parent
 
   def each
-    hex_chars.each_char do |outer|
-      hex_chars.each_char do |inner|
-        storer.ids_for(outer + inner).each do |eight|
-          yield Kata.new(self, outer + inner + eight)
-        end
+    (0..255).each do |n|
+      outer = '%02X' % n
+      storer.ids_for(outer).each do |inner|
+        yield Kata.new(self, outer + inner)
       end
     end
   end
@@ -37,9 +36,5 @@ class Katas
   private
 
   include ExternalParentChainer
-
-  def hex_chars
-    '0123456789ABCDEF'
-  end
 
 end
