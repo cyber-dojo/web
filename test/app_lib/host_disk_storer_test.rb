@@ -93,8 +93,7 @@ class HostDiskStorerTest < AppLibTestBase
 
   def all_ids
     ids = []
-    (0..255).each do |n|
-      outer = '%02X' % n
+    (0..255).map{|n| '%02X' % n}.each do |outer|
       storer.ids_for(outer).each do |inner|
         ids << (outer + inner)
       end
