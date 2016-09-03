@@ -7,7 +7,7 @@
 # to see the ids of all counted dojos (in their catagories)
 # append true to the command line
 
-require_relative '../lib_domain'
+require_relative './model'
 
 show_ids = (ARGV[0] || "false")
 

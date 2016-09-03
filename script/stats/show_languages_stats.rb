@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require_relative '../lib_domain'
+require_relative './model'
 
 def gather_stats(dojo)
   puts
@@ -45,7 +45,7 @@ def show_renamed(renamed,dojo)
     count += n
     print number(n,5)
     print "  #{renamed[name].shuffle[0]}"
-    
+
     #if name == language.name
     #  print " --> MISSING new_name "
     #else
@@ -71,7 +71,7 @@ def show_rest(rest,dojo)
     n = rest[name].length
     count += n
     print number(n,5)
-    print "  #{rest[name].shuffle[0]}"    
+    print "  #{rest[name].shuffle[0]}"
     print " --> MISSING new_name " if name != dojo.languages[name].name
     puts
   end

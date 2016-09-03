@@ -2,7 +2,7 @@
 
 # A ruby script to display stats on light colours per language.
 
-require_relative '../lib_domain'
+require_relative './model'
 
 $stats = { }
 
@@ -27,9 +27,9 @@ end
 def print_percent(name, n, total)
   printf(name)
   if total != 0
-    printf("%3.2f", (n.to_f / total) * 100)
+    printf('%3.2f', (n.to_f / total) * 100)
   else
-    printf("%3.2f", 0.0)
+    printf('%3.2f', 0.0)
   end
 end
 
@@ -41,10 +41,10 @@ def show_light_stats
     puts "#{language}"
     puts "  totals:  red=#{red} amber=#{amber} green=#{green}"
     total = red + amber + green
-    printf("  percent: ")
-    print_percent("red=", red, total)
-    print_percent(" amber=", amber, total)
-    print_percent(" green=", green, total)
+    printf('  percent: ')
+    print_percent('  red=', red  , total)
+    print_percent('amber=', amber, total)
+    print_percent('green=', green, total)
     puts
     puts
   end

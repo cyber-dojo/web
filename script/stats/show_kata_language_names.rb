@@ -1,12 +1,14 @@
 #!/usr/bin/env ruby
 
-require_relative '../lib_domain'
+require_relative './model'
 
 puts
 names = { }
 dot_count = 0
 dojo.katas.each do |kata|
+
   manifest = JSON.parse(kata.dir.read('manifest.json'))
+
   name = manifest['language']
   names[name] ||=  []
   names[name] << kata.id
@@ -16,13 +18,13 @@ end
 puts
 puts
 
-names.keys.sort.each do |name| 
+names.keys.sort.each do |name|
   p "#{name} #{names[name].size} #{names[name][0]}"
 end
 
 # TODO?: Write a script to fix up all the katas on the main server
 #       so the language entry in their manifests is fixed and is
-#       split into two entries, one for the language name and one for 
+#       split into two entries, one for the language name and one for
 #       the test name.
 #
 

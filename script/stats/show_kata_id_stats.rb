@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require_relative '../../app/domain'
+require_relative './model'
 
 def explain_output
   lines = [

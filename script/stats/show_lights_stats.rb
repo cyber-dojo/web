@@ -2,7 +2,7 @@
 
 # A ruby script to display counts of katas by size
 
-require_relative '../lib_domain'
+require_relative './model'
 
 def explain_output
   lines = [
