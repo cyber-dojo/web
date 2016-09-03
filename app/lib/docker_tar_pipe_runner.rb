@@ -59,7 +59,7 @@ class DockerTarPipeRunner
     # See docker/web/Dockerfile
     command = [sudo, 'docker', 'images'].join(space).strip
     output, _ = shell.exec(command)
-    # This will put all cyberdojofoundation image names into the runner cache,
+    # This will get all cyberdojofoundation image names,
     # even nginx and web. This is harmless.
     lines = output.split("\n").select { |line| line.start_with?('cyberdojofoundation') }
     lines.collect { |line| line.split[0] }
