@@ -1,5 +1,5 @@
 *~
-log/*
+
 db/*.sqlite3
 /tmp
 
@@ -22,6 +22,7 @@ coverage
 caches
 downloads
 katas
+log
 
 # When web image is being built these files are temporarily placed in the root
 /Dockerfile
