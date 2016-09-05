@@ -73,6 +73,12 @@
     @include font-size-small();
     padding: 10px;
     width: 160px;
+    text-align: right;
+  }
+  .hello-world {
+    margin-top: 10px;
+    border: 3px solid lighten($text-color, 5%);
+    @include rounded-corner();
   }
 
   //------------------------------------------
