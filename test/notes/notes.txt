@@ -1,4 +1,34 @@
 
+manifest.json currently holds this...
+
+  "red_amber_green" : [
+    "lambda { |output|",
+    "  ruby_pattern = Regexp.new('^(\\d*) runs, (\\d*) assertions, (\\d*) failures, (\\d*) errors')",
+    "  if match = ruby_pattern.match(output)",
+    "    return :amber if match[4] != '0'",
+    "    return :red   if match[3] != '0'",
+    "    return :green",
+    "  else",
+    "    return :amber",
+    "  end",
+    "}"
+  ]
+
+this is stored inside the kata's manifest and thus cannot be edited.
+This is a potential problem. Suppose you create a kata by forking from
+a well-known kata+avatar+tag. Then the test-framework gets upgraded
+and the regex has changed. This change will not be seen when you fork.
+I really need to remove the red_amber_green and put it into a named
+visible_file. This file then partners cyber-dojo.sh and must always
+be present. Thus if you know fork, you get the new lambda and can
+edit it if need be. Or better still, you can edit the lambda in the
+kata being forked from, and use -1 as the fork tag (which means last tag)
+Have to be very careful that this file is never read by cyber-dojo.sh
+Thus, even though it is a ruby file, I don't want to put it into a file
+whose extension is .rb  Safer to put it in a .json file
+
+- - - - - - - - - - - - - - - - - - - - -
+
 move setting of environment variables inside rails startup code
 and out of docker-compose.yml
 
