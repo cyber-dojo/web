@@ -21,6 +21,13 @@ display_names: ['Java', 'JUnit']
 
 - - - - - - - - - - - - - - - - - - - - -
 
+one of the issues with the download functionality is that I do
+not delete the tar files after they've been downloaded. If the
+creation of the tar file happened inside a container spun up just
+do do the download then the tar file would be automatically deleted!
+
+- - - - - - - - - - - - - - - - - - - - -
+
 If the katas object (saver/storer) can be decoupled from git it could be a big
 win for testing as I could then probably re-instate FakeDisk.
 I think there could ultimately be 3 kinds of 'storer' (see below)
