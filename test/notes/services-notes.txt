@@ -4,6 +4,14 @@ run cyber-dojo as a local rails server. Still the right thing to do.
 
 - - - - - - - - - - - - - - - - - - - - -
 
+on the review dialog/page. Add the traffic-light count
+to the far right of the traffic-light sequence.
+R A R A
+becomes
+R A R A 4
+
+- - - - - - - - - - - - - - - - - - - - -
+
 runner as a separate service...
 this would need docker installed. It would free the main web image
 from having to have docker installed.
