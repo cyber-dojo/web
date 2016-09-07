@@ -16,6 +16,10 @@ R A R A
 becomes
 R A R A 4
 
+Also change the traffic-light number being displayed from
+18 to 17 -> 18
+with both 17 and 18 in their correct colour.
+
 - - - - - - - - - - - - - - - - - - - - -
 
 move setting of environment variables inside rails startup code
