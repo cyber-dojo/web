@@ -1,0 +1,4 @@
+
+this would need docker installed.
+It would free the main web image
+from having to have docker installed.

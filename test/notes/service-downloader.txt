@@ -1,0 +1,11 @@
+
+downloader currently returns a zip file of the *whole* kata with a git repo
+per animal. This includes files such as the .class file in a Java kata.
+It would be better to recreate the folder structure holding only
+the visible files.
+
+one of the issues with the download functionality is that I do
+not delete the tar files after they've been downloaded. If the
+creation of the tar file happened inside a container spun up just
+do do the download then the tar file would be automatically deleted!
+

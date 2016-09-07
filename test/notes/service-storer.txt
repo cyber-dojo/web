@@ -48,6 +48,14 @@ unit_test_framework entry.
 
 - - - - - - - - - - - - - - - - - - - - -
 
+on the review dialog/page. Add the traffic-light count
+to the far right of the traffic-light sequence.
+R A R A
+becomes
+R A R A 4
+
+- - - - - - - - - - - - - - - - - - - - -
+
 move setting of environment variables inside rails startup code
 and out of docker-compose.yml
 
