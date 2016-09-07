@@ -1,9 +1,11 @@
 
-put a version number in the kata's manifest.json file.
+Put a version number in the kata's manifest.json file.
 Migrater can use this to quickly determine if migration is needed.
-All web controller that accept a kata-id will initially call
-migrater (passing the id). After that the code should be simpler.
+All web controller methods that accept a kata-id will initially call
+migrater (passing the id). (Is there a ruby idiom for that?)
+After that the code should be simpler.
 No need to support different versions in the main code.
+
 For example, a migration could to refactor
 display_name: 'Java, JUnit'
 to
