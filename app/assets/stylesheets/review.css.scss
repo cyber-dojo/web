@@ -47,6 +47,10 @@
        cursor: pointer;
       img { width: 22px; height: 29px; }
     }
+    .traffic-light-count {
+      position: relative;
+      top: -3px;
+    }
   }
 
   #navigate-control {
