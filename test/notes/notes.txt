@@ -13,6 +13,8 @@ as a *separate* script.
 Also change the traffic-light number being displayed from
 18 to 17 -> 18
 with both 17 and 18 in their correct colour.
+Review has a diff-mode. Only show 17->18
+when diff is checked.
 
 - - - - - - - - - - - - - - - - - - - - -
 
