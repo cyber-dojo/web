@@ -15,6 +15,8 @@ Also change the traffic-light number being displayed from
 with both 17 and 18 in their correct colour.
 Review has a diff-mode. Only show 17->18
 when diff is checked.
+Perhaps just show ->18 and the -> is shown
+in the colour of 17.
 
 - - - - - - - - - - - - - - - - - - - - -
 
