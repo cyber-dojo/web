@@ -58,6 +58,7 @@ lowlight_filenames. Create this? Yes. All except output
 filename_extension. Yes
 red_amber_green. Yes
 tab_size. Yes
+display_name. Yes ?????
+
 image_name. No
-display_name. No
 version. No
