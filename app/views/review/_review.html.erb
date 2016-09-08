@@ -61,7 +61,8 @@ $(function() {
   var makeTrafficLightsHtml = function(lights) {
     var html = '';
     var index = 1;
-    html += '<table><tr>'
+    var lastColour = '';
+    html += '<table><tr>';
     $.each(lights, function(n, light) {
       var barGap = (param.nowTag == light.number) ? 'bar' : 'gap';
       html +=
@@ -71,7 +72,9 @@ $(function() {
               " data-tag='" + light.number + "'/>" +
         '</div></td>';
         index += 1;
+        lastColour = light.colour;
     });
+    html += "<td><div class='traffic-light-count " + lastColour + "'>" + lights.length + '</div></td>';
     html += '</tr></table>';
     return html;
   };
