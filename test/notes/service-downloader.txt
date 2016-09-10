@@ -9,3 +9,11 @@ not delete the tar files after they've been downloaded. If the
 creation of the tar file happened inside a container spun up just
 do do the download then the tar file would be automatically deleted!
 
+Also, if the storer migrates to a format where the individual visible
+files are not stored (since the differ now does diffing) then I need
+to make sure that a downloaded tgz file can be imported into the katas
+data-container and it will be ok. A nice solution here might be that
+the migrater (coupled to the storer) could recognize the old-style
+format and migrate it to the new manifest only format - where individual
+visible files are not stored, after all the visible files are held
+inside the manifest per tag commit anyway!

@@ -50,15 +50,17 @@ unit_test_framework entry.
 
 Are there other entries in the manifest.json file (like rag) which
 could be exposed as a 'visible file'? Expose it simply as manifest
-(with no extension)
+(with no extension) like output is. Make it editable!
 
-progress_regexs. Yes. This too could be subject to test-framework upgrades
+progress_regexs. Yes. Could be subject to test-framework upgrades
+red_amber_green. Yes. Could be subject to test-framework upgrades
 highlight_filenames. Yes
-lowlight_filenames. Create this? Yes. All except output
+lowlight_filenames. Create this?
 filename_extension. Yes
-red_amber_green. Yes
 tab_size. Yes
-display_name. Yes ?????
+display_name. Yes
+image_name. Yes! This would remove all the mapping cruft test code.
+            Security though... I would only allow image_names that
+            are cyberdojo or cyberdojofoundation.
 
-image_name. No
 version. No
