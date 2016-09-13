@@ -24,9 +24,6 @@ before_install:
     - chmod +x docker-compose
     - sudo mv docker-compose /usr/local/bin
     - docker-compose version | grep ${DOCKER_COMPOSE_VERSION}
-    # fake the existance of docker-machine
-    # (cyber-dojo script checks docker-machine as Docker-Toolbox installs need it
-    - sudo touch /usr/local/bin/docker-machine
     # smoke test
     - docker run --rm hello-world
     - docker images
