@@ -20,10 +20,7 @@ exit_if_not_installed() {
 
 exit_if_not_installed 'docker'
 exit_if_not_installed 'docker-compose'
-#OS=`uname -s`
-#if [ ${OS} == 'Darwin' ]; then
-  exit_if_not_installed 'docker-machine'
-#fi
+exit_if_not_installed 'docker-machine'
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 # cyber-dojo web server image is docker version sensitive.
