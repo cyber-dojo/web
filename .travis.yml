@@ -26,6 +26,8 @@ before_install:
     - sudo mv docker-compose /usr/local/bin
     - docker-compose version | grep ${DOCKER_COMPOSE_VERSION}
     # install docker-machine at specific version
+    - uname -s
+    - uname -m
     - curl -L https://github.com/docker/machine/releases/download/v{DOCKER_MACHINE_VERSION}/docker-machine-`uname -s`-`uname -m` > docker-machine
     - cat docker-machine
     - chmod +x docker-machine
