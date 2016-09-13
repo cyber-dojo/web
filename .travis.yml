@@ -8,6 +8,7 @@ language: ruby
 env:
     global:
         - DOCKER_ENGINE_VERSION=1.12.1
+        - DOCKER_MACHINE_VERSION=0.8.1
         - DOCKER_COMPOSE_VERSION=1.8.0
         - DOCKER_DIR=${TRAVIS_BUILD_DIR}/docker
 
@@ -24,6 +25,10 @@ before_install:
     - chmod +x docker-compose
     - sudo mv docker-compose /usr/local/bin
     - docker-compose version | grep ${DOCKER_COMPOSE_VERSION}
+    # install docker-machine at specific version
+    - curl -L https://github.com/docker/machine/releases/download/v{DOCKER_COMPOSE_VERSION}/docker-machine-`uname -s`-`uname -m` > docker-machine
+    - chmod +x docker-machine
+    - sudo mv docker-machine /usr/local/bin
     # smoke test
     - docker run --rm hello-world
     - docker images
