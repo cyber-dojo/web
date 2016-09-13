@@ -29,6 +29,7 @@ before_install:
     - curl -L https://github.com/docker/machine/releases/download/v{DOCKER_MACHINE_VERSION}/docker-machine-`uname -s`-`uname -m` > docker-machine
     - chmod +x docker-machine
     - sudo mv docker-machine /usr/local/bin
+    - docker-machine version | grep ${DOCKER_MACHINE_VERSION}
     # smoke test
     - docker run --rm hello-world
     - docker images
