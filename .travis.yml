@@ -26,11 +26,13 @@ before_install:
     - sudo mv docker-compose /usr/local/bin
     - docker-compose version | grep ${DOCKER_COMPOSE_VERSION}
 
-    # install docker-machine at specific version
-    - v1=`uname -s`
-    - echo ":${v1}:"
-    - v2=`uname -m`
-    - echo ":${v2}:"
+    # fake install docker-machine at specific version
+    # (cyber-dojo script checks docker-machine is installed (OSX needs it))
+    - sudo touch /usr/local/bin/docker-machine
+    #- v1=`uname -s`
+    #- echo ":${v1}:"
+    #- v2=`uname -m`
+    #- echo ":${v2}:"
     #- curl -L https://github.com/docker/machine/releases/download/v{DOCKER_MACHINE_VERSION}/docker-machine-`uname -s`-`uname -m` > docker-machine
     #- cat docker-machine
     #- chmod +x docker-machine
