@@ -25,14 +25,18 @@ before_install:
     - chmod +x docker-compose
     - sudo mv docker-compose /usr/local/bin
     - docker-compose version | grep ${DOCKER_COMPOSE_VERSION}
+
     # install docker-machine at specific version
-    - uname -s
-    - uname -m
-    - curl -L https://github.com/docker/machine/releases/download/v{DOCKER_MACHINE_VERSION}/docker-machine-`uname -s`-`uname -m` > docker-machine
-    - cat docker-machine
-    - chmod +x docker-machine
-    - sudo mv docker-machine /usr/local/bin
+    - v1=`uname -s`
+    - echo ":${v1}:"
+    - v2=`uname -m`
+    - echo ":${v2}:"
+    #- curl -L https://github.com/docker/machine/releases/download/v{DOCKER_MACHINE_VERSION}/docker-machine-`uname -s`-`uname -m` > docker-machine
+    #- cat docker-machine
+    #- chmod +x docker-machine
+    #- sudo mv docker-machine /usr/local/bin
     #- docker-machine version #| grep ${DOCKER_MACHINE_VERSION}
+
     # smoke test
     - docker run --rm hello-world
     - docker images
@@ -48,7 +52,7 @@ script:
     - cd ${DOCKER_DIR}/web
     - ./build-image.sh ${DOCKER_ENGINE_VERSION}
     - cd ${TRAVIS_BUILD_DIR}/cli
-    - ./cyber-dojo up
+    - sudo ./cyber-dojo up
     - cid=`docker ps --all --quiet --filter "name=cyber-dojo-web"`
     - docker logs cyber-dojo-web
     - docker inspect -f {{.State.Running}} ${cid}
