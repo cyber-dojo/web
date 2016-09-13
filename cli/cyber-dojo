@@ -21,7 +21,7 @@ exit_if_not_installed() {
 exit_if_not_installed 'docker'
 exit_if_not_installed 'docker-compose'
 if [[ $(uname -s) != Linux* ]]; then
-  # assume we're on a DockerToolbox box
+  # assume we're on a Docker-Toolbox box
   exit_if_not_installed 'docker-machine'
 fi
 
