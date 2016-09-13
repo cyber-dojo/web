@@ -15,12 +15,14 @@ echo 'installing docker'
 # This currently installs docker 1.12.1
 curl -sSL https://get.docker.com/ | sh
 
-echo 'installing docker-machine 0.8.1'
-curl -L https://github.com/docker/machine/releases/download/v0.8.1/docker-machine-`uname -s`-`uname -m` > docker-machine
-chmod +x docker-machine
-mv docker-machine /usr/local/bin
-
 echo 'installing docker-compose 1.8.0'
 curl -L https://github.com/docker/compose/releases/download/1.8.0/docker-compose-`uname -s`-`uname -m` > docker-compose
 chmod +x docker-compose
 mv docker-compose /usr/local/bin
+
+# fake an install of docker-machine
+# the cyberdojo script checks its existence (via hash)
+# as its needed on a Docker-Toolbox install
+touch docker-machine
+chmod +x docker-machine
+mv docker-machine /usr/local/bin
