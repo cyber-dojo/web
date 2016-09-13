@@ -27,9 +27,10 @@ before_install:
     - docker-compose version | grep ${DOCKER_COMPOSE_VERSION}
     # install docker-machine at specific version
     - curl -L https://github.com/docker/machine/releases/download/v{DOCKER_MACHINE_VERSION}/docker-machine-`uname -s`-`uname -m` > docker-machine
+    - cat docker-machine
     - chmod +x docker-machine
     - sudo mv docker-machine /usr/local/bin
-    - docker-machine version | grep ${DOCKER_MACHINE_VERSION}
+    #- docker-machine version #| grep ${DOCKER_MACHINE_VERSION}
     # smoke test
     - docker run --rm hello-world
     - docker images
