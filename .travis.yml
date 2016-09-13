@@ -24,7 +24,7 @@ before_install:
     - chmod +x docker-compose
     - sudo mv docker-compose /usr/local/bin
     - docker-compose version | grep ${DOCKER_COMPOSE_VERSION}
-    # fake install docker-machine at specific version
+    # fake install docker-machine
     # (cyber-dojo script checks docker-machine is installed (OSX needs it))
     - sudo touch /usr/local/bin/docker-machine
     # smoke test
