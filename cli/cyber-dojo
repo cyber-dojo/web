@@ -13,7 +13,7 @@ exit_if_not_installed() {
   if [ $? != 0 ]; then
     echo
     echo "${1} is not installed"
-    echo 'See step 1 of https://github.com/cyber-dojo/web/blob/master/README.md'
+    echo 'See http://blog.cyber-dojo.org/2016/08/running-your-own-cyber-dojo-web-server.html'
     exit 1
   fi
 }
@@ -42,7 +42,7 @@ get_file_from_web_image() {
   echo "Extracting ${1} from ${cyber_dojo_web_server}"
   local cid=$(docker create ${cyber_dojo_web_server})
   docker cp ${cid}:/usr/src/cyber-dojo/cli/${1} ${my_dir}/${1}
-  docker rm -v ${cid} > /dev/null
+  docker rm ${cid} > /dev/null
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - -
@@ -69,5 +69,3 @@ fi
 
 export CYBER_DOJO_SCRIPT_WRAPPER=inprogress
 ${my_dir}/${cyber_dojo_sh} $@
-
-
