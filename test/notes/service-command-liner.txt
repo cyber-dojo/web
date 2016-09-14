@@ -27,6 +27,7 @@ o) check for start-point create name --dir=DIR
 o) delegate to cyberdojjo/cli image
    optionally mounting docker-volume
 
-This --DIR processing only has to happen when you are using
-Docker-Toolbox (eg OSX) but is worth doing anyway since it
-bypasses all rights issues.
+Aaaaah. Once cli is an image in its own right then the
+volume mounting of DIR will have to happen regardless
+of whether you are using Docker-Toolbox (eg OSX).
+And the volume bypasses all local rights issues.
