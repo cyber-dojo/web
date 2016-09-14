@@ -59,12 +59,16 @@ if [ ! -f ${my_dir}/${docker_compose_yml} ]; then
 fi
 
 if [ "$*" = "update" ]; then
-  # update server images
-  docker pull ${cyber_dojo_hub}/nginx:latest
+  # update web image
   docker pull ${cyber_dojo_web_server}
   # extract new files
   get_file_from_web_image ${cyber_dojo_sh}
   get_file_from_web_image ${docker_compose_yml}
+  # update other images
+  # I'd like to get the image names directy from docker-compose
+  # via some api but that does not seem possible. Of course, this
+  # could all be happening inside a cli image...
+  docker pull ${cyber_dojo_hub}/nginx:latest
 fi
 
 export CYBER_DOJO_SCRIPT_WRAPPER=inprogress
