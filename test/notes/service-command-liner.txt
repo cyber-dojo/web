@@ -31,3 +31,14 @@ Aaaaah. Once cli is an image in its own right then the
 volume mounting of DIR will have to happen regardless
 of whether you are using Docker-Toolbox (eg OSX).
 And the volume bypasses all local rights issues.
+
+----------------------------------------------------
+
+main server still has loads of files on hard disk not inside
+katas data-container.
+o) remove dead code from cyber-dojo.sh
+o) write simple script to copy them into the katas-data-container
+   - docker run ...
+   - mount hard-disk-location of katas as src
+   - mount katas-volume
+   - do a cp
