@@ -1,0 +1,18 @@
+
+
+The animals individual folder contains a manifest.json file which contains only
+the visible_files, a straight hash of filename to contents (which includes output).
+Once the runner service is separated off, the sandbox folders under katas/ will *not*
+contain runtime files (eg .class files) they will contain *only* the visible files
+(and output), and the manifest.json file (for each animal) could be simplified and
+contain only the names of the visible_files.
+
+I think this would potentially slow down the differ since the differ uses 3 things
+to generate the full diff view
+  o) the was_files (names and content)
+  o) the now_files (names and content)
+  o) the git-diff
+
+And this is currently done with 3 git commands.
+
+

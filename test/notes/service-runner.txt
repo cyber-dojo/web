@@ -12,8 +12,6 @@ This would free the storer from needing to save non
 visible-files (.class .o etc).
 I could also have a separate runner-container *PER* animal.
 This will mean I don't need to tar-pipe.
-It will mean the runner will need to *CREATE* a data-container
-as well as invoke [docker runner].
 Remember to be careful about deleting files. If they are
 deleted on the browser they have to be deleted in the container too.
 

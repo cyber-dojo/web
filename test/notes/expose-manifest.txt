@@ -55,12 +55,16 @@ could be exposed as a 'visible file'? Expose it simply as manifest
 progress_regexs. Yes. Could be subject to test-framework upgrades
 red_amber_green. Yes. Could be subject to test-framework upgrades
 highlight_filenames. Yes
-lowlight_filenames. Create this?
 filename_extension. Yes
 tab_size. Yes
 display_name. Yes
 image_name. Yes! This would remove all the mapping cruft test code.
             Security though... I would only allow image_names that
-            are cyberdojo or cyberdojofoundation.
+            are cyberdojo/... or cyberdojofoundation/...
 
 version. No
+lowlight_filenames. Create this? No. Hard-wired to [cyber-dojo.sh, output, manifest]
+
+
+This would go a LONG way towards making it easy to create a new start-point
+from a kata.

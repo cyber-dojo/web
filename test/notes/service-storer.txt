@@ -5,3 +5,13 @@ This is also the simplest step to get a migrater service running.
 
 Main issue with katas-data-container is that you cannot rsync from one server
 to another. Check how this affects backups too.
+
+------------------------------------------------------------
+
+currently the katas/ID subfolder has a manifest.json file which records
+visible_files, viz names and contents.
+This is the manifest for the kata not for the animal.
+The idea is you can start a new animal without having to go back
+to the start-points (which may have changed).
+
+
