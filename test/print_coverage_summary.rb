@@ -166,8 +166,7 @@ end
 
 #- - - - - - - - - - - - - - - - - - - - -
 
-def coverage(stats, name)
-  min = 100
+def coverage(stats, name, min = 100)
   percent = stats[name][:coverage]
   [ "#{name} coverage == #{min}", percent.to_f >= min ]
 end
@@ -180,7 +179,7 @@ def gather_done(stats, totals)
      [ "total errors == 0", totals[:error_count] == 0 ],
      [ "total skips == 0", totals[:skip_count] == 0],
      coverage(stats, 'app_helpers'),
-     coverage(stats, 'app_lib'),
+     coverage(stats, 'app_lib', 95),
      coverage(stats, 'app_models'),
      coverage(stats, 'lib'),
      coverage(stats, 'app_controllers'),

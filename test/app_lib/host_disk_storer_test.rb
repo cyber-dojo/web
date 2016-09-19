@@ -356,19 +356,7 @@ class HostDiskStorerTest < AppLibTestBase
     assert visible_files.keys.include? 'makefile'
   end
 
-  test '2E6296',
-  'tag_git_diff' do
-    kata = make_kata
-    hippo = kata.start_avatar(['hippo'])
-    new_filename = 'ab.c'
-    maker = DeltaMaker.new(hippo)
-    maker.new_file(new_filename, new_content = 'content for new file')
-    now = time_now
-    hippo.tested(maker.visible_files, now, output='xx', 'amber')
-    diff = storer.tag_git_diff(kata.id, 'hippo', was_tag=0, now_tag=1)
-    assert diff.start_with? 'diff --git'
-  end
-
+  #- - - - - - - - - - - - - - - -
   #- - - - - - - - - - - - - - - -
 
   test '4C08A1',

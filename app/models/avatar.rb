@@ -26,10 +26,6 @@ class Avatar
     kata
   end
 
-  def diff(was_tag, now_tag)
-    storer.tag_git_diff(kata.id, name, was_tag, now_tag)
-  end
-
   def active?
     # Players sometimes start an extra avatar solely to read the
     # instructions. I don't want these avatars appearing on the dashboard.

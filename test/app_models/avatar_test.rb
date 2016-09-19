@@ -137,30 +137,6 @@ class AvatarTest < AppModelsTestBase
     assert_file filename, content
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'FB7DEC',
-  'diff(was_tag, now_tag) returns sandbox/git-diff output' do
-    set_runner_class('DockerTarPipeRunner')
-    kata = make_kata( { language: 'C (gcc)-assert' })
-    @avatar = kata.start_avatar # tag 0
-    maker = DeltaMaker.new(@avatar)
-    filename = 'hiker.c'
-    assert maker.file?(filename)
-    content = maker.content(filename)
-    refute_nil content
-    maker.change_file(filename, content.sub('9', '7'))
-    maker.run_test # tag 1
-
-    diff_lines = @avatar.diff(0, 1)
-
-    assert diff_lines.include? '--- a/sandbox/hiker.c'
-    assert diff_lines.include? '+++ b/sandbox/hiker.c'
-    assert diff_lines.include? 'diff --git a/sandbox/hiker.c b/sandbox/hiker.c'
-    assert diff_lines.include? '-    return 6 * 9;'
-    assert diff_lines.include? '+    return 6 * 7;'
-  end
-
   private # - - - - - - - - - - - - - - - - - - - - - - -
 
   def hiker_c; 'hiker.c'; end

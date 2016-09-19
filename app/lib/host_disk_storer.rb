@@ -168,10 +168,6 @@ class HostDiskStorer
     JSON.parse(git.show(avatar_path(id, name), "#{tag}:#{manifest_filename}"))
   end
 
-  def tag_git_diff(id, name, was_tag, now_tag)
-    git.diff(avatar_path(id, name), was_tag, now_tag)
-  end
-
   # - - - - - - - - - - - - - - - - - - - - - - - -
   # Path
   # - - - - - - - - - - - - - - - - - - - - - - - -

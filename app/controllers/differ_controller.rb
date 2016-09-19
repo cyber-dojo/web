@@ -22,5 +22,7 @@ class DifferController < ApplicationController
   private
 
   include DifferWorker
+  include GitDiffService
+  include GitDiffView
 
 end

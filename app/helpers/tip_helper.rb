@@ -1,9 +1,9 @@
 
-require_relative './../lib/git_diff'
+require_relative './../lib/git_diff_service'
 
 module TipHelper # mix-in
 
-  include GitDiff
+  include GitDiffService
 
   def traffic_light_tip_html(avatar, was_tag, now_tag)
     was_tag = was_tag.to_i

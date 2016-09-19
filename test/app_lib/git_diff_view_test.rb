@@ -4,7 +4,7 @@ require_relative './app_lib_test_base'
 
 class GitDiffViewTest < AppLibTestBase
 
-  include GitDiff
+  include GitDiffView
 
   test '836292',
   'simple example going from red to green' do

@@ -29,7 +29,6 @@ module DifferWorker
   end
 
   include RingPicker
-  include GitDiff
   include ReviewFilePicker
 
 end
