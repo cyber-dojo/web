@@ -29,8 +29,7 @@ module GitDiff # mix-in
   def diff_htmlify(id, n)
     result = ''
     if n['type'] == 'section'
-      index = n['index'].to_s
-      result = "<span id='#{id}_section_#{index}'></span>"
+      result = "<span id='#{id}_section_#{n['index']}'></span>"
     else
       line = CGI.escapeHTML(n['line'])
       line = '&thinsp;' if line == ''
