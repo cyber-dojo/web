@@ -15,7 +15,9 @@ class DifferControllerTest < AppControllerTestBase
     run_tests
     @was_tag = 1
     @now_tag = 2
+
     differ
+
     lights = json['lights']
     info = " " + @id + ":" + @avatar.name
     was_light = lights[@was_tag-1]
@@ -46,7 +48,9 @@ class DifferControllerTest < AppControllerTestBase
     run_tests
     @was_tag = 1
     @now_tag = 2
+
     differ
+
     lights = json['lights']
     info = " " + @id + ':' + @avatar.name + ':'
     was_light = lights[@was_tag-1]
@@ -75,7 +79,9 @@ class DifferControllerTest < AppControllerTestBase
     run_tests  # 2
     @was_tag = -1
     @now_tag = -1
+
     differ
+
     assert_equal 2, json['wasTag']
     assert_equal 2, json['nowTag']
   end
@@ -89,7 +95,9 @@ class DifferControllerTest < AppControllerTestBase
     run_tests  # 1
     @was_tag = 0
     @now_tag = 1
+
     differ
+
     assert_equal '', json['prevAvatar']
     assert_equal '', json['nextAvatar']
   end
@@ -105,7 +113,9 @@ class DifferControllerTest < AppControllerTestBase
     run_tests  # 1
     @was_tag = 0
     @now_tag = 1
+
     differ
+
     assert_equal firstAvatar.name, json['prevAvatar']
     assert_equal firstAvatar.name, json['nextAvatar']
   end

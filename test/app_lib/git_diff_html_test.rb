@@ -6,8 +6,6 @@ class GitDiffHtmlTest <  AppLibTestBase
 
   include GitDiffView
 
-  # - - - - - - - - - - - - - - - - - - - - - - - -
-
   test '748980',
   'non-empty same/added/deleted lines stay as themselves' do
 
