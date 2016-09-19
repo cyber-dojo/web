@@ -8,7 +8,6 @@
   time_now
   unique_id
   id_splitter
-  line_splitter
   string_cleaner
   string_truncater
   stderr_redirect
