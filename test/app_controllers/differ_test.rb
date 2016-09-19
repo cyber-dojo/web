@@ -4,13 +4,23 @@ require_relative './app_controller_test_base'
 
 class DifferControllerTest < AppControllerTestBase
 
+  def setup
+    super
+    set_runner_class('DockerTarPipeRunner')
+  end
+
+  # This and D09 are failing.
+  # The server log (running thin) says
+  # Invalid request: HTTP element QUERY_STRING is longer than the (1024 * 10) allowed length
+  # I think I need to send the request parameters *inside* the request
+  # And the response I get is response.body of 'Bad Request'
+
   test '238AF6',
   'no lines different in any files between successive tags' do
     @id = create_kata('Java, JUnit')
     @avatar = start # 0
     filename = 'Hiker.java'
     change_file(filename, content = 'import...')
-
     run_tests
     run_tests
     @was_tag = 1
@@ -38,7 +48,6 @@ class DifferControllerTest < AppControllerTestBase
 
   test 'BEC2BF',
   'one line different in one file between successive tags' do
-    set_runner_class('DockerTarPipeRunner')
     @id = create_kata
     @avatar = start # 0
     filename = 'hiker.rb'
