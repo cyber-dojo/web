@@ -53,8 +53,8 @@ module TipHelper # mix-in
     deleted_count = 0
     diffed_files.each do |filename, diff|
       if filename != 'output'
-        added_count   += diff.count { |line| line[:type] == :added   }
-        deleted_count += diff.count { |line| line[:type] == :deleted }
+        added_count   += diff.count { |line| line['type'] == 'added'   }
+        deleted_count += diff.count { |line| line['type'] == 'deleted' }
       end
     end
     [added_count, deleted_count]

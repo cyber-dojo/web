@@ -6,8 +6,6 @@ class TipTest < AppHelpersTestBase
 
   include TipHelper
 
-  #- - - - - - - - - - - - - - - - - -
-
   test 'BDAD52',
   'traffic light tip' do
     set_runner_class('DockerTarPipeRunner')
@@ -21,7 +19,6 @@ class TipTest < AppHelpersTestBase
     refute_nil content
     maker.change_file(filename, content.sub('9', '7'))
     maker.run_test
-
     was_tag = 1
     was_tag_colour = 'red'
     now_tag = 2
