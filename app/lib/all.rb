@@ -4,8 +4,6 @@
   start_point_checker
   file_delta_maker
   unit_test_framework_lookup
-  git_diff_parser
-  git_diff_builder
   git_diff
   review_file_picker
   ring_picker

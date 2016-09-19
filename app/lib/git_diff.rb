@@ -76,7 +76,7 @@ module GitDiff # mix-in
   # data structure (to build view from) containing diffs
   # for all files, for a given avatar, for a given tag.
 
-  def avatar_git_diff(avatar, n, m)
+  def X_avatar_git_diff(avatar, n, m)
     diff_lines = avatar.diff(n, m)
     visible_files = avatar.tags[m].visible_files
     git_diff(diff_lines, visible_files)
@@ -84,7 +84,7 @@ module GitDiff # mix-in
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def git_diff(diff_lines, visible_files)
+  def X_git_diff(diff_lines, visible_files)
     view = {}
     diffs = GitDiffParser.new(diff_lines).parse_all
     diffs.each do |sandbox_name, diff|
@@ -111,7 +111,7 @@ module GitDiff # mix-in
     view
   end
 
-  def deleted_file?(ch)
+  def X_deleted_file?(ch)
     # GitDiffParser uses names beginning with
     # a/... to indicate a deleted file
     # b/... to indicate a new/modified file
@@ -119,15 +119,15 @@ module GitDiff # mix-in
     ch == 'a'
   end
 
-  def sameify(source)
+  def X_sameify(source)
     ify(LineSplitter.line_split(source), :same)
   end
 
-  def deleteify(lines)
+  def X_deleteify(lines)
     ify(lines, :deleted)
   end
 
-  def ify(lines, type)
+  def X_ify(lines, type)
     lines.collect.each_with_index do |line, number|
       { line: line, type: type, number: number + 1 }
     end
