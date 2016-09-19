@@ -14,6 +14,10 @@ class DifferControllerTest < AppControllerTestBase
   # Invalid request: HTTP element QUERY_STRING is longer than the (1024 * 10) allowed length
   # I think I need to send the request parameters *inside* the request
   # And the response I get is response.body of 'Bad Request'
+  # The test calls differ/diff which is differ_controller with 3 small
+  # parameters, avatar_name, was_tag, now_tag
+  # This calls GitDiffService::avatar_git_diff() and passes
+  # was_files & now_files which can be large.
 
   test '238AF6',
   'no lines different in any files between successive tags' do
