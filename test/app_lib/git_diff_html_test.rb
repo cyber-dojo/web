@@ -163,20 +163,24 @@ class GitDiffHtmlTest <  AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def same_line(line,number)
-    { :line => line, :type => :same, :number => number }
+  def same_line(content, number)
+    line(content, 'same', number)
   end
 
-  def deleted_line(line,number)
-    { :line => line, :type => :deleted, :number => number }
+  def deleted_line(content, number)
+    line(content, 'deleted', number)
   end
 
-  def added_line(line,number)
-    { :line => line, :type => :added, :number => number }
+  def added_line(content, number)
+    line(content, 'added', number)
+  end
+
+  def line(content, type, number)
+    { 'line' => content, 'type' => type, 'number' => number }
   end
 
   def section(index)
-    { :type => :section, :index => index }
+    { 'type' => 'section', 'index' => index }
   end
 
 end

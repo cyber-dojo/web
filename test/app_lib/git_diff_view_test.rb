@@ -12,12 +12,12 @@ class GitDiffViewTest < AppLibTestBase
     {
       'hiker.rb' =>
       [
-        { :line => '',           :type => :same,    :number => 1 },
-        { :line => 'def answer', :type => :same,    :number => 2 },
-        { :type => :section, :index => 0 },
-        { :line => '  6 * 9',       :type => :deleted, :number => 3 },
-        { :line => '  6 * 7',       :type => :added,   :number => 3 },
-        { :line => 'end',        :type => :same,    :number => 4 },
+        { 'line' => '',           'type' => 'same',    'number' => 1 },
+        { 'line' => 'def answer', 'type' => 'same',    'number' => 2 },
+        { 'type' => 'section', 'index' => 0 },
+        { 'line' => '  6 * 9',    'type' => 'deleted', 'number' => 3 },
+        { 'line' => '  6 * 7',    'type' => 'added',   'number' => 3 },
+        { 'line' => 'end',        'type' => 'same',    'number' => 4 },
       ]
     }
     view = git_diff_view(diffs)
@@ -46,26 +46,6 @@ class GitDiffViewTest < AppLibTestBase
       }
     ]
     assert_equal expected_view, view
-  end
-
-  # - - - - - - - - - - - - - - - - - -
-
-  private
-
-  def one_line(content)
-    [ { :line => content, :type => :same, :number => 1 } ]
-  end
-
-  def one_line_expected(n, filename, content)
-    {
-      :id => 'id_' + n.to_s,
-      :filename => filename,
-      :section_count => 0,
-      :deleted_line_count => 0,
-      :added_line_count => 0,
-      :content => '<same>' + content + '</same>',
-      :line_numbers => '<same><ln>1</ln></same>'
-    }
   end
 
 end

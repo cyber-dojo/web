@@ -9,7 +9,7 @@ nginx:
   links:
     - "web:cyberdojo_web"
   ports:
-    - "80:80"
+    - 80:80
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # I'd like to set cpu/memory/swap limits on the test-run containers
@@ -29,6 +29,8 @@ web:
   mem_limit: 2G
   memswap_limit: 2G
   command: rails server --environment=${CYBER_DOJO_RAILS_ENVIRONMENT}
+  links:
+    - differ
   environment:
     - CYBER_DOJO_SHELL_CLASS
     - CYBER_DOJO_DISK_CLASS
@@ -43,7 +45,7 @@ web:
     - CYBER_DOJO_CUSTOM_ROOT=${CYBER_DOJO_ROOT}/start_points/custom
     - CYBER_DOJO_KATAS_ROOT=${CYBER_DOJO_ROOT}/katas
   ports:
-    - "3000:3000"
+    - 3000:3000
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock
     - ${CYBER_DOJO_START_POINT_LANGUAGES}:${CYBER_DOJO_ROOT}/start_points/languages:ro
@@ -51,4 +53,18 @@ web:
     - ${CYBER_DOJO_START_POINT_CUSTOM}:${CYBER_DOJO_ROOT}/start_points/custom:ro
   volumes_from:
     - ${CYBER_DOJO_KATAS_DATA_CONTAINER}:rw
+
+
+differ:
+  user: nobody
+  image: cyberdojo/differ
+  container_name: cyber-dojo-differ
+  restart: on-failure
+  entrypoint:
+    - foreman
+    - start
+    - -d
+    - /app
+  ports:
+    - 4567:4567
 
