@@ -2,7 +2,7 @@
 nginx:
   image: cyberdojo/nginx
   container_name: cyber-dojo-nginx
-  cpu_shares: 512
+  cpu_shares: 256
   restart: on-failure
   mem_limit: 50M
   memswap_limit: 50M
@@ -59,6 +59,7 @@ differ:
   user: nobody
   image: cyberdojo/differ
   container_name: cyber-dojo-differ
+  cpu_shares: 256
   restart: on-failure
   entrypoint:
     - foreman
