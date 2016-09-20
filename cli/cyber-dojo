@@ -5,7 +5,12 @@
 # All other commands delegate to its partner script cyber-dojo.sh
 # which is one of the files that "update" updates.
 
-my_dir="$( cd "$( dirname "${0}" )" && pwd )"
+os="$(uname -s)"
+
+if [ "$(whoami)" != 'root' ] && [ "${os}" != 'Darwin' ]; then
+  echo 'On Linux this must be run as root'
+  exit
+fi
 
 exit_if_not_installed() {
   hash ${1} 2> /dev/null
@@ -19,7 +24,7 @@ exit_if_not_installed() {
 
 exit_if_not_installed 'docker'
 exit_if_not_installed 'docker-compose'
-if [ "$(uname -s)" = "Darwin" ]; then
+if [ "${os}" = 'Darwin' ]; then
   exit_if_not_installed 'docker-machine'
 fi
 
@@ -30,6 +35,7 @@ fi
 #    awk '{print $3}'  -->  1.11.2,           (third field)
 #    sed '$s/.$//'     -->  1.11.2            (lose last comma)
 
+my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 cyber_dojo_hub=cyberdojo
 docker_version=$(docker --version | awk '{print $3}' | sed '$s/.$//')
 cyber_dojo_web_server=${cyber_dojo_hub}/web:${docker_version}
