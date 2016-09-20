@@ -3,11 +3,11 @@ nginx:
   image: cyberdojo/nginx
   container_name: cyber-dojo-nginx
   cpu_shares: 256
-  restart: on-failure
   mem_limit: 50M
   memswap_limit: 50M
+  restart: on-failure
   links:
-    - "web:cyberdojo_web"
+    - web
   ports:
     - 80:80
 
@@ -25,9 +25,9 @@ web:
   image: ${CYBER_DOJO_WEB_SERVER}
   container_name: ${CYBER_DOJO_WEB_CONTAINER}
   cpu_shares: 512
-  restart: on-failure
   mem_limit: 2G
   memswap_limit: 2G
+  restart: on-failure
   command: rails server --environment=${CYBER_DOJO_RAILS_ENVIRONMENT}
   links:
     - differ
@@ -60,6 +60,8 @@ differ:
   image: cyberdojo/differ
   container_name: cyber-dojo-differ
   cpu_shares: 256
+  mem_limit: 1G
+  memswap_limit: 1G
   restart: on-failure
   entrypoint:
     - foreman
