@@ -24,10 +24,10 @@ class DifferControllerTest < AppControllerTestBase
 
   test '238AF6',
   'no lines different in any files between successive tags' do
-    @id = create_kata('Java, JUnit')
+    @id = create_kata
     @avatar = start # 0
-    filename = 'Hiker.java'
-    change_file(filename, content = 'import...')
+    filename = 'hiker.rb'
+    change_file(filename, content = 'def some_change...')
     run_tests
     run_tests
     @was_tag = 1
