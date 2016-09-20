@@ -5,9 +5,15 @@ set -e
 # This script is part of the server installation instructions
 # described at http://blog.cyber-dojo.org/2016/07/running-your-own-cyber-dojo-web-server.html
 
-ME=`whoami`
-if [ "${ME}" != 'root' ]; then
-  echo 'this must be run as root'
+os="$(uname -s)"
+
+if [ "${os}" = 'Darwin' ]; then
+  echo 'This script is for a Linux install'
+  exit
+fi
+
+if [ "$(whoami)" != 'root' ]; then
+  echo 'This must be run as root'
   exit
 fi
 
