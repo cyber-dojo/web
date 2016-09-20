@@ -1,16 +1,4 @@
 
-nginx:
-  image: cyberdojo/nginx
-  container_name: cyber-dojo-nginx
-  cpu_shares: 256
-  mem_limit: 50M
-  memswap_limit: 50M
-  restart: on-failure
-  links:
-    - web
-  ports:
-    - 80:80
-
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # I'd like to set cpu/memory/swap limits on the test-run containers
 # and the web server container independently.
@@ -19,6 +7,16 @@ nginx:
 # to limit the test-containers. However if the limits are too low
 # the web server container is unable to [docker pull] images on-demand
 # in the setup pages.
+
+nginx:
+  image: cyberdojo/nginx
+  container_name: cyber-dojo-nginx
+  cpu_shares: 256
+  mem_limit: 50M
+  memswap_limit: 50M
+  restart: on-failure
+  links: [ web ]
+  ports: [ "80:80" ]
 
 web:
   user: cyber-dojo
@@ -29,8 +27,7 @@ web:
   memswap_limit: 2G
   restart: on-failure
   command: rails server --environment=${CYBER_DOJO_RAILS_ENVIRONMENT}
-  links:
-    - differ
+  links: [ differ ]
   environment:
     - CYBER_DOJO_SHELL_CLASS
     - CYBER_DOJO_DISK_CLASS
@@ -44,8 +41,7 @@ web:
     - CYBER_DOJO_EXERCISES_ROOT=${CYBER_DOJO_ROOT}/start_points/exercises
     - CYBER_DOJO_CUSTOM_ROOT=${CYBER_DOJO_ROOT}/start_points/custom
     - CYBER_DOJO_KATAS_ROOT=${CYBER_DOJO_ROOT}/katas
-  ports:
-    - 3000:3000
+  ports: [ "3000:3000" ]
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock
     - ${CYBER_DOJO_START_POINT_LANGUAGES}:${CYBER_DOJO_ROOT}/start_points/languages:ro
@@ -63,11 +59,6 @@ differ:
   mem_limit: 1G
   memswap_limit: 1G
   restart: on-failure
-  entrypoint:
-    - foreman
-    - start
-    - -d
-    - /app
-  ports:
-    - 4567:4567
+  command: [ "foreman", "start", "-d", "/app" ]
+  ports: [ "4567:4567" ]
 
