@@ -19,8 +19,7 @@ exit_if_not_installed() {
 
 exit_if_not_installed 'docker'
 exit_if_not_installed 'docker-compose'
-if [[ $(uname -s) != Linux* ]]; then
-  # assume we're on a Docker-Toolbox box
+if [ "$(uname -s)" = "Darwin" ]; then
   exit_if_not_installed 'docker-machine'
 fi
 
@@ -69,6 +68,7 @@ if [ "$*" = "update" ]; then
   # could all be happening inside a cli image...
   # I think docker-compose pull is what I want
   docker pull ${cyber_dojo_hub}/nginx:latest
+  docker pull ${cyber_dojo_hub}/differ:latest
 fi
 
 export CYBER_DOJO_SCRIPT_WRAPPER=inprogress
