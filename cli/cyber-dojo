@@ -67,6 +67,7 @@ if [ "$*" = "update" ]; then
   # I'd like to get the image names directy from docker-compose
   # via some api but that does not seem possible. Of course, this
   # could all be happening inside a cli image...
+  # I think docker-compose pull is what I want
   docker pull ${cyber_dojo_hub}/nginx:latest
 fi
 
