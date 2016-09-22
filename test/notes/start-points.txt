@@ -1,0 +1,20 @@
+
+Idea for Better design...
+-------------------------
+
+a start-point file contains a json list like this
+{
+  "Java,JUnit"  => URL/DIR,
+  "C++, assert" => URL/DIR
+}
+
+and each language+test combination has their own dedicated
+github repo which *combines* the Dockerfile and the initial
+visible_files.
+
+Down side of this is that the DIR bit is now
+trickier to handle in a cross-platform independent way...
+
+Pass start-point file to commander, it returns list of
+base dirs that have to be copied into a volume.
+Local host does that and passes name of volume to commander.
