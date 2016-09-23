@@ -1,21 +1,10 @@
 #!/bin/bash
 set -e
 
-MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
-
-pushd ${MY_DIR} > /dev/null
-
-CONTEXT_DIR=../../public
-
-cp ./Dockerfile ${CONTEXT_DIR}
-cp ./nginx.conf ${CONTEXT_DIR}
+my_dir="$( cd "$( dirname "${0}" )" && pwd )"
+context_dir=${my_dir}
 
 docker build \
   --tag=cyberdojo/${PWD##*/} \
-  --file=${CONTEXT_DIR}/Dockerfile \
-  ${CONTEXT_DIR}
-
-rm ${CONTEXT_DIR}/Dockerfile
-rm ${CONTEXT_DIR}/nginx.conf
-
-popd > /dev/null
+  --file=${context_dir}/Dockerfile \
+  ${context_dir}
