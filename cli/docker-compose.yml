@@ -7,6 +7,10 @@
 # to limit the test-containers. However if the limits are too low
 # the web server container is unable to [docker pull] images on-demand
 # in the setup pages.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Note: Dependencies between nginx and web are reflected in the
+# nginx.conf file
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 nginx:
   image: cyberdojo/nginx
