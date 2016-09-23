@@ -1,4 +1,4 @@
-Run options: 
+Run options:
 
 # Running tests:
 
@@ -11,4 +11,4 @@ test_simple_fail(TestUntitled) [test_untitled.rb:11]:
 <54> expected but was
 <42>.
 
-2 tests, 2 assertions, 1 failures, 0 errors, 0 skips
+2 runs, 2 assertions, 1 failures, 0 errors, 0 skips

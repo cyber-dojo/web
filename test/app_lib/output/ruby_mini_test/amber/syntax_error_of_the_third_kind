@@ -1,4 +1,4 @@
-Run options: 
+Run options:
 
 # Running tests:
 
@@ -12,4 +12,4 @@ ArgumentError: uncaught throw 42
     test_untitled.rb:7:in `throw'
     test_untitled.rb:7:in `test_simple'
 
-1 tests, 0 assertions, 0 failures, 1 errors, 0 skips
+1 runs, 0 assertions, 0 failures, 1 errors, 0 skips

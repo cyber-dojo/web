@@ -1,4 +1,4 @@
-Run options: 
+Run options:
 
 # Running tests:
 
@@ -6,4 +6,4 @@ Run options:
 
 Finished tests in 0.016653s, 60.0492 tests/s, 60.0492 assertions/s.
 
-1 tests, 1 assertions, 0 failures, 0 errors, 0 skips
+1 runs, 1 assertions, 0 failures, 0 errors, 0 skips

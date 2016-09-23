@@ -18,5 +18,5 @@ test_twenty_seven(TestGetDigits) [test_get_digits.rb:95]:
 <" _   _ \n _|   |\n|_    |"> expected but was
 <" _   _ \n  |  _|\n  | |_ ">.
 
-17 tests, 17 assertions, 3 failures, 0 errors
+17 runs, 17 assertions, 3 failures, 0 errors
 [[" _ ", " _ "], ["  |", " _|"], ["  |", "|_ "]]
