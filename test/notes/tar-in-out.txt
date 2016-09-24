@@ -1,0 +1,16 @@
+
+GET FILES OUT
+-------------
+$ docker exec cyber-dojo-web sh -c "tar -cz -f - -C /usr/src/cyber-dojo/katas B4" > B4.tgz
+
+will create local file called B4.tgz
+$ tar -xvf B4.tgz
+...
+x B4/3D799E87/parrot/.git/objects/cf/f71c7a5560002d05f25a76e1fc9cabc1fce3c4
+x B4/3D799E87/parrot/.git/objects/81/
+x B4/3D799E87/parrot/.git/objects/81/e9606af1b4c4bd14d4de57ca71798b5528beeb
+
+
+GET FILES IN
+------------
+
