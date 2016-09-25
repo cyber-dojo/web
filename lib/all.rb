@@ -2,8 +2,11 @@
 # this list has order dependencies
 
 %w{
-  name_of_caller
   external_parent_chainer
+
+  name_of_caller
+  unslashed
+  externals
 
   time_now
   unique_id
@@ -11,7 +14,6 @@
   string_cleaner
   string_truncater
   stderr_redirect
-  unslashed
 
   host_shell
   mock_host_shell

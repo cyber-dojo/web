@@ -25,6 +25,9 @@ cd ${my_dir}/../cli
 
 cid=`docker ps --all --quiet --filter "name=cyber-dojo-web"`
 docker exec ${cid} sh -c "cd test && ./run.sh"
+
+# TODO copy coverage out
+
 done=$?
 
 exit $done

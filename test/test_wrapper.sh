@@ -44,7 +44,6 @@ gitUserNameBefore=`git config user.name`
 
 HOME_DIR="$( cd "$( dirname "${0}" )/.." && pwd )"
 
-export CYBER_DOJO_LOG_CLASS=MemoryLog
 
 # Assumes repos for start-points et all are sibling folders to main repo folder
 VAR=${CYBER_DOJO_LANGUAGES_ROOT:-${HOME_DIR}/../start-points-languages}
@@ -59,14 +58,13 @@ export CYBER_DOJO_CUSTOM_ROOT=${VAR}
 VAR=${CYBER_DOJO_STORER_CLASS:-HostDiskStorer}
 export CYBER_DOJO_STORER_CLASS=${VAR}
 
-VAR=${CYBER_DOJO_SHELL_CLASS:-HostShell}
-export CYBER_DOJO_SHELL_CLASS=${VAR}
-
-VAR=${CYBER_DOJO_DISK_CLASS:-HostDisk}
-export CYBER_DOJO_DISK_CLASS=${VAR}
-
-VAR=${CYBER_DOJO_GIT_CLASS:-HostGit}
-export CYBER_DOJO_GIT_CLASS=${VAR}
+#VAR=${CYBER_DOJO_SHELL_CLASS:-HostShell}
+#VAR=${CYBER_DOJO_DISK_CLASS:-HostDisk}
+#VAR=${CYBER_DOJO_GIT_CLASS:-HostGit}
+#export CYBER_DOJO_SHELL_CLASS=${VAR}
+#export CYBER_DOJO_DISK_CLASS=${VAR}
+#export CYBER_DOJO_GIT_CLASS=${VAR}
+export CYBER_DOJO_LOG_CLASS=MemoryLog
 
 VAR=${CYBER_DOJO_RUNNER_TIMEOUT:=10}
 export CYBER_DOJO_RUNNER_TIMEOUT=${VAR}
