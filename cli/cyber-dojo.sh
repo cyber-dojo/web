@@ -64,7 +64,7 @@ one_time_creation_of_katas_data_container() {
   # o) if it doesn't and /var/www/cyber-dojo/katas does not exist on the host
   #    then create new _empty_ katas-data-container
   local katas_root=/var/www/cyber-dojo/katas
-  docker ps --all | grep -s ${CYBER_DOJO_KATAS_DATA_CONTAINER}
+  docker ps --all | grep -s ${CYBER_DOJO_KATAS_DATA_CONTAINER} > /dev/null
   if [ $? != 0 ]; then
     # determine appropriate Dockerfile (to create katas data container)
     if [ -d "${katas_root}" ]; then
