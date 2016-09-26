@@ -105,7 +105,7 @@ module TestExternalHelpers # mix-in
 
   def setup_tmp_root
     # the Teardown-Before-Setup pattern gives good diagnostic info if
-    # a test fails but these backtick command mean the tests cannot be
+    # a test fails but these backtick commands mean the tests cannot be
     # run in parallel...
     success = 0
 

@@ -6,7 +6,7 @@
 
 SRC_DIR=$1     # Where the source files are
 IMAGE=$2       # What they'll run in, eg cyberdojofoundation/gcc_assert
-MAX_SECS=$3    # How long they've got to complete, eg 10
+MAX_SECS=$3    # How long they've got to complete in seconds, eg 10
 SUDO=$4        # sudo incantation for docker commands
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

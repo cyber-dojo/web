@@ -25,15 +25,7 @@ echo 'Recreating new start-points'
 ./cyber-dojo start-point create custom    --dir=./../../start-points-custom
 ./cyber-dojo start-point ls
 
-echo 'Bringing cyber-dojo up'
-./cyber-dojo up
-
-echo 'Shelling into web container and running tests'
-cid=`docker ps --all --quiet --filter "name=cyber-dojo-web"`
-docker exec ${cid} sh -c "cd test && ./run.sh"
-
-# TODO copy coverage out
-
+cd ${my_dir}
+./up_test.sh ${*}
 done=$?
-
 exit $done
