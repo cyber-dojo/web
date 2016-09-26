@@ -4,13 +4,13 @@ module TestExternalHelpers # mix-in
   module_function
 
   def setup
-    raise "setup already called" unless @setup_called.nil?
+    fail 'setup already called' unless @setup_called.nil?
     @setup_called = true
     @config = {}
     ENV.each { |key, value| @config[key] = value }
-    setup_tmp_root
-    # we never want tests to write to the real katas root
-    set_katas_root(tmp_root + '/katas')
+    unless storer.kata_path('123456789A').start_with?('/tmp/')
+      fail "test ABANDONED because CYBER_DOJO_KATAS_ROOT not set to /tmp/..."
+    end
   end
 
   def teardown
@@ -97,33 +97,8 @@ module TestExternalHelpers # mix-in
     dojo.env(name + '_class')
   end
 
-  # - - - - - - - - - - - - - - - - - - -
-
-  def tmp_root
-    '/tmp/cyber-dojo'
-  end
-
-  def setup_tmp_root
-    # the Teardown-Before-Setup pattern gives good diagnostic info if
-    # a test fails but these backtick commands mean the tests cannot be
-    # run in parallel...
-    success = 0
-
-    command = "rm -rf #{tmp_root}"
-    output = `#{command}`
-    exit_status = $?.exitstatus
-    puts "#{command}\n\t->#{output}\n\t->#{exit_status}" unless exit_status == success
-
-    command = "mkdir -p #{tmp_root}"
-    output = `#{command}`
-    exit_status = $?.exitstatus
-    puts "#{command}\n\t->#{output}\n\t->#{exit_status}" unless exit_status == success
-  end
-
-  # - - - - - - - - - - - - - - - - - - -
-
-  def fail_if_setup_not_called(cmd)
-    fail "#{cmd} NOT executed because setup() not yet called" if @setup_called.nil?
+  def fail_if_setup_not_called(method)
+    fail "#{method} NOT executed because setup() not yet called" if @setup_called.nil?
   end
 
 end

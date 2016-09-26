@@ -21,10 +21,15 @@ done
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 # ensure caches dir exists
-HOME_DIR="$( cd "$( dirname "${0}" )/.." && pwd )"
-mkdir -p ${HOME_DIR}/caches
+home_dir="$( cd "$( dirname "${0}" )/.." && pwd )"
+mkdir -p ${home_dir}/caches
+katas_root=/tmp/cyber-dojo
+mkdir -p ${katas_root}
 
+# don't log to stdout
 export CYBER_DOJO_LOG_CLASS=MemoryLog
+# don't create permanent katas
+export CYBER_DOJO_KATAS_ROOT=${katas_root}
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # run-the-tests!
