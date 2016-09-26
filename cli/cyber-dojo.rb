@@ -477,7 +477,9 @@ def start_point_ls
     name = spacer.call(max_name, headings[:name])
     type = spacer.call(max_type, headings[:type])
     url  = spacer.call(max_url , headings[:url ])
-    puts name + type + url
+    unless names.empty?
+      puts name + type + url
+    end
     names.length.times do |n|
       name = spacer.call(max_name, names[n])
       type = spacer.call(max_type, types[n])
