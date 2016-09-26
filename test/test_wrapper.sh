@@ -1,22 +1,8 @@
 #!/bin/bash
 
-if [ "$#" -eq 0 ]; then
-  echo
-  echo '  How to use test_wrapper.sh'
-  echo
-  echo '  1. running specific tests in one folder'
-  echo "     $ cd test/app_model"
-  echo '     $ ./run.sh <ID*>'
-  echo
-  echo '  2. running all the tests in one folder'
-  echo "     $ cd test/app_model"
-  echo '     $ ./run.sh'
-  echo
-  echo '  3. running all the tests in all the folders'
-  echo "     $ cd test"
-  echo '     $ ./run.sh'
-  echo
-  exit
+if [ ! -f /.dockerenv ]; then
+  echo 'FAILED: test_wrapper.sh is being executed outside of docker-container.'
+  exit 1
 fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -33,30 +19,12 @@ while (( "$#" )); do
 done
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# check if tests alter the current git user!
-# I don't want any confusion between the git repo created
-# in a test (for an animal) and the main git repo of cyber-dojo!
 
-gitUserNameBefore=`git config user.name`
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# set env-vars if not set
-
+# ensure caches dir exists
 HOME_DIR="$( cd "$( dirname "${0}" )/.." && pwd )"
-
-VAR=${CYBER_DOJO_STORER_CLASS:-HostDiskStorer}
-export CYBER_DOJO_STORER_CLASS=${VAR}
+mkdir -p ${HOME_DIR}/caches
 
 export CYBER_DOJO_LOG_CLASS=MemoryLog
-
-VAR=${CYBER_DOJO_RUNNER_TIMEOUT:=10}
-export CYBER_DOJO_RUNNER_TIMEOUT=${VAR}
-
-VAR=${CYBER_DOJO_RUNNER_SUDO:-''}
-export CYBER_DOJO_RUNNER_SUDO=${VAR}
-
-# ensure empty dirs exist
-mkdir -p ${HOME_DIR}/caches
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # run-the-tests!
@@ -72,22 +40,5 @@ cp -R ../../coverage .
 cwd=${PWD##*/}             # eg  app_lib
 module=${cwd/_//}          # eg  app/lib
 ruby ../print_coverage_percent.rb index.html $module | tee -a ${test_log}
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-gitUserNameAfter=`git config user.name`
-
-if [ "$gitUserNameBefore" != "$gitUserNameAfter" ]; then
-  echo --------------------------------------
-  echo META TEST FAILURE!
-  echo --------------------------------------
-  echo Before
-  echo '  $ git config user.name'
-  echo "  $ $gitUserNameBefore"
-  echo
-  echo After
-  echo '  $ git config user.name'
-  echo "  $ $gitUserNameAfter"
-  echo --------------------------------------
-fi
 
 
