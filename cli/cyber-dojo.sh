@@ -40,17 +40,8 @@ export CYBER_DOJO_START_POINT_CUSTOM=${default_start_point_custom}
 
 export CYBER_DOJO_WEB_SERVER=${cyber_dojo_hub}/web:${docker_version}
 export CYBER_DOJO_WEB_CONTAINER=cyber-dojo-web
-
 export CYBER_DOJO_KATAS_DATA_CONTAINER=cyber-dojo-katas-DATA-CONTAINER
-
-export CYBER_DOJO_STORER_CLASS=${CYBER_DOJO_STORER_CLASS:=HostDiskStorer}
-
-export CYBER_DOJO_RUNNER_CLASS=${CYBER_DOJO_RUNNER_CLASS:=DockerTarPipeRunner}
-export CYBER_DOJO_RUNNER_SUDO='sudo -u docker-runner sudo'
-export CYBER_DOJO_RUNNER_TIMEOUT=${CYBER_DOJO_RUNNER_TIMEOUT:=10}
-
 export CYBER_DOJO_ROOT=${cyber_dojo_root}
-
 export CYBER_DOJO_RAILS_ENVIRONMENT=production
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

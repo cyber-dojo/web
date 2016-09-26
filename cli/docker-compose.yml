@@ -32,11 +32,6 @@ web:
   restart: on-failure
   command: rails server --environment=${CYBER_DOJO_RAILS_ENVIRONMENT}
   links: [ differ ]
-  environment:
-    - CYBER_DOJO_STORER_CLASS
-    - CYBER_DOJO_RUNNER_CLASS
-    - CYBER_DOJO_RUNNER_SUDO
-    - CYBER_DOJO_RUNNER_TIMEOUT
   ports: [ "3000:3000" ]
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock

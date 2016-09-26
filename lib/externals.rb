@@ -17,7 +17,12 @@ end
   cd_env_name('languages_root') => '/usr/src/cyber-dojo/start_points/languages',
   cd_env_name('exercises_root') => '/usr/src/cyber-dojo/start_points/exercises',
   cd_env_name('custom_root')    => '/usr/src/cyber-dojo/start_points/custom',
-  cd_env_name('katas_root')     => '/usr/src/cyber-dojo/katas'
+  cd_env_name('katas_root')     => '/usr/src/cyber-dojo/katas',
+
+  cd_env_name('storer_class')   => 'HostDiskStorer',
+  cd_env_name('runner_class')   => 'DockerTarPipeRunner',
+  cd_env_name('runner_sudo')    => 'sudo -u docker-runner sudo',
+  cd_env_name('runner_timeout') => '10'
 
 }.each { |key, name|
   ENV[key] = name if ENV[key].nil?
