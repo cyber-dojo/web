@@ -37,9 +37,6 @@ web:
     - CYBER_DOJO_RUNNER_CLASS
     - CYBER_DOJO_RUNNER_SUDO
     - CYBER_DOJO_RUNNER_TIMEOUT
-    - CYBER_DOJO_LANGUAGES_ROOT=${CYBER_DOJO_ROOT}/start_points/languages
-    - CYBER_DOJO_EXERCISES_ROOT=${CYBER_DOJO_ROOT}/start_points/exercises
-    - CYBER_DOJO_CUSTOM_ROOT=${CYBER_DOJO_ROOT}/start_points/custom
     - CYBER_DOJO_KATAS_ROOT=${CYBER_DOJO_ROOT}/katas
   ports: [ "3000:3000" ]
   volumes:

@@ -12,7 +12,12 @@ end
   cd_env_name('disk_class')  => 'HostDisk',
   cd_env_name('git_class')   => 'HostGit',
   cd_env_name('log_class')   => 'StdoutLog',
-  cd_env_name('shell_class') => 'HostShell'
+  cd_env_name('shell_class') => 'HostShell',
+
+  cd_env_name('languages_root') => '/usr/src/cyber-dojo/start_points/languages',
+  cd_env_name('exercises_root') => '/usr/src/cyber-dojo/start_points/exercises',
+  cd_env_name('custom_root')    => '/usr/src/cyber-dojo/start_points/custom'
+
 }.each { |key, name|
   ENV[key] = name if ENV[key].nil?
 }
