@@ -16,7 +16,8 @@ end
 
   cd_env_name('languages_root') => '/usr/src/cyber-dojo/start_points/languages',
   cd_env_name('exercises_root') => '/usr/src/cyber-dojo/start_points/exercises',
-  cd_env_name('custom_root')    => '/usr/src/cyber-dojo/start_points/custom'
+  cd_env_name('custom_root')    => '/usr/src/cyber-dojo/start_points/custom',
+  cd_env_name('katas_root')     => '/usr/src/cyber-dojo/katas'
 
 }.each { |key, name|
   ENV[key] = name if ENV[key].nil?

@@ -29,6 +29,12 @@ cyber_dojo_root=/usr/src/cyber-dojo
 default_start_point_languages=languages
 default_start_point_exercises=exercises
 default_start_point_custom=custom
+# start-points are held off CYBER_DOJO_ROOT/start_points/
+# it's important they are not under app so any ruby files they might contain
+# are *not* slurped by the rails web server as it starts!
+export CYBER_DOJO_START_POINT_LANGUAGES=${default_start_point_languages}
+export CYBER_DOJO_START_POINT_EXERCISES=${default_start_point_exercises}
+export CYBER_DOJO_START_POINT_CUSTOM=${default_start_point_custom}
 
 # set environment variables required by docker-compose.yml
 
@@ -37,20 +43,13 @@ export CYBER_DOJO_WEB_CONTAINER=cyber-dojo-web
 
 export CYBER_DOJO_KATAS_DATA_CONTAINER=cyber-dojo-katas-DATA-CONTAINER
 
-export CYBER_DOJO_STORER_CLASS=${CYBER_DOJO_KATAS_CLASS:=HostDiskStorer}
+export CYBER_DOJO_STORER_CLASS=${CYBER_DOJO_STORER_CLASS:=HostDiskStorer}
 
 export CYBER_DOJO_RUNNER_CLASS=${CYBER_DOJO_RUNNER_CLASS:=DockerTarPipeRunner}
 export CYBER_DOJO_RUNNER_SUDO='sudo -u docker-runner sudo'
 export CYBER_DOJO_RUNNER_TIMEOUT=${CYBER_DOJO_RUNNER_TIMEOUT:=10}
 
-# start-points are held off CYBER_DOJO_ROOT/start_points/
-# it's important they are not under app so any ruby files they might contain
-# are *not* slurped by the rails web server as it starts!
 export CYBER_DOJO_ROOT=${cyber_dojo_root}
-
-export CYBER_DOJO_START_POINT_LANGUAGES=${default_start_point_languages}
-export CYBER_DOJO_START_POINT_EXERCISES=${default_start_point_exercises}
-export CYBER_DOJO_START_POINT_CUSTOM=${default_start_point_custom}
 
 export CYBER_DOJO_RAILS_ENVIRONMENT=production
 
