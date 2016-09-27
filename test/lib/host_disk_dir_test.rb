@@ -17,6 +17,7 @@ class HostDiskDirTest < LibTestBase
   end
 
   def path
+    # TODO: this could incorporate @test_id
     tmp_root + '/' + 'host_disk_dir_tests'
   end
 

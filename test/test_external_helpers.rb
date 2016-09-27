@@ -8,14 +8,6 @@ module TestExternalHelpers # mix-in
     @setup_called = true
     @config = {}
     ENV.each { |key, value| @config[key] = value }
-    # Ensure remains of previous test interfere with this one.
-    # Would be better if test_id (from test_hex_id_helpers.rb) was
-    # available here and I set katas_root to
-    #   /tmp/cyber-dojo/#{test_id}/katas
-    # and the created that dir.
-    # Do I need to rm it? Is /tmp state ephemeral?
-    set_katas_root('/tmp/cyber-dojo/katas')
-    `rm -rf #{get_katas_root} && mkdir -p #{get_katas_root}`
   end
 
   def teardown
@@ -84,7 +76,7 @@ module TestExternalHelpers # mix-in
   def set_root(key, value)
     fail_if_setup_not_called("set_root(#{key}, #{value})")
     ENV[dojo.env_name(key + '_root')] = value
-    `mkdir -p #{value}`
+    #`mkdir -p #{value}`
   end
 
   def set_class(key, value)

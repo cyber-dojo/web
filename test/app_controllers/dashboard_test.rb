@@ -4,7 +4,7 @@ require_relative './app_controller_test_base'
 
 class DashboardControllerTest < AppControllerTestBase
 
-  def setup
+  def setup_id(_hex)
     super
     create_kata
   end

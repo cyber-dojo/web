@@ -20,7 +20,9 @@
 
 module TestHexIdHelpers # mix-in
 
-  def setup_id(_hex)
+  def setup_id(hex)
+    katas_root = "/tmp/cyber-dojo/#{hex}/katas"
+    set_katas_root(katas_root)
   end
 
   def teardown_id(_hex)

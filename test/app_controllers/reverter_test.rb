@@ -4,7 +4,7 @@ require_relative './app_controller_test_base'
 
 class ReverterControllerTest  < AppControllerTestBase
 
-  def setup
+  def setup_id(_hex)
     super
     @id = create_kata('Java, JUnit')
     @avatar = start
