@@ -24,9 +24,7 @@ end
   cd_env_name('katas_root')     => "#{cd_root}/katas",
 
   cd_env_name('storer_class')   => 'HostDiskStorer',
-  cd_env_name('runner_class')   => 'DockerTarPipeRunner',
-  cd_env_name('runner_sudo')    => 'sudo -u docker-runner sudo',
-  cd_env_name('runner_timeout') => '10'
+  cd_env_name('runner_class')   => 'DockerTarPipeRunner'
 
 }.each { |key, name|
   ENV[key] = name if ENV[key].nil?

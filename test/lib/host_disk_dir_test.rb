@@ -253,10 +253,10 @@ class HostDiskDirTest < LibTestBase
 
   test '7CA54E',
   'disk[path].each_file' do
-    disk[path + 'a'].make
-    disk[path + 'a'].write('c.txt', 'content')
-    disk[path + 'a'].write('d.txt', 'content')
-    assert_equal ['c.txt','d.txt'], disk[path+'a'].each_file.entries.sort
+    disk[path + '/' + 'a'].make
+    disk[path + '/' + 'a'].write('c.txt', 'content')
+    disk[path + '/' + 'a'].write('d.txt', 'content')
+    assert_equal ['c.txt','d.txt'], disk[path + '/' + 'a'].each_file.entries.sort
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -265,8 +265,8 @@ class HostDiskDirTest < LibTestBase
   'disk[path].each_file does not give dirs' do
     disk[path].make
     disk[path].write('beta.txt', 'content')
-    disk[path + 'alpha'].make
-    disk[path + 'alpha'].write('a.txt', 'a')
+    disk[path + '/' + 'alpha'].make
+    disk[path + '/' + 'alpha'].write('a.txt', 'a')
     assert_equal ['beta.txt'], disk[path].each_file.entries
   end
 
@@ -274,11 +274,11 @@ class HostDiskDirTest < LibTestBase
 
   test 'F569F8',
   'disk[path].each_file.select' do
-    disk[path + 'a'].make
-    disk[path + 'a'].write('b.cpp', 'content')
-    disk[path + 'a'].write('c.txt', 'content')
-    disk[path + 'a'].write('d.txt', 'content')
-    matches = disk[path+'a'].each_file.select do |filename|
+    disk[path + '/' + 'a'].make
+    disk[path + '/' + 'a'].write('b.cpp', 'content')
+    disk[path + '/' + 'a'].write('c.txt', 'content')
+    disk[path + '/' + 'a'].write('d.txt', 'content')
+    matches = disk[path + '/' + 'a'].each_file.select do |filename|
       filename.end_with?('.txt')
     end
     assert_equal ['c.txt','d.txt'], matches.sort

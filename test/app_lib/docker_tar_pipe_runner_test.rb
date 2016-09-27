@@ -70,7 +70,6 @@ class DockerTarPipeRunnerTest < AppLibTestBase
   'when run() times out',
   'then output is replaced by unable-to-complete message' do
     output = mock_run('ach-so-it-timed-out', times_out)
-    max_seconds = dojo.env('runner_timeout')
     expected = "Unable to complete the tests in #{max_seconds} seconds."
     assert output.start_with?(expected), output
   end
@@ -98,7 +97,7 @@ class DockerTarPipeRunnerTest < AppLibTestBase
     args = [
       storer.sandbox_path(kata.id, 'lion'),
       kata.image_name,
-      dojo.env('runner_timeout'),
+      max_seconds,
       quoted(sudo)
     ].join(space = ' ')
 
@@ -124,7 +123,8 @@ class DockerTarPipeRunnerTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - -
 
-  def sudo; dojo.env('runner_sudo'); end
+  def sudo; 'sudo -u docker-runner sudo'; end
+  def max_seconds; 10; end
   def sudo_docker_images; [sudo, 'docker', 'images'].join(space).strip; end
   def quoted(s); "'" + s + "'"; end
   def space; ' '; end

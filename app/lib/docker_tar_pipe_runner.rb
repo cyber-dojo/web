@@ -46,7 +46,7 @@ class DockerTarPipeRunner
   end
 
   def max_seconds
-    parent.env('runner_timeout')
+    10
   end
 
   private
@@ -74,7 +74,7 @@ class DockerTarPipeRunner
 
   def sudo
     # See sudo comments in docker/web/Dockerfile
-    parent.env('runner_sudo')
+    'sudo -u docker-runner sudo'
   end
 
 end
