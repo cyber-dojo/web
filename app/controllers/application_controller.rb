@@ -9,17 +9,14 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery
 
-  def dojo; @dojo ||= Dojo.new; end
+  include Externals
+
+  def dojo; @dojo ||= Dojo.new(self); end
 
   def languages; dojo.languages; end
   def exercises; dojo.exercises; end
   def custom;    dojo.custom;    end
-
-  def katas; dojo.katas; end
-
-  def differ; dojo.differ; end
-  def runner; dojo.runner; end
-  def storer; dojo.storer; end
+  def katas;     dojo.katas;     end
 
   def id         ; params[:id     ]; end
   def avatar_name; params[:avatar ]; end

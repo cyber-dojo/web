@@ -11,7 +11,7 @@ class Exercises
   attr_reader :parent
 
   def path
-    @path ||= parent.env(@key)
+    @path ||= parent.parent.env_value(@key) # HACK
   end
 
   def each(&block)

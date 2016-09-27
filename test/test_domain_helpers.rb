@@ -3,21 +3,12 @@ module TestDomainHelpers # mix-in
 
   module_function
 
-  def dojo; @dojo ||= Dojo.new; end
+  def dojo; @dojo ||= Dojo.new(self); end
 
   def custom;    dojo.custom;    end
   def languages; dojo.languages; end
   def exercises; dojo.exercises; end
   def katas;     dojo.katas;     end
-
-  def differ; dojo.differ; end
-  def runner; dojo.runner; end
-  def storer; dojo.storer; end
-
-  def shell; dojo.shell; end
-  def disk;  dojo.disk;  end
-  def log;   dojo.log;   end
-  def git;   dojo.git;   end
 
   def make_kata(hash = {})
     hash[:id] ||= unique_id

@@ -64,33 +64,33 @@ module TestExternalHelpers # mix-in
   def unset(var); ENV.delete(var); end
 
   def unset_root(name)
-    unset(dojo.env_name(name + '_root'))
+    unset(cd_env_name(name + '_root'))
   end
 
   def unset_class(name)
-    unset(dojo.env_name(name + '_class'))
+    unset(cd_env_name(name + '_class'))
   end
 
   # - - - - - - - - - - - - - - - - - - -
 
   def set_root(key, value)
     fail_if_setup_not_called("set_root(#{key}, #{value})")
-    ENV[dojo.env_name(key + '_root')] = value
+    ENV[cd_env_name(key + '_root')] = value
   end
 
   def set_class(key, value)
     fail_if_setup_not_called("set_class(#{key}, #{value})")
-    ENV[dojo.env_name(key + '_class')] = value
+    ENV[cd_env_name(key + '_class')] = value
   end
 
   # - - - - - - - - - - - - - - - - - - -
 
   def get_root(name)
-    dojo.env(name + '_root')
+    cd_env_name(name + '_root')
   end
 
   def get_class(name)
-    dojo.env(name + '_class')
+    cd_env_name(name + '_class')
   end
 
   def fail_if_setup_not_called(method)

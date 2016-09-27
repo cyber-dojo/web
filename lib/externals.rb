@@ -48,7 +48,7 @@ module Externals # mix-in
     cd_env_name(suffix)
   end
 
-  def env(suffix)
+  def env_value(suffix)
     name = env_name(suffix)
     unslashed(ENV[name] || fail("ENV[#{name}] not set"))
   end
@@ -57,7 +57,7 @@ module Externals # mix-in
 
   def external
     key = name_of(caller)
-    var = env(key + '_class')
+    var = env_value(key + '_class')
     Object.const_get(var).new(self)
   end
 

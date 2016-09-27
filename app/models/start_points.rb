@@ -2,8 +2,8 @@
 class StartPoints
   include Enumerable
 
-  def initialize(dojo, key)
-    @parent = dojo
+  def initialize(parent, key)
+    @parent = parent
     @key = key
     disk[cache_path].write_json_once(cache_filename) { make_cache }
   end
@@ -11,7 +11,7 @@ class StartPoints
   attr_reader :parent
 
   def path
-    @path ||= parent.env(@key)
+    @path ||= parent.parent.env_value(@key) # HACK
   end
 
   def each(&block)

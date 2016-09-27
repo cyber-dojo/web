@@ -7,13 +7,14 @@ require_relative './params_maker'
 
 class AppControllerTestBase < ActionDispatch::IntegrationTest
 
+  include Externals
   include TestDomainHelpers
   include TestExternalHelpers
   include TestHexIdHelpers
 
   def setup
-    @dojo = Dojo.new
     super
+    @dojo = Dojo.new(self)
     set_runner_class('StubRunner')
     path_inside_container = '/usr/src/cyber-dojo'
     `rm -f #{path_inside_container}/caches/*.json`

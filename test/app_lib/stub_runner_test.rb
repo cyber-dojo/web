@@ -20,7 +20,7 @@ class StubRunnerTest < AppLibTestBase
   test '6DFD81',
   'parent is ctor parameter' do
     assert_equal "StubRunner", runner.class.name
-    assert_equal dojo, runner.parent
+    assert_equal self, runner.parent
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
