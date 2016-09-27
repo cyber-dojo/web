@@ -4,8 +4,12 @@ require_relative './lib_test_base'
 
 class MockHostShellTest < LibTestBase
 
+  def setup_id(hex)
+    @test_id = hex
+  end
+
   def setup_mock_shell
-    ENV['CYBER_DOJO_TEST_ID'] = test_id
+    ENV['CYBER_DOJO_TEST_ID'] = @test_id
     set_shell_class('MockHostShell')
   end
 
@@ -21,7 +25,7 @@ class MockHostShellTest < LibTestBase
     setup_mock_shell
     shell_1 = MockHostShell.new(nil)
     shell_1.mock_exec(pwd, wd, success)
-    shell_2 = MockHostShell.new(test_id)
+    shell_2 = MockHostShell.new(@test_id)
     output,exit_status = shell_2.exec('pwd')
     assert_equal wd, output
     assert_equal success, exit_status
@@ -34,7 +38,7 @@ class MockHostShellTest < LibTestBase
 
   test '4A5F79',
   'teardown does not raise if no mocks are setup and no calls are made' do
-    assert_equal '4A5F79', test_id
+    assert_equal '4A5F79', @test_id
     setup_mock_shell
     shell.teardown
   end

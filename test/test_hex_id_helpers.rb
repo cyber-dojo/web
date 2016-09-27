@@ -20,6 +20,14 @@
 
 module TestHexIdHelpers # mix-in
 
+  def setup_id(_hex)
+  end
+
+  def teardown_id(_hex)
+  end
+
+  # - - - - - - - - - - - - - - - -
+
   def self.included(base)
     base.extend(ClassMethods)
   end
@@ -50,9 +58,9 @@ module TestHexIdHelpers # mix-in
         name = lines.join(' ')
         # make test_id attribute available inside defined method
         block_with_test_id = lambda {
-          self.instance_eval { class << self; self end }.send(:attr_accessor, 'test_id')
-          self.test_id = id
+          self.setup_id(id)
           self.instance_eval &block
+          self.teardown_id(id)
         }
         define_method("test_'#{id}',\n #{name}\n".to_sym, &block_with_test_id)
       end

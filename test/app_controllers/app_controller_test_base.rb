@@ -17,13 +17,6 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     set_runner_class('StubRunner')
     path_inside_container = '/usr/src/cyber-dojo'
     `rm -f #{path_inside_container}/caches/*.json`
-    path_locally = "#{File.dirname(__FILE__)}/../.."
-    `rm -f #{path_locally}/caches/*.json`
-  end
-
-  def setup_mock_shell
-    ENV['CYBER_DOJO_TEST_ID'] = test_id
-    set_shell_class('MockHostShell')
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
