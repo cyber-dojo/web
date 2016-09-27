@@ -7,6 +7,8 @@ class HostDiskDirTest < LibTestBase
   def setup
     super
     assert_equal 'HostDisk', disk.class.name
+    # Ensure remains of previous test don't interfere with this one
+    `rm -rf #{path}`
     dir.make
   end
 
@@ -21,7 +23,7 @@ class HostDiskDirTest < LibTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '76AEEB',
-  'parent is set correctly' do
+  "dir's parent is set to disk" do
     assert_equal disk, disk['ABC'].parent
   end
 

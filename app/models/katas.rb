@@ -11,7 +11,7 @@ class Katas
   attr_reader :parent
 
   def each
-    (0..255).map{|n| '%02X' % n}.each do |outer|
+    (0..255).map{ |n| '%02X' % n }.each do |outer|
       storer.ids_for(outer).each do |inner|
         yield Kata.new(self, outer + inner)
       end

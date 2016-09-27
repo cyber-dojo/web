@@ -8,9 +8,14 @@ module TestExternalHelpers # mix-in
     @setup_called = true
     @config = {}
     ENV.each { |key, value| @config[key] = value }
-    unless storer.kata_path('123456789A').start_with?('/tmp/')
-      fail "test ABANDONED because CYBER_DOJO_KATAS_ROOT not set to /tmp/..."
-    end
+    # Ensure remains of previous test interfere with this one.
+    # Would be better if test_id (from test_hex_id_helpers.rb) was
+    # available here and I set katas_root to
+    #   /tmp/cyber-dojo/#{test_id}/katas
+    # and the created that dir.
+    # Do I need to rm it? Is /tmp state ephemeral?
+    set_katas_root('/tmp/cyber-dojo/katas')
+    `rm -rf #{get_katas_root} && mkdir -p #{get_katas_root}`
   end
 
   def teardown
@@ -99,6 +104,12 @@ module TestExternalHelpers # mix-in
 
   def fail_if_setup_not_called(method)
     fail "#{method} NOT executed because setup() not yet called" if @setup_called.nil?
+  end
+
+  # - - - - - - - - - - - - - - - - - - -
+
+  def tmp_root
+    '/tmp/cyber-dojo'
   end
 
 end

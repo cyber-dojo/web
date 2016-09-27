@@ -23,7 +23,7 @@ done
 # ensure caches dir exists
 home_dir="$( cd "$( dirname "${0}" )/.." && pwd )"
 mkdir -p ${home_dir}/caches
-katas_root=/tmp/cyber-dojo
+katas_root=/tmp/cyber-dojo/katas
 mkdir -p ${katas_root}
 
 # don't log to stdout
