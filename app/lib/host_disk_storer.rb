@@ -38,8 +38,8 @@ class HostDiskStorer
   end
 
   def ids_for(outer_dir)
-    ids = []
     return [] unless disk[path + '/' + outer_dir].exists?
+    ids = []
     disk[path + '/' + outer_dir].each_dir do |inner_dir|
       ids << inner_dir
     end

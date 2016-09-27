@@ -14,6 +14,8 @@ class Dojo
 
   def katas; @katas ||= Katas.new(self); end
 
+  private
+
   include ExternalParentChainer
 
 end
