@@ -1,9 +1,12 @@
 
 require 'net/http'
 
-module GitDiffService # mix-in
+class GitDiffService
 
-  def avatar_git_diff(avatar, was_tag, now_tag)
+  def initialize(_parent)
+  end
+
+  def diff(avatar, was_tag, now_tag)
     uri = URI.parse('http://differ:4567')
     http = Net::HTTP.new(uri.host, uri.port)
     request = Net::HTTP::Get.new(uri.request_uri)

@@ -30,7 +30,8 @@ class TipTest < AppHelpersTestBase
       "<span class='#{now_tag_colour}'>#{now_tag}</span> diff" +
       "<div>1 added line</div>" +
       "<div>1 deleted line</div>"
-    actual = traffic_light_tip_html(lion, was_tag, now_tag)
+    diff = differ.diff(lion, was_tag, now_tag)
+    actual = traffic_light_tip_html(diff, lion, was_tag, now_tag)
     assert_equal expected, actual
   end
 

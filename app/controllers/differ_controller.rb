@@ -3,7 +3,7 @@ class DifferController < ApplicationController
 
   def diff
     @lights = avatar.lights.map(&:to_json)
-    diff = avatar_git_diff(avatar, was_tag, now_tag)
+    diff = differ.diff(avatar, was_tag, now_tag)
     view = git_diff_view(diff)
     render json: {
                          id: kata.id,
@@ -21,7 +21,6 @@ class DifferController < ApplicationController
 
   private
 
-  include GitDiffService
   include GitDiffView
   include RingPicker
   include ReviewFilePicker

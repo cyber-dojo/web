@@ -16,11 +16,12 @@ class ApplicationController < ActionController::Base
   def custom;    dojo.custom;    end
 
   def katas; dojo.katas; end
+  def differ; dojo.differ; end
 
   def id         ; params[:id     ]; end
   def avatar_name; params[:avatar ]; end
-  def was_tag    ; params[:was_tag]; end
-  def now_tag    ; params[:now_tag]; end
+  def was_tag    ; params[:was_tag].to_i; end
+  def now_tag    ; params[:now_tag].to_i; end
 
   def kata       ; katas[id]           ; end
   def avatars    ; kata.avatars        ; end

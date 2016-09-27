@@ -1,11 +1,7 @@
 
-require_relative './../lib/git_diff_service'
-
 module TipHelper # mix-in
 
-  include GitDiffService
-
-  def traffic_light_tip_html(avatar, was_tag, now_tag)
+  def traffic_light_tip_html(diff, avatar, was_tag, now_tag)
     was_tag = was_tag.to_i
     now_tag = now_tag.to_i
     lights = avatar.lights
@@ -19,7 +15,6 @@ module TipHelper # mix-in
     tip += light_colour_tag(lights, now_tag)   # 14
     tip += ' '
     tip += 'diff'
-    diff = avatar_git_diff(avatar, was_tag, now_tag)
     added_count, deleted_count = line_counts(diff)
     tip += "<div>#{plural(added_count, 'added line')}</div>"
     tip += "<div>#{plural(deleted_count, 'deleted line')}</div>"
