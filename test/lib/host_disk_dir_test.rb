@@ -4,11 +4,10 @@ require_relative './lib_test_base'
 
 class HostDiskDirTest < LibTestBase
 
-  def setup
+  def setup_id(hex)
     super
     assert_equal 'HostDisk', disk.class.name
-    # Ensure remains of previous test don't interfere with this one
-    `rm -rf #{path}`
+    @test_id = hex
     dir.make
   end
 
@@ -17,8 +16,7 @@ class HostDiskDirTest < LibTestBase
   end
 
   def path
-    # TODO: this could incorporate @test_id
-    tmp_root + '/' + 'host_disk_dir_tests'
+    tmp_root + '/' + 'host_disk_dir_tests' + '/' + @test_id
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

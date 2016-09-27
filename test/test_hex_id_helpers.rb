@@ -21,7 +21,7 @@
 module TestHexIdHelpers # mix-in
 
   def setup_id(hex)
-    katas_root = "/tmp/cyber-dojo/#{hex}/katas"
+    katas_root = "#{tmp_root}/#{hex}/katas"
     set_katas_root(katas_root)
   end
 
@@ -68,8 +68,8 @@ module TestHexIdHelpers # mix-in
       end
     end
 
-    # complain about any unfound hex-id args
     ObjectSpace.define_finalizer(self, proc {
+      # complain about any unfound hex-id args
       unseen_arg = lambda { |arg| @@seen_ids.none? { |id| id.include?(arg) } }
       unseen_args = @@args.find_all { |arg| unseen_arg.call(arg) }
       if unseen_args != []
@@ -80,7 +80,6 @@ module TestHexIdHelpers # mix-in
         lines.each { |line| STDERR.puts line }
       end
     })
-
   end
 
 end
