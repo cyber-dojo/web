@@ -3,7 +3,7 @@ cli/cyber-dojo and cli/cyber-dojo.sh are a mess.
 This stems from me not realizing two things...
 
 1. docker-compose.yml and cyber-dojo.sh could be inside a
-   separate docker-image whose job is to handle the cli
+   separate docker-image whose job is to handle the cli (viz commander)
    This means I would not have to repull them after
    updating the web image. I would instead update
    the cli image and then call an 'update' method in
@@ -31,6 +31,11 @@ Aaaaah. Once cli is an image in its own right then the
 volume mounting of DIR will have to happen regardless
 of whether you are using Docker-Toolbox (eg OSX).
 And the volume bypasses all local rights issues.
+
+And commander can have docker-compose installed inside itself
+which means that does not need to be installed on the host!
+
+And commander can create a ram-disk and mount /tmp in it.
 
 ----------------------------------------------------
 
