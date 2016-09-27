@@ -41,6 +41,8 @@ module Externals # mix-in
   def shell; @shell ||= external; end
 
   def differ; @differ ||= external; end
+  def runner; @runner ||= external; end
+  def storer; @storer ||= external; end
 
   def env_name(suffix)
     cd_env_name(suffix)

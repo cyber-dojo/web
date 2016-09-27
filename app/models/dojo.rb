@@ -8,9 +8,6 @@ class Dojo
 
   def     katas; @katas ||= Katas.new(self); end
 
-  def    runner;    @runner ||= external; end
-  def    storer;    @storer ||= external; end
-
   include Externals
 
 end
