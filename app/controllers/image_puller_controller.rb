@@ -2,11 +2,11 @@
 class ImagePullerController < ApplicationController
 
   def pull_needed
-    render json: { needed: !dojo.runner.pulled?(image_name) }
+    render json: { needed: !runner.pulled?(image_name) }
   end
 
   def pull
-    _output, exit_status = dojo.runner.pull(image_name)
+    _output, exit_status = runner.pull(image_name)
     render json: { succeeded: exit_status == 0 }
   end
 

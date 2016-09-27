@@ -16,13 +16,11 @@
 
 class DockerTarPipeRunner
 
-  def initialize(dojo)
-    @dojo = dojo
+  def initialize(parent)
+    @parent = parent
   end
 
-  def parent
-    @dojo
-  end
+  attr_reader :parent
 
   def path
     "#{File.dirname(__FILE__)}/"

@@ -18,8 +18,8 @@ class ApplicationController < ActionController::Base
   def katas; dojo.katas; end
 
   def differ; dojo.differ; end
-  # runner
-  # storer
+  def runner; dojo.runner; end
+  def storer; dojo.storer; end
 
   def id         ; params[:id     ]; end
   def avatar_name; params[:avatar ]; end

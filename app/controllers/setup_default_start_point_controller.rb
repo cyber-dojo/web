@@ -11,7 +11,7 @@ class SetupDefaultStartPointController < ApplicationController
     languages_names = display_names_of(languages)
     index = choose_language(languages_names, dojo.katas[id])
     @start_points = ::DisplayNamesSplitter.new(languages_names, index)
-    @max_seconds = dojo.runner.max_seconds
+    @max_seconds = runner.max_seconds
   end
 
   def show_exercises

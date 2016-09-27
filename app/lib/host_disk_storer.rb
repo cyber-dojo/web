@@ -3,8 +3,8 @@
 
 class HostDiskStorer
 
-  def initialize(dojo)
-    @parent = dojo
+  def initialize(parent)
+    @parent = parent
   end
 
   attr_reader :parent

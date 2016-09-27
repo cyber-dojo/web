@@ -8,13 +8,11 @@ require_relative './unit_test_framework_lookup'
 
 class StubRunner
 
-  def initialize(dojo)
-    @dojo = dojo
+  def initialize(parent)
+    @parent = parent
   end
 
-  def parent
-    @dojo
-  end
+  attr_reader :parent
 
   def pulled?(image_name)
     [
@@ -54,7 +52,7 @@ class StubRunner
   include UnitTestFrameworkLookup
 
   def save_stub(avatar, json)
-    # Better - combine test's hex-id with avater.name in tmp folder
+    # Better - combine test's hex-id with avatar.name in tmp folder
     disk[storer.avatar_path(avatar.kata.id, avatar.name)].write_json(stub_run_filename, json)
   end
 

@@ -10,7 +10,6 @@ module TestDomainHelpers # mix-in
   def exercises; dojo.exercises; end
   def katas;     dojo.katas;     end
 
-
   def differ; dojo.differ; end
   def runner; dojo.runner; end
   def storer; dojo.storer; end
@@ -19,7 +18,6 @@ module TestDomainHelpers # mix-in
   def disk;  dojo.disk;  end
   def log;   dojo.log;   end
   def git;   dojo.git;   end
-
 
   def make_kata(hash = {})
     hash[:id] ||= unique_id
