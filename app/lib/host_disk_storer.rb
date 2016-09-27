@@ -2,7 +2,6 @@
 # See comments at end of file
 
 class HostDiskStorer
-  #include Enumerable
 
   def initialize(dojo)
     @parent = dojo
