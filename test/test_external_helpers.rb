@@ -76,7 +76,6 @@ module TestExternalHelpers # mix-in
   def set_root(key, value)
     fail_if_setup_not_called("set_root(#{key}, #{value})")
     ENV[dojo.env_name(key + '_root')] = value
-    #`mkdir -p #{value}`
   end
 
   def set_class(key, value)
