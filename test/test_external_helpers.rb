@@ -67,33 +67,33 @@ module TestExternalHelpers # mix-in
   def unset(var); ENV.delete(var); end
 
   def unset_root(name)
-    unset(env_name(name + '_root'))
+    unset(env_var.name(name + '_root'))
   end
 
   def unset_class(name)
-    unset(env_name(name + '_class'))
+    unset(env_var.name(name + '_class'))
   end
 
   # - - - - - - - - - - - - - - - - - - -
 
   def set_root(key, value)
     fail_if_setup_not_called("set_root(#{key}, #{value})")
-    ENV[env_name(key + '_root')] = value
+    ENV[env_var.name(key + '_root')] = value
   end
 
   def set_class(key, value)
     fail_if_setup_not_called("set_class(#{key}, #{value})")
-    ENV[env_name(key + '_class')] = value
+    ENV[env_var.name(key + '_class')] = value
   end
 
   # - - - - - - - - - - - - - - - - - - -
 
   def get_root(name)
-    env_name(name + '_root')
+    env_var.name(name + '_root')
   end
 
   def get_class(name)
-    env_name(name + '_class')
+    env_var.name(name + '_class')
   end
 
   def fail_if_setup_not_called(method)

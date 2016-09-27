@@ -11,7 +11,7 @@ class StartPoints
   attr_reader :parent
 
   def path
-    @path ||= parent.parent.env_value(@key) # HACK
+    @path ||= env_var.value(@key)
   end
 
   def each(&block)

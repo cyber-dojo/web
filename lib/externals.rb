@@ -33,6 +33,25 @@ end
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
 
+class EnvVar
+
+  def name(suffix)
+    cd_env_name(suffix)
+  end
+
+  def value(suffix)
+    key = name(suffix)
+    unslashed(ENV[key] || fail("ENV[#{key}] not set"))
+  end
+
+  private
+
+  include Unslashed
+
+end
+
+# - - - - - - - - - - - - - - - - - - - - - - - -
+
 module Externals # mix-in
 
   def disk ; @disk  ||= external; end
@@ -44,25 +63,17 @@ module Externals # mix-in
   def runner; @runner ||= external; end
   def storer; @storer ||= external; end
 
-  def env_name(suffix)
-    cd_env_name(suffix)
-  end
-
-  def env_value(suffix)
-    name = env_name(suffix)
-    unslashed(ENV[name] || fail("ENV[#{name}] not set"))
-  end
+  def env_var; @env_var ||= EnvVar.new; end
 
   private
 
   def external
     key = name_of(caller)
-    var = env_value(key + '_class')
+    var = env_var.value(key + '_class')
     Object.const_get(var).new(self)
   end
 
   include NameOfCaller
-  include Unslashed
 
 end
 

@@ -10,7 +10,7 @@ class HostDiskStorer
   attr_reader :parent
 
   def path
-    @path ||= parent.env_value('katas_root') # HACK
+    @path ||= env_var.value('katas_root')
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -

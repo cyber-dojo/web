@@ -89,7 +89,7 @@ class DojoTest < AppModelsTestBase
 
   test 'FB7F2D',
   'storer.path is set off /tmp by test setup because tests write to katas' do
-    test_set_path = env_value('katas_root')
+    test_set_path = env_var.value('katas_root')
     assert test_set_path.start_with?('/tmp'), test_set_path
     assert storer.path.start_with?('/tmp'), storer.path
   end
