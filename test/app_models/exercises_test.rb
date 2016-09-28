@@ -25,7 +25,7 @@ class ExercisesTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '2DD327',
-  '[name] is nil if name is not an existing exercise' do
+  '[name] is nil when name is not an existing exercise' do
     assert_nil exercises['wibble_XXX']
   end
 

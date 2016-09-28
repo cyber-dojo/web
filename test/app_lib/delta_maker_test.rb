@@ -18,7 +18,7 @@ class DeltaMakerTest < AppLibTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'A63CD3',
-  'new_file(filename) raises RuntimeError if filename not new' do
+  'new_file(filename) raises RuntimeError when filename not new' do
     assert_raises(RuntimeError) { @maker.new_file(@existing_filename, '') }
   end
 
@@ -33,14 +33,14 @@ class DeltaMakerTest < AppLibTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'E9D907',
-  'change_file(filename) raises RuntimeError if filename new' do
+  'change_file(filename) raises RuntimeError when filename new' do
     assert_raises(RuntimeError) { @maker.change_file(@new_filename, '') }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '507D76',
-  'change_file(filename) raises RuntimeError if content unchanged' do
+  'change_file(filename) raises RuntimeError when content unchanged' do
     content = @maker.now[@existing_filename]
     assert_raises(RuntimeError) { @maker.change_file(@existing_filename, content) }
   end
@@ -48,7 +48,7 @@ class DeltaMakerTest < AppLibTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'F7F137',
-  'delete_file(filename) raises RuntimeError if filename new' do
+  'delete_file(filename) raises RuntimeError when filename new' do
     assert_raises(RuntimeError) { @maker.delete_file(@new_filename) }
   end
 
@@ -63,7 +63,7 @@ class DeltaMakerTest < AppLibTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '6385D8',
-  'new_file(filename) succeeds if filename is new',
+  'new_file(filename) succeeds when filename is new',
   ', adds filename to visible_files',
   ', delta[:new] includes filename' do
     content = 'Snaeda'
@@ -77,7 +77,7 @@ class DeltaMakerTest < AppLibTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'AE99D7',
-  'change_file(filename) succeeds if filename is not new and content is new',
+  'change_file(filename) succeeds when filename is not new and content is new',
   ", updates filename's content in visible_files",
   ', delta[:changed] includes filename' do
     new_content = 'Snaeda'
@@ -91,7 +91,7 @@ class DeltaMakerTest < AppLibTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '439B76',
-  'delete_file(filename) succeeds if filename is not new',
+  'delete_file(filename) succeeds when filename is not new',
   ', removes filename from visible_files',
   ', delta[:deleted] includes filename' do
     @maker.delete_file(@existing_filename)

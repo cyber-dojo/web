@@ -43,7 +43,7 @@ class LanguagesTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - -
 
   test 'B1A327',
-  'languages[name] is nil if name is not an existing language' do
+  'languages[name] is nil when name is not an existing language' do
     assert_nil languages['wibble_XXX']
   end
 

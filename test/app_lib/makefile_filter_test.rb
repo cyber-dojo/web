@@ -7,7 +7,7 @@ class MakefileFilterTest < AppLibTestBase
   include MakefileFilter
 
   test 'C88333',
-  "not makefile leaves leading whitespace untouched" do
+  'not makefile leaves leading whitespace untouched' do
     check('notMakefile', "            abc", "            abc")
     check('notMakefile', "        abc", "        abc")
     check('notMakefile', "    abc", "    abc")
@@ -17,7 +17,7 @@ class MakefileFilterTest < AppLibTestBase
   #- - - - - - - - - - - - - - - -
 
   test '19B19D',
-  "makefile converts all leading whitespace on a line to a single tab" do
+  'makefile converts all leading whitespace on a line to a single tab' do
     check('makefile', "            abc", "\tabc")
     check('makefile', "        abc", "\tabc")
     check('makefile', "    abc", "\tabc")
@@ -27,7 +27,7 @@ class MakefileFilterTest < AppLibTestBase
   #- - - - - - - - - - - - - - - -
 
   test '0AE03C',
-  "Makefile converts all leading whitespace on a line to a single tab" do
+  'Makefile converts all leading whitespace on a line to a single tab' do
     check('Makefile', "            abc", "\tabc")
     check('Makefile', "        abc", "\tabc")
     check('Makefile', "    abc", "\tabc")
@@ -37,7 +37,7 @@ class MakefileFilterTest < AppLibTestBase
   #- - - - - - - - - - - - - - - -
 
   test '0A602B',
-  "makefile converts all leading whitespace to single tab for all lines in any line format" do
+  'makefile converts all leading whitespace to single tab for all lines in any line format' do
     check('makefile', "123\n456", "123\n456")
     check('makefile', "123\r\n456", "123\n456")
 

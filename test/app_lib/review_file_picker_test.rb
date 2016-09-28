@@ -15,7 +15,7 @@ class ReviewFilePickerTest < AppLibTestBase
 
   test '104D78',
   'when current_filename has diffs it is chosen',
-  'even if another file has more changed lines' do
+  'even when another file has more changed lines' do
     @current_filename = 'def'
     @diffs = [ ] <<
       diff('abc',22,32) <<

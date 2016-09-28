@@ -118,7 +118,7 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '139C43',
-  'start_avatar with specific name succeeds if avatar has not yet started' do
+  'start_avatar with specific name succeeds when avatar has not yet started' do
     @kata = make_kata
     hippo = @kata.start_avatar(['hippo'])
     refute_nil hippo
@@ -129,7 +129,7 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'A653FA',
-  'start_avatar with specific name is nil if avatar has already started' do
+  'start_avatar with specific name is nil when avatar has already started' do
     kata = make_kata
     kata.start_avatar(['hippo'])
     avatar = kata.start_avatar(['hippo'])

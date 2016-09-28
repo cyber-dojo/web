@@ -72,7 +72,7 @@ module TestHexIdHelpers # mix-in
       # complain about any unfound hex-id args
       unseen_arg = lambda { |arg| @@seen_ids.none? { |id| id.include?(arg) } }
       unseen_args = @@args.find_all { |arg| unseen_arg.call(arg) }
-      if unseen_args != []
+      unless unseen_args == []
         message = 'the following test id arguments were *not* found'
         bar = 'X' * message.length
         lines = [ '', bar, message, "#{unseen_args}", bar, '' ]
