@@ -45,6 +45,22 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test 'E77261',
+  'run_tests saves non-visible files back to storer' do
+    set_runner_class('DockerTarPipeRunner')
+    create_gcc_assert_kata
+    @avatar = start
+    run_tests
+    path = storer.sandbox_path(@kata.id, @avatar.name)
+    dir = disk[path]
+    filename = 'hiker.h'
+    assert dir.exists?(filename), filename
+    filename = 'test'
+    assert dir.exists?(filename), filename
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test 'BE87FD',
   'run_tests() saves changed makefile with leading spaces converted to tabs',
   'and these changes are made to the visible_files parameter too',

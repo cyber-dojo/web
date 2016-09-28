@@ -156,14 +156,14 @@ echo "${OUTPUT}"
 # and subdirs. This is so the transfer of files is always 'total' in both
 # directions. That is, from the katas subdir into the test-run-container,
 # and from the test-run-container back into the katas subdir.
-# Eg., See test/app_controllers/kata_test.rb - test 'BE89DC' (line 78)
+# Eg., See test/app_controllers/kata_test.rb - test 'E77261'
 
 ${SUDO} docker exec \
                --user=root \
                --interactive \
                ${CID} \
-               sh -c "cd ${SANDBOX} &&  find . -mindepth 1 -delete && tar -zcf - ." \
-               | (cd ${SRC_DIR} && tar -zxf - .)
+               sh -c "cd ${SANDBOX} && tar -zcf - ." \
+               | (cd ${SRC_DIR} && find . -mindepth 1 -delete && tar -zxf - .)
 
 ${SUDO} docker rm --force ${CID} &> /dev/null
 
