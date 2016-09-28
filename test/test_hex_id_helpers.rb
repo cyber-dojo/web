@@ -41,7 +41,7 @@ module TestHexIdHelpers # mix-in
 
     def test(id, *lines, &block)
       # check hex-id is well-formed
-      diagnostic = "'#{id}',#{lines.join}"
+      diagnostic = "'#{id}',#{lines.join(' ')}"
       hex_chars = '0123456789ABCDEF'
       is_hex_id = id.chars.all? { |ch| hex_chars.include? ch }
       has_empty_line = lines.any? { |line| line.strip == '' }

@@ -26,7 +26,7 @@ class ReviewFilePickerTest < AppLibTestBase
   #------------------------------------------------------------------
 
   test '9EF3C0',
-  'when current_filename has diffs it is chosen if',
+  'when current_filename has diffs it is chosen when',
   'another file has equal number of diffs' do
     @current_filename = 'hiker.h'
     @diffs = [ ] <<
@@ -40,8 +40,8 @@ class ReviewFilePickerTest < AppLibTestBase
   #------------------------------------------------------------------
 
   test '6E524A',
-  'when current_filename has no diffs it is chosen if',
-  'it is still exists and no other file has any diffs' do
+  'when current_filename has no diffs it is chosen when',
+  'it still exists and no other file has any diffs' do
     @current_filename = 'wibble.cs'
     @diffs = [ ] <<
       diff('abc',0,0) <<
@@ -52,7 +52,7 @@ class ReviewFilePickerTest < AppLibTestBase
   #------------------------------------------------------------------
 
   test 'E45291',
-  'when current_filename has no diffs it is still chosen if',
+  'when current_filename has no diffs it is still chosen when',
   'only other file with diffs is output' do
     @current_filename = 'fubar.cpp'
     @diffs = [ ] <<
