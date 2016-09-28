@@ -17,7 +17,7 @@ class ReviewFilePickerTest < AppLibTestBase
   'when current_filename has diffs it is chosen',
   'even when another file has more changed lines' do
     @current_filename = 'def'
-    @diffs = [ ] <<
+    @diffs = [] <<
       diff('abc',22,32) <<
       (@picked=diff(@current_filename,3,1))
     assert_picked
@@ -29,7 +29,7 @@ class ReviewFilePickerTest < AppLibTestBase
   'when current_filename has diffs it is chosen when',
   'another file has equal number of diffs' do
     @current_filename = 'hiker.h'
-    @diffs = [ ] <<
+    @diffs = [] <<
       diff('cyber-dojo.sh',0,0) <<
       diff('hiker.c',1,1) <<
       (@picked=diff(@current_filename,1,1)) <<
@@ -43,7 +43,7 @@ class ReviewFilePickerTest < AppLibTestBase
   'when current_filename has no diffs it is chosen when',
   'it still exists and no other file has any diffs' do
     @current_filename = 'wibble.cs'
-    @diffs = [ ] <<
+    @diffs = [] <<
       diff('abc',0,0) <<
       (@picked=diff(@current_filename,0,0))
     assert_picked
@@ -55,7 +55,7 @@ class ReviewFilePickerTest < AppLibTestBase
   'when current_filename has no diffs it is still chosen when',
   'only other file with diffs is output' do
     @current_filename = 'fubar.cpp'
-    @diffs = [ ] <<
+    @diffs = [] <<
       diff('output',2,4) <<
       (@picked=diff(@current_filename,0,0))
     assert_picked
@@ -67,7 +67,7 @@ class ReviewFilePickerTest < AppLibTestBase
   'when current_filename has no diffs and another non-output file',
   'has diffs the current_filename is not chosen' do
     @current_filename = 'def'
-    @diffs = [ ] <<
+    @diffs = [] <<
       (@picked=diff('not-output',2,4)) <<
       diff(@current_filename,0,0)
     assert_picked
@@ -79,7 +79,7 @@ class ReviewFilePickerTest < AppLibTestBase
   'when current_filename is not present and a non output file',
   'has diffs then the one with the most diffs is chosen' do
     @current_filename = 'not-present'
-    @diffs = [ ] <<
+    @diffs = [] <<
       diff('output',9,8) <<
       diff('wibble.h',2,4) <<
       diff('wibble.c',0,0) <<
@@ -95,7 +95,7 @@ class ReviewFilePickerTest < AppLibTestBase
     @current_filename = nil
     non_code_filenames = [ 'instructions','makefile','cyber-dojo.sh' ]
     non_code_filenames.each do |filename|
-      @diffs = [ ] <<
+      @diffs = [] <<
         diff('output',6,8,'13453453534535345345') <<
         diff(filename,0,0,'bigger-but-not-codefile') <<
         (@picked=diff('wibble.c',0,0,'smaller'))
@@ -109,7 +109,7 @@ class ReviewFilePickerTest < AppLibTestBase
   'when current_filename is not present and no non-output file',
   'has diffs and no code files then pick cyber-dojo.sh' do
     @current_filename = nil
-    @diffs = [ ] <<
+    @diffs = [] <<
       diff('output',6,8,'13453453534535345345') <<
       (@picked = diff('cyber-dojo.sh',0,0,'145345'))
     assert_picked
@@ -119,7 +119,7 @@ class ReviewFilePickerTest < AppLibTestBase
 
   private
 
-  def diff(filename,dc,ac,content='')
+  def diff(filename, dc, ac, content = '')
     @n += 1
     {
       :filename => filename,
