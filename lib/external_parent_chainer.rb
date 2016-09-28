@@ -2,10 +2,10 @@
 module ExternalParentChainer # mix-in
 
   def method_missing(command, *args)
+    raise "not-expecting-arguments #{args}" unless args == []
     current = self
     loop { current = current.parent }
   rescue NoMethodError
-    raise "not-expecting-arguments #{args}" if args != []
     current.send(command, *args)
   end
 
