@@ -1,11 +1,4 @@
 
-# Thought. Make a variation of this that is more explicit.
-# def disk
-#    ancestors(disk)
-# end
-# And ancestor() does not use method_missing, it uses the parent
-# links to look for the closest parent holding a disk.
-
 module ExternalParentChainer # mix-in
 
   def method_missing(command, *args)

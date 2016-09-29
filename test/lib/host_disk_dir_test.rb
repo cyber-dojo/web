@@ -21,13 +21,6 @@ class HostDiskDirTest < LibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '76AEEB',
-  "dir's parent is set to disk" do
-    assert_equal disk, disk['ABC'].parent
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test '437EB1',
   'disk[...].path always ends in /' do
     assert_equal 'ABC/', disk['ABC'].path

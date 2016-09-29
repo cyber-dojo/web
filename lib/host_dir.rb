@@ -10,10 +10,6 @@ class HostDir
 
   attr_reader :path
 
-  def parent
-    @disk
-  end
-
   def each_rdir(filename)
      Dir.glob(path + '**/' + filename).each do |entry|
        yield File.dirname(entry)
@@ -24,7 +20,7 @@ class HostDir
     return enum_for(:each_dir) unless block_given?
     Dir.entries(path).each do |entry|
       pathed = path + entry
-      yield entry if @disk.dir?(pathed) && !dot?(pathed)
+      yield entry if disk.dir?(pathed) && !dot?(pathed)
     end
   end
 
@@ -32,7 +28,7 @@ class HostDir
     return enum_for(:each_file) unless block_given?
     Dir.entries(path).each do |entry|
       pathed = path + entry
-      yield entry unless @disk.dir?(pathed)
+      yield entry unless disk.dir?(pathed)
     end
   end
 
@@ -83,8 +79,9 @@ class HostDir
 
   private
 
-  include ExternalParentChainer
   include StringCleaner
+
+  attr_reader :disk
 
   def dot?(name)
     name.end_with?('/.') || name.end_with?('/..')

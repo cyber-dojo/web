@@ -1,8 +1,7 @@
 
 class HostDisk
 
-  def initialize(dojo)
-    @parent = dojo
+  def initialize(_parent)
   end
 
   attr_reader :parent
@@ -14,9 +13,5 @@ class HostDisk
   def [](name)
     HostDir.new(self, name)
   end
-
-  private
-
-  include ExternalParentChainer
 
 end
