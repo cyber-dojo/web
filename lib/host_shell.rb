@@ -1,15 +1,13 @@
 
 class HostShell
 
-  def initialize(dojo)
-    @dojo = dojo
+  def initialize(parent)
+    @parent = parent
   end
 
   # queries
 
-  def parent
-    @dojo
-  end
+  attr_reader :parent
 
   def success
     0
@@ -36,7 +34,11 @@ class HostShell
 
   private
 
-  include ExternalParentChainer
+  include NearestAncestors
   include StringCleaner
+
+  def log
+    nearest_ancestors(:log)
+  end
 
 end
