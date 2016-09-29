@@ -26,7 +26,7 @@ class StartPoints
 
   private
 
-  include ExternalParentChainer
+  include NearestAncestors
   include StartPointsRename
 
   def all
@@ -57,5 +57,8 @@ class StartPoints
   def commad(name)
     name.split('-', 2).join(', ')
   end
+
+  def env_var; nearest_ancestors(:env_var); end
+  def disk; nearest_ancestors(:disk); end
 
 end

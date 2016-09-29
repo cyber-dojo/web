@@ -93,8 +93,8 @@ class StartPoint
 
   private
 
-  include ExternalParentChainer
   include ManifestProperty
+  include NearestAncestors
   include TimeNow
   include UniqueId
 
@@ -110,6 +110,8 @@ class StartPoint
   def manifest_filename
     'manifest.json'
   end
+
+  def disk; nearest_ancestors(:disk); end
 
 end
 
