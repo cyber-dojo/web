@@ -9,7 +9,6 @@
 module NearestAncestors # mix-in
 
   def nearest_ancestors(symbol, my = self)
-    #my = self
     loop {
       fail "#{my.class.name} does not have a parent" unless my.respond_to? :parent
       my = my.parent
