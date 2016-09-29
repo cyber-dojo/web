@@ -47,7 +47,7 @@ class StubRunner
 
   private
 
-  include ExternalParentChainer
+  include NearestAncestors
   include Runner
   include UnitTestFrameworkLookup
 
@@ -60,7 +60,6 @@ class StubRunner
 
   def read_stub #(avatar)
     return 'blah' if @avatar.nil?
-    #fail "test_id not set" if test_id.nil?
     dir = disk['/tmp/cyber-dojo/StubRunner/' + test_id]
     if dir.exists?(stub_run_filename)
       json = dir.read_json(stub_run_filename)
@@ -103,5 +102,8 @@ class StubRunner
   def test_id
     ENV['CYBER_DOJO_TEST_ID']
   end
+
+  def shell; nearest_ancestors(:shell); end
+  def disk; nearest_ancestors(:disk); end
 
 end

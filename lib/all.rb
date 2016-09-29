@@ -6,7 +6,6 @@
   env_var
   name_of_caller
   externals
-  external_parent_chainer
   nearest_ancestors
 
   time_now
