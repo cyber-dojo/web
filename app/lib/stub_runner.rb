@@ -28,7 +28,7 @@ class StubRunner
   end
 
   def stub_run_colour(avatar, rag)
-    raise "invalid colour #{rag}" if ![:red,:amber,:green].include? rag
+    fail "invalid colour #{rag}" if ![:red,:amber,:green].include? rag
     save_stub(avatar, { :colour => rag })
   end
 
@@ -52,7 +52,8 @@ class StubRunner
   include UnitTestFrameworkLookup
 
   def save_stub(avatar, json)
-    # Better - combine test's hex-id with avatar.name in tmp folder
+    # TODO: Better - combine test's hex-id with avatar.name in tmp folder
+    #       That will be one less use of storer.path method
     disk[storer.avatar_path(avatar.kata.id, avatar.name)].write_json(stub_run_filename, json)
   end
 
@@ -63,7 +64,7 @@ class StubRunner
       output = json['output']
       return output unless output.nil?
       rag = json['colour']
-      raise "no 'output' or 'colour' in #{json}" if rag.nil?
+      fail "no 'output' or 'colour' in #{json}" if rag.nil?
       return sample(avatar, rag)
     end
     return sample(avatar, red_amber_green.sample)
@@ -71,7 +72,7 @@ class StubRunner
 
   def sample(avatar, rag)
     # ?better in test/languages/outputs
-    raise "#{rag} must be red/amber/green" unless red_amber_green.include?(rag)
+    fail "#{rag} must be red/amber/green" unless red_amber_green.include?(rag)
     root = File.expand_path(File.dirname(__FILE__) + '/../../test') + '/app_lib/output'
     unit_test_framework = lookup(avatar.kata.display_name)
     path = "#{root}/#{unit_test_framework}/#{rag}"

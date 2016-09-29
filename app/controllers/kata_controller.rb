@@ -12,7 +12,7 @@ class KataController < ApplicationController
   end
 
   def run_tests
-    raise "sorry can't do that" if kata.nil? || avatar.nil?
+    fail "sorry can't do that" if kata.nil? || avatar.nil?
     @avatar = avatar
 
     incoming = params[:file_hashes_incoming]

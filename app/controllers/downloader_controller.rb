@@ -3,7 +3,7 @@ class DownloaderController < ApplicationController
 
   def download
     # an id such as 01FE818E68 corresponds to the folder katas/01/FE818E86
-    raise "sorry can't do that" if katas[id].nil?
+    fail "sorry can't do that" if katas[id].nil?
 
     cd_cmd = "cd #{storer.path}"
     tar_cmd = "tar -zcf ../downloads/#{id}.tgz #{outer(id)}/#{inner(id)}"
