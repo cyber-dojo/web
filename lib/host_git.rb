@@ -5,15 +5,13 @@
 
 class HostGit
 
-  def initialize(dojo)
-    @dojo = dojo
+  def initialize(parent)
+    @parent = parent
   end
 
   # queries
 
-  def parent
-    @dojo
-  end
+  attr_reader :parent
 
   def show(path, options)
     output_of(shell.cd_exec(path, "git show #{options}"))
@@ -58,7 +56,11 @@ class HostGit
 
   private
 
-  include ExternalParentChainer
+  include NearestAncestors
+
+  def shell
+    nearest_ancestors(:shell)
+  end
 
   def quoted(s)
     "'" + s + "'"
