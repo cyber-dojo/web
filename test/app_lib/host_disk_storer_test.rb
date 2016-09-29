@@ -4,11 +4,6 @@ require_relative './app_lib_test_base'
 
 class HostDiskStorerTest < AppLibTestBase
 
-  def setup
-    super
-    set_runner_class('StubRunner')
-  end
-
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # katas.create_kata()
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

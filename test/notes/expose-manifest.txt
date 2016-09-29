@@ -18,6 +18,7 @@ this is stored inside the kata's manifest and thus cannot be edited.
 This is a potential problem. Suppose you create a kata by forking from
 a well-known kata+avatar+tag. Then the test-framework gets upgraded
 and the regex has changed. This change will not be seen when you fork.
+And you won't be able to edit it.
 
 I really need to remove the red_amber_green and put it into a named
 visible_file. This file then partners cyber-dojo.sh and must always
@@ -28,7 +29,9 @@ Have to be very careful that this file is never read by cyber-dojo.sh
 Thus, even though it is a ruby file, I don't want to put it into a file
 whose extension is .rb  Safer to call it, eg, colour.lambda
 which appears at the bottom of the file-knave, next to cyber-dojo.sh
-and output. Note that if this lambda is run directly by the web server
+and output.
+
+Note that if this lambda is run directly by the web server
 it would be very insecure. But it can be run inside a new container!
 which could even be based on web!
 
@@ -62,7 +65,7 @@ image_name. Yes! This would remove all the mapping cruft test code.
             Security though... I would only allow image_names that
             are cyberdojo/... or cyberdojofoundation/...
 
-version. No
+version. No (for migrater)
 lowlight_filenames. Create this? No. Hard-wired to [cyber-dojo.sh, output, manifest]
 
 
