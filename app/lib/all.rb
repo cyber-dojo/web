@@ -11,7 +11,6 @@
   makefile_filter
   output_colour
   dashboard_td_gapper
-  delta_maker
   display_names_splitter
   host_disk_storer
   runner

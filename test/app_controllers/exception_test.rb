@@ -18,21 +18,16 @@ class ExceptionControllerTests < AppControllerTestBase
     Rails.application.config.action_dispatch.show_exceptions = @show
   end
 
-  # these pass when run
-  #   $./test_exception.rb
-  # but not when run
-  #   ./run_all.sh
-  # ??
-
-  test "bad path" do
+  test 'bad path' do
     get 'dojo/sdsdsd'
     assert_template 'error/sorry'
   end
 
-  test "bad id" do
+  test 'bad id' do
     get 'kata/edit/234523424234'
     assert_template 'error/sorry'
   end
+
 =end
 
 end
