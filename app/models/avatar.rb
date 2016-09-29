@@ -8,7 +8,7 @@ class Avatar
     @name = name
   end
 
-  # modifier
+  # modifiers
 
   def test(delta, files)
     runner.run(kata.id, name, delta, files, kata.image_name)
@@ -52,7 +52,7 @@ class Avatar
 
   private
 
-  include ExternalParentChainer
+  include NearestAncestors
   include TimeNow
 
   def increments
@@ -67,6 +67,9 @@ class Avatar
       'number' => 0
     }
   end
+
+  def storer; nearest_ancestors(:storer); end
+  def runner; nearest_ancestors(:runner); end
 
 end
 

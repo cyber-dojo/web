@@ -44,7 +44,7 @@ class DeltaMaker
     all_outputs = Dir.glob(path + '/*')
     filename = all_outputs.sample
     output = File.read(filename)
-    @avatar.runner.stub_run_output(@avatar, output)
+    nearest_ancestors(:runner, @avatar).stub_run_output(@avatar, output)
   end
 
   def run_test(at = time_now)
@@ -70,6 +70,7 @@ class DeltaMaker
 
   private
 
+  include NearestAncestors
   include TimeNow
   include UnitTestFrameworkLookup
 
