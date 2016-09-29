@@ -12,11 +12,15 @@ class MockHostShell
     write([]) unless File.file?(@filename)
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - -
+
   def teardown
     mocks = read
     fail "#{filename}: uncalled mock exceptations(#{mocks})" unless mocks == []
     File.delete(filename)
   end
+
+  # - - - - - - - - - - - - - - - - - - - - - - -
 
   def mock_cd_exec(path, commands, output, exit_status)
     append_expectation({
@@ -28,6 +32,8 @@ class MockHostShell
     })
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - -
+
   def mock_exec(commands, output, exit_status)
     append_expectation({
              call: 'exec',
@@ -36,6 +42,8 @@ class MockHostShell
       exit_status: exit_status
     })
   end
+
+  # - - - - - - - - - - - - - - - - - - - - - - -
 
   def cd_exec(path, *commands)
     mocks = read
@@ -48,6 +56,8 @@ class MockHostShell
     write(mocks)
     [mock['output'], mock['exit_status']]
   end
+
+  # - - - - - - - - - - - - - - - - - - - - - - -
 
   def exec(*commands)
     mocks = read

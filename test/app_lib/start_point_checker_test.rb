@@ -5,12 +5,6 @@ require 'json'
 
 class StartPointCheckerTest < AppLibTestBase
 
-  def setup_id(hex)
-    @test_id = hex
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test '0C1F2F',
   'test_data/languages master has no errors' do
     checker = StartPointChecker.new(start_points_path + '/languages')
@@ -412,7 +406,7 @@ class StartPointCheckerTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def copy_good_master(type = 'languages', id = @test_id)
+  def copy_good_master(type = 'languages', id = ENV['CYBER_DOJO_TEST_ID'])
     Dir.mktmpdir('cyber-dojo-' + id + '_') do |tmp_dir|
       shell "cp -r #{start_points_path}/#{type}/* #{tmp_dir}"
       @tmp_dir = tmp_dir

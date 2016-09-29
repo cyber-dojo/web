@@ -4,12 +4,7 @@ require_relative './lib_test_base'
 
 class MockHostShellTest < LibTestBase
 
-  def setup_id(hex)
-    @test_id = hex
-  end
-
   def setup_mock_shell
-    ENV['CYBER_DOJO_TEST_ID'] = @test_id
     set_shell_class('MockHostShell')
   end
 
@@ -38,7 +33,7 @@ class MockHostShellTest < LibTestBase
 
   test '4A5F79',
   'teardown does not raise when no mocks are setup and no calls are made' do
-    assert_equal '4A5F79', @test_id
+    assert_equal '4A5F79', ENV['CYBER_DOJO_TEST_ID']
     setup_mock_shell
     shell.teardown
   end

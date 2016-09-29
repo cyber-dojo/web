@@ -4,13 +4,7 @@ require_relative './app_controller_test_base'
 
 class ImagePullerTest < AppControllerTestBase
 
-  def setup_id(hex)
-    super
-    @test_id = hex
-  end
-
   def setup_mock_shell
-    ENV['CYBER_DOJO_TEST_ID'] = @test_id
     set_shell_class('MockHostShell')
   end
 

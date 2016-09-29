@@ -4,8 +4,7 @@ require_relative './app_controller_test_base'
 
 class DashboardControllerTest < AppControllerTestBase
 
-  def setup_id(_hex)
-    super
+  def prepare
     create_kata
   end
 
@@ -13,6 +12,7 @@ class DashboardControllerTest < AppControllerTestBase
 
   test '62A971',
   'dashboard when no avatars' do
+    prepare
     dashboard
     options = [ false, true, 'xxx' ]
     options.each do |mc|
@@ -27,6 +27,7 @@ class DashboardControllerTest < AppControllerTestBase
 
   test '62A29E',
   'dashboard when avatars with no traffic-lights' do
+    prepare
     4.times { start }
     dashboard
   end
@@ -35,6 +36,7 @@ class DashboardControllerTest < AppControllerTestBase
 
   test '62AE43',
   'dashboard when avatars with some traffic lights' do
+    prepare
     3.times { start; 2.times { run_tests } }
     dashboard
   end
@@ -43,6 +45,7 @@ class DashboardControllerTest < AppControllerTestBase
 
   test '62A6CB',
   'heartbeat when no avatars' do
+    prepare
     heartbeat
   end
 
@@ -50,6 +53,7 @@ class DashboardControllerTest < AppControllerTestBase
 
   test '62A1FB',
   'heartbeat when avatars with no traffic-lights' do
+    prepare
     start
     heartbeat
   end
@@ -58,6 +62,7 @@ class DashboardControllerTest < AppControllerTestBase
 
   test '62A785',
   'heartbeat when some traffic-lights' do
+    prepare
     3.times { start; 2.times { run_tests } }
     heartbeat
   end
@@ -66,6 +71,7 @@ class DashboardControllerTest < AppControllerTestBase
 
   test '62A330',
   'progress when no avatars' do
+    prepare
     progress
   end
 
@@ -73,6 +79,7 @@ class DashboardControllerTest < AppControllerTestBase
 
   test '62A619',
   'progress when avatars with no traffic-lights' do
+    prepare
     start # 0
     progress
   end
@@ -81,6 +88,7 @@ class DashboardControllerTest < AppControllerTestBase
 
   test '62A4FE',
   'progress when avatar has only amber traffic-lights' do
+    prepare
     start # 0
     runner.stub_run_colour(@avatar, :amber)
     run_tests

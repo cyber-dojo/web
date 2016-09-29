@@ -4,8 +4,7 @@ require_relative './app_controller_test_base'
 
 class DownloadControllerTest < AppControllerTestBase
 
-  def setup_id(_hex)
-    super
+  def prepare
     @id = create_kata
     kata = katas[@id]
     @tar_dir = "#{storer.path}/../downloads/"
@@ -16,6 +15,7 @@ class DownloadControllerTest < AppControllerTestBase
 
   test 'C440EF',
   'download with empty id raises' do
+    prepare
     assert_raises(StandardError) { get 'downloader/download', :id => '' }
   end
 
@@ -23,6 +23,7 @@ class DownloadControllerTest < AppControllerTestBase
 
   test 'C44849',
   'download with bad id raises' do
+    prepare
     assert_raises(StandardError) { get 'downloader/download', :id => 'XX'+@id }
   end
 
@@ -30,6 +31,7 @@ class DownloadControllerTest < AppControllerTestBase
 
   test 'C44561',
   'downloaded of empty dojo with no avatars yet untars to same as original folder' do
+    prepare
     get 'downloader/download', :id => @id
     assert_downloaded
   end
@@ -38,6 +40,7 @@ class DownloadControllerTest < AppControllerTestBase
 
   test 'C441B1',
   'downloaded of dojo with one avatar and one traffic-light untars to same as original folder' do
+    prepare
     start
     kata_edit
     change_file('hiker.rb', 'def...')
@@ -50,6 +53,7 @@ class DownloadControllerTest < AppControllerTestBase
 
   test 'C44E9B',
   'downloaded of dojo with five animals and five traffic-lights untars to same as original folder' do
+    prepare
     5.times do
       start
       kata_edit

@@ -20,21 +20,18 @@
 
 module TestHexIdHelpers # mix-in
 
-  def setup_id(hex)
+  def setup_runner_class
     set_runner_class('StubRunner')
-    ENV['CYBER_DOJO_TEST_ID'] = hex
-    # if test is changing runner in setup() it wont work
-    # because this will then replace it
-    # Solution is to override this and do what you need there
-    # This is tricksy... it means the override has to remember
-    # to set katas_root.
-    # Maybe have one setup per external
-    #   setup_runner(id) and this has default setting...
-    katas_root = "#{tmp_root}/#{hex}/katas"
+  end
+
+  def setup_katas_root
+    test_id = ENV['CYBER_DOJO_TEST_ID']
+    katas_root = "#{tmp_root}/#{test_id}/katas"
     set_katas_root(katas_root)
   end
 
-  def teardown_id(_hex)
+  def setup_disk_class
+    #set_runner_class('HostDisk')
   end
 
   # - - - - - - - - - - - - - - - -
@@ -69,9 +66,11 @@ module TestHexIdHelpers # mix-in
         name = lines.join(' ')
         # make test_id attribute available inside defined method
         block_with_test_id = lambda {
-          self.setup_id(id)
+          ENV['CYBER_DOJO_TEST_ID'] = id
+          self.setup_runner_class
+          self.setup_disk_class
+          self.setup_katas_root
           self.instance_eval &block
-          self.teardown_id(id)
         }
         define_method("test_'#{id}',\n #{name}\n".to_sym, &block_with_test_id)
       end

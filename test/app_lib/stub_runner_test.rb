@@ -7,7 +7,6 @@ class StubRunnerTest < AppLibTestBase
   def setup
     super
     set_shell_class 'MockProxyHostShell'
-    set_runner_class 'StubRunner'
   end
 
   def teardown

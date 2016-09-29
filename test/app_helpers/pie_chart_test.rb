@@ -7,10 +7,6 @@ class PieChartTest < AppHelpersTestBase
 
   include PieChartHelper
 
-  def setup
-    super
-  end
-
   test '10E59E',
   'pie-chart from avatar.lights' do
     kata = make_kata

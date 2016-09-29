@@ -4,8 +4,7 @@ require_relative './app_controller_test_base'
 
 class ReverterControllerTest  < AppControllerTestBase
 
-  def setup_id(_hex)
-    super
+  def prepare
     @id = create_kata('Java, JUnit')
     @avatar = start
   end
@@ -14,6 +13,7 @@ class ReverterControllerTest  < AppControllerTestBase
 
   test '81F276',
   'revert' do
+    prepare
     kata_edit
     filename = 'Hiker.java'
     change_file(filename, old_content='echo abc')

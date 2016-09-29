@@ -4,23 +4,9 @@ require_relative './app_controller_test_base'
 
 class DifferControllerTest < AppControllerTestBase
 
-  def setup
-    super
+  def setup_runner_class
     set_runner_class('DockerTarPipeRunner')
   end
-
-  # This and D09 are failing.
-  # The server log (running thin) says
-  # Invalid request: HTTP element QUERY_STRING is longer than the (1024 * 10) allowed length
-  # I can force this on any test by adding the line
-  #     new_file('wibble.rb',  "X"*25000)
-  #
-  # And the error I get is 'Bad Request'
-  # The test calls differ/diff which is differ_controller with 3 small
-  # parameters, avatar_name, was_tag, now_tag
-  # This calls GitDiffService::avatar_git_diff() and passes
-  # was_files & now_files which can be large.
-  # I think I need to send the request parameters *inside* the request body
 
   test '238AF6',
   'no lines different in any files between successive tags' do

@@ -7,11 +7,8 @@ class TipTest < AppHelpersTestBase
 
   include TipHelper
 
-  def setup_id(hex)
-    # DON'T do super() as we need to avoid set_runner_class('StubRunner')
+  def setup_runner_class
     set_runner_class('DockerTarPipeRunner')
-    katas_root = "#{tmp_root}/#{hex}/katas"
-    set_katas_root(katas_root)
   end
 
   test 'BDAD52',

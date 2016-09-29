@@ -38,7 +38,8 @@ end
 
 class TestNearestAncestors < LibTestBase
 
-  def setup_id(_hex)
+  def setup
+    super
     anna = Anna.new
     natalie = Natalie.new(anna)
     @ellie = Ellie.new(natalie)

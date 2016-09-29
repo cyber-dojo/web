@@ -4,10 +4,7 @@ require_relative './lib_test_base'
 
 class HostDiskDirTest < LibTestBase
 
-  def setup_id(hex)
-    super
-    assert_equal 'HostDisk', disk.class.name
-    @test_id = hex
+  def setup_disk_class
     dir.make
   end
 
@@ -16,7 +13,7 @@ class HostDiskDirTest < LibTestBase
   end
 
   def path
-    tmp_root + '/' + 'host_disk_dir_tests' + '/' + @test_id
+    tmp_root + '/' + 'host_disk_dir_tests' + '/' + ENV['CYBER_DOJO_TEST_ID']
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
