@@ -188,8 +188,8 @@ class HostDiskStorer
 
   private
 
-  include ExternalParentChainer
   include IdSplitter
+  include NearestAncestors
   include StderrRedirect
 
   def sandbox_write(id, name, filename, content)
@@ -227,6 +227,11 @@ class HostDiskStorer
     # current visible files [filenames and contents].
     'manifest.json'
   end
+
+  def env_var; nearest_ancestors(:env_var); end
+  def shell; nearest_ancestors(:shell); end
+  def disk; nearest_ancestors(:disk); end
+  def git; nearest_ancestors(:git); end
 
 end
 
