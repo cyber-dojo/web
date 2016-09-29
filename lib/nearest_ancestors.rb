@@ -1,5 +1,6 @@
 
-# Problem at app/lib/delta_maker.rb L47
+# Problem at app/lib/delta_maker.rb L47 app/models/avatar.rb
+#            app/lib/stub_runner.rb uses katas as an external
 
 module NearestAncestors # mix-in
 
