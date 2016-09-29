@@ -49,7 +49,7 @@ class DockerTarPipeRunner
 
   private
 
-  include ExternalParentChainer
+  include NearestAncestors
   include Runner
 
   def image_names
@@ -74,5 +74,8 @@ class DockerTarPipeRunner
     # See sudo comments in docker/web/Dockerfile
     'sudo -u docker-runner sudo'
   end
+
+  def storer; nearest_ancestors(:storer); end
+  def shell; nearest_ancestors(:shell); end
 
 end
