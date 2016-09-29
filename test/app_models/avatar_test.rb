@@ -77,7 +77,7 @@ class AvatarTest < AppModelsTestBase
     @avatar = kata.start_avatar
     big = 'X' * 10*1024
     runner.stub_run_output(@avatar, big)
-    _, @visible_files, @output = DeltaMaker.new(@avatar).run_test
+    _, @visible_files, @output = DeltaMaker.new(@avatar).run_test_no_stub
     assert_file 'output', big
   end
 
@@ -89,7 +89,7 @@ class AvatarTest < AppModelsTestBase
     @avatar = kata.start_avatar
     big = 'X' * 10*1024
     runner.stub_run_output(@avatar, big + 'truncated')
-    _, @visible_files, @output = DeltaMaker.new(@avatar).run_test
+    _, @visible_files, @output = DeltaMaker.new(@avatar).run_test_no_stub
     message = 'output truncated by cyber-dojo server'
     assert_file 'output', big + "\n" + message
   end

@@ -45,11 +45,24 @@ class DeltaMaker
     filename = all_outputs.sample
     output = File.read(filename)
     nearest_ancestors(:runner, @avatar).stub_run_output(@avatar, output)
+    @stubbed = true
+  end
+
+  def run_test_no_stub(at = time_now)
+    visible_files = now
+    delta = make_delta(@was, @now)
+    output = @avatar.test(delta, visible_files)
+    colour = @avatar.kata.red_amber_green(output)
+    @avatar.tested(visible_files, at, output, colour)
+    [delta, visible_files, output]
   end
 
   def run_test(at = time_now)
     visible_files = now
     delta = make_delta(@was, @now)
+    if @stubbed.nil? && nearest_ancestors(:runner, @avatar).class.name == 'StubRunner'
+      stub_colour(:red)
+    end
     output = @avatar.test(delta, visible_files)
     colour = @avatar.kata.red_amber_green(output)
     @avatar.tested(visible_files, at, output, colour)

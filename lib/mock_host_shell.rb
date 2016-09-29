@@ -6,7 +6,7 @@
 
 class MockHostShell
 
-  def initialize(_dojo)
+  def initialize(_parent)
     test_id =  ENV['CYBER_DOJO_TEST_ID']
     @filename = Dir.tmpdir + '/cyber-dojo-' + test_id + '_mock_host_shell.json'
     write([]) unless File.file?(@filename)

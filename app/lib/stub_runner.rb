@@ -14,10 +14,6 @@ class StubRunner
 
   attr_reader :parent
 
-  def set_test_id(hex)
-    #p "SET_TEST_ID(#{hex})"
-  end
-
   def pulled?(image_name)
     [
       "#{cdf}/nasm_assert",
@@ -40,8 +36,8 @@ class StubRunner
     save_stub(avatar, { :output => output })
   end
 
-  def run(id, name, _delta, _files, _image_name)
-    output = read_stub(katas[id].avatars[name])
+  def run(_id, _name, _delta, _files, _image_name)
+    output = read_stub
     output_or_timed_out(output, success=0, max_seconds)
   end
 
@@ -56,29 +52,32 @@ class StubRunner
   include UnitTestFrameworkLookup
 
   def save_stub(avatar, json)
-    # TODO: Better - combine test's hex-id with avatar.name in tmp folder
-    #       That will be one less use of storer.path method
-    disk[storer.avatar_path(avatar.kata.id, avatar.name)].write_json(stub_run_filename, json)
+    dir = disk['/tmp/cyber-dojo/StubRunner/' + test_id]
+    dir.make
+    dir.write_json(stub_run_filename, json)
+    @avatar = avatar
   end
 
-  def read_stub(avatar)
-    dir = disk[storer.avatar_path(avatar.kata.id, avatar.name)]
+  def read_stub #(avatar)
+    return 'blah' if @avatar.nil?
+    #fail "test_id not set" if test_id.nil?
+    dir = disk['/tmp/cyber-dojo/StubRunner/' + test_id]
     if dir.exists?(stub_run_filename)
       json = dir.read_json(stub_run_filename)
       output = json['output']
       return output unless output.nil?
       rag = json['colour']
       fail "no 'output' or 'colour' in #{json}" if rag.nil?
-      return sample(avatar, rag)
+      return sample(@avatar, rag)
     end
-    return sample(avatar, red_amber_green.sample)
+    return sample(@avatar, red_amber_green.sample)
   end
 
   def sample(avatar, rag)
     # ?better in test/languages/outputs
     fail "#{rag} must be red/amber/green" unless red_amber_green.include?(rag)
     root = File.expand_path(File.dirname(__FILE__) + '/../../test') + '/app_lib/output'
-    unit_test_framework = lookup(avatar.kata.display_name)
+    unit_test_framework = lookup(@avatar.kata.display_name)
     path = "#{root}/#{unit_test_framework}/#{rag}"
     all_output_samples = disk[path].each_file.collect { |filename| filename }
     filename = all_output_samples.sample
@@ -99,6 +98,10 @@ class StubRunner
 
   def sudo
     'sudo -u docker-runner sudo '
+  end
+
+  def test_id
+    ENV['CYBER_DOJO_TEST_ID']
   end
 
 end

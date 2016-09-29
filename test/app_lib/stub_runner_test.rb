@@ -68,19 +68,12 @@ class StubRunnerTest < AppLibTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'AF797E',
-  'run without preceeding stub returns red/amber/green at random' do
-    counts = { 'red' => 0, 'amber' => 0, 'green' => 0 }
+  'run without preceeding stub returns amber' do
     kata = make_kata
     lion = kata.start_avatar(['lion'])
-    (1..30).each do
-      output = runner.run(kata.id, 'lion', _delta=nil, _files=nil, _image_name=nil)
-      colour = kata.red_amber_green(output)
-      assert %w(red amber green).include? colour
-      counts[colour] += 1
-    end
-    %w(red amber green).each do |colour|
-      assert counts[colour] > 0, "counts[#{colour}] > 0 (#{colour})"
-    end
+    output = runner.run(kata.id, 'lion', _delta=nil, _files=nil, _image_name=nil)
+    colour = kata.red_amber_green(output)
+    assert_equal 'amber', colour
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -22,7 +22,8 @@ module TestHexIdHelpers # mix-in
 
   def setup_id(hex)
     set_runner_class('StubRunner')
-    runner.set_test_id(hex)
+    ENV['CYBER_DOJO_TEST_ID'] = hex
+
     # if test is changing runner in setup() it wont work
     # because this will then replace it
     # Solution is to override this and do what you need there
