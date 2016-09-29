@@ -12,8 +12,7 @@ module NearestAncestors # mix-in
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# Hijack *method*_missing to provide transparent access to external *objects*.
-# Works by assuming the object (which included this module) has a parent
+# Works by assuming the object (which included the module) has a parent
 # and repeatedly chains back parent to parent to parent until it gets to
 # an object with the required property, or runs out of parents.
 # Properties accessed in this way include:
