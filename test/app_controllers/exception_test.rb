@@ -5,8 +5,8 @@ require_relative './app_controller_test_base'
 class ExceptionControllerTests < AppControllerTestBase
 
 =begin
-
   def setup
+    super
     @consider = Rails.application.config.consider_all_requests_local
     @show = Rails.application.config.action_dispatch.show_exceptions
     Rails.application.config.consider_all_requests_local = false
@@ -16,18 +16,20 @@ class ExceptionControllerTests < AppControllerTestBase
   def teardown
     Rails.application.config.consider_all_requests_local = @consider
     Rails.application.config.action_dispatch.show_exceptions = @show
+    super
   end
 
-  test 'bad path' do
+  test 'E46924',
+  'bad path' do
     get 'dojo/sdsdsd'
     assert_template 'error/sorry'
   end
 
-  test 'bad id' do
+  test 'EFC09F',
+  'bad id' do
     get 'kata/edit/234523424234'
     assert_template 'error/sorry'
   end
-
 =end
 
 end

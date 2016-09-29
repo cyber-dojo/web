@@ -3,9 +3,8 @@
 # StubRunner set in
 # app_controller_test_base.rb
 # app_helpers_test_base.rb
-# app_lib/stub_runner_test.rb
 # app_models_test_base.rb
-
+# app_lib/stub_runner_test.rb
 
 module NearestAncestors # mix-in
 
