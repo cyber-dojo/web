@@ -1,4 +1,6 @@
 
+# Problem at app/lib/delta_maker.rb L47
+
 module NearestAncestors # mix-in
 
   def nearest_ancestors(symbol)
