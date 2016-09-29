@@ -1,4 +1,3 @@
-# See cyber-dojo-model.pdf
 
 class Dojo
 
@@ -13,9 +12,5 @@ class Dojo
   def    custom; @custom    ||= StartPoints.new(self,    'custom_root'); end
 
   def katas; @katas ||= Katas.new(self); end
-
-  private
-
-  include ExternalParentChainer
 
 end

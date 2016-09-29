@@ -51,8 +51,10 @@ class Tag
 
   private
 
-  include ExternalParentChainer
+  include NearestAncestors
 
   attr_reader :hash
+
+  def storer; nearest_ancestors(:storer); end
 
 end
