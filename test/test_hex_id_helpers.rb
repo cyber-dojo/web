@@ -25,13 +25,12 @@ module TestHexIdHelpers # mix-in
   end
 
   def setup_katas_root
-    test_id = ENV['CYBER_DOJO_TEST_ID']
     katas_root = "#{tmp_root}/#{test_id}/katas"
     set_katas_root(katas_root)
   end
 
-  def setup_disk_class
-    #set_runner_class('HostDisk')
+  def test_id
+    ENV['CYBER_DOJO_TEST_ID']
   end
 
   # - - - - - - - - - - - - - - - -
@@ -64,11 +63,9 @@ module TestHexIdHelpers # mix-in
         raise "duplicate hex_ID: #{diagnostic}" if @@seen_ids.include?(id)
         @@seen_ids << id
         name = lines.join(' ')
-        # make test_id attribute available inside defined method
         block_with_test_id = lambda {
           ENV['CYBER_DOJO_TEST_ID'] = id
           self.setup_runner_class
-          self.setup_disk_class
           self.setup_katas_root
           self.instance_eval &block
         }

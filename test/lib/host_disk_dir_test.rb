@@ -4,22 +4,9 @@ require_relative './lib_test_base'
 
 class HostDiskDirTest < LibTestBase
 
-  def setup_disk_class
-    dir.make
-  end
-
-  def dir
-    disk[path]
-  end
-
-  def path
-    tmp_root + '/' + 'host_disk_dir_tests' + '/' + ENV['CYBER_DOJO_TEST_ID']
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test '437EB1',
   'disk[...].path always ends in /' do
+    dir.make
     assert_equal 'ABC/', disk['ABC'].path
   end
 
@@ -27,7 +14,6 @@ class HostDiskDirTest < LibTestBase
 
   test '0DB5F3',
   'disk[path].make makes the directory' do
-    `rm -rf #{path}`
     refute dir.exists?
     dir.make
     assert dir.exists?
@@ -37,6 +23,7 @@ class HostDiskDirTest < LibTestBase
 
   test '61FCE8',
   'disk[path].exists?(filename) false when file does not exist, true when it does' do
+    dir.make
     refute dir.exists?(filename = 'hello.txt')
     dir.write(filename, 'content')
     assert dir.exists?(filename)
@@ -46,6 +33,7 @@ class HostDiskDirTest < LibTestBase
 
   test '247EAB',
   'disk[path].read() reads back what was written' do
+    dir.make
     dir.write('filename', expected = 'content')
     assert_equal expected, dir.read('filename')
   end
@@ -53,7 +41,8 @@ class HostDiskDirTest < LibTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '1C4A9F',
-    'write(filename, content) raises RuntimeError when content is not a string' do
+  'write(filename, content) raises RuntimeError when content is not a string' do
+    dir.make
     assert_raises(RuntimeError) { dir.write('any.txt', Object.new) }
   end
 
@@ -61,6 +50,7 @@ class HostDiskDirTest < LibTestBase
 
   test '8F329F',
   'write(filename, content) succeeds when content is a string' do
+    dir.make
     content = 'hello world'
     check_save_file('manifest.rb', content, content)
   end
@@ -69,23 +59,15 @@ class HostDiskDirTest < LibTestBase
 
   test '2BAC6D',
   'write_json(filename, content) raises RuntimeError when filename does not end in .json' do
+    dir.make
     assert_raises(RuntimeError) { dir.write_json('file.txt', 'any') }
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def assert_raises_with_message(exception, msg, &block)
-    block.call
-  rescue exception => e
-      assert_equal msg, e.message
-  else
-      raise "Expected to raise #{exception} w/ message #{msg}, none raised"
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '601891',
   'read_json(filename) raises RuntimeError when filename is empty' do
+    dir.make
     dir.write(filename='601891.json', empty='')
     expected_message = "HostDir(#{path}/).read_json(#{filename}) - empty file"
     assert_raises_with_message(RuntimeError, expected_message) { dir.read_json(filename) }
@@ -95,6 +77,7 @@ class HostDiskDirTest < LibTestBase
 
   test '3356EE',
   'read_json(filename) raises RuntimeError when filename does not end in .json' do
+    dir.make
     assert_raises(RuntimeError) { dir.read_json('file.txt') }
   end
 
@@ -102,6 +85,7 @@ class HostDiskDirTest < LibTestBase
 
   test 'F3B2F4',
   'write_json(filename, object) saves JSON.unparse(object) in filename' do
+    dir.make
     dir.write_json(filename = 'object.json', { :a => 1, :b => 2 })
     json = dir.read(filename)
     object = JSON.parse(json)
@@ -113,6 +97,7 @@ class HostDiskDirTest < LibTestBase
 
   test '891336',
   'write_json_once succeeds once then its a no-op' do
+    dir.make
     filename = 'once.json'
     refute dir.exists? filename
     dir.write_json_once(filename) { {:a=>1, :b=>2 } }
@@ -130,6 +115,7 @@ class HostDiskDirTest < LibTestBase
 
   test 'B9939D',
   'object = read_json(filename) after write_json(filename, object) round-strips ok' do
+    dir.make
     dir.write_json(filename = 'object.json', { :a => 1, :b => 2 })
     object = dir.read_json(filename)
     assert_equal 1, object['a']
@@ -140,6 +126,7 @@ class HostDiskDirTest < LibTestBase
 
   test '95EA3F',
   'save file for non executable file' do
+    dir.make
     check_save_file('file.a', 'content', 'content')
   end
 
@@ -147,6 +134,7 @@ class HostDiskDirTest < LibTestBase
 
   test 'B5C931',
   'save file for executable file' do
+    dir.make
     check_save_file('file.sh', 'ls', 'ls', executable = true)
   end
 
@@ -154,6 +142,7 @@ class HostDiskDirTest < LibTestBase
 
   test '51EE30',
   'save filename ending in makefile is not auto-tabbed' do
+    dir.make
     content = '    abc'
     expected_content = content # leading spaces not converted to tabs
     ends_in_makefile = 'smakefile'
@@ -164,6 +153,7 @@ class HostDiskDirTest < LibTestBase
 
   test '25EACA',
   'disk.dir?(.) is true' do
+    dir.make
     assert disk.dir?(path + '/' + '.')
   end
 
@@ -171,6 +161,7 @@ class HostDiskDirTest < LibTestBase
 
   test '75CA3F',
   'disk.dir?(..) is true' do
+    dir.make
     assert disk.dir?(path + '/' + '..')
   end
 
@@ -178,6 +169,7 @@ class HostDiskDirTest < LibTestBase
 
   test '73E40A',
   'disk.dir?(not-a-dir) is false' do
+    dir.make
     refute disk.dir?('blah-blah')
   end
 
@@ -185,6 +177,7 @@ class HostDiskDirTest < LibTestBase
 
   test 'AFEE82',
   'disk.dir?(a-dir) is true' do
+    dir.make
     assert disk.dir?(path)
   end
 
@@ -192,6 +185,7 @@ class HostDiskDirTest < LibTestBase
 
   test '0CC3B9',
   'dir.each_dir' do
+    dir.make
     cwd = `pwd`.strip + '/../'
     dirs = disk[cwd].each_dir.entries
     %w( app_helpers app_lib ).each { |dir_name| assert dirs.include?(dir_name), dir_name }
@@ -201,6 +195,7 @@ class HostDiskDirTest < LibTestBase
 
   test 'E73637',
   'dir.each_rdir yields dirs of given filename at any dir depth' do
+    dir.make
     disk[path].write('a.txt', 'content')
     disk[path + '/' + 'alpha'].make
     disk[path + '/' + 'alpha'].write('a.txt', 'a')
@@ -220,6 +215,7 @@ class HostDiskDirTest < LibTestBase
 
   test '91E408',
   'disk[path].each_dir does not give filenames' do
+    dir.make
     disk[path].write('beta.txt', 'content')
     disk[path + '/' + 'alpha'].make
     disk[path + '/' + 'alpha'].write('a.txt', 'a')
@@ -230,6 +226,7 @@ class HostDiskDirTest < LibTestBase
 
   test '89211C',
   'disk[path].each_dir.select' do
+    dir.make
     disk[path + '/' + 'alpha'].make
     disk[path + '/' + 'beta' ].make
     disk[path + '/' + 'alpha'].write('a.txt', 'a')
@@ -242,6 +239,7 @@ class HostDiskDirTest < LibTestBase
 
   test '7CA54E',
   'disk[path].each_file' do
+    dir.make
     disk[path + '/' + 'a'].make
     disk[path + '/' + 'a'].write('c.txt', 'content')
     disk[path + '/' + 'a'].write('d.txt', 'content')
@@ -252,6 +250,7 @@ class HostDiskDirTest < LibTestBase
 
   test '500EA2',
   'disk[path].each_file does not give dirs' do
+    dir.make
     disk[path].make
     disk[path].write('beta.txt', 'content')
     disk[path + '/' + 'alpha'].make
@@ -263,6 +262,7 @@ class HostDiskDirTest < LibTestBase
 
   test 'F569F8',
   'disk[path].each_file.select' do
+    dir.make
     disk[path + '/' + 'a'].make
     disk[path + '/' + 'a'].write('b.cpp', 'content')
     disk[path + '/' + 'a'].write('c.txt', 'content')
@@ -283,6 +283,28 @@ class HostDiskDirTest < LibTestBase
     assert_equal expected_content, IO.read(pathed_filename)
     assert_equal executable, File.executable?(pathed_filename),
                             'File.executable?(pathed_filename)'
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def assert_raises_with_message(exception, msg, &block)
+    block.call
+  rescue exception => e
+      assert_equal msg, e.message
+  else
+      raise "Expected to raise #{exception} w/ message #{msg}, none raised"
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def dir
+    disk[path]
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def path
+    tmp_root + '/' + 'host_disk_dir_tests' + '/' + test_id
   end
 
 end

@@ -406,7 +406,7 @@ class StartPointCheckerTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def copy_good_master(type = 'languages', id = ENV['CYBER_DOJO_TEST_ID'])
+  def copy_good_master(type = 'languages', id = test_id)
     Dir.mktmpdir('cyber-dojo-' + id + '_') do |tmp_dir|
       shell "cp -r #{start_points_path}/#{type}/* #{tmp_dir}"
       @tmp_dir = tmp_dir
