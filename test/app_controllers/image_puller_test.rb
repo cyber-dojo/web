@@ -5,6 +5,7 @@ require_relative './app_controller_test_base'
 class ImagePullerTest < AppControllerTestBase
 
   def setup_id(hex)
+    super
     @test_id = hex
   end
 
@@ -13,7 +14,7 @@ class ImagePullerTest < AppControllerTestBase
     set_shell_class('MockHostShell')
   end
 
-  # Note: AppControllerTestBase sets StubRunner
+  # Note: test_hex_id_helpers.setup_id(hex) sets StubRunner
   # which assumes the current state of [docker images] to be
   #    cyberdojofoundation/nasm_assert
   #    cyberdojofoundation/gcc_assert
@@ -155,7 +156,7 @@ class ImagePullerTest < AppControllerTestBase
   def mock_docker_pull_failure(image_name)
     setup_mock_shell
     shell.mock_exec(
-      ["docker pull cyberdojofoundation/#{image_name}"],
+      [sudo + "docker pull cyberdojofoundation/#{image_name}"],
       any_output='456ersfdg',
       exit_failure=34
     )
@@ -166,7 +167,7 @@ class ImagePullerTest < AppControllerTestBase
   def mock_docker_pull_success(image_name)
     setup_mock_shell
     shell.mock_exec(
-      ["docker pull cyberdojofoundation/#{image_name}"],
+      [sudo + "docker pull cyberdojofoundation/#{image_name}"],
       docker_pull_output,
       exit_success
     )
@@ -199,6 +200,12 @@ class ImagePullerTest < AppControllerTestBase
       format: :js,
           id: @id
     }
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  def sudo
+    'sudo -u docker-runner sudo '
   end
 
 end

@@ -7,9 +7,15 @@ class TipTest < AppHelpersTestBase
 
   include TipHelper
 
+  def setup_id(hex)
+    # DON'T do super() as we need to avoid set_runner_class('StubRunner')
+    set_runner_class('DockerTarPipeRunner')
+    katas_root = "#{tmp_root}/#{hex}/katas"
+    set_katas_root(katas_root)
+  end
+
   test 'BDAD52',
   'traffic light tip' do
-    set_runner_class('DockerTarPipeRunner')
     kata = make_kata( { language: 'C (gcc)-assert'} )
     lion = kata.start_avatar(['lion'])
     maker = DeltaMaker.new(lion)

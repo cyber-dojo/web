@@ -9,6 +9,10 @@ end
 
 class DojoTest < AppModelsTestBase
 
+  def setup_id(_hex)
+    # DON'T do super. Avoid defaults
+  end
+
   #- - - - - - - - - - - - - - - - - - - - - - - - -
   # external classes and roots have no defaults
   #- - - - - - - - - - - - - - - - - - - - - - - - -

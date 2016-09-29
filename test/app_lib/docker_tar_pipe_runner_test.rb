@@ -7,12 +7,20 @@ class DockerTarPipeRunnerTest < AppLibTestBase
   def setup
     super
     set_shell_class 'MockProxyHostShell'
-    set_runner_class 'DockerTarPipeRunner'
   end
 
   def teardown
     shell.teardown
     super
+  end
+
+  def setup_id(hex)
+    # DON'T do super() as we need to avoid set_runner_class('StubRunner')
+    set_runner_class('DockerTarPipeRunner')
+    katas_root = "#{tmp_root}/#{hex}/katas"
+    # Hmmm. Set this to dummy would be better
+    # no expectation that katas will be written to
+    set_katas_root(katas_root)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -21,6 +21,15 @@
 module TestHexIdHelpers # mix-in
 
   def setup_id(hex)
+    set_runner_class('StubRunner')
+    runner.set_test_id(hex)
+    # if test is changing runner in setup() it wont work
+    # because this will then replace it
+    # Solution is to override this and do what you need there
+    # This is tricksy... it means the override has to remember
+    # to set katas_root.
+    # Maybe have one setup per external
+    #   setup_runner(id) and this has default setting...
     katas_root = "#{tmp_root}/#{hex}/katas"
     set_katas_root(katas_root)
   end

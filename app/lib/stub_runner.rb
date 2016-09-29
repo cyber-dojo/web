@@ -14,6 +14,10 @@ class StubRunner
 
   attr_reader :parent
 
+  def set_test_id(hex)
+    #p "SET_TEST_ID(#{hex})"
+  end
+
   def pulled?(image_name)
     [
       "#{cdf}/nasm_assert",
@@ -24,7 +28,7 @@ class StubRunner
   end
 
   def pull(image_name)
-    shell.exec("docker pull #{image_name}")
+    shell.exec(sudo + "docker pull #{image_name}")
   end
 
   def stub_run_colour(avatar, rag)
@@ -91,6 +95,10 @@ class StubRunner
 
   def cdf
     'cyberdojofoundation'
+  end
+
+  def sudo
+    'sudo -u docker-runner sudo '
   end
 
 end

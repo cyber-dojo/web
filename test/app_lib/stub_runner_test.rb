@@ -38,7 +38,7 @@ class StubRunnerTest < AppLibTestBase
 
   test '0B42BD',
   'pull issues docker-pull command to shell' do
-    shell.mock_exec(["docker pull #{cdf}/csharp_moq"], output='', success)
+    shell.mock_exec([sudo + "docker pull #{cdf}/csharp_moq"], output='', success)
     runner.pull "#{cdf}/csharp_moq"
   end
 
@@ -101,5 +101,5 @@ class StubRunnerTest < AppLibTestBase
 
   def cdf; 'cyberdojofoundation'; end
   def success; 0; end
-
+  def sudo; 'sudo -u docker-runner sudo '; end
 end
