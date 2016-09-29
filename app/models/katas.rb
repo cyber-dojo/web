@@ -34,6 +34,8 @@ class Katas
 
   private
 
-  include ExternalParentChainer
+  include NearestAncestors
+
+  def storer; nearest_ancestors(:storer); end
 
 end
