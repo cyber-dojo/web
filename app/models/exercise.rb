@@ -23,10 +23,11 @@ class Exercise
 
   private
 
-  include ExternalParentChainer
+  include NearestAncestors
 
   def filename
     'instructions'
   end
 
+  def disk; nearest_ancestors(:disk); end
 end

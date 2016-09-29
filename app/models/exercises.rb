@@ -26,7 +26,7 @@ class Exercises
 
   private
 
-  include ExternalParentChainer
+  include NearestAncestors
 
   def all
     @all ||= read_cache
@@ -56,5 +56,8 @@ class Exercises
   def make(dir_name, text = nil)
     Exercise.new(self, dir_name, text)
   end
+
+  def env_var; nearest_ancestors(:env_var); end
+  def disk; nearest_ancestors(:disk); end
 
 end
