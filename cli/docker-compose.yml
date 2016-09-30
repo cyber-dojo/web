@@ -41,7 +41,6 @@ web:
   volumes_from:
     - ${CYBER_DOJO_KATAS_DATA_CONTAINER}:rw
 
-
 differ:
   user: nobody
   image: cyberdojo/differ

@@ -46,52 +46,18 @@ export CYBER_DOJO_RAILS_ENVIRONMENT=production
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-one_time_creation_of_katas_data_container() {
-  # ensure katas-data-container exists.
-  # o) if it doesn't and /var/www/cyber-dojo/katas exists on the host
-  #    then assume it holds practice sessions from old server and _copy_ them
-  #    into the new katas-data-container.
-  # o) if it doesn't and /var/www/cyber-dojo/katas does not exist on the host
-  #    then create new _empty_ katas-data-container
-  local katas_root=/var/www/cyber-dojo/katas
+one_time_creation_of_katas_data_volume() {
+  # A previous version of this script detected if /var/www/cyber-dojo/katas
+  # existed on the host in which case it assumed an old cyber-dojo server
+  # was being upgraded and automatically copied it into the new volume.
+  # It doesn't do that any more. If you want to upgrade an older server
+  # have a look at test/notes/copy_katas_into_data_container.sh
   docker ps --all | grep -s ${CYBER_DOJO_KATAS_DATA_CONTAINER} > /dev/null
   if [ $? != 0 ]; then
-    # determine appropriate Dockerfile (to create katas data container)
-    if [ -d "${katas_root}" ]; then
-      echo "copying ${katas_root} into new ${CYBER_DOJO_KATAS_DATA_CONTAINER}"
-      SUFFIX=copied
-      CONTEXT_DIR=${katas_root}
-    else
-      echo "creating new empty ${CYBER_DOJO_KATAS_DATA_CONTAINER}"
-      SUFFIX=empty
-      CONTEXT_DIR=.
-    fi
-    # extract appropriate Dockerfile from web image
-    local katas_dockerfile=${CONTEXT_DIR}/Dockerfile
-    local cid=$(docker create ${CYBER_DOJO_WEB_SERVER})
-    docker cp ${cid}:${cyber_dojo_root}/docker/katas/Dockerfile.${SUFFIX} \
-              ${katas_dockerfile}
-    docker rm --volumes ${cid} > /dev/null
-    # extract appropriate .dockerignore from web image
-    local katas_docker_ignore=${CONTEXT_DIR}/.dockerignore
-    local cid=$(docker create ${CYBER_DOJO_WEB_SERVER})
-    docker cp ${cid}:${cyber_dojo_root}/docker/katas/Dockerignore.${SUFFIX} \
-              ${katas_docker_ignore}
-    docker rm --volumes ${cid} > /dev/null
-    # use Dockerfile to build image
-    local tag=${cyber_dojo_hub}/katas
-    docker build \
-             --build-arg=CYBER_DOJO_KATAS_ROOT=${CYBER_DOJO_ROOT}/katas \
-             --tag=${tag} \
-             --file=${katas_dockerfile} \
-             ${CONTEXT_DIR}
-    # use image to create data-container
-    docker create \
-           --name ${CYBER_DOJO_KATAS_DATA_CONTAINER} \
-           ${tag} \
-           echo 'cdfKatasDC'
-    rm ${katas_dockerfile}
-    rm ${katas_docker_ignore}
+    docker create -v ${CYBER_DOJO_ROOT}/katas \
+      --name ${CYBER_DOJO_KATAS_DATA_CONTAINER} \
+      cyberdojo/user-base \
+      /bin/true
   fi
 }
 
@@ -398,7 +364,7 @@ cyber_dojo_sh() {
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-one_time_creation_of_katas_data_container
+one_time_creation_of_katas_data_volume
 
 cyber_dojo_rb "$*"
 

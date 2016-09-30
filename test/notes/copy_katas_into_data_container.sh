@@ -9,6 +9,9 @@
 # Note. this script does not delete the dir after transferring it.
 # If you are transferring a large amount of data you need a large
 # amount of free disk space.
+# Note. this script does not ensure the copied files inside the
+# cyber-dojo-web data container have the correct rights. You may need to
+# add a [chown -R cyber-dojo] docker command
 
 src_path=/home/jrbjagger/katas
 dst_path=/usr/src/cyber-dojo/katas
