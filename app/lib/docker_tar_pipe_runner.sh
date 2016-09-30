@@ -76,7 +76,7 @@ SANDBOX=/sandbox
                    sh -c "mkdir ${SANDBOX} \
                        && tar -zxf - -C ${SANDBOX} \
                        && chown -R nobody ${SANDBOX} \
-                       && usermod --home ${SANDBOX} nobody"
+                       && usermod --home ${SANDBOX} nobody 2> /dev/null"
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # 3. After max_seconds, remove the container
