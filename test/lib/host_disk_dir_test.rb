@@ -13,10 +13,12 @@ class HostDiskDirTest < LibTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '0DB5F3',
-  'disk[path].make makes the directory' do
+  'disk[path].make returns true when it makes the directory',
+  'false when it does not' do
     refute dir.exists?
-    dir.make
+    assert dir.make
     assert dir.exists?
+    refute dir.make
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

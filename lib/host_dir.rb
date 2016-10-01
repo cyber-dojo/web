@@ -1,4 +1,3 @@
-require 'fileutils'
 
 class HostDir
 
@@ -6,6 +5,10 @@ class HostDir
     @disk = disk
     @path = path
     @path += '/' unless @path.end_with?('/')
+  end
+
+  def parent
+    disk
   end
 
   attr_reader :path
@@ -39,7 +42,9 @@ class HostDir
 
   def make
     # -p creates intermediate dirs as required.
-    FileUtils.mkdir_p(path)
+    # -v verbose mode, output each dir actually made
+    output,_exit_status = shell.exec("mkdir -vp #{path}")
+    output != ''
   end
 
   def write_json_once(filename)
@@ -79,6 +84,7 @@ class HostDir
 
   private
 
+  include NearestAncestors
   include StringCleaner
 
   attr_reader :disk
@@ -86,5 +92,7 @@ class HostDir
   def dot?(name)
     name.end_with?('/.') || name.end_with?('/..')
   end
+
+  def shell; nearest_ancestors(:shell); end
 
 end

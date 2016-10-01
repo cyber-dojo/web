@@ -78,13 +78,9 @@ class HostDiskStorer
     # Needs to be atomic otherwise two laptops in the same practice session
     # could start as the same animal. This relies on mkdir being atomic on
     # a (non NFS) POSIX file system.
-    # Don't do the & with operands swapped - you lose randomness
     valid_names = avatar_names & Avatars.names
-    name = valid_names.detect do |valid_name|
-      _, exit_status = shell.cd_exec(kata_path(id), "mkdir #{valid_name} > /dev/null #{stderr_2_stdout}")
-      exit_status == shell.success
-    end
-
+    # Don't do the & with operands swapped - you lose randomness
+    name = valid_names.detect { |name| disk[avatar_path(id,name)].make }
     return nil if name.nil? # full!
 
     user_name = name + '_' + id
@@ -229,7 +225,6 @@ class HostDiskStorer
   end
 
   def env_var; nearest_ancestors(:env_var); end
-  def shell; nearest_ancestors(:shell); end
   def disk; nearest_ancestors(:disk); end
   def git; nearest_ancestors(:git); end
 
