@@ -70,8 +70,8 @@ class HostDiskStorer
   end
 
   def kata_started_avatars(id)
-    lines, _ = shell.cd_exec(kata_path(id), 'ls -F | grep / | tr -d /')
-    lines.split("\n") & Avatars.names
+    started = disk[kata_path(id)].each_dir.collect { |name| name }
+    started & Avatars.names
   end
 
   def kata_start_avatar(id, avatar_names)

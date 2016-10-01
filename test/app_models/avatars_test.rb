@@ -26,7 +26,7 @@ class AvatarsTest < AppModelsTestBase
     kata.start_avatar([cheetah])
     assert_equal [cheetah], kata.avatars.names.sort
     kata.start_avatar([lion])
-    assert_equal [cheetah, lion], kata.avatars.names
+    assert_equal [cheetah, lion], kata.avatars.names.sort
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
