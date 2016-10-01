@@ -66,11 +66,11 @@ class HostDiskStorer
   # - - - - - - - - - - - - - - - -
 
   def kata_manifest(id)
-    disk[kata_path(id)].read_json(manifest_filename)
+    kata_dir(id).read_json(manifest_filename)
   end
 
   def kata_started_avatars(id)
-    started = disk[kata_path(id)].each_dir.collect { |name| name }
+    started = kata_dir(id).each_dir.collect { |name| name }
     started & Avatars.names
   end
 
@@ -80,17 +80,17 @@ class HostDiskStorer
     # a (non NFS) POSIX file system.
     valid_names = avatar_names & Avatars.names
     # Don't do the & with operands swapped - you lose randomness
-    name = valid_names.detect { |name| disk[avatar_path(id,name)].make }
+    name = valid_names.detect { |name| avatar_dir(id, name).make }
     return nil if name.nil? # full!
 
     user_name = name + '_' + id
     user_email = name + '@cyber-dojo.org'
     git.setup(avatar_path(id, name), user_name, user_email)
 
-    disk[sandbox_path(id, name)].make
+    sandbox_dir(id, name).make
     visible_files = kata_manifest(id)['visible_files']
     visible_files.each do |filename, content|
-      disk[sandbox_path(id, name)].write(filename, content)
+      sandbox_dir(id, name).write(filename, content)
       git.add(sandbox_path(id, name), filename)
     end
 
@@ -110,21 +110,21 @@ class HostDiskStorer
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def avatar_exists?(id, name)
-    disk[avatar_path(id, name)].exists?
+    avatar_dir(id, name).exists?
   end
 
   def avatar_increments(id, name)
     # implicitly for current tag
-    disk[avatar_path(id, name)].read_json(increments_filename)
+    avatar_dir(id, name).read_json(increments_filename)
   end
 
   def avatar_visible_files(id, name)
     # implicitly for current tag
-    disk[avatar_path(id, name)].read_json(manifest_filename)
+    avatar_dir(id, name).read_json(manifest_filename)
   end
 
   def avatar_ran_tests(id, name, files, now, output, colour)
-    disk[sandbox_path(id, name)].write('output', output)
+    sandbox_dir(id, name).write('output', output)
     files['output'] = output
     write_avatar_manifest(id, name, files)
     # update the Red/Amber/Green increments
@@ -188,8 +188,20 @@ class HostDiskStorer
   include NearestAncestors
   include StderrRedirect
 
+  def kata_dir(id)
+    disk[kata_path(id)]
+  end
+
+  def avatar_dir(id, name)
+    disk[avatar_path(id, name)]
+  end
+
+  def sandbox_dir(id, name)
+    disk[sandbox_path(id, name)]
+  end
+
   def sandbox_write(id, name, filename, content)
-    disk[sandbox_path(id, name)].write(filename, content)
+    sandbox_dir(id, name).write(filename, content)
   end
 
   def valid?(id)
@@ -203,11 +215,11 @@ class HostDiskStorer
   end
 
   def write_avatar_manifest(id, name, files)
-    disk[avatar_path(id, name)].write_json(manifest_filename, files)
+    avatar_dir(id, name).write_json(manifest_filename, files)
   end
 
   def write_avatar_increments(id, name, increments)
-    disk[avatar_path(id, name)].write_json(increments_filename, increments)
+    avatar_dir(id, name).write_json(increments_filename, increments)
   end
 
   def increments_filename
