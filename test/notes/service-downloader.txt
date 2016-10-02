@@ -17,3 +17,36 @@ the migrater (coupled to the storer) could recognize the old-style
 format and migrate it to the new manifest only format - where individual
 visible files are not stored, after all the visible files are held
 inside the manifest per tag commit anyway!
+
+What I need is a downloader which creates the tgz file of a cyberdojo
+by accessing the manifest.N.json files and from those replaying the git commands.
+I could mostly build that now, accessing the files from the manifest.json
+file in each git tag. Then porting would be easy.
+
+This will take time but the tgz file will often be a lot smaller.
+Could I subsequently unzip such a tgz file into the katas folder?
+I think so yes. The unzipped folders would contain .git dirs which
+would indicate to the migrater that migration was required. In fact,
+since the downloader saves a tgz holding gir repos its not so much
+migration as conversion.
+
+So
+1a) new downloader service to create tgz of kata using visible-files from
+    manifest.json files only
+1b) new runner service using one volume per id+animal
+    it is passed filenames to delete, files (new/changed) to write into volume
+2) storer can drop sandbox_save()
+2) storer can drop X_path methods
+2) storer can drop sandbox saves from kata_start_avatar()
+
+3) manifest.json and increments.json files are still using git.
+   FakeStorer can use RamDisk holding TAG/manifest.json or
+   TAG/manifest.json and DummyGit
+   FakeStorer can then be used in web tests.
+
+3) new pruner service (would be simple) could recreate new dir with new .git
+   repo that only holds manifest.json files (and increments.json) in the git tags.
+   Length of increments would would give the tag number.
+   This would be useful to round-trip saving a downloaded tgz file back into
+   the katas dir.
+

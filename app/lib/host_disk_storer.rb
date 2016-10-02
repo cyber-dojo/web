@@ -51,14 +51,14 @@ class HostDiskStorer
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def kata_exists?(id)
-    valid?(id) && disk[kata_path(id)].exists?
+    valid?(id) && kata_dir(id).exists?
   end
 
   def create_kata(manifest)
     # a kata's id has 10 hex chars. This gives 16^10 possibilities
     # which is 1,099,511,627,776 which is big enough to not
     # need to check that a kata with the id already exists.
-    dir = disk[kata_path(manifest[:id])]
+    dir = kata_dir(manifest[:id])
     dir.make
     dir.write_json(manifest_filename, manifest)
   end
