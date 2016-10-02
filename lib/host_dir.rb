@@ -41,6 +41,8 @@ class HostDir
   end
 
   def make
+    # Can't find a Ruby library method allowing you to do a
+    # mkdir_p and know if a dir was created or not. So using shell.
     # -p creates intermediate dirs as required.
     # -v verbose mode, output each dir actually made
     output,_exit_status = shell.exec("mkdir -vp #{path}")

@@ -188,7 +188,6 @@ class HostDiskStorer
 
   include IdSplitter
   include NearestAncestors
-  include StderrRedirect
 
   def kata_dir(id)
     disk[kata_path(id)]
