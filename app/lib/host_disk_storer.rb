@@ -38,12 +38,14 @@ class HostDiskStorer
   end
 
   def ids_for(outer_dir)
+    # for Batch-Method iteration over large number of katas...
+    # (0..255).map{|n| '%02X' % n}.each do |outer|
+    #   storer.ids_for(outer).each do |inner|
+    #     ids << (outer + inner)
+    #   end
+    # end
     return [] unless disk[path + '/' + outer_dir].exists?
-    ids = []
-    disk[path + '/' + outer_dir].each_dir do |inner_dir|
-      ids << inner_dir
-    end
-    ids
+    disk[path + '/' + outer_dir].each_dir.collect { |dir| dir }
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
