@@ -14,13 +14,17 @@ SUDO=$4        # sudo incantation for docker commands
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #   --detach       ; get the CID for [sleep && docker rm] before [docker exec]
 #   --interactive  ; we tar-pipe later
-#   --net=none     ; for security
-#   --user=nobody  ; for security
-#   Note that the --net=none setting is inherited by [docker exec]
+# For security...
+#   --net=none
+#   --pids-limit (prevent fork bombs)
+#   --security-opt=no-new-privileges
+#   --user=nobody
 
 CID=$(${SUDO} docker run --detach \
                          --interactive \
                          --net=none \
+                         --pids-limit=64 \
+                         --security-opt=no-new-privileges \
                          --user=nobody \
                          ${IMAGE} sh)
 

@@ -1,20 +1,73 @@
 
-Idea for Better design...
--------------------------
+I would like to make a git repo for each language+testFramework combination.
+This would include the visible-files at startup and the Dockerfile +context files
+(eg .jar files).
+A problem with this is that start-point create has to clone from a git repo
+and I don't want to clone the Dockerfile stuff I only want the visible-files stuff.
+I think this is possible.
+For example, suppose I wanted to only git clone the app/ dir of
+https://github.com/cyber-dojo/web.git
+here's what I'd need to do
 
-a start-point file contains a json list like this
+mkdir partial
+cd partial
+git init
+git remote add origin https://github.com/cyber-dojo/web.git
+git config core.sparseCheckout true
+echo "app/" >> .git/info/sparse-checkout
+git pull --depth=1 origin master
+rm -rf .git
+
+-------------------------------------------------
+
+The idea is that each catalog will become a json file, with
+the structure mirroring the major,minor display name, eg
+
+https://raw.githubusercontent.com/cyber-dojo/catalogs/master/all.git
 {
-  "Java,JUnit"  => URL/DIR,
-  "C++, assert" => URL/DIR
+  "C++" : {
+    "assert" : "https://github.com/cyber-dojo-languages/C++,assert.git",
+    "catch"  : "https://github.com/cyber-dojo-languages/C++,catch.git",
+    "custom" : "localDir"
+  },
+  "Java" : {
+    "JUnit"   : "https://github.com/cyber-dojo-languages/Java,junit.git",
+    "Mockito" : "https://github.com/cyber-dojo-languages/Java,mockito.git",
+  },
+  ...
 }
 
-and each language+test combination has their own dedicated
-github repo which *combines* the Dockerfile and the initial
-visible_files.
+furthermore, I can use the Composite pattern.
+I can create a catalog manifests for specific collections
 
-Down side of this is that the DIR bit is now
-trickier to handle in a cross-platform independent way...
+eg one for C++
+https://raw.githubusercontent.com/cyber-dojo/catalogs/master/C++.git
+{
+  "C++" : {
+    "assert" : "https://github.com/cyber-dojo-languages/C++,assert.git",
+    "catch"  : "https://github.com/cyber-dojo-languages/C++,catch.git",
+    ...
+  }
+}
 
-Pass start-point file to commander, it returns list of
-base dirs that have to be copied into a volume.
-Local host does that and passes name of volume to commander.
+and one for Java
+https://raw.githubusercontent.com/cyber-dojo/catalogs/master/Java.git
+
+{
+  "Java" : {
+    "JUnit"   : "https://github.com/cyber-dojo-languages/Java,junit.git",
+    "Mockito" : "https://github.com/cyber-dojo-languages/Java,mockito.git",
+    ...
+  }
+}
+
+and I can then all can become
+https://raw.githubusercontent.com/cyber-dojo/catalogs/master/all.git
+
+{
+  "https://raw.githubusercontent.com/cyber-dojo/catalogs/master/C++.git",
+  "https://raw.githubusercontent.com/cyber-dojo/catalogs/master/Java.git",
+  ...
+}
+
+
