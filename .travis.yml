@@ -12,6 +12,10 @@ env:
         - DOCKER_COMPOSE_VERSION=1.8.0
         - DOCKER_DIR=${TRAVIS_BUILD_DIR}/docker
 
+after_success:
+    - docker login --username ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD}
+    - docker push cyberdojo/web:${DOCKER_ENGINE_VERSION}
+
 before_install:
     # list docker-engine versions
     - apt-cache madison docker-engine
