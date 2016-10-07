@@ -23,10 +23,8 @@
 !config.ru
 
 # {cyber-dojo.sh} copies these out of web container to make katas data-container
-!docker/katas/Dockerfile.copied
-!docker/katas/Dockerfile.empty
-!docker/katas/Dockerignore.copied
-!docker/katas/Dockerignore.empty
+!docker/katas/Dockerfile
+!docker/katas/.dockerignore
 
 # {cyber-dojo update} copies these out of web container
 !cli/cyber-dojo.sh
