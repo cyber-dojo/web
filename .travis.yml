@@ -14,6 +14,7 @@ env:
 
 after_success:
     - docker login --username ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD}
+    - docker push cyberdojo/web-base:${DOCKER_ENGINE_VERSION}
     - docker push cyberdojo/web:${DOCKER_ENGINE_VERSION}
 
 before_install:
@@ -34,8 +35,8 @@ before_install:
     - docker images
 
 script:
-    #- cd ${DOCKER_DIR}/web-base
-    #- ./build-image.sh ${DOCKER_ENGINE_VERSION}
+    - cd ${DOCKER_DIR}/web-base
+    - ./build-image.sh ${DOCKER_ENGINE_VERSION}
 
     - cd ${DOCKER_DIR}/web
     - ./build-image.sh ${DOCKER_ENGINE_VERSION}
