@@ -96,7 +96,7 @@ RUN  mkdir -p ${CYBER_DOJO_HOME}
 COPY Gemfile ${CYBER_DOJO_HOME}
 # Gemfile: source 'https://rubygems.org'
 RUN apk add --no-cache openssl ca-certificates
-RUN  apk --update \
+RUN apk --update \
         add --virtual build-dependencies \
           build-base \
           ruby-dev \

@@ -8,8 +8,8 @@ set -e
 # this version number.
 DOCKER_VERSION=${1:-1.12.1}
 
-# the 'home' directory inside the web image. I don't expect
-# this to change, it's parameterized to avoid duplication.
+# The 'home' directory inside the web image.
+# It's parameterized to avoid duplication.
 CYBER_DOJO_HOME=${2:-/usr/src/cyber-dojo}
 
 MY_DIR="$( cd "$( dirname "${0}" )" && pwd )"
