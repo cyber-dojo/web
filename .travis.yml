@@ -8,7 +8,7 @@ language: ruby
 
 env:
     global:
-        - DOCKER_ENGINE_VERSION=1.12.1
+        - DOCKER_ENGINE_VERSION=1.12.2
         - DOCKER_COMPOSE_VERSION=1.8.0
         - DOCKER_DIR=${TRAVIS_BUILD_DIR}/docker
 
