@@ -79,17 +79,17 @@ a:link, a:visited { color: $text-color; }
 }
 
 .new-dojo-dialog-button {
-  width: 155px;
+  width: 200px;
   margin-left: 20px !important;
 
   &.enter-page {
     position: absolute;
-    left: 120px;
-    top: 180px;
+    left: 103px;
+    top: 170px;
   }
   &.start-coding {
     position: absolute;
-    left: 120px;
+    left: 103px;
     top: 230px;
   }
 }
