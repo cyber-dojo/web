@@ -34,8 +34,10 @@ before_install:
 
 script:
     - ./build-image.sh ${DOCKER_ENGINE_VERSION}
-    - cd ${TRAVIS_BUILD_DIR}/cli
+    - curl -O https://raw.githubusercontent.com/cyber-dojo/commander/master/cyber-dojo
+    - chmod +x cyber-dojo
     - sudo ./cyber-dojo up
+
     - cid=`docker ps --all --quiet --filter "name=cyber-dojo-web"`
     - docker logs cyber-dojo-web
     - docker inspect -f {{.State.Running}} ${cid}
