@@ -6,36 +6,13 @@
 
 #-----!Except these folders
 
-!app/assets
-!app/controllers
-!app/helpers
-!app/lib
-!app/models
-!app/views
-!script
+!app
 !config
 !lib
 !test
 
 #-----!Except these files
 
-# {docker-compose.yml} [web: command: rails server...] needs this
-!config.ru
-
-# {cyber-dojo.sh} copies these out of web container to make katas data-container
-!docker/katas/Dockerfile
-!docker/katas/.dockerignore
-
-# {cyber-dojo update} copies these out of web container
-!cli/cyber-dojo.sh
-!cli/docker-compose.yml
-
-# {cyber-dojo.sh} delegates to this inside web container
-!cli/cyber-dojo.rb
-
-# {cyber-dojo.rb} delegates to these inside web container
-!cli/start_point_check.rb
-!cli/start_point_inspect.rb
-!cli/start_point_pull.rb
-
 !Gemfile
+!config.ru
+!script/rails
