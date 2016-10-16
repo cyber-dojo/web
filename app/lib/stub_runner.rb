@@ -28,7 +28,7 @@ class StubRunner
   end
 
   def stub_run_colour(avatar, rag)
-    fail "invalid colour #{rag}" if ![:red,:amber,:green].include? rag
+    fail "invalid colour #{rag}" unless [:red,:amber,:green].include? rag
     save_stub(avatar, { :colour => rag })
   end
 
@@ -58,7 +58,7 @@ class StubRunner
     @avatar = avatar
   end
 
-  def read_stub #(avatar)
+  def read_stub
     return 'blah' if @avatar.nil?
     dir = disk['/tmp/cyber-dojo/StubRunner/' + test_id]
     if dir.exists?(stub_run_filename)
