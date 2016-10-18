@@ -20,16 +20,17 @@ done
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# ensure caches dir exists
-home_dir="$( cd "$( dirname "${0}" )/.." && pwd )"
-mkdir -p ${home_dir}/caches
+# don't create permanent katas
 katas_root=/tmp/cyber-dojo/katas
 mkdir -p ${katas_root}
+export CYBER_DOJO_KATAS_ROOT=${katas_root}
 
 # don't log to stdout
 export CYBER_DOJO_LOG_CLASS=MemoryLog
-# don't create permanent katas
-export CYBER_DOJO_KATAS_ROOT=${katas_root}
+
+# ensure caches dir exists
+home_dir="$( cd "$( dirname "${0}" )/.." && pwd )"
+mkdir -p ${home_dir}/caches
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # run-the-tests!
@@ -44,6 +45,4 @@ cp -R ../../coverage .
 #pwd                       # eg  .../cyber-dojo/test/app_lib
 cwd=${PWD##*/}             # eg  app_lib
 module=${cwd/_//}          # eg  app/lib
-ruby ../print_coverage_percent.rb index.html $module | tee -a ${test_log}
-
-
+ruby ../print_coverage_percent.rb index.html ${module} | tee -a ${test_log}

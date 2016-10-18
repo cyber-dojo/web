@@ -17,13 +17,12 @@ cid=`docker ps --all --quiet --filter "name=cyber-dojo-web"`
 docker exec ${cid} sh -c "cd test && ./run.sh ${*}"
 done=$?
 
-# TODO: this doesn't work. It copies out only the last module
 root=/usr/src/cyber-dojo
 modules=( app_controllers app_helpers app_lib app_models lib )
 echo
+echo "Copying coverage stats out of container"
 for module in ${modules[*]}
 do
-  echo "Copying ${module} coverage stats to host"
   docker cp ${cid}:${root}/test/${module}/coverage/ ${my_dir}/../coverage/${module}
 done
 
