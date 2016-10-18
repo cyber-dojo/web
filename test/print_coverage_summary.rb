@@ -5,7 +5,7 @@ def modules
 end
 
 def wrapper_test_log
-  # duplicated in test/test_wrapper.sh
+  # must match test_log setting in test/test_wrapper.sh
   'coverage/test.log'
 end
 

@@ -1,7 +1,9 @@
 #!/bin/bash
 
-chmod 777 ./test-summary.txt
+# ensure Mocks saving to Dir.tmpdir have clean start
+rm -rf /tmp/cyber-dojo-*
 
+# run tests for each module
 modules=( app_helpers app_lib app_models lib app_controllers )
 for module in ${modules[*]}
 do
@@ -12,7 +14,5 @@ do
     cd ..
 done
 
-./print_coverage_summary.rb ${modules[*]} > test-summary.txt
-done=$?
-cat test-summary.txt
-exit ${done}
+./print_coverage_summary.rb ${modules[*]}
+exit $?

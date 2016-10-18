@@ -38,9 +38,8 @@ mkdir -p ${home_dir}/caches
 rm -rf ../../coverage/.resultset.json
 mkdir -p coverage
 test_log='coverage/test.log'
-# ensure Mocks saving to Dir.tmpdir have clean start
-rm -rf ${TMPDIR}/cyber-dojo-*
 ruby -e "%w( ${testFiles[*]} ).map{ |file| './'+file }.each { |file| require file }" -- ${args[*]} 2>&1 | tee ${test_log}
+# copy coverage to the module's dir (dot)
 cp -R ../../coverage .
 #pwd                       # eg  .../cyber-dojo/test/app_lib
 cwd=${PWD##*/}             # eg  app_lib
