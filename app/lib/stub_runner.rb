@@ -61,15 +61,13 @@ class StubRunner
   def read_stub
     return 'blah' if @avatar.nil?
     dir = disk['/tmp/cyber-dojo/StubRunner/' + test_id]
-    if dir.exists?(stub_run_filename)
-      json = dir.read_json(stub_run_filename)
-      output = json['output']
-      return output unless output.nil?
-      rag = json['colour']
-      fail "no 'output' or 'colour' in #{json}" if rag.nil?
-      return sample(@avatar, rag)
-    end
-    return sample(@avatar, red_amber_green.sample)
+    fail 'nothing stubbed for StubRunner' unless dir.exists?(stub_run_filename)
+    json = dir.read_json(stub_run_filename)
+    output = json['output']
+    return output unless output.nil?
+    rag = json['colour']
+    fail "no 'output' or 'colour' in #{json}" if rag.nil?
+    return sample(@avatar, rag)
   end
 
   def sample(avatar, rag)

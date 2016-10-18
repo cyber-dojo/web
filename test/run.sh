@@ -2,14 +2,7 @@
 
 chmod 777 ./test-summary.txt
 
-modules=(
-  app_helpers
-  app_lib
-  app_models
-  lib
-  app_controllers
-)
-
+modules=( app_helpers app_lib app_models lib app_controllers )
 for module in ${modules[*]}
 do
     echo
