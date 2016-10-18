@@ -1,7 +1,7 @@
 
 require 'net/http'
 
-class GitDiffService
+class DifferService
 
   def initialize(_parent)
   end

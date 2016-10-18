@@ -23,7 +23,7 @@ end
   cd_env_name('custom_root')    => "#{cd_root}/start_points/custom",
   cd_env_name('katas_root')     => "#{cd_root}/katas",
 
-  cd_env_name('differ_class') => 'GitDiffService',
+  cd_env_name('differ_class') => 'DifferService',
   cd_env_name('storer_class') => 'HostDiskStorer',
   cd_env_name('runner_class') => 'DockerTarPipeRunner'
 

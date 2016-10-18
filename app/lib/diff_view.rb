@@ -1,7 +1,7 @@
 
-module GitDiffView # mix-in
+module DiffView # mix-in
 
-  def git_diff_view(diffed_files)
+  def diff_view(diffed_files)
     n = 0
     diffs = []
     diffed_files.sort.each do |filename, diff|
@@ -13,8 +13,8 @@ module GitDiffView # mix-in
              section_count: diff.count { |line| line['type'] == 'section' },
         deleted_line_count: diff.count { |line| line['type'] == 'deleted' },
           added_line_count: diff.count { |line| line['type'] == 'added'   },
-                   content: git_diff_html_file(id, diff),
-              line_numbers: git_diff_html_line_numbers(diff)
+                   content: diff_html_file(id, diff),
+              line_numbers: diff_html_line_numbers(diff)
       }
     end
     diffs
@@ -22,7 +22,7 @@ module GitDiffView # mix-in
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def git_diff_html_file(id, diff)
+  def diff_html_file(id, diff)
     diff.map { |n| diff_htmlify(id, n) }.join('')
   end
 
@@ -41,7 +41,7 @@ module GitDiffView # mix-in
     result
   end
 
-  def git_diff_html_line_numbers(diff)
+  def diff_html_line_numbers(diff)
     # Originally I left-padded each line-number.
     # Now I don't and the CSS right-aligns the line-numbers.
     # There is a downside to this approach however.

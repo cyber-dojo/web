@@ -2,9 +2,9 @@
 
 require_relative './app_lib_test_base'
 
-class GitDiffHtmlTest <  AppLibTestBase
+class DiffHtmlTest <  AppLibTestBase
 
-  include GitDiffView
+  include DiffView
 
   test '748980',
   'non-empty same/added/deleted lines stay as themselves' do
@@ -153,10 +153,10 @@ class GitDiffHtmlTest <  AppLibTestBase
   def assert_equal_diff_html(id = 'unused')
 
     assert_equal @expected_lines.join,
-      git_diff_html_file(id, @diff_lines)
+      diff_html_file(id, @diff_lines)
 
     assert_equal @expected_line_numbers.join,
-      git_diff_html_line_numbers(@diff_lines)
+      diff_html_line_numbers(@diff_lines)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -

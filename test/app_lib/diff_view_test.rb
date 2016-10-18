@@ -2,9 +2,9 @@
 
 require_relative './app_lib_test_base'
 
-class GitDiffViewTest < AppLibTestBase
+class DiffViewTest < AppLibTestBase
 
-  include GitDiffView
+  include DiffView
 
   test '836292',
   'simple example going from red to green' do
@@ -20,7 +20,7 @@ class GitDiffViewTest < AppLibTestBase
         { 'line' => 'end',        'type' => 'same',    'number' => 4 },
       ]
     }
-    view = git_diff_view(diffs)
+    view = diff_view(diffs)
 
     expected_view =
     [

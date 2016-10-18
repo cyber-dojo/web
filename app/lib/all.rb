@@ -3,8 +3,8 @@
   start_point_chooser
   file_delta_maker
   unit_test_framework_lookup
-  git_diff_service
-  git_diff_view
+  differ_service
+  diff_view
   review_file_picker
   ring_picker
   makefile_filter
