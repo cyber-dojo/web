@@ -116,12 +116,12 @@ class HostDiskStorer
   end
 
   def avatar_increments(id, name)
-    # implicitly for current tag
+    # implicitly for current (latest) tag
     avatar_dir(id, name).read_json(increments_filename)
   end
 
   def avatar_visible_files(id, name)
-    # implicitly for current tag
+    # implicitly for current (latest) tag
     avatar_dir(id, name).read_json(manifest_filename)
   end
 

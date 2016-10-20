@@ -38,7 +38,7 @@ mkdir -p ${home_dir}/caches
 rm -rf ../../coverage/.resultset.json
 mkdir -p coverage
 test_log='coverage/test.log'
-ruby -e "%w( ${testFiles[*]} ).map{ |file| './'+file }.each { |file| require file }" -- ${args[*]} 2>&1 | tee ${test_log}
+ruby -e "%w( ${testFiles[*]} ).shuffle.map{ |file| './'+file }.each { |file| require file }" -- ${args[*]} 2>&1 | tee ${test_log}
 # copy coverage to the module's dir (dot)
 cp -R ../../coverage .
 #pwd                       # eg  .../cyber-dojo/test/app_lib
