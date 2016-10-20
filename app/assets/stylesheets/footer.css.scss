@@ -42,6 +42,15 @@
     }
   }
 
+  #cucumber-container {
+    #cucumber-image {
+      @include rounded-corner(3px);
+         padding: 5px;
+           width: 50px;
+          margin: { top: 7px; }
+    }
+  }
+
   #learn-more-button {
     @include non-code-font();
        padding: { right: 10px; bottom: 2px; }
