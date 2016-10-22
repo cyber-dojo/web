@@ -4,7 +4,7 @@ var cyberDojo = (function(cd, $) {
   "use strict";
 
   cd.invoiceMe = function() {
-    var url = "mailto:jon@jaggersoft.com?subject=cyber-dojo donation - please invoice me";
+    var url = "mailto:pies@cyber-dojo.org?subject=cyber-dojo donation - please invoice me";
     window.open(url, '_blank');
     return false;
   };
@@ -39,30 +39,34 @@ var cyberDojo = (function(cd, $) {
     };
 
     var html = '' +
-     '<div data-width="600">' +
-     '<table>' +
-       '<tr>' +
-         '<td>' + donateButton() + '</td>' +
-         '<td>' +
-           "&nbsp;&nbsp;for an individual, I suggest donating $5+" +
-         '</td>' +
-       '</tr>' +
-       '<tr>' +
-         '<td>' + donateButton() + '</td>' +
-         '<td>' +
-           "&nbsp;&nbsp;for a non-profit meetup, I suggest donating $15+" +
-         '</td>' +
-       '</tr>' +
-       '<tr>' +
-         '<td>' + donateButton() + '</td>' +
-         '<td>' +
-           "&nbsp;&nbsp;for a commercial organization, I suggest donating $500+" +
-         '</td>' +
-       '</tr>' +
-      '</table>' +
-      '<div>' +
-    '<br/>if you need an invoice, please ' +
-      '<a id="email-me" href=".." onclick="return cd.invoiceMe();">email me</a>';
+      '<div data-width="600">' +
+        '<table>' +
+          '<tr>' +
+            '<td>' + donateButton() + '</td>' +
+            '<td>' +
+              "&nbsp;&nbsp;for an individual, I suggest donating $5+" +
+            '</td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td>' + donateButton() + '</td>' +
+            '<td>' +
+              "&nbsp;&nbsp;for a non-profit meetup, I suggest donating $15+" +
+            '</td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td>' + donateButton() + '</td>' +
+            '<td>' +
+              "&nbsp;&nbsp;for a commercial organization, I suggest donating $500+" +
+            '</td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td colspan="2">' +
+              'if you need an invoice, please ' +
+              '<button id="email-me" onclick="return cd.invoiceMe();">email</button>' +
+            '</td>' +
+          '</tr>' +
+         '</table>' +
+      '<div>';
 
     return cd.dialog(html, title, 'close');
   };

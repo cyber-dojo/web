@@ -54,7 +54,6 @@
   h1 {
     @include non-code-font();
     font-size: 4.25em;
-        color: $text-color;
   }
 
   .kids-pic {
@@ -81,6 +80,10 @@
     @include rounded-corner();
     width: 150px;
     height: 125px;
+  }
+  button#email-me {
+    @include non-code-font();
+    background-color: lighten($lighter-color, 5%);
   }
 
   //------------------------------------------
