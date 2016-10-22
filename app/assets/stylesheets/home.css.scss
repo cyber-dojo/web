@@ -79,6 +79,8 @@
     margin-top: 10px;
     border: 3px solid lighten($text-color, 5%);
     @include rounded-corner();
+    width: 150px;
+    height: 125px;
   }
 
   //------------------------------------------
