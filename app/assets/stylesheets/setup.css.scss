@@ -34,7 +34,7 @@
   #languages-list, #tests-list, #exercises-list {
     @include non-code-font();
      height: 370px;
-      width: 140px;
+      width: 190px;
     padding: 6px;
      margin: { right: 5px; }
 
@@ -69,7 +69,7 @@
   #info-container {
     @include plaintext-font();
         height: 365px;
-         width: 300px;
+         width: 200px;
        padding: { left: 159px; top: 58px; }
     text-align: right;
   }
