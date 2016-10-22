@@ -94,7 +94,7 @@
 
   //------------------------------------------
 
-  .licensing-text, .info-text {
+  .info-text {
     @include plaintext-font();
     font-size: 1.25em;
   }
