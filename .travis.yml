@@ -30,6 +30,8 @@ script:
     - docker         exec ${cid} sh -c "cd test && ./run.sh"
 
 after_success:
-    - docker login --username ${DOCKER_USERNAME} --password ${DOCKER_PASSWORD}
-    - docker push cyberdojo/web:${DOCKER_ENGINE_VERSION}
+    - if [ "${TRAVIS_BRANCH}" == "master" ]; then
+        docker login --username "${DOCKER_USERNAME}" --password "${DOCKER_PASSWORD}";
+        docker push cyberdojo/web:${DOCKER_ENGINE_VERSION};
+      fi
 
