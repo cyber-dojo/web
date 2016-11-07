@@ -125,7 +125,12 @@ class HostDiskStorer
     avatar_dir(id, name).read_json(manifest_filename)
   end
 
-  def avatar_ran_tests(id, name, files, now, output, colour)
+  def avatar_ran_tests(id, name, delta, files, now, output, colour)
+    # TODO: when new runner is in place uncomment the call to sandbox_save
+    # TODO: making sandbox_save private will break tests in
+    #       test/app_lib/host_disk_storer_test.rb
+
+    # sandbox_save(id, name, delta, files)
     sandbox_dir(id, name).write('output', output)
     files['output'] = output
     write_avatar_manifest(id, name, files)

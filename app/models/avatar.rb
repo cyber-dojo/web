@@ -23,7 +23,7 @@ class Avatar
   end
 
   def tested(delta, files, at, output, colour)
-    storer.avatar_ran_tests(kata.id, name, files, at, output, colour)
+    storer.avatar_ran_tests(kata.id, name, delta, files, at, output, colour)
   end
 
   # queries
