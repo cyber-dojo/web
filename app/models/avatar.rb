@@ -12,9 +12,17 @@ class Avatar
 
   def test(delta, files)
     runner.run(kata.id, name, delta, files, kata.image_name)
+
+    #deleted_filenames = delta[:deleted]
+    #changed_files = {}
+    #delta[:new    ].each { |filename| changed_files[filename] = files[filename] }
+    #delta[:changed].each { |filename| changed_files[filename] = files[filename] }
+    #max_seconds = 10
+    #json = runner.run(kata.image_name, kata.id, name, deleted_filenames, changed_files, max_seconds)
+    #json['stdout']
   end
 
-  def tested(files, at, output, colour)
+  def tested(delta, files, at, output, colour)
     storer.avatar_ran_tests(kata.id, name, files, at, output, colour)
   end
 

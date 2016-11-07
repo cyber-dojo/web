@@ -17,6 +17,7 @@ class EnterController < ApplicationController
   def start
     avatar = kata.start_avatar
     full = avatar.nil?
+    #runner.new_avatar(kata.id, avatar.name) unless full
     render json: {
             avatar_name: !full ? avatar.name : '',
                    full:  full,

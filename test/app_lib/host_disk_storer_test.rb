@@ -194,7 +194,7 @@ class HostDiskStorerTest < AppLibTestBase
     lion = kata.start_avatar(['lion'])
     maker = DeltaMaker.new(lion)
     now = time_now
-    lion.tested(maker.visible_files, now, output='xx', 'amber')
+    lion.tested(maker.delta, maker.visible_files, now, output='xx', 'amber')
     incs = storer.avatar_increments(kata.id, 'lion')
     assert_equal [{
       'colour' => 'amber',

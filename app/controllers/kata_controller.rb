@@ -21,7 +21,7 @@ class KataController < ApplicationController
     files = received_files
     @output = @avatar.test(delta, files)
     @test_colour = kata.red_amber_green(@output)
-    @avatar.tested(files, time_now, @output, @test_colour)
+    @avatar.tested(delta, files, time_now, @output, @test_colour)
 
     respond_to do |format|
       format.js   { render layout: false }
