@@ -19,8 +19,13 @@ class KataController < ApplicationController
     outgoing = params[:file_hashes_outgoing]
     delta = FileDeltaMaker.make_delta(incoming, outgoing)
     files = received_files
-    @output = @avatar.test(delta, files)
-    @test_colour = kata.red_amber_green(@output)
+    stdout,stderr,status = @avatar.test(delta, files)
+    @output = stdout + stderr
+    if status == 'timed_out'
+      @test_colour = 'timed_out'
+    else
+      @test_colour = kata.red_amber_green(@output)
+    end
     @avatar.tested(delta, files, time_now, @output, @test_colour)
 
     respond_to do |format|

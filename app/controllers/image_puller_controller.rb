@@ -6,8 +6,8 @@ class ImagePullerController < ApplicationController
   end
 
   def pull
-    _output, exit_status = runner.pull(image_name)
-    render json: { succeeded: exit_status == 0 }
+    _stdout,_stderr,status = runner.pull(image_name)
+    render json: { succeeded: status == 0 }
   end
 
   private

@@ -130,7 +130,7 @@ class HostDiskStorer
     # TODO: making sandbox_save private will break tests in
     #       test/app_lib/host_disk_storer_test.rb
 
-    # sandbox_save(id, name, delta, files)
+    sandbox_save(id, name, delta, files)
     sandbox_dir(id, name).write('output', output)
     files['output'] = output
     write_avatar_manifest(id, name, files)

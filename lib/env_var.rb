@@ -25,7 +25,7 @@ end
 
   cd_env_name('differ_class') => 'DifferService',
   cd_env_name('storer_class') => 'HostDiskStorer',
-  cd_env_name('runner_class') => 'DockerTarPipeRunner'
+  cd_env_name('runner_class') => 'RunnerService'
 
 }.each { |key, name|
   ENV[key] = name if ENV[key].nil?

@@ -94,13 +94,9 @@ class Kata
   end
 
   def red_amber_green(output)
-    if Regexp.new('Unable to complete the test').match(output)
-      return 'timed_out'
-    end
     src = manifest['red_amber_green']
     if output.nil?
-      # so lambda src can be saved when forking
-      return src
+      return src # so lambda src can be saved when forking
     end
     # before or after start-points re-architecture?
     if src.nil? # before

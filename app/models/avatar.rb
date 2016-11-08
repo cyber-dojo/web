@@ -11,15 +11,12 @@ class Avatar
   # modifiers
 
   def test(delta, files)
-    runner.run(kata.id, name, delta, files, kata.image_name)
-
-    #deleted_filenames = delta[:deleted]
-    #changed_files = {}
-    #delta[:new    ].each { |filename| changed_files[filename] = files[filename] }
-    #delta[:changed].each { |filename| changed_files[filename] = files[filename] }
-    #max_seconds = 10
-    #json = runner.run(kata.image_name, kata.id, name, deleted_filenames, changed_files, max_seconds)
-    #json['stdout']
+    deleted_filenames = delta[:deleted]
+    changed_files = {}
+    delta[:new    ].each { |filename| changed_files[filename] = files[filename] }
+    delta[:changed].each { |filename| changed_files[filename] = files[filename] }
+    max_seconds = 10
+    runner.run(kata.image_name, kata.id, name, deleted_filenames, changed_files, max_seconds)
   end
 
   def tested(delta, files, at, output, colour)
