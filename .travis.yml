@@ -32,6 +32,6 @@ script:
 after_success:
     - if [ "${TRAVIS_BRANCH}" == "master" ]; then
         docker login --username "${DOCKER_USERNAME}" --password "${DOCKER_PASSWORD}";
-        docker push cyberdojo/web:${DOCKER_ENGINE_VERSION};
+        docker push cyberdojo/web;
       fi
 
