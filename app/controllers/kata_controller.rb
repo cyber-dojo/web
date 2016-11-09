@@ -20,10 +20,15 @@ class KataController < ApplicationController
     delta = FileDeltaMaker.make_delta(incoming, outgoing)
     files = received_files
     stdout,stderr,status = @avatar.test(delta, files)
-    @output = stdout + stderr
     if status == 'timed_out'
+      max_seconds = 10
+      @output = "Unable to complete the tests in #{max_seconds} seconds.\n" +
+          "Is there an accidental infinite loop?\n" +
+          "Is the server very busy?\n" +
+          "Please try again."
       @test_colour = 'timed_out'
     else
+      @output = stdout + stderr
       @test_colour = kata.red_amber_green(@output)
     end
     @avatar.tested(delta, files, time_now, @output, @test_colour)
