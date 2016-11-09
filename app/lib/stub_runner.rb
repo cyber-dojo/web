@@ -14,24 +14,20 @@ class StubRunner
 
   attr_reader :parent
 
-  def pulled?(image_name)
-    [
-      "#{cdf}/nasm_assert",
-      "#{cdf}/gcc_assert",
-      "#{cdf}/csharp_nunit",
-      "#{cdf}/gpp_cpputest"
-    ].include?(image_name)
-  end
+  def pulled?(image_name); image_names.include?(image_name); end
+  def pull(_image_name); end
 
-  def pull(image_name)
-    shell.exec(sudo + "docker pull #{image_name}")
-  end
+  # - - - - - - - - - - - - - - - - -
 
   def new_kata(_id, _image_name); end
   def old_kata(_id); end
 
+  # - - - - - - - - - - - - - - - - -
+
   def new_avatar(_id, _avatar_name); end
   def old_avatar(_id, _avatar_name); end
+
+  # - - - - - - - - - - - - - - - - -
 
   def stub_run_colour(avatar, rag)
     fail "invalid colour #{rag}" unless [:red,:amber,:green].include? rag
@@ -44,7 +40,7 @@ class StubRunner
 
   def run(_image, _id, _name, _delta, _files, _image_name)
     output = read_stub
-    output_or_timed_out(output, success=0, max_seconds)
+    output_or_timed_out(output, success=0)
   end
 
   def max_seconds
@@ -54,7 +50,19 @@ class StubRunner
   private
 
   include NearestAncestors
+  def disk; nearest_ancestors(:disk); end
+
   include UnitTestFrameworkLookup
+
+  def image_names
+    cdf = 'cyberdojofoundation'
+    [
+      "#{cdf}/nasm_assert",
+      "#{cdf}/gcc_assert",
+      "#{cdf}/csharp_nunit",
+      "#{cdf}/gpp_cpputest"
+    ]
+  end
 
   def save_stub(avatar, json)
     dir = disk['/tmp/cyber-dojo/StubRunner/' + test_id]
@@ -94,40 +102,19 @@ class StubRunner
     'stub_run.json'
   end
 
-  def cdf
-    'cyberdojofoundation'
-  end
-
-  def sudo
-    'sudo -u docker-runner sudo '
-  end
-
   def test_id
     ENV['CYBER_DOJO_TEST_ID']
   end
 
-  def shell; nearest_ancestors(:shell); end
-  def disk; nearest_ancestors(:disk); end
-
-  # - - - - - - - - - - - - - - - - - - - - -
-
-  def output_or_timed_out(output, exit_status, max_seconds)
-    exit_status != timed_out ? truncated(cleaned(output)) : did_not_complete(max_seconds)
+  def output_or_timed_out(output, status)
+    status != 'timed_out' ? output : did_not_complete
   end
 
-  def did_not_complete(max_seconds)
+  def did_not_complete
     "Unable to complete the tests in #{max_seconds} seconds.\n" +
     "Is there an accidental infinite loop?\n" +
     "Is the server very busy?\n" +
     "Please try again."
   end
-
-  def timed_out
-    (timeout = 128) + (kill = 9)
-  end
-
-  include StringCleaner
-  include StringTruncater
-  include StderrRedirect
 
 end
