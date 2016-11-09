@@ -32,7 +32,7 @@ module DiffView # mix-in
       result = "<span id='#{id}_section_#{n['index']}'></span>"
     else
       line = CGI.escapeHTML(n['line'])
-      line = '&thinsp;' if line == ''
+      line = '&nbsp;' if line == ''
       result =
         "<#{n['type']}>" +
           line +
