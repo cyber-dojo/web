@@ -23,9 +23,9 @@ class TipTest < AppHelpersTestBase
     refute_nil content
     maker.change_file(filename, content.sub('9', '7'))
     maker.run_test
-    was_tag = 1
+    diff = differ.diff(lion, was_tag=1, now_tag=2)
+
     was_tag_colour = 'red'
-    now_tag = 2
     now_tag_colour = 'green'
     expected =
       "Click to review lion's<br/>" +
@@ -34,9 +34,9 @@ class TipTest < AppHelpersTestBase
       "<span class='#{now_tag_colour}'>#{now_tag}</span> diff" +
       "<div>1 added line</div>" +
       "<div>1 deleted line</div>"
-    diff = differ.diff(lion, was_tag, now_tag)
     actual = traffic_light_tip_html(diff, lion, was_tag, now_tag)
     assert_equal expected, actual
+    runner.old_kata(kata.id)
   end
 
 end
