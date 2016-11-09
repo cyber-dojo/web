@@ -13,7 +13,7 @@ class TipTest < AppHelpersTestBase
 
   test 'BDAD52',
   'traffic light tip' do
-    kata = make_kata( { language: 'C (gcc)-assert'} )
+    kata = make_kata({ language: 'C (gcc)-assert' })
     lion = kata.start_avatar(['lion'])
     maker = DeltaMaker.new(lion)
     maker.run_test
