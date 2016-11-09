@@ -17,17 +17,17 @@ class EnterController < ApplicationController
   def start
     avatar = kata.start_avatar
     full = avatar.nil?
-    unless full
-      runner.new_avatar(kata.id, avatar.name)
-      args = []
-      args << kata.image_name
-      args << kata.id
-      args << avatar.name
-      args << (delted_filenames=[])
-      args << (changed_files=kata.visible_files)
-      args << (max_seconds=10)
-      runner.run(*args)
-    end
+    #unless full
+    #  runner.new_avatar(kata.id, avatar.name)
+    #  args = []
+    #  args << kata.image_name
+    #  args << kata.id
+    #  args << avatar.name
+    #  args << (delted_filenames=[])
+    #  args << (changed_files=kata.visible_files)
+    #  args << (max_seconds=10)
+    #  runner.run(*args)
+    #end
     render json: {
             avatar_name: !full ? avatar.name : '',
                    full:  full,

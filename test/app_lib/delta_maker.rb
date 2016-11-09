@@ -63,7 +63,8 @@ class DeltaMaker
     if @stubbed.nil? && nearest_ancestors(:runner, @avatar).class.name == 'StubRunner'
       stub_colour(:red)
     end
-    output = @avatar.test(delta, visible_files)
+    stdout,stderr,status = @avatar.test(delta, visible_files)
+    output = stdout + stderr
     colour = @avatar.kata.red_amber_green(output)
     @avatar.tested(delta, visible_files, at, output, colour)
     [delta, visible_files, output]

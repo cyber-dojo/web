@@ -12,6 +12,17 @@ class Kata
 
   def start_avatar(avatar_names = Avatars.names.shuffle)
     name = storer.kata_start_avatar(id, avatar_names)
+    unless name.nil?
+      runner.new_avatar(id, name)
+      args = []
+      args << image_name
+      args << id
+      args << name
+      args << (delted_filenames = [])
+      args << visible_files
+      args << (max_seconds = 10)
+      runner.run(*args)
+    end
     name.nil? ? nil : Avatar.new(self, name)
   end
 
@@ -138,6 +149,7 @@ class Kata
   def languages; nearest_ancestors(:languages); end
   def custom; nearest_ancestors(:custom); end
   def storer; nearest_ancestors(:storer); end
+  def runner; nearest_ancestors(:runner); end
 
 end
 

@@ -8,7 +8,7 @@ class TipTest < AppHelpersTestBase
   include TipHelper
 
   def setup_runner_class
-    set_runner_class('DockerTarPipeRunner')
+    set_runner_class('RunnerService')
   end
 
   test 'BDAD52',
