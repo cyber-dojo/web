@@ -27,6 +27,12 @@ class StubRunner
     shell.exec(sudo + "docker pull #{image_name}")
   end
 
+  def new_kata(_id, _image_name); end
+  def old_kata(_id); end
+
+  def new_avatar(_id, _avatar_name); end
+  def old_avatar(_id, _avatar_name); end
+
   def stub_run_colour(avatar, rag)
     fail "invalid colour #{rag}" unless [:red,:amber,:green].include? rag
     save_stub(avatar, { :colour => rag })
@@ -36,7 +42,7 @@ class StubRunner
     save_stub(avatar, { :output => output })
   end
 
-  def run(_id, _name, _delta, _files, _image_name)
+  def run(_image, _id, _name, _delta, _files, _image_name)
     output = read_stub
     output_or_timed_out(output, success=0, max_seconds)
   end
