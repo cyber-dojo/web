@@ -11,7 +11,6 @@
   dashboard_td_gapper
   display_names_splitter
   host_disk_storer
-  runner
   stub_runner
 
   differ_service
