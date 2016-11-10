@@ -67,7 +67,6 @@ class HostDir
     fail RuntimeError.new('not a string') unless s.is_a? String
     pathed_filename = path + filename
     File.open(pathed_filename, 'w') { |fd| fd.write(s) }
-    File.chmod(0755, pathed_filename) if pathed_filename.end_with?('.sh')
   end
 
   def read_json(filename)

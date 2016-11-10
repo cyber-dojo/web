@@ -137,7 +137,7 @@ class HostDiskDirTest < LibTestBase
   test 'B5C931',
   'save file for executable file' do
     dir.make
-    check_save_file('file.sh', 'ls', 'ls', executable = true)
+    check_save_file('file.sh', 'ls', 'ls')
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -277,14 +277,12 @@ class HostDiskDirTest < LibTestBase
 
   private
 
-  def check_save_file(filename, content, expected_content, executable = false)
+  def check_save_file(filename, content, expected_content)
     dir.write(filename, content)
     pathed_filename = path + '/' + filename
     assert File.exists?(pathed_filename),
           "File.exists?(#{pathed_filename})"
     assert_equal expected_content, IO.read(pathed_filename)
-    assert_equal executable, File.executable?(pathed_filename),
-                            'File.executable?(pathed_filename)'
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
