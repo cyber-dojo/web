@@ -21,8 +21,8 @@ class RunnerService
 
   # - - - - - - - - - - - - - - - - - - - - - - -
 
-  def new_kata(kata_id, image_name)
-    post(__method__, { kata_id:kata_id, image_name:image_name })
+  def new_kata(image_name, kata_id)
+    post(__method__, { image_name:image_name, kata_id:kata_id })
   end
 
   def old_kata(kata_id)
@@ -31,8 +31,13 @@ class RunnerService
 
   # - - - - - - - - - - - - - - - - - - - - - - -
 
-  def new_avatar(kata_id, avatar_name)
-    post(__method__, { kata_id:kata_id, avatar_name:avatar_name })
+  def new_avatar(image_name, kata_id, avatar_name, starting_files)
+    post(__method__, {
+                image_name:image_name,
+                   kata_id:kata_id,
+               avatar_name:avatar_name,
+            starting_files:starting_files
+    })
   end
 
   def old_avatar(kata_id, avatar_name)
