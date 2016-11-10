@@ -1,3 +1,5 @@
+#!/bin/sh
+set -e
 
 ./build-image.sh
 cyber-dojo up
