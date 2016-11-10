@@ -22,7 +22,7 @@ class TipTest < AppHelpersTestBase
     lion.test(delta, files={})
 
     filename = 'hiker.c'
-    hiker_c = visible_files[filename]
+    hiker_c = kata.visible_files[filename]
     files[filename] = hiker_c.sub('9','7')
     delta[:changed] = [ filename ]
     lion.test(delta, files)
