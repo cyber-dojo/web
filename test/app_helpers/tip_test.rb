@@ -22,6 +22,13 @@ class TipTest < AppHelpersTestBase
     files = kata.visible_files
     stdout,stderr,status = lion.test(delta, files)
     output = stdout+stderr
+p "----1 stdout"
+p stdout
+p "----1 stderr"
+p stderr
+p "----1 status"
+p status
+
     was_colour = kata.red_amber_green(output).to_s
     lion.tested(delta, files, time_now, output, was_colour)
 
@@ -31,6 +38,13 @@ class TipTest < AppHelpersTestBase
     delta[:changed] = [ filename ]
     stdout,stderr,status = lion.test(delta, files)
     output = stdout + stderr
+p "----2 stdout"
+p stdout
+p "----2 stderr"
+p stderr
+p "----2 status"
+p status
+
     now_colour = kata.red_amber_green(output).to_s
     lion.tested(delta, files, time_now, output, now_colour)
 
