@@ -19,12 +19,12 @@ class StubRunner
 
   # - - - - - - - - - - - - - - - - -
 
-  def new_kata(_id, _image_name); end
+  def new_kata(_image_name, _id); end
   def old_kata(_id); end
 
   # - - - - - - - - - - - - - - - - -
 
-  def new_avatar(_id, _avatar_name); end
+  def new_avatar(_image_name, _id, _avatar_name, _starting_files); end
   def old_avatar(_id, _avatar_name); end
 
   # - - - - - - - - - - - - - - - - -
@@ -39,8 +39,10 @@ class StubRunner
   end
 
   def run(_image, _id, _name, _delta, _files, _image_name)
-    output = read_stub
-    output_or_timed_out(output, success=0)
+    stdout = read_stub
+    stderr = ''
+    status = (success = 0)
+    [stdout,stderr,status]
   end
 
   def max_seconds
@@ -106,15 +108,15 @@ class StubRunner
     ENV['CYBER_DOJO_TEST_ID']
   end
 
-  def output_or_timed_out(output, status)
-    status != 'timed_out' ? output : did_not_complete
-  end
-
-  def did_not_complete
-    "Unable to complete the tests in #{max_seconds} seconds.\n" +
-    "Is there an accidental infinite loop?\n" +
-    "Is the server very busy?\n" +
-    "Please try again."
-  end
+  #def output_or_timed_out(output, status)
+  #  status != 'timed_out' ? output : did_not_complete
+  #end
+  #
+  #def did_not_complete
+  #  "Unable to complete the tests in #{max_seconds} seconds.\n" +
+  #  "Is there an accidental infinite loop?\n" +
+  #  "Is the server very busy?\n" +
+  #  "Please try again."
+  #end
 
 end
