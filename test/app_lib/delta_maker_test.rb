@@ -7,6 +7,10 @@ class DeltaMakerTest < AppLibTestBase
 
   def setup
     super
+    # HAVE TO CALL set_runner_class here
+    # IT IS *NOT* BEING CALLED FROM hex-id-helpers
+    # ALSO... setup appears to be being called one time extra
+    set_runner_class('StubRunner')
     kata = make_kata
     avatar = kata.start_avatar(Avatars.names)
     @maker = DeltaMaker.new(avatar)
@@ -22,7 +26,6 @@ class DeltaMakerTest < AppLibTestBase
   'new_file(filename) raises RuntimeError when filename not new' do
     assert_raises(RuntimeError) { @maker.new_file(@existing_filename, '') }
   end
-
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '2E2849',
