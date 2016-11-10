@@ -19,21 +19,27 @@ class TipTest < AppHelpersTestBase
       :new => {},
       :changed => {}
     }
-    lion.test(delta, files={})
+    files = kata.visible_files
+    stdout,stderr,status = lion.test(delta, files)
+    output = stdout+stderr
+    was_colour = kata.red_amber_green(output).to_s
+    lion.tested(delta, files, time_now, output, was_colour)
 
     filename = 'hiker.c'
     hiker_c = kata.visible_files[filename]
     files[filename] = hiker_c.sub('9','7')
     delta[:changed] = [ filename ]
-    lion.test(delta, files)
+    stdout,stderr,status = lion.test(delta, files)
+    output = stdout + stderr
+    now_colour = kata.red_amber_green(output).to_s
+    lion.tested(delta, files, time_now, output, now_colour)
 
-    was_tag_colour = 'red'
-    now_tag_colour = 'green'
+    diff = differ.diff(lion, was_tag=1, now_tag=2)
     expected =
       "Click to review lion's<br/>" +
-      "<span class='#{was_tag_colour}'>#{was_tag}</span> " +
+      "<span class='red'>#{was_tag}</span> " +
       "&harr; " +
-      "<span class='#{now_tag_colour}'>#{now_tag}</span> diff" +
+      "<span class='green'>#{now_tag}</span> diff" +
       "<div>1 added line</div>" +
       "<div>1 deleted line</div>"
     actual = traffic_light_tip_html(diff, lion, was_tag, now_tag)
