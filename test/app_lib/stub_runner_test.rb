@@ -36,8 +36,7 @@ class StubRunnerTest < AppLibTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '0B42BD',
-  'pull issues docker-pull command to shell' do
-    shell.mock_exec([sudo + "docker pull #{cdf}/csharp_moq"], output='', success)
+  'pull is no-op' do
     runner.pull "#{cdf}/csharp_moq"
   end
 
@@ -48,7 +47,8 @@ class StubRunnerTest < AppLibTestBase
     kata = make_kata
     lion = kata.start_avatar(['lion'])
     runner.stub_run_output(lion, output='syntax error line 1')
-    assert_equal output, runner.run(kata.id, 'lion', _delta=nil, _files=nil, _image_name=nil)
+    stdout,stderr,status = runner.run(kata.image_name, kata.id, 'lion', _delta=nil, _files=nil, _image_name=nil)
+    assert_equal output, stdout
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -59,7 +59,8 @@ class StubRunnerTest < AppLibTestBase
     lion = kata.start_avatar(['lion'])
     [:red, :amber, :green].each do |colour|
       runner.stub_run_colour(lion, colour)
-      output = runner.run(kata.id, 'lion', _delta=nil, _files=nil, _image_name=nil)
+      stdout,stderr,_ = runner.run(kata.image_name, kata.id, 'lion', _delta=nil, _files=nil, _image_name=nil)
+      output = stdout + stderr
       assert_equal colour.to_s, kata.red_amber_green(output)
     end
   end
@@ -70,7 +71,8 @@ class StubRunnerTest < AppLibTestBase
   'run without preceeding stub returns amber' do
     kata = make_kata
     lion = kata.start_avatar(['lion'])
-    output = runner.run(kata.id, 'lion', _delta=nil, _files=nil, _image_name=nil)
+    stdout,stderr,status = runner.run(kata.image_name, kata.id, 'lion', _delta=nil, _files=nil, _image_name=nil)
+    output = stdout + stderr
     colour = kata.red_amber_green(output)
     assert_equal 'amber', colour
   end
