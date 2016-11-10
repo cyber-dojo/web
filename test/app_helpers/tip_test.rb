@@ -1,7 +1,6 @@
 #!/bin/bash ../test_wrapper.sh
 
 require_relative './app_helpers_test_base'
-require_relative './../app_lib/delta_maker'
 
 class TipTest < AppHelpersTestBase
 
@@ -15,15 +14,18 @@ class TipTest < AppHelpersTestBase
   'traffic light tip' do
     kata = make_kata({ language: 'C (gcc)-assert' })
     lion = kata.start_avatar(['lion'])
-    maker = DeltaMaker.new(lion)
-    maker.run_test
+    delta = {
+      :deleted => [],
+      :new => {},
+      :changed => {}
+    }
+    lion.test(delta, files={})
+
     filename = 'hiker.c'
-    assert maker.file?(filename)
-    content = maker.content(filename)
-    refute_nil content
-    maker.change_file(filename, content.sub('9', '7'))
-    maker.run_test
-    diff = differ.diff(lion, was_tag=1, now_tag=2)
+    hiker_c = visible_files[filename]
+    files[filename] = hiker_c.sub('9','7')
+    delta[:changed] = [ filename ]
+    lion.test(delta, files)
 
     was_tag_colour = 'red'
     now_tag_colour = 'green'
