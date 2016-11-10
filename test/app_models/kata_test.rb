@@ -195,16 +195,6 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '24C561',
-  'terminated by the server after n seconds gives timed_out colour' do
-    kata = make_kata
-    [1,5,10].each do |n|
-      assert_equal 'timed_out', kata.red_amber_green(terminated(n))
-    end
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test '1CD446',
   'red_amber_green(nil) returns the lamda source' do
     kata = make_kata
@@ -294,10 +284,6 @@ class KataTest < AppModelsTestBase
 
   def avatars_names
     @kata.avatars.map(&:name).sort
-  end
-
-  def terminated(n)
-    "Unable to complete the test in #{n} seconds"
   end
 
 end

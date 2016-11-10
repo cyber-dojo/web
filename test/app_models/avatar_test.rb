@@ -71,31 +71,6 @@ class AvatarTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'FB7E11',
-  'test() does not truncate output less than or equal to 10K characters' do
-    kata = make_kata
-    @avatar = kata.start_avatar
-    big = 'X' * 10*1024
-    runner.stub_run_output(@avatar, big)
-    _, @visible_files, @output = DeltaMaker.new(@avatar).run_test_no_stub
-    assert_file 'output', big
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'FB7E5A',
-  'test() truncates output greater 10K characters' do
-    kata = make_kata
-    @avatar = kata.start_avatar
-    big = 'X' * 10*1024
-    runner.stub_run_output(@avatar, big + 'truncated')
-    _, @visible_files, @output = DeltaMaker.new(@avatar).run_test_no_stub
-    message = 'output truncated by cyber-dojo server'
-    assert_file 'output', big + "\n" + message
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test 'FB7925',
   'test():delta[:changed] files are changed' do
     kata = make_kata
