@@ -26,7 +26,7 @@ class DeltaMakerTest < AppLibTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '2E2849',
-  'new_file(filename) is then not new' do
+  'after new_file(filename) filename is not new' do
     @maker.new_file(@new_filename, 'any')
     assert_raises(RuntimeError) { @maker.new_file(@new_filename, '') }
   end
@@ -34,14 +34,14 @@ class DeltaMakerTest < AppLibTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'E9D907',
-  'change_file(filename) raises RuntimeError when filename new' do
+  'change_file(filename) raises RuntimeError when filename is new' do
     assert_raises(RuntimeError) { @maker.change_file(@new_filename, '') }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '507D76',
-  'change_file(filename) raises RuntimeError when content unchanged' do
+  'change_file(filename) raises RuntimeError when content is unchanged' do
     content = @maker.now[@existing_filename]
     assert_raises(RuntimeError) { @maker.change_file(@existing_filename, content) }
   end
@@ -49,14 +49,14 @@ class DeltaMakerTest < AppLibTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'F7F137',
-  'delete_file(filename) raises RuntimeError when filename new' do
+  'delete_file(filename) raises RuntimeError when filename is new' do
     assert_raises(RuntimeError) { @maker.delete_file(@new_filename) }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'B839BC',
-  'delete_file(filename) is then not present' do
+  'after delete_file(filename) filename is not present' do
     @maker.delete_file(@existing_filename)
     assert_raises(RuntimeError) { @maker.delete_file(@existing_filename) }
   end

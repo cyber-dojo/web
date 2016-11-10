@@ -18,7 +18,7 @@ class StubRunnerTest < AppLibTestBase
 
   test '6DFD81',
   'parent is ctor parameter' do
-    assert_equal "StubRunner", runner.class.name
+    assert_equal 'StubRunner', runner.class.name
     assert_equal self, runner.parent
   end
 
@@ -26,18 +26,18 @@ class StubRunnerTest < AppLibTestBase
 
   test '43E866',
   'pulled? is true only for 4 specific images' do
-    assert runner.pulled? "#{cdf}/nasm_assert"
-    assert runner.pulled? "#{cdf}/gcc_assert"
-    assert runner.pulled? "#{cdf}/csharp_nunit"
-    assert runner.pulled? "#{cdf}/gpp_cpputest"
-    refute runner.pulled? "#{cdf}/csharp_moq"
+    assert runner.pulled? cdf('nasm_assert')
+    assert runner.pulled? cdf('gcc_assert')
+    assert runner.pulled? cdf('csharp_nunit')
+    assert runner.pulled? cdf('gpp_cpputest')
+    refute runner.pulled? cdf('csharp_moq')
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '0B42BD',
   'pull is no-op' do
-    runner.pull "#{cdf}/csharp_moq"
+    runner.pull cdf('csharp_moq')
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -93,7 +93,7 @@ class StubRunnerTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def cdf; 'cyberdojofoundation'; end
+  def cdf(image); 'cyberdojofoundation/'+image; end
   def success; 0; end
   def sudo; 'sudo -u docker-runner sudo '; end
 end
