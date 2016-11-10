@@ -31,7 +31,7 @@ class DiffViewTest < AppLibTestBase
         :deleted_line_count => 1,
         :added_line_count => 1,
         :content =>
-          "<same>&thinsp;</same>" +
+          "<same>&nbsp;</same>" +
           "<same>def answer</same>" +
           "<span id='id_0_section_0'></span>" +
           "<deleted>  6 * 9</deleted>" +

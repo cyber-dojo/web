@@ -32,7 +32,7 @@ class DiffHtmlTest <  AppLibTestBase
            '<same>the west</same>',
            '<same>Charles Bronson</same>',
            '<same>Jason Robarts</same>',
-           '<same>&thinsp;</same>',
+           '<same>&nbsp;</same>',
     ]
 
     @expected_line_numbers =
@@ -56,7 +56,8 @@ class DiffHtmlTest <  AppLibTestBase
 
   test '2117D9',
   'empty same/added/deleted lines become',
-  '&thinsp; to prevent empty lines collapsing in browser' do
+  '&nbsp; to prevent empty lines collapsing in browser',
+  'some CSS magic is needed...' do
 
     @diff_lines =
     [
@@ -67,9 +68,9 @@ class DiffHtmlTest <  AppLibTestBase
 
     @expected_lines =
     [
-           '<same>&thinsp;</same>',
-          '<added>&thinsp;</added>',
-        '<deleted>&thinsp;</deleted>',
+           '<same>&nbsp;</same>',
+          '<added>&nbsp;</added>',
+        '<deleted>&nbsp;</deleted>',
     ]
 
 
