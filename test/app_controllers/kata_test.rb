@@ -46,8 +46,8 @@ class KataControllerTest  < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'E77261',
-  'run_tests saves non-visible files back to storer' do
-    set_runner_class('DockerTarPipeRunner')
+  'run_tests does NOT save non-visible files back to storer' do
+    set_runner_class('RunnerService')
     create_gcc_assert_kata
     @avatar = start
     run_tests
@@ -56,7 +56,7 @@ class KataControllerTest  < AppControllerTestBase
     filename = 'hiker.h'
     assert dir.exists?(filename), filename
     filename = 'test'
-    assert dir.exists?(filename), filename
+    refute dir.exists?(filename), filename
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -65,7 +65,7 @@ class KataControllerTest  < AppControllerTestBase
   'run_tests() saves changed makefile with leading spaces converted to tabs',
   'and these changes are made to the visible_files parameter too',
   'so they also occur in the manifest file' do
-    set_runner_class('DockerTarPipeRunner')
+    set_runner_class('RunnerService')
     create_gcc_assert_kata
     @avatar = start
     kata_edit
@@ -81,7 +81,7 @@ class KataControllerTest  < AppControllerTestBase
   'run_tests() saves *new* makefile with leading spaces converted to tabs',
   'and these changes are made to the visible_files parameter too',
   'so they also occur in the manifest file' do
-    set_runner_class('DockerTarPipeRunner')
+    set_runner_class('RunnerService')
     create_gcc_assert_kata
     @avatar = start
     delete_file(makefile)
@@ -96,7 +96,7 @@ class KataControllerTest  < AppControllerTestBase
   test 'BE89DC',
   'when cyber-dojo.sh removes a file then it stays removed.' +
     '(viz, tar pipe is not affected by previous state)' do
-    set_runner_class('DockerTarPipeRunner')
+    set_runner_class('RunnerService')
     create_gcc_assert_kata
     @avatar = start
     before = content('cyber-dojo.sh')

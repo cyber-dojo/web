@@ -5,7 +5,7 @@ require_relative './app_controller_test_base'
 class DifferControllerTest < AppControllerTestBase
 
   def setup_runner_class
-    set_runner_class('DockerTarPipeRunner')
+    set_runner_class('RunnerService')
   end
 
   test '238AF6',
