@@ -50,13 +50,17 @@ class KataControllerTest  < AppControllerTestBase
     set_runner_class('RunnerService')
     create_gcc_assert_kata
     @avatar = start
-    run_tests
-    path = storer.sandbox_path(@kata.id, @avatar.name)
-    dir = disk[path]
-    filename = 'hiker.h'
-    assert dir.exists?(filename), filename
-    filename = 'test'
-    refute dir.exists?(filename), filename
+    begin
+      run_tests
+      path = storer.sandbox_path(@kata.id, @avatar.name)
+      dir = disk[path]
+      filename = 'hiker.h'
+      assert dir.exists?(filename), filename
+      filename = 'test'
+      refute dir.exists?(filename), filename
+    ensure
+      runner.old_kata(@kata.id)
+    end
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -68,11 +72,15 @@ class KataControllerTest  < AppControllerTestBase
     set_runner_class('RunnerService')
     create_gcc_assert_kata
     @avatar = start
-    kata_edit
-    run_tests
-    change_file(makefile, makefile_with_leading_spaces)
-    run_tests
-    assert_file makefile, makefile_with_leading_tab
+    begin
+      kata_edit
+      run_tests
+      change_file(makefile, makefile_with_leading_spaces)
+      run_tests
+      assert_file makefile, makefile_with_leading_tab
+    ensure
+      runner.old_kata(@kata.id)
+    end
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -84,11 +92,15 @@ class KataControllerTest  < AppControllerTestBase
     set_runner_class('RunnerService')
     create_gcc_assert_kata
     @avatar = start
-    delete_file(makefile)
-    run_tests
-    new_file(makefile, makefile_with_leading_spaces)
-    run_tests
-    assert_file makefile, makefile_with_leading_tab
+    begin
+      delete_file(makefile)
+      run_tests
+      new_file(makefile, makefile_with_leading_spaces)
+      run_tests
+      assert_file makefile, makefile_with_leading_tab
+    ensure
+      runner.old_kata(@kata.id)
+    end
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -99,33 +111,29 @@ class KataControllerTest  < AppControllerTestBase
     set_runner_class('RunnerService')
     create_gcc_assert_kata
     @avatar = start
-    before = content('cyber-dojo.sh')
-    filename = 'wibble.txt'
-    create_file =
-      "touch #{filename} && " +
-      "ls -al && " +
-      before
-    change_file('cyber-dojo.sh', create_file)
-    hit_test
-    output = @avatar.visible_files['output']
-    assert output.include?(filename), output
+    begin
+      before = content('cyber-dojo.sh')
+      filename = 'wibble.txt'
+      create_file = "touch #{filename} &&  ls -al && #{before}"
+      change_file('cyber-dojo.sh', create_file)
+      hit_test
+      output = @avatar.visible_files['output']
+      assert output.include?(filename), output
 
-    remove_file =
-      "rm -f #{filename} &&" +
-      "ls -al && " +
-      before
-    change_file('cyber-dojo.sh', remove_file)
-    hit_test
-    output = @avatar.visible_files['output']
-    refute output.include?(filename), output
+      remove_file = "rm -f #{filename} && ls -al && #{before}"
+      change_file('cyber-dojo.sh', remove_file)
+      hit_test
+      output = @avatar.visible_files['output']
+      refute output.include?(filename), output
 
-    ls_file =
-      "ls -al && " +
-      before
-    change_file('cyber-dojo.sh', ls_file)
-    hit_test
-    output = @avatar.visible_files['output']
-    refute output.include?(filename), output
+      ls_file = "ls -al && #{before}"
+      change_file('cyber-dojo.sh', ls_file)
+      hit_test
+      output = @avatar.visible_files['output']
+      refute output.include?(filename), output
+    ensure
+      runner.old_kata(@kata.id)
+    end
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -138,7 +146,8 @@ class KataControllerTest  < AppControllerTestBase
 
   def assert_file(filename, expected)
     assert_equal expected, @avatar.visible_files[filename], 'saved_to_manifest'
-    assert_equal expected, disk[storer.sandbox_path(@kata.id, @avatar.name)].read(filename), 'saved_to_sandbox'
+    path = storer.sandbox_path(@kata.id, @avatar.name)
+    assert_equal expected, disk[path].read(filename), 'saved_to_sandbox'
   end
 
   def makefile_with_leading_tab

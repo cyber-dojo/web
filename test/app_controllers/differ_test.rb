@@ -5,7 +5,7 @@ require_relative './app_controller_test_base'
 class DifferControllerTest < AppControllerTestBase
 
   def setup_runner_class
-    set_runner_class('RunnerService')
+    set_runner_class('StubRunner')
   end
 
   test '238AF6',
