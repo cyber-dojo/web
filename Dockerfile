@@ -13,3 +13,5 @@ RUN  chown -R cyber-dojo ${CYBER_DOJO_HOME}
 WORKDIR ${CYBER_DOJO_HOME}
 USER    cyber-dojo
 EXPOSE  3000
+
+CMD [ "rails", "server", "--environment=production" ]
