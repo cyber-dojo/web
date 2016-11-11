@@ -4,7 +4,7 @@ set -e
 my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 
 echo 'Building image'
-${my_dir}/../build-image.sh
+${my_dir}/../build.sh
 
 echo 'Bringing down server'
 ${my_dir}/../../commander/cyber-dojo down

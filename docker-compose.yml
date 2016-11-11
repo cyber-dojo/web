@@ -1,0 +1,10 @@
+
+version: '2'
+
+services:
+  web:
+    image: cyberdojo/web
+    build:
+      context: .
+      args:
+        CYBER_DOJO_HOME: usr/src/cyber-dojo

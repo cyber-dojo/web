@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-./build-image.sh
+./build.sh
 cyber-dojo up
 sleep 2
 cid=`docker ps --all --quiet --filter "name=cyber-dojo-web"`
