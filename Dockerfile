@@ -8,7 +8,7 @@ RUN apk add --update git
 ARG  CYBER_DOJO_HOME
 RUN  mkdir -p ${CYBER_DOJO_HOME}
 COPY . ${CYBER_DOJO_HOME}
-RUN  chown -R cyber-dojo ${CYBER_DOJO_HOME}
+RUN  chown -R 19661 ${CYBER_DOJO_HOME}
 
 WORKDIR ${CYBER_DOJO_HOME}
 USER    cyber-dojo
