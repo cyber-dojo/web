@@ -30,6 +30,7 @@ class Katas
 
   def create_kata(manifest)
     storer.create_kata(manifest)
+    runner.new_kata(manifest[:image_name], manifest[:id])
   end
 
   private
@@ -37,5 +38,6 @@ class Katas
   include NearestAncestors
 
   def storer; nearest_ancestors(:storer); end
+  def runner; nearest_ancestors(:runner); end
 
 end
