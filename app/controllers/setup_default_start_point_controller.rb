@@ -30,7 +30,7 @@ class SetupDefaultStartPointController < ApplicationController
     manifest[:exercise] = exercise.name
     manifest[:visible_files]['instructions'] = exercise.text
     katas.create_kata(manifest)
-    runner.new_kata(manifest[:id], manifest[:image_name])
+    runner.new_kata(manifest[:image_name], manifest[:id])
     render json: { id: manifest[:id] }
   end
 

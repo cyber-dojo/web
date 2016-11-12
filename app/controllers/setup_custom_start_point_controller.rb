@@ -14,7 +14,7 @@ class SetupCustomStartPointController < ApplicationController
   def save
     manifest = custom.create_kata_manifest
     katas.create_kata(manifest)
-    runner.new_kata(manifest[:id], manifest[:image_name])
+    runner.new_kata(manifest[:image_name], manifest[:id])
     render json: { id: manifest[:id] }
   end
 
