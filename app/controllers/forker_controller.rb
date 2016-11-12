@@ -53,6 +53,7 @@ class ForkerController < ApplicationController
       end
 
       katas.create_kata(manifest)
+      runner.new_kata(manifest[:image_name], manifest[:id])
 
       result[:forked] = true
       result[:id] = manifest[:id]
