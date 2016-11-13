@@ -3,7 +3,7 @@ class Kata
 
   def initialize(katas, id)
     # Does *not* validate.
-    # All access to kata object must come through dojo.katas[id]
+    # All access to kata object must come through katas[id]
     @katas = katas
     @id = id
   end

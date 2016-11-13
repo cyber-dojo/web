@@ -126,10 +126,8 @@ class HostDiskStorer
   end
 
   def avatar_ran_tests(id, name, delta, files, now, output, colour)
-    # TODO: when new runner is in place uncomment the call to sandbox_save
     # TODO: making sandbox_save private will break tests in
     #       test/app_lib/host_disk_storer_test.rb
-
     sandbox_save(id, name, delta, files)
     sandbox_dir(id, name).write('output', output)
     files['output'] = output

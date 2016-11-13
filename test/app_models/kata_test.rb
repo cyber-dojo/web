@@ -54,7 +54,7 @@ class KataTest < AppModelsTestBase
 
     assert kata.active?
     now = first_time
-    now[seconds_slot = 5] += 17
+    now[seconds_slot = -1] += 17
     assert_equal 17, kata.age(now)
   end
 

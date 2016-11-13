@@ -1,7 +1,7 @@
 
-o) Suppose you know the id of a kata done before runner was introduced
-   as a service. You can review ok. But if you hit [test] what happens?
-   Answer. web does not call into runner...
+Suppose you know the id of a kata done before runner was introduced
+as a service. You can review ok. But if you hit [test] what happens?
+Answer. web does not call into runner...
    if you hit [test]
      web sees request.
      web checks creation date of kata.
@@ -16,3 +16,4 @@ o) Suppose you know the id of a kata done before runner was introduced
    app/controllers/kata_controller.rb must not call
      @avatar.tested(delta, files, time_now, @output, @test_colour)
      if the kata has ended
+
