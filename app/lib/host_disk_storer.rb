@@ -247,47 +247,22 @@ class HostDiskStorer
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
+# There are writes associated with creating each
+# kata and starting each avatar.
 # The files+output from each [test] event are saved as
 # a tag in a git repo associated with the kata+avatar.
-# There are also writes associated with creating each
-# kata and starting each avatar.
+# The choice to use git is *an* implementation. It makes
+# it easy to do the download page's tar file which includes all
+# the git repos of all the animals.
 # - - - - - - - - - - - - - - - - - - - - - - -
-# This class's methods holds all the reads/writes for these.
-# It uses the cyber-dojo server's file-system [katas] folder.
-
-# In this is *an* implementation...
-#
-# 1. cyber-dojo.sh can do an incremental make.
-#    In this case, the date-time stamp of the source files
-#    is important and you want untouched files to retain
-#    their old date-time stamp. This means you need to save
-#    only the changed files from each test event and you
-#    need the unchanged files to still be where you left
-#    them last time.
-#
-# 2. Creating the download page's tar file which includes all
-#    the git repos of all the animals. This is obviously quite
-#    trivial if the animals git repos have been updated every
-#    test event.
-# - - - - - - - - - - - - - - - - - - - - - - - -
 # An alternative implementation could save the manifest containing
-# the visible files for each test to a database. Then, to get a
-# git diff it could do something like this...
-#
-#    o) create a temporary git repository
-#    o) get the visible_files for was_tag
-#    o) save the visible_files in the git repo
-#    o) git tag and git commit
-#    o) get the visible_files from now_tag
-#    o) calculate the [was_tag,now_tag] delta between the visible_files
-#    o) delete any deleted files from the git repo
-#    o) save the visible_files int the git repo
-#    o) git tag and git commit
-#    o) do a git diff
-#    o) delete the temporary git repository
-#
+# the visible files but not do a git commit for each test event.
+# For example, the manifest.json for tag 15 would be saved to
+# katas/...ID.../lion/15/manifest.json
+# Then, the downloader could recreate the git repos on the fly
+# in tmp/
 # There is probably a library to do this in ram bypassing
 # the need for a file-system completely.
-# Note: This would make creation of the tar file for
-# a whole cyber-dojo potentially very slow.
+# Note: This would potentially make creation of the tar file
+# for a whole cyber-dojo potentially very slow.
 # - - - - - - - - - - - - - - - - - - - - - - - -
