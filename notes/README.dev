@@ -5,8 +5,7 @@ file inside the main cyberdojo/commander image.
 
 To rebuild the web image and run all the tests inside its container
 
-$ cd test
-$ ./build_up_test.sh
+$ ./pipe_build_up_test.sh
 
 This assumes you have commander's github repo next to web's github repo.
 Running the tests locally (not inside a web container) is no longer supported.

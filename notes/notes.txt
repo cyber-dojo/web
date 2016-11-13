@@ -1,15 +1,4 @@
 
-Note that once web is split into services it will be slightly tricker to
-run cyber-dojo as a local rails server. Still the right thing to do.
-
-- - - - - - - - - - - - - - - - - - - - -
-
-Simplify cyber-dojo.sh by splitting off converting katas
-on the hard disk (old style) into katas inside a data-container
-as a *separate* script.
-
-- - - - - - - - - - - - - - - - - - - - -
-
 Also change the traffic-light number being displayed from
 18 to 17 -> 18
 with both 17 and 18 in their correct colour.
@@ -53,10 +42,6 @@ add tool-tip for keyboard short-cuts.
 have some way of choosing which setup page gets shown when
 you click the [setup a new practice session] button.
 Default will be languages.
-
-- - - - - - - - - - - - - - - - - - - - -
-
-o) tests for cyber-dojo script
 
 - - - - - - - - - - - - - - - - - - - - -
 
