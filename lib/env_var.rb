@@ -13,19 +13,22 @@ def cd_env_name(suffix)
 end
 
 {
-  cd_env_name('disk_class')  => 'HostDisk',
-  cd_env_name('git_class')   => 'HostGit',
-  cd_env_name('log_class')   => 'StdoutLog',
-  cd_env_name('shell_class') => 'HostShell',
-
+  # read-only
   cd_env_name('languages_root') => "#{cd_root}/start_points/languages",
   cd_env_name('exercises_root') => "#{cd_root}/start_points/exercises",
   cd_env_name('custom_root')    => "#{cd_root}/start_points/custom",
+
+  # read-write
   cd_env_name('katas_root')     => "#{cd_root}/katas",
 
   cd_env_name('differ_class') => 'DifferService',
   cd_env_name('storer_class') => 'HostDiskStorer',
-  cd_env_name('runner_class') => 'RunnerService'
+  cd_env_name('runner_class') => 'RunnerService',
+
+  cd_env_name('disk_class')  => 'HostDisk',
+  cd_env_name('git_class')   => 'HostGit',
+  cd_env_name('log_class')   => 'StdoutLog',
+  cd_env_name('shell_class') => 'HostShell'
 
 }.each { |key, name|
   ENV[key] = name if ENV[key].nil?
