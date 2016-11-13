@@ -13,21 +13,16 @@ before_install:
 
 script:
     - ./build.sh
+
     - curl -O https://raw.githubusercontent.com/cyber-dojo/commander/master/cyber-dojo
     - chmod +x cyber-dojo
     - ./cyber-dojo up
-
-    - cid=`docker ps --all --quiet --filter "name=cyber-dojo-web"`
-    - docker logs cyber-dojo-web
-    - docker inspect -f {{.State.Running}} ${cid}
-    - docker ps -a
 
     # pull images used in tests so test-duration does not include pull time
     - docker pull cyberdojofoundation/gcc_assert:latest
     - docker pull cyberdojofoundation/ruby_test_unit:latest
 
-    #- docker --debug exec ${cid} sh -c "cd test && ./run.sh"
-    - docker         exec ${cid} sh -c "cd test && ./run.sh"
+    - ./test.sh
 
 after_success:
     - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
