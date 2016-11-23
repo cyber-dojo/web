@@ -76,7 +76,7 @@ class OutputColourTest < AppLibTestBase
         end
       end
     end
-    assert_equal 61, lambda_yes_count
+    assert_equal 62, lambda_yes_count
     assert_equal 0, lambda_no_count
   end
 
