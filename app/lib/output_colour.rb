@@ -64,6 +64,12 @@ module OutputColour # mix-in
     return :amber
   end
 
+  def self.parse_python_behave(output)
+    return :red   if /Failing scenarios/.match(output)
+    return :green if /, 0 failed, /.match(output)
+    return :amber
+  end
+
   def self.parse_catch(output)
     return :red   if /failed \(\d* assertion/.match(output)
     return :green if /All tests passed/.match(output)
