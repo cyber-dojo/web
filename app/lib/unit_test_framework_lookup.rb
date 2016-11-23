@@ -62,6 +62,7 @@ module UnitTestFrameworkLookup
       'PHP, PHPUnit'              => 'php_unit',
       'Python, py.test'           => 'python_pytest',
       'Python, unittest'          => 'python_unittest',
+      'Python, behave'            => 'python_behave',
       'R, RUnit'                  => 'runit',
       'Ruby, Cucumber'            => 'ruby_rspec',
       'Ruby, RSpec'               => 'ruby_rspec',
