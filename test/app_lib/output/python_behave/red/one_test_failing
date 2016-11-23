@@ -1,0 +1,24 @@
+Feature: hitch-hiker playing scrabble # hiker.feature:2
+
+  Scenario: last earthling playing scrabble in the past  # hiker.feature:4
+    Given the hitch-hiker selects some tiles             # steps/hiker_steps.py:4
+    When they spell 6 times 9                            # steps/hiker_steps.py:8
+    Then the score is 42                                 # steps/hiker_steps.py:13
+      Traceback (most recent call last):
+        File "/usr/local/lib/python2.7/dist-packages/behave/model.py", line 1456, in run
+          match.run(runner.context)
+        File "/usr/local/lib/python2.7/dist-packages/behave/model.py", line 1903, in run
+          self.func(context, *args, **kwargs)
+        File "steps/hiker_steps.py", line 15, in step_impl
+          assert context.tileproduct is answer
+      AssertionError
+
+
+
+Failing scenarios:
+  hiker.feature:4  last earthling playing scrabble in the past
+
+0 features passed, 1 failed, 0 skipped
+0 scenarios passed, 1 failed, 0 skipped
+2 steps passed, 1 failed, 0 skipped, 0 undefined
+Took 0m0.001s
