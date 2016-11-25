@@ -150,13 +150,17 @@ class KataControllerTest  < AppControllerTestBase
     @avatar = start # 0
     hit_test # 1
     assert_equal :red, @avatar.lights[-1].colour
-    expected = [
+    output = @avatar.visible_files['output']
+
+    [
       "makefile:14: recipe for target 'test.output' failed",
       "Assertion failed: answer() == 42 (hiker.tests.c: life_the_universe_and_everything: 7)",
       "make: *** [test.output] Aborted"
-    ].join("\n")
-    output = @avatar.visible_files['output']
-    assert_equal expected, output.strip
+    ].each do |expected|
+      assert output.include?(expected)
+      # Note that depending on the host's OS the last line might be
+      #     make: *** [test.output] Aborted (core dumped)
+    end
 
     # remove runner's volume to simulate kata created before runner was a separate service.
     runner.old_avatar(@kata.id, @avatar.name)
