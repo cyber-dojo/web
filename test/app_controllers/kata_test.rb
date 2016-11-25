@@ -107,7 +107,7 @@ class KataControllerTest  < AppControllerTestBase
 
   test 'BE89DC',
   'when cyber-dojo.sh removes a file then it stays removed.' +
-    '(viz, tar pipe is not affected by previous state)' do
+    '(viz, RunnerService is stateful)' do
     set_runner_class('RunnerService')
     create_gcc_assert_kata
     @avatar = start
