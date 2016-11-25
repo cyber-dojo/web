@@ -138,6 +138,46 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test '97B555',
+  'when RunnerService receives run() for an avatar in a kata started when',
+  'the runner was not yet a separate service, then RunnerService seamlessly',
+  'transitions the avatar' do
+    # Note: the kata-controller validates the kata-id and the avatar-name
+    # (via the host-katas-storer) so there is not a path from the browser to
+    # get runner.run to accept unvalidated arguments.
+    set_runner_class('RunnerService')
+    create_gcc_assert_kata
+    @avatar = start # 0
+    hit_test # 1
+    assert_equal :red, @avatar.lights[-1].colour
+    expected = [
+      "makefile:14: recipe for target 'test.output' failed",
+      "Assertion failed: answer() == 42 (hiker.tests.c: life_the_universe_and_everything: 7)",
+      "make: *** [test.output] Aborted"
+    ].join("\n")
+    output = @avatar.visible_files['output']
+    assert_equal expected, output.strip
+
+    # remove runner's volume to simulate kata created before runner was a separate service.
+    runner.old_avatar(@kata.id, @avatar.name)
+
+    begin
+      change_file('hiker.c', content('hiker.c').sub('6 * 9', '6 * 7'))
+      hit_test # 2
+      assert_equal "All tests passed\n", @avatar.visible_files['output']
+      assert_equal :green, @avatar.lights[-1].colour
+      diff = differ.diff(@avatar, was_tag=1, now_tag=2)
+      assert diff['hiker.c'].include?({"type"=>"deleted", "line"=>"    return 6 * 9;", "number"=>5})
+      assert diff['hiker.c'].include?({"type"=>"added",   "line"=>"    return 6 * 7;", "number"=>5})
+    ensure
+      runner.old_avatar(@kata.id, @avatar.name)
+    end
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  private
+
   def create_gcc_assert_kata
     id = create_kata('C (gcc), assert')
     @kata = Kata.new(katas, id)

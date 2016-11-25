@@ -20,6 +20,19 @@ class KataController < ApplicationController
     delta = FileDeltaMaker.make_delta(incoming, outgoing)
     files = received_files
     stdout,stderr,status = @avatar.test(delta, files)
+    if status == 'no_avatar'
+       # kata was created before new separated runner-microservice
+       # so runner has to be informed of this avatar's existence...
+       # Do this maintaining most up to date diff
+       args = []
+       args << kata.image_name
+       args << kata.id
+       args << avatar.name
+       args << avatar.visible_files
+       runner.new_avatar(*args)
+       delta = FileDeltaMaker.make_delta(avatar.visible_files, files)
+       stdout,stderr,status = @avatar.test(delta, files)
+    end
     if status == 'timed_out'
       max_seconds = 10
       @output = "Unable to complete the tests in #{max_seconds} seconds.\n" +
