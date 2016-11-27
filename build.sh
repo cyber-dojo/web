@@ -15,4 +15,5 @@ if [ $? != 0 ]; then
 fi
 
 my_dir="$( cd "$( dirname "${0}" )" && pwd )"
-docker-compose -f ${my_dir}/docker-compose.yml build
+
+docker-compose --file ${my_dir}/docker-compose.yml build
