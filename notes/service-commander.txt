@@ -37,13 +37,3 @@ which means that does not need to be installed on the host!
 
 And commander can create a ram-disk and mount /tmp in it.
 
-----------------------------------------------------
-
-main server still has loads of files on hard disk not inside
-katas data-container.
-o) remove dead code from cyber-dojo.sh
-o) write simple script to copy them into the katas-data-container
-   - docker run ...
-   - mount hard-disk-location of katas as src
-   - mount katas-volume
-   - do a cp
