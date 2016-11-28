@@ -20,8 +20,10 @@ rm -rf .git
 
 -------------------------------------------------
 
-The idea is that each catalog will become a json file, with
+The idea is that each catalog can become a json file, with
 the structure mirroring the major,minor display name, eg
+
+$ cyber-dojo start-point create abc --json=https://raw.githubusercontent.com/cyber-dojo/catalogs/master/all.git
 
 https://raw.githubusercontent.com/cyber-dojo/catalogs/master/all.git
 {
