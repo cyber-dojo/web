@@ -1,26 +1,27 @@
-*~
+# ignore everything
+/*
+/*/
 
-db/*.sqlite3
-/tmp
+# except these dirs...
 
-.DS_Store
-.sass-cache/
-.idea
-.rvmrc
-.approvals
-.ruby-gemset
-.ruby-version
-.tm_properties
+!/app
+!/config
+!/lib
+!/notes
+!/script
+!/test
 
-*.tmp
+# and these files...
 
-script/stats/exceptions.log
-
-test/*/coverage/
-coverage
-
-/caches
-/downloads
-/katas
-/log
-
+!/.gitignore
+!/.dockerignore
+!/.travis.yml
+!/build.sh
+!/config.ru
+!/docker-compose.yml
+!/Dockerfile
+!/license.md
+!/pipe_build_up_test.sh
+!/README.md
+!/test.sh
+!/up.sh
