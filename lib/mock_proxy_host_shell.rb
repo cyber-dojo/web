@@ -10,8 +10,8 @@ class MockProxyHostShell
   # - - - - - - - - - - - - - - - - -
 
   def teardown
-    raise "#{self.class.name} unused #{@cd_exec_mock}"     unless @cd_exec_mock     == []
-    raise "#{self.class.name} unused #{@exec_mock}"        unless @exec_mock        == []
+    raise "#{self.class.name} unused #{@cd_exec_mock}" unless @cd_exec_mock == []
+    raise "#{self.class.name} unused #{@exec_mock}"    unless @exec_mock    == []
   end
 
   # - - - - - - - - - - - - - - - - -
