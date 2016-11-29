@@ -25,17 +25,6 @@ class HostGitTest < LibTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test '31A9A2',
-  'shell.cd_exec for git.diff' do
-    was_tag = 2
-    now_tag = 3
-    options = "--ignore-space-at-eol --find-copies-harder #{was_tag} #{now_tag} sandbox"
-    expect(["git diff #{options}"])
-    git.diff(path, was_tag, now_tag)
-  end
-
-  # - - - - - - - - - - - - - - - - -
-
   test 'DC30B4',
   'shell.cd_exec for git.setup' do
     user_name = 'lion'

@@ -17,17 +17,6 @@ class HostGit
     output_of(shell.cd_exec(path, "git show #{options}"))
   end
 
-  def diff(path, n, m)
-    options = [
-      '--ignore-space-at-eol',
-      '--find-copies-harder',
-      "#{n}",
-      "#{m}",
-      'sandbox'
-    ].join(space = ' ')
-    output_of(shell.cd_exec(path, "git diff #{options}"))
-  end
-
   # modifiers
 
   def setup(path, user_name, user_email)
