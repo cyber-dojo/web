@@ -3,23 +3,16 @@ sudo: required
 services: docker
 language: generic
 
-before_install:
-    - curl -O https://raw.githubusercontent.com/cyber-dojo/ruby/master/install_docker.sh
-    - chmod +x install_docker.sh
-    - ./install_docker.sh
-
 script:
-    - ./build.sh
-
     - curl -O https://raw.githubusercontent.com/cyber-dojo/commander/master/cyber-dojo
     - chmod +x cyber-dojo
-    - ./cyber-dojo up
+    - curl -O https://raw.githubusercontent.com/cyber-dojo/ruby/master/push.sh
+    - chmod +x push.sh
 
+    - ./build.sh
+    - ./cyber-dojo up
     # pull images used in tests so test-duration does not include pull time
     - docker pull cyberdojofoundation/gcc_assert:latest
     - docker pull cyberdojofoundation/ruby_test_unit:latest
-
     - ./test.sh
-    - curl -O https://raw.githubusercontent.com/cyber-dojo/ruby/master/push.sh
-    - chmod +x push.sh
     - ./push.sh
