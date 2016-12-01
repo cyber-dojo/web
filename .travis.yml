@@ -3,13 +3,10 @@ sudo: required
 services: docker
 language: generic
 
-env:
-    global:
-        - DOCKER_ENGINE_VERSION=1.12.2
-
 before_install:
-    # upgrade docker-engine to specific version
-    - sudo apt-get -o Dpkg::Options::="--force-confnew" install -y docker-engine=${DOCKER_ENGINE_VERSION}-0~trusty
+    - curl -O https://raw.githubusercontent.com/cyber-dojo/ruby/master/install_docker.sh
+    - chmod +x install_docker.sh
+    - ./install_docker.sh
 
 script:
     - ./build.sh
