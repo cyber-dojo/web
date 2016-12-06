@@ -1,5 +1,5 @@
 
-# Code common to DockerTarPipeRunner and StubRunner
+# Code common to StubRunner
 
 module Runner # mix-in
 
