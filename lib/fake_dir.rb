@@ -3,6 +3,8 @@ class FakeDir
 
   def initialize(hash)
     @attr = hash
+    @dirs  = hash[:dirs]
+    @files = hash[:files]
   end
 
   def exists?
@@ -36,18 +38,10 @@ class FakeDir
 
   private
 
-  attr_reader :attr
+  attr_reader :attr, :dirs, :files
 
   def must_exist
     raise StandardError.new unless exists?
-  end
-
-  def dirs
-    @dirs ||= attr[:dirs]
-  end
-
-  def files
-    @files ||= attr[:files]
   end
 
 end
