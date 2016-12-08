@@ -200,7 +200,10 @@ class FakeStorerTest < AppLibTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '9D3A35BC',
-  'started avatar has new traffic-light after each ran_tests' do
+  'after each ran_tests() a started avatar has',
+  'a new traffic-light',
+  'and new latest visible_files(plus output)',
+  'and visible_file for each tag can be retrieved' do
     create_kata(kata_id = '9D3A35BCCF')
     start_avatar(kata_id, [lion])
 
@@ -209,19 +212,45 @@ class FakeStorerTest < AppLibTestBase
     args = []
     args << kata_id
     args << lion
+    files1 = starting_files
     delta = empty_delta
-    delta['unchanged'] = starting_files.keys
+    delta['unchanged'] = files1.keys
     args << delta
-    args << starting_files
-    args << (now = [2016,12,8,8,3,23])
+    args << files1
+    args << (now1 = [2016,12,8,8,3,23])
     args << (output = 'Assert failed: answer() == 42')
-    args << (colour = 'red')
+    args << (colour1 = 'red')
     avatar_ran_tests(*args)
 
     assert_equal [
-      { 'colour' => colour, 'time' => now, 'number' => 1 }
+      { 'colour' => colour1, 'time' => now1, 'number' => 1 }
     ], avatar_increments(kata_id, lion)
 
+    files1['output'] = output
+    assert_equal files1, avatar_visible_files(kata_id, lion)
+
+    args = []
+    args << kata_id
+    args << lion
+    delta = empty_delta
+    files2 = starting_files
+    delta['unchanged'] = files2.keys - ['hiker.c']
+    delta['changed'] = ['hiker.c']
+    files2['hiker.c'] = '6*7';
+    args << delta
+    args << files2
+    args << (now2 = [2016,12,8,9,54,20])
+    args << (output = 'All tests passed')
+    args << (colour2 = 'green')
+    avatar_ran_tests(*args)
+
+    assert_equal [
+      { 'colour' => colour1, 'time' => now1, 'number' => 1 },
+      { 'colour' => colour2, 'time' => now2, 'number' => 2 }
+    ], avatar_increments(kata_id, lion)
+
+    files2['output'] = output
+    assert_equal files2, avatar_visible_files(kata_id, lion)
   end
 
 =begin
@@ -276,6 +305,10 @@ class FakeStorerTest < AppLibTestBase
     storer.avatar_increments(kata_id, avatar_name)
   end
 
+  def avatar_visible_files(kata_id, avatar_name)
+    storer.avatar_visible_files(kata_id, avatar_name)
+  end
+
   def avatar_ran_tests(kata_id, avatar_name, *args)
     storer.avatar_ran_tests(kata_id, avatar_name, *args)
   end
@@ -300,7 +333,7 @@ class FakeStorerTest < AppLibTestBase
       'hiker.tests.c' => '#include <assert.h>...',
       'cyber-dojo.sh' => 'make --always-make',
       'instructions'  => 'FizzBuzz is a game...'
-    }
+    }.clone
   end
 
   def empty_delta
