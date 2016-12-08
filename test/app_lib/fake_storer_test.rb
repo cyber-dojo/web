@@ -10,37 +10,8 @@ class FakeStorerTest < AppLibTestBase
     @storer ||= FakeStorer.new(self)
   end
 
-  def create_kata(kata_id)
-    manifest = make_manifest(kata_id)
-    storer.create_kata(manifest)
-  end
-
-  def kata_exists?(kata_id)
-    storer.kata_exists?(kata_id)
-  end
-
-  def kata_manifest(kata_id)
-    storer.kata_manifest(kata_id)
-  end
-
-  def completed(id)
-    storer.completed(id)
-  end
-
-  def avatar_exists?(kata_id, avatar_name)
-    storer.avatar_exists?(kata_id, avatar_name)
-  end
-
-  def start_avatar(kata_id, avatar_names)
-    storer.kata_start_avatar(kata_id, avatar_names)
-  end
-
-  def started_avatars(kata_id)
-    storer.kata_started_avatars(kata_id)
-  end
-
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # katas.create_kata()
+  # create_kata()
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '9D3603E8',
@@ -52,7 +23,7 @@ class FakeStorerTest < AppLibTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # katas.kata_exists?(id)
+  # kata_exists?(id)
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '9D3DE636',
@@ -85,7 +56,7 @@ class FakeStorerTest < AppLibTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # katas.each()
+  # completions(id)
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def all_ids
@@ -125,7 +96,7 @@ class FakeStorerTest < AppLibTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # katas.completed(id)
+  # completed(id)
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '9D342EA2',
@@ -224,44 +195,36 @@ class FakeStorerTest < AppLibTestBase
     assert_nil start_avatar(kata_id, [salmon])
   end
 
-=begin
-
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # avatar_increments
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '83EF2E',
-  'started avatar has empty increments before any tests run' do
-    kata = make_kata
-    lion = kata.start_avatar(['lion'])
-    incs = storer.avatar_increments(kata.id, 'lion')
-    assert_equal [], incs
+  test '9D3A35BC',
+  'started avatar has new traffic-light after each ran_tests' do
+    create_kata(kata_id = '9D3A35BCCF')
+    start_avatar(kata_id, [lion])
+
+    assert_equal [], avatar_increments(kata_id, lion)
+
+    args = []
+    args << kata_id
+    args << lion
+    delta = empty_delta
+    delta['unchanged'] = starting_files.keys
+    args << delta
+    args << starting_files
+    args << (now = [2016,12,8,8,3,23])
+    args << (output = 'Assert failed: answer() == 42')
+    args << (colour = 'red')
+    avatar_ran_tests(*args)
+
+    assert_equal [
+      { 'colour' => colour, 'time' => now, 'number' => 1 }
+    ], avatar_increments(kata_id, lion)
+
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # avatar_ran_tests
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '89817A',
-  'after avatar_tested() one more increment' do
-    kata = make_kata
-    lion = kata.start_avatar(['lion'])
-    maker = DeltaMaker.new(lion)
-    now = time_now
-    lion.tested(maker.delta, maker.visible_files, now, output='xx', 'amber')
-    incs = storer.avatar_increments(kata.id, 'lion')
-    assert_equal [{
-      'colour' => 'amber',
-      'time' => now,
-      'number' => 1
-    }], incs
-  end
-
-  test 'CE9083',
-  'make_kata saves manifest in kata dir' do
-    kata = make_kata
-    assert disk[storer.kata_path(kata.id)].exists?('manifest.json')
-  end
+=begin
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # tags
@@ -276,17 +239,50 @@ class FakeStorerTest < AppLibTestBase
     assert visible_files.keys.include? 'makefile'
   end
 
-  #- - - - - - - - - - - - - - - -
-  #- - - - - - - - - - - - - - - -
+=end
 
   private
 
-  include TimeNow
+  def create_kata(kata_id)
+    manifest = make_manifest(kata_id)
+    storer.create_kata(manifest)
+  end
 
-=end
+  def kata_exists?(kata_id)
+    storer.kata_exists?(kata_id)
+  end
+
+  def kata_manifest(kata_id)
+    storer.kata_manifest(kata_id)
+  end
+
+  def completed(id)
+    storer.completed(id)
+  end
+
+  def avatar_exists?(kata_id, avatar_name)
+    storer.avatar_exists?(kata_id, avatar_name)
+  end
+
+  def start_avatar(kata_id, avatar_names)
+    storer.kata_start_avatar(kata_id, avatar_names)
+  end
+
+  def started_avatars(kata_id)
+    storer.kata_started_avatars(kata_id)
+  end
+
+  def avatar_increments(kata_id, avatar_name)
+    storer.avatar_increments(kata_id, avatar_name)
+  end
+
+  def avatar_ran_tests(kata_id, avatar_name, *args)
+    storer.avatar_ran_tests(kata_id, avatar_name, *args)
+  end
 
   def make_manifest(kata_id)
     {
+      'visible_files' => starting_files,
       'image_name' => 'cyberdojofoundation/gcc_assert',
       'tab_size' => 4,
       'id' => kata_id
@@ -294,6 +290,21 @@ class FakeStorerTest < AppLibTestBase
   end
 
   def lion; 'lion'; end
+
   def salmon; 'salmon'; end
+
+  def starting_files
+    {
+      'hiker.h'       => '#ifndef HIKER_INCLUDED...',
+      'hiker.c'       => '#include "hiker.h"...',
+      'hiker.tests.c' => '#include <assert.h>...',
+      'cyber-dojo.sh' => 'make --always-make',
+      'instructions'  => 'FizzBuzz is a game...'
+    }
+  end
+
+  def empty_delta
+    { 'unchanged' => [], 'changed' => [], 'new' => [], 'deleted' => [] }
+  end
 
 end

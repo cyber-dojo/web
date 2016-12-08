@@ -86,6 +86,10 @@ class FakeStorer
     name = valid_names.detect { |name| avatar_dir(id, name).make }
     return nil if name.nil? # full!
 
+    visible_files = kata_manifest(id)['visible_files']
+    write_avatar_manifest(id, name, visible_files)
+    write_avatar_increments(id, name, [])
+
     name
   end
 
@@ -108,13 +112,14 @@ class FakeStorer
   end
 
   def avatar_ran_tests(id, name, delta, files, now, output, colour)
-    files['output'] = output
-    write_avatar_manifest(id, name, files)
     # update the Red/Amber/Green increments
     rags = avatar_increments(id, name)
     tag = rags.length + 1
     rags << { 'colour' => colour, 'time' => now, 'number' => tag }
     write_avatar_increments(id, name, rags)
+
+    files['output'] = output
+    write_avatar_manifest(id, name, files)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
