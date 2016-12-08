@@ -12,7 +12,6 @@
   unique_id
   id_splitter
   string_cleaner
-  stderr_redirect
 
   host_shell
   mock_host_shell
