@@ -1,3 +1,4 @@
+require 'json'
 
 class FakeDir
 
@@ -28,12 +29,12 @@ class FakeDir
 
   def write_json(filename, obj)
     must_exist
-    files[filename] = obj
+    files[filename] = JSON.unparse(obj)
   end
 
   def read_json(filename)
     must_exist
-    files[filename]
+    JSON.parse(files[filename])
   end
 
   private

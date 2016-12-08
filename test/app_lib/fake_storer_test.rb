@@ -15,11 +15,18 @@ class FakeStorerTest < AppLibTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '9D3603E8',
-  'after create_kata() kata exists and manifest file holds kata properties' do
+  'after create_kata() kata exists',
+  'and manifest file holds kata properties',
+  'but symbol-keys have become string-keys' do
     manifest = make_manifest(kata_id = '603E8BAEDF')
     storer.create_kata(manifest)
     assert kata_exists?(kata_id)
-    assert_equal manifest, kata_manifest(kata_id)
+    expected = manifest
+    actual = kata_manifest(kata_id)
+    assert_equal expected.keys.size, actual.keys.size
+    expected.each do |key, value|
+      assert_equal value, actual[key.to_s]
+    end
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
