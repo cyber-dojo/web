@@ -59,16 +59,6 @@ class FakeStorerTest < AppLibTestBase
   # completions(id)
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def all_ids
-    ids = []
-    (0..255).map{|n| '%02X' % n}.each do |outer|
-      storer.completions(outer).each do |inner|
-        ids << (outer + inner)
-      end
-    end
-    ids
-  end
-
   test '9D33DFAF',
   'each() yields empty array when there are no katas' do
     assert_equal [], all_ids
@@ -320,6 +310,16 @@ class FakeStorerTest < AppLibTestBase
       'tab_size' => 4,
       'id' => kata_id
     }
+  end
+
+  def all_ids
+    ids = []
+    (0..255).map{|n| '%02X' % n}.each do |outer|
+      storer.completions(outer).each do |inner|
+        ids << (outer + inner)
+      end
+    end
+    ids
   end
 
   def lion; 'lion'; end
