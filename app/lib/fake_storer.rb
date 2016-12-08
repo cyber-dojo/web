@@ -84,13 +84,12 @@ class FakeStorer
     valid_names = avatar_names & Avatars.names
     # Don't do the & with operands swapped - you lose randomness
     name = valid_names.detect { |name| avatar_dir(id, name).make }
-    return nil if name.nil? # full!
-
-    visible_files = kata_manifest(id)['visible_files']
-    write_avatar_manifest(id, name, visible_files)
-    write_avatar_increments(id, name, [])
-
-    name
+    if name.nil?
+      return nil
+    else
+      write_avatar_increments(id, name, [])
+      return name
+    end
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -102,17 +101,16 @@ class FakeStorer
   end
 
   def avatar_increments(id, name)
-    # implicitly for current (latest) tag
     avatar_dir(id, name).read_json(increments_filename)
   end
 
   def avatar_visible_files(id, name)
-    # implicitly for current (latest) tag
-    avatar_dir(id, name).read_json(manifest_filename)
+    rags = avatar_increments(id, name)
+    tag = rags[-1]['number']
+    tag_visible_files(id, name, tag)
   end
 
   def avatar_ran_tests(id, name, delta, files, now, output, colour)
-    # update the Red/Amber/Green increments
     rags = avatar_increments(id, name)
     tag = rags.length + 1
     rags << { 'colour' => colour, 'time' => now, 'number' => tag }
@@ -120,8 +118,6 @@ class FakeStorer
 
     files = files.clone
     files['output'] = output
-    write_avatar_manifest(id, name, files)
-
     write_tag_manifest(id, name, tag, files)
   end
 
@@ -179,10 +175,6 @@ class FakeStorer
   end
 
   # - - - - - - - - - - - - - - - -
-
-  def write_avatar_manifest(id, name, files)
-    avatar_dir(id, name).write_json(manifest_filename, files)
-  end
 
   def write_avatar_increments(id, name, increments)
     avatar_dir(id, name).write_json(increments_filename, increments)
