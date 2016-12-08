@@ -228,6 +228,7 @@ class FakeStorerTest < AppLibTestBase
 
     files1['output'] = output
     assert_equal files1, avatar_visible_files(kata_id, lion)
+    assert_equal files1, tag_visible_files(kata_id, lion, 1)
 
     args = []
     args << kata_id
@@ -251,24 +252,9 @@ class FakeStorerTest < AppLibTestBase
 
     files2['output'] = output
     assert_equal files2, avatar_visible_files(kata_id, lion)
+    assert_equal files1, tag_visible_files(kata_id, lion, 1)
+    assert_equal files2, tag_visible_files(kata_id, lion, 2)
   end
-
-=begin
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # tags
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'C42CB0',
-  'tag_visible_files' do
-    kata = make_kata
-    hippo = kata.start_avatar(['hippo'])
-    visible_files = storer.tag_visible_files(kata.id, 'hippo', tag=0)
-    assert 6, visible_files.length
-    assert visible_files.keys.include? 'makefile'
-  end
-
-=end
 
   private
 
@@ -312,6 +298,12 @@ class FakeStorerTest < AppLibTestBase
   def avatar_ran_tests(kata_id, avatar_name, *args)
     storer.avatar_ran_tests(kata_id, avatar_name, *args)
   end
+
+  def tag_visible_files(kata_id, avatar_name, tag)
+    storer.tag_visible_files(kata_id, avatar_name, tag)
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - -
 
   def make_manifest(kata_id)
     {

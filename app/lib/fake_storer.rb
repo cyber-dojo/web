@@ -118,8 +118,11 @@ class FakeStorer
     rags << { 'colour' => colour, 'time' => now, 'number' => tag }
     write_avatar_increments(id, name, rags)
 
+    files = files.clone
     files['output'] = output
     write_avatar_manifest(id, name, files)
+
+    write_tag_manifest(id, name, tag, files)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -128,13 +131,14 @@ class FakeStorer
 
   def tag_visible_files(id, name, tag)
     # retrieve all the files in one go
-    nil
-    #JSON.parse(git.show(avatar_path(id, name), "#{tag}:#{manifest_filename}"))
+    tag_dir(id, name, tag).read_json(manifest_filename)
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - - - -
-  # Path
-  # - - - - - - - - - - - - - - - - - - - - - - - -
+  private
+
+  attr_reader :disk
+
+  include IdSplitter
 
   def kata_path(id)
     path + '/' + outer(id) + '/' + inner(id)
@@ -144,19 +148,11 @@ class FakeStorer
     kata_path(id) + '/' + name
   end
 
-  def sandbox_path(id, name)
-    # An avatar's source files are _not_ held in its own folder
-    # (but in the it's sandbox folder) because its own folder
-    # is used for the manifest.json and increments.json files.
-    avatar_path(id, name) + '/sandbox'
+  def tag_path(id, name, tag)
+    avatar_path(id, name) + '/' + tag.to_s
   end
 
-  private
-
-  attr_reader :disk
-
-  include IdSplitter
-  include NearestAncestors
+  # - - - - - - - - - - - - - - - -
 
   def kata_dir(id)
     disk[kata_path(id)]
@@ -165,6 +161,12 @@ class FakeStorer
   def avatar_dir(id, name)
     disk[avatar_path(id, name)]
   end
+
+  def tag_dir(id, name, tag)
+    disk[tag_path(id, name, tag)]
+  end
+
+  # - - - - - - - - - - - - - - - -
 
   def valid?(id)
     id.class.name == 'String' &&
@@ -176,6 +178,8 @@ class FakeStorer
     '0123456789ABCDEF'.include?(char)
   end
 
+  # - - - - - - - - - - - - - - - -
+
   def write_avatar_manifest(id, name, files)
     avatar_dir(id, name).write_json(manifest_filename, files)
   end
@@ -183,6 +187,14 @@ class FakeStorer
   def write_avatar_increments(id, name, increments)
     avatar_dir(id, name).write_json(increments_filename, increments)
   end
+
+  def write_tag_manifest(id, name, tag, files)
+    dir = tag_dir(id, name, tag)
+    dir.make
+    dir.write_json(manifest_filename, files)
+  end
+
+  # - - - - - - - - - - - - - - - -
 
   def increments_filename
     # Each avatar's increments stores a cache of colours and time-stamps
@@ -197,6 +209,8 @@ class FakeStorer
     # current visible files [filenames and contents].
     'manifest.json'
   end
+
+  include NearestAncestors
 
   def env_var; nearest_ancestors(:env_var); end
 
