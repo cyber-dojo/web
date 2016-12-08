@@ -1,4 +1,6 @@
 
+require_relative './../../lib/fake_disk'
+
 class FakeStorer
 
   def initialize(parent)
@@ -36,7 +38,7 @@ class FakeStorer
     id || ''
   end
 
-  def ids_for(outer_dir)
+  def completions(outer_dir)
     # for Batch-Method iteration over large number of katas...
     # (0..255).map{|n| '%02X' % n}.each do |outer|
     #   storer.ids_for(outer).each do |inner|
@@ -59,7 +61,7 @@ class FakeStorer
     # a kata's id has 10 hex chars. This gives 16^10 possibilities
     # which is 1,099,511,627,776 which is big enough to not
     # need to check that a kata with the id already exists.
-    dir = kata_dir(manifest[:id])
+    dir = kata_dir(manifest['id'])
     dir.make
     dir.write_json(manifest_filename, manifest)
   end
