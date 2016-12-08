@@ -106,7 +106,7 @@ class FakeStorer
 
   def avatar_visible_files(id, name)
     rags = avatar_increments(id, name)
-    tag = rags[-1]['number']
+    tag = rags == [] ? 0 : rags[-1]['number']
     tag_visible_files(id, name, tag)
   end
 
@@ -126,8 +126,11 @@ class FakeStorer
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def tag_visible_files(id, name, tag)
-    # retrieve all the files in one go
-    tag_dir(id, name, tag).read_json(manifest_filename)
+    if tag == 0
+      kata_manifest(id)['visible_files']
+    else
+      tag_dir(id, name, tag).read_json(manifest_filename)
+    end
   end
 
   private
