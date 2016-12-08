@@ -12,7 +12,6 @@
   unique_id
   id_splitter
   string_cleaner
-  string_truncater
   stderr_redirect
 
   host_shell
