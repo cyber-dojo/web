@@ -26,5 +26,3 @@ docker run \
   --env CYBER_DOJO_CUSTOM_ROOT=${CYBER_DOJO_CUSTOM_ROOT} \
   cyberdojo/web \
   sh -c "cd test/app_models && ./avatar_test.rb ${*}"
-
-#sh -c "cd start-points/languages && ls -al"
