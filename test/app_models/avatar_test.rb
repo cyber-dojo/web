@@ -8,7 +8,8 @@ class AvatarTest < AppModelsTestBase
   test 'FB7E81',
   "an avatar's kata is the kata it was created with" do
 
-    #set_storer_class('FakeStorer')
+    set_storer_class('FakeStorer')
+    assert_equal 'StubRunner', runner.class.name
 
     kata = make_kata
     avatar = kata.start_avatar
