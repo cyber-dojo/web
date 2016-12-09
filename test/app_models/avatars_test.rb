@@ -4,6 +4,13 @@ require_relative './app_models_test_base'
 
 class AvatarsTest < AppModelsTestBase
 
+  def setup
+    super
+    set_storer_class('FakeStorer')
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '631149',
   'there are 64 avatar names' do
     assert_equal 64, Avatars.names.length
