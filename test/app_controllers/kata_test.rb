@@ -52,6 +52,7 @@ class KataControllerTest  < AppControllerTestBase
     @avatar = start
     begin
       run_tests
+      # XXXX: storer.sandbox_path
       path = storer.sandbox_path(@kata.id, @avatar.name)
       dir = disk[path]
       filename = 'hiker.h'
@@ -190,6 +191,7 @@ class KataControllerTest  < AppControllerTestBase
 
   def assert_file(filename, expected)
     assert_equal expected, @avatar.visible_files[filename], 'saved_to_manifest'
+    # XXXX: storer.sandbox_path
     path = storer.sandbox_path(@kata.id, @avatar.name)
     assert_equal expected, disk[path].read(filename), 'saved_to_sandbox'
   end

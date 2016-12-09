@@ -75,7 +75,10 @@ class DownloadControllerTest < AppControllerTestBase
     untar_folder = @tar_dir + '/untar/'
     `mkdir -p #{untar_folder}`
     `cd #{untar_folder} && cat #{tarfile_name} | tar xfz -`
+
+    # XXXX: storer.kata_path()
     src_folder = "#{storer.kata_path(@id)}"
+
     dst_folder = "#{untar_folder}/#{outer(@id)}/#{inner(@id)}"
     result = `diff -r -q #{src_folder} #{dst_folder}`
     exit_status = $?.exitstatus
