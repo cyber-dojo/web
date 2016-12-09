@@ -5,6 +5,7 @@ require_relative './app_controller_test_base'
 class DashboardControllerTest < AppControllerTestBase
 
   def prepare
+    set_storer_class('FakeStorer')
     create_kata
   end
 

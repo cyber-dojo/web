@@ -10,6 +10,7 @@ class DifferControllerTest < AppControllerTestBase
 
   test '238AF6',
   'no lines different in any files between successive tags' do
+    set_storer_class('FakeStorer')
     @id = create_kata
     @avatar = start # 0
     filename = 'hiker.rb'
@@ -41,6 +42,7 @@ class DifferControllerTest < AppControllerTestBase
 
   test 'BEC2BF',
   'one line different in one file between successive tags' do
+    set_storer_class('FakeStorer')
     @id = create_kata
     @avatar = start # 0
     filename = 'hiker.rb'
@@ -75,6 +77,7 @@ class DifferControllerTest < AppControllerTestBase
 
   test '06FD09',
   'tag -1 gives last traffic-light' do
+    set_storer_class('FakeStorer')
     @id = create_kata
     start      # 0
     run_tests  # 1
@@ -92,6 +95,7 @@ class DifferControllerTest < AppControllerTestBase
 
   test '34D490',
   'nextAvatar and prevAvatar are empty string for dojo with one avatar' do
+    set_storer_class('FakeStorer')
     @id = create_kata
     start      # 0
     run_tests  # 1
@@ -108,6 +112,7 @@ class DifferControllerTest < AppControllerTestBase
 
   test '9FF76A',
   'nextAvatar and prevAvatar for dojo with two avatars' do
+    set_storer_class('FakeStorer')
     @id = create_kata
     firstAvatar = start  # 0
     run_tests            # 1
