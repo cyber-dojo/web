@@ -7,6 +7,8 @@ class DashboardTdGapperTest < AppLibTestBase
   def setup
     super
     @gapper = DashboardTdGapper.new(start, seconds_per_td, max_seconds_uncollapsed)
+    set_storer_class('NotUsed')
+    set_runner_class('NotUsed')
   end
 
   attr_reader :gapper
