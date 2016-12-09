@@ -32,11 +32,8 @@ class DifferServiceTest < AppLibTestBase
 
     refute_nil actual['hiker.c']
     assert_equal({
-      'type'=>'section', 'index'=>0
+      "type"=>"same", "line"=>"#include \"hiker.h\"", "number"=>1
     }, actual['hiker.c'][0])
-    assert_equal({
-      'type'=>'deleted', 'line'=>"#include \"hiker.h\"\r", 'number'=>1
-    }, actual['hiker.c'][1])
 
   end
 
