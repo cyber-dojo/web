@@ -16,7 +16,6 @@ class DifferServiceTest < AppLibTestBase
   'smoke test differ-service' do
     kata = make_kata
     kata.start_avatar([lion])
-
     args = []
     args << kata.id
     args << lion
@@ -29,8 +28,15 @@ class DifferServiceTest < AppLibTestBase
     args << (output = 'Assert failed: answer() == 42')
     args << (colour1 = 'red')
     storer.avatar_ran_tests(*args)
-
     actual = differ.diff(kata.avatars[lion], was_tag=0, now_tag=1)
+
+    refute_nil actual['hiker.c']
+    assert_equal({
+      'type'=>'section', 'index'=>0
+    }, actual['hiker.c'][0])
+    assert_equal({
+      'type'=>'deleted', 'line'=>"#include \"hiker.h\"\r", 'number'=>1
+    }, actual['hiker.c'][1])
 
   end
 
