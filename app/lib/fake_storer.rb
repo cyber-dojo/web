@@ -105,6 +105,8 @@ class FakeStorer
     end
   end
 
+  def kata_dir(id); disk[kata_path(id)]; end
+
   private
 
   attr_reader :disk
@@ -115,7 +117,6 @@ class FakeStorer
   def avatar_path(id, name); kata_path(id) + '/' + name; end
   def    tag_path(id, name, tag); avatar_path(id, name) + '/' + tag.to_s; end
 
-  def   kata_dir(id); disk[kata_path(id)]; end
   def avatar_dir(id, name); disk[avatar_path(id, name)]; end
   def    tag_dir(id, name, tag); disk[tag_path(id, name, tag)]; end
 

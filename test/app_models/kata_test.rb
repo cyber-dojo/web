@@ -218,9 +218,7 @@ class KataTest < AppModelsTestBase
       exercise: 'Fizz_Buzz',
     }
     kata = make_kata(hash)
-    filename = storer.kata_path(kata.id) + '/manifest.json'
-    manifest = IO.read(filename)
-    json = JSON.parse(manifest)
+    json = storer.kata_manifest(kata.id)
     refute_nil json['red_amber_green']
     assert_equal 'red'  , kata.red_amber_green('Errors and Failures:'), :red
     assert_equal 'amber', kata.red_amber_green('sdfsdfsdf'), :amber
@@ -230,18 +228,22 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '5177CC',
-  'before start-points volume re-architecture, initial colour is red/amber/green' +
+  'before start-points volume re-architecture' +
+  ' initial colour is red/amber/green' +
   ' determined by OutputColour.of()' do
+
+    set_storer_class('FakeStorer')
     hash = {
       language: 'C#-Moq',
       exercise: 'Fizz_Buzz',
     }
     kata = make_kata(hash)
-    filename = storer.kata_path(kata.id) + '/manifest.json'
-    json = JSON.parse(IO.read(filename))
+
+    json = storer.kata_manifest(kata.id)
     json.delete('red_amber_green')
     json['unit_test_framework'] = 'nunit'
-    IO.write(filename, JSON.unparse(json))
+    storer.kata_dir(kata.id).write_json('manifest.json', json)
+
     assert_nil kata.red_amber_green(nil)
     assert_equal 'red'  , kata.red_amber_green('Errors and Failures:'), :red
     assert_equal 'amber', kata.red_amber_green('sdfsdfsdf'), :amber
@@ -253,13 +255,14 @@ class KataTest < AppModelsTestBase
   test 'B80712',
   'when the start_point the kata was created from is no longer loaded' +
   " the kata's properties are all still available" do
+
+    set_storer_class('FakeStorer')
     hash = {
       language: 'C#-Moq',
       exercise: 'Fizz_Buzz',
     }
     kata = make_kata(hash)
     refute_nil kata
-    filename = storer.kata_path(kata.id) + '/manifest.json'
 
     property_names = %w(
       display_name
@@ -270,9 +273,9 @@ class KataTest < AppModelsTestBase
       lowlight_filenames
     )
 
-    json = JSON.parse(IO.read(filename))
+    json = storer.kata_manifest(kata.id)
     property_names.each { |property_name| json.delete(property_name) }
-    IO.write(filename, JSON.unparse(json))
+    storer.kata_dir(kata.id).write_json('manifest.json', json)
 
     property_names.each { |property_name| refute_nil kata.send(property_name) }
     assert_equal 'C#, Moq', kata.display_name
