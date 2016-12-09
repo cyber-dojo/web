@@ -29,7 +29,7 @@ class RunnerServiceTest < AppLibTestBase
     args << lion
     args << (deleted_filenames = [])
     args << starting_files
-    args << (max_seconds = 10)
+    args << (max_seconds = runner.max_seconds)
     begin
       stdout,stderr,status = runner.run(*args)
       assert stdout.start_with? "makefile:4: recipe for target 'test.output' failed"
