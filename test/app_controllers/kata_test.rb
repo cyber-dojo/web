@@ -23,6 +23,7 @@ class KataControllerTest  < AppControllerTestBase
 
   test 'BE8B75',
   'show-json (for Atom editor)' do
+    set_storer_class('FakeStorer')
     create_gcc_assert_kata
     @avatar = start
     kata_edit
@@ -35,6 +36,7 @@ class KataControllerTest  < AppControllerTestBase
 
   test 'BE80F6',
   'edit and then run-tests' do
+    set_storer_class('FakeStorer')
     create_gcc_assert_kata
     @avatar = start
     kata_edit
@@ -45,7 +47,7 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'E77261',
+  test 'BE8261',
   'run_tests does NOT save non-visible files back to storer' do
     set_runner_class('RunnerService')
     create_gcc_assert_kata
@@ -139,12 +141,12 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '97B555',
+  test 'BE8555',
   'when RunnerService receives run() for an avatar in a kata started when',
   'the runner was not yet a separate service, then RunnerService seamlessly',
   'transitions the avatar' do
     # Note: the kata-controller validates the kata-id and the avatar-name
-    # (via the host-katas-storer) so there is not a path from the browser to
+    # (via the host-katas-storer) so there is no path from the browser to
     # get runner.run to accept unvalidated arguments.
     set_runner_class('RunnerService')
     create_gcc_assert_kata
@@ -161,9 +163,11 @@ class KataControllerTest  < AppControllerTestBase
       assert output.include?(expected)
       # Note that depending on the host's OS the last line might be
       #     make: *** [test.output] Aborted (core dumped)
+      # viz with (core dumped) appended
     end
 
-    # remove runner's volume to simulate kata created before runner was a separate service.
+    # remove runner's volume to simulate kata created
+    # before runner was a separate service.
     runner.old_avatar(@kata.id, @avatar.name)
 
     begin
