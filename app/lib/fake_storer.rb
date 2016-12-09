@@ -4,7 +4,7 @@ class FakeStorer
 
   def initialize(parent)
     @parent = parent
-    @disk = FakeDisk.new(self)
+    @@disk ||= FakeDisk.new(self)
   end
 
   attr_reader :parent
@@ -109,7 +109,9 @@ class FakeStorer
 
   private
 
-  attr_reader :disk
+  def disk
+    @@disk
+  end
 
   include IdSplitter
 
