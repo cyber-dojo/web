@@ -6,6 +6,15 @@ class RingPickerTest < AppLibTestBase
 
   include RingPicker
 
+  def setup
+    super
+    set_storer_class('NotUsed')
+    set_runner_class('NotUsed')
+    set_differ_class('NotUsed')
+  end
+
+  #------------------------------------------------------------------
+
   test '9A9099',
   'previous when single entry is empty string' do
     assert_prev('a', %w{ a }, '')

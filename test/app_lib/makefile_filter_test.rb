@@ -6,6 +6,15 @@ class MakefileFilterTest < AppLibTestBase
 
   include MakefileFilter
 
+  def setup
+    super
+    set_storer_class('NotUsed')
+    set_runner_class('NotUsed')
+    set_differ_class('NotUsed')
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - -
+
   test 'C88333',
   'not makefile leaves leading whitespace untouched' do
     check('notMakefile', "            abc", "            abc")

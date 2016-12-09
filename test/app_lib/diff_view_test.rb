@@ -6,6 +6,15 @@ class DiffViewTest < AppLibTestBase
 
   include DiffView
 
+  def setup
+    super
+    set_storer_class('NotUsed')
+    set_runner_class('NotUsed')
+    set_differ_class('NotUsed')
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - -
+
   test '836292',
   'simple example going from red to green' do
     diffs =

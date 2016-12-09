@@ -25,4 +25,4 @@ docker run \
   --env CYBER_DOJO_EXERCISES_ROOT=${CYBER_DOJO_EXERCISES_ROOT} \
   --env CYBER_DOJO_CUSTOM_ROOT=${CYBER_DOJO_CUSTOM_ROOT} \
   cyberdojo/web \
-  sh -c "cd test/app_lib && ./diff_html_test.rb ${*}"
+  sh -c "cd test/app_lib && ./run.sh ${*}"

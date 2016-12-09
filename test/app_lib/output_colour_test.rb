@@ -5,6 +5,15 @@ require_relative '../../app/lib/unit_test_framework_lookup'
 
 class OutputColourTest < AppLibTestBase
 
+  def setup
+    super
+    set_storer_class('NotUsed')
+    set_runner_class('NotUsed')
+    set_differ_class('NotUsed')
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '9DBD7D',
   'all saved Runner outputs are correctly coloured red/amber/green by OutputColour.of' do
     disk[output_path].each_dir do |unit_test_framework|

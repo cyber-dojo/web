@@ -6,6 +6,15 @@ class StartPointChooserTest < AppLibTestBase
 
   include StartPointChooser
 
+  def setup
+    super
+    set_storer_class('FakeStorer')
+    set_runner_class('NotUsed')
+    set_differ_class('NotUsed')
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - -
+
   test '773616',
   'when id is given and katas[id].language exists then choose that language' do
     cmd = test_languages_names.map{ |name| name.split('-').join(', ') }

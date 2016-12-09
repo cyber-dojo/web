@@ -10,7 +10,10 @@ class DiffHtmlTest <  AppLibTestBase
     super
     set_storer_class('NotUsed')
     set_runner_class('NotUsed')
+    set_differ_class('NotUsed')
   end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '748980',
   'non-empty same/added/deleted lines stay as themselves' do

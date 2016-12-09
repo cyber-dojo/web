@@ -4,6 +4,15 @@ require_relative './app_lib_test_base'
 
 class DisplayNamesSplitterTest < AppLibTestBase
 
+  def setup
+    super
+    set_storer_class('NotUsed')
+    set_runner_class('NotUsed')
+    set_differ_class('NotUsed')
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
   test '0B2D3E',
   'display_names is split on comma into [languages_names,tests_names]' do
 

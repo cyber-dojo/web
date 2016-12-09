@@ -8,6 +8,9 @@ class ReviewFilePickerTest < AppLibTestBase
 
   def setup
     super
+    set_storer_class('NotUsed')
+    set_runner_class('NotUsed')
+    set_differ_class('NotUsed')
     @n = -1
   end
 
