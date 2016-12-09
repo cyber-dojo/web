@@ -5,6 +5,13 @@ require_relative './../app_lib/delta_maker'
 
 class LightTest < AppModelsTestBase
 
+  def setup
+    super
+    set_storer_class('FakeStorer')
+  end
+
+  #- - - - - - - - - - - - - - - - - - -
+
   test 'AC96D0',
   'colour is converted to a symbol' do
     light = make_light(:red, [2015, 2, 15, 8, 54, 6], 1)

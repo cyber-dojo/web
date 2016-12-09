@@ -5,6 +5,13 @@ require_relative './../app_lib/delta_maker'
 
 class TagsTest < AppModelsTestBase
 
+  def setup
+    super
+    set_storer_class('FakeStorer')
+  end
+
+  #- - - - - - - - - - - - - - - - - - -
+
   test 'A30AF3',
   'tag zero exists after avatar is started',
   'and before first [test] is run',
