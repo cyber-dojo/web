@@ -5,12 +5,15 @@ require_relative './../app_lib/delta_maker'
 
 class AvatarTest < AppModelsTestBase
 
+  def setup
+    super
+    set_storer_class('FakeStorer')
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test 'FB7E81',
   "an avatar's kata is the kata it was created with" do
-
-    set_storer_class('FakeStorer')
-    assert_equal 'StubRunner', runner.class.name
-
     kata = make_kata
     avatar = kata.start_avatar
     assert_equal kata.id, avatar.kata.id
