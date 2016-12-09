@@ -5,6 +5,13 @@ require_relative './../app_lib/delta_maker'
 
 class KataTest < AppModelsTestBase
 
+  def setup
+    super
+    set_storer_class('FakeStorer')
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '677A57',
   'id reads back as set' do
     id = unique_id
@@ -231,8 +238,6 @@ class KataTest < AppModelsTestBase
   'before start-points volume re-architecture' +
   ' initial colour is red/amber/green' +
   ' determined by OutputColour.of()' do
-
-    set_storer_class('FakeStorer')
     hash = {
       language: 'C#-Moq',
       exercise: 'Fizz_Buzz',
@@ -255,8 +260,6 @@ class KataTest < AppModelsTestBase
   test 'B80712',
   'when the start_point the kata was created from is no longer loaded' +
   " the kata's properties are all still available" do
-
-    set_storer_class('FakeStorer')
     hash = {
       language: 'C#-Moq',
       exercise: 'Fizz_Buzz',
