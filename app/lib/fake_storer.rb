@@ -99,7 +99,7 @@ class FakeStorer
 
   def tag_visible_files(id, name, tag)
     if tag == 0
-      kata_manifest(id)[:visible_files]
+      kata_manifest(id)['visible_files']
     else
       tag_dir(id, name, tag).read_json(manifest_filename)
     end

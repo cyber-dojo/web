@@ -200,7 +200,7 @@ class FakeStorerTest < AppLibTestBase
   "tag_visible_files for tag 0 is kata's starting files" do
     create_kata(kata_id = '9D3FC48F03')
     start_avatar(kata_id, [lion])
-    files0 = kata_manifest(kata_id)[:visible_files]
+    files0 = kata_manifest(kata_id)['visible_files']
     assert_equal files0, tag_visible_files(kata_id, lion, tag=0)
   end
 
