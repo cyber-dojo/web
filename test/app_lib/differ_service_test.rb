@@ -34,22 +34,4 @@ class DifferServiceTest < AppLibTestBase
 
   end
 
-  private
-
-  def lion; 'lion'; end
-
-  def starting_files
-    {
-      'hiker.h'       => '#ifndef HIKER_INCLUDED...',
-      'hiker.c'       => '#include "hiker.h"...',
-      'hiker.tests.c' => '#include <assert.h>...',
-      'cyber-dojo.sh' => 'make --always-make',
-      'instructions'  => 'FizzBuzz is a game...'
-    }.clone
-  end
-
-  def empty_delta
-    { 'unchanged' => [], 'changed' => [], 'new' => [], 'deleted' => [] }
-  end
-
 end
