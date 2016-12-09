@@ -12,7 +12,7 @@ class Katas
 
   def each
     (0..255).map{ |n| '%02X' % n }.each do |outer|
-      storer.ids_for(outer).each do |inner|
+      storer.completions(outer).each do |inner|
         yield Kata.new(self, outer + inner)
       end
     end

@@ -37,7 +37,7 @@ class HostDiskStorer
     id || ''
   end
 
-  def ids_for(outer_dir)
+  def completions(outer_dir)
     # for Batch-Method iteration over large number of katas...
     # (0..255).map{|n| '%02X' % n}.each do |outer|
     #   storer.ids_for(outer).each do |inner|
