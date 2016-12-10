@@ -18,8 +18,8 @@ one_time_creation_of_katas_data_volume()
 {
   # The katas data-volume is not created as a named volume
   # because it predates that docker feature.
-  local KDC=$(docker ps --all | grep -s ${CYBER_DOJO_KATAS_DATA_CONTAINER})
-  if [ "${KDC}" == "" ]; then
+  #local KDC=$(docker ps --all | grep -s ${CYBER_DOJO_KATAS_DATA_CONTAINER})
+  #if [ "${KDC}" == "" ]; then
     echo "Making katas data-container"
     local CONTEXT_DIR=/tmp/build-katas-data-container
     mkdir -p ${CONTEXT_DIR}
@@ -44,7 +44,7 @@ one_time_creation_of_katas_data_volume()
               --name ${CYBER_DOJO_KATAS_DATA_CONTAINER} \
               ${TAG} \
               echo 'cdfKatasDC' > /dev/null
-  fi
+    #fi
 }
 
 set +e

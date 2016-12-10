@@ -40,7 +40,12 @@ script:
     #          ${TAG}
     #          echo 'cdfKatasDC' > /dev/null
 
-    - ./pipe_build_up_test.sh
+    #- ./pipe_build_up_test.sh
+
+    - ./build.sh
+    - ./up.sh
+    - ./test.sh ${*}
+
     #- ./up.sh
     #- ./cyber-dojo up
     # pull images used in tests so test-duration does not include pull time
