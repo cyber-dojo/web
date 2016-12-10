@@ -47,27 +47,6 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'BE8261',
-  'run_tests does NOT save non-visible files back to storer' do
-    set_runner_class('RunnerService')
-    create_gcc_assert_kata
-    @avatar = start
-    begin
-      run_tests
-      # XXXX: storer.sandbox_path
-      path = storer.sandbox_path(@kata.id, @avatar.name)
-      dir = disk[path]
-      filename = 'hiker.h'
-      assert dir.exists?(filename), filename
-      filename = 'test'
-      refute dir.exists?(filename), filename
-    ensure
-      runner.old_kata(@kata.id)
-    end
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test 'BE87FD',
   'run_tests() saves changed makefile with leading spaces converted to tabs',
   'and these changes are made to the visible_files parameter too',
