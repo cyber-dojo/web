@@ -44,12 +44,12 @@ script:
 
     - ./build.sh
 
-    - curl https://raw.githubusercontent.com/cyber-dojo/commander/master/cyber-dojo > /tmp/cyber-dojo
-    - chmod +x /tmp/cyber-dojo
-    - export GIT_URL=https://github.com/cyber-dojo/start-points-
-    - /tmp/cyber-dojo start-point create languages --git=${GIT_URL}languages.git
-    - /tmp/cyber-dojo start-point create exercises --git=${GIT_URL}exercises.git
-    - /tmp/cyber-dojo start-point create custom    --git=${GIT_URL}custom.git
+    #- curl https://raw.githubusercontent.com/cyber-dojo/commander/master/cyber-dojo > /tmp/cyber-dojo
+    #- chmod +x /tmp/cyber-dojo
+    #- export GIT_URL=https://github.com/cyber-dojo/start-points-
+    #- /tmp/cyber-dojo start-point create languages --git=${GIT_URL}languages.git
+    #- /tmp/cyber-dojo start-point create exercises --git=${GIT_URL}exercises.git
+    #- /tmp/cyber-dojo start-point create custom    --git=${GIT_URL}custom.git
 
     - ./up.sh
     - ./test.sh ${*}

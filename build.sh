@@ -9,8 +9,7 @@ export CYBER_DOJO_START_POINT_CUSTOM=custom
 
 one_time_creation_of_katas_data_volume()
 {
-  # The katas data-volume is not created as a named volume
-  # because it predates that docker feature.
+  # This code is copies from commander's cyber-dojo.sh file (note the .sh)
   set +e
   local KDC=$(docker ps --all | grep -s ${CYBER_DOJO_KATAS_DATA_CONTAINER})
   set -e
