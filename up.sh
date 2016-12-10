@@ -1,6 +1,5 @@
 #!/bin/bash
 set -e
-set -x
 
 # You must do a down so the up brings up a new web container
 #cyber-dojo down
@@ -17,10 +16,10 @@ export CYBER_DOJO_START_POINT_CUSTOM=custom
 
 one_time_creation_of_katas_data_volume()
 {
-  # The katas data-volume is not created as a named volume because
-  # it predates that docker feature.
-  docker ps --all | grep -s ${CYBER_DOJO_KATAS_DATA_CONTAINER} > /dev/null
-  if [ $? != 0 ]; then
+  # The katas data-volume is not created as a named volume
+  # because it predates that docker feature.
+  local KDC=$(docker ps --all | grep -s ${CYBER_DOJO_KATAS_DATA_CONTAINER})
+  if [ "${KDC}" = "" ]; then
     local CONTEXT_DIR=/tmp/build-katas-data-container
     mkdir -p ${CONTEXT_DIR}
     echo '*' > ${CONTEXT_DIR}/.dockerignore
@@ -38,7 +37,7 @@ one_time_creation_of_katas_data_volume()
     docker build \
               --build-arg=CYBER_DOJO_KATAS_ROOT=${CYBER_DOJO_ROOT}/katas \
               --tag=${TAG} \
-              --file=Dockerfile \
+              --file=${CONTEXT_DIR}/Dockerfile \
               ${CONTEXT_DIR} > /dev/null
     docker create \
               --name ${CYBER_DOJO_KATAS_DATA_CONTAINER} \
