@@ -7,6 +7,7 @@ cid=`docker ps --all --quiet --filter "name=cyber-dojo-web"`
 docker exec ${cid} sh -c "cd test && ./run.sh ${*}"
 
 # copy coverage stats out of container
+mkdir ${my_dir}/coverage
 modules=( app_helpers app_lib app_models lib app_controllers )
 for module in ${modules[*]}
 do
