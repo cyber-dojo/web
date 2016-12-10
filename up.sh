@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+set -x
 
 # You must do a down so the up brings up a new web container
 #cyber-dojo down
