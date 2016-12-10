@@ -1,10 +1,54 @@
 
 version: '2'
 
+volumes:
+  languages:
+    external:
+      name: ${CYBER_DOJO_START_POINT_LANGUAGES}
+  exercises:
+    external:
+      name: ${CYBER_DOJO_START_POINT_EXERCISES}
+  custom:
+    external:
+      name: ${CYBER_DOJO_START_POINT_CUSTOM}
+
 services:
   web:
-    image: cyberdojo/web
     build:
       context: .
       args:
         CYBER_DOJO_HOME: usr/src/cyber-dojo
+    user: cyber-dojo
+    image: cyberdojo/web
+    container_name: cyber-dojo-web
+    cpu_shares: 250
+    mem_limit: 2G
+    memswap_limit: 2G
+    restart: on-failure
+    volumes:
+      - languages:${CYBER_DOJO_ROOT}/start_points/languages:ro
+      - exercises:${CYBER_DOJO_ROOT}/start_points/exercises:ro
+      - custom:${CYBER_DOJO_ROOT}/start_points/custom:ro
+    volumes_from:
+      - container:${CYBER_DOJO_KATAS_DATA_CONTAINER}:rw
+
+  runner:
+    user: root
+    image: cyberdojo/runner
+    container_name: cyber-dojo-runner
+    cpu_shares: 250
+    mem_limit: 2G
+    memswap_limit: 2G
+    restart: on-failure
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  differ:
+    user: nobody
+    image: cyberdojo/differ
+    container_name: cyber-dojo-differ
+    cpu_shares: 250
+    mem_limit: 1G
+    memswap_limit: 1G
+    restart: on-failure
+

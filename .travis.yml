@@ -4,15 +4,17 @@ services: docker
 language: generic
 
 script:
-    - curl -O https://raw.githubusercontent.com/cyber-dojo/commander/master/cyber-dojo
-    - chmod +x cyber-dojo
+    #- curl -O https://raw.githubusercontent.com/cyber-dojo/commander/master/cyber-dojo
+    #- chmod +x cyber-dojo
     - curl -O https://raw.githubusercontent.com/cyber-dojo/ruby/master/push.sh
     - chmod +x push.sh
 
-    - ./build.sh
-    - ./cyber-dojo up
-    # pull images used in tests so test-duration does not include pull time
     - docker pull cyberdojofoundation/gcc_assert:latest
     - docker pull cyberdojofoundation/ruby_test_unit:latest
-    - ./test.sh
+
+    - ./pipe_build_up_test.sh
+    #- ./up.sh
+    #- ./cyber-dojo up
+    # pull images used in tests so test-duration does not include pull time
+    #- ./test.sh
     - ./push.sh
