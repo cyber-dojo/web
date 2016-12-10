@@ -11,10 +11,6 @@ script:
     - docker pull cyberdojofoundation/gcc_assert:latest
     - docker pull cyberdojofoundation/ruby_test_unit:latest
 
-    #- ./pipe_build_up_test.sh
-
-    - ./build.sh
-    - ./up.sh
-    - ./test.sh ${*}
+    - ./pipe_build_up_test.sh
 
     - ./push.sh
