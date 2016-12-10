@@ -13,10 +13,8 @@ script:
     #- docker pull cyberdojofoundation/ruby_test_unit:latest
 
     - local KDC=$(docker ps --all | grep -s ${CYBER_DOJO_KATAS_DATA_CONTAINER})
-    - if [ "${KDC}" = "" ]; then
-    -   echo "INSIDE THE IF"
-    - fi
-    - local CONTEXT_DIR=/tmp/build-katas-data-container
+    - echo "KDC=${KDC}"
+    - export CONTEXT_DIR=/tmp/build-katas-data-container
     - mkdir -p ${CONTEXT_DIR}
     - echo '*' > ${CONTEXT_DIR}/.dockerignore
     - echo 'FROM alpine:3.4' > ${CONTEXT_DIR}/Dockerfile
@@ -27,7 +25,7 @@ script:
     - echo 'RUN  chown -R cyber-dojo ${CYBER_DOJO_KATAS_ROOT}' >> ${CONTEXT_DIR}/Dockerfile
     - echo 'VOLUME [ "${CYBER_DOJO_KATAS_ROOT}" ]' >> ${CONTEXT_DIR}/Dockerfile
     - echo 'CMD [ "katas-data-container" ]' >> ${CONTEXT_DIR}/Dockerfile
-    - local TAG=cyberdojo/katas
+    - export TAG=cyberdojo/katas
     # create a katas volume - it is mounted into the web container
     # using a volumes_from in docker-compose.yml
     - docker build \
