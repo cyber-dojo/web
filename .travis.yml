@@ -4,58 +4,17 @@ services: docker
 language: generic
 
 script:
-    #- curl -O https://raw.githubusercontent.com/cyber-dojo/commander/master/cyber-dojo
-    #- chmod +x cyber-dojo
     - curl -O https://raw.githubusercontent.com/cyber-dojo/ruby/master/push.sh
     - chmod +x push.sh
 
-    #- docker pull cyberdojofoundation/gcc_assert:latest
-    #- docker pull cyberdojofoundation/ruby_test_unit:latest
-
-    #- export CYBER_DOJO_KATAS_DATA_CONTAINER=cyber-dojo-katas-DATA-CONTAINER
-    #- local KDC=$(docker ps --all | grep -s ${CYBER_DOJO_KATAS_DATA_CONTAINER})
-    #- echo "KDC=${KDC}"
-    #- export CONTEXT_DIR=/tmp/build-katas-data-container
-    #- mkdir -p ${CONTEXT_DIR}
-    #- echo '*' > ${CONTEXT_DIR}/.dockerignore
-    #- echo 'FROM alpine:3.4' > ${CONTEXT_DIR}/Dockerfile
-    #- echo 'RUN adduser -D -H -u 19661 cyber-dojo' >> ${CONTEXT_DIR}/Dockerfile
-    #- echo 'ARG CYBER_DOJO_KATAS_ROOT' >> ${CONTEXT_DIR}/Dockerfile
-    #- echo 'USER root' >> ${CONTEXT_DIR}/Dockerfile
-    #- echo 'RUN  mkdir -p ${CYBER_DOJO_KATAS_ROOT}' >> ${CONTEXT_DIR}/Dockerfile
-    #- echo 'RUN  chown -R cyber-dojo ${CYBER_DOJO_KATAS_ROOT}' >> ${CONTEXT_DIR}/Dockerfile
-    #- echo 'VOLUME [ "${CYBER_DOJO_KATAS_ROOT}" ]' >> ${CONTEXT_DIR}/Dockerfile
-    #- echo 'CMD [ "katas-data-container" ]' >> ${CONTEXT_DIR}/Dockerfile
-    #- export TAG=cyberdojo/katas
-    # create a katas volume - it is mounted into the web container
-    # using a volumes_from in docker-compose.yml
-    #- docker build
-    #          --build-arg=CYBER_DOJO_KATAS_ROOT=${CYBER_DOJO_ROOT}/katas
-    #          --tag=${TAG}
-    #          --file=${CONTEXT_DIR}/Dockerfile
-    #          ${CONTEXT_DIR} > /dev/null
-
-    #- docker create
-    #          --name ${CYBER_DOJO_KATAS_DATA_CONTAINER}
-    #          ${TAG}
-    #          echo 'cdfKatasDC' > /dev/null
+    # pull images used in tests so test-duration does not include pull time
+    - docker pull cyberdojofoundation/gcc_assert:latest
+    - docker pull cyberdojofoundation/ruby_test_unit:latest
 
     #- ./pipe_build_up_test.sh
 
     - ./build.sh
-
-    #- curl https://raw.githubusercontent.com/cyber-dojo/commander/master/cyber-dojo > /tmp/cyber-dojo
-    #- chmod +x /tmp/cyber-dojo
-    #- export GIT_URL=https://github.com/cyber-dojo/start-points-
-    #- /tmp/cyber-dojo start-point create languages --git=${GIT_URL}languages.git
-    #- /tmp/cyber-dojo start-point create exercises --git=${GIT_URL}exercises.git
-    #- /tmp/cyber-dojo start-point create custom    --git=${GIT_URL}custom.git
-
     - ./up.sh
     - ./test.sh ${*}
 
-    #- ./up.sh
-    #- ./cyber-dojo up
-    # pull images used in tests so test-duration does not include pull time
-    #- ./test.sh
     - ./push.sh
