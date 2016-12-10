@@ -28,14 +28,14 @@ script:
     - export TAG=cyberdojo/katas
     # create a katas volume - it is mounted into the web container
     # using a volumes_from in docker-compose.yml
-    - docker build \
-              --build-arg=CYBER_DOJO_KATAS_ROOT=${CYBER_DOJO_ROOT}/katas \
-              --tag=${TAG} \
-              --file=${CONTEXT_DIR}/Dockerfile \
+    - docker build
+              --build-arg=CYBER_DOJO_KATAS_ROOT=${CYBER_DOJO_ROOT}/katas
+              --tag=${TAG}
+              --file=${CONTEXT_DIR}/Dockerfile
               ${CONTEXT_DIR} > /dev/null
-    - docker create \
-              --name ${CYBER_DOJO_KATAS_DATA_CONTAINER} \
-              ${TAG} \
+    - docker create
+              --name ${CYBER_DOJO_KATAS_DATA_CONTAINER}
+              ${TAG}
               echo 'cdfKatasDC' > /dev/null
 
     - ./pipe_build_up_test.sh
