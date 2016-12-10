@@ -9,7 +9,7 @@ set -e
 my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 
 export CYBER_DOJO_ROOT=/usr/src/cyber-dojo
-export CYBER_DOJO_KATAS_DATA_CONTAINER=cyber-dojo-katas-DATA-CONTAINER_X
+export CYBER_DOJO_KATAS_DATA_CONTAINER=cyber-dojo-katas-DATA-CONTAINER
 export CYBER_DOJO_START_POINT_LANGUAGES=languages
 export CYBER_DOJO_START_POINT_EXERCISES=exercises
 export CYBER_DOJO_START_POINT_CUSTOM=custom
