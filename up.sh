@@ -42,7 +42,7 @@ one_time_creation_of_start_point_volumes()
   fi
 }
 
-one_time_creation_of_start_point_volumes
+#one_time_creation_of_start_point_volumes
 
 my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 
