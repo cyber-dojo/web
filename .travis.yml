@@ -33,10 +33,6 @@ script:
               --tag=${TAG}
               --file=${CONTEXT_DIR}/Dockerfile
               ${CONTEXT_DIR} > /dev/null
-    - docker create
-              --name ${CYBER_DOJO_KATAS_DATA_CONTAINER}
-              ${TAG}
-              echo 'cdfKatasDC' > /dev/null
 
     - ./pipe_build_up_test.sh
     #- ./up.sh
