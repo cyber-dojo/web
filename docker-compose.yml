@@ -21,7 +21,7 @@ services:
     user: cyber-dojo
     image: cyberdojo/web
     container_name: cyber-dojo-web
-    cpu_shares: 256
+    cpu_shares: 250
     mem_limit: 2G
     memswap_limit: 2G
     restart: on-failure
@@ -32,23 +32,11 @@ services:
     volumes_from:
       - container:${CYBER_DOJO_KATAS_DATA_CONTAINER}:rw
 
-  storer:
-    user: root
-    image: cyberdojo/storer
-    container_name: cyber-dojo-storer
-    cpu_shares: 256
-    mem_limit: 1G
-    memswap_limit: 1G
-    restart: on-failure
-    environment: [ CYBER_DOJO_KATAS_ROOT=/usr/src/cyber-dojo/katas ]
-    volumes_from:
-      - container:${CYBER_DOJO_KATAS_DATA_CONTAINER}:rw
-
   runner:
     user: root
     image: cyberdojo/runner
     container_name: cyber-dojo-runner
-    cpu_shares: 256
+    cpu_shares: 250
     mem_limit: 2G
     memswap_limit: 2G
     restart: on-failure
@@ -59,7 +47,7 @@ services:
     user: nobody
     image: cyberdojo/differ
     container_name: cyber-dojo-differ
-    cpu_shares: 256
+    cpu_shares: 250
     mem_limit: 1G
     memswap_limit: 1G
     restart: on-failure
