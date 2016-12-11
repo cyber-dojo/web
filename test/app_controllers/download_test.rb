@@ -30,7 +30,7 @@ class DownloadControllerTest < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'C44561',
-  'downloaded of empty dojo with no avatars yet untars to same as original folder' do
+  'download of empty dojo with no avatars yet untars to same as original folder' do
     prepare
     get 'downloader/download', :id => @id
     assert_downloaded
@@ -39,7 +39,7 @@ class DownloadControllerTest < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'C441B1',
-  'downloaded of dojo with one avatar and one traffic-light untars to same as original folder' do
+  'download of dojo with one avatar and one traffic-light untars to same as original folder' do
     prepare
     start
     kata_edit
@@ -52,7 +52,7 @@ class DownloadControllerTest < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'C44E9B',
-  'downloaded of dojo with five animals and five traffic-lights untars to same as original folder' do
+  'download of dojo with five animals and five traffic-lights untars to same as original folder' do
     prepare
     5.times do
       start
