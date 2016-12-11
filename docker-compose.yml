@@ -20,7 +20,7 @@ services:
         CYBER_DOJO_HOME: usr/src/cyber-dojo
     user: cyber-dojo
     image: cyberdojo/web
-    container_name: web
+    container_name: cyber-dojo-web
     cpu_shares: 250
     mem_limit: 2G
     memswap_limit: 2G
@@ -35,7 +35,7 @@ services:
   runner:
     user: root
     image: cyberdojo/runner
-    container_name: runner
+    container_name: cyber-dojo-runner
     cpu_shares: 250
     mem_limit: 2G
     memswap_limit: 2G
@@ -46,7 +46,7 @@ services:
   differ:
     user: nobody
     image: cyberdojo/differ
-    container_name: differ
+    container_name: cyber-dojo-differ
     cpu_shares: 250
     mem_limit: 1G
     memswap_limit: 1G
