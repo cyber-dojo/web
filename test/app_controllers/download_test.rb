@@ -82,18 +82,23 @@ class DownloadControllerTest < AppControllerTestBase
     assert_equal 0, exit_status
     assert_equal '', result, @id
 
-    # new format dir exists for each avatar
-    tar_path = '/tmp/cyber-dojo/downloads'
-    tar_dir = disk[tar_path]
-    assert tar_dir.exists?
-    assert tar_dir.exists? "new-#{@id}.tgz"
+    # - - - - - - - - - - - - - - - - -
 
-    kata_path = "/tmp/cyber-dojo/new-downloads/#{outer(@id)}/#{inner(@id)}"
+    # unzip new tarfile
+    tarfile_name = @tar_dir + "/new-#{@id}.tgz"
+    assert File.exists?(tarfile_name), "File.exists?(#{tarfile_name})"
+    untar_folder = @tar_dir + '/untar/'
+    `rm -rf #{untar_folder}`
+    `mkdir -p #{untar_folder}`
+    `cd #{untar_folder} && cat #{tarfile_name} | tar xfz -`
+
+    kata_path = "/tmp/cyber-dojo/downloads/untar/#{outer(@id)}/#{inner(@id)}"
     kata_dir = disk[kata_path]
     assert kata_dir.exists?
     assert kata_dir.exists?('manifest.json')
     assert_equal storer.kata_manifest(@id), kata_dir.read_json('manifest.json')
 
+    # new format dir exists for each avatar
     katas[@id].avatars.each do |avatar|
       avatar_path = "#{kata_path}/#{avatar.name}"
       avatar_dir = disk[kata_path]
