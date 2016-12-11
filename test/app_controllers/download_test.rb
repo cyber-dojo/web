@@ -30,7 +30,7 @@ class DownloadControllerTest < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'C44561',
-  'download of empty dojo with no avatars yet untars to same as original folder' do
+  'download of empty dojo with no avatars untars to same as original folder' do
     prepare
     get 'downloader/download', :id => @id
     assert_downloaded
