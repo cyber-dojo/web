@@ -20,8 +20,15 @@ rm -rf .git
 
 -------------------------------------------------
 
-The idea is that each catalog can become a json file, with
-the structure mirroring the major,minor display name, eg
+The idea is that the creation of the start-point looks for manifest.json
+files and *ALSO* for new json files called 'manifest_link.json'
+which contain the URL of where to grab the start-files
+(from the partial git repo as above).
+     { "link" : "https://github.com/cyber-dojo-languages/csharp_nunit.git" }
+
+-------------------------------------------------
+
+Further, the structure could incorporate the major,minor display name, eg
 
 $ cyber-dojo start-point create abc --json=https://raw.githubusercontent.com/cyber-dojo/catalogs/master/all.git
 
