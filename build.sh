@@ -41,7 +41,7 @@ one_time_creation_of_katas_data_volume()
   fi
 }
 
-one_time_creation_of_katas_data_volume
+#one_time_creation_of_katas_data_volume
 
 my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 
