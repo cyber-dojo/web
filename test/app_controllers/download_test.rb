@@ -7,7 +7,7 @@ class DownloadControllerTest < AppControllerTestBase
   def prepare
     @id = create_kata
     kata = katas[@id]
-    @tar_dir = "#{storer.path}/../downloads/"
+    @tar_dir = '/tmp/cyber-dojo/downloads/'
     `mkdir -p #{@tar_dir}`
   end
 
