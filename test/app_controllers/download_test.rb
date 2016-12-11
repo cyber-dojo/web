@@ -7,7 +7,7 @@ class DownloadControllerTest < AppControllerTestBase
   def prepare
     @id = create_kata
     kata = katas[@id]
-    @tar_dir = '/tmp/cyber-dojo/downloads/'
+    @tar_dir = '/tmp/cyber-dojo/downloads'
     `mkdir -p #{@tar_dir}`
   end
 
@@ -86,7 +86,7 @@ class DownloadControllerTest < AppControllerTestBase
     # - - - - - - - - - - - - - - - - -
 
     # unzip new tarfile
-    tarfile_name = @tar_dir + "/#{@id}.tgz"
+    tarfile_name = @tar_dir + '/' + "#{@id}.tgz"
     assert File.exists?(tarfile_name), "File.exists?(#{tarfile_name})"
     untar_path = @tar_dir + '/' + 'untar'
     `rm -rf #{untar_path}`
