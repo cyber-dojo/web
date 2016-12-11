@@ -17,7 +17,8 @@ class DownloaderController < ApplicationController
 =end
 
     # Create files off /tmp in new format
-    kata_path = "/tmp/cyber-dojo/downloads/#{outer(id)}/#{inner(id)}"
+    download_path = '/tmp/cyber-dojo/downloads'
+    kata_path = "#{download_path}/#{outer(id)}/#{inner(id)}"
     kata_dir = disk[kata_path]
     kata_dir.make
     kata_dir.write_json('manifest.json', storer.kata_manifest(id))
@@ -36,12 +37,11 @@ class DownloaderController < ApplicationController
       end
     end
     # and tar that
-    cd_cmd = 'cd /tmp/cyber-dojo/downloads'
-    tar_filename = "/tmp/cyber-dojo/downloads/#{id}.tgz"
+    cd_cmd = "cd #{download_path}"
+    tar_filename = "#{download_path}/#{id}.tgz"
     tar_cmd = "tar -zcf #{tar_filename} #{outer(id)}/#{inner(id)}"
     system(cd_cmd + ' && ' + tar_cmd)
     send_file tar_filename
-
   end
 
   private

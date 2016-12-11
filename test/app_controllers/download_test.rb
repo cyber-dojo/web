@@ -88,13 +88,13 @@ class DownloadControllerTest < AppControllerTestBase
     # unzip new tarfile
     tarfile_name = @tar_dir + "/#{@id}.tgz"
     assert File.exists?(tarfile_name), "File.exists?(#{tarfile_name})"
-    untar_folder = @tar_dir + '/untar/'
-    `rm -rf #{untar_folder}`
-    `mkdir -p #{untar_folder}`
-    `cd #{untar_folder} && cat #{tarfile_name} | tar xfz -`
+    untar_path = @tar_dir + '/' + 'untar'
+    `rm -rf #{untar_path}`
+    `mkdir -p #{untar_path}`
+    `cd #{untar_path} && cat #{tarfile_name} | tar xfz -`
 
     # new format dir exists for kata
-    kata_path = "/tmp/cyber-dojo/downloads/untar/#{outer(@id)}/#{inner(@id)}"
+    kata_path = "#{untar_path}/#{outer(@id)}/#{inner(@id)}"
     kata_dir = disk[kata_path]
     assert kata_dir.exists?, '1.kata_dir.exists?'
     assert kata_dir.exists?('manifest.json'), "2.kata_dir.exists?('manifest.json')"
@@ -119,7 +119,6 @@ class DownloadControllerTest < AppControllerTestBase
         assert_equal expected, actual, '8'
       end
     end
-
   end
 
   private
