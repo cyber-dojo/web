@@ -15,10 +15,14 @@ class DownloaderController < ApplicationController
     # it is identical to original
 
     # Create files off /tmp in new format and then tar that
-    base_dir = "/tmp/cyber-dojo/new-downloads/#{outer(id)}/#{inner(id)}"
+    kata_path = "/tmp/cyber-dojo/new-downloads/#{outer(id)}/#{inner(id)}"
+    kata_dir = disk[kata_path]
+    kata_dir.make
+    kata_dir.write_json('manifest.json', storer.kata_manifest(id))
     katas[id].avatars.each do |avatar|
-      path = "#{base_dir}/#{avatar.name}"
-      disk[path].make
+      avatar_path = "#{kata_path}/#{avatar.name}"
+      avatar_dir = disk[avatar_path]
+      avatar_dir.make
 
     end
 

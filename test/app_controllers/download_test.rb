@@ -83,10 +83,16 @@ class DownloadControllerTest < AppControllerTestBase
     assert_equal '', result, @id
 
     # new format dir exists for each avatar
-    base_dir = "/tmp/cyber-dojo/new-downloads/#{outer(@id)}/#{inner(@id)}"
+    kata_path = "/tmp/cyber-dojo/new-downloads/#{outer(@id)}/#{inner(@id)}"
+    kata_dir = disk[kata_path]
+    assert kata_dir.exists?
+    assert kata_dir.exists?('manifest.json')
+    assert_equal storer.kata_manifest(@id), kata_dir.read_json('manifest.json')
+
     katas[@id].avatars.each do |avatar|
-      path = "#{base_dir}/#{avatar.name}"
-      assert disk[path].exists?
+      avatar_path = "#{kata_path}/#{avatar.name}"
+      avatar_dir = disk[kata_path]
+      assert avatar_dir.exists?
     end
 
 
