@@ -13,6 +13,13 @@ class DownloaderController < ApplicationController
     # would like to delete this tar file
     # but download tests untar them to verify
     # it is identical to original
+
+    # Create files off /tmp in new format and then tar that
+    base_dir = "/tmp/cyber-dojo/new-downloads/#{outer(id)}/#{inner(id)}"
+    katas[id].avatars.each do |avatar|
+      `mkdir -p #{base_dir}/#{avatar.name}`
+    end
+
   end
 
   private

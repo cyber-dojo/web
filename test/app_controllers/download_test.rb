@@ -81,6 +81,16 @@ class DownloadControllerTest < AppControllerTestBase
     exit_status = $?.exitstatus
     assert_equal 0, exit_status
     assert_equal '', result, @id
+
+    # new format dir exists for each avatar
+    base_dir = "/tmp/cyber-dojo/new-downloads/#{outer(@id)}/#{inner(@id)}"
+    katas[@id].avatars.each do |avatar|
+      path = "#{base_dir}/#{avatar.name}"
+      assert disk[path].exists?
+    end
+
+
+
   end
 
   private
