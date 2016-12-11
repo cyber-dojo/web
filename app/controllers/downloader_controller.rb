@@ -5,6 +5,7 @@ class DownloaderController < ApplicationController
     # an id such as 01FE818E68 corresponds to the folder katas/01/FE818E86
     fail "sorry can't do that" if katas[id].nil?
 
+=begin
     cd_cmd = "cd #{storer.path}"
     tar_filename = "/tmp/cyber-dojo/downloads/#{id}.tgz"
     tar_cmd = "tar -zcf #{tar_filename} #{outer(id)}/#{inner(id)}"
@@ -13,9 +14,10 @@ class DownloaderController < ApplicationController
     # would like to delete this tar file
     # but download tests untar them to verify
     # it is identical to original
+=end
 
     # Create files off /tmp in new format
-    kata_path = "/tmp/cyber-dojo/new-downloads/#{outer(id)}/#{inner(id)}"
+    kata_path = "/tmp/cyber-dojo/downloads/#{outer(id)}/#{inner(id)}"
     kata_dir = disk[kata_path]
     kata_dir.make
     kata_dir.write_json('manifest.json', storer.kata_manifest(id))
@@ -34,10 +36,11 @@ class DownloaderController < ApplicationController
       end
     end
     # and tar that
-    cd_cmd = 'cd /tmp/cyber-dojo/new-downloads'
-    tar_filename = "/tmp/cyber-dojo/downloads/new-#{id}.tgz"
+    cd_cmd = 'cd /tmp/cyber-dojo/downloads'
+    tar_filename = "/tmp/cyber-dojo/downloads/#{id}.tgz"
     tar_cmd = "tar -zcf #{tar_filename} #{outer(id)}/#{inner(id)}"
     system(cd_cmd + ' && ' + tar_cmd)
+    send_file tar_filename
 
   end
 

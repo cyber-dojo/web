@@ -70,7 +70,7 @@ class DownloadControllerTest < AppControllerTestBase
 
   def assert_downloaded
     assert_response :success
-
+=begin
     tarfile_name = @tar_dir + "/#{@id}.tgz"
     assert File.exists?(tarfile_name), "File.exists?(#{tarfile_name})"
     untar_folder = @tar_dir + '/untar/'
@@ -82,11 +82,11 @@ class DownloadControllerTest < AppControllerTestBase
     exit_status = $?.exitstatus
     assert_equal 0, exit_status
     assert_equal '', result, @id
-
+=end
     # - - - - - - - - - - - - - - - - -
 
     # unzip new tarfile
-    tarfile_name = @tar_dir + "/new-#{@id}.tgz"
+    tarfile_name = @tar_dir + "/#{@id}.tgz"
     assert File.exists?(tarfile_name), "File.exists?(#{tarfile_name})"
     untar_folder = @tar_dir + '/untar/'
     `rm -rf #{untar_folder}`
