@@ -19,7 +19,6 @@ class DojoTest < AppModelsTestBase
     unset_storer_class && assert_raises(StandardError) { storer.class }
     unset_shell_class  && assert_raises(StandardError) {  shell.class }
     unset_disk_class   && assert_raises(StandardError) {   disk.class }
-    unset_git_class    && assert_raises(StandardError) {    git.class }
     unset_log_class    && assert_raises(StandardError) {    log.class }
   end
 
@@ -42,7 +41,6 @@ class DojoTest < AppModelsTestBase
     set_storer_class(exists) && assert_equal(exists, storer.class.name)
     set_shell_class( exists) && assert_equal(exists,  shell.class.name)
     set_disk_class(  exists) && assert_equal(exists,   disk.class.name)
-    set_git_class(   exists) && assert_equal(exists,    git.class.name)
     set_log_class(   exists) && assert_equal(exists,    log.class.name)
   end
 
@@ -52,7 +50,6 @@ class DojoTest < AppModelsTestBase
     set_storer_class(does_not_exist) && assert_raises(StandardError) { storer.class }
     set_shell_class( does_not_exist) && assert_raises(StandardError) {  shell.class }
     set_disk_class(  does_not_exist) && assert_raises(StandardError) {   disk.class }
-    set_git_class(   does_not_exist) && assert_raises(StandardError) {    git.class }
     set_log_class(   does_not_exist) && assert_raises(StandardError) {    log.class }
   end
 

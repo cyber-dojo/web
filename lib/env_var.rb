@@ -26,7 +26,6 @@ end
   cd_env_name('runner_class') => 'RunnerService',
 
   cd_env_name('disk_class')  => 'HostDisk',
-  cd_env_name('git_class')   => 'HostGit',
   cd_env_name('log_class')   => 'StdoutLog',
   cd_env_name('shell_class') => 'HostShell'
 

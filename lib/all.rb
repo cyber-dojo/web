@@ -18,7 +18,6 @@
   mock_proxy_host_shell
   host_disk
   host_dir
-  host_git
   memory_log
   stdout_log
 }.each { |sourcefile| require_relative './' + sourcefile }
