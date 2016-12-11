@@ -10,11 +10,13 @@
   output_colour
   dashboard_td_gapper
   display_names_splitter
-  host_disk_storer
   fake_storer
   stub_runner
 
   differ_service
   runner_service
+  storer_service
+  storer_service_error
+
 ).each { |sourcefile| require_relative './' + sourcefile }
 

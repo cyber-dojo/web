@@ -22,7 +22,7 @@ end
   cd_env_name('katas_root')     => "#{cd_root}/katas",
 
   cd_env_name('differ_class') => 'DifferService',
-  cd_env_name('storer_class') => 'HostDiskStorer',
+  cd_env_name('storer_class') => 'StorerService',
   cd_env_name('runner_class') => 'RunnerService',
 
   cd_env_name('disk_class')  => 'HostDisk',
