@@ -33,6 +33,8 @@ services:
     user: root
     image: cyberdojo/runner
     container_name: cyber-dojo-runner
+    read_only: true
+    tmpfs: /tmp
     mem_limit: 2G
     memswap_limit: 2G
     restart: on-failure
@@ -43,6 +45,8 @@ services:
     user: root
     image: cyberdojo/storer
     container_name: cyber-dojo-storer
+    read_only: true
+    tmpfs: /tmp
     environment: [ CYBER_DOJO_KATAS_ROOT=/tmp/cyber-dojo/katas ]
     volumes_from:
       - container:${CYBER_DOJO_KATAS_DATA_CONTAINER}:rw
