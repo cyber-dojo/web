@@ -70,6 +70,7 @@ class DownloadControllerTest < AppControllerTestBase
 
   def assert_downloaded
     assert_response :success
+
     tarfile_name = @tar_dir + "/#{@id}.tgz"
     assert File.exists?(tarfile_name), "File.exists?(#{tarfile_name})"
     untar_folder = @tar_dir + '/untar/'
@@ -107,15 +108,17 @@ class DownloadControllerTest < AppControllerTestBase
       assert avatar_dir.exists?, '4.avatar_dir.exists?'
       assert avatar_dir.exists?('increments.json'), "5.avatar_dir.exists?('increments.json')"
       rags = avatar_dir.read_json('increments.json')
+      # new format dir exists for each tag
       (0..rags.size).each do |tag|
         tag_path = "#{avatar_path}/#{tag}"
         tag_dir = disk[tag_path]
         assert tag_dir.exists?, '6. tag_dir.exists?'
-        #...
+        assert tag_dir.exists?('manifest.json'), "7.tag_dir.exists?('manifest.json')"
+        expected = storer.tag_visible_files(@id, avatar.name, tag)
+        actual = tag_dir.read_json('manifest.json')
+        assert_equal expected, actual, '8'
       end
     end
-
-
 
   end
 

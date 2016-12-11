@@ -29,9 +29,9 @@ class DownloaderController < ApplicationController
         tag_path = "#{avatar_path}/#{tag}"
         tag_dir = disk[tag_path]
         tag_dir.make
-
+        visible_files = storer.tag_visible_files(id, avatar.name, tag)
+        tag_dir.write_json('manifest.json', visible_files)
       end
-      # ...
     end
     # and tar that
     cd_cmd = 'cd /tmp/cyber-dojo/new-downloads'
