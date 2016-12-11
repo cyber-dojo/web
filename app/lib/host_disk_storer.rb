@@ -264,5 +264,5 @@ end
 # There is probably a library to do this in ram bypassing
 # the need for a file-system completely.
 # Note: This would potentially make creation of the tar file
-# for a whole cyber-dojo potentially very slow.
+# for a whole cyber-dojo very slow.
 # - - - - - - - - - - - - - - - - - - - - - - - -
