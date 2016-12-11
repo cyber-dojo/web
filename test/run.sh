@@ -8,7 +8,6 @@
 rm -rf /tmp/cyber-dojo
 
 modules=( app_helpers app_lib app_models lib app_controllers )
-modules=( app_controllers )
 for module in ${modules[*]}
 do
     echo
