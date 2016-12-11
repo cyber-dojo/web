@@ -92,17 +92,27 @@ class DownloadControllerTest < AppControllerTestBase
     `mkdir -p #{untar_folder}`
     `cd #{untar_folder} && cat #{tarfile_name} | tar xfz -`
 
+    # new format dir exists for kata
     kata_path = "/tmp/cyber-dojo/downloads/untar/#{outer(@id)}/#{inner(@id)}"
     kata_dir = disk[kata_path]
-    assert kata_dir.exists?
-    assert kata_dir.exists?('manifest.json')
-    assert_equal storer.kata_manifest(@id), kata_dir.read_json('manifest.json')
+    assert kata_dir.exists?, '1.kata_dir.exists?'
+    assert kata_dir.exists?('manifest.json'), "2.kata_dir.exists?('manifest.json')"
+    manifest = kata_dir.read_json('manifest.json')
+    assert_equal storer.kata_manifest(@id), manifest, '3.manifests are the same'
 
     # new format dir exists for each avatar
     katas[@id].avatars.each do |avatar|
       avatar_path = "#{kata_path}/#{avatar.name}"
-      avatar_dir = disk[kata_path]
-      assert avatar_dir.exists?
+      avatar_dir = disk[avatar_path]
+      assert avatar_dir.exists?, '4.avatar_dir.exists?'
+      assert avatar_dir.exists?('increments.json'), "5.avatar_dir.exists?('increments.json')"
+      rags = avatar_dir.read_json('increments.json')
+      (0..rags.size).each do |tag|
+        tag_path = "#{avatar_path}/#{tag}"
+        tag_dir = disk[tag_path]
+        assert tag_dir.exists?, '6. tag_dir.exists?'
+        #...
+      end
     end
 
 

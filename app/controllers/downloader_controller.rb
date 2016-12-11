@@ -14,7 +14,7 @@ class DownloaderController < ApplicationController
     # but download tests untar them to verify
     # it is identical to original
 
-    # Create files off /tmp in new format and then tar that
+    # Create files off /tmp in new format
     kata_path = "/tmp/cyber-dojo/new-downloads/#{outer(id)}/#{inner(id)}"
     kata_dir = disk[kata_path]
     kata_dir.make
@@ -23,8 +23,17 @@ class DownloaderController < ApplicationController
       avatar_path = "#{kata_path}/#{avatar.name}"
       avatar_dir = disk[avatar_path]
       avatar_dir.make
+      rags = storer.avatar_increments(id, avatar.name)
+      avatar_dir.write_json('increments.json', rags)
+      (0..rags.size).each do |tag|
+        tag_path = "#{avatar_path}/#{tag}"
+        tag_dir = disk[tag_path]
+        tag_dir.make
+
+      end
       # ...
     end
+    # and tar that
     cd_cmd = 'cd /tmp/cyber-dojo/new-downloads'
     tar_filename = "/tmp/cyber-dojo/downloads/new-#{id}.tgz"
     tar_cmd = "tar -zcf #{tar_filename} #{outer(id)}/#{inner(id)}"
