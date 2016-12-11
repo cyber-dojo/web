@@ -17,7 +17,9 @@ class DownloaderController < ApplicationController
     # Create files off /tmp in new format and then tar that
     base_dir = "/tmp/cyber-dojo/new-downloads/#{outer(id)}/#{inner(id)}"
     katas[id].avatars.each do |avatar|
-      `mkdir -p #{base_dir}/#{avatar.name}`
+      path = "#{base_dir}/#{avatar.name}"
+      disk[path].make
+
     end
 
   end
