@@ -17,6 +17,12 @@
                     id="file_content_for_<%= filename %>"
                     wrap="off">
 <%= h content %></textarea>
+        <script>
+        CodeMirror.fromTextArea(document.getElementById("file_content_for_<%= filename %>"),  {
+          matchBrackets: true,
+          mode: "text/x-c++src"
+        });
+        </script>
         <% else %>
           <%= render partial: 'output' %>
         <% end %>

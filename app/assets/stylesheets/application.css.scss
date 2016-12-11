@@ -27,6 +27,7 @@
  *= depend_on review.css.scss
  *= depend_on footer.css.scss
  *= depend_on jquery-ui-1.8.16.custom.css.scss
+ *= depend_on codemirror.css.scss
  *= require_self
 */
 
@@ -46,3 +47,4 @@
 @import "review.css.scss";
 @import "footer.css.scss";
 @import "jquery-ui-1.8.16.custom.css.scss";
+@import "codemirror.css.scss"
