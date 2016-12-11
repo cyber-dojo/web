@@ -83,6 +83,11 @@ class DownloadControllerTest < AppControllerTestBase
     assert_equal '', result, @id
 
     # new format dir exists for each avatar
+    tar_path = '/tmp/cyber-dojo/downloads'
+    tar_dir = disk[tar_path]
+    assert tar_dir.exists?
+    assert tar_dir.exists? "new-#{@id}.tgz"
+
     kata_path = "/tmp/cyber-dojo/new-downloads/#{outer(@id)}/#{inner(@id)}"
     kata_dir = disk[kata_path]
     assert kata_dir.exists?

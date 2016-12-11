@@ -23,8 +23,12 @@ class DownloaderController < ApplicationController
       avatar_path = "#{kata_path}/#{avatar.name}"
       avatar_dir = disk[avatar_path]
       avatar_dir.make
-
+      # ...
     end
+    cd_cmd = 'cd /tmp/cyber-dojo/new-downloads'
+    tar_filename = "/tmp/cyber-dojo/downloads/new-#{id}.tgz"
+    tar_cmd = "tar -zcf #{tar_filename} #{outer(id)}/#{inner(id)}"
+    system(cd_cmd + ' && ' + tar_cmd)
 
   end
 
