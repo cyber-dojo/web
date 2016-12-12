@@ -19,11 +19,7 @@ class DifferServiceTest < AppLibTestBase
     args = []
     args << kata.id
     args << lion
-    files1 = starting_files
-    delta = empty_delta
-    delta['unchanged'] = files1.keys
-    args << delta
-    args << files1
+    args << (files1 = starting_files)
     args << (now1 = [2016,12,8,8,3,23])
     args << (output = 'Assert failed: answer() == 42')
     args << (colour1 = 'red')

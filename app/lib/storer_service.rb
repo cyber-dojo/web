@@ -71,8 +71,8 @@ class StorerService
     get(__method__, kata_id, avatar_name)
   end
 
-  def avatar_ran_tests(kata_id, avatar_name, delta, files, now, output, colour)
-    post(__method__, kata_id, avatar_name, delta, files, now, output, colour)
+  def avatar_ran_tests(kata_id, avatar_name, files, now, output, colour)
+    post(__method__, kata_id, avatar_name, files, now, output, colour)
   end
 
   def tag_visible_files(kata_id, avatar_name, tag)

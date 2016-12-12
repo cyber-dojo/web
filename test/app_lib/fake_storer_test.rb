@@ -217,11 +217,7 @@ class FakeStorerTest < AppLibTestBase
     args = []
     args << kata_id
     args << lion
-    files1 = starting_files
-    delta = empty_delta
-    delta['unchanged'] = files1.keys
-    args << delta
-    args << files1
+    args << (files1 = starting_files)
     args << (now1 = [2016,12,8,8,3,23])
     args << (output = 'Assert failed: answer() == 42')
     args << (colour1 = 'red')
@@ -238,12 +234,8 @@ class FakeStorerTest < AppLibTestBase
     args = []
     args << kata_id
     args << lion
-    delta = empty_delta
     files2 = starting_files
-    delta['unchanged'] = files2.keys - ['hiker.c']
-    delta['changed'] = ['hiker.c']
     files2['hiker.c'] = '6*7';
-    args << delta
     args << files2
     args << (now2 = [2016,12,8,9,54,20])
     args << (output = 'All tests passed')

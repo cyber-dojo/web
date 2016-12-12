@@ -50,8 +50,4 @@ class AppLibTestBase < TestBase
     }.clone
   end
 
-  def empty_delta
-    { 'unchanged' => [], 'changed' => [], 'new' => [], 'deleted' => [] }
-  end
-
 end

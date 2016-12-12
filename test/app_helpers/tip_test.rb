@@ -23,7 +23,7 @@ class TipTest < AppHelpersTestBase
     stdout,stderr,status = lion.test(delta, files)
     output = stdout+stderr
     was_colour = kata.red_amber_green(output).to_s
-    lion.tested(delta, files, time_now, output, was_colour)
+    lion.tested(files, time_now, output, was_colour)
 
     filename = 'hiker.c'
     hiker_c = kata.visible_files[filename]
@@ -32,7 +32,7 @@ class TipTest < AppHelpersTestBase
     stdout,stderr,status = lion.test(delta, files)
     output = stdout + stderr
     now_colour = kata.red_amber_green(output).to_s
-    lion.tested(delta, files, time_now, output, now_colour)
+    lion.tested(files, time_now, output, now_colour)
 
     diff = differ.diff(lion, was_tag=1, now_tag=2)
     expected =

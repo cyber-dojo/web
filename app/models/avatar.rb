@@ -19,8 +19,8 @@ class Avatar
     runner.run(kata.image_name, kata.id, name, deleted_filenames, changed_files, max_seconds)
   end
 
-  def tested(delta, files, at, output, colour)
-    storer.avatar_ran_tests(kata.id, name, delta, files, at, output, colour)
+  def tested(files, at, output, colour)
+    storer.avatar_ran_tests(kata.id, name, files, at, output, colour)
   end
 
   # queries

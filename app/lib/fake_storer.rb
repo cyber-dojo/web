@@ -84,7 +84,7 @@ class FakeStorer
     tag_visible_files(id, name, tag)
   end
 
-  def avatar_ran_tests(id, name, _delta, files, now, output, colour)
+  def avatar_ran_tests(id, name, files, now, output, colour)
     rags = avatar_increments(id, name)
     tag = rags.length + 1
     rags << { 'colour' => colour, 'time' => now, 'number' => tag }
