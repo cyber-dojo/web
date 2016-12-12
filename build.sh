@@ -9,7 +9,7 @@ export CYBER_DOJO_START_POINT_CUSTOM=custom
 
 one_time_creation_of_katas_data_volume()
 {
-  # This code is copies from commander's cyber-dojo.sh file (note the .sh)
+  # This code is copied from commander's cyber-dojo.sh file (note the .sh)
   set +e
   local KDC=$(docker ps --all | grep -s ${CYBER_DOJO_KATAS_DATA_CONTAINER})
   set -e
@@ -44,5 +44,4 @@ one_time_creation_of_katas_data_volume()
 one_time_creation_of_katas_data_volume
 
 my_dir="$( cd "$( dirname "${0}" )" && pwd )"
-
 docker-compose --file ${my_dir}/docker-compose.yml build
