@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-# NB: Still missing links to external services - some tests will fail
+# NB: Missing links to external services - non unit-tests will fail
 
 my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 

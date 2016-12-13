@@ -13,5 +13,5 @@ do
     cd ..
 done
 
-ruby ./print_coverage_summary.rb ${modules[*]}
+#ruby ./print_coverage_summary.rb ${modules[*]}
 exit $?

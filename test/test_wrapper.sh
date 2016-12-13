@@ -23,20 +23,23 @@ done
 # don't log to stdout
 export CYBER_DOJO_LOG_CLASS=MemoryLog
 
-# ensure caches dir exists
+# ensure caches dir exists and is empty
 home_dir="$( cd "$( dirname "${0}" )/.." && pwd )"
+rm -rf ${home_dir}/caches
 mkdir -p ${home_dir}/caches
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# run-the-tests!
-
-rm -rf ../../coverage/.resultset.json
-mkdir -p coverage
-test_log='coverage/test.log'
-ruby -e "%w( ${testFiles[*]} ).shuffle.map{ |file| './'+file }.each { |file| require file }" -- ${args[*]} 2>&1 | tee ${test_log}
-# copy coverage to the module's dir (dot)
-cp -R ../../coverage .
 #pwd                       # eg  .../cyber-dojo/test/app_lib
 cwd=${PWD##*/}             # eg  app_lib
 module=${cwd/_//}          # eg  app/lib
-ruby ../print_coverage_percent.rb index.html ${module} | tee -a ${test_log}
+
+# clear out old coverage stats
+coverage_dir=/tmp/cyber-dojo/${cwd}/coverage
+mkdir -p ${coverage_dir}
+rm -rf ${coverage_dir}/.resultset.json
+test_log="${coverage_dir}/test.log"
+
+# run-the-tests!
+export COVERAGE_DIR=${coverage_dir}
+ruby -e "%w( ${testFiles[*]} ).shuffle.map{ |file| './'+file }.each { |file| require file }" -- ${cwd} ${args[*]} 2>&1 | tee ${test_log}
+ruby ../print_coverage_percent.rb ${coverage_dir}/index.html ${module} | tee -a ${test_log}
