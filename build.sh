@@ -1,10 +1,7 @@
 #!/bin/bash
 set -e
 
-export CYBER_DOJO_HOME=/app
-export CYBER_DOJO_START_POINT_LANGUAGES=languages
-export CYBER_DOJO_START_POINT_EXERCISES=exercises
-export CYBER_DOJO_START_POINT_CUSTOM=custom
-
 my_dir="$( cd "$( dirname "${0}" )" && pwd )"
+. ${my_dir}/env_vars.sh
+
 docker-compose --file ${my_dir}/docker-compose.yml build
