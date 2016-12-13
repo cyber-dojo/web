@@ -11,7 +11,7 @@ end
 #- - - - - - - - - - - - - - - - - - - - -
 
 def f2(s)
-  result = ("%.2f" % s).to_s
+  result = ('%.2f' % s).to_s
   result += '0' if result.end_with?('.0')
   result
 end
@@ -174,11 +174,11 @@ end
 
 def gather_done(stats, totals)
   done = [
-     [ "total failures == 0", totals[:failure_count] <= 0 ],
-     [ "total errors == 0", totals[:error_count] == 0 ],
-     [ "total skips == 0", totals[:skip_count] == 0],
-     [ "total secs < 60", totals[:time].to_f < 60 ],
-     [ "total assertions per sec > 50", totals[:assertions_per_sec] > 50 ]
+     [ 'total failures == 0', totals[:failure_count] <= 0 ],
+     [ 'total errors == 0', totals[:error_count] == 0 ],
+     [ 'total skips == 0', totals[:skip_count] == 0],
+     [ 'total secs < 60', totals[:time].to_f < 60 ],
+     [ 'total assertions per sec > 50', totals[:assertions_per_sec] > 50 ]
   ]
   done << coverage(stats, 'app_helpers')         if modules.include? 'app_helpers'
   done << coverage(stats, 'app_lib', 98)         if modules.include? 'app_lib'
@@ -193,12 +193,12 @@ end
 def print_done(done)
   yes,no = done.partition { |criteria| criteria[1] }
   unless yes.empty?
-    puts "DONE"
+    puts 'DONE'
     yes.each { |criteria| puts criteria[0] }
   end
   unless no.empty?
     print "\n"
-    puts "!DONE"
+    puts '!DONE'
     no.each { |criteria| puts criteria[0] }
   end
 end
