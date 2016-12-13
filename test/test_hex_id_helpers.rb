@@ -24,11 +24,6 @@ module TestHexIdHelpers # mix-in
     set_runner_class('StubRunner')
   end
 
-  def setup_katas_root
-    katas_root = "#{tmp_root}/#{test_id}/katas"
-    set_katas_root(katas_root)
-  end
-
   def test_id
     ENV['CYBER_DOJO_TEST_ID']
   end
@@ -66,7 +61,6 @@ module TestHexIdHelpers # mix-in
         block_with_test_id = lambda {
           ENV['CYBER_DOJO_TEST_ID'] = id
           self.setup_runner_class
-          self.setup_katas_root
           self.instance_eval &block
         }
         define_method("test_'#{id}',\n #{name}\n".to_sym, &block_with_test_id)

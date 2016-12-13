@@ -4,13 +4,17 @@ class FakeStorer
 
   def initialize(parent)
     @parent = parent
+    # This @@disk and not @disk so that it behaves as a real disk on tests
+    # that run across multiple threads (as some app-controller tests do).
     @@disk ||= FakeDisk.new(self)
   end
 
   attr_reader :parent
 
   def path
-    @path ||= env_var.value('katas_root')
+    # Puts the test-id into the path to isolate tests from each other.
+    test_id = ENV['CYBER_DOJO_TEST_ID']
+    @path ||= "/tmp/cyber-dojo/#{test_id}/katas"
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -

@@ -27,7 +27,6 @@ class DojoTest < AppModelsTestBase
     unset_languages_root && assert_raises(StandardError) { languages.path }
     unset_exercises_root && assert_raises(StandardError) { exercises.path }
     unset_custom_root    && assert_raises(StandardError) {    custom.path }
-    unset_katas_root     && assert_raises(StandardError) {     katas.path }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -62,7 +61,6 @@ class DojoTest < AppModelsTestBase
     set_languages_root(path = tmp_root + '/languages') && assert_equal(path, languages.path)
     set_exercises_root(path = tmp_root + '/exercises') && assert_equal(path, exercises.path)
     set_custom_root(   path = tmp_root + '/custom'   ) && assert_equal(path,    custom.path)
-    set_katas_root(    path = tmp_root + '/katas'    ) && assert_equal(path,    storer.path)
   end
 
   # - - - - - -
@@ -77,18 +75,6 @@ class DojoTest < AppModelsTestBase
 
     path = tmp_root + '/custom'
     set_custom_root(path + '/') && assert_equal(path, custom.path)
-
-    path = tmp_root + '/katas'
-    set_katas_root(path + '/')     && assert_equal(path, storer.path)
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'FB7F2D',
-  'storer.path is set off /tmp by test setup because tests write to katas' do
-    test_set_path = env_var.value('katas_root')
-    assert test_set_path.start_with?('/tmp'), test_set_path
-    assert storer.path.start_with?('/tmp'), storer.path
   end
 
   private

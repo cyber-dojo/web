@@ -13,13 +13,9 @@ def cd_env_name(suffix)
 end
 
 {
-  # read-only
   cd_env_name('languages_root') => "#{cd_root}/start_points/languages",
   cd_env_name('exercises_root') => "#{cd_root}/start_points/exercises",
   cd_env_name('custom_root')    => "#{cd_root}/start_points/custom",
-
-  # read-write
-  cd_env_name('katas_root')     => "#{cd_root}/katas",
 
   cd_env_name('differ_class') => 'DifferService',
   cd_env_name('storer_class') => 'StorerService',
