@@ -17,7 +17,7 @@ services:
     build:
       context: .
       args:
-        CYBER_DOJO_HOME: usr/src/cyber-dojo
+        CYBER_DOJO_HOME: /app
     user: cyber-dojo
     image: cyberdojo/web
     container_name: cyber-dojo-web
@@ -25,9 +25,9 @@ services:
     memswap_limit: 2G
     restart: on-failure
     volumes:
-      - languages:${CYBER_DOJO_ROOT}/start_points/languages:ro
-      - exercises:${CYBER_DOJO_ROOT}/start_points/exercises:ro
-      - custom:${CYBER_DOJO_ROOT}/start_points/custom:ro
+      - languages:${CYBER_DOJO_HOME}/start_points/languages:ro
+      - exercises:${CYBER_DOJO_HOME}/start_points/exercises:ro
+      - custom:${CYBER_DOJO_HOME}/start_points/custom:ro
 
   runner:
     user: root

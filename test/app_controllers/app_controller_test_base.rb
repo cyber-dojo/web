@@ -15,7 +15,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   def setup
     super
     @dojo = Dojo.new(self)
-    path_inside_container = '/usr/src/cyber-dojo'
+    path_inside_container = '/app'
     `rm -f #{path_inside_container}/caches/*.json`
   end
 

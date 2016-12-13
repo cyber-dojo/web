@@ -1,9 +1,11 @@
 #!/bin/bash
 set -e
 
+# NB: Still missing links to external services - some tests will fail
+
 my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 
-CYBER_DOJO_HOME=/usr/src/cyber-dojo
+CYBER_DOJO_HOME=/app
 
 docker build \
   --build-arg CYBER_DOJO_HOME=${CYBER_DOJO_HOME} \
@@ -13,14 +15,14 @@ docker build \
 
 CYBER_DOJO_LANGUAGES_ROOT=${CYBER_DOJO_HOME}/start-points/languages
 CYBER_DOJO_EXERCISES_ROOT=${CYBER_DOJO_HOME}/start-points/exercises
-CYBER_DOJO_CUSTOM_ROOT=${CYBER_DOJO_HOME}/start-points/custo
+CYBER_DOJO_CUSTOM_ROOT=${CYBER_DOJO_HOME}/start-points/custom
 
 docker run \
   --rm \
-  -it \
-  -v languages:/usr/src/cyber-dojo/start-points/languages:ro \
-  -v exercises:/usr/src/cyber-dojo/start-points/exercises:ro \
-  -v custom:/usr/src/cyber-dojo/start-points/custom:ro \
+  --tty \
+  --volume languages:${CYBER_DOJO_HOME}/start-points/languages:ro \
+  --volume exercises:${CYBER_DOJO_HOME}/start-points/exercises:ro \
+  --volume custom:${CYBER_DOJO_HOME}/start-points/custom:ro \
   --env CYBER_DOJO_LANGUAGES_ROOT=${CYBER_DOJO_LANGUAGES_ROOT} \
   --env CYBER_DOJO_EXERCISES_ROOT=${CYBER_DOJO_EXERCISES_ROOT} \
   --env CYBER_DOJO_CUSTOM_ROOT=${CYBER_DOJO_CUSTOM_ROOT} \

@@ -5,7 +5,7 @@
 # see test/test_external_helpers.rb
 
 def cd_root
-  '/usr/src/cyber-dojo'
+  '/app'
 end
 
 def cd_env_name(suffix)

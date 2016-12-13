@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-export CYBER_DOJO_ROOT=/usr/src/cyber-dojo
+export CYBER_DOJO_HOME=/app
 export CYBER_DOJO_KATAS_DATA_CONTAINER=cyber-dojo-katas-DATA-CONTAINER
 export CYBER_DOJO_START_POINT_LANGUAGES=languages
 export CYBER_DOJO_START_POINT_EXERCISES=exercises
@@ -30,7 +30,7 @@ one_time_creation_of_katas_data_volume()
     # create a katas volume - it is mounted into the web container
     # using a volumes_from in docker-compose.yml
     docker build \
-              --build-arg=CYBER_DOJO_KATAS_ROOT=${CYBER_DOJO_ROOT}/katas \
+              --build-arg=CYBER_DOJO_KATAS_ROOT=usr/src/cyber-dojo/katas \
               --tag=${TAG} \
               --file=${CONTEXT_DIR}/Dockerfile \
               ${CONTEXT_DIR} > /dev/null

@@ -6,7 +6,7 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
 
   test 'EB77D9',
   'show shows all custom exercises' do
-    # This assumes the exercises volume is default-exercises (refactoring)
+    # Assumes the exercises volume is default refactoring exercises
     assert_equal [
       'Tennis refactoring, C# NUnit',
       'Tennis refactoring, C++ (g++) assert',
