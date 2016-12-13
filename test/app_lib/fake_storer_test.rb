@@ -11,6 +11,14 @@ class FakeStorerTest < AppLibTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '9D355EEE',
+    'path is off /tmp to ensure read-write access' do
+    refute_nil storer.path
+    assert storer.path.start_with? '/tmp/'
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # create_kata()
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
