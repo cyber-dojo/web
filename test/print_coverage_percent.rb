@@ -1,7 +1,9 @@
 
 filename = ARGV[0]
-filter = ARGV[1]
-flat = filter.sub('/','')
+cwd = ARGV[1]                 # eg app_lib
+filter = cwd.sub('_','/')     # eg app/lib
+flat = filter.sub('/','')     # eg applib
+
 
 html = IO.popen("cat #{filename}").read
 # guard against invalid byte sequence

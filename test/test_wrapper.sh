@@ -31,7 +31,6 @@ mkdir -p ${home_dir}/caches
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #pwd                       # eg  .../cyber-dojo/test/app_lib
 cwd=${PWD##*/}             # eg  app_lib
-module=${cwd/_//}          # eg  app/lib
 
 # clear out old coverage stats
 coverage_dir=/tmp/cyber-dojo/${cwd}/coverage
@@ -42,4 +41,4 @@ test_log="${coverage_dir}/test.log"
 # run-the-tests!
 export COVERAGE_DIR=${coverage_dir}
 ruby -e "%w( ${testFiles[*]} ).shuffle.map{ |file| './'+file }.each { |file| require file }" ${cwd} ${args[*]} 2>&1 | tee ${test_log}
-ruby ../print_coverage_percent.rb ${coverage_dir}/index.html ${module} | tee -a ${test_log}
+ruby ../print_coverage_percent.rb ${coverage_dir}/index.html ${cwd} | tee -a ${test_log}
