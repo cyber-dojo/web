@@ -20,11 +20,6 @@ done
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# don't create permanent katas
-katas_root=/tmp/cyber-dojo/katas
-mkdir -p ${katas_root}
-export CYBER_DOJO_KATAS_ROOT=${katas_root}
-
 # don't log to stdout
 export CYBER_DOJO_LOG_CLASS=MemoryLog
 
