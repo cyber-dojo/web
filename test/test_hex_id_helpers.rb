@@ -36,8 +36,8 @@ module TestHexIdHelpers # mix-in
 
   module ClassMethods
 
-    @@args = (ARGV.sort.uniq - ['--']).map(&:upcase)  # eg 2DD6F3 eg 2dd
-    @@args.shift # module name
+    # ARGV[0] == module name
+    @@args = ARGV[1..-1].sort.uniq.map(&:upcase)  # eg 2DD6F3 eg 2dd
     @@seen_ids = []
 
     def test(id, *lines, &block)

@@ -81,8 +81,8 @@ def gather_stats
   number = '([\.|\d]+)'
   modules.each do |module_name|
 
-    log = `cat #{module_name}/#{wrapper_test_log}`
-    `rm #{module_name}/#{wrapper_test_log}`
+    log = `cat /tmp/cyber-dojo/#{module_name}/#{wrapper_test_log}`
+
     h = stats[module_name] = {}
 
     finished_pattern = "Finished in #{number}s, #{number} runs/s, #{number} assertions/s"
@@ -173,18 +173,19 @@ end
 #- - - - - - - - - - - - - - - - - - - - -
 
 def gather_done(stats, totals)
-  [
+  done = [
      [ "total failures == 0", totals[:failure_count] <= 0 ],
      [ "total errors == 0", totals[:error_count] == 0 ],
      [ "total skips == 0", totals[:skip_count] == 0],
-     coverage(stats, 'app_helpers'),
-     coverage(stats, 'app_lib', 92),
-     coverage(stats, 'app_models'),
-     coverage(stats, 'lib'),
-     coverage(stats, 'app_controllers', 98),
      [ "total secs < 60", totals[:time].to_f < 60 ],
      [ "total assertions per sec > 50", totals[:assertions_per_sec] > 50 ]
   ]
+  done << coverage(stats, 'app_helpers')         if modules.include? 'app_helpers'
+  done << coverage(stats, 'app_lib', 98)         if modules.include? 'app_lib'
+  done << coverage(stats, 'app_models')          if modules.include? 'app_models'
+  done << coverage(stats, 'lib')                 if modules.include? 'lib'
+  done << coverage(stats, 'app_controllers', 98) if modules.include? 'app_controllers'
+  done
 end
 
 #- - - - - - - - - - - - - - - - - - - - -

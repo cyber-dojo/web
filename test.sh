@@ -7,6 +7,7 @@ docker exec ${cid} sh -c "cd test && ./run.sh ${*}"
 # copy coverage stats out of container
 my_dir="$( cd "$( dirname "${0}" )" && pwd )"
 mkdir -p ${my_dir}/coverage
+
 modules=( app_helpers app_lib app_models lib app_controllers )
 for module in ${modules[*]}
 do
