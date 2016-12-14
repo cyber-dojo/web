@@ -1,5 +1,3 @@
-#!/bin/bash ../test_wrapper.sh
-
 require_relative './app_lib_test_base'
 
 class DiffHtmlTest <  AppLibTestBase

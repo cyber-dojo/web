@@ -1,5 +1,3 @@
-#!/bin/bash ../test_wrapper.sh
-
 require_relative './app_lib_test_base'
 
 class DifferServiceTest < AppLibTestBase
@@ -10,7 +8,7 @@ class DifferServiceTest < AppLibTestBase
     set_runner_class('StubRunner')
   end
 
-  #------------------------------------------------------------------
+  # - - - - - - - - - - - - - - - - - - - - - - -
 
   test '9823AB',
   'smoke test differ-service' do
