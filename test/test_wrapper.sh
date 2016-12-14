@@ -28,7 +28,7 @@ mkdir -p ${home_dir}/caches
 cwd=${PWD##*/}             # eg  app_lib
 
 # clear out old coverage stats
-coverage_dir=/tmp/cyber-dojo/${cwd}/coverage
+coverage_dir=/tmp/cyber-dojo/coverage/${cwd}
 mkdir -p ${coverage_dir}
 rm -rf ${coverage_dir}/.resultset.json
 test_log="${coverage_dir}/test.log"

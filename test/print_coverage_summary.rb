@@ -3,9 +3,9 @@ def modules
    ARGV
 end
 
-def wrapper_test_log
+def test_log(module_name)
   # must match test_log setting in test/test_wrapper.sh
-  'coverage/test.log'
+  "/tmp/cyber-dojo/coverage/#{module_name}/test.log"
 end
 
 #- - - - - - - - - - - - - - - - - - - - -
@@ -81,10 +81,8 @@ def gather_stats
   number = '([\.|\d]+)'
   modules.each do |module_name|
 
-    log = `cat /tmp/cyber-dojo/#{module_name}/#{wrapper_test_log}`
-
     h = stats[module_name] = {}
-
+    log = `cat #{test_log(module_name)}`
     finished_pattern = "Finished in #{number}s, #{number} runs/s, #{number} assertions/s"
     m = log.match(Regexp.new(finished_pattern))
     h[:time]               = f2(m[1])
