@@ -9,7 +9,7 @@ do
     echo
     echo "======${module}======"
     cd ${module}
-    ./run.sh ${*}
+    ../test_wrapper.sh *_test.rb ${*}
     cd ..
 done
 
