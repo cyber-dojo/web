@@ -128,13 +128,5 @@ class AvatarTest < AppModelsTestBase
     assert_equal expected, @avatar.visible_files[filename], 'saved_to_manifest'
   end
 
-  def assert_log_include?(command)
-    assert log.include?(command), lines_of(log)
-  end
-
-  def lines_of(log)
-    log.messages.join("\n")
-  end
-
 end
 
