@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ ! -f /.dockerenv ]; then
+  echo 'FAILED: test_wrapper.sh is being executed outside of docker-container.'
+  exit 1
+fi
+
 # Mocks save to Dir.tmpdir
 rm -rf /tmp/cyber-dojo
 
