@@ -74,8 +74,7 @@ module TestHexIdHelpers # mix-in
       unseen_args = @@args.find_all { |arg| unseen_arg.call(arg) }
       unless unseen_args == []
         message = 'the following test id arguments were *not* found'
-        bar = 'X' * message.length
-        lines = [ '', bar, message, "#{unseen_args}", bar, '' ]
+        lines = [ '', message, "#{unseen_args}", '' ]
         # can't raise in a finalizer
         lines.each { |line| STDERR.puts line }
       end
