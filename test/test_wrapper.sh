@@ -36,5 +36,11 @@ test_log="${coverage_dir}/test.log"
 
 # run-the-tests!
 export COVERAGE_DIR=${coverage_dir}
-ruby -e "%w( ${testFiles[*]} ).shuffle.map{ |file| require './'+file }" ${cwd} ${args[*]} 2>&1 | tee ${test_log}
-ruby ../print_coverage_percent.rb ${coverage_dir}/index.html ${cwd} | tee -a ${test_log}
+
+ruby -e "%w( ${testFiles[*]} ).shuffle.map{ |file| require './'+file }" \
+  ${cwd} \
+  ${args[*]} 2>&1 | tee ${test_log}
+
+ruby ../print_coverage_percent.rb \
+  ${coverage_dir}/index.html \
+  ${cwd} | tee -a ${test_log}
