@@ -1,6 +1,6 @@
 
-filename = ARGV[0]
-cwd = ARGV[1]                 # eg app_lib
+filename = ENV['COVERAGE_DIR'] + '/index.html'
+cwd = ARGV[0]                 # eg app_lib
 filter = cwd.sub('_','/')     # eg app/lib
 flat = filter.sub('/','')     # eg applib
 
