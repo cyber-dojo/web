@@ -21,6 +21,7 @@ services:
     user: cyber-dojo
     image: cyberdojo/web
     container_name: cyber-dojo-web
+    environment: [ CYBER_DOJO_HOME ]
     mem_limit: 2G
     memswap_limit: 2G
     restart: on-failure

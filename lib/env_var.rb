@@ -4,8 +4,8 @@
 # unit-tests can set/reset these
 # see test/test_external_helpers.rb
 
-def cd_root
-  '/app'
+def cd_home
+  ENV['CYBER_DOJO_HOME']
 end
 
 def cd_env_name(suffix)
@@ -13,9 +13,9 @@ def cd_env_name(suffix)
 end
 
 {
-  cd_env_name('languages_root') => "#{cd_root}/start_points/languages",
-  cd_env_name('exercises_root') => "#{cd_root}/start_points/exercises",
-  cd_env_name('custom_root')    => "#{cd_root}/start_points/custom",
+  cd_env_name('languages_root') => "#{cd_home}/start_points/languages",
+  cd_env_name('exercises_root') => "#{cd_home}/start_points/exercises",
+  cd_env_name('custom_root')    => "#{cd_home}/start_points/custom",
 
   cd_env_name('differ_class') => 'DifferService',
   cd_env_name('storer_class') => 'StorerService',
