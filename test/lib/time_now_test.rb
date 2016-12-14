@@ -1,5 +1,3 @@
-#!/bin/bash ../test_wrapper.sh
-
 require_relative './lib_test_base'
 
 class TimeNowTest < LibTestBase

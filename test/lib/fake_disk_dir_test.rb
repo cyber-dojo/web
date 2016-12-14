@@ -1,5 +1,3 @@
-#!/bin/bash ../test_wrapper.sh
-
 require_relative './lib_test_base'
 require_relative './../../lib/fake_disk'
 require_relative './../../lib/fake_dir'
