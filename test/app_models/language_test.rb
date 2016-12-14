@@ -1,5 +1,4 @@
 require_relative './app_models_test_base'
-require 'tempfile'
 
 class LanguageTest < AppModelsTestBase
 
