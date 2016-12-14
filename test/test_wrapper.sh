@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # collect trailing arguments to forward to tests

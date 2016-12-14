@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 if [ ! -f /.dockerenv ]; then
   echo 'FAILED: test_wrapper.sh is being executed outside of docker-container.'
