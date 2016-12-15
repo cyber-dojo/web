@@ -4,7 +4,7 @@ class FakeStorer
 
   def initialize(parent)
     @parent = parent
-    # This @@disk and not @disk so that it behaves as a real disk on tests
+    # This is @@disk and not @disk so that it behaves as a real disk on tests
     # that run across multiple threads (as some app-controller tests do).
     @@disk ||= FakeDisk.new(self)
   end
@@ -79,17 +79,17 @@ class FakeStorer
   end
 
   def avatar_increments(id, name)
-    avatar_dir(id, name).read_json(increments_filename)
+    [tag0(id)] + increments(id, name)
   end
 
   def avatar_visible_files(id, name)
-    rags = avatar_increments(id, name)
+    rags = increments(id, name)
     tag = rags == [] ? 0 : rags[-1]['number']
     tag_visible_files(id, name, tag)
   end
 
   def avatar_ran_tests(id, name, files, now, output, colour)
-    rags = avatar_increments(id, name)
+    rags = increments(id, name)
     tag = rags.length + 1
     rags << { 'colour' => colour, 'time' => now, 'number' => tag }
     write_avatar_increments(id, name, rags)
@@ -125,6 +125,20 @@ class FakeStorer
 
   def avatar_dir(id, name); disk[avatar_path(id, name)]; end
   def    tag_dir(id, name, tag); disk[tag_path(id, name, tag)]; end
+
+  # - - - - - - - - - - - - - - - -
+
+  def tag0(id)
+    {
+      'event' => 'created',
+      'time' => kata_manifest(id)['created'],
+      'number' => 0
+    }
+  end
+
+  def increments(id, name)
+    avatar_dir(id, name).read_json(increments_filename)
+  end
 
   # - - - - - - - - - - - - - - - -
 

@@ -40,7 +40,7 @@ class Avatar
   end
 
   def tags
-    ([tag0] + increments).map { |h| Tag.new(self, h) }
+    increments.map { |h| Tag.new(self, h) }
   end
 
   def lights
@@ -57,75 +57,25 @@ class Avatar
 
   private
 
-  include NearestAncestors
-  include TimeNow
-
   def increments
     storer.avatar_increments(kata.id, name)
   end
 
-  def tag0
-    @zeroth ||=
-    {
-      'event'  => 'created',
-      'time'   => time_now(kata.created),
-      'number' => 0
-    }
-  end
-
+  include NearestAncestors
   def storer; nearest_ancestors(:storer); end
   def runner; nearest_ancestors(:runner); end
 
 end
 
-#- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# tags vs lights
-#- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# When a new avatar enters a dojo, kata.start_avatar()
-# will do a 'git commit' + 'git tag' for tag 0 (zero).
-# This initial tag is *not* recorded in the
-# increments.json file which starts as [ ]
-# It probably should be but isn't for existing dojos
-# and so for backwards compatibility it stays that way.
-#
-# Every test event stores an entry in the increments.json file.
-# eg
-# [
-#   {
-#     'colour' => 'red',
-#     'time'   => [2014, 2, 15, 8, 54, 6],
-#     'number' => 1
-#   },
-# ]
-#
-# At the moment the only event that creates an
-# increments.json file entry is a [test].
-#
-# However, it's conceivable I may create finer grained tags
-# than just [test] events, eg
-#    o) creating a new file
-#    o) renaming a file
-#    o) deleting a file
-#    o) opening a different file
-#    o) editing a file
-#
-# If this happens the difference between tags and lights
-# will be more pronounced.
 # ------------------------------------------------------
-# Invariants
-#
-# If the latest tag is N then
-#   o) increments.length == N
-#   o) tags.length == N+1
+# The inclusive lower bound for n in avatar.tags[n] is zero.
 #
 # The inclusive upper bound for n in avatar.tags[n] is
-# always the current length of increments.json (even if
-# that is zero) which is also the latest tag number.
+# always the number of traffic-lights.
 #
-# The inclusive lower bound for n in avatar.tags[n] is zero.
 # When an animal does a diff of [1] what is run is a diff
 # between
-#   avatar.tags[0] and
-#   avatar.tags[1]
-#
+#   avatar.tags[0].visible_files
+#   avatar.tags[1].visible_files
 # ------------------------------------------------------
+

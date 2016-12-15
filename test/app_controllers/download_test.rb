@@ -92,7 +92,7 @@ class DownloadControllerTest < AppControllerTestBase
       assert avatar_dir.exists?('increments.json'), "5.avatar_dir.exists?('increments.json')"
       rags = avatar_dir.read_json('increments.json')
       # new format dir exists for each tag
-      (0..rags.size).each do |tag|
+      (1..rags.size).each do |tag|
         tag_path = "#{avatar_path}/#{tag}"
         tag_dir = disk[tag_path]
         assert tag_dir.exists?, '6. tag_dir.exists?'

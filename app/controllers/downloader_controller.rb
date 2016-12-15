@@ -16,8 +16,9 @@ class DownloaderController < ApplicationController
       avatar_dir = disk[avatar_path]
       avatar_dir.make
       rags = storer.avatar_increments(id, avatar.name)
+      rags.shift # tag0
       avatar_dir.write_json('increments.json', rags)
-      (0..rags.size).each do |tag|
+      (1..rags.size).each do |tag|
         tag_path = "#{avatar_path}/#{tag}"
         tag_dir = disk[tag_path]
         tag_dir.make

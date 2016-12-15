@@ -218,7 +218,7 @@ class FakeStorerTest < AppLibTestBase
     create_kata(kata_id = '9D3A35BCCF')
     start_avatar(kata_id, [lion])
 
-    assert_equal [], avatar_increments(kata_id, lion)
+    assert_equal [tag0], avatar_increments(kata_id, lion)
 
     args = []
     args << kata_id
@@ -230,6 +230,7 @@ class FakeStorerTest < AppLibTestBase
     avatar_ran_tests(*args)
 
     assert_equal [
+      tag0,
       { 'colour' => colour1, 'time' => now1, 'number' => 1 }
     ], avatar_increments(kata_id, lion)
 
@@ -249,6 +250,7 @@ class FakeStorerTest < AppLibTestBase
     avatar_ran_tests(*args)
 
     assert_equal [
+      tag0,
       { 'colour' => colour1, 'time' => now1, 'number' => 1 },
       { 'colour' => colour2, 'time' => now2, 'number' => 2 }
     ], avatar_increments(kata_id, lion)
@@ -312,6 +314,7 @@ class FakeStorerTest < AppLibTestBase
     {
       :visible_files => starting_files,
       :image_name => 'cyberdojofoundation/gcc_assert',
+      :created => creation_time,
       :tab_size => 4,
       :id => kata_id
     }
@@ -325,6 +328,18 @@ class FakeStorerTest < AppLibTestBase
       end
     end
     ids
+  end
+
+  def tag0
+    {
+      'event' => 'created',
+      'time' => creation_time,
+      'number' => 0
+    }
+  end
+
+  def creation_time
+    [ 2016, 12, 5, 17, 44, 23 ]
   end
 
 end
