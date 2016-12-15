@@ -88,9 +88,7 @@ end
 # It probably should be but isn't for existing dojos
 # and so for backwards compatibility it stays that way.
 #
-# All subsequent 'git commit' + 'git tag' commands
-# correspond to a gui action and store an entry in the
-# increments.json file.
+# Every test event stores an entry in the increments.json file.
 # eg
 # [
 #   {
@@ -103,8 +101,8 @@ end
 # At the moment the only event that creates an
 # increments.json file entry is a [test].
 #
-# However, I may create finer grained tags than
-# just [test] events...
+# However, it's conceivable I may create finer grained tags
+# than just [test] events, eg
 #    o) creating a new file
 #    o) renaming a file
 #    o) deleting a file
