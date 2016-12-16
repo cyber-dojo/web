@@ -1,6 +1,5 @@
 require 'json'
 require 'net/http'
-require_relative './storer_service_error'
 
 class StorerService
 
@@ -109,11 +108,15 @@ class StorerService
   end
 
   def result(json, name)
-    raise StorerServiceError.new('json.nil?') if json.nil?
-    raise StorerServiceError.new('bad json') unless json.class.name == 'Hash'
-    raise StorerServiceError.new(json['exception']) unless json['exception'].nil?
-    raise StorerServiceError.new('no key') if json[name].nil?
+    raise error(name, 'json.nil?') if json.nil?
+    raise error(name, 'bad json') unless json.class.name == 'Hash'
+    raise error(name, json['exception']) unless json['exception'].nil?
+    raise error(name, 'no key') if json[name].nil?
     json[name]
+  end
+
+  def error(name, description)
+    StandardError.new("StorerService:#{name}:#{description}")
   end
 
   include NearestAncestors
