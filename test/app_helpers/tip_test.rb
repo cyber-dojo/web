@@ -18,7 +18,7 @@ class TipTest < AppHelpersTestBase
       :changed => {}
     }
     files = kata.visible_files
-    stdout,stderr,status = lion.test(delta, files)
+    stdout,stderr,status = lion.test(delta, files, max_seconds=10)
     output = stdout+stderr
     was_colour = kata.red_amber_green(output).to_s
     lion.tested(files, time_now, output, was_colour)
@@ -27,7 +27,7 @@ class TipTest < AppHelpersTestBase
     hiker_c = kata.visible_files[filename]
     files[filename] = hiker_c.sub('9','7')
     delta[:changed] = [ filename ]
-    stdout,stderr,status = lion.test(delta, files)
+    stdout,stderr,status = lion.test(delta, files, max_seconds=10)
     output = stdout + stderr
     now_colour = kata.red_amber_green(output).to_s
     lion.tested(files, time_now, output, now_colour)

@@ -19,7 +19,8 @@ class KataController < ApplicationController
     outgoing = params[:file_hashes_outgoing]
     delta = FileDeltaMaker.make_delta(incoming, outgoing)
     files = received_files
-    stdout,stderr,status = @avatar.test(delta, files)
+    max_seconds = 10
+    stdout,stderr,status = @avatar.test(delta, files, max_seconds)
     if status == 'no_avatar'
        # kata was created before new separated runner-microservice
        # so runner has to be informed of this avatar's existence...
@@ -31,7 +32,7 @@ class KataController < ApplicationController
        args << avatar.visible_files
        runner.new_avatar(*args)
        delta = FileDeltaMaker.make_delta(avatar.visible_files, files)
-       stdout,stderr,status = @avatar.test(delta, files)
+       stdout,stderr,status = @avatar.test(delta, files, max_seconds)
     end
     if status == 'timed_out'
       max_seconds = 10

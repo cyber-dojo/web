@@ -10,12 +10,11 @@ class Avatar
 
   # modifiers
 
-  def test(delta, files)
+  def test(delta, files, max_seconds)
     deleted_filenames = delta[:deleted]
     changed_files = {}
     delta[:new    ].each { |filename| changed_files[filename] = files[filename] }
     delta[:changed].each { |filename| changed_files[filename] = files[filename] }
-    max_seconds = 10
     runner.run(kata.image_name, kata.id, name, deleted_filenames, changed_files, max_seconds)
   end
 

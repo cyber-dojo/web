@@ -51,7 +51,7 @@ class DeltaMaker
   def run_test_no_stub(at = time_now)
     visible_files = now
     delta = make_delta(@was, @now)
-    output = @avatar.test(delta, visible_files)
+    output = @avatar.test(delta, visible_files, max_seconds)
     colour = @avatar.kata.red_amber_green(output)
     @avatar.tested(visible_files, at, output, colour)
     [delta, visible_files, output]
@@ -63,7 +63,7 @@ class DeltaMaker
     if @stubbed.nil? && nearest_ancestors(:runner, @avatar).class.name == 'StubRunner'
       stub_colour(:red)
     end
-    stdout,stderr,status = @avatar.test(delta, visible_files)
+    stdout,stderr,status = @avatar.test(delta, visible_files, max_seconds)
     output = stdout + stderr
     colour = @avatar.kata.red_amber_green(output)
     @avatar.tested(visible_files, at, output, colour)
@@ -80,6 +80,10 @@ class DeltaMaker
 
   def visible_files
     now
+  end
+
+  def max_seconds
+    10
   end
 
   private
