@@ -24,3 +24,4 @@ one_time_creation_of_start_point_volumes()
 one_time_creation_of_start_point_volumes
 
 docker-compose --file ${my_dir}/docker-compose.yml up -d
+sleep 2
