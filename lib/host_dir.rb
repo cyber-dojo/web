@@ -52,6 +52,7 @@ class HostDir
   def write_json_once(filename)
     # The json cache object is not a regular 2nd parameter, it is yielded.
     # This is so it is only created if it is needed.
+    make
     File.open(path + filename, File::WRONLY|File::CREAT|File::EXCL, 0644) do |fd|
       fd.write(JSON.unparse(yield)) # yield must return a json object
     end

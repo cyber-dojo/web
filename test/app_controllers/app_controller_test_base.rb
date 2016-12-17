@@ -15,7 +15,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   def setup
     super
     @dojo = Dojo.new(self)
-    `rm -f #{ENV['CYBER_DOJO_HOME']}/caches/*.json`
+    `rm -rf #{tmp_root}/caches`
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
