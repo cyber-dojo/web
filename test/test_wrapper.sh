@@ -19,11 +19,6 @@ done
 # don't log to stdout
 export CYBER_DOJO_LOG_CLASS=MemoryLog
 
-# ensure caches dir exists and is empty
-home_dir="$( cd "$( dirname "${0}" )/.." && pwd )"
-rm -rf ${home_dir}/caches
-mkdir -p ${home_dir}/caches
-
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #pwd                       # eg  .../cyber-dojo/test/app_lib
 cwd=${PWD##*/}             # eg  app_lib
