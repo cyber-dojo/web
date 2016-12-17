@@ -7,15 +7,12 @@ class FakeStorer
     # This is @@disk and not @disk so that it behaves as a real disk on tests
     # that run across multiple threads (as some app-controller tests do).
     @@disk ||= FakeDisk.new(self)
-  end
-
-  attr_reader :parent
-
-  def path
     # Puts the test-id into the path to isolate tests from each other.
     test_id = ENV['CYBER_DOJO_TEST_ID']
-    @path ||= "/tmp/cyber-dojo/#{test_id}/katas"
+    @path = "/tmp/cyber-dojo/#{test_id}/katas"
   end
+
+  attr_reader :parent, :path
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -25,7 +22,9 @@ class FakeStorer
       outer_dir = disk[path + '/' + outer(id)]
       if outer_dir.exists?
         # inner-dir has 8-characters
-        dirs = outer_dir.each_dir.select { |inner_dir| inner_dir.start_with?(inner(id)) }
+        dirs = outer_dir.each_dir.select { |inner_dir|
+          inner_dir.start_with?(inner(id))
+        }
         id = outer(id) + dirs[0] if dirs.length == 1
       end
     end

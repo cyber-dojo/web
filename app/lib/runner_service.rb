@@ -46,7 +46,10 @@ class RunnerService
 
   # - - - - - - - - - - - - - - - - - - - - - - -
 
-  def run(image_name, kata_id, avatar_name, deleted_filenames, changed_files, max_seconds)
+  def run(image_name,
+          kata_id, avatar_name,
+          deleted_filenames, changed_files,
+          max_seconds)
     post(__method__, {
                  image_name:image_name,
                     kata_id:kata_id,

@@ -82,13 +82,17 @@ class StorerService
 
   def get(method, *args)
     name = method.to_s
-    json = http(name, args_hash(name, *args)) { |uri| Net::HTTP::Get.new(uri) }
+    json = http(name, args_hash(name, *args)) { |uri|
+      Net::HTTP::Get.new(uri)
+    }
     result(json, name)
   end
 
   def post(method, *args)
     name = method.to_s
-    json = http(name, args_hash(name, *args)) { |uri| Net::HTTP::Post.new(uri) }
+    json = http(name, args_hash(name, *args)) { |uri|
+      Net::HTTP::Post.new(uri)
+    }
     result(json, name)
   end
 
@@ -104,7 +108,9 @@ class StorerService
 
   def args_hash(method, *args)
     parameters = self.class.instance_method(method).parameters
-    Hash[parameters.map.with_index { |parameter,index| [parameter[1], args[index]] }]
+    Hash[parameters.map.with_index { |parameter,index|
+      [parameter[1], args[index]]
+    }]
   end
 
   def result(json, name)
