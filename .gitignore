@@ -25,6 +25,8 @@
 !/README.md
 !/test.sh
 !/up.sh
+
 !/image_dependency_graph.pdf
+!/class_model.pdf
 !/quick_test.sh
 !/env_vars.sh
