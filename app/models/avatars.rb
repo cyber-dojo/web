@@ -50,7 +50,6 @@ class Avatars
   private
 
   include NearestAncestors
-
   def storer; nearest_ancestors(:storer); end
 
 end

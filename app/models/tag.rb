@@ -51,10 +51,9 @@ class Tag
 
   private
 
-  include NearestAncestors
-
   attr_reader :hash
 
+  include NearestAncestors
   def storer; nearest_ancestors(:storer); end
 
 end

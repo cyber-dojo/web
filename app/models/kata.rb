@@ -113,7 +113,6 @@ class Kata
   private
 
   include ManifestProperty
-  include NearestAncestors
 
   def full_manifest_property
     # A kata's manifest should store everything it needs so it never has
@@ -126,7 +125,7 @@ class Kata
   end
 
   def start_point
-    name = manifest['language']
+    name = language
     languages[name] || custom[name]
   end
 
@@ -138,6 +137,7 @@ class Kata
     Time.mktime(*avatars.active.map { |avatar| avatar.lights[0].time }.sort[0])
   end
 
+  include NearestAncestors
   def languages; nearest_ancestors(:languages); end
   def custom; nearest_ancestors(:custom); end
   def storer; nearest_ancestors(:storer); end

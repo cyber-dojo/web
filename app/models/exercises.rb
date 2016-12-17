@@ -5,14 +5,11 @@ class Exercises
   def initialize(dojo, key)
     @parent = dojo
     @key = key
+    @path = env_var.value(@key)
     disk[cache_path].write_json_once(cache_filename) { make_cache }
   end
 
-  attr_reader :parent
-
-  def path
-    @path ||= env_var.value(@key)
-  end
+  attr_reader :parent, :path
 
   def each(&block)
     all.values.each(&block)
@@ -25,8 +22,6 @@ class Exercises
   include CacheProperties
 
   private
-
-  include NearestAncestors
 
   def all
     @all ||= read_cache
@@ -57,6 +52,7 @@ class Exercises
     Exercise.new(self, dir_name, text)
   end
 
+  include NearestAncestors
   def env_var; nearest_ancestors(:env_var); end
   def disk; nearest_ancestors(:disk); end
 

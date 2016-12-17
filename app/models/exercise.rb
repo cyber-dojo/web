@@ -18,16 +18,14 @@ class Exercise
   end
 
   def text
-    @text || disk[path].read(filename)
+    @text ||= disk[path].read(filename)
   end
 
   private
 
+  def filename; 'instructions'; end
+
   include NearestAncestors
-
-  def filename
-    'instructions'
-  end
-
   def disk; nearest_ancestors(:disk); end
+
 end

@@ -5,14 +5,11 @@ class StartPoints
   def initialize(parent, key)
     @parent = parent
     @key = key
+    @path = env_var.value(@key)
     disk[cache_path].write_json_once(cache_filename) { make_cache }
   end
 
-  attr_reader :parent
-
-  def path
-    @path ||= env_var.value(@key)
-  end
+  attr_reader :parent, :path
 
   def each(&block)
     all.values.each(&block)
@@ -26,7 +23,6 @@ class StartPoints
 
   private
 
-  include NearestAncestors
   include StartPointsRename
 
   def all
@@ -58,6 +54,7 @@ class StartPoints
     name.split('-', 2).join(', ')
   end
 
+  include NearestAncestors
   def env_var; nearest_ancestors(:env_var); end
   def disk; nearest_ancestors(:disk); end
 
