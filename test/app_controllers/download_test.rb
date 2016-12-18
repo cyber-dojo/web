@@ -3,6 +3,7 @@ require_relative './app_controller_test_base'
 class DownloadControllerTest < AppControllerTestBase
 
   def prepare
+    set_storer_class('FakeStorer')
     @id = create_kata
     kata = katas[@id]
     @tar_dir = '/tmp/cyber-dojo/downloads'
