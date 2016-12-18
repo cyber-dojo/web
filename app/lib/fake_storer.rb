@@ -108,6 +108,8 @@ class FakeStorer
     end
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
   def kata_dir(id); disk[kata_path(id)]; end
 
   private
@@ -118,12 +120,25 @@ class FakeStorer
 
   include IdSplitter
 
-  def   kata_path(id); path + '/' + outer(id) + '/' + inner(id); end
-  def avatar_path(id, name); kata_path(id) + '/' + name; end
-  def    tag_path(id, name, tag); avatar_path(id, name) + '/' + tag.to_s; end
+  def kata_path(id)
+    path + '/' + outer(id) + '/' + inner(id)
+  end
 
-  def avatar_dir(id, name); disk[avatar_path(id, name)]; end
-  def    tag_dir(id, name, tag); disk[tag_path(id, name, tag)]; end
+  def avatar_path(id, name)
+    kata_path(id) + '/' + name
+  end
+
+  def tag_path(id, name, tag)
+    avatar_path(id, name) + '/' + tag.to_s
+  end
+
+  def avatar_dir(id, name)
+    disk[avatar_path(id, name)]
+  end
+
+  def tag_dir(id, name, tag)
+    disk[tag_path(id, name, tag)]
+  end
 
   # - - - - - - - - - - - - - - - -
 
@@ -162,13 +177,19 @@ class FakeStorer
 
   # - - - - - - - - - - - - - - - -
 
-  def hex?(char); '0123456789ABCDEF'.include?(char); end
+  def hex?(char)
+    '0123456789ABCDEF'.include?(char)
+  end
 
-  def increments_filename; 'increments.json'; end
-  def   manifest_filename; 'manifest.json'; end
+  def increments_filename
+    'increments.json'
+  end
+
+  def manifest_filename
+    'manifest.json'
+  end
 
   include NearestAncestors
-
   def env_var; nearest_ancestors(:env_var); end
 
 end
