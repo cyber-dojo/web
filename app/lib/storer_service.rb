@@ -9,10 +9,6 @@ class StorerService
 
   attr_reader :parent
 
-  def path
-    @path ||= env_var.value('katas_root')
-  end
-
   # - - - - - - - - - - - -
 
   def kata_exists?(kata_id)
@@ -20,6 +16,12 @@ class StorerService
   end
   def avatar_exists?(kata_id, avatar_name)
     avatar_exists(kata_id, avatar_name)
+  end
+
+  # - - - - - - - - - - - -
+
+  def path
+    get(__method__)
   end
 
   # - - - - - - - - - - - -
@@ -124,8 +126,5 @@ class StorerService
   def error(name, description)
     StandardError.new("StorerService:#{name}:#{description}")
   end
-
-  include NearestAncestors
-  def env_var; nearest_ancestors(:env_var); end
 
 end

@@ -308,38 +308,4 @@ class FakeStorerTest < AppLibTestBase
     storer.tag_visible_files(kata_id, avatar_name, tag)
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - - -
-
-  def make_manifest(kata_id)
-    {
-      :visible_files => starting_files,
-      :image_name => 'cyberdojofoundation/gcc_assert',
-      :created => creation_time,
-      :tab_size => 4,
-      :id => kata_id
-    }
-  end
-
-  def all_ids
-    ids = []
-    (0..255).map{|n| '%02X' % n}.each do |outer|
-      storer.completions(outer).each do |inner|
-        ids << (outer + inner)
-      end
-    end
-    ids
-  end
-
-  def tag0
-    {
-      'event' => 'created',
-      'time' => creation_time,
-      'number' => 0
-    }
-  end
-
-  def creation_time
-    [ 2016, 12, 5, 17, 44, 23 ]
-  end
-
 end
