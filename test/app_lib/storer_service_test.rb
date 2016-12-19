@@ -7,6 +7,15 @@ class StorerServiceTest < AppLibTestBase
   #     environment: [ CYBER_DOJO_KATAS_ROOT=/tmp/cyber-dojo/katas ]
   # It does *not* volume-mount the katas data-container.
 
+  test 'C6DCD7451A',
+  'non-existant kata-id raises exception' do
+    kata_id = 'C6DCD7451A'
+    error = assert_raises (StandardError) { storer.kata_manifest(kata_id) }
+    assert error.message.start_with?('StorerService:kata_manifest')
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '2C6E6CD301',
   'smoke test storer-service' do
     kata_id = '2C6E6CD301'
