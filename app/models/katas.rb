@@ -23,7 +23,7 @@ class Katas
   end
 
   def [](id)
-    storer.kata_exists?(id) ? Kata.new(self, id) : nil
+    Kata.new(self, id)
   end
 
   # modifiers

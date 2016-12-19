@@ -5,12 +5,12 @@ class ForkerController < ApplicationController
     result = { forked: false }
     error = false
 
-    if !error && kata.nil?
+    if !error && bad_kata_id?
       error = true
       result[:reason] = "dojo(#{id})"
     end
 
-    if !error && avatar.nil?
+    if !error && bad_avatar_name?
       error = true
       result[:reason] = "avatar(#{avatar_name})"
     end
@@ -70,6 +70,24 @@ class ForkerController < ApplicationController
 
   include TimeNow
   include UniqueId
+
+  def bad_kata_id?
+    begin
+      kata.created
+      return false
+    rescue StandardError
+      return true
+    end
+  end
+
+  def bad_avatar_name?
+    begin
+      avatar.lights
+      return false
+    rescue StandardError
+      return true
+    end
+  end
 
 end
 

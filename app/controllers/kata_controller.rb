@@ -12,9 +12,7 @@ class KataController < ApplicationController
   end
 
   def run_tests
-    fail "sorry, we can't do that" if kata.nil? || avatar.nil?
     @avatar = avatar
-
     incoming = params[:file_hashes_incoming]
     outgoing = params[:file_hashes_outgoing]
     delta = FileDeltaMaker.make_delta(incoming, outgoing)

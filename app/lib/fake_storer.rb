@@ -38,10 +38,6 @@ class FakeStorer
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def kata_exists?(id)
-    valid?(id) && kata_dir(id).exists?
-  end
-
   def create_kata(manifest)
     dir = kata_dir(manifest[:id])
     dir.make
@@ -72,10 +68,6 @@ class FakeStorer
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def avatar_exists?(id, name)
-    avatar_dir(id, name).exists?
-  end
 
   def avatar_increments(id, name)
     [tag0(id)] + increments(id, name)
@@ -160,14 +152,6 @@ class FakeStorer
 
   # - - - - - - - - - - - - - - - -
 
-  def valid?(id)
-    id.class.name == 'String' &&
-      id.length == 10 &&
-        id.chars.all? { |char| hex?(char) }
-  end
-
-  # - - - - - - - - - - - - - - - -
-
   def write_avatar_increments(id, name, increments)
     dir = avatar_dir(id, name)
     dir.write_json(increments_filename, increments)
@@ -181,10 +165,6 @@ class FakeStorer
 
   # - - - - - - - - - - - - - - - -
 
-  def hex?(char)
-    '0123456789ABCDEF'.include?(char)
-  end
-
   def increments_filename
     'increments.json'
   end
@@ -193,7 +173,24 @@ class FakeStorer
     'manifest.json'
   end
 
-  include NearestAncestors
-  def env_var; nearest_ancestors(:env_var); end
+  # - - - - - - - - - - - - - - - -
+
+  def valid?(id)
+    id.class.name == 'String' &&
+      id.length == 10 &&
+        id.chars.all? { |char| hex?(char) }
+  end
+
+  def hex?(char)
+    '0123456789ABCDEF'.include?(char)
+  end
+
+  def kata_exists?(id)
+    valid?(id) && kata_dir(id).exists?
+  end
+
+  def avatar_exists?(id, name)
+    avatar_dir(id, name).exists?
+  end
 
 end

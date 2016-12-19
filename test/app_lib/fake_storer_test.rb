@@ -26,46 +26,12 @@ class FakeStorerTest < AppLibTestBase
   'but symbol-keys have become string-keys' do
     manifest = make_manifest(kata_id = '603E8BAEDF')
     storer.create_kata(manifest)
-    assert kata_exists?(kata_id)
     expected = manifest
     actual = kata_manifest(kata_id)
     assert_equal expected.keys.size, actual.keys.size
     expected.each do |key, value|
       assert_equal value, actual[key.to_s]
     end
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # kata_exists?(id)
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '9D3DE636',
-  'kata_exists?(id) for id that is not a 10-digit string is false' do
-    not_string = Object.new
-    refute kata_exists?(not_string)
-    nine = 'DE6369A32'
-    assert_equal 9, nine.length
-    refute kata_exists?(nine)
-  end
-
-  test '9D3DB6ED',
-  'kata.exists?(id) for 10 digit id with non hex-chars is false' do
-    has_a_g = '123456789G'
-    assert_equal 10, has_a_g.length
-    refute kata_exists?(has_a_g)
-  end
-
-  test '9D3CF9F2',
-  'kata.exists?(id) for non-existing id is false' do
-    kata_id = '9D3CF9F23D'
-    assert_equal 10, kata_id.length
-    refute kata_exists?(kata_id)
-  end
-
-  test '9D3DFB05',
-  'kata.exists?(id) if kata with existing id is true' do
-    create_kata(kata_id = '9D3DFB0532')
-    assert kata_exists?(kata_id)
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -161,7 +127,6 @@ class FakeStorerTest < AppLibTestBase
   test '9D381C02',
   'unstarted avatar does not exist' do
     create_kata(kata_id = '9D381C0200')
-    refute avatar_exists?(kata_id, lion)
     assert_equal [], started_avatars(kata_id)
   end
 
@@ -169,13 +134,8 @@ class FakeStorerTest < AppLibTestBase
   'started avatars exist' do
     create_kata(kata_id = '9D316F7B00')
     assert_equal lion, start_avatar(kata_id, [lion])
-    assert avatar_exists?(kata_id, lion)
-    refute avatar_exists?(kata_id, salmon)
     assert_equal [lion], started_avatars(kata_id)
-
     assert_equal salmon, start_avatar(kata_id, [lion,salmon])
-    assert avatar_exists?(kata_id, lion)
-    assert avatar_exists?(kata_id, salmon)
     assert_equal [lion,salmon].sort, started_avatars(kata_id).sort
   end
 
@@ -268,20 +228,12 @@ class FakeStorerTest < AppLibTestBase
     storer.create_kata(manifest)
   end
 
-  def kata_exists?(kata_id)
-    storer.kata_exists?(kata_id)
-  end
-
   def kata_manifest(kata_id)
     storer.kata_manifest(kata_id)
   end
 
   def completed(id)
     storer.completed(id)
-  end
-
-  def avatar_exists?(kata_id, avatar_name)
-    storer.avatar_exists?(kata_id, avatar_name)
   end
 
   def start_avatar(kata_id, avatar_names)

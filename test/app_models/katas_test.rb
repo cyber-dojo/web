@@ -12,7 +12,7 @@ class KatasTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'F3B8B1',
-  'katas[bad-id] is nil' do
+  'katas[bad-id] is not nil but any access to storer service raises' do
     bad_ids = [
       nil,          # not string
       Object.new,   # not string
@@ -22,11 +22,9 @@ class KatasTest < AppModelsTestBase
       '123456789S'  # not 0-9A-F
     ]
     bad_ids.each do |bad_id|
-      begin
-        kata = katas[bad_id]
-        assert_nil kata
-      rescue StandardError
-      end
+      kata = katas[bad_id]
+      refute_nil kata
+      assert_raises { kata.age }
     end
   end
 

@@ -47,7 +47,7 @@ class Avatar
     # instructions. I don't want these avatars appearing on the
     # dashboard. When forking a new kata you can enter as one
     # animal to sanity check it is ok (but not press [test])
-    storer.avatar_exists?(kata.id, name) && !lights.empty?
+    !lights.empty?
   end
 
   def tags

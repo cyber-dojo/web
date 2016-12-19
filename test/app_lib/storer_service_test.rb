@@ -23,13 +23,11 @@ class StorerServiceTest < AppLibTestBase
 
     assert_equal '/tmp/cyber-dojo/katas', storer.path
 
-    refute storer.kata_exists?(kata_id)
     refute all_ids.include? kata_id
 
     manifest = make_manifest(kata_id)
     storer.create_kata(manifest)
 
-    assert storer.kata_exists?(kata_id)
     assert all_ids.include? kata_id
 
     expected = manifest
@@ -39,10 +37,8 @@ class StorerServiceTest < AppLibTestBase
       assert_equal value, actual[key.to_s]
     end
     assert_equal kata_id, storer.completed(kata_id[0..5])
-    refute storer.avatar_exists?(kata_id, lion)
     assert_equal [], storer.kata_started_avatars(kata_id)
     assert_equal lion, storer.kata_start_avatar(kata_id, [lion])
-    assert storer.avatar_exists?(kata_id, lion)
     assert_equal [lion], storer.kata_started_avatars(kata_id)
     files0 = storer.kata_manifest(kata_id)['visible_files']
     assert_equal files0, storer.tag_visible_files(kata_id, lion, tag=0)

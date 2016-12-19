@@ -11,15 +11,6 @@ class StorerService
 
   # - - - - - - - - - - - -
 
-  def kata_exists?(kata_id)
-    kata_exists(kata_id)
-  end
-  def avatar_exists?(kata_id, avatar_name)
-    avatar_exists(kata_id, avatar_name)
-  end
-
-  # - - - - - - - - - - - -
-
   def path
     get(__method__)
   end
@@ -42,10 +33,6 @@ class StorerService
 
   # - - - - - - - - - - - -
 
-  def kata_exists(kata_id)
-    get(__method__, kata_id)
-  end
-
   def kata_manifest(kata_id)
     get(__method__, kata_id)
   end
@@ -59,10 +46,6 @@ class StorerService
   end
 
   # - - - - - - - - - - - -
-
-  def avatar_exists(kata_id, avatar_name)
-    get(__method__, kata_id, avatar_name)
-  end
 
   def avatar_increments(kata_id, avatar_name)
     get(__method__, kata_id, avatar_name)
