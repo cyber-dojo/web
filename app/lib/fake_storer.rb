@@ -19,7 +19,7 @@ class FakeStorer
   def completed(id)
     if !id.nil? && id.length >= 6
       # outer-dir has 2-characters
-      outer_dir = disk[path + '/' + outer(id)]
+      outer_dir = disk[dir_join(path, outer(id))]
       if outer_dir.exists?
         # inner-dir has 8-characters
         dirs = outer_dir.each_dir.select { |inner_dir|
@@ -32,8 +32,8 @@ class FakeStorer
   end
 
   def completions(outer_dir)
-    return [] unless disk[path + '/' + outer_dir].exists?
-    disk[path + '/' + outer_dir].each_dir.collect { |dir| dir }
+    return [] unless disk[dir_join(path, outer_dir)].exists?
+    disk[dir_join(path, outer_dir)].each_dir.collect { |dir| dir }
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -121,15 +121,15 @@ class FakeStorer
   include IdSplitter
 
   def kata_path(id)
-    path + '/' + outer(id) + '/' + inner(id)
+    dir_join(path, outer(id), inner(id))
   end
 
   def avatar_path(id, name)
-    kata_path(id) + '/' + name
+    dir_join(kata_path(id), name)
   end
 
   def tag_path(id, name, tag)
-    avatar_path(id, name) + '/' + tag.to_s
+    dir_join(avatar_path(id, name), tag.to_s)
   end
 
   def avatar_dir(id, name)
@@ -138,6 +138,10 @@ class FakeStorer
 
   def tag_dir(id, name, tag)
     disk[tag_path(id, name, tag)]
+  end
+
+  def dir_join(*args)
+    File.join(*args)
   end
 
   # - - - - - - - - - - - - - - - -

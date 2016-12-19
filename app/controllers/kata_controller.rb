@@ -24,7 +24,7 @@ class KataController < ApplicationController
     if status == 'no_avatar'
        # kata was created before new separated runner-microservice
        # so runner has to be informed of this avatar's existence...
-       # Do this maintaining most up to date diff
+       # Do this maintaining most up to date diff.
        args = []
        args << kata.image_name
        args << kata.id
