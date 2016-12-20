@@ -10,7 +10,6 @@
 
   time_now
   unique_id
-  id_splitter
   string_cleaner
 
   host_shell

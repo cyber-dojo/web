@@ -10,6 +10,7 @@
   output_colour
   dashboard_td_gapper
   display_names_splitter
+  id_splitter
   fake_storer
   stub_runner
 
