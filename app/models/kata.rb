@@ -11,7 +11,7 @@ class Kata
   # modifiers
 
   def start_avatar(avatar_names = Avatars.names.shuffle)
-    name = storer.kata_start_avatar(id, avatar_names)
+    name = storer.start_avatar(id, avatar_names)
     unless name.nil?
       runner.new_avatar(image_name, id, name, visible_files)
     end

@@ -21,6 +21,10 @@ class StorerService
     post(__method__, manifest)
   end
 
+  def kata_manifest(kata_id)
+    get(__method__, kata_id)
+  end
+
   # - - - - - - - - - - - -
 
   def completed(id)
@@ -33,16 +37,18 @@ class StorerService
 
   # - - - - - - - - - - - -
 
-  def kata_manifest(kata_id)
-    get(__method__, kata_id)
-  end
-
-  def kata_start_avatar(kata_id, avatar_names)
+  def start_avatar(kata_id, avatar_names)
     post(__method__, kata_id, avatar_names)
   end
 
-  def kata_started_avatars(kata_id)
+  def started_avatars(kata_id)
     get(__method__, kata_id)
+  end
+
+  # - - - - - - - - - - - -
+
+  def avatar_ran_tests(kata_id, avatar_name, files, now, output, colour)
+    post(__method__, kata_id, avatar_name, files, now, output, colour)
   end
 
   # - - - - - - - - - - - -
@@ -55,9 +61,7 @@ class StorerService
     get(__method__, kata_id, avatar_name)
   end
 
-  def avatar_ran_tests(kata_id, avatar_name, files, now, output, colour)
-    post(__method__, kata_id, avatar_name, files, now, output, colour)
-  end
+  # - - - - - - - - - - - -
 
   def tag_visible_files(kata_id, avatar_name, tag)
     get(__method__, kata_id, avatar_name, tag)

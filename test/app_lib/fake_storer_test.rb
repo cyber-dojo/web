@@ -237,11 +237,11 @@ class FakeStorerTest < AppLibTestBase
   end
 
   def start_avatar(kata_id, avatar_names)
-    storer.kata_start_avatar(kata_id, avatar_names)
+    storer.start_avatar(kata_id, avatar_names)
   end
 
   def started_avatars(kata_id)
-    storer.kata_started_avatars(kata_id)
+    storer.started_avatars(kata_id)
   end
 
   def avatar_increments(kata_id, avatar_name)

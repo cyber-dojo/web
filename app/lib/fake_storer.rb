@@ -50,7 +50,7 @@ class FakeStorer
 
   # - - - - - - - - - - - - - - - -
 
-  def kata_start_avatar(id, avatar_names)
+  def start_avatar(id, avatar_names)
     valid_names = avatar_names & Avatars.names
     # Don't do the & with operands swapped - you lose randomness
     name = valid_names.detect { |name| avatar_dir(id, name).make }
@@ -62,7 +62,7 @@ class FakeStorer
     end
   end
 
-  def kata_started_avatars(id)
+  def started_avatars(id)
     started = kata_dir(id).each_dir.collect { |name| name }
     started & Avatars.names
   end
