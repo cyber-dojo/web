@@ -7,7 +7,7 @@ class FakeStorer
     # This is @@disk and not @disk so that it behaves as a real disk on tests
     # that run across multiple threads (as some app-controller tests do).
     @@disk ||= FakeDisk.new(self)
-    # Puts the test-id into the path to isolate tests from each other.
+    # Put the test-id into the path to isolate tests from each other.
     test_id = ENV['CYBER_DOJO_TEST_ID']
     @path = "/tmp/cyber-dojo/#{test_id}/katas"
   end
@@ -44,16 +44,11 @@ class FakeStorer
     dir.write_json(manifest_filename, manifest)
   end
 
-  # - - - - - - - - - - - - - - - -
-
   def kata_manifest(id)
     kata_dir(id).read_json(manifest_filename)
   end
 
-  def kata_started_avatars(id)
-    started = kata_dir(id).each_dir.collect { |name| name }
-    started & Avatars.names
-  end
+  # - - - - - - - - - - - - - - - -
 
   def kata_start_avatar(id, avatar_names)
     valid_names = avatar_names & Avatars.names
@@ -65,6 +60,11 @@ class FakeStorer
       write_avatar_increments(id, name, [])
       return name
     end
+  end
+
+  def kata_started_avatars(id)
+    started = kata_dir(id).each_dir.collect { |name| name }
+    started & Avatars.names
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
