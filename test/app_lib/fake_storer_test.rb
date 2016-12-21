@@ -16,22 +16,23 @@ class FakeStorerTest < AppLibTestBase
     assert storer.path.start_with? '/tmp/'
   end
 
-=begin
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
   # invalid_id on any method raises
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '933',
   'create_kata with invalid or missing manifest[id] raises' do
-    manifest = create_manifest
+    manifest = make_manifest(nil)
     manifest.delete('id')
     error = assert_raises(ArgumentError) { storer.create_kata(manifest) }
-    assert_invalid_kata_id_raises do |invalid_id|
-      manifest['id'] = invalid_id
-      storer.create_kata(manifest)
-    end
+    assert error.message.start_with?('FakeStorer'), error.message
+    #assert_invalid_kata_id_raises do |invalid_id|
+    #  manifest['id'] = invalid_id
+    #  storer.create_kata(manifest)
+    #end
   end
 
+=begin
   test 'ABC',
   'create_kata with duplicate id raises' do
     manifest = create_manifest
