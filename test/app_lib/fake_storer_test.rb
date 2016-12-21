@@ -16,6 +16,87 @@ class FakeStorerTest < AppLibTestBase
     assert storer.path.start_with? '/tmp/'
   end
 
+=begin
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # invalid_id on any method raises
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '933',
+  'create_kata with invalid or missing manifest[id] raises' do
+    manifest = create_manifest
+    manifest.delete('id')
+    error = assert_raises(ArgumentError) { storer.create_kata(manifest) }
+    assert_invalid_kata_id_raises do |invalid_id|
+      manifest['id'] = invalid_id
+      storer.create_kata(manifest)
+    end
+  end
+
+  test 'ABC',
+  'create_kata with duplicate id raises' do
+    manifest = create_manifest
+    storer.create_kata(manifest)
+    error = assert_raises(ArgumentError) { storer.create_kata(manifest) }
+    assert error.message.start_with?('Storer'), error.message
+  end
+
+  test 'AC2',
+  'kata_manifest(id) with invalid id raises' do
+    assert_invalid_kata_id_raises { |invalid_id|
+      storer.kata_manifest(invalid_id)
+    }
+  end
+
+  test '965',
+  'started_avatars(id) with invalid id raises' do
+    assert_invalid_kata_id_raises { |invalid_id|
+      storer.started_avatars(invalid_id)
+    }
+  end
+
+  test '5DF',
+  'start_avatar(id) with bad id raises' do
+    assert_bad_kata_id_raises { |invalid_id|
+      storer.start_avatar(invalid_id, [lion])
+    }
+  end
+
+  test 'D9F',
+  'avatar_increments(id) with bad id raises' do
+    assert_bad_kata_id_raises { |invalid_id|
+      storer.avatar_increments(invalid_id, lion)
+    }
+  end
+
+  test '160',
+  'avatar_visible_files(id) with bad id raises' do
+    assert_bad_kata_id_raises { |invalid_id|
+      storer.avatar_visible_files(invalid_id, lion)
+    }
+  end
+
+  test 'D46',
+  'avatar_ran_tests(id) with bad id raises' do
+    assert_bad_kata_id_raises { |invalid_id|
+      args = []
+      args << invalid_id
+      args << lion
+      args << starting_files
+      args << time_now
+      args << output
+      args << red
+      storer.avatar_ran_tests(*args)
+    }
+  end
+
+  test '917',
+  'tag_visible_files(id) with bad id raises' do
+    assert_bad_kata_id_raises { |invalid_id|
+      storer.tag_visible_files(invalid_id, lion, tag=3)
+    }
+  end
+=end
+
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # create_kata()
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

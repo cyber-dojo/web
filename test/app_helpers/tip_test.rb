@@ -10,11 +10,11 @@ class TipTest < AppHelpersTestBase
 
   test 'BDAD52',
   'traffic light tip' do
-    kata = make_kata({ language: 'C (gcc)-assert' })
+    kata = make_kata({ 'language' => 'C (gcc)-assert' })
     lion = kata.start_avatar(['lion'])
     delta = {
       :deleted => [],
-      :new => {},
+      :new     => {},
       :changed => {}
     }
     files = kata.visible_files

@@ -4,11 +4,11 @@ class AppLibTestBase < TestBase
 
   def make_manifest(kata_id)
     {
-      :visible_files => starting_files,
-      :image_name => 'cyberdojofoundation/gcc_assert',
-      :created => creation_time,
-      :tab_size => 4,
-      :id => kata_id
+      'id'            => kata_id,
+      'visible_files' => starting_files,
+      'image_name'    => 'cyberdojofoundation/gcc_assert',
+      'created'       => creation_time,
+      'tab_size'      => 4
     }
   end
 
@@ -27,8 +27,8 @@ class AppLibTestBase < TestBase
 
   def tag0
     {
-      'event' => 'created',
-      'time' => creation_time,
+      'event'  => 'created',
+      'time'   => creation_time,
       'number' => 0
     }
   end

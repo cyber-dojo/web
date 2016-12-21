@@ -13,7 +13,7 @@ class KataTest < AppModelsTestBase
   test '677A57',
   'id reads back as set' do
     id = unique_id
-    kata = make_kata({ id:id })
+    kata = make_kata({ 'id' => id })
     assert_equal id, kata.id
   end
 
@@ -80,15 +80,15 @@ class KataTest < AppModelsTestBase
   test '6AF51F',
   'kata properties are union of language properties and exercise instruction' do
     id = unique_id
-    now = [2014, 7, 17, 21, 15, 45]
+    now = [ 2014, 7, 17, 21, 15, 45 ]
     hash = {
-      id: id,
-      now: now,
-      language: 'Java-JUnit',
-      exercise: 'Fizz_Buzz',
+      'id'       => id,
+      'now'      => now,
+      'language' => 'Java-JUnit',
+      'exercise' => 'Fizz_Buzz',
     }
-    java_junit = languages[hash[:language]]
-    fizz_buzz  = exercises[hash[:exercise]]
+    java_junit = languages[hash['language']]
+    fizz_buzz  = exercises[hash['exercise']]
     kata = make_kata(hash)
     assert_equal id, kata.id
     assert_equal Time.mktime(*now), kata.created
@@ -219,8 +219,8 @@ class KataTest < AppModelsTestBase
   'after start-points volume re-architecture, initial colour is red/amber/green' +
   ' determined by lambda held in kata manifest' do
     hash = {
-      language: 'C#-Moq',
-      exercise: 'Fizz_Buzz',
+      'language' => 'C#-Moq',
+      'exercise' => 'Fizz_Buzz',
     }
     kata = make_kata(hash)
     json = storer.kata_manifest(kata.id)
@@ -237,8 +237,8 @@ class KataTest < AppModelsTestBase
   ' initial colour is red/amber/green' +
   ' determined by OutputColour.of()' do
     hash = {
-      language: 'C#-Moq',
-      exercise: 'Fizz_Buzz',
+      'language' => 'C#-Moq',
+      'exercise' => 'Fizz_Buzz',
     }
     kata = make_kata(hash)
 
@@ -259,8 +259,8 @@ class KataTest < AppModelsTestBase
   'when the start_point the kata was created from is no longer loaded' +
   " the kata's properties are all still available" do
     hash = {
-      language: 'C#-Moq',
-      exercise: 'Fizz_Buzz',
+      'language' => 'C#-Moq',
+      'exercise' => 'Fizz_Buzz',
     }
     kata = make_kata(hash)
     refute_nil kata

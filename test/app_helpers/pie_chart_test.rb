@@ -94,9 +94,9 @@ class PieChartTest < AppHelpersTestBase
 
   private
 
-  def       red_light; Tag.new(nil, {'colour' => :red      }); end
-  def     amber_light; Tag.new(nil, {'colour' => :amber    }); end
-  def     green_light; Tag.new(nil, {'colour' => :green    }); end
-  def timed_out_light; Tag.new(nil, {'colour' => :timed_out}); end
+  def       red_light; Tag.new(nil, { 'colour' => :red       }); end
+  def     amber_light; Tag.new(nil, { 'colour' => :amber     }); end
+  def     green_light; Tag.new(nil, { 'colour' => :green     }); end
+  def timed_out_light; Tag.new(nil, { 'colour' => :timed_out }); end
 
 end

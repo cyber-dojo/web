@@ -11,22 +11,22 @@ module TestDomainHelpers # mix-in
   def katas;     dojo.katas;     end
 
   def make_kata(hash = {})
-    hash[:id] ||= unique_id
-    hash[:now] ||= time_now
-    hash[:language] ||= default_language_name
-    language = languages[hash[:language]]
-    manifest = language.create_kata_manifest(hash[:id], hash[:now])
-    hash[:exercise] ||= default_exercise_name
-    exercise = exercises[hash[:exercise]]
-    manifest[:exercise] = exercise.name
-    manifest[:visible_files]['instructions'] = exercise.text
+    hash['id'] ||= unique_id
+    hash['now'] ||= time_now
+    hash['language'] ||= default_language_name
+    language = languages[hash['language']]
+    manifest = language.create_kata_manifest(hash['id'], hash['now'])
+    hash['exercise'] ||= default_exercise_name
+    exercise = exercises[hash['exercise']]
+    manifest['exercise'] = exercise.name
+    manifest['visible_files']['instructions'] = exercise.text
 
     katas.create_kata(manifest)
-    Kata.new(katas, hash[:id])
+    Kata.new(katas, hash['id'])
   end
 
   def unique_id
-    hex_chars = "0123456789ABCDEF".split(//)
+    hex_chars = '0123456789ABCDEF'.split(//)
     Array.new(10) { hex_chars.sample }.shuffle.join
   end
 

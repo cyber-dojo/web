@@ -23,16 +23,16 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   def create_kata(language_name = default_language, exercise_name = default_exercise)
     parts = language_name.split(',')
     params = {
-         major: parts[0].strip,
-         minor: parts[1].strip,
-      exercise: exercise_name
+         'major' => parts[0].strip,
+         'minor' => parts[1].strip,
+      'exercise' => exercise_name
     }
     get 'setup_default_start_point/save', params
     @id = json['id']
   end
 
   def start
-    params = { :format => :json, :id => @id }
+    params = { 'format' => 'json', 'id' => @id }
     get 'enter/start', params
     assert_response :success
     avatar_name = json['avatar_name']
@@ -43,19 +43,19 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   end
 
   def start_full
-    params = { :format => :json, :id => @id }
+    params = { 'format' => 'json', 'id' => @id }
     get 'enter/start', params
     assert_response :success
   end
 
   def continue
-    params = { :format => :json, :id => @id }
+    params = { 'format' => 'json', 'id' => @id }
     get 'enter/continue', params
     assert_response :success
   end
 
   def kata_edit
-    params = { :id => @id, :avatar => @avatar.name }
+    params = { 'id' => @id, 'avatar' => @avatar.name }
     get 'kata/edit', params
     assert_response :success
   end
@@ -77,7 +77,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   end
 
   def run_tests
-    params = { :format => :js, :id => @id, :avatar => @avatar.name }
+    params = { 'format' => 'js', 'id' => @id, 'avatar' => @avatar.name }
     post 'kata/run_tests', params.merge(@params_maker.params)
     @params_maker = ParamsMaker.new(@avatar)
     assert_response :success

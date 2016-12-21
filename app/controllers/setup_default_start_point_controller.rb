@@ -18,8 +18,8 @@ class SetupDefaultStartPointController < ApplicationController
   def show_exercises
     @id = id
     @title = 'create'
-    @language = params[:language]
-    @test = params[:test]
+    @language = params['language']
+    @test = params['test']
     @exercises_names,@exercises = read_exercises
     kata = (id != nil) ? dojo.katas[id] : nil
     @initial_index = choose_exercise(@exercises_names, kata)
@@ -29,10 +29,10 @@ class SetupDefaultStartPointController < ApplicationController
     manifest = language.create_kata_manifest
     exercise_name = params['exercise']
     exercise = exercises[exercise_name]
-    manifest[:exercise] = exercise.name
-    manifest[:visible_files]['instructions'] = exercise.text
+    manifest['exercise'] = exercise.name
+    manifest['visible_files']['instructions'] = exercise.text
     katas.create_kata(manifest)
-    render json: { id: manifest[:id] }
+    render json: { id: manifest['id'] }
   end
 
   private

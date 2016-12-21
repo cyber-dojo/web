@@ -15,7 +15,7 @@ class DownloadControllerTest < AppControllerTestBase
   test 'C440EF',
   'download with empty id raises' do
     prepare
-    assert_raises(StandardError) { get 'downloader/download', :id => '' }
+    assert_raises(StandardError) { get 'downloader/download', 'id' => '' }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -23,7 +23,7 @@ class DownloadControllerTest < AppControllerTestBase
   test 'C44849',
   'download with bad id raises' do
     prepare
-    assert_raises(StandardError) { get 'downloader/download', :id => 'XX'+@id }
+    assert_raises(StandardError) { get 'downloader/download', 'id' => 'XX'+@id }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -31,7 +31,7 @@ class DownloadControllerTest < AppControllerTestBase
   test 'C44561',
   'download of empty dojo with no avatars untars to same as original folder' do
     prepare
-    get 'downloader/download', :id => @id
+    get 'downloader/download', 'id' => @id
     assert_downloaded
   end
 
@@ -44,7 +44,7 @@ class DownloadControllerTest < AppControllerTestBase
     kata_edit
     change_file('hiker.rb', 'def...')
     run_tests
-    get 'downloader/download', :id => @id
+    get 'downloader/download', 'id' => @id
     assert_downloaded
   end
 
@@ -61,7 +61,7 @@ class DownloadControllerTest < AppControllerTestBase
       change_file('test_hiker.rb', 'def...')
       run_tests
     end
-    get 'downloader/download', :id => @id
+    get 'downloader/download', 'id' => @id
     assert_downloaded
   end
 

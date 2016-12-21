@@ -32,9 +32,9 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   test '7433D8',
   'save creates a new kata with language+test and exercise' do
     params = {
-         major: 'C#',
-         minor: 'Moq',
-      exercise: print_diamond
+         'major' => 'C#',
+         'minor' => 'Moq',
+      'exercise' => print_diamond
     }
     do_get 'save', params
     kata = katas[json['id']]
@@ -51,7 +51,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     exercise_name = exercises_names.sample # eg "Word_Wrap"
     id = create_kata(language_display_name, exercise_name)
 
-    do_get 'show_languages', :id => id
+    do_get 'show_languages', 'id' => id
 
     md = /var selectedMajor = \$\('#major_' \+ (\d+)/.match(html)
     refute_nil md
@@ -70,7 +70,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     exercise_name = exercises_names.sample
     id = create_kata(language_display_name, exercise_name)
 
-    do_get 'show_exercises', :id => id
+    do_get 'show_exercises', 'id' => id
 
     md = /var selected = \$\('#exercises_name_' \+ (\d+)/.match(html)
     selected_exercise_name = exercises_names[md[1].to_i]

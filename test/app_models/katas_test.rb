@@ -69,8 +69,8 @@ class KatasTest < AppModelsTestBase
   test '7970AA',
   'completed(id) does not complete when 6+ chars and more than one match' do
     uncompleted_id = 'ABCDE1'
-    make_kata({ id:uncompleted_id + '234' + '5' })
-    make_kata({ id:uncompleted_id + '234' + '6' })
+    make_kata({ 'id' => uncompleted_id + '234' + '5' })
+    make_kata({ 'id' => uncompleted_id + '234' + '6' })
     assert_equal uncompleted_id, katas.completed(uncompleted_id)
   end
 
@@ -79,7 +79,7 @@ class KatasTest < AppModelsTestBase
   test 'ADC2AF',
   'completed(id) completes when 6+ chars and 1 match' do
     completed_id = 'A1B2C3D4E5'
-    make_kata({ id:completed_id })
+    make_kata({ 'id' => completed_id })
     uncompleted_id = completed_id.downcase[0..5]
     assert_equal completed_id, katas.completed(uncompleted_id)
   end
@@ -110,9 +110,9 @@ class KatasTest < AppModelsTestBase
   'each() yielding several kata with common first two characters' do
     id = 'ABCDE1234'
     assert_equal 10-1, id.length
-    kata1 = make_kata({ id:id + '1' })
-    kata2 = make_kata({ id:id + '2' })
-    kata3 = make_kata({ id:id + '3' })
+    kata1 = make_kata({ 'id' => id + '1' })
+    kata2 = make_kata({ 'id' => id + '2' })
+    kata3 = make_kata({ 'id' => id + '3' })
     assert_equal [kata1.id, kata2.id, kata3.id].sort, all_ids.sort
   end
 

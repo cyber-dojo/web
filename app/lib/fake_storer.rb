@@ -1,4 +1,5 @@
 require_relative './../../lib/fake_disk'
+require_relative './../models/avatars'
 require 'json'
 
 class FakeStorer
@@ -40,19 +41,26 @@ class FakeStorer
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def create_kata(manifest)
-    dir = kata_dir(manifest[:id])
+    id = manifest['id']
+    refute_kata_exists(id)
+    json = JSON.unparse(manifest)
+    dir = kata_dir(id)
     dir.make
-    dir.write(manifest_filename, JSON.unparse(manifest))
+    dir.write(manifest_filename, json)
   end
 
   def kata_manifest(id)
-    JSON.parse(kata_dir(id).read(manifest_filename))
+    assert_kata_exists(id)
+    dir = kata_dir(id)
+    json = dir.read(manifest_filename)
+    JSON.parse(json)
   end
 
   # - - - - - - - - - - - - - - - -
 
   def start_avatar(id, avatar_names)
-    valid_names = avatar_names & Avatars.names
+    assert_kata_exists(id)
+    valid_names = avatar_names & all_avatars_names
     # Don't do the & with operands swapped - you lose randomness
     name = valid_names.detect { |name| avatar_dir(id, name).make }
     return nil if name.nil? #full!
@@ -61,16 +69,22 @@ class FakeStorer
   end
 
   def started_avatars(id)
+    assert_kata_exists(id)
     started = kata_dir(id).each_dir.collect { |name| name }
-    started & Avatars.names
+    started & all_avatars_names
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def avatar_ran_tests(id, name, files, now, output, colour)
+    assert_avatar_exists(id, name)
     increments = read_avatar_increments(id, name)
     tag = increments.length + 1
-    increments << { 'colour' => colour, 'time' => now, 'number' => tag }
+    increments << {
+      'colour' => colour,
+      'time'   => now,
+      'number' => tag
+    }
     write_avatar_increments(id, name, increments)
 
     files = files.clone
@@ -81,16 +95,18 @@ class FakeStorer
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def avatar_increments(id, name)
+    assert_avatar_exists(id, name)
     tag0 =
       {
-        'event' => 'created',
-        'time' => kata_manifest(id)['created'],
+        'event'  => 'created',
+        'time'   => kata_manifest(id)['created'],
         'number' => 0
       }
     [tag0] + read_avatar_increments(id, name)
   end
 
   def avatar_visible_files(id, name)
+    assert_avatar_exists(id, name)
     rags = read_avatar_increments(id, name)
     tag = rags == [] ? 0 : rags[-1]['number']
     tag_visible_files(id, name, tag)
@@ -99,6 +115,7 @@ class FakeStorer
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def tag_visible_files(id, name, tag)
+    assert_tag_exists(id, name, tag)
     if tag == 0
       kata_manifest(id)['visible_files']
     else
@@ -114,46 +131,16 @@ class FakeStorer
 
   private
 
-  def disk
-    @@disk
-  end
-
-  include IdSplitter
-
-  def kata_path(id)
-    dir_join(path, outer(id), inner(id))
-  end
-
-  def avatar_path(id, name)
-    dir_join(kata_path(id), name)
-  end
-
-  def tag_path(id, name, tag)
-    dir_join(avatar_path(id, name), tag.to_s)
-  end
-
-  def avatar_dir(id, name)
-    disk[avatar_path(id, name)]
-  end
-
-  def tag_dir(id, name, tag)
-    disk[tag_path(id, name, tag)]
-  end
-
-  def dir_join(*args)
-    File.join(*args)
-  end
-
-  # - - - - - - - - - - - - - - - -
-
   def write_avatar_increments(id, name, increments)
+    json = JSON.unparse(increments)
     dir = avatar_dir(id, name)
-    dir.write(increments_filename, JSON.unparse(increments))
+    dir.write(increments_filename, json)
   end
 
   def read_avatar_increments(id, name)
     dir = avatar_dir(id, name)
-    JSON.parse(dir.read(increments_filename))
+    json = dir.read(increments_filename)
+    JSON.parse(json)
   end
 
   def increments_filename
@@ -163,14 +150,16 @@ class FakeStorer
   # - - - - - - - - - - - - - - - -
 
   def write_tag_files(id, name, tag, files)
+    json = JSON.unparse(files)
     dir = tag_dir(id, name, tag)
     dir.make
-    dir.write(manifest_filename, JSON.unparse(files))
+    dir.write(manifest_filename, json)
   end
 
   def read_tag_files(id, name, tag)
     dir = tag_dir(id, name, tag)
-    JSON.parse(dir.read(manifest_filename))
+    json = dir.read(manifest_filename)
+    JSON.parse(json)
   end
 
   def manifest_filename
@@ -179,7 +168,24 @@ class FakeStorer
 
   # - - - - - - - - - - - - - - - -
 
-  def valid?(id)
+  def refute_kata_exists(id)
+    assert_valid_id(id)
+    fail error('id') if kata_exists?(id)
+  end
+
+  def assert_kata_exists(id)
+    assert_valid_id(id)
+    fail error('id') unless kata_exists?(id)
+  end
+
+  def assert_valid_id(id)
+    if !valid_id?(id)
+      puts "invalid id:#{id}:"
+    end
+    fail error('id') unless valid_id?(id)
+  end
+
+  def valid_id?(id)
     id.class.name == 'String' &&
       id.length == 10 &&
         id.chars.all? { |char| hex?(char) }
@@ -190,11 +196,90 @@ class FakeStorer
   end
 
   def kata_exists?(id)
-    valid?(id) && kata_dir(id).exists?
+    kata_dir(id).exists?
+  end
+
+  def kata_path(id)
+    dir_join(path, outer(id), inner(id))
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def assert_avatar_exists(id, name)
+    assert_kata_exists(id)
+    assert_valid_name(name)
+    fail error('name') unless avatar_exists?(id, name)
+  end
+
+  def assert_valid_name(name)
+    fail error('name') unless valid_avatar?(name)
+  end
+
+  def valid_avatar?(name)
+    all_avatars_names.include?(name)
   end
 
   def avatar_exists?(id, name)
     avatar_dir(id, name).exists?
+  end
+
+  def avatar_dir(id, name)
+    disk[avatar_path(id, name)]
+  end
+
+  def avatar_path(id, name)
+    dir_join(kata_path(id), name)
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def assert_tag_exists(id, name, tag)
+    assert_avatar_exists(id, name)
+    assert_valid_tag(tag)
+    fail error('tag') unless tag_exists?(id, name, tag)
+  end
+
+  def assert_valid_tag(tag)
+    fail error('tag') unless valid_tag?(tag)
+  end
+
+  def valid_tag?(tag)
+    tag.class.name == 'Fixnum'
+  end
+
+  def tag_exists?(id, name, tag)
+    # Has to work with old git-format and new non-git format
+    tag <= read_avatar_increments(id, name).size
+  end
+
+  def tag_dir(id, name, tag)
+    disk[tag_path(id, name, tag)]
+  end
+
+  def tag_path(id, name, tag)
+    dir_join(avatar_path(id, name), tag.to_s)
+  end
+
+  # - - - - - - - - - - -
+
+  def dir_join(*args)
+    File.join(*args)
+  end
+
+  def error(message)
+    ArgumentError.new("FakeStorer:invalid #{message}")
+  end
+
+  # - - - - - - - - - - - - - - - -
+
+  def all_avatars_names
+    Avatars.names
+  end
+
+  include IdSplitter
+
+  def disk
+    @@disk
   end
 
 end

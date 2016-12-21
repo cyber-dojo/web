@@ -26,8 +26,8 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
     assert /data-minor\=\"C# NUnit/.match(html), html
 
     params = {
-      major: 'Tennis refactoring',
-      minor: 'C# NUnit'
+      'major' => 'Tennis refactoring',
+      'minor' => 'C# NUnit'
     }
     do_get 'save', params
   end

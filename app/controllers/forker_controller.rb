@@ -28,34 +28,34 @@ class ForkerController < ApplicationController
     if !error
       tag = params['tag'].to_i
       manifest = {
-                         id: unique_id,
-                    created: time_now,
-                 image_name: kata.image_name,
-                   language: kata.language,
-                   exercise: kata.exercise,
-                   tab_size: kata.tab_size,
-              visible_files: avatar.tags[tag].visible_files
+                         'id' => unique_id,
+                    'created' => time_now,
+                 'image_name' => kata.image_name,
+                   'language' => kata.language,
+                   'exercise' => kata.exercise,
+                   'tab_size' => kata.tab_size,
+              'visible_files' => avatar.tags[tag].visible_files
       }
 
       # before or after start-points volume re-architecture?
       if !kata.unit_test_framework.nil?
         # before
-        manifest[:unit_test_framework] = kata.unit_test_framework
+        manifest['unit_test_framework'] = kata.unit_test_framework
       else
         # after
         lambda_src = kata.red_amber_green(nil)
-        manifest[:red_amber_green    ] = lambda_src
-        manifest[:display_name       ] = kata.display_name
-        manifest[:filename_extension ] = kata.filename_extension
-        manifest[:progress_regexs    ] = kata.progress_regexs
-        manifest[:highlight_filenames] = kata.highlight_filenames
-        manifest[:lowlight_filenames ] = kata.lowlight_filenames
+        manifest['red_amber_green'    ] = lambda_src
+        manifest['display_name'       ] = kata.display_name
+        manifest['filename_extension' ] = kata.filename_extension
+        manifest['progress_regexs'    ] = kata.progress_regexs
+        manifest['highlight_filenames'] = kata.highlight_filenames
+        manifest['lowlight_filenames' ] = kata.lowlight_filenames
       end
 
       katas.create_kata(manifest)
 
       result[:forked] = true
-      result[:id] = manifest[:id]
+      result[:id] = manifest['id']
     end
 
     respond_to do |format|

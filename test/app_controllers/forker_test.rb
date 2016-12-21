@@ -78,7 +78,7 @@ class ForkerControllerTest < AppControllerTestBase
     @id = create_kata
     @avatar = start # 0
     run_tests       # 1
-    fork(@id, @avatar.name, tag = 1, :html)
+    fork(@id, @avatar.name, tag = 1, 'html')
     assert_response :redirect
     url = /(.*)\/enter\/show\/(.*)/
     m = url.match(@response.location)
@@ -93,9 +93,9 @@ class ForkerControllerTest < AppControllerTestBase
     set_storer_class('FakeStorer')
     language = languages[default_language_name]
     manifest = language.create_kata_manifest
-    manifest[:exercise] = 'exercise-name-that-does-not-exist'
+    manifest['exercise'] = 'exercise-name-that-does-not-exist'
     katas.create_kata(manifest)
-    @id = manifest[:id]
+    @id = manifest['id']
     @avatar = start # 0
     run_tests       # 1
     fork(@id, @avatar.name, tag = 1)
@@ -110,9 +110,9 @@ class ForkerControllerTest < AppControllerTestBase
     set_storer_class('FakeStorer')
     language = languages['C#-NUnit']
     manifest = language.create_kata_manifest
-    manifest[:language] = 'C#' # old-name
+    manifest['language'] = 'C#' # old-name
     katas.create_kata(manifest)
-    @id = manifest[:id]
+    @id = manifest['id']
     @avatar = start # 0
     run_tests       # 1
     fork(@id, @avatar.name, tag = 1)
@@ -126,10 +126,10 @@ class ForkerControllerTest < AppControllerTestBase
     set_storer_class('FakeStorer')
     language = languages['C#-NUnit']
     manifest = language.create_kata_manifest
-    manifest.delete(:red_amber_green)
-    manifest[:unit_test_framework] = 'nunit'
+    manifest.delete('red_amber_green')
+    manifest['unit_test_framework'] = 'nunit'
     katas.create_kata(manifest)
-    @id = manifest[:id]
+    @id = manifest['id']
     @avatar = start # 0
     run_tests       # 1
     fork(@id, @avatar.name, tag = 1)
@@ -141,8 +141,12 @@ class ForkerControllerTest < AppControllerTestBase
 
   private
 
-  def fork(id, avatar, tag, format = :json)
-    get 'forker/fork', format:format, id:id, avatar:avatar, tag:tag
+  def fork(id, avatar, tag, format = 'json')
+    get 'forker/fork',
+      'format' => format,
+      'id'     => id,
+      'avatar' => avatar,
+      'tag'    => tag
   end
 
   def forked?
