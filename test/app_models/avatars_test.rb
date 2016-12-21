@@ -9,7 +9,7 @@ class AvatarsTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '631149',
+  test 'B6F149',
   'there are 64 avatar names' do
     assert_equal 64, Avatars.names.length
   end
@@ -24,7 +24,7 @@ class AvatarsTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'B85F79',
+  test 'B6FF79',
   'avatars returns all avatars started in the kata' do
     kata = make_kata
     assert_equal [], kata.avatars.names.sort
@@ -36,7 +36,7 @@ class AvatarsTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'B11555',
+  test 'B6F555',
   'avatars.map works' do
     kata = make_kata
     kata.start_avatar([cheetah])
@@ -47,7 +47,7 @@ class AvatarsTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '3D8638',
+  test 'B6F638',
   'avatars[invalid-name] is nil' do
     kata = make_kata
     assert_nil kata.avatars[invalid_name = 'mobile-phone']

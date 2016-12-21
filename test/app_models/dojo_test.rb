@@ -7,7 +7,7 @@ end
 
 class DojoTest < AppModelsTestBase
 
-  test 'FB7931',
+  test 'A70931',
   'CYBER_DOJO_HOME env-var is set to /app' do
     refute_nil ENV['CYBER_DOJO_HOME']
     assert_equal '/app', ENV['CYBER_DOJO_HOME']
@@ -17,7 +17,7 @@ class DojoTest < AppModelsTestBase
   # external classes and roots have no defaults
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'FB7E2A',
+  test 'A70E2A',
   'using an unset external class raises StandardError' do
     unset_runner_class && assert_raises(StandardError) { runner.class }
     unset_storer_class && assert_raises(StandardError) { storer.class }
@@ -26,7 +26,7 @@ class DojoTest < AppModelsTestBase
     unset_log_class    && assert_raises(StandardError) {    log.class }
   end
 
-  test 'FB76F9',
+  test 'A706F9',
   'using an unset external root path raises StandardError' do
     unset_languages_root && assert_raises(StandardError) { languages.path }
     unset_exercises_root && assert_raises(StandardError) { exercises.path }
@@ -37,7 +37,7 @@ class DojoTest < AppModelsTestBase
   # external classes can be set via environment variables
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'FB7880',
+  test 'A70880',
   'setting an external class to the name of an existing class succeeds' do
     exists = 'ExternalDouble'
     set_runner_class(exists) && assert_equal(exists, runner.class.name)
@@ -47,7 +47,7 @@ class DojoTest < AppModelsTestBase
     set_log_class(   exists) && assert_equal(exists,    log.class.name)
   end
 
-  test 'FB77E4',
+  test 'A707E4',
   'setting an external class to the name of a non-existant class raises StandardError' do
     set_runner_class(does_not_exist) && assert_raises(StandardError) { runner.class }
     set_storer_class(does_not_exist) && assert_raises(StandardError) { storer.class }
@@ -60,7 +60,7 @@ class DojoTest < AppModelsTestBase
   # external roots can be set via environment variables
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'FB7EA1',
+  test 'A70EA1',
   'setting an external root succeeds' do
     set_languages_root(path = tmp_root + '/languages') && assert_equal(path, languages.path)
 
@@ -73,7 +73,7 @@ class DojoTest < AppModelsTestBase
 
   # - - - - - -
 
-  test 'FB7D52',
+  test 'B57D52',
   'setting an external root with a trailing slash chops off the trailing slash' do
     path = tmp_root + '/languages'
     set_languages_root(path + '/') && assert_equal(path, languages.path)
