@@ -2,10 +2,7 @@
 class DownloaderController < ApplicationController
 
   def download
-    # an id such as 01FE818E68 corresponds to the folder katas/01/FE818E86
-    fail "sorry can't do that" if katas[id].nil?
-
-    # Create files off /tmp in new format
+    # Create files off /tmp in new non-git format
     download_path = '/tmp/cyber-dojo/downloads'
     kata_path = "#{download_path}/#{outer(id)}/#{inner(id)}"
     kata_dir = disk[kata_path]
