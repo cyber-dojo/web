@@ -68,7 +68,7 @@ class FakeStorer
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def avatar_ran_tests(id, name, files, now, output, colour)
-    rags = increments(id, name)
+    rags = read_avatar_increments(id, name)
     tag = rags.length + 1
     rags << { 'colour' => colour, 'time' => now, 'number' => tag }
     write_avatar_increments(id, name, rags)
@@ -87,11 +87,11 @@ class FakeStorer
         'time' => kata_manifest(id)['created'],
         'number' => 0
       }
-    [tag0] + increments(id, name)
+    [tag0] + read_avatar_increments(id, name)
   end
 
   def avatar_visible_files(id, name)
-    rags = increments(id, name)
+    rags = read_avatar_increments(id, name)
     tag = rags == [] ? 0 : rags[-1]['number']
     tag_visible_files(id, name, tag)
   end
@@ -102,13 +102,15 @@ class FakeStorer
     if tag == 0
       kata_manifest(id)['visible_files']
     else
-      JSON.parse(tag_dir(id, name, tag).read(manifest_filename))
+      read_tag_manifest(id, name, tag)
     end
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def kata_dir(id); disk[kata_path(id)]; end
+  def kata_dir(id)
+    disk[kata_path(id)]
+  end
 
   private
 
@@ -144,16 +146,21 @@ class FakeStorer
 
   # - - - - - - - - - - - - - - - -
 
-  def increments(id, name)
-    JSON.parse(avatar_dir(id, name).read(increments_filename))
-  end
-
-  # - - - - - - - - - - - - - - - -
-
   def write_avatar_increments(id, name, increments)
     dir = avatar_dir(id, name)
     dir.write(increments_filename, JSON.unparse(increments))
   end
+
+  def read_avatar_increments(id, name)
+    dir = avatar_dir(id, name)
+    JSON.parse(dir.read(increments_filename))
+  end
+
+  def increments_filename
+    'increments.json'
+  end
+
+  # - - - - - - - - - - - - - - - -
 
   def write_tag_manifest(id, name, tag, files)
     dir = tag_dir(id, name, tag)
@@ -161,10 +168,9 @@ class FakeStorer
     dir.write(manifest_filename, JSON.unparse(files))
   end
 
-  # - - - - - - - - - - - - - - - -
-
-  def increments_filename
-    'increments.json'
+  def read_tag_manifest(id, name, tag)
+    dir = tag_dir(id, name, tag)
+    JSON.parse(dir.read(manifest_filename))
   end
 
   def manifest_filename
