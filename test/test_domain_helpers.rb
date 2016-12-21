@@ -22,7 +22,6 @@ module TestDomainHelpers # mix-in
     manifest['visible_files']['instructions'] = exercise.text
 
     katas.create_kata(manifest)
-    Kata.new(katas, hash['id'])
   end
 
   def unique_id

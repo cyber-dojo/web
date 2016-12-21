@@ -30,7 +30,10 @@ class Katas
 
   def create_kata(manifest)
     storer.create_kata(manifest)
-    runner.new_kata(manifest[:image_name], manifest[:id])
+    id = manifest['id']
+    image_name = manifest['image_name']
+    runner.new_kata(image_name, id)
+    self[id]
   end
 
   private
