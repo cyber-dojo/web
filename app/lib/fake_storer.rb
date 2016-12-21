@@ -179,9 +179,6 @@ class FakeStorer
   end
 
   def assert_valid_id(id)
-    if !valid_id?(id)
-      puts "invalid id:#{id}:"
-    end
     fail error('id') unless valid_id?(id)
   end
 
