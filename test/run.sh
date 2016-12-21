@@ -23,8 +23,8 @@ do
     mkdir -p ${coverage_dir}
     rm -rf ${coverage_dir}/.resultset.json
     test_log="${coverage_dir}/test.log"
-    # run-the-tests!
     export COVERAGE_DIR=${coverage_dir}
+    # run-the-tests!
     ruby -e "%w( ${testFiles[*]} ).shuffle.map{ |file| require './'+file }" \
       ${module} \
       ${*} 2>&1 | tee ${test_log}

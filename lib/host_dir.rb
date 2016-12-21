@@ -37,7 +37,7 @@ class HostDir
 
   def exists?(filename = nil)
     return File.directory?(path) if filename.nil?
-    return File.exists?(path + filename)
+    return File.exist?(path + filename)
   end
 
   def make
