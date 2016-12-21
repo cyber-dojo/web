@@ -68,14 +68,14 @@ class FakeStorer
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def avatar_ran_tests(id, name, files, now, output, colour)
-    rags = read_avatar_increments(id, name)
-    tag = rags.length + 1
-    rags << { 'colour' => colour, 'time' => now, 'number' => tag }
-    write_avatar_increments(id, name, rags)
+    increments = read_avatar_increments(id, name)
+    tag = increments.length + 1
+    increments << { 'colour' => colour, 'time' => now, 'number' => tag }
+    write_avatar_increments(id, name, increments)
 
     files = files.clone
     files['output'] = output
-    write_tag_manifest(id, name, tag, files)
+    write_tag_files(id, name, tag, files)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -102,7 +102,7 @@ class FakeStorer
     if tag == 0
       kata_manifest(id)['visible_files']
     else
-      read_tag_manifest(id, name, tag)
+      read_tag_files(id, name, tag)
     end
   end
 
@@ -162,13 +162,13 @@ class FakeStorer
 
   # - - - - - - - - - - - - - - - -
 
-  def write_tag_manifest(id, name, tag, files)
+  def write_tag_files(id, name, tag, files)
     dir = tag_dir(id, name, tag)
     dir.make
     dir.write(manifest_filename, JSON.unparse(files))
   end
 
-  def read_tag_manifest(id, name, tag)
+  def read_tag_files(id, name, tag)
     dir = tag_dir(id, name, tag)
     JSON.parse(dir.read(manifest_filename))
   end
