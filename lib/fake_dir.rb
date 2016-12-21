@@ -27,14 +27,22 @@ class FakeDir
     dirs.each { |name,dir| yield name if dir[:exists] }
   end
 
-  def write_json(filename, obj)
+  def write(filename, content)
     must_exist
-    files[filename] = JSON.unparse(obj)
+    files[filename] = content
+  end
+
+  def write_json(filename, json)
+    write(filename, JSON.unparse(json))
+  end
+
+  def read(filename)
+    must_exist
+    files[filename]
   end
 
   def read_json(filename)
-    must_exist
-    JSON.parse(files[filename])
+    JSON.parse(read(filename))
   end
 
   private

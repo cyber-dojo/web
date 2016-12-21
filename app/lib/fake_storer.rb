@@ -1,4 +1,5 @@
 require_relative './../../lib/fake_disk'
+require 'json'
 
 class FakeStorer
 
@@ -41,11 +42,11 @@ class FakeStorer
   def create_kata(manifest)
     dir = kata_dir(manifest[:id])
     dir.make
-    dir.write_json(manifest_filename, manifest)
+    dir.write(manifest_filename, JSON.unparse(manifest))
   end
 
   def kata_manifest(id)
-    kata_dir(id).read_json(manifest_filename)
+    JSON.parse(kata_dir(id).read(manifest_filename))
   end
 
   # - - - - - - - - - - - - - - - -
@@ -54,12 +55,9 @@ class FakeStorer
     valid_names = avatar_names & Avatars.names
     # Don't do the & with operands swapped - you lose randomness
     name = valid_names.detect { |name| avatar_dir(id, name).make }
-    if name.nil?
-      return nil
-    else
-      write_avatar_increments(id, name, [])
-      return name
-    end
+    return nil if name.nil? #full!
+    write_avatar_increments(id, name, [])
+    return name
   end
 
   def started_avatars(id)
@@ -68,16 +66,6 @@ class FakeStorer
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def avatar_increments(id, name)
-    [tag0(id)] + increments(id, name)
-  end
-
-  def avatar_visible_files(id, name)
-    rags = increments(id, name)
-    tag = rags == [] ? 0 : rags[-1]['number']
-    tag_visible_files(id, name, tag)
-  end
 
   def avatar_ran_tests(id, name, files, now, output, colour)
     rags = increments(id, name)
@@ -92,11 +80,29 @@ class FakeStorer
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
+  def avatar_increments(id, name)
+    tag0 =
+      {
+        'event' => 'created',
+        'time' => kata_manifest(id)['created'],
+        'number' => 0
+      }
+    [tag0] + increments(id, name)
+  end
+
+  def avatar_visible_files(id, name)
+    rags = increments(id, name)
+    tag = rags == [] ? 0 : rags[-1]['number']
+    tag_visible_files(id, name, tag)
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
   def tag_visible_files(id, name, tag)
     if tag == 0
       kata_manifest(id)['visible_files']
     else
-      tag_dir(id, name, tag).read_json(manifest_filename)
+      JSON.parse(tag_dir(id, name, tag).read(manifest_filename))
     end
   end
 
@@ -138,29 +144,21 @@ class FakeStorer
 
   # - - - - - - - - - - - - - - - -
 
-  def tag0(id)
-    {
-      'event' => 'created',
-      'time' => kata_manifest(id)['created'],
-      'number' => 0
-    }
-  end
-
   def increments(id, name)
-    avatar_dir(id, name).read_json(increments_filename)
+    JSON.parse(avatar_dir(id, name).read(increments_filename))
   end
 
   # - - - - - - - - - - - - - - - -
 
   def write_avatar_increments(id, name, increments)
     dir = avatar_dir(id, name)
-    dir.write_json(increments_filename, increments)
+    dir.write(increments_filename, JSON.unparse(increments))
   end
 
   def write_tag_manifest(id, name, tag, files)
     dir = tag_dir(id, name, tag)
     dir.make
-    dir.write_json(manifest_filename, files)
+    dir.write(manifest_filename, JSON.unparse(files))
   end
 
   # - - - - - - - - - - - - - - - -
