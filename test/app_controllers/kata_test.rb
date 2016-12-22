@@ -152,7 +152,7 @@ class KataControllerTest  < AppControllerTestBase
       hit_test # 2
       assert_equal "All tests passed\n", @avatar.visible_files['output']
       assert_equal :green, @avatar.lights[-1].colour
-      diff = differ.diff(@avatar, was_tag=1, now_tag=2)
+      diff = differ.diff(@kata.id, @avatar.name, was_tag=1, now_tag=2)
       assert diff['hiker.c'].include?({"type"=>"deleted", "line"=>"    return 6 * 9;", "number"=>5})
       assert diff['hiker.c'].include?({"type"=>"added",   "line"=>"    return 6 * 7;", "number"=>5})
     ensure

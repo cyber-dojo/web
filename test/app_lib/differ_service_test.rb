@@ -22,7 +22,7 @@ class DifferServiceTest < AppLibTestBase
     args << (output = 'Assert failed: answer() == 42')
     args << (colour1 = 'red')
     storer.avatar_ran_tests(*args)
-    actual = differ.diff(kata.avatars[lion], was_tag=0, now_tag=1)
+    actual = differ.diff(kata.id, lion, was_tag=0, now_tag=1)
 
     refute_nil actual['hiker.c']
     assert_equal({

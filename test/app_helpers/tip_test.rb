@@ -26,7 +26,7 @@ class TipTest < AppHelpersTestBase
     now_colour = :green
     lion.tested(files, time_now, output, now_colour)
 
-    diff = differ.diff(lion, was_tag=1, now_tag=2)
+    diff = differ.diff(kata.id, lion.name, was_tag=1, now_tag=2)
     expected =
       "Click to review lion's<br/>" +
       "<span class='#{was_colour}'>#{was_tag}</span> " +
