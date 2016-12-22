@@ -301,6 +301,9 @@ class FakeStorerTest < AppLibTestBase
     assert_equal files2, avatar_visible_files(kata_id, lion)
     assert_equal files1, tag_visible_files(kata_id, lion, 1)
     assert_equal files2, tag_visible_files(kata_id, lion, 2)
+    hash = tags_visible_files(kata_id, lion, 1, 2)
+    assert_equal files1, hash['was_tag']
+    assert_equal files2, hash['now_tag']
   end
 
   private
@@ -340,6 +343,10 @@ class FakeStorerTest < AppLibTestBase
 
   def tag_visible_files(kata_id, avatar_name, tag)
     storer.tag_visible_files(kata_id, avatar_name, tag)
+  end
+
+  def tags_visible_files(kata_id, avatar_name, was_tag, now_tag)
+    storer.tags_visible_files(kata_id, avatar_name, was_tag, now_tag)
   end
 
 end

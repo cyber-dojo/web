@@ -47,7 +47,7 @@ class StorerServiceTest < AppLibTestBase
     args = []
     args << kata_id
     args << lion
-    args << (files = starting_files)
+    args << (files1 = edited_files)
     args << (now = [2016,12,8,8,3,23])
     args << (output = 'Assert failed: answer() == 42')
     args << (colour = 'red')
@@ -58,8 +58,12 @@ class StorerServiceTest < AppLibTestBase
       { 'colour' => colour, 'time' => now, 'number' => 1 }
     ], storer.avatar_increments(kata_id, lion)
 
-    files['output'] = output
-    assert_equal files, storer.avatar_visible_files(kata_id, lion)
+    files1['output'] = output
+    assert_equal files1, storer.avatar_visible_files(kata_id, lion)
+
+    hash = storer.tags_visible_files(kata_id, lion, was_tag=0, now_tag=1)
+    assert_equal files0, hash['was_tag']
+    assert_equal files1, hash['now_tag']
   end
 
 end

@@ -79,6 +79,12 @@ class AppLibTestBase < TestBase
     }.clone
   end
 
+  def edited_files
+    edited = starting_files.clone
+    edited['readme.txt'] = 'more info'
+    edited
+  end
+
   # - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def all_ids

@@ -67,6 +67,10 @@ class StorerService
     get(__method__, kata_id, avatar_name, tag)
   end
 
+  def tags_visible_files(kata_id, avatar_name, was_tag, now_tag)
+    get(__method__, kata_id, avatar_name, was_tag, now_tag)
+  end
+
   private
 
   def get(method, *args)
