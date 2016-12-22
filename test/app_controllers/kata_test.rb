@@ -9,6 +9,7 @@ class KataControllerTest  < AppControllerTestBase
   test 'BE876E',
   'run_tests with bad kata id raises' do
     prepare
+    set_runner_class('StubRunner')
     params = { :format => :js, :id => 'bad' }
     assert_raises(StandardError) { post 'kata/run_tests', params }
   end
@@ -18,6 +19,7 @@ class KataControllerTest  < AppControllerTestBase
   test 'BE83FD',
   'run_tests with good kata id but bad avatar name raises' do
     prepare
+    set_runner_class('StubRunner')
     kata_id = create_gcc_assert_kata
     params = { :format => :js, :id => kata_id, :avatar => 'bad' }
     assert_raises(StandardError) { post 'kata/run_tests', params }
@@ -28,6 +30,7 @@ class KataControllerTest  < AppControllerTestBase
   test 'BE8B75',
   'show-json (for Atom editor)' do
     prepare
+    set_runner_class('StubRunner')
     create_gcc_assert_kata
     @avatar = start
     kata_edit
@@ -41,6 +44,7 @@ class KataControllerTest  < AppControllerTestBase
   test 'BE80F6',
   'edit and then run-tests' do
     prepare
+    set_runner_class('StubRunner')
     create_gcc_assert_kata
     @avatar = start
     kata_edit
@@ -56,7 +60,7 @@ class KataControllerTest  < AppControllerTestBase
   'and these changes are made to the visible_files parameter too',
   'so they also occur in the manifest file' do
     prepare
-    set_runner_class('RunnerService')
+    set_runner_class('StubRunner')
     create_gcc_assert_kata
     @avatar = start
     begin
@@ -77,7 +81,7 @@ class KataControllerTest  < AppControllerTestBase
   'and these changes are made to the visible_files parameter too',
   'so they also occur in the manifest file' do
     prepare
-    set_runner_class('RunnerService')
+    set_runner_class('StubRunner')
     create_gcc_assert_kata
     @avatar = start
     begin
