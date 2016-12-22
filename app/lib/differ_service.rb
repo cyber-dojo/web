@@ -11,15 +11,21 @@ class DifferService
   attr_reader :parent
 
   def diff(avatar, was_tag, now_tag)
-    # See https://github.com/cyber-dojo/commander and its docker-compose.yml
+    # See https://github.com/cyber-dojo/commander
+    # and its docker-compose.yml
     uri = URI.parse('http://differ:4567')
     http = Net::HTTP.new(uri.host, uri.port)
     request = Net::HTTP::Get.new(uri.request_uri)
     request.content_type = 'application/json'
-    hash = storer.tags_visible_files(avatar.kata.id, avatar.name, was_tag, now_tag)
+    args = []
+    args << avatar.kata.id
+    args << avatar.name
+    args << was_tag
+    args << now_tag
+    visible_files = storer.tags_visible_files(*args)
     request.body = {
-      :was_files => hash['was_tag'], #avatar.tags[was_tag].visible_files,
-      :now_files => hash['now_tag']  #avatar.tags[now_tag].visible_files
+      :was_files => visible_files['was_tag'],
+      :now_files => visible_files['now_tag']
     }.to_json
     response = http.request(request)
     JSON.parse(response.body)
