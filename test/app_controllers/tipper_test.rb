@@ -2,9 +2,17 @@ require_relative './app_controller_test_base'
 
 class TipperControllerTest < AppControllerTestBase
 
+  def setup_runner_class
+    set_runner_class('StubRunner')
+  end
+
+  def prepare
+    set_storer_class('FakeStorer')
+  end
+
   test '25E3D4',
   'traffic_light_tip' do
-    set_storer_class('FakeStorer')
+    prepare
     @id = create_kata
     1.times { start; 2.times { run_tests } }
     get 'tipper/traffic_light_tip',

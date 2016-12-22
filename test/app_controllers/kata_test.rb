@@ -2,8 +2,13 @@ require_relative './app_controller_test_base'
 
 class KataControllerTest  < AppControllerTestBase
 
+  def prepare
+    set_storer_class('FakeStorer')
+  end
+
   test 'BE876E',
   'run_tests with bad kata id raises' do
+    prepare
     params = { :format => :js, :id => 'bad' }
     assert_raises(StandardError) { post 'kata/run_tests', params }
   end
@@ -12,6 +17,7 @@ class KataControllerTest  < AppControllerTestBase
 
   test 'BE83FD',
   'run_tests with good kata id but bad avatar name raises' do
+    prepare
     kata_id = create_gcc_assert_kata
     params = { :format => :js, :id => kata_id, :avatar => 'bad' }
     assert_raises(StandardError) { post 'kata/run_tests', params }
@@ -21,7 +27,7 @@ class KataControllerTest  < AppControllerTestBase
 
   test 'BE8B75',
   'show-json (for Atom editor)' do
-    set_storer_class('FakeStorer')
+    prepare
     create_gcc_assert_kata
     @avatar = start
     kata_edit
@@ -34,7 +40,7 @@ class KataControllerTest  < AppControllerTestBase
 
   test 'BE80F6',
   'edit and then run-tests' do
-    set_storer_class('FakeStorer')
+    prepare
     create_gcc_assert_kata
     @avatar = start
     kata_edit
@@ -49,6 +55,7 @@ class KataControllerTest  < AppControllerTestBase
   'run_tests() saves changed makefile with leading spaces converted to tabs',
   'and these changes are made to the visible_files parameter too',
   'so they also occur in the manifest file' do
+    prepare
     set_runner_class('RunnerService')
     create_gcc_assert_kata
     @avatar = start
@@ -69,6 +76,7 @@ class KataControllerTest  < AppControllerTestBase
   'run_tests() saves *new* makefile with leading spaces converted to tabs',
   'and these changes are made to the visible_files parameter too',
   'so they also occur in the manifest file' do
+    prepare
     set_runner_class('RunnerService')
     create_gcc_assert_kata
     @avatar = start
@@ -88,6 +96,7 @@ class KataControllerTest  < AppControllerTestBase
   test 'BE89DC',
   'when cyber-dojo.sh removes a file then it stays removed.' +
     '(viz, RunnerService is stateful)' do
+    prepare
     set_runner_class('RunnerService')
     create_gcc_assert_kata
     @avatar = start
@@ -125,6 +134,7 @@ class KataControllerTest  < AppControllerTestBase
     # Note: the kata-controller validates the kata-id and the avatar-name
     # (via the host-katas-storer) so there is no path from the browser to
     # get runner.run to accept unvalidated arguments.
+    prepare
     set_runner_class('RunnerService')
     create_gcc_assert_kata
     @avatar = start # 0
