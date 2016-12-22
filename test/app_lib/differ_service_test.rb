@@ -10,6 +10,16 @@ class DifferServiceTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - -
 
+  test '98205F',
+  'bad arguments raises exception' do
+    error = assert_raises(StandardError) {
+      differ.raw_diff(nil, nil)
+    }
+    assert error.message.start_with?('DifferService:diff')
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - -
+
   test '9823AB',
   'smoke test differ-service' do
     kata = make_kata
