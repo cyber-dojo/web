@@ -1,5 +1,6 @@
 require 'net/http'
 require 'json'
+require_relative 'http_service'
 require_relative '../../lib/nearest_ancestors'
 
 class DifferService
@@ -21,40 +22,19 @@ class DifferService
     visible_files = storer.tags_visible_files(*args)
     was_files = visible_files['was_tag']
     now_files = visible_files['now_tag']
-    raw_diff(was_files, now_files)
-  end
-
-  def raw_diff(was_files, now_files)
-    json = http_get('diff', {
+    args = {
       :was_files => was_files,
       :now_files => now_files
-    })
+    }
+    json = http('diff', args) { |uri| Net::HTTP::Get.new(uri) }
     result(json, 'diff')
   end
 
   private
 
-  def http_get(method, args)
-    uri = URI.parse('http://differ:4567/' + method)
-    http = Net::HTTP.new(uri.host, uri.port)
-    request = Net::HTTP::Get.new(uri.request_uri)
-    request.content_type = 'application/json'
-    request.body = args.to_json
-    response = http.request(request)
-    JSON.parse(response.body)
-  end
-
-  def result(json, name)
-    raise error(name, 'bad json') unless json.class.name == 'Hash'
-    exception = json['exception']
-    raise error(name, exception)  unless exception.nil?
-    raise error(name, 'no key')   unless json.key? name
-    json[name]
-  end
-
-  def error(name, message)
-    StandardError.new("DifferService:#{name}:#{message}")
-  end
+  include HttpService
+  def hostname; 'differ'; end
+  def port; 4567; end
 
   include NearestAncestors
   def storer; nearest_ancestors(:storer); end

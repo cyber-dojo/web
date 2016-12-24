@@ -1,5 +1,6 @@
 require 'json'
 require 'net/http'
+require_relative 'http_service'
 
 class RunnerService
 
@@ -48,49 +49,8 @@ class RunnerService
 
   private
 
-  def get(method, *args)
-    name = method.to_s
-    json = http(name, args_hash(name, *args)) do |uri|
-      Net::HTTP::Get.new(uri)
-    end
-    result(json, name)
-  end
-
-  def post(method, *args)
-    name = method.to_s
-    json = http(name, args_hash(name, *args)) do |uri|
-      Net::HTTP::Post.new(uri)
-    end
-    result(json, name)
-  end
-
-  def http(method, args)
-    uri = URI.parse('http://runner:4557/' + method)
-    http = Net::HTTP.new(uri.host, uri.port)
-    request = yield uri.request_uri
-    request.content_type = 'application/json'
-    request.body = args.to_json
-    response = http.request(request)
-    JSON.parse(response.body)
-  end
-
-  def args_hash(method, *args)
-    parameters = self.class.instance_method(method).parameters
-    Hash[parameters.map.with_index { |parameter,index|
-      [parameter[1], args[index]]
-    }]
-  end
-
-  def result(json, name)
-    fail error(name, 'bad json') unless json.class.name == 'Hash'
-    exception = json['exception']
-    fail error(name, exception)  unless exception.nil?
-    fail error(name, 'no key')   unless json.key? name
-    json[name]
-  end
-
-  def error(name, message)
-    StandardError.new("RunnerService:#{name}:#{message}")
-  end
+  include HttpService
+  def hostname; 'runner'; end
+  def port; 4557; end
 
 end
