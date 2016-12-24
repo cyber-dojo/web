@@ -12,7 +12,7 @@ class SetupDefaultStartPointController < ApplicationController
     kata = (id != nil) ? dojo.katas[id] : nil
     index = choose_language(languages_names, kata)
     @start_points = ::DisplayNamesSplitter.new(languages_names, index)
-    @max_seconds = runner.max_seconds
+    @max_seconds = 10
   end
 
   def show_exercises

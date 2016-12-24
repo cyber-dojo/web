@@ -45,10 +45,6 @@ class StubRunner
     [stdout,stderr,status]
   end
 
-  def max_seconds
-    10
-  end
-
   private
 
   include NearestAncestors

@@ -107,16 +107,15 @@ class StorerService
   end
 
   def result(json, name)
-    raise error(name, 'json.nil?') if json.nil?
-    raise error(name, 'bad json')  unless json.class.name == 'Hash'
+    raise error(name, 'bad json') unless json.class.name == 'Hash'
     exception = json['exception']
-    raise error(name, exception)   unless exception.nil?
-    raise error(name, 'no key')    if json[name].nil?
+    raise error(name, exception)  unless exception.nil?
+    raise error(name, 'no key')   unless json.key? name
     json[name]
   end
 
-  def error(name, description)
-    StandardError.new("StorerService:#{name}:#{description}")
+  def error(name, message)
+    StandardError.new("StorerService:#{name}:#{message}")
   end
 
 end

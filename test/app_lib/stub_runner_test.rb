@@ -84,13 +84,6 @@ class StubRunnerTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '195067',
-  'max_seconds is 10' do
-    assert_equal 10, runner.max_seconds
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   def cdf(image); 'cyberdojofoundation/'+image; end
   def success; 0; end
   def sudo; 'sudo -u docker-runner sudo '; end
