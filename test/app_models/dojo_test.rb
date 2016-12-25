@@ -63,12 +63,8 @@ class DojoTest < AppModelsTestBase
   test 'A70EA1',
   'setting an external root succeeds' do
     set_languages_root(path = tmp_root + '/languages') && assert_equal(path, languages.path)
-
-    path = tmp_root + '/exercises'
-    disk[path].make
-    set_exercises_root(path) && assert_equal(path, exercises.path)
-
     set_custom_root(   path = tmp_root + '/custom'   ) && assert_equal(path,    custom.path)
+    set_exercises_root(path = tmp_root + '/exercises') && assert_equal(path, exercises.path)
   end
 
   # - - - - - -
