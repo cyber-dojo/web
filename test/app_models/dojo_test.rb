@@ -19,18 +19,20 @@ class DojoTest < AppModelsTestBase
 
   test 'A70E2A',
   'using an unset external class raises StandardError' do
-    unset_runner_class && assert_raises(StandardError) { runner.class }
-    unset_storer_class && assert_raises(StandardError) { storer.class }
-    unset_shell_class  && assert_raises(StandardError) {  shell.class }
-    unset_disk_class   && assert_raises(StandardError) {   disk.class }
-    unset_log_class    && assert_raises(StandardError) {    log.class }
+    error = StandardError
+    unset_runner_class && assert_raises(error) { runner.class }
+    unset_storer_class && assert_raises(error) { storer.class }
+    unset_shell_class  && assert_raises(error) {  shell.class }
+    unset_disk_class   && assert_raises(error) {   disk.class }
+    unset_log_class    && assert_raises(error) {    log.class }
   end
 
   test 'A706F9',
   'using an unset external root path raises StandardError' do
-    unset_languages_root && assert_raises(StandardError) { languages.path }
-    unset_exercises_root && assert_raises(StandardError) { exercises.path }
-    unset_custom_root    && assert_raises(StandardError) {    custom.path }
+    error = StandardError
+    unset_languages_root && assert_raises(error) { languages.path }
+    unset_exercises_root && assert_raises(error) { exercises.path }
+    unset_custom_root    && assert_raises(error) {    custom.path }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -49,11 +51,12 @@ class DojoTest < AppModelsTestBase
 
   test 'A707E4',
   'setting an external class to the name of a non-existant class raises StandardError' do
-    set_runner_class(does_not_exist) && assert_raises(StandardError) { runner.class }
-    set_storer_class(does_not_exist) && assert_raises(StandardError) { storer.class }
-    set_shell_class( does_not_exist) && assert_raises(StandardError) {  shell.class }
-    set_disk_class(  does_not_exist) && assert_raises(StandardError) {   disk.class }
-    set_log_class(   does_not_exist) && assert_raises(StandardError) {    log.class }
+    error = StandardError
+    set_runner_class(does_not_exist) && assert_raises(error) { runner.class }
+    set_storer_class(does_not_exist) && assert_raises(error) { storer.class }
+    set_shell_class( does_not_exist) && assert_raises(error) {  shell.class }
+    set_disk_class(  does_not_exist) && assert_raises(error) {   disk.class }
+    set_log_class(   does_not_exist) && assert_raises(error) {    log.class }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
