@@ -19,7 +19,7 @@ class LanguagesTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - -
 
-  test 'DF7BB5',
+  test '3C0BB5',
   'languages path has correct format when set without trailing slash' do
     path = tmp_root + '/' + 'folder'
     set_languages_root(path)
@@ -29,7 +29,7 @@ class LanguagesTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - -
 
-  test 'A6F64A',
+  test '3C064A',
   'cache is created on demand' do
     # be very careful here... naming languages will create languages!
     path = languages.cache_path
@@ -47,14 +47,14 @@ class LanguagesTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - -
 
-  test 'B1A327',
+  test '3C0327',
   'languages[name] is nil when name is not an existing language' do
     assert_nil languages['wibble_XXX']
   end
 
   #- - - - - - - - - - - - - - - - - - - - -
 
-  test '16C10F',
+  test '3C010F',
   'languages[X] is language named X' do
     ['C (clang)-assert', 'C#-NUnit'].each do |name|
       assert_equal name, languages[name].name
@@ -63,7 +63,7 @@ class LanguagesTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - -
 
-  test 'A79BBE',
+  test '3C0BBE',
   'name is translated when katas manifest.json language entry has been renamed' do
     historical_language_names do |old_name|
       refute_nil languages[old_name], old_name unless old_name.include? 'Approval'
@@ -72,7 +72,7 @@ class LanguagesTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - -
 
-  test 'FC4518',
+  test '3C0518',
   '[name] when lang-test where lang,_test is valid display_name' do
     simple_case = 'C++ (g++)-assert'
     simple_display_name = 'C++ (g++), assert'
@@ -83,7 +83,7 @@ class LanguagesTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - -
 
-  test 'D0CB38',
+  test '3C0B38',
   '[name] when name has no hyphen and was renamed' do
     [
        # from way back when test name was not part of language name
@@ -94,7 +94,7 @@ class LanguagesTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - -
 
-  test '452D03',
+  test '3C0D03',
   '[name] when name has hyphen and was renamed' do
     [
       # renamed
@@ -136,7 +136,7 @@ class LanguagesTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - -
 
-  test 'D42017',
+  test '3C0017',
   '[name] on historical_language_names' do
     historical_language_names do |name|
       refute_nil languages[name], name unless name.include? 'Approval'

@@ -23,7 +23,7 @@ class LightsTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - -
 
-  test 'D1106F',
+  test '88106F',
   'lights not empty' do
     kata = make_kata
     puffin = kata.start_avatar(['puffin'])

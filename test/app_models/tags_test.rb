@@ -33,7 +33,7 @@ class TagsTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - -
 
-  test '839D39',
+  test 'A30D39',
   'each [test]-event creates a new tag which is a light' do
     kata = make_kata
     lion = kata.start_avatar(['lion'])
@@ -51,7 +51,7 @@ class TagsTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - -
 
-  test '8F2A42',
+  test 'A30A42',
   'tags[-n] duplicates Array[-n] behaviour' do
     kata = make_kata
     lion = kata.start_avatar(['lion'])

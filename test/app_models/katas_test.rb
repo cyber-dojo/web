@@ -30,7 +30,7 @@ class KatasTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '075B3E',
+  test 'F3BB3E',
   'katas[good-id] is kata with that id' do
     kata = make_kata
     k = katas[kata.id]
@@ -42,12 +42,12 @@ class KatasTest < AppModelsTestBase
   # katas.completed(id)
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '105939',
+  test 'F3B939',
   'completed(id="") is empty string' do
     assert_equal '', katas.completed('')
   end
 
-  test 'B936E2',
+  test 'F3B6E2',
   'completed(id) does not complete when id is less than 6 chars in length',
   'because trying to complete from a short id will waste time going through',
   'lots of candidates (on disk) with the likely outcome of no unique result' do
@@ -58,7 +58,7 @@ class KatasTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'A7003B',
+  test 'F3B03B',
   'completed(id) unchanged when no matches' do
     id = unique_id
     (0..7).each { |size| assert_equal id[0..size], katas.completed(id[0..size]) }
@@ -66,7 +66,7 @@ class KatasTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '7970AA',
+  test 'F3B0AA',
   'completed(id) does not complete when 6+ chars and more than one match' do
     uncompleted_id = 'ABCDE1'
     make_kata({ 'id' => uncompleted_id + '234' + '5' })
@@ -76,7 +76,7 @@ class KatasTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'ADC2AF',
+  test 'F3B2AF',
   'completed(id) completes when 6+ chars and 1 match' do
     completed_id = 'A1B2C3D4E5'
     make_kata({ 'id' => completed_id })
@@ -88,25 +88,25 @@ class KatasTest < AppModelsTestBase
   # katas.each
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '9F12BA',
+  test 'F3B2BA',
   'each() yielding empty array when there are no katas' do
     assert_equal [], all_ids
   end
 
-  test '29C86F',
+  test 'F3B86F',
   'each() yielding one kata' do
     kata = make_kata
     assert_equal [kata.id], all_ids
   end
 
-  test '10D000',
+  test 'F3B000',
   'each() yielding two katas with unrelated ids' do
     kata1 = make_kata
     kata2 = make_kata
     assert_equal [kata1.id, kata2.id].sort, all_ids.sort
   end
 
-  test 'BB0A82',
+  test 'F3BA82',
   'each() yielding several kata with common first two characters' do
     id = 'ABCDE1234'
     assert_equal 10-1, id.length

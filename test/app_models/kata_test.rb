@@ -19,7 +19,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '66C9AE',
+  test '6779AE',
   'when kata has no avatars',
   'then it is not active',
   'and its age is zero' do
@@ -30,7 +30,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'B9340E',
+  test '67740E',
   "when kata's avatars have 0 traffic-lights",
   'then it is not active',
   'and its age is zero' do
@@ -43,7 +43,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'F2CDD3',
+  test '677DD3',
   'when kata has at least one avatar with 1 or more traffic-lights',
   'then kata is active',
   'and age is from earliest traffic-light to now' do
@@ -65,7 +65,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '78A205',
+  test '677205',
   'make_kata with default-now uses time-now' do
     now = Time.now
     kata = make_kata
@@ -77,7 +77,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '6AF51F',
+  test '67751F',
   'kata properties are union of language properties and exercise instruction' do
     id = unique_id
     now = [ 2014, 7, 17, 21, 15, 45 ]
@@ -107,7 +107,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '0A5632',
+  test '677632',
   'started_avatars is initially empty array' do
     @kata = make_kata
     assert_equal [], avatars_names
@@ -115,7 +115,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '8BDB48',
+  test '677B48',
   'start_avatar with name that is not a known avatar is nil' do
     kata = make_kata
     assert_nil kata.start_avatar(['sellotape'])
@@ -123,7 +123,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '139C43',
+  test '677C43',
   'start_avatar with specific name succeeds when avatar has not yet started' do
     @kata = make_kata
     hippo = @kata.start_avatar(['hippo'])
@@ -134,7 +134,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'A653FA',
+  test '6773FA',
   'start_avatar with specific name is nil when avatar has already started' do
     kata = make_kata
     kata.start_avatar(['hippo'])
@@ -144,7 +144,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '4C66C8',
+  test '6776C8',
   'start_avatar with specific names tries them in order' do
     @kata = make_kata
     names = %w(cheetah lion panda)
@@ -170,7 +170,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '08141A',
+  test '67741A',
   'start_avatar succeeds once for each avatar name then its full and is nil' do
     kata = make_kata
     created = []
@@ -185,7 +185,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'FE8A3D',
+  test '677A3D',
   'start_avatar starts avatars in random order' do
     kata = make_kata
     created = []
@@ -200,7 +200,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '1CD446',
+  test '677446',
   'red_amber_green(nil) returns the lamda source' do
     kata = make_kata
     expected = [
@@ -215,7 +215,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'E391FE',
+  test '6771FE',
   'after start-points volume re-architecture, initial colour is red/amber/green' +
   ' determined by lambda held in kata manifest' do
     hash = {
@@ -232,7 +232,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '5177CC',
+  test '6777CC',
   'before start-points volume re-architecture' +
   ' initial colour is red/amber/green' +
   ' determined by OutputColour.of()' do
@@ -255,7 +255,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'B80712',
+  test '677712',
   'when the start_point the kata was created from is no longer loaded' +
   " the kata's properties are all still available" do
     hash = {

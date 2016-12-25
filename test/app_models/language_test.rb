@@ -20,7 +20,7 @@ class LanguageTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '4A975D',
+  test '43E75D',
   'filename_extension defaults to empty string when not set' do
     @language = make_language('C#', 'NUnit')
     spy_manifest({})
@@ -29,7 +29,7 @@ class LanguageTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '761534',
+  test '43E534',
   'filename_extension reads back as set' do
     @language = make_language('C#', 'NUnit')
     spy_manifest({ 'filename_extension' => '.cs' })
@@ -38,7 +38,7 @@ class LanguageTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'B426B4',
+  test '43E6B4',
   'when :visible_filenames is empty array in manifest',
   'then visible_files is empty hash',
   'and visible_filenames is empty array' do
@@ -50,7 +50,7 @@ class LanguageTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'EA1DCE',
+  test '43EDCE',
   'when :visible_filenames is non-empty array in manifest',
   'then visible_files are loaded but not output and not instructions' do
     @language = make_language('C#', 'NUnit')
@@ -65,7 +65,7 @@ class LanguageTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'A42D66',
+  test '43ED66',
   'highlight_filenames defaults to [] when not set' do
     @language = make_language('C#', 'NUnit')
     spy_manifest({ 'visible_filenames' => ['test_untitled.cs'] })
@@ -74,7 +74,7 @@ class LanguageTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '861A75',
+  test '43EA75',
   'highlight_filenames reads back as set' do
     @language = make_language('C#', 'NUnit')
     visible_filenames = ['x.cs', 'y.cs']
@@ -88,7 +88,7 @@ class LanguageTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '7E3D8B',
+  test '43ED8B',
   "lowlight_filenames defaults to",
   "['cyberdojo.sh','makefile','Makefile','unity.license.txt']",
   "when there is no entry for highlight_filenames" do
@@ -101,7 +101,7 @@ class LanguageTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '829855',
+  test '43E855',
   'lowlight_filenames is visible_filenames - highlight_filenames',
   'when there is an entry for highlight_filenames' do
     @language = make_language('C++', 'assert')
@@ -116,7 +116,7 @@ class LanguageTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'A74292',
+  test '43E292',
   'display_name reads back as set when not renamed' do
             name = 'C (gcc)-assert'
     display_name = 'C (gcc), assert'
@@ -128,7 +128,7 @@ class LanguageTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '229DC5',
+  test '43EDC5',
   'image_name is read back as set' do
     @language = make_language('Ruby', 'Test::Unit')
     expected = 'cyberdojofoundation/language_ruby-1.9.3_test_unit'
@@ -138,7 +138,7 @@ class LanguageTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '07290B',
+  test '43E90B',
   'tab_size is read back as set' do
     @language = make_language('Ruby', 'Test::Unit')
     tab_size = 9
@@ -148,7 +148,7 @@ class LanguageTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '60F690',
+  test '43E690',
   'tab_size defaults to 4 when not set' do
     @language = make_language('Ruby', 'Test::Unit')
     spy_manifest({})
@@ -157,7 +157,7 @@ class LanguageTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'F9DC8D',
+  test '43EC8D',
   'progress_regexs reads back as set' do
     @language = make_language('Ruby', 'Test::Unit')
     regexs = [
@@ -174,7 +174,7 @@ class LanguageTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '5EE3B5',
+  test '43E3B5',
   'progress_regexs defaults to empty array' do
     @language = make_language('Ruby', 'Test::Unit')
     spy_manifest({})
@@ -183,7 +183,7 @@ class LanguageTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'CF389F',
+  test '43E89F',
   'bad JSON in manifest raises exception naming the language+test' do
     @language = make_language(ruby='Ruby', test_unit='TestUnit')
     dir = disk[@language.path]

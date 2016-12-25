@@ -18,7 +18,7 @@ class LightTest < AppModelsTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'B136BD',
+  test 'AC96BD',
   'colour was once stored as outcome' do
     light = make_light(:red, [2015, 2, 15, 8, 54, 6], 1, 'outcome')
     assert_equal :red, light.colour
@@ -26,7 +26,7 @@ class LightTest < AppModelsTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'B09D76',
+  test 'AC9D76',
   'time is read back as set' do
     year = 2015
     month = 2
@@ -46,7 +46,7 @@ class LightTest < AppModelsTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'ED8954',
+  test 'AC9954',
   'number is read as set' do
     number = 7
     light = make_light(:red, [2015, 2, 15, 8, 54, 6], number)
@@ -55,7 +55,7 @@ class LightTest < AppModelsTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '21DAC8',
+  test 'AC9AC8',
   'to_json' do
     colour = :red
     time = [2015, 2, 15, 8, 54, 6]
@@ -70,7 +70,7 @@ class LightTest < AppModelsTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '8BE722',
+  test 'AC9722',
   'each test creates a new light' do
     kata = make_kata
     lion = kata.start_avatar(['lion'])
