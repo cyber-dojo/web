@@ -9,7 +9,12 @@ fi
 # Mocks save to Dir.tmpdir
 rm -rf /tmp/cyber-dojo
 
-modules=( app_helpers app_lib app_models lib app_controllers )
+if [ "${CYBER_DOJO_TEST_MODULES}" == "" ]; then
+  modules=( app_helpers app_lib app_models lib app_controllers )
+else
+  modules=( ${CYBER_DOJO_TEST_MODULES} )
+fi
+
 for module in ${modules[*]}
 do
     echo

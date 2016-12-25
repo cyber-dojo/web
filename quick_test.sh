@@ -26,5 +26,6 @@ docker run \
   --env CYBER_DOJO_LANGUAGES_ROOT=${CYBER_DOJO_LANGUAGES_ROOT} \
   --env CYBER_DOJO_EXERCISES_ROOT=${CYBER_DOJO_EXERCISES_ROOT} \
   --env CYBER_DOJO_CUSTOM_ROOT=${CYBER_DOJO_CUSTOM_ROOT} \
+  --env CYBER_DOJO_TEST_MODULES="lib app_helpers" \
   cyberdojo/web \
-  sh -c "cd test/app_lib && ./run.sh ${*}"
+  sh -c "cd test && ./run.sh ${*}"
