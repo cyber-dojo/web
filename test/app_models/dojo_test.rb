@@ -72,7 +72,7 @@ class DojoTest < AppModelsTestBase
 
   # - - - - - -
 
-  test 'B57D52',
+  test 'A70D52',
   'setting an external root with a trailing slash chops off the trailing slash' do
     path = tmp_root + '/languages'
     set_languages_root(path + '/') && assert_equal(path, languages.path)
