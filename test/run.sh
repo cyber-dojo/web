@@ -14,8 +14,6 @@ for module in ${modules[*]}
 do
     echo
     echo "======${module}======"
-    cd ${module}
-    testFiles=(*_test.rb)
     # don't log to stdout
     export CYBER_DOJO_LOG_CLASS=MemoryLog
     # clear out old coverage stats
@@ -25,10 +23,12 @@ do
     test_log="${coverage_dir}/test.log"
     export COVERAGE_DIR=${coverage_dir}
     # run-the-tests!
+    cd ${module}
+    testFiles=(*_test.rb)
     ruby -e "%w( ${testFiles[*]} ).shuffle.map{ |file| require './'+file }" \
-      ${module} \
-      ${*} 2>&1 | tee ${test_log}
-    ruby ../print_coverage_percent.rb ${module} | tee -a ${test_log}
+      ${module} ${*} 2>&1 | tee ${test_log}
+    ruby ../print_coverage_percent.rb \
+      ${module}           | tee -a ${test_log}
     cd ..
 done
 
