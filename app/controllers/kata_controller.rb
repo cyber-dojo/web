@@ -27,24 +27,20 @@ class KataController < ApplicationController
       stdout,stderr,status = @avatar.test(delta, files, max_seconds)
     rescue StandardError => e
       if e.message.start_with? 'RunnerService:run:no_avatar'
-        status = 'no_avatar'
+        # kata was created before new separated runner-microservice
+        # so runner has to be informed of this avatar's existence...
+        # Do this maintaining most up to date diff.
+        args = []
+        args << kata.image_name
+        args << kata.id
+        args << avatar.name
+        args << avatar.visible_files
+        runner.new_avatar(*args)
+        delta = FileDeltaMaker.make_delta(avatar.visible_files, files)
+        stdout,stderr,status = @avatar.test(delta, files, max_seconds)
       else
         raise e
       end
-    end
-
-    if status == 'no_avatar'
-       # kata was created before new separated runner-microservice
-       # so runner has to be informed of this avatar's existence...
-       # Do this maintaining most up to date diff.
-       args = []
-       args << kata.image_name
-       args << kata.id
-       args << avatar.name
-       args << avatar.visible_files
-       runner.new_avatar(*args)
-       delta = FileDeltaMaker.make_delta(avatar.visible_files, files)
-       stdout,stderr,status = @avatar.test(delta, files, max_seconds)
     end
 
     if status == 'timed_out'

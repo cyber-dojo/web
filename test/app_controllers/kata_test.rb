@@ -10,19 +10,35 @@ class KataControllerTest  < AppControllerTestBase
   'run_tests with bad kata id raises' do
     prepare
     set_runner_class('StubRunner')
-    params = { :format => :js, :id => 'bad' }
-    assert_raises(StandardError) { post 'kata/run_tests', params }
+    params = {
+      :format => :js,
+      :id     => 'bad'
+    }
+    assert_raises(StandardError) {
+      post 'kata/run_tests', params
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'BE83FD',
   'run_tests with good kata id but bad avatar name raises' do
+    # This raises because in kata_controller the line
+    #   @avatar.test runs with @avatar is nil
+    # TODO: construct a test that raises because the runner raises
+    #       something other than 'no_avatar'
     prepare
     set_runner_class('StubRunner')
     kata_id = create_gcc_assert_kata
-    params = { :format => :js, :id => kata_id, :avatar => 'bad' }
-    assert_raises(StandardError) { post 'kata/run_tests', params }
+    @avatar = start
+    kata_edit
+    params = {
+      :format => :js,
+      :id     => kata_id,
+      :avatar => 'bad' }
+    assert_raises(StandardError) {
+      post 'kata/run_tests', params.merge(@params_maker.params)
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
