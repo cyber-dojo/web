@@ -4,7 +4,6 @@ module Externals # mix-in
   def env_var; @env_var ||= EnvVar.new; end
 
   def disk ; @disk  ||= external; end
-  def git  ; @git   ||= external; end
   def log  ; @log   ||= external; end
   def shell; @shell ||= external; end
 
