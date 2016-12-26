@@ -44,11 +44,12 @@ class KataController < ApplicationController
     end
 
     if status == 'timed_out'
-      max_seconds = 10
-      @output = "Unable to complete the tests in #{max_seconds} seconds.\n" +
-          "Is there an accidental infinite loop?\n" +
-          "Is the server very busy?\n" +
-          "Please try again."
+      @output = [
+        'Unable to complete the tests in #{max_seconds} seconds.',
+        'Is there an accidental infinite loop?',
+        'Is the server very busy?',
+        'Please try again.'
+      ].join("\n")
       @test_colour = 'timed_out'
     else
       @output = stdout + stderr
