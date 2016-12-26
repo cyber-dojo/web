@@ -19,13 +19,13 @@ class StubRunner
 
   # - - - - - - - - - - - - - - - - -
 
-  def new_kata(_image_name, _id); end
-  def old_kata(_id); end
+  def new_kata(_image_name, _kata_id); end
+  def old_kata(_kata_id); end
 
   # - - - - - - - - - - - - - - - - -
 
-  def new_avatar(_image_name, _id, _avatar_name, _starting_files); end
-  def old_avatar(_id, _avatar_name); end
+  def new_avatar(_image_name, _kata_id, _avatar_name, _starting_files); end
+  def old_avatar(_kata_id, _avatar_name); end
 
   # - - - - - - - - - - - - - - - - -
 
@@ -38,7 +38,7 @@ class StubRunner
     save_stub(avatar, { :output => output })
   end
 
-  def run(_image, _id, _name, _delta, _files, _image_name)
+  def run(_image_name, _kata_id, _name, _deleted_filenames, _changed_files, _max_seconds)
     stdout = read_stub
     stderr = ''
     status = (success = 0)

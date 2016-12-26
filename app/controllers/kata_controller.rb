@@ -54,6 +54,7 @@ class KataController < ApplicationController
       @output = stdout + stderr
       @test_colour = kata.red_amber_green(@output)
     end
+
     @avatar.tested(files, time_now, @output, @test_colour)
 
     respond_to do |format|
