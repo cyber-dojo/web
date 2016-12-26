@@ -43,17 +43,7 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'BE8B75',
-  'show-json (for Atom editor)' do
-    prepare
-    set_runner_class('StubRunner')
-    create_gcc_assert_kata
-    @avatar = start
-    kata_edit
-    run_tests
-    params = { :format => :json, :id => @id, :avatar => @avatar.name }
-    get 'kata/show_json', params
-  end
+  # test timed_out
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -188,6 +178,20 @@ class KataControllerTest  < AppControllerTestBase
     ensure
       runner.old_avatar(@kata.id, @avatar.name)
     end
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'BE8B75',
+  'show-json (for Atom editor)' do
+    prepare
+    set_runner_class('StubRunner')
+    create_gcc_assert_kata
+    @avatar = start
+    kata_edit
+    run_tests
+    params = { :format => :json, :id => @id, :avatar => @avatar.name }
+    get 'kata/show_json', params
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
