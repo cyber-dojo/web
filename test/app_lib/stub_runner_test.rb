@@ -14,14 +14,6 @@ class StubRunnerTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '6DFD81',
-  'parent is ctor parameter' do
-    assert_equal 'StubRunner', runner.class.name
-    assert_equal self, runner.parent
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test '43E866',
   'pulled? is true only for 4 specific images' do
     assert runner.pulled? cdf('nasm_assert')

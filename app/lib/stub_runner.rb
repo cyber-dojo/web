@@ -1,5 +1,4 @@
-
-require_relative './unit_test_framework_lookup'
+require '../../lib/fake_disk'
 
 # Each GET/POST is serviced in a new thread which creates a
 # new dojo object and thus a new runner object. To ensure
@@ -8,11 +7,9 @@ require_relative './unit_test_framework_lookup'
 
 class StubRunner
 
-  def initialize(parent)
-    @parent = parent
+  def initialize(_parent)
+    @@disk ||= FakeDisk.new(self)
   end
-
-  attr_reader :parent
 
   def pulled?(image_name); image_names.include?(image_name); end
   def pull(_image_name); end
@@ -29,8 +26,8 @@ class StubRunner
 
   # - - - - - - - - - - - - - - - - -
 
-  def stub_run_output(avatar, output)
-    save_stub(avatar, { :output => output })
+  def stub_run_output(_avatar, output)
+    save_stub(output)
   end
 
   def run(_image_name, _kata_id, _name, _deleted_filenames, _changed_files, _max_seconds)
@@ -42,11 +39,6 @@ class StubRunner
 
   private
 
-  include NearestAncestors
-  def disk; nearest_ancestors(:disk); end
-
-  include UnitTestFrameworkLookup
-
   def image_names
     cdf = 'cyberdojofoundation'
     [
@@ -57,23 +49,29 @@ class StubRunner
     ]
   end
 
-  def save_stub(avatar, json)
-    dir = disk['/tmp/cyber-dojo/StubRunner/' + test_id]
+  def save_stub(output)
     dir.make
-    dir.write_json(stub_run_filename, json)
-    @avatar = avatar
+    dir.write(filename, output)
   end
 
   def read_stub
-    return 'blah' if @avatar.nil?
-    dir = disk['/tmp/cyber-dojo/StubRunner/' + test_id]
-    fail 'nothing stubbed for StubRunner' unless dir.exists?(stub_run_filename)
-    json = dir.read_json(stub_run_filename)
-    json['output']
+    if dir.exists?
+      dir.read(filename)
+    else
+      'blah blah blah'
+    end
   end
 
-  def stub_run_filename
-    'stub_run.json'
+  def filename
+    'stub_output'
+  end
+
+  def dir
+    disk[test_id]
+  end
+
+  def disk
+    @@disk
   end
 
   def test_id
