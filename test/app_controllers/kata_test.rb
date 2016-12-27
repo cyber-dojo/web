@@ -43,7 +43,16 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  # test timed_out
+  test 'BE8222',
+  'run tests that times_out' do
+    prepare
+    set_runner_class('StubRunner')
+    kata_id = create_gcc_assert_kata
+    @avatar = start
+    kata_edit
+    runner.stub_run(stdout='',stderr='',status='timed_out')
+    run_tests
+  end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

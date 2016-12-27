@@ -26,15 +26,12 @@ class StubRunner
 
   # - - - - - - - - - - - - - - - - -
 
-  def stub_run_output(output)
-    save_stub(output)
+  def stub_run(stdout, stderr='', status=0)
+    save_stub([stdout,stderr,status])
   end
 
   def run(_image_name, _kata_id, _name, _deleted_filenames, _changed_files, _max_seconds)
-    stdout = read_stub
-    stderr = ''
-    status = (success = 0)
-    [stdout,stderr,status]
+    read_stub
   end
 
   private
@@ -58,7 +55,7 @@ class StubRunner
     if dir.exists?
       dir.read(filename)
     else
-      'blah blah blah'
+      ['blah blah blah', '', 0]
     end
   end
 

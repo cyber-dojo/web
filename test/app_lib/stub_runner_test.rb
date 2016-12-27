@@ -21,12 +21,14 @@ class StubRunnerTest < AppLibTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '84B2C0',
-  'stub_run_output stubs output for subsequent run' do
+  'stub_run stubs stdout for subsequent run' do
     kata = make_kata
     lion = kata.start_avatar(['lion'])
-    runner.stub_run_output(output='syntax error line 1')
-    stdout,_stderr,_status = runner.run(*unused_args)
-    assert_equal output, stdout
+    runner.stub_run(expected='syntax error line 1')
+    stdout,stderr,status = runner.run(*unused_args)
+    assert_equal expected, stdout
+    assert_equal '', stderr
+    assert_equal 0, status
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -35,8 +37,10 @@ class StubRunnerTest < AppLibTestBase
   'run without preceeding stub returns blah blah' do
     kata = make_kata
     lion = kata.start_avatar(['lion'])
-    stdout,_stderr,_status = runner.run(*unused_args)
+    stdout,stderr,status = runner.run(*unused_args)
     assert stdout.start_with? 'blah'
+    assert_equal '', stderr
+    assert_equal 0, status
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
