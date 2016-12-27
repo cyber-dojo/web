@@ -48,15 +48,6 @@ class DeltaMaker
     @stubbed = true
   end
 
-  def run_test_no_stub(at = time_now)
-    visible_files = now
-    delta = make_delta(@was, @now)
-    output = @avatar.test(delta, visible_files, max_seconds)
-    colour = @avatar.kata.red_amber_green(output)
-    @avatar.tested(visible_files, at, output, colour)
-    [delta, visible_files, output]
-  end
-
   def run_test(at = time_now)
     visible_files = now
     delta = make_delta(@was, @now)
