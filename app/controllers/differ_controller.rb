@@ -47,7 +47,10 @@ class DifferController < ApplicationController
   end
 
   def prune(array)
-    array.map { |hash| { :id => hash[:id], :section_count => hash[:section_count] } }
+    array.map { |hash| {
+      :id            => hash[:id],
+      :section_count => hash[:section_count]
+    }}
   end
 
 end

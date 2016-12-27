@@ -54,7 +54,9 @@ class StartPoint
   end
 
   def visible_files
-    Hash[visible_filenames.collect { |filename| [filename, disk[path].read(filename)] }]
+    Hash[visible_filenames.collect { |filename|
+      [filename, disk[path].read(filename)]
+    }]
   end
 
   # optional manifest properties
@@ -126,10 +128,11 @@ end
 # image_name
 # - - - - - - - - - - - - - - - - - - - -
 # ||= caching is to optimize the setup page
-# If you upgrade a start-point, eg to a newer compiler version,
-# or a newer test-framework, do *not* change the image_name.
-# Keeping any version numbers out of the image_name and
-# not changing it ensures forking always works.
+# If you upgrade a start-point, eg to a newer
+# compiler version, or a newer test-framework,
+# do *not* change the image_name.
+# Keeping any version numbers out of the image_name
+# and not changing it ensures forking always works.
 # - - - - - - - - - - - - - - - - - - - -
 
 
@@ -137,7 +140,9 @@ end
 # lowlight_filenames
 # - - - - - - - - - - - - - - - - - - - -
 # Caters for two uses
-# 1. carefully constructed (custom) set of start files (like James Grenning uses)
-#    with explicitly set highlight_filenames entry in manifest
-# 2. default start-points files viz, no highlight_filenames entry in manifest
+# 1. carefully constructed (custom) set of start
+#    files (like James Grenning uses) with explicitly
+#    set highlight_filenames entry in manifest
+# 2. default start-points files viz,
+#    no highlight_filenames entry in manifest
 # - - - - - - - - - - - - - - - - - - - -
