@@ -44,7 +44,7 @@ class DeltaMaker
     all_outputs = Dir.glob(path + '/*')
     filename = all_outputs.sample
     output = File.read(filename)
-    nearest_ancestors(:runner, @avatar).stub_run_output(@avatar, output)
+    nearest_ancestors(:runner, @avatar).stub_run_output(output)
     @stubbed = true
   end
 

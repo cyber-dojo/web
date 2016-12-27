@@ -26,7 +26,7 @@ class StubRunner
 
   # - - - - - - - - - - - - - - - - -
 
-  def stub_run_output(_avatar, output)
+  def stub_run_output(output)
     save_stub(output)
   end
 

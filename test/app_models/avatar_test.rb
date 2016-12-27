@@ -69,7 +69,7 @@ class AvatarTest < AppModelsTestBase
     visible_files = @avatar.visible_files
     assert visible_files.keys.include?('output')
     assert_equal '', visible_files['output']
-    runner.stub_run_output(@avatar, expected = 'helloWorld')
+    runner.stub_run_output(expected = 'helloWorld')
     _, @visible_files, @output = DeltaMaker.new(@avatar).run_test
     assert @visible_files.keys.include?('output')
   end
