@@ -45,10 +45,6 @@ class StubRunnerTest < AppLibTestBase
     'cyberdojofoundation/' + image
   end
 
-  def success
-    0
-  end
-
   def unused_args
     args = []
     args << (image_name = nil)
