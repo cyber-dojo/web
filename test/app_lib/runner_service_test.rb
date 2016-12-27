@@ -1,4 +1,4 @@
-require_relative './app_lib_test_base'
+require_relative 'app_lib_test_base'
 
 class RunnerServiceTest < AppLibTestBase
 
@@ -11,14 +11,14 @@ class RunnerServiceTest < AppLibTestBase
     set_runner_class('RunnerService')
   end
 
-  #------------------------------------------------------------------
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '2BD23CD3',
   'smoke test runner-service raising' do
     assert_raises { runner.new_kata(nil, nil) }
   end
 
-  #------------------------------------------------------------------
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '2BDAD808',
   'smoke test runner-service' do

@@ -1,4 +1,4 @@
-require_relative './app_controller_test_base'
+require_relative 'app_controller_test_base'
 
 class DownloadControllerTest < AppControllerTestBase
 

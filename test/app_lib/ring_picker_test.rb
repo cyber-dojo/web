@@ -1,4 +1,4 @@
-require_relative './app_lib_test_base'
+require_relative 'app_lib_test_base'
 
 class RingPickerTest < AppLibTestBase
 
@@ -11,7 +11,7 @@ class RingPickerTest < AppLibTestBase
     set_differ_class('NotUsed')
   end
 
-  #------------------------------------------------------------------
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '9A9099',
   'previous when single entry is empty string' do
@@ -39,7 +39,7 @@ class RingPickerTest < AppLibTestBase
     assert_prev('d', %w{ a b c d }, 'c')
   end
 
-  #------------------------------------------------------------------
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'DA1549',
   'next when single entry is empty string' do
@@ -66,8 +66,6 @@ class RingPickerTest < AppLibTestBase
     assert_next('c', %w{ a b c d }, 'd')
     assert_next('d', %w{ a b c d }, 'a')
   end
-
-  #------------------------------------------------------------------
 
   private
 

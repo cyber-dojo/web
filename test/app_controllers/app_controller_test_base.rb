@@ -1,9 +1,9 @@
 
 ENV['RAILS_ENV'] = 'test'
 
-require_relative './../../test/all'
-require_relative './../../config/environment'
-require_relative './params_maker'
+require_relative '../../test/all'
+require_relative '../../config/environment'
+require_relative 'params_maker'
 
 class AppControllerTestBase < ActionDispatch::IntegrationTest
 

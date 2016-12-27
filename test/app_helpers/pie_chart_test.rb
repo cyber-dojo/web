@@ -1,5 +1,5 @@
-require_relative './app_helpers_test_base'
-require_relative './../app_lib/delta_maker'
+require_relative 'app_helpers_test_base'
+require_relative '../app_lib/delta_maker'
 
 class PieChartTest < AppHelpersTestBase
 

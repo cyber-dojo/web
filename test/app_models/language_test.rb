@@ -1,4 +1,4 @@
-require_relative './app_models_test_base'
+require_relative 'app_models_test_base'
 
 class LanguageTest < AppModelsTestBase
 

@@ -1,5 +1,5 @@
-require_relative './app_lib_test_base'
-require_relative './delta_maker'
+require_relative 'app_lib_test_base'
+require_relative 'delta_maker'
 
 class DeltaMakerTest < AppLibTestBase
 

@@ -1,8 +1,8 @@
-require_relative './app_lib_test_base'
+require_relative 'app_lib_test_base'
 
 class StorerServiceTest < AppLibTestBase
 
-  #------------------------------------------------------------------
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
   # In docker-compose.yml the storer service is setup with
   #     environment: [ CYBER_DOJO_KATAS_ROOT=/tmp/cyber-dojo/katas ]
   # It does *not* volume-mount the katas data-container.

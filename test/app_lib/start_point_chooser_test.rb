@@ -1,4 +1,4 @@
-require_relative './app_lib_test_base'
+require_relative 'app_lib_test_base'
 
 class StartPointChooserTest < AppLibTestBase
 
@@ -83,8 +83,6 @@ class StartPointChooserTest < AppLibTestBase
       assert_is_randomly_chosen_exercise(exercises, katas[id])
     end
   end
-
-  #- - - - - - - - - - - - - - - - - - - - - - -
 
   private
 
