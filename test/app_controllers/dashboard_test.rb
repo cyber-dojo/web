@@ -8,7 +8,7 @@ class DashboardControllerTest < AppControllerTestBase
 
   def prepare
     set_storer_class('FakeStorer')
-    create_kata
+    create_kata('Java, JUnit')
   end
 
   #- - - - - - - - - - - - - - - -
@@ -100,6 +100,16 @@ class DashboardControllerTest < AppControllerTestBase
   end
 
   #- - - - - - - - - - - - - - - -
+
+  test '62A920',
+  'progress when avatar has only non-amber traffic-lights' do
+    prepare
+    start # 0
+    set_ragger_class('StubRagger')
+    ragger.stub_colour(:red)
+    run_tests
+    progress
+  end
 
   private
 
