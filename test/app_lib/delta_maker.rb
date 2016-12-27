@@ -36,24 +36,14 @@ class DeltaMaker
   end
 
   def stub_colour(colour)
-    root = File.expand_path(File.dirname(__FILE__)) + '/../../test/app_lib/output'
-    # since start-points volume re-architecture
-    # unit_test_framework is no longer directly available...
-    unit_test_framework = lookup(@avatar.kata.display_name)
-    path = "#{root}/#{unit_test_framework}/#{colour}"
-    all_outputs = Dir.glob(path + '/*')
-    filename = all_outputs.sample
-    output = File.read(filename)
-    nearest_ancestors(:runner, @avatar).stub_run(output)
+    ragger.stub_colour(colour)
     @stubbed = true
   end
 
   def run_test(at = time_now)
     visible_files = now
     delta = make_delta(@was, @now)
-    if @stubbed.nil? && runner.class.name == 'StubRunner'
-      stub_colour(:red)
-    end
+    stub_colour(:red) if @stubbed.nil?
     stdout,stderr,status = @avatar.test(delta, visible_files, max_seconds)
     output = stdout + stderr
     colour = ragger.colour(@avatar.kata, output)
@@ -80,7 +70,6 @@ class DeltaMaker
   private
 
   include TimeNow
-  include UnitTestFrameworkLookup
 
   def assert(&pred)
     fail RuntimeError.new('DeltaMaker.assert') unless pred.call
@@ -91,7 +80,6 @@ class DeltaMaker
   end
 
   include NearestAncestors
-  def runner; nearest_ancestors(:runner, @avatar); end
   def ragger; nearest_ancestors(:ragger, @avatar); end
 
 end
