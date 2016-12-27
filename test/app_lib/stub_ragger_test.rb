@@ -23,4 +23,18 @@ class StubRaggerTest < AppLibTestBase
     end
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'A4E902',
+  'stub set in one thread has to be visible in another thread',
+  'because app_controller methods are routed into a new thread' do
+    ragger.stub_colour(:green)
+    stubbed_colour = nil
+    tid = Thread.new {
+      stubbed_colour = ragger.colour(kata=nil, output=nil)
+    }
+    tid.join
+    assert_equal :green, stubbed_colour
+  end
+
 end

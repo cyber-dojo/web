@@ -2,7 +2,7 @@ require_relative './app_lib_test_base'
 
 class StubRunnerTest < AppLibTestBase
 
-  test '43E866',
+  test 'AF7866',
   'pulled? is true only for 4 specific images' do
     assert runner.pulled? cdf('nasm_assert')
     assert runner.pulled? cdf('gcc_assert')
@@ -13,17 +13,17 @@ class StubRunnerTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '0B42BD',
+  test 'AF72BD',
   'pull is no-op' do
     runner.pull cdf('csharp_moq')
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '84B2C0',
-  'stub_run stubs stdout for subsequent run' do
-    kata = make_kata
-    lion = kata.start_avatar(['lion'])
+  test 'AF72C0',
+  'stub_run can stub stdout and leave',
+  'stderr defaulted to stub empty-string and',
+  'status defaulted to stub zero' do
     runner.stub_run(expected='syntax error line 1')
     stdout,stderr,status = runner.run(*unused_args)
     assert_equal expected, stdout
@@ -33,10 +33,22 @@ class StubRunnerTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test 'AF709C',
+  'stdout,stderr,status can all be stubbed explicitly' do
+    expected_stdout = 'Assertion failed'
+    expected_stderr = 'makefile...'
+    expected_status = 2
+    runner.stub_run(expected_stdout, expected_stderr, expected_status)
+    stdout,stderr,status = runner.run(*unused_args)
+    assert_equal expected_stdout, stdout
+    assert_equal expected_stderr, stderr
+    assert_equal expected_status, status
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test 'AF797E',
   'run without preceeding stub returns blah blah' do
-    kata = make_kata
-    lion = kata.start_avatar(['lion'])
     stdout,stderr,status = runner.run(*unused_args)
     assert stdout.start_with? 'blah'
     assert_equal '', stderr
@@ -44,6 +56,20 @@ class StubRunnerTest < AppLibTestBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'AF7902',
+  'stub set in one thread has to be visible in another thread',
+  'because app_controller methods are routed into a new thread' do
+    runner.stub_run(expected='syntax error line 1')
+    stubbed_stdout = nil
+    tid = Thread.new {
+      stubbed_stdout,_stderr,_stdout = runner.run(*unused_args)
+    }
+    tid.join
+    assert_equal expected, stubbed_stdout
+  end
+
+  private
 
   def cdf(image)
     'cyberdojofoundation/' + image

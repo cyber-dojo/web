@@ -1,10 +1,5 @@
 require_relative '../../lib/fake_disk'
 
-# Each GET/POST is serviced in a new thread which creates a
-# new dojo object and thus a new runner object. To ensure
-# state is preserved from the setup to the call it has
-# to be saved to disk and then retrieved.
-
 class StubRunner
 
   def initialize(_parent)
@@ -68,3 +63,7 @@ class StubRunner
   end
 
 end
+
+# In app_controller tests the stub_run() and run()
+# calls happen in different threads so disk is
+# @@disk and not @disk

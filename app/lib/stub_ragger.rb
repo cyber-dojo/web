@@ -35,3 +35,7 @@ class StubRagger
   end
 
 end
+
+# In app_controller tests the stub_run() and run()
+# calls happen in different threads so disk is
+# @@disk and not @disk
