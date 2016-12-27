@@ -132,10 +132,6 @@ class FakeStorer
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def kata_dir(id)
-    disk[kata_path(id)]
-  end
-
   private
 
   def write_avatar_increments(id, name, increments)
@@ -201,6 +197,10 @@ class FakeStorer
 
   def kata_exists?(id)
     kata_dir(id).exists?
+  end
+
+  def kata_dir(id)
+    disk[kata_path(id)]
   end
 
   def kata_path(id)

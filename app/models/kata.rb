@@ -53,8 +53,9 @@ class Kata
   end
 
   def unit_test_framework
-    # not stored in manifest after start-point volume re-architecture
-    # which replaced it with red_amber_green lambda
+    # not stored in manifest after start-point
+    # volume re-architecture which replaced it
+    # with red_amber_green lambda
     manifest_property
   end
 

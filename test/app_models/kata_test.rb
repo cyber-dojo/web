@@ -218,14 +218,15 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '677712',
-  'when the start_point the kata was created from is no longer loaded' +
-  " the kata's properties are all still available" do
-    hash = {
+  'for a kata created before the start_point re-architecture',
+  'attempt to retrieve the full-manifest properties from them start-point' do
+    kata_id = '677712F0E7'
+    manifest = {
+      'id'       => kata_id,
       'language' => 'C#-Moq',
       'exercise' => 'Fizz_Buzz',
     }
-    kata = make_kata(hash)
-    refute_nil kata
+    storer.create_kata(manifest)
 
     property_names = %w(
       display_name
@@ -235,11 +236,7 @@ class KataTest < AppModelsTestBase
       highlight_filenames
       lowlight_filenames
     )
-
-    json = storer.kata_manifest(kata.id)
-    property_names.each { |property_name| json.delete(property_name) }
-    storer.kata_dir(kata.id).write_json('manifest.json', json)
-
+    kata = katas[kata_id]
     property_names.each { |property_name| refute_nil kata.send(property_name) }
     assert_equal 'C#, Moq', kata.display_name
   end
