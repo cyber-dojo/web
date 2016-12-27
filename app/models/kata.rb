@@ -96,18 +96,8 @@ class Kata
     full_manifest_property
   end
 
-  def red_amber_green(output)
-    src = manifest['red_amber_green']
-    if output.nil?
-      return src # so lambda src can be saved when forking
-    end
-    # before or after start-points re-architecture?
-    if src.nil? # before
-      OutputColour.of(unit_test_framework, output)
-    else # after
-      colour = eval(src.join("\n"))
-      colour.call(output).to_s
-    end
+  def red_amber_green
+    full_manifest_property
   end
 
   private
@@ -134,14 +124,16 @@ class Kata
   end
 
   def earliest_light
-    Time.mktime(*avatars.active.map { |avatar| avatar.lights[0].time }.sort[0])
+    times = avatars.active.map { |avatar| avatar.lights[0].time }
+    Time.mktime(*times.sort[0])
   end
 
   include NearestAncestors
   def languages; nearest_ancestors(:languages); end
-  def custom; nearest_ancestors(:custom); end
-  def storer; nearest_ancestors(:storer); end
+  def custom   ; nearest_ancestors(:custom   ); end
+
   def runner; nearest_ancestors(:runner); end
+  def storer; nearest_ancestors(:storer); end
 
 end
 

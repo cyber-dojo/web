@@ -15,6 +15,7 @@
   stub_runner
 
   differ_service
+  ragger_service
   runner_service
   storer_service
 

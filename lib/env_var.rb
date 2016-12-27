@@ -17,9 +17,10 @@ end
   cd_env_name('exercises_root') => "#{cd_home}/start_points/exercises",
   cd_env_name('custom_root')    => "#{cd_home}/start_points/custom",
 
-  cd_env_name('differ_class') => 'DifferService',
-  cd_env_name('storer_class') => 'StorerService',
-  cd_env_name('runner_class') => 'RunnerService',
+  cd_env_name('runner_class') => 'RunnerService', # src -> output
+  cd_env_name('ragger_class') => 'RaggerService', # output -> traffic-light
+  cd_env_name('storer_class') => 'StorerService', # store src,output,traffic-light
+  cd_env_name('differ_class') => 'DifferService', # (src,src) -> diff
 
   cd_env_name('disk_class')  => 'HostDisk',
   cd_env_name('log_class')   => 'StdoutLog',

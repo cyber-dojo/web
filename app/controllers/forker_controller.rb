@@ -43,8 +43,7 @@ class ForkerController < ApplicationController
         manifest['unit_test_framework'] = kata.unit_test_framework
       else
         # after
-        lambda_src = kata.red_amber_green(nil)
-        manifest['red_amber_green'    ] = lambda_src
+        manifest['red_amber_green'    ] = manifest['red_amber_green']
         manifest['display_name'       ] = kata.display_name
         manifest['filename_extension' ] = kata.filename_extension
         manifest['progress_regexs'    ] = kata.progress_regexs

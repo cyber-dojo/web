@@ -59,7 +59,7 @@ class StubRunnerTest < AppLibTestBase
       runner.stub_run_colour(lion, colour)
       stdout,stderr,_ = runner.run(kata.image_name, kata.id, 'lion', _delta=nil, _files=nil, _image_name=nil)
       output = stdout + stderr
-      assert_equal colour.to_s, kata.red_amber_green(output)
+      assert_equal colour.to_s, ragger.colour(kata, output)
     end
   end
 
@@ -71,7 +71,7 @@ class StubRunnerTest < AppLibTestBase
     lion = kata.start_avatar(['lion'])
     stdout,stderr,status = runner.run(kata.image_name, kata.id, 'lion', _delta=nil, _files=nil, _image_name=nil)
     output = stdout + stderr
-    colour = kata.red_amber_green(output)
+    colour = ragger.colour(kata, output)
     assert_equal 'amber', colour
   end
 

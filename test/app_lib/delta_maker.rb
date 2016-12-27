@@ -60,12 +60,12 @@ class DeltaMaker
   def run_test(at = time_now)
     visible_files = now
     delta = make_delta(@was, @now)
-    if @stubbed.nil? && nearest_ancestors(:runner, @avatar).class.name == 'StubRunner'
+    if @stubbed.nil? && runner.class.name == 'StubRunner'
       stub_colour(:red)
     end
     stdout,stderr,status = @avatar.test(delta, visible_files, max_seconds)
     output = stdout + stderr
-    colour = @avatar.kata.red_amber_green(output)
+    colour = ragger.colour(@avatar.kata, output)
     @avatar.tested(visible_files, at, output, colour)
     [delta, visible_files, output]
   end
@@ -88,7 +88,6 @@ class DeltaMaker
 
   private
 
-  include NearestAncestors
   include TimeNow
   include UnitTestFrameworkLookup
 
@@ -99,5 +98,9 @@ class DeltaMaker
   def refute(&pred)
     fail RuntimeError.new('DeltaMaker.refute') if pred.call
   end
+
+  include NearestAncestors
+  def runner; nearest_ancestors(:runner, @avatar); end
+  def ragger; nearest_ancestors(:ragger, @avatar); end
 
 end

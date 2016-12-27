@@ -8,6 +8,7 @@ module Externals # mix-in
   def shell; @shell ||= external; end
 
   def differ; @differ ||= external; end
+  def ragger; @ragger ||= external; end
   def runner; @runner ||= external; end
   def storer; @storer ||= external; end
 

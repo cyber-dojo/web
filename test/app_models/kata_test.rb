@@ -200,8 +200,9 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '677446',
-  'red_amber_green(nil) returns the lamda source' do
+  test '677E1A',
+  'after start-points rearchitecture',
+  'unit_test_framework is nil, red_amber_green returns the lamda source' do
     kata = make_kata
     expected = [
       "lambda { |output|",
@@ -210,47 +211,8 @@ class KataTest < AppModelsTestBase
       "  return :amber",
       "}"
     ]
-    assert_equal expected, kata.red_amber_green(nil)
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '6771FE',
-  'after start-points volume re-architecture, initial colour is red/amber/green' +
-  ' determined by lambda held in kata manifest' do
-    hash = {
-      'language' => 'C#-Moq',
-      'exercise' => 'Fizz_Buzz',
-    }
-    kata = make_kata(hash)
-    json = storer.kata_manifest(kata.id)
-    refute_nil json['red_amber_green']
-    assert_equal 'red'  , kata.red_amber_green('Errors and Failures:'), :red
-    assert_equal 'amber', kata.red_amber_green('sdfsdfsdf'), :amber
-    assert_equal 'green', kata.red_amber_green('Tests run: 3, Errors: 0, Failures: 0'), :green
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '6777CC',
-  'before start-points volume re-architecture' +
-  ' initial colour is red/amber/green' +
-  ' determined by OutputColour.of()' do
-    hash = {
-      'language' => 'C#-Moq',
-      'exercise' => 'Fizz_Buzz',
-    }
-    kata = make_kata(hash)
-
-    json = storer.kata_manifest(kata.id)
-    json.delete('red_amber_green')
-    json['unit_test_framework'] = 'nunit'
-    storer.kata_dir(kata.id).write_json('manifest.json', json)
-
-    assert_nil kata.red_amber_green(nil)
-    assert_equal 'red'  , kata.red_amber_green('Errors and Failures:'), :red
-    assert_equal 'amber', kata.red_amber_green('sdfsdfsdf'), :amber
-    assert_equal 'green', kata.red_amber_green('Tests run: 3, Errors: 0, Failures: 0'), :green
+    assert_nil kata.unit_test_framework
+    assert_equal expected, kata.red_amber_green
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
