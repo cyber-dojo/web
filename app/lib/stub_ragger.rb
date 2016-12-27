@@ -1,4 +1,4 @@
-require '../../lib/fake_disk'
+require_relative '../../lib/fake_disk'
 
 class StubRagger
 

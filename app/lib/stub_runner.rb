@@ -1,4 +1,4 @@
-require '../../lib/fake_disk'
+require_relative '../../lib/fake_disk'
 
 # Each GET/POST is serviced in a new thread which creates a
 # new dojo object and thus a new runner object. To ensure
