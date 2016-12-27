@@ -22,13 +22,13 @@ class FakeDir
   end
 
   def each_dir
-    must_exist
+    assert_exists
     return enum_for(__method__) unless block_given?
     dirs.each { |name,dir| yield name if dir[:exists] }
   end
 
   def write(filename, content)
-    must_exist
+    assert_exists
     files[filename] = content
   end
 
@@ -37,7 +37,7 @@ class FakeDir
   end
 
   def read(filename)
-    must_exist
+    assert_exists
     files[filename]
   end
 
@@ -49,8 +49,8 @@ class FakeDir
 
   attr_reader :attr, :dirs, :files
 
-  def must_exist
-    raise StandardError.new unless exists?
+  def assert_exists
+    fail StandardError.new unless exists?
   end
 
 end

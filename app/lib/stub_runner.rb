@@ -29,11 +29,6 @@ class StubRunner
 
   # - - - - - - - - - - - - - - - - -
 
-  def stub_run_colour(avatar, rag)
-    fail "invalid colour #{rag}" unless [:red,:amber,:green].include? rag
-    save_stub(avatar, { :colour => rag })
-  end
-
   def stub_run_output(avatar, output)
     save_stub(avatar, { :output => output })
   end
@@ -74,26 +69,7 @@ class StubRunner
     dir = disk['/tmp/cyber-dojo/StubRunner/' + test_id]
     fail 'nothing stubbed for StubRunner' unless dir.exists?(stub_run_filename)
     json = dir.read_json(stub_run_filename)
-    output = json['output']
-    return output unless output.nil?
-    rag = json['colour']
-    fail "no 'output' or 'colour' in #{json}" if rag.nil?
-    return sample(@avatar, rag)
-  end
-
-  def sample(avatar, rag)
-    # ?better in test/languages/outputs
-    fail "#{rag} must be red/amber/green" unless red_amber_green.include?(rag)
-    root = File.expand_path(File.dirname(__FILE__) + '/../../test') + '/app_lib/output'
-    unit_test_framework = lookup(@avatar.kata.display_name)
-    path = "#{root}/#{unit_test_framework}/#{rag}"
-    all_output_samples = disk[path].each_file.collect { |filename| filename }
-    filename = all_output_samples.sample
-    disk[path].read(filename)
-  end
-
-  def red_amber_green
-    %w(red amber green)
+    json['output']
   end
 
   def stub_run_filename

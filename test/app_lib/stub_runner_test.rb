@@ -51,20 +51,6 @@ class StubRunnerTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '180F3F',
-  'stub_run_colour stubs given colour for subsequent run' do
-    kata = make_kata
-    lion = kata.start_avatar(['lion'])
-    [:red, :amber, :green].each do |colour|
-      runner.stub_run_colour(lion, colour)
-      stdout,stderr,_ = runner.run(kata.image_name, kata.id, 'lion', _delta=nil, _files=nil, _image_name=nil)
-      output = stdout + stderr
-      assert_equal colour.to_s, ragger.colour(kata, output)
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test 'AF797E',
   'run without preceeding stub returns amber' do
     kata = make_kata
@@ -77,14 +63,7 @@ class StubRunnerTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '4B29D5',
-  'stub_run_colour with bad colour raises' do
-    assert_raises { runner.stub_run_colour(lion=nil, :yellow) }
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   def cdf(image); 'cyberdojofoundation/'+image; end
   def success; 0; end
-  def sudo; 'sudo -u docker-runner sudo '; end
+
 end

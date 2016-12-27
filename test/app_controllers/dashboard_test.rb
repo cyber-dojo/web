@@ -93,7 +93,8 @@ class DashboardControllerTest < AppControllerTestBase
   'progress when avatar has only amber traffic-lights' do
     prepare
     start # 0
-    runner.stub_run_colour(@avatar, :amber)
+    set_ragger_class('StubRagger')
+    ragger.stub_colour(:amber)
     run_tests
     progress
   end

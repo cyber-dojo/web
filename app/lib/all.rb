@@ -11,8 +11,9 @@
   dashboard_td_gapper
   display_names_splitter
   id_splitter
-  fake_storer
   stub_runner
+  stub_ragger
+  fake_storer
 
   differ_service
   ragger_service
