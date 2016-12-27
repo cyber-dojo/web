@@ -13,7 +13,6 @@
   string_cleaner
 
   host_shell
-  mock_host_shell
   host_disk
   host_dir
   memory_log
