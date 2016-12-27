@@ -14,7 +14,7 @@ class ReviewFilePickerTest < AppLibTestBase
 
   #------------------------------------------------------------------
 
-  test '104D78',
+  test '9EFD78',
   'when current_filename has diffs it is chosen',
   'even when another file has more changed lines' do
     @current_filename = 'def'

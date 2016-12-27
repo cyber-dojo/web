@@ -13,7 +13,7 @@ class StartPointChooserTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - -
 
-  test '773616',
+  test 'D9C616',
   'when id is given and katas[id].language exists then choose that language' do
     cmd = test_languages_names.map{ |name| name.split('-').join(', ') }
     test_languages_names.each_with_index do |language, n|

@@ -16,9 +16,9 @@ class StorerServiceTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '2C6E6CD301',
+  test 'C6DE6CD301',
   'smoke test storer-service' do
-    kata_id = '2C6E6CD301'
+    kata_id = 'C6DE6CD301'
     assert_equal 'StorerService', storer.class.name
 
     assert_equal '/tmp/cyber-dojo/katas', storer.path

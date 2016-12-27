@@ -11,7 +11,7 @@ class FileDeltaMakerTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - -
 
-  test '01827F',
+  test '89F27F',
   'unchanged files seen as :unchanged' do
     @was = { 'wibble.h' => 3424234 }
     @now = { 'wibble.h' => 3424234 }
@@ -37,7 +37,7 @@ class FileDeltaMakerTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - -
 
-  test '344B12',
+  test '89FB12',
   'deleted files seen as :deleted' do
     @was = { 'wibble.h' => 52674 }
     @now = {}
@@ -50,7 +50,7 @@ class FileDeltaMakerTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - -
 
-  test 'D2894B',
+  test '89F94B',
   'new files seen as :new' do
     @was = {}
     @now = { 'wibble.h' => 52674 }
@@ -63,7 +63,7 @@ class FileDeltaMakerTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - -
 
-  test '9E8A92',
+  test '89FA92',
   'example with :unchanged, :changed, :deleted, and :new' do
     @was = { 'wibble.h' => 52674, 'wibble.c' => 3424234, 'fubar.h' => -234 }
     @now = { 'wibble.h' => 52674, 'wibble.c' => 46532, 'snafu.c' => -345345 }
@@ -73,8 +73,6 @@ class FileDeltaMakerTest < AppLibTestBase
     assert_deleted ['fubar.h']
     assert_new ['snafu.c']
   end
-
-  #- - - - - - - - - - - - - - - - - - - - - -
 
   private
 

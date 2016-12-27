@@ -18,20 +18,20 @@ class RingPickerTest < AppLibTestBase
     assert_prev('a', %w{ a }, '')
   end
 
-  test 'F763BA',
+  test '9A93BA',
   'previous in two entries' do
     assert_prev('a', %w{ a b }, 'b')
     assert_prev('b', %w{ a b }, 'a')
   end
 
-  test '5CE085',
+  test '9A9085',
   'previous in three entries' do
     assert_prev('a', %w{ a b c }, 'c')
     assert_prev('b', %w{ a b c }, 'a')
     assert_prev('c', %w{ a b c }, 'b')
   end
 
-  test 'BC341B',
+  test '9A941B',
   'previous in four entries' do
     assert_prev('a', %w{ a b c d }, 'd')
     assert_prev('b', %w{ a b c d }, 'a')

@@ -12,7 +12,7 @@ class OutputColourTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '9DBD7D',
+  test '900D7D',
   'all saved Runner outputs are correctly coloured red/amber/green by OutputColour.of' do
     disk[output_path].each_dir do |unit_test_framework|
       ['red', 'amber', 'green'].each do |expected|
@@ -52,7 +52,7 @@ class OutputColourTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '1F2763',
+  test '900763',
   "all dojo.languages red_amber_green lambda's correctly colour saved Runner outputs" do
     dojo.languages.each do |language|
       src = language.red_amber_green
