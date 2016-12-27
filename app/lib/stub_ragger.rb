@@ -8,23 +8,15 @@ class StubRagger
 
   def stub_colour(rag)
     fail "invalid colour #{rag}" unless [:red,:amber,:green].include? rag
-    save_stub(rag)
-  end
-
-  def colour(_kata, _output)
-    read_stub
-  end
-
-  private
-
-  def save_stub(rag)
     dir.make
     dir.write(filename, rag)
   end
 
-  def read_stub
+  def colour(_kata, _output)
     dir.read(filename)
   end
+
+  private
 
   def filename
     'stub_colour'

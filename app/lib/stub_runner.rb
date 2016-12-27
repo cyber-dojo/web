@@ -27,11 +27,16 @@ class StubRunner
   # - - - - - - - - - - - - - - - - -
 
   def stub_run(stdout, stderr='', status=0)
-    save_stub([stdout,stderr,status])
+    dir.make
+    dir.write(filename, [stdout,stderr,status])
   end
 
   def run(_image_name, _kata_id, _name, _deleted_filenames, _changed_files, _max_seconds)
-    read_stub
+    if dir.exists?
+      dir.read(filename)
+    else
+      ['blah blah blah', '', 0]
+    end
   end
 
   private
@@ -44,19 +49,6 @@ class StubRunner
       "#{cdf}/csharp_nunit",
       "#{cdf}/gpp_cpputest"
     ]
-  end
-
-  def save_stub(output)
-    dir.make
-    dir.write(filename, output)
-  end
-
-  def read_stub
-    if dir.exists?
-      dir.read(filename)
-    else
-      ['blah blah blah', '', 0]
-    end
   end
 
   def filename
