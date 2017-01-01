@@ -1,6 +1,4 @@
-#!/bin/bash ../test_wrapper.sh
-
-require_relative './app_models_test_base'
+require_relative 'app_models_test_base'
 
 class AvatarsTest < AppModelsTestBase
 
@@ -11,7 +9,7 @@ class AvatarsTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '631149',
+  test 'B6F149',
   'there are 64 avatar names' do
     assert_equal 64, Avatars.names.length
   end
@@ -26,7 +24,7 @@ class AvatarsTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'B85F79',
+  test 'B6FF79',
   'avatars returns all avatars started in the kata' do
     kata = make_kata
     assert_equal [], kata.avatars.names.sort
@@ -38,7 +36,7 @@ class AvatarsTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'B11555',
+  test 'B6F555',
   'avatars.map works' do
     kata = make_kata
     kata.start_avatar([cheetah])
@@ -49,7 +47,7 @@ class AvatarsTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '3D8638',
+  test 'B6F638',
   'avatars[invalid-name] is nil' do
     kata = make_kata
     assert_nil kata.avatars[invalid_name = 'mobile-phone']
@@ -57,7 +55,7 @@ class AvatarsTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '299429',
+  test 'B6F429',
   'avatars[cheetah] is nil when cheetah has not started' do
     kata = make_kata
     assert_nil kata.avatars[cheetah]
@@ -65,7 +63,7 @@ class AvatarsTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '6A074D',
+  test 'B6F74D',
   'avatars[panda] is the panda when the panda has started' do
     kata = make_kata
     kata.start_avatar([panda])
@@ -75,7 +73,7 @@ class AvatarsTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '1F9350',
+  test 'B6F350',
   'avatars returns all avatars started in the kata with that id' do
     kata = make_kata
     kata.start_avatar([lion])

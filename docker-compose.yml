@@ -17,37 +17,48 @@ services:
     build:
       context: .
       args:
-        CYBER_DOJO_HOME: usr/src/cyber-dojo
+        CYBER_DOJO_HOME: /app
     user: cyber-dojo
     image: cyberdojo/web
     container_name: cyber-dojo-web
-    cpu_shares: 250
+    environment: [ CYBER_DOJO_HOME ]
     mem_limit: 2G
     memswap_limit: 2G
     restart: on-failure
     volumes:
-      - languages:${CYBER_DOJO_ROOT}/start_points/languages:ro
-      - exercises:${CYBER_DOJO_ROOT}/start_points/exercises:ro
-      - custom:${CYBER_DOJO_ROOT}/start_points/custom:ro
-    volumes_from:
-      - container:${CYBER_DOJO_KATAS_DATA_CONTAINER}:rw
+      - languages:${CYBER_DOJO_HOME}/start_points/languages:ro
+      - exercises:${CYBER_DOJO_HOME}/start_points/exercises:ro
+      - custom:${CYBER_DOJO_HOME}/start_points/custom:ro
 
   runner:
     user: root
     image: cyberdojo/runner
     container_name: cyber-dojo-runner
-    cpu_shares: 250
+    read_only: true
+    tmpfs: /tmp
     mem_limit: 2G
     memswap_limit: 2G
     restart: on-failure
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
+  storer:
+    user: root
+    image: cyberdojo/storer
+    container_name: cyber-dojo-storer
+    read_only: true
+    tmpfs: /tmp
+    environment: [ CYBER_DOJO_KATAS_ROOT=/tmp/cyber-dojo/katas ]
+    mem_limit: 2G
+    memswap_limit: 2G
+    restart: on-failure
+
   differ:
     user: nobody
     image: cyberdojo/differ
     container_name: cyber-dojo-differ
-    cpu_shares: 250
+    read_only: true
+    tmpfs: /tmp
     mem_limit: 1G
     memswap_limit: 1G
     restart: on-failure

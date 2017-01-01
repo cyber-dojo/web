@@ -1,0 +1,6 @@
+#!/bin/bash
+
+export CYBER_DOJO_HOME=/app
+export CYBER_DOJO_START_POINT_LANGUAGES=languages
+export CYBER_DOJO_START_POINT_EXERCISES=exercises
+export CYBER_DOJO_START_POINT_CUSTOM=custom

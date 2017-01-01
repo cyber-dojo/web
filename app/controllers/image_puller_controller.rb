@@ -13,9 +13,9 @@ class ImagePullerController < ApplicationController
   private
 
   def image_name
-    return language.image_name if params['type'] == 'language'  # From language+test setup page
-    return   custom.image_name if params['type'] == 'custom'    # From custom setup page
-    return     kata.image_name if params['type'] == 'kata'      # From fork page/dialog
+    return language.image_name if type_is? 'language' # From language+test setup page
+    return   custom.image_name if type_is? 'custom'   # From custom setup page
+    return     kata.image_name if type_is? 'kata'     # From fork page/dialog
   end
 
   def language
@@ -28,6 +28,10 @@ class ImagePullerController < ApplicationController
 
   def kata
     dojo.katas[params['id']]
+  end
+
+  def type_is?(name)
+    params['type'] == name
   end
 
 end

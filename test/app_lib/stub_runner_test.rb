@@ -1,30 +1,8 @@
-#!/bin/bash ../test_wrapper.sh
-
-require_relative './app_lib_test_base'
+require_relative 'app_lib_test_base'
 
 class StubRunnerTest < AppLibTestBase
 
-  def setup
-    super
-    set_shell_class 'MockProxyHostShell'
-  end
-
-  def teardown
-    shell.teardown
-    super
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '6DFD81',
-  'parent is ctor parameter' do
-    assert_equal 'StubRunner', runner.class.name
-    assert_equal self, runner.parent
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '43E866',
+  test 'AF7866',
   'pulled? is true only for 4 specific images' do
     assert runner.pulled? cdf('nasm_assert')
     assert runner.pulled? cdf('gcc_assert')
@@ -35,65 +13,77 @@ class StubRunnerTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '0B42BD',
+  test 'AF72BD',
   'pull is no-op' do
     runner.pull cdf('csharp_moq')
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '84B2C0',
-  'stub_run_output stubs output for subsequent run' do
-    kata = make_kata
-    lion = kata.start_avatar(['lion'])
-    runner.stub_run_output(lion, output='syntax error line 1')
-    stdout,stderr,status = runner.run(kata.image_name, kata.id, 'lion', _delta=nil, _files=nil, _image_name=nil)
-    assert_equal output, stdout
+  test 'AF72C0',
+  'stub_run can stub stdout and leave',
+  'stderr defaulted to stub empty-string and',
+  'status defaulted to stub zero' do
+    runner.stub_run(expected='syntax error line 1')
+    stdout,stderr,status = runner.run(*unused_args)
+    assert_equal expected, stdout
+    assert_equal '', stderr
+    assert_equal 0, status
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '180F3F',
-  'stub_run_colour stubs given colour for subsequent run' do
-    kata = make_kata
-    lion = kata.start_avatar(['lion'])
-    [:red, :amber, :green].each do |colour|
-      runner.stub_run_colour(lion, colour)
-      stdout,stderr,_ = runner.run(kata.image_name, kata.id, 'lion', _delta=nil, _files=nil, _image_name=nil)
-      output = stdout + stderr
-      assert_equal colour.to_s, kata.red_amber_green(output)
-    end
+  test 'AF709C',
+  'stdout,stderr,status can all be stubbed explicitly' do
+    expected_stdout = 'Assertion failed'
+    expected_stderr = 'makefile...'
+    expected_status = 2
+    runner.stub_run(expected_stdout, expected_stderr, expected_status)
+    stdout,stderr,status = runner.run(*unused_args)
+    assert_equal expected_stdout, stdout
+    assert_equal expected_stderr, stderr
+    assert_equal expected_status, status
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'AF797E',
-  'run without preceeding stub returns amber' do
-    kata = make_kata
-    lion = kata.start_avatar(['lion'])
-    stdout,stderr,status = runner.run(kata.image_name, kata.id, 'lion', _delta=nil, _files=nil, _image_name=nil)
-    output = stdout + stderr
-    colour = kata.red_amber_green(output)
-    assert_equal 'amber', colour
+  'run without preceeding stub returns blah blah' do
+    stdout,stderr,status = runner.run(*unused_args)
+    assert stdout.start_with? 'blah'
+    assert_equal '', stderr
+    assert_equal 0, status
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '4B29D5',
-  'stub_run_colour with bad colour raises' do
-    assert_raises { runner.stub_run_colour(lion=nil, :yellow) }
+  test 'AF7902',
+  'stub set in one thread has to be visible in another thread',
+  'because app_controller methods are routed into a new thread' do
+    runner.stub_run(expected='syntax error line 1')
+    stubbed_stdout = nil
+    tid = Thread.new {
+      stubbed_stdout,_stderr,_stdout = runner.run(*unused_args)
+    }
+    tid.join
+    assert_equal expected, stubbed_stdout
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  private
 
-  test '195067',
-  'max_seconds is 10' do
-    assert_equal 10, runner.max_seconds
+  def cdf(image)
+    'cyberdojofoundation/' + image
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  def unused_args
+    args = []
+    args << (image_name = nil)
+    args << (kata_id = nil)
+    args << (avatar_name = nil)
+    args << (deleted_filenames = nil)
+    args << (changed_files = nil)
+    args << (max_seconds = nil)
+    args
+  end
 
-  def cdf(image); 'cyberdojofoundation/'+image; end
-  def success; 0; end
-  def sudo; 'sudo -u docker-runner sudo '; end
 end

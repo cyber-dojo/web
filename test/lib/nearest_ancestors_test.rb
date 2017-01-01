@@ -1,6 +1,4 @@
-#!/bin/bash ../test_wrapper.sh
-
-require_relative './lib_test_base'
+require_relative 'lib_test_base'
 
 class DummyDisk
   def initialize(who); @who = who; end

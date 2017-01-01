@@ -5,14 +5,13 @@ class StartPoints
   def initialize(parent, key)
     @parent = parent
     @key = key
-    disk[cache_path].write_json_once(cache_filename) { make_cache }
+    @path = env_var.value(@key)
+    disk[cache_path].write_json_once(cache_filename) {
+      make_cache
+    }
   end
 
-  attr_reader :parent
-
-  def path
-    @path ||= env_var.value(@key)
-  end
+  attr_reader :parent, :path
 
   def each(&block)
     all.values.each(&block)
@@ -26,7 +25,6 @@ class StartPoints
 
   private
 
-  include NearestAncestors
   include StartPointsRename
 
   def all
@@ -37,15 +35,23 @@ class StartPoints
     cache = {}
     disk[path].each_rdir('manifest.json') do |dir_name|
       its = make(dir_name)
-      cache[its.display_name] = { dir_name: dir_name, image_name: its.image_name }
+      cache[its.display_name] = {
+          dir_name: dir_name,
+        image_name: its.image_name
+      }
     end
     cache
   end
 
   def read_cache
     cache = {}
-    disk[cache_path].read_json(cache_filename).each do |display_name, hash|
-      cache[display_name] = make(hash['dir_name'], display_name, hash['image_name'])
+    json = disk[cache_path].read_json(cache_filename)
+    json.each do |display_name, hash|
+      args = []
+      args << hash['dir_name']
+      args << display_name
+      args << hash['image_name']
+      cache[display_name] = make(*args)
     end
     cache
   end
@@ -58,6 +64,7 @@ class StartPoints
     name.split('-', 2).join(', ')
   end
 
+  include NearestAncestors
   def env_var; nearest_ancestors(:env_var); end
   def disk; nearest_ancestors(:disk); end
 

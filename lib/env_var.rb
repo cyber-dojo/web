@@ -4,8 +4,8 @@
 # unit-tests can set/reset these
 # see test/test_external_helpers.rb
 
-def cd_root
-  '/usr/src/cyber-dojo'
+def cd_home
+  ENV['CYBER_DOJO_HOME']
 end
 
 def cd_env_name(suffix)
@@ -13,20 +13,16 @@ def cd_env_name(suffix)
 end
 
 {
-  # read-only
-  cd_env_name('languages_root') => "#{cd_root}/start_points/languages",
-  cd_env_name('exercises_root') => "#{cd_root}/start_points/exercises",
-  cd_env_name('custom_root')    => "#{cd_root}/start_points/custom",
+  cd_env_name('languages_root') => "#{cd_home}/start_points/languages",
+  cd_env_name('exercises_root') => "#{cd_home}/start_points/exercises",
+  cd_env_name('custom_root')    => "#{cd_home}/start_points/custom",
 
-  # read-write
-  cd_env_name('katas_root')     => "#{cd_root}/katas",
-
-  cd_env_name('differ_class') => 'DifferService',
-  cd_env_name('storer_class') => 'HostDiskStorer',
-  cd_env_name('runner_class') => 'RunnerService',
+  cd_env_name('runner_class') => 'RunnerService', # src -> output
+  cd_env_name('ragger_class') => 'RaggerService', # output -> traffic-light
+  cd_env_name('storer_class') => 'StorerService', # store src,output,traffic-light
+  cd_env_name('differ_class') => 'DifferService', # (src,src) -> diff
 
   cd_env_name('disk_class')  => 'HostDisk',
-  cd_env_name('git_class')   => 'HostGit',
   cd_env_name('log_class')   => 'StdoutLog',
   cd_env_name('shell_class') => 'HostShell'
 

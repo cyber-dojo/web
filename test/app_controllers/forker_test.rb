@@ -1,12 +1,18 @@
-#!/bin/bash ../test_wrapper.sh
-
-require_relative './app_controller_test_base'
+require_relative 'app_controller_test_base'
 
 class ForkerControllerTest < AppControllerTestBase
 
+  def setup_runner_class
+    set_runner_class('StubRunner')
+  end
+
+  def prepare
+    set_storer_class('FakeStorer')
+  end
+
   test '892AFE',
   'when id is invalid then fork fails and the reason given is dojo' do
-    set_storer_class('FakeStorer')
+    prepare
     fork(bad_id = 'bad-id', 'hippo', tag = 1)
     refute forked?
     assert_reason_is("dojo(#{bad_id})")
@@ -17,7 +23,7 @@ class ForkerControllerTest < AppControllerTestBase
 
   test '67725B',
   'when avatar not started, the fork fails, and the reason given is avatar' do
-    set_storer_class('FakeStorer')
+    prepare
     id = create_kata
     fork(id, bad_avatar = 'hippo', tag = 1)
     refute forked?
@@ -29,7 +35,7 @@ class ForkerControllerTest < AppControllerTestBase
 
   test '4CCCA7',
   'when tag is bad, the fork fails, and the reason given is traffic_light' do
-    set_storer_class('FakeStorer')
+    prepare
     @id = create_kata
     @avatar = start
     bad_tag_test('xx')      # !is_tag
@@ -47,14 +53,13 @@ class ForkerControllerTest < AppControllerTestBase
     assert_nil forked_kata_id
   end
 
-
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '2C432F',
   'when id,language,avatar,tag are all ok',
   'format=json fork works',
   "and the new dojo's id is returned" do
-    set_storer_class('FakeStorer')
+    prepare
     @id = create_kata
     @avatar = start # 0
     run_tests       # 1
@@ -76,11 +81,11 @@ class ForkerControllerTest < AppControllerTestBase
   'when id,language,avatar,tag are all ok',
   'format=html fork works',
   "and you are redirected to the enter page with the new dojo's id" do
-    set_storer_class('FakeStorer')
+    prepare
     @id = create_kata
     @avatar = start # 0
     run_tests       # 1
-    fork(@id, @avatar.name, tag = 1, :html)
+    fork(@id, @avatar.name, tag = 1, 'html')
     assert_response :redirect
     url = /(.*)\/enter\/show\/(.*)/
     m = url.match(@response.location)
@@ -92,12 +97,12 @@ class ForkerControllerTest < AppControllerTestBase
   test '5EA04E',
   'when the exercise no longer exists and everything else',
   'is ok then fork works and the new dojos id is returned' do
-    set_storer_class('FakeStorer')
+    prepare
     language = languages[default_language_name]
     manifest = language.create_kata_manifest
-    manifest[:exercise] = 'exercise-name-that-does-not-exist'
+    manifest['exercise'] = 'exercise-name-that-does-not-exist'
     katas.create_kata(manifest)
-    @id = manifest[:id]
+    @id = manifest['id']
     @avatar = start # 0
     run_tests       # 1
     fork(@id, @avatar.name, tag = 1)
@@ -109,12 +114,12 @@ class ForkerControllerTest < AppControllerTestBase
   test '9D85BF',
   'when language has been renamed and everything else',
   'is ok then fork works and the new dojos id is returned' do
-    set_storer_class('FakeStorer')
+    prepare
     language = languages['C#-NUnit']
     manifest = language.create_kata_manifest
-    manifest[:language] = 'C#' # old-name
+    manifest['language'] = 'C#' # old-name
     katas.create_kata(manifest)
-    @id = manifest[:id]
+    @id = manifest['id']
     @avatar = start # 0
     run_tests       # 1
     fork(@id, @avatar.name, tag = 1)
@@ -125,13 +130,13 @@ class ForkerControllerTest < AppControllerTestBase
 
   test '467D4A',
   'forking kata from before start-point volume re-architecture works' do
-    set_storer_class('FakeStorer')
+    prepare
     language = languages['C#-NUnit']
     manifest = language.create_kata_manifest
-    manifest.delete(:red_amber_green)
-    manifest[:unit_test_framework] = 'nunit'
+    manifest.delete('red_amber_green')
+    manifest['unit_test_framework'] = 'nunit'
     katas.create_kata(manifest)
-    @id = manifest[:id]
+    @id = manifest['id']
     @avatar = start # 0
     run_tests       # 1
     fork(@id, @avatar.name, tag = 1)
@@ -143,8 +148,12 @@ class ForkerControllerTest < AppControllerTestBase
 
   private
 
-  def fork(id, avatar, tag, format = :json)
-    get 'forker/fork', format:format, id:id, avatar:avatar, tag:tag
+  def fork(id, avatar, tag, format = 'json')
+    get 'forker/fork',
+      'format' => format,
+      'id'     => id,
+      'avatar' => avatar,
+      'tag'    => tag
   end
 
   def forked?

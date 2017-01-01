@@ -1,42 +1,65 @@
-#!/bin/bash ../test_wrapper.sh
-
-require_relative './app_controller_test_base'
+require_relative 'app_controller_test_base'
 
 class KataControllerTest  < AppControllerTestBase
 
+  def prepare
+    set_storer_class('FakeStorer')
+  end
+
   test 'BE876E',
   'run_tests with bad kata id raises' do
-    params = { :format => :js, :id => 'bad' }
-    assert_raises(StandardError) { post 'kata/run_tests', params }
+    prepare
+    set_runner_class('StubRunner')
+    params = {
+      :format => :js,
+      :id     => 'bad'
+    }
+    assert_raises(StandardError) {
+      post 'kata/run_tests', params
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'BE83FD',
   'run_tests with good kata id but bad avatar name raises' do
+    # This raises because in kata_controller the line
+    #   @avatar.test runs with @avatar is nil
+    # TODO: construct a test that raises because the runner raises
+    #       something other than 'no_avatar'
+    prepare
+    set_runner_class('StubRunner')
     kata_id = create_gcc_assert_kata
-    params = { :format => :js, :id => kata_id, :avatar => 'bad' }
-    assert_raises(StandardError) { post 'kata/run_tests', params }
+    @avatar = start
+    kata_edit
+    params = {
+      :format => :js,
+      :id     => kata_id,
+      :avatar => 'bad' }
+    assert_raises(StandardError) {
+      post 'kata/run_tests', params.merge(@params_maker.params)
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'BE8B75',
-  'show-json (for Atom editor)' do
-    set_storer_class('FakeStorer')
-    create_gcc_assert_kata
+  test 'BE8222',
+  'run tests that times_out' do
+    prepare
+    set_runner_class('StubRunner')
+    kata_id = create_gcc_assert_kata
     @avatar = start
     kata_edit
+    runner.stub_run(stdout='',stderr='',status='timed_out')
     run_tests
-    params = { :format => :json, :id => @id, :avatar => @avatar.name }
-    get 'kata/show_json', params
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'BE80F6',
   'edit and then run-tests' do
-    set_storer_class('FakeStorer')
+    prepare
+    set_runner_class('StubRunner')
     create_gcc_assert_kata
     @avatar = start
     kata_edit
@@ -51,7 +74,8 @@ class KataControllerTest  < AppControllerTestBase
   'run_tests() saves changed makefile with leading spaces converted to tabs',
   'and these changes are made to the visible_files parameter too',
   'so they also occur in the manifest file' do
-    set_runner_class('RunnerService')
+    prepare
+    set_runner_class('StubRunner')
     create_gcc_assert_kata
     @avatar = start
     begin
@@ -71,7 +95,8 @@ class KataControllerTest  < AppControllerTestBase
   'run_tests() saves *new* makefile with leading spaces converted to tabs',
   'and these changes are made to the visible_files parameter too',
   'so they also occur in the manifest file' do
-    set_runner_class('RunnerService')
+    prepare
+    set_runner_class('StubRunner')
     create_gcc_assert_kata
     @avatar = start
     begin
@@ -88,8 +113,9 @@ class KataControllerTest  < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'BE89DC',
-  'when cyber-dojo.sh removes a file then it stays removed.' +
-    '(viz, RunnerService is stateful)' do
+  'when cyber-dojo.sh removes a file then it stays removed.',
+  '(viz, RunnerService is stateful)' do
+    prepare
     set_runner_class('RunnerService')
     create_gcc_assert_kata
     @avatar = start
@@ -127,6 +153,7 @@ class KataControllerTest  < AppControllerTestBase
     # Note: the kata-controller validates the kata-id and the avatar-name
     # (via the host-katas-storer) so there is no path from the browser to
     # get runner.run to accept unvalidated arguments.
+    prepare
     set_runner_class('RunnerService')
     create_gcc_assert_kata
     @avatar = start # 0
@@ -154,12 +181,26 @@ class KataControllerTest  < AppControllerTestBase
       hit_test # 2
       assert_equal "All tests passed\n", @avatar.visible_files['output']
       assert_equal :green, @avatar.lights[-1].colour
-      diff = differ.diff(@avatar, was_tag=1, now_tag=2)
+      diff = differ.diff(@kata.id, @avatar.name, was_tag=1, now_tag=2)
       assert diff['hiker.c'].include?({"type"=>"deleted", "line"=>"    return 6 * 9;", "number"=>5})
       assert diff['hiker.c'].include?({"type"=>"added",   "line"=>"    return 6 * 7;", "number"=>5})
     ensure
       runner.old_avatar(@kata.id, @avatar.name)
     end
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'BE8B75',
+  'show-json (for Atom editor)' do
+    prepare
+    set_runner_class('StubRunner')
+    create_gcc_assert_kata
+    @avatar = start
+    kata_edit
+    run_tests
+    params = { :format => :json, :id => @id, :avatar => @avatar.name }
+    get 'kata/show_json', params
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

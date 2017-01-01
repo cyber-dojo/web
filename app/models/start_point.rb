@@ -16,20 +16,20 @@ class StartPoint
 
   def create_kata_manifest(id = unique_id, now = time_now)
     manifest = {
-                       id: id,
-                  created: now,
-               image_name: image_name,
-             display_name: display_name,
-       filename_extension: filename_extension,
-          progress_regexs: progress_regexs,
-      highlight_filenames: highlight_filenames,
-       lowlight_filenames: lowlight_filenames,
-          red_amber_green: red_amber_green,
-                 language: name,
-                 tab_size: tab_size
+                       'id' => id,
+                  'created' => now,
+               'image_name' => image_name,
+             'display_name' => display_name,
+       'filename_extension' => filename_extension,
+          'progress_regexs' => progress_regexs,
+      'highlight_filenames' => highlight_filenames,
+       'lowlight_filenames' => lowlight_filenames,
+          'red_amber_green' => red_amber_green,
+                 'language' => name,
+                 'tab_size' => tab_size
     }
-    manifest[:visible_files] = visible_files
-    manifest[:visible_files]['output'] = ''
+    manifest['visible_files'] = visible_files
+    manifest['visible_files']['output'] = ''
     manifest
   end
 
@@ -54,7 +54,9 @@ class StartPoint
   end
 
   def visible_files
-    Hash[visible_filenames.collect { |filename| [filename, disk[path].read(filename)] }]
+    Hash[visible_filenames.collect { |filename|
+      [filename, disk[path].read(filename)]
+    }]
   end
 
   # optional manifest properties
@@ -126,10 +128,11 @@ end
 # image_name
 # - - - - - - - - - - - - - - - - - - - -
 # ||= caching is to optimize the setup page
-# If you upgrade a start-point, eg to a newer compiler version,
-# or a newer test-framework, do *not* change the image_name.
-# Keeping any version numbers out of the image_name and
-# not changing it ensures forking always works.
+# If you upgrade a start-point, eg to a newer
+# compiler version, or a newer test-framework,
+# do *not* change the image_name.
+# Keeping any version numbers out of the image_name
+# and not changing it ensures forking always works.
 # - - - - - - - - - - - - - - - - - - - -
 
 
@@ -137,7 +140,9 @@ end
 # lowlight_filenames
 # - - - - - - - - - - - - - - - - - - - -
 # Caters for two uses
-# 1. carefully constructed (custom) set of start files (like James Grenning uses)
-#    with explicitly set highlight_filenames entry in manifest
-# 2. default start-points files viz, no highlight_filenames entry in manifest
+# 1. carefully constructed (custom) set of start
+#    files (like James Grenning uses) with explicitly
+#    set highlight_filenames entry in manifest
+# 2. default start-points files viz,
+#    no highlight_filenames entry in manifest
 # - - - - - - - - - - - - - - - - - - - -

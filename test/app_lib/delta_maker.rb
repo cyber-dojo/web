@@ -36,37 +36,18 @@ class DeltaMaker
   end
 
   def stub_colour(colour)
-    root = File.expand_path(File.dirname(__FILE__)) + '/../../test/app_lib/output'
-    # since start-points volume re-architecture
-    # unit_test_framework is no longer directly available...
-    unit_test_framework = lookup(@avatar.kata.display_name)
-    path = "#{root}/#{unit_test_framework}/#{colour}"
-    all_outputs = Dir.glob(path + '/*')
-    filename = all_outputs.sample
-    output = File.read(filename)
-    nearest_ancestors(:runner, @avatar).stub_run_output(@avatar, output)
+    ragger.stub_colour(colour)
     @stubbed = true
-  end
-
-  def run_test_no_stub(at = time_now)
-    visible_files = now
-    delta = make_delta(@was, @now)
-    output = @avatar.test(delta, visible_files)
-    colour = @avatar.kata.red_amber_green(output)
-    @avatar.tested(delta, visible_files, at, output, colour)
-    [delta, visible_files, output]
   end
 
   def run_test(at = time_now)
     visible_files = now
     delta = make_delta(@was, @now)
-    if @stubbed.nil? && nearest_ancestors(:runner, @avatar).class.name == 'StubRunner'
-      stub_colour(:red)
-    end
-    stdout,stderr,status = @avatar.test(delta, visible_files)
+    stub_colour(:red) if @stubbed.nil?
+    stdout,stderr,status = @avatar.test(delta, visible_files, max_seconds)
     output = stdout + stderr
-    colour = @avatar.kata.red_amber_green(output)
-    @avatar.tested(delta, visible_files, at, output, colour)
+    colour = ragger.colour(@avatar.kata, output)
+    @avatar.tested(visible_files, at, output, colour)
     [delta, visible_files, output]
   end
 
@@ -82,11 +63,13 @@ class DeltaMaker
     now
   end
 
+  def max_seconds
+    10
+  end
+
   private
 
-  include NearestAncestors
   include TimeNow
-  include UnitTestFrameworkLookup
 
   def assert(&pred)
     fail RuntimeError.new('DeltaMaker.assert') unless pred.call
@@ -95,5 +78,8 @@ class DeltaMaker
   def refute(&pred)
     fail RuntimeError.new('DeltaMaker.refute') if pred.call
   end
+
+  include NearestAncestors
+  def ragger; nearest_ancestors(:ragger, @avatar); end
 
 end

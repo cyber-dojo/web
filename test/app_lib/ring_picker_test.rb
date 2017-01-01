@@ -1,6 +1,4 @@
-#!/bin/bash ../test_wrapper.sh
-
-require_relative './app_lib_test_base'
+require_relative 'app_lib_test_base'
 
 class RingPickerTest < AppLibTestBase
 
@@ -13,27 +11,27 @@ class RingPickerTest < AppLibTestBase
     set_differ_class('NotUsed')
   end
 
-  #------------------------------------------------------------------
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '9A9099',
   'previous when single entry is empty string' do
     assert_prev('a', %w{ a }, '')
   end
 
-  test 'F763BA',
+  test '9A93BA',
   'previous in two entries' do
     assert_prev('a', %w{ a b }, 'b')
     assert_prev('b', %w{ a b }, 'a')
   end
 
-  test '5CE085',
+  test '9A9085',
   'previous in three entries' do
     assert_prev('a', %w{ a b c }, 'c')
     assert_prev('b', %w{ a b c }, 'a')
     assert_prev('c', %w{ a b c }, 'b')
   end
 
-  test 'BC341B',
+  test '9A941B',
   'previous in four entries' do
     assert_prev('a', %w{ a b c d }, 'd')
     assert_prev('b', %w{ a b c d }, 'a')
@@ -41,7 +39,7 @@ class RingPickerTest < AppLibTestBase
     assert_prev('d', %w{ a b c d }, 'c')
   end
 
-  #------------------------------------------------------------------
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'DA1549',
   'next when single entry is empty string' do
@@ -68,8 +66,6 @@ class RingPickerTest < AppLibTestBase
     assert_next('c', %w{ a b c d }, 'd')
     assert_next('d', %w{ a b c d }, 'a')
   end
-
-  #------------------------------------------------------------------
 
   private
 

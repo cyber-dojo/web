@@ -3,7 +3,7 @@ class DifferController < ApplicationController
 
   def diff
     @lights = avatar.lights.map(&:to_json)
-    diff = differ.diff(avatar, was_tag, now_tag)
+    diff = differ.diff(kata.id, avatar.name, was_tag, now_tag)
     view = diff_view(diff)
     render json: {
                          id: kata.id,
@@ -47,7 +47,10 @@ class DifferController < ApplicationController
   end
 
   def prune(array)
-    array.map { |hash| { :id => hash[:id], :section_count => hash[:section_count] } }
+    array.map { |hash| {
+      :id            => hash[:id],
+      :section_count => hash[:section_count]
+    }}
   end
 
 end

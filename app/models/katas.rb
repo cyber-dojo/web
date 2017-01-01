@@ -23,20 +23,22 @@ class Katas
   end
 
   def [](id)
-    storer.kata_exists?(id) ? Kata.new(self, id) : nil
+    Kata.new(self, id)
   end
 
   # modifiers
 
   def create_kata(manifest)
     storer.create_kata(manifest)
-    runner.new_kata(manifest[:image_name], manifest[:id])
+    id = manifest['id']
+    image_name = manifest['image_name']
+    runner.new_kata(image_name, id)
+    self[id]
   end
 
   private
 
   include NearestAncestors
-
   def storer; nearest_ancestors(:storer); end
   def runner; nearest_ancestors(:runner); end
 

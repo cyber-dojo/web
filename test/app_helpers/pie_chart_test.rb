@@ -1,7 +1,5 @@
-#!/bin/bash ../test_wrapper.sh
-
-require_relative './app_helpers_test_base'
-require_relative './../app_lib/delta_maker'
+require_relative 'app_helpers_test_base'
+require_relative '../app_lib/delta_maker'
 
 class PieChartTest < AppHelpersTestBase
 
@@ -11,6 +9,7 @@ class PieChartTest < AppHelpersTestBase
   'pie-chart from avatar.lights' do
 
     set_storer_class('FakeStorer')
+    set_ragger_class('StubRagger')
 
     kata = make_kata
     lion = kata.start_avatar(['lion'])
@@ -96,9 +95,9 @@ class PieChartTest < AppHelpersTestBase
 
   private
 
-  def       red_light; Tag.new(nil, {'colour' => :red      }); end
-  def     amber_light; Tag.new(nil, {'colour' => :amber    }); end
-  def     green_light; Tag.new(nil, {'colour' => :green    }); end
-  def timed_out_light; Tag.new(nil, {'colour' => :timed_out}); end
+  def       red_light; Tag.new(nil, { 'colour' => :red       }); end
+  def     amber_light; Tag.new(nil, { 'colour' => :amber     }); end
+  def     green_light; Tag.new(nil, { 'colour' => :green     }); end
+  def timed_out_light; Tag.new(nil, { 'colour' => :timed_out }); end
 
 end

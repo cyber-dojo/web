@@ -24,11 +24,6 @@ module TestHexIdHelpers # mix-in
     set_runner_class('StubRunner')
   end
 
-  def setup_katas_root
-    katas_root = "#{tmp_root}/#{test_id}/katas"
-    set_katas_root(katas_root)
-  end
-
   def test_id
     ENV['CYBER_DOJO_TEST_ID']
   end
@@ -41,7 +36,8 @@ module TestHexIdHelpers # mix-in
 
   module ClassMethods
 
-    @@args = (ARGV.sort.uniq - ['--']).map(&:upcase)  # eg 2DD6F3 eg 2dd
+    # ARGV[0] == module name
+    @@args = ARGV[1..-1].sort.uniq.map(&:upcase)  # eg 2DD6F3 eg 2dd
     @@seen_ids = []
 
     def test(id, *lines, &block)
@@ -66,7 +62,6 @@ module TestHexIdHelpers # mix-in
         block_with_test_id = lambda {
           ENV['CYBER_DOJO_TEST_ID'] = id
           self.setup_runner_class
-          self.setup_katas_root
           self.instance_eval &block
         }
         define_method("test_'#{id}',\n #{name}\n".to_sym, &block_with_test_id)
@@ -79,8 +74,7 @@ module TestHexIdHelpers # mix-in
       unseen_args = @@args.find_all { |arg| unseen_arg.call(arg) }
       unless unseen_args == []
         message = 'the following test id arguments were *not* found'
-        bar = 'X' * message.length
-        lines = [ '', bar, message, "#{unseen_args}", bar, '' ]
+        lines = [ '', message, "#{unseen_args}", '' ]
         # can't raise in a finalizer
         lines.each { |line| STDERR.puts line }
       end

@@ -9,28 +9,30 @@ class SetupDefaultStartPointController < ApplicationController
     @id = id
     @title = 'create'
     languages_names = display_names_of(languages)
-    index = choose_language(languages_names, dojo.katas[id])
+    kata = (id != nil) ? dojo.katas[id] : nil
+    index = choose_language(languages_names, kata)
     @start_points = ::DisplayNamesSplitter.new(languages_names, index)
-    @max_seconds = runner.max_seconds
+    @max_seconds = 10
   end
 
   def show_exercises
     @id = id
     @title = 'create'
-    @language = params[:language]
-    @test = params[:test]
+    @language = params['language']
+    @test = params['test']
     @exercises_names,@exercises = read_exercises
-    @initial_index = choose_exercise(@exercises_names, dojo.katas[id])
+    kata = (id != nil) ? dojo.katas[id] : nil
+    @initial_index = choose_exercise(@exercises_names, kata)
   end
 
   def save
     manifest = language.create_kata_manifest
     exercise_name = params['exercise']
     exercise = exercises[exercise_name]
-    manifest[:exercise] = exercise.name
-    manifest[:visible_files]['instructions'] = exercise.text
-    katas.create_kata(manifest)
-    render json: { id: manifest[:id] }
+    manifest['exercise'] = exercise.name
+    manifest['visible_files']['instructions'] = exercise.text
+    kata = katas.create_kata(manifest)
+    render json: { id: kata.id }
   end
 
   private

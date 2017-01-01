@@ -1,6 +1,4 @@
-#!/bin/bash ../test_wrapper.sh
-
-require_relative './app_lib_test_base'
+require_relative 'app_lib_test_base'
 require_relative '../../app/lib/unit_test_framework_lookup'
 
 class OutputColourTest < AppLibTestBase
@@ -14,7 +12,7 @@ class OutputColourTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '9DBD7D',
+  test '900D7D',
   'all saved Runner outputs are correctly coloured red/amber/green by OutputColour.of' do
     disk[output_path].each_dir do |unit_test_framework|
       ['red', 'amber', 'green'].each do |expected|
@@ -54,18 +52,11 @@ class OutputColourTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '1F2763',
+  test '900763',
   "all dojo.languages red_amber_green lambda's correctly colour saved Runner outputs" do
-    lambda_yes_count = 0
-    lambda_no_count = 0
     dojo.languages.each do |language|
       src = language.red_amber_green
-      if src.nil?
-        lambda_no_count += 1
-        next
-      else
-        lambda_yes_count += 1
-      end
+      refute_nil src
       ['red', 'amber', 'green'].each do |expected|
         unit_test_framework = lookup(language.display_name)
         refute_nil unit_test_framework, "no lookup() for #{language.display_name}"
@@ -85,8 +76,6 @@ class OutputColourTest < AppLibTestBase
         end
       end
     end
-    assert_equal 62, lambda_yes_count
-    assert_equal 0, lambda_no_count
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

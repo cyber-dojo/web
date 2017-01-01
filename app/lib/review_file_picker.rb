@@ -14,11 +14,18 @@ module ReviewFilePicker # mix-in
     # be deleted.
 
     chosen_diff = nil
-    current_filename_diff = diffs.find { |diff| diff[:filename] == current_filename }
+    current_filename_diff = diffs.find { |diff|
+      diff[:filename] == current_filename
+    }
 
-    files = diffs.select { |diff| diff[:filename] != 'output' && diff[:filename] != current_filename }
+    files = diffs.select { |diff|
+      diff[:filename] != 'output' &&
+      diff[:filename] != current_filename
+    }
     files = files.select { |diff| change_count(diff) > 0 }
-    most_changed_diff = files.max { |lhs, rhs| change_count(lhs) <=> change_count(rhs) }
+    most_changed_diff = files.max { |lhs, rhs|
+      change_count(lhs) <=> change_count(rhs)
+    }
 
     if !current_filename_diff.nil?
       if change_count(current_filename_diff) > 0 || most_changed_diff.nil?
@@ -30,12 +37,18 @@ module ReviewFilePicker # mix-in
       chosen_diff = most_changed_diff
     else
       non_code_filenames = %w{ output instructions makefile cyber-dojo.sh }
-      code_files = diffs.select { |diff| !non_code_filenames.include? diff[:filename] }
-      chosen_diff = code_files.max_by { |diff| diff[:content].size }
+      code_files = diffs.select { |diff|
+        !non_code_filenames.include? diff[:filename]
+      }
+      chosen_diff = code_files.max_by { |diff|
+        diff[:content].size
+      }
     end
 
     if chosen_diff.nil?
-      chosen_diff = diffs.select { |diff| diff[:filename] == 'cyber-dojo.sh' }[0]
+      chosen_diff = diffs.select { |diff|
+        diff[:filename] == 'cyber-dojo.sh'
+      }[0]
     end
 
     chosen_diff[:id]

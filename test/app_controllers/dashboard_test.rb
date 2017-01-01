@@ -1,12 +1,14 @@
-#!/bin/bash ../test_wrapper.sh
-
-require_relative './app_controller_test_base'
+require_relative 'app_controller_test_base'
 
 class DashboardControllerTest < AppControllerTestBase
 
+  def setup_runner_class
+    set_runner_class('StubRunner')
+  end
+
   def prepare
     set_storer_class('FakeStorer')
-    create_kata
+    create_kata('Java, JUnit')
   end
 
   #- - - - - - - - - - - - - - - -
@@ -91,12 +93,23 @@ class DashboardControllerTest < AppControllerTestBase
   'progress when avatar has only amber traffic-lights' do
     prepare
     start # 0
-    runner.stub_run_colour(@avatar, :amber)
+    set_ragger_class('StubRagger')
+    ragger.stub_colour(:amber)
     run_tests
     progress
   end
 
   #- - - - - - - - - - - - - - - -
+
+  test '62A920',
+  'progress when avatar has only non-amber traffic-lights' do
+    prepare
+    start # 0
+    set_ragger_class('StubRagger')
+    ragger.stub_colour(:red)
+    run_tests
+    progress
+  end
 
   private
 

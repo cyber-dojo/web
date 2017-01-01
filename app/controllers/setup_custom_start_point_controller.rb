@@ -7,14 +7,15 @@ class SetupCustomStartPointController < ApplicationController
     @id = id
     @title = 'create'
     custom_names = display_names_of(dojo.custom)
-    index = choose_language(custom_names, dojo.katas[id])
+    kata = (id != nil) ? dojo.katas[id] : nil
+    index = choose_language(custom_names, kata)
     @start_points = ::DisplayNamesSplitter.new(custom_names, index)
   end
 
   def save
     manifest = custom.create_kata_manifest
-    katas.create_kata(manifest)
-    render json: { id: manifest[:id] }
+    kata = katas.create_kata(manifest)
+    render json: { id: kata.id }
   end
 
   private

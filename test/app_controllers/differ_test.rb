@@ -1,6 +1,4 @@
-#!/bin/bash ../test_wrapper.sh
-
-require_relative './app_controller_test_base'
+require_relative 'app_controller_test_base'
 
 class DifferControllerTest < AppControllerTestBase
 
@@ -133,11 +131,11 @@ class DifferControllerTest < AppControllerTestBase
 
   def differ
     params = {
-       format: :json,
-           id: @id,
-       avatar: @avatar.name,
-      was_tag: @was_tag,
-      now_tag: @now_tag
+       'format' => 'json',
+           'id' => @id,
+       'avatar' => @avatar.name,
+      'was_tag' => @was_tag,
+      'now_tag' => @now_tag
     }
     get 'differ/diff', params
     assert_response :success

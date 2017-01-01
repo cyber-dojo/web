@@ -1,8 +1,10 @@
-#!/bin/bash ../test_wrapper.sh
-
-require_relative './app_controller_test_base'
+require_relative 'app_controller_test_base'
 
 class ReverterControllerTest  < AppControllerTestBase
+
+  def setup_runner_class
+    set_runner_class('StubRunner')
+  end
 
   def prepare
     set_storer_class('FakeStorer')
@@ -24,10 +26,10 @@ class ReverterControllerTest  < AppControllerTestBase
     run_tests # 2
     assert_equal new_content, @avatar.visible_files[filename]
 
-    get 'reverter/revert', :format => :json,
-                           :id     => @id,
-                           :avatar => @avatar.name,
-                           :tag    => 1
+    get 'reverter/revert', 'format' => 'json',
+                           'id'     => @id,
+                           'avatar' => @avatar.name,
+                           'tag'    => 1
     assert_response :success
 
     visible_files = json['visibleFiles']

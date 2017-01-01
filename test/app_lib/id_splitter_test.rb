@@ -1,8 +1,6 @@
-#!/bin/bash ../test_wrapper.sh
+require_relative 'app_lib_test_base'
 
-require_relative './lib_test_base'
-
-class IdSplitterTest < LibTestBase
+class IdSplitterTest < AppLibTestBase
 
   include IdSplitter
 
@@ -11,7 +9,7 @@ class IdSplitterTest < LibTestBase
     assert_equal 'A7', outer('a73457AD02')
   end
 
-  test '0E7FC6',
+  test '80DFC6',
   'inner(id) is last 8 chars of id in uppercase' do
     assert_equal '3457ADF2', inner('a73457ADf2')
   end

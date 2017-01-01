@@ -1,12 +1,19 @@
-#!/bin/bash ../test_wrapper.sh
-
-require_relative './app_controller_test_base'
+require_relative 'app_controller_test_base'
 
 class SetupCustomStartPointControllerTest < AppControllerTestBase
 
+  def setup_runner_class
+    set_runner_class('StubRunner')
+  end
+
+  def prepare
+    set_storer_class('FakeStorer')
+  end
+
   test 'EB77D9',
   'show shows all custom exercises' do
-    # This assumes the exercises volume is default-exercises (refactoring)
+    prepare
+    # Assumes the exercises volume is default refactoring exercises
     assert_equal [
       'Tennis refactoring, C# NUnit',
       'Tennis refactoring, C++ (g++) assert',
@@ -28,8 +35,8 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
     assert /data-minor\=\"C# NUnit/.match(html), html
 
     params = {
-      major: 'Tennis refactoring',
-      minor: 'C# NUnit'
+      'major' => 'Tennis refactoring',
+      'minor' => 'C# NUnit'
     }
     do_get 'save', params
   end

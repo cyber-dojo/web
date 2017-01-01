@@ -24,42 +24,39 @@ module TestExternalHelpers # mix-in
   def unset_languages_root; unset_root('languages'); end
   def unset_exercises_root; unset_root('exercises'); end
   def    unset_custom_root; unset_root(   'custom'); end
-  def     unset_katas_root; unset_root(    'katas'); end
 
   def set_languages_root(value); set_root('languages', value); end
   def set_exercises_root(value); set_root('exercises', value); end
   def    set_custom_root(value); set_root(   'custom', value); end
-  def     set_katas_root(value); set_root(    'katas', value); end
 
   def get_languages_root; get_root('languages'); end
   def get_exercises_root; get_root('exercises'); end
   def    get_custom_root; get_root(   'custom'); end
-  def     get_katas_root; get_root(    'katas'); end
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def unset_differ_class; unset_class('differ'); end
   def unset_runner_class; unset_class('runner'); end
+  def unset_ragger_class; unset_class('ragger'); end
   def unset_storer_class; unset_class('storer'); end
+  def unset_differ_class; unset_class('differ'); end
   def  unset_shell_class; unset_class( 'shell'); end
   def   unset_disk_class; unset_class(  'disk'); end
-  def    unset_git_class; unset_class(   'git'); end
   def    unset_log_class; unset_class(   'log'); end
 
-  def   set_differ_class(value); set_class('differ', value); end
   def   set_runner_class(value); set_class('runner', value); end
+  def   set_ragger_class(value); set_class('ragger', value); end
   def   set_storer_class(value); set_class('storer', value); end
+  def   set_differ_class(value); set_class('differ', value); end
   def    set_shell_class(value); set_class( 'shell', value); end
   def     set_disk_class(value); set_class(  'disk', value); end
-  def      set_git_class(value); set_class(   'git', value); end
   def      set_log_class(value); set_class(   'log', value); end
 
-  def   get_differ_class; get_class('differ'); end
   def   get_runner_class; get_class('runner'); end
+  def   get_ragger_class; get_class('ragger'); end
   def   get_storer_class; get_class('storer'); end
+  def   get_differ_class; get_class('differ'); end
   def    get_shell_class; get_class( 'shell'); end
   def     get_disk_class; get_class(  'disk'); end
-  def      get_git_class; get_class(   'git'); end
   def      get_log_class; get_class(   'log'); end
 
   # - - - - - - - - - - - - - - - - - - -

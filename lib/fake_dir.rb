@@ -22,27 +22,35 @@ class FakeDir
   end
 
   def each_dir
-    must_exist
+    assert_exists
     return enum_for(__method__) unless block_given?
     dirs.each { |name,dir| yield name if dir[:exists] }
   end
 
-  def write_json(filename, obj)
-    must_exist
-    files[filename] = JSON.unparse(obj)
+  def write(filename, content)
+    assert_exists
+    files[filename] = content
+  end
+
+  def write_json(filename, json)
+    write(filename, JSON.unparse(json))
+  end
+
+  def read(filename)
+    assert_exists
+    files[filename]
   end
 
   def read_json(filename)
-    must_exist
-    JSON.parse(files[filename])
+    JSON.parse(read(filename))
   end
 
   private
 
   attr_reader :attr, :dirs, :files
 
-  def must_exist
-    raise StandardError.new unless exists?
+  def assert_exists
+    fail StandardError.new unless exists?
   end
 
 end

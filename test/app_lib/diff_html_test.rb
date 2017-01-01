@@ -1,6 +1,4 @@
-#!/bin/bash ../test_wrapper.sh
-
-require_relative './app_lib_test_base'
+require_relative 'app_lib_test_base'
 
 class DiffHtmlTest <  AppLibTestBase
 
@@ -63,7 +61,7 @@ class DiffHtmlTest <  AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '2117D9',
+  test '7487D9',
   'empty same/added/deleted lines become',
   '&nbsp; to prevent empty lines collapsing in browser',
   'some CSS magic is needed...' do
@@ -96,7 +94,7 @@ class DiffHtmlTest <  AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'B1C72E',
+  test '74872E',
   'each diff-chunk is preceeded by section info',
   'to allow auto-scrolling in browser' do
 
@@ -155,8 +153,6 @@ class DiffHtmlTest <  AppLibTestBase
     assert_equal_diff_html('ennio')
 
   end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - -
 
   private
 

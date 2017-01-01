@@ -9,17 +9,6 @@ in the colour of 17.
 
 - - - - - - - - - - - - - - - - - - - - -
 
-move setting of environment variables inside rails startup code
-and out of docker-compose.yml
-
-app/lib/StubRunner
-combine test's hex-id with avater.name in tmp folder
-
-if I do disk[storer.avatar_path(...)] a lot it might be worth adding
-storer.avatar_dir(...)
-
-- - - - - - - - - - - - - - - - - - - - -
-
 cyber-dojo shell script is a bit of a mess.
 It's because of three commands
 1. cyber-dojo up
@@ -72,19 +61,10 @@ a (new) master in the lookup.
 
 - - - - - - - - - - - - - - - - - - - - -
 
-web_base/Dockerfile still has this line
-   && cd ${CYBER_DOJO_HOME} ; bundle install --without development test \
-
-- - - - - - - - - - - - - - - - - - - - -
-
 Would be good to have a [cyber-dojo] cli command to export
 a specific kata to a given folder. This would make it easier
 to create custom exercises. Must not export to default VM
 on Mac/Windows quickstart-terminal.
-
-- - - - - - - - - - - - - - - - - - - - -
-
-Make [cyber-dojo clean] remove dead containers as well as dead images?
 
 - - - - - - - - - - - - - - - - - - - - -
 
@@ -129,11 +109,6 @@ Occasional test failures (when run locally)...
 
 Note: need a check that each docker image has a user in it called nobody
       (I don't think it's uid is important)
-
-- - - - - - - - - - - - - - - - - - - - -
-
-get travis to push images to cdf hub?
-push images to cyberdojofoundation hub if tests pass
 
 - - - - - - - - - - - - - - - - - - - - -
 

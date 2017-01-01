@@ -1,6 +1,4 @@
-#!/bin/bash ../test_wrapper.sh
-
-require_relative './app_lib_test_base'
+require_relative 'app_lib_test_base'
 
 class DifferServiceTest < AppLibTestBase
 
@@ -10,7 +8,7 @@ class DifferServiceTest < AppLibTestBase
     set_runner_class('StubRunner')
   end
 
-  #------------------------------------------------------------------
+  # - - - - - - - - - - - - - - - - - - - - - - -
 
   test '9823AB',
   'smoke test differ-service' do
@@ -19,16 +17,12 @@ class DifferServiceTest < AppLibTestBase
     args = []
     args << kata.id
     args << lion
-    files1 = starting_files
-    delta = empty_delta
-    delta['unchanged'] = files1.keys
-    args << delta
-    args << files1
+    args << (files1 = starting_files)
     args << (now1 = [2016,12,8,8,3,23])
     args << (output = 'Assert failed: answer() == 42')
     args << (colour1 = 'red')
     storer.avatar_ran_tests(*args)
-    actual = differ.diff(kata.avatars[lion], was_tag=0, now_tag=1)
+    actual = differ.diff(kata.id, lion, was_tag=0, now_tag=1)
 
     refute_nil actual['hiker.c']
     assert_equal({

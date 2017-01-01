@@ -11,7 +11,7 @@ class Kata
   # modifiers
 
   def start_avatar(avatar_names = Avatars.names.shuffle)
-    name = storer.kata_start_avatar(id, avatar_names)
+    name = storer.start_avatar(id, avatar_names)
     unless name.nil?
       runner.new_avatar(image_name, id, name, visible_files)
     end
@@ -53,8 +53,9 @@ class Kata
   end
 
   def unit_test_framework
-    # not stored in manifest after start-point volume re-architecture
-    # which replaced it with red_amber_green lambda
+    # not stored in manifest after start-point
+    # volume re-architecture which replaced it
+    # with red_amber_green lambda
     manifest_property
   end
 
@@ -96,24 +97,13 @@ class Kata
     full_manifest_property
   end
 
-  def red_amber_green(output)
-    src = manifest['red_amber_green']
-    if output.nil?
-      return src # so lambda src can be saved when forking
-    end
-    # before or after start-points re-architecture?
-    if src.nil? # before
-      OutputColour.of(unit_test_framework, output)
-    else # after
-      colour = eval(src.join("\n"))
-      colour.call(output).to_s
-    end
+  def red_amber_green
+    full_manifest_property
   end
 
   private
 
   include ManifestProperty
-  include NearestAncestors
 
   def full_manifest_property
     # A kata's manifest should store everything it needs so it never has
@@ -126,7 +116,7 @@ class Kata
   end
 
   def start_point
-    name = manifest['language']
+    name = language
     languages[name] || custom[name]
   end
 
@@ -135,13 +125,16 @@ class Kata
   end
 
   def earliest_light
-    Time.mktime(*avatars.active.map { |avatar| avatar.lights[0].time }.sort[0])
+    times = avatars.active.map { |avatar| avatar.lights[0].time }
+    Time.mktime(*times.sort[0])
   end
 
+  include NearestAncestors
   def languages; nearest_ancestors(:languages); end
-  def custom; nearest_ancestors(:custom); end
-  def storer; nearest_ancestors(:storer); end
+  def custom   ; nearest_ancestors(:custom   ); end
+
   def runner; nearest_ancestors(:runner); end
+  def storer; nearest_ancestors(:storer); end
 
 end
 

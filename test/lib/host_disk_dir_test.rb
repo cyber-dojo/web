@@ -1,6 +1,4 @@
-#!/bin/bash ../test_wrapper.sh
-
-require_relative './lib_test_base'
+require_relative 'lib_test_base'
 
 class HostDiskDirTest < LibTestBase
 
@@ -280,8 +278,8 @@ class HostDiskDirTest < LibTestBase
   def check_save_file(filename, content, expected_content)
     dir.write(filename, content)
     pathed_filename = path + '/' + filename
-    assert File.exists?(pathed_filename),
-          "File.exists?(#{pathed_filename})"
+    assert File.exist?(pathed_filename),
+          "File.exist?(#{pathed_filename})"
     assert_equal expected_content, IO.read(pathed_filename)
   end
 

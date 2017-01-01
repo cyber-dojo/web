@@ -3,15 +3,15 @@ def modules
    ARGV
 end
 
-def wrapper_test_log
+def test_log(module_name)
   # must match test_log setting in test/test_wrapper.sh
-  'coverage/test.log'
+  "/tmp/cyber-dojo/coverage/#{module_name}/test.log"
 end
 
 #- - - - - - - - - - - - - - - - - - - - -
 
 def f2(s)
-  result = ("%.2f" % s).to_s
+  result = ('%.2f' % s).to_s
   result += '0' if result.end_with?('.0')
   result
 end
@@ -81,10 +81,8 @@ def gather_stats
   number = '([\.|\d]+)'
   modules.each do |module_name|
 
-    log = `cat #{module_name}/#{wrapper_test_log}`
-    `rm #{module_name}/#{wrapper_test_log}`
     h = stats[module_name] = {}
-
+    log = `cat #{test_log(module_name)}`
     finished_pattern = "Finished in #{number}s, #{number} runs/s, #{number} assertions/s"
     m = log.match(Regexp.new(finished_pattern))
     h[:time]               = f2(m[1])
@@ -173,18 +171,19 @@ end
 #- - - - - - - - - - - - - - - - - - - - -
 
 def gather_done(stats, totals)
-  [
-     [ "total failures == 0", totals[:failure_count] <= 0 ],
-     [ "total errors == 0", totals[:error_count] == 0 ],
-     [ "total skips == 0", totals[:skip_count] == 0],
-     coverage(stats, 'app_helpers'),
-     coverage(stats, 'app_lib'),
-     coverage(stats, 'app_models'),
-     coverage(stats, 'lib'),
-     coverage(stats, 'app_controllers', 98),
-     [ "total secs < 60", totals[:time].to_f < 60 ],
-     [ "total assertions per sec > 50", totals[:assertions_per_sec] > 50 ]
+  done = [
+     [ 'total failures == 0',            totals[:failure_count] <= 0 ],
+     [ 'total errors == 0',              totals[:error_count] == 0 ],
+     [ 'total skips == 0',               totals[:skip_count] == 0 ],
+     [ 'total secs < 25',                totals[:time].to_f < 25 ],
+     [ 'total assertions per sec > 100', totals[:assertions_per_sec] > 100 ]
   ]
+  done << coverage(stats, 'app_helpers')     if modules.include? 'app_helpers'
+  done << coverage(stats, 'app_lib')         if modules.include? 'app_lib'
+  done << coverage(stats, 'app_models')      if modules.include? 'app_models'
+  done << coverage(stats, 'lib')             if modules.include? 'lib'
+  done << coverage(stats, 'app_controllers') if modules.include? 'app_controllers'
+  done
 end
 
 #- - - - - - - - - - - - - - - - - - - - -
@@ -192,12 +191,12 @@ end
 def print_done(done)
   yes,no = done.partition { |criteria| criteria[1] }
   unless yes.empty?
-    puts "DONE"
+    puts 'DONE'
     yes.each { |criteria| puts criteria[0] }
   end
   unless no.empty?
     print "\n"
-    puts "!DONE"
+    puts '!DONE'
     no.each { |criteria| puts criteria[0] }
   end
 end

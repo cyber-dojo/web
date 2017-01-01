@@ -1,13 +1,12 @@
-#!/bin/bash ../test_wrapper.sh
-
-require_relative './app_models_test_base'
-require_relative './../app_lib/delta_maker'
+require_relative 'app_models_test_base'
+require_relative '../app_lib/delta_maker'
 
 class TagsTest < AppModelsTestBase
 
   def setup
     super
     set_storer_class('FakeStorer')
+    set_ragger_class('StubRagger')
   end
 
   #- - - - - - - - - - - - - - - - - - -
@@ -18,7 +17,10 @@ class TagsTest < AppModelsTestBase
   'and contains all visible files' do
     language = languages['C (clang)-assert']
     exercise = exercises['Fizz_Buzz']
-    kata = make_kata({ language:'C (clang)-assert', exercise:'Fizz_Buzz' })
+    kata = make_kata({
+      'language' => 'C (clang)-assert',
+      'exercise' => 'Fizz_Buzz'
+    })
     avatar = kata.start_avatar
     tags = avatar.tags
     assert_equal 1, tags.length
@@ -35,7 +37,7 @@ class TagsTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - -
 
-  test '839D39',
+  test 'A30D39',
   'each [test]-event creates a new tag which is a light' do
     kata = make_kata
     lion = kata.start_avatar(['lion'])
@@ -53,7 +55,7 @@ class TagsTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - -
 
-  test '8F2A42',
+  test 'A30A42',
   'tags[-n] duplicates Array[-n] behaviour' do
     kata = make_kata
     lion = kata.start_avatar(['lion'])

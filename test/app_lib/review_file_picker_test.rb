@@ -1,6 +1,4 @@
-#!/bin/bash ../test_wrapper.sh
-
-require_relative './app_lib_test_base'
+require_relative 'app_lib_test_base'
 
 class ReviewFilePickerTest < AppLibTestBase
 
@@ -14,9 +12,9 @@ class ReviewFilePickerTest < AppLibTestBase
     @n = -1
   end
 
-  #------------------------------------------------------------------
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '104D78',
+  test '9EFD78',
   'when current_filename has diffs it is chosen',
   'even when another file has more changed lines' do
     @current_filename = 'def'
@@ -26,7 +24,7 @@ class ReviewFilePickerTest < AppLibTestBase
     assert_picked
   end
 
-  #------------------------------------------------------------------
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '9EF3C0',
   'when current_filename has diffs it is chosen when',
@@ -40,7 +38,7 @@ class ReviewFilePickerTest < AppLibTestBase
     assert_picked
   end
 
-  #------------------------------------------------------------------
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '6E524A',
   'when current_filename has no diffs it is chosen when',
@@ -52,7 +50,7 @@ class ReviewFilePickerTest < AppLibTestBase
     assert_picked
   end
 
-  #------------------------------------------------------------------
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'E45291',
   'when current_filename has no diffs it is still chosen when',
@@ -64,7 +62,7 @@ class ReviewFilePickerTest < AppLibTestBase
     assert_picked
   end
 
-  #------------------------------------------------------------------
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '84253F',
   'when current_filename has no diffs and another non-output file',
@@ -76,7 +74,7 @@ class ReviewFilePickerTest < AppLibTestBase
     assert_picked
   end
 
-  #------------------------------------------------------------------
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '80A6FB',
   'when current_filename is not present and a non output file',
@@ -90,7 +88,7 @@ class ReviewFilePickerTest < AppLibTestBase
     assert_picked
   end
 
-  #------------------------------------------------------------------
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '8D0729',
   'when current_filename is not present and no non-output file',
@@ -106,7 +104,7 @@ class ReviewFilePickerTest < AppLibTestBase
     end
   end
 
-  #------------------------------------------------------------------
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '7E59A3',
   'when current_filename is not present and no non-output file',
@@ -117,8 +115,6 @@ class ReviewFilePickerTest < AppLibTestBase
       (@picked = diff('cyber-dojo.sh',0,0,'145345'))
     assert_picked
   end
-
-  #------------------------------------------------------------------
 
   private
 

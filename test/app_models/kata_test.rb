@@ -1,13 +1,12 @@
-#!/bin/bash ../test_wrapper.sh
-
-require_relative './app_models_test_base'
-require_relative './../app_lib/delta_maker'
+require_relative 'app_models_test_base'
+require_relative '../app_lib/delta_maker'
 
 class KataTest < AppModelsTestBase
 
   def setup
     super
     set_storer_class('FakeStorer')
+    set_ragger_class('StubRagger')
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -15,13 +14,13 @@ class KataTest < AppModelsTestBase
   test '677A57',
   'id reads back as set' do
     id = unique_id
-    kata = make_kata({ id:id })
+    kata = make_kata({ 'id' => id })
     assert_equal id, kata.id
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '66C9AE',
+  test '6779AE',
   'when kata has no avatars',
   'then it is not active',
   'and its age is zero' do
@@ -32,7 +31,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'B9340E',
+  test '67740E',
   "when kata's avatars have 0 traffic-lights",
   'then it is not active',
   'and its age is zero' do
@@ -45,7 +44,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'F2CDD3',
+  test '677DD3',
   'when kata has at least one avatar with 1 or more traffic-lights',
   'then kata is active',
   'and age is from earliest traffic-light to now' do
@@ -67,7 +66,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '78A205',
+  test '677205',
   'make_kata with default-now uses time-now' do
     now = Time.now
     kata = make_kata
@@ -79,18 +78,18 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '6AF51F',
+  test '67751F',
   'kata properties are union of language properties and exercise instruction' do
     id = unique_id
-    now = [2014, 7, 17, 21, 15, 45]
+    now = [ 2014, 7, 17, 21, 15, 45 ]
     hash = {
-      id: id,
-      now: now,
-      language: 'Java-JUnit',
-      exercise: 'Fizz_Buzz',
+      'id'       => id,
+      'now'      => now,
+      'language' => 'Java-JUnit',
+      'exercise' => 'Fizz_Buzz',
     }
-    java_junit = languages[hash[:language]]
-    fizz_buzz  = exercises[hash[:exercise]]
+    java_junit = languages[hash['language']]
+    fizz_buzz  = exercises[hash['exercise']]
     kata = make_kata(hash)
     assert_equal id, kata.id
     assert_equal Time.mktime(*now), kata.created
@@ -109,7 +108,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '0A5632',
+  test '677632',
   'started_avatars is initially empty array' do
     @kata = make_kata
     assert_equal [], avatars_names
@@ -117,7 +116,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '8BDB48',
+  test '677B48',
   'start_avatar with name that is not a known avatar is nil' do
     kata = make_kata
     assert_nil kata.start_avatar(['sellotape'])
@@ -125,7 +124,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '139C43',
+  test '677C43',
   'start_avatar with specific name succeeds when avatar has not yet started' do
     @kata = make_kata
     hippo = @kata.start_avatar(['hippo'])
@@ -136,7 +135,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'A653FA',
+  test '6773FA',
   'start_avatar with specific name is nil when avatar has already started' do
     kata = make_kata
     kata.start_avatar(['hippo'])
@@ -146,7 +145,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '4C66C8',
+  test '6776C8',
   'start_avatar with specific names tries them in order' do
     @kata = make_kata
     names = %w(cheetah lion panda)
@@ -172,7 +171,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '08141A',
+  test '67741A',
   'start_avatar succeeds once for each avatar name then its full and is nil' do
     kata = make_kata
     created = []
@@ -187,7 +186,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'FE8A3D',
+  test '677A3D',
   'start_avatar starts avatars in random order' do
     kata = make_kata
     created = []
@@ -202,8 +201,9 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '1CD446',
-  'red_amber_green(nil) returns the lamda source' do
+  test '677E1A',
+  'after start-points rearchitecture',
+  'unit_test_framework is nil, red_amber_green returns the lamda source' do
     kata = make_kata
     expected = [
       "lambda { |output|",
@@ -212,60 +212,22 @@ class KataTest < AppModelsTestBase
       "  return :amber",
       "}"
     ]
-    assert_equal expected, kata.red_amber_green(nil)
+    assert_nil kata.unit_test_framework
+    assert_equal expected, kata.red_amber_green
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'E391FE',
-  'after start-points volume re-architecture, initial colour is red/amber/green' +
-  ' determined by lambda held in kata manifest' do
-    hash = {
-      language: 'C#-Moq',
-      exercise: 'Fizz_Buzz',
+  test '677712',
+  'for a kata created before the start_point re-architecture',
+  'attempt to retrieve the full-manifest properties from them start-point' do
+    kata_id = '677712F0E7'
+    manifest = {
+      'id'       => kata_id,
+      'language' => 'C#-Moq',
+      'exercise' => 'Fizz_Buzz',
     }
-    kata = make_kata(hash)
-    json = storer.kata_manifest(kata.id)
-    refute_nil json['red_amber_green']
-    assert_equal 'red'  , kata.red_amber_green('Errors and Failures:'), :red
-    assert_equal 'amber', kata.red_amber_green('sdfsdfsdf'), :amber
-    assert_equal 'green', kata.red_amber_green('Tests run: 3, Errors: 0, Failures: 0'), :green
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '5177CC',
-  'before start-points volume re-architecture' +
-  ' initial colour is red/amber/green' +
-  ' determined by OutputColour.of()' do
-    hash = {
-      language: 'C#-Moq',
-      exercise: 'Fizz_Buzz',
-    }
-    kata = make_kata(hash)
-
-    json = storer.kata_manifest(kata.id)
-    json.delete('red_amber_green')
-    json['unit_test_framework'] = 'nunit'
-    storer.kata_dir(kata.id).write_json('manifest.json', json)
-
-    assert_nil kata.red_amber_green(nil)
-    assert_equal 'red'  , kata.red_amber_green('Errors and Failures:'), :red
-    assert_equal 'amber', kata.red_amber_green('sdfsdfsdf'), :amber
-    assert_equal 'green', kata.red_amber_green('Tests run: 3, Errors: 0, Failures: 0'), :green
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'B80712',
-  'when the start_point the kata was created from is no longer loaded' +
-  " the kata's properties are all still available" do
-    hash = {
-      language: 'C#-Moq',
-      exercise: 'Fizz_Buzz',
-    }
-    kata = make_kata(hash)
-    refute_nil kata
+    storer.create_kata(manifest)
 
     property_names = %w(
       display_name
@@ -275,11 +237,7 @@ class KataTest < AppModelsTestBase
       highlight_filenames
       lowlight_filenames
     )
-
-    json = storer.kata_manifest(kata.id)
-    property_names.each { |property_name| json.delete(property_name) }
-    storer.kata_dir(kata.id).write_json('manifest.json', json)
-
+    kata = katas[kata_id]
     property_names.each { |property_name| refute_nil kata.send(property_name) }
     assert_equal 'C#, Moq', kata.display_name
   end

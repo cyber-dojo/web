@@ -1,7 +1,5 @@
-#!/bin/bash ../test_wrapper.sh
-
-require_relative './app_models_test_base'
-require_relative './../app_lib/delta_maker'
+require_relative 'app_models_test_base'
+require_relative '../app_lib/delta_maker'
 
 class LightsTest < AppModelsTestBase
 
@@ -25,25 +23,26 @@ class LightsTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - -
 
-  test 'D1106F',
+  test '88106F',
   'lights not empty' do
+    set_ragger_class('StubRagger')
     kata = make_kata
     puffin = kata.start_avatar(['puffin'])
     maker = DeltaMaker.new(puffin)
 
-    runner.stub_run_colour(puffin, :red)
+    ragger.stub_colour(:red)
     maker.run_test(red_time=[2014, 2, 15, 8, 54, 6])
     lights = puffin.lights
     assert_equal 1, lights.count
     assert_equal_light 1, :red, Time.mktime(*red_time), lights[0]
 
-    runner.stub_run_colour(puffin, :amber)
+    ragger.stub_colour(:amber)
     maker.run_test(amber_time=[2014, 2, 15, 8, 54, 34])
     lights = puffin.lights
     assert_equal 2, lights.count
     assert_equal_light 2, :amber, Time.mktime(*amber_time), lights[1]
 
-    runner.stub_run_colour(puffin, :green)
+    ragger.stub_colour(:green)
     maker.run_test(green_time=[2014, 2, 15, 8, 55, 7])
     lights = puffin.lights
     assert_equal 3, lights.count

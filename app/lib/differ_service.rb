@@ -1,23 +1,42 @@
 require 'net/http'
 require 'json'
+require_relative 'http_service'
+require_relative '../../lib/nearest_ancestors'
 
 class DifferService
 
-  def initialize(_parent)
+  def initialize(parent)
+    @parent = parent
   end
 
-  def diff(avatar, was_tag, now_tag)
-    # See https://github.com/cyber-dojo/commander and its docker-compose.yml
-    uri = URI.parse('http://differ:4567')
-    http = Net::HTTP.new(uri.host, uri.port)
-    request = Net::HTTP::Get.new(uri.request_uri)
-    request.content_type = 'application/json'
-    request.body = {
-      :was_files => avatar.tags[was_tag].visible_files,
-      :now_files => avatar.tags[now_tag].visible_files
-    }.to_json
-    response = http.request(request)
-    JSON.parse(response.body)
+  attr_reader :parent
+
+  def diff(kata_id, avatar_name, was_tag, now_tag)
+    # See https://github.com/cyber-dojo/commander
+    # and its docker-compose.yml
+    args = []
+    args << kata_id
+    args << avatar_name
+    args << was_tag
+    args << now_tag
+    visible_files = storer.tags_visible_files(*args)
+    was_files = visible_files['was_tag']
+    now_files = visible_files['now_tag']
+    args = {
+      :was_files => was_files,
+      :now_files => now_files
+    }
+    json = http('diff', args) { |uri| Net::HTTP::Get.new(uri) }
+    result(json, 'diff')
   end
+
+  private
+
+  include HttpService
+  def hostname; 'differ'; end
+  def port; 4567; end
+
+  include NearestAncestors
+  def storer; nearest_ancestors(:storer); end
 
 end

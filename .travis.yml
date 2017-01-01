@@ -1,16 +1,18 @@
 
 sudo: required
 services: docker
-language: generic
+language: node_js
 
 script:
+    - npm install travis-ci
+    - curl -O https://raw.githubusercontent.com/cyber-dojo/ruby/master/trigger-build.js
     - curl -O https://raw.githubusercontent.com/cyber-dojo/ruby/master/push.sh
     - chmod +x push.sh
-
     # pull images used in tests so test-duration does not include pull time
     - docker pull cyberdojofoundation/gcc_assert:latest
     - docker pull cyberdojofoundation/ruby_test_unit:latest
-
+    # is this commit green?
     - ./pipe_build_up_test.sh
-
+    # yes, push image to dockerhub
     - ./push.sh
+    - node trigger-build.js cyber-dojo/system-tests

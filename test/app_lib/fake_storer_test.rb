@@ -1,14 +1,102 @@
-#!/bin/bash ../test_wrapper.sh
-
-require_relative './app_lib_test_base'
-require_relative './../../app/lib/fake_storer'
-require_relative './../../app/models/avatars'
+require_relative 'app_lib_test_base'
+require_relative '../../app/lib/fake_storer'
+require_relative '../../app/models/avatars'
 
 class FakeStorerTest < AppLibTestBase
 
   def storer
     @storer ||= FakeStorer.new(self)
   end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '9D355EEE',
+    'path is off /tmp to ensure read-write access' do
+    refute_nil storer.path
+    assert storer.path.start_with? '/tmp/'
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # invalid_id on any method raises
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '933',
+  'create_kata with invalid or missing manifest[id] raises' do
+    manifest = make_manifest(nil)
+    manifest.delete('id')
+    error = assert_raises(ArgumentError) { storer.create_kata(manifest) }
+    assert error.message.start_with?('FakeStorer'), error.message
+    #assert_invalid_kata_id_raises do |invalid_id|
+    #  manifest['id'] = invalid_id
+    #  storer.create_kata(manifest)
+    #end
+  end
+
+=begin
+  test 'ABC',
+  'create_kata with duplicate id raises' do
+    manifest = create_manifest
+    storer.create_kata(manifest)
+    error = assert_raises(ArgumentError) { storer.create_kata(manifest) }
+    assert error.message.start_with?('Storer'), error.message
+  end
+
+  test 'AC2',
+  'kata_manifest(id) with invalid id raises' do
+    assert_invalid_kata_id_raises { |invalid_id|
+      storer.kata_manifest(invalid_id)
+    }
+  end
+
+  test '965',
+  'started_avatars(id) with invalid id raises' do
+    assert_invalid_kata_id_raises { |invalid_id|
+      storer.started_avatars(invalid_id)
+    }
+  end
+
+  test '5DF',
+  'start_avatar(id) with bad id raises' do
+    assert_bad_kata_id_raises { |invalid_id|
+      storer.start_avatar(invalid_id, [lion])
+    }
+  end
+
+  test 'D9F',
+  'avatar_increments(id) with bad id raises' do
+    assert_bad_kata_id_raises { |invalid_id|
+      storer.avatar_increments(invalid_id, lion)
+    }
+  end
+
+  test '160',
+  'avatar_visible_files(id) with bad id raises' do
+    assert_bad_kata_id_raises { |invalid_id|
+      storer.avatar_visible_files(invalid_id, lion)
+    }
+  end
+
+  test 'D46',
+  'avatar_ran_tests(id) with bad id raises' do
+    assert_bad_kata_id_raises { |invalid_id|
+      args = []
+      args << invalid_id
+      args << lion
+      args << starting_files
+      args << time_now
+      args << output
+      args << red
+      storer.avatar_ran_tests(*args)
+    }
+  end
+
+  test '917',
+  'tag_visible_files(id) with bad id raises' do
+    assert_bad_kata_id_raises { |invalid_id|
+      storer.tag_visible_files(invalid_id, lion, tag=3)
+    }
+  end
+=end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # create_kata()
@@ -20,46 +108,12 @@ class FakeStorerTest < AppLibTestBase
   'but symbol-keys have become string-keys' do
     manifest = make_manifest(kata_id = '603E8BAEDF')
     storer.create_kata(manifest)
-    assert kata_exists?(kata_id)
     expected = manifest
     actual = kata_manifest(kata_id)
     assert_equal expected.keys.size, actual.keys.size
     expected.each do |key, value|
       assert_equal value, actual[key.to_s]
     end
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # kata_exists?(id)
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '9D3DE636',
-  'kata_exists?(id) for id that is not a 10-digit string is false' do
-    not_string = Object.new
-    refute kata_exists?(not_string)
-    nine = 'DE6369A32'
-    assert_equal 9, nine.length
-    refute kata_exists?(nine)
-  end
-
-  test '9D3DB6ED',
-  'kata.exists?(id) for 10 digit id with non hex-chars is false' do
-    has_a_g = '123456789G'
-    assert_equal 10, has_a_g.length
-    refute kata_exists?(has_a_g)
-  end
-
-  test '9D3CF9F2',
-  'kata.exists?(id) for non-existing id is false' do
-    kata_id = '9D3CF9F23D'
-    assert_equal 10, kata_id.length
-    refute kata_exists?(kata_id)
-  end
-
-  test '9D3DFB05',
-  'kata.exists?(id) if kata with existing id is true' do
-    create_kata(kata_id = '9D3DFB0532')
-    assert kata_exists?(kata_id)
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -155,7 +209,6 @@ class FakeStorerTest < AppLibTestBase
   test '9D381C02',
   'unstarted avatar does not exist' do
     create_kata(kata_id = '9D381C0200')
-    refute avatar_exists?(kata_id, lion)
     assert_equal [], started_avatars(kata_id)
   end
 
@@ -163,13 +216,8 @@ class FakeStorerTest < AppLibTestBase
   'started avatars exist' do
     create_kata(kata_id = '9D316F7B00')
     assert_equal lion, start_avatar(kata_id, [lion])
-    assert avatar_exists?(kata_id, lion)
-    refute avatar_exists?(kata_id, salmon)
     assert_equal [lion], started_avatars(kata_id)
-
     assert_equal salmon, start_avatar(kata_id, [lion,salmon])
-    assert avatar_exists?(kata_id, lion)
-    assert avatar_exists?(kata_id, salmon)
     assert_equal [lion,salmon].sort, started_avatars(kata_id).sort
   end
 
@@ -212,22 +260,19 @@ class FakeStorerTest < AppLibTestBase
     create_kata(kata_id = '9D3A35BCCF')
     start_avatar(kata_id, [lion])
 
-    assert_equal [], avatar_increments(kata_id, lion)
+    assert_equal [tag0], avatar_increments(kata_id, lion)
 
     args = []
     args << kata_id
     args << lion
-    files1 = starting_files
-    delta = empty_delta
-    delta['unchanged'] = files1.keys
-    args << delta
-    args << files1
+    args << (files1 = starting_files)
     args << (now1 = [2016,12,8,8,3,23])
     args << (output = 'Assert failed: answer() == 42')
     args << (colour1 = 'red')
     avatar_ran_tests(*args)
 
     assert_equal [
+      tag0,
       { 'colour' => colour1, 'time' => now1, 'number' => 1 }
     ], avatar_increments(kata_id, lion)
 
@@ -238,12 +283,8 @@ class FakeStorerTest < AppLibTestBase
     args = []
     args << kata_id
     args << lion
-    delta = empty_delta
     files2 = starting_files
-    delta['unchanged'] = files2.keys - ['hiker.c']
-    delta['changed'] = ['hiker.c']
     files2['hiker.c'] = '6*7';
-    args << delta
     args << files2
     args << (now2 = [2016,12,8,9,54,20])
     args << (output = 'All tests passed')
@@ -251,6 +292,7 @@ class FakeStorerTest < AppLibTestBase
     avatar_ran_tests(*args)
 
     assert_equal [
+      tag0,
       { 'colour' => colour1, 'time' => now1, 'number' => 1 },
       { 'colour' => colour2, 'time' => now2, 'number' => 2 }
     ], avatar_increments(kata_id, lion)
@@ -259,6 +301,9 @@ class FakeStorerTest < AppLibTestBase
     assert_equal files2, avatar_visible_files(kata_id, lion)
     assert_equal files1, tag_visible_files(kata_id, lion, 1)
     assert_equal files2, tag_visible_files(kata_id, lion, 2)
+    hash = tags_visible_files(kata_id, lion, 1, 2)
+    assert_equal files1, hash['was_tag']
+    assert_equal files2, hash['now_tag']
   end
 
   private
@@ -266,10 +311,6 @@ class FakeStorerTest < AppLibTestBase
   def create_kata(kata_id)
     manifest = make_manifest(kata_id)
     storer.create_kata(manifest)
-  end
-
-  def kata_exists?(kata_id)
-    storer.kata_exists?(kata_id)
   end
 
   def kata_manifest(kata_id)
@@ -280,16 +321,12 @@ class FakeStorerTest < AppLibTestBase
     storer.completed(id)
   end
 
-  def avatar_exists?(kata_id, avatar_name)
-    storer.avatar_exists?(kata_id, avatar_name)
-  end
-
   def start_avatar(kata_id, avatar_names)
-    storer.kata_start_avatar(kata_id, avatar_names)
+    storer.start_avatar(kata_id, avatar_names)
   end
 
   def started_avatars(kata_id)
-    storer.kata_started_avatars(kata_id)
+    storer.started_avatars(kata_id)
   end
 
   def avatar_increments(kata_id, avatar_name)
@@ -308,25 +345,8 @@ class FakeStorerTest < AppLibTestBase
     storer.tag_visible_files(kata_id, avatar_name, tag)
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - - -
-
-  def make_manifest(kata_id)
-    {
-      :visible_files => starting_files,
-      :image_name => 'cyberdojofoundation/gcc_assert',
-      :tab_size => 4,
-      :id => kata_id
-    }
-  end
-
-  def all_ids
-    ids = []
-    (0..255).map{|n| '%02X' % n}.each do |outer|
-      storer.completions(outer).each do |inner|
-        ids << (outer + inner)
-      end
-    end
-    ids
+  def tags_visible_files(kata_id, avatar_name, was_tag, now_tag)
+    storer.tags_visible_files(kata_id, avatar_name, was_tag, now_tag)
   end
 
 end

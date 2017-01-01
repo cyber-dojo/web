@@ -12,39 +12,51 @@ class KataController < ApplicationController
   end
 
   def run_tests
-    fail "sorry, we can't do that" if kata.nil? || avatar.nil?
     @avatar = avatar
-
     incoming = params[:file_hashes_incoming]
     outgoing = params[:file_hashes_outgoing]
     delta = FileDeltaMaker.make_delta(incoming, outgoing)
     files = received_files
-    stdout,stderr,status = @avatar.test(delta, files)
-    if status == 'no_avatar'
-       # kata was created before new separated runner-microservice
-       # so runner has to be informed of this avatar's existence...
-       # Do this maintaining most up to date diff
-       args = []
-       args << kata.image_name
-       args << kata.id
-       args << avatar.name
-       args << avatar.visible_files
-       runner.new_avatar(*args)
-       delta = FileDeltaMaker.make_delta(avatar.visible_files, files)
-       stdout,stderr,status = @avatar.test(delta, files)
+    max_seconds = 10
+
+    stdout = nil
+    stderr = nil
+    status = nil
+
+    begin
+      stdout,stderr,status = @avatar.test(delta, files, max_seconds)
+    rescue StandardError => e
+      if e.message.start_with? 'RunnerService:run:no_avatar'
+        # kata was created before new separated runner-microservice
+        # so runner has to be informed of this avatar's existence...
+        # Do this maintaining most up to date diff.
+        args = []
+        args << kata.image_name
+        args << kata.id
+        args << avatar.name
+        args << avatar.visible_files
+        runner.new_avatar(*args)
+        delta = FileDeltaMaker.make_delta(avatar.visible_files, files)
+        stdout,stderr,status = @avatar.test(delta, files, max_seconds)
+      else
+        raise e
+      end
     end
+
     if status == 'timed_out'
-      max_seconds = 10
-      @output = "Unable to complete the tests in #{max_seconds} seconds.\n" +
-          "Is there an accidental infinite loop?\n" +
-          "Is the server very busy?\n" +
-          "Please try again."
+      @output = [
+        'Unable to complete the tests in #{max_seconds} seconds.',
+        'Is there an accidental infinite loop?',
+        'Is the server very busy?',
+        'Please try again.'
+      ].join("\n")
       @test_colour = 'timed_out'
     else
       @output = stdout + stderr
-      @test_colour = kata.red_amber_green(@output)
+      @test_colour = ragger.colour(kata, @output)
     end
-    @avatar.tested(delta, files, time_now, @output, @test_colour)
+
+    @avatar.tested(files, time_now, @output, @test_colour)
 
     respond_to do |format|
       format.js   { render layout: false }

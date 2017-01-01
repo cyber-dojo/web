@@ -1,6 +1,4 @@
-#!/bin/bash ../test_wrapper.sh
-
-require_relative './app_lib_test_base'
+require_relative 'app_lib_test_base'
 
 class StartPointChooserTest < AppLibTestBase
 
@@ -15,11 +13,14 @@ class StartPointChooserTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - -
 
-  test '773616',
+  test 'D9C616',
   'when id is given and katas[id].language exists then choose that language' do
     cmd = test_languages_names.map{ |name| name.split('-').join(', ') }
     test_languages_names.each_with_index do |language, n|
-      id = make_kata({ language:language, exercise:test_exercises_names.sample }).id
+      id = make_kata({
+        'language' => language,
+        'exercise' => test_exercises_names.sample
+      }).id
       assert_equal n, choose_language(cmd, katas[id]), language
     end
   end
@@ -29,7 +30,10 @@ class StartPointChooserTest < AppLibTestBase
   test 'D9C2F2',
   'when id is given and katas[id].exercise exists then choose that exercise' do
     test_exercises_names.each_with_index do |exercise, n|
-      id = make_kata({ language:test_languages_names.sample, exercise:exercise }).id
+      id = make_kata({
+        'language' => test_languages_names.sample,
+        'exercise' => exercise
+      }).id
       assert_equal n, choose_exercise(test_exercises_names, katas[id])
     end
   end
@@ -38,8 +42,8 @@ class StartPointChooserTest < AppLibTestBase
 
   test 'CD36CB',
   'when no id is given then choose random language/exercise' do
-    assert_is_randomly_chosen_language(test_languages_names, kata = nil)
-    assert_is_randomly_chosen_exercise(test_exercises_names, kata = nil)
+    assert_is_randomly_chosen_language(test_languages_names, kata=nil)
+    assert_is_randomly_chosen_exercise(test_exercises_names, kata=nil)
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - -
@@ -57,7 +61,10 @@ class StartPointChooserTest < AppLibTestBase
     test_languages_names.each do |unknown_language|
       languages = test_languages_names - [unknown_language]
       refute languages.include?(unknown_language)
-      id = make_kata({ language:unknown_language, exercise:test_exercises_names.sample }).id
+      id = make_kata({
+        'language' => unknown_language,
+        'exercise' => test_exercises_names.sample
+      }).id
       assert_is_randomly_chosen_language(languages, katas[id])
     end
   end
@@ -69,12 +76,13 @@ class StartPointChooserTest < AppLibTestBase
     test_exercises_names.each do |unknown_exercise|
       exercises = test_exercises_names - [unknown_exercise]
       refute exercises.include?(unknown_exercise)
-      id = make_kata({ language:test_languages_names.sample, exercise:unknown_exercise }).id
+      id = make_kata({
+        'language' => test_languages_names.sample,
+        'exercise' => unknown_exercise
+      }).id
       assert_is_randomly_chosen_exercise(exercises, katas[id])
     end
   end
-
-  #- - - - - - - - - - - - - - - - - - - - - - -
 
   private
 

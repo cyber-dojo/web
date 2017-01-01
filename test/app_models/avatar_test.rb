@@ -1,13 +1,12 @@
-#!/bin/bash ../test_wrapper.sh
-
-require_relative './app_models_test_base'
-require_relative './../app_lib/delta_maker'
+require_relative 'app_models_test_base'
+require_relative '../app_lib/delta_maker'
 
 class AvatarTest < AppModelsTestBase
 
   def setup
     super
     set_storer_class('FakeStorer')
+    set_ragger_class('StubRagger')
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -26,7 +25,7 @@ class AvatarTest < AppModelsTestBase
   '1. the language visible_files,',
   '2. the exercise instructions,',
   '3. empty output' do
-    kata = make_kata({ :language => default_language_name })
+    kata = make_kata({ 'language' => default_language_name })
     language = languages[default_language_name]
     avatar = kata.start_avatar
     language.visible_files.each do |filename, content|
@@ -71,7 +70,7 @@ class AvatarTest < AppModelsTestBase
     visible_files = @avatar.visible_files
     assert visible_files.keys.include?('output')
     assert_equal '', visible_files['output']
-    runner.stub_run_output(@avatar, expected = 'helloWorld')
+    runner.stub_run(expected = 'helloWorld')
     _, @visible_files, @output = DeltaMaker.new(@avatar).run_test
     assert @visible_files.keys.include?('output')
   end
@@ -128,14 +127,6 @@ class AvatarTest < AppModelsTestBase
     assert_equal(expected, @output) if filename == 'output'
     assert_equal expected, @visible_files[filename], 'returned_to_browser'
     assert_equal expected, @avatar.visible_files[filename], 'saved_to_manifest'
-  end
-
-  def assert_log_include?(command)
-    assert log.include?(command), lines_of(log)
-  end
-
-  def lines_of(log)
-    log.messages.join("\n")
   end
 
 end

@@ -1,6 +1,4 @@
-#!/bin/bash ../test_wrapper.sh
-
-require_relative './app_lib_test_base'
+require_relative 'app_lib_test_base'
 
 class MakefileFilterTest < AppLibTestBase
 
@@ -25,7 +23,7 @@ class MakefileFilterTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test '19B19D',
+  test 'C8819D',
   'makefile converts all leading whitespace on a line to a single tab' do
     check('makefile', "            abc", "\tabc")
     check('makefile', "        abc", "\tabc")
@@ -35,7 +33,7 @@ class MakefileFilterTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test '0AE03C',
+  test 'C8803C',
   'Makefile converts all leading whitespace on a line to a single tab' do
     check('Makefile', "            abc", "\tabc")
     check('Makefile', "        abc", "\tabc")
@@ -45,7 +43,7 @@ class MakefileFilterTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test '0A602B',
+  test 'C8802B',
   'makefile converts all leading whitespace to single tab for all lines in any line format' do
     check('makefile', "123\n456", "123\n456")
     check('makefile', "123\r\n456", "123\n456")
@@ -64,8 +62,6 @@ class MakefileFilterTest < AppLibTestBase
     check('makefile', "    123\n456\r\n   789", "\t123\n456\n\t789")
     check('makefile', "    123\r\n456\r\n   789", "\t123\n456\n\t789")
   end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   private
 

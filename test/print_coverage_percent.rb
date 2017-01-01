@@ -1,9 +1,11 @@
 
-filename = ARGV[0]
-filter = ARGV[1]
-flat = filter.sub('/','')
+filename = ENV['COVERAGE_DIR'] + '/index.html'
+cwd = ARGV[0]                 # eg app_lib
+filter = cwd.sub('_','/')     # eg app/lib
+flat = filter.sub('/','')     # eg applib
 
-html = IO.popen("cat coverage/#{filename}").read
+
+html = IO.popen("cat #{filename}").read
 # guard against invalid byte sequence
 html = html.encode('UTF-16', 'UTF-8', :invalid => :replace, :replace => '')
 html = html.encode('UTF-8', 'UTF-16')

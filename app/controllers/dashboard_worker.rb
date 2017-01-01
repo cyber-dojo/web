@@ -19,13 +19,21 @@ module DashboardWorker # mixin
     @minute_columns = bool('minute_columns')
     @auto_refresh = bool('auto_refresh')
     all_lights = Hash[
-      @kata.avatars.active.each.collect{|avatar| [avatar.name, avatar.lights]}
+      @kata.avatars.active.each.collect{ |avatar|
+        [avatar.name, avatar.lights]
+      }
     ]
     max_seconds_uncollapsed = seconds_per_column * 5
-    gapper = DashboardTdGapper.new(@kata.created, seconds_per_column, max_seconds_uncollapsed)
+    args = []
+    args << @kata.created
+    args << seconds_per_column
+    args << max_seconds_uncollapsed
+    gapper = DashboardTdGapper.new(*args)
     @gapped = gapper.fully_gapped(all_lights, time_now)
     @progress = @kata.progress_regexs != [ ]
-    @avatar_names = @kata.avatars.active.map { |avatar| avatar.name }.sort
+    @avatar_names = @kata.avatars.active.map { |avatar|
+      avatar.name
+    }.sort
   end
 
   def bool(attribute)
@@ -46,7 +54,9 @@ module DashboardWorker # mixin
       [:red,:green].include?(light.colour)
     }
     output = (non_amber != nil) ? non_amber.output : ''
-    matches = regexs.map { |regex| Regexp.new(regex).match(output) }
+    matches = regexs.map { |regex|
+      Regexp.new(regex).match(output)
+    }
     return {
         text: matches.join,
       colour: (matches[0] != nil ? 'red' : 'green')

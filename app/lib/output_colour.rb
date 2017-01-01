@@ -1,6 +1,7 @@
 
-# Used only for katas created before the start-point volume re-architecture.
-# See app/models/katas.rb:colour()
+# Used only for katas created before
+# the start-point volume re-architecture.
+# See app/lib/ragger.rb
 
 module OutputColour # mix-in
 
