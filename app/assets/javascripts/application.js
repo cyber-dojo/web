@@ -20,5 +20,7 @@
 //= require ./jquery.min
 //= require ./jquery_ujs
 //= require ./jquery-ui.min
+//= require ./lib/codemirror
+//= require ./mode/clike/clike
+//= require ./addons/display/autorefresh
 //= require_tree .
-

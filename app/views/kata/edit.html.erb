@@ -25,6 +25,29 @@ $(function() {
 
 });
 
+cd.codeMirrorEditors = [];
+
+cd.switchEditorToCodeMirror = function(filename) {
+  var editor = CodeMirror.fromTextArea(document.getElementById('file_content_for_' + filename),  {
+    lineNumbers: true,
+    matchBrackets: true,
+    mode: "text/x-c++src",
+    autoRefresh: true
+  });
+
+  editor.setOption("extraKeys", {
+    'Alt-T': function(cm) {
+      $('#test-button').click();
+    }
+  });
+
+
+  var lineNumbers = document.getElementById(filename + '_line_numbers');
+  lineNumbers.style.display = 'none';
+
+  cd.codeMirrorEditors.push(editor);
+};
+
 //--></script>
 
 <%= form_tag( { action: 'run_tests',
