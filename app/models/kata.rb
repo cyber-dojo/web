@@ -71,6 +71,10 @@ class Kata
     manifest_property
   end
 
+  def language_highlight
+    manifest_property
+  end
+
   # - - - - - - - - - - - - -
 
   def image_name

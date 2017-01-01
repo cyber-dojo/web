@@ -26,7 +26,8 @@ class StartPoint
        'lowlight_filenames' => lowlight_filenames,
           'red_amber_green' => red_amber_green,
                  'language' => name,
-                 'tab_size' => tab_size
+                 'tab_size' => tab_size,
+       'language_highlight' => language_highlight
     }
     manifest['visible_files'] = visible_files
     manifest['visible_files']['output'] = ''
@@ -60,6 +61,10 @@ class StartPoint
   end
 
   # optional manifest properties
+
+  def language_highlight
+    manifest_property || ''
+  end
 
   def filename_extension
     manifest_property || ''
