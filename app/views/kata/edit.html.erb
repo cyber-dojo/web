@@ -26,10 +26,24 @@ $(function() {
 });
 
 cd.switchEditorToCodeMirror = function(filename) {
+  var editorMode;
+
+  switch(filename) {
+    case 'cyber-dojo.sh':
+      editorMode = "text/x-sh";
+      break;
+    case 'makefile':
+      editorMode = "text/x-makefile";
+      break;
+    default:
+      editorMode = "text/x-c++src";
+      break;
+  }
+
   var editor = CodeMirror.fromTextArea(document.getElementById('file_content_for_' + filename),  {
     lineNumbers: true,
     matchBrackets: true,
-    mode: "text/x-c++src",
+    mode: editorMode,
     autoRefresh: true
   });
 

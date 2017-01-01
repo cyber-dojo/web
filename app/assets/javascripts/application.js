@@ -21,6 +21,6 @@
 //= require ./jquery_ujs
 //= require ./jquery-ui.min
 //= require ./lib/codemirror
-//= require ./mode/clike/clike
+//= require_tree ./mode
 //= require ./addons/display/autorefresh
 //= require_tree .
