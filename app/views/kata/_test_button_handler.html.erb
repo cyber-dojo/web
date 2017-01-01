@@ -21,9 +21,9 @@ $(function() {
     // 2. when you hot-key Alt-T
     // 3. when you revert
 
-    for(var i = 0; i < cd.codeMirrorEditors.length; ++i) {
-      cd.codeMirrorEditors[i].save();
-    }
+    $.each($('.CodeMirror'), function(i, editor_div) {
+      editor_div.CodeMirror.save();
+    });
 
     var form = testButton.closest('form');
     cd.storeOutgoingFileHashes();
