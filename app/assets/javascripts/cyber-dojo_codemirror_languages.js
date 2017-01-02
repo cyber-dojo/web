@@ -19,15 +19,16 @@ var cyberDojo = (function(cd, $) {
         return '';
     }
 
-    switch(fileExtension(filename))
-    {
-      case '.sh':
-        return 'text/x-sh';
+    switch(fileExtension(filename)) {
       case '.cpp':
       case '.hpp':
       case '.c':
       case '.h':
         return 'text/x-c++src';
+      case '.clj':
+        return 'text/x-clojure';
+      case '.coffee':
+        return 'text/x-coffeescript';
       case '.d':
         return 'text/x-d';
       case '.feature':
@@ -40,6 +41,8 @@ var cyberDojo = (function(cd, $) {
         return 'text/x-python';
       case '.rb':
         return 'text/x-ruby';
+      case '.sh':
+        return 'text/x-sh';
       case '.vb':
         return 'text/x-vb';
       case '.vhdl':
