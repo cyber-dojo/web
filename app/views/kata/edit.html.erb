@@ -31,10 +31,13 @@ cd.switchEditorToCodeMirror = function(filename) {
 
   switch(filename) {
     case 'cyber-dojo.sh':
-      editorMode = "text/x-sh";
+      editorMode = 'text/x-sh';
       break;
     case 'makefile':
-      editorMode = "text/x-makefile";
+      editorMode = 'text/x-makefile';
+      break;
+    case 'instructions':
+      editorMode = '';
       break;
     default:
       editorMode = "<%= @kata.syntax_highlight_mode %>";
