@@ -99,7 +99,12 @@ cd.switchEditorToCodeMirror = function(filename) {
           <td class="align-right">
             <%= render partial: 'syntax_highlight_button' %>
           </td>
-          <td></td>
+          <td class="align-right">
+            <% if syntax_highlight_enabled? %>
+              Syntax highlighting by <a href="http://codemirror.net" target="_blank">CodeMirror</a>.
+              (<a href="https://raw.githubusercontent.com/codemirror/CodeMirror/master/LICENSE" target="_blank">License</a>)
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </table>
