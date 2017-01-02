@@ -1,11 +1,20 @@
 
 <% if @kata.syntax_highlight_available? %>
+
+<script type="text/javascript"><!--
+var confirmSyntaxHighlightChange = function(additionalParameters) {
+  if(confirm('Any changes since you last hit test will be lost! Are you sure?')) {
+    window.location.replace('/kata/edit/<%= @kata.id %>?avatar=<%= avatar_name %>' + additionalParameters);
+  }
+};
+//--></script>
+
   <% if syntax_highlight_enabled? %>
     <button type="button"
             id="syntax-highlight-button"
             title="turns syntax highlighting off"
             value="syntax-highlight-off"
-            onclick="window.location.replace('/kata/edit/<%= @kata.id %>?avatar=<%= avatar_name %>');">
+            onclick="confirmSyntaxHighlightChange('');">
       syntax highlight off
     </button>
   <% else %>
@@ -13,7 +22,7 @@
             id="syntax-highlight-button"
             title="turns syntax highlighting on"
             value="syntax-highlight-on"
-            onclick="window.location.replace('/kata/edit/<%= @kata.id %>?avatar=<%= avatar_name %>&syntax_highlight=true');">
+            onclick="confirmSyntaxHighlightChange('&syntax_highlight=true');">
       syntax highlight on
     </button>
   <% end %>
