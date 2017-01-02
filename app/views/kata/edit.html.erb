@@ -37,7 +37,7 @@ cd.switchEditorToCodeMirror = function(filename) {
       editorMode = "text/x-makefile";
       break;
     default:
-      editorMode = "<%= @kata.language_highlight %>";
+      editorMode = "<%= @kata.syntax_highlight_mode %>";
       break;
   }
 

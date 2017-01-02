@@ -47,7 +47,7 @@ class Kata
   end
 
   def syntax_highlight_available?
-    language_highlight != ''
+    syntax_highlight_mode != ''
   end
 
   # - - - - - - - - - - - - -
@@ -75,7 +75,7 @@ class Kata
     manifest_property
   end
 
-  def language_highlight
+  def syntax_highlight_mode
     manifest_property
   end
 

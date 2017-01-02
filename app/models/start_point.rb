@@ -27,7 +27,7 @@ class StartPoint
           'red_amber_green' => red_amber_green,
                  'language' => name,
                  'tab_size' => tab_size,
-       'language_highlight' => language_highlight
+    'syntax_highlight_mode' => syntax_highlight_mode
     }
     manifest['visible_files'] = visible_files
     manifest['visible_files']['output'] = ''
@@ -62,7 +62,7 @@ class StartPoint
 
   # optional manifest properties
 
-  def language_highlight
+  def syntax_highlight_mode
     manifest_property || ''
   end
 
