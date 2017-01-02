@@ -26,6 +26,7 @@ $(function() {
 });
 
 cd.switchEditorToCodeMirror = function(filename) {
+<% if params['highlight'] == 'true' %>
   var editorMode;
 
   switch(filename) {
@@ -55,6 +56,7 @@ cd.switchEditorToCodeMirror = function(filename) {
 
   var lineNumbers = document.getElementById(filename + '_line_numbers');
   lineNumbers.style.display = 'none';
+<% end %>
 };
 
 //--></script>
