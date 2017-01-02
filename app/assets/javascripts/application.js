@@ -20,7 +20,7 @@
 //= require ./jquery.min
 //= require ./jquery_ujs
 //= require ./jquery-ui.min
-//= require ./lib/codemirror
-//= require_tree ./mode
-//= require ./addons/display/autorefresh
+//= require ./codemirror/lib/codemirror
+//= require_tree ./codemirror/mode
+//= require_tree ./codemirror/addon
 //= require_tree .
