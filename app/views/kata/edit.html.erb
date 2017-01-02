@@ -31,7 +31,8 @@ cd.switchEditorToCodeMirror = function(filename) {
     lineNumbers: true,
     matchBrackets: true,
     mode: cd.codeMirrorMode(filename),
-    autoRefresh: true
+    autoRefresh: true,
+    theme: "default cyber-dojo"
   });
 
   editor.setOption("extraKeys", {

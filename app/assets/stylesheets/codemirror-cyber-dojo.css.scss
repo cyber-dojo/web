@@ -3,3 +3,56 @@
   height: 560px;
   width: 722px;
 }
+
+.cm-s-cyber-dojo.CodeMirror {
+  @include code-font;
+  background: lighten($darker-color, 4%);
+  color: $lighter-color;
+  @include rounded-corner(6px);
+}
+
+.cm-s-cyber-dojo .CodeMirror-linenumber,
+.cm-s-cyber-dojo .CodeMirror-linenumbers,
+.cm-s-cyber-dojo .CodeMirror-gutters {
+  @include code-font;
+  background: lighten($darker-color, 4%);
+  color: lighten($darker-color, 20%);
+}
+
+.cm-s-cyber-dojo .CodeMirror-gutters {
+  border-right: 0px;
+}
+
+
+.cm-s-cyber-dojo div.CodeMirror-selected {
+  background: #515151;
+}
+
+.cm-s-cyber-dojo .CodeMirror-cursor {
+  border-left: 1px solid $lighter-color;
+}
+
+.cm-s-cyber-dojo .cm-header {color: #09f;}
+.cm-s-cyber-dojo .cm-keyword {color: #b0c;}
+.cm-s-cyber-dojo .cm-atom {color: #76E;}
+//.cm-s-cyber-dojo .cm-number {color: #164;}
+.cm-s-cyber-dojo .cm-def {color: #07f;}
+//.cm-s-cyber-dojo .cm-variable,
+//.cm-s-cyber-dojo .cm-punctuation,
+//.cm-s-cyber-dojo .cm-property,
+//.cm-s-cyber-dojo .cm-operator {}
+//.cm-s-cyber-dojo .cm-variable-2 {color: #05a;}
+//.cm-s-cyber-dojo .cm-variable-3 {color: #085;}
+//.cm-s-cyber-dojo .cm-comment {color: #a50;}
+.cm-s-cyber-dojo .cm-string {color: #e11;}
+//.cm-s-cyber-dojo .cm-string-2 {color: #f50;}
+.cm-s-cyber-dojo .cm-meta { color: #ccc; }
+//.cm-s-cyber-dojo .cm-qualifier {color: #555;}
+.cm-s-cyber-dojo .cm-builtin {color: #7af;}
+//.cm-s-cyber-dojo .cm-bracket {color: #997;}
+//.cm-s-cyber-dojo .cm-tag {color: #170;}
+.cm-s-cyber-dojo .cm-attribute {color: #0cc;}
+//.cm-s-cyber-dojo .cm-hr {color: #999;}
+//.cm-s-cyber-dojo .cm-link {color: #00c;}
+
+//.cm-s-cyber-dojo .cm-error {color: #f00;}
