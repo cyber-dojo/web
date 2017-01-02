@@ -1,0 +1,20 @@
+
+<% if @kata.syntax_highlight_available? %>
+  <% if syntax_highlight_enabled? %>
+    <button type="button"
+            id="syntax-highlight-button"
+            title="turns syntax highlighting off"
+            value="syntax-highlight-off"
+            onclick="window.location.replace('/kata/edit/<%= @kata.id %>?avatar=<%= avatar_name %>');">
+      syntax highlight off
+    </button>
+  <% else %>
+    <button type="button"
+            id="syntax-highlight-button"
+            title="turns syntax highlighting on"
+            value="syntax-highlight-on"
+            onclick="window.location.replace('/kata/edit/<%= @kata.id %>?avatar=<%= avatar_name %>&syntax_highlight=true');">
+      syntax highlight on
+    </button>
+  <% end %>
+<% end %>

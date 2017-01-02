@@ -17,11 +17,9 @@
                     id="file_content_for_<%= filename %>"
                     wrap="off">
 <%= h content %></textarea>
-          <% if @kata.language_highlight != '' %>
             <script type="text/javascript"><!--
             cd.switchEditorToCodeMirror('<%= filename %>');
             //--></script>
-          <% end %>
         <% else %>
           <%= render partial: 'output' %>
         <% end %>

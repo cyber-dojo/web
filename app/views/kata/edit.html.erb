@@ -26,7 +26,7 @@ $(function() {
 });
 
 cd.switchEditorToCodeMirror = function(filename) {
-<% if params['highlight'] == 'true' %>
+<% if @kata.syntax_highlight_available? && syntax_highlight_enabled? %>
   var editorMode;
 
   switch(filename) {
@@ -91,6 +91,14 @@ cd.switchEditorToCodeMirror = function(filename) {
           <%= render partial: 'editor' %>
         </td>
       </tr>
+      <% if @kata.syntax_highlight_available? %>
+        <tr class="valign-top">
+          <td class="align-right">
+            <%= render partial: 'syntax_highlight_button' %>
+          </td>
+          <td></td>
+        </tr>
+      <% end %>
     </table>
   </div>
 
