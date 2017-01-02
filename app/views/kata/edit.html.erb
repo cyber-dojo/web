@@ -26,28 +26,11 @@ $(function() {
 });
 
 cd.switchEditorToCodeMirror = function(filename) {
-<% if @kata.syntax_highlight_available? && syntax_highlight_enabled? %>
-  var editorMode;
-
-  switch(filename) {
-    case 'cyber-dojo.sh':
-      editorMode = 'text/x-sh';
-      break;
-    case 'makefile':
-      editorMode = 'text/x-makefile';
-      break;
-    case 'instructions':
-      editorMode = '';
-      break;
-    default:
-      editorMode = "<%= @kata.syntax_highlight_mode %>";
-      break;
-  }
-
+<% if syntax_highlight_enabled? %>
   var editor = CodeMirror.fromTextArea(document.getElementById('file_content_for_' + filename),  {
     lineNumbers: true,
     matchBrackets: true,
-    mode: editorMode,
+    mode: cd.codeMirrorMode(filename),
     autoRefresh: true
   });
 
@@ -94,19 +77,17 @@ cd.switchEditorToCodeMirror = function(filename) {
           <%= render partial: 'editor' %>
         </td>
       </tr>
-      <% if @kata.syntax_highlight_available? %>
-        <tr class="valign-top">
-          <td class="align-right">
-            <%= render partial: 'syntax_highlight_button' %>
-          </td>
-          <td class="align-right">
-            <% if syntax_highlight_enabled? %>
-              Syntax highlighting by <a href="http://codemirror.net" target="_blank">CodeMirror</a>.
-              (<a href="https://raw.githubusercontent.com/codemirror/CodeMirror/master/LICENSE" target="_blank">License</a>)
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
+      <tr class="valign-top">
+        <td class="align-right">
+          <%= render partial: 'syntax_highlight_button' %>
+        </td>
+        <td class="align-right">
+          <% if syntax_highlight_enabled? %>
+            Syntax highlighting by <a href="http://codemirror.net" target="_blank">CodeMirror</a>.
+            (<a href="https://raw.githubusercontent.com/codemirror/CodeMirror/master/LICENSE" target="_blank">License</a>)
+          <% end %>
+        </td>
+      </tr>
     </table>
   </div>
 

@@ -46,10 +46,6 @@ class Kata
     Time.mktime(*manifest_property)
   end
 
-  def syntax_highlight_available?
-    syntax_highlight_mode != ''
-  end
-
   # - - - - - - - - - - - - -
 
   def visible_files
@@ -72,10 +68,6 @@ class Kata
   end
 
   def language
-    manifest_property
-  end
-
-  def syntax_highlight_mode
     manifest_property
   end
 
