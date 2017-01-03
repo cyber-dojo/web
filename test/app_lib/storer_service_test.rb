@@ -25,8 +25,10 @@ class StorerServiceTest < AppLibTestBase
 
     refute all_ids.include? kata_id
 
+    refute storer.kata_exists?(kata_id)
     manifest = make_manifest(kata_id)
     storer.create_kata(manifest)
+    assert storer.kata_exists?(kata_id)
 
     assert all_ids.include? kata_id
 
@@ -38,7 +40,11 @@ class StorerServiceTest < AppLibTestBase
     end
     assert_equal kata_id, storer.completed(kata_id[0..5])
     assert_equal [], storer.started_avatars(kata_id)
+
+    refute storer.avatar_exists?(kata_id, lion)
     assert_equal lion, storer.start_avatar(kata_id, [lion])
+    assert storer.avatar_exists?(kata_id, lion)
+
     assert_equal [lion], storer.started_avatars(kata_id)
     files0 = storer.kata_manifest(kata_id)['visible_files']
     assert_equal files0, storer.tag_visible_files(kata_id, lion, tag=0)
