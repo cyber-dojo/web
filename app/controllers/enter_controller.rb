@@ -7,9 +7,9 @@ class EnterController < ApplicationController
   end
 
   def check
-    full_id = katas.completed(id)
+    full_id = katas.completed(id.upcase)
     render json: {
-      exists: !katas[full_id].nil?,
+      exists: full_id.length == 10,
       full_id: full_id
     }
   end
