@@ -1,6 +1,6 @@
+require_relative 'http_service'
 require 'json'
 require 'net/http'
-require_relative 'http_service'
 
 class RunnerService
 
@@ -8,7 +8,7 @@ class RunnerService
   end
 
   def pulled?(image_name)
-    pulled(image_name)
+    get(__method__, image_name)
   end
 
   def pulled(image_name)
