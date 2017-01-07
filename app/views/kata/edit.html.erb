@@ -26,7 +26,6 @@ $(function() {
 });
 
 cd.switchEditorToCodeMirror = function(filename) {
-<% if syntax_highlight_enabled? %>
   var editor = CodeMirror.fromTextArea(document.getElementById('file_content_for_' + filename),  {
     lineNumbers: true,
     matchBrackets: true,
@@ -43,7 +42,6 @@ cd.switchEditorToCodeMirror = function(filename) {
 
   var lineNumbers = document.getElementById(filename + '_line_numbers');
   lineNumbers.style.display = 'none';
-<% end %>
 };
 
 cd.switchTheme = function() {

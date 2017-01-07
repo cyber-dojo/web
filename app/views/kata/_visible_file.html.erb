@@ -17,9 +17,11 @@
                     id="file_content_for_<%= filename %>"
                     wrap="off">
 <%= h content %></textarea>
-            <script type="text/javascript"><!--
-            cd.switchEditorToCodeMirror('<%= filename %>');
-            //--></script>
+            <% if syntax_highlight_enabled? %>
+              <script type="text/javascript"><!--
+              cd.switchEditorToCodeMirror('<%= filename %>');
+              //--></script>
+            <% end %>
         <% else %>
           <%= render partial: 'output' %>
         <% end %>
