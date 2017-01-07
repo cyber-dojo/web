@@ -45,7 +45,7 @@ class KataController < ApplicationController
 
     if status == 'timed_out'
       @output = [
-        'Unable to complete the tests in #{max_seconds} seconds.',
+        "Unable to complete the tests in #{max_seconds} seconds.",
         'Is there an accidental infinite loop?',
         'Is the server very busy?',
         'Please try again.'
