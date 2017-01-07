@@ -11,10 +11,6 @@ class RunnerService
     get(__method__, image_name)
   end
 
-  def pulled(image_name)
-    get(__method__, image_name)
-  end
-
   def pull(image_name)
     post(__method__, image_name)
   end
