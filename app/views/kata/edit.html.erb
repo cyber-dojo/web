@@ -31,6 +31,8 @@ cd.switchEditorToCodeMirror = function(filename) {
     matchBrackets: true,
     mode: cd.codeMirrorMode(filename),
     autoRefresh: true,
+    indentUnit: <%= @kata.tab_size %>,
+    tabSize: <%= @kata.tab_size %>,
     theme: "default cyber-dojo"
   });
 
