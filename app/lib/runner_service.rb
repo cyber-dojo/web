@@ -28,13 +28,7 @@ class RunnerService
   end
 
   def run(image_name, kata_id, avatar_name, deleted_filenames, changed_files, max_seconds)
-    args = []
-    args << image_name
-    args << kata_id
-    args << avatar_name
-    args << deleted_filenames
-    args << changed_files
-    args << max_seconds
+    args = [image_name, kata_id, avatar_name, deleted_filenames, changed_files, max_seconds]
     sss = post(__method__, *args)
     [sss['stdout'], sss['stderr'], sss['status']]
   end
