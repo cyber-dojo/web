@@ -2,7 +2,7 @@
 <script type="text/javascript"><!--
 var confirmSyntaxHighlightChange = function(additionalParameters) {
   if(confirm('Any changes since you last hit test will be lost! Are you sure?')) {
-    window.location.replace('/kata/edit/<%= @kata.id %>?avatar=<%= avatar_name %>' + additionalParameters);
+    window.location.replace('/kata/edit/<%= @kata.id %>?avatar=<%= @avatar.name %>' + additionalParameters);
   }
 };
 //--></script>
@@ -35,10 +35,6 @@ var confirmSyntaxHighlightChange = function(additionalParameters) {
         <option value="">CodeMirror (default)</option>
         <option value="night">night</option>
       </select>
-      <p>
-        Syntax highlighting by <a href="http://codemirror.net" target="_blank">CodeMirror</a>.
-        (<a href="https://raw.githubusercontent.com/codemirror/CodeMirror/master/LICENSE" target="_blank">License</a>)
-      </p>
     <% end %>
   </td>
 </tr>

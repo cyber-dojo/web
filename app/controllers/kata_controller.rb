@@ -6,7 +6,6 @@ class KataController < ApplicationController
   end
 
   helper_method :syntax_highlight_enabled?
-  helper_method :avatar_name
 
   def edit
     @kata = kata
