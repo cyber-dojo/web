@@ -150,6 +150,8 @@ class KataControllerTest  < AppControllerTestBase
   'when RunnerService receives run() for an avatar in a kata started when',
   'the runner was not yet a separate service, then RunnerService seamlessly',
   'transitions the avatar' do
+
+    skip("BE8555 offline waiting for seamless runner resurrection")
     # Note: the kata-controller validates the kata-id and the avatar-name
     # (via the host-katas-storer) so there is no path from the browser to
     # get runner.run to accept unvalidated arguments.
