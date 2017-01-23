@@ -174,12 +174,12 @@ def gather_done(stats, totals)
   done = [
      [ 'total failures == 0',            totals[:failure_count] == 0 ],
      [ 'total errors == 0',              totals[:error_count] == 0 ],
-     [ 'total skips == 3',               totals[:skip_count] == 3 ],
+     [ 'total skips == 1',               totals[:skip_count] == 1 ],
      [ 'total secs < 25',                totals[:time].to_f < 25 ],
      [ 'total assertions per sec > 100', totals[:assertions_per_sec] > 100 ]
   ]
   done << coverage(stats, 'app_helpers')     if modules.include? 'app_helpers'
-  done << coverage(stats, 'app_lib', 99)         if modules.include? 'app_lib'
+  done << coverage(stats, 'app_lib')         if modules.include? 'app_lib'
   done << coverage(stats, 'app_models')      if modules.include? 'app_models'
   done << coverage(stats, 'lib')             if modules.include? 'lib'
   done << coverage(stats, 'app_controllers',98) if modules.include? 'app_controllers'

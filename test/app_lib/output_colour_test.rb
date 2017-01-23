@@ -35,7 +35,6 @@ class OutputColourTest < AppLibTestBase
 
   test '9005E7',
   'all dojo.languages have corresponding test/app_lib/output/unit_test_framework' do
-    skip("NEED TO ADD Javascript,Cucumber")
     count = 0
     dojo.languages.each do |language|
       count += 1
@@ -55,7 +54,6 @@ class OutputColourTest < AppLibTestBase
 
   test '900763',
   "all dojo.languages red_amber_green lambda's correctly colour saved Runner outputs" do
-    skip("NEED TO ADD Javascript,Cucumber")
     dojo.languages.each do |language|
       src = language.red_amber_green
       refute_nil src
