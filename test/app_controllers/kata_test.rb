@@ -25,8 +25,6 @@ class KataControllerTest  < AppControllerTestBase
   'run_tests with good kata id but bad avatar name raises' do
     # This raises because in kata_controller the line
     #   @avatar.test runs with @avatar is nil
-    # TODO: construct a test that raises because the runner raises
-    #       something other than 'no_avatar'
     prepare
     set_runner_class('StubRunner')
     kata_id = create_gcc_assert_kata
@@ -35,7 +33,8 @@ class KataControllerTest  < AppControllerTestBase
     params = {
       :format => :js,
       :id     => kata_id,
-      :avatar => 'bad' }
+      :avatar => 'bad'
+    }
     assert_raises(StandardError) {
       post 'kata/run_tests', params.merge(@params_maker.params)
     }
@@ -193,8 +192,6 @@ class KataControllerTest  < AppControllerTestBase
     # Note: the kata-controller validates the kata-id and the avatar-name
     # (via the host-katas-storer) so there is no path from the browser to
     # get runner.run to accept unvalidated arguments.
-    skip("FAILING... getting RunnerService:new_avatar:avatar_name:exists")
-
     prepare
     set_runner_class('RunnerService')
     create_gcc_assert_kata
