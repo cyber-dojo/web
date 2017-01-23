@@ -10,7 +10,7 @@ class ForkerControllerTest < AppControllerTestBase
     set_storer_class('FakeStorer')
   end
 
-  test '892AFE',
+  test '3E9892AFE',
   'when id is invalid then fork fails and the reason given is dojo' do
     prepare
     fork(bad_id = 'bad-id', 'hippo', tag = 1)
@@ -21,7 +21,7 @@ class ForkerControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '67725B',
+  test '3E967725B',
   'when avatar not started, the fork fails, and the reason given is avatar' do
     prepare
     id = create_kata
@@ -33,7 +33,7 @@ class ForkerControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '4CCCA7',
+  test '3E94CCCA7',
   'when tag is bad, the fork fails, and the reason given is traffic_light' do
     prepare
     @id = create_kata
@@ -55,7 +55,7 @@ class ForkerControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '2C432F',
+  test '3E92C432F',
   'when id,language,avatar,tag are all ok',
   'format=json fork works',
   "and the new dojo's id is returned" do
@@ -77,7 +77,7 @@ class ForkerControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'F65835',
+  test '3E9F65835',
   'when id,language,avatar,tag are all ok',
   'format=html fork works',
   "and you are redirected to the enter page with the new dojo's id" do
@@ -94,7 +94,7 @@ class ForkerControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - -
 
-  test '5EA04E',
+  test '3E95EA04E',
   'when the exercise no longer exists and everything else',
   'is ok then fork works and the new dojos id is returned' do
     prepare
@@ -111,7 +111,7 @@ class ForkerControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '9D85BF',
+  test '3E99D85BF',
   'when language has been renamed and everything else',
   'is ok then fork works and the new dojos id is returned' do
     prepare
@@ -128,7 +128,7 @@ class ForkerControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '467D4A',
+  test '3E9467D4A',
   'forking kata from before start-point volume re-architecture works' do
     prepare
     language = languages['C#-NUnit']

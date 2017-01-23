@@ -41,8 +41,8 @@ class RunnerServiceTest < AppLibTestBase
       assert stderr.start_with? 'Assertion failed: answer() == 42'
       assert_equal 2, status
     ensure
-      runner.old_avatar(kata_id, lion)
-      runner.old_kata(kata_id)
+      runner.old_avatar(image_name, kata_id, lion)
+      runner.old_kata(image_name, kata_id)
     end
   end
 

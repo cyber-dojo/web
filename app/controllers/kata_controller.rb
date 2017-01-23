@@ -25,21 +25,19 @@ class KataController < ApplicationController
 
     begin
       stdout,stderr,status = @avatar.test(delta, files, max_seconds)
-    rescue StandardError => e
-      if e.message.start_with? 'RunnerService:run:no_avatar'
-        # kata was created before new separated runner-microservice
-        # so runner has to be informed of this avatar's existence...
-        # Do this maintaining most up to date diff.
-        args = []
-        args << kata.image_name
-        args << kata.id
-        args << avatar.name
-        args << avatar.visible_files
-        runner.new_avatar(*args)
-        delta = FileDeltaMaker.make_delta(avatar.visible_files, files)
-        stdout,stderr,status = @avatar.test(delta, files, max_seconds)
-      else
-        raise e
+    rescue StandardError => error
+      # Old kata could be being resumed
+      # Runner implementation could have switched
+      case error.message
+        when 'RunnerService:run:kata_id:!exists'
+          resurrect_kata
+          resurrect_avatar
+          stdout,stderr,status = resurrect_run_tests(files, max_seconds)
+        when 'RunnerService:run:avatar_name:!exists'
+          resurrect_avatar
+          stdout,stderr,status = resurrect_run_tests(files, max_seconds)
+        else
+          raise error
       end
     end
 
@@ -89,6 +87,22 @@ class KataController < ApplicationController
       seen[filename] = makefile_filter(filename, content)
     end
     seen
+  end
+
+  def resurrect_kata
+    runner.new_kata(kata.image_name, kata.id)
+  end
+
+  def resurrect_avatar
+    args = [ kata.image_name, kata.id, @avatar.name ]
+    args << @avatar.visible_files
+    runner.new_avatar(*args)
+  end
+
+  def resurrect_run_tests(files, max_seconds)
+    delta = FileDeltaMaker.make_delta(@avatar.visible_files, files)
+    args = [ delta, files, max_seconds ]
+    @avatar.test(*args)
   end
 
 end
