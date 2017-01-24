@@ -1,7 +1,40 @@
-
 <% id       = @kata.id[0..5] %>
 <% language = @kata.display_name.split(',')[0].strip %>
 <% test     = @kata.display_name.split(',')[1].strip %>
+
+<script type="text/javascript"><!--
+
+$(function() {
+
+    var kataDetailsDialog = function() {
+          var html = '';
+          html += '<div id="kata-details-dialog">';
+          html += '<table style="border: 1px;">';
+          html += '<tr><td>id</td><td><%= id %></td></tr>';
+          html += '<tr><td>language</td><td><%= language %></td></tr>';
+          html += '<tr><td>test</td><td><%= test %></td></tr>';
+          <% if @kata.exercise %>
+          html += '<tr><td>exercise</td><td><%= @kata.exercise.gsub('_',' ') %></td></tr>';
+          <% end %>
+          html += '</table>';
+          html += '</div>';
+
+          var node = $(html);
+          node.dialog({
+              autoOpen: true,
+              modal: true,
+              title: cd.dialogTitle('kata details'),
+              buttons: { close: function() { $(this).remove(); } }
+          });
+    };
+
+    $('#kata-details-button').click(function() {
+        kataDetailsDialog();
+    });
+
+});
+
+//--></script>
 
 <div id="footer">
   <table>
@@ -16,17 +49,13 @@
       <td><%= render partial: 'shared/bullet' %></td>
       <td><%= render partial: 'shared/cucumber' %></td>
       <td><%= render partial: 'shared/bullet' %></td>
-      <td><%= id %></td>
-      <td><%= render partial: 'shared/bullet' %></td>
-      <td><%= language %></td>
-      <td><%= render partial: 'shared/bullet' %></td>
-      <td><%= test %></td>
-
-      <% if @kata.exercise %>
-        <td><%= render partial: 'shared/bullet' %></td>
-        <td><%= @kata.exercise.gsub('_',' ') %></td>
-      <% end %>
-
+      <td>
+        <button type="button"
+              title="kata details"
+              id="kata-details-button">
+          kata details
+        </button>
+      </td>
     </tr>
   </table>
 </div>
