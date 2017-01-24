@@ -6,9 +6,9 @@
 
 $(function() {
 
-    var informationDialog = function() {
+    var kataDetailsDialog = function() {
           var html = '';
-          html += '<div id="information-dialog">';
+          html += '<div id="kata-details-dialog">';
           html += '<table style="border: 1px;">';
           html += '<tbody>';
           html += '<tr><td>id</td><td><%= id %></td></tr>';
@@ -25,13 +25,13 @@ $(function() {
           node.dialog({
               autoOpen: true,
               modal: true,
-              title: cd.dialogTitle('information'),
+              title: cd.dialogTitle('kata details'),
               buttons: { close: function() { $(this).remove(); } }
           });
     };
 
-    $('#information-button').click(function() {
-        informationDialog();
+    $('#kata-details-button').click(function() {
+        kataDetailsDialog();
     });
 
 });
@@ -53,9 +53,9 @@ $(function() {
       <td><%= render partial: 'shared/bullet' %></td>
       <td>
         <button type="button"
-              title="information"
-              id="information-button">
-          information
+              title="kata details"
+              id="kata-details-button">
+          kata details
         </button>
       </td>
     </tr>
