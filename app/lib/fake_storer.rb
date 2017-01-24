@@ -40,6 +40,10 @@ class FakeStorer
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
+  def kata_exists?(id)
+    kata_dir(id).exists?
+  end
+
   def create_kata(manifest)
     id = manifest['id']
     refute_kata_exists(id)
@@ -57,6 +61,10 @@ class FakeStorer
   end
 
   # - - - - - - - - - - - - - - - -
+
+  def avatar_exists?(id, name)
+    avatar_dir(id, name).exists?
+  end
 
   def start_avatar(id, avatar_names)
     assert_kata_exists(id)
@@ -195,10 +203,6 @@ class FakeStorer
     '0123456789ABCDEF'.include?(char)
   end
 
-  def kata_exists?(id)
-    kata_dir(id).exists?
-  end
-
   def kata_dir(id)
     disk[kata_path(id)]
   end
@@ -221,10 +225,6 @@ class FakeStorer
 
   def valid_avatar?(name)
     all_avatars_names.include?(name)
-  end
-
-  def avatar_exists?(id, name)
-    avatar_dir(id, name).exists?
   end
 
   def avatar_dir(id, name)

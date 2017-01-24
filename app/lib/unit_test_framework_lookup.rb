@@ -54,10 +54,13 @@ module UnitTestFrameworkLookup
       'Java, JUnit'               => 'junit',
       'Java, Mockito'             => 'junit',
       'Java, PowerMockito'        => 'junit',
-      'Javascript, assert'        => 'node',
-      'Javascript, jasmine'       => 'javascript_jasmine',
+
+      'Javascript, assert'           => 'node',
+      'Javascript, jasmine'          => 'javascript_jasmine',
       'Javascript, Mocha+chai+sinon' => 'mocha',
-      'Javascript, qunit+sinon'   => 'qunit',
+      'Javascript, qunit+sinon'      => 'qunit',
+      'Javascript, Cucumber'         => 'javascript_cucumber',
+
       'Perl, Test::Simple'        => 'perl_test_simple',
       'PHP, PHPUnit'              => 'php_unit',
       'Python, py.test'           => 'python_pytest',

@@ -6,7 +6,7 @@ class DifferControllerTest < AppControllerTestBase
     set_runner_class('StubRunner')
   end
 
-  test '238AF6',
+  test '2D6238AF6',
   'no lines different in any files between successive tags' do
     set_storer_class('FakeStorer')
     @id = create_kata
@@ -38,7 +38,7 @@ class DifferControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'BEC2BF',
+  test '2D6BEC2BF',
   'one line different in one file between successive tags' do
     set_storer_class('FakeStorer')
     @id = create_kata
@@ -73,7 +73,7 @@ class DifferControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '06FD09',
+  test '2D606FD09',
   'tag -1 gives last traffic-light' do
     set_storer_class('FakeStorer')
     @id = create_kata
@@ -91,7 +91,7 @@ class DifferControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '34D490',
+  test '2D634D490',
   'nextAvatar and prevAvatar are empty string for dojo with one avatar' do
     set_storer_class('FakeStorer')
     @id = create_kata
@@ -108,7 +108,7 @@ class DifferControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '9FF76A',
+  test '2D69FF76A',
   'nextAvatar and prevAvatar for dojo with two avatars' do
     set_storer_class('FakeStorer')
     @id = create_kata

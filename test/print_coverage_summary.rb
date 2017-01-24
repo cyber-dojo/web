@@ -172,7 +172,7 @@ end
 
 def gather_done(stats, totals)
   done = [
-     [ 'total failures == 0',            totals[:failure_count] <= 0 ],
+     [ 'total failures == 0',            totals[:failure_count] == 0 ],
      [ 'total errors == 0',              totals[:error_count] == 0 ],
      [ 'total skips == 0',               totals[:skip_count] == 0 ],
      [ 'total secs < 25',                totals[:time].to_f < 25 ],

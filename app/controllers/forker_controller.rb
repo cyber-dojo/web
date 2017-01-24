@@ -5,12 +5,12 @@ class ForkerController < ApplicationController
     result = { forked: false }
     error = false
 
-    if !error && bad_kata_id?
+    if !error && !storer.kata_exists?(id)
       error = true
       result[:reason] = "dojo(#{id})"
     end
 
-    if !error && bad_avatar_name?
+    if !error && !storer.avatar_exists?(id, avatar_name)
       error = true
       result[:reason] = "avatar(#{avatar_name})"
     end
@@ -43,7 +43,7 @@ class ForkerController < ApplicationController
         manifest['unit_test_framework'] = kata.unit_test_framework
       else
         # after
-        manifest['red_amber_green'    ] = manifest['red_amber_green']
+        manifest['red_amber_green'    ] = kata.red_amber_green
         manifest['display_name'       ] = kata.display_name
         manifest['filename_extension' ] = kata.filename_extension
         manifest['progress_regexs'    ] = kata.progress_regexs
@@ -69,24 +69,6 @@ class ForkerController < ApplicationController
 
   include TimeNow
   include UniqueId
-
-  def bad_kata_id?
-    begin
-      kata.created
-      return false
-    rescue StandardError
-      return true
-    end
-  end
-
-  def bad_avatar_name?
-    begin
-      avatar.lights
-      return false
-    rescue StandardError
-      return true
-    end
-  end
 
 end
 
