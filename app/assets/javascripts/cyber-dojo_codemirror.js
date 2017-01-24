@@ -51,6 +51,37 @@ var cyberDojo = (function(cd, $) {
     return '';
   };
 
+  cd.switchEditorToCodeMirror = function(filename, tab_size) {
+    var editor = CodeMirror.fromTextArea(document.getElementById('file_content_for_' + filename),  {
+        lineNumbers: true,
+        matchBrackets: true,
+        mode: cd.codeMirrorMode(filename),
+        autoRefresh: true,
+        indentUnit: tab_size,
+        tabSize: tab_size,
+        theme: "default cyber-dojo"
+    });
+
+    editor.setOption("extraKeys", {
+        'Alt-T': function(cm) {
+            $('#test-button').click();
+        }
+    });
+    var lineNumbers = document.getElementById(filename + '_line_numbers');
+    lineNumbers.style.display = 'none';
+  };
+
+  cd.switchTheme = function() {
+    var themeDropDown = document.getElementById('code-mirror-theme');
+    var index = themeDropDown.selectedIndex;
+    var selectedItem = themeDropDown.options[index];
+    $.each($('.CodeMirror'), function(i, editor_div) {
+      editor_div.CodeMirror.setOption("theme", 'default ' + selectedItem.value);
+      editor_div.CodeMirror.refresh();
+    });
+  };
+
+
   return cd;
 
 })(cyberDojo || {}, jQuery);

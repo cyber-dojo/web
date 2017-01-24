@@ -19,7 +19,7 @@
 <%= h content %></textarea>
             <% if syntax_highlight_enabled? %>
               <script type="text/javascript"><!--
-              cd.switchEditorToCodeMirror('<%= filename %>');
+              cd.switchEditorToCodeMirror('<%= filename %>', <%= @kata.tab_size %>);
               //--></script>
             <% end %>
         <% else %>
