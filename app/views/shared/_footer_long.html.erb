@@ -10,14 +10,12 @@ $(function() {
           var html = '';
           html += '<div id="kata-details-dialog">';
           html += '<table style="border: 1px;">';
-          html += '<tbody>';
           html += '<tr><td>id</td><td><%= id %></td></tr>';
           html += '<tr><td>language</td><td><%= language %></td></tr>';
           html += '<tr><td>test</td><td><%= test %></td></tr>';
-          html += '<% if @kata.exercise %>';
+          <% if @kata.exercise %>
           html += '<tr><td>exercise</td><td><%= @kata.exercise.gsub('_',' ') %></td></tr>';
-          html += '<% end %>';
-          html += '</tbody>';
+          <% end %>
           html += '</table>';
           html += '</div>';
 
