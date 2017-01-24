@@ -32,26 +32,40 @@
 }
 
 .cm-s-cyber-dojo .cm-header {color: #09f;}
-.cm-s-cyber-dojo .cm-keyword {color: #b0c;}
-.cm-s-cyber-dojo .cm-atom {color: #76E;}
-//.cm-s-cyber-dojo .cm-number {color: #164;}
-.cm-s-cyber-dojo .cm-def {color: #07f;}
-//.cm-s-cyber-dojo .cm-variable,
-//.cm-s-cyber-dojo .cm-punctuation,
-//.cm-s-cyber-dojo .cm-property,
-//.cm-s-cyber-dojo .cm-operator {}
-//.cm-s-cyber-dojo .cm-variable-2 {color: #05a;}
-//.cm-s-cyber-dojo .cm-variable-3 {color: #085;}
-//.cm-s-cyber-dojo .cm-comment {color: #a50;}
-.cm-s-cyber-dojo .cm-string {color: #e11;}
-//.cm-s-cyber-dojo .cm-string-2 {color: #f50;}
-.cm-s-cyber-dojo .cm-meta { color: #ccc; }
-//.cm-s-cyber-dojo .cm-qualifier {color: #555;}
-.cm-s-cyber-dojo .cm-builtin {color: #7af;}
-//.cm-s-cyber-dojo .cm-bracket {color: #997;}
-//.cm-s-cyber-dojo .cm-tag {color: #170;}
-.cm-s-cyber-dojo .cm-attribute {color: #0cc;}
-//.cm-s-cyber-dojo .cm-hr {color: #999;}
-//.cm-s-cyber-dojo .cm-link {color: #00c;}
+.cm-s-cyber-dojo .cm-quote {color: #090;}
+.cm-s-cyber-dojo .cm-negative {color: #d44;}
+.cm-s-cyber-dojo .cm-positive {color: #292;}
+.cm-s-cyber-dojo .cm-header, .cm-strong {font-weight: bold;}
+.cm-s-cyber-dojo .cm-em {font-style: italic;}
+.cm-s-cyber-dojo .cm-link {text-decoration: underline;}
+.cm-s-cyber-dojo .cm-strikethrough {text-decoration: line-through;}
 
-//.cm-s-cyber-dojo .cm-error {color: #f00;}
+.cm-s-cyber-dojo .cm-keyword {color: #d161dd;}
+.cm-s-cyber-dojo .cm-atom {color: #76E;}
+.cm-s-cyber-dojo .cm-number {color: #1d9f6e;}
+.cm-s-cyber-dojo .cm-def {color: #07f;}
+.cm-s-cyber-dojo .cm-variable,
+.cm-s-cyber-dojo .cm-punctuation,
+.cm-s-cyber-dojo .cm-property,
+.cm-s-cyber-dojo .cm-operator {color: #8da6ce;}
+.cm-s-cyber-dojo .cm-variable-2 {color: #0074de;}
+.cm-s-cyber-dojo .cm-variable-3 {color: #00ad6b;}
+.cm-s-cyber-dojo .cm-comment {color: #ce6c00;}
+.cm-s-cyber-dojo .cm-string {color: #eed540;}
+.cm-s-cyber-dojo .cm-string-2 {color: #f50;}
+.cm-s-cyber-dojo .cm-meta { color: #ccc; }
+.cm-s-cyber-dojo .cm-qualifier {color: #888888;}
+.cm-s-cyber-dojo .cm-builtin {color: #7af;}
+.cm-s-cyber-dojo .cm-bracket {color: #c2c299;}
+.cm-s-cyber-dojo .cm-tag {color: #18ae00;}
+.cm-s-cyber-dojo .cm-attribute {color: #0cc;}
+.cm-s-cyber-dojo .cm-hr {color: #999;}
+.cm-s-cyber-dojo .cm-link {color: #3395cc;}
+
+.cm-s-cyber-dojo .cm-error {color: #f00;}
+.cm-s-cyber-dojo .cm-invalidchar {color: #f00;}
+
+.cm-s-cyber-dojo span.CodeMirror-matchingbracket {color: #0f0;}
+.cm-s-cyber-dojo span.CodeMirror-nonmatchingbracket {color: #f22;}
+.cm-s-cyber-dojo .CodeMirror-matchingtag { background: rgba(255, 150, 0, .3); }
+.cm-s-cyber-dojo .CodeMirror-activeline-background {background: #414141;}
