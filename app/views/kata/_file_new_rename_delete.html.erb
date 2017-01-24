@@ -119,7 +119,7 @@ $(function() {
     var okInitiallyDisabled = !isValidFilename(initialFilename);
     var okClicked = function(filename) {
       cd.newFileContent(filename, '');
-      cd.switchEditorToCodeMirror(filename, <%= @kata.tab_size %>);
+      cd.switchEditorToCodeMirror(filename);
     };
     openDialog('new', initialFilename, okInitiallyDisabled, okClicked, avatarName);
   });
@@ -129,7 +129,7 @@ $(function() {
     var okInitiallyDisabled = true;
     var okClicked = function(filename) {
       renameFileFromTo(initialFilename, filename);
-      cd.switchEditorToCodeMirror(filename, <%= @kata.tab_size %>);
+      cd.switchEditorToCodeMirror(filename);
     };
     openDialog('rename', initialFilename, okInitiallyDisabled, okClicked, avatarName);
   });
