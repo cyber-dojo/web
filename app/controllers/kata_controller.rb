@@ -19,10 +19,6 @@ class KataController < ApplicationController
     files = received_files
     max_seconds = 10
 
-    stdout = nil
-    stderr = nil
-    status = nil
-
     begin
       stdout,stderr,status = @avatar.test(delta, files, max_seconds)
     rescue StandardError => error
