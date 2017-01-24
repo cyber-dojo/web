@@ -60,3 +60,7 @@
      font-size: 0.87em;
   }
 }
+
+#kata-details-dialog {
+  th:first-child, td:first-child { padding-right: 1em; }
+}
