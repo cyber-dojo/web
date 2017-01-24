@@ -269,6 +269,14 @@ module OutputColour # mix-in
     end
   end
 
+  def self.parse_javascript_cucumber(output)
+    return :amber if /^\d+ error/.match(output)      # javascript
+    return :amber if /\(\d+ undefined/.match(output) # Given/When/Then
+    return :red   if /\(\d+ failed/.match(output)    # scenarios/steps
+    return :green if /\(\d+ passed\)/.match(output)  # scenarios/steps
+    return :amber
+  end
+
   def self.parse_coffeescript_jasmine(output)
     pattern = /(\d+) test(s?), (\d+) assertion(s?), (\d+) failure(s?), (\d+) skipped/
     if match = pattern.match(output)

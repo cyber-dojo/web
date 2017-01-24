@@ -35,9 +35,9 @@ class Kata
   end
 
   def age(now = Time.now.to_a[0..5].reverse)
-    # Time.now.to_a     [18, 7, 11, 22, 5, 2016, 0, 143, true, "BST"]
-    # [0..5]            [18, 7, 11, 22, 5, 2016]
-    # reverse           [2016, 5, 22, 11, 7, 18] = 2016 May 22nd, 11:07:18
+    # Time.now.to_a [18, 7, 11, 22, 5, 2016, ...]
+    # [0..5]        [18, 7, 11, 22, 5, 2016]
+    # reverse       [2016, 5, 22, 11, 7, 18]
     return 0 unless active?
     return (Time.mktime(*now) - earliest_light).to_i
   end
@@ -106,11 +106,14 @@ class Kata
   include ManifestProperty
 
   def full_manifest_property
-    # A kata's manifest should store everything it needs so it never has
-    # to go back to its originating language+test manifest (decoupling).
-    # Katas created after the start-point volume re-architecture do that :-)
-    # Katas created before the start-point volume re-architecture don't :-(
-    # For katas before I attempt to navigate back to the originating language+test.
+    # A kata's manifest should store everything
+    # it needs so it never has to go back to its
+    # originating language+test manifest (decoupling).
+    # Katas created after the start-point volume
+    # re-architecture do that :-) Katas created before
+    # the start-point volume re-architecture don't :-(
+    # For katas before I attempt to navigate back to
+    # the originating language+test.
     property_name = name_of(caller)
     manifest[property_name] || start_point.send(property_name)
   end
@@ -125,7 +128,9 @@ class Kata
   end
 
   def earliest_light
-    times = avatars.active.map { |avatar| avatar.lights[0].time }
+    times = avatars.active.map { |avatar|
+      avatar.lights[0].time
+    }
     Time.mktime(*times.sort[0])
   end
 

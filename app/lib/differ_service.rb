@@ -1,7 +1,7 @@
-require 'net/http'
-require 'json'
 require_relative 'http_service'
 require_relative '../../lib/nearest_ancestors'
+require 'net/http'
+require 'json'
 
 class DifferService
 
@@ -14,11 +14,7 @@ class DifferService
   def diff(kata_id, avatar_name, was_tag, now_tag)
     # See https://github.com/cyber-dojo/commander
     # and its docker-compose.yml
-    args = []
-    args << kata_id
-    args << avatar_name
-    args << was_tag
-    args << now_tag
+    args = [kata_id, avatar_name, was_tag, now_tag]
     visible_files = storer.tags_visible_files(*args)
     was_files = visible_files['was_tag']
     now_files = visible_files['now_tag']

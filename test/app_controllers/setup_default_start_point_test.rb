@@ -10,7 +10,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     set_storer_class('FakeStorer')
   end
 
-  test '9F4020',
+  test '59C9F4020',
   'show_languages page shows all language+tests' do
     prepare
     do_get 'show_languages'
@@ -28,7 +28,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'BB9967',
+  test '59CBB9967',
   'show_exercises page uses cached exercises' do
     prepare
     do_get 'show_exercises'
@@ -39,7 +39,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  test '7433D8',
+  test '59C7433D8',
   'save creates a new kata with language+test and exercise' do
     prepare
     params = {
@@ -55,7 +55,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'D79BA3',
+  test '59CD79BA3',
   'show_languages defaults to language and test-framework of kata',
   'whose full-id is passed in URL (to encourage repetition)' do
     prepare
@@ -75,7 +75,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  test '82562A',
+  test '59C82562A',
   'show_exercises defaults to exercise of kata',
   'whose full-id is passed in URL (to encourage repetition)' do
     prepare

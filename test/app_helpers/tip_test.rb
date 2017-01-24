@@ -36,7 +36,7 @@ class TipTest < AppHelpersTestBase
       "<div>1 deleted line</div>"
     actual = traffic_light_tip_html(diff, lion, was_tag, now_tag)
     assert_equal expected, actual
-    runner.old_kata(kata.id)
+    runner.old_kata(kata.image_name, kata.id)
   end
 
 end

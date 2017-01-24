@@ -1,6 +1,6 @@
+require_relative 'http_service'
 require 'json'
 require 'net/http'
-require_relative 'http_service'
 
 class StorerService
 
@@ -15,6 +15,10 @@ class StorerService
 
   # - - - - - - - - - - - -
 
+  def kata_exists?(kata_id)
+    get(__method__, kata_id)
+  end
+
   def create_kata(manifest)
     post(__method__, manifest)
   end
@@ -25,15 +29,19 @@ class StorerService
 
   # - - - - - - - - - - - -
 
-  def completed(id)
-    get(__method__, id)
+  def completed(kata_id)
+    get(__method__, kata_id)
   end
 
-  def completions(id)
-    get(__method__, id)
+  def completions(kata_id)
+    get(__method__, kata_id)
   end
 
   # - - - - - - - - - - - -
+
+  def avatar_exists?(kata_id, avatar_name)
+    get(__method__, kata_id, avatar_name)
+  end
 
   def start_avatar(kata_id, avatar_names)
     post(__method__, kata_id, avatar_names)
@@ -49,8 +57,6 @@ class StorerService
     post(__method__, kata_id, avatar_name, files, now, output, colour)
   end
 
-  # - - - - - - - - - - - -
-
   def avatar_increments(kata_id, avatar_name)
     get(__method__, kata_id, avatar_name)
   end
@@ -58,8 +64,6 @@ class StorerService
   def avatar_visible_files(kata_id, avatar_name)
     get(__method__, kata_id, avatar_name)
   end
-
-  # - - - - - - - - - - - -
 
   def tag_visible_files(kata_id, avatar_name, tag)
     get(__method__, kata_id, avatar_name, tag)

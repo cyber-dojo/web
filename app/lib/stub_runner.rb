@@ -12,12 +12,12 @@ class StubRunner
   # - - - - - - - - - - - - - - - - -
 
   def new_kata(_image_name, _kata_id); end
-  def old_kata(_kata_id); end
+  def old_kata(_image_name, _kata_id); end
 
   # - - - - - - - - - - - - - - - - -
 
   def new_avatar(_image_name, _kata_id, _avatar_name, _starting_files); end
-  def old_avatar(_kata_id, _avatar_name); end
+  def old_avatar(_image_name, _kata_id, _avatar_name); end
 
   # - - - - - - - - - - - - - - - - -
 
