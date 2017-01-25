@@ -71,16 +71,6 @@ var cyberDojo = (function(cd, $) {
     lineNumbers.style.display = 'none';
   };
 
-  cd.switchTheme = function() {
-    var themeDropDown = document.getElementById('code-mirror-theme');
-    var index = themeDropDown.selectedIndex;
-    var selectedItem = themeDropDown.options[index];
-    $.each($('.CodeMirror'), function(i, editor_div) {
-      editor_div.CodeMirror.setOption("theme", 'default ' + selectedItem.value);
-      editor_div.CodeMirror.refresh();
-    });
-  };
-
   cd.syntaxHighlightEnabled = false;
 
   cd.turnSyntaxHighlightOn = function() {
