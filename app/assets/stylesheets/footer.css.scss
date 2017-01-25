@@ -70,4 +70,14 @@
 
 #kata-details-dialog {
   th:first-child, td:first-child { padding-right: 1em; }
+
+  #syntax-highlight-button {
+    @include non-code-font();
+    margin-top: 4px;
+    padding: .4em 1em;
+    background: #f6f0b9;
+    color: darken($darker-color, 10%);
+    text-align: center;
+    font-size: 0.87em;
+  }
 }
