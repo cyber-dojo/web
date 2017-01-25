@@ -99,14 +99,10 @@ var cyberDojo = (function(cd, $) {
 
   var turnSyntaxHighlightOff = function() {
       $.each($('.CodeMirror'), function(i, editor_div) {
-          editor_div.CodeMirror.save();
-          editor_div.remove();
+          editor_div.CodeMirror.toTextArea();
       });
       $.each($('.line_numbers'), function(i, line_numbers_div) {
           line_numbers_div.style.display = '';
-      });
-      $.each($('.file_content'), function(i, editor_text_area) {
-          editor_text_area.style.display = '';
       });
 
       cd.syntaxHighlightEnabled = false;
