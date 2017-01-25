@@ -3,6 +3,9 @@
 var cyberDojo = (function(cd, $) {
   "use strict";
 
+  cd.syntaxHighlightEnabled = false;
+  cd.syntaxHighlightTabSize = 4;
+
   var fileExtension = function(filename) {
     var lastPoint = filename.lastIndexOf('.');
     if(lastPoint == -1) {
@@ -70,8 +73,6 @@ var cyberDojo = (function(cd, $) {
     var lineNumbers = document.getElementById(filename + '_line_numbers');
     lineNumbers.style.display = 'none';
   };
-
-  cd.syntaxHighlightEnabled = false;
 
   cd.turnSyntaxHighlightOn = function() {
       $.each($('.file_content'), function(i, editor_text_area) {
