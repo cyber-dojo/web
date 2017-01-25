@@ -104,7 +104,10 @@ var cyberDojo = (function(cd, $) {
 
   var turnSyntaxHighlightOn = function() {
       $.each($('.file_content'), function(i, editor_text_area) {
-          switchEditorToCodeMirror(editor_text_area.attributes['data-filename'].value);
+          var filename = editor_text_area.attributes['data-filename'].value;
+          if(filename != 'output') {
+              switchEditorToCodeMirror(filename);
+          }
       });
 
       cd.syntaxHighlightEnabled = true;
