@@ -128,6 +128,7 @@ $(function() {
     var initialFilename = cd.currentFilename();
     var okInitiallyDisabled = true;
     var okClicked = function(filename) {
+      cd.removeSyntaxHilightEditor(initialFilename);
       renameFileFromTo(initialFilename, filename);
       cd.switchEditorIfSyntaxHighlightEnabled(filename);
     };
@@ -138,7 +139,10 @@ $(function() {
     //cd.deleteFile("<%= @avatar.name %>");
     var initialFilename = cd.currentFilename();
     var okInitiallyDisabled = false;
-    var okClicked = function(filename) { cd.deleteFile(filename); };
+    var okClicked = function(filename) {
+      cd.removeSyntaxHilightEditor(filename);
+      cd.deleteFile(filename);
+    };
     openDialog('delete', initialFilename, okInitiallyDisabled, okClicked, avatarName);
   });
 

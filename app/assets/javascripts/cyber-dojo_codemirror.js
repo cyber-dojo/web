@@ -120,6 +120,13 @@ var cyberDojo = (function(cd, $) {
     }
   };
 
+  cd.removeSyntaxHilightEditor = function (filename) {
+    var element = document.getElementById(syntaxHighlightFileContentForId(filename));
+    if (element != null) {
+      element.CodeMirror.toTextArea();
+    }
+  };
+
   cd.focusSyntaxHighlightEditor = function (filename) {
     var element = document.getElementById(syntaxHighlightFileContentForId(filename));
     if (element != null) {
