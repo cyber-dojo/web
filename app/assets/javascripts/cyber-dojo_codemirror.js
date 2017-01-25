@@ -14,7 +14,7 @@ var cyberDojo = (function(cd, $) {
     return filename.substring(lastPoint);
   };
 
-  cd.codeMirrorMode = function(filename) {
+  var codeMirrorMode = function(filename) {
     switch(filename) {
       case 'makefile':
         return 'text/x-makefile';
@@ -54,11 +54,11 @@ var cyberDojo = (function(cd, $) {
     return '';
   };
 
-  cd.switchEditorToCodeMirror = function(filename) {
+  var switchEditorToCodeMirror = function(filename) {
     var editor = CodeMirror.fromTextArea(document.getElementById('file_content_for_' + filename),  {
         lineNumbers: true,
         matchBrackets: true,
-        mode: cd.codeMirrorMode(filename),
+        mode: codeMirrorMode(filename),
         autoRefresh: true,
         indentUnit: cd.syntaxHighlightTabSize,
         tabSize: cd.syntaxHighlightTabSize,
@@ -76,19 +76,19 @@ var cyberDojo = (function(cd, $) {
 
   cd.switchEditorIfSyntaxHighlightEnabled = function(filename) {
       if(cd.syntaxHighlightEnabled) {
-          cd.switchEditorToCodeMirror(filename);
+          switchEditorToCodeMirror(filename);
       }
   };
 
-  cd.turnSyntaxHighlightOn = function() {
+  var turnSyntaxHighlightOn = function() {
       $.each($('.file_content'), function(i, editor_text_area) {
-          cd.switchEditorToCodeMirror(editor_text_area.attributes['data-filename'].value);
+          switchEditorToCodeMirror(editor_text_area.attributes['data-filename'].value);
       });
 
       cd.syntaxHighlightEnabled = true;
   };
 
-  cd.turnSyntaxHighlightOff = function() {
+  var turnSyntaxHighlightOff = function() {
       $.each($('.CodeMirror'), function(i, editor_div) {
           editor_div.CodeMirror.save();
           editor_div.remove();
@@ -105,10 +105,10 @@ var cyberDojo = (function(cd, $) {
 
   cd.toggleSyntaxHighlight = function() {
       if(cd.syntaxHighlightEnabled) {
-          cd.turnSyntaxHighlightOff();
+          turnSyntaxHighlightOff();
       }
       else {
-          cd.turnSyntaxHighlightOn();
+          turnSyntaxHighlightOn();
       }
   };
 
