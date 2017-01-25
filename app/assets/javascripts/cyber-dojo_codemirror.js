@@ -90,8 +90,9 @@ var cyberDojo = (function(cd, $) {
   };
 
   cd.focusSyntaxHighlightEditor = function(filename) {
-      if(cd.syntaxHighlightEnabled) {
-          document.getElementById(syntaxHighlightFileContentForId(filename)).CodeMirror.focus();
+      var element = document.getElementById(syntaxHighlightFileContentForId(filename));
+      if(element != null) {
+          element.CodeMirror.focus();
       }
   };
 
@@ -127,6 +128,12 @@ var cyberDojo = (function(cd, $) {
       else {
           turnSyntaxHighlightOn();
       }
+  };
+
+  cd.saveCodeFromSyntaxHighlightEditors = function() {
+      $.each($('.CodeMirror'), function(i, editor_div) {
+          editor_div.CodeMirror.save();
+      });
   };
 
   return cd;
