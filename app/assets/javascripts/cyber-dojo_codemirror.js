@@ -74,6 +74,12 @@ var cyberDojo = (function(cd, $) {
     lineNumbers.style.display = 'none';
   };
 
+  cd.switchEditorIfSyntaxHighlightEnabled = function(filename) {
+      if(cd.syntaxHighlightEnabled) {
+          cd.switchEditorToCodeMirror(filename);
+      }
+  };
+
   cd.turnSyntaxHighlightOn = function() {
       $.each($('.file_content'), function(i, editor_text_area) {
           cd.switchEditorToCodeMirror(editor_text_area.attributes['data-filename'].value);
