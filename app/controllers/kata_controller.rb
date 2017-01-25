@@ -1,12 +1,6 @@
 
 class KataController < ApplicationController
 
-  def syntax_highlight_enabled?
-    params['syntax_highlight'] == 'true'
-  end
-
-  helper_method :syntax_highlight_enabled?
-
   def edit
     @kata = kata
     @avatar = avatar
