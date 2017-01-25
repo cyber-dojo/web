@@ -68,6 +68,15 @@ var cyberDojo = (function(cd, $) {
     editor.setOption("extraKeys", {
         'Alt-T': function(cm) {
             $('#test-button').click();
+        },
+        'Alt-J': function(cm) {
+            cd.loadNextFile();
+        },
+        'Alt-K': function(cm) {
+            cd.loadPreviousFile();
+        },
+        'Alt-O': function(cm) {
+            cd.toggleOutputFile();
         }
     });
     var lineNumbers = document.getElementById(filename + '_line_numbers');
