@@ -89,19 +89,6 @@ var cyberDojo = (function(cd, $) {
     lineNumbers.style.display = 'none';
   };
 
-  cd.focusSyntaxHighlightEditor = function (filename) {
-    var element = document.getElementById(syntaxHighlightFileContentForId(filename));
-    if (element != null) {
-      element.CodeMirror.focus();
-    }
-  };
-
-  cd.switchEditorIfSyntaxHighlightEnabled = function (filename) {
-    if (cd.syntaxHighlightEnabled) {
-      switchEditorToCodeMirror(filename);
-    }
-  };
-
   var turnSyntaxHighlightOn = function () {
     $.each($('.file_content'), function (i, editor_text_area) {
       var filename = editor_text_area.attributes['data-filename'].value;
@@ -130,6 +117,19 @@ var cyberDojo = (function(cd, $) {
     }
     else {
       turnSyntaxHighlightOn();
+    }
+  };
+
+  cd.focusSyntaxHighlightEditor = function (filename) {
+    var element = document.getElementById(syntaxHighlightFileContentForId(filename));
+    if (element != null) {
+      element.CodeMirror.focus();
+    }
+  };
+
+  cd.switchEditorIfSyntaxHighlightEnabled = function (filename) {
+    if (cd.syntaxHighlightEnabled) {
+      switchEditorToCodeMirror(filename);
     }
   };
 
