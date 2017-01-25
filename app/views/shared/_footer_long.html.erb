@@ -1,6 +1,13 @@
 <% id       = @kata.id[0..5] %>
 <% language = @kata.display_name.split(',')[0].strip %>
 <% test     = @kata.display_name.split(',')[1].strip %>
+<%
+  if not defined?(extra_row)
+    extra_row = ''
+  else
+    extra_row = "html += '" + extra_row + "';"
+  end
+%>
 
 <script type="text/javascript"><!--
 
@@ -16,6 +23,7 @@ $(function() {
           <% if @kata.exercise %>
           html += '<tr><td>exercise</td><td><%= @kata.exercise.gsub('_',' ') %></td></tr>';
           <% end %>
+          <%= extra_row.html_safe %>
           html += '</table>';
           html += '</div>';
 
