@@ -54,6 +54,10 @@ var cyberDojo = (function(cd, $) {
     return '';
   };
 
+  var syntaxHighlightFileContentForId = function(filename) {
+      return 'syntax_highlight_file_content_for_' + filename;
+  };
+
   var switchEditorToCodeMirror = function(filename) {
     var editor = CodeMirror.fromTextArea(document.getElementById('file_content_for_' + filename),  {
         lineNumbers: true,
@@ -64,6 +68,8 @@ var cyberDojo = (function(cd, $) {
         tabSize: cd.syntaxHighlightTabSize,
         theme: "default cyber-dojo"
     });
+
+    editor.getWrapperElement().id = syntaxHighlightFileContentForId(filename);
 
     editor.setOption("extraKeys", {
         'Alt-T': function(cm) {
@@ -81,6 +87,12 @@ var cyberDojo = (function(cd, $) {
     });
     var lineNumbers = document.getElementById(filename + '_line_numbers');
     lineNumbers.style.display = 'none';
+  };
+
+  cd.focusSyntaxHighlightEditor = function(filename) {
+      if(cd.syntaxHighlightEnabled) {
+          document.getElementById(syntaxHighlightFileContentForId(filename)).CodeMirror.focus();
+      }
   };
 
   cd.switchEditorIfSyntaxHighlightEnabled = function(filename) {

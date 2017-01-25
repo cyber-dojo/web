@@ -9,6 +9,7 @@ var cyberDojo = (function(cd, $) {
     cd.fileDiv(filename).show();
 
     cd.fileContentFor(filename).focus();
+    cd.focusSyntaxHighlightEditor(filename);
     $('#current-filename').val(filename);
     if (filename !== 'output') {
       $('#last-non-output-filename').val(filename);
