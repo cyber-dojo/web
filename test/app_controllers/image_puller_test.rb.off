@@ -25,7 +25,7 @@ class ImagePullerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'B28A3D',
+  test '406A3D',
   'language pull.needed is false when docker image is pulled' do
     do_get 'pull_needed', major_minor_js('language', 'C#', 'NUnit')
     refute json['needed']
@@ -33,7 +33,7 @@ class ImagePullerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  test '0A8080',
+  test '406080',
   'language pull issues docker-pull image_name command',
   'and returns succeeded=true when pull succeeds' do
     setup_mock_shell
@@ -45,7 +45,7 @@ class ImagePullerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  test '4DB3FD',
+  test '4063FD',
   'language pull issues docker-pull image_name command',
   'and returns succeeded=false when pull fails' do
     setup_mock_shell
@@ -59,7 +59,7 @@ class ImagePullerTest < AppControllerTestBase
   # from Custom setup page
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  test '294C10',
+  test '406C10',
   'custom pull.needed is true when docker image is not pulled' do
     do_get 'pull_needed', major_minor_js('custom', 'Tennis refactoring', 'Python unitttest')
     assert json['needed']
@@ -67,7 +67,7 @@ class ImagePullerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  test '9D3E9A',
+  test '406E9A',
   'custom pull_needed is false when docker image is pulled' do
     do_get 'pull_needed', major_minor_js('custom', 'Tennis refactoring', 'C# NUnit')
     refute json['needed']
@@ -75,7 +75,7 @@ class ImagePullerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  test '4694A0',
+  test '4064A0',
   'custom pull issues docker-pull image_name command',
   'and returns succeeded=true when pull succeeds' do
     setup_mock_shell
@@ -87,7 +87,7 @@ class ImagePullerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  test '05C5E7',
+  test '4065E7',
   'custom pull issues docker-pull image_name command',
   'and returns succeeded=false when pull fails' do
     setup_mock_shell
@@ -101,7 +101,7 @@ class ImagePullerTest < AppControllerTestBase
   # from Fork on review page/dialog
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  test '6F2269',
+  test '406269',
   'kata pull.needed is false when image (from post start-point re-architecture)',
   'kata.id has already been pulled' do
     create_kata('C#, NUnit')
@@ -111,7 +111,7 @@ class ImagePullerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'A9FA97',
+  test '406A97',
   'kata pull.needed is true when image (from post start-point re-architecture)',
   'kata.id has not been pulled' do
     create_kata('C#, Moq')
@@ -121,7 +121,7 @@ class ImagePullerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  test '317E66',
+  test '406E66',
   'kata pull issues docker-pull image_name command',
   'and returns succeeded=true when pull succeeds' do
     create_kata('C#, Moq')
@@ -133,7 +133,7 @@ class ImagePullerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'B45B07',
+  test '406B07',
   'kata pull issues docker-pull image_name command',
   'and returns succeeded=false when pull fails' do
     create_kata('C#, Moq')
