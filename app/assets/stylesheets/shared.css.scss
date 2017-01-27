@@ -3,6 +3,26 @@
 @mixin   left-align($margin-left ) { margin: { left : $margin-left; right: auto; } }
 @mixin center-align                { text-align: center; margin: { left : auto; right: auto; } }
 
+@mixin edged-panel {
+  @include rounded-corner(5px);
+  background: $darker-color;
+     display: inline-block;
+      border: 1px dotted gray;
+     padding: 5px;
+  margin: { left: 10px; }
+}
+
+@mixin diff-line-count {
+  text-align: right;
+      margin: none;
+      margin: { bottom: 2px; }
+     padding: 2px;
+   font-size: 13px;
+       width: 20px;
+}
+
+//----------------------------------------------
+
 .align-left    { text-align: left; }
 .align-center  { @include center-align; }
 .align-right   { text-align: right;  }
@@ -17,15 +37,6 @@ a:link, a:visited { color: $text-color; }
 [data-cursor=pointer] { cursor: pointer; }
 
 //----------------------------------------------
-
-@mixin edged-panel {
-  @include rounded-corner(5px);
-  background: $darker-color;
-     display: inline-block;
-      border: 1px dotted gray;
-     padding: 5px;
-  margin: { left: 10px; }
-}
 
 .hover-tip {
   @include plaintext-font();

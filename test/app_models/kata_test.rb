@@ -117,7 +117,7 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '677B48',
-  'start_avatar with name that is not a known avatar is nil' do
+  'start_avatar() with name that is not a known avatar is nil' do
     kata = make_kata
     assert_nil kata.start_avatar(['sellotape'])
   end
@@ -125,7 +125,7 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '677C43',
-  'start_avatar with specific name succeeds when avatar has not yet started' do
+  'start_avatar() with specific name succeeds when avatar has not yet started' do
     @kata = make_kata
     hippo = @kata.start_avatar(['hippo'])
     refute_nil hippo
@@ -136,7 +136,7 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '6773FA',
-  'start_avatar with specific name is nil when avatar has already started' do
+  'start_avatar() with specific name is nil when avatar has already started' do
     kata = make_kata
     kata.start_avatar(['hippo'])
     avatar = kata.start_avatar(['hippo'])
@@ -146,7 +146,7 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '6776C8',
-  'start_avatar with specific names tries them in order' do
+  'start_avatar() with specific names tries them in order' do
     @kata = make_kata
     names = %w(cheetah lion panda)
 
@@ -172,7 +172,7 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '67741A',
-  'start_avatar succeeds once for each avatar name then its full and is nil' do
+  'start_avatar() succeeds once for each avatar name then its full and is nil' do
     kata = make_kata
     created = []
     Avatars.names.length.times do
@@ -187,7 +187,7 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '677A3D',
-  'start_avatar starts avatars in random order' do
+  'start_avatar() starts avatars in random order' do
     kata = make_kata
     created = []
     Avatars.names.length.times do
@@ -201,9 +201,27 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test '677D61',
+  'start_avatar() seamlessly resurrects the runner',
+  'when collector has collected the runner containers/volumes' do
+    set_runner_class('RunnerService')
+    kata = make_kata
+    runner.old_kata(kata.image_name, kata.id)
+    begin
+      avatar = kata.start_avatar
+      runner.old_avatar(kata.image_name, kata.id, avatar.name)
+      refute_nil avatar
+    ensure
+      runner.old_kata(kata.image_name, kata.id)
+    end
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '677E1A',
   'after start-points rearchitecture',
-  'unit_test_framework is nil, red_amber_green returns the lamda source' do
+  'unit_test_framework is nil',
+  'red_amber_green returns the lamda source' do
     kata = make_kata
     expected = [
       "lambda { |output|",
@@ -220,7 +238,7 @@ class KataTest < AppModelsTestBase
 
   test '677712',
   'for a kata created before the start_point re-architecture',
-  'attempt to retrieve the full-manifest properties from them start-point' do
+  'attempt to retrieve the full-manifest properties from the start-point' do
     kata_id = '677712F0E7'
     manifest = {
       'id'       => kata_id,
