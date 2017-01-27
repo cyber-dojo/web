@@ -182,7 +182,7 @@ def gather_done(stats, totals)
   done << coverage(stats, 'app_lib')         if modules.include? 'app_lib'
   done << coverage(stats, 'app_models')      if modules.include? 'app_models'
   done << coverage(stats, 'lib')             if modules.include? 'lib'
-  done << coverage(stats, 'app_controllers') if modules.include? 'app_controllers'
+  done << coverage(stats, 'app_controllers',99) if modules.include? 'app_controllers'
   done
 end
 
