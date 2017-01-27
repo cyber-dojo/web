@@ -5,13 +5,12 @@
   margin: { top: 55px; left: 285px; }
 
   #avatars-grid {
-    width: 330px;
+    width: 206px;
     position: relative;
-    left: 4px;
-    top: 0px;
+    left: 55px;
   }
 
-  #enter-your-practice-session {
+  #enter-a-practice-session, #review-a-practice-session {
     @include non-code-font();
     color: $lighter-color;
     font-size: 3.5em;
@@ -38,7 +37,7 @@
     right: -1px;
   }
 
-  #start-button, #dashboard-button, #review-button, #resume-button {
+  #start-button, #resume-button,    #dashboard-button, #review-button {
     @include non-code-font();
     width: 292px;
     padding-right: 20px;

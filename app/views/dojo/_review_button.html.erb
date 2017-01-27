@@ -1,0 +1,16 @@
+
+<script type="text/javascript"><!--
+
+$(function() {
+
+  $('#review-button').click(function() {
+    var id = "<%= @id %>";
+    var url = '/enter/review/' + id;
+    window.location = url;
+  });
+
+});
+
+//--></script>
+
+<button type="button" id="review-button">review a practice session</button>

@@ -34,18 +34,18 @@ var cyberDojo = (function(cd, $) {
         closeOnEscape: true,
         open: function() {
           var pane = $('.ui-dialog-buttonpane');
-          pane.find('button:contains("goto enter page")').addClass('new-dojo-dialog-button enter-page');
-          pane.find('button:contains("start coding")').addClass('new-dojo-dialog-button start-coding');
+          pane.find('button:contains("goto home page")').addClass('new-dojo-dialog-button enter-page');
+          pane.find('button:contains("start programming")').addClass('new-dojo-dialog-button start-coding');
         },
         close: function() {
           $(this).remove();
         },
         buttons: {
-          'goto enter page': function() {
-            gotoPage('/enter/show/' + id);
+          'goto home page': function() {
+            gotoPage('/dojo/index/' + id);
             $(this).remove();
           },
-          'start coding': function() {
+          'start programming': function() {
             cd.startAnimal(id, from);
             $(this).remove();
           }

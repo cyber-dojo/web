@@ -6,6 +6,11 @@ class EnterController < ApplicationController
     @id = id || ''
   end
 
+  def review
+    @title = 'enter'
+    @id = id || ''
+  end
+
   def check
     full_id = katas.completed(id.upcase)
     render json: {
