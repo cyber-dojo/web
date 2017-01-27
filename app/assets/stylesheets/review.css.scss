@@ -4,15 +4,6 @@
       display: block;
 }
 
-@mixin diff-line-count {
-  text-align: right;
-      margin: none;
-      margin: { bottom: 2px; }
-     padding: 2px;
-   font-size: 13px;
-       width: 20px;
-}
-
 // - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 .no-title .ui-dialog-titlebar { display: none; }
@@ -215,6 +206,3 @@
   }
 
 }
-
-
-

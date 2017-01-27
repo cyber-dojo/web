@@ -1,58 +1,62 @@
 
 module TipHelper # mix-in
 
-  def traffic_light_tip_html(diff, avatar, was_tag, now_tag)
+  def traffic_light_tip_html(diffs, avatar, was_tag, now_tag)
     was_tag = was_tag.to_i
     now_tag = now_tag.to_i
     lights = avatar.lights
-    tip = 'Click to review '
-    tip += "#{avatar.name}'s"                  # panda's
-    tip += '<br/>'
-    tip += light_colour_tag(lights, was_tag)   # 13
-    tip += ' '
-    tip += "#{arrow}"                          # <->
-    tip += ' '
-    tip += light_colour_tag(lights, now_tag)   # 14
-    tip += ' '
-    tip += 'diff'
-    added_count, deleted_count = line_counts(diff)
-    tip += "<div>#{plural(added_count, 'added line')}</div>"
-    tip += "<div>#{plural(deleted_count, 'deleted line')}</div>"
-    tip
-  end
 
-  def light_colour_tag(lights, tag)
-    colour = (tag == 0) ? 'none' : lights[tag-1].colour
-    colour_tag(colour, tag)
-  end
+    tip = '<table><tr>'
+    tip += td(traffic_light_img(lights, was_tag))  # rag
+    tip += td(colour_tag(lights, was_tag))         # 13
+    tip += td(right_arrow)                         # ->
+    tip += td(traffic_light_img(lights, now_tag))  # rag
+    tip += td(colour_tag(lights, now_tag))         # 14
+    tip += td(avatar_img(avatar.name))             # panda
+    tip += '</tr></table>'
 
-  def colour_tag(colour, tag)
-    "<span class='#{colour}'>#{tag}</span>"
-  end
-
-  def plural(count, text)
-    count.to_s + ' ' + plural_word(text, count)
-  end
-
-  def plural_word(word, count)
-    word = 'timeout' if word == 'timed_out'
-    word + (count == 1 ? '' : 's')
-  end
-
-  def arrow
-    '&harr;'
-  end
-
-  def line_counts(diffed_files)
-    added_count = 0
-    deleted_count = 0
-    diffed_files.each do |filename, diff|
-      if filename != 'output'
-        added_count   += diff.count { |line| line['type'] == 'added'   }
-        deleted_count += diff.count { |line| line['type'] == 'deleted' }
+    tip += '<table>'
+    diffs.each do |filename, diff|
+      added   = diff.count { |line| line['type'] == 'added'   }
+      deleted = diff.count { |line| line['type'] == 'deleted' }
+      if filename != 'output' && (added + deleted != 0)
+        tip += '<tr>'
+        tip += td(diff_count('deleted', deleted))
+        tip += td(diff_count('added', added))
+        tip += td('&nbsp;' + filename)
+        tip += '</tr>'
       end
     end
-    [added_count, deleted_count]
+    tip += '</table>'
+  end
+
+  module_function
+
+  def colour_tag(lights, tag)
+    colour = (tag == 0) ? 'none' : lights[tag-1].colour
+    "<span class='traffic-light-diff-tip-tag #{colour}'>#{tag}</span>"
+  end
+
+  def traffic_light_img(lights, tag)
+    return '' if tag == 0
+    colour = lights[tag-1].colour
+    "<img src='/images/bulb_#{colour}.png' class='traffic-light-diff-tip-traffic-light-image'>"
+  end
+
+  def right_arrow
+    '<div>&rarr;</div>'
+  end
+
+  def avatar_img(avatar)
+    "<img src='/images/avatars/#{avatar}.jpg' class='traffic-light-diff-tip-avatar-image'>"
+  end
+
+  def diff_count(name, count)
+    "<div class='traffic-light-diff-tip-line-count-#{name} some button'>#{count}</div>"
+  end
+
+  def td(text)
+    '<td>' + text + '</td>'
   end
 
 end
