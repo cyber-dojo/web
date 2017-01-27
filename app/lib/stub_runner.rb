@@ -3,6 +3,9 @@ require_relative '../../lib/fake_disk'
 class StubRunner
 
   def initialize(_parent)
+    # In app_controller tests the stub_run() and run()
+    # calls happen in different threads so disk is
+    # @@disk and not @disk
     @@disk ||= FakeDisk.new(self)
   end
 
@@ -63,7 +66,3 @@ class StubRunner
   end
 
 end
-
-# In app_controller tests the stub_run() and run()
-# calls happen in different threads so disk is
-# @@disk and not @disk
