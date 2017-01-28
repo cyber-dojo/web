@@ -49,8 +49,15 @@ class DojoControllerTest < AppControllerTestBase
   #- - - - - - - - - - - - - - - -
 
   test '1038EE',
-  'show with no id' do
+  'show start/resume programming, with no id' do
     get '/enter/show'
+  end
+
+  #- - - - - - - - - - - - - - - -
+
+  test '103C5A',
+  'show dashboard/review, with no id' do
+    get '/enter/review'
   end
 
   #- - - - - - - - - - - - - - - -
