@@ -32,7 +32,7 @@ class ImagePullerTest < AppControllerTestBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
-
+=begin
   test '406080',
   'language pull issues docker-pull image_name command',
   'and returns succeeded=true when pull succeeds' do
@@ -54,6 +54,7 @@ class ImagePullerTest < AppControllerTestBase
     refute json['succeeded']
     shell.teardown
   end
+=end
 
   # - - - - - - - - - - - - - - - - - - - - - -
   # from Custom setup page
@@ -74,7 +75,7 @@ class ImagePullerTest < AppControllerTestBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
-
+=begin
   test '4064A0',
   'custom pull issues docker-pull image_name command',
   'and returns succeeded=true when pull succeeds' do
@@ -96,6 +97,7 @@ class ImagePullerTest < AppControllerTestBase
     refute json['succeeded']
     shell.teardown
   end
+=end
 
   # - - - - - - - - - - - - - - - - - - - - - -
   # from Fork on review page/dialog
@@ -120,7 +122,7 @@ class ImagePullerTest < AppControllerTestBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
-
+=begin
   test '406E66',
   'kata pull issues docker-pull image_name command',
   'and returns succeeded=true when pull succeeds' do
@@ -142,6 +144,7 @@ class ImagePullerTest < AppControllerTestBase
     refute json['succeeded']
     shell.teardown
   end
+=end
 
   private
 
