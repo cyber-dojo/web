@@ -24,7 +24,7 @@ module TestHexIdHelpers # mix-in
     set_runner_class('StubRunner')
   end
 
-  def test_id
+  def hex_test_kata_id
     ENV['CYBER_DOJO_TEST_ID']
   end
 

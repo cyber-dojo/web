@@ -302,7 +302,7 @@ class HostDiskDirTest < LibTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def path
-    tmp_root + '/' + 'host_disk_dir_tests' + '/' + test_id
+    tmp_root + '/' + 'host_disk_dir_tests' + '/' + hex_test_kata_id
   end
 
 end
