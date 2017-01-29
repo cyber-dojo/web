@@ -22,6 +22,7 @@ class RunnerServiceTest < AppLibTestBase
 
   test '2BDAD808',
   'smoke test runner-service' do
+    # This will fail if there is no network connectivity.
     refute runner.pulled? 'cyberdojo/non_existant'
     image_name = 'cyberdojofoundation/gcc_assert'
     runner.pull image_name

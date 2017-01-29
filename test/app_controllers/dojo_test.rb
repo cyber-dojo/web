@@ -53,6 +53,13 @@ class DojoControllerTest < AppControllerTestBase
     get '/enter/show'
   end
 
+  test '103E3E',
+  'show start/resume programming, with an id' do
+    set_storer_class('FakeStorer')
+    create_kata
+    get '/enter/show', { :id => @id }
+  end
+
   #- - - - - - - - - - - - - - - -
 
   test '103C5A',
@@ -60,13 +67,11 @@ class DojoControllerTest < AppControllerTestBase
     get '/enter/review'
   end
 
-  #- - - - - - - - - - - - - - - -
-
-  test '103E3E',
-  'show with an id' do
+  test '103B19',
+  'show dashboard/review, with an id' do
     set_storer_class('FakeStorer')
     create_kata
-    get '/enter/show', { :id => @id }
+    get '/enter/review', { :id => @id }
   end
 
   #- - - - - - - - - - - - - - - -
