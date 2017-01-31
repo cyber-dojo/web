@@ -3,19 +3,21 @@ require_relative 'app_lib_test_base'
 class StubRunnerTest < AppLibTestBase
 
   test 'AF7866',
-  'pulled? is true only for 4 specific images' do
-    assert runner.pulled? cdf('nasm_assert')
-    assert runner.pulled? cdf('gcc_assert')
-    assert runner.pulled? cdf('csharp_nunit')
-    assert runner.pulled? cdf('gpp_cpputest')
-    refute runner.pulled? cdf('csharp_moq')
+  'pulled? is stubbed true only for 4 specific images' do
+    kata_id = 'AF7866F900'
+    assert runner.pulled? cdf('nasm_assert'), kata_id
+    assert runner.pulled? cdf('gcc_assert'), kata_id
+    assert runner.pulled? cdf('csharp_nunit'), kata_id
+    assert runner.pulled? cdf('gpp_cpputest'), kata_id
+    refute runner.pulled? cdf('csharp_moq'), kata_id
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'AF72BD',
   'pull is no-op' do
-    runner.pull cdf('csharp_moq')
+    kata_id = 'AF72BDE0E1'
+    runner.pull cdf('csharp_moq'), kata_id
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -

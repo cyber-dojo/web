@@ -5,6 +5,7 @@ class ImagePullerController < ApplicationController
     begin
       result = runner.pulled?(image_name, id)
     rescue Exception => error
+      #puts error.message
       result = false
     end
     render json: { result:result }
@@ -14,6 +15,7 @@ class ImagePullerController < ApplicationController
     begin
       result = runner.pull(image_name, id)
     rescue Exception => error
+      #puts error.message
       result = false
     end
     render json: { result:result }

@@ -13,7 +13,7 @@ class StubRunner
     image_names.include?(image_name)
   end
 
-  def pull(_image_name, _kata_ud); end
+  def pull(_image_name, _kata_id); end
 
   # - - - - - - - - - - - - - - - - -
 
