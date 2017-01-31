@@ -3,17 +3,11 @@
 
 $(function() {
 
-  var createDojo = function() {
-    var params = cd.chosenMajorMinor();
-    $.getJSON('/setup_custom_start_point/save', params, function(dojo) {
-      cd.newDojoDialog(dojo.id, 'from_setup');
-    });
-  };
-
   $('#create-it').click(function() {
-    var params = cd.chosenMajorMinor();
-    params['type'] = 'custom'
-    cd.dialog_pullImageIfNeededThen(params, createDojo);
+    var setupParams = cd.chosenMajorMinor();
+    $.getJSON('/setup_custom_start_point/save', setupParams, function(dojoParams) {
+      cd.newDojoDialog(dojoParams, 'from_setup');
+    });
   });
 
 });

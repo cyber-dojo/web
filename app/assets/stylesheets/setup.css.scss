@@ -1,6 +1,16 @@
 
 #setup-page.busy * { cursor: wait !important; }
 
+#setup-pull-dialog {
+  .avatars-grid {
+            width: 140px;
+    padding-right: 25px;
+  }
+  .selection {
+    @include font-size-medium();
+  }
+}
+
 #setup-start-point-page, #setup-exercises-page {
 
   margin: { top: 25px; }

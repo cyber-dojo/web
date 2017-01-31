@@ -53,8 +53,10 @@ class ForkerController < ApplicationController
 
       katas.create_kata(manifest)
 
-      result[:forked] = true
-      result[:id] = manifest['id']
+      result[:forked    ] = true
+      result[:id        ] = manifest['id']
+      result[:image_name] = manifest['image_name']
+      result[:selection ] = manifest['display_name']
     end
 
     respond_to do |format|

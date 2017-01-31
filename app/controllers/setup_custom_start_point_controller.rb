@@ -15,7 +15,11 @@ class SetupCustomStartPointController < ApplicationController
   def save
     manifest = custom.create_kata_manifest
     kata = katas.create_kata(manifest)
-    render json: { id: kata.id }
+    render json: {
+          image_name: kata.image_name,
+                  id: kata.id,
+           selection: major + ', ' + minor
+    }
   end
 
   private
@@ -27,7 +31,15 @@ class SetupCustomStartPointController < ApplicationController
   end
 
   def custom
-    dojo.custom[params['major'] + '-' + params['minor']]
+    dojo.custom[major + '-' + minor]
+  end
+
+  def major
+    params['major']
+  end
+
+  def minor
+    params['minor']
   end
 
 end

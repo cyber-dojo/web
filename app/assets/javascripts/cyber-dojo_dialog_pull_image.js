@@ -3,24 +3,58 @@
 var cyberDojo = (function(cd, $) {
   "use strict";
 
-  cd.dialog_pullImageIfNeededThen = function(params, fn) {
-    $.getJSON('/image_puller/pull_needed', params, function(pull) {
-      if (pull.needed) {
-        dialog_pullImageThen('/image_puller/pull', params, fn);
+  cd.dialog_pullImageIfNeededThen = function(dojoParams, from, fn) {
+    $.getJSON('/image_puller/pulled', dojoParams, function(pulled) {
+      if (!pulled.result) {
+        dialog_pullImageThen(fn, dojoParams, from);
       } else {
-        fn();
+        fn(dojoParams, from);
       }
     });
   };
 
-  var makePullFailedDialog = function() {
+  var dialog_pullImageThen = function(fn, dojoParams, from) {
+    var title = 'setting up a new practice session...';
+    var pullingDialog = makePullingDialog(title, dojoParams);
+    pullingDialog.dialog('open');
+    $.getJSON('/image_puller/pull', dojoParams, function(pull) {
+      pullingDialog.dialog('close');
+      if (pull.result) {
+        fn(dojoParams, from);
+      } else {
+        makePullFailedDialog(title, dojoParams).dialog('open');
+      }
+    });
+  };
+
+  var makePullingDialog = function(title, dojoParams) {
     var html = '' +
-      'Sorry... pulling the docker image to the server failed.<br/>' +
-      'Please check the logs<br/>';
-    return $('<div>')
-      .html(html)
+      '<div class="selection">' + dojoParams.selection + '</div><br/>' +
+      'First time for this selection!<br/>' +
+      "We're now doing a one-time only setup.<br/>" +
+      'It can take a minute or two.<br/>' +
+      'Please wait...';
+    return $('<div id="setup-pull-dialog">')
+      .html(avatarGridTable(html))
       .dialog({
-        title: cd.dialogTitle('setup a new practice session'),
+        title: cd.dialogTitle(title),
+        closeOnEscape: true,
+        close: function() { $(this).remove(); },
+        autoOpen: false,
+        width: 620,
+        height: 230,
+        modal: true,
+      });
+  };
+
+  var makePullFailedDialog = function(title, dojoParams) {
+    var html = '' +
+      "We're very sorry...<br/>" +
+      'The setup failed.<br/>';
+    return $('<div id="setup-pull-dialog">')
+      .html(avatarGridTable(html))
+      .dialog({
+        title: cd.dialogTitle(title),
         closeOnEscape: true,
         close: function() { $(this).remove(); },
         autoOpen: false,
@@ -29,29 +63,24 @@ var cyberDojo = (function(cd, $) {
             $(this).remove();
           }
         },
-        width: 550,
-        height: 210,
+        width: 620,
+        height: 310,
         modal: true,
       });
   };
 
-  var dialog_pullImageThen = function(route, params, fn) {
-    var pullDialog = makePullDialog();
-    var pullOverlay = $('<div id="pull-overlay"></div>');
-    var pullSpinner = $('#pull-spinner');
-    pullDialog.dialog('open');
-    pullOverlay.insertAfter($('body'));
-    pullSpinner.show();
-    $.getJSON(route, params, function(pull) {
-      pullSpinner.hide();
-      pullOverlay.remove();
-      pullDialog.dialog('close');
-      if (pull.succeeded) {
-        fn();
-      } else {
-        makePullFailedDialog().dialog('open');
-      }
-    });
+  var avatarGridTable = function(rhs) {
+    return '' +
+      '<table>' +
+      '<tr>' +
+      '<td>' +
+      '<img src="/images/avatars/all_avatars_background.png" class="avatars-grid">' +
+      '</td>' +
+      '<td>' +
+      rhs +
+      '</td>' +
+      '</tr>' +
+      '</table>';
   };
 
   cd.chosenMajorMinor = function() {
@@ -69,23 +98,6 @@ var cyberDojo = (function(cd, $) {
     return $('[id^=minor_][class~=selected]').data('minor');
   };
 
-  var makePullDialog = function() {
-    var html = '' +
-      'The appropriate runtime environment is being set up.<br/>' +
-      'It typically takes a minute or two.<br/>' +
-      'Please wait...';
-    return $('<div>')
-      .html(html)
-      .dialog({
-        title: cd.dialogTitle('setup a new practice session'),
-        closeOnEscape: true,
-        close: function() { $(this).remove(); },
-        autoOpen: false,
-        width: 550,
-        height: 165,
-        modal: true,
-      });
-  };
-
   return cd;
+
 })(cyberDojo || {}, jQuery);

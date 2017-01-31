@@ -475,23 +475,18 @@ $(function() {
 
   var doFork = function() {
 
-    var doForkAfterPull = function() {
-      var fork_params = {
-            id: param.id,
-        avatar: param.avatar,
-           tag: param.nowTag
-      };
-      $.getJSON('/forker/fork', fork_params, function(data) {
-        if (data.forked) {
-          cd.newDojoDialog(data.id, 'from_fork');
-        } else {
-          forkFailedDialog(data.reason);
-        }
-      });
+    var fork_params = {
+          id: param.id,
+      avatar: param.avatar,
+         tag: param.nowTag
     };
-
-    var params = { type: 'kata', id: param.id };
-    cd.dialog_pullImageIfNeededThen(params, doForkAfterPull);
+    $.getJSON('/forker/fork', fork_params, function(data) {
+      if (data.forked) {
+        cd.newDojoDialog(data, 'from_fork');
+      } else {
+        forkFailedDialog(data.reason);
+      }
+    });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -504,7 +499,7 @@ $(function() {
     .dialog({
       title: cd.dialogTitle('create a practice-session'),
       autoOpen: true,
-      // does this need [esc] => close ?
+      closeOnEscape: true,
       modal: true,
       width: 510,
       buttons: { ok: function() { $(this).remove(); } }

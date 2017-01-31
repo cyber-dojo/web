@@ -3,9 +3,12 @@
 var cyberDojo = (function(cd, $) {
   "use strict";
 
+  cd.newDojoDialog = function(params, from) {
+    cd.dialog_pullImageIfNeededThen(params, from, showNewDojoDialog);
+  };
 
-  cd.newDojoDialog = function(id, from) {
-
+  var showNewDojoDialog = function(params, from) {
+    var id = params['id'];
     var gotoPage = function(url) {
       if (from == 'from_setup') {
         window.location = url; // same tab

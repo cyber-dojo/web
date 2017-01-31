@@ -9,8 +9,11 @@ class StubRunner
     @@disk ||= FakeDisk.new(self)
   end
 
-  def pulled?(image_name); image_names.include?(image_name); end
-  def pull(_image_name); end
+  def pulled?(image_name, _kata_id)
+    image_names.include?(image_name)
+  end
+
+  def pull(_image_name, _kata_ud); end
 
   # - - - - - - - - - - - - - - - - -
 
