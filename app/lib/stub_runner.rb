@@ -9,14 +9,6 @@ class StubRunner
     @@disk ||= FakeDisk.new(self)
   end
 
-  def pulled?(image_name, _kata_id)
-    image_names.include?(image_name)
-  end
-
-  def pull(_image_name, _kata_id); end
-
-  # - - - - - - - - - - - - - - - - -
-
   def new_kata(_image_name, _kata_id); end
   def old_kata(_image_name, _kata_id); end
 
@@ -41,16 +33,6 @@ class StubRunner
   end
 
   private
-
-  def image_names
-    cdf = 'cyberdojofoundation'
-    [
-      "#{cdf}/nasm_assert",
-      "#{cdf}/gcc_assert",
-      "#{cdf}/csharp_nunit",
-      "#{cdf}/gpp_cpputest"
-    ]
-  end
 
   def filename
     'stub_output'

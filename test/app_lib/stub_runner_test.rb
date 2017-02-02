@@ -2,26 +2,6 @@ require_relative 'app_lib_test_base'
 
 class StubRunnerTest < AppLibTestBase
 
-  test 'AF7866',
-  'pulled? is stubbed true only for 4 specific images' do
-    kata_id = 'AF7866F900'
-    assert runner.pulled? cdf('nasm_assert'), kata_id
-    assert runner.pulled? cdf('gcc_assert'), kata_id
-    assert runner.pulled? cdf('csharp_nunit'), kata_id
-    assert runner.pulled? cdf('gpp_cpputest'), kata_id
-    refute runner.pulled? cdf('csharp_moq'), kata_id
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'AF72BD',
-  'pull is no-op' do
-    kata_id = 'AF72BDE0E1'
-    runner.pull cdf('csharp_moq'), kata_id
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test 'AF72C0',
   'stub_run can stub stdout and leave',
   'stderr defaulted to stub empty-string and',

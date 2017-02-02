@@ -2,6 +2,8 @@ require_relative 'app_lib_test_base'
 
 class RunnerServiceTest < AppLibTestBase
 
+  # These will fail if there is no network connectivity.
+
   def setup
     super
     set_storer_class('FakeStorer')
@@ -22,11 +24,7 @@ class RunnerServiceTest < AppLibTestBase
 
   test '2BDAD808',
   'smoke test runner-service' do
-    # This will fail if there is no network connectivity.
-    kata_id = '2BDAD80878'
-    refute runner.pulled? 'cyberdojo/non_existant', kata_id
     image_name = 'cyberdojofoundation/gcc_assert'
-    runner.pull image_name, kata_id
     kata_id = '2BDAD80801'
     runner.new_kata(image_name, kata_id)
     runner.new_avatar(image_name, kata_id, lion, starting_files)
