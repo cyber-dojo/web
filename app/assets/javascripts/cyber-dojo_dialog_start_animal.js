@@ -3,6 +3,16 @@
 var cyberDojo = (function(cd, $) {
   "use strict";
 
+  cd.startAnimal = function(id, from) {
+    $.getJSON('/enter/start', { id: id }, function(dojo) {
+      if (dojo.full) {
+        cd.dialog(dojo.full_dialog_html, 'start programming', 'ok').dialog('open');
+      } else {
+        startDialog(id, dojo.avatar_name, dojo.start_dialog_html, from);
+      }
+    });
+  };
+
   var startDialog = function(id, avatarName, dialogHtml, from) {
     var url = '/kata/edit/' + id + '?avatar=' + avatarName;
     var okOrCancel = function() {
@@ -22,16 +32,6 @@ var cyberDojo = (function(cd, $) {
         close: function() { okOrCancel(); $(this).remove(); },
         buttons: { ok: function() { okOrCancel(); $(this).remove(); } }
       });
-  };
-
-  cd.startAnimal = function(id, from) {
-    $.getJSON('/enter/start', { id: id }, function(dojo) {
-      if (dojo.full) {
-        cd.dialog(dojo.full_dialog_html, 'start coding', 'ok').dialog('open');
-      } else {
-        startDialog(id, dojo.avatar_name, dojo.start_dialog_html, from);
-      }
-    });
   };
 
   return cd;
