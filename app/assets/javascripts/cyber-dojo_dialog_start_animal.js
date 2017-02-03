@@ -14,9 +14,9 @@ var cyberDojo = (function(cd, $) {
     $('<div class="dialog">')
       .html(dialogHtml)
       .dialog({
-        title: cd.dialogTitle('start coding'),
+        title: cd.dialogTitle('start programming'),
         autoOpen: true,
-        width: 350,
+        width: 400,
         modal: true,
         closeOnEscape: true,
         close: function() { okOrCancel(); $(this).remove(); },
