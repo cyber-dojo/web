@@ -3,13 +3,6 @@ require_relative '../app_lib/delta_maker'
 
 class AvatarTest < AppModelsTestBase
 
-  def setup
-    super
-    set_ragger_class('RaggerStub')
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test 'FB7E81',
   "an avatar's kata is the kata it was created with" do
     kata = make_kata

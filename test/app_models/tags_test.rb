@@ -3,13 +3,6 @@ require_relative '../app_lib/delta_maker'
 
 class TagsTest < AppModelsTestBase
 
-  def setup
-    super
-    set_ragger_class('RaggerStub')
-  end
-
-  #- - - - - - - - - - - - - - - - - - -
-
   test 'A30AF3',
   'tag zero exists after avatar is started',
   'and before first [test] is run',

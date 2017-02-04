@@ -3,13 +3,6 @@ require_relative '../app_lib/delta_maker'
 
 class KataTest < AppModelsTestBase
 
-  def setup
-    super
-    set_ragger_class('RaggerStub')
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test '677A57',
   'id reads back as set' do
     id = unique_id
