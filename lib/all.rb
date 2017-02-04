@@ -15,6 +15,6 @@
   disk_host
   dir_host
   shell_host
-  memory_log
-  stdout_log
+  log_memory
+  log_stdout
 }.each { |sourcefile| require_relative './' + sourcefile }

@@ -24,7 +24,7 @@ end
   cd_env_name('ragger_class') => 'RaggerService', # output -> traffic-light
 
   cd_env_name('disk_class')  => 'DiskHost',
-  cd_env_name('log_class')   => 'StdoutLog',
+  cd_env_name('log_class')   => 'LogStdout',
   cd_env_name('shell_class') => 'ShellHost'
 
 }.each { |key, name|

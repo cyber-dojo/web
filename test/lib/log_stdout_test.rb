@@ -1,10 +1,10 @@
 require_relative 'lib_test_base'
 
-class StdoutLogTest < LibTestBase
+class LogStdoutTest < LibTestBase
 
   test '1B6962',
   '<< writes to stdout with automatic trailing newline' do
-    log = StdoutLog.new(nil)
+    log = LogStdout.new(nil)
     written = with_captured_stdout {
       log << "Hello world"
     }
