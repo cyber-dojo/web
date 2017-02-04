@@ -72,7 +72,7 @@ class LightTest < AppModelsTestBase
 
   test 'AC9722',
   'each test creates a new light' do
-    set_ragger_class('StubRagger')
+    set_ragger_class('RaggerStub')
     kata = make_kata
     lion = kata.start_avatar(['lion'])
     maker = DeltaMaker.new(lion)

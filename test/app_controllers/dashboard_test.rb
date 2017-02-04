@@ -89,7 +89,7 @@ class DashboardControllerTest < AppControllerTestBase
   'progress when avatar has only amber traffic-lights' do
     prepare
     start # 0
-    set_ragger_class('StubRagger')
+    set_ragger_class('RaggerStub')
     ragger.stub_colour(:amber)
     run_tests
     progress
@@ -101,7 +101,7 @@ class DashboardControllerTest < AppControllerTestBase
   'progress when avatar has only non-amber traffic-lights' do
     prepare
     start # 0
-    set_ragger_class('StubRagger')
+    set_ragger_class('RaggerStub')
     ragger.stub_colour(:red)
     run_tests
     progress

@@ -1,6 +1,6 @@
 require_relative '../../lib/fake_disk'
 
-class StubRagger
+class RaggerStub
 
   def initialize(_parent)
     @@disk ||= FakeDisk.new(self)

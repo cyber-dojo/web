@@ -25,7 +25,7 @@ class LightsTest < AppModelsTestBase
 
   test '88106F',
   'lights not empty' do
-    set_ragger_class('StubRagger')
+    set_ragger_class('RaggerStub')
     kata = make_kata
     puffin = kata.start_avatar(['puffin'])
     maker = DeltaMaker.new(puffin)
