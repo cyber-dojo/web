@@ -1,10 +1,10 @@
 require_relative 'app_lib_test_base'
 
-class MockPullerTest < AppLibTestBase
+class PullerMockTest < AppLibTestBase
 
   def setup
     super
-    @puller = MockPuller.new(self)
+    @puller = PullerMock.new(self)
   end
 
   def teardown

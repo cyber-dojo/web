@@ -1,5 +1,5 @@
 
-class MockPuller
+class PullerMock
 
   @@pulled = []
   @@pull = []

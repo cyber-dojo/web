@@ -9,7 +9,7 @@ class ImagePullerTest < AppControllerTestBase
 
   test '406596',
   'pulled? succeeds with true/false' do
-    set_puller_class('MockPuller')
+    set_puller_class('PullerMock')
     image_name = "#{cdf}/csharp_moq"
 
     puller.mock_pulled?(image_name, true)
@@ -25,7 +25,7 @@ class ImagePullerTest < AppControllerTestBase
 
   test '406A3D',
   'pull succeeds with true/false' do
-    set_puller_class('MockPuller')
+    set_puller_class('PullerMock')
     image_name = "#{cdf}/csharp_moq"
 
     puller.mock_pull(image_name, true)
@@ -66,6 +66,7 @@ end
 
 # = = = = = = = = = = = = = = = = = = = = = = =
 
+=begin
 class MockRunner
 
   @@new_kata = []
@@ -95,3 +96,4 @@ class MockRunner
   end
 
 end
+=end
