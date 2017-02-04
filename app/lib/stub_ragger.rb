@@ -36,6 +36,6 @@ class StubRagger
 
 end
 
-# In app_controller tests the stub_run() and run()
+# In app_controller tests the stubs and calls
 # calls happen in different threads so disk is
-# @@disk and not @disk
+# @@ class variable and not @ instance variable.

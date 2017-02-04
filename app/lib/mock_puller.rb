@@ -66,3 +66,8 @@ class MockPuller
   end
 
 end
+
+# In app_controller tests mocks and calls
+# happen in different threads so pulled/pull are
+# @@ class variables and not @ instance variables.
+
