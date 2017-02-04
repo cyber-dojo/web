@@ -63,37 +63,3 @@ class ImagePullerTest < AppControllerTestBase
   end
 
 end
-
-# = = = = = = = = = = = = = = = = = = = = = = =
-
-=begin
-class MockRunner
-
-  @@new_kata = []
-
-  def initialize(_parent)
-  end
-
-  def teardown
-    error "@@new_kata != []:#{@@new_kata}" unless @@new_kata == []
-  end
-
-  def mock_new_kata(image_name, kata_id)
-    @@new_kata << [image_name, kata_id]
-  end
-
-  def new_kata(image_name, kata_id)
-    error "no mock for new_kata(#{image_name},#{kata_id})" if @@new_kata == []
-    mock = @@new_kata.shift
-    error "expected:#{mock[0]}, actual:#{image_name}:" unless mock[0] == image_name
-    error "expected:#{mock[1]}, actual:#{kata_id}:"    unless mock[1] == kata_id
-  end
-
-  private
-
-  def error(message)
-    fail "MockRunner:#{message}"
-  end
-
-end
-=end
