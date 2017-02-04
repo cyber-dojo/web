@@ -1,9 +1,9 @@
-require_relative '../../lib/fake_disk'
+require_relative '../../lib/disk_fake'
 
 class RunnerStub
 
   def initialize(_parent)
-    @@disk ||= FakeDisk.new(self)
+    @@disk ||= DiskFake.new(self)
   end
 
   def new_kata(_image_name, _kata_id); end

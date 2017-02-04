@@ -1,5 +1,5 @@
 
-class HostDir
+class DirHost
 
   def initialize(disk, path)
     @disk = disk

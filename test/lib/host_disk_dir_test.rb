@@ -69,7 +69,7 @@ class HostDiskDirTest < LibTestBase
   'read_json(filename) raises RuntimeError when filename is empty' do
     dir.make
     dir.write(filename='601891.json', empty='')
-    expected_message = "HostDir(#{path}/).read_json(#{filename}) - empty file"
+    expected_message = "DirHost(#{path}/).read_json(#{filename}) - empty file"
     assert_raises_with_message(RuntimeError, expected_message) { dir.read_json(filename) }
   end
 

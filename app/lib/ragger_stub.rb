@@ -1,9 +1,9 @@
-require_relative '../../lib/fake_disk'
+require_relative '../../lib/disk_fake'
 
 class RaggerStub
 
   def initialize(_parent)
-    @@disk ||= FakeDisk.new(self)
+    @@disk ||= DiskFake.new(self)
   end
 
   def stub_colour(rag)
