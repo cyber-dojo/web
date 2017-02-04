@@ -11,13 +11,13 @@
   dashboard_td_gapper
   display_names_splitter
   id_splitter
-  stub_runner
   stub_ragger
   fake_storer
 
   puller_service
   puller_mock
   runner_service
+  runner_stub
   storer_service
   differ_service
   ragger_service

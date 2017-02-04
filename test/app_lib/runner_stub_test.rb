@@ -1,6 +1,6 @@
 require_relative 'app_lib_test_base'
 
-class StubRunnerTest < AppLibTestBase
+class RunnerStubTest < AppLibTestBase
 
   test 'AF72C0',
   'stub_run can stub stdout and leave',

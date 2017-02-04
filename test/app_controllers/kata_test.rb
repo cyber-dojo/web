@@ -9,7 +9,7 @@ class KataControllerTest  < AppControllerTestBase
   test 'BE876E',
   'run_tests with bad kata id raises' do
     prepare
-    set_runner_class('StubRunner')
+    set_runner_class('RunnerStub')
     params = {
       :format => :js,
       :id     => 'bad'
@@ -26,7 +26,7 @@ class KataControllerTest  < AppControllerTestBase
     # This raises because in kata_controller the line
     #   @avatar.test runs with @avatar is nil
     prepare
-    set_runner_class('StubRunner')
+    set_runner_class('RunnerStub')
     kata_id = create_gcc_assert_kata
     @avatar = start
     kata_edit
@@ -45,7 +45,7 @@ class KataControllerTest  < AppControllerTestBase
   test 'BE8222',
   'run tests that times_out' do
     prepare
-    set_runner_class('StubRunner')
+    set_runner_class('RunnerStub')
     kata_id = create_gcc_assert_kata
     @avatar = start
     kata_edit
@@ -58,7 +58,7 @@ class KataControllerTest  < AppControllerTestBase
   test 'BE80F6',
   'edit and then run-tests' do
     prepare
-    set_runner_class('StubRunner')
+    set_runner_class('RunnerStub')
     create_gcc_assert_kata
     @avatar = start
     kata_edit
@@ -74,7 +74,7 @@ class KataControllerTest  < AppControllerTestBase
   'and these changes are made to the visible_files parameter too',
   'so they also occur in the manifest file' do
     prepare
-    set_runner_class('StubRunner')
+    set_runner_class('RunnerStub')
     create_gcc_assert_kata
     @avatar = start
     begin
@@ -95,7 +95,7 @@ class KataControllerTest  < AppControllerTestBase
   'and these changes are made to the visible_files parameter too',
   'so they also occur in the manifest file' do
     prepare
-    set_runner_class('StubRunner')
+    set_runner_class('RunnerStub')
     create_gcc_assert_kata
     @avatar = start
     begin
@@ -232,7 +232,7 @@ class KataControllerTest  < AppControllerTestBase
   test 'BE8B75',
   'show-json (for Atom editor)' do
     prepare
-    set_runner_class('StubRunner')
+    set_runner_class('RunnerStub')
     create_gcc_assert_kata
     @avatar = start
     kata_edit

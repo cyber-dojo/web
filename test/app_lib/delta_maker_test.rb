@@ -8,7 +8,7 @@ class DeltaMakerTest < AppLibTestBase
     # HAVE TO CALL set_runner_class here
     # IT IS *NOT* BEING CALLED FROM hex-id-helpers
     # ALSO... setup appears to be being called one time extra
-    set_runner_class('StubRunner')
+    set_runner_class('RunnerStub')
     set_storer_class('FakeStorer')
     kata = make_kata
     avatar = kata.start_avatar(Avatars.names)

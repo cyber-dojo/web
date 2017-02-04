@@ -4,10 +4,6 @@ class TipTest < AppHelpersTestBase
 
   include TipHelper
 
-  def setup_runner_class
-    set_runner_class('StubRunner')
-  end
-
   test 'BDAD52',
   'traffic light tip' do
     set_storer_class('FakeStorer')

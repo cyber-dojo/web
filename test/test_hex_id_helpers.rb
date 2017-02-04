@@ -21,7 +21,7 @@
 module TestHexIdHelpers # mix-in
 
   def setup_runner_class
-    set_runner_class('StubRunner')
+    set_runner_class('RunnerStub')
   end
 
   def hex_test_kata_id

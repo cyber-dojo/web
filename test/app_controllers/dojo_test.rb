@@ -2,10 +2,6 @@ require_relative 'app_controller_test_base'
 
 class DojoControllerTest < AppControllerTestBase
 
-  def setup_runner_class
-    set_runner_class('StubRunner')
-  end
-
   test '103BF7',
   'index without id' do
     set_storer_class('FakeStorer')

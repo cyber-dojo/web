@@ -2,10 +2,6 @@ require_relative 'app_controller_test_base'
 
 class DifferControllerTest < AppControllerTestBase
 
-  def setup_runner_class
-    set_runner_class('StubRunner')
-  end
-
   test '2D6238AF6',
   'no lines different in any files between successive tags' do
     set_storer_class('FakeStorer')
