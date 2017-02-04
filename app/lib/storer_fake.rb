@@ -2,7 +2,7 @@ require_relative './../../lib/fake_disk'
 require_relative './../models/avatars'
 require 'json'
 
-class FakeStorer
+class StorerFake
 
   def initialize(_parent)
     # This is @@disk and not @disk so that it behaves as
@@ -271,7 +271,7 @@ class FakeStorer
   end
 
   def error(message)
-    ArgumentError.new("FakeStorer:invalid #{message}")
+    ArgumentError.new("StorerFake:invalid #{message}")
   end
 
   # - - - - - - - - - - - - - - - -

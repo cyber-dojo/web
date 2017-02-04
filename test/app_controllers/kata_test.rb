@@ -3,7 +3,7 @@ require_relative 'app_controller_test_base'
 class KataControllerTest  < AppControllerTestBase
 
   def prepare
-    set_storer_class('FakeStorer')
+    set_storer_class('StorerFake')
   end
 
   test 'BE876E',

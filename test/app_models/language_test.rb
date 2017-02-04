@@ -4,7 +4,7 @@ class LanguageTest < AppModelsTestBase
 
   def setup
     super
-    set_storer_class('FakeStorer')
+    set_storer_class('StorerFake')
     set_languages_root(tmp_root + '/' + 'languages')
     disk[languages.path].make
   end

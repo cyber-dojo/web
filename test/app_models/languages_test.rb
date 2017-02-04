@@ -4,7 +4,7 @@ class LanguagesTest < AppModelsTestBase
 
   def setup
     super
-    set_storer_class('FakeStorer')
+    set_storer_class('StorerFake')
   end
 
   #- - - - - - - - - - - - - - - - - - -

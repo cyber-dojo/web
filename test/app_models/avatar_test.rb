@@ -5,7 +5,7 @@ class AvatarTest < AppModelsTestBase
 
   def setup
     super
-    set_storer_class('FakeStorer')
+    set_storer_class('StorerFake')
     set_ragger_class('StubRagger')
   end
 

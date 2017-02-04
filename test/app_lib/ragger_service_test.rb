@@ -4,7 +4,7 @@ class RaggerServiceTest < AppLibTestBase
 
   def setup
     super
-    set_storer_class('FakeStorer')
+    set_storer_class('StorerFake')
     set_runner_class('StubRunner')
   end
 

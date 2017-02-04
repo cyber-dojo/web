@@ -3,7 +3,7 @@ require_relative 'app_controller_test_base'
 class SetupCustomStartPointControllerTest < AppControllerTestBase
 
   def prepare
-    set_storer_class('FakeStorer')
+    set_storer_class('StorerFake')
   end
 
   test 'EB77D9',

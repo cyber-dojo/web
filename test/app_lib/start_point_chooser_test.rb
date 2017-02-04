@@ -6,7 +6,7 @@ class StartPointChooserTest < AppLibTestBase
 
   def setup
     super
-    set_storer_class('FakeStorer')
+    set_storer_class('StorerFake')
     set_runner_class('NotUsed')
     set_differ_class('NotUsed')
   end

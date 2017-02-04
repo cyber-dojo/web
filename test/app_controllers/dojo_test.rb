@@ -4,7 +4,7 @@ class DojoControllerTest < AppControllerTestBase
 
   test '103BF7',
   'index without id' do
-    set_storer_class('FakeStorer')
+    set_storer_class('StorerFake')
     get 'dojo/index'
     assert_response :success
   end
@@ -13,7 +13,7 @@ class DojoControllerTest < AppControllerTestBase
 
   test '103957',
   'index with id' do
-    set_storer_class('FakeStorer')
+    set_storer_class('StorerFake')
     get 'dojo/index', id:'1234512345'
     assert_response :success
   end
@@ -22,7 +22,7 @@ class DojoControllerTest < AppControllerTestBase
 
   test '10378E',
   'check_id exists=false when no kata for id' do
-    set_storer_class('FakeStorer')
+    set_storer_class('StorerFake')
     @id = 'abcdef'
     check_id
   end
@@ -31,7 +31,7 @@ class DojoControllerTest < AppControllerTestBase
 
   test '10390C',
   'check_id exists=true when id.length ~ 6 and kata exists' do
-    set_storer_class('FakeStorer')
+    set_storer_class('StorerFake')
     [5,6,7].each do |n|
       create_kata
       @id = @id[0..(n-1)]
@@ -51,7 +51,7 @@ class DojoControllerTest < AppControllerTestBase
 
   test '103E3E',
   'show start/resume programming, with an id' do
-    set_storer_class('FakeStorer')
+    set_storer_class('StorerFake')
     create_kata
     get '/enter/show', { :id => @id }
   end
@@ -65,7 +65,7 @@ class DojoControllerTest < AppControllerTestBase
 
   test '103B19',
   'show dashboard/review, with an id' do
-    set_storer_class('FakeStorer')
+    set_storer_class('StorerFake')
     create_kata
     get '/enter/review', { :id => @id }
   end
@@ -97,7 +97,7 @@ class DojoControllerTest < AppControllerTestBase
 
   test '103BEE',
   'enter with id that does exist => !full,avatar_name' do
-    set_storer_class('FakeStorer')
+    set_storer_class('StorerFake')
     create_kata
     start
     refute empty?
@@ -109,7 +109,7 @@ class DojoControllerTest < AppControllerTestBase
 
   test '1032AE',
   'enter succeeds once for each avatar name, then dojo is full' do
-    set_storer_class('FakeStorer')
+    set_storer_class('StorerFake')
     create_kata
     Avatars.names.each do |avatar_name|
       start
@@ -127,7 +127,7 @@ class DojoControllerTest < AppControllerTestBase
 
   test '1035BD',
   'continue with id that exists but is empty' do
-    set_storer_class('FakeStorer')
+    set_storer_class('StorerFake')
     create_kata
     continue
     assert empty?
@@ -138,7 +138,7 @@ class DojoControllerTest < AppControllerTestBase
 
   test '103DEB',
   'continue with id that exists and is not empty' do
-    set_storer_class('FakeStorer')
+    set_storer_class('StorerFake')
     create_kata
     start
     continue

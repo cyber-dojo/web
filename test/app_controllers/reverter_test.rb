@@ -3,7 +3,7 @@ require_relative 'app_controller_test_base'
 class ReverterControllerTest  < AppControllerTestBase
 
   def prepare
-    set_storer_class('FakeStorer')
+    set_storer_class('StorerFake')
     @id = create_kata('Java, JUnit')
     @avatar = start
   end
