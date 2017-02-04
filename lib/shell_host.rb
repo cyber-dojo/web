@@ -1,5 +1,5 @@
 
-class HostShell
+class ShellHost
 
   def initialize(parent)
     @parent = parent

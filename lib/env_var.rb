@@ -25,7 +25,7 @@ end
 
   cd_env_name('disk_class')  => 'DiskHost',
   cd_env_name('log_class')   => 'StdoutLog',
-  cd_env_name('shell_class') => 'HostShell'
+  cd_env_name('shell_class') => 'ShellHost'
 
 }.each { |key, name|
   ENV[key] = name if ENV[key].nil?
