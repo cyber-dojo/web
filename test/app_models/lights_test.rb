@@ -3,13 +3,6 @@ require_relative '../app_lib/delta_maker'
 
 class LightsTest < AppModelsTestBase
 
-  def setup
-    super
-    set_storer_class('StorerFake')
-  end
-
-  #- - - - - - - - - - - - - - - - - - -
-
   test '881D3F',
   'lights initially empty' do
     kata = make_kata

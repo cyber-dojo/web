@@ -2,14 +2,6 @@ require_relative 'app_lib_test_base'
 
 class DifferServiceTest < AppLibTestBase
 
-  def setup
-    super
-    set_storer_class('StorerFake')
-    set_runner_class('RunnerStub')
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - -
-
   test '9823AB',
   'smoke test differ-service' do
     kata = make_kata

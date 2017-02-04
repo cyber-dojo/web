@@ -2,6 +2,11 @@ require_relative 'app_lib_test_base'
 
 class StorerServiceTest < AppLibTestBase
 
+  def setup
+    super
+    set_storer_class('StorerService')
+  end
+
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
   # In docker-compose.yml the storer service is setup with
   #     environment: [ CYBER_DOJO_KATAS_ROOT=/tmp/cyber-dojo/katas ]

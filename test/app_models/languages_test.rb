@@ -2,13 +2,6 @@ require_relative 'app_models_test_base'
 
 class LanguagesTest < AppModelsTestBase
 
-  def setup
-    super
-    set_storer_class('StorerFake')
-  end
-
-  #- - - - - - - - - - - - - - - - - - -
-
   test '3C0810',
   'languages path has correct format when set with trailing slash' do
     path = tmp_root + '/' + 'folder'

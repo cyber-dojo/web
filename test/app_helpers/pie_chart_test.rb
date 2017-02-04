@@ -8,7 +8,6 @@ class PieChartTest < AppHelpersTestBase
   test '10E59E',
   'pie-chart from avatar.lights' do
 
-    set_storer_class('StorerFake')
     set_ragger_class('RaggerStub')
 
     kata = make_kata

@@ -6,8 +6,7 @@ class TipTest < AppHelpersTestBase
 
   test 'BDAD52',
   'traffic light tip' do
-    set_storer_class('StorerFake')
-    kata = make_kata #({ 'language' => 'C (gcc)-assert' })
+    kata = make_kata
     lion = kata.start_avatar(['lion'])
     files = kata.visible_files
     now = [2016,12,22,5,55,11]

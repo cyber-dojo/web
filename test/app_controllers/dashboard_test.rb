@@ -3,7 +3,6 @@ require_relative 'app_controller_test_base'
 class DashboardControllerTest < AppControllerTestBase
 
   def prepare
-    set_storer_class('StorerFake')
     create_kata('Java, JUnit')
   end
 

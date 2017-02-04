@@ -2,13 +2,8 @@ require_relative 'app_controller_test_base'
 
 class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
-  def prepare
-    set_storer_class('StorerFake')
-  end
-
   test '59C9F4020',
   'show_languages page shows all language+tests' do
-    prepare
     do_get 'show_languages'
 
     assert /data-major\=\"#{get_language_from(cpp_assert)}/.match(html), cpp_assert
@@ -26,7 +21,6 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   test '59CBB9967',
   'show_exercises page uses cached exercises' do
-    prepare
     do_get 'show_exercises'
     assert /data-name\=\"#{print_diamond}/.match(html),  print_diamond
     assert /data-name\=\"#{roman_numerals}/.match(html), roman_numerals
@@ -37,7 +31,6 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   test '59C7433D8',
   'save creates a new kata with language+test and exercise' do
-    prepare
     params = {
          'major' => 'C#',
          'minor' => 'Moq',
@@ -54,7 +47,6 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   test '59CD79BA3',
   'show_languages defaults to language and test-framework of kata',
   'whose full-id is passed in URL (to encourage repetition)' do
-    prepare
     language_display_name = languages_display_names.sample # eg "C++ (g++), CppUTest"
     exercise_name = exercises_names.sample # eg "Word_Wrap"
     id = create_kata(language_display_name, exercise_name)
@@ -74,7 +66,6 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   test '59C82562A',
   'show_exercises defaults to exercise of kata',
   'whose full-id is passed in URL (to encourage repetition)' do
-    prepare
     language_display_name = languages_display_names.sample
     exercise_name = exercises_names.sample
     id = create_kata(language_display_name, exercise_name)
