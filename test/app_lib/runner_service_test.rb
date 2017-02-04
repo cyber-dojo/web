@@ -7,9 +7,6 @@ class RunnerServiceTest < AppLibTestBase
   def setup
     super
     set_storer_class('FakeStorer')
-  end
-
-  def setup_runner_class
     set_runner_class('RunnerService')
   end
 

@@ -5,7 +5,7 @@ class DifferServiceTest < AppLibTestBase
   def setup
     super
     set_storer_class('StorerFake')
-    set_runner_class('StubRunner')
+    set_runner_class('RunnerStub')
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - -
