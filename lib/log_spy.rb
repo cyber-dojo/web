@@ -1,5 +1,5 @@
 
-class LogMemory
+class LogSpy
 
   def initialize(_dojo)
     @messages = []
