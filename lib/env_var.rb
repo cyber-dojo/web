@@ -12,6 +12,7 @@ def cd_env_name(suffix)
   'CYBER_DOJO_' + suffix.upcase
 end
 
+# set the defaults
 {
   cd_env_name('languages_root') => "#{cd_home}/start_points/languages",
   cd_env_name('exercises_root') => "#{cd_home}/start_points/exercises",
