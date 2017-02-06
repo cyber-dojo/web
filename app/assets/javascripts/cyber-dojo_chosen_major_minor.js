@@ -21,3 +21,7 @@ var cyberDojo = (function(cd, $) {
   return cd;
 
 })(cyberDojo || {}, jQuery);
+
+// Used on the setup pages.
+// Major refers to the lhs-column choices, eg languages
+// Minor refers to the rhs-column choices, eg test-frameworks
