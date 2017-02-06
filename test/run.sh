@@ -19,7 +19,6 @@ for module in ${modules[*]}
 do
     echo
     echo "======${module}======"
-    # don't log to stdout
     export CYBER_DOJO_LOG_CLASS=LogSpy
     export CYBER_DOJO_RUNNER_CLASS=RunnerStub
     export CYBER_DOJO_STORER_CLASS=StorerFake
