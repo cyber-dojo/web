@@ -46,9 +46,7 @@ services:
     user: root
     image: cyberdojo/runner
     container_name: cyber-dojo-runner
-    #environment: [ CYBER_DOJO_RUNNER_CLASS=DockerKataContainerRunner ]
-    #environment: [ CYBER_DOJO_RUNNER_CLASS=DockerKataVolumeRunner ]
-    environment: [ CYBER_DOJO_RUNNER_CLASS=DockerAvatarVolumeRunner ]
+    environment: [ CYBER_DOJO_RUNNER_CLASS ]
     read_only: true
     tmpfs: /tmp
     mem_limit: 2G
