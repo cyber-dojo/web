@@ -2,9 +2,22 @@ require_relative './app_controller_test_base'
 
 class ImagePullerTest < AppControllerTestBase
 
+  test '406D78',
+  'pulled? raises when image_name is invalid' do
+    image_name = '_cantStartWithSeparator'
+    do_get 'pulled', js(image_name)
+    refute json['result']
+  end
+
   # - - - - - - - - - - - - - - - - - - - - - -
-  # TODO: need pulled? throwing an exception?
-  # TODO: need pull throwing an exception?
+
+  test '406167',
+  'pull raises when image_name is invalid' do
+    image_name = '_cantStartWithSeparator'
+    do_get 'pull', js(image_name)
+    refute json['result']
+  end
+
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test '406596',
@@ -22,6 +35,8 @@ class ImagePullerTest < AppControllerTestBase
 
     puller.teardown
   end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
 
   test '406A3D',
   'pull succeeds with true/false' do
