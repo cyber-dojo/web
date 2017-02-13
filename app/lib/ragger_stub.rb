@@ -1,9 +1,9 @@
-require_relative '../../lib/fake_disk'
+require_relative '../../lib/disk_fake'
 
-class StubRagger
+class RaggerStub
 
   def initialize(_parent)
-    @@disk ||= FakeDisk.new(self)
+    @@disk ||= DiskFake.new(self)
   end
 
   def stub_colour(rag)
@@ -36,6 +36,6 @@ class StubRagger
 
 end
 
-# In app_controller tests the stub_run() and run()
+# In app_controller tests the stubs and calls
 # calls happen in different threads so disk is
-# @@disk and not @disk
+# @@ class variable and not @ instance variable.

@@ -1,8 +1,8 @@
 require_relative 'lib_test_base'
-require_relative '../../lib/fake_disk'
-require_relative '../../lib/fake_dir'
+require_relative '../../lib/disk_fake'
+require_relative '../../lib/dir_fake'
 
-class FakeDiskDirTest < LibTestBase
+class DiskDirFakeTest < LibTestBase
 
   test '447A8',
   'make returns true when it creates, afterwards false' do
@@ -89,7 +89,7 @@ class FakeDiskDirTest < LibTestBase
   end
 
   def disk
-    @disk ||= FakeDisk.new(self)
+    @disk ||= DiskFake.new(self)
   end
 
 end

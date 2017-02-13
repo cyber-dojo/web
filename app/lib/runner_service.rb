@@ -7,16 +7,6 @@ class RunnerService
   def initialize(_parent)
   end
 
-  def pulled?(image_name)
-    get(__method__, image_name)
-  end
-
-  def pull(image_name)
-    post(__method__, image_name)
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - -
-
   def new_kata(image_name, kata_id)
     post(__method__, image_name, kata_id)
   end

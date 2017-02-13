@@ -10,4 +10,4 @@ WORKDIR ${CYBER_DOJO_HOME}
 USER    cyber-dojo
 EXPOSE  3000
 
-CMD [ "rails", "server", "--environment=production" ]
+CMD [ "./run_rails_server.sh" ]

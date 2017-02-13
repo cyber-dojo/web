@@ -2,21 +2,10 @@ require_relative 'app_controller_test_base'
 
 class ReverterControllerTest  < AppControllerTestBase
 
-  def setup_runner_class
-    set_runner_class('StubRunner')
-  end
-
-  def prepare
-    set_storer_class('FakeStorer')
-    @id = create_kata('Java, JUnit')
-    @avatar = start
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - -
-
   test '81F276',
   'revert' do
-    prepare
+    @id = create_kata('Java, JUnit')
+    @avatar = start
     kata_edit
     filename = 'Hiker.java'
     change_file(filename, old_content='echo abc')

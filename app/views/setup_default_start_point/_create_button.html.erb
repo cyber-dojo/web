@@ -3,24 +3,15 @@
 
 $(function() {
 
-  var saveAndCreateNewDojo = function() {
-    var params = {
-            major: "<%= @language %>",
-            minor: "<%= @test %>",
-         exercise: $('[id^=exercises_name_][class~=selected]').data('name')
-    };
-    $.getJSON('/setup_default_start_point/save', params, function(dojo) {
-      cd.newDojoDialog(dojo.id, 'from_setup');
-    });
-  };
-
   $('#create-it').click(function() {
-    var params = {
-      major: "<%= @language %>",
-      minor: "<%= @test %>",
-       type: 'language'
+    var setupParams = {
+         major: "<%= @language %>",
+         minor: "<%= @test %>",
+      exercise: $('[id^=exercises_name_][class~=selected]').data('name')
     };
-    cd.dialog_pullImageIfNeededThen(params, saveAndCreateNewDojo);
+    $.getJSON('/setup_default_start_point/save', setupParams, function(dojoParams) {
+      cd.newDojoDialog(dojoParams, 'from_setup');
+    });
   });
 
 });

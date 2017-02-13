@@ -4,14 +4,9 @@ class TipTest < AppHelpersTestBase
 
   include TipHelper
 
-  def setup_runner_class
-    set_runner_class('StubRunner')
-  end
-
   test 'BDAD52',
   'traffic light tip' do
-    set_storer_class('FakeStorer')
-    kata = make_kata #({ 'language' => 'C (gcc)-assert' })
+    kata = make_kata
     lion = kata.start_avatar(['lion'])
     files = kata.visible_files
     now = [2016,12,22,5,55,11]

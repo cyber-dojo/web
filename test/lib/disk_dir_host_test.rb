@@ -1,6 +1,6 @@
 require_relative 'lib_test_base'
 
-class HostDiskDirTest < LibTestBase
+class DiskDirHostTest < LibTestBase
 
   test '437EB1',
   'disk[...].path always ends in /' do
@@ -69,7 +69,7 @@ class HostDiskDirTest < LibTestBase
   'read_json(filename) raises RuntimeError when filename is empty' do
     dir.make
     dir.write(filename='601891.json', empty='')
-    expected_message = "HostDir(#{path}/).read_json(#{filename}) - empty file"
+    expected_message = "DirHost(#{path}/).read_json(#{filename}) - empty file"
     assert_raises_with_message(RuntimeError, expected_message) { dir.read_json(filename) }
   end
 
@@ -302,7 +302,7 @@ class HostDiskDirTest < LibTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def path
-    tmp_root + '/' + 'host_disk_dir_tests' + '/' + test_id
+    tmp_root + '/' + 'host_disk_dir_tests' + '/' + hex_test_kata_id
   end
 
 end

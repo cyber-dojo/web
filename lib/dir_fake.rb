@@ -1,6 +1,6 @@
 require 'json'
 
-class FakeDir
+class DirFake
 
   def initialize(hash)
     @attr = hash

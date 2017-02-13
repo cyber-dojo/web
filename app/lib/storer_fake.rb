@@ -1,14 +1,14 @@
-require_relative './../../lib/fake_disk'
+require_relative './../../lib/disk_fake'
 require_relative './../models/avatars'
 require 'json'
 
-class FakeStorer
+class StorerFake
 
   def initialize(_parent)
     # This is @@disk and not @disk so that it behaves as
     # a real disk on tests that run across multiple threads
     # (as some app-controller tests do).
-    @@disk ||= FakeDisk.new(self)
+    @@disk ||= DiskFake.new(self)
     # Isolate tests from each other.
     test_id = ENV['CYBER_DOJO_TEST_ID']
     @path = "/tmp/cyber-dojo/#{test_id}/katas"
@@ -271,7 +271,7 @@ class FakeStorer
   end
 
   def error(message)
-    ArgumentError.new("FakeStorer:invalid #{message}")
+    ArgumentError.new("StorerFake:invalid #{message}")
   end
 
   # - - - - - - - - - - - - - - - -

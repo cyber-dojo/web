@@ -1,9 +1,9 @@
 require_relative 'app_lib_test_base'
 
-class StubRaggerTest < AppLibTestBase
+class RaggerStubTest < AppLibTestBase
 
   def ragger
-    StubRagger.new(self)
+    RaggerStub.new(self)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -

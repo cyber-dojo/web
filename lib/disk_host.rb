@@ -1,5 +1,5 @@
 
-class HostDisk
+class DiskHost
 
   def initialize(parent)
     @parent = parent
@@ -12,7 +12,7 @@ class HostDisk
   end
 
   def [](name)
-    HostDir.new(self, name)
+    DirHost.new(self, name)
   end
 
 end

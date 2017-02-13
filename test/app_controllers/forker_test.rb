@@ -2,17 +2,8 @@ require_relative 'app_controller_test_base'
 
 class ForkerControllerTest < AppControllerTestBase
 
-  def setup_runner_class
-    set_runner_class('StubRunner')
-  end
-
-  def prepare
-    set_storer_class('FakeStorer')
-  end
-
   test '3E9892AFE',
   'when id is invalid then fork fails and the reason given is dojo' do
-    prepare
     fork(bad_id = 'bad-id', 'hippo', tag = 1)
     refute forked?
     assert_reason_is("dojo(#{bad_id})")
@@ -23,7 +14,6 @@ class ForkerControllerTest < AppControllerTestBase
 
   test '3E967725B',
   'when avatar not started, the fork fails, and the reason given is avatar' do
-    prepare
     id = create_kata
     fork(id, bad_avatar = 'hippo', tag = 1)
     refute forked?
@@ -35,7 +25,6 @@ class ForkerControllerTest < AppControllerTestBase
 
   test '3E94CCCA7',
   'when tag is bad, the fork fails, and the reason given is traffic_light' do
-    prepare
     @id = create_kata
     @avatar = start
     bad_tag_test('xx')      # !is_tag
@@ -59,7 +48,6 @@ class ForkerControllerTest < AppControllerTestBase
   'when id,language,avatar,tag are all ok',
   'format=json fork works',
   "and the new dojo's id is returned" do
-    prepare
     @id = create_kata
     @avatar = start # 0
     run_tests       # 1
@@ -81,7 +69,6 @@ class ForkerControllerTest < AppControllerTestBase
   'when id,language,avatar,tag are all ok',
   'format=html fork works',
   "and you are redirected to the enter page with the new dojo's id" do
-    prepare
     @id = create_kata
     @avatar = start # 0
     run_tests       # 1
@@ -97,7 +84,6 @@ class ForkerControllerTest < AppControllerTestBase
   test '3E95EA04E',
   'when the exercise no longer exists and everything else',
   'is ok then fork works and the new dojos id is returned' do
-    prepare
     language = languages[default_language_name]
     manifest = language.create_kata_manifest
     manifest['exercise'] = 'exercise-name-that-does-not-exist'
@@ -114,7 +100,6 @@ class ForkerControllerTest < AppControllerTestBase
   test '3E99D85BF',
   'when language has been renamed and everything else',
   'is ok then fork works and the new dojos id is returned' do
-    prepare
     language = languages['C#-NUnit']
     manifest = language.create_kata_manifest
     manifest['language'] = 'C#' # old-name
@@ -130,7 +115,6 @@ class ForkerControllerTest < AppControllerTestBase
 
   test '3E9467D4A',
   'forking kata from before start-point volume re-architecture works' do
-    prepare
     language = languages['C#-NUnit']
     manifest = language.create_kata_manifest
     manifest.delete('red_amber_green')

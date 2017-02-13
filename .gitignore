@@ -18,6 +18,7 @@
 !/.travis.yml
 !/build.sh
 !/config.ru
+!/run_rails_server.sh
 !/docker-compose.yml
 !/Dockerfile
 !/license.md

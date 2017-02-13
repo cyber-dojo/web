@@ -15,3 +15,4 @@
 
 !config.ru
 !script/rails
+!run_rails_server.sh

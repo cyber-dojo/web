@@ -3,13 +3,6 @@ require_relative '../app_lib/delta_maker'
 
 class LightsTest < AppModelsTestBase
 
-  def setup
-    super
-    set_storer_class('FakeStorer')
-  end
-
-  #- - - - - - - - - - - - - - - - - - -
-
   test '881D3F',
   'lights initially empty' do
     kata = make_kata
@@ -25,7 +18,7 @@ class LightsTest < AppModelsTestBase
 
   test '88106F',
   'lights not empty' do
-    set_ragger_class('StubRagger')
+    set_ragger_class('RaggerStub')
     kata = make_kata
     puffin = kata.start_avatar(['puffin'])
     maker = DeltaMaker.new(puffin)

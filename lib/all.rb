@@ -12,9 +12,9 @@
   unique_id
   string_cleaner
 
-  host_shell
-  host_disk
-  host_dir
-  memory_log
-  stdout_log
+  disk_host
+  dir_host
+  shell_host
+  log_spy
+  log_stdout
 }.each { |sourcefile| require_relative './' + sourcefile }

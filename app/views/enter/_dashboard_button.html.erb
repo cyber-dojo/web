@@ -11,12 +11,8 @@ $(function() {
     button.css('cursor', 'wait');
     $.getJSON('/enter/continue', { id: id }, function(dojo) {
       button.css('cursor', cursor);
-      if (dojo.empty) {
-        cd.continueDialog('dashboard', dojo.html).dialog('open');
-      } else {
-        var url = '/dashboard/show/' + id;
-        window.location.href = url;
-      }
+      var url = '/dashboard/show/' + id;
+      window.location.href = url;
     });
   });
 

@@ -32,15 +32,16 @@ CyberDojo::Application.routes.draw do
   end
 
   scope path: '/image_puller', controller: :image_puller do
-    get 'pull_needed' => :pull_needed, :constraints => { :format => :json }
-    get 'pull'        => :pull,        :constraints => { :format => :json }
+    get 'pulled' => :pulled?, :constraints => { :format => :json }
+    get 'pull'   => :pull,    :constraints => { :format => :json }
   end
 
   scope path: '/enter', controller: :enter do
-    get 'show(/:id)' => :show
-    get 'check'      => :check,    :constraints => { :format => :json }
-    get 'start'      => :start,    :constraints => { :format => :json }
-    get 'continue'   => :continue, :constraints => { :format => :json }
+    get 'show(/:id)'   => :show
+    get 'review(/:id)' => :review
+    get 'check'        => :check,    :constraints => { :format => :json }
+    get 'start'        => :start,    :constraints => { :format => :json }
+    get 'continue'     => :continue, :constraints => { :format => :json }
   end
 
   scope path: '/kata', controller: :kata do

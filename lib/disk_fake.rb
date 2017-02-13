@@ -1,6 +1,6 @@
-require_relative './fake_dir'
+require_relative './dir_fake'
 
-class FakeDisk
+class DiskFake
 
   def initialize(parent)
     @parent = parent
@@ -14,7 +14,7 @@ class FakeDisk
     path.split('/').each do |dir|
       wd = wd[:dirs][dir] ||= { parent:wd, exists:false, files:{}, dirs:{} }
     end
-    FakeDir.new(wd)
+    DirFake.new(wd)
   end
 
 end

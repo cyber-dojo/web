@@ -1,24 +1,6 @@
 require_relative 'app_lib_test_base'
 
-class StubRunnerTest < AppLibTestBase
-
-  test 'AF7866',
-  'pulled? is true only for 4 specific images' do
-    assert runner.pulled? cdf('nasm_assert')
-    assert runner.pulled? cdf('gcc_assert')
-    assert runner.pulled? cdf('csharp_nunit')
-    assert runner.pulled? cdf('gpp_cpputest')
-    refute runner.pulled? cdf('csharp_moq')
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'AF72BD',
-  'pull is no-op' do
-    runner.pull cdf('csharp_moq')
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+class RunnerStubTest < AppLibTestBase
 
   test 'AF72C0',
   'stub_run can stub stdout and leave',

@@ -30,13 +30,23 @@ services:
       - exercises:${CYBER_DOJO_HOME}/start_points/exercises:ro
       - custom:${CYBER_DOJO_HOME}/start_points/custom:ro
 
+  puller:
+    user: root
+    image: cyberdojo/puller
+    container_name: cyber-dojo-puller
+    read_only: true
+    tmpfs: /tmp
+    mem_limit: 2G
+    memswap_limit: 2G
+    restart: on-failure
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
   runner:
     user: root
     image: cyberdojo/runner
     container_name: cyber-dojo-runner
-    #environment: [ CYBER_DOJO_RUNNER_CLASS=DockerKataContainerRunner ]
-    #environment: [ CYBER_DOJO_RUNNER_CLASS=DockerKataVolumeRunner ]
-    environment: [ CYBER_DOJO_RUNNER_CLASS=DockerAvatarVolumeRunner ]
+    environment: [ CYBER_DOJO_RUNNER_CLASS ]
     read_only: true
     tmpfs: /tmp
     mem_limit: 2G

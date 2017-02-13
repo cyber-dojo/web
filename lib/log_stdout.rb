@@ -1,5 +1,5 @@
 
-class StdoutLog
+class LogStdout
 
   def initialize(_dojo)
   end

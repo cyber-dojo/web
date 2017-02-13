@@ -2,14 +2,6 @@ require_relative 'app_lib_test_base'
 
 class RaggerServiceTest < AppLibTestBase
 
-  def setup
-    super
-    set_storer_class('FakeStorer')
-    set_runner_class('StubRunner')
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - -
-
   test '182F5B',
   'before start-points volume re-architecture',
   'colour of output is determined by OutputColour.of()' do

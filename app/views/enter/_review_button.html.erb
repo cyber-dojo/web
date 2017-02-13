@@ -12,7 +12,7 @@ $(function() {
     $.getJSON('/enter/continue', { id: id }, function(dojo) {
       button.css('cursor', cursor);
       if (dojo.empty) {
-        cd.continueDialog('review', dojo.html).dialog('open');
+        cd.dialog(dojo.html, 'open a review', 'close').dialog('open');
       } else {
         var url = '/review/show/' + id;
         window.location.href = url;
@@ -25,5 +25,5 @@ $(function() {
 //--></script>
 
 <button type="button" id="review-button">
-  review diffs
+  open a review
 </button>

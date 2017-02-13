@@ -2,6 +2,11 @@ require_relative '../all'
 
 class AppModelsTestBase < TestBase
 
+  def setup
+    super
+    set_ragger_class('RaggerStub')
+  end
+
   def correct_path_format?(object)
     path = object.path
     ends_in_slash = path.end_with?('/')

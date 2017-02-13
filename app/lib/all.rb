@@ -11,14 +11,16 @@
   dashboard_td_gapper
   display_names_splitter
   id_splitter
-  stub_runner
-  stub_ragger
-  fake_storer
 
+  puller_service
+  puller_mock
+  runner_service
+  runner_stub
+  storer_fake
+  storer_service
   differ_service
   ragger_service
-  runner_service
-  storer_service
+  ragger_stub
 
 ).each { |sourcefile| require_relative './' + sourcefile }
 

@@ -3,13 +3,6 @@ require_relative '../app_lib/delta_maker'
 
 class LightTest < AppModelsTestBase
 
-  def setup
-    super
-    set_storer_class('FakeStorer')
-  end
-
-  #- - - - - - - - - - - - - - - - - - -
-
   test 'AC96D0',
   'colour is converted to a symbol' do
     light = make_light(:red, [2015, 2, 15, 8, 54, 6], 1)
@@ -72,7 +65,7 @@ class LightTest < AppModelsTestBase
 
   test 'AC9722',
   'each test creates a new light' do
-    set_ragger_class('StubRagger')
+    set_ragger_class('RaggerStub')
     kata = make_kata
     lion = kata.start_avatar(['lion'])
     maker = DeltaMaker.new(lion)

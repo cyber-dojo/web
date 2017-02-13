@@ -2,13 +2,6 @@ require_relative 'app_models_test_base'
 
 class ExercisesTest < AppModelsTestBase
 
-  def setup
-    super
-    set_storer_class('FakeStorer')
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test '2DDD4C',
   'path has correct basic format when set with trailing slash' do
     path = tmp_root + '/' + 'folder'

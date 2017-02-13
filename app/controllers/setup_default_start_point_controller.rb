@@ -32,7 +32,11 @@ class SetupDefaultStartPointController < ApplicationController
     manifest['exercise'] = exercise.name
     manifest['visible_files']['instructions'] = exercise.text
     kata = katas.create_kata(manifest)
-    render json: { id: kata.id }
+    render json: {
+      image_name: kata.image_name,
+              id: kata.id,
+       selection: major + ', ' + minor
+     }
   end
 
   private
@@ -54,7 +58,15 @@ class SetupDefaultStartPointController < ApplicationController
   end
 
   def language
-    languages[params['major'] + '-' + params['minor']]
+    languages[major + '-' + minor]
+  end
+
+  def major
+    params['major']
+  end
+
+  def minor
+    params['minor']
   end
 
 end

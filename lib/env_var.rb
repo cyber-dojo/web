@@ -12,19 +12,21 @@ def cd_env_name(suffix)
   'CYBER_DOJO_' + suffix.upcase
 end
 
+# set the defaults
 {
   cd_env_name('languages_root') => "#{cd_home}/start_points/languages",
   cd_env_name('exercises_root') => "#{cd_home}/start_points/exercises",
   cd_env_name('custom_root')    => "#{cd_home}/start_points/custom",
 
+  cd_env_name('puller_class') => 'PullerService', # src -> output
   cd_env_name('runner_class') => 'RunnerService', # src -> output
-  cd_env_name('ragger_class') => 'RaggerService', # output -> traffic-light
-  cd_env_name('storer_class') => 'StorerService', # store src,output,traffic-light
+  cd_env_name('storer_class') => 'StorerService', # src,output,traffic-light
   cd_env_name('differ_class') => 'DifferService', # (src,src) -> diff
+  cd_env_name('ragger_class') => 'RaggerService', # output -> traffic-light
 
-  cd_env_name('disk_class')  => 'HostDisk',
-  cd_env_name('log_class')   => 'StdoutLog',
-  cd_env_name('shell_class') => 'HostShell'
+  cd_env_name('disk_class')  => 'DiskHost',
+  cd_env_name('log_class')   => 'LogStdout',
+  cd_env_name('shell_class') => 'ShellHost'
 
 }.each { |key, name|
   ENV[key] = name if ENV[key].nil?

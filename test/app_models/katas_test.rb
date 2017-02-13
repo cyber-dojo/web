@@ -2,11 +2,6 @@ require_relative 'app_models_test_base'
 
 class KatasTest < AppModelsTestBase
 
-  def setup
-    super
-    set_storer_class('FakeStorer')
-  end
-
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # katas[id]
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

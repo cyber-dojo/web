@@ -1,18 +1,10 @@
-require_relative '../../lib/fake_disk'
+require_relative '../../lib/disk_fake'
 
-class StubRunner
+class RunnerStub
 
   def initialize(_parent)
-    # In app_controller tests the stub_run() and run()
-    # calls happen in different threads so disk is
-    # @@disk and not @disk
-    @@disk ||= FakeDisk.new(self)
+    @@disk ||= DiskFake.new(self)
   end
-
-  def pulled?(image_name); image_names.include?(image_name); end
-  def pull(_image_name); end
-
-  # - - - - - - - - - - - - - - - - -
 
   def new_kata(_image_name, _kata_id); end
   def old_kata(_image_name, _kata_id); end
@@ -39,16 +31,6 @@ class StubRunner
 
   private
 
-  def image_names
-    cdf = 'cyberdojofoundation'
-    [
-      "#{cdf}/nasm_assert",
-      "#{cdf}/gcc_assert",
-      "#{cdf}/csharp_nunit",
-      "#{cdf}/gpp_cpputest"
-    ]
-  end
-
   def filename
     'stub_output'
   end
@@ -66,3 +48,7 @@ class StubRunner
   end
 
 end
+
+# In app_controller tests the stub and call
+# calls happen in different threads so disk is
+# @@ class variable and not @ instance variable.

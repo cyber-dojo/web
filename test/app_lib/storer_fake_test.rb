@@ -1,11 +1,11 @@
 require_relative 'app_lib_test_base'
-require_relative '../../app/lib/fake_storer'
+require_relative '../../app/lib/storer_fake'
 require_relative '../../app/models/avatars'
 
-class FakeStorerTest < AppLibTestBase
+class StorerFakeTest < AppLibTestBase
 
   def storer
-    @storer ||= FakeStorer.new(self)
+    @storer ||= StorerFake.new(self)
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -25,7 +25,7 @@ class FakeStorerTest < AppLibTestBase
     manifest = make_manifest(nil)
     manifest.delete('id')
     error = assert_raises(ArgumentError) { storer.create_kata(manifest) }
-    assert error.message.start_with?('FakeStorer'), error.message
+    assert error.message.start_with?('StorerFake'), error.message
     #assert_invalid_kata_id_raises do |invalid_id|
     #  manifest['id'] = invalid_id
     #  storer.create_kata(manifest)

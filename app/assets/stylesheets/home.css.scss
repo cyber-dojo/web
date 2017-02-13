@@ -5,7 +5,7 @@
 
   #cyber-dojo {
     @include non-code-font();
-    font-size: 8.50em;
+    font-size: 8.65em;
         color: $text-color;
        margin: { bottom: 0px; top: 15px; }
       padding: { bottom: 0px; }
@@ -22,17 +22,17 @@
   }
 
   #avatars-grid {
-       width: 235px;
+       width: 255px;
     position: relative;
-        left: 2px;
-         top: -1px;
+        left: 10px;
+         //top: -1px;
   }
 
   //------------------------------------------
 
   hr {
-    height: 30px;
-    margin-top: 50px;
+    height: 20px;
+    margin-top: 30px;
     border-style: solid;
     border-color: #8c8b8b;
     border-width: 1px 0 0 0;
@@ -41,8 +41,8 @@
   hr:before {
     display: block;
     content: "";
-    height: 30px;
-    margin-top: -31px;
+    height: 20px;
+    margin-top: -21px;
     border-style: solid;
     border-color: #8c8b8b;
     border-width: 0 0 1px 0;
@@ -54,6 +54,7 @@
   h1 {
     @include non-code-font();
     font-size: 4.25em;
+    margin: { top: 10px; bottom: 20px; }
   }
 
   .kids-pic {
@@ -116,6 +117,7 @@
 
   #setup-a-new-practice-session-button,
   #enter-button,
+  #review-button,
   #donate-button {
     @include non-code-font();
     @include font-size-largest();
@@ -126,30 +128,30 @@
   }
 
   #setup-a-new-practice-session-button,
-  #enter-button {
+  #enter-button, #review-button {
           width: 390px;
       font-size: 1.97em;
     line-height: 95%;
         padding: { top: 12px; bottom: 12px; right: 15px; }
-         margin: { top: 6px; bottom: 6px; }
+         margin: { top: 2px; bottom: 2px; }
   }
 
   #donate-container {
     @include plaintext-font();
     @include edged-panel();
           width: 368px;
-          height: 89px;
+          height: 73px;
           padding: { right: 15px; }
-         margin: { top: 9px; left: 15px; bottom: 9px; }
+         margin: { top: 2px; left: 15px; bottom: 3px; }
      text-align: left;
       font-size: 1.0em;
 
     #donate-button {
             width: 140px;
-           margin: { right: 0px; top: 5px; bottom: 5px; }
-          padding: 10px;
+           margin: { right: 0px; top: 5px; bottom: 1px; }
+          padding: 7px;
        text-align: center;
-       font-size: 1.70em;
+       font-size: 20px;
       line-height: 95%;
     }
   }

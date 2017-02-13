@@ -20,9 +20,12 @@ class DojoTest < AppModelsTestBase
   test 'A70E2A',
   'using an unset external class raises StandardError' do
     error = StandardError
+
+    unset_puller_class && assert_raises(error) { puller.class }
     unset_runner_class && assert_raises(error) { runner.class }
-    unset_ragger_class && assert_raises(error) { ragger.class }
     unset_storer_class && assert_raises(error) { storer.class }
+    unset_ragger_class && assert_raises(error) { ragger.class }
+
     unset_shell_class  && assert_raises(error) {  shell.class }
     unset_disk_class   && assert_raises(error) {   disk.class }
     unset_log_class    && assert_raises(error) {    log.class }
@@ -43,9 +46,12 @@ class DojoTest < AppModelsTestBase
   test 'A70880',
   'setting an external class to the name of an existing class succeeds' do
     exists = 'ExternalDouble'
+
+    set_puller_class(exists) && assert_equal(exists, puller.class.name)
     set_runner_class(exists) && assert_equal(exists, runner.class.name)
-    set_ragger_class(exists) && assert_equal(exists, ragger.class.name)
     set_storer_class(exists) && assert_equal(exists, storer.class.name)
+    set_ragger_class(exists) && assert_equal(exists, ragger.class.name)
+
     set_shell_class( exists) && assert_equal(exists,  shell.class.name)
     set_disk_class(  exists) && assert_equal(exists,   disk.class.name)
     set_log_class(   exists) && assert_equal(exists,    log.class.name)
@@ -54,9 +60,12 @@ class DojoTest < AppModelsTestBase
   test 'A707E4',
   'setting an external class to the name of a non-existant class raises StandardError' do
     error = StandardError
+
+    set_puller_class(does_not_exist) && assert_raises(error) { puller.class }
     set_runner_class(does_not_exist) && assert_raises(error) { runner.class }
-    set_ragger_class(does_not_exist) && assert_raises(error) { ragger.class }
     set_storer_class(does_not_exist) && assert_raises(error) { storer.class }
+    set_ragger_class(does_not_exist) && assert_raises(error) { ragger.class }
+
     set_shell_class( does_not_exist) && assert_raises(error) {  shell.class }
     set_disk_class(  does_not_exist) && assert_raises(error) {   disk.class }
     set_log_class(   does_not_exist) && assert_raises(error) {    log.class }

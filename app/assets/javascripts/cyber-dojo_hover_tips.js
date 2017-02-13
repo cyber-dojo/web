@@ -16,31 +16,41 @@ var cyberDojo = (function(cd, $) {
 
   // - - - - - - - - - - - - - - - - - - - -
 
-  var countHoverTipHtml = function(reds, ambers, greens, timeOuts) {
-    var colourWord = function(colour, word) {
-      return "<span class='" + colour + "'>" + word + '</span>';
-    };
-    var plural = function(count, colour) {
-      var word = colour + (count == 1 ? '' : 's');
-      return '<div>' + count + ' ' + colourWord(colour, word) + '</div>';
-    };
-    var html = '';
-    if (reds     > 0) { html += plural(reds    , 'red'    ); }
-    if (ambers   > 0) { html += plural(ambers  , 'amber'  ); }
-    if (greens   > 0) { html += plural(greens  , 'green'  ); }
-    if (timeOuts > 0) { html += plural(timeOuts, 'timeout'); }
-    return html;
-  };
-
-  // - - - - - - - - - - - - - - - - - - - -
-
   var getTrafficLightCountHoverTip = function(node) {
     var avatarName = node.data('avatar-name');
     var reds = node.data('red-count');
     var ambers = node.data('amber-count');
     var greens = node.data('green-count');
     var timeOuts = node.data('timed-out-count');
-    return avatarName + ' has<br/>' + countHoverTipHtml(reds, ambers, greens, timeOuts);
+    var trLight = function(colour, count) {
+      return '' +
+        '<tr>' +
+          '<td>' +
+            '<img' +
+              " class='traffic-light-diff-tip-traffic-light-image'" +
+              " src='/images/bulb_" + colour + ".png'>" +
+          '</td>' +
+          '<td>' +
+             "&nbsp;<span class='traffic-light-diff-tip-tag " + colour + "'>" +
+              count +
+             '</span>' +
+          '</td>' +
+        '</tr>';
+    };
+
+    var html = '';
+    html += '<img';
+    html +=   " class='traffic-light-diff-tip-avatar-image'";
+    html +=   " src='/images/avatars/" + avatarName + ".jpg'>";
+    html += '<table>';
+    html += trLight('red', reds);
+    html += trLight('amber', ambers);
+    html += trLight('green', greens);
+    if (timeOuts > 0) {
+      html += trLight('timed_out', timeOuts);
+    }
+    html += '</table>';
+    return html;
   };
 
   // - - - - - - - - - - - - - - - - - - - -

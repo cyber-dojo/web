@@ -8,8 +8,7 @@ class PieChartTest < AppHelpersTestBase
   test '10E59E',
   'pie-chart from avatar.lights' do
 
-    set_storer_class('FakeStorer')
-    set_ragger_class('StubRagger')
+    set_ragger_class('RaggerStub')
 
     kata = make_kata
     lion = kata.start_avatar(['lion'])
