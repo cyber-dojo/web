@@ -15,6 +15,8 @@ var cyberDojo = (function(cd, $) {
   };
 
   var codeMirrorMode = function (filename) {
+    filename = filename.toLowerCase();
+
     switch (filename) {
       case 'makefile':
         return 'text/x-makefile';
