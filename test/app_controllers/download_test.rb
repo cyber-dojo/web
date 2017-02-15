@@ -14,7 +14,9 @@ class DownloadControllerTest < AppControllerTestBase
   test 'C440EF',
   'download with empty id raises' do
     prepare
-    assert_raises(StandardError) { get 'downloader/download', 'id' => '' }
+    assert_raises(StandardError) {
+      get 'downloader/download', 'id' => ''
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -22,13 +24,16 @@ class DownloadControllerTest < AppControllerTestBase
   test 'C44849',
   'download with bad id raises' do
     prepare
-    assert_raises(StandardError) { get 'downloader/download', 'id' => 'XX'+@id }
+    assert_raises(StandardError) {
+      get 'downloader/download', 'id' => 'XX'+@id
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'C44561',
-  'download of empty dojo with no avatars untars to same as original folder' do
+  'download of empty dojo with no avatars',
+  'untars to same as original folder' do
     prepare
     get 'downloader/download', 'id' => @id
     assert_downloaded
@@ -37,7 +42,8 @@ class DownloadControllerTest < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'C441B1',
-  'download of dojo with one avatar and one traffic-light untars to same as original folder' do
+  'download of dojo with one avatar and one traffic-light',
+  'untars to same as original folder' do
     prepare
     start
     kata_edit
@@ -50,7 +56,8 @@ class DownloadControllerTest < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'C44E9B',
-  'download of dojo with five animals and five traffic-lights untars to same as original folder' do
+  'download of dojo with five animals and five traffic-lights',
+  'untars to same as original folder' do
     prepare
     5.times do
       start
