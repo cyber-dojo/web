@@ -25,11 +25,19 @@ var cyberDojo = (function(cd, $) {
     }
 
     switch (fileExtension(filename)) {
-      case '.cpp':
-      case '.hpp':
       case '.c':
-      case '.h':
+        return 'text/x-csrc';
+      case '.cpp':
         return 'text/x-c++src';
+      case '.hpp':
+      case '.h':
+        return 'text/x-c++hdr';
+      case '.java':
+        return 'text/x-java';
+      case '.cs':
+        return 'text/x-csharp';
+      case '.scala':
+        return 'text/x-scala';
       case '.clj':
         return 'text/x-clojure';
       case '.coffee':
