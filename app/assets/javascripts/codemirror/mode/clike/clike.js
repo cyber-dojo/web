@@ -285,6 +285,11 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
     return false;
   }
 
+  function referenceHook(_stream, state) {
+    if (state.prevToken == "variable" || state.prevToken == "type") return "variable-3";
+    return false;
+  }
+
   function cpp14Literal(stream) {
     stream.eatWhile(/[\w\.']/);
     return "number";
@@ -394,6 +399,7 @@ CodeMirror.defineMode("clike", function(config, parserConfig) {
     hooks: {
       "#": cppHook,
       "*": pointerHook,
+      "&": referenceHook,
       "u": cpp11StringHook,
       "U": cpp11StringHook,
       "L": cpp11StringHook,
