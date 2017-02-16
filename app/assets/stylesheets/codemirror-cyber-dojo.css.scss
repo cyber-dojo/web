@@ -1,0 +1,74 @@
+.CodeMirror {
+  height: 560px;
+  width: 722px;
+}
+
+.cm-s-cyber-dojo.CodeMirror {
+  @include code-font;
+  background: lighten($darker-color, 4%);
+  color: $lighter-color;
+  @include rounded-corner(6px);
+}
+
+.cm-s-cyber-dojo .CodeMirror-linenumber,
+.cm-s-cyber-dojo .CodeMirror-linenumbers,
+.cm-s-cyber-dojo .CodeMirror-gutters {
+  @include code-font;
+  background: lighten($darker-color, 4%);
+  color: lighten($darker-color, 20%);
+}
+
+.cm-s-cyber-dojo .CodeMirror-gutters {
+  border-right: 0px;
+}
+
+
+.cm-s-cyber-dojo div.CodeMirror-selected {
+  background: #515151;
+}
+
+.cm-s-cyber-dojo .CodeMirror-cursor {
+  border-left: 1px solid $lighter-color;
+}
+
+.cm-s-cyber-dojo .cm-header {color: #09f;}
+.cm-s-cyber-dojo .cm-quote {color: #00f700;}
+.cm-s-cyber-dojo .cm-negative {color: #d44;}
+.cm-s-cyber-dojo .cm-positive {color: #292;}
+.cm-s-cyber-dojo .cm-header, .cm-strong {font-weight: bold;}
+.cm-s-cyber-dojo .cm-em {font-style: italic;}
+.cm-s-cyber-dojo .cm-link {text-decoration: underline;}
+.cm-s-cyber-dojo .cm-strikethrough {text-decoration: line-through;}
+
+@mixin codemirror-keyword {color: #d161dd;}
+
+.cm-s-cyber-dojo .cm-keyword {@include codemirror-keyword();}
+.cm-s-cyber-dojo .cm-atom {color: #76E;}
+.cm-s-cyber-dojo .cm-number {color: #1d9f6e;}
+.cm-s-cyber-dojo .cm-def {color: #06eaff;}
+.cm-s-cyber-dojo .cm-variable,
+.cm-s-cyber-dojo .cm-punctuation,
+.cm-s-cyber-dojo .cm-property,
+.cm-s-cyber-dojo .cm-operator {color: #8da6ce;}
+.cm-s-cyber-dojo .cm-variable-2 {color: #07b8de;}
+.cm-s-cyber-dojo .cm-variable-3 {color: #00e58e;}
+.cm-s-cyber-dojo .cm-type {@include codemirror-keyword();}
+.cm-s-cyber-dojo .cm-comment {color: #ce6c00;}
+.cm-s-cyber-dojo .cm-string {color: #eed540;}
+.cm-s-cyber-dojo .cm-string-2 {color: #f50;}
+.cm-s-cyber-dojo .cm-meta { color: #ccc; }
+.cm-s-cyber-dojo .cm-qualifier {color: #888888;}
+.cm-s-cyber-dojo .cm-builtin {color: #7af;}
+.cm-s-cyber-dojo .cm-bracket {color: #c2c299;}
+.cm-s-cyber-dojo .cm-tag {color: #1cd700;}
+.cm-s-cyber-dojo .cm-attribute {color: #0cc;}
+.cm-s-cyber-dojo .cm-hr {color: #999;}
+.cm-s-cyber-dojo .cm-link {color: #3395cc;}
+
+.cm-s-cyber-dojo .cm-error {color: #f00;}
+.cm-s-cyber-dojo .cm-invalidchar {color: #f00;}
+
+.cm-s-cyber-dojo span.CodeMirror-matchingbracket {color: #0f0;}
+.cm-s-cyber-dojo span.CodeMirror-nonmatchingbracket {color: #f22;}
+.cm-s-cyber-dojo .CodeMirror-matchingtag { background: rgba(255, 150, 0, .3); }
+.cm-s-cyber-dojo .CodeMirror-activeline-background {background: #414141;}

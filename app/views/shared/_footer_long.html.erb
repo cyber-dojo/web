@@ -12,7 +12,8 @@
       <td><%= render partial: 'shared/bullet' %></td>
       <td><%= render partial: 'shared/cucumber' %></td>
       <td><%= render partial: 'shared/bullet' %></td>
-      <td><%= render partial: 'shared/practice_details' %></td>
+      <td><%= render partial: 'shared/practice_details', locals: {
+          show_syntax_highlight: defined?(show_syntax_highlight) ? show_syntax_highlight : false } %></td>
     </tr>
   </table>
 </div>

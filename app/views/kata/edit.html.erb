@@ -23,6 +23,8 @@ $(function() {
   var filename = filenames[cd.nonBoringFilenameIndex(filenames)];
   cd.loadFile(filename);
 
+  cd.syntaxHighlightTabSize = <%= @kata.tab_size %>;
+
 });
 
 //--></script>
@@ -62,7 +64,8 @@ $(function() {
 
   <%= render partial: 'shared/footer_long',
              locals: {
-                help_url:"http://blog.cyber-dojo.org/2014/10/the-cyber-dojo-test-page.html"
+                help_url:"http://blog.cyber-dojo.org/2014/10/the-cyber-dojo-test-page.html",
+                show_syntax_highlight: true
              } %>
 
 <% end %>

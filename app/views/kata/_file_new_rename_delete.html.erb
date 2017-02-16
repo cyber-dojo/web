@@ -117,14 +117,21 @@ $(function() {
   fileButtons.find('#new').click(function() {
     var initialFilename = 'filename' + cd.extensionFilename();
     var okInitiallyDisabled = !isValidFilename(initialFilename);
-    var okClicked = function(filename) { cd.newFileContent(filename, ''); };
+    var okClicked = function(filename) {
+      cd.newFileContent(filename, '');
+      cd.switchEditorIfSyntaxHighlightEnabled(filename);
+    };
     openDialog('new', initialFilename, okInitiallyDisabled, okClicked, avatarName);
   });
 
   fileButtons.find('#rename').click(function() {
     var initialFilename = cd.currentFilename();
     var okInitiallyDisabled = true;
-    var okClicked = function(filename) { renameFileFromTo(initialFilename, filename); };
+    var okClicked = function(filename) {
+      cd.removeSyntaxHilightEditor(initialFilename);
+      renameFileFromTo(initialFilename, filename);
+      cd.switchEditorIfSyntaxHighlightEnabled(filename);
+    };
     openDialog('rename', initialFilename, okInitiallyDisabled, okClicked, avatarName);
   });
 
@@ -132,7 +139,10 @@ $(function() {
     //cd.deleteFile("<%= @avatar.name %>");
     var initialFilename = cd.currentFilename();
     var okInitiallyDisabled = false;
-    var okClicked = function(filename) { cd.deleteFile(filename); };
+    var okClicked = function(filename) {
+      cd.removeSyntaxHilightEditor(filename);
+      cd.deleteFile(filename);
+    };
     openDialog('delete', initialFilename, okInitiallyDisabled, okClicked, avatarName);
   });
 

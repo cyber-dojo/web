@@ -20,6 +20,9 @@ $(function() {
     // 1. when you click [test]
     // 2. when you hot-key Alt-T
     // 3. when you revert
+
+    cd.saveCodeFromSyntaxHighlightEditors();
+
     var form = testButton.closest('form');
     cd.storeOutgoingFileHashes();
     $.ajax({
