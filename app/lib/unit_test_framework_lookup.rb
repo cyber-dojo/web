@@ -52,6 +52,7 @@ module UnitTestFrameworkLookup
       'Java, Cucumber-Spring'     => 'java_cucumber',
       'Java, JMock'               => 'junit',
       'Java, JUnit'               => 'junit',
+      'Java, JUnit-Sqlite'        => 'junit',
       'Java, Mockito'             => 'junit',
       'Java, PowerMockito'        => 'junit',
 
