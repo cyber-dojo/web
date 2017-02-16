@@ -40,7 +40,9 @@
 .cm-s-cyber-dojo .cm-link {text-decoration: underline;}
 .cm-s-cyber-dojo .cm-strikethrough {text-decoration: line-through;}
 
-.cm-s-cyber-dojo .cm-keyword {color: #d161dd;}
+@mixin codemirror-keyword {color: #d161dd;}
+
+.cm-s-cyber-dojo .cm-keyword {@include codemirror-keyword();}
 .cm-s-cyber-dojo .cm-atom {color: #76E;}
 .cm-s-cyber-dojo .cm-number {color: #1d9f6e;}
 .cm-s-cyber-dojo .cm-def {color: #06eaff;}
@@ -50,6 +52,7 @@
 .cm-s-cyber-dojo .cm-operator {color: #8da6ce;}
 .cm-s-cyber-dojo .cm-variable-2 {color: #07b8de;}
 .cm-s-cyber-dojo .cm-variable-3 {color: #00e58e;}
+.cm-s-cyber-dojo .cm-type {@include codemirror-keyword();}
 .cm-s-cyber-dojo .cm-comment {color: #ce6c00;}
 .cm-s-cyber-dojo .cm-string {color: #eed540;}
 .cm-s-cyber-dojo .cm-string-2 {color: #f50;}
