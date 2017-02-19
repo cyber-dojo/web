@@ -13,7 +13,8 @@
       <td><%= render partial: 'shared/cucumber' %></td>
       <td><%= render partial: 'shared/bullet' %></td>
       <td><%= render partial: 'shared/practice_details', locals: {
-          show_syntax_highlight: defined?(show_syntax_highlight) ? show_syntax_highlight : false } %></td>
+          show_syntax_highlight: defined?(show_syntax_highlight) ? show_syntax_highlight : false,
+          show_drivertimer: defined?(show_drivertimer) ? show_drivertimer : false } %></td>
     </tr>
   </table>
 </div>

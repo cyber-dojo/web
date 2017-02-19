@@ -1,0 +1,12 @@
+
+#driverTimerContainer {
+  position: fixed;
+  height: 4px;
+  width: 100%;
+}
+
+#driverTimerProgress {
+  background-color: $lighter-color;
+  width: 0%;
+  height: 100%;
+}

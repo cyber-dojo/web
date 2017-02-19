@@ -68,7 +68,7 @@
     text-align: right;
   }
 
-  #syntax-highlight-button {
+  #syntax-highlight-button, .drivertimer-button {
     @include non-code-font();
     margin-top: 4px;
     padding: .4em 1em;

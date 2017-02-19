@@ -62,10 +62,15 @@ $(function() {
     </table>
   </div>
 
+  <div id="driverTimerContainer">
+    <div id="driverTimerProgress"></div>
+  </div>
+
   <%= render partial: 'shared/footer_long',
              locals: {
                 help_url:"http://blog.cyber-dojo.org/2014/10/the-cyber-dojo-test-page.html",
-                show_syntax_highlight: true
+                show_syntax_highlight: true,
+                show_drivertimer: true
              } %>
 
 <% end %>

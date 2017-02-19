@@ -26,6 +26,35 @@ $(function() {
           html += 'toggle';
           html += '</button></td></tr>';
           <% end %>
+          <% if defined?(show_drivertimer) and show_drivertimer %>
+          html += '<tr><td>driver timer (mins)</td><td>:</td><td>';
+
+          html += '<button type="button" ';
+          html += 'class="drivertimer-button" ';
+          html += 'title="stops the driver timer" ';
+          html += 'value="drivertimer" ';
+          html += 'onclick="cd.timer.stop();">';
+          html += 'off';
+          html += '</button>';
+
+          html += '<button type="button" ';
+          html += 'class="drivertimer-button" ';
+          html += 'title="starts the driver timer with a 5 minute interval" ';
+          html += 'value="drivertimer" ';
+          html += 'onclick="cd.timer.start(5);">';
+          html += '5';
+          html += '</button>';
+
+          html += '<button type="button" ';
+          html += 'class="drivertimer-button" ';
+          html += 'title="starts the driver timer with a 10 minute interval" ';
+          html += 'value="drivertimer" ';
+          html += 'onclick="cd.timer.start(10);">';
+          html += '10';
+          html += '</button>';
+
+          html += '</td></tr>';
+          <% end %>
           html += '</table>';
           html += '</div>';
 
