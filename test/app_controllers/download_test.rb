@@ -13,20 +13,20 @@ class DownloadControllerTest < AppControllerTestBase
 
   test 'C440EF',
   'download with empty id raises' do
-    prepare
-    assert_raises(StandardError) {
+    error = assert_raises(StandardError) {
       get 'downloader/download', 'id' => ''
     }
+    assert_equal 'StorerFake:invalid id', error.message
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'C44849',
   'download with bad id raises' do
-    prepare
-    assert_raises(StandardError) {
-      get 'downloader/download', 'id' => 'XX'+@id
+    error = assert_raises(StandardError) {
+      get 'downloader/download', 'id' => 'XX'
     }
+    assert_equal 'StorerFake:invalid_id', error.message
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -106,7 +106,7 @@ class DownloadControllerTest < AppControllerTestBase
         assert tag_dir.exists?('manifest.json'), "7.tag_dir.exists?('manifest.json')"
         expected = storer.tag_visible_files(@id, avatar.name, tag)
         actual = tag_dir.read_json('manifest.json')
-        assert_equal expected, actual, '8'
+        assert_equal expected, actual, '8.manifests are the same'
       end
     end
   end
