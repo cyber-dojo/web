@@ -26,7 +26,7 @@ class DownloadControllerTest < AppControllerTestBase
     error = assert_raises(StandardError) {
       get 'downloader/download', 'id' => 'XX'
     }
-    assert_equal 'StorerFake:invalid_id', error.message
+    assert_equal 'StorerFake:invalid id', error.message
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
