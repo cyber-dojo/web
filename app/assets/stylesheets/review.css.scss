@@ -82,6 +82,8 @@
     #next-avatar img, #next-tag img { padding: { left: 4px; right: 0px; } }
 
     .triangle.button {
+      width: 30px;
+      height: 30px;
       padding: 0px;
       border: 1px solid lighten($darker-color,6%);
       &:hover { border: 1px dotted lighten($darker-color,20%); }
