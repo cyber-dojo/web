@@ -21,13 +21,13 @@ services:
     build:
       context: .
       args:
-        CYBER_DOJO_HOME: /app
+        - CYBER_DOJO_HOME
     user: cyber-dojo
     image: cyberdojo/web
     container_name: cyber-dojo-web
     environment:
       - CYBER_DOJO_HOME
-      - CYBER_DOJO_ZIPPER_ROOT=/tmp_zipper
+      - CYBER_DOJO_ZIPPER_ROOT
     mem_limit: 2G
     memswap_limit: 2G
     restart: on-failure
@@ -47,7 +47,8 @@ services:
     container_name: cyber-dojo-storer
     read_only: true
     tmpfs: /tmp
-    environment: [ CYBER_DOJO_KATAS_ROOT=/tmp/cyber-dojo/katas ]
+    environment:
+      - CYBER_DOJO_KATAS_ROOT
     mem_limit: 2G
     memswap_limit: 2G
     restart: on-failure
@@ -101,12 +102,12 @@ services:
     volumes_from:
       - zipper-shared-tmp-container:rw
     environment:
-      - CYBER_DOJO_ZIPPER_ROOT=/tmp_zipper
+      - CYBER_DOJO_ZIPPER_ROOT
 
   zipper-shared-tmp-container:
     image: cyberdojo/zipper
     container_name: zipper-shared-tmp-container
     volumes:
-      - /tmp_zipper
-    command: "chown zipper:zipper /tmp_zipper"
+      - /${CYBER_DOJO_ZIPPER_ROOT}
+    command: "chown zipper:zipper ${CYBER_DOJO_ZIPPER_ROOT}"
 

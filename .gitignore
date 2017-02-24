@@ -14,6 +14,7 @@
 # and these files...
 
 !/.gitignore
+!/.env
 !/.dockerignore
 !/.travis.yml
 !/build.sh
