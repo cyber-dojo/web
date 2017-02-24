@@ -175,7 +175,7 @@ def gather_done(stats, totals)
      [ 'total failures == 0',            totals[:failure_count] == 0 ],
      [ 'total errors == 0',              totals[:error_count] == 0 ],
      [ 'total skips == 0',               totals[:skip_count] == 0 ],
-     [ 'total secs < 40',                totals[:time].to_f < 40 ],
+     [ 'total secs < 50',                totals[:time].to_f < 50 ],
      [ 'total assertions per sec > 75',  totals[:assertions_per_sec] > 75 ]
   ]
   done << coverage(stats, 'app_helpers')     if modules.include? 'app_helpers'
