@@ -4,7 +4,7 @@
 $(function() {
 
   $('#download-button').click(function() {
-    var url = '/downloader/download/' + "<%=@kata.id%>";
+    var url = '/download/' + "<%=@kata.id%>";
     window.location = url;
   });
 

@@ -69,7 +69,7 @@ CyberDojo::Application.routes.draw do
   get 'forker/fork(/:id)' => 'forker#fork'
   get 'reverter/revert'   => 'reverter#revert', :constraints => { :format => :json }
 
-  get 'downloader/download(/:id)' => 'downloader#download'
+  get '/download(/:id)' => 'downloader#download'
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
