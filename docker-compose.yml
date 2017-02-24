@@ -32,6 +32,10 @@ services:
     memswap_limit: 2G
     restart: on-failure
     depends_on:
+      - puller
+      - runner
+      - storer
+      - differ
       - zipper
       - zipper-shared-tmp-container
     volumes_from:
