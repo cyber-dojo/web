@@ -1,37 +1,50 @@
 
 <table id="navigate-control">
-
-  <tr valign="top">
+  <tr>
     <td align="right">
-      <button class="triangle button" id="prev-avatar">
-        <img src="/images/triangle_prev.gif"/>
-      </button>
+      <div id="fork-button-container"></div>
+      <div id="revert-button-container"></div>
+      <div id="close-button-container"></div>
     </td>
-    <td align="center">
-      <img id="avatar"
-           src="/images/avatars/<%= @avatar.name %>.jpg"/>
+    <td>
+      &nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;
     </td>
-    <td align="left">
-      <button class="triangle button" id="next-avatar">
-        <img src="/images/triangle_next.gif"/>
-      </button>
+    <td>
+      <table>
+        <tr>
+          <td align="right">
+            <button class="triangle button" id="prev-avatar">
+              <img src="/images/triangle_prev.gif"/>
+            </button>
+          </td>
+          <td align="center">
+            <img id="avatar"
+                 src="/images/avatars/<%= @avatar.name %>.jpg"/>
+          </td>
+          <td align="left">
+            <button class="triangle button" id="next-avatar">
+              <img src="/images/triangle_next.gif"/>
+            </button>
+          </td>
+        </tr>
+
+        <tr>
+          <td align="right">
+            <button class="triangle button" id="prev-tag">
+              <img src="/images/triangle_prev.gif" alt="move to previous diff"/>
+            </button>
+          </td>
+          <td align="center">
+            <div id="now-tag-number"/></div>
+          </td>
+          <td align="left">
+            <button class="triangle button" id="next-tag">
+              <img src="/images/triangle_next.gif" alt="move to next diff"/>
+            </button>
+          </td>
+        </tr>
+      </table>
     </td>
   </tr>
-
-  <tr valign="top">
-    <td align="right">
-      <button class="triangle button" id="prev-tag">
-        <img src="/images/triangle_prev.gif" alt="move to previous diff"/>
-      </button>
-    </td>
-    <td align="center">
-      <div id="now-tag-number"/></div>
-    </td>
-    <td align="left">
-      <button class="triangle button" id="next-tag">
-        <img src="/images/triangle_next.gif" alt="move to next diff"/>
-      </button>
-    </td>
-  </tr>
-
 </table>

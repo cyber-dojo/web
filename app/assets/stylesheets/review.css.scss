@@ -123,7 +123,7 @@
   .diff-line-numbers, .diff-sheet {
     @include code-font();
     background: lighten($darker-color, 3%);
-        height: 540px;
+        height: 580px;
         margin: 0px;
        padding: 0px;
         cursor: default;
@@ -201,8 +201,10 @@
 
   #fork-button, #revert-button, #close-button {
     @include non-code-font();
-    font-size: 17px;
+    font-size: 12px;
+    width: 75px;
     margin: { left: 3px; }
+    text-align: right;
   }
 
 }

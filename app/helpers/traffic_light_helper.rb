@@ -42,7 +42,7 @@ module TrafficLightHelper # mix-in
 
   def diff_avatar_image(avatar)
     "<div class='diff-traffic-light avatar-image'" +
-        " data-tip='Click to review #{avatar.name}#{apostrophe}s current code'" +
+        " data-tip='Review #{avatar.name}#{apostrophe}s current code'" +
         " data-id='#{avatar.kata.id}'" +
         " data-avatar-name='#{avatar.name}'" +
         " data-was-tag='-1'" +
