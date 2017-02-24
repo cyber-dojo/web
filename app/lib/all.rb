@@ -21,6 +21,7 @@
   differ_service
   ragger_service
   ragger_stub
+  zipper_service
 
 ).each { |sourcefile| require_relative './' + sourcefile }
 

@@ -1,6 +1,4 @@
 require_relative 'http_service'
-require 'json'
-require 'net/http'
 
 class StorerService
 

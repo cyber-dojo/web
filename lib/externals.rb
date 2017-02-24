@@ -12,6 +12,7 @@ module Externals # mix-in
   def storer; @storer ||= external; end
   def differ; @differ ||= external; end
   def ragger; @ragger ||= external; end
+  def zipper; @zipper ||= external; end
 
   private
 

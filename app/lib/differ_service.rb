@@ -1,7 +1,5 @@
 require_relative 'http_service'
 require_relative '../../lib/nearest_ancestors'
-require 'net/http'
-require 'json'
 
 class DifferService
 
