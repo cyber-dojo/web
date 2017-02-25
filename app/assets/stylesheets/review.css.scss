@@ -201,12 +201,17 @@
     &[disabled].some { color: lighten($diff-added-color,5%); }
   }
 
-  #fork-button, #revert-button, #close-button {
-    @include non-code-font();
-    font-size: 12px;
-    width: 75px;
-    margin: { left: 3px; }
-    text-align: right;
+  #buttons {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    #fork-button, #revert-button, #close-button {
+      @include non-code-font();
+      font-size: 13px;
+      width: 75px;
+      margin: { left: 3px; bottom: 2px; }
+      text-align: right;
+      padding: { right: 13px; bottom: 3px; }
+    }
   }
-
 }
