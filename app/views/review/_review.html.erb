@@ -594,19 +594,16 @@ $(function() {
 
 <table>
   <tr valign="top">
-    <td align="right" style="width:300px">
-      <%= render(:partial => 'review/diff_checkbox') %>
+    <td align="right" style="width:300px" rowspan="2">
+      <%= render(:partial => 'review/navigate_control') %>
+      <div id="diff-filenames"></div>
     </td>
-    <td colspan="2">
+    <td>
       <div id="review-traffic-lights"></div>
     </td>
   </tr>
   <tr valign="top">
-    <td align="right">
-      <%= render(:partial => 'review/navigate_control') %>
-      <div id="diff-filenames"></div>
-    </td>
-    <td colspan="2">
+    <td>
       <div id="diff-content"></div>
     </td>
   </tr>
