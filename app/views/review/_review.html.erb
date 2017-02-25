@@ -302,12 +302,10 @@ $(function() {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   var buildDiffFilenameHandlers = function(diffs) {
-
     // Builds click handlers for all filenames for a given
     // [ kata-id, animal-name, was-tag, now-tag] tuple.
     // When you open a new filename it auto-scrolls its first diff-chunk.
     // When you reclick a filename it auto-scrolls to its *next* diff-chunk.
-
     var previousFilenameNode;
     var alreadyOpened = [];
     var getFilename = function(node) { return $.trim(node.text()); };
@@ -316,9 +314,8 @@ $(function() {
     var diffFileDiv = function(filename) { return id(filename + '_diff_div'); };
 
     var loadFrom = function(diff) {
-
       var id = diff.id;
-      var filenameNode = $('#radio_' + id); // clash with kata-page filename when in dialog?
+      var filenameNode = $('#radio_' + id);
       var filename = getFilename(filenameNode);
       var sectionCount = diff.section_count;
       var diffSheet = diffFileContentFor(filename);
@@ -362,7 +359,7 @@ $(function() {
     }; // loadFrom()
 
     $.each(diffs, function(_n, diff) {
-      var filename = $('#radio_' + diff.id); // clash with kata-page filename when in dialog?
+      var filename = $('#radio_' + diff.id);
       filename.click(loadFrom(diff));
     });
   }; // buildDiffFilenameHandlers()
