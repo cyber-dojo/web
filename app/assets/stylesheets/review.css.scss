@@ -17,15 +17,6 @@
   background: $darker-color;
        color: $lighter-color;
 
-  #diff-checkbox-container {
-    @include edged-panel();
-    padding: { top: 2px; bottom: 2px; }
-    #diff-checkbox-title {
-      font-size: 25px;
-        display: inline;
-    }
-  }
-
   #review-traffic-lights {
        display: block;
         margin: { left: 4px; right: 0px; top: 5px; }
@@ -97,8 +88,8 @@
   #diff-filenames {
 
     @include right-align(0px);
-    height: 475px;
-    margin: { top: 15px; }
+    height: 525px;
+    margin: { top: 10px; }
 
     // make scrollbars invisible
     overflow-x: auto;
@@ -201,11 +192,21 @@
     &[disabled].some { color: lighten($diff-added-color,5%); }
   }
 
-  #buttons {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    #fork-button, #revert-button, #close-button {
+  #diff-checkbox-container {
+    @include edged-panel();
+    width: 61px;
+    padding: { top: 2px; bottom: 2px; }
+    #diff-checkbox-title {
+      font-size: 14px;
+        display: inline;
+        position: relative; bottom: 2px;
+    }
+    margin: { bottom: 5px; }
+  }
+
+  #feature-buttons {
+    position: absolute; top: 10px; left: 10px;
+    #fork-button, #revert-button {
       @include non-code-font();
       font-size: 13px;
       width: 75px;
@@ -213,5 +214,15 @@
       text-align: right;
       padding: { right: 13px; bottom: 3px; }
     }
+  }
+
+  #close-button {
+    position: absolute; bottom: 10px; left: 10px;
+    @include non-code-font();
+    font-size: 13px;
+    width: 75px;
+    margin: { left: 3px; bottom: 2px; }
+    text-align: right;
+    padding: { right: 13px; bottom: 3px; }
   }
 }
