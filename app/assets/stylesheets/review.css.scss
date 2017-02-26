@@ -88,8 +88,8 @@
   #diff-filenames {
 
     @include right-align(0px);
-    height: 525px;
-    margin: { top: 10px; }
+    height: 498px;
+    margin: { top: 5px; }
 
     // make scrollbars invisible
     overflow-x: auto;
@@ -201,7 +201,7 @@
         display: inline;
         position: relative; bottom: 2px;
     }
-    margin: { bottom: 5px; }
+    margin: { top: 5px; }
   }
 
   #feature-buttons {
