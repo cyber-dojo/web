@@ -173,7 +173,7 @@
     &[disabled]:hover { border: 1px solid lighten($darker-color,6%); }
     cursor: pointer;
 
-    &.none { background: lighten($darker-color,10%); }
+    &.none { color: transparent; }
 
     &[disabled] {
       background: lighten($darker-color,10%);
