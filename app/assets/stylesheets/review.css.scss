@@ -187,9 +187,16 @@
     background: $diff-deleted-color;
     &[disabled].some { color: lighten($diff-deleted-color,5%); }
   }
+  .diff-deleted-line-count.none {
+    background: lighten($darker-color,10%);
+  }
+
   .diff-added-line-count {
     background: $diff-added-color;
     &[disabled].some { color: lighten($diff-added-color,5%); }
+  }
+  .diff-added-line-count.none {
+    background: lighten($darker-color,10%);
   }
 
   #diff-checkbox-container {
