@@ -88,7 +88,7 @@
   #diff-filenames {
 
     @include right-align(0px);
-    height: 500px;
+    height: 490px;
     margin: { top: 5px; }
 
     // make scrollbars invisible
@@ -116,7 +116,7 @@
   .diff-line-numbers, .diff-sheet {
     @include code-font();
     background: lighten($darker-color, 3%);
-        height: 582px;
+        height: 572px;
         margin: 0px;
        padding: 0px;
         cursor: default;
@@ -205,14 +205,14 @@
   }
 
   #buttons {
-    position: absolute; bottom: 10px; left: 10px;
-    #fork-button, #revert-button, #close-button {
+    position: absolute; bottom: 40px; left: 10px;
+    #fork-button, #revert-button, #download-button, #close-button {
       @include non-code-font();
       font-size: 13px;
-      width: 60px;
+      width: 75px;
       margin: { left: 3px; bottom: 2px; }
       text-align: right;
-      padding: { right: 13px; bottom: 3px; }
+      padding: { right: 7px; bottom: 3px; }
     }
   }
 

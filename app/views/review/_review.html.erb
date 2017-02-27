@@ -451,8 +451,9 @@ $(function() {
       refreshAvatarControls();
       refreshTagControls();
       refreshFiles();
-      refreshRevertButton();
       refreshForkButton();
+      refreshRevertButton();
+      refreshDownloadButton();
       var light = $('img[src$="_bar.png"]');
       var options = { direction: 'horizontal', duration: 'slow' };
       light.scrollIntoView(options);
@@ -534,6 +535,28 @@ $(function() {
     });
   };
 
+  //-----------------------------------------
+  // refresh [download]
+  //-----------------------------------------
+
+  var refreshDownloadButton = function() {
+    var button = $('#download-button');
+    cd.setTip(button, function() {
+      var tip = 'Download files from ' + param.avatar + ' ' + param.nowTag;
+      cd.showHoverTip(button, tip);
+    });
+  };
+
+  var doDownload = function() {
+    var params = {
+          id: param.id,
+      avatar: param.avatar,
+         tag: param.nowTag
+    };
+    var url = '/download_tag/' + params.id + '/' + param.avatar + '/' + param.nowTag;
+    window.location = url;
+  };
+
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   var deleteAllCurrentFiles = function() {
@@ -563,6 +586,9 @@ $(function() {
       .text(name)
       .unbind('click')
       .bind('click', handler);
+    if (name == 'download') {
+      refreshDownloadButton();
+    }
     if (name == 'fork') {
       refreshForkButton();
     }
@@ -575,12 +601,14 @@ $(function() {
   //-----------------------------------------
 
   if (inDialog()) {
-    setupButton('close',  function() { $('#review-dialog').dialog('close'); });
-    setupButton('fork',   function() { doFork(); });
-    setupButton('revert', function() { doRevert(); });
+    setupButton('download', function() { doDownload(); })
+    setupButton('fork',     function() { doFork(); });
+    setupButton('revert',   function() { doRevert(); });
+    setupButton('close',    function() { $('#review-dialog').dialog('close'); });
   } else {
     reviewRefresh();
-    setupButton('fork', function() { doFork(); });
+    setupButton('download', function() { doDownload(); })
+    setupButton('fork',     function() { doFork(); });
   }
 
 });

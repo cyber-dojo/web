@@ -70,6 +70,7 @@ CyberDojo::Application.routes.draw do
   get 'reverter/revert'   => 'reverter#revert', :constraints => { :format => :json }
 
   get '/download(/:id)' => 'downloader#download'
+  get '/download_tag(/:id/:avatar/:tag)' => 'downloader#download_tag'
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
