@@ -601,15 +601,13 @@ $(function() {
   //-----------------------------------------
 
   if (inDialog()) {
-    setupButton('download', function() { doDownload(); })
-    setupButton('fork',     function() { doFork(); });
     setupButton('revert',   function() { doRevert(); });
     setupButton('close',    function() { $('#review-dialog').dialog('close'); });
   } else {
     reviewRefresh();
-    setupButton('download', function() { doDownload(); })
-    setupButton('fork',     function() { doFork(); });
   }
+  setupButton('download', function() { doDownload(); })
+  setupButton('fork',     function() { doFork(); });
 
 });
 

@@ -9,10 +9,4 @@ class DownloaderController < ApplicationController
     send_file zipper.zip_tag(id, avatar_name, tag)
   end
 
-  private
-
-  def tag
-    params[:tag].to_i
-  end
-
 end

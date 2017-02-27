@@ -23,6 +23,7 @@ class ApplicationController < ActionController::Base
   def avatar_name; params['avatar'    ]; end
   def was_tag    ; params['was_tag'   ].to_i; end
   def now_tag    ; params['now_tag'   ].to_i; end
+  def tag        ; params['tag'       ].to_i; end
 
   def kata       ; katas[id]           ; end
   def avatars    ; kata.avatars        ; end
