@@ -8,6 +8,8 @@ class DownloadControllerTest < AppControllerTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # download
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'C440EF',
   'download with empty id raises' do
@@ -72,6 +74,21 @@ class DownloadControllerTest < AppControllerTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # download_tag
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'C446F7',
+  'download_tag with empty kata_id raises' do
+    @id = ''
+    @avatar = 'salmon'
+    @tag = 0
+    error = assert_raises(StandardError) {
+      download_tag
+    }
+    assert error.message.end_with?'invalid kata_id', error.message
+  end
+
+  private
 
   def download
     get 'download', 'id' => @id
@@ -82,6 +99,10 @@ class DownloadControllerTest < AppControllerTestBase
     tmp_zipper = ENV['CYBER_DOJO_ZIPPER_ROOT']
     tgz_filename = "#{tmp_zipper}/#{@id}.tgz"
     assert File.exists? tgz_filename
+  end
+
+  def download_tag
+    get 'download_tag', 'id' => @id, 'avatar' => @avatar, 'tag' => @tag
   end
 
 end
