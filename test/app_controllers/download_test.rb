@@ -11,22 +11,22 @@ class DownloadControllerTest < AppControllerTestBase
 
   test 'C440EF',
   'download with empty id raises' do
+    @id = ''
     error = assert_raises(StandardError) {
-      @id = ''
       download
     }
-    assert_equal 'ZipperService:zip:Zipper:invalid kata_id', error.message
+    assert error.message.end_with?'invalid kata_id', error.message
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'C44849',
   'download with bad id raises' do
+    @id = 'XX'
     error = assert_raises(StandardError) {
-      @id = 'XX'
       download
     }
-    assert_equal 'ZipperService:zip:Zipper:invalid kata_id', error.message
+    assert error.message.end_with?'invalid kata_id', error.message
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -37,10 +37,10 @@ module HttpService # mix-in
   end
 
   def result(json, name)
-    raise error(name, 'bad json') unless json.class.name == 'Hash'
+    fail error(name, 'bad json') unless json.class.name == 'Hash'
     exception = json['exception']
-    raise error(name, exception)  unless exception.nil?
-    raise error(name, 'no key')   unless json.key? name
+    fail error(name, exception)  unless exception.nil?
+    fail error(name, 'no key')   unless json.key? name
     json[name]
   end
 

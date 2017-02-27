@@ -16,7 +16,7 @@ class StorerServiceTest < AppLibTestBase
   'non-existant kata-id raises exception' do
     kata_id = 'C6DCD7451A'
     error = assert_raises (StandardError) { storer.kata_manifest(kata_id) }
-    assert error.message.start_with?('StorerService:kata_manifest')
+    assert error.message.end_with?('invalid kata_id')
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
