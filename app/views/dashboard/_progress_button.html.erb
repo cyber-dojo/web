@@ -41,7 +41,8 @@ $(function() {
         autoOpen: true,
         modal: true,
         title: cd.dialogTitle('progress'),
-        buttons: { close: function() { $(this).remove(); } }
+        buttons: { close: function() { $(this).remove(); } },
+        width: 600
       });
 
       $('.avatar-image', node).click(function() {
