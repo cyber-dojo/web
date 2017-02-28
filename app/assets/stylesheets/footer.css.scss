@@ -17,19 +17,22 @@
          top: 3px;
   }
 
+  #help-button {
+    @include non-code-font();
+     padding: { right: 5px; bottom: 2px; }
+      margin: { top: 4px; }
+       color: darken($darker-color, 10%);
+  text-align: right;
+   font-size: 0.87em;
+       width: 40px;
+  }
+
   #tweet-container {
     #twitter-widget-0 {
       position: relative;
            top: 5px;
         margin: { top: 7px; }
     }
-  }
-
-  .bullet {
-    margin: { left: 10px; right: 10px; }
-
-    $bullet: "\2022";
-    &:after { content: $bullet; }
   }
 
   #accu-container {
@@ -50,20 +53,18 @@
     }
   }
 
-  #learn-more-button, #practice-details-button {
+  #options-button {
     @include non-code-font();
-       padding: { right: 10px; bottom: 2px; }
+       padding: { right: 5px; bottom: 2px; }
         margin: { top: 4px; }
          color: darken($darker-color, 10%);
     text-align: right;
      font-size: 0.87em;
+         width: 55px;
   }
-
-  #learn-more-button { width: 80px; }
-  #practice-details-button { width: 110px; }
 }
 
-#practice-details-dialog {
+#options-dialog {
   th:first-child, td:first-child {
     text-align: right;
   }
@@ -71,8 +72,7 @@
   #syntax-highlight-button {
     @include non-code-font();
     margin-top: 4px;
-    padding: .4em 1em;
-    background: #f6f0b9;
+    padding: { top: 2px; bottom: 2px; right: 5px; }
     color: darken($darker-color, 10%);
     text-align: center;
     font-size: 0.87em;

@@ -1,0 +1,56 @@
+<% id       = @kata.id[0..5] %>
+<% language = @kata.display_name.split(',')[0].strip %>
+<% test     = @kata.display_name.split(',')[1].strip %>
+
+<script type="text/javascript"><!--
+
+$(function() {
+
+  var tr = function(key,value) {
+    return '<tr><td>' + key + '</td><td>:</td><td>' + value + '</td></tr>';
+  };
+
+  var optionsDialog = function() {
+    var html = '';
+    html += '<div id="options-dialog">';
+    html += '<table style="border: 1px;">';
+    html += tr('id', '<%= id %>');
+    html += tr('language', '<%= language %>');
+    html += tr('test', '<%= test %>');
+    <% if @kata.exercise %>
+    html += '<tr><td>exercise</td><td>:</td><td><%= @kata.exercise.gsub('_',' ') %></td></tr>';
+    <% end %>
+    <% if defined?(show_syntax_highlight) and show_syntax_highlight %>
+    html += '<tr><td>syntax highlight</td><td>:</td>';
+    html += '<td><button type="button" ';
+    html += 'id="syntax-highlight-button" ';
+    html += 'title="toggles syntax highlighting" ';
+    html += 'value="syntax-highlight-toggle" ';
+    html += 'onclick="cd.toggleSyntaxHighlight();">';
+    html += 'toggle';
+    html += '</button></td></tr>';
+    <% end %>
+    html += '</table>';
+    html += '</div>';
+
+    var node = $(html);
+    node.dialog({
+        autoOpen: true,
+        modal: true,
+        title: cd.dialogTitle('options'),
+        buttons: { close: function() { $(this).remove(); } },
+        width: '350'
+    });
+  };
+
+  $('#options-button').click(function() { optionsDialog(); });
+
+});
+
+//--></script>
+
+<button type="button"
+        title="options details"
+        id="options-button">
+  options
+</button>
