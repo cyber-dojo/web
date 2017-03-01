@@ -70,6 +70,8 @@ class StartPoint
   end
 
   def progress_regexs
+    # Issue: [] is not a valid progress_regex. It needs two regexs.
+    # This affects zipper.zip_tag()
     manifest_property || []
   end
 
