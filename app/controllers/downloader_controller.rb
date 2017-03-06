@@ -1,12 +1,17 @@
+require 'base64'
 
 class DownloaderController < ApplicationController
 
   def download
-    send_file zipper.zip(id)
+    encoded = zipper.zip(id)
+    filename = "#{id}.tgz"
+    send_data Base64.decode64(encoded), :filename => filename
   end
 
   def download_tag
-    send_file zipper.zip_tag(id, avatar_name, tag)
+    encoded = zipper.zip_tag(id, avatar_name, tag)
+    filename = "#{id}_#{avatar_name}_#{tag}.tgz"
+    send_data Base64.decode64(encoded), :filename => filename
   end
 
 end

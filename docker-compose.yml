@@ -27,7 +27,6 @@ services:
     container_name: cyber-dojo-web
     environment:
       - CYBER_DOJO_HOME
-      - CYBER_DOJO_ZIPPER_ROOT
     mem_limit: 2G
     memswap_limit: 2G
     restart: on-failure
@@ -37,9 +36,6 @@ services:
       - storer
       - differ
       - zipper
-      - zipper-shared-tmp-container
-    volumes_from:
-      - zipper-shared-tmp-container:ro
     volumes:
       - languages:${CYBER_DOJO_HOME}/start_points/languages:ro
       - exercises:${CYBER_DOJO_HOME}/start_points/exercises:ro
@@ -102,16 +98,3 @@ services:
     restart: on-failure
     depends_on:
       - storer
-      - zipper-shared-tmp-container
-    volumes_from:
-      - zipper-shared-tmp-container:rw
-    environment:
-      - CYBER_DOJO_ZIPPER_ROOT
-
-  zipper-shared-tmp-container:
-    image: cyberdojo/zipper
-    container_name: zipper-shared-tmp-container
-    volumes:
-      - /${CYBER_DOJO_ZIPPER_ROOT}
-    command: "chown zipper:zipper ${CYBER_DOJO_ZIPPER_ROOT}"
-

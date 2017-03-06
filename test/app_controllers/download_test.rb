@@ -8,29 +8,7 @@ class DownloadControllerTest < AppControllerTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # download
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'C440EF',
-  'download with empty id raises' do
-    @id = ''
-    error = assert_raises(StandardError) {
-      download
-    }
-    assert error.message.end_with?'invalid kata_id', error.message
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'C44849',
-  'download with bad id raises' do
-    @id = 'XX'
-    error = assert_raises(StandardError) {
-      download
-    }
-    assert error.message.end_with?'invalid kata_id', error.message
-  end
-
+  # download: positive tests
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'C44561',
@@ -74,7 +52,46 @@ class DownloadControllerTest < AppControllerTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # download_tag
+  # download: negative tests
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'C440EF',
+  'download with empty id raises' do
+    @id = ''
+    error = assert_raises(StandardError) {
+      download
+    }
+    assert error.message.end_with? 'invalid kata_id', error.message
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'C44849',
+  'download with bad id raises' do
+    @id = 'XX'
+    error = assert_raises(StandardError) {
+      download
+    }
+    assert error.message.end_with? 'invalid kata_id', error.message
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # download_tag: positive test
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'C44A45',
+  'download_tag' do
+    prepare
+    start
+    @tag = 0; download_tag; assert_downloaded_tag
+    kata_edit
+    change_file('hiker.rb', 'def...')
+    run_tests
+    @tag = 1; download_tag; assert_downloaded_tag
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # download_tag: negative test
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'C446F7',
@@ -94,15 +111,16 @@ class DownloadControllerTest < AppControllerTestBase
     get 'download', 'id' => @id
   end
 
-  def assert_downloaded
-    assert_response :success
-    tmp_zipper = ENV['CYBER_DOJO_ZIPPER_ROOT']
-    tgz_filename = "#{tmp_zipper}/#{@id}.tgz"
-    assert File.exists? tgz_filename
+  def download_tag
+    get 'download_tag', 'id' => @id, 'avatar' => @avatar.name, 'tag' => @tag
   end
 
-  def download_tag
-    get 'download_tag', 'id' => @id, 'avatar' => @avatar, 'tag' => @tag
+  def assert_downloaded
+    assert_response :success
+  end
+
+  def assert_downloaded_tag
+    assert_response :success
   end
 
 end
