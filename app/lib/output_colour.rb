@@ -72,7 +72,11 @@ module OutputColour # mix-in
   end
 
   def self.parse_catch(output)
-    return :red   if /failed \(\d* assertion/.match(output)
+    # 1.8.1
+    return :red   if /assertions: \d+ | \d+ failed/.match(output)
+    return :red   if /assertions: \d+ | \d+ passed | \d+ failed/.match(output)
+    # 1.0
+    return :red   if /failed \(\d+ assertion/.match(output)
     return :green if /All tests passed/.match(output)
     return :amber
   end
