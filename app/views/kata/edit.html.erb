@@ -31,6 +31,7 @@ $(function() {
 
 <%= form_tag( { action: 'run_tests',
                 id: @kata.id,
+                image_name: @kata.image_name,
                 avatar: @avatar.name
               } ) do %>
 

@@ -11,7 +11,7 @@ class Avatar
 
   # modifiers
 
-  def test(delta, files, max_seconds)
+  def test(delta, files, max_seconds, image_name = kata.image_name)
     deleted_filenames = delta[:deleted]
     changed_files = {}
     delta[:new].each { |filename|
@@ -21,7 +21,7 @@ class Avatar
       changed_files[filename] = files[filename]
     }
     args = []
-    args << kata.image_name   # eg 'cyberdojofoundation/gcc_assert'
+    args << image_name        # eg 'cyberdojofoundation/gcc_assert'
     args << kata.id           # eg 'FE8A79A264'
     args << name              # eg 'salmon'
     args << deleted_filenames # eg [ 'instructions' ]

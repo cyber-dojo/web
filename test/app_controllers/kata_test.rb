@@ -15,25 +15,6 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'BE83FD',
-  'run_tests with good kata id but bad avatar name raises' do
-    # This raises because in kata_controller the line
-    #   @avatar.test runs with @avatar is nil
-    kata_id = create_gcc_assert_kata
-    @avatar = start
-    kata_edit
-    params = {
-      :format => :js,
-      :id     => kata_id,
-      :avatar => 'bad'
-    }
-    assert_raises(StandardError) {
-      post 'kata/run_tests', params.merge(@params_maker.params)
-    }
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test 'BE8222',
   'run tests that times_out' do
     kata_id = create_gcc_assert_kata
@@ -125,6 +106,25 @@ class KataControllerTest  < AppControllerTestBase
       runner.old_avatar(@kata.image_name, @kata.id, @avatar.name)
       runner.old_kata(@kata.image_name, @kata.id)
     end
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'BE83FD',
+  'run_tests with bad image_name raises and does not cause resurrection' do
+    set_runner_class('RunnerService')
+    kata_id = create_gcc_assert_kata
+    @avatar = start
+    kata_edit
+    params = {
+      :format => :js,
+      :id     => kata_id,
+      :image_name => 'does_not/exist',
+      :avatar => @avatar.name
+    }
+    assert_raises(StandardError) {
+      post 'kata/run_tests', params.merge(@params_maker.params)
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

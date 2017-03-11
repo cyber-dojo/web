@@ -77,7 +77,12 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   end
 
   def run_tests
-    params = { 'format' => 'js', 'id' => @id, 'avatar' => @avatar.name }
+    params = {
+      'format' => 'js',
+      'id' => @id,
+      'image_name' => katas[@id].image_name,
+      'avatar' => @avatar.name
+    }
     post 'kata/run_tests', params.merge(@params_maker.params)
     @params_maker = ParamsMaker.new(@avatar)
     assert_response :success

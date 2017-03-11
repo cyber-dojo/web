@@ -12,7 +12,7 @@ class KataController < ApplicationController
   end
 
   def run_tests
-    @avatar = avatar
+    @avatar = Avatar.new(kata, avatar_name)
     incoming = params[:file_hashes_incoming]
     outgoing = params[:file_hashes_outgoing]
     delta = FileDeltaMaker.make_delta(incoming, outgoing)
@@ -20,7 +20,7 @@ class KataController < ApplicationController
     max_seconds = 10
 
     begin
-      stdout,stderr,status = @avatar.test(delta, files, max_seconds)
+      stdout,stderr,status = @avatar.test(delta, files, max_seconds, image_name)
     rescue StandardError => error
       # Old kata could be being resumed
       # Runner implementation could have switched
