@@ -12,8 +12,6 @@
   display_names_splitter
   id_splitter
 
-  puller_service
-  puller_mock
   runner_service
   runner_stub
   storer_fake

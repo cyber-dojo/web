@@ -35,7 +35,6 @@ module TestExternalHelpers # mix-in
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def unset_puller_class; unset_class('puller'); end
   def unset_runner_class; unset_class('runner'); end
   def unset_storer_class; unset_class('storer'); end
   def unset_differ_class; unset_class('differ'); end
@@ -45,7 +44,6 @@ module TestExternalHelpers # mix-in
   def   unset_disk_class; unset_class(  'disk'); end
   def    unset_log_class; unset_class(   'log'); end
 
-  def   set_puller_class(value); set_class('puller', value); end
   def   set_runner_class(value); set_class('runner', value); end
   def   set_storer_class(value); set_class('storer', value); end
   def   set_differ_class(value); set_class('differ', value); end
@@ -55,7 +53,6 @@ module TestExternalHelpers # mix-in
   def     set_disk_class(value); set_class(  'disk', value); end
   def      set_log_class(value); set_class(   'log', value); end
 
-  def   get_puller_class; get_class('puller'); end
   def   get_runner_class; get_class('runner'); end
   def   get_storer_class; get_class('storer'); end
   def   get_differ_class; get_class('differ'); end

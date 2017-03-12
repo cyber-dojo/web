@@ -21,7 +21,6 @@ class DojoTest < AppModelsTestBase
   'using an unset external class raises StandardError' do
     error = StandardError
 
-    unset_puller_class && assert_raises(error) { puller.class }
     unset_runner_class && assert_raises(error) { runner.class }
     unset_storer_class && assert_raises(error) { storer.class }
     unset_ragger_class && assert_raises(error) { ragger.class }
@@ -47,7 +46,6 @@ class DojoTest < AppModelsTestBase
   'setting an external class to the name of an existing class succeeds' do
     exists = 'ExternalDouble'
 
-    set_puller_class(exists) && assert_equal(exists, puller.class.name)
     set_runner_class(exists) && assert_equal(exists, runner.class.name)
     set_storer_class(exists) && assert_equal(exists, storer.class.name)
     set_ragger_class(exists) && assert_equal(exists, ragger.class.name)
@@ -61,7 +59,6 @@ class DojoTest < AppModelsTestBase
   'setting an external class to the name of a non-existant class raises StandardError' do
     error = StandardError
 
-    set_puller_class(does_not_exist) && assert_raises(error) { puller.class }
     set_runner_class(does_not_exist) && assert_raises(error) { runner.class }
     set_storer_class(does_not_exist) && assert_raises(error) { storer.class }
     set_ragger_class(does_not_exist) && assert_raises(error) { ragger.class }

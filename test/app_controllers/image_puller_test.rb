@@ -20,39 +20,16 @@ class ImagePullerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
+=begin
   test '406596',
   'pulled? succeeds with true/false' do
-    set_puller_class('PullerMock')
-    image_name = "#{cdf}/csharp_moq"
-
-    puller.mock_pulled?(image_name, true)
-    do_get 'pulled', js(image_name)
-    assert json['result']
-
-    puller.mock_pulled?(image_name, false)
-    do_get 'pulled', js(image_name)
-    refute json['result']
-
-    puller.teardown
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
-  test '406A3D',
-  'pull succeeds with true/false' do
-    set_puller_class('PullerMock')
-    image_name = "#{cdf}/csharp_moq"
-
-    puller.mock_pull(image_name, true)
+    image_name = "#{cdf}/gcc_assert"
     do_get 'pull', js(image_name)
     assert json['result']
-
-    puller.mock_pull(image_name, false)
-    do_get 'pull', js(image_name)
-    refute json['result']
-
-    puller.teardown
+    do_get 'pulled', js(image_name)
+    assert json['result']
   end
+=end
 
   private
 
@@ -67,7 +44,8 @@ class ImagePullerTest < AppControllerTestBase
   def js(image_name)
     {
       format: :js,
-       image_name: image_name
+       image_name: image_name,
+       id: '9CBA773309'
     }
   end
 

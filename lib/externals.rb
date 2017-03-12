@@ -7,7 +7,6 @@ module Externals # mix-in
   def log  ; @log   ||= external; end
   def shell; @shell ||= external; end
 
-  def puller; @puller ||= external; end
   def runner; @runner ||= external; end
   def storer; @storer ||= external; end
   def differ; @differ ||= external; end
