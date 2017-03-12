@@ -28,7 +28,7 @@ class PullerMock
     @@pulled << [image_name, result]
   end
 
-  def pulled?(image_name)
+  def pulled?(image_name, _kata_id)
     if @@pulled == []
       error "no mock for pulled?(#{image_name})"
     end
@@ -48,7 +48,7 @@ class PullerMock
     @@pull << [image_name, result]
   end
 
-  def pull(image_name)
+  def pull(image_name, _kata_id)
     if @@pull == []
       error "no mock for pull(#{image_name})"
     end

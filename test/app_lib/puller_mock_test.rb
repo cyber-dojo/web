@@ -18,14 +18,14 @@ class PullerMockTest < AppLibTestBase
   test '05B866',
   'pulled? mocked true' do
     puller.mock_pulled? image_name, true
-    assert puller.pulled? image_name
+    assert puller.pulled? image_name, kata_id
     puller.teardown
   end
 
   test '05B867',
   'pulled? mocked false' do
     puller.mock_pulled? image_name, false
-    refute puller.pulled? image_name
+    refute puller.pulled? image_name, kata_id
     puller.teardown
   end
 
@@ -34,14 +34,14 @@ class PullerMockTest < AppLibTestBase
   test '05B868',
   'pull mocked true' do
     puller.mock_pull image_name, true
-    assert puller.pull image_name
+    assert puller.pull image_name, kata_id
     puller.teardown
   end
 
   test '05B869',
   'pull mocked false' do
     puller.mock_pull image_name, false
-    refute puller.pull image_name
+    refute puller.pull image_name, kata_id
     puller.teardown
   end
 
@@ -54,7 +54,7 @@ class PullerMockTest < AppLibTestBase
       puller.mock_pulled? image_name, true
     }
     tid.join
-    assert puller.pulled? image_name
+    assert puller.pulled? image_name, kata_id
     puller.teardown
   end
 
@@ -62,12 +62,12 @@ class PullerMockTest < AppLibTestBase
 
   test '05B444',
   'pulled? with no mocked pulled? raises' do
-    assert_error('no mock for pulled?(') { puller.pulled? image_name }
+    assert_error('no mock for pulled?(') { puller.pulled? image_name, kata_id }
   end
 
   test '05B445',
   'pull with no mocked pull raises' do
-    assert_error('no mock for pull(') { puller.pull image_name }
+    assert_error('no mock for pull(') { puller.pull image_name, kata_id }
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -76,7 +76,7 @@ class PullerMockTest < AppLibTestBase
   'pulled? with mock for different image_name raises' do
     puller.mock_pulled? 'X'+image_name, true
     assert_error("pulled?() expected:X#{image_name}, actual:#{image_name}") {
-      puller.pulled? image_name
+      puller.pulled? image_name, kata_id
     }
   end
 
@@ -84,7 +84,7 @@ class PullerMockTest < AppLibTestBase
   'pull with mock for different image_name raises' do
     puller.mock_pull 'X'+image_name, true
     assert_error("pull() expected:X#{image_name}, actual:#{image_name}") {
-      puller.pull image_name
+      puller.pull image_name, kata_id
     }
   end
 
@@ -127,6 +127,10 @@ class PullerMockTest < AppLibTestBase
 
   def image_name
     'cyberdojofoundation/nasm_assert'
+  end
+
+  def kata_id
+    'BE53FA3455'
   end
 
 end

@@ -6,10 +6,10 @@ class PullerServiceTest < AppLibTestBase
 
   test 'D4F808',
   'smoke test puller' do
-    refute puller.pulled? 'cyberdojo/non_existant'
+    refute puller.pulled? 'cyberdojo/non_existant', kata_id
     image_name = 'cyberdojofoundation/gcc_assert'
-    assert puller.pull image_name
-    assert puller.pulled? image_name
+    assert puller.pull image_name, kata_id
+    assert puller.pulled? image_name, kata_id
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -18,7 +18,7 @@ class PullerServiceTest < AppLibTestBase
   'smoke test pulled?() raises for invalid image_name' do
     invalid_image_names.each do |invalid_image_name|
       assert_raises_invalid_image('pulled?') {
-        puller.pulled?(invalid_image_name)
+        puller.pulled?(invalid_image_name, kata_id)
       }
     end
   end
@@ -27,7 +27,7 @@ class PullerServiceTest < AppLibTestBase
   'smoke test pull() raises for invalid image_name' do
     invalid_image_names.each do |invalid_image_name|
       assert_raises_invalid_image('pull') {
-        puller.pull(invalid_image_name)
+        puller.pull(invalid_image_name, kata_id)
       }
     end
   end
@@ -51,6 +51,10 @@ class PullerServiceTest < AppLibTestBase
       'alpha/name_',  # cannot end in separator
       'alpha/_name',  # cannot begin with separator
     ]
+  end
+
+  def kata_id
+    '263CEF6990'
   end
 
 end

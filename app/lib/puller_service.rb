@@ -6,17 +6,23 @@ class PullerService
   def initialize(_parent)
   end
 
-  def pulled?(image_name)
+  def pulled?(image_name, kata_id)
     name = __method__.to_s
-    json = http(name, { 'image_name' => image_name }) do |uri|
+    json = http(name, {
+      'image_name' => image_name,
+      'kata_id' => kata_id
+    }) do |uri|
       Net::HTTP::Get.new(uri)
     end
     result(json, name)
   end
 
-  def pull(image_name)
+  def pull(image_name, kata_id)
     name = __method__.to_s
-    json = http(name, { 'image_name' => image_name }) do |uri|
+    json = http(name, {
+      'image_name' => image_name,
+      'kata_id' => kata_id
+    }) do |uri|
       Net::HTTP::Post.new(uri)
     end
     result(json, name)

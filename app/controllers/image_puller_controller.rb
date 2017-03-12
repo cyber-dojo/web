@@ -3,7 +3,7 @@ class ImagePullerController < ApplicationController
 
   def pulled?
     begin
-      result = puller.pulled?(image_name)
+      result = puller.pulled?(image_name, id)
     rescue Exception => error
       #puts error.message
       result = false
@@ -13,7 +13,7 @@ class ImagePullerController < ApplicationController
 
   def pull
     begin
-      result = puller.pull(image_name)
+      result = puller.pull(image_name, id)
     rescue Exception => error
       #puts error.message
       result = false
