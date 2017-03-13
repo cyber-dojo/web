@@ -4,45 +4,45 @@ class ImagePullerTest < AppControllerTestBase
 
   test '406736', 'pulled?' do
     set_runner_class('RunnerService')
-    refute_pulled(invalid_image_name, valid_kata_id(true))
-    refute_pulled(valid_non_existent_image_name, valid_kata_id(false))
-    refute_pulled(valid_existing_image_name, valid_kata_id(false))
+    refute_image_pulled(invalid_image_name, valid_kata_id(true))
+    refute_image_pulled(valid_non_existent_image_name, valid_kata_id(false))
+    refute_image_pulled(valid_existing_image_name, valid_kata_id(false))
 
-    assert_pull(valid_existing_image_name, valid_kata_id(true))
-    assert_pulled(valid_existing_image_name, valid_kata_id(true))
+    assert_image_pull(valid_existing_image_name, valid_kata_id(true))
+    assert_image_pulled(valid_existing_image_name, valid_kata_id(true))
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test '406167', 'pull' do
     set_runner_class('RunnerService')
-    refute_pull(invalid_image_name, valid_kata_id(true))
-    refute_pull(valid_non_existent_image_name, valid_kata_id(false))
-    refute_pull(valid_existing_image_name, valid_kata_id(false))
-    assert_pull(valid_existing_image_name, valid_kata_id(true))
+    refute_image_pull(invalid_image_name, valid_kata_id(true))
+    refute_image_pull(valid_non_existent_image_name, valid_kata_id(false))
+    refute_image_pull(valid_existing_image_name, valid_kata_id(false))
+    assert_image_pull(valid_existing_image_name, valid_kata_id(true))
   end
 
   private
 
-  def assert_pulled(image_name, kata_id)
-    do_get 'pulled', image_name, kata_id
+  def assert_image_pulled(image_name, kata_id)
+    do_get 'image_pulled', image_name, kata_id
     assert_equal true, json['result']
   end
 
-  def refute_pulled(image_name, kata_id)
-    do_get 'pulled', image_name, kata_id
+  def refute_image_pulled(image_name, kata_id)
+    do_get 'image_pulled', image_name, kata_id
     assert_equal false, json['result']
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def assert_pull(image_name, kata_id)
-    do_get 'pull', image_name, kata_id
+  def assert_image_pull(image_name, kata_id)
+    do_get 'image_pull', image_name, kata_id
     assert_equal true, json['result']
   end
 
-  def refute_pull(image_name, kata_id)
-    do_get 'pull', image_name, kata_id
+  def refute_image_pull(image_name, kata_id)
+    do_get 'image_pull', image_name, kata_id
     assert_equal false, json['result']
   end
 

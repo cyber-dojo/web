@@ -4,7 +4,7 @@ var cyberDojo = (function(cd, $) {
   "use strict";
 
   cd.newDojoDialog = function(dojoParams, from) {
-    $.getJSON('/image_puller/pulled', dojoParams, function(pulled) {
+    $.getJSON('/image_puller/image_pulled', dojoParams, function(pulled) {
       if (!pulled.result) {
         dialog_pullImage(dojoParams, from);
       } else {
@@ -19,7 +19,7 @@ var cyberDojo = (function(cd, $) {
     var title = 'setting up a new practice session...';
     var pullingDialog = makePullingDialog(title, dojoParams);
     pullingDialog.dialog('open');
-    $.getJSON('/image_puller/pull', dojoParams, function(pull) {
+    $.getJSON('/image_puller/image_pull', dojoParams, function(pull) {
       pullingDialog.dialog('close');
       if (pull.result) {
         showNewDojoDialog(dojoParams, from);

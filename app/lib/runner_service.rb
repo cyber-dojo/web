@@ -7,11 +7,11 @@ class RunnerService
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def pulled?(image_name, kata_id)
+  def image_pulled?(image_name, kata_id)
     get(__method__, image_name, kata_id)
   end
 
-  def pull(image_name, kata_id)
+  def image_pull(image_name, kata_id)
     post(__method__, image_name, kata_id)
   end
 

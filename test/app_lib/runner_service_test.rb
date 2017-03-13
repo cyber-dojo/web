@@ -14,8 +14,8 @@ class RunnerServiceTest < AppLibTestBase
 
   test '2BD23CD3',
   'smoke test runner-service raising' do
-    assert_raises { runner.pulled?(nil, nil) }
-    assert_raises { runner.pull(nil, nil) }
+    assert_raises { runner.image_pulled?(nil, nil) }
+    assert_raises { runner.image_pull(nil, nil) }
     assert_raises { runner.new_kata(nil, nil) }
   end
 
@@ -24,10 +24,10 @@ class RunnerServiceTest < AppLibTestBase
   test '2BDF808102',
   'smoke test puller' do
     kata_id = '2BDF808102'
-    refute runner.pulled? 'cyberdojo/non_existant', kata_id
+    refute runner.image_pulled? 'cyberdojo/non_existant', kata_id
     image_name = 'cyberdojofoundation/gcc_assert'
-    assert runner.pull image_name, kata_id
-    assert runner.pulled? image_name, kata_id
+    assert runner.image_pull image_name, kata_id
+    assert runner.image_pulled? image_name, kata_id
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -

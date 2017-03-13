@@ -1,9 +1,9 @@
 
 class ImagePullerController < ApplicationController
 
-  def pulled?
+  def image_pulled?
     begin
-      result = runner.pulled?(image_name, id)
+      result = runner.image_pulled?(image_name, id)
     rescue Exception => error
       #puts error.message
       result = false
@@ -11,9 +11,9 @@ class ImagePullerController < ApplicationController
     render json: { result:result }
   end
 
-  def pull
+  def image_pull
     begin
-      result = runner.pull(image_name, id)
+      result = runner.image_pull(image_name, id)
     rescue Exception => error
       #puts error.message
       result = false

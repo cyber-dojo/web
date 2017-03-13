@@ -32,8 +32,8 @@ CyberDojo::Application.routes.draw do
   end
 
   scope path: '/image_puller', controller: :image_puller do
-    get 'pulled' => :pulled?, :constraints => { :format => :json }
-    get 'pull'   => :pull,    :constraints => { :format => :json }
+    get 'image_pulled' => :image_pulled?, :constraints => { :format => :json }
+    get 'image_pull'   => :image_pull,    :constraints => { :format => :json }
   end
 
   scope path: '/enter', controller: :enter do
