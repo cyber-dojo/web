@@ -14,14 +14,11 @@ class DifferService
     # and its docker-compose.yml
     args = [kata_id, avatar_name, was_tag, now_tag]
     visible_files = storer.tags_visible_files(*args)
-    was_files = visible_files['was_tag']
-    now_files = visible_files['now_tag']
     args = {
-      :was_files => was_files,
-      :now_files => now_files
+      :was_files => visible_files['was_tag'],
+      :now_files => visible_files['now_tag']
     }
-    json = http('diff', args) { |uri| Net::HTTP::Get.new(uri) }
-    result(json, 'diff')
+    http('diff', args) { |uri| Net::HTTP::Get.new(uri) }
   end
 
   private

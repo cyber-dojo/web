@@ -10,15 +10,13 @@ module HttpService # mix-in
     json = http(name, args_hash(name, *args)) { |uri|
       Net::HTTP::Get.new(uri)
     }
-    result(json, name)
   end
 
   def post(method, *args)
     name = method.to_s
-    json = http(name, args_hash(name, *args)) { |uri|
+    http(name, args_hash(name, *args)) { |uri|
       Net::HTTP::Post.new(uri)
     }
-    result(json, name)
   end
 
   def http(method, args)
@@ -26,9 +24,10 @@ module HttpService # mix-in
     request = yield uri.request_uri
     request.content_type = 'application/json'
     request.body = args.to_json
-    http = Net::HTTP.new(uri.host, uri.port)
-    response = http.request(request)
-    JSON.parse(response.body)
+    service = Net::HTTP.new(uri.host, uri.port)
+    response = service.request(request)
+    json = JSON.parse(response.body)
+    result(json, method)
   end
 
   def args_hash(method, *args)

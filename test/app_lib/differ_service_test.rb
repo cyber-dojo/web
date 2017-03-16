@@ -20,7 +20,6 @@ class DifferServiceTest < AppLibTestBase
     assert_equal({
       "type"=>"same", "line"=>"#include \"hiker.h\"", "number"=>1
     }, actual['hiker.c'][0])
-
   end
 
 end
