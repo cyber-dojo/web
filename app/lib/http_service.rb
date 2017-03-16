@@ -7,7 +7,7 @@ module HttpService # mix-in
 
   def get(method, *args)
     name = method.to_s
-    json = http(name, args_hash(name, *args)) { |uri|
+    http(name, args_hash(name, *args)) { |uri|
       Net::HTTP::Get.new(uri)
     }
   end
