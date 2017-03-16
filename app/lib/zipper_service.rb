@@ -6,11 +6,11 @@ class ZipperService
   end
 
   def zip(kata_id)
-    get(__method__, kata_id)
+    http_get(__method__, kata_id)
   end
 
   def zip_tag(kata_id, avatar_name, tag)
-    get(__method__, kata_id, avatar_name, tag)
+    http_get(__method__, kata_id, avatar_name, tag)
   end
 
   private

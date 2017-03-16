@@ -14,11 +14,15 @@ class DifferService
     # and its docker-compose.yml
     args = [kata_id, avatar_name, was_tag, now_tag]
     visible_files = storer.tags_visible_files(*args)
-    args = {
+    #args = {
+    #  :was_files => visible_files['was_tag'],
+    #  :now_files => visible_files['now_tag']
+    #}
+    #http('diff', args) { |uri| Net::HTTP::Get.new(uri) }
+    http_get_hash('diff', {
       :was_files => visible_files['was_tag'],
       :now_files => visible_files['now_tag']
-    }
-    http('diff', args) { |uri| Net::HTTP::Get.new(uri) }
+    })
   end
 
   private

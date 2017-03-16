@@ -5,36 +5,43 @@ module HttpService # mix-in
 
   module_function
 
-  def get(method, *args)
-    name = method.to_s
-    http(name, args_hash(name, *args)) { |uri|
-      Net::HTTP::Get.new(uri)
-    }
+  def http_get(method, *args)
+    http_get_hash(method, args_hash(method, *args))
   end
 
-  def post(method, *args)
-    name = method.to_s
-    http(name, args_hash(name, *args)) { |uri|
-      Net::HTTP::Post.new(uri)
-    }
+  def http_get_hash(method, args)
+    http(method, args) { |uri| Net::HTTP::Get.new(uri) }
+  end
+
+  # - - - - - - - - - - - - - - - - - - -
+
+  def http_post(method, *args)
+    http_post_hash(method, args_hash(method, *args))
+  end
+
+  def http_post_hash(method, args)
+    http(method, args) { |uri| Net::HTTP::Post.new(uri) }
+  end
+
+  # - - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - - - - -
+
+  def args_hash(method, *args)
+    parameters = self.class.instance_method(method.to_s).parameters
+    Hash[parameters.map.with_index { |parameter,index|
+      [parameter[1], args[index]]
+    }]
   end
 
   def http(method, args)
-    uri = URI.parse("http://#{hostname}:#{port}/" + method)
+    uri = URI.parse("http://#{hostname}:#{port}/" + method.to_s)
     request = yield uri.request_uri
     request.content_type = 'application/json'
     request.body = args.to_json
     service = Net::HTTP.new(uri.host, uri.port)
     response = service.request(request)
     json = JSON.parse(response.body)
-    result(json, method)
-  end
-
-  def args_hash(method, *args)
-    parameters = self.class.instance_method(method).parameters
-    Hash[parameters.map.with_index { |parameter,index|
-      [parameter[1], args[index]]
-    }]
+    result(json, method.to_s)
   end
 
   def result(json, name)
