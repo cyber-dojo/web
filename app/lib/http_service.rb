@@ -3,6 +3,8 @@ require 'net/http'
 
 module HttpService # mix-in
 
+  module_function
+
   def get(method, *args)
     name = method.to_s
     json = http(name, args_hash(name, *args)) { |uri|
@@ -21,10 +23,10 @@ module HttpService # mix-in
 
   def http(method, args)
     uri = URI.parse("http://#{hostname}:#{port}/" + method)
-    http = Net::HTTP.new(uri.host, uri.port)
     request = yield uri.request_uri
     request.content_type = 'application/json'
     request.body = args.to_json
+    http = Net::HTTP.new(uri.host, uri.port)
     response = http.request(request)
     JSON.parse(response.body)
   end
