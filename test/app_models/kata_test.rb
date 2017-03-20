@@ -198,13 +198,13 @@ class KataTest < AppModelsTestBase
   'when collector has collected the runner containers/volumes' do
     set_runner_class('RunnerService')
     kata = make_kata
-    runner.old_kata(kata.image_name, kata.id)
+    runner.kata_old(kata.image_name, kata.id)
     begin
       avatar = kata.start_avatar
-      runner.old_avatar(kata.image_name, kata.id, avatar.name)
+      runner.avatar_old(kata.image_name, kata.id, avatar.name)
       refute_nil avatar
     ensure
-      runner.old_kata(kata.image_name, kata.id)
+      runner.kata_old(kata.image_name, kata.id)
     end
   end
 

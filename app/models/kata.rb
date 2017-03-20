@@ -14,14 +14,14 @@ class Kata
     name = storer.start_avatar(id, avatar_names)
     unless name.nil?
       begin
-        runner.new_avatar(image_name, id, name, visible_files)
+        runner.avatar_new(image_name, id, name, visible_files)
       rescue StandardError => error
         # Old kata could be being resumed
         # Runner implementation could have switched
-        no_kata = (error.message == 'RunnerService:new_avatar:kata_id:!exists')
+        no_kata = (error.message == 'RunnerService:avatar_new:kata_id:!exists')
         raise error unless no_kata
-        runner.new_kata(image_name, id)
-        runner.new_avatar(image_name, id, name, visible_files)
+        runner.kata_new(image_name, id)
+        runner.avatar_new(image_name, id, name, visible_files)
       end
     end
     name.nil? ? nil : Avatar.new(self, name)

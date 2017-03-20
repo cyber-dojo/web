@@ -86,13 +86,13 @@ class KataController < ApplicationController
   end
 
   def resurrect_kata
-    runner.new_kata(kata.image_name, kata.id)
+    runner.kata_new(kata.image_name, kata.id)
   end
 
   def resurrect_avatar
     args = [ kata.image_name, kata.id, @avatar.name ]
     args << @avatar.visible_files
-    runner.new_avatar(*args)
+    runner.avatar_new(*args)
   end
 
   def resurrect_run_tests(files, max_seconds)

@@ -44,7 +44,7 @@ class TipTest < AppHelpersTestBase
 
     actual = traffic_light_tip_html(diff, lion, was_tag, now_tag)
     assert_equal expected, actual
-    runner.old_kata(kata.image_name, kata.id)
+    runner.kata_old(kata.image_name, kata.id)
   end
 
 end

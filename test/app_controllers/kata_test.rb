@@ -51,7 +51,7 @@ class KataControllerTest  < AppControllerTestBase
       run_tests
       assert_file makefile, makefile_with_leading_tab
     ensure
-      runner.old_kata(@kata.image_name, @kata.id)
+      runner.kata_old(@kata.image_name, @kata.id)
     end
   end
 
@@ -70,7 +70,7 @@ class KataControllerTest  < AppControllerTestBase
       run_tests
       assert_file makefile, makefile_with_leading_tab
     ensure
-      runner.old_kata(@kata.image_name, @kata.id)
+      runner.kata_old(@kata.image_name, @kata.id)
     end
   end
 
@@ -103,8 +103,8 @@ class KataControllerTest  < AppControllerTestBase
       output = @avatar.visible_files['output']
       refute output.include?(filename), output
     ensure
-      runner.old_avatar(@kata.image_name, @kata.id, @avatar.name)
-      runner.old_kata(@kata.image_name, @kata.id)
+      runner.avatar_old(@kata.image_name, @kata.id, @avatar.name)
+      runner.kata_old(@kata.image_name, @kata.id)
     end
   end
 
@@ -152,7 +152,7 @@ class KataControllerTest  < AppControllerTestBase
       # viz with (core dumped) appended
     end
 
-    runner.old_avatar(@kata.image_name, @kata.id, @avatar.name)
+    runner.avatar_old(@kata.image_name, @kata.id, @avatar.name)
     begin
       change_file('hiker.c', content('hiker.c').sub('6 * 9', '6 * 7'))
       hit_test # 2
@@ -162,8 +162,8 @@ class KataControllerTest  < AppControllerTestBase
       assert diff['hiker.c'].include?({"type"=>"deleted", "line"=>"    return 6 * 9;", "number"=>5})
       assert diff['hiker.c'].include?({"type"=>"added",   "line"=>"    return 6 * 7;", "number"=>5})
     ensure
-      runner.old_avatar(@kata.image_name, @kata.id, @avatar.name)
-      runner.old_kata(@kata.image_name, @kata.id)
+      runner.avatar_old(@kata.image_name, @kata.id, @avatar.name)
+      runner.kata_old(@kata.image_name, @kata.id)
     end
   end
 
@@ -192,8 +192,8 @@ class KataControllerTest  < AppControllerTestBase
       # viz with (core dumped) appended
     end
 
-    runner.old_avatar(@kata.image_name, @kata.id, @avatar.name)
-    runner.old_kata(@kata.image_name, @kata.id)
+    runner.avatar_old(@kata.image_name, @kata.id, @avatar.name)
+    runner.kata_old(@kata.image_name, @kata.id)
     begin
       change_file('hiker.c', content('hiker.c').sub('6 * 9', '6 * 7'))
       hit_test # 2
@@ -203,8 +203,8 @@ class KataControllerTest  < AppControllerTestBase
       assert diff['hiker.c'].include?({"type"=>"deleted", "line"=>"    return 6 * 9;", "number"=>5})
       assert diff['hiker.c'].include?({"type"=>"added",   "line"=>"    return 6 * 7;", "number"=>5})
     ensure
-      runner.old_avatar(@kata.image_name, @kata.id, @avatar.name)
-      runner.old_kata(@kata.image_name, @kata.id)
+      runner.avatar_old(@kata.image_name, @kata.id, @avatar.name)
+      runner.kata_old(@kata.image_name, @kata.id)
     end
   end
 

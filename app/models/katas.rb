@@ -32,7 +32,7 @@ class Katas
     storer.create_kata(manifest)
     id = manifest['id']
     image_name = manifest['image_name']
-    runner.new_kata(image_name, id)
+    runner.kata_new(image_name, id)
     self[id]
   end
 
