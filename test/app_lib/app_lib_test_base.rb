@@ -6,7 +6,7 @@ class AppLibTestBase < TestBase
     {
       'id'            => kata_id,
       'visible_files' => starting_files,
-      'image_name'    => 'cyberdojofoundation/gcc_assert',
+      'image_name'    => "#{cdf}/gcc_assert",
       'created'       => creation_time,
       'tab_size'      => 4
     }

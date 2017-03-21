@@ -2,6 +2,15 @@ require_relative 'app_lib_test_base'
 
 class RaggerServiceTest < AppLibTestBase
 
+  test '1821A3',
+  'using image_name as key to get rag-lambda which will ultimately',
+  'be embedded inside the image itself' do
+    gcc_red_output = 'Assertion failed:'
+    assert_equal 'red', ragger.colour("#{cdf}/gcc_assert", nil, gcc_red_output)
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - -
+
   test '182F5B',
   'before start-points volume re-architecture',
   'colour of output is determined by OutputColour.of()' do
@@ -10,7 +19,7 @@ class RaggerServiceTest < AppLibTestBase
     manifest['unit_test_framework'] = 'junit'
     storer.create_kata(manifest)
     kata = katas[kata_id]
-    assert_equal 'red', ragger.colour(kata, red_output)
+    assert_equal 'red', ragger.colour(kata.image_name, kata.id, red_output)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - -
@@ -29,7 +38,7 @@ class RaggerServiceTest < AppLibTestBase
     ]
     storer.create_kata(manifest)
     kata = katas[kata_id]
-    assert_equal 'red', ragger.colour(kata, red_output)
+    assert_equal 'red', ragger.colour(kata.image_name, kata.id, red_output)
   end
 
   private

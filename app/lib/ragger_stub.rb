@@ -12,7 +12,7 @@ class RaggerStub
     dir.write(filename, rag)
   end
 
-  def colour(_kata, _output)
+  def colour(_image_name, _id, _output)
     dir.read(filename)
   end
 

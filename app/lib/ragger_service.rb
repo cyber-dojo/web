@@ -8,8 +8,15 @@ class RaggerService
 
   attr_reader :parent
 
-  def colour(kata, output)
-    manifest = storer.kata_manifest(kata.id)
+  def colour(image_name, id, output)
+
+    if image_name == "#{cdf}/gcc_assert"
+      src = gcc_assert
+      rag = eval(src.join("\n"))
+      return rag.call(output).to_s
+    end
+
+    manifest = storer.kata_manifest(id)
     # before or after start-points re-architecture?
     src = manifest['red_amber_green']
     if src.nil? # before
@@ -25,5 +32,16 @@ class RaggerService
 
   include NearestAncestors
   def storer; nearest_ancestors(:storer); end
+
+  def cdf; 'cyberdojofoundation'; end
+
+  def gcc_assert
+    [ 'lambda { |output|',
+        'return :red   if /(.*)Assertion(.*)failed./.match(output)',
+        'return :green if /(All|\d+) tests passed/.match(output)',
+        'return :amber',
+      '}'
+    ]
+  end
 
 end

@@ -42,4 +42,8 @@ module TestDomainHelpers # mix-in
     'Fizz_Buzz'
   end
 
+  def cdf
+    'cyberdojofoundation'
+  end
+
 end
