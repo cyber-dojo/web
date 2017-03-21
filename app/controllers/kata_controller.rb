@@ -47,7 +47,7 @@ class KataController < ApplicationController
       @test_colour = 'timed_out'
     else
       @output = stdout + stderr
-      @test_colour = ragger.colour(image_name, id, @output)
+      @test_colour = ragger.colour(image_name, id, stdout, stderr)
     end
 
     @avatar.tested(files, time_now, @output, @test_colour)

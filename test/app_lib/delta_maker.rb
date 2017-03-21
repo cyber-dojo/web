@@ -45,8 +45,8 @@ class DeltaMaker
     delta = make_delta(@was, @now)
     stub_colour(:red) if @stubbed.nil?
     stdout,stderr,status = @avatar.test(delta, visible_files, max_seconds)
+    colour = ragger.colour(@avatar.kata.image_name, @avatar.kata.id, stdout, stderr)
     output = stdout + stderr
-    colour = ragger.colour(@avatar.kata, output)
     @avatar.tested(visible_files, at, output, colour)
     [delta, visible_files, output]
   end

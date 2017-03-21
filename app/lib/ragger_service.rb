@@ -8,15 +8,15 @@ class RaggerService
 
   attr_reader :parent
 
-  def colour(image_name, id, output)
-
+  def colour(image_name, kata_id, stdout, stderr)
+    output = stdout + stderr
     if image_name == "#{cdf}/gcc_assert"
-      src = gcc_assert
-      rag = eval(src.join("\n"))
+      src = gcc_assert.join("\n")
+      rag = eval(src)
       return rag.call(output).to_s
     end
 
-    manifest = storer.kata_manifest(id)
+    manifest = storer.kata_manifest(kata_id)
     # before or after start-points re-architecture?
     src = manifest['red_amber_green']
     if src.nil? # before

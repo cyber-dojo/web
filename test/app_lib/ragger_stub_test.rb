@@ -19,7 +19,7 @@ class RaggerStubTest < AppLibTestBase
   'stub_colour stubs given colour for subsequent run' do
     [:red, :amber, :green].each do |colour|
       ragger.stub_colour(colour)
-      assert_equal colour, ragger.colour(image_name=nil, id=nil, output=nil)
+      assert_equal colour, ragger.colour(image_name, kata_id, stdout, stderr)
     end
   end
 
@@ -31,10 +31,17 @@ class RaggerStubTest < AppLibTestBase
     ragger.stub_colour(:green)
     stubbed_colour = nil
     tid = Thread.new {
-      stubbed_colour = ragger.colour(image_name=nil, id=nil, output=nil)
+      stubbed_colour = ragger.colour(image_name, kata_id, stdout, stderr)
     }
     tid.join
     assert_equal :green, stubbed_colour
   end
+
+  private
+
+  def image_name; nil; end
+  def kata_id; nil; end
+  def stdout; nil; end
+  def stderr; nil; end
 
 end
