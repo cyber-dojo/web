@@ -20,7 +20,7 @@ class KataController < ApplicationController
     max_seconds = 10
 
     begin
-      stdout,stderr,status = @avatar.test(delta, files, max_seconds, image_name)
+      stdout,stderr,status,colour = @avatar.test(delta, files, max_seconds, image_name)
     rescue StandardError => error
       # Old kata could be being resumed
       # Runner implementation could have switched
@@ -28,10 +28,10 @@ class KataController < ApplicationController
         when 'RunnerService:run:kata_id:!exists'
           resurrect_kata
           resurrect_avatar
-          stdout,stderr,status = resurrect_run_tests(files, max_seconds)
+          stdout,stderr,status,colour = resurrect_run_tests(files, max_seconds)
         when 'RunnerService:run:avatar_name:!exists'
           resurrect_avatar
-          stdout,stderr,status = resurrect_run_tests(files, max_seconds)
+          stdout,stderr,status,colour = resurrect_run_tests(files, max_seconds)
         else
           raise error
       end
@@ -45,9 +45,12 @@ class KataController < ApplicationController
         'Please try again.'
       ].join("\n")
       @test_colour = 'timed_out'
+    elsif colour.nil?
+      @output = stdout + stderr
+      @test_colour = ragger.colour(id, stdout, stderr)
     else
       @output = stdout + stderr
-      @test_colour = ragger.colour(image_name, id, stdout, stderr)
+      @test_colour = colour
     end
 
     @avatar.tested(files, time_now, @output, @test_colour)

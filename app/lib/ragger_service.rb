@@ -8,14 +8,13 @@ class RaggerService
 
   attr_reader :parent
 
-  def colour(image_name, kata_id, stdout, stderr)
+  def colour(kata_id, stdout, stderr)
+    # Only called if runner.run() returns colour=nil
+    # Causes an extra trip to the storer-service to
+    # retrieve the manifest.
+    # The plan is to make runner.run() always return a
+    # non-nil colour and then deprecate this.
     output = stdout + stderr
-    if image_name == "#{cdf}/gcc_assert"
-      src = gcc_assert.join("\n")
-      rag = eval(src)
-      return rag.call(output).to_s
-    end
-
     manifest = storer.kata_manifest(kata_id)
     # before or after start-points re-architecture?
     src = manifest['red_amber_green']
@@ -32,16 +31,5 @@ class RaggerService
 
   include NearestAncestors
   def storer; nearest_ancestors(:storer); end
-
-  def cdf; 'cyberdojofoundation'; end
-
-  def gcc_assert
-    [ 'lambda { |output|',
-        'return :red   if /(.*)Assertion(.*)failed./.match(output)',
-        'return :green if /(All|\d+) tests passed/.match(output)',
-        'return :amber',
-      '}'
-    ]
-  end
 
 end

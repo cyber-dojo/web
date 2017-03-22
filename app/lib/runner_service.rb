@@ -40,7 +40,7 @@ class RunnerService
   def run(image_name, kata_id, avatar_name, deleted_filenames, changed_files, max_seconds)
     args = [image_name, kata_id, avatar_name, deleted_filenames, changed_files, max_seconds]
     sss = http_post(__method__, *args)
-    [sss['stdout'], sss['stderr'], sss['status']]
+    [sss['stdout'], sss['stderr'], sss['status'], sss['colour']]
   end
 
   private
