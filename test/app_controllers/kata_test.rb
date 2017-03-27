@@ -132,7 +132,7 @@ class KataControllerTest  < AppControllerTestBase
   test 'BE8555',
   'avatar.test() for an old avatar seamlessly resurrects' do
     # Note: the kata-controller validates the kata-id and the avatar-name
-    # (via the host-katas-storer) so there is no path from the browser to
+    # (via the storer) so there is no path from the browser to
     # get runner.run to accept unvalidated arguments.
     set_runner_class('RunnerService')
     create_gcc_assert_kata
@@ -171,9 +171,6 @@ class KataControllerTest  < AppControllerTestBase
 
   test 'BE8E40',
   'avatar.test() for an old kata seamlessly resurrects' do
-    # Note: the kata-controller validates the kata-id and the avatar-name
-    # (via the host-katas-storer) so there is no path from the browser to
-    # get runner.run to accept unvalidated arguments.
     set_runner_class('RunnerService')
     create_gcc_assert_kata
     @avatar = start # 0

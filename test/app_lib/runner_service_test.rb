@@ -34,7 +34,7 @@ class RunnerServiceTest < AppLibTestBase
 
   test '2BDAD80812',
   'smoke test runner-service colour is nil' do
-    image_name = 'cyberdojofoundation/java_junit'
+    image_name = 'cyberdojofoundation/visual-basic_nunit'
     kata_id = '2BDAD80812'
     runner.kata_new(image_name, kata_id)
     runner.avatar_new(image_name, kata_id, lion, starting_files)

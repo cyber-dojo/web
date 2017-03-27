@@ -11,6 +11,7 @@ script:
     # pull images used in tests so test-duration does not include pull time
     - docker pull cyberdojofoundation/gcc_assert:latest
     - docker pull cyberdojofoundation/ruby_test_unit:latest
+    - docker pull cyberdojofoundation/visual-basic_nunit:latest
     #
     - ./pipe_build_up_test.sh \
         && ./push_and_trigger.sh cyber-dojo/system-tests
