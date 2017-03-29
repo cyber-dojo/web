@@ -23,7 +23,6 @@ class DojoTest < AppModelsTestBase
 
     unset_runner_class && assert_raises(error) { runner.class }
     unset_storer_class && assert_raises(error) { storer.class }
-    unset_ragger_class && assert_raises(error) { ragger.class }
 
     unset_shell_class  && assert_raises(error) {  shell.class }
     unset_disk_class   && assert_raises(error) {   disk.class }
@@ -48,7 +47,6 @@ class DojoTest < AppModelsTestBase
 
     set_runner_class(exists) && assert_equal(exists, runner.class.name)
     set_storer_class(exists) && assert_equal(exists, storer.class.name)
-    set_ragger_class(exists) && assert_equal(exists, ragger.class.name)
 
     set_shell_class( exists) && assert_equal(exists,  shell.class.name)
     set_disk_class(  exists) && assert_equal(exists,   disk.class.name)
@@ -61,7 +59,6 @@ class DojoTest < AppModelsTestBase
 
     set_runner_class(does_not_exist) && assert_raises(error) { runner.class }
     set_storer_class(does_not_exist) && assert_raises(error) { storer.class }
-    set_ragger_class(does_not_exist) && assert_raises(error) { ragger.class }
 
     set_shell_class( does_not_exist) && assert_raises(error) {  shell.class }
     set_disk_class(  does_not_exist) && assert_raises(error) {   disk.class }

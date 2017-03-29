@@ -35,17 +35,10 @@ class DeltaMaker
     @now[filename] = content
   end
 
-  def stub_colour(colour)
-    ragger.stub_colour(colour)
-    @stubbed = true
-  end
-
   def run_test(at = time_now)
     visible_files = now
     delta = make_delta(@was, @now)
-    stub_colour(:red) if @stubbed.nil?
     stdout,stderr,status,colour = @avatar.test(delta, visible_files, max_seconds)
-    colour ||= ragger.colour(@avatar.kata.id, stdout, stderr)
     output = stdout + stderr
     @avatar.tested(visible_files, at, output, colour)
     [delta, visible_files, output]
@@ -78,8 +71,5 @@ class DeltaMaker
   def refute(&pred)
     fail RuntimeError.new('DeltaMaker.refute') if pred.call
   end
-
-  include NearestAncestors
-  def ragger; nearest_ancestors(:ragger, @avatar); end
 
 end

@@ -22,7 +22,6 @@ end
   cd_env_name('runner_class') => 'RunnerService', # src -> output
   cd_env_name('storer_class') => 'StorerService', # src,output,traffic-light
   cd_env_name('differ_class') => 'DifferService', # (src,src) -> diff
-  cd_env_name('ragger_class') => 'RaggerService', # output -> traffic-light
   cd_env_name('zipper_class') => 'ZipperService',
 
   cd_env_name('disk_class')  => 'DiskHost',

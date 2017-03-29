@@ -4,7 +4,6 @@ class AppModelsTestBase < TestBase
 
   def setup
     super
-    set_ragger_class('RaggerStub')
   end
 
   def correct_path_format?(object)

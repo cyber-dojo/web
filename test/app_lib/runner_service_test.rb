@@ -33,8 +33,8 @@ class RunnerServiceTest < AppLibTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '2BDAD80812',
-  'smoke test runner-service colour is nil' do
-    image_name = 'cyberdojofoundation/visual-basic_nunit'
+  'smoke test runner-service colour is red-amber-green traffic-light' do
+    image_name = 'cyberdojofoundation/gcc_assert'
     kata_id = '2BDAD80812'
     runner.kata_new(image_name, kata_id)
     runner.avatar_new(image_name, kata_id, lion, starting_files)
@@ -46,8 +46,8 @@ class RunnerServiceTest < AppLibTestBase
     args << starting_files
     args << (max_seconds = 10)
     begin
-      stdout,stderr,status,colour = runner.run(*args)
-      assert_nil colour
+      _stdout,_stderr,_status,colour = runner.run(*args)
+      assert_equal 'red', colour
     ensure
       runner.avatar_old(image_name, kata_id, lion)
       runner.kata_old(image_name, kata_id)

@@ -10,7 +10,6 @@ module Externals # mix-in
   def runner; @runner ||= external; end
   def storer; @storer ||= external; end
   def differ; @differ ||= external; end
-  def ragger; @ragger ||= external; end
   def zipper; @zipper ||= external; end
 
   private
@@ -32,7 +31,7 @@ end
 # environment variable and then run a controller test which issues
 # GETs/POSTs, which work their way through the rails stack, eventually
 # reaching app/models/dojo.rb (possibly in a different thread)
-# where the specificied Double/Mock/Stub class or path takes effect.
+# where the specificied Double/Mock/Stub/Fake class or path takes effect.
 #
 # The external objects are held using
 #    @name ||= ...

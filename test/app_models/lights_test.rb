@@ -18,24 +18,23 @@ class LightsTest < AppModelsTestBase
 
   test '88106F',
   'lights not empty' do
-    set_ragger_class('RaggerStub')
     kata = make_kata
     puffin = kata.start_avatar(['puffin'])
     maker = DeltaMaker.new(puffin)
 
-    ragger.stub_colour(:red)
+    runner.stub_run_colour('red')
     maker.run_test(red_time=[2014, 2, 15, 8, 54, 6])
     lights = puffin.lights
     assert_equal 1, lights.count
     assert_equal_light 1, :red, Time.mktime(*red_time), lights[0]
 
-    ragger.stub_colour(:amber)
+    runner.stub_run_colour('amber')
     maker.run_test(amber_time=[2014, 2, 15, 8, 54, 34])
     lights = puffin.lights
     assert_equal 2, lights.count
     assert_equal_light 2, :amber, Time.mktime(*amber_time), lights[1]
 
-    ragger.stub_colour(:green)
+    runner.stub_run_colour('green')
     maker.run_test(green_time=[2014, 2, 15, 8, 55, 7])
     lights = puffin.lights
     assert_equal 3, lights.count

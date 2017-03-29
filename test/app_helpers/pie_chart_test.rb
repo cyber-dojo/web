@@ -7,16 +7,13 @@ class PieChartTest < AppHelpersTestBase
 
   test '10E59E',
   'pie-chart from avatar.lights' do
-
-    set_ragger_class('RaggerStub')
-
     kata = make_kata
     lion = kata.start_avatar(['lion'])
 
     maker = DeltaMaker.new(lion)
-    maker.stub_colour(:red)
+    runner.stub_run_colour('red')
     maker.run_test
-    maker.stub_colour(:green)
+    runner.stub_run_colour('green')
     maker.run_test
 
     size = 34

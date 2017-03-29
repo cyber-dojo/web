@@ -16,16 +16,20 @@ class RunnerStub
 
   # - - - - - - - - - - - - - - - - -
 
-  def stub_run(stdout, stderr='', status=0)
+  def stub_run_colour(colour)
+    stub_run('', '', 0, colour)
+  end
+
+  def stub_run(stdout, stderr='', status=0, colour='red')
     dir.make
-    dir.write(filename, [stdout,stderr,status])
+    dir.write(filename, [stdout,stderr,status,colour])
   end
 
   def run(_image_name, _kata_id, _name, _deleted_filenames, _changed_files, _max_seconds)
     if dir.exists?
       dir.read(filename)
     else
-      ['blah blah blah', '', 0]
+      ['blah blah blah', '', 0, 'red']
     end
   end
 

@@ -45,9 +45,6 @@ class KataController < ApplicationController
         'Please try again.'
       ].join("\n")
       @test_colour = 'timed_out'
-    elsif colour.nil?
-      @output = stdout + stderr
-      @test_colour = ragger.colour(id, stdout, stderr)
     else
       @output = stdout + stderr
       @test_colour = colour

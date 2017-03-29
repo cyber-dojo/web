@@ -65,15 +65,14 @@ class LightTest < AppModelsTestBase
 
   test 'AC9722',
   'each test creates a new light' do
-    set_ragger_class('RaggerStub')
     kata = make_kata
     lion = kata.start_avatar(['lion'])
     maker = DeltaMaker.new(lion)
-    ragger.stub_colour(:red)
+    runner.stub_run_colour('red')
     maker.run_test
-    ragger.stub_colour(:amber)
+    runner.stub_run_colour('amber')
     maker.run_test
-    ragger.stub_colour(:green)
+    runner.stub_run_colour('green')
     maker.run_test
     lights = lion.lights
     assert_equal 3, lights.length
