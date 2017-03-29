@@ -63,8 +63,7 @@ class Kata
 
   def unit_test_framework
     # not stored in manifest after start-point
-    # volume re-architecture which replaced it
-    # with red_amber_green lambda
+    # volume re-architecture
     manifest_property
   end
 
@@ -103,10 +102,6 @@ class Kata
   end
 
   def lowlight_filenames
-    full_manifest_property
-  end
-
-  def red_amber_green
     full_manifest_property
   end
 

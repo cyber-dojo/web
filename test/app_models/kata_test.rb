@@ -212,18 +212,9 @@ class KataTest < AppModelsTestBase
 
   test '677E1A',
   'after start-points rearchitecture',
-  'unit_test_framework is nil',
-  'red_amber_green returns the lamda source' do
+  'unit_test_framework is nil' do
     kata = make_kata
-    expected = [
-      "lambda { |output|",
-      "  return :red   if /(.*)Assertion(.*)failed./.match(output)",
-      "  return :green if /(All|\\d*) tests passed/.match(output)",
-      "  return :amber",
-      "}"
-    ]
     assert_nil kata.unit_test_framework
-    assert_equal expected, kata.red_amber_green
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

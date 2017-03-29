@@ -24,7 +24,6 @@ class StartPoint
           'progress_regexs' => progress_regexs,
       'highlight_filenames' => highlight_filenames,
        'lowlight_filenames' => lowlight_filenames,
-          'red_amber_green' => red_amber_green,
                  'language' => name,
                  'tab_size' => tab_size
     }
@@ -43,10 +42,6 @@ class StartPoint
   def image_name
     # See comments below
     @image_name ||= manifest_property
-  end
-
-  def red_amber_green
-    manifest_property
   end
 
   def visible_filenames
