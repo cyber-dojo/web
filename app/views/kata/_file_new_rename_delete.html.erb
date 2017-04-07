@@ -105,7 +105,6 @@ $(function() {
     if (cd.filenameAlreadyExists(filename)) { return false; }
     if (contains('..')) { return false; }
     if (contains('\\')) { return false; }
-    if (contains('/'))  { return false; }
     if (contains(' '))  { return false; }
     if (filename == '') { return false; }
     return true;
