@@ -37,9 +37,18 @@ class RunnerService
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def run(image_name, kata_id, avatar_name, deleted_filenames, changed_files, max_seconds)
-    args = [image_name, kata_id, avatar_name, deleted_filenames, changed_files, max_seconds]
-    sss = http_post(__method__, *args)
+  def run(image_name, kata_id, avatar_name, max_seconds, delta, files)
+    new_files     = files.select { |filename| delta[:new    ].include? filename }
+    changed_files = files.select { |filename| delta[:changed].include? filename }
+
+    sss = http_post_hash(__method__, {
+             image_name:image_name,
+                kata_id:kata_id,
+            avatar_name:avatar_name,
+      deleted_filenames:delta[:deleted],
+          changed_files:new_files.merge(changed_files),
+            max_seconds:max_seconds
+    })
     [sss['stdout'], sss['stderr'], sss['status'], sss['colour']]
   end
 

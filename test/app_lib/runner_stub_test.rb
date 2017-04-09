@@ -85,9 +85,9 @@ class RunnerStubTest < AppLibTestBase
     args << (image_name = nil)
     args << (kata_id = nil)
     args << (avatar_name = nil)
-    args << (deleted_filenames = nil)
-    args << (changed_files = nil)
     args << (max_seconds = nil)
+    args << (delta = nil)
+    args << (files = nil)
     args
   end
 

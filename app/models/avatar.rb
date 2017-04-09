@@ -12,15 +12,13 @@ class Avatar
   # modifiers
 
   def test(delta, files, max_seconds, image_name = kata.image_name)
-    new_files     = files.select { |filename| delta[:new    ].include? filename }
-    changed_files = files.select { |filename| delta[:changed].include? filename }
     args = []
     args << image_name        # eg 'cyberdojofoundation/gcc_assert'
     args << kata.id           # eg 'FE8A79A264'
     args << name              # eg 'salmon'
-    args << delta[:deleted]   # eg [ 'instructions' ]
-    args << new_files.merge(changed_files) # eg { 'hiker.h' => ... 'hiker.c' => ... }
     args << max_seconds       # eg 10
+    args << delta
+    args << files
     runner.run(*args)
   end
 
