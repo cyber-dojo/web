@@ -9,8 +9,8 @@ module HttpService # mix-in
     http_get_hash(method, args_hash(method, *args))
   end
 
-  def http_get_hash(method, args)
-    http(method, args) { |uri| Net::HTTP::Get.new(uri) }
+  def http_get_hash(method, args_hash)
+    http(method, args_hash) { |uri| Net::HTTP::Get.new(uri) }
   end
 
   # - - - - - - - - - - - - - - - - - - -
@@ -19,8 +19,8 @@ module HttpService # mix-in
     http_post_hash(method, args_hash(method, *args))
   end
 
-  def http_post_hash(method, args)
-    http(method, args) { |uri| Net::HTTP::Post.new(uri) }
+  def http_post_hash(method, args_hash)
+    http(method, args_hash) { |uri| Net::HTTP::Post.new(uri) }
   end
 
   # - - - - - - - - - - - - - - - - - - -
