@@ -1,7 +1,7 @@
 require 'json'
 require 'net/http'
 
-module HttpService # mix-in
+module HttpHelper # mix-in
 
   module_function
 

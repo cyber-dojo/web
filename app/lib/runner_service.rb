@@ -1,4 +1,4 @@
-require_relative 'http_service'
+require_relative 'http_helper'
 
 class RunnerService
 
@@ -77,7 +77,7 @@ class RunnerService
     http_post(method, *args)
   end
 
-  include HttpService
+  include HttpHelper
   attr_reader :hostname, :port
 
   def set_hostname_port_for(image_name)

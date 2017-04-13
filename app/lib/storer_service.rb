@@ -1,4 +1,4 @@
-require_relative 'http_service'
+require_relative 'http_helper'
 
 class StorerService
 
@@ -73,7 +73,7 @@ class StorerService
 
   private
 
-  include HttpService
+  include HttpHelper
   def hostname; 'storer'; end
   def port; 4577; end
 

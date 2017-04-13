@@ -1,4 +1,4 @@
-require_relative 'http_service'
+require_relative 'http_helper'
 require_relative '../../lib/nearest_ancestors'
 
 class DifferService
@@ -10,15 +10,8 @@ class DifferService
   attr_reader :parent
 
   def diff(kata_id, avatar_name, was_tag, now_tag)
-    # See https://github.com/cyber-dojo/commander
-    # and its docker-compose.yml
     args = [kata_id, avatar_name, was_tag, now_tag]
     visible_files = storer.tags_visible_files(*args)
-    #args = {
-    #  :was_files => visible_files['was_tag'],
-    #  :now_files => visible_files['now_tag']
-    #}
-    #http('diff', args) { |uri| Net::HTTP::Get.new(uri) }
     http_get_hash('diff', {
       :was_files => visible_files['was_tag'],
       :now_files => visible_files['now_tag']
@@ -27,7 +20,7 @@ class DifferService
 
   private
 
-  include HttpService
+  include HttpHelper
   def hostname; 'differ'; end
   def port; 4567; end
 

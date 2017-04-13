@@ -1,4 +1,4 @@
-require_relative 'http_service'
+require_relative 'http_helper'
 
 class ZipperService
 
@@ -15,7 +15,7 @@ class ZipperService
 
   private
 
-  include HttpService
+  include HttpHelper
   def hostname; 'zipper'; end
   def port; 4587; end
 
