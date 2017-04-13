@@ -10,7 +10,8 @@ module HttpService # mix-in
   end
 
   def http_get_hash(method, args_hash)
-    http(method, args_hash) { |uri| Net::HTTP::Get.new(uri) }
+    json = http('GET', hostname, port, method, args_hash)
+    result(json, method.to_s)
   end
 
   # - - - - - - - - - - - - - - - - - - -
@@ -20,7 +21,8 @@ module HttpService # mix-in
   end
 
   def http_post_hash(method, args_hash)
-    http(method, args_hash) { |uri| Net::HTTP::Post.new(uri) }
+    json = http('POST', hostname, port, method, args_hash)
+    result(json, method.to_s)
   end
 
   # - - - - - - - - - - - - - - - - - - -
@@ -33,15 +35,15 @@ module HttpService # mix-in
     }]
   end
 
-  def http(method, args)
+  def http(gp, hostname, port, method, named_args)
     uri = URI.parse("http://#{hostname}:#{port}/" + method.to_s)
-    request = yield uri.request_uri
+    request = Net::HTTP:: Get.new(uri) if gp == 'GET'
+    request = Net::HTTP::Post.new(uri) if gp == 'POST'
     request.content_type = 'application/json'
-    request.body = args.to_json
+    request.body = named_args.to_json
     service = Net::HTTP.new(uri.host, uri.port)
     response = service.request(request)
-    json = JSON.parse(response.body)
-    result(json, method.to_s)
+    JSON.parse(response.body)
   end
 
   def result(json, name)
