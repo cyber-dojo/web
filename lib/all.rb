@@ -13,6 +13,7 @@
   string_cleaner
 
   http
+  http_spy
   disk_host
   dir_host
   shell_host

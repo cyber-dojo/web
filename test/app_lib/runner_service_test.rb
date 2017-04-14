@@ -61,4 +61,47 @@ class RunnerServiceTest < AppLibTestBase
     end
   end
 
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '2BDF80874C',
+  "run() with image_name that does not end in 'stateless'",
+  'delegates to stateful runner',
+  'args include deleted_filenames and changed_files' do
+    @http = HttpSpy.new(nil)
+    args = []
+    args << (image_name = 'cyberdojofoundation/gcc_assert')
+    args << (kata_id = '2BDAD8074C')
+    args << (avatar_name = lion)
+    args << (max_seconds = 10)
+    args << (delta = { :deleted => [], :new => [],:changed => {} })
+    args << (files = {})
+    runner.run(*args)
+    assert @http.spied_hostname? 'runner'
+    assert @http.spied_named_arg? :deleted_filenames
+    assert @http.spied_named_arg? :changed_files
+    refute @http.spied_named_arg? :visible_files
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '2BDF808601',
+  "run() with image_name that ends in 'stateless'",
+  'delegates to stateless runner',
+  'args do not include deleted_filenames or changed_files',
+  'but do include visible_files' do
+    @http = HttpSpy.new(nil)
+    args = []
+    args << (image_name = 'cyberdojofoundation/gcc_assert_stateless')
+    args << (kata_id = '2BDAD80601')
+    args << (avatar_name = lion)
+    args << (max_seconds = 10)
+    args << (delta = { :deleted => [], :new => [],:changed => {} })
+    args << (files = {})
+    runner.run(*args)
+    assert @http.spied_hostname? 'runner_stateless'
+    refute @http.spied_named_arg? :deleted_filenames
+    refute @http.spied_named_arg? :changed_files
+    assert @http.spied_named_arg? :visible_files
+  end
+
 end
