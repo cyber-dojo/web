@@ -10,6 +10,7 @@
   display_names_splitter
   id_splitter
 
+  http_helper
   runner_service
   runner_stub
   storer_fake
