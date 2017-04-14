@@ -3,6 +3,9 @@ require_relative '../../lib/disk_fake'
 class RunnerStub
 
   def initialize(_parent)
+    # This is @@disk and not @disk so that it behaves as
+    # a real disk on tests that run across multiple threads
+    # (as some app-controller tests do).
     @@disk ||= DiskFake.new(self)
   end
 
@@ -52,7 +55,3 @@ class RunnerStub
   end
 
 end
-
-# In app_controller tests the stub and call
-# calls happen in different threads so disk is
-# @@ class variable and not @ instance variable.
