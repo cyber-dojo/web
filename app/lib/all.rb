@@ -9,6 +9,7 @@
   dashboard_td_gapper
   display_names_splitter
   id_splitter
+  image_name_splitter
 
   http_helper
   runner_service
