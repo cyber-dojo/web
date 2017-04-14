@@ -1,4 +1,5 @@
 require_relative 'http_helper'
+require_relative 'image_name_splitter'
 
 class RunnerService
 
@@ -92,18 +93,10 @@ class RunnerService
     !tagless(image_name).end_with?('stateless')
   end
 
+  include ImageNameSplitter
   def tagless(image_name)
-    # http://stackoverflow.com/questions/37861791/
-    # https://github.com/docker/docker/blob/master/image/spec/v1.1.md
-    # Simplified, no hostname
-    alpha_numeric = '[a-z0-9]+'
-    separator = '[_.-]+'
-    component = "#{alpha_numeric}(#{separator}#{alpha_numeric})*"
-    name = "#{component}(/#{component})*"
-    tag = '[\w][\w.-]{0,127}'
-    md = /^(#{name})(:#{tag})?$/o.match(image_name)
-    return image_name if md.nil?
-    md[1]
+    o = split_image_name(image_name)
+    o[:name]
   end
 
 end
