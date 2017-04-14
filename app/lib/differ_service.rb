@@ -1,5 +1,4 @@
 require_relative 'http_helper'
-require_relative '../../lib/nearest_ancestors'
 
 class DifferService
 
@@ -24,7 +23,6 @@ class DifferService
   def hostname; 'differ'; end
   def port; 4567; end
 
-  include NearestAncestors
   def storer; nearest_ancestors(:storer); end
 
 end

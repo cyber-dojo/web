@@ -12,6 +12,7 @@
   unique_id
   string_cleaner
 
+  http
   disk_host
   dir_host
   shell_host

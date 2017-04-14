@@ -2,8 +2,11 @@ require_relative 'http_helper'
 
 class ZipperService
 
-  def initialize(_parent)
+  def initialize(parent)
+    @parent = parent
   end
+
+  attr_reader :parent
 
   def zip(kata_id)
     http_get(__method__, kata_id)

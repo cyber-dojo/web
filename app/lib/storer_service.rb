@@ -2,8 +2,11 @@ require_relative 'http_helper'
 
 class StorerService
 
-  def initialize(_parent)
+  def initialize(parent)
+    @parent = parent
   end
+
+  attr_reader :parent
 
   # - - - - - - - - - - - -
 

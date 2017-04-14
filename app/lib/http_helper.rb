@@ -1,5 +1,4 @@
-require 'json'
-require 'net/http'
+require '../../lib/nearest_ancestors'
 
 module HttpHelper # mix-in
 
@@ -9,19 +8,19 @@ module HttpHelper # mix-in
     http_get_hash(method, args_hash(method, *args))
   end
 
-  def http_get_hash(method, args_hash)
-    json = http('GET', hostname, port, method, args_hash)
-    result(json, method.to_s)
-  end
-
-  # - - - - - - - - - - - - - - - - - - -
-
   def http_post(method, *args)
     http_post_hash(method, args_hash(method, *args))
   end
 
+  # - - - - - - - - - - - - - - - - - - -
+
+  def http_get_hash(method, args_hash)
+    json = http.get(hostname, port, method, args_hash)
+    result(json, method.to_s)
+  end
+
   def http_post_hash(method, args_hash)
-    json = http('POST', hostname, port, method, args_hash)
+    json = http.post(hostname, port, method, args_hash)
     result(json, method.to_s)
   end
 
@@ -35,17 +34,6 @@ module HttpHelper # mix-in
     }]
   end
 
-  def http(gp, hostname, port, method, named_args)
-    uri = URI.parse("http://#{hostname}:#{port}/" + method.to_s)
-    request = Net::HTTP:: Get.new(uri) if gp == 'GET'
-    request = Net::HTTP::Post.new(uri) if gp == 'POST'
-    request.content_type = 'application/json'
-    request.body = named_args.to_json
-    service = Net::HTTP.new(uri.host, uri.port)
-    response = service.request(request)
-    JSON.parse(response.body)
-  end
-
   def result(json, name)
     fail error(name, 'bad json') unless json.class.name == 'Hash'
     exception = json['exception']
@@ -57,5 +45,8 @@ module HttpHelper # mix-in
   def error(name, message)
     StandardError.new("#{self.class.name}:#{name}:#{message}")
   end
+
+  include NearestAncestors
+  def http; nearest_ancestors(:http); end
 
 end
