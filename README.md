@@ -11,3 +11,4 @@
 - Uses the [runner](https://github.com/cyber-dojo/runner) to run each avatar's tests.
 - Uses the [storer](https://github.com/cyber-dojo/storer) to save the code/tests associated with each avatar's test.
 - Uses the [differ](https://github.com/cyber-dojo/differ) to diff the code/tests in successive avatar's tests.
+- Uses the [zipper](https://github.com/cyber-dojo/zipper) to create tgz kata/avtar downloads
