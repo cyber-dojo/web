@@ -17,23 +17,23 @@ class KataControllerTest  < AppControllerTestBase
 
   test 'BE8222',
   'run tests that times_out' do
-    kata_id = create_gcc_assert_kata
-    @avatar = start
-    kata_edit
-    runner.stub_run(stdout='',stderr='',status='timed_out')
-    run_tests
+    in_kata {
+      kata_edit
+      runner.stub_run(stdout='',stderr='',status='timed_out')
+      run_tests
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'BE80F6',
   'edit and then run-tests' do
-    create_gcc_assert_kata
-    @avatar = start
-    kata_edit
-    run_tests
-    change_file('hiker.h', 'syntax-error')
-    run_tests
+    in_kata {
+      kata_edit
+      run_tests
+      change_file('hiker.h', 'syntax-error')
+      run_tests
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -42,18 +42,13 @@ class KataControllerTest  < AppControllerTestBase
   'run_tests() saves changed makefile with leading spaces converted to tabs',
   'and these changes are made to the visible_files parameter too',
   'so they also occur in the manifest file' do
-    create_gcc_assert_kata
-    @avatar = start
-    begin
+    in_kata {
       kata_edit
       run_tests
       change_file(makefile, makefile_with_leading_spaces)
       run_tests
       assert_file makefile, makefile_with_leading_tab
-    ensure
-      runner.avatar_old(@kata.image_name, @kata.id, @avatar.name)
-      runner.kata_old(@kata.image_name, @kata.id)
-    end
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -62,18 +57,13 @@ class KataControllerTest  < AppControllerTestBase
   'run_tests() saves *new* makefile with leading spaces converted to tabs',
   'and these changes are made to the visible_files parameter too',
   'so they also occur in the manifest file' do
-    create_gcc_assert_kata
-    @avatar = start
-    begin
+    in_kata {
       delete_file(makefile)
       run_tests
       new_file(makefile, makefile_with_leading_spaces)
       run_tests
       assert_file makefile, makefile_with_leading_tab
-    ensure
-      runner.avatar_old(@kata.image_name, @kata.id, @avatar.name)
-      runner.kata_old(@kata.image_name, @kata.id)
-    end
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -82,9 +72,7 @@ class KataControllerTest  < AppControllerTestBase
   'when cyber-dojo.sh removes a file then it stays removed.',
   '(viz, RunnerService is stateful)' do
     set_runner_class('RunnerService')
-    create_gcc_assert_kata
-    @avatar = start
-    begin
+    in_kata {
       before = content('cyber-dojo.sh')
       filename = 'wibble.txt'
       create_file = "touch #{filename} &&  ls -al && #{before}"
@@ -104,10 +92,7 @@ class KataControllerTest  < AppControllerTestBase
       hit_test
       output = @avatar.visible_files['output']
       refute output.include?(filename), output
-    ensure
-      runner.avatar_old(@kata.image_name, @kata.id, @avatar.name)
-      runner.kata_old(@kata.image_name, @kata.id)
-    end
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -115,9 +100,7 @@ class KataControllerTest  < AppControllerTestBase
   test 'BE83FD',
   'run_tests with bad image_name raises and does not cause resurrection' do
     set_runner_class('RunnerService')
-    kata_id = create_gcc_assert_kata
-    @avatar = start
-    begin
+    in_kata { |kata_id|
       kata_edit
       params = {
         :format => :js,
@@ -128,10 +111,7 @@ class KataControllerTest  < AppControllerTestBase
       assert_raises(StandardError) {
         post 'kata/run_tests', params.merge(@params_maker.params)
       }
-    ensure
-      runner.avatar_old(@kata.image_name, @kata.id, @avatar.name)
-      runner.kata_old(@kata.image_name, @kata.id)
-    end
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -142,25 +122,24 @@ class KataControllerTest  < AppControllerTestBase
     # (via the storer) so there is no path from the browser to
     # get runner.run to accept unvalidated arguments.
     set_runner_class('RunnerService')
-    create_gcc_assert_kata
-    @avatar = start # 0
-    hit_test # 1
-    assert_equal :red, @avatar.lights[-1].colour
-    output = @avatar.visible_files['output']
+    in_kata {
+      hit_test # 1
+      assert_equal :red, @avatar.lights[-1].colour
+      output = @avatar.visible_files['output']
 
-    [
-      "makefile:14: recipe for target 'test.output' failed",
-      'Assertion failed: answer() == 42 (hiker.tests.c: life_the_universe_and_everything: 7)',
-      'make: *** [test.output] Aborted'
-    ].each do |expected|
-      assert output.include?(expected)
-      # Note that depending on the host's OS, the last line might be
-      #     make: *** [test.output] Aborted (core dumped)
-      # viz with (core dumped) appended
-    end
+      [
+        "makefile:14: recipe for target 'test.output' failed",
+        'Assertion failed: answer() == 42 (hiker.tests.c: life_the_universe_and_everything: 7)',
+        'make: *** [test.output] Aborted'
+      ].each do |expected|
+        assert output.include?(expected)
+        # Note that depending on the host's OS, the last line might be
+        #     make: *** [test.output] Aborted (core dumped)
+        # viz with (core dumped) appended
+      end
 
-    runner.avatar_old(@kata.image_name, @kata.id, @avatar.name)
-    begin
+      runner.avatar_old(@kata.image_name, @kata.id, @avatar.name)
+
       change_file('hiker.c', content('hiker.c').sub('6 * 9', '6 * 7'))
       hit_test # 2
       assert_equal "All tests passed\n", @avatar.visible_files['output']
@@ -168,10 +147,7 @@ class KataControllerTest  < AppControllerTestBase
       diff = differ.diff(@kata.id, @avatar.name, was_tag=1, now_tag=2)
       assert diff['hiker.c'].include?({'type'=>'deleted', 'line'=>'    return 6 * 9;', 'number'=>5})
       assert diff['hiker.c'].include?({'type'=>'added',   'line'=>'    return 6 * 7;', 'number'=>5})
-    ensure
-      runner.avatar_old(@kata.image_name, @kata.id, @avatar.name)
-      runner.kata_old(@kata.image_name, @kata.id)
-    end
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -179,26 +155,25 @@ class KataControllerTest  < AppControllerTestBase
   test 'BE8E40',
   'avatar.test() for an old kata seamlessly resurrects' do
     set_runner_class('RunnerService')
-    create_gcc_assert_kata
-    @avatar = start # 0
-    hit_test # 1
-    assert_equal :red, @avatar.lights[-1].colour
-    output = @avatar.visible_files['output']
+    in_kata {
+      hit_test # 1
+      assert_equal :red, @avatar.lights[-1].colour
+      output = @avatar.visible_files['output']
 
-    [
-      "makefile:14: recipe for target 'test.output' failed",
-      'Assertion failed: answer() == 42 (hiker.tests.c: life_the_universe_and_everything: 7)',
-      'make: *** [test.output] Aborted'
-    ].each do |expected|
-      assert output.include?(expected)
-      # Note that depending on the host's OS the last line might be
-      #     make: *** [test.output] Aborted (core dumped)
-      # viz with (core dumped) appended
-    end
+      [
+        "makefile:14: recipe for target 'test.output' failed",
+        'Assertion failed: answer() == 42 (hiker.tests.c: life_the_universe_and_everything: 7)',
+        'make: *** [test.output] Aborted'
+      ].each do |expected|
+        assert output.include?(expected)
+        # Note that depending on the host's OS the last line might be
+        #     make: *** [test.output] Aborted (core dumped)
+        # viz with (core dumped) appended
+      end
 
-    runner.avatar_old(@kata.image_name, @kata.id, @avatar.name)
-    runner.kata_old(@kata.image_name, @kata.id)
-    begin
+      runner.avatar_old(@kata.image_name, @kata.id, @avatar.name)
+      runner.kata_old(@kata.image_name, @kata.id)
+
       change_file('hiker.c', content('hiker.c').sub('6 * 9', '6 * 7'))
       hit_test # 2
       assert_equal "All tests passed\n", @avatar.visible_files['output']
@@ -206,10 +181,7 @@ class KataControllerTest  < AppControllerTestBase
       diff = differ.diff(@kata.id, @avatar.name, was_tag=1, now_tag=2)
       assert diff['hiker.c'].include?({'type'=>'deleted', 'line'=>'    return 6 * 9;', 'number'=>5})
       assert diff['hiker.c'].include?({'type'=>'added',   'line'=>'    return 6 * 7;', 'number'=>5})
-    ensure
-      runner.avatar_old(@kata.image_name, @kata.id, @avatar.name)
-      runner.kata_old(@kata.image_name, @kata.id)
-    end
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -227,6 +199,19 @@ class KataControllerTest  < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   private
+
+  def in_kata
+    kata_id = create_gcc_assert_kata
+    @avatar = start
+    begin
+      yield kata_id
+    ensure
+      runner.avatar_old(@kata.image_name, @kata.id, @avatar.name)
+      runner.kata_old(@kata.image_name, @kata.id)
+    end
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def create_gcc_assert_kata
     id = create_kata('C (gcc), assert')
