@@ -150,8 +150,8 @@ class KataControllerTest  < AppControllerTestBase
 
     [
       "makefile:14: recipe for target 'test.output' failed",
-      "Assertion failed: answer() == 42 (hiker.tests.c: life_the_universe_and_everything: 7)",
-      "make: *** [test.output] Aborted"
+      'Assertion failed: answer() == 42 (hiker.tests.c: life_the_universe_and_everything: 7)',
+      'make: *** [test.output] Aborted'
     ].each do |expected|
       assert output.include?(expected)
       # Note that depending on the host's OS, the last line might be
@@ -166,8 +166,8 @@ class KataControllerTest  < AppControllerTestBase
       assert_equal "All tests passed\n", @avatar.visible_files['output']
       assert_equal :green, @avatar.lights[-1].colour
       diff = differ.diff(@kata.id, @avatar.name, was_tag=1, now_tag=2)
-      assert diff['hiker.c'].include?({"type"=>"deleted", "line"=>"    return 6 * 9;", "number"=>5})
-      assert diff['hiker.c'].include?({"type"=>"added",   "line"=>"    return 6 * 7;", "number"=>5})
+      assert diff['hiker.c'].include?({'type'=>'deleted', 'line'=>'    return 6 * 9;', 'number'=>5})
+      assert diff['hiker.c'].include?({'type'=>'added',   'line'=>'    return 6 * 7;', 'number'=>5})
     ensure
       runner.avatar_old(@kata.image_name, @kata.id, @avatar.name)
       runner.kata_old(@kata.image_name, @kata.id)
@@ -187,8 +187,8 @@ class KataControllerTest  < AppControllerTestBase
 
     [
       "makefile:14: recipe for target 'test.output' failed",
-      "Assertion failed: answer() == 42 (hiker.tests.c: life_the_universe_and_everything: 7)",
-      "make: *** [test.output] Aborted"
+      'Assertion failed: answer() == 42 (hiker.tests.c: life_the_universe_and_everything: 7)',
+      'make: *** [test.output] Aborted'
     ].each do |expected|
       assert output.include?(expected)
       # Note that depending on the host's OS the last line might be
@@ -204,8 +204,8 @@ class KataControllerTest  < AppControllerTestBase
       assert_equal "All tests passed\n", @avatar.visible_files['output']
       assert_equal :green, @avatar.lights[-1].colour
       diff = differ.diff(@kata.id, @avatar.name, was_tag=1, now_tag=2)
-      assert diff['hiker.c'].include?({"type"=>"deleted", "line"=>"    return 6 * 9;", "number"=>5})
-      assert diff['hiker.c'].include?({"type"=>"added",   "line"=>"    return 6 * 7;", "number"=>5})
+      assert diff['hiker.c'].include?({'type'=>'deleted', 'line'=>'    return 6 * 9;', 'number'=>5})
+      assert diff['hiker.c'].include?({'type'=>'added',   'line'=>'    return 6 * 7;', 'number'=>5})
     ensure
       runner.avatar_old(@kata.image_name, @kata.id, @avatar.name)
       runner.kata_old(@kata.image_name, @kata.id)
@@ -248,9 +248,9 @@ class KataControllerTest  < AppControllerTestBase
 
   def makefile_with_leading(s)
     [
-      "CFLAGS += -I. -Wall -Wextra -Werror -std=c11",
-      "test: makefile $(C_FILES) $(COMPILED_H_FILES)",
-      s + "@gcc $(CFLAGS) $(C_FILES) -o $@"
+      'CFLAGS += -I. -Wall -Wextra -Werror -std=c11',
+      'test: makefile $(C_FILES) $(COMPILED_H_FILES)',
+      s + '@gcc $(CFLAGS) $(C_FILES) -o $@'
     ].join("\n")
   end
 
