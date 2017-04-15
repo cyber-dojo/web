@@ -51,6 +51,7 @@ class KataControllerTest  < AppControllerTestBase
       run_tests
       assert_file makefile, makefile_with_leading_tab
     ensure
+      runner.avatar_old(@kata.image_name, @kata.id, @avatar.name)
       runner.kata_old(@kata.image_name, @kata.id)
     end
   end
@@ -70,6 +71,7 @@ class KataControllerTest  < AppControllerTestBase
       run_tests
       assert_file makefile, makefile_with_leading_tab
     ensure
+      runner.avatar_old(@kata.image_name, @kata.id, @avatar.name)
       runner.kata_old(@kata.image_name, @kata.id)
     end
   end
@@ -115,16 +117,21 @@ class KataControllerTest  < AppControllerTestBase
     set_runner_class('RunnerService')
     kata_id = create_gcc_assert_kata
     @avatar = start
-    kata_edit
-    params = {
-      :format => :js,
-      :id     => kata_id,
-      :image_name => 'does_not/exist',
-      :avatar => @avatar.name
-    }
-    assert_raises(StandardError) {
-      post 'kata/run_tests', params.merge(@params_maker.params)
-    }
+    begin
+      kata_edit
+      params = {
+        :format => :js,
+        :id     => kata_id,
+        :image_name => 'does_not/exist',
+        :avatar => @avatar.name
+      }
+      assert_raises(StandardError) {
+        post 'kata/run_tests', params.merge(@params_maker.params)
+      }
+    ensure
+      runner.avatar_old(@kata.image_name, @kata.id, @avatar.name)
+      runner.kata_old(@kata.image_name, @kata.id)
+    end
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
