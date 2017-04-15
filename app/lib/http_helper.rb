@@ -1,3 +1,4 @@
+require_relative '../../lib/nearest_ancestors'
 
 module HttpHelper # mix-in
 

@@ -11,7 +11,6 @@
   id_splitter
   image_name_splitter
 
-  http_helper
   runner_service
   runner_stub
   storer_fake
