@@ -4,14 +4,25 @@ class ImageNameSplitterTest < AppLibTestBase
 
   include ImageNameSplitter
 
-  def assert_split(image_name, hostname, name, tag)
-    o = split_image_name(image_name)
-    assert_equal({
-      :hostname => hostname,
-      :name => name,
-      :tag => tag
-    }, o)
+  test '17FD8F6',
+  'invalid image_names raise' do
+    invalid_image_names = [
+      '',             # nothing!
+      '_',            # cannot start with separator
+      'name_',        # cannot end with separator
+      'ALPHA/name',   # no uppercase
+      'alpha/name_',  # cannot end in separator
+      'alpha/_name',  # cannot begin with separator
+    ]
+    invalid_image_names.each do |invalid_image_name|
+      error = assert_raises(ArgumentError) {
+        split_image_name(invalid_image_name)
+      }
+      assert_equal 'image_name:invalid', error.message
+    end
   end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '17FD8F7',
   'examples with no hostname' do
@@ -20,6 +31,8 @@ class ImageNameSplitterTest < AppLibTestBase
     assert_split('cdf/gcc__assert:x', '', 'cdf/gcc__assert', 'x')
     assert_split('cdf/gcc__sd.a--ssert:latest', '', 'cdf/gcc__sd.a--ssert', 'latest')
   end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '17FD8F8',
   'examples with hostname' do
@@ -44,5 +57,15 @@ class ImageNameSplitterTest < AppLibTestBase
     assert_split('quay.io:80/cdf/gcc__sd.a--ssert:latest', 'quay.io:80', 'cdf/gcc__sd.a--ssert', 'latest')
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def assert_split(image_name, hostname, name, tag)
+    o = split_image_name(image_name)
+    assert_equal({
+      :hostname => hostname,
+      :name => name,
+      :tag => tag
+    }, o)
+  end
 
 end

@@ -6,7 +6,7 @@ module ImageNameSplitter # mix-in
   def split_image_name(image_name)
     # http://stackoverflow.com/questions/37861791
     i = image_name.index('/')
-    if i == -1 || (
+    if i.nil? || i == -1 || (
         !image_name[0...i].include?('.') &&
         !image_name[0...i].include?(':') &&
          image_name[0...i] != 'localhost')
@@ -24,7 +24,7 @@ module ImageNameSplitter # mix-in
     tag = '[\w][\w.-]{0,126}'
     md = /^(#{name})(:(#{tag}))?$/.match(remote_name)
 
-    fail "invalid #{image_name}" if md.nil?
+    fail ArgumentError.new('image_name:invalid') if md.nil?
 
     {
       hostname:hostname,
