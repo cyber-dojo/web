@@ -16,10 +16,12 @@ module ImageNameSplitter # mix-in
       hostname = image_name[0..i-1]
       remote_name = image_name[i+1..-1]
     end
-    shn = split_hostname(hostname)
-    srn = split_remote_name(remote_name)
-    shn.merge(srn)
+    hostname_port = split_hostname(hostname)
+    name_tag = split_remote_name(remote_name)
+    hostname_port.merge(name_tag)
   end
+
+  # - - - - - - - - - - - - - - - - - -
 
   def split_hostname(hostname)
     return { hostname:'', port:'' } if hostname == ''
@@ -29,6 +31,8 @@ module ImageNameSplitter # mix-in
     fail ArgumentError.new('image_name:invalid') if md.nil?
     { hostname:md[1], port:md[6] || '' }
   end
+
+  # - - - - - - - - - - - - - - - - - -
 
   def split_remote_name(remote_name)
     alpha_numeric = '[a-z0-9]+'
