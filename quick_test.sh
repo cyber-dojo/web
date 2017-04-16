@@ -27,7 +27,7 @@ cid=$(docker run \
     sh)
 
 modules=( app_helpers app_lib lib )
-#  app_models - gives currently unfathomed flickering reds :(
+# app_models - currently gives unfathomed flickering reds :(
 # app_controllers - todo
 for module in ${modules[*]}
 do
