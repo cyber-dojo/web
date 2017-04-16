@@ -36,6 +36,12 @@ module TestHexIdHelpers # mix-in
     @@args = ARGV[1..-1].sort.uniq.map(&:upcase)  # eg 2DD6F3 eg 2dd
     @@seen_ids = []
 
+    def smoke_test(id, *lines, &block)
+      if !ENV['CYBER_DOJO_UNIT_TEST']
+        test(id, *lines, &block)
+      end
+    end
+
     def test(id, *lines, &block)
       # check hex-id is well-formed
       diagnostic = "'#{id}',#{lines.join(' ')}"

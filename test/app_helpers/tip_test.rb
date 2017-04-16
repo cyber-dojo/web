@@ -4,8 +4,9 @@ class TipTest < AppHelpersTestBase
 
   include TipHelper
 
-  test 'BDAD52',
+  smoke_test 'BDAD52',
   'traffic light tip' do
+    # uses real differ-service
     kata = make_kata
     lion = kata.start_avatar(['lion'])
     files = kata.visible_files

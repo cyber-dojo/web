@@ -2,20 +2,41 @@ require_relative 'app_lib_test_base'
 
 class SmokeTest < AppLibTestBase
 
-  # These will fail if there is no network connectivity.
-
   def setup
     super
     set_storer_class('StorerService')
     set_runner_class('RunnerService')
   end
 
-#=begin
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # differ
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  smoke_test '9823AB',
+  'smoke test differ-service' do
+    kata = make_kata
+    kata.start_avatar([lion])
+    args = []
+    args << kata.id
+    args << lion
+    args << (files1 = starting_files)
+    args << (now1 = [2016,12,8,8,3,23])
+    args << (output = 'Assert failed: answer() == 42')
+    args << (colour1 = 'red')
+    storer.avatar_ran_tests(*args)
+    actual = differ.diff(kata.id, lion, was_tag=0, now_tag=1)
+
+    refute_nil actual['hiker.c']
+    assert_equal({
+      "type"=>"same", "line"=>"#include \"hiker.h\"", "number"=>1
+    }, actual['hiker.c'][0])
+  end
+
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
   # runner
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '2BD23CD3',
+  smoke_test '2BD23CD3',
   'smoke test runner-service raising' do
     assert_raises { runner.image_pulled?(nil, nil) }
     assert_raises { runner.image_pull(nil, nil) }
@@ -24,7 +45,7 @@ class SmokeTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '2BDF808102',
+  smoke_test '2BDF808102',
   'smoke test pulling' do
     kata_id = '2BDF808102'
     refute runner.image_pulled? 'cyberdojo/non_existant', kata_id
@@ -35,7 +56,7 @@ class SmokeTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '2BDAD80812',
+  smoke_test '2BDAD80812',
   'smoke test runner-service colour is red-amber-green traffic-light' do
     image_name = 'cyberdojofoundation/gcc_assert'
     kata_id = '2BDAD80812'
@@ -71,7 +92,7 @@ class SmokeTest < AppLibTestBase
   #     environment: [ CYBER_DOJO_KATAS_ROOT=/tmp/cyber-dojo/katas ]
   # It does *not* volume-mount the katas data-container.
 
-  test 'C6DCD7451A',
+  smoke_test 'C6DCD7451A',
   'non-existant kata-id raises exception' do
     kata_id = 'C6DCD7451A'
     error = assert_raises (StandardError) { storer.kata_manifest(kata_id) }
@@ -80,7 +101,7 @@ class SmokeTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'C6DE6CD301',
+  smoke_test 'C6DE6CD301',
   'smoke test storer-service' do
     kata_id = 'C6DE6CD301'
     assert_equal 'StorerService', storer.class.name
@@ -140,17 +161,16 @@ class SmokeTest < AppLibTestBase
   # zipper
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'D66EBF',
+  smoke_test 'D66EBF',
   'smoke test zipper.zip' do
     error = assert_raises { zipper.zip(kata_id='') }
     assert error.message.end_with?('invalid kata_id'), error.message
   end
 
-  test 'D66959',
+  smoke_test 'D66959',
   'smoke test zipper.zip_tag' do
     error = assert_raises { zipper.zip_tag(kata_id='', 'lion', 0) }
     assert error.message.end_with?('invalid kata_id'), error.message
   end
-#=end
 
 end
