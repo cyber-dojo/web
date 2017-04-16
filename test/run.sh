@@ -19,6 +19,7 @@ for module in ${modules[*]}
 do
     echo
     echo "======${module}======"
+    # set defaults to _not_ use real services
     export CYBER_DOJO_LOG_CLASS=LogSpy
     export CYBER_DOJO_RUNNER_CLASS=RunnerStub
     export CYBER_DOJO_STORER_CLASS=StorerFake
