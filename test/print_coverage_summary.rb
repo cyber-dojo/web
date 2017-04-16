@@ -12,7 +12,8 @@ end
 
 def f2(s)
   result = ('%.2f' % s).to_s
-  result += '0' if result.end_with?('.0')
+  result += '0' if result.end_with?('.0') # 2 decimal places
+  result = '0.01' if result == '0.00' # avoid division by zero
   result
 end
 
