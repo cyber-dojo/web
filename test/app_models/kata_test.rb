@@ -193,7 +193,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '677D61',
+  smoke_test '677D61',
   'start_avatar() seamlessly resurrects the runner',
   'when collector has collected the runner containers/volumes' do
     set_runner_class('RunnerService')
