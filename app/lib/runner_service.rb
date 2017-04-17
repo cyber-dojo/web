@@ -1,5 +1,5 @@
 require_relative 'http_helper'
-require_relative 'tagless_image_name'
+require_relative 'stripped_image_name'
 
 class RunnerService
 
@@ -93,6 +93,6 @@ class RunnerService
     !stripped_image_name(image_name).end_with?('stateless')
   end
 
-  include TaglessImageName
+  include StrippedImageName
 
 end

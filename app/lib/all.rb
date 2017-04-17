@@ -9,7 +9,7 @@
   dashboard_td_gapper
   display_names_splitter
   id_splitter
-  tagless_image_name
+  stripped_image_name
 
   runner_service
   runner_stub

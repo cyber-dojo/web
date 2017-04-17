@@ -1,8 +1,8 @@
 require_relative 'app_lib_test_base'
 
-class TaglessImageNameTest < AppLibTestBase
+class StrippedImageNameTest < AppLibTestBase
 
-  include TaglessImageName
+  include StrippedImageName
 
   test '17FD8F6',
   'invalid image_names raise' do

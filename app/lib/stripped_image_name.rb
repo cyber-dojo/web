@@ -1,5 +1,5 @@
 
-module TaglessImageName # mix-in
+module StrippedImageName # mix-in
 
   module_function
 
