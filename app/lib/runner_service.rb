@@ -1,5 +1,5 @@
 require_relative 'http_helper'
-require_relative 'image_name_splitter'
+require_relative 'tagless_image_name'
 
 class RunnerService
 
@@ -90,13 +90,9 @@ class RunnerService
   end
 
   def stateful?(image_name)
-    !tagless(image_name).end_with?('stateless')
+    !tagless_image_name(image_name).end_with?('stateless')
   end
 
-  include ImageNameSplitter
-  def tagless(image_name)
-    o = split_image_name(image_name)
-    o[:name]
-  end
+  include TaglessImageName
 
 end

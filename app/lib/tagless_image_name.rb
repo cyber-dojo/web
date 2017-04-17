@@ -1,5 +1,5 @@
 
-module ImageNameSplitter # mix-in
+module TaglessImageName # mix-in
 
   module_function
 
