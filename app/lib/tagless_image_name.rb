@@ -52,24 +52,4 @@ module TaglessImageName # mix-in
     }
   end
 
-  # - - - - - - - - - - - - - - - - - -
-
-  def stripped_remote_name(remote_name)
-    digest_component = '[A-Za-z][A-Za-z0-9]*'
-    digest_separator = '[-_+.]'
-    digest_algorithm = "#{digest_component}(#{digest_separator}#{digest_component})*"
-    digest_hex = "[0-9a-fA-F]{32,}"
-    digest = "#{digest_algorithm}[:]#{digest_hex}"
-
-    alpha_numeric = '[a-z0-9]+'
-    separator = '([.]{1}|[_]{1,2}|[-]+)'
-    component = "#{alpha_numeric}(#{separator}#{alpha_numeric})*"
-    name = "#{component}(/#{component})*"
-    tag = '[\w][\w.-]{0,126}'
-
-    md = /^(#{name})(:(#{tag}))?(@#{digest})?$/.match(remote_name)
-    fail ArgumentError.new('image_name:invalid') if md.nil?
-    md[1]
-  end
-
 end
