@@ -90,7 +90,7 @@ class RunnerService
   end
 
   def stateful?(image_name)
-    !tagless_image_name(image_name).end_with?('stateless')
+    !stripped_image_name(image_name).end_with?('stateless')
   end
 
   include TaglessImageName
