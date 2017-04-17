@@ -23,7 +23,7 @@ class ImageNameSplitterTest < AppLibTestBase
     ]
     invalid_image_names.each do |invalid_image_name|
       error = assert_raises(ArgumentError) {
-        split_image_name(invalid_image_name)
+        tagless_image_name(invalid_image_name)
       }
       assert_equal 'image_name:invalid', error.message
     end
@@ -78,14 +78,13 @@ class ImageNameSplitterTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def assert_split(image_name, hostname, port, name, tag)
-    o = split_image_name(image_name)
-    assert_equal({
-      :hostname => hostname,
-      :port => port,
-      :name => name,
-      :tag => tag
-    }, o)
+  def assert_split(image_name, hostname, port, name, _tag)
+    expected = hostname
+    expected += ':' unless port == ''
+    expected += port
+    expected += '/' unless hostname == ''
+    expected += name
+    assert_equal expected, tagless_image_name(image_name)
   end
 
 end

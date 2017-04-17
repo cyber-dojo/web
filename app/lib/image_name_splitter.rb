@@ -3,33 +3,22 @@ module ImageNameSplitter # mix-in
 
   module_function
 
-  def split_image_name(image_name)
+  def tagless_image_name(image_name)
     # http://stackoverflow.com/questions/37861791
+    # A full implementation of parsing the image_name is in
+    # https://github.com/cyber-dojo/commander/blob/master/start_point_checker.rb
     i = image_name.index('/')
     if i.nil? || i == -1 || (
         !image_name[0...i].include?('.') &&
         !image_name[0...i].include?(':') &&
          image_name[0...i] != 'localhost')
       hostname = ''
-      remote_name = image_name
+      return split_remote_name(image_name)[:name]
     else
       hostname = image_name[0..i-1]
       remote_name = image_name[i+1..-1]
+      return hostname + '/' + split_remote_name(remote_name)[:name]
     end
-    hostname_port = split_hostname(hostname)
-    name_tag = split_remote_name(remote_name)
-    hostname_port.merge(name_tag)
-  end
-
-  # - - - - - - - - - - - - - - - - - -
-
-  def split_hostname(hostname)
-    return { hostname:'', port:'' } if hostname == ''
-    port = '[\d]+'
-    component = "([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9])"
-    md = /^(#{component}(\.#{component})*)(:(#{port}))?$/.match(hostname)
-    fail ArgumentError.new('image_name:invalid') if md.nil?
-    { hostname:md[1], port:md[6] || '' }
   end
 
   # - - - - - - - - - - - - - - - - - -
