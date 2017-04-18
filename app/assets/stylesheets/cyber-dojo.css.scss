@@ -57,7 +57,6 @@ button {
 
 div[class~='filename'] {
   @include plaintext-font();
-  @include font-size-small();
 
   // no up/down scrolling, #filename-list has its own
   overflow-y: none;
