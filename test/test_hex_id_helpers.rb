@@ -7,10 +7,11 @@
 #
 #      include TestHexIdHelpers
 #
-#      test '0C1F2F',
-#      'some long description',
-#      'possibly spanning',
-#      'several lines' do
+#      test '0C1F2F', %w(
+#        some long description
+#         possibly spanning
+#        several lines
+#      ) do
 #        ...
 #        ...
 #        ...
