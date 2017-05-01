@@ -9,7 +9,7 @@
 #
 #      test '0C1F2F', %w(
 #        some long description
-#         possibly spanning
+#        possibly spanning
 #        several lines
 #      ) do
 #        ...
