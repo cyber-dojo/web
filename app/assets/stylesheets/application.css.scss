@@ -29,6 +29,7 @@
  *= depend_on jquery-ui-1.8.16.custom.css.scss
  *= depend_on codemirror.css.scss
  *= depend_on codemirror-cyber-dojo.css.scss
+ *= depend_on codemirror-dialog.css.scss
  *= require_self
 */
 
@@ -50,3 +51,4 @@
 @import "jquery-ui-1.8.16.custom.css.scss";
 @import "codemirror.css.scss";
 @import "codemirror-cyber-dojo.css.scss";
+@import "codemirror-dialog.css.scss";
