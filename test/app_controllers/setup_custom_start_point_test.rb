@@ -6,6 +6,13 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
   'show shows all custom exercises' do
     # Assumes the exercises volume is default refactoring exercises
     assert_equal [
+      'C++ Countdown, Practice Round',
+      'C++ Countdown, Round 1',
+      'C++ Countdown, Round 2',
+      'C++ Countdown, Round 3',
+      'C++ Countdown, Round 4',
+      'C++ Countdown, Round 5',
+      'C++ Countdown, Round 6',
       'Tennis refactoring, C# NUnit',
       'Tennis refactoring, C++ (g++) assert',
       'Tennis refactoring, Java JUnit',
