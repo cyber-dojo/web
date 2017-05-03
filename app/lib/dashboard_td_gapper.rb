@@ -21,6 +21,29 @@ class DashboardTdGapper
         td_map[td + 1] = { collapsed: count } if gi[0] == :collapse
       end
     end
+    # eg s[:avatars] == {
+    #     'lion'  => { 0=>[], 5=>[R,G], 7=>[],    11=[G,R], 99=>[] },
+    #     'tiger' => { 0=>[], 5=>[A],   7=>[G,A], 11=>[],   99=>[] }
+    #   }
+    # eg collapsed_table == {
+    #    0 => [ :collapse,       4 ],  # ( 5- 0)-1
+    #    5 => [ :dont_collapse,  1 ],  # ( 7- 5)-1
+    #    7 => [ :dont_collapse,  3 ],  # (11- 7)-1
+    #   11 => [ :collapse,      87 ]   # (99-11)-1
+    # }
+    # so td_map[] additions are
+    #    0: 0+1    1 => { collapsed:4 }
+    #    5: 5+0+1  6 => []
+    #    7: 7+0+1  8 => []
+    #    7: 7+1+1  9 => []
+    #    7: 7+2+1 10 => []
+    #   11: 11+1  12 => { collapsed:87 }
+    #
+    # so td_map becomes
+    #         0   1        5      6   7     8   9   10   11    12
+    # 'lion'  []  {c'd:4}  [R,G]  []  []    []  []  []   [G,R] {c'd:87},
+    # 'tiger' []  {c'd:4}  [A]    []  [G,A] []  []  []   []    {c'd:87}
+
     strip(s[:avatars])
   end
 
@@ -95,6 +118,7 @@ class DashboardTdGapper
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def strip(gapped)
+    # remove lightless columns from both ends
     return gapped if gapped == {}
 
         empty_column = ->(td) { gapped.all? { |_, h| h[td] == [] } }

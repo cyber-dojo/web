@@ -161,7 +161,7 @@ class DashboardTdGapperTest < AppLibTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '4499F3',
-  'fully gapped' do
+  'fully gapped with no collapsing and no td-overlap' do
     all_lights =
     {
       'hippo' => [ t1=make_light(30,21), # 1
@@ -184,6 +184,95 @@ class DashboardTdGapperTest < AppLibTestBase
     actual = gapper.fully_gapped(all_lights, now)
     assert_equal expected, actual
   end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '4499F4',
+  'fully gapped with collapsing' do
+    start = Time.mktime(*[year,month,day,hour,0,0])
+    @gapper = DashboardTdGapper.new(start, seconds_per_td=60, max_seconds_uncollapsed=60*4)
+
+    all_lights =
+    {
+      'lion' =>  [ t1=make_light(5,0),
+                   t2=make_light(5,10),
+                   t3=make_light(11,0),
+                   t4=make_light(11,10)
+                 ],
+      'tiger' => [ t5=make_light(5,11),
+                   t6=make_light(7,0),
+                   t7=make_light(7,10),
+                   t8=make_light(18,20)
+                 ]
+    }
+
+    assert_equal  5, @gapper.number(t1)
+    assert_equal  5, @gapper.number(t2)
+    assert_equal 11, @gapper.number(t3)
+    assert_equal 11, @gapper.number(t4)
+    assert_equal  5, @gapper.number(t5)
+    assert_equal  7, @gapper.number(t6)
+    assert_equal  7, @gapper.number(t7)
+    assert_equal 18, @gapper.number(t8)
+
+    now = [year,month,day,hour,32,23] #td 32
+    expected =
+    {
+      :avatars =>
+      {
+        'lion'  => { 5 => [ t1,t2 ], 11 => [ t3,t4 ] },
+        'tiger' => { 5 => [ t5 ], 7 => [ t6,t7 ], 18 => [t8] },
+      },
+      :td_nos => [0,5,7,11,18,32]
+    }
+    actual = @gapper.stats(all_lights, now)
+    assert_equal expected, actual
+
+    # - - - - - - - - - - - - - - -
+
+    gapper.vertical_bleed(actual)
+    expected =
+    {
+      :avatars =>
+      {
+        'lion'  => { 0=>[], 5 => [t1,t2], 7=>[],        11=>[t3,t4], 18=>[],   32=>[] },
+        'tiger' => { 0=>[], 5 => [t5],    7=>[ t6,t7 ], 11=>[]     , 18=>[t8], 32=>[] },
+      },
+      :td_nos => (td_nos=[0,5,7,11,18,32])
+    }
+    assert_equal expected, actual
+
+    # - - - - - - - - - - - - - - -
+
+    actual = @gapper.collapsed_table(td_nos)
+    expected = {
+       0=>[:collapse,      4],
+       5=>[:dont_collapse, 1],
+       7=>[:collapse,      3],
+      11=>[:collapse,      6],
+      18=>[:collapse,     13]
+    }
+    assert_equal expected, actual
+
+    # - - - - - - - - - - - - - - -
+
+    expected =
+    {
+      'lion'  => { 5=>[t1,t2], 6=>[], 7=>[],      8=>{collapsed:3}, 11=>[t3,t4], 12=>{collapsed:6}, 18=>[] },
+      'tiger' => { 5=>[t5],    6=>[], 7=>[t6,t7], 8=>{collapsed:3}, 11=>[],      12=>{collapsed:6}, 18=>[t8] }
+    }
+    actual = @gapper.fully_gapped(all_lights, now)
+
+    assert_equal expected.keys, actual.keys, 'animal names'
+    expected.keys.each do |name|
+      assert_equal expected[name].keys.sort, actual[name].keys.sort, "#{name}'s td_nos"
+      expected[name].keys.each do |td|
+        assert_equal expected[name][td], actual[name][td], "#{name}[#{td}]"
+      end
+    end
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   private
 
