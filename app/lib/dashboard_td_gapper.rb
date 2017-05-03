@@ -26,6 +26,74 @@ class DashboardTdGapper
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  def stats(all_lights, now)
+    obj = { avatars: {}, td_nos: [0, n(now)] }
+    # eg td_nos: [0,99]
+    all_lights.each do |avatar_name, lights|
+      an = obj[:avatars][avatar_name] = {}
+      lights.each do |light|
+        tdn = number(light)
+        an[tdn] ||= []
+        an[tdn] << light
+        obj[:td_nos] << tdn
+      end
+    end
+    obj[:td_nos].sort!.uniq!
+    obj
+    # eg avatars: {
+    #     'lion'  => { 5=>[R,G], 11=[G,R] },
+    #     'tiger' => { 5=>[A],   7=>[G,A] }
+    #   }
+    # eg td_nos: [ 0,5,7,11,99 ]
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def vertical_bleed(s)
+    s[:td_nos].each do |n|
+      s[:avatars].each do |_name, td_map|
+        td_map[n] ||= []
+      end
+    end
+    # eg avatars: {
+    #     'lion'  => { 0=>[], 5=>[R,G], 7=>[],    11=[G,R], 99=>[] },
+    #     'tiger' => { 0=>[], 5=>[A],   7=>[G,A], 11=>[],   99=>[] }
+    #   }
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def collapsed_table(td_nos)
+    max_uncollapsed_tds = @max_seconds_uncollapsed / @seconds_per_td
+    obj = {}
+    td_nos.each_cons(2) do |p|
+      diff = p[1] - p[0]
+      key = diff < max_uncollapsed_tds ? :dont_collapse : :collapse
+      obj[p[0]] = [key, diff - 1]
+    end
+    obj
+    # eg td_nos: [ 0,5,7,8,11,99 ]
+    # eg max_uncollapsed_tds = 240/60 == 4
+    # each_cons(2)
+    #   p[0]  p[1]  diff
+    #   - - - - - - - -
+    #   0     5     5       5<4==false  :collapse
+    #   5     7     2       2<4==true   :dont_collapse
+    #   7     8     1       1<4==true   :dont_collapse
+    #   8    11     3       3<4==true   :dont_collapse
+    #   11   99    88      88<4==false  :collapse
+    #
+    # obj: {
+    #    0 => [ :collapse,       4 ],  # ( 5- 0)-1
+    #    5 => [ :dont_collapse,  1 ],  # ( 7- 5)-1
+    #    7 => [ :dont_collapse,  0 ],  # ( 8- 7)-0
+    #    8 => [ :dont_collapse,  2 ],  # (11- 8)-1
+    #   11 => [ :collapse,      87 ]   # (99-11)-1
+    # }
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   def strip(gapped)
     return gapped if gapped == {}
 
@@ -54,46 +122,6 @@ class DashboardTdGapper
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def stats(all_lights, now)
-    obj = { avatars: {}, td_nos: [0, n(now)] }
-    all_lights.each do |avatar_name, lights|
-      an = obj[:avatars][avatar_name] = {}
-      lights.each do |light|
-        tdn = number(light)
-        an[tdn] ||= []
-        an[tdn] << light
-        obj[:td_nos] << tdn
-      end
-    end
-    obj[:td_nos].sort!.uniq!
-    obj
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def vertical_bleed(s)
-    s[:td_nos].each do |n|
-      s[:avatars].each do |_name, td_map|
-        td_map[n] ||= []
-      end
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def collapsed_table(td_nos)
-    max_uncollapsed_tds = @max_seconds_uncollapsed / @seconds_per_td
-    obj = {}
-    td_nos.each_cons(2) do |p|
-      diff = p[1] - p[0]
-      key = diff < max_uncollapsed_tds ? :dont_collapse : :collapse
-      obj[p[0]] = [key, diff - 1]
-    end
-    obj
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   def number(light)
     ordinal(light.time)
   end
@@ -109,11 +137,11 @@ class DashboardTdGapper
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# I want the horizontal spacing between dashboard traffic lights
+# I want the |horizontal| spacing between dashboard traffic lights
 # to be proportional to the time difference between them.
 #
 # I also want traffic-lights from different avatars but occurring at
-# the same moment in time to align vertically.
+# the same moment in time to align -vertically -
 #
 # These two requirements are somewhat in tension with each other.
 # The best solution I can think of is to split each avatar's traffic light tr
