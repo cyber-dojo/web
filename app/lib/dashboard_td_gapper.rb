@@ -49,6 +49,21 @@ class DashboardTdGapper
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  def time_ticks(gapped)
+    ticks = {}
+    avatar = gapped.keys.sample
+    gapped[avatar].each do |td,content|
+      if content.class.name == 'Array'
+        ticks[td] = (td+1) * @seconds_per_td
+      else
+        ticks[td] = content
+      end
+    end
+    ticks
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   def stats(all_lights, now)
     obj = { avatars: {}, td_nos: [0, n(now)] }
     # eg td_nos: [0,99]

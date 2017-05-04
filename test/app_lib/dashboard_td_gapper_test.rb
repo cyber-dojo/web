@@ -64,7 +64,7 @@ class DashboardTdGapperTest < AppLibTestBase
       },
       :td_nos => [0,1,4,5,7]
     }
-    now = [year,month,day,hour,32,23] #td 7
+    now = [year,month,day,hour,32,23] # 7
     assert_equal expected, gapper.stats(all_lights, now)
   end
 
@@ -86,9 +86,9 @@ class DashboardTdGapperTest < AppLibTestBase
     }
     expected =
     {
-      'hippo' => { 0 => [ ], 1 => [ t1 ], 4 => [ t2    ], 5 => [    ], 7 => [ ] },
-      'lion'  => { 0 => [ ], 1 => [ t3 ], 4 => [ t4,t5 ], 5 => [    ], 7 => [ ] },
-      'panda' => { 0 => [ ], 1 => [    ], 4 => [       ], 5 => [ t6 ], 7 => [ ] }
+      'hippo' => { 0 => [], 1 => [ t1 ], 4 => [ t2    ], 5 => [    ], 7 => [ ] },
+      'lion'  => { 0 => [], 1 => [ t3 ], 4 => [ t4,t5 ], 5 => [    ], 7 => [ ] },
+      'panda' => { 0 => [], 1 => [    ], 4 => [       ], 5 => [ t6 ], 7 => [ ] }
     }
     now = [year,month,day,hour,32,23] #td 7
     s = gapper.stats(all_lights, now)
@@ -134,15 +134,15 @@ class DashboardTdGapperTest < AppLibTestBase
     t6=make_light(31,42) # 5
     unstripped =
     {
-      'hippo' => { 0 => [ ], 1 => [ t1 ], 2 => [ ], 3 => [ ], 4 => [ t2    ], 5 => [    ], 6 => { :collapsed => 4321 }, 4327 => [ ] },
-      'lion'  => { 0 => [ ], 1 => [ t3 ], 2 => [ ], 3 => [ ], 4 => [ t4,t5 ], 5 => [    ], 6 => { :collapsed => 4321 }, 4327 => [ ] },
-      'panda' => { 0 => [ ], 1 => [    ], 2 => [ ], 3 => [ ], 4 => [       ], 5 => [ t6 ], 6 => { :collapsed => 4321 }, 4327 => [ ] }
+      'hippo' => { 0 => [], 1 => [ t1 ], 2 => [], 3 => [], 4 => [ t2    ], 5 => [    ], 6 => { :collapsed => 4321 }, 4327 => [ ] },
+      'lion'  => { 0 => [], 1 => [ t3 ], 2 => [], 3 => [], 4 => [ t4,t5 ], 5 => [    ], 6 => { :collapsed => 4321 }, 4327 => [ ] },
+      'panda' => { 0 => [], 1 => [    ], 2 => [], 3 => [], 4 => [       ], 5 => [ t6 ], 6 => { :collapsed => 4321 }, 4327 => [ ] }
     }
     stripped =
     {
-      'hippo' => { 1 => [ t1 ], 2 => [ ], 3 => [ ], 4 => [ t2    ], 5 => [    ] },
-      'lion'  => { 1 => [ t3 ], 2 => [ ], 3 => [ ], 4 => [ t4,t5 ], 5 => [    ] },
-      'panda' => { 1 => [    ], 2 => [ ], 3 => [ ], 4 => [       ], 5 => [ t6 ] }
+      'hippo' => { 1 => [ t1 ], 2 => [], 3 => [], 4 => [ t2    ], 5 => [    ] },
+      'lion'  => { 1 => [ t3 ], 2 => [], 3 => [], 4 => [ t4,t5 ], 5 => [    ] },
+      'panda' => { 1 => [    ], 2 => [], 3 => [], 4 => [       ], 5 => [ t6 ] }
     }
     assert_equal stripped, gapper.strip(unstripped)
   end
@@ -161,7 +161,7 @@ class DashboardTdGapperTest < AppLibTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '4499F3',
-  'fully gapped with no collapsing and no td-overlap' do
+  'fully gapped with no collapsing and no td-holes' do
     all_lights =
     {
       'hippo' => [ t1=make_light(30,21), # 1
@@ -176,9 +176,9 @@ class DashboardTdGapperTest < AppLibTestBase
     }
     expected =
     {
-      'hippo' => { 1 => [ t1 ], 2 => [ ], 3 => [ ], 4 => [ t2    ], 5 => [    ] },
-      'lion'  => { 1 => [ t3 ], 2 => [ ], 3 => [ ], 4 => [ t4,t5 ], 5 => [    ] },
-      'panda' => { 1 => [    ], 2 => [ ], 3 => [ ], 4 => [       ], 5 => [ t6 ] }
+      'hippo' => { 1 => [ t1 ], 2 => [], 3 => [], 4 => [ t2    ], 5 => [    ] },
+      'lion'  => { 1 => [ t3 ], 2 => [], 3 => [], 4 => [ t4,t5 ], 5 => [    ] },
+      'panda' => { 1 => [    ], 2 => [], 3 => [], 4 => [       ], 5 => [ t6 ] }
     }
     now = [year,month,day+1,hour,32,23] #td 4327
     actual = gapper.fully_gapped(all_lights, now)
@@ -188,7 +188,7 @@ class DashboardTdGapperTest < AppLibTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '4499F4',
-  'fully gapped with collapsing' do
+  'fully gapped with collapsing and td-holes' do
     start = Time.mktime(*[year,month,day,hour,0,0])
     @gapper = DashboardTdGapper.new(start, seconds_per_td=60, max_seconds_uncollapsed=60*4)
 
@@ -270,6 +270,68 @@ class DashboardTdGapperTest < AppLibTestBase
         assert_equal expected[name][td], actual[name][td], "#{name}[#{td}]"
       end
     end
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '4499F5',
+  'time-ticks with no collapsing and no td-holes' do
+    start = Time.mktime(*[year,month,day,hour,0,0])
+    @gapper = DashboardTdGapper.new(start, seconds_per_td=60, max_seconds_uncollapsed=60*4)
+
+    all_lights =
+    {
+      'hippo' => [ t1=make_light(0,21), # 0
+                   t2=make_light(1,33), # 1
+                 ],
+      'lion' =>  [ t3=make_light(0,25), # 0
+                   t4=make_light(1,37), # 1
+                   t5=make_light(2,39), # 2
+                 ],
+      'panda' => [ t6=make_light(3,42), # 3
+                 ]
+    }
+
+    assert_equal  0, @gapper.number(t1)
+    assert_equal  1, @gapper.number(t2)
+    assert_equal  0, @gapper.number(t3)
+    assert_equal  1, @gapper.number(t4)
+    assert_equal  2, @gapper.number(t5)
+    assert_equal  3, @gapper.number(t6)
+
+    expected = { 0 => 60, 1 => 120, 2 => 180, 3 => 240 }
+    now = [year,month,day+1,hour,4,23]
+    gapped = gapper.fully_gapped(all_lights, now)
+    actual = gapper.time_ticks(gapped)
+    assert_equal expected, actual
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '4499F6',
+  'time-ticks with collapsing and td-holes' do
+    start = Time.mktime(*[year,month,day,hour,0,0])
+    @gapper = DashboardTdGapper.new(start, seconds_per_td=60, max_seconds_uncollapsed=60*4)
+
+    all_lights =
+    {
+      'lion' =>  [ t1=make_light(5,0),
+                   t2=make_light(5,10),
+                   t3=make_light(11,0),
+                   t4=make_light(11,10)
+                 ],
+      'tiger' => [ t5=make_light(5,11),
+                   t6=make_light(7,0),
+                   t7=make_light(7,10),
+                   t8=make_light(18,20)
+                 ]
+    }
+
+    expected = { 5=>360, 6=>420, 7=>480, 8=>{collapsed:3}, 11=>720, 12=>{collapsed:6}, 18=>1140 }
+    now = [year,month,day+1,hour,4,23]
+    gapped = gapper.fully_gapped(all_lights, now)
+    actual = gapper.time_ticks(gapped)
+    assert_equal expected, actual
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - -

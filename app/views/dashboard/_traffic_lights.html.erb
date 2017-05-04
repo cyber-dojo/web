@@ -24,6 +24,22 @@ $(function() {
 
 <table>
 
+  <tr>
+    <% @time_ticks.keys.sort.each_with_index do |td_no,index| %>
+		  <% tick = @time_ticks[td_no] %>
+		  <td class="<%= parity(index) %> column">
+  	    <% if tick.class == Hash %>
+	  	    <span class="collapsed-multi-gap"></span>
+        <% else %>
+          <%= tick %>
+        <% end %>
+      </td>
+    <% end %>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+
   <% @avatar_names.each do |name| %>
 	<tr>
 	  <% td_map = @gapped[name] %>

@@ -30,6 +30,7 @@ module DashboardWorker # mixin
     args << max_seconds_uncollapsed
     gapper = DashboardTdGapper.new(*args)
     @gapped = gapper.fully_gapped(all_lights, time_now)
+    @time_ticks = gapper.time_ticks(@gapped)
     @progress = @kata.progress_regexs != [ ]
     @avatar_names = @kata.avatars.active.map { |avatar|
       avatar.name
