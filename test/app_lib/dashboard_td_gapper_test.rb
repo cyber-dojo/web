@@ -273,6 +273,17 @@ class DashboardTdGapperTest < AppLibTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - -
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '4499F7',
+  'time-ticks with no avatars is {}' do
+    all_lights = { }
+    now = [year,month,day+1,hour,32,23] #td 4327
+    gapped = gapper.fully_gapped(all_lights, now)
+    assert_equal({}, gapper.time_ticks(gapped))
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '4499F5',
   'time-ticks with no collapsing and no td-holes' do

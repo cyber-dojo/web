@@ -50,6 +50,7 @@ class DashboardTdGapper
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def time_ticks(gapped)
+    return {} if gapped == {}
     ticks = {}
     avatar = gapped.keys.sample
     gapped[avatar].each do |td,content|
