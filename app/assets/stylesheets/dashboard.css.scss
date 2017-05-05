@@ -3,7 +3,7 @@
 
   margin: 25px;
 
-  #auto-refresh-container, #minute-columns-container, #age-container {
+  #auto-refresh-container, #minute-columns-container {
     @include edged-panel();
     @include right-align(15px);
       width: 90px;
@@ -29,6 +29,12 @@
          width: 1000px;
     overflow-x: scroll;
     overflow-y: auto;
+    .time-tick {
+      display: block;
+      @include non-code-font();
+      text-align: center;
+      font-size: 0.5em;
+    }
     .column {
       padding: 0px;
        border: { bottom: dotted lighten($darker-color, 3%) 1px; }

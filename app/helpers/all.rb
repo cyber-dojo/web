@@ -3,6 +3,7 @@
   avatar_image_helper
   parity_helper
   pie_chart_helper
+  time_tick_helper
   tip_helper
   traffic_light_helper
 }.each { |sourcefile| require_relative './' + sourcefile }

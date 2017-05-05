@@ -24,21 +24,25 @@ $(function() {
 
 <table>
 
-  <tr>
-    <% @time_ticks.keys.sort.each_with_index do |td_no,index| %>
-		  <% tick = @time_ticks[td_no] %>
-		  <td class="<%= parity(index) %> column">
-  	    <% if tick.class == Hash %>
-	  	    <span class="collapsed-multi-gap"></span>
-        <% else %>
-          <%= tick %>
-        <% end %>
-      </td>
-    <% end %>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
+  <% if @minute_columns == 'true' %>
+    <tr>
+      <% @time_ticks.keys.sort.each_with_index do |td_no,index| %>
+  		  <% seconds = @time_ticks[td_no] %>
+  		  <td class="<%= parity(index) %> column">
+    	    <% if seconds.class == Hash %>
+  	  	    <span class="collapsed-multi-gap"></span>
+          <% else %>
+            <span class="time-tick">
+              <%= raw time_tick(seconds) %>
+            </span>
+          <% end %>
+        </td>
+      <% end %>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  <% end %>
 
   <% @avatar_names.each do |name| %>
 	<tr>
