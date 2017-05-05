@@ -1,0 +1,32 @@
+.CodeMirror {
+  height: 560px;
+  width: 722px;
+}
+
+.cm-s-cyber-dojo-default.CodeMirror {
+  @include code-font;
+  background: lighten($darker-color, 4%);
+  color: $lighter-color;
+  @include rounded-corner(6px);
+}
+
+.cm-s-cyber-dojo-default .CodeMirror-linenumber,
+.cm-s-cyber-dojo-default .CodeMirror-linenumbers,
+.cm-s-cyber-dojo-default .CodeMirror-gutters {
+  @include code-font;
+  background: lighten($darker-color, 4%);
+  color: lighten($darker-color, 20%);
+}
+
+.cm-s-cyber-dojo-default .CodeMirror-gutters {
+  border-right: 0px;
+}
+
+
+.cm-s-cyber-dojo-default div.CodeMirror-selected {
+  background: #515151;
+}
+
+.cm-s-cyber-dojo-default .CodeMirror-cursor {
+  border-left: 1px solid $lighter-color;
+}
