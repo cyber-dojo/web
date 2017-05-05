@@ -18,85 +18,96 @@ class StorerFakeTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
   # invalid_id on any method raises
+  # TODO: the exceptions and messages should be
+  # be the same as the StorerService.
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '933',
-  'create_kata with invalid or missing manifest[id] raises' do
+  test '9D3933',
+  'create_kata with missing id raises' do
     manifest = make_manifest(nil)
     manifest.delete('id')
     error = assert_raises(ArgumentError) { storer.create_kata(manifest) }
     assert error.message.start_with?('StorerFake'), error.message
-    #assert_invalid_kata_id_raises do |invalid_id|
-    #  manifest['id'] = invalid_id
-    #  storer.create_kata(manifest)
-    #end
   end
 
-=begin
-  test 'ABC',
+  test '9D3934',
+  'create_kata with an invalid id raises' do
+    manifest = make_manifest(nil)
+    manifest['id'] = invalid_id
+    error = assert_raises(ArgumentError) {
+      storer.create_kata(manifest)
+    }
+    assert_equal 'StorerFake:invalid id', error.message
+  end
+
+  test '9D3935',
   'create_kata with duplicate id raises' do
-    manifest = create_manifest
+    kata_id = '9D39350001'
+    manifest = make_manifest(kata_id)
     storer.create_kata(manifest)
-    error = assert_raises(ArgumentError) { storer.create_kata(manifest) }
-    assert error.message.start_with?('Storer'), error.message
+    error = assert_raises(ArgumentError) {
+      storer.create_kata(manifest)
+    }
+    assert_equal 'StorerFake:invalid id', error.message
   end
 
-  test 'AC2',
+  test '9D3936',
   'kata_manifest(id) with invalid id raises' do
-    assert_invalid_kata_id_raises { |invalid_id|
+    error = assert_raises(ArgumentError) {
       storer.kata_manifest(invalid_id)
     }
+    assert_equal 'StorerFake:invalid id', error.message
   end
 
-  test '965',
+  test '9D3937',
   'started_avatars(id) with invalid id raises' do
-    assert_invalid_kata_id_raises { |invalid_id|
+    error = assert_raises(ArgumentError) {
       storer.started_avatars(invalid_id)
     }
+    assert_equal 'StorerFake:invalid id', error.message
   end
 
-  test '5DF',
-  'start_avatar(id) with bad id raises' do
-    assert_bad_kata_id_raises { |invalid_id|
+  test '9D3938',
+  'start_avatar(id) with invalid id raises' do
+    error = assert_raises(ArgumentError) {
       storer.start_avatar(invalid_id, [lion])
     }
+    assert_equal 'StorerFake:invalid id', error.message
   end
 
-  test 'D9F',
-  'avatar_increments(id) with bad id raises' do
-    assert_bad_kata_id_raises { |invalid_id|
-      storer.avatar_increments(invalid_id, lion)
+  test '9D3939',
+  'avatar_increments(id) with invalid id raises' do
+    error = assert_raises(ArgumentError) {
+      storer.avatar_increments(invalid_id, [lion])
     }
+    assert_equal 'StorerFake:invalid id', error.message
   end
 
-  test '160',
-  'avatar_visible_files(id) with bad id raises' do
-    assert_bad_kata_id_raises { |invalid_id|
-      storer.avatar_visible_files(invalid_id, lion)
+  test '9D393A',
+  'avatar_visible_files(id) with invalid id raises' do
+    error = assert_raises(ArgumentError) {
+      storer.avatar_visible_files('sdfsdf', lion)
     }
+    assert_equal 'StorerFake:invalid id', error.message
   end
 
-  test 'D46',
-  'avatar_ran_tests(id) with bad id raises' do
-    assert_bad_kata_id_raises { |invalid_id|
-      args = []
-      args << invalid_id
-      args << lion
-      args << starting_files
-      args << time_now
-      args << output
-      args << red
+  test '9D393B',
+  'avatar_ran_tests(id) with invalid id raises' do
+    args = [ 'sdsdfsdf', lion, starting_files ]
+    args += [ time_now, 'output', 'red' ]
+    error = assert_raises(ArgumentError) {
       storer.avatar_ran_tests(*args)
     }
+    assert_equal 'StorerFake:invalid id', error.message
   end
 
-  test '917',
-  'tag_visible_files(id) with bad id raises' do
-    assert_bad_kata_id_raises { |invalid_id|
-      storer.tag_visible_files(invalid_id, lion, tag=3)
+  test '9D393C',
+  'tag_visible_files(id) with invalid id raises' do
+    error = assert_raises(ArgumentError) {
+      storer.tag_visible_files('sdfsdf', lion, tag=3)
     }
+    assert_equal 'StorerFake:invalid id', error.message
   end
-=end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # create_kata()
@@ -307,6 +318,10 @@ class StorerFakeTest < AppLibTestBase
   end
 
   private
+
+  def invalid_id
+    'sdfsdfsdf'
+  end
 
   def create_kata(kata_id)
     manifest = make_manifest(kata_id)
