@@ -123,6 +123,7 @@ class SmokeTest < AppLibTestBase
     expected.each do |key, value|
       assert_equal value, actual[key.to_s]
     end
+    assert_equal({}, storer.kata_increments(kata_id))
     assert_equal kata_id, storer.completed(kata_id[0..5])
     assert_equal [], storer.started_avatars(kata_id)
 
@@ -130,6 +131,7 @@ class SmokeTest < AppLibTestBase
     assert_equal lion, storer.start_avatar(kata_id, [lion])
     assert storer.avatar_exists?(kata_id, lion)
 
+    assert_equal({ lion => [tag0] }, storer.kata_increments(kata_id))
     assert_equal [lion], storer.started_avatars(kata_id)
     files0 = storer.kata_manifest(kata_id)['visible_files']
     assert_equal files0, storer.tag_visible_files(kata_id, lion, tag=0)
@@ -144,10 +146,9 @@ class SmokeTest < AppLibTestBase
     args << (colour = 'red')
     storer.avatar_ran_tests(*args)
 
-    assert_equal [
-      tag0,
-      { 'colour' => colour, 'time' => now, 'number' => 1 }
-    ], storer.avatar_increments(kata_id, lion)
+    tag1 = { 'colour' => colour, 'time' => now, 'number' => 1 }
+    assert_equal({ lion => [tag0,tag1] }, storer.kata_increments(kata_id))
+    assert_equal [tag0,tag1], storer.avatar_increments(kata_id, lion)
 
     files1['output'] = output
     assert_equal files1, storer.avatar_visible_files(kata_id, lion)
