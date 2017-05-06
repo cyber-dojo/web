@@ -14,32 +14,27 @@ class KataTest < AppModelsTestBase
 
   test '6779AE',
   'when kata has no avatars',
-  'then it is not active',
-  'and its age is zero' do
+  'then it is not active' do
     kata = make_kata
     refute kata.active?
-    assert_equal 0, kata.age
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '67740E',
   "when kata's avatars have 0 traffic-lights",
-  'then it is not active',
-  'and its age is zero' do
+  'then it is not active' do
     kata = make_kata
     kata.start_avatar(['hippo'])
     kata.start_avatar(['lion'])
     refute kata.active?
-    assert_equal 0, kata.age
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '677DD3',
   'when kata has at least one avatar with 1 or more traffic-lights',
-  'then kata is active',
-  'and age is from earliest traffic-light to now' do
+  'then kata is active' do
     kata = make_kata
 
     hippo = kata.start_avatar(['hippo'])
@@ -51,9 +46,6 @@ class KataTest < AppModelsTestBase
     DeltaMaker.new(lion).run_test(second_time)
 
     assert kata.active?
-    now = first_time
-    now[seconds_slot = -1] += 17
-    assert_equal 17, kata.age(now)
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

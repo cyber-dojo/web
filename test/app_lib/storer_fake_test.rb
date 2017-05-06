@@ -252,7 +252,7 @@ class StorerFakeTest < AppLibTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # avatar_increments, tag_visible_files
+  # kata_increments, avatar_increments, tag_visible_files
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '9D3FC48F',
@@ -269,8 +269,9 @@ class StorerFakeTest < AppLibTestBase
   'and new latest visible_files(plus output)',
   'and visible_file for each tag can be retrieved' do
     create_kata(kata_id = '9D3A35BCCF')
+    assert_equal({}, kata_increments(kata_id))
     start_avatar(kata_id, [lion])
-
+    assert_equal({ lion => [tag0] }, kata_increments(kata_id))
     assert_equal [tag0], avatar_increments(kata_id, lion)
 
     args = []
@@ -282,12 +283,10 @@ class StorerFakeTest < AppLibTestBase
     args << (colour1 = 'red')
     avatar_ran_tests(*args)
 
-    assert_equal [
-      tag0,
-      { 'colour' => colour1, 'time' => now1, 'number' => 1 }
-    ], avatar_increments(kata_id, lion)
-
+    tag1 = { 'colour' => colour1, 'time' => now1, 'number' => 1 }
     files1['output'] = output
+    assert_equal [tag0,tag1], avatar_increments(kata_id, lion)
+    assert_equal({ lion => [tag0,tag1] }, kata_increments(kata_id))
     assert_equal files1, avatar_visible_files(kata_id, lion)
     assert_equal files1, tag_visible_files(kata_id, lion, 1)
 
@@ -302,12 +301,9 @@ class StorerFakeTest < AppLibTestBase
     args << (colour2 = 'green')
     avatar_ran_tests(*args)
 
-    assert_equal [
-      tag0,
-      { 'colour' => colour1, 'time' => now1, 'number' => 1 },
-      { 'colour' => colour2, 'time' => now2, 'number' => 2 }
-    ], avatar_increments(kata_id, lion)
-
+    tag2 = { 'colour' => colour2, 'time' => now2, 'number' => 2 }
+    assert_equal [tag0,tag1,tag2], avatar_increments(kata_id, lion)
+    assert_equal({ lion => [tag0,tag1,tag2] }, kata_increments(kata_id))
     files2['output'] = output
     assert_equal files2, avatar_visible_files(kata_id, lion)
     assert_equal files1, tag_visible_files(kata_id, lion, 1)
@@ -330,6 +326,10 @@ class StorerFakeTest < AppLibTestBase
 
   def kata_manifest(kata_id)
     storer.kata_manifest(kata_id)
+  end
+
+  def kata_increments(kata_id)
+    storer.kata_increments(kata_id)
   end
 
   def completed(id)

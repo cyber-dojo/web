@@ -18,7 +18,6 @@ class DashboardControllerTest < AppControllerTestBase
         dashboard minute_columns: mc, auto_refresh: ar
       end
     end
-    # How do I test @attributes in the controller object?
   end
 
   #- - - - - - - - - - - - - - - -

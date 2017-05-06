@@ -7,30 +7,18 @@ class TrafficLightTest < AppHelpersTestBase
   test 'CF667C',
   'traffic_light_count' do
     kata = Object.new
-    def kata.id; 'ABCD1234'; end
+    def kata.id; 'ABCDE12345'; end
     avatar = Avatar.new(kata, 'hippo')
-      def avatar.red_light
-        stub = Object.new
-        def stub.colour; :red; end
-        stub
-      end
-      def avatar.green_light
-        stub = Object.new
-        def stub.colour; :green; end
-        stub
-      end
-      def avatar.amber_light
-        stub = Object.new
-        def stub.colour; :amber; end
-        stub
-      end
-      def avatar.lights
-        [red_light, red_light, green_light, amber_light, amber_light]
-      end
+    def avatar.lights
+      red_light   = { 'colour' => :red   }
+      green_light = { 'colour' => :green }
+      amber_light = { 'colour' => :amber }
+      [red_light, red_light, green_light, amber_light, amber_light]
+    end
     expected =
       "<div class='traffic-light-count amber'" +
           " data-tip='traffic_light_count'" +
-          " data-id='ABCD1234'" +
+          " data-id='ABCDE12345'" +
           " data-avatar-name='hippo'" +
           " data-current-colour='amber'" +
           " data-red-count='2'" +
@@ -108,11 +96,19 @@ class TrafficLightTest < AppHelpersTestBase
     diff_traffic_light_func({'outcome' => 'red'})
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  #- - - - - - - - - - - - - - - -
+
+  test 'BF0443',
+  'diff_traffic_light2' do
+    diff_traffic_light_func2('red')
+    diff_traffic_light_func2('green')
+  end
+
+  #- - - - - - - - - - - - - - - -
 
   def diff_traffic_light_func(light)
     kata = Object.new
-    def kata.id; 'ABCD1234'; end
+    def kata.id; 'ABCDE12345'; end
     avatar = Avatar.new(kata, 'hippo')
     light = Tag.new(avatar, {
       'number' => (tag = 3),
@@ -122,7 +118,7 @@ class TrafficLightTest < AppHelpersTestBase
       '<div' +
       " class='diff-traffic-light'" +
       " data-tip='ajax:traffic_light'" +
-      " data-id='ABCD1234'" +
+      " data-id='ABCDE12345'" +
       " data-avatar-name='hippo'" +
       " data-colour='#{colour}'" +
       " data-was-tag='#{tag - 1}'" +
@@ -131,6 +127,28 @@ class TrafficLightTest < AppHelpersTestBase
           " alt='#{colour} traffic-light'/>" +
       '</div>'
     actual = diff_traffic_light(light)
+    assert_equal expected, actual
+  end
+
+  #- - - - - - - - - - - - - - - -
+
+  def diff_traffic_light_func2(colour)
+    id = 'ABCDE12345'
+    avatar_name = 'hippo'
+    tag = 3
+    expected = '' +
+      '<div' +
+      " class='diff-traffic-light'" +
+      " data-tip='ajax:traffic_light'" +
+      " data-id='#{id}'" +
+      " data-avatar-name='#{avatar_name}'" +
+      " data-colour='#{colour}'" +
+      " data-was-tag='#{tag - 1}'" +
+      " data-now-tag='#{tag}'>" +
+      "<img src='/images/bulb_#{colour}.png'" +
+          " alt='#{colour} traffic-light'/>" +
+      '</div>'
+    actual = diff_traffic_light2(id, avatar_name, colour, tag)
     assert_equal expected, actual
   end
 
