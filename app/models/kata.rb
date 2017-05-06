@@ -43,14 +43,6 @@ class Kata
     avatars.active.count > 0
   end
 
-  def age(now = Time.now.to_a[0..5].reverse)
-    # Time.now.to_a [18, 7, 11, 22, 5, 2016, ...]
-    # [0..5]        [18, 7, 11, 22, 5, 2016]
-    # reverse       [2016, 5, 22, 11, 7, 18]
-    return 0 unless active?
-    return (Time.mktime(*now) - earliest_light).to_i
-  end
-
   def created
     Time.mktime(*manifest_property)
   end
@@ -129,13 +121,6 @@ class Kata
 
   def manifest
     @manifest ||= storer.kata_manifest(id)
-  end
-
-  def earliest_light
-    times = avatars.active.map { |avatar|
-      avatar.lights[0].time
-    }
-    Time.mktime(*times.sort[0])
   end
 
   include NearestAncestors
