@@ -60,6 +60,14 @@ class StorerFake
     JSON.parse(json)
   end
 
+  def kata_increments(id)
+    incs = {}
+    started_avatars(id).each do |name|
+      incs[name] = avatar_increments(id, name)
+    end
+    incs
+  end
+
   # - - - - - - - - - - - - - - - -
 
   def avatar_exists?(id, name)

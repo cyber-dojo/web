@@ -44,7 +44,7 @@ $(function() {
     </tr>
   <% end %>
 
-  <% @avatar_names.each do |name| %>
+  <% @gapped.keys.sort.each do |name| %>
 	<tr>
 	  <% td_map = @gapped[name] %>
 
@@ -62,7 +62,9 @@ $(function() {
           <table align="right">
             <tr>
 				    <% td.each do |light| %>
-              <td><%= raw diff_traffic_light(light) %></td>
+              <td>
+                <%= raw diff_traffic_light2(@kata.id, name, light['colour'], light['number']) %>
+              </td>
             <% end %>
             </tr>
           </table>
@@ -71,19 +73,17 @@ $(function() {
 		  </td>
 	  <% end %>
 
-    <% avatar = @kata.avatars[name] %>
+    <td class="align-right">
+      <%= raw traffic_light_count2(@kata.id, name, @all_lights[name]) %>
+    </td>
 
-	  <td class="align-right">
-	    <%= raw traffic_light_count(avatar) %>
-	  </td>
+    <td class="align-center">
+      <%= raw pie_chart(@all_lights[name], name) %>
+    </td>
 
-	  <td class="align-center">
-		  <%= raw pie_chart(avatar.lights, avatar.name) %>
-	  </td>
-
-	  <td class="align-left valign-center">
-		  <%= raw diff_avatar_image(avatar) %>
-	  </td>
+    <td class="align-left valign-center">
+      <%= raw diff_avatar_image2(@kata.id, name) %>
+    </td>
 
 	</tr>
   <% end %>

@@ -367,7 +367,7 @@ class DashboardTdGapperTest < AppLibTestBase
   end
 
   def make_light(min,sec)
-    Tag.new(avatar=nil, { 'time' => [year,month,day,hour,min,sec] })
+    { 'time' => [year,month,day,hour,min,sec] }
   end
 
 end

@@ -7,30 +7,18 @@ class TrafficLightTest < AppHelpersTestBase
   test 'CF667C',
   'traffic_light_count' do
     kata = Object.new
-    def kata.id; 'ABCD1234'; end
+    def kata.id; 'ABCDE12345'; end
     avatar = Avatar.new(kata, 'hippo')
-      def avatar.red_light
-        stub = Object.new
-        def stub.colour; :red; end
-        stub
-      end
-      def avatar.green_light
-        stub = Object.new
-        def stub.colour; :green; end
-        stub
-      end
-      def avatar.amber_light
-        stub = Object.new
-        def stub.colour; :amber; end
-        stub
-      end
-      def avatar.lights
-        [red_light, red_light, green_light, amber_light, amber_light]
-      end
+    def avatar.lights
+      red_light   = { 'colour' => :red   }
+      green_light = { 'colour' => :green }
+      amber_light = { 'colour' => :amber }
+      [red_light, red_light, green_light, amber_light, amber_light]
+    end
     expected =
       "<div class='traffic-light-count amber'" +
           " data-tip='traffic_light_count'" +
-          " data-id='ABCD1234'" +
+          " data-id='ABCDE12345'" +
           " data-avatar-name='hippo'" +
           " data-current-colour='amber'" +
           " data-red-count='2'" +

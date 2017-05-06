@@ -57,7 +57,7 @@ class DashboardTdGapper
       if content.class.name == 'Array'
         ticks[td] = (td+1) * @seconds_per_td
       else
-        ticks[td] = content
+        ticks[td] = content # { collapsed:N }
       end
     end
     ticks
@@ -163,7 +163,7 @@ class DashboardTdGapper
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def number(light)
-    ordinal(light.time)
+    n(light['time'])
   end
 
   def n(now)

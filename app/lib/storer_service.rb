@@ -16,15 +16,19 @@ class StorerService
 
   # - - - - - - - - - - - -
 
-  def kata_exists?(kata_id)
-    http_get(__method__, kata_id)
-  end
-
   def create_kata(manifest)
     http_post(__method__, manifest)
   end
 
+  def kata_exists?(kata_id)
+    http_get(__method__, kata_id)
+  end
+
   def kata_manifest(kata_id)
+    http_get(__method__, kata_id)
+  end
+
+  def kata_increments(kata_id)
     http_get(__method__, kata_id)
   end
 

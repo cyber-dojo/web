@@ -18,23 +18,26 @@ module DashboardWorker # mixin
     @kata = kata
     @minute_columns = bool('minute_columns')
     @auto_refresh = bool('auto_refresh')
-    all_lights = Hash[
-      @kata.avatars.active.each.collect{ |avatar|
-        [avatar.name, avatar.lights]
-      }
-    ]
+
+    @all_lights = {}
+    storer.kata_increments(kata.id).each do |name, lights|
+      created = Time.mktime(*lights.shift['time'])
+      unless lights.empty?
+        @all_lights[name] = lights
+      end
+    end
+
+    created ||= kata.created
     max_seconds_uncollapsed = seconds_per_column * 5
     args = []
-    args << @kata.created
+    args << created
     args << seconds_per_column
     args << max_seconds_uncollapsed
     gapper = DashboardTdGapper.new(*args)
-    @gapped = gapper.fully_gapped(all_lights, time_now)
+
+    @gapped = gapper.fully_gapped(@all_lights, time_now)
     @time_ticks = gapper.time_ticks(@gapped)
     @progress = @kata.progress_regexs != [ ]
-    @avatar_names = @kata.avatars.active.map { |avatar|
-      avatar.name
-    }.sort
   end
 
   def bool(attribute)
