@@ -68,16 +68,38 @@ var cyberDojo = (function(cd, $) {
     return 'syntax_highlight_file_content_for_' + filename;
   };
 
+  var runActionOnAllCodeMirrorEditors = function(action) {
+    $.each($('.CodeMirror'), function (i, editor_div) {
+      action(editor_div.CodeMirror);
+    });
+  };
+
+  var toggleLineNumbers = function(cm, lineNumber) {
+    var noLineNumbersTheme = " cyber-dojo-no-linenumbers";
+    runActionOnAllCodeMirrorEditors(function(editor) {
+      var theme = editor.getOption("theme");
+
+      if(theme.indexOf(noLineNumbersTheme) !== -1) {
+        theme = theme.replace(noLineNumbersTheme, "");
+      } else {
+        theme += noLineNumbersTheme;
+      }
+
+      editor.setOption("theme", theme);
+    });
+  };
+
   var switchEditorToCodeMirror = function (filename) {
     var editor = CodeMirror.fromTextArea(document.getElementById('file_content_for_' + filename), {
       lineNumbers: true,
       matchBrackets: true,
       mode: codeMirrorMode(filename),
-      autoRefresh: true,
       indentUnit: cd.syntaxHighlightTabSize,
       tabSize: cd.syntaxHighlightTabSize,
       theme: "cyber-dojo-default"
     });
+
+    editor.on("gutterClick", toggleLineNumbers);
 
     editor.getWrapperElement().id = syntaxHighlightFileContentForId(filename);
 
@@ -109,16 +131,16 @@ var cyberDojo = (function(cd, $) {
   };
 
   var turnSyntaxHighlightOn = function () {
-    $.each($('.CodeMirror'), function (i, editor_div) {
-      editor_div.CodeMirror.setOption("theme", 'cyber-dojo-colour');
+    runActionOnAllCodeMirrorEditors(function(editor) {
+      editor.setOption("theme", 'cyber-dojo-colour');
     });
 
     cd.syntaxHighlightEnabled = true;
   };
 
   var turnSyntaxHighlightOff = function () {
-    $.each($('.CodeMirror'), function (i, editor_div) {
-      editor_div.CodeMirror.setOption("theme", 'cyber-dojo-default');
+    runActionOnAllCodeMirrorEditors(function(editor) {
+      editor.setOption("theme", 'cyber-dojo-default');
     });
 
     cd.syntaxHighlightEnabled = false;

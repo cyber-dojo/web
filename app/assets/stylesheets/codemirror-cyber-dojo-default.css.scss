@@ -30,3 +30,7 @@
 .cm-s-cyber-dojo-default .CodeMirror-cursor {
   border-left: 1px solid $lighter-color;
 }
+
+.cm-s-cyber-dojo-no-linenumbers .CodeMirror-linenumber {
+  color: transparent;
+}
