@@ -50,9 +50,6 @@ class PieChartTest < AppHelpersTestBase
     lights = storer.kata_increments(kata.id)['lion']
     lights.shift
 
-    puts lights.class.name
-    puts lights[0].class.name
-
     size = 34
     expected = '' +
       '<canvas' +
