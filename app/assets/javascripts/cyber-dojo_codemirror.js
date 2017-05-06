@@ -115,6 +115,9 @@ var cyberDojo = (function(cd, $) {
       },
       'Alt-O': function (cm) {
         cd.toggleOutputFile();
+      },
+      'Shift-Ctrl-H': function (cm) {
+        cd.toggleSyntaxHighlight();
       }
     });
     var lineNumbers = document.getElementById(filename + '_line_numbers');
