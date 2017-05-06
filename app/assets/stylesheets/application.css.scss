@@ -30,6 +30,7 @@
  *= depend_on codemirror.css.scss
  *= depend_on codemirror-cyber-dojo-colour.css.scss
  *= depend_on codemirror-cyber-dojo-default.css.scss
+ *= depend_on drivertimer.css.scss
  *= depend_on codemirror-dialog.css.scss
  *= require_self
 */
@@ -53,4 +54,5 @@
 @import "codemirror.css.scss";
 @import "codemirror-cyber-dojo-colour.css.scss";
 @import "codemirror-cyber-dojo-default.css.scss";
+@import "drivertimer.css.scss";
 @import "codemirror-dialog.css.scss";
