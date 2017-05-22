@@ -40,7 +40,7 @@ module StrippedImageName # mix-in
     separator = '([.]{1}|[_]{1,2}|[-]+)'
     component = "#{alpha_numeric}(#{separator}#{alpha_numeric})*"
     name = "#{component}(/#{component})*"
-    tag = '[\w][\w.-]{0,126}'
+    tag = '[\w][\w.-]{0,127}'
     md = /^(#{name})(:(#{tag}))?(@#{digest})?$/.match(remote_name)
 
     fail ArgumentError.new('image_name:invalid') if md.nil?
