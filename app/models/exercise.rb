@@ -3,18 +3,20 @@ class Exercise
 
   def initialize(exercises, dir_name, text = nil)
     @exercises = exercises
-    @name = dir_name
+    @dir_name = dir_name
     @text = text
   end
 
-  attr_reader :name
+  def name
+    path.split('/')[-1]
+  end
 
   def parent
     @exercises
   end
 
   def path
-    parent.path + '/' + name
+    @dir_name
   end
 
   def text
