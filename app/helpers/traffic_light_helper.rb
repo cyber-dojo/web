@@ -95,7 +95,7 @@ module TrafficLightHelper # mix-in
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def count(traffic_lights, colour)
-     traffic_lights.entries.count { |light| light['colour'] == colour }
+     traffic_lights.entries.count { |light| light['colour'] == colour.to_s }
   end
 
   def avatar_image(avatar_name)

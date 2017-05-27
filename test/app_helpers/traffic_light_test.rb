@@ -10,9 +10,9 @@ class TrafficLightTest < AppHelpersTestBase
     def kata.id; 'ABCDE12345'; end
     avatar = Avatar.new(kata, 'hippo')
     def avatar.lights
-      red_light   = { 'colour' => :red   }
-      green_light = { 'colour' => :green }
-      amber_light = { 'colour' => :amber }
+      red_light   = { 'colour' => 'red'   }
+      green_light = { 'colour' => 'green' }
+      amber_light = { 'colour' => 'amber' }
       [red_light, red_light, green_light, amber_light, amber_light]
     end
     expected =
