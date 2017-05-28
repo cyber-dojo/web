@@ -26,7 +26,7 @@ module TrafficLightHelper # mix-in
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def diff_traffic_light2(kata_id, avatar_name, colour, number)
+  def diff_traffic_light(kata_id, avatar_name, colour, number)
     "<div class='diff-traffic-light'" +
         " data-tip='ajax:traffic_light'" +
         " data-id='#{kata_id}'" +
@@ -38,25 +38,9 @@ module TrafficLightHelper # mix-in
      '</div>'
   end
 
-  def diff_traffic_light(light)
-    # used from test page and from dashboard page
-    avatar = light.avatar
-    number = light.number
-    colour = light.colour
-    "<div class='diff-traffic-light'" +
-        " data-tip='ajax:traffic_light'" +
-        " data-id='#{avatar.kata.id}'" +
-        " data-avatar-name='#{avatar.name}'" +
-        " data-colour='#{colour}'" +
-        " data-was-tag='#{number - 1}'" +
-        " data-now-tag='#{number}'>" +
-        traffic_light_image(light.colour) +
-     '</div>'
-  end
-
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def diff_avatar_image2(kata_id, avatar_name)
+  def diff_avatar_image(kata_id, avatar_name)
     "<div class='diff-traffic-light avatar-image'" +
         " data-tip='Review #{avatar_name}#{apostrophe}s current code'" +
         " data-id='#{kata_id}'" +
@@ -67,13 +51,9 @@ module TrafficLightHelper # mix-in
      '</div>'
   end
 
-  def diff_avatar_image(avatar)
-    diff_avatar_image2(avatar.kata.id, avatar.name)
-  end
-
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def traffic_light_count2(kata_id, avatar_name, lights)
+  def traffic_light_count(kata_id, avatar_name, lights)
     colour = lights[-1]['colour']
     "<div class='traffic-light-count #{colour}'" +
         " data-tip='traffic_light_count'" +
@@ -86,10 +66,6 @@ module TrafficLightHelper # mix-in
         " data-timed-out-count='#{count(lights, :timed_out)}'>" +
       lights.count.to_s +
     '</div>'
-  end
-
-  def traffic_light_count(avatar)
-    traffic_light_count2(avatar.kata.id, avatar.name, avatar.lights)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
