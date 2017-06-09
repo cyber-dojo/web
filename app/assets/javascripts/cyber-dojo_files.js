@@ -141,27 +141,20 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.nonBoringFilenameIndex = function(filenames) {
-    // In < > navigation the current file is
-    // sometimes not present after the navigation
+  cd.testFilenameIndex = function(filenames) {
+    // When starting and in file-knave navigation
+    // the current file is sometimes not present.
     // (eg the file has been renamed/deleted).
-    // When this happens, try to select a non-boring file.
-    var i, filename;
+    // When this happens, try to select a test file.
+    var i,parts,filename;
     for (i = 0; i < filenames.length; i++) {
-      filename = filenames[i];
-      if (filename !== 'cyber-dojo.sh' &&
-          filename !== 'instructions' &&
-          filename != 'output') {
-        break;
+      parts = filenames[i].toLowerCase().split('/');
+      filename = parts[parts.length - 1];
+      if (filename.search('test') !== -1) {
+        return i;
       }
     }
-    // This could select a filename whose content is empty
-    // Ideally I'd look at the content too.
-    // And possibly also look at the file that changed the most.
-    if (i === filenames.length) {
-      i = 0;
-    }
-    return i;
+    return 0;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -179,7 +172,7 @@ var cyberDojo = (function(cd, $) {
   cd.deleteFile = function(filename) {
     cd.fileDiv(filename).remove();
     var filenames = cd.rebuildFilenameList();
-    var i = cd.nonBoringFilenameIndex(filenames);
+    var i = cd.testFilenameIndex(filenames);
     cd.loadFile(filenames[i]);
   };
 

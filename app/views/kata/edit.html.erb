@@ -20,7 +20,7 @@ $(function() {
   cd.bindAllLineNumbers();
   cd.rebuildFilenameList();
 
-  var filename = filenames[cd.nonBoringFilenameIndex(filenames)];
+  var filename = filenames[cd.testFilenameIndex(filenames)];
   cd.loadFile(filename);
 
   cd.syntaxHighlightTabSize = <%= @kata.tab_size %>;
