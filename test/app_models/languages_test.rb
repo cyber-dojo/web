@@ -58,6 +58,7 @@ class LanguagesTest < AppModelsTestBase
 
   test '3C0BBE',
   'name is translated when katas manifest.json language entry has been renamed' do
+    skip
     historical_language_names do |old_name|
       unless old_name.include? 'Approval'
         refute_nil languages[old_name], old_name
@@ -69,6 +70,7 @@ class LanguagesTest < AppModelsTestBase
 
   test '3C0518',
   '[name] when lang-test where lang,_test is valid display_name' do
+    skip
     simple_case = 'C++ (g++)-assert'
     simple_display_name = 'C++ (g++), assert'
     found = languages.find { |language| language.display_name == simple_display_name }
@@ -80,6 +82,7 @@ class LanguagesTest < AppModelsTestBase
 
   test '3C0B38',
   '[name] when name has no hyphen and was renamed' do
+    skip
     [
        # from way back when test name was not part of language name
       'BCPL', 'C', 'C++', 'C#', 'CoffeeScript','Erlang','Go',
@@ -91,6 +94,7 @@ class LanguagesTest < AppModelsTestBase
 
   test '3C0D03',
   '[name] when name has hyphen and was renamed' do
+    skip
     [
       # renamed
       # 'Java-ApprovalTests', # offline
@@ -133,6 +137,7 @@ class LanguagesTest < AppModelsTestBase
 
   test '3C0017',
   '[name] on historical_language_names' do
+    skip
     historical_language_names do |name|
       refute_nil languages[name], name unless name.include? 'Approval'
     end
