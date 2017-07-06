@@ -58,7 +58,7 @@ class LanguagesTest < AppModelsTestBase
 
   test '3C0BBE',
   'name is translated when katas manifest.json language entry has been renamed' do
-    skip
+    #skip
     historical_language_names do |old_name|
       unless old_name.include? 'Approval'
         refute_nil languages[old_name], old_name
