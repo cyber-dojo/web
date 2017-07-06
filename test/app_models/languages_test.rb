@@ -141,10 +141,8 @@ class LanguagesTest < AppModelsTestBase
   private
 
   def historical_language_names
-    # these names harvested from cyber-dojo.org using
-    # admin_scripts/show_kata_language_names.rb
-    #
-    # katas/../......../manifest.json { language: X }
+    # these names harvested from cyber-dojo.org
+    # from dirs katas/../......../manifest.json { language: X }
     # Also listed are count of occurences on cyber-dojo.org
     # and ID of one occurrence on cyber-dojo.org
     [
