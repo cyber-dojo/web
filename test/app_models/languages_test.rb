@@ -63,6 +63,10 @@ class LanguagesTest < AppModelsTestBase
     #json = dir.read_json(languages.cache_filename)
     #puts JSON.pretty_generate(json)
     assert_equal 'C++ (g++), assert', languages.renamed('C++')
+    cache = languages.read_cache
+    puts cache.keys.inspect
+    assert cache.keys.include? 'C++ (g++), assert'
+
     refute_nil languages['C++'], 'C++'
     puts "</test 3C0969>"
   end
