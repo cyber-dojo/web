@@ -186,13 +186,13 @@ def gather_done(stats, totals)
 
   done << coverage(stats, 'app_helpers')     if modules.include? 'app_helpers'
   done << coverage(stats, 'app_lib')         if modules.include? 'app_lib'
-  done << coverage(stats, 'app_models',99)   if modules.include? 'app_models'
+  done << coverage(stats, 'app_models')      if modules.include? 'app_models'
   done << coverage(stats, 'lib')             if modules.include? 'lib'
   done << coverage(stats, 'app_controllers') if modules.include? 'app_controllers'
 
   done << skips(stats, 'app_helpers')     if modules.include? 'app_helpers'
   done << skips(stats, 'app_lib')         if modules.include? 'app_lib'
-  done << skips(stats, 'app_models',5)    if modules.include? 'app_models'
+  done << skips(stats, 'app_models')      if modules.include? 'app_models'
   done << skips(stats, 'lib')             if modules.include? 'lib'
   done << skips(stats, 'app_controllers') if modules.include? 'app_controllers'
 
