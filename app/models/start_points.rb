@@ -23,9 +23,11 @@ class StartPoints
 
   include CacheProperties
 
-  private
+  #private
 
   include StartPointsRename
+
+  private
 
   def all
     @all ||= read_cache
