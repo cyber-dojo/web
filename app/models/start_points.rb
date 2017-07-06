@@ -18,7 +18,17 @@ class StartPoints
   end
 
   def [](name)
-    all[commad(name)] || all[renamed(name)]
+    puts "inside StartPoints[#{name}]"
+    puts "all.size==:#{all.size}:"
+    s = commad(name)
+    puts "commad(#{name})==:#{s}:"
+    lhs = all[s]
+    puts "all[command(#{name})]==:#{lhs}:"
+    r = renamed(name)
+    puts "renamed(#{name})==:#{r}:"
+    rhs = all[r]
+    puts "all[renamed(#{name})]==:#{rhs}:"
+    lhs || rhs
   end
 
   include CacheProperties
