@@ -1,7 +1,7 @@
 
 module StartPointsRename # mix-in
 
-  #module_function
+  module_function
 
   def renamed(name)
     # maps from old display_name to new display_name
