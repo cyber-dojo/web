@@ -58,10 +58,10 @@ class LanguagesTest < AppModelsTestBase
 
   test '3C0BBE',
   'name is translated when katas manifest.json language entry has been renamed' do
-    #skip
-    dir = disk[languages.cache_path]
-    json = dir.read_json(languages.cache_filename)
-    puts JSON.pretty_generate(json)
+    skip
+    #dir = disk[languages.cache_path]
+    #json = dir.read_json(languages.cache_filename)
+    #puts JSON.pretty_generate(json)
     historical_language_names do |old_name|
       unless old_name.include? 'Approval'
         refute_nil languages[old_name], old_name
