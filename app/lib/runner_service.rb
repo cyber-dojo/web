@@ -49,15 +49,14 @@ class RunnerService
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def run(image_name, kata_id, avatar_name, max_seconds, delta, files)
-    set_hostname_port_for(image_name)
+  def run(stateful, image_name, kata_id, avatar_name, max_seconds, delta, files)
     args = {
        image_name:image_name,
           kata_id:kata_id,
       avatar_name:avatar_name,
       max_seconds:max_seconds
     }
-    if stateful?(image_name)
+    if stateful
       args[:deleted_filenames] = delta[:deleted]
       new_files     = files.select { |filename| delta[:new    ].include? filename }
       changed_files = files.select { |filename| delta[:changed].include? filename }
@@ -65,6 +64,7 @@ class RunnerService
     else
       args[:visible_files] = files
     end
+    set_hostname_port(stateful)
     sss = http_post_hash(__method__, args)
     [sss['stdout'], sss['stderr'], sss['status'], sss['colour']]
   end
@@ -72,21 +72,23 @@ class RunnerService
   private
 
   def runner_http_get(method, *args)
-    set_hostname_port_for(image_name = args[0])
+    image_name = args[0]
+    set_hostname_port(stateful?(image_name))
     http_get(method, *args)
   end
 
   def runner_http_post(method, *args)
-    set_hostname_port_for(image_name = args[0])
+    image_name = args[0]
+    set_hostname_port(stateful?(image_name))
     http_post(method, *args)
   end
 
   include HttpHelper
   attr_reader :hostname, :port
 
-  def set_hostname_port_for(image_name)
-    @hostname = stateful?(image_name) ? 'runner' : 'runner_stateless'
-    @port = stateful?(image_name) ? 4557 : 4597
+  def set_hostname_port(stateful)
+    @hostname = stateful ? 'runner' : 'runner_stateless'
+    @port = stateful ? 4557 : 4597
   end
 
   def stateful?(image_name)

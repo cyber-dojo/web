@@ -15,6 +15,7 @@ class RunnerServiceTest < AppLibTestBase
   def assert_stateful_runner(kata_id, image_name)
     @http = HttpSpy.new(nil)
     args = []
+    args << (stateful = true)
     args << image_name
     args << kata_id
     args << (avatar_name = lion)
@@ -29,8 +30,7 @@ class RunnerServiceTest < AppLibTestBase
   end
 
   test '2BDF80874C',
-  "run() with image_name that does not end in 'stateless'",
-  'delegates to stateful runner',
+  'stateful run() delegates to stateful runner',
   'args include deleted_filenames and changed_files' do
     assert_stateful_runner('2BDAD8074C', 'cyberdojofoundation/gcc_assert')
     assert_stateful_runner('2BDAD8074D', 'quay.io:8080/cyberdojofoundation/gcc_assert:latest')
@@ -42,6 +42,7 @@ class RunnerServiceTest < AppLibTestBase
   def assert_stateless_runner(kata_id, image_name)
     @http = HttpSpy.new(nil)
     args = []
+    args << (stateful = false)
     args << image_name
     args << kata_id
     args << (avatar_name = lion)
@@ -56,8 +57,7 @@ class RunnerServiceTest < AppLibTestBase
   end
 
   test '2BDF808601',
-  "run() with image_name that ends in 'stateless'",
-  'delegates to stateless runner',
+  'stateless run() delegates to stateless runner',
   'args do not include deleted_filenames or changed_files',
   'but do include visible_files' do
     assert_stateless_runner('2BDAD80601', 'cyberdojofoundation/gcc_assert_stateless')

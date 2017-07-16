@@ -28,7 +28,7 @@ class RunnerStub
     dir.write(filename, [stdout,stderr,status,colour])
   end
 
-  def run(_image_name, _kata_id, _name, _max_seconds, _delta, _files)
+  def run(_strategy, _image_name, _kata_id, _name, _max_seconds, _delta, _files)
     if dir.exists?
       dir.read(filename)
     else
