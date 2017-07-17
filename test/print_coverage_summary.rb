@@ -180,7 +180,7 @@ def gather_done(stats, totals)
   done = [
      [ 'total failures == 0',            totals[:failure_count] == 0 ],
      [ 'total errors == 0',              totals[:error_count] == 0 ],
-     [ 'total secs < 50',                totals[:time].to_f < 50 ],
+     [ 'total secs < 60',                totals[:time].to_f < 60 ],
      [ 'total assertions per sec > 20',  totals[:assertions_per_sec] > 20 ]
   ]
   module_names = %w( app_helpers app_lib app_models lib app_controllers )
