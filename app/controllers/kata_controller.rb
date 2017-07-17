@@ -12,13 +12,16 @@ class KataController < ApplicationController
   end
 
   def run_tests
-    @avatar = Avatar.new(kata, avatar_name)
     incoming = params[:file_hashes_incoming]
     outgoing = params[:file_hashes_outgoing]
     delta = FileDeltaMaker.make_delta(incoming, outgoing)
     files = received_files
     max_seconds = 10
 
+    @avatar = Avatar.new(kata, avatar_name)
+    if kata.runner_choice == 'stateless'
+      runner.run_statelessly
+    end
     begin
       stdout,stderr,status,colour = @avatar.test(delta, files, max_seconds, image_name)
     rescue StandardError => error
