@@ -73,7 +73,7 @@ class Kata
 
   # - - - - - - - - - - - - -
 
-  def run
+  def runner_choice
     full_manifest_property
   end
 

@@ -63,7 +63,6 @@ class SmokeTest < AppLibTestBase
     runner.kata_new(image_name, kata_id)
     runner.avatar_new(image_name, kata_id, lion, starting_files)
     args = []
-    args << (stateful = false)
     args << image_name
     args << kata_id
     args << lion

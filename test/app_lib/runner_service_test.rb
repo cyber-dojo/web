@@ -14,7 +14,6 @@ class RunnerServiceTest < AppLibTestBase
   def assert_stateful_runner(kata_id, image_name)
     @http = HttpSpy.new(nil)
     args = []
-    args << (strategy = 'statefully')
     args << image_name
     args << kata_id
     args << (avatar_name = lion)
@@ -41,13 +40,13 @@ class RunnerServiceTest < AppLibTestBase
   def assert_stateless_runner(kata_id, image_name)
     @http = HttpSpy.new(nil)
     args = []
-    args << (strategy = 'statelessly')
     args << image_name
     args << kata_id
     args << (avatar_name = lion)
     args << (max_seconds = 10)
     args << (delta = { :deleted => [], :new => [],:changed => {} })
     args << (files = {})
+    runner.run_statelessly
     runner.run(*args)
     assert @http.spied_hostname? 'runner_stateless'
     refute @http.spied_named_arg? :deleted_filenames

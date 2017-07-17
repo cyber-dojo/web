@@ -82,7 +82,6 @@ class RunnerStubTest < AppLibTestBase
 
   def unused_args
     args = []
-    args << (stateful = nil)
     args << (image_name = nil)
     args << (kata_id = nil)
     args << (avatar_name = nil)
