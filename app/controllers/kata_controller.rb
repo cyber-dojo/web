@@ -19,7 +19,7 @@ class KataController < ApplicationController
     max_seconds = 10
 
     @avatar = Avatar.new(kata, avatar_name)
-    if kata.runner_choice == 'stateless'
+    if runner_choice == 'stateless'
       runner.run_statelessly
     end
     begin
