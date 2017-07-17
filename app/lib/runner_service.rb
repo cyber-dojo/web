@@ -49,14 +49,14 @@ class RunnerService
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def run(stateful, image_name, kata_id, avatar_name, max_seconds, delta, files)
+  def run(choice, image_name, kata_id, avatar_name, max_seconds, delta, files)
     args = {
        image_name:image_name,
           kata_id:kata_id,
       avatar_name:avatar_name,
       max_seconds:max_seconds
     }
-    if stateful
+    if choice == 'statefully'
       args[:deleted_filenames] = delta[:deleted]
       new_files     = files.select { |filename| delta[:new    ].include? filename }
       changed_files = files.select { |filename| delta[:changed].include? filename }
@@ -64,7 +64,7 @@ class RunnerService
     else
       args[:visible_files] = files
     end
-    set_hostname_port(stateful)
+    set_hostname_port(choice == 'statefully')
     sss = http_post_hash(__method__, args)
     [sss['stdout'], sss['stderr'], sss['status'], sss['colour']]
   end

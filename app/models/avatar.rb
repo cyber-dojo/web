@@ -11,9 +11,9 @@ class Avatar
 
   # modifiers
 
-  def test(delta, files, max_seconds, image_name = kata.image_name, stateful = kata.stateful)
+  def test(delta, files, max_seconds, image_name = kata.image_name, run = kata.run)
     args = []
-    args << stateful
+    args << run
     args << image_name        # eg 'cyberdojofoundation/gcc_assert'
     args << kata.id           # eg 'FE8A79A264'
     args << name              # eg 'salmon'

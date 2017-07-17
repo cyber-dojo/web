@@ -18,7 +18,7 @@ class StartPoint
     manifest = {
                        'id' => id,
                   'created' => now,
-                 'stateful' => stateful,
+                      'run' => run,
                'image_name' => image_name,
              'display_name' => display_name,
        'filename_extension' => filename_extension,
@@ -57,8 +57,8 @@ class StartPoint
 
   # optional manifest properties
 
-  def stateful
-    manifest_property || true
+  def run
+    manifest_property || 'statefully'
   end
 
   def filename_extension

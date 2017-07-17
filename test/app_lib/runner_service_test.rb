@@ -6,7 +6,6 @@ class RunnerServiceTest < AppLibTestBase
 
   def setup
     super
-    #set_storer_class('StorerThrower')
     set_runner_class('RunnerService')
   end
 
@@ -15,7 +14,7 @@ class RunnerServiceTest < AppLibTestBase
   def assert_stateful_runner(kata_id, image_name)
     @http = HttpSpy.new(nil)
     args = []
-    args << (stateful = true)
+    args << (strategy = 'statefully')
     args << image_name
     args << kata_id
     args << (avatar_name = lion)
@@ -42,7 +41,7 @@ class RunnerServiceTest < AppLibTestBase
   def assert_stateless_runner(kata_id, image_name)
     @http = HttpSpy.new(nil)
     args = []
-    args << (stateful = false)
+    args << (strategy = 'statelessly')
     args << image_name
     args << kata_id
     args << (avatar_name = lion)

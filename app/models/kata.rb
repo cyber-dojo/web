@@ -73,7 +73,7 @@ class Kata
 
   # - - - - - - - - - - - - -
 
-  def stateful
+  def run
     full_manifest_property
   end
 
