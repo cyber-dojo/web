@@ -26,21 +26,22 @@ $(function() {
 
   <% if @minute_columns == 'true' %>
     <tr>
+      <% seconds = 0 %>
       <% @time_ticks.keys.sort.each_with_index do |td_no,index| %>
   		  <% seconds = @time_ticks[td_no] %>
   		  <td class="<%= parity(index) %> column">
     	    <% if seconds.class == Hash %>
   	  	    <span class="collapsed-multi-gap"></span>
           <% else %>
-            <span class="time-tick">
-              <%= raw time_tick(seconds) %>
-            </span>
+            <div class='time-tick' data-tip="<%= raw time_tick(seconds) %>"></div>
           <% end %>
         </td>
       <% end %>
       <td></td>
       <td></td>
-      <td></td>
+      <td>
+        <div class='age' data-tip="age of oldest traffic-light<br/>(days:hours:mins)"><%= raw time_tick(seconds) %></div>
+      </td>
     </tr>
   <% end %>
 
@@ -63,7 +64,7 @@ $(function() {
             <tr>
 				    <% td.each do |light| %>
               <td>
-                <%= raw diff_traffic_light2(@kata.id, name, light['colour'], light['number']) %>
+                <%= raw diff_traffic_light(@kata.id, name, light['colour'], light['number']) %>
               </td>
             <% end %>
             </tr>
@@ -74,15 +75,15 @@ $(function() {
 	  <% end %>
 
     <td class="align-right">
-      <%= raw traffic_light_count2(@kata.id, name, @all_lights[name]) %>
+      <%= raw traffic_light_count(@kata.id, name, @all_lights[name]) %>
     </td>
 
     <td class="align-center">
-      <%= raw pie_chart2(@all_lights[name], name) %>
+      <%= raw pie_chart(@all_lights[name], name) %>
     </td>
 
     <td class="align-left valign-center">
-      <%= raw diff_avatar_image2(@kata.id, name) %>
+      <%= raw diff_avatar_image(@kata.id, name) %>
     </td>
 
 	</tr>

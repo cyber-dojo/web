@@ -34,6 +34,9 @@ end
 # reaching app/models/dojo.rb (possibly in a different thread)
 # where the specificied Double/Mock/Stub/Fake class or path takes effect.
 #
+# The env-vars are set in /lib/env_var.rb
+# For testing the env-vars are set in /test/run.sh
+#
 # The external objects are held using
 #    @name ||= ...
 # I use ||= partly for optimization and partly for testing

@@ -1,5 +1,0 @@
-FAIL "two passing" at (hiker_test.clj:9)
-    Expected: 41
-      Actual: 42
-FAILURE: 1 check failed.  (But 1 succeeded.)
-Subprocess failed

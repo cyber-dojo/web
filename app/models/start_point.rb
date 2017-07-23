@@ -18,6 +18,7 @@ class StartPoint
     manifest = {
                        'id' => id,
                   'created' => now,
+            'runner_choice' => runner_choice,
                'image_name' => image_name,
              'display_name' => display_name,
        'filename_extension' => filename_extension,
@@ -56,6 +57,10 @@ class StartPoint
 
   # optional manifest properties
 
+  def runner_choice
+    manifest_property || 'stateful'
+  end
+
   def filename_extension
     manifest_property || ''
   end
@@ -86,7 +91,8 @@ class StartPoint
   end
 
   def name
-    # as stored in the kata's manifest
+    # as stored in the kata's manifest.
+    # This is the reverse of start_points/.rb commad()
     display_name.split(',').map(&:strip).join('-')
   end
 

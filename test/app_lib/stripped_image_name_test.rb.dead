@@ -17,7 +17,7 @@ class StrippedImageNameTest < AppLibTestBase
       'gcc:.',         # tag can't start with .
       'gcc:-',         # tag can't start with -
       'gcc:{}',        # bad tag
-      "gcc:#{'x'*128}",# tag too long
+      "gcc:#{'x'*129}",# tag too long
       '-/gcc/assert:23',    # - is illegal hostname
       '-x/gcc/assert:23',   # -x is illegal hostname
       'x-/gcc/assert:23',   # x- is illegal hostname
@@ -46,7 +46,7 @@ class StrippedImageNameTest < AppLibTestBase
     assert_split('gcc_assert:A', '', '', 'gcc_assert', 'A')
     assert_split('gcc_assert:1.2', '', '', 'gcc_assert', '1.2')
     assert_split('gcc_assert:1-2', '', '', 'gcc_assert', '1-2')
-    assert_split("gcc_assert:#{'x'*127}", '', '', 'gcc_assert', 'x'*127)
+    assert_split("gcc_assert:#{'x'*128}", '', '', 'gcc_assert', 'x'*128)
     assert_split('gcc_assert', '', '', 'gcc_assert', '')
     assert_split('cdf/gcc_assert', '', '', 'cdf/gcc_assert', '')
     assert_split('cdf/gcc_assert:latest', '', '', 'cdf/gcc_assert', 'latest')

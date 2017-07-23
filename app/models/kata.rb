@@ -73,6 +73,10 @@ class Kata
 
   # - - - - - - - - - - - - -
 
+  def runner_choice
+    full_manifest_property
+  end
+
   def image_name
     full_manifest_property
   end

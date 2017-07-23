@@ -61,6 +61,7 @@ class StartPoints
   end
 
   def commad(name)
+    # This is the reverse of start_point.rb name()
     name.split('-', 2).join(', ')
   end
 

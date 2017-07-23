@@ -6,20 +6,17 @@ class TrafficLightTest < AppHelpersTestBase
 
   test 'CF667C',
   'traffic_light_count' do
-    kata = Object.new
-    def kata.id; 'ABCDE12345'; end
-    avatar = Avatar.new(kata, 'hippo')
-    def avatar.lights
-      red_light   = { 'colour' => :red   }
-      green_light = { 'colour' => :green }
-      amber_light = { 'colour' => :amber }
-      [red_light, red_light, green_light, amber_light, amber_light]
-    end
+    id = 'ABCDE12345'
+    avatar_name = 'hippo'
+    red_light   = { 'colour' => 'red'   }
+    green_light = { 'colour' => 'green' }
+    amber_light = { 'colour' => 'amber' }
+    lights = [red_light, red_light, green_light, amber_light, amber_light]
     expected =
       "<div class='traffic-light-count amber'" +
           " data-tip='traffic_light_count'" +
-          " data-id='ABCDE12345'" +
-          " data-avatar-name='hippo'" +
+          " data-id='#{id}'" +
+          " data-avatar-name='#{avatar_name}'" +
           " data-current-colour='amber'" +
           " data-red-count='2'" +
           " data-amber-count='2'" +
@@ -27,7 +24,7 @@ class TrafficLightTest < AppHelpersTestBase
           " data-timed-out-count='0'>" +
         "5<" +
       "/div>"
-    actual = traffic_light_count(avatar)
+    actual = traffic_light_count(id, avatar_name, lights)
     assert_equal expected, actual
   end
 
@@ -46,22 +43,20 @@ class TrafficLightTest < AppHelpersTestBase
 
   test '0E4647',
   'diff_avatar_image' do
-    kata = Object.new
-    def kata.id; 'ABCD1234'; end
-    avatar = Avatar.new(kata, 'hippo')
-    def avatar.lights; [1]*27; end
+    id = 'ABCDE12345'
+    avatar_name = 'hippo'
     expected = '' +
       '<div' +
       " class='diff-traffic-light avatar-image'" +
-      " data-tip='Review hippo&#39;s current code'" +
-      " data-id='ABCD1234'" +
-      " data-avatar-name='hippo'" +
+      " data-tip='Review #{avatar_name}&#39;s current code'" +
+      " data-id='#{id}'" +
+      " data-avatar-name='#{avatar_name}'" +
       " data-was-tag='-1'" +
       " data-now-tag='-1'>" +
-      "<img src='/images/avatars/hippo.jpg'" +
-          " alt='hippo'/>" +
+      "<img src='/images/avatars/#{avatar_name}.jpg'" +
+          " alt='#{avatar_name}'/>" +
       '</div>'
-    actual = diff_avatar_image(avatar)
+    actual = diff_avatar_image(id, avatar_name)
     assert_equal expected, actual
   end
 
@@ -90,49 +85,16 @@ class TrafficLightTest < AppHelpersTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test 'BF0442',
-  'diff_traffic_light' do
-    diff_traffic_light_func({'colour'  => 'red'})
-    diff_traffic_light_func({'outcome' => 'red'})
-  end
-
-  #- - - - - - - - - - - - - - - -
-
   test 'BF0443',
-  'diff_traffic_light2' do
-    diff_traffic_light_func2('red')
-    diff_traffic_light_func2('green')
+  'diff_traffic_light' do
+    diff_traffic_light_func('red')
+    diff_traffic_light_func('amber')
+    diff_traffic_light_func('green')
   end
 
   #- - - - - - - - - - - - - - - -
 
-  def diff_traffic_light_func(light)
-    kata = Object.new
-    def kata.id; 'ABCDE12345'; end
-    avatar = Avatar.new(kata, 'hippo')
-    light = Tag.new(avatar, {
-      'number' => (tag = 3),
-      'colour' => (colour = 'red')
-    })
-    expected = '' +
-      '<div' +
-      " class='diff-traffic-light'" +
-      " data-tip='ajax:traffic_light'" +
-      " data-id='ABCDE12345'" +
-      " data-avatar-name='hippo'" +
-      " data-colour='#{colour}'" +
-      " data-was-tag='#{tag - 1}'" +
-      " data-now-tag='#{tag}'>" +
-      "<img src='/images/bulb_#{colour}.png'" +
-          " alt='#{colour} traffic-light'/>" +
-      '</div>'
-    actual = diff_traffic_light(light)
-    assert_equal expected, actual
-  end
-
-  #- - - - - - - - - - - - - - - -
-
-  def diff_traffic_light_func2(colour)
+  def diff_traffic_light_func(colour)
     id = 'ABCDE12345'
     avatar_name = 'hippo'
     tag = 3
@@ -148,7 +110,7 @@ class TrafficLightTest < AppHelpersTestBase
       "<img src='/images/bulb_#{colour}.png'" +
           " alt='#{colour} traffic-light'/>" +
       '</div>'
-    actual = diff_traffic_light2(id, avatar_name, colour, tag)
+    actual = diff_traffic_light(id, avatar_name, colour, tag)
     assert_equal expected, actual
   end
 

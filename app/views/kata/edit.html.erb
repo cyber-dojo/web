@@ -20,7 +20,7 @@ $(function() {
   cd.bindAllLineNumbers();
   cd.rebuildFilenameList();
 
-  var filename = filenames[cd.nonBoringFilenameIndex(filenames)];
+  var filename = filenames[cd.testFilenameIndex(filenames)];
   cd.loadFile(filename);
 
   cd.syntaxHighlightTabSize = <%= @kata.tab_size %>;
@@ -31,6 +31,7 @@ $(function() {
 
 <%= form_tag( { action: 'run_tests',
                 id: @kata.id,
+                runner_choice: @kata.runner_choice,
                 image_name: @kata.image_name,
                 avatar: @avatar.name
               } ) do %>
