@@ -16,16 +16,7 @@ $(function() {
     <% if @kata.exercise %>
     html += '<tr><td>exercise</td><td>:</td><td><%= @kata.exercise.gsub('_',' ') %></td></tr>';
     <% end %>
-    <% if defined?(show_syntax_highlight) and show_syntax_highlight %>
-    html += '<tr><td>syntax highlight</td><td>:</td>';
-    html += '<td><button type="button" ';
-    html += 'id="syntax-highlight-button" ';
-    html += 'title="toggles syntax highlighting" ';
-    html += 'value="syntax-highlight-toggle" ';
-    html += 'onclick="cd.toggleSyntaxHighlight();">';
-    html += 'toggle';
-    html += '</button></td></tr>';
-    <% end %>
+
     <% if defined?(show_drivertimer) and show_drivertimer %>
     html += '<tr><td>driver timer (mins)</td><td>:</td><td>';
 
@@ -55,6 +46,7 @@ $(function() {
 
     html += '</td></tr>';
     <% end %>
+
     html += '</table>';
     html += '</div>';
 

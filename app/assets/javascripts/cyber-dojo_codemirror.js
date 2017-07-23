@@ -3,8 +3,8 @@
 var cyberDojo = (function(cd, $) {
   "use strict";
 
-  cd.syntaxHighlightEnabled = false;
   cd.syntaxHighlightTabSize = 4;
+  var noLineNumbersTheme = " cyber-dojo-no-linenumbers";
 
   var fileExtension = function (filename) {
     var lastPoint = filename.lastIndexOf('.');
@@ -74,30 +74,54 @@ var cyberDojo = (function(cd, $) {
     });
   };
 
-  var toggleLineNumbers = function(cm, lineNumber) {
-    var noLineNumbersTheme = " cyber-dojo-no-linenumbers";
+  var areLineNumbersVisible = function() {
+    var enabled = true;
+
     runActionOnAllCodeMirrorEditors(function(editor) {
       var theme = editor.getOption("theme");
 
-      if(theme.indexOf(noLineNumbersTheme) !== -1) {
-        theme = theme.replace(noLineNumbersTheme, "");
-      } else {
-        theme += noLineNumbersTheme;
+      if (theme.indexOf(noLineNumbersTheme) !== -1) {
+        enabled = false;
       }
-
-      editor.setOption("theme", theme);
     });
+
+    return enabled;
   };
 
-  var switchEditorToCodeMirror = function (filename) {
+  var showLineNumbersForEditor = function(editor) {
+    var theme = editor.getOption("theme");
+    theme = theme.replace(noLineNumbersTheme, "");
+    editor.setOption("theme", theme);
+  };
+
+  var hideLineNumbersForEditor = function(editor) {
+    var theme = editor.getOption("theme");
+    theme += noLineNumbersTheme;
+    editor.setOption("theme", theme);
+  };
+
+  var toggleLineNumbers = function(cm, lineNumber) {
+    if(areLineNumbersVisible()) {
+      runActionOnAllCodeMirrorEditors(hideLineNumbersForEditor);
+    } else {
+      runActionOnAllCodeMirrorEditors(showLineNumbersForEditor);
+    }
+  };
+
+  cd.switchEditorToCodeMirror = function (filename) {
     var editor = CodeMirror.fromTextArea(document.getElementById('file_content_for_' + filename), {
       lineNumbers: true,
       matchBrackets: true,
       mode: codeMirrorMode(filename),
       indentUnit: cd.syntaxHighlightTabSize,
       tabSize: cd.syntaxHighlightTabSize,
-      theme: "cyber-dojo-default"
+      theme: "cyber-dojo-colour",
+      readOnly: (filename == 'output')
     });
+
+    if(!areLineNumbersVisible()) {
+      hideLineNumbersForEditor(editor);
+    }
 
     editor.on("gutterClick", toggleLineNumbers);
 
@@ -115,9 +139,6 @@ var cyberDojo = (function(cd, $) {
       },
       'Alt-O': function (cm) {
         cd.toggleOutputFile();
-      },
-      'Shift-Ctrl-H': function (cm) {
-        cd.toggleSyntaxHighlight();
       }
     });
     var lineNumbers = document.getElementById(filename + '_line_numbers');
@@ -127,35 +148,8 @@ var cyberDojo = (function(cd, $) {
   cd.switchAllEditorsToCodeMirror = function() {
     $.each($('.file_content'), function (i, editor_text_area) {
       var filename = editor_text_area.attributes['data-filename'].value;
-      if (filename != 'output') {
-        switchEditorToCodeMirror(filename);
-      }
+      cd.switchEditorToCodeMirror(filename);
     });
-  };
-
-  var turnSyntaxHighlightOn = function () {
-    runActionOnAllCodeMirrorEditors(function(editor) {
-      editor.setOption("theme", 'cyber-dojo-colour');
-    });
-
-    cd.syntaxHighlightEnabled = true;
-  };
-
-  var turnSyntaxHighlightOff = function () {
-    runActionOnAllCodeMirrorEditors(function(editor) {
-      editor.setOption("theme", 'cyber-dojo-default');
-    });
-
-    cd.syntaxHighlightEnabled = false;
-  };
-
-  cd.toggleSyntaxHighlight = function () {
-    if (cd.syntaxHighlightEnabled) {
-      turnSyntaxHighlightOff();
-    }
-    else {
-      turnSyntaxHighlightOn();
-    }
   };
 
   cd.removeSyntaxHilightEditor = function (filename) {
@@ -170,12 +164,6 @@ var cyberDojo = (function(cd, $) {
     if (element != null) {
       element.CodeMirror.refresh();
       element.CodeMirror.focus();
-    }
-  };
-
-  cd.switchEditorIfSyntaxHighlightEnabled = function (filename) {
-    if (cd.syntaxHighlightEnabled) {
-      switchEditorToCodeMirror(filename);
     }
   };
 
