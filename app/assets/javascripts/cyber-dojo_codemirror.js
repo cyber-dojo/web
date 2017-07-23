@@ -3,7 +3,6 @@
 var cyberDojo = (function(cd, $) {
   "use strict";
 
-  cd.syntaxHighlightEnabled = false;
   cd.syntaxHighlightTabSize = 4;
 
   var fileExtension = function (filename) {
