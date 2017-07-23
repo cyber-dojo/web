@@ -25,6 +25,8 @@ var appendTestTrafficLight = function() {
 $('#output')
   .html("<%= js_partial('output') %>");
 
+cd.switchEditorToCodeMirror('output');
+
 appendTestTrafficLight();
 
 $('.traffic-lights-count')
