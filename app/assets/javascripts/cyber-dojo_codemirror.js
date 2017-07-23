@@ -4,6 +4,7 @@ var cyberDojo = (function(cd, $) {
   "use strict";
 
   cd.syntaxHighlightTabSize = 4;
+  var noLineNumbersTheme = " cyber-dojo-no-linenumbers";
 
   var fileExtension = function (filename) {
     var lastPoint = filename.lastIndexOf('.');
@@ -73,19 +74,38 @@ var cyberDojo = (function(cd, $) {
     });
   };
 
-  var toggleLineNumbers = function(cm, lineNumber) {
-    var noLineNumbersTheme = " cyber-dojo-no-linenumbers";
+  var areLineNumbersVisible = function() {
+    var enabled = true;
+
     runActionOnAllCodeMirrorEditors(function(editor) {
       var theme = editor.getOption("theme");
 
-      if(theme.indexOf(noLineNumbersTheme) !== -1) {
-        theme = theme.replace(noLineNumbersTheme, "");
-      } else {
-        theme += noLineNumbersTheme;
+      if (theme.indexOf(noLineNumbersTheme) !== -1) {
+        enabled = false;
       }
-
-      editor.setOption("theme", theme);
     });
+
+    return enabled;
+  };
+
+  var showLineNumbersForEditor = function(editor) {
+    var theme = editor.getOption("theme");
+    theme = theme.replace(noLineNumbersTheme, "");
+    editor.setOption("theme", theme);
+  };
+
+  var hideLineNumbersForEditor = function(editor) {
+    var theme = editor.getOption("theme");
+    theme += noLineNumbersTheme;
+    editor.setOption("theme", theme);
+  };
+
+  var toggleLineNumbers = function(cm, lineNumber) {
+    if(areLineNumbersVisible()) {
+      runActionOnAllCodeMirrorEditors(hideLineNumbersForEditor);
+    } else {
+      runActionOnAllCodeMirrorEditors(showLineNumbersForEditor);
+    }
   };
 
   cd.switchEditorToCodeMirror = function (filename) {
@@ -98,6 +118,10 @@ var cyberDojo = (function(cd, $) {
       theme: "cyber-dojo-colour",
       readOnly: (filename == 'output')
     });
+
+    if(!areLineNumbersVisible()) {
+      hideLineNumbersForEditor(editor);
+    }
 
     editor.on("gutterClick", toggleLineNumbers);
 
