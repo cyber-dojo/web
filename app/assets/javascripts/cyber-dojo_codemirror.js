@@ -96,7 +96,8 @@ var cyberDojo = (function(cd, $) {
       mode: codeMirrorMode(filename),
       indentUnit: cd.syntaxHighlightTabSize,
       tabSize: cd.syntaxHighlightTabSize,
-      theme: "cyber-dojo-colour"
+      theme: "cyber-dojo-colour",
+      readOnly: (filename == 'output')
     });
 
     editor.on("gutterClick", toggleLineNumbers);
