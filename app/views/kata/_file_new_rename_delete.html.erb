@@ -118,7 +118,7 @@ $(function() {
     var okInitiallyDisabled = !isValidFilename(initialFilename);
     var okClicked = function(filename) {
       cd.newFileContent(filename, '');
-      cd.switchEditorIfSyntaxHighlightEnabled(filename);
+      cd.switchEditorToCodeMirror(filename);
     };
     openDialog('new', initialFilename, okInitiallyDisabled, okClicked, avatarName);
   });
@@ -129,7 +129,7 @@ $(function() {
     var okClicked = function(filename) {
       cd.removeSyntaxHilightEditor(initialFilename);
       renameFileFromTo(initialFilename, filename);
-      cd.switchEditorIfSyntaxHighlightEnabled(filename);
+      cd.switchEditorToCodeMirror(filename);
     };
     openDialog('rename', initialFilename, okInitiallyDisabled, okClicked, avatarName);
   });
