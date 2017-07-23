@@ -137,6 +137,25 @@ class LanguageTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test '43EB07',
+  'runner_choice defaults to stateful when not set' do
+    @language = make_language('Ruby', 'Test::Unit')
+    spy_manifest({})
+    assert_equal 'stateful', @language.runner_choice
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '43E7FF',
+  'runner_choice reads back as set' do
+    @language = make_language('Ruby', 'Test::Unit')
+    expected = 'stateless'
+    spy_manifest({ 'runner_choice' => expected })
+    assert_equal expected, @language.runner_choice
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '43E90B',
   'tab_size is read back as set' do
     @language = make_language('Ruby', 'Test::Unit')

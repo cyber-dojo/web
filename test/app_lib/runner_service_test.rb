@@ -6,8 +6,14 @@ class RunnerServiceTest < AppLibTestBase
 
   def setup
     super
-    #set_storer_class('StorerThrower')
     set_runner_class('RunnerService')
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '2BDF8082E5',
+  'runner defaults to running statefully' do
+    assert runner.running_statefully?
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -21,6 +27,8 @@ class RunnerServiceTest < AppLibTestBase
     args << (max_seconds = 10)
     args << (delta = { :deleted => [], :new => [],:changed => {} })
     args << (files = {})
+    runner.run_statefully
+    assert runner.running_statefully?
     runner.run(*args)
     assert @http.spied_hostname? 'runner'
     assert @http.spied_named_arg? :deleted_filenames
@@ -29,8 +37,7 @@ class RunnerServiceTest < AppLibTestBase
   end
 
   test '2BDF80874C',
-  "run() with image_name that does not end in 'stateless'",
-  'delegates to stateful runner',
+  'stateful run() delegates to stateful runner',
   'args include deleted_filenames and changed_files' do
     assert_stateful_runner('2BDAD8074C', 'cyberdojofoundation/gcc_assert')
     assert_stateful_runner('2BDAD8074D', 'quay.io:8080/cyberdojofoundation/gcc_assert:latest')
@@ -48,6 +55,8 @@ class RunnerServiceTest < AppLibTestBase
     args << (max_seconds = 10)
     args << (delta = { :deleted => [], :new => [],:changed => {} })
     args << (files = {})
+    runner.run_statelessly
+    refute runner.running_statefully?
     runner.run(*args)
     assert @http.spied_hostname? 'runner_stateless'
     refute @http.spied_named_arg? :deleted_filenames
@@ -56,8 +65,7 @@ class RunnerServiceTest < AppLibTestBase
   end
 
   test '2BDF808601',
-  "run() with image_name that ends in 'stateless'",
-  'delegates to stateless runner',
+  'stateless run() delegates to stateless runner',
   'args do not include deleted_filenames or changed_files',
   'but do include visible_files' do
     assert_stateless_runner('2BDAD80601', 'cyberdojofoundation/gcc_assert_stateless')

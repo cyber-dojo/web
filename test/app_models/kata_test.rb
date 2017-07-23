@@ -77,6 +77,7 @@ class KataTest < AppModelsTestBase
     kata = make_kata(hash)
     assert_equal id, kata.id
     assert_equal Time.mktime(*now), kata.created
+    assert_equal java_junit.runner_choice, kata.runner_choice
     assert_equal java_junit.image_name, kata.image_name
     assert_equal java_junit.tab_size, kata.tab_size
     assert_equal java_junit.display_name, kata.display_name
@@ -229,6 +230,7 @@ class KataTest < AppModelsTestBase
       progress_regexs
       highlight_filenames
       lowlight_filenames
+      runner_choice
     )
     kata = katas[kata_id]
     property_names.each { |property_name| refute_nil kata.send(property_name) }

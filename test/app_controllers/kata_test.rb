@@ -69,8 +69,8 @@ class KataControllerTest  < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'BE89DC',
-  'when cyber-dojo.sh removes a file then it stays removed.',
-  '(viz, RunnerService is stateful)' do
+  'when cyber-dojo.sh removes a file then it stays removed',
+  'when RunnerService is stateful' do
     set_runner_class('RunnerService')
     in_kata {
       before = content('cyber-dojo.sh')
@@ -86,6 +86,29 @@ class KataControllerTest  < AppControllerTestBase
       hit_test
       output = @avatar.visible_files['output']
       refute output.include?(filename), output
+
+      ls_file = "ls -al && #{before}"
+      change_file('cyber-dojo.sh', ls_file)
+      hit_test
+      output = @avatar.visible_files['output']
+      refute output.include?(filename), output
+    }
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'BE8569',
+  'when cyber-dojo.sh creates a file then it disappears',
+  'when RunnerService is stateless' do
+    set_runner_class('RunnerService')
+    in_kata('stateless') {
+      before = content('cyber-dojo.sh')
+      filename = 'wibble.txt'
+      create_file = "touch #{filename} &&  ls -al && #{before}"
+      change_file('cyber-dojo.sh', create_file)
+      hit_test
+      output = @avatar.visible_files['output']
+      assert output.include?(filename), output
 
       ls_file = "ls -al && #{before}"
       change_file('cyber-dojo.sh', ls_file)
@@ -200,8 +223,13 @@ class KataControllerTest  < AppControllerTestBase
 
   private
 
-  def in_kata
-    kata_id = create_gcc_assert_kata
+  def in_kata(choice = 'stateful')
+    if choice == 'stateful'
+      kata_id = create_gcc_assert_kata
+    end
+    if choice == 'stateless'
+      kata_id = create_python_pytest_kata
+    end
     @avatar = start
     begin
       yield kata_id
@@ -214,7 +242,13 @@ class KataControllerTest  < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def create_gcc_assert_kata
-    id = create_kata('C (gcc), assert')
+    id = create_kata('C (gcc), assert') # stateful
+    @kata = Kata.new(katas, id)
+    id
+  end
+
+  def create_python_pytest_kata
+    id = create_kata('Python, pytest') # stateless
     @kata = Kata.new(katas, id)
     id
   end

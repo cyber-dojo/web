@@ -65,9 +65,9 @@ CyberDojo::Application.routes.draw do
   end
 
 
-  get 'differ/diff'       => 'differ#diff',     :constraints => { :format => :json }
-  get 'forker/fork(/:id)' => 'forker#fork'
-  get 'reverter/revert'   => 'reverter#revert', :constraints => { :format => :json }
+  get '/differ/diff'       => 'differ#diff',     :constraints => { :format => :json }
+  get '/forker/fork(/:id)' => 'forker#fork'
+  get '/reverter/revert'   => 'reverter#revert', :constraints => { :format => :json }
 
   get '/download(/:id)' => 'downloader#download'
   get '/download_tag(/:id/:avatar/:tag)' => 'downloader#download_tag'

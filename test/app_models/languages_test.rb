@@ -59,7 +59,9 @@ class LanguagesTest < AppModelsTestBase
   test '3C0BBE',
   'name is translated when katas manifest.json language entry has been renamed' do
     historical_language_names do |old_name|
-      refute_nil languages[old_name], old_name unless old_name.include? 'Approval'
+      unless old_name.include? 'Approval'
+        refute_nil languages[old_name], old_name
+      end
     end
   end
 
@@ -139,10 +141,8 @@ class LanguagesTest < AppModelsTestBase
   private
 
   def historical_language_names
-    # these names harvested from cyber-dojo.org using
-    # admin_scripts/show_kata_language_names.rb
-    #
-    # katas/../......../manifest.json { language: X }
+    # these names harvested from cyber-dojo.org
+    # from dirs katas/../......../manifest.json { language: X }
     # Also listed are count of occurences on cyber-dojo.org
     # and ID of one occurrence on cyber-dojo.org
     [

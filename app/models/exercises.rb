@@ -29,13 +29,9 @@ class Exercises
 
   def make_cache
     cache = {}
-    disk[path].each_dir do |dir_name|
-      # .git dir is stripped out if running on web server
-      # with named data volumes from [./cyber-dojo start-point create...]
-      # but .git dir is not stripped out if running on *local* server
-      if dir_name != '.git'
-        cache[dir_name] = { text: make(dir_name).text }
-      end
+    disk[path].each_rdir('instructions') do |dir_name|
+      name = dir_name.split('/')[-1]
+      cache[name] = { text: make(dir_name).text }
     end
     cache
   end

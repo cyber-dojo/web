@@ -54,14 +54,6 @@ class ExercisesTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - -
 
-  test '2DD280',
-  'instructions are loaded from file of same name directly' do
-    fizz_buzz = Exercise.new(dojo.exercises, 'Fizz_Buzz')
-    assert fizz_buzz.text.start_with? 'Write a program that prints'
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - -
-
   test '2DD64B',
   'cache is created on demand' do
     # be very careful here... naming instructions will create instructions!
