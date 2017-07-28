@@ -23,7 +23,9 @@ class ApplicationController < ActionController::Base
   # They are used in kata_controller/run_tests() and
   # prevent an extra call to the storer service.
 
-  def runner_choice; params['runner_choice']; end
+  def runner_choice
+    params['runner_choice'] || kata.runner_choice
+  end
   def image_name   ; params['image_name'   ]; end
   def id           ; params['id'           ]; end
   def avatar_name  ; params['avatar'       ]; end
