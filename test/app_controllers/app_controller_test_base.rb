@@ -48,9 +48,9 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  def continue
+  def resume
     params = { 'format' => 'json', 'id' => @id }
-    get 'enter/continue', params
+    get 'enter/resume', params
     assert_response :success
   end
 
