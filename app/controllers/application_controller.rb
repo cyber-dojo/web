@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
 
   # The (runner_choice, image_name, id, avatar_name)
   # properties are used in kata_controller/run_tests()
-  # Caching them in the browser prevents is an optimization
+  # Caching them in the browser is an optimization
   # to prevent an extra call to the storer service.
 
   def runner_choice; params['runner_choice']; end
