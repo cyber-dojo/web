@@ -11,7 +11,7 @@ var cyberDojo = (function(cd, $) {
 
   cd.resumeDialog = function(title, dialogHtml) {
     var buttons = { };
-    buttons['close'] = function() { $(this).dialog('close'); };
+    buttons['cancel'] = function() { $(this).dialog('close'); };
     $('<div class="dialog">')
       .html(dialogHtml)
       .dialog({
