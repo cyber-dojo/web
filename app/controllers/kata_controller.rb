@@ -19,9 +19,6 @@ class KataController < ApplicationController
     max_seconds = 10
 
     @avatar = Avatar.new(kata, avatar_name)
-    if runner_choice == 'stateless'
-      runner.run_statelessly
-    end
     begin
       stdout,stderr,status,colour = @avatar.test(delta, files, max_seconds, image_name)
     rescue StandardError => error
