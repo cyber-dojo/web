@@ -18,14 +18,12 @@ class ApplicationController < ActionController::Base
   def custom;    dojo.custom;    end
   def katas;     dojo.katas;     end
 
-  # The runner_choice, image_name, id, avatar_name
-  # properties are caches of their corresponding kata entries.
-  # They are used in kata_controller/run_tests() and
-  # prevent an extra call to the storer service.
+  # The (runner_choice, image_name, id, avatar_name)
+  # properties are used in kata_controller/run_tests()
+  # Caching them in the browser prevents is an optimization
+  # to prevent an extra call to the storer service.
 
-  def runner_choice
-    params['runner_choice'] || kata.runner_choice
-  end
+  def runner_choice; params['runner_choice']; end
   def image_name   ; params['image_name'   ]; end
   def id           ; params['id'           ]; end
   def avatar_name  ; params['avatar'       ]; end

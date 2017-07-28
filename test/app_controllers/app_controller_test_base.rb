@@ -81,7 +81,8 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
       'format' => 'js',
       'id' => @id,
       'image_name' => katas[@id].image_name,
-      'avatar' => @avatar.name
+      'avatar' => @avatar.name,
+      'runner_choice' => katas[@id].runner_choice
     }
     post 'kata/run_tests', params.merge(@params_maker.params)
     @params_maker = ParamsMaker.new(@avatar)
