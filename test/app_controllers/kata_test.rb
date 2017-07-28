@@ -227,7 +227,7 @@ class KataControllerTest  < AppControllerTestBase
       kata_id = create_gcc_assert_kata
     end
     if choice == 'stateless'
-      kata_id = create_python_pytest_kata
+      kata_id = create_ruby_testunit_kata
     end
     @avatar = start
     begin
@@ -246,8 +246,8 @@ class KataControllerTest  < AppControllerTestBase
     id
   end
 
-  def create_python_pytest_kata
-    id = create_kata('Python, pytest') # stateless
+  def create_ruby_testunit_kata
+    id = create_kata('Ruby, Test::Unit') # stateless
     @kata = Kata.new(katas, id)
     id
   end
