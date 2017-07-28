@@ -73,22 +73,19 @@ class KataControllerTest  < AppControllerTestBase
   'when RunnerService is stateful' do
     set_runner_class('RunnerService')
     in_kata {
-      before = content('cyber-dojo.sh')
-      filename = 'wibble.txt'
-      create_file = "touch #{filename} &&  ls -al && #{before}"
-      change_file('cyber-dojo.sh', create_file)
+      filename = 'fubar.txt'
+      ls_all = 'ls -al'
+      change_file('cyber-dojo.sh', "touch #{filename} && #{ls_all}")
       hit_test
       output = @avatar.visible_files['output']
       assert output.include?(filename), output
 
-      remove_file = "rm -f #{filename} && ls -al && #{before}"
-      change_file('cyber-dojo.sh', remove_file)
+      change_file('cyber-dojo.sh', "rm -f #{filename} && #{ls_all}")
       hit_test
       output = @avatar.visible_files['output']
       refute output.include?(filename), output
 
-      ls_file = "ls -al && #{before}"
-      change_file('cyber-dojo.sh', ls_file)
+      change_file('cyber-dojo.sh', ls_all)
       hit_test
       output = @avatar.visible_files['output']
       refute output.include?(filename), output
@@ -103,14 +100,14 @@ class KataControllerTest  < AppControllerTestBase
     set_runner_class('RunnerService')
     in_kata('stateless') {
       filename = 'wibble.txt'
-      create_file = "touch #{filename} &&  ls -al"
+      ls_all = 'ls -al'
+      create_file = "touch #{filename} && #{ls_all}"
       change_file('cyber-dojo.sh', create_file)
       hit_test
       output = @avatar.visible_files['output']
       assert output.include?(filename), output
 
-      ls_file = 'ls -al'
-      change_file('cyber-dojo.sh', ls_file)
+      change_file('cyber-dojo.sh', ls_all)
       hit_test
       output = @avatar.visible_files['output']
       refute output.include?(filename), output
