@@ -97,6 +97,7 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+=begin
   test 'BE8569',
   'when cyber-dojo.sh creates a file then it disappears',
   'when RunnerService is stateless' do
@@ -117,6 +118,7 @@ class KataControllerTest  < AppControllerTestBase
       refute output.include?(filename), output
     }
   end
+=end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
