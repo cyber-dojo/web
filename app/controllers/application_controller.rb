@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
 
   def runner_choice
     # The || fallback is incase the switch-over to new runner_choice
-    # code happens in middle of kata. After running live for a few days
+    # code happens in middle of a kata. After running live for a few days
     # this can be changed to just params['runner_choice']
     params['runner_choice'] || kata.runner_choice
   end

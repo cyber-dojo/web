@@ -97,28 +97,25 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-=begin
   test 'BE8569',
   'when cyber-dojo.sh creates a file then it disappears',
   'when RunnerService is stateless' do
     set_runner_class('RunnerService')
     in_kata('stateless') {
-      before = content('cyber-dojo.sh')
       filename = 'wibble.txt'
-      create_file = "touch #{filename} &&  ls -al && #{before}"
+      create_file = "touch #{filename} &&  ls -al"
       change_file('cyber-dojo.sh', create_file)
       hit_test
       output = @avatar.visible_files['output']
       assert output.include?(filename), output
 
-      ls_file = "ls -al && #{before}"
+      ls_file = 'ls -al'
       change_file('cyber-dojo.sh', ls_file)
       hit_test
       output = @avatar.visible_files['output']
       refute output.include?(filename), output
     }
   end
-=end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

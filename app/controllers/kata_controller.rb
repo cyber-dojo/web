@@ -18,6 +18,9 @@ class KataController < ApplicationController
     files = received_files
     max_seconds = 10
 
+    if runner_choice == 'stateless'
+      runner.run_statelessly
+    end
     @avatar = Avatar.new(kata, avatar_name)
     begin
       stdout,stderr,status,colour = @avatar.test(delta, files, max_seconds, image_name)
