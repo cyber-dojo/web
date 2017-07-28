@@ -23,16 +23,10 @@ class ApplicationController < ActionController::Base
   # They are used in kata_controller/run_tests() and
   # prevent an extra call to the storer service.
 
-  def runner_choice
-    # The || fallback is incase the switch-over to new runner_choice
-    # code happens in middle of a kata. After running live for a few days
-    # this can be changed to just params['runner_choice']
-    params['runner_choice'] || kata.runner_choice
-  end
-
-  def image_name ; params['image_name']; end
-  def id         ; params['id'        ]; end
-  def avatar_name; params['avatar'    ]; end
+  def runner_choice; params['runner_choice']; end
+  def image_name   ; params['image_name'   ]; end
+  def id           ; params['id'           ]; end
+  def avatar_name  ; params['avatar'       ]; end
 
   def was_tag    ; params['was_tag'   ].to_i; end
   def now_tag    ; params['now_tag'   ].to_i; end
