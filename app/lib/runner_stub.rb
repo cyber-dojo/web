@@ -9,6 +9,9 @@ class RunnerStub
     @@disk ||= DiskFake.new(self)
   end
 
+  def run_statefully; end
+  def run_statelessly; end
+
   def kata_new(_image_name, _kata_id); end
   def kata_old(_image_name, _kata_id); end
 
