@@ -2,6 +2,83 @@ require_relative 'app_models_test_base'
 
 class LanguagesTest < AppModelsTestBase
 
+  # There are 4 tests depend on the languages start-point being complete.
+  # 3CD03, 3C0B38, 3C0017, 3C0BBE
+
+  test '3C0D03',
+  '[name] when name has hyphen and was renamed' do
+    [
+      # renamed
+      # 'Java-ApprovalTests', # offline
+      'Java-JUnit-Mockito',
+      'C++-catch',
+      # works as is
+      'Ruby-Test::Unit',
+      'Javascript-Mocha+chai+sinon',
+      'Perl-Test::Simple',
+      'Python-py.test',
+      'Ruby-RSpec',
+      # - in the wrong place
+      # 'Java-1.8_Approval', # offline
+      'Java-1.8_Cucumber',
+      'Java-1.8_JMock',
+      'Java-1.8_JUnit',
+      'Java-1.8_Mockito',
+      'Java-1.8_Powermockito',
+      # replaced
+      'R-stopifnot',
+      # renamed to distinguish from [C (clang)]
+      'C-assert',
+      'C-Unity',
+      'C-CppUTest',
+      # renamed to distinguish from [C++ (clang++)]
+      'C++-assert',
+      'C++-Boost.Test',
+      'C++-Catch',
+      'C++-CppUTest',
+      'C++-GoogleTest',
+      'C++-Igloo',
+      'C++-GoogleMock',
+      #
+      'Ruby-Rspec',
+      'Ruby-TestUnit',
+    ].each { |name| refute_nil languages[name], name }
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - -
+
+  test '3C0B38',
+  '[name] when name has no hyphen and was renamed' do
+    [
+       # from way back when test name was not part of language name
+      'BCPL', 'C', 'C++', 'C#', 'CoffeeScript','Erlang','Go',
+      'Haskell', 'Java', 'Javascript', 'Perl', 'PHP', 'Python', 'Ruby', 'Scala',
+    ].each { |name| refute_nil languages[name], name }
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - -
+
+  test '3C0017',
+  '[name] on historical_language_names' do
+    historical_language_names do |name|
+      refute_nil languages[name], name unless name.include? 'Approval'
+    end
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - -
+
+  test '3C0BBE',
+  'name is translated when katas manifest.json language entry has been renamed' do
+    historical_language_names do |old_name|
+      unless old_name.include? 'Approval'
+        refute_nil languages[old_name], old_name
+      end
+    end
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - -
+  #- - - - - - - - - - - - - - - - - - - - -
+
   test '3C0810',
   'languages path has correct format when set with trailing slash' do
     path = tmp_root + '/' + 'folder'
@@ -49,19 +126,8 @@ class LanguagesTest < AppModelsTestBase
 
   test '3C010F',
   'languages[X] is language named X' do
-    ['C (clang)-assert', 'C#-NUnit'].each do |name|
+    ['C (gcc)-assert', 'Ruby-Test::Unit'].each do |name|
       assert_equal name, languages[name].name
-    end
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - -
-
-  test '3C0BBE',
-  'name is translated when katas manifest.json language entry has been renamed' do
-    historical_language_names do |old_name|
-      unless old_name.include? 'Approval'
-        refute_nil languages[old_name], old_name
-      end
     end
   end
 
@@ -69,74 +135,14 @@ class LanguagesTest < AppModelsTestBase
 
   test '3C0518',
   '[name] when lang-test where lang,_test is valid display_name' do
-    simple_case = 'C++ (g++)-assert'
-    simple_display_name = 'C++ (g++), assert'
+    simple_case = 'C (gcc)-assert'
+    simple_display_name = 'C (gcc), assert'
     found = languages.find { |language| language.display_name == simple_display_name }
     refute_nil found
     assert_equal simple_display_name, languages[simple_case].display_name
   end
 
   #- - - - - - - - - - - - - - - - - - - - -
-
-  test '3C0B38',
-  '[name] when name has no hyphen and was renamed' do
-    [
-       # from way back when test name was not part of language name
-      'BCPL', 'C', 'C++', 'C#', 'CoffeeScript','Erlang','Go',
-      'Haskell', 'Java', 'Javascript', 'Perl', 'PHP', 'Python', 'Ruby', 'Scala',
-    ].each { |name| refute_nil languages[name], name }
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - -
-
-  test '3C0D03',
-  '[name] when name has hyphen and was renamed' do
-    [
-      # renamed
-      # 'Java-ApprovalTests', # offline
-      'Java-JUnit-Mockito',
-      'C++-catch',
-      # works as is
-      'Ruby-Test::Unit',
-      'Javascript-Mocha+chai+sinon',
-      'Perl-Test::Simple',
-      'Python-py.test',
-      'Ruby-RSpec',
-      # - in the wrong place
-      # 'Java-1.8_Approval', # offline
-      'Java-1.8_Cucumber',
-      'Java-1.8_JMock',
-      'Java-1.8_JUnit',
-      'Java-1.8_Mockito',
-      'Java-1.8_Powermockito',
-      # replaced
-      'R-stopifnot',
-      # renamed to distinguish from [C (clang)]
-      'C-assert',
-      'C-Unity',
-      'C-CppUTest',
-      # renamed to distinguish from [C++ (clang++)]
-      'C++-assert',
-      'C++-Boost.Test',
-      'C++-Catch',
-      'C++-CppUTest',
-      'C++-GoogleTest',
-      'C++-Igloo',
-      'C++-GoogleMock',
-      #
-      'Ruby-Rspec',
-      'Ruby-TestUnit',
-    ].each { |name| refute_nil languages[name], name }
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - -
-
-  test '3C0017',
-  '[name] on historical_language_names' do
-    historical_language_names do |name|
-      refute_nil languages[name], name unless name.include? 'Approval'
-    end
-  end
 
   private
 

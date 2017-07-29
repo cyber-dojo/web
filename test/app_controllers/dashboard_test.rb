@@ -3,7 +3,7 @@ require_relative 'app_controller_test_base'
 class DashboardControllerTest < AppControllerTestBase
 
   def prepare
-    create_kata('Java, JUnit')
+    create_kata('C (gcc), assert')
   end
 
   #- - - - - - - - - - - - - - - -

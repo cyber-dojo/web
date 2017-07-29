@@ -109,12 +109,7 @@ class StartPointChooserTest < AppLibTestBase
   #- - - - - - - - - - - - - - - - - - - - - - -
 
   def test_languages_names
-    [ 'C#-NUnit',
-      'C++ (g++)-GoogleTest',
-      'Ruby-Test::Unit',
-      'Java-JUnit'
-    ].sort
-
+    [ 'C-assert', 'Ruby-Test::Unit' ].sort
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - -
