@@ -104,7 +104,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   private
 
   def default_language
-    'Ruby, TestUnit'
+    'C (gcc), assert'
   end
 
   def default_exercise

@@ -7,8 +7,8 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     do_get 'show_languages'
     assert html.include? "data-major=#{quoted(get_language_from(c_assert))}"
     assert html.include? "data-minor=#{quoted(get_test_from(c_assert))}"
-    assert html.include? "data-major=#{quoted(get_language_from(ruby_testunit))}"
-    assert html.include? "data-minor=#{quoted(get_test_from(ruby_testunit))}"
+    assert html.include? "data-major=#{quoted(get_language_from(python_unittest))}"
+    assert html.include? "data-minor=#{quoted(get_test_from(python_unittest))}"
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -101,8 +101,8 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def c_assert;      'C (gcc), assert'; end
-  def ruby_testunit; 'Ruby, Test::Unit'; end
+  def c_assert;        'C (gcc), assert' ; end
+  def python_unittest; 'Python, unittest'; end
 
   def quoted(s); '"' + s + '"'; end
 
