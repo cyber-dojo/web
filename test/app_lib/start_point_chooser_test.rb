@@ -109,7 +109,7 @@ class StartPointChooserTest < AppLibTestBase
   #- - - - - - - - - - - - - - - - - - - - - - -
 
   def test_languages_names
-    [ 'C (gcc)-assert', 'Ruby-Test::Unit' ].sort
+    [ 'C (gcc)-assert', 'Python-unittest' ].sort
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - -
