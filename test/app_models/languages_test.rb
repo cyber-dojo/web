@@ -126,7 +126,7 @@ class LanguagesTest < AppModelsTestBase
 
   test '3C010F',
   'languages[X] is language named X' do
-    ['C (gcc)-assert', 'Ruby-Test::Unit'].each do |name|
+    ['C (gcc)-assert', 'Python-unittest'].each do |name|
       assert_equal name, languages[name].name
     end
   end

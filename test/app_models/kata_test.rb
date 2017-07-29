@@ -69,7 +69,7 @@ class KataTest < AppModelsTestBase
     hash = {
       'id'       => id,
       'now'      => now,
-      'language' => 'Ruby-Test::Unit',
+      'language' => 'Python-unittest',
       'exercise' => 'Fizz_Buzz',
     }
     language = languages[hash['language']]
