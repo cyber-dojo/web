@@ -100,7 +100,7 @@ class KataControllerTest  < AppControllerTestBase
     set_runner_class('RunnerService')
     in_kata('stateless') {
       filename = 'wibble.txt'
-      ls_all = 'ls -al'
+      ls_all = 'ls -ale' # e -> show seconds (Alpine)
       create_file = "touch #{filename} && #{ls_all}"
       change_file('cyber-dojo.sh', create_file)
       hit_test
