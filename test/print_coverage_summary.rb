@@ -199,7 +199,6 @@ def print_done(done)
   yes,no = done.partition { |criteria| criteria[1] }
   unless yes.empty?
     puts 'DONE'
-    yes.each { |criteria| puts criteria[0] }
   end
   unless no.empty?
     print "\n"
