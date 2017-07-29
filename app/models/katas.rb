@@ -31,6 +31,9 @@ class Katas
   def create_kata(manifest)
     storer.create_kata(manifest)
     id = manifest['id']
+    if manifest['runner_choice'] == 'stateless'
+      runner.run_statelessly
+    end
     runner.kata_new(manifest['image_name'], id)
     self[id]
   end

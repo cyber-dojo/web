@@ -110,8 +110,23 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '677C43',
-  'start_avatar() with specific name succeeds when avatar has not yet started' do
-    @kata = make_kata
+  %w( start_avatar() in language with stateful-runner
+      with specific name succeeds
+      when avatar has not yet started ).to_s do
+    @kata = make_kata({ 'language' => 'C (gcc)-assert' })
+    hippo = @kata.start_avatar(['hippo'])
+    refute_nil hippo
+    assert_equal 'hippo', hippo.name
+    assert_equal ['hippo'], avatars_names
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '677C44',
+  %w( start_avatar() in language with stateless-runner
+      with specific name succeeds
+      when avatar has not yet started ).to_s do
+    @kata = make_kata({ 'language' => 'Python-unittest' })
     hippo = @kata.start_avatar(['hippo'])
     refute_nil hippo
     assert_equal 'hippo', hippo.name
