@@ -4,7 +4,7 @@ class LanguagesTest < AppModelsTestBase
 
   # There are 4 tests depend on the languages start-point being complete.
   # 3CD03, 3C0B38, 3C0017, 3C0BBE
-
+=begin
   test '3C0D03',
   '[name] when name has hyphen and was renamed' do
     [
@@ -75,6 +75,7 @@ class LanguagesTest < AppModelsTestBase
       end
     end
   end
+=end
 
   #- - - - - - - - - - - - - - - - - - - - -
   #- - - - - - - - - - - - - - - - - - - - -
@@ -146,6 +147,7 @@ class LanguagesTest < AppModelsTestBase
 
   private
 
+=begin
   def historical_language_names
     # these names harvested from cyber-dojo.org
     # from dirs katas/../......../manifest.json { language: X }
@@ -220,5 +222,6 @@ class LanguagesTest < AppModelsTestBase
       yield entry.split[0]
     end
   end
+=end
 
 end

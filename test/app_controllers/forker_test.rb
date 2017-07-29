@@ -4,6 +4,7 @@ class ForkerControllerTest < AppControllerTestBase
 
   # This test (3E99D85BF) depends on the languages start-point being complete.
 
+=begin
   test '3E99D85BF',
   'when language has been renamed and everything else',
   'is ok then fork works and the new dojos id is returned' do
@@ -14,15 +15,16 @@ class ForkerControllerTest < AppControllerTestBase
     @id = manifest['id']
     @avatar = start # 0
     run_tests       # 1
-    fork(@id, @avatar.name, tag = 1)
+    fork(@id, @avatar.name, tag=1)
     assert forked?
   end
+=end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '3E9892AFE',
   'when id is invalid then fork fails and the reason given is dojo' do
-    fork(bad_id = 'bad-id', 'hippo', tag = 1)
+    fork(bad_id = 'bad-id', 'hippo', tag=1)
     refute forked?
     assert_reason_is("dojo(#{bad_id})")
     assert_nil forked_kata_id
@@ -33,7 +35,7 @@ class ForkerControllerTest < AppControllerTestBase
   test '3E967725B',
   'when avatar not started, the fork fails, and the reason given is avatar' do
     id = create_kata
-    fork(id, bad_avatar = 'hippo', tag = 1)
+    fork(id, bad_avatar = 'hippo', tag=1)
     refute forked?
     assert_reason_is("avatar(#{bad_avatar})")
     assert_nil forked_kata_id
@@ -69,7 +71,7 @@ class ForkerControllerTest < AppControllerTestBase
     @id = create_kata
     @avatar = start # 0
     run_tests       # 1
-    fork(@id, @avatar.name, tag = 1)
+    fork(@id, @avatar.name, tag=1)
     assert forked?
     assert_equal 10, forked_kata_id.length
     assert_not_equal @id, forked_kata_id
@@ -94,7 +96,7 @@ class ForkerControllerTest < AppControllerTestBase
     @id = create_kata
     @avatar = start # 0
     run_tests       # 1
-    fork(@id, @avatar.name, tag = 1, 'html')
+    fork(@id, @avatar.name, tag=1, 'html')
     assert_response :redirect
     url = /(.*)\/enter\/show\/(.*)/
     m = url.match(@response.location)
@@ -113,7 +115,7 @@ class ForkerControllerTest < AppControllerTestBase
     @id = manifest['id']
     @avatar = start # 0
     run_tests       # 1
-    fork(@id, @avatar.name, tag = 1)
+    fork(@id, @avatar.name, tag=1)
     assert forked?
   end
 
@@ -129,7 +131,7 @@ class ForkerControllerTest < AppControllerTestBase
     @id = manifest['id']
     @avatar = start # 0
     run_tests       # 1
-    fork(@id, @avatar.name, tag = 1)
+    fork(@id, @avatar.name, tag=1)
     assert forked?
   end
 
