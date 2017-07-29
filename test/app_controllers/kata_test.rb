@@ -100,7 +100,7 @@ class KataControllerTest  < AppControllerTestBase
     set_runner_class('RunnerService')
     in_kata('stateless') {
       filename = 'wibble.txt'
-      ls_all = 'ls -ale' # e -> show seconds (Alpine)
+      ls_all = 'ls -al'
       create_file = "touch #{filename} && #{ls_all}"
       change_file('cyber-dojo.sh', create_file)
       hit_test
@@ -230,8 +230,10 @@ class KataControllerTest  < AppControllerTestBase
     begin
       yield kata_id
     ensure
-      runner.avatar_old(@kata.image_name, @kata.id, @avatar.name)
-      runner.kata_old(@kata.image_name, @kata.id)
+      if choice == 'stateful'
+        runner.avatar_old(@kata.image_name, @kata.id, @avatar.name)
+        runner.kata_old(@kata.image_name, @kata.id)
+      end
     end
   end
 
@@ -244,7 +246,7 @@ class KataControllerTest  < AppControllerTestBase
   end
 
   def create_ruby_testunit_kata
-    id = create_kata('Ruby, Test::Unit') # stateless
+    id = create_kata('Python, unittest') # stateless
     @kata = Kata.new(katas, id)
     id
   end
