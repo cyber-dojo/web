@@ -112,7 +112,7 @@ class KataTest < AppModelsTestBase
   test '677C43',
   %w( start_avatar() in language with stateful-runner
       with specific name succeeds
-      when avatar has not yet started ).to_s do
+      when avatar has not yet started ).join(' ').to_s do
     @kata = make_kata({ 'language' => 'C (gcc)-assert' })
     hippo = @kata.start_avatar(['hippo'])
     refute_nil hippo
@@ -197,6 +197,31 @@ class KataTest < AppModelsTestBase
     end
     assert_equal Avatars.names.sort, created.sort
     refute_equal created, created.sort
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def katas
+    # make katas visible to runner which sees
+    # this test object as the root object
+    dojo.katas
+  end
+
+  test '677D61',
+  'start_avatar() seamlessly resurrects when',
+  'collector has collected the runner containers/volumes' do
+    set_runner_class('RunnerService')
+    #@katas = Katas.new(self)
+    kata = make_kata({ 'language' => 'C (gcc)-assert' })
+    assert kata.runner_choice == 'stateful'
+    runner.kata_old(kata.image_name, kata.id)
+    begin
+      avatar = kata.start_avatar
+      runner.avatar_old(kata.image_name, kata.id, avatar.name)
+      refute_nil avatar
+    ensure
+      runner.kata_old(kata.image_name, kata.id)
+    end
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

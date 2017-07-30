@@ -270,4 +270,12 @@ class RunnerServiceTest < AppLibTestBase
     assert runner.running_statefully?
   end
 
+  test '2BDF8082E6',
+  'runner can be explicitly set to stateful or stateless' do
+    runner.run_statefully
+    assert runner.running_statefully?
+    runner.run_statelessly
+    refute runner.running_statefully?
+  end
+
 end

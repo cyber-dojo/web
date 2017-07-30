@@ -14,9 +14,6 @@ class Kata
     name = storer.start_avatar(id, avatar_names)
     unless name.nil?
       begin
-        if runner_choice == 'stateless'
-          runner.run_statelessly
-        end
         runner.avatar_new(image_name, id, name, visible_files)
       rescue StandardError => error
         # Old kata could be being resumed
