@@ -11,7 +11,8 @@ class DiskDirHostTest < LibTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '4375F3',
-  'disk[path].make returns true when it makes the directory',
+  'disk[path].make ' +
+  'is true when it makes the directory',
   'false when it does not' do
     refute dir.exists?
     assert dir.make
@@ -22,7 +23,9 @@ class DiskDirHostTest < LibTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '437CE8',
-  'disk[path].exists?(filename) false when file does not exist, true when it does' do
+  'disk[path].exists?(filename) ' +
+  'is false when file does not exist, ' +
+  'true when it does' do
     dir.make
     refute dir.exists?(filename = 'hello.txt')
     dir.write(filename, 'content')
@@ -41,15 +44,19 @@ class DiskDirHostTest < LibTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '437A9F',
-  'write(filename, content) raises RuntimeError when content is not a string' do
+  'write(filename, content) raises RuntimeError ' +
+  'when content is not a string' do
     dir.make
-    assert_raises(RuntimeError) { dir.write('any.txt', Object.new) }
+    assert_raises(RuntimeError) {
+      dir.write('any.txt', Object.new)
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '43729F',
-  'write(filename, content) succeeds when content is a string' do
+  'write(filename, content) succeeds ' +
+  'when content is a string' do
     dir.make
     content = 'hello world'
     check_save_file('manifest.rb', content, content)
@@ -58,27 +65,36 @@ class DiskDirHostTest < LibTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '437C6D',
-  'write_json(filename, content) raises RuntimeError when filename does not end in .json' do
+  'write_json(filename, content) raises RuntimeError ' +
+  'when filename does not end in .json' do
     dir.make
-    assert_raises(RuntimeError) { dir.write_json('file.txt', 'any') }
+    assert_raises(RuntimeError) {
+      dir.write_json('file.txt', 'any')
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '437891',
-  'read_json(filename) raises RuntimeError when filename is empty' do
+  'read_json(filename) raises RuntimeError ' +
+  ' when filename is empty' do
     dir.make
-    dir.write(filename='601891.json', empty='')
+    dir.write(filename='437891.json', empty='')
     expected_message = "DirHost(#{path}/).read_json(#{filename}) - empty file"
-    assert_raises_with_message(RuntimeError, expected_message) { dir.read_json(filename) }
+    assert_raises_with_message(RuntimeError, expected_message) {
+      dir.read_json(filename)
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '4376EE',
-  'read_json(filename) raises RuntimeError when filename does not end in .json' do
+  'read_json(filename) raises RuntimeError ' +
+  'when filename does not end in .json' do
     dir.make
-    assert_raises(RuntimeError) { dir.read_json('file.txt') }
+    assert_raises(RuntimeError) {
+      dir.read_json('file.txt')
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -188,7 +204,9 @@ class DiskDirHostTest < LibTestBase
     dir.make
     cwd = `pwd`.strip + '/../'
     dirs = disk[cwd].each_dir.entries
-    %w( app_helpers app_lib ).each { |dir_name| assert dirs.include?(dir_name), dir_name }
+    %w( app_helpers app_lib ).each { |dir_name|
+      assert dirs.include?(dir_name), dir_name
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
