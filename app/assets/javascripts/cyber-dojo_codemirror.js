@@ -115,6 +115,7 @@ var cyberDojo = (function(cd, $) {
       mode: codeMirrorMode(filename),
       indentUnit: cd.syntaxHighlightTabSize,
       tabSize: cd.syntaxHighlightTabSize,
+      indentWithTabs: false,
       theme: "cyber-dojo-colour",
       readOnly: (filename == 'output')
     });
@@ -139,6 +140,14 @@ var cyberDojo = (function(cd, $) {
       },
       'Alt-O': function (cm) {
         cd.toggleOutputFile();
+      },
+      Tab: function(cm) {
+        if (cm.somethingSelected()) {
+          cm.indentSelection("add");
+        }
+        else {
+          cm.execCommand("insertSoftTab");
+        }
       }
     });
     var lineNumbers = document.getElementById(filename + '_line_numbers');
