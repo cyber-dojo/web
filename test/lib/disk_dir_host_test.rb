@@ -10,7 +10,7 @@ class DiskDirHostTest < LibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '0DB5F3',
+  test '4375F3',
   'disk[path].make returns true when it makes the directory',
   'false when it does not' do
     refute dir.exists?
@@ -21,7 +21,7 @@ class DiskDirHostTest < LibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '61FCE8',
+  test '437CE8',
   'disk[path].exists?(filename) false when file does not exist, true when it does' do
     dir.make
     refute dir.exists?(filename = 'hello.txt')
@@ -31,7 +31,7 @@ class DiskDirHostTest < LibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '247EAB',
+  test '437EAB',
   'disk[path].read() reads back what was written' do
     dir.make
     dir.write('filename', expected = 'content')
@@ -40,7 +40,7 @@ class DiskDirHostTest < LibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '1C4A9F',
+  test '437A9F',
   'write(filename, content) raises RuntimeError when content is not a string' do
     dir.make
     assert_raises(RuntimeError) { dir.write('any.txt', Object.new) }
@@ -48,7 +48,7 @@ class DiskDirHostTest < LibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '8F329F',
+  test '43729F',
   'write(filename, content) succeeds when content is a string' do
     dir.make
     content = 'hello world'
@@ -57,7 +57,7 @@ class DiskDirHostTest < LibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '2BAC6D',
+  test '437C6D',
   'write_json(filename, content) raises RuntimeError when filename does not end in .json' do
     dir.make
     assert_raises(RuntimeError) { dir.write_json('file.txt', 'any') }
@@ -65,7 +65,7 @@ class DiskDirHostTest < LibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '601891',
+  test '437891',
   'read_json(filename) raises RuntimeError when filename is empty' do
     dir.make
     dir.write(filename='601891.json', empty='')
@@ -75,7 +75,7 @@ class DiskDirHostTest < LibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '3356EE',
+  test '4376EE',
   'read_json(filename) raises RuntimeError when filename does not end in .json' do
     dir.make
     assert_raises(RuntimeError) { dir.read_json('file.txt') }
@@ -83,7 +83,7 @@ class DiskDirHostTest < LibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'F3B2F4',
+  test '4372F4',
   'write_json(filename, object) saves JSON.unparse(object) in filename' do
     dir.make
     dir.write_json(filename = 'object.json', { :a => 1, :b => 2 })
@@ -95,7 +95,7 @@ class DiskDirHostTest < LibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '891336',
+  test '437336',
   'write_json_once succeeds once then its a no-op' do
     dir.make
     filename = 'once.json'
@@ -113,7 +113,7 @@ class DiskDirHostTest < LibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'B9939D',
+  test '43739D',
   'object = read_json(filename) after write_json(filename, object) round-strips ok' do
     dir.make
     dir.write_json(filename = 'object.json', { :a => 1, :b => 2 })
@@ -124,7 +124,7 @@ class DiskDirHostTest < LibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '95EA3F',
+  test '437A3E',
   'save file for non executable file' do
     dir.make
     check_save_file('file.a', 'content', 'content')
@@ -132,7 +132,7 @@ class DiskDirHostTest < LibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'B5C931',
+  test '437931',
   'save file for executable file' do
     dir.make
     check_save_file('file.sh', 'ls', 'ls')
@@ -140,7 +140,7 @@ class DiskDirHostTest < LibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '51EE30',
+  test '437E30',
   'save filename ending in makefile is not auto-tabbed' do
     dir.make
     content = '    abc'
@@ -151,7 +151,7 @@ class DiskDirHostTest < LibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '25EACA',
+  test '437ACA',
   'disk.dir?(.) is true' do
     dir.make
     assert disk.dir?(path + '/' + '.')
@@ -159,7 +159,7 @@ class DiskDirHostTest < LibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '75CA3F',
+  test '437A3F',
   'disk.dir?(..) is true' do
     dir.make
     assert disk.dir?(path + '/' + '..')
@@ -167,7 +167,7 @@ class DiskDirHostTest < LibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '73E40A',
+  test '43740A',
   'disk.dir?(not-a-dir) is false' do
     dir.make
     refute disk.dir?('blah-blah')
@@ -175,7 +175,7 @@ class DiskDirHostTest < LibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'AFEE82',
+  test '437E82',
   'disk.dir?(a-dir) is true' do
     dir.make
     assert disk.dir?(path)
@@ -183,7 +183,7 @@ class DiskDirHostTest < LibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '0CC3B9',
+  test '4373B9',
   'dir.each_dir' do
     dir.make
     cwd = `pwd`.strip + '/../'
@@ -193,7 +193,7 @@ class DiskDirHostTest < LibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'E73637',
+  test '437637',
   'dir.each_rdir yields dirs of given filename at any dir depth' do
     dir.make
     disk[path].write('a.txt', 'content')
@@ -213,7 +213,7 @@ class DiskDirHostTest < LibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '91E408',
+  test '437408',
   'disk[path].each_dir does not give filenames' do
     dir.make
     disk[path].write('beta.txt', 'content')
@@ -224,7 +224,7 @@ class DiskDirHostTest < LibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '89211C',
+  test '43711C',
   'disk[path].each_dir.select' do
     dir.make
     disk[path + '/' + 'alpha'].make
@@ -237,7 +237,7 @@ class DiskDirHostTest < LibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '7CA54E',
+  test '43754E',
   'disk[path].each_file' do
     dir.make
     disk[path + '/' + 'a'].make
@@ -248,7 +248,7 @@ class DiskDirHostTest < LibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '500EA2',
+  test '437EA2',
   'disk[path].each_file does not give dirs' do
     dir.make
     disk[path].make
@@ -260,7 +260,7 @@ class DiskDirHostTest < LibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'F569F8',
+  test '4379F8',
   'disk[path].each_file.select' do
     dir.make
     disk[path + '/' + 'a'].make
