@@ -48,9 +48,9 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  def continue
+  def resume
     params = { 'format' => 'json', 'id' => @id }
-    get 'enter/continue', params
+    get 'enter/resume', params
     assert_response :success
   end
 
@@ -81,7 +81,8 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
       'format' => 'js',
       'id' => @id,
       'image_name' => katas[@id].image_name,
-      'avatar' => @avatar.name
+      'avatar' => @avatar.name,
+      'runner_choice' => katas[@id].runner_choice
     }
     post 'kata/run_tests', params.merge(@params_maker.params)
     @params_maker = ParamsMaker.new(@avatar)
@@ -103,7 +104,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   private
 
   def default_language
-    'Ruby, TestUnit'
+    'C (gcc), assert'
   end
 
   def default_exercise

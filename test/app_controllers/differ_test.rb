@@ -6,8 +6,8 @@ class DifferControllerTest < AppControllerTestBase
   'no lines different in any files between successive tags' do
     @id = create_kata
     @avatar = start # 0
-    filename = 'hiker.rb'
-    change_file(filename, content = 'def some_change...')
+    filename = 'hiker.c'
+    change_file(filename, content='some_change...')
     run_tests
     run_tests
     @was_tag = 1
@@ -37,10 +37,10 @@ class DifferControllerTest < AppControllerTestBase
   'one line different in one file between successive tags' do
     @id = create_kata
     @avatar = start # 0
-    filename = 'hiker.rb'
-    change_file(filename, 'def fubar')
+    filename = 'hiker.c'
+    change_file(filename, from='fubar')
     run_tests
-    change_file(filename, 'def snafu')
+    change_file(filename, to='snafu')
     run_tests
     @was_tag = 1
     @now_tag = 2
@@ -59,8 +59,8 @@ class DifferControllerTest < AppControllerTestBase
     assert_equal 1, diffs[index]['section_count'], info + "diffs[#{index}]['section_count']"
     assert_equal 1, diffs[index]['deleted_line_count'], info + "diffs[#{index}]['deleted_line_count']"
     assert_equal 1, diffs[index]['added_line_count'], info + "diffs[#{index}]['added_line_count']"
-    assert diffs[index]['content'].include?('<deleted>def fubar</deleted>')
-    assert diffs[index]['content'].include?('<added>def snafu</added>')
+    assert diffs[index]['content'].include?("<deleted>#{from}</deleted>")
+    assert diffs[index]['content'].include?("<added>#{to}</added>")
     assert_equal '<deleted><ln>1</ln></deleted><added><ln>1</ln></added>',
         diffs[index]['line_numbers'], info + "diffs[0]['line_numbers']"
   end

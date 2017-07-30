@@ -30,10 +30,10 @@ class EnterController < ApplicationController
     }
   end
 
-  def continue
+  def resume
     render json: {
       empty: empty,
-       html: continue_dialog_html
+       html: resume_dialog_html
     }
   end
 

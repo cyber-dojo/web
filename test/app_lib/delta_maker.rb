@@ -15,10 +15,6 @@ class DeltaMaker
     @now.keys.include?(filename)
   end
 
-  def content(filename)
-    @now[filename]
-  end
-
   def new_file(filename, content)
     refute { file?(filename) }
     @now[filename] = content
@@ -38,7 +34,7 @@ class DeltaMaker
   def run_test(at = time_now)
     visible_files = now
     delta = make_delta(@was, @now)
-    stdout,stderr,status,colour = @avatar.test(delta, visible_files, max_seconds)
+    stdout,stderr,status,colour = @avatar.test(delta, visible_files, max_seconds=10)
     output = stdout + stderr
     @avatar.tested(visible_files, at, output, colour)
     [delta, visible_files, output]
@@ -54,10 +50,6 @@ class DeltaMaker
 
   def visible_files
     now
-  end
-
-  def max_seconds
-    10
   end
 
   private

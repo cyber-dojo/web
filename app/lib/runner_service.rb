@@ -1,10 +1,10 @@
 require_relative 'http_helper'
+require_relative '../../lib/nearest_ancestors'
 
 class RunnerService
 
   def initialize(parent)
     @parent = parent
-    @runner_choice = 'stateful'
   end
 
   attr_reader :parent
@@ -21,28 +21,14 @@ class RunnerService
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def running_statefully?
-    @runner_choice == 'stateful'
-  end
-
-  def run_statefully
-    @runner_choice = 'stateful'
-  end
-
-  def run_statelessly
-    @runner_choice = 'stateless'
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - -
-
   def kata_new(image_name, kata_id)
-    if running_statefully?
+    if stateful?(kata_id)
       runner_http_post(__method__, image_name, kata_id)
     end
   end
 
   def kata_old(image_name, kata_id)
-    if running_statefully?
+    if stateful?(kata_id)
       runner_http_post(__method__, image_name, kata_id)
     end
   end
@@ -50,13 +36,13 @@ class RunnerService
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def avatar_new(image_name, kata_id, avatar_name, starting_files)
-    if running_statefully?
+    if stateful?(kata_id)
       runner_http_post(__method__, image_name, kata_id, avatar_name, starting_files)
     end
   end
 
   def avatar_old(image_name, kata_id, avatar_name)
-    if running_statefully?
+    if stateful?(kata_id)
       runner_http_post(__method__, image_name, kata_id, avatar_name)
     end
   end
@@ -64,43 +50,80 @@ class RunnerService
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def run(image_name, kata_id, avatar_name, max_seconds, delta, files)
-    args = {
-       image_name:image_name,
-          kata_id:kata_id,
-      avatar_name:avatar_name,
-      max_seconds:max_seconds
-    }
-    if running_statefully?
-      args[:deleted_filenames] = delta[:deleted]
-      new_files     = files.select { |filename| delta[:new    ].include? filename }
-      changed_files = files.select { |filename| delta[:changed].include? filename }
-      args[:changed_files] = new_files.merge(changed_files)
+    if stateful?(kata_id)
+      run_stateful(image_name, kata_id, avatar_name, max_seconds, delta, files)
     else
-      args[:visible_files] = files
+      run_stateless(image_name, kata_id, avatar_name, max_seconds, delta, files)
     end
-    set_hostname_port
-    sss = http_post_hash(__method__, args)
+  end
+
+  def run_stateful(image_name, kata_id, avatar_name, max_seconds, delta, files)
+    new_files     = files.select { |filename| delta[:new    ].include? filename }
+    changed_files = files.select { |filename| delta[:changed].include? filename }
+    args = {
+             image_name:image_name,
+                kata_id:kata_id,
+            avatar_name:avatar_name,
+            max_seconds:max_seconds,
+      deleted_filenames:delta[:deleted],
+          changed_files:new_files.merge(changed_files)
+    }
+    set_hostname_port_stateful
+    sss = http_post_hash(:run, args)
+    [sss['stdout'], sss['stderr'], sss['status'], sss['colour']]
+  end
+
+  def run_stateless(image_name, kata_id, avatar_name, max_seconds, delta, files)
+    args = {
+         image_name:image_name,
+            kata_id:kata_id,
+        avatar_name:avatar_name,
+        max_seconds:max_seconds,
+      visible_files:files
+    }
+    set_hostname_port_stateless
+    sss = http_post_hash(:run, args)
     [sss['stdout'], sss['stderr'], sss['status'], sss['colour']]
   end
 
   private
 
   def runner_http_get(method, *args)
-    set_hostname_port
+    set_hostname_port(args[1])
     http_get(method, *args)
   end
 
   def runner_http_post(method, *args)
-    set_hostname_port
+    set_hostname_port(args[1])
     http_post(method, *args)
   end
 
   include HttpHelper
   attr_reader :hostname, :port
 
-  def set_hostname_port
-    @hostname = running_statefully? ? 'runner' : 'runner_stateless'
-    @port = running_statefully? ? 4557 : 4597
+  def set_hostname_port(kata_id)
+    if stateful?(kata_id)
+      set_hostname_port_stateful
+    else
+      set_hostname_port_stateless
+    end
   end
+
+  def set_hostname_port_stateful
+    @hostname = 'runner'
+    @port = 4557
+  end
+
+  def set_hostname_port_stateless
+    @hostname = 'runner_stateless'
+    @port = 4597
+  end
+
+  def stateful?(kata_id)
+    katas[kata_id].runner_choice == 'stateful'
+  end
+
+  include NearestAncestors
+  def katas; nearest_ancestors(:katas); end
 
 end

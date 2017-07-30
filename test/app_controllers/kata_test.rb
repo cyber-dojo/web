@@ -2,6 +2,13 @@ require_relative 'app_controller_test_base'
 
 class KataControllerTest  < AppControllerTestBase
 
+  def setup
+    super
+    @katas = Katas.new(self)
+  end
+
+  attr_reader :katas
+
   test 'BE876E',
   'run_tests with bad kata id raises' do
     params = {
@@ -73,22 +80,19 @@ class KataControllerTest  < AppControllerTestBase
   'when RunnerService is stateful' do
     set_runner_class('RunnerService')
     in_kata {
-      before = content('cyber-dojo.sh')
-      filename = 'wibble.txt'
-      create_file = "touch #{filename} &&  ls -al && #{before}"
-      change_file('cyber-dojo.sh', create_file)
+      filename = 'fubar.txt'
+      ls_all = 'ls -al'
+      change_file('cyber-dojo.sh', "touch #{filename} && #{ls_all}")
       hit_test
       output = @avatar.visible_files['output']
       assert output.include?(filename), output
 
-      remove_file = "rm -f #{filename} && ls -al && #{before}"
-      change_file('cyber-dojo.sh', remove_file)
+      change_file('cyber-dojo.sh', "rm -f #{filename} && #{ls_all}")
       hit_test
       output = @avatar.visible_files['output']
       refute output.include?(filename), output
 
-      ls_file = "ls -al && #{before}"
-      change_file('cyber-dojo.sh', ls_file)
+      change_file('cyber-dojo.sh', ls_all)
       hit_test
       output = @avatar.visible_files['output']
       refute output.include?(filename), output
@@ -102,16 +106,15 @@ class KataControllerTest  < AppControllerTestBase
   'when RunnerService is stateless' do
     set_runner_class('RunnerService')
     in_kata('stateless') {
-      before = content('cyber-dojo.sh')
       filename = 'wibble.txt'
-      create_file = "touch #{filename} &&  ls -al && #{before}"
+      ls_all = 'ls -al'
+      create_file = "touch #{filename} && #{ls_all}"
       change_file('cyber-dojo.sh', create_file)
       hit_test
       output = @avatar.visible_files['output']
       assert output.include?(filename), output
 
-      ls_file = "ls -al && #{before}"
-      change_file('cyber-dojo.sh', ls_file)
+      change_file('cyber-dojo.sh', ls_all)
       hit_test
       output = @avatar.visible_files['output']
       refute output.include?(filename), output
@@ -228,14 +231,16 @@ class KataControllerTest  < AppControllerTestBase
       kata_id = create_gcc_assert_kata
     end
     if choice == 'stateless'
-      kata_id = create_python_pytest_kata
+      kata_id = create_ruby_testunit_kata
     end
     @avatar = start
     begin
       yield kata_id
     ensure
-      runner.avatar_old(@kata.image_name, @kata.id, @avatar.name)
-      runner.kata_old(@kata.image_name, @kata.id)
+      if choice == 'stateful'
+        runner.avatar_old(@kata.image_name, @kata.id, @avatar.name)
+        runner.kata_old(@kata.image_name, @kata.id)
+      end
     end
   end
 
@@ -247,8 +252,8 @@ class KataControllerTest  < AppControllerTestBase
     id
   end
 
-  def create_python_pytest_kata
-    id = create_kata('Python, pytest') # stateless
+  def create_ruby_testunit_kata
+    id = create_kata('Python, unittest') # stateless
     @kata = Kata.new(katas, id)
     id
   end

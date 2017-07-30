@@ -2,24 +2,34 @@ require_relative './app_controller_test_base'
 
 class ImagePullerTest < AppControllerTestBase
 
-  test '406736', 'pulled?' do
+  def setup
+    super
     set_runner_class('RunnerService')
+    @katas = Katas.new(self)
+  end
+
+  attr_reader :katas
+
+  test '406736', 'pulled?' do
     refute_image_pulled(invalid_image_name, valid_kata_id(true))
     refute_image_pulled(valid_non_existent_image_name, valid_kata_id(false))
     refute_image_pulled(valid_existing_image_name, valid_kata_id(false))
 
-    assert_image_pull(valid_existing_image_name, valid_kata_id(true))
-    assert_image_pulled(valid_existing_image_name, valid_kata_id(true))
+    kata = make_kata({ 'language' => 'Python-unittest' })
+    assert kata.runner_choice == 'stateless' # no need to do runner.kata_old
+    assert_image_pull(valid_existing_image_name, kata.id)
+    assert_image_pulled(valid_existing_image_name, kata.id)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test '406167', 'pull' do
-    set_runner_class('RunnerService')
     refute_image_pull(invalid_image_name, valid_kata_id(true))
     refute_image_pull(valid_non_existent_image_name, valid_kata_id(false))
     refute_image_pull(valid_existing_image_name, valid_kata_id(false))
-    assert_image_pull(valid_existing_image_name, valid_kata_id(true))
+    kata = make_kata({ 'language' => 'Python-unittest' })
+    assert kata.runner_choice == 'stateless' # no need to do runner.kata_old
+    assert_image_pull(valid_existing_image_name, kata.id)
   end
 
   private

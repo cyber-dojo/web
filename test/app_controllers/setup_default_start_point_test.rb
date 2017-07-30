@@ -3,28 +3,22 @@ require_relative 'app_controller_test_base'
 class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   test '59C9F4020',
-  'show_languages page shows all language+tests' do
+  'show_languages page shows language+tests (smoke)' do
     do_get 'show_languages'
-
-    assert /data-major\=\"#{get_language_from(cpp_assert)}/.match(html), cpp_assert
-    assert /data-major\=\"#{get_language_from(asm_assert)}/.match(html), asm_assert
-    assert /data-major\=\"#{get_language_from(csharp_nunit)}/.match(html), csharp_nunit
-    assert /data-major\=\"#{get_language_from(java_junit)}/.match(html), java_junit
-
-    assert /data-minor\=\"#{get_test_from(cpp_assert)}/.match(html), cpp_assert
-    assert /data-minor\=\"#{get_test_from(asm_assert)}/.match(html), asm_assert
-    assert /data-minor\=\"#{get_test_from(csharp_nunit)}/.match(html), csharp_nunit
-    assert /data-minor\=\"#{get_test_from(java_junit)}/.match(html), java_junit
+    assert html.include? "data-major=#{quoted(get_language_from(c_assert))}"
+    assert html.include? "data-minor=#{quoted(get_test_from(c_assert))}"
+    assert html.include? "data-major=#{quoted(get_language_from(python_unittest))}"
+    assert html.include? "data-minor=#{quoted(get_test_from(python_unittest))}"
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test '59CBB9967',
-  'show_exercises page uses cached exercises' do
+  'show_exercises page uses cached exercises (smoke)' do
     do_get 'show_exercises'
-    assert /data-name\=\"#{print_diamond}/.match(html),  print_diamond
-    assert /data-name\=\"#{roman_numerals}/.match(html), roman_numerals
-    assert /data-name\=\"#{bowling_game}/.match(html),   bowling_game
+    assert html.include? "data-name=#{quoted(print_diamond)}"
+    assert html.include? "data-name=#{quoted(roman_numerals)}"
+    assert html.include? "data-name=#{quoted(bowling_game)}"
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -32,14 +26,14 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   test '59C7433D8',
   'save creates a new kata with language+test and exercise' do
     params = {
-         'major' => 'C#',
-         'minor' => 'Moq',
+         'major' => get_language_from(c_assert),
+         'minor' => get_test_from(c_assert),
       'exercise' => print_diamond
     }
     do_get 'save', params
     kata = katas[json['id']]
-    assert_equal 'C#-Moq', kata.language
-    assert_equal 'Print_Diamond', kata.exercise
+    assert_equal 'C (gcc)-assert', kata.language  # comma -> hyphen
+    assert_equal print_diamond, kata.exercise
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -58,7 +52,8 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     languages_names = languages_display_names.map { |name| get_language_from(name) }.uniq.sort
     selected_language = languages_names[md[1].to_i]
     assert_equal get_language_from(language_display_name), selected_language, 'language'
-    # checking the initial test-framework looks to be nigh on impossible on static html
+    # checking the initial test-framework looks to be
+    # nigh on impossible in static html
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -106,9 +101,9 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def cpp_assert;   'C++, assert'; end
-  def asm_assert;   'Asm, assert'; end
-  def csharp_nunit; 'C#, NUnit'  ; end
-  def java_junit;   'Java, JUnit'; end
+  def c_assert;        'C (gcc), assert' ; end
+  def python_unittest; 'Python, unittest'; end
+
+  def quoted(s); '"' + s + '"'; end
 
 end

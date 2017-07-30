@@ -69,25 +69,25 @@ class KataTest < AppModelsTestBase
     hash = {
       'id'       => id,
       'now'      => now,
-      'language' => 'Java-JUnit',
+      'language' => 'Python-unittest',
       'exercise' => 'Fizz_Buzz',
     }
-    java_junit = languages[hash['language']]
-    fizz_buzz  = exercises[hash['exercise']]
+    language = languages[hash['language']]
+    exercise  = exercises[hash['exercise']]
     kata = make_kata(hash)
     assert_equal id, kata.id
     assert_equal Time.mktime(*now), kata.created
-    assert_equal java_junit.runner_choice, kata.runner_choice
-    assert_equal java_junit.image_name, kata.image_name
-    assert_equal java_junit.tab_size, kata.tab_size
-    assert_equal java_junit.display_name, kata.display_name
-    assert_equal java_junit.filename_extension, kata.filename_extension
-    assert_equal java_junit.progress_regexs, kata.progress_regexs
-    assert_equal java_junit.highlight_filenames, kata.highlight_filenames
-    assert_equal java_junit.lowlight_filenames, kata.lowlight_filenames
-    assert_equal java_junit.name, kata.language
-    assert_equal fizz_buzz.name, kata.exercise
-    assert_equal fizz_buzz.text, kata.visible_files['instructions']
+    assert_equal language.runner_choice, kata.runner_choice
+    assert_equal language.image_name, kata.image_name
+    assert_equal language.tab_size, kata.tab_size
+    assert_equal language.display_name, kata.display_name
+    assert_equal language.filename_extension, kata.filename_extension
+    assert_equal language.progress_regexs, kata.progress_regexs
+    assert_equal language.highlight_filenames, kata.highlight_filenames
+    assert_equal language.lowlight_filenames, kata.lowlight_filenames
+    assert_equal language.name, kata.language
+    assert_equal exercise.name, kata.exercise
+    assert_equal exercise.text, kata.visible_files['instructions']
     assert_equal '', kata.visible_files['output']
   end
 
@@ -110,8 +110,23 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '677C43',
-  'start_avatar() with specific name succeeds when avatar has not yet started' do
-    @kata = make_kata
+  %w( start_avatar() in language with stateful-runner
+      with specific name succeeds
+      when avatar has not yet started ).join(' ').to_s do
+    @kata = make_kata({ 'language' => 'C (gcc)-assert' })
+    hippo = @kata.start_avatar(['hippo'])
+    refute_nil hippo
+    assert_equal 'hippo', hippo.name
+    assert_equal ['hippo'], avatars_names
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '677C44',
+  %w( start_avatar() in language with stateless-runner
+      with specific name succeeds
+      when avatar has not yet started ).to_s do
+    @kata = make_kata({ 'language' => 'Python-unittest' })
     hippo = @kata.start_avatar(['hippo'])
     refute_nil hippo
     assert_equal 'hippo', hippo.name
@@ -186,11 +201,19 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  smoke_test '677D61',
-  'start_avatar() seamlessly resurrects the runner',
-  'when collector has collected the runner containers/volumes' do
+  def katas
+    # make katas visible to runner which sees
+    # this test object as the root object
+    dojo.katas
+  end
+
+  test '677D61',
+  'start_avatar() seamlessly resurrects when',
+  'collector has collected the runner containers/volumes' do
     set_runner_class('RunnerService')
-    kata = make_kata
+    #@katas = Katas.new(self)
+    kata = make_kata({ 'language' => 'C (gcc)-assert' })
+    assert kata.runner_choice == 'stateful'
     runner.kata_old(kata.image_name, kata.id)
     begin
       avatar = kata.start_avatar
@@ -218,7 +241,7 @@ class KataTest < AppModelsTestBase
     kata_id = '677712F0E7'
     manifest = {
       'id'       => kata_id,
-      'language' => 'C#-Moq',
+      'language' => 'C-assert',
       'exercise' => 'Fizz_Buzz',
     }
     storer.create_kata(manifest)
@@ -234,7 +257,7 @@ class KataTest < AppModelsTestBase
     )
     kata = katas[kata_id]
     property_names.each { |property_name| refute_nil kata.send(property_name) }
-    assert_equal 'C#, Moq', kata.display_name
+    assert_equal 'C (gcc), assert', kata.display_name
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

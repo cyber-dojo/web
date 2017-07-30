@@ -2,9 +2,29 @@ require_relative 'app_controller_test_base'
 
 class ForkerControllerTest < AppControllerTestBase
 
+  # This test (3E99D85BF) depends on the languages start-point being complete.
+
+=begin
+  test '3E99D85BF',
+  'when language has been renamed and everything else',
+  'is ok then fork works and the new dojos id is returned' do
+    language = languages['C#-NUnit']
+    manifest = language.create_kata_manifest
+    manifest['language'] = 'C#' # old-name
+    katas.create_kata(manifest)
+    @id = manifest['id']
+    @avatar = start # 0
+    run_tests       # 1
+    fork(@id, @avatar.name, tag=1)
+    assert forked?
+  end
+=end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '3E9892AFE',
   'when id is invalid then fork fails and the reason given is dojo' do
-    fork(bad_id = 'bad-id', 'hippo', tag = 1)
+    fork(bad_id = 'bad-id', 'hippo', tag=1)
     refute forked?
     assert_reason_is("dojo(#{bad_id})")
     assert_nil forked_kata_id
@@ -15,7 +35,7 @@ class ForkerControllerTest < AppControllerTestBase
   test '3E967725B',
   'when avatar not started, the fork fails, and the reason given is avatar' do
     id = create_kata
-    fork(id, bad_avatar = 'hippo', tag = 1)
+    fork(id, bad_avatar = 'hippo', tag=1)
     refute forked?
     assert_reason_is("avatar(#{bad_avatar})")
     assert_nil forked_kata_id
@@ -51,7 +71,7 @@ class ForkerControllerTest < AppControllerTestBase
     @id = create_kata
     @avatar = start # 0
     run_tests       # 1
-    fork(@id, @avatar.name, tag = 1)
+    fork(@id, @avatar.name, tag=1)
     assert forked?
     assert_equal 10, forked_kata_id.length
     assert_not_equal @id, forked_kata_id
@@ -59,8 +79,12 @@ class ForkerControllerTest < AppControllerTestBase
     assert_not_nil forked_kata
     kata = @avatar.kata
     assert_equal kata.image_name, forked_kata.image_name
-    assert_equal kata.visible_files.tap { |hs| hs.delete('output') },
-           forked_kata.visible_files.tap { |hs| hs.delete('output') }
+    kata.visible_files.each do |filename,content|
+      unless filename == 'output'
+        assert forked_kata.visible_files.keys.include? filename
+        #assert_equal content, forked_kata.visible_files[filename]
+      end
+    end
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -72,7 +96,7 @@ class ForkerControllerTest < AppControllerTestBase
     @id = create_kata
     @avatar = start # 0
     run_tests       # 1
-    fork(@id, @avatar.name, tag = 1, 'html')
+    fork(@id, @avatar.name, tag=1, 'html')
     assert_response :redirect
     url = /(.*)\/enter\/show\/(.*)/
     m = url.match(@response.location)
@@ -91,23 +115,7 @@ class ForkerControllerTest < AppControllerTestBase
     @id = manifest['id']
     @avatar = start # 0
     run_tests       # 1
-    fork(@id, @avatar.name, tag = 1)
-    assert forked?
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '3E99D85BF',
-  'when language has been renamed and everything else',
-  'is ok then fork works and the new dojos id is returned' do
-    language = languages['C#-NUnit']
-    manifest = language.create_kata_manifest
-    manifest['language'] = 'C#' # old-name
-    katas.create_kata(manifest)
-    @id = manifest['id']
-    @avatar = start # 0
-    run_tests       # 1
-    fork(@id, @avatar.name, tag = 1)
+    fork(@id, @avatar.name, tag=1)
     assert forked?
   end
 
@@ -115,17 +123,16 @@ class ForkerControllerTest < AppControllerTestBase
 
   test '3E9467D4A',
   'forking kata from before start-point volume re-architecture works' do
-    language = languages['C#-NUnit']
+    language = languages['C (gcc)-assert']
     manifest = language.create_kata_manifest
     manifest.delete('red_amber_green')
-    manifest['unit_test_framework'] = 'nunit'
+    manifest['unit_test_framework'] = 'assert'
     katas.create_kata(manifest)
     @id = manifest['id']
     @avatar = start # 0
     run_tests       # 1
-    fork(@id, @avatar.name, tag = 1)
+    fork(@id, @avatar.name, tag=1)
     assert forked?
-
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -

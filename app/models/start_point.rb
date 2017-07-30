@@ -91,8 +91,8 @@ class StartPoint
   end
 
   def name
-    # as stored in the kata's manifest.
-    # This is the reverse of start_points/.rb commad()
+    # As stored in the kata's manifest.
+    # This is the reverse of start_points.rb commad()
     display_name.split(',').map(&:strip).join('-')
   end
 

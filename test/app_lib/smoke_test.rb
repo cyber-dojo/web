@@ -6,7 +6,10 @@ class SmokeTest < AppLibTestBase
     super
     set_storer_class('StorerService')
     set_runner_class('RunnerService')
+    @katas = Katas.new(self)
   end
+
+  attr_reader :katas
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
   # differ
@@ -22,7 +25,7 @@ class SmokeTest < AppLibTestBase
     args << (files1 = starting_files)
     args << (now1 = [2016,12,8,8,3,23])
     args << (output = 'Assert failed: answer() == 42')
-    args << (colour1 = 'red')
+    args << (colour = 'red')
     storer.avatar_ran_tests(*args)
     actual = differ.diff(kata.id, lion, was_tag=0, now_tag=1)
 
@@ -47,24 +50,29 @@ class SmokeTest < AppLibTestBase
 
   smoke_test '2BDF808102',
   'smoke test pulling' do
-    kata_id = '2BDF808102'
-    refute runner.image_pulled? 'cyberdojo/non_existant', kata_id
+    kata = make_kata({
+      'language' => 'Python-unittest',
+      'id' => '2BDF808102'
+    })
+    assert kata.runner_choice == 'stateless' # no need to do runner.kata_old
+    refute runner.image_pulled? 'cyberdojo/non_existant', kata.id
     image_name = 'cyberdojofoundation/gcc_assert'
-    assert runner.image_pull image_name, kata_id
-    assert runner.image_pulled? image_name, kata_id
+    assert runner.image_pull kata.image_name, kata.id
+    assert runner.image_pulled? kata.image_name, kata.id
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   smoke_test '2BDAD80812',
   'smoke test runner-service colour is red-amber-green traffic-light' do
-    image_name = 'cyberdojofoundation/gcc_assert'
-    kata_id = '2BDAD80812'
-    runner.kata_new(image_name, kata_id)
-    runner.avatar_new(image_name, kata_id, lion, starting_files)
+    kata = make_kata({
+      'language' => 'C (gcc)-assert',
+      'id' => '2BDAD80812'
+    })
+    runner.avatar_new(kata.image_name, kata.id, lion, starting_files)
     args = []
-    args << image_name
-    args << kata_id
+    args << kata.image_name
+    args << kata.id
     args << lion
     args << (max_seconds = 10)
     args << (delta = {
@@ -80,8 +88,8 @@ class SmokeTest < AppLibTestBase
       assert_equal 2, status
       assert_equal 'red', colour
     ensure
-      runner.avatar_old(image_name, kata_id, lion)
-      runner.kata_old(image_name, kata_id)
+      runner.avatar_old(kata.image_name, kata.id, lion)
+      runner.kata_old(kata.image_name, kata.id)
     end
   end
 

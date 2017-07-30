@@ -118,9 +118,9 @@ class DojoControllerTest < AppControllerTestBase
   #- - - - - - - - - - - - - - - -
 
   test '1035BD',
-  'continue with id that exists but is empty' do
+  'resume with id that exists but is empty' do
     create_kata
-    continue
+    resume
     assert empty?
     refute full?
   end
@@ -128,10 +128,10 @@ class DojoControllerTest < AppControllerTestBase
   #- - - - - - - - - - - - - - - -
 
   test '103DEB',
-  'continue with id that exists and is not empty' do
+  'resume with id that exists and is not empty' do
     create_kata
     start
-    continue
+    resume
     refute empty?
     refute full?
   end
