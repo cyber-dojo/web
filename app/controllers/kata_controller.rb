@@ -61,7 +61,7 @@ class KataController < ApplicationController
       @test_colour = colour
     end
 
-    @avatar.tested(files, time_now, @output, @test_colour)
+    storer.avatar_ran_tests(id, avatar_name, files, time_now, @output, @test_colour)
 
     respond_to do |format|
       format.js   { render layout: false }
