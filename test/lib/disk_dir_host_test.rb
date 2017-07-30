@@ -286,11 +286,14 @@ class DiskDirHostTest < LibTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def assert_raises_with_message(exception, msg, &block)
-    block.call
-  rescue exception => e
+    begin
+      raised = false
+      block.call
+    rescue exception => e
       assert_equal msg, e.message
-  else
-      raise "Expected to raise #{exception} w/ message #{msg}, none raised"
+      raised = true
+    end
+    assert raised, "Expected to raise #{exception} w/ message #{msg}"
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
