@@ -5,38 +5,20 @@ class HttpSpy
     clear
   end
 
-  attr_reader :spied, :hostname, :port, :method, :named_args
+  attr_reader :spied
 
   def clear
     @spied = []
   end
 
   def get(hostname, port, method, named_args)
-    @spied << [
-      @hostname = hostname,
-      @port = port,
-      @method = method.to_s,
-      @named_args = named_args
-    ]
-    { @method => { 'stdout' => '', 'stderr' => '', 'status' => 0, 'colour' => 'amber' } }
+    @spied << [ hostname, port, method.to_s, named_args ]
+    { method.to_s => { 'stdout' => '', 'stderr' => '', 'status' => 0, 'colour' => 'amber' } }
   end
 
   def post(hostname, port, method, named_args)
-    @spied << [
-      @hostname = hostname,
-      @port = port,
-      @method = method.to_s,
-      @named_args = named_args
-    ]
-    { @method => { 'stdout' => '', 'stderr' => '', 'status' => 0, 'colour' => 'amber' } }
-  end
-
-  def spied_hostname?(hostname)
-    @hostname == hostname
-  end
-
-  def spied_named_arg?(symbol)
-    @named_args.keys.include? symbol
+    @spied << [ hostname, port, method.to_s, named_args ]
+    { method.to_s => { 'stdout' => '', 'stderr' => '', 'status' => 0, 'colour' => 'amber' } }
   end
 
 end
