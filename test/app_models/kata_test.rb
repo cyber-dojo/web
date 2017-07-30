@@ -201,23 +201,6 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  smoke_test '677D61',
-  'start_avatar() seamlessly resurrects the runner',
-  'when collector has collected the runner containers/volumes' do
-    set_runner_class('RunnerService')
-    kata = make_kata
-    runner.kata_old(kata.image_name, kata.id)
-    begin
-      avatar = kata.start_avatar
-      runner.avatar_old(kata.image_name, kata.id, avatar.name)
-      refute_nil avatar
-    ensure
-      runner.kata_old(kata.image_name, kata.id)
-    end
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test '677E1A',
   'after start-points rearchitecture',
   'unit_test_framework is nil' do

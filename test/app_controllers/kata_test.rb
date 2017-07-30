@@ -2,6 +2,13 @@ require_relative 'app_controller_test_base'
 
 class KataControllerTest  < AppControllerTestBase
 
+  def setup
+    super
+    @katas = Katas.new(self)
+  end
+
+  attr_reader :katas
+
   test 'BE876E',
   'run_tests with bad kata id raises' do
     params = {

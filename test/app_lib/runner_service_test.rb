@@ -7,7 +7,10 @@ class RunnerServiceTest < AppLibTestBase
   def setup
     super
     set_runner_class('RunnerService')
+    @katas = Katas.new(self)
   end
+
+  attr_reader :katas
 
   def make_kata_stateful
     kata = make_kata({ 'language' => 'C (gcc)-assert' })
@@ -50,7 +53,10 @@ class RunnerServiceTest < AppLibTestBase
     kata = make_kata_stateful
     @http.clear
     runner.image_pulled? kata.image_name, kata.id
-    assert_spied_stateful(0, 'image_pulled?', {:image_name=>kata.image_name, :kata_id => kata.id })
+    assert_spied_stateful(0, 'image_pulled?', {
+      :image_name => kata.image_name,
+      :kata_id    => kata.id
+    })
   end
 
   test '2BDF808C85',
@@ -60,7 +66,10 @@ class RunnerServiceTest < AppLibTestBase
     kata = make_kata_stateless
     @http.clear
     runner.image_pulled? kata.image_name, kata.id
-    assert_spied_stateless(0, 'image_pulled?', {:image_name=>kata.image_name, :kata_id => kata.id })
+    assert_spied_stateless(0, 'image_pulled?', {
+      :image_name => kata.image_name,
+      :kata_id    => kata.id
+    })
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -74,7 +83,10 @@ class RunnerServiceTest < AppLibTestBase
     kata = make_kata_stateful
     @http.clear
     runner.image_pull kata.image_name, kata.id
-    assert_spied_stateful(0, 'image_pull', {:image_name=>kata.image_name, :kata_id => kata.id })
+    assert_spied_stateful(0, 'image_pull', {
+      :image_name => kata.image_name,
+      :kata_id    => kata.id
+    })
   end
 
   test '2BDF808205',
@@ -84,7 +96,10 @@ class RunnerServiceTest < AppLibTestBase
     kata = make_kata_stateless
     @http.clear
     runner.image_pull kata.image_name, kata.id
-    assert_spied_stateless(0, 'image_pull', {:image_name=>kata.image_name, :kata_id => kata.id })
+    assert_spied_stateless(0, 'image_pull', {
+      :image_name => kata.image_name,
+      :kata_id    => kata.id
+    })
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -96,7 +111,10 @@ class RunnerServiceTest < AppLibTestBase
   'for kata whose runner_choice is stateful' do
     @http = HttpSpy.new(nil)
     kata = make_kata_stateful
-    assert_spied_stateful(0, 'kata_new', {:image_name=>kata.image_name, :kata_id => kata.id })
+    assert_spied_stateful(0, 'kata_new', {
+      :image_name => kata.image_name,
+      :kata_id    => kata.id
+    })
   end
 
   test '2BDF808352',
@@ -118,7 +136,10 @@ class RunnerServiceTest < AppLibTestBase
     kata = make_kata_stateful
     @http.clear
     runner.kata_old(kata.image_name, kata.id)
-    assert_spied_stateful(0, 'kata_old', {:image_name=>kata.image_name, :kata_id => kata.id })
+    assert_spied_stateful(0, 'kata_old', {
+      :image_name => kata.image_name,
+      :kata_id    => kata.id
+    })
   end
 
   test '2BDF808768',
@@ -132,38 +153,88 @@ class RunnerServiceTest < AppLibTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
+  # avatar_new
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '2BDF8082E5',
-  'runner defaults to running statefully' do
-    assert runner.running_statefully?
+  test '2BDF808C2B',
+  'avatar_new request forwards to stateful runner ' +
+  'for kata whose runner_choice is stateful' do
+    @http = HttpSpy.new(nil)
+    kata = make_kata_stateful
+    @http.clear
+    runner.avatar_new(kata.image_name, kata.id, 'salmon', {})
+    assert_spied_stateful(0, 'avatar_new', {
+      :image_name     => kata.image_name,
+      :kata_id        => kata.id,
+      :avatar_name    => 'salmon',
+      :starting_files => {}
+    })
+  end
+
+  test '2BDF808C2C',
+  'avatar_new request does not forward to stateless runner ' +
+  'for kata whose runner_choice is stateless' do
+    @http = HttpSpy.new(nil)
+    kata = make_kata_stateless
+    @http.clear
+    runner.avatar_new(kata.image_name, kata.id, 'salmon', {})
+    assert_nil @http.spied[0]
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
+  # avatar_old
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def assert_stateful_runner(kata_id, image_name)
+  test '2BDF808174',
+  'avatar_old request forwards to stateful runner ' +
+  'for kata whose runner_choice is stateful' do
     @http = HttpSpy.new(nil)
-    args = []
-    args << image_name
-    args << kata_id
-    args << (avatar_name = lion)
-    args << (max_seconds = 10)
-    args << (delta = { :deleted => [], :new => [],:changed => {} })
-    args << (files = {})
-    runner.run_statefully
-    assert runner.running_statefully?
-    runner.run(*args)
-    assert @http.spied_hostname? 'runner'
-    assert @http.spied_named_arg? :deleted_filenames
-    assert @http.spied_named_arg? :changed_files
-    refute @http.spied_named_arg? :visible_files
+    kata = make_kata_stateful
+    @http.clear
+    runner.avatar_old(kata.image_name, kata.id, 'salmon')
+    assert_spied_stateful(0, 'avatar_old', {
+      :image_name     => kata.image_name,
+      :kata_id        => kata.id,
+      :avatar_name    => 'salmon'
+    })
   end
+
+  test '2BDF808175',
+  'avatar_old request does not forward to stateless runner ' +
+  'for kata whose runner_choice is stateless' do
+    @http = HttpSpy.new(nil)
+    kata = make_kata_stateless
+    @http.clear
+    runner.avatar_old(kata.image_name, kata.id, 'salmon')
+    assert_nil @http.spied[0]
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+  # run
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '2BDF80874C',
   'stateful run() delegates to stateful runner',
   'args include deleted_filenames and changed_files' do
-    assert_stateful_runner('2BDAD8074C', 'cyberdojofoundation/gcc_assert')
-    assert_stateful_runner('2BDAD8074D', 'quay.io:8080/cyberdojofoundation/gcc_assert:latest')
-    assert_stateful_runner('2BDAD8074E', 'localhost/cyberdojofoundation/gcc_assert:stateless')
+    @http = HttpSpy.new(nil)
+    kata = make_kata_stateful
+    args = []
+    args << kata.image_name
+    args << kata.id
+    args << (avatar_name = lion)
+    args << (max_seconds = 10)
+    args << (delta = { :deleted => [], :new => [], :changed => {} })
+    args << (files = {})
+    @http.clear
+    runner.run(*args)
+    assert_spied_stateful(0, 'run', {
+      :image_name        => kata.image_name,
+      :kata_id           => kata.id,
+      :avatar_name       => avatar_name,
+      :max_seconds       => max_seconds,
+      :deleted_filenames => [],
+      :changed_files     => {}
+    })
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -172,27 +243,31 @@ class RunnerServiceTest < AppLibTestBase
   'stateless run() delegates to stateless runner',
   'args do not include deleted_filenames or changed_files',
   'but do include visible_files' do
-    assert_stateless_runner('2BDAD80601', 'cyberdojofoundation/gcc_assert_stateless')
-    assert_stateless_runner('2BDAD80602', 'quay.io:8080/cyberdojofoundation/gcc_assert_stateless')
-    assert_stateless_runner('2BDAD80603', 'localhost/cyberdojofoundation/gcc_assert_stateless:1.2')
-  end
-
-  def assert_stateless_runner(kata_id, image_name)
     @http = HttpSpy.new(nil)
+    kata = make_kata_stateless
     args = []
-    args << image_name
-    args << kata_id
+    args << kata.image_name
+    args << kata.id
     args << (avatar_name = lion)
     args << (max_seconds = 10)
-    args << (delta = { :deleted => [], :new => [],:changed => {} })
+    args << (delta = { :deleted => [], :new => [], :changed => {} })
     args << (files = {})
-    runner.run_statelessly
-    refute runner.running_statefully?
+    @http.clear
     runner.run(*args)
-    assert @http.spied_hostname? 'runner_stateless'
-    refute @http.spied_named_arg? :deleted_filenames
-    refute @http.spied_named_arg? :changed_files
-    assert @http.spied_named_arg? :visible_files
+    assert_spied_stateless(0, 'run', {
+      :image_name        => kata.image_name,
+      :kata_id           => kata.id,
+      :avatar_name       => avatar_name,
+      :max_seconds       => max_seconds,
+      :visible_files     => {}
+    })
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '2BDF8082E5',
+  'runner defaults to running statefully' do
+    assert runner.running_statefully?
   end
 
 end
