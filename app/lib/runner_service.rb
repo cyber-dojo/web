@@ -5,7 +5,6 @@ class RunnerService
 
   def initialize(parent)
     @parent = parent
-    @runner_choice = 'stateful'
   end
 
   attr_reader :parent
@@ -18,20 +17,6 @@ class RunnerService
 
   def image_pull(image_name, kata_id)
     runner_http_post(__method__, image_name, kata_id)
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def running_statefully?
-    @runner_choice == 'stateful'
-  end
-
-  def run_statefully
-    @runner_choice = 'stateful'
-  end
-
-  def run_statelessly
-    @runner_choice = 'stateless'
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -65,22 +50,39 @@ class RunnerService
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def run(image_name, kata_id, avatar_name, max_seconds, delta, files)
-    args = {
-       image_name:image_name,
-          kata_id:kata_id,
-      avatar_name:avatar_name,
-      max_seconds:max_seconds
-    }
     if stateful?(kata_id)
-      args[:deleted_filenames] = delta[:deleted]
-      new_files     = files.select { |filename| delta[:new    ].include? filename }
-      changed_files = files.select { |filename| delta[:changed].include? filename }
-      args[:changed_files] = new_files.merge(changed_files)
+      run_stateful(image_name, kata_id, avatar_name, max_seconds, delta, files)
     else
-      args[:visible_files] = files
+      run_stateless(image_name, kata_id, avatar_name, max_seconds, delta, files)
     end
-    set_hostname_port(kata_id)
-    sss = http_post_hash(__method__, args)
+  end
+
+  def run_stateful(image_name, kata_id, avatar_name, max_seconds, delta, files)
+    new_files     = files.select { |filename| delta[:new    ].include? filename }
+    changed_files = files.select { |filename| delta[:changed].include? filename }
+    args = {
+             image_name:image_name,
+                kata_id:kata_id,
+            avatar_name:avatar_name,
+            max_seconds:max_seconds,
+      deleted_filenames:delta[:deleted],
+          changed_files:new_files.merge(changed_files)
+    }
+    set_hostname_port_stateful
+    sss = http_post_hash(:run, args)
+    [sss['stdout'], sss['stderr'], sss['status'], sss['colour']]
+  end
+
+  def run_stateless(image_name, kata_id, avatar_name, max_seconds, delta, files)
+    args = {
+         image_name:image_name,
+            kata_id:kata_id,
+        avatar_name:avatar_name,
+        max_seconds:max_seconds,
+      visible_files:files
+    }
+    set_hostname_port_stateless
+    sss = http_post_hash(:run, args)
     [sss['stdout'], sss['stderr'], sss['status'], sss['colour']]
   end
 
@@ -100,8 +102,21 @@ class RunnerService
   attr_reader :hostname, :port
 
   def set_hostname_port(kata_id)
-    @hostname = stateful?(kata_id) ? 'runner' : 'runner_stateless'
-    @port = stateful?(kata_id) ? 4557 : 4597
+    if stateful?(kata_id)
+      set_hostname_port_stateful
+    else
+      set_hostname_port_stateless
+    end
+  end
+
+  def set_hostname_port_stateful
+    @hostname = 'runner'
+    @port = 4557
+  end
+
+  def set_hostname_port_stateless
+    @hostname = 'runner_stateless'
+    @port = 4597
   end
 
   def stateful?(kata_id)

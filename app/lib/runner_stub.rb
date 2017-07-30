@@ -39,6 +39,14 @@ class RunnerStub
     end
   end
 
+  def run_stateful(image_name, kata_id, avatar_name, max_seconds, delta, files)
+    run(image_name, kata_id, avatar_name, max_seconds, delta, files)
+  end
+
+  def run_stateless(image_name, kata_id, avatar_name, max_seconds, delta, files)
+    run(image_name, kata_id, avatar_name, max_seconds, delta, files)
+  end
+
   private
 
   def filename

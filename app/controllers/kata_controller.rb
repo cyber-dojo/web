@@ -18,12 +18,20 @@ class KataController < ApplicationController
     files = received_files
     max_seconds = 10
 
-    if runner_choice == 'stateless'
-      runner.run_statelessly
-    end
     @avatar = Avatar.new(kata, avatar_name)
     begin
-      stdout,stderr,status,colour = @avatar.test(delta, files, max_seconds, image_name)
+      args = []
+      args << image_name        # eg 'cyberdojofoundation/gcc_assert'
+      args << id                # eg 'FE8A79A264'
+      args << avatar_name       # eg 'salmon'
+      args << max_seconds       # eg 10
+      args << delta
+      args << files
+      if runner_choice == 'stateless'
+        stdout,stderr,status,colour = runner.run_stateless(*args)
+      else
+        stdout,stderr,status,colour = runner.run_stateful(*args)
+      end
     rescue StandardError => error
       # Old kata could be being resumed
       # Runner implementation could have switched
