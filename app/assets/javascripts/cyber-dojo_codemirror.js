@@ -21,6 +21,7 @@ var cyberDojo = (function(cd, $) {
       case 'makefile':
         return 'text/x-makefile';
       case 'instructions':
+      case 'output':
         return '';
     }
 
