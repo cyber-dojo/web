@@ -25,7 +25,6 @@ services:
     user: cyber-dojo
     image: cyberdojo/web
     container_name: cyber-dojo-web
-    tmpfs: /tmp
     environment:
       - CYBER_DOJO_HOME
     mem_limit: 2G

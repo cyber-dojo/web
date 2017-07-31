@@ -9,7 +9,7 @@ $(function() {
     var id = $('#full-kata-id').val();
     var cursor = button.css('cursor');
     button.css('cursor', 'wait');
-    $.getJSON('/enter/continue', { id: id }, function(dojo) {
+    $.getJSON('/enter/resume', { id: id }, function(dojo) {
       button.css('cursor', cursor);
       cd.resumeDialog('resume programming', dojo.html);
     });

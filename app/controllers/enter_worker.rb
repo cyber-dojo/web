@@ -21,11 +21,11 @@ module EnterWorker # mix-in
     bind('/app/views/enter/full_dialog.html.erb')
   end
 
-  def continue_dialog_html
+  def resume_dialog_html
     @id = id
     @started_avatar_names = started_avatar_names
     @all_avatar_names = Avatars.names
-    bind('/app/views/enter/continue_dialog.html.erb')
+    bind('/app/views/enter/resume_dialog.html.erb')
   end
 
   def bind(pathed_filename)

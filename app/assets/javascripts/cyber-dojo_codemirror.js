@@ -21,6 +21,7 @@ var cyberDojo = (function(cd, $) {
       case 'makefile':
         return 'text/x-makefile';
       case 'instructions':
+      case 'output':
         return '';
     }
 
@@ -62,6 +63,17 @@ var cyberDojo = (function(cd, $) {
         return 'text/x-vhdl';
     }
     return '';
+  };
+
+  var codeMirrorIndentWithTabs = function (filename) {
+    filename = filename.toLowerCase();
+
+    switch (filename) {
+      case 'makefile':
+        return true;
+      default:
+        return false;
+    }
   };
 
   var syntaxHighlightFileContentForId = function (filename) {
@@ -115,6 +127,7 @@ var cyberDojo = (function(cd, $) {
       mode: codeMirrorMode(filename),
       indentUnit: cd.syntaxHighlightTabSize,
       tabSize: cd.syntaxHighlightTabSize,
+      indentWithTabs: codeMirrorIndentWithTabs(filename),
       theme: "cyber-dojo-colour",
       readOnly: (filename == 'output')
     });
@@ -141,6 +154,20 @@ var cyberDojo = (function(cd, $) {
         cd.toggleOutputFile();
       }
     });
+
+    if(!codeMirrorIndentWithTabs(filename)) {
+      editor.addKeyMap({
+        Tab: function (cm) {
+          if (cm.somethingSelected()) {
+            cm.indentSelection("add");
+          }
+          else {
+            cm.execCommand("insertSoftTab");
+          }
+        }
+      }, true);
+    }
+
     var lineNumbers = document.getElementById(filename + '_line_numbers');
     lineNumbers.style.display = 'none';
   };

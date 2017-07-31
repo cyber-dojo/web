@@ -5,7 +5,6 @@
   diff_view
   review_file_picker
   ring_picker
-  makefile_filter
   dashboard_td_gapper
   display_names_splitter
   id_splitter

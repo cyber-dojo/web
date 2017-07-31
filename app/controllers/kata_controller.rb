@@ -19,11 +19,19 @@ class KataController < ApplicationController
     max_seconds = 10
 
     @avatar = Avatar.new(kata, avatar_name)
-    if runner_choice == 'stateless'
-      runner.run_statelessly
-    end
     begin
-      stdout,stderr,status,colour = @avatar.test(delta, files, max_seconds, image_name)
+      args = []
+      args << image_name        # eg 'cyberdojofoundation/gcc_assert'
+      args << id                # eg 'FE8A79A264'
+      args << avatar_name       # eg 'salmon'
+      args << max_seconds       # eg 10
+      args << delta
+      args << files
+      if runner_choice == 'stateless'
+        stdout,stderr,status,colour = runner.run_stateless(*args)
+      else
+        stdout,stderr,status,colour = runner.run_stateful(*args)
+      end
     rescue StandardError => error
       # Old kata could be being resumed
       # Runner implementation could have switched
@@ -53,7 +61,7 @@ class KataController < ApplicationController
       @test_colour = colour
     end
 
-    @avatar.tested(files, time_now, @output, @test_colour)
+    storer.avatar_ran_tests(id, avatar_name, files, time_now, @output, @test_colour)
 
     respond_to do |format|
       format.js   { render layout: false }
@@ -73,7 +81,6 @@ class KataController < ApplicationController
 
   private
 
-  include MakefileFilter
   include StringCleaner
   include TimeNow
 
@@ -82,8 +89,7 @@ class KataController < ApplicationController
     (params[:file_content] || {}).each do |filename, content|
       content = cleaned(content)
       # Cater for windows line endings from windows browser
-      content = content.gsub(/\r\n/, "\n")
-      seen[filename] = makefile_filter(filename, content)
+      seen[filename] = content.gsub(/\r\n/, "\n")
     end
     seen
   end

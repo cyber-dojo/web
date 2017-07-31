@@ -9,6 +9,13 @@ class RunnerStub
     @@disk ||= DiskFake.new(self)
   end
 
+  # - - - - - - - - - - - - - - - - -
+
+  def image_pulled?(_image_name, _kata_id); end
+  def image_pull   (_image_name, _kata_id); end
+
+  # - - - - - - - - - - - - - - - - -
+
   def kata_new(_image_name, _kata_id); end
   def kata_old(_image_name, _kata_id); end
 
@@ -34,6 +41,14 @@ class RunnerStub
     else
       [stdout='blah blah blah', stderr='', status=0, colour='red']
     end
+  end
+
+  def run_stateful(image_name, kata_id, avatar_name, max_seconds, delta, files)
+    run(image_name, kata_id, avatar_name, max_seconds, delta, files)
+  end
+
+  def run_stateless(image_name, kata_id, avatar_name, max_seconds, delta, files)
+    run(image_name, kata_id, avatar_name, max_seconds, delta, files)
   end
 
   private

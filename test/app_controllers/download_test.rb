@@ -27,7 +27,7 @@ class DownloadControllerTest < AppControllerTestBase
     prepare
     start
     kata_edit
-    change_file('hiker.rb', 'def...')
+    change_file('hiker.c', '...')
     run_tests
     download
     assert_downloaded
@@ -42,9 +42,9 @@ class DownloadControllerTest < AppControllerTestBase
     5.times do
       start
       kata_edit
-      change_file('hiker.rb', 'def...')
+      change_file('hiker.c', '/*comment*/')
       run_tests
-      change_file('test_hiker.rb', 'def...')
+      change_file('hiker.h', '...')
       run_tests
     end
     download
@@ -85,7 +85,7 @@ class DownloadControllerTest < AppControllerTestBase
     start
     @tag = 0; download_tag; assert_downloaded_tag
     kata_edit
-    change_file('hiker.rb', 'def...')
+    change_file('hiker.c', '...')
     run_tests
     @tag = 1; download_tag; assert_downloaded_tag
   end

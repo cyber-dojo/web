@@ -4,14 +4,14 @@ class ReverterControllerTest  < AppControllerTestBase
 
   test '81F276',
   'revert' do
-    @id = create_kata('Java, JUnit')
+    @id = create_kata
     @avatar = start
     kata_edit
-    filename = 'Hiker.java'
-    change_file(filename, old_content='echo abc')
+    filename = 'hiker.c'
+    change_file(filename, old_content='the_answer')
     run_tests # 1
     assert_equal old_content, @avatar.visible_files[filename]
-    change_file(filename, new_content='something different')
+    change_file(filename, new_content='something_different')
     run_tests # 2
     assert_equal new_content, @avatar.visible_files[filename]
 

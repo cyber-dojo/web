@@ -20,7 +20,6 @@ module TestDomainHelpers # mix-in
     exercise = exercises[hash['exercise']]
     manifest['exercise'] = exercise.name
     manifest['visible_files']['instructions'] = exercise.text
-
     katas.create_kata(manifest)
   end
 
