@@ -81,7 +81,6 @@ class KataController < ApplicationController
 
   private
 
-  include MakefileFilter
   include StringCleaner
   include TimeNow
 
@@ -90,8 +89,7 @@ class KataController < ApplicationController
     (params[:file_content] || {}).each do |filename, content|
       content = cleaned(content)
       # Cater for windows line endings from windows browser
-      content = content.gsub(/\r\n/, "\n")
-      seen[filename] = makefile_filter(filename, content)
+      seen[filename] = content.gsub(/\r\n/, "\n")
     end
     seen
   end

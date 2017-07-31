@@ -46,30 +46,17 @@ class KataControllerTest  < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'BE87FD',
-  'run_tests() saves changed makefile with leading spaces converted to tabs',
-  'and these changes are made to the visible_files parameter too',
-  'so they also occur in the manifest file' do
+  'run_tests() on makefile with leading spaces',
+  'are NOT converted to tabs and traffic-light is amber' do
+    set_runner_class('RunnerService')
     in_kata {
       kata_edit
       run_tests
+      assert_equal :red, @avatar.lights[-1].colour
       change_file(makefile, makefile_with_leading_spaces)
       run_tests
-      assert_file makefile, makefile_with_leading_tab
-    }
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'BE87AF',
-  'run_tests() saves *new* makefile with leading spaces converted to tabs',
-  'and these changes are made to the visible_files parameter too',
-  'so they also occur in the manifest file' do
-    in_kata {
-      delete_file(makefile)
-      run_tests
-      new_file(makefile, makefile_with_leading_spaces)
-      run_tests
-      assert_file makefile, makefile_with_leading_tab
+      assert_equal :amber, @avatar.lights[-1].colour
+      assert_file makefile, makefile_with_leading_spaces
     }
   end
 
@@ -83,17 +70,17 @@ class KataControllerTest  < AppControllerTestBase
       filename = 'fubar.txt'
       ls_all = 'ls -al'
       change_file('cyber-dojo.sh', "touch #{filename} && #{ls_all}")
-      hit_test
+      run_tests
       output = @avatar.visible_files['output']
       assert output.include?(filename), output
 
       change_file('cyber-dojo.sh', "rm -f #{filename} && #{ls_all}")
-      hit_test
+      run_tests
       output = @avatar.visible_files['output']
       refute output.include?(filename), output
 
       change_file('cyber-dojo.sh', ls_all)
-      hit_test
+      run_tests
       output = @avatar.visible_files['output']
       refute output.include?(filename), output
     }
@@ -110,12 +97,12 @@ class KataControllerTest  < AppControllerTestBase
       ls_all = 'ls -al'
       create_file = "touch #{filename} && #{ls_all}"
       change_file('cyber-dojo.sh', create_file)
-      hit_test
+      run_tests
       output = @avatar.visible_files['output']
       assert output.include?(filename), output
 
       change_file('cyber-dojo.sh', ls_all)
-      hit_test
+      run_tests
       output = @avatar.visible_files['output']
       refute output.include?(filename), output
     }
@@ -149,7 +136,7 @@ class KataControllerTest  < AppControllerTestBase
     # get runner.run to accept unvalidated arguments.
     set_runner_class('RunnerService')
     in_kata {
-      hit_test # 1
+      run_tests # 1
       assert_equal :red, @avatar.lights[-1].colour
       output = @avatar.visible_files['output']
 
@@ -167,7 +154,7 @@ class KataControllerTest  < AppControllerTestBase
       runner.avatar_old(@kata.image_name, @kata.id, @avatar.name)
 
       change_file('hiker.c', content('hiker.c').sub('6 * 9', '6 * 7'))
-      hit_test # 2
+      run_tests # 2
       assert_equal "All tests passed\n", @avatar.visible_files['output']
       assert_equal :green, @avatar.lights[-1].colour
       diff = differ.diff(@kata.id, @avatar.name, was_tag=1, now_tag=2)
@@ -182,7 +169,7 @@ class KataControllerTest  < AppControllerTestBase
   'avatar.test() for an old kata seamlessly resurrects' do
     set_runner_class('RunnerService')
     in_kata {
-      hit_test # 1
+      run_tests # 1
       assert_equal :red, @avatar.lights[-1].colour
       output = @avatar.visible_files['output']
 
@@ -201,7 +188,7 @@ class KataControllerTest  < AppControllerTestBase
       runner.kata_old(@kata.image_name, @kata.id)
 
       change_file('hiker.c', content('hiker.c').sub('6 * 9', '6 * 7'))
-      hit_test # 2
+      run_tests # 2
       assert_equal "All tests passed\n", @avatar.visible_files['output']
       assert_equal :green, @avatar.lights[-1].colour
       diff = differ.diff(@kata.id, @avatar.name, was_tag=1, now_tag=2)
@@ -262,19 +249,11 @@ class KataControllerTest  < AppControllerTestBase
     assert_equal expected, @avatar.visible_files[filename]
   end
 
-  def makefile_with_leading_tab
-    makefile_with_leading("\t")
-  end
-
   def makefile_with_leading_spaces
-    makefile_with_leading(' ' + ' ')
-  end
-
-  def makefile_with_leading(s)
     [
       'CFLAGS += -I. -Wall -Wextra -Werror -std=c11',
       'test: makefile $(C_FILES) $(COMPILED_H_FILES)',
-      s + '@gcc $(CFLAGS) $(C_FILES) -o $@'
+      '    @gcc $(CFLAGS) $(C_FILES) -o $@'
     ].join("\n")
   end
 
