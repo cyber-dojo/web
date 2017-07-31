@@ -12,24 +12,24 @@ class RunnerService
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def image_pulled?(image_name, kata_id)
-    runner_http_get(__method__, image_name, kata_id)
+    runner_http_get(__method__, *args(binding))
   end
 
   def image_pull(image_name, kata_id)
-    runner_http_post(__method__, image_name, kata_id)
+    runner_http_post(__method__, *args(binding))
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def kata_new(image_name, kata_id)
     if stateful?(kata_id)
-      runner_http_post(__method__, image_name, kata_id)
+      runner_http_post(__method__, *args(binding))
     end
   end
 
   def kata_old(image_name, kata_id)
     if stateful?(kata_id)
-      runner_http_post(__method__, image_name, kata_id)
+      runner_http_post(__method__, *args(binding))
     end
   end
 
@@ -37,13 +37,13 @@ class RunnerService
 
   def avatar_new(image_name, kata_id, avatar_name, starting_files)
     if stateful?(kata_id)
-      runner_http_post(__method__, image_name, kata_id, avatar_name, starting_files)
+      runner_http_post(__method__, *args(binding))
     end
   end
 
   def avatar_old(image_name, kata_id, avatar_name)
     if stateful?(kata_id)
-      runner_http_post(__method__, image_name, kata_id, avatar_name)
+      runner_http_post(__method__, *args(binding))
     end
   end
 
@@ -51,9 +51,9 @@ class RunnerService
 
   def run(image_name, kata_id, avatar_name, max_seconds, delta, files)
     if stateful?(kata_id)
-      run_stateful(image_name, kata_id, avatar_name, max_seconds, delta, files)
+      run_stateful(*args(binding))
     else
-      run_stateless(image_name, kata_id, avatar_name, max_seconds, delta, files)
+      run_stateless(*args(binding))
     end
   end
 
@@ -125,5 +125,12 @@ class RunnerService
 
   include NearestAncestors
   def katas; nearest_ancestors(:katas); end
+
+  def args(callers_binding)
+    callers_name = caller[0][/`.*'/][1..-2]
+    method(callers_name).parameters.map do |_, arg_name|
+      callers_binding.local_variable_get(arg_name)
+    end
+  end
 
 end
