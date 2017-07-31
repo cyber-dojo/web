@@ -50,11 +50,8 @@ class RunnerService
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def run(image_name, kata_id, avatar_name, max_seconds, delta, files)
-    if stateful?(kata_id)
-      run_stateful(*args(binding))
-    else
-      run_stateless(*args(binding))
-    end
+    to_run = stateful?(kata_id) ? :run_stateful : :run_stateless
+    send(to_run, *args(binding))
   end
 
   def run_stateful(image_name, kata_id, avatar_name, max_seconds, delta, files)
