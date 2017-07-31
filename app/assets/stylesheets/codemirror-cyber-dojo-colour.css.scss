@@ -60,7 +60,12 @@
 .cm-s-cyber-dojo-colour .cm-hr {color: #999;}
 .cm-s-cyber-dojo-colour .cm-link {color: #3395cc;}
 
-.cm-s-cyber-dojo-colour .cm-tab {background: lighten($darker-color, 8%);}
+.cm-s-cyber-dojo-colour .cm-tab {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAMCAYAAAAkuj5RAAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4QceFzkFdK1S+wAAACR0RVh0Q29tbWVudABUYWIgY2hhcmFjdGVyIGZvciBjeWJlci1kb2pvbQcIaAAAAE5JREFUSMftkjEOACAMAltfyFP5YZ1cHGoXk2K8kYkLmH3uACAq2VCTkBKoSAzVOy28MlMnSLrcAhmuchuSDiAkF9hLSwlk5dsLnMo/wQQwlBvvo1+QQQAAAABJRU5ErkJggg==);
+  background-position: right;
+  background-repeat: no-repeat;
+}
+
 
 .cm-s-cyber-dojo-colour .cm-error {color: #f00;}
 .cm-s-cyber-dojo-colour .cm-invalidchar {color: #f00;}
