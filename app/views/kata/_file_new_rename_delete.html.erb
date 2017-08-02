@@ -83,6 +83,7 @@ $(function() {
     var scrollTop = oldFile.scrollTop();
     var scrollLeft = oldFile.scrollLeft();
     var caretPos = oldFile.caret();
+
     $(oldFile).closest('tr').remove();
 
     cd.newFileContent(newFilename, content);
@@ -118,7 +119,6 @@ $(function() {
     var okInitiallyDisabled = !isValidFilename(initialFilename);
     var okClicked = function(filename) {
       cd.newFileContent(filename, '');
-      cd.switchEditorToCodeMirror(filename);
     };
     openDialog('new', initialFilename, okInitiallyDisabled, okClicked, avatarName);
   });
@@ -127,9 +127,7 @@ $(function() {
     var initialFilename = cd.currentFilename();
     var okInitiallyDisabled = true;
     var okClicked = function(filename) {
-      cd.removeSyntaxHilightEditor(initialFilename);
       renameFileFromTo(initialFilename, filename);
-      cd.switchEditorToCodeMirror(filename);
     };
     openDialog('rename', initialFilename, okInitiallyDisabled, okClicked, avatarName);
   });
@@ -139,7 +137,6 @@ $(function() {
     var initialFilename = cd.currentFilename();
     var okInitiallyDisabled = false;
     var okClicked = function(filename) {
-      cd.removeSyntaxHilightEditor(filename);
       cd.deleteFile(filename);
     };
     openDialog('delete', initialFilename, okInitiallyDisabled, okClicked, avatarName);

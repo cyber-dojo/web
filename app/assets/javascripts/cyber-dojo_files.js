@@ -164,6 +164,7 @@ var cyberDojo = (function(cd, $) {
     cd.bindLineNumbers(filename);
     cd.rebuildFilenameList();
     cd.loadFile(filename);
+    cd.switchEditorToCodeMirror(filename);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
