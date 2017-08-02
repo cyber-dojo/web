@@ -3,7 +3,7 @@
 var cyberDojo = (function(cd, $) {
   "use strict";
 
-  var showTrafficLightHoverTipViaAjax = function(light) {
+  let showTrafficLightHoverTipViaAjax = function(light) {
     $.getJSON('/tipper/traffic_light_tip', {
            id: light.data('id'),
        avatar: light.data('avatar-name'),
@@ -16,13 +16,13 @@ var cyberDojo = (function(cd, $) {
 
   // - - - - - - - - - - - - - - - - - - - -
 
-  var trafficLightCountHoverTip = function(node) {
-    var avatarName = node.data('avatar-name');
-    var reds = node.data('red-count');
-    var ambers = node.data('amber-count');
-    var greens = node.data('green-count');
-    var timeOuts = node.data('timed-out-count');
-    var trLight = function(colour, count) {
+  let trafficLightCountHoverTip = function(node) {
+    let avatarName = node.data('avatar-name');
+    let reds = node.data('red-count');
+    let ambers = node.data('amber-count');
+    let greens = node.data('green-count');
+    let timeOuts = node.data('timed-out-count');
+    let trLight = function(colour, count) {
       return '' +
         '<tr>' +
           '<td>' +
@@ -38,7 +38,7 @@ var cyberDojo = (function(cd, $) {
         '</tr>';
     };
 
-    var html = '';
+    let html = '';
     html += '<img';
     html +=   " class='traffic-light-diff-tip-avatar-image'";
     html +=   " src='/images/avatars/" + avatarName + ".jpg'>";
@@ -57,9 +57,9 @@ var cyberDojo = (function(cd, $) {
 
   cd.setupHoverTip = function(nodes) {
     nodes.each(function() {
-      var node = $(this);
-      var setTipCallBack = function() {
-        var tip = node.data('tip');
+      let node = $(this);
+      let setTipCallBack = function() {
+        let tip = node.data('tip');
         if (tip == 'ajax:traffic_light') {
           showTrafficLightHoverTipViaAjax(node);
         } else if (tip == 'traffic_light_count') {
