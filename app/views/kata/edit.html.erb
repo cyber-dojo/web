@@ -13,9 +13,6 @@ $(function() {
   $.each(filenames, function(_,filename) {
     var file = cd.fileContentFor(filename);
     cd.bindHotKeys(file);
-    if (filename != 'output') {
-      cd.tabber(file);
-    }
   });
   cd.bindAllLineNumbers();
   cd.rebuildFilenameList();

@@ -15,7 +15,6 @@
 //
 // cyber-dojo has the jquery js files in this dir directly.
 // It doesn't do a [gem jquery] in the Gemfile.
-// This allows rails-app to be volumes-from: mounted read-only in the docker-compose.yml file.
 //
 //= require ./jquery.min
 //= require ./jquery_ujs

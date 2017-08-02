@@ -134,7 +134,6 @@ var cyberDojo = (function(cd, $) {
     div.append(table);
 
     cd.bindHotKeys(text);
-    cd.tabber(text);
 
     return div;
   };

@@ -3,7 +3,6 @@
 var cyberDojo = (function(cd, $) {
   "use strict";
 
-  cd.syntaxHighlightTabSize = 4;
   var noLineNumbersTheme = " cyber-dojo-no-linenumbers";
 
   var fileExtension = function (filename) {
