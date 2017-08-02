@@ -187,13 +187,6 @@ var cyberDojo = (function(cd, $) {
     });
   };
 
-  cd.removeSyntaxHilightEditor = function (filename) {
-    var element = document.getElementById(syntaxHighlightFileContentForId(filename));
-    var parent = element.parentNode;
-
-    parent.removeChild(element);
-  };
-
   cd.focusSyntaxHighlightEditor = function (filename) {
     var element = document.getElementById(syntaxHighlightFileContentForId(filename));
     if (element != null) {

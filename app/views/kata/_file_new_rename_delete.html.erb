@@ -84,7 +84,6 @@ $(function() {
     var scrollLeft = oldFile.scrollLeft();
     var caretPos = oldFile.caret();
 
-    cd.removeSyntaxHilightEditor(oldFilename);
     $(oldFile).closest('tr').remove();
 
     cd.newFileContent(newFilename, content);

@@ -171,7 +171,6 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.deleteFile = function(filename) {
-    cd.removeSyntaxHilightEditor(filename);
     cd.fileDiv(filename).remove();
     var filenames = cd.rebuildFilenameList();
     var i = cd.testFilenameIndex(filenames);
