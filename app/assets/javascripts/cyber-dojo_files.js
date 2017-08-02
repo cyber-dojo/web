@@ -165,11 +165,13 @@ var cyberDojo = (function(cd, $) {
     cd.bindLineNumbers(filename);
     cd.rebuildFilenameList();
     cd.loadFile(filename);
+    cd.switchEditorToCodeMirror(filename);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.deleteFile = function(filename) {
+    cd.removeSyntaxHilightEditor(filename);
     cd.fileDiv(filename).remove();
     var filenames = cd.rebuildFilenameList();
     var i = cd.testFilenameIndex(filenames);

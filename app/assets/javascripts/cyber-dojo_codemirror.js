@@ -121,7 +121,12 @@ var cyberDojo = (function(cd, $) {
   };
 
   cd.switchEditorToCodeMirror = function (filename) {
-    var editor = CodeMirror.fromTextArea(document.getElementById('file_content_for_' + filename), {
+    var textArea = document.getElementById('file_content_for_' + filename);
+    var parent = textArea.parentNode;
+
+    textArea.style.display = 'none';
+
+    var editor = CodeMirror(parent, {
       lineNumbers: true,
       matchBrackets: true,
       mode: codeMirrorMode(filename),
@@ -131,6 +136,9 @@ var cyberDojo = (function(cd, $) {
       theme: "cyber-dojo-colour",
       readOnly: (filename == 'output')
     });
+
+    editor.cyberDojoTextArea = textArea;
+    editor.setValue(textArea.value);
 
     if(!areLineNumbersVisible()) {
       hideLineNumbersForEditor(editor);
@@ -181,9 +189,9 @@ var cyberDojo = (function(cd, $) {
 
   cd.removeSyntaxHilightEditor = function (filename) {
     var element = document.getElementById(syntaxHighlightFileContentForId(filename));
-    if (element != null) {
-      element.CodeMirror.toTextArea();
-    }
+    var parent = element.parentNode;
+
+    parent.removeChild(element);
   };
 
   cd.focusSyntaxHighlightEditor = function (filename) {
@@ -196,7 +204,7 @@ var cyberDojo = (function(cd, $) {
 
   cd.saveCodeFromSyntaxHighlightEditors = function () {
     $.each($('.CodeMirror'), function (i, editor_div) {
-      editor_div.CodeMirror.save();
+      editor_div.CodeMirror.cyberDojoTextArea.value = editor_div.CodeMirror.getValue();
     });
   };
 
