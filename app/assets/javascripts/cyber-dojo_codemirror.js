@@ -200,6 +200,11 @@ var cyberDojo = (function(cd, $) {
     });
   };
 
+  cd.saveCodeFromIndividualSyntaxHighlightEditor = function(filename) {
+    var editor_div = document.getElementById(syntaxHighlightFileContentForId(filename));
+    editor_div.CodeMirror.cyberDojoTextArea.value = editor_div.CodeMirror.getValue();
+  };
+
   return cd;
 
 })(cyberDojo || {}, jQuery);
