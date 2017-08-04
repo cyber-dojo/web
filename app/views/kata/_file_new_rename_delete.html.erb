@@ -90,14 +90,6 @@ $(function() {
     cd.newFileContent(newFilename, content);
     cd.rebuildFilenameList();
     cd.loadFile(newFilename);
-    var newFile = cd.fileContentFor(newFilename);
-    // I use animate instead with a very fast duration==1
-    // and it works. Doing the seemingly equivalent
-    //   newFile.scrollTop(top);
-    //   newFile.scrollLeft(left);
-    // here does _not_ work.
-    newFile.animate({scrollTop:scrollTop, scrollLeft:scrollLeft}, 1);
-    newFile.caret(caretPos);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
