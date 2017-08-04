@@ -84,7 +84,7 @@ $(function() {
     var scrollLeft = oldFile.scrollLeft();
     var caretPos = oldFile.caret();
 
-    $(oldFile).closest('tr').remove();
+    cd.fileDiv(oldFilename).remove();
 
     cd.newFileContent(newFilename, content);
     cd.rebuildFilenameList();
