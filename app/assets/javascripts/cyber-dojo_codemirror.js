@@ -60,6 +60,9 @@ var cyberDojo = (function(cd, $) {
         return 'text/x-vb';
       case '.vhdl':
         return 'text/x-vhdl';
+      case '.html':
+      case '.htm':
+        return 'text/html';
     }
     return '';
   };
