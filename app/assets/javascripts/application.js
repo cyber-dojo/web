@@ -16,10 +16,15 @@
 // cyber-dojo has the jquery js files in this dir directly.
 // It doesn't do a [gem jquery] in the Gemfile.
 //
+// Some CodeMirror modes (such as the htmlmixed mode) override parts of other modes and must
+// be loaded after the those modes. To ensure this happens the modes which are order
+// dependent are stored in the codemirror/mode-ordered directory and required individually.
+//
 //= require ./jquery.min
 //= require ./jquery_ujs
 //= require ./jquery-ui.min
 //= require ./codemirror/lib/codemirror
 //= require_tree ./codemirror/mode
 //= require_tree ./codemirror/addon
+//= require ./codemirror/mode-ordered/htmlmixed/htmlmixed.js
 //= require_tree .

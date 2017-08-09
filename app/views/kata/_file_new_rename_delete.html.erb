@@ -78,24 +78,18 @@ $(function() {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   var renameFileFromTo = function(oldFilename, newFilename) {
+    cd.saveCodeFromIndividualSyntaxHighlightEditor(oldFilename);
     var oldFile = cd.fileContentFor(oldFilename);
     var content = oldFile.val();
     var scrollTop = oldFile.scrollTop();
     var scrollLeft = oldFile.scrollLeft();
     var caretPos = oldFile.caret();
-    $(oldFile).closest('tr').remove();
+
+    cd.fileDiv(oldFilename).remove();
 
     cd.newFileContent(newFilename, content);
     cd.rebuildFilenameList();
     cd.loadFile(newFilename);
-    var newFile = cd.fileContentFor(newFilename);
-    // I use animate instead with a very fast duration==1
-    // and it works. Doing the seemingly equivalent
-    //   newFile.scrollTop(top);
-    //   newFile.scrollLeft(left);
-    // here does _not_ work.
-    newFile.animate({scrollTop:scrollTop, scrollLeft:scrollLeft}, 1);
-    newFile.caret(caretPos);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -118,7 +112,6 @@ $(function() {
     var okInitiallyDisabled = !isValidFilename(initialFilename);
     var okClicked = function(filename) {
       cd.newFileContent(filename, '');
-      cd.switchEditorToCodeMirror(filename);
     };
     openDialog('new', initialFilename, okInitiallyDisabled, okClicked, avatarName);
   });
@@ -127,9 +120,7 @@ $(function() {
     var initialFilename = cd.currentFilename();
     var okInitiallyDisabled = true;
     var okClicked = function(filename) {
-      cd.removeSyntaxHilightEditor(initialFilename);
       renameFileFromTo(initialFilename, filename);
-      cd.switchEditorToCodeMirror(filename);
     };
     openDialog('rename', initialFilename, okInitiallyDisabled, okClicked, avatarName);
   });
@@ -139,7 +130,6 @@ $(function() {
     var initialFilename = cd.currentFilename();
     var okInitiallyDisabled = false;
     var okClicked = function(filename) {
-      cd.removeSyntaxHilightEditor(filename);
       cd.deleteFile(filename);
     };
     openDialog('delete', initialFilename, okInitiallyDisabled, okClicked, avatarName);
