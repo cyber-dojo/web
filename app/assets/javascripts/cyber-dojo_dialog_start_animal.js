@@ -5,6 +5,7 @@ var cyberDojo = (function(cd, $) {
 
   cd.startAnimal = function(id, from) {
     $.getJSON('/enter/start', { id: id }, function(dojo) {
+      $('#start-button').prop('disabled',false).css('cursor','default');
       if (dojo.full) {
         cd.dialog(dojo.full_dialog_html, 'start programming', 'ok').dialog('open');
       } else {

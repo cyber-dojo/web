@@ -6,11 +6,11 @@ $(function() {
   var button = $('#resume-button');
 
   button.click(function() {
-    var id = $('#full-kata-id').val();
     var cursor = button.css('cursor');
-    button.css('cursor', 'wait');
+    button.prop('disabled',true).css('cursor','wait');
+    var id = $('#full-kata-id').val();
     $.getJSON('/enter/resume', { id: id }, function(dojo) {
-      button.css('cursor', cursor);
+      button.prop('disabled',false).css('cursor', cursor);
       cd.resumeDialog('resume programming', dojo.html);
     });
   });

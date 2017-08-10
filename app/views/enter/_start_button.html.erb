@@ -4,6 +4,7 @@
 $(function() {
 
   $('#start-button').click(function() {
+    $(this).prop('disabled',true).css('cursor','wait');
     var id = $('#full-kata-id').val();
     cd.startAnimal(id, 'from_setup');
   });
