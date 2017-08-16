@@ -26,7 +26,8 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
       'Yahtzee refactoring, C# NUnit',
       'Yahtzee refactoring, C++ (g++) assert',
       'Yahtzee refactoring, Java JUnit',
-      'Yahtzee refactoring, Python unitttest'
+      'Yahtzee refactoring, Python unitttest',
+      'git, bash'
       ],
       custom_display_names
 
