@@ -166,7 +166,7 @@ end
 
 def coverage(stats, name, min = 100, max_skips = 0)
   percent = stats[name][:coverage]
-  [ "#{name} coverage == #{min}", percent.to_f >= min ]
+  [ "#{name} coverage >= #{min}", percent.to_f >= min ]
 end
 
 def skips(stats, name, max = 0)
@@ -186,7 +186,8 @@ def gather_done(stats, totals)
   module_names = %w( app_helpers app_lib app_models lib app_controllers )
   module_names.each do |name|
     if modules.include? name
-      done << coverage(stats, name)
+      min_coverage = (['app_models','app_controllers'].include? name) ? 99 : 100
+      done << coverage(stats, name, min_coverage)
       done << skips(stats, name)
     end
   end

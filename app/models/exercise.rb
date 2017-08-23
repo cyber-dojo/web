@@ -25,9 +25,14 @@ class Exercise
 
   private
 
-  def filename; 'instructions'; end
+  def filename
+    'instructions'
+  end
 
   include NearestAncestors
-  def disk; nearest_ancestors(:disk); end
+
+  def disk
+    nearest_ancestors(:disk)
+  end
 
 end

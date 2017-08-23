@@ -65,7 +65,13 @@ class Avatar
   end
 
   include NearestAncestors
-  def storer; nearest_ancestors(:storer); end
-  def runner; nearest_ancestors(:runner); end
+
+  def storer
+    nearest_ancestors(:storer)
+  end
+
+  def runner
+    nearest_ancestors(:runner)
+  end
 
 end

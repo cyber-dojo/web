@@ -128,11 +128,22 @@ class Kata
   end
 
   include NearestAncestors
-  def languages; nearest_ancestors(:languages); end
-  def custom   ; nearest_ancestors(:custom   ); end
 
-  def runner; nearest_ancestors(:runner); end
-  def storer; nearest_ancestors(:storer); end
+  def languages
+    nearest_ancestors(:languages)
+  end
+
+  def custom
+    nearest_ancestors(:custom)
+  end
+
+  def runner
+    nearest_ancestors(:runner)
+  end
+
+  def storer
+    nearest_ancestors(:storer)
+  end
 
 end
 

@@ -116,7 +116,9 @@ class StartPoint
     'manifest.json'
   end
 
-  def disk; nearest_ancestors(:disk); end
+  def disk
+    nearest_ancestors(:disk)
+  end
 
 end
 

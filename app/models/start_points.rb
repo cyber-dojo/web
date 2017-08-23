@@ -66,7 +66,13 @@ class StartPoints
   end
 
   include NearestAncestors
-  def env_var; nearest_ancestors(:env_var); end
-  def disk; nearest_ancestors(:disk); end
+
+  def env_var
+    nearest_ancestors(:env_var)
+  end
+
+  def disk
+    nearest_ancestors(:disk)
+  end
 
 end
