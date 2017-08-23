@@ -12,7 +12,7 @@ class Dojo
   end
 
   def exercises
-    @exercises ||=   Exercises.new(self, 'exercises_root')
+    @exercises ||= Exercises.new(self, 'exercises_root')
   end
 
   def custom

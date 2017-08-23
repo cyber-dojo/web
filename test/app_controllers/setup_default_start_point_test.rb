@@ -84,26 +84,54 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def languages_display_names; languages.map(&:display_name).sort; end
-  def exercises_names; exercises.map(&:name).sort; end
+  def languages_display_names
+    languages.map(&:display_name).sort
+  end
+
+  def exercises_names
+    exercises.map(&:name).sort
+  end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def get_language_from(name); commad(name)[0].strip; end
-  def get_test_from(name)    ; commad(name)[1].strip; end
-  def commad(s); s.split(','); end
+  def get_language_from(name)
+    commad(name)[0].strip
+  end
+
+  def get_test_from(name)
+    commad(name)[1].strip
+  end
+
+  def commad(s)
+    s.split(',')
+  end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def print_diamond ; 'Print_Diamond' ; end
-  def roman_numerals; 'Roman_Numerals'; end
-  def   bowling_game;   'Bowling_Game'; end
+  def print_diamond
+    'Print_Diamond'
+  end
+
+  def roman_numerals
+    'Roman_Numerals'
+  end
+
+  def bowling_game
+    'Bowling_Game'
+  end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def c_assert;        'C (gcc), assert' ; end
-  def python_unittest; 'Python, unittest'; end
+  def c_assert
+    'C (gcc), assert'
+  end
 
-  def quoted(s); '"' + s + '"'; end
+  def python_unittest
+    'Python, unittest'
+  end
+
+  def quoted(s)
+    '"' + s + '"'
+  end
 
 end

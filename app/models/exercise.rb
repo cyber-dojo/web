@@ -1,7 +1,7 @@
 
 class Exercise
 
-  def initialize(exercises, dir_name, text = nil)
+  def initialize(exercises, dir_name, text=nil)
     @exercises = exercises
     @dir_name = dir_name
     @text = text

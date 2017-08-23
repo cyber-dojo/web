@@ -1,7 +1,7 @@
 
 class StartPoint
 
-  def initialize(start_points, path, display_name = nil, image_name = nil)
+  def initialize(start_points, path, display_name=nil, image_name=nil)
     @start_points = start_points
     @path = path
     @display_name = display_name
@@ -14,7 +14,7 @@ class StartPoint
     @start_points
   end
 
-  def create_kata_manifest(id = unique_id, now = time_now)
+  def create_kata_manifest(id=unique_id, now=time_now)
     manifest = {
                        'id' => id,
                   'created' => now,

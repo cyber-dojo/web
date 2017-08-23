@@ -44,7 +44,7 @@ class Exercises
     cache
   end
 
-  def make(dir_name, text = nil)
+  def make(dir_name, text=nil)
     Exercise.new(self, dir_name, text)
   end
 
