@@ -105,6 +105,23 @@ class ForkerControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - -
 
+  test '3E9F657E7',
+  'when id,language,avatar are all ok, tag==-1',
+  'format=html fork works',
+  "and you are redirected to the enter page with the new dojo's id" do
+    @id = create_kata
+    @avatar = start # 0
+    run_tests       # 1
+    run_tests       # 2
+    fork(@id, @avatar.name, tag=-1, 'html')
+    assert_response :redirect
+    url = /(.*)\/enter\/show\/(.*)/
+    m = url.match(@response.location)
+    forked_kata_id = m[2]
+  end
+
+  #- - - - - - - - - - - - - - - - - -
+
   test '3E95EA04E',
   'when the exercise no longer exists and everything else',
   'is ok then fork works and the new dojos id is returned' do
@@ -139,7 +156,7 @@ class ForkerControllerTest < AppControllerTestBase
 
   private
 
-  def fork(id, avatar, tag, format = 'json')
+  def fork(id, avatar, tag, format='json')
     get 'forker/fork',
       'format' => format,
       'id'     => id,

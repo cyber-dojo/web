@@ -17,16 +17,20 @@ class ForkerController < ApplicationController
 
     #tag = avatar.tags[params['tag']]
     if !error # && !light.exists?
-      is_tag = params['tag'].match(/^\d+$/)
       tag = params['tag'];
-      if !is_tag || tag.to_i <= 0 || tag.to_i > avatar.lights.count
+      if tag == '-1'
+        tag = "#{avatar.lights.count}"
+      end
+      is_number = tag.match(/^\d+$/)
+      if !is_number || tag.to_i <= 0 || tag.to_i > avatar.lights.count
         error = true
         result[:reason] = "traffic_light(#{tag})"
+      else
+        tag = tag.to_i
       end
     end
 
     if !error
-      tag = params['tag'].to_i
       manifest = {
                          'id' => unique_id,
                     'created' => time_now,
