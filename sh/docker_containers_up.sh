@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-my_dir="$( cd "$( dirname "${0}" )" && pwd )"
-. ${my_dir}/env_vars.sh
+readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
+. ${ROOT_DIR}/env_vars.sh
 
 one_time_creation_of_start_point_volumes()
 {
@@ -24,5 +24,5 @@ one_time_creation_of_start_point_volumes()
 
 one_time_creation_of_start_point_volumes
 
-docker-compose --file ${my_dir}/docker-compose.yml up -d
+docker-compose --file ${ROOT_DIR}/docker-compose.yml up -d
 sleep 2

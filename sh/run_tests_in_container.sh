@@ -1,6 +1,8 @@
 #!/bin/bash
 #Don't do [set -e] because we want to get coverage stats out
 
+readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
+
 storer_cid=`docker ps --all --quiet --filter "name=cyber-dojo-storer"`
 docker exec ${storer_cid} sh -c "rm -rf /tmp/cyber-dojo/katas/*"
 
@@ -9,11 +11,10 @@ docker exec ${web_cid} sh -c "cd test && ./run.sh ${*}"
 status=$?
 
 # copy coverage stats out of container
-my_dir="$( cd "$( dirname "${0}" )" && pwd )"
-mkdir -p ${my_dir}/coverage
+mkdir -p ${ROOT_DIR}/coverage
 
 src=${web_cid}:/tmp/cyber-dojo/coverage/.
-dst=${my_dir}/coverage/
+dst=${ROOT_DIR}/coverage/
 docker cp ${src} ${dst}
 
 exit ${status}
