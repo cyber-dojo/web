@@ -35,6 +35,7 @@
     @include rounded-corner(6px);
     position: relative;
     right: -1px;
+    text-transform: uppercase;
   }
 
   #start-button, #resume-button,    #dashboard-button, #review-button {
