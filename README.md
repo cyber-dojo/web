@@ -16,6 +16,6 @@
 - Uses [storer](https://github.com/cyber-dojo/storer) to save the code/tests associated with each avatar's test.
 - Uses [differ](https://github.com/cyber-dojo/differ) to diff the code/tests in successive avatar's tests.
 - Uses [zipper](https://github.com/cyber-dojo/zipper) to create tgz kata/avatar downloads
-- Uses [nginx](https://github.com/cyber-dojo/nginx) for security and to cache image assets
+- Uses [nginx](https://github.com/cyber-dojo/nginx) for security and to cache images
 - Uses [prometheus](https://github.com/cyber-dojo/prometheus) to store monitoring data
 - Uses [grafana](https://github.com/cyber-dojo/prometheus) to display monitoring data
