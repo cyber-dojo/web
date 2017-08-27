@@ -270,13 +270,11 @@ class KataControllerTest  < AppControllerTestBase
   def create_gcc_assert_kata
     id = create_kata('C (gcc), assert') # stateful
     @kata = Kata.new(katas, id)
-    id
   end
 
-  def create_ruby_testunit_kata
+  def create_python_unittest_kata
     id = create_kata('Python, unittest') # stateless
     @kata = Kata.new(katas, id)
-    id
   end
 
   def assert_file(filename, expected)
