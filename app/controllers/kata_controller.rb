@@ -61,6 +61,10 @@ class KataController < ApplicationController
       @test_colour = colour
     end
 
+    # storer.avatar_ran_tests) is the only thing that validates
+    # a kata with the given id exists. It is currently a
+    # synchronous call. If it becomes an asynchronous (fire and forget)
+    # call then revisit kata-id validation.
     storer.avatar_ran_tests(id, avatar_name, files, time_now, @output, @test_colour)
 
     respond_to do |format|
