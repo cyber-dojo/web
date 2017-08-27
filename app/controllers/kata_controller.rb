@@ -38,11 +38,11 @@ class KataController < ApplicationController
       case error.message
         when 'RunnerService:run:kata_id:!exists'
           resurrect_kata
-          resurrect_avatar
-          stdout,stderr,status,colour = resurrect_run_tests(files, max_seconds)
+          resurrect_avatar(files)
+          stdout,stderr,status,colour = resurrect_run_tests(max_seconds)
         when 'RunnerService:run:avatar_name:!exists'
-          resurrect_avatar
-          stdout,stderr,status,colour = resurrect_run_tests(files, max_seconds)
+          resurrect_avatar(files)
+          stdout,stderr,status,colour = resurrect_run_tests(max_seconds)
         else
           raise error
       end
@@ -102,16 +102,14 @@ class KataController < ApplicationController
     runner.kata_new(kata.image_name, kata.id)
   end
 
-  def resurrect_avatar
-    args = [ kata.image_name, kata.id, @avatar.name ]
-    args << @avatar.visible_files
+  def resurrect_avatar(files)
+    args = [ kata.image_name, kata.id, @avatar.name, files ]
     runner.avatar_new(*args)
   end
 
-  def resurrect_run_tests(files, max_seconds)
-    delta = FileDeltaMaker.make_delta(@avatar.visible_files, files)
-    args = [ delta, files, max_seconds ]
-    @avatar.test(*args)
+  def resurrect_run_tests(max_seconds)
+    delta = { unchanged:[], changed:[], deleted:[], new:[] }
+    @avatar.test(delta, files={}, max_seconds)
   end
 
 end
