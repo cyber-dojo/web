@@ -4,7 +4,6 @@ class KataController < ApplicationController
   def edit
     @kata = kata
     @avatar = avatar
-    @tab = ' ' * @kata.tab_size
     @visible_files = @avatar.visible_files
     @traffic_lights = @avatar.lights
     @output = @visible_files['output']
