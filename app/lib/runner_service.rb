@@ -9,7 +9,7 @@ class RunnerService
 
   attr_reader :parent
 
-  # - - - - - - - - - - - - - - - - - - - - - - - -
+  # = = = = = = = = = = = = = = = = = = = = = = = =
 
   def image_pulled?(image_name, kata_id)
     runner_http_get(__method__, *args(binding))
@@ -19,7 +19,7 @@ class RunnerService
     runner_http_post(__method__, *args(binding))
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - - - -
+  # = = = = = = = = = = = = = = = = = = = = = = = =
 
   def kata_new(image_name, kata_id)
     if stateful?(kata_id)
@@ -33,7 +33,7 @@ class RunnerService
     end
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - - - -
+  # = = = = = = = = = = = = = = = = = = = = = = = =
 
   def avatar_new(image_name, kata_id, avatar_name, starting_files)
     if stateful?(kata_id)
@@ -47,16 +47,22 @@ class RunnerService
     end
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - - - -
+  # = = = = = = = = = = = = = = = = = = = = = = = =
 
   def run(image_name, kata_id, avatar_name, max_seconds, delta, files)
     to_run = stateful?(kata_id) ? :run_stateful : :run_stateless
     send(to_run, *args(binding))
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
   def run_stateful(image_name, kata_id, avatar_name, max_seconds, delta, files)
-    new_files     = files.select { |filename| delta[:new    ].include? filename }
-    changed_files = files.select { |filename| delta[:changed].include? filename }
+    new_files = files.select { |filename|
+      delta[:new].include? filename
+    }
+    changed_files = files.select { |filename|
+      delta[:changed].include? filename
+    }
     args = {
              image_name:image_name,
                 kata_id:kata_id,
@@ -69,6 +75,8 @@ class RunnerService
     sss = http_post_hash(:run, args)
     [sss['stdout'], sss['stderr'], sss['status'], sss['colour']]
   end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def run_stateless(image_name, kata_id, avatar_name, max_seconds, delta, files)
     args = {
@@ -121,7 +129,10 @@ class RunnerService
   end
 
   include NearestAncestors
-  def katas; nearest_ancestors(:katas); end
+
+  def katas
+    nearest_ancestors(:katas)
+  end
 
   def args(callers_binding)
     callers_name = caller[0][/`.*'/][1..-2]

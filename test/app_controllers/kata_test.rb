@@ -45,6 +45,40 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+=begin
+  test 'BE8B29',
+  'stateless run tests caches info so it only issues a single command to storer' do
+    set_runner_class('RunnerService')
+    set_storer_class('StorerFake') # add Call-Counts
+    in_kata('stateless') { |kata_id|
+      kata_edit
+      params = {
+        :format => :js,
+        :id     => kata_id,
+        :runner_choice => @kata.runner_choice,
+        :image_name => 'cyberdojofoundation/python_unittest',
+        :avatar => @avatar.name
+      }.merge(@params_maker.params)
+      post 'kata/run_tests', params
+
+      # How to get @storer ???
+      # ApplicationController does
+      #   include Externals
+      # which is a mixin and does
+      #   def storer; @storer ||= external; end
+      # Could I make externals an object in its own right
+      # and somehow provide access to that?
+      # Problem is that get/post calls are routed and
+      # end up in a rails thread.
+      # Could the test's hex-id become an ENV-VAR providing a key for a global hash?
+      # Quite like that. And for a non-test the controller sees there is no
+      # ENV-VAR and creates a uuidgen.
+    }
+  end
+=end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test 'BE87FD',
   'run_tests() on makefile with leading spaces',
   'are NOT converted to tabs and traffic-light is amber' do
@@ -215,14 +249,14 @@ class KataControllerTest  < AppControllerTestBase
 
   def in_kata(choice = 'stateful')
     if choice == 'stateful'
-      kata_id = create_gcc_assert_kata
+      create_gcc_assert_kata
     end
     if choice == 'stateless'
-      kata_id = create_ruby_testunit_kata
+      create_python_unittest_kata
     end
     @avatar = start
     begin
-      yield kata_id
+      yield @kata.id
     ensure
       if choice == 'stateful'
         runner.avatar_old(@kata.image_name, @kata.id, @avatar.name)
