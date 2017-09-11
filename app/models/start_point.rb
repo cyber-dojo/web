@@ -58,7 +58,7 @@ class StartPoint
   # optional manifest properties
 
   def runner_choice
-    manifest_property || 'stateful'
+    manifest_property || 'stateless'
   end
 
   def filename_extension
