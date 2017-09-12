@@ -175,9 +175,8 @@ class KataControllerTest  < AppControllerTestBase
       output = @avatar.visible_files['output']
 
       [
-        "makefile:14: recipe for target 'test.output' failed",
-        'Assertion failed: answer() == 42 (hiker.tests.c: life_the_universe_and_everything: 7)',
-        'make: *** [test.output] Aborted'
+        '[makefile:14: test.output] Aborted',
+        'Assertion failed: answer() == 42'
       ].each do |expected|
         assert output.include?(expected)
         # Note that depending on the host's OS, the last line might be
@@ -208,9 +207,8 @@ class KataControllerTest  < AppControllerTestBase
       output = @avatar.visible_files['output']
 
       [
-        "makefile:14: recipe for target 'test.output' failed",
-        'Assertion failed: answer() == 42 (hiker.tests.c: life_the_universe_and_everything: 7)',
-        'make: *** [test.output] Aborted'
+        '[makefile:14: test.output] Aborted',
+        'Assertion failed: answer() == 42'
       ].each do |expected|
         assert output.include?(expected)
         # Note that depending on the host's OS the last line might be

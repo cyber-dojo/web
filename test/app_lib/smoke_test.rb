@@ -83,8 +83,8 @@ class SmokeTest < AppLibTestBase
     args << starting_files
     begin
       stdout,stderr,status,colour = runner.run(*args)
-      assert stdout.start_with? "makefile:4: recipe for target 'test.output' failed"
-      assert stderr.start_with? 'Assertion failed: answer() == 42'
+      assert stderr.include?('[makefile:4: test.output] Aborted'), stderr
+      assert stderr.include?('Assertion failed: answer() == 42'), stderr
       assert_equal 2, status
       assert_equal 'red', colour
     ensure

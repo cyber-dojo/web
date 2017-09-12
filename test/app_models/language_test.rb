@@ -138,10 +138,10 @@ class LanguageTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '43EB07',
-  'runner_choice defaults to stateful when not set' do
+  'runner_choice defaults to stateless' do
     @language = make_language('Ruby', 'Test::Unit')
     spy_manifest({})
-    assert_equal 'stateful', @language.runner_choice
+    assert_equal 'stateless', @language.runner_choice
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
