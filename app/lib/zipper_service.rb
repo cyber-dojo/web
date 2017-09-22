@@ -4,6 +4,8 @@ class ZipperService
 
   def initialize(parent)
     @parent = parent
+    @hostname = 'zipper'
+    @port = 4587
   end
 
   attr_reader :parent
@@ -19,13 +21,6 @@ class ZipperService
   private
 
   include HttpHelper
-
-  def hostname
-    'zipper'
-  end
-
-  def port
-    4587
-  end
+  attr_reader :hostname, :port
 
 end

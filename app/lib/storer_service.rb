@@ -4,6 +4,8 @@ class StorerService
 
   def initialize(parent)
     @parent = parent
+    @hostname = 'storer'
+    @port = 4577
   end
 
   attr_reader :parent
@@ -81,13 +83,6 @@ class StorerService
   private
 
   include HttpHelper
-
-  def hostname
-    'storer'
-  end
-
-  def port
-    4577
-  end
+  attr_reader :hostname, :port
 
 end
