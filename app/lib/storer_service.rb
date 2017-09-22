@@ -4,8 +4,8 @@ class StorerService
 
   def initialize(parent)
     @parent = parent
-    @hostname = 'storer'
-    @port = 4577
+    @hostname = ENV['STORER_HOSTNAME'] || 'storer'
+    @port = ENV['STORER_PORT'] || 4577
   end
 
   attr_reader :parent
