@@ -96,24 +96,31 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'BE89DC',
-  'when cyber-dojo.sh removes a file then it stays removed',
-  'when RunnerService is stateful' do
+  test 'BE802D',
+  'a new file persists when the RunnerService is stateful' do
     set_runner_class('RunnerService')
     in_kata {
-      filename = 'fubar.txt'
-      ls_all = 'ls -al'
-      change_file('cyber-dojo.sh', "touch #{filename} && #{ls_all}")
+      filename = 'hello.txt'
+      new_file(filename, 'Hello world')
+      run_tests
+      change_file('cyber-dojo.sh', 'ls -al')
       run_tests
       output = @avatar.visible_files['output']
       assert output.include?(filename), output
+    }
+  end
 
-      change_file('cyber-dojo.sh', "rm -f #{filename} && #{ls_all}")
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'BE89DC',
+  'a deleted file stays deleted when the RunnerService is stateful' do
+    set_runner_class('RunnerService')
+    in_kata {
+      filename = 'instructions'
+      ls_all = 'ls -al'
+      delete_file(filename)
       run_tests
-      output = @avatar.visible_files['output']
-      refute output.include?(filename), output
-
-      change_file('cyber-dojo.sh', ls_all)
+      change_file('cyber-dojo.sh', 'ls -al')
       run_tests
       output = @avatar.visible_files['output']
       refute output.include?(filename), output

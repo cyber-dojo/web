@@ -13,22 +13,22 @@ class ParamsMaker
   end
 
   def content(filename)
-    assert_file(filename, 'content')
+    assert_file(filename, __method__)
     @live[filename]
   end
 
   def new_file(filename, content)
-    refute_file(filename, 'new_file')
+    refute_file(filename, __method__)
     @live[filename] = content
   end
 
   def delete_file(filename)
-    assert_file(filename, 'delete_file')
+    assert_file(filename, __method__)
     @live.delete(filename)
   end
 
   def change_file(filename, content)
-    assert_file(filename, 'change_file')
+    assert_file(filename, __method__)
     message = [ info(filename, 'change_file'), "\t unchanged!" ].join("\n")
     refute(message) { @live[filename] == content }
     @live[filename] = content
@@ -55,7 +55,7 @@ private
 
   def refute_file(filename, cmd)
     message = [
-      info(filename,cmd),
+      info(filename, cmd),
       "\t already a file with that name"
     ].join("\n")
     refute(message) { file?(filename) }
