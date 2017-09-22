@@ -19,7 +19,13 @@ class ZipperService
   private
 
   include HttpHelper
-  def hostname; 'zipper'; end
-  def port; 4587; end
+
+  def hostname
+    'zipper'
+  end
+
+  def port
+    4587
+  end
 
 end

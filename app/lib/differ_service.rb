@@ -20,9 +20,17 @@ class DifferService
   private
 
   include HttpHelper
-  def hostname; 'differ'; end
-  def port; 4567; end
 
-  def storer; nearest_ancestors(:storer); end
+  def hostname
+    'differ'
+  end
+
+  def port
+    4567
+  end
+
+  def storer
+    nearest_ancestors(:storer)
+  end
 
 end
