@@ -47,6 +47,9 @@ module HttpHelper # mix-in
   end
 
   include NearestAncestors
-  def http; nearest_ancestors(:http); end
+
+  def http
+    nearest_ancestors(:http)
+  end
 
 end
