@@ -2,12 +2,15 @@
 <div id="footer">
   <table>
     <tr>
-      <td><%= render partial: 'shared/home_page_logo' %></td>
-      <td><%= render partial: 'shared/help', locals: { help_url: help_url } %></td>
-      <td><%= render partial: 'shared/options' %></td>
+      <td>
+        <%= render partial: 'shared/home_page_logo_click' %>
+        <%= render partial: 'shared/home_page_logo' %>
+      </td>
       <td><%= render partial: 'shared/tweet' %></td>
       <td><%= render partial: 'shared/accu' %></td>
       <td><%= render partial: 'shared/cucumber' %></td>
+      <td><%= render partial: 'shared/help', locals: { help_url: help_url } %></td>
+      <td><%= render partial: 'shared/options' %></td>
     </tr>
   </table>
 </div>
