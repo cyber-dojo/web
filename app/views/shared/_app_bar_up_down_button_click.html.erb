@@ -3,10 +3,14 @@
 
 $(function() {
 
-  $('#app-bar-up-down-button').clickToggle(
-    function() { $('#footer').appendTo('#app-bar-top'   ); },
-    function() { $('#footer').appendTo('#app-bar-bottom'); }
+  const appBarUpDownButton = $('#app-bar-up-down-button');
+
+  appBarUpDownButton.clickToggle(
+    function() { $('#footer').appendTo('#app-bar-bottom'); },
+    function() { $('#footer').appendTo('#app-bar-top'   ); }
   );
+
+  appBarUpDownButton.click();
 
 });
 
