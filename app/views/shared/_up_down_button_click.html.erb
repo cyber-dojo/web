@@ -1,18 +1,12 @@
 
 <script type="text/javascript"><!--
 
-  $(function() {
+$(function() {
 
-  var atTop = false;
-
-  $('#banner-up-down-button').click(function() {
-    if (atTop) {
-      $('#footer').appendTo('#banner-bottom');
-    } else {
-      $('#footer').appendTo('#banner-top');
-    }
-    atTop = !atTop;
-  });
+  $('#banner-up-down-button').clickToggle(
+    function() { $('#footer').appendTo('#banner-top'   ); },
+    function() { $('#footer').appendTo('#banner-bottom'); }
+  );
 
 });
 
