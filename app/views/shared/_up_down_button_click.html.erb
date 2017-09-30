@@ -1,0 +1,19 @@
+
+<script type="text/javascript"><!--
+
+  $(function() {
+
+  var atTop = false;
+
+  $('#banner-up-down-button').click(function() {
+    if (atTop) {
+      $('#footer').appendTo('#banner-bottom');
+    } else {
+      $('#footer').appendTo('#banner-top');
+    }
+    atTop = !atTop;
+  });
+
+});
+
+//--></script>
