@@ -212,7 +212,7 @@
   }
 
   #buttons {
-    position: absolute; top: 10px; left: 10px;
+    position: absolute; top: 40px; left: 10px;
     #fork-button, #revert-button, #download-button, #close-button {
       @include non-code-font();
       font-size: 13px;
