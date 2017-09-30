@@ -3,11 +3,18 @@
 
 $(function() {
 
+  const page = $('#cyber-dojo-page');
   const appBarUpDownButton = $('#app-bar-up-down-button');
 
   appBarUpDownButton.clickToggle(
-    function() { $('#footer').appendTo('#app-bar-bottom'); },
-    function() { $('#footer').appendTo('#app-bar-top'   ); }
+    function() {
+      page.css({'padding-top':0, 'padding-bottom':30});
+      $('#footer').appendTo('#app-bar-bottom');
+    },
+    function() {
+      page.css({'padding-top':30, 'padding-bottom':0});
+      $('#footer').appendTo('#app-bar-top');
+    }
   );
 
   appBarUpDownButton.click();
