@@ -9,11 +9,11 @@ $(function() {
   appBarUpDownButton.clickToggle(
     function() {
       page.css({'padding-top':0, 'padding-bottom':30});
-      $('#footer').appendTo('#app-bar-bottom');
+      $('#app-bar').appendTo('#app-bar-bottom');
     },
     function() {
       page.css({'padding-top':30, 'padding-bottom':0});
-      $('#footer').appendTo('#app-bar-top');
+      $('#app-bar').appendTo('#app-bar-top');
     }
   );
 

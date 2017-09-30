@@ -10,7 +10,7 @@
     bottom: 0px;
 }
 
-#footer {
+#app-bar {
 
   @include plaintext-font();
   background: lighten($darker-color, 6%);

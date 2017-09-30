@@ -25,7 +25,7 @@
  *= depend_on kata.css.scss
  *= depend_on dashboard.css.scss
  *= depend_on review.css.scss
- *= depend_on footer.css.scss
+ *= depend_on app-bar.css.scss
  *= depend_on jquery-ui-1.8.16.custom.css.scss
  *= depend_on codemirror.css.scss
  *= depend_on codemirror-cyber-dojo-colour.css.scss
@@ -48,7 +48,7 @@
 @import "kata.css.scss";
 @import "dashboard.css.scss";
 @import "review.css.scss";
-@import "footer.css.scss";
+@import "app-bar.css.scss";
 @import "jquery-ui-1.8.16.custom.css.scss";
 @import "codemirror.css.scss";
 @import "codemirror-cyber-dojo-colour.css.scss";
