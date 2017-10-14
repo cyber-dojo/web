@@ -3,8 +3,15 @@
 
 $(function() {
 
-  $('#yin-yang-logo').click(function() {
+  const yinYang = $('#yin-yang-logo');
+
+  yinYang.click(function() {
     window.location.href = '/dojo/index/' + "<%= @kata.id %>";;
+  });
+
+  cd.setTip(yinYang, function() {
+    var tip = 'Go to home page';
+    cd.showHoverTip(yinYang, tip);
   });
 
 });
