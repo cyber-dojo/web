@@ -3,9 +3,16 @@
 
 $(function() {
 
-  $('#download-button').click(function() {
-    var url = '/download/' + "<%=@kata.id%>";
+  const downloadButton = $('#download-button');
+
+  downloadButton.click(function() {
+    const url = '/download/' + "<%=@kata.id%>";
     window.location = url;
+  });
+
+  cd.setTip(downloadButton, function() {
+    const tip = 'Download the whole session as a .tgz file';
+    cd.showHoverTip(downloadButton, tip);
   });
 
 });
@@ -14,7 +21,6 @@ $(function() {
 
 <div id="download-button-container">
   <button type="button"
-          title="download as .tar.gz file"
           id="download-button">
     download
   </button>
