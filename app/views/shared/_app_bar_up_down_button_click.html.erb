@@ -6,16 +6,16 @@ $(function() {
   const page = $('#cyber-dojo-page');
   const appBarUpDownButton = $('#app-bar #up-down-button');
 
-  appBarUpDownButton.clickToggle(
-    function() {
-      page.css({'padding-top':0, 'padding-bottom':30});
-      $('#app-bar').appendTo('#app-bar-bottom');
-    },
-    function() {
-      page.css({'padding-top':30, 'padding-bottom':0});
-      $('#app-bar').appendTo('#app-bar-top');
-    }
-  );
+  const appBarToTop = function() {
+    page.css({'padding-top':30, 'padding-bottom':0});
+    $('#app-bar').appendTo('#app-bar-top');
+  };
+  const appBarToBottom = function() {
+    page.css({'padding-top':0, 'padding-bottom':30});
+    $('#app-bar').appendTo('#app-bar-bottom');
+  };
+
+  appBarUpDownButton.clickToggle(appBarToTop, appBarToBottom);
 
   appBarUpDownButton.click();
 
