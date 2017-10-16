@@ -47,7 +47,7 @@ class KataController < ApplicationController
       end
     end
 
-    if status == 'timed_out'
+    if colour == 'timed_out' || status == 'timed_out'
       @output = [
         "Unable to complete the tests in #{max_seconds} seconds.",
         'Is there an accidental infinite loop?',
