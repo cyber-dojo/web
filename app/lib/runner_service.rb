@@ -72,8 +72,8 @@ class RunnerService
           changed_files:new_files.merge(changed_files)
     }
     set_hostname_port_stateful
-    sssc = http_post_hash(:run, args)
-    [sssc['stdout'], sssc['stderr'], sssc['status'], sssc['colour']]
+    quad = http_post_hash(:run, args)
+    [quad['stdout'], quad['stderr'], quad['status'], quad['colour']]
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
