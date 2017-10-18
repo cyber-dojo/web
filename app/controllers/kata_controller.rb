@@ -47,17 +47,16 @@ class KataController < ApplicationController
       end
     end
 
-    if colour == 'timed_out' || status == 'timed_out'
+    @test_colour = colour
+    if colour == 'timed_out'
       @output = [
         "Unable to complete the tests in #{max_seconds} seconds.",
         'Is there an accidental infinite loop?',
         'Is the server very busy?',
         'Please try again.'
       ].join("\n")
-      @test_colour = 'timed_out'
     else
       @output = stdout + stderr
-      @test_colour = colour
     end
 
     # storer.avatar_ran_tests) is the only thing that validates
