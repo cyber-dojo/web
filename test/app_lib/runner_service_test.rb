@@ -26,7 +26,7 @@ class RunnerServiceTest < AppLibTestBase
 
   def assert_spied_stateful(index, method_name, args)
     assert_equal [
-      stateful_runner_name = 'runner',
+      stateful_runner_name = 'runner_stateful',
       stateful_runner_port = 4557,
       method_name,
       args

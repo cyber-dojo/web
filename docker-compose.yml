@@ -31,7 +31,7 @@ services:
     memswap_limit: 2G
     restart: on-failure
     depends_on:
-      - runner
+      - runner_stateful
       - runner_stateless
       - storer
       - differ
@@ -53,10 +53,10 @@ services:
     memswap_limit: 2G
     restart: on-failure
 
-  runner:
+  runner_stateful:
     user: root
-    image: cyberdojo/runner
-    container_name: cyber-dojo-runner
+    image: cyberdojo/runner_stateful
+    container_name: cyber-dojo-runner-stateful
     read_only: true
     tmpfs: /tmp
     mem_limit: 2G

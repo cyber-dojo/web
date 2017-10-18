@@ -87,8 +87,8 @@ class RunnerService
       visible_files:files
     }
     set_hostname_port_stateless
-    sssc = http_post_hash(:run, args)
-    [sssc['stdout'], sssc['stderr'], sssc['status'], sssc['colour']]
+    quad = http_post_hash(:run, args)
+    [quad['stdout'], quad['stderr'], quad['status'], quad['colour']]
   end
 
   private
@@ -115,7 +115,7 @@ class RunnerService
   end
 
   def set_hostname_port_stateful
-    @hostname = 'runner'
+    @hostname = 'runner_stateful'
     @port = 4557
   end
 
