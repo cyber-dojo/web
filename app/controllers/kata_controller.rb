@@ -27,9 +27,9 @@ class KataController < ApplicationController
       args << delta
       args << files
       if runner_choice == 'stateless'
-        stdout,stderr,status,colour = runner.run_stateless(*args)
+        stdout,stderr,status,@colour = runner.run_stateless(*args)
       else
-        stdout,stderr,status,colour = runner.run_stateful(*args)
+        stdout,stderr,status,@colour = runner.run_stateful(*args)
       end
     rescue StandardError => error
       # Old kata could be being resumed
@@ -38,23 +38,17 @@ class KataController < ApplicationController
         when 'RunnerService:run:kata_id:!exists'
           resurrect_kata
           resurrect_avatar(files)
-          stdout,stderr,status,colour = resurrect_run_tests(max_seconds)
+          stdout,stderr,status,@colour = resurrect_run_tests(max_seconds)
         when 'RunnerService:run:avatar_name:!exists'
           resurrect_avatar(files)
-          stdout,stderr,status,colour = resurrect_run_tests(max_seconds)
+          stdout,stderr,status,@colour = resurrect_run_tests(max_seconds)
         else
           raise error
       end
     end
 
-    @test_colour = colour
-    if colour == 'timed_out'
-      @output = [
-        "Unable to complete the tests in #{max_seconds} seconds.",
-        'Is there an accidental infinite loop?',
-        'Is the server very busy?',
-        'Please try again.'
-      ].join("\n")
+    if @colour == 'timed_out'
+      @output = timed_out_message(max_seconds)
     else
       @output = stdout + stderr
     end
@@ -63,7 +57,7 @@ class KataController < ApplicationController
     # a kata with the given id exists. It is currently a
     # synchronous call. If it becomes an asynchronous (fire and forget)
     # call then revisit kata-id validation.
-    storer.avatar_ran_tests(id, avatar_name, files, time_now, @output, @test_colour)
+    storer.avatar_ran_tests(id, avatar_name, files, time_now, @output, @colour)
 
     respond_to do |format|
       format.js   { render layout: false }
@@ -108,6 +102,15 @@ class KataController < ApplicationController
   def resurrect_run_tests(max_seconds)
     delta = { unchanged:[], changed:[], deleted:[], new:[] }
     @avatar.test(delta, files={}, max_seconds)
+  end
+
+  def timed_out_message(max_seconds)
+    [
+      "Unable to complete the tests in #{max_seconds} seconds.",
+      'Is there an accidental infinite loop?',
+      'Is the server very busy?',
+      'Please try again.'
+    ].join("\n")
   end
 
 end
