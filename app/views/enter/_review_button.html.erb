@@ -3,11 +3,11 @@
 
 $(function() {
 
-  var button = $('#review-button');
+  const button = $('#review-button');
 
   button.click(function() {
-    var id = $('#full-kata-id').val();
-    var cursor = button.css('cursor');
+    const id = $('#full-kata-id').val();
+    const cursor = button.css('cursor');
     button.css('cursor', 'wait');
     $.getJSON('/enter/resume', { id: id }, function(dojo) {
       button.css('cursor', cursor);

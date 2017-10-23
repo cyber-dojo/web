@@ -3,12 +3,12 @@
 
 $(function() {
 
-  var button = $('#resume-button');
+  const button = $('#resume-button');
 
   button.click(function() {
-    var cursor = button.css('cursor');
+    const id = $('#full-kata-id').val();
+    const cursor = button.css('cursor');
     button.prop('disabled',true).css('cursor','wait');
-    var id = $('#full-kata-id').val();
     $.getJSON('/enter/resume', { id: id }, function(dojo) {
       button.prop('disabled',false).css('cursor', cursor);
       cd.resumeDialog('resume programming', dojo.html);

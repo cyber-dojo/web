@@ -3,11 +3,14 @@
 
 $(function() {
 
-  $('#choose-exercise').click(function() {
-    var id = "<%= @id %>";
-    var url = '/setup_default_start_point/show_exercises/' + id +
+  const button = $('#choose-exercise');
+
+  button.click(function() {
+    const id = "<%= @id %>";
+    const url = '/setup_default_start_point/show_exercises/' + id +
       '?language=' + encodeURIComponent(cd.chosenMajor()) +
       '&test=' + encodeURIComponent(cd.chosenMinor());
+    button.prop('disabled',true);
     window.location = url;
   });
 

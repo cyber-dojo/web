@@ -3,9 +3,14 @@
 
 $(function() {
 
-  $('#create-it').click(function() {
-    var setupParams = cd.chosenMajorMinor();
+  const button = $('#create-it');
+
+  button.click(function() {
+    const setupParams = cd.chosenMajorMinor();
+    const cursor = button.css('cursor');
+    button.prop('disabled',true).css('cursor','wait');
     $.getJSON('/setup_custom_start_point/save', setupParams, function(dojoParams) {
+      button.css('cursor', cursor);
       cd.newDojoDialog(dojoParams, 'from_setup');
     });
   });
