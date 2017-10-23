@@ -43,7 +43,7 @@
 
   #languages-list, #tests-list, #exercises-list {
     @include non-code-font();
-     height: 370px;
+     height: 340px;
       width: 190px;
     padding: 6px;
      margin: { right: 5px; }
@@ -78,7 +78,7 @@
 
   #info-container {
     @include plaintext-font();
-        height: 365px;
+        height: 335px;
          width: 200px;
        padding: { left: 159px; top: 58px; }
     text-align: right;
@@ -108,7 +108,7 @@
            color: $lighter-color;
       background: lighten($darker-color, 5%);
           border: none;
-          height: 380px;
+          height: 350px;
           margin: { left: 0px; }
       overflow-y: scroll;
          outline: none;
