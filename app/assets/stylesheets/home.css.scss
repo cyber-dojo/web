@@ -5,11 +5,10 @@
 
   #cyber-dojo {
     @include non-code-font();
-    font-size: 8.65em;
+    font-size: 7.65em;
         color: $text-color;
        margin: { bottom: 0px; top: 15px; }
       padding: { bottom: 0px; }
-    .dot-org { font-size: 0.43em; }
   }
 
   #the-place-to-practice-programming {
