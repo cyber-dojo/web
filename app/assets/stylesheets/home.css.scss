@@ -22,9 +22,9 @@
   }
 
   #avatars-grid {
-       width: 255px;
-    position: relative;
-        left: 10px;
+       width: 235px;
+    //position: relative;
+        //left: 10px;
          //top: -1px;
   }
 
@@ -75,28 +75,6 @@
     width: 160px;
     text-align: right;
   }
-  .hello-world {
-    margin-top: 10px;
-    border: 3px solid lighten($text-color, 5%);
-    @include rounded-corner();
-    width: 150px;
-    height: 125px;
-  }
-  button#email-me {
-    @include non-code-font();
-    background-color: lighten($lighter-color, 5%);
-  }
-
-  //------------------------------------------
-
-  #scio {
-    @include plaintext-font();
-    font-size: 1.25em;
-  }
-  #magic-number {
-    @include plaintext-font();
-    font-size: 0.90em;
-  }
 
   //------------------------------------------
 
@@ -115,7 +93,8 @@
 
   //------------------------------------------
 
-  #setup-a-new-practice-session-button,
+  #setup-a-new-default-practice-session-button,
+  #setup-a-new-custom-practice-session-button,
   #enter-button,
   #review-button,
   #donate-button {
@@ -127,32 +106,15 @@
     text-align: right;
   }
 
-  #setup-a-new-practice-session-button,
-  #enter-button, #review-button {
-          width: 390px;
+  #setup-a-new-default-practice-session-button,
+  #setup-a-new-custom-practice-session-button,
+  #enter-button, #review-button, #donate-button {
+          width: 500px;
       font-size: 1.97em;
     line-height: 95%;
         padding: { top: 12px; bottom: 12px; right: 15px; }
          margin: { top: 2px; bottom: 2px; }
   }
 
-  #donate-container {
-    @include plaintext-font();
-    @include edged-panel();
-          width: 368px;
-          height: 73px;
-          padding: { right: 15px; }
-         margin: { top: 2px; left: 15px; bottom: 3px; }
-     text-align: left;
-      font-size: 1.0em;
-
-    #donate-button {
-            width: 140px;
-           margin: { right: 0px; top: 5px; bottom: 1px; }
-          padding: 7px;
-       text-align: center;
-       font-size: 20px;
-      line-height: 95%;
-    }
-  }
+  #donate-button { width: 210px; }
 }
