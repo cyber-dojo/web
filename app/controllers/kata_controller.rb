@@ -54,9 +54,7 @@ class KataController < ApplicationController
     end
 
     # storer.avatar_ran_tests) is the only thing that validates
-    # a kata with the given id exists. It is currently a
-    # synchronous call. If it becomes an asynchronous (fire and forget)
-    # call then revisit kata-id validation.
+    # a kata with the given id exists. It is currently a synchronous call.
     storer.avatar_ran_tests(id, avatar_name, files, time_now, @output, @colour)
 
     respond_to do |format|
