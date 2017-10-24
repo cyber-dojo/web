@@ -32,7 +32,7 @@
   #main-buttons {
     margin-top: 150px;
     background: lighten($darker-color, 6%);
-    padding: 35px;
+    padding: 27px;
   }
 
   #foundation {
@@ -45,7 +45,7 @@
     padding-top: 10px;
     padding-bottom: 40px;
     .info-text {
-      padding-bottom: 3px;
+      padding-bottom: 2px;
       @include font-size-tiny();
     }
   }
@@ -65,8 +65,8 @@
   }
 
   .kids-pic {
-    width: 150px;
-    height: 100px;
+    width: 142px;
+    height: 96px;
     margin-top: 5px;
     margin-left: 10px;
     margin-right: 0px;
