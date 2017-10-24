@@ -3,45 +3,52 @@
 
   .center-content { @include center-align(); }
 
-  #cyber-dojo {
-    @include non-code-font();
-    font-size: 7.65em;
-        color: $text-color;
-       margin: { bottom: 0px; top: 15px; }
-      padding: { bottom: 0px; }
+  #heading {
+    height: 150px;
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    background: $darker-color;
+    z-index: 999;
+
+    #cyber-dojo {
+      @include non-code-font();
+      font-size: 5.65em;
+          color: $text-color;
+         margin: { bottom: 0px; top: 15px; }
+        padding: { bottom: 0px; }
+    }
+
+    #the-place-to-practice-programming {
+      @include non-code-font();
+         margin: { right: 0px; bottom: 3px; }
+      font-size: 1.32em;
+          color: lighten($text-color, 5%);
+       position: relative;
+            top: -9px;
+    }
   }
 
-  #the-place-to-practice-programming {
-    @include non-code-font();
-       margin: { right: 0px; bottom: 3px; }
-    font-size: 1.42em;
-        color: lighten($text-color, 5%);
-     position: relative;
-          top: -9px;
+  #main-buttons {
+    margin-top: 150px;
+    background: lighten($darker-color, 6%);
+    padding: 25px;
   }
 
-  #avatars-grid { width: 235px; }
-
-  //------------------------------------------
-
-  hr {
-    height: 20px;
-    margin-top: 30px;
-    border-style: solid;
-    border-color: #8c8b8b;
-    border-width: 1px 0 0 0;
-    border-radius: 20px;
+  #foundation {
+    padding: 20px;
   }
-  hr:before {
-    display: block;
-    content: "";
-    height: 20px;
-    margin-top: -21px;
-    border-style: solid;
-    border-color: #8c8b8b;
-    border-width: 0 0 1px 0;
-    border-radius: 20px;
+
+  #about {
+    background: lighten($darker-color, 6%);
+    padding-top: 10px;
+    .info-text {
+      padding-bottom: 3px;
+      @include font-size-tiny();
+    }
   }
+
+  #avatars-grid { width: 225px; }
 
   //------------------------------------------
 
@@ -61,13 +68,12 @@
     @include rounded-corner();
   }
   .bought-pies {
-    border: 3px solid lighten($text-color, 5%);
     @include rounded-corner();
     @include plaintext-font();
     @include font-size-small();
     padding: 10px;
-    width: 160px;
-    text-align: right;
+    width: 100px;
+    text-align: center;
   }
 
   //------------------------------------------
@@ -110,5 +116,6 @@
          margin: { top: 2px; bottom: 2px; }
   }
 
+  #donate-button-container { padding: 10px; }
   #donate-button { width: 210px; }
 }

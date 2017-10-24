@@ -3,11 +3,13 @@
      width: 100%;
   position: fixed;
        top: 0px;
+   z-index: 1000;
 }
 #app-bar-bottom {
      width: 100%;
   position: fixed;
     bottom: 0px;
+   z-index: 1000;
 }
 
 #app-bar {
