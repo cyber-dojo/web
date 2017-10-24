@@ -32,11 +32,12 @@
   #main-buttons {
     margin-top: 150px;
     background: lighten($darker-color, 6%);
-    padding: 25px;
+    padding: 35px;
   }
 
   #foundation {
     padding: 20px;
+    font-size: 0.9em;
   }
 
   #about {
@@ -48,7 +49,11 @@
     }
   }
 
-  #avatars-grid { width: 225px; }
+  #avatars-grid {
+    width: 220px;
+    position: relative;
+    top: 2px;
+  }
 
   //------------------------------------------
 
@@ -70,7 +75,6 @@
   .bought-pies {
     @include rounded-corner();
     @include plaintext-font();
-    @include font-size-small();
     padding: 10px;
     width: 100px;
     text-align: center;
@@ -117,5 +121,5 @@
   }
 
   #donate-button-container { padding: 10px; }
-  #donate-button { width: 210px; }
+  #donate-button { width: 200px; }
 }
