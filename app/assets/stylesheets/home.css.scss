@@ -43,6 +43,7 @@
   #about {
     background: lighten($darker-color, 6%);
     padding-top: 10px;
+    padding-bottom: 40px;
     .info-text {
       padding-bottom: 3px;
       @include font-size-tiny();

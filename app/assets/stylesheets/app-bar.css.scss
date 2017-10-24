@@ -1,17 +1,4 @@
 
-#app-bar-top {
-     width: 100%;
-  position: fixed;
-       top: 0px;
-   z-index: 1000;
-}
-#app-bar-bottom {
-     width: 100%;
-  position: fixed;
-    bottom: 0px;
-   z-index: 1000;
-}
-
 #app-bar {
 
   @include plaintext-font();
@@ -22,16 +9,15 @@
       height: 30px;
   text-align: left;
      padding: { left: 15px; top: 0px; bottom: 2px; }
+  border-top: 1px solid $darker-color;
+    position: fixed;
+      bottom: 0px;
+     z-index: 1000;
 
   #yin-yang-logo {
       cursor: pointer;
     position: relative;
          top: 3px;
-  }
-
-  #up-down-button {
-   font-size: 1.47em;
-      cursor: pointer;
   }
 
   #help-button {
