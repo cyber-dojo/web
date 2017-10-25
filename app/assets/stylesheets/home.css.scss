@@ -4,12 +4,12 @@
   .center-content { @include center-align(); }
 
   #heading {
-    height: 130px;
-    position: fixed;
-    top: 0px;
-    width: 100%;
+         width: 100%;
+        height: 130px;
+      position: fixed;
+           top: 0px;
     background: $darker-color;
-    z-index: 999;
+       z-index: 999;
 
     #cyber-dojo {
       @include non-code-font();
@@ -65,8 +65,8 @@
   }
 
   .kids-pic {
-    width: 142px;
-    height: 96px;
+    width: 200px;
+    height: 150px;
     margin-top: 5px;
     margin-left: 10px;
     margin-right: 0px;
