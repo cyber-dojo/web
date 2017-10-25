@@ -89,14 +89,14 @@
 
 #setup-exercises-page {
 
-  margin: { left: 205px; }
+  margin: { left: 187px; }
 
   #exercises-container {
 
         padding: 10px !important;
     margin-left: 110px;
 
-    #exercises-list { width: 165px; }
+    #exercises-list { width: 185px; }
 
     #exercises {
       @include code-font();
