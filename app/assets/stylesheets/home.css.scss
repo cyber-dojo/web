@@ -30,30 +30,29 @@
   }
 
   #main-buttons {
-    margin-top: 130px;
     background: lighten($darker-color, 6%);
-    padding: 27px;
+    margin-top: 130px;
+       padding: 27px;
   }
 
   #foundation {
-    padding: 20px;
     font-size: 0.9em;
+      padding: 20px;
   }
 
   #about {
     background: lighten($darker-color, 6%);
-    padding-top: 10px;
-    padding-bottom: 40px;
+       padding: { top: 10px; bottom: 40px; }
     .info-text {
-      padding-bottom: 2px;
       @include font-size-tiny();
+      padding-bottom: 2px;
     }
   }
 
   #avatars-grid {
-    width: 220px;
+       width: 220px;
     position: relative;
-    top: 2px;
+         top: 2px;
   }
 
   //------------------------------------------
@@ -61,24 +60,15 @@
   h1 {
     @include non-code-font();
     font-size: 4.25em;
-    margin: { top: 10px; bottom: 20px; }
+       margin: { top: 10px; bottom: 20px; }
   }
 
   .kids-pic {
-    width: 200px;
-    height: 150px;
-    margin-top: 5px;
-    margin-left: 10px;
-    margin-right: 0px;
-    border: 3px solid lighten($text-color, 5%);
+         width: 200px;
+        height: 150px;
+    margin: { top: 17px; right: 17px; }
+        border: 3px solid lighten($text-color, 5%);
     @include rounded-corner();
-  }
-  .bought-pies {
-    @include rounded-corner();
-    @include plaintext-font();
-    padding: 10px;
-    width: 100px;
-    text-align: center;
   }
 
   //------------------------------------------
@@ -93,7 +83,7 @@
   #custom-container {
     position: absolute;
         left: 675px;
-        top: 350px;
+         top: 350px;
   }
 
   //------------------------------------------
