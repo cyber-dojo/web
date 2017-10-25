@@ -4,7 +4,7 @@
   .center-content { @include center-align(); }
 
   #heading {
-    height: 150px;
+    height: 130px;
     position: fixed;
     top: 0px;
     width: 100%;
@@ -15,7 +15,7 @@
       @include non-code-font();
       font-size: 5.65em;
           color: $text-color;
-         margin: { bottom: 0px; top: 15px; }
+         margin: { bottom: 0px; top: 0px; }
         padding: { bottom: 0px; }
     }
 
@@ -30,7 +30,7 @@
   }
 
   #main-buttons {
-    margin-top: 150px;
+    margin-top: 130px;
     background: lighten($darker-color, 6%);
     padding: 27px;
   }
