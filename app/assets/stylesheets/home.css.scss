@@ -77,7 +77,7 @@
      font-size: 1.97em;
    line-height: 95%;
        padding: { top: 12px; bottom: 12px; right: 15px; }
-        margin: { top: 2px; bottom: 2px; left: 10px; }
+        margin: { top: 0px; bottom: 8px; left: 10px; }
   }
 
   #donate-button-container { padding: 10px; }
@@ -86,9 +86,9 @@
   //------------------------------------------
 
   #avatars-grid {
-       width: 220px;
+       width: 234px;
     position: relative;
-         top: 2px;
+         top: -2px;
   }
 
   //------------------------------------------
