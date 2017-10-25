@@ -5,7 +5,7 @@
 
   #heading {
          width: 100%;
-        height: 130px;
+        height: 140px;
       position: fixed;
            top: 0px;
     background: $darker-color;
@@ -21,8 +21,7 @@
 
     #the-place-to-practice-programming {
       @include non-code-font();
-         margin: { right: 0px; bottom: 3px; }
-      font-size: 1.32em;
+      font-size: 1.58em;
           color: lighten($text-color, 5%);
        position: relative;
             top: -9px;
@@ -33,7 +32,7 @@
 
   #main-buttons {
     background: lighten($darker-color, 6%);
-    margin-top: 130px;
+    margin-top: 140px;
        padding: 27px;
   }
 
