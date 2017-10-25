@@ -5,7 +5,7 @@
 
   #heading {
          width: 100%;
-        height: 140px;
+        height: 155px;
       position: fixed;
            top: 0px;
     background: $darker-color;
@@ -15,8 +15,7 @@
       @include non-code-font();
       font-size: 5.65em;
           color: $text-color;
-         margin: { bottom: 0px; top: 0px; }
-        padding: { bottom: 0px; }
+        padding: { top: 10px; bottom: 0px; }
     }
 
     #the-place-to-practice-programming {
@@ -32,15 +31,15 @@
 
   #main-buttons {
     background: lighten($darker-color, 6%);
-    margin-top: 140px;
-       padding: 27px;
+    margin-top: 155px;
+       padding: 33px;
   }
 
   //------------------------------------------
 
   #foundation {
     font-size: 0.9em;
-      padding: 20px;
+      padding: 25px;
 
     .kids-pic {
          width: 200px;
@@ -56,7 +55,7 @@
 
   #about {
     background: lighten($darker-color, 6%);
-       padding: { top: 10px; bottom: 40px; }
+       padding: { top: 20px; bottom: 40px; }
     .info-text {
       @include font-size-tiny();
       padding-bottom: 2px;
@@ -74,7 +73,7 @@
     @include font-size-largest();
          color: $darker-color;
     text-align: right;
-         width: 500px;
+         width: 350px;
      font-size: 1.97em;
    line-height: 95%;
        padding: { top: 12px; bottom: 12px; right: 15px; }

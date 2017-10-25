@@ -2,53 +2,46 @@
 #enter-page {
 
   font-size: 1.15em;
-  margin: { top: 55px; left: 285px; }
+  margin: { top: 55px; left: 325px; }
 
-  #avatars-grid {
-    width: 206px;
-    position: relative;
-    left: 55px;
-  }
+  #avatars-grid { width: 206px; }
 
   #enter-a-practice-session, #review-a-practice-session {
     @include non-code-font();
-    color: $lighter-color;
+        color: $lighter-color;
     font-size: 3.5em;
   }
 
   #kata-id-input {
     @include non-code-font();
-    background: lighten($green, 20%);
-    color: $darker-color;
     @include font-size-largest();
-    width: 265px;
-    margin: { top: 4px; bottom: 10px; right: 2px; }
-    padding: { right: 20px; bottom: 0px; top: 2px; }
-    text-align: right;
     @include gradient-lighten($green, 40%, 30%, 20%);
     @include rounded-corner(6px);
-    position: relative;
-    right: -1px;
+        background: lighten($green, 20%);
+             color: $darker-color;
+             width: 265px;
+            margin: { top: 4px; bottom: 10px; right: 2px; }
+           padding: { right: 20px; bottom: 0px; top: 2px; }
+        text-align: right;
+          position: relative;
+             right: -1px;
     text-transform: uppercase;
   }
 
   #kata-id-input::placeholder {
-    font-size: 25px;
+         font-size: 25px;
     text-transform: lowercase;
   }
 
   #start-button, #resume-button,    #dashboard-button, #review-button {
     @include non-code-font();
-    width: 292px;
-    padding-right: 20px;
-    padding: { top: 8px; bottom: 8px; }
     @include font-size-large();
-    margin: { left: 10px; bottom: 10px; }
+         width: 292px;
+       padding: { top: 8px; bottom: 8px; right: 20px; }
+        margin: { left: 10px; bottom: 10px; }
     text-align: right;
   }
 
-  #resume-button {
-    @include font-size-medium();
-  }
+  #resume-button { @include font-size-medium(); }
 }
 
