@@ -63,11 +63,18 @@
       }
     }
   }
-  #create-it, #choose-exercise, #no-exercise {
+  #choose-exercise, #no-exercise {
     @include non-code-font();
     @include font-size-large();
     margin: { top: 5px; }
   }
+
+  #create-it-team, #create-it-individual {
+    @include non-code-font();
+    @include font-size-medium();
+    margin: { top: 5px; }
+  }
+
 }
 
 // - - - - - - - - - - - - - - - - - - - -

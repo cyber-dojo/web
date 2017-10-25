@@ -95,6 +95,17 @@ var cyberDojo = (function(cd, $) {
 
   var showNewDojoDialog = function(params, from) {
     var id = params['id'];
+
+    if (from == 'from_setup_team') {
+      window.location = '/enter/show/' + id;
+      return;
+    }
+    if (from == 'from_setup_individual') {
+      cd.startAnimal(id, 'from_setup');
+      return;
+    }
+
+
     var gotoPage = function(url) {
       if (from == 'from_setup') {
         window.location = url; // same tab
