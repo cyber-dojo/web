@@ -22,13 +22,13 @@ class RunnerService
   # = = = = = = = = = = = = = = = = = = = = = = = =
 
   def kata_new(image_name, kata_id)
-    if stateful?(kata_id)
+    unless stateless?(kata_id)
       runner_http_post(__method__, *args(binding))
     end
   end
 
   def kata_old(image_name, kata_id)
-    if stateful?(kata_id)
+    unless stateless?(kata_id)
       runner_http_post(__method__, *args(binding))
     end
   end
@@ -36,13 +36,13 @@ class RunnerService
   # = = = = = = = = = = = = = = = = = = = = = = = =
 
   def avatar_new(image_name, kata_id, avatar_name, starting_files)
-    if stateful?(kata_id)
+    unless stateless?(kata_id)
       runner_http_post(__method__, *args(binding))
     end
   end
 
   def avatar_old(image_name, kata_id, avatar_name)
-    if stateful?(kata_id)
+    unless stateless?(kata_id)
       runner_http_post(__method__, *args(binding))
     end
   end
@@ -50,7 +50,7 @@ class RunnerService
   # = = = = = = = = = = = = = = = = = = = = = = = =
 
   def run(image_name, kata_id, avatar_name, max_seconds, delta, files)
-    to_run = stateful?(kata_id) ? :run_stateful : :run_stateless
+    to_run = 'run_' + runner_choice(kata_id)
     send(to_run, *args(binding))
   end
 
@@ -107,10 +107,11 @@ class RunnerService
   attr_reader :hostname, :port
 
   def set_hostname_port(kata_id)
-    if stateful?(kata_id)
-      set_hostname_port_stateful
-    else
+    case runner_choice(kata_id)
+    when 'stateless'
       set_hostname_port_stateless
+    when 'stateful'
+      set_hostname_port_stateful
     end
   end
 
@@ -124,8 +125,12 @@ class RunnerService
     @port = 4597
   end
 
-  def stateful?(kata_id)
-    katas[kata_id].runner_choice == 'stateful'
+  def stateless?(kata_id)
+    runner_choice(kata_id) == 'stateless'
+  end
+
+  def runner_choice(kata_id)
+    katas[kata_id].runner_choice
   end
 
   include NearestAncestors

@@ -26,9 +26,12 @@ class KataController < ApplicationController
       args << max_seconds       # eg 10
       args << delta
       args << files
-      if runner_choice == 'stateless'
+      # Don't call runner.run() as that would do an
+      # extra call to storer to retrieve runner_choice
+      case runner_choice
+      when 'stateless'
         stdout,stderr,status,@colour = runner.run_stateless(*args)
-      else
+      when 'stateful'
         stdout,stderr,status,@colour = runner.run_stateful(*args)
       end
     rescue StandardError => error
