@@ -24,10 +24,15 @@ class KataControllerTest  < AppControllerTestBase
 
   test 'BE8222',
   'run tests that times_out' do
-    in_kata {
+    set_runner_class('RunnerService')
+    in_kata('stateful') {
       kata_edit
-      runner.stub_run(stdout='',stderr='',status='timed_out')
+      c = @avatar.visible_files['hiker.c']
+      # proper formatting or else you get [-Werror=misleading-indentation]
+      c = c.sub('return 6 * 9;', "\tfor(;;)\n\t\t;\n\treturn 6 * 9;")
+      change_file('hiker.c', c)
       run_tests
+      assert_equal :timed_out, @avatar.lights[-1].colour
     }
   end
 
@@ -263,7 +268,7 @@ class KataControllerTest  < AppControllerTestBase
     begin
       yield @kata.id
     ensure
-      if choice == 'stateful'
+      if choice != 'stateless'
         runner.avatar_old(@kata.image_name, @kata.id, @avatar.name)
         runner.kata_old(@kata.image_name, @kata.id)
       end
