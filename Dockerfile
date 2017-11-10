@@ -9,7 +9,6 @@ RUN adduser -D -H -u 19661 cyber-dojo
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 RUN apk --update --no-cache add \
-    openssl ca-certificates \
     ruby ruby-io-console ruby-dev ruby-irb ruby-bundler ruby-bigdecimal \
     bash tzdata
 
