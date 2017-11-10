@@ -29,7 +29,6 @@ RUN  mkdir -p ${CYBER_DOJO_HOME}
 COPY Gemfile ${CYBER_DOJO_HOME}
 RUN  echo 'gem: --no-document' > ~/.gemrc
 
-RUN apk add --no-cache openssl ca-certificates
 RUN apk --update \
         add --virtual build-dependencies \
           build-base \
