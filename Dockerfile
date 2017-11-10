@@ -37,7 +37,9 @@ RUN apk --update \
           libc-dev \
           linux-headers \
         && gem install bundler --no-ri --no-rdoc \
-        && cd ${CYBER_DOJO_HOME} ; bundle install \
+        && bundle config --global silence_root_warning 1 \
+        && cd ${CYBER_DOJO_HOME} \
+        && bundle install \
         && apk del build-dependencies
 
 COPY . ${CYBER_DOJO_HOME}
