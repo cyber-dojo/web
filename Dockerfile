@@ -31,7 +31,6 @@ RUN  echo 'gem: --no-document' > ~/.gemrc
 
 RUN apk --update \
         add --virtual build-dependencies build-base \
-        && gem install bundler --no-ri --no-rdoc \
         && bundle config --global silence_root_warning 1 \
         && cd ${CYBER_DOJO_HOME} \
         && bundle install \
