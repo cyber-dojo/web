@@ -13,13 +13,6 @@ RUN apk --update --no-cache add \
     bash tzdata
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# install tini (for pid 1 zombie reaping)
-# https://github.com/krallin/tini
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-RUN apk add --update --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ tini
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # install web service
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -42,7 +35,6 @@ WORKDIR ${CYBER_DOJO_HOME}
 USER    cyber-dojo
 EXPOSE  3000
 
-ENTRYPOINT [ "/sbin/tini", "--" ]
 CMD [ "./run_rails_server.sh" ]
 
 RUN cat ${CYBER_DOJO_HOME}/Gemfile.lock

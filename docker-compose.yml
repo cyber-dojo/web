@@ -1,5 +1,5 @@
 
-version: '2'
+version: '2.2'
 
 volumes:
 
@@ -24,6 +24,7 @@ services:
         - CYBER_DOJO_HOME
     user: cyber-dojo
     image: cyberdojo/web
+    init: true
     container_name: cyber-dojo-web
     environment:
       - CYBER_DOJO_HOME
@@ -44,6 +45,7 @@ services:
   storer:
     user: root
     image: cyberdojo/storer
+    init: true
     container_name: cyber-dojo-storer
     read_only: true
     tmpfs: /tmp
@@ -56,6 +58,7 @@ services:
   runner_stateful:
     user: root
     image: cyberdojo/runner_stateful
+    init: true
     container_name: cyber-dojo-runner-stateful
     read_only: true
     tmpfs: /tmp
@@ -68,6 +71,7 @@ services:
   runner_stateless:
     user: root
     image: cyberdojo/runner_stateless
+    init: true
     container_name: cyber-dojo-runner-stateless
     read_only: true
     tmpfs: /tmp
@@ -80,6 +84,7 @@ services:
   differ:
     user: nobody
     image: cyberdojo/differ
+    init: true
     container_name: cyber-dojo-differ
     read_only: true
     tmpfs: /tmp
@@ -90,6 +95,7 @@ services:
   zipper:
     user: zipper
     image: cyberdojo/zipper
+    init: true
     container_name: cyber-dojo-zipper
     read_only: true
     tmpfs: /tmp
