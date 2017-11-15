@@ -32,8 +32,9 @@ services:
     memswap_limit: 2G
     restart: on-failure
     depends_on:
-      - runner_stateful
       - runner_stateless
+      - runner_stateful
+      - runner_processful
       - storer
       - differ
       - zipper
@@ -55,6 +56,19 @@ services:
     memswap_limit: 2G
     restart: on-failure
 
+  runner_stateless:
+    user: root
+    image: cyberdojo/runner_stateless
+    init: true
+    container_name: cyber-dojo-runner-stateless
+    read_only: true
+    tmpfs: /tmp
+    mem_limit: 2G
+    memswap_limit: 2G
+    restart: on-failure
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
   runner_stateful:
     user: root
     image: cyberdojo/runner_stateful
@@ -68,11 +82,11 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
-  runner_stateless:
+  runner_processful:
     user: root
-    image: cyberdojo/runner_stateless
+    image: cyberdojo/runner_processful
     init: true
-    container_name: cyber-dojo-runner-stateless
+    container_name: cyber-dojo-runner-processful
     read_only: true
     tmpfs: /tmp
     mem_limit: 2G
