@@ -18,61 +18,61 @@ class StorerService
 
   # - - - - - - - - - - - -
 
-  def create_kata(manifest)
+  def create_kata(        manifest)
     http_post(__method__, manifest)
   end
 
-  def kata_exists?(kata_id)
+  def kata_exists?(      kata_id)
     http_get(__method__, kata_id)
   end
 
-  def kata_manifest(kata_id)
+  def kata_manifest(     kata_id)
     http_get(__method__, kata_id)
   end
 
-  def kata_increments(kata_id)
-    http_get(__method__, kata_id)
-  end
-
-  # - - - - - - - - - - - -
-
-  def completed(kata_id)
-    http_get(__method__, kata_id)
-  end
-
-  def completions(kata_id)
+  def kata_increments(   kata_id)
     http_get(__method__, kata_id)
   end
 
   # - - - - - - - - - - - -
 
-  def avatar_exists?(kata_id, avatar_name)
+  def completed(         kata_id)
+    http_get(__method__, kata_id)
+  end
+
+  def completions(       kata_id)
+    http_get(__method__, kata_id)
+  end
+
+  # - - - - - - - - - - - -
+
+  def avatar_exists?(    kata_id, avatar_name)
     http_get(__method__, kata_id, avatar_name)
   end
 
-  def start_avatar(kata_id, avatar_names)
+  def start_avatar(       kata_id, avatar_names)
     http_post(__method__, kata_id, avatar_names)
   end
 
-  def started_avatars(kata_id)
+  def started_avatars(   kata_id)
     http_get(__method__, kata_id)
   end
 
   # - - - - - - - - - - - -
 
-  def avatar_ran_tests(kata_id, avatar_name, files, now, output, colour)
+  def avatar_ran_tests(   kata_id, avatar_name, files, now, output, colour)
     http_post(__method__, kata_id, avatar_name, files, now, output, colour)
   end
 
-  def avatar_increments(kata_id, avatar_name)
+  def avatar_increments( kata_id, avatar_name)
     http_get(__method__, kata_id, avatar_name)
   end
 
   def avatar_visible_files(kata_id, avatar_name)
-    http_get(__method__, kata_id, avatar_name)
+    http_get(__method__,   kata_id, avatar_name)
   end
 
-  def tag_visible_files(kata_id, avatar_name, tag)
+  def tag_visible_files( kata_id, avatar_name, tag)
     http_get(__method__, kata_id, avatar_name, tag)
   end
 
