@@ -35,16 +35,16 @@ class KataController < ApplicationController
         stdout,stderr,status,@colour = runner.run_stateful(*args)
       end
     rescue StandardError => error
-      # Old kata could be being resumed
-      # Runner implementation could have switched
+      # o) old kata could be being resumed
+      # o) runner implementation could have switched
       case error.message
-        when 'RunnerService:run:kata_id:!exists'
+        when 'RunnerService:run_cyber_dojo_sh:kata_id:!exists'
           resurrect_kata
           resurrect_avatar(files)
-          stdout,stderr,status,@colour = resurrect_run_tests(max_seconds)
-        when 'RunnerService:run:avatar_name:!exists'
+          stdout,stderr,status,@colour = resurrect_run_tests(files, max_seconds)
+        when 'RunnerService:run_cyber_dojo_sh:avatar_name:!exists'
           resurrect_avatar(files)
-          stdout,stderr,status,@colour = resurrect_run_tests(max_seconds)
+          stdout,stderr,status,@colour = resurrect_run_tests(files, max_seconds)
         else
           raise error
       end
@@ -100,9 +100,9 @@ class KataController < ApplicationController
     runner.avatar_new(*args)
   end
 
-  def resurrect_run_tests(max_seconds)
-    delta = { unchanged:[], changed:[], deleted:[], new:[] }
-    @avatar.test(delta, files={}, max_seconds)
+  def resurrect_run_tests(files, max_seconds)
+    delta = { unchanged:files.keys, changed:[], deleted:[], new:[] }
+    @avatar.test(delta, files, max_seconds)
   end
 
   def timed_out_message(max_seconds)

@@ -214,8 +214,7 @@ class RunnerServiceTest < AppLibTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '2BDF80874C',
-  'stateful run() delegates to stateful runner',
-  'args include deleted_filenames and changed_files' do
+  'stateful run() delegates to stateful runner' do
     @http = HttpSpy.new(nil)
     kata = make_kata_stateful
     args = []
@@ -223,26 +222,26 @@ class RunnerServiceTest < AppLibTestBase
     args << kata.id
     args << (avatar_name = lion)
     args << (max_seconds = 10)
-    args << (delta = { :deleted => [], :new => [], :changed => {} })
+    args << (delta = { :deleted => ['instructions'], :new => [], :changed => {} })
     args << (files = {})
     @http.clear
     runner.run(*args)
-    assert_spied_stateful(0, 'run', {
+    assert_spied_stateful(0, 'run_cyber_dojo_sh', {
       :image_name        => kata.image_name,
       :kata_id           => kata.id,
       :avatar_name       => avatar_name,
-      :max_seconds       => max_seconds,
-      :deleted_filenames => [],
-      :changed_files     => {}
+      :new_files         => {},
+      :deleted_files     => { 'instructions' => 'lost content' },
+      :changed_files     => {},
+      :unchanged_files   => {},
+      :max_seconds       => max_seconds
     })
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '2BDF808601',
-  'stateless run() delegates to stateless runner',
-  'args do not include deleted_filenames or changed_files',
-  'but do include visible_files' do
+  'stateless run() delegates to stateless runner' do
     @http = HttpSpy.new(nil)
     kata = make_kata_stateless
     args = []
@@ -250,16 +249,19 @@ class RunnerServiceTest < AppLibTestBase
     args << kata.id
     args << (avatar_name = lion)
     args << (max_seconds = 10)
-    args << (delta = { :deleted => [], :new => [], :changed => {} })
+    args << (delta = { :deleted => ['instructions'], :new => [], :changed => {} })
     args << (files = {})
     @http.clear
     runner.run(*args)
-    assert_spied_stateless(0, 'run', {
+    assert_spied_stateless(0, 'run_cyber_dojo_sh', {
       :image_name        => kata.image_name,
       :kata_id           => kata.id,
       :avatar_name       => avatar_name,
-      :max_seconds       => max_seconds,
-      :visible_files     => {}
+      :new_files         => {},
+      :deleted_files     => { 'instructions' => 'lost content' },
+      :changed_files     => {},
+      :unchanged_files   => {},
+      :max_seconds       => max_seconds
     })
   end
 

@@ -50,48 +50,60 @@ class RunnerService
   # = = = = = = = = = = = = = = = = = = = = = = = =
 
   def run(image_name, kata_id, avatar_name, max_seconds, delta, files)
+    # This makes a call to storer to get the runner-choice.
+    # Typically get here from resurrection call.
     to_run = 'run_' + runner_choice(kata_id)
     send(to_run, *args(binding))
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def run_stateful(image_name, kata_id, avatar_name, max_seconds, delta, files)
-    new_files = files.select { |filename|
-      delta[:new].include? filename
-    }
-    changed_files = files.select { |filename|
-      delta[:changed].include? filename
-    }
-    args = {
-             image_name:image_name,
-                kata_id:kata_id,
-            avatar_name:avatar_name,
-            max_seconds:max_seconds,
-      deleted_filenames:delta[:deleted],
-          changed_files:new_files.merge(changed_files)
-    }
-    set_hostname_port_stateful
-    quad = http_post_hash(:run, args)
-    [quad['stdout'], quad['stderr'], quad['status'], quad['colour']]
+  def run_stateless(image_name, kata_id, avatar_name, max_seconds, delta, files)
+    # This does NOT make a call to storer to get the runner-choice
+    set_hostname_port_stateless
+    run_cyber_dojo_sh(image_name, kata_id, avatar_name, max_seconds, delta, files)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def run_stateless(image_name, kata_id, avatar_name, max_seconds, delta, files)
-    args = {
-         image_name:image_name,
-            kata_id:kata_id,
-        avatar_name:avatar_name,
-        max_seconds:max_seconds,
-      visible_files:files
+  def run_stateful(image_name, kata_id, avatar_name, max_seconds, delta, files)
+    # This does NOT make a call to storer to get the runner-choice
+    set_hostname_port_stateful
+    run_cyber_dojo_sh(image_name, kata_id, avatar_name, max_seconds, delta, files)
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def run_cyber_dojo_sh(image_name, kata_id, avatar_name, max_seconds, delta, files)
+    new_files = files.select { |filename|
+      delta[:new].include?(filename)
     }
-    set_hostname_port_stateless
-    quad = http_post_hash(:run, args)
+    deleted_files = {}
+    delta[:deleted].each { |filename|
+      deleted_files[filename] = 'lost content'
+    }
+    changed_files = files.select { |filename|
+      delta[:changed].include?(filename)
+    }
+    unchanged_files = files.select { |filename|
+      delta[:unchanged].include?(filename)
+    }
+
+    args = {
+             image_name:image_name,
+                kata_id:kata_id,
+            avatar_name:avatar_name,
+              new_files:new_files,
+          deleted_files:deleted_files,
+          changed_files:changed_files,
+        unchanged_files:unchanged_files,
+            max_seconds:max_seconds
+    }
+    quad = http_post_hash(:run_cyber_dojo_sh, args)
     [quad['stdout'], quad['stderr'], quad['status'], quad['colour']]
   end
 
-  private
+  private # = = = = = = = = = = = = = = = = = = = = =
 
   def runner_http_get(method, *args)
     set_hostname_port(args[1])

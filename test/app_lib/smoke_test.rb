@@ -76,9 +76,10 @@ class SmokeTest < AppLibTestBase
     args << lion
     args << (max_seconds = 10)
     args << (delta = {
-      :deleted => [],
-      :new     => [],
-      :changed => starting_files.keys
+      :deleted   => [],
+      :new       => [],
+      :changed   => starting_files.keys,
+      :unchanged => []
     })
     args << starting_files
     begin
