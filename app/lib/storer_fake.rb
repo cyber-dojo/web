@@ -47,6 +47,7 @@ class StorerFake
 
   def create_kata(manifest)
     id = manifest['id']
+    assert_valid_id(id)
     refute_kata_exists(id)
     json = JSON.unparse(manifest)
     dir = kata_dir(id)
