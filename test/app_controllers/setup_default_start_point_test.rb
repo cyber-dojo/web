@@ -13,6 +13,17 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
+  test '59C271565',
+  "show_languages when id is invalid" do
+    do_get 'show_languages', 'id' => '379C8ABFDF'
+    assert html.include? "data-major=#{quoted(get_language_from(c_assert))}"
+    assert html.include? "data-minor=#{quoted(get_test_from(c_assert))}"
+    assert html.include? "data-major=#{quoted(get_language_from(python_unittest))}"
+    assert html.include? "data-minor=#{quoted(get_test_from(python_unittest))}"
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
   test '59CBB9967',
   'show_exercises page uses cached exercises (smoke)' do
     do_get 'show_exercises'

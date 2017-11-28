@@ -2,6 +2,13 @@ require_relative 'app_controller_test_base'
 
 class SetupCustomStartPointControllerTest < AppControllerTestBase
 
+  test 'EB7B53',
+  'show when id is invalid' do
+    do_get 'show', 'id' => '379C8ABFDF'
+  end
+
+  # - - - - - - - - - - - - - - - - - - -
+
   test 'EB77D9',
   'show shows all custom exercises' do
     # Assumes the exercises volume is default refactoring exercises
