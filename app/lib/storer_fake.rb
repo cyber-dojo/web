@@ -41,6 +41,7 @@ class StorerFake
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def kata_exists?(id)
+    return false unless valid_id?(id)
     kata_dir(id).exists?
   end
 
