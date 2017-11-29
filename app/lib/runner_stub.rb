@@ -35,6 +35,10 @@ class RunnerStub
     dir.write(filename, [stdout,stderr,status,colour])
   end
 
+  def run(image_name, kata_id, name, max_seconds, delta, files)
+    run_cyber_dojo_sh(image_name, kata_id, name, max_seconds, delta, files)
+  end
+
   def run_cyber_dojo_sh(_image_name, _kata_id, _name, _max_seconds, _delta, _files)
     if dir.exists?
       dir.read(filename)

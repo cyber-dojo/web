@@ -64,24 +64,6 @@ class RunnerStubTest < AppLibTestBase
     assert_equal 'red', colour
   end
 
-  test 'AF797B',
-  'run_stateful without preceeding stub returns blah blah' do
-    stdout,stderr,status,colour = runner.run_stateful(*unused_args)
-    assert stdout.start_with? 'blah'
-    assert_equal '', stderr
-    assert_equal 0, status
-    assert_equal 'red', colour
-  end
-
-  test 'AF797C',
-  'run_stateless without preceeding stub returns blah blah' do
-    stdout,stderr,status,colour = runner.run_stateless(*unused_args)
-    assert stdout.start_with? 'blah'
-    assert_equal '', stderr
-    assert_equal 0, status
-    assert_equal 'red', colour
-  end
-
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'AF7902',
