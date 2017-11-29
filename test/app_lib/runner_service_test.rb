@@ -231,7 +231,7 @@ class RunnerServiceTest < AppLibTestBase
       :kata_id           => kata.id,
       :avatar_name       => avatar_name,
       :new_files         => {},
-      :deleted_files     => { 'instructions' => 'lost content' },
+      :deleted_files     => { 'instructions' => '' },
       :changed_files     => {},
       :unchanged_files   => {},
       :max_seconds       => max_seconds
@@ -258,7 +258,7 @@ class RunnerServiceTest < AppLibTestBase
       :kata_id           => kata.id,
       :avatar_name       => avatar_name,
       :new_files         => {},
-      :deleted_files     => { 'instructions' => 'lost content' },
+      :deleted_files     => { 'instructions' => '' },
       :changed_files     => {},
       :unchanged_files   => {},
       :max_seconds       => max_seconds

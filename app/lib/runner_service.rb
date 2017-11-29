@@ -9,7 +9,7 @@ class RunnerService
 
   attr_reader :parent
 
-  # = = = = = = = = = = = = = = = = = = = = = = = =
+  # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def image_pulled?(image_name, kata_id)
     runner_http_get(__method__, *args(binding))
@@ -19,7 +19,7 @@ class RunnerService
     runner_http_post(__method__, *args(binding))
   end
 
-  # = = = = = = = = = = = = = = = = = = = = = = = =
+  # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def kata_new(image_name, kata_id)
     unless stateless?(kata_id)
@@ -33,7 +33,7 @@ class RunnerService
     end
   end
 
-  # = = = = = = = = = = = = = = = = = = = = = = = =
+  # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def avatar_new(image_name, kata_id, avatar_name, starting_files)
     unless stateless?(kata_id)
@@ -47,41 +47,24 @@ class RunnerService
     end
   end
 
-  # = = = = = = = = = = = = = = = = = = = = = = = =
+  # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def run(image_name, kata_id, avatar_name, max_seconds, delta, files)
     # This makes a call to storer to get the runner-choice.
     # Typically get here from resurrection call.
-    to_run = 'run_' + runner_choice(kata_id)
-    send(to_run, *args(binding))
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def run_stateless(image_name, kata_id, avatar_name, max_seconds, delta, files)
-    # This does NOT make a call to storer to get the runner-choice
-    set_hostname_port_stateless
+    set_hostname_port(kata_id)
     run_cyber_dojo_sh(image_name, kata_id, avatar_name, max_seconds, delta, files)
   end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def run_stateful(image_name, kata_id, avatar_name, max_seconds, delta, files)
-    # This does NOT make a call to storer to get the runner-choice
-    set_hostname_port_stateful
-    run_cyber_dojo_sh(image_name, kata_id, avatar_name, max_seconds, delta, files)
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def run_cyber_dojo_sh(image_name, kata_id, avatar_name, max_seconds, delta, files)
+    # This does NOT make a call to storer to get the runner-choice.
+    # Assumes appropriate set_hostname_port_X method has already been called.
     new_files = files.select { |filename|
       delta[:new].include?(filename)
     }
-    deleted_files = {}
-    delta[:deleted].each { |filename|
-      deleted_files[filename] = 'lost content'
-    }
+    deleted_files = Hash[
+      delta[:deleted].map { |filename| [filename, ''] }
+    ]
     changed_files = files.select { |filename|
       delta[:changed].include?(filename)
     }
@@ -101,6 +84,23 @@ class RunnerService
     }
     quad = http_post_hash(:run_cyber_dojo_sh, args)
     [quad['stdout'], quad['stderr'], quad['status'], quad['colour']]
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def set_hostname_port_stateless
+    @hostname = 'runner_stateless'
+    @port = 4597
+  end
+
+  def set_hostname_port_stateful
+    @hostname = 'runner_stateful'
+    @port = 4557
+  end
+
+  def set_hostname_port_processful
+    @hostname = 'runner_processful'
+    @port = 4547
   end
 
   private # = = = = = = = = = = = = = = = = = = = = =
@@ -124,17 +124,9 @@ class RunnerService
       set_hostname_port_stateless
     when 'stateful'
       set_hostname_port_stateful
+    when 'processful'
+      set_hostname_port_processful
     end
-  end
-
-  def set_hostname_port_stateful
-    @hostname = 'runner_stateful'
-    @port = 4557
-  end
-
-  def set_hostname_port_stateless
-    @hostname = 'runner_stateless'
-    @port = 4597
   end
 
   def stateless?(kata_id)

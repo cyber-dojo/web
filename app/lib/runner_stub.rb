@@ -35,7 +35,7 @@ class RunnerStub
     dir.write(filename, [stdout,stderr,status,colour])
   end
 
-  def run(_image_name, _kata_id, _name, _max_seconds, _delta, _files)
+  def run_cyber_dojo_sh(_image_name, _kata_id, _name, _max_seconds, _delta, _files)
     if dir.exists?
       dir.read(filename)
     else
@@ -43,12 +43,13 @@ class RunnerStub
     end
   end
 
-  def run_stateful(image_name, kata_id, avatar_name, max_seconds, delta, files)
-    run(image_name, kata_id, avatar_name, max_seconds, delta, files)
+  def set_hostname_port_stateless
   end
 
-  def run_stateless(image_name, kata_id, avatar_name, max_seconds, delta, files)
-    run(image_name, kata_id, avatar_name, max_seconds, delta, files)
+  def set_hostname_port_stateful
+  end
+
+  def set_hostname_port_processful
   end
 
   private

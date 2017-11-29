@@ -19,24 +19,26 @@ class KataController < ApplicationController
 
     @avatar = Avatar.new(kata, avatar_name)
     begin
-      args = []
-      args << image_name        # eg 'cyberdojofoundation/gcc_assert'
-      args << id                # eg 'FE8A79A264'
-      args << avatar_name       # eg 'salmon'
-      args << max_seconds       # eg 10
-      args << delta
-      args << files
-      # Don't call runner.run() as that would do an
-      # extra call to storer to retrieve runner_choice
       case runner_choice
       when 'stateless'
-        stdout,stderr,status,@colour = runner.run_stateless(*args)
+        runner.set_hostname_port_stateless
       when 'stateful'
-        stdout,stderr,status,@colour = runner.run_stateful(*args)
+        runner.set_hostname_port_stateful
+      when 'processful'
+        runner.set_hostname_port_processful
       end
+      args = []
+      args << image_name  # eg 'cyberdojofoundation/gcc_assert'
+      args << id          # eg 'FE8A79A264'
+      args << avatar_name # eg 'salmon'
+      args << max_seconds # eg 10
+      args << delta
+      args << files
+      stdout,stderr,status,@colour = runner.run_cyber_dojo_sh(*args)
+
     rescue StandardError => error
       # o) old kata could be being resumed
-      # o) runner implementation could have switched
+      # o) runner_choice could have switched
       case error.message
         when 'RunnerService:run_cyber_dojo_sh:kata_id:!exists'
           resurrect_kata
@@ -56,8 +58,8 @@ class KataController < ApplicationController
       @output = stdout + stderr
     end
 
-    # storer.avatar_ran_tests() is the only thing that validates
-    # a kata with the given id exists. It is currently a synchronous call.
+    # storer.avatar_ran_tests() validates a kata with the
+    # given id exists. It is currently a synchronous call.
     storer.avatar_ran_tests(id, avatar_name, files, time_now, @output, @colour)
 
     respond_to do |format|
