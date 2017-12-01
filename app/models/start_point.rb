@@ -26,6 +26,7 @@ class StartPoint
       'highlight_filenames' => highlight_filenames,
        'lowlight_filenames' => lowlight_filenames,
                  'language' => name,
+              'max_seconds' => max_seconds,
                  'tab_size' => tab_size
     }
     manifest['visible_files'] = visible_files
@@ -55,10 +56,14 @@ class StartPoint
     }]
   end
 
+  def runner_choice
+    manifest_property
+  end
+
   # optional manifest properties
 
-  def runner_choice
-    manifest_property || 'stateless'
+  def max_seconds
+    manifest_property || 10
   end
 
   def filename_extension

@@ -28,7 +28,6 @@ $(function() {
 
 <%= form_tag( { action: 'run_tests',
                 id: @kata.id,
-                image_name: @kata.image_name,
                 avatar: @avatar.name
               } ) do %>
 
@@ -37,6 +36,8 @@ $(function() {
     <%= render partial: 'current_filename' %>
     <%= render partial: 'file_hashes_incoming' %>
     <%= render partial: 'file_hashes_outgoing' %>
+    <%= render partial: 'image_name' %>
+    <%= render partial: 'max_seconds' %>
     <%= render partial: 'runner_choice' %>
     <table>
       <tr>

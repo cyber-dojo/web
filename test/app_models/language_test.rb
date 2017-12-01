@@ -137,15 +137,6 @@ class LanguageTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '43EB07',
-  'runner_choice defaults to stateless' do
-    @language = make_language('Ruby', 'Test::Unit')
-    spy_manifest({})
-    assert_equal 'stateless', @language.runner_choice
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test '43E7FF',
   'runner_choice reads back as set' do
     @language = make_language('Ruby', 'Test::Unit')
@@ -171,6 +162,25 @@ class LanguageTest < AppModelsTestBase
     @language = make_language('Ruby', 'Test::Unit')
     spy_manifest({})
     assert_equal 4, @language.tab_size
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '43EF90',
+  'max_seconds is read back as set' do
+    @language = make_language('Ruby', 'Test::Unit')
+    max_seconds = 15
+    spy_manifest({ 'max_seconds' => max_seconds })
+    assert_equal max_seconds, @language.max_seconds
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '43EF91',
+  'max_seconds defaults to 10 when not set' do
+    @language = make_language('Ruby', 'Test::Unit')
+    spy_manifest({})
+    assert_equal 10, @language.max_seconds
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

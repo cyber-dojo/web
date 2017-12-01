@@ -31,18 +31,7 @@ class ApplicationController < ActionController::Base
     dojo.katas
   end
 
-  # The (runner_choice, image_name) properties are
-  # used in kata_controller/run_tests().
-  # Caching them in the browser is an optimization
-  # to prevent an extra call to the storer service.
-
-  def runner_choice
-    params['runner_choice'] || kata.runner_choice
-  end
-
-  def image_name
-    params['image_name']
-  end
+  # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def id
     params['id']
@@ -63,6 +52,27 @@ class ApplicationController < ActionController::Base
   def tag
     params['tag'].to_i
   end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
+  # The (runner_choice, image_name, max_seconds) properties
+  # are used in kata_controller/run_tests().
+  # Caching them in the browser is an optimization
+  # to prevent an extra call to the storer service.
+
+  def runner_choice
+    params['runner_choice'] || kata.runner_choice
+  end
+
+  def image_name
+    params['image_name'] || kata.image_name
+  end
+
+  def max_seconds
+    params['max_seconds'].to_i || kata.max_seconds
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def kata
     katas[id]

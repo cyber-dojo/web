@@ -15,7 +15,6 @@ class KataController < ApplicationController
     outgoing = params[:file_hashes_outgoing]
     delta = FileDeltaMaker.make_delta(incoming, outgoing)
     files = received_files
-    max_seconds = 10
 
     @avatar = Avatar.new(kata, avatar_name)
     begin

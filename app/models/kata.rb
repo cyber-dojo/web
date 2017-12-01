@@ -81,6 +81,10 @@ class Kata
     full_manifest_property
   end
 
+  def max_seconds
+    full_manifest_property
+  end
+
   def display_name
     full_manifest_property
   end
