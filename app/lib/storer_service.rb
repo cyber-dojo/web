@@ -12,12 +12,6 @@ class StorerService
 
   # - - - - - - - - - - - -
 
-  def path
-    http_get(__method__)
-  end
-
-  # - - - - - - - - - - - -
-
   def create_kata(        manifest)
     http_post(__method__, manifest)
   end
@@ -71,6 +65,8 @@ class StorerService
   def avatar_visible_files(kata_id, avatar_name)
     http_get(__method__,   kata_id, avatar_name)
   end
+
+  # - - - - - - - - - - - -
 
   def tag_visible_files( kata_id, avatar_name, tag)
     http_get(__method__, kata_id, avatar_name, tag)

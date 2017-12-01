@@ -115,8 +115,6 @@ class SmokeTest < AppLibTestBase
     kata_id = 'C6DE6CD301'
     assert_equal 'StorerService', storer.class.name
 
-    assert_equal '/tmp/cyber-dojo/katas', storer.path
-
     refute all_ids.include? kata_id
 
     refute storer.kata_exists?(kata_id)
