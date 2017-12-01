@@ -81,6 +81,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
       'format'        => 'js',
       'id'            => @id,
       'runner_choice' => katas[@id].runner_choice,
+      'max_seconds'   => katas[@id].max_seconds,
       'image_name'    => katas[@id].image_name,
       'avatar'        => @avatar.name
     }
