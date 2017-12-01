@@ -13,7 +13,7 @@ one_time_creation_of_start_point_volumes()
   set +e
   # These all fail (and do nothing) if the start-point already exists
   ${NAME} start-point create ${CYBER_DOJO_START_POINT_LANGUAGES} \
-      --list=https://raw.githubusercontent.com/cyber-dojo/start-points-languages/master/languages_list_travis 2> /dev/null
+      --list=https://raw.githubusercontent.com/cyber-dojo/start-points-languages/master/languages_list_small 2> /dev/null
   ${NAME} start-point create ${CYBER_DOJO_START_POINT_EXERCISES} \
       --git=${GIT_URL}exercises.git 2> /dev/null
   ${NAME} start-point create ${CYBER_DOJO_START_POINT_CUSTOM} \
