@@ -31,13 +31,13 @@ class ApplicationController < ActionController::Base
     dojo.katas
   end
 
-  # The (runner_choice, image_name, id, avatar_name)
-  # properties are used in kata_controller/run_tests()
+  # The (runner_choice, image_name) properties are
+  # used in kata_controller/run_tests().
   # Caching them in the browser is an optimization
   # to prevent an extra call to the storer service.
 
   def runner_choice
-    params['runner_choice']
+    params['runner_choice'] || kata.runner_choice
   end
 
   def image_name
