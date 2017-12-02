@@ -11,8 +11,9 @@
 <img src="https://raw.githubusercontent.com/cyber-dojo/nginx/master/images/home_page_logo.png" alt="cyber-dojo yin/yang logo" width="50px" height="50px"/>
 
 - The main web-server micro-service for [cyber-dojo](http://cyber-dojo.org).
-- Uses [runner_stateful](https://github.com/cyber-dojo/runner_stateful) to run some avatar's tests statefully.
-- Uses [runner_stateless](https://github.com/cyber-dojo/runner_stateless) to run some avatar's tests statelessly.
+- Uses [runner_stateless](https://github.com/cyber-dojo/runner_stateless) to run an avatar's tests statelessly.
+- Uses [runner_stateful](https://github.com/cyber-dojo/runner_stateful) to run an avatar's tests disk-statefully.
+- Uses [runner_processful](https://github.com/cyber-dojo/runner_processful) to an some avatar's tests process-statefully.
 - Uses [storer](https://github.com/cyber-dojo/storer) to save the code/tests associated with each avatar's test.
 - Uses [differ](https://github.com/cyber-dojo/differ) to diff the code/tests in successive avatar's tests.
 - Uses [zipper](https://github.com/cyber-dojo/zipper) to create tgz kata/avatar downloads.
