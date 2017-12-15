@@ -66,7 +66,7 @@ class DisplayNamesSplitterTest < AppLibTestBase
     assert_equal sorted_indexes.length, minor_indexes.length
 
     sorted_indexes.each_with_index {|array,at|
-      assert_equal array, sorted_indexes[at].sort
+      assert_equal array, minor_indexes[at].sort
     }
 
     assert_equal 'C++', major_names[initial_index]
