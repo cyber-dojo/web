@@ -37,7 +37,6 @@ private
         indexes << minor_names.index(minor_name)
       end
     end
-    indexes.shuffle
 
     # if this is the tests index array for the selected-language
     # then make sure the index for the selected-language's test
