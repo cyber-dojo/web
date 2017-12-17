@@ -1,4 +1,22 @@
 
+# [1] Kata <-> StartPoint coupling.
+# - - - - - - - - - - - - - - - - -
+# A kata's manifest should store everything it needs
+# so it never has to go back to its originating
+# start-point manifest. Decoupling :-)
+#
+# Katas created after the start-point volume
+# re-architecture do store all the kata's properties
+# directly inside the kata's manifest.
+#
+# Katas created before the start-point volume
+# re-architecture only store some of the kata's properties
+# directly inside the kata's manifest.
+# Some of the properties have to be retrieved
+# from the associated start-point. Of course, it is
+# possible the associated start-point is no longer
+# volume-mounted. Coupling :-(
+
 class Kata
 
   def initialize(katas, id)
@@ -110,20 +128,12 @@ class Kata
   include ManifestProperty
 
   def full_manifest_property
-    # A kata's manifest should store everything
-    # it needs so it never has to go back to its
-    # originating language+test manifest (decoupling).
-    # Katas created after the start-point volume
-    # re-architecture do that :-) Katas created before
-    # the start-point volume re-architecture don't :-(
-    # For katas before I attempt to navigate back to
-    # the originating language+test.
     property_name = name_of(caller)
-    manifest[property_name] || start_point.send(property_name)
+    manifest[property_name] || start_point.send(property_name) # [1]
   end
 
   def start_point
-    name = language
+    name = language # [1]
     languages[name] || custom[name]
   end
 
