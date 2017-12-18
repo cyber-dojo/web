@@ -7,7 +7,6 @@ class SetupDefaultStartPointController < ApplicationController
 
   def show_languages
     @id = id
-    @title = 'create'
     current_display_name = storer.kata_exists?(id) ? dojo.katas[id].display_name : nil
     start_points = starter.languages_choices(current_display_name)
     @major_names = start_points['major_names']
@@ -18,7 +17,6 @@ class SetupDefaultStartPointController < ApplicationController
 
   def show_exercises
     @id = id
-    @title = 'create'
     @language = params['language']
     @test = params['test']
     @exercises_names,@exercises = read_exercises
