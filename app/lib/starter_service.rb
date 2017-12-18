@@ -28,6 +28,10 @@ class StarterService
     http_get(__method__, major_name, minor_name, exercise_name)
   end
 
+  def custom_manifest(major_name, minor_name)
+    http_get(__method__, major_name, minor_name)
+  end
+
   private
 
   include HttpHelper

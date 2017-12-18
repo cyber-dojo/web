@@ -15,18 +15,6 @@ class ApplicationController < ActionController::Base
     @dojo ||= Dojo.new(self)
   end
 
-  def languages
-    dojo.languages
-  end
-
-  def exercises
-    dojo.exercises
-  end
-
-  def custom
-    dojo.custom
-  end
-
   def katas
     dojo.katas
   end

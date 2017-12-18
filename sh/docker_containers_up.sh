@@ -22,10 +22,40 @@ one_time_creation_of_start_point_volumes()
   rm ${NAME}
 }
 
+# - - - - - - - - - - - - - - - - - - - - -
+
+wait_till_up()
+{
+  local n=10
+  while [ $(( n -= 1 )) -ge 0 ]
+  do
+    if docker ps --filter status=running --format '{{.Names}}' | grep -q ^${1}$ ; then
+      return
+    else
+      sleep 0.5
+    fi
+  done
+  echo "${1} not up after 5 seconds"
+  docker logs ${1}
+  exit 1
+}
+
+# - - - - - - - - - - - - - - - - - - - - -
 # It would be better if this was refactored and the 3 start-points
 # were only created if they did not already exist. Then you wouldn't
 # have to comment this line out when working offline.
 one_time_creation_of_start_point_volumes
 
 docker-compose --file ${ROOT_DIR}/docker-compose.yml up -d
-sleep 2
+
+wait_till_up 'test_cyber-dojo-web'
+wait_till_up 'web_test_cyber-dojo-starter'
+wait_till_up 'web_test_cyber-dojo-storer'
+wait_till_up 'web_test_cyber-dojo-runner-stateless'
+wait_till_up 'web_test_cyber-dojo-runner-stateful'
+wait_till_up 'web_test_cyber-dojo-runner-processful'
+wait_till_up 'web_test_cyber-dojo-differ'
+wait_till_up 'web_test_cyber-dojo-zipper'
+
+
+
