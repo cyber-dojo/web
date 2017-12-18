@@ -32,7 +32,6 @@ class StartPointChooserTest < AppLibTestBase
         'language' => test_languages_names.sample,
         'exercise' => exercise
       }).id
-      assert_equal n, choose_exercise(test_exercises_names, katas[id])
     end
   end
 
@@ -41,7 +40,6 @@ class StartPointChooserTest < AppLibTestBase
   test 'CD36CB',
   'when no id is given then choose random language/exercise' do
     assert_is_randomly_chosen_language(test_languages_names, kata=nil)
-    assert_is_randomly_chosen_exercise(test_exercises_names, kata=nil)
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - -
@@ -49,7 +47,6 @@ class StartPointChooserTest < AppLibTestBase
   test '64576B',
   'when chooser is passed choices=[] and kata=nil result is nil' do
     assert_nil choose_language(choices=[], kata=nil)
-    assert_nil choose_exercise(choices=[], kata=nil)
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - -
@@ -78,7 +75,6 @@ class StartPointChooserTest < AppLibTestBase
         'language' => test_languages_names.sample,
         'exercise' => unknown_exercise
       }).id
-      assert_is_randomly_chosen_exercise(exercises, katas[id])
     end
   end
 
@@ -92,18 +88,6 @@ class StartPointChooserTest < AppLibTestBase
       counts[n] += 1
     end
     assert_equal languages.length, counts.length
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - -
-
-  def assert_is_randomly_chosen_exercise(exercises, kata)
-    counts = {}
-    (1..100).each do
-      n = choose_exercise(exercises, kata)
-      counts[n] ||= 0
-      counts[n] += 1
-    end
-    assert_equal exercises.length, counts.length
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - -
