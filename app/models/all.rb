@@ -7,8 +7,6 @@
   start_points_rename
   start_points
   start_point
-  exercises
-  exercise
   katas
   kata
   avatars

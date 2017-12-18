@@ -73,7 +73,6 @@ class KataTest < AppModelsTestBase
       'exercise' => 'Fizz_Buzz',
     }
     language = languages[hash['language']]
-    exercise  = exercises[hash['exercise']]
     kata = make_kata(hash)
     assert_equal id, kata.id
     assert_equal Time.mktime(*now), kata.created
@@ -86,8 +85,9 @@ class KataTest < AppModelsTestBase
     assert_equal language.highlight_filenames, kata.highlight_filenames
     assert_equal language.lowlight_filenames, kata.lowlight_filenames
     assert_equal language.name, kata.language
-    assert_equal exercise.name, kata.exercise
-    assert_equal exercise.text, kata.visible_files['instructions']
+    assert_equal 'Fizz_Buzz', kata.exercise
+    text = 'Write a program that prints the numbers from 1 to 100.'
+    assert kata.visible_files['instructions'].start_with?(text)
     assert_equal '', kata.visible_files['output']
   end
 

@@ -7,19 +7,20 @@ module TestDomainHelpers # mix-in
 
   def custom;    dojo.custom;    end
   def languages; dojo.languages; end
-  def exercises; dojo.exercises; end
   def katas;     dojo.katas;     end
 
   def make_kata(hash = {})
-    hash['id'] ||= unique_id
-    hash['now'] ||= time_now
-    hash['language'] ||= default_language_name
-    language = languages[hash['language']]
-    manifest = language.create_kata_manifest(hash['id'], hash['now'])
-    hash['exercise'] ||= default_exercise_name
-    exercise = exercises[hash['exercise']]
-    manifest['exercise'] = exercise.name
-    manifest['visible_files']['instructions'] = exercise.text
+    language = hash['language'] ||= default_language_name
+    major_name = language.split('-')[0].strip
+    minor_name = language.split('-')[1].strip
+    exercise_name = hash['exercise'] || default_exercise_name
+    manifest = starter.language_manifest(major_name, minor_name, exercise_name)
+    if hash.key?('id')
+      manifest['id'] = hash['id']
+    end
+    if hash.key?('now')
+      manifest['created'] = hash['now']
+    end
     katas.create_kata(manifest)
   end
 

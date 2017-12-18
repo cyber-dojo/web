@@ -52,9 +52,9 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   test '59CD79BA3',
   'show_languages defaults to language and test-framework of kata',
   'whose full-id is passed in URL (to encourage repetition)' do
-    language_display_name = languages_display_names.sample # eg "C++ (g++), CppUTest"
-    exercise_name = exercises_names.sample # eg "Word_Wrap"
-    id = create_kata(language_display_name, exercise_name)
+    language_display_name = languages_display_names.sample
+    # eg "C++ (g++), CppUTest"
+    id = create_kata(language_display_name, 'Fizz_Buzz')
 
     do_get 'show_languages', 'id' => id
 
@@ -73,14 +73,13 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   'show_exercises defaults to exercise of kata',
   'whose full-id is passed in URL (to encourage repetition)' do
     language_display_name = languages_display_names.sample
-    exercise_name = exercises_names.sample
+    exercise_name = 'Fizz_Buzz' # 12th
     id = create_kata(language_display_name, exercise_name)
 
     do_get 'show_exercises', 'id' => id
 
     md = /var selected = \$\('#exercises_name_' \+ (\d+)/.match(html)
-    selected_exercise_name = exercises_names[md[1].to_i]
-    assert_equal exercise_name, selected_exercise_name, 'exercises'
+    assert_equal 12, md[1].to_i
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -97,10 +96,6 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   def languages_display_names
     languages.map(&:display_name).sort
-  end
-
-  def exercises_names
-    exercises.map(&:name).sort
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
