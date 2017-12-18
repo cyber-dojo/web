@@ -18,8 +18,8 @@ class StarterService
     http_get(__method__, current_exercise_name)
   end
 
-  def language_manifest(display_name, exercise_name)
-    http_get(__method__, display_name, exercise_name)
+  def language_manifest(major_name, minor_name, exercise_name)
+    http_get(__method__, major_name, minor_name, exercise_name)
   end
 
   private
