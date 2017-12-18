@@ -2,20 +2,18 @@
 class SetupDefaultStartPointController < ApplicationController
 
   # Regular two step setup
-  # step 1. languages+test in column 1,2   (eg Java+JUnit)
-  # step 2. exercise                       (eg Fizz_Buzz)
+  # step 1. languages+testFramework in column 1,2   (eg Java+JUnit)
+  # step 2. exercise                                (eg Fizz_Buzz)
 
   def show_languages
     @id = id
     @title = 'create'
-    languages_names = display_names_of(languages)
-    kata = storer.kata_exists?(id) ? dojo.katas[id] : nil
-    index = choose_language(languages_names, kata)
-    start_points = ::DisplayNamesSplitter.new(languages_names, index)
-    @major_names = start_points.major_names
-    @major_index = start_points.initial_index
-    @minor_names = start_points.minor_names
-    @minor_indexes = start_points.minor_indexes
+    current_display_name = storer.kata_exists?(id) ? dojo.katas[id].display_name : nil
+    start_points = starter.languages_choices(current_display_name)
+    @major_names = start_points['major_names']
+    @major_index = start_points['major_index']
+    @minor_names = start_points['minor_names']
+    @minor_indexes = start_points['minor_indexes']
   end
 
   def show_exercises

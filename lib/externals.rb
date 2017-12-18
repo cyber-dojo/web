@@ -3,10 +3,11 @@ module Externals # mix-in
 
   def env_var; @env_var ||= EnvVar.new; end
 
-  def runner; @runner ||= external; end
-  def storer; @storer ||= external; end
-  def differ; @differ ||= external; end
-  def zipper; @zipper ||= external; end
+  def differ ; @differ  ||= external; end
+  def runner ; @runner  ||= external; end
+  def starter; @starter ||= external; end
+  def storer ; @storer  ||= external; end
+  def zipper ; @zipper  ||= external; end
 
   def disk ; @disk  ||= external; end
   def http ; @http  ||= external; end

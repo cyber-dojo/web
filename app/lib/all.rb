@@ -11,6 +11,7 @@
 
   runner_service
   runner_stub
+  starter_service
   storer_fake
   storer_service
   differ_service
