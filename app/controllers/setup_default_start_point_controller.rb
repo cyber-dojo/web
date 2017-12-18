@@ -7,21 +7,24 @@ class SetupDefaultStartPointController < ApplicationController
 
   def show_languages
     @id = id
-    current_display_name = storer.kata_exists?(id) ? dojo.katas[id].display_name : nil
-    start_points = starter.languages_choices(current_display_name)
-    @major_names = start_points['major_names']
-    @major_index = start_points['major_index']
-    @minor_names = start_points['minor_names']
-    @minor_indexes = start_points['minor_indexes']
+    current_display_name = storer.kata_exists?(id) ? katas[id].display_name : nil
+    choices = starter.languages_choices(current_display_name)
+    @major_names   = choices['major_names']
+    @major_index   = choices['major_index']
+    @minor_names   = choices['minor_names']
+    @minor_indexes = choices['minor_indexes']
   end
 
   def show_exercises
-    @id = id
     @language = params['language']
     @test = params['test']
-    @exercises_names,@exercises = read_exercises
-    kata = storer.kata_exists?(id) ? dojo.katas[id] : nil
-    @initial_index = choose_exercise(@exercises_names, kata)
+    #@major = params['major]
+    #@minor = params['minor]
+    current_exercise_name = storer.kata_exists?(id) ? katas[id].exercise : nil
+    choices = starter.exercises_choices(current_exercise_name)
+    @exercises_names = choices['names']
+    @exercises       = choices['contents']
+    @initial_index   = choices['index']
   end
 
   def save
@@ -39,22 +42,6 @@ class SetupDefaultStartPointController < ApplicationController
   end
 
   private
-
-  include StartPointChooser
-
-  def display_names_of(start_points)
-    start_points.map(&:display_name).sort
-  end
-
-  def read_exercises
-    names = []
-    hash =  {}
-    exercises.each do |exercise|
-      names << exercise.name
-      hash[exercise.name] = exercise.text
-    end
-    [names.sort, hash]
-  end
 
   def language
     languages[major + '-' + minor]

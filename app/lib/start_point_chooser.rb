@@ -13,10 +13,6 @@ module StartPointChooser # mix-in
     chooser(languages, kata) { kata.display_name }
   end
 
-  def choose_exercise(exercises, kata)
-    chooser(exercises, kata) { kata.exercise }
-  end
-
   def chooser(choices, kata)
     choice = [*0...choices.length].sample
     unless kata.nil?
