@@ -18,8 +18,8 @@ class SetupDefaultStartPointController < ApplicationController
   def show_exercises
     @language = params['language']
     @test = params['test']
-    #@major = params['major]
-    #@minor = params['minor]
+    #@major = params['major] # TODO
+    #@minor = params['minor] # TODO
     current_exercise_name = storer.kata_exists?(id) ? katas[id].exercise : nil
     choices = starter.exercises_choices(current_exercise_name)
     @exercises_names = choices['names']
@@ -28,31 +28,16 @@ class SetupDefaultStartPointController < ApplicationController
   end
 
   def save
-    manifest = language.create_kata_manifest
+    major = params['major']
+    minor = params['minor']
     exercise_name = params['exercise']
-    exercise = exercises[exercise_name]
-    manifest['exercise'] = exercise.name
-    manifest['visible_files']['instructions'] = exercise.text
+    manifest = starter.language_manifest(major+', '+minor, exercise_name)
     kata = katas.create_kata(manifest)
     render json: {
       image_name: kata.image_name,
               id: kata.id,
-       selection: major + ', ' + minor
+       selection: major + ', ' + minor # TODO: used?
      }
-  end
-
-  private
-
-  def language
-    languages[major + '-' + minor]
-  end
-
-  def major
-    params['major']
-  end
-
-  def minor
-    params['minor']
   end
 
 end
