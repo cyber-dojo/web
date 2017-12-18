@@ -10,7 +10,6 @@ $(function() {
     const url = '/setup_default_start_point/show_exercises/' + id +
       '?language=' + encodeURIComponent(cd.chosenMajor()) +
       '&test=' + encodeURIComponent(cd.chosenMinor());
-    button.prop('disabled',true);
     window.location = url;
   });
 
