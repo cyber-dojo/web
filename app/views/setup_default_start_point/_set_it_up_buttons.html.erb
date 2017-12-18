@@ -8,8 +8,8 @@ $(function() {
     const button = $('#create-it-' + who);
     button.click(function() {
       const setupParams = {
-           major: "<%= @language %>",
-           minor: "<%= @test %>",
+           major: "<%= @major %>",
+           minor: "<%= @minor %>",
         exercise: $('[id^=exercises_name_][class~=selected]').data('name')
       };
       const cursor = button.css('cursor');
