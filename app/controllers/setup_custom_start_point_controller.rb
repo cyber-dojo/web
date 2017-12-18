@@ -22,7 +22,7 @@ class SetupCustomStartPointController < ApplicationController
     render json: {
           image_name: kata.image_name,
                   id: kata.id,
-            selection: major + ', ' + minor
+           selection: major + ', ' + minor
     }
   end
 
