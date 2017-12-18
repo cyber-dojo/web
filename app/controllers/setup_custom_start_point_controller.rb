@@ -9,7 +9,11 @@ class SetupCustomStartPointController < ApplicationController
     custom_names = display_names_of(dojo.custom)
     kata = (id != nil && storer.kata_exists?(id)) ? dojo.katas[id] : nil
     index = choose_language(custom_names, kata)
-    @start_points = ::DisplayNamesSplitter.new(custom_names, index)
+    start_points = ::DisplayNamesSplitter.new(custom_names, index)
+    @major_names = start_points.major_names
+    @major_index = start_points.initial_index
+    @minor_names = start_points.minor_names
+    @minor_indexes = start_points.minor_indexes
   end
 
   def save

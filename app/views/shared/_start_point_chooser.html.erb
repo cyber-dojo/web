@@ -3,12 +3,12 @@
 
 $(function() {
 
-  var minorIndexes = $.parseJSON('<%= @start_points.minor_indexes.inspect.html_safe %>');
+  var minorIndexes = $.parseJSON('<%= @minor_indexes.inspect.html_safe %>');
 
   var previousMajor = undefined;
   var previousMinor = undefined;
 
-  var selectedMajor = $('#major_' + <%= @start_points.initial_index %>);
+  var selectedMajor = $('#major_' + <%= @major_index %>);
 
   $('[id^=major_]').each(function() {
     var major = $(this);
