@@ -63,7 +63,7 @@ services:
   # - - - - - - - - - - - - - - - -
 
   storer:
-    user: root
+    user: cyber-dojo
     image: cyberdojo/storer
     init: true
     container_name: cyber-dojo-storer
