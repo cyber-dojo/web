@@ -4,16 +4,13 @@ class SetupCustomStartPointController < ApplicationController
   # Custom exercise (one-step setup)
 
   def show
+    current_display_name = storer.kata_exists?(id) ? dojo.katas[id].display_name : nil
+    choices = starter.custom_choices(current_display_name)
     @id = id
-    @title = 'create'
-    custom_names = display_names_of(dojo.custom)
-    kata = (id != nil && storer.kata_exists?(id)) ? dojo.katas[id] : nil
-    index = choose_language(custom_names, kata)
-    start_points = ::DisplayNamesSplitter.new(custom_names, index)
-    @major_names = start_points.major_names
-    @major_index = start_points.initial_index
-    @minor_names = start_points.minor_names
-    @minor_indexes = start_points.minor_indexes
+    @major_names   = choices['major_names']
+    @major_index   = choices['major_index']
+    @minor_names   = choices['minor_names']
+    @minor_indexes = choices['minor_indexes']
   end
 
   def save
@@ -27,12 +24,6 @@ class SetupCustomStartPointController < ApplicationController
   end
 
   private
-
-  include StartPointChooser
-
-  def display_names_of(start_points)
-    start_points.map(&:display_name).sort
-  end
 
   def custom
     dojo.custom[major + '-' + minor]
