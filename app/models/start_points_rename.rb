@@ -25,8 +25,8 @@ module StartPointsRename # mix-in
       ['Ruby']         => ['Ruby',         'Test::Unit'],
       ['Scala']        => ['Scala',        'scalatest'],
       # renamed
-      ['C++',        'catch']            => ['C++ (g++)' , 'Catch'],
-      ['Java',       'ApprovalTests']    => ['Java',       'Approval'], # offline
+      ['C++', 'catch'         ] => ['C++ (g++)' , 'Catch'],
+      ['Java', 'ApprovalTests'] => ['Java', 'Approval'], # offline
       ['Java',       'JUnit','Mockito']  => ['Java',       'Mockito'],
       ['Javascript', 'mocha_chai_sinon'] => ['Javascript', 'Mocha+chai+sinon'],
       ['Perl',       'TestSimple']       => ['Perl',       'Test::Simple'],

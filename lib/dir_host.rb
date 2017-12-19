@@ -42,13 +42,11 @@ class DirHost
 
   def make
     # Can't find a Ruby library method allowing you to do a
-    # mkdir_p and know if a dir was created or not. So using shell.
+    # mkdir_p and-know-if-a-dir-was-created-or-not.
+    # Note: FileUtils.mkdir_p() does not tell you anything.
+    # So using shell.
     # -p creates intermediate dirs as required.
     # -v verbose mode, output each dir actually made
-    #
-    # TODO: Didn't look hard enough. Use
-    #       FileUtils.mkdir_p(cache_dir)
-    # Then drop shell
     output,_exit_status = shell.exec("mkdir -vp #{path}")
     output != ''
   end
