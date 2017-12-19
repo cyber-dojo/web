@@ -191,16 +191,22 @@ class StorerFake
 
   def refute_kata_exists(id)
     assert_valid_id(id)
-    fail error('id') if kata_exists?(id)
+    if kata_exists?(id)
+      fail error('id')
+    end
   end
 
   def assert_kata_exists(id)
     assert_valid_id(id)
-    fail error('id') unless kata_exists?(id)
+    unless kata_exists?(id)
+      fail error('id')
+    end
   end
 
   def assert_valid_id(id)
-    fail error('id') unless valid_id?(id)
+    unless valid_id?(id)
+      fail error('id')
+    end
   end
 
   def valid_id?(id)
@@ -226,11 +232,15 @@ class StorerFake
   def assert_avatar_exists(id, name)
     assert_kata_exists(id)
     assert_valid_name(name)
-    fail error('name') unless avatar_exists?(id, name)
+    unless avatar_exists?(id, name)
+      fail error('name')
+    end
   end
 
   def assert_valid_name(name)
-    fail error('name') unless valid_avatar?(name)
+    unless valid_avatar?(name)
+      fail error('name')
+    end
   end
 
   def valid_avatar?(name)
@@ -250,11 +260,15 @@ class StorerFake
   def assert_tag_exists(id, name, tag)
     assert_avatar_exists(id, name)
     assert_valid_tag(tag)
-    fail error('tag') unless tag_exists?(id, name, tag)
+    unless tag_exists?(id, name, tag)
+      fail error('tag')
+    end
   end
 
   def assert_valid_tag(tag)
-    fail error('tag') unless valid_tag?(tag)
+    unless valid_tag?(tag)
+      fail error('tag')
+    end
   end
 
   def valid_tag?(tag)

@@ -100,9 +100,16 @@ class LanguagesTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - -
 
+  # WARNING: this test is flaky.
+  # The whole start-points is being refactored into a
+  # dedicated starter service.
+  # When that's done this test will be deleted.
+  # Till then I'm _deliberately_ failing this test so when I push
+  # on the starter-service branch Travis does not create a new image.
   test '3C064A',
   'cache is created on demand' do
     # be very careful here... naming languages will create languages!
+=begin
     path = languages.cache_path
     filename = languages.cache_filename
     assert disk[path].exists? filename
@@ -114,6 +121,8 @@ class LanguagesTest < AppModelsTestBase
     assert disk[path].exists? filename
     new_cache = disk[path].read(filename)
     assert_equal old_cache, new_cache
+=end
+    fail 'deliberately temporarily failing this test...'
   end
 
   #- - - - - - - - - - - - - - - - - - - - -
