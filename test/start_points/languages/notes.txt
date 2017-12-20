@@ -1,0 +1,19 @@
+
+The languages data-set has
+
+o) duplicate major-name == 'Python'
+   'Python, py.test'
+   'Python, unittest'
+
+o) duplicate minor-name == 'assert'
+   'C (gcc), assert'
+   'G++ (g++), assert'
+
+The rules for a display_name such as 'C (gcc), assert' are
+- it must have a single comma
+    major_name = display_name.split(',')[0]
+    minor_name = display_name.split(',')[1]
+- the major_name cannot be the empty string
+- the minor_name cannot be the empty string
+- the major_name cannot container a hyphen '-'
+    see commander's start_point_checker.rb check_display_name_is_valid()

@@ -1,0 +1,18 @@
+
+{
+  "display_name": "Python, py.test",
+
+  "visible_filenames": [
+    "test_hiker.py",
+    "hiker.py",
+    "cyber-dojo.sh"
+  ],
+
+  "image_name": "cyberdojofoundation/python_pytest",
+
+  "runner_choice": "stateless",
+
+  "filename_extension" : ".py",
+
+  "tab_size": 4
+}

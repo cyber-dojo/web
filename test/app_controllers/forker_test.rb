@@ -124,6 +124,8 @@ class ForkerControllerTest < AppControllerTestBase
   test '3E9467D4A',
   'forking kata from before start-point volume re-architecture works' do
     #TODO: tar-pipe known katas into storer volume (like starter tests)
+    #storer/server/katas_old/421F303E80.tgz
+    #this is old-style and needs renaming.
     fork(@id, @avatar.name, tag=1)
     assert forked?
   end
