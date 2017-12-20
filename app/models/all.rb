@@ -3,7 +3,6 @@
   manifest_property
 
   dojo
-  cache_properties
   katas
   kata
   avatars

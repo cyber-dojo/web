@@ -9,10 +9,8 @@ module Externals # mix-in
   def storer ; @storer  ||= external; end
   def zipper ; @zipper  ||= external; end
 
-  def disk ; @disk  ||= external; end
   def http ; @http  ||= external; end
   def log  ; @log   ||= external; end
-  def shell; @shell ||= external; end
 
   private
 

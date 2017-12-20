@@ -24,26 +24,17 @@ module TestExternalHelpers # mix-in
   def unset_runner_class; unset_class('runner'); end
   def unset_storer_class; unset_class('storer'); end
   def unset_differ_class; unset_class('differ'); end
-
-  def  unset_shell_class; unset_class( 'shell'); end
-  def   unset_disk_class; unset_class(  'disk'); end
   def    unset_log_class; unset_class(   'log'); end
 
-  def   set_runner_class(value); set_class('runner', value); end
-  def   set_storer_class(value); set_class('storer', value); end
-  def   set_differ_class(value); set_class('differ', value); end
+  def set_runner_class(value); set_class('runner', value); end
+  def set_storer_class(value); set_class('storer', value); end
+  def set_differ_class(value); set_class('differ', value); end
+  def    set_log_class(value); set_class(   'log', value); end
 
-  def    set_shell_class(value); set_class( 'shell', value); end
-  def     set_disk_class(value); set_class(  'disk', value); end
-  def      set_log_class(value); set_class(   'log', value); end
-
-  def   get_runner_class; get_class('runner'); end
-  def   get_storer_class; get_class('storer'); end
-  def   get_differ_class; get_class('differ'); end
-
-  def    get_shell_class; get_class( 'shell'); end
-  def     get_disk_class; get_class(  'disk'); end
-  def      get_log_class; get_class(   'log'); end
+  def get_runner_class; get_class('runner'); end
+  def get_storer_class; get_class('storer'); end
+  def get_differ_class; get_class('differ'); end
+  def    get_log_class; get_class(   'log'); end
 
   # - - - - - - - - - - - - - - - - - - -
 
@@ -68,12 +59,6 @@ module TestExternalHelpers # mix-in
 
   def fail_if_setup_not_called(method)
     fail "#{method} NOT executed because setup() not yet called" if @setup_called.nil?
-  end
-
-  # - - - - - - - - - - - - - - - - - - -
-
-  def tmp_root
-    '/tmp/cyber-dojo'
   end
 
 end

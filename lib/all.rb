@@ -2,7 +2,6 @@
 # this list has order dependencies
 
 %w{
-  unslashed
   env_var
   name_of_caller
   externals
@@ -14,9 +13,6 @@
 
   http
   http_spy
-  disk_host
-  dir_host
-  shell_host
   log_spy
   log_stdout
 }.each { |sourcefile| require_relative './' + sourcefile }

@@ -21,7 +21,7 @@ class DiskDirFakeTest < LibTestBase
     assert dir.exists?
   end
 
-  test 'CC8D5E',
+  test 'CC8D5',
   'write_json before make raises' do
     assert_raises { disk['a'].write_json('filename', {}) }
   end
