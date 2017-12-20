@@ -4,9 +4,6 @@
 
   dojo
   cache_properties
-  start_points_rename
-  start_points
-  start_point
   katas
   kata
   avatars

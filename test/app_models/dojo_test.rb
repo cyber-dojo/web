@@ -29,14 +29,6 @@ class DojoTest < AppModelsTestBase
     unset_log_class    && assert_raises(error) {    log.class }
   end
 
-  test 'A706F9',
-  'using an unset external root path raises StandardError' do
-    error = StandardError
-    unset_languages_root && assert_raises(error) { languages.path }
-    unset_exercises_root && assert_raises(error) { exercises.path }
-    unset_custom_root    && assert_raises(error) {    custom.path }
-  end
-
   #- - - - - - - - - - - - - - - - - - - - - - - - -
   # external classes can be set via environment variables
   #- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -63,27 +55,6 @@ class DojoTest < AppModelsTestBase
     set_shell_class( does_not_exist) && assert_raises(error) {  shell.class }
     set_disk_class(  does_not_exist) && assert_raises(error) {   disk.class }
     set_log_class(   does_not_exist) && assert_raises(error) {    log.class }
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - -
-  # external roots can be set via environment variables
-  #- - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'A70EA1',
-  'setting an external root succeeds' do
-    set_languages_root(path = tmp_root + '/languages') && assert_equal(path, languages.path)
-    set_custom_root(   path = tmp_root + '/custom'   ) && assert_equal(path,    custom.path)
-  end
-
-  # - - - - - -
-
-  test 'A70D52',
-  'setting an external root with a trailing slash chops off the trailing slash' do
-    path = tmp_root + '/languages'
-    set_languages_root(path + '/') && assert_equal(path, languages.path)
-
-    path = tmp_root + '/custom'
-    set_custom_root(path + '/') && assert_equal(path, custom.path)
   end
 
   private

@@ -34,25 +34,19 @@ class ForkerController < ApplicationController
       manifest = {
                          'id' => unique_id,
                     'created' => time_now,
+               'display_name' => kata.display_name,
+                   'exercise' => kata.exercise,
+         'filename_extension' => kata.filename_extension,
+        'highlight_filenames' => kata.highlight_filenames,
                  'image_name' => kata.image_name,
                    'language' => kata.language,
-                   'exercise' => kata.exercise,
+        'lowlight_filenames'  => kata.lowlight_filenames,
+                'max_seconds' => kata.max_seconds,
+            'progress_regexs' => kata.progress_regexs,
+              'runner_choice' => kata.runner_choice,
                    'tab_size' => kata.tab_size,
               'visible_files' => avatar.tags[tag].visible_files
       }
-
-      # before or after start-points volume re-architecture?
-      if !kata.unit_test_framework.nil?
-        # before
-        manifest['unit_test_framework'] = kata.unit_test_framework
-      else
-        # after
-        manifest['display_name'       ] = kata.display_name
-        manifest['filename_extension' ] = kata.filename_extension
-        manifest['progress_regexs'    ] = kata.progress_regexs
-        manifest['highlight_filenames'] = kata.highlight_filenames
-        manifest['lowlight_filenames' ] = kata.lowlight_filenames
-      end
 
       katas.create_kata(manifest)
 

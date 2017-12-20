@@ -17,15 +17,18 @@ class AvatarTest < AppModelsTestBase
   '1. the language visible_files,',
   '2. the exercise instructions,',
   '3. empty output' do
-    kata = make_kata({ 'language' => default_language_name })
-    language = languages[default_language_name]
+    kata = make_kata({ 'language' => 'C (gcc)-assert' })
     avatar = kata.start_avatar
-    language.visible_files.each do |filename, content|
-      assert avatar.visible_filenames.include?(filename)
-      assert_equal avatar.visible_files[filename], content
-    end
-    assert avatar.visible_filenames.include? 'instructions'
-    assert avatar.visible_filenames.include? 'output'
+    expected = %w(
+      cyber-dojo.sh
+      hiker.c
+      hiker.h
+      hiker.tests.c
+      instructions
+      makefile
+      output
+    )
+    assert_equal expected, avatar.visible_filenames.sort
     assert_equal '', avatar.visible_files['output']
   end
 

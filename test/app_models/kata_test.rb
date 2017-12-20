@@ -64,27 +64,28 @@ class KataTest < AppModelsTestBase
 
   test '67751F',
   'kata properties are union of language properties and exercise instruction' do
+
     id = unique_id
-    now = [ 2014, 7, 17, 21, 15, 45 ]
+    now = [ 2014,7,17, 21,15,45 ]
     hash = {
       'id'       => id,
       'now'      => now,
-      'language' => 'Python-unittest',
+      'language' => 'Python-py.test',
       'exercise' => 'Fizz_Buzz',
     }
-    language = languages[hash['language']]
     kata = make_kata(hash)
+
     assert_equal id, kata.id
     assert_equal Time.mktime(*now), kata.created
-    assert_equal language.runner_choice, kata.runner_choice
-    assert_equal language.image_name, kata.image_name
-    assert_equal language.tab_size, kata.tab_size
-    assert_equal language.display_name, kata.display_name
-    assert_equal language.filename_extension, kata.filename_extension
-    assert_equal language.progress_regexs, kata.progress_regexs
-    assert_equal language.highlight_filenames, kata.highlight_filenames
-    assert_equal language.lowlight_filenames, kata.lowlight_filenames
-    assert_equal language.name, kata.language
+    assert_equal 'stateless', kata.runner_choice
+    assert_equal 'cyberdojofoundation/python_pytest', kata.image_name
+    assert_equal 4, kata.tab_size
+    assert_equal 'Python, py.test', kata.display_name
+    assert_equal '.py', kata.filename_extension
+    assert_equal [], kata.progress_regexs # TODO: REVISIT
+    assert_equal [], kata.highlight_filenames
+    assert_equal ['cyber-dojo.sh','makefile','Makefile','unity.license.txt'], kata.lowlight_filenames
+    assert_equal 'Python-py.test', kata.language
     assert_equal 'Fizz_Buzz', kata.exercise
     text = 'Write a program that prints the numbers from 1 to 100.'
     assert kata.visible_files['instructions'].start_with?(text)
@@ -211,7 +212,6 @@ class KataTest < AppModelsTestBase
   'start_avatar() seamlessly resurrects when',
   'collector has collected the runner containers/volumes' do
     set_runner_class('RunnerService')
-    #@katas = Katas.new(self)
     kata = make_kata({ 'language' => 'C (gcc)-assert' })
     assert kata.runner_choice == 'stateful'
     runner.kata_old(kata.image_name, kata.id)
@@ -226,15 +226,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '677E1A',
-  'after start-points rearchitecture',
-  'unit_test_framework is nil' do
-    kata = make_kata
-    assert_nil kata.unit_test_framework
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
+=begin
   test '677712',
   'for a kata created before the start_point re-architecture',
   'attempt to retrieve the full-manifest properties from the start-point' do
@@ -259,6 +251,7 @@ class KataTest < AppModelsTestBase
     property_names.each { |property_name| refute_nil kata.send(property_name) }
     assert_equal 'C (gcc), assert', kata.display_name
   end
+=end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

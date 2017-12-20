@@ -1,18 +1,6 @@
 
 version: '2.2'
 
-volumes:
-
-  languages:
-    external:
-      name: ${CYBER_DOJO_START_POINT_LANGUAGES}
-  exercises:
-    external:
-      name: ${CYBER_DOJO_START_POINT_EXERCISES}
-  custom:
-    external:
-      name: ${CYBER_DOJO_START_POINT_CUSTOM}
-
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 services:
@@ -39,10 +27,6 @@ services:
       - starter
       - storer
       - zipper
-    volumes:
-      - languages:${CYBER_DOJO_HOME}/start_points/languages:ro
-      - exercises:${CYBER_DOJO_HOME}/start_points/exercises:ro
-      - custom:${CYBER_DOJO_HOME}/start_points/custom:ro
 
   # - - - - - - - - - - - - - - - -
 
@@ -56,9 +40,7 @@ services:
     environment:
       - CYBER_DOJO_START_POINTS_ROOT
     volumes:
-      - languages:${CYBER_DOJO_START_POINTS_ROOT}/languages:ro
-      - exercises:${CYBER_DOJO_START_POINTS_ROOT}/exercises:ro
-      - custom:${CYBER_DOJO_START_POINTS_ROOT}/custom:ro
+      - ./start_points:${CYBER_DOJO_START_POINTS_ROOT}:ro
 
   # - - - - - - - - - - - - - - - -
 
@@ -74,6 +56,8 @@ services:
     mem_limit: 2G
     memswap_limit: 2G
     restart: on-failure
+    depends_on:
+      - starter
 
   # - - - - - - - - - - - - - - - -
 

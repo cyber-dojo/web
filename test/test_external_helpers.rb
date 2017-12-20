@@ -21,20 +21,6 @@ module TestExternalHelpers # mix-in
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def unset_languages_root; unset_root('languages'); end
-  def unset_exercises_root; unset_root('exercises'); end
-  def    unset_custom_root; unset_root(   'custom'); end
-
-  def set_languages_root(value); set_root('languages', value); end
-  def set_exercises_root(value); set_root('exercises', value); end
-  def    set_custom_root(value); set_root(   'custom', value); end
-
-  def get_languages_root; get_root('languages'); end
-  def get_exercises_root; get_root('exercises'); end
-  def    get_custom_root; get_root(   'custom'); end
-
-  # - - - - - - - - - - - - - - - - - - -
-
   def unset_runner_class; unset_class('runner'); end
   def unset_storer_class; unset_class('storer'); end
   def unset_differ_class; unset_class('differ'); end
@@ -63,20 +49,11 @@ module TestExternalHelpers # mix-in
 
   def unset(var); ENV.delete(var); end
 
-  def unset_root(name)
-    unset(env_var.name(name + '_root'))
-  end
-
   def unset_class(name)
     unset(env_var.name(name + '_class'))
   end
 
   # - - - - - - - - - - - - - - - - - - -
-
-  def set_root(key, value)
-    fail_if_setup_not_called("set_root(#{key}, #{value})")
-    ENV[env_var.name(key + '_root')] = value
-  end
 
   def set_class(key, value)
     fail_if_setup_not_called("set_class(#{key}, #{value})")
@@ -84,10 +61,6 @@ module TestExternalHelpers # mix-in
   end
 
   # - - - - - - - - - - - - - - - - - - -
-
-  def get_root(name)
-    env_var.name(name + '_root')
-  end
 
   def get_class(name)
     env_var.name(name + '_class')

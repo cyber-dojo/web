@@ -118,18 +118,21 @@ class SmokeTest < AppLibTestBase
     refute all_ids.include? kata_id
 
     refute storer.kata_exists?(kata_id)
-    manifest = make_manifest(kata_id)
-    storer.create_kata(manifest)
-    assert storer.kata_exists?(kata_id)
 
+    major = 'C (gcc)'
+    minor = 'assert'
+    exercise = 'Fizz_Buzz'
+    manifest = starter.language_manifest(major,minor,exercise)
+
+    manifest['id'] = kata_id
+    manifest['created'] = creation_time
+    storer.create_kata(manifest)
+
+    assert storer.kata_exists?(kata_id)
     assert all_ids.include? kata_id
 
-    expected = manifest
-    actual = storer.kata_manifest(kata_id)
-    assert_equal expected.keys.size, actual.keys.size
-    expected.each do |key, value|
-      assert_equal value, actual[key.to_s]
-    end
+    assert_equal manifest, storer.kata_manifest(kata_id)
+
     assert_equal({}, storer.kata_increments(kata_id))
     assert_equal kata_id, storer.completed(kata_id[0..5])
     assert_equal [], storer.started_avatars(kata_id)

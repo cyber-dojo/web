@@ -46,7 +46,11 @@ wait_till_up()
 # have to comment this line out when working offline.
 one_time_creation_of_start_point_volumes
 
-docker-compose --file ${ROOT_DIR}/docker-compose.yml up -d
+docker-compose \
+  --file ${ROOT_DIR}/docker-compose.yml \
+  up -d \
+  --force-recreate
+
 
 wait_till_up 'test_cyber-dojo-web'
 wait_till_up 'web_test_cyber-dojo-starter'
