@@ -123,10 +123,12 @@ class ForkerControllerTest < AppControllerTestBase
 
   test '3E9467D4A',
   'forking kata from before start-point volume re-architecture works' do
-    #TODO: tar-pipe known katas into storer volume (like starter tests)
-    #storer/server/katas_old/421F303E80.tgz
-    #this is old-style and needs renaming.
-    fork(@id, @avatar.name, tag=1)
+    set_storer_class('StorerService')
+    # See test/data/katas_old/421F303E80.tgz
+    id = '421F303E80'
+    diagnostic = "kata #{id} does not exist!?"
+    assert storer.kata_exists?(id), diagnostic
+    fork(id, 'buffalo', 3)
     assert forked?
   end
 

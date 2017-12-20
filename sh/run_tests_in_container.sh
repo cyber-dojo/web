@@ -3,10 +3,7 @@
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 
-storer_cid=`docker ps --all --quiet --filter "name=cyber-dojo-storer"`
-docker exec ${storer_cid} sh -c "rm -rf /tmp/cyber-dojo/katas/*"
-
-web_cid=`docker ps --all --quiet --filter "name=cyber-dojo-web"`
+web_cid=`docker ps --all --quiet --filter "name=test_cyber-dojo-web"`
 docker exec ${web_cid} sh -c "cd test && ./run.sh ${*}"
 status=$?
 

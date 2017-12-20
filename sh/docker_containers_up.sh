@@ -3,7 +3,7 @@ set -e
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 
-. ${ROOT_DIR}/sh/env_vars.sh
+. ${ROOT_DIR}/.env
 
 # - - - - - - - - - - - - - - - - - - - - -
 
