@@ -76,8 +76,8 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   test '59C82562A',
   'show_exercises defaults to exercise of kata',
   'whose full-id is passed in URL (to encourage repetition)' do
-    exercises_names = starter.exercises_choices(nil)['names']
-    puts ":#{exercises_names}:"
+    choices = starter.exercises_choices(nil)
+    exercises_names = choices['names']
     exercises_names.each_with_index do |exercise_name,index|
       id = create_kata('C (gcc), assert', exercise_name)
       do_get 'show_exercises', 'id' => id

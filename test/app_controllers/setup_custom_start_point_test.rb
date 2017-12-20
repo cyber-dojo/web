@@ -3,50 +3,34 @@ require_relative 'app_controller_test_base'
 class SetupCustomStartPointControllerTest < AppControllerTestBase
 
   test 'EB7B53',
-  'show when id is invalid' do
+  'show succeeds when id is invalid' do
     do_get 'show', 'id' => '379C8ABFDF'
   end
 
   # - - - - - - - - - - - - - - - - - - -
 
   test 'EB77D9',
-  'show shows all custom exercises' do
-    # Assumes the exercises volume is default refactoring exercises
-    assert_equal [
-      'C++ Countdown, Practice Round',
-      'C++ Countdown, Round 1',
-      'C++ Countdown, Round 2',
-      'C++ Countdown, Round 3',
-      'C++ Countdown, Round 4',
-      'C++ Countdown, Round 5',
-      'C++ Countdown, Round 6',
-      "Java Countdown, Practice Round",
-      "Java Countdown, Round 1",
-      "Java Countdown, Round 2",
-      "Java Countdown, Round 3",
-      "Java Countdown, Round 4",
-      'Tennis refactoring, C# NUnit',
-      'Tennis refactoring, C++ (g++) assert',
-      'Tennis refactoring, Java JUnit',
-      'Tennis refactoring, Python unitttest',
-      'Tennis refactoring, Ruby Test::Unit',
-      'Yahtzee refactoring, C# NUnit',
-      'Yahtzee refactoring, C++ (g++) assert',
-      'Yahtzee refactoring, Java JUnit',
-      'Yahtzee refactoring, Python unitttest',
-      'git, bash'
-      ],
-      custom_display_names
-
+  'shows all custom exercises' do
     do_get 'show'
+    choices = starter.custom_choices(nil)
+    choices['major_names'].each do |major_name|
+      diagnostic = "#{major_name} not found in html"
+      r = Regexp.new(Regexp.escape(major_name))
+      assert r.match(html), diagnostic
+    end
+    choices['minor_names'].each do |minor_name|
+      diagnostic = "#{minor_name} not found in html"
+      r = Regexp.new(Regexp.escape(minor_name))
+      assert r.match(html), diagnostic
+    end
+  end
 
-    assert /data-major\=\"Tennis refactoring/.match(html)
-    assert /data-major\=\"Yahtzee refactoring/.match(html)
+  # - - - - - - - - - - - - - - - - - - - - - -
 
-    assert /data-minor\=\"C# NUnit/.match(html), html
-
+  test 'EB783D',
+  'saves a custom exercises' do
     params = {
-      'major' => 'Tennis refactoring',
+      'major' => 'Yahtzee refactoring',
       'minor' => 'C# NUnit'
     }
     do_get 'save', params
@@ -60,12 +44,6 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
     controller = 'setup_custom_start_point'
     get "#{controller}/#{route}", params
     assert_response :success
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
-  def custom_display_names
-    custom.map(&:display_name).sort
   end
 
 end
