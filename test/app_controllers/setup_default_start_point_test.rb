@@ -3,7 +3,7 @@ require_relative 'app_controller_test_base'
 class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   test '59C9F4020',
-  'show_languages page shows language+tests (smoke)' do
+  'show_languages page' do
     do_get 'show_languages'
     assert html.include? "data-major=#{quoted(get_language_from(c_assert))}"
     assert html.include? "data-minor=#{quoted(get_test_from(c_assert))}"
@@ -14,7 +14,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test '59C271565',
-  "show_languages when id is invalid" do
+  'show_languages when kata_id is invalid' do
     do_get 'show_languages', 'id' => '379C8ABFDF'
     assert html.include? "data-major=#{quoted(get_language_from(c_assert))}"
     assert html.include? "data-minor=#{quoted(get_test_from(c_assert))}"
@@ -25,11 +25,12 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test '59CBB9967',
-  'show_exercises page uses cached exercises (smoke)' do
+  'show_exercises page' do
     do_get 'show_exercises'
-    assert html.include? "data-name=#{quoted(print_diamond)}"
-    assert html.include? "data-name=#{quoted(roman_numerals)}"
     assert html.include? "data-name=#{quoted(bowling_game)}"
+    assert html.include? "data-name=#{quoted(fizz_buzz)}"
+    assert html.include? "data-name=#{quoted(leap_years)}"
+    assert html.include? "data-name=#{quoted(tiny_maze)}"
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -39,12 +40,13 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     params = {
          'major' => get_language_from(c_assert),
          'minor' => get_test_from(c_assert),
-      'exercise' => print_diamond
+      'exercise' => fizz_buzz
     }
     do_get 'save', params
     kata = katas[json['id']]
-    assert_equal 'C (gcc)-assert', kata.language  # comma -> hyphen
-    assert_equal print_diamond, kata.exercise
+    assert_equal 'C (gcc)-assert', kata.language
+    assert_equal 'C (gcc), assert', kata.display_name
+    assert_equal fizz_buzz, kata.exercise
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -52,15 +54,17 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   test '59CD79BA3',
   'show_languages defaults to language and test-framework of kata',
   'whose full-id is passed in URL (to encourage repetition)' do
-    language_display_name = languages_display_names.sample
-    # eg "C++ (g++), CppUTest"
+    language_display_name = 'C (gcc), assert'
     id = create_kata(language_display_name, 'Fizz_Buzz')
 
     do_get 'show_languages', 'id' => id
 
     md = /var selectedMajor = \$\('#major_' \+ (\d+)/.match(html)
     refute_nil md
-    languages_names = languages_display_names.map { |name| get_language_from(name) }.uniq.sort
+    # ?????
+    languages_names = languages_display_names.map { |name|
+      get_language_from(name)
+    }.uniq.sort
     selected_language = languages_names[md[1].to_i]
     assert_equal get_language_from(language_display_name), selected_language, 'language'
     # checking the initial test-framework looks to be
@@ -72,14 +76,14 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   test '59C82562A',
   'show_exercises defaults to exercise of kata',
   'whose full-id is passed in URL (to encourage repetition)' do
-    language_display_name = languages_display_names.sample
-    exercise_name = 'Fizz_Buzz' # 12th
-    id = create_kata(language_display_name, exercise_name)
-
-    do_get 'show_exercises', 'id' => id
-
-    md = /var selected = \$\('#exercises_name_' \+ (\d+)/.match(html)
-    assert_equal 12, md[1].to_i
+    exercises_names = starter.exercises_choices(nil)['names']
+    puts ":#{exercises_names}:"
+    exercises_names.each_with_index do |exercise_name,index|
+      id = create_kata('C (gcc), assert', exercise_name)
+      do_get 'show_exercises', 'id' => id
+      md = /var selected = \$\('#exercises_name_' \+ (\d+)/.match(html)
+      assert_equal index, md[1].to_i
+    end
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -90,12 +94,6 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     controller = 'setup_default_start_point'
     get "#{controller}/#{route}", params
     assert_response :success
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
-  def languages_display_names
-    languages.map(&:display_name).sort
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -114,16 +112,20 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def print_diamond
-    'Print_Diamond'
-  end
-
-  def roman_numerals
-    'Roman_Numerals'
-  end
-
   def bowling_game
     'Bowling_Game'
+  end
+
+  def fizz_buzz
+    'Fizz_Buzz'
+  end
+
+  def leap_years
+    'Leap_Years'
+  end
+
+  def tiny_maze
+    'Tiny_Maze'
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -

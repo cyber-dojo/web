@@ -15,7 +15,6 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   def setup
     super
     @dojo = Dojo.new(self)
-    `rm -rf #{tmp_root}/caches`
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -109,7 +108,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   end
 
   def default_exercise
-    'Yatzy'
+    'Fizz_Buzz'
   end
 
   def docker_pull_output

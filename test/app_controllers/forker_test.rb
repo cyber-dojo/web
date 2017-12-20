@@ -121,32 +121,9 @@ class ForkerControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - -
 
-  test '3E95EA04E',
-  'when the exercise no longer exists and everything else',
-  'is ok then fork works and the new dojos id is returned' do
-    language = languages[default_language_name]
-    manifest = language.create_kata_manifest
-    manifest['exercise'] = 'exercise-name-that-does-not-exist'
-    katas.create_kata(manifest)
-    @id = manifest['id']
-    @avatar = start # 0
-    run_tests       # 1
-    fork(@id, @avatar.name, tag=1)
-    assert forked?
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test '3E9467D4A',
   'forking kata from before start-point volume re-architecture works' do
-    language = languages['C (gcc)-assert']
-    manifest = language.create_kata_manifest
-    manifest.delete('red_amber_green')
-    manifest['unit_test_framework'] = 'assert'
-    katas.create_kata(manifest)
-    @id = manifest['id']
-    @avatar = start # 0
-    run_tests       # 1
+    #TODO: tar-pipe known katas into storer volume (like starter tests)
     fork(@id, @avatar.name, tag=1)
     assert forked?
   end
