@@ -7,12 +7,6 @@ end
 
 class DojoTest < AppModelsTestBase
 
-  test 'A70931',
-  'CYBER_DOJO_HOME env-var is set to /app' do
-    refute_nil ENV['CYBER_DOJO_HOME']
-    assert_equal '/app', ENV['CYBER_DOJO_HOME']
-  end
-
   #- - - - - - - - - - - - - - - - - - - - - - - - -
   # external classes and roots have no defaults
   #- - - - - - - - - - - - - - - - - - - - - - - - -
