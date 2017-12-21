@@ -17,6 +17,8 @@ class HttpTest < LibTestBase
     assert_equal({ 'exception' => 'image_name:invalid' }, json)
   end
 
+  # - - - - - - - - - - - - - - - - - - - - -
+
   smoke_test 'F02B3621',
   'smoke test runner-stateless' do
     json = http.get('runner_stateless', '4597', 'image_pulled?', {

@@ -1,7 +1,7 @@
 require_relative 'app_models_test_base'
 
 class ExternalDouble
-  def initialize(_dojo, _path = nil)
+  def initialize(_root)
   end
 end
 

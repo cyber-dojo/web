@@ -2,8 +2,8 @@
 class Katas
   include Enumerable
 
-  def initialize(dojo)
-    @parent = dojo
+  def initialize(parent)
+    @parent = parent
   end
 
   # queries

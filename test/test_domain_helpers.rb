@@ -1,15 +1,11 @@
 
 module TestDomainHelpers # mix-in
 
-  module_function
-
-  def dojo
-    @dojo ||= Dojo.new(self)
-  end
-
   def katas
-    dojo.katas
+    Katas.new(self)
   end
+
+  module_function
 
   def make_kata(hash = {})
     language = hash['language'] ||= default_language_name

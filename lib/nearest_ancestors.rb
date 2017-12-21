@@ -3,9 +3,14 @@ module NearestAncestors # mix-in
 
   def nearest_ancestors(symbol, my = self)
     loop {
-      fail "#{my.class.name} does not have a parent" unless my.respond_to? :parent
-      my = my.parent
-      return my.send(symbol) if my.respond_to? symbol
+      if my.respond_to?(symbol)
+        return my.send(symbol)
+      else
+        unless my.respond_to?(:parent)
+          fail "#{my.class.name} does not have a parent"
+        end
+        my = my.parent
+      end
     }
   end
 
@@ -18,8 +23,6 @@ end
 # Properties accessed in this way include:
 #
 #   runner   - performs the actual test run, using docker
-#   shell    - executes shell commands, eg mkdir,ls
-#   disk     - file-system directories and file read/write
 #   log      - memory/stdout based logging
 #
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

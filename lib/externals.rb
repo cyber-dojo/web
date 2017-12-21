@@ -26,12 +26,12 @@ end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # External class-names are set using environment variables.
-# This gives tests a way to do Parameterize-From-Above in a way that can
-# tunnel through a *deep* stack. For example, I can set an
+# This gives tests a way to do Parameterize-From-Above that
+# can tunnel through a *deep* stack. For example, I can set an
 # environment variable and then run a controller test which issues
-# GETs/POSTs, which work their way through the rails stack, eventually
-# reaching externals.rb (possibly in a different thread)
-# where the specificied Double/Mock/Stub/Fake class takes effect.
+# GETs/POSTs, which work their way through the rails stack,
+# in a different thread, reaching externals.rb, where the
+# specificied Double/Mock/Stub/Fake class takes effect.
 #
 # The env-vars are set in /lib/env_var.rb
 # For testing the env-vars are set in /test/run.sh

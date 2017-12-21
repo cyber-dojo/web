@@ -203,12 +203,6 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def katas
-    # make katas visible to runner which sees
-    # this test object as the root object
-    dojo.katas
-  end
-
   test '677D61',
   'start_avatar() seamlessly resurrects when',
   'collector has collected the runner containers/volumes' do

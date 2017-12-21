@@ -1,6 +1,5 @@
 
 %w(
-  dojo
   katas
   kata
   avatars

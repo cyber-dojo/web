@@ -12,11 +12,6 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   include TestExternalHelpers
   include TestHexIdHelpers
 
-  def setup
-    super
-    @dojo = Dojo.new(self)
-  end
-
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def create_kata(language_name = default_language, exercise_name = default_exercise)

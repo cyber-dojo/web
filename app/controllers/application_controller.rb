@@ -11,12 +11,20 @@ class ApplicationController < ActionController::Base
 
   include Externals
 
-  def dojo
-    @dojo ||= Dojo.new(self)
+  def katas
+    Katas.new(self)
   end
 
-  def katas
-    dojo.katas
+  def kata
+    katas[id]
+  end
+
+  def avatars
+    kata.avatars
+  end
+
+  def avatar
+    avatars[avatar_name]
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -58,20 +66,6 @@ class ApplicationController < ActionController::Base
 
   def max_seconds
     params['max_seconds'].to_i || kata.max_seconds
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def kata
-    katas[id]
-  end
-
-  def avatars
-    kata.avatars
-  end
-
-  def avatar
-    avatars[avatar_name]
   end
 
 end
