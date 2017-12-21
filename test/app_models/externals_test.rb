@@ -5,7 +5,7 @@ class ExternalDouble
   end
 end
 
-class DojoTest < AppModelsTestBase
+class ExternalsTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
   # external classes and roots have no defaults
