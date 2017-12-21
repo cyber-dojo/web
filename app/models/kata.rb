@@ -27,10 +27,6 @@ class Kata
     name.nil? ? nil : Avatar.new(self, name)
   end
 
-  # queries
-
-  attr_reader :id
-
   def parent
     @katas
   end
@@ -43,17 +39,18 @@ class Kata
     avatars.active.count > 0
   end
 
+  # - - - - - - - - - - - - -
+  # properties
+
+  def id
+    @id
+  end
+
   def created
     Time.mktime(*manifest_property)
   end
 
-  # - - - - - - - - - - - - -
-
-  def visible_files
-    manifest_property
-  end
-
-  def tab_size
+  def display_name
     manifest_property
   end
 
@@ -61,31 +58,7 @@ class Kata
     manifest_property
   end
 
-  def language
-    manifest_property
-  end
-
-  def runner_choice
-    manifest_property
-  end
-
-  def image_name
-    manifest_property
-  end
-
-  def max_seconds
-    manifest_property
-  end
-
-  def display_name
-    manifest_property
-  end
-
   def filename_extension
-    manifest_property
-  end
-
-  def progress_regexs
     manifest_property
   end
 
@@ -93,13 +66,46 @@ class Kata
     manifest_property
   end
 
+  def image_name
+    manifest_property
+  end
+
+  def language
+    manifest_property
+  end
+
   def lowlight_filenames
+    manifest_property
+  end
+
+  def max_seconds
+    manifest_property
+  end
+
+  def progress_regexs
+    manifest_property
+  end
+
+  def runner_choice
+    manifest_property
+  end
+
+  def tab_size
+    manifest_property
+  end
+
+  def visible_files
     manifest_property
   end
 
   private
 
-  include ManifestProperty
+  include NameOfCaller
+
+  def manifest_property
+    property_name = name_of(caller)
+    manifest[property_name]
+  end
 
   def manifest
     @manifest ||= storer.kata_manifest(id)

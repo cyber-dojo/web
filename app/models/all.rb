@@ -1,7 +1,5 @@
 
 %w(
-  manifest_property
-
   dojo
   katas
   kata

@@ -9,10 +9,12 @@ module Externals # mix-in
   def storer ; @storer  ||= external; end
   def zipper ; @zipper  ||= external; end
 
-  def http ; @http  ||= external; end
-  def log  ; @log   ||= external; end
+  def http ; @http ||= external; end
+  def log  ; @log  ||= external; end
 
   private
+
+  include NameOfCaller
 
   def external
     key = name_of(caller)
@@ -20,18 +22,16 @@ module Externals # mix-in
     Object.const_get(var).new(self)
   end
 
-  include NameOfCaller
-
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# External root-dirs and class-names are set using environment variables.
+# External class-names are set using environment variables.
 # This gives tests a way to do Parameterize-From-Above in a way that can
-# potentially tunnel through a *deep* stack. For example, I can set an
+# tunnel through a *deep* stack. For example, I can set an
 # environment variable and then run a controller test which issues
 # GETs/POSTs, which work their way through the rails stack, eventually
-# reaching app/models/dojo.rb (possibly in a different thread)
-# where the specificied Double/Mock/Stub/Fake class or path takes effect.
+# reaching externals.rb (possibly in a different thread)
+# where the specificied Double/Mock/Stub/Fake class takes effect.
 #
 # The env-vars are set in /lib/env_var.rb
 # For testing the env-vars are set in /test/run.sh
