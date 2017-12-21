@@ -54,21 +54,20 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   test '59CD79BA3',
   'show_languages defaults to language and test-framework of kata',
   'whose full-id is passed in URL (to encourage repetition)' do
-    language_display_name = 'C (gcc), assert'
-    id = create_kata(language_display_name, 'Fizz_Buzz')
-
+    id = create_kata('C (gcc), assert', 'Fizz_Buzz')
     do_get 'show_languages', 'id' => id
-
+    choices = starter.languages_choices(nil)
+    major_names = choices['major_names']
     md = /var selectedMajor = \$\('#major_' \+ (\d+)/.match(html)
     refute_nil md
-    # ?????
-    languages_names = languages_display_names.map { |name|
-      get_language_from(name)
-    }.uniq.sort
-    selected_language = languages_names[md[1].to_i]
-    assert_equal get_language_from(language_display_name), selected_language, 'language'
+    assert_equal 'C (gcc)', major_names[md[1].to_i]
     # checking the initial test-framework looks to be
     # nigh on impossible in static html
+  end
+
+  test '59CD79BA4',
+  'deliberate fail to prevent Travis building new image yet' do
+    fail
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
