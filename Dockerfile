@@ -16,7 +16,7 @@ RUN apk --update --no-cache add \
 # install web service
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-ARG  CYBER_DOJO_HOME=/app
+ARG  CYBER_DOJO_HOME
 RUN  mkdir -p ${CYBER_DOJO_HOME}
 COPY Gemfile ${CYBER_DOJO_HOME}
 RUN  echo 'gem: --no-document' > ~/.gemrc
