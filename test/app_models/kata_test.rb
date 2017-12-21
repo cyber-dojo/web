@@ -38,11 +38,11 @@ class KataTest < AppModelsTestBase
     kata = make_kata
 
     hippo = kata.start_avatar(['hippo'])
-    first_time = [2014, 2, 15, 8, 54, 6]
+    first_time = [2014,2,15, 8,54,6]
     DeltaMaker.new(hippo).run_test(first_time)
 
     lion = kata.start_avatar(['lion'])
-    second_time = [2014, 2, 15, 8, 54, 34]
+    second_time = [2014,2,15, 8,54,34]
     DeltaMaker.new(lion).run_test(second_time)
 
     assert kata.active?
@@ -51,7 +51,7 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '677205',
-  'make_kata with default-now uses time-now' do
+  'make_kata with default created-property uses time-now' do
     now = Time.now
     kata = make_kata
     created = Time.mktime(*kata.created)
@@ -64,19 +64,18 @@ class KataTest < AppModelsTestBase
 
   test '67751F',
   'kata properties are union of language properties and exercise instruction' do
-
     id = unique_id
-    now = [ 2014,7,17, 21,15,45 ]
+    created = [ 2017,12,21, 10,40,24 ]
     hash = {
       'id'       => id,
-      'now'      => now,
+      'created'  => created,
       'language' => 'Python-py.test',
       'exercise' => 'Fizz_Buzz',
     }
     kata = make_kata(hash)
 
     assert_equal id, kata.id
-    assert_equal Time.mktime(*now), kata.created
+    assert_equal Time.mktime(*created), kata.created
     assert_equal 'stateless', kata.runner_choice
     assert_equal 'cyberdojofoundation/python_pytest', kata.image_name
     assert_equal 4, kata.tab_size
@@ -127,7 +126,7 @@ class KataTest < AppModelsTestBase
   test '677C44',
   %w( start_avatar() in language with stateless-runner
       with specific name succeeds
-      when avatar has not yet started ).to_s do
+      when avatar has not yet started ).join(' ').to_s do
     @kata = make_kata({ 'language' => 'Python-unittest' })
     hippo = @kata.start_avatar(['hippo'])
     refute_nil hippo
@@ -174,7 +173,7 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '67741A',
-  'start_avatar() succeeds once for each avatar name then its full and is nil' do
+  'start_avatar() succeeds once for each avatar-name then is full' do
     kata = make_kata
     created = []
     Avatars.names.length.times do

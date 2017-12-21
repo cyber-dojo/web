@@ -7,17 +7,17 @@ module TestDomainHelpers # mix-in
 
   module_function
 
-  def make_kata(hash = {})
-    language = hash['language'] ||= default_language_name
+  def make_kata(properties = {})
+    language = properties['language'] ||= default_language_name
     major_name = language.split('-')[0].strip
     minor_name = language.split('-')[1].strip
-    exercise_name = hash['exercise'] || default_exercise_name
+    exercise_name = properties['exercise'] || default_exercise_name
     manifest = starter.language_manifest(major_name, minor_name, exercise_name)
-    if hash.key?('id')
-      manifest['id'] = hash['id']
+    if properties.key?('id')
+      manifest['id'] = properties['id']
     end
-    if hash.key?('now')
-      manifest['created'] = hash['now']
+    if properties.key?('created')
+      manifest['created'] = properties['created']
     end
     katas.create_kata(manifest)
   end
