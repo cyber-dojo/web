@@ -2,7 +2,7 @@ require 'simplecov'
 
 SimpleCov.start do
 
-  home = ENV['CYBER_DOJO_HOME']
+  home = '/app' #same as in Dockerfile ENV['CYBER_DOJO_HOME']
   modyule = ARGV[0]                          # eg 'app_lib'
   slashed_modyule = modyule.sub('_','/')     # eg 'app/lib'
 
