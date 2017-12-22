@@ -12,7 +12,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   include TestExternalHelpers
   include TestHexIdHelpers
 
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def create_kata(language_name = default_language, exercise_name = default_exercise)
     parts = language_name.split(',')
@@ -25,7 +25,19 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     @id = json['id']
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def create_custom_kata(major_minor_name)
+    parts = major_minor_name.split(',')
+    params = {
+         'major' => parts[0].strip,
+         'minor' => parts[1].strip
+    }
+    get 'setup_custom_start_point/save', params
+    @id = json['id']
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def start
     params = { 'format' => 'json', 'id' => @id }

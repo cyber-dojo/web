@@ -10,26 +10,26 @@ class StarterService
 
   # - - - - - - - - - - - -
 
-  def languages_choices( current_display_name)
-    http_get(__method__, current_display_name)
+  def custom_choices
+    http_get(__method__)
   end
 
-  def exercises_choices( current_exercise_name)
-    http_get(__method__, current_exercise_name)
+  def languages_choices
+    http_get(__method__)
   end
 
-  def custom_choices(    current_display_name)
-    http_get(__method__, current_display_name)
+  def exercises_choices
+    http_get(__method__)
   end
 
   # - - - - - - - - - - - -
 
-  def language_manifest(major_name, minor_name, exercise_name)
-    http_get(__method__, major_name, minor_name, exercise_name)
-  end
-
   def custom_manifest(major_name, minor_name)
     http_get(__method__, major_name, minor_name)
+  end
+
+  def language_manifest(major_name, minor_name, exercise_name)
+    http_get(__method__, major_name, minor_name, exercise_name)
   end
 
   private

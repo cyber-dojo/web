@@ -54,9 +54,9 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   test '59CD79BA3',
   'show_languages defaults to language and test-framework of kata',
   'whose full-id is passed in URL (to encourage repetition)' do
-    id = create_kata('C (gcc), assert', 'Fizz_Buzz')
+    id = create_kata(c_assert, 'Fizz_Buzz')
     do_get 'show_languages', 'id' => id
-    choices = starter.languages_choices(nil)
+    choices = starter.languages_choices
     major_names = choices['major_names']
     md = /var selectedMajor = \$\('#major_' \+ (\d+)/.match(html)
     refute_nil md
@@ -65,7 +65,45 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     # nigh on impossible in static html
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - -
+
   test '59CD79BA4',
+  'show_languages ok when major-name no longer present' do
+    major = get_language_from(c_assert)
+    minor = get_test_from(c_assert)
+    manifest = starter.language_manifest(major, minor, 'Fizz_Buzz')
+    manifest['display_name'] = major + 'XX, ' + minor
+    storer.create_kata(manifest)
+    do_get 'show_languages', 'id' => manifest['id']
+    choices = starter.languages_choices
+    major_names = choices['major_names']
+    md = /var selectedMajor = \$\('#major_' \+ (\d+)/.match(html)
+    refute_nil md
+    # TODO: check md[1].to_i is random major-selection
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  test '59CD79BA5',
+  'show_languages ok when minor-name no longer present' do
+    major = get_language_from(c_assert)
+    minor = get_test_from(c_assert)
+    manifest = starter.language_manifest(major, minor, 'Fizz_Buzz')
+    manifest['display_name'] = major + ', ' + minor + 'XX'
+    storer.create_kata(manifest)
+    do_get 'show_languages', 'id' => manifest['id']
+    choices = starter.languages_choices
+    major_names = choices['major_names']
+    md = /var selectedMajor = \$\('#major_' \+ (\d+)/.match(html)
+    refute_nil md
+    assert_equal 'C (gcc)', major_names[md[1].to_i]
+    # checking the initial test-framework looks to be
+    # nigh on impossible in static html
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  test '59CD79BA6',
   'deliberate fail to prevent Travis building new image yet' do
     fail
   end
@@ -75,7 +113,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   test '59C82562A',
   'show_exercises defaults to exercise of kata',
   'whose full-id is passed in URL (to encourage repetition)' do
-    choices = starter.exercises_choices(nil)
+    choices = starter.exercises_choices
     exercises_names = choices['names']
     exercises_names.each_with_index do |exercise_name,index|
       id = create_kata('C (gcc), assert', exercise_name)
