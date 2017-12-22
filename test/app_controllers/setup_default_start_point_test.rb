@@ -103,13 +103,6 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  test '59CD79BA6',
-  'deliberate fail to prevent Travis building new image yet' do
-    fail
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
   test '59C82562A',
   'show_exercises defaults to exercise of kata',
   'whose full-id is passed in URL (to encourage repetition)' do
