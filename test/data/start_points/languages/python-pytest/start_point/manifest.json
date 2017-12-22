@@ -10,7 +10,7 @@
 
   "image_name": "cyberdojofoundation/python_pytest",
 
-  "runner_choice": "stateless",
+  "runner_choice": "processful",
 
   "filename_extension" : ".py",
 

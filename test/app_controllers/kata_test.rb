@@ -33,7 +33,7 @@ class KataControllerTest  < AppControllerTestBase
   test 'BE8223',
   'run red test' do
     set_runner_class('RunnerService')
-    in_kata('stateful') {
+    in_kata('processful') {
       run_tests
       assert_equal :red, @avatar.lights[-1].colour
     }
@@ -277,10 +277,9 @@ class KataControllerTest  < AppControllerTestBase
 
   def in_kata(choice)
     case choice
-    when 'stateful'
-      create_gcc_assert_kata
-    when 'stateless'
-      create_python_unittest_kata
+    when 'stateful'    then create_gcc_assert_kata
+    when 'stateless'   then create_python_unittest_kata
+    when 'processful'  then create_python_pytest_kata
     end
     @avatar = start
     begin
@@ -304,6 +303,13 @@ class KataControllerTest  < AppControllerTestBase
     id = create_kata('Python, unittest') # stateless
     @kata = Kata.new(katas, id)
   end
+
+  def create_python_pytest_kata
+    id = create_kata('Python, py.test') # processful
+    @kata = Kata.new(katas, id)
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def assert_file(filename, expected)
     assert_equal expected, @avatar.visible_files[filename]

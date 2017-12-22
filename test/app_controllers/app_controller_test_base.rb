@@ -25,6 +25,8 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     @id = json['id']
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   def start
     params = { 'format' => 'json', 'id' => @id }
     get 'enter/start', params
