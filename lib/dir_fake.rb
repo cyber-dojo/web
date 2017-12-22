@@ -1,4 +1,3 @@
-require 'json'
 
 class DirFake
 
@@ -23,8 +22,14 @@ class DirFake
 
   def each_dir
     assert_exists
-    return enum_for(__method__) unless block_given?
-    dirs.each { |name,dir| yield name if dir[:exists] }
+    unless block_given?
+      return enum_for(__method__)
+    end
+    dirs.each { |name,dir|
+      if dir[:exists]
+        yield name
+      end
+    }
   end
 
   def write(filename, content)
@@ -32,17 +37,9 @@ class DirFake
     files[filename] = content
   end
 
-  def write_json(filename, json)
-    write(filename, JSON.unparse(json))
-  end
-
   def read(filename)
     assert_exists
     files[filename]
-  end
-
-  def read_json(filename)
-    JSON.parse(read(filename))
   end
 
   private
@@ -50,7 +47,9 @@ class DirFake
   attr_reader :attr, :dirs, :files
 
   def assert_exists
-    fail StandardError.new unless exists?
+    unless exists?
+      fail StandardError.new
+    end
   end
 
 end

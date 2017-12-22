@@ -27,21 +27,27 @@ class StorerFake
         dirs = outer_dir.each_dir.select { |inner_dir|
           inner_dir.start_with?(inner(id))
         }
-        id = outer(id) + dirs[0] if dirs.length == 1
+        if dirs.length == 1
+          id = outer(id) + dirs[0]
+        end
       end
     end
     id || ''
   end
 
   def completions(outer_dir)
-    return [] unless disk[dir_join(path, outer_dir)].exists?
+    unless disk[dir_join(path, outer_dir)].exists?
+      return []
+    end
     disk[dir_join(path, outer_dir)].each_dir.collect { |dir| dir }
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def kata_exists?(id)
-    return false unless valid_id?(id)
+    unless valid_id?(id)
+      return false
+    end
     kata_dir(id).exists?
   end
 
@@ -81,7 +87,9 @@ class StorerFake
     valid_names = avatar_names & all_avatars_names
     # Don't do the & with operands swapped - you lose randomness
     name = valid_names.detect { |name| avatar_dir(id, name).make }
-    return nil if name.nil? #full!
+    if name.nil? #full!
+      return nil
+    end
     write_avatar_increments(id, name, [])
     return name
   end

@@ -22,33 +22,33 @@ class DiskDirFakeTest < LibTestBase
   end
 
   test 'CC8D5',
-  'write_json before make raises' do
-    assert_raises { disk['a'].write_json('filename', {}) }
+  'write before make raises' do
+    assert_raises { disk['a'].write('filename', '') }
   end
 
   test '76B79',
-  'read_json before make raises' do
-    assert_raises { disk['a'].read_json('filename') }
+  'read before make raises' do
+    assert_raises { disk['a'].read('filename') }
   end
 
   test '55FA7',
-  'read_json reads what write_json wrote' do
+  'read reads what write wrote' do
     dir = disk['etc']
     dir.make
     filename = 'hiker.json'
-    json = { 'a' => 24 }
-    dir.write_json(filename, json)
-    assert_equal json, dir.read_json(filename)
+    text = 'hello, world'
+    dir.write(filename, text)
+    assert_equal text, dir.read(filename)
   end
 
   test 'F4F72',
-  'write_json overwrites previous write_json' do
+  'write overwrites previous write' do
     dir = disk['usr']
     dir.make
     filename = 'readme.json'
-    dir.write_json(filename, { 'a' => 42 })
-    dir.write_json(filename, json = { 'b' => 24 })
-    assert_equal json, dir.read_json(filename)
+    dir.write(filename, 'hello')
+    dir.write(filename, 'goodbye')
+    assert_equal 'goodbye', dir.read(filename)
   end
 
   test '93082',

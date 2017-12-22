@@ -124,8 +124,7 @@ class Kata
   include NameOfCaller
 
   def manifest_property
-    property_name = name_of(caller)
-    manifest[property_name]
+    manifest[name_of(caller)]
   end
 
   def manifest

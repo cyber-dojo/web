@@ -16,18 +16,15 @@ module NearestAncestors # mix-in
 
 end
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# Works by assuming the object (which included the module) has a parent
-# and repeatedly chains back parent to parent to parent until it gets to
-# an object with the required property, or runs out of parents.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Works by assuming the object (which included the module)
+# has a parent and repeatedly chains back parent to parent
+# to parent until it gets to an object with the required
+# property, or runs out of parents.
 # Properties accessed in this way include:
 #
+#   starter  - access to start-points
+#   storer   - access to katas
 #   runner   - performs the actual test run, using docker
-#   log      - memory/stdout based logging
 #
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# Allows the lib/ classes representing external objects to easily access
-# each other as well. For example:
-#
-#     HostShell -> log   -> HostLog
-#
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
