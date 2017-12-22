@@ -41,22 +41,29 @@ class Kata
 
   # - - - - - - - - - - - - -
   # properties
+  # - - - - - - - - - - - - -
 
   def id
     @id
   end
 
-  def created
-    Time.mktime(*manifest_property)
-  end
+  # - - - - - - - - - - - - -
+  # info-bar
 
   def display_name
+    manifest_property
+  end
+
+  def language
     manifest_property
   end
 
   def exercise
     manifest_property
   end
+
+  # - - - - - - - - - - - - -
+  # file-knave
 
   def filename_extension
     manifest_property
@@ -66,27 +73,7 @@ class Kata
     manifest_property
   end
 
-  def image_name
-    manifest_property
-  end
-
-  def language
-    manifest_property
-  end
-
   def lowlight_filenames
-    manifest_property
-  end
-
-  def max_seconds
-    manifest_property
-  end
-
-  def progress_regexs
-    manifest_property
-  end
-
-  def runner_choice
     manifest_property
   end
 
@@ -95,6 +82,32 @@ class Kata
   end
 
   def visible_files
+    manifest_property
+  end
+
+  # - - - - - - - - - - - - -
+  # runner
+
+  def image_name
+    manifest_property
+  end
+
+  def max_seconds
+    manifest_property
+  end
+
+  def runner_choice
+    manifest_property
+  end
+
+  # - - - - - - - - - - - - -
+  # dashboard
+
+  def created
+    Time.mktime(*manifest_property)
+  end
+
+  def progress_regexs
     manifest_property
   end
 

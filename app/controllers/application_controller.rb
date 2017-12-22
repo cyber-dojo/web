@@ -55,6 +55,7 @@ class ApplicationController < ActionController::Base
   # are used in kata_controller/run_tests().
   # Caching them in the browser is an optimization
   # to prevent an extra call to the storer service.
+  # The || defaults are interim.
 
   def runner_choice
     params['runner_choice'] || kata.runner_choice
