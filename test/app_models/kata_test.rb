@@ -76,7 +76,7 @@ class KataTest < AppModelsTestBase
 
     assert_equal id, kata.id
     assert_equal Time.mktime(*created), kata.created
-    assert_equal 'stateless', kata.runner_choice
+    assert_equal 'processful', kata.runner_choice
     assert_equal 'cyberdojofoundation/python_pytest', kata.image_name
     assert_equal 4, kata.tab_size
     assert_equal 'Python, py.test', kata.display_name
