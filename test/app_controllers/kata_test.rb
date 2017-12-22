@@ -2,13 +2,6 @@ require_relative 'app_controller_test_base'
 
 class KataControllerTest  < AppControllerTestBase
 
-  def setup
-    super
-    @katas = Katas.new(self)
-  end
-
-  attr_reader :katas
-
   test 'BE876E',
   'run_tests with bad kata id raises' do
     params = {
@@ -27,7 +20,7 @@ class KataControllerTest  < AppControllerTestBase
     set_runner_class('RunnerService')
     in_kata('stateful') {
       c = @avatar.visible_files['hiker.c']
-      # proper formatting or else you get [-Werror=misleading-indentation]
+      # !proper formatting or else you get [-Werror=misleading-indentation]
       c = c.sub('return 6 * 9;', "\tfor(;;)\n\t\t;\n\treturn 6 * 9;")
       change_file('hiker.c', c)
       run_tests
