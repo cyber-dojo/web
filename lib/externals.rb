@@ -10,7 +10,6 @@ module Externals # mix-in
   def zipper ; @zipper  ||= external; end
 
   def http ; @http ||= external; end
-  def log  ; @log  ||= external; end
 
   private
 

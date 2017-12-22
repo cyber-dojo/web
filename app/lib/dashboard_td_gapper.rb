@@ -21,15 +21,30 @@ class DashboardTdGapper
         td_map[td + 1] = { collapsed: count } if gi[0] == :collapse
       end
     end
-    # eg s[:avatars] == {
-    #     'lion'  => { 0=>[], 5=>[R,G], 7=>[],    11=[G,R], 99=>[] },
-    #     'tiger' => { 0=>[], 5=>[A],   7=>[G,A], 11=>[],   99=>[] }
+    # eg
+    # s[:avatars] == {
+    #    'lion'  => {
+    #        0 => [],
+    #        5 => [R,G],
+    #        7 => [],
+    #       11 => [G,R],
+    #       99 => []
+    #   },
+    #   'tiger' => {
+    #       0 => [],
+    #       5 => [A],
+    #       7 => [G,A],
+    #      11 => [],
+    #      99 => []
     #   }
-    # eg collapsed_table == {
-    #    0 => [ :collapse,       4 ],  # ( 5- 0)-1
-    #    5 => [ :dont_collapse,  1 ],  # ( 7- 5)-1
-    #    7 => [ :dont_collapse,  3 ],  # (11- 7)-1
-    #   11 => [ :collapse,      87 ]   # (99-11)-1
+    # }
+    #
+    # eg
+    # collapsed_table == {
+    #    0 => [ :collapse,       4 ],  #  4 == ( 5- 0) - 1
+    #    5 => [ :dont_collapse,  1 ],  #  1 == ( 7- 5) - 1
+    #    7 => [ :dont_collapse,  3 ],  #  3 == (11- 7) - 1
+    #   11 => [ :collapse,      87 ]   # 87 == (99-11) - 1
     # }
     # so td_map[] additions are
     #    0: 0+1    1 => { collapsed:4 }
@@ -176,56 +191,60 @@ class DashboardTdGapper
 
 end
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# I want the |horizontal| spacing between dashboard traffic lights
-# to be proportional to the time difference between them.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# I want the |horizontal| spacing between dashboard traffic
+# lights to be proportional to the time difference between
+# them. I also want traffic-lights from different avatars
+# but occurring at the same moment in time to align
+# -vertically -
 #
-# I also want traffic-lights from different avatars but occurring at
-# the same moment in time to align -vertically -
-#
-# These two requirements are somewhat in tension with each other.
-# The best solution I can think of is to split each avatar's traffic light tr
-# into the same number of td's by making each td represent a period of time,
-# say 60 seconds.
+# These two requirements are somewhat in tension with each
+# other. The best solution I can think of is to split each
+# avatar's traffic light tr into the same number of td's by
+# making each td represent a period of time, say 60 seconds.
 #
 # The start time will be the start time of the dojo.
 # The end time will be the current time.
 #
-# If there are a lot of empty td's in a row (for all avatars) I collapse them
-# all into a single td (for all avatars). This ensures that the display never
-# shows just empty td's except if the dojo has just started.
+# If there's lots of empty td's in a row (for all avatars)
+# I collapse them all into a single td (for all avatars).
+# This ensures that the display never shows just empty td's
+# except if the dojo has just started.
 
 # collapsed_table
 # ---------------
-# Suppose I have :hippo with lights for td's numbered 5 and 15
-# and that the time this gap (from 5 to 15, viz 9 td's) represents
-# is large enough to be collapsed.
-# Does this mean the hippo's tr gets 9 empty td's between the
-# td#5 and the td#15?
+# Suppose I have :hippo with lights for td's numbered
+# 5 and 15 and that the time this gap (from 5 to 15, viz
+# 9 td's) represents is large enough to be collapsed.
+# Does this mean the hippo's tr gets 9 empty td's between
+# the td#5 and the td#15?
 # The answer is it depends on the other avatars.
 # The td's have to align vertically.
 # For example if the :lion has a td at 11 then
-# this effectively means that for the :hippo its 5-15 has to be
-# considered as 5-11-15 and the gaps are really 5-11 (5 td gaps)
-# and 11-15 (3 td gaps).
+# this effectively means that for the :hippo its 5-15 has
+# to be considered as 5-11-15 and the gaps are really 5-11
+# (5 td gaps) and 11-15 (3 td gaps).
 # This is where the :td_nos array comes in.
-# It is an array of all td numbers for a dojo across all avatars.
+# It is an array of all td numbers for a dojo across all
+# avatars.
 # Suppose the :td_nos array is [1,5,11,13,15,16,18,23]
-# This means that the hippo has to treat its 5-15 gap as 5-11-13-15
-# so the gaps are really 5-11 (5 td gaps), 11-13 (1 td gap) and 13-15
-# (1 td gap). Note that the :hippo doesn't have a light at either 13 or 15
-# but that doesn't matter, we can't collapse "across" or "through" these
-# because I want vertical consistency.
+# This means that the hippo has to treat its 5-15 gap as
+# 5-11-13-15 so the gaps are really 5-11 (5 td gaps),
+# 11-13 (1 td gap) and 13-15 (1 td gap). Note that the
+# :hippo doesn't have a light at either 13 or 15
+# but that doesn't matter, we can't collapse "across" or
+# "through" these because I want vertical consistency.
 
-# Now, suppose a dojo runs over two days, there would be a long
-# period of time at night when no traffic lights would get added. Thus
-# the :td_nos array is likely to have large gaps,
-# eg [....450,2236,2237,...]
-# at 20 seconds per gap the difference between 450 and 2236 is 1786
-# and 1786*20 == 35,720 seconds == 9 hours 55 mins 20 secs.
-# We would not want this displayed as 1786 empty td's!
-# Thus there is a max_seconds_uncollapsed parameter. If the time difference
-# between two consecutive entries in the :td_nos array is greater than
-# max_seconds_uncollapsed the display will not show one td for each
-# gap but will collapse the entire gap down to one td.
+# Now, suppose a dojo runs over two days, there would be a
+# long period of time at night when no traffic lights would
+# get added. Thus the :td_nos array is likely to have large
+# gaps, eg [....450,2236,2237,...]
+# at 20 seconds per gap the difference between 450 and 2236
+# is 1786 and 1786*20 == 35,720 seconds == 9 hours 55 mins
+# 20 secs. We would not want this displayed as 1786 empty
+# td's! Thus there is a max_seconds_uncollapsed parameter.
+# If the time difference between two consecutive entries in
+# the :td_nos array is greater than max_seconds_uncollapsed
+# the display will not show one td for each gap but will
+# collapse the entire gap down to one td.
 # A collapsed td is shown with a ... in it.
