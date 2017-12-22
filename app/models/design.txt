@@ -1,32 +1,17 @@
 
-A single 'kata' is created by selecting a language+test framework
-and an exercise and has a 10 character hex id.
+A single 'kata' is created by selecting
+a language,tes-framework,exercise triple
+and has a 10 character hex id.
 The animals (avatars) inside a kata thus share the same
-language, test-framework and exercise. It is a deliberate part of the
-design of cyber-dojo that different animals in the
-same kata *cannot* choose a different language or a different
-exercise.
+language,test-framework,exercise. It is a deliberate part
+of the design of cyber-dojo that different animals in the
+same kata *cannot* choose a different language or a
+different exercise.
 
 A key cyber-dojo feature is the ability to review the [test]
-events, diff by diff. Each [test] event causes a 'git commit'
-plus a 'git tag' to execute in the animals git repo.
-The [test] <-> [test] diffs are obtained via a 'git diff' command.
-cyber-dojo implements persistence using plain disk files and
-does not use a database.
-
-In a ruby script you create a dojo object like this...
-
-<code>
-require 'json'
-require_relative '../../lib/all'
-require_relative '../lib/all'
-require_relative '../models/all'
-dojo = Dojo.new
-</code>
+events, diff by diff.
 
 You can then
-o) list all its languages or use [ ] to select a specific language.
-o) list all its exercises or use [ ] to select a specific exercise.
 o) list all the katas (practice sessions) or use [ ] to select a specific kata.
 o) list all the avatars or use [ ] to select a specific avatar.
 o) list all the tags or use [ ] to select a specific tag
@@ -35,14 +20,8 @@ o) list all the lights or use [ ] to select a specific light
 For example
 <code>
 ...
-dojo.languages.each {|language| ... }
-java = dojo.languages['Java-JUnit']
-...
-dojo.exercises.each {|exercise| ... }
-diamond = dojo.exercises['Print-Diamond']
-...
-dojo.katas.each {|kata| ... }
-kata = dojo.katas['34D6E7823E']
+katas.each {|kata| ... }
+kata = katas['34D6E7823E']
 ...
 kata.avatars.each {|avatar| ... }
 lion = kata.avatars['lion']
@@ -56,6 +35,6 @@ light = lion.lights[5]
 
 
 <code>
-src = dojo.katas['34D6E7823E'].avatars['lion'].tags[6].visible_files['wibble.h']
-colour = dojo.katas['34D6E7823E'].avatars['lion'].lights[3].colour
+src = katas['34D6E7823E'].avatars['lion'].tags[6].visible_files['wibble.h']
+colour = katas['34D6E7823E'].avatars['lion'].lights[3].colour
 </code>
