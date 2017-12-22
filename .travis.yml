@@ -12,4 +12,4 @@ script:
     - docker pull cyberdojofoundation/python_pytest:latest
     #
     - ./pipe_build_up_test.sh \
-        && ./push_and_trigger.sh cyber-dojo/system-tests
+        && ./push_and_trigger.sh cyber-dojo/commander
