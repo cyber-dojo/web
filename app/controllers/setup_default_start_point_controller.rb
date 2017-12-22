@@ -9,7 +9,7 @@ class SetupDefaultStartPointController < ApplicationController
 
   def show_languages
     choices = starter.languages_choices
-    current_display_name = storer.kata_exists?(id) ? katas[id].display_name : nil
+    current_display_name = kata.exists? ? kata.display_name : nil
     display_name_index(choices, current_display_name)
     @id = id
     @major_names   = choices['major_names']
@@ -20,7 +20,7 @@ class SetupDefaultStartPointController < ApplicationController
 
   def show_exercises
     choices = starter.exercises_choices
-    current_exercise_name = storer.kata_exists?(id) ? katas[id].exercise : nil
+    current_exercise_name = kata.exists? ? kata.exercise : nil
     exercise_index(choices, current_exercise_name)
     @major = params['major']
     @minor = params['minor']

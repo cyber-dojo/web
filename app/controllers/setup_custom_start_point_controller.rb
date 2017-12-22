@@ -5,7 +5,7 @@ class SetupCustomStartPointController < ApplicationController
 
   def show
     choices = starter.custom_choices
-    current_display_name = storer.kata_exists?(id) ? katas[id].display_name : nil
+    current_display_name = kata.exists? ? kata.display_name : nil
     display_name_index(choices, current_display_name)
     @id = id
     @major_names   = choices['major_names']

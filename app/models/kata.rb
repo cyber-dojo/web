@@ -31,6 +31,10 @@ class Kata
     @katas
   end
 
+  def exists?
+    storer.kata_exists?(id)
+  end
+
   def avatars
     Avatars.new(self)
   end

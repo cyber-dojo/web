@@ -10,7 +10,26 @@ class KataTest < AppModelsTestBase
     assert_equal id, kata.id
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '6775A7',
+  'kata_exists?(id) false' do
+    kata = Kata.new(self, '4DD58DEF95')
+    refute kata.exists?
+  end
+
+  test '6775A8',
+  'kata_exists?(invalid-id) is false' do
+    kata = Kata.new(self, nil)
+    refute kata.exists?
+  end
+
+  test '6775A9',
+  'kata_exists?(id) true' do
+    kata = make_kata
+    assert kata.exists?
+  end
+
 
   test '6779AE',
   'when kata has no avatars',
@@ -19,7 +38,7 @@ class KataTest < AppModelsTestBase
     refute kata.active?
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '67740E',
   "when kata's avatars have 0 traffic-lights",
@@ -30,7 +49,7 @@ class KataTest < AppModelsTestBase
     refute kata.active?
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '677DD3',
   'when kata has at least one avatar with 1 or more traffic-lights',
@@ -48,7 +67,7 @@ class KataTest < AppModelsTestBase
     assert kata.active?
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '677205',
   'make_kata with default created-property uses time-now' do
@@ -60,8 +79,7 @@ class KataTest < AppModelsTestBase
     assert 0 <= diff && diff <= 1, "created=#{created}, past=#{past}, diff=#{past}"
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
   test '67751F',
   'kata properties are union of language properties and exercise instruction' do
     id = unique_id
@@ -92,7 +110,7 @@ class KataTest < AppModelsTestBase
     assert_equal '', kata.visible_files['output']
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '677632',
   'started_avatars is initially empty array' do
@@ -100,7 +118,7 @@ class KataTest < AppModelsTestBase
     assert_equal [], avatars_names
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '677B48',
   'start_avatar() with name that is not a known avatar is nil' do
@@ -108,7 +126,7 @@ class KataTest < AppModelsTestBase
     assert_nil kata.start_avatar(['sellotape'])
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '677C43',
   %w( start_avatar() in language with stateful-runner
@@ -121,7 +139,7 @@ class KataTest < AppModelsTestBase
     assert_equal ['hippo'], avatars_names
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '677C44',
   %w( start_avatar() in language with stateless-runner
@@ -134,7 +152,7 @@ class KataTest < AppModelsTestBase
     assert_equal ['hippo'], avatars_names
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '6773FA',
   'start_avatar() with specific name is nil when avatar has already started' do
@@ -144,7 +162,7 @@ class KataTest < AppModelsTestBase
     assert_nil avatar
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '6776C8',
   'start_avatar() with specific names tries them in order' do
@@ -170,7 +188,7 @@ class KataTest < AppModelsTestBase
     assert_equal names.sort, avatars_names
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '67741A',
   'start_avatar() succeeds once for each avatar-name then is full' do
@@ -185,7 +203,7 @@ class KataTest < AppModelsTestBase
     assert_nil kata.start_avatar
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '677A3D',
   'start_avatar() starts avatars in random order' do
@@ -200,7 +218,7 @@ class KataTest < AppModelsTestBase
     refute_equal created, created.sort
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '677D61',
   'start_avatar() seamlessly resurrects when',
@@ -218,7 +236,7 @@ class KataTest < AppModelsTestBase
     end
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 =begin
   test '677712',
@@ -247,7 +265,7 @@ class KataTest < AppModelsTestBase
   end
 =end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   private
 
