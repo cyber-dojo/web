@@ -53,31 +53,32 @@ module DisplayNameIndexer # mix-in
     major_names = choices['major_names']
     minor_names = choices['minor_names']
     current_display_name ||= ' , '
-    choices['major_index'] = major_index(major_names, current_display_name)
 
     major_index = major_names.index(major_name(current_display_name))
     if major_index.nil?
+      choices['major_index'] = rand(0...major_names.size)
       return
+    else
+      choices['major_index'] = major_index
     end
+
     minor_index = minor_names.index(minor_name(current_display_name))
     if minor_index.nil?
       return
     end
 
-    matched = choices['minor_indexes'][choices['major_index']]
+    matched = choices['minor_indexes'][major_index]
     matched.delete(minor_index)
     matched.unshift(minor_index)
   end
 
-  def major_index(major_names, current_display_name)
-    current_major_name = major_name(current_display_name)
-    index = major_names.index(current_major_name)
-    index ? index : rand(0...major_names.size)
-  end
+  # - - - - - - - - - - - - - - - - - -
 
   def major_name(display_name)
     display_name.split(',')[0].strip
   end
+
+  # - - - - - - - - - - - - - - - - - -
 
   def minor_name(display_name)
     display_name.split(',')[1].strip
