@@ -1,6 +1,6 @@
 <% id       = @kata.id[0..5] %>
-<% language = @kata.display_name.split(',')[0].strip %>
-<% test     = @kata.display_name.split(',')[1].strip %>
+<% language = @kata.major_name %>
+<% test     = @kata.minor_name %>
 
 <script type="text/javascript"><!--
 

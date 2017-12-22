@@ -58,6 +58,14 @@ class Kata
     manifest_property
   end
 
+  def major_name
+    display_name.split(',',2)[0].strip
+  end
+
+  def minor_name
+    display_name.split(',',2)[1].strip
+  end
+
   def language
     manifest_property
   end

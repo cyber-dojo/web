@@ -40,6 +40,15 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test '6778C8',
+  'major_name,minor_name are parts[0][1] of display_name' do
+    kata = make_kata({ 'language' => 'Python-py.test' })
+    assert_equal 'Python', kata.major_name
+    assert_equal 'py.test', kata.minor_name
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '67740E',
   "when kata's avatars have 0 traffic-lights",
   'then it is not active' do
@@ -83,7 +92,7 @@ class KataTest < AppModelsTestBase
   test '67751F',
   'kata properties are union of language properties and exercise instruction' do
     id = unique_id
-    created = [ 2017,12,21, 10,40,24 ]
+    created = [2017,12,21, 10,40,24]
     hash = {
       'id'       => id,
       'created'  => created,
