@@ -66,10 +66,6 @@ class Kata
     display_name.split(',',2)[1].strip
   end
 
-  def language
-    manifest_property
-  end
-
   def exercise
     manifest_property
   end

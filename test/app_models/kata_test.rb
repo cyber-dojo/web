@@ -111,7 +111,8 @@ class KataTest < AppModelsTestBase
     assert_equal [], kata.progress_regexs # TODO: REVISIT
     assert_equal [], kata.highlight_filenames
     assert_equal ['cyber-dojo.sh','makefile','Makefile','unity.license.txt'], kata.lowlight_filenames
-    assert_equal 'Python-py.test', kata.language
+    assert_equal 'Python', kata.major_name
+    assert_equal 'py.test', kata.minor_name
     assert_equal 'Fizz_Buzz', kata.exercise
     assert_equal 10, kata.max_seconds
     text = 'Write a program that prints the numbers from 1 to 100.'

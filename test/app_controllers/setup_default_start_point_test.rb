@@ -44,8 +44,8 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     }
     do_get 'save', params
     kata = katas[json['id']]
-    assert_equal 'C (gcc)-assert', kata.language
-    assert_equal 'C (gcc), assert', kata.display_name
+    assert_equal 'C (gcc)', kata.major_name
+    assert_equal 'assert',  kata.minor_name
     assert_equal fizz_buzz, kata.exercise
   end
 

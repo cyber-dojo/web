@@ -39,7 +39,6 @@ class ForkerController < ApplicationController
          'filename_extension' => kata.filename_extension,
         'highlight_filenames' => kata.highlight_filenames,
                  'image_name' => kata.image_name,
-                   'language' => kata.language,
         'lowlight_filenames'  => kata.lowlight_filenames,
                 'max_seconds' => kata.max_seconds,
             'progress_regexs' => kata.progress_regexs,
