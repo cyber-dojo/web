@@ -91,6 +91,7 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
   test '67751F',
   'kata properties are union of language properties and exercise instruction' do
+    set_storer_class('StorerService')
     id = unique_id
     created = [2017,12,21, 10,40,24]
     hash = {
@@ -108,7 +109,8 @@ class KataTest < AppModelsTestBase
     assert_equal 4, kata.tab_size
     assert_equal 'Python, py.test', kata.display_name
     assert_equal '.py', kata.filename_extension
-    assert_equal [], kata.progress_regexs # TODO: REVISIT
+
+    assert_equal [], kata.progress_regexs
     assert_equal [], kata.highlight_filenames
     assert_equal ['cyber-dojo.sh','makefile','Makefile','unity.license.txt'], kata.lowlight_filenames
     assert_equal 'Python', kata.major_name
