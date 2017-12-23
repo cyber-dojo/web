@@ -15,15 +15,45 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test 'BE8221',
+  'run timed_out test' do
+    set_runner_class('RunnerService')
+    in_kata('stateless') {
+      # 'Python, unittest', Ubuntu based
+      c = <<~PYTHON_CODE
+      class Hiker:
+          def answer(self):
+              while True:
+                  True
+              return 6 * 9
+      PYTHON_CODE
+      change_file('hiker.py', c)
+      run_tests
+      assert @avatar.lights[-1].output.start_with?('Unable to complete')
+      assert_equal :timed_out, @avatar.lights[-1].colour
+    }
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test 'BE8222',
   'run timed_out test' do
     set_runner_class('RunnerService')
     in_kata('stateful') {
-      c = @avatar.visible_files['hiker.c']
+      # 'C (gcc), assert', Alpine based
       # !proper formatting or else you get [-Werror=misleading-indentation]
-      c = c.sub('return 6 * 9;', "\tfor(;;)\n\t\t;\n\treturn 6 * 9;")
+      c = <<~C_CODE
+      #include "hiker.h"
+      int answer(void)
+      {
+          for(;;)
+            ;
+          return 6 * 9;
+      }
+      C_CODE
       change_file('hiker.c', c)
       run_tests
+      assert @avatar.lights[-1].output.start_with?('Unable to complete')
       assert_equal :timed_out, @avatar.lights[-1].colour
     }
   end
