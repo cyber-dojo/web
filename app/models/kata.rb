@@ -67,30 +67,26 @@ class Kata
   end
 
   def exercise
-    manifest_property
-  end
+    manifest_property # required in language kata
+  end                 # not required in custom kata
 
   # - - - - - - - - - - - - -
   # file-knave
 
   def filename_extension
-    manifest_property || ''
+    manifest_property # defaults to ''
   end
 
   def highlight_filenames
-    manifest_property || []
+    manifest_property # defaults to []
   end
 
   def lowlight_filenames
-    if highlight_filenames.empty?
-      ['cyber-dojo.sh', 'makefile', 'Makefile', 'unity.license.txt']
-    else
-      visible_files.keys - highlight_filenames
-    end
+    manifest_property  # has a default
   end
 
   def tab_size
-    manifest_property || 4
+    manifest_property # defaults to 4
   end
 
   # - - - - - - - - - - - - -
@@ -108,11 +104,11 @@ class Kata
   end
 
   def max_seconds
-    manifest_property || 10
+    manifest_property # defaults to 10
   end
 
   def runner_choice
-    manifest_property || 'stateless'
+    manifest_property # required
   end
 
   # - - - - - - - - - - - - -
@@ -123,7 +119,7 @@ class Kata
   end
 
   def progress_regexs
-    manifest_property || [] # TODO: revisit
+    manifest_property # has a default
   end
 
   private

@@ -23,7 +23,7 @@ class SmokeTest < AppLibTestBase
     args << kata.id
     args << lion
     args << (files1 = starting_files)
-    args << (now1 = [2016,12,8,8,3,23])
+    args << (now1 = [2016,12,8, 8,3,23])
     args << (output = 'Assert failed: answer() == 42')
     args << (colour = 'red')
     storer.avatar_ran_tests(*args)
@@ -131,8 +131,6 @@ class SmokeTest < AppLibTestBase
     assert storer.kata_exists?(kata_id)
     assert all_ids.include? kata_id
 
-    assert_equal manifest, storer.kata_manifest(kata_id)
-
     assert_equal({}, storer.kata_increments(kata_id))
     assert_equal kata_id, storer.completed(kata_id[0..5])
     assert_equal [], storer.started_avatars(kata_id)
@@ -151,7 +149,7 @@ class SmokeTest < AppLibTestBase
     args << kata_id
     args << lion
     args << (files1 = edited_files)
-    args << (now = [2016,12,8,8,3,23])
+    args << (now = [2016,12,8, 8,3,23])
     args << (output = 'Assert failed: answer() == 42')
     args << (colour = 'red')
     storer.avatar_ran_tests(*args)
