@@ -55,7 +55,7 @@ class Kata
   # info-bar
 
   def display_name
-    manifest_property
+    manifest_property # required
   end
 
   def major_name
@@ -74,38 +74,45 @@ class Kata
   # file-knave
 
   def filename_extension
-    manifest_property
+    manifest_property || ''
   end
 
   def highlight_filenames
-    manifest_property
+    manifest_property || []
   end
 
   def lowlight_filenames
-    manifest_property
+    if highlight_filenames.empty?
+      ['cyber-dojo.sh', 'makefile', 'Makefile', 'unity.license.txt']
+    else
+      visible_files.keys - highlight_filenames
+    end
   end
 
   def tab_size
-    manifest_property
+    manifest_property || 4
   end
 
+  # - - - - - - - - - - - - -
+  # source
+
   def visible_files
-    manifest_property
+    manifest_property # required
   end
 
   # - - - - - - - - - - - - -
   # runner
 
   def image_name
-    manifest_property
+    manifest_property # required
   end
 
   def max_seconds
-    manifest_property
+    manifest_property || 10
   end
 
   def runner_choice
-    manifest_property
+    manifest_property || 'stateless'
   end
 
   # - - - - - - - - - - - - -
@@ -116,7 +123,7 @@ class Kata
   end
 
   def progress_regexs
-    manifest_property
+    manifest_property || [] # TODO: revisit
   end
 
   private
