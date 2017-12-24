@@ -104,7 +104,9 @@ class Kata
   end
 
   def max_seconds
-    manifest_property # defaults to 10
+    # Some tests use StorerFake which does not
+    # mimic StorerService defaults yet...
+    manifest_property || 10 # defaults to 10
   end
 
   def runner_choice
