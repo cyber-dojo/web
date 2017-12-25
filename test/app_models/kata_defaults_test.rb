@@ -18,15 +18,33 @@ class KataDefaultsTest < AppModelsTestBase
     assert_default 'highlight_filenames', []
   end
 
+  test '346',
+  'lowlight_filenames defaults to specific 4 files when hightlight_filenames is empty' do
+    manifest = starter.language_manifest('C (gcc)', 'assert', 'Fizz_Buzz')
+    kata_id = unique_id
+    manifest['id'] = kata_id
+    manifest['created'] = time_now
+    manifest.delete('highlight_filenames')
+    storer.create_kata(manifest)
+    expected = %w( cyber-dojo.sh makefile Makefile unity.license.txt )
+    assert_equal expected.sort, katas[kata_id].lowlight_filenames.sort
+  end
+
   test '347',
-  'max_seconds defaults to 10' do
-    assert_default 'max_seconds', 10
+  'lowlight_filenames defaults to the complement of highlight_filenames when highlight_filenames is not empty' do
+    manifest = starter.language_manifest('C (gcc)', 'assert', 'Fizz_Buzz')
+    kata_id = unique_id
+    manifest['id'] = kata_id
+    manifest['created'] = time_now
+    manifest['highlight_filenames'] = %w( hiker.c hiker.h hiker.tests.c )
+    storer.create_kata(manifest)
+    expected = %w( cyber-dojo.sh makefile instructions output )
+    assert_equal expected.sort, katas[kata_id].lowlight_filenames.sort
   end
 
   test '348',
-  'lowlight_filenames defaults to specific 4 files' do
-    specific = %w( cyber-dojo.sh makefile Makefile unity.license.txt )
-    assert_default 'lowlight_filenames', specific
+  'max_seconds defaults to 10' do
+    assert_default 'max_seconds', 10
   end
 
   test '349',
