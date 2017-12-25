@@ -69,4 +69,7 @@ class ApplicationController < ActionController::Base
     params['max_seconds'].to_i || kata.max_seconds
   end
 
+  include TimeNow
+  include UniqueId
+
 end

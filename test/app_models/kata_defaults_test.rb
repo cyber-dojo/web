@@ -18,11 +18,6 @@ class KataDefaultsTest < AppModelsTestBase
     assert_default 'highlight_filenames', []
   end
 
-  test '346',
-  'runner_choice defaults to stateless' do
-    assert_default 'runner_choice', 'stateless'
-  end
-
   test '347',
   'max_seconds defaults to 10' do
     assert_default 'max_seconds', 10
@@ -48,7 +43,9 @@ class KataDefaultsTest < AppModelsTestBase
 
   def assert_default(name, expected)
     manifest = starter.language_manifest('C (gcc)', 'assert', 'Fizz_Buzz')
-    kata_id = manifest['id']
+    kata_id = unique_id
+    manifest['id'] = kata_id
+    manifest['created'] = time_now
     manifest.delete(name)
     storer.create_kata(manifest)
     assert_equal expected, katas[kata_id].public_send(name)

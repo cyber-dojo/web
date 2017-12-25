@@ -74,19 +74,25 @@ class Kata
   # file-knave
 
   def filename_extension
-    manifest_property # defaults to ''
+    manifest_property || ''
   end
 
   def highlight_filenames
-    manifest_property # defaults to []
+    manifest_property || []
   end
 
   def lowlight_filenames
-    manifest_property  # has a default
+    default_lowlight_filenames =
+      if highlight_filenames.empty?
+        %w( cyber-dojo.sh makefile Makefile unity.license.txt )
+      else
+        visible_files.keys - highlight_filenames
+      end
+    manifest_property || default_lowlight_filenames
   end
 
   def tab_size
-    manifest_property # defaults to 4
+    manifest_property || 4
   end
 
   # - - - - - - - - - - - - -
@@ -104,7 +110,7 @@ class Kata
   end
 
   def max_seconds
-    manifest_property # default to 10
+    manifest_property || 10
   end
 
   def runner_choice
@@ -119,7 +125,10 @@ class Kata
   end
 
   def progress_regexs
-    manifest_property # has a default
+    # [] is not a valid progress_regex.
+    # It needs two regexs.
+    # This affects zipper.zip_tag()
+    manifest_property || []
   end
 
   private # = = = = = = = = = = = = = = = = =
@@ -131,66 +140,36 @@ class Kata
   end
 
   def manifest
-    @manifest ||= read_manifest
+    @manifest ||= updated(storer.kata_manifest(id))
   end
 
   # - - - - - - - - - - - - - - - - - -
 
-  def read_manifest
-    manifest = storer.kata_manifest(id)
-    manifest = updated_if_old(manifest)
-    delete_obsolete_keys_from(manifest)
-    apply_defaults_to(manifest)
+  def updated(manifest)
+    if manifest['unit_test_framework']
+      # manifest change #1
+      # eg does not have image_name
+      # attempt to retrieve information from start-point
+      old_name = manifest['language']
+      xlated = starter.manifest(old_name)
+      xlated['id'] = manifest['id']
+      xlated['created'] = manifest['created']
+      xlated['exercise'] = manifest['exercise']
+      return xlated
+    end
+    if manifest['runner_choice'].nil?
+      # manifest change #2
+      # added runner_choice required parameter
+      parts = manifest['display_name'].split(',').map(&:strip)
+      old_name = parts[0] + '-' + parts[1]
+      xlated = starter.manifest(old_name)
+      manifest['runner_choice'] = xlated['runner_choice']
+      return manifest
+    end
     manifest
   end
 
   # - - - - - - - - - - - - - - - - - -
-
-  def updated_if_old(manifest)
-    if old?(manifest)
-      xlated = starter.manifest(manifest['language'])
-      xlated['id'] = manifest['id']
-      xlated['created'] = manifest['created']
-      xlated['exercise'] = manifest['exercise']
-      xlated
-    else
-      manifest
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - - -
-
-  def old?(manifest)
-    manifest['unit_test_framework']
-  end
-
-  # - - - - - - - - - - - - - - - - - -
-
-  def delete_obsolete_keys_from(manifest)
-    manifest.delete('language')
-    manifest.delete('red_amber_green')
-    manifest.delete('browser')
-  end
-
-  # - - - - - - - - - - - - - - - - - -
-
-  def apply_defaults_to(manifest)
-    # [1] Issue: [] is not a valid progress_regex.
-    # It needs two regexs.
-    # This affects zipper.zip_tag()
-    manifest['runner_choice'] ||= 'stateless'
-    manifest['max_seconds'] ||= 10
-    manifest['highlight_filenames'] ||= []
-    manifest['lowlight_filenames'] =
-      if manifest['highlight_filenames'].empty?
-        %w( cyber-dojo.sh makefile Makefile unity.license.txt )
-      else
-        manifest['visible_files'].keys - manifest['highlight_filenames']
-      end
-    manifest['filename_extension'] ||= ''
-    manifest['progress_regexs'] ||= [] # [1]
-    manifest['tab_size'] ||= 4
-  end
 
   include NearestAncestors
 

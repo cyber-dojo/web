@@ -125,6 +125,7 @@ class KataTranslationTest < AppModelsTestBase
     assert_equal 'Python-py.test', raw['language']
     assert_equal 'python_pytest', raw['unit_test_framework']
 
+    assert_id @kata_id
     assert_created '2016-08-01 22:54:33 +0000'
     assert_display_name 'Python, py.test'
     assert_exercise 'Fizz_Buzz'
@@ -151,6 +152,7 @@ class KataTranslationTest < AppModelsTestBase
     assert_equal raw_expected_keys.sort, raw.keys.sort
     assert_equal 'Python-behave', raw['language']
 
+    assert_id @kata_id
     assert_created '2016-11-23 08:34:28 +0000'
     assert_display_name 'Python, behave'
     assert_exercise 'Reversi'
@@ -160,6 +162,8 @@ class KataTranslationTest < AppModelsTestBase
     assert_runner_choice 'stateless'
     assert_tab_size 4
   end
+
+  private # = = = = = = = = = = = = = = = = = = =
 
   def assert_id(expected)
     assert_equal expected, kata.id, 'id'
