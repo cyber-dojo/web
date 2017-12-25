@@ -2,12 +2,6 @@ require_relative 'app_models_test_base'
 
 class KataDefaultsTest < AppModelsTestBase
 
-  def self.hex_prefix
-    'DA9D06E'
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - -
-
   test '344',
   'filename_extension defaults to empty string' do
     assert_default 'filename_extension', ''
