@@ -104,9 +104,7 @@ class Kata
   end
 
   def max_seconds
-    # Some tests use StorerFake which does not
-    # mimic StorerService defaults yet...
-    manifest_property || 10 # defaults to 10
+    manifest_property # default to 10
   end
 
   def runner_choice
@@ -124,7 +122,7 @@ class Kata
     manifest_property # has a default
   end
 
-  private
+  private # = = = = = = = = = = = = = = = = =
 
   include NameOfCaller
 
@@ -133,13 +131,75 @@ class Kata
   end
 
   def manifest
-    @manifest ||= storer.kata_manifest(id)
+    @manifest ||= read_manifest
+  end
+
+  # - - - - - - - - - - - - - - - - - -
+
+  def read_manifest
+    manifest = storer.kata_manifest(id)
+    manifest = updated_if_old(manifest)
+    delete_obsolete_keys_from(manifest)
+    apply_defaults_to(manifest)
+    manifest
+  end
+
+  # - - - - - - - - - - - - - - - - - -
+
+  def updated_if_old(manifest)
+    if old?(manifest)
+      xlated = starter.manifest(manifest['language'])
+      xlated['id'] = manifest['id']
+      xlated['created'] = manifest['created']
+      xlated['exercise'] = manifest['exercise']
+      xlated
+    else
+      manifest
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - -
+
+  def old?(manifest)
+    manifest['unit_test_framework']
+  end
+
+  # - - - - - - - - - - - - - - - - - -
+
+  def delete_obsolete_keys_from(manifest)
+    manifest.delete('language')
+    manifest.delete('red_amber_green')
+    manifest.delete('browser')
+  end
+
+  # - - - - - - - - - - - - - - - - - -
+
+  def apply_defaults_to(manifest)
+    # [1] Issue: [] is not a valid progress_regex.
+    # It needs two regexs.
+    # This affects zipper.zip_tag()
+    manifest['runner_choice'] ||= 'stateless'
+    manifest['max_seconds'] ||= 10
+    manifest['highlight_filenames'] ||= []
+    manifest['lowlight_filenames'] =
+      if manifest['highlight_filenames'].empty?
+        %w( cyber-dojo.sh makefile Makefile unity.license.txt )
+      else
+        manifest['visible_files'].keys - manifest['highlight_filenames']
+      end
+    manifest['filename_extension'] ||= ''
+    manifest['progress_regexs'] ||= [] # [1]
+    manifest['tab_size'] ||= 4
   end
 
   include NearestAncestors
 
   def runner
     nearest_ancestors(:runner)
+  end
+
+  def starter
+    nearest_ancestors(:starter)
   end
 
   def storer

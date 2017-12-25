@@ -32,6 +32,10 @@ class StarterService
     http_get(__method__, major_name, minor_name, exercise_name)
   end
 
+  def manifest(old_name)
+    http_get(__method__, old_name)
+  end
+
   private
 
   include HttpHelper

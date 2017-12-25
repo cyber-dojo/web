@@ -1,0 +1,18 @@
+
+{
+  "display_name": "Ruby, RSpec",
+
+  "visible_filenames": [
+    "hiker_spec.rb",
+    "hiker.rb",
+    "cyber-dojo.sh"
+  ],
+
+  "image_name": "cyberdojofoundation/ruby_rspec",
+
+  "filename_extension" : ".rb",
+
+  "tab_size": 2,
+
+  "runner_choice": "stateless"
+}

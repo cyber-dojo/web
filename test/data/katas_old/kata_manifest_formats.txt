@@ -1,0 +1,42 @@
+
+Kata manifest formats
+=====================
+
+Old-style kata manifest.json files
+----------------------------------
+Contain the following 7 keys
+      "id":                  "340B87D5BE",
+      "created":             [2015,9,9,5,29,38],
+      "language":            "Python-py.test",
+      "exercise":            "Fizz_Buzz_Plus"
+      "tab_size":            4,
+      "visible_files":       {...},
+      "unit_test_framework": "python_pytest"
+      "browser":             "..." (only in really old katas)
+
+Note that they do _not_ contain the image_name key
+which has to be retrieved via starter.manifest(language).
+This couples them to starter.
+
+
+New-style kata manifest.json files
+----------------------------------
+Contain the following keys
+      "id":                  "0587D5BE87",
+      "created":             [2017,11,23,5,29,38],
+      "language":            "Python-py.test",
+      "exercise":            "Fizz_Buzz_Plus"
+      "tab_size":            4,
+      "visible_files":       {...},
+      "runner_choice":       "stateless",
+      "image_name":          "cyberdojofoundation/python_behave",
+      "display_name":        "Python, behave",
+      "filename_extension":  ".py",
+      "progress_regexs":     [],
+      "highlight_filenames": [],
+      "lowlight_filenames":  [...],
+      "red_amber_green":      "lambda..." (NO LONGER USED)
+
+
+Note that they _do_ contain the image_name key
+and are thus are not coupled to starter.
