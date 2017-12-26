@@ -83,11 +83,7 @@ class ImagePullerTest < AppControllerTestBase
   end
 
   def valid_existing_image_name
-    "#{cdf}/gcc_assert"
-  end
-
-  def cdf
-    'cyberdojofoundation'
+    'cyberdojofoundation/gcc_assert'
   end
 
 end

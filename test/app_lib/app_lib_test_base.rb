@@ -6,7 +6,7 @@ class AppLibTestBase < TestBase
     {
       'id'            => kata_id,
       'visible_files' => starting_files,
-      'image_name'    => "#{cdf}/gcc_assert",
+      'image_name'    => 'cyberdojofoundation/gcc_assert',
       'created'       => creation_time,
       'tab_size'      => 4
     }
@@ -14,13 +14,18 @@ class AppLibTestBase < TestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def lion; 'lion'; end
-  def salmon; 'salmon'; end
+  def lion
+    'lion'
+  end
+
+  def salmon
+    'salmon'
+  end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def creation_time
-    [ 2016, 12, 5, 17, 44, 23 ]
+    [ 2016,12,5, 17,44,23 ]
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -78,6 +83,8 @@ class AppLibTestBase < TestBase
       'instructions'  => 'FizzBuzz is a game...'
     }.clone
   end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def edited_files
     edited = starting_files.clone
