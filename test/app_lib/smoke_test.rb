@@ -51,7 +51,7 @@ class SmokeTest < AppLibTestBase
   smoke_test '2BDF808102',
   'smoke test pulling' do
     kata = make_language_kata({
-      'language' => 'Python-unittest',
+      'display_name' => 'Python, unittest',
       'id' => '2BDF808102'
     })
     assert kata.runner_choice == 'stateless' # no need to do runner.kata_old
@@ -66,7 +66,7 @@ class SmokeTest < AppLibTestBase
   smoke_test '2BDAD80812',
   'smoke test runner-service colour is red-amber-green traffic-light' do
     kata = make_language_kata({
-      'language' => 'C (gcc)-assert',
+      'display_name' => 'C (gcc), assert',
       'id' => '2BDAD80812'
     })
     runner.avatar_new(kata.image_name, kata.id, lion, starting_files)

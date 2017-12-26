@@ -8,7 +8,7 @@ class TagsTest < AppModelsTestBase
   'and before first [test] is run',
   'and contains all visible files' do
     kata = make_language_kata ({
-      'language' => 'C (gcc)-assert',
+      'display_name' => 'C (gcc), assert',
       'exercise' => 'Fizz_Buzz'
     })
     avatar = kata.start_avatar

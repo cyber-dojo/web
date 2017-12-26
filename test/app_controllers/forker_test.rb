@@ -64,7 +64,7 @@ class ForkerControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '3E92C432F',
-  'when id,language,avatar,tag are all ok',
+  'when id,avatar,tag are all ok',
   'format=json fork works',
   "and the new dojo's id is returned" do
     @id = create_kata
@@ -89,7 +89,7 @@ class ForkerControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '3E9F65835',
-  'when id,language,avatar,tag are all ok',
+  'when id,avatar,tag are all ok',
   'format=html fork works',
   "and you are redirected to the enter page with the new dojo's id" do
     @id = create_kata
@@ -105,7 +105,7 @@ class ForkerControllerTest < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - -
 
   test '3E9F657E7',
-  'when id,language,avatar are all ok, tag==-1',
+  'when id,avatar are all ok, tag==-1',
   'format=html fork works',
   "and you are redirected to the enter page with the new dojo's id" do
     @id = create_kata
@@ -131,8 +131,6 @@ class ForkerControllerTest < AppControllerTestBase
     fork(id, 'buffalo', 3)
     assert forked?
   end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   private
 

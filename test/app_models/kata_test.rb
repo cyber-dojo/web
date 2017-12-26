@@ -42,7 +42,7 @@ class KataTest < AppModelsTestBase
 
   test '6778C8',
   'major_name,minor_name are parts[0][1] of display_name' do
-    kata = make_language_kata({ 'language' => 'Python-py.test' })
+    kata = make_language_kata({ 'display_name' => 'Python, py.test' })
     assert_equal 'Python', kata.major_name
     assert_equal 'py.test', kata.minor_name
   end
@@ -89,16 +89,17 @@ class KataTest < AppModelsTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '67751F',
   'kata properties are union of language properties and exercise instruction' do
     set_storer_class('StorerService')
     id = unique_id
     created = [2017,12,21, 10,40,24]
     options = {
-      'id'       => id,
-      'created'  => created,
-      'language' => 'Python-py.test',
-      'exercise' => 'Fizz_Buzz',
+      'id'           => id,
+      'created'      => created,
+      'display_name' => 'Python, py.test',
+      'exercise'     => 'Fizz_Buzz',
     }
     kata = make_language_kata(options)
 
@@ -144,7 +145,7 @@ class KataTest < AppModelsTestBase
   %w( start_avatar() in language with stateful-runner
       with specific name succeeds
       when avatar has not yet started ).join(' ').to_s do
-    @kata = make_language_kata({ 'language' => 'C (gcc)-assert' })
+    @kata = make_language_kata({ 'display_name' => 'C (gcc), assert' })
     hippo = @kata.start_avatar(['hippo'])
     refute_nil hippo
     assert_equal 'hippo', hippo.name
@@ -157,7 +158,7 @@ class KataTest < AppModelsTestBase
   %w( start_avatar() in language with stateless-runner
       with specific name succeeds
       when avatar has not yet started ).join(' ').to_s do
-    @kata = make_language_kata({ 'language' => 'Python-unittest' })
+    @kata = make_language_kata({ 'display_name' => 'Python, unittest' })
     hippo = @kata.start_avatar(['hippo'])
     refute_nil hippo
     assert_equal 'hippo', hippo.name
@@ -236,7 +237,7 @@ class KataTest < AppModelsTestBase
   'start_avatar() seamlessly resurrects when',
   'collector has collected the runner containers/volumes' do
     set_runner_class('RunnerService')
-    kata = make_language_kata({ 'language' => 'C (gcc)-assert' })
+    kata = make_language_kata({ 'display_name' => 'C (gcc), assert' })
     assert kata.runner_choice == 'stateful'
     runner.kata_old(kata.image_name, kata.id)
     begin
@@ -276,8 +277,6 @@ class KataTest < AppModelsTestBase
     assert_equal 'C (gcc), assert', kata.display_name
   end
 =end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   private
 

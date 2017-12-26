@@ -17,7 +17,7 @@ class AvatarTest < AppModelsTestBase
   '1. the language visible_files,',
   '2. the exercise instructions,',
   '3. empty output' do
-    kata = make_language_kata({ 'language' => 'C (gcc)-assert' })
+    kata = make_language_kata({ 'display_name' => 'C (gcc), assert' })
     avatar = kata.start_avatar
     expected = %w(
       cyber-dojo.sh
