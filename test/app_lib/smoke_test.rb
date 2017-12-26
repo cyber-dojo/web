@@ -38,9 +38,9 @@ class SmokeTest < AppLibTestBase
 
   smoke_test '2BD23CD3',
   'smoke test runner-service raising' do
-    assert_raises { runner.image_pulled?(nil, nil) }
-    assert_raises { runner.image_pull(nil, nil) }
-    assert_raises { runner.kata_new(nil, nil) }
+    set_storer_class('StorerFake')
+    kata = make_language_kata({ 'id' => '2BD23CD300' })
+    runner.kata_old(kata.image_name, kata.id)
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
