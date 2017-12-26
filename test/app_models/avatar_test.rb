@@ -116,10 +116,6 @@ class AvatarTest < AppModelsTestBase
 
   private # - - - - - - - - - - - - - - - - - - - - - - -
 
-  def hiker_c
-    'hiker.c'
-  end
-
   def assert_file(filename, expected)
     assert_equal(expected, @output) if filename == 'output'
     assert_equal expected, @visible_files[filename], 'returned_to_browser'
