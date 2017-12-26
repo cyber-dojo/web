@@ -76,22 +76,4 @@ class AvatarsTest < AppModelsTestBase
     assert_equal expected_names.sort, actual_names.sort
   end
 
-  private
-
-  def cheetah
-    'cheetah'
-  end
-
-  def lion
-    'lion'
-  end
-
-  def hippo
-    'hippo'
-  end
-
-  def panda
-    'panda'
-  end
-
 end

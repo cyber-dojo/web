@@ -36,4 +36,26 @@ module TestDomainHelpers # mix-in
     [now.year, now.month, now.day, now.hour, now.min, now.sec]
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def lion
+    'lion'
+  end
+
+  def salmon
+    'salmon'
+  end
+
+  def cheetah
+    'cheetah'
+  end
+
+  def hippo
+    'hippo'
+  end
+
+  def panda
+    'panda'
+  end
+
 end

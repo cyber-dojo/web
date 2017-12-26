@@ -2,16 +2,6 @@ require_relative '../all'
 
 class AppLibTestBase < TestBase
 
-  def lion
-    'lion'
-  end
-
-  def salmon
-    'salmon'
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - -
-
   def creation_time
     [ 2016,12,5, 17,44,23 ]
   end
