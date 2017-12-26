@@ -249,35 +249,6 @@ class KataTest < AppModelsTestBase
     end
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-=begin
-  test '677712',
-  'for a kata created before the start_point re-architecture',
-  'attempt to retrieve the full-manifest properties from the start-point' do
-    kata_id = '677712F0E7'
-    manifest = {
-      'id'       => kata_id,
-      'language' => 'C-assert',
-      'exercise' => 'Fizz_Buzz',
-    }
-    storer.create_kata(manifest)
-
-    property_names = %w(
-      display_name
-      image_name
-      filename_extension
-      progress_regexs
-      highlight_filenames
-      lowlight_filenames
-      runner_choice
-    )
-    kata = katas[kata_id]
-    property_names.each { |property_name| refute_nil kata.send(property_name) }
-    assert_equal 'C (gcc), assert', kata.display_name
-  end
-=end
-
   private
 
   def avatars_names
