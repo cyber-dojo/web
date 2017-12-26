@@ -308,9 +308,9 @@ class StorerFakeTest < AppLibTestBase
     assert_equal files2, avatar_visible_files(kata_id, lion)
     assert_equal files1, tag_visible_files(kata_id, lion, 1)
     assert_equal files2, tag_visible_files(kata_id, lion, 2)
-    hash = tags_visible_files(kata_id, lion, 1, 2)
-    assert_equal files1, hash['was_tag']
-    assert_equal files2, hash['now_tag']
+    json = tags_visible_files(kata_id, lion, 1, 2)
+    assert_equal files1, json['was_tag']
+    assert_equal files2, json['now_tag']
   end
 
   private

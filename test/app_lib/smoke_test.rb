@@ -158,9 +158,9 @@ class SmokeTest < AppLibTestBase
     files1['output'] = output
     assert_equal files1, storer.avatar_visible_files(kata_id, lion)
 
-    hash = storer.tags_visible_files(kata_id, lion, was_tag=0, now_tag=1)
-    assert_equal files0, hash['was_tag']
-    assert_equal files1, hash['now_tag']
+    json = storer.tags_visible_files(kata_id, lion, was_tag=0, now_tag=1)
+    assert_equal files0, json['was_tag']
+    assert_equal files1, json['now_tag']
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
