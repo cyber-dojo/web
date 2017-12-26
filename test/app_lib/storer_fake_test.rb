@@ -315,6 +315,20 @@ class StorerFakeTest < AppLibTestBase
 
   private
 
+  def make_manifest(kata_id)
+    {
+      'id'            => kata_id,
+      'created'       => creation_time,
+      'image_name'    => 'cyberdojofoundation/gcc_assert',
+      'runner_choice' => 'stateless',
+      'display_name'  => 'C (gcc), assert',
+      'visible_files' => starting_files,
+      'exercise'      => 'Fizz_Buzz'
+    }
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - -
+
   def invalid_id
     'sdfsdfsdf'
   end
