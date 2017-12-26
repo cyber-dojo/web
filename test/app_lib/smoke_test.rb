@@ -6,10 +6,7 @@ class SmokeTest < AppLibTestBase
     super
     set_storer_class('StorerService')
     set_runner_class('RunnerService')
-    @katas = Katas.new(self)
   end
-
-  attr_reader :katas
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
   # differ
