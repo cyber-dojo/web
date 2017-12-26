@@ -65,7 +65,7 @@ class LightTest < AppModelsTestBase
 
   test 'AC9722',
   'each test creates a new light' do
-    kata = make_kata
+    kata = make_language_kata
     lion = kata.start_avatar(['lion'])
     maker = DeltaMaker.new(lion)
     runner.stub_run_colour('red')
@@ -80,8 +80,6 @@ class LightTest < AppModelsTestBase
     assert_equal :amber, lights[1].colour
     assert_equal :green, lights[2].colour
   end
-
-  # - - - - - - - - - - - - - - - - - - - - - - -
 
   private
 

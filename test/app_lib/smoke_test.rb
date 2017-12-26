@@ -17,7 +17,7 @@ class SmokeTest < AppLibTestBase
 
   smoke_test '9823AB',
   'smoke test differ-service' do
-    kata = make_kata
+    kata = make_language_kata
     kata.start_avatar([lion])
     args = []
     args << kata.id
@@ -50,7 +50,7 @@ class SmokeTest < AppLibTestBase
 
   smoke_test '2BDF808102',
   'smoke test pulling' do
-    kata = make_kata({
+    kata = make_language_kata({
       'language' => 'Python-unittest',
       'id' => '2BDF808102'
     })
@@ -65,7 +65,7 @@ class SmokeTest < AppLibTestBase
 
   smoke_test '2BDAD80812',
   'smoke test runner-service colour is red-amber-green traffic-light' do
-    kata = make_kata({
+    kata = make_language_kata({
       'language' => 'C (gcc)-assert',
       'id' => '2BDAD80812'
     })

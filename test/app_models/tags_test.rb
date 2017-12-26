@@ -7,7 +7,7 @@ class TagsTest < AppModelsTestBase
   'tag zero exists after avatar is started',
   'and before first [test] is run',
   'and contains all visible files' do
-    kata = make_kata ({
+    kata = make_language_kata ({
       'language' => 'C (gcc)-assert',
       'exercise' => 'Fizz_Buzz'
     })
@@ -29,7 +29,7 @@ class TagsTest < AppModelsTestBase
 
   test 'A30D39',
   'each [test]-event creates a new tag which is a light' do
-    kata = make_kata
+    kata = make_language_kata
     lion = kata.start_avatar(['lion'])
     assert_equal 1, lion.tags.length
     maker = DeltaMaker.new(lion)
@@ -47,7 +47,7 @@ class TagsTest < AppModelsTestBase
 
   test 'A30A42',
   'tags[-n] duplicates Array[-n] behaviour' do
-    kata = make_kata
+    kata = make_language_kata
     lion = kata.start_avatar(['lion'])
     maker = DeltaMaker.new(lion)
     maker.run_test

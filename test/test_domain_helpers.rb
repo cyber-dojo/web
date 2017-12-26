@@ -7,7 +7,7 @@ module TestDomainHelpers # mix-in
 
   module_function
 
-  def make_kata(options = {})
+  def make_language_kata(options = {})
     language_name = options['language'] || default_language_name
     exercise_name = options['exercise'] || default_exercise_name
     parts = language_name.split('-').map(&:strip)
@@ -29,7 +29,6 @@ module TestDomainHelpers # mix-in
   end
 
   def default_language_name
-    # The first to be Alpine'd and so the smallest
     'C (gcc)-assert'
   end
 

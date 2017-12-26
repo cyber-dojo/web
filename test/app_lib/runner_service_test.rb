@@ -228,13 +228,13 @@ class RunnerServiceTest < AppLibTestBase
   private # = = = = = = = = = = = = = = = = =
 
   def make_kata_stateful
-    kata = make_kata({ 'language' => 'C (gcc)-assert' })
+    kata = make_language_kata({ 'language' => 'C (gcc)-assert' })
     assert_equal 'stateful', kata.runner_choice
     kata
   end
 
   def make_kata_stateless
-    kata = make_kata({ 'language' => 'Python-unittest' })
+    kata = make_language_kata({ 'language' => 'Python-unittest' })
     assert_equal 'stateless', kata.runner_choice
     kata
   end

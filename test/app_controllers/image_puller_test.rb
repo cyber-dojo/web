@@ -15,7 +15,7 @@ class ImagePullerTest < AppControllerTestBase
     refute_image_pulled(valid_non_existent_image_name, valid_kata_id(false))
     refute_image_pulled(valid_existing_image_name, valid_kata_id(false))
 
-    kata = make_kata({ 'language' => 'Python-unittest' })
+    kata = make_language_kata({ 'language' => 'Python-unittest' })
     assert kata.runner_choice == 'stateless' # no need to do runner.kata_old
     assert_image_pull(valid_existing_image_name, kata.id)
     assert_image_pulled(valid_existing_image_name, kata.id)
@@ -27,7 +27,7 @@ class ImagePullerTest < AppControllerTestBase
     refute_image_pull(invalid_image_name, valid_kata_id(true))
     refute_image_pull(valid_non_existent_image_name, valid_kata_id(false))
     refute_image_pull(valid_existing_image_name, valid_kata_id(false))
-    kata = make_kata({ 'language' => 'Python-unittest' })
+    kata = make_language_kata({ 'language' => 'Python-unittest' })
     assert kata.runner_choice == 'stateless' # no need to do runner.kata_old
     assert_image_pull(valid_existing_image_name, kata.id)
   end

@@ -5,7 +5,7 @@ class DeltaMakerTest < AppLibTestBase
 
   def setup
     super
-    kata = make_kata
+    kata = make_language_kata
     avatar = kata.start_avatar(Avatars.names)
     @maker = DeltaMaker.new(avatar)
     @existing_filename = 'cyber-dojo.sh'

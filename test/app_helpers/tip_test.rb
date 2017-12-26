@@ -7,7 +7,7 @@ class TipTest < AppHelpersTestBase
   smoke_test 'BDAD52',
   'traffic light tip' do
     # uses real differ-service
-    kata = make_kata
+    kata = make_language_kata
     lion = kata.start_avatar(['lion'])
     files = kata.visible_files
     now = [2016,12,22,5,55,11]

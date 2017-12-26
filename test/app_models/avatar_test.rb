@@ -5,7 +5,7 @@ class AvatarTest < AppModelsTestBase
 
   test 'FB7E81',
   "an avatar's kata is the kata it was created with" do
-    kata = make_kata
+    kata = make_language_kata
     avatar = kata.start_avatar
     assert_equal kata.id, avatar.kata.id
   end
@@ -17,7 +17,7 @@ class AvatarTest < AppModelsTestBase
   '1. the language visible_files,',
   '2. the exercise instructions,',
   '3. empty output' do
-    kata = make_kata({ 'language' => 'C (gcc)-assert' })
+    kata = make_language_kata({ 'language' => 'C (gcc)-assert' })
     avatar = kata.start_avatar
     expected = %w(
       cyber-dojo.sh
@@ -36,7 +36,7 @@ class AvatarTest < AppModelsTestBase
 
   test 'FB792F',
   'when an avatar has zero traffic-lights it is not active?' do
-    kata = make_kata
+    kata = make_language_kata
     lion = kata.start_avatar(['lion'])
     assert_equal [], lion.lights
     refute lion.active?
@@ -46,7 +46,7 @@ class AvatarTest < AppModelsTestBase
 
   test 'FB7BAB',
   'when an avatar has one or more traffic-lights it is active?' do
-    kata = make_kata
+    kata = make_language_kata
     lion = kata.start_avatar(['lion'])
     DeltaMaker.new(lion).run_test
     assert_equal 1, lion.lights.length
@@ -60,7 +60,7 @@ class AvatarTest < AppModelsTestBase
 
   test 'FB70CA',
   'test() output is added to visible_files' do
-    kata = make_kata
+    kata = make_language_kata
     @avatar = kata.start_avatar
     visible_files = @avatar.visible_files
     assert visible_files.keys.include?('output')
@@ -74,7 +74,7 @@ class AvatarTest < AppModelsTestBase
 
   test 'FB7925',
   'test():delta[:changed] files are changed' do
-    kata = make_kata
+    kata = make_language_kata
     @avatar = kata.start_avatar
     code_filename = 'hiker.c'
     test_filename = 'hiker.tests.c'
@@ -90,7 +90,7 @@ class AvatarTest < AppModelsTestBase
 
   test 'FB7749',
   'test():delta[:unchanged] files are unchanged' do
-    kata = make_kata
+    kata = make_language_kata
     @avatar = kata.start_avatar
     filename = 'hiker.c'
     assert @avatar.visible_filenames.include? filename
@@ -104,7 +104,7 @@ class AvatarTest < AppModelsTestBase
 
   test 'FB7683',
   'test():delta[:new] files are created' do
-    kata = make_kata
+    kata = make_language_kata
     @avatar = kata.start_avatar
     maker = DeltaMaker.new(@avatar)
     filename = 'new_file.c'
@@ -116,7 +116,9 @@ class AvatarTest < AppModelsTestBase
 
   private # - - - - - - - - - - - - - - - - - - - - - - -
 
-  def hiker_c; 'hiker.c'; end
+  def hiker_c
+    'hiker.c'
+  end
 
   def assert_file(filename, expected)
     assert_equal(expected, @output) if filename == 'output'

@@ -5,7 +5,7 @@ class LightsTest < AppModelsTestBase
 
   test '881D3F',
   'lights initially empty' do
-    kata = make_kata
+    kata = make_language_kata
     lights = kata.start_avatar.lights
     assert_equal [], lights.to_a
     assert_equal 0, lights.count
@@ -18,7 +18,7 @@ class LightsTest < AppModelsTestBase
 
   test '88106F',
   'lights not empty' do
-    kata = make_kata
+    kata = make_language_kata
     puffin = kata.start_avatar(['puffin'])
     maker = DeltaMaker.new(puffin)
 
@@ -53,8 +53,6 @@ class LightsTest < AppModelsTestBase
     assert_equal 'Array', a.class.name
     assert_equal 'Tag', a[0].class.name
   end
-
-  #- - - - - - - - - - - - - - - - - - -
 
   private
 

@@ -7,7 +7,7 @@ class PieChartTest < AppHelpersTestBase
 
   test '10E59F',
   'pie-chart from kata_increments() lights used in dashboard view' do
-    kata = make_kata
+    kata = make_language_kata
     lion = kata.start_avatar(['lion'])
 
     maker = DeltaMaker.new(lion)
