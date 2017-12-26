@@ -29,7 +29,7 @@ class DojoControllerTest < AppControllerTestBase
   test '10390C',
   'check_id exists=true when id.length ~ 6 and kata exists' do
     [5,6,7].each do |n|
-      create_kata
+      create_language_kata
       @id = @id[0..(n-1)]
       assert_equal n, @id.length
       check_id
@@ -47,7 +47,7 @@ class DojoControllerTest < AppControllerTestBase
 
   test '103E3E',
   'show start/resume programming, with an id' do
-    create_kata
+    create_language_kata
     get '/enter/show', { :id => @id }
   end
 
@@ -60,7 +60,7 @@ class DojoControllerTest < AppControllerTestBase
 
   test '103B19',
   'show dashboard/review, with an id' do
-    create_kata
+    create_language_kata
     get '/enter/review', { :id => @id }
   end
 
@@ -91,7 +91,7 @@ class DojoControllerTest < AppControllerTestBase
 
   test '103BEE',
   'enter with id that does exist => !full,avatar_name' do
-    create_kata
+    create_language_kata
     start
     refute empty?
     refute full?
@@ -102,7 +102,7 @@ class DojoControllerTest < AppControllerTestBase
 
   test '1032AE',
   'enter succeeds once for each avatar name, then dojo is full' do
-    create_kata
+    create_language_kata
     Avatars.names.each do |avatar_name|
       start
       refute full?
@@ -119,7 +119,7 @@ class DojoControllerTest < AppControllerTestBase
 
   test '1035BD',
   'resume with id that exists but is empty' do
-    create_kata
+    create_language_kata
     resume
     assert empty?
     refute full?
@@ -129,7 +129,7 @@ class DojoControllerTest < AppControllerTestBase
 
   test '103DEB',
   'resume with id that exists and is not empty' do
-    create_kata
+    create_language_kata
     start
     resume
     refute empty?

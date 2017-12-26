@@ -4,7 +4,7 @@ class DownloadControllerTest < AppControllerTestBase
 
   def prepare
     set_storer_class('StorerService')
-    @id = create_kata
+    @id = create_language_kata
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -83,11 +83,15 @@ class DownloadControllerTest < AppControllerTestBase
   'download_tag' do
     prepare
     start
-    @tag = 0; download_tag; assert_downloaded_tag
+    @tag = 0
+    download_tag
+    assert_downloaded_tag
     kata_edit
     change_file('hiker.c', '...')
     run_tests
-    @tag = 1; download_tag; assert_downloaded_tag
+    @tag = 1
+    download_tag
+    assert_downloaded_tag
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

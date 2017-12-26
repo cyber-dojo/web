@@ -301,8 +301,6 @@ class KataControllerTest  < AppControllerTestBase
     get 'kata/show_json', params
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   private
 
   def in_kata(choice)
@@ -325,17 +323,17 @@ class KataControllerTest  < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def create_gcc_assert_kata
-    id = create_kata('C (gcc), assert') # stateful
+    id = create_language_kata('C (gcc), assert') # stateful
     @kata = Kata.new(katas, id)
   end
 
   def create_python_unittest_kata
-    id = create_kata('Python, unittest') # stateless
+    id = create_language_kata('Python, unittest') # stateless
     @kata = Kata.new(katas, id)
   end
 
   def create_python_pytest_kata
-    id = create_kata('Python, py.test') # processful
+    id = create_language_kata('Python, py.test') # processful
     @kata = Kata.new(katas, id)
   end
 

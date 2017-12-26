@@ -54,7 +54,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   test '59CD79BA3',
   'show_languages defaults to language and test-framework of kata',
   'whose full-id is passed in URL (to encourage repetition)' do
-    id = create_kata(c_assert, 'Fizz_Buzz')
+    id = create_language_kata(c_assert, 'Fizz_Buzz')
     do_get 'show_languages', 'id' => id
     choices = starter.languages_choices
     major_names = choices['major_names']
@@ -113,14 +113,12 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     choices = starter.exercises_choices
     exercises_names = choices['names']
     exercises_names.each_with_index do |exercise_name,index|
-      id = create_kata('C (gcc), assert', exercise_name)
+      id = create_language_kata('C (gcc), assert', exercise_name)
       do_get 'show_exercises', 'id' => id
       md = /var selected = \$\('#exercises_name_' \+ (\d+)/.match(html)
       assert_equal index, md[1].to_i
     end
   end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
 
   private
 
@@ -133,15 +131,15 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def get_language_from(name)
-    commad(name)[0].strip
+    commad(name)[0]
   end
 
   def get_test_from(name)
-    commad(name)[1].strip
+    commad(name)[1]
   end
 
   def commad(s)
-    s.split(',')
+    s.split(',').map(&:strip)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -

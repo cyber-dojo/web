@@ -14,11 +14,11 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def create_kata(language_name = default_language, exercise_name = default_exercise)
-    parts = language_name.split(',')
+  def create_language_kata(major_minor_name = default_language, exercise_name = default_exercise)
+    parts = commad(major_minor_name)
     params = {
-         'major' => parts[0].strip,
-         'minor' => parts[1].strip,
+         'major' => parts[0],
+         'minor' => parts[1],
       'exercise' => exercise_name
     }
     get 'setup_default_start_point/save', params
@@ -28,10 +28,10 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def create_custom_kata(major_minor_name)
-    parts = major_minor_name.split(',')
+    parts = commad(major_minor_name)
     params = {
-         'major' => parts[0].strip,
-         'minor' => parts[1].strip
+         'major' => parts[0],
+         'minor' => parts[1]
     }
     get 'setup_custom_start_point/save', params
     @id = json['id']
@@ -85,12 +85,13 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   end
 
   def run_tests
+    kata = katas[@id]
     params = {
       'format'        => 'js',
       'id'            => @id,
-      'runner_choice' => katas[@id].runner_choice,
-      'max_seconds'   => katas[@id].max_seconds,
-      'image_name'    => katas[@id].image_name,
+      'runner_choice' => kata.runner_choice,
+      'max_seconds'   => kata.max_seconds,
+      'image_name'    => kata.image_name,
       'avatar'        => @avatar.name
     }
     post 'kata/run_tests', params.merge(@params_maker.params)
@@ -111,6 +112,11 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   end
 
   private
+
+
+  def commad(name)
+    name.split(',').map(&:strip)
+  end
 
   def default_language
     'C (gcc), assert'

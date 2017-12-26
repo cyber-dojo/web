@@ -34,7 +34,7 @@ class ForkerControllerTest < AppControllerTestBase
 
   test '3E967725B',
   'when avatar not started, the fork fails, and the reason given is avatar' do
-    id = create_kata
+    id = create_language_kata
     fork(id, bad_avatar = 'hippo', tag=1)
     refute forked?
     assert_reason_is("avatar(#{bad_avatar})")
@@ -45,7 +45,7 @@ class ForkerControllerTest < AppControllerTestBase
 
   test '3E94CCCA7',
   'when tag is bad, the fork fails, and the reason given is traffic_light' do
-    @id = create_kata
+    @id = create_language_kata
     @avatar = start
     bad_tag_test('xx')      # !is_tag
     bad_tag_test('-14')     # tag <= 0
@@ -67,7 +67,7 @@ class ForkerControllerTest < AppControllerTestBase
   'when id,avatar,tag are all ok',
   'format=json fork works',
   "and the new dojo's id is returned" do
-    @id = create_kata
+    @id = create_language_kata
     @avatar = start # 0
     run_tests       # 1
     fork(@id, @avatar.name, tag=1)
@@ -92,7 +92,7 @@ class ForkerControllerTest < AppControllerTestBase
   'when id,avatar,tag are all ok',
   'format=html fork works',
   "and you are redirected to the enter page with the new dojo's id" do
-    @id = create_kata
+    @id = create_language_kata
     @avatar = start # 0
     run_tests       # 1
     fork(@id, @avatar.name, tag=1, 'html')
@@ -108,7 +108,7 @@ class ForkerControllerTest < AppControllerTestBase
   'when id,avatar are all ok, tag==-1',
   'format=html fork works',
   "and you are redirected to the enter page with the new dojo's id" do
-    @id = create_kata
+    @id = create_language_kata
     @avatar = start # 0
     run_tests       # 1
     run_tests       # 2

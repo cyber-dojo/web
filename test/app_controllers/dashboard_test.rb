@@ -3,7 +3,7 @@ require_relative 'app_controller_test_base'
 class DashboardControllerTest < AppControllerTestBase
 
   def prepare
-    create_kata('Python, unittest')
+    create_language_kata('Python, unittest')
   end
 
   #- - - - - - - - - - - - - - - -

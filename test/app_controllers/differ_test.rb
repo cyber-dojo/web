@@ -4,7 +4,7 @@ class DifferControllerTest < AppControllerTestBase
 
   test '2D6238AF6',
   'no lines different in any files between successive tags' do
-    @id = create_kata
+    @id = create_language_kata
     @avatar = start # 0
     filename = 'hiker.c'
     change_file(filename, content='some_change...')
@@ -35,7 +35,7 @@ class DifferControllerTest < AppControllerTestBase
 
   test '2D6BEC2BF',
   'one line different in one file between successive tags' do
-    @id = create_kata
+    @id = create_language_kata
     @avatar = start # 0
     filename = 'hiker.c'
     change_file(filename, from='fubar')
@@ -69,7 +69,7 @@ class DifferControllerTest < AppControllerTestBase
 
   test '2D606FD09',
   'tag -1 gives last traffic-light' do
-    @id = create_kata
+    @id = create_language_kata
     start      # 0
     run_tests  # 1
     run_tests  # 2
@@ -86,7 +86,7 @@ class DifferControllerTest < AppControllerTestBase
 
   test '2D634D490',
   'nextAvatar and prevAvatar are empty string for dojo with one avatar' do
-    @id = create_kata
+    @id = create_language_kata
     start      # 0
     run_tests  # 1
     @was_tag = 0
@@ -102,7 +102,7 @@ class DifferControllerTest < AppControllerTestBase
 
   test '2D69FF76A',
   'nextAvatar and prevAvatar for dojo with two avatars' do
-    @id = create_kata
+    @id = create_language_kata
     firstAvatar = start  # 0
     run_tests            # 1
     start      # 0
@@ -115,8 +115,6 @@ class DifferControllerTest < AppControllerTestBase
     assert_equal firstAvatar.name, json['prevAvatar']
     assert_equal firstAvatar.name, json['nextAvatar']
   end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   private
 

@@ -4,7 +4,7 @@ class TipperControllerTest < AppControllerTestBase
 
   test '25E3D4',
   'traffic_light_tip' do
-    @id = create_kata
+    @id = create_language_kata
     1.times { start; 2.times { run_tests } }
     get 'tipper/traffic_light_tip',
       'format'  => 'js',
