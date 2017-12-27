@@ -46,16 +46,13 @@ class SmokeTest < AppLibTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   smoke_test '2BDF808102',
-  'smoke test pulling' do
+  'smoke test image_pulled?' do
     kata = make_language_kata({
       'display_name' => 'Python, unittest',
       'id' => '2BDF808102'
     })
     assert kata.runner_choice == 'stateless' # no need to do runner.kata_old
     refute runner.image_pulled? 'cyberdojo/non_existant', kata.id
-    image_name = 'cyberdojofoundation/gcc_assert'
-    assert runner.image_pull kata.image_name, kata.id
-    assert runner.image_pulled? kata.image_name, kata.id
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
