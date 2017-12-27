@@ -2,26 +2,6 @@ require_relative 'app_controller_test_base'
 
 class ForkerControllerTest < AppControllerTestBase
 
-  # This test (3E99D85BF) depends on the languages start-point being complete.
-
-=begin
-  test '3E99D85BF',
-  'when language has been renamed and everything else',
-  'is ok then fork works and the new dojos id is returned' do
-    language = languages['C#-NUnit']
-    manifest = language.create_kata_manifest
-    manifest['language'] = 'C#' # old-name
-    katas.create_kata(manifest)
-    @id = manifest['id']
-    @avatar = start # 0
-    run_tests       # 1
-    fork(@id, @avatar.name, tag=1)
-    assert forked?
-  end
-=end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test '3E9892AFE',
   'when id is invalid then fork fails and the reason given is dojo' do
     fork(bad_id = 'bad-id', 'hippo', tag=1)
