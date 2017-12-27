@@ -4,11 +4,17 @@ require_relative '../../app/models/avatars'
 
 class StorerFakeTest < AppLibTestBase
 
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # invalid_id on any method raises
+  # TODO: the exceptions and messages should be
+  # be the same as the StorerService.
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   def storer
     @storer ||= StorerFake.new(self)
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '9D355EEE',
     'path is off /tmp to ensure read-write access' do
@@ -16,10 +22,6 @@ class StorerFakeTest < AppLibTestBase
     assert storer.path.start_with? '/tmp/'
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # invalid_id on any method raises
-  # TODO: the exceptions and messages should be
-  # be the same as the StorerService.
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '9D3933',

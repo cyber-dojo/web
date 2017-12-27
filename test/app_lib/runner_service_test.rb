@@ -175,33 +175,33 @@ class RunnerServiceTest < AppLibTestBase
   # run
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '2BDF80874C',
-  'stateful run() delegates to stateful runner' do
-    kata = make_kata_stateful
-    args = []
-    args << kata.image_name
-    args << kata.id
-    args << (avatar_name = lion)
-    args << (max_seconds = 10)
-    args << (delta = { :deleted => ['instructions'], :new => [], :changed => {} })
-    args << (files = {})
+  test '2BDF80874A',
+  'processful run() delegates to stateful runner' do
+    kata = make_kata_processful
     @http = HttpSpy.new(nil)
-    runner.run(*args)
-    assert_spied_stateful(0, 'run_cyber_dojo_sh', {
-      :image_name        => kata.image_name,
-      :kata_id           => kata.id,
-      :avatar_name       => avatar_name,
-      :new_files         => {},
-      :deleted_files     => { 'instructions' => '' },
-      :changed_files     => {},
-      :unchanged_files   => {},
-      :max_seconds       => max_seconds
+    runner.kata_new(kata.image_name, kata.id)
+    assert_spied_processful(0, 'kata_new', {
+      :image_name => kata.image_name,
+      :kata_id    => kata.id
     })
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '2BDF808601',
+  test '2BDF80874B',
+  'stateful run() delegates to stateful runner' do
+    kata = make_kata_stateful
+    @http = HttpSpy.new(nil)
+    runner.kata_new(kata.image_name, kata.id)
+    assert_spied_stateful(0, 'kata_new', {
+      :image_name => kata.image_name,
+      :kata_id    => kata.id
+    })
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '2BDF80874C',
   'stateless run() delegates to stateless runner' do
     kata = make_kata_stateless
     args = []
@@ -227,16 +227,33 @@ class RunnerServiceTest < AppLibTestBase
 
   private # = = = = = = = = = = = = = = = = =
 
+  def make_kata_stateless
+    kata = make_language_kata({ 'display_name' => 'Python, unittest' })
+    assert_equal 'stateless', kata.runner_choice
+    kata
+  end
+
   def make_kata_stateful
     kata = make_language_kata({ 'display_name' => 'C (gcc), assert' })
     assert_equal 'stateful', kata.runner_choice
     kata
   end
 
-  def make_kata_stateless
-    kata = make_language_kata({ 'display_name' => 'Python, unittest' })
-    assert_equal 'stateless', kata.runner_choice
+  def make_kata_processful
+    kata = make_language_kata({ 'display_name' => 'Python, py.test' })
+    assert_equal 'processful', kata.runner_choice
     kata
+  end
+
+  # - - - - - - - - - - - - - - -
+
+  def assert_spied_stateless(index, method_name, args)
+    assert_equal [
+      stateless_runner_name = 'runner_stateless',
+      stateless_runner_port = 4597,
+      method_name,
+      args
+    ], @http.spied[index]
   end
 
   def assert_spied_stateful(index, method_name, args)
@@ -248,10 +265,10 @@ class RunnerServiceTest < AppLibTestBase
     ], @http.spied[index]
   end
 
-  def assert_spied_stateless(index, method_name, args)
+  def assert_spied_processful(index, method_name, args)
     assert_equal [
-      stateless_runner_name = 'runner_stateless',
-      stateless_runner_port = 4597,
+      stateful_runner_name = 'runner_processful',
+      stateful_runner_port = 4547,
       method_name,
       args
     ], @http.spied[index]
