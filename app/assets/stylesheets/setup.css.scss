@@ -26,12 +26,12 @@
   #start-points-major-container, #start-points-minor-container, #exercises-container {
     @include edged-panel();
     margin-top: 15px;
-    padding: 10px !important;
+    padding: 10px;
     .title {
       @include font-size-medium();
       color: lighten($darker-color, 30%);
-      text-align: right;
-      padding-right: 10px;
+      text-align: left;
+      padding-left: 5px;
       font-weight: bold;
     }
     hr {
@@ -46,7 +46,7 @@
      height: 340px;
       width: 190px;
     padding: 6px;
-     margin: { right: 5px; }
+     margin-right: 5px;
 
     overflow-y: auto;
     overflow-x: none;
@@ -54,9 +54,9 @@
 
     .filename {
       @include font-size-medium();
-        padding: { right: 0px; }
-      font-size: 13pt !important;
-      direction: ltr;
+        padding-left: 0px;
+      font-size: 13pt;
+      text-align: left;
       &[class~='selected'] {
         font-style: bold;
              color: darken($lighter-color, 5%);
@@ -66,13 +66,13 @@
   #choose-exercise, #no-exercise {
     @include non-code-font();
     @include font-size-large();
-    margin: { top: 5px; }
+    margin-top: 5px;
   }
 
   #create-it-team, #create-it-individual {
     @include non-code-font();
     @include font-size-medium();
-    margin: { top: 5px; }
+    margin-top: 5px;
   }
 
 }
@@ -81,7 +81,7 @@
 
 #setup-start-point-page {
 
-  margin: { left: 150px; }
+  margin-left: 150px;
 
   #info-container {
     @include plaintext-font();
@@ -96,11 +96,11 @@
 
 #setup-exercises-page {
 
-  margin: { left: 187px; }
+  margin-left: 187px;
 
   #exercises-container {
 
-        padding: 10px !important;
+        padding: 10px;
     margin-left: 110px;
 
     #exercises-list { width: 185px; }
@@ -116,7 +116,7 @@
       background: lighten($darker-color, 5%);
           border: none;
           height: 350px;
-          margin: { left: 0px; }
+          margin-left: 0px;
       overflow-y: scroll;
          outline: none;
           resize: none;
