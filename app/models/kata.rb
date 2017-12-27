@@ -147,9 +147,9 @@ class Kata
 
   def updated(manifest)
     if manifest['unit_test_framework']
-      # manifest change #1
-      # eg does not have image_name
-      # attempt to retrieve information from start-point
+      # manifest change
+      # #1 manifest became self-contained rather than
+      # having to retrieve information from start-point
       old_name = manifest['language']
       xlated = starter.manifest(old_name)
       xlated['id'] = manifest['id']
@@ -158,8 +158,8 @@ class Kata
       return xlated
     end
     if manifest['runner_choice'].nil?
-      # manifest change #2
-      # added runner_choice required parameter
+      # manifest change
+      # #2 added runner_choice required parameter
       parts = manifest['display_name'].split(',').map(&:strip)
       old_name = parts[0] + '-' + parts[1]
       xlated = starter.manifest(old_name)
