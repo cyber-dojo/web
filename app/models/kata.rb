@@ -3,7 +3,7 @@ class Kata
 
   def initialize(katas, id)
     # Does *not* validate.
-    # All access to kata object must come through katas[id]
+    # You must explicitly call exists? to validate
     @katas = katas
     @id = id
   end
@@ -59,11 +59,11 @@ class Kata
   end
 
   def major_name
-    display_name.split(',',2)[0].strip
+    commad_display_name[0]
   end
 
   def minor_name
-    display_name.split(',',2)[1].strip
+    commad_display_name[1]
   end
 
   def exercise
@@ -71,7 +71,7 @@ class Kata
   end                 # not required in custom kata
 
   # - - - - - - - - - - - - -
-  # file-knave
+  # filenames
 
   def filename_extension
     manifest_property || ''
@@ -91,12 +91,12 @@ class Kata
     manifest_property || default_lowlight_filenames
   end
 
+  # - - - - - - - - - - - - -
+  # source
+
   def tab_size
     manifest_property || 4
   end
-
-  # - - - - - - - - - - - - -
-  # source
 
   def visible_files
     manifest_property # required
@@ -170,6 +170,10 @@ class Kata
   end
 
   # - - - - - - - - - - - - - - - - - -
+
+  def commad_display_name
+    display_name.split(',',2).map(&:strip)
+  end
 
   include NearestAncestors
 
