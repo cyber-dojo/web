@@ -11,46 +11,46 @@
  * Force sass to regenerate
  * http://stackoverflow.com/questions/7046495/rails-3-1-asset-pipeline-doesnt-pick-up-changes-to-importd-sheets
  *
- *= depend_on colors.css.scss
- *= depend_on color-gradients.css.scss
- *= depend_on rounded-corner.css.scss
- *= depend_on big-checkbox.css.scss
- *= depend_on fonts.css.scss
- *= depend_on force-scrollbars.css.scss
- *= depend_on shared.css.scss
- *= depend_on cyber-dojo.css.scss
- *= depend_on home.css.scss
- *= depend_on setup.css.scss
- *= depend_on enter.css.scss
- *= depend_on kata.css.scss
- *= depend_on dashboard.css.scss
- *= depend_on review.css.scss
- *= depend_on app-bar.css.scss
- *= depend_on jquery-ui-1.8.16.custom.css.scss
- *= depend_on codemirror.css.scss
- *= depend_on codemirror-cyber-dojo-colour.css.scss
- *= depend_on codemirror-cyber-dojo-default.css.scss
- *= depend_on codemirror-dialog.css.scss
+ *= depend_on colors.scss
+ *= depend_on color-gradients.scss
+ *= depend_on rounded-corner.scss
+ *= depend_on big-checkbox.scss
+ *= depend_on fonts.scss
+ *= depend_on force-scrollbars.scss
+ *= depend_on shared.scss
+ *= depend_on cyber-dojo.scss
+ *= depend_on home.scss
+ *= depend_on setup.scss
+ *= depend_on enter.scss
+ *= depend_on kata.scss
+ *= depend_on dashboard.scss
+ *= depend_on review.scss
+ *= depend_on app-bar.scss
+ *= depend_on jquery-ui-1.8.16.custom.scss
+ *= depend_on codemirror.scss
+ *= depend_on codemirror-cyber-dojo-colour.scss
+ *= depend_on codemirror-cyber-dojo-default.scss
+ *= depend_on codemirror-dialog.scss
  *= require_self
 */
 
-@import "colors.css.scss";
-@import "color-gradients.css.scss";
-@import "rounded-corner.css.scss";
-@import "big-checkbox.css.scss";
-@import "fonts.css.scss";
-@import "force-scrollbars.css.scss";
-@import "shared.css.scss";
-@import "cyber-dojo.css.scss";
-@import "home.css.scss";
-@import "setup.css.scss";
-@import "enter.css.scss";
-@import "kata.css.scss";
-@import "dashboard.css.scss";
-@import "review.css.scss";
-@import "app-bar.css.scss";
-@import "jquery-ui-1.8.16.custom.css.scss";
-@import "codemirror.css.scss";
-@import "codemirror-cyber-dojo-colour.css.scss";
-@import "codemirror-cyber-dojo-default.css.scss";
-@import "codemirror-dialog.css.scss";
+@import "colors.scss";
+@import "color-gradients.scss";
+@import "rounded-corner.scss";
+@import "big-checkbox.scss";
+@import "fonts.scss";
+@import "force-scrollbars.scss";
+@import "shared.scss";
+@import "cyber-dojo.scss";
+@import "home.scss";
+@import "setup.scss";
+@import "enter.scss";
+@import "kata.scss";
+@import "dashboard.scss";
+@import "review.scss";
+@import "app-bar.scss";
+@import "jquery-ui-1.8.16.custom.scss";
+@import "codemirror.scss";
+@import "codemirror-cyber-dojo-colour.scss";
+@import "codemirror-cyber-dojo-default.scss";
+@import "codemirror-dialog.scss";
