@@ -240,12 +240,6 @@ class StorerFake
     end
   end
 
-  def assert_valid_name(avatar_name)
-    unless valid_avatar?(avatar_name)
-      fail invalid('avatar_name')
-    end
-  end
-
   def valid_avatar?(avatar_name)
     all_avatars_names.include?(avatar_name)
   end
