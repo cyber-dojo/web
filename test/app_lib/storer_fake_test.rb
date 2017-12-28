@@ -399,8 +399,26 @@ class StorerFakeTest < AppLibTestBase
   # tag_visible_files
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test '9D3171',
+  'tag_visible_files when tag is -1 is the last tag' do
+    create_kata(kata_id = '9D3A35B171')
+    storer.start_avatar(kata_id, [lion])
+    args = []
+    args << kata_id
+    args << lion
+    files = starting_files
+    files['hiker.c'] = '6*7';
+    args << files
+    args << (now = [2017,12,28, 10,53,20])
+    args << (output = 'All tests passed')
+    args << (colour = 'green')
+    storer.avatar_ran_tests(*args)
+    files['output'] = output
+    assert_equal files, storer.tag_visible_files(kata_id, lion, -1)
+  end
+
   test '9D3172',
-  'tag_visible_files with bad kata_id raises' do
+  'tag_visible_files raises when kata_id is invalid' do
     error = assert_raises(ArgumentError) {
       storer.tag_visible_files('xxx', 'dolphin', 20)
     }
@@ -408,7 +426,7 @@ class StorerFakeTest < AppLibTestBase
   end
 
   test '9D3173',
-  'tag_visible_files with bad avatar_name raises' do
+  'tag_visible_files raises when avatar_name is invalid' do
     create_kata(kata_id = '9D3A35B173')
     error = assert_raises(ArgumentError) {
       storer.tag_visible_files(kata_id, 'xxx', 20)
@@ -417,7 +435,7 @@ class StorerFakeTest < AppLibTestBase
   end
 
   test '9D3174',
-  'tag_visible_files with unstarted avatar_name raises' do
+  'tag_visible_files raises when avatar_name is valid but unstarted' do
     create_kata(kata_id = '9D3A35B174')
     error = assert_raises(ArgumentError) {
       storer.tag_visible_files(kata_id, lion, 20)
@@ -426,7 +444,7 @@ class StorerFakeTest < AppLibTestBase
   end
 
   test '9D3175',
-  'tag_visible_files with bad tag raises' do
+  'tag_visible_files raises when tag is invalid' do
     create_kata(kata_id = '9D3A35B175')
     storer.start_avatar(kata_id, [lion])
     error = assert_raises(ArgumentError) {
