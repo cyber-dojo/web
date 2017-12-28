@@ -64,10 +64,9 @@ class ForkerControllerTest < AppControllerTestBase
     kata = @avatar.kata
     assert_equal kata.image_name, forked_kata.image_name
     kata.visible_files.each do |filename,content|
-      unless filename == 'output'
-        assert forked_kata.visible_files.keys.include? filename
-        #assert_equal content, forked_kata.visible_files[filename]
-      end
+      assert forked_kata.visible_files.keys.include? filename
+      #This fails - the difference seems to be \r\n related.
+      #assert_equal content, forked_kata.visible_files[filename]
     end
   end
 
