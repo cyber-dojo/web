@@ -132,7 +132,7 @@ class DifferControllerTest < AppControllerTestBase
       'was_tag' => @was_tag,
       'now_tag' => @now_tag
     }
-    get '/differ/diff', params
+    get '/differ/diff', params:params
     assert_response :success
   end
 

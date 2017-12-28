@@ -11,7 +11,6 @@ rm -rf /tmp/cyber-dojo
 
 if [ "${CYBER_DOJO_TEST_MODULES}" == "" ]; then
   modules=( app_helpers app_lib app_models lib app_controllers )
-  modules=( app_controllers )
 else
   modules=( ${CYBER_DOJO_TEST_MODULES} )
 fi

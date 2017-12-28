@@ -18,7 +18,7 @@ class DojoControllerTest < AppControllerTestBase
 
   test '957',
   'index with id' do
-    get '/dojo/index', id:'1234512345'
+    get '/dojo/index', params: { id:'1234512345' }
     assert_response :success
   end
 
@@ -54,7 +54,7 @@ class DojoControllerTest < AppControllerTestBase
   test 'E3E',
   'show start/resume programming, with an id' do
     create_language_kata
-    get '/enter/show', { :id => @id }
+    get '/enter/show', params: { :id => @id }
   end
 
   #- - - - - - - - - - - - - - - -
@@ -67,7 +67,7 @@ class DojoControllerTest < AppControllerTestBase
   test 'B19',
   'show dashboard/review, with an id' do
     create_language_kata
-    get '/enter/review', { :id => @id }
+    get '/enter/review', params: { :id => @id }
   end
 
   #- - - - - - - - - - - - - - - -
@@ -146,7 +146,7 @@ class DojoControllerTest < AppControllerTestBase
 
   def check_id
     params = { :format => :json, :id => @id }
-    get '/enter/check', params
+    get '/enter/check', params:params
     assert_response :success
   end
 

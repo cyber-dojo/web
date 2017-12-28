@@ -111,19 +111,19 @@ class DashboardControllerTest < AppControllerTestBase
 
   def dashboard(params = {})
     params[:id] = @id
-    get '/dashboard/show', params
+    get '/dashboard/show', params:params
     assert_response :success
   end
 
   def heartbeat
     params = { :format => :js, :id => @id }
-    get '/dashboard/heartbeat', params
+    get '/dashboard/heartbeat', params:params
     assert_response :success
   end
 
   def progress
     params = { :format => :js, :id => @id }
-    get '/dashboard/progress', params
+    get '/dashboard/progress', params:params
     assert_response :success
   end
 

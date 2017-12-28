@@ -121,11 +121,12 @@ class ForkerControllerTest < AppControllerTestBase
   private
 
   def fork(id, avatar, tag, format='json')
-    get '/forker/fork',
+    get '/forker/fork', params: {
       'format' => format,
       'id'     => id,
       'avatar' => avatar,
       'tag'    => tag
+    }
   end
 
   def forked?
