@@ -29,14 +29,13 @@ class ForkerControllerTest < AppControllerTestBase
     @avatar = start
     bad_tag_test('xx')      # !is_tag
     bad_tag_test('-14')     # tag <= 0
-    bad_tag_test('0')       # tag <= 0
     run_tests
     bad_tag_test('2')       # tag > avatar.lights.length
   end
 
   def bad_tag_test(bad_tag)
     fork(@id, @avatar.name, bad_tag)
-    refute forked?
+    refute forked?, bad_tag
     assert_reason_is("traffic_light(#{bad_tag})")
     assert_nil forked_kata_id
   end
@@ -110,6 +109,7 @@ class ForkerControllerTest < AppControllerTestBase
     assert storer.kata_exists?(id), diagnostic
     fork(id, 'buffalo', 3)
     assert forked?
+    refute_nil json['image_name'], 'image_name'
   end
 
   private
@@ -135,6 +135,10 @@ class ForkerControllerTest < AppControllerTestBase
   def forked_kata_id
     refute_nil json
     json['id']
+  end
+
+  def forked_kata
+    katas[forked_kata_id]
   end
 
 end

@@ -139,6 +139,8 @@ class StorerFake
   def tag_visible_files(kata_id, avatar_name, tag)
     assert_kata_exists(kata_id)
     assert_avatar_exists(kata_id, avatar_name)
+    assert_valid_tag(tag)
+    tag = tag.to_i
     if tag == -1
       tag = avatar_increments(kata_id, avatar_name).size - 1
     end
@@ -241,7 +243,8 @@ class StorerFake
   end
 
   def valid_avatar?(avatar_name)
-    all_avatars_names.include?(avatar_name)
+    avatar_name.class.name == 'String' &&
+      all_avatars_names.include?(avatar_name)
   end
 
   def avatar_dir(kata_id, avatar_name)
@@ -268,7 +271,9 @@ class StorerFake
   end
 
   def valid_tag?(tag)
-    tag.class.name == 'Fixnum'
+    tag.class.name == 'Fixnum' ||
+      tag.to_s =~ /^-1/ ||
+        tag.to_s =~ /^[0-9+]$/
   end
 
   def tag_exists?(kata_id, avatar_name, tag)

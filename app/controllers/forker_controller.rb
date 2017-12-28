@@ -2,37 +2,26 @@
 class ForkerController < ApplicationController
 
   def fork
-    result = { forked: false }
-    error = false
-
-    if !error && !storer.kata_exists?(id)
-      error = true
-      result[:reason] = "dojo(#{id})"
-    end
-
-    if !error && !storer.avatar_exists?(id, avatar_name)
-      error = true
-      result[:reason] = "avatar(#{avatar_name})"
-    end
-
-    #tag = avatar.tags[params['tag']]
-    if !error # && !light.exists?
-      tag = params['tag'];
-      if tag == '-1'
-        tag = "#{avatar.lights.count}"
+    result = { forked:false }
+    error = true
+    begin
+      tag = params['tag']
+      tag_visible_files = storer.tag_visible_files(id, avatar_name, tag)
+      error = false
+    rescue => caught
+      if caught.message == 'invalid kata_id'
+        result[:reason] = "dojo(#{id})"
       end
-      is_number = tag.match(/^\d+$/)
-      if !is_number || tag.to_i <= 0 || tag.to_i > avatar.lights.count
-        error = true
+      if caught.message == 'invalid avatar_name'
+        result[:reason] = "avatar(#{avatar_name})"
+      end
+      if caught.message == 'invalid tag'
         result[:reason] = "traffic_light(#{tag})"
-      else
-        tag = tag.to_i
       end
     end
 
-    if !error
-      manifest = {
-                         'id' => unique_id,
+    unless error
+      manifest = {       'id' => unique_id,
                     'created' => time_now,
                'display_name' => kata.display_name,
                    'exercise' => kata.exercise,
@@ -44,7 +33,7 @@ class ForkerController < ApplicationController
             'progress_regexs' => kata.progress_regexs,
               'runner_choice' => kata.runner_choice,
                    'tab_size' => kata.tab_size,
-              'visible_files' => avatar.tags[tag].visible_files
+              'visible_files' => tag_visible_files
       }
 
       katas.create_kata(manifest)
