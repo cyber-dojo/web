@@ -2,14 +2,18 @@ require_relative 'lib_test_base'
 
 class UniqueIdTest < LibTestBase
 
-  test 'ED2021',
+  def self.hex_prefix
+    'ED2BFB'
+  end
+
+  test '021',
   'its a string' do
     assert_equal 'String', unique_id.class.name
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'BFBC4B',
+  test 'C4B',
   'it is 10 chars long' do
     (0..25).each do
       assert_equal 10, unique_id.length
@@ -18,7 +22,7 @@ class UniqueIdTest < LibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'B69E40',
+  test 'E40',
   'it contains only [A-E 0-9] characters' do
     (0..25).each do |n|
       id = unique_id

@@ -2,7 +2,13 @@ require_relative 'lib_test_base'
 
 class HttpSpyTest < LibTestBase
 
-  test '9518D4',
+  def self.hex_prefix
+    '951608'
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '8D4',
   'after get() we can spy' do
     spy = HttpSpy.new(nil)
     spy.get('runner', 9556, 'avatar_new', { :name => 'salmon' })
@@ -13,7 +19,7 @@ class HttpSpyTest < LibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '9518D5',
+  test '8D5',
   'after post() we can spy hostname and named_args' do
     spy = HttpSpy.new(nil)
     spy.post('runner', 9556, 'avatar_new', { :name => 'salmon' })

@@ -36,6 +36,10 @@ end
 
 class TestNearestAncestors < LibTestBase
 
+  def self.hex_prefix
+    'BF1A1E'
+  end
+
   def setup
     super
     anna = Anna.new
@@ -43,13 +47,13 @@ class TestNearestAncestors < LibTestBase
     @ellie = Ellie.new(natalie)
   end
 
-  test 'BF1542',
+  test '542',
   'finds_nearest_ancestor_when_there_is_one' do
     assert_equal 'hello world:anna', @ellie.uses_disk
     assert_equal 'natalie:42', @ellie.uses_store
   end
 
-  test 'A1EF80',
+  test 'F80',
   'raises_when_parent_chain_runs_out' do
     raised = assert_raises(RuntimeError) { @ellie.uses_log }
     assert_equal 'Anna does not have a parent', raised.to_s

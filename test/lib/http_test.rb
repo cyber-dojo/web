@@ -2,7 +2,13 @@ require_relative 'lib_test_base'
 
 class HttpTest < LibTestBase
 
-  smoke_test 'F02B3620',
+  def self.hex_prefix
+    'F02B3E'
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - -
+
+  smoke_test '620',
   'smoke test runner-stateful' do
     json = http.get('runner_stateful', '4557', 'image_pulled?', {
       image_name:'',
@@ -19,7 +25,7 @@ class HttpTest < LibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - -
 
-  smoke_test 'F02B3621',
+  smoke_test '621',
   'smoke test runner-stateless' do
     json = http.get('runner_stateless', '4597', 'image_pulled?', {
       image_name:'',

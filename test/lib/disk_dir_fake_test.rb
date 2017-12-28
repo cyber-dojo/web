@@ -4,7 +4,15 @@ require_relative '../../lib/dir_fake'
 
 class DiskDirFakeTest < LibTestBase
 
-  test '447A8',
+  def self.hex_prefix
+    '5E7765'
+  end
+
+  def disk
+    @disk ||= DiskFake.new(self)
+  end
+
+  test '7A8',
   'make returns true when it creates, afterwards false' do
     dir = disk['etc']
     refute dir.exists?
@@ -13,7 +21,7 @@ class DiskDirFakeTest < LibTestBase
     refute dir.make
   end
 
-  test '32486',
+  test '486',
   'before make, exists? is false, after exists? is true' do
     dir = disk['etc']
     refute dir.exists?
@@ -21,17 +29,17 @@ class DiskDirFakeTest < LibTestBase
     assert dir.exists?
   end
 
-  test 'CC8D5',
+  test '8D5',
   'write before make raises' do
     assert_raises { disk['a'].write('filename', '') }
   end
 
-  test '76B79',
+  test 'B79',
   'read before make raises' do
     assert_raises { disk['a'].read('filename') }
   end
 
-  test '55FA7',
+  test 'FA7',
   'read reads what write wrote' do
     dir = disk['etc']
     dir.make
@@ -41,7 +49,7 @@ class DiskDirFakeTest < LibTestBase
     assert_equal text, dir.read(filename)
   end
 
-  test 'F4F72',
+  test 'F72',
   'write overwrites previous write' do
     dir = disk['usr']
     dir.make
@@ -51,7 +59,7 @@ class DiskDirFakeTest < LibTestBase
     assert_equal 'goodbye', dir.read(filename)
   end
 
-  test '93082',
+  test '082',
   'make creates all intermediate dirs' do
     dir = disk['a/b/c']
     refute disk['a'].exists?
@@ -63,12 +71,12 @@ class DiskDirFakeTest < LibTestBase
     assert disk['a'].exists?
   end
 
-  test '75862',
+  test '862',
   'each_dir raises when exists is false' do
     assert_raises { disk['etc'].each_dir }
   end
 
-  test '37D1B',
+  test 'D1B',
   'each_dir three levels deep' do
     dir = disk['etc/periodic/daily']
     dir.make
@@ -80,16 +88,12 @@ class DiskDirFakeTest < LibTestBase
     assert_equal [], all
   end
 
-  test 'A979F',
+  test '79F',
   'each_dir multiple dirs' do
     disk['etc/alpha'].make
     disk['etc/beta'].make
     all = disk['etc'].each_dir.collect { |name| name }
     assert_equal ['alpha','beta'].sort, all.sort
-  end
-
-  def disk
-    @disk ||= DiskFake.new(self)
   end
 
 end
