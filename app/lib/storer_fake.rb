@@ -49,10 +49,10 @@ class StorerFake
   end
 
   def create_kata(manifest)
+    json = JSON.unparse(manifest)
     id = manifest['id']
     assert_valid_id(id)
     refute_kata_exists(id)
-    json = JSON.unparse(manifest)
     dir = kata_dir(id)
     dir.make
     dir.write(manifest_filename, json)
@@ -66,11 +66,9 @@ class StorerFake
   end
 
   def kata_increments(id)
-    incs = {}
-    started_avatars(id).each do |name|
-      incs[name] = avatar_increments(id, name)
-    end
-    incs
+    Hash[started_avatars(id).map { |name|
+      [name, avatar_increments(id, name)]
+    }]
   end
 
   # - - - - - - - - - - - - - - - -
@@ -153,9 +151,7 @@ class StorerFake
     }
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - - - -
-
-  private
+  private # = = = = = = = = = = = = = = =
 
   def write_avatar_increments(id, name, increments)
     json = JSON.unparse(increments)
