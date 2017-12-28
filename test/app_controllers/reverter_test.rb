@@ -2,7 +2,13 @@ require_relative 'app_controller_test_base'
 
 class ReverterControllerTest  < AppControllerTestBase
 
-  test '81F276',
+  def self.hex_prefix
+    '81F879'
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '276',
   'revert' do
     @id = create_language_kata
     @avatar = start

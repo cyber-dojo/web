@@ -2,7 +2,13 @@ require_relative 'app_controller_test_base'
 
 class KataControllerTest  < AppControllerTestBase
 
-  test 'BE876E',
+  def self.hex_prefix
+    'BE83BC'
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '76E',
   'run_tests with bad kata id raises' do
     params = {
       :format => :js,
@@ -15,7 +21,7 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'BE8221',
+  test '221',
   'run timed_out test' do
     set_runner_class('RunnerService')
     in_kata('stateless') {
@@ -36,7 +42,7 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'BE8222',
+  test '222',
   'run timed_out test' do
     set_runner_class('RunnerService')
     in_kata('stateful') {
@@ -60,7 +66,7 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'BE8223',
+  test '223',
   'run red test' do
     set_runner_class('RunnerService')
     in_kata('processful') {
@@ -71,7 +77,7 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'BE8224',
+  test '224',
   'run amber test' do
     set_runner_class('RunnerService')
     in_kata('stateful') {
@@ -83,7 +89,7 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'BE8225',
+  test '225',
   'run green test' do
     set_runner_class('RunnerService')
     in_kata('stateful') {
@@ -99,7 +105,7 @@ class KataControllerTest  < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 =begin
-  test 'BE8B29',
+  test 'B29',
   'stateless run tests caches info so it only issues a single command to storer' do
     set_runner_class('RunnerService')
     set_storer_class('StorerFake') # add Call-Counts
@@ -132,7 +138,7 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'BE87FD',
+  test '7FD',
   'run_tests() on makefile with leading spaces',
   'are NOT converted to tabs and traffic-light is amber' do
     set_runner_class('RunnerService')
@@ -149,7 +155,7 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'BE802D',
+  test '02D',
   'a new file persists when the RunnerService is stateful' do
     set_runner_class('RunnerService')
     in_kata('stateful') {
@@ -165,7 +171,7 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'BE89DC',
+  test '9DC',
   'a deleted file stays deleted when the RunnerService is stateful' do
     set_runner_class('RunnerService')
     in_kata('stateful') {
@@ -182,7 +188,7 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'BE8569',
+  test '569',
   'when cyber-dojo.sh creates a file then it disappears',
   'when RunnerService is stateless' do
     set_runner_class('RunnerService')
@@ -204,7 +210,7 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'BE83FD',
+  test '3FD',
   'run_tests with bad image_name raises and does not cause resurrection' do
     set_runner_class('RunnerService')
     in_kata('stateful') { |kata_id|
@@ -223,7 +229,7 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'BE8555',
+  test '555',
   'avatar.test() for an old avatar seamlessly resurrects' do
     # Note: the kata-controller validates the kata-id and the avatar-name
     # (via the storer) so there is no path from the browser to
@@ -258,7 +264,7 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'BE8E40',
+  test 'E40',
   'avatar.test() for an old kata seamlessly resurrects' do
     set_runner_class('RunnerService')
     in_kata('stateful') {
@@ -291,7 +297,7 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'BE8B75',
+  test 'B75',
   'show-json (for Atom editor)' do
     create_gcc_assert_kata
     @avatar = start

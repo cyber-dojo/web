@@ -6,12 +6,14 @@ class UniqueIdTest < LibTestBase
     'ED2BFB'
   end
 
+  #- - - - - - - - - - - - - - - - - - - - - - -
+
   test '021',
   'its a string' do
     assert_equal 'String', unique_id.class.name
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  #- - - - - - - - - - - - - - - - - - - - - - -
 
   test 'C4B',
   'it is 10 chars long' do
@@ -20,7 +22,7 @@ class UniqueIdTest < LibTestBase
     end
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  #- - - - - - - - - - - - - - - - - - - - - - -
 
   test 'E40',
   'it contains only [A-E 0-9] characters' do

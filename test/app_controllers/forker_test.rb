@@ -2,7 +2,13 @@ require_relative 'app_controller_test_base'
 
 class ForkerControllerTest < AppControllerTestBase
 
-  test '3E9892AFE',
+  def self.hex_prefix
+    '3E9892'
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'AFE',
   'when id is invalid then fork fails and the reason given is dojo' do
     fork(bad_id = 'bad-id', 'hippo', tag=1)
     refute forked?
@@ -12,7 +18,7 @@ class ForkerControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '3E967725B',
+  test '25B',
   'when avatar not started, the fork fails, and the reason given is avatar' do
     id = create_language_kata
     fork(id, bad_avatar = 'hippo', tag=1)
@@ -23,7 +29,7 @@ class ForkerControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '3E94CCCA7',
+  test 'CA7',
   'when tag is bad, the fork fails, and the reason given is traffic_light' do
     @id = create_language_kata
     @avatar = start
@@ -42,7 +48,7 @@ class ForkerControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '3E92C432F',
+  test '32F',
   'when id,avatar,tag are all ok',
   'format=json fork works',
   "and the new dojo's id is returned" do
@@ -67,7 +73,7 @@ class ForkerControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '3E9F65835',
+  test '835',
   'when id,avatar,tag are all ok',
   'format=html fork works',
   "and you are redirected to the enter page with the new dojo's id" do
@@ -83,7 +89,7 @@ class ForkerControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - -
 
-  test '3E9F657E7',
+  test '7E7',
   'when id,avatar are all ok, tag==-1',
   'format=html fork works',
   "and you are redirected to the enter page with the new dojo's id" do
@@ -100,7 +106,7 @@ class ForkerControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - -
 
-  test '3E9467D4A',
+  test 'D4A',
   'forking kata from before start-point volume re-architecture works' do
     set_storer_class('StorerService')
     # See test/data/katas_old/421F303E80.tgz

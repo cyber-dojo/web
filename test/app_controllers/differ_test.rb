@@ -2,7 +2,13 @@ require_relative 'app_controller_test_base'
 
 class DifferControllerTest < AppControllerTestBase
 
-  test '2D6238AF6',
+  def self.hex_prefix
+    '2D6238'
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'AF6',
   'no lines different in any files between successive tags' do
     @id = create_language_kata
     @avatar = start # 0
@@ -33,7 +39,7 @@ class DifferControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '2D6BEC2BF',
+  test '2BF',
   'one line different in one file between successive tags' do
     @id = create_language_kata
     @avatar = start # 0
@@ -67,7 +73,7 @@ class DifferControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '2D606FD09',
+  test 'D09',
   'tag -1 gives last traffic-light' do
     @id = create_language_kata
     start      # 0
@@ -84,7 +90,7 @@ class DifferControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '2D634D490',
+  test '490',
   'nextAvatar and prevAvatar are empty string for dojo with one avatar' do
     @id = create_language_kata
     start      # 0
@@ -100,7 +106,7 @@ class DifferControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '2D69FF76A',
+  test '76A',
   'nextAvatar and prevAvatar for dojo with two avatars' do
     @id = create_language_kata
     firstAvatar = start  # 0

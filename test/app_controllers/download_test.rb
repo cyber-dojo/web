@@ -2,6 +2,10 @@ require_relative 'app_controller_test_base'
 
 class DownloadControllerTest < AppControllerTestBase
 
+  def self.hex_prefix
+    'C446C5'
+  end
+
   def prepare
     set_storer_class('StorerService')
     @id = create_language_kata
@@ -11,7 +15,7 @@ class DownloadControllerTest < AppControllerTestBase
   # download: positive tests
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'C44561',
+  test '561',
   'download of empty dojo with no avatars',
   'untars to same as original folder' do
     prepare
@@ -21,7 +25,7 @@ class DownloadControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'C441B1',
+  test '1B1',
   'download of dojo with one avatar and one traffic-light',
   'untars to same as original folder' do
     prepare
@@ -35,7 +39,7 @@ class DownloadControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'C44E9B',
+  test 'E9B',
   'download of dojo with five animals and five traffic-lights',
   'untars to same as original folder' do
     prepare
@@ -55,7 +59,7 @@ class DownloadControllerTest < AppControllerTestBase
   # download: negative tests
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'C440EF',
+  test '0EF',
   'download with empty id raises' do
     @id = ''
     error = assert_raises(StandardError) {
@@ -66,7 +70,7 @@ class DownloadControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'C44849',
+  test '849',
   'download with bad id raises' do
     @id = 'XX'
     error = assert_raises(StandardError) {
@@ -79,7 +83,7 @@ class DownloadControllerTest < AppControllerTestBase
   # download_tag: positive test
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'C44A45',
+  test 'A45',
   'download_tag' do
     prepare
     start
@@ -98,7 +102,7 @@ class DownloadControllerTest < AppControllerTestBase
   # download_tag: negative test
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'C446F7',
+  test '6F7',
   'download_tag with empty kata_id raises' do
     @id = ''
     @avatar = 'salmon'

@@ -2,14 +2,20 @@ require_relative 'app_controller_test_base'
 
 class SetupCustomStartPointControllerTest < AppControllerTestBase
 
-  test 'EB7B53',
+  def self.hex_prefix
+    'EB7634'
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'B53',
   'show succeeds when id is invalid' do
     do_get 'show', 'id' => '379C8ABFDF'
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'EB7BA3',
+  test 'BA3',
   'show defaults to major,minor of custom-kata',
   'whose full-id is passed in URL (to encourage repetition)' do
     id = create_custom_kata('Yahtzee refactoring, C# NUnit')
@@ -25,7 +31,7 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  test 'EB77D9',
+  test '7D9',
   'shows all custom exercises' do
     do_get 'show'
     choices = starter.custom_choices
@@ -43,7 +49,7 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'EB783D',
+  test '83D',
   'saves a custom exercises' do
     params = {
       'major' => 'Yahtzee refactoring',
@@ -51,8 +57,6 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
     }
     do_get 'save', params
   end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
 
   private
 

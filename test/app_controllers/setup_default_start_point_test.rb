@@ -2,7 +2,13 @@ require_relative 'app_controller_test_base'
 
 class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
-  test '59C9F4020',
+  def self.hex_prefix
+    '59C9F4'
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  test '020',
   'show_languages page' do
     do_get 'show_languages'
     assert html.include? "data-major=#{quoted(get_language_from(c_assert))}"
@@ -13,7 +19,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  test '59C271565',
+  test '565',
   'show_languages when kata_id is invalid' do
     do_get 'show_languages', 'id' => '379C8ABFDF'
     assert html.include? "data-major=#{quoted(get_language_from(c_assert))}"
@@ -24,7 +30,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  test '59CBB9967',
+  test '967',
   'show_exercises page' do
     do_get 'show_exercises'
     assert html.include? "data-name=#{quoted(bowling_game)}"
@@ -35,7 +41,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  test '59C7433D8',
+  test '3D8',
   'save creates a new kata with language+test and exercise' do
     params = {
          'major' => get_language_from(c_assert),
@@ -51,7 +57,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  test '59CD79BA3',
+  test 'BA3',
   'show_languages defaults to language and test-framework of kata',
   'whose full-id is passed in URL (to encourage repetition)' do
     id = create_language_kata(c_assert, 'Fizz_Buzz')
@@ -67,7 +73,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  test '59CD79BA4',
+  test 'BA4',
   'show_languages ok when major-name no longer present' do
     major = get_language_from(c_assert)
     minor = get_test_from(c_assert)
@@ -86,7 +92,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  test '59CD79BA5',
+  test 'BA5',
   'show_languages ok when minor-name no longer present' do
     major = get_language_from(c_assert)
     minor = get_test_from(c_assert)
@@ -107,7 +113,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  test '59C82562A',
+  test '62A',
   'show_exercises defaults to exercise of kata',
   'whose full-id is passed in URL (to encourage repetition)' do
     choices = starter.exercises_choices

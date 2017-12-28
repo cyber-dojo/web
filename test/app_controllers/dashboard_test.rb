@@ -2,13 +2,17 @@ require_relative 'app_controller_test_base'
 
 class DashboardControllerTest < AppControllerTestBase
 
+  def self.hex_prefix
+    '62AB98'
+  end
+
   def prepare
     create_language_kata('Python, unittest')
   end
 
   #- - - - - - - - - - - - - - - -
 
-  test '62A971',
+  test '971',
   'dashboard when no avatars' do
     prepare
     dashboard
@@ -22,7 +26,7 @@ class DashboardControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test '62A29E',
+  test '29E',
   'dashboard when avatars with no traffic-lights' do
     prepare
     4.times { start }
@@ -31,7 +35,7 @@ class DashboardControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test '62AE43',
+  test 'E43',
   'dashboard when avatars with some traffic lights' do
     prepare
     3.times { start; 2.times { run_tests } }
@@ -40,7 +44,7 @@ class DashboardControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test '62A6CB',
+  test '6CB',
   'heartbeat when no avatars' do
     prepare
     heartbeat
@@ -48,7 +52,7 @@ class DashboardControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test '62A1FB',
+  test '1FB',
   'heartbeat when avatars with no traffic-lights' do
     prepare
     start
@@ -57,7 +61,7 @@ class DashboardControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test '62A785',
+  test '785',
   'heartbeat when some traffic-lights' do
     prepare
     3.times { start; 2.times { run_tests } }
@@ -66,7 +70,7 @@ class DashboardControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test '62A330',
+  test '330',
   'progress when no avatars' do
     prepare
     progress
@@ -74,7 +78,7 @@ class DashboardControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test '62A619',
+  test '619',
   'progress when avatars with no traffic-lights' do
     prepare
     start # 0
@@ -83,7 +87,7 @@ class DashboardControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test '62A4FE',
+  test '4FE',
   'progress when avatar has only amber traffic-lights' do
     prepare
     start # 0
@@ -94,7 +98,7 @@ class DashboardControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test '62A920',
+  test '920',
   'progress when avatar has only non-amber traffic-lights' do
     prepare
     start # 0
