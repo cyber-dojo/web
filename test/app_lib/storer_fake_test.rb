@@ -28,8 +28,10 @@ class StorerFakeTest < AppLibTestBase
   'create_kata with missing id raises' do
     manifest = make_manifest(nil)
     manifest.delete('id')
-    error = assert_raises(ArgumentError) { storer.create_kata(manifest) }
-    assert error.message.start_with?('StorerFake'), error.message
+    error = assert_raises(ArgumentError) {
+      storer.create_kata(manifest)
+    }
+    assert_equal 'invalid kata_id', error.message
   end
 
   test '9D3934',
@@ -39,7 +41,7 @@ class StorerFakeTest < AppLibTestBase
     error = assert_raises(ArgumentError) {
       storer.create_kata(manifest)
     }
-    assert_equal 'StorerFake:invalid id', error.message
+    assert_equal 'invalid kata_id', error.message
   end
 
   test '9D3935',
@@ -50,7 +52,7 @@ class StorerFakeTest < AppLibTestBase
     error = assert_raises(ArgumentError) {
       storer.create_kata(manifest)
     }
-    assert_equal 'StorerFake:invalid id', error.message
+    assert_equal 'invalid kata_id', error.message
   end
 
   test '9D3936',
@@ -58,7 +60,7 @@ class StorerFakeTest < AppLibTestBase
     error = assert_raises(ArgumentError) {
       storer.kata_manifest(invalid_id)
     }
-    assert_equal 'StorerFake:invalid id', error.message
+    assert_equal 'invalid kata_id', error.message
   end
 
   test '9D3937',
@@ -66,7 +68,7 @@ class StorerFakeTest < AppLibTestBase
     error = assert_raises(ArgumentError) {
       storer.started_avatars(invalid_id)
     }
-    assert_equal 'StorerFake:invalid id', error.message
+    assert_equal 'invalid kata_id', error.message
   end
 
   test '9D3938',
@@ -74,7 +76,7 @@ class StorerFakeTest < AppLibTestBase
     error = assert_raises(ArgumentError) {
       storer.start_avatar(invalid_id, [lion])
     }
-    assert_equal 'StorerFake:invalid id', error.message
+    assert_equal 'invalid kata_id', error.message
   end
 
   test '9D3939',
@@ -82,7 +84,7 @@ class StorerFakeTest < AppLibTestBase
     error = assert_raises(ArgumentError) {
       storer.avatar_increments(invalid_id, [lion])
     }
-    assert_equal 'StorerFake:invalid id', error.message
+    assert_equal 'invalid kata_id', error.message
   end
 
   test '9D393A',
@@ -90,7 +92,7 @@ class StorerFakeTest < AppLibTestBase
     error = assert_raises(ArgumentError) {
       storer.avatar_visible_files('sdfsdf', lion)
     }
-    assert_equal 'StorerFake:invalid id', error.message
+    assert_equal 'invalid kata_id', error.message
   end
 
   test '9D393B',
@@ -100,7 +102,7 @@ class StorerFakeTest < AppLibTestBase
     error = assert_raises(ArgumentError) {
       storer.avatar_ran_tests(*args)
     }
-    assert_equal 'StorerFake:invalid id', error.message
+    assert_equal 'invalid kata_id', error.message
   end
 
   test '9D393C',
@@ -108,7 +110,7 @@ class StorerFakeTest < AppLibTestBase
     error = assert_raises(ArgumentError) {
       storer.tag_visible_files('sdfsdf', lion, tag=3)
     }
-    assert_equal 'StorerFake:invalid id', error.message
+    assert_equal 'invalid kata_id', error.message
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -147,7 +149,7 @@ class StorerFakeTest < AppLibTestBase
     error = assert_raises(ArgumentError) {
       storer.kata_manifest('603E8BAEDF')
     }
-    assert_equal 'StorerFake:invalid id', error.message
+    assert_equal 'invalid kata_id', error.message
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -284,7 +286,7 @@ class StorerFakeTest < AppLibTestBase
     error = assert_raises(ArgumentError) {
       storer.avatar_increments(kata_id, 'xxxx')
     }
-    assert_equal 'StorerFake:invalid name', error.message
+    assert_equal 'invalid avatar_name', error.message
   end
 
   test '9D3FC48E',
@@ -293,7 +295,7 @@ class StorerFakeTest < AppLibTestBase
     error = assert_raises(ArgumentError) {
       storer.avatar_increments(kata_id, 'lion')
     }
-    assert_equal 'StorerFake:invalid name', error.message
+    assert_equal 'invalid avatar_name', error.message
   end
 
   test '9D3FC48F',
@@ -311,7 +313,7 @@ class StorerFakeTest < AppLibTestBase
     error = assert_raises(ArgumentError) {
       storer.tag_visible_files(kata_id, lion, nil)
     }
-    assert_equal 'StorerFake:invalid tag', error.message
+    assert_equal 'invalid tag', error.message
   end
 
   test '9D3FC491',
@@ -321,7 +323,7 @@ class StorerFakeTest < AppLibTestBase
     error = assert_raises(ArgumentError) {
       storer.tag_visible_files(kata_id, lion, 1)
     }
-    assert_equal 'StorerFake:invalid tag', error.message
+    assert_equal 'invalid tag', error.message
   end
 
   test '9D3A35BC',
@@ -372,6 +374,46 @@ class StorerFakeTest < AppLibTestBase
     json = storer.tags_visible_files(kata_id, lion, 1, 2)
     assert_equal files1, json['was_tag']
     assert_equal files2, json['now_tag']
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # tag_visible_files
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '9D3172',
+  'tag_visible_files with bad kata_id raises' do
+    error = assert_raises(ArgumentError) {
+      storer.tag_visible_files('xxx', 'dolphin', 20)
+    }
+    assert_equal 'invalid kata_id', error.message
+  end
+
+  test '9D3173',
+  'tag_visible_files with bad avatar_name raises' do
+    create_kata(kata_id = '9D3A35B173')
+    error = assert_raises(ArgumentError) {
+      storer.tag_visible_files(kata_id, 'xxx', 20)
+    }
+    assert_equal 'invalid avatar_name', error.message
+  end
+
+  test '9D3174',
+  'tag_visible_files with unstarted avatar_name raises' do
+    create_kata(kata_id = '9D3A35B174')
+    error = assert_raises(ArgumentError) {
+      storer.tag_visible_files(kata_id, lion, 20)
+    }
+    assert_equal 'invalid avatar_name', error.message
+  end
+
+  test '9D3175',
+  'tag_visible_files with bad tag raises' do
+    create_kata(kata_id = '9D3A35B175')
+    storer.start_avatar(kata_id, [lion])
+    error = assert_raises(ArgumentError) {
+      storer.tag_visible_files(kata_id, lion, 1)
+    }
+    assert_equal 'invalid tag', error.message
   end
 
   private

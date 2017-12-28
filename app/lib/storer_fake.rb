@@ -197,20 +197,20 @@ class StorerFake
   def refute_kata_exists(id)
     assert_valid_id(id)
     if kata_exists?(id)
-      fail error('id')
+      fail error('kata_id')
     end
   end
 
   def assert_kata_exists(id)
     assert_valid_id(id)
     unless kata_exists?(id)
-      fail error('id')
+      fail error('kata_id')
     end
   end
 
   def assert_valid_id(id)
     unless valid_id?(id)
-      fail error('id')
+      fail error('kata_id')
     end
   end
 
@@ -238,13 +238,13 @@ class StorerFake
     assert_kata_exists(id)
     assert_valid_name(name)
     unless avatar_exists?(id, name)
-      fail error('name')
+      fail error('avatar_name')
     end
   end
 
   def assert_valid_name(name)
     unless valid_avatar?(name)
-      fail error('name')
+      fail error('avatar_name')
     end
   end
 
@@ -300,7 +300,7 @@ class StorerFake
   end
 
   def error(message)
-    ArgumentError.new("StorerFake:invalid #{message}")
+    ArgumentError.new("invalid #{message}")
   end
 
   # - - - - - - - - - - - - - - - -
