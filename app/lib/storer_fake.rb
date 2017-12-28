@@ -193,20 +193,20 @@ class StorerFake
   def refute_kata_exists(id)
     assert_valid_id(id)
     if kata_exists?(id)
-      fail error('kata_id')
+      fail invalid('kata_id')
     end
   end
 
   def assert_kata_exists(id)
     assert_valid_id(id)
     unless kata_exists?(id)
-      fail error('kata_id')
+      fail invalid('kata_id')
     end
   end
 
   def assert_valid_id(id)
     unless valid_id?(id)
-      fail error('kata_id')
+      fail invalid('kata_id')
     end
   end
 
@@ -234,13 +234,13 @@ class StorerFake
     assert_kata_exists(id)
     assert_valid_name(name)
     unless avatar_exists?(id, name)
-      fail error('avatar_name')
+      fail invalid('avatar_name')
     end
   end
 
   def assert_valid_name(name)
     unless valid_avatar?(name)
-      fail error('avatar_name')
+      fail invalid('avatar_name')
     end
   end
 
@@ -262,13 +262,13 @@ class StorerFake
     assert_avatar_exists(id, name)
     assert_valid_tag(tag)
     unless tag_exists?(id, name, tag)
-      fail error('tag')
+      fail invalid('tag')
     end
   end
 
   def assert_valid_tag(tag)
     unless valid_tag?(tag)
-      fail error('tag')
+      fail invalid('tag')
     end
   end
 
@@ -276,9 +276,9 @@ class StorerFake
     tag.class.name == 'Fixnum'
   end
 
-  def tag_exists?(id, name, tag)
+  def tag_exists?(kata_id, avatar_name, tag)
     # Has to work with old git-format and new non-git format
-    tag <= read_avatar_increments(id, name).size
+    0 <= tag && tag <= read_avatar_increments(kata_id, avatar_name).size
   end
 
   def tag_dir(id, name, tag)
@@ -295,7 +295,7 @@ class StorerFake
     File.join(*args)
   end
 
-  def error(message)
+  def invalid(message)
     ArgumentError.new("invalid #{message}")
   end
 
