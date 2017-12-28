@@ -12,7 +12,7 @@ class TipperControllerTest < AppControllerTestBase
   'traffic_light_tip' do
     @id = create_language_kata
     1.times { start; 2.times { run_tests } }
-    get 'tipper/traffic_light_tip',
+    get '/tipper/traffic_light_tip',
       'format'  => 'js',
       'id'      => @id,
       'avatar'  => @avatar.name,

@@ -10,7 +10,7 @@ class DojoControllerTest < AppControllerTestBase
 
   test 'BF7',
   'index without id' do
-    get 'dojo/index'
+    get '/dojo/index'
     assert_response :success
   end
 
@@ -18,7 +18,7 @@ class DojoControllerTest < AppControllerTestBase
 
   test '957',
   'index with id' do
-    get 'dojo/index', id:'1234512345'
+    get '/dojo/index', id:'1234512345'
     assert_response :success
   end
 
@@ -146,7 +146,7 @@ class DojoControllerTest < AppControllerTestBase
 
   def check_id
     params = { :format => :json, :id => @id }
-    get 'enter/check', params
+    get '/enter/check', params
     assert_response :success
   end
 

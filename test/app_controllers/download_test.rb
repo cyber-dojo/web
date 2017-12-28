@@ -116,11 +116,11 @@ class DownloadControllerTest < AppControllerTestBase
   private
 
   def download
-    get 'download', 'id' => @id
+    get '/download', 'id' => @id
   end
 
   def download_tag
-    get 'download_tag', 'id' => @id, 'avatar' => @avatar.name, 'tag' => @tag
+    get '/download_tag', 'id' => @id, 'avatar' => @avatar.name, 'tag' => @tag
   end
 
   def assert_downloaded

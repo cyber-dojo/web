@@ -18,13 +18,13 @@ class ExceptionControllerTests < AppControllerTestBase
 
   test 'E46924',
   'bad path' do
-    get 'dojo/sdsdsd'
+    get '/dojo/sdsdsd'
     assert_template 'error/sorry'
   end
 
   test 'EFC09F',
   'bad id' do
-    get 'kata/edit/234523424234'
+    get '/kata/edit/234523424234'
     assert_template 'error/sorry'
   end
 

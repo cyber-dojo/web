@@ -21,7 +21,7 @@ class ReverterControllerTest  < AppControllerTestBase
     run_tests # 2
     assert_equal new_content, @avatar.visible_files[filename]
 
-    get 'reverter/revert', 'format' => 'json',
+    get '/reverter/revert', 'format' => 'json',
                            'id'     => @id,
                            'avatar' => @avatar.name,
                            'tag'    => 1

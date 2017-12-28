@@ -5,12 +5,15 @@ USER root
 RUN adduser -D -H -u 19661 cyber-dojo
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# install ruby
+# install ruby+
+# bundle install needs zlib-dev for nokogiri
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 RUN apk --update --no-cache add \
     ruby ruby-io-console ruby-dev ruby-irb ruby-bundler ruby-bigdecimal \
-    bash tzdata
+    bash \
+    tzdata \
+    zlib-dev
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # install web service
@@ -28,6 +31,8 @@ RUN apk --update \
     && bundle install \
     && apk del build-dependencies
 
+RUN cat ${CYBER_DOJO_HOME}/Gemfile.lock
+
 COPY . ${CYBER_DOJO_HOME}
 RUN  chown -R cyber-dojo ${CYBER_DOJO_HOME}
 
@@ -36,5 +41,3 @@ USER    cyber-dojo
 EXPOSE  3000
 
 CMD [ "./run_rails_server.sh" ]
-
-RUN cat ${CYBER_DOJO_HOME}/Gemfile.lock

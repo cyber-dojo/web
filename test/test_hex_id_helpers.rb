@@ -18,7 +18,7 @@ module TestHexIdHelpers # mix-in
     @@seen_ids = []
 
     def smoke_test(id, *lines, &block)
-      if !ENV['CYBER_DOJO_UNIT_TEST']
+      unless ENV['CYBER_DOJO_UNIT_TEST']
         test(id, *lines, &block)
       end
     end
@@ -53,8 +53,14 @@ module TestHexIdHelpers # mix-in
 
     ObjectSpace.define_finalizer(self, proc {
       # complain about any unfound hex-id args
-      unseen_arg = lambda { |arg| @@seen_ids.none? { |id| id.include?(arg) } }
-      unseen_args = @@args.find_all { |arg| unseen_arg.call(arg) }
+      unseen_arg = lambda { |arg|
+        @@seen_ids.none? { |id|
+          id.include?(arg)
+        }
+      }
+      unseen_args = @@args.find_all { |arg|
+        unseen_arg.call(arg)
+      }
       unless unseen_args == []
         message = 'the following test id arguments were *not* found'
         lines = [ '', message, "#{unseen_args}", '' ]

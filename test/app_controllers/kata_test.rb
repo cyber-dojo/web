@@ -15,7 +15,7 @@ class KataControllerTest  < AppControllerTestBase
       :id     => 'bad'
     }
     assert_raises(StandardError) {
-      post 'kata/run_tests', params
+      post '/kata/run_tests', params
     }
   end
 
@@ -304,7 +304,7 @@ class KataControllerTest  < AppControllerTestBase
     kata_edit
     run_tests
     params = { :format => :json, :id => @id, :avatar => @avatar.name }
-    get 'kata/show_json', params
+    get '/kata/show_json', params
   end
 
   private

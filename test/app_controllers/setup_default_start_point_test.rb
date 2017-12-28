@@ -130,7 +130,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   def do_get(route, params = {})
     controller = 'setup_default_start_point'
-    get "#{controller}/#{route}", params
+    get "/#{controller}/#{route}", params
     assert_response :success
   end
 

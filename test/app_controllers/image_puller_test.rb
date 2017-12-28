@@ -63,7 +63,7 @@ class ImagePullerTest < AppControllerTestBase
 
   def do_get(route, image_name, kata_id)
     controller = 'image_puller'
-    get "#{controller}/#{route}", {
+    get "/#{controller}/#{route}", {
       format: :js,
        image_name: image_name,
        id: kata_id
