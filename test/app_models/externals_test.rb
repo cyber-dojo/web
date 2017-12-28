@@ -7,8 +7,12 @@ end
 
 class ExternalsTest < AppModelsTestBase
 
+  def self.hex_prefix
+    'A1E2DC'
+  end
+
   #- - - - - - - - - - - - - - - - - - - - - - - - -
-  # external classes and roots have no defaults
+  # external classes have no defaults
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'A70E2A',

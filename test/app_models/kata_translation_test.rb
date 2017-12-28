@@ -2,6 +2,10 @@ require_relative 'app_models_test_base'
 
 class KataTranslationTest < AppModelsTestBase
 
+  def self.hex_prefix
+    '6852C2'
+  end
+
   test 'E2A',
   'new-style kata not involving renaming (dolphin, 20 lights)' do
     set_storer_class('StorerService')

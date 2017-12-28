@@ -2,6 +2,10 @@ require_relative 'app_models_test_base'
 
 class KataDefaultsTest < AppModelsTestBase
 
+  def self.hex_prefix
+    '4BB621'
+  end
+
   test '344',
   'filename_extension defaults to empty string' do
     assert_default 'filename_extension', ''
@@ -51,7 +55,7 @@ class KataDefaultsTest < AppModelsTestBase
     assert_default 'tab_size', 4
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - -
+  private
 
   def assert_default(name, expected)
     manifest = starter.language_manifest('C (gcc)', 'assert', 'Fizz_Buzz')

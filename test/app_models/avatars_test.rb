@@ -2,14 +2,20 @@ require_relative 'app_models_test_base'
 
 class AvatarsTest < AppModelsTestBase
 
-  test 'B6F149',
+  def self.hex_prefix
+    'B6FE29'
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '149',
   'there are 64 avatar names' do
     assert_equal 64, Avatars.names.length
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'B6F12F',
+  test '12F',
   'avatars.each is [] when empty' do
     kata = make_language_kata
     assert_equal [], kata.avatars.to_a
@@ -17,7 +23,7 @@ class AvatarsTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'B6FF79',
+  test 'F79',
   'avatars returns all avatars started in the kata' do
     kata = make_language_kata
     assert_equal [], kata.avatars.names.sort
@@ -29,7 +35,7 @@ class AvatarsTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'B6F555',
+  test '555',
   'avatars.map works' do
     kata = make_language_kata
     kata.start_avatar([cheetah])
@@ -40,7 +46,7 @@ class AvatarsTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'B6F638',
+  test '638',
   'avatars[invalid-name] is nil' do
     kata = make_language_kata
     assert_nil kata.avatars[invalid_name = 'mobile-phone']
@@ -48,7 +54,7 @@ class AvatarsTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'B6F429',
+  test '429',
   'avatars[cheetah] is nil when cheetah has not started' do
     kata = make_language_kata
     assert_nil kata.avatars[cheetah]
@@ -56,7 +62,7 @@ class AvatarsTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'B6F74D',
+  test '74D',
   'avatars[panda] is the panda when the panda has started' do
     kata = make_language_kata
     kata.start_avatar([panda])
@@ -66,7 +72,7 @@ class AvatarsTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'B6F350',
+  test '350',
   'avatars returns all avatars started in the kata with that id' do
     kata = make_language_kata
     kata.start_avatar([lion])

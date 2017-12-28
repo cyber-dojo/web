@@ -2,11 +2,15 @@ require_relative 'app_models_test_base'
 
 class KatasTest < AppModelsTestBase
 
+  def self.hex_prefix
+    'F3B488'
+  end
+
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # katas[id]
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'F3B8B1',
+  test '8B1',
   'katas[bad-id] is not nil but any access to storer service raises' do
     bad_ids = [
       nil,          # not string
@@ -25,7 +29,7 @@ class KatasTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'F3BB3E',
+  test 'B3E',
   'katas[good-id] is kata with that id' do
     kata = make_language_kata
     k = katas[kata.id]
@@ -37,12 +41,12 @@ class KatasTest < AppModelsTestBase
   # katas.completed(id)
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'F3B939',
+  test '939',
   'completed(id="") is empty string' do
     assert_equal '', katas.completed('')
   end
 
-  test 'F3B6E2',
+  test '6E2',
   'completed(id) does not complete when id is less than 6 chars in length',
   'because trying to complete from a short id will waste time going through',
   'lots of candidates (on disk) with the likely outcome of no unique result' do
@@ -53,7 +57,7 @@ class KatasTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'F3B03B',
+  test '03B',
   'completed(id) unchanged when no matches' do
     id = unique_id
     (0..7).each { |size| assert_equal id[0..size], katas.completed(id[0..size]) }
@@ -61,7 +65,7 @@ class KatasTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'F3B0AA',
+  test '0AA',
   'completed(id) does not complete when 6+ chars and more than one match' do
     uncompleted_id = 'ABCDE1'
     make_language_kata({ 'id' => uncompleted_id + '234' + '5' })
@@ -71,7 +75,7 @@ class KatasTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'F3B2AF',
+  test '2AF',
   'completed(id) completes when 6+ chars and 1 match' do
     completed_id = 'A1B2C3D4E5'
     make_language_kata({ 'id' => completed_id })
@@ -83,25 +87,25 @@ class KatasTest < AppModelsTestBase
   # katas.each
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'F3B2BA',
+  test '2BA',
   'each() yielding empty array when there are no katas' do
     assert_equal [], all_ids
   end
 
-  test 'F3B86F',
+  test '86F',
   'each() yielding one kata' do
     kata = make_language_kata
     assert_equal [kata.id], all_ids
   end
 
-  test 'F3B000',
+  test '000',
   'each() yielding two katas with unrelated ids' do
     kata1 = make_language_kata
     kata2 = make_language_kata
     assert_equal [kata1.id, kata2.id].sort, all_ids.sort
   end
 
-  test 'F3BA82',
+  test 'A82',
   'each() yielding several kata with common first two characters' do
     id = 'ABCDE1234'
     assert_equal 10-1, id.length

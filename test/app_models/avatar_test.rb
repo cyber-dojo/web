@@ -3,7 +3,13 @@ require_relative '../app_lib/delta_maker'
 
 class AvatarTest < AppModelsTestBase
 
-  test 'FB7E81',
+  def self.hex_prefix
+    'FB7A42'
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'E81',
   "an avatar's kata is the kata it was created with" do
     kata = make_language_kata
     avatar = kata.start_avatar
@@ -12,7 +18,7 @@ class AvatarTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'FB7D2B',
+  test 'D2B',
   "an avatar's' initial visible_files are:",
   '1. the language visible_files,',
   '2. the exercise instructions,',
@@ -34,7 +40,7 @@ class AvatarTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'FB792F',
+  test '92F',
   'when an avatar has zero traffic-lights it is not active?' do
     kata = make_language_kata
     lion = kata.start_avatar(['lion'])
@@ -44,7 +50,7 @@ class AvatarTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'FB7BAB',
+  test 'BAB',
   'when an avatar has one or more traffic-lights it is active?' do
     kata = make_language_kata
     lion = kata.start_avatar(['lion'])
@@ -58,7 +64,7 @@ class AvatarTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'FB70CA',
+  test '0CA',
   'test() output is added to visible_files' do
     kata = make_language_kata
     @avatar = kata.start_avatar
@@ -72,7 +78,7 @@ class AvatarTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'FB7925',
+  test '925',
   'test():delta[:changed] files are changed' do
     kata = make_language_kata
     @avatar = kata.start_avatar
@@ -88,7 +94,7 @@ class AvatarTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'FB7749',
+  test '749',
   'test():delta[:unchanged] files are unchanged' do
     kata = make_language_kata
     @avatar = kata.start_avatar
@@ -102,7 +108,7 @@ class AvatarTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'FB7683',
+  test '683',
   'test():delta[:new] files are created' do
     kata = make_language_kata
     @avatar = kata.start_avatar

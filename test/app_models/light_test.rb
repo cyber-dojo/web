@@ -3,7 +3,13 @@ require_relative '../app_lib/delta_maker'
 
 class LightTest < AppModelsTestBase
 
-  test 'AC96D0',
+  def self.hex_prefix
+    'AC9AEE'
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '6D0',
   'colour is converted to a symbol' do
     light = make_light(:red, [2015, 2, 15, 8, 54, 6], 1)
     assert_equal :red, light.colour
@@ -11,7 +17,7 @@ class LightTest < AppModelsTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'AC96BD',
+  test '6BD',
   'colour was once stored as outcome' do
     light = make_light(:red, [2015, 2, 15, 8, 54, 6], 1, 'outcome')
     assert_equal :red, light.colour
@@ -19,7 +25,7 @@ class LightTest < AppModelsTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'AC9D76',
+  test 'D76',
   'time is read back as set' do
     year = 2015
     month = 2
@@ -39,7 +45,7 @@ class LightTest < AppModelsTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'AC9954',
+  test '954',
   'number is read as set' do
     number = 7
     light = make_light(:red, [2015, 2, 15, 8, 54, 6], number)
@@ -48,7 +54,7 @@ class LightTest < AppModelsTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'AC9AC8',
+  test 'AC8',
   'to_json' do
     colour = :red
     time = [2015, 2, 15, 8, 54, 6]
@@ -63,7 +69,7 @@ class LightTest < AppModelsTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'AC9722',
+  test '722',
   'each test creates a new light' do
     kata = make_language_kata
     lion = kata.start_avatar(['lion'])

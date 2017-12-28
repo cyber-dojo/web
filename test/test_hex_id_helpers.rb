@@ -44,6 +44,10 @@ module TestHexIdHelpers # mix-in
     end
 
     def test(id, *lines, &block)
+      if self.respond_to?(:hex_prefix)
+        #puts "method has hex_prefix"
+        id = hex_prefix + id
+      end
       # check hex-id is well-formed
       diagnostic = "'#{id}',#{lines.join(' ')}"
       hex_chars = '0123456789ABCDEF'

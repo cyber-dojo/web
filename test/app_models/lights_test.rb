@@ -3,7 +3,13 @@ require_relative '../app_lib/delta_maker'
 
 class LightsTest < AppModelsTestBase
 
-  test '881D3F',
+  def self.hex_prefix
+    '881852'
+  end
+
+  #- - - - - - - - - - - - - - - - - - -
+
+  test 'D3F',
   'lights initially empty' do
     kata = make_language_kata
     lights = kata.start_avatar.lights
@@ -16,7 +22,7 @@ class LightsTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - -
 
-  test '88106F',
+  test '06F',
   'lights not empty' do
     kata = make_language_kata
     puffin = kata.start_avatar(['puffin'])

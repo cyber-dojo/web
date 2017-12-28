@@ -3,7 +3,13 @@ require_relative '../app_lib/delta_maker'
 
 class KataTest < AppModelsTestBase
 
-  test '677A57',
+  def self.hex_prefix
+    '677C0C'
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'A57',
   'id reads back as set' do
     id = unique_id
     kata = make_language_kata({ 'id' => id })
@@ -12,26 +18,26 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '6775A7',
+  test '5A7',
   'kata_exists?(id) false' do
     kata = Kata.new(self, '4DD58DEF95')
     refute kata.exists?
   end
 
-  test '6775A8',
+  test '5A8',
   'kata_exists?(invalid-id) is false' do
     kata = Kata.new(self, nil)
     refute kata.exists?
   end
 
-  test '6775A9',
+  test '5A9',
   'kata_exists?(id) true' do
     kata = make_language_kata
     assert kata.exists?
   end
 
 
-  test '6779AE',
+  test '9AE',
   'when kata has no avatars',
   'then it is not active' do
     kata = make_language_kata
@@ -40,7 +46,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '6778C8',
+  test '8C8',
   'major_name,minor_name are parts[0][1] of display_name' do
     kata = make_language_kata({ 'display_name' => 'Python, py.test' })
     assert_equal 'Python', kata.major_name
@@ -49,7 +55,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '67740E',
+  test '40E',
   "when kata's avatars have 0 traffic-lights",
   'then it is not active' do
     kata = make_language_kata
@@ -60,7 +66,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '677DD3',
+  test 'DD3',
   'when kata has at least one avatar with 1 or more traffic-lights',
   'then kata is active' do
     kata = make_language_kata
@@ -78,7 +84,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '677205',
+  test '205',
   'make_language_kata with default created-property uses time-now' do
     now = Time.now
     kata = make_language_kata
@@ -90,7 +96,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '67751F',
+  test '51F',
   'kata properties are union of language properties and exercise instruction' do
     set_storer_class('StorerService')
     id = unique_id
@@ -125,7 +131,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '677632',
+  test '632',
   'started_avatars is initially empty array' do
     @kata = make_language_kata
     assert_equal [], avatars_names
@@ -133,7 +139,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '677B48',
+  test 'B48',
   'start_avatar() with name that is not a known avatar is nil' do
     kata = make_language_kata
     assert_nil kata.start_avatar(['sellotape'])
@@ -141,7 +147,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '677C43',
+  test 'C43',
   %w( start_avatar() in language with stateful-runner
       with specific name succeeds
       when avatar has not yet started ).join(' ').to_s do
@@ -154,7 +160,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '677C44',
+  test 'C44',
   %w( start_avatar() in language with stateless-runner
       with specific name succeeds
       when avatar has not yet started ).join(' ').to_s do
@@ -167,7 +173,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '6773FA',
+  test '3FA',
   'start_avatar() with specific name is nil when avatar has already started' do
     kata = make_language_kata
     kata.start_avatar(['hippo'])
@@ -177,7 +183,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '6776C8',
+  test '6C8',
   'start_avatar() with specific names tries them in order' do
     @kata = make_language_kata
     names = %w(cheetah lion panda)
@@ -203,7 +209,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '67741A',
+  test '41A',
   'start_avatar() succeeds once for each avatar-name then is full' do
     kata = make_language_kata
     created = []
@@ -218,7 +224,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '677A3D',
+  test 'A3D',
   'start_avatar() starts avatars in random order' do
     kata = make_language_kata
     created = []
@@ -233,7 +239,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '677D61',
+  test 'D61',
   'start_avatar() seamlessly resurrects when',
   'collector has collected the runner containers/volumes' do
     set_runner_class('RunnerService')
