@@ -2,9 +2,13 @@ require_relative 'app_helpers_test_base'
 
 class AvatarImageTest < AppHelpersTestBase
 
+  def self.hex_prefix
+    'E30BDE'
+  end
+
   include AvatarImageHelper
 
-  test 'E30BAA',
+  test 'BAA',
   'avatar_image html' do
     html = avatar_image(name = 'hippo', size = 42, title = 'wibble')
     assert html.start_with?('<img '), '<img : ' + html

@@ -2,15 +2,19 @@ require_relative 'app_helpers_test_base'
 
 class TimeTickTest < AppHelpersTestBase
 
+  def self.hex_prefix
+    '86F491'
+  end
+
   include TimeTickHelper
 
-  test '86F600',
+  test '600',
   'when days=0,hours=0,mins=0 then nothing is shown' do
     assert_equal '', time_tick( 0)
     assert_equal '', time_tick(59)
   end
 
-  test '86F601',
+  test '601',
   'when days=0,hours=0,mins!=0 then minutes are show in 2 digits' do
     assert_equal '01', time_tick(1*60)
     assert_equal '01', time_tick(1*60+4)
@@ -20,7 +24,7 @@ class TimeTickTest < AppHelpersTestBase
     assert_equal '59', time_tick(59*60+59)
   end
 
-  test '86F602',
+  test '602',
   'when days=0,hours!=0 then hours and minutes are shown in 2 digits' do
     assert_equal '01:00', time_tick(60*60)
     assert_equal '01:00', time_tick(60*60+4)
@@ -29,7 +33,7 @@ class TimeTickTest < AppHelpersTestBase
     assert_equal '23:59', time_tick(23*60*60 + 59*60)
   end
 
-  test '86F603',
+  test '603',
   'when days!=0 then days are shown and hours,minutes are shown in 2 digits' do
     assert_equal '01:00',    time_tick(60*60)
     assert_equal '01:01',    time_tick(61*60)
@@ -40,6 +44,5 @@ class TimeTickTest < AppHelpersTestBase
     assert_equal '34:06:24', time_tick(34*24*60*60 + 6*60*60 + 24*60)
     assert_equal '34:06:24', time_tick(34*24*60*60 + 6*60*60 + 24*60 + 56)
   end
-
 
 end

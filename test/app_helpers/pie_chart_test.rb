@@ -3,9 +3,13 @@ require_relative '../app_lib/delta_maker'
 
 class PieChartTest < AppHelpersTestBase
 
+  def self.hex_prefix
+    '10E59F'
+  end
+
   include PieChartHelper
 
-  test '10E59F',
+  test '060',
   'pie-chart from kata_increments() lights used in dashboard view' do
     kata = make_language_kata
     lion = kata.start_avatar(['lion'])

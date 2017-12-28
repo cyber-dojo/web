@@ -2,9 +2,13 @@ require_relative 'app_helpers_test_base'
 
 class TipTest < AppHelpersTestBase
 
+  def self.hex_prefix
+    'BDA2B5'
+  end
+
   include TipHelper
 
-  smoke_test 'BDAD52',
+  smoke_test 'D52',
   'traffic light tip' do
     # uses real differ-service
     kata = make_language_kata

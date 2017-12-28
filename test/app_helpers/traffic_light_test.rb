@@ -2,9 +2,13 @@ require_relative 'app_helpers_test_base'
 
 class TrafficLightTest < AppHelpersTestBase
 
+  def self.hex_prefix
+    'CF694D'
+  end
+
   include TrafficLightHelper
 
-  test 'CF667C',
+  test '67C',
   'traffic_light_count' do
     id = 'ABCDE12345'
     avatar_name = 'hippo'
@@ -30,7 +34,7 @@ class TrafficLightTest < AppHelpersTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test '94DE41',
+  test 'E41',
   'traffic_light_image' do
     colour = 'red'
     expected = "<img src='/images/bulb_#{colour}.png'" +
@@ -41,7 +45,7 @@ class TrafficLightTest < AppHelpersTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test '0E4647',
+  test '647',
   'diff_avatar_image' do
     id = 'ABCDE12345'
     avatar_name = 'hippo'
@@ -62,7 +66,7 @@ class TrafficLightTest < AppHelpersTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test 'E15E77',
+  test 'E77',
   'simple_diff_traffic_light' do
     avatar = Avatar.new(Object.new, 'hippo')
     light = Tag.new(avatar, {
@@ -85,14 +89,14 @@ class TrafficLightTest < AppHelpersTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test 'BF0443',
+  test '443',
   'diff_traffic_light' do
     diff_traffic_light_func('red')
     diff_traffic_light_func('amber')
     diff_traffic_light_func('green')
   end
 
-  #- - - - - - - - - - - - - - - -
+  private
 
   def diff_traffic_light_func(colour)
     id = 'ABCDE12345'
