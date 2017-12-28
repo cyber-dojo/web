@@ -21,7 +21,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
          'minor' => parts[1],
       'exercise' => exercise_name
     }
-    get '/setup_default_start_point/save', params
+    get '/setup_default_start_point/save', params:params
     @id = json['id']
   end
 
@@ -33,7 +33,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
          'major' => parts[0],
          'minor' => parts[1]
     }
-    get '/setup_custom_start_point/save', params
+    get '/setup_custom_start_point/save', params:params
     @id = json['id']
   end
 
@@ -41,7 +41,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   def start
     params = { 'format' => 'json', 'id' => @id }
-    get '/enter/start', params
+    get '/enter/start', params:params
     assert_response :success
     avatar_name = json['avatar_name']
     assert_not_nil avatar_name
@@ -52,19 +52,19 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   def start_full
     params = { 'format' => 'json', 'id' => @id }
-    get '/enter/start', params
+    get '/enter/start', params:params
     assert_response :success
   end
 
   def resume
     params = { 'format' => 'json', 'id' => @id }
-    get '/enter/resume', params
+    get '/enter/resume', params:params
     assert_response :success
   end
 
   def kata_edit
     params = { 'id' => @id, 'avatar' => @avatar.name }
-    get '/kata/edit', params
+    get '/kata/edit', params:params
     assert_response :success
   end
 
@@ -94,7 +94,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
       'image_name'    => kata.image_name,
       'avatar'        => @avatar.name
     }
-    post '/kata/run_tests', params.merge(@params_maker.params)
+    post '/kata/run_tests', params:params.merge(@params_maker.params)
     @params_maker = ParamsMaker.new(@avatar)
     assert_response :success
   end
@@ -112,7 +112,6 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   end
 
   private
-
 
   def commad(name)
     name.split(',').map(&:strip)
