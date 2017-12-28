@@ -1,24 +1,4 @@
 
-# Uses a hex-id on each test to selectively run specific tests.
-# A good way to generate unique hex-ids is uuidgen.
-# Write your test methods as follows:
-#
-#    class SomeTest < MiniTest::Test
-#
-#      include TestHexIdHelpers
-#
-#      test '0C1F2F', %w(
-#        some long description
-#        possibly spanning
-#        several lines
-#      ) do
-#        ...
-#        ...
-#        ...
-#      end
-#
-#    end
-
 module TestHexIdHelpers # mix-in
 
   def hex_test_kata_id
@@ -44,10 +24,7 @@ module TestHexIdHelpers # mix-in
     end
 
     def test(id, *lines, &block)
-      if self.respond_to?(:hex_prefix)
-        #puts "method has hex_prefix"
-        id = hex_prefix + id
-      end
+      id = hex_prefix + id
       # check hex-id is well-formed
       diagnostic = "'#{id}',#{lines.join(' ')}"
       hex_chars = '0123456789ABCDEF'
