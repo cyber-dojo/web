@@ -45,10 +45,7 @@ class StorerFake
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def kata_exists?(id)
-    unless valid_id?(id)
-      return false
-    end
-    kata_dir(id).exists?
+    valid_id?(id) && kata_dir(id).exists?
   end
 
   def create_kata(manifest)
@@ -87,7 +84,7 @@ class StorerFake
     valid_names = avatar_names & all_avatars_names
     # Don't do the & with operands swapped - you lose randomness
     name = valid_names.detect { |name| avatar_dir(id, name).make }
-    if name.nil? #full!
+    if name.nil? # full!
       return nil
     end
     write_avatar_increments(id, name, [])
