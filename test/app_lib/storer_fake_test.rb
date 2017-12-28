@@ -136,7 +136,7 @@ class StorerFakeTest < AppLibTestBase
   end
 
   test '9D393C',
-  'tag_visible_files(id) with invalid id raises' do
+  'tag_visible_files(id) with invalid kata_id raises' do
     error = assert_raises(ArgumentError) {
       storer.tag_visible_files('sdfsdf', lion, tag=3)
     }
