@@ -271,6 +271,7 @@ class StorerFake
   end
 
   def valid_tag?(tag)
+    # web is stuck on Ruby 2.3 and so still used Fixnum
     tag.class.name == 'Fixnum' ||
       tag.to_s =~ /^-1/ ||
         tag.to_s =~ /^[0-9+]$/
