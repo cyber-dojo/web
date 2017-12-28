@@ -4,12 +4,6 @@ require_relative '../../app/models/avatars'
 
 class StorerFakeTest < AppLibTestBase
 
-  # - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # invalid_id on any method raises
-  # TODO: the exceptions and messages should be
-  # be the same as the StorerService.
-  # - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   def storer
     @storer ||= StorerFake.new(self)
   end
@@ -22,6 +16,42 @@ class StorerFakeTest < AppLibTestBase
     assert storer.path.start_with? '/tmp/'
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # kata_exists? avatar_exists? never raise
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '9D3750CA',
+  'kata_exists is false when kata-id is valid but does not exist' do
+    refute storer.kata_exists?('603E8BAEDF')
+  end
+
+  test '9D3750CB',
+  'kata_exists is false when kata-id is invalid' do
+    refute storer.kata_exists?(nil)
+    refute storer.kata_exists?([])
+    refute storer.kata_exists?('')
+  end
+
+  test '9D3750CC',
+  'avatar_exists is false when kata-id is invalid' do
+    refute storer.avatar_exists?(nil, 'dolphin')
+    refute storer.avatar_exists?([], 'dolphin')
+    refute storer.avatar_exists?('', 'dolphin')
+  end
+
+  test '9D3750CD',
+  'avatar_exists is false when avatar-name is invalid' do
+    kata_id = 'E25750CD01'
+    manifest = make_manifest(kata_id)
+    storer.create_kata(manifest)
+    refute storer.avatar_exists?(kata_id, nil)
+    refute storer.avatar_exists?(kata_id, [])
+    refute storer.avatar_exists?(kata_id, '')
+    refute storer.avatar_exists?(kata_id, 'dolphin')
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # all other methods raise when kata_id is invalid
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '9D3933',
@@ -114,7 +144,7 @@ class StorerFakeTest < AppLibTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # create_kata() kata_exists?(id) kata_manifest(id)
+  # create_kata() kata_manifest(id)
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '9D3603E8',
@@ -122,26 +152,15 @@ class StorerFakeTest < AppLibTestBase
   'and manifest file holds kata properties',
   'but symbol-keys have become string-keys' do
     manifest = make_manifest(kata_id = '603E8BAEDF')
+    refute storer.kata_exists?(manifest['id'])
     storer.create_kata(manifest)
+    assert storer.kata_exists?(manifest['id'])
     expected = manifest
     actual = storer.kata_manifest(kata_id)
     assert_equal expected.keys.size, actual.keys.size
     expected.each do |key, value|
       assert_equal value, actual[key.to_s]
     end
-    assert storer.kata_exists?(manifest['id'])
-  end
-
-  test '9D3603E9',
-  'kata_exists is false if kata-id is well-formed but does not exist' do
-    refute storer.kata_exists?('603E8BAEDF')
-  end
-
-  test '9D3603EA',
-  'kata_exists is false if kata-id is not well-formed' do
-    refute storer.kata_exists?(nil)
-    refute storer.kata_exists?([])
-    refute storer.kata_exists?('')
   end
 
   test '9D3603EB',

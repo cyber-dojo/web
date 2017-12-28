@@ -65,16 +65,18 @@ class StorerFake
     JSON.parse(json)
   end
 
-  def kata_increments(id)
-    Hash[started_avatars(id).map { |name|
-      [name, avatar_increments(id, name)]
+  def kata_increments(kata_id)
+    Hash[started_avatars(kata_id).map { |name|
+      [name, avatar_increments(kata_id, name)]
     }]
   end
 
   # - - - - - - - - - - - - - - - -
 
-  def avatar_exists?(id, name)
-    avatar_dir(id, name).exists?
+  def avatar_exists?(kata_id, avatar_name)
+    valid_id?(kata_id) &&
+      valid_avatar?(avatar_name) &&
+        avatar_dir(kata_id, avatar_name).exists?
   end
 
   def start_avatar(id, avatar_names)
