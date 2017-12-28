@@ -2,7 +2,13 @@ require_relative 'app_lib_test_base'
 
 class RunnerStubTest < AppLibTestBase
 
-  test 'AF72C0',
+  def self.hex_prefix
+    'AF798B'
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '2C0',
   'stub_run can stub stdout and leave',
   'stderr defaulted to stub empty-string and',
   'status defaulted to stub zero and',
@@ -17,7 +23,7 @@ class RunnerStubTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'AF709C',
+  test '09C',
   'stdout,stderr,status,colour can all be stubbed explicitly' do
     expected_stdout = 'Assertion failed'
     expected_stderr = 'makefile...'
@@ -38,7 +44,7 @@ class RunnerStubTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'AF7111',
+  test '111',
   'run colour can be stubbed on its own' do
     runner.stub_run_colour('red')
     _,_,_,colour = runner.run(*unused_args)
@@ -55,7 +61,7 @@ class RunnerStubTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'AF797A',
+  test '97A',
   'run without preceeding stub returns blah blah' do
     stdout,stderr,status,colour = runner.run(*unused_args)
     assert stdout.start_with? 'blah'
@@ -66,7 +72,7 @@ class RunnerStubTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'AF7902',
+  test '902',
   'stub set in one thread has to be visible in another thread',
   'because app_controller methods are routed into a new thread' do
     runner.stub_run(expected='syntax error line 1')

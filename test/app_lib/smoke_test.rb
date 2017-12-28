@@ -2,6 +2,10 @@ require_relative 'app_lib_test_base'
 
 class SmokeTest < AppLibTestBase
 
+  def self.hex_prefix
+    '98255E'
+  end
+
   def setup
     super
     set_storer_class('StorerService')
@@ -12,7 +16,7 @@ class SmokeTest < AppLibTestBase
   # starter
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  smoke_test '9823AA',
+  smoke_test '3AA',
   'smoke test starter-service' do
     json = starter.custom_choices
     assert_equal [ 'Yahtzee refactoring' ], json['major_names']
@@ -64,7 +68,7 @@ class SmokeTest < AppLibTestBase
   # differ
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  smoke_test '9823AB',
+  smoke_test '3AB',
   'smoke test differ-service' do
     kata = make_language_kata
     kata.start_avatar([lion])
@@ -88,7 +92,7 @@ class SmokeTest < AppLibTestBase
   # runner
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  smoke_test '2BD23CD3',
+  smoke_test 'CD3',
   'smoke test runner-service raising' do
     set_storer_class('StorerFake')
     kata = make_language_kata({ 'id' => '2BD23CD300' })
@@ -97,7 +101,7 @@ class SmokeTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  smoke_test '2BDF808102',
+  smoke_test '102',
   'smoke test image_pulled?' do
     kata = make_language_kata({
       'display_name' => 'Python, unittest',
@@ -109,7 +113,7 @@ class SmokeTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  smoke_test '2BDAD80812',
+  smoke_test '812',
   'smoke test runner-service colour is red-amber-green traffic-light' do
     kata = make_language_kata({
       'display_name' => 'C (gcc), assert',
@@ -147,7 +151,7 @@ class SmokeTest < AppLibTestBase
   #     environment: [ CYBER_DOJO_KATAS_ROOT=/tmp/cyber-dojo/katas ]
   # It does *not* volume-mount the katas data-container.
 
-  smoke_test 'C6DCD7451A',
+  smoke_test '51A',
   'non-existant kata-id raises exception' do
     kata_id = 'C6DCD7451A'
     error = assert_raises (StandardError) { storer.kata_manifest(kata_id) }
@@ -156,7 +160,7 @@ class SmokeTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  smoke_test 'C6DE6CD301',
+  smoke_test '301',
   'smoke test storer-service' do
     kata_id = 'C6DE6CD301'
     assert_equal 'StorerService', storer.class.name
@@ -216,13 +220,13 @@ class SmokeTest < AppLibTestBase
   # zipper
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  smoke_test 'D66EBF',
+  smoke_test 'EBF',
   'smoke test zipper.zip' do
     error = assert_raises { zipper.zip(kata_id='') }
     assert error.message.end_with?('invalid kata_id'), error.message
   end
 
-  smoke_test 'D66959',
+  smoke_test '959',
   'smoke test zipper.zip_tag' do
     error = assert_raises { zipper.zip_tag(kata_id='', 'lion', 0) }
     assert error.message.end_with?('invalid kata_id'), error.message

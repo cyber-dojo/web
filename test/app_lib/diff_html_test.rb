@@ -2,6 +2,12 @@ require_relative 'app_lib_test_base'
 
 class DiffHtmlTest <  AppLibTestBase
 
+  def self.hex_prefix
+    '7484C8'
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
   include DiffView
 
   def setup
@@ -13,7 +19,7 @@ class DiffHtmlTest <  AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '748980',
+  test '980',
   'non-empty same/added/deleted lines stay as themselves' do
 
     @diff_lines =
@@ -61,7 +67,7 @@ class DiffHtmlTest <  AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '7487D9',
+  test '7D9',
   'empty same/added/deleted lines become',
   '&nbsp; to prevent empty lines collapsing in browser',
   'some CSS magic is needed...' do
@@ -94,7 +100,7 @@ class DiffHtmlTest <  AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '74872E',
+  test '72E',
   'each diff-chunk is preceeded by section info',
   'to allow auto-scrolling in browser' do
 

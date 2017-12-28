@@ -2,6 +2,12 @@ require_relative 'app_lib_test_base'
 
 class DashboardTdGapperTest < AppLibTestBase
 
+  def self.hex_prefix
+    '449D19'
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   def setup
     super
     @gapper = DashboardTdGapper.new(start, seconds_per_td, max_seconds_uncollapsed)
@@ -14,7 +20,7 @@ class DashboardTdGapperTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '449AC6',
+  test 'AC6',
   'number' do
     # 0 : 2:30:00 - 2:30:20
     # 1 : 2:30:20 - 2:30:40
@@ -31,7 +37,7 @@ class DashboardTdGapperTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '449F5E',
+  test 'F5E',
   'stats' do
     # 0 : 2:30:00 - 2:30:20
     # 1 : 2:30:20 - 2:30:40
@@ -70,7 +76,7 @@ class DashboardTdGapperTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '449E42',
+  test 'E42',
   'vertical bleed' do
     all_lights =
     {
@@ -98,7 +104,7 @@ class DashboardTdGapperTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '449315',
+  test '315',
   'collapsed table' do
     # 30 mins = 30 x 3 x 20 secs = 90 tds
     td_nos = [0,1,4,5]
@@ -124,7 +130,7 @@ class DashboardTdGapperTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '449634',
+  test '634',
   'strip removes lightless tds from both ends' do
     t1=make_light(30,21) # 1
     t2=make_light(31,33) # 4
@@ -149,7 +155,7 @@ class DashboardTdGapperTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '449220',
+  test '220',
   'fully gapped no traffic_lights yet' do
     all_lights = { }
     now = [year,month,day+1,hour,32,23] #td 4327
@@ -160,7 +166,7 @@ class DashboardTdGapperTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '4499F3',
+  test '9F3',
   'fully gapped with no collapsing and no td-holes' do
     all_lights =
     {
@@ -187,21 +193,21 @@ class DashboardTdGapperTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '4499F4',
+  test '9F4',
   'fully gapped with collapsing and td-holes' do
     start = Time.mktime(*[year,month,day,hour,0,0])
     @gapper = DashboardTdGapper.new(start, seconds_per_td=60, max_seconds_uncollapsed=60*4)
 
     all_lights =
     {
-      'lion' =>  [ t1=make_light(5,0),
-                   t2=make_light(5,10),
-                   t3=make_light(11,0),
+      'lion' =>  [ t1=make_light( 5, 0),
+                   t2=make_light( 5,10),
+                   t3=make_light(11, 0),
                    t4=make_light(11,10)
                  ],
-      'tiger' => [ t5=make_light(5,11),
-                   t6=make_light(7,0),
-                   t7=make_light(7,10),
+      'tiger' => [ t5=make_light( 5,11),
+                   t6=make_light( 7, 0),
+                   t7=make_light( 7,10),
                    t8=make_light(18,20)
                  ]
     }
@@ -220,8 +226,13 @@ class DashboardTdGapperTest < AppLibTestBase
     {
       :avatars =>
       {
-        'lion'  => { 5 => [ t1,t2 ], 11 => [ t3,t4 ] },
-        'tiger' => { 5 => [ t5 ], 7 => [ t6,t7 ], 18 => [t8] },
+        'lion'  => { 5 => [ t1,t2 ],
+                    11 => [ t3,t4 ]
+                   },
+        'tiger' => { 5 => [ t5 ],
+                     7 => [ t6,t7 ],
+                    18 => [t8]
+                   },
       },
       :td_nos => [0,5,7,11,18,32]
     }
@@ -246,11 +257,11 @@ class DashboardTdGapperTest < AppLibTestBase
 
     actual = @gapper.collapsed_table(td_nos)
     expected = {
-       0=>[:collapse,      4],
-       5=>[:dont_collapse, 1],
-       7=>[:collapse,      3],
-      11=>[:collapse,      6],
-      18=>[:collapse,     13]
+       0 => [:collapse,      4],
+       5 => [:dont_collapse, 1],
+       7 => [:collapse,      3],
+      11 => [:collapse,      6],
+      18 => [:collapse,     13]
     }
     assert_equal expected, actual
 
@@ -258,8 +269,22 @@ class DashboardTdGapperTest < AppLibTestBase
 
     expected =
     {
-      'lion'  => { 5=>[t1,t2], 6=>[], 7=>[],      8=>{collapsed:3}, 11=>[t3,t4], 12=>{collapsed:6}, 18=>[] },
-      'tiger' => { 5=>[t5],    6=>[], 7=>[t6,t7], 8=>{collapsed:3}, 11=>[],      12=>{collapsed:6}, 18=>[t8] }
+      'lion'  => {  5 => [t1,t2],
+                    6 => [],
+                    7 => [],
+                    8 => {collapsed:3},
+                   11 => [t3,t4],
+                   12 => {collapsed:6},
+                   18 => []
+                 },
+      'tiger' => {  5 => [t5],
+                    6 => [],
+                    7 => [t6,t7],
+                    8 => {collapsed:3},
+                   11 => [],
+                   12 => {collapsed:6},
+                   18 => [t8]
+                 }
     }
     actual = @gapper.fully_gapped(all_lights, now)
 
@@ -275,7 +300,7 @@ class DashboardTdGapperTest < AppLibTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - -
   #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '4499F7',
+  test '9F7',
   'time-ticks with no avatars is {}' do
     all_lights = { }
     now = [year,month,day+1,hour,32,23] #td 4327
@@ -285,7 +310,7 @@ class DashboardTdGapperTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '4499F5',
+  test '9F5',
   'time-ticks with no collapsing and no td-holes' do
     start = Time.mktime(*[year,month,day,hour,0,0])
     @gapper = DashboardTdGapper.new(start, seconds_per_td=60, max_seconds_uncollapsed=60*4)
@@ -319,21 +344,21 @@ class DashboardTdGapperTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '4499F6',
+  test '9F6',
   'time-ticks with collapsing and td-holes' do
     start = Time.mktime(*[year,month,day,hour,0,0])
     @gapper = DashboardTdGapper.new(start, seconds_per_td=60, max_seconds_uncollapsed=60*4)
 
     all_lights =
     {
-      'lion' =>  [ t1=make_light(5,0),
-                   t2=make_light(5,10),
-                   t3=make_light(11,0),
+      'lion' =>  [ t1=make_light( 5, 0),
+                   t2=make_light( 5,10),
+                   t3=make_light(11, 0),
                    t4=make_light(11,10)
                  ],
-      'tiger' => [ t5=make_light(5,11),
-                   t6=make_light(7,0),
-                   t7=make_light(7,10),
+      'tiger' => [ t5=make_light( 5,11),
+                   t6=make_light( 7, 0),
+                   t7=make_light( 7,10),
                    t8=make_light(18,20)
                  ]
     }
@@ -345,14 +370,23 @@ class DashboardTdGapperTest < AppLibTestBase
     assert_equal expected, actual
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   private
 
-  def year; 2011; end
-  def month;   5; end
-  def day;    18; end
-  def hour;    2; end
+  def year
+    2011
+  end
+
+  def month
+    5
+  end
+
+  def day
+    18
+  end
+
+  def hour
+    2
+  end
 
   def start
     Time.mktime(*[year,month,day,hour,30,0])
@@ -367,7 +401,7 @@ class DashboardTdGapperTest < AppLibTestBase
   end
 
   def make_light(min,sec)
-    { 'time' => [year,month,day,hour,min,sec] }
+    { 'time' => [year,month,day, hour,min,sec] }
   end
 
 end

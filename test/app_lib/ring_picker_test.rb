@@ -2,6 +2,10 @@ require_relative 'app_lib_test_base'
 
 class RingPickerTest < AppLibTestBase
 
+  def self.hex_prefix
+    '9A996B'
+  end
+
   include RingPicker
 
   def setup
@@ -13,25 +17,25 @@ class RingPickerTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '9A9099',
+  test '099',
   'previous when single entry is empty string' do
     assert_prev('a', %w{ a }, '')
   end
 
-  test '9A93BA',
+  test '3BA',
   'previous in two entries' do
     assert_prev('a', %w{ a b }, 'b')
     assert_prev('b', %w{ a b }, 'a')
   end
 
-  test '9A9085',
+  test '085',
   'previous in three entries' do
     assert_prev('a', %w{ a b c }, 'c')
     assert_prev('b', %w{ a b c }, 'a')
     assert_prev('c', %w{ a b c }, 'b')
   end
 
-  test '9A941B',
+  test '41B',
   'previous in four entries' do
     assert_prev('a', %w{ a b c d }, 'd')
     assert_prev('b', %w{ a b c d }, 'a')
@@ -41,25 +45,25 @@ class RingPickerTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'DA1549',
+  test '549',
   'next when single entry is empty string' do
     assert_next('a', %w{ a }, '')
   end
 
-  test '90C283',
+  test '283',
   'next in two entries' do
     assert_next('a', %w{ a b }, 'b')
     assert_next('b', %w{ a b }, 'a')
   end
 
-  test '88F3EF',
+  test '3EF',
   'next in three entries' do
     assert_next('a', %w{ a b c }, 'b')
     assert_next('b', %w{ a b c }, 'c')
     assert_next('c', %w{ a b c }, 'a')
   end
 
-  test 'ADE6FB',
+  test '6FB',
   'next in four entries' do
     assert_next('a', %w{ a b c d }, 'b')
     assert_next('b', %w{ a b c d }, 'c')

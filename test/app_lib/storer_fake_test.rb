@@ -4,13 +4,17 @@ require_relative '../../app/models/avatars'
 
 class StorerFakeTest < AppLibTestBase
 
+  def self.hex_prefix
+    '9D375C'
+  end
+
   def storer
     @storer ||= StorerFake.new(self)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '9D355EEE',
+  test 'EEE',
     'path is off /tmp to ensure read-write access' do
     refute_nil storer.path
     assert storer.path.start_with? '/tmp/'
@@ -20,26 +24,26 @@ class StorerFakeTest < AppLibTestBase
   # kata_exists? avatar_exists? never raise
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '9D3750CA',
+  test '0CA',
   'kata_exists is false when kata-id is valid but does not exist' do
     refute storer.kata_exists?('603E8BAEDF')
   end
 
-  test '9D3750CB',
+  test '0CB',
   'kata_exists is false when kata-id is invalid' do
     refute storer.kata_exists?(nil)
     refute storer.kata_exists?([])
     refute storer.kata_exists?('')
   end
 
-  test '9D3750CC',
+  test '0CC',
   'avatar_exists is false when kata-id is invalid' do
     refute storer.avatar_exists?(nil, 'dolphin')
     refute storer.avatar_exists?([], 'dolphin')
     refute storer.avatar_exists?('', 'dolphin')
   end
 
-  test '9D3750CD',
+  test '0CD',
   'avatar_exists is false when avatar-name is invalid' do
     kata_id = 'E25750CD01'
     manifest = make_manifest(kata_id)
@@ -54,7 +58,7 @@ class StorerFakeTest < AppLibTestBase
   # all other methods raise when kata_id is invalid
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '9D3933',
+  test '933',
   'create_kata with missing id raises' do
     manifest = make_manifest(nil)
     manifest.delete('id')
@@ -64,7 +68,7 @@ class StorerFakeTest < AppLibTestBase
     assert_equal 'invalid kata_id', error.message
   end
 
-  test '9D3934',
+  test '934',
   'create_kata with an invalid id raises' do
     manifest = make_manifest(nil)
     manifest['id'] = invalid_id
@@ -74,7 +78,7 @@ class StorerFakeTest < AppLibTestBase
     assert_equal 'invalid kata_id', error.message
   end
 
-  test '9D3935',
+  test '935',
   'create_kata with duplicate id raises' do
     kata_id = '9D39350001'
     manifest = make_manifest(kata_id)
@@ -85,7 +89,7 @@ class StorerFakeTest < AppLibTestBase
     assert_equal 'invalid kata_id', error.message
   end
 
-  test '9D3936',
+  test '936',
   'kata_manifest(id) with invalid id raises' do
     error = assert_raises(ArgumentError) {
       storer.kata_manifest(invalid_id)
@@ -93,7 +97,7 @@ class StorerFakeTest < AppLibTestBase
     assert_equal 'invalid kata_id', error.message
   end
 
-  test '9D3937',
+  test '937',
   'started_avatars(id) with invalid id raises' do
     error = assert_raises(ArgumentError) {
       storer.started_avatars(invalid_id)
@@ -101,7 +105,7 @@ class StorerFakeTest < AppLibTestBase
     assert_equal 'invalid kata_id', error.message
   end
 
-  test '9D3938',
+  test '938',
   'start_avatar(id) with invalid id raises' do
     error = assert_raises(ArgumentError) {
       storer.start_avatar(invalid_id, [lion])
@@ -109,7 +113,7 @@ class StorerFakeTest < AppLibTestBase
     assert_equal 'invalid kata_id', error.message
   end
 
-  test '9D3939',
+  test '939',
   'avatar_increments(id) with invalid id raises' do
     error = assert_raises(ArgumentError) {
       storer.avatar_increments(invalid_id, [lion])
@@ -117,7 +121,7 @@ class StorerFakeTest < AppLibTestBase
     assert_equal 'invalid kata_id', error.message
   end
 
-  test '9D393A',
+  test '93A',
   'avatar_visible_files(id) with invalid id raises' do
     error = assert_raises(ArgumentError) {
       storer.avatar_visible_files('sdfsdf', lion)
@@ -125,7 +129,7 @@ class StorerFakeTest < AppLibTestBase
     assert_equal 'invalid kata_id', error.message
   end
 
-  test '9D393B',
+  test '93B',
   'avatar_ran_tests(id) with invalid id raises' do
     args = [ 'sdsdfsdf', lion, starting_files ]
     args += [ time_now, 'output', 'red' ]
@@ -135,7 +139,7 @@ class StorerFakeTest < AppLibTestBase
     assert_equal 'invalid kata_id', error.message
   end
 
-  test '9D393C',
+  test '93C',
   'tag_visible_files(id) with invalid kata_id raises' do
     error = assert_raises(ArgumentError) {
       storer.tag_visible_files('sdfsdf', lion, tag=3)
@@ -147,7 +151,7 @@ class StorerFakeTest < AppLibTestBase
   # create_kata() kata_manifest(id)
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '9D3603E8',
+  test '3E8',
   'after create_kata() kata exists',
   'and manifest file holds kata properties',
   'but symbol-keys have become string-keys' do
@@ -163,7 +167,7 @@ class StorerFakeTest < AppLibTestBase
     end
   end
 
-  test '9D3603EB',
+  test '3EB',
   'kata_manifest raises when kata-id does not exist' do
     error = assert_raises(ArgumentError) {
       storer.kata_manifest('603E8BAEDF')
@@ -175,25 +179,25 @@ class StorerFakeTest < AppLibTestBase
   # completions(id)
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '9D33DFAF',
+  test 'FAA',
   'each() yields empty array when there are no katas' do
     assert_equal [], all_ids
   end
 
-  test '9D35A293',
+  test 'FA1',
   'each() yields one kata-id' do
     create_kata(kata_id = '9D35A29321')
     assert_equal [kata_id], all_ids
   end
 
-  test '9D3F0C15',
+  test 'FA2',
   'each() yields two unrelated kata-ids' do
     create_kata(kata_id_1 = 'C56C6C4202')
     create_kata(kata_id_2 = 'DEB3E1325D')
     assert_equal [kata_id_1, kata_id_2].sort, all_ids.sort
   end
 
-  test '9D329DFD',
+  test 'FA3',
   'each() yields several kata-ids with common first two characters' do
     create_kata(kata_id_1 = '9D329DFD34')
     create_kata(kata_id_2 = '9D5E889E04')
@@ -205,7 +209,7 @@ class StorerFakeTest < AppLibTestBase
   # completed(id)
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '9D342EA2',
+  test 'EA2',
   'completed(id) does not complete when id is less than 6 chars in length',
   'because trying to complete from a short id will waste time going through',
   'lots of candidates with the likely outcome of no unique result' do
@@ -215,7 +219,7 @@ class StorerFakeTest < AppLibTestBase
     assert_equal too_short, storer.completed(too_short)
   end
 
-  test '9D30934B',
+  test '34B',
   'completed(id) completes when 6+ chars and 1 match' do
     create_kata(kata_id = '9D30934B7A')
     (5..9).each do |hi|
@@ -227,7 +231,7 @@ class StorerFakeTest < AppLibTestBase
     end
   end
 
-  test '9D3071A6',
+  test '1A6',
   'completed(id) unchanged when no matches' do
     kata_id = '9D3071A629'
     (0..9).each do |hi|
@@ -239,17 +243,17 @@ class StorerFakeTest < AppLibTestBase
     end
   end
 
-  test '9D3B652E',
+  test '52E',
   'completed(id=nil) is empty string' do
     assert_equal '', storer.completed(nil)
   end
 
-  test '9D3D391C',
+  test '91C',
   'completed(id="") is empty string' do
     assert_equal '', storer.completed('')
   end
 
-  test '9D323B4F',
+  test 'B4F',
   'completed(id) does not complete when 6+ chars and more than one match' do
     id = '9D323B'
     create_kata(kata_id_1 = id+'4F23')
@@ -261,13 +265,13 @@ class StorerFakeTest < AppLibTestBase
   # start_avatar(), started_avatars()
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '9D381C02',
+  test 'C02',
   'unstarted avatar does not exist' do
     create_kata(kata_id = '9D381C0200')
     assert_equal [], storer.started_avatars(kata_id)
   end
 
-  test '9D316F7B',
+  test 'F7B',
   'started avatars exist' do
     create_kata(kata_id = '9D316F7B00')
     assert_equal lion, storer.start_avatar(kata_id, [lion])
@@ -276,7 +280,7 @@ class StorerFakeTest < AppLibTestBase
     assert_equal [lion,salmon].sort, storer.started_avatars(kata_id).sort
   end
 
-  test '9D3B0B84',
+  test 'B84',
   'each avatar can only start once' do
     create_kata(kata_id = '9D3B0B84BA')
     Avatars.names.each do |name|
@@ -285,7 +289,7 @@ class StorerFakeTest < AppLibTestBase
     end
   end
 
-  test '9D35DDE9',
+  test 'DE9',
   'when dojo is full, you cannot start another avatar' do
     create_kata(kata_id = '9D35DDE924')
     Avatars.names.each do |name|
@@ -299,7 +303,7 @@ class StorerFakeTest < AppLibTestBase
   # kata_increments, avatar_increments, tag_visible_files
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '9D3FC48D',
+  test '48D',
   'avatar_increments raises when avatar_name is mal-formed' do
     create_kata(kata_id = '9D35DDE925')
     error = assert_raises(ArgumentError) {
@@ -308,7 +312,7 @@ class StorerFakeTest < AppLibTestBase
     assert_equal 'invalid avatar_name', error.message
   end
 
-  test '9D3FC48E',
+  test '48E',
   'avatar_increments raises when avatar_name has not started' do
     create_kata(kata_id = '9D35DDE925')
     error = assert_raises(ArgumentError) {
@@ -317,7 +321,7 @@ class StorerFakeTest < AppLibTestBase
     assert_equal 'invalid avatar_name', error.message
   end
 
-  test '9D3FC48F',
+  test '48F',
   "tag_visible_files for tag 0 is kata's starting files" do
     create_kata(kata_id = '9D3FC48F03')
     storer.start_avatar(kata_id, [lion])
@@ -325,7 +329,7 @@ class StorerFakeTest < AppLibTestBase
     assert_equal files0, storer.tag_visible_files(kata_id, lion, tag=0)
   end
 
-  test '9D3FC490',
+  test '490',
   'tag_visible_files raises when tag is mal-formed' do
     create_kata(kata_id = '9D3FC48F03')
     storer.start_avatar(kata_id, [lion])
@@ -335,7 +339,7 @@ class StorerFakeTest < AppLibTestBase
     assert_equal 'invalid tag', error.message
   end
 
-  test '9D3FC491',
+  test '491',
   'tag_visible_files raises when tag does not exist' do
     create_kata(kata_id = '9D3FC48F03')
     storer.start_avatar(kata_id, [lion])
@@ -345,7 +349,7 @@ class StorerFakeTest < AppLibTestBase
     assert_equal 'invalid tag', error.message
   end
 
-  test '9D3A35BC',
+  test '5BC',
   'after each ran_tests() a started avatar has',
   'a new traffic-light',
   'and new latest visible_files(plus output)',
@@ -399,7 +403,7 @@ class StorerFakeTest < AppLibTestBase
   # tag_visible_files
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '9D3171',
+  test '171',
   'tag_visible_files when tag is -1 is the last tag' do
     create_kata(kata_id = '9D3A35B171')
     storer.start_avatar(kata_id, [lion])
@@ -417,7 +421,7 @@ class StorerFakeTest < AppLibTestBase
     assert_equal files, storer.tag_visible_files(kata_id, lion, -1)
   end
 
-  test '9D3172',
+  test '172',
   'tag_visible_files raises when kata_id is invalid' do
     error = assert_raises(ArgumentError) {
       storer.tag_visible_files('xxx', 'dolphin', 20)
@@ -425,7 +429,7 @@ class StorerFakeTest < AppLibTestBase
     assert_equal 'invalid kata_id', error.message
   end
 
-  test '9D3173',
+  test '173',
   'tag_visible_files raises when avatar_name is invalid' do
     create_kata(kata_id = '9D3A35B173')
     error = assert_raises(ArgumentError) {
@@ -434,7 +438,7 @@ class StorerFakeTest < AppLibTestBase
     assert_equal 'invalid avatar_name', error.message
   end
 
-  test '9D3174',
+  test '174',
   'tag_visible_files raises when avatar_name is valid but unstarted' do
     create_kata(kata_id = '9D3A35B174')
     error = assert_raises(ArgumentError) {
@@ -443,7 +447,7 @@ class StorerFakeTest < AppLibTestBase
     assert_equal 'invalid avatar_name', error.message
   end
 
-  test '9D3175',
+  test '175',
   'tag_visible_files raises when tag is invalid' do
     create_kata(kata_id = '9D3A35B175')
     storer.start_avatar(kata_id, [lion])

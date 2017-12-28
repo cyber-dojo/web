@@ -2,6 +2,12 @@ require_relative 'app_lib_test_base'
 
 class DiffViewTest < AppLibTestBase
 
+  def self.hex_prefix
+    '836A0A'
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - -
+
   include DiffView
 
   def setup
@@ -13,7 +19,7 @@ class DiffViewTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '836292',
+  test '292',
   'simple example going from red to green' do
     diffs =
     {

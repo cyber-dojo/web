@@ -4,6 +4,10 @@ class RunnerServiceTest < AppLibTestBase
 
   # These will fail if there is no network connectivity.
 
+  def self.hex_prefix
+    '2BDF80'
+  end
+
   def setup
     super
     set_runner_class('RunnerService')
@@ -16,7 +20,7 @@ class RunnerServiceTest < AppLibTestBase
   # image_pulled?
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '2BDF808C84',
+  test 'C84',
   'image_pulled? request forwards to stateful runner ' +
   'for kata whose runner_choice is stateful' do
     kata = make_kata_stateful
@@ -28,7 +32,7 @@ class RunnerServiceTest < AppLibTestBase
     })
   end
 
-  test '2BDF808C85',
+  test 'C85',
   'image_pulled? request forwards to stateless runner ' +
   'for kata whose runner_choice is stateless' do
     kata = make_kata_stateless
@@ -44,7 +48,7 @@ class RunnerServiceTest < AppLibTestBase
   # image_pull
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '2BDF808204',
+  test '204',
   'image_pull request forwards to stateful runner ' +
   'for kata whose runner_choice is stateful' do
     kata = make_kata_stateful
@@ -56,7 +60,7 @@ class RunnerServiceTest < AppLibTestBase
     })
   end
 
-  test '2BDF808205',
+  test '205',
   'image_pull request forwards to stateless runner ' +
   'for kata whose runner_choice is stateless' do
     kata = make_kata_stateless
@@ -72,7 +76,7 @@ class RunnerServiceTest < AppLibTestBase
   # kata_new
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '2BDF808351',
+  test '351',
   'kata_new request forwards to stateful runner ' +
   'for kata whose runner_choice is stateful' do
     kata = make_kata_stateful
@@ -84,7 +88,7 @@ class RunnerServiceTest < AppLibTestBase
     })
   end
 
-  test '2BDF808352',
+  test '352',
   'kata_new request does not forward to stateless runner ' +
   'for kata whose runner_choice is stateless' do
     kata = make_kata_stateless
@@ -97,7 +101,7 @@ class RunnerServiceTest < AppLibTestBase
   # kata_old
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '2BDF808767',
+  test '767',
   'kata_old request forwards to stateful runner ' +
   'for kata whose runner_choice is stateful' do
     kata = make_kata_stateful
@@ -109,7 +113,7 @@ class RunnerServiceTest < AppLibTestBase
     })
   end
 
-  test '2BDF808768',
+  test '768',
   'kata_old request does not forward to stateless runner ' +
   'for kata whose runner_choice is stateless' do
     kata = make_kata_stateless
@@ -122,7 +126,7 @@ class RunnerServiceTest < AppLibTestBase
   # avatar_new
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '2BDF808C2B',
+  test 'C2B',
   'avatar_new request forwards to stateful runner ' +
   'for kata whose runner_choice is stateful' do
     kata = make_kata_stateful
@@ -136,7 +140,7 @@ class RunnerServiceTest < AppLibTestBase
     })
   end
 
-  test '2BDF808C2C',
+  test 'C2C',
   'avatar_new request does not forward to stateless runner ' +
   'for kata whose runner_choice is stateless' do
     kata = make_kata_stateless
@@ -149,7 +153,7 @@ class RunnerServiceTest < AppLibTestBase
   # avatar_old
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '2BDF808174',
+  test '174',
   'avatar_old request forwards to stateful runner ' +
   'for kata whose runner_choice is stateful' do
     kata = make_kata_stateful
@@ -162,7 +166,7 @@ class RunnerServiceTest < AppLibTestBase
     })
   end
 
-  test '2BDF808175',
+  test '175',
   'avatar_old request does not forward to stateless runner ' +
   'for kata whose runner_choice is stateless' do
     kata = make_kata_stateless
@@ -175,7 +179,7 @@ class RunnerServiceTest < AppLibTestBase
   # run
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '2BDF80874A',
+  test '74A',
   'processful run() delegates to stateful runner' do
     kata = make_kata_processful
     @http = HttpSpy.new(nil)
@@ -188,7 +192,7 @@ class RunnerServiceTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '2BDF80874B',
+  test '74B',
   'stateful run() delegates to stateful runner' do
     kata = make_kata_stateful
     @http = HttpSpy.new(nil)
@@ -201,7 +205,7 @@ class RunnerServiceTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '2BDF80874C',
+  test '74C',
   'stateless run() delegates to stateless runner' do
     kata = make_kata_stateless
     args = []

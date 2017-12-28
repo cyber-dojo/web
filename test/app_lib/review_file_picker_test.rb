@@ -2,6 +2,10 @@ require_relative 'app_lib_test_base'
 
 class ReviewFilePickerTest < AppLibTestBase
 
+  def self.hex_prefix
+    '9EF4D0'
+  end
+
   include ReviewFilePicker
 
   def setup
@@ -14,7 +18,7 @@ class ReviewFilePickerTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '9EFD78',
+  test 'D78',
   'when current_filename has diffs it is chosen',
   'even when another file has more changed lines' do
     @current_filename = 'def'
@@ -26,7 +30,7 @@ class ReviewFilePickerTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '9EF3C0',
+  test '3C0',
   'when current_filename has diffs it is chosen when',
   'another file has equal number of diffs' do
     @current_filename = 'hiker.h'
@@ -40,7 +44,7 @@ class ReviewFilePickerTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '6E524A',
+  test '24A',
   'when current_filename has no diffs it is chosen when',
   'it still exists and no other file has any diffs' do
     @current_filename = 'wibble.cs'
@@ -52,7 +56,7 @@ class ReviewFilePickerTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'E45291',
+  test '291',
   'when current_filename has no diffs it is still chosen when',
   'only other file with diffs is output' do
     @current_filename = 'fubar.cpp'
@@ -64,7 +68,7 @@ class ReviewFilePickerTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '84253F',
+  test '53F',
   'when current_filename has no diffs and another non-output file',
   'has diffs the current_filename is not chosen' do
     @current_filename = 'def'
@@ -76,7 +80,7 @@ class ReviewFilePickerTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '80A6FB',
+  test '6FB',
   'when current_filename is not present and a non output file',
   'has diffs then the one with the most diffs is chosen' do
     @current_filename = 'not-present'
@@ -90,7 +94,7 @@ class ReviewFilePickerTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '8D0729',
+  test '729',
   'when current_filename is not present and no non-output file',
   'has diffs then largest code file is chosen' do
     @current_filename = nil
@@ -106,7 +110,7 @@ class ReviewFilePickerTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '7E59A3',
+  test '9A3',
   'when current_filename is not present and no non-output file',
   'has diffs and no code files then pick cyber-dojo.sh' do
     @current_filename = nil

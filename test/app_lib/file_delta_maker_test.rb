@@ -2,6 +2,12 @@ require_relative 'app_lib_test_base'
 
 class FileDeltaMakerTest < AppLibTestBase
 
+  def self.hex_prefix
+    '89FA01'
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - -
+
   def setup
     super
     set_storer_class('NotUsed')
@@ -11,7 +17,7 @@ class FileDeltaMakerTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - -
 
-  test '89F27F',
+  test '27F',
   'unchanged files seen as :unchanged' do
     @was = { 'wibble.h' => 3424234 }
     @now = { 'wibble.h' => 3424234 }
@@ -24,7 +30,7 @@ class FileDeltaMakerTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - -
 
-  test '89F5A4',
+  test '5A4',
   'changed files seen as :changed' do
     @was = { 'wibble.h' => 52674 }
     @now = { 'wibble.h' => 3424234 }
@@ -37,7 +43,7 @@ class FileDeltaMakerTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - -
 
-  test '89FB12',
+  test 'B12',
   'deleted files seen as :deleted' do
     @was = { 'wibble.h' => 52674 }
     @now = {}
@@ -50,7 +56,7 @@ class FileDeltaMakerTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - -
 
-  test '89F94B',
+  test '94B',
   'new files seen as :new' do
     @was = {}
     @now = { 'wibble.h' => 52674 }
@@ -63,7 +69,7 @@ class FileDeltaMakerTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - -
 
-  test '89FA92',
+  test 'A92',
   'example with :unchanged, :changed, :deleted, and :new' do
     @was = { 'wibble.h' => 52674, 'wibble.c' => 3424234, 'fubar.h' => -234 }
     @now = { 'wibble.h' => 52674, 'wibble.c' => 46532, 'snafu.c' => -345345 }
