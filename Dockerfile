@@ -1,4 +1,4 @@
-FROM  alpine:3.4
+FROM  alpine:latest
 LABEL maintainer=jon@jaggersoft.com
 
 USER root
@@ -6,14 +6,17 @@ RUN adduser -D -H -u 19661 cyber-dojo
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # install ruby+
-# bundle install needs zlib-dev for nokogiri
+# bundle install needs
+#   zlib-dev for nokogiri
+#   libffi-dev for sass-rails
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 RUN apk --update --no-cache add \
     ruby ruby-io-console ruby-dev ruby-irb ruby-bundler ruby-bigdecimal \
     bash \
     tzdata \
-    zlib-dev
+    zlib-dev \
+    libffi-dev
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # install web service
