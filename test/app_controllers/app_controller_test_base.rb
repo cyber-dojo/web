@@ -14,7 +14,8 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def create_language_kata(major_minor_name = default_language, exercise_name = default_exercise)
+  def create_language_kata(major_minor_name = default_language,
+                           exercise_name = default_exercise)
     parts = commad(major_minor_name)
     params = {
          'major' => parts[0],

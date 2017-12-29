@@ -13,8 +13,6 @@ class DifferServiceTest < AppServicesTestBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # differ
-  # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   smoke_test '3AB',
   'smoke test differ-service' do

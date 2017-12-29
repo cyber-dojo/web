@@ -117,10 +117,4 @@ class KatasTest < AppModelsTestBase
     assert_equal [kata1.id, kata2.id, kata3.id].sort, all_ids.sort
   end
 
-  private
-
-  def all_ids
-    katas.map { |kata| kata.id }
-  end
-
 end

@@ -36,6 +36,10 @@ module TestDomainHelpers # mix-in
     [now.year, now.month, now.day, now.hour, now.min, now.sec]
   end
 
+  def all_ids
+    katas.map { |kata| kata.id }
+  end
+
   # - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def lion

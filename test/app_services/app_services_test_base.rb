@@ -18,18 +18,6 @@ class AppServicesTestBase < TestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def all_ids
-    ids = []
-    (0..255).map{|n| '%02X' % n}.each do |outer|
-      storer.completions(outer).each do |inner|
-        ids << (outer + inner)
-      end
-    end
-    ids
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - -
-
   def starting_files
     {
       'hiker.h'       => [

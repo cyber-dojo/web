@@ -13,8 +13,6 @@ class StarterServiceTest < AppServicesTestBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # starter
-  # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   smoke_test '3AA',
   'smoke test starter-service' do
