@@ -11,9 +11,8 @@ class KataTest < AppModelsTestBase
 
   test 'A57',
   'id reads back as set' do
-    id = unique_id
-    kata = make_language_kata({ 'id' => id })
-    assert_equal id, kata.id
+    kata = make_language_kata
+    assert_equal kata_id, kata.id
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -99,17 +98,15 @@ class KataTest < AppModelsTestBase
   test '51F',
   'kata properties are union of language properties and exercise instruction' do
     set_storer_class('StorerService')
-    id = unique_id
     created = [2017,12,21, 10,40,24]
     options = {
-      'id'           => id,
       'created'      => created,
       'display_name' => 'Python, py.test',
       'exercise'     => 'Fizz_Buzz',
     }
     kata = make_language_kata(options)
 
-    assert_equal id, kata.id
+    assert_equal kata_id, kata.id
     assert_equal Time.mktime(*created), kata.created
     assert_equal 'processful', kata.runner_choice
     assert_equal 'cyberdojofoundation/python_pytest', kata.image_name

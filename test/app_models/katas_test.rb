@@ -50,7 +50,7 @@ class KatasTest < AppModelsTestBase
   'completed(id) does not complete when id is less than 6 chars in length',
   'because trying to complete from a short id will waste time going through',
   'lots of candidates (on disk) with the likely outcome of no unique result' do
-    id = unique_id[0..4]
+    id = kata_id[0..4]
     assert_equal 5, id.length
     assert_equal id, katas.completed(id)
   end
@@ -59,7 +59,7 @@ class KatasTest < AppModelsTestBase
 
   test '03B',
   'completed(id) unchanged when no matches' do
-    id = unique_id
+    id = kata_id
     (0..7).each { |size| assert_equal id[0..size], katas.completed(id[0..size]) }
   end
 
@@ -98,11 +98,13 @@ class KatasTest < AppModelsTestBase
     assert_equal [kata.id], all_ids
   end
 
-  test '000',
+  test '4F0',
   'each() yielding two katas with unrelated ids' do
-    kata1 = make_language_kata
-    kata2 = make_language_kata
-    assert_equal [kata1.id, kata2.id].sort, all_ids.sort
+    kata1_id = '33569DDC8D'
+    kata2_id = 'E497E491E2'
+    make_language_kata({ 'id' => kata1_id })
+    make_language_kata({ 'id' => kata2_id })
+    assert_equal [kata1_id, kata2_id].sort, all_ids.sort
   end
 
   test 'A82',

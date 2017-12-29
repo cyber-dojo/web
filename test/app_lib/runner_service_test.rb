@@ -2,280 +2,154 @@ require_relative 'app_lib_test_base'
 
 class RunnerServiceTest < AppLibTestBase
 
-  # These will fail if there is no network connectivity.
-
   def self.hex_prefix
     '2BDF80'
   end
 
-  def setup
-    super
+  def hex_setup
     set_runner_class('RunnerService')
-    @katas = Katas.new(self)
   end
 
-  attr_reader :katas
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - -
-  # image_pulled?
-  #- - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'C84',
-  'image_pulled? request forwards to stateful runner ' +
-  'for kata whose runner_choice is stateful' do
-    kata = make_kata_stateful
-    @http = HttpSpy.new(nil)
-    runner.image_pulled? kata.image_name, kata.id
-    assert_spied_stateful(0, 'image_pulled?', {
-      :image_name => kata.image_name,
-      :kata_id    => kata.id
-    })
-  end
-
-  test 'C85',
-  'image_pulled? request forwards to stateless runner ' +
-  'for kata whose runner_choice is stateless' do
-    kata = make_kata_stateless
-    @http = HttpSpy.new(nil)
-    runner.image_pulled? kata.image_name, kata.id
-    assert_spied_stateless(0, 'image_pulled?', {
-      :image_name => kata.image_name,
-      :kata_id    => kata.id
-    })
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - -
-  # image_pull
-  #- - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '204',
-  'image_pull request forwards to stateful runner ' +
-  'for kata whose runner_choice is stateful' do
-    kata = make_kata_stateful
-    @http = HttpSpy.new(nil)
-    runner.image_pull kata.image_name, kata.id
-    assert_spied_stateful(0, 'image_pull', {
-      :image_name => kata.image_name,
-      :kata_id    => kata.id
-    })
-  end
-
-  test '205',
-  'image_pull request forwards to stateless runner ' +
-  'for kata whose runner_choice is stateless' do
-    kata = make_kata_stateless
-    @http = HttpSpy.new(nil)
-    runner.image_pull kata.image_name, kata.id
-    assert_spied_stateless(0, 'image_pull', {
-      :image_name => kata.image_name,
-      :kata_id    => kata.id
-    })
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - -
-  # kata_new
-  #- - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '351',
-  'kata_new request forwards to stateful runner ' +
-  'for kata whose runner_choice is stateful' do
-    kata = make_kata_stateful
-    @http = HttpSpy.new(nil)
-    runner.kata_new(kata.image_name, kata.id)
-    assert_spied_stateful(0, 'kata_new', {
-      :image_name => kata.image_name,
-      :kata_id    => kata.id
-    })
-  end
-
-  test '352',
-  'kata_new request does not forward to stateless runner ' +
-  'for kata whose runner_choice is stateless' do
-    kata = make_kata_stateless
-    @http = HttpSpy.new(nil)
-    runner.kata_new(kata.image_name, kata.id)
-    assert_nil @http.spied[0]
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - -
-  # kata_old
-  #- - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '767',
-  'kata_old request forwards to stateful runner ' +
-  'for kata whose runner_choice is stateful' do
-    kata = make_kata_stateful
-    @http = HttpSpy.new(nil)
-    runner.kata_old(kata.image_name, kata.id)
-    assert_spied_stateful(0, 'kata_old', {
-      :image_name => kata.image_name,
-      :kata_id    => kata.id
-    })
-  end
-
-  test '768',
-  'kata_old request does not forward to stateless runner ' +
-  'for kata whose runner_choice is stateless' do
-    kata = make_kata_stateless
-    @http = HttpSpy.new(nil)
-    runner.kata_old(kata.image_name, kata.id)
-    assert_nil @http.spied[0]
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - -
-  # avatar_new
-  #- - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'C2B',
-  'avatar_new request forwards to stateful runner ' +
-  'for kata whose runner_choice is stateful' do
-    kata = make_kata_stateful
-    @http = HttpSpy.new(nil)
-    runner.avatar_new(kata.image_name, kata.id, 'salmon', {})
-    assert_spied_stateful(0, 'avatar_new', {
-      :image_name     => kata.image_name,
-      :kata_id        => kata.id,
-      :avatar_name    => 'salmon',
-      :starting_files => {}
-    })
-  end
-
-  test 'C2C',
-  'avatar_new request does not forward to stateless runner ' +
-  'for kata whose runner_choice is stateless' do
-    kata = make_kata_stateless
-    @http = HttpSpy.new(nil)
-    runner.avatar_new(kata.image_name, kata.id, 'salmon', {})
-    assert_nil @http.spied[0]
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - -
-  # avatar_old
-  #- - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '174',
-  'avatar_old request forwards to stateful runner ' +
-  'for kata whose runner_choice is stateful' do
-    kata = make_kata_stateful
-    @http = HttpSpy.new(nil)
-    runner.avatar_old(kata.image_name, kata.id, 'salmon')
-    assert_spied_stateful(0, 'avatar_old', {
-      :image_name     => kata.image_name,
-      :kata_id        => kata.id,
-      :avatar_name    => 'salmon'
-    })
-  end
-
-  test '175',
-  'avatar_old request does not forward to stateless runner ' +
-  'for kata whose runner_choice is stateless' do
-    kata = make_kata_stateless
-    @http = HttpSpy.new(nil)
-    runner.avatar_old(kata.image_name, kata.id, 'salmon')
-    assert_nil @http.spied[0]
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - -
-  # run
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '74A',
-  'processful run() delegates to stateful runner' do
-    kata = make_kata_processful
-    @http = HttpSpy.new(nil)
-    runner.kata_new(kata.image_name, kata.id)
-    assert_spied_processful(0, 'kata_new', {
-      :image_name => kata.image_name,
-      :kata_id    => kata.id
-    })
+  'stateless run() delegates to stateless runner' do
+    in_kata_stateless { |kata|
+      as_lion(kata) {
+        runner.run(*run_args(kata))
+        assert_spied_run_stateless(kata)
+      }
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '74B',
   'stateful run() delegates to stateful runner' do
-    kata = make_kata_stateful
-    @http = HttpSpy.new(nil)
-    runner.kata_new(kata.image_name, kata.id)
-    assert_spied_stateful(0, 'kata_new', {
-      :image_name => kata.image_name,
-      :kata_id    => kata.id
-    })
+    in_kata_stateful { |kata|
+      as_lion(kata) {
+        runner.run(*run_args(kata))
+        assert_spied_run_stateful(kata)
+      }
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '74C',
-  'stateless run() delegates to stateless runner' do
-    kata = make_kata_stateless
+  'processful run() delegates to processful runner' do
+    in_kata_processful { |kata|
+      as_lion(kata) {
+        runner.run(*run_args(kata))
+        assert_spied_run_processful(kata)
+      }
+    }
+  end
+
+  private # = = = = = = = = = = = = = = = = = = =
+
+  def in_kata_stateless
+    kata = make_language_kata({ 'display_name' => 'Python, unittest' })
+    assert_equal 'stateless', kata.runner_choice
+    begin
+      yield kata
+    ensure
+      runner.kata_old(kata.image_name, kata.id)
+    end
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def in_kata_stateful
+    kata = make_language_kata({ 'display_name' => 'C (gcc), assert' })
+    assert_equal 'stateful', kata.runner_choice
+    begin
+      yield kata
+    ensure
+      runner.kata_old(kata.image_name, kata.id)
+    end
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def in_kata_processful
+    kata = make_language_kata({ 'display_name' => 'Python, py.test' })
+    assert_equal 'processful', kata.runner_choice
+    begin
+      yield kata
+    ensure
+      runner.kata_old(kata.image_name, kata.id)
+    end
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def as_lion(kata)
+    starting_files = kata.visible_files
+    runner.avatar_new(kata.image_name, kata.id, lion, starting_files)
+    http = @http
+    @http = HttpSpy.new(nil)
+    begin
+      yield
+    ensure
+      @http = http
+      runner.avatar_old(kata.image_name, kata.id, lion)
+    end
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def run_args(kata)
     args = []
     args << kata.image_name
     args << kata.id
-    args << (avatar_name = lion)
+    args << lion
     args << (max_seconds = 10)
     args << (delta = { :deleted => ['instructions'], :new => [], :changed => {} })
     args << (files = {})
-    @http = HttpSpy.new(nil)
-    runner.run(*args)
-    assert_spied_stateless(0, 'run_cyber_dojo_sh', {
+    args
+  end
+
+  def expected_run_args(kata)
+    {
       :image_name        => kata.image_name,
       :kata_id           => kata.id,
-      :avatar_name       => avatar_name,
+      :avatar_name       => lion,
       :new_files         => {},
       :deleted_files     => { 'instructions' => '' },
       :changed_files     => {},
       :unchanged_files   => {},
-      :max_seconds       => max_seconds
-    })
+      :max_seconds       => (max_seconds = 10)
+    }
   end
 
-  private # = = = = = = = = = = = = = = = = =
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def make_kata_stateless
-    kata = make_language_kata({ 'display_name' => 'Python, unittest' })
-    assert_equal 'stateless', kata.runner_choice
-    kata
-  end
-
-  def make_kata_stateful
-    kata = make_language_kata({ 'display_name' => 'C (gcc), assert' })
-    assert_equal 'stateful', kata.runner_choice
-    kata
-  end
-
-  def make_kata_processful
-    kata = make_language_kata({ 'display_name' => 'Python, py.test' })
-    assert_equal 'processful', kata.runner_choice
-    kata
-  end
-
-  # - - - - - - - - - - - - - - -
-
-  def assert_spied_stateless(index, method_name, args)
+  def assert_spied_run_stateless(kata)
     assert_equal [
-      stateless_runner_name = 'runner_stateless',
-      stateless_runner_port = 4597,
-      method_name,
-      args
-    ], @http.spied[index]
+      stateful_runner_name = 'runner_stateless',
+      stateful_runner_port = 4597,
+      'run_cyber_dojo_sh',
+      expected_run_args(kata)
+    ], @http.spied[0]
   end
 
-  def assert_spied_stateful(index, method_name, args)
+  def assert_spied_run_stateful(kata)
     assert_equal [
       stateful_runner_name = 'runner_stateful',
       stateful_runner_port = 4557,
-      method_name,
-      args
-    ], @http.spied[index]
+      'run_cyber_dojo_sh',
+      expected_run_args(kata)
+    ], @http.spied[0]
   end
 
-  def assert_spied_processful(index, method_name, args)
+  def assert_spied_run_processful(kata)
     assert_equal [
       stateful_runner_name = 'runner_processful',
       stateful_runner_port = 4547,
-      method_name,
-      args
-    ], @http.spied[index]
+      'run_cyber_dojo_sh',
+      expected_run_args(kata)
+    ], @http.spied[0]
   end
 
 end

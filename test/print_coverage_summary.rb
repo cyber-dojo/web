@@ -186,7 +186,7 @@ def gather_done(stats, totals)
   module_names = %w( app_helpers app_lib app_models lib app_controllers )
   module_names.each do |name|
     if modules.include? name
-      min_coverage = (name != 'app_controllers') ? 100 : 99
+      min_coverage = 99
       done << coverage(stats, name, min_coverage)
       done << skips(stats, name)
     end

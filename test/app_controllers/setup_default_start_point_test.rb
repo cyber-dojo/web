@@ -78,7 +78,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     major = get_language_from(c_assert)
     minor = get_test_from(c_assert)
     manifest = starter.language_manifest(major, minor, 'Fizz_Buzz')
-    manifest['id'] = unique_id
+    manifest['id'] = kata_id
     manifest['created'] = time_now
     manifest['display_name'] = major + 'XX, ' + minor
     storer.create_kata(manifest)
@@ -97,7 +97,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     major = get_language_from(c_assert)
     minor = get_test_from(c_assert)
     manifest = starter.language_manifest(major, minor, 'Fizz_Buzz')
-    manifest['id'] = unique_id
+    manifest['id'] = kata_id
     manifest['created'] = time_now
     manifest['display_name'] = major + ', ' + minor + 'XX'
     storer.create_kata(manifest)

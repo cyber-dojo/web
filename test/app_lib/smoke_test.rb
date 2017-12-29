@@ -6,8 +6,7 @@ class SmokeTest < AppLibTestBase
     '98255E'
   end
 
-  def setup
-    super
+  def hex_setup
     set_storer_class('StorerService')
     set_runner_class('RunnerService')
   end
@@ -72,20 +71,25 @@ class SmokeTest < AppLibTestBase
   'smoke test differ-service' do
     kata = make_language_kata
     kata.start_avatar([lion])
-    args = []
-    args << kata.id
-    args << lion
-    args << (files1 = starting_files)
-    args << (now1 = [2016,12,8, 8,3,23])
-    args << (output = 'Assert failed: answer() == 42')
-    args << (colour = 'red')
-    storer.avatar_ran_tests(*args)
-    actual = differ.diff(kata.id, lion, was_tag=0, now_tag=1)
+    begin
+      args = []
+      args << kata.id
+      args << lion
+      args << (files1 = starting_files)
+      args << (now1 = [2016,12,8, 8,3,23])
+      args << (output = 'Assert failed: answer() == 42')
+      args << (colour = 'red')
+      storer.avatar_ran_tests(*args)
+      actual = differ.diff(kata.id, lion, was_tag=0, now_tag=1)
 
-    refute_nil actual['hiker.c']
-    assert_equal({
-      "type"=>"same", "line"=>"#include \"hiker.h\"", "number"=>1
-    }, actual['hiker.c'][0])
+      refute_nil actual['hiker.c']
+      assert_equal({
+        "type"=>"same", "line"=>"#include \"hiker.h\"", "number"=>1
+      }, actual['hiker.c'][0])
+    ensure
+      runner.avatar_old(kata.image_name, kata.id, lion)
+      runner.kata_old(kata.image_name, kata.id)
+    end
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -95,7 +99,7 @@ class SmokeTest < AppLibTestBase
   smoke_test 'CD3',
   'smoke test runner-service raising' do
     set_storer_class('StorerFake')
-    kata = make_language_kata({ 'id' => '2BD23CD300' })
+    kata = make_language_kata
     runner.kata_old(kata.image_name, kata.id)
   end
 
@@ -104,8 +108,7 @@ class SmokeTest < AppLibTestBase
   smoke_test '102',
   'smoke test image_pulled?' do
     kata = make_language_kata({
-      'display_name' => 'Python, unittest',
-      'id' => '2BDF808102'
+      'display_name' => 'Python, unittest'
     })
     assert kata.runner_choice == 'stateless' # no need to do runner.kata_old
     refute runner.image_pulled? 'cyberdojo/non_existant', kata.id
@@ -116,8 +119,7 @@ class SmokeTest < AppLibTestBase
   smoke_test '812',
   'smoke test runner-service colour is red-amber-green traffic-light' do
     kata = make_language_kata({
-      'display_name' => 'C (gcc), assert',
-      'id' => '2BDAD80812'
+      'display_name' => 'C (gcc), assert'
     })
     runner.avatar_new(kata.image_name, kata.id, lion, starting_files)
     args = []
@@ -167,14 +169,12 @@ class SmokeTest < AppLibTestBase
     assert_equal 'StorerService', storer.class.name
 
     refute all_ids.include? kata_id
-
     refute storer.kata_exists?(kata_id)
 
     major = 'C (gcc)'
     minor = 'assert'
     exercise = 'Fizz_Buzz'
     manifest = starter.language_manifest(major,minor,exercise)
-
     manifest['id'] = kata_id
     manifest['created'] = creation_time
     storer.create_kata(manifest)
@@ -183,7 +183,6 @@ class SmokeTest < AppLibTestBase
     assert all_ids.include? kata_id
 
     assert_equal({}, storer.kata_increments(kata_id))
-    assert_equal kata_id, storer.completed(kata_id[0..5])
     assert_equal [], storer.started_avatars(kata_id)
 
     refute storer.avatar_exists?(kata_id, lion)

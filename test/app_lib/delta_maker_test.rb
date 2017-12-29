@@ -7,10 +7,7 @@ class DeltaMakerTest < AppLibTestBase
     'A63245'
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def setup
-    super
+  def hex_setup
     kata = make_language_kata
     avatar = kata.start_avatar(Avatars.names)
     @maker = DeltaMaker.new(avatar)
@@ -70,7 +67,7 @@ class DeltaMakerTest < AppLibTestBase
   'new_file(filename) succeeds when filename is new',
   ', adds filename to visible_files',
   ', delta[:new] includes filename' do
-    content = 'Snaeda'
+    content = 'Snaelda'
     @maker.new_file(@new_filename, content)
     delta, now = *@maker.test_args
     assert now.keys.include?(@new_filename)
@@ -84,7 +81,7 @@ class DeltaMakerTest < AppLibTestBase
   'change_file(filename) succeeds when filename is not new and content is new',
   ", updates filename's content in visible_files",
   ', delta[:changed] includes filename' do
-    new_content = 'Snaeda'
+    new_content = 'Snaelda'
     @maker.change_file(@existing_filename, new_content)
     delta, now = *@maker.test_args
     assert now.keys.include?(@existing_filename)

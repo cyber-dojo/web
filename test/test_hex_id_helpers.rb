@@ -5,6 +5,12 @@ module TestHexIdHelpers # mix-in
     ENV['CYBER_DOJO_TEST_ID']
   end
 
+  def hex_setup
+  end
+
+  def hex_teardown
+  end
+
   # - - - - - - - - - - - - - - - -
 
   def self.included(base)
@@ -45,7 +51,9 @@ module TestHexIdHelpers # mix-in
         name = lines.join(' ')
         block_with_test_id = lambda {
           ENV['CYBER_DOJO_TEST_ID'] = id
+          hex_setup
           self.instance_eval &block
+          hex_teardown
         }
         define_method("test_'#{id}',\n #{name}\n".to_sym, &block_with_test_id)
       end
