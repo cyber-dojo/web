@@ -1,6 +1,6 @@
-require_relative 'lib_test_base'
+require_relative 'app_services_test_base'
 
-class HttpSpyTest < LibTestBase
+class HttpSpyTest < AppServicesTestBase
 
   def self.hex_prefix
     '951608'

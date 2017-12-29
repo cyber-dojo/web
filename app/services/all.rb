@@ -1,5 +1,11 @@
 
 %w(
+  env_var
+  externals
+
+  http
+  http_spy
+
   differ_service
   starter_service
   runner_service

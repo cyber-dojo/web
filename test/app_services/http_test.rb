@@ -1,6 +1,6 @@
-require_relative 'lib_test_base'
+require_relative 'app_services_test_base'
 
-class HttpTest < LibTestBase
+class HttpTest < AppServicesTestBase
 
   def self.hex_prefix
     'F02B3E'
@@ -8,8 +8,8 @@ class HttpTest < LibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - -
 
-  smoke_test '620',
-  'smoke test runner-stateful' do
+  test '620',
+  'test using runner-stateful' do
     json = http.get('runner_stateful', '4557', 'image_pulled?', {
       image_name:'',
       kata_id:''
@@ -25,8 +25,8 @@ class HttpTest < LibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - -
 
-  smoke_test '621',
-  'smoke test runner-stateless' do
+  test '621',
+  'test using runner-stateless' do
     json = http.get('runner_stateless', '4597', 'image_pulled?', {
       image_name:'',
       kata_id:''
