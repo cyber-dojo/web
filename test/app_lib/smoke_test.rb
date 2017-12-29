@@ -153,8 +153,10 @@ class SmokeTest < AppLibTestBase
 
   smoke_test '51A',
   'non-existant kata-id raises exception' do
-    kata_id = 'C6DCD7451A'
-    error = assert_raises (StandardError) { storer.kata_manifest(kata_id) }
+    assert_equal 'StorerService', storer.class.name
+    error = assert_raises (StandardError) {
+      storer.kata_manifest(kata_id)
+    }
     assert error.message.end_with?('invalid kata_id')
   end
 
@@ -162,7 +164,6 @@ class SmokeTest < AppLibTestBase
 
   smoke_test '301',
   'smoke test storer-service' do
-    kata_id = 'C6DE6CD301'
     assert_equal 'StorerService', storer.class.name
 
     refute all_ids.include? kata_id

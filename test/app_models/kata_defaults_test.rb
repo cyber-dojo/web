@@ -19,7 +19,6 @@ class KataDefaultsTest < AppModelsTestBase
   test '346',
   'lowlight_filenames defaults to specific 4 files when hightlight_filenames is empty' do
     manifest = starter.language_manifest('C (gcc)', 'assert', 'Fizz_Buzz')
-    kata_id = unique_id
     manifest['id'] = kata_id
     manifest['created'] = time_now
     manifest.delete('highlight_filenames')
@@ -31,7 +30,6 @@ class KataDefaultsTest < AppModelsTestBase
   test '347',
   'lowlight_filenames defaults to the complement of highlight_filenames when highlight_filenames is not empty' do
     manifest = starter.language_manifest('C (gcc)', 'assert', 'Fizz_Buzz')
-    kata_id = unique_id
     manifest['id'] = kata_id
     manifest['created'] = time_now
     manifest['highlight_filenames'] = %w( hiker.c hiker.h hiker.tests.c )
@@ -59,7 +57,6 @@ class KataDefaultsTest < AppModelsTestBase
 
   def assert_default(name, expected)
     manifest = starter.language_manifest('C (gcc)', 'assert', 'Fizz_Buzz')
-    kata_id = unique_id
     manifest['id'] = kata_id
     manifest['created'] = time_now
     manifest.delete(name)
