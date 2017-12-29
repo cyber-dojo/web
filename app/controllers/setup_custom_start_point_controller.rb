@@ -20,9 +20,9 @@ class SetupCustomStartPointController < ApplicationController
     manifest = starter.custom_manifest(major, minor)
     kata = katas.create_kata(manifest)
     render json: {
-          image_name: kata.image_name,
-                  id: kata.id,
-           selection: major + ', ' + minor # TODO: used?
+        image_name: kata.image_name,
+                id: kata.id,
+      display_name: kata.display_name
     }
   end
 

@@ -33,7 +33,7 @@ var cyberDojo = (function(cd, $) {
 
   var makePullingDialog = function(title, dojoParams) {
     var html = '' +
-      '<div class="selection">' + dojoParams.selection + '</div><br/>' +
+      '<div class="selection">' + dojoParams.display_name + '</div><br/>' +
       'First time for this test framework!<br/>' +
       "Doing a one-time only image pull.<br/>" +
       'It can take a minute or two.<br/>' +
