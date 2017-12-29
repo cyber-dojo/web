@@ -10,8 +10,9 @@ class TipTest < AppHelpersTestBase
 
   smoke_test 'D52',
   'traffic light tip' do
-    # uses real differ-service
-    kata = make_language_kata
+    kata = make_language_kata({
+      'display_name' => default_language_name('stateful')
+    })
     lion = kata.start_avatar(['lion'])
     files = kata.visible_files
     now = [2016,12,22,5,55,11]
@@ -26,6 +27,7 @@ class TipTest < AppHelpersTestBase
     now_colour = :green
     lion.tested(files, time_now, output, now_colour) # 2
 
+    # uses real differ-service
     diff = differ.diff(kata.id, lion.name, was_tag=1, now_tag=2)
 
     expected =

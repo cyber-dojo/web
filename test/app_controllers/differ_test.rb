@@ -10,7 +10,7 @@ class DifferControllerTest < AppControllerTestBase
 
   test 'AF6',
   'no lines different in any files between successive tags' do
-    @id = create_language_kata
+    @id = create_language_kata(default_language_name('stateful'))
     @avatar = start # 0
     filename = 'hiker.c'
     change_file(filename, content='some_change...')
@@ -41,7 +41,7 @@ class DifferControllerTest < AppControllerTestBase
 
   test '2BF',
   'one line different in one file between successive tags' do
-    @id = create_language_kata
+    @id = create_language_kata(default_language_name('stateful'))
     @avatar = start # 0
     filename = 'hiker.c'
     change_file(filename, from='fubar')

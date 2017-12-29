@@ -80,7 +80,9 @@ class AvatarTest < AppModelsTestBase
 
   test '925',
   'test():delta[:changed] files are changed' do
-    kata = make_language_kata
+    kata = make_language_kata({
+      'display_name' => default_language_name('stateful')
+    })
     @avatar = kata.start_avatar
     code_filename = 'hiker.c'
     test_filename = 'hiker.tests.c'
@@ -96,7 +98,9 @@ class AvatarTest < AppModelsTestBase
 
   test '749',
   'test():delta[:unchanged] files are unchanged' do
-    kata = make_language_kata
+    kata = make_language_kata({
+      'display_name' => default_language_name('stateful')
+    })
     @avatar = kata.start_avatar
     filename = 'hiker.c'
     assert @avatar.visible_filenames.include? filename

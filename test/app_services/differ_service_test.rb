@@ -16,7 +16,9 @@ class DifferServiceTest < AppServicesTestBase
 
   smoke_test '3AB',
   'smoke test differ-service' do
-    kata = make_language_kata # default=runner_stateful
+    kata = make_language_kata({
+      'display_name' => default_language_name('stateful')
+    })
     kata.start_avatar([lion])
     begin
       args = []

@@ -10,7 +10,7 @@ class ReverterControllerTest  < AppControllerTestBase
 
   test '276',
   'revert' do
-    @id = create_language_kata
+    @id = create_language_kata(default_language_name('stateful'))
     @avatar = start
     kata_edit
     filename = 'hiker.c'

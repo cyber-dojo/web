@@ -8,7 +8,7 @@ class DownloadControllerTest < AppControllerTestBase
 
   def prepare
     set_storer_class('StorerService')
-    @id = create_language_kata
+    @id = create_language_kata(default_language_name('stateful'))
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

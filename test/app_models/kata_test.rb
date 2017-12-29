@@ -97,7 +97,6 @@ class KataTest < AppModelsTestBase
 
   test '51F',
   'kata properties are union of language properties and exercise instruction' do
-    set_storer_class('StorerService')
     created = [2017,12,21, 10,40,24]
     options = {
       'created'      => created,
@@ -145,23 +144,9 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'C43',
-  %w( start_avatar() in language with stateful-runner
-      with specific name succeeds
+  %w( start_avatar() with specific name succeeds
       when avatar has not yet started ).join(' ').to_s do
-    @kata = make_language_kata({ 'display_name' => 'C (gcc), assert' })
-    hippo = @kata.start_avatar(['hippo'])
-    refute_nil hippo
-    assert_equal 'hippo', hippo.name
-    assert_equal ['hippo'], avatars_names
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'C44',
-  %w( start_avatar() in language with stateless-runner
-      with specific name succeeds
-      when avatar has not yet started ).join(' ').to_s do
-    @kata = make_language_kata({ 'display_name' => 'Python, unittest' })
+    @kata = make_language_kata
     hippo = @kata.start_avatar(['hippo'])
     refute_nil hippo
     assert_equal 'hippo', hippo.name

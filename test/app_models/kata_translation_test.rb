@@ -6,10 +6,16 @@ class KataTranslationTest < AppModelsTestBase
     '6852C2'
   end
 
+  def hex_setup
+    set_storer_class('StorerService')
+    # tests are for specific kata-ids tar-piped into storer
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - -
+
   test 'E2A',
   'new-style kata not involving renaming (dolphin, 20 lights)' do
-    set_storer_class('StorerService')
-    @kata_id = '420B05BA0A' # tar-piped into storer
+    @kata_id = '420B05BA0A'
     raw = storer.kata_manifest(@kata_id)
     raw_expected_keys = %w(
       created id
@@ -35,8 +41,7 @@ class KataTranslationTest < AppModelsTestBase
 
   test 'E2B',
   'new-style kata not involving renaming (snake, 0 lights)' do
-    set_storer_class('StorerService')
-    @kata_id = '420F2A2979' # tar-piped into storer
+    @kata_id = '420F2A2979'
     raw = storer.kata_manifest(@kata_id)
     raw_expected_keys = %w(
       created id
@@ -62,8 +67,7 @@ class KataTranslationTest < AppModelsTestBase
 
   test 'E2C',
   'old-style kata involving renaming (buffalo, 36 lights)' do
-    set_storer_class('StorerService')
-    @kata_id = '421F303E80' # tar-piped into storer
+    @kata_id = '421F303E80'
     raw = storer.kata_manifest(@kata_id)
     raw_expected_keys = %w(
       created id
@@ -89,8 +93,7 @@ class KataTranslationTest < AppModelsTestBase
 
   test 'E2D',
   'old-style kata involving renaming (wolf, 1 light)' do
-    set_storer_class('StorerService')
-    @kata_id = '421AFD7EC5' # tar-piped into storer
+    @kata_id = '421AFD7EC5'
     raw = storer.kata_manifest(@kata_id)
     raw_expected_keys = %w(
       created id
@@ -117,8 +120,7 @@ class KataTranslationTest < AppModelsTestBase
 
   test 'E2E',
   'old-style kata not involving renaming (hummingbird, 0 lights)' do
-    set_storer_class('StorerService')
-    @kata_id = '420BD5D5BE' # tar-piped into storer
+    @kata_id = '420BD5D5BE'
     raw = storer.kata_manifest(@kata_id)
     raw_expected_keys = %w(
       id created
@@ -144,8 +146,7 @@ class KataTranslationTest < AppModelsTestBase
 
   test 'E2F',
   'new-style kata not involving renaming (spider, 8 lights) with red_amber_green property' do
-    set_storer_class('StorerService')
-    @kata_id = '5A0F824303' # tar-piped into storer
+    @kata_id = '5A0F824303'
     raw = storer.kata_manifest(@kata_id)
     raw_expected_keys = %w(
       id created
