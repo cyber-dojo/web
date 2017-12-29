@@ -14,6 +14,22 @@ class RunnerServiceTest < AppServicesTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test '102',
+  'image_pulled?' do
+    kata = make_language_kata
+    refute runner.image_pulled?('cyberdojo/non_existant', kata.id)
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '103',
+  'image_pull' do
+    kata = make_language_kata
+    refute runner.image_pull('cyberdojo/non_existant', kata.id)
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '74A',
   'stateless run() delegates to stateless runner' do
     in_kata_stateless { |kata|
@@ -50,19 +66,8 @@ class RunnerServiceTest < AppServicesTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  smoke_test '102',
-  'smoke test image_pulled?' do
-    kata = make_language_kata({
-      'display_name' => 'Python, unittest'
-    })
-    assert kata.runner_choice == 'stateless' # no need to do runner.kata_old
-    refute runner.image_pulled? 'cyberdojo/non_existant', kata.id
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  smoke_test '812',
-  'smoke test runner-service colour is red-amber-green traffic-light' do
+  test '812',
+  'runner-service colour is red-amber-green traffic-light' do
     kata = make_language_kata({
       'display_name' => 'C (gcc), assert'
     })
