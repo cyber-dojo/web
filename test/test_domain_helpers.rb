@@ -27,6 +27,11 @@ module TestDomainHelpers # mix-in
     'Fizz_Buzz'
   end
 
+  def kata_id
+    hex_test_id = ENV['CYBER_DOJO_TEST_ID']
+    hex_test_id + ('0' * (10-hex_test_id.length))
+  end
+
   def unique_id
     hex_chars = '0123456789ABCDEF'.split(//)
     Array.new(10) { hex_chars.sample }.shuffle.join
