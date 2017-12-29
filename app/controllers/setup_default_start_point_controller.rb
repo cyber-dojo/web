@@ -34,8 +34,6 @@ class SetupDefaultStartPointController < ApplicationController
     minor = params['minor']
     exercise = params['exercise']
     manifest = starter.language_manifest(major, minor, exercise)
-    manifest['id'] = unique_id
-    manifest['created'] = time_now
     kata = katas.create_kata(manifest)
     render json: {
       image_name: kata.image_name,

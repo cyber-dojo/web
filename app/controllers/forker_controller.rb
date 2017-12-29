@@ -21,8 +21,7 @@ class ForkerController < ApplicationController
     end
 
     unless error
-      manifest = {       'id' => unique_id,
-                    'created' => time_now,
+      manifest = {
                'display_name' => kata.display_name,
                    'exercise' => kata.exercise,
          'filename_extension' => kata.filename_extension,
@@ -51,11 +50,6 @@ class ForkerController < ApplicationController
                                         id: result[:id] }
     end
   end
-
-  private
-
-  include TimeNow
-  include UniqueId
 
 end
 

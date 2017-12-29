@@ -18,8 +18,6 @@ class SetupCustomStartPointController < ApplicationController
     major = params['major']
     minor = params['minor']
     manifest = starter.custom_manifest(major, minor)
-    manifest['id'] = unique_id
-    manifest['created'] = time_now
     kata = katas.create_kata(manifest)
     render json: {
           image_name: kata.image_name,
