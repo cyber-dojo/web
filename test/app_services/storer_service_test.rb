@@ -42,6 +42,7 @@ class StorerServiceTest < AppServicesTestBase
     assert all_ids.include? kata_id
 
     assert_equal({}, storer.kata_increments(kata_id))
+    assert_equal kata_id, storer.completed(kata_id[0..5])
     assert_equal [], storer.started_avatars(kata_id)
 
     refute storer.avatar_exists?(kata_id, lion)
