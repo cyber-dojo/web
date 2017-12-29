@@ -14,8 +14,8 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def create_language_kata(major_minor_name = default_language,
-                           exercise_name = default_exercise)
+  def create_language_kata(major_minor_name = default_language_name,
+                           exercise_name = default_exercise_name)
     parts = commad(major_minor_name)
     params = {
          'major' => parts[0],
@@ -100,10 +100,6 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  def hit_test
-    run_tests
-  end
-
   def json
     ActiveSupport::JSON.decode html
   end
@@ -116,14 +112,6 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   def commad(name)
     name.split(',').map(&:strip)
-  end
-
-  def default_language
-    'C (gcc), assert'
-  end
-
-  def default_exercise
-    'Fizz_Buzz'
   end
 
   def docker_pull_output

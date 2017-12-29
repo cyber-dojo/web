@@ -8,7 +8,7 @@ module TestDomainHelpers # mix-in
   module_function
 
   def make_language_kata(options = {})
-    display_name = options['display_name'] || default_display_name
+    display_name = options['display_name'] || default_language_name
     exercise_name = options['exercise'] || default_exercise_name
     parts = display_name.split(',').map(&:strip)
     major_name = parts[0]
@@ -19,7 +19,7 @@ module TestDomainHelpers # mix-in
     katas.create_kata(manifest)
   end
 
-  def default_display_name
+  def default_language_name
     'C (gcc), assert' # runner_choice == 'stateful'
   end
 
