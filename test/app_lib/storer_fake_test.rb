@@ -76,7 +76,7 @@ class StorerFakeTest < AppLibTestBase
 
   test '934',
   'create_kata with an invalid kata_id raises' do
-    manifest = make_manifest(invalid_id)
+    manifest = make_manifest(invalid_kata_id)
     error = assert_raises(ArgumentError) {
       storer.create_kata(manifest)
     }
@@ -100,7 +100,7 @@ class StorerFakeTest < AppLibTestBase
   test '936',
   'kata_manifest(id) with invalid id raises' do
     error = assert_raises(ArgumentError) {
-      storer.kata_manifest(invalid_id)
+      storer.kata_manifest(invalid_kata_id)
     }
     assert_equal 'invalid kata_id', error.message
   end
@@ -110,7 +110,7 @@ class StorerFakeTest < AppLibTestBase
   test '937',
   'started_avatars(id) with invalid id raises' do
     error = assert_raises(ArgumentError) {
-      storer.started_avatars(invalid_id)
+      storer.started_avatars(invalid_kata_id)
     }
     assert_equal 'invalid kata_id', error.message
   end
@@ -120,7 +120,7 @@ class StorerFakeTest < AppLibTestBase
   test '938',
   'start_avatar(id) with invalid id raises' do
     error = assert_raises(ArgumentError) {
-      storer.start_avatar(invalid_id, [lion])
+      storer.start_avatar(invalid_kata_id, [lion])
     }
     assert_equal 'invalid kata_id', error.message
   end
@@ -130,7 +130,7 @@ class StorerFakeTest < AppLibTestBase
   test '939',
   'avatar_increments(id) with invalid id raises' do
     error = assert_raises(ArgumentError) {
-      storer.avatar_increments(invalid_id, [lion])
+      storer.avatar_increments(invalid_kata_id, [lion])
     }
     assert_equal 'invalid kata_id', error.message
   end
@@ -539,7 +539,7 @@ class StorerFakeTest < AppLibTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def invalid_id
+  def invalid_kata_id
     'sdfsdfsdf'
   end
 
