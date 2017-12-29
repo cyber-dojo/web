@@ -14,7 +14,7 @@ class StorerServiceTest < AppServicesTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  smoke_test '51A',
+  test '51A',
   'non-existant kata-id raises exception' do
     error = assert_raises (StandardError) {
       storer.kata_manifest(kata_id)
@@ -24,8 +24,8 @@ class StorerServiceTest < AppServicesTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  smoke_test '301',
-  'smoke test storer-service' do
+  test '301',
+  'smoke test storer-service scenario' do
 
     refute all_ids.include? kata_id
     refute storer.kata_exists?(kata_id)
@@ -76,7 +76,7 @@ class StorerServiceTest < AppServicesTestBase
     assert_equal files1, json['now_tag']
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+  private
 
   def edited_files
     edited = starting_files.clone

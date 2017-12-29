@@ -8,7 +8,7 @@ class TipTest < AppHelpersTestBase
 
   include TipHelper
 
-  smoke_test 'D52',
+  test 'D52',
   'traffic light tip' do
     kata = make_language_kata({
       'display_name' => default_language_name('stateful')

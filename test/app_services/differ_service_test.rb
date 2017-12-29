@@ -14,8 +14,8 @@ class DifferServiceTest < AppServicesTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  smoke_test '3AB',
-  'smoke test differ-service' do
+  test '3AB',
+  'smoke test' do
     kata = make_language_kata({
       'display_name' => default_language_name('stateful')
     })

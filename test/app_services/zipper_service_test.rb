@@ -14,7 +14,7 @@ class ZipperServiceTest < AppServicesTestBase
 
   # - - - - - - - - - - - - - - - - - - - - -
 
-  smoke_test 'EBF',
+  test 'EBF',
   'smoke test zipper.zip' do
     error = assert_raises { zipper.zip(kata_id='') }
     assert error.message.end_with?('invalid kata_id'), error.message
@@ -22,7 +22,7 @@ class ZipperServiceTest < AppServicesTestBase
 
   # - - - - - - - - - - - - - - - - - - - - -
 
-  smoke_test '959',
+  test '959',
   'smoke test zipper.zip_tag' do
     error = assert_raises { zipper.zip_tag(kata_id='', 'lion', 0) }
     assert error.message.end_with?('invalid kata_id'), error.message

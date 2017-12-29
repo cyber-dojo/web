@@ -14,8 +14,8 @@ class StarterServiceTest < AppServicesTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  smoke_test '3AA',
-  'smoke test starter-service' do
+  test '3AA',
+  'smoke test' do
     json = starter.custom_choices
     assert_equal [ 'Yahtzee refactoring' ], json['major_names']
     assert_equal [
