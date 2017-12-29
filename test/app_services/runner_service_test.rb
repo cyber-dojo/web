@@ -8,8 +8,8 @@ class RunnerServiceTest < AppServicesTestBase
 
   def hex_setup
     set_differ_class('NotUsed')
-    set_runner_class('RunnerService')
     set_storer_class('StorerFake')
+    set_runner_class('RunnerService')
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -

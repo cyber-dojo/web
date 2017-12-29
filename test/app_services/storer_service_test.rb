@@ -75,4 +75,12 @@ class StorerServiceTest < AppServicesTestBase
     assert_equal files1, json['now_tag']
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def edited_files
+    edited = starting_files.clone
+    edited['readme.txt'] = 'more info'
+    edited
+  end
+
 end

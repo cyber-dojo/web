@@ -20,7 +20,7 @@ module TestDomainHelpers # mix-in
   end
 
   def default_display_name
-    'C (gcc), assert'
+    'C (gcc), assert' # runner_choice == 'stateful'
   end
 
   def default_exercise_name

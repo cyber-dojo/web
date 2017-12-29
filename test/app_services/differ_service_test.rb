@@ -7,8 +7,9 @@ class DifferServiceTest < AppServicesTestBase
   end
 
   def hex_setup
-    set_storer_class('StorerService')
-    set_runner_class('RunnerService') # TODO Stub
+    set_differ_class('DifferService')
+    set_storer_class('StorerFake')
+    set_runner_class('RunnerService') # TODO decouple
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -17,7 +18,7 @@ class DifferServiceTest < AppServicesTestBase
 
   smoke_test '3AB',
   'smoke test differ-service' do
-    kata = make_language_kata
+    kata = make_language_kata # default=runner_stateful
     kata.start_avatar([lion])
     begin
       args = []
