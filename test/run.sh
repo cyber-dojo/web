@@ -18,7 +18,6 @@ if [ "${CYBER_DOJO_TEST_MODULES}" == "" ]; then
     lib
     app_controllers
   )
-  modules=( app_services )
 else
   modules=( ${CYBER_DOJO_TEST_MODULES} )
 fi

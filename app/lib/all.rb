@@ -6,10 +6,7 @@
   ring_picker
   dashboard_td_gapper
   id_splitter
-
-  runner_service
-
-).each { |sourcefile|
+  ).each { |sourcefile|
   require_relative sourcefile
 }
 
