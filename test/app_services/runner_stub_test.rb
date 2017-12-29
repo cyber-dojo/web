@@ -1,9 +1,15 @@
-require_relative 'app_lib_test_base'
+require_relative 'app_services_test_base'
 
-class RunnerStubTest < AppLibTestBase
+class RunnerStubTest < AppServicesTestBase
 
   def self.hex_prefix
     'AF798B'
+  end
+
+  def hex_setup
+    set_differ_class('NotUsed')
+    set_storer_class('NotUsed')
+    set_runner_class('RunnerStub')
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -

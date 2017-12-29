@@ -7,6 +7,7 @@ class StarterServiceTest < AppServicesTestBase
   end
 
   def hex_setup
+    set_differ_class('NotUsed')
     set_storer_class('NotUsed')
     set_runner_class('NotUsed')
   end

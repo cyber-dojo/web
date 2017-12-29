@@ -8,8 +8,6 @@
   id_splitter
 
   runner_service
-  runner_stub
-  storer_service
 
 ).each { |sourcefile|
   require_relative sourcefile
