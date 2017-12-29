@@ -11,87 +11,6 @@ class SmokeTest < AppLibTestBase
     set_runner_class('RunnerService')
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # starter
-  # - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  smoke_test '3AA',
-  'smoke test starter-service' do
-    json = starter.custom_choices
-    assert_equal [ 'Yahtzee refactoring' ], json['major_names']
-    assert_equal [
-      'C# NUnit',
-      'C++ (g++) assert',
-      'Java JUnit',
-      'Python unitttest'
-    ], json['minor_names']
-    assert_equal [[0,1,2,3]], json['minor_indexes']
-
-    json = starter.languages_choices
-    assert_equal [
-      'C (gcc)',
-      'C#',
-      'C++ (g++)',
-      'Python',
-      'Ruby'
-    ], json['major_names']
-    assert_equal [
-      'NUnit',
-      'RSpec',
-      'assert',
-      'behave',
-      'py.test',
-      'unittest'
-    ], json['minor_names']
-    assert_equal [[2],[0],[2],[3,4,5],[1]], json['minor_indexes']
-
-    json = starter.exercises_choices
-    assert_equal [
-      'Bowling_Game',
-      'Fizz_Buzz',
-      'Leap_Years',
-      'Tiny_Maze'
-    ], json['names']
-
-    manifest = starter.custom_manifest('Yahtzee refactoring', 'C# NUnit')
-    assert_equal 'Yahtzee refactoring, C# NUnit', manifest['display_name']
-
-    manifest = starter.language_manifest('C#', 'NUnit', 'Fizz_Buzz')
-    assert_equal 'C#, NUnit', manifest['display_name']
-
-    manifest = starter.manifest('C')
-    assert_equal 'C (gcc), assert', manifest['display_name']
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # differ
-  # - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  smoke_test '3AB',
-  'smoke test differ-service' do
-    kata = make_language_kata
-    kata.start_avatar([lion])
-    begin
-      args = []
-      args << kata.id
-      args << lion
-      args << (files1 = starting_files)
-      args << (now1 = [2016,12,8, 8,3,23])
-      args << (output = 'Assert failed: answer() == 42')
-      args << (colour = 'red')
-      storer.avatar_ran_tests(*args)
-      actual = differ.diff(kata.id, lion, was_tag=0, now_tag=1)
-
-      refute_nil actual['hiker.c']
-      assert_equal({
-        "type"=>"same", "line"=>"#include \"hiker.h\"", "number"=>1
-      }, actual['hiker.c'][0])
-    ensure
-      runner.avatar_old(kata.image_name, kata.id, lion)
-      runner.kata_old(kata.image_name, kata.id)
-    end
-  end
-
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
   # runner
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -214,22 +133,6 @@ class SmokeTest < AppLibTestBase
     json = storer.tags_visible_files(kata_id, lion, was_tag=0, now_tag=1)
     assert_equal files0, json['was_tag']
     assert_equal files1, json['now_tag']
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # zipper
-  # - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  smoke_test 'EBF',
-  'smoke test zipper.zip' do
-    error = assert_raises { zipper.zip(kata_id='') }
-    assert error.message.end_with?('invalid kata_id'), error.message
-  end
-
-  smoke_test '959',
-  'smoke test zipper.zip_tag' do
-    error = assert_raises { zipper.zip_tag(kata_id='', 'lion', 0) }
-    assert error.message.end_with?('invalid kata_id'), error.message
   end
 
 end

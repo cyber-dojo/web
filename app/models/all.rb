@@ -5,4 +5,6 @@
   avatars
   avatar
   tag
-).each { |sourcefile| require_relative './' + sourcefile }
+).each { |sourcefile|
+  require_relative sourcefile
+}

@@ -183,7 +183,7 @@ def gather_done(stats, totals)
      [ 'total secs < 90',                totals[:time].to_f < 90 ],
      [ 'total assertions per sec > 20',  totals[:assertions_per_sec] > 20 ]
   ]
-  module_names = %w( app_helpers app_lib app_models lib app_controllers )
+  module_names = %w( app_helpers app_lib app_models app_services lib app_controllers )
   module_names.each do |name|
     if modules.include? name
       min_coverage = 99

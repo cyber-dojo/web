@@ -11,4 +11,4 @@
   string_cleaner
   http
   http_spy
-}.each { |sourcefile| require_relative './' + sourcefile }
+}.each { |sourcefile| require_relative sourcefile }

@@ -4,8 +4,6 @@ class DifferService
 
   def initialize(parent)
     @parent = parent
-    @hostname = 'differ'
-    @port = 4567
   end
 
   attr_reader :parent
@@ -22,7 +20,14 @@ class DifferService
   private
 
   include HttpHelper
-  attr_reader :hostname, :port
+
+  def hostname
+    'differ'
+  end
+
+  def port
+    4567
+  end
 
   def storer
     nearest_ancestors(:storer)

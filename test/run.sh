@@ -10,7 +10,15 @@ fi
 rm -rf /tmp/cyber-dojo
 
 if [ "${CYBER_DOJO_TEST_MODULES}" == "" ]; then
-  modules=( app_helpers app_lib app_models lib app_controllers )
+  modules=(
+    app_helpers
+    app_lib
+    app_models
+    app_services
+    lib
+    app_controllers
+  )
+  #modules=( app_services )
 else
   modules=( ${CYBER_DOJO_TEST_MODULES} )
 fi
@@ -20,7 +28,6 @@ do
     echo
     echo "======${module}======"
     # set defaults to _not_ use real services
-    export CYBER_DOJO_LOG_CLASS=LogSpy
     export CYBER_DOJO_RUNNER_CLASS=RunnerStub
     export CYBER_DOJO_STORER_CLASS=StorerFake
     # clear out old coverage stats

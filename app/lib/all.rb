@@ -9,11 +9,9 @@
 
   runner_service
   runner_stub
-  starter_service
-  storer_fake
   storer_service
-  differ_service
-  zipper_service
 
-).each { |sourcefile| require_relative './' + sourcefile }
+).each { |sourcefile|
+  require_relative sourcefile
+}
 

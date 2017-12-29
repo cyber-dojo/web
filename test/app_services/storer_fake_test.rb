@@ -1,15 +1,17 @@
-require_relative 'app_lib_test_base'
-require_relative '../../app/lib/storer_fake'
+require_relative 'app_services_test_base'
+require_relative '../../app/services/storer_fake'
 require_relative '../../app/models/avatars'
 
-class StorerFakeTest < AppLibTestBase
+class StorerFakeTest < AppServicesTestBase
 
   def self.hex_prefix
     '9D375C'
   end
 
-  def storer
-    @storer ||= StorerFake.new(self)
+  def hex_setup
+    set_differ_class('NotUsed')
+    set_storer_class('StorerFake')
+    set_runner_class('NotUsed')
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -

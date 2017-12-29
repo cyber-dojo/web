@@ -6,5 +6,7 @@
   time_tick_helper
   tip_helper
   traffic_light_helper
-}.each { |sourcefile| require_relative './' + sourcefile }
+}.each { |sourcefile|
+  require_relative sourcefile
+}
 
