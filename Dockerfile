@@ -28,13 +28,13 @@ RUN apk --update --no-cache add \
 
 ARG             CYBER_DOJO_HOME
 RUN  mkdir -p ${CYBER_DOJO_HOME}
+WORKDIR       ${CYBER_DOJO_HOME}
 COPY Gemfile  ${CYBER_DOJO_HOME}
 
-RUN  apk --update add --virtual build-dependencies build-base \
+RUN  apk --update --no-cache add --virtual build-dependencies build-base \
   && bundle config --global silence_root_warning 1 \
-  && cd ${CYBER_DOJO_HOME} \
   && bundle install \
-  && apk del build-dependencies
+  && apk del build-dependencies build-base
 
 RUN  cat ${CYBER_DOJO_HOME}/Gemfile.lock
 
@@ -50,6 +50,5 @@ USER nobody
 # bring it up
 # - - - - - - - - - - - - - - - - -
 
-WORKDIR ${CYBER_DOJO_HOME}
 EXPOSE  3000
 CMD [ "./run_rails_server.sh" ]
