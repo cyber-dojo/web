@@ -7,30 +7,21 @@
 !/app
 !/config
 !/lib
-!/notes
 !/script
 !/sh
 !/test
 
 # and these files...
 
-!/.gitignore
-!/.env
 !/.dockerignore
+!/.env
+!/.gitignore
 !/.travis.yml
-!/build.sh
 !/config.ru
-!/run_rails_server.sh
 !/docker-compose.yml
-!/Gemfile
 !/Dockerfile
-!/license.md
+!/Gemfile
 !/pipe_build_up_test.sh
+!/run_rails_server.sh
+!/LICENSE.md
 !/README.md
-!/test.sh
-!/up.sh
-!/env_vars.sh
-
-!/image_dependency_graph.pdf
-!/class_model.pdf
-!/quick_test.sh
