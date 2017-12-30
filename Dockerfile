@@ -34,7 +34,8 @@ COPY Gemfile  ${CYBER_DOJO_HOME}
 RUN  apk --update --no-cache add --virtual build-dependencies build-base \
   && bundle config --global silence_root_warning 1 \
   && bundle install \
-  && apk del build-dependencies build-base
+  && apk del build-dependencies build-base \
+  && rm -vrf /var/cache/apk/*
 
 RUN  cat ${CYBER_DOJO_HOME}/Gemfile.lock
 
