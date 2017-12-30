@@ -39,7 +39,7 @@ RUN  apk --update add --virtual build-dependencies build-base \
 RUN  cat ${CYBER_DOJO_HOME}/Gemfile.lock
 
 # - - - - - - - - - - - - - - - - -
-# copy source set own ownership
+# copy source & set ownership
 # - - - - - - - - - - - - - - - - -
 
 COPY . ${CYBER_DOJO_HOME}
@@ -48,7 +48,7 @@ RUN  chown -R cyber-dojo ${CYBER_DOJO_HOME}
 USER cyber-dojo
 
 # - - - - - - - - - - - - - - - - -
-# bring service up
+# bring it up
 # - - - - - - - - - - - - - - - - -
 
 WORKDIR ${CYBER_DOJO_HOME}
