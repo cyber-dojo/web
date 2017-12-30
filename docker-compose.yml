@@ -10,7 +10,7 @@ services:
       context: .
       args:
         - CYBER_DOJO_HOME=${CYBER_DOJO_HOME}
-    user: cyber-dojo
+    user: nobody
     image: cyberdojo/web
     init: true
     container_name: test_cyber-dojo-web

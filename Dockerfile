@@ -43,9 +43,8 @@ RUN  cat ${CYBER_DOJO_HOME}/Gemfile.lock
 # - - - - - - - - - - - - - - - - -
 
 COPY . ${CYBER_DOJO_HOME}
-RUN  adduser -D -H -u 19661 cyber-dojo
-RUN  chown -R cyber-dojo ${CYBER_DOJO_HOME}
-USER cyber-dojo
+RUN  chown -R nobody:nogroup ${CYBER_DOJO_HOME}
+USER nobody
 
 # - - - - - - - - - - - - - - - - -
 # bring it up
