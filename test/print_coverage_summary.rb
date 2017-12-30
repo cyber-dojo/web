@@ -34,7 +34,7 @@ def indent
 end
 
 def line_width
-  columns.map{|_,values| values[0]}.reduce(:+) + indent
+  columns.map{ |_,values| values[0] }.reduce(:+) + indent
 end
 
 def print_line
@@ -117,7 +117,9 @@ end
 
 def print_heading
   print_left(indent, '')
-  column_names.each { |name| print_right(columns[name][0], columns[name][1]) }
+  column_names.each { |name|
+    print_right(columns[name][0], columns[name][1])
+  }
   print "\n"
 end
 
@@ -127,7 +129,9 @@ def print_stats(stats)
   modules.each do |module_name|
     h = stats[module_name]
     print_left(indent, module_name)
-    column_names.each { |name| print_right(columns[name][0], stats[module_name][name]) }
+    column_names.each { |name|
+      print_right(columns[name][0], stats[module_name][name])
+    }
     print "\n"
   end
 end
@@ -183,9 +187,16 @@ def gather_done(stats, totals)
      [ 'total secs < 90',                totals[:time].to_f < 90 ],
      [ 'total assertions per sec > 20',  totals[:assertions_per_sec] > 20 ]
   ]
-  module_names = %w( app_helpers app_lib app_models app_services lib app_controllers )
+  module_names = %w(
+    app_helpers
+    app_lib
+    app_models
+    app_services
+    lib
+    app_controllers
+  )
   module_names.each do |name|
-    if modules.include? name
+    if modules.include?(name)
       min_coverage = 99
       done << coverage(stats, name, min_coverage)
       done << skips(stats, name)
@@ -197,11 +208,10 @@ end
 #- - - - - - - - - - - - - - - - - - - - -
 
 def print_done(done)
-  yes,no = done.partition { |criteria| criteria[1] }
-  unless yes.empty?
+  _,no = done.partition { |criteria| criteria[1] }
+  if no.empty?
     puts 'DONE'
-  end
-  unless no.empty?
+  else
     print "\n"
     puts '!DONE'
     no.each { |criteria| puts criteria[0] }

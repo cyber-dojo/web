@@ -31,12 +31,4 @@ end
 # GETs/POSTs, which work their way through the rails stack,
 # in a different thread, reaching externals.rb, where the
 # specificied Double/Mock/Stub/Fake class takes effect.
-#
-# The env-vars are set in /lib/env_var.rb
-# For testing the env-vars are set in /test/run.sh
-#
-# The external objects are held using
-#    @name ||= ...
-# I use ||= partly for optimization and partly for testing
-# (where it is sometimes handy that it is the same object)
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
