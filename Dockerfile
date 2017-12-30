@@ -1,17 +1,23 @@
 FROM  alpine:latest
 LABEL maintainer=jon@jaggersoft.com
 
-USER root
-
 # - - - - - - - - - - - - - - - - -
 # install ruby+
+# using FROM alpine:latest and install only the ruby packages
+# I need results in an image of ~102MB whereas
+# using FROM ruby:alpine results in an image of ~ 162MB
 # bundle install needs
 #   zlib-dev for nokogiri
 #   libffi-dev for sass-rails
 # - - - - - - - - - - - - - - - - -
 
 RUN apk --update --no-cache add \
-    ruby ruby-io-console ruby-dev ruby-irb ruby-bundler ruby-bigdecimal \
+    ruby \
+    ruby-io-console \
+    ruby-dev \
+    ruby-irb \
+    ruby-bundler \
+    ruby-bigdecimal \
     bash \
     tzdata \
     zlib-dev \
