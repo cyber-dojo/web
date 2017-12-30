@@ -1,6 +1,4 @@
 #-----Ignore everything
-#-----including katas (data-container / volume-mounted)
-#-----including public (nginx image)
 
 *
 
