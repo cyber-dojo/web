@@ -27,7 +27,7 @@ class KataControllerTest  < AppControllerTestBase
 
   test '221',
   'run timed_out test' do
-    in_kata('stateless') {
+    x_in_kata('stateless') {
       # 'Python, unittest', Ubuntu based
       c = <<~PYTHON_CODE
       class Hiker:
@@ -47,7 +47,7 @@ class KataControllerTest  < AppControllerTestBase
 
   test '222',
   'run timed_out test' do
-    in_kata('stateful') {
+    x_in_kata('stateful') {
       # 'C (gcc), assert', Alpine based
       # !proper formatting or else you get [-Werror=misleading-indentation]
       c = <<~C_CODE
@@ -70,7 +70,7 @@ class KataControllerTest  < AppControllerTestBase
 
   test '223',
   'run red test' do
-    in_kata('processful') {
+    x_in_kata('processful') {
       run_tests
       assert_equal :red, @avatar.lights[-1].colour
     }
@@ -80,7 +80,7 @@ class KataControllerTest  < AppControllerTestBase
 
   test '224',
   'run amber test' do
-    in_kata('stateful') {
+    x_in_kata('stateful') {
       change_file('hiker.c', 'syntax-error')
       run_tests
       assert_equal :amber, @avatar.lights[-1].colour
@@ -91,7 +91,7 @@ class KataControllerTest  < AppControllerTestBase
 
   test '225',
   'run green test' do
-    in_kata('stateful') {
+    x_in_kata('stateful') {
       c = @avatar.visible_files['hiker.c']
       c = c.sub('return 6 * 9;', 'return 6 * 7;')
       change_file('hiker.c', c)
@@ -128,7 +128,7 @@ class KataControllerTest  < AppControllerTestBase
   test '7FD',
   'run_tests() on makefile with leading spaces',
   'are NOT converted to tabs and traffic-light is amber' do
-    in_kata('stateful') {
+    x_in_kata('stateful') {
       kata_edit
       run_tests
       assert_equal :red, @avatar.lights[-1].colour
@@ -143,7 +143,7 @@ class KataControllerTest  < AppControllerTestBase
 
   test '02D',
   'a new file persists when the RunnerService is stateful' do
-    in_kata('stateful') {
+    x_in_kata('stateful') {
       filename = 'hello.txt'
       new_file(filename, 'Hello world')
       run_tests
@@ -158,7 +158,7 @@ class KataControllerTest  < AppControllerTestBase
 
   test '9DC',
   'a deleted file stays deleted when the RunnerService is stateful' do
-    in_kata('stateful') {
+    x_in_kata('stateful') {
       filename = 'instructions'
       ls_all = 'ls -al'
       delete_file(filename)
@@ -175,7 +175,7 @@ class KataControllerTest  < AppControllerTestBase
   test '569',
   'when cyber-dojo.sh creates a file then it disappears',
   'when RunnerService is stateless' do
-    in_kata('stateless') {
+    x_in_kata('stateless') {
       filename = 'wibble.txt'
       ls_all = 'ls -al'
       create_file = "touch #{filename} && #{ls_all}"
@@ -195,7 +195,7 @@ class KataControllerTest  < AppControllerTestBase
 
   test '3FD',
   'run_tests with bad image_name raises and does not cause resurrection' do
-    in_kata('stateful') { |kata_id|
+    x_in_kata('stateful') { |kata_id|
       kata_edit
       params = {
         :format => :js,
@@ -216,7 +216,7 @@ class KataControllerTest  < AppControllerTestBase
     # Note: the kata-controller validates the kata-id and the avatar-name
     # (via the storer) so there is no path from the browser to
     # get runner.run to accept unvalidated arguments.
-    in_kata('stateful') {
+    x_in_kata('stateful') {
       run_tests # 1
       assert_equal :red, @avatar.lights[-1].colour
       output = @avatar.visible_files['output']
@@ -247,7 +247,7 @@ class KataControllerTest  < AppControllerTestBase
 
   test 'E40',
   'avatar.test() for an old kata seamlessly resurrects' do
-    in_kata('stateful') {
+    x_in_kata('stateful') {
       run_tests # 1
       assert_equal :red, @avatar.lights[-1].colour
       output = @avatar.visible_files['output']
@@ -289,7 +289,7 @@ class KataControllerTest  < AppControllerTestBase
 
   private # = = = = = = = = = = = = = = = =
 
-  def in_kata(choice)
+  def x_in_kata(choice)
     case choice
     when 'stateful'    then create_gcc_assert_kata
     when 'stateless'   then create_python_unittest_kata
