@@ -32,8 +32,8 @@ class RunnerServiceTest < AppServicesTestBase
 
   test '74A',
   'stateless run() delegates to stateless runner' do
-    in_kata_stateless { |kata|
-      as_lion(kata) {
+    in_kata(:stateless) { |kata|
+      as_lion_in(kata) {
         runner.run(*run_args(kata))
         assert_spied_run_stateless(kata)
       }
@@ -44,8 +44,8 @@ class RunnerServiceTest < AppServicesTestBase
 
   test '74B',
   'stateful run() delegates to stateful runner' do
-    in_kata_stateful { |kata|
-      as_lion(kata) {
+    in_kata(:stateful) { |kata|
+      as_lion_in(kata) {
         runner.run(*run_args(kata))
         assert_spied_run_stateful(kata)
       }
@@ -56,8 +56,8 @@ class RunnerServiceTest < AppServicesTestBase
 
   test '74C',
   'processful run() delegates to processful runner' do
-    in_kata_processful { |kata|
-      as_lion(kata) {
+    in_kata(:processful) { |kata|
+      as_lion_in(kata) {
         runner.run(*run_args(kata))
         assert_spied_run_processful(kata)
       }
@@ -98,11 +98,17 @@ class RunnerServiceTest < AppServicesTestBase
 
   private # = = = = = = = = = = = = = = = = = = =
 
-  def in_kata_stateless
-    kata = make_language_kata({ 'display_name' => 'Python, unittest' })
-    assert_equal 'stateless', kata.runner_choice
+  def in_kata(runner_choice, &block)
+    display_name = {
+        stateless: 'Python, unittest',
+         stateful: 'C (gcc), assert',
+       processful: 'Python, py.test'
+    }[runner_choice]
+
+    kata = make_language_kata({ 'display_name' => display_name })
+    assert_equal runner_choice.to_s, kata.runner_choice
     begin
-      yield kata
+      block.call(kata)
     ensure
       runner.kata_old(kata.image_name, kata.id)
     end
@@ -110,37 +116,13 @@ class RunnerServiceTest < AppServicesTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def in_kata_stateful
-    kata = make_language_kata({ 'display_name' => 'C (gcc), assert' })
-    assert_equal 'stateful', kata.runner_choice
-    begin
-      yield kata
-    ensure
-      runner.kata_old(kata.image_name, kata.id)
-    end
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def in_kata_processful
-    kata = make_language_kata({ 'display_name' => 'Python, py.test' })
-    assert_equal 'processful', kata.runner_choice
-    begin
-      yield kata
-    ensure
-      runner.kata_old(kata.image_name, kata.id)
-    end
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def as_lion(kata)
+  def as_lion_in(kata, &block)
     starting_files = kata.visible_files
     runner.avatar_new(kata.image_name, kata.id, lion, starting_files)
     http = @http
     @http = HttpSpy.new(nil)
     begin
-      yield
+      block.call
     ensure
       @http = http
       runner.avatar_old(kata.image_name, kata.id, lion)
