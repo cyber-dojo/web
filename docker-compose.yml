@@ -18,7 +18,7 @@ services:
       - CYBER_DOJO_HOME
     mem_limit: 2G
     memswap_limit: 2G
-    restart: on-failure
+    restart: 'no'
     depends_on:
       - differ
       - runner_stateless
@@ -37,6 +37,7 @@ services:
     container_name: test_web_cyber-dojo-starter
     read_only: true
     tmpfs: /tmp
+    restart: 'no'
     environment:
       - CYBER_DOJO_START_POINTS_ROOT
     volumes:
@@ -55,7 +56,7 @@ services:
       - CYBER_DOJO_KATAS_ROOT
     mem_limit: 2G
     memswap_limit: 2G
-    restart: on-failure
+    restart: 'no'
     depends_on:
       - starter
 
@@ -70,7 +71,7 @@ services:
     tmpfs: /tmp
     mem_limit: 2G
     memswap_limit: 2G
-    restart: on-failure
+    restart: 'no'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
@@ -85,7 +86,7 @@ services:
     tmpfs: /tmp
     mem_limit: 2G
     memswap_limit: 2G
-    restart: on-failure
+    restart: 'no'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
@@ -100,7 +101,7 @@ services:
     tmpfs: /tmp
     mem_limit: 2G
     memswap_limit: 2G
-    restart: on-failure
+    restart: 'no'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
@@ -115,7 +116,7 @@ services:
     tmpfs: /tmp
     mem_limit: 1G
     memswap_limit: 1G
-    restart: on-failure
+    restart: 'no'
 
   # - - - - - - - - - - - - - - - -
 
@@ -128,6 +129,6 @@ services:
     tmpfs: /tmp
     mem_limit: 50M
     memswap_limit: 50M
-    restart: on-failure
+    restart: 'no'
     depends_on:
       - storer
