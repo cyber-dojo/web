@@ -65,20 +65,15 @@ class RunnerServiceTest < AppServicesTestBase
 
   test '812',
   'run() is red' do
-    kata = make_language_kata({
-      'display_name' => 'C (gcc), assert'
-    })
-    runner.avatar_new(kata.image_name, kata.id, lion, starting_files)
-    begin
-      stdout,stderr,status,colour = runner.run(*run_args(kata))
-      assert stderr.include?('[makefile:14: test.output] Aborted'), stderr
-      assert stderr.include?('Assertion failed: answer() == 42'), stderr
-      assert_equal 2, status
-      assert_equal 'red', colour
-    ensure
-      runner.avatar_old(kata.image_name, kata.id, lion)
-      runner.kata_old(kata.image_name, kata.id)
-    end
+    in_kata(:stateful) { |kata|
+      as_lion_in(kata) {
+        stdout,stderr,status,colour = runner.run(*run_args(kata))
+        assert stderr.include?('[makefile:14: test.output] Aborted'), stderr
+        assert stderr.include?('Assertion failed: answer() == 42'), stderr
+        assert_equal 2, status
+        assert_equal 'red', colour
+      }
+    }
   end
 
   private # = = = = = = = = = = = = = = = = = = =
