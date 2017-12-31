@@ -27,7 +27,7 @@ class KataControllerTest  < AppControllerTestBase
 
   test '221',
   'run timed_out test' do
-    x_in_kata(:stateless) {
+    in_kata(:stateless) {
       as_avatar {
         # 'Python, unittest', Ubuntu based
         c = <<~PYTHON_CODE
@@ -39,8 +39,7 @@ class KataControllerTest  < AppControllerTestBase
         PYTHON_CODE
         change_file('hiker.py', c)
         run_tests
-        assert @avatar.lights[-1].output.start_with?('Unable to complete')
-        assert_equal :timed_out, @avatar.lights[-1].colour
+        assert_timed_out
       }
     }
   end
@@ -49,9 +48,8 @@ class KataControllerTest  < AppControllerTestBase
 
   test '222',
   'run timed_out test' do
-    x_in_kata(:stateful) {
+    in_kata(:stateful) {
       as_avatar {
-        # 'C (gcc), assert', Alpine based
         # !proper formatting or else you get [-Werror=misleading-indentation]
         c = <<~C_CODE
         #include "hiker.h"
@@ -64,8 +62,7 @@ class KataControllerTest  < AppControllerTestBase
         C_CODE
         change_file('hiker.c', c)
         run_tests
-        assert @avatar.lights[-1].output.start_with?('Unable to complete')
-        assert_equal :timed_out, @avatar.lights[-1].colour
+        assert_timed_out
       }
     }
   end
@@ -74,7 +71,7 @@ class KataControllerTest  < AppControllerTestBase
 
   test '223',
   'run red test' do
-    x_in_kata(:processful) {
+    in_kata(:processful) {
       as_avatar {
         run_tests
         assert_equal :red, @avatar.lights[-1].colour
@@ -86,7 +83,7 @@ class KataControllerTest  < AppControllerTestBase
 
   test '224',
   'run amber test' do
-    x_in_kata(:stateful) {
+    in_kata(:stateful) {
       as_avatar {
         change_file('hiker.c', 'syntax-error')
         run_tests
@@ -99,7 +96,7 @@ class KataControllerTest  < AppControllerTestBase
 
   test '225',
   'run green test' do
-    x_in_kata(:stateful) {
+    in_kata(:stateful) {
       as_avatar {
         c = @avatar.visible_files['hiker.c']
         c = c.sub('return 6 * 9;', 'return 6 * 7;')
@@ -138,7 +135,7 @@ class KataControllerTest  < AppControllerTestBase
   test '7FD',
   'run_tests() on makefile with leading spaces',
   'are NOT converted to tabs and traffic-light is amber' do
-    x_in_kata(:stateful) {
+    in_kata(:stateful) {
       as_avatar {
         kata_edit
         run_tests
@@ -155,7 +152,7 @@ class KataControllerTest  < AppControllerTestBase
 
   test '02D',
   'a new file persists when the RunnerService is stateful' do
-    x_in_kata(:stateful) {
+    in_kata(:stateful) {
       as_avatar {
         filename = 'hello.txt'
         new_file(filename, 'Hello world')
@@ -172,7 +169,7 @@ class KataControllerTest  < AppControllerTestBase
 
   test '9DC',
   'a deleted file stays deleted when the RunnerService is stateful' do
-    x_in_kata(:stateful) {
+    in_kata(:stateful) {
       as_avatar {
         filename = 'instructions'
         ls_all = 'ls -al'
@@ -191,7 +188,7 @@ class KataControllerTest  < AppControllerTestBase
   test '569',
   'when cyber-dojo.sh creates a file then it disappears',
   'when RunnerService is stateless' do
-    x_in_kata(:stateless) {
+    in_kata(:stateless) {
       as_avatar {
         filename = 'wibble.txt'
         ls_all = 'ls -al'
@@ -213,7 +210,7 @@ class KataControllerTest  < AppControllerTestBase
 
   test '3FD',
   'run_tests with bad image_name raises and does not cause resurrection' do
-    x_in_kata(:stateful) {
+    in_kata(:stateful) {
       as_avatar {
         kata_edit
         params = {
@@ -232,66 +229,76 @@ class KataControllerTest  < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '555',
-  'avatar.test() for an old avatar seamlessly resurrects' do
+  'run_tests for an old avatar seamlessly resurrects' do
     # Note: the kata-controller validates the kata-id and the avatar-name
     # (via the storer) so there is no path from the browser to
     # get runner.run to accept unvalidated arguments.
-    in_kata('stateful') {
-      run_tests # 1
-      assert_equal :red, @avatar.lights[-1].colour
-      output = @avatar.visible_files['output']
+    in_kata(:stateful) {
+      as_avatar {
+        run_tests # 1
+        assert_equal :red, @avatar.lights[-1].colour
+        output = @avatar.visible_files['output']
 
-      [
-        '[makefile:14: test.output] Aborted',
-        'Assertion failed: answer() == 42'
-      ].each do |expected|
-        assert output.include?(expected)
-        # Note that depending on the host's OS, the last line might be
-        #     make: *** [test.output] Aborted (core dumped)
-        # viz with (core dumped) appended
-      end
+        [
+          '[makefile:14: test.output] Aborted',
+          'Assertion failed: answer() == 42'
+        ].each do |expected|
+          assert output.include?(expected)
+          # Note that depending on the host's OS, the last line might be
+          #     make: *** [test.output] Aborted (core dumped)
+          # viz with (core dumped) appended
+        end
 
-      runner.avatar_old(@kata.image_name, @kata.id, @avatar.name)
+        # force avatar to end
+        kata = katas[@id]
+        runner.avatar_old(kata.image_name, kata.id, @avatar.name)
 
-      change_file('hiker.c', content('hiker.c').sub('6 * 9', '6 * 7'))
-      run_tests # 2
-      assert_equal "All tests passed\n", @avatar.visible_files['output']
-      assert_equal :green, @avatar.lights[-1].colour
-      diff = differ.diff(@kata.id, @avatar.name, was_tag=1, now_tag=2)
-      assert diff['hiker.c'].include?({'type'=>'deleted', 'line'=>'    return 6 * 9;', 'number'=>5})
-      assert diff['hiker.c'].include?({'type'=>'added',   'line'=>'    return 6 * 7;', 'number'=>5})
+        # this should resurrect the avatar
+        change_file('hiker.c', content('hiker.c').sub('6 * 9', '6 * 7'))
+        run_tests # 2
+        assert_equal "All tests passed\n", @avatar.visible_files['output']
+        assert_equal :green, @avatar.lights[-1].colour
+        diff = differ.diff(kata.id, @avatar.name, was_tag=1, now_tag=2)
+        assert diff['hiker.c'].include?({'type'=>'deleted', 'line'=>'    return 6 * 9;', 'number'=>5})
+        assert diff['hiker.c'].include?({'type'=>'added',   'line'=>'    return 6 * 7;', 'number'=>5})
+      }
     }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'E40',
-  'avatar.test() for an old kata seamlessly resurrects' do
-    in_kata('stateful') {
-      run_tests # 1
-      assert_equal :red, @avatar.lights[-1].colour
-      output = @avatar.visible_files['output']
+  'run_tests for an old kata seamlessly resurrects' do
+    in_kata(:stateful) {
+      as_avatar {
+        run_tests # 1
+        assert_equal :red, @avatar.lights[-1].colour
+        output = @avatar.visible_files['output']
 
-      [
-        '[makefile:14: test.output] Aborted',
-        'Assertion failed: answer() == 42'
-      ].each do |expected|
-        assert output.include?(expected)
-        # Note that depending on the host's OS the last line might be
-        #     make: *** [test.output] Aborted (core dumped)
-        # viz with (core dumped) appended
-      end
+        [
+          '[makefile:14: test.output] Aborted',
+          'Assertion failed: answer() == 42'
+        ].each do |expected|
+          assert output.include?(expected)
+          # Note that depending on the host's OS the last line might be
+          #     make: *** [test.output] Aborted (core dumped)
+          # viz with (core dumped) appended
+        end
 
-      runner.avatar_old(@kata.image_name, @kata.id, @avatar.name)
-      runner.kata_old(@kata.image_name, @kata.id)
+        # force avatar and kata to end
+        kata = katas[@id]
+        runner.avatar_old(kata.image_name, kata.id, @avatar.name)
+        runner.kata_old(kata.image_name, kata.id)
 
-      change_file('hiker.c', content('hiker.c').sub('6 * 9', '6 * 7'))
-      run_tests # 2
-      assert_equal "All tests passed\n", @avatar.visible_files['output']
-      assert_equal :green, @avatar.lights[-1].colour
-      diff = differ.diff(@kata.id, @avatar.name, was_tag=1, now_tag=2)
-      assert diff['hiker.c'].include?({'type'=>'deleted', 'line'=>'    return 6 * 9;', 'number'=>5})
-      assert diff['hiker.c'].include?({'type'=>'added',   'line'=>'    return 6 * 7;', 'number'=>5})
+        # this should resurrect the kata & avatar
+        change_file('hiker.c', content('hiker.c').sub('6 * 9', '6 * 7'))
+        run_tests # 2
+        assert_equal "All tests passed\n", @avatar.visible_files['output']
+        assert_equal :green, @avatar.lights[-1].colour
+        diff = differ.diff(kata.id, @avatar.name, was_tag=1, now_tag=2)
+        assert diff['hiker.c'].include?({'type'=>'deleted', 'line'=>'    return 6 * 9;', 'number'=>5})
+        assert diff['hiker.c'].include?({'type'=>'added',   'line'=>'    return 6 * 7;', 'number'=>5})
+      }
     }
   end
 
@@ -299,7 +306,7 @@ class KataControllerTest  < AppControllerTestBase
 
   test 'B75',
   'show-json (for Atom editor)' do
-    x_in_kata(:stateful) {
+    in_kata(:stateful) {
       as_avatar {
         kata_edit
         run_tests
@@ -312,26 +319,6 @@ class KataControllerTest  < AppControllerTestBase
   private # = = = = = = = = = = = = = = = =
 
   def in_kata(runner_choice, &block)
-    display_name =
-      case runner_choice
-      when 'stateless'   then 'Python, unittest'
-      when 'stateful'    then 'C (gcc), assert'
-      when 'processful'  then 'Python, py.test'
-      end
-    id = create_language_kata(display_name)
-    @kata = katas[id]
-    @avatar = start
-    begin
-      block.call
-    ensure
-      unless runner_choice == 'stateless'
-        runner.avatar_old(@kata.image_name, @kata.id, @avatar.name)
-        runner.kata_old(@kata.image_name, @kata.id)
-      end
-    end
-  end
-
-  def x_in_kata(runner_choice, &block)
     display_name = {
        stateless: 'Python, unittest',
         stateful: 'C (gcc), assert',
@@ -347,6 +334,8 @@ class KataControllerTest  < AppControllerTestBase
     end
   end
 
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   def as_avatar(&block)
     kata = katas[@id]
     @avatar = start
@@ -355,6 +344,13 @@ class KataControllerTest  < AppControllerTestBase
     ensure
       runner.avatar_old(kata.image_name, kata.id, @avatar.name)
     end
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def assert_timed_out
+    assert @avatar.lights[-1].output.start_with?('Unable to complete')
+    assert_equal :timed_out, @avatar.lights[-1].colour
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
