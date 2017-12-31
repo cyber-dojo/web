@@ -2,7 +2,7 @@
 class ForkerController < ApplicationController
 
   def fork
-    result = { forked:false }
+    result = { forked: false }
     error = true
     begin
       tag_visible_files = storer.tag_visible_files(id, avatar_name, tag)
@@ -36,10 +36,12 @@ class ForkerController < ApplicationController
 
       katas.create_kata(manifest)
 
-      result[:forked    ] = true
-      result[:id        ] = manifest['id']
-      result[:image_name] = manifest['image_name']
-      result[:selection ] = manifest['display_name']
+      result = {
+              forked: true,
+                  id: manifest['id'],
+          image_name: manifest['image_name'],
+        display_name: manifest['display_name']
+      }
     end
 
     respond_to do |format|
