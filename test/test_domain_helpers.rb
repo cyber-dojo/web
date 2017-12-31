@@ -1,36 +1,6 @@
 
 module TestDomainHelpers # mix-in
 
-  def in_kata(runner_choice, &block)
-    display_name = {
-        stateless: 'Python, unittest',
-         stateful: 'C (gcc), assert',
-       processful: 'Python, py.test'
-    }[runner_choice]
-    refute_nil display_name, runner_choice
-    make_language_kata({ 'display_name' => display_name })
-    begin
-      assert_equal runner_choice.to_s, kata.runner_choice
-      block.call
-    ensure
-      runner.kata_old(kata.image_name, kata.id)
-    end
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def as_lion(&block)
-    starting_files = kata.visible_files
-    runner.avatar_new(kata.image_name, kata.id, lion, starting_files)
-    begin
-      block.call
-    ensure
-      runner.avatar_old(kata.image_name, kata.id, lion)
-    end
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - -
-
   def make_language_kata(options = {})
     display_name = options['display_name'] || default_language_name
     exercise_name = options['exercise'] || default_exercise_name
