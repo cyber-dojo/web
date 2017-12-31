@@ -57,7 +57,7 @@
     background: lighten($darker-color, 6%);
        padding: { top: 20px; bottom: 40px; }
     .info-text {
-      @include font-size-tiny();
+      @include font-size-small();
       padding-bottom: 2px;
     }
   }
@@ -95,7 +95,7 @@
 
   .info-text {
     @include plaintext-font();
-    font-size: 1.25em;
+    font-size: 1.5em;
   }
 
   //------------------------------------------
