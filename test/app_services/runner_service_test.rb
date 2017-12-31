@@ -16,25 +16,25 @@ class RunnerServiceTest < AppServicesTestBase
 
   test '102',
   'image_pulled?' do
-    kata = make_language_kata
-    refute runner.image_pulled?('cyberdojo/non_existant', kata.id)
+    make_language_kata
+    refute runner.image_pulled?('cyberdojo/non_existant', kata_id)
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '103',
   'image_pull' do
-    kata = make_language_kata
-    refute runner.image_pull('cyberdojo/non_existant', kata.id)
+    make_language_kata
+    refute runner.image_pull('cyberdojo/non_existant', kata_id)
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '74A',
   'stateless run() delegates to stateless runner' do
-    in_kata(:stateless) { |kata|
-      as_lion_in(kata) {
-        assert_spied_run_stateless(kata)
+    in_kata(:stateless) {
+      as_lion {
+        assert_spied_run_stateless
       }
     }
   end
@@ -43,9 +43,9 @@ class RunnerServiceTest < AppServicesTestBase
 
   test '74B',
   'stateful run() delegates to stateful runner' do
-    in_kata(:stateful) { |kata|
-      as_lion_in(kata) {
-        assert_spied_run_stateful(kata)
+    in_kata(:stateful) {
+      as_lion {
+        assert_spied_run_stateful
       }
     }
   end
@@ -54,9 +54,9 @@ class RunnerServiceTest < AppServicesTestBase
 
   test '74C',
   'processful run() delegates to processful runner' do
-    in_kata(:processful) { |kata|
-      as_lion_in(kata) {
-        assert_spied_run_processful(kata)
+    in_kata(:processful) {
+      as_lion {
+        assert_spied_run_processful
       }
     }
   end
@@ -65,9 +65,9 @@ class RunnerServiceTest < AppServicesTestBase
 
   test '812',
   'run() is red' do
-    in_kata(:stateful) { |kata|
-      as_lion_in(kata) {
-        stdout,stderr,status,colour = runner.run(*run_args(kata))
+    in_kata(:stateful) {
+      as_lion {
+        stdout,stderr,status,colour = runner.run(*run_args)
         assert stderr.include?('[makefile:14: test.output] Aborted'), stderr
         assert stderr.include?('Assertion failed: answer() == 42'), stderr
         assert_equal 2, status
@@ -84,11 +84,11 @@ class RunnerServiceTest < AppServicesTestBase
          stateful: 'C (gcc), assert',
        processful: 'Python, py.test'
     }[runner_choice]
-
-    kata = make_language_kata({ 'display_name' => display_name })
+    refute_nil display_name, runner_choice
+    make_language_kata({ 'display_name' => display_name })
     begin
       assert_equal runner_choice.to_s, kata.runner_choice
-      block.call(kata)
+      block.call
     ensure
       runner.kata_old(kata.image_name, kata.id)
     end
@@ -96,7 +96,7 @@ class RunnerServiceTest < AppServicesTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def as_lion_in(kata, &block)
+  def as_lion(&block)
     starting_files = kata.visible_files
     runner.avatar_new(kata.image_name, kata.id, lion, starting_files)
     begin
@@ -108,7 +108,7 @@ class RunnerServiceTest < AppServicesTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def run_args(kata)
+  def run_args
     starting_files = kata.visible_files
     args = []
     args << kata.image_name
@@ -125,7 +125,7 @@ class RunnerServiceTest < AppServicesTestBase
     args
   end
 
-  def expected_run_args(kata)
+  def expected_run_args
     {
       :image_name        => kata.image_name,
       :kata_id           => kata.id,
@@ -140,46 +140,37 @@ class RunnerServiceTest < AppServicesTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def assert_spied_run_stateless(kata)
-    http_spied_run(kata) {
-      assert_equal [
-        stateful_runner_name = 'runner_stateless',
-        stateful_runner_port = 4597,
-        'run_cyber_dojo_sh',
-        expected_run_args(kata)
+  def assert_spied_run_stateless
+    http_spied_run {
+      assert_equal [ 'runner_stateless', 4597,
+        'run_cyber_dojo_sh', expected_run_args
       ], http.spied[0]
     }
   end
 
-  def assert_spied_run_stateful(kata)
-    http_spied_run(kata) {
-      assert_equal [
-        stateful_runner_name = 'runner_stateful',
-        stateful_runner_port = 4557,
-        'run_cyber_dojo_sh',
-        expected_run_args(kata)
+  def assert_spied_run_stateful
+    http_spied_run {
+      assert_equal [ 'runner_stateful', 4557,
+        'run_cyber_dojo_sh', expected_run_args
       ], http.spied[0]
     }
   end
 
-  def assert_spied_run_processful(kata)
-    http_spied_run(kata) {
-      assert_equal [
-        stateful_runner_name = 'runner_processful',
-        stateful_runner_port = 4547,
-        'run_cyber_dojo_sh',
-        expected_run_args(kata)
+  def assert_spied_run_processful
+    http_spied_run {
+      assert_equal [ 'runner_processful', 4547,
+        'run_cyber_dojo_sh', expected_run_args
       ], http.spied[0]
     }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def http_spied_run(kata, &block)
+  def http_spied_run(&block)
     saved_http = @http
     @http = HttpSpy.new(nil)
     begin
-      runner.run(*run_args(kata))
+      runner.run(*run_args)
       block.call
     ensure
       @http = saved_http

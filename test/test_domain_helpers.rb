@@ -1,12 +1,6 @@
 
 module TestDomainHelpers # mix-in
 
-  def katas
-    Katas.new(self)
-  end
-
-  module_function
-
   def make_language_kata(options = {})
     display_name = options['display_name'] || default_language_name
     exercise_name = options['exercise'] || default_exercise_name
@@ -28,6 +22,16 @@ module TestDomainHelpers # mix-in
 
   def default_exercise_name
     'Fizz_Buzz'
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - -
+
+  def katas
+    Katas.new(self)
+  end
+
+  def kata
+    katas[kata_id]
   end
 
   def kata_id
