@@ -240,7 +240,7 @@ class KataTest < AppModelsTestBase
   private
 
   def avatars_names
-    @kata.avatars.map(&:name).sort
+    @kata.avatars.names
   end
 
 end

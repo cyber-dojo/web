@@ -3,12 +3,8 @@ module EnterWorker # mix-in
 
   module_function
 
-  def started_avatar_names
-    @started_avatar_names ||= avatars.each.collect { |avatar| avatar.name }
-  end
-
   def empty
-    started_avatar_names == []
+    avatars.names == []
   end
 
   def start_dialog_html(avatar_name)
@@ -23,7 +19,7 @@ module EnterWorker # mix-in
 
   def resume_dialog_html
     @id = id
-    @started_avatar_names = started_avatar_names
+    @started_avatar_names = avatars.names
     @all_avatar_names = Avatars.names
     bind('/app/views/enter/resume_dialog.html.erb')
   end

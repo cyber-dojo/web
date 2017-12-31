@@ -54,7 +54,7 @@ class Avatars
   end
 
   def names
-    collect(&:name)
+    collect(&:name).sort
   end
 
   private
