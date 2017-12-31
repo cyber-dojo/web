@@ -18,7 +18,7 @@
         padding: { top: 10px; bottom: 0px; }
     }
 
-    #the-place-to-practice-programming {
+    #the-place-to-practise-programming {
       @include non-code-font();
       font-size: 1.58em;
           color: lighten($text-color, 5%);
