@@ -279,48 +279,61 @@ class KataControllerTest  < AppControllerTestBase
 
   test 'B75',
   'show-json (for Atom editor)' do
-    create_gcc_assert_kata
-    @avatar = start
-    kata_edit
-    run_tests
-    params = { :format => :json, :id => @id, :avatar => @avatar.name }
-    get '/kata/show_json', params:params
+    in_kata('stateful') {
+      @avatar = start
+      kata_edit
+      run_tests
+      params = { :format => :json, :id => @id, :avatar => @avatar.name }
+      get '/kata/show_json', params:params
+    }
   end
 
   private # = = = = = = = = = = = = = = = =
 
-  def in_kata(choice, &block)
-    case choice
-    when 'stateful'    then create_gcc_assert_kata
-    when 'stateless'   then create_python_unittest_kata
-    when 'processful'  then create_python_pytest_kata
-    end
+  def in_kata(runner_choice, &block)
+    display_name =
+      case runner_choice
+      when 'stateless'   then 'Python, unittest'
+      when 'stateful'    then 'C (gcc), assert'
+      when 'processful'  then 'Python, py.test'
+      end
+    id = create_language_kata(display_name)
+    @kata = Kata.new(katas, id)
     @avatar = start
     begin
       block.call
     ensure
-      unless choice == 'stateless'
+      unless runner_choice == 'stateless'
         runner.avatar_old(@kata.image_name, @kata.id, @avatar.name)
         runner.kata_old(@kata.image_name, @kata.id)
       end
     end
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def create_gcc_assert_kata
-    id = create_language_kata('C (gcc), assert') # stateful
-    @kata = Kata.new(katas, id)
+  def in(runner_choice, &block)
+    display_name = {
+       stateless: 'Python, unittest',
+        stateful: 'C (gcc), assert',
+      processful: 'Python, py.test'
+    }[runner_choice]
+    refute_nil display_name, runner_choice
+    @id = create_language_kata(display_name)
+    kata = Kata.new(katas, @id)
+    begin
+      block.call(kata)
+    ensure
+      runner.kata_old(kata.image_name, kata.id)
+    end
   end
 
-  def create_python_unittest_kata
-    id = create_language_kata('Python, unittest') # stateless
-    @kata = Kata.new(katas, id)
-  end
-
-  def create_python_pytest_kata
-    id = create_language_kata('Python, py.test') # processful
-    @kata = Kata.new(katas, id)
+  def as(&block)
+    avatar = start
+    begin
+      block.call(avatar)
+    ensure
+      kata = Kata.new(katas, @id)
+      runner.kata_old(kata.image_name, kata.id)
+    end
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
