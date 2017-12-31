@@ -1,6 +1,4 @@
 
-# this list has order dependencies
-
 %w{
   name_of_caller
   nearest_ancestors
