@@ -33,7 +33,6 @@ class ForkerControllerTest < AppControllerTestBase
   'when tag is bad, the fork fails, and the reason given is traffic_light' do
     @id = create_language_kata
     @avatar = start
-    bad_tag_test('xx')      # !is_tag
     bad_tag_test('-14')     # tag <= 0
     run_tests
     bad_tag_test('2')       # tag > avatar.lights.length

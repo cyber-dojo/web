@@ -5,7 +5,6 @@ class ForkerController < ApplicationController
     result = { forked:false }
     error = true
     begin
-      tag = params['tag']
       tag_visible_files = storer.tag_visible_files(id, avatar_name, tag)
       error = false
     rescue => caught
