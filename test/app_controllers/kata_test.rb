@@ -27,19 +27,21 @@ class KataControllerTest  < AppControllerTestBase
 
   test '221',
   'run timed_out test' do
-    in_kata('stateless') {
-      # 'Python, unittest', Ubuntu based
-      c = <<~PYTHON_CODE
-      class Hiker:
-          def answer(self):
-              while True:
-                  True
-              return 6 * 9
-      PYTHON_CODE
-      change_file('hiker.py', c)
-      run_tests
-      assert @avatar.lights[-1].output.start_with?('Unable to complete')
-      assert_equal :timed_out, @avatar.lights[-1].colour
+    x_in_kata(:stateless) {
+      as_avatar {
+        # 'Python, unittest', Ubuntu based
+        c = <<~PYTHON_CODE
+        class Hiker:
+            def answer(self):
+                while True:
+                    True
+                return 6 * 9
+        PYTHON_CODE
+        change_file('hiker.py', c)
+        run_tests
+        assert @avatar.lights[-1].output.start_with?('Unable to complete')
+        assert_equal :timed_out, @avatar.lights[-1].colour
+      }
     }
   end
 
@@ -47,22 +49,24 @@ class KataControllerTest  < AppControllerTestBase
 
   test '222',
   'run timed_out test' do
-    in_kata('stateful') {
-      # 'C (gcc), assert', Alpine based
-      # !proper formatting or else you get [-Werror=misleading-indentation]
-      c = <<~C_CODE
-      #include "hiker.h"
-      int answer(void)
-      {
-          for(;;)
-            ;
-          return 6 * 9;
+    x_in_kata(:stateful) {
+      as_avatar {
+        # 'C (gcc), assert', Alpine based
+        # !proper formatting or else you get [-Werror=misleading-indentation]
+        c = <<~C_CODE
+        #include "hiker.h"
+        int answer(void)
+        {
+            for(;;)
+              ;
+            return 6 * 9;
+        }
+        C_CODE
+        change_file('hiker.c', c)
+        run_tests
+        assert @avatar.lights[-1].output.start_with?('Unable to complete')
+        assert_equal :timed_out, @avatar.lights[-1].colour
       }
-      C_CODE
-      change_file('hiker.c', c)
-      run_tests
-      assert @avatar.lights[-1].output.start_with?('Unable to complete')
-      assert_equal :timed_out, @avatar.lights[-1].colour
     }
   end
 
@@ -70,9 +74,11 @@ class KataControllerTest  < AppControllerTestBase
 
   test '223',
   'run red test' do
-    in_kata('processful') {
-      run_tests
-      assert_equal :red, @avatar.lights[-1].colour
+    x_in_kata(:processful) {
+      as_avatar {
+        run_tests
+        assert_equal :red, @avatar.lights[-1].colour
+      }
     }
   end
 
@@ -80,10 +86,12 @@ class KataControllerTest  < AppControllerTestBase
 
   test '224',
   'run amber test' do
-    in_kata('stateful') {
-      change_file('hiker.c', 'syntax-error')
-      run_tests
-      assert_equal :amber, @avatar.lights[-1].colour
+    x_in_kata(:stateful) {
+      as_avatar {
+        change_file('hiker.c', 'syntax-error')
+        run_tests
+        assert_equal :amber, @avatar.lights[-1].colour
+      }
     }
   end
 
@@ -91,12 +99,14 @@ class KataControllerTest  < AppControllerTestBase
 
   test '225',
   'run green test' do
-    in_kata('stateful') {
-      c = @avatar.visible_files['hiker.c']
-      c = c.sub('return 6 * 9;', 'return 6 * 7;')
-      change_file('hiker.c', c)
-      run_tests
-      assert_equal :green, @avatar.lights[-1].colour
+    x_in_kata(:stateful) {
+      as_avatar {
+        c = @avatar.visible_files['hiker.c']
+        c = c.sub('return 6 * 9;', 'return 6 * 7;')
+        change_file('hiker.c', c)
+        run_tests
+        assert_equal :green, @avatar.lights[-1].colour
+      }
     }
   end
 
@@ -128,14 +138,16 @@ class KataControllerTest  < AppControllerTestBase
   test '7FD',
   'run_tests() on makefile with leading spaces',
   'are NOT converted to tabs and traffic-light is amber' do
-    in_kata('stateful') {
-      kata_edit
-      run_tests
-      assert_equal :red, @avatar.lights[-1].colour
-      change_file(makefile, makefile_with_leading_spaces)
-      run_tests
-      assert_equal :amber, @avatar.lights[-1].colour
-      assert_file makefile, makefile_with_leading_spaces
+    x_in_kata(:stateful) {
+      as_avatar {
+        kata_edit
+        run_tests
+        assert_equal :red, @avatar.lights[-1].colour
+        change_file(makefile, makefile_with_leading_spaces)
+        run_tests
+        assert_equal :amber, @avatar.lights[-1].colour
+        assert_file makefile, makefile_with_leading_spaces
+      }
     }
   end
 
@@ -143,14 +155,16 @@ class KataControllerTest  < AppControllerTestBase
 
   test '02D',
   'a new file persists when the RunnerService is stateful' do
-    in_kata('stateful') {
-      filename = 'hello.txt'
-      new_file(filename, 'Hello world')
-      run_tests
-      change_file('cyber-dojo.sh', 'ls -al')
-      run_tests
-      output = @avatar.visible_files['output']
-      assert output.include?(filename), output
+    x_in_kata(:stateful) {
+      as_avatar {
+        filename = 'hello.txt'
+        new_file(filename, 'Hello world')
+        run_tests
+        change_file('cyber-dojo.sh', 'ls -al')
+        run_tests
+        output = @avatar.visible_files['output']
+        assert output.include?(filename), output
+      }
     }
   end
 
@@ -158,15 +172,17 @@ class KataControllerTest  < AppControllerTestBase
 
   test '9DC',
   'a deleted file stays deleted when the RunnerService is stateful' do
-    in_kata('stateful') {
-      filename = 'instructions'
-      ls_all = 'ls -al'
-      delete_file(filename)
-      run_tests
-      change_file('cyber-dojo.sh', 'ls -al')
-      run_tests
-      output = @avatar.visible_files['output']
-      refute output.include?(filename), output
+    x_in_kata(:stateful) {
+      as_avatar {
+        filename = 'instructions'
+        ls_all = 'ls -al'
+        delete_file(filename)
+        run_tests
+        change_file('cyber-dojo.sh', 'ls -al')
+        run_tests
+        output = @avatar.visible_files['output']
+        refute output.include?(filename), output
+      }
     }
   end
 
@@ -175,19 +191,21 @@ class KataControllerTest  < AppControllerTestBase
   test '569',
   'when cyber-dojo.sh creates a file then it disappears',
   'when RunnerService is stateless' do
-    in_kata('stateless') {
-      filename = 'wibble.txt'
-      ls_all = 'ls -al'
-      create_file = "touch #{filename} && #{ls_all}"
-      change_file('cyber-dojo.sh', create_file)
-      run_tests
-      output = @avatar.visible_files['output']
-      assert output.include?(filename), output
+    x_in_kata(:stateless) {
+      as_avatar {
+        filename = 'wibble.txt'
+        ls_all = 'ls -al'
+        create_file = "touch #{filename} && #{ls_all}"
+        change_file('cyber-dojo.sh', create_file)
+        run_tests
+        output = @avatar.visible_files['output']
+        assert output.include?(filename), output
 
-      change_file('cyber-dojo.sh', ls_all)
-      run_tests
-      output = @avatar.visible_files['output']
-      refute output.include?(filename), output
+        change_file('cyber-dojo.sh', ls_all)
+        run_tests
+        output = @avatar.visible_files['output']
+        refute output.include?(filename), output
+      }
     }
   end
 
@@ -195,16 +213,18 @@ class KataControllerTest  < AppControllerTestBase
 
   test '3FD',
   'run_tests with bad image_name raises and does not cause resurrection' do
-    in_kata('stateful') {
-      kata_edit
-      params = {
-        :format => :js,
-        :id     => kata_id,
-        :image_name => 'does_not/exist',
-        :avatar => @avatar.name
-      }
-      assert_raises(StandardError) {
-        post 'kata/run_tests', params:params.merge(@params_maker.params)
+    x_in_kata(:stateful) {
+      as_avatar {
+        kata_edit
+        params = {
+          :format => :js,
+          :id     => @id,
+          :image_name => 'does_not/exist',
+          :avatar => @avatar.name
+        }
+        assert_raises(StandardError) {
+          post '/kata/run_tests', params:params.merge(@params_maker.params)
+        }
       }
     }
   end
@@ -279,12 +299,13 @@ class KataControllerTest  < AppControllerTestBase
 
   test 'B75',
   'show-json (for Atom editor)' do
-    in_kata('stateful') {
-      @avatar = start
-      kata_edit
-      run_tests
-      params = { :format => :json, :id => @id, :avatar => @avatar.name }
-      get '/kata/show_json', params:params
+    x_in_kata(:stateful) {
+      as_avatar {
+        kata_edit
+        run_tests
+        params = { :format => :json, :id => @id, :avatar => @avatar.name }
+        get '/kata/show_json', params:params
+      }
     }
   end
 
@@ -298,7 +319,7 @@ class KataControllerTest  < AppControllerTestBase
       when 'processful'  then 'Python, py.test'
       end
     id = create_language_kata(display_name)
-    @kata = Kata.new(katas, id)
+    @kata = katas[id]
     @avatar = start
     begin
       block.call
@@ -310,7 +331,7 @@ class KataControllerTest  < AppControllerTestBase
     end
   end
 
-  def in(runner_choice, &block)
+  def x_in_kata(runner_choice, &block)
     display_name = {
        stateless: 'Python, unittest',
         stateful: 'C (gcc), assert',
@@ -318,21 +339,21 @@ class KataControllerTest  < AppControllerTestBase
     }[runner_choice]
     refute_nil display_name, runner_choice
     @id = create_language_kata(display_name)
-    kata = Kata.new(katas, @id)
     begin
-      block.call(kata)
+      block.call
     ensure
+      kata = katas[@id]
       runner.kata_old(kata.image_name, kata.id)
     end
   end
 
-  def as(&block)
-    avatar = start
+  def as_avatar(&block)
+    kata = katas[@id]
+    @avatar = start
     begin
-      block.call(avatar)
+      block.call
     ensure
-      kata = Kata.new(katas, @id)
-      runner.kata_old(kata.image_name, kata.id)
+      runner.avatar_old(kata.image_name, kata.id, @avatar.name)
     end
   end
 
