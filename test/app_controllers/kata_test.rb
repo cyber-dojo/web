@@ -101,13 +101,13 @@ class KataControllerTest  < AppControllerTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 =begin
   test 'B29',
-  'stateless run tests caches info so it only issues a single command to storer' do
-    set_runner_class('RunnerService')
-    set_storer_class('StorerFake') # add Call-Counts
+  'stateless run() caches info so it only issues a',
+  'single command to storer to save ran_test result' do
+    #set_storer_class('StorerFake') # add Call-Counts?
+    puts "X:#{storer.class.name}:"
     in_kata('stateless') { |kata_id|
       kata_edit
       params = {
@@ -117,20 +117,8 @@ class KataControllerTest  < AppControllerTestBase
         :image_name => 'cyberdojofoundation/python_unittest',
         :avatar => @avatar.name
       }.merge(@params_maker.params)
-      post 'kata/run_tests', params
-
-      # How to get @storer ???
-      # ApplicationController does
-      #   include Externals
-      # which is a mixin and does
-      #   def storer; @storer ||= external; end
-      # Could I make externals an object in its own right
-      # and somehow provide access to that?
-      # Problem is that get/post calls are routed and
-      # end up in a rails thread.
-      # Could the test's hex-id become an ENV-VAR providing a key for a global hash?
-      # Quite like that. And for a non-test the controller sees there is no
-      # ENV-VAR and creates a uuidgen.
+      set_storer_class('NotUsed')
+      post '/kata/run_tests', params:params
     }
   end
 =end
