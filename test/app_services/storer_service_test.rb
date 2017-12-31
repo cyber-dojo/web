@@ -27,7 +27,7 @@ class StorerServiceTest < AppServicesTestBase
   test '301',
   'smoke test storer-service scenario' do
 
-    refute all_ids.include? kata_id
+    refute all_katas_ids.include? kata_id
     refute storer.kata_exists?(kata_id)
 
     major = 'C (gcc)'
@@ -39,7 +39,7 @@ class StorerServiceTest < AppServicesTestBase
     storer.create_kata(manifest)
 
     assert storer.kata_exists?(kata_id)
-    assert all_ids.include? kata_id
+    assert all_katas_ids.include? kata_id
 
     assert_equal({}, storer.kata_increments(kata_id))
     assert_equal kata_id, storer.completed(kata_id[0..5])

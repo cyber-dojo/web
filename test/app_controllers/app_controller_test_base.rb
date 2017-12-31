@@ -100,8 +100,8 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
       'avatar'        => @avatar.name
     }
     post '/kata/run_tests', params:params.merge(@params_maker.params)
-    @params_maker = ParamsMaker.new(@avatar)
     assert_response :success
+    @params_maker = ParamsMaker.new(@avatar)
   end
 
   # - - - - - - - - - - - - - - - -

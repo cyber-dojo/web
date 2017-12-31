@@ -125,6 +125,8 @@ class RunnerServiceTest < AppServicesTestBase
     args
   end
 
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
   def expected_run_args
     {
       :image_name        => kata.image_name,

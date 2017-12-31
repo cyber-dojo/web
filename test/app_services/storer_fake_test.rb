@@ -205,7 +205,7 @@ class StorerFakeTest < AppServicesTestBase
 
   test 'FAA',
   'each() yields empty array when there are no katas' do
-    assert_equal [], all_ids
+    assert_equal [], all_katas_ids
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
@@ -213,7 +213,7 @@ class StorerFakeTest < AppServicesTestBase
   test 'FA1',
   'each() yielding one kata-id' do
     create_kata
-    assert_equal [kata_id], all_ids
+    assert_equal [kata_id], all_katas_ids
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
@@ -222,7 +222,7 @@ class StorerFakeTest < AppServicesTestBase
   'each() yielding two unrelated kata-ids' do
     create_kata(kata_id_1 = 'C56C6C4202')
     create_kata(kata_id_2 = 'DEB3E1325D')
-    assert_equal [kata_id_1, kata_id_2].sort, all_ids.sort
+    assert_equal [kata_id_1, kata_id_2].sort, all_katas_ids.sort
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
@@ -232,7 +232,7 @@ class StorerFakeTest < AppServicesTestBase
     create_kata(kata_id_1 = '9D'+'329DFD34')
     create_kata(kata_id_2 = '9D'+'5E889E04')
     create_kata(kata_id_3 = '9D'+'F376ED91')
-    assert_equal [kata_id_1, kata_id_2, kata_id_3].sort, all_ids.sort
+    assert_equal [kata_id_1, kata_id_2, kata_id_3].sort, all_katas_ids.sort
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -89,13 +89,13 @@ class KatasTest < AppModelsTestBase
 
   test '2BA',
   'each() yielding empty array when there are no katas' do
-    assert_equal [], all_ids
+    assert_equal [], all_katas_ids
   end
 
   test '86F',
   'each() yielding one kata' do
     kata = make_language_kata
-    assert_equal [kata.id], all_ids
+    assert_equal [kata.id], all_katas_ids
   end
 
   test '4F0',
@@ -104,7 +104,7 @@ class KatasTest < AppModelsTestBase
     kata2_id = 'E497E491E2'
     make_language_kata({ 'id' => kata1_id })
     make_language_kata({ 'id' => kata2_id })
-    assert_equal [kata1_id, kata2_id].sort, all_ids.sort
+    assert_equal [kata1_id, kata2_id].sort, all_katas_ids.sort
   end
 
   test 'A82',
@@ -114,7 +114,7 @@ class KatasTest < AppModelsTestBase
     kata1 = make_language_kata({ 'id' => id + '1' })
     kata2 = make_language_kata({ 'id' => id + '2' })
     kata3 = make_language_kata({ 'id' => id + '3' })
-    assert_equal [kata1.id, kata2.id, kata3.id].sort, all_ids.sort
+    assert_equal [kata1.id, kata2.id, kata3.id].sort, all_katas_ids.sort
   end
 
 end
