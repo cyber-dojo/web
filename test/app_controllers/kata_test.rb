@@ -195,7 +195,7 @@ class KataControllerTest  < AppControllerTestBase
 
   test '3FD',
   'run_tests with bad image_name raises and does not cause resurrection' do
-    in_kata('stateful') { |kata_id|
+    in_kata('stateful') {
       kata_edit
       params = {
         :format => :js,
@@ -289,7 +289,7 @@ class KataControllerTest  < AppControllerTestBase
 
   private # = = = = = = = = = = = = = = = =
 
-  def in_kata(choice)
+  def in_kata(choice, &block)
     case choice
     when 'stateful'    then create_gcc_assert_kata
     when 'stateless'   then create_python_unittest_kata
@@ -297,7 +297,7 @@ class KataControllerTest  < AppControllerTestBase
     end
     @avatar = start
     begin
-      yield @kata.id
+      block.call
     ensure
       unless choice == 'stateless'
         runner.avatar_old(@kata.image_name, @kata.id, @avatar.name)
