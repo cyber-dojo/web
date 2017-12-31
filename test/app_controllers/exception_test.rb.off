@@ -1,6 +1,16 @@
-require_relative './app_controller_test_base'
+# These tests pass when run on their own, but
+# cause other tests to fail when run with other tests!?
+# Note: in Rails 5 assert_template() requires
+# gem 'rails-controller-testing'
+# in the Gemfile
+
+require_relative 'app_controller_test_base'
 
 class ExceptionControllerTests < AppControllerTestBase
+
+  def self.hex_prefix
+    '91B89A'
+  end
 
   def setup
     super
@@ -11,20 +21,32 @@ class ExceptionControllerTests < AppControllerTestBase
   end
 
   def teardown
-    Rails.application.config.consider_all_requests_local = @consider
     Rails.application.config.action_dispatch.show_exceptions = @show
+    Rails.application.config.consider_all_requests_local = @consider
     super
   end
 
-  test 'E46924',
-  'bad path' do
+  # - - - - - - - - - - - - - - - - - - - -
+
+  test 'E46',
+  'route invalid' do
     get '/dojo/sdsdsd'
     assert_template 'error/sorry'
   end
 
-  test 'EFC09F',
-  'bad id' do
-    get '/kata/edit/234523424234'
+  # - - - - - - - - - - - - - - - - - - - -
+
+  test 'E47',
+  'edit kata_id invalid' do
+    get '/kata/edit/2345xx2342'
+    assert_template 'error/sorry'
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
+  test 'E48',
+  'diff now_tag invalid' do
+    get "/differ/diff/#{kata_id}?avatar=lion&was_tag=3&now_tag=4X"
     assert_template 'error/sorry'
   end
 
