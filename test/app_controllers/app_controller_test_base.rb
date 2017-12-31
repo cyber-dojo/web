@@ -65,6 +65,8 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  # - - - - - - - - - - - - - - - -
+
   def kata_edit
     params = { 'id' => @id, 'avatar' => @avatar.name }
     get '/kata/edit', params:params
@@ -102,6 +104,8 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  # - - - - - - - - - - - - - - - -
+
   def json
     ActiveSupport::JSON.decode html
   end
@@ -110,23 +114,10 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     @response.body
   end
 
-  private
+  private # = = = = = = = = = = = = = = = = =
 
   def commad(name)
     name.split(',').map(&:strip)
-  end
-
-  def docker_pull_output
-    [
-      'Using default tag: latest',
-      'latest: Pulling from cyberdojofoundation/python_unittest',
-      'Digest: sha256:189ff7f8b3803815c5ad07c70830da0cbca0e62c01b0354cccc059dda8cf78bc',
-      'Status: Image is up to date for cyberdojofoundation/python_unittest:latest'
-    ].join("\n")
-  end
-
-  def exit_success
-    0
   end
 
 end
