@@ -27,4 +27,4 @@ done
 # set ownership of test-data in storer's katas data-container
 docker exec \
     ${CONTAINER} \
-      sh -c "chown -R cyber-dojo:cyber-dojo ${CYBER_DOJO_KATAS_ROOT}"
+      sh -c "chown -R storer:storer ${CYBER_DOJO_KATAS_ROOT}"

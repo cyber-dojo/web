@@ -45,7 +45,7 @@ services:
   # - - - - - - - - - - - - - - - -
 
   storer:
-    user: cyber-dojo
+    user: storer
     image: cyberdojo/storer
     init: true
     container_name: test_web_cyber-dojo-storer
