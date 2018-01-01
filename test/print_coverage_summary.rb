@@ -184,8 +184,8 @@ def gather_done(stats, totals)
   done = [
      [ 'total failures == 0',            totals[:failure_count] == 0 ],
      [ 'total errors == 0',              totals[:error_count] == 0 ],
-     [ 'total secs < 90',                totals[:time].to_f < 90 ],
-     [ 'total assertions per sec > 20',  totals[:assertions_per_sec] > 20 ]
+     [ 'total secs < 130',               totals[:time].to_f < 130 ]
+     #[ 'total assertions per sec > 20',  totals[:assertions_per_sec] > 20 ]
   ]
   module_names = %w(
     app_helpers
