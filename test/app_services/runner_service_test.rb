@@ -67,11 +67,43 @@ class RunnerServiceTest < AppServicesTestBase
   'run() is red' do
     in_kata(:stateful) {
       as_lion {
-        stdout,stderr,status,colour = runner.run(*run_args)
+        _stdout,stderr,status,colour = runner.run(*run_args)
         assert stderr.include?('[makefile:14: test.output] Aborted'), stderr
         assert stderr.include?('Assertion failed: answer() == 42'), stderr
         assert_equal 2, status
         assert_equal 'red', colour
+      }
+    }
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '9DC',
+  'deleting a file' do
+    in_kata(:stateless) {
+      as_lion {
+        starting_files = kata.visible_files
+        starting_files.delete('instructions')
+        starting_files['cyber-dojo.sh'] = 'ls -al'
+        args = []
+        args << kata.image_name
+        args << kata.id
+        args << lion
+        args << (max_seconds = 10)
+        args << (delta = {
+          :deleted   => [ 'instructions' ],
+          :new       => [],
+          :changed   => [ 'cyber-dojo.sh' ],
+          :unchanged => starting_files.keys - ['cyber-dojo.sh']
+        })
+        args << starting_files
+        args
+        stdout,stderr,status,colour = runner.run(*args)
+        assert stdout.include?('cyber-dojo.sh')
+        refute stdout.include?('instructions')
+        assert_equal '', stderr
+        assert_equal 0, status
+        assert_equal 'amber', colour
       }
     }
   end

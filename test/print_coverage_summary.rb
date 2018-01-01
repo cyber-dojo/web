@@ -231,8 +231,8 @@ print_line
 totals = gather_totals(stats)
 print_totals(totals)
 print "\n"
-print "\n"
 done = gather_done(stats, totals)
+print "\n"
 print_done(done)
 
 exit done.all? { |criteria| criteria[1] } ? 0 : 1
