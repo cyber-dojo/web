@@ -31,15 +31,15 @@ for module in ${modules[*]}
 do
     echo
     echo "======${module}======"
-    # set defaults to _not_ use real services
-    export CYBER_DOJO_RUNNER_CLASS=RunnerStub
-    export CYBER_DOJO_STORER_CLASS=StorerFake
     # clear out old coverage stats
     coverage_dir=/tmp/cyber-dojo/coverage/${module}
     mkdir -p ${coverage_dir}
     rm -rf ${coverage_dir}/.resultset.json
     test_log="${coverage_dir}/test.log"
     export COVERAGE_DIR=${coverage_dir}
+    # set defaults to _not_ use real services
+    export CYBER_DOJO_RUNNER_CLASS=RunnerStub
+    export CYBER_DOJO_STORER_CLASS=StorerFake
     # run-the-tests!
     cd ${module}
     testFiles=(*_test.rb)

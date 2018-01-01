@@ -1,8 +1,6 @@
 
 version: '2.2'
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 services:
 
   web:
@@ -14,11 +12,11 @@ services:
     image: cyberdojo/web
     init: true
     container_name: test_cyber-dojo-web
-    environment:
-      - CYBER_DOJO_HOME
     mem_limit: 2G
     memswap_limit: 2G
     restart: 'no'
+    environment:
+      - CYBER_DOJO_HOME
     depends_on:
       - differ
       - runner_stateless
@@ -37,6 +35,8 @@ services:
     container_name: test_web_cyber-dojo-starter
     read_only: true
     tmpfs: /tmp
+    mem_limit: 50M
+    memswap_limit: 50M
     restart: 'no'
     environment:
       - CYBER_DOJO_START_POINTS_ROOT
@@ -52,11 +52,11 @@ services:
     container_name: test_web_cyber-dojo-storer
     read_only: true
     tmpfs: /tmp
-    environment:
-      - CYBER_DOJO_KATAS_ROOT
     mem_limit: 2G
     memswap_limit: 2G
     restart: 'no'
+    environment:
+      - CYBER_DOJO_KATAS_ROOT
     depends_on:
       - starter
 
