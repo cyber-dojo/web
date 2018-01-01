@@ -168,23 +168,20 @@ end
 
 #- - - - - - - - - - - - - - - - - - - - -
 
-def coverage(stats, name, min = 100, max_skips = 0)
+def coverage(stats, name)
+  min = 100
   percent = stats[name][:coverage]
   [ "#{name} coverage >= #{min}", percent.to_f >= min ]
-end
-
-def skips(stats, name, max = 0)
-  value = stats[name][:skip_count]
-  [ "total skips <= #{value}", value <= max ]
 end
 
 #- - - - - - - - - - - - - - - - - - - - -
 
 def gather_done(stats, totals)
   done = [
-     [ 'total failures == 0',            totals[:failure_count] == 0 ],
-     [ 'total errors == 0',              totals[:error_count] == 0 ],
-     [ 'total secs < 130',               totals[:time].to_f < 130 ]
+     [ 'total failures == 0', totals[:failure_count] == 0 ],
+     [ 'total errors == 0',   totals[:error_count] == 0 ],
+     [ 'total skips == 0',    totals[:skip_count] == 0],
+     [ 'total secs < 130',    totals[:time].to_f < 130 ]
      #[ 'total assertions per sec > 20',  totals[:assertions_per_sec] > 20 ]
   ]
   module_names = %w(
@@ -197,9 +194,7 @@ def gather_done(stats, totals)
   )
   module_names.each do |name|
     if modules.include?(name)
-      min_coverage = 99
-      done << coverage(stats, name, min_coverage)
-      done << skips(stats, name)
+      done << coverage(stats, name)
     end
   end
   done
@@ -212,7 +207,6 @@ def print_done(done)
   if no.empty?
     puts 'DONE'
   else
-    print "\n"
     puts '!DONE'
     no.each { |criteria| puts criteria[0] }
   end
