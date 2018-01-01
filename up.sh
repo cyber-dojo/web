@@ -5,5 +5,4 @@
 rm -f /app/tmp/pids/server.pid
 
 rails server \
-  thin \
   --environment=production

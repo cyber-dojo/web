@@ -22,6 +22,6 @@
 !/Dockerfile
 !/Gemfile
 !/pipe_build_up_test.sh
-!/run_rails_server.sh
+!/up.sh
 !/LICENSE.md
 !/README.md

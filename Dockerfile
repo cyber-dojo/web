@@ -52,4 +52,4 @@ USER nobody
 # - - - - - - - - - - - - - - - - -
 
 EXPOSE  3000
-CMD [ "./run_rails_server.sh" ]
+CMD [ "./up.sh" ]
