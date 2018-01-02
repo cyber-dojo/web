@@ -10,11 +10,11 @@ class TipperControllerTest < AppControllerTestBase
 
   test '3D4',
   'traffic_light_tip' do
-    create_language_kata
-    1.times {
-      start
-      2.times {
-        run_tests
+    in_kata(:stateless) {
+      as_avatar {
+        2.times {
+          run_tests
+        }
       }
     }
     get '/tipper/traffic_light_tip', params: {

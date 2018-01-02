@@ -6,9 +6,8 @@ class DownloadControllerTest < AppControllerTestBase
     'C446C5'
   end
 
-  def prepare
+  def hex_setup
     set_storer_class('StorerService')
-    create_language_kata(default_language_name('stateful'))
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -18,7 +17,7 @@ class DownloadControllerTest < AppControllerTestBase
   test '561',
   'download of empty dojo with no avatars',
   'untars to same as original folder' do
-    prepare
+    in_kata(:stateless) {}
     download
     assert_downloaded
   end
@@ -28,11 +27,13 @@ class DownloadControllerTest < AppControllerTestBase
   test '1B1',
   'download of dojo with one avatar and one traffic-light',
   'untars to same as original folder' do
-    prepare
-    start
-    kata_edit
-    change_file('hiker.c', '...')
-    run_tests
+    in_kata(:stateful) {
+      as_avatar {
+        kata_edit
+        change_file('hiker.c', '...')
+        run_tests
+      }
+    }
     download
     assert_downloaded
   end
@@ -42,15 +43,17 @@ class DownloadControllerTest < AppControllerTestBase
   test 'E9B',
   'download of dojo with five animals and five traffic-lights',
   'untars to same as original folder' do
-    prepare
-    5.times do
-      start
-      kata_edit
-      change_file('hiker.c', '/*comment*/')
-      run_tests
-      change_file('hiker.h', '...')
-      run_tests
-    end
+    in_kata(:stateful) {
+      5.times {
+        as_avatar {
+          kata_edit
+          change_file('hiker.c', '/*comment*/')
+          run_tests
+          change_file('hiker.h', '...')
+          run_tests
+        }
+      }
+    }
     download
     assert_downloaded
   end
@@ -85,17 +88,19 @@ class DownloadControllerTest < AppControllerTestBase
 
   test 'A45',
   'download_tag' do
-    prepare
-    start
-    @tag = 0
-    download_tag
-    assert_downloaded_tag
-    kata_edit
-    change_file('hiker.c', '...')
-    run_tests
-    @tag = 1
-    download_tag
-    assert_downloaded_tag
+    in_kata(:stateful) {
+      as_avatar {
+        @tag = 0
+        download_tag
+        assert_downloaded_tag
+        kata_edit
+        change_file('hiker.c', '...')
+        run_tests
+        @tag = 1
+        download_tag
+        assert_downloaded_tag
+      }
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -113,7 +118,7 @@ class DownloadControllerTest < AppControllerTestBase
     assert error.message.end_with?'invalid kata_id', error.message
   end
 
-  private
+  private # = = = = = = = = = = = = = = = = = = =
 
   def download
     get '/download', params: { 'id' => @id }

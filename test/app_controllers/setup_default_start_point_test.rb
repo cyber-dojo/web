@@ -60,13 +60,14 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   test 'BA3',
   'show_languages defaults to language and test-framework of kata',
   'whose full-id is passed in URL (to encourage repetition)' do
-    id = create_language_kata(c_assert, 'Fizz_Buzz')
-    do_get 'show_languages', 'id' => id
+    in_kata(:stateless) {}
+    assert_equal 'Python', kata.major_name
+    do_get 'show_languages', 'id' => kata.id
     choices = starter.languages_choices
     major_names = choices['major_names']
     md = /var selectedMajor = \$\('#major_' \+ (\d+)/.match(html)
     refute_nil md
-    assert_equal 'C (gcc)', major_names[md[1].to_i]
+    assert_equal 'Python', major_names[md[1].to_i]
     # checking the initial test-framework looks to be
     # nigh on impossible in static html
   end
@@ -119,14 +120,14 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     choices = starter.exercises_choices
     exercises_names = choices['names']
     exercises_names.each_with_index do |exercise_name,index|
-      id = create_language_kata('C (gcc), assert', exercise_name)
-      do_get 'show_exercises', 'id' => id
+      create_language_kata('Python, unittest', exercise_name)
+      do_get 'show_exercises', 'id' => kata.id
       md = /var selected = \$\('#exercises_name_' \+ (\d+)/.match(html)
       assert_equal index, md[1].to_i
     end
   end
 
-  private
+  private # = = = = = = = = = = = = = = = = = =
 
   def do_get(route, params = {})
     controller = 'setup_default_start_point'

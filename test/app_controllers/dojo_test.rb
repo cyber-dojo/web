@@ -34,14 +34,14 @@ class DojoControllerTest < AppControllerTestBase
 
   test '90C',
   'check_id exists=true when id.length ~ 6 and kata exists' do
-    [5,6,7].each do |n|
-      create_language_kata
+    [5,6,7].each { |n|
+      in_kata(:stateless) {}
       @id = @id[0..(n-1)]
       assert_equal n, @id.length
       check_id
       refute empty?
       refute full?
-    end
+    }
   end
 
   #- - - - - - - - - - - - - - - -
@@ -53,8 +53,9 @@ class DojoControllerTest < AppControllerTestBase
 
   test 'E3E',
   'show start/resume programming, with an id' do
-    create_language_kata
-    get '/enter/show', params: { :id => @id }
+    in_kata(:stateless) {
+      get '/enter/show', params: { :id => @id }
+    }
   end
 
   #- - - - - - - - - - - - - - - -
@@ -66,8 +67,9 @@ class DojoControllerTest < AppControllerTestBase
 
   test 'B19',
   'show review, with an id' do
-    create_language_kata
-    get '/enter/review', params: { :id => @id }
+    in_kata(:stateless) {
+      get '/enter/review', params: { :id => @id }
+    }
   end
 
   #- - - - - - - - - - - - - - - -
@@ -97,8 +99,10 @@ class DojoControllerTest < AppControllerTestBase
 
   test 'BEE',
   'enter with id that does exist => !full,avatar_name' do
-    create_language_kata
-    start
+    in_kata(:stateless) {
+      as_avatar {
+      }
+    }
     refute empty?
     refute full?
     assert Avatars.names.include?(avatar.name)
@@ -108,7 +112,7 @@ class DojoControllerTest < AppControllerTestBase
 
   test '2AE',
   'enter succeeds once for each avatar name, then dojo is full' do
-    create_language_kata
+    in_kata(:stateless) {}
     Avatars.names.each do
       start
       refute full?
@@ -125,7 +129,7 @@ class DojoControllerTest < AppControllerTestBase
 
   test '5BD',
   'resume with id that exists but is empty' do
-    create_language_kata
+    in_kata(:stateless) {}
     resume
     assert empty?
     refute full?
@@ -135,14 +139,17 @@ class DojoControllerTest < AppControllerTestBase
 
   test 'DEB',
   'resume with id that exists and is not empty' do
-    create_language_kata
-    start
+    in_kata(:stateless) {
+      as_avatar{
+
+      }
+    }
     resume
     refute empty?
     refute full?
   end
 
-  private
+  private # = = = = = = = = = = = =
 
   def check_id
     params = { :format => :json, :id => @id }
