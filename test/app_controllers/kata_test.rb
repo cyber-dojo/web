@@ -88,21 +88,24 @@ class KataControllerTest  < AppControllerTestBase
 
 =begin
   test 'B29',
-  'stateless run() caches info so it only issues a',
+  'run() caches info so it only issues a',
   'single command to storer to save ran_test result' do
-    #set_storer_class('StorerFake') # add Call-Counts?
-    puts "X:#{storer.class.name}:"
-    in_kata('stateless') { |kata_id|
-      kata_edit
-      params = {
-        :format => :js,
-        :id     => kata_id,
-        :runner_choice => @kata.runner_choice,
-        :image_name => 'cyberdojofoundation/python_unittest',
-        :avatar => @avatar.name
-      }.merge(@params_maker.params)
-      set_storer_class('NotUsed')
-      post '/kata/run_tests', params:params
+    in_kata(:stateless) {
+      as_avatar {
+        kata_edit
+        kata = katas[@id]
+        params = {
+          :format => :js,
+          :id     => kata.id,
+          :runner_choice => kata.runner_choice,
+          :image_name => kata.image_name,
+          :avatar => @avatar.name,
+          :max_seconds => 10
+        }.merge(@params_maker.params)
+        # count the calls?
+        set_storer_class('NotUsed')
+        post '/kata/run_tests', params:params
+      }
     }
   end
 =end
