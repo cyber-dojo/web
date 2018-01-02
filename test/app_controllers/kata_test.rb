@@ -46,29 +46,6 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '222',
-  'run timed_out test' do
-    in_kata(:stateful) {
-      as_avatar {
-        # !proper formatting or else you get [-Werror=misleading-indentation]
-        c = <<~C_CODE
-        #include "hiker.h"
-        int answer(void)
-        {
-            for(;;)
-              ;
-            return 6 * 9;
-        }
-        C_CODE
-        change_file('hiker.c', c)
-        run_tests
-        assert_timed_out
-      }
-    }
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test '223',
   'run red test' do
     in_kata(:processful) {
