@@ -1,0 +1,12 @@
+Behave *requires* a /steps directory from which to load the steps.
+
+cyber-dojo does not currently support subdirectories as part of the
+language/test/exercise setup.
+
+To get around that, the cyber-dojo.sh file which runs the contents of
+your project creates a temporary /steps folder and copies *_steps.py
+to it before running behave, then removes the folder and its contents.
+
+IMPORTANT: If you add a new steps file, be sure to name it *_steps.py
+so that it will be copied into the temporary steps directory and
+available to your project.
