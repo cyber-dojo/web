@@ -26,7 +26,7 @@ module DashboardWorker # mixin
 
     max_seconds_uncollapsed = seconds_per_column * 5
     args = []
-    args << @kata.created
+    args << kata.created
     args << seconds_per_column
     args << max_seconds_uncollapsed
     gapper = DashboardTdGapper.new(*args)
@@ -41,7 +41,7 @@ module DashboardWorker # mixin
 
   def bool(attribute)
     tf = params[attribute]
-    tf == 'false' ? tf : 'true'
+    (tf == 'false') ? tf : 'true'
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -

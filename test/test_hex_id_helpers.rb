@@ -22,6 +22,7 @@ module TestHexIdHelpers # mix-in
     # ARGV[0] == module name
     @@args = ARGV[1..-1].sort.uniq.map(&:upcase)  # eg 2DD6F3 eg 2dd
     @@seen_ids = []
+    @@timings = {}
 
     def test(id, *words, &block)
       id = hex_prefix + id
@@ -42,12 +43,23 @@ module TestHexIdHelpers # mix-in
         block_with_test_id = lambda {
           ENV['CYBER_DOJO_TEST_ID'] = id
           hex_setup
+          t1 = Time.now
           self.instance_eval &block
+          t2 = Time.now
+          @@timings[id+':'+name] = (t2 - t1)
           hex_teardown
         }
         define_method("test_'#{id}',\n #{name}\n".to_sym, &block_with_test_id)
       end
     end
+
+    ObjectSpace.define_finalizer(self, proc {
+      sorted = Hash[@@timings.sort_by{ |name,secs| -secs}]
+      sorted.each_with_index { |(name,secs),index|
+        puts "%3.2f - %s" % [secs,name.truncate(72)]
+        break if index == 5
+      }
+    })
 
     ObjectSpace.define_finalizer(self, proc {
       # complain about any unfound hex-id args
