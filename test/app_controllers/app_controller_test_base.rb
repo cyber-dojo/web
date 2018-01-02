@@ -111,8 +111,8 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  def content(filename)
-    @params_maker.content(filename)
+  def sub_file(filename, from, to)
+    @params_maker.sub_file(filename, from, to)
   end
 
   def change_file(filename, content)

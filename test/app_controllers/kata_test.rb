@@ -83,9 +83,7 @@ class KataControllerTest  < AppControllerTestBase
   'run green test' do
     in_kata(:stateless) {
       as_avatar {
-        c = avatar.visible_files['hiker.py']
-        c = c.sub('return 6 * 9', 'return 6 * 7')
-        change_file('hiker.py', c)
+        sub_file('hiker.py', '6 * 9', '6 * 7')
         run_tests
         assert_equal :green, avatar.lights[-1].colour
       }
@@ -237,8 +235,8 @@ class KataControllerTest  < AppControllerTestBase
         # force avatar to end
         runner.avatar_old(kata.image_name, kata.id, avatar.name)
 
-        # this should resurrect the avatar
-        change_file('hiker.c', content('hiker.c').sub('6 * 9', '6 * 7'))
+        # run_tests resurrects the avatar
+        sub_file('hiker.c', '6 * 9', '6 * 7')
         run_tests # 2
         assert_equal "All tests passed\n", avatar.visible_files['output']
         assert_equal :green, avatar.lights[-1].colour
@@ -273,8 +271,8 @@ class KataControllerTest  < AppControllerTestBase
         runner.avatar_old(kata.image_name, kata.id, avatar.name)
         runner.kata_old(kata.image_name, kata.id)
 
-        # this should resurrect the kata & avatar
-        change_file('hiker.c', content('hiker.c').sub('6 * 9', '6 * 7'))
+        # run_tests resurrects the kata & avatar
+        sub_file('hiker.c', '6 * 9', '6 * 7')
         run_tests # 2
         assert_equal "All tests passed\n", avatar.visible_files['output']
         assert_equal :green, avatar.lights[-1].colour

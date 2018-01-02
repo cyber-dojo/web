@@ -12,11 +12,6 @@ class ParamsMaker
     end
   end
 
-  def content(filename)
-    assert_file(filename, __method__)
-    @live[filename]
-  end
-
   def new_file(filename, content)
     refute_file(filename, __method__)
     @live[filename] = content
@@ -25,6 +20,14 @@ class ParamsMaker
   def delete_file(filename)
     assert_file(filename, __method__)
     @live.delete(filename)
+  end
+
+  def sub_file(filename, from, to)
+    assert_file(filename, __method__)
+    was = @live[filename]
+    diagnostic = "#{filename} does not contain :#{from}:"
+    fail diagnostic unless was.include?(from)
+    change_file(filename, was.sub(from, to))
   end
 
   def change_file(filename, content)
