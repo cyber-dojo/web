@@ -60,12 +60,12 @@ class DojoControllerTest < AppControllerTestBase
   #- - - - - - - - - - - - - - - -
 
   test 'C5A',
-  'show dashboard/review, with no id' do
+  'show review, with no id' do
     get '/enter/review'
   end
 
   test 'B19',
-  'show dashboard/review, with an id' do
+  'show review, with an id' do
     create_language_kata
     get '/enter/review', params: { :id => @id }
   end

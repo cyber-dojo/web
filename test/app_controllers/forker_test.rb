@@ -20,21 +20,24 @@ class ForkerControllerTest < AppControllerTestBase
 
   test '25B',
   'when avatar not started, the fork fails, and the reason given is avatar' do
-    id = create_language_kata
-    fork(id, bad_avatar = 'hippo', tag=1)
-    refute forked?
-    assert_reason_is("avatar(#{bad_avatar})")
-    assert_nil forked_kata_id
+    in_kata(:stateless) {
+      fork(kata.id, bad_avatar = 'hippo', tag=1)
+      refute forked?
+      assert_reason_is("avatar(#{bad_avatar})")
+      assert_nil forked_kata_id
+    }
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'CA7',
   'when tag is bad, the fork fails, and the reason given is traffic_light' do
-    create_language_kata
-    start
-    bad_tag_test('-14') # tag < 0
-    bad_tag_test('2')   # tag > avatar.lights.length
+    in_kata(:stateless) {
+      as_avatar {
+        bad_tag_test('-14') # tag < 0
+        bad_tag_test('2')   # tag > avatar.lights.length
+      }
+    }
   end
 
   def bad_tag_test(bad_tag)
@@ -50,21 +53,23 @@ class ForkerControllerTest < AppControllerTestBase
   'when id,avatar,tag are all ok',
   'format=json fork works',
   "and the new dojo's id is returned" do
-    create_language_kata
-    start # 0
-    run_tests       # 1
-    fork(kata.id, avatar.name, tag=1)
-    assert forked?
-    assert_equal 10, forked_kata_id.length
-    assert_not_equal kata.id, forked_kata_id
-    forked_kata = katas[forked_kata_id]
-    assert_not_nil forked_kata
-    assert_equal kata.image_name, forked_kata.image_name
-    kata.visible_files.each do |filename,content|
-      assert forked_kata.visible_files.keys.include? filename
-      #This fails - the difference seems to be \r\n related.
-      #assert_equal content, forked_kata.visible_files[filename]
-    end
+    in_kata(:stateless) {
+      as_avatar {
+        run_tests # 1
+        fork(kata.id, avatar.name, tag=1)
+        assert forked?
+        assert_equal 10, forked_kata_id.length
+        assert_not_equal kata.id, forked_kata_id
+        forked_kata = katas[forked_kata_id]
+        assert_not_nil forked_kata
+        assert_equal kata.image_name, forked_kata.image_name
+        kata.visible_files.each do |filename,content|
+          assert forked_kata.visible_files.keys.include? filename
+          #This fails - the difference seems to be \r\n related.
+          #assert_equal content, forked_kata.visible_files[filename]
+        end
+      }
+    }
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -73,14 +78,16 @@ class ForkerControllerTest < AppControllerTestBase
   'when id,avatar,tag are all ok',
   'format=html fork works',
   "and you are redirected to the enter page with the new dojo's id" do
-    create_language_kata
-    start     # 0
-    run_tests # 1
-    fork(kata.id, avatar.name, tag=1, 'html')
-    assert_response :redirect
-    url = /(.*)\/enter\/show\/(.*)/
-    m = url.match(@response.location)
-    forked_kata_id = m[2]
+    in_kata(:stateless) {
+      as_avatar {
+        run_tests # 1
+        fork(kata.id, avatar.name, tag=1, 'html')
+        assert_response :redirect
+        url = /(.*)\/enter\/show\/(.*)/
+        m = url.match(@response.location)
+        forked_kata_id = m[2]
+      }
+    }
   end
 
   #- - - - - - - - - - - - - - - - - -
@@ -89,16 +96,18 @@ class ForkerControllerTest < AppControllerTestBase
   'when id,avatar are all ok, tag==-1',
   'format=html fork works',
   "and you are redirected to the enter page with the new dojo's id" do
-    create_language_kata
-    start     # 0
-    run_tests # 1
-    run_tests # 2
-    fork(kata.id, avatar.name, tag=-1, 'html')
-    assert_response :redirect
-    url = /(.*)\/enter\/show\/(.*)/
-    m = url.match(@response.location)
-    forked_kata_id = m[2]
-    refute_equal @id, forked_kata_id
+    in_kata(:stateless) {
+      as_avatar {
+        run_tests # 1
+        run_tests # 2
+        fork(kata.id, avatar.name, tag=-1, 'html')
+        assert_response :redirect
+        url = /(.*)\/enter\/show\/(.*)/
+        m = url.match(@response.location)
+        forked_kata_id = m[2]
+        refute_equal kata.id, forked_kata_id
+      }
+    }
   end
 
   #- - - - - - - - - - - - - - - - - -

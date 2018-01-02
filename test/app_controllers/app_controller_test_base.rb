@@ -16,6 +16,34 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  def in_kata(runner_choice, &block)
+    display_name = {
+       stateless: 'Python, unittest',
+        stateful: 'C (gcc), assert',
+      processful: 'Python, py.test'
+    }[runner_choice]
+    refute_nil display_name, runner_choice
+    create_language_kata(display_name)
+    begin
+      block.call
+    ensure
+      runner.kata_old(kata.image_name, kata.id)
+    end
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def as_avatar(&block)
+    start
+    begin
+      block.call
+    ensure
+      runner.avatar_old(kata.image_name, kata.id, avatar.name)
+    end
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   def kata
     katas[@id]
   end

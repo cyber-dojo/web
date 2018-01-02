@@ -6,115 +6,121 @@ class DashboardControllerTest < AppControllerTestBase
     '62AB98'
   end
 
-  def prepare
-    create_language_kata('Python, unittest')
-  end
-
   #- - - - - - - - - - - - - - - -
 
   test '971',
   'dashboard when no avatars' do
-    prepare
-    dashboard
-    options = [ false, true, 'xxx' ]
-    options.each do |mc|
-      options.each do |ar|
-        dashboard minute_columns: mc, auto_refresh: ar
+    in_kata(:stateless) {
+      dashboard
+      options = [ false, true, 'xxx' ]
+      options.each do |mc|
+        options.each do |ar|
+          dashboard minute_columns: mc, auto_refresh: ar
+        end
       end
-    end
+    }
   end
 
   #- - - - - - - - - - - - - - - -
 
   test '29E',
   'dashboard when avatars with no traffic-lights' do
-    prepare
-    4.times { start }
-    dashboard
+    in_kata(:stateless) {
+      4.times { start }
+      dashboard
+    }
   end
 
   #- - - - - - - - - - - - - - - -
 
   test 'E43',
   'dashboard when avatars with some traffic lights' do
-    prepare
-    3.times {
-      start
-      2.times {
-        run_tests
+    in_kata(:stateless) {
+      3.times {
+        start
+        2.times {
+          run_tests
+        }
       }
+      dashboard
     }
-    dashboard
   end
 
   #- - - - - - - - - - - - - - - -
 
   test '6CB',
   'heartbeat when no avatars' do
-    prepare
-    heartbeat
+    in_kata(:stateless) {
+      heartbeat
+    }
   end
 
   #- - - - - - - - - - - - - - - -
 
   test '1FB',
   'heartbeat when avatars with no traffic-lights' do
-    prepare
-    start
-    heartbeat
+    in_kata(:stateless) {
+      start
+      heartbeat
+    }
   end
 
   #- - - - - - - - - - - - - - - -
 
   test '785',
   'heartbeat when some traffic-lights' do
-    prepare
-    3.times {
-      start
-      2.times {
-        run_tests
+    in_kata(:stateless) {
+      3.times {
+        start
+        2.times {
+          run_tests
+        }
       }
+      heartbeat
     }
-    heartbeat
   end
 
   #- - - - - - - - - - - - - - - -
 
   test '330',
   'progress when no avatars' do
-    prepare
-    progress
+    in_kata(:stateless) {
+      progress
+    }
   end
 
   #- - - - - - - - - - - - - - - -
 
   test '619',
   'progress when avatars with no traffic-lights' do
-    prepare
-    start # 0
-    progress
+    in_kata(:stateless) {
+      start
+      progress
+    }
   end
 
   #- - - - - - - - - - - - - - - -
 
   test '4FE',
   'progress when avatar has only amber traffic-lights' do
-    prepare
-    start # 0
-    runner.stub_run_colour('amber')
-    run_tests
-    progress
+    in_kata(:stateless) {
+      start
+      runner.stub_run_colour('amber')
+      run_tests
+      progress
+    }
   end
 
   #- - - - - - - - - - - - - - - -
 
   test '920',
   'progress when avatar has only non-amber traffic-lights' do
-    prepare
-    start # 0
-    runner.stub_run_colour('red')
-    run_tests
-    progress
+    in_kata(:stateless) {
+      start
+      runner.stub_run_colour('red')
+      run_tests
+      progress
+    }
   end
 
   private
