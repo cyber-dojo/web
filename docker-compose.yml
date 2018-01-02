@@ -15,6 +15,8 @@ services:
     mem_limit: 2G
     memswap_limit: 2G
     restart: 'no'
+    volumes:
+      - ./test:${CYBER_DOJO_HOME}/test:ro
     environment:
       - CYBER_DOJO_HOME
     depends_on:
