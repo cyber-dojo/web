@@ -6,7 +6,7 @@
   ring_picker
   dashboard_td_gapper
   id_splitter
-  ).each { |sourcefile|
+).each { |sourcefile|
   require_relative sourcefile
 }
 
