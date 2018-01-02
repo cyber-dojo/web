@@ -27,7 +27,7 @@ class KataControllerTest  < AppControllerTestBase
 
   test '221',
   'run timed_out test' do
-    in_kata(:stateless) {
+    in_kata(:stateless) { |kata|
       as_avatar {
         c = <<~PYTHON_CODE
         class Hiker:
@@ -37,7 +37,16 @@ class KataControllerTest  < AppControllerTestBase
                 return 6 * 9
         PYTHON_CODE
         change_file('hiker.py', c)
-        run_tests
+
+        params = {
+          :format => :js,
+          :id     => kata.id,
+          :runner_choice => kata.runner_choice,
+          :image_name => kata.image_name,
+          :avatar => @avatar.name,
+          :max_seconds => 3
+        }
+        post '/kata/run_tests', params:params.merge(@params_maker.params)
         assert_timed_out
       }
     }
