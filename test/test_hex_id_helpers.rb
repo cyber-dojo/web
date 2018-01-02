@@ -23,18 +23,15 @@ module TestHexIdHelpers # mix-in
     @@args = ARGV[1..-1].sort.uniq.map(&:upcase)  # eg 2DD6F3 eg 2dd
     @@seen_ids = []
 
-    def test(id, *lines, &block)
+    def test(id, *words, &block)
       id = hex_prefix + id
+      name = words.join(' ')
       # check hex-id is well-formed
-      diagnostic = "'#{id}',#{lines.join(' ')}"
+      diagnostic = "'#{id}',#{name}"
       hex_chars = '0123456789ABCDEF'
       is_hex_id = id.chars.all? { |ch| hex_chars.include? ch }
-      has_empty_line = lines.any? { |line| line.strip == '' }
-      has_space_line = lines.any? { |line| line.strip != line }
       raise  "no hex-ID: #{diagnostic}" if id == ''
       raise "bad hex-ID: #{diagnostic}" unless is_hex_id
-      raise "empty line: #{diagnostic}" if has_empty_line
-      raise "space line: #{diagnostic}" if has_space_line
       # if no hex-id supplied, or test method matches any supplied hex-id
       # then define a mini_test method using the hex-id
       no_args = @@args == []
@@ -42,7 +39,6 @@ module TestHexIdHelpers # mix-in
       if no_args || any_arg_is_part_of_id
         raise "duplicate hex_ID: #{diagnostic}" if @@seen_ids.include?(id)
         @@seen_ids << id
-        name = lines.join(' ')
         block_with_test_id = lambda {
           ENV['CYBER_DOJO_TEST_ID'] = id
           hex_setup

@@ -8,8 +8,10 @@ class ForkerControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'AFE',
-  'when id is invalid then fork fails and the reason given is dojo' do
+  test 'AFE', %w(
+  when id is invalid,
+  the fork fails,
+  and the reason given is dojo ) do
     fork(bad_id = 'bad-id', 'hippo', tag=1)
     refute forked?
     assert_reason_is("dojo(#{bad_id})")
@@ -18,8 +20,10 @@ class ForkerControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '25B',
-  'when avatar not started, the fork fails, and the reason given is avatar' do
+  test '25B', %w(
+  when avatar not started,
+  the fork fails,
+  and the reason given is avatar ) do
     in_kata(:stateless) {
       fork(kata.id, bad_avatar = 'hippo', tag=1)
       refute forked?
@@ -30,8 +34,10 @@ class ForkerControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'CA7',
-  'when tag is bad, the fork fails, and the reason given is traffic_light' do
+  test 'CA7', %w(
+  when tag is bad,
+  the fork fails,
+  and the reason given is traffic_light ) do
     in_kata(:stateless) {
       as_avatar {
         bad_tag_test('-14') # tag < 0
@@ -40,19 +46,12 @@ class ForkerControllerTest < AppControllerTestBase
     }
   end
 
-  def bad_tag_test(bad_tag)
-    fork(kata.id, avatar.name, bad_tag)
-    refute forked?, bad_tag
-    assert_reason_is("traffic_light(#{bad_tag})")
-    assert_nil forked_kata_id
-  end
-
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '32F',
-  'when id,avatar,tag are all ok',
-  'format=json fork works',
-  "and the new dojo's id is returned" do
+  test '32F', %w(
+  when id,avatar,tag are all ok
+  format=json fork works
+  and the new dojo's id is returned ) do
     in_kata(:stateless) {
       as_avatar {
         run_tests # 1
@@ -74,10 +73,10 @@ class ForkerControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '835',
-  'when id,avatar,tag are all ok',
-  'format=html fork works',
-  "and you are redirected to the enter page with the new dojo's id" do
+  test '835', %w(
+  when id,avatar,tag are all ok,
+  format=html fork works,
+  and you are redirected to the enter page with the new dojo's id ) do
     in_kata(:stateless) {
       as_avatar {
         run_tests # 1
@@ -92,10 +91,10 @@ class ForkerControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - -
 
-  test '7E7',
-  'when id,avatar are all ok, tag==-1',
-  'format=html fork works',
-  "and you are redirected to the enter page with the new dojo's id" do
+  test '7E7', %w(
+  when id,avatar are all ok, tag==-1,
+  format=html fork works,
+  and you are redirected to the enter page with the new dojo's id ) do
     in_kata(:stateless) {
       as_avatar {
         run_tests # 1
@@ -112,8 +111,8 @@ class ForkerControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - -
 
-  test 'D4A',
-  'forking kata from before start-point volume re-architecture works' do
+  test 'D4A', %w(
+  forking kata from before start-point volume re-architecture ) do
     set_storer_class('StorerService')
     # See test/data/katas_old/421F303E80.tgz
     id = '421F303E80'
@@ -125,6 +124,13 @@ class ForkerControllerTest < AppControllerTestBase
   end
 
   private # = = = = = = = = = = = = = = = = = = =
+
+  def bad_tag_test(bad_tag)
+    fork(kata.id, avatar.name, bad_tag)
+    refute forked?, bad_tag
+    assert_reason_is("traffic_light(#{bad_tag})")
+    assert_nil forked_kata_id
+  end
 
   def fork(id, avatar, tag, format='json')
     get '/forker/fork', params: {
