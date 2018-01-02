@@ -29,7 +29,6 @@ class KataControllerTest  < AppControllerTestBase
   'run timed_out test' do
     in_kata(:stateless) {
       as_avatar {
-        # 'Python, unittest', Ubuntu based
         c = <<~PYTHON_CODE
         class Hiker:
             def answer(self):
