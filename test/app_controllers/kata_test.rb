@@ -210,9 +210,6 @@ class KataControllerTest  < AppControllerTestBase
 
   test '555',
   'run_tests for an old avatar seamlessly resurrects' do
-    # Note: the kata-controller validates the kata-id and the avatar-name
-    # (via the storer) so there is no path from the browser to
-    # get runner.run to accept unvalidated arguments.
     in_kata(:stateful) {
       as_avatar {
         run_tests # 1
@@ -224,9 +221,6 @@ class KataControllerTest  < AppControllerTestBase
           'Assertion failed: answer() == 42'
         ].each do |expected|
           assert output.include?(expected)
-          # Note that depending on the host's OS, the last line might be
-          #     make: *** [test.output] Aborted (core dumped)
-          # viz with (core dumped) appended
         end
 
         # force avatar to end
