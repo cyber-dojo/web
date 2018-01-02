@@ -193,12 +193,15 @@ class KataControllerTest  < AppControllerTestBase
         params = {
           :format => :js,
           :id     => @id,
+          :runner_choice => katas[@id].runner_choice,
           :image_name => 'does_not/exist',
-          :avatar => @avatar.name
+          :avatar => @avatar.name,
+          :max_seconds => 10
         }
-        assert_raises(StandardError) {
+        error = assert_raises(StandardError) {
           post '/kata/run_tests', params:params.merge(@params_maker.params)
         }
+        assert error.message.start_with?('RunnerService:run_cyber_dojo_sh')
       }
     }
   end
