@@ -2,11 +2,17 @@
 # This line must come first, before any required/loaded files to be covered.
 require_relative './test_coverage'
 
-require_relative '../lib/all'
-require_relative '../app/helpers/all'
-require_relative '../app/lib/all'
-require_relative '../app/models/all'
-require_relative '../app/services/all'
+%w(
+  lib
+  app/helpers
+  app/lib
+  app/models
+  app/services
+).each do |dir|
+  Dir.glob("#{ENV['CYBER_DOJO_HOME']}/#{dir}/*.rb").each { |filename|
+    require filename
+  }
+end
 
 require_relative './test_base'
 

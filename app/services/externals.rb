@@ -1,3 +1,4 @@
+require_relative '../../lib/name_of_caller'
 
 module Externals # mix-in
 

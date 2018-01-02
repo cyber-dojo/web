@@ -1,3 +1,5 @@
+require_relative '../../lib/string_cleaner'
+require_relative '../../lib/time_now'
 
 class KataController < ApplicationController
 
@@ -77,7 +79,7 @@ class KataController < ApplicationController
     }
   end
 
-  private
+  private # = = = = = = = = = = = = = =
 
   include StringCleaner
   include TimeNow

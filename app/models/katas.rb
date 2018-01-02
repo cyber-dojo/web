@@ -1,3 +1,5 @@
+require_relative '../../lib/time_now'
+require_relative '../../lib/unique_id'
 
 class Katas
   include Enumerable
