@@ -73,11 +73,11 @@ class KataControllerTest  < AppControllerTestBase
 
   test '225',
   'run green test' do
-    in_kata(:stateful) {
+    in_kata(:stateless) {
       as_avatar {
-        c = @avatar.visible_files['hiker.c']
-        c = c.sub('return 6 * 9;', 'return 6 * 7;')
-        change_file('hiker.c', c)
+        c = @avatar.visible_files['hiker.py']
+        c = c.sub('return 6 * 9', 'return 6 * 7')
+        change_file('hiker.py', c)
         run_tests
         assert_equal :green, @avatar.lights[-1].colour
       }
