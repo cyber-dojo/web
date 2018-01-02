@@ -89,10 +89,9 @@ class KataControllerTest  < AppControllerTestBase
   test 'B29',
   'run() caches info so it only issues a',
   'single command to storer to save ran_test result' do
-    in_kata(:stateless) {
+    in_kata(:stateless) { |kata|
       as_avatar {
         kata_edit
-        kata = katas[@id]
         params = {
           :format => :js,
           :id     => kata.id,
@@ -189,13 +188,13 @@ class KataControllerTest  < AppControllerTestBase
 
   test '3FD',
   'run_tests with bad image_name raises and does not cause resurrection' do
-    in_kata(:stateful) {
+    in_kata(:stateful) { |kata|
       as_avatar {
         kata_edit
         params = {
           :format => :js,
-          :id     => @id,
-          :runner_choice => katas[@id].runner_choice,
+          :id     => kata.id,
+          :runner_choice => kata.runner_choice,
           :image_name => 'does_not/exist',
           :avatar => @avatar.name,
           :max_seconds => 10
@@ -212,7 +211,7 @@ class KataControllerTest  < AppControllerTestBase
 
   test '555',
   'run_tests for an old avatar seamlessly resurrects' do
-    in_kata(:stateful) {
+    in_kata(:stateful) { |kata|
       as_avatar {
         run_tests # 1
         assert_equal :red, @avatar.lights[-1].colour
@@ -226,7 +225,6 @@ class KataControllerTest  < AppControllerTestBase
         end
 
         # force avatar to end
-        kata = katas[@id]
         runner.avatar_old(kata.image_name, kata.id, @avatar.name)
 
         # this should resurrect the avatar
@@ -245,7 +243,7 @@ class KataControllerTest  < AppControllerTestBase
 
   test 'E40',
   'run_tests for an old kata seamlessly resurrects' do
-    in_kata(:stateful) {
+    in_kata(:stateful) { |kata|
       as_avatar {
         run_tests # 1
         assert_equal :red, @avatar.lights[-1].colour
@@ -262,7 +260,6 @@ class KataControllerTest  < AppControllerTestBase
         end
 
         # force avatar and kata to end
-        kata = katas[@id]
         runner.avatar_old(kata.image_name, kata.id, @avatar.name)
         runner.kata_old(kata.image_name, kata.id)
 
@@ -282,11 +279,11 @@ class KataControllerTest  < AppControllerTestBase
 
   test 'B75',
   'show-json (for Atom editor)' do
-    in_kata(:stateful) {
+    in_kata(:stateful) { |kata|
       as_avatar {
         kata_edit
         run_tests
-        params = { :format => :json, :id => @id, :avatar => @avatar.name }
+        params = { :format => :json, :id => kata.id, :avatar => @avatar.name }
         get '/kata/show_json', params:params
       }
     }
@@ -302,10 +299,10 @@ class KataControllerTest  < AppControllerTestBase
     }[runner_choice]
     refute_nil display_name, runner_choice
     @id = create_language_kata(display_name)
+    kata = katas[@id]
     begin
-      block.call
+      block.call(kata)
     ensure
-      kata = katas[@id]
       runner.kata_old(kata.image_name, kata.id)
     end
   end
