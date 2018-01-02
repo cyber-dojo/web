@@ -108,10 +108,11 @@ class KataControllerTest  < AppControllerTestBase
           :image_name => kata.image_name,
           :avatar => @avatar.name,
           :max_seconds => 10
-        }.merge(@params_maker.params)
+        }
         # count the calls?
         set_storer_class('NotUsed')
-        post '/kata/run_tests', params:params
+        # @params_maker is really file_params_maker
+        post '/kata/run_tests', params:params.merge(@params_maker.params)
       }
     }
   end
