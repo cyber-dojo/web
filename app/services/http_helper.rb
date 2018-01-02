@@ -1,4 +1,3 @@
-require_relative '../../lib/nearest_ancestors'
 
 module HttpHelper # mix-in
 
@@ -46,10 +45,8 @@ module HttpHelper # mix-in
     StandardError.new("#{self.class.name}:#{name}:#{message}")
   end
 
-  include NearestAncestors
-
   def http
-    nearest_ancestors(:http)
+    @externals.http
   end
 
 end

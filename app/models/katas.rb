@@ -2,18 +2,16 @@
 class Katas
   include Enumerable
 
-  def initialize(parent)
-    @parent = parent
+  def initialize(externals)
+    @externals = externals
   end
 
   # queries
 
-  attr_reader :parent
-
   def each
     (0..255).map{ |n| '%02X' % n }.each do |outer|
       storer.completions(outer).each do |inner|
-        yield Kata.new(self, outer + inner)
+        yield self[outer + inner]
       end
     end
   end
@@ -23,7 +21,7 @@ class Katas
   end
 
   def [](id)
-    Kata.new(self, id)
+    Kata.new(@externals, id)
   end
 
   # modifiers
@@ -39,16 +37,15 @@ class Katas
 
   private
 
-  include NearestAncestors
   include TimeNow
   include UniqueId
 
   def storer
-    nearest_ancestors(:storer)
+    @externals.storer
   end
 
   def runner
-    nearest_ancestors(:runner)
+    @externals.runner
   end
 
 end

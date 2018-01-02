@@ -1,7 +1,8 @@
 
 class Tag
 
-  def initialize(avatar, hash)
+  def initialize(externals, avatar, hash)
+    @externals = externals
     @avatar = avatar
     @hash = hash
   end
@@ -9,10 +10,6 @@ class Tag
   # queries
 
   attr_reader :avatar
-
-  def parent
-    avatar
-  end
 
   def visible_files
     @manifest ||= storer.tag_visible_files(avatar.kata.id, avatar.name, number)
@@ -49,14 +46,12 @@ class Tag
     hash['number']
   end
 
-  private
+  private # = = = = = = = = = = =
 
   attr_reader :hash
 
-  include NearestAncestors
-
   def storer
-    nearest_ancestors(:storer)
+    @externals.storer
   end
 
 end

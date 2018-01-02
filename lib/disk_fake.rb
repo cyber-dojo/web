@@ -1,4 +1,4 @@
-require_relative './dir_fake'
+require_relative 'dir_fake'
 
 class DiskFake
 

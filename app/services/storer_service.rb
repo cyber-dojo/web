@@ -2,13 +2,11 @@ require_relative 'http_helper'
 
 class StorerService
 
-  def initialize(parent)
-    @parent = parent
+  def initialize(externals)
+    @externals = externals
     @hostname = ENV['STORER_HOSTNAME'] || 'storer'
     @port = ENV['STORER_PORT'] || 4577
   end
-
-  attr_reader :parent
 
   # - - - - - - - - - - - -
 
@@ -76,9 +74,10 @@ class StorerService
     http_get(__method__, kata_id, avatar_name, was_tag, now_tag)
   end
 
-  private
+  private # = = = = = = = =
 
   include HttpHelper
+
   attr_reader :hostname, :port
 
 end

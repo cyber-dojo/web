@@ -1,10 +1,9 @@
 
 class Avatar
 
-  def initialize(kata, name)
+  def initialize(externals, kata, name)
     # Does *not* validate.
-    # All access to avatar object must come through
-    # dojo.katas[id].avatars[name]
+    @externals = externals
     @kata = kata
     @name = name
   end
@@ -30,10 +29,6 @@ class Avatar
 
   attr_reader :kata, :name
 
-  def parent
-    kata
-  end
-
   def active?
     # Players sometimes start an extra avatar solely to read the
     # instructions. I don't want these avatars appearing on the
@@ -43,7 +38,7 @@ class Avatar
   end
 
   def tags
-    increments.map { |h| Tag.new(self, h) }
+    increments.map { |h| Tag.new(@externals, self, h) }
   end
 
   def lights
@@ -58,20 +53,18 @@ class Avatar
     storer.avatar_visible_files(kata.id, name)
   end
 
-  private
+  private # = = = = = = = = =
 
   def increments
     storer.avatar_increments(kata.id, name)
   end
 
-  include NearestAncestors
-
   def storer
-    nearest_ancestors(:storer)
+    @externals.storer
   end
 
   def runner
-    nearest_ancestors(:runner)
+    @externals.runner
   end
 
 end

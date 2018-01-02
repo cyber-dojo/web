@@ -16,7 +16,7 @@ class KataController < ApplicationController
     delta = FileDeltaMaker.make_delta(incoming, outgoing)
     files = received_files
 
-    @avatar = Avatar.new(kata, avatar_name)
+    @avatar = Avatar.new(self, kata, avatar_name)
     begin
       case runner_choice
       when 'stateless'

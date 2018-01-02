@@ -1,10 +1,9 @@
 
 class Kata
 
-  def initialize(katas, id)
+  def initialize(externals, id)
     # Does *not* validate.
-    # You must explicitly call exists? to validate
-    @katas = katas
+    @externals = externals
     @id = id
   end
 
@@ -24,11 +23,7 @@ class Kata
         runner.avatar_new(image_name, id, name, visible_files)
       end
     end
-    name.nil? ? nil : Avatar.new(self, name)
-  end
-
-  def parent
-    @katas
+    name.nil? ? nil : Avatar.new(@externals, self, name)
   end
 
   def exists?
@@ -36,7 +31,7 @@ class Kata
   end
 
   def avatars
-    Avatars.new(self)
+    Avatars.new(@externals, self)
   end
 
   def active?
@@ -175,18 +170,16 @@ class Kata
     display_name.split(',',2).map(&:strip)
   end
 
-  include NearestAncestors
-
   def runner
-    nearest_ancestors(:runner)
+    @externals.runner
   end
 
   def starter
-    nearest_ancestors(:starter)
+    @externals.starter
   end
 
   def storer
-    nearest_ancestors(:storer)
+    @externals.storer
   end
 
 end

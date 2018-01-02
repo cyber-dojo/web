@@ -2,11 +2,9 @@ require_relative 'http_helper'
 
 class DifferService
 
-  def initialize(parent)
-    @parent = parent
+  def initialize(externals)
+    @externals = externals
   end
-
-  attr_reader :parent
 
   def diff(kata_id, avatar_name, was_tag, now_tag)
     args = [kata_id, avatar_name, was_tag, now_tag]
@@ -17,7 +15,7 @@ class DifferService
     })
   end
 
-  private
+  private # = = = = = = = = =
 
   include HttpHelper
 
@@ -30,7 +28,7 @@ class DifferService
   end
 
   def storer
-    nearest_ancestors(:storer)
+    @externals.storer
   end
 
 end

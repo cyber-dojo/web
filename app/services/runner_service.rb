@@ -1,13 +1,10 @@
 require_relative 'http_helper'
-require_relative '../../lib/nearest_ancestors'
 
 class RunnerService
 
-  def initialize(parent)
-    @parent = parent
+  def initialize(externals)
+    @externals = externals
   end
-
-  attr_reader :parent
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -116,6 +113,7 @@ class RunnerService
   end
 
   include HttpHelper
+
   attr_reader :hostname, :port
 
   def set_hostname_port(kata_id)
@@ -137,10 +135,8 @@ class RunnerService
     katas[kata_id].runner_choice
   end
 
-  include NearestAncestors
-
   def katas
-    nearest_ancestors(:katas)
+    @externals.katas
   end
 
   def args(callers_binding)

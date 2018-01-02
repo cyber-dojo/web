@@ -22,7 +22,8 @@ class Avatars
     )
   end
 
-  def initialize(kata)
+  def initialize(externals, kata)
+    @externals = externals
     @kata = kata
   end
 
@@ -30,14 +31,10 @@ class Avatars
 
   attr_reader :kata
 
-  def parent
-    kata
-  end
-
   def started
     names = storer.started_avatars(kata.id)
     Hash[names.map { |name|
-      [name, Avatar.new(kata, name)]
+      [name, Avatar.new(@externals, kata, name)]
     }]
   end
 
@@ -57,12 +54,10 @@ class Avatars
     collect(&:name).sort
   end
 
-  private
-
-  include NearestAncestors
+  private # = = = = = = = = =
 
   def storer
-    nearest_ancestors(:storer)
+    @externals.storer
   end
 
 end

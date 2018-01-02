@@ -42,7 +42,7 @@ class DirFake
     files[filename]
   end
 
-  private
+  private # = = = = = = = = = =
 
   attr_reader :attr, :dirs, :files
 

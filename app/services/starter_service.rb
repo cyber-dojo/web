@@ -2,11 +2,9 @@ require_relative 'http_helper'
 
 class StarterService
 
-  def initialize(parent)
-    @parent = parent
+  def initialize(externals)
+    @externals = externals
   end
-
-  attr_reader :parent
 
   # - - - - - - - - - - - -
 
@@ -36,7 +34,7 @@ class StarterService
     http_get(__method__, old_name)
   end
 
-  private
+  private # = = = = = = = =
 
   include HttpHelper
 

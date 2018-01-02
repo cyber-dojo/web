@@ -68,8 +68,8 @@ class TrafficLightTest < AppHelpersTestBase
 
   test 'E77',
   'simple_diff_traffic_light' do
-    avatar = Avatar.new(Object.new, 'hippo')
-    light = Tag.new(avatar, {
+    avatar = Avatar.new(nil, Object.new, 'hippo')
+    light = Tag.new(nil, avatar, {
       'number' => (tag = 3),
       'colour' => (colour = 'red')
     })

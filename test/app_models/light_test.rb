@@ -90,7 +90,7 @@ class LightTest < AppModelsTestBase
   private
 
   def make_light(rgb, time, n, key = 'colour')
-    Tag.new(dummy_avatar, {
+    Tag.new(nil, dummy_avatar, {
       key      => rgb.to_sym,
       'time'   => time,
       'number' => n

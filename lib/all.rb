@@ -1,7 +1,6 @@
 
 %w{
   name_of_caller
-  nearest_ancestors
   time_now
   unique_id
   string_cleaner

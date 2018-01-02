@@ -4,7 +4,7 @@ require 'json'
 
 class StorerFake
 
-  def initialize(_parent)
+  def initialize(_)
     # This is @@disk and not @disk so that it behaves as
     # a real disk on tests that run across multiple threads
     # (as some app-controller tests do).
