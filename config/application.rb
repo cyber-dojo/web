@@ -13,11 +13,10 @@ end
 module CyberDojo
   class Application < Rails::Application
 
-    # JJ: Setting this to true means I cannot bring the server up.
-    # JJ: I'm guessing this is because I have extra ruby code, eg off /tests
     config.eager_load = false
 
-    # Settings in config/environments/* take precedence over those specified here.
+    # Settings in config/environments/* take precedence over
+    # those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
 
