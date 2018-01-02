@@ -8,8 +8,9 @@ before_script:
 
 script:
     # pull images used in tests so test-duration does not include pull time
-    - docker pull cyberdojofoundation/gcc_assert:latest
-    - docker pull cyberdojofoundation/python_pytest:latest
+    - docker pull cyberdojofoundation/python_unittest:latest # stateless
+    - docker pull cyberdojofoundation/gcc_assert:latest      # stateful
+    - docker pull cyberdojofoundation/python_pytest:latest   # processful
     #
     - ./pipe_build_up_test.sh \
         && ./push_and_trigger.sh cyber-dojo/commander
