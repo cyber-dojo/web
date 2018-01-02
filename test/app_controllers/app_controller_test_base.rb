@@ -16,6 +16,16 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  def kata
+    katas[@id]
+  end
+
+  def avatar
+    kata.avatars[@avatar_name]
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   def create_language_kata(major_minor_name = default_language_name,
                            exercise_name = default_exercise_name)
     parts = commad(major_minor_name)
@@ -38,6 +48,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     }
     get '/setup_custom_start_point/save', params:params
     @id = json['id']
+    nil
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -46,21 +57,20 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     params = { 'format' => 'json', 'id' => @id }
     get '/enter/start', params:params
     assert_response :success
-    avatar_name = json['avatar_name']
-    assert_not_nil avatar_name
-    @avatar = katas[@id].avatars[avatar_name]
-    @params_maker = ParamsMaker.new(@avatar)
-    @avatar
+    @avatar_name = json['avatar_name']
+    assert_not_nil @avatar_name
+    @params_maker = ParamsMaker.new(avatar)
+    nil
   end
 
   def start_full
-    params = { 'format' => 'json', 'id' => @id }
+    params = { 'format' => 'json', 'id' => kata.id }
     get '/enter/start', params:params
     assert_response :success
   end
 
   def resume
-    params = { 'format' => 'json', 'id' => @id }
+    params = { 'format' => 'json', 'id' => kata.id }
     get '/enter/resume', params:params
     assert_response :success
   end
@@ -68,7 +78,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   # - - - - - - - - - - - - - - - -
 
   def kata_edit
-    params = { 'id' => @id, 'avatar' => @avatar.name }
+    params = { 'id' => kata.id, 'avatar' => avatar.name }
     get '/kata/edit', params:params
     assert_response :success
   end
@@ -90,18 +100,17 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   end
 
   def run_tests
-    kata = katas[@id]
     params = {
       'format'        => 'js',
-      'id'            => @id,
+      'id'            => kata.id,
       'runner_choice' => kata.runner_choice,
       'max_seconds'   => kata.max_seconds,
       'image_name'    => kata.image_name,
-      'avatar'        => @avatar.name
+      'avatar'        => avatar.name
     }
     post '/kata/run_tests', params:params.merge(@params_maker.params)
     assert_response :success
-    @params_maker = ParamsMaker.new(@avatar)
+    @params_maker = ParamsMaker.new(avatar)
   end
 
   # - - - - - - - - - - - - - - - -

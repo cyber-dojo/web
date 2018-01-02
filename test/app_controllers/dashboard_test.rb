@@ -38,7 +38,12 @@ class DashboardControllerTest < AppControllerTestBase
   test 'E43',
   'dashboard when avatars with some traffic lights' do
     prepare
-    3.times { start; 2.times { run_tests } }
+    3.times {
+      start
+      2.times {
+        run_tests
+      }
+    }
     dashboard
   end
 
@@ -64,7 +69,12 @@ class DashboardControllerTest < AppControllerTestBase
   test '785',
   'heartbeat when some traffic-lights' do
     prepare
-    3.times { start; 2.times { run_tests } }
+    3.times {
+      start
+      2.times {
+        run_tests
+      }
+    }
     heartbeat
   end
 

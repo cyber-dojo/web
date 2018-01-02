@@ -8,7 +8,7 @@ class DownloadControllerTest < AppControllerTestBase
 
   def prepare
     set_storer_class('StorerService')
-    @id = create_language_kata(default_language_name('stateful'))
+    create_language_kata(default_language_name('stateful'))
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -105,7 +105,7 @@ class DownloadControllerTest < AppControllerTestBase
   test '6F7',
   'download_tag with empty kata_id raises' do
     @id = ''
-    @avatar = 'salmon'
+    @avatar_name = 'salmon'
     @tag = 0
     error = assert_raises(StandardError) {
       download_tag
@@ -120,7 +120,7 @@ class DownloadControllerTest < AppControllerTestBase
   end
 
   def download_tag
-    params = { 'id' => @id, 'avatar' => @avatar.name, 'tag' => @tag }
+    params = { 'id' => @id, 'avatar' => @avatar_name, 'tag' => @tag }
     get '/download_tag', params:params
   end
 

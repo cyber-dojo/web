@@ -101,7 +101,7 @@ class DojoControllerTest < AppControllerTestBase
     start
     refute empty?
     refute full?
-    assert Avatars.names.include?(@avatar.name)
+    assert Avatars.names.include?(avatar.name)
   end
 
   #- - - - - - - - - - - - - - - -
@@ -109,11 +109,11 @@ class DojoControllerTest < AppControllerTestBase
   test '2AE',
   'enter succeeds once for each avatar name, then dojo is full' do
     create_language_kata
-    Avatars.names.each do |avatar_name|
+    Avatars.names.each do
       start
       refute full?
       assert Avatars.names.include? json['avatar_name']
-      assert_not_nil @avatar.name
+      assert_not_nil avatar.name
     end
     start_full
     refute empty?

@@ -10,23 +10,21 @@ class DifferControllerTest < AppControllerTestBase
 
   test 'AF6',
   'no lines different in any files between successive tags' do
-    @id = create_language_kata(default_language_name('stateful'))
-    @avatar = start # 0
+    create_language_kata(default_language_name('stateful'))
+    start # 0
     filename = 'hiker.c'
     change_file(filename, content='some_change...')
     run_tests
     run_tests
-    @was_tag = 1
-    @now_tag = 2
 
-    differ
+    differ(was_tag = 1, now_tag = 2)
 
     lights = json['lights']
-    info = " " + @id + ":" + @avatar.name
-    was_light = lights[@was_tag-1]
-    assert_equal @was_tag, was_light['number'], info
-    now_light = lights[@now_tag-1]
-    assert_equal @now_tag, now_light['number'], info
+    info = " " + kata.id + ":" + avatar.name
+    was_light = lights[was_tag-1]
+    assert_equal was_tag, was_light['number'], info
+    now_light = lights[now_tag-1]
+    assert_equal now_tag, now_light['number'], info
     diffs = json['diffs']
     index = diffs.find_index{|diff| diff['filename'] == filename }
     assert_equal filename, diffs[index]['filename'], info
@@ -41,24 +39,22 @@ class DifferControllerTest < AppControllerTestBase
 
   test '2BF',
   'one line different in one file between successive tags' do
-    @id = create_language_kata(default_language_name('stateful'))
-    @avatar = start # 0
+    create_language_kata(default_language_name('stateful'))
+    start # 0
     filename = 'hiker.c'
     change_file(filename, from='fubar')
     run_tests
     change_file(filename, to='snafu')
     run_tests
-    @was_tag = 1
-    @now_tag = 2
 
-    differ
+    differ(was_tag = 1, now_tag = 2)
 
     lights = json['lights']
-    info = " " + @id + ':' + @avatar.name + ':'
-    was_light = lights[@was_tag-1]
-    assert_equal @was_tag, was_light['number'], info
-    now_light = lights[@now_tag-1]
-    assert_equal @now_tag, now_light['number'], info
+    info = " " + kata.id + ':' + avatar.name + ':'
+    was_light = lights[was_tag-1]
+    assert_equal was_tag, was_light['number'], info
+    now_light = lights[now_tag-1]
+    assert_equal now_tag, now_light['number'], info
     diffs = json['diffs']
     index = diffs.find_index{|diff| diff['filename'] == filename }
     assert_equal filename, diffs[index]['filename'], info + "diffs[#{index}]['filename']"
@@ -74,15 +70,13 @@ class DifferControllerTest < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'D09',
-  'tag -1 gives last traffic-light' do
-    @id = create_language_kata
+  'tag -1 gives most recent traffic-light' do
+    create_language_kata
     start      # 0
     run_tests  # 1
     run_tests  # 2
-    @was_tag = -1
-    @now_tag = -1
 
-    differ
+    differ(was_tag = -1, now_tag = -1)
 
     assert_equal 2, json['wasTag']
     assert_equal 2, json['nowTag']
@@ -92,13 +86,11 @@ class DifferControllerTest < AppControllerTestBase
 
   test '490',
   'nextAvatar and prevAvatar are empty string for dojo with one avatar' do
-    @id = create_language_kata
+    create_language_kata
     start      # 0
     run_tests  # 1
-    @was_tag = 0
-    @now_tag = 1
 
-    differ
+    differ(was_tag = 0, now_tag = 1)
 
     assert_equal '', json['prevAvatar']
     assert_equal '', json['nextAvatar']
@@ -108,29 +100,28 @@ class DifferControllerTest < AppControllerTestBase
 
   test '76A',
   'nextAvatar and prevAvatar for dojo with two avatars' do
-    @id = create_language_kata
-    firstAvatar = start  # 0
-    run_tests            # 1
+    create_language_kata
     start      # 0
     run_tests  # 1
-    @was_tag = 0
-    @now_tag = 1
+    first_avatar_name = avatar.name
+    start      # 0
+    run_tests  # 1
 
-    differ
+    differ(was_tag = 0, now_tag = 1)
 
-    assert_equal firstAvatar.name, json['prevAvatar']
-    assert_equal firstAvatar.name, json['nextAvatar']
+    assert_equal first_avatar_name, json['prevAvatar']
+    assert_equal first_avatar_name, json['nextAvatar']
   end
 
   private
 
-  def differ
+  def differ(was_tag, now_tag)
     params = {
        'format' => 'json',
-           'id' => @id,
-       'avatar' => @avatar.name,
-      'was_tag' => @was_tag,
-      'now_tag' => @now_tag
+           'id' => kata.id,
+       'avatar' => avatar.name,
+      'was_tag' => was_tag,
+      'now_tag' => now_tag
     }
     get '/differ/diff', params:params
     assert_response :success

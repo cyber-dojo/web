@@ -10,21 +10,21 @@ class ReverterControllerTest  < AppControllerTestBase
 
   test '276',
   'revert' do
-    @id = create_language_kata(default_language_name('stateful'))
-    @avatar = start
+    create_language_kata(default_language_name('stateful'))
+    start
     kata_edit
     filename = 'hiker.c'
     change_file(filename, old_content='the_answer')
     run_tests # 1
-    assert_equal old_content, @avatar.visible_files[filename]
+    assert_equal old_content, avatar.visible_files[filename]
     change_file(filename, new_content='something_different')
     run_tests # 2
-    assert_equal new_content, @avatar.visible_files[filename]
+    assert_equal new_content, avatar.visible_files[filename]
 
     get '/reverter/revert', params: {
       'format' => 'json',
-      'id'     => @id,
-      'avatar' => @avatar.name,
+      'id'     => kata.id,
+      'avatar' => avatar.name,
       'tag'    => 1
     }
     assert_response :success
