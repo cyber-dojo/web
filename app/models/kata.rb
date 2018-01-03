@@ -7,7 +7,7 @@ class Kata
     @id = id
   end
 
-  # modifiers
+  # modifier
 
   def start_avatar(avatar_names = Avatars.names.shuffle)
     name = storer.start_avatar(id, avatar_names)
@@ -26,6 +26,8 @@ class Kata
     name.nil? ? nil : Avatar.new(@externals, self, name)
   end
 
+  # queries
+
   def exists?
     storer.kata_exists?(id)
   end
@@ -38,10 +40,6 @@ class Kata
     avatars.active.count > 0
   end
 
-  # - - - - - - - - - - - - -
-  # properties
-  # - - - - - - - - - - - - -
-
   def id
     @id
   end
@@ -50,15 +48,18 @@ class Kata
   # info-bar
 
   def display_name
+    # eg 'Python, py.test'
     manifest_property # required
   end
 
   def major_name
-    commad_display_name[0]
+    # eg 'Python
+    commad(display_name)[0]
   end
 
   def minor_name
-    commad_display_name[1]
+    # eg 'py.test'
+    commad(display_name)[1]
   end
 
   def exercise
@@ -126,7 +127,7 @@ class Kata
     manifest_property || []
   end
 
-  private # = = = = = = = = = = = = = = = = =
+  private # = = = = = = = = = =
 
   include NameOfCaller
 
@@ -138,7 +139,7 @@ class Kata
     @manifest ||= updated(storer.kata_manifest(id))
   end
 
-  # - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - -
 
   def updated(manifest)
     if manifest['unit_test_framework']
@@ -155,8 +156,7 @@ class Kata
     if manifest['runner_choice'].nil?
       # manifest change
       # #2 added runner_choice required parameter
-      parts = manifest['display_name'].split(',').map(&:strip)
-      old_name = parts[0] + '-' + parts[1]
+      old_name = commad(manifest['display_name']).join('-')
       xlated = starter.manifest(old_name)
       manifest['runner_choice'] = xlated['runner_choice']
       return manifest
@@ -164,10 +164,10 @@ class Kata
     manifest
   end
 
-  # - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - -
 
-  def commad_display_name
-    display_name.split(',',2).map(&:strip)
+  def commad(name)
+    name.split(',',2).map(&:strip)
   end
 
   def runner

@@ -14,7 +14,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   include TestExternalHelpers
   include TestHexIdHelpers
 
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - -
 
   def in_kata(runner_choice, &block)
     display_name = {
@@ -31,7 +31,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     end
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - -
 
   def as_avatar(&block)
     start
@@ -42,7 +42,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     end
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - -
 
   def kata
     katas[@id]
@@ -52,7 +52,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     kata.avatars[@avatar_name]
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - -
 
   def create_language_kata(major_minor_name = default_language_name,
                            exercise_name = default_exercise_name)
@@ -66,7 +66,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     @id = json['id']
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - -
 
   def create_custom_kata(major_minor_name)
     parts = commad(major_minor_name)
@@ -79,7 +79,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     nil
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - -
 
   def start
     params = { 'format' => 'json', 'id' => @id }
@@ -151,7 +151,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     @response.body
   end
 
-  private # = = = = = = = = = = = = = = = = =
+  private # = = = = = = = = = = = =
 
   def commad(name)
     name.split(',').map(&:strip)
