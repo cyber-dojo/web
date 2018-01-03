@@ -27,9 +27,8 @@ RUN apk --update --no-cache add \
 # - - - - - - - - - - - - - - - - -
 
 ARG             CYBER_DOJO_HOME
-RUN  mkdir -p ${CYBER_DOJO_HOME}
+COPY Gemfile  ${CYBER_DOJO_HOME}/
 WORKDIR       ${CYBER_DOJO_HOME}
-COPY Gemfile  ${CYBER_DOJO_HOME}
 
 RUN  apk --update --no-cache add --virtual build-dependencies build-base \
   && bundle config --global silence_root_warning 1 \
