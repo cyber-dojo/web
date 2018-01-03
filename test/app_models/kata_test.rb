@@ -17,16 +17,14 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '5A7',
-  'kata_exists?(id) false' do
-    kata = Kata.new(self, '4DD58DEF95')
-    refute kata.exists?
+  test '5A7', %w(
+  exists? false when id is valid but kata has not been made ) do
+    refute katas['4DD58DEF95'].exists?
   end
 
-  test '5A8',
-  'kata_exists?(invalid-id) is false' do
-    kata = Kata.new(self, nil)
-    refute kata.exists?
+  test '5A8', %w(
+  exists? is false when id is invalid ) do
+    refute katas[nil].exists?
   end
 
   test '5A9',
