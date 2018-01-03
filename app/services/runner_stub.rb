@@ -1,4 +1,4 @@
-require_relative '../../lib/disk_fake'
+require_relative 'disk_fake'
 
 class RunnerStub
 
