@@ -9,42 +9,37 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'A57',
-  'id reads back as set' do
+  test 'A56', %w(
+  make_language_kata() helper defaults to using test hex-id as kata-id ) do
     kata = make_language_kata
     assert_equal kata_id, kata.id
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '5A7', %w(
-  exists? false when id is valid but kata has not been made ) do
-    refute katas['4DD58DEF95'].exists?
+  test '5A7', %w( exists? false when id is valid but kata has not been made ) do
+    refute katas[kata_id].exists?
   end
 
-  test '5A8', %w(
-  exists? is false when id is invalid ) do
+  test '5A8', %w( exists? is false when id is invalid ) do
     refute katas[nil].exists?
   end
 
-  test '5A9',
-  'kata_exists?(id) true' do
+  test '5A9', %w( exists? is true when id is valid and katas has been made ) do
     kata = make_language_kata
     assert kata.exists?
   end
 
 
-  test '9AE',
-  'when kata has no avatars',
-  'then it is not active' do
+  test '9AE', %w( when kata has no avatars, then it is not active ) do
     kata = make_language_kata
     refute kata.active?
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '8C8',
-  'major_name,minor_name are parts[0][1] of display_name' do
+  test '8C8', %w(
+  major_name,minor_name are comma-separated parts of display_name ) do
     kata = make_language_kata({ 'display_name' => 'Python, py.test' })
     assert_equal 'Python', kata.major_name
     assert_equal 'py.test', kata.minor_name
@@ -142,8 +137,7 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'C43',
-  %w( start_avatar() with specific name succeeds
-      when avatar has not yet started ).join(' ').to_s do
+  %w( start_avatar() with specific name succeeds when avatar has not yet started ) do
     @kata = make_language_kata
     hippo = @kata.start_avatar(['hippo'])
     refute_nil hippo
@@ -235,7 +229,7 @@ class KataTest < AppModelsTestBase
     end
   end
 
-  private
+  private # = = = = = = = = = = = = = =
 
   def avatars_names
     @kata.avatars.names

@@ -1,13 +1,14 @@
 
 class Kata
 
-  def initialize(externals, id)
+  def initialize(externals, katas, id)
     # Does *not* validate.
     @externals = externals
+    @katas = katas
     @id = id
   end
 
-  # modifier
+  # - - - - - - - - - - - - -
 
   def start_avatar(avatar_names = Avatars.names.shuffle)
     name = storer.start_avatar(id, avatar_names)
@@ -26,6 +27,18 @@ class Kata
     name.nil? ? nil : Avatar.new(@externals, self, name)
   end
 
+  # - - - - - - - - - - - - -
+
+  def fork(visible_files)
+    forked = manifest.clone
+    forked.delete('id')
+    forked.delete('created')
+    forked['visible_files'] = visible_files
+    @katas.create_kata(forked)
+    forked
+  end
+
+  # - - - - - - - - - - - - -
   # queries
 
   def exists?
@@ -143,19 +156,20 @@ class Kata
 
   def updated(manifest)
     if manifest['unit_test_framework']
-      # manifest change
-      # #1 manifest became self-contained rather than
+      # manifest change #1
+      # manifest became self-contained rather than
       # having to retrieve information from start-point
       old_name = manifest['language']
       xlated = starter.manifest(old_name)
       xlated['id'] = manifest['id']
       xlated['created'] = manifest['created']
+      # this happened before custom start-points
       xlated['exercise'] = manifest['exercise']
       return xlated
     end
     if manifest['runner_choice'].nil?
-      # manifest change
-      # #2 added runner_choice required parameter
+      # manifest change #2
+      # added runner_choice required parameter
       old_name = commad(manifest['display_name']).join('-')
       xlated = starter.manifest(old_name)
       manifest['runner_choice'] = xlated['runner_choice']

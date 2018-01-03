@@ -125,13 +125,6 @@ class ForkerControllerTest < AppControllerTestBase
 
   private # = = = = = = = = = = = = = = = = = = =
 
-  def bad_tag_test(bad_tag)
-    fork(kata.id, avatar.name, bad_tag)
-    refute forked?, bad_tag
-    assert_reason_is("traffic_light(#{bad_tag})")
-    assert_nil forked_kata_id
-  end
-
   def fork(id, avatar, tag, format='json')
     get '/forker/fork', params: {
       'format' => format,
@@ -154,6 +147,13 @@ class ForkerControllerTest < AppControllerTestBase
   def forked_kata_id
     refute_nil json
     json['id']
+  end
+
+  def bad_tag_test(bad_tag)
+    fork(kata.id, avatar.name, bad_tag)
+    refute forked?, bad_tag
+    assert_reason_is("traffic_light(#{bad_tag})")
+    assert_nil forked_kata_id
   end
 
 end

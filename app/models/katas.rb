@@ -23,7 +23,7 @@ class Katas
   end
 
   def [](id)
-    Kata.new(@externals, id)
+    Kata.new(@externals, self, id)
   end
 
   # modifiers
