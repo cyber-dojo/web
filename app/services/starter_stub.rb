@@ -7,7 +7,7 @@ class StarterStub
 
   def language_manifest(major_name, minor_name, exercise_name)
     if [major_name,minor_name,exercise_name] == ['Python','unittest','Fizz_Buzz']
-      {
+      return {
         "display_name" => "Python, unittest",
         "image_name" => "cyberdojofoundation/python_unittest",
         "runner_choice" => "stateless",
