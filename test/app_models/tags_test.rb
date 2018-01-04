@@ -44,34 +44,40 @@ class TagsTest < AppModelsTestBase
 
   test 'D39',
   'each [test]-event creates a new tag which is a light' do
-    kata = make_language_kata
-    lion = kata.start_avatar(['lion'])
-    assert_equal 1, lion.tags.length
-    maker = DeltaMaker.new(lion)
-    maker.run_test
-    maker.run_test
-    maker.run_test
-    assert_equal 4, lion.tags.length
-    lion.tags.each_with_index do |tag, i|
-      assert_equal i, tag.number
-      assert i == 0 || tag.light?
-    end
+    set_starter_class('StarterStub')
+    in_kata {
+      as(:wolf) {
+        assert_equal 1, wolf.tags.length
+        maker = DeltaMaker.new(wolf)
+        maker.run_test
+        maker.run_test
+        maker.run_test
+        assert_equal 4, wolf.tags.length
+        wolf.tags.each_with_index do |tag, i|
+          assert_equal i, tag.number
+          assert i == 0 || tag.light?
+        end
+      }
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - -
 
   test 'A42',
   'tags[-n] duplicates Array[-n] behaviour' do
-    kata = make_language_kata
-    lion = kata.start_avatar(['lion'])
-    maker = DeltaMaker.new(lion)
-    maker.run_test
-    maker.run_test
-    maker.run_test
-    tags = lion.tags
-    (1..tags.length).each do |i|
-      assert_equal tags.length - i, tags[-i].number
-    end
+    set_starter_class('StarterStub')
+    in_kata {
+      as(:wolf) {
+        maker = DeltaMaker.new(wolf)
+        maker.run_test
+        maker.run_test
+        maker.run_test
+        tags = wolf.tags
+        (1..tags.length).each do |i|
+          assert_equal tags.length - i, tags[-i].number
+        end
+      }
+    }
   end
 
 end

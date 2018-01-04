@@ -6,6 +6,10 @@ class KatasTest < AppModelsTestBase
     'F3B488'
   end
 
+  def hex_setup
+    set_class('starter', 'StarterStub')
+  end
+
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # katas[id]
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -31,10 +35,7 @@ class KatasTest < AppModelsTestBase
 
   test 'B3E',
   'katas[good-id] is kata with that id' do
-    kata = make_language_kata
-    k = katas[kata.id]
-    refute_nil k
-    assert_equal k.id, kata.id
+    assert_equal kata_id, katas[kata_id].id
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -60,7 +61,9 @@ class KatasTest < AppModelsTestBase
   test '03B',
   'completed(id) unchanged when no matches' do
     id = kata_id
-    (0..7).each { |size| assert_equal id[0..size], katas.completed(id[0..size]) }
+    (0..7).each { |size|
+      assert_equal id[0..size], katas.completed(id[0..size])
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

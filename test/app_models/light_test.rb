@@ -7,6 +7,10 @@ class LightTest < AppModelsTestBase
     'AC9AEE'
   end
 
+  def hex_setup
+    set_class('starter', 'StarterStub')
+  end
+
   # - - - - - - - - - - - - - - - - - - - - - - -
 
   test '6D0',
@@ -71,16 +75,18 @@ class LightTest < AppModelsTestBase
 
   test '722',
   'each test creates a new light' do
-    kata = make_language_kata
-    lion = kata.start_avatar(['lion'])
-    maker = DeltaMaker.new(lion)
-    runner.stub_run_colour('red')
-    maker.run_test
-    runner.stub_run_colour('amber')
-    maker.run_test
-    runner.stub_run_colour('green')
-    maker.run_test
-    lights = lion.lights
+    in_kata {
+      as(:wolf) {
+        maker = DeltaMaker.new(wolf)
+        runner.stub_run_colour('red')
+        maker.run_test
+        runner.stub_run_colour('amber')
+        maker.run_test
+        runner.stub_run_colour('green')
+        maker.run_test
+      }
+    }
+    lights = wolf.lights
     assert_equal 3, lights.length
     assert_equal :red,   lights[0].colour
     assert_equal :amber, lights[1].colour
