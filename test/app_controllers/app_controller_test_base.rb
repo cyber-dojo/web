@@ -9,7 +9,6 @@ require_relative 'params_maker'
 
 class AppControllerTestBase < ActionDispatch::IntegrationTest
 
-  include Externals
   include TestDomainHelpers
   include TestExternalHelpers
   include TestHexIdHelpers

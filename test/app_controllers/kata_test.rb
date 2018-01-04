@@ -226,10 +226,10 @@ class KataControllerTest  < AppControllerTestBase
         output = avatar.visible_files['output']
 
         [
-          '[makefile:14: test.output] Aborted',
+          '[makefile:13: test.output] Aborted',
           'Assertion failed: answer() == 42'
         ].each do |expected|
-          assert output.include?(expected)
+          assert output.include?(expected), output
         end
 
         # force avatar to end
@@ -258,7 +258,7 @@ class KataControllerTest  < AppControllerTestBase
         output = avatar.visible_files['output']
 
         [
-          '[makefile:14: test.output] Aborted',
+          '[makefile:13: test.output] Aborted',
           'Assertion failed: answer() == 42'
         ].each do |expected|
           assert output.include?(expected)
