@@ -46,18 +46,13 @@ class AvatarsTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '638',
-  'avatars[invalid-name] is nil' do
+  test '638', %w(
+  avatars[invalid-name] is not nil
+  because validity is check on use not on creation ) do
     kata = make_language_kata
-    assert_nil kata.avatars[invalid_name = 'mobile-phone']
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '429',
-  'avatars[cheetah] is nil when cheetah has not started' do
-    kata = make_language_kata
-    assert_nil kata.avatars[cheetah]
+    refute_nil kata.avatars[nil], 'nil'
+    refute_nil kata.avatars['mobile-phone'], 'invalid'
+    refute_nil kata.avatars['cheetah'], 'unstarted'
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

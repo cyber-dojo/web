@@ -34,7 +34,7 @@ class Avatars
   def started
     names = storer.started_avatars(kata.id)
     Hash[names.map { |name|
-      [name, Avatar.new(@externals, kata, name)]
+      [name, self[name]]
     }]
   end
 
@@ -43,7 +43,7 @@ class Avatars
   end
 
   def [](name)
-    started[name]
+    Avatar.new(@externals, kata, name)
   end
 
   def active
