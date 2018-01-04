@@ -23,17 +23,20 @@ module TestExternalHelpers # mix-in
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def unset_runner_class; unset_class('runner'); end
-  def unset_storer_class; unset_class('storer'); end
-  def unset_differ_class; unset_class('differ'); end
+  def unset_differ_class;  unset_class('differ' ); end
+  def unset_runner_class;  unset_class('runner' ); end
+  def unset_starter_class; unset_class('starter'); end
+  def unset_storer_class;  unset_class('storer' ); end
 
-  def set_runner_class(value); set_class('runner', value); end
-  def set_storer_class(value); set_class('storer', value); end
-  def set_differ_class(value); set_class('differ', value); end
+  def set_differ_class(value);  set_class('differ',  value); end
+  def set_runner_class(value);  set_class('runner',  value); end
+  def set_starter_class(value); set_class('starter', value); end
+  def set_storer_class(value);  set_class('storer',  value); end
 
-  def get_runner_class; get_class('runner'); end
-  def get_storer_class; get_class('storer'); end
-  def get_differ_class; get_class('differ'); end
+  def get_differ_class;  get_class('differ' ); end
+  def get_runner_class;  get_class('runner' ); end
+  def get_starter_class; get_class('starter'); end
+  def get_storer_class;  get_class('storer' ); end
 
   # - - - - - - - - - - - - - - - - - - -
 

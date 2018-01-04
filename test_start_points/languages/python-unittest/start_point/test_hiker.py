@@ -8,6 +8,5 @@ class TestHiker(unittest.TestCase):
         douglas = hiker.Hiker()
         self.assertEqual(42, douglas.answer())
 
-
 if __name__ == '__main__':
     unittest.main()
