@@ -6,8 +6,7 @@ class ImagePullerTest < AppControllerTestBase
     '4068F5'
   end
 
-  def setup
-    super
+  def hex_setup
     set_runner_class('RunnerService')
   end
 

@@ -8,8 +8,7 @@ class DashboardTdGapperTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def setup
-    super
+  def hex_setup
     @gapper = DashboardTdGapper.new(start, seconds_per_td, max_seconds_uncollapsed)
     set_storer_class('NotUsed')
     set_runner_class('NotUsed')

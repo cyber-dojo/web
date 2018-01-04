@@ -10,8 +10,7 @@ class DiffHtmlTest <  AppLibTestBase
 
   include DiffView
 
-  def setup
-    super
+  def hex_setup
     set_storer_class('NotUsed')
     set_runner_class('NotUsed')
     set_differ_class('NotUsed')

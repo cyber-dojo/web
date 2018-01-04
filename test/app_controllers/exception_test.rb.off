@@ -12,15 +12,14 @@ class ExceptionControllerTests < AppControllerTestBase
     '91B89A'
   end
 
-  def setup
-    super
+  def hex_setup
     @consider = Rails.application.config.consider_all_requests_local
     @show = Rails.application.config.action_dispatch.show_exceptions
     Rails.application.config.consider_all_requests_local = false
     Rails.application.config.action_dispatch.show_exceptions = true
   end
 
-  def teardown
+  def hex_teardown
     Rails.application.config.action_dispatch.show_exceptions = @show
     Rails.application.config.consider_all_requests_local = @consider
     super
