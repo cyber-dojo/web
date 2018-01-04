@@ -17,4 +17,15 @@ class StarterStubTest < AppServicesTestBase
     assert_equal stub, master
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '369', %w{
+  Stub mirrors Service for language_manifest(C (gcc),assert,FizzBuzz)} do
+    service = StarterService.new(self)
+    master = service.language_manifest('C (gcc)', 'assert', 'Fizz_Buzz')
+    stubber = StarterStub.new(nil)
+    stub = stubber.language_manifest('C (gcc)', 'assert', 'Fizz_Buzz')
+    assert_equal stub, master
+  end
+
 end

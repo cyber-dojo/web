@@ -7,6 +7,10 @@ class TagsTest < AppModelsTestBase
     'A30753'
   end
 
+  def hex_setup
+    set_starter_class('StarterStub')
+  end
+
   #- - - - - - - - - - - - - - - - - - -
 
   test 'AF3',
@@ -44,7 +48,6 @@ class TagsTest < AppModelsTestBase
 
   test 'D39',
   'each [test]-event creates a new tag which is a light' do
-    set_starter_class('StarterStub')
     in_kata {
       as(:wolf) {
         assert_equal 1, wolf.tags.length

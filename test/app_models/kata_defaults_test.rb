@@ -6,6 +6,10 @@ class KataDefaultsTest < AppModelsTestBase
     '4BB621'
   end
 
+  def hex_setup
+    set_starter_class('StarterStub')
+  end
+
   # - - - - - - - - - - - - - - - - - - - -
 
   test '344', %w( filename_extension defaults to empty string ) do
@@ -67,7 +71,6 @@ class KataDefaultsTest < AppModelsTestBase
   private # = = = = = = = = = = = = =
 
   def assert_default(name, expected)
-    set_starter_class('StarterStub')
     manifest = starter.language_manifest('Python', 'unittest', 'Fizz_Buzz')
     manifest['id'] = kata_id
     manifest['created'] = time_now

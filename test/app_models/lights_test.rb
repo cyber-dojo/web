@@ -17,7 +17,6 @@ class LightsTest < AppModelsTestBase
   'lights initially empty' do
     in_kata {
       as(:wolf) {
-        #lights = kata.start_avatar.lights
         assert_equal [], wolf.lights.to_a
         assert_equal 0, wolf.lights.count
         n = 0
