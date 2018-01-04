@@ -3,68 +3,57 @@ module TestExternalHelpers # mix-in
 
   module_function
 
+  include Externals
+
   def setup
     unless @setup_called.nil?
       fail 'setup already called'
     end
     @setup_called = true
-    @config = {}
-    ENV.each { |key, value| @config[key] = value }
+    @config = {
+      'DIFFER'  => ENV['CYBER_DOJO_DIFFER_CLASS'],
+      'RUNNER'  => ENV['CYBER_DOJO_RUNNER_CLASS'],
+      'STARTER' => ENV['CYBER_DOJO_STARTER_CLASS'],
+      'STORER'  => ENV['CYBER_DOJO_STORER_CLASS'],
+      'ZIPPER'  => ENV['CYBER_DOJO_ZIPPER_CLASS'],
+      'HTTP'    => ENV['CYBER_DOJO_HTTP_CLASS']
+    }
   end
 
   def teardown
-    fail_if_setup_not_called('teardown')
-    # set and no previous value -> unset
-    (ENV.keys - @config.keys).each { |key| unset(key) }
-    # set but has previous value -> restore
-    (ENV.keys + @config.keys).each { |key| ENV[key] = @config[key] }
+    if @setup_called.nil?
+      fail "#{method} NOT executed because setup() not yet called"
+    end
+    ENV['CYBER_DOJO_DIFFER_CLASS']  = @config['DIFFER']
+    ENV['CYBER_DOJO_RUNNER_CLASS']  = @config['RUNNER']
+    ENV['CYBER_DOJO_STARTER_CLASS'] = @config['STARTER']
+    ENV['CYBER_DOJO_STORER_CLASS']  = @config['STORER']
+    ENV['CYBER_DOJO_ZIPPER_CLASS']  = @config['ZIPPER']
+    ENV['CYBER_DOJO_HTTP_CLASS']  =   @config['HTTP']
     @setup_called = nil
   end
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def unset_differ_class;  unset_class('differ' ); end
-  def unset_runner_class;  unset_class('runner' ); end
-  def unset_starter_class; unset_class('starter'); end
-  def unset_storer_class;  unset_class('storer' ); end
-
-  def set_differ_class(value);  set_class('differ',  value); end
-  def set_runner_class(value);  set_class('runner',  value); end
-  def set_starter_class(value); set_class('starter', value); end
-  def set_storer_class(value);  set_class('storer',  value); end
-
-  def get_differ_class;  get_class('differ' ); end
-  def get_runner_class;  get_class('runner' ); end
-  def get_starter_class; get_class('starter'); end
-  def get_storer_class;  get_class('storer' ); end
-
-  # - - - - - - - - - - - - - - - - - - -
-
-  def unset(var)
-    ENV.delete(var)
+  def set_differ_class(value)
+    set_class('differ', value)
   end
 
-  def unset_class(name)
-    unset(env_var.name(name + '_class'))
+  def set_runner_class(value)
+    set_class('runner', value)
   end
 
-  # - - - - - - - - - - - - - - - - - - -
-
-  def set_class(key, value)
-    fail_if_setup_not_called("set_class(#{key}, #{value})")
-    ENV[env_var.name(key + '_class')] = value
+  def set_starter_class(value)
+    set_class('starter', value)
   end
 
-  # - - - - - - - - - - - - - - - - - - -
-
-  def get_class(name)
-    env_var.name(name + '_class')
+  def set_storer_class(value)
+    set_class('storer', value)
   end
 
-  def fail_if_setup_not_called(method)
-    if @setup_called.nil?
-      fail "#{method} NOT executed because setup() not yet called"
-    end
+  def set_class(name, value)
+    key = 'CYBER_DOJO_' + name.upcase + '_CLASS'
+    ENV[key] = value
   end
 
 end

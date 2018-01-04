@@ -5,7 +5,6 @@ require 'minitest/autorun'
 
 class TestBase < MiniTest::Test
 
-  include Externals
   include TestDomainHelpers
   include TestExternalHelpers
   include TestHexIdHelpers

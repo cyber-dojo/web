@@ -37,9 +37,15 @@ do
     rm -rf ${coverage_dir}/.resultset.json
     test_log="${coverage_dir}/test.log"
     export COVERAGE_DIR=${coverage_dir}
-    # set defaults to _not_ use real services
+
+    # set externals defaults
+    export CYBER_DOJO_DIFFER_CLASS=DifferService
     export CYBER_DOJO_RUNNER_CLASS=RunnerStub
+    export CYBER_DOJO_STARTER_CLASS=StarterService
     export CYBER_DOJO_STORER_CLASS=StorerFake
+    export CYBER_DOJO_ZIPPER_CLASS=ZipperService
+    export CYBER_DOJO_HTTP_CLASS=Http
+
     # run-the-tests!
     cd ${module}
     testFiles=(*_test.rb)

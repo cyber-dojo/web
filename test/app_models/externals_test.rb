@@ -13,17 +13,6 @@ class ExternalsTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'A70E2A',
-  'using an unset external class raises StandardError' do
-    error = StandardError
-    unset_differ_class  && assert_raises(error) { differ.class  }
-    unset_runner_class  && assert_raises(error) { runner.class  }
-    unset_starter_class && assert_raises(error) { starter.class }
-    unset_storer_class  && assert_raises(error) { storer.class  }
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - -
-
   test 'A70880',
   'setting an external class to the name of an existing class succeeds' do
     exists = 'ExternalDouble'

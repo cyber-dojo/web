@@ -2,8 +2,6 @@ require_relative '../../lib/name_of_caller'
 
 module Externals # mix-in
 
-  def env_var; @env_var ||= EnvVar.new; end
-
   def differ ; @differ  ||= external; end
   def runner ; @runner  ||= external; end
   def starter; @starter ||= external; end
@@ -12,13 +10,14 @@ module Externals # mix-in
 
   def http ; @http ||= external; end
 
-  private
+  private # = = = = = = = = =
 
   include NameOfCaller
 
   def external
     key = name_of(caller)
-    var = env_var.value(key + '_class')
+    key = 'CYBER_DOJO_' + name_of(caller).upcase + '_CLASS'
+    var = ENV[key] || fail("ENV[#{key}] not set")
     Object.const_get(var).new(self)
   end
 
