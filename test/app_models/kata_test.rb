@@ -47,9 +47,9 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '40E',
-  "when kata's avatars have 0 traffic-lights",
-  'then it is not active' do
+  test '40E', %w(
+  when kata's avatars have 0 traffic-lights
+  then it is not active ) do
     kata = make_language_kata
     kata.start_avatar(['hippo'])
     kata.start_avatar(['lion'])
@@ -58,9 +58,9 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'DD3',
-  'when kata has at least one avatar with 1 or more traffic-lights',
-  'then kata is active' do
+  test 'DD3', %w(
+  when kata has at least one avatar with 1 or more traffic-lights
+  then kata is active ) do
     kata = make_language_kata
 
     hippo = kata.start_avatar(['hippo'])
@@ -76,8 +76,8 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '205',
-  'make_language_kata with default created-property uses time-now' do
+  test '205', %w(
+  make_language_kata with default created-property uses time-now ) do
     now = Time.now
     kata = make_language_kata
     created = Time.mktime(*kata.created)
@@ -88,8 +88,8 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '51F',
-  'kata properties are union of language properties and exercise instruction' do
+  test '51F', %w(
+  kata properties are union of language properties and exercise instruction ) do
     created = [2017,12,21, 10,40,24]
     options = {
       'created'      => created,
@@ -120,35 +120,35 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '632',
-  'started_avatars is initially empty array' do
-    @kata = make_language_kata
-    assert_equal [], avatars_names
+  test '632', %w(
+  started_avatars is initially empty array ) do
+    kata = make_language_kata
+    assert_equal [], kata.avatars.names
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'B48',
-  'start_avatar() with name that is not a known avatar is nil' do
+  test 'B48', %w(
+  start_avatar() with name that is not a known avatar is nil ) do
     kata = make_language_kata
     assert_nil kata.start_avatar(['sellotape'])
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'C43',
-  %w( start_avatar() with specific name succeeds when avatar has not yet started ) do
-    @kata = make_language_kata
-    hippo = @kata.start_avatar(['hippo'])
+  test 'C43', %w(
+  start_avatar() with specific name succeeds when avatar has not yet started ) do
+    kata = make_language_kata
+    hippo = kata.start_avatar(['hippo'])
     refute_nil hippo
     assert_equal 'hippo', hippo.name
-    assert_equal ['hippo'], avatars_names
+    assert_equal ['hippo'], kata.avatars.names
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '3FA',
-  'start_avatar() with specific name is nil when avatar has already started' do
+  test '3FA', %w(
+  start_avatar() with specific name is nil when avatar has already started ) do
     kata = make_language_kata
     kata.start_avatar(['hippo'])
     avatar = kata.start_avatar(['hippo'])
@@ -157,34 +157,34 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '6C8',
-  'start_avatar() with specific names tries them in order' do
-    @kata = make_language_kata
+  test '6C8', %w(
+  start_avatar() with specific names tries them in order ) do
+    kata = make_language_kata
     names = %w(cheetah lion panda)
 
-    cheetah = @kata.start_avatar(names)
+    cheetah = kata.start_avatar(names)
     refute_nil cheetah
     assert_equal 'cheetah', cheetah.name
-    assert_equal ['cheetah'], avatars_names
+    assert_equal ['cheetah'], kata.avatars.names
 
-    lion = @kata.start_avatar(names)
+    lion = kata.start_avatar(names)
     refute_nil lion
     assert_equal 'lion', lion.name
-    assert_equal ['cheetah','lion'], avatars_names
+    assert_equal ['cheetah','lion'], kata.avatars.names
 
-    panda = @kata.start_avatar(names)
+    panda = kata.start_avatar(names)
     refute_nil panda
     assert_equal 'panda', panda.name
-    assert_equal ['cheetah','lion','panda'], avatars_names
+    assert_equal ['cheetah','lion','panda'], kata.avatars.names
 
-    assert_nil @kata.start_avatar(names)
-    assert_equal names.sort, avatars_names
+    assert_nil kata.start_avatar(names)
+    assert_equal names.sort, kata.avatars.names
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '41A',
-  'start_avatar() succeeds once for each avatar-name then is full' do
+  test '41A', %w(
+  start_avatar() succeeds once for each avatar-name then is full ) do
     kata = make_language_kata
     created = []
     Avatars.names.length.times do
@@ -198,8 +198,8 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'A3D',
-  'start_avatar() starts avatars in random order' do
+  test 'A3D', %w(
+  start_avatar() starts avatars in random order ) do
     kata = make_language_kata
     created = []
     Avatars.names.length.times do
@@ -213,9 +213,9 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'D61',
-  'start_avatar() seamlessly resurrects when',
-  'collector has collected the runner containers/volumes' do
+  test 'D61', %w(
+  when collector has collected the runner containers/volumes
+  then start_avatar() seamlessly resurrects ) do
     set_runner_class('RunnerService')
     kata = make_language_kata({ 'display_name' => 'C (gcc), assert' })
     assert kata.runner_choice == 'stateful'
@@ -227,12 +227,6 @@ class KataTest < AppModelsTestBase
     ensure
       runner.kata_old(kata.image_name, kata.id)
     end
-  end
-
-  private # = = = = = = = = = = = = = =
-
-  def avatars_names
-    @kata.avatars.names
   end
 
 end
