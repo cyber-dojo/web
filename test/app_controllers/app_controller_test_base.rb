@@ -132,7 +132,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
       'id'            => kata.id,
       'runner_choice' => kata.runner_choice,
       'max_seconds'   => (options['max_seconds'] || kata.max_seconds),
-      'image_name'    => kata.image_name,
+      'image_name'    => (options['image_name' ] || kata.image_name),
       'avatar'        => avatar.name
     }
     post '/kata/run_tests', params:params.merge(@params_maker.params)

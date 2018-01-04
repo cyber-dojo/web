@@ -115,7 +115,6 @@ class KataControllerTest  < AppControllerTestBase
   'are NOT converted to tabs and traffic-light is amber' do
     in_kata(:stateful) {
       as_avatar {
-        kata_edit
         run_tests
         assert_equal :red, avatar.lights[-1].colour
         change_file(makefile, makefile_with_leading_spaces)
@@ -190,17 +189,8 @@ class KataControllerTest  < AppControllerTestBase
   'run_tests with bad image_name raises and does not cause resurrection' do
     in_kata(:stateful) {
       as_avatar {
-        kata_edit
-        params = {
-          :format => :js,
-          :id     => kata.id,
-          :runner_choice => kata.runner_choice,
-          :image_name => 'does_not/exist',
-          :avatar => avatar.name,
-          :max_seconds => 10
-        }
         error = assert_raises(StandardError) {
-          post '/kata/run_tests', params:params.merge(@params_maker.params)
+          run_tests({ 'image_name' => 'does_not/exist' })
         }
         assert error.message.start_with?('RunnerService:run_cyber_dojo_sh')
       }
