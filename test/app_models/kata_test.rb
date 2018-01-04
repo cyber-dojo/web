@@ -113,8 +113,7 @@ class KataTest < AppModelsTestBase
     assert_equal 'py.test', kata.minor_name
     assert_equal 'Fizz_Buzz', kata.exercise
     assert_equal 10, kata.max_seconds
-    text = 'Write a program that prints the numbers from 1 to 100.'
-    assert kata.visible_files['instructions'].start_with?(text)
+    assert kata.visible_files['instructions'].start_with?('Fizz_Buzz')
     assert_equal '', kata.visible_files['output']
   end
 
