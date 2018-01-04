@@ -126,12 +126,12 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     @params_maker.new_file(filename, content)
   end
 
-  def run_tests
+  def run_tests(options = {})
     params = {
       'format'        => 'js',
       'id'            => kata.id,
       'runner_choice' => kata.runner_choice,
-      'max_seconds'   => kata.max_seconds,
+      'max_seconds'   => (options['max_seconds'] || kata.max_seconds),
       'image_name'    => kata.image_name,
       'avatar'        => avatar.name
     }

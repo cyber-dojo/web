@@ -38,7 +38,7 @@ class KataControllerTest  < AppControllerTestBase
                   return 6 * 9
           PYTHON_CODE
         )
-        run_tests
+        run_tests({ 'max_seconds' => 3 })
         assert_timed_out
       }
     }
