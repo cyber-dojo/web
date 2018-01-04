@@ -90,7 +90,7 @@ class RunnerServiceTest < AppServicesTestBase
         args = []
         args << kata.image_name
         args << kata.id
-        args << lion
+        args << 'lion'
         args << (max_seconds = 10)
         args << (delta = {
           :deleted   => [ 'instructions' ],
@@ -132,11 +132,11 @@ class RunnerServiceTest < AppServicesTestBase
 
   def as_lion(&block)
     starting_files = kata.visible_files
-    runner.avatar_new(kata.image_name, kata.id, lion, starting_files)
+    runner.avatar_new(kata.image_name, kata.id, 'lion', starting_files)
     begin
       block.call
     ensure
-      runner.avatar_old(kata.image_name, kata.id, lion)
+      runner.avatar_old(kata.image_name, kata.id, 'lion')
     end
   end
 
@@ -147,7 +147,7 @@ class RunnerServiceTest < AppServicesTestBase
     args = []
     args << kata.image_name
     args << kata.id
-    args << lion
+    args << 'lion'
     args << (max_seconds = 10)
     args << (delta = {
       :deleted   => [],
@@ -165,7 +165,7 @@ class RunnerServiceTest < AppServicesTestBase
     {
       :image_name        => kata.image_name,
       :kata_id           => kata.id,
-      :avatar_name       => lion,
+      :avatar_name       => 'lion',
       :new_files         => {},
       :deleted_files     => {},
       :changed_files     => kata.visible_files,

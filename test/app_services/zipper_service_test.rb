@@ -8,6 +8,7 @@ class ZipperServiceTest < AppServicesTestBase
 
   def hex_setup
     set_differ_class('NotUsed')
+    set_starter_class('NotUsed')
     set_storer_class('StorerFake')
     set_runner_class('NotUsed')
   end

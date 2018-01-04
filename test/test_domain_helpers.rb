@@ -47,26 +47,4 @@ module TestDomainHelpers # mix-in
     katas.map { |kata| kata.id }
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def lion
-    'lion'
-  end
-
-  def salmon
-    'salmon'
-  end
-
-  def cheetah
-    'cheetah'
-  end
-
-  def hippo
-    'hippo'
-  end
-
-  def panda
-    'panda'
-  end
-
 end

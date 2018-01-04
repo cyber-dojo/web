@@ -10,11 +10,11 @@ fi
 rm -rf /tmp/cyber-dojo
 
 modules=(
+  lib
   app_helpers
   app_lib
   app_models
   app_services
-  lib
   app_controllers
 )
 
