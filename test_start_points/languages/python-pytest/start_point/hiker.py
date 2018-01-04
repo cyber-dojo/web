@@ -1,4 +1,3 @@
-
 class Hiker:
 
     def answer(self):

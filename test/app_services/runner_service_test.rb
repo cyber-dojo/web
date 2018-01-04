@@ -54,8 +54,6 @@ class RunnerServiceTest < AppServicesTestBase
 
   test '74C',
   'processful run() delegates to processful runner' do
-    # processful is not stubbed in StarterStub yet
-    set_starter_class('StarterService')
     in_kata(:processful) {
       as_lion {
         assert_spied_run_processful

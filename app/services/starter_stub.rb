@@ -20,7 +20,7 @@ class StarterStub
         "highlight_filenames" => [ "test_hiker.py" ],
         "max_seconds" => 11,
         "visible_files" => {
-          "test_hiker.py" => test_hiker_py,
+          "test_hiker.py" => test_hiker_py_unittest,
           "hiker.py" => hiker_py,
           "cyber-dojo.sh" => "python3 -m unittest *test*.py\n",
           "output" => "",
@@ -47,6 +47,23 @@ class StarterStub
           "exercise" => "Fizz_Buzz"
       }
     end
+    if [major_name,minor_name,exercise_name] == ['Python','py.test','Fizz_Buzz']
+      return {
+        "display_name" => "Python, py.test",
+        "image_name" => "cyberdojofoundation/python_pytest",
+        "runner_choice" => "processful",
+        "filename_extension" => ".py",
+        "tab_size" => 4,
+        "visible_files" => {
+          "test_hiker.py" => test_hiker_py_pytest,
+          "hiker.py" => hiker_py,
+          "cyber-dojo.sh" => "pytest *test*.py\n",
+          "output" => "",
+          "instructions" => "Fizz_Buzz"
+        },
+        "exercise" => "Fizz_Buzz"
+      }
+    end
   end
 
   private # = = = = = = = = = = = =
@@ -62,7 +79,18 @@ class StarterStub
 
   # - - - - - - - - - - - - - - - -
 
-  def test_hiker_py
+  def test_hiker_py_pytest
+    <<~PYTHON_CODE
+    import hiker
+
+    def test_life_the_universe_and_everything():
+        '''a simple example to start you off'''
+        douglas = hiker.Hiker()
+        assert douglas.answer() == 42
+    PYTHON_CODE
+  end
+
+  def test_hiker_py_unittest
     <<~PYTHON_CODE
     import hiker
     import unittest

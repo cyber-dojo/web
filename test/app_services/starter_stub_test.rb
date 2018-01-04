@@ -8,6 +8,17 @@ class StarterStubTest < AppServicesTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test '367', %w{
+  Stub mirrors Service for language_manifest(Python,py.test,FizzBuzz)} do
+    service = StarterService.new(self)
+    master = service.language_manifest('Python', 'py.test', 'Fizz_Buzz')
+    stubber = StarterStub.new(nil)
+    stub = stubber.language_manifest('Python', 'py.test', 'Fizz_Buzz')
+    assert_equal stub, master
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '368', %w{
   Stub mirrors Service for language_manifest(Python,unittest,FizzBuzz)} do
     service = StarterService.new(self)

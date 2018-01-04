@@ -216,7 +216,6 @@ class KataTest < AppModelsTestBase
   when collector has collected the runner containers/volumes
   then start_avatar() seamlessly resurrects ) do
     set_runner_class('RunnerService')
-    set_starter_class('StarterService')
     kata = make_language_kata({ 'display_name' => 'C (gcc), assert' })
     assert kata.runner_choice == 'stateful'
     runner.kata_old(kata.image_name, kata.id)

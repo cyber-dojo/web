@@ -48,8 +48,6 @@ class KataControllerTest  < AppControllerTestBase
 
   test '223',
   'run red test' do
-    # processful not in StarterStub yet
-    set_starter_class('StarterService')
     in_kata(:processful) {
       as_avatar {
         run_tests
