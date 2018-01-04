@@ -7,10 +7,6 @@ class TagsTest < AppModelsTestBase
     'A30753'
   end
 
-  def hex_setup
-    set_starter_class('StarterStub')
-  end
-
   #- - - - - - - - - - - - - - - - - - -
 
   test 'AF3',
@@ -68,7 +64,6 @@ class TagsTest < AppModelsTestBase
 
   test 'A42',
   'tags[-n] duplicates Array[-n] behaviour' do
-    set_starter_class('StarterStub')
     in_kata {
       as(:wolf) {
         maker = DeltaMaker.new(wolf)

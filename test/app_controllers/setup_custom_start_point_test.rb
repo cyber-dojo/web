@@ -6,6 +6,10 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
     'EB7634'
   end
 
+  def hex_setup
+    set_starter_class('StarterService')
+  end
+
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test 'B53',

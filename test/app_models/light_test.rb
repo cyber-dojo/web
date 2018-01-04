@@ -7,10 +7,6 @@ class LightTest < AppModelsTestBase
     'AC9AEE'
   end
 
-  def hex_setup
-    set_class('starter', 'StarterStub')
-  end
-
   # - - - - - - - - - - - - - - - - - - - - - - -
 
   test '6D0',

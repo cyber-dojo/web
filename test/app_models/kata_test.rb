@@ -7,10 +7,6 @@ class KataTest < AppModelsTestBase
     '677C0C'
   end
 
-  def hex_setup
-    set_starter_class('StarterStub')
-  end
-
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'A56', %w(

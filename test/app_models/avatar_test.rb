@@ -7,10 +7,6 @@ class AvatarTest < AppModelsTestBase
     'FB7A42'
   end
 
-  def hex_setup
-    set_class('starter', 'StarterStub')
-  end
-
   #- - - - - - - - - - - - - - - - - - - - - - -
 
   test 'E81', %w(

@@ -7,8 +7,9 @@ class KataForkTest < AppModelsTestBase
   end
 
   def hex_setup
-    set_storer_class('StorerService')
     # tests are for specific kata-ids tar-piped into storer
+    set_storer_class('StorerService')
+    set_starter_class('StarterService')
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - -

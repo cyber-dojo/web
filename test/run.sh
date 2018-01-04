@@ -41,7 +41,7 @@ do
     # set externals defaults
     export CYBER_DOJO_DIFFER_CLASS=DifferService
     export CYBER_DOJO_RUNNER_CLASS=RunnerStub
-    export CYBER_DOJO_STARTER_CLASS=StarterService
+    export CYBER_DOJO_STARTER_CLASS=StarterStub
     export CYBER_DOJO_STORER_CLASS=StorerFake
     export CYBER_DOJO_ZIPPER_CLASS=ZipperService
     export CYBER_DOJO_HTTP_CLASS=Http

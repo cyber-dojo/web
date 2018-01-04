@@ -54,6 +54,8 @@ class RunnerServiceTest < AppServicesTestBase
 
   test '74C',
   'processful run() delegates to processful runner' do
+    # processful is not stubbed in StarterStub yet
+    set_starter_class('StarterService')
     in_kata(:processful) {
       as_lion {
         assert_spied_run_processful
@@ -68,7 +70,7 @@ class RunnerServiceTest < AppServicesTestBase
     in_kata(:stateful) {
       as_lion {
         _stdout,stderr,status,colour = runner.run(*run_args)
-        assert stderr.include?('[makefile:14: test.output] Aborted'), stderr
+        assert stderr.include?('[makefile:13: test.output] Aborted'), stderr
         assert stderr.include?('Assertion failed: answer() == 42'), stderr
         assert_equal 2, status
         assert_equal 'red', colour

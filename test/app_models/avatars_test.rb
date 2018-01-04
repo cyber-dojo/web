@@ -6,10 +6,6 @@ class AvatarsTest < AppModelsTestBase
     'B6FE29'
   end
 
-  def hex_setup
-    set_starter_class('StarterStub')
-  end
-
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '149',

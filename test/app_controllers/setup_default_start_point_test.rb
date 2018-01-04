@@ -6,6 +6,10 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     '59C9F4'
   end
 
+  def hex_setup
+    set_starter_class('StarterService')
+  end
+
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test '020',

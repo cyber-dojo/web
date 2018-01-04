@@ -114,6 +114,7 @@ class ForkerControllerTest < AppControllerTestBase
   test 'D4A', %w(
   forking kata from before start-point volume re-architecture ) do
     set_storer_class('StorerService')
+    set_starter_class('StarterService')
     # See test/data/katas_old/421F303E80.tgz
     id = '421F303E80'
     diagnostic = "kata #{id} does not exist!?"

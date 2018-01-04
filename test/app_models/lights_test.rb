@@ -7,10 +7,6 @@ class LightsTest < AppModelsTestBase
     '881852'
   end
 
-  def hex_setup
-    set_starter_class('StarterStub')
-  end
-
   #- - - - - - - - - - - - - - - - - - -
 
   test 'D3F',

@@ -6,10 +6,6 @@ class KatasTest < AppModelsTestBase
     'F3B488'
   end
 
-  def hex_setup
-    set_class('starter', 'StarterStub')
-  end
-
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # katas[id]
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
