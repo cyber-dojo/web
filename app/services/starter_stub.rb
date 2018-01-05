@@ -8,8 +8,8 @@ class StarterStub
   def language_manifest(major_name, minor_name, exercise_name)
     # Important not to make these returned Constants
     # because I manipulate the manifest in tests,
-    # eg deleting kays to test defaults and
-    # eg setting specific id's to test kata-id completions.
+    # eg deleting keys to test kata defaults and
+    # eg setting specific id's to test kata.id completion.
     if [major_name,minor_name,exercise_name] == ['Python','unittest','Fizz_Buzz']
       return {
         "display_name" => "Python, unittest",
