@@ -12,21 +12,15 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '76E',
-  'run_tests with bad kata id raises' do
-    params = {
-      :format => :js,
-      :id     => 'bad'
-    }
+  test '76E', %w( run_tests with bad kata id raises ) do
     assert_raises(StandardError) {
-      post '/kata/run_tests', params:params
+      run_tests({ 'id' => 'bad' })
     }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '221',
-  'run timed_out test' do
+  test '221', %w( smoke timed_out ) do
     in_kata(:stateless) {
       as_avatar {
         change_file('hiker.py',
@@ -46,8 +40,7 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '223',
-  'run red test' do
+  test '223', %w( smoke red ) do
     in_kata(:processful) {
       as_avatar {
         run_tests
@@ -58,8 +51,7 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '224',
-  'run amber test' do
+  test '224', %w( smoke amber ) do
     in_kata(:stateful) {
       as_avatar {
         change_file('hiker.c', 'syntax-error')
@@ -71,8 +63,7 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '225',
-  'run green test' do
+  test '225', %w( smoke green ) do
     in_kata(:stateless) {
       as_avatar {
         sub_file('hiker.py', '6 * 9', '6 * 7')
@@ -110,9 +101,10 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '7FD',
-  'run_tests() on makefile with leading spaces',
-  'are NOT converted to tabs and traffic-light is amber' do
+  test '7FD', %w(
+  run_tests() on makefile with leading spaces
+  are _not_ converted to tabs
+  and the traffic-light is amber ) do
     in_kata(:stateful) {
       as_avatar {
         run_tests
@@ -127,8 +119,8 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '02D',
-  'a new file persists when the RunnerService is stateful' do
+  test '02D', %w(
+  a new file persists for stateful runner_choice ) do
     in_kata(:stateful) {
       as_avatar {
         filename = 'hello.txt'
@@ -144,8 +136,9 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '9DC',
-  'a deleted file stays deleted when the RunnerService is stateful' do
+  test '9DC', %w(
+  a deleted file stays deleted in the next run
+  for stateful runner_choice ) do
     in_kata(:stateful) {
       as_avatar {
         filename = 'instructions'
@@ -162,9 +155,10 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '569',
-  'when cyber-dojo.sh creates a file then it disappears',
-  'when RunnerService is stateless' do
+  test '569', %w(
+   when cyber-dojo.sh creates a file
+   then it disappears on the next run
+   for stateless runner_choice ) do
     in_kata(:stateless) {
       as_avatar {
         filename = 'wibble.txt'
@@ -185,8 +179,9 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '3FD',
-  'run_tests with bad image_name raises and does not cause resurrection' do
+  test '3FD', %w(
+  run_tests with bad image_name raises
+  and does not cause resurrection ) do
     in_kata(:stateful) {
       as_avatar {
         error = assert_raises(StandardError) {
@@ -199,8 +194,8 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '555',
-  'run_tests for an old avatar seamlessly resurrects' do
+  test '555', %w(
+  run_tests for an old avatar seamlessly resurrects ) do
     in_kata(:stateful) {
       as_avatar {
         run_tests # 1
@@ -231,8 +226,8 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'E40',
-  'run_tests for an old kata seamlessly resurrects' do
+  test 'E40', %w(
+  run_tests for an old kata seamlessly resurrects ) do
     in_kata(:stateful) {
       as_avatar {
         run_tests # 1
@@ -267,8 +262,8 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'B75',
-  'show-json (for Atom editor)' do
+  test 'B75', %w(
+  show-json which is used in an Atom plugin ) do
     in_kata(:stateful) {
       as_avatar {
         kata_edit

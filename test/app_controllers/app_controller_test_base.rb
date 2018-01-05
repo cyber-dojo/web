@@ -129,7 +129,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   def run_tests(options = {})
     params = {
       'format'        => 'js',
-      'id'            => kata.id,
+      'id'            => (options['id'] || kata.id),
       'runner_choice' => kata.runner_choice,
       'max_seconds'   => (options['max_seconds'] || kata.max_seconds),
       'image_name'    => (options['image_name' ] || kata.image_name),
