@@ -10,7 +10,6 @@ class StorerFakeTest < AppServicesTestBase
 
   def hex_setup
     set_differ_class('NotUsed')
-    set_starter_class('NotUsed')
     set_storer_class('StorerFake')
     set_runner_class('NotUsed')
   end
@@ -67,7 +66,7 @@ class StorerFakeTest < AppServicesTestBase
 
   test '933',
   'create_kata with missing id raises' do
-    manifest = make_manifest(nil)
+    manifest = make_manifest
     manifest.delete('id')
     error = assert_raises(ArgumentError) {
       storer.create_kata(manifest)
@@ -419,8 +418,8 @@ class StorerFakeTest < AppServicesTestBase
     args = []
     args << kata_id
     args << 'lion'
-    args << (files1 = starting_files)
-    args << (now1 = [2016,12,8,8,3,23])
+    args << (files1 = kata.visible_files)
+    args << (now1 = [2016,12,8, 8,3,23])
     args << (output = 'Assert failed: answer() == 42')
     args << (colour1 = 'red')
     storer.avatar_ran_tests(*args)
@@ -435,10 +434,10 @@ class StorerFakeTest < AppServicesTestBase
     args = []
     args << kata_id
     args << 'lion'
-    files2 = starting_files
-    files2['hiker.c'] = '6*7';
+    files2 = kata.visible_files
+    files2['hiker.c'] = '...6*7...';
     args << files2
-    args << (now2 = [2016,12,8,9,54,20])
+    args << (now2 = [2016,12,8, 9,54,20])
     args << (output = 'All tests passed')
     args << (colour2 = 'green')
     storer.avatar_ran_tests(*args)
@@ -466,7 +465,7 @@ class StorerFakeTest < AppServicesTestBase
     args = []
     args << kata_id
     args << 'lion'
-    files = starting_files
+    files = kata.visible_files
     files['hiker.c'] = '6*7';
     args << files
     args << (now = [2017,12,28, 10,53,20])
@@ -521,7 +520,7 @@ class StorerFakeTest < AppServicesTestBase
     assert_equal 'invalid tag', error.message
   end
 
-  private
+  private # = = = = = = = = = = = =
 
   def create_kata(id = kata_id)
     manifest = make_manifest(id)
@@ -529,15 +528,10 @@ class StorerFakeTest < AppServicesTestBase
   end
 
   def make_manifest(id = kata_id)
-    {
-      'id'            => id,
-      'created'       => creation_time,
-      'image_name'    => 'cyberdojofoundation/gcc_assert',
-      'runner_choice' => 'stateless',
-      'display_name'  => 'C (gcc), assert',
-      'visible_files' => starting_files,
-      'exercise'      => 'Fizz_Buzz'
-    }
+    manifest = starter.language_manifest('C (gcc)','assert','Fizz_Buzz')
+    manifest['id'] = id
+    manifest['created'] = creation_time
+    manifest
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - -
