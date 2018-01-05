@@ -13,9 +13,10 @@ class KataControllerTest  < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '76E', %w( run_tests with bad kata id raises ) do
-    assert_raises(StandardError) {
+    error = assert_raises(StandardError) {
       run_tests({ 'id' => 'bad' })
     }
+    assert_equal 'invalid kata_id', error.message
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
