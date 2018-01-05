@@ -10,12 +10,10 @@ class TipTest < AppHelpersTestBase
 
   test 'D52',
   'traffic light tip' do
-    kata = make_language_kata({
-      'display_name' => default_language_name('stateful')
-    })
+    kata = make_language_kata({ 'display_name' => 'C (gcc), assert' })
     lion = kata.start_avatar(['lion'])
     files = kata.visible_files
-    now = [2016,12,22,5,55,11]
+    now = [2016,12,22, 5,55,11]
     output = "makefile:14: recipe for target 'test.output' failed"
     was_colour = :red
     lion.tested(files, now, output, was_colour) # 1

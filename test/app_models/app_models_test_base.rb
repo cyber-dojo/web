@@ -9,7 +9,7 @@ class AppModelsTestBase < TestBase
       processful: 'Python, py.test'
     }[runner_choice]
     refute_nil display_name, runner_choice
-    make_language_kata
+    make_language_kata({ 'display_name' => display_name })
     begin
       block.call
     ensure

@@ -13,11 +13,8 @@ module TestDomainHelpers # mix-in
     katas.create_kata(manifest)
   end
 
-  def default_language_name(runner_choice = 'stateless')
-    case runner_choice
-    when 'stateful'  then 'C (gcc), assert'
-    when 'stateless' then 'Python, unittest'
-    end
+  def default_language_name
+    'C (gcc), assert'
   end
 
   def default_exercise_name
