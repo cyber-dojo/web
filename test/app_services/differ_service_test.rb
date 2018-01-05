@@ -8,8 +8,6 @@ class DifferServiceTest < AppServicesTestBase
 
   def hex_setup
     set_differ_class('DifferService')
-    set_storer_class('StorerFake')
-    set_runner_class('RunnerService') # TODO decouple
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
