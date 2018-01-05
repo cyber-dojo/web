@@ -270,9 +270,9 @@ class KataControllerTest  < AppControllerTestBase
 
   test 'B75', %w(
   show-json which is used in an Atom plugin ) do
+    set_runner_class('RunnerStub')
     in_kata(:stateful) {
       as_avatar {
-        kata_edit
         run_tests
         params = { :format => :json, :id => kata.id, :avatar => avatar.name }
         get '/kata/show_json', params:params
