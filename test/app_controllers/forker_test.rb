@@ -62,10 +62,6 @@ class ForkerControllerTest < AppControllerTestBase
         forked_kata = katas[forked_kata_id]
         assert_not_nil forked_kata
         assert_equal kata.image_name, forked_kata.image_name
-        #avatar.visible_files.each do |filename,content|
-        #  assert forked_kata.visible_files.keys.include? filename
-        #  assert_equal content, forked_kata.visible_files[filename]
-        #end
         origin_filenames = avatar.visible_files.keys
         forked_filenames = forked_kata.visible_files.keys
         assert_equal origin_filenames.sort, forked_filenames.sort
