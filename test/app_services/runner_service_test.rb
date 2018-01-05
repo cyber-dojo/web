@@ -16,16 +16,18 @@ class RunnerServiceTest < AppServicesTestBase
 
   test '102',
   'image_pulled?' do
-    make_language_kata
-    refute runner.image_pulled?('cyberdojo/non_existant', kata_id)
+    in_kata {
+      refute runner.image_pulled?('cyberdojo/non_existant', kata_id)
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '103',
   'image_pull' do
-    make_language_kata
-    refute runner.image_pull('cyberdojo/non_existant', kata_id)
+    in_kata {
+      refute runner.image_pull('cyberdojo/non_existant', kata_id)
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -110,7 +112,7 @@ class RunnerServiceTest < AppServicesTestBase
 
   private # = = = = = = = = = = = = = = = = = = =
 
-  def in_kata(runner_choice, &block)
+  def in_kata(runner_choice = :stateless, &block)
     display_name = {
         stateless: 'Python, unittest',
          stateful: 'C (gcc), assert',
