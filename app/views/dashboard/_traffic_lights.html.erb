@@ -26,7 +26,6 @@ $(function() {
 
   <% if @minute_columns == 'true' %>
     <tr>
-      <% seconds = 0 %>
       <% @time_ticks.keys.sort.each_with_index do |td_no,index| %>
   		  <% seconds = @time_ticks[td_no] %>
   		  <td class="<%= parity(index) %> column">
@@ -40,7 +39,7 @@ $(function() {
       <td></td>
       <td></td>
       <td>
-        <div class='age' data-tip="age of oldest traffic-light<br/>(days:hours:mins)"><%= raw time_tick(seconds) %></div>
+        <div class='age' data-tip="time between oldest and newest traffic-lights"><%= raw time_tick(@kata.age) %></div>
       </td>
     </tr>
   <% end %>

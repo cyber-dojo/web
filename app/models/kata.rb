@@ -146,7 +146,7 @@ class Kata
         last_times  << lights[-1].time
       end
     end
-    first_times == [] ? 0 : last_times.sort[-1] - first_times.sort[0]
+    first_times == [] ? 0 : (last_times.sort[-1] - first_times.sort[0]).to_i
   end
 
   def progress_regexs

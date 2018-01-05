@@ -8,23 +8,21 @@ module TimeTickHelper # mix-in
     hours   = (seconds / 60 / 60) % 24
     days    = (seconds / 60 / 60 / 24)
 
-    hours_per_day = 24;
-    minutes_per_hour = 60
-    seconds_per_minute = 60;
-    seconds_per_hour = seconds_per_minute * minutes_per_hour;
-    seconds_per_day = seconds_per_hour * hours_per_day;
-
     tick = ''
-    if seconds >= seconds_per_day
-      tick += days.to_s + ':'
+    if seconds >= SECONDS_PER_DAY
+      tick += days.to_s + 'd:'
     end
-    if seconds >= seconds_per_hour
-      tick += ('%02d' % hours) + ':'
+    if seconds >= SECONDS_PER_HOUR
+      tick += hours.to_s + 'h:'
     end
-    if seconds >= seconds_per_minute
-      tick += ('%02d' % minutes)
-    end
-    tick
+    tick += minutes.to_s + 'm'
   end
+
+  HOURS_PER_DAY = 24
+  MINUTES_PER_HOUR = 60
+  SECONDS_PER_MINUTE = 60
+
+  SECONDS_PER_HOUR = SECONDS_PER_MINUTE * MINUTES_PER_HOUR
+  SECONDS_PER_DAY = SECONDS_PER_HOUR * HOURS_PER_DAY
 
 end

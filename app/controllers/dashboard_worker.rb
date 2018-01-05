@@ -1,17 +1,10 @@
+require_relative '../../lib/time_now' # [1]
 
 module DashboardWorker # mixin
 
   module_function
 
   def gather
-    # Showing the dashboard uses 2 calls to the storer.
-    # One explicit one for storer.kata_increments()
-    # and one hidden one to storer.kata_manifest()
-    # for the kata's progress_regexs in the
-    # progress button's partial.
-    # The kata manifest is cached so @kata.created
-    # uses the cache and does not cause a second call
-    # to storer.kata_manifest()
     @kata = kata
     @minute_columns = bool('minute_columns')
     @auto_refresh = bool('auto_refresh')
@@ -84,3 +77,7 @@ module DashboardWorker # mixin
   end
 
 end
+
+# [1] I see the occasional
+# ActionController::RoutingError (uninitialized constant DashboardWorker::TimeNow):
+# in the log unless I add this require

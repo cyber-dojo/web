@@ -42,7 +42,7 @@
       display: block;
       @include non-code-font();
       text-align: center;
-      font-size: 10px;
+      font-size: 13px;
       color: lighten(black,90%);
     }
     .column {
@@ -53,10 +53,10 @@
     }
     .collapsed-multi-gap {
         display: inline-block;
-      font-size: 0.1em;
+      font-size: 18px;
           color: lighten(black,60%);
-         margin: { left: 1px; right: 1px; bottom: 10px; }
-      &:after { content: '...'; }
+         margin: { left: 3px; right: 3px; bottom: 10px; }
+      &:after { content: "\2026"; } // ellipsis
     }
     .gap {
         font-size: 0.7em;
