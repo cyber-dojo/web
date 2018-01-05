@@ -1,4 +1,3 @@
-require_relative '../../lib/name_of_caller'
 
 module Externals # mix-in
 
@@ -12,13 +11,15 @@ module Externals # mix-in
 
   private # = = = = = = = = =
 
-  include NameOfCaller
-
   def external
-    key = name_of(caller)
     key = 'CYBER_DOJO_' + name_of(caller).upcase + '_CLASS'
     var = ENV[key] || fail("ENV[#{key}] not set")
     Object.const_get(var).new(self)
+  end
+
+  def name_of(caller)
+    # eg caller[0] == "dojo.rb:7:in `exercises'"
+    /`(?<name>[^']*)/ =~ caller[0] && name
   end
 
 end

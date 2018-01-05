@@ -142,14 +142,17 @@ class Kata
 
   private # = = = = = = = = = =
 
-  include NameOfCaller
-
   def manifest_property
     manifest[name_of(caller)]
   end
 
   def manifest
     @manifest ||= updated(storer.kata_manifest(id))
+  end
+
+  def name_of(caller)
+    # eg caller[0] == "kata.rb:1077:in `tab_size'"
+    /`(?<name>[^']*)/ =~ caller[0] && name
   end
 
   # - - - - - - - - - - - - -
