@@ -54,6 +54,8 @@ module TestHexIdHelpers # mix-in
     end
 
     ObjectSpace.define_finalizer(self, proc {
+      puts
+      puts 'Slowest 5 tests are...'
       sorted = Hash[@@timings.sort_by{ |name,secs| -secs}]
       sorted.each_with_index { |(name,secs),index|
         puts "%3.2f - %s" % [secs,name.truncate(72)]
