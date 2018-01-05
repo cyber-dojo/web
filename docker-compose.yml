@@ -43,7 +43,7 @@ services:
     environment:
       - CYBER_DOJO_START_POINTS_ROOT
     volumes:
-      - ./test_start_points:${CYBER_DOJO_START_POINTS_ROOT}:ro
+      - ./test/data/start_points:${CYBER_DOJO_START_POINTS_ROOT}:ro
 
   # - - - - - - - - - - - - - - - -
 
