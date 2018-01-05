@@ -118,10 +118,6 @@ class KataForkTest < AppModelsTestBase
     assert_equal expected, kata.id, 'id'
   end
 
-  def assert_created(expected)
-    assert_equal expected, kata.created.to_s, 'created'
-  end
-
   def assert_display_name(expected)
     assert_equal expected, kata.display_name, 'display_name'
   end
