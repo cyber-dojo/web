@@ -8,6 +8,8 @@ class KataTest < AppModelsTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # id
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'A56', %w(
   make_language_kata() helper defaults to using test hex-id as kata-id ) do
@@ -16,26 +18,32 @@ class KataTest < AppModelsTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # exists?
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '5A7', %w( exists? false when id is valid but kata has not been made ) do
-    refute katas[kata_id].exists?
-  end
-
-  test '5A8', %w( exists? is false when id is invalid ) do
+  test '5A7', %w(
+  when id is invalid
+  then exists? is false  ) do
     refute katas[nil].exists?
   end
 
-  test '5A9', %w( exists? is true when id is valid and katas has been made ) do
+  test '5A8', %w(
+  when id is valid
+  but kata has not been setup
+  then exists? false ) do
+    refute katas[kata_id].exists?
+  end
+
+  test '5A9', %w(
+  when id is valid
+  and the kata has been setup
+  then exists? is true  ) do
     kata = make_language_kata
     assert kata.exists?
   end
 
-
-  test '9AE', %w( when kata has no avatars, then it is not active ) do
-    kata = make_language_kata
-    refute kata.active?
-  end
-
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # major_name, minor_name
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '8C8', %w(
@@ -46,9 +54,20 @@ class KataTest < AppModelsTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # active?
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '9AE', %w(
+  when kata has no avatars
+  then it is not active ) do
+    kata = make_language_kata
+    refute kata.active?
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '40E', %w(
-  when kata's avatars have 0 traffic-lights
+  when kata's avatars have no traffic-lights
   then it is not active ) do
     kata = make_language_kata
     kata.start_avatar(['hippo'])
@@ -74,6 +93,109 @@ class KataTest < AppModelsTestBase
     assert kata.active?
   end
 
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # age
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'DD4', %w(
+  when a kata has no avatars
+  then its age is zero seconds ) do
+    kata = make_language_kata
+    assert_equal 0, kata.age
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'DD5', %w(
+  when a kata has avatars
+  but none of them have any traffic-lights
+  then its age is zero seconds ) do
+    kata = make_language_kata
+    kata.start_avatar(['kingfisher'])
+    kata.start_avatar(['parrot'])
+    assert_equal 0, kata.age
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'DD6', %w(
+  when a kata has avatars
+  and one of them has one traffic-light
+  then its age is zero seconds ) do
+    kata = make_language_kata
+    kata.start_avatar(['panda'])
+    salmon = kata.start_avatar(['salmon'])
+    DeltaMaker.new(salmon).run_test([2014,2,15, 8,54,6])
+    assert_equal 0, kata.age
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'DD7', %w(
+  when a kata has two avatars
+  and they both have one one traffic-light
+  with exactly the same time-stamp
+  then its age is zero ) do
+    kata = make_language_kata
+    swan = kata.start_avatar(['swan'])
+    lion = kata.start_avatar(['lion'])
+    time = [2018,1,2, 8,54,6]
+    DeltaMaker.new(swan).run_test(time)
+    DeltaMaker.new(lion).run_test(time)
+    assert_equal 0, kata.age
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'DD8', %w(
+  when a kata one avatar
+  and it has two traffic-lights
+  then its age is the time difference ) do
+    kata = make_language_kata
+    squid = kata.start_avatar(['squid'])
+    first_time       = [2018,1,3, 8,54,6]
+    one_second_later = [2018,1,3, 8,54,7]
+    maker = DeltaMaker.new(squid)
+    maker.run_test(first_time)
+    maker.run_test(one_second_later)
+    assert_equal 1, kata.age
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'DD9', %w(
+  when a katas has two avatars
+  each with one traffic-light
+  then its age is the time difference ) do
+    kata = make_language_kata
+    swan = kata.start_avatar(['swan'])
+    lion = kata.start_avatar(['lion'])
+    swan_time = [2018,1,2, 8,13,56]
+    DeltaMaker.new(swan).run_test(swan_time)
+    lion_time = [2018,1,2, 8,14,19]
+    DeltaMaker.new(lion).run_test(lion_time)
+    assert_equal (4+19), kata.age
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'DDA', %w(
+  when a katas has two avatars
+  each with several traffic-light
+  then its age is the time difference
+  between the earliest and latest traffic-light ) do
+    kata = make_language_kata
+    swan = kata.start_avatar(['swan'])
+    DeltaMaker.new(swan).run_test([2018,1,2, 8,13,56]) # earliest
+    DeltaMaker.new(swan).run_test([2018,1,2, 8,14,23])
+    lion = kata.start_avatar(['lion'])
+    DeltaMaker.new(lion).run_test([2018,1,2, 8,14,19])
+    DeltaMaker.new(lion).run_test([2018,1,2, 8,15,45]) # latest
+    assert_equal (4+60+45), kata.age
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # created
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '205', %w(

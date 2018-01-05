@@ -133,6 +133,22 @@ class Kata
     Time.mktime(*manifest_property)
   end
 
+  def age
+    first_times = []
+    last_times = []
+    # using storer.kata_increments() as BatchMethod
+    storer.kata_increments(id).each do |name,increments|
+      avatar = Avatar.new(@externals, self, name)
+      tags = increments.map { |h| Tag.new(@externals, avatar, h) }
+      lights = tags.select(&:light?)
+      if lights != []
+        first_times << lights[0].time
+        last_times  << lights[-1].time
+      end
+    end
+    first_times == [] ? 0 : last_times.sort[-1] - first_times.sort[0]
+  end
+
   def progress_regexs
     # [] is not a valid progress_regex.
     # It needs two regexs.
