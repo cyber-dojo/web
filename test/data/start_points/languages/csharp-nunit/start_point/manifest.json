@@ -1,0 +1,16 @@
+
+{
+  "display_name": "C#, NUnit",
+
+  "visible_filenames": [
+    "HikerTest.cs",
+    "Hiker.cs",
+    "cyber-dojo.sh"
+  ],
+
+  "image_name": "cyberdojofoundation/csharp_nunit",
+
+  "runner_choice": "stateless",
+
+  "filename_extension" : ".cs"
+}

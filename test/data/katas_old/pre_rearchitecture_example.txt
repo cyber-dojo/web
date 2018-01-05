@@ -1,0 +1,51 @@
+
+converter/42/0BD5D5BE/manifest.json
+
+      "id": "420BD5D5BE"
+      "created": [2016,8,1,22,54,33]
+      "language": "Python-py.test",
+      "exercise": "Fizz_Buzz",
+      "tab_size": 4,
+      "visible_files": {
+        "test_hiker.py": "...",
+        "hiker.py": "...",
+        "cyber-dojo.sh": "...",
+        "output": "",
+        "instructions": "..."
+      }
+      "unit_test_framework": "python_pytest",
+
+converter/42/0BD5D5BE/hummingbird/manifest.json
+
+      {
+        "test_hiker.py": "...",
+        "hiker.py": "...",
+        "cyber-dojo.sh": "...",
+        "output": "",
+        "instructions": "..."
+      }
+
+--------------------------------------
+
+converter/42/0A357116/manifest.json  SAME
+  id
+  created: [2015,11,5,18,43,18]
+  language: Javascript-jasmine
+  exercise
+  tab_size
+  visible_files
+  unit_test_framework
+
+converter/42/1AFD7EC5/manifest.json SAME
+  language: Ruby-Rspec
+
+converter/42/1F303E80/manifest.json
+  id
+  created: [2013,2,18,13,22,10]
+  language: C
+  exercise
+  tab_size
+  visible_files
+  unit_test_framework
+  browser
+
