@@ -76,29 +76,34 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-=begin
-  test 'B29',
-  'run() caches info so it only issues a',
-  'single command to storer to save ran_test result' do
+  class StorerDummy
+    def avatar_ran_tests(_kata_id, _avatar_name, _files, _now, _output, _colour)
+    end
+  end
+
+  test 'B29', %w(
+  the browser caches all the run_test parameters
+  to ensure run_tests() only issues a
+  single storer command to save the test-run result ) do
     in_kata(:stateless) {
       as_avatar {
-        kata_edit
         params = {
           :format => :js,
-          :id     => kata.id,
+          :id => kata.id,
           :runner_choice => kata.runner_choice,
           :image_name => kata.image_name,
           :avatar => avatar.name,
-          :max_seconds => 10
+          :max_seconds => kata.max_seconds
         }
-        # count the calls?
-        set_storer_class('NotUsed')
-        # @params_maker is really file_params_maker
-        post '/kata/run_tests', params:params.merge(@params_maker.params)
+        @storer = StorerDummy.new
+        begin
+          post '/kata/run_tests', params:params.merge(@params_maker.params)
+        ensure
+          @storer = nil
+        end
       }
     }
   end
-=end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
