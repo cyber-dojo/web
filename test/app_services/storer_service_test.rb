@@ -55,10 +55,12 @@ class StorerServiceTest < AppServicesTestBase
     assert_equal files0, storer.tag_visible_files(kata_id, 'lion', tag=0)
     assert_equal [tag0], storer.avatar_increments(kata_id, 'lion')
 
+    files1 = kata.visible_files
+    files1['readme.txt'] = 'more info'
     args = []
     args << kata_id
     args << 'lion'
-    args << (files1 = edited_files)
+    args << files1
     args << (now = [2016,12,8, 8,3,23])
     args << (output = 'Assert failed: answer() == 42')
     args << (colour = 'red')
@@ -74,14 +76,6 @@ class StorerServiceTest < AppServicesTestBase
     json = storer.tags_visible_files(kata_id, 'lion', was_tag=0, now_tag=1)
     assert_equal files0, json['was_tag']
     assert_equal files1, json['now_tag']
-  end
-
-  private
-
-  def edited_files
-    edited = starting_files.clone
-    edited['readme.txt'] = 'more info'
-    edited
   end
 
 end

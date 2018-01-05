@@ -150,8 +150,8 @@ class StorerFakeTest < AppServicesTestBase
   # - - - - - - - - - - - - - - - - - - - - -
 
   test '93B',
-  'avatar_ran_tests(id) with invalid id raises' do
-    args = [ 'sdsdfsdf', 'lion', starting_files ]
+  'avatar_ran_tests(kata_id) with invalid kata_id raises' do
+    args = [ invalid_kata_id, 'lion', any_starting_files={'cyber-dojo.sh'=>'pwd'} ]
     args += [ time_now, 'output', 'red' ]
     error = assert_raises(ArgumentError) {
       storer.avatar_ran_tests(*args)
