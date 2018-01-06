@@ -12,9 +12,47 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'A56', %w(
-  make_language_kata() helper defaults to using test hex-id as kata-id ) do
-    kata = make_language_kata
+  default to using test-hex-id as kata-id ) do
+    in_kata {
+      assert kata.id.start_with?('677C0CA56')
+    }
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # manifest properties
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '51F', %w(
+  kata properties are union of language properties and exercise instruction
+  together with major_name,minor_name which are comma-separated
+  parts of the display_name ) do
+    created = [2017,12,21, 10,40,24]
+    options = {
+      'created'      => created,
+      'display_name' => 'Python, unittest',
+      'exercise'     => 'Fizz_Buzz',
+    }
+    kata = make_language_kata(options)
+
     assert_equal kata_id, kata.id
+    assert_equal Time.mktime(*created), kata.created
+    assert_equal 'stateless', kata.runner_choice
+    assert_equal 'cyberdojofoundation/python_unittest', kata.image_name
+    assert_equal 3, kata.tab_size
+
+    assert_equal 'Python, unittest', kata.display_name
+    assert_equal 'Python', kata.major_name
+    assert_equal 'unittest', kata.minor_name
+
+    assert_equal '.py', kata.filename_extension
+
+    assert_equal ['FAILED \\(failures=\\d+\\)', 'OK'], kata.progress_regexs
+    assert_equal ['test_hiker.py'], kata.highlight_filenames
+    assert_equal ['hiker.py','cyber-dojo.sh','output','instructions'], kata.lowlight_filenames
+    assert_equal 'Fizz_Buzz', kata.exercise
+    assert_equal 11, kata.max_seconds
+    assert_equal 'Fizz_Buzz', kata.visible_files['instructions']
+    assert_equal '', kata.visible_files['output']
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -38,19 +76,9 @@ class KataTest < AppModelsTestBase
   when id is valid
   and the kata has been setup
   then exists? is true  ) do
-    kata = make_language_kata
-    assert kata.exists?
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # major_name, minor_name
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '8C8', %w(
-  major_name,minor_name are comma-separated parts of display_name ) do
-    kata = make_language_kata({ 'display_name' => 'Python, unittest' })
-    assert_equal 'Python', kata.major_name
-    assert_equal 'unittest', kata.minor_name
+    in_kata {
+      assert kata.exists?
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -200,136 +228,113 @@ class KataTest < AppModelsTestBase
 
   test '205', %w(
   make_language_kata with default created-property uses time-now ) do
-    now = Time.now
     kata = make_language_kata
     created = Time.mktime(*kata.created)
+    now = Time.now
     past = Time.mktime(now.year, now.month, now.day, now.hour, now.min, now.sec)
     diff = created - past
     assert 0 <= diff && diff <= 1, "created=#{created}, past=#{past}, diff=#{past}"
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '51F', %w(
-  kata properties are union of language properties and exercise instruction ) do
-    created = [2017,12,21, 10,40,24]
-    options = {
-      'created'      => created,
-      'display_name' => 'Python, unittest',
-      'exercise'     => 'Fizz_Buzz',
-    }
-    kata = make_language_kata(options)
-
-    assert_equal kata_id, kata.id
-    assert_equal Time.mktime(*created), kata.created
-    assert_equal 'stateless', kata.runner_choice
-    assert_equal 'cyberdojofoundation/python_unittest', kata.image_name
-    assert_equal 3, kata.tab_size
-    assert_equal 'Python, unittest', kata.display_name
-    assert_equal '.py', kata.filename_extension
-
-    assert_equal ['FAILED \\(failures=\\d+\\)', 'OK'], kata.progress_regexs
-    assert_equal ['test_hiker.py'], kata.highlight_filenames
-    assert_equal ['hiker.py','cyber-dojo.sh','output','instructions'], kata.lowlight_filenames
-    assert_equal 'Python', kata.major_name
-    assert_equal 'unittest', kata.minor_name
-    assert_equal 'Fizz_Buzz', kata.exercise
-    assert_equal 11, kata.max_seconds
-    assert_equal 'Fizz_Buzz', kata.visible_files['instructions']
-    assert_equal '', kata.visible_files['output']
-  end
-
+  # start_avatar
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '632', %w(
   started_avatars is initially empty array ) do
-    kata = make_language_kata
-    assert_equal [], kata.avatars.names
+    in_kata {
+      assert_equal [], kata.avatars.names
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'B48', %w(
   start_avatar() with name that is not a known avatar is nil ) do
-    kata = make_language_kata
-    assert_nil kata.start_avatar(['sellotape'])
+    in_kata {
+      assert_nil kata.start_avatar(['sellotape'])
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'C43', %w(
   start_avatar() with specific name succeeds when avatar has not yet started ) do
-    kata = make_language_kata
-    hippo = kata.start_avatar(['hippo'])
-    refute_nil hippo
-    assert_equal 'hippo', hippo.name
-    assert_equal ['hippo'], kata.avatars.names
+    in_kata {
+      hippo = kata.start_avatar(['hippo'])
+      refute_nil hippo
+      assert_equal 'hippo', hippo.name
+      assert_equal ['hippo'], kata.avatars.names
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '3FA', %w(
   start_avatar() with specific name is nil when avatar has already started ) do
-    kata = make_language_kata
-    kata.start_avatar(['hippo'])
-    avatar = kata.start_avatar(['hippo'])
-    assert_nil avatar
+    in_kata {
+      refute_nil kata.start_avatar(['hippo'])
+      assert_nil kata.start_avatar(['hippo'])
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '6C8', %w(
   start_avatar() with specific names tries them in order ) do
-    kata = make_language_kata
-    names = %w(cheetah lion panda)
+    in_kata {
+      names = %w(cheetah lion panda)
 
-    cheetah = kata.start_avatar(names)
-    refute_nil cheetah
-    assert_equal 'cheetah', cheetah.name
-    assert_equal ['cheetah'], kata.avatars.names
+      cheetah = kata.start_avatar(names)
+      refute_nil cheetah
+      assert_equal 'cheetah', cheetah.name
+      assert_equal ['cheetah'], kata.avatars.names
 
-    lion = kata.start_avatar(names)
-    refute_nil lion
-    assert_equal 'lion', lion.name
-    assert_equal ['cheetah','lion'], kata.avatars.names
+      lion = kata.start_avatar(names)
+      refute_nil lion
+      assert_equal 'lion', lion.name
+      assert_equal ['cheetah','lion'], kata.avatars.names
 
-    panda = kata.start_avatar(names)
-    refute_nil panda
-    assert_equal 'panda', panda.name
-    assert_equal ['cheetah','lion','panda'], kata.avatars.names
+      panda = kata.start_avatar(names)
+      refute_nil panda
+      assert_equal 'panda', panda.name
+      assert_equal ['cheetah','lion','panda'], kata.avatars.names
 
-    assert_nil kata.start_avatar(names)
-    assert_equal names.sort, kata.avatars.names
+      assert_nil kata.start_avatar(names)
+      assert_equal names.sort, kata.avatars.names
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '41A', %w(
   start_avatar() succeeds once for each avatar-name then is full ) do
-    kata = make_language_kata
-    created = []
-    Avatars.names.length.times do
-      avatar = kata.start_avatar
-      refute_nil avatar
-      created << avatar.name
-    end
-    assert_equal Avatars.names.sort, created.sort
-    assert_nil kata.start_avatar
+    in_kata {
+      created = []
+      Avatars.names.length.times do
+        avatar = kata.start_avatar
+        refute_nil avatar
+        created << avatar.name
+      end
+      assert_equal Avatars.names.sort, created.sort
+      assert_nil kata.start_avatar
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'A3D', %w(
   start_avatar() starts avatars in random order ) do
-    kata = make_language_kata
-    created = []
-    Avatars.names.length.times do
-      avatar = kata.start_avatar
-      refute_nil avatar
-      created << avatar.name
-    end
-    assert_equal Avatars.names.sort, created.sort
-    refute_equal created, created.sort
+    in_kata {
+      created = []
+      Avatars.names.length.times do
+        avatar = kata.start_avatar
+        refute_nil avatar
+        created << avatar.name
+      end
+      assert_equal Avatars.names.sort, created.sort
+      refute_equal created, created.sort
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
