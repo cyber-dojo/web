@@ -30,11 +30,6 @@ module TestDomainHelpers # mix-in
   # - - - - - - - - - - - - - - - -
 
   def wolf
-    # Idea: wrap the avatar object inside a DeltaMaker
-    # and return that as a 'proxy'. This would allow
-    # lines such as
-    #    maker = DeltaMaker.new(wolf)
-    # to disappear from test code
     kata.avatars['wolf']
   end
 
