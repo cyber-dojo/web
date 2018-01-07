@@ -4,7 +4,8 @@ class ForkerController < ApplicationController
   def fork
     begin
       tag_visible_files = storer.tag_visible_files(id, avatar_name, tag)
-      manifest = kata.fork(tag_visible_files)
+      manifest = kata.fork_manifest(tag_visible_files)
+      katas.create_kata(manifest)
       result = {
               forked: true,
                   id: manifest['id'],

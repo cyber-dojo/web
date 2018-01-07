@@ -1,10 +1,9 @@
 
 class Kata
 
-  def initialize(externals, katas, id)
+  def initialize(externals, id)
     # Does *not* validate.
     @externals = externals
-    @katas = katas
     @id = id
   end
 
@@ -29,12 +28,11 @@ class Kata
 
   # - - - - - - - - - - - - -
 
-  def fork(visible_files)
+  def fork_manifest(visible_files)
     forked = manifest.clone
     forked.delete('id')
     forked.delete('created')
     forked['visible_files'] = visible_files
-    @katas.create_kata(forked)
     forked
   end
 
