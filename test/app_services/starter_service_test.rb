@@ -30,14 +30,12 @@ class StarterServiceTest < AppServicesTestBase
     json = starter.languages_choices
     assert_equal [
       'C (gcc)',
-      'C#',
       'C++ (g++)',
       'Python',
       'Ruby'
     ], json['major_names']
     assert_equal [
       'MiniTest',
-      'NUnit',
       'RSpec',
       'Test::Unit',
       'assert',
@@ -45,7 +43,7 @@ class StarterServiceTest < AppServicesTestBase
       'py.test',
       'unittest'
     ], json['minor_names']
-    assert_equal [[4],[1],[4],[5,6,7],[0,2,3]], json['minor_indexes']
+    assert_equal [[3],[3],[4,5,6],[0,1,2]], json['minor_indexes']
 
     json = starter.exercises_choices
     assert_equal [
@@ -58,8 +56,8 @@ class StarterServiceTest < AppServicesTestBase
     manifest = starter.custom_manifest('Yahtzee refactoring', 'C# NUnit')
     assert_equal 'Yahtzee refactoring, C# NUnit', manifest['display_name']
 
-    manifest = starter.language_manifest('C#', 'NUnit', 'Fizz_Buzz')
-    assert_equal 'C#, NUnit', manifest['display_name']
+    manifest = starter.language_manifest('Ruby', 'MiniTest', 'Fizz_Buzz')
+    assert_equal 'Ruby, MiniTest', manifest['display_name']
 
     manifest = starter.manifest('C')
     assert_equal 'C (gcc), assert', manifest['display_name']
