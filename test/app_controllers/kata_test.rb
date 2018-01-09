@@ -24,14 +24,13 @@ class KataControllerTest  < AppControllerTestBase
   test '221', %w( smoke timed_out ) do
     in_kata(:stateless) {
       as_avatar {
-        change_file('hiker.py',
-          <<~PYTHON_CODE
-          class Hiker:
-              def answer(self):
-                  while True:
-                      True
-                  return 6 * 9
-          PYTHON_CODE
+        change_file('hiker.rb',
+          <<~RUBY_CODE
+          def answer
+            while true
+            end
+          end
+          RUBY_CODE
         )
         run_tests({ 'max_seconds' => 3 })
         assert_timed_out
@@ -55,7 +54,7 @@ class KataControllerTest  < AppControllerTestBase
   test '224', %w( smoke amber ) do
     in_kata(:stateful) {
       as_avatar {
-        change_file('hiker.c', 'syntax-error')
+        change_file('hiker.rb', 'syntax-error')
         run_tests
         assert_equal :amber, avatar.lights[-1].colour
       }
@@ -67,7 +66,7 @@ class KataControllerTest  < AppControllerTestBase
   test '225', %w( smoke green ) do
     in_kata(:stateless) {
       as_avatar {
-        sub_file('hiker.py', '6 * 9', '6 * 7')
+        sub_file('hiker.rb', '6 * 9', '6 * 7')
         run_tests
         assert_equal :green, avatar.lights[-1].colour
       }
@@ -101,24 +100,6 @@ class KataControllerTest  < AppControllerTestBase
         ensure
           @storer = nil
         end
-      }
-    }
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '7FD', %w(
-  run_tests() on makefile with leading spaces
-  are _not_ converted to tabs
-  and the traffic-light is amber ) do
-    in_kata(:stateful) {
-      as_avatar {
-        run_tests
-        assert_equal :red, avatar.lights[-1].colour
-        change_file(makefile, makefile_with_leading_spaces)
-        run_tests
-        assert_equal :amber, avatar.lights[-1].colour
-        assert_file makefile, makefile_with_leading_spaces
       }
     }
   end
@@ -208,9 +189,8 @@ class KataControllerTest  < AppControllerTestBase
         assert_equal :red, avatar.lights[-1].colour
         output = avatar.visible_files['output']
 
-        [
-          '[makefile:13: test.output] Aborted',
-          'Assertion failed: answer() == 42'
+        [ 'expected: 42',
+          '     got: 54'
         ].each do |expected|
           assert output.include?(expected), output
         end
@@ -219,13 +199,24 @@ class KataControllerTest  < AppControllerTestBase
         runner.avatar_old(kata.image_name, kata.id, avatar.name)
 
         # run_tests resurrects the avatar
-        sub_file('hiker.c', '6 * 9', '6 * 7')
+        sub_file('hiker.rb', '6 * 9', '6 * 7')
         run_tests # 2
-        assert_equal "All tests passed\n", avatar.visible_files['output']
+        expect = '1 example, 0 failures'
+        assert avatar.visible_files['output'].include?(expect)
         assert_equal :green, avatar.lights[-1].colour
         diff = differ.diff(kata.id, avatar.name, was_tag=1, now_tag=2)
-        assert diff['hiker.c'].include?({'type'=>'deleted', 'line'=>'    return 6 * 9;', 'number'=>5})
-        assert diff['hiker.c'].include?({'type'=>'added',   'line'=>'    return 6 * 7;', 'number'=>5})
+
+        assert diff['hiker.rb'].include?({
+          'type' => 'deleted',
+          'line' =>'  6 * 9',
+          'number' => 3
+        })
+
+        assert diff['hiker.rb'].include?({
+          'type' => 'added',
+          'line' =>'  6 * 7',
+          'number' => 3
+        })
       }
     }
   end
@@ -240,14 +231,10 @@ class KataControllerTest  < AppControllerTestBase
         assert_equal :red, avatar.lights[-1].colour
         output = avatar.visible_files['output']
 
-        [
-          '[makefile:13: test.output] Aborted',
-          'Assertion failed: answer() == 42'
+        [ 'expected: 42',
+          '     got: 54'
         ].each do |expected|
-          assert output.include?(expected)
-          # Note that depending on the host's OS the last line might be
-          #     make: *** [test.output] Aborted (core dumped)
-          # viz with (core dumped) appended
+          assert output.include?(expected), output
         end
 
         # force avatar and kata to end
@@ -255,13 +242,24 @@ class KataControllerTest  < AppControllerTestBase
         runner.kata_old(kata.image_name, kata.id)
 
         # run_tests resurrects the kata & avatar
-        sub_file('hiker.c', '6 * 9', '6 * 7')
+        sub_file('hiker.rb', '6 * 9', '6 * 7')
         run_tests # 2
-        assert_equal "All tests passed\n", avatar.visible_files['output']
+        expect = '1 example, 0 failures'
+        assert avatar.visible_files['output'].include?(expect)
         assert_equal :green, avatar.lights[-1].colour
         diff = differ.diff(kata.id, avatar.name, was_tag=1, now_tag=2)
-        assert diff['hiker.c'].include?({'type'=>'deleted', 'line'=>'    return 6 * 9;', 'number'=>5})
-        assert diff['hiker.c'].include?({'type'=>'added',   'line'=>'    return 6 * 7;', 'number'=>5})
+
+        assert diff['hiker.rb'].include?({
+          'type' => 'deleted',
+          'line' =>'  6 * 9',
+          'number' => 3
+        })
+
+        assert diff['hiker.rb'].include?({
+          'type' => 'added',
+          'line' =>'  6 * 7',
+          'number' => 3
+        })
       }
     }
   end
@@ -291,18 +289,6 @@ class KataControllerTest  < AppControllerTestBase
 
   def assert_file(filename, expected)
     assert_equal expected, avatar.visible_files[filename]
-  end
-
-  def makefile_with_leading_spaces
-    [
-      'CFLAGS += -I. -Wall -Wextra -Werror -std=c11',
-      'test: makefile $(C_FILES) $(COMPILED_H_FILES)',
-      '    @gcc $(CFLAGS) $(C_FILES) -o $@'
-    ].join("\n")
-  end
-
-  def makefile
-    'makefile'
   end
 
 end

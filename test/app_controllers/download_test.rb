@@ -30,7 +30,7 @@ class DownloadControllerTest < AppControllerTestBase
     in_kata(:stateful) {
       as_avatar {
         kata_edit
-        change_file('hiker.c', '...')
+        change_file('hiker.rb', '...')
         run_tests
       }
     }
@@ -47,9 +47,9 @@ class DownloadControllerTest < AppControllerTestBase
       5.times {
         as_avatar {
           kata_edit
-          change_file('hiker.c', '/*comment*/')
+          change_file('hiker.rb', '/*comment*/')
           run_tests
-          change_file('hiker.h', '...')
+          change_file('hiker.rb', '...')
           run_tests
         }
       }
@@ -94,7 +94,7 @@ class DownloadControllerTest < AppControllerTestBase
         download_tag
         assert_downloaded_tag
         kata_edit
-        change_file('hiker.c', '...')
+        change_file('hiker.rb', '...')
         run_tests
         @tag = 1
         download_tag

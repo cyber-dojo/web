@@ -12,7 +12,7 @@ class DifferControllerTest < AppControllerTestBase
   'no lines different in any files between successive tags' do
     in_kata(:stateful) {
       as_avatar {
-        filename = 'hiker.c'
+        filename = 'hiker.rb'
         change_file(filename, content='some_change...')
         run_tests
         run_tests
@@ -43,7 +43,7 @@ class DifferControllerTest < AppControllerTestBase
   'one line different in one file between successive tags' do
     in_kata(:stateful) {
       as_avatar {
-        filename = 'hiker.c'
+        filename = 'hiker.rb'
         change_file(filename, from='fubar')
         run_tests
         change_file(filename, to='snafu')

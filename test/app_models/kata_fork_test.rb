@@ -52,7 +52,7 @@ class KataForkTest < AppModelsTestBase
     assert_exercise 'Poker_Hands'
     assert_filename_extension '.rb'
     assert_image_name 'cyberdojofoundation/ruby_rspec'
-    assert_runner_choice 'stateless'
+    assert_runner_choice 'stateful'
     assert_tab_size 2 # explicit
     assert_visible_files({ 'cyber-dojo.sh' => 'ls -al' })
   end

@@ -23,7 +23,7 @@ class KataDefaultsTest < AppModelsTestBase
   test '346', %w(
   lowlight_filenames defaults to specific 4 files
   when hightlight_filenames is empty ) do
-    manifest = starter.language_manifest('C (gcc)', 'assert', 'Fizz_Buzz')
+    manifest = starter.language_manifest('Ruby', 'MiniTest', 'Fizz_Buzz')
     manifest['id'] = kata_id
     manifest['created'] = time_now
     manifest.delete('highlight_filenames')
@@ -37,12 +37,12 @@ class KataDefaultsTest < AppModelsTestBase
   test '347', %w(
   lowlight_filenames defaults to the complement of highlight_filenames
   when highlight_filenames is not empty ) do
-    manifest = starter.language_manifest('C (gcc)', 'assert', 'Fizz_Buzz')
+    manifest = starter.language_manifest('Ruby', 'MiniTest', 'Fizz_Buzz')
     manifest['id'] = kata_id
     manifest['created'] = time_now
-    manifest['highlight_filenames'] = %w( hiker.c hiker.h hiker.tests.c )
+    manifest['highlight_filenames'] = %w( hiker.rb test_hiker.rb )
     storer.create_kata(manifest)
-    expected = %w( cyber-dojo.sh makefile instructions output )
+    expected = %w( cyber-dojo.sh instructions output )
     assert_equal expected.sort, katas[kata_id].lowlight_filenames.sort
   end
 
@@ -67,7 +67,7 @@ class KataDefaultsTest < AppModelsTestBase
   private # = = = = = = = = = = = = =
 
   def assert_default(name, expected)
-    manifest = starter.language_manifest('Python', 'unittest', 'Fizz_Buzz')
+    manifest = starter.language_manifest('Ruby', 'MiniTest', 'Fizz_Buzz')
     manifest['id'] = kata_id
     manifest['created'] = time_now
     manifest.delete(name)

@@ -10,10 +10,10 @@ class ReverterControllerTest  < AppControllerTestBase
 
   test '276',
   'revert' do
-    in_kata(:stateful) {
+    in_kata(:stateless) {
       as_avatar {
         kata_edit
-        filename = 'hiker.c'
+        filename = 'hiker.rb'
         change_file(filename, old_content='the_answer')
         run_tests # 1
         assert_equal old_content, avatar.visible_files[filename]

@@ -10,15 +10,15 @@ class TipTest < AppHelpersTestBase
 
   test 'D52',
   'traffic light tip' do
-    kata = make_language_kata({ 'display_name' => 'C (gcc), assert' })
+    kata = make_language_kata
     lion = kata.start_avatar(['lion'])
     files = kata.visible_files
     now = [2016,12,22, 5,55,11]
-    output = "makefile:14: recipe for target 'test.output' failed"
+    output = "Expected: 42\nActual: 54"
     was_colour = :red
     lion.tested(files, now, output, was_colour) # 1
 
-    filename = 'hiker.c'
+    filename = 'hiker.rb'
     hiker_c = kata.visible_files[filename]
     files[filename] = hiker_c.sub('9','7')
     output = 'All tests passed'
@@ -43,7 +43,7 @@ class TipTest < AppHelpersTestBase
         '<tr>' +
           "<td><div class='traffic-light-diff-tip-line-count-deleted some button'>1</div></td>" +
           "<td><div class='traffic-light-diff-tip-line-count-added some button'>1</div></td>" +
-          "<td>&nbsp;hiker.c</td>" +
+          "<td>&nbsp;hiker.rb</td>" +
         '</tr>' +
       '</table>'
 

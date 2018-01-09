@@ -36,14 +36,16 @@ class StarterServiceTest < AppServicesTestBase
       'Ruby'
     ], json['major_names']
     assert_equal [
+      'MiniTest',
       'NUnit',
       'RSpec',
+      'Test::Unit',
       'assert',
       'behave',
       'py.test',
       'unittest'
     ], json['minor_names']
-    assert_equal [[2],[0],[2],[3,4,5],[1]], json['minor_indexes']
+    assert_equal [[4],[1],[4],[5,6,7],[0,2,3]], json['minor_indexes']
 
     json = starter.exercises_choices
     assert_equal [

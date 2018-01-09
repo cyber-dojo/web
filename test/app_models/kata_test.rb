@@ -29,7 +29,7 @@ class KataTest < AppModelsTestBase
     created = [2017,12,21, 10,40,24]
     options = {
       'created'      => created,
-      'display_name' => 'Python, unittest',
+      'display_name' => 'Ruby, MiniTest',
       'exercise'     => 'Fizz_Buzz',
     }
     kata = make_language_kata(options)
@@ -37,20 +37,18 @@ class KataTest < AppModelsTestBase
     assert_equal kata_id, kata.id
     assert_equal Time.mktime(*created), kata.created
     assert_equal 'stateless', kata.runner_choice
-    assert_equal 'cyberdojofoundation/python_unittest', kata.image_name
-    assert_equal 3, kata.tab_size
+    assert_equal 'cyberdojofoundation/ruby_mini_test', kata.image_name
+    assert_equal 2, kata.tab_size
 
-    assert_equal 'Python, unittest', kata.display_name
-    assert_equal 'Python', kata.major_name
-    assert_equal 'unittest', kata.minor_name
-
-    assert_equal '.py', kata.filename_extension
-
-    assert_equal ['FAILED \\(failures=\\d+\\)', 'OK'], kata.progress_regexs
-    assert_equal ['test_hiker.py'], kata.highlight_filenames
-    assert_equal ['hiker.py','cyber-dojo.sh','output','instructions'], kata.lowlight_filenames
+    assert_equal 'Ruby, MiniTest', kata.display_name
+    assert_equal 'Ruby', kata.major_name
+    assert_equal 'MiniTest', kata.minor_name
+    assert_equal '.rb', kata.filename_extension
+    assert_equal [], kata.progress_regexs
+    assert_equal [], kata.highlight_filenames
+    assert_equal ['cyber-dojo.sh', 'makefile', 'Makefile', 'unity.license.txt'], kata.lowlight_filenames
     assert_equal 'Fizz_Buzz', kata.exercise
-    assert_equal 11, kata.max_seconds
+    assert_equal 10, kata.max_seconds
     assert_equal 'Fizz_Buzz', kata.visible_files['instructions']
     assert_equal '', kata.visible_files['output']
   end
@@ -343,7 +341,7 @@ class KataTest < AppModelsTestBase
   when collector has collected the runner containers/volumes
   then start_avatar() seamlessly resurrects ) do
     set_runner_class('RunnerService')
-    kata = make_language_kata({ 'display_name' => 'C (gcc), assert' })
+    kata = make_language_kata({ 'display_name' => 'Ruby, RSpec' })
     assert kata.runner_choice == 'stateful'
     runner.kata_old(kata.image_name, kata.id)
     begin

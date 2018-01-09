@@ -15,8 +15,8 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   test '020',
   'show_languages page' do
     do_get 'show_languages'
-    assert html.include? "data-major=#{quoted(get_language_from(c_assert))}"
-    assert html.include? "data-minor=#{quoted(get_test_from(c_assert))}"
+    assert html.include? "data-major=#{quoted(get_language_from(ruby_minitest))}"
+    assert html.include? "data-minor=#{quoted(get_test_from(ruby_minitest))}"
     assert html.include? "data-major=#{quoted(get_language_from(python_unittest))}"
     assert html.include? "data-minor=#{quoted(get_test_from(python_unittest))}"
   end
@@ -26,8 +26,8 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   test '565',
   'show_languages when kata_id is invalid' do
     do_get 'show_languages', 'id' => '379C8ABFDF'
-    assert html.include? "data-major=#{quoted(get_language_from(c_assert))}"
-    assert html.include? "data-minor=#{quoted(get_test_from(c_assert))}"
+    assert html.include? "data-major=#{quoted(get_language_from(ruby_minitest))}"
+    assert html.include? "data-minor=#{quoted(get_test_from(ruby_minitest))}"
     assert html.include? "data-major=#{quoted(get_language_from(python_unittest))}"
     assert html.include? "data-minor=#{quoted(get_test_from(python_unittest))}"
   end
@@ -48,14 +48,14 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   test '3D8',
   'save creates a new kata with language+test and exercise' do
     params = {
-         'major' => get_language_from(c_assert),
-         'minor' => get_test_from(c_assert),
+         'major' => get_language_from(ruby_minitest),
+         'minor' => get_test_from(ruby_minitest),
       'exercise' => fizz_buzz
     }
     do_get 'save', params
     kata = katas[json['id']]
-    assert_equal 'C (gcc)', kata.major_name
-    assert_equal 'assert',  kata.minor_name
+    assert_equal 'Ruby', kata.major_name
+    assert_equal 'MiniTest',  kata.minor_name
     assert_equal fizz_buzz, kata.exercise
   end
 
@@ -65,13 +65,13 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   'show_languages defaults to language and test-framework of kata',
   'whose full-id is passed in URL (to encourage repetition)' do
     in_kata(:stateless) {}
-    assert_equal 'Python', kata.major_name
+    assert_equal 'Ruby', kata.major_name
     do_get 'show_languages', 'id' => kata.id
     choices = starter.languages_choices
     major_names = choices['major_names']
     md = /var selectedMajor = \$\('#major_' \+ (\d+)/.match(html)
     refute_nil md
-    assert_equal 'Python', major_names[md[1].to_i]
+    assert_equal 'Ruby', major_names[md[1].to_i]
     # checking the initial test-framework looks to be
     # nigh on impossible in static html
   end
@@ -80,8 +80,8 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   test 'BA4',
   'show_languages ok when major-name no longer present' do
-    major = get_language_from(c_assert)
-    minor = get_test_from(c_assert)
+    major = get_language_from(ruby_minitest)
+    minor = get_test_from(ruby_minitest)
     manifest = starter.language_manifest(major, minor, 'Fizz_Buzz')
     manifest['id'] = kata_id
     manifest['created'] = time_now
@@ -99,8 +99,8 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   test 'BA5',
   'show_languages ok when minor-name no longer present' do
-    major = get_language_from(c_assert)
-    minor = get_test_from(c_assert)
+    major = get_language_from(ruby_minitest)
+    minor = get_test_from(ruby_minitest)
     manifest = starter.language_manifest(major, minor, 'Fizz_Buzz')
     manifest['id'] = kata_id
     manifest['created'] = time_now
@@ -111,7 +111,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     major_names = choices['major_names']
     md = /var selectedMajor = \$\('#major_' \+ (\d+)/.match(html)
     refute_nil md
-    assert_equal 'C (gcc)', major_names[md[1].to_i]
+    assert_equal 'Ruby', major_names[md[1].to_i]
     # checking the initial test-framework looks to be
     # nigh on impossible in static html
   end
@@ -124,7 +124,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     choices = starter.exercises_choices
     exercises_names = choices['names']
     exercises_names.each_with_index do |exercise_name,index|
-      create_language_kata('Python, unittest', exercise_name)
+      create_language_kata('Ruby, MiniTest', exercise_name)
       do_get 'show_exercises', 'id' => kata.id
       md = /var selected = \$\('#exercises_name_' \+ (\d+)/.match(html)
       assert_equal index, md[1].to_i
@@ -173,8 +173,8 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def c_assert
-    'C (gcc), assert'
+  def ruby_minitest
+    'Ruby, MiniTest'
   end
 
   def python_unittest

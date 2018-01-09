@@ -17,9 +17,9 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   def in_kata(runner_choice, &block)
     display_name = {
-       stateless: 'Python, unittest',
-        stateful: 'C (gcc), assert',
-      processful: 'Python, py.test'
+       stateless: 'Ruby, MiniTest',
+        stateful: 'Ruby, RSpec',
+      processful: 'Ruby, Test::Unit'
     }[runner_choice]
     refute_nil display_name, runner_choice
     create_language_kata(display_name)

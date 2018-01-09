@@ -30,8 +30,8 @@ class StorerServiceTest < AppServicesTestBase
     refute all_katas_ids.include? kata_id
     refute storer.kata_exists?(kata_id)
 
-    major = 'C (gcc)'
-    minor = 'assert'
+    major = 'Ruby'
+    minor = 'MiniTest'
     exercise = 'Fizz_Buzz'
     manifest = starter.language_manifest(major,minor,exercise)
     manifest['id'] = kata_id
@@ -62,7 +62,7 @@ class StorerServiceTest < AppServicesTestBase
     args << 'lion'
     args << files1
     args << (now = [2016,12,8, 8,3,23])
-    args << (output = 'Assert failed: answer() == 42')
+    args << (output = "Expected: 42\nActual: 54")
     args << (colour = 'red')
     storer.avatar_ran_tests(*args)
 

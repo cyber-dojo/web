@@ -420,7 +420,7 @@ class StorerFakeTest < AppServicesTestBase
     args << 'lion'
     args << (files1 = kata.visible_files)
     args << (now1 = [2016,12,8, 8,3,23])
-    args << (output = 'Assert failed: answer() == 42')
+    args << (output = "Expected: 42Actual: 54")
     args << (colour1 = 'red')
     storer.avatar_ran_tests(*args)
 
@@ -435,10 +435,10 @@ class StorerFakeTest < AppServicesTestBase
     args << kata_id
     args << 'lion'
     files2 = kata.visible_files
-    files2['hiker.c'] = '...6*7...';
+    files2['hiker.rb'] = '...6*7...';
     args << files2
     args << (now2 = [2016,12,8, 9,54,20])
-    args << (output = 'All tests passed')
+    args << (output = '1 runs, 1 assertions, 0 failures, 0 errors, 0 skips')
     args << (colour2 = 'green')
     storer.avatar_ran_tests(*args)
 
@@ -466,10 +466,10 @@ class StorerFakeTest < AppServicesTestBase
     args << kata_id
     args << 'lion'
     files = kata.visible_files
-    files['hiker.c'] = '6*7';
+    files['hiker.rb'] = '6*7';
     args << files
     args << (now = [2017,12,28, 10,53,20])
-    args << (output = 'All tests passed')
+    args << (output = '1 runs, 1 assertions, 0 failures, 0 errors, 0 skips')
     args << (colour = 'green')
     storer.avatar_ran_tests(*args)
     files['output'] = output
@@ -528,7 +528,7 @@ class StorerFakeTest < AppServicesTestBase
   end
 
   def make_manifest(id = kata_id)
-    manifest = starter.language_manifest('C (gcc)','assert','Fizz_Buzz')
+    manifest = starter.language_manifest('Ruby','MiniTest','Fizz_Buzz')
     manifest['id'] = id
     manifest['created'] = creation_time
     manifest

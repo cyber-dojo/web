@@ -14,5 +14,5 @@
 
   "tab_size": 2,
 
-  "runner_choice": "stateless"
+  "runner_choice": "stateful"
 }

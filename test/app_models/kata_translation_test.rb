@@ -113,7 +113,7 @@ class KataTranslationTest < AppModelsTestBase
     assert_filename_extension '.rb'
     assert_image_name 'cyberdojofoundation/ruby_rspec'
     assert_max_seconds 10
-    assert_runner_choice 'stateless'
+    assert_runner_choice 'stateful'
     assert_tab_size 2
   end
 

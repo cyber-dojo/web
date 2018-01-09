@@ -14,7 +14,7 @@ class TagsTest < AppModelsTestBase
   'and before first [test] is run',
   'and contains all visible files' do
     kata = make_language_kata ({
-      'display_name' => 'C (gcc), assert',
+      'display_name' => 'Ruby, MiniTest',
       'exercise' => 'Fizz_Buzz'
     })
     avatar = kata.start_avatar
@@ -27,11 +27,10 @@ class TagsTest < AppModelsTestBase
 
     visible_files = tags[0].visible_files
     filenames = %w(
-      hiker.h
-      hiker.c
+      hiker.rb
+      test_hiker.rb
       instructions
       cyber-dojo.sh
-      makefile
       output
     )
     filenames.each { |filename|

@@ -25,7 +25,7 @@ class AvatarTest < AppModelsTestBase
   1. the language+testFramework visible_files,
   2. the exercise's instructions file,
   3. the output file ) do
-    expected = %w( cyber-dojo.sh hiker.py test_hiker.py instructions output )
+    expected = %w( cyber-dojo.sh hiker.rb test_hiker.rb instructions output )
     in_kata(:stateless) {
       as(:wolf) {
         assert_equal expected.sort, wolf.visible_filenames.sort
@@ -106,7 +106,7 @@ class AvatarTest < AppModelsTestBase
     in_kata {
       as(:wolf) {
         maker = DeltaMaker.new(wolf)
-        filename = 'new_file.c'
+        filename = 'new_file.rb'
         content = 'once upon a time'
         maker.new_file(filename, content)
         _, visible_files, _ = maker.run_test

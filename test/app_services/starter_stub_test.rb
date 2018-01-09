@@ -9,33 +9,33 @@ class StarterStubTest < AppServicesTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '367', %w{
-  Stub mirrors Service for language_manifest(Python,py.test,FizzBuzz)} do
+  Stub mirrors Service for language_manifest(Ruby,MiniTest,FizzBuzz)} do
     service = StarterService.new(self)
-    master = service.language_manifest('Python', 'py.test', 'Fizz_Buzz')
+    master = service.language_manifest('Ruby', 'MiniTest', 'Fizz_Buzz')
     stubber = StarterStub.new(nil)
-    stub = stubber.language_manifest('Python', 'py.test', 'Fizz_Buzz')
+    stub = stubber.language_manifest('Ruby', 'MiniTest', 'Fizz_Buzz')
     assert_equal stub, master
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '368', %w{
-  Stub mirrors Service for language_manifest(Python,unittest,FizzBuzz)} do
+  Stub mirrors Service for language_manifest(Ruby,RSpec,FizzBuzz)} do
     service = StarterService.new(self)
-    master = service.language_manifest('Python', 'unittest', 'Fizz_Buzz')
+    master = service.language_manifest('Ruby', 'RSpec', 'Fizz_Buzz')
     stubber = StarterStub.new(nil)
-    stub = stubber.language_manifest('Python', 'unittest', 'Fizz_Buzz')
+    stub = stubber.language_manifest('Ruby', 'RSpec', 'Fizz_Buzz')
     assert_equal stub, master
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '369', %w{
-  Stub mirrors Service for language_manifest(C (gcc),assert,FizzBuzz)} do
+  Stub mirrors Service for language_manifest(Ruby,Test::Unit,FizzBuzz)} do
     service = StarterService.new(self)
-    master = service.language_manifest('C (gcc)', 'assert', 'Fizz_Buzz')
+    master = service.language_manifest('Ruby', 'Test::Unit', 'Fizz_Buzz')
     stubber = StarterStub.new(nil)
-    stub = stubber.language_manifest('C (gcc)', 'assert', 'Fizz_Buzz')
+    stub = stubber.language_manifest('Ruby', 'Test::Unit', 'Fizz_Buzz')
     assert_equal stub, master
   end
 

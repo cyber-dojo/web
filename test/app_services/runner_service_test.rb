@@ -69,10 +69,11 @@ class RunnerServiceTest < AppServicesTestBase
   'run() is red' do
     in_kata(:stateful) {
       as_lion {
-        _stdout,stderr,status,colour = runner.run(*run_args)
-        assert stderr.include?('[makefile:13: test.output] Aborted'), stderr
-        assert stderr.include?('Assertion failed: answer() == 42'), stderr
-        assert_equal 2, status
+        stdout,stderr,status,colour = runner.run(*run_args)
+        assert stdout.include?('expected: 42'), stdout
+        assert stdout.include?('got: 54'), stdout
+        assert_equal '', stderr
+        assert_equal 1, status
         assert_equal 'red', colour
       }
     }
@@ -114,9 +115,9 @@ class RunnerServiceTest < AppServicesTestBase
 
   def in_kata(runner_choice = :stateless, &block)
     display_name = {
-        stateless: 'Python, unittest',
-         stateful: 'C (gcc), assert',
-       processful: 'Python, py.test'
+       stateless: 'Ruby, MiniTest',
+        stateful: 'Ruby, RSpec',
+      processful: 'Ruby, Test::Unit'
     }[runner_choice]
     refute_nil display_name, runner_choice
     make_language_kata({ 'display_name' => display_name })
