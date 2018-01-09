@@ -17,8 +17,8 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     do_get 'show_languages'
     assert html.include? "data-major=#{quoted(get_language_from(ruby_minitest))}"
     assert html.include? "data-minor=#{quoted(get_test_from(ruby_minitest))}"
-    assert html.include? "data-major=#{quoted(get_language_from(python_unittest))}"
-    assert html.include? "data-minor=#{quoted(get_test_from(python_unittest))}"
+    assert html.include? "data-major=#{quoted(get_language_from(ruby_rspec))}"
+    assert html.include? "data-minor=#{quoted(get_test_from(ruby_rspec))}"
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -28,8 +28,8 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     do_get 'show_languages', 'id' => '379C8ABFDF'
     assert html.include? "data-major=#{quoted(get_language_from(ruby_minitest))}"
     assert html.include? "data-minor=#{quoted(get_test_from(ruby_minitest))}"
-    assert html.include? "data-major=#{quoted(get_language_from(python_unittest))}"
-    assert html.include? "data-minor=#{quoted(get_test_from(python_unittest))}"
+    assert html.include? "data-major=#{quoted(get_language_from(ruby_rspec))}"
+    assert html.include? "data-minor=#{quoted(get_test_from(ruby_rspec))}"
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -177,9 +177,11 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     'Ruby, MiniTest'
   end
 
-  def python_unittest
-    'Python, unittest'
+  def ruby_rspec
+    'Ruby, RSpec'
   end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
 
   def quoted(s)
     '"' + s + '"'

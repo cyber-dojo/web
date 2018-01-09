@@ -40,10 +40,9 @@ class StarterServiceTest < AppServicesTestBase
       'Test::Unit',
       'assert',
       'behave',
-      'py.test',
-      'unittest'
+      'py.test'
     ], json['minor_names']
-    assert_equal [[3],[3],[4,5,6],[0,1,2]], json['minor_indexes']
+    assert_equal [[3],[3],[4,5],[0,1,2]], json['minor_indexes']
 
     json = starter.exercises_choices
     assert_equal [
