@@ -1,18 +1,19 @@
 
 The languages data-set has
 
-o) duplicate major-name == 'Python'
-   'Python, py.test'
-   'Python, unittest'
+o) duplicate major-name == 'Ruby'
+   'Ruby, MiniTest'
+   'Ruby, RSpec'
+   'Ruby, Test::Unit
 
 o) duplicate minor-name == 'assert'
    'C (gcc), assert'
    'G++ (g++), assert'
 
 o) all three runner_choices
-   stateless  - 'Python, unittest'
-   stateful   - 'C (gcc), assert'  (gcc-assert dir)
-   processful - 'Python, py.test'
+   stateless  - 'Ruby, MiniTest'
+   stateful   - 'Ruby, RSpec'
+   processful - 'Ruby, Test::Unit'
 
 
 The rules for a display_name such as 'C (gcc), assert' are
