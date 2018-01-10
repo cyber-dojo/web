@@ -41,9 +41,11 @@ var cyberDojo = (function(cd, $) {
     var lolights = [];
     var hilights = [];
     $.each(filenames, function(_, filename) {
-      if (cd.inArray(filename, cd.lowlightFilenames()))
+      if (filename == 'output')
+        ;
+      else if (cd.inArray(filename, cd.lowlightFilenames()))
         lolights.push(filename);
-      else if (filename != 'output')
+      else
         hilights.push(filename);
     });
     lolights.sort();
