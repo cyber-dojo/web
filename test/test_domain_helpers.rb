@@ -33,6 +33,10 @@ module TestDomainHelpers # mix-in
     kata.avatars['wolf']
   end
 
+  def lion
+    kata.avatars['lion']
+  end
+
   # - - - - - - - - - - - - - - - -
 
   def make_language_kata(options = {})

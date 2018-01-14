@@ -13,30 +13,29 @@ class TagsTest < AppModelsTestBase
   'tag zero exists after avatar is started',
   'and before first [test] is run',
   'and contains all visible files' do
-    kata = make_language_kata ({
-      'display_name' => 'Ruby, MiniTest',
-      'exercise' => 'Fizz_Buzz'
-    })
-    avatar = kata.start_avatar
-    tags = avatar.tags
-    assert_equal 1, tags.length
-    refute tags[0].light?
-    n = 0
-    tags.each { n += 1 }
-    assert_equal 1, n
+    in_kata {
+      as(:wolf) {
+        tags = wolf.tags
+        assert_equal 1, tags.length
+        refute tags[0].light?
+        n = 0
+        tags.each { n += 1 }
+        assert_equal 1, n
 
-    visible_files = tags[0].visible_files
-    filenames = %w(
-      hiker.rb
-      test_hiker.rb
-      instructions
-      cyber-dojo.sh
-      output
-    )
-    filenames.each { |filename|
-      assert visible_files.keys.include?(filename), filename
+        visible_files = tags[0].visible_files
+        filenames = %w(
+          hiker.rb
+          test_hiker.rb
+          instructions
+          cyber-dojo.sh
+          output
+        )
+        filenames.each { |filename|
+          assert visible_files.keys.include?(filename), filename
+        }
+        assert_equal '', tags[0].output
+      }
     }
-    assert_equal '', tags[0].output
   end
 
   #- - - - - - - - - - - - - - - - - - -

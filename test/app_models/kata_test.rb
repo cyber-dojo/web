@@ -26,31 +26,24 @@ class KataTest < AppModelsTestBase
   kata properties are union of language properties and exercise instruction
   together with major_name,minor_name which are comma-separated
   parts of the display_name ) do
-    created = [2017,12,21, 10,40,24]
-    options = {
-      'created'      => created,
-      'display_name' => 'Ruby, MiniTest',
-      'exercise'     => 'Fizz_Buzz',
+    in_kata {
+      assert_equal kata_id, kata.id
+      assert_equal 'stateless', kata.runner_choice
+      assert_equal 'cyberdojofoundation/ruby_mini_test', kata.image_name
+      assert_equal 2, kata.tab_size
+
+      assert_equal 'Ruby, MiniTest', kata.display_name
+      assert_equal 'Ruby', kata.major_name
+      assert_equal 'MiniTest', kata.minor_name
+      assert_equal '.rb', kata.filename_extension
+      assert_equal [], kata.progress_regexs
+      assert_equal [], kata.highlight_filenames
+      assert_equal ['cyber-dojo.sh', 'makefile', 'Makefile', 'unity.license.txt'], kata.lowlight_filenames
+      assert_equal 'Fizz_Buzz', kata.exercise
+      assert_equal 10, kata.max_seconds
+      assert_equal 'Fizz_Buzz', kata.visible_files['instructions']
+      assert_equal '', kata.visible_files['output']
     }
-    kata = make_language_kata(options)
-
-    assert_equal kata_id, kata.id
-    assert_equal Time.mktime(*created), kata.created
-    assert_equal 'stateless', kata.runner_choice
-    assert_equal 'cyberdojofoundation/ruby_mini_test', kata.image_name
-    assert_equal 2, kata.tab_size
-
-    assert_equal 'Ruby, MiniTest', kata.display_name
-    assert_equal 'Ruby', kata.major_name
-    assert_equal 'MiniTest', kata.minor_name
-    assert_equal '.rb', kata.filename_extension
-    assert_equal [], kata.progress_regexs
-    assert_equal [], kata.highlight_filenames
-    assert_equal ['cyber-dojo.sh', 'makefile', 'Makefile', 'unity.license.txt'], kata.lowlight_filenames
-    assert_equal 'Fizz_Buzz', kata.exercise
-    assert_equal 10, kata.max_seconds
-    assert_equal 'Fizz_Buzz', kata.visible_files['instructions']
-    assert_equal '', kata.visible_files['output']
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -86,8 +79,9 @@ class KataTest < AppModelsTestBase
   test '9AE', %w(
   when kata has no avatars
   then it is not active ) do
-    kata = make_language_kata
-    refute kata.active?
+    in_kata {
+      refute kata.active?
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -95,10 +89,11 @@ class KataTest < AppModelsTestBase
   test '40E', %w(
   when kata's avatars have no traffic-lights
   then it is not active ) do
-    kata = make_language_kata
-    kata.start_avatar(['hippo'])
-    kata.start_avatar(['lion'])
-    refute kata.active?
+    in_kata {
+      as(:hippo) {}
+      as(:lion) {}
+      refute kata.active?
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -106,17 +101,17 @@ class KataTest < AppModelsTestBase
   test 'DD3', %w(
   when kata has at least one avatar with 1 or more traffic-lights
   then kata is active ) do
-    kata = make_language_kata
-
-    hippo = kata.start_avatar(['hippo'])
-    first_time = [2014,2,15, 8,54,6]
-    DeltaMaker.new(hippo).run_test(first_time)
-
-    lion = kata.start_avatar(['lion'])
-    second_time = [2014,2,15, 8,54,34]
-    DeltaMaker.new(lion).run_test(second_time)
-
-    assert kata.active?
+    in_kata {
+      as(:wolf) {
+        first_time = [2014,2,15, 8,54,6]
+        DeltaMaker.new(wolf).run_test(first_time)
+      }
+      as(:lion) {
+        second_time = [2014,2,15, 8,54,34]
+        DeltaMaker.new(lion).run_test(second_time)
+      }
+      assert kata.active?
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -126,8 +121,9 @@ class KataTest < AppModelsTestBase
   test 'DD4', %w(
   when a kata has no avatars
   then its age is zero seconds ) do
-    kata = make_language_kata
-    assert_equal 0, kata.age
+    in_kata {
+      assert_equal 0, kata.age
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -136,23 +132,25 @@ class KataTest < AppModelsTestBase
   when a kata has avatars
   but none of them have any traffic-lights
   then its age is zero seconds ) do
-    kata = make_language_kata
-    kata.start_avatar(['kingfisher'])
-    kata.start_avatar(['parrot'])
-    assert_equal 0, kata.age
+    in_kata {
+      as(:kingfisher) {}
+      as(:parrot) {}
+      assert_equal 0, kata.age
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'DD6', %w(
-  when a kata has avatars
-  and one of them has one traffic-light
+  when a kata has one avatar
+  with one traffic-light
   then its age is zero seconds ) do
-    kata = make_language_kata
-    kata.start_avatar(['panda'])
-    salmon = kata.start_avatar(['salmon'])
-    DeltaMaker.new(salmon).run_test([2014,2,15, 8,54,6])
-    assert_equal 0, kata.age
+    in_kata {
+      as(:lion) {
+        DeltaMaker.new(lion).run_test([2014,2,15, 8,54,6])
+        assert_equal 0, kata.age
+      }
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -162,13 +160,16 @@ class KataTest < AppModelsTestBase
   and they both have one one traffic-light
   with exactly the same time-stamp
   then its age is zero ) do
-    kata = make_language_kata
-    swan = kata.start_avatar(['swan'])
-    lion = kata.start_avatar(['lion'])
-    time = [2018,1,2, 8,54,6]
-    DeltaMaker.new(swan).run_test(time)
-    DeltaMaker.new(lion).run_test(time)
-    assert_equal 0, kata.age
+    in_kata {
+      time = [2018,1,2, 8,54,6]
+      as(:wolf) {
+        DeltaMaker.new(wolf).run_test(time)
+      }
+      as(:lion) {
+        DeltaMaker.new(lion).run_test(time)
+      }
+      assert_equal 0, kata.age
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -177,14 +178,16 @@ class KataTest < AppModelsTestBase
   when a kata one avatar
   and it has two traffic-lights
   then its age is the time difference ) do
-    kata = make_language_kata
-    squid = kata.start_avatar(['squid'])
-    first_time       = [2018,1,3, 8,54,6]
-    one_second_later = [2018,1,3, 8,54,7]
-    maker = DeltaMaker.new(squid)
-    maker.run_test(first_time)
-    maker.run_test(one_second_later)
-    assert_equal 1, kata.age
+    in_kata {
+      as(:lion) {
+        first_time       = [2018,1,3, 8,54,6]
+        one_second_later = [2018,1,3, 8,54,7]
+        maker = DeltaMaker.new(lion)
+        maker.run_test(first_time)
+        maker.run_test(one_second_later)
+        assert_equal 1, kata.age
+      }
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -193,14 +196,17 @@ class KataTest < AppModelsTestBase
   when a katas has two avatars
   each with one traffic-light
   then its age is the time difference ) do
-    kata = make_language_kata
-    swan = kata.start_avatar(['swan'])
-    lion = kata.start_avatar(['lion'])
-    swan_time = [2018,1,2, 8,13,56]
-    DeltaMaker.new(swan).run_test(swan_time)
-    lion_time = [2018,1,2, 8,14,19]
-    DeltaMaker.new(lion).run_test(lion_time)
-    assert_equal (4+19), kata.age
+    in_kata {
+      as(:lion) {
+        lion_time = [2018,1,2, 8,13,56]
+        DeltaMaker.new(lion).run_test(lion_time)
+      }
+      as(:wolf) {
+        wolf_time = [2018,1,2, 8,14,19]
+        DeltaMaker.new(wolf).run_test(wolf_time)
+      }
+      assert_equal (4+19), kata.age
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -210,14 +216,17 @@ class KataTest < AppModelsTestBase
   each with several traffic-light
   then its age is the time difference
   between the earliest and latest traffic-light ) do
-    kata = make_language_kata
-    swan = kata.start_avatar(['swan'])
-    DeltaMaker.new(swan).run_test([2018,1,2, 8,13,56]) # earliest
-    DeltaMaker.new(swan).run_test([2018,1,2, 8,14,23])
-    lion = kata.start_avatar(['lion'])
-    DeltaMaker.new(lion).run_test([2018,1,2, 8,14,19])
-    DeltaMaker.new(lion).run_test([2018,1,2, 8,15,45]) # latest
-    assert_equal (4+60+45), kata.age
+    in_kata {
+      as(:wolf) {
+        DeltaMaker.new(wolf).run_test([2018,1,2, 8,13,56]) # earliest
+        DeltaMaker.new(wolf).run_test([2018,1,2, 8,14,23])
+      }
+      as(:lion) {
+        DeltaMaker.new(lion).run_test([2018,1,2, 8,14,19])
+        DeltaMaker.new(lion).run_test([2018,1,2, 8,15,45]) # latest
+      }
+      assert_equal (4+60+45), kata.age
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -225,13 +234,14 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '205', %w(
-  make_language_kata with default created-property uses time-now ) do
-    kata = make_language_kata
-    created = Time.mktime(*kata.created)
-    now = Time.now
-    past = Time.mktime(now.year, now.month, now.day, now.hour, now.min, now.sec)
-    diff = created - past
-    assert 0 <= diff && diff <= 1, "created=#{created}, past=#{past}, diff=#{past}"
+  new kata's with default created-property uses time-now ) do
+    in_kata {
+      created = Time.mktime(*kata.created)
+      now = Time.now
+      past = Time.mktime(now.year, now.month, now.day, now.hour, now.min, now.sec)
+      diff = created - past
+      assert 0 <= diff && diff <= 1, "created=#{created}, past=#{past}, diff=#{past}"
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -259,10 +269,12 @@ class KataTest < AppModelsTestBase
   test 'C43', %w(
   start_avatar() with specific name succeeds when avatar has not yet started ) do
     in_kata {
-      hippo = kata.start_avatar(['hippo'])
-      refute_nil hippo
-      assert_equal 'hippo', hippo.name
-      assert_equal ['hippo'], kata.avatars.names
+      as(:hippo) {
+        hippo = kata.avatars['hippo']
+        refute_nil hippo
+        assert_equal 'hippo', hippo.name
+        assert_equal ['hippo'], kata.avatars.names
+      }
     }
   end
 
@@ -271,8 +283,9 @@ class KataTest < AppModelsTestBase
   test '3FA', %w(
   start_avatar() with specific name is nil when avatar has already started ) do
     in_kata {
-      refute_nil kata.start_avatar(['hippo'])
-      assert_nil kata.start_avatar(['hippo'])
+      as(:hippo) {
+        assert_nil kata.start_avatar(['hippo'])
+      }
     }
   end
 
@@ -341,13 +354,11 @@ class KataTest < AppModelsTestBase
   when collector has collected the runner containers/volumes
   then start_avatar() seamlessly resurrects ) do
     set_runner_class('RunnerService')
-    kata = make_language_kata({ 'display_name' => 'Ruby, RSpec' })
-    assert kata.runner_choice == 'stateful'
-    runner.kata_old(kata.image_name, kata.id)
+    in_kata(:stateful) {}
     begin
       avatar = kata.start_avatar
-      runner.avatar_old(kata.image_name, kata.id, avatar.name)
       refute_nil avatar
+      runner.avatar_old(kata.image_name, kata.id, avatar.name)
     ensure
       runner.kata_old(kata.image_name, kata.id)
     end
