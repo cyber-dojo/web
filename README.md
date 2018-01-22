@@ -14,7 +14,7 @@
 - Uses [runner_stateless](https://github.com/cyber-dojo/runner_stateless) to run an avatar's tests statelessly.
 - Uses [runner_stateful](https://github.com/cyber-dojo/runner_stateful) to run an avatar's tests disk-statefully.
 - Uses [runner_processful](https://github.com/cyber-dojo/runner_processful) to run an avatar's tests process-statefully.
-- Uses [starter](https://github.com/cyber-dojo/starter) to store language/custom start-points.
+- Uses [starter](https://github.com/cyber-dojo/starter) to store language+exercise/custom start-points.
 - Uses [storer](https://github.com/cyber-dojo/storer) to save the code/tests associated with each avatar's test.
 - Uses [differ](https://github.com/cyber-dojo/differ) to diff the code/tests in successive avatar's tests.
 - Uses [zipper](https://github.com/cyber-dojo/zipper) to create tgz kata/avatar downloads.
