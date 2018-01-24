@@ -18,6 +18,8 @@ CyberDojo::Application.routes.draw do
 
   scope path: '/dojo', controller: :dojo do
     get 'index(/:id)' => :index
+    get 'individual(/:id)' => :individual
+    get 'team(/:id)' => :team
   end
 
   scope path: '/setup_default_start_point', controller: :setup_default_start_point do

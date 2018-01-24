@@ -16,6 +16,7 @@ class SetupDefaultStartPointController < ApplicationController
     @major_index   = choices['major_index']
     @minor_names   = choices['minor_names']
     @minor_indexes = choices['minor_indexes']
+    @from = params['from']
   end
 
   def show_exercises

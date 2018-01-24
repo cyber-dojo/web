@@ -1,4 +1,56 @@
 
+#individual-page {
+  margin: { top: 55px; }
+  .center-content { @include center-align(); }
+  #title {
+    @include non-code-font();
+         color: $lighter-color;
+     font-size: 3.2em;
+     padding: { top: 20px; bottom: 20px; }
+  }
+  #avatars-grid { width: 226px; }
+  #individual-setup-button, #individual-already-setup-button
+  {
+    @include non-code-font();
+    @include font-size-largest();
+         color: $darker-color;
+    text-align: right;
+         width: 350px;
+     font-size: 1.97em;
+   line-height: 95%;
+       padding: { top: 12px; bottom: 12px; right: 15px; }
+        margin: { top: 0px; bottom: 8px; left: 10px; }
+  }
+}
+
+//------------------------------------------
+
+#team-page {
+  margin: { top: 55px; }
+  .center-content { @include center-align(); }
+  #title {
+    @include non-code-font();
+         color: $lighter-color;
+     font-size: 3.2em;
+     padding: { top: 20px; bottom: 20px; }
+  }
+  #avatars-grid { width: 226px; }
+  #team-setup-button, #team-already-setup-button
+  {
+    @include non-code-font();
+    @include font-size-largest();
+         color: $darker-color;
+    text-align: right;
+         width: 350px;
+     font-size: 1.97em;
+   line-height: 95%;
+       padding: { top: 12px; bottom: 12px; right: 15px; }
+        margin: { top: 0px; bottom: 8px; left: 10px; }
+  }
+}
+
+//------------------------------------------
+
 #home-page {
 
   .center-content { @include center-align(); }
@@ -64,10 +116,8 @@
 
   //------------------------------------------
 
-  #setup-a-new-default-practice-session-button,
-  #setup-a-new-custom-practice-session-button,
-  #enter-button,
-  #review-button,
+  #individual-button,
+  #team-button,
   #donate-button {
     @include non-code-font();
     @include font-size-largest();
@@ -83,10 +133,12 @@
   #donate-button-container { padding: 10px; }
   #donate-button { width: 200px; }
 
+  #individual-button, #team-button { width: 230px; }
+
   //------------------------------------------
 
   #avatars-grid {
-       width: 234px;
+       width: 204px;
     position: relative;
          top: -2px;
   }

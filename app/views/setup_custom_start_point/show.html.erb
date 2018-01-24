@@ -7,8 +7,11 @@
 
   <table>
     <tr class="valign-top">
-      <td colspan="3">
-        <div id="setup-a-practice-session">setup a custom practice</div>
+      <td colspan="3" align="right">
+        <%= render partial: 'setup_default_button' %>
+        <div id="setup-a-practice-session">
+          setup a new <%= @from %> practice session
+        </div>
       </td>
     </tr>
     <tr class="valign-top">

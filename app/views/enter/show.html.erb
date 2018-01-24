@@ -1,21 +1,23 @@
 
-<div id="enter-page">
-  <table class="align-right">
+<div id="enter-page" class="align-center">
+
+  <div id="title" class="center-content">
+    the practice session has already<br/>
+    been setup and we know its hex-id
+  </div>
+
+  <table class="center-content">
     <tr>
-      <td colspan="2">
-        <div id="enter-a-practice-session">
-          enter a practice
-        </div>
-      </td>
-    </tr>
-    <tr>
-      <td rowspan="3" valign="top">
+      <td rowspan="4" valign="top">
         <%= render partial: 'shared/avatar_grid_colour' %>
       </td>
       <td><%= render partial: 'enter_id' %></td>
     </tr>
     <tr>
       <td><%= render partial: 'start_button' %></td>
+    </tr>
+    <tr>
+      <td><%= render partial: 'dashboard_button' %></td>
     </tr>
     <tr>
       <td><%= render partial: 'resume_button' %></td>

@@ -1,0 +1,17 @@
+
+<script type="text/javascript"><!--
+
+$(function() {
+
+  $('#setup-custom-button').click(function() {
+    const url = "/setup_custom_start_point/show/<%= @id %>?from=<%= @from %>";
+    window.location = url;
+  });
+
+});
+
+//--></script>
+
+<button type="button" id="setup-custom-button">
+  setup a custom practice
+</button>

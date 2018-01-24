@@ -1,0 +1,17 @@
+
+<script type="text/javascript"><!--
+
+$(function() {
+
+  $('#team-setup-button').click(function() {
+    const url = "/setup_default_start_point/show_languages/<%= @id %>?from=team";
+    window.location = url;
+  });
+
+});
+
+//--></script>
+
+<button type="button" id="team-setup-button">
+  setup up a new team practice session
+</button>

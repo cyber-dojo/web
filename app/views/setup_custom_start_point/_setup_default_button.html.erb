@@ -1,0 +1,19 @@
+
+<script type="text/javascript"><!--
+
+$(function() {
+
+  const button = $('#setup-default-button');
+
+  button.click(function() {
+    const url = "/setup_default_start_point/show_languages/<%= @id %>?from=<%= @from %>";
+    window.location = url;
+  });
+
+});
+
+//--></script>
+
+<button type="button" id="setup-default-button">
+  setup a default practice
+</button>

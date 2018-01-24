@@ -2,7 +2,15 @@
 #enter-page {
 
   font-size: 1.15em;
-  margin: { top: 55px; left: 325px; }
+  margin: { top: 55px; }
+  .center-content { @include center-align(); }
+
+  #title {
+    @include non-code-font();
+         color: $lighter-color;
+     font-size: 2.6em;
+     padding: { top: 20px; bottom: 20px; }
+  }
 
   #avatars-grid { width: 206px; }
 
