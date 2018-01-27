@@ -28,6 +28,7 @@ class SetupDefaultStartPointController < ApplicationController
     @exercises_names = choices['names']
     @exercises       = choices['contents']
     @initial_index   = choices['index']
+    @from = params['from']
   end
 
   def save

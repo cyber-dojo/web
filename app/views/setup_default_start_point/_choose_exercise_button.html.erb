@@ -3,13 +3,13 @@
 
 $(function() {
 
-  const button = $('#choose-exercise');
-
-  button.click(function() {
+  $('#choose-exercise').click(function() {
+    const from = "<%= @from %>";
     const id = "<%= @id %>";
     const url = '/setup_default_start_point/show_exercises/' + id +
       '?major=' + encodeURIComponent(cd.chosenMajor()) +
-      '&minor=' + encodeURIComponent(cd.chosenMinor());
+      '&minor=' + encodeURIComponent(cd.chosenMinor()) +
+      '&from=' + from;
     window.location = url;
   });
 
@@ -17,4 +17,6 @@ $(function() {
 
 //--></script>
 
-<button type="button" id="choose-exercise">next</button>
+<button type="button" id="choose-exercise">
+  next
+</button>

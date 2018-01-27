@@ -3,9 +3,8 @@
 
 $(function() {
 
-  const setItUp = function(who) {
-    const from = 'from_setup_' + who;
-    const button = $('#create-it-' + who);
+    const button = $('#create-it');
+
     button.click(function() {
       const setupParams = {
            major: "<%= @major %>",
@@ -15,27 +14,16 @@ $(function() {
       const cursor = button.css('cursor');
       button.prop('disabled',true).css('cursor','wait');
       $.getJSON('/setup_default_start_point/save', setupParams, function(dojoParams) {
+        const from = "from_setup_<%= @from %>";
         cd.newDojoDialog(dojoParams, from);
       });
     });
-  };
-
-  setItUp('team');
-  setItUp('individual')
-  cd.setupHoverTip($('[data-tip]'));
 
 });
 
 //--></script>
 
-<button type="button"
-        id="create-it-individual"
-        data-tip="individual<br/>practice">
-set it up &amp;<br/>start programming
+<button id="create-it" type="button">
+set it up
 </button>
 
-<button type="button"
-        id="create-it-team"
-        data-tip="team<br/>practice">
-set it up &amp;<br/>show the hex-id
-</button>
