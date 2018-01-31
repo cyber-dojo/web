@@ -3,23 +3,38 @@
 
 $(function() {
 
-  var fullKataId = $('#full-kata-id');
-  var kataIdInput = $('#kata-id-input');
-  var buttons = $('#start-button, #resume-button, #dashboard-button, #review-button');
-  var  enableButtons = function() { buttons.removeAttr('disabled'); };
-  var disableButtons = function() { buttons.prop('disabled', true); };
+  const fullKataId = $('#full-kata-id');
+  const kataIdInput = $('#kata-id-input');
+  const buttons = $('#start-button, #resume-button');
+  var state = 'hidden';
 
-  var enableDisableStartContinueDashboardReview = function() {
-    var id = kataIdInput.val();
-    disableButtons();
-    if (id.length >= 6) {
+  const enableButtons = function() {
+    if (state == 'hidden') {
+      buttons.show('slow');
+      buttons.removeAttr('disabled');
+      state = 'shown';
+    }
+  };
+  const disableButtons = function() {
+    if (state == 'shown') {
+      buttons.prop('disabled', true);
+      buttons.hide('slow');
+      state = 'hidden';
+    }
+  };
+
+  const enableDisableStartResume = function() {
+    const id = kataIdInput.val();
+    if (id.length <= 5) {
+      disableButtons();
+    } else {
       $.getJSON('/enter/check', { id: id }, function(dojo) {
         if (dojo.exists) {
           fullKataId.val(dojo.full_id);
           enableButtons();
         } else {
-          disableButtons();
           fullKataId.val('');
+          disableButtons();
         }
       });
     }
@@ -41,12 +56,11 @@ $(function() {
       return false;
     }
   });
-  kataIdInput.keyup(function() {
-    enableDisableStartContinueDashboardReview();
-  });
+
+  kataIdInput.keyup(function() { enableDisableStartResume(); });
   kataIdInput.focus();
 
-  enableDisableStartContinueDashboardReview();
+  enableDisableStartResume();
 
 });
 

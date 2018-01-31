@@ -3,7 +3,7 @@
 
 $(function() {
 
-  $('#individual-setup-button').click(function() {
+  $('#setup-button').click(function() {
     const url = "/setup_default_start_point/show_languages/<%= @id %>?from=individual";
     window.location = url;
   });
@@ -12,6 +12,6 @@ $(function() {
 
 //--></script>
 
-<button type="button" id="individual-setup-button">
+<button type="button" id="setup-button">
   setup and enter a new practice
 </button>

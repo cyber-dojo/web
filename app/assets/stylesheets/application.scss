@@ -20,6 +20,8 @@
  *= depend_on shared.scss
  *= depend_on cyber-dojo.scss
  *= depend_on home.scss
+ *= depend_on individual.scss
+ *= depend_on team.scss
  *= depend_on setup.scss
  *= depend_on enter.scss
  *= depend_on kata.scss
@@ -43,6 +45,8 @@
 @import "shared.scss";
 @import "cyber-dojo.scss";
 @import "home.scss";
+@import "individual.scss";
+@import "team.scss";
 @import "setup.scss";
 @import "enter.scss";
 @import "kata.scss";

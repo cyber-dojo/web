@@ -3,7 +3,7 @@
 
 $(function() {
 
-  $('#individual-enter-button').click(function() {
+  $('#enter-button').click(function() {
     const url = "/enter/show/<%= @id %>?from=individual";
     window.location = url;
   });
@@ -12,6 +12,6 @@ $(function() {
 
 //--></script>
 
-<button type="button" id="individual-enter-button">
+<button type="button" id="enter-button">
   enter a practice
 </button>

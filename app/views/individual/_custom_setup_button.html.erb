@@ -3,7 +3,7 @@
 
 $(function() {
 
-  $('#individual-custom-setup-button').click(function() {
+  $('#custom-setup-button').click(function() {
     const url = "/setup_custom_start_point/show/<%= @id %>?from=individual";
     window.location = url;
   });
@@ -12,6 +12,6 @@ $(function() {
 
 //--></script>
 
-<button type="button" id="individual-custom-setup-button">
+<button type="button" id="custom-setup-button">
   setup and enter a new <i>custom</i> practice
 </button>

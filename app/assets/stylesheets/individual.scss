@@ -1,0 +1,35 @@
+
+#individual-page
+{
+
+  margin: { top: 25px; }
+
+  .center-content { @include center-align(); }
+
+  #title
+  {
+    @include non-code-font();
+         color: $lighter-color;
+     font-size: 4.2em;
+     padding: { top: 20px; bottom: 20px; }
+  }
+
+  #setup-button, #custom-setup-button, #enter-button, #re-enter-button
+  {
+    @include non-code-font();
+         color: $darker-color;
+    text-align: right;
+         width: 610px;
+     font-size: 1.97em;
+   line-height: 95%;
+       padding: 12px;
+        margin: { top: 0px; bottom: 10px; }
+  }
+
+  #button
+  { @include font-size-largest(); }
+
+  #custom-setup-button, #enter-button, #re-enter-button,
+  { @include font-size-medium(); }
+
+}

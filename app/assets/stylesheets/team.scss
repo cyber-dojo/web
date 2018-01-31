@@ -1,0 +1,36 @@
+
+#team-page {
+
+  margin: { top: 25px; }
+
+  .center-content { @include center-align(); }
+
+  #title
+  {
+    @include non-code-font();
+         color: $lighter-color;
+     font-size: 4.2em;
+     padding: { top: 20px; bottom: 20px; }
+  }
+
+  #avatars-grid { width: 300px; }
+
+  #setup-button, #custom-setup-button, #enter-button, #re-enter-button, #review-button
+  {
+    @include non-code-font();
+         color: $darker-color;
+    text-align: right;
+         width: 400px;
+     font-size: 1.97em;
+   line-height: 95%;
+       padding: 12px;
+        margin: { top: 0px; bottom: 10px; left: 10px; }
+  }
+
+  #enter-button
+  { @include font-size-largest(); }
+
+  #re-enter-button, #setup-button, #custom-setup-button, #review-button
+  { @include font-size-medium(); }
+
+}
