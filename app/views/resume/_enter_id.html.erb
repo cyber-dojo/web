@@ -10,8 +10,9 @@ $(function() {
     if (id.length >= 6) {
       $.getJSON('/resume/check', { id: id }, function(dojo) {
         if (dojo.exists) {
+          const title = ''; // none
           kataIdInput.val(''); // force id re-entry if dialog cancels
-          cd.resumeDialog('resume a practice', dojo.html);
+          cd.resumeDialog(title, dojo.html);
           //TODO: give kataIdInput back the focus() if dialog cancels
         }
       });
