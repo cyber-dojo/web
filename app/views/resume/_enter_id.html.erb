@@ -4,20 +4,29 @@
 $(function() {
 
   const kataIdInput = $('#kata-id-input');
+  const dropDown = $('#drop-down');
+  const avatarGrid = $('#avatar-grid');
+  const cancel = $('#cancel');
 
-  const autoResume = function() {
+  const autoDropDown = function() {
     const id = kataIdInput.val();
     if (id.length >= 6) {
       $.getJSON('/resume/check', { id: id }, function(dojo) {
         if (dojo.exists) {
-          const title = ''; // none
-          kataIdInput.val(''); // force id re-entry if dialog cancels
-          cd.resumeDialog(title, dojo.html);
-          //TODO: give kataIdInput back the focus() if dialog cancels
+          avatarGrid.html(dojo.html);
+          kataIdInput.prop('disabled', true);
+          dropDown.slideDown('slow');
         }
       });
     }
   };
+
+  cancel.click(function() {
+    dropDown.slideUp('slow');
+    kataIdInput.val('')
+               .prop('disabled', false)
+               .focus();
+  });
 
   // Only accept hex input.
   // Also accepts a Ctrl-V paste event which will allow
@@ -36,8 +45,9 @@ $(function() {
     }
   });
 
-  kataIdInput.keyup(function() { autoResume(); });
+  kataIdInput.keyup(function() { autoDropDown(); });
   kataIdInput.focus();
+  dropDown.hide();
 
 });
 
@@ -50,3 +60,9 @@ $(function() {
        size="8"
        value="">
 </input>
+
+<div id="drop-down">
+  <div id="avatar-grid"></div>
+  <button type="button" id="cancel">cancel</button>
+</div>
+
