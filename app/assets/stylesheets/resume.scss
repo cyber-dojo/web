@@ -18,7 +18,7 @@
     @include rounded-corner(6px);
         background: lighten($green, 20%);
              color: $darker-color;
-             width: 270px;
+             width: 280px;
              padding: { right: 20px; bottom: 5px; top: 5px; }
             margin: { top: 4px; bottom: 10px; right: 2px; }
         text-align: right;
@@ -30,21 +30,16 @@
     text-transform: lowercase;
   }
 
-  #avatar-grid table {
-    border-collapse: collapse;
-    background: white;
-    th, td { padding: 0; }
-  }
-
   img.avatar {
     width: 37px;
     height: 37px;
     display: block;
+    @include rounded-corner(2px);
   }
 
   img.grey {
     filter: grayscale(100%);
-    opacity: 0.6;
+    opacity: 0.25;
   }
 
   #cancel
@@ -55,7 +50,7 @@
     text-align: right;
    line-height: 95%;
        padding: 8px;
-        margin: { top: 10px; }
+        margin: { left:10px; top: 10px; }
   }
 
 }
