@@ -5,22 +5,25 @@
   #title {
     @include non-code-font();
          color: $lighter-color;
-     font-size: 3.2em;
+     font-size: 4.2em;
      padding: { top: 20px; bottom: 20px; }
   }
-  #avatars-grid { width: 226px; }
-  #individual-setup-button, #individual-already-setup-button
+  #individual-setup-button, #individual-custom-setup-button, #individual-enter-button
   {
     @include non-code-font();
-    @include font-size-largest();
          color: $darker-color;
     text-align: right;
-         width: 350px;
+         width: 610px;
      font-size: 1.97em;
    line-height: 95%;
-       padding: { top: 12px; bottom: 12px; right: 15px; }
-        margin: { top: 0px; bottom: 8px; left: 10px; }
+       padding: 12px;
+        margin: { top: 0px; bottom: 10px; }
   }
+  #individual-setup-button
+  { @include font-size-largest(); }
+  #individual-custom-setup-button, #individual-enter-button
+  { @include font-size-medium(); }
+
 }
 
 //------------------------------------------
@@ -31,22 +34,27 @@
   #title {
     @include non-code-font();
          color: $lighter-color;
-     font-size: 3.2em;
+     font-size: 4.2em;
      padding: { top: 20px; bottom: 20px; }
   }
-  #avatars-grid { width: 226px; }
-  #team-setup-button, #team-already-setup-button
+  #avatars-grid { width: 245px; }
+  #team-setup-button, #team-custom-setup-button, #team-enter-button, #team-review-button
   {
     @include non-code-font();
-    @include font-size-largest();
          color: $darker-color;
     text-align: right;
-         width: 350px;
+         width: 400px;
      font-size: 1.97em;
    line-height: 95%;
-       padding: { top: 12px; bottom: 12px; right: 15px; }
-        margin: { top: 0px; bottom: 8px; left: 10px; }
+       padding: 12px;
+        margin: { top: 0px; bottom: 10px; left: 10px; }
   }
+  #team-setup-button, #team-custom-setup-button
+  { @include font-size-medium(); }
+  #team-enter-button
+  { @include font-size-largest(); }
+  #team-review-button
+  { @include font-size-medium(); }
 }
 
 //------------------------------------------
@@ -57,7 +65,7 @@
 
   #heading {
          width: 100%;
-        height: 155px;
+        height: 230px;
       position: fixed;
            top: 0px;
     background: $darker-color;
@@ -65,14 +73,14 @@
 
     #cyber-dojo {
       @include non-code-font();
-      font-size: 5.65em;
+      font-size: 8.8em;
           color: $text-color;
         padding: { top: 10px; bottom: 0px; }
     }
 
     #the-place-to-practise-programming {
       @include non-code-font();
-      font-size: 1.58em;
+      font-size: 2.78em;
           color: lighten($text-color, 5%);
        position: relative;
             top: -9px;
@@ -83,7 +91,7 @@
 
   #main-buttons {
     background: lighten($darker-color, 6%);
-    margin-top: 155px;
+    margin-top: 230px;
        padding: 33px;
   }
 
@@ -99,8 +107,7 @@
         margin: { top: 17px; right: 17px; }
         border: 3px solid lighten($text-color, 5%);
         @include rounded-corner();
-      }
-
+    }
   }
 
   //------------------------------------------
@@ -109,7 +116,7 @@
     background: lighten($darker-color, 6%);
        padding: { top: 20px; bottom: 40px; }
     .info-text {
-      @include font-size-small();
+      @include font-size-tiny();
       padding-bottom: 2px;
     }
   }
@@ -120,10 +127,8 @@
   #team-button,
   #donate-button {
     @include non-code-font();
-    @include font-size-largest();
          color: $darker-color;
     text-align: right;
-         width: 350px;
      font-size: 1.97em;
    line-height: 95%;
        padding: { top: 12px; bottom: 12px; right: 15px; }
@@ -131,17 +136,16 @@
   }
 
   #donate-button-container { padding: 10px; }
-  #donate-button { width: 200px; }
+  #donate-button { width: 200px; font-size: 1.97em; }
 
-  #individual-button, #team-button { width: 230px; }
+  #individual-button, #team-button {
+    @include font-size-largest();
+    width: 570px;
+  }
 
   //------------------------------------------
 
-  #avatars-grid {
-       width: 204px;
-    position: relative;
-         top: -2px;
-  }
+  //#avatars-grid { width: 204px; }
 
   //------------------------------------------
 

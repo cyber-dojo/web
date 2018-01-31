@@ -1,18 +1,17 @@
 
 #enter-page {
 
-  font-size: 1.15em;
   margin: { top: 55px; }
   .center-content { @include center-align(); }
 
   #title {
     @include non-code-font();
          color: $lighter-color;
-     font-size: 2.6em;
+     font-size: 4.2em;
      padding: { top: 20px; bottom: 20px; }
   }
 
-  #avatars-grid { width: 206px; }
+  #avatars-grid { width: 270px; }
 
   #enter-a-practice-session, #review-a-practice-session {
     @include non-code-font();
@@ -41,15 +40,15 @@
     text-transform: lowercase;
   }
 
-  #start-button, #resume-button,    #dashboard-button, #review-button {
+  #start-button, #resume-button {
     @include non-code-font();
-    @include font-size-large();
-         width: 292px;
+         width: 412px;
        padding: { top: 8px; bottom: 8px; right: 20px; }
         margin: { left: 10px; bottom: 10px; }
     text-align: right;
   }
 
+  #start-button { @include font-size-largest(); }
   #resume-button { @include font-size-medium(); }
 }
 

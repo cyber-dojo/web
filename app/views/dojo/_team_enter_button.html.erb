@@ -1,0 +1,17 @@
+
+<script type="text/javascript"><!--
+
+$(function() {
+
+  $('#team-enter-button').click(function() {
+    const url = "/enter/show/<%= @id %>?from=team";
+    window.location = url;
+  });
+
+});
+
+//--></script>
+
+<button type="button" id="team-enter-button">
+  enter a practice
+</button>

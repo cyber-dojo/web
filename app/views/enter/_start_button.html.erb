@@ -8,8 +8,11 @@ $(function() {
   button.click(function() {
     const id = $('#full-kata-id').val();
     const cursor = button.css('cursor');
-    button.prop('disabled',true).css('cursor','wait');
-    cd.startAnimal(id, 'from_setup');
+    const from = "from_setup_<%= @from %>";
+    button.css('cursor','wait');
+    button.prop('disabled', true);
+    cd.startAnimal(id, from);
+    button.prop('disabled', false);
     button.css('cursor', cursor);
   });
 

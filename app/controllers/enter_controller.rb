@@ -4,6 +4,7 @@ class EnterController < ApplicationController
   def show
     @title = 'enter'
     @id = id || ''
+    @from = params['from']
   end
 
   def review

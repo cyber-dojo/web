@@ -8,9 +8,8 @@
   <table>
     <tr class="valign-top">
       <td colspan="3" align="right">
-        <%= render partial: 'setup_default_button' %>
         <div id="setup-a-practice-session">
-          setup a new <%= @from %> practice session
+          setup <%= @from=='individual' ? 'my' : 'our' %> new custom practice session
         </div>
       </td>
     </tr>
@@ -26,7 +25,7 @@
     </tr>
     <tr class="valign-top">
       <td colspan="3" align="right">
-        <%= render partial: 'set_it_up_buttons' %>
+        <%= render partial: 'set_it_up_button' %>
       </td>
     </tr>
   </table>
