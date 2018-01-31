@@ -30,10 +30,22 @@
     text-transform: lowercase;
   }
 
-  .avatar-img {
-    width: 35px;
-    height: 35px;
+  #avatar-grid table {
+    border-collapse: collapse;
+    background: white;
+    th, td { padding: 0; }
+  }
+
+  img.avatar {
+    width: 37px;
+    height: 37px;
     display: block;
   }
+
+  img.grey {
+    filter: grayscale(100%);
+    opacity: 0.6;
+  }
+
 }
 

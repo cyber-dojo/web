@@ -22,17 +22,18 @@ $(function() {
   };
 
   cancel.click(function() {
-    dropDown.slideUp('slow');
-    kataIdInput.val('')
-               .prop('disabled', false)
-               .focus();
+    dropDown.slideUp('slow', function() {
+      kataIdInput.val('')
+                 .prop('disabled', false)
+                 .focus();
+    });
   });
 
   // Only accept hex input.
   // Also accepts a Ctrl-V paste event which will allow
   // non-hex chars to be entered.
   kataIdInput.keypress(function(e) {
-    var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+    const str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
     if (e.which == 0 || e.charCode == 0) { // special key
       return true;
     }

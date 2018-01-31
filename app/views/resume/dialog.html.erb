@@ -1,24 +1,21 @@
 
 <div>
-  <table class="align-center">
-    <% started_count = 0 %>
+  <table id="table" class="align-center">
     <% index = 0 %>
-    <% size = 45 %>
     <% (1..8).each do %>
     <tr>
       <% (1..8).each do %>
       <td>
         <% avatar_name = @all_avatar_names[index] %>
         <% if @started_avatar_names.include?(avatar_name) %>
-          <% started_count += 1 %>
-          <img onclick='cd.reJoin("<%= @id %>","<%= avatar_name %>");'
+          <img onclick='cd.resume("<%= @id %>","<%= avatar_name %>");'
                src="/images/avatars/<%= avatar_name %>.jpg"
-               class="avatar-img"
+               class="avatar"
                title="<%= avatar_name %>"
                data-cursor="pointer"/>
         <% else %>
-          <img src="/images/avatars/bw/<%= avatar_name %>.jpg"
-               class="avatar-img"/>
+          <img src="/images/avatars/<%= avatar_name %>.jpg"
+               class="avatar grey"/>
         <% end %>
         <% index += 1 %>
       </td>
