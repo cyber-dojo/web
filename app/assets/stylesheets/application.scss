@@ -24,6 +24,7 @@
  *= depend_on team.scss
  *= depend_on setup.scss
  *= depend_on enter.scss
+ *= depend_on resume.scss
  *= depend_on kata.scss
  *= depend_on dashboard.scss
  *= depend_on review.scss
@@ -49,6 +50,7 @@
 @import "team.scss";
 @import "setup.scss";
 @import "enter.scss";
+@import "resume.scss";
 @import "kata.scss";
 @import "dashboard.scss";
 @import "review.scss";

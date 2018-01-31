@@ -3,11 +3,12 @@
 var cyberDojo = (function(cd, $) {
   "use strict";
 
+  const title = ''; // none
+
   cd.startAnimal = function(id, from) {
     $.getJSON('/enter/start', { id: id }, function(dojo) {
-      $('#start-button').prop('disabled',false).css('cursor','default');
       if (dojo.full) {
-        cd.dialog(dojo.full_dialog_html, 'start programming', 'ok').dialog('open');
+        cd.dialog(dojo.full_dialog_html, title, 'ok').dialog('open');
       } else {
         startDialog(id, dojo.avatar_name, dojo.start_dialog_html, from);
       }
@@ -25,7 +26,7 @@ var cyberDojo = (function(cd, $) {
     $('<div class="dialog">')
       .html(dialogHtml)
       .dialog({
-        title: cd.dialogTitle('start programming'),
+        title: cd.dialogTitle(title),
         autoOpen: true,
         width: 400,
         modal: true,

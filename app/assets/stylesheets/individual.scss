@@ -14,7 +14,7 @@
      padding: { top: 20px; bottom: 20px; }
   }
 
-  #setup-button, #custom-setup-button, #enter-button, #re-enter-button
+  #setup-button, #custom-setup-button
   {
     @include non-code-font();
          color: $darker-color;
@@ -26,10 +26,8 @@
         margin: { top: 0px; bottom: 10px; }
   }
 
-  #button
-  { @include font-size-largest(); }
+  #setup-button { @include font-size-largest(); }
 
-  #custom-setup-button, #enter-button, #re-enter-button,
-  { @include font-size-medium(); }
+  #custom-setup-button { @include font-size-medium(); }
 
 }

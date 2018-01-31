@@ -5,14 +5,14 @@ $(function() {
 
   const kataIdInput = $('#kata-id-input');
 
-  const autoEnter = function() {
+  const autoResume = function() {
     const id = kataIdInput.val();
     if (id.length >= 6) {
-      $.getJSON('/enter/check', { id: id }, function(dojo) {
+      $.getJSON('/resume/check', { id: id }, function(dojo) {
         if (dojo.exists) {
           kataIdInput.val(''); // force id re-entry if dialog cancels
-          cd.startAnimal(dojo.full_id, 'from_team');
-;         //TODO: this page goes back to home
+          cd.resumeDialog('resume a practice', dojo.html);
+          //TODO: give kataIdInput back the focus() if dialog cancels
         }
       });
     }
@@ -35,7 +35,7 @@ $(function() {
     }
   });
 
-  kataIdInput.keyup(function() { autoEnter(); });
+  kataIdInput.keyup(function() { autoResume(); });
   kataIdInput.focus();
 
 });
