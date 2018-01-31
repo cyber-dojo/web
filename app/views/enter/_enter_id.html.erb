@@ -11,7 +11,7 @@ $(function() {
       $.getJSON('/enter/check', { id: id }, function(dojo) {
         if (dojo.exists) {
           kataIdInput.val(''); // force id re-entry if dialog cancels
-          cd.startAnimal(dojo.full_id, 'from_team');
+          cd.startAnimal(dojo.full_id);
         }
       });
     }
