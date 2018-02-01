@@ -13,6 +13,7 @@ $(function() {
   const dropDown = $('#drop-down');
   const hiText = $('#hi-text');
   const avatarPicker = $('#avatar-picker');
+  const loText = $('#lo-text');
   const cancel = $('#cancel');
 
   const autoDropDown = function() {
@@ -22,8 +23,10 @@ $(function() {
         if (dojo.exists) {
           if (dojo.empty) {
             hiText.html('no one has entered yet!');
+            loText.html('');
           } else {
             hiText.html('click your animal');
+            loText.html('or');
           }
           avatarPicker.html(dojo.avatarPickerHtml);
           idInput.prop('disabled', true);
@@ -80,6 +83,7 @@ $(function() {
 <div id="drop-down">
   <span id="hi-text"></span>
   <div id="avatar-picker"></div>
+  <span id="lo-text"></span>
   <button type="button" id="cancel">cancel</button>
 </div>
 

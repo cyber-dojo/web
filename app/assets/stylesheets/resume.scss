@@ -31,14 +31,15 @@
     text-transform: lowercase;
   }
 
-  #hi-text
+  #hi-text, #lo-text
   {
     @include non-code-font();
-    @include font-size-large();
          color: $lighter-color;
      padding: { top: 20px; bottom: 20px; }
      margin: { bottom: 10px; }
   }
+  #hi-text { @include font-size-large(); }
+  #lo-text { @include font-size-medium(); }
 
   img.avatar {
     width: 42px;
@@ -60,7 +61,7 @@
     text-align: right;
    line-height: 95%;
        padding: 8px;
-        margin: { top: 5px; }
+        margin: { left: 10px; top: 5px; }
   }
 
 }
