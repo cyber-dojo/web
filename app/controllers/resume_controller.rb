@@ -15,16 +15,16 @@ class ResumeController < ApplicationController
     render json: {
       exists: exists,
       empty: kata.avatars.started.count == 0,
-      avatarGridHtml: exists ? avatar_grid_html : ''
+      avatarPickerHtml: exists ? avatar_picker_html : ''
     }
   end
 
   private
 
-  def avatar_grid_html
+  def avatar_picker_html
     @all_avatar_names = Avatars.names
     @started_avatar_names = avatars.names
-    bind('/app/views/resume/avatar_grid.html.erb')
+    bind('/app/views/resume/avatar_picker.html.erb')
   end
 
   def bind(pathed_filename)

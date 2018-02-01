@@ -6,7 +6,7 @@ $(function() {
   const kataIdInput = $('#kata-id-input');
   const dropDown = $('#drop-down');
   const hiText = $('#hi-text');
-  const avatarGrid = $('#avatar-grid');
+  const avatarPicker = $('#avatar-picker');
   const loText = $('#lo-text');
   const cancel = $('#cancel');
 
@@ -22,7 +22,7 @@ $(function() {
             hiText.html('click your animal');
             loText.html('or');
           }
-          avatarGrid.html(dojo.avatarGridHtml);
+          avatarPicker.html(dojo.avatarPickerHtml);
           kataIdInput.prop('disabled', true);
           kataIdInput.slideUp('fast', function() {
             dropDown.slideDown('slow');
@@ -77,7 +77,7 @@ $(function() {
 
 <div id="drop-down">
   <span id="hi-text"></span>
-  <div id="avatar-grid"></div>
+  <div id="avatar-picker"></div>
   <span id="lo-text"></span>
   <button type="button" id="cancel">cancel</button>
 </div>

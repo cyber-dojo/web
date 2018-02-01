@@ -4,18 +4,38 @@
 $(function() {
 
   const kataIdInput = $('#kata-id-input');
+  const dropDown = $('#drop-down');
+  const avatarGrid = $('#avatar-grid');
+  const ok = $('#ok');
+  // TODO: will need cancel button for when kata is full
 
   const autoEnter = function() {
     const id = kataIdInput.val();
     if (id.length >= 6) {
       $.getJSON('/enter/check', { id: id }, function(dojo) {
         if (dojo.exists) {
-          kataIdInput.val(''); // force id re-entry if dialog cancels
-          cd.startAnimal(dojo.full_id);
+          //kataIdInput.val(''); // force id re-entry if dialog cancels
+          //cd.startAnimal(dojo.full_id);
+          //TODO: could be full
+          avatarGrid.html(dojo.avatarGridHtml);
+          kataIdInput.prop('disabled', true);
+          kataIdInput.slideUp('fast', function() {
+            dropDown.slideDown('slow');
+          });
         }
       });
     }
   };
+
+  ok.click(function() {
+    dropDown.slideUp('slow', function() {
+      kataIdInput.show()
+                 .prop('disabled', false)
+                 .val('')
+                 .slideDown('fast')
+                 .focus();
+    });
+  });
 
   // Only accept hex input.
   // Also accepts a Ctrl-V paste event which will allow
@@ -36,6 +56,7 @@ $(function() {
 
   kataIdInput.keyup(function() { autoEnter(); });
   kataIdInput.focus();
+  dropDown.hide();
 
 });
 
@@ -48,3 +69,8 @@ $(function() {
        size="8"
        value="">
 </input>
+
+<div id="drop-down">
+  <div id="avatar-grid"></div>
+  <button type="button" id="ok">ok</button>
+</div>
