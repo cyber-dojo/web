@@ -40,10 +40,16 @@
      margin: { bottom: 10px; }
   }
 
-  img.avatar {
+  img.avatar.large {
     width: 154px;
     height: 154px;
     @include rounded-corner(4px);
+  }
+  img.avatar.small {
+    width: 42px;
+    height: 42px;
+    display: block;
+    @include rounded-corner(2px);
   }
 
   #ok, #cancel

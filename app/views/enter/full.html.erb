@@ -1,18 +1,13 @@
 
 <div>
   <table class="align-center">
-    <% index = 0 %>
-    <% size = 35 %>
-    <% (1..8).each do |_| %>
+    <% 8.times do |y| %>
     <tr>
-      <% (1..8).each do |_| %>
+      <% 8.times do |x| %>
       <td>
-        <% avatar_name = @all_avatar_names[index] %>
+        <% avatar_name = @all_avatar_names[y*8 + x] %>
           <img src="/images/avatars/<%= avatar_name %>.jpg"
-               style="display:block"
-               width="<%= size %>"
-               height="<%= size %>" />
-        <% index += 1 %>
+               class="avatar small" />
       </td>
       <% end %>
     </tr>
