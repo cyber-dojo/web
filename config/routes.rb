@@ -24,20 +24,20 @@ CyberDojo::Application.routes.draw do
   get '/team(/:id)' => 'team#home'
 
   scope path: '/setup_default_start_point', controller: :setup_default_start_point do
-    get 'show_languages(/:id)' => :show_languages
-    get 'show_exercises(/:id)' => :show_exercises
-    get 'save'                 => :save, :constraints => { :format => :json }
-  end
+      get 'show_languages(/:id)' => :show_languages
+      get 'show_exercises(/:id)' => :show_exercises
+      get 'save'                 => :save, :constraints => { :format => :json }
+    end
 
   scope path: '/setup_custom_start_point', controller: :setup_custom_start_point do
-    get 'show(/:id)'  => :show
-    get 'save'        => :save, :constraints => { :format => :json }
-  end
+      get 'show(/:id)'  => :show
+      get 'save'        => :save, :constraints => { :format => :json }
+    end
 
   scope path: '/image_puller', controller: :image_puller do
-    get 'image_pulled' => :image_pulled?, :constraints => { :format => :json }
-    get 'image_pull'   => :image_pull,    :constraints => { :format => :json }
-  end
+      get 'image_pulled' => :image_pulled?, :constraints => { :format => :json }
+      get 'image_pull'   => :image_pull,    :constraints => { :format => :json }
+    end
 
   scope path: '/id_enter', controller: :id_enter do
     get 'show'      => :show
@@ -49,6 +49,10 @@ CyberDojo::Application.routes.draw do
     get 'drop_down' => :drop_down,  :constraints => { :format => :json }
   end
 
+  scope path: '/id_review', controller: :id_review do
+    get 'show'      => :show
+    get 'drop_down' => :drop_down,  :constraints => { :format => :json }
+  end
 
   scope path: '/kata', controller: :kata do
     get  'edit(/:id)'      => :edit

@@ -1,15 +1,11 @@
 
-class IdResumeController < ApplicationController
+class IdReviewController < ApplicationController
 
   def show
-    @title = 'id_resume'
+    @title = 'id_review'
   end
 
   def drop_down
-    # TODO: if there is no completion
-    # storer's kata.completed(id) could return ''
-    # then I would not need to call kata.exists?
-    # which does another round-trip to the storer
     @id = params['id'] = katas.completed(id.upcase)
     json = { exists: kata.exists? }
     if json[:exists]

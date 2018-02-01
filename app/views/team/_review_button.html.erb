@@ -3,15 +3,14 @@
 
 $(function() {
 
-  $('#review').click(function() {
-    const url = "/dashboard/show/<%= @id %>";
-    window.location = url;
+  $('button#review').click(function() {
+    window.location = '/id_review/show';
   });
 
 });
 
 //--></script>
 
-<button type="button" id="review">
+<button id="review">
   review a practice
 </button>

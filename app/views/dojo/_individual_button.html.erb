@@ -3,7 +3,7 @@
 
 $(function() {
 
-  $('#individual-button').click(function() {
+  $('button#individual').click(function() {
     window.location = "/individual/<%= @id %>";
   });
 
@@ -11,6 +11,6 @@ $(function() {
 
 //--></script>
 
-<button type="button" id="individual-button">
+<button id="individual">
   I'm practising on my own
 </button>

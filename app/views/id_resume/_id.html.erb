@@ -9,15 +9,15 @@ $(function() {
     window.open(url);
   };
 
-  const idInput = $('#id-input');
+  const inputId = $('input#id');
   const dropDown = $('#drop-down');
   const hiText = $('#hi-text');
   const avatarPicker = $('#avatar-picker');
   const loText = $('#lo-text');
-  const cancel = $('#cancel');
+  const cancel = $('button#cancel');
 
   const autoDropDown = function() {
-    const id = idInput.val();
+    const id = inputId.val();
     if (id.length >= 6) {
       $.getJSON('/id_resume/drop_down', { id: id }, function(dojo) {
         if (dojo.exists) {
@@ -29,8 +29,8 @@ $(function() {
             loText.html('or');
           }
           avatarPicker.html(dojo.avatarPickerHtml);
-          idInput.prop('disabled', true);
-          idInput.slideUp('fast', function() {
+          inputId.prop('disabled', true);
+          inputId.slideUp('fast', function() {
             dropDown.slideDown('slow');
           });
         }
@@ -38,9 +38,11 @@ $(function() {
     }
   };
 
+  dropDown.hide();
+
   cancel.click(function() {
     dropDown.slideUp('slow', function() {
-      idInput.show()
+      inputId.show()
              .prop('disabled', false)
              .val('')
              .slideDown('fast')
@@ -51,7 +53,7 @@ $(function() {
   // Only accept hex input.
   // Also accepts a Ctrl-V paste event which will allow
   // non-hex chars to be entered.
-  idInput.keypress(function(e) {
+  inputId.keypress(function(e) {
     const str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
     if (e.which == 0 || e.charCode == 0) { // special key
       return true;
@@ -65,8 +67,7 @@ $(function() {
     }
   });
 
-  idInput.focus().keyup(function() { autoDropDown(); });
-  dropDown.hide();
+  inputId.focus().keyup(function() { autoDropDown(); });
 
 });
 
@@ -74,7 +75,7 @@ $(function() {
 
 <input title="an id contains only the digits 0123456789 and letters ABCDEF, and is case insensitive"
        type="text"
-       id="id-input"
+       id="id"
        placeholder="id?"
        size="8"
        value="">
@@ -84,6 +85,6 @@ $(function() {
   <span id="hi-text"></span>
   <div id="avatar-picker"></div>
   <span id="lo-text"></span>
-  <button type="button" id="cancel">cancel</button>
+  <button id="cancel">cancel</button>
 </div>
 

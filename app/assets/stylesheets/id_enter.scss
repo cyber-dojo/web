@@ -1,5 +1,5 @@
 
-#resume-page {
+#id-enter-page {
 
   margin: { top: 25px; }
 
@@ -12,7 +12,7 @@
      padding: { top: 20px; bottom: 20px; }
   }
 
-  #id-input {
+  input#id {
     @include non-code-font();
     font-size: 4.2em;
     @include gradient-lighten($green, 40%, 30%, 20%);
@@ -26,42 +26,53 @@
     text-transform: uppercase;
   }
 
-  #id-input::placeholder {
+  input#id::placeholder {
          font-size: 25px;
     text-transform: lowercase;
   }
 
-  #hi-text, #lo-text
+  #hi-text
   {
     @include non-code-font();
+    @include font-size-large();
          color: $lighter-color;
-     padding: { top: 20px; bottom: 20px; }
+     padding: { top: 0px; bottom: 0px; }
      margin: { bottom: 10px; }
   }
-  #hi-text { @include font-size-large(); }
-  #lo-text { @include font-size-medium(); }
 
-  img.avatar {
+  img.avatar.large {
+    width: 154px;
+    height: 154px;
+    @include rounded-corner(4px);
+  }
+
+  img.avatar.small {
     width: 42px;
     height: 42px;
     display: block;
     @include rounded-corner(2px);
   }
 
-  img.grey {
-    filter: grayscale(100%);
-    opacity: 0.25;
+  .traffic-light {
+    width: 30px;
+    height: 30px;
+    margin: { left: 10px; right: 10px; }
   }
 
-  #cancel
+  .info {
+    @include font-size-medium();
+    text-align: left;
+  }
+
+  button#ok, button#cancel
   {
     @include non-code-font();
-    @include font-size-medium();
+    @include font-size-larger();
          color: $darker-color;
     text-align: right;
    line-height: 95%;
-       padding: 8px;
-        margin: { left: 10px; top: 5px; }
+       padding: { top: 8px; bottom: 8px; left: 15px; right: 15px; }
+        margin: { top: 5px; }
   }
 
 }

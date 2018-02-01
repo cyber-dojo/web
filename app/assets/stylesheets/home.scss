@@ -63,8 +63,8 @@
 
   //------------------------------------------
 
-  #individual-button,
-  #team-button,
+  button#individual,
+  button#team,
   #donate-button {
     @include non-code-font();
          color: $darker-color;
@@ -78,14 +78,10 @@
   #donate-button-container { padding: 10px; }
   #donate-button { width: 200px; font-size: 1.97em; }
 
-  #individual-button, #team-button {
+  button#individual, button#team {
     @include font-size-largest();
     width: 570px;
   }
-
-  //------------------------------------------
-
-  //#avatars-grid { width: 204px; }
 
   //------------------------------------------
 

@@ -2,7 +2,7 @@
 class IdEnterController < ApplicationController
 
   def show
-    @title = 'enter'
+    @title = 'id_enter'
   end
 
   def drop_down
