@@ -45,8 +45,8 @@ CyberDojo::Application.routes.draw do
   end
 
   scope path: '/resume', controller: :resume do
-    get 'show'   => :show
-    get 'check'        => :check,  :constraints => { :format => :json }
+    get 'show'  => :show
+    get 'check' => :check,  :constraints => { :format => :json }
   end
 
   scope path: '/kata', controller: :kata do
