@@ -1,16 +1,14 @@
 
-<div data-width="500">
-  <div class="align-center medium">sorry, full up!</div>
+<div>
   <table class="align-center">
     <% index = 0 %>
-    <% size = 45 %>
+    <% size = 35 %>
     <% (1..8).each do |_| %>
     <tr>
       <% (1..8).each do |_| %>
       <td>
         <% avatar_name = @all_avatar_names[index] %>
           <img src="/images/avatars/<%= avatar_name %>.jpg"
-               title="<%= avatar_name %>"
                style="display:block"
                width="<%= size %>"
                height="<%= size %>" />

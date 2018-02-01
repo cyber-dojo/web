@@ -5,14 +5,6 @@ class EnterController < ApplicationController
     @title = 'enter'
   end
 
-  def check
-    full_id = katas.completed(id.upcase)
-    render json: {
-      exists: full_id.length == 10,
-      full_id: full_id
-    }
-  end
-
   def checked_start
     @id = params['id'] = katas.completed(id.upcase)
     json = { exists: kata.exists? }
@@ -28,17 +20,6 @@ class EnterController < ApplicationController
       end
     end
     render json:json
-  end
-
-  def start
-    avatar = kata.start_avatar
-    full = avatar.nil?
-    render json: {
-            avatar_name: !full ? avatar.name : '',
-                   full:  full,
-      start_dialog_html: !full ? start_html(avatar.name) : '',
-       full_dialog_html:  full ? full_html : ''
-    }
   end
 
   private
