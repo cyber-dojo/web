@@ -1,6 +1,6 @@
 
-#team-page {
-
+#team-page
+{
   margin: { top: 25px; }
 
   .center-content { @include center-align(); }
@@ -15,22 +15,25 @@
 
   #avatars-grid { width: 300px; }
 
-  #setup, #custom-setup, #enter, #resume, #review
+  button
   {
-    @include non-code-font();
-         color: $darker-color;
-    text-align: right;
-         width: 400px;
-     font-size: 1.97em;
-   line-height: 95%;
-       padding: 12px;
-        margin: { top: 0px; bottom: 10px; left: 10px; }
+    &#setup, &#custom-setup, &#enter, &#resume, &#review
+    {
+      @include non-code-font();
+           color: $darker-color;
+      text-align: right;
+           width: 400px;
+       font-size: 1.97em;
+     line-height: 95%;
+         padding: 12px;
+          margin: { top: 0px; bottom: 10px; left: 10px; }
+    }
+
+    &#enter
+    { @include font-size-largest(); }
+
+    &#resume, &#setup, &#custom-setup, &#review
+    { @include font-size-medium(); }
   }
-
-  #enter
-  { @include font-size-largest(); }
-
-  #resume, #setup, #custom-setup, #review
-  { @include font-size-medium(); }
 
 }

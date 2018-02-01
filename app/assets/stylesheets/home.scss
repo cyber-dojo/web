@@ -1,9 +1,10 @@
 
-#home-page {
-
+#home-page
+{
   .center-content { @include center-align(); }
 
-  #heading {
+  #heading
+  {
          width: 100%;
         height: 230px;
       position: fixed;
@@ -11,14 +12,16 @@
     background: $darker-color;
        z-index: 999;
 
-    #cyber-dojo {
+    #cyber-dojo
+    {
       @include non-code-font();
       font-size: 8.8em;
           color: $text-color;
         padding: { top: 10px; bottom: 0px; }
     }
 
-    #the-place-to-practise-programming {
+    #the-place-to-practise-programming
+    {
       @include non-code-font();
       font-size: 2.78em;
           color: lighten($text-color, 5%);
@@ -29,7 +32,8 @@
 
   //------------------------------------------
 
-  #main-buttons {
+  #main-buttons
+  {
     background: lighten($darker-color, 6%);
     margin-top: 230px;
        padding: 33px;
@@ -37,11 +41,13 @@
 
   //------------------------------------------
 
-  #foundation {
+  #foundation
+  {
     font-size: 0.9em;
       padding: 25px;
 
-    .kids-pic {
+    .kids-pic
+    {
          width: 200px;
         height: 150px;
         margin: { top: 17px; right: 17px; }
@@ -52,10 +58,12 @@
 
   //------------------------------------------
 
-  #about {
+  #about
+  {
     background: lighten($darker-color, 6%);
        padding: { top: 20px; bottom: 40px; }
-    .info-text {
+    .info-text
+    {
       @include font-size-tiny();
       padding-bottom: 2px;
     }
@@ -63,36 +71,43 @@
 
   //------------------------------------------
 
-  button#individual,
-  button#team,
-  #donate-button {
-    @include non-code-font();
-         color: $darker-color;
-    text-align: right;
-     font-size: 1.97em;
-   line-height: 95%;
-       padding: { top: 12px; bottom: 12px; right: 15px; }
-        margin: { top: 0px; bottom: 8px; left: 10px; }
+  button
+  {
+    &#individual, &#team, &#donate
+    {
+      @include non-code-font();
+           color: $darker-color;
+      text-align: right;
+       font-size: 1.97em;
+     line-height: 95%;
+         padding: { top: 12px; bottom: 12px; right: 15px; }
+          margin: { top: 0px; bottom: 8px; left: 10px; }
+    }
+
+    &#donate { width: 200px; font-size: 1.97em; }
+
+    &#individual, &#team
+    {
+      @include font-size-largest();
+      width: 570px;
+    }
+
   }
 
   #donate-button-container { padding: 10px; }
-  #donate-button { width: 200px; font-size: 1.97em; }
-
-  button#individual, button#team {
-    @include font-size-largest();
-    width: 570px;
-  }
 
   //------------------------------------------
 
-  .info-text {
+  .info-text
+  {
     @include plaintext-font();
     font-size: 1.5em;
   }
 
   //------------------------------------------
 
-  #custom-container {
+  #custom-container
+  {
     position: absolute;
         left: 675px;
          top: 350px;

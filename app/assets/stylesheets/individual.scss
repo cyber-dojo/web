@@ -14,20 +14,22 @@
      padding: { top: 20px; bottom: 20px; }
   }
 
-  #setup, #custom-setup, #enter, #resume
+  button
   {
-    @include non-code-font();
-         color: $darker-color;
-    text-align: right;
-         width: 610px;
-     font-size: 1.97em;
-   line-height: 95%;
-       padding: 12px;
-        margin: { top: 0px; bottom: 10px; }
+    &#setup, &#custom-setup, &#enter, &#resume {
+      @include non-code-font();
+           color: $darker-color;
+      text-align: right;
+           width: 610px;
+       font-size: 1.97em;
+     line-height: 95%;
+         padding: 12px;
+          margin: { top: 0px; bottom: 10px; }
+    }
+
+    &#setup { @include font-size-largest(); }
+
+    &#custom-setup, &#enter, &#resume { @include font-size-medium(); }
   }
-
-  #setup { @include font-size-largest(); }
-
-  #custom-setup, #enter, #resume { @include font-size-medium(); }
 
 }

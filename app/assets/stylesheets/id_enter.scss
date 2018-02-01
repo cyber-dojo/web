@@ -1,18 +1,20 @@
 
-#id-enter-page {
-
+#id-enter-page
+{
   margin: { top: 25px; }
 
   .center-content { @include center-align(); }
 
-  #title {
+  #title
+  {
     @include non-code-font();
          color: $lighter-color;
      font-size: 4.2em;
      padding: { top: 20px; bottom: 20px; }
   }
 
-  input#id {
+  input#id
+  {
     @include non-code-font();
     font-size: 4.2em;
     @include gradient-lighten($green, 40%, 30%, 20%);
@@ -24,11 +26,12 @@
             margin: { top: 4px; bottom: 10px; right: 2px; }
         text-align: right;
     text-transform: uppercase;
-  }
 
-  input#id::placeholder {
-         font-size: 25px;
-    text-transform: lowercase;
+    &::placeholder
+    {
+           font-size: 25px;
+      text-transform: lowercase;
+    }
   }
 
   #hi-text
@@ -40,39 +43,48 @@
      margin: { bottom: 10px; }
   }
 
-  img.avatar.large {
-    width: 154px;
-    height: 154px;
-    @include rounded-corner(4px);
+  img.avatar
+  {
+    &.large
+    {
+      width: 154px;
+      height: 154px;
+      @include rounded-corner(4px);
+    }
+    &.small
+    {
+      width: 42px;
+      height: 42px;
+      display: block;
+      @include rounded-corner(2px);
+    }
   }
 
-  img.avatar.small {
-    width: 42px;
-    height: 42px;
-    display: block;
-    @include rounded-corner(2px);
-  }
-
-  .traffic-light {
+  .traffic-light
+  {
     width: 30px;
     height: 30px;
     margin: { left: 10px; right: 10px; }
   }
 
-  .info {
+  .info
+  {
     @include font-size-medium();
     text-align: left;
   }
 
-  button#ok, button#cancel
+  button
   {
-    @include non-code-font();
-    @include font-size-larger();
-         color: $darker-color;
-    text-align: right;
-   line-height: 95%;
-       padding: { top: 8px; bottom: 8px; left: 15px; right: 15px; }
-        margin: { top: 5px; }
+    &#ok, &#cancel
+    {
+      @include non-code-font();
+      @include font-size-larger();
+           color: $darker-color;
+      text-align: right;
+     line-height: 95%;
+         padding: { top: 8px; bottom: 8px; left: 15px; right: 15px; }
+          margin: { top: 5px; }
+    }
   }
 
 }

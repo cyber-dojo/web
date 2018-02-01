@@ -1,18 +1,21 @@
 
-#id-review-page {
+#id-review-page
+{
 
   margin: { top: 25px; }
 
   .center-content { @include center-align(); }
 
-  #title {
+  #title
+  {
     @include non-code-font();
          color: $lighter-color;
      font-size: 4.2em;
      padding: { top: 20px; bottom: 20px; }
   }
 
-  input#id {
+  input#id
+  {
     @include non-code-font();
     font-size: 4.2em;
     @include gradient-lighten($green, 40%, 30%, 20%);
@@ -24,22 +27,26 @@
             margin: { top: 4px; bottom: 10px; right: 2px; }
         text-align: right;
     text-transform: uppercase;
+
+    &::placeholder
+    {
+           font-size: 25px;
+      text-transform: lowercase;
+    }
   }
 
-  input#id::placeholder {
-         font-size: 25px;
-    text-transform: lowercase;
-  }
-
-  button#ok, button#cancel
+  button
   {
-    @include non-code-font();
-    @include font-size-medium();
-         color: $darker-color;
-    text-align: right;
-   line-height: 95%;
-       padding: 8px;
-        margin: { left: 10px; top: 5px; }
+    &#ok, &#cancel
+    {
+      @include non-code-font();
+      @include font-size-medium();
+           color: $darker-color;
+      text-align: right;
+     line-height: 95%;
+         padding: 8px;
+          margin: { left: 10px; top: 5px; }
+    }
   }
 
 }

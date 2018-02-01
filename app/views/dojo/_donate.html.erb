@@ -3,7 +3,7 @@
 
 $(function() {
 
-  $('#donate-button').click(function(event) {
+  $('button#donate').click(function(event) {
     event.preventDefault();
     cd.dialog_donate().dialog('open');
   })
@@ -13,5 +13,5 @@ $(function() {
 //--></script>
 
 <div id="donate-button-container">
-  <button type="button" id="donate-button">please donate</button>
+  <button id="donate">please donate</button>
 </div>
