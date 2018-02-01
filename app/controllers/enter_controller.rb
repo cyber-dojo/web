@@ -20,10 +20,11 @@ class EnterController < ApplicationController
       avatar = kata.start_avatar
       json[:full] = avatar.nil?
       if json[:full]
-        json[:kataFullHtml] = full_dialog_html
+        json[:fullHtml] = full_html
       else
+        json[:id] = @id
         json[:avatarName] = avatar.name
-        json[:avatarStartHtml] = start_dialog_html(avatar.name)
+        json[:avatarStartHtml] = start_html(avatar.name)
       end
     end
     render json:json
@@ -35,21 +36,21 @@ class EnterController < ApplicationController
     render json: {
             avatar_name: !full ? avatar.name : '',
                    full:  full,
-      start_dialog_html: !full ? start_dialog_html(avatar.name) : '',
-       full_dialog_html:  full ? full_dialog_html : ''
+      start_dialog_html: !full ? start_html(avatar.name) : '',
+       full_dialog_html:  full ? full_html : ''
     }
   end
 
   private
 
-  def start_dialog_html(avatar_name)
+  def start_html(avatar_name)
     @avatar_name = avatar_name
-    bind('/app/views/enter/start_dialog.html.erb')
+    bind('/app/views/enter/start.html.erb')
   end
 
-  def full_dialog_html
+  def full_html
     @all_avatar_names = Avatars.names
-    bind('/app/views/enter/full_dialog.html.erb')
+    bind('/app/views/enter/full.html.erb')
   end
 
   def bind(pathed_filename)

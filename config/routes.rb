@@ -41,8 +41,9 @@ CyberDojo::Application.routes.draw do
 
   scope path: '/enter', controller: :enter do
     get 'show'   => :show
-    get 'check'        => :check,  :constraints => { :format => :json }
-    get 'start'        => :start,  :constraints => { :format => :json }
+    #get 'check'        => :check,  :constraints => { :format => :json }
+    get 'checked_start' => :checked_start,  :constraints => { :format => :json }
+    #get 'start'        => :start,  :constraints => { :format => :json }
   end
 
   scope path: '/resume', controller: :resume do

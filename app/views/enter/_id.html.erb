@@ -1,0 +1,102 @@
+
+<script type="text/javascript"><!--
+
+$(function() {
+
+  const idInput = $('#id-input');
+  const dropDown = $('#drop-down');
+  const hiText = $('#hi-text');
+  const avatarStart = $('#avatar-start');
+  const ok = $('#ok');
+  const cancel = $('#cancel');
+
+  const autoDropDown = function() {
+    const id = idInput.val();
+    if (id.length >= 6) {
+      $.getJSON('/enter/checked_start', { id: id }, function(dojo) {
+        if (dojo.exists) {
+          if (dojo.full) {
+            hiText.html('sorry, full up!');
+            avatarStart.html(dojo.fullHtml);
+            ok.hide();
+            cancel.show();
+          } else {
+            hiText.html('your animal is the ' + dojo.avatarName);
+            avatarStart.html(dojo.avatarStartHtml);
+            ok.unbind().click(function() {
+              const url = '/kata/edit/' + dojo.id + '?avatar=' + dojo.avatarName;
+              window.location.href = cd.homePageUrl(dojo.id);
+              window.open(url);
+            });
+            ok.show();
+            cancel.hide();
+          }
+          idInput.prop('disabled', true);
+          idInput.slideUp('fast', function() {
+            dropDown.slideDown('slow');
+          });
+        }
+      });
+    }
+  };
+
+  /* register this inside JSON callback....
+  ok.click(function() {
+    dropDown.slideUp('slow', function() {
+      idInput.show()
+             .prop('disabled', false)
+             .val('')
+             .slideDown('fast')
+             .focus();
+    });
+  });
+  */
+
+  cancel.click(function() {
+    dropDown.slideUp('slow', function() {
+      idInput.show()
+             .prop('disabled', false)
+             .val('')
+             .slideDown('fast')
+             .focus();
+    });
+  });
+
+  // Only accept hex input.
+  // Also accepts a Ctrl-V paste event which will allow
+  // non-hex chars to be entered.
+  idInput.keypress(function(e) {
+    var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+    if (e.which == 0 || e.charCode == 0) { // special key
+      return true;
+    }
+    else if (str.match(/[a-fA-F0-9]/)) { // hex key
+      return true;
+    }
+    else {
+      e.preventDefault();
+      return false;
+    }
+  });
+
+  idInput.focus().keyup(function() { autoDropDown(); });
+  dropDown.hide();
+
+});
+
+//--></script>
+
+<input title="an id contains only the digits 0123456789 and letters ABCDEF, and is case insensitive"
+       type="text"
+       id="id-input"
+       placeholder="id?"
+       size="8"
+       value="">
+</input>
+
+<div id="drop-down">
+  <div id="hi-text"></div>
+  <div id="avatar-start"></div>
+  <button type="button" id="ok">ok</button>
+  <button type="button" id="cancel">cancel</button>
+</div>

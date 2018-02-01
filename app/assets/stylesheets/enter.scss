@@ -12,7 +12,7 @@
      padding: { top: 20px; bottom: 20px; }
   }
 
-  #kata-id-input {
+  #id-input {
     @include non-code-font();
     font-size: 4.2em;
     @include gradient-lighten($green, 40%, 30%, 20%);
@@ -26,19 +26,34 @@
     text-transform: uppercase;
   }
 
-  #kata-id-input::placeholder {
+  #id-input::placeholder {
          font-size: 25px;
     text-transform: lowercase;
   }
 
-  #ok
+  #hi-text
   {
     @include non-code-font();
-    @include font-size-medium();
+    @include font-size-large();
+         color: $lighter-color;
+     padding: { top: 0px; bottom: 0px; }
+     margin: { bottom: 10px; }
+  }
+
+  img.avatar {
+    width: 154px;
+    height: 154px;
+    @include rounded-corner(4px);
+  }
+
+  #ok, #cancel
+  {
+    @include non-code-font();
+    @include font-size-larger();
          color: $darker-color;
     text-align: right;
    line-height: 95%;
-       padding: 8px;
+       padding: { top: 8px; bottom: 8px; left: 15px; right: 15px; }
         margin: { top: 5px; }
   }
 

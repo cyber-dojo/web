@@ -12,7 +12,7 @@
      padding: { top: 20px; bottom: 20px; }
   }
 
-  #kata-id-input {
+  #id-input {
     @include non-code-font();
     font-size: 4.2em;
     @include gradient-lighten($green, 40%, 30%, 20%);
@@ -26,7 +26,7 @@
     text-transform: uppercase;
   }
 
-  #kata-id-input::placeholder {
+  #id-input::placeholder {
          font-size: 25px;
     text-transform: lowercase;
   }
@@ -50,15 +50,6 @@
   img.grey {
     filter: grayscale(100%);
     opacity: 0.25;
-  }
-
-  #lo-text
-  {
-    @include non-code-font();
-    @include font-size-medium();
-         color: $lighter-color;
-     padding: { top: 20px; bottom: 20px; }
-     margin: { right: 10px; }
   }
 
   #cancel
