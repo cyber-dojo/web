@@ -3,32 +3,34 @@
 
 $(function() {
 
-  cd.resume = function(id, avatarName) {
-    const url = '/kata/edit/' + id + '?avatar=' + avatarName;
-    window.location.href = cd.homePageUrl(id);
-    window.open(url);
-  };
-
   const idInput = $('#id-input');
   const dropDown = $('#drop-down');
   const hiText = $('#hi-text');
-  const avatarPicker = $('#avatar-picker');
-  const loText = $('#lo-text');
+  const avatarStart = $('#avatar-start');
+  const ok = $('#ok');
   const cancel = $('#cancel');
 
   const autoDropDown = function() {
     const id = idInput.val();
     if (id.length >= 6) {
-      $.getJSON('/resume/check', { id: id }, function(dojo) {
+      $.getJSON('/id_enter/drop_down', { id: id }, function(dojo) {
         if (dojo.exists) {
-          if (dojo.empty) {
-            hiText.html('no one has entered yet!');
-            loText.html('');
+          if (dojo.full) {
+            hiText.html('sorry, full up!');
+            avatarStart.html(dojo.fullHtml);
+            ok.hide();
+            cancel.show();
           } else {
-            hiText.html('click your animal');
-            loText.html('or');
+            hiText.html('your animal is the ' + dojo.avatarName);
+            avatarStart.html(dojo.avatarStartHtml);
+            ok.unbind().click(function() {
+              const url = '/kata/edit/' + dojo.id + '?avatar=' + dojo.avatarName;
+              window.location.href = cd.homePageUrl(dojo.id);
+              window.open(url);
+            });
+            ok.show();
+            cancel.hide();
           }
-          avatarPicker.html(dojo.avatarPickerHtml);
           idInput.prop('disabled', true);
           idInput.slideUp('fast', function() {
             dropDown.slideDown('slow');
@@ -52,7 +54,7 @@ $(function() {
   // Also accepts a Ctrl-V paste event which will allow
   // non-hex chars to be entered.
   idInput.keypress(function(e) {
-    const str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+    var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
     if (e.which == 0 || e.charCode == 0) { // special key
       return true;
     }
@@ -81,9 +83,8 @@ $(function() {
 </input>
 
 <div id="drop-down">
-  <span id="hi-text"></span>
-  <div id="avatar-picker"></div>
-  <span id="lo-text"></span>
+  <div id="hi-text"></div>
+  <div id="avatar-start"></div>
+  <button type="button" id="ok">ok</button>
   <button type="button" id="cancel">cancel</button>
 </div>
-

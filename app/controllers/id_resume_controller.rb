@@ -1,11 +1,11 @@
 
-class ResumeController < ApplicationController
+class IdResumeController < ApplicationController
 
   def show
     @title = 'resume'
   end
 
-  def check
+  def drop_down
     # TODO: if there is no completion
     # storer's kata.completed(id) could return ''
     # then I would not need to call kata.exists?
@@ -24,12 +24,7 @@ class ResumeController < ApplicationController
   def avatar_picker_html
     @all_avatar_names = Avatars.names
     @started_avatar_names = avatars.names
-    bind('/app/views/resume/avatar_picker.html.erb')
-  end
-
-  def bind(pathed_filename)
-    filename = Rails.root.to_s + pathed_filename
-    ERB.new(File.read(filename)).result(binding)
+    bind('/app/views/id_resume/avatar_picker.html.erb')
   end
 
 end

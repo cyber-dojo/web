@@ -55,4 +55,11 @@ class ApplicationController < ActionController::Base
     params['max_seconds'].to_i
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def bind(pathed_filename)
+    filename = Rails.root.to_s + pathed_filename
+    ERB.new(File.read(filename)).result(binding)
+  end
+
 end

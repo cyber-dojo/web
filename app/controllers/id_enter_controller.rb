@@ -1,11 +1,11 @@
 
-class EnterController < ApplicationController
+class IdEnterController < ApplicationController
 
   def show
     @title = 'enter'
   end
 
-  def checked_start
+  def drop_down
     @id = params['id'] = katas.completed(id.upcase)
     json = { exists: kata.exists? }
     if json[:exists]
@@ -26,17 +26,12 @@ class EnterController < ApplicationController
 
   def start_html(avatar_name)
     @avatar_name = avatar_name
-    bind('/app/views/enter/start.html.erb')
+    bind('/app/views/id_enter/start.html.erb')
   end
 
   def full_html
     @all_avatar_names = Avatars.names
-    bind('/app/views/enter/full.html.erb')
-  end
-
-  def bind(pathed_filename)
-    filename = Rails.root.to_s + pathed_filename
-    ERB.new(File.read(filename)).result(binding)
+    bind('/app/views/id_enter/full.html.erb')
   end
 
 end

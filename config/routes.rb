@@ -39,15 +39,16 @@ CyberDojo::Application.routes.draw do
     get 'image_pull'   => :image_pull,    :constraints => { :format => :json }
   end
 
-  scope path: '/enter', controller: :enter do
-    get 'show'   => :show
-    get 'checked_start' => :checked_start,  :constraints => { :format => :json }
+  scope path: '/id_enter', controller: :id_enter do
+    get 'show'      => :show
+    get 'drop_down' => :drop_down,  :constraints => { :format => :json }
   end
 
-  scope path: '/resume', controller: :resume do
-    get 'show'  => :show
-    get 'check' => :check,  :constraints => { :format => :json }
+  scope path: '/id_resume', controller: :id_resume do
+    get 'show'      => :show
+    get 'drop_down' => :drop_down,  :constraints => { :format => :json }
   end
+
 
   scope path: '/kata', controller: :kata do
     get  'edit(/:id)'      => :edit
