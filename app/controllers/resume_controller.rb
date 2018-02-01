@@ -11,12 +11,12 @@ class ResumeController < ApplicationController
     # then I would not need to call kata.exists?
     # which does another round-trip to the storer
     @id = params['id'] = katas.completed(id.upcase)
-    exists = kata.exists?
-    render json: {
-      exists: exists,
-      empty: kata.avatars.started.count == 0,
-      avatarPickerHtml: exists ? avatar_picker_html : ''
-    }
+    json = { exists: kata.exists? }
+    if json[:exists]
+      json[:empty] = kata.avatars.started.count == 0
+      json[:avatarPickerHtml] = avatar_picker_html
+    end
+    render json:json
   end
 
   private
