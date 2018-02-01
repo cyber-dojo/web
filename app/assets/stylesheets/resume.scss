@@ -13,7 +13,7 @@
 
   #kata-id-input {
     @include non-code-font();
-    @include font-size-largest();
+    font-size: 4.2em;
     @include gradient-lighten($green, 40%, 30%, 20%);
     @include rounded-corner(6px);
         background: lighten($green, 20%);
@@ -30,6 +30,15 @@
     text-transform: lowercase;
   }
 
+  #hi-text
+  {
+    @include non-code-font();
+    @include font-size-large();
+         color: $lighter-color;
+     padding: { top: 20px; bottom: 20px; }
+     margin: { bottom: 10px; }
+  }
+
   img.avatar {
     width: 37px;
     height: 37px;
@@ -42,6 +51,15 @@
     opacity: 0.25;
   }
 
+  #lo-text
+  {
+    @include non-code-font();
+    @include font-size-medium();
+         color: $lighter-color;
+     padding: { top: 20px; bottom: 20px; }
+     margin: { right: 10px; }
+  }
+
   #cancel
   {
     @include non-code-font();
@@ -50,7 +68,7 @@
     text-align: right;
    line-height: 95%;
        padding: 8px;
-        margin: { left:10px; top: 10px; }
+        margin: { top: 5px; }
   }
 
 }

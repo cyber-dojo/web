@@ -5,7 +5,9 @@ $(function() {
 
   const kataIdInput = $('#kata-id-input');
   const dropDown = $('#drop-down');
+  const hiText = $('#hi-text');
   const avatarGrid = $('#avatar-grid');
+  const loText = $('#lo-text');
   const cancel = $('#cancel');
 
   const autoDropDown = function() {
@@ -13,9 +15,18 @@ $(function() {
     if (id.length >= 6) {
       $.getJSON('/resume/check', { id: id }, function(dojo) {
         if (dojo.exists) {
-          avatarGrid.html(dojo.html);
+          if (dojo.empty) {
+            hiText.html('no one has entered yet!');
+            loText.html('');
+          } else {
+            hiText.html('click your animal');
+            loText.html('or');
+          }
+          avatarGrid.html(dojo.avatarGridHtml);
           kataIdInput.prop('disabled', true);
-          dropDown.slideDown('slow');
+          kataIdInput.slideUp('fast', function() {
+            dropDown.slideDown('slow');
+          });
         }
       });
     }
@@ -23,8 +34,10 @@ $(function() {
 
   cancel.click(function() {
     dropDown.slideUp('slow', function() {
-      kataIdInput.val('')
+      kataIdInput.show()
                  .prop('disabled', false)
+                 .val('')
+                 .slideDown('fast')
                  .focus();
     });
   });
@@ -63,8 +76,9 @@ $(function() {
 </input>
 
 <div id="drop-down">
+  <span id="hi-text"></span>
   <div id="avatar-grid"></div>
-  <span id="message">click your animal, or</span>
+  <span id="lo-text"></span>
   <button type="button" id="cancel">cancel</button>
 </div>
 

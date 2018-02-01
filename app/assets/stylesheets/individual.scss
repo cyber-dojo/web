@@ -14,7 +14,7 @@
      padding: { top: 20px; bottom: 20px; }
   }
 
-  #setup-button, #custom-setup-button
+  #setup, #custom-setup, #enter, #resume
   {
     @include non-code-font();
          color: $darker-color;
@@ -26,8 +26,8 @@
         margin: { top: 0px; bottom: 10px; }
   }
 
-  #setup-button { @include font-size-largest(); }
+  #setup { @include font-size-largest(); }
 
-  #custom-setup-button { @include font-size-medium(); }
+  #custom-setup, #enter, #resume { @include font-size-medium(); }
 
 }

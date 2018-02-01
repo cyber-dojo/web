@@ -15,7 +15,7 @@
 
   #avatars-grid { width: 300px; }
 
-  #setup-button, #custom-setup-button, #enter-button, #resume-button, #review-button
+  #setup, #custom-setup, #enter, #resume, #review
   {
     @include non-code-font();
          color: $darker-color;
@@ -27,10 +27,10 @@
         margin: { top: 0px; bottom: 10px; left: 10px; }
   }
 
-  #enter-button
+  #enter
   { @include font-size-largest(); }
 
-  #resume-button, #setup-button, #custom-setup-button, #review-button
+  #resume, #setup, #custom-setup, #review
   { @include font-size-medium(); }
 
 }

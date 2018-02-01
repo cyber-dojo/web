@@ -3,7 +3,7 @@
 
 $(function() {
 
-  $('#review-button').click(function() {
+  $('#review').click(function() {
     const url = "/dashboard/show/<%= @id %>";
     window.location = url;
   });
@@ -12,6 +12,6 @@ $(function() {
 
 //--></script>
 
-<button type="button" id="review-button">
+<button type="button" id="review">
   review a practice
 </button>

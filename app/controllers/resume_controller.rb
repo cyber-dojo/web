@@ -14,16 +14,17 @@ class ResumeController < ApplicationController
     exists = kata.exists?
     render json: {
       exists: exists,
-      html: exists ? dialog_html : ''
+      empty: kata.avatars.started.count == 0,
+      avatarGridHtml: exists ? avatar_grid_html : ''
     }
   end
 
   private
 
-  def dialog_html
+  def avatar_grid_html
     @all_avatar_names = Avatars.names
     @started_avatar_names = avatars.names
-    bind('/app/views/resume/dialog.html.erb')
+    bind('/app/views/resume/avatar_grid.html.erb')
   end
 
   def bind(pathed_filename)
