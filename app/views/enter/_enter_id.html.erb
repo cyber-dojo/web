@@ -3,21 +3,31 @@
 
 $(function() {
 
+  /*
+  cd.resume = function(id, avatarName) {
+    const url = '/kata/edit/' + id + '?avatar=' + avatarName;
+    window.location.href = cd.homePageUrl(id);
+    window.open(url);
+  };
+  */
+
   const kataIdInput = $('#kata-id-input');
   const dropDown = $('#drop-down');
-  const avatarGrid = $('#avatar-grid');
+  const avatarStart = $('#avatar-start');
   const ok = $('#ok');
   // TODO: will need cancel button for when kata is full
 
-  const autoEnter = function() {
+  const autoDropDown = function() {
     const id = kataIdInput.val();
     if (id.length >= 6) {
-      $.getJSON('/enter/check', { id: id }, function(dojo) {
+      $.getJSON('/enter/checked_start', { id: id }, function(dojo) {
         if (dojo.exists) {
           //kataIdInput.val(''); // force id re-entry if dialog cancels
           //cd.startAnimal(dojo.full_id);
           //TODO: could be full
-          avatarGrid.html(dojo.avatarGridHtml);
+
+          avatarStart.html(dojo.avatarStartHtml);
+
           kataIdInput.prop('disabled', true);
           kataIdInput.slideUp('fast', function() {
             dropDown.slideDown('slow');
@@ -54,7 +64,7 @@ $(function() {
     }
   });
 
-  kataIdInput.keyup(function() { autoEnter(); });
+  kataIdInput.keyup(function() { autoDropDown(); });
   kataIdInput.focus();
   dropDown.hide();
 
@@ -71,6 +81,6 @@ $(function() {
 </input>
 
 <div id="drop-down">
-  <div id="avatar-grid"></div>
+  <div id="avatar-start"></div>
   <button type="button" id="ok">ok</button>
 </div>

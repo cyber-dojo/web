@@ -3,11 +3,16 @@
 
 $(function() {
 
+  cd.resume = function(id, avatarName) {
+    const url = '/kata/edit/' + id + '?avatar=' + avatarName;
+    window.location.href = cd.homePageUrl(id);
+    window.open(url);
+  };
+
   const kataIdInput = $('#kata-id-input');
   const dropDown = $('#drop-down');
   const hiText = $('#hi-text');
   const avatarPicker = $('#avatar-picker');
-  const loText = $('#lo-text');
   const cancel = $('#cancel');
 
   const autoDropDown = function() {
@@ -17,10 +22,8 @@ $(function() {
         if (dojo.exists) {
           if (dojo.empty) {
             hiText.html('no one has entered yet!');
-            loText.html('');
           } else {
             hiText.html('click your animal');
-            loText.html('or');
           }
           avatarPicker.html(dojo.avatarPickerHtml);
           kataIdInput.prop('disabled', true);
@@ -78,7 +81,6 @@ $(function() {
 <div id="drop-down">
   <span id="hi-text"></span>
   <div id="avatar-picker"></div>
-  <span id="lo-text"></span>
   <button type="button" id="cancel">cancel</button>
 </div>
 

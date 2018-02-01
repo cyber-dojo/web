@@ -13,6 +13,22 @@ class EnterController < ApplicationController
     }
   end
 
+  def checked_start
+    @id = params['id'] = katas.completed(id.upcase)
+    json = { exists: kata.exists? }
+    if json[:exists]
+      avatar = kata.start_avatar
+      json[:full] = avatar.nil?
+      if json[:full]
+        json[:kataFullHtml] = full_dialog_html
+      else
+        json[:avatarName] = avatar.name
+        json[:avatarStartHtml] = start_dialog_html(avatar.name)
+      end
+    end
+    render json:json
+  end
+
   def start
     avatar = kata.start_avatar
     full = avatar.nil?
@@ -25,10 +41,6 @@ class EnterController < ApplicationController
   end
 
   private
-
-  def empty
-    avatars.names == []
-  end
 
   def start_dialog_html(avatar_name)
     @avatar_name = avatar_name
