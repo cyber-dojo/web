@@ -15,7 +15,6 @@ $(function() {
     if (id.length >= 6) {
       $.getJSON('/id_review/drop_down', { id: id }, function(dojo) {
         if (dojo.exists) {
-          //hiText.html('your animal is the ' + dojo.avatarName);
           avatarStart.html(dojo.avatarStartHtml);
           ok.unbind().click(function() {
             const url = '/dashboard/show/' + dojo.id + '?avatar=' + dojo.avatarName;
