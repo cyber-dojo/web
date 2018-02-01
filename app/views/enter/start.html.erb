@@ -1,8 +1,57 @@
 
 <div>
-  <div class='align-center'>
-    <img class='avatar large'
-       src="/images/avatars/<%= @avatar_name %>.jpg"
-       title="<%= @avatar_name.humanize %>" />
-  </div>
+  <table class='align-center'>
+   <tr>
+     <td>
+        <img class='avatar large'
+           src="/images/avatars/<%= @avatar_name %>.jpg"
+           title="<%= @avatar_name.humanize %>" />
+     </td>
+     <td>
+        <table>
+          <tr>
+            <td>
+              <img src='/images/bulb_red.png'
+                   alt='red traffic-light'
+                   class='traffic-light' />
+            </td>
+            <td class="info">
+              tests ran but some failed
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <img src='/images/bulb_amber.png'
+                   alt='amber traffic-light'
+                   class='traffic-light' />
+            </td>
+            <td class="info">
+              tests did not run e.g. syntax error
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <img src='/images/bulb_green.png'
+                   alt='green traffic-light'
+                   class='traffic-light' />
+            </td>
+            <td class="info">
+              tests ran and all passed
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <img src='/images/bulb_timed_out.png'
+                   alt='timed-out traffic-light'
+                   class='traffic-light' />
+            </td>
+            <td class="info">
+              tests did not complete in time
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+
 </div>
