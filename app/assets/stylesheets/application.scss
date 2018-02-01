@@ -23,6 +23,7 @@
  *= depend_on individual.scss
  *= depend_on team.scss
  *= depend_on setup.scss
+ *= depend_on id_common.scss
  *= depend_on id_enter.scss
  *= depend_on id_resume.scss
  *= depend_on id_review.scss
@@ -50,6 +51,7 @@
 @import "individual.scss";
 @import "team.scss";
 @import "setup.scss";
+@import "id_common.scss";
 @import "id_enter.scss";
 @import "id_resume.scss";
 @import "id_review.scss";

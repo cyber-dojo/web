@@ -1,38 +1,7 @@
 
 #id-enter-page
 {
-  margin: { top: 25px; }
-
-  .center-content { @include center-align(); }
-
-  #title
-  {
-    @include non-code-font();
-         color: $lighter-color;
-     font-size: 4.2em;
-     padding: { top: 20px; bottom: 20px; }
-  }
-
-  input#id
-  {
-    @include non-code-font();
-    font-size: 4.2em;
-    @include gradient-lighten($green, 40%, 30%, 20%);
-    @include rounded-corner(6px);
-        background: lighten($green, 20%);
-             color: $darker-color;
-             width: 280px;
-             padding: { right: 20px; bottom: 5px; top: 5px; }
-            margin: { top: 4px; bottom: 10px; right: 2px; }
-        text-align: right;
-    text-transform: uppercase;
-
-    &::placeholder
-    {
-           font-size: 25px;
-      text-transform: lowercase;
-    }
-  }
+  @include id-common();
 
   #hi-text
   {
