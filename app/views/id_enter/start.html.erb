@@ -1,6 +1,6 @@
 
 <div>
-  <table class='align-center'>
+  <table class="align-center" cellpadding="0" cellspacing="0">
    <tr>
      <td>
         <img class='avatar large'
@@ -8,7 +8,13 @@
            title="<%= @avatar_name.humanize %>" />
      </td>
      <td>
-        <table>
+       <div id="info-container">
+        <table cellpadding="0" cellspacing="0">
+          <tr>
+            <td colspan="2" class="info">
+              each test event creates a new traffic-light
+            </td>
+          </tr>
           <tr>
             <td>
               <img src='/images/bulb_red.png'
@@ -16,7 +22,7 @@
                    class='traffic-light' />
             </td>
             <td class="info">
-              tests ran but some failed
+              one or more tests failed
             </td>
           </tr>
           <tr>
@@ -26,7 +32,7 @@
                    class='traffic-light' />
             </td>
             <td class="info">
-              tests did not run e.g. syntax error
+              something broke, e.g. syntax error
             </td>
           </tr>
           <tr>
@@ -36,7 +42,7 @@
                    class='traffic-light' />
             </td>
             <td class="info">
-              tests ran and all passed
+              all the tests passed
             </td>
           </tr>
           <tr>
@@ -50,6 +56,7 @@
             </td>
           </tr>
         </table>
+      </div>
       </td>
     </tr>
   </table>

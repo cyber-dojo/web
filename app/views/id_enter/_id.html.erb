@@ -5,8 +5,8 @@ $(function() {
 
   const inputId = $('input#id');
   const dropDown = $('#drop-down');
-  const hiText = $('#hi-text');
   const avatarStart = $('#avatar-start');
+  const loText = $('#lo-text');
   const ok = $('button#ok');
   const cancel = $('button#cancel');
 
@@ -16,12 +16,12 @@ $(function() {
       $.getJSON('/id_enter/drop_down', { id: id }, function(dojo) {
         if (dojo.exists) {
           if (dojo.full) {
-            hiText.html('sorry, full up!');
+            loText.html('sorry, full up!');
             avatarStart.html(dojo.fullHtml);
             ok.hide();
             cancel.show();
           } else {
-            hiText.html('your animal is the ' + dojo.avatarName);
+            loText.html('your animal is the ' + dojo.avatarName);
             avatarStart.html(dojo.avatarStartHtml);
             ok.unbind().click(function() {
               const url = '/kata/edit/' + dojo.id + '?avatar=' + dojo.avatarName;
@@ -69,8 +69,8 @@ $(function() {
 </input>
 
 <div id="drop-down">
-  <div id="hi-text"></div>
   <div id="avatar-start"></div>
+  <span id="lo-text"></span>
   <button id="ok">ok</button>
   <button id="cancel">cancel</button>
 </div>

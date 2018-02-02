@@ -3,12 +3,12 @@
 {
   @include id-common();
 
-  #hi-text
+  #lo-text
   {
     @include non-code-font();
     @include font-size-large();
          color: $lighter-color;
-     padding: { top: 0px; bottom: 0px; }
+     padding: { top: 0px; bottom: 0px; right: 10px; }
      margin: { bottom: 10px; }
   }
 
@@ -16,8 +16,9 @@
   {
     &.large
     {
-      width: 154px;
-      height: 154px;
+      display: block;
+      width: 171px;
+      height: 171px;
       @include rounded-corner(4px);
     }
     &.small
@@ -31,15 +32,27 @@
 
   .traffic-light
   {
-    width: 30px;
-    height: 30px;
-    margin: { left: 10px; right: 10px; }
+    width: 27px;
+    height: 27px;
+    margin: { left: 9px; right: 0px; }
+    padding: { top: 4px; }
+  }
+
+  #info-container
+  {
+    @include rounded-corner(4px);
+    border: 1px dotted gray;
+    margin: { left: 0px; }
+    padding: { top: 5px; }
+    height: 164px;
   }
 
   .info
   {
-    @include font-size-medium();
+    @include font-size-small();
     text-align: left;
+    margin: { left: 0px; }
+    padding: { left: 10px; right: 10px; }
   }
 
   button

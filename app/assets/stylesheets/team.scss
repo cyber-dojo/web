@@ -13,7 +13,13 @@
      padding: { top: 20px; bottom: 20px; }
   }
 
-  #avatars-grid { width: 300px; }
+  #avatars-grid
+  {
+    width: 303px;
+    height: 303px;
+    position: relative;
+    top: -2px;
+  }
 
   button
   {
@@ -22,7 +28,7 @@
       @include non-code-font();
            color: $darker-color;
       text-align: right;
-           width: 400px;
+           width: 337px;
        font-size: 1.97em;
      line-height: 95%;
          padding: 12px;
