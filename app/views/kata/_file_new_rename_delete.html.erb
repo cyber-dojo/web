@@ -29,7 +29,7 @@ $(function() {
     var dialog = div.dialog({
       closeOnEscape: true,
       close: function() { $(this).remove(); },
-  	  title: cd.dialogTitle(name + '&nbsp;' + 'file'),
+  	  title: cd.dialogTitle(name),
     	autoOpen: false,
       width: 250,
   	  modal: true,
@@ -145,21 +145,21 @@ $(function() {
     <button type="button"
             id="new"
             data-tip="create a new file">
-      new&nbsp;file
+      new
     </button>
   </div>
   <div>
     <button type="button"
             id="rename"
             data-tip="rename the current file">
-      rename&nbsp;file
+      rename
     </button>
   </div>
   <div>
     <button type="button"
             id="delete"
             data-tip="delete the current file">
-      delete&nbsp;file
+      delete
     </button>
   </div>
 </div>
