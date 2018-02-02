@@ -26,7 +26,7 @@ $(function() {
     var div = $('<div>');
     div.append(input);
     div.append(img);
-    var dialog = div.dialog({
+    var fileOperationDialog = div.dialog({
       closeOnEscape: true,
       close: function() { $(this).remove(); },
   	  title: cd.dialogTitle(name),
@@ -35,7 +35,6 @@ $(function() {
   	  modal: true,
       buttons: [ ok, cancel ]
     });
-
   	input.keyup(function(event) {
       var ok = $('#file-ok');
       var newFilename = $.trim(input.val());
@@ -50,14 +49,12 @@ $(function() {
         ok.button('disable');
       }
     });
-
     var end = initialFilename.lastIndexOf('.');
     if (end == -1) {
       end = initialFilename.length;
     }
     input[0].setSelectionRange(0, end);
-
-    dialog.dialog('open');
+    fileOperationDialog.dialog('open');
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -106,9 +103,9 @@ $(function() {
 
   var avatarName = "<%= @avatar.name %>";
   var fileButtons =  $('#file-operations');
-  var newFile = fileButtons.find('#new')
-  var renameFile = fileButtons.find('#rename')
-  var deleteFile = fileButtons.find('#delete')
+  var newFile = fileButtons.find('#new');
+  var renameFile = fileButtons.find('#rename');
+  var deleteFile = fileButtons.find('#delete');
 
   newFile.click(function() {
     var initialFilename = 'filename' + cd.extensionFilename();
@@ -139,13 +136,13 @@ $(function() {
 
   cd.setTip(newFile, function() {
     cd.showHoverTip(newFile, 'create a<br/>new file');
-  })
+  });
   cd.setTip(renameFile, function() {
     cd.showHoverTip(renameFile, 'rename the<br/>current file');
-  })
+  });
   cd.setTip(deleteFile, function() {
     cd.showHoverTip(deleteFile, 'delete the<br/>current file');
-  })
+  });
 
 });
 
