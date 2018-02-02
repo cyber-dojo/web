@@ -60,7 +60,7 @@
     &#ok, &#cancel
     {
       @include non-code-font();
-      @include font-size-larger();
+      @include font-size-medium();
            color: $darker-color;
       text-align: right;
      line-height: 95%;

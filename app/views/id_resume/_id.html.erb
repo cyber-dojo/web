@@ -22,7 +22,7 @@ $(function() {
       $.getJSON('/id_resume/drop_down', { id: id }, function(dojo) {
         if (dojo.exists) {
           if (dojo.empty) {
-            hiText.html('no one has entered yet!');
+            hiText.html('no one has joined yet!');
             loText.html('');
           } else {
             hiText.html('click your animal');
