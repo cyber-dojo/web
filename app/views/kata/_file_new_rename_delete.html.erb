@@ -106,8 +106,11 @@ $(function() {
 
   var avatarName = "<%= @avatar.name %>";
   var fileButtons =  $('#file-operations');
+  var newFile = fileButtons.find('#new')
+  var renameFile = fileButtons.find('#rename')
+  var deleteFile = fileButtons.find('#delete')
 
-  fileButtons.find('#new').click(function() {
+  newFile.click(function() {
     var initialFilename = 'filename' + cd.extensionFilename();
     var okInitiallyDisabled = !isValidFilename(initialFilename);
     var okClicked = function(filename) {
@@ -116,7 +119,7 @@ $(function() {
     openDialog('new', initialFilename, okInitiallyDisabled, okClicked, avatarName);
   });
 
-  fileButtons.find('#rename').click(function() {
+  renameFile.click(function() {
     var initialFilename = cd.currentFilename();
     var okInitiallyDisabled = true;
     var okClicked = function(filename) {
@@ -125,8 +128,7 @@ $(function() {
     openDialog('rename', initialFilename, okInitiallyDisabled, okClicked, avatarName);
   });
 
-  fileButtons.find('#delete').click(function() {
-    //cd.deleteFile("<%= @avatar.name %>");
+  deleteFile.click(function() {
     var initialFilename = cd.currentFilename();
     var okInitiallyDisabled = false;
     var okClicked = function(filename) {
@@ -135,13 +137,22 @@ $(function() {
     openDialog('delete', initialFilename, okInitiallyDisabled, okClicked, avatarName);
   });
 
-  cd.setupHoverTip($('#file-operations [data-tip]'));
+  cd.setTip(newFile, function() {
+    cd.showHoverTip(newFile, 'create a<br/>new file');
+  })
+  cd.setTip(renameFile, function() {
+    cd.showHoverTip(renameFile, 'rename the<br/>current file');
+  })
+  cd.setTip(deleteFile, function() {
+    cd.showHoverTip(deleteFile, 'delete the<br/>current file');
+  })
+
 });
 
 //--></script>
 
 <div id="file-operations">
-  <button type="button" id="new" data-tip="create a<br/>new file">new</button>
-  <button type="button" id="rename" data-tip="rename the<br/>current file">rename</button>
-  <button type="button" id="delete" data-tip="delete the<br/>current file">delete</button>
+  <button id="new">new</button>
+  <button id="rename">rename</button>
+  <button id="delete">delete</button>
 </div>
