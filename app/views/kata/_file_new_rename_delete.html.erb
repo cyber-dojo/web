@@ -135,6 +135,7 @@ $(function() {
     openDialog('delete', initialFilename, okInitiallyDisabled, okClicked, avatarName);
   });
 
+  cd.setupHoverTip($('#file-operations [data-tip]'));
 });
 
 //--></script>
@@ -143,21 +144,21 @@ $(function() {
   <div>
     <button type="button"
             id="new"
-            title="creates a new file">
+            data-tip="create a new file">
       new&nbsp;file
     </button>
   </div>
   <div>
     <button type="button"
             id="rename"
-            title="renames the current file">
+            data-tip="rename the current file">
       rename&nbsp;file
     </button>
   </div>
   <div>
     <button type="button"
             id="delete"
-            title="deletes the current file">
+            data-tip="delete the current file">
       delete&nbsp;file
     </button>
   </div>
