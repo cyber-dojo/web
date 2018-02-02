@@ -29,6 +29,7 @@ $(function() {
             loText.html('or');
           }
           avatarPicker.html(dojo.avatarPickerHtml);
+          cd.setupHoverTip($('[data-tip]'));
           inputId.prop('disabled', true);
           inputId.slideUp('fast', function() {
             dropDown.slideDown('slow');
