@@ -6,7 +6,7 @@
   #heading
   {
          width: 100%;
-        height: 220px;
+        height: 300px;
       position: fixed;
            top: 0px;
     background: $darker-color;
@@ -39,9 +39,14 @@
       padding: 25px;
   }
 
-  #foundation
+  #license
   {
     background: lighten($darker-color, 6%);
+    margin-top: 300px;
+  }
+
+  #foundation
+  {
     .kids-pic
     {
          width: 200px;
@@ -55,7 +60,6 @@
 
   #artwork
   {
-    background: lighten($darker-color, 6%);
     padding: { bottom: 40px; }
     #avatars-grid
     {
@@ -65,14 +69,12 @@
     }
   }
 
-  //------------------------------------------
-
-  #main-buttons
+  #technology
   {
     background: lighten($darker-color, 6%);
-    margin-top: 220px;
-       padding: 33px;
   }
+
+  //------------------------------------------
 
   button
   {
@@ -87,16 +89,19 @@
           margin: { top: 0px; bottom: 8px; left: 10px; }
     }
 
-    &#donate { font-size: 1.67em; }
+    &#donate
+    {
+      font-size: 1.5em;
+      margin-top: 5px;
+    }
 
     &#individual, &#team
     {
       font-size: 2.75em;
+      margin-top: 5px;
     }
 
   }
-
-  #donate-button-container { padding: 10px; }
 
   //------------------------------------------
 
