@@ -1,23 +1,26 @@
 
 <div id="team-page" class="align-center">
 
-<div id="title" class="center-content">
-we're in a group
+  <div id="title" class="center-content">
+    we're in a group
+  </div>
+
+  <table class="center-content" cellpadding="0" cellspacing="0">
+    <tr>
+      <td><%= render partial: 'shared/avatar_grid_colour' %></td>
+      <td>
+        <table>
+          <tr><td><%= render partial: 'enter_button' %></td></tr>
+          <tr><td><%= render partial: 'setup_button' %></td></tr>
+          <tr><td><%= render partial: 'custom_setup_button' %></td></tr>
+          <tr><td><%= render partial: 'resume_button' %></td></tr>
+          <tr><td><%= render partial: 'review_button' %></td></tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+
 </div>
 
-<table class="center-content" cellpadding="0" cellspacing="0">
-  <tr>
-    <td><%= render partial: 'shared/avatar_grid_colour' %></td>
-    <td>
-      <table>
-        <tr><td><%= render partial: 'setup_button' %></td></tr>
-        <tr><td><%= render partial: 'custom_setup_button' %></td></tr>
-        <tr><td><%= render partial: 'enter_button' %></td></tr>
-        <tr><td><%= render partial: 'resume_button' %></td></tr>
-        <tr><td><%= render partial: 'review_button' %></td></tr>
-      </table>
-    </td>
-  </tr>
-</table>
-
-</div>
+<%= render partial: 'shared/app_bar_short',
+    locals: { help_url: "http://blog.cyber-dojo.org/p/learn-more.html" } %>

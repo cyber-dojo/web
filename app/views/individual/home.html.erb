@@ -1,15 +1,18 @@
 
 <div id="individual-page" class="align-center">
 
-<div id="title" class="center-content">
-  i'm on my own
+  <div id="title" class="center-content">
+    i'm on my own
+  </div>
+
+  <table class="center-content" cellpadding="0" cellspacing="0">
+    <tr><td><%= render partial: 'setup_button' %></td></tr>
+    <tr><td><%= render partial: 'custom_setup_button' %></td></tr>
+    <tr><td><%= render partial: 'enter_button' %></td></tr>
+    <tr><td><%= render partial: 'resume_button' %></td></tr>
+  </table>
+
 </div>
 
-<table class="center-content" cellpadding="0" cellspacing="0">
-  <tr><td><%= render partial: 'setup_button' %></td></tr>
-  <tr><td><%= render partial: 'custom_setup_button' %></td></tr>
-  <tr><td><%= render partial: 'enter_button' %></td></tr>
-  <tr><td><%= render partial: 'resume_button' %></td></tr>
-</table>
-
-</div>
+<%= render partial: 'shared/app_bar_short',
+    locals: { help_url: "http://blog.cyber-dojo.org/p/learn-more.html" } %>
