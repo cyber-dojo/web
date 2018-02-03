@@ -6,7 +6,7 @@
   #heading
   {
          width: 100%;
-        height: 230px;
+        height: 220px;
       position: fixed;
            top: 0px;
     background: $darker-color;
@@ -15,7 +15,7 @@
     #cyber-dojo
     {
       @include non-code-font();
-      font-size: 8.8em;
+      font-size: 8.84em;
           color: $text-color;
         padding: { top: 10px; bottom: 0px; }
     }
@@ -23,20 +23,11 @@
     #the-place-to-practise-programming
     {
       @include non-code-font();
-      font-size: 2.78em;
+      font-size: 1.78em;
           color: lighten($text-color, 5%);
        position: relative;
             top: -9px;
     }
-  }
-
-  //------------------------------------------
-
-  #main-buttons
-  {
-    background: lighten($darker-color, 6%);
-    margin-top: 230px;
-       padding: 33px;
   }
 
   //------------------------------------------
@@ -71,6 +62,13 @@
 
   //------------------------------------------
 
+  #main-buttons
+  {
+    background: lighten($darker-color, 6%);
+    margin-top: 220px;
+       padding: 33px;
+  }
+
   button
   {
     &#individual, &#team, &#donate
@@ -88,8 +86,7 @@
 
     &#individual, &#team
     {
-      @include font-size-largest();
-      width: 570px;
+      font-size: 2.75em;
     }
 
   }
