@@ -80,10 +80,11 @@
     padding: { bottom: 40px; }
     .animal
     {
-      width: 100px;
-      height: 100px;
+      width: 75px;
+      height: 75px;
       @include rounded-corner(10px);
       margin: { top: 5px; left: 3px; right: 3px; bottom: 0px; }
+      filter: grayscale(100%);
     }
   }
 
