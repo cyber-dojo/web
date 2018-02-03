@@ -53,7 +53,7 @@
         height: 150px;
         margin: 17px;
         margin-left: 0px;
-        border: 3px solid lighten($text-color, 5%);
+        border: 2px solid lighten($text-color, 5%);
         @include rounded-corner();
     }
     .trustee
@@ -62,7 +62,8 @@
       width: 100px;
       height: 100px;
       @include rounded-corner(10px);
-      border: 3px solid lighten($text-color, 5%);
+      filter: grayscale(100%);
+      border: 2px solid lighten($text-color, 5%);
       cursor: pointer;
     }
     .bio
