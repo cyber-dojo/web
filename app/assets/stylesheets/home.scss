@@ -39,11 +39,15 @@
       padding: 25px;
   }
 
+  //------------------------------------------
+
   #license
   {
     background: lighten($darker-color, 6%);
     margin-top: 300px;
   }
+
+  //------------------------------------------
 
   #foundation
   {
@@ -51,20 +55,23 @@
     {
          width: 200px;
         height: 150px;
-        margin: 17px;
-        margin-left: 0px;
-        border: 2px solid lighten($text-color, 5%);
+        margin: { top: 15px; bottom: 15px; left: 5px; right: 5px; }
+        border: 1px dotted darken($text-color, 5%);
         @include rounded-corner();
+    }
+    table
+    {
+      border-spacing: 0px;
+      border-collapse: separate
     }
     .trustee
     {
-      margin: { top: 5px; left: 4px; right: 4px; bottom: 0px; }
-      width: 100px;
-      height: 100px;
+      border: 1px dotted darken($text-color, 5%);
+      width: 93px;
+      height: 93px;
+      margin: { top: 10px; bottom: 0px; left: 4px; right: 4px; }
+      padding: 0px;
       @include rounded-corner(10px);
-      filter: grayscale(100%);
-      border: 2px solid lighten($text-color, 5%);
-      cursor: pointer;
     }
     .bio
     {
@@ -76,22 +83,36 @@
     }
   }
 
-  #artwork
-  {
-    padding: { bottom: 40px; }
-    .animal
-    {
-      width: 75px;
-      height: 75px;
-      @include rounded-corner(10px);
-      margin: { top: 5px; left: 3px; right: 3px; bottom: 0px; }
-      filter: grayscale(100%);
-    }
-  }
+  //------------------------------------------
 
   #technology
   {
     background: lighten($darker-color, 6%);
+    img
+    {
+      border: 1px dotted lighten($text-color, 5%);
+      width: 72px;
+      height: 72px;
+      @include rounded-corner(6px);
+      margin: { top: 10px; left: 3px; right: 3px; bottom: 0px; }
+      filter: grayscale(100%);
+    }
+  }
+
+  //------------------------------------------
+
+  #artwork
+  {
+    padding: { bottom: 45px; }
+    .animal
+    {
+      border: 1px dotted lighten($text-color, 5%);
+      width: 72px;
+      height: 72px;
+      @include rounded-corner(10px);
+      margin: { top: 10px; left: 3px; right: 3px; bottom: 0px; }
+      filter: grayscale(100%);
+    }
   }
 
   //------------------------------------------
