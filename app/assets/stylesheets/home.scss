@@ -58,15 +58,20 @@
     }
     .trustee
     {
-      margin: 2px;
+      margin: { top: 5px; left: 4px; right: 4px; bottom: 0px; }
       width: 100px;
       height: 100px;
-      @include rounded-corner(50px);
+      @include rounded-corner(10px);
       border: 3px solid lighten($text-color, 5%);
+      cursor: pointer;
     }
-    .name
+    .bio
     {
+      vertical-align: top;
+      width: 90px;
       font-size: 10px;
+      text-align: center;
+      padding: { left: 5px; right: 5px; }
     }
   }
 

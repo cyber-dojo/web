@@ -1,26 +1,3 @@
-<script type="text/javascript"><!--
-
-$(function() {
-  cd.createTip($('#jon' ),
-  'Jon is a software consultant<br/>' +
-  'he lives in England'
-  );
-  cd.createTip($('#olve'),
-    'Olve is a magician at Cisco<br/>' +
-    'he lives in Norway'
-  );
-  cd.createTip($('#mike'),
-    'Mike is a director at Praqma<br/>' +
-    'he lives in Norway'
-  );
-  cd.createTip($('#seb' ),
-    'Seb is an associate with Cucumber.io<br/>' +
-    'he lives in Scotland'
-  );
-});
-
-//--></script>
-
 <div id="foundation" class="center-content">
 
   <div>
@@ -50,26 +27,48 @@ $(function() {
     <br/>
     Scottish Charitable Incorporated Organisation
     <br/>
-    it has four trustees
+    with four trustees
   </div>
 
   <table class="center-content">
     <tr>
-      <td id="jon">
-        <img class="trustee" src="/images/JonJagger.jpg">
-        <div class="name">Jon Jagger</div>
+      <td>
+        <a href="https://jonjagger.blogspot.co.uk">
+          <img class="trustee" src="/images/JonJagger.jpg">
+        </a>
       </td>
-      <td id="olve">
-        <img class="trustee" src="/images/OlveMaudal.jpg">
-        <div class="name">Olve Maudal</div>
+      <td>
+        <a href="https://olvemaudal.com">
+          <img class="trustee" src="/images/OlveMaudal.jpg">
+        </a>
       </td>
-      <td id="mike">
-        <img class="trustee" src="/images/MikeLong.jpg">
-        <div class="name">Mike Long</div>
+      <td>
+        <a href="https://www.praqma.com">
+          <img class="trustee" src="/images/MikeLong.jpg">
+        </a>
       </td>
-      <td id="seb">
-        <img class="trustee" src="/images/SebRose.jpg">
-        <div class="name">Seb Rose</div>
+      <td>
+        <a href="https://cucumber.io">
+          <img class="trustee" src="/images/SebRose.jpg">
+        </a>
+      </td>
+    </tr>
+    <tr>
+      <td class="bio">
+        <a href="https://jonjagger.blogspot.co.uk">Jon Jagger</a>
+        is a software consultant based in England
+      </td>
+      <td class="bio">
+        <a href="https://olvemaudal.com">Olve Maudal</a>
+        is a magician at Cisco based in Norway
+      </td>
+      <td class="bio">
+        Mike Long is a director at
+        <a href="https://www.praqma.com">Praqma</a> based in Norway
+      </td>
+      <td class="bio">
+        Seb Rose is an associate with
+        <a href="https://cucumber.io">Cucumber.io</a> based in Scotland
       </td>
     </tr>
   </table>
