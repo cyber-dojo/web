@@ -19,13 +19,8 @@ $(function() {
       text: 'cancel',
       click: function() { $(this).remove(); }
     };
-    var img = $('<img>', {
-        'src': '/images/avatars/' + avatar + '.jpg',
-      'style': 'width:214px'
-    });
     var div = $('<div>');
     div.append(input);
-    div.append(img);
     var fileOperationDialog = div.dialog({
       closeOnEscape: true,
       close: function() { $(this).remove(); },
