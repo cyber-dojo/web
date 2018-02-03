@@ -32,7 +32,7 @@
 
   //------------------------------------------
 
-  #license, #foundation, #technology, #artwork
+  #license, #pies, #foundation, #technology, #artwork
   {
     @include plaintext-font();
     font-size: 1.2em;
@@ -49,21 +49,29 @@
 
   //------------------------------------------
 
-  #foundation
+  #pies
   {
     .kids-pic
     {
          width: 200px;
         height: 150px;
-        margin: { top: 15px; bottom: 15px; left: 5px; right: 5px; }
+        margin: { top: 15px; bottom: 0px; left: 5px; right: 5px; }
         border: 1px dotted darken($text-color, 5%);
         @include rounded-corner();
+        filter: grayscale(100%);
     }
     table
     {
       border-spacing: 0px;
       border-collapse: separate
     }
+  }
+
+  //------------------------------------------
+
+  #foundation
+  {
+    background: lighten($darker-color, 6%);
     .trustee
     {
       border: 1px dotted darken($text-color, 5%);
@@ -72,6 +80,7 @@
       margin: { top: 10px; bottom: 0px; left: 4px; right: 4px; }
       padding: 0px;
       @include rounded-corner(10px);
+      filter: grayscale(100%);
     }
     .bio
     {
@@ -87,14 +96,13 @@
 
   #technology
   {
-    background: lighten($darker-color, 6%);
     img
     {
       border: 1px dotted lighten($text-color, 5%);
       width: 72px;
       height: 72px;
       @include rounded-corner(6px);
-      margin: { top: 10px; left: 3px; right: 3px; bottom: 0px; }
+      margin: { top: 10px; bottom: 0px; left: 3px; right: 3px; }
       filter: grayscale(100%);
     }
   }
@@ -103,6 +111,7 @@
 
   #artwork
   {
+    background: lighten($darker-color, 6%);
     padding: { bottom: 45px; }
     .animal
     {
