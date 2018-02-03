@@ -56,6 +56,18 @@
         border: 3px solid lighten($text-color, 5%);
         @include rounded-corner();
     }
+    .trustee
+    {
+      margin: 2px;
+      width: 100px;
+      height: 100px;
+      @include rounded-corner(50px);
+      border: 3px solid lighten($text-color, 5%);
+    }
+    .name
+    {
+      font-size: 10px;
+    }
   }
 
   #artwork

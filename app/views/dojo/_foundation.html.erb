@@ -1,7 +1,22 @@
 <script type="text/javascript"><!--
 
 $(function() {
-  cd.setupHoverTip($('[data-tip]'));
+  cd.createTip($('#jon' ),
+  'Jon is a software consultant<br/>' +
+  'he lives in England'
+  );
+  cd.createTip($('#olve'),
+    'Olve is a magician at Cisco<br/>' +
+    'he lives in Norway'
+  );
+  cd.createTip($('#mike'),
+    'Mike is a director at Praqma<br/>' +
+    'he lives in Norway'
+  );
+  cd.createTip($('#seb' ),
+    'Seb is an associate with Cucumber.io<br/>' +
+    'he lives in Scotland'
+  );
 });
 
 //--></script>
@@ -34,6 +49,29 @@ $(function() {
     is a
     <br/>
     Scottish Charitable Incorporated Organisation
+    <br/>
+    it has four trustees
   </div>
+
+  <table class="center-content">
+    <tr>
+      <td id="jon">
+        <img class="trustee" src="/images/JonJagger.jpg">
+        <div class="name">Jon Jagger</div>
+      </td>
+      <td id="olve">
+        <img class="trustee" src="/images/OlveMaudal.jpg">
+        <div class="name">Olve Maudal</div>
+      </td>
+      <td id="mike">
+        <img class="trustee" src="/images/MikeLong.jpg">
+        <div class="name">Mike Long</div>
+      </td>
+      <td id="seb">
+        <img class="trustee" src="/images/SebRose.jpg">
+        <div class="name">Seb Rose</div>
+      </td>
+    </tr>
+  </table>
 
 </div>
