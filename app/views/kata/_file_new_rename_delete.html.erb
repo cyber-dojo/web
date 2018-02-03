@@ -24,7 +24,7 @@ $(function() {
     var fileOperationDialog = div.dialog({
       closeOnEscape: true,
       close: function() { $(this).remove(); },
-  	  title: cd.dialogTitle(name),
+  	  title: cd.dialogTitle(name + '&nbsp;file'),
     	autoOpen: false,
       width: 250,
   	  modal: true,
@@ -144,7 +144,7 @@ $(function() {
 //--></script>
 
 <div id="file-operations">
-  <button type="button" id="new">new</button>
-  <button type="button" id="rename">rename</button>
-  <button type="button" id="delete">delete</button>
+  <div><button type="button" id="new">new&nbsp;file</button></div>
+  <div><button type="button" id="rename">rename&nbsp;file</button></div>
+  <div><button type="button" id="delete">delete&nbsp;file</button></div>
 </div>

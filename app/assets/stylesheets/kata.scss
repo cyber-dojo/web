@@ -27,10 +27,10 @@
       @include non-code-font();
       @include rounded-corner(4px);
       text-align: right;
-       font-size: 8px;
+       font-size: 10px;
           margin: { top: 0px; bottom: 4px; }
          padding: { right: 3px; bottom: 2px; top: 2px; }
-         display: inline-block;
+         width: 93px;
     }
     #delete { margin-bottom: 15px; }
   }
