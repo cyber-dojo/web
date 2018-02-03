@@ -5,6 +5,7 @@ class DojoController < ApplicationController
     @title = 'home'
     @id = id
     @message = ENV['MESSAGE']
+    @shuffled_avatar_names = Avatars.names.shuffle
   end
 
 end

@@ -8,10 +8,18 @@
 
   <table class="center-content">
     <tr>
-      <td><img class="animal" src="/images/avatars/toucan.jpg"></a></td>
-      <td><img class="animal" src="/images/avatars/turtle.jpg"></a></td>
-      <td><img class="animal" src="/images/avatars/wolf.jpg"></a></td>
-      <td><img class="animal" src="/images/avatars/zebra.jpg"></a></td>
+      <td><img class="animal"
+               src="/images/avatars/<%= @shuffled_avatar_names[0] %>.jpg">
+      </td>
+      <td><img class="animal"
+           src="/images/avatars/<%= @shuffled_avatar_names[1] %>.jpg">
+      </td>
+      <td><img class="animal"
+               src="/images/avatars/<%= @shuffled_avatar_names[2] %>.jpg">
+      </td>
+      <td><img class="animal"
+               src="/images/avatars/<%= @shuffled_avatar_names[3] %>.jpg">
+      </td>
     </tr>
   </table>
 
