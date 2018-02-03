@@ -129,15 +129,9 @@ $(function() {
     openDialog('delete', initialFilename, okInitiallyDisabled, okClicked, avatarName);
   });
 
-  cd.setTip(newFile, function() {
-    cd.showHoverTip(newFile, 'create a<br/>new file');
-  });
-  cd.setTip(renameFile, function() {
-    cd.showHoverTip(renameFile, 'rename the<br/>current file');
-  });
-  cd.setTip(deleteFile, function() {
-    cd.showHoverTip(deleteFile, 'delete the<br/>current file');
-  });
+  cd.createTip(   newFile, 'create a<br/>new file');
+  cd.createTip(renameFile, 'rename the<br/>current file');
+  cd.createTip(deleteFile, 'delete the<br/>current file');
 
 });
 

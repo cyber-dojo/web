@@ -87,6 +87,14 @@ var cyberDojo = (function(cd, $) {
 
   // - - - - - - - - - - - - - - - - - - - -
 
+  cd.createTip = function(element, tip) {
+    cd.setTip(element, function() {
+      cd.showHoverTip(element, tip);
+    });
+  };
+
+  // - - - - - - - - - - - - - - - - - - - -
+
   cd.showHoverTip = function(node, tip) {
     // mouseenter may retrieve the tip via a slow ajax call
     // which means mouseleave could have already occurred
