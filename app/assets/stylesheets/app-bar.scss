@@ -17,6 +17,8 @@
       cursor: pointer;
     position: relative;
          top: 3px;
+      margin: { right: 5px; }
+      img { height: 20px; width: 20px; }
   }
 
   #help-button {
@@ -33,7 +35,7 @@
     #twitter-widget-0 {
       position: relative;
            top: 5px;
-        margin: { top: 7px; }
+        margin: { top: 7px; right: 4px; }
     }
   }
 
@@ -43,7 +45,7 @@
       background: CornSilk;
          padding: 5px;
            width: 50px;
-          margin: { top: 7px; }
+          margin: { top: 7px; right: 4px; }
     }
   }
 
@@ -51,7 +53,7 @@
     #cucumber-image {
       padding: 0px;
        height: 27px;
-       margin: 0px;
+       margin: { right: 4px; }
     }
   }
 
