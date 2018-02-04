@@ -111,8 +111,8 @@
     .animal
     {
       @include rounded-corner(10px);
-       width: 72px;
-      height: 72px;
+       width: 59px;
+      height: 59px;
       margin: { top: 10px; bottom: 0px; left: 3px; right: 3px; }
       filter: grayscale(100%);
     }
