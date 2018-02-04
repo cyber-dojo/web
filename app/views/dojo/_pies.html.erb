@@ -1,13 +1,3 @@
-<script type="text/javascript"><!--
-
-$(function() {
-
-  cd.createTip($('#coimbatore'), "Raspberry Pi'es sent<br/>to Coimbatore, India");
-  cd.createTip($('#bray'), "Raspberry Pi'es sent<br/>to Bray, Ireland");
-
-});
-
-//--></script>
 
 <div id="pies" class="center-content">
 
@@ -22,14 +12,7 @@ $(function() {
   <table class="center-content">
     <tr>
       <td>
-        <div id="coimbatore">
-          <img class="kids-pic" src="/images/Coimbatore3.jpg">
-        </div>
-      </td>
-      <td>
-        <div id="bray">
-          <img class="kids-pic" src="/images/Bray1.jpg">
-        </div>
+        <img src="/images/pies/<%= @pies_filename %>.jpg">
       </td>
     </tr>
   </table>
