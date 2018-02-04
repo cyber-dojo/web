@@ -20,10 +20,11 @@
       @include non-code-font();
            color: $darker-color;
       text-align: left;
-           width: 520px;
+           width: 525px;
        font-size: 1.97em;
      line-height: 95%;
          padding: 12px;
+         padding-left: 20px;
           margin: { top: 0px; bottom: 10px; }
     }
 

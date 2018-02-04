@@ -1,9 +1,10 @@
 
-#kata-page {
-
+#kata-page
+{
   margin: { top: 15px; left: 45px; }
 
-  #test-spinner {
+  #test-spinner
+  {
      display: none;
     position: absolute;
          top: 250px;
@@ -11,7 +12,8 @@
      z-index: 1000;
   }
 
-  #test-button {
+  #test-button
+  {
     @include non-code-font();
     @include font-size-large();
     @include right-align(15px);
@@ -21,21 +23,23 @@
          width: 93px;
   }
 
-  #file-operations {
-    margin: { top: 0px; bottom: 4px; left: 16px; right: 1px; }
-    #new, #rename, #delete {
+  #file-operations
+  {
+    #new, #rename, #delete
+    {
       @include non-code-font();
       @include rounded-corner(4px);
       text-align: right;
        font-size: 10px;
           margin: { top: 0px; bottom: 4px; }
-         padding: { right: 3px; bottom: 2px; top: 2px; }
-         width: 93px;
+         padding: { bottom: 2px; top: 2px; right: 13px; }
+           width: 93px;
     }
     #delete { margin-bottom: 15px; }
   }
 
-  #filename-list {
+  #filename-list
+  {
     margin: { right: 5px; }
     div[class~='filename'][class~='highlight'] { &:before { content: ">"; } }
     div[class~='filename'][id='radio_output'] { margin-top: 20px; }
@@ -48,20 +52,23 @@
     &::-webkit-scrollbar:vertical { width: 0px; }
   }
 
-  #traffic-lights {
+  #traffic-lights
+  {
         margin: { left: 5px; bottom: 0px; }
          width: 721px;
     overflow-x: auto;
     overflow-y: hidden;
     &::-webkit-scrollbar:horizontal { height: 0px; }
 
-    .diff-traffic-light {
+    .diff-traffic-light
+    {
       padding: { left: 0px; bottom: 0px; }
       img { width: 22px; height: 22px; }
     }
   }
 
-  .file_content {
+  .file_content
+  {
     overflow-x: auto;
     overflow-y: auto;
     &::-webkit-scrollbar:vertical   {  width: 7px; }
@@ -69,25 +76,27 @@
   }
 }
 
-input#new-filename, input#rename-filename, input#delete-filename {
-  font-size: 1.15em;
-  border: 1px solid lighten($darker-color, 10%);
-  padding: { right: 10px; }
-  color: $lighter-color;
+input#new-filename, input#rename-filename, input#delete-filename
+{
+   font-size: 1.15em;
+      border: 1px solid lighten($darker-color, 10%);
+     padding: { right: 10px; }
+       color: $lighter-color;
   background: $darker-color;
   text-align: left;
-  width: 200px;
+       width: 200px;
 }
 
-#test-overlay {
+#test-overlay
+{
     // mimic jQuery modal dialog background
     background: #666666 url(images/ui-bg_diagonals-thick_20_666666_40x40.png) 50% 50% repeat;
-    opacity: .50;
-    filter:Alpha(Opacity=50);
-    z-index: 999;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
+       opacity: .50;
+        filter: Alpha(Opacity=50);
+      z-index: 999;
+     position: absolute;
+         left: 0;
+          top: 0;
+        width: 100%;
+      height: 100%;
 }
