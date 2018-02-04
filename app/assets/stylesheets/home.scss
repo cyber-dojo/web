@@ -51,11 +51,11 @@
 
   #pies
   {
-    .kids-pic
+    img
     {
       @include rounded-corner();
       margin: { top: 15px; bottom: 0px; left: 5px; right: 5px; }
-      border: 1px dotted darken($text-color, 5%);
+      border: 1px solid darken($text-color, 10%);
        width: 200px;
       height: 150px;
       filter: grayscale(100%);
@@ -67,10 +67,9 @@
   #foundation
   {
     background: lighten($darker-color, 6%);
-    .trustee
+    img.trustee
     {
       @include rounded-corner(10px);
-       border: 1px dotted darken($text-color, 5%);
         width: 93px;
        height: 93px;
        margin: { top: 10px; bottom: 0px; left: 4px; right: 4px; }
@@ -93,8 +92,8 @@
   {
     img
     {
+      background: lighten($darker-color, 10%);
       @include rounded-corner(6px);
-      border: 1px dotted lighten($text-color, 5%);
        width: 72px;
       height: 72px;
       margin: { top: 10px; bottom: 0px; left: 3px; right: 3px; }
@@ -111,7 +110,6 @@
     .animal
     {
       @include rounded-corner(10px);
-      border: 1px dotted lighten($text-color, 5%);
        width: 72px;
       height: 72px;
       margin: { top: 10px; bottom: 0px; left: 3px; right: 3px; }
