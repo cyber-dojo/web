@@ -36,7 +36,7 @@
   {
     @include plaintext-font();
     font-size: 1.2em;
-      padding: 25px;
+      padding: { top: 25px; bottom: 25px; }
   }
 
   //------------------------------------------
