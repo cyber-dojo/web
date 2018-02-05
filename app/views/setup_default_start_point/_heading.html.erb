@@ -1,10 +1,4 @@
 
 <div id="setup-a-practice-session">
-  create
-  <% if @from=='individual' %>
-  my
-  <% else %>
-  our
-  <% end %>
-  new session
+  create <%= if @from=='individual' ? 'my' : 'our' %> new session
 </div>
