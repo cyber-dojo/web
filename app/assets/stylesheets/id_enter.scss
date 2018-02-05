@@ -8,8 +8,8 @@
     @include non-code-font();
     @include font-size-large();
          color: $lighter-color;
-     padding: { top: 0px; bottom: 0px; right: 10px; }
-     margin: { bottom: 10px; }
+     padding: 0px;
+     margin: { top: 10px; bottom: 5px; }
   }
 
   img.avatar
@@ -17,14 +17,14 @@
     &.large
     {
       display: block;
-      width: 171px;
-      height: 171px;
+      width: 161px;
+      height: 161px;
       @include rounded-corner(4px);
     }
     &.small
     {
-      width: 42px;
-      height: 42px;
+      width: 40px;
+      height: 40px;
       display: block;
       @include rounded-corner(2px);
     }
@@ -32,24 +32,25 @@
 
   .traffic-light
   {
-    width: 27px;
-    height: 27px;
-    margin: { left: 9px; right: 0px; }
-    padding: { top: 4px; }
+    width: 25px;
+    height: 25px;
+    margin: { top: 0px; bottom: 0px; left: 9px; right: 0px; }
+    padding: { top: 0px; bottom: 0px; right: 0px; }
   }
 
   #info-container
   {
+    @include plaintext-font();
     @include rounded-corner(4px);
+    font-size: 17px;
     border: 1px dotted gray;
     margin: { left: 0px; }
     padding: { top: 5px; }
-    height: 164px;
+    height: 154px;
   }
 
   .info
   {
-    @include font-size-small();
     text-align: left;
     margin: { left: 0px; }
     padding: { left: 10px; right: 10px; }
@@ -60,7 +61,7 @@
     &#ok, &#cancel
     {
       @include non-code-font();
-      @include font-size-medium();
+      @include font-size-large();
            color: $darker-color;
       text-align: right;
      line-height: 95%;
