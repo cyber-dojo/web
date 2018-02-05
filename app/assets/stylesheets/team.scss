@@ -15,11 +15,11 @@
 
   #avatars-grid
   {
-    width: 303px;
-    height: 303px;
-    position: relative;
-    top: -2px;
+    width: 271px;
+    height: 271px;
     filter: grayscale(100%);
+    position: relative;
+    top: -1px;
   }
 
   button
@@ -29,12 +29,12 @@
       @include non-code-font();
            color: $darker-color;
       text-align: left;
-           width: 290px;
+           width: 285px;
        font-size: 1.97em;
      line-height: 95%;
-         padding: 12px;
-         padding-left: 20px;
-          margin: { top: 0px; bottom: 10px; left: 10px; }
+         padding: 10px;
+         padding-left: 15px;
+          margin: { top: 0px; bottom: 7px; left: 5px; }
     }
 
     &#join
