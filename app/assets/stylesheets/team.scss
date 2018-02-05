@@ -44,4 +44,11 @@
     { @include font-size-medium(); }
   }
 
+  #nadya
+  {
+    @include plaintext-font();
+    text-align: left;
+     font-size: 12px;
+        padding: { left: 3px; }
+  }
 }
