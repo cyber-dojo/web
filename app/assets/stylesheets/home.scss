@@ -6,24 +6,30 @@
   #heading
   {
          width: 100%;
-        height: 300px;
+        height: 280px;
       position: fixed;
            top: 0px;
     background: $darker-color;
        z-index: 999;
+       padding: { top: 0px; bottom: 0px; }
 
+    #logo img
+    {
+        width: 75px;
+       height: 75px;
+      padding: { top: 16px; left: 5px; right: 8px; }
+    }
     #cyber-dojo
     {
       @include non-code-font();
-      font-size: 8.84em;
+      font-size: 7.40em;
           color: $text-color;
-        padding: { top: 10px; bottom: 0px; }
     }
 
     #the-place-to-practise-programming
     {
       @include non-code-font();
-      font-size: 1.78em;
+      font-size: 2.20em;
           color: lighten($text-color, 5%);
        position: relative;
             top: -9px;
@@ -44,7 +50,7 @@
   #license
   {
     background: lighten($darker-color, 6%);
-    margin-top: 300px;
+    margin-top: 280px;
   }
 
   //------------------------------------------
@@ -141,12 +147,4 @@
     &#donate { font-size: 1.4em; }
   }
 
-  //------------------------------------------
-
-  #custom-container
-  {
-    position: absolute;
-        left: 675px;
-         top: 350px;
-  }
 }
