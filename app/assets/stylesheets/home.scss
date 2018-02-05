@@ -96,6 +96,7 @@
 
   #technology
   {
+    margin: { bottom: 25px; }
     img
     {
       background: lighten($darker-color, 10%);
@@ -106,22 +107,6 @@
       filter: grayscale(100%);
     }
     .name { font-size: 12px; }
-  }
-
-  //------------------------------------------
-
-  #artwork
-  {
-    background: lighten($darker-color, 6%);
-       padding: { bottom: 45px; }
-    .animal
-    {
-      @include rounded-corner(10px);
-       width: 88px;
-      height: 88px;
-      margin: { top: 10px; bottom: 0px; left: 3px; right: 3px; }
-      filter: grayscale(100%);
-    }
   }
 
   //------------------------------------------
