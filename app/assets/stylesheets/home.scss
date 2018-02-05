@@ -61,9 +61,9 @@
     img
     {
       @include rounded-corner();
-      margin: { top: 15px; bottom: 0px; left: 5px; right: 5px; }
-       width: 555px;
-      height: 310px;
+      margin: { top: 15px; bottom: 0px; left: 6px; right: 5px; }
+       width: 560px;
+      height: 330px;
       filter: grayscale(100%);
     }
   }
@@ -78,7 +78,7 @@
       @include rounded-corner(10px);
         width: 133px;
        height: 133px;
-       margin: { top: 10px; bottom: 0px; left: 4px; right: 4px; }
+       margin: { top: 10px; bottom: 0px; left: 4px; right: 3px; }
       padding: 0px;
        filter: grayscale(100%);
     }
