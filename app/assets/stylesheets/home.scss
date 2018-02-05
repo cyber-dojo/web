@@ -62,7 +62,6 @@
     {
       @include rounded-corner();
       margin: { top: 15px; bottom: 0px; left: 5px; right: 5px; }
-      border: 1px solid darken($text-color, 10%);
        width: 555px;
       height: 310px;
       filter: grayscale(100%);

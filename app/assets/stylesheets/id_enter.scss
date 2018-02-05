@@ -17,14 +17,15 @@
     &.large
     {
       display: block;
-      width: 161px;
-      height: 161px;
-      @include rounded-corner(4px);
+      width: 211px;
+      height: 211px;
+      @include rounded-corner(6px);
+      margin: { right: 5px; }
     }
     &.small
     {
-      width: 40px;
-      height: 40px;
+      width: 37px;
+      height: 37px;
       display: block;
       @include rounded-corner(2px);
     }
@@ -32,28 +33,21 @@
 
   .traffic-light
   {
-    width: 25px;
-    height: 25px;
-    margin: { top: 0px; bottom: 0px; left: 9px; right: 0px; }
+    width: 20px;
+    height: 20px;
+    margin: { top: 0px; bottom: 0px; left: 9px; right: 9px; }
     padding: { top: 0px; bottom: 0px; right: 0px; }
-  }
-
-  #info-container
-  {
-    @include plaintext-font();
-    @include rounded-corner(4px);
-    font-size: 17px;
-    border: 1px dotted gray;
-    margin: { left: 0px; }
-    padding: { top: 5px; }
-    height: 154px;
   }
 
   .info
   {
+    @include plaintext-font();
+    @include rounded-corner(6px);
+    background: lighten($darker-color, 5%);
+     font-size: 17px;
+        margin: { top: 3px; bottom: 3px; left: 0px; }
+       padding: 8px;
     text-align: left;
-    margin: { left: 0px; }
-    padding: { left: 10px; right: 10px; }
   }
 
   button
