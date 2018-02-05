@@ -24,7 +24,7 @@
 
   button
   {
-    &#setup, &#custom-setup, &#enter, &#resume, &#review
+    &#create, &#create-custom, &#join, &#rejoin, &#review
     {
       @include non-code-font();
            color: $darker-color;
@@ -37,10 +37,10 @@
           margin: { top: 0px; bottom: 10px; left: 10px; }
     }
 
-    &#enter
+    &#join
     { @include font-size-largest(); }
 
-    &#resume, &#setup, &#custom-setup, &#review
+    &#rejoin, &#create, &#create-custom, &#review
     { @include font-size-medium(); }
   }
 

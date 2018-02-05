@@ -10,11 +10,11 @@
       <td><%= render partial: 'shared/avatar_grid_colour' %></td>
       <td>
         <table>
-          <tr><td><%= render partial: 'enter_button' %></td></tr>
-          <tr><td><%= render partial: 'setup_button' %></td></tr>
-          <tr><td><%= render partial: 'custom_setup_button' %></td></tr>
-          <tr><td><%= render partial: 'resume_button' %></td></tr>
-          <tr><td><%= render partial: 'review_button' %></td></tr>
+          <tr><td><%= render partial: 'team_join_button' %></td></tr>
+          <tr><td><%= render partial: 'team_create_button' %></td></tr>
+          <tr><td><%= render partial: 'team_create_custom_button' %></td></tr>
+          <tr><td><%= render partial: 'team_rejoin_button' %></td></tr>
+          <tr><td><%= render partial: 'team_review_button' %></td></tr>
         </table>
       </td>
     </tr>
@@ -27,6 +27,3 @@
   </table>
 
 </div>
-
-<%= render partial: 'shared/app_bar_short',
-    locals: { help_url: "http://blog.cyber-dojo.org/p/learn-more.html" } %>

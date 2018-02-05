@@ -3,7 +3,7 @@
 
 $(function() {
 
-  $('button#custom-setup').click(function() {
+  $('button#create-custom').click(function() {
     const url = "/setup_custom_start_point/show/<%= @id %>?from=team";
     window.location = url;
   });
@@ -12,6 +12,6 @@ $(function() {
 
 //--></script>
 
-<button id="custom-setup">
+<button id="create-custom">
   create a new custom session
 </button>
