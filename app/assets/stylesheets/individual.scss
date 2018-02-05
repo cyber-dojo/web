@@ -1,7 +1,6 @@
 
 #individual-page
 {
-
   margin: { top: 25px; }
 
   .center-content { @include center-align(); }
@@ -10,17 +9,17 @@
   {
     @include non-code-font();
          color: $lighter-color;
-     font-size: 4.2em;
+     font-size: 5.2em;
      padding: { top: 20px; bottom: 20px; }
   }
 
   button
   {
-    &#setup, &#custom-setup, &#enter, &#resume {
+    &#create, &#rejoin {
       @include non-code-font();
            color: $darker-color;
       text-align: left;
-           width: 525px;
+           width: 425px;
        font-size: 1.97em;
      line-height: 95%;
          padding: 12px;
@@ -28,9 +27,9 @@
           margin: { top: 0px; bottom: 10px; }
     }
 
-    &#setup { @include font-size-largest(); }
+    &#create { @include font-size-largest(); }
 
-    &#custom-setup, &#enter, &#resume { @include font-size-medium(); }
+    &#rejoin { @include font-size-medium(); }
   }
 
 }

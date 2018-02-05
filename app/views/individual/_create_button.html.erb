@@ -3,7 +3,7 @@
 
 $(function() {
 
-  $('button#setup').click(function() {
+  $('button#create').click(function() {
     const url = "/setup_default_start_point/show_languages/<%= @id %>?from=individual";
     window.location = url;
   });
@@ -12,6 +12,6 @@ $(function() {
 
 //--></script>
 
-<button id="setup">
-  create &amp; join a new session
+<button id="create">
+  create a new session
 </button>
