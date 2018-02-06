@@ -3,6 +3,27 @@
 {
   @include id-common();
 
+  #lights, #avatars
+  {
+    @include center-align();
+    @include plaintext-font();
+    @include rounded-corner(6px);
+    background: lighten($darker-color, 5%);
+     font-size: 15px;
+         width: 304px;
+        margin: { top: 0px; bottom: 10px; }
+       padding: 5px;
+    text-align: left;
+  }
+
+  #lights img, #avatars img
+  {
+    @include rounded-corner(4px);
+     width: 40px;
+    height: 40px;
+    margin: { left: 2px; right: 4px; }
+  }
+
   button
   {
     &#ok, &#cancel
@@ -12,8 +33,8 @@
            color: $darker-color;
       text-align: right;
      line-height: 95%;
-         padding: 8px;
-          margin: { left: 10px; top: 5px; }
+         padding: { top: 8px; bottom: 8px; left: 12px; right: 12px; }
+          margin: { top: 0px; bottom: 0px; left:  5px; right:  5px; }
     }
   }
 
