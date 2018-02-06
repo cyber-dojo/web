@@ -6,7 +6,7 @@
      width="50px"
      height="50px"/>
 
-The main web-server for [cyber-dojo](http://cyber-dojo.org).
+The main web-server for [cyber-dojo.org](http://cyber-dojo.org).
 - Uses [runner_stateless](https://github.com/cyber-dojo/runner_stateless) to run tests statelessly.
 - Uses [runner_stateful](https://github.com/cyber-dojo/runner_stateful) to run tests disk-statefully.
 - Uses [runner_processful](https://github.com/cyber-dojo/runner_processful) to run tests process-statefully.
