@@ -1,8 +1,8 @@
 
-class IdEnterController < ApplicationController
+class IdJoinController < ApplicationController
 
   def show
-    @title = 'id_enter'
+    @title = 'join'
   end
 
   def drop_down
@@ -26,12 +26,12 @@ class IdEnterController < ApplicationController
 
   def start_html(avatar_name)
     @avatar_name = avatar_name
-    bind('/app/views/id_enter/start.html.erb')
+    bind('/app/views/id_join/start.html.erb')
   end
 
   def full_html
     @all_avatar_names = Avatars.names
-    bind('/app/views/id_enter/full.html.erb')
+    bind('/app/views/id_join/full.html.erb')
   end
 
 end

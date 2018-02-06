@@ -21,7 +21,7 @@ CyberDojo::Application.routes.draw do
   end
 
   get '/individual(/:id)' => 'individual#home'
-  get '/team(/:id)' => 'team#home'
+  get '/group(/:id)' => 'group#home'
 
   scope path: '/setup_default_start_point', controller: :setup_default_start_point do
       get 'show_languages(/:id)' => :show_languages
@@ -39,12 +39,12 @@ CyberDojo::Application.routes.draw do
       get 'image_pull'   => :image_pull,    :constraints => { :format => :json }
     end
 
-  scope path: '/id_enter', controller: :id_enter do
+  scope path: '/id_join', controller: :id_join do
     get 'show'      => :show
     get 'drop_down' => :drop_down,  :constraints => { :format => :json }
   end
 
-  scope path: '/id_resume', controller: :id_resume do
+  scope path: '/id_rejoin', controller: :id_rejoin do
     get 'show'      => :show
     get 'drop_down' => :drop_down,  :constraints => { :format => :json }
   end

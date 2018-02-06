@@ -3,33 +3,34 @@
 
 $(function() {
 
-  cd.resume = function(id, avatarName) {
-    const url = '/kata/edit/' + id + '?avatar=' + avatarName;
-    window.location.href = cd.homePageUrl(id);
-    window.open(url);
-  };
-
   const inputId = $('input#id');
   const dropDown = $('#drop-down');
-  const hiText = $('#hi-text');
-  const avatarPicker = $('#avatar-picker');
+  const avatarStart = $('#avatar-start');
   const loText = $('#lo-text');
+  const ok = $('button#ok');
   const cancel = $('button#cancel');
 
   const autoDropDown = function() {
     const id = inputId.val();
     if (id.length >= 6) {
-      $.getJSON('/id_resume/drop_down', { id: id }, function(dojo) {
+      $.getJSON('/id_join/drop_down', { id: id }, function(dojo) {
         if (dojo.exists) {
-          if (dojo.empty) {
-            hiText.html('no one has joined yet!');
-            loText.html('');
+          if (dojo.full) {
+            loText.html('sorry, full up!');
+            avatarStart.html(dojo.fullHtml);
+            ok.hide();
+            cancel.show();
           } else {
-            hiText.html('click your animal');
-            loText.html('or');
+            loText.html('your animal is the ' + dojo.avatarName);
+            avatarStart.html(dojo.avatarStartHtml);
+            ok.unbind().click(function() {
+              const url = '/kata/edit/' + dojo.id + '?avatar=' + dojo.avatarName;
+              window.location.href = cd.homePageUrl(dojo.id);
+              window.open(url);
+            });
+            ok.show();
+            cancel.hide();
           }
-          avatarPicker.html(dojo.avatarPickerHtml);
-          cd.setupHoverTip($('[data-tip]'));
           inputId.prop('disabled', true);
           inputId.slideUp('fast', function() {
             dropDown.slideDown('slow');
@@ -68,9 +69,8 @@ $(function() {
 </input>
 
 <div id="drop-down">
-  <span id="hi-text"></span>
-  <div id="avatar-picker"></div>
-  <span id="lo-text"></span>
+  <div id="avatar-start"></div>
+  <div id="lo-text"></div>
+  <button id="ok">ok</button>
   <button id="cancel">cancel</button>
 </div>
-

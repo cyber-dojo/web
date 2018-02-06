@@ -1,8 +1,8 @@
 
-class IdResumeController < ApplicationController
+class IdRejoinController < ApplicationController
 
   def show
-    @title = 'id_resume'
+    @title = 'rejoin'
   end
 
   def drop_down
@@ -24,7 +24,7 @@ class IdResumeController < ApplicationController
   def avatar_picker_html
     @all_avatar_names = Avatars.names
     @started_avatar_names = avatars.names
-    bind('/app/views/id_resume/avatar_picker.html.erb')
+    bind('/app/views/id_rejoin/avatar_picker.html.erb')
   end
 
 end

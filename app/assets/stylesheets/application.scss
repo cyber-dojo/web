@@ -21,11 +21,11 @@
  *= depend_on cyber-dojo.scss
  *= depend_on home.scss
  *= depend_on individual.scss
- *= depend_on team.scss
+ *= depend_on group.scss
  *= depend_on setup.scss
  *= depend_on id_common.scss
- *= depend_on id_enter.scss
- *= depend_on id_resume.scss
+ *= depend_on id_join.scss
+ *= depend_on id_rejoin.scss
  *= depend_on id_review.scss
  *= depend_on kata.scss
  *= depend_on dashboard.scss
@@ -49,11 +49,11 @@
 @import "cyber-dojo.scss";
 @import "home.scss";
 @import "individual.scss";
-@import "team.scss";
+@import "group.scss";
 @import "setup.scss";
 @import "id_common.scss";
-@import "id_enter.scss";
-@import "id_resume.scss";
+@import "id_join.scss";
+@import "id_rejoin.scss";
 @import "id_review.scss";
 @import "kata.scss";
 @import "dashboard.scss";
