@@ -23,7 +23,8 @@
     text-align: right;
   }
 
-  #start-points-major-container, #start-points-minor-container, #exercises-container {
+  #start-points-language-container, #start-points-exercise-container,
+  #start-points-major-container, #start-points-minor-container,  {
     @include edged-panel();
     margin-top: 15px;
     padding: 10px;
@@ -44,7 +45,7 @@
   #languages-list, #tests-list, #exercises-list {
     @include non-code-font();
      height: 340px;
-      width: 190px;
+      width: 240px;
     padding: 6px;
      margin-right: 5px;
 
@@ -63,13 +64,15 @@
       }
     }
   }
+  #exercises-list { width: 180px; }
+
   #choose-exercise, #no-exercise {
     @include non-code-font();
     @include font-size-large();
     margin-top: 5px;
   }
 
-  #create-it {
+  #create {
     @include non-code-font();
     @include font-size-large();
     margin-top: 5px;
@@ -86,7 +89,7 @@
   #info-container {
     @include plaintext-font();
         height: 335px;
-         width: 300px;
+         width: 270px;
        padding: { left: 89px; top: 58px; }
     text-align: right;
   }
