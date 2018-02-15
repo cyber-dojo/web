@@ -24,12 +24,19 @@ class SetupDefaultStartPointController < ApplicationController
   def save_individual
     language = params['language']
     exercise = params['exercise']
-    # TODO: what if the exercise is '(Verbal)'
     manifest = starter.language_exercise_manifest(language, exercise)
     kata = katas.create_kata(manifest)
     avatar = kata.start_avatar
     @kata_id = kata.id
     @avatar_name = avatar.name
+  end
+
+  def save_group
+    language = params['language']
+    exercise = params['exercise']
+    manifest = starter.language_exercise_manifest(language, exercise)
+    kata = katas.create_kata(manifest)
+    @kata_id = kata.id
   end
 
   private
