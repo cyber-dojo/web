@@ -10,8 +10,9 @@
     <tr class="valign-top">
     </tr>
     <tr class="valign-top">
-      <td id="info-container">
-        <%= render partial: 'info' %>
+      <td>
+        <div id="language-info-container"></div>
+        <textarea id="exercise-info-container" readonly="readonly"></textarea>
       </td>
       <td id="start-points-language-container">
         <div class="title">language, tests?</div>
@@ -26,7 +27,7 @@
     </tr>
     <tr>
       <td colspan="3" align="right">
-        <%= render partial: 'create_button' %>
+        <%= render partial: 'ok_button' %>
       </td>
     </tr>
   </table>

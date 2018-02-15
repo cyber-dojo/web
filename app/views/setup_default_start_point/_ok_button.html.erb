@@ -3,7 +3,7 @@
 
 $(function() {
 
-  $('button#create').click(function() {
+  $('button#ok').click(function() {
     const language = $('[id^=language_][class~=selected]').data('name');
     const exercise = $('[id^=exercise_][class~=selected]').data('name');
     const url = '/setup_default_start_point/save_individual' +
@@ -16,6 +16,6 @@ $(function() {
 
 //--></script>
 
-<button type="button" id="create">
-  create
+<button type="button" id="ok">
+  ok
 </button>

@@ -2,16 +2,22 @@
 
 $(function() {
 
-  var previousExercise = undefined;
-  var selectedExercise = $('#exercise_' + <%= @exercise_index %>);
+  const languageInfoContainer = $('#language-info-container');
+  const exerciseInfoContainer = $('#exercise-info-container');
 
-  $('[id^=exercise_]').each(function(index) {
+  var previousExercise = undefined;
+  var selectedExercise = $('#exercise_' + '<%= @exercise_index %>');
+
+  $('[id^=exercise_]').each(function() {
      var exercise = $(this);
      exercise.click(function() {
-       //var instructions = $('#exercises_' + index).val();
+       var index = exercise.data('index');
+       var instructions = $('#instructions_' + index).val();
+       languageInfoContainer.hide();
+       exerciseInfoContainer.show().val(instructions);
+
        cd.radioEntrySwitch(previousExercise, exercise);
        previousExercise = exercise;
-       //$('#exercises').val(instructions);
      });
    });
 
@@ -26,8 +32,14 @@ $(function() {
   <% @exercises_names.each_with_index do |exercise_name, index| %>
     <div class='filename'
          id="exercise_<%= index %>"
+         data-index="<%= index %>"
          data-name="<%= exercise_name %>" >
       <%= exercise_name.gsub('_', ' ') %>
     </div>
   <% end %>
 </div>
+
+<% @instructions.each_with_index do |text,index| %>
+   <textarea style="display:none;" id="instructions_<%= index %>"><%=h text %>
+   </textarea>
+<% end %>

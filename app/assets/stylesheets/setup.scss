@@ -11,9 +11,9 @@
   }
 }
 
-#setup-start-point-page, #setup-exercises-page {
+#setup-start-point-page {
 
-  margin: { top: 25px; }
+  margin: { left: 75px; top: 25px; }
   font-size: 1.15em;
 
   #setup-a-practice-session {
@@ -42,10 +42,9 @@
     }
   }
 
-  #languages-list, #tests-list, #exercises-list {
+  #languages-list, #exercises-list {
     @include non-code-font();
      height: 340px;
-      width: 240px;
     padding: 6px;
      margin-right: 5px;
 
@@ -64,67 +63,37 @@
       }
     }
   }
-  #exercises-list { width: 180px; }
+  #languages-list { width: 240px; }
+  #exercises-list { width: 200px; }
 
-  #choose-exercise, #no-exercise {
+  button#ok {
     @include non-code-font();
     @include font-size-large();
     margin-top: 5px;
   }
 
-  #create {
-    @include non-code-font();
-    @include font-size-large();
-    margin-top: 5px;
-  }
-
-}
-
-// - - - - - - - - - - - - - - - - - - - -
-
-#setup-start-point-page {
-
-  margin-left: 150px;
-
-  #info-container {
+  #language-info-container, #exercise-info-container {
     @include plaintext-font();
-        height: 335px;
-         width: 270px;
-       padding: { left: 89px; top: 58px; }
-    text-align: right;
+         width: 450px;
+        height: 350px;
+      position: relative;
+           top: 63px;
+       padding: 10px;
+
   }
-}
 
-// - - - - - - - - - - - - - - - - - - - -
+  #language-info-container { text-align: right; }
 
-#setup-exercises-page {
-
-  margin-left: 187px;
-
-  #exercises-container {
-
-        padding: 10px;
-    margin-left: 110px;
-
-    #exercises-list { width: 185px; }
-
-    #exercises {
-      @include code-font();
-      &::-webkit-scrollbar:vertical { width: 10px; }
-      border-top-left-radius: 5px;
-           width: 450px;
-         padding: 6px;
-       font-size: 10pt;
-           color: $lighter-color;
-      background: lighten($darker-color, 5%);
-          border: none;
-          height: 350px;
-          margin-left: 0px;
-      overflow-y: scroll;
-         outline: none;
-          resize: none;
-          position: relative;
-          top: 20px;
-    }
+  #exercise-info-container {
+    @include code-font();
+    &::-webkit-scrollbar:vertical { width: 10px; }
+    border-top-left-radius: 5px;
+     font-size: 10pt;
+         color: $lighter-color;
+    background: lighten($darker-color, 5%);
+        border: none;
+    overflow-y: scroll;
+       outline: none;
+        resize: none;
   }
 }
