@@ -24,21 +24,20 @@ CyberDojo::Application.routes.draw do
   get '/group(/:id)' => 'group#home'
 
   scope path: '/setup_default_start_point', controller: :setup_default_start_point do
-      get 'show(/:id)' => :show
-      get 'show_languages(/:id)' => :show_languages
-      get 'show_exercises(/:id)' => :show_exercises
-      get 'save'                 => :save, :constraints => { :format => :json }
-    end
+    get 'show(/:id)' => :show
+    get 'save_individual' => :save_individual
+    get 'save_group'      => :save_group
+  end
 
   scope path: '/setup_custom_start_point', controller: :setup_custom_start_point do
-      get 'show(/:id)'  => :show
-      get 'save'        => :save, :constraints => { :format => :json }
-    end
+    get 'show(/:id)'  => :show
+    get 'save'        => :save, :constraints => { :format => :json }
+  end
 
   scope path: '/image_puller', controller: :image_puller do
-      get 'image_pulled' => :image_pulled?, :constraints => { :format => :json }
-      get 'image_pull'   => :image_pull,    :constraints => { :format => :json }
-    end
+    get 'image_pulled' => :image_pulled?, :constraints => { :format => :json }
+    get 'image_pull'   => :image_pull,    :constraints => { :format => :json }
+  end
 
   scope path: '/id_join', controller: :id_join do
     get 'show'      => :show

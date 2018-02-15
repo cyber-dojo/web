@@ -3,15 +3,14 @@
 
 $(function() {
 
-  const button = $('#create');
-
-  button.click(function() {
-    const setupParams = {
-      language: $('[id^=language_][class~=selected]').data('name'),
-      exercise: $('[id^=exercise_][class~=selected]').data('name')
-    };
-
-    //TODO: regular post which has redirect...
+  $('button#create').click(function() {
+    const language = $('[id^=language_][class~=selected]').data('name');
+    const exercise = $('[id^=exercise_][class~=selected]').data('name');
+    const url = '/setup_default_start_point/save_individual' +
+      '?language=' + encodeURIComponent(language) +
+      '&exercise=' + encodeURIComponent(exercise);
+    window.location = url;
+  });
 
 });
 

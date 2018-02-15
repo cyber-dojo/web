@@ -1,35 +1,33 @@
-
 <script type="text/javascript"><!--
 
 $(function() {
 
-  var previous = undefined;
-  var selected = $('#exercise_' + <%= @exercise_index %>);
+  var previousExercise = undefined;
+  var selectedExercise = $('#exercise_' + <%= @exercise_index %>);
 
   $('[id^=exercise_]').each(function(index) {
-     var name = $(this);
-     name.click(function() {
-       var exercise = $('#exercises_' + index).val(); //instructions
-       cd.radioEntrySwitch(previous, name);
-       previous = name;
-       $('#exercises').val(exercise);
+     var exercise = $(this);
+     exercise.click(function() {
+       //var instructions = $('#exercises_' + index).val();
+       cd.radioEntrySwitch(previousExercise, exercise);
+       previousExercise = exercise;
+       //$('#exercises').val(instructions);
      });
    });
 
-  selected.click();
-  selected.scrollIntoView({ direction: 'vertical' });
+  selectedExercise.click();
+  selectedExercise.scrollIntoView({ direction: 'vertical' });
 
 });
 
 //--></script>
 
-
 <div id="exercises-list">
-  <% @exercises_names.each_with_index do |name, index| %>
+  <% @exercises_names.each_with_index do |exercise_name, index| %>
     <div class='filename'
          id="exercise_<%= index %>"
-         data-name="<%= name %>" >
-      <%= name.gsub('_', ' ') %>
+         data-name="<%= exercise_name %>" >
+      <%= exercise_name.gsub('_', ' ') %>
     </div>
   <% end %>
 </div>
