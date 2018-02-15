@@ -4,7 +4,7 @@
 $(function() {
 
   $('button#create').click(function() {
-    const url = "/setup_default_start_point/show_languages/<%= @id %>?from=individual";
+    const url = "/setup_default_start_point/show/<%= @id %>?from=individual";
     window.location = url;
   });
 

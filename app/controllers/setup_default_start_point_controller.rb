@@ -7,6 +7,16 @@ class SetupDefaultStartPointController < ApplicationController
   # step 2. exercise
   #   (eg Fizz_Buzz)
 
+  def show
+    sp = starter.languages_exercises_start_points
+    @id = id
+    @languages_names = sp['languages'].sort
+    @language_index = 0
+    @exercises_names = sp['exercises'].keys.sort
+    @exercise_index = 0
+    @from = params['from']
+  end
+
   def show_languages
     choices = starter.languages_choices
     current_display_name = kata.exists? ? kata.display_name : nil

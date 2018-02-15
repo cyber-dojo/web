@@ -24,6 +24,7 @@ CyberDojo::Application.routes.draw do
   get '/group(/:id)' => 'group#home'
 
   scope path: '/setup_default_start_point', controller: :setup_default_start_point do
+      get 'show(/:id)' => :show
       get 'show_languages(/:id)' => :show_languages
       get 'show_exercises(/:id)' => :show_exercises
       get 'save'                 => :save, :constraints => { :format => :json }

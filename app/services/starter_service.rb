@@ -8,6 +8,16 @@ class StarterService
 
   # - - - - - - - - - - - -
 
+  def languages_exercises_start_points
+    http_get(__method__)
+  end
+
+  def language_exercise_manifest(display_name, exercise_name)
+    http_get(__method__, display_name, exercise_name)
+  end
+
+  # - - - - - - - - - - - -
+
   def custom_choices
     http_get(__method__)
   end

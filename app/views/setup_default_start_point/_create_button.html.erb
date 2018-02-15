@@ -1,0 +1,22 @@
+
+<script type="text/javascript"><!--
+
+$(function() {
+
+  const button = $('#create');
+
+  button.click(function() {
+    const setupParams = {
+      language: $('[id^=language_][class~=selected]').data('name'),
+      exercise: $('[id^=exercise_][class~=selected]').data('name')
+    };
+
+    //TODO: regular post which has redirect...
+
+});
+
+//--></script>
+
+<button type="button" id="create">
+  create
+</button>

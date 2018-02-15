@@ -1,0 +1,31 @@
+<script type="text/javascript"><!--
+
+$(function() {
+
+  var previousLanguage = undefined;
+  var selectedLanguage = $('#language_' + <%= @language_index %>);
+
+  $('[id^=language_]').each(function() {
+    var language = $(this);
+    language.click(function() {
+      cd.radioEntrySwitch(previousLanguage, language);
+      previousLanguage = language;
+    });
+  });
+
+  selectedLanguage.click();
+  selectedLanguage.scrollIntoView({ direction: 'vertical' });
+
+});
+
+//--></script>
+
+<div id="languages-list">
+  <% @languages_names.each_with_index do |language_name, index| %>
+    <div class="filename"
+         id="language_<%= index %>"
+         data-name="<%= language_name %>" >
+      <%= language_name %>
+    </div>
+  <% end %>
+</div>
