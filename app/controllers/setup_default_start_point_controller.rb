@@ -35,7 +35,7 @@ class SetupDefaultStartPointController < ApplicationController
     exercise = params['exercise']
     manifest = starter.language_exercise_manifest(language, exercise)
     kata = katas.create_kata(manifest)
-    redirect_to "/kata/individual/#{kata.id}"
+    redirect_to "/kata/group/#{kata.id}"
   end
 
   private
