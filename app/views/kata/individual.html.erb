@@ -1,6 +1,28 @@
 
+<script type="text/javascript"><!--
+
+$(function() {
+
+  $('button#ok').click(function() {
+    const url = "/kata/edit/<%= @kata_id %>?avatar=<%= @avatar_name %>";
+    window.location.href = cd.homePageUrl('<%= @kata_id %>');
+    window.open(url);
+  });
+
+});
+
+//--></script>
+
+THIS PAGE NEEDS TO MIMIC JOIN PAGE WITH ID ALREADY ENTERED.<br/>
+<hr/>
 The session-ID is <%= @kata_id %>
 <br/>
 Your avatar is the <%= @avatar_name %>
 <br/>
-<a href="/kata/edit/<%= @kata_id %>?avatar=<%= @avatar_name %>">start</a>
+
+<button type="button" id="ok">
+  ok
+</button>
+
+<%= render partial: 'shared/app_bar_short',
+    locals: { help_url: "http://blog.cyber-dojo.org/p/learn-more.html" } %>

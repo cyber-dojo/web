@@ -1,5 +1,7 @@
 
 The session-ID is <%= @kata_id %>
 <br/>
-<a href="/dashboard/show/<%= @kata_id %>">dashboard</a>
+OK button to take you back to home page.
 
+<%= render partial: 'shared/app_bar_short',
+    locals: { help_url: "http://blog.cyber-dojo.org/p/learn-more.html" } %>
