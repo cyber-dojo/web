@@ -15,7 +15,7 @@
 
   button
   {
-    &#create, &#rejoin {
+    &#create, &#create-custom, &#rejoin {
       @include non-code-font();
            color: $darker-color;
       text-align: left;
@@ -29,7 +29,7 @@
 
     &#create { @include font-size-largest(); }
 
-    &#rejoin { @include font-size-medium(); }
+    &#create-custom, &#rejoin { @include font-size-medium(); }
   }
 
 }
