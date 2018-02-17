@@ -7,8 +7,8 @@ $(function() {
 
     const major = $('[id^=major_][class~=selected]').data('major');
     const minor = $('[id^=minor_][class~=selected]').data('minor');
-    const url = '/setup_default_start_point/save_<%= @from %>' +
-      '?major=' + encodeURIComponent(mjaor) +
+    const url = '/setup_custom_start_point/save' +
+      '?major=' + encodeURIComponent(major) +
       '&minor=' + encodeURIComponent(minor);
     window.location = url;
   });

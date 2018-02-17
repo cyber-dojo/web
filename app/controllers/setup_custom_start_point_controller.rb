@@ -1,8 +1,6 @@
 
 class SetupCustomStartPointController < ApplicationController
 
-  # Custom exercise (one-step setup)
-
   def show
     choices = starter.custom_choices
     current_display_name = kata.exists? ? kata.display_name : nil
@@ -20,11 +18,7 @@ class SetupCustomStartPointController < ApplicationController
     minor = params['minor']
     manifest = starter.custom_manifest(major, minor)
     kata = katas.create_kata(manifest)
-    render json: {
-        image_name: kata.image_name,
-                id: kata.id,
-      display_name: kata.display_name
-    }
+    redirect_to "/kata/group/#{kata.id}"
   end
 
   private

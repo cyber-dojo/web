@@ -3,6 +3,15 @@ require_relative '../../lib/time_now'
 
 class KataController < ApplicationController
 
+  def individual
+    @kata_id = kata.id
+    @avatar_name = avatar.name
+  end
+
+  def group
+    @kata_id = kata.id
+  end
+
   def edit
     @kata = kata
     @avatar = avatar

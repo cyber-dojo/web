@@ -31,12 +31,15 @@ CyberDojo::Application.routes.draw do
 
   scope path: '/setup_custom_start_point', controller: :setup_custom_start_point do
     get 'show(/:id)'  => :show
-    get 'save'        => :save, :constraints => { :format => :json }
+    get 'save'        => :save
   end
 
-  scope path: '/image_puller', controller: :image_puller do
-    get 'image_pulled' => :image_pulled?, :constraints => { :format => :json }
-    get 'image_pull'   => :image_pull,    :constraints => { :format => :json }
+  scope path: '/kata', controller: :kata do
+    get  'individual(/:id)' => :individual
+    get  'group(/:id)'      => :group
+    get  'edit(/:id)'       => :edit
+    get  'show_json(/:id)'  => :show_json
+    post 'run_tests(/:id)'  => :run_tests
   end
 
   scope path: '/id_join', controller: :id_join do
@@ -52,12 +55,6 @@ CyberDojo::Application.routes.draw do
   scope path: '/id_review', controller: :id_review do
     get 'show'      => :show
     get 'drop_down' => :drop_down,  :constraints => { :format => :json }
-  end
-
-  scope path: '/kata', controller: :kata do
-    get  'edit(/:id)'      => :edit
-    get  'show_json(/:id)' => :show_json
-    post 'run_tests(/:id)' => :run_tests
   end
 
   scope path: '/dashboard', controller: :dashboard do
@@ -81,6 +78,13 @@ CyberDojo::Application.routes.draw do
 
   get '/download(/:id)' => 'downloader#download'
   get '/download_tag(/:id/:avatar/:tag)' => 'downloader#download_tag'
+
+
+  scope path: '/image_puller', controller: :image_puller do
+    get 'image_pulled' => :image_pulled?, :constraints => { :format => :json }
+    get 'image_pull'   => :image_pull,    :constraints => { :format => :json }
+  end
+
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
