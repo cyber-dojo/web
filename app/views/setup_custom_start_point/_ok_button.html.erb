@@ -1,0 +1,23 @@
+
+<script type="text/javascript"><!--
+
+$(function() {
+
+  $('button#ok').click(function() {
+
+    const major = $('[id^=major_][class~=selected]').data('major');
+    const minor = $('[id^=minor_][class~=selected]').data('minor');
+    const url = '/setup_default_start_point/save_<%= @from %>' +
+      '?major=' + encodeURIComponent(mjaor) +
+      '&minor=' + encodeURIComponent(minor);
+    window.location = url;
+  });
+
+});
+
+//--></script>
+
+<button type="button" id="ok">
+ok
+</button>
+
