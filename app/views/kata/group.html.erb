@@ -1,7 +1,22 @@
 
+<script type="text/javascript"><!--
+
+$(function() {
+
+  $('button#ok').click(function() {
+    window.location.href = cd.homePageUrl('<%= @kata_id %>');
+  });
+
+});
+
+//--></script>
+
 The session-ID is <%= @kata_id %>
 <br/>
-OK button to take you back to home page.
+
+<button type="button" id="ok">
+  ok
+</button>
 
 <%= render partial: 'shared/app_bar_short',
     locals: { help_url: "http://blog.cyber-dojo.org/p/learn-more.html" } %>
