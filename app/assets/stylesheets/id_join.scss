@@ -3,39 +3,41 @@
 {
   @include id-common();
 
+  #title { font-size: 95px; }
+
   #lo-text
   {
     @include non-code-font();
-    @include font-size-large();
-         color: $lighter-color;
-     padding: 0px;
-     margin: { top: 10px; bottom: 5px; }
+    font-size: 40px;
+        color: $lighter-color;
+      padding: 0px;
+       margin: { top: 10px; bottom: 5px; }
   }
 
   img.avatar
   {
     &.large
     {
-      display: block;
-      width: 211px;
-      height: 211px;
       @include rounded-corner(6px);
-      margin: { right: 5px; }
+      display: block;
+        width: 211px;
+       height: 211px;
+       margin: { right: 5px; }
     }
     &.small
     {
-      width: 37px;
-      height: 37px;
-      display: block;
       @include rounded-corner(2px);
+        width: 37px;
+       height: 37px;
+      display: block;
     }
   }
 
   .traffic-light
   {
-    width: 20px;
-    height: 20px;
-    margin: { top: 0px; bottom: 0px; left: 0px; right: 5px; }
+      width: 20px;
+     height: 20px;
+     margin: { top: 0px; bottom: 0px; left: 0px; right: 5px; }
     padding: 0px;
   }
 
