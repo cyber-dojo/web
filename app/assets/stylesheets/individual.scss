@@ -1,7 +1,7 @@
 
 #individual-page
 {
-  margin: { top: 25px; }
+  margin: { top: 10px; }
 
   .center-content { @include center-align(); }
 
@@ -10,7 +10,7 @@
     @include non-code-font();
          color: $lighter-color;
      font-size: 5.2em;
-     padding: { top: 20px; bottom: 20px; }
+     padding: 0px;
   }
 
   button

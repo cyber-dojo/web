@@ -10,15 +10,15 @@
      padding: { top: 20px; bottom: 20px; }
      margin: { bottom: 10px; }
   }
-  #hi-text { @include font-size-large(); }
+  #hi-text { @include font-size-larger(); }
   #lo-text { @include font-size-medium(); }
 
   img.avatar
   {
-    width: 35px;
-    height: 35px;
+    width: 40px;
+    height: 40px;
     display: block;
-    @include rounded-corner(2px);
+    @include rounded-corner(4px);
   }
 
   img.grey
@@ -30,7 +30,7 @@
   button#cancel
   {
     @include non-code-font();
-    @include font-size-medium();
+    @include font-size-large();
          color: $darker-color;
     text-align: right;
    line-height: 95%;

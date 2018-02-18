@@ -1,22 +1,27 @@
 
 #setup-page.busy * { cursor: wait !important; }
 
-#setup-pull-dialog {
-  .avatars-grid {
+#setup-pull-dialog
+{
+  .avatars-grid
+  {
             width: 140px;
     padding-right: 25px;
   }
-  .selection {
+  .selection
+  {
     @include font-size-medium();
   }
 }
 
-#setup-start-point-page {
+#setup-start-point-page
+{
+  margin: { left: 75px; top: 10px; }
 
-  margin: { left: 75px; top: 25px; }
   font-size: 1.15em;
 
-  #setup-a-practice-session {
+  #setup-a-practice-session
+  {
     @include non-code-font();
          color: $lighter-color;
      font-size: 3.2em;
@@ -24,25 +29,29 @@
   }
 
   #start-points-language-container, #start-points-exercise-container,
-  #start-points-major-container, #start-points-minor-container,  {
+  #start-points-major-container, #start-points-minor-container
+  {
     @include edged-panel();
     margin-top: 15px;
     padding: 10px;
-    .title {
+    .title
+    {
       @include font-size-medium();
       color: lighten($darker-color, 30%);
       text-align: left;
       padding-left: 5px;
       font-weight: bold;
     }
-    hr {
+    hr
+    {
       border: 0;
       border-bottom: 1px dotted gray;
       background: black;
     }
   }
 
-  #languages-list, #exercises-list {
+  #languages-list, #exercises-list
+  {
     @include non-code-font();
      height: 340px;
     padding: 6px;
@@ -52,12 +61,14 @@
     overflow-x: none;
     &::-webkit-scrollbar:vertical { width: 10px; }
 
-    .filename {
+    .filename
+    {
       @include font-size-medium();
         padding-left: 0px;
       font-size: 13pt;
       text-align: left;
-      &[class~='selected'] {
+      &[class~='selected']
+      {
         font-style: bold;
              color: darken($lighter-color, 5%);
       }
@@ -66,13 +77,15 @@
   #languages-list { width: 240px; }
   #exercises-list { width: 200px; }
 
-  button#ok {
+  button#ok
+  {
     @include non-code-font();
     @include font-size-large();
     margin-top: 5px;
   }
 
-  #language-info-container, #exercise-info-container {
+  #language-info-container, #exercise-info-container
+  {
     @include plaintext-font();
          width: 450px;
         height: 350px;
@@ -84,7 +97,8 @@
 
   #language-info-container { text-align: right; }
 
-  #exercise-info-container {
+  #exercise-info-container
+  {
     @include code-font();
     &::-webkit-scrollbar:vertical { width: 10px; }
     border-top-left-radius: 5px;
