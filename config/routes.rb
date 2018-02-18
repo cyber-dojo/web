@@ -24,14 +24,15 @@ CyberDojo::Application.routes.draw do
   get '/group(/:id)' => 'group#home'
 
   scope path: '/setup_default_start_point', controller: :setup_default_start_point do
-    get 'show(/:id)' => :show
+    get 'show(/:id)'      => :show
     get 'save_individual' => :save_individual
     get 'save_group'      => :save_group
   end
 
   scope path: '/setup_custom_start_point', controller: :setup_custom_start_point do
-    get 'show(/:id)'  => :show
-    get 'save'        => :save
+    get 'show(/:id)'      => :show
+    get 'save_individual' => :save_individual
+    get 'save_group'      => :save_group
   end
 
   scope path: '/kata', controller: :kata do
