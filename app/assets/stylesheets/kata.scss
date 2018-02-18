@@ -100,3 +100,44 @@ input#new-filename, input#rename-filename, input#delete-filename
         width: 100%;
       height: 100%;
 }
+
+//==================================================
+// individual landing page
+
+#individual-landing-page
+{
+  margin: { top: 40px; }
+
+  #title { font-size: 36px; }
+  #kata-id { font-size: 115px; }
+
+  .traffic-light
+  {
+    width: 20px;
+    height: 20px;
+    margin: { top: 2px; bottom: 0px; left: 0px; right: 5px; }
+    padding: 0px;
+  }
+
+  .info
+  {
+    @include plaintext-font();
+    @include rounded-corner(6px);
+    background: lighten($darker-color, 5%);
+     font-size: 17px;
+        margin: { top: 4px; bottom: 4px; }
+       padding: 12px;
+    text-align: left;
+  }
+
+  button#ok
+  {
+    @include non-code-font();
+    @include font-size-larger();
+         color: $darker-color;
+    text-align: right;
+   line-height: 95%;
+       padding: { top: 8px; bottom: 8px; left: 15px; right: 15px; }
+        margin: { top: 5px; }
+  }
+}

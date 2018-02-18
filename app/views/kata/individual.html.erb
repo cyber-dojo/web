@@ -13,16 +13,60 @@ $(function() {
 
 //--></script>
 
-THIS PAGE NEEDS TO MIMIC JOIN PAGE WITH ID ALREADY ENTERED.<br/>
-<hr/>
-The session-ID is <%= @kata_id %>
-<br/>
-Your avatar is the <%= @avatar_name %>
-<br/>
 
-<button type="button" id="ok">
-  ok
-</button>
+<div id="individual-landing-page">
+  <table class="align-center" cellpadding="0" cellspacing="0">
+    <tr>
+      <td>
+        <div id="title">your new session's ID is</div>
+        <div id="kata-id"><%= @kata_id[0..5] %></div>
+      <td>
+    </tr>
+    <tr>
+      <td>
+        <div class="info">
+          <table cellpadding="0" cellspacing="0">
+            <tr>
+              <td colspan="2">each test run creates a new traffic-light</td>
+            </tr>
+            <tr><td><img src='/images/bulb_red.png'
+                         alt='red traffic-light'
+                       class='traffic-light' /></td>
+                <td>one or more tests failed</td>
+            </tr>
+            <tr><td><img src='/images/bulb_amber.png'
+                         alt='amber traffic-light'
+                       class='traffic-light' /></td>
+                <td>something broke, e.g. syntax error</td>
+            </tr>
+            <tr><td><img src='/images/bulb_green.png'
+                         alt='green traffic-light'
+                       class='traffic-light' /></td>
+                <td>all the tests passed</td>
+            </tr>
+          </table>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="info">
+          click any traffic-light to<br/>
+          &bull;&nbsp;review it<br/>
+          &bull;&nbsp;revert to it<br/>
+          &bull;&nbsp;create a new session from it
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <div class="align-center">
+    <button id="ok">
+      ok
+    </button>
+  </div>
+
+</div>
 
 <%= render partial: 'shared/app_bar_short',
     locals: { help_url: "http://blog.cyber-dojo.org/p/learn-more.html" } %>
