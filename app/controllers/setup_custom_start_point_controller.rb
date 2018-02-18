@@ -19,7 +19,7 @@ class SetupCustomStartPointController < ApplicationController
     manifest = starter.custom_manifest(major, minor)
     kata = katas.create_kata(manifest)
     avatar = kata.start_avatar
-    redirect_to "/kata/individual/#{kata.id}?avatar=#{avatar.name}&from=individual"
+    redirect_to "/kata/individual/#{kata.id}?avatar=#{avatar.name}"
   end
 
   def save_group
@@ -27,7 +27,7 @@ class SetupCustomStartPointController < ApplicationController
     minor = params['minor']
     manifest = starter.custom_manifest(major, minor)
     kata = katas.create_kata(manifest)
-    redirect_to "/kata/group/#{kata.id}?from=group"
+    redirect_to "/kata/group/#{kata.id}"
   end
 
   private
