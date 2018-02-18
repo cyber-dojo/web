@@ -4,13 +4,11 @@ require_relative '../../lib/time_now'
 class KataController < ApplicationController
 
   def individual
-    @from = params['from']
     @kata_id = kata.id
     @avatar_name = avatar.name
   end
 
   def group
-    @from = params['from']
     @kata_id = kata.id
   end
 
