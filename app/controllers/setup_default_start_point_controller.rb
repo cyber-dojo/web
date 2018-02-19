@@ -24,8 +24,7 @@ class SetupDefaultStartPointController < ApplicationController
   def save_individual
     language = params['language']
     exercise = params['exercise']
-    manifest = starter.language_exercise_manifest(language, exercise)
-    kata = katas.create_kata(manifest)
+    kata = create_kata(language, exercise)
     avatar = kata.start_avatar
     redirect_to "/kata/individual/#{kata.id}?avatar=#{avatar.name}"
   end
@@ -33,12 +32,21 @@ class SetupDefaultStartPointController < ApplicationController
   def save_group
     language = params['language']
     exercise = params['exercise']
-    manifest = starter.language_exercise_manifest(language, exercise)
-    kata = katas.create_kata(manifest)
+    kata = create_kata(language, exercise)
     redirect_to "/kata/group/#{kata.id}"
   end
 
   private
+
+  def create_kata(language, exercise)
+    start_point = starter.language_exercise_manifest(language, exercise)
+    instructions = start_point['exercise']
+    manifest = start_point['manifest']
+    manifest['exercise'] = exercise
+    manifest['visible_files']['instruction'] = instructions
+    manifest
+    katas.create_kata(manifest)
+  end
 
   #include DisplayNameIndexer
 
