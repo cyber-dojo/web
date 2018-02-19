@@ -1,30 +1,23 @@
 
-<%= render partial: 'shared/start_point_chooser' %>
-
 <div id="setup-start-point-page">
 
   <div id="pull-spinner"></div>
 
   <table>
     <tr class="valign-top">
-      <td colspan="3" align="right">
+      <td align="right">
         <div id="setup-a-practice-session">
-          create <%= @from=='individual' ? 'my' : 'our' %> new custom session
+          create&nbsp;<%= @from=='individual' ? 'my' : 'our' %>&nbsp;new&nbsp;custom&nbsp;session
         </div>
       </td>
     </tr>
     <tr class="valign-top">
-      <td id="info-container">
-      </td>
-      <td id="start-points-major-container">
-        <%= render partial: 'shared/start_points_major_list' %>
-      </td>
-      <td id="start-points-minor-container">
-        <%= render partial: 'shared/start_points_minor_list' %>
+      <td align="right" id="start-points-custom-container">
+        <%= render partial: 'display_names_list' %>
       </td>
     </tr>
     <tr class="valign-top">
-      <td colspan="3" align="right">
+      <td align="right">
         <%= render partial: 'ok_button' %>
       </td>
     </tr>

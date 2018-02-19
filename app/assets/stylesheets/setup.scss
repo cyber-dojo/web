@@ -25,11 +25,12 @@
     @include non-code-font();
          color: $lighter-color;
      font-size: 3.2em;
-    text-align: right;
+    text-align: left;
   }
 
-  #start-points-language-container, #start-points-exercise-container,
-  #start-points-major-container, #start-points-minor-container
+  #start-points-language-container,
+  #start-points-exercise-container,
+  #start-points-custom-container
   {
     @include edged-panel();
     margin-top: 15px;
@@ -50,7 +51,7 @@
     }
   }
 
-  #languages-list, #exercises-list
+  #languages-list, #exercises-list, #custom-list
   {
     @include non-code-font();
      height: 340px;
@@ -77,6 +78,18 @@
   #languages-list { width: 240px; }
   #exercises-list { width: 200px; }
 
+  #custom-list
+  {
+    .display-name
+    {
+      @include wide-list-item();
+      text-align: left;
+      max-width: 350px;
+    }
+    max-width: 350px;
+    width: 350px;
+  }
+
   button#ok
   {
     @include non-code-font();
@@ -95,7 +108,7 @@
 
   }
 
-  #language-info-container { text-align: right; }
+  #language-info-container { text-align: left; }
 
   #exercise-info-container
   {

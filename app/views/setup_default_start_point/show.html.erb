@@ -3,17 +3,13 @@
 
   <table>
     <tr class="valign-top">
-      <td colspan="3" align="right">
+      <td colspan="3">
         <%= render partial: 'heading' %>
       </td>
     </tr>
     <tr class="valign-top">
     </tr>
     <tr class="valign-top">
-      <td>
-        <div id="language-info-container"></div>
-        <textarea id="exercise-info-container" readonly="readonly"></textarea>
-      </td>
       <td id="start-points-language-container">
         <div class="title">language, tests?</div>
         <hr/>
@@ -24,9 +20,13 @@
         <hr/>
         <%= render partial: 'exercises_list' %>
       </td>
+      <td>
+        <div id="language-info-container"></div>
+        <textarea id="exercise-info-container" readonly="readonly"></textarea>
+      </td>
     </tr>
     <tr>
-      <td colspan="3" align="right">
+      <td colspan="3">
         <%= render partial: 'ok_button' %>
       </td>
     </tr>

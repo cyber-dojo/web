@@ -2,36 +2,35 @@
 class SetupCustomStartPointController < ApplicationController
 
   def show
-    choices = starter.custom_choices
-    current_display_name = kata.exists? ? kata.display_name : nil
-    display_name_index(choices, current_display_name)
+    start_points = starter.custom_start_points
     @id = id
-    @major_names   = choices['major_names']
-    @major_index   = choices['major_index']
-    @minor_names   = choices['minor_names']
-    @minor_indexes = choices['minor_indexes']
+    @custom_names = start_points
+    @custom_index = 1 # TODO
+    #choices = starter.custom_choices
+    #current_display_name = kata.exists? ? kata.display_name : nil
+    #display_name_index(choices, current_display_name)
     @from = params['from']
   end
 
   def save_individual
-    major = params['major']
-    minor = params['minor']
-    manifest = starter.custom_manifest(major, minor)
-    kata = katas.create_kata(manifest)
+    kata = create_kata
     avatar = kata.start_avatar
     redirect_to "/kata/individual/#{kata.id}?avatar=#{avatar.name}"
   end
 
   def save_group
-    major = params['major']
-    minor = params['minor']
-    manifest = starter.custom_manifest(major, minor)
-    kata = katas.create_kata(manifest)
+    kata = create_kata
     redirect_to "/kata/group/#{kata.id}"
   end
 
   private
 
   include DisplayNameIndexer
+
+  def create_kata
+    display_name = params['display_name']
+    manifest = starter.custom_manifest(display_name)
+    katas.create_kata(manifest)
+  end
 
 end

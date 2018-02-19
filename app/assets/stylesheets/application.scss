@@ -17,6 +17,7 @@
  *= depend_on big-checkbox.scss
  *= depend_on fonts.scss
  *= depend_on force-scrollbars.scss
+ *= depend_on wide-list-item.scss
  *= depend_on shared.scss
  *= depend_on cyber-dojo.scss
  *= depend_on home.scss
@@ -45,6 +46,7 @@
 @import "big-checkbox.scss";
 @import "fonts.scss";
 @import "force-scrollbars.scss";
+@import "wide-list-item.scss";
 @import "shared.scss";
 @import "cyber-dojo.scss";
 @import "home.scss";
