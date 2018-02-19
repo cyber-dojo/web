@@ -2,7 +2,7 @@
 class SetupDefaultStartPointController < ApplicationController
 
   def show
-    start_points = starter.languages_exercises_start_points
+    start_points = starter.language_start_points
     @id = id
     @languages_names = start_points['languages']
     @language_index = 1 # TODO
@@ -17,7 +17,6 @@ class SetupDefaultStartPointController < ApplicationController
     @exercises_names.each do |name|
       @instructions << start_points['exercises'][name]
     end
-
     @from = params['from']
   end
 
@@ -37,7 +36,7 @@ class SetupDefaultStartPointController < ApplicationController
   def create_kata
     language = params['language']
     exercise = params['exercise']
-    start_point = starter.language_exercise_manifest(language, exercise)
+    start_point = starter.language_manifest(language, exercise)
     instructions = start_point['exercise']
     manifest = start_point['manifest']
     manifest['exercise'] = exercise

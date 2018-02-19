@@ -8,11 +8,11 @@ class StarterService
 
   # - - - - - - - - - - - -
 
-  def languages_exercises_start_points
+  def language_start_points
     http_get(__method__)
   end
 
-  def language_exercise_manifest(display_name, exercise_name)
+  def language_manifest(display_name, exercise_name)
     http_get(__method__, display_name, exercise_name)
   end
 
