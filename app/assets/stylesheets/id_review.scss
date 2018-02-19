@@ -29,7 +29,7 @@
     &#ok, &#cancel
     {
       @include non-code-font();
-      @include font-size-large();
+      @include font-size-largest();
            color: $darker-color;
       text-align: right;
      line-height: 95%;
