@@ -8,15 +8,12 @@
             width: 140px;
     padding-right: 25px;
   }
-  .selection
-  {
-    @include font-size-medium();
-  }
+  .selection { @include font-size-medium(); }
 }
 
 #setup-start-point-page
 {
-  margin: { left: 75px; top: 10px; }
+  margin: { left: 85px; top: 10px; }
 
   font-size: 1.15em;
 
@@ -33,7 +30,6 @@
   #start-points-custom-container
   {
     @include edged-panel();
-    margin-top: 15px;
     padding: 10px;
     .title
     {
@@ -103,7 +99,7 @@
          width: 450px;
         height: 350px;
       position: relative;
-           top: 63px;
+           top: 48px;
        padding: 10px;
 
   }
@@ -113,8 +109,8 @@
   #exercise-info-container
   {
     @include code-font();
+    @include rounded-corner();
     &::-webkit-scrollbar:vertical { width: 10px; }
-    border-top-left-radius: 5px;
      font-size: 10pt;
          color: $lighter-color;
     background: lighten($darker-color, 5%);
