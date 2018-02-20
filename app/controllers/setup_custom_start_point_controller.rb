@@ -2,13 +2,10 @@
 class SetupCustomStartPointController < ApplicationController
 
   def show
-    start_points = starter.custom_start_points
     @id = id
-    @custom_names = start_points
-    @custom_index = 1 # TODO
-    #choices = starter.custom_choices
-    #current_display_name = kata.exists? ? kata.display_name : nil
-    #display_name_index(choices, current_display_name)
+    current_display_name = kata.exists? ? kata.display_name : nil
+    @custom_names = starter.custom_start_points
+    @custom_index = index_match(@custom_names, current_display_name)
     @from = params['from']
   end
 
@@ -25,12 +22,15 @@ class SetupCustomStartPointController < ApplicationController
 
   private
 
-  include DisplayNameIndexer
-
   def create_kata
     display_name = params['display_name']
     manifest = starter.custom_manifest(display_name)
     katas.create_kata(manifest)
+  end
+
+  def index_match(names, current_name)
+    index = names.index(current_name)
+    index ? index : rand(0...names.size)
   end
 
 end
