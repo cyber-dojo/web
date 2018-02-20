@@ -83,31 +83,17 @@ a:link, a:visited { color: $text-color; }
 
 //----------------------------------------------
 
-.dojo-id {
+.dojo-id
+{
   position: absolute;
   left: 120px;
   top: 30px;
 }
 
-.new-dojo-dialog-button {
-  width: 200px;
-  margin-left: 20px !important;
-
-  &.enter-page {
-    position: absolute;
-    left: 103px;
-    top: 170px;
-  }
-  &.start-coding {
-    position: absolute;
-    left: 103px;
-    top: 230px;
-  }
-}
-
 //----------------------------------------------
 
-.avatar-background {
+.avatar-background
+{
   @include center-align();
   background: url('/images/avatars/all_avatars_background.png') no-repeat;
        width: 315px;
@@ -118,28 +104,33 @@ a:link, a:visited { color: $text-color; }
        -o-background-size: cover;
           background-size: cover;
 
-  .centerer {
+  .centerer
+  {
            display: inline-block;
             height: 100%;
     vertical-align: middle;
   }
 
-  .avatar_image {
+  .avatar_image
+  {
              width: 162px;
             height: 162px;
     vertical-align: middle;
   }
+}
 
-  .dojo-id {
-    @include gradient-lighten($green, 40%, 30%, 20%);
-    @include rounded-corner(5px);
+#forked-dojo
+{
+  @include center-align();
+
+  #title
+  {
+    @include font-size-large();
+  }
+  #dojo-id
+  {
     @include non-code-font();
     @include font-size-largest();
-    background: lighten($green, 20%);
-           color: $darker-color;
-          margin: { left:  2px; right:  2px; top: 4px; bottom: 4px; }
-         padding: { left: 20px; right: 20px; top: 2px; bottom: 0px; }
-      text-align: right;
   }
 }
 
