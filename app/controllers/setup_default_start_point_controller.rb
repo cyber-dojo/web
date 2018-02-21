@@ -37,7 +37,7 @@ class SetupDefaultStartPointController < ApplicationController
     instructions = start_point['exercise']
     manifest = start_point['manifest']
     manifest['exercise'] = exercise
-    manifest['visible_files']['instruction'] = instructions
+    manifest['visible_files']['instructions'] = instructions
     manifest
     katas.create_kata(manifest)
   end
