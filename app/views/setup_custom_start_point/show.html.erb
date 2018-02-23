@@ -1,27 +1,19 @@
 
 <div id="setup-start-point-page">
 
-  <div id="pull-spinner"></div>
+  <div id="setup-a-practice-session">
+    create&nbsp;<%= @from=='individual' ? 'my' : 'our' %>&nbsp;new&nbsp;custom&nbsp;session
+  </div>
 
-  <table>
-    <tr class="valign-top">
-      <td>
-        <div id="setup-a-practice-session">
-          create&nbsp;<%= @from=='individual' ? 'my' : 'our' %>&nbsp;new&nbsp;custom&nbsp;session
-        </div>
-      </td>
-    </tr>
-    <tr class="valign-top">
-      <td id="start-points-custom-container">
-        <%= render partial: 'display_names_list' %>
-      </td>
-    </tr>
-    <tr class="valign-top">
-      <td>
-        <%= render partial: 'ok_button' %>
-      </td>
+  <table class="align-center">
+    <tr>
+      <td><%= render partial: 'display_names_list' %></td>
     </tr>
   </table>
+
+  <div id="button-container">
+    <%= render partial: 'ok_button' %>
+  </div>
 
 </div>
 
