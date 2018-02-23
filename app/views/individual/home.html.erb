@@ -2,13 +2,26 @@
 <div id="individual-page">
 
   <div id="title" class="center-content">
-    i'm on my own
+    i'm&nbsp;on&nbsp;my&nbsp;own
   </div>
 
-  <table class="center-content" cellpadding="0" cellspacing="0">
-    <tr><td><%= render partial: 'create_button' %></td></tr>
-    <tr><td><%= render partial: 'create_custom_button' %></td></tr>
-    <tr><td><%= render partial: 'rejoin_button' %></td></tr>
+  <table class="center-content">
+    <tr>
+      <td><img src="/images/avatars/<%= @avatar %>.jpg" id="avatar" alt=""></td>
+      <td>
+        <table>
+          <tr><td><%= render partial: 'create_button' %></td></tr>
+          <tr><td><%= render partial: 'create_custom_button' %></td></tr>
+          <tr><td><%= render partial: 'rejoin_button' %></td></tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td id="nadya">
+       <a href="https://www.behance.net/NadyaSivers"
+        target="_blank">Nadya Sivers</a> drew the animal images
+      </td>
+    </tr>
   </table>
 
 </div>

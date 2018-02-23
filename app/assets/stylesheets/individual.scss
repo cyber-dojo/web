@@ -32,4 +32,21 @@
     &#create-custom, &#join, &#rejoin { @include font-size-medium(); }
   }
 
+  #avatar
+  {
+     width: 182px;
+    height: 182px;
+    position: relative;
+    top: -3px;
+    @include rounded-corner();
+    filter: grayscale(100%);
+  }
+
+  #nadya
+  {
+    @include plaintext-font();
+    text-align: left;
+     font-size: 12px;
+       padding: { left: 17px; }
+  }
 }
