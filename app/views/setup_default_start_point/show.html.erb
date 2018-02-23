@@ -3,24 +3,15 @@
 
   <%= render partial: 'heading' %>
 
-  <table>
-    <tr class="valign-top">
-      <td>
-        <div class="title">language, tests?</div>
-      </td>
-      <td>
-        <div class="title">exercise?</div>
-      </td>
-      <td>
-      </td>
+  <table class="align-center">
+    <tr>
+      <td><div class="title">language, test-framework?</div></td>
+      <td><div class="title">exercise?</div></td>
+      <td></td>
     </tr>
     <tr>
-      <td xid="start-points-language-container">
-        <%= render partial: 'language_list' %>
-      </td>
-      <td xid="start-points-exercise-container">
-        <%= render partial: 'exercise_list' %>
-      </td>
+      <td><%= render partial: 'language_list' %></td>
+      <td><%= render partial: 'exercise_list' %></td>
       <td>
         <div id="language-info-container"></div>
         <textarea id="exercise-info-container" readonly="readonly"></textarea>

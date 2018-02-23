@@ -13,7 +13,7 @@
 
 #setup-start-point-page
 {
-  margin: { left: 85px; top: 10px; }
+  margin: { top: 10px; }
 
   font-size: 1.15em;
 
@@ -21,8 +21,17 @@
   {
     @include non-code-font();
          color: $lighter-color;
-     font-size: 3.2em;
+     font-size: 3.4em;
     text-align: center;
+  }
+
+  .title
+  {
+    @include font-size-medium();
+    color: $lighter-color;
+    text-align: left;
+    padding-left: 5px;
+    font-weight: bold;
   }
 
   #start-points-custom-container
@@ -63,8 +72,14 @@
       }
     }
   }
-  #languages-list { width: 240px; @include edged-panel(); }
-  #exercises-list { width: 200px; @include edged-panel(); }
+
+  #languages-list, #exercises-list
+  {
+    @include edged-panel();
+    padding: 10px;
+  }
+  #languages-list { width: 260px; }
+  #exercises-list { width: 200px; }
 
   #custom-list
   {
@@ -94,10 +109,11 @@
   {
     @include plaintext-font();
          width: 450px;
-        height: 332px;
+        height: 342px;
        padding: 10px;
        display: none;
-
+       position: relative;
+       top: -2px;
   }
 
   #language-info-container { text-align: left; }
