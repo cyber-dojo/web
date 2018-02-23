@@ -22,11 +22,9 @@
     @include non-code-font();
          color: $lighter-color;
      font-size: 3.2em;
-    text-align: left;
+    text-align: center;
   }
 
-  #start-points-language-container,
-  #start-points-exercise-container,
   #start-points-custom-container
   {
     @include edged-panel();
@@ -38,12 +36,6 @@
       text-align: left;
       padding-left: 5px;
       font-weight: bold;
-    }
-    hr
-    {
-      border: 0;
-      border-bottom: 1px dotted gray;
-      background: black;
     }
   }
 
@@ -71,8 +63,8 @@
       }
     }
   }
-  #languages-list { width: 240px; }
-  #exercises-list { width: 200px; }
+  #languages-list { width: 240px; @include edged-panel(); }
+  #exercises-list { width: 200px; @include edged-panel(); }
 
   #custom-list
   {
@@ -86,6 +78,11 @@
     width: 350px;
   }
 
+  #button-container
+  {
+    text-align: center;
+  }
+
   button#ok
   {
     @include non-code-font();
@@ -97,10 +94,9 @@
   {
     @include plaintext-font();
          width: 450px;
-        height: 350px;
-      position: relative;
-           top: 48px;
+        height: 332px;
        padding: 10px;
+       display: none;
 
   }
 
@@ -110,7 +106,6 @@
   {
     @include code-font();
     @include rounded-corner();
-    &::-webkit-scrollbar:vertical { width: 10px; }
      font-size: 10pt;
          color: $lighter-color;
     background: lighten($darker-color, 5%);
@@ -118,5 +113,6 @@
     overflow-y: scroll;
        outline: none;
         resize: none;
+        &::-webkit-scrollbar:vertical { width: 10px; }
   }
 }

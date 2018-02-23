@@ -1,23 +1,24 @@
 
 <div id="setup-start-point-page">
 
+  <%= render partial: 'heading' %>
+
   <table>
     <tr class="valign-top">
-      <td colspan="3">
-        <%= render partial: 'heading' %>
+      <td>
+        <div class="title">language, tests?</div>
+      </td>
+      <td>
+        <div class="title">exercise?</div>
+      </td>
+      <td>
       </td>
     </tr>
-    <tr class="valign-top">
-    </tr>
-    <tr class="valign-top">
-      <td id="start-points-language-container">
-        <div class="title">language, tests?</div>
-        <hr/>
+    <tr>
+      <td xid="start-points-language-container">
         <%= render partial: 'language_list' %>
       </td>
-      <td id="start-points-exercise-container">
-        <div class="title">exercise?</div>
-        <hr/>
+      <td xid="start-points-exercise-container">
         <%= render partial: 'exercise_list' %>
       </td>
       <td>
@@ -25,12 +26,9 @@
         <textarea id="exercise-info-container" readonly="readonly"></textarea>
       </td>
     </tr>
-    <tr>
-      <td colspan="3">
-        <%= render partial: 'ok_button' %>
-      </td>
-    </tr>
   </table>
+
+  <%= render partial: 'ok_button' %>
 
 </div>
 
