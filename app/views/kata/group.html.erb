@@ -4,7 +4,8 @@
 $(function() {
 
   $('button#ok').click(function() {
-    window.location.href = cd.homePageUrl('<%= @kata_id %>');
+    const url = "/dashboard/show/<%= @kata_id %>";
+    window.location.href = url;
   });
 
 });
