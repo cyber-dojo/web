@@ -3,17 +3,20 @@
 
 $(function() {
 
-  $('button#ok').click(function() {
-    const url = "/dashboard/show/<%= @kata_id %>";
-    window.location.href = url;
+  const ok = $('button#ok');
+
+  ok.click(function() {
+    window.location.href = "/dashboard/show/<%= @kata_id %>";
   });
+
+  cd.createTip(ok, 'open a dashboard');
 
 });
 
 //--></script>
 
 <div id="group-landing-page">
-  <table class="align-center" cellpadding="0" cellspacing="0">
+  <table class="align-center">
     <tr>
       <td>
         <div id="title">our&nbsp;new&nbsp;session&nbsp;ID&nbsp;is</div>
