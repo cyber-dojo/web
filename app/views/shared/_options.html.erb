@@ -1,6 +1,3 @@
-<% id       = @kata.id[0..5] %>
-<% language = @kata.major_name %>
-<% test     = @kata.minor_name %>
 
 <script type="text/javascript"><!--
 
@@ -10,9 +7,8 @@ $(function() {
     var html = '';
     html += '<div id="options-dialog">';
     html += '<table style="border: 1px;">';
-    html += tr('id', '<%= id %>');
-    html += tr('language', '<%= language %>');
-    html += tr('test', '<%= test %>');
+    html += tr('id', '<%= @kata.id[0..5] %>');
+    html += tr('display_name', '<%= @kata.display_name %>');
     <% if @kata.exercise %>
     html += '<tr><td>exercise</td><td>:</td><td><%= @kata.exercise.gsub('_',' ') %></td></tr>';
     <% end %>
