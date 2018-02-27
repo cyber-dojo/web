@@ -44,7 +44,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   test 'BA4',
   'show ok when display_name of full-id passed in URL not a current start-point' do
-    manifest = starter.language_manifest(ruby_minitest, 'Fizz_Buzz')
+    manifest = starter.language_manifest(ruby_minitest, fizz_buzz)
     manifest['id'] = kata_id
     manifest['created'] = time_now
     manifest['display_name'] = 'Wuby, MiniTest'
@@ -78,9 +78,11 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   test '3D8', %w(
   save_group creates a new kata with language+test and exercise
   and redirects to kata/group page ) do
+    language = ruby_rspec
+    exercise = leap_years
     params = {
-      'language' => ruby_minitest,
-      'exercise' => fizz_buzz
+      'language' => language,
+      'exercise' => exercise
     }
     do_get 'save_group', params
     assert_response :redirect
@@ -88,8 +90,8 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     assert m = regex.match(@response.redirect_url)
     id = m[1]
     kata = katas[id]
-    assert_equal ruby_minitest,  kata.display_name
-    assert_equal fizz_buzz, kata.exercise
+    assert_equal language,  kata.display_name
+    assert_equal exercise, kata.exercise
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -98,9 +100,11 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   save_individual creates a new kata with language+test and exercise
   and starts a new avatar
   and redirects to kata/individual page ) do
+    language = ruby_minitest
+    exercise = fizz_buzz
     params = {
-      'language' => ruby_minitest,
-      'exercise' => fizz_buzz
+      'language' => language,
+      'exercise' => exercise
     }
     do_get 'save_individual', params
     assert_response :redirect
@@ -109,8 +113,8 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     id = m[1]
     avatar = m[2]
     kata = katas[id]
-    assert_equal ruby_minitest,  kata.display_name
-    assert_equal fizz_buzz, kata.exercise
+    assert_equal language, kata.display_name
+    assert_equal exercise, kata.exercise
     started = kata.avatars.started
     assert_equal 1, started.size
     assert_equal [avatar], started.keys
