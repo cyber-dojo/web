@@ -13,30 +13,11 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test '020',
-  'show_languages page' do
-    do_get 'show_languages'
-    assert html.include? "data-major=#{quoted(get_language_from(ruby_minitest))}"
-    assert html.include? "data-minor=#{quoted(get_test_from(ruby_minitest))}"
-    assert html.include? "data-major=#{quoted(get_language_from(ruby_rspec))}"
-    assert html.include? "data-minor=#{quoted(get_test_from(ruby_rspec))}"
-  end
+  'show displays language,testFramework list and exercise list' do
+    do_get 'show'
+    assert html.include? "data-name=#{quoted(ruby_minitest)}"
+    assert html.include? "data-name=#{quoted(ruby_rspec)}"
 
-  # - - - - - - - - - - - - - - - - - - - - - -
-
-  test '565',
-  'show_languages when kata_id is invalid' do
-    do_get 'show_languages', 'id' => '379C8ABFDF'
-    assert html.include? "data-major=#{quoted(get_language_from(ruby_minitest))}"
-    assert html.include? "data-minor=#{quoted(get_test_from(ruby_minitest))}"
-    assert html.include? "data-major=#{quoted(get_language_from(ruby_rspec))}"
-    assert html.include? "data-minor=#{quoted(get_test_from(ruby_rspec))}"
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
-  test '967',
-  'show_exercises page' do
-    do_get 'show_exercises'
     assert html.include? "data-name=#{quoted(bowling_game)}"
     assert html.include? "data-name=#{quoted(fizz_buzz)}"
     assert html.include? "data-name=#{quoted(leap_years)}"
@@ -45,112 +26,93 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  test '3D8',
-  'save creates a new kata with language+test and exercise' do
-    params = {
-         'major' => get_language_from(ruby_minitest),
-         'minor' => get_test_from(ruby_minitest),
-      'exercise' => fizz_buzz
-    }
-    do_get 'save', params
-    kata = katas[json['id']]
-    assert_equal 'Ruby', kata.major_name
-    assert_equal 'MiniTest',  kata.minor_name
-    assert_equal fizz_buzz, kata.exercise
+  test 'BA4',
+  'show ok when display_name not a current start-point' do
+    manifest = starter.language_manifest(ruby_minitest, 'Fizz_Buzz')
+    manifest['id'] = kata_id
+    manifest['created'] = time_now
+    manifest['display_name'] = 'Wuby, MiniTest'
+    manifest['exercise'] = 'Fizzy_Buzzy'
+    storer.create_kata(manifest)
+
+    do_get 'show', 'id' => manifest['id']
+    start_points = starter.language_start_points
+    md = /var selectedLanguage = \$\('#language_' \+ '(\d+)'\);/.match(html)
+    refute_nil md
+    index = md[1].to_i
+    max = start_points['languages'].size
+    assert (0...max).include?(index)
+
+    md = /var selectedExercise = \$\('#exercise_' \+ '(\d+)'\);/.match(html)
+    refute_nil md
+    index = md[1].to_i
+    max = start_points['exercises'].size
+    assert (0...max).include?(index)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test 'BA3',
-  'show_languages defaults to language and test-framework of kata',
+  'show defaults to language,test-framework and exercise of kata',
   'whose full-id is passed in URL (to encourage repetition)' do
     in_kata(:stateless) {}
-    assert_equal 'Ruby', kata.major_name
-    do_get 'show_languages', 'id' => kata.id
-    choices = starter.languages_choices
-    major_names = choices['major_names']
-    md = /var selectedMajor = \$\('#major_' \+ (\d+)/.match(html)
+    assert_equal ruby_minitest, kata.display_name
+    do_get 'show', 'id' => kata.id
+
+    start_points = starter.language_start_points
+    md = /var selectedLanguage = \$\('#language_' \+ '(\d+)'\);/.match(html)
     refute_nil md
-    assert_equal 'Ruby', major_names[md[1].to_i]
-    # checking the initial test-framework looks to be
-    # nigh on impossible in static html
+    assert_equal ruby_minitest, start_points['languages'][md[1].to_i]
+
+    md = /var selectedExercise = \$\('#exercise_' \+ '(\d+)'\);/.match(html)
+    refute_nil md
+    assert_equal fizz_buzz, start_points['exercises'].keys.sort[md[1].to_i]
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'BA4',
-  'show_languages ok when major-name no longer present' do
-    major = get_language_from(ruby_minitest)
-    minor = get_test_from(ruby_minitest)
-    manifest = starter.language_manifest(major, minor, 'Fizz_Buzz')
-    manifest['id'] = kata_id
-    manifest['created'] = time_now
-    manifest['display_name'] = major + 'XX, ' + minor
-    storer.create_kata(manifest)
-    do_get 'show_languages', 'id' => manifest['id']
-    choices = starter.languages_choices
-    major_names = choices['major_names']
-    md = /var selectedMajor = \$\('#major_' \+ (\d+)/.match(html)
-    refute_nil md
-    # TODO: check md[1].to_i is random major-selection
+  test '565',
+  'show page when kata_id is invalid' do
+    do_get 'show', 'id' => '379C8ABFDF'
+    assert html.include? "data-name=#{quoted(ruby_minitest)}"
+    assert html.include? "data-name=#{quoted(ruby_rspec)}"
+
+    assert html.include? "data-name=#{quoted(bowling_game)}"
+    assert html.include? "data-name=#{quoted(fizz_buzz)}"
+    assert html.include? "data-name=#{quoted(leap_years)}"
+    assert html.include? "data-name=#{quoted(tiny_maze)}"
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'BA5',
-  'show_languages ok when minor-name no longer present' do
-    major = get_language_from(ruby_minitest)
-    minor = get_test_from(ruby_minitest)
-    manifest = starter.language_manifest(major, minor, 'Fizz_Buzz')
-    manifest['id'] = kata_id
-    manifest['created'] = time_now
-    manifest['display_name'] = major + ', ' + minor + 'XX'
-    storer.create_kata(manifest)
-    do_get 'show_languages', 'id' => manifest['id']
-    choices = starter.languages_choices
-    major_names = choices['major_names']
-    md = /var selectedMajor = \$\('#major_' \+ (\d+)/.match(html)
-    refute_nil md
-    assert_equal 'Ruby', major_names[md[1].to_i]
-    # checking the initial test-framework looks to be
-    # nigh on impossible in static html
+  test '3D8', %w(
+  save_group creates a new kata with language+test and exercise
+  and redirects to kata/group page ) do
+    params = {
+      'language' => ruby_minitest,
+      'exercise' => fizz_buzz
+    }
+    do_get 'save_group', params
+    assert_response :redirect
+    #@response.redirect_url
+    #http://www.example.com/kata/group/BC8E8A6433
+    regex = /^http:\/\/www\.example\.com\/kata\/group\/([0-9A-Z]*)$/
+    assert m = regex.match(@response.redirect_url)
+    id = m[1]
+    kata = katas[id]
+    assert_equal ruby_minitest,  kata.display_name
+    assert_equal fizz_buzz, kata.exercise
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  test '62A',
-  'show_exercises defaults to exercise of kata',
-  'whose full-id is passed in URL (to encourage repetition)' do
-    choices = starter.exercises_choices
-    exercises_names = choices['names']
-    exercises_names.each_with_index do |exercise_name,index|
-      create_language_kata('Ruby, MiniTest', exercise_name)
-      do_get 'show_exercises', 'id' => kata.id
-      md = /var selected = \$\('#exercises_name_' \+ (\d+)/.match(html)
-      assert_equal index, md[1].to_i
-    end
-  end
+  # TODO: save_individual
 
   private # = = = = = = = = = = = = = = = = = =
 
   def do_get(route, params = {})
     controller = 'setup_default_start_point'
     get "/#{controller}/#{route}", params:params
-    assert_response :success
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
-  def get_language_from(name)
-    commad(name)[0]
-  end
-
-  def get_test_from(name)
-    commad(name)[1]
-  end
-
-  def commad(s)
-    s.split(',').map(&:strip)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -

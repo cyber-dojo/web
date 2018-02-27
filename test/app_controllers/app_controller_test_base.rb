@@ -18,8 +18,8 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   def in_kata(runner_choice, &block)
     display_name = {
        stateless: 'Ruby, MiniTest',
-        stateful: 'Ruby, RSpec',
-      processful: 'Ruby, Test::Unit'
+        stateful: 'Ruby, RSpec'
+      #processful: 'Ruby, Test::Unit'
     }[runner_choice]
     refute_nil display_name, runner_choice
     create_language_kata(display_name)
@@ -53,28 +53,30 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   # - - - - - - - - - - - - - - - -
 
-  def create_language_kata(major_minor_name = default_language_name,
+  def create_language_kata(display_name = default_display_name,
                            exercise_name = default_exercise_name)
-    parts = commad(major_minor_name)
     params = {
-         'major' => parts[0],
-         'minor' => parts[1],
+      'language' => display_name,
       'exercise' => exercise_name
     }
-    get '/setup_default_start_point/save', params:params
-    @id = json['id']
+    get '/setup_default_start_point/save_group', params:params
+    assert_response :redirect
+    #@response.redirect_url
+    #http://www.example.com/kata/group/BC8E8A6433
+    regex = /^http:\/\/www\.example\.com\/kata\/group\/([0-9A-Z]*)$/
+    assert m = regex.match(@response.redirect_url)
+    @id = m[1]
+    nil
   end
 
   # - - - - - - - - - - - - - - - -
 
-  def create_custom_kata(major_minor_name)
-    parts = commad(major_minor_name)
-    params = {
-         'major' => parts[0],
-         'minor' => parts[1]
-    }
-    get '/setup_custom_start_point/save', params:params
-    @id = json['id']
+  def create_custom_kata(display_name)
+    params = { 'display_name' => display_name }
+    get '/setup_custom_start_point/save_group', params:params
+    regex = /^http:\/\/www\.example\.com\/kata\/group\/([0-9A-Z]*)$/
+    assert m = regex.match(@response.redirect_url)
+    @id = m[1]
     nil
   end
 
@@ -148,12 +150,6 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   def html
     @response.body
-  end
-
-  private # = = = = = = = = = = = =
-
-  def commad(name)
-    name.split(',').map(&:strip)
   end
 
 end
