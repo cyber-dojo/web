@@ -59,17 +59,15 @@ class KataController < ApplicationController
       @output = stdout + stderr
     end
 
+    # storer.avatar_ran_tests() validates a kata with the
+    # given id exists. Making it a fire-and-forget using
+    # the spawnling gem decouples this validation but
+    # breaks a test for reasons I do not yet understand.
+    storer.avatar_ran_tests(id, avatar_name, files, time_now, @output, @colour)
+
     respond_to do |format|
       format.js   { render layout: false }
       format.json { show_json }
-    end
-
-    # storer.avatar_ran_tests() validates a kata with the
-    # given id exists. Making it a fire-and-forget using
-    # spawnling decouples this validation.
-
-    Spawnling.new do
-      storer.avatar_ran_tests(id, avatar_name, files, time_now, @output, @colour)
     end
   end
 
