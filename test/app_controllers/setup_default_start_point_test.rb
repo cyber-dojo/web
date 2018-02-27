@@ -15,39 +15,15 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   test '020',
   'show displays language,testFramework list and exercise list' do
     do_get 'show'
-    assert html.include? "data-name=#{quoted(ruby_minitest)}"
-    assert html.include? "data-name=#{quoted(ruby_rspec)}"
+    assert listed?(ruby_minitest)
+    assert listed?(ruby_rspec)
+    assert valid_language_index?
 
-    assert html.include? "data-name=#{quoted(bowling_game)}"
-    assert html.include? "data-name=#{quoted(fizz_buzz)}"
-    assert html.include? "data-name=#{quoted(leap_years)}"
-    assert html.include? "data-name=#{quoted(tiny_maze)}"
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'BA4',
-  'show ok when display_name not a current start-point' do
-    manifest = starter.language_manifest(ruby_minitest, 'Fizz_Buzz')
-    manifest['id'] = kata_id
-    manifest['created'] = time_now
-    manifest['display_name'] = 'Wuby, MiniTest'
-    manifest['exercise'] = 'Fizzy_Buzzy'
-    storer.create_kata(manifest)
-
-    do_get 'show', 'id' => manifest['id']
-    start_points = starter.language_start_points
-    md = /var selectedLanguage = \$\('#language_' \+ '(\d+)'\);/.match(html)
-    refute_nil md
-    index = md[1].to_i
-    max = start_points['languages'].size
-    assert (0...max).include?(index)
-
-    md = /var selectedExercise = \$\('#exercise_' \+ '(\d+)'\);/.match(html)
-    refute_nil md
-    index = md[1].to_i
-    max = start_points['exercises'].size
-    assert (0...max).include?(index)
+    assert listed?(bowling_game)
+    assert listed?(fizz_buzz)
+    assert listed?(leap_years)
+    assert listed?(tiny_maze)
+    assert valid_exercise_index?
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -60,27 +36,41 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     do_get 'show', 'id' => kata.id
 
     start_points = starter.language_start_points
-    md = /var selectedLanguage = \$\('#language_' \+ '(\d+)'\);/.match(html)
-    refute_nil md
-    assert_equal ruby_minitest, start_points['languages'][md[1].to_i]
+    assert_equal ruby_minitest, start_points['languages'][language_index]
+    assert_equal fizz_buzz,     start_points['exercises'].keys.sort[exercise_index]
+  end
 
-    md = /var selectedExercise = \$\('#exercise_' \+ '(\d+)'\);/.match(html)
-    refute_nil md
-    assert_equal fizz_buzz, start_points['exercises'].keys.sort[md[1].to_i]
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'BA4',
+  'show ok when display_name of full-id passed in URL not a current start-point' do
+    manifest = starter.language_manifest(ruby_minitest, 'Fizz_Buzz')
+    manifest['id'] = kata_id
+    manifest['created'] = time_now
+    manifest['display_name'] = 'Wuby, MiniTest'
+    manifest['exercise'] = 'Fizzy_Buzzy'
+    storer.create_kata(manifest)
+
+    do_get 'show', 'id' => manifest['id']
+    assert valid_language_index?
+    assert valid_exercise_index?
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test '565',
-  'show page when kata_id is invalid' do
+  'show ok when kata_id is invalid' do
     do_get 'show', 'id' => '379C8ABFDF'
-    assert html.include? "data-name=#{quoted(ruby_minitest)}"
-    assert html.include? "data-name=#{quoted(ruby_rspec)}"
 
-    assert html.include? "data-name=#{quoted(bowling_game)}"
-    assert html.include? "data-name=#{quoted(fizz_buzz)}"
-    assert html.include? "data-name=#{quoted(leap_years)}"
-    assert html.include? "data-name=#{quoted(tiny_maze)}"
+    assert listed?(ruby_minitest)
+    assert listed?(ruby_rspec)
+    assert valid_language_index?
+
+    assert listed?(bowling_game)
+    assert listed?(fizz_buzz)
+    assert listed?(leap_years)
+    assert listed?(tiny_maze)
+    assert valid_exercise_index?
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -117,6 +107,34 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
+  def valid_language_index?
+    start_points = starter.language_start_points
+    max = start_points['languages'].size
+    (0...max).include?(language_index)
+  end
+
+  def language_index
+    md = /var selectedLanguage = \$\('#language_' \+ '(\d+)'\);/.match(html)
+    refute_nil md
+    md[1].to_i
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  def valid_exercise_index?
+    start_points = starter.language_start_points
+    max = start_points['exercises'].size
+    (0...max).include?(exercise_index)
+  end
+
+  def exercise_index
+    md = /var selectedExercise = \$\('#exercise_' \+ '(\d+)'\);/.match(html)
+    refute_nil md
+    md[1].to_i
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
   def bowling_game
     'Bowling_Game'
   end
@@ -144,6 +162,10 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
+
+  def listed?(entry)
+    html.include? "data-name=#{quoted(entry)}"
+  end
 
   def quoted(s)
     '"' + s + '"'
