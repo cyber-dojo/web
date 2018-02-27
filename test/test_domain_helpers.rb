@@ -42,10 +42,7 @@ module TestDomainHelpers # mix-in
   def make_language_kata(options = {})
     display_name = options['display_name'] || default_language_name
     exercise_name = options['exercise'] || default_exercise_name
-    parts = display_name.split(',').map(&:strip)
-    major_name = parts[0]
-    minor_name = parts[1]
-    manifest = starter.language_manifest(major_name, minor_name, exercise_name)
+    manifest = starter.language_manifest(display_name, exercise_name)
     manifest['id']      = (options['id']      || kata_id)
     manifest['created'] = (options['created'] || time_now)
     katas.create_kata(manifest)

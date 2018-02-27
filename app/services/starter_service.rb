@@ -13,7 +13,11 @@ class StarterService
   end
 
   def language_manifest(display_name, exercise_name)
-    http_get(__method__, display_name, exercise_name)
+    hash = http_get(__method__, display_name, exercise_name)
+    manifest = hash['manifest']
+    manifest['exercise'] = exercise_name
+    manifest['visible_files']['instructions'] = hash['exercise']
+    manifest
   end
 
   # - - - - - - - - - - - -

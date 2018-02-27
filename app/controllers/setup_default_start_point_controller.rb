@@ -33,12 +33,7 @@ class SetupDefaultStartPointController < ApplicationController
   def create_kata
     language = params['language']
     exercise = params['exercise']
-    start_point = starter.language_manifest(language, exercise)
-    instructions = start_point['exercise']
-    manifest = start_point['manifest']
-    manifest['exercise'] = exercise
-    manifest['visible_files']['instructions'] = instructions
-    manifest
+    manifest = starter.language_manifest(language, exercise)
     katas.create_kata(manifest)
   end
 

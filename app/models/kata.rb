@@ -63,16 +63,6 @@ class Kata
     manifest_property # required
   end
 
-  def major_name
-    # eg 'Python
-    commad(display_name)[0]
-  end
-
-  def minor_name
-    # eg 'py.test'
-    commad(display_name)[1]
-  end
-
   def exercise
     manifest_property # required in language kata
   end                 # not required in custom kata

@@ -23,9 +23,7 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '51F', %w(
-  kata properties are union of language properties and exercise instruction
-  together with major_name,minor_name which are comma-separated
-  parts of the display_name ) do
+  kata properties are union of language properties and exercise instruction ) do
     in_kata {
       assert_equal kata_id, kata.id
       assert_equal 'stateless', kata.runner_choice
@@ -33,16 +31,14 @@ class KataTest < AppModelsTestBase
       assert_equal 2, kata.tab_size
 
       assert_equal 'Ruby, MiniTest', kata.display_name
-      assert_equal 'Ruby', kata.major_name
-      assert_equal 'MiniTest', kata.minor_name
       assert_equal '.rb', kata.filename_extension
       assert_equal [], kata.progress_regexs
       assert_equal [], kata.highlight_filenames
       assert_equal ['cyber-dojo.sh', 'makefile', 'Makefile', 'unity.license.txt'], kata.lowlight_filenames
       assert_equal 'Fizz_Buzz', kata.exercise
       assert_equal 10, kata.max_seconds
-      assert_equal 'Fizz_Buzz', kata.visible_files['instructions']
       assert_equal '', kata.visible_files['output']
+      assert kata.visible_files['instructions'].start_with?('Write a program that prints the numbers from 1 to 100')
     }
   end
 
