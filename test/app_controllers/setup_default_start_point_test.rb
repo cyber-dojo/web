@@ -84,8 +84,6 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     }
     do_get 'save_group', params
     assert_response :redirect
-    #@response.redirect_url
-    #http://www.example.com/kata/group/BC8E8A6433
     regex = /^http:\/\/www\.example\.com\/kata\/group\/([0-9A-Z]*)$/
     assert m = regex.match(@response.redirect_url)
     id = m[1]
@@ -96,7 +94,28 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  # TODO: save_individual
+  test '3D9', %w(
+  save_individual creates a new kata with language+test and exercise
+  and starts a new avatar
+  and redirects to kata/individual page ) do
+    params = {
+      'language' => ruby_minitest,
+      'exercise' => fizz_buzz
+    }
+    do_get 'save_individual', params
+    assert_response :redirect
+    regex = /^http:\/\/www\.example\.com\/kata\/individual\/([0-9A-Z]*)\?avatar=([a-z]*)$/
+    assert m = regex.match(@response.redirect_url)
+    id = m[1]
+    avatar = m[2]
+    kata = katas[id]
+    assert_equal ruby_minitest,  kata.display_name
+    assert_equal fizz_buzz, kata.exercise
+    started = kata.avatars.started
+    assert_equal 1, started.size
+    assert_equal [avatar], started.keys
+  end
+
 
   private # = = = = = = = = = = = = = = = = = =
 
