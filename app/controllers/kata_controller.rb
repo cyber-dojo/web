@@ -38,8 +38,8 @@ class KataController < ApplicationController
       stdout,stderr,status,@colour = runner.run_cyber_dojo_sh(*args)
 
     rescue StandardError => error
-      # o) old kata could be being resumed
-      # o) runner_choice could have switched
+      # o) old stateful kata could be being resumed
+      # o) runner_choice could have switched to stateful
       case error.message
         when 'RunnerService:run_cyber_dojo_sh:kata_id:!exists'
           resurrect_kata
