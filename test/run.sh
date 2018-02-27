@@ -17,7 +17,7 @@ modules=(
   app_services
   app_controllers
 )
-modules=(app_services)
+#modules=(app_controllers)
 for module in ${modules[*]}
 do
   if [ "${module}" == "${1}" ]; then

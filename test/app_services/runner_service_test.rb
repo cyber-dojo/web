@@ -54,6 +54,7 @@ class RunnerServiceTest < AppServicesTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
+=begin
   test '74C',
   'processful run() delegates to processful runner' do
     in_kata(:processful) {
@@ -62,6 +63,7 @@ class RunnerServiceTest < AppServicesTestBase
       }
     }
   end
+=end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -116,8 +118,8 @@ class RunnerServiceTest < AppServicesTestBase
   def in_kata(runner_choice = :stateless, &block)
     display_name = {
        stateless: 'Ruby, MiniTest',
-        stateful: 'Ruby, RSpec',
-      processful: 'Ruby, Test::Unit'
+        stateful: 'Ruby, RSpec'
+      #processful: 'Ruby, Test::Unit'
     }[runner_choice]
     refute_nil display_name, runner_choice
     make_language_kata({ 'display_name' => display_name })
@@ -193,6 +195,7 @@ class RunnerServiceTest < AppServicesTestBase
     }
   end
 
+=begin
   def assert_spied_run_processful
     http_spied_run {
       assert_equal [ 'runner_processful', 4547,
@@ -200,6 +203,7 @@ class RunnerServiceTest < AppServicesTestBase
       ], http.spied[0]
     }
   end
+=end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 

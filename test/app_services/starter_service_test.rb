@@ -16,49 +16,94 @@ class StarterServiceTest < AppServicesTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '3AA',
-  'smoke test' do
-    json = starter.custom_choices
-    assert_equal [ 'Yahtzee refactoring' ], json['major_names']
+  'language_start_points' do
+    start_points = starter.language_start_points
     assert_equal [
-      'C# NUnit',
-      'C++ (g++) assert',
-      'Java JUnit',
-      'Python unitttest'
-    ], json['minor_names']
-    assert_equal [[0,1,2,3]], json['minor_indexes']
+      'C (gcc), assert',
+      'C++ (g++), assert',
+      'Python, behave',
+      'Python, py.test',
+      'Ruby, MiniTest',
+      'Ruby, RSpec',
+      'Ruby, Test::Unit'
+    ], start_points['languages']
 
-    json = starter.languages_choices
-    assert_equal [
-      'C (gcc)',
-      'C++ (g++)',
-      'Python',
-      'Ruby'
-    ], json['major_names']
-    assert_equal [
-      'MiniTest',
-      'RSpec',
-      'Test::Unit',
-      'assert',
-      'behave',
-      'py.test'
-    ], json['minor_names']
-    assert_equal [[3],[3],[4,5],[0,1,2]], json['minor_indexes']
-
-    json = starter.exercises_choices
+    exercises = start_points['exercises']
     assert_equal [
       'Bowling_Game',
       'Fizz_Buzz',
       'Leap_Years',
       'Tiny_Maze'
-    ], json['names']
+    ], exercises.keys.sort
 
-    manifest = starter.custom_manifest('Yahtzee refactoring', 'C# NUnit')
-    assert_equal 'Yahtzee refactoring, C# NUnit', manifest['display_name']
+    line = 'Write a program to score a game of Ten-Pin Bowling'
+    assert exercises['Bowling_Game'].start_with? line
 
-    manifest = starter.language_manifest('Ruby', 'MiniTest', 'Fizz_Buzz')
+    line = 'Write a program that prints the numbers from 1 to 100'
+    assert exercises['Fizz_Buzz'].start_with? line
+
+    line = 'Write a function that returns true or false depending on'
+    assert exercises['Leap_Years'].start_with? line
+
+    line = 'Alice found herself very tiny and wandering around Wonderland'
+    assert exercises['Tiny_Maze'].start_with? line
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '3AB',
+  'language_manifest' do
+    manifest = starter.language_manifest('Ruby, MiniTest', 'Fizz_Buzz')
     assert_equal 'Ruby, MiniTest', manifest['display_name']
+    assert_equal 'cyberdojofoundation/ruby_mini_test', manifest['image_name']
+    assert_equal '.rb', manifest['filename_extension']
+    assert_equal 2, manifest['tab_size']
+    assert_equal 'stateless', manifest['runner_choice']
+    assert_equal 'Fizz_Buzz', manifest['exercise']
+    assert_equal %w(
+      test_hiker.rb
+      hiker.rb
+      cyber-dojo.sh
+      output
+      instructions
+    ).sort, manifest['visible_files'].keys.sort
+  end
 
-    manifest = starter.manifest('C')
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '3AC',
+  'custom_start_points' do
+    assert_equal [
+      'Yahtzee refactoring, C# NUnit',
+      'Yahtzee refactoring, C++ (g++) assert',
+      'Yahtzee refactoring, Java JUnit',
+      'Yahtzee refactoring, Python unitttest'
+    ], starter.custom_start_points
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '3AD',
+  'custom_manifest' do
+    manifest = starter.custom_manifest('Yahtzee refactoring, C# NUnit')
+    assert_equal 'Yahtzee refactoring, C# NUnit', manifest['display_name']
+    assert_equal 'cyberdojofoundation/csharp_nunit', manifest['image_name']
+    assert_equal '.cs', manifest['filename_extension']
+    assert_equal 'stateless', manifest['runner_choice']
+    assert_equal %w(
+      YahtzeeTest.cs
+      Yahtzee.cs
+      cyber-dojo.sh
+      output
+      instructions
+    ).sort, manifest['visible_files'].keys.sort
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '3AE',
+  'old_manifest' do
+    manifest = starter.old_manifest('C')
     assert_equal 'C (gcc), assert', manifest['display_name']
   end
 

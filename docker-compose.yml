@@ -23,7 +23,7 @@ services:
       - differ
       - runner_stateless
       - runner_stateful
-      - runner_processful
+      #- runner_processful
       - starter
       - storer
       - zipper
