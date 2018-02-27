@@ -61,7 +61,10 @@ class KataController < ApplicationController
 
     # storer.avatar_ran_tests() validates a kata with the
     # given id exists. It is currently a synchronous call.
-    storer.avatar_ran_tests(id, avatar_name, files, time_now, @output, @colour)
+    Spawnling.new do
+      storer.avatar_ran_tests(id, avatar_name, files, time_now, @output, @colour)
+      sleep 11
+    end
 
     respond_to do |format|
       format.js   { render layout: false }
