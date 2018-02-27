@@ -52,7 +52,7 @@ class TrafficLightTest < AppHelpersTestBase
     expected = '' +
       '<div' +
       " class='diff-traffic-light avatar-image'" +
-      " data-tip='Review #{avatar_name}&#39;s current code'" +
+      " data-tip='review #{avatar_name}&#39;s current code'" +
       " data-id='#{id}'" +
       " data-avatar-name='#{avatar_name}'" +
       " data-was-tag='-1'" +
