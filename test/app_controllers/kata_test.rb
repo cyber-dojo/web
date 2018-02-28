@@ -41,7 +41,7 @@ class KataControllerTest  < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '223', %w( smoke red ) do
-    in_kata(:processful) {
+    in_kata(:stateless) {
       as_avatar {
         run_tests
         assert_equal :red, avatar.lights[-1].colour
