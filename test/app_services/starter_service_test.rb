@@ -21,6 +21,7 @@ class StarterServiceTest < AppServicesTestBase
     assert_equal [
       'C (gcc), assert',
       'C++ (g++), assert',
+      'Java, JUnit',
       'Python, behave',
       'Python, py.test',
       'Ruby, MiniTest',

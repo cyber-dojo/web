@@ -23,7 +23,7 @@ class DashboardControllerTest < AppControllerTestBase
   test 'E43', %w(
   with and without avatars, and
   with and without traffic lights ) do
-    in_kata(:stateless) {
+    in_kata('Java, JUnit') {
       # no avatars
       dashboard
       heartbeat

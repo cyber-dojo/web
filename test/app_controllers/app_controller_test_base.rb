@@ -20,7 +20,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
        stateless: 'Ruby, MiniTest',
         stateful: 'Ruby, RSpec'
       #processful: 'Ruby, Test::Unit'
-    }[runner_choice]
+    }[runner_choice] || runner_choice
     refute_nil display_name, runner_choice
     create_language_kata(display_name)
     begin
