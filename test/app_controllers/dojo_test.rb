@@ -117,7 +117,7 @@ class DojoControllerTest < AppControllerTestBase
       start
       refute full?
       assert Avatars.names.include? json['avatar_name']
-      assert_not_nil avatar.name
+      refute_nil avatar.name
     end
     start_full
     refute empty?

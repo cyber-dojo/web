@@ -60,7 +60,7 @@ class ForkerControllerTest < AppControllerTestBase
         assert_equal 10, forked_kata_id.length
         assert_not_equal kata.id, forked_kata_id
         forked_kata = katas[forked_kata_id]
-        assert_not_nil forked_kata
+        refute_nil forked_kata
         assert_equal kata.image_name, forked_kata.image_name
         origin_filenames = avatar.visible_files.keys
         forked_filenames = forked_kata.visible_files.keys

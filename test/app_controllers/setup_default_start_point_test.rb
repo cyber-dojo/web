@@ -14,7 +14,8 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   test '020',
   'show displays language,testFramework list and exercise list' do
-    do_get 'show'
+    show
+
     assert listed?(ruby_minitest)
     assert listed?(ruby_rspec)
     assert valid_language_index?
@@ -33,7 +34,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   'whose full-id is passed in URL (to encourage repetition)' do
     in_kata(:stateless) {}
     assert_equal ruby_minitest, kata.display_name
-    do_get 'show', 'id' => kata.id
+    show 'id' => kata.id
 
     start_points = starter.language_start_points
     assert_equal ruby_minitest, start_points['languages'][language_index]
@@ -51,7 +52,8 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     manifest['exercise'] = 'Fizzy_Buzzy'
     storer.create_kata(manifest)
 
-    do_get 'show', 'id' => manifest['id']
+    show 'id' => manifest['id']
+
     assert valid_language_index?
     assert valid_exercise_index?
   end
@@ -60,7 +62,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   test '565',
   'show ok when kata_id is invalid' do
-    do_get 'show', 'id' => '379C8ABFDF'
+    show 'id' => '379C8ABFDF'
 
     assert listed?(ruby_minitest)
     assert listed?(ruby_rspec)
@@ -76,7 +78,10 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test '3D8', %w(
-  save_group creates a new kata with language+test and exercise
+  save_group
+  creates a new kata
+  with the given display_name
+  and does not start any avatars
   and redirects to kata/group page ) do
     language = ruby_rspec
     exercise = leap_years
@@ -84,20 +89,20 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
       'language' => language,
       'exercise' => exercise
     }
-    do_get 'save_group', params
-    assert_response :redirect
-    regex = /^http:\/\/www\.example\.com\/kata\/group\/([0-9A-Z]*)$/
-    assert m = regex.match(@response.redirect_url)
-    id = m[1]
+    id = save_group(params)
     kata = katas[id]
     assert_equal language,  kata.display_name
     assert_equal exercise, kata.exercise
+    started = kata.avatars.started
+    assert_equal 0, started.size
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test '3D9', %w(
-  save_individual creates a new kata with language+test and exercise
+  save_individual
+  creates a new kata
+  with the given language+test and exercise
   and starts a new avatar
   and redirects to kata/individual page ) do
     language = ruby_minitest
@@ -106,12 +111,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
       'language' => language,
       'exercise' => exercise
     }
-    do_get 'save_individual', params
-    assert_response :redirect
-    regex = /^http:\/\/www\.example\.com\/kata\/individual\/([0-9A-Z]*)\?avatar=([a-z]*)$/
-    assert m = regex.match(@response.redirect_url)
-    id = m[1]
-    avatar = m[2]
+    id,avatar = save_individual(params)
     kata = katas[id]
     assert_equal language, kata.display_name
     assert_equal exercise, kata.exercise
@@ -123,9 +123,31 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   private # = = = = = = = = = = = = = = = = = =
 
-  def do_get(route, params = {})
-    controller = 'setup_default_start_point'
-    get "/#{controller}/#{route}", params:params
+  def show(params = {})
+    get "/#{controller}/show", params:params
+    assert_response :success
+  end
+
+  def save_individual(params)
+    get "/#{controller}/save_individual", params:params
+    assert_response :redirect
+    regex = /^(.*)\/kata\/individual\/([0-9A-Z]*)\?avatar=([a-z]*)$/
+    assert m = regex.match(@response.redirect_url)
+    id = m[2]
+    avatar = m[3]
+    [id,avatar]
+  end
+
+  def save_group(params)
+    get "/#{controller}/save_group", params:params
+    assert_response :redirect
+    regex = /^(.*)\/kata\/group\/([0-9A-Z]*)$/
+    assert m = regex.match(@response.redirect_url)
+    id = m[2]
+  end
+
+  def controller
+    'setup_default_start_point'
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
