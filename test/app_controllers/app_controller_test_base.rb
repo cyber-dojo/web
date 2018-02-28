@@ -61,10 +61,10 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     }
     get '/setup_default_start_point/save_group', params:params
     assert_response :redirect
-    #http://www.example.com/kata/group/BC8E8A6433
-    regex = /^http:\/\/www\.example\.com\/kata\/group\/([0-9A-Z]*)$/
+    #http://.../kata/group/BC8E8A6433
+    regex = /^(.*)\/kata\/group\/([0-9A-Z]*)$/
     assert m = regex.match(@response.redirect_url)
-    @id = m[1]
+    @id = m[2]
     nil
   end
 
@@ -73,9 +73,11 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   def create_custom_kata(display_name)
     params = { 'display_name' => display_name }
     get '/setup_custom_start_point/save_group', params:params
-    regex = /^http:\/\/www\.example\.com\/kata\/group\/([0-9A-Z]*)$/
+    assert_response :redirect
+    #http://.../kata/group/BC8E8A6433
+    regex = /^(.*)\/kata\/group\/([0-9A-Z]*)$/
     assert m = regex.match(@response.redirect_url)
-    @id = m[1]
+    @id = m[2]
     nil
   end
 

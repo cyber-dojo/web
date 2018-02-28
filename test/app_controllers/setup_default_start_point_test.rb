@@ -12,30 +12,26 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  test '020',
-  'show displays language,testFramework list and exercise list' do
+  test 'BA2', %w(
+  when there is no ID
+  show lists all language,testFramework and all exercise display_names
+  and chooses a random index for both lists ) do
     show
-
-    assert listed?(ruby_minitest)
-    assert listed?(ruby_rspec)
     assert valid_language_index?
-
-    assert listed?(bowling_game)
-    assert listed?(fizz_buzz)
-    assert listed?(leap_years)
-    assert listed?(tiny_maze)
     assert valid_exercise_index?
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'BA3',
-  'show defaults to language,test-framework and exercise of kata',
-  'whose full-id is passed in URL (to encourage repetition)' do
+  test 'BA3', %w(
+  when ID matches a current start-point
+  show lists all language,testFramework and all exercise display_names
+  and chooses indexes to match the ID
+  to encourage repetition ) do
     in_kata(:stateless) {}
     assert_equal ruby_minitest, kata.display_name
-    show 'id' => kata.id
 
+    show 'id' => kata.id
     start_points = starter.language_start_points
     assert_equal ruby_minitest, start_points['languages'][language_index]
     assert_equal fizz_buzz,     start_points['exercises'].keys.sort[exercise_index]
@@ -43,35 +39,30 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'BA4',
-  'show ok when display_name of full-id passed in URL not a current start-point' do
-    manifest = starter.language_manifest(ruby_minitest, fizz_buzz)
-    manifest['id'] = kata_id
-    manifest['created'] = time_now
-    manifest['display_name'] = 'Wuby, MiniTest'
-    manifest['exercise'] = 'Fizzy_Buzzy'
-    storer.create_kata(manifest)
-
-    show 'id' => manifest['id']
-
+  test 'BA4', %w(
+  when ID does not designate a kata
+  show lists all language,testFramework and all exercise display_names
+  and chooses a random index for both lists ) do
+    show 'id' => invalid_id
     assert valid_language_index?
     assert valid_exercise_index?
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  test '565',
-  'show ok when kata_id is invalid' do
-    show 'id' => '379C8ABFDF'
+  test 'BA5', %w(
+  when ID does not match a current start-point
+  show lists all language,testFramework and all exercise display_names
+  and chooses a random index for both lists ) do
+    manifest = starter.language_manifest(ruby_minitest, fizz_buzz)
+    manifest['id'] = kata_id
+    manifest['created'] = time_now
+    manifest['display_name'] = 'XXXX'
+    manifest['exercise'] = 'YYYY'
+    storer.create_kata(manifest)
 
-    assert listed?(ruby_minitest)
-    assert listed?(ruby_rspec)
+    show 'id' => manifest['id']
     assert valid_language_index?
-
-    assert listed?(bowling_game)
-    assert listed?(fizz_buzz)
-    assert listed?(leap_years)
-    assert listed?(tiny_maze)
     assert valid_exercise_index?
   end
 
@@ -120,12 +111,23 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     assert_equal [avatar], started.keys
   end
 
-
   private # = = = = = = = = = = = = = = = = = =
+
+  def controller
+    'setup_default_start_point'
+  end
 
   def show(params = {})
     get "/#{controller}/show", params:params
     assert_response :success
+
+    start_points = starter.language_start_points
+    start_points['languages'].each do |display_name|
+      assert listed?(display_name)
+    end
+    start_points['exercises'].keys.each do |exercise|
+      assert listed?(exercise)
+    end
   end
 
   def save_individual(params)
@@ -144,10 +146,6 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     regex = /^(.*)\/kata\/group\/([0-9A-Z]*)$/
     assert m = regex.match(@response.redirect_url)
     id = m[2]
-  end
-
-  def controller
-    'setup_default_start_point'
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -180,24 +178,6 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def bowling_game
-    'Bowling_Game'
-  end
-
-  def fizz_buzz
-    'Fizz_Buzz'
-  end
-
-  def leap_years
-    'Leap_Years'
-  end
-
-  def tiny_maze
-    'Tiny_Maze'
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
   def ruby_minitest
     'Ruby, MiniTest'
   end
@@ -208,12 +188,26 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
+  def fizz_buzz
+    'Fizz_Buzz'
+  end
+
+  def leap_years
+    'Leap_Years'
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
   def listed?(entry)
     html.include? "data-name=#{quoted(entry)}"
   end
 
   def quoted(s)
     '"' + s + '"'
+  end
+
+  def invalid_id
+    '379C8ABFDF'
   end
 
 end
