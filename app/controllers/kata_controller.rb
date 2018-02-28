@@ -34,8 +34,8 @@ class KataController < ApplicationController
         runner.set_hostname_port_stateless
       when 'stateful'
         runner.set_hostname_port_stateful
-      when 'processful'
-        runner.set_hostname_port_processful
+      #when 'processful'
+        #runner.set_hostname_port_processful
       end
       args = []
       args << image_name  # eg 'cyberdojofoundation/gcc_assert'

@@ -12,6 +12,35 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test '9B7', %w( individual landing page ) do
+    in_kata(:stateless) {
+      as_avatar {
+        get "/kata/individual/#{kata.id}", params:{'avatar':avatar.name}
+        assert_response :success
+      }
+    }
+  end
+
+  test '9B8', %w( group landing page ) do
+    in_kata(:stateless) {
+      get "/kata/group/#{kata.id}"
+      assert_response :success
+    }
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '9B9', %w( edit landing page ) do
+    in_kata(:stateless) {
+      as_avatar {
+        get "/kata/edit/#{kata.id}", params:{'avatar':avatar.name}
+        assert_response :success
+      }
+    }
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '76E', %w( run_tests with bad kata id raises ) do
     error = assert_raises(StandardError) {
       run_tests({ 'id' => 'bad' })
@@ -21,7 +50,7 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '221', %w( smoke timed_out ) do
+  test '221', %w( timed_out ) do
     in_kata(:stateless) {
       as_avatar {
         change_file('hiker.rb',
@@ -40,7 +69,7 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '223', %w( smoke red ) do
+  test '223', %w( red ) do
     in_kata(:stateless) {
       as_avatar {
         run_tests
@@ -51,7 +80,7 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '224', %w( smoke amber ) do
+  test '224', %w( amber ) do
     in_kata(:stateful) {
       as_avatar {
         change_file('hiker.rb', 'syntax-error')
@@ -63,7 +92,7 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '225', %w( smoke green ) do
+  test '225', %w( green ) do
     in_kata(:stateless) {
       as_avatar {
         sub_file('hiker.rb', '6 * 9', '6 * 7')
