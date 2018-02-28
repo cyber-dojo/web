@@ -94,18 +94,18 @@ services:
 
   # - - - - - - - - - - - - - - - -
 
-  runner_processful:
-    user: root
-    image: cyberdojo/runner_processful
-    init: true
-    container_name: test_web_cyber-dojo-runner-processful
-    read_only: true
-    tmpfs: /tmp
-    mem_limit: 2G
-    memswap_limit: 2G
-    restart: 'no'
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+  #runner_processful:
+  #  user: root
+  #  image: cyberdojo/runner_processful
+  #  init: true
+  #  container_name: test_web_cyber-dojo-runner-processful
+  #  read_only: true
+  #  tmpfs: /tmp
+  #  mem_limit: 2G
+  #  memswap_limit: 2G
+  #  restart: 'no'
+  #  volumes:
+  #    - /var/run/docker.sock:/var/run/docker.sock
 
   # - - - - - - - - - - - - - - - -
 
