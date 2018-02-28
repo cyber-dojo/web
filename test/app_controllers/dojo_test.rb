@@ -73,59 +73,7 @@ class DojoControllerTest < AppControllerTestBase
   end
 
   #- - - - - - - - - - - - - - - -
-
-  test 'F15',
-  'start with no id raises' do
-    assert_raises { start }
-  end
-
-  #- - - - - - - - - - - - - - - -
-
-  test 'B84',
-  'start with empty string id raises' do
-    @id = ''
-    assert_raises { start }
-  end
-
-  #- - - - - - - - - - - - - - - -
-
-  test 'A79',
-  'start with id that does not exist raises' do
-    @id = 'ab00ab11ab'
-    assert_raise { start }
-  end
-
-  #- - - - - - - - - - - - - - - -
-
-  test 'BEE',
-  'enter with id that does exist => !full,avatar_name' do
-    in_kata(:stateless) {
-      as_avatar {
-      }
-    }
-    refute empty?
-    refute full?
-    assert Avatars.names.include?(avatar.name)
-  end
-
-  #- - - - - - - - - - - - - - - -
-
-  test '2AE',
-  'enter succeeds once for each avatar name, then dojo is full' do
-    in_kata(:stateless) {}
-    Avatars.names.each do
-      start
-      refute full?
-      assert Avatars.names.include? json['avatar_name']
-      refute_nil avatar.name
-    end
-    start_full
-    refute empty?
-    assert full?
-    assert_equal '', json['avatar_name']
-  end
-
-  #- - - - - - - - - - - - - - - -
+  # rejoin
 
   test '5BD',
   'resume with id that exists but is empty' do
@@ -155,10 +103,6 @@ class DojoControllerTest < AppControllerTestBase
     params = { :format => :json, :id => @id }
     get '/enter/check', params:params
     assert_response :success
-  end
-
-  def empty?
-    json['empty']
   end
 
   def full?

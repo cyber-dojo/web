@@ -33,7 +33,10 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   # - - - - - - - - - - - - - - - -
 
   def as_avatar(&block)
-    start
+    params = { 'format' => 'json', 'id' => kata.id }
+    get '/id_join/drop_down', params:params
+    assert_response :success
+    @avatar_name = json['avatarName']
     begin
       block.call
     ensure
@@ -82,22 +85,6 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   end
 
   # - - - - - - - - - - - - - - - -
-
-  def start
-    params = { 'format' => 'json', 'id' => @id }
-    get '/id_join/drop_down', params:params
-    assert_response :success
-    @avatar_name = json['avatarName']
-    refute_nil @avatar_name
-    @params_maker = ParamsMaker.new(avatar)
-    nil
-  end
-
-  def start_full
-    params = { 'format' => 'json', 'id' => kata.id }
-    get '/enter/start', params:params
-    assert_response :success
-  end
 
   def resume
     params = { 'format' => 'json', 'id' => kata.id }
