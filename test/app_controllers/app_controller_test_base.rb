@@ -61,7 +61,6 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     }
     get '/setup_default_start_point/save_group', params:params
     assert_response :redirect
-    #@response.redirect_url
     #http://www.example.com/kata/group/BC8E8A6433
     regex = /^http:\/\/www\.example\.com\/kata\/group\/([0-9A-Z]*)$/
     assert m = regex.match(@response.redirect_url)
@@ -84,10 +83,10 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   def start
     params = { 'format' => 'json', 'id' => @id }
-    get '/enter/start', params:params
+    get '/id_join/drop_down', params:params
     assert_response :success
-    @avatar_name = json['avatar_name']
-    assert_not_nil @avatar_name
+    @avatar_name = json['avatarName']
+    refute_nil @avatar_name
     @params_maker = ParamsMaker.new(avatar)
     nil
   end
