@@ -169,7 +169,7 @@ end
 #- - - - - - - - - - - - - - - - - - - - -
 
 def coverage(stats, name)
-  min = 99
+  min = 100
   percent = stats[name][:coverage]
   [ "#{name} coverage >= #{min}", percent.to_f >= min ]
 end
