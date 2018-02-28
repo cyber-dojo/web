@@ -38,21 +38,22 @@ class IdJoinControllerTest < AppControllerTestBase
   test 'F13',
   'join with empty string id results in json with exists=false' do
     join('')
-    assert_equal false, json['exists']
+    refute exists?
   end
 
   #- - - - - - - - - - - - - - - -
 
   test 'F14',
   'join with id that does not exist results in json with exists=false' do
-    join('ab00ab11ab')
-    assert_equal false, json['exists']
+    join(hex_test_kata_id)
+    refute exists?
   end
 
   private # = = = = = = = = = = = =
 
   def assert_join(id)
     join(id)
+    assert exists?
     avatar_name = json['avatarName']
     refute_nil avatar_name
     avatar_name
@@ -63,6 +64,10 @@ class IdJoinControllerTest < AppControllerTestBase
     get '/id_join/drop_down', params:params
     assert_response :success
     json['avatarName']
+  end
+
+  def exists?
+    json['exists']
   end
 
   def full?

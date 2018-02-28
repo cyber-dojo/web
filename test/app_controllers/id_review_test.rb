@@ -12,7 +12,7 @@ class IdReviewControllerTest < AppControllerTestBase
   'review exists==true' do
     in_kata(:stateless) {
       review(kata.id)
-      assert_equal true, exists?
+      assert exists?
     }
   end
 
@@ -21,7 +21,7 @@ class IdReviewControllerTest < AppControllerTestBase
   test '409',
   'review exists==false' do
     review(hex_test_kata_id)
-    assert_equal false, exists?
+    refute exists?
   end
 
   #- - - - - - - - - - - - - - - -

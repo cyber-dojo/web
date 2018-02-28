@@ -12,6 +12,7 @@ class IdRejoinControllerTest < AppControllerTestBase
   'rejoin empty==true' do
     in_kata(:stateless) {
       rejoin
+      assert exists?
       assert empty?
     }
   end
@@ -23,6 +24,7 @@ class IdRejoinControllerTest < AppControllerTestBase
     in_kata(:stateless) {
       as_avatar {
         rejoin
+        assert exists?
         refute empty?
       }
     }
@@ -31,6 +33,15 @@ class IdRejoinControllerTest < AppControllerTestBase
   #- - - - - - - - - - - - - - - -
 
   test '40A',
+  'rejoin with invalid id => exists=false' do
+    rejoin(hex_test_kata_id)
+    refute exists?
+    assert_nil empty?
+  end
+
+  #- - - - - - - - - - - - - - - -
+
+  test '40B',
   'rejoin with no id raises' do
     assert_raises {
       get '/id_rejoin/drop_down', params:{}
@@ -39,10 +50,14 @@ class IdRejoinControllerTest < AppControllerTestBase
 
   private
 
-  def rejoin
-    params = { 'format' => 'json', 'id' => kata.id }
+  def rejoin(id = kata.id)
+    params = { 'format' => 'json', 'id' => id }
     get '/id_rejoin/drop_down', params:params
     assert_response :success
+  end
+
+  def exists?
+    json['exists']
   end
 
   def empty?
