@@ -37,6 +37,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     get '/id_join/drop_down', params:params
     assert_response :success
     @avatar_name = json['avatarName']
+    @params_maker = ParamsMaker.new(avatar)
     begin
       block.call
     ensure
@@ -82,14 +83,6 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     assert m = regex.match(@response.redirect_url)
     @id = m[2]
     nil
-  end
-
-  # - - - - - - - - - - - - - - - -
-
-  def resume
-    params = { 'format' => 'json', 'id' => kata.id }
-    get '/enter/resume', params:params
-    assert_response :success
   end
 
   # - - - - - - - - - - - - - - - -

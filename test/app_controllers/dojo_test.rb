@@ -72,31 +72,6 @@ class DojoControllerTest < AppControllerTestBase
     }
   end
 
-  #- - - - - - - - - - - - - - - -
-  # rejoin
-
-  test '5BD',
-  'resume with id that exists but is empty' do
-    in_kata(:stateless) {}
-    resume
-    assert empty?
-    refute full?
-  end
-
-  #- - - - - - - - - - - - - - - -
-
-  test 'DEB',
-  'resume with id that exists and is not empty' do
-    in_kata(:stateless) {
-      as_avatar{
-
-      }
-    }
-    resume
-    refute empty?
-    refute full?
-  end
-
   private # = = = = = = = = = = = =
 
   def check_id

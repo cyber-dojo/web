@@ -1,12 +1,57 @@
 require_relative 'app_controller_test_base'
 
-class IdJoinControllerTest < AppControllerTestBase
+class IdRejoinControllerTest < AppControllerTestBase
 
   def self.hex_prefix
-    '8A08FC'
+    '881C39'
   end
 
   #- - - - - - - - - - - - - - - -
+
+  test '408',
+  'rejoin empty==true' do
+    in_kata(:stateless) {
+      rejoin
+      assert empty?
+    }
+  end
+
+  #- - - - - - - - - - - - - - - -
+
+  test '409',
+  'rejoin empty==false' do
+    in_kata(:stateless) {
+      as_avatar {
+        rejoin
+        refute empty?
+      }
+    }
+  end
+
+  #- - - - - - - - - - - - - - - -
+
+  test '40A',
+  'rejoin with no id raises' do
+    assert_raises {
+      get '/id_rejoin/drop_down', params:{}
+    }
+  end
+
+  private
+
+  def rejoin
+    params = { 'format' => 'json', 'id' => kata.id }
+    get '/id_rejoin/drop_down', params:params
+    assert_response :success
+  end
+
+  def empty?
+    json['empty']
+  end
+
+end
+
+=begin
 
   test 'F11',
   'join succeeds once for each avatar name, then dojo is full' do
@@ -51,22 +96,8 @@ class IdJoinControllerTest < AppControllerTestBase
 
   private # = = = = = = = = = = = =
 
-  def assert_join(id)
-    join(id)
-    avatar_name = json['avatarName']
-    refute_nil avatar_name
-    avatar_name
-  end
-
-  def join(id)
-    params = { 'format' => 'json', 'id' => id }
-    get '/id_join/drop_down', params:params
-    assert_response :success
-    json['avatarName']
-  end
-
   def full?
     json['full']
   end
 
-end
+=end
