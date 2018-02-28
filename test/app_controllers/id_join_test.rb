@@ -12,7 +12,7 @@ class IdJoinControllerTest < AppControllerTestBase
   'join succeeds once for each avatar name, then dojo is full' do
     in_kata(:stateless) {
       Avatars.names.each do
-        avatar_name = assert_join(kata.id)
+        avatar_name = assert_join
         refute_nil avatar_name
         assert Avatars.names.include?(avatar_name)
         refute full?
@@ -50,21 +50,6 @@ class IdJoinControllerTest < AppControllerTestBase
   end
 
   private # = = = = = = = = = = = =
-
-  def assert_join(id)
-    join(id)
-    assert exists?
-    avatar_name = json['avatarName']
-    refute_nil avatar_name
-    avatar_name
-  end
-
-  def join(id)
-    params = { 'format' => 'json', 'id' => id }
-    get '/id_join/drop_down', params:params
-    assert_response :success
-    json['avatarName']
-  end
 
   def exists?
     json['exists']

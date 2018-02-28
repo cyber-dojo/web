@@ -30,7 +30,7 @@ class DashboardControllerTest < AppControllerTestBase
       progress
       # some avatars
       3.times {
-        start
+        assert_join
         # no traffic-lights
         dashboard
         heartbeat

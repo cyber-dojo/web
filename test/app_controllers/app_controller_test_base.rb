@@ -33,11 +33,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   # - - - - - - - - - - - - - - - -
 
   def as_avatar(&block)
-    params = { 'format' => 'json', 'id' => kata.id }
-    get '/id_join/drop_down', params:params
-    assert_response :success
-    @avatar_name = json['avatarName']
-    @params_maker = ParamsMaker.new(avatar)
+    assert_join
     begin
       block.call
     ensure
@@ -87,6 +83,23 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   # - - - - - - - - - - - - - - - -
 
+  def assert_join(id = kata.id)
+    @avatar_name = join(id)
+    assert json['exists']
+    refute_nil @avatar_name
+    @params_maker = ParamsMaker.new(katas[id].avatars[@avatar_name])
+    @avatar_name
+  end
+
+  def join(id)
+    params = { 'format' => 'json', 'id' => id }
+    get '/id_join/drop_down', params:params
+    assert_response :success
+    json['avatarName']
+  end
+
+  # - - - - - - - - - - - - - - - -
+
   def kata_edit
     params = { 'id' => kata.id, 'avatar' => avatar.name }
     get '/kata/edit', params:params
@@ -110,9 +123,10 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   end
 
   def run_tests(options = {})
+    id = options['id'] || kata.id
     params = {
       'format'        => 'js',
-      'id'            => (options['id'] || kata.id),
+      'id'            => id,
       'runner_choice' => kata.runner_choice,
       'max_seconds'   => (options['max_seconds'] || kata.max_seconds),
       'image_name'    => (options['image_name' ] || kata.image_name),
