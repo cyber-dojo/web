@@ -1,10 +1,6 @@
 
 class IdJoinController < ApplicationController
 
-  def show
-    @title = 'join'
-  end
-
   def drop_down
     @id = params['id'] = katas.completed(id.upcase)
     json = { exists: kata.exists? }

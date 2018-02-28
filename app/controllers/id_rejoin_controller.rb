@@ -1,10 +1,6 @@
 
 class IdRejoinController < ApplicationController
 
-  def show
-    @title = 'rejoin'
-  end
-
   def drop_down
     # TODO: if there is no completion
     # storer's kata.completed(id) could return ''
