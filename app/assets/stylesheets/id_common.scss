@@ -5,11 +5,11 @@
 
   .center-content { @include center-align(); }
 
-  #title
+  #heading
   {
     @include non-code-font();
          color: $lighter-color;
-     font-size: 5.2em;
+     font-size: 87px; //5.2em;
      padding: 0px
   }
 

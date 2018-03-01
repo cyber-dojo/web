@@ -5,7 +5,7 @@
 
   .center-content { @include center-align(); }
 
-  #title
+  #heading
   {
     @include non-code-font();
          color: $lighter-color;

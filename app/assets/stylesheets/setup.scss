@@ -5,11 +5,11 @@
 
   font-size: 1.15em;
 
-  #setup-a-practice-session
+  #heading
   {
     @include non-code-font();
          color: $lighter-color;
-     font-size: 3.4em;
+     font-size: 87px;
     text-align: center;
   }
 
