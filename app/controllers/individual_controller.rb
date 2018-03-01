@@ -1,7 +1,7 @@
 
 class IndividualController < ApplicationController
 
-  def home
+  def show
     @title = 'individual'
     @id = id
     @avatar = Avatars.names.shuffle[0]

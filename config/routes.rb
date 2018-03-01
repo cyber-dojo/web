@@ -20,8 +20,8 @@ CyberDojo::Application.routes.draw do
     get 'index(/:id)' => :index
   end
 
-  get '/individual(/:id)' => 'individual#home'
-  get '/group(/:id)' => 'group#home'
+  get '/individual(/:id)' => 'individual#show'
+  get '/group(/:id)' => 'group#show'
 
   scope path: '/setup_default_start_point', controller: :setup_default_start_point do
     get 'show(/:id)'      => :show

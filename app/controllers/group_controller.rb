@@ -1,7 +1,7 @@
 
 class GroupController < ApplicationController
 
-  def home
+  def show
     @title = 'group'
     @id = id
   end
