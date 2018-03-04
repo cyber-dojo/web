@@ -9,7 +9,6 @@
 The main web-server for [cyber-dojo.org](http://cyber-dojo.org).
 - Uses [runner_stateless](https://github.com/cyber-dojo/runner_stateless) to run tests statelessly.
 - Uses [runner_stateful](https://github.com/cyber-dojo/runner_stateful) to run tests disk-statefully.
-- Uses [runner_processful](https://github.com/cyber-dojo/runner_processful) to run tests process-statefully.
 - Uses [starter](https://github.com/cyber-dojo/starter) to store language+exercise/custom start-points.
 - Uses [storer](https://github.com/cyber-dojo/storer) to save the code/tests associated with each test-run.
 - Uses [differ](https://github.com/cyber-dojo/differ) to diff the code/tests in successive tests-runs.
