@@ -218,9 +218,7 @@ class KataControllerTest  < AppControllerTestBase
         assert_equal :red, avatar.lights[-1].colour
         output = avatar.visible_files['output']
 
-        [ 'expected: 42',
-          '     got: 54'
-        ].each do |expected|
+        [ 'expected: 42', '     got: 54' ].each do |expected|
           assert output.include?(expected), output
         end
 
@@ -238,13 +236,13 @@ class KataControllerTest  < AppControllerTestBase
         assert diff['hiker.rb'].include?({
           'type' => 'deleted',
           'line' =>'  6 * 9',
-          'number' => 3
+          'number' => 2
         })
 
         assert diff['hiker.rb'].include?({
           'type' => 'added',
           'line' =>'  6 * 7',
-          'number' => 3
+          'number' => 2
         })
       }
     }
