@@ -24,7 +24,7 @@ var cyberDojo = (function(cd, $) {
         width: 425,
         closeOnEscape: true,
         buttons: {
-          'ok': function() {
+          'close': function() {
             $(this).remove();
           }
         }
