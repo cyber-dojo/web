@@ -1,20 +1,23 @@
 
 table { border-spacing: 0; }
 
-#cyber-dojo-page {
+#cyber-dojo-page
+{
   font-size: 0.9em;
      margin: { top: 0.3em; left: 0.3em; }
       color: $lighter-color;
 }
 
-body {
+body
+{
   @include non-code-font();
   background: $darker-color;
      padding: none;
       margin: 0px;
 }
 
-.panel {
+.panel
+{
   background: $darker-color;
        color: $lighter-color;
       border: 1px solid lighten($darker-color, 8%);
@@ -22,7 +25,8 @@ body {
       margin: { left: 10px; right: 10px; bottom: 1px; }
 }
 
-.avatar-image {
+.avatar-image
+{
   margin: { left: 0px; right: 1px; top: 0px; bottom: 0px; }
   cursor: pointer;
 }
@@ -31,7 +35,8 @@ body {
 
 $filename_and_button_border_size: 1px;
 
-button {
+button
+{
   @include rounded-corner(6px);
   @include gradient-lighten(darken($lighter-color, 12%), 9%, 2%, 0%);
 
@@ -54,40 +59,14 @@ button {
 
 .filename_div { display: none; }
 
-div[class~='filename'] {
-  @include plaintext-font();
-
-  // no up/down scrolling, #filename-list has its own
-  overflow-y: none;
-  &::-webkit-scrollbar:vertical { width: 0px; }
-
-  background: $darker-color;
-       color: lighten($darker-color, 30%);
-      margin: { bottom: 2px; left: 0px; left: 0px; right: 0px; }
-     padding: { right: 0px; }
-      cursor: pointer;
-  text-align: right;
-
-  // individual left/right scrolling for looooooong filenames
-  &::-webkit-scrollbar:horizontal { height: 0px; }
-    max-width: 250px;
-   overflow-x: auto;
-
-  &:hover { color: lighten($darker-color, 60); }
-  &[class~='selected'] {
-    // See app/assets/javascripts/cyber-dojo_file_load.js function radioEntrySwitch()
-         color: $lighter-color;
-    background: $darker-color;
-        cursor: default;
-    &:hover { color: $lighter-color; }
-  }
-}
+div[class~='filename'] { @include wide-list-item(); }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 .line_numbers, .file_content, .diff_line_numbers, #instructions { @include code-font; }
 
-.line_numbers, .file_content {
+.line_numbers, .file_content
+{
   background: lighten($darker-color, 4%);
       height: 560px;
       border: 0px;
@@ -97,7 +76,8 @@ div[class~='filename'] {
     overflow: auto;
 }
 
-.line_numbers {
+.line_numbers
+{
      border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
         color: lighten($darker-color, 20%);
@@ -116,7 +96,8 @@ div[class~='filename'] {
     &:not(.opaque) { color: lighten($darker-color, 4%); }
 }
 
-.file_content {
+.file_content
+{
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
         color: $lighter-color;
@@ -134,7 +115,8 @@ div[class~='filename'] {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-.dialog {
+.dialog
+{
   background: $lighter-color;
        color: $darker-color;
      display: table;
@@ -142,7 +124,8 @@ div[class~='filename'] {
 
   a:link, a:visited { color: $lighter-color; }
 
-  &.title {
+  &.title
+  {
     @include non-code-font();
     position: relative;
         left: -45px;

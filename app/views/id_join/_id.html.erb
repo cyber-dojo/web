@@ -1,0 +1,75 @@
+
+<script type="text/javascript"><!--
+
+$(function() {
+
+  const inputId = $('input#id');
+  const dropDown = $('#drop-down');
+  const avatarStart = $('#avatar-start');
+  const loText = $('#lo-text');
+  const ok = $('button#ok');
+  const cancel = $('button#cancel');
+
+  const autoDropDown = function() {
+    const id = inputId.val();
+    if (id.length >= 6) {
+      $.getJSON('/id_join/drop_down', { id: id }, function(dojo) {
+        if (dojo.exists) {
+          if (dojo.full) {
+            loText.html('sorry, full up!');
+            avatarStart.html(dojo.fullHtml);
+            ok.hide();
+            cancel.show();
+          } else {
+            loText.html('your animal is the ' + dojo.avatarName);
+            avatarStart.html(dojo.avatarStartHtml);
+            ok.unbind().click(function() {
+              const url = '/kata/edit/' + dojo.id + '?avatar=' + dojo.avatarName;
+              window.location.href = cd.homePageUrl(dojo.id);
+              window.open(url);
+            });
+            ok.show();
+            cancel.hide();
+          }
+          inputId.prop('disabled', true);
+          inputId.slideUp('fast', function() {
+            dropDown.slideDown('slow');
+          });
+        }
+      });
+    }
+  };
+
+  dropDown.hide();
+
+  cancel.click(function() {
+    dropDown.slideUp('slow', function() {
+      inputId.show()
+             .prop('disabled', false)
+             .val('')
+             .slideDown('fast')
+             .focus();
+    });
+  });
+
+  cd.hexOnly(inputId);
+
+  inputId.focus().keyup(function() { autoDropDown(); });
+
+});
+
+//--></script>
+
+<input type="text"
+       id="id"
+       placeholder="id?"
+       size="8"
+       value="">
+</input>
+
+<div id="drop-down">
+  <div id="avatar-start"></div>
+  <div id="lo-text"></div>
+  <button id="ok">ok</button>
+  <button id="cancel">cancel</button>
+</div>

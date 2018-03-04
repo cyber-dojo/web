@@ -63,16 +63,6 @@ class Kata
     manifest_property # required
   end
 
-  def major_name
-    # eg 'Python
-    commad(display_name)[0]
-  end
-
-  def minor_name
-    # eg 'py.test'
-    commad(display_name)[1]
-  end
-
   def exercise
     manifest_property # required in language kata
   end                 # not required in custom kata
@@ -177,7 +167,7 @@ class Kata
       # manifest became self-contained rather than
       # having to retrieve information from start-point
       old_name = manifest['language']
-      xlated = starter.manifest(old_name)
+      xlated = starter.old_manifest(old_name)
       xlated['id'] = manifest['id']
       xlated['created'] = manifest['created']
       # this happened before custom start-points
@@ -188,7 +178,7 @@ class Kata
       # manifest change #2
       # added runner_choice required parameter
       old_name = commad(manifest['display_name']).join('-')
-      xlated = starter.manifest(old_name)
+      xlated = starter.old_manifest(old_name)
       manifest['runner_choice'] = xlated['runner_choice']
       return manifest
     end

@@ -1,0 +1,42 @@
+<div>
+  <table class="align-center" cellpadding="0" cellspacing="0">
+    <tr>
+      <td rowspan="2"><img class='avatar large'
+                             src="/images/avatars/<%= @avatar_name %>.jpg" /></td>
+      <td>
+        <div class="info">
+          <table cellpadding="0" cellspacing="0">
+            <tr>
+              <td colspan="2">each test run creates a new traffic-light</td>
+            </tr>
+            <tr><td><img src='/images/bulb_red.png'
+                         alt='red traffic-light'
+                       class='traffic-light' /></td>
+                <td>one or more tests failed</td>
+            </tr>
+            <tr><td><img src='/images/bulb_amber.png'
+                         alt='amber traffic-light'
+                       class='traffic-light' /></td>
+                <td>something broke, e.g. syntax error</td>
+            </tr>
+            <tr><td><img src='/images/bulb_green.png'
+                         alt='green traffic-light'
+                       class='traffic-light' /></td>
+                <td>all the tests passed</td>
+            </tr>
+          </table>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="info">
+          click any traffic-light to<br/>
+          &bull;&nbsp;review it<br/>
+          &bull;&nbsp;revert to it<br/>
+          &bull;&nbsp;fork a new session from it
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>

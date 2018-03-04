@@ -1,0 +1,17 @@
+
+<script type="text/javascript"><!--
+
+$(function() {
+
+  $('button#create').click(function() {
+    const url = "/setup_default_start_point/show/<%= @id %>?from=group";
+    window.location = url;
+  });
+
+});
+
+//--></script>
+
+<button id="create">
+  create&nbsp;a&nbsp;new&nbsp;session
+</button>

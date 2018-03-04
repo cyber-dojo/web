@@ -27,13 +27,13 @@ class DifferServiceTest < AppServicesTestBase
         refute_nil actual[filename]
         assert_equal({
           'type'   => 'same',
-          'line'   => '',
+          'line'   => 'def answer',
           'number' => 1
         }, actual[filename][0])
 
         assert_equal({
           'type'   => 'same',
-          'line'   => 'def answer',
+          'line'   => '  6 * 9',
           'number' => 2
         }, actual[filename][1])
       }

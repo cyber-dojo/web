@@ -1,0 +1,25 @@
+
+<div>
+  <table class="align-center">
+    <% 8.times do |y| %>
+    <tr>
+      <% 8.times do |x| %>
+      <td>
+        <% avatar_name = @all_avatar_names[y*8 + x] %>
+        <% if @started_avatar_names.include?(avatar_name) %>
+          <div data-tip="<%= avatar_name %>">
+            <img onclick='cd.resume("<%= @id %>","<%= avatar_name %>");'
+                 src="/images/avatars/<%= avatar_name %>.jpg"
+                 class="avatar"
+                 data-cursor="pointer"/>
+          </div>
+        <% else %>
+          <img src="/images/avatars/<%= avatar_name %>.jpg"
+               class="avatar grey"/>
+        <% end %>
+      </td>
+      <% end %>
+    </tr>
+    <% end %>
+  </table>
+</div>

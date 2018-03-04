@@ -1,0 +1,45 @@
+<script type="text/javascript"><!--
+
+$(function() {
+
+  const languageInfoContainer = $('#language-info-container');
+  const exerciseInfoContainer = $('#exercise-info-container');
+
+  var previousExercise = undefined;
+  var selectedExercise = $('#exercise_' + '<%= @exercise_index %>');
+
+  $('[id^=exercise_]').each(function() {
+     var exercise = $(this);
+     exercise.click(function() {
+       var index = exercise.data('index');
+       var instructions = $('#instructions_' + index).val();
+       languageInfoContainer.hide();
+       exerciseInfoContainer.show().val(instructions);
+
+       cd.radioEntrySwitch(previousExercise, exercise);
+       previousExercise = exercise;
+     });
+   });
+
+  selectedExercise.click();
+  selectedExercise.scrollIntoView({ direction: 'vertical' });
+
+});
+
+//--></script>
+
+<div id="exercises-list">
+  <% @exercise_names.each_with_index do |exercise_name, index| %>
+    <div class='filename'
+         id="exercise_<%= index %>"
+         data-index="<%= index %>"
+         data-name="<%= exercise_name %>" >
+      <%= exercise_name.gsub('_', ' ') %>
+    </div>
+  <% end %>
+</div>
+
+<% @instructions.each_with_index do |text,index| %>
+   <textarea style="display:none;" id="instructions_<%= index %>"><%=h text %>
+   </textarea>
+<% end %>

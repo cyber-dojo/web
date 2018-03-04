@@ -9,34 +9,20 @@ class StarterStubTest < AppServicesTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '367', %w{
-  Stub mirrors Service for language_manifest(Ruby,MiniTest,FizzBuzz)} do
+  Stub mirrors Service for language_manifest('Ruby, MiniTest','Fizz_Buzz')} do
+    stubbed = [
+      'Ruby, MiniTest',
+      'Ruby, RSpec',
+      'Ruby, Test::Unit',
+      'Java, JUnit'
+    ]
     service = StarterService.new(self)
-    master = service.language_manifest('Ruby', 'MiniTest', 'Fizz_Buzz')
     stubber = StarterStub.new(nil)
-    stub = stubber.language_manifest('Ruby', 'MiniTest', 'Fizz_Buzz')
-    assert_equal stub, master
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '368', %w{
-  Stub mirrors Service for language_manifest(Ruby,RSpec,FizzBuzz)} do
-    service = StarterService.new(self)
-    master = service.language_manifest('Ruby', 'RSpec', 'Fizz_Buzz')
-    stubber = StarterStub.new(nil)
-    stub = stubber.language_manifest('Ruby', 'RSpec', 'Fizz_Buzz')
-    assert_equal stub, master
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '369', %w{
-  Stub mirrors Service for language_manifest(Ruby,Test::Unit,FizzBuzz)} do
-    service = StarterService.new(self)
-    master = service.language_manifest('Ruby', 'Test::Unit', 'Fizz_Buzz')
-    stubber = StarterStub.new(nil)
-    stub = stubber.language_manifest('Ruby', 'Test::Unit', 'Fizz_Buzz')
-    assert_equal stub, master
+    stubbed.each do |display_name|
+      master = service.language_manifest(display_name, 'Fizz_Buzz')
+      stub = stubber.language_manifest(display_name, 'Fizz_Buzz')
+      assert_equal master, stub
+    end
   end
 
 end

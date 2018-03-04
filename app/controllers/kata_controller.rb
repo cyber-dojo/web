@@ -3,6 +3,15 @@ require_relative '../../lib/time_now'
 
 class KataController < ApplicationController
 
+  def individual
+    @kata_id = kata.id
+    @avatar_name = avatar.name
+  end
+
+  def group
+    @kata_id = kata.id
+  end
+
   def edit
     @kata = kata
     @avatar = avatar
@@ -25,8 +34,8 @@ class KataController < ApplicationController
         runner.set_hostname_port_stateless
       when 'stateful'
         runner.set_hostname_port_stateful
-      when 'processful'
-        runner.set_hostname_port_processful
+      #when 'processful'
+        #runner.set_hostname_port_processful
       end
       args = []
       args << image_name  # eg 'cyberdojofoundation/gcc_assert'

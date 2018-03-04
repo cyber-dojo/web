@@ -1,0 +1,54 @@
+
+#group-page
+{
+  margin: { top: 10px; }
+
+  .center-content { @include center-align(); }
+
+  #heading
+  {
+    @include non-code-font();
+         color: $lighter-color;
+     font-size: 87px;
+     padding: 0px;
+  }
+
+  #avatars-grid
+  {
+    width: 271px;
+    height: 271px;
+    filter: grayscale(100%);
+    position: relative;
+    top: -1px;
+  }
+
+  button
+  {
+    &#create, &#create-custom, &#join, &#rejoin, &#review
+    {
+      @include non-code-font();
+           color: $darker-color;
+      text-align: left;
+           width: 285px;
+       font-size: 1.97em;
+     line-height: 95%;
+         padding: 10px;
+         padding-left: 15px;
+          margin: { top: 0px; bottom: 7px; left: 5px; }
+    }
+
+    &#join
+    { @include font-size-largest(); }
+
+    &#rejoin, &#create, &#create-custom, &#review
+    { @include font-size-medium(); }
+  }
+
+  #nadya
+  {
+    @include plaintext-font();
+    text-align: left;
+     font-size: 12px;
+        padding: { left: 3px; }
+  }
+}

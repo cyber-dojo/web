@@ -1,0 +1,32 @@
+
+<div id="group-page">
+
+  <div id="heading" class="center-content">
+    we're&nbsp;in&nbsp;a&nbsp;group
+  </div>
+
+  <table class="center-content">
+    <tr>
+      <td><%= render partial: 'shared/avatar_grid_colour' %></td>
+      <td>
+        <table>
+          <tr><td><%= render partial: 'join_button' %></td></tr>
+          <tr><td><%= render partial: 'create_button' %></td></tr>
+          <tr><td><%= render partial: 'create_custom_button' %></td></tr>
+          <tr><td><%= render partial: 'rejoin_button' %></td></tr>
+          <tr><td><%= render partial: 'review_button' %></td></tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td id="nadya">
+       <a href="https://www.behance.net/NadyaSivers"
+        target="_blank">Nadya Sivers</a> drew the animal images
+      </td>
+    </tr>
+  </table>
+
+</div>
+
+<%= render partial: 'shared/app_bar_short',
+    locals: { help_url: "http://blog.cyber-dojo.org/p/learn-more.html" } %>

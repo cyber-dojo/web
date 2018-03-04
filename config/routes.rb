@@ -20,34 +20,47 @@ CyberDojo::Application.routes.draw do
     get 'index(/:id)' => :index
   end
 
+  scope path: '/individual', controller: :individual do
+    get 'show(/:id)'      => :show
+  end
+
+  scope path: '/group', controller: :group do
+    get 'show(/:id)'      => :show
+  end
+
   scope path: '/setup_default_start_point', controller: :setup_default_start_point do
-    get 'show_languages(/:id)' => :show_languages
-    get 'show_exercises(/:id)' => :show_exercises
-    get 'save'                 => :save, :constraints => { :format => :json }
+    get 'show(/:id)'      => :show
+    get 'save_individual' => :save_individual
+    get 'save_group'      => :save_group
   end
 
   scope path: '/setup_custom_start_point', controller: :setup_custom_start_point do
-    get 'show(/:id)'  => :show
-    get 'save'        => :save, :constraints => { :format => :json }
-  end
-
-  scope path: '/image_puller', controller: :image_puller do
-    get 'image_pulled' => :image_pulled?, :constraints => { :format => :json }
-    get 'image_pull'   => :image_pull,    :constraints => { :format => :json }
-  end
-
-  scope path: '/enter', controller: :enter do
-    get 'show(/:id)'   => :show
-    get 'review(/:id)' => :review
-    get 'check'        => :check,  :constraints => { :format => :json }
-    get 'start'        => :start,  :constraints => { :format => :json }
-    get 'resume'       => :resume, :constraints => { :format => :json }
+    get 'show(/:id)'      => :show
+    get 'save_individual' => :save_individual
+    get 'save_group'      => :save_group
   end
 
   scope path: '/kata', controller: :kata do
-    get  'edit(/:id)'      => :edit
-    get  'show_json(/:id)' => :show_json
-    post 'run_tests(/:id)' => :run_tests
+    get  'individual(/:id)' => :individual
+    get  'group(/:id)'      => :group
+    get  'edit(/:id)'       => :edit
+    get  'show_json(/:id)'  => :show_json
+    post 'run_tests(/:id)'  => :run_tests
+  end
+
+  scope path: '/id_join', controller: :id_join do
+    get 'show'      => :show
+    get 'drop_down' => :drop_down,  :constraints => { :format => :json }
+  end
+
+  scope path: '/id_rejoin', controller: :id_rejoin do
+    get 'show'      => :show
+    get 'drop_down' => :drop_down,  :constraints => { :format => :json }
+  end
+
+  scope path: '/id_review', controller: :id_review do
+    get 'show'      => :show
+    get 'drop_down' => :drop_down,  :constraints => { :format => :json }
   end
 
   scope path: '/dashboard', controller: :dashboard do
@@ -71,6 +84,13 @@ CyberDojo::Application.routes.draw do
 
   get '/download(/:id)' => 'downloader#download'
   get '/download_tag(/:id/:avatar/:tag)' => 'downloader#download_tag'
+
+
+  scope path: '/image_puller', controller: :image_puller do
+    get 'image_pulled' => :image_pulled?, :constraints => { :format => :json }
+    get 'image_pull'   => :image_pull,    :constraints => { :format => :json }
+  end
+
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products

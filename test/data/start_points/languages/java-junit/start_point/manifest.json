@@ -1,0 +1,21 @@
+
+{
+  "display_name": "Java, JUnit",
+
+  "visible_filenames": [
+    "HikerTest.java",
+    "Hiker.java",
+    "cyber-dojo.sh"
+  ],
+
+  "image_name": "cyberdojofoundation/java_junit",
+
+  "filename_extension": ".java",
+
+  "progress_regexs": [
+    "Tests run\\: (\\d)+,(\\s)+Failures\\: (\\d)+",
+    "OK \\((\\d)+ test(s)?\\)"
+  ],
+
+  "runner_choice": "stateless"
+}

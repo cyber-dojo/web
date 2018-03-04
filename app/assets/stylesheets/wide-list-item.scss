@@ -1,0 +1,30 @@
+
+@mixin wide-list-item
+{
+  @include plaintext-font();
+
+  // no up/down scrolling, #filename-list has its own
+  overflow-y: none;
+  &::-webkit-scrollbar:vertical { width: 0px; }
+
+  background: $darker-color;
+       color: lighten($darker-color, 30%);
+      margin: { bottom: 2px; left: 0px; left: 0px; right: 0px; }
+     padding: { right: 0px; }
+      cursor: pointer;
+  text-align: right;
+
+  // individual left/right scrolling for looooooong filenames
+  &::-webkit-scrollbar:horizontal { height: 0px; }
+    max-width: 250px;
+   overflow-x: auto;
+
+  &:hover { color: lighten($darker-color, 60); }
+  &[class~='selected'] {
+    // See app/assets/javascripts/cyber-dojo_file_load.js function radioEntrySwitch()
+         color: $lighter-color;
+    background: $darker-color;
+        cursor: default;
+    &:hover { color: $lighter-color; }
+  }
+}

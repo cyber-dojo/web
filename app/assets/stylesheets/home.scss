@@ -1,26 +1,35 @@
 
-#home-page {
-
+#home-page
+{
   .center-content { @include center-align(); }
 
-  #heading {
+  #heading
+  {
          width: 100%;
-        height: 155px;
+        height: 280px;
       position: fixed;
            top: 0px;
     background: $darker-color;
        z-index: 999;
+       padding: { top: 0px; bottom: 0px; }
 
-    #cyber-dojo {
+    #logo img
+    {
+        width: 75px;
+       height: 75px;
+      padding: { top: 16px; left: 5px; right: 8px; }
+    }
+    #cyber-dojo
+    {
       @include non-code-font();
-      font-size: 5.65em;
+      font-size: 7.40em;
           color: $text-color;
-        padding: { top: 10px; bottom: 0px; }
     }
 
-    #the-place-to-practise-programming {
+    #the-place-to-practise-programming
+    {
       @include non-code-font();
-      font-size: 1.58em;
+      font-size: 2.75em;
           color: lighten($text-color, 5%);
        position: relative;
             top: -9px;
@@ -29,80 +38,97 @@
 
   //------------------------------------------
 
-  #main-buttons {
-    background: lighten($darker-color, 6%);
-    margin-top: 155px;
-       padding: 33px;
+  #license, #pies, #foundation, #technology
+  {
+    @include plaintext-font();
+    font-size: 1.2em;
+      padding: { top: 25px; bottom: 25px; }
   }
 
   //------------------------------------------
 
-  #foundation {
-    font-size: 0.9em;
-      padding: 25px;
-
-    .kids-pic {
-         width: 200px;
-        height: 150px;
-        margin: { top: 17px; right: 17px; }
-        border: 3px solid lighten($text-color, 5%);
-        @include rounded-corner();
-      }
-
+  #license
+  {
+    background: lighten($darker-color, 6%);
+    margin-top: 280px;
   }
 
   //------------------------------------------
 
-  #about {
-    background: lighten($darker-color, 6%);
-       padding: { top: 20px; bottom: 40px; }
-    .info-text {
-      @include font-size-small();
-      padding-bottom: 2px;
+  #pies
+  {
+    img
+    {
+      @include rounded-corner();
+      margin: { top: 15px; bottom: 0px; left: 6px; right: 5px; }
+       width: 560px;
+      height: 330px;
+      filter: grayscale(100%);
     }
   }
 
   //------------------------------------------
 
-  #setup-a-new-default-practice-session-button,
-  #setup-a-new-custom-practice-session-button,
-  #enter-button,
-  #review-button,
-  #donate-button {
-    @include non-code-font();
-    @include font-size-largest();
-         color: $darker-color;
-    text-align: right;
-         width: 350px;
-     font-size: 1.97em;
-   line-height: 95%;
-       padding: { top: 12px; bottom: 12px; right: 15px; }
-        margin: { top: 0px; bottom: 8px; left: 10px; }
-  }
-
-  #donate-button-container { padding: 10px; }
-  #donate-button { width: 200px; }
-
-  //------------------------------------------
-
-  #avatars-grid {
-       width: 234px;
-    position: relative;
-         top: -2px;
+  #foundation
+  {
+    background: lighten($darker-color, 6%);
+    img.trustee
+    {
+      @include rounded-corner(10px);
+        width: 133px;
+       height: 133px;
+       margin: { top: 10px; bottom: 0px; left: 4px; right: 3px; }
+      padding: 0px;
+       filter: grayscale(100%);
+    }
+    .bio
+    {
+      vertical-align: top;
+               width: 120px;
+           font-size: 12px;
+          text-align: center;
+             padding: { left: 5px; right: 5px; }
+    }
   }
 
   //------------------------------------------
 
-  .info-text {
-    @include plaintext-font();
-    font-size: 1.5em;
+  #technology
+  {
+    margin: { bottom: 25px; }
+    img
+    {
+      background: lighten($darker-color, 10%);
+      @include rounded-corner(6px);
+       width: 105px;
+      height: 105px;
+      margin: { top: 10px; bottom: 0px; left: 3px; right: 3px; }
+      filter: grayscale(100%);
+    }
+    .name { font-size: 12px; }
   }
 
   //------------------------------------------
 
-  #custom-container {
-    position: absolute;
-        left: 675px;
-         top: 350px;
+  button
+  {
+    &#individual, &#group, &#donate
+    {
+      @include non-code-font();
+           color: $darker-color;
+      text-align: right;
+     line-height: 95%;
+         padding: 12px;
+          margin: 7px;
+    }
+
+    &#individual, &#group
+    {
+      font-size: 2.75em;
+        padding: { left: 15px; right: 15px; }
+    }
+
+    &#donate { font-size: 1.4em; }
   }
+
 }

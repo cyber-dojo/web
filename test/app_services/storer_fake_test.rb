@@ -528,7 +528,7 @@ class StorerFakeTest < AppServicesTestBase
   end
 
   def make_manifest(id = kata_id)
-    manifest = starter.language_manifest('Ruby','MiniTest','Fizz_Buzz')
+    manifest = starter.language_manifest('Ruby, MiniTest','Fizz_Buzz')
     manifest['id'] = id
     manifest['created'] = creation_time
     manifest

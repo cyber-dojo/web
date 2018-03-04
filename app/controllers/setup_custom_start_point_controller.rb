@@ -1,33 +1,36 @@
 
 class SetupCustomStartPointController < ApplicationController
 
-  # Custom exercise (one-step setup)
-
   def show
-    choices = starter.custom_choices
-    current_display_name = kata.exists? ? kata.display_name : nil
-    display_name_index(choices, current_display_name)
     @id = id
-    @major_names   = choices['major_names']
-    @major_index   = choices['major_index']
-    @minor_names   = choices['minor_names']
-    @minor_indexes = choices['minor_indexes']
+    current_display_name = kata.exists? ? kata.display_name : nil
+    @custom_names = starter.custom_start_points
+    @custom_index = index_match(@custom_names, current_display_name)
+    @from = params['from']
   end
 
-  def save
-    major = params['major']
-    minor = params['minor']
-    manifest = starter.custom_manifest(major, minor)
-    kata = katas.create_kata(manifest)
-    render json: {
-        image_name: kata.image_name,
-                id: kata.id,
-      display_name: kata.display_name
-    }
+  def save_individual
+    kata = create_kata
+    avatar = kata.start_avatar
+    redirect_to "/kata/individual/#{kata.id}?avatar=#{avatar.name}"
+  end
+
+  def save_group
+    kata = create_kata
+    redirect_to "/kata/group/#{kata.id}"
   end
 
   private
 
-  include DisplayNameIndexer
+  def create_kata
+    display_name = params['display_name']
+    manifest = starter.custom_manifest(display_name)
+    katas.create_kata(manifest)
+  end
+
+  def index_match(names, current_name)
+    index = names.index(current_name)
+    index ? index : rand(0...names.size)
+  end
 
 end

@@ -1,0 +1,42 @@
+
+#id-rejoin-page
+{
+  @include id-common();
+
+  #hi-text, #lo-text
+  {
+    @include non-code-font();
+         color: $lighter-color;
+     padding: { top: 20px; bottom: 20px; }
+     margin: { bottom: 10px; }
+  }
+  #hi-text { @include font-size-larger(); }
+  #lo-text { @include font-size-medium(); }
+
+  img.avatar
+  {
+    width: 40px;
+    height: 40px;
+    display: block;
+    @include rounded-corner(4px);
+  }
+
+  img.grey
+  {
+    filter: grayscale(100%);
+    opacity: 0.15;
+  }
+
+  button#cancel
+  {
+    @include non-code-font();
+    @include font-size-large();
+         color: $darker-color;
+    text-align: right;
+   line-height: 95%;
+       padding: 8px;
+        margin: { left: 10px; top: 5px; }
+  }
+
+}
+

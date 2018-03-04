@@ -18,9 +18,9 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   def in_kata(runner_choice, &block)
     display_name = {
        stateless: 'Ruby, MiniTest',
-        stateful: 'Ruby, RSpec',
-      processful: 'Ruby, Test::Unit'
-    }[runner_choice]
+        stateful: 'Ruby, RSpec'
+      #processful: 'Ruby, Test::Unit'
+    }[runner_choice] || runner_choice
     refute_nil display_name, runner_choice
     create_language_kata(display_name)
     begin
@@ -33,7 +33,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   # - - - - - - - - - - - - - - - -
 
   def as_avatar(&block)
-    start
+    assert_join
     begin
       block.call
     ensure
@@ -53,53 +53,49 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   # - - - - - - - - - - - - - - - -
 
-  def create_language_kata(major_minor_name = default_language_name,
+  def create_language_kata(display_name = default_display_name,
                            exercise_name = default_exercise_name)
-    parts = commad(major_minor_name)
     params = {
-         'major' => parts[0],
-         'minor' => parts[1],
+      'language' => display_name,
       'exercise' => exercise_name
     }
-    get '/setup_default_start_point/save', params:params
-    @id = json['id']
-  end
-
-  # - - - - - - - - - - - - - - - -
-
-  def create_custom_kata(major_minor_name)
-    parts = commad(major_minor_name)
-    params = {
-         'major' => parts[0],
-         'minor' => parts[1]
-    }
-    get '/setup_custom_start_point/save', params:params
-    @id = json['id']
+    get '/setup_default_start_point/save_group', params:params
+    assert_response :redirect
+    #http://.../kata/group/BC8E8A6433
+    regex = /^(.*)\/kata\/group\/([0-9A-Z]*)$/
+    assert m = regex.match(@response.redirect_url)
+    @id = m[2]
     nil
   end
 
   # - - - - - - - - - - - - - - - -
 
-  def start
-    params = { 'format' => 'json', 'id' => @id }
-    get '/enter/start', params:params
-    assert_response :success
-    @avatar_name = json['avatar_name']
-    assert_not_nil @avatar_name
-    @params_maker = ParamsMaker.new(avatar)
+  def create_custom_kata(display_name)
+    params = { 'display_name' => display_name }
+    get '/setup_custom_start_point/save_group', params:params
+    assert_response :redirect
+    #http://.../kata/group/BC8E8A6433
+    regex = /^(.*)\/kata\/group\/([0-9A-Z]*)$/
+    assert m = regex.match(@response.redirect_url)
+    @id = m[2]
     nil
   end
 
-  def start_full
-    params = { 'format' => 'json', 'id' => kata.id }
-    get '/enter/start', params:params
-    assert_response :success
+  # - - - - - - - - - - - - - - - -
+
+  def assert_join(id = kata.id)
+    @avatar_name = join(id)
+    assert json['exists']
+    refute_nil @avatar_name
+    @params_maker = ParamsMaker.new(katas[id].avatars[@avatar_name])
+    @avatar_name
   end
 
-  def resume
-    params = { 'format' => 'json', 'id' => kata.id }
-    get '/enter/resume', params:params
+  def join(id)
+    params = { 'format' => 'json', 'id' => id }
+    get '/id_join/drop_down', params:params
     assert_response :success
+    json['avatarName']
   end
 
   # - - - - - - - - - - - - - - - -
@@ -127,9 +123,10 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   end
 
   def run_tests(options = {})
+    id = options['id'] || kata.id
     params = {
       'format'        => 'js',
-      'id'            => (options['id'] || kata.id),
+      'id'            => id,
       'runner_choice' => kata.runner_choice,
       'max_seconds'   => (options['max_seconds'] || kata.max_seconds),
       'image_name'    => (options['image_name' ] || kata.image_name),
@@ -148,12 +145,6 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   def html
     @response.body
-  end
-
-  private # = = = = = = = = = = = =
-
-  def commad(name)
-    name.split(',').map(&:strip)
   end
 
 end

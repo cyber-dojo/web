@@ -95,10 +95,10 @@ class RunnerService
     @port = 4557
   end
 
-  def set_hostname_port_processful
-    @hostname = 'runner_processful'
-    @port = 4547
-  end
+  #def set_hostname_port_processful
+  #  @hostname = 'runner_processful'
+  #  @port = 4547
+  #end
 
   private # = = = = = = = = = = = = = = = = = = = = =
 
@@ -122,8 +122,8 @@ class RunnerService
       set_hostname_port_stateless
     when 'stateful'
       set_hostname_port_stateful
-    when 'processful'
-      set_hostname_port_processful
+    #when 'processful'
+      #set_hostname_port_processful
     end
   end
 

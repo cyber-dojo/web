@@ -60,7 +60,7 @@ class ForkerControllerTest < AppControllerTestBase
         assert_equal 10, forked_kata_id.length
         assert_not_equal kata.id, forked_kata_id
         forked_kata = katas[forked_kata_id]
-        assert_not_nil forked_kata
+        refute_nil forked_kata
         assert_equal kata.image_name, forked_kata.image_name
         origin_filenames = avatar.visible_files.keys
         forked_filenames = forked_kata.visible_files.keys
@@ -77,13 +77,13 @@ class ForkerControllerTest < AppControllerTestBase
   test '835', %w(
   when id,avatar,tag are all ok,
   format=html fork works,
-  and you are redirected to the enter page with the new dojo's id ) do
+  and you are redirected to the landing page with the new dojo's id ) do
     in_kata(:stateless) {
       as_avatar {
         run_tests # 1
         fork(kata.id, avatar.name, tag=1, 'html')
         assert_response :redirect
-        url = /(.*)\/enter\/show\/(.*)/
+        url = /(.*)\/kata\/individual\/(.*)/
         m = url.match(@response.location)
         forked_kata_id = m[2]
       }
@@ -95,14 +95,14 @@ class ForkerControllerTest < AppControllerTestBase
   test '7E7', %w(
   when id,avatar are all ok, tag==-1,
   format=html fork works,
-  and you are redirected to the enter page with the new dojo's id ) do
+  and you are redirected to the landing page with the new dojo's id ) do
     in_kata(:stateless) {
       as_avatar {
         run_tests # 1
         run_tests # 2
         fork(kata.id, avatar.name, tag=-1, 'html')
         assert_response :redirect
-        url = /(.*)\/enter\/show\/(.*)/
+        url = /(.*)\/kata\/individual\/(.*)/
         m = url.match(@response.location)
         forked_kata_id = m[2]
         refute_equal kata.id, forked_kata_id

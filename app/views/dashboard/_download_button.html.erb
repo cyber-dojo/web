@@ -10,10 +10,7 @@ $(function() {
     window.location = url;
   });
 
-  cd.setTip(downloadButton, function() {
-    const tip = 'Download the whole session as a .tgz file';
-    cd.showHoverTip(downloadButton, tip);
-  });
+  cd.createTip(downloadButton, 'download the whole<br/>session as a .tgz file');
 
 });
 

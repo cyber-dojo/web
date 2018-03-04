@@ -1,28 +1,17 @@
 
 <div id="home-page">
 
-  <%= render partial: 'custom' %>
-
   <div id="heading" class="center-content">
     <%= render partial: 'cyber_dojo' %>
     <%= render partial: 'the_place_to_practise_programming' %>
+    <%= render partial: 'individual_button' %>
+    <%= render partial: 'group_button' %>
   </div>
 
-  <div id="main-buttons">
-    <table class="center-content">
-      <tr>
-        <td><%= render partial: 'main_buttons' %></td>
-      </tr>
-    </table>
-  </div>
-
-  <div id="foundation" class="center-content">
-    <%= render partial: 'foundation' %>
-  </div>
-
-  <div id="about" class="center-content">
-    <%= render partial: 'about' %>
-  </div>
+  <%= render partial: 'license' %>
+  <%= render partial: 'pies' %>
+  <%= render partial: 'foundation' %>
+  <%= render partial: 'technology' %>
 
 </div>
 

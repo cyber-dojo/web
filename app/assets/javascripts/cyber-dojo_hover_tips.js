@@ -87,19 +87,29 @@ var cyberDojo = (function(cd, $) {
 
   // - - - - - - - - - - - - - - - - - - - -
 
+  cd.createTip = function(element, tip) {
+    cd.setTip(element, function() {
+      cd.showHoverTip(element, tip);
+    });
+  };
+
+  // - - - - - - - - - - - - - - - - - - - -
+
   cd.showHoverTip = function(node, tip) {
     // mouseenter may retrieve the tip via a slow ajax call
     // which means mouseleave could have already occurred
     // by the time the ajax returns to set the tip. The
     // mouse-has-left attribute reduces this race's chance.
     if (!node.hasClass('mouse-has-left')) {
-      node.append($('<span class="hover-tip">' + tip + '</span>'));
-      // dashboard auto-scroll requires forced positioning.
-      $('.hover-tip').position({
-        my: 'left top',
-        at: 'right bottom',
-        of: node
-      });
+      if (!node.attr('disabled')) {
+        node.append($('<span class="hover-tip">' + tip + '</span>'));
+        // dashboard auto-scroll requires forced positioning.
+        $('.hover-tip').position({
+          my: 'left top',
+          at: 'right bottom',
+          of: node
+        });
+      }
     }
   };
 

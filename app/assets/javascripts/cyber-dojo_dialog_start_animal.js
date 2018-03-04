@@ -3,29 +3,18 @@
 var cyberDojo = (function(cd, $) {
   "use strict";
 
-  cd.startAnimal = function(id, from) {
-    $.getJSON('/enter/start', { id: id }, function(dojo) {
-      $('#start-button').prop('disabled',false).css('cursor','default');
-      if (dojo.full) {
-        cd.dialog(dojo.full_dialog_html, 'start programming', 'ok').dialog('open');
-      } else {
-        startDialog(id, dojo.avatar_name, dojo.start_dialog_html, from);
-      }
-    });
-  };
+  const noTitle = '';
 
-  var startDialog = function(id, avatarName, dialogHtml, from) {
+  const startDialog = function(id, avatarName, dialogHtml) {
     var url = '/kata/edit/' + id + '?avatar=' + avatarName;
     var okOrCancel = function() {
-      if (from == 'from_setup') {
-        window.location = cd.homePageUrl(id);
-      }
+      window.location.href = cd.homePageUrl(id);
       window.open(url);
     };
     $('<div class="dialog">')
       .html(dialogHtml)
       .dialog({
-        title: cd.dialogTitle('start programming'),
+        title: cd.dialogTitle(noTitle),
         autoOpen: true,
         width: 400,
         modal: true,
@@ -33,6 +22,16 @@ var cyberDojo = (function(cd, $) {
         close: function() { okOrCancel(); $(this).remove(); },
         buttons: { ok: function() { okOrCancel(); $(this).remove(); } }
       });
+  };
+
+  cd.startAnimal = function(id) {
+    $.getJSON('/enter/start', { id: id }, function(dojo) {
+      if (dojo.full) {
+        cd.dialog(dojo.full_dialog_html, noTitle, 'ok').dialog('open');
+      } else {
+        startDialog(id, dojo.avatar_name, dojo.start_dialog_html);
+      }
+    });
   };
 
   return cd;

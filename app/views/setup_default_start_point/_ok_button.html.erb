@@ -1,0 +1,23 @@
+
+<script type="text/javascript"><!--
+
+$(function() {
+
+  $('button#ok').click(function() {
+    const language = $('[id^=language_][class~=selected]').data('name');
+    const exercise = $('[id^=exercise_][class~=selected]').data('name');
+    const url = '/setup_default_start_point/save_<%= @from %>' +
+      '?language=' + encodeURIComponent(language) +
+      '&exercise=' + encodeURIComponent(exercise);
+    window.location = url;
+  });
+
+});
+
+//--></script>
+
+<div id="button-container">
+  <button type="button" id="ok">
+    ok
+  </button>
+</div>

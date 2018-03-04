@@ -30,10 +30,7 @@ class StorerServiceTest < AppServicesTestBase
     refute all_katas_ids.include? kata_id
     refute storer.kata_exists?(kata_id)
 
-    major = 'Ruby'
-    minor = 'MiniTest'
-    exercise = 'Fizz_Buzz'
-    manifest = starter.language_manifest(major,minor,exercise)
+    manifest = starter.language_manifest('Ruby, MiniTest', 'Fizz_Buzz')
     manifest['id'] = kata_id
     manifest['created'] = creation_time
     storer.create_kata(manifest)

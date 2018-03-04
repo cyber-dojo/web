@@ -1,55 +1,45 @@
 
 class SetupDefaultStartPointController < ApplicationController
 
-  # Regular two step setup
-  # step 1. languages+testFramework in column 1,2
-  #   (eg Java+JUnit)
-  # step 2. exercise
-  #   (eg Fizz_Buzz)
-
-  def show_languages
-    choices = starter.languages_choices
-    current_display_name = kata.exists? ? kata.display_name : nil
-    display_name_index(choices, current_display_name)
+  def show
     @id = id
-    @major_names   = choices['major_names']
-    @major_index   = choices['major_index']
-    @minor_names   = choices['minor_names']
-    @minor_indexes = choices['minor_indexes']
-  end
-
-  def show_exercises
-    choices = starter.exercises_choices
+    current_display_name = kata.exists? ? kata.display_name : nil
     current_exercise_name = kata.exists? ? kata.exercise : nil
-    exercise_index(choices, current_exercise_name)
-    @major = params['major']
-    @minor = params['minor']
-    @exercises_names = choices['names']
-    @exercises       = choices['contents']
-    @initial_index   = choices['index']
+    start_points = starter.language_start_points
+    @language_names = start_points['languages']
+    @language_index = index_match(@language_names, current_display_name)
+    @exercise_names = start_points['exercises'].keys.sort
+    @exercise_index = index_match(@exercise_names, current_exercise_name)
+    @instructions = []
+    @exercise_names.each do |name|
+      @instructions << start_points['exercises'][name]
+    end
+    @from = params['from']
   end
 
-  def save
-    major = params['major']
-    minor = params['minor']
-    exercise = params['exercise']
-    manifest = starter.language_manifest(major, minor, exercise)
-    kata = katas.create_kata(manifest)
-    render json: {
-         image_name: kata.image_name,
-                 id: kata.id,
-       display_name: kata.display_name
-     }
+  def save_individual
+    kata = create_kata
+    avatar = kata.start_avatar
+    redirect_to "/kata/individual/#{kata.id}?avatar=#{avatar.name}"
+  end
+
+  def save_group
+    kata = create_kata
+    redirect_to "/kata/group/#{kata.id}"
   end
 
   private
 
-  include DisplayNameIndexer
+  def create_kata
+    language = params['language']
+    exercise = params['exercise']
+    manifest = starter.language_manifest(language, exercise)
+    katas.create_kata(manifest)
+  end
 
-  def exercise_index(choices, current_exercise_name)
-    names = choices['names']
-    index = names.index(current_exercise_name)
-    choices['index'] = index ? index : rand(0...names.size)
+  def index_match(names, current_name)
+    index = names.index(current_name)
+    index ? index : rand(0...names.size)
   end
 
 end

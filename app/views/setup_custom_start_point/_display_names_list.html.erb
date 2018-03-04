@@ -1,0 +1,31 @@
+<script type="text/javascript"><!--
+
+$(function() {
+
+  var previousCustom = undefined;
+  var selectedCustom = $('#custom_' + '<%= @custom_index %>');
+
+  $('[id^=custom_]').each(function() {
+    var custom = $(this);
+    custom.click(function() {
+      cd.radioEntrySwitch(previousCustom, custom);
+      previousCustom = custom;
+    });
+  });
+
+  selectedCustom.click();
+  selectedCustom.scrollIntoView({ direction: 'vertical' });
+
+});
+
+//--></script>
+
+<div id="custom-list">
+  <% @custom_names.each_with_index do |custom_name,index| %>
+    <div class="display-name"
+         id="custom_<%= index %>"
+         data-name="<%= custom_name %>" >
+      <%= custom_name %>
+    </div>
+  <% end %>
+</div>

@@ -6,15 +6,13 @@ $(function() {
   const yinYang = $('#yin-yang-logo');
 
   yinYang.click(function() {
-    window.location.href = '/dojo/index/' + "<%= @kata.id %>";;
+    window.location.href = '/dojo/index/' + "<%= @kata.id %>";
   });
 
-  cd.setTip(yinYang, function() {
-    const tip = 'Go to home page';
-    cd.showHoverTip(yinYang, tip);
-  });
+  cd.createTip(yinYang,
+    'go&nbsp;back&nbsp;to<br/>the&nbsp;home&nbsp;page'
+  );
 
 });
 
 //--></script>
-
