@@ -279,13 +279,13 @@ class KataControllerTest  < AppControllerTestBase
         assert diff['hiker.rb'].include?({
           'type' => 'deleted',
           'line' =>'  6 * 9',
-          'number' => 3
+          'number' => 2
         })
 
         assert diff['hiker.rb'].include?({
           'type' => 'added',
           'line' =>'  6 * 7',
-          'number' => 3
+          'number' => 2
         })
       }
     }
