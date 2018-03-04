@@ -85,7 +85,7 @@ class ImagePullerTest < AppControllerTestBase
   end
 
   def valid_existing_image_name
-    'cyberdojofoundation/gcc_assert'
+    'cyberdojofoundation/java_junit'
   end
 
 end
