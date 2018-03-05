@@ -3,15 +3,16 @@
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 
-web_cid=`docker ps --all --quiet --filter "name=test_cyber-dojo-web"`
-docker exec ${web_cid} sh -c "cd test && ./run.sh ${*}"
-status=$?
+readonly WEB_CID=$(docker ps --all --quiet --filter "name=test_cyber-dojo-web")
+docker exec "${WEB_CID}" sh -c "cd test && ./run.sh ${*}"
+readonly STATUS=$?
 
 # copy coverage stats out of container
-mkdir -p ${ROOT_DIR}/coverage
+mkdir -p "${ROOT_DIR}/coverage"
 
-src=${web_cid}:/tmp/cyber-dojo/coverage/.
-dst=${ROOT_DIR}/coverage/
-docker cp ${src} ${dst}
+readonly SRC=${WEB_CID}:/tmp/cyber-dojo/coverage/.
+readonly DST=${ROOT_DIR}/coverage/
 
-exit ${status}
+docker cp "${SRC}" "${DST}"
+
+exit ${STATUS}
