@@ -15,8 +15,8 @@ class Kata
       begin
         runner.avatar_new(image_name, id, name, visible_files)
       rescue StandardError => error
-        # Old kata could be being resumed
-        # Runner implementation could have switched
+        # o) resuming old !stateless kata whose state has been collected?
+        # o) runner_choice switched from stateless?
         no_kata = (error.message == 'RunnerService:avatar_new:kata_id:!exists')
         raise error unless no_kata
         runner.kata_new(image_name, id)

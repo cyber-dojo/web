@@ -47,8 +47,8 @@ class KataController < ApplicationController
       stdout,stderr,status,@colour = runner.run_cyber_dojo_sh(*args)
 
     rescue StandardError => error
-      # o) old stateful kata could be being resumed
-      # o) runner_choice could have switched to stateful
+      # o) resuming old !stateless kata whose state has been collected?
+      # o) runner_choice switched from stateless?
       case error.message
         when 'RunnerService:run_cyber_dojo_sh:kata_id:!exists'
           resurrect_kata
@@ -68,10 +68,14 @@ class KataController < ApplicationController
       @output = stdout + stderr
     end
 
-    # storer.avatar_ran_tests() validates a kata with the
-    # given id exists. Making it a fire-and-forget using
-    # the spawnling gem decouples this validation but
-    # breaks a test for reasons I do not yet understand.
+    # storer.avatar_ran_tests
+    # - - - - - - - - - - - -
+    # This validates a kata with the given id exists.
+    # It could become a fire-and-forget method.
+    # This might decrease run_tests() response time.
+    # However, it is currently how the id is validated.
+    # Also, I have tried to make it fire-and-forget using the
+    # spawnling gem and it breaks a test in a non-obvious way.
     storer.avatar_ran_tests(id, avatar_name, files, time_now, @output, @colour)
 
     respond_to do |format|
