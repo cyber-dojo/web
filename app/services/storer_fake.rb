@@ -10,11 +10,17 @@ class StorerFake
     # (as some app-controller tests do).
     @@disk ||= DiskFake.new(self)
     # Isolate tests from each other.
-    @test_id = ENV['CYBER_DOJO_TEST_ID']
+    test_id = ENV['CYBER_DOJO_TEST_ID']
     @path = "/tmp/cyber-dojo/#{test_id}/katas"
+    # by default use test's hex-id as kata-id but again be
+    # as app-controller tests can run across multiple threads
+    # each time recreating the StorerFake external.
+    unless kata_exists?(test_id)
+      stub_kata_ids(test_id)
+    end
   end
 
-  attr_reader :path, :test_id
+  attr_reader :path
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -48,15 +54,38 @@ class StorerFake
     valid_id?(kata_id) && kata_dir(kata_id).exists?
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
   def create_kata(manifest)
-    json = JSON.unparse(manifest)
-    id = manifest['id']
-    assert_valid_id(id)
-    refute_kata_exists(id)
+    id = stub_kata_id
     dir = kata_dir(id)
     dir.make
-    dir.write(manifest_filename, json)
+    manifest['id'] = id
+    dir.write(manifest_filename, JSON.unparse(manifest))
+    manifest
   end
+
+  def stub_kata_id
+    @stubbed_kata_ids.shift
+  end
+
+  def stub_kata_ids(*kata_ids)
+    refute_duplicates(kata_ids)
+    kata_ids.each do |kata_id|
+      assert_valid_id(kata_id)
+      refute_kata_exists(kata_id)
+      # assert completable(kata_id)
+    end
+    @stubbed_kata_ids = kata_ids
+  end
+
+  def refute_duplicates(kata_ids)
+    unless kata_ids.uniq.size == kata_ids.size
+      fail invalid('kata_id')
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def kata_manifest(kata_id)
     assert_kata_exists(kata_id)

@@ -29,9 +29,8 @@ class Katas
   # modifiers
 
   def create_kata(manifest)
-    manifest['id'] ||= unique_id
     manifest['created'] ||= time_now
-    storer.create_kata(manifest)
+    manifest = storer.create_kata(manifest)
     id = manifest['id']
     runner.kata_new(manifest['image_name'], id)
     self[id]

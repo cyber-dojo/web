@@ -45,8 +45,8 @@ class StorerFakeTest < AppServicesTestBase
   test '0CC',
   'avatar_exists is false when kata-id is invalid' do
     refute storer.avatar_exists?(nil, 'dolphin')
-    refute storer.avatar_exists?([], 'dolphin')
-    refute storer.avatar_exists?('', 'dolphin')
+    refute storer.avatar_exists?([] , 'dolphin')
+    refute storer.avatar_exists?('' , 'dolphin')
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
@@ -61,43 +61,67 @@ class StorerFakeTest < AppServicesTestBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # all other methods raise when kata_id is invalid
+  # stub_kata_ids()
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '933',
-  'create_kata with missing id raises' do
+  test '3E1',
+  'by default, use the test hex-id as the kata id' do
     manifest = make_manifest
-    manifest.delete('id')
-    error = assert_raises(ArgumentError) {
-      storer.create_kata(manifest)
-    }
-    assert_equal 'invalid kata_id', error.message
+    assert_nil manifest['id']
+    manifest = storer.create_kata(manifest)
+    refute_nil manifest['id']
+    assert_equal hex_test_kata_id, manifest['id']
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
 
-  test '934',
-  'create_kata with an invalid kata_id raises' do
-    manifest = make_manifest(invalid_kata_id)
-    error = assert_raises(ArgumentError) {
-      storer.create_kata(manifest)
-    }
-    assert_equal 'invalid kata_id', error.message
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - -
-
-  test '935',
-  'create_kata with duplicate id raises' do
+  test '3E2',
+  'stub_kata_ids() can override the kata id' do
+    first_id = '8D616B84BF'
+    second_id = 'C175EEA250'
+    storer.stub_kata_ids(first_id, second_id)
     manifest = make_manifest
-    storer.create_kata(manifest)
+    assert_nil manifest['id']
+    manifest = storer.create_kata(manifest)
+    assert_equal first_id, manifest['id']
+    manifest = storer.create_kata(manifest)
+    assert_equal second_id, manifest['id']
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '3E3',
+  'stub_kata_ids() with an invalid kata_id raises' do
     error = assert_raises(ArgumentError) {
-      storer.create_kata(manifest)
+      storer.stub_kata_ids(invalid_kata_id)
     }
     assert_equal 'invalid kata_id', error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
+
+  test '3E4',
+  'stub_kata_ids() with duplicate kata_id raises' do
+    error = assert_raises(ArgumentError) {
+      storer.stub_kata_ids(kata_id, kata_id)
+    }
+    assert_equal 'invalid kata_id', error.message
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - -
+
+  test '3E5',
+  'stub_kata_ids() with kata_id that already exists raises' do
+    manifest = storer.create_kata(make_manifest)
+    error = assert_raises(ArgumentError) {
+      storer.stub_kata_ids(manifest['id'])
+    }
+    assert_equal 'invalid kata_id', error.message
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # all other methods raise when kata_id is invalid
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '936',
   'kata_manifest(id) with invalid id raises' do
@@ -220,8 +244,11 @@ class StorerFakeTest < AppServicesTestBase
 
   test 'FA2',
   'each() yielding two unrelated kata-ids' do
-    create_kata(kata_id_1 = 'C56C6C4202')
-    create_kata(kata_id_2 = 'DEB3E1325D')
+    kata_id_1 = 'C56C6C4202'
+    kata_id_2 = 'DEB3E1325D'
+    storer.stub_kata_ids(kata_id_1, kata_id_2)
+    create_kata
+    create_kata
     assert_equal [kata_id_1, kata_id_2].sort, all_katas_ids.sort
   end
 
@@ -229,9 +256,13 @@ class StorerFakeTest < AppServicesTestBase
 
   test 'FA3',
   'each() yielding several kata-ids with common first two characters' do
-    create_kata(kata_id_1 = '9D'+'329DFD34')
-    create_kata(kata_id_2 = '9D'+'5E889E04')
-    create_kata(kata_id_3 = '9D'+'F376ED91')
+    kata_id_1 = '9D'+'329DFD34'
+    kata_id_2 = '9D'+'5E889E04'
+    kata_id_3 = '9D'+'F376ED91'
+    storer.stub_kata_ids(kata_id_1, kata_id_2, kata_id_3)
+    create_kata
+    create_kata
+    create_kata
     assert_equal [kata_id_1, kata_id_2, kata_id_3].sort, all_katas_ids.sort
   end
 
@@ -295,8 +326,11 @@ class StorerFakeTest < AppServicesTestBase
   test 'B4F',
   'completed(id) does not complete when 6+ chars and more than one match' do
     id = '9D323B'
-    create_kata(id + '4F23')
-    create_kata(id + '9ED2')
+     first_id = id + '4F23'
+    second_id = id + '9ED2'
+    storer.stub_kata_ids(first_id, second_id)
+    create_kata
+    create_kata
     assert_equal id, storer.completed(id)
   end
 
@@ -522,14 +556,12 @@ class StorerFakeTest < AppServicesTestBase
 
   private # = = = = = = = = = = = =
 
-  def create_kata(id = kata_id)
-    manifest = make_manifest(id)
-    storer.create_kata(manifest)
+  def create_kata
+    storer.create_kata(make_manifest)
   end
 
-  def make_manifest(id = kata_id)
+  def make_manifest
     manifest = starter.language_manifest('Ruby, MiniTest','Fizz_Buzz')
-    manifest['id'] = id
     manifest['created'] = creation_time
     manifest
   end

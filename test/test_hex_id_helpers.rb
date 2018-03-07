@@ -26,7 +26,8 @@ module TestHexIdHelpers # mix-in
 
     def test(id, *words, &block)
       id = hex_prefix + id
-      id += '0'*(10-id.size)
+      # test id is used as kata.id in StorerFake
+      id += '0' * (10 - id.size)
       name = words.join(' ')
       # check hex-id is well-formed
       diagnostic = "'#{id}',#{name}"

@@ -43,7 +43,6 @@ module TestDomainHelpers # mix-in
     display_name = options['display_name'] || default_language_name
     exercise_name = options['exercise'] || default_exercise_name
     manifest = starter.language_manifest(display_name, exercise_name)
-    manifest['id']      = (options['id']      || kata_id)
     manifest['created'] = (options['created'] || time_now)
     katas.create_kata(manifest)
   end
@@ -67,8 +66,7 @@ module TestDomainHelpers # mix-in
   end
 
   def kata_id
-    hex_test_id = ENV['CYBER_DOJO_TEST_ID']
-    hex_test_id + ('0' * (10 - hex_test_id.length))
+    ENV['CYBER_DOJO_TEST_ID']
   end
 
   def time_now(now = Time.now)
