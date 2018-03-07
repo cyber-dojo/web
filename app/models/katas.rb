@@ -1,5 +1,4 @@
 require_relative '../../lib/time_now'
-require_relative '../../lib/unique_id'
 
 class Katas
   include Enumerable
@@ -30,8 +29,7 @@ class Katas
 
   def create_kata(manifest)
     manifest['created'] ||= time_now
-    manifest = storer.create_kata(manifest)
-    id = manifest['id']
+    id = storer.create_kata(manifest)
     runner.kata_new(manifest['image_name'], id)
     self[id]
   end
@@ -39,7 +37,6 @@ class Katas
   private
 
   include TimeNow
-  include UniqueId
 
   def storer
     @externals.storer

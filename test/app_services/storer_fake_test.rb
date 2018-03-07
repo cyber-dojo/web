@@ -68,9 +68,8 @@ class StorerFakeTest < AppServicesTestBase
   'by default, use the test hex-id as the kata id' do
     manifest = make_manifest
     assert_nil manifest['id']
-    manifest = storer.create_kata(manifest)
-    refute_nil manifest['id']
-    assert_equal hex_test_kata_id, manifest['id']
+    id = storer.create_kata(manifest)
+    assert_equal hex_test_kata_id, id
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
@@ -82,10 +81,10 @@ class StorerFakeTest < AppServicesTestBase
     storer.stub_kata_ids(first_id, second_id)
     manifest = make_manifest
     assert_nil manifest['id']
-    manifest = storer.create_kata(manifest)
-    assert_equal first_id, manifest['id']
-    manifest = storer.create_kata(manifest)
-    assert_equal second_id, manifest['id']
+    id = storer.create_kata(manifest)
+    assert_equal first_id, id
+    id = storer.create_kata(manifest)
+    assert_equal second_id, id
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -112,9 +111,9 @@ class StorerFakeTest < AppServicesTestBase
 
   test '3E5',
   'stub_kata_ids() with kata_id that already exists raises' do
-    manifest = storer.create_kata(make_manifest)
+    id = storer.create_kata(make_manifest)
     error = assert_raises(ArgumentError) {
-      storer.stub_kata_ids(manifest['id'])
+      storer.stub_kata_ids(id)
     }
     assert_equal 'invalid kata_id', error.message
   end

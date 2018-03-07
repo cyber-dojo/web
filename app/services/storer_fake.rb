@@ -58,11 +58,11 @@ class StorerFake
 
   def create_kata(manifest)
     id = stub_kata_id
+    manifest['id'] = id
     dir = kata_dir(id)
     dir.make
-    manifest['id'] = id
     dir.write(manifest_filename, JSON.unparse(manifest))
-    manifest
+    id
   end
 
   def stub_kata_id
