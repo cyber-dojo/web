@@ -1,6 +1,6 @@
 
 A single 'kata' is created by selecting
-a language,tes-framework,exercise triple
+a language,test-framework,exercise triple
 and has a 10 character hex id.
 The animals (avatars) inside a kata thus share the same
 language,test-framework,exercise. It is a deliberate part
