@@ -10,11 +10,11 @@ class StorerFake
     # (as some app-controller tests do).
     @@disk ||= DiskFake.new(self)
     # Isolate tests from each other.
-    test_id = ENV['CYBER_DOJO_TEST_ID']
+    @test_id = ENV['CYBER_DOJO_TEST_ID']
     @path = "/tmp/cyber-dojo/#{test_id}/katas"
   end
 
-  attr_reader :path
+  attr_reader :path, :test_id
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 

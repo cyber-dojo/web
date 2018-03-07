@@ -13,7 +13,7 @@ class ExternalsTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'A70880',
+  test '880',
   'setting an external class to the name of an existing class succeeds' do
     exists = 'ExternalDouble'
     set_differ_class(exists)  && assert_equal(exists, differ.class.name)
@@ -24,7 +24,7 @@ class ExternalsTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'A707E4',
+  test '881',
   'setting an external class to the name of a non-existant class raises StandardError' do
     error = StandardError
     does_not_exist = 'DoesNotExist'
