@@ -162,6 +162,9 @@ class Kata
   # - - - - - - - - - - - - -
 
   def updated(manifest)
+    # Web, and not Storer, takes responsibility for updating
+    # because for the main cyber-dojo server, Storer and
+    # Starter are on different nodes.
     if manifest['unit_test_framework']
       # manifest change #1
       # manifest became self-contained rather than
@@ -191,16 +194,20 @@ class Kata
     name.split(',',2).map(&:strip)
   end
 
+  # - - - - - - - - - - - - -
+
+  attr_reader :externals
+
   def runner
-    @externals.runner
+    externals.runner
   end
 
   def starter
-    @externals.starter
+    externals.starter
   end
 
   def storer
-    @externals.storer
+    externals.storer
   end
 
 end

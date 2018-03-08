@@ -61,64 +61,6 @@ class StorerFakeTest < AppServicesTestBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # stub_kata_ids()
-  # - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '3E1',
-  'by default, use the test hex-id as the kata id' do
-    manifest = make_manifest
-    assert_nil manifest['id']
-    id = storer.create_kata(manifest)
-    assert_equal hex_test_kata_id, id
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - -
-
-  test '3E2',
-  'stub_kata_ids() can override the kata id' do
-    first_id = '8D616B84BF'
-    second_id = 'C175EEA250'
-    storer.stub_kata_ids(first_id, second_id)
-    manifest = make_manifest
-    assert_nil manifest['id']
-    id = storer.create_kata(manifest)
-    assert_equal first_id, id
-    id = storer.create_kata(manifest)
-    assert_equal second_id, id
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '3E3',
-  'stub_kata_ids() with an invalid kata_id raises' do
-    error = assert_raises(ArgumentError) {
-      storer.stub_kata_ids(invalid_kata_id)
-    }
-    assert_equal 'invalid kata_id', error.message
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - -
-
-  test '3E4',
-  'stub_kata_ids() with duplicate kata_id raises' do
-    error = assert_raises(ArgumentError) {
-      storer.stub_kata_ids(kata_id, kata_id)
-    }
-    assert_equal 'invalid kata_id', error.message
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - -
-
-  test '3E5',
-  'stub_kata_ids() with kata_id that already exists raises' do
-    id = storer.create_kata(make_manifest)
-    error = assert_raises(ArgumentError) {
-      storer.stub_kata_ids(id)
-    }
-    assert_equal 'invalid kata_id', error.message
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - -
   # all other methods raise when kata_id is invalid
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -245,7 +187,7 @@ class StorerFakeTest < AppServicesTestBase
   'each() yielding two unrelated kata-ids' do
     kata_id_1 = 'C56C6C4202'
     kata_id_2 = 'DEB3E1325D'
-    storer.stub_kata_ids(kata_id_1, kata_id_2)
+    id_factory.stub(kata_id_1, kata_id_2)
     create_kata
     create_kata
     assert_equal [kata_id_1, kata_id_2].sort, all_katas_ids.sort
@@ -258,7 +200,7 @@ class StorerFakeTest < AppServicesTestBase
     kata_id_1 = '9D'+'329DFD34'
     kata_id_2 = '9D'+'5E889E04'
     kata_id_3 = '9D'+'F376ED91'
-    storer.stub_kata_ids(kata_id_1, kata_id_2, kata_id_3)
+    id_factory.stub(kata_id_1, kata_id_2, kata_id_3)
     create_kata
     create_kata
     create_kata
@@ -327,7 +269,7 @@ class StorerFakeTest < AppServicesTestBase
     id = '9D323B'
      first_id = id + '4F23'
     second_id = id + '9ED2'
-    storer.stub_kata_ids(first_id, second_id)
+    id_factory.stub(first_id, second_id)
     create_kata
     create_kata
     assert_equal id, storer.completed(id)

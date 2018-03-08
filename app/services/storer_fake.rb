@@ -4,7 +4,8 @@ require 'json'
 
 class StorerFake
 
-  def initialize(_)
+  def initialize(externals)
+    @externals = externals
     # This is @@disk and not @disk so that it behaves as
     # a real disk on tests that run across multiple threads
     # (as some app-controller tests do).
@@ -12,15 +13,26 @@ class StorerFake
     # Isolate tests from each other.
     test_id = ENV['CYBER_DOJO_TEST_ID']
     @path = "/tmp/cyber-dojo/#{test_id}/katas"
-    # by default use test's hex-id as kata-id but again be
-    # as app-controller tests can run across multiple threads
-    # each time recreating the StorerFake external.
-    unless kata_exists?(test_id)
-      stub_kata_ids(test_id)
-    end
   end
 
   attr_reader :path
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def validate(kata_ids)
+    refute_duplicates(kata_ids)
+    #TODO: assert_completable(kata_ids)
+    kata_ids.each do |kata_id|
+      assert_valid_id(kata_id)
+      refute_kata_exists(kata_id)
+    end
+  end
+
+  def refute_duplicates(kata_ids)
+    unless kata_ids.uniq.size == kata_ids.size
+      fail invalid('kata_id')
+    end
+  end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -57,32 +69,12 @@ class StorerFake
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def create_kata(manifest)
-    id = stub_kata_id
+    id = id_factory.id
     manifest['id'] = id
     dir = kata_dir(id)
     dir.make
     dir.write(manifest_filename, JSON.unparse(manifest))
     id
-  end
-
-  def stub_kata_id
-    @stubbed_kata_ids.shift
-  end
-
-  def stub_kata_ids(*kata_ids)
-    refute_duplicates(kata_ids)
-    kata_ids.each do |kata_id|
-      assert_valid_id(kata_id)
-      refute_kata_exists(kata_id)
-      # assert completable(kata_id)
-    end
-    @stubbed_kata_ids = kata_ids
-  end
-
-  def refute_duplicates(kata_ids)
-    unless kata_ids.uniq.size == kata_ids.size
-      fail invalid('kata_id')
-    end
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -338,6 +330,10 @@ class StorerFake
 
   def disk
     @@disk
+  end
+
+  def id_factory
+    @externals.id_factory
   end
 
 end
