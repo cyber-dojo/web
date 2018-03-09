@@ -11,7 +11,11 @@ class KataIdGeneratorStub
   end
 
   def generate
-    @stubs.shift
+    if @stubs.nil? || @stubs == []
+      fail self.class.name + ':out of stubs!'
+    else
+      @stubs.shift
+    end
   end
 
   def stub(*kata_ids)
