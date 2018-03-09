@@ -29,6 +29,17 @@ class Kata
   # - - - - - - - - - - - - -
 
   def fork_manifest(visible_files)
+    #
+    # TODO: Plan
+    # add storer.tag_manifest(kata_id, avatar_name, tag)
+    # This will return a full manifest WITHOUT an 'id'
+    # This will then need to be updated() see below.
+    # fork_controller will then pass this updated manifest
+    # to storer.create_kata()
+    # Note: storer cannot implement a tag_fork() method
+    # because it does not have access to the starter service
+    # on the main cyber-dojo server (which runs off two nodes).
+    #
     forked = manifest.clone
     forked.delete('id')
     forked.delete('created')
@@ -162,6 +173,17 @@ class Kata
   # - - - - - - - - - - - - -
 
   def updated(manifest)
+    #
+    # TODO: Plan
+    # update() below can be refactored
+    # starter.old_manifest() can be renamed to
+    # starter.update(manifest) and return a manifest
+    # Further, in the second if it could be passed display_name
+    # directly. It would then see if it contained a comma.
+    # If so, it would split on the comma and join with -
+    # Perhaps it would be simpler still to just pass the
+    # whole manifest and drop both ifs?
+
     # Web, and not Storer, takes responsibility for updating
     # because for the main cyber-dojo server, Storer and
     # Starter are on different nodes.
