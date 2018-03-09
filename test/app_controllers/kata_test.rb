@@ -312,10 +312,4 @@ class KataControllerTest  < AppControllerTestBase
     assert_equal :timed_out, avatar.lights[-1].colour
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def assert_file(filename, expected)
-    assert_equal expected, avatar.visible_files[filename]
-  end
-
 end
