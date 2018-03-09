@@ -1,6 +1,6 @@
 require_relative 'app_services_test_base'
 
-class KataIdFactoryStubTest < AppServicesTestBase
+class KataIdgeneratorStubTest < AppServicesTestBase
 
   def self.hex_prefix
     'EEDB7'
@@ -16,7 +16,7 @@ class KataIdFactoryStubTest < AppServicesTestBase
 
   test '3E1',
   'by default, stub the test hex-id as the kata id' do
-    assert_equal hex_test_kata_id, id_factory.id
+    assert_equal hex_test_kata_id, id_generator.generate
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
@@ -25,9 +25,9 @@ class KataIdFactoryStubTest < AppServicesTestBase
   'stub() can set the stubbed kata id' do
     first_id = '8D616B84BF'
     second_id = 'C175EEA250'
-    id_factory.stub(first_id, second_id)
-    assert_equal  first_id, id_factory.id
-    assert_equal second_id, id_factory.id
+    id_generator.stub(first_id, second_id)
+    assert_equal  first_id, id_generator.generate
+    assert_equal second_id, id_generator.generate
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -35,7 +35,7 @@ class KataIdFactoryStubTest < AppServicesTestBase
   test '3E3',
   'stub() with an invalid kata_id raises' do
     error = assert_raises(ArgumentError) {
-      id_factory.stub(invalid_kata_id)
+      id_generator.stub(invalid_kata_id)
     }
     assert_equal 'invalid kata_id', error.message
   end
@@ -45,7 +45,7 @@ class KataIdFactoryStubTest < AppServicesTestBase
   test '3E4',
   'stub() with duplicate kata_id raises' do
     error = assert_raises(ArgumentError) {
-      id_factory.stub(kata_id, kata_id)
+      id_generator.stub(kata_id, kata_id)
     }
     assert_equal 'invalid kata_id', error.message
   end
@@ -54,15 +54,14 @@ class KataIdFactoryStubTest < AppServicesTestBase
 
   test '3E5',
   'stub() with kata_id that already exists raises' do
-    id = storer.create_kata(make_manifest)
+    kata_id = storer.create_kata(make_manifest)
     error = assert_raises(ArgumentError) {
-      id_factory.stub(id)
+      id_generator.stub(kata_id)
     }
     assert_equal 'invalid kata_id', error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
-
 
   private
 

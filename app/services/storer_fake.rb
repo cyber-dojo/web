@@ -69,7 +69,7 @@ class StorerFake
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def create_kata(manifest)
-    id = id_factory.id
+    id = id_generator.generate
     manifest['id'] = id
     dir = kata_dir(id)
     dir.make
@@ -332,8 +332,8 @@ class StorerFake
     @@disk
   end
 
-  def id_factory
-    @externals.id_factory
+  def id_generator
+    @externals.id_generator
   end
 
 end

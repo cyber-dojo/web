@@ -187,7 +187,7 @@ class StorerFakeTest < AppServicesTestBase
   'each() yielding two unrelated kata-ids' do
     kata_id_1 = 'C56C6C4202'
     kata_id_2 = 'DEB3E1325D'
-    id_factory.stub(kata_id_1, kata_id_2)
+    id_generator.stub(kata_id_1, kata_id_2)
     create_kata
     create_kata
     assert_equal [kata_id_1, kata_id_2].sort, all_katas_ids.sort
@@ -200,7 +200,7 @@ class StorerFakeTest < AppServicesTestBase
     kata_id_1 = '9D'+'329DFD34'
     kata_id_2 = '9D'+'5E889E04'
     kata_id_3 = '9D'+'F376ED91'
-    id_factory.stub(kata_id_1, kata_id_2, kata_id_3)
+    id_generator.stub(kata_id_1, kata_id_2, kata_id_3)
     create_kata
     create_kata
     create_kata
@@ -269,7 +269,7 @@ class StorerFakeTest < AppServicesTestBase
     id = '9D323B'
      first_id = id + '4F23'
     second_id = id + '9ED2'
-    id_factory.stub(first_id, second_id)
+    id_generator.stub(first_id, second_id)
     create_kata
     create_kata
     assert_equal id, storer.completed(id)

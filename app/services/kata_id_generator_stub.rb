@@ -1,5 +1,5 @@
 
-class KataIdFactoryStub
+class KataIdGeneratorStub
 
   def initialize(externals)
     @externals = externals
@@ -10,7 +10,7 @@ class KataIdFactoryStub
     end
   end
 
-  def id
+  def generate
     @stubs.shift
   end
 

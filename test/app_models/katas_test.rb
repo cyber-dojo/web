@@ -101,7 +101,7 @@ class KatasTest < AppModelsTestBase
   'each() yielding two katas with unrelated ids' do
     kata1_id = '33569DDC8D'
     kata2_id = 'E497E491E2'
-    id_factory.stub(kata1_id, kata2_id)
+    id_generator.stub(kata1_id, kata2_id)
     make_language_kata
     make_language_kata
     assert_equal [kata1_id, kata2_id].sort, all_katas_ids.sort
@@ -114,7 +114,7 @@ class KatasTest < AppModelsTestBase
     kata1_id = id + '1'
     kata2_id = id + '2'
     kata3_id = id + '3'
-    id_factory.stub(kata1_id, kata2_id, kata3_id)
+    id_generator.stub(kata1_id, kata2_id, kata3_id)
     make_language_kata
     make_language_kata
     make_language_kata

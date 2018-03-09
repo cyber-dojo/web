@@ -25,9 +25,8 @@ module Externals # mix-in
     @http ||= external
   end
 
-  def id_factory
-    # only used by StorerFake
-    @id_factory ||= KataIdFactoryStub.new(self)
+  def id_generator
+    @id_factory ||= KataIdGeneratorStub.new(self) # used by StorerFake
   end
 
   private # = = = = = = = = =
