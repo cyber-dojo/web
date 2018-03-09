@@ -5,12 +5,12 @@ class ForkerController < ApplicationController
     begin
       tag_visible_files = storer.tag_visible_files(id, avatar_name, tag)
       manifest = kata.fork_manifest(tag_visible_files)
-      katas.create_kata(manifest)
+      kata = katas.create_kata(manifest)
       result = {
               forked: true,
-                  id: manifest['id'],
-          image_name: manifest['image_name'],
-        display_name: manifest['display_name']
+                  id: kata.id,
+          image_name: kata.image_name,
+        display_name: kata.display_name
       }
     rescue => caught
       result = fork_failed(caught)
@@ -28,14 +28,15 @@ class ForkerController < ApplicationController
 
   def fork_failed(caught)
     result = { forked: false }
-    if caught.message == 'invalid kata_id'
-      result[:reason] = "dojo(#{id})"
-    end
-    if caught.message == 'invalid avatar_name'
-      result[:reason] = "avatar(#{avatar_name})"
-    end
-    if caught.message == 'invalid tag'
-      result[:reason] = "traffic_light(#{tag})"
+    case caught.message
+      when 'invalid kata_id'
+        result[:reason] = "dojo(#{id})"
+      when 'invalid avatar_name'
+        result[:reason] = "avatar(#{avatar_name})"
+      when 'invalid tag'
+        result[:reason] = "traffic_light(#{tag})"
+      else
+        raise caught
     end
     result
   end
