@@ -1,6 +1,6 @@
 require_relative 'app_services_test_base'
 
-class KataIdgeneratorStubTest < AppServicesTestBase
+class KataIdGeneratorStubTest < AppServicesTestBase
 
   def self.hex_prefix
     'EEDB7'
@@ -70,8 +70,6 @@ class KataIdgeneratorStubTest < AppServicesTestBase
     }
     assert_equal 'invalid kata_id', error.message
   end
-
-  # - - - - - - - - - - - - - - - - - - - - -
 
   private
 

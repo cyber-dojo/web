@@ -26,7 +26,8 @@ module Externals # mix-in
   end
 
   def id_generator
-    @id_factory ||= KataIdGeneratorStub.new(self) # used by StorerFake
+    # used by StorerFake
+    @id_generator ||= KataIdGeneratorStub.new(self)
   end
 
   private # = = = = = = = = =
@@ -51,6 +52,6 @@ end
 # can tunnel through a *deep* stack. In particular, I can set an
 # environment variable and then run a controller test which issues
 # GETs/POSTs, which work their way through the rails stack,
-# -in-a-different-thread-, reaching externals.rb, where the
-# specificied Double/Mock/Stub/Fake class takes effect.
+# -In-A-Different-Thread-, reaching externals.rb, where the
+# specificied Substitute class takes effect.
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
