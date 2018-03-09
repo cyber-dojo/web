@@ -3,11 +3,7 @@ class KataIdGeneratorStub
 
   def initialize(externals)
     @externals = externals
-    # Note: app-controller tests can run across multiple
-    # threads, each time recreating this Stub object.
-    unless storer.kata_exists?(default_id)
-      stub(default_id)
-    end
+    stub(default_id)
   end
 
   def generate
