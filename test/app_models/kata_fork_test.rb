@@ -20,7 +20,7 @@ class KataForkTest < AppModelsTestBase
     manifest = katas['421F303E80'].fork_manifest({ 'cyber-dojo.sh' => 'cd' })
     @forked = katas.create_kata(manifest)
     forked_expected_keys = %w(
-      created id
+      created
       display_name exercise image_name runner_choice visible_files
       filename_extension
     )
@@ -42,7 +42,7 @@ class KataForkTest < AppModelsTestBase
     manifest = katas['421AFD7EC5'].fork_manifest({ 'cyber-dojo.sh' => 'ls -al' })
     @forked = katas.create_kata(manifest)
     forked_expected_keys = %w(
-      created id
+      created
       display_name exercise image_name runner_choice visible_files
       tab_size filename_extension
     )
@@ -65,7 +65,7 @@ class KataForkTest < AppModelsTestBase
     manifest = katas['5A0F824303'].fork_manifest({ 'cyber-dojo.sh' => 'addgroup' })
     @forked = katas.create_kata(manifest)
     forked_expected_keys = %w(
-      id created
+      created
       display_name exercise image_name runner_choice visible_files
       filename_extension highlight_filenames lowlight_filenames progress_regexs tab_size
       language red_amber_green
@@ -90,7 +90,7 @@ class KataForkTest < AppModelsTestBase
     @forked = katas.create_kata(manifest)
 
     forked_expected_keys = %w(
-      created id
+      created
       display_name exercise image_name runner_choice visible_files
       filename_extension highlight_filenames lowlight_filenames progress_regexs tab_size
       language
