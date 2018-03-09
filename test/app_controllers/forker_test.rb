@@ -6,6 +6,10 @@ class ForkerControllerTest < AppControllerTestBase
     '3E9892'
   end
 
+  def hex_setup
+    set_storer_class('StorerService')
+  end
+
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'AFE', %w(
