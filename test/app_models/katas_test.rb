@@ -67,7 +67,7 @@ class KatasTest < AppModelsTestBase
   test '0AA',
   'completed(id) does not complete when 6+ chars and more than one match' do
     prefix = 'ABCDE1234'
-    storer.stub_kata_ids(prefix + '5', prefix + '6')
+    id_generator.stub(prefix + '5', prefix + '6')
     make_language_kata
     make_language_kata
     assert_equal prefix, katas.completed(prefix)
@@ -77,7 +77,7 @@ class KatasTest < AppModelsTestBase
 
   test '2AF',
   'completed(id) completes when 6+ chars and 1 match' do
-    storer.stub_kata_ids(kata_id)
+    id_generator.stub(kata_id)
     make_language_kata
     assert_equal kata_id, katas.completed(kata_id[0..5])
   end
