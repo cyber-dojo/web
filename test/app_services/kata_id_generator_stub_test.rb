@@ -14,6 +14,16 @@ class KataIdgeneratorStubTest < AppServicesTestBase
 
   # - - - - - - - - - - - - - - - - - - - - -
 
+  test '3E0',
+  'generate when there are no stubs left raises' do
+    id_generator.generate
+    error = assert_raises { id_generator.generate }
+    name = id_generator.class.name
+    assert_equal "#{name}:out of stubs!", error.message
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - -
+
   test '3E1',
   'by default, stub the test hex-id as the kata id' do
     assert_equal hex_test_kata_id, id_generator.generate

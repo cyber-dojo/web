@@ -26,36 +26,31 @@ class StorerServiceTest < AppServicesTestBase
 
   test '301',
   'smoke test storer-service scenario' do
-
-    refute all_katas_ids.include? kata_id
-    refute storer.kata_exists?(kata_id)
-
     manifest = starter.language_manifest('Ruby, MiniTest', 'Fizz_Buzz')
-    manifest['id'] = kata_id
     manifest['created'] = creation_time
-    storer.create_kata(manifest)
+    kata_id = storer.create_kata(manifest)
+    kata = katas[kata_id]
+    assert storer.kata_exists?(kata.id)
+    assert all_katas_ids.include? kata.id
 
-    assert storer.kata_exists?(kata_id)
-    assert all_katas_ids.include? kata_id
+    assert_equal({}, storer.kata_increments(kata.id))
+    assert_equal kata_id, storer.completed(kata.id[0..5])
+    assert_equal [], storer.started_avatars(kata.id)
 
-    assert_equal({}, storer.kata_increments(kata_id))
-    assert_equal kata_id, storer.completed(kata_id[0..5])
-    assert_equal [], storer.started_avatars(kata_id)
+    refute storer.avatar_exists?(kata.id, 'lion')
+    assert_equal 'lion', storer.start_avatar(kata.id, ['lion'])
+    assert storer.avatar_exists?(kata.id, 'lion')
 
-    refute storer.avatar_exists?(kata_id, 'lion')
-    assert_equal 'lion', storer.start_avatar(kata_id, ['lion'])
-    assert storer.avatar_exists?(kata_id, 'lion')
-
-    assert_equal({ 'lion' => [tag0] }, storer.kata_increments(kata_id))
-    assert_equal ['lion'], storer.started_avatars(kata_id)
-    files0 = storer.kata_manifest(kata_id)['visible_files']
-    assert_equal files0, storer.tag_visible_files(kata_id, 'lion', tag=0)
-    assert_equal [tag0], storer.avatar_increments(kata_id, 'lion')
+    assert_equal({ 'lion' => [tag0] }, storer.kata_increments(kata.id))
+    assert_equal ['lion'], storer.started_avatars(kata.id)
+    files0 = storer.kata_manifest(kata.id)['visible_files']
+    assert_equal files0, storer.tag_visible_files(kata.id, 'lion', tag=0)
+    assert_equal [tag0], storer.avatar_increments(kata.id, 'lion')
 
     files1 = kata.visible_files
     files1['readme.txt'] = 'more info'
     args = []
-    args << kata_id
+    args << kata.id
     args << 'lion'
     args << files1
     args << (now = [2016,12,8, 8,3,23])
@@ -64,13 +59,13 @@ class StorerServiceTest < AppServicesTestBase
     storer.avatar_ran_tests(*args)
 
     tag1 = { 'colour' => colour, 'time' => now, 'number' => 1 }
-    assert_equal({ 'lion' => [tag0,tag1] }, storer.kata_increments(kata_id))
-    assert_equal [tag0,tag1], storer.avatar_increments(kata_id, 'lion')
+    assert_equal({ 'lion' => [tag0,tag1] }, storer.kata_increments(kata.id))
+    assert_equal [tag0,tag1], storer.avatar_increments(kata.id, 'lion')
 
     files1['output'] = output
-    assert_equal files1, storer.avatar_visible_files(kata_id, 'lion')
+    assert_equal files1, storer.avatar_visible_files(kata.id, 'lion')
 
-    json = storer.tags_visible_files(kata_id, 'lion', was_tag=0, now_tag=1)
+    json = storer.tags_visible_files(kata.id, 'lion', was_tag=0, now_tag=1)
     assert_equal files0, json['was_tag']
     assert_equal files1, json['now_tag']
   end
