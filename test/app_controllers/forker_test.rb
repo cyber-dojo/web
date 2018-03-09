@@ -129,6 +129,23 @@ class ForkerControllerTest < AppControllerTestBase
     refute_nil json['image_name'], 'image_name'
   end
 
+  #- - - - - - - - - - - - - - - - - -
+
+  test 'DAC', %w(
+  force failure to cover exception handlers else clause ) do
+    in_kata(:stateless) {
+      as_avatar {
+        kata_id = kata.id
+        set_storer_class('NotExist')
+        error = assert_raises {
+          fork(kata_id, avatar.name, tag=1, 'html')
+        }
+        diagnostic = 'uninitialized constant NotExist'
+        assert_equal diagnostic, error.message
+      }
+    }
+  end
+
   private # = = = = = = = = = = = = = = = = = = =
 
   def fork(id, avatar, tag, format='json')
