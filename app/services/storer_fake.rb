@@ -63,6 +63,8 @@ class StorerFake
 
   def create_kata(manifest)
     kata_id = id_generator.generate
+    #assert valid_id?(kata_id)
+    #refute kata_exists?(kata_id)
     manifest['id'] = kata_id
     dir = kata_dir(kata_id)
     dir.make
@@ -230,12 +232,6 @@ class StorerFake
   # id
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def assert_valid_id(kata_id)
-    unless valid_id?(kata_id)
-      fail invalid('kata_id')
-    end
-  end
-
   def partial_id?(kata_id)
     kata_id.is_a?(String) &&
       kata_id.chars.all? { |char| hex?(char) }
@@ -248,12 +244,6 @@ class StorerFake
   # - - - - - - - - - - - - - - - - - - - - - - - -
   # kata
   # - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def refute_kata_exists(kata_id)
-    if kata_exists?(kata_id)
-      fail invalid('kata_id')
-    end
-  end
 
   def assert_kata_exists(kata_id)
     unless kata_exists?(kata_id)
