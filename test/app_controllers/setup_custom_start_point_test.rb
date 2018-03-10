@@ -50,12 +50,10 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
   show lists all custom display_names
   and chooses a random index for it ) do
     manifest = starter.custom_manifest(yahtzee_csharp_nunit)
-    manifest['id'] = kata_id
-    manifest['created'] = time_now
     manifest['display_name'] = 'XXXXX'
-    storer.create_kata(manifest)
+    kata_id = storer.create_kata(manifest)
 
-    show 'id' => manifest['id']
+    show 'id' => kata_id
     assert valid_custom_index?
   end
 

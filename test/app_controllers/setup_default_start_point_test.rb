@@ -55,13 +55,11 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   show lists all language,testFramework and all exercise display_names
   and chooses a random index for both lists ) do
     manifest = starter.language_manifest(ruby_minitest, fizz_buzz)
-    manifest['id'] = kata_id
-    manifest['created'] = time_now
     manifest['display_name'] = 'XXXX'
     manifest['exercise'] = 'YYYY'
-    storer.create_kata(manifest)
+    kata_id = storer.create_kata(manifest)
 
-    show 'id' => manifest['id']
+    show 'id' => kata_id
     assert valid_language_index?
     assert valid_exercise_index?
   end
@@ -117,6 +115,8 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     'setup_default_start_point'
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - -
+
   def show(params = {})
     get "/#{controller}/show", params:params
     assert_response :success
@@ -130,6 +130,8 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     end
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - -
+
   def save_individual(params)
     get "/#{controller}/save_individual", params:params
     assert_response :redirect
@@ -139,6 +141,8 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     avatar = m[3]
     [id,avatar]
   end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
 
   def save_group(params)
     get "/#{controller}/save_group", params:params
