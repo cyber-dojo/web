@@ -1,0 +1,72 @@
+
+# def completable?(kata_ids)
+#   ==there is no other kata whose id[0..5] matches kata_id
+#
+#   The idea is this will be used by the kata-id-generator
+#   to ensure that only completable ids are used.
+#   This in turn ensures that 6 digits will always be enough
+#   to complete from.
+#
+#   Note also that only 6 digits of the id are shown so
+#   if there is an overlap then 6 digits will NOT complete and
+#   the person will not know what the remaining digits are.
+#
+#   However, there may be existing katas with ids
+#   that are the same in their first 6 digits.
+#   I need a script to check for that.
+#
+#   A fast lookup for this requires more than just the
+#   2/8 directory structure. It needs the first 6 digits
+#   to hold an intermediate directory structure.
+#
+#     viz .../12/34567890/manifest.json
+#     eg  .../12/3456/7890/manifest.json
+#
+#   Lots of dir structure are possible
+#     eg  .../12/34/56/78/90/manifest.json
+#   I need to clone the storer disk and write a script that:
+#     o) converts to a given directory structure
+#     o) measures the speed of reading/writing
+#     o) converts back to the original structure
+#
+#   A directory structure such as 12/34/56/78/90
+#   would complicate the completions() method.
+#
+#   What read/writes does completion affect?
+#     o) kata setup to find the kata-id
+#     o) completion to allow a person in
+#
+#   This raises the question of why there are 10 digits!
+#   In this scheme there will only ever be one kata below
+#   /12/34/56/...
+#
+#
+#   6 hex digits is 16^6 == 16,777,216
+#   which is not that many.
+#   As more and more katas are created the time it will take
+#   the kata-id-generator to find new katas will keep increasing.
+#   Of course new kata ids could easily be pre-cached.
+#
+#   One possibility is to simply extend the character set.
+#   It is hex at the moment.
+#   I could easily add uppercase characters, possibly
+#   excluding O (oh) confused with 0 (zero)
+#   excluding I (eye) confused with 1 (one)
+#      ABCDEFGHIJKLMNOPQRSTUVWXYZ
+#   That would give 16+26-2 == 40 digits
+#   40^6 == 4,096,000,000
+#
+#   That in turn would increase the combinations of 2-digits
+#   from 16^2 == 256 to 40^2 == 1600
+#
+# end
+
+
+
+
+
+
+
+
+
+

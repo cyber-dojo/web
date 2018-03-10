@@ -49,8 +49,6 @@ class StorerFake
   # kata
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  #TODO: completable?(kata_ids)
-
   def valid_id?(kata_id)
     partial_id?(kata_id) && kata_id.length == 10
   end
