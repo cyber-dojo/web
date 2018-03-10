@@ -173,17 +173,6 @@ class Kata
   # - - - - - - - - - - - - -
 
   def updated(manifest)
-    #
-    # TODO: Plan
-    # update() below can be refactored
-    # starter.old_manifest() can be renamed to
-    # starter.update(manifest) and return a manifest
-    # Further, in the second if it could be passed display_name
-    # directly. It would then see if it contained a comma.
-    # If so, it would split on the comma and join with -
-    # Perhaps it would be simpler still to just pass the
-    # whole manifest and drop both ifs?
-
     # Web, and not Storer, takes responsibility for updating
     # because for the main cyber-dojo server, Storer and
     # Starter are on different nodes.
