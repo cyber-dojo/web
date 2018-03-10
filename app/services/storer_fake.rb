@@ -18,13 +18,7 @@ class StorerFake
   attr_reader :path
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def validate(kata_id)
-    #TODO: assert_completable(kata_ids)
-    assert_valid_id(kata_id)
-    refute_kata_exists(kata_id)
-  end
-
+  # completion(s)
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def completed(id)
@@ -49,6 +43,16 @@ class StorerFake
       return []
     end
     disk[dir_join(path, outer_dir)].each_dir.collect { |dir| dir }
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+  # kata
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
+  #TODO: completable?(kata_ids)
+
+  def valid_id?(kata_id)
+    partial_id?(kata_id) && kata_id.length == 10
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -77,6 +81,8 @@ class StorerFake
     JSON.parse(json)
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
   def kata_increments(kata_id)
     Hash[started_avatars(kata_id).map { |name|
       [name, avatar_increments(kata_id, name)]
@@ -84,12 +90,16 @@ class StorerFake
   end
 
   # - - - - - - - - - - - - - - - -
+  # avatar
+  # - - - - - - - - - - - - - - - -
 
   def avatar_exists?(kata_id, avatar_name)
     valid_id?(kata_id) &&
       valid_avatar?(avatar_name) &&
         avatar_dir(kata_id, avatar_name).exists?
   end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def start_avatar(kata_id, avatar_names)
     assert_kata_exists(kata_id)
@@ -102,6 +112,8 @@ class StorerFake
     write_avatar_increments(kata_id, avatar_name, [])
     return avatar_name
   end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def started_avatars(kata_id)
     assert_kata_exists(kata_id)
@@ -138,6 +150,8 @@ class StorerFake
     [tag0] + read_avatar_increments(kata_id, avatar_name)
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
   def avatar_visible_files(kata_id, avatar_name)
     assert_kata_exists(kata_id)
     assert_avatar_exists(kata_id, avatar_name)
@@ -146,6 +160,8 @@ class StorerFake
     tag_visible_files(kata_id, avatar_name, tag)
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+  # tag
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def tag_visible_files(kata_id, avatar_name, tag)
@@ -163,6 +179,10 @@ class StorerFake
       read_tag_files(kata_id, avatar_name, tag)
     end
   end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+  # tags
+  # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def tags_visible_files(kata_id, avatar_name, was_tag, now_tag)
     {
@@ -208,7 +228,28 @@ class StorerFake
     'manifest.json'
   end
 
-  # - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+  # id
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def assert_valid_id(kata_id)
+    unless valid_id?(kata_id)
+      fail invalid('kata_id')
+    end
+  end
+
+  def partial_id?(kata_id)
+    kata_id.is_a?(String) &&
+      kata_id.chars.all? { |char| hex?(char) }
+  end
+
+  def hex?(char)
+    '0123456789ABCDEF'.include?(char)
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+  # kata
+  # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def refute_kata_exists(kata_id)
     if kata_exists?(kata_id)
@@ -222,22 +263,6 @@ class StorerFake
     end
   end
 
-  def assert_valid_id(kata_id)
-    unless valid_id?(kata_id)
-      fail invalid('kata_id')
-    end
-  end
-
-  def valid_id?(kata_id)
-    kata_id.class.name == 'String' &&
-      kata_id.length == 10 &&
-        kata_id.chars.all? { |char| hex?(char) }
-  end
-
-  def hex?(char)
-    '0123456789ABCDEF'.include?(char)
-  end
-
   def kata_dir(kata_id)
     disk[kata_path(kata_id)]
   end
@@ -246,6 +271,8 @@ class StorerFake
     dir_join(path, outer(kata_id), inner(kata_id))
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+  # avatar
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def assert_avatar_exists(kata_id, avatar_name)
@@ -267,6 +294,12 @@ class StorerFake
     dir_join(kata_path(kata_id), avatar_name)
   end
 
+  def all_avatars_names
+    Avatars.names
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+  # tag
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def assert_tag_exists(kata_id, avatar_name, tag)
@@ -312,10 +345,6 @@ class StorerFake
   end
 
   # - - - - - - - - - - - - - - - -
-
-  def all_avatars_names
-    Avatars.names
-  end
 
   include IdSplitter
 
