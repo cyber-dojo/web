@@ -67,9 +67,8 @@ class KatasTest < AppModelsTestBase
   test '0AA',
   'completed(id) does not complete when 6+ chars and more than one match' do
     prefix = 'ABCDE1234'
-    id_generator.stub(prefix + '5', prefix + '6')
-    make_language_kata
-    make_language_kata
+    stub_make_kata(prefix + '5')
+    stub_make_kata(prefix + '6')
     assert_equal prefix, katas.completed(prefix)
   end
 
@@ -77,8 +76,7 @@ class KatasTest < AppModelsTestBase
 
   test '2AF',
   'completed(id) completes when 6+ chars and 1 match' do
-    id_generator.stub(kata_id)
-    make_language_kata
+    stub_make_kata(kata_id)
     assert_equal kata_id, katas.completed(kata_id[0..5])
   end
 
@@ -99,11 +97,8 @@ class KatasTest < AppModelsTestBase
 
   test '4F0',
   'each() yielding two katas with unrelated ids' do
-    kata1_id = '33569DDC8D'
-    kata2_id = 'E497E491E2'
-    id_generator.stub(kata1_id, kata2_id)
-    make_language_kata
-    make_language_kata
+    stub_make_kata(kata1_id = '33569DDC8D')
+    stub_make_kata(kata2_id = 'E497E491E2')
     assert_equal [kata1_id, kata2_id].sort, all_katas_ids.sort
   end
 
@@ -111,14 +106,18 @@ class KatasTest < AppModelsTestBase
   'each() yielding several kata with common first two characters' do
     id = 'ABCDE1234'
     assert_equal 10-1, id.length
-    kata1_id = id + '1'
-    kata2_id = id + '2'
-    kata3_id = id + '3'
-    id_generator.stub(kata1_id, kata2_id, kata3_id)
-    make_language_kata
-    make_language_kata
-    make_language_kata
+    stub_make_kata(kata1_id = id + '1')
+    stub_make_kata(kata2_id = id + '2')
+    stub_make_kata(kata3_id = id + '3')
     assert_equal [kata1_id, kata2_id, kata3_id].sort, all_katas_ids.sort
+  end
+
+  private
+
+  def stub_make_kata(kata_id)
+    id_generator.stub(kata_id)
+    make_language_kata
+    kata_id
   end
 
 end

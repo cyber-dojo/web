@@ -14,9 +14,9 @@ class KataIdGeneratorStub
     end
   end
 
-  def stub(*kata_ids)
-    storer.validate(kata_ids)
-    @stubs = kata_ids
+  def stub(kata_id)
+    storer.validate(kata_id)
+    @stubs = [kata_id]
   end
 
   private

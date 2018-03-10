@@ -185,11 +185,8 @@ class StorerFakeTest < AppServicesTestBase
 
   test 'FA2',
   'each() yielding two unrelated kata-ids' do
-    kata_id_1 = 'C56C6C4202'
-    kata_id_2 = 'DEB3E1325D'
-    id_generator.stub(kata_id_1, kata_id_2)
-    create_kata
-    create_kata
+    stubbed_make_kata(kata_id_1 = 'C56C6C4202')
+    stubbed_make_kata(kata_id_2 = 'DEB3E1325D')
     assert_equal [kata_id_1, kata_id_2].sort, all_katas_ids.sort
   end
 
@@ -197,13 +194,9 @@ class StorerFakeTest < AppServicesTestBase
 
   test 'FA3',
   'each() yielding several kata-ids with common first two characters' do
-    kata_id_1 = '9D'+'329DFD34'
-    kata_id_2 = '9D'+'5E889E04'
-    kata_id_3 = '9D'+'F376ED91'
-    id_generator.stub(kata_id_1, kata_id_2, kata_id_3)
-    create_kata
-    create_kata
-    create_kata
+    stubbed_make_kata(kata_id_1 = '9D'+'329DFD34')
+    stubbed_make_kata(kata_id_2 = '9D'+'5E889E04')
+    stubbed_make_kata(kata_id_3 = '9D'+'F376ED91')
     assert_equal [kata_id_1, kata_id_2, kata_id_3].sort, all_katas_ids.sort
   end
 
@@ -267,11 +260,8 @@ class StorerFakeTest < AppServicesTestBase
   test 'B4F',
   'completed(id) does not complete when 6+ chars and more than one match' do
     id = '9D323B'
-     first_id = id + '4F23'
-    second_id = id + '9ED2'
-    id_generator.stub(first_id, second_id)
-    create_kata
-    create_kata
+    stubbed_make_kata( first_id = id + '4F23')
+    stubbed_make_kata(second_id = id + '9ED2')
     assert_equal id, storer.completed(id)
   end
 
@@ -496,6 +486,11 @@ class StorerFakeTest < AppServicesTestBase
   end
 
   private # = = = = = = = = = = = =
+
+  def stubbed_make_kata(kata_id)
+    id_generator.stub(kata_id)
+    create_kata
+  end
 
   def create_kata
     storer.create_kata(make_manifest)

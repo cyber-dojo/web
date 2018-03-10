@@ -33,10 +33,9 @@ class KataIdGeneratorStubTest < AppServicesTestBase
 
   test '3E2',
   'stub() can set the stubbed kata id' do
-    first_id = '8D616B84BF'
-    second_id = 'C175EEA250'
-    id_generator.stub(first_id, second_id)
+    id_generator.stub( first_id = '8D616B84BF')
     assert_equal  first_id, id_generator.generate
+    id_generator.stub(second_id = 'C175EEA250')
     assert_equal second_id, id_generator.generate
   end
 
@@ -46,16 +45,6 @@ class KataIdGeneratorStubTest < AppServicesTestBase
   'stub() with an invalid kata_id raises' do
     error = assert_raises(ArgumentError) {
       id_generator.stub(invalid_kata_id)
-    }
-    assert_equal 'invalid kata_id', error.message
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - -
-
-  test '3E4',
-  'stub() with duplicate kata_id raises' do
-    error = assert_raises(ArgumentError) {
-      id_generator.stub(kata_id, kata_id)
     }
     assert_equal 'invalid kata_id', error.message
   end

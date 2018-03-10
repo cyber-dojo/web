@@ -19,19 +19,10 @@ class StorerFake
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def validate(kata_ids)
-    refute_duplicates(kata_ids)
+  def validate(kata_id)
     #TODO: assert_completable(kata_ids)
-    kata_ids.each do |kata_id|
-      assert_valid_id(kata_id)
-      refute_kata_exists(kata_id)
-    end
-  end
-
-  def refute_duplicates(kata_ids)
-    unless kata_ids.uniq.size == kata_ids.size
-      fail invalid('kata_id')
-    end
+    assert_valid_id(kata_id)
+    refute_kata_exists(kata_id)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
