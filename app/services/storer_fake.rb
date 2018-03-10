@@ -4,8 +4,8 @@ require 'json'
 
 class StorerFake
 
-  def initialize(externals)
-    @externals = externals
+  def initialize(external)
+    @external = external
     # This is @@disk and not @disk so that it behaves as
     # a real disk on tests that run across multiple threads
     # (as some app-controller tests do).
@@ -351,7 +351,7 @@ class StorerFake
   end
 
   def id_generator
-    @externals.id_generator
+    @external.id_generator
   end
 
 end
