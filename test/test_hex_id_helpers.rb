@@ -25,6 +25,9 @@ module TestHexIdHelpers # mix-in
     @@timings = {}
 
     def test(id, *words, &block)
+      src = block.source_location
+      src_file = src[0]
+      src_line = src[1].to_s
       id = hex_prefix + id
       # test id is used as kata.id in StorerFake
       id += '0' * (10 - id.size)
@@ -48,7 +51,7 @@ module TestHexIdHelpers # mix-in
           t1 = Time.now
           self.instance_eval &block
           t2 = Time.now
-          @@timings[id+':'+name] = (t2 - t1)
+          @@timings[id+':'+src_file+':'+src_line+':'+name] = (t2 - t1)
           hex_teardown
         }
         define_method("test_'#{id}',\n #{name}\n".to_sym, &block_with_test_id)
