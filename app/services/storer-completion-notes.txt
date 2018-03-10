@@ -24,13 +24,15 @@
 #
 #   Lots of dir structure are possible
 #     eg  .../12/34/56/78/90/manifest.json
+#   As long as you get 6 digits at a dir boundary.
+#
 #   I need to clone the storer disk and write a script that:
 #     o) converts to a given directory structure
 #     o) measures the speed of reading/writing
 #     o) converts back to the original structure
-#
-#   A directory structure such as 12/34/56/78/90
-#   would complicate the completions() method.
+#     Try at least
+#       - 12/3456/7890/
+#       - 12/34/56/7890
 #
 #   What read/writes does completion affect?
 #     o) kata setup to find the kata-id
@@ -58,6 +60,13 @@
 #
 #   That in turn would increase the combinations of 2-digits
 #   from 16^2 == 256 to 40^2 == 1600
+#
+#   A directory structure such as 12/34/56/78/90
+#   would complicate the completions() method.
+#   I dont think the completions() method is used by web
+#   only in the Katas.each() method.
+#   Does anything in turn use that?
+#   Chould it go into a separate dedicated Ruby script?
 #
 # end
 
