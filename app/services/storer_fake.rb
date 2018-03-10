@@ -64,12 +64,12 @@ class StorerFake
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def create_kata(manifest)
-    id = id_generator.generate
-    manifest['id'] = id
-    dir = kata_dir(id)
+    kata_id = id_generator.generate
+    manifest['id'] = kata_id
+    dir = kata_dir(kata_id)
     dir.make
     dir.write(manifest_filename, JSON.unparse(manifest))
-    id
+    kata_id
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
