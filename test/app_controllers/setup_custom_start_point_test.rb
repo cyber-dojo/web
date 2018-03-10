@@ -30,7 +30,7 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
     create_custom_kata(yahtzee_csharp_nunit)
     show 'id' => kata.id
     start_points = starter.custom_start_points
-    assert_equal yahtzee_csharp_nunit, start_points[custom_index] # FAILS!
+    assert_equal yahtzee_csharp_nunit, start_points[custom_index]
   end
 
   # - - - - - - - - - - - - - - - - - - -
