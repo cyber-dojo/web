@@ -2,10 +2,6 @@
 class IdRejoinController < ApplicationController
 
   def drop_down
-    # TODO: if there is no completion
-    # storer's kata.completed(id) could return ''
-    # then I would not need to call kata.exists?
-    # which does another round-trip to the storer
     @id = params['id'] = katas.completed(id.upcase)
     json = { exists: kata.exists? }
     if json[:exists]

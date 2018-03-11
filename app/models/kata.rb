@@ -29,17 +29,6 @@ class Kata
   # - - - - - - - - - - - - -
 
   def fork_manifest(visible_files)
-    #
-    # TODO: Plan
-    # add storer.tag_manifest(kata_id, avatar_name, tag)
-    # This will return a full manifest WITHOUT an 'id'
-    # This will then need to be updated() see below.
-    # fork_controller will then pass this updated manifest
-    # to storer.create_kata()
-    # Note: storer cannot implement a tag_fork() method
-    # because it does not have access to the starter service
-    # on the main cyber-dojo server (which runs off two nodes).
-    #
     forked = manifest.clone
     forked.delete('id')
     forked.delete('created')
