@@ -42,10 +42,9 @@ class IdRejoinControllerTest < AppControllerTestBase
   #- - - - - - - - - - - - - - - -
 
   test '40B',
-  'rejoin with no id raises' do
-    assert_raises {
-      get '/id_rejoin/drop_down', params:{}
-    }
+  'rejoin with no id results in json with exists=false' do
+    get '/id_rejoin/drop_down', params:{}
+    refute exists?
   end
 
   private

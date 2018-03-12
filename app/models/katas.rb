@@ -1,4 +1,5 @@
 require_relative '../../lib/time_now'
+require_relative 'base58'
 
 class Katas
   include Enumerable
@@ -10,9 +11,13 @@ class Katas
   # queries
 
   def each
-    (0..255).map{ |n| '%02X' % n }.each do |outer|
-      storer.completions(outer).each do |inner|
-        yield self[outer + inner]
+    # slow...
+    Base58.alphabet.chars.each do |c1|
+      Base58.alphabet.chars.each do |c2|
+        outer = c1 + c2
+        storer.completions(outer).each do |inner|
+          yield self[outer + inner]
+        end
       end
     end
   end

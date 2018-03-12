@@ -26,15 +26,19 @@ class StorerServiceTest < AppServicesTestBase
 
   test '301',
   'smoke test storer-service scenario' do
+    assert_equal [], storer.completions('34')
+
     manifest = starter.language_manifest('Ruby, MiniTest', 'Fizz_Buzz')
     manifest['created'] = creation_time
     kata_id = storer.create_kata(manifest)
     kata = katas[kata_id]
     assert storer.kata_exists?(kata.id)
-    assert all_katas_ids.include? kata.id
 
     assert_equal({}, storer.kata_increments(kata.id))
     assert_equal kata_id, storer.completed(kata.id[0..5])
+    outer = kata.id[0..1]
+    inner = kata.id[2..-1]
+    assert storer.completions(outer).include?(inner)
     assert_equal [], storer.started_avatars(kata.id)
 
     refute storer.avatar_exists?(kata.id, 'lion')

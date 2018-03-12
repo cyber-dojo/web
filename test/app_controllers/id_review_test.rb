@@ -27,10 +27,9 @@ class IdReviewControllerTest < AppControllerTestBase
   #- - - - - - - - - - - - - - - -
 
   test '40A',
-  'review with no id raises' do
-    assert_raises {
-      get '/id_review/drop_down', params:{}
-    }
+  'review with no id results in json with exists=false' do
+    get '/id_review/drop_down', params:{}
+    refute exists?
   end
 
   private

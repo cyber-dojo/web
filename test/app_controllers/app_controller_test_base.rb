@@ -62,7 +62,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     get '/setup_default_start_point/save_group', params:params
     assert_response :redirect
     #http://.../kata/group/BC8E8A6433
-    regex = /^(.*)\/kata\/group\/([0-9A-Z]*)$/
+    regex = /^(.*)\/kata\/group\/([0-9A-Za-z]*)$/
     assert m = regex.match(@response.redirect_url)
     @id = m[2]
     nil
@@ -75,7 +75,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     get '/setup_custom_start_point/save_group', params:params
     assert_response :redirect
     #http://.../kata/group/BC8E8A6433
-    regex = /^(.*)\/kata\/group\/([0-9A-Z]*)$/
+    regex = /^(.*)\/kata\/group\/([0-9A-Za-z]*)$/
     assert m = regex.match(@response.redirect_url)
     @id = m[2]
     nil

@@ -27,10 +27,9 @@ class IdJoinControllerTest < AppControllerTestBase
   #- - - - - - - - - - - - - - - -
 
   test 'F12',
-  'join with no id raises' do
-    assert_raises {
-      get '/id_join/drop_down', params:{}
-    }
+  'join with no id results in json with exists=false' do
+    get '/id_join/drop_down', params:{}
+    refute exists?
   end
 
   #- - - - - - - - - - - - - - - -
