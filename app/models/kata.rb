@@ -165,33 +165,23 @@ class Kata
     # Web, and not Storer, takes responsibility for updating
     # because for the main cyber-dojo server, Storer and
     # Starter are on different nodes.
-    if manifest['unit_test_framework']
-      # manifest change #1
-      # manifest became self-contained rather than
-      # having to retrieve information from start-point
-      old_name = manifest['language']
-      xlated = starter.old_manifest(old_name)
-      xlated['id'] = manifest['id']
-      xlated['created'] = manifest['created']
-      # this happened before custom start-points
-      xlated['exercise'] = manifest['exercise']
-      return xlated
-    end
-    if manifest['runner_choice'].nil?
-      # manifest change #2
-      # added runner_choice required parameter
-      old_name = commad(manifest['display_name']).join('-')
-      xlated = starter.old_manifest(old_name)
-      manifest['runner_choice'] = xlated['runner_choice']
-      return manifest
+    if change_1?(manifest) || change_2?(manifest)
+      manifest = starter.updated_manifest(manifest)
     end
     manifest
   end
 
-  # - - - - - - - - - - - - -
+  def change_1?(manifest)
+    # manifest dropped 'unit_test_framework' property
+    # and became self-contained, holding the 'image_name'
+    # property directly, rather than having to retrieve information
+    # from (and thus be coupled to) start-point.
+    manifest['unit_test_framework']
+  end
 
-  def commad(name)
-    name.split(',',2).map(&:strip)
+  def change_2?(manifest)
+    # added runner_choice as required parameter
+    manifest['runner_choice'].nil?
   end
 
   # - - - - - - - - - - - - -

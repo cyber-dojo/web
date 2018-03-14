@@ -22,13 +22,14 @@ class KataForkTest < AppModelsTestBase
     forked_expected_keys = %w(
       created
       display_name exercise image_name runner_choice visible_files
-      filename_extension
+      filename_extension tab_size
     )
     assert_equal forked_expected_keys.sort, manifest.keys.sort
 
     assert_display_name 'C (gcc), assert'
     assert_exercise 'Calc_Stats'
-    assert_filename_extension('.c')
+    assert_filename_extension '.c'
+    assert_tab_size 4
     assert_image_name 'cyberdojofoundation/gcc_assert'
     assert_runner_choice 'stateful'
     assert_visible_files({ 'cyber-dojo.sh' => 'cd' })

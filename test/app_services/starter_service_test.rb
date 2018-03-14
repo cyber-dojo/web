@@ -108,4 +108,16 @@ class StarterServiceTest < AppServicesTestBase
     assert_equal 'C (gcc), assert', manifest['display_name']
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '3AF',
+  'updated_manifest' do
+    manifest = starter.updated_manifest({
+      'unit_test_framework' => 'cassert',
+      'language' => 'C',
+    })
+    assert_equal 'C (gcc), assert', manifest['display_name']
+    assert_equal 'stateful', manifest['runner_choice'] # fake test data
+  end
+
 end
