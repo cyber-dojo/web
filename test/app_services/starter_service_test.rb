@@ -102,14 +102,6 @@ class StarterServiceTest < AppServicesTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '3AE',
-  'old_manifest' do
-    manifest = starter.old_manifest('C')
-    assert_equal 'C (gcc), assert', manifest['display_name']
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test '3AF',
   'updated_manifest' do
     manifest = starter.updated_manifest({

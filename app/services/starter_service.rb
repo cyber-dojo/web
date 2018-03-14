@@ -30,9 +30,7 @@ class StarterService
     http_get(__method__, display_name)
   end
 
-  def old_manifest(old_name)
-    http_get(__method__, old_name)
-  end
+  # - - - - - - - - - - - -
 
   def updated_manifest(manifest)
     http_get(__method__, manifest)
