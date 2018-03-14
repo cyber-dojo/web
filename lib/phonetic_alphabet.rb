@@ -1,7 +1,7 @@
 
 class Phonetic
 
-  def self.string(s)
+  def self.spelling(s)
     s.chars.map { |ch| letter(ch) }
   end
 

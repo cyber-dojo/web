@@ -1,3 +1,4 @@
+require_relative '../../lib/phonetic_alphabet'
 require_relative '../../lib/string_cleaner'
 require_relative '../../lib/time_now'
 
@@ -6,10 +7,12 @@ class KataController < ApplicationController
   def individual
     @kata_id = kata.id
     @avatar_name = avatar.name
+    @phonetic = Phonetic.spelling(kata.id[0..5])
   end
 
   def group
     @kata_id = kata.id
+    @phonetic = Phonetic.spelling(kata.id[0..5])
   end
 
   def edit

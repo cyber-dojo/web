@@ -11,7 +11,7 @@ class PhoneticAlphabetTest < LibTestBase
 
   test '3D2', 'spelling' do
     expected = %w( UNIFORM two mike PAPPA quebec )
-    assert_equal expected, Phonetic.string('U2mPq')
+    assert_equal expected, Phonetic.spelling('U2mPq')
   end
 
   # - - - - - - - - - - - - - -

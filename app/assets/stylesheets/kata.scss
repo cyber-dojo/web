@@ -109,7 +109,13 @@ input#new-filename, input#rename-filename, input#delete-filename
   margin: { top: 40px; }
 
   #title { font-size: 36px; }
-  #kata-id { font-size: 115px; }
+  #kata-id { font-size: 155px; }
+
+  #phonetic-kata-id {
+    font-size: 18px;
+    color: lighten($darker-color, 30%);
+    padding: { bottom: 10px; }
+  }
 
   .traffic-light
   {
