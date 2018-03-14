@@ -59,11 +59,13 @@ module TestHexIdHelpers # mix-in
     end
 
     ObjectSpace.define_finalizer(self, proc {
-      sorted = Hash[@@timings.sort_by{ |name,secs| -secs}]
-      puts 'Slowest 5 tests are...' if sorted.size != 0
+      slow = @@timings.select{ |_name,secs| secs > 0.000 }
+      sorted = Hash[slow.sort_by{ |name,secs| -secs}]
+      size = sorted.size < 5 ? sorted.size : 5
+      puts "Slowest #{size} tests are..." if size != 0
       sorted.each_with_index { |(name,secs),index|
-        puts "%3.2f - %-72s" % [secs,name]
-        break if index == 5
+        puts "%3.4f - %-72s" % [secs,name]
+        break if index == size
       }
     })
 
