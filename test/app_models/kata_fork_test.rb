@@ -20,14 +20,14 @@ class KataForkTest < AppModelsTestBase
     manifest = katas['421F303E80'].fork_manifest({ 'cyber-dojo.sh' => 'cd' })
     @forked = katas.create_kata(manifest)
     forked_expected_keys = %w(
-      created exercise visible_files tab_size
+      created exercise visible_files tab_size filename_extension
       display_name image_name runner_choice
     )
     assert_equal forked_expected_keys.sort, manifest.keys.sort
 
     assert_display_name 'C (gcc), assert'
     assert_exercise 'Calc_Stats'
-    #assert_filename_extension '.c'
+    assert_filename_extension '.c'
     assert_tab_size 4
     assert_image_name 'cyberdojofoundation/gcc_assert'
     assert_runner_choice 'stateless'
@@ -42,14 +42,14 @@ class KataForkTest < AppModelsTestBase
     manifest = katas['421AFD7EC5'].fork_manifest({ 'cyber-dojo.sh' => 'ls -al' })
     @forked = katas.create_kata(manifest)
     forked_expected_keys = %w(
-      created visible_files exercise tab_size
+      created visible_files exercise tab_size filename_extension
       display_name image_name runner_choice
     )
     assert_equal forked_expected_keys.sort, manifest.keys.sort
 
     assert_display_name 'Ruby, RSpec' # capital S
     assert_exercise 'Poker_Hands'
-    #assert_filename_extension '.rb'
+    assert_filename_extension '.rb'
     assert_image_name 'cyberdojofoundation/ruby_rspec'
     assert_runner_choice 'stateless'
     assert_tab_size 2 # explicit

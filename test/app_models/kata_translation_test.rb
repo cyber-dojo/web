@@ -67,7 +67,7 @@ class KataTranslationTest < AppModelsTestBase
     @kata_id = '421F303E80'
     manifest = storer.kata_manifest(@kata_id)
     expected_keys = %w(
-      created id exercise visible_files tab_size
+      created id exercise visible_files tab_size filename_extension
       display_name image_name runner_choice
     )
     assert_equal expected_keys.sort, manifest.keys.sort
@@ -76,7 +76,7 @@ class KataTranslationTest < AppModelsTestBase
     assert_created '2013-02-18 13:22:10 +0000'
     assert_display_name 'C (gcc), assert'
     assert_exercise 'Calc_Stats'
-    #assert_filename_extension('.c')
+    assert_filename_extension('.c')
     assert_image_name 'cyberdojofoundation/gcc_assert'
     assert_max_seconds 10
     assert_runner_choice 'stateless'
@@ -90,7 +90,7 @@ class KataTranslationTest < AppModelsTestBase
     @kata_id = '421AFD7EC5'
     manifest = storer.kata_manifest(@kata_id)
     expected_keys = %w(
-      created id exercise visible_files tab_size
+      created id exercise visible_files tab_size filename_extension
       display_name image_name runner_choice
     )
     assert_equal expected_keys.sort, manifest.keys.sort
@@ -98,7 +98,7 @@ class KataTranslationTest < AppModelsTestBase
     assert_id @kata_id
     assert_created '2014-11-20 09:55:58 +0000'
     assert_exercise 'Poker_Hands'
-    #assert_filename_extension '.rb'
+    assert_filename_extension '.rb'
     assert_max_seconds 10
     assert_tab_size 2
     assert_display_name 'Ruby, RSpec'
@@ -113,7 +113,7 @@ class KataTranslationTest < AppModelsTestBase
     @kata_id = '420BD5D5BE'
     manifest = storer.kata_manifest(@kata_id)
     expected_keys = %w(
-      id created exercise visible_files tab_size
+      id created exercise visible_files tab_size filename_extension
       display_name image_name runner_choice
     )
     assert_equal expected_keys.sort, manifest.keys.sort
@@ -121,7 +121,7 @@ class KataTranslationTest < AppModelsTestBase
     assert_id @kata_id
     assert_created '2016-08-01 22:54:33 +0000'
     assert_exercise 'Fizz_Buzz'
-    #assert_filename_extension('.py')
+    assert_filename_extension('.py')
     assert_max_seconds 10
     assert_tab_size 4
     assert_display_name 'Python, py.test'
