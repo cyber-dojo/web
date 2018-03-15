@@ -1,0 +1,40 @@
+
+# kata.update() can be refactored
+#
+# starter.old_manifest() can be retired in favour of
+# starter.updated(manifest) which returns an updated manifest.
+#
+# As an optimization, keep the two ifs. So kata.update becomes
+
+  def updated(manifest)
+    if manifest['unit_test_framework'] || manifest['runner_choice'].nil?
+      manifest = starter.updated(manifest)
+    end
+    manifest
+  end
+
+# refactored to
+
+  def updated(manifest)
+    if old?(manifest)
+      manifest = starter.updated(manifest)
+    end
+    manifest
+  end
+
+  def old?(manifest)
+    if !manifest['unit_test_framework'].nil?
+      # change #1: before manifest became self-contained it has
+      # to retrieve information from start-point  (bad coupling)
+      return true
+    end
+    if manifest['runner_choice'].nil?
+      # change #2: added runner_choice as required parameter
+      return true
+    end
+    return false
+  end
+
+
+# Either way, starter.updated() must check for _both_ conditions one after the other
+

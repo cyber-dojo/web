@@ -1,0 +1,4 @@
+
+Storer should be resposible for holding the clock.
+It marked creation time of a kata and also test time of
+a avatar_ran_avatar_test() calls.

@@ -10,6 +10,7 @@
 !/script
 !/sh
 !/test
+!/docs
 
 # and these files...
 
@@ -24,4 +25,3 @@
 !/pipe_build_up_test.sh
 !/up.sh
 !/LICENSE.md
-!/README.md
