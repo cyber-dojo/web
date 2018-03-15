@@ -20,18 +20,17 @@ class KataForkTest < AppModelsTestBase
     manifest = katas['421F303E80'].fork_manifest({ 'cyber-dojo.sh' => 'cd' })
     @forked = katas.create_kata(manifest)
     forked_expected_keys = %w(
-      created
-      display_name exercise image_name runner_choice visible_files
-      filename_extension tab_size
+      created exercise visible_files tab_size
+      display_name image_name runner_choice
     )
     assert_equal forked_expected_keys.sort, manifest.keys.sort
 
     assert_display_name 'C (gcc), assert'
     assert_exercise 'Calc_Stats'
-    assert_filename_extension '.c'
+    #assert_filename_extension '.c'
     assert_tab_size 4
     assert_image_name 'cyberdojofoundation/gcc_assert'
-    assert_runner_choice 'stateful'
+    assert_runner_choice 'stateless'
     assert_visible_files({ 'cyber-dojo.sh' => 'cd' })
   end
 
@@ -43,17 +42,16 @@ class KataForkTest < AppModelsTestBase
     manifest = katas['421AFD7EC5'].fork_manifest({ 'cyber-dojo.sh' => 'ls -al' })
     @forked = katas.create_kata(manifest)
     forked_expected_keys = %w(
-      created
-      display_name exercise image_name runner_choice visible_files
-      tab_size filename_extension
+      created visible_files exercise tab_size
+      display_name image_name runner_choice
     )
     assert_equal forked_expected_keys.sort, manifest.keys.sort
 
     assert_display_name 'Ruby, RSpec' # capital S
     assert_exercise 'Poker_Hands'
-    assert_filename_extension '.rb'
+    #assert_filename_extension '.rb'
     assert_image_name 'cyberdojofoundation/ruby_rspec'
-    assert_runner_choice 'stateful'
+    assert_runner_choice 'stateless'
     assert_tab_size 2 # explicit
     assert_visible_files({ 'cyber-dojo.sh' => 'ls -al' })
   end
@@ -66,13 +64,11 @@ class KataForkTest < AppModelsTestBase
     manifest = katas['5A0F824303'].fork_manifest({ 'cyber-dojo.sh' => 'addgroup' })
     @forked = katas.create_kata(manifest)
     forked_expected_keys = %w(
-      created
-      display_name exercise image_name runner_choice visible_files
-      filename_extension highlight_filenames lowlight_filenames progress_regexs tab_size
-      language red_amber_green
+      created exercise visible_files progress_regexs tab_size
+      filename_extension highlight_filenames lowlight_filenames
+      display_name image_name runner_choice
     )
     assert_equal forked_expected_keys.sort, manifest.keys.sort
-    assert_equal 'Python-behave', manifest['language']
 
     assert_display_name 'Python, behave'
     assert_exercise 'Reversi'
@@ -91,13 +87,12 @@ class KataForkTest < AppModelsTestBase
     @forked = katas.create_kata(manifest)
 
     forked_expected_keys = %w(
-      created
-      display_name exercise image_name runner_choice visible_files
-      filename_extension highlight_filenames lowlight_filenames progress_regexs tab_size
-      language
+      created exercise visible_files
+      highlight_filenames lowlight_filenames progress_regexs tab_size
+      display_name image_name runner_choice
+      filename_extension
     )
     assert_equal forked_expected_keys.sort, manifest.keys.sort
-    assert_equal 'Java-JUnit', manifest['language']
 
     assert_display_name 'Java, JUnit'
     assert_exercise '(Verbal)'

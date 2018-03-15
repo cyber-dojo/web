@@ -150,9 +150,13 @@ class Kata
     manifest[name_of(caller)]
   end
 
+  # - - - - - - - - - - - - -
+
   def manifest
-    @manifest ||= updated(storer.kata_manifest(id))
+    @manifest ||= storer.kata_manifest(id)
   end
+
+  # - - - - - - - - - - - - -
 
   def name_of(caller)
     # eg caller[0] == "kata.rb:1077:in `tab_size'"
@@ -161,39 +165,10 @@ class Kata
 
   # - - - - - - - - - - - - -
 
-  def updated(manifest)
-    # Web, and not Storer, takes responsibility for updating
-    # because for the main cyber-dojo server, Storer and
-    # Starter are on different nodes.
-    if change_1?(manifest) || change_2?(manifest)
-      manifest = starter.updated_manifest(manifest)
-    end
-    manifest
-  end
-
-  def change_1?(manifest)
-    # manifest dropped 'unit_test_framework' property
-    # and became self-contained, holding the 'image_name'
-    # property directly, rather than having to retrieve information
-    # from (and thus be coupled to) start-point.
-    manifest['unit_test_framework']
-  end
-
-  def change_2?(manifest)
-    # added runner_choice as required parameter
-    manifest['runner_choice'].nil?
-  end
-
-  # - - - - - - - - - - - - -
-
   attr_reader :externals
 
   def runner
     externals.runner
-  end
-
-  def starter
-    externals.starter
   end
 
   def storer
