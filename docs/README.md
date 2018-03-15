@@ -8,14 +8,14 @@
 
 The main web-server for [cyber-dojo.org](http://cyber-dojo.org).
 - Uses [nginx](https://github.com/cyber-dojo/nginx) for web-proxy, security, and to cache images.
-- Uses [starter](https://github.com/cyber-dojo/starter) to store language+exercise/custom start-points.
+- Uses [starter](https://github.com/cyber-dojo/starter) to help set up a practice session.
 - Uses [runner_stateless](https://github.com/cyber-dojo/runner_stateless) to run tests statelessly.
 - Uses [runner_stateful](https://github.com/cyber-dojo/runner_stateful) to run tests disk-statefully.
 - Uses [storer](https://github.com/cyber-dojo/storer) to save the code/tests associated with each test-run.
 - Uses [differ](https://github.com/cyber-dojo/differ) to diff the code/tests in successive tests-runs.
 - Uses [zipper](https://github.com/cyber-dojo/zipper) to create tgz kata/avatar downloads.
 - Uses [prometheus](https://github.com/cyber-dojo/prometheus) to store monitoring data.
-- Uses [grafana](https://github.com/cyber-dojo/prometheus) to display monitoring data.
+- Uses [grafana](https://github.com/cyber-dojo/grafana) to display monitoring data.
 
 - - - -
 
