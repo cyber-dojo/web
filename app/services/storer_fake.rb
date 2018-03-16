@@ -336,7 +336,15 @@ class StorerFake
 
   # - - - - - - - - - - - - - - - -
 
-  include IdSplitter
+  def outer(id)
+    id.upcase[0..1]  # '35'
+  end
+
+  def inner(id)
+    id.upcase[2..-1] # '6CDE70DB'
+  end
+
+  # - - - - - - - - - - - - - - - -
 
   def disk
     @@disk
