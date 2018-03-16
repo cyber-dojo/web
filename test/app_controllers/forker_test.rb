@@ -126,7 +126,6 @@ class ForkerControllerTest < AppControllerTestBase
     assert storer.kata_exists?(id), diagnostic
     fork(id, 'buffalo', 3)
     assert forked?
-    refute_nil json['image_name'], 'image_name'
   end
 
   #- - - - - - - - - - - - - - - - - -
