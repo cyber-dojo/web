@@ -165,42 +165,6 @@ class StorerFakeTest < AppServicesTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # completions(id)
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'FAA',
-  'each() yields empty array when there are no katas' do
-    assert_equal [], all_katas_ids
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - -
-
-  test 'FA1',
-  'each() yielding one kata-id' do
-    create_kata
-    assert_equal [kata_id], all_katas_ids
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - -
-
-  test 'FA2',
-  'each() yielding two unrelated kata-ids' do
-    stubbed_make_kata(kata_id_1 = 'C56C6C4202')
-    stubbed_make_kata(kata_id_2 = 'DEB3E1325D')
-    assert_equal [kata_id_1, kata_id_2].sort, all_katas_ids.sort
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - -
-
-  test 'FA3',
-  'each() yielding several kata-ids with common first two characters' do
-    stubbed_make_kata(kata_id_1 = '9D'+'329DFD34')
-    stubbed_make_kata(kata_id_2 = '9D'+'5E889E04')
-    stubbed_make_kata(kata_id_3 = '9D'+'F376ED91')
-    assert_equal [kata_id_1, kata_id_2, kata_id_3].sort, all_katas_ids.sort
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # completed(id)
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

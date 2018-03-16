@@ -38,13 +38,6 @@ class StorerFake
     id || ''
   end
 
-  def completions(outer_dir)
-    unless disk[dir_join(path, outer_dir)].exists?
-      return []
-    end
-    disk[dir_join(path, outer_dir)].each_dir.collect { |dir| dir }
-  end
-
   # - - - - - - - - - - - - - - - - - - - - - - - -
   # kata
   # - - - - - - - - - - - - - - - - - - - - - - - -

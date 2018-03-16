@@ -80,38 +80,6 @@ class KatasTest < AppModelsTestBase
     assert_equal kata_id, katas.completed(kata_id[0..5])
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # katas.each
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '2BA',
-  'each() yielding empty array when there are no katas' do
-    assert_equal [], all_katas_ids
-  end
-
-  test '86F',
-  'each() yielding one kata' do
-    kata = make_language_kata
-    assert_equal [kata.id], all_katas_ids
-  end
-
-  test '4F0',
-  'each() yielding two katas with unrelated ids' do
-    stub_make_kata(kata1_id = '33569DDC8D')
-    stub_make_kata(kata2_id = 'E497E491E2')
-    assert_equal [kata1_id, kata2_id].sort, all_katas_ids.sort
-  end
-
-  test 'A82',
-  'each() yielding several kata with common first two characters' do
-    id = 'ABCDE1234'
-    assert_equal 10-1, id.length
-    stub_make_kata(kata1_id = id + '1')
-    stub_make_kata(kata2_id = id + '2')
-    stub_make_kata(kata3_id = id + '3')
-    assert_equal [kata1_id, kata2_id, kata3_id].sort, all_katas_ids.sort
-  end
-
   private
 
   def stub_make_kata(kata_id)
