@@ -9,7 +9,7 @@ class DeltaMakerTest < AppLibTestBase
 
   def hex_setup
     kata = make_language_kata
-    avatar = kata.start_avatar(Avatars.names)
+    avatar = kata.avatar_start(Avatars.names)
     @maker = DeltaMaker.new(avatar)
     @existing_filename = 'cyber-dojo.sh'
     assert @maker.now.keys.include?(@existing_filename)

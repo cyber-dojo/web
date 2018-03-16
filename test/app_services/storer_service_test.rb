@@ -30,7 +30,7 @@ class StorerServiceTest < AppServicesTestBase
 
     manifest = starter.language_manifest('Ruby, MiniTest', 'Fizz_Buzz')
     manifest['created'] = creation_time
-    kata_id = storer.create_kata(manifest)
+    kata_id = storer.kata_create(manifest)
     kata = katas[kata_id]
     assert storer.kata_exists?(kata.id)
 
@@ -39,14 +39,14 @@ class StorerServiceTest < AppServicesTestBase
     outer = kata.id[0..1]
     inner = kata.id[2..-1]
     assert storer.completions(outer).include?(inner)
-    assert_equal [], storer.started_avatars(kata.id)
+    assert_equal [], storer.avatars_started(kata.id)
 
     refute storer.avatar_exists?(kata.id, 'lion')
-    assert_equal 'lion', storer.start_avatar(kata.id, ['lion'])
+    assert_equal 'lion', storer.avatar_start(kata.id, ['lion'])
     assert storer.avatar_exists?(kata.id, 'lion')
 
     assert_equal({ 'lion' => [tag0] }, storer.kata_increments(kata.id))
-    assert_equal ['lion'], storer.started_avatars(kata.id)
+    assert_equal ['lion'], storer.avatars_started(kata.id)
     files0 = storer.kata_manifest(kata.id)['visible_files']
     assert_equal files0, storer.tag_visible_files(kata.id, 'lion', tag=0)
     assert_equal [tag0], storer.avatar_increments(kata.id, 'lion')

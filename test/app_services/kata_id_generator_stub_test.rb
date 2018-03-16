@@ -53,7 +53,7 @@ class KataIdGeneratorStubTest < AppServicesTestBase
 
   test '3E5',
   'stub() with kata_id that already exists raises' do
-    kata_id = storer.create_kata(make_manifest)
+    kata_id = storer.kata_create(make_manifest)
     error = assert_raises(ArgumentError) {
       id_generator.stub(kata_id)
     }

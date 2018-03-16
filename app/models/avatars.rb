@@ -32,7 +32,7 @@ class Avatars
   attr_reader :kata
 
   def started
-    names = storer.started_avatars(kata.id)
+    names = storer.avatars_started(kata.id)
     Hash[names.map { |name|
       [name, self[name]]
     }]

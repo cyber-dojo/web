@@ -9,8 +9,8 @@ class Kata
 
   # - - - - - - - - - - - - -
 
-  def start_avatar(avatar_names = Avatars.names.shuffle)
-    name = storer.start_avatar(id, avatar_names)
+  def avatar_start(avatar_names = Avatars.names.shuffle)
+    name = storer.avatar_start(id, avatar_names)
     unless name.nil?
       begin
         runner.avatar_new(image_name, id, name, visible_files)

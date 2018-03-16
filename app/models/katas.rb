@@ -18,9 +18,9 @@ class Katas
 
   # modifier
 
-  def create_kata(manifest)
+  def kata_create(manifest)
     manifest['created'] ||= time_now
-    id = storer.create_kata(manifest)
+    id = storer.kata_create(manifest)
     runner.kata_new(manifest['image_name'], id)
     self[id]
   end

@@ -19,7 +19,7 @@ module TestDomainHelpers # mix-in
   # - - - - - - - - - - - - - - - -
 
   def as(name = :wolf, &block)
-    avatar = kata.start_avatar([name.to_s])
+    avatar = kata.avatar_start([name.to_s])
     begin
       block.call
     ensure
@@ -44,7 +44,7 @@ module TestDomainHelpers # mix-in
     exercise_name = options['exercise'] || default_exercise_name
     manifest = starter.language_manifest(display_name, exercise_name)
     manifest['created'] = (options['created'] || time_now)
-    katas.create_kata(manifest)
+    katas.kata_create(manifest)
   end
 
   def default_language_name

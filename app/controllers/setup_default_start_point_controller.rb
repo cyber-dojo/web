@@ -18,23 +18,23 @@ class SetupDefaultStartPointController < ApplicationController
   end
 
   def save_individual
-    kata = create_kata
-    avatar = kata.start_avatar
+    kata = kata_create
+    avatar = kata.avatar_start
     redirect_to "/kata/individual/#{kata.id}?avatar=#{avatar.name}"
   end
 
   def save_group
-    kata = create_kata
+    kata = kata_create
     redirect_to "/kata/group/#{kata.id}"
   end
 
   private
 
-  def create_kata
+  def kata_create
     language = params['language']
     exercise = params['exercise']
     manifest = starter.language_manifest(language, exercise)
-    katas.create_kata(manifest)
+    katas.kata_create(manifest)
   end
 
   def index_match(names, current_name)

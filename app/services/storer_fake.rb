@@ -54,7 +54,7 @@ class StorerFake
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def create_kata(manifest)
+  def kata_create(manifest)
     kata_id = id_generator.generate
     #assert valid_id?(kata_id)
     #refute kata_exists?(kata_id)
@@ -77,7 +77,7 @@ class StorerFake
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def kata_increments(kata_id)
-    Hash[started_avatars(kata_id).map { |name|
+    Hash[avatars_started(kata_id).map { |name|
       [name, avatar_increments(kata_id, name)]
     }]
   end
@@ -94,7 +94,7 @@ class StorerFake
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def start_avatar(kata_id, avatar_names)
+  def avatar_start(kata_id, avatar_names)
     assert_kata_exists(kata_id)
     # NB: Doing & with swapped args loses randomness!
     valid_names = avatar_names & all_avatars_names
@@ -108,7 +108,7 @@ class StorerFake
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def started_avatars(kata_id)
+  def avatars_started(kata_id)
     assert_kata_exists(kata_id)
     started = kata_dir(kata_id).each_dir.collect { |name| name }
     started & all_avatars_names
@@ -162,7 +162,7 @@ class StorerFake
     manifest = kata_manifest(kata_id)
     manifest['visible_files'] = visible_files
     manifest['created'] = now
-    forked_id = create_kata(manifest)
+    forked_id = kata_create(manifest)
     forked_id
   end
 

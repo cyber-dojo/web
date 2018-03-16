@@ -10,22 +10,22 @@ class SetupCustomStartPointController < ApplicationController
   end
 
   def save_individual
-    kata = create_kata
-    avatar = kata.start_avatar
+    kata = kata_create
+    avatar = kata.avatar_start
     redirect_to "/kata/individual/#{kata.id}?avatar=#{avatar.name}"
   end
 
   def save_group
-    kata = create_kata
+    kata = kata_create
     redirect_to "/kata/group/#{kata.id}"
   end
 
   private
 
-  def create_kata
+  def kata_create
     display_name = params['display_name']
     manifest = starter.custom_manifest(display_name)
-    katas.create_kata(manifest)
+    katas.kata_create(manifest)
   end
 
   def index_match(names, current_name)

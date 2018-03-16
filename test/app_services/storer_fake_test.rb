@@ -53,7 +53,7 @@ class StorerFakeTest < AppServicesTestBase
 
   test '0CD',
   'avatar_exists is false when avatar-name is invalid' do
-    create_kata
+    kata_create
     refute storer.avatar_exists?(kata_id, nil)
     refute storer.avatar_exists?(kata_id, [])
     refute storer.avatar_exists?(kata_id, '')
@@ -75,9 +75,9 @@ class StorerFakeTest < AppServicesTestBase
   # - - - - - - - - - - - - - - - - - - - - -
 
   test '937',
-  'started_avatars(id) with invalid id raises' do
+  'avatars_started(id) with invalid id raises' do
     error = assert_raises(ArgumentError) {
-      storer.started_avatars(invalid_kata_id)
+      storer.avatars_started(invalid_kata_id)
     }
     assert_equal 'invalid kata_id', error.message
   end
@@ -85,9 +85,9 @@ class StorerFakeTest < AppServicesTestBase
   # - - - - - - - - - - - - - - - - - - - - -
 
   test '938',
-  'start_avatar(id) with invalid id raises' do
+  'avatar_start(id) with invalid id raises' do
     error = assert_raises(ArgumentError) {
-      storer.start_avatar(invalid_kata_id, ['lion'])
+      storer.avatar_start(invalid_kata_id, ['lion'])
     }
     assert_equal 'invalid kata_id', error.message
   end
@@ -135,16 +135,16 @@ class StorerFakeTest < AppServicesTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # create_kata() kata_manifest(id)
+  # kata_create() kata_manifest(id)
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '3E8',
-  'after create_kata() kata exists',
+  'after kata_create() kata exists',
   'and manifest file holds kata properties',
   'but symbol-keys have become string-keys' do
     manifest = make_manifest
     refute storer.kata_exists?(kata_id)
-    storer.create_kata(manifest)
+    storer.kata_create(manifest)
     assert storer.kata_exists?(kata_id)
     expected = manifest
     actual = storer.kata_manifest(kata_id)
@@ -172,7 +172,7 @@ class StorerFakeTest < AppServicesTestBase
   'completed(id) does not complete when id is less than 6 chars in length',
   'because trying to complete from a short id will waste time going through',
   'lots of candidates with the likely outcome of no unique result' do
-    create_kata
+    kata_create
     too_short = kata_id[0..4]
     assert_equal 5, too_short.length
     assert_equal too_short, storer.completed(too_short)
@@ -182,7 +182,7 @@ class StorerFakeTest < AppServicesTestBase
 
   test '34B',
   'completed(id) completes when 6+ chars and 1 match' do
-    create_kata
+    kata_create
     (5..9).each do |hi|
       id = kata_id.downcase[0..hi]
       assert_equal hi+1, id.length
@@ -230,34 +230,34 @@ class StorerFakeTest < AppServicesTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # start_avatar(), started_avatars()
+  # avatar_start(), avatars_started()
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'C02',
   'unstarted avatar does not exist' do
-    create_kata
-    assert_equal [], storer.started_avatars(kata_id)
+    kata_create
+    assert_equal [], storer.avatars_started(kata_id)
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
 
   test 'F7B',
   'started avatars exist' do
-    create_kata
-    assert_equal 'lion', storer.start_avatar(kata_id, ['lion'])
-    assert_equal ['lion'], storer.started_avatars(kata_id)
-    assert_equal 'salmon', storer.start_avatar(kata_id, ['lion','salmon'])
-    assert_equal ['lion','salmon'].sort, storer.started_avatars(kata_id).sort
+    kata_create
+    assert_equal 'lion', storer.avatar_start(kata_id, ['lion'])
+    assert_equal ['lion'], storer.avatars_started(kata_id)
+    assert_equal 'salmon', storer.avatar_start(kata_id, ['lion','salmon'])
+    assert_equal ['lion','salmon'].sort, storer.avatars_started(kata_id).sort
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
 
   test 'B84',
   'each avatar can only start once' do
-    create_kata
+    kata_create
     Avatars.names.each do |name|
-      assert_equal name, storer.start_avatar(kata_id, [name])
-      assert_nil storer.start_avatar(kata_id, [name])
+      assert_equal name, storer.avatar_start(kata_id, [name])
+      assert_nil storer.avatar_start(kata_id, [name])
     end
   end
 
@@ -265,12 +265,12 @@ class StorerFakeTest < AppServicesTestBase
 
   test 'DE9',
   'when dojo is full, you cannot start another avatar' do
-    create_kata
+    kata_create
     Avatars.names.each do |name|
-      assert_equal name, storer.start_avatar(kata_id, [name])
+      assert_equal name, storer.avatar_start(kata_id, [name])
     end
-    assert_nil storer.start_avatar(kata_id, ['lion'])
-    assert_nil storer.start_avatar(kata_id, ['salmon'])
+    assert_nil storer.avatar_start(kata_id, ['lion'])
+    assert_nil storer.avatar_start(kata_id, ['salmon'])
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -279,7 +279,7 @@ class StorerFakeTest < AppServicesTestBase
 
   test '48D',
   'avatar_increments raises when avatar_name is mal-formed' do
-    create_kata
+    kata_create
     error = assert_raises(ArgumentError) {
       storer.avatar_increments(kata_id, 'xxxx')
     }
@@ -290,7 +290,7 @@ class StorerFakeTest < AppServicesTestBase
 
   test '48E',
   'avatar_increments raises when avatar_name has not started' do
-    create_kata
+    kata_create
     error = assert_raises(ArgumentError) {
       storer.avatar_increments(kata_id, 'lion')
     }
@@ -301,8 +301,8 @@ class StorerFakeTest < AppServicesTestBase
 
   test '48F',
   "tag_visible_files for tag 0 is kata's starting files" do
-    create_kata
-    storer.start_avatar(kata_id, ['lion'])
+    kata_create
+    storer.avatar_start(kata_id, ['lion'])
     files0 = storer.kata_manifest(kata_id)['visible_files']
     assert_equal files0, storer.tag_visible_files(kata_id, 'lion', tag=0)
   end
@@ -311,8 +311,8 @@ class StorerFakeTest < AppServicesTestBase
 
   test '490',
   'tag_visible_files raises when tag is mal-formed' do
-    create_kata
-    storer.start_avatar(kata_id, ['lion'])
+    kata_create
+    storer.avatar_start(kata_id, ['lion'])
     error = assert_raises(ArgumentError) {
       storer.tag_visible_files(kata_id, 'lion', nil)
     }
@@ -323,8 +323,8 @@ class StorerFakeTest < AppServicesTestBase
 
   test '491',
   'tag_visible_files raises when tag does not exist' do
-    create_kata
-    storer.start_avatar(kata_id, ['lion'])
+    kata_create
+    storer.avatar_start(kata_id, ['lion'])
     error = assert_raises(ArgumentError) {
       storer.tag_visible_files(kata_id, 'lion', 1)
     }
@@ -338,9 +338,9 @@ class StorerFakeTest < AppServicesTestBase
   'a new traffic-light',
   'and new latest visible_files(plus output)',
   'and visible_file for each tag can be retrieved' do
-    create_kata
+    kata_create
     assert_equal({}, storer.kata_increments(kata_id))
-    storer.start_avatar(kata_id, ['lion'])
+    storer.avatar_start(kata_id, ['lion'])
     assert_equal({ 'lion' => [tag0] }, storer.kata_increments(kata_id))
     assert_equal [tag0], storer.avatar_increments(kata_id, 'lion')
 
@@ -389,8 +389,8 @@ class StorerFakeTest < AppServicesTestBase
 
   test '04C',
   'tag_fork all arguments ok' do
-    create_kata
-    storer.start_avatar(kata_id, ['lion'])
+    kata_create
+    storer.avatar_start(kata_id, ['lion'])
     args = []
     args << kata_id
     args << 'lion'
@@ -416,8 +416,8 @@ class StorerFakeTest < AppServicesTestBase
 
   test '171',
   'tag_visible_files when tag is -1 is the last tag' do
-    create_kata
-    storer.start_avatar(kata_id, ['lion'])
+    kata_create
+    storer.avatar_start(kata_id, ['lion'])
     args = []
     args << kata_id
     args << 'lion'
@@ -446,7 +446,7 @@ class StorerFakeTest < AppServicesTestBase
 
   test '173',
   'tag_visible_files raises when avatar_name is invalid' do
-    create_kata
+    kata_create
     error = assert_raises(ArgumentError) {
       storer.tag_visible_files(kata_id, 'xxx', 20)
     }
@@ -457,7 +457,7 @@ class StorerFakeTest < AppServicesTestBase
 
   test '174',
   'tag_visible_files raises when avatar_name is valid but unstarted' do
-    create_kata
+    kata_create
     error = assert_raises(ArgumentError) {
       storer.tag_visible_files(kata_id, 'lion', 20)
     }
@@ -468,8 +468,8 @@ class StorerFakeTest < AppServicesTestBase
 
   test '175',
   'tag_visible_files raises when tag is invalid' do
-    create_kata
-    storer.start_avatar(kata_id, ['lion'])
+    kata_create
+    storer.avatar_start(kata_id, ['lion'])
     error = assert_raises(ArgumentError) {
       storer.tag_visible_files(kata_id, 'lion', 1)
     }
@@ -480,11 +480,11 @@ class StorerFakeTest < AppServicesTestBase
 
   def stubbed_make_kata(kata_id)
     id_generator.stub(kata_id)
-    create_kata
+    kata_create
   end
 
-  def create_kata
-    storer.create_kata(make_manifest)
+  def kata_create
+    storer.kata_create(make_manifest)
   end
 
   def make_manifest

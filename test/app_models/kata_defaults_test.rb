@@ -27,7 +27,7 @@ class KataDefaultsTest < AppModelsTestBase
     manifest['id'] = kata_id
     manifest['created'] = time_now
     manifest.delete('highlight_filenames')
-    storer.create_kata(manifest)
+    storer.kata_create(manifest)
     expected = %w( cyber-dojo.sh makefile Makefile unity.license.txt )
     assert_equal expected.sort, katas[kata_id].lowlight_filenames.sort
   end
@@ -41,7 +41,7 @@ class KataDefaultsTest < AppModelsTestBase
     manifest['id'] = kata_id
     manifest['created'] = time_now
     manifest['highlight_filenames'] = %w( hiker.rb test_hiker.rb )
-    storer.create_kata(manifest)
+    storer.kata_create(manifest)
     expected = %w( cyber-dojo.sh instructions output )
     assert_equal expected.sort, katas[kata_id].lowlight_filenames.sort
   end
@@ -71,7 +71,7 @@ class KataDefaultsTest < AppModelsTestBase
     manifest['id'] = kata_id
     manifest['created'] = time_now
     manifest.delete(name)
-    storer.create_kata(manifest)
+    storer.kata_create(manifest)
     assert_equal expected, katas[kata_id].public_send(name)
   end
 

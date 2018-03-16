@@ -10,7 +10,7 @@ class StorerService
 
   # - - - - - - - - - - - -
 
-  def create_kata(        manifest)
+  def kata_create(        manifest)
     http_post(__method__, manifest)
   end
 
@@ -42,11 +42,11 @@ class StorerService
     http_get(__method__, kata_id, avatar_name)
   end
 
-  def start_avatar(       kata_id, avatar_names)
+  def avatar_start(       kata_id, avatar_names)
     http_post(__method__, kata_id, avatar_names)
   end
 
-  def started_avatars(   kata_id)
+  def avatars_started(   kata_id)
     http_get(__method__, kata_id)
   end
 

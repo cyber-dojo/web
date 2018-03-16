@@ -5,7 +5,7 @@ class IdJoinController < ApplicationController
     @id = params['id'] = katas.completed(id)
     json = { exists: kata.exists? }
     if json[:exists]
-      avatar = kata.start_avatar
+      avatar = kata.avatar_start
       json[:full] = avatar.nil?
       if json[:full]
         json[:fullHtml] = full_html

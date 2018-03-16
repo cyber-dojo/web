@@ -241,11 +241,11 @@ class KataTest < AppModelsTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # start_avatar
+  # avatar_start
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '632', %w(
-  started_avatars is initially empty array ) do
+  avatars_started is initially empty array ) do
     in_kata {
       assert_equal [], kata.avatars.names
     }
@@ -254,16 +254,16 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'B48', %w(
-  start_avatar() with name that is not a known avatar is nil ) do
+  avatar_start() with name that is not a known avatar is nil ) do
     in_kata {
-      assert_nil kata.start_avatar(['sellotape'])
+      assert_nil kata.avatar_start(['sellotape'])
     }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'C43', %w(
-  start_avatar() with specific name succeeds when avatar has not yet started ) do
+  avatar_start() with specific name succeeds when avatar has not yet started ) do
     in_kata {
       as(:hippo) {
         hippo = kata.avatars['hippo']
@@ -277,10 +277,10 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '3FA', %w(
-  start_avatar() with specific name is nil when avatar has already started ) do
+  avatar_start() with specific name is nil when avatar has already started ) do
     in_kata {
       as(:hippo) {
-        assert_nil kata.start_avatar(['hippo'])
+        assert_nil kata.avatar_start(['hippo'])
       }
     }
   end
@@ -288,26 +288,26 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '6C8', %w(
-  start_avatar() with specific names tries them in order ) do
+  avatar_start() with specific names tries them in order ) do
     in_kata {
       names = %w(cheetah lion panda)
 
-      cheetah = kata.start_avatar(names)
+      cheetah = kata.avatar_start(names)
       refute_nil cheetah
       assert_equal 'cheetah', cheetah.name
       assert_equal ['cheetah'], kata.avatars.names
 
-      lion = kata.start_avatar(names)
+      lion = kata.avatar_start(names)
       refute_nil lion
       assert_equal 'lion', lion.name
       assert_equal ['cheetah','lion'], kata.avatars.names
 
-      panda = kata.start_avatar(names)
+      panda = kata.avatar_start(names)
       refute_nil panda
       assert_equal 'panda', panda.name
       assert_equal ['cheetah','lion','panda'], kata.avatars.names
 
-      assert_nil kata.start_avatar(names)
+      assert_nil kata.avatar_start(names)
       assert_equal names.sort, kata.avatars.names
     }
   end
@@ -315,27 +315,27 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '41A', %w(
-  start_avatar() succeeds once for each avatar-name then is full ) do
+  avatar_start() succeeds once for each avatar-name then is full ) do
     in_kata {
       created = []
       Avatars.names.length.times do
-        avatar = kata.start_avatar
+        avatar = kata.avatar_start
         refute_nil avatar
         created << avatar.name
       end
       assert_equal Avatars.names.sort, created.sort
-      assert_nil kata.start_avatar
+      assert_nil kata.avatar_start
     }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'A3D', %w(
-  start_avatar() starts avatars in random order ) do
+  avatar_start() starts avatars in random order ) do
     in_kata {
       created = []
       Avatars.names.length.times do
-        avatar = kata.start_avatar
+        avatar = kata.avatar_start
         refute_nil avatar
         created << avatar.name
       end
@@ -348,11 +348,11 @@ class KataTest < AppModelsTestBase
 
   test 'D61', %w(
   when collector has collected the runner containers/volumes
-  then start_avatar() seamlessly resurrects ) do
+  then avatar_start() seamlessly resurrects ) do
     set_runner_class('RunnerService')
     in_kata(:stateful) {}
     begin
-      avatar = kata.start_avatar
+      avatar = kata.avatar_start
       refute_nil avatar
       runner.avatar_old(kata.image_name, kata.id, avatar.name)
     ensure

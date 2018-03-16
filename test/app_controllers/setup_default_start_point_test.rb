@@ -57,7 +57,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     manifest = starter.language_manifest(ruby_minitest, fizz_buzz)
     manifest['display_name'] = 'XXXX'
     manifest['exercise'] = 'YYYY'
-    kata_id = storer.create_kata(manifest)
+    kata_id = storer.kata_create(manifest)
 
     show 'id' => kata_id
     assert valid_language_index?
