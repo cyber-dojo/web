@@ -71,7 +71,7 @@
 #   def hex_id
 #     # drops      0 1                               I           O
 #     charset = %w{    2 3 4 5 6 7 9 A B C D E F G H   J K L M N   P Q R S T U V W X Y Z }
-#     (0..5).map{ charset.to_a[SecureRandom.random_number(charset.size)] }.join
+#     6.times.map{ charset.to_a[SecureRandom.random_number(charset.size)] }.join
 #   end
 #   c = {}
 #   1000.times{r.each_char{|e| c[e]||=0; c[e] += 1 }}
@@ -88,9 +88,12 @@
 #   only in the Katas.each() method.
 #   Does anything in turn use that?
 #   Yes. It is used in tests to harvest all the kata ids.
+#   But I'm thinking of droping katas.each on web as it
+#   would be so slow. Surely it would be more sensible to
+#   provide the same functionality only on the storer.
 #
 #   When doing the upgrade I dont want to bring the server down.
-#   And also I don't want to force smaller collections of katas
+#   And also I don't want to force smaller server set of katas
 #   to have to upgrade. So storer will need to understand both the
 #   the old and the new formats.
 #
@@ -100,28 +103,16 @@
 #   I think that should just work.
 #   It will generate dirs like .../katas/8K/78EXVPJ9/manifest.json
 #   That will reduce the likelihood of clashes.
-#   Hmmm, but it will never generate zero or one.
-#   Maybe keep those in the charset?
-#   34**2 == 1156
-#   34**6 == 1,544,804,416
 #   And use a font other than Impact which highlights the differences more?
 #
 #   Then look at changing the dir structure to make it much quicker
 #   to tell if a kata-id is completable. Which will itself be less
 #   important because it will be less likely anyway.
 #
-#   Of course I could use lowercase letters too...
-#   0-9 a-z A-Z (-2-2)
-#   10+26+26-2-2 == 58 (base58)
-#   58**2 == 3,364
-#   58**6 == 38,068,692,544
-#   If I keep lowercase, I need to alter the text input JS to not
-#   convert to uppercase.
-#
 #   There are 4 problems
-#   1. extend the charset to make 6-digit clashes less likely
+#   1. extend the charset to make 6-digit clashes less likely. DONE
 #   2. implement completable?
-#         worth doing?
+#         worth doing? not once 3 is done...
 #   3. change directory structure
 #         and while there, reduce kata-id size to 6?
 #         if I do this I will need to allow 10 digit ids
@@ -140,9 +131,7 @@
 #   and use that to determine what the data-structure is.
 #   Or an env-var perhaps?
 #
-#   Dropping 0 and 1 is problematic because the StorerFake uses the
-#   test_hex_id many of which contain 0 or 1.
-#   Perhaps keep 01 but drop OI
+#   Re extended charater set... keep 01 but drop OI
 #   That would give a 58 character alphabetic. See above
 #
 #   def hex_id
@@ -154,6 +143,9 @@
 #     10.times.map{ charset.to_a[SecureRandom.random_number(charset.size)] }.join
 #   end
 #
+#   If I keep lowercase, I need to alter the text input JS to not
+#   convert to uppercase. DONE.
+
 #   Quick play generated 100,000 hex_ids above and I got 1 duplicate
 #   so I really do need to check for exists? / completability.
 #
