@@ -1,12 +1,11 @@
+require_relative '../../lib/time_now'
 
 class ForkerController < ApplicationController
 
   def fork
     begin
-      tag_visible_files = storer.tag_visible_files(id, avatar_name, tag)
-      manifest = kata.fork_manifest(tag_visible_files)
-      kata = katas.create_kata(manifest)
-      result = { forked:true, id:kata.id }
+      forked_id = storer.tag_fork(id, avatar_name, tag, time_now)
+      result = { forked:true, id:forked_id }
     rescue => caught
       result = fork_failed(caught)
     end
@@ -20,6 +19,8 @@ class ForkerController < ApplicationController
   end
 
   private # = = = = = = = = = = =
+
+  include TimeNow
 
   def fork_failed(caught)
     result = { forked: false }

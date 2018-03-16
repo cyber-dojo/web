@@ -66,6 +66,10 @@ class StorerService
 
   # - - - - - - - - - - - -
 
+  def tag_fork( kata_id, avatar_name, tag, now)
+    http_get(__method__, kata_id, avatar_name, tag, now)
+  end
+
   def tag_visible_files( kata_id, avatar_name, tag)
     http_get(__method__, kata_id, avatar_name, tag)
   end

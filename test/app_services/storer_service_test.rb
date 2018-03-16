@@ -72,6 +72,10 @@ class StorerServiceTest < AppServicesTestBase
     json = storer.tags_visible_files(kata.id, 'lion', was_tag=0, now_tag=1)
     assert_equal files0, json['was_tag']
     assert_equal files1, json['now_tag']
+
+    now2 = [2016,12,8,8,4,15]
+    forked_id = storer.tag_fork(kata.id, 'lion', -1, now2)
+    assert_equal files1, storer.kata_manifest(forked_id)['visible_files']
   end
 
 end

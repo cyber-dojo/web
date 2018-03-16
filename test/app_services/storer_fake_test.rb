@@ -384,6 +384,33 @@ class StorerFakeTest < AppServicesTestBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # tag_fork
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '04C',
+  'tag_fork all arguments ok' do
+    create_kata
+    storer.start_avatar(kata_id, ['lion'])
+    args = []
+    args << kata_id
+    args << 'lion'
+    files = kata.visible_files
+    files['forked.txt'] = 'hello world';
+    args << files
+    args << (now = [2017,12,28, 10,53,20])
+    args << (output = '1 runs, 1 assertions, 0 failures, 0 errors, 0 skips')
+    args << (colour = 'green')
+    storer.avatar_ran_tests(*args)
+    now2 = [2017,12,28, 10,54,45]
+
+    forked_id = 'C55885F816'
+    id_generator.stub(forked_id)
+    assert_equal forked_id, storer.tag_fork(kata_id, 'lion', -1, now2)
+    files['output'] = output
+    assert_equal files, storer.kata_manifest(forked_id)['visible_files']
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
   # tag_visible_files
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 

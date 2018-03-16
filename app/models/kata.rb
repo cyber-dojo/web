@@ -27,16 +27,6 @@ class Kata
   end
 
   # - - - - - - - - - - - - -
-
-  def fork_manifest(visible_files)
-    forked = manifest.clone
-    forked.delete('id')
-    forked.delete('created')
-    forked['visible_files'] = visible_files
-    forked
-  end
-
-  # - - - - - - - - - - - - -
   # queries
 
   def exists?

@@ -157,6 +157,15 @@ class StorerFake
   # tag
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
+  def tag_fork(kata_id, avatar_name, tag, now)
+    visible_files = tag_visible_files(kata_id, avatar_name, tag)
+    manifest = kata_manifest(kata_id)
+    manifest['visible_files'] = visible_files
+    manifest['created'] = now
+    forked_id = create_kata(manifest)
+    forked_id
+  end
+
   def tag_visible_files(kata_id, avatar_name, tag)
     assert_kata_exists(kata_id)
     assert_avatar_exists(kata_id, avatar_name)
