@@ -31,11 +31,11 @@ class StorerFake
           inner_dir.start_with?(inner(id))
         }
         if dirs.length == 1
-          id = outer(id) + dirs[0]
+          return outer(id) + dirs[0]
         end
       end
     end
-    id || ''
+    ''
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -

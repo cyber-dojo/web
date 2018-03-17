@@ -44,21 +44,21 @@ class KatasTest < AppModelsTestBase
   end
 
   test '6E2',
-  'completed(id) does not complete when id is less than 6 chars in length',
+  'completed(id) is empty-string when id is less than 6 chars in length',
   'because trying to complete from a short id will waste time going through',
   'lots of candidates (on disk) with the likely outcome of no unique result' do
     id = kata_id[0..4]
     assert_equal 5, id.length
-    assert_equal id, katas.completed(id)
+    assert_equal '', katas.completed(id)
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '03B',
-  'completed(id) unchanged when no matches' do
+  'completed(id) is empty-string when no matches' do
     id = kata_id
     (0..7).each { |size|
-      assert_equal id[0..size], katas.completed(id[0..size])
+      assert_equal '', katas.completed(id[0..size])
     }
   end
 
@@ -69,7 +69,7 @@ class KatasTest < AppModelsTestBase
     prefix = 'ABCDE1234'
     stub_make_kata(prefix + '5')
     stub_make_kata(prefix + '6')
-    assert_equal prefix, katas.completed(prefix)
+    assert_equal '', katas.completed(prefix)
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

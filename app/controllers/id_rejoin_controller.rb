@@ -3,7 +3,7 @@ class IdRejoinController < ApplicationController
 
   def drop_down
     @id = params['id'] = katas.completed(id)
-    json = { exists: kata.exists? }
+    json = { exists: @id != '' }
     if json[:exists]
       json[:empty] = kata.avatars.started.count == 0
       json[:avatarPickerHtml] = avatar_picker_html

@@ -169,13 +169,13 @@ class StorerFakeTest < AppServicesTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'EA2',
-  'completed(id) does not complete when id is less than 6 chars in length',
+  'completed(id) is empty-string when id is less than 6 chars in length',
   'because trying to complete from a short id will waste time going through',
   'lots of candidates with the likely outcome of no unique result' do
     kata_create
     too_short = kata_id[0..4]
     assert_equal 5, too_short.length
-    assert_equal too_short, storer.completed(too_short)
+    assert_equal '', storer.completed(too_short)
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
@@ -195,13 +195,13 @@ class StorerFakeTest < AppServicesTestBase
   # - - - - - - - - - - - - - - - - - - - - -
 
   test '1A6',
-  'completed(id) unchanged when no matches' do
+  'completed(id) is empty-string when no matches' do
     (0..9).each do |hi|
       id = kata_id.downcase[0..hi]
       assert_equal hi+1, id.length
       assert id.length >= 1
       assert id.length <= 10
-      assert_equal id, storer.completed(id)
+      assert_equal '', storer.completed(id)
     end
   end
 
@@ -222,11 +222,11 @@ class StorerFakeTest < AppServicesTestBase
   # - - - - - - - - - - - - - - - - - - - - -
 
   test 'B4F',
-  'completed(id) does not complete when 6+ chars and more than one match' do
+  'completed(id) is empty-string when 6+ chars and more than one match' do
     id = '9D323B'
     stubbed_make_kata( first_id = id + '4F23')
     stubbed_make_kata(second_id = id + '9ED2')
-    assert_equal id, storer.completed(id)
+    assert_equal '', storer.completed(id)
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
