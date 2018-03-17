@@ -8,10 +8,6 @@ class Katas
 
   # queries
 
-  def completed(id)
-    storer.completed(id)
-  end
-
   def [](id)
     Kata.new(@externals, id)
   end
