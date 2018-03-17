@@ -10,9 +10,9 @@ readonly STATUS=$?
 # copy coverage stats out of container
 mkdir -p "${ROOT_DIR}/coverage"
 
-readonly SRC=${WEB_CID}:/tmp/cyber-dojo/coverage/.
+readonly SRC=${WEB_CID}:/tmp/cyber-dojo/coverage
 readonly DST=${ROOT_DIR}/coverage/
 
-docker cp "${SRC}" "${DST}"
+docker cp "${SRC}/." "${DST}"
 
 exit ${STATUS}
