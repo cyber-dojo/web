@@ -6,7 +6,7 @@ if [ ! -f /.dockerenv ]; then
   exit 1
 fi
 
-# Mocks save to Dir.tmpdir
+# Fakes/Mocks save to Dir.tmpdir
 rm -rf /tmp/cyber-dojo
 
 modules=(
