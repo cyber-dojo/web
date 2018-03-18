@@ -117,7 +117,7 @@ class StorerFakeTest < AppServicesTestBase
   test '93B',
   'avatar_ran_tests(kata_id) with invalid kata_id raises' do
     args = [ invalid_kata_id, 'lion', any_starting_files={'cyber-dojo.sh'=>'pwd'} ]
-    args += [ time_now, 'output', 'red' ]
+    args += [ time_now, 'stdout', 'stderr', 'red' ]
     error = assert_raises(ArgumentError) {
       storer.avatar_ran_tests(*args)
     }
@@ -349,12 +349,13 @@ class StorerFakeTest < AppServicesTestBase
     args << 'lion'
     args << (files1 = kata.visible_files)
     args << (now1 = [2016,12,8, 8,3,23])
-    args << (output = "Expected: 42Actual: 54")
+    args << (stdout = "Expected: 42\nActual: 54")
+    args << (stderr = 'assertion failed')
     args << (colour1 = 'red')
     storer.avatar_ran_tests(*args)
 
     tag1 = { 'colour' => colour1, 'time' => now1, 'number' => 1 }
-    files1['output'] = output
+    files1['output'] = stdout + stderr
     assert_equal [tag0,tag1], storer.avatar_increments(kata_id, 'lion')
     assert_equal({ 'lion' => [tag0,tag1] }, storer.kata_increments(kata_id))
     assert_equal files1, storer.avatar_visible_files(kata_id, 'lion')
@@ -367,14 +368,15 @@ class StorerFakeTest < AppServicesTestBase
     files2['hiker.rb'] = '...6*7...';
     args << files2
     args << (now2 = [2016,12,8, 9,54,20])
-    args << (output = '1 runs, 1 assertions, 0 failures, 0 errors, 0 skips')
+    args << (stdout = '1 runs, 1 assertions, 0 failures, 0 errors, 0 skips')
+    args << (stderr = '')
     args << (colour2 = 'green')
     storer.avatar_ran_tests(*args)
 
     tag2 = { 'colour' => colour2, 'time' => now2, 'number' => 2 }
     assert_equal [tag0,tag1,tag2], storer.avatar_increments(kata_id, 'lion')
     assert_equal({ 'lion' => [tag0,tag1,tag2] }, storer.kata_increments(kata_id))
-    files2['output'] = output
+    files2['output'] = stdout + stderr
     assert_equal files2, storer.avatar_visible_files(kata_id, 'lion')
     assert_equal files1, storer.tag_visible_files(kata_id, 'lion', 1)
     assert_equal files2, storer.tag_visible_files(kata_id, 'lion', 2)
@@ -398,7 +400,8 @@ class StorerFakeTest < AppServicesTestBase
     files['forked.txt'] = 'hello world';
     args << files
     args << (now = [2017,12,28, 10,53,20])
-    args << (output = '1 runs, 1 assertions, 0 failures, 0 errors, 0 skips')
+    args << (stdout = '1 runs, 1 assertions, 0 failures, 0 errors, 0 skips')
+    args << (stderr = '')
     args << (colour = 'green')
     storer.avatar_ran_tests(*args)
     now2 = [2017,12,28, 10,54,45]
@@ -406,7 +409,7 @@ class StorerFakeTest < AppServicesTestBase
     forked_id = 'C55885F816'
     id_generator.stub(forked_id)
     assert_equal forked_id, storer.tag_fork(kata_id, 'lion', -1, now2)
-    files['output'] = output
+    files['output'] = stdout + stderr
     assert_equal files, storer.kata_manifest(forked_id)['visible_files']
   end
 
@@ -425,10 +428,11 @@ class StorerFakeTest < AppServicesTestBase
     files['hiker.rb'] = '6*7';
     args << files
     args << (now = [2017,12,28, 10,53,20])
-    args << (output = '1 runs, 1 assertions, 0 failures, 0 errors, 0 skips')
+    args << (stdout = '1 runs, 1 assertions, 0 failures, 0 errors, 0 skips')
+    args << (stderr = '')
     args << (colour = 'green')
     storer.avatar_ran_tests(*args)
-    files['output'] = output
+    files['output'] = stdout + stderr
     assert_equal files, storer.tag_visible_files(kata_id, 'lion', -1)
   end
 

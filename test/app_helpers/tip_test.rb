@@ -14,16 +14,18 @@ class TipTest < AppHelpersTestBase
       as(:wolf) {
         files = kata.visible_files
         now = [2016,12,22, 5,55,11]
-        output = "Expected: 42\nActual: 54"
+        stdout = "Expected: 42\nActual: 54"
+        stderr = 'assert failed'
         was_colour = :red
-        wolf.tested(files, now, output, was_colour) # 1
+        wolf.tested(files, now, stdout, stderr, was_colour) # 1
 
         filename = 'hiker.rb'
         hiker_rb = kata.visible_files[filename]
         files[filename] = hiker_rb.sub('9','7')
-        output = 'All tests passed'
+        stdout = 'All tests passed'
+        stderr = ''
         now_colour = :green
-        wolf.tested(files, time_now, output, now_colour) # 2
+        wolf.tested(files, time_now, stdout, stderr, now_colour) # 2
 
         # uses real differ-service
         diff = differ.diff(kata.id, 'wolf', was_tag=1, now_tag=2)

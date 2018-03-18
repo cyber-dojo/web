@@ -52,8 +52,8 @@ class StorerService
 
   # - - - - - - - - - - - -
 
-  def avatar_ran_tests(   kata_id, avatar_name, files, now, output, colour)
-    http_post(__method__, kata_id, avatar_name, files, now, output, colour)
+  def avatar_ran_tests(   kata_id, avatar_name, files, now, stdout, stderr, colour)
+    http_post(__method__, kata_id, avatar_name, files, now, stdout, stderr, colour)
   end
 
   def avatar_increments( kata_id, avatar_name)

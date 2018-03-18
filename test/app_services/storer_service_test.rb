@@ -58,7 +58,8 @@ class StorerServiceTest < AppServicesTestBase
     args << 'lion'
     args << files1
     args << (now = [2016,12,8, 8,3,23])
-    args << (output = "Expected: 42\nActual: 54")
+    args << (stdout = "Expected: 42\nActual: 54")
+    args << (stderr = '')
     args << (colour = 'red')
     storer.avatar_ran_tests(*args)
 
@@ -66,7 +67,7 @@ class StorerServiceTest < AppServicesTestBase
     assert_equal({ 'lion' => [tag0,tag1] }, storer.kata_increments(kata.id))
     assert_equal [tag0,tag1], storer.avatar_increments(kata.id, 'lion')
 
-    files1['output'] = output
+    files1['output'] = stdout + stderr
     assert_equal files1, storer.avatar_visible_files(kata.id, 'lion')
 
     json = storer.tags_visible_files(kata.id, 'lion', was_tag=0, now_tag=1)

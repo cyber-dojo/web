@@ -66,9 +66,7 @@ class KataController < ApplicationController
     end
 
     if @colour == 'timed_out'
-      @output = timed_out_message(max_seconds)
-    else
-      @output = stdout + stderr
+      stdout = timed_out_message(max_seconds) + stdout
     end
 
     # storer.avatar_ran_tests
@@ -79,7 +77,9 @@ class KataController < ApplicationController
     # However, it is currently how the id is validated.
     # Also, I have tried to make it fire-and-forget using the
     # spawnling gem and it breaks a test in a non-obvious way.
-    storer.avatar_ran_tests(id, avatar_name, files, time_now, @output, @colour)
+    storer.avatar_ran_tests(id, avatar_name, files, time_now, stdout, stderr, @colour)
+
+    @output = stdout + stderr
 
     respond_to do |format|
       format.js   { render layout: false }
@@ -134,7 +134,7 @@ class KataController < ApplicationController
       'Is there an accidental infinite loop?',
       'Is the server very busy?',
       'Please try again.'
-    ].join("\n")
+    ].join("\n") + "\n"
   end
 
 end

@@ -17,7 +17,8 @@ class DifferServiceTest < AppServicesTestBase
         args << wolf.name
         args << wolf.visible_files
         args << (now = [2016,12,8, 8,3,23])
-        args << (output = "Expected: 42\nActual: 54")
+        args << (stdout = "Expected: 42\nActual: 54")
+        args << (stderr = 'assertion failed')
         args << (colour = 'red')
         storer.avatar_ran_tests(*args)
 

@@ -21,8 +21,8 @@ class Avatar
     runner.run(*args)
   end
 
-  def tested(files, at, output, colour)
-    storer.avatar_ran_tests(kata.id, name, files, at, output, colour)
+  def tested(files, at, stdout, stderr, colour)
+    storer.avatar_ran_tests(kata.id, name, files, at, stdout, stderr, colour)
   end
 
   # queries

@@ -105,7 +105,7 @@ class KataControllerTest  < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   class StorerDummy
-    def avatar_ran_tests(_kata_id, _avatar_name, _files, _now, _output, _colour)
+    def avatar_ran_tests(_kata_id, _avatar_name, _files, _now, _stdout, _stderr, _colour)
     end
   end
 

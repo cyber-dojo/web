@@ -35,9 +35,8 @@ class DeltaMaker
     visible_files = now
     delta = make_delta(@was, @now)
     stdout,stderr,status,colour = @avatar.test(delta, visible_files, max_seconds=10)
-    output = stdout + stderr
-    @avatar.tested(visible_files, at, output, colour)
-    [delta, visible_files, output]
+    @avatar.tested(visible_files, at, stdout, stderr, colour)
+    [delta, visible_files, stdout+stderr]
   end
 
   def test_args
