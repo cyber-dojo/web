@@ -23,7 +23,7 @@ class Kata
         runner.avatar_new(image_name, id, name, visible_files)
       end
     end
-    name.nil? ? nil : Avatar.new(@externals, self, name)
+    name.nil? ? nil : Avatar.new(externals, self, name)
   end
 
   # - - - - - - - - - - - - -
@@ -34,7 +34,7 @@ class Kata
   end
 
   def avatars
-    Avatars.new(@externals, self)
+    Avatars.new(externals, self)
   end
 
   def active?
@@ -116,8 +116,8 @@ class Kata
     last_times = []
     # using storer.kata_increments() as BatchMethod
     storer.kata_increments(id).each do |name,increments|
-      avatar = Avatar.new(@externals, self, name)
-      tags = increments.map { |h| Tag.new(@externals, avatar, h) }
+      avatar = Avatar.new(externals, self, name)
+      tags = increments.map { |h| Tag.new(externals, avatar, h) }
       lights = tags.select(&:light?)
       if lights != []
         first_times << lights[0].time
