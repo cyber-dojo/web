@@ -106,6 +106,7 @@ $(function() {
     var okInitiallyDisabled = !isValidFilename(initialFilename);
     var okClicked = function(filename) {
       cd.newFileContent(filename, '');
+      cd.loadFile(filename); // hack to get focus
     };
     openDialog('new', initialFilename, okInitiallyDisabled, okClicked);
   });
