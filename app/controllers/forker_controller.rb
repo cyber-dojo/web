@@ -1,3 +1,4 @@
+require_relative '../../lib/phonetic_alphabet'
 require_relative '../../lib/time_now'
 
 class ForkerController < ApplicationController
@@ -5,7 +6,11 @@ class ForkerController < ApplicationController
   def fork
     begin
       forked_id = storer.tag_fork(id, avatar_name, tag, time_now)
-      result = { forked:true, id:forked_id }
+      result = {
+        forked: true,
+        id: forked_id,
+        phonetic: Phonetic.spelling(forked_id[0..5]).join('-')
+      }
     rescue => caught
       result = fork_failed(caught)
     end

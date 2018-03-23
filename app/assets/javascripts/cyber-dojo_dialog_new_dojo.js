@@ -5,6 +5,7 @@ var cyberDojo = (function(cd, $) {
 
   cd.newDojoDialog = function(params) {
     const id = params['id'];
+    const phonetic = params['phonetic']
     const html = '' +
       "<div id='title'>" +
         'forked session ID is' +
@@ -12,6 +13,11 @@ var cyberDojo = (function(cd, $) {
       '<div>' +
         "<span id='dojo-id'>" +
           id.substring(0,6) +
+        '</span>' +
+      '</div>' +
+      '<div>' +
+        "<span id='phonetic-dojo-id'>" +
+          phonetic +
         '</span>' +
       '</div>';
 
@@ -21,7 +27,7 @@ var cyberDojo = (function(cd, $) {
         title: '',
         autoOpen: true,
         modal: true,
-        width: 425,
+        width: 600,
         closeOnEscape: true,
         buttons: {
           'close': function() {

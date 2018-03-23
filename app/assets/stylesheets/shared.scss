@@ -132,6 +132,11 @@ a:link, a:visited { color: $text-color; }
     @include non-code-font();
     @include font-size-largest();
   }
+  #phonetic-dojo-id {
+    font-size: 18px;
+    color: lighten($darker-color, 30%);
+    padding: { bottom: 10px; }
+  }
 }
 
 //----------------------------------------------
