@@ -3,25 +3,25 @@
 
 $(function() {
 
-  var openDialog = function(name, initialFilename, okInitiallyDisabled, okClicked) {
-    var input = makeInput(name, initialFilename);
-    var ok = {
+  const openDialog = function(name, initialFilename, okInitiallyDisabled, okClicked) {
+    const input = makeInput(name, initialFilename);
+    const ok = {
       text: 'ok',
       id: 'file-ok',
       disabled: okInitiallyDisabled,
       click: function() {
-        var newFilename = $.trim(input.val());
+        const newFilename = $.trim(input.val());
         okClicked(newFilename);
         $(this).remove();
       }
     };
-    var cancel = {
+    const cancel = {
       text: 'cancel',
       click: function() { $(this).remove(); }
     };
-    var div = $('<div>');
+    const div = $('<div>');
     div.append(input);
-    var fileOperationDialog = div.dialog({
+    const fileOperationDialog = div.dialog({
       closeOnEscape: true,
       close: function() { $(this).remove(); },
   	  title: cd.dialogTitle(name + '&nbsp;file'),
@@ -31,8 +31,8 @@ $(function() {
       buttons: [ ok, cancel ]
     });
   	input.keyup(function(event) {
-      var ok = $('#file-ok');
-      var newFilename = $.trim(input.val());
+      const ok = $('#file-ok');
+      const newFilename = $.trim(input.val());
       event.preventDefault();
       if (isValidFilename(newFilename))  {
         ok.button('enable');
@@ -44,18 +44,16 @@ $(function() {
         ok.button('disable');
       }
     });
-    var end = initialFilename.lastIndexOf('.');
-    if (end == -1) {
-      end = initialFilename.length;
-    }
+    const lastDot = initialFilename.lastIndexOf('.');
+    const end = (lastDot != -1) ? lastDot : initialFilename.length;
     input[0].setSelectionRange(0, end);
     fileOperationDialog.dialog('open');
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  var makeInput = function(name, filename) {
-    var input = $('<input>', {
+  const makeInput = function(name, filename) {
+    const input = $('<input>', {
       type: 'text',
       id: name+'-filename',
       'name': name+'-filename',
@@ -69,13 +67,13 @@ $(function() {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  var renameFileFromTo = function(oldFilename, newFilename) {
+  const renameFileFromTo = function(oldFilename, newFilename) {
     cd.saveCodeFromIndividualSyntaxHighlightEditor(oldFilename);
-    var oldFile = cd.fileContentFor(oldFilename);
-    var content = oldFile.val();
-    var scrollTop = oldFile.scrollTop();
-    var scrollLeft = oldFile.scrollLeft();
-    var caretPos = oldFile.caret();
+    const oldFile = cd.fileContentFor(oldFilename);
+    const content = oldFile.val();
+    const scrollTop = oldFile.scrollTop();
+    const scrollLeft = oldFile.scrollLeft();
+    const caretPos = oldFile.caret();
 
     cd.fileDiv(oldFilename).remove();
 
@@ -86,8 +84,8 @@ $(function() {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  var isValidFilename = function(filename) {
-    var contains = function(illegal) { return filename.indexOf(illegal) != -1; };
+  const isValidFilename = function(filename) {
+    const contains = function(illegal) { return filename.indexOf(illegal) != -1; };
     if (cd.filenameAlreadyExists(filename)) { return false; }
     if (contains('..')) { return false; }
     if (contains('\\')) { return false; }
@@ -96,34 +94,34 @@ $(function() {
     return true;
   };
 
-  var fileButtons =  $('#file-operations');
-  var newFile = fileButtons.find('#new');
-  var renameFile = fileButtons.find('#rename');
-  var deleteFile = fileButtons.find('#delete');
+  const fileButtons =  $('#file-operations');
+  const newFile = fileButtons.find('#new');
+  const renameFile = fileButtons.find('#rename');
+  const deleteFile = fileButtons.find('#delete');
 
   newFile.click(function() {
-    var initialFilename = 'filename' + cd.extensionFilename();
-    var okInitiallyDisabled = !isValidFilename(initialFilename);
-    var okClicked = function(filename) {
+    const initialFilename = 'filename' + cd.extensionFilename();
+    const okInitiallyDisabled = !isValidFilename(initialFilename);
+    const okClicked = function(filename) {
       cd.newFileContent(filename, '');
-      cd.loadFile(filename); // hack to get focus
+      cd.loadFile(filename); // to get focus
     };
     openDialog('new', initialFilename, okInitiallyDisabled, okClicked);
   });
 
   renameFile.click(function() {
-    var initialFilename = cd.currentFilename();
-    var okInitiallyDisabled = true;
-    var okClicked = function(filename) {
+    const initialFilename = cd.currentFilename();
+    const okInitiallyDisabled = true;
+    const okClicked = function(filename) {
       renameFileFromTo(initialFilename, filename);
     };
     openDialog('rename', initialFilename, okInitiallyDisabled, okClicked);
   });
 
   deleteFile.click(function() {
-    var initialFilename = cd.currentFilename();
-    var okInitiallyDisabled = false;
-    var okClicked = function(filename) {
+    const initialFilename = cd.currentFilename();
+    const okInitiallyDisabled = false;
+    const okClicked = function(filename) {
       cd.deleteFile(filename);
     };
     openDialog('delete', initialFilename, okInitiallyDisabled, okClicked);
