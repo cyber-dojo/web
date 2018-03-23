@@ -3,7 +3,7 @@
 
 $(function() {
 
-  var openDialog = function(name, initialFilename, okInitiallyDisabled, okClicked, avatar) {
+  var openDialog = function(name, initialFilename, okInitiallyDisabled, okClicked) {
     var input = makeInput(name, initialFilename);
     var ok = {
       text: 'ok',
@@ -96,7 +96,6 @@ $(function() {
     return true;
   };
 
-  var avatarName = "<%= @avatar.name %>";
   var fileButtons =  $('#file-operations');
   var newFile = fileButtons.find('#new');
   var renameFile = fileButtons.find('#rename');
@@ -108,7 +107,7 @@ $(function() {
     var okClicked = function(filename) {
       cd.newFileContent(filename, '');
     };
-    openDialog('new', initialFilename, okInitiallyDisabled, okClicked, avatarName);
+    openDialog('new', initialFilename, okInitiallyDisabled, okClicked);
   });
 
   renameFile.click(function() {
@@ -117,7 +116,7 @@ $(function() {
     var okClicked = function(filename) {
       renameFileFromTo(initialFilename, filename);
     };
-    openDialog('rename', initialFilename, okInitiallyDisabled, okClicked, avatarName);
+    openDialog('rename', initialFilename, okInitiallyDisabled, okClicked);
   });
 
   deleteFile.click(function() {
@@ -126,7 +125,7 @@ $(function() {
     var okClicked = function(filename) {
       cd.deleteFile(filename);
     };
-    openDialog('delete', initialFilename, okInitiallyDisabled, okClicked, avatarName);
+    openDialog('delete', initialFilename, okInitiallyDisabled, okClicked);
   });
 
 });
