@@ -41,8 +41,14 @@
   #filename-list
   {
     margin: { right: 5px; }
+
     div[class~='filename'][class~='highlight'] { &:before { content: ">"; } }
-    div[class~='filename'][id='radio_output'] { margin-top: 20px; }
+
+    div[class~='filename'][id='radio_output']
+    {
+      margin: { top: 15px; bottom: 15px; }
+      font-style: italic;
+    }
 
     // up/down hidden scrollbar
          width: 250px;

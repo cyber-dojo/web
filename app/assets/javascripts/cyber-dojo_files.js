@@ -37,16 +37,51 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  cd.sourceFiles = function() {
+    var names = [];
+    $.each(cd.filenames(), function(_, filename) {
+      if (cd.isSourceFile(filename)) {
+        names.push(filename)
+      }
+    });
+    return names;
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const isSourceFile = function(filename) {
+    var extensions = [ cd.extensionFilename() ];
+    if (extensions[0] == ".c") {
+      extensions.push(".h")
+    }
+    if (extensions[0] == ".cpp") {
+      extensions.push(".hpp")
+    }
+    var match = false;
+    $.each(extensions, function(_, extension) {
+      if (filename.endsWith(extension)) {
+        match = true;
+      }
+    });
+    return match;
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   cd.sortedFilenames = function(filenames) {
     var lolights = [];
     var hilights = [];
     $.each(filenames, function(_, filename) {
       if (filename == 'output')
         ;
-      else if (cd.inArray(filename, cd.lowlightFilenames()))
-        lolights.push(filename);
-      else
+      //else if (cd.inArray(filename, cd.lowlightFilenames()))
+      //  lolights.push(filename);
+      //else
+      //  hilights.push(filename);
+      else if (isSourceFile(filename) || filename == 'instructions')
         hilights.push(filename);
+      else
+        lolights.push(filename);
     });
     lolights.sort();
     hilights.sort();
@@ -89,9 +124,9 @@ var cyberDojo = (function(cd, $) {
     if (cd.inArray(filename, cd.highlightFilenames())) {
       div.addClass('highlight');
     }
-    if (cd.inArray(filename, cd.lowlightFilenames())) {
-      div.addClass('lowlight');
-    }
+    //if (cd.inArray(filename, cd.lowlightFilenames())) {
+    //  div.addClass('lowlight');
+    //}
     div.click(function() { cd.loadFile(filename); });
     return div;
   };
