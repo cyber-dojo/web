@@ -21,7 +21,7 @@ class StorerFake
   # completion(s)
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def completed(id)
+  def katas_completed(id)
     if !id.nil? && id.length >= 6
       # outer-dir has 2-characters
       outer_dir = disk[dir_join(path, outer(id))]

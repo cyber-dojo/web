@@ -165,68 +165,68 @@ class StorerFakeTest < AppServicesTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # completed(id)
+  # katas_completed(id)
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'EA2',
-  'completed(id) is empty-string when id is less than 6 chars in length',
+  'katas_completed(id) is empty-string when id is less than 6 chars in length',
   'because trying to complete from a short id will waste time going through',
   'lots of candidates with the likely outcome of no unique result' do
     kata_create
     too_short = kata_id[0..4]
     assert_equal 5, too_short.length
-    assert_equal '', storer.completed(too_short)
+    assert_equal '', storer.katas_completed(too_short)
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
 
   test '34B',
-  'completed(id) completes when 6+ chars and 1 match' do
+  'katas_completed(id) completes when 6+ chars and 1 match' do
     kata_create
     (5..9).each do |hi|
       id = kata_id.downcase[0..hi]
       assert_equal hi+1, id.length
       assert id.length >= 6
       assert id.length <= 10
-      assert_equal kata_id, storer.completed(id)
+      assert_equal kata_id, storer.katas_completed(id)
     end
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
 
   test '1A6',
-  'completed(id) is empty-string when no matches' do
+  'katas_completed(id) is empty-string when no matches' do
     (0..9).each do |hi|
       id = kata_id.downcase[0..hi]
       assert_equal hi+1, id.length
       assert id.length >= 1
       assert id.length <= 10
-      assert_equal '', storer.completed(id)
+      assert_equal '', storer.katas_completed(id)
     end
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
 
   test '52E',
-  'completed(id=nil) is empty string' do
-    assert_equal '', storer.completed(nil)
+  'katas_completed(id=nil) is empty string' do
+    assert_equal '', storer.katas_completed(nil)
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
 
   test '91C',
-  'completed(id="") is empty string' do
-    assert_equal '', storer.completed('')
+  'katas_completed(id="") is empty string' do
+    assert_equal '', storer.katas_completed('')
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
 
   test 'B4F',
-  'completed(id) is empty-string when 6+ chars and more than one match' do
+  'katas_completed(id) is empty-string when 6+ chars and more than one match' do
     id = '9D323B'
     stubbed_make_kata( first_id = id + '4F23')
     stubbed_make_kata(second_id = id + '9ED2')
-    assert_equal '', storer.completed(id)
+    assert_equal '', storer.katas_completed(id)
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
