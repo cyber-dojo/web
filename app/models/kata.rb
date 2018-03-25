@@ -68,16 +68,6 @@ class Kata
     manifest_property || []
   end
 
-  def lowlight_filenames
-    default_lowlight_filenames =
-      if highlight_filenames.empty?
-        %w( cyber-dojo.sh makefile Makefile unity.license.txt )
-      else
-        visible_files.keys - highlight_filenames
-      end
-    manifest_property || default_lowlight_filenames
-  end
-
   # - - - - - - - - - - - - -
   # source
 

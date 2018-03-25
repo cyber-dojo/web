@@ -37,7 +37,7 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   var allFilesSameAsCurrentTrafficLight = function() {
-    // Could be used to selectively enable/disable buttons
+    // Currently unused: could selectively enable/disable buttons?
     var outgoingFilenames = cd.filenames();
     var incomingFilenames = [ ];
     $('input',incomingHashContainer()).each(function() {

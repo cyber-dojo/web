@@ -20,11 +20,11 @@ var cyberDojo = (function(cd, $) {
 
   cd.setRenameAndDeleteButtons = function(filename) {
     var fileOps = $('#file-operations');
-    var newFile    = fileOps.find('#new');
+    var   newFile  = fileOps.find('#new');
     var renameFile = fileOps.find('#rename');
     var deleteFile = fileOps.find('#delete');
     var disable = function(node) { node.prop('disabled', true); };
-    var enable = function(node) { node.prop('disabled', false); };
+    var enable  = function(node) { node.prop('disabled', false); };
 
     if (cd.cantBeRenamedOrDeleted(filename)) {
       disable(renameFile);
@@ -67,43 +67,28 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.notLowlightFilenames = function() {
-    var hilightFilenames = ['output'];
-    var all = cd.filenames();
-    all.sort();
-    $.each(all, function(n, filename) {
-      // <<<<<<<<<<<<<>>>>>>>>>>>>>
-      if (!cd.inArray(filename, cd.lowlightFilenames()) && filename != 'output') {
-        hilightFilenames.push(filename);
-      }
-    });
-    return hilightFilenames;
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   cd.loadNextFile = function() {
-    var hilightFilenames = cd.notLowlightFilenames();
-    var index = $.inArray(cd.currentFilename(), hilightFilenames);
+    var hiFilenames = cd.hiFilenames();
+    var index = $.inArray(cd.currentFilename(), hiFilenames);
     if (index == -1) {
       index = 0;
     } else {
-      index = (index + 1) % hilightFilenames.length;
+      index = (index + 1) % hiFilenames.length;
     }
-    cd.loadFile(hilightFilenames[index]);
+    cd.loadFile(hiFilenames[index]);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.loadPreviousFile = function() {
-    var hilightFilenames = cd.notLowlightFilenames();
-    var index = $.inArray(cd.currentFilename(), hilightFilenames);
+    var hiFilenames = cd.hiFilenames();
+    var index = $.inArray(cd.currentFilename(), hiFilenames);
     if (index === 0 || index === -1) {
-      index = hilightFilenames.length - 1;
+      index = hiFilenames.length - 1;
     } else {
       index -= 1;
     }
-    cd.loadFile(hilightFilenames[index]);
+    cd.loadFile(hiFilenames[index]);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

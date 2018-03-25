@@ -37,18 +37,6 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.sourceFiles = function() {
-    var names = [];
-    $.each(cd.filenames(), function(_, filename) {
-      if (cd.isSourceFile(filename)) {
-        names.push(filename)
-      }
-    });
-    return names;
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   const isSourceFile = function(filename) {
     var extensions = [ cd.extensionFilename() ];
     if (extensions[0] == ".c") {
@@ -68,24 +56,43 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.sortedFilenames = function(filenames) {
-    var lolights = [];
-    var hilights = [];
-    $.each(filenames, function(_, filename) {
+  cd.hiFilenames = function() {
+    // controls which filenames appear at the
+    // top of the file-knave, above 'output'
+    var hi = [];
+    $.each(cd.filenames(), function(_, filename) {
       if (filename == 'output')
         ;
-      //else if (cd.inArray(filename, cd.lowlightFilenames()))
-      //  lolights.push(filename);
-      //else
-      //  hilights.push(filename);
-      else if (isSourceFile(filename) || filename == 'instructions')
-        hilights.push(filename);
-      else
-        lolights.push(filename);
+      else if (isSourceFile(filename) || filename == 'instructions') {
+        hi.push(filename)
+      }
     });
-    lolights.sort();
-    hilights.sort();
-    return [].concat(hilights, ['output'], lolights);
+    hi.sort();
+    return hi;
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.loFilenames = function() {
+    // controls which filenames appear at the
+    // bottom of the file-knave, below 'output'
+    var lo = [];
+    $.each(cd.filenames(), function(_, filename) {
+      if (filename == 'output')
+        ;
+      else if (!isSourceFile(filename) && filename != 'instructions') {
+        lo.push(filename)
+      }
+    });
+    lo.sort();
+    return lo;
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.sortedFilenames = function(filenames) {
+    // controls the order of files in the file-knave
+    return [].concat(cd.hiFilenames(), ['output'], cd.loFilenames());
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
