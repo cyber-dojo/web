@@ -19,7 +19,7 @@ class StorerServiceTest < AppServicesTestBase
     error = assert_raises (StandardError) {
       storer.kata_manifest(kata_id)
     }
-    assert error.message.end_with?('invalid kata_id')
+    assert error.message.end_with?('kata_id:invalid')
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
