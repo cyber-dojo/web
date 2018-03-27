@@ -39,6 +39,3 @@ wait_till_up 'test_web_cyber-dojo-runner-stateful'
 #wait_till_up 'test_web_cyber-dojo-runner-processful'
 wait_till_up 'test_web_cyber-dojo-differ'
 wait_till_up 'test_web_cyber-dojo-zipper'
-
-
-
