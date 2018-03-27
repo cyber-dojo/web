@@ -170,7 +170,7 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'DD8', %w(
-  when a kata one avatar
+  when a kata has one avatar
   and it has two traffic-lights
   then its age is the time difference ) do
     in_kata {
@@ -207,7 +207,7 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'DDA', %w(
-  when a katas has two avatars
+  when a kata has two avatars
   each with several traffic-light
   then its age is the time difference
   between the earliest and latest traffic-light ) do

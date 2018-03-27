@@ -42,8 +42,8 @@ class StorerService
     http_get(__method__, kata_id, avatar_name)
   end
 
-  def avatar_start(       kata_id, avatar_names)
-    http_post(__method__, kata_id, avatar_names)
+  def avatar_start(       kata_id, avatars_names)
+    http_post(__method__, kata_id, avatars_names)
   end
 
   def avatars_started(   kata_id)
