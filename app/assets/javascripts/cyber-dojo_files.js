@@ -61,9 +61,7 @@ var cyberDojo = (function(cd, $) {
     // top of the file-knave, above 'output'
     var hi = [];
     $.each(cd.filenames(), function(_, filename) {
-      if (filename == 'output')
-        ;
-      else if (isSourceFile(filename) || filename == 'instructions') {
+      if (isSourceFile(filename) && filename != 'output') {
         hi.push(filename)
       }
     });
@@ -78,9 +76,7 @@ var cyberDojo = (function(cd, $) {
     // bottom of the file-knave, below 'output'
     var lo = [];
     $.each(cd.filenames(), function(_, filename) {
-      if (filename == 'output')
-        ;
-      else if (!isSourceFile(filename) && filename != 'instructions') {
+      if (!isSourceFile(filename) && filename != 'output') {
         lo.push(filename)
       }
     });
