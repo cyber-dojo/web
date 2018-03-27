@@ -269,11 +269,6 @@ $(function() {
     return result;
   };
 
-  cd.lowlightFilenames = function() {
-    // called by cd.sortedFilenames(filenames) which is called in sortedDiffs()
-    return $.parseJSON('<%= @kata.lowlight_filenames.inspect.html_safe %>');
-  };
-
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   var resetFilenameAddedDeletedLineCountHandlers = function() {

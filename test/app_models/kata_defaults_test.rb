@@ -20,34 +20,6 @@ class KataDefaultsTest < AppModelsTestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '346', %w(
-  lowlight_filenames defaults to specific 4 files
-  when hightlight_filenames is empty ) do
-    manifest = starter.language_manifest('Ruby, MiniTest', 'Fizz_Buzz')
-    manifest['id'] = kata_id
-    manifest['created'] = time_now
-    manifest.delete('highlight_filenames')
-    storer.kata_create(manifest)
-    expected = %w( cyber-dojo.sh makefile Makefile unity.license.txt )
-    assert_equal expected.sort, katas[kata_id].lowlight_filenames.sort
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
-  test '347', %w(
-  lowlight_filenames defaults to the complement of highlight_filenames
-  when highlight_filenames is not empty ) do
-    manifest = starter.language_manifest('Ruby, MiniTest', 'Fizz_Buzz')
-    manifest['id'] = kata_id
-    manifest['created'] = time_now
-    manifest['highlight_filenames'] = %w( hiker.rb test_hiker.rb )
-    storer.kata_create(manifest)
-    expected = %w( cyber-dojo.sh instructions output )
-    assert_equal expected.sort, katas[kata_id].lowlight_filenames.sort
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
   test '348', %w( max_seconds defaults to 10 ) do
     assert_default 'max_seconds', 10
   end

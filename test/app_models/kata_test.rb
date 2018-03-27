@@ -34,7 +34,6 @@ class KataTest < AppModelsTestBase
       assert_equal '.rb', kata.filename_extension
       assert_equal [], kata.progress_regexs
       assert_equal [], kata.highlight_filenames
-      assert_equal ['cyber-dojo.sh', 'makefile', 'Makefile', 'unity.license.txt'], kata.lowlight_filenames
       assert_equal 'Fizz_Buzz', kata.exercise
       assert_equal 10, kata.max_seconds
       assert_equal '', kata.visible_files['output']
