@@ -365,7 +365,7 @@ class StorerFakeTest < AppServicesTestBase
     args << kata_id
     args << 'lion'
     files2 = kata.visible_files
-    files2['hiker.rb'] = '...6*7...';
+    files2['hiker.rb'] = '...6*7...'
     args << files2
     args << (now2 = [2016,12,8, 9,54,20])
     args << (stdout = '1 runs, 1 assertions, 0 failures, 0 errors, 0 skips')
@@ -397,7 +397,7 @@ class StorerFakeTest < AppServicesTestBase
     args << kata_id
     args << 'lion'
     files = kata.visible_files
-    files['forked.txt'] = 'hello world';
+    files['forked.txt'] = 'hello world'
     args << files
     args << (now = [2017,12,28, 10,53,20])
     args << (stdout = '1 runs, 1 assertions, 0 failures, 0 errors, 0 skips')
@@ -425,7 +425,7 @@ class StorerFakeTest < AppServicesTestBase
     args << kata_id
     args << 'lion'
     files = kata.visible_files
-    files['hiker.rb'] = '6*7';
+    files['hiker.rb'] = '6*7'
     args << files
     args << (now = [2017,12,28, 10,53,20])
     args << (stdout = '1 runs, 1 assertions, 0 failures, 0 errors, 0 skips')

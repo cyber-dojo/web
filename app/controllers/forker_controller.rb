@@ -30,11 +30,11 @@ class ForkerController < ApplicationController
   def fork_failed(caught)
     result = { forked: false }
     case caught.message
-      when -> (msg) { msg.end_with? 'invalid kata_id' }
+      when -> (msg) { msg.include? 'kata_id' }
         result[:reason] = "dojo(#{id})"
-      when -> (msg) { msg.end_with? 'invalid avatar_name' }
+      when -> (msg) { msg.include? 'avatar_name' }
         result[:reason] = "avatar(#{avatar_name})"
-      when -> (msg) { msg.end_with? 'invalid tag' }
+      when -> (msg) { msg.include? 'tag' }
         result[:reason] = "traffic_light(#{tag})"
       else
         raise caught

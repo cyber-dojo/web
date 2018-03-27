@@ -11,18 +11,27 @@ class RunnerStub
 
   # - - - - - - - - - - - - - - - - -
 
-  def image_pulled?(_image_name, _kata_id); end
-  def image_pull   (_image_name, _kata_id); end
+  def image_pulled?(_image_name, _kata_id)
+  end
+
+  def image_pull   (_image_name, _kata_id)
+  end
 
   # - - - - - - - - - - - - - - - - -
 
-  def kata_new(_image_name, _kata_id); end
-  def kata_old(_image_name, _kata_id); end
+  def kata_new(_image_name, _kata_id)
+  end
+
+  def kata_old(_image_name, _kata_id)
+  end
 
   # - - - - - - - - - - - - - - - - -
 
-  def avatar_new(_image_name, _kata_id, _avatar_name, _starting_files); end
-  def avatar_old(_image_name, _kata_id, _avatar_name); end
+  def avatar_new(_image_name, _kata_id, _avatar_name, _starting_files)
+  end
+
+  def avatar_old(_image_name, _kata_id, _avatar_name)
+  end
 
   # - - - - - - - - - - - - - - - - -
 

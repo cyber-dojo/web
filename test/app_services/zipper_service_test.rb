@@ -18,7 +18,7 @@ class ZipperServiceTest < AppServicesTestBase
   test 'EBF',
   'smoke test zipper.zip' do
     error = assert_raises { zipper.zip(kata_id='') }
-    assert error.message.end_with?('invalid kata_id'), error.message
+    assert error.message.end_with?('kata_id:malformed'), error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
@@ -26,7 +26,7 @@ class ZipperServiceTest < AppServicesTestBase
   test '959',
   'smoke test zipper.zip_tag' do
     error = assert_raises { zipper.zip_tag(kata_id='', 'lion', 0) }
-    assert error.message.end_with?('invalid kata_id'), error.message
+    assert error.message.end_with?('kata_id:malformed'), error.message
   end
 
 end

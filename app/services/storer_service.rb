@@ -32,8 +32,8 @@ class StorerService
     http_get(__method__, partial_id)
   end
 
-  def katas_completions( partial_id)
-    http_get(__method__, partial_id)
+  def katas_completions( outer_id)
+    http_get(__method__, outer_id)
   end
 
   # - - - - - - - - - - - -
