@@ -109,11 +109,7 @@
       padding: { right: 3px; top: 0px; bottom: 4px; }
        border: 1px solid $darker-color;
        margin: { bottom: 2px; }
-      &[data-filename='output']
-      {
-        // mimic test-page file-knave
-        margin: { top: 15px; bottom: 15px; }
-      }
+      &[data-filename='output'] { margin-top: 20px; } // mimic test-page file-knave
     }
   }
 
