@@ -329,22 +329,6 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'A3D', %w(
-  avatar_start() starts avatars in random order ) do
-    in_kata {
-      created = []
-      Avatars.names.length.times do
-        avatar = kata.avatar_start
-        refute_nil avatar
-        created << avatar.name
-      end
-      assert_equal Avatars.names.sort, created.sort
-      refute_equal created, created.sort
-    }
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test 'D61', %w(
   when collector has collected the runner containers/volumes
   then avatar_start() seamlessly resurrects ) do
