@@ -180,12 +180,7 @@
       cursor: default;
     }
 
-    &[data-filename='output']
-    {
-      // mimic test-page file-knave
-      margin: { top: 15px; bottom: 15px; }
-    }
-
+    &[data-filename='output'] { margin-top: 20px;  } // mimic test-page file-knave
   }
 
   .diff-deleted-line-count {
