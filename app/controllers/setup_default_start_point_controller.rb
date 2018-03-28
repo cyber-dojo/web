@@ -3,8 +3,8 @@ class SetupDefaultStartPointController < ApplicationController
 
   def show
     @id = id
-    current_display_name = kata.exists? ? kata.display_name : nil
-    current_exercise_name = kata.exists? ? kata.exercise : nil
+    current_display_name = (id != nil && kata.exists?) ? kata.display_name : nil
+    current_exercise_name = (id != nil && kata.exists?) ? kata.exercise : nil
     start_points = starter.language_start_points
     @language_names = start_points['languages']
     @language_index = index_match(@language_names, current_display_name)

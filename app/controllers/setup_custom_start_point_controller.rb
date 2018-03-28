@@ -3,7 +3,7 @@ class SetupCustomStartPointController < ApplicationController
 
   def show
     @id = id
-    current_display_name = kata.exists? ? kata.display_name : nil
+    current_display_name = (id != nil && kata.exists?) ? kata.display_name : nil
     @custom_names = starter.custom_start_points
     @custom_index = index_match(@custom_names, current_display_name)
     @from = params['from']
