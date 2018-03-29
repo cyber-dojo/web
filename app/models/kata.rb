@@ -48,57 +48,69 @@ class Kata
   # - - - - - - - - - - - - -
   # info-bar
 
-  def display_name
+  def display_name  # required
     # eg 'Python, py.test'
-    manifest_property # required
+    manifest_property
   end
 
   def exercise
-    manifest_property # required in language kata
-  end                 # not required in custom kata
+    manifest_property # present in language+testFramework kata
+  end                 # not present in custom kata
 
   # - - - - - - - - - - - - -
   # filenames
 
-  def filename_extension
-    manifest_property || ''
+  def filename_extension # required
+    # eg ".c"
+    if manifest_property.is_a? Array
+      manifest_property
+    else
+      [ manifest_property ]
+    end
   end
 
-  def highlight_filenames
+  def highlight_filenames # optional
     manifest_property || []
   end
 
   # - - - - - - - - - - - - -
   # source
 
-  def tab_size
+  def tab_size # optional
     manifest_property || 4
   end
 
-  def visible_files
-    manifest_property # required
+  def visible_files # required
+    manifest_property
   end
 
   # - - - - - - - - - - - - -
   # runner
 
-  def image_name
-    manifest_property # required
+  def image_name # required
+    manifest_property
   end
 
-  def max_seconds
+  def max_seconds # optional
     manifest_property || 10
   end
 
-  def runner_choice
-    manifest_property # required
+  def runner_choice # required
+    manifest_property
   end
 
   # - - - - - - - - - - - - -
   # dashboard
 
-  def created
+  def created # required
     Time.mktime(*manifest_property)
+  end
+
+  def progress_regexs # optional
+    # [] is not a valid progress_regex.
+    # It needs two regexs.
+    # This affects zipper.zip_tag()
+    manifest_property || []
   end
 
   def age
@@ -115,13 +127,6 @@ class Kata
       end
     end
     first_times == [] ? 0 : (last_times.sort[-1] - first_times.sort[0]).to_i
-  end
-
-  def progress_regexs
-    # [] is not a valid progress_regex.
-    # It needs two regexs.
-    # This affects zipper.zip_tag()
-    manifest_property || []
   end
 
   private # = = = = = = = = = =

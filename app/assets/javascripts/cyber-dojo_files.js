@@ -38,16 +38,9 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const isSourceFile = function(filename) {
-    var extensions = [ cd.extensionFilename() ];
-    if (extensions[0] == ".c") {
-      extensions.push(".h")
-    }
-    if (extensions[0] == ".cpp") {
-      extensions.push(".hpp")
-    }
     var match = false;
-    $.each(extensions, function(_, extension) {
-      if (filename.endsWith(extension)) {
+    $.each(cd.extensionFilenames(), function(_, extension) {
+      if (filename.endsWith(extension) && filename != 'cyber-dojo.sh') {
         match = true;
       }
     });
@@ -62,7 +55,7 @@ var cyberDojo = (function(cd, $) {
     var hi = [];
     $.each(cd.filenames(), function(_, filename) {
       if (isSourceFile(filename) && filename != 'output') {
-        hi.push(filename)
+        hi.push(filename);
       }
     });
     hi.sort();
@@ -77,7 +70,7 @@ var cyberDojo = (function(cd, $) {
     var lo = [];
     $.each(cd.filenames(), function(_, filename) {
       if (!isSourceFile(filename) && filename != 'output') {
-        lo.push(filename)
+        lo.push(filename);
       }
     });
     lo.sort();

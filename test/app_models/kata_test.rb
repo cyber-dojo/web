@@ -31,7 +31,7 @@ class KataTest < AppModelsTestBase
       assert_equal 2, kata.tab_size
 
       assert_equal 'Ruby, MiniTest', kata.display_name
-      assert_equal '.rb', kata.filename_extension
+      assert_equal ['.rb'], kata.filename_extension
       assert_equal [], kata.progress_regexs
       assert_equal [], kata.highlight_filenames
       assert_equal 'Fizz_Buzz', kata.exercise
@@ -341,6 +341,16 @@ class KataTest < AppModelsTestBase
     ensure
       runner.kata_old(kata.image_name, kata.id)
     end
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '5A6', %w(
+  filename_extension for single string becomes an array
+  ) do
+    in_kata(:stateless) {
+      assert_equal [ '.rb' ], kata.filename_extension
+    }
   end
 
 end

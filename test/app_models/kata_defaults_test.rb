@@ -8,12 +8,6 @@ class KataDefaultsTest < AppModelsTestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '344', %w( filename_extension defaults to empty string ) do
-    assert_default 'filename_extension', ''
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
   test '345', %w( highlight_filenames defaults to empty array ) do
     assert_default 'highlight_filenames', []
   end

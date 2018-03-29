@@ -100,7 +100,7 @@ $(function() {
   const deleteFile = fileButtons.find('#delete');
 
   newFile.click(function() {
-    const initialFilename = 'filename' + cd.extensionFilename();
+    const initialFilename = 'filename' + cd.extensionFilenames()[0];
     const okInitiallyDisabled = !isValidFilename(initialFilename);
     const okClicked = function(filename) {
       cd.newFileContent(filename, '');
