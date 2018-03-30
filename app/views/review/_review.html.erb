@@ -252,7 +252,7 @@ $(function() {
     $.each(diffs, function(_, diff) {
       filenames.push(diff.filename);
     });
-    // ensure filenames appear in the same order as test page
+    // ensure filenames appear in the same order as kata/edit page
     var sorted = cd.sortedFilenames(filenames);
     var diffFor = function(filename) {
       var i;

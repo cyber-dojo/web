@@ -40,6 +40,9 @@ var cyberDojo = (function(cd, $) {
   const isSourceFile = function(filename) {
     var match = false;
     $.each(cd.extensionFilenames(), function(_, extension) {
+      // Shell test frameworks (eg shunit2) use .sh as their
+      // filename extension but we don't want cyber-dojo.sh
+      // in the hiFilenames() above output in the filename-list.
       if (filename.endsWith(extension) && filename != 'cyber-dojo.sh') {
         match = true;
       }
@@ -50,8 +53,14 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.hiFilenames = function(filenames) {
-    // controls which filenames appear at the
-    // top of the file-knave, above 'output'
+    // Controls which filenames appear at the
+    // top of the filename-list, above 'output'
+    //
+    // Used in three places.
+    // 1. kata/edit page to help show filename list
+    // 2. kata/edit page in alt-j alt-k hotkeys
+    // 3. review/show page/dialog to help show filename list
+    //
     var hi = [];
     $.each(filenames, function(_, filename) {
       if (isSourceFile(filename) && filename != 'output') {
@@ -65,8 +74,14 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.loFilenames = function(filenames) {
-    // controls which filenames appear at the
-    // bottom of the file-knave, below 'output'
+    // Controls which filenames appear at the
+    // bottom of the filename list, below 'output'
+    //
+    // Used in three places.
+    // 1. kata/edit page to help show filename-list
+    // 2. kata/edit page in alt-j alt-k hotkeys
+    // 3. review/show page/dialog to help show filename-list
+    //
     var lo = [];
     $.each(filenames, function(_, filename) {
       if (!isSourceFile(filename) && filename != 'output') {
@@ -80,7 +95,12 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.sortedFilenames = function(filenames) {
-    // controls the order of files in the file-knave
+    // Controls the order of files in the filename-list
+    // Used in two places
+    //
+    // 1. kata/edit page to help show filename-list
+    // 2. review/show page/dialog to help show filename-list
+    //
     return [].concat(cd.hiFilenames(filenames), ['output'], cd.loFilenames(filenames));
   };
 
@@ -99,6 +119,9 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.filenames = function() {
+    // Gets the filenames when on a kata/edit page.
+    // The review/show page/dialog has to collect its filenames
+    // in its own way.
     var prefix = 'file_content_for_';
     var filenames = [ ];
     $('textarea[id^=' + prefix + ']').each(function(_) {
