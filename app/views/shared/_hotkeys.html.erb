@@ -3,6 +3,8 @@
 
 $(function() {
 
+  const hotkeysButton = $('#hotkeys-button');
+
   const hotkeysDialog = function() {
     var html = '';
     html += '<div id="hotkeys-dialog">';
@@ -54,7 +56,12 @@ $(function() {
     '</tr>';
   };
 
-  $('#hotkeys-button').click(function() { hotkeysDialog(); });
+  if (window.location.href.indexOf('kata/edit') != -1) {
+    hotkeysButton.show().click(function() { hotkeysDialog(); });
+  } else {
+    hotkeysButton.hide();
+  }
+
 });
 
 //--></script>
