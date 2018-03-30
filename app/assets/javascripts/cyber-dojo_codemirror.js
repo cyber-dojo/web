@@ -3,9 +3,9 @@
 var cyberDojo = (function(cd, $) {
   "use strict";
 
-  var noLineNumbersTheme = " cyber-dojo-no-linenumbers";
+  var noLineNumbersTheme = ' cyber-dojo-no-linenumbers';
 
-  var fileExtension = function (filename) {
+  var fileExtension = function(filename) {
     var lastPoint = filename.lastIndexOf('.');
     if (lastPoint == -1) {
       return '';
@@ -13,7 +13,7 @@ var cyberDojo = (function(cd, $) {
     return filename.substring(lastPoint);
   };
 
-  var codeMirrorMode = function (filename) {
+  var codeMirrorMode = function(filename) {
     filename = filename.toLowerCase();
 
     switch (filename) {
@@ -67,9 +67,8 @@ var cyberDojo = (function(cd, $) {
     return '';
   };
 
-  var codeMirrorIndentWithTabs = function (filename) {
+  var codeMirrorIndentWithTabs = function(filename) {
     filename = filename.toLowerCase();
-
     switch (filename) {
       case 'makefile':
         return true;
@@ -78,7 +77,7 @@ var cyberDojo = (function(cd, $) {
     }
   };
 
-  var syntaxHighlightFileContentForId = function (filename) {
+  var syntaxHighlightFileContentForId = function(filename) {
     return 'syntax_highlight_file_content_for_' + filename;
   };
 
@@ -92,7 +91,7 @@ var cyberDojo = (function(cd, $) {
     var enabled = true;
 
     runActionOnAllCodeMirrorEditors(function(editor) {
-      var theme = editor.getOption("theme");
+      var theme = editor.getOption('theme');
 
       if (theme.indexOf(noLineNumbersTheme) !== -1) {
         enabled = false;
@@ -103,15 +102,15 @@ var cyberDojo = (function(cd, $) {
   };
 
   var showLineNumbersForEditor = function(editor) {
-    var theme = editor.getOption("theme");
-    theme = theme.replace(noLineNumbersTheme, "");
-    editor.setOption("theme", theme);
+    var theme = editor.getOption('theme');
+    theme = theme.replace(noLineNumbersTheme, '');
+    editor.setOption('theme', theme);
   };
 
   var hideLineNumbersForEditor = function(editor) {
-    var theme = editor.getOption("theme");
+    var theme = editor.getOption('theme');
     theme += noLineNumbersTheme;
-    editor.setOption("theme", theme);
+    editor.setOption('theme', theme);
   };
 
   var toggleLineNumbers = function(cm, lineNumber) {
@@ -135,7 +134,7 @@ var cyberDojo = (function(cd, $) {
       indentUnit: cd.syntaxHighlightTabSize,
       tabSize: cd.syntaxHighlightTabSize,
       indentWithTabs: codeMirrorIndentWithTabs(filename),
-      theme: "cyber-dojo-colour",
+      theme: 'cyber-dojo-colour',
       readOnly: (filename == 'output')
     });
 
@@ -146,11 +145,11 @@ var cyberDojo = (function(cd, $) {
       hideLineNumbersForEditor(editor);
     }
 
-    editor.on("gutterClick", toggleLineNumbers);
+    editor.on('gutterClick', toggleLineNumbers);
 
     editor.getWrapperElement().id = syntaxHighlightFileContentForId(filename);
 
-    editor.setOption("extraKeys", {
+    editor.setOption('extraKeys', {
       'Alt-T': function (cm) {
         $('#test-button').click();
       },
@@ -169,10 +168,10 @@ var cyberDojo = (function(cd, $) {
       editor.addKeyMap({
         Tab: function (cm) {
           if (cm.somethingSelected()) {
-            cm.indentSelection("add");
+            cm.indentSelection('add');
           }
           else {
-            cm.execCommand("insertSoftTab");
+            cm.execCommand('insertSoftTab');
           }
         }
       }, true);
@@ -189,7 +188,7 @@ var cyberDojo = (function(cd, $) {
     });
   };
 
-  cd.focusSyntaxHighlightEditor = function (filename) {
+  cd.focusSyntaxHighlightEditor = function(filename) {
     var element = document.getElementById(syntaxHighlightFileContentForId(filename));
     if (element != null) {
       element.CodeMirror.refresh();
@@ -197,7 +196,7 @@ var cyberDojo = (function(cd, $) {
     }
   };
 
-  cd.saveCodeFromSyntaxHighlightEditors = function () {
+  cd.saveCodeFromSyntaxHighlightEditors = function() {
     $.each($('.CodeMirror'), function (i, editor_div) {
       editor_div.CodeMirror.cyberDojoTextArea.value = editor_div.CodeMirror.getValue();
     });

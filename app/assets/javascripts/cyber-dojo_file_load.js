@@ -3,6 +3,12 @@
 var cyberDojo = (function(cd, $) {
   "use strict";
 
+  cd.editorRefocus = function() {
+    cd.loadFile(cd.currentFilename());
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   cd.loadFile = function(filename) {
     cd.fileDiv(cd.currentFilename()).hide();
     cd.selectFileInFileList(filename);

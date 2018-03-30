@@ -104,7 +104,7 @@ $(function() {
     const okInitiallyDisabled = !isValidFilename(initialFilename);
     const okClicked = function(filename) {
       cd.newFileContent(filename, '');
-      cd.loadFile(filename); // to get focus
+      cd.editorRefocus();
     };
     openDialog('new', initialFilename, okInitiallyDisabled, okClicked);
   });

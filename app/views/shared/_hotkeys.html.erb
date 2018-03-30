@@ -1,0 +1,65 @@
+
+<script type="text/javascript"><!--
+
+$(function() {
+
+  const hotkeysDialog = function() {
+    var html = '';
+    html += '<div id="hotkeys-dialog">';
+    html += '<table>';
+    html += tr('Alt-T', 'runs the tests');
+    html += tr('Alt-O', 'moves to/from the output file');
+    html += tr('Alt-J', 'cycles forwards through the source files');
+    html += tr('Alt-K', 'cycles bakwards through the source files');
+    html += '</table>';
+    html += '<hr/>';
+    html += '<table>';
+    html += tr('start searching', 'Ctrl-F / Cmd-F', );
+    html += tr('find next', 'Ctrl-G / Cmd-G');
+    html += tr('find previous', 'Shift-Ctrl-G / Shift-Cmd-G');
+    html += tr('replace', 'Shift-Ctrl-F / Cmd-Option-F');
+    html += tr('replace all', 'Shift-Ctrl-R / Shift-Cmd-Option-F');
+    html += tr('jump to line', 'Alt-G');
+    html += '</table>';
+    html += '</div>';
+
+    const node = $(html);
+    node.dialog({
+              width: '500',
+           autoOpen: true,
+      closeOnEscape: true,
+              modal: true,
+              title: cd.dialogTitle('hotkeys'),
+            buttons: { close:
+              function() {
+                $(this).remove();
+                cd.editorRefocus();
+              }
+            },
+        beforeClose: function(event) {
+          if (event.keyCode === $.ui.keyCode.ESCAPE) {
+            $(this).remove();
+            cd.editorRefocus();
+            return true;
+          }
+        }
+    });
+  };
+
+  const tr = function(key, what) {
+    return '<tr>' +
+      '<td style="text-align:right;">' + key + '</td>' +
+      '<td>==</td>' +
+      '<td>' + what + '</td>' +
+    '</tr>';
+  };
+
+  $('#hotkeys-button').click(function() { hotkeysDialog(); });
+});
+
+//--></script>
+
+<button type="button"
+        id="hotkeys-button">
+  hotkeys
+</button>

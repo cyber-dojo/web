@@ -56,7 +56,7 @@
     }
   }
 
-  #options-button {
+  #hotkeys-button {
     @include non-code-font();
        padding: { right: 5px; bottom: 2px; }
         margin: { top: 4px; }
@@ -71,19 +71,4 @@
     font-size: 0.87em;
   }
 
-}
-
-#options-dialog {
-  th:first-child, td:first-child {
-    text-align: right;
-  }
-
-  #syntax-highlight-button {
-    @include non-code-font();
-    margin-top: 4px;
-    padding: { top: 2px; bottom: 2px; right: 5px; }
-    color: darken($darker-color, 10%);
-    text-align: center;
-    font-size: 0.87em;
-  }
 }
