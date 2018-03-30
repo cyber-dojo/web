@@ -13,22 +13,36 @@ $(function() {
         const newFilename = $.trim(input.val());
         okClicked(newFilename);
         $(this).remove();
+        cd.editorRefocus();
       }
     };
     const cancel = {
       text: 'cancel',
-      click: function() { $(this).remove(); }
+      click: function() {
+        $(this).remove();
+        cd.editorRefocus();
+      }
     };
     const div = $('<div>');
     div.append(input);
     const fileOperationDialog = div.dialog({
       closeOnEscape: true,
-      close: function() { $(this).remove(); },
+      close: function() {
+        $(this).remove();
+        cd.editorRefocus();
+      },
   	  title: cd.dialogTitle(name + '&nbsp;file'),
     	autoOpen: false,
       width: 250,
   	  modal: true,
-      buttons: [ ok, cancel ]
+      buttons: [ ok, cancel ],
+      beforeClose: function(event) {
+        if (event.keyCode === $.ui.keyCode.ESCAPE) {
+          $(this).remove();
+          cd.editorRefocus();
+          return true;
+        }
+      }
     });
   	input.keyup(function(event) {
       const ok = $('#file-ok');
@@ -39,6 +53,7 @@ $(function() {
         if (event.keyCode == $.ui.keyCode.ENTER) {
           okClicked(newFilename);
           ok.closest('.ui-dialog').remove();
+          cd.editorRefocus();
         }
       } else {
         ok.button('disable');
@@ -104,7 +119,6 @@ $(function() {
     const okInitiallyDisabled = !isValidFilename(initialFilename);
     const okClicked = function(filename) {
       cd.newFileContent(filename, '');
-      cd.editorRefocus();
     };
     openDialog('new', initialFilename, okInitiallyDisabled, okClicked);
   });
