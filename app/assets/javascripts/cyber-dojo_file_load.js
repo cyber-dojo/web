@@ -68,7 +68,7 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.loadNextFile = function() {
-    var hiFilenames = cd.hiFilenames();
+    var hiFilenames = cd.hiFilenames(cd.filenames());
     var index = $.inArray(cd.currentFilename(), hiFilenames);
     if (index == -1) {
       index = 0;
@@ -81,7 +81,7 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.loadPreviousFile = function() {
-    var hiFilenames = cd.hiFilenames();
+    var hiFilenames = cd.hiFilenames(cd.filenames());
     var index = $.inArray(cd.currentFilename(), hiFilenames);
     if (index === 0 || index === -1) {
       index = hiFilenames.length - 1;
