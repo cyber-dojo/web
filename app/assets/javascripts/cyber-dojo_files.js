@@ -49,11 +49,11 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.hiFilenames = function() {
+  cd.hiFilenames = function(filenames) {
     // controls which filenames appear at the
     // top of the file-knave, above 'output'
     var hi = [];
-    $.each(cd.filenames(), function(_, filename) {
+    $.each(filenames, function(_, filename) {
       if (isSourceFile(filename) && filename != 'output') {
         hi.push(filename);
       }
@@ -64,11 +64,11 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.loFilenames = function() {
+  cd.loFilenames = function(filenames) {
     // controls which filenames appear at the
     // bottom of the file-knave, below 'output'
     var lo = [];
-    $.each(cd.filenames(), function(_, filename) {
+    $.each(filenames, function(_, filename) {
       if (!isSourceFile(filename) && filename != 'output') {
         lo.push(filename);
       }
@@ -81,7 +81,7 @@ var cyberDojo = (function(cd, $) {
 
   cd.sortedFilenames = function(filenames) {
     // controls the order of files in the file-knave
-    return [].concat(cd.hiFilenames(), ['output'], cd.loFilenames());
+    return [].concat(cd.hiFilenames(filenames), ['output'], cd.loFilenames(filenames));
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
