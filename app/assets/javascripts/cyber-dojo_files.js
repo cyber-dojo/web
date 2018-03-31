@@ -15,143 +15,6 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.currentFilename = function() {
-    // I tried changing this to...
-    //   return $('input:radio[name=filename]:checked').val();
-    // (which would remove the need for the file
-    //    app/views/kata/_current_filename.html.erb)
-    // This worked on Firefox but not on Chrome.
-    // The problem seems to be that in Chrome the javascript handler
-    // function invoked when the radio button filename is clicked sees
-    //    $('input:radio[name=filename]:checked')
-    // as having _already_ changed. Thus you cannot retrieve the
-    // old filename.
-    return $('#current-filename').val();
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.filenameAlreadyExists = function(filename) {
-    return cd.inArray(filename, cd.filenames());
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const isSourceFile = function(filename) {
-    var match = false;
-    $.each(cd.extensionFilenames(), function(_, extension) {
-      // Shell test frameworks (eg shunit2) use .sh as their
-      // filename extension but we don't want cyber-dojo.sh
-      // in the hiFilenames() above output in the filename-list.
-      if (filename.endsWith(extension) && filename != 'cyber-dojo.sh') {
-        match = true;
-      }
-    });
-    return match;
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.hiFilenames = function(filenames) {
-    // Controls which filenames appear at the
-    // top of the filename-list, above 'output'
-    //
-    // Used in three places.
-    // 1. kata/edit page to help show filename list
-    // 2. kata/edit page in alt-j alt-k hotkeys
-    // 3. review/show page/dialog to help show filename list
-    //
-    var hi = [];
-    $.each(filenames, function(_, filename) {
-      if (isSourceFile(filename) && filename != 'output') {
-        hi.push(filename);
-      }
-    });
-    hi.sort();
-    return hi;
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.loFilenames = function(filenames) {
-    // Controls which filenames appear at the
-    // bottom of the filename list, below 'output'
-    //
-    // Used in three places.
-    // 1. kata/edit page to help show filename-list
-    // 2. kata/edit page in alt-j alt-k hotkeys
-    // 3. review/show page/dialog to help show filename-list
-    //
-    var lo = [];
-    $.each(filenames, function(_, filename) {
-      if (!isSourceFile(filename) && filename != 'output') {
-        lo.push(filename);
-      }
-    });
-    lo.sort();
-    return lo;
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.sortedFilenames = function(filenames) {
-    // Controls the order of files in the filename-list
-    // Used in two places
-    //
-    // 1. kata/edit page to help show filename-list
-    // 2. review/show page/dialog to help show filename-list
-    //
-    return [].concat(cd.hiFilenames(filenames), ['output'], cd.loFilenames(filenames));
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.rebuildFilenameList = function() {
-    var filenames = cd.filenames();
-    var filenameList = $('#filename-list');
-    filenameList.empty();
-    $.each(cd.sortedFilenames(filenames), function(_, filename) {
-      filenameList.append(cd.makeFileListEntry(filename));
-    });
-    return filenames;
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.filenames = function() {
-    // Gets the filenames when on a kata/edit page.
-    // The review/show page/dialog has to collect its filenames
-    // in its own way.
-    var prefix = 'file_content_for_';
-    var filenames = [ ];
-    $('textarea[id^=' + prefix + ']').each(function(_) {
-      var id = $(this).attr('id');
-      var filename = id.substr(prefix.length, id.length - prefix.length);
-      filenames.push(filename);
-    });
-    return filenames;
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.makeFileListEntry = function(filename) {
-    var div = $('<div>', {
-      'class': 'filename',
-      id: 'radio_' + filename,
-      text: filename
-    });
-    if (cd.inArray(filename, cd.highlightFilenames())) {
-      div.addClass('highlight');
-    }
-    //if (cd.inArray(filename, cd.lowlightFilenames())) {
-    //  div.addClass('lowlight');
-    //}
-    div.click(function() { cd.loadFile(filename); });
-    return div;
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   cd.makeNewFile = function(filename, content) {
     var div = $('<div>', {
       'class': 'filename_div',
@@ -231,6 +94,114 @@ var cyberDojo = (function(cd, $) {
     var i = cd.testFilenameIndex(filenames);
     cd.loadFile(filenames[i]);
   };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.editorRefocus = function() {
+    cd.loadFile(cd.currentFilename());
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.loadFile = function(filename) {
+    cd.fileDiv(cd.currentFilename()).hide();
+    cd.selectFileInFileList(filename);
+    cd.fileDiv(filename).show();
+
+    cd.fileContentFor(filename).focus();
+    cd.focusSyntaxHighlightEditor(filename);
+    $('#current-filename').val(filename);
+    if (filename !== 'output') {
+      $('#last-non-output-filename').val(filename);
+    }
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.setRenameAndDeleteButtons = function(filename) {
+    var fileOps = $('#file-operations');
+    var   newFile  = fileOps.find('#new');
+    var renameFile = fileOps.find('#rename');
+    var deleteFile = fileOps.find('#delete');
+    var disable = function(node) { node.prop('disabled', true); };
+    var enable  = function(node) { node.prop('disabled', false); };
+
+    if (cd.cantBeRenamedOrDeleted(filename)) {
+      disable(renameFile);
+      disable(deleteFile);
+    } else {
+      enable(renameFile);
+      enable(deleteFile);
+    }
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.cantBeRenamedOrDeleted = function(filename) {
+    var filenames = [ 'cyber-dojo.sh', 'output' ];
+    return cd.inArray(filename, filenames);
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.selectFileInFileList = function(filename) {
+    // Can't do $('radio_' + filename) because filename
+    // could contain characters that aren't strictly legal
+    // characters in a dom node id so I do this instead...
+    var node = $('[id="radio_' + filename + '"]');
+    var previousFilename = cd.currentFilename();
+    var previous = $('[id="radio_' + previousFilename + '"]');
+    cd.radioEntrySwitch(previous, node);
+    cd.setRenameAndDeleteButtons(filename);
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.radioEntrySwitch = function(previous, current) {
+    // Used in test-page, setup-page, and history-dialog
+    if (previous != undefined) {
+      previous.removeClass('selected');
+    }
+    current.addClass('selected');
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.loadNextFile = function() {
+    var hiFilenames = cd.hiFilenames(cd.filenames());
+    var index = $.inArray(cd.currentFilename(), hiFilenames);
+    if (index == -1) {
+      index = 0;
+    } else {
+      index = (index + 1) % hiFilenames.length;
+    }
+    cd.loadFile(hiFilenames[index]);
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.loadPreviousFile = function() {
+    var hiFilenames = cd.hiFilenames(cd.filenames());
+    var index = $.inArray(cd.currentFilename(), hiFilenames);
+    if (index === 0 || index === -1) {
+      index = hiFilenames.length - 1;
+    } else {
+      index -= 1;
+    }
+    cd.loadFile(hiFilenames[index]);
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.toggleOutputFile = function() {
+    if (cd.currentFilename() !== 'output') {
+      cd.loadFile('output');
+    } else {
+      cd.loadFile($('#last-non-output-filename').val());
+    }
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   return cd;
 })(cyberDojo || {}, jQuery);
