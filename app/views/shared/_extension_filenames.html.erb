@@ -1,0 +1,11 @@
+<script type="text/javascript"><!--
+
+$(function() {
+
+  cd.extensionFilenames = function() {
+    return $.parseJSON('<%= @kata.filename_extension.inspect.html_safe %>');
+  };
+
+});
+
+//--></script>

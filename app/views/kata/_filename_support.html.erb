@@ -11,10 +11,6 @@ $(function() {
     return $.parseJSON('<%= @kata.highlight_filenames.inspect.html_safe %>');
   };
 
-  cd.extensionFilenames = function() {
-    return $.parseJSON('<%= @kata.filename_extension.inspect.html_safe %>');
-  };
-
 });
 
 //--></script>
