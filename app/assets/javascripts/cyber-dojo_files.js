@@ -178,6 +178,15 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  var theCurrentFilename = '';
+  var theLastNonOutputFilename = '';
+
+  cd.currentFilename = function() {
+    return theCurrentFilename;
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   cd.loadFile = function(filename) {
     cd.fileDiv(cd.currentFilename()).hide();
     cd.selectFileInFileList(filename);
@@ -185,9 +194,9 @@ var cyberDojo = (function(cd, $) {
 
     cd.fileContentFor(filename).focus();
     cd.focusSyntaxHighlightEditor(filename);
-    $('#current-filename').val(filename);
+    theCurrentFilename = filename;
     if (filename !== 'output') {
-      $('#last-non-output-filename').val(filename);
+      theLastNonOutputFilename = filename;
     }
   };
 
@@ -197,7 +206,7 @@ var cyberDojo = (function(cd, $) {
     if (cd.currentFilename() !== 'output') {
       cd.loadFile('output');
     } else {
-      cd.loadFile($('#last-non-output-filename').val());
+      cd.loadFile(theLastNonOutputFilename);
     }
   };
 

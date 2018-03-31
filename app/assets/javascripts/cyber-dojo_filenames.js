@@ -21,22 +21,6 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.currentFilename = function() {
-    // I tried changing this to...
-    //   return $('input:radio[name=filename]:checked').val();
-    // (which would remove the need for the file
-    //    app/views/kata/_current_filename.html.erb)
-    // This worked on Firefox but not on Chrome.
-    // The problem seems to be that in Chrome the javascript handler
-    // function invoked when the radio button filename is clicked sees
-    //    $('input:radio[name=filename]:checked')
-    // as having _already_ changed. Thus you cannot retrieve the
-    // old filename.
-    return $('#current-filename').val();
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   cd.filenameAlreadyExists = function(filename) {
     return cd.inArray(filename, cd.filenames());
   };
