@@ -3,6 +3,9 @@
 $(function() {
 
   cd.extensionFilenames = function() {
+    // Uses in two places
+    // 1. kata/edit page
+    // 2. review/show page/dialog
     return $.parseJSON('<%= @kata.filename_extension.inspect.html_safe %>');
   };
 
