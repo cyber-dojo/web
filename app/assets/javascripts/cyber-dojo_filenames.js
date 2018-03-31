@@ -9,11 +9,11 @@ var cyberDojo = (function(cd, $) {
     // Gets the filenames when on a kata/edit page.
     // The review/show page/dialog has to collect its filenames
     // in its own way.
-    var prefix = 'file_content_for_';
     var filenames = [ ];
+    const prefix = 'file_content_for_';
     $('textarea[id^=' + prefix + ']').each(function(_) {
-      var id = $(this).attr('id');
-      var filename = id.substr(prefix.length, id.length - prefix.length);
+      const id = $(this).attr('id');
+      const filename = id.substr(prefix.length, id.length - prefix.length);
       filenames.push(filename);
     });
     return filenames;
