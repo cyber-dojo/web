@@ -34,12 +34,4 @@ class KatasTest < AppModelsTestBase
     assert_equal kata_id, katas[kata_id].id
   end
 
-  private
-
-  def stub_make_kata(kata_id)
-    id_generator.stub(kata_id)
-    make_language_kata
-    kata_id
-  end
-
 end
