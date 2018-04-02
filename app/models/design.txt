@@ -1,7 +1,7 @@
 
 A single 'kata' is created by selecting
 a language,test-framework,exercise triple
-and has a 10 character hex id.
+and has a 10 digit base58 id.
 The animals (avatars) inside a kata thus share the same
 language,test-framework,exercise. It is a deliberate part
 of the design of cyber-dojo that different animals in the
@@ -12,7 +12,7 @@ A key cyber-dojo feature is the ability to review the [test]
 events, diff by diff.
 
 You can then
-o) list all the katas (practice sessions) or use [ ] to select a specific kata.
+o) use [ ] to select a specific kata.
 o) list all the avatars or use [ ] to select a specific avatar.
 o) list all the tags or use [ ] to select a specific tag
 o) list all the lights or use [ ] to select a specific light
@@ -20,7 +20,6 @@ o) list all the lights or use [ ] to select a specific light
 For example
 <code>
 ...
-katas.each {|kata| ... }
 kata = katas['34D6E7823E']
 ...
 kata.avatars.each {|avatar| ... }
