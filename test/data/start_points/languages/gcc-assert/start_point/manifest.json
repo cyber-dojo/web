@@ -14,5 +14,5 @@
 
   "filename_extension": [ ".c", ".h" ],
 
-  "runner_choice": "stateful"
+  "runner_choice": "stateless"
 }

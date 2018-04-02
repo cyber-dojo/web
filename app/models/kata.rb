@@ -61,11 +61,10 @@ class Kata
   # filenames
 
   def filename_extension # required
-    # eg ".c"
     if manifest_property.is_a? Array
-      manifest_property
+      manifest_property # eg  [ ".c", ".h" ]
     else
-      [ manifest_property ]
+      [ manifest_property ] # eg ".py"
     end
   end
 

@@ -345,12 +345,22 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '5A6', %w(
-  filename_extension for single string becomes an array
-  ) do
-    in_kata(:stateless) {
-      assert_equal [ '.rb' ], kata.filename_extension
-    }
+  test '4DA', %w(
+  filename_extension for single string becomes an array ) do
+    set_starter_class('StarterService')
+    kata = make_language_kata({ 'display_name' => 'Ruby, MiniTest' })
+    assert_equal 'stateless', kata.runner_choice # no need to call kata_old()
+    assert_equal [ ".rb" ], kata.filename_extension
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '4DB', %w(
+  filename_extension for an array stays an array ) do
+    set_starter_class('StarterService')
+    kata = make_language_kata({ 'display_name' => 'C (gcc), assert' })
+    assert_equal 'stateless', kata.runner_choice # no need to call kata_old()
+    assert_equal [ ".c", ".h" ], kata.filename_extension
   end
 
 end
