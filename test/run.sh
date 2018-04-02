@@ -21,7 +21,7 @@ modules=(
 for module in ${modules[*]}
 do
   if [ "${module}" == "${1}" ]; then
-    modules=(${1})
+    modules=("${1}")
     shift
     break
   fi
@@ -33,8 +33,8 @@ do
     echo "======${module}======"
     # clear out old coverage stats
     coverage_dir=/tmp/cyber-dojo/coverage/${module}
-    mkdir -p ${coverage_dir}
-    rm -rf ${coverage_dir}/.resultset.json
+    mkdir -p "${coverage_dir}"
+    rm -rf "${coverage_dir}/.resultset.json"
     test_log="${coverage_dir}/test.log"
     export COVERAGE_DIR=${coverage_dir}
 
@@ -47,12 +47,12 @@ do
     export CYBER_DOJO_HTTP_CLASS=Http
 
     # run-the-tests!
-    cd ${module}
+    cd "${module}"
     testFiles=(*_test.rb)
     ruby -e "%w( ${testFiles[*]} ).shuffle.map{ |file| require './'+file }" \
-      ${module} ${*} 2>&1 | tee ${test_log}
+      "${module}" "$@" 2>&1 | tee "${test_log}"
     ruby ../print_coverage_percent.rb \
-      ${module}           | tee -a ${test_log}
+      "${module}"           | tee -a "${test_log}"
     cd ..
 done
 
