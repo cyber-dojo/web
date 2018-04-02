@@ -12,7 +12,7 @@
 
   "image_name": "cyberdojofoundation/gpp_assert",
 
-  "filename_extension" : ".cpp",
+  "filename_extension": [ ".cpp", ".hpp" ],
 
   "runner_choice": "stateless"
 }
