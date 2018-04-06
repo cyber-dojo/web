@@ -15,10 +15,12 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.showReviewUrl = function(id, avatarName, wasTag, nowTag) {
-    return '/review/show/' + id + '?avatar=' + avatarName +
-                                  '&was_tag=' + wasTag +
-                                  '&now_tag=' + nowTag;
+  cd.showReviewUrl = function(id, avatarName, wasTag, nowTag, filename) {
+    return '/review/show/' + id +
+      '?avatar=' + avatarName +
+      '&was_tag=' + wasTag +
+      '&now_tag=' + nowTag +
+      '&filename=' + filename;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

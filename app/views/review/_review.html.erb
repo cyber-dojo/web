@@ -10,18 +10,24 @@ $(function() {
   // The [revert] button is available only from the review *dialog*.
   //---------------------------------------------------------------------
 
-  cd.setReviewDialogData = function(id, avatar, wasTag, nowTag) {
-    param = { id:id, avatar:avatar, wasTag:wasTag, nowTag:nowTag };
+  cd.setReviewDialogData = function(id, avatar, wasTag, nowTag, filename) {
+    param = {
+      id:id,
+      avatar:avatar,
+      wasTag:wasTag,
+      nowTag:nowTag,
+      filename:filename
+    };
     reviewRefresh();
   };
 
   var param = {
-        id: "<%= @kata.id %>",
-    avatar: "<%= @avatar.name %>",
-    wasTag: "<%= @was_tag %>",
-    nowTag: "<%= @now_tag %>",
+          id: "<%= @kata.id %>",
+      avatar: "<%= @avatar.name %>",
+      wasTag: "<%= @was_tag %>",
+      nowTag: "<%= @now_tag %>",
+    filename: "<%= @filename %>"
   };
-  var currentFilename = '';
 
   //-----------------------------------------
   // refresh diff? [x]
@@ -337,7 +343,7 @@ $(function() {
         }
         diffFileDiv(getFilename(filenameNode)).show();
         previousFilenameNode = filenameNode;
-        currentFilename = filename;
+        param.filename = filename;
 
         if (sectionCount > 0 && (reselected || !cd.inArray(filename, alreadyOpened))) {
           var section = $('#' + id + '_section_' + sectionIndex);
@@ -417,7 +423,14 @@ $(function() {
     if (inDialog()) {
       reviewRefresh();
     } else {
-      window.location.href = cd.showReviewUrl(param.id, param.avatar, param.wasTag, param.nowTag);
+      window.location.href =
+        cd.showReviewUrl(
+          param.id,
+          param.avatar,
+          param.wasTag,
+          param.nowTag,
+          param.filename
+        );
     }
   };
 
@@ -436,7 +449,7 @@ $(function() {
                 avatar: param.avatar,
                was_tag: param.wasTag,
                now_tag: param.nowTag,
-      current_filename: currentFilename
+              filename: param.filename
     };
     $.getJSON('/differ/diff', params, function(reviewParam) {
       $('.ui-dialog').removeClass('busy');

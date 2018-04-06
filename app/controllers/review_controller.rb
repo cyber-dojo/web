@@ -7,6 +7,7 @@ class ReviewController < ApplicationController
     @avatar = avatars[@avatar_name]
     @was_tag = was_tag
     @now_tag = now_tag
+    @filename = filename
   end
 
   private
@@ -22,6 +23,10 @@ class ReviewController < ApplicationController
   def tag(param, default)
     n = (params[param] || default).to_i
     n != -1 ? n : @avatar.lights.length
+  end
+
+  def filename
+    params[:filename]
   end
 
 end

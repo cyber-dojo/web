@@ -39,7 +39,7 @@ class DifferController < ApplicationController
   end
 
   def current_filename
-    params[:current_filename]
+    params[:filename]
   end
 
   def active_avatar_names
