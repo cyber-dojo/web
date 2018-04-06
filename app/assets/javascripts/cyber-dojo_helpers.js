@@ -1,7 +1,7 @@
 /*global jQuery,cyberDojo*/
 
 var cyberDojo = (function(cd, $) {
-  "use strict";
+  'use strict';
 
   cd.id = function(name) {
     return $('[id="' + name + '"]');
