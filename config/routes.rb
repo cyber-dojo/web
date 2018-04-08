@@ -91,6 +91,12 @@ CyberDojo::Application.routes.draw do
     get 'image_pull'   => :image_pull,    :constraints => { :format => :json }
   end
 
+  # Backward compatibility
+
+  scope path: '/enter', controller: :id_join do
+    get 'start' => :drop_down, :constraints => { :format => :json }
+  end
+
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
