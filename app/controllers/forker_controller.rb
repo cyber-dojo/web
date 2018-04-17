@@ -18,7 +18,7 @@ class ForkerController < ApplicationController
     respond_to do |format|
       format.json { render json: result }
       format.html { redirect_to controller: 'kata',
-                                    action: 'individual',
+                                    action: 'group',
                                         id: result[:id] }
     end
   end
