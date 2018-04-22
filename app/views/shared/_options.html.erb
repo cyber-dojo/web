@@ -12,6 +12,9 @@ $(function() {
     <% if @kata.exercise %>
     html += '<tr><td>exercise</td><td>:</td><td><%= @kata.exercise.gsub('_',' ') %></td></tr>';
     <% end %>
+    html += tr('syntax-highlight', '<button type="button" ' +
+      'id="toggle-syntax-highlight" ' +
+      'onClick="cd.toggleSyntaxHighlight();">toggle</button>');
     html += '</table>';
     html += '</div>';
 

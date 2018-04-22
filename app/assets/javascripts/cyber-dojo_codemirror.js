@@ -3,6 +3,8 @@
 var cyberDojo = (function(cd, $) {
   "use strict";
 
+  var plainTheme = 'cyber-dojo-default';
+  var colourTheme = 'cyber-dojo-colour';
   var noLineNumbersTheme = ' cyber-dojo-no-linenumbers';
 
   var fileExtension = function(filename) {
@@ -86,6 +88,44 @@ var cyberDojo = (function(cd, $) {
       action(editor_div.CodeMirror);
     });
   };
+
+  //================================================================
+
+  var syntaxHighlightEnabled = function() {
+    var enabled = false;
+
+    runActionOnAllCodeMirrorEditors(function(editor) {
+      var theme = editor.getOption('theme');
+
+      if (theme.indexOf(colourTheme) !== -1) {
+        enabled = true;
+      }
+    });
+
+    return enabled;
+  };
+
+  var enableSyntaxHighlight = function(editor) {
+    var theme = editor.getOption('theme');
+    theme = theme.replace(noLineNumbersTheme, '');
+    editor.setOption('theme', colourTheme);
+  };
+
+  var disableSyntaxHighlight = function(editor) {
+    var theme = editor.getOption('theme');
+    theme += noLineNumbersTheme;
+    editor.setOption('theme', plainTheme);
+  };
+
+  cd.toggleSyntaxHighlight = function() {
+    if(syntaxHighlightEnabled()) {
+      runActionOnAllCodeMirrorEditors(disableSyntaxHighlight);
+    } else {
+      runActionOnAllCodeMirrorEditors(enableSyntaxHighlight);
+    }
+  };
+
+  //================================================================
 
   var areLineNumbersVisible = function() {
     var enabled = true;
