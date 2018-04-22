@@ -3,6 +3,8 @@
 
 $(function() {
 
+  const optionsButton = $('#options-button');
+
   var optionsDialog = function() {
     var html = '';
     html += '<div id="options-dialog">';
@@ -27,7 +29,12 @@ $(function() {
     return '<tr><td>' + key + '</td><td>:</td><td>' + value + '</td></tr>';
   };
 
-  $('#options-button').click(function() { optionsDialog(); });
+  if (window.location.href.indexOf('kata/edit') != -1) {
+    optionsButton.show().click(function() { optionsDialog(); });
+  } else {
+    optionsButton.hide();
+  }
+
 });
 
 //--></script>
