@@ -109,12 +109,14 @@ var cyberDojo = (function(cd, $) {
     var theme = editor.getOption('theme');
     theme = theme.replace(noLineNumbersTheme, '');
     editor.setOption('theme', colourTheme);
+    editor.setOption('smartIndent', true);
   };
 
   var disableSyntaxHighlight = function(editor) {
     var theme = editor.getOption('theme');
     theme += noLineNumbersTheme;
     editor.setOption('theme', plainTheme);
+    editor.setOption('smartIndent', false);
   };
 
   cd.toggleSyntaxHighlight = function() {
@@ -174,8 +176,9 @@ var cyberDojo = (function(cd, $) {
       indentUnit: cd.syntaxHighlightTabSize,
       tabSize: cd.syntaxHighlightTabSize,
       indentWithTabs: codeMirrorIndentWithTabs(filename),
-      theme: 'cyber-dojo-colour',
-      readOnly: (filename == 'output')
+      theme: plainTheme,
+      readOnly: (filename == 'output'),
+      smartIndent: false
     });
 
     editor.cyberDojoTextArea = textArea;
