@@ -7,11 +7,6 @@ $(function() {
     var html = '';
     html += '<div id="options-dialog">';
     html += '<table style="border: 1px;">';
-    html += tr('id', '<%= @kata.id[0..5] %>');
-    html += tr('display_name', '<%= @kata.display_name %>');
-    <% if @kata.exercise %>
-    html += '<tr><td>exercise</td><td>:</td><td><%= @kata.exercise.gsub('_',' ') %></td></tr>';
-    <% end %>
     html += tr('syntax-highlight', '<button type="button" ' +
       'id="toggle-syntax-highlight" ' +
       'onClick="cd.toggleSyntaxHighlight();">toggle</button>');
