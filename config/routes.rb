@@ -85,12 +85,6 @@ CyberDojo::Application.routes.draw do
   get '/download(/:id)' => 'downloader#download'
   get '/download_tag(/:id/:avatar/:tag)' => 'downloader#download_tag'
 
-
-  scope path: '/image_puller', controller: :image_puller do
-    get 'image_pulled' => :image_pulled?, :constraints => { :format => :json }
-    get 'image_pull'   => :image_pull,    :constraints => { :format => :json }
-  end
-
   # Backward compatibility
 
   scope path: '/enter', controller: :id_join do
