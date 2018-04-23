@@ -8,16 +8,6 @@ class RunnerService
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def image_pulled?(image_name, kata_id)
-    runner_http_get(__method__, *args(binding))
-  end
-
-  def image_pull(image_name, kata_id)
-    runner_http_post(__method__, *args(binding))
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - -
-
   def kata_new(image_name, kata_id)
     unless stateless?(kata_id)
       runner_http_post(__method__, *args(binding))
@@ -101,11 +91,6 @@ class RunnerService
   #end
 
   private # = = = = = = = = = = = = = = = = = = = = =
-
-  def runner_http_get(method, *args)
-    set_hostname_port(args[1])
-    http_get(method, *args)
-  end
 
   def runner_http_post(method, *args)
     set_hostname_port(args[1])

@@ -14,24 +14,6 @@ class RunnerServiceTest < AppServicesTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '102',
-  'image_pulled?' do
-    in_kata {
-      refute runner.image_pulled?('cyberdojo/non_existant', kata_id)
-    }
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '103',
-  'image_pull' do
-    in_kata {
-      refute runner.image_pull('cyberdojo/non_existant', kata_id)
-    }
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test '74A',
   'stateless run() delegates to stateless runner' do
     in_kata(:stateless) {
