@@ -76,7 +76,7 @@ class RunnerService
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def set_hostname_port_stateless
-    @hostname = 'runner_stateless'
+    @hostname = ENV['RUNNER_SERVICE_NAME'] || 'runner_stateless'
     @port = 4597
   end
 
