@@ -19,11 +19,12 @@ services:
       - ./test:${CYBER_DOJO_HOME}/test:ro
     environment:
       - CYBER_DOJO_HOME
+      - RUNNER_STATEFUL_NAME
     depends_on:
       - differ
       - runner-stateless
-      - runner_stateful
-      #- runner_processful
+      - runner-stateful
+      #- runner-processful
       - starter
       - storer
       - zipper
@@ -79,9 +80,9 @@ services:
 
   # - - - - - - - - - - - - - - - -
 
-  runner_stateful:
+  runner-stateful:
     user: root
-    image: cyberdojo/runner_stateful
+    image: cyberdojo/runner-stateful
     init: true
     container_name: test_web_cyber-dojo-runner-stateful
     read_only: true
@@ -94,9 +95,9 @@ services:
 
   # - - - - - - - - - - - - - - - -
 
-  #runner_processful:
+  #runner-processful:
   #  user: root
-  #  image: cyberdojo/runner_processful
+  #  image: cyberdojo/runner-processful
   #  init: true
   #  container_name: test_web_cyber-dojo-runner-processful
   #  read_only: true

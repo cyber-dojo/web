@@ -10,7 +10,7 @@ class HttpTest < AppServicesTestBase
 
   test '620',
   'test using runner-stateful' do
-    json = http.post('runner_stateful', '4557', 'kata_new', {
+    json = http.post('runner-stateful', '4557', 'kata_new', {
       image_name:'',
       kata_id:''
     })
@@ -21,7 +21,7 @@ class HttpTest < AppServicesTestBase
 
   test '621',
   'test using runner-stateless' do
-    json = http.post('runner_stateless', '4597', 'kata_new', {
+    json = http.post('runner-stateless', '4597', 'kata_new', {
       image_name:'',
       kata_id:''
     })
