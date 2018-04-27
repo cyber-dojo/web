@@ -81,7 +81,7 @@ class RunnerService
   end
 
   def set_hostname_port_stateful
-    @hostname = ENV['RUNNER_STATEFUL_NAME'] || 'runner_stateful'
+    @hostname = 'runner-stateful'
     @port = 4557
   end
 
