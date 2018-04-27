@@ -19,7 +19,6 @@ services:
       - ./test:${CYBER_DOJO_HOME}/test:ro
     environment:
       - CYBER_DOJO_HOME
-      - RUNNER_SERVICE_NAME
     depends_on:
       - differ
       - runner-stateless
