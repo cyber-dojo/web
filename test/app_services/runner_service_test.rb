@@ -163,7 +163,7 @@ class RunnerServiceTest < AppServicesTestBase
 
   def assert_spied_run_stateless
     http_spied_run {
-      assert_equal [ 'runner_stateless', 4597,
+      assert_equal [ 'runner-stateless', 4597,
         'run_cyber_dojo_sh', expected_run_args
       ], http.spied[0]
     }
