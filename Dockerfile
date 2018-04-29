@@ -47,6 +47,13 @@ RUN  chown -R nobody:nogroup ${CYBER_DOJO_HOME}
 USER nobody
 
 # - - - - - - - - - - - - - - - - -
+# git commit sha image is built from
+# - - - - - - - - - - - - - - - - -
+
+ARG SHA
+RUN echo ${SHA} > ${CYBER_DOJO_HOME}/sha.txt
+
+# - - - - - - - - - - - - - - - - -
 # bring it up
 # - - - - - - - - - - - - - - - - -
 

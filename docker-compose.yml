@@ -8,6 +8,7 @@ services:
       context: .
       args:
         - CYBER_DOJO_HOME=${CYBER_DOJO_HOME}
+        - SHA=${SHA}
     user: nobody
     image: cyberdojo/web
     init: true
