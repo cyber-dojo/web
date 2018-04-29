@@ -24,6 +24,17 @@ class StorerServiceTest < AppServicesTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test '300',
+  'sha' do
+    sha = storer.sha
+    assert_equal 40, sha.size
+    sha.each_char do |ch|
+      assert "0123456789abcdef".include?(ch)
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '301',
   'smoke test storer-service scenario' do
     assert_equal [], storer.katas_completions('34')

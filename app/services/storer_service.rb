@@ -10,6 +10,12 @@ class StorerService
 
   # - - - - - - - - - - - -
 
+  def sha
+    http_get(__method__)
+  end
+
+  # - - - - - - - - - - - -
+
   def kata_create(        manifest)
     http_post(__method__, manifest)
   end

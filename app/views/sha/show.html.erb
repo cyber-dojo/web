@@ -1,0 +1,13 @@
+
+<table>
+<% @shas.each do |service,sha| %>
+<tr>
+  <td><%= service %></td>
+  <td>
+    <a href="https://github.com/cyber-dojo/<%= service %>/tree/<%= sha %>">
+      <%= sha %>
+    </a>
+  </td>
+</tr>
+<% end %>
+</table>

@@ -8,6 +8,12 @@ class StarterService
 
   # - - - - - - - - - - - -
 
+  def sha
+    http_get(__method__)
+  end
+
+  # - - - - - - - - - - - -
+
   def language_start_points
     http_get(__method__)
   end

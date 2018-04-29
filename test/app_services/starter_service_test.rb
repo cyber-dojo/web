@@ -15,6 +15,17 @@ class StarterServiceTest < AppServicesTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test '3A9',
+  'sha' do
+    sha = starter.sha
+    assert_equal 40, sha.size
+    sha.each_char do |ch|
+      assert "0123456789abcdef".include?(ch)
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '3AA',
   'language_start_points' do
     start_points = starter.language_start_points
