@@ -31,11 +31,11 @@ docker-compose \
   up -d \
   --force-recreate
 
-wait_till_up 'test_cyber-dojo-web'
-wait_till_up 'test_web_cyber-dojo-starter'
-wait_till_up 'test_web_cyber-dojo-storer'
-wait_till_up 'test_web_cyber-dojo-runner-stateless'
-wait_till_up 'test_web_cyber-dojo-runner-stateful'
-#wait_till_up 'test_web_cyber-dojo-runner-processful'
-wait_till_up 'test_web_cyber-dojo-differ'
-wait_till_up 'test_web_cyber-dojo-zipper'
+wait_till_up 'test-cyber-dojo-web'
+wait_till_up 'test-web-cyber-dojo-starter'
+wait_till_up 'test-web-cyber-dojo-storer'
+wait_till_up 'test-web-cyber-dojo-runner-stateless'
+wait_till_up 'test-web-cyber-dojo-runner-stateful'
+#wait_till_up 'test-web-cyber-dojo-runner-processful'
+wait_till_up 'test-web-cyber-dojo-differ'
+wait_till_up 'test-web-cyber-dojo-zipper'

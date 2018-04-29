@@ -3,7 +3,7 @@
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 
-readonly WEB_CID=$(docker ps --all --quiet --filter "name=test_cyber-dojo-web")
+readonly WEB_CID=$(docker ps --all --quiet --filter "name=test-cyber-dojo-web")
 docker exec "${WEB_CID}" sh -c "cd test && ./run.sh ${*}"
 readonly STATUS=$?
 
