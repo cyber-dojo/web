@@ -65,6 +65,18 @@ var cyberDojo = (function(cd, $) {
       case '.html':
       case '.htm':
         return 'text/html';
+      case '.xml':
+        return 'text/xml';
+      case '.md':
+        return 'text/x-markdown';
+      case '.go':
+        return 'text/x-go';
+      case '.groovy':
+        return 'text/x-groovy';
+      case '.hs':
+        return 'text/x-haskell';
+      case '.swift':
+        return 'text/x-swift';
     }
     return '';
   };
