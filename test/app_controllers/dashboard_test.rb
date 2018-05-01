@@ -23,7 +23,8 @@ class DashboardControllerTest < AppControllerTestBase
   test 'E43', %w(
   with and without avatars, and
   with and without traffic lights ) do
-    in_kata('Java, JUnit') {
+    has_progress_set_in_manifest = 'Java, JUnit'
+    in_kata(has_progress_set_in_manifest) {
       # no avatars
       dashboard
       heartbeat

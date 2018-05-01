@@ -15,13 +15,13 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   # - - - - - - - - - - - - - - - -
 
-  def in_kata(runner_choice, &block)
+  def in_kata(choice, &block)
     display_name = {
        stateless: 'Ruby, MiniTest',
         stateful: 'Ruby, RSpec'
       #processful: 'Ruby, Test::Unit'
-    }[runner_choice] || runner_choice
-    refute_nil display_name, runner_choice
+    }[choice] || choice
+    refute_nil display_name, choice
     create_language_kata(display_name)
     begin
       block.call
