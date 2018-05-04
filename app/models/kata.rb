@@ -64,7 +64,7 @@ class Kata
     if manifest_property.is_a?(Array)
       manifest_property # eg  [ ".c", ".h" ]
     else
-      [ manifest_property ] # eg ".py"
+      [ manifest_property ] # eg ".py" -> [ ".py" ]
     end
   end
 
