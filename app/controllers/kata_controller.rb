@@ -31,39 +31,23 @@ class KataController < ApplicationController
     files = received_files
 
     @avatar = Avatar.new(self, kata, avatar_name)
-    begin
-      case runner_choice
-      when 'stateless'
-        runner.set_hostname_port_stateless
-      when 'stateful'
-        runner.set_hostname_port_stateful
-      #when 'processful'
-        #runner.set_hostname_port_processful
-      end
-      args = []
-      args << image_name  # eg 'cyberdojofoundation/gcc_assert'
-      args << id          # eg 'FE8A79A264'
-      args << avatar_name # eg 'salmon'
-      args << max_seconds # eg 10
-      args << delta
-      args << files
-      stdout,stderr,status,@colour = runner.run_cyber_dojo_sh(*args)
 
-    rescue StandardError => error
-      # o) resuming old !stateless kata whose state has been collected?
-      # o) runner_choice switched from stateless?
-      case error.message
-        when 'RunnerService:run_cyber_dojo_sh:kata_id:!exists'
-          resurrect_kata
-          resurrect_avatar(files)
-          stdout,stderr,status,@colour = resurrect_run_tests(files, max_seconds)
-        when 'RunnerService:run_cyber_dojo_sh:avatar_name:!exists'
-          resurrect_avatar(files)
-          stdout,stderr,status,@colour = resurrect_run_tests(files, max_seconds)
-        else
-          raise error
-      end
+    case runner_choice
+    when 'stateless'
+      runner.set_hostname_port_stateless
+    when 'stateful'
+      runner.set_hostname_port_stateful
+    #when 'processful'
+      #runner.set_hostname_port_processful
     end
+    args = []
+    args << image_name  # eg 'cyberdojofoundation/gcc_assert'
+    args << id          # eg 'FE8A79A264'
+    args << avatar_name # eg 'salmon'
+    args << max_seconds # eg 10
+    args << delta
+    args << files
+    stdout,stderr,status,@colour = runner.run_cyber_dojo_sh(*args)
 
     if @colour == 'timed_out'
       stdout = timed_out_message(max_seconds) + stdout
@@ -112,20 +96,6 @@ class KataController < ApplicationController
       seen[filename] = content.gsub(/\r\n/, "\n")
     end
     seen
-  end
-
-  def resurrect_kata
-    runner.kata_new(kata.image_name, kata.id)
-  end
-
-  def resurrect_avatar(files)
-    args = [ kata.image_name, kata.id, @avatar.name, files ]
-    runner.avatar_new(*args)
-  end
-
-  def resurrect_run_tests(files, max_seconds)
-    delta = { unchanged:files.keys, changed:[], deleted:[], new:[] }
-    @avatar.test(delta, files, max_seconds)
   end
 
   def timed_out_message(max_seconds)

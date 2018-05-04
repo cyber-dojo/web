@@ -329,22 +329,6 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'D61', %w(
-  when collector has collected the runner containers/volumes
-  then avatar_start() seamlessly resurrects ) do
-    set_runner_class('RunnerService')
-    in_kata(:stateful) {}
-    begin
-      avatar = kata.avatar_start
-      refute_nil avatar
-      runner.avatar_old(kata.image_name, kata.id, avatar.name)
-    ensure
-      runner.kata_old(kata.image_name, kata.id)
-    end
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test '4DA', %w(
   filename_extension for single string becomes an array ) do
     set_starter_class('StarterService')

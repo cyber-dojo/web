@@ -12,16 +12,7 @@ class Kata
   def avatar_start(avatar_names = Avatars.names.shuffle)
     name = storer.avatar_start(id, avatar_names)
     unless name.nil?
-      begin
-        runner.avatar_new(image_name, id, name, visible_files)
-      rescue StandardError => error
-        # o) resuming old !stateless kata whose state has been collected?
-        # o) runner_choice switched from stateless?
-        no_kata = (error.message == 'RunnerService:avatar_new:kata_id:!exists')
-        raise error unless no_kata
-        runner.kata_new(image_name, id)
-        runner.avatar_new(image_name, id, name, visible_files)
-      end
+      runner.avatar_new(image_name, id, name, visible_files)
     end
     name.nil? ? nil : Avatar.new(externals, self, name)
   end
