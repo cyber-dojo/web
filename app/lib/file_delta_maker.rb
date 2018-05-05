@@ -3,9 +3,11 @@ module FileDeltaMaker # mix-in
 
   module_function
 
-  # make_delta finds out which files are :new, :unchanged, :changed, or :deleted.
+  # make_delta finds out which files are
+  # :new, :unchanged, :changed, or :deleted.
+  #
   # Files deleted in the browser are correspondingly deleted in the runner.
-  # Files not changed in the browser are *not* be (re)saved.
+  # Files not changed in the browser are _not_ (re)saved.
 
   def make_delta(was, now)
     now_keys = now.keys.clone
