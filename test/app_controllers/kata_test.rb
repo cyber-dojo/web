@@ -187,23 +187,6 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-=begin
-  test '3FD', %w(
-  run_tests with bad image_name raises
-  and does not cause resurrection ) do
-    in_kata(:stateful) {
-      as_avatar {
-        error = assert_raises(StandardError) {
-          run_tests({ 'image_name' => 'does_not/exist' })
-        }
-        assert error.message.start_with?('RunnerService:run_cyber_dojo_sh')
-      }
-    }
-  end
-=end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test '555', %w(
   run_tests for an old avatar seamlessly resurrects ) do
     in_kata(:stateful) {
