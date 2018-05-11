@@ -12,6 +12,7 @@ class Kata
   def avatar_start(avatar_names = Avatars.names.shuffle)
     name = storer.avatar_start(id, avatar_names)
     unless name.nil?
+      visible_files.delete('output')
       runner.avatar_new(image_name, id, name, visible_files)
     end
     name.nil? ? nil : Avatar.new(externals, self, name)
