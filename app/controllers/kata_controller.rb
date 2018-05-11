@@ -47,10 +47,20 @@ class KataController < ApplicationController
     args << max_seconds # eg 10
     args << delta
     args << files
-    stdout,stderr,status,@colour = runner.run_cyber_dojo_sh(*args)
+    stdout,stderr,status,@colour,@new_files,@deleted_files = runner.run_cyber_dojo_sh(*args)
 
     if @colour == 'timed_out'
       stdout = timed_out_message(max_seconds) + stdout
+    end
+
+    # Storer's snapshot exactly mirrors the files after the test-event
+    # has completed. That is, after a test-event completes if you
+    # refresh the page in the browser then nothing changes.
+    @deleted_files.keys.each do |filename|
+      files.delete(filename)
+    end
+    @new_files.each do |filename,content|
+      files[filename] = content
     end
 
     # storer.avatar_ran_tests

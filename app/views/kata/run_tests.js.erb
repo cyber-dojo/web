@@ -1,12 +1,12 @@
 
-var appendTestTrafficLight = function() {
-  var colour = "<%= @colour %>";
-  var lightsCount = $('.diff-traffic-light').size();
-  var img = $('<img>', {
+const appendTestTrafficLight = function() {
+  const colour = "<%= @colour %>";
+  const lightsCount = $('.diff-traffic-light').size();
+  const img = $('<img>', {
     'src': '/images/bulb_' + colour + '.png',
     'alt': colour + ' traffic-light'
   });
-  var div = $('<div>', {
+  const div = $('<div>', {
     'class': 'diff-traffic-light',
     'data-tip':'simple_review_traffic_light',
     'data-colour': colour,
@@ -22,19 +22,47 @@ var appendTestTrafficLight = function() {
 
 //- - - - - - - - - - - - - - - - - - - - - -
 
+const updateTrafficLightCount = function() {
+  $('.traffic-lights-count')
+    .html("<%= js_partial('traffic_lights_count') %>");
+};
+
+const updateTrafficLightPieChart = function() {
+  $('#traffic-lights-pie-chart')
+    .html("<%= js_partial('traffic_lights_pie_chart') %>");
+};
+
+//- - - - - - - - - - - - - - - - - - - - - -
+
+const appendNewFiles = function() {
+  $("#visible-files-container")
+    .append("<%= js_partial('new_files') %>");
+};
+
+//- - - - - - - - - - - - - - - - - - - - - -
+
+const removeDeletedFiles = function() {
+  <% @deleted_files.keys.each do |filename| %>
+  toRemove = document.getElementById("<%= filename %>_div");
+  if (toRemove) {
+    toRemove.parentNode.removeChild(toRemove);
+  }
+  <% end %>
+};
+
+//- - - - - - - - - - - - - - - - - - - - - -
+
 $('#output')
   .html("<%= js_partial('output') %>");
 
+appendTestTrafficLight();
+updateTrafficLightCount();
+updateTrafficLightPieChart();
+
+appendNewFiles();
+removeDeletedFiles();
+
 cd.switchEditorToCodeMirror('output');
 
-appendTestTrafficLight();
-
-$('.traffic-lights-count')
-  .html("<%= js_partial('traffic_lights_count') %>");
-
-$('#traffic-lights-pie-chart')
-  .html("<%= js_partial('traffic_lights_pie_chart') %>");
-
 cd.scrollAvatarImageIntoView();
-
 

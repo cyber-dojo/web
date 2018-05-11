@@ -152,49 +152,42 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '9DC', %w(
-  a deleted file stays deleted in the next run
-  for stateful runner_choice ) do
-    in_kata(:stateful) {
+  test '9DC', %w( round-tripping:
+  when a test-event deletes an existing text file
+  then the storer records it
+  ) do
+    in_kata(:stateless) {
       as_avatar {
         filename = 'instructions'
-        ls_all = 'ls -al'
-        delete_file(filename)
+        change_file('cyber-dojo.sh', "rm #{filename}")
         run_tests
-        change_file('cyber-dojo.sh', 'ls -al')
-        run_tests
-        output = avatar.visible_files['output']
-        refute output.include?(filename), output
+        filenames = avatar.visible_files.keys.sort
+        refute filenames.include?(filename), filenames
       }
     }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '569', %w(
-   when cyber-dojo.sh creates a file
-   then it disappears on the next run
-   for stateless runner_choice ) do
+  test '569', %w( round-tripping:
+  when a test-event creates a new text file
+  then the storer records it
+  ) do
     in_kata(:stateless) {
       as_avatar {
         filename = 'wibble.txt'
-        ls_all = 'ls -al'
-        create_file = "touch #{filename} && #{ls_all}"
-        change_file('cyber-dojo.sh', create_file)
+        change_file('cyber-dojo.sh', "echo Hello > #{filename}")
         run_tests
-        output = avatar.visible_files['output']
-        assert output.include?(filename), output
-
-        change_file('cyber-dojo.sh', ls_all)
-        run_tests
-        output = avatar.visible_files['output']
-        refute output.include?(filename), output
+        filenames = avatar.visible_files.keys.sort
+        assert filenames.include?(filename), filenames
+        assert_equal "Hello\n", avatar.visible_files[filename]
       }
     }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+=begin
   test '3FD', %w(
   run_tests with bad image_name raises
   and does not cause resurrection ) do
@@ -207,6 +200,7 @@ class KataControllerTest  < AppControllerTestBase
       }
     }
   end
+=end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

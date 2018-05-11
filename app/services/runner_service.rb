@@ -69,8 +69,14 @@ class RunnerService
         unchanged_files:unchanged_files,
             max_seconds:max_seconds
     }
-    quad = http_post_hash(:run_cyber_dojo_sh, args)
-    [quad['stdout'], quad['stderr'], quad['status'], quad['colour']]
+    tuple = http_post_hash(:run_cyber_dojo_sh, args)
+    [tuple['stdout'],
+     tuple['stderr'],
+     tuple['status'],
+     tuple['colour'],
+     tuple['new_files'],
+     tuple['deleted_files']
+   ]
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -

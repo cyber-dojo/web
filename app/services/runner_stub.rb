@@ -44,7 +44,13 @@ class RunnerStub
     if dir.exists?
       dir.read(filename)
     else
-      [stdout='blah blah blah', stderr='', status=0, colour='red']
+      [stdout='blah blah blah',
+       stderr='',
+       status=0,
+       colour='red',
+       new_files={},
+       deleted_files={}
+      ]
     end
   end
 
