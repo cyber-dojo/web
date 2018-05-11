@@ -55,7 +55,7 @@ $(function() {
     <tr>
       <td>
         <div class="info">
-          your new session ID is <%= @kata_id[0..5] %><br/>
+          your new session ID is <span id="kata-id"><%= @kata_id[0..5] %></span><br/>
           <span id="phonetic-kata-id">(<%= @phonetic.join('-')%>)</span><br/>
           you'll need this to come back to this session
       <td>
