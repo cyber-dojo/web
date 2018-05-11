@@ -12,6 +12,17 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test '76E', %w( run_tests with bad kata id raises ) do
+    error = assert_raises(StandardError) {
+      run_tests({ 'id' => 'bad' })
+    }
+    assert_equal 'invalid kata_id', error.message
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # landing pages
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '9B7', %w( individual landing page ) do
     in_kata(:stateless) {
       as_avatar {
@@ -40,14 +51,7 @@ class KataControllerTest  < AppControllerTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '76E', %w( run_tests with bad kata id raises ) do
-    error = assert_raises(StandardError) {
-      run_tests({ 'id' => 'bad' })
-    }
-    assert_equal 'invalid kata_id', error.message
-  end
-
+  # red/amber/green/timed_out
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '221', %w( timed_out ) do
@@ -103,6 +107,8 @@ class KataControllerTest  < AppControllerTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # Batch-Method
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   class StorerDummy
     def avatar_ran_tests(_kata_id, _avatar_name, _files, _now, _stdout, _stderr, _colour)
@@ -151,6 +157,8 @@ class KataControllerTest  < AppControllerTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # round-tripping
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '9DC', %w( round-tripping:
   when a test-event deletes an existing text file
@@ -185,6 +193,8 @@ class KataControllerTest  < AppControllerTestBase
     }
   end
 
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # show-json for Atom editor plug-in
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'B75', %w(
