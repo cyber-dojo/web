@@ -51,7 +51,7 @@ class KataControllerTest  < AppControllerTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # red/amber/green/timed_out
+  # traffic-lights
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '221', %w( timed_out ) do
@@ -66,7 +66,8 @@ class KataControllerTest  < AppControllerTestBase
           RUBY_CODE
         )
         run_tests({ 'max_seconds' => 3 })
-        assert_timed_out
+        assert avatar.lights[-1].output.start_with?('Unable to complete')
+        assert_equal :timed_out, avatar.lights[-1].colour
       }
     }
   end
@@ -219,13 +220,6 @@ class KataControllerTest  < AppControllerTestBase
         get '/kata/show_json', params:params
       }
     }
-  end
-
-  private # = = = = = = = = = = = = = = = =
-
-  def assert_timed_out
-    assert avatar.lights[-1].output.start_with?('Unable to complete')
-    assert_equal :timed_out, avatar.lights[-1].colour
   end
 
 end
