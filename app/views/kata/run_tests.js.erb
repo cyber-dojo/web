@@ -34,20 +34,25 @@ const updateTrafficLightPieChart = function() {
 
 //- - - - - - - - - - - - - - - - - - - - - -
 
-const appendNewFiles = function() {
-  $("#visible-files-container")
-    .append("<%= js_partial('new_files') %>");
+const addNewFiles = function() {
+  $("#visible-files-container").append("<%= js_partial('new_files') %>");
 };
 
 //- - - - - - - - - - - - - - - - - - - - - -
 
 const removeDeletedFiles = function() {
   <% @deleted_files.keys.each do |filename| %>
-  toRemove = document.getElementById("<%= filename %>_div");
-  if (toRemove) {
-    toRemove.parentNode.removeChild(toRemove);
-  }
+    cd.deleteFile("<%= filename %>");
   <% end %>
+};
+
+//- - - - - - - - - - - - - - - - - - - - - -
+
+const updateChangedFiles = function() {
+  <% @changed_files.keys.each do |filename| %>
+    cd.deleteFile("<%= filename %>");
+  <% end %>
+  $("#visible-files-container").append("<%= js_partial('changed_files') %>");
 };
 
 //- - - - - - - - - - - - - - - - - - - - - -
@@ -59,8 +64,9 @@ appendTestTrafficLight();
 updateTrafficLightCount();
 updateTrafficLightPieChart();
 
-appendNewFiles();
+addNewFiles();
 removeDeletedFiles();
+updateChangedFiles();
 
 cd.switchEditorToCodeMirror('output');
 

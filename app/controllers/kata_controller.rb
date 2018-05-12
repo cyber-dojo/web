@@ -46,11 +46,17 @@ class KataController < ApplicationController
     args << files
     args << max_seconds # eg 10
     args << image_name  # eg 'cyberdojofoundation/gcc_assert'
-    stdout,stderr,status,@colour,@new_files,@deleted_files = avatar.test(*args)
+
+    stdout,stderr,status,@colour,
+      @new_files,@deleted_files,@changed_files = avatar.test(*args)
 
     if @colour == 'timed_out'
       stdout = timed_out_message(max_seconds) + stdout
     end
+
+    # If there is a file called output remove it otherwise
+    # it will interfere with the @output pseudo-file.
+    @new_files.delete('output')
 
     # Storer's snapshot exactly mirrors the files after the test-event
     # has completed. That is, after a test-event completes if you
@@ -58,10 +64,10 @@ class KataController < ApplicationController
     @deleted_files.keys.each do |filename|
       files.delete(filename)
     end
-    # If there is a file called output remove it otherwise
-    # it will interfere with the @output pseudo-file.
-    @new_files.delete('output')
     @new_files.each do |filename,content|
+      files[filename] = content
+    end
+    @changed_files.each do |filename,content|
       files[filename] = content
     end
 

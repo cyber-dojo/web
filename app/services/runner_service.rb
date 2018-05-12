@@ -75,7 +75,8 @@ class RunnerService
      tuple['status'],
      tuple['colour'],
      tuple['new_files'],
-     tuple['deleted_files']
+     tuple['deleted_files'],
+     tuple['changed_files']
    ]
   end
 

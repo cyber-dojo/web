@@ -49,7 +49,8 @@ class RunnerStub
        status=0,
        colour='red',
        new_files={},
-       deleted_files={}
+       deleted_files={},
+       changed_files={}
       ]
     end
   end
