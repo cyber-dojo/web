@@ -59,8 +59,8 @@ class KataController < ApplicationController
     @deleted_files.keys.each do |filename|
       files.delete(filename)
     end
-    # Cannot allow file called output to interfere with
-    # @output pseudo-file.
+    # If there is a file called output remove it otherwise
+    # it will interfere with the @output pseudo-file.
     @new_files.delete('output')
     @new_files.each do |filename,content|
       files[filename] = content
