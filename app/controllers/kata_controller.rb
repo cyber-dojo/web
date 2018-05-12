@@ -40,14 +40,13 @@ class KataController < ApplicationController
     #when 'processful'
       #runner.set_hostname_port_processful
     end
+
     args = []
-    args << image_name  # eg 'cyberdojofoundation/gcc_assert'
-    args << id          # eg 'FE8A79A264'
-    args << avatar_name # eg 'salmon'
-    args << max_seconds # eg 10
     args << delta
     args << files
-    stdout,stderr,status,@colour,@new_files,@deleted_files = runner.run_cyber_dojo_sh(*args)
+    args << max_seconds # eg 10
+    args << image_name  # eg 'cyberdojofoundation/gcc_assert'
+    stdout,stderr,status,@colour,@new_files,@deleted_files = avatar.test(*args)
 
     if @colour == 'timed_out'
       stdout = timed_out_message(max_seconds) + stdout
@@ -66,15 +65,13 @@ class KataController < ApplicationController
       files[filename] = content
     end
 
-    # storer.avatar_ran_tests
-    # - - - - - - - - - - - -
-    # This validates a kata with the given id exists.
+    # avatar.tested() saves the test results to storer which
+    # also validates a kata with the given id exists.
     # It could become a fire-and-forget method.
     # This might decrease run_tests() response time.
-    # However, it is currently how the id is validated.
     # Also, I have tried to make it fire-and-forget using the
     # spawnling gem and it breaks a test in a non-obvious way.
-    storer.avatar_ran_tests(id, avatar_name, files, time_now, stdout, stderr, @colour)
+    avatar.tested(files, time_now, stdout, stderr, @colour)
 
     @output = stdout + stderr
 
