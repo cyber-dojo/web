@@ -125,23 +125,6 @@ class KataControllerTest  < AppControllerTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '02D', %w(
-  a new file persists for stateful runner_choice ) do
-    in_kata(:stateful) {
-      as_avatar {
-        filename = 'hello.txt'
-        new_file(filename, 'Hello world')
-        run_tests
-        change_file('cyber-dojo.sh', 'ls -al')
-        run_tests
-        output = avatar.visible_files['output']
-        assert output.include?(filename), output
-      }
-    }
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # round-tripping
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
