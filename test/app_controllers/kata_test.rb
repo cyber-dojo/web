@@ -73,35 +73,19 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '223', %w( red ) do
+  test '223', %w( red-green-amber ) do
     in_kata(:stateless) {
       as_avatar {
         run_tests
         assert_equal :red, avatar.lights[-1].colour
-      }
-    }
-  end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '224', %w( amber ) do
-    in_kata(:stateful) {
-      as_avatar {
-        change_file('hiker.rb', 'syntax-error')
-        run_tests
-        assert_equal :amber, avatar.lights[-1].colour
-      }
-    }
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '225', %w( green ) do
-    in_kata(:stateless) {
-      as_avatar {
         sub_file('hiker.rb', '6 * 9', '6 * 7')
         run_tests
         assert_equal :green, avatar.lights[-1].colour
+
+        change_file('hiker.rb', 'syntax-error')
+        run_tests
+        assert_equal :amber, avatar.lights[-1].colour
       }
     }
   end
