@@ -177,7 +177,7 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '569', %w( round-tripping:
+  test '9DD', %w( round-tripping:
   when a test-event creates a new text file
   then the storer records it
   ) do
@@ -189,6 +189,34 @@ class KataControllerTest  < AppControllerTestBase
         filenames = avatar.visible_files.keys.sort
         assert filenames.include?(filename), filenames
         assert_equal "Hello\n", avatar.visible_files[filename]
+      }
+    }
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '9DE', %w( round-tripping:
+  when a test-event creates a new text file called output
+  then the storer does _not_ record it because it already records
+  stdout+stderr as output
+  ) do
+    in_kata(:stateless) {
+      as_avatar {
+        filename = 'output'
+        script = avatar.visible_files['cyber-dojo.sh']
+        script += "\necho Hello > #{filename}"
+        change_file('cyber-dojo.sh', script)
+        run_tests
+        filenames = avatar.visible_files.keys.sort
+        assert filenames.include?(filename), filenames
+        expected = [
+          '  1) Failure:',
+          'TestHiker#test_life_the_universe_and_everything [test_hiker.rb:6]:',
+          'Expected: 42',
+          '  Actual: 54'
+        ].join("\n")
+        actual = avatar.visible_files['output']
+        assert actual.include?(expected), actual
       }
     }
   end
