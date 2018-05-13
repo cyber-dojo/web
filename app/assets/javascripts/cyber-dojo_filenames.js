@@ -53,11 +53,13 @@ var cyberDojo = (function(cd, $) {
     //
     var hi = [];
     $.each(filenames, function(_, filename) {
-      if (isSourceFile(filename) && filename != 'output') {
+      if (isSourceFile(filename) || filename == 'instructions') {
         hi.push(filename);
       }
     });
     hi.sort();
+    hi = hi.filter(item => item !== 'output')
+    hi = hi.filter(item => item != 'cyber-dojo.sh')
     return hi;
   };
 
@@ -74,11 +76,12 @@ var cyberDojo = (function(cd, $) {
     //
     var lo = [];
     $.each(filenames, function(_, filename) {
-      if (!isSourceFile(filename) && filename != 'output') {
+      if (!isSourceFile(filename) && filename != 'instructions') {
         lo.push(filename);
       }
     });
     lo.sort();
+    lo = lo.filter(item => item !== 'output')
     return lo;
   };
 
