@@ -8,6 +8,18 @@ class RunnerService
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
+=begin
+  def sha(runner_name)
+    case runner_name
+    when 'stateless' then set_hostname_port_stateless
+    when 'stateful'  then set_hostname_port_stateful
+    end
+    http_get(__method__, [])
+  end
+=end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
   def kata_new(image_name, kata_id)
     unless stateless?(kata_id)
       runner_http_post(__method__, *args(binding))
