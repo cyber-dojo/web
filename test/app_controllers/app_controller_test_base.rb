@@ -6,6 +6,7 @@ ENV['RAILS_ENV'] = 'test'
 require_relative '../../test/all'
 require_relative '../../config/environment'
 require_relative 'params_maker'
+require 'json'
 
 class AppControllerTestBase < ActionDispatch::IntegrationTest
 
@@ -125,12 +126,13 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   def run_tests(options = {})
     id = options['id'] || kata.id
     params = {
-      'format'        => 'js',
-      'id'            => id,
-      'runner_choice' => kata.runner_choice,
-      'max_seconds'   => (options['max_seconds'] || kata.max_seconds),
-      'image_name'    => (options['image_name' ] || kata.image_name),
-      'avatar'        => avatar.name
+      'format'           => 'js',
+      'id'               => id,
+      'runner_choice'    => kata.runner_choice,
+      'hidden_filenames' => JSON.unparse(kata.hidden_filenames),
+      'max_seconds'      => (options['max_seconds'] || kata.max_seconds),
+      'image_name'       => (options['image_name' ] || kata.image_name),
+      'avatar'           => avatar.name
     }
     post '/kata/run_tests', params:params.merge(@params_maker.params)
     assert_response :success

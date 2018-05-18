@@ -111,6 +111,7 @@ class KataControllerTest  < AppControllerTestBase
           :id => kata.id,
           :runner_choice => kata.runner_choice,
           :image_name => kata.image_name,
+          :hidden_filenames => JSON.unparse([]),
           :avatar => avatar.name,
           :max_seconds => kata.max_seconds
         }
@@ -164,6 +165,23 @@ class KataControllerTest  < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '9DE', %w( round-tripping:
+  when a test-event changes a text-file
+  then the storer records it ) do
+    in_kata(:stateless) {
+      as_avatar {
+        filename = 'instructions'
+        change_file('cyber-dojo.sh', "echo Hello > #{filename}")
+        run_tests
+        filenames = avatar.visible_files.keys.sort
+        assert filenames.include?(filename), filenames
+        assert_equal "Hello\n", avatar.visible_files[filename]
+      }
+    }
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '9DF', %w( round-tripping:
   when a test-event creates a new text file called output
   then the storer does _not_ record it because it already records
   stdout+stderr as output

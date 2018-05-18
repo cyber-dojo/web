@@ -64,6 +64,10 @@ class Kata
     manifest_property || []
   end
 
+  def hidden_filenames # optional
+    manifest_property || []
+  end
+
   # - - - - - - - - - - - - -
   # source
 

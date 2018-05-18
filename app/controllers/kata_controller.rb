@@ -1,6 +1,7 @@
 require_relative '../../lib/phonetic_alphabet'
 require_relative '../../lib/string_cleaner'
 require_relative '../../lib/time_now'
+require_relative '../lib/hidden_file_remover'
 
 class KataController < ApplicationController
 
@@ -25,13 +26,6 @@ class KataController < ApplicationController
   end
 
   def run_tests
-    incoming = params[:file_hashes_incoming]
-    outgoing = params[:file_hashes_outgoing]
-    delta = FileDeltaMaker.make_delta(incoming, outgoing)
-    files = received_files
-
-    @avatar = Avatar.new(self, kata, avatar_name)
-
     case runner_choice
     when 'stateless'
       runner.set_hostname_port_stateless
@@ -41,6 +35,12 @@ class KataController < ApplicationController
       #runner.set_hostname_port_processful
     end
 
+    incoming = params[:file_hashes_incoming]
+    outgoing = params[:file_hashes_outgoing]
+    delta = FileDeltaMaker.make_delta(incoming, outgoing)
+    files = received_files
+
+    @avatar = Avatar.new(self, kata, avatar_name)
     args = []
     args << delta
     args << files
@@ -58,9 +58,12 @@ class KataController < ApplicationController
     # it will interfere with the @output pseudo-file.
     @new_files.delete('output')
 
+    # don't show generated hidden filenames
+    remove_hidden_files(@new_files, hidden_filenames)
+
     # Storer's snapshot exactly mirrors the files after the test-event
     # has completed. That is, after a test-event completes if you
-    # refresh the page in the browser then nothing changes.
+    # refresh the page in the browser then nothing will change.
     @deleted_files.keys.each do |filename|
       files.delete(filename)
     end
@@ -101,6 +104,7 @@ class KataController < ApplicationController
 
   private # = = = = = = = = = = = = = =
 
+  include HiddenFileRemover
   include StringCleaner
   include TimeNow
 
@@ -116,6 +120,8 @@ class KataController < ApplicationController
     end
     seen
   end
+
+  # - - - - - - - - - - - - - - - - - -
 
   def timed_out_message(max_seconds)
     [

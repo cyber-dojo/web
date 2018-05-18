@@ -8,6 +8,12 @@ class KataDefaultsTest < AppModelsTestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
+  test '344', %w( hidden_filenames defaults to empty array ) do
+    assert_default 'hidden_filenames', []
+  end
+
+  # - - - - - - - - - - - - - - - - - - - -
+
   test '345', %w( highlight_filenames defaults to empty array ) do
     assert_default 'highlight_filenames', []
   end

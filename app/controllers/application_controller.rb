@@ -1,3 +1,4 @@
+require 'json'
 
 class ApplicationController < ActionController::Base
 
@@ -53,6 +54,10 @@ class ApplicationController < ActionController::Base
 
   def max_seconds
     params['max_seconds'].to_i
+  end
+
+  def hidden_filenames
+    JSON.parse(params['hidden_filenames'])
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
