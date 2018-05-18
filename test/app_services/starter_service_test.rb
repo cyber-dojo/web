@@ -73,6 +73,7 @@ class StarterServiceTest < AppServicesTestBase
     assert_equal 'stateless', manifest['runner_choice']
     assert_equal 'Fizz_Buzz', manifest['exercise']
     assert_equal %w(
+      coverage.rb
       test_hiker.rb
       hiker.rb
       cyber-dojo.sh

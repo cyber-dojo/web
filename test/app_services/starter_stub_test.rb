@@ -21,7 +21,16 @@ class StarterStubTest < AppServicesTestBase
     stubbed.each do |display_name|
       master = service.language_manifest(display_name, 'Fizz_Buzz')
       stub = stubber.language_manifest(display_name, 'Fizz_Buzz')
-      assert_equal master, stub
+      assert_hash_equal master, stub
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def assert_hash_equal(lhs, rhs)
+    assert_equal(lhs.keys.sort, rhs.keys.sort)
+    lhs.keys.sort.each do |key|
+      assert_equal lhs[key], rhs[key], key
     end
   end
 

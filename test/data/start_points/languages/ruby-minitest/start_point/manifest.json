@@ -3,6 +3,7 @@
   "display_name": "Ruby, MiniTest",
 
   "visible_filenames": [
+    "coverage.rb",
     "test_hiker.rb",
     "hiker.rb",
     "cyber-dojo.sh"

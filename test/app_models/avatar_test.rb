@@ -25,7 +25,7 @@ class AvatarTest < AppModelsTestBase
   1. the language+testFramework visible_files,
   2. the exercise's instructions file,
   3. the output file ) do
-    expected = %w( cyber-dojo.sh hiker.rb test_hiker.rb instructions output )
+    expected = %w( cyber-dojo.sh coverage.rb hiker.rb test_hiker.rb instructions output )
     in_kata(:stateless) {
       as(:wolf) {
         assert_equal expected.sort, wolf.visible_filenames.sort

@@ -197,7 +197,7 @@ class KataControllerTest  < AppControllerTestBase
         assert filenames.include?(filename), filenames
         expected = [
           '  1) Failure:',
-          'TestHiker#test_life_the_universe_and_everything [test_hiker.rb:6]:',
+          'TestHiker#test_life_the_universe_and_everything [test_hiker.rb:7]:',
           'Expected: 42',
           '  Actual: 54'
         ].join("\n")
