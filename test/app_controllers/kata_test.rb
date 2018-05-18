@@ -208,6 +208,33 @@ class KataControllerTest  < AppControllerTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # hidden_filenames
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'A28', %w( round-tripping:
+  hidden files are not visible
+  ) do
+    in_kata(:stateless) {
+      as_avatar {
+        run_tests
+        filenames = avatar.visible_files.keys.sort
+        expected = %w(
+          coverage.rb
+          coverage.txt
+          cyber-dojo.sh
+          hiker.rb
+          instructions
+          output
+          test_hiker.rb
+        )
+        # coverage/.resultset.json has been removed
+        # coverage/.last_run.json has been removed
+        assert_equal expected.sort, filenames.sort
+      }
+    }
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # show-json for Atom editor plug-in
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

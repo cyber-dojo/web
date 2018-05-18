@@ -83,6 +83,24 @@ class HiddenFileRemoverTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - -
 
+  test '52E',
+  'hidden_filenames real example from ruby-minitest' do
+    new_files = {
+      'coverage.txt' => '...',
+      'coverage/.resultset.json' => '...',
+      'coverage/.last_run.json' => '...'
+    }
+    hidden_filenames = [
+      "coverage/\.resultset\.json",
+      "coverage/\.last_run\.json"
+    ]
+    remove_hidden_files(new_files, hidden_filenames)
+    expected = [ 'coverage.txt' ]
+    assert_equal(expected.sort, new_files.keys.sort)
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - -
+
   include HiddenFileRemover
 
 end
