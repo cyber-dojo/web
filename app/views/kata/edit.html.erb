@@ -5,13 +5,13 @@
 
 <script type="text/javascript"><!--
 
-$(function() {
+$(() => {
 
   cd.storeIncomingFileHashes();
   cd.storeOutgoingFileHashes();
 
   const filenames = cd.filenames();
-  $.each(filenames, function(_,filename) {
+  $.each(filenames, (_,filename) => {
     const file = cd.fileContentFor(filename);
     cd.bindHotKeys(file);
   });
@@ -64,7 +64,7 @@ $(function() {
   </div>
 
   <script type="text/javascript"><!--
-  $(function() {
+  $(() => {
     cd.switchAllEditorsToCodeMirror();
   });
   //--></script>

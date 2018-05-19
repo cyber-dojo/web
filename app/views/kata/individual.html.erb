@@ -1,9 +1,9 @@
 
 <script type="text/javascript"><!--
 
-$(function() {
+$(() => {
 
-  $('button#ok').click(function() {
+  $('button#ok').click(() => {
     const url = "/kata/edit/<%= @kata_id %>?avatar=<%= @avatar_name %>";
     window.location.href = cd.homePageUrl('<%= @kata_id %>');
     window.open(url);

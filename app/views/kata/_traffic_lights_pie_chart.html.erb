@@ -1,12 +1,12 @@
 
 <script type="text/javascript"><!--
 
-$(function() {
+$(() => {
 
-  const updatePieChart = function() {
+  const updatePieChart = () => {
     let totalRagCount = 0;
     const rags = $('.diff-traffic-light');
-    const count = function(colour) {
+    const count = (colour) => {
       const n = cd.ragCount(rags, colour);
       totalRagCount += n;
       return n;

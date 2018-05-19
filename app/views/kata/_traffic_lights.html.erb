@@ -1,7 +1,7 @@
 
 <script type="text/javascript"><!--
 
-$(function() {
+$(() => {
 
   const review = $('#review-dialog')
     .dialog({
@@ -13,16 +13,16 @@ $(function() {
       closeOnEscape: true,
     });
 
-  cd.setupReviewTrafficLight = function(lights) {
+  cd.setupReviewTrafficLight = (lights) => {
     lights.each(function() {
       const light = $(this);
       const wasTag = light.data('was-tag');
       const nowTag = light.data('now-tag');
-      light.click(function() {
+      light.click(() => {
         cd.setReviewDialogData("<%= @kata.id %>", "<%= @avatar.name %>", wasTag, nowTag);
         review.dialog('open');
       });
-      cd.setTip(light, function() {
+      cd.setTip(light, () => {
         const tip = 'review<br/>' + wasTag + ' &harr; ' + nowTag;
         cd.showHoverTip(light, tip);
       });

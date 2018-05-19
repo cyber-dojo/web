@@ -1,5 +1,5 @@
 
-const appendTestTrafficLight = function() {
+const appendTestTrafficLight = () => {
   const colour = "<%= @colour %>";
   const lightsCount = $('.diff-traffic-light').size();
   const img = $('<img>', {
@@ -22,25 +22,26 @@ const appendTestTrafficLight = function() {
 
 //- - - - - - - - - - - - - - - - - - - - - -
 
-const updateTrafficLightCount = function() {
+const updateTrafficLightCount = () => {
   $('.traffic-lights-count')
     .html("<%= js_partial('traffic_lights_count') %>");
 };
 
-const updateTrafficLightPieChart = function() {
+const updateTrafficLightPieChart = () => {
   $('#traffic-lights-pie-chart')
     .html("<%= js_partial('traffic_lights_pie_chart') %>");
 };
 
 //- - - - - - - - - - - - - - - - - - - - - -
 
-const addNewFiles = function() {
-  $("#visible-files-container").append("<%= js_partial('new_files') %>");
+const addNewFiles = () => {
+  $("#visible-files-container")
+    .append("<%= js_partial('new_files') %>");
 };
 
 //- - - - - - - - - - - - - - - - - - - - - -
 
-const removeDeletedFiles = function() {
+const removeDeletedFiles = () => {
   <% @deleted_files.keys.each do |filename| %>
     cd.deleteFile("<%= filename %>");
   <% end %>
@@ -48,11 +49,12 @@ const removeDeletedFiles = function() {
 
 //- - - - - - - - - - - - - - - - - - - - - -
 
-const updateChangedFiles = function() {
+const updateChangedFiles = () => {
   <% @changed_files.keys.each do |filename| %>
     cd.deleteFile("<%= filename %>");
   <% end %>
-  $("#visible-files-container").append("<%= js_partial('changed_files') %>");
+  $("#visible-files-container")
+    .append("<%= js_partial('changed_files') %>");
 };
 
 //- - - - - - - - - - - - - - - - - - - - - -

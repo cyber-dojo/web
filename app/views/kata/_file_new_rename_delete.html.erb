@@ -109,33 +109,33 @@ $(function() {
     return true;
   };
 
-  const fileButtons =  $('#file-operations');
+  const fileButtons = $('#file-operations');
   const    newFile = fileButtons.find('#new');
   const renameFile = fileButtons.find('#rename');
   const deleteFile = fileButtons.find('#delete');
 
-  newFile.click(function() {
+  newFile.click(() => {
     const initialFilename = 'filename' + cd.extensionFilenames()[0];
     const okInitiallyDisabled = !isValidFilename(initialFilename);
-    const okClicked = function(filename) {
+    const okClicked = (filename) => {
       cd.newFileContent(filename, '');
     };
     openDialog('new', initialFilename, okInitiallyDisabled, okClicked);
   });
 
-  renameFile.click(function() {
+  renameFile.click(() => {
     const initialFilename = cd.currentFilename();
     const okInitiallyDisabled = true;
-    const okClicked = function(filename) {
+    const okClicked = (filename) => {
       renameFileFromTo(initialFilename, filename);
     };
     openDialog('rename', initialFilename, okInitiallyDisabled, okClicked);
   });
 
-  deleteFile.click(function() {
+  deleteFile.click(() => {
     const initialFilename = cd.currentFilename();
     const okInitiallyDisabled = false;
-    const okClicked = function(filename) {
+    const okClicked = (filename) => {
       cd.deleteFile(filename);
     };
     openDialog('delete', initialFilename, okInitiallyDisabled, okClicked);

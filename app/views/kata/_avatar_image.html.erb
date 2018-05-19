@@ -1,7 +1,7 @@
 
 <script type="text/javascript"><!--
 
-$(function() {
+$(() => {
 
   const avatar = $('#avatar-image-opens-dashboard');
 
@@ -13,7 +13,7 @@ $(function() {
 
   cd.createTip(avatar, 'open a dashboard');
 
-  cd.scrollAvatarImageIntoView = function() {
+  cd.scrollAvatarImageIntoView = () => {
     $('.avatar-image').scrollIntoView();
   };
 

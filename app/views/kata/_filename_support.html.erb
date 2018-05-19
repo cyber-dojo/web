@@ -1,13 +1,13 @@
 
 <script type="text/javascript"><!--
 
-$(function() {
+$(() => {
 
-  cd.tabExpansion = function() {
+  cd.tabExpansion = () => {
     return "<%= @tab %>";
   };
 
-  cd.highlightFilenames = function() {
+  cd.highlightFilenames = () => {
     return $.parseJSON('<%= @kata.highlight_filenames.inspect.html_safe %>');
   };
 

@@ -4,11 +4,9 @@
 $(function() {
 
   const ok = $('button#ok');
-
-  ok.click(function() {
+  ok.click(() => {
     window.location.href = "/dashboard/show/<%= @kata_id %>";
   });
-
   cd.createTip(ok, 'open a dashboard');
 
 });
@@ -31,4 +29,5 @@ $(function() {
 </div>
 
 <%= render partial: 'shared/app_bar_short',
-    locals: { help_url: "http://blog.cyber-dojo.org/p/learn-more.html" } %>
+    locals: { help_url: "http://blog.cyber-dojo.org/p/learn-more.html" }
+%>
