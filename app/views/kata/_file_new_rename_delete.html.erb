@@ -1,7 +1,7 @@
 
 <script type="text/javascript"><!--
 
-$(function() {
+$(() => {
 
   const openDialog = function(name, initialFilename, okInitiallyDisabled, okClicked) {
     const input = makeInput(name, initialFilename);
@@ -44,7 +44,7 @@ $(function() {
         }
       }
     });
-  	input.keyup(function(event) {
+  	input.keyup((event) => {
       const ok = $('#file-ok');
       const newFilename = $.trim(input.val());
       event.preventDefault();
@@ -67,7 +67,7 @@ $(function() {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const makeInput = function(name, filename) {
+  const makeInput = (name, filename) => {
     const input = $('<input>', {
       type: 'text',
       id: name+'-filename',
@@ -82,7 +82,7 @@ $(function() {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const renameFileFromTo = function(oldFilename, newFilename) {
+  const renameFileFromTo = (oldFilename, newFilename) => {
     cd.saveCodeFromIndividualSyntaxHighlightEditor(oldFilename);
     const oldFile = cd.fileContentFor(oldFilename);
     const content = oldFile.val();
@@ -99,8 +99,8 @@ $(function() {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const isValidFilename = function(filename) {
-    const contains = function(illegal) { return filename.indexOf(illegal) != -1; };
+  const isValidFilename = (filename) => {
+    const contains = (illegal) => { return filename.indexOf(illegal) != -1; };
     if (cd.filenameAlreadyExists(filename)) { return false; }
     if (contains('..')) { return false; }
     if (contains('\\')) { return false; }

@@ -8,14 +8,14 @@ $(() => {
   const testOverlay = $('<div id="test-overlay"></div>');
 
   testButton.enable = () => {
-    $(this).attr('disabled', false);
+    testButton.attr('disabled', false);
   };
 
   testButton.disable = () => {
-    $(this).attr('disabled', true);
+    testButton.attr('disabled', true);
   };
 
-  testButton.click(function() {
+  testButton.click(() => {
     // Called from 3 places
     // 1. when you click [test]
     // 2. when you hot-key Alt-T

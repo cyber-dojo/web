@@ -5,8 +5,8 @@ $(() => {
 
   const avatar = $('#avatar-image-opens-dashboard');
 
-  avatar.click(function() {
-    const id = $(this).data('id');
+  avatar.click(() => {
+    const id = avatar.data('id');
     const url = '/dashboard/show/' + id;
     window.open(url);
   });
