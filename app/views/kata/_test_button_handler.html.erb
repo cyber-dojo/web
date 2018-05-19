@@ -3,9 +3,9 @@
 
 $(function() {
 
-  var testButton  = $('#test-button');
-  var testSpinner = $('#test-spinner');
-  var testOverlay = $('<div id="test-overlay"></div>');
+  const testButton  = $('#test-button');
+  const testSpinner = $('#test-spinner');
+  const testOverlay = $('<div id="test-overlay"></div>');
 
   testButton.enable = function() {
     $(this).attr('disabled', false);
@@ -23,7 +23,7 @@ $(function() {
 
     cd.saveCodeFromSyntaxHighlightEditors();
 
-    var form = testButton.closest('form');
+    const form = testButton.closest('form');
     cd.storeOutgoingFileHashes();
     $.ajax({
       timeout: 30000, // 30 seconds (twice server timeout)
@@ -43,7 +43,7 @@ $(function() {
         cd.storeIncomingFileHashes();
       },
       error: function(xhr, status, thrown) {
-        var output = cd.fileContentFor('output');
+        const output = cd.fileContentFor('output');
         if (status == 'timeout') {
           output.val(status + ': have you lost your network connection?');
         }

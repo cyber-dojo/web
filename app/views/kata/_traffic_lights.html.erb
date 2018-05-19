@@ -3,7 +3,7 @@
 
 $(function() {
 
-  var review = $('#review-dialog')
+  const review = $('#review-dialog')
     .dialog({
         dialogClass: 'no-title',
               width: 1150,
@@ -15,15 +15,15 @@ $(function() {
 
   cd.setupReviewTrafficLight = function(lights) {
     lights.each(function() {
-      var light = $(this);
-      var wasTag = light.data('was-tag');
-      var nowTag = light.data('now-tag');
+      const light = $(this);
+      const wasTag = light.data('was-tag');
+      const nowTag = light.data('now-tag');
       light.click(function() {
         cd.setReviewDialogData("<%= @kata.id %>", "<%= @avatar.name %>", wasTag, nowTag);
         review.dialog('open');
       });
       cd.setTip(light, function() {
-        var tip = 'review<br/>' + wasTag + ' &harr; ' + nowTag;
+        const tip = 'review<br/>' + wasTag + ' &harr; ' + nowTag;
         cd.showHoverTip(light, tip);
       });
     });

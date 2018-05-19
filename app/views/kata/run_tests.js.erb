@@ -13,7 +13,7 @@ const appendTestTrafficLight = function() {
     'data-was-tag': lightsCount,
     'data-now-tag': lightsCount + 1
   });
-  var td = $('<td>');
+  const td = $('<td>');
   div.append(img);
   td.append(div);
   $('.traffic-lights-count').parent().before(td);
@@ -57,8 +57,7 @@ const updateChangedFiles = function() {
 
 //- - - - - - - - - - - - - - - - - - - - - -
 
-$('#output')
-  .html("<%= js_partial('output') %>");
+$('#output').html("<%= js_partial('output') %>");
 
 appendTestTrafficLight();
 updateTrafficLightCount();
@@ -69,6 +68,5 @@ removeDeletedFiles();
 updateChangedFiles();
 
 cd.switchEditorToCodeMirror('output');
-
 cd.scrollAvatarImageIntoView();
 

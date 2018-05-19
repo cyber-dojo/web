@@ -6,8 +6,8 @@ $(function() {
   const avatar = $('#avatar-image-opens-dashboard');
 
   avatar.click(function() {
-    var id = $(this).data('id');
-    var url = '/dashboard/show/' + id;
+    const id = $(this).data('id');
+    const url = '/dashboard/show/' + id;
     window.open(url);
   });
 

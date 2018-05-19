@@ -10,15 +10,15 @@ $(function() {
   cd.storeIncomingFileHashes();
   cd.storeOutgoingFileHashes();
 
-  var filenames = cd.filenames();
+  const filenames = cd.filenames();
   $.each(filenames, function(_,filename) {
-    var file = cd.fileContentFor(filename);
+    const file = cd.fileContentFor(filename);
     cd.bindHotKeys(file);
   });
   cd.bindAllLineNumbers();
   cd.rebuildFilenameList();
 
-  var filename = filenames[cd.testFilenameIndex(filenames)];
+  const filename = filenames[cd.testFilenameIndex(filenames)];
   cd.loadFile(filename);
 
   cd.syntaxHighlightTabSize = <%= @kata.tab_size %>;

@@ -3,15 +3,15 @@
 
 $(function() {
 
-  var updatePieChart = function() {
-    var totalRagCount = 0;
-    var rags = $('.diff-traffic-light');
-    var count = function(colour) {
-      var n = cd.ragCount(rags, colour);
+  const updatePieChart = function() {
+    let totalRagCount = 0;
+    const rags = $('.diff-traffic-light');
+    const count = function(colour) {
+      const n = cd.ragCount(rags, colour);
       totalRagCount += n;
       return n;
     };
-    var canvas = $('<canvas>', {
+    const canvas = $('<canvas>', {
         'class': 'pie',
         'data-red-count': count('red'),
         'data-amber-count': count('amber'),

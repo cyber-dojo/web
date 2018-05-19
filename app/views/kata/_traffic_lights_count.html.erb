@@ -3,15 +3,15 @@
 
 $(function() {
 
-  var updateTrafficLightsCount = function() {
-    var rags = $('.diff-traffic-light');
-    var redCount     = cd.ragCount(rags, 'red');
-    var amberCount   = cd.ragCount(rags, 'amber');
-    var greenCount   = cd.ragCount(rags, 'green');
-    var timeOutCount = cd.ragCount(rags, 'timed_out');
-    var count = redCount + amberCount + greenCount + timeOutCount;
-    var colour = rags.last().data('colour');
-    var newCount = $('<div>', {
+  const updateTrafficLightsCount = function() {
+    const rags = $('.diff-traffic-light');
+    const redCount     = cd.ragCount(rags, 'red');
+    const amberCount   = cd.ragCount(rags, 'amber');
+    const greenCount   = cd.ragCount(rags, 'green');
+    const timeOutCount = cd.ragCount(rags, 'timed_out');
+    const count = redCount + amberCount + greenCount + timeOutCount;
+    const colour = rags.last().data('colour');
+    const newCount = $('<div>', {
       'class': 'traffic-light-count ' + colour,
       'data-avatar-name': "<%= @avatar.name %>",
       'data-tip': 'traffic_light_count',
