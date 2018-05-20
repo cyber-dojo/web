@@ -508,8 +508,8 @@ $(function() {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  var forkFailedDialog = function(reason) {
-    var message =
+  const forkFailedDialog = (reason) => {
+    const message =
       'Failed: On the originating server, ' + reason + ' does not exist';
     $('<div>')
     .html(message)
@@ -527,23 +527,23 @@ $(function() {
   // refresh [revert] (from dialog only)
   //-----------------------------------------
 
-  var refreshRevertButton = function() {
-    var button = $('#revert-button');
-    cd.setTip(button, function() {
-      var tip = 'revert to ' + param.avatar + ' '  + param.nowTag;
+  const refreshRevertButton = () => {
+    const button = $('#revert-button');
+    cd.setTip(button, () => {
+      const tip = 'revert to ' + param.avatar + ' '  + param.nowTag;
       cd.showHoverTip(button, tip);
     });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  var doRevert = function() {
-    var params = {
+  const doRevert = () => {
+    const revertParams = {
           id: param.id,
       avatar: param.avatar,
          tag: param.nowTag
     };
-    $.getJSON('/reverter/revert', params, function(data) {
+    $.getJSON('/reverter/revert', revertParams, (data) => {
       $('#review-dialog').dialog('close');
       deleteAllCurrentFiles();
       copyRevertFilesToCurrentFiles(data.visibleFiles);
@@ -555,28 +555,23 @@ $(function() {
   // refresh [download]
   //-----------------------------------------
 
-  var refreshDownloadButton = function() {
-    var button = $('#download-button');
-    cd.setTip(button, function() {
-      var tip = 'download files from ' + param.avatar + ' ' + param.nowTag;
+  const refreshDownloadButton = () => {
+    const button = $('#download-button');
+    cd.setTip(button, () => {
+      const tip = 'download files from ' + param.avatar + ' ' + param.nowTag;
       cd.showHoverTip(button, tip);
     });
   };
 
-  var doDownload = function() {
-    var params = {
-          id: param.id,
-      avatar: param.avatar,
-         tag: param.nowTag
-    };
-    var url = '/download_tag/' + params.id + '/' + param.avatar + '/' + param.nowTag;
+  const doDownload = () => {
+    const url = '/download_tag/' + param.id + '/' + param.avatar + '/' + param.nowTag;
     window.location = url;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  var deleteAllCurrentFiles = function() {
-    $.each(cd.filenames(), function(_, filename) {
+  const deleteAllCurrentFiles = () => {
+    $.each(cd.filenames(), (_, filename) => {
       if (filename !== 'output') {
         cd.deleteFile(filename);
       }
@@ -585,8 +580,8 @@ $(function() {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  var copyRevertFilesToCurrentFiles = function(visibleFiles) {
-    var filename;
+  const copyRevertFilesToCurrentFiles = (visibleFiles) => {
+    let filename;
     for (filename in visibleFiles) {
       if (filename !== 'output') {
         cd.newFileContent(filename, visibleFiles[filename]);
@@ -596,7 +591,7 @@ $(function() {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  var setupButton = function(name, handler) {
+  const setupButton = (name, handler) => {
     $('#'+name+'-button-container').html('<button id="'+name+'-button" type="button"></button>');
     $('#'+name+'-button')
       .text(name)
@@ -617,13 +612,13 @@ $(function() {
   //-----------------------------------------
 
   if (inDialog()) {
-    setupButton('revert',   function() { doRevert(); });
-    setupButton('close',    function() { $('#review-dialog').dialog('close'); });
+    setupButton('revert', () => { doRevert(); });
+    setupButton('close',  () => { $('#review-dialog').dialog('close'); });
   } else {
     reviewRefresh();
   }
-  setupButton('download', function() { doDownload(); })
-  setupButton('fork',     function() { doFork(); });
+  setupButton('download', () => { doDownload(); })
+  setupButton('fork',     () => { doFork(); });
 
 });
 
