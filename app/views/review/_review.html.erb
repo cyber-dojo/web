@@ -375,10 +375,10 @@ $(function() {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  var makeDiffContent = function(diffs) {
-    var holder = $('<span>');
-    $.each(diffs, function(_, diff) {
-      var table = $('' +
+  const makeDiffContent = (diffs) => {
+    const holder = $('<span>');
+    $.each(diffs, (_, diff) => {
+      const table = $('' +
         '<div id="' + diff.filename + '_diff_div" class="filename_div">' +
         '<table>' +
           '<tr class="valign-top">' +
@@ -389,8 +389,8 @@ $(function() {
         '</table>' +
         '</div>'
         );
-      var content = $('.diff-sheet', table);
-      var numbers = $('.diff-line-numbers', table);
+      const content = $('.diff-sheet', table);
+      const numbers = $('.diff-line-numbers', table);
       content.html(diff.content);
       numbers.html(diff.line_numbers);
       cd.bindLineNumbersFromTo(content, numbers);
@@ -401,15 +401,15 @@ $(function() {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  var showFile = function(filenameId) {
-    var filename =  $('#radio_' + filenameId);
+  const showFile = (filenameId) => {
+    const filename =  $('#radio_' + filenameId);
     filename.click();
     filename.scrollIntoView({ direction: 'vertical' });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  var show = function(tag) {
+  const show = (tag) => {
     // preserve diff on/off state
     param.wasTag = tag - (diffCheckBox().is(':checked') ? 1 : 0);
     param.nowTag = tag;
@@ -418,8 +418,8 @@ $(function() {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  var showLatestNoDiff = function() {
-    var lastTag = -1;
+  const showLatestNoDiff = () => {
+    const lastTag = -1;
     param.wasTag = lastTag;
     param.nowTag = lastTag;
     refresh();
@@ -427,7 +427,7 @@ $(function() {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  var refresh = function() {
+  const refresh = () => {
     if (inDialog()) {
       reviewRefresh();
     } else {
@@ -444,24 +444,25 @@ $(function() {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  var inDialog = function() {
-    var dialog = $('div.ui-dialog-content');
+  const inDialog = () => {
+    const dialog = $('div.ui-dialog-content');
     return dialog.size() == 1;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  var reviewRefresh = function() {
-    $('.ui-dialog').addClass('busy');
-    var params = {  id: param.id,
-                avatar: param.avatar,
-               was_tag: param.wasTag,
-               now_tag: param.nowTag,
-              filename: param.filename
+  const reviewRefresh = () => {
+    const reviewParams = {
+            id: param.id,
+        avatar: param.avatar,
+       was_tag: param.wasTag,
+       now_tag: param.nowTag,
+      filename: param.filename
     };
-    $.getJSON('/differ/diff', params, function(reviewParam) {
+    $('.ui-dialog').addClass('busy');
+    $.getJSON('/differ/diff', reviewParams, (data) => {
       $('.ui-dialog').removeClass('busy');
-      param = reviewParam;
+      param = data;
       refreshDiffCheckBox();
       refreshTrafficLights();
       refreshAvatarControls();
@@ -470,8 +471,8 @@ $(function() {
       refreshForkButton();
       refreshRevertButton();
       refreshDownloadButton();
-      var light = $('img[src$="_bar.png"]');
-      var options = { direction: 'horizontal', duration: 'slow' };
+      const light = $('img[src$="_bar.png"]');
+      const options = { direction: 'horizontal', duration: 'slow' };
       light.scrollIntoView(options);
     });
   };
@@ -480,24 +481,23 @@ $(function() {
   // refresh [fork] {create a new practice-session}
   //-----------------------------------------
 
-  var refreshForkButton = function() {
-    var button = $('#fork-button');
-    cd.setTip(button, function() {
-      var tip = 'setup a new session from ' + param.avatar + ' ' + param.nowTag;
+  const refreshForkButton = () => {
+    const button = $('#fork-button');
+    cd.setTip(button, () => {
+      const tip = 'setup a new session from ' + param.avatar + ' ' + param.nowTag;
       cd.showHoverTip(button, tip);
     });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  var doFork = function() {
-
-    var fork_params = {
+  const doFork = () => {
+    const forkParams = {
           id: param.id,
       avatar: param.avatar,
          tag: param.nowTag
     };
-    $.getJSON('/forker/fork', fork_params, function(data) {
+    $.getJSON('/forker/fork', forkParams, (data) => {
       if (data.forked) {
         cd.newDojoDialog(data);
       } else {
