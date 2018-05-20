@@ -2,12 +2,12 @@
 
 $(function() {
 
-  var previousCustom = undefined;
-  var selectedCustom = $('#custom_' + '<%= @custom_index %>');
+  let previousCustom = undefined;
+  let selectedCustom = $('#custom_' + '<%= @custom_index %>');
 
   $('[id^=custom_]').each(function() {
-    var custom = $(this);
-    custom.click(function() {
+    const custom = $(this);
+    custom.click(() => {
       cd.radioEntrySwitch(previousCustom, custom);
       previousCustom = custom;
     });

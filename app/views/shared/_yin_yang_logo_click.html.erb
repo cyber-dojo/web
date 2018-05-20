@@ -1,11 +1,11 @@
 
 <script type="text/javascript"><!--
 
-$(function() {
+$(() => {
 
   const yinYang = $('#yin-yang-logo');
 
-  yinYang.click(function() {
+  yinYang.click(() => {
     window.location.href = '/dojo/index/' + "<%= @kata.id %>";
   });
 

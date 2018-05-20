@@ -5,14 +5,14 @@ $(function() {
   const languageInfoContainer = $('#language-info-container');
   const exerciseInfoContainer = $('#exercise-info-container');
 
-  var previousExercise = undefined;
-  var selectedExercise = $('#exercise_' + '<%= @exercise_index %>');
+  let previousExercise = undefined;
+  let selectedExercise = $('#exercise_' + '<%= @exercise_index %>');
 
   $('[id^=exercise_]').each(function() {
-     var exercise = $(this);
-     exercise.click(function() {
-       var index = exercise.data('index');
-       var instructions = $('#instructions_' + index).val();
+     const exercise = $(this);
+     exercise.click(() => {
+       const index = exercise.data('index');
+       const instructions = $('#instructions_' + index).val();
        languageInfoContainer.hide();
        exerciseInfoContainer.show().val(instructions);
 

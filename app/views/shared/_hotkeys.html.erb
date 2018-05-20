@@ -1,12 +1,12 @@
 
 <script type="text/javascript"><!--
 
-$(function() {
+$(() => {
 
   const hotkeysButton = $('#hotkeys-button');
 
   const hotkeysDialog = function() {
-    var html = '';
+    let html = '';
     html += '<div id="hotkeys-dialog">';
     html += '<table>';
     html += tr('Alt-T', 'runs the tests');
@@ -48,16 +48,17 @@ $(function() {
     });
   };
 
-  const tr = function(key, what) {
-    return '<tr>' +
-      '<td style="text-align:right;">' + key + '</td>' +
-      '<td>==</td>' +
-      '<td>' + what + '</td>' +
-    '</tr>';
+  const tr = (key, what) => {
+    return '' +
+      '<tr>' +
+        '<td style="text-align:right;">' + key + '</td>' +
+        '<td>==</td>' +
+        '<td>' + what + '</td>' +
+      '</tr>';
   };
 
   if (window.location.href.indexOf('kata/edit') != -1) {
-    hotkeysButton.show().click(function() { hotkeysDialog(); });
+    hotkeysButton.show().click(() => { hotkeysDialog(); });
   } else {
     hotkeysButton.hide();
   }
