@@ -10,18 +10,7 @@ $(function() {
   // The [revert] button is available only from the review *dialog*.
   //---------------------------------------------------------------------
 
-  cd.setReviewDialogData = function(id, avatar, wasTag, nowTag, filename) {
-    param = {
-      id:id,
-      avatar:avatar,
-      wasTag:wasTag,
-      nowTag:nowTag,
-      filename:filename
-    };
-    reviewRefresh();
-  };
-
-  var param = {
+  let param = {
           id: "<%= @kata.id %>",
       avatar: "<%= @avatar.name %>",
       wasTag: "<%= @was_tag %>",
@@ -29,22 +18,33 @@ $(function() {
     filename: "<%= @filename %>"
   };
 
+  cd.setReviewDialogData = (id, avatar, wasTag, nowTag, filename) => {
+    param = {
+            id:id,
+        avatar:avatar,
+        wasTag:wasTag,
+        nowTag:nowTag,
+      filename:filename
+    };
+    reviewRefresh();
+  };
+
   //-----------------------------------------
   // refresh diff? [x]
   //-----------------------------------------
 
-  var refreshDiffCheckBox = function() {
+  const refreshDiffCheckBox = () => {
     diffCheckBox()
       .attr('checked', inDiffMode())
       .unbind('click')
-      .bind('click', function() { show(param.nowTag); });
+      .bind('click', () => { show(param.nowTag); });
   };
 
-  var diffCheckBox = function() {
+  const diffCheckBox = () => {
     return $('#diff-checkbox');
   };
 
-  var inDiffMode = function() {
+  const inDiffMode = () => {
     return param.wasTag != param.nowTag;
   }
 
@@ -52,25 +52,25 @@ $(function() {
   // refresh traffic-lights
   //-----------------------------------------
 
-  var refreshTrafficLights = function() {
-    var trafficLights = $('#review-traffic-lights');
+  const refreshTrafficLights = () => {
+    const trafficLights = $('#review-traffic-lights');
     trafficLights.html(makeTrafficLightsHtml(param.lights));
     $.each($('img[src$="_gap.png"]'), function(_, light) {
-      var index = $(this).data('index');
-      var tag = $(this).data('tag');
+      const index = $(this).data('index');
+      const tag = $(this).data('tag');
       $(this)
         .attr('title', toolTip(index))
-        .click(function() { show(tag); });
+        .click(() => { show(tag); });
     });
   };
 
-  var makeTrafficLightsHtml = function(lights) {
-    var html = '';
-    var index = 1;
-    var lastColour = '';
+  const makeTrafficLightsHtml = (lights) => {
+    let html = '';
+    let index = 1;
+    let lastColour = '';
     html += '<table><tr>';
-    $.each(lights, function(n, light) {
-      var barGap = (param.nowTag == light.number) ? 'bar' : 'gap';
+    $.each(lights, (n, light) => {
+      const barGap = (param.nowTag == light.number) ? 'bar' : 'gap';
       html +=
         "<td><div class='traffic-light'>" +
           "<img src='/images/bulb_" + light.colour + '_' + barGap + ".png'" +
@@ -85,7 +85,7 @@ $(function() {
     return html;
   };
 
-  var toolTip = function(tag) {
+  const toolTip = (tag) => {
     if (inDiffMode()) {
       return 'Show diff ' + (tag-1) + '<->' + tag;
     } else {
@@ -97,38 +97,38 @@ $(function() {
   // refresh [<] avatar [>]
   //-----------------------------------------
 
-  var refreshAvatarControls = function() {
+  const refreshAvatarControls = () => {
     refreshPrevAvatarHandler();
     refreshAvatarImage();
     refreshNextAvatarHandler();
   };
 
-  var refreshAvatarImage = function() {
+  const refreshAvatarImage = () => {
     $('#avatar').parent().html(makeAvatarImageHtml());
   };
 
-  var makeAvatarImageHtml = function() {
+  const makeAvatarImageHtml = () => {
     return '<img id="avatar" src="/images/avatars/' + param.avatar + '.jpg"/>';
   };
 
-  var refreshPrevAvatarHandler = function() {
+  const refreshPrevAvatarHandler = () => {
     refreshAvatarHandler('prev', param.prevAvatar);
   };
 
-  var refreshNextAvatarHandler = function() {
+  const refreshNextAvatarHandler = () => {
     refreshAvatarHandler('next', param.nextAvatar);
   };
 
-  var refreshAvatarHandler = function(id, name) {
-    var title = function() {
-      var text = 'Click to review ' + name + "'s ";
+  const refreshAvatarHandler = (id, name) => {
+    const title = () => {
+      const text = 'Click to review ' + name + "'s ";
       return text + (inDiffMode() ? 'diffs' : 'current code');
     };
     $('#' + id + '-avatar')
       .attr('disabled', name == '')
       .attr('title', title())
       .unbind('click')
-      .bind('click', function() {
+      .bind('click', () => {
         param.avatar = name;
         if (inDiffMode()) {
           show(1);
@@ -142,12 +142,12 @@ $(function() {
   // refresh [<] tag [>]
   //-----------------------------------------
 
-  var refreshTagControls = function() {
-    var colour = param.lights[param.nowTag - 1].colour;
-    var minTag = 1;
-    var maxTag = param.lights.length;
-    var hasPrevTag = minTag < param.nowTag;
-    var hasNextTag =          param.nowTag < maxTag;
+  const refreshTagControls = () => {
+    const colour = param.lights[param.nowTag - 1].colour;
+    const minTag = 1;
+    const maxTag = param.lights.length;
+    const hasPrevTag = minTag < param.nowTag;
+    const hasNextTag =          param.nowTag < maxTag;
 
     $('#now-tag-number')
       .removeClass()
@@ -158,7 +158,7 @@ $(function() {
     refreshTag(hasNextTag, $('#next-tag'),  param.nowTag + 1);
   };
 
-  var refreshTag = function(on, button, newTag) {
+  const refreshTag = (on, button, newTag) => {
     button
       .attr('disabled', !on)
       .css('cursor', on ? 'pointer' : 'default');
@@ -174,9 +174,9 @@ $(function() {
   // refresh files
   //-----------------------------------------
 
-  var refreshFiles = function() {
-    var diffContent = $('#diff-content');
-    var diffFilenames = $('#diff-filenames');
+  const refreshFiles = () => {
+    const diffContent = $('#diff-content');
+    const diffFilenames = $('#diff-filenames');
     diffFilenames.html(makeDiffFilenames(param.diffs));
     resetFilenameAddedDeletedLineCountHandlers();
     diffContent.html(makeDiffContent(param.diffs));
@@ -186,7 +186,7 @@ $(function() {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  var makeDiffFilenames = function(diffs) {
+  const makeDiffFilenames = (diffs) => {
     // align-right is for diff toggling added/deleted line counts
     return '' +
       '<table align="right">' +
