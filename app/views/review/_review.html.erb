@@ -55,10 +55,11 @@ $(() => {
   const refreshTrafficLights = () => {
     const trafficLights = $('#review-traffic-lights');
     trafficLights.html(makeTrafficLightsHtml(param.lights));
-    $.each($('img[src$="_gap.png"]'), function(_, light) {
-      const index = $(this).data('index');
-      const tag = $(this).data('tag');
-      $(this)
+    $('img[src$="_gap.png"]').each((_,light) => {
+      const $light = $(light);
+      const index = $light.data('index');
+      const tag = $light.data('tag');
+      $light
         .attr('title', toolTip(index))
         .click(() => { show(tag); });
     });
@@ -280,24 +281,27 @@ $(() => {
   const resetFilenameAddedDeletedLineCountHandlers = () => {
 
     const display = (node, name, value) => {
-      if ($(node).attr('disabled') != 'disabled') {
-        const filename = $(node).data('filename');
+      const $node = $(node);
+      if ($node.attr('disabled') != 'disabled') {
+        const filename = $node.data('filename');
         const selector = '[id="' + filename + '_diff_div"] ' + name;
         $(selector).css('display', value);
       }
     };
 
-    $('.diff-deleted-line-count')
-      .clickToggle(
-        function() { display(this, 'deleted', 'none' ); },
-        function() { display(this, 'deleted', 'block'); }
-      );
+    $('.diff-deleted-line-count').each((_,dd) => {
+      $(dd).clickToggle(
+        () => { display(dd, 'deleted', 'none' ); },
+        () => { display(dd, 'deleted', 'block'); }
+      )
+    });
 
-    $('.diff-added-line-count')
-      .clickToggle(
-        function() { display(this, 'added', 'none' ); },
-        function() { display(this, 'added', 'block'); }
-      );
+    $('.diff-added-line-count').each((_,da) => {
+      $(da).clickToggle(
+        () => { display(da, 'added', 'none' ); },
+        () => { display(da, 'added', 'block'); }
+      )
+    });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
