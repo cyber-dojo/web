@@ -577,12 +577,7 @@ $(function() {
   };
 
   const doDownload = () => {
-    const params = {
-          id: param.id,
-      avatar: param.avatar,
-         tag: param.nowTag
-    };
-    const url = '/download_tag/' + params.id + '/' + param.avatar + '/' + param.nowTag;
+    const url = '/download_tag/' + param.id + '/' + param.avatar + '/' + param.nowTag;
     window.location = url;
   };
 
