@@ -1,7 +1,7 @@
 
 <script type="text/javascript"><!--
 
-$(function() {
+$(() => {
 
   //---------------------------------------------------------------------
   // This review page doubles as a review *dialog* from the kata/edit page
@@ -55,10 +55,11 @@ $(function() {
   const refreshTrafficLights = () => {
     const trafficLights = $('#review-traffic-lights');
     trafficLights.html(makeTrafficLightsHtml(param.lights));
-    $.each($('img[src$="_gap.png"]'), function(_, light) {
-      const index = $(this).data('index');
-      const tag = $(this).data('tag');
-      $(this)
+    $.each($('img[src$="_gap.png"]'), (_, light) => {
+      const $light = $(light);
+      const index = $light.data('index');
+      const tag = $light.data('tag');
+      $light
         .attr('title', toolTip(index))
         .click(() => { show(tag); });
     });
@@ -166,7 +167,7 @@ $(function() {
       button
         .attr('title', toolTip(newTag))
         .unbind('click')
-        .bind('click', function() { show(newTag); });
+        .bind('click', () => { show(newTag); });
     }
   };
 
