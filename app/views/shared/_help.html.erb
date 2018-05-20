@@ -1,10 +1,10 @@
 
 <script type="text/javascript"><!--
 
-$(() => {
+$(function () {
 
-  $('#help-button').click(() => {
-    const url = "<%= help_url %>";
+  $('#help-button').click(function() {
+    var url = "<%= help_url %>";
     window.open(url);
   });
 

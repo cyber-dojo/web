@@ -5,10 +5,10 @@ $(function() {
   const languageInfoContainer = $('#language-info-container');
   const exerciseInfoContainer = $('#exercise-info-container');
 
-  let previousLanguage = undefined;
-  let selectedLanguage = $('#language_' + '<%= @language_index %>');
+  var previousLanguage = undefined;
+  var selectedLanguage = $('#language_' + '<%= @language_index %>');
 
-  const languageInfo =
+  var languageInfo =
     'The starting files for your chosen language, test-framework are always ' +
     'a function called ' +
     '<code>' +
@@ -27,8 +27,8 @@ $(function() {
     'Tests must complete in ~15 seconds.';
 
   $('[id^=language_]').each(function() {
-    const language = $(this);
-    language.click(() => {
+    var language = $(this);
+    language.click(function() {
       cd.radioEntrySwitch(previousLanguage, language);
       previousLanguage = language;
 

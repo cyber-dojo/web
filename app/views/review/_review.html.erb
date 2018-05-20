@@ -1,7 +1,7 @@
 
 <script type="text/javascript"><!--
 
-$(() => {
+$(function() {
 
   //---------------------------------------------------------------------
   // This review page doubles as a review *dialog* from the kata/edit page
@@ -10,7 +10,18 @@ $(() => {
   // The [revert] button is available only from the review *dialog*.
   //---------------------------------------------------------------------
 
-  let param = {
+  cd.setReviewDialogData = function(id, avatar, wasTag, nowTag, filename) {
+    param = {
+      id:id,
+      avatar:avatar,
+      wasTag:wasTag,
+      nowTag:nowTag,
+      filename:filename
+    };
+    reviewRefresh();
+  };
+
+  var param = {
           id: "<%= @kata.id %>",
       avatar: "<%= @avatar.name %>",
       wasTag: "<%= @was_tag %>",
@@ -18,33 +29,22 @@ $(() => {
     filename: "<%= @filename %>"
   };
 
-  cd.setReviewDialogData = (id, avatar, wasTag, nowTag, filename) => {
-    param = {
-            id:id,
-        avatar:avatar,
-        wasTag:wasTag,
-        nowTag:nowTag,
-      filename:filename
-    };
-    reviewRefresh();
-  };
-
   //-----------------------------------------
   // refresh diff? [x]
   //-----------------------------------------
 
-  const refreshDiffCheckBox = () => {
+  var refreshDiffCheckBox = function() {
     diffCheckBox()
       .attr('checked', inDiffMode())
       .unbind('click')
-      .bind('click', () => { show(param.nowTag); });
+      .bind('click', function() { show(param.nowTag); });
   };
 
-  const diffCheckBox = () => {
+  var diffCheckBox = function() {
     return $('#diff-checkbox');
   };
 
-  const inDiffMode = () => {
+  var inDiffMode = function() {
     return param.wasTag != param.nowTag;
   }
 
@@ -52,26 +52,25 @@ $(() => {
   // refresh traffic-lights
   //-----------------------------------------
 
-  const refreshTrafficLights = () => {
-    const trafficLights = $('#review-traffic-lights');
+  var refreshTrafficLights = function() {
+    var trafficLights = $('#review-traffic-lights');
     trafficLights.html(makeTrafficLightsHtml(param.lights));
-    $('img[src$="_gap.png"]').each((_,light) => {
-      const $light = $(light);
-      const index = $light.data('index');
-      const tag = $light.data('tag');
-      $light
+    $.each($('img[src$="_gap.png"]'), function(_, light) {
+      var index = $(this).data('index');
+      var tag = $(this).data('tag');
+      $(this)
         .attr('title', toolTip(index))
-        .click(() => { show(tag); });
+        .click(function() { show(tag); });
     });
   };
 
-  const makeTrafficLightsHtml = (lights) => {
-    let html = '';
-    let index = 1;
-    let lastColour = '';
+  var makeTrafficLightsHtml = function(lights) {
+    var html = '';
+    var index = 1;
+    var lastColour = '';
     html += '<table><tr>';
-    $.each(lights, (n, light) => {
-      const barGap = (param.nowTag == light.number) ? 'bar' : 'gap';
+    $.each(lights, function(n, light) {
+      var barGap = (param.nowTag == light.number) ? 'bar' : 'gap';
       html +=
         "<td><div class='traffic-light'>" +
           "<img src='/images/bulb_" + light.colour + '_' + barGap + ".png'" +
@@ -86,7 +85,7 @@ $(() => {
     return html;
   };
 
-  const toolTip = (tag) => {
+  var toolTip = function(tag) {
     if (inDiffMode()) {
       return 'Show diff ' + (tag-1) + '<->' + tag;
     } else {
@@ -98,38 +97,38 @@ $(() => {
   // refresh [<] avatar [>]
   //-----------------------------------------
 
-  const refreshAvatarControls = () => {
+  var refreshAvatarControls = function() {
     refreshPrevAvatarHandler();
     refreshAvatarImage();
     refreshNextAvatarHandler();
   };
 
-  const refreshAvatarImage = () => {
+  var refreshAvatarImage = function() {
     $('#avatar').parent().html(makeAvatarImageHtml());
   };
 
-  const makeAvatarImageHtml = () => {
+  var makeAvatarImageHtml = function() {
     return '<img id="avatar" src="/images/avatars/' + param.avatar + '.jpg"/>';
   };
 
-  const refreshPrevAvatarHandler = () => {
+  var refreshPrevAvatarHandler = function() {
     refreshAvatarHandler('prev', param.prevAvatar);
   };
 
-  const refreshNextAvatarHandler = () => {
+  var refreshNextAvatarHandler = function() {
     refreshAvatarHandler('next', param.nextAvatar);
   };
 
-  const refreshAvatarHandler = (id, name) => {
-    const title = () => {
-      const text = 'Click to review ' + name + "'s ";
+  var refreshAvatarHandler = function(id, name) {
+    var title = function() {
+      var text = 'Click to review ' + name + "'s ";
       return text + (inDiffMode() ? 'diffs' : 'current code');
     };
     $('#' + id + '-avatar')
       .attr('disabled', name == '')
       .attr('title', title())
       .unbind('click')
-      .bind('click', () => {
+      .bind('click', function() {
         param.avatar = name;
         if (inDiffMode()) {
           show(1);
@@ -143,12 +142,12 @@ $(() => {
   // refresh [<] tag [>]
   //-----------------------------------------
 
-  const refreshTagControls = () => {
-    const colour = param.lights[param.nowTag - 1].colour;
-    const minTag = 1;
-    const maxTag = param.lights.length;
-    const hasPrevTag = minTag < param.nowTag;
-    const hasNextTag =          param.nowTag < maxTag;
+  var refreshTagControls = function() {
+    var colour = param.lights[param.nowTag - 1].colour;
+    var minTag = 1;
+    var maxTag = param.lights.length;
+    var hasPrevTag = minTag < param.nowTag;
+    var hasNextTag =          param.nowTag < maxTag;
 
     $('#now-tag-number')
       .removeClass()
@@ -159,7 +158,7 @@ $(() => {
     refreshTag(hasNextTag, $('#next-tag'),  param.nowTag + 1);
   };
 
-  const refreshTag = (on, button, newTag) => {
+  var refreshTag = function(on, button, newTag) {
     button
       .attr('disabled', !on)
       .css('cursor', on ? 'pointer' : 'default');
@@ -167,7 +166,7 @@ $(() => {
       button
         .attr('title', toolTip(newTag))
         .unbind('click')
-        .bind('click', () => { show(newTag); });
+        .bind('click', function() { show(newTag); });
     }
   };
 
@@ -175,9 +174,9 @@ $(() => {
   // refresh files
   //-----------------------------------------
 
-  const refreshFiles = () => {
-    const diffContent = $('#diff-content');
-    const diffFilenames = $('#diff-filenames');
+  var refreshFiles = function() {
+    var diffContent = $('#diff-content');
+    var diffFilenames = $('#diff-filenames');
     diffFilenames.html(makeDiffFilenames(param.diffs));
     resetFilenameAddedDeletedLineCountHandlers();
     diffContent.html(makeDiffContent(param.diffs));
@@ -187,7 +186,7 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const makeDiffFilenames = (diffs) => {
+  var makeDiffFilenames = function(diffs) {
     // align-right is for diff toggling added/deleted line counts
     return '' +
       '<table align="right">' +
@@ -201,12 +200,12 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const makeDiffFilenamesColumn = (diffs) => {
-    let html = '';
+  var makeDiffFilenamesColumn = function(diffs) {
+    var html = '';
     html += '<table>';
-    $.each(sortedDiffs(diffs), (_, diff) => {
-      const td = $('<td>');
-      const filenameDiv =
+    $.each(sortedDiffs(diffs), function(_, diff) {
+      var td = $('<td>');
+      var filenameDiv =
         $('<div>', {
             'class': 'filename',
             'data-filename': diff.filename,
@@ -222,25 +221,25 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const makeDiffDeletedCountColumn = (diffs) => {
+  var makeDiffDeletedCountColumn = function(diffs) {
     return makeDiffCountColumn(diffs, 'deleted_line_count', 'deleted');
   };
 
-  const makeDiffAddedCountColumn = (diffs) => {
+  var makeDiffAddedCountColumn = function(diffs) {
     return makeDiffCountColumn(diffs, 'added_line_count', 'added');
   };
 
-  const makeDiffCountColumn = (diffs, propertyName, cssName) => {
-    let html = '';
+  var makeDiffCountColumn = function(diffs, propertyName, cssName) {
+    var html = '';
     if (!diffCheckBox().is(':checked')) {
       return html;
     }
     html += '<table>';
-    $.each(sortedDiffs(diffs), (_, diff) => {
-      const count = diff[propertyName];
-      const td = $('<td>');
-      const noneOrSome = (count == 0) ? 'none' : 'some';
-      const div = $('<div>', {
+    $.each(sortedDiffs(diffs), function(_, diff) {
+      var count = diff[propertyName];
+      var td = $('<td>');
+      var noneOrSome = (count == 0) ? 'none' : 'some';
+      var div = $('<div>', {
         'class': 'diff-' + cssName + '-line-count ' + noneOrSome + ' button',
         'data-filename': diff.filename
       });
@@ -254,23 +253,23 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const sortedDiffs = (diffs) => {
-    let filenames = [];
-    $.each(diffs, (_, diff) => {
+  var sortedDiffs = function(diffs) {
+    var filenames = [];
+    $.each(diffs, function(_, diff) {
       filenames.push(diff.filename);
     });
     // ensure filenames appear in the same order as kata/edit page
-    const sorted = cd.sortedFilenames(filenames);
-    const diffFor = (filename) => {
-      let i;
+    var sorted = cd.sortedFilenames(filenames);
+    var diffFor = function(filename) {
+      var i;
       for (i = 0; i < diffs.length; i += 1) {
         if (diffs[i].filename == filename) {
           return diffs[i];
         }
       }
     };
-    let result = [];
-    $.each(sorted, (_, filename) => {
+    var result = [];
+    $.each(sorted, function(_, filename) {
       result.push(diffFor(filename));
     });
     return result;
@@ -278,61 +277,58 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const resetFilenameAddedDeletedLineCountHandlers = () => {
+  var resetFilenameAddedDeletedLineCountHandlers = function() {
 
-    const display = (node, name, value) => {
-      const $node = $(node);
-      if ($node.attr('disabled') != 'disabled') {
-        const filename = $node.data('filename');
-        const selector = '[id="' + filename + '_diff_div"] ' + name;
+    var display = function(node, name, value) {
+      if ($(node).attr('disabled') != 'disabled') {
+        var filename = $(node).data('filename');
+        var selector = '[id="' + filename + '_diff_div"] ' + name;
         $(selector).css('display', value);
       }
     };
 
-    $('.diff-deleted-line-count').each((_,dd) => {
-      $(dd).clickToggle(
-        () => { display(dd, 'deleted', 'none' ); },
-        () => { display(dd, 'deleted', 'block'); }
-      )
-    });
+    $('.diff-deleted-line-count')
+      .clickToggle(
+        function() { display(this, 'deleted', 'none' ); },
+        function() { display(this, 'deleted', 'block'); }
+      );
 
-    $('.diff-added-line-count').each((_,da) => {
-      $(da).clickToggle(
-        () => { display(da, 'added', 'none' ); },
-        () => { display(da, 'added', 'block'); }
-      )
-    });
+    $('.diff-added-line-count')
+      .clickToggle(
+        function() { display(this, 'added', 'none' ); },
+        function() { display(this, 'added', 'block'); }
+      );
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const buildDiffFilenameHandlers = (diffs) => {
+  var buildDiffFilenameHandlers = function(diffs) {
     // Builds click handlers for all filenames for a given
     // [ kata-id, animal-name, was-tag, now-tag] tuple.
     // When you open a new filename it auto-scrolls its first diff-chunk.
     // When you reclick a filename it auto-scrolls to its *next* diff-chunk.
-    const getFilename = (node) => { return $.trim(node.text()); };
-    const id = (name) => { return $('[id="' + name + '"]'); };
-    const diffFileContentFor = (filename) => { return id('diff_file_content_for_' + filename); };
-    const diffFileDiv = (filename) => { return id(filename + '_diff_div'); };
-    let previousFilenameNode;
-    let alreadyOpened = [];
+    var previousFilenameNode;
+    var alreadyOpened = [];
+    var getFilename = function(node) { return $.trim(node.text()); };
+    var id = function(name) { return $('[id="' + name + '"]'); /*, diffDiv); */ };
+    var diffFileContentFor = function(filename) { return id('diff_file_content_for_' + filename); };
+    var diffFileDiv = function(filename) { return id(filename + '_diff_div'); };
 
-    const loadFrom = (diff) => {
-      const id = diff.id;
-      const filenameNode = $('#radio_' + id);
-      const filename = getFilename(filenameNode);
-      const sectionCount = diff.section_count;
-      const diffSheet = diffFileContentFor(filename);
-      let sectionIndex = 0;
+    var loadFrom = function(diff) {
+      var id = diff.id;
+      var filenameNode = $('#radio_' + id);
+      var filename = getFilename(filenameNode);
+      var sectionCount = diff.section_count;
+      var diffSheet = diffFileContentFor(filename);
+      var sectionIndex = 0;
 
       if (sectionCount > 0) {
         filenameNode.attr('title', 'Auto-scroll through diffs');
       }
 
-      return () => {
+      return function() {
 
-        const reselected =
+        var reselected =
           previousFilenameNode != undefined &&
             getFilename(previousFilenameNode) == filename;
 
@@ -350,9 +346,9 @@ $(() => {
         param.filename = filename;
 
         if (sectionCount > 0 && (reselected || !cd.inArray(filename, alreadyOpened))) {
-          const section = $('#' + id + '_section_' + sectionIndex);
-          const downFromTop = 250;
-          const halfSecond = 500;
+          var section = $('#' + id + '_section_' + sectionIndex);
+          var downFromTop = 250;
+          var halfSecond = 500;
           diffSheet.animate({
             scrollTop: '+=' + (section.offset().top - downFromTop) + 'px'
             }, halfSecond);
@@ -363,18 +359,18 @@ $(() => {
       };
     }; // loadFrom()
 
-    $.each(diffs, (_n, diff) => {
-      const filename = $('#radio_' + diff.id);
+    $.each(diffs, function(_n, diff) {
+      var filename = $('#radio_' + diff.id);
       filename.click(loadFrom(diff));
     });
   }; // buildDiffFilenameHandlers()
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const makeDiffContent = (diffs) => {
-    const holder = $('<span>');
-    $.each(diffs, (_, diff) => {
-      const table = $('' +
+  var makeDiffContent = function(diffs) {
+    var holder = $('<span>');
+    $.each(diffs, function(_, diff) {
+      var table = $('' +
         '<div id="' + diff.filename + '_diff_div" class="filename_div">' +
         '<table>' +
           '<tr class="valign-top">' +
@@ -385,8 +381,8 @@ $(() => {
         '</table>' +
         '</div>'
         );
-      const content = $('.diff-sheet', table);
-      const numbers = $('.diff-line-numbers', table);
+      var content = $('.diff-sheet', table);
+      var numbers = $('.diff-line-numbers', table);
       content.html(diff.content);
       numbers.html(diff.line_numbers);
       cd.bindLineNumbersFromTo(content, numbers);
@@ -397,15 +393,15 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const showFile = (filenameId) => {
-    const filename =  $('#radio_' + filenameId);
+  var showFile = function(filenameId) {
+    var filename =  $('#radio_' + filenameId);
     filename.click();
     filename.scrollIntoView({ direction: 'vertical' });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const show = (tag) => {
+  var show = function(tag) {
     // preserve diff on/off state
     param.wasTag = tag - (diffCheckBox().is(':checked') ? 1 : 0);
     param.nowTag = tag;
@@ -414,8 +410,8 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const showLatestNoDiff = () => {
-    const lastTag = -1;
+  var showLatestNoDiff = function() {
+    var lastTag = -1;
     param.wasTag = lastTag;
     param.nowTag = lastTag;
     refresh();
@@ -423,7 +419,7 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const refresh = () => {
+  var refresh = function() {
     if (inDialog()) {
       reviewRefresh();
     } else {
@@ -440,25 +436,24 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const inDialog = () => {
-    const dialog = $('div.ui-dialog-content');
+  var inDialog = function() {
+    var dialog = $('div.ui-dialog-content');
     return dialog.size() == 1;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const reviewRefresh = () => {
-    const reviewParams = {
-            id: param.id,
-        avatar: param.avatar,
-       was_tag: param.wasTag,
-       now_tag: param.nowTag,
-      filename: param.filename
-    };
+  var reviewRefresh = function() {
     $('.ui-dialog').addClass('busy');
-    $.getJSON('/differ/diff', reviewParams, (data) => {
+    var params = {  id: param.id,
+                avatar: param.avatar,
+               was_tag: param.wasTag,
+               now_tag: param.nowTag,
+              filename: param.filename
+    };
+    $.getJSON('/differ/diff', params, function(reviewParam) {
       $('.ui-dialog').removeClass('busy');
-      param = data;
+      param = reviewParam;
       refreshDiffCheckBox();
       refreshTrafficLights();
       refreshAvatarControls();
@@ -467,8 +462,8 @@ $(() => {
       refreshForkButton();
       refreshRevertButton();
       refreshDownloadButton();
-      const light = $('img[src$="_bar.png"]');
-      const options = { direction: 'horizontal', duration: 'slow' };
+      var light = $('img[src$="_bar.png"]');
+      var options = { direction: 'horizontal', duration: 'slow' };
       light.scrollIntoView(options);
     });
   };
@@ -477,23 +472,24 @@ $(() => {
   // refresh [fork] {create a new practice-session}
   //-----------------------------------------
 
-  const refreshForkButton = () => {
-    const button = $('#fork-button');
-    cd.setTip(button, () => {
-      const tip = 'setup a new session from ' + param.avatar + ' ' + param.nowTag;
+  var refreshForkButton = function() {
+    var button = $('#fork-button');
+    cd.setTip(button, function() {
+      var tip = 'setup a new session from ' + param.avatar + ' ' + param.nowTag;
       cd.showHoverTip(button, tip);
     });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const doFork = () => {
-    const forkParams = {
+  var doFork = function() {
+
+    var fork_params = {
           id: param.id,
       avatar: param.avatar,
          tag: param.nowTag
     };
-    $.getJSON('/forker/fork', forkParams, (data) => {
+    $.getJSON('/forker/fork', fork_params, function(data) {
       if (data.forked) {
         cd.newDojoDialog(data);
       } else {
@@ -504,8 +500,8 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const forkFailedDialog = (reason) => {
-    const message =
+  var forkFailedDialog = function(reason) {
+    var message =
       'Failed: On the originating server, ' + reason + ' does not exist';
     $('<div>')
     .html(message)
@@ -523,23 +519,23 @@ $(() => {
   // refresh [revert] (from dialog only)
   //-----------------------------------------
 
-  const refreshRevertButton = () => {
-    const button = $('#revert-button');
-    cd.setTip(button, () => {
-      const tip = 'revert to ' + param.avatar + ' '  + param.nowTag;
+  var refreshRevertButton = function() {
+    var button = $('#revert-button');
+    cd.setTip(button, function() {
+      var tip = 'revert to ' + param.avatar + ' '  + param.nowTag;
       cd.showHoverTip(button, tip);
     });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const doRevert = () => {
-    const revertParams = {
+  var doRevert = function() {
+    var params = {
           id: param.id,
       avatar: param.avatar,
          tag: param.nowTag
     };
-    $.getJSON('/reverter/revert', revertParams, (data) => {
+    $.getJSON('/reverter/revert', params, function(data) {
       $('#review-dialog').dialog('close');
       deleteAllCurrentFiles();
       copyRevertFilesToCurrentFiles(data.visibleFiles);
@@ -547,10 +543,32 @@ $(() => {
     });
   };
 
+  //-----------------------------------------
+  // refresh [download]
+  //-----------------------------------------
+
+  var refreshDownloadButton = function() {
+    var button = $('#download-button');
+    cd.setTip(button, function() {
+      var tip = 'download files from ' + param.avatar + ' ' + param.nowTag;
+      cd.showHoverTip(button, tip);
+    });
+  };
+
+  var doDownload = function() {
+    var params = {
+          id: param.id,
+      avatar: param.avatar,
+         tag: param.nowTag
+    };
+    var url = '/download_tag/' + params.id + '/' + param.avatar + '/' + param.nowTag;
+    window.location = url;
+  };
+
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const deleteAllCurrentFiles = () => {
-    $.each(cd.filenames(), (_, filename) => {
+  var deleteAllCurrentFiles = function() {
+    $.each(cd.filenames(), function(_, filename) {
       if (filename !== 'output') {
         cd.deleteFile(filename);
       }
@@ -559,8 +577,8 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const copyRevertFilesToCurrentFiles = (visibleFiles) => {
-    let filename;
+  var copyRevertFilesToCurrentFiles = function(visibleFiles) {
+    var filename;
     for (filename in visibleFiles) {
       if (filename !== 'output') {
         cd.newFileContent(filename, visibleFiles[filename]);
@@ -568,26 +586,9 @@ $(() => {
     }
   };
 
-  //-----------------------------------------
-  // refresh [download]
-  //-----------------------------------------
-
-  const refreshDownloadButton = () => {
-    const button = $('#download-button');
-    cd.setTip(button, () => {
-      const tip = 'download files from ' + param.avatar + ' ' + param.nowTag;
-      cd.showHoverTip(button, tip);
-    });
-  };
-
-  const doDownload = () => {
-    const url = '/download_tag/' + param.id + '/' + param.avatar + '/' + param.nowTag;
-    window.location = url;
-  };
-
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const setupButton = (name, handler) => {
+  var setupButton = function(name, handler) {
     $('#'+name+'-button-container').html('<button id="'+name+'-button" type="button"></button>');
     $('#'+name+'-button')
       .text(name)
@@ -608,13 +609,13 @@ $(() => {
   //-----------------------------------------
 
   if (inDialog()) {
-    setupButton('revert', () => { doRevert(); });
-    setupButton('close',  () => { $('#review-dialog').dialog('close'); });
+    setupButton('revert',   function() { doRevert(); });
+    setupButton('close',    function() { $('#review-dialog').dialog('close'); });
   } else {
     reviewRefresh();
   }
-  setupButton('download', () => { doDownload(); })
-  setupButton('fork',     () => { doFork(); });
+  setupButton('download', function() { doDownload(); })
+  setupButton('fork',     function() { doFork(); });
 
 });
 

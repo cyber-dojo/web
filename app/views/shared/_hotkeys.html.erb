@@ -1,12 +1,12 @@
 
 <script type="text/javascript"><!--
 
-$(() => {
+$(function() {
 
   const hotkeysButton = $('#hotkeys-button');
 
   const hotkeysDialog = function() {
-    let html = '';
+    var html = '';
     html += '<div id="hotkeys-dialog">';
     html += '<table>';
     html += tr('Alt-T', 'runs the tests');
@@ -32,14 +32,15 @@ $(() => {
       closeOnEscape: true,
               modal: true,
               title: cd.dialogTitle('hotkeys'),
-            buttons: { close: () => {
-                node.remove();
+            buttons: { close:
+              function() {
+                $(this).remove();
                 cd.editorRefocus();
               }
             },
-        beforeClose: (event) => {
+        beforeClose: function(event) {
           if (event.keyCode === $.ui.keyCode.ESCAPE) {
-            node.remove();
+            $(this).remove();
             cd.editorRefocus();
             return true;
           }
@@ -47,17 +48,16 @@ $(() => {
     });
   };
 
-  const tr = (key, what) => {
-    return '' +
-      '<tr>' +
-        '<td style="text-align:right;">' + key + '</td>' +
-        '<td>==</td>' +
-        '<td>' + what + '</td>' +
-      '</tr>';
+  const tr = function(key, what) {
+    return '<tr>' +
+      '<td style="text-align:right;">' + key + '</td>' +
+      '<td>==</td>' +
+      '<td>' + what + '</td>' +
+    '</tr>';
   };
 
   if (window.location.href.indexOf('kata/edit') != -1) {
-    hotkeysButton.show().click(() => { hotkeysDialog(); });
+    hotkeysButton.show().click(function() { hotkeysDialog(); });
   } else {
     hotkeysButton.hide();
   }

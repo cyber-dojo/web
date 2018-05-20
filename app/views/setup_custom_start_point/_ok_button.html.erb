@@ -1,9 +1,9 @@
 
 <script type="text/javascript"><!--
 
-$(() => {
+$(function() {
 
-  $('button#ok').click(() => {
+  $('button#ok').click(function() {
     const display_name = $('[id^=custom_][class~=selected]').data('name');
     const url = '/setup_custom_start_point/save_<%= @from %>' +
       '?display_name=' + encodeURIComponent(display_name);

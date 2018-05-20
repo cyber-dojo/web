@@ -3,8 +3,10 @@
 
 $(function() {
 
-  const optionsDialog = function() {
-    let html = '';
+  const optionsButton = $('#options-button');
+
+  var optionsDialog = function() {
+    var html = '';
     html += '<div id="options-dialog">';
     html += '<table style="border: 1px;">';
     html += tr('syntax-highlight', '<button type="button" ' +
@@ -13,21 +15,19 @@ $(function() {
     html += '</table>';
     html += '</div>';
 
-    const node = $(html);
+    var node = $(html);
     node.dialog({
-      autoOpen: true,
-         modal: true,
-         title: cd.dialogTitle('options'),
-       buttons: { close: function() { $(this).remove(); } },
-         width: '350'
+        autoOpen: true,
+        modal: true,
+        title: cd.dialogTitle('options'),
+      buttons: { close: function() { $(this).remove(); } },
+        width: '350'
     });
   };
 
-  const tr = (key, value) => {
+  var tr = function(key, value) {
     return '<tr><td>' + key + '</td><td>:</td><td>' + value + '</td></tr>';
   };
-
-  const optionsButton = $('#options-button');
 
   if (window.location.href.indexOf('kata/edit') != -1) {
     optionsButton.show().click(function() { optionsDialog(); });
