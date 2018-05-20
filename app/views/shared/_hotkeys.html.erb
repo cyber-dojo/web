@@ -32,15 +32,14 @@ $(() => {
       closeOnEscape: true,
               modal: true,
               title: cd.dialogTitle('hotkeys'),
-            buttons: { close:
-              function() {
-                $(this).remove();
+            buttons: { close: () => {
+                node.remove();
                 cd.editorRefocus();
               }
             },
-        beforeClose: function(event) {
+        beforeClose: (event) => {
           if (event.keyCode === $.ui.keyCode.ESCAPE) {
-            $(this).remove();
+            node.remove();
             cd.editorRefocus();
             return true;
           }
