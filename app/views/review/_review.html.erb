@@ -1,7 +1,7 @@
 
 <script type="text/javascript"><!--
 
-$(function() {
+$(() => {
 
   //---------------------------------------------------------------------
   // This review page doubles as a review *dialog* from the kata/edit page
@@ -9,6 +9,14 @@ $(function() {
   // Everywhere else review is its own *page* with its own URL.
   // The [revert] button is available only from the review *dialog*.
   //---------------------------------------------------------------------
+
+  let param = {
+          id: "<%= @kata.id %>",
+      avatar: "<%= @avatar.name %>",
+      wasTag: "<%= @was_tag %>",
+      nowTag: "<%= @now_tag %>",
+    filename: "<%= @filename %>"
+  };
 
   cd.setReviewDialogData = (id, avatar, wasTag, nowTag, filename) => {
     param = {
@@ -19,14 +27,6 @@ $(function() {
       filename:filename
     };
     reviewRefresh();
-  };
-
-  let param = {
-          id: "<%= @kata.id %>",
-      avatar: "<%= @avatar.name %>",
-      wasTag: "<%= @was_tag %>",
-      nowTag: "<%= @now_tag %>",
-    filename: "<%= @filename %>"
   };
 
   //-----------------------------------------
@@ -60,7 +60,7 @@ $(function() {
       const tag = $(this).data('tag');
       $(this)
         .attr('title', toolTip(index))
-        .click(function() { show(tag); });
+        .click(() => { show(tag); });
     });
   };
 
@@ -235,7 +235,7 @@ $(function() {
       return html;
     }
     html += '<table>';
-    $.each(sortedDiffs(diffs), function(_, diff) {
+    $.each(sortedDiffs(diffs), (_, diff) => {
       const count = diff[propertyName];
       const td = $('<td>');
       const noneOrSome = (count == 0) ? 'none' : 'some';
@@ -269,7 +269,7 @@ $(function() {
       }
     };
     let result = [];
-    $.each(sorted, function(_, filename) {
+    $.each(sorted, (_, filename) => {
       result.push(diffFor(filename));
     });
     return result;
@@ -444,17 +444,17 @@ $(function() {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const reviewRefresh = () => {
-    $('.ui-dialog').addClass('busy');
-    const params = {
+    const reviewParams = {
             id: param.id,
         avatar: param.avatar,
        was_tag: param.wasTag,
        now_tag: param.nowTag,
       filename: param.filename
     };
-    $.getJSON('/differ/diff', params, (reviewParam) => {
+    $('.ui-dialog').addClass('busy');
+    $.getJSON('/differ/diff', reviewParams, (data) => {
       $('.ui-dialog').removeClass('busy');
-      param = reviewParam;
+      param = data;
       refreshDiffCheckBox();
       refreshTrafficLights();
       refreshAvatarControls();
@@ -489,7 +489,7 @@ $(function() {
       avatar: param.avatar,
          tag: param.nowTag
     };
-    $.getJSON('/forker/fork', forkParams, function(data) {
+    $.getJSON('/forker/fork', forkParams, (data) => {
       if (data.forked) {
         cd.newDojoDialog(data);
       } else {
@@ -535,7 +535,7 @@ $(function() {
       avatar: param.avatar,
          tag: param.nowTag
     };
-    $.getJSON('/reverter/revert', revertParams, function(data) {
+    $.getJSON('/reverter/revert', revertParams, (data) => {
       $('#review-dialog').dialog('close');
       deleteAllCurrentFiles();
       copyRevertFilesToCurrentFiles(data.visibleFiles);
