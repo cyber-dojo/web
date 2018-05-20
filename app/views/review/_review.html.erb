@@ -302,33 +302,41 @@ $(function() {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  var buildDiffFilenameHandlers = function(diffs) {
+  const buildDiffFilenameHandlers = (diffs) => {
     // Builds click handlers for all filenames for a given
     // [ kata-id, animal-name, was-tag, now-tag] tuple.
     // When you open a new filename it auto-scrolls its first diff-chunk.
     // When you reclick a filename it auto-scrolls to its *next* diff-chunk.
-    var previousFilenameNode;
-    var alreadyOpened = [];
-    var getFilename = function(node) { return $.trim(node.text()); };
-    var id = function(name) { return $('[id="' + name + '"]'); /*, diffDiv); */ };
-    var diffFileContentFor = function(filename) { return id('diff_file_content_for_' + filename); };
-    var diffFileDiv = function(filename) { return id(filename + '_diff_div'); };
+    const getFilename = (node) => {
+      return $.trim(node.text());
+    };
+    const id = (name) => {
+      return $('[id="' + name + '"]');
+    };
+    const diffFileContentFor = (filename) => {
+      return id('diff_file_content_for_' + filename);
+    };
+    const diffFileDiv = (filename) => {
+      return id(filename + '_diff_div');
+    };
+    let previousFilenameNode;
+    let alreadyOpened = [];
 
-    var loadFrom = function(diff) {
-      var id = diff.id;
-      var filenameNode = $('#radio_' + id);
-      var filename = getFilename(filenameNode);
-      var sectionCount = diff.section_count;
-      var diffSheet = diffFileContentFor(filename);
-      var sectionIndex = 0;
+    const loadFrom = (diff) => {
+      const id = diff.id;
+      const filenameNode = $('#radio_' + id);
+      const filename = getFilename(filenameNode);
+      const sectionCount = diff.section_count;
+      const diffSheet = diffFileContentFor(filename);
+      let sectionIndex = 0;
 
       if (sectionCount > 0) {
         filenameNode.attr('title', 'Auto-scroll through diffs');
       }
 
-      return function() {
+      return () => {
 
-        var reselected =
+        const reselected =
           previousFilenameNode != undefined &&
             getFilename(previousFilenameNode) == filename;
 
@@ -346,9 +354,9 @@ $(function() {
         param.filename = filename;
 
         if (sectionCount > 0 && (reselected || !cd.inArray(filename, alreadyOpened))) {
-          var section = $('#' + id + '_section_' + sectionIndex);
-          var downFromTop = 250;
-          var halfSecond = 500;
+          const section = $('#' + id + '_section_' + sectionIndex);
+          const downFromTop = 250;
+          const halfSecond = 500;
           diffSheet.animate({
             scrollTop: '+=' + (section.offset().top - downFromTop) + 'px'
             }, halfSecond);
@@ -359,8 +367,8 @@ $(function() {
       };
     }; // loadFrom()
 
-    $.each(diffs, function(_n, diff) {
-      var filename = $('#radio_' + diff.id);
+    $.each(diffs, (_n, diff) => {
+      const filename = $('#radio_' + diff.id);
       filename.click(loadFrom(diff));
     });
   }; // buildDiffFilenameHandlers()
