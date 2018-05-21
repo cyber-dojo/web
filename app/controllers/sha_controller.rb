@@ -1,7 +1,7 @@
 
 class ShaController < ApplicationController
 
-  def show
+  def index
     @shas = {
       'starter' => starter.sha,
       'storer' => storer.sha,
