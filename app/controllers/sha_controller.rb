@@ -4,10 +4,17 @@ class ShaController < ApplicationController
   def show
     @shas = {
       'starter' => starter.sha,
-      #'storer' => storer.sha
+      'storer' => storer.sha,
+      'web' => web_sha,
       #'runner-stateless' => runner.sha('stateless'),
-      #'runner-stateful' => runner.sha('stateful'),
+      #'runner-stateful' => runner.sha('stateful')
     }
+  end
+
+  private
+
+  def web_sha
+    IO.read('/cyber-dojo/sha.txt').strip
   end
 
 end
