@@ -13,7 +13,7 @@ class RunnerService
     when 'stateless' then set_hostname_port_stateless
     when 'stateful'  then set_hostname_port_stateful
     end
-    http_get(__method__, [])
+    http_get(__method__)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
