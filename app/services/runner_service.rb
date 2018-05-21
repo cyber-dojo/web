@@ -8,7 +8,6 @@ class RunnerService
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-=begin
   def sha(runner_name)
     case runner_name
     when 'stateless' then set_hostname_port_stateless
@@ -16,7 +15,6 @@ class RunnerService
     end
     http_get(__method__, [])
   end
-=end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
