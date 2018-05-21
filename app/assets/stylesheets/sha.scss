@@ -1,0 +1,7 @@
+
+#sha-page
+{
+  margin: 20px;
+  #aligner { @include center-align(); }
+  @include code-font();
+}

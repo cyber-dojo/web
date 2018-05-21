@@ -1,17 +1,20 @@
 
-<table>
-<% @shas.each do |service,sha| %>
-<tr>
-  <td><%= service %></td>
-  <td>
-    <a href="https://github.com/cyber-dojo/<%= service %>/tree/<%= sha %>">
-      <%= sha %>
-    </a>
-  </td>
-</tr>
-<% end %>
-</table>
+<div id="sha-page">
+    <table id="aligner">
+    <% @shas.each do |service,sha| %>
+    <tr>
+      <td><%= service %></td>
+      <td>
+        <a href="https://github.com/cyber-dojo/<%= service %>/tree/<%= sha %>">
+          <%= sha %>
+        </a>
+      </td>
+    </tr>
+    <% end %>
+    </table>
 
-<%= render partial: 'shared/app_bar_short',
-    locals: { help_url: "http://blog.cyber-dojo.org/p/learn-more.html" }
-%>
+    <%= render partial: 'shared/app_bar_short',
+        locals: { help_url: "http://blog.cyber-dojo.org/p/learn-more.html" }
+    %>
+  </div>
+</div>
