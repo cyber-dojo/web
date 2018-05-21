@@ -1,6 +1,6 @@
 
 <div id="sha-page">
-    <table id="aligner">
+  <table id="aligner">
     <% @shas.each do |service,sha| %>
     <tr>
       <td><%= service %></td>
@@ -17,10 +17,9 @@
       </td>
     </tr>
     <% end %>
-    </table>
+  </table>
 
-    <%= render partial: 'shared/app_bar_short',
-        locals: { help_url: "http://blog.cyber-dojo.org/p/learn-more.html" }
-    %>
-  </div>
+  <%= render partial: 'shared/app_bar_short',
+      locals: { help_url: "http://blog.cyber-dojo.org/p/learn-more.html" }
+  %>
 </div>

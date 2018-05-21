@@ -1,7 +1,13 @@
 
 #sha-page
 {
-  margin: 20px;
+  margin-top: 40px;
   #aligner { @include center-align(); }
-  @include code-font();
+  @include code-font(); // fixed-width
+  #aligner td
+  {
+    padding-left: 0px;
+    padding-right: 10px;
+    text-align: right;
+  }
 }
