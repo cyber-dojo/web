@@ -8,8 +8,19 @@ class DifferServiceTest < AppServicesTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test '3AA',
+  'smoke test differ.sha' do
+    sha = differ.sha
+    assert_equal 40, sha.size
+    sha.each_char do |ch|
+      assert "0123456789abcdef".include?(ch)
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '3AB',
-  'smoke test' do
+  'smoke test differ.diff(..., was_tag=0, now_tag=1)' do
     in_kata(:stateless) {
       as(:wolf) {
         args = []

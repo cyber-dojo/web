@@ -6,6 +6,14 @@ class DifferService
     @externals = externals
   end
 
+  # - - - - - - - - - - - - -
+
+  def sha
+    http_get(__method__)
+  end
+
+  # - - - - - - - - - - - - -
+
   def diff(kata_id, avatar_name, was_tag, now_tag)
     args = [kata_id, avatar_name, was_tag, now_tag]
     visible_files = storer.tags_visible_files(*args)

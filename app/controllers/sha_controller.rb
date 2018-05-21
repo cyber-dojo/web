@@ -3,6 +3,7 @@ class ShaController < ApplicationController
 
   def index
     @shas = {
+      'differ' => differ.sha,
       'starter' => starter.sha,
       'storer' => storer.sha,
       'web' => web_sha,
