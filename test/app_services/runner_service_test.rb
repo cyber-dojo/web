@@ -14,6 +14,14 @@ class RunnerServiceTest < AppServicesTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test '74F',
+  'smoke test runner.sha' do
+    assert is_sha?(runner.sha('stateless'))
+    assert is_sha?(runner.sha('stateful'))
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '74A',
   'stateless run() delegates to stateless runner' do
     in_kata(:stateless) {
@@ -198,6 +206,16 @@ class RunnerServiceTest < AppServicesTestBase
     ensure
       @http = saved_http
     end
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def is_sha?(sha)
+    sha.size == 40 && sha.chars.all? { |ch| is_hex?(ch) }
+  end
+
+  def is_hex?(ch)
+    '0123456789abcdef'.include?(ch)
   end
 
 end
