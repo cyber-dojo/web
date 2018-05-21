@@ -18,9 +18,8 @@
     #progress-button, #download-button {
       @include non-code-font();
        font-size: 1em;
-         padding: { bottom: 4px; }
+         padding: { bottom: 3px; left: 9px; right: 9px; }
           margin: { bottom: 2px; }
-           width: 80px;
       text-align: right;
     }
   }
