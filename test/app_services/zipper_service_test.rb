@@ -15,9 +15,21 @@ class ZipperServiceTest < AppServicesTestBase
 
   # - - - - - - - - - - - - - - - - - - - - -
 
+  test 'C16',
+  'smoke test zipper.sha' do
+    sha = zipper.sha
+    assert_equal 40, sha.size
+    sha.each_char do |ch|
+      assert "0123456789abcdef".include?(ch)
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - -
+
   test 'EBF',
   'smoke test zipper.zip' do
     error = assert_raises { zipper.zip(kata_id='') }
+    assert error.message.start_with?('ZipperService:'), error.message
     assert error.message.end_with?('kata_id:malformed'), error.message
   end
 
@@ -26,6 +38,7 @@ class ZipperServiceTest < AppServicesTestBase
   test '959',
   'smoke test zipper.zip_tag' do
     error = assert_raises { zipper.zip_tag(kata_id='', 'lion', 0) }
+    assert error.message.start_with?('ZipperService:'), error.message
     assert error.message.end_with?('kata_id:malformed'), error.message
   end
 
