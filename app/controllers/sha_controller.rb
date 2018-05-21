@@ -6,6 +6,7 @@ class ShaController < ApplicationController
       'starter' => starter.sha,
       'storer' => storer.sha,
       'web' => web_sha,
+      'zipper' => zipper.sha,
       #'runner-stateless' => runner.sha('stateless'),
       #'runner-stateful' => runner.sha('stateful')
     }

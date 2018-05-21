@@ -6,6 +6,10 @@ class ZipperService
     @externals = externals
   end
 
+  def sha
+    http_get(__method__)
+  end
+
   def zip(kata_id)
     http_get(__method__, kata_id)
   end
