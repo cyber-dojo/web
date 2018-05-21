@@ -4,9 +4,15 @@
     <% @shas.each do |service,sha| %>
     <tr>
       <td><%= service %></td>
+      <td><%= sha %></td>
       <td>
         <a href="https://github.com/cyber-dojo/<%= service %>/tree/<%= sha %>">
-          <%= sha %>
+          github
+        </a>
+      </td>
+      <td>
+        <a href="https://hub.docker.com/r/cyberdojo/<%= service %>/tags/">
+          dockerhub
         </a>
       </td>
     </tr>
