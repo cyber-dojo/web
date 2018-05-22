@@ -2,6 +2,7 @@
 <%= render partial: 'test_button_handler' %>
 <%= render partial: 'highlight_filenames' %>
 <%= render partial: 'shared/extension_filenames' %>
+<%= render partial: 'tab_size' %>
 
 <script type="text/javascript"><!--
 
@@ -14,8 +15,6 @@ $(() => {
   const filenames = cd.filenames();
   const filename = filenames[cd.testFilenameIndex(filenames)];
   cd.loadFile(filename);
-
-  cd.syntaxHighlightTabSize = <%= @kata.tab_size %>;
 
 });
 
