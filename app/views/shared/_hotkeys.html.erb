@@ -5,14 +5,14 @@ $(function() {
 
   const hotkeysButton = $('#hotkeys-button');
 
-  const hotkeysDialog = function() {
-    var html = '';
+  const hotkeysDialog = () => {
+    let html = '';
     html += '<div id="hotkeys-dialog">';
     html += '<table>';
-    html += tr('Alt-T', 'runs the tests');
-    html += tr('Alt-O', 'moves to/from the output file');
     html += tr('Alt-J', 'cycles forwards through the source files');
     html += tr('Alt-K', 'cycles bakwards through the source files');
+    html += tr('Alt-O', 'moves to/from the output file');
+    html += tr('Alt-T', 'runs the tests');
     html += '</table>';
     html += '<hr/>';
     html += '<table>';
@@ -32,15 +32,14 @@ $(function() {
       closeOnEscape: true,
               modal: true,
               title: cd.dialogTitle('hotkeys'),
-            buttons: { close:
-              function() {
-                $(this).remove();
+            buttons: { close: () => {
+                node.remove();
                 cd.editorRefocus();
               }
             },
-        beforeClose: function(event) {
+        beforeClose: (event) => {
           if (event.keyCode === $.ui.keyCode.ESCAPE) {
-            $(this).remove();
+            node.remove();
             cd.editorRefocus();
             return true;
           }
@@ -48,7 +47,7 @@ $(function() {
     });
   };
 
-  const tr = function(key, what) {
+  const tr = (key, what) => {
     return '<tr>' +
       '<td style="text-align:right;">' + key + '</td>' +
       '<td>==</td>' +
