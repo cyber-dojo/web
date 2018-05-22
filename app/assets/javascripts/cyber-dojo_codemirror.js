@@ -52,9 +52,6 @@ var cyberDojo = (function(cd, $) {
         }
       }, true);
     }
-
-    const lineNumbers = document.getElementById(filename + '_line_numbers');
-    lineNumbers.style.display = 'none';
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -

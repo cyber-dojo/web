@@ -22,11 +22,6 @@ var cyberDojo = (function(cd, $) {
     });
     var table = $('<table>');
     var tr = $('<tr>');
-    var td1 = $('<td>');
-    var lines = $('<div>', {
-      'class': 'line_numbers',
-      id: filename + '_line_numbers'
-    });
     var td2 = $('<td>');
     var text = $('<textarea>', {
       'class': 'file_content',
@@ -45,8 +40,6 @@ var cyberDojo = (function(cd, $) {
     text.attr('wrap', 'off');
 
     text.val(content);
-    td1.append(lines);
-    tr.append(td1);
     td2.append(text);
     tr.append(td2);
     table.append(tr);
