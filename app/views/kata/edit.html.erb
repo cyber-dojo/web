@@ -11,10 +11,7 @@ $(() => {
   cd.storeIncomingFileHashes();
   cd.storeOutgoingFileHashes();
   cd.rebuildFilenameList();
-
-  const filenames = cd.filenames();
-  const filename = filenames[cd.testFilenameIndex(filenames)];
-  cd.loadFile(filename);
+  cd.loadTestFile();
 
 });
 

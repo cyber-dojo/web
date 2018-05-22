@@ -48,6 +48,14 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  cd.loadTestFile = function() {
+    const filenames = cd.filenames();
+    const filename = filenames[cd.testFilenameIndex(filenames)];
+    cd.loadFile(filename);
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   cd.testFilenameIndex = function(filenames) {
     // When starting and in file-knave navigation
     // the current file is sometimes not present.
