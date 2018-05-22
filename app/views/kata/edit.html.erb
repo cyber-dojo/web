@@ -4,19 +4,6 @@
 <%= render partial: 'shared/extension_filenames' %>
 <%= render partial: 'tab_size' %>
 
-<script type="text/javascript"><!--
-
-$(() => {
-
-  cd.storeIncomingFileHashes();
-  cd.storeOutgoingFileHashes();
-  cd.rebuildFilenameList();
-  cd.loadTestFile();
-
-});
-
-//--></script>
-
 <%= form_tag( { action: 'run_tests',
                 id: @kata.id,
                 avatar: @avatar.name
@@ -53,15 +40,20 @@ $(() => {
     </table>
   </div>
 
-  <script type="text/javascript"><!--
-  $(() => {
-    cd.switchAllEditorsToCodeMirror();
-  });
-  //--></script>
-
   <%= render partial: 'shared/app_bar_long',
              locals: {
                 help_url:"http://blog.cyber-dojo.org/2014/10/the-cyber-dojo-test-page.html"
              } %>
 
 <% end %>
+
+<script type="text/javascript"><!--
+$(() => {
+  cd.storeIncomingFileHashes();
+  cd.storeOutgoingFileHashes();
+  cd.rebuildFilenameList();
+  cd.loadTestFile();
+  cd.switchAllEditorsToCodeMirror();
+});
+//--></script>
+
