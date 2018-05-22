@@ -16,22 +16,20 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.makeNewFile = function(filename, content) {
-    var div = $('<div>', {
+    const div = $('<div>', {
       'class': 'filename_div',
       id: filename + '_div'
     });
-    var table = $('<table>');
-    var tr = $('<tr>');
-    var td2 = $('<td>');
-    var text = $('<textarea>', {
+    const table = $('<table>');
+    const tr = $('<tr>');
+    const td = $('<td>');
+    const text = $('<textarea>', {
       'class': 'file_content',
       'spellcheck': 'false',
       'data-filename': filename,
       name: 'file_content[' + filename + ']',
       id: 'file_content_for_' + filename
-      //
       //wrap: 'off'
-      //
     });
     // For some reason, setting wrap cannot be done as per the
     // commented out line above... when you create a new file in
@@ -40,8 +38,8 @@ var cyberDojo = (function(cd, $) {
     text.attr('wrap', 'off');
 
     text.val(content);
-    td2.append(text);
-    tr.append(td2);
+    td.append(text);
+    tr.append(td);
     table.append(tr);
     div.append(table);
 
@@ -55,10 +53,9 @@ var cyberDojo = (function(cd, $) {
     // the current file is sometimes not present.
     // (eg the file has been renamed/deleted).
     // When this happens, try to select a test file.
-    var i,parts,filename;
-    for (i = 0; i < filenames.length; i++) {
-      parts = filenames[i].toLowerCase().split('/');
-      filename = parts[parts.length - 1];
+    for (let i = 0; i < filenames.length; i++) {
+      const parts = filenames[i].toLowerCase().split('/');
+      const filename = parts[parts.length - 1];
       if (filename.search('test') !== -1) {
         return i;
       }
@@ -168,8 +165,8 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  var theCurrentFilename = '';
-  var theLastNonOutputFilename = '';
+  let theCurrentFilename = '';
+  let theLastNonOutputFilename = '';
 
   cd.currentFilename = function() {
     return theCurrentFilename;
@@ -203,4 +200,5 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   return cd;
+
 })(cyberDojo || {}, jQuery);
