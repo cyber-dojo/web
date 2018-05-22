@@ -262,8 +262,7 @@ $(() => {
     // ensure filenames appear in the same order as kata/edit page
     const sorted = cd.sortedFilenames(filenames);
     const diffFor = (filename) => {
-      let i;
-      for (i = 0; i < diffs.length; i += 1) {
+      for (let i = 0; i < diffs.length; i++) {
         if (diffs[i].filename == filename) {
           return diffs[i];
         }
@@ -599,8 +598,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const copyRevertFilesToCurrentFiles = (visibleFiles) => {
-    let filename;
-    for (filename in visibleFiles) {
+    for (let filename in visibleFiles) {
       if (filename !== 'output') {
         cd.newFileContent(filename, visibleFiles[filename]);
       }
