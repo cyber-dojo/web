@@ -394,7 +394,6 @@ $(() => {
       const numbers = $('.diff-line-numbers', table);
       content.html(diff.content);
       numbers.html(diff.line_numbers);
-      cd.bindLineNumbersFromTo(content, numbers);
       holder.append(table);
     });
     return holder;
