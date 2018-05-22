@@ -394,9 +394,27 @@ $(() => {
       const numbers = $('.diff-line-numbers', table);
       content.html(diff.content);
       numbers.html(diff.line_numbers);
+      bindLineNumberScrolling(content, numbers);
       holder.append(table);
     });
     return holder;
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const bindLineNumberScrolling = ($content, $numbers) => {
+    // called from app/views/review/*
+    const synchScroll = () => {
+      $numbers.scrollTop($content.scrollTop());
+    };
+    $content.bind({
+      keydown   : synchScroll,
+      scroll    : synchScroll,
+      mousewheel: synchScroll,
+      mousemove : synchScroll,
+      mousedown : synchScroll,
+      mouseup   : synchScroll
+    });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
