@@ -80,7 +80,6 @@ var cyberDojo = (function(cd, $) {
   cd.newFileContent = function(filename, content) {
     const newFile = cd.makeNewFile(filename, content);
     $('#visible-files-container').append(newFile);
-    cd.bindLineNumbers(filename);
     cd.rebuildFilenameList();
     cd.loadFile(filename);
     cd.switchEditorToCodeMirror(filename);

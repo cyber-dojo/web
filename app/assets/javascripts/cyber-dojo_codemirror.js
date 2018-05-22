@@ -175,7 +175,9 @@ var cyberDojo = (function(cd, $) {
     }
   };
 
-  cd.switchEditorToCodeMirror = function (filename) {
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.switchEditorToCodeMirror = function(filename) {
     var textArea = document.getElementById('file_content_for_' + filename);
     var parent = textArea.parentNode;
 
@@ -236,12 +238,16 @@ var cyberDojo = (function(cd, $) {
     lineNumbers.style.display = 'none';
   };
 
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   cd.switchAllEditorsToCodeMirror = function() {
     $.each($('.file_content'), function (i, editor_text_area) {
       var filename = editor_text_area.attributes['data-filename'].value;
       cd.switchEditorToCodeMirror(filename);
     });
   };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.focusSyntaxHighlightEditor = function(filename) {
     var element = document.getElementById(syntaxHighlightFileContentForId(filename));
@@ -251,11 +257,15 @@ var cyberDojo = (function(cd, $) {
     }
   };
 
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   cd.saveCodeFromSyntaxHighlightEditors = function() {
     $.each($('.CodeMirror'), function (i, editor_div) {
       editor_div.CodeMirror.cyberDojoTextArea.value = editor_div.CodeMirror.getValue();
     });
   };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.saveCodeFromIndividualSyntaxHighlightEditor = function(filename) {
     var editor_div = document.getElementById(syntaxHighlightFileContentForId(filename));
