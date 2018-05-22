@@ -3,19 +3,130 @@
 var cyberDojo = (function(cd, $) {
   "use strict";
 
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.toggleSyntaxHighlight = () => {
+    if(syntaxHighlightEnabled()) {
+      runActionOnAllCodeMirrorEditors(disableSyntaxHighlight);
+    } else {
+      runActionOnAllCodeMirrorEditors(enableSyntaxHighlight);
+    }
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.toggleLineNumbers = () => {
+    if (areLineNumbersVisible()) {
+      runActionOnAllCodeMirrorEditors(hideLineNumbersForEditor);
+    } else {
+      runActionOnAllCodeMirrorEditors(showLineNumbersForEditor);
+    }
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.switchEditorToCodeMirror = (filename) => {
+    const textArea = document.getElementById('file_content_for_' + filename);
+    const parent = textArea.parentNode;
+    const editor = CodeMirror(parent, editorOptions(filename));
+
+    textArea.style.display = 'none';
+    editor.cyberDojoTextArea = textArea;
+    editor.setValue(textArea.value);
+
+    if (!areLineNumbersVisible()) {
+      hideLineNumbersForEditor(editor);
+    }
+
+    editor.getWrapperElement().id = syntaxHighlightFileContentForId(filename);
+    bindHotKeys(editor);
+
+    if (!codeMirrorIndentWithTabs(filename)) {
+      editor.addKeyMap({
+        Tab: (cm) => {
+          if (cm.somethingSelected()) {
+            cm.indentSelection('add');
+          } else {
+            cm.execCommand('insertSoftTab');
+          }
+        }
+      }, true);
+    }
+
+    const lineNumbers = document.getElementById(filename + '_line_numbers');
+    lineNumbers.style.display = 'none';
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.switchAllEditorsToCodeMirror = () => {
+    $.each($('.file_content'), (i, editorTextArea) => {
+      const filename = editorTextArea.attributes['data-filename'].value;
+      cd.switchEditorToCodeMirror(filename);
+    });
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.focusSyntaxHighlightEditor = (filename) => {
+    const element = document.getElementById(syntaxHighlightFileContentForId(filename));
+    if (element != null) {
+      element.CodeMirror.refresh();
+      element.CodeMirror.focus();
+    }
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.saveCodeFromSyntaxHighlightEditors = () => {
+    $.each($('.CodeMirror'), (i, editorDiv) => {
+      editorDiv.CodeMirror.cyberDojoTextArea.value = editorDiv.CodeMirror.getValue();
+    });
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.saveCodeFromIndividualSyntaxHighlightEditor = (filename) => {
+    const editorDiv = document.getElementById(syntaxHighlightFileContentForId(filename));
+    editorDiv.CodeMirror.cyberDojoTextArea.value = editorDiv.CodeMirror.getValue();
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   const plainTheme = 'cyber-dojo-default';
   const colourTheme = 'cyber-dojo-colour';
   const noLineNumbersTheme = ' cyber-dojo-no-linenumbers';
 
-  var fileExtension = function(filename) {
-    var lastPoint = filename.lastIndexOf('.');
-    if (lastPoint == -1) {
-      return '';
-    }
-    return filename.substring(lastPoint);
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const editorOptions = (filename) => {
+    return {
+         lineNumbers: true,
+       matchBrackets: true,
+                mode: codeMirrorMode(filename),
+          indentUnit: cd.syntaxHighlightTabSize,
+             tabSize: cd.syntaxHighlightTabSize,
+      indentWithTabs: codeMirrorIndentWithTabs(filename),
+               theme: plainTheme,
+            readOnly: (filename == 'output'),
+         smartIndent: false
+    };
   };
 
-  var codeMirrorMode = function(filename) {
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const fileExtension = (filename) => {
+    const lastPoint = filename.lastIndexOf('.');
+    if (lastPoint == -1) {
+      return '';
+    } else {
+      return filename.substring(lastPoint);
+    }
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const codeMirrorMode = (filename) => {
     filename = filename.toLowerCase();
 
     switch (filename) {
@@ -81,7 +192,9 @@ var cyberDojo = (function(cd, $) {
     return '';
   };
 
-  var codeMirrorIndentWithTabs = function(filename) {
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const codeMirrorIndentWithTabs = (filename) => {
     filename = filename.toLowerCase();
     switch (filename) {
       case 'makefile':
@@ -91,186 +204,92 @@ var cyberDojo = (function(cd, $) {
     }
   };
 
-  var syntaxHighlightFileContentForId = function(filename) {
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const syntaxHighlightFileContentForId = (filename) => {
     return 'syntax_highlight_file_content_for_' + filename;
   };
 
-  var runActionOnAllCodeMirrorEditors = function(action) {
-    $.each($('.CodeMirror'), function (i, editor_div) {
-      action(editor_div.CodeMirror);
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const runActionOnAllCodeMirrorEditors = (action) => {
+    $.each($('.CodeMirror'), (i, editorDiv) => {
+      action(editorDiv.CodeMirror);
     });
   };
 
   //================================================================
 
-  var syntaxHighlightEnabled = function() {
-    var enabled = false;
-
-    runActionOnAllCodeMirrorEditors(function(editor) {
-      var theme = editor.getOption('theme');
-
+  const syntaxHighlightEnabled = () => {
+    let enabled = false;
+    runActionOnAllCodeMirrorEditors((editor) => {
+      const theme = editor.getOption('theme');
       if (theme.indexOf(colourTheme) !== -1) {
         enabled = true;
       }
     });
-
     return enabled;
   };
 
-  var enableSyntaxHighlight = function(editor) {
-    var theme = editor.getOption('theme');
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const enableSyntaxHighlight = (editor) => {
+    let theme = editor.getOption('theme');
     theme = theme.replace(noLineNumbersTheme, '');
     editor.setOption('theme', colourTheme);
     editor.setOption('smartIndent', true);
   };
 
-  var disableSyntaxHighlight = function(editor) {
-    var theme = editor.getOption('theme');
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const disableSyntaxHighlight = (editor) => {
+    let theme = editor.getOption('theme');
     theme += noLineNumbersTheme;
     editor.setOption('theme', plainTheme);
     editor.setOption('smartIndent', false);
   };
 
-  cd.toggleSyntaxHighlight = function() {
-    if(syntaxHighlightEnabled()) {
-      runActionOnAllCodeMirrorEditors(disableSyntaxHighlight);
-    } else {
-      runActionOnAllCodeMirrorEditors(enableSyntaxHighlight);
-    }
-  };
-
   //================================================================
 
-  var areLineNumbersVisible = function() {
-    var enabled = true;
-
-    runActionOnAllCodeMirrorEditors(function(editor) {
-      var theme = editor.getOption('theme');
-
+  const areLineNumbersVisible = () => {
+    let enabled = true;
+    runActionOnAllCodeMirrorEditors((editor) => {
+      const theme = editor.getOption('theme');
       if (theme.indexOf(noLineNumbersTheme) !== -1) {
         enabled = false;
       }
     });
-
     return enabled;
   };
 
-  var showLineNumbersForEditor = function(editor) {
-    var theme = editor.getOption('theme');
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const showLineNumbersForEditor = (editor) => {
+    let theme = editor.getOption('theme');
     theme = theme.replace(noLineNumbersTheme, '');
     editor.setOption('theme', theme);
   };
 
-  var hideLineNumbersForEditor = function(editor) {
-    var theme = editor.getOption('theme');
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const hideLineNumbersForEditor = (editor) => {
+    let theme = editor.getOption('theme');
     theme += noLineNumbersTheme;
     editor.setOption('theme', theme);
   };
 
-  var toggleLineNumbers = function(cm, lineNumber) {
-    if(areLineNumbersVisible()) {
-      runActionOnAllCodeMirrorEditors(hideLineNumbersForEditor);
-    } else {
-      runActionOnAllCodeMirrorEditors(showLineNumbersForEditor);
-    }
-  };
-
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.switchEditorToCodeMirror = function(filename) {
-    var textArea = document.getElementById('file_content_for_' + filename);
-    var parent = textArea.parentNode;
-
-    textArea.style.display = 'none';
-
-    var editor = CodeMirror(parent, {
-      lineNumbers: true,
-      matchBrackets: true,
-      mode: codeMirrorMode(filename),
-      indentUnit: cd.syntaxHighlightTabSize,
-      tabSize: cd.syntaxHighlightTabSize,
-      indentWithTabs: codeMirrorIndentWithTabs(filename),
-      theme: plainTheme,
-      readOnly: (filename == 'output'),
-      smartIndent: false
-    });
-
-    editor.cyberDojoTextArea = textArea;
-    editor.setValue(textArea.value);
-
-    if(!areLineNumbersVisible()) {
-      hideLineNumbersForEditor(editor);
-    }
-
-    editor.on('gutterClick', toggleLineNumbers);
-
-    editor.getWrapperElement().id = syntaxHighlightFileContentForId(filename);
-
+  const bindHotKeys = (editor) => {
     editor.setOption('extraKeys', {
-      'Alt-T': function (cm) {
-        $('#test-button').click();
-      },
-      'Alt-J': function (cm) {
-        cd.loadNextFile();
-      },
-      'Alt-K': function (cm) {
-        cd.loadPreviousFile();
-      },
-      'Alt-O': function (cm) {
-        cd.toggleOutputFile();
-      }
-    });
-
-    if(!codeMirrorIndentWithTabs(filename)) {
-      editor.addKeyMap({
-        Tab: function (cm) {
-          if (cm.somethingSelected()) {
-            cm.indentSelection('add');
-          }
-          else {
-            cm.execCommand('insertSoftTab');
-          }
-        }
-      }, true);
-    }
-
-    var lineNumbers = document.getElementById(filename + '_line_numbers');
-    lineNumbers.style.display = 'none';
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.switchAllEditorsToCodeMirror = function() {
-    $.each($('.file_content'), function (i, editor_text_area) {
-      var filename = editor_text_area.attributes['data-filename'].value;
-      cd.switchEditorToCodeMirror(filename);
+      'Alt-T': (cm) => { $('#test-button').click(); },
+      'Alt-J': (cm) => { cd.loadNextFile(); },
+      'Alt-K': (cm) => { cd.loadPreviousFile(); },
+      'Alt-O': (cm) => { cd.toggleOutputFile(); }
     });
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.focusSyntaxHighlightEditor = function(filename) {
-    var element = document.getElementById(syntaxHighlightFileContentForId(filename));
-    if (element != null) {
-      element.CodeMirror.refresh();
-      element.CodeMirror.focus();
-    }
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.saveCodeFromSyntaxHighlightEditors = function() {
-    $.each($('.CodeMirror'), function (i, editor_div) {
-      editor_div.CodeMirror.cyberDojoTextArea.value = editor_div.CodeMirror.getValue();
-    });
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.saveCodeFromIndividualSyntaxHighlightEditor = function(filename) {
-    var editor_div = document.getElementById(syntaxHighlightFileContentForId(filename));
-    editor_div.CodeMirror.cyberDojoTextArea.value = editor_div.CodeMirror.getValue();
-  };
 
   return cd;
 

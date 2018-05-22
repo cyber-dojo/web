@@ -1,18 +1,19 @@
 
 <script type="text/javascript"><!--
 
-$(function() {
+$(() => {
 
-  const optionsButton = $('#options-button');
-
-  const optionsDialog = function() {
+  const optionsDialog = () => {
     let html = '';
     html += '<div id="options-dialog">';
     html += '<table style="border: 1px;">';
     html += tr('syntax-highlight', '<button type="button" ' +
       'id="toggle-syntax-highlight" ' +
       'onClick="cd.toggleSyntaxHighlight();">toggle</button>');
-      html += '</table>';
+    html += tr('line-numbers', '<button type="button" ' +
+      'id="toggle-line-numbers" ' +
+      'onClick="cd.toggleLineNumbers();">toggle</button>');
+    html += '</table>';
     html += '</div>';
 
     const node = $(html);
@@ -20,14 +21,20 @@ $(function() {
         autoOpen: true,
         modal: true,
         title: cd.dialogTitle('options'),
-      buttons: { close: function() { $(this).remove(); } },
+      buttons: { close: () => { node.remove(); } },
         width: '350'
     });
   };
 
-  const tr = function(key, value) {
-    return '<tr><td>' + key + '</td><td>:</td><td>' + value + '</td></tr>';
+  const tr = (name, button) => {
+    return '<tr>' + td(button) + td(name) + '</tr>';
   };
+
+  const td = (s) => {
+    return '<td>' + s + '</td>';
+  };
+
+  const optionsButton = $('#options-button');
 
   if (window.location.href.indexOf('kata/edit') != -1) {
     optionsButton.show().click(function() { optionsDialog(); });
