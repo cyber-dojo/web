@@ -9,14 +9,9 @@ $(() => {
 
   cd.storeIncomingFileHashes();
   cd.storeOutgoingFileHashes();
-
-  const filenames = cd.filenames();
-  $.each(filenames, (_,filename) => {
-    const file = cd.fileContentFor(filename);
-    cd.bindHotKeys(file);
-  });
   cd.rebuildFilenameList();
 
+  const filenames = cd.filenames();
   const filename = filenames[cd.testFilenameIndex(filenames)];
   cd.loadFile(filename);
 

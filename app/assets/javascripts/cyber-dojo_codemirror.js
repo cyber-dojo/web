@@ -3,9 +3,9 @@
 var cyberDojo = (function(cd, $) {
   "use strict";
 
-  var plainTheme = 'cyber-dojo-default';
-  var colourTheme = 'cyber-dojo-colour';
-  var noLineNumbersTheme = ' cyber-dojo-no-linenumbers';
+  const plainTheme = 'cyber-dojo-default';
+  const colourTheme = 'cyber-dojo-colour';
+  const noLineNumbersTheme = ' cyber-dojo-no-linenumbers';
 
   var fileExtension = function(filename) {
     var lastPoint = filename.lastIndexOf('.');

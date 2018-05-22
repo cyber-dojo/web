@@ -52,8 +52,6 @@ var cyberDojo = (function(cd, $) {
     table.append(tr);
     div.append(table);
 
-    cd.bindHotKeys(text);
-
     return div;
   };
 

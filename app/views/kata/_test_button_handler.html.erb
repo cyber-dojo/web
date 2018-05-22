@@ -38,7 +38,6 @@ $(() => {
       },
       success: (data, status, xhr) => {
         cd.rebuildFilenameList();
-        cd.bindHotKeys(cd.fileContentFor('output'));
         cd.storeIncomingFileHashes();
       },
       error: (xhr, status, thrown) => {
