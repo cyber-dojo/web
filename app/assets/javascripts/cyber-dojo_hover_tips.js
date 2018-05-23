@@ -3,7 +3,7 @@
 var cyberDojo = (function(cd, $) {
   "use strict";
 
-  var showTrafficLightHoverTipViaAjax = function(light) {
+  const showTrafficLightHoverTipViaAjax = (light) => {
     $.getJSON('/tipper/traffic_light_tip', {
            id: light.data('id'),
        avatar: light.data('avatar-name'),
@@ -16,13 +16,13 @@ var cyberDojo = (function(cd, $) {
 
   // - - - - - - - - - - - - - - - - - - - -
 
-  var trafficLightCountHoverTip = function(node) {
-    var avatarName = node.data('avatar-name');
-    var reds = node.data('red-count');
-    var ambers = node.data('amber-count');
-    var greens = node.data('green-count');
-    var timeOuts = node.data('timed-out-count');
-    var trLight = function(colour, count) {
+  const trafficLightCountHoverTip = (node) => {
+    const avatarName = node.data('avatar-name');
+    const reds = node.data('red-count');
+    const ambers = node.data('amber-count');
+    const greens = node.data('green-count');
+    const timeOuts = node.data('timed-out-count');
+    const trLight = (colour, count) => {
       return '' +
         '<tr>' +
           '<td>' +
@@ -38,7 +38,7 @@ var cyberDojo = (function(cd, $) {
         '</tr>';
     };
 
-    var html = '';
+    let html = '';
     html += '<img';
     html +=   " class='traffic-light-diff-tip-avatar-image'";
     html +=   " src='/images/avatars/" + avatarName + ".jpg'>";
@@ -57,9 +57,9 @@ var cyberDojo = (function(cd, $) {
 
   cd.setupHoverTip = function(nodes) {
     nodes.each(function() {
-      var node = $(this);
-      var setTipCallBack = function() {
-        var tip = node.data('tip');
+      const node = $(this);
+      const setTipCallBack = function() {
+        const tip = node.data('tip');
         if (tip == 'ajax:traffic_light') {
           showTrafficLightHoverTipViaAjax(node);
         } else if (tip == 'traffic_light_count') {
@@ -74,12 +74,12 @@ var cyberDojo = (function(cd, $) {
 
   // - - - - - - - - - - - - - - - - - - - -
 
-  cd.setTip = function(node, setTipCallBack) {
-    node.mouseenter(function() {
+  cd.setTip = (node, setTipCallBack) => {
+    node.mouseenter(() => {
       node.removeClass('mouse-has-left');
       setTipCallBack();
     });
-    node.mouseleave(function() {
+    node.mouseleave(() => {
       node.addClass('mouse-has-left');
       $('.hover-tip', node).remove();
     });
@@ -87,15 +87,15 @@ var cyberDojo = (function(cd, $) {
 
   // - - - - - - - - - - - - - - - - - - - -
 
-  cd.createTip = function(element, tip) {
-    cd.setTip(element, function() {
+  cd.createTip = (element, tip) => {
+    cd.setTip(element, () => {
       cd.showHoverTip(element, tip);
     });
   };
 
   // - - - - - - - - - - - - - - - - - - - -
 
-  cd.showHoverTip = function(node, tip) {
+  cd.showHoverTip = (node, tip) => {
     // mouseenter may retrieve the tip via a slow ajax call
     // which means mouseleave could have already occurred
     // by the time the ajax returns to set the tip. The
@@ -112,6 +112,8 @@ var cyberDojo = (function(cd, $) {
       }
     }
   };
+
+  // - - - - - - - - - - - - - - - - - - - -
 
   return cd;
 
