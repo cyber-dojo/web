@@ -5,18 +5,9 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.storeOutgoingFileHashes = function() {
-    outgoingHashContainer().empty();
-    $.each(cd.filenames(), function(_,filename) {
-      storeOutgoingFileHash(filename);
-    });
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.storeIncomingFileHashes = function() {
+  cd.storeIncomingFileHashes = () => {
     incomingHashContainer().empty();
-    $.each(cd.filenames(), function(_,filename) {
+    $.each(cd.filenames(), (_,filename) => {
       const node = cd.fileContentFor(filename);
       const content = node.val();
       const hash = hashOf(content);
@@ -33,7 +24,16 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const hashOf = function(content) {
+  cd.storeOutgoingFileHashes = () => {
+    outgoingHashContainer().empty();
+    $.each(cd.filenames(), (_,filename) => {
+      storeOutgoingFileHash(filename);
+    });
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const hashOf = (content) => {
     let hash = 0;
     for (let i = 0; i < content.length; ++i) {
       hash = (hash << 5) - hash + content.charCodeAt(i);
@@ -44,19 +44,19 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const outgoingHashContainer = function() {
+  const outgoingHashContainer = () => {
     return $('#file_hashes_outgoing_container');
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const incomingHashContainer = function() {
+  const incomingHashContainer = () => {
     return $('#file_hashes_incoming_container');
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const storeOutgoingFileHash = function(filename) {
+  const storeOutgoingFileHash = (filename) => {
     const node = cd.fileContentFor(filename);
     const hash = hashOf(node.val());
     $('input[data-filename="'+filename+'"]', outgoingHashContainer()).remove();
