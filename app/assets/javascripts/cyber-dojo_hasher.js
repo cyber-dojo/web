@@ -5,6 +5,34 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  cd.storeOutgoingFileHashes = function() {
+    outgoingHashContainer().empty();
+    $.each(cd.filenames(), function(_,filename) {
+      storeOutgoingFileHash(filename);
+    });
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.storeIncomingFileHashes = function() {
+    incomingHashContainer().empty();
+    $.each(cd.filenames(), function(_,filename) {
+      const node = cd.fileContentFor(filename);
+      const content = node.val();
+      const hash = hashOf(content);
+      incomingHashContainer().append(
+        $('<input>', {
+          'type': 'hidden',
+          'data-filename': filename,
+          'name': "file_hashes_incoming[" + filename + "]",
+          'value': hash
+        })
+      );
+    });
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   const hashOf = function(content) {
     let hash = 0;
     for (let i = 0; i < content.length; ++i) {
@@ -40,34 +68,6 @@ var cyberDojo = (function(cd, $) {
         'value': hash
       })
     );
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.storeOutgoingFileHashes = function() {
-    outgoingHashContainer().empty();
-    $.each(cd.filenames(), function(_,filename) {
-      storeOutgoingFileHash(filename);
-    });
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.storeIncomingFileHashes = function() {
-    incomingHashContainer().empty();
-    $.each(cd.filenames(), function(_,filename) {
-      const node = cd.fileContentFor(filename);
-      const content = node.val();
-      const hash = hashOf(content);
-      incomingHashContainer().append(
-        $('<input>', {
-          'type': 'hidden',
-          'data-filename': filename,
-          'name': "file_hashes_incoming[" + filename + "]",
-          'value': hash
-        })
-      );
-    });
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
