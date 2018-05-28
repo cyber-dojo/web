@@ -63,9 +63,9 @@ div[class~='filename'] { @include wide-list-item(); }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-.line_numbers, .file_content, .diff_line_numbers, #instructions { @include code-font; }
+.file_content, .diff_line_numbers, #instructions { @include code-font; }
 
-.line_numbers, .file_content
+.file_content
 {
   background: lighten($darker-color, 4%);
       height: 560px;
@@ -74,26 +74,6 @@ div[class~='filename'] { @include wide-list-item(); }
      padding: 0px;
      display: block;
     overflow: auto;
-}
-
-.line_numbers
-{
-     border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
-        color: lighten($darker-color, 20%);
-  font-weight: 100;
-   text-align: right;
-     overflow: hidden;
-      display: block;
-       cursor: pointer;
-      padding: { right: 4px; top: 2px; }
-        width: 32px;
-      outline: none;
-     position: relative; // lose 1px gap to file-content
-         left: 2px;
-
-    &.opaque { color: Gray; }
-    &:not(.opaque) { color: lighten($darker-color, 4%); }
 }
 
 .file_content
