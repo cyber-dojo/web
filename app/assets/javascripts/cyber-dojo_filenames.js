@@ -5,6 +5,12 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  cd.eachFilename = function(f) {
+    cd.filenames().forEach(f);
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   cd.filenames = function() {
     // Gets the filenames when on a kata/edit page.
     // The review/show page/dialog has to collect its filenames

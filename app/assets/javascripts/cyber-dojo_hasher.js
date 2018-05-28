@@ -8,7 +8,7 @@ var cyberDojo = (function(cd, $) {
   cd.storeIncomingFileHashes = () => {
     const container = $('#file_hashes_incoming_container');
     container.empty();
-    $.each(cd.filenames(), (_,filename) => {
+    cd.eachFilename((filename) => {
       container.append(inputHash('incoming', filename));
     });
   };
@@ -18,7 +18,7 @@ var cyberDojo = (function(cd, $) {
   cd.storeOutgoingFileHashes = () => {
     const container = $('#file_hashes_outgoing_container');
     container.empty();
-    $.each(cd.filenames(), (_,filename) => {
+    cd.eachFilename((filename) => {
       container.append(inputHash('outgoing', filename));
     });
   };
