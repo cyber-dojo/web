@@ -6,7 +6,7 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.toggleSyntaxHighlight = () => {
-    if(syntaxHighlightEnabled()) {
+    if (syntaxHighlightEnabled()) {
       runActionOnAllCodeMirrorEditors(disableSyntaxHighlight);
     } else {
       runActionOnAllCodeMirrorEditors(enableSyntaxHighlight);
