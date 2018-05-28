@@ -79,7 +79,6 @@ div[class~='filename'] { @include wide-list-item(); }
       padding: { left: 2px; top: 2px; right: 0px; bottom: 0px; }
       outline: none;
        cursor: text;
-       resize: none;
 
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
