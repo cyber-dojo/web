@@ -145,34 +145,6 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.loadNextFile = function() {
-    const hiFilenames = cd.hiFilenames(cd.filenames());
-    const index = $.inArray(cd.currentFilename(), hiFilenames);
-    if (index == -1) {
-      const next = 0;
-      cd.loadFile(hiFilenames[next]);
-    } else {
-      const next = (index + 1) % hiFilenames.length;
-      cd.loadFile(hiFilenames[next]);
-    }
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.loadPreviousFile = function() {
-    const hiFilenames = cd.hiFilenames(cd.filenames());
-    const index = $.inArray(cd.currentFilename(), hiFilenames)
-    if (index === 0 || index === -1) {
-      const previous = hiFilenames.length - 1;
-      cd.loadFile(hiFilenames[previous]);
-    } else {
-      const previous = index - 1;
-      cd.loadFile(hiFilenames[previous]);
-    }
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   let theCurrentFilename = '';
   let theLastNonOutputFilename = '';
 
@@ -197,7 +169,7 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.toggleOutputFile = function() {
+  cd.toggleOutputFile = () => {
     if (cd.currentFilename() !== 'output') {
       cd.loadFile('output');
     } else {
