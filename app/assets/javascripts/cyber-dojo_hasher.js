@@ -8,15 +8,12 @@ var cyberDojo = (function(cd, $) {
   cd.storeIncomingFileHashes = () => {
     incomingHashContainer().empty();
     $.each(cd.filenames(), (_,filename) => {
-      const node = cd.fileContentFor(filename);
-      const content = node.val();
-      const hash = hashOf(content);
       incomingHashContainer().append(
         $('<input>', {
           'type': 'hidden',
           'data-filename': filename,
           'name': "file_hashes_incoming[" + filename + "]",
-          'value': hash
+          'value': hashOf(filename)
         })
       );
     });
@@ -33,7 +30,9 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const hashOf = (content) => {
+  const hashOf = (filename) => {
+    const node = cd.fileContentFor(filename);
+    const content = node.val();
     let hash = 0;
     for (let i = 0; i < content.length; ++i) {
       hash = (hash << 5) - hash + content.charCodeAt(i);
@@ -57,15 +56,13 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const storeOutgoingFileHash = (filename) => {
-    const node = cd.fileContentFor(filename);
-    const hash = hashOf(node.val());
     $('input[data-filename="'+filename+'"]', outgoingHashContainer()).remove();
     outgoingHashContainer().append(
       $('<input>', {
         'type': 'hidden',
         'data-filename': filename,
         'name': "file_hashes_outgoing[" + filename + "]",
-        'value': hash
+        'value': hashOf(filename)
       })
     );
   };
