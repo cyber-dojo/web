@@ -3,6 +3,43 @@
 
 $(() => {
 
+  const fileButtons = $('#file-operations');
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  fileButtons.find('#new').click(() => {
+    const initialFilename = 'filename' + cd.extensionFilenames()[0];
+    const okInitiallyDisabled = !isValidFilename(initialFilename);
+    const okClicked = (filename) => {
+      cd.newFileContent(filename, '');
+    };
+    openDialog('new', initialFilename, okInitiallyDisabled, okClicked);
+  });
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  fileButtons.find('#rename').click(() => {
+    const initialFilename = cd.currentFilename();
+    const okInitiallyDisabled = true;
+    const okClicked = (filename) => {
+      renameFileFromTo(initialFilename, filename);
+    };
+    openDialog('rename', initialFilename, okInitiallyDisabled, okClicked);
+  });
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  fileButtons.find('#delete').click(() => {
+    const initialFilename = cd.currentFilename();
+    const okInitiallyDisabled = false;
+    const okClicked = (filename) => {
+      cd.deleteFile(filename);
+    };
+    openDialog('delete', initialFilename, okInitiallyDisabled, okClicked);
+  });
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   const openDialog = function(name, initialFilename, okInitiallyDisabled, okClicked) {
     const input = makeInput(name, initialFilename);
     const ok = {
@@ -106,38 +143,6 @@ $(() => {
     if (filename == '') { return false; }
     return true;
   };
-
-  const fileButtons = $('#file-operations');
-  const    newFile = fileButtons.find('#new');
-  const renameFile = fileButtons.find('#rename');
-  const deleteFile = fileButtons.find('#delete');
-
-  newFile.click(() => {
-    const initialFilename = 'filename' + cd.extensionFilenames()[0];
-    const okInitiallyDisabled = !isValidFilename(initialFilename);
-    const okClicked = (filename) => {
-      cd.newFileContent(filename, '');
-    };
-    openDialog('new', initialFilename, okInitiallyDisabled, okClicked);
-  });
-
-  renameFile.click(() => {
-    const initialFilename = cd.currentFilename();
-    const okInitiallyDisabled = true;
-    const okClicked = (filename) => {
-      renameFileFromTo(initialFilename, filename);
-    };
-    openDialog('rename', initialFilename, okInitiallyDisabled, okClicked);
-  });
-
-  deleteFile.click(() => {
-    const initialFilename = cd.currentFilename();
-    const okInitiallyDisabled = false;
-    const okClicked = (filename) => {
-      cd.deleteFile(filename);
-    };
-    openDialog('delete', initialFilename, okInitiallyDisabled, okClicked);
-  });
 
 });
 
