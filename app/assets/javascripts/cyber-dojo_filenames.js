@@ -126,9 +126,6 @@ var cyberDojo = (function(cd, $) {
     if (cd.inArray(filename, cd.highlightFilenames())) {
       div.addClass('highlight');
     }
-    //if (cd.inArray(filename, cd.lowlightFilenames())) {
-    //  div.addClass('lowlight');
-    //}
     div.click(function() { cd.loadFile(filename); });
     return div;
   };
