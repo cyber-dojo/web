@@ -6,26 +6,32 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.storeIncomingFileHashes = () => {
-    incomingHashContainer().empty();
+    const container = $('#file_hashes_incoming_container');
+    container.empty();
     $.each(cd.filenames(), (_,filename) => {
-      incomingHashContainer().append(
-        $('<input>', {
-          'type': 'hidden',
-          'data-filename': filename,
-          'name': "file_hashes_incoming[" + filename + "]",
-          'value': hashOf(filename)
-        })
-      );
+      container.append(inputHash('incoming', filename));
     });
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.storeOutgoingFileHashes = () => {
-    outgoingHashContainer().empty();
+    const container = $('#file_hashes_outgoing_container');
+    container.empty();
     $.each(cd.filenames(), (_,filename) => {
-      storeOutgoingFileHash(filename);
+      container.append(inputHash('outgoing', filename));
     });
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const inputHash = (io, filename) => {
+    return $('<input>', {
+      'type': 'hidden',
+      'data-filename': filename,
+      'name': 'file_hashes_' + io + '[' + filename + ']',
+      'value': hashOf(filename)
+    })
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -39,32 +45,6 @@ var cyberDojo = (function(cd, $) {
       hash &= hash;
     }
     return hash;
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const outgoingHashContainer = () => {
-    return $('#file_hashes_outgoing_container');
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const incomingHashContainer = () => {
-    return $('#file_hashes_incoming_container');
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const storeOutgoingFileHash = (filename) => {
-    $('input[data-filename="'+filename+'"]', outgoingHashContainer()).remove();
-    outgoingHashContainer().append(
-      $('<input>', {
-        'type': 'hidden',
-        'data-filename': filename,
-        'name': "file_hashes_outgoing[" + filename + "]",
-        'value': hashOf(filename)
-      })
-    );
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
