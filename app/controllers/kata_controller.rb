@@ -111,9 +111,9 @@ class KataController < ApplicationController
   def received_files
     seen = {}
     (params[:file_content] || {}).each do |filename, content|
-      content = cleaned(content)
       # Important to ignore output as it's not a 'real' file
       unless filename == 'output'
+        content = cleaned(content)
         # Cater for windows line endings from windows browser
         seen[filename] = content.gsub(/\r\n/, "\n")
       end
