@@ -55,7 +55,7 @@ $(() => {
   const refreshTrafficLights = () => {
     const trafficLights = $('#review-traffic-lights');
     trafficLights.html(makeTrafficLightsHtml(param.lights));
-    $.each($('img[src$="_gap.png"]'), (_, light) => {
+    $.each($('img[src $= "_gap.png"]'), (_, light) => {
       const $light = $(light);
       const index = $light.data('index');
       const tag = $light.data('tag');
