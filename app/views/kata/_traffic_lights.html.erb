@@ -3,18 +3,18 @@
 
 $(() => {
 
-  const review = $('#review-dialog')
-    .dialog({
-        dialogClass: 'no-title',
-              width: 1150,
-             height: 650,
-              modal: true,
-           autoOpen: false,
-      closeOnEscape: true,
-    });
-
   cd.setupReviewTrafficLight = ($lights) => {
     // also called from run_tests.js.erb
+    const review = $('#review-dialog')
+      .dialog({
+          dialogClass: 'no-title',
+                width: 1150,
+               height: 650,
+                modal: true,
+             autoOpen: false,
+        closeOnEscape: true,
+      });
+
     $lights.each(function() {
       const light = $(this);
       const id     = light.data('id');
