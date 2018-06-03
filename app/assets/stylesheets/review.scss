@@ -202,10 +202,10 @@
   #diff-checkbox-container {
     @include edged-panel();
     width: 61px;
-    padding: { top: 2px; bottom: 2px; }
+    padding: { top: 5px; bottom: 2px; }
     #diff-checkbox-title {
-      font-size: 14px;
-        display: inline;
+       font-size: 14px;
+         display: inline;
         position: relative; bottom: 2px;
     }
     margin: { top: 5px; }
