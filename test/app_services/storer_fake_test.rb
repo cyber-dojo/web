@@ -69,7 +69,7 @@ class StorerFakeTest < AppServicesTestBase
     error = assert_raises(ArgumentError) {
       storer.kata_manifest(invalid_kata_id)
     }
-    assert_equal 'invalid kata_id', error.message
+    assert error.message.start_with?('invalid'), error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
@@ -79,7 +79,7 @@ class StorerFakeTest < AppServicesTestBase
     error = assert_raises(ArgumentError) {
       storer.avatars_started(invalid_kata_id)
     }
-    assert_equal 'invalid kata_id', error.message
+    assert error.message.start_with?('invalid'), error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
@@ -89,7 +89,7 @@ class StorerFakeTest < AppServicesTestBase
     error = assert_raises(ArgumentError) {
       storer.avatar_start(invalid_kata_id, ['lion'])
     }
-    assert_equal 'invalid kata_id', error.message
+    assert error.message.start_with?('invalid'), error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
@@ -99,7 +99,7 @@ class StorerFakeTest < AppServicesTestBase
     error = assert_raises(ArgumentError) {
       storer.avatar_increments(invalid_kata_id, ['lion'])
     }
-    assert_equal 'invalid kata_id', error.message
+    assert error.message.start_with?('invalid'), error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
@@ -109,7 +109,7 @@ class StorerFakeTest < AppServicesTestBase
     error = assert_raises(ArgumentError) {
       storer.avatar_visible_files('sdfsdf', 'lion')
     }
-    assert_equal 'invalid kata_id', error.message
+    assert error.message.start_with?('invalid'), error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
@@ -121,7 +121,7 @@ class StorerFakeTest < AppServicesTestBase
     error = assert_raises(ArgumentError) {
       storer.avatar_ran_tests(*args)
     }
-    assert_equal 'invalid kata_id', error.message
+    assert error.message.start_with?('invalid'), error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
@@ -131,7 +131,7 @@ class StorerFakeTest < AppServicesTestBase
     error = assert_raises(ArgumentError) {
       storer.tag_visible_files('sdfsdf', 'lion', tag=3)
     }
-    assert_equal 'invalid kata_id', error.message
+    assert error.message.start_with?('invalid'), error.message
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -283,7 +283,7 @@ class StorerFakeTest < AppServicesTestBase
     error = assert_raises(ArgumentError) {
       storer.avatar_increments(kata_id, 'xxxx')
     }
-    assert_equal 'invalid avatar_name', error.message
+    assert error.message.start_with?('invalid'), error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
@@ -294,7 +294,7 @@ class StorerFakeTest < AppServicesTestBase
     error = assert_raises(ArgumentError) {
       storer.avatar_increments(kata_id, 'lion')
     }
-    assert_equal 'invalid avatar_name', error.message
+    assert error.message.start_with?('invalid'), error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
@@ -316,7 +316,7 @@ class StorerFakeTest < AppServicesTestBase
     error = assert_raises(ArgumentError) {
       storer.tag_visible_files(kata_id, 'lion', nil)
     }
-    assert_equal 'invalid tag', error.message
+    assert error.message.start_with?('invalid'), error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
@@ -328,7 +328,7 @@ class StorerFakeTest < AppServicesTestBase
     error = assert_raises(ArgumentError) {
       storer.tag_visible_files(kata_id, 'lion', 1)
     }
-    assert_equal 'invalid tag', error.message
+    assert error.message.start_with?('invalid'), error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
@@ -443,7 +443,7 @@ class StorerFakeTest < AppServicesTestBase
     error = assert_raises(ArgumentError) {
       storer.tag_visible_files('xxx', 'dolphin', 20)
     }
-    assert_equal 'invalid kata_id', error.message
+    assert error.message.start_with?('invalid'), error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
@@ -454,7 +454,7 @@ class StorerFakeTest < AppServicesTestBase
     error = assert_raises(ArgumentError) {
       storer.tag_visible_files(kata_id, 'xxx', 20)
     }
-    assert_equal 'invalid avatar_name', error.message
+    assert error.message.start_with?('invalid'), error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
@@ -465,7 +465,7 @@ class StorerFakeTest < AppServicesTestBase
     error = assert_raises(ArgumentError) {
       storer.tag_visible_files(kata_id, 'lion', 20)
     }
-    assert_equal 'invalid avatar_name', error.message
+    assert error.message.start_with?('invalid'), error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
@@ -477,7 +477,7 @@ class StorerFakeTest < AppServicesTestBase
     error = assert_raises(ArgumentError) {
       storer.tag_visible_files(kata_id, 'lion', 1)
     }
-    assert_equal 'invalid tag', error.message
+    assert error.message.start_with?('invalid'), error.message
   end
 
   private # = = = = = = = = = = = =

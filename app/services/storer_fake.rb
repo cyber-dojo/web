@@ -117,10 +117,9 @@ class StorerFake
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def avatar_ran_tests(kata_id, avatar_name, files, now, stdout, stderr, colour)
-    assert_kata_exists(kata_id)
     assert_avatar_exists(kata_id, avatar_name)
     increments = read_avatar_increments(kata_id, avatar_name)
-    tag = increments.length + 1
+    tag = most_recent_tag(kata_id, avatar_name, increments) + 1
     increments << { 'colour' => colour, 'time'   => now, 'number' => tag }
     write_avatar_increments(kata_id, avatar_name, increments)
     # don't alter caller's files argument
@@ -133,7 +132,6 @@ class StorerFake
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def avatar_increments(kata_id, avatar_name)
-    assert_kata_exists(kata_id)
     assert_avatar_exists(kata_id, avatar_name)
     tag0 =
       {
@@ -147,10 +145,8 @@ class StorerFake
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def avatar_visible_files(kata_id, avatar_name)
-    assert_kata_exists(kata_id)
     assert_avatar_exists(kata_id, avatar_name)
-    rags = read_avatar_increments(kata_id, avatar_name)
-    tag = rags == [] ? 0 : rags[-1]['number']
+    tag = most_recent_tag(kata_id, avatar_name)
     tag_visible_files(kata_id, avatar_name, tag)
   end
 
@@ -168,12 +164,11 @@ class StorerFake
   end
 
   def tag_visible_files(kata_id, avatar_name, tag)
-    assert_kata_exists(kata_id)
     assert_avatar_exists(kata_id, avatar_name)
     assert_valid_tag(tag)
     tag = tag.to_i
     if tag == -1
-      tag = avatar_increments(kata_id, avatar_name).size - 1
+      tag = most_recent_tag(kata_id, avatar_name)
     end
     assert_tag_exists(kata_id, avatar_name, tag)
     if tag == 0
@@ -314,7 +309,7 @@ class StorerFake
 
   def tag_exists?(kata_id, avatar_name, tag)
     # Has to work with old git-format and new non-git format
-    0 <= tag && tag <= read_avatar_increments(kata_id, avatar_name).size
+    0 <= tag && tag <= most_recent_tag(kata_id, avatar_name)
   end
 
   def tag_dir(kata_id, avatar_name, tag)
@@ -323,6 +318,13 @@ class StorerFake
 
   def tag_path(kata_id, avatar_name, tag)
     dir_join(avatar_path(kata_id, avatar_name), tag.to_s)
+  end
+
+  # - - - - - - - - - - -
+
+  def most_recent_tag(kata_id, avatar_name, increments = nil)
+    increments ||= read_avatar_increments(kata_id, avatar_name)
+    increments.size
   end
 
   # - - - - - - - - - - -
