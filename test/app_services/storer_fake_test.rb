@@ -66,50 +66,45 @@ class StorerFakeTest < AppServicesTestBase
 
   test '936',
   'kata_manifest(id) with invalid id raises' do
-    error = assert_raises(ArgumentError) {
+    assert_invalid {
       storer.kata_manifest(invalid_kata_id)
     }
-    assert_invalid(error)
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
 
   test '937',
   'avatars_started(id) with invalid id raises' do
-    error = assert_raises(ArgumentError) {
+    assert_invalid {
       storer.avatars_started(invalid_kata_id)
     }
-    assert_invalid(error)
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
 
   test '938',
   'avatar_start(id) with invalid id raises' do
-    error = assert_raises(ArgumentError) {
+    assert_invalid {
       storer.avatar_start(invalid_kata_id, ['lion'])
     }
-    assert_invalid(error)
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
 
   test '939',
   'avatar_increments(id) with invalid id raises' do
-    error = assert_raises(ArgumentError) {
+    assert_invalid {
       storer.avatar_increments(invalid_kata_id, ['lion'])
     }
-    assert_invalid(error)
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
 
   test '93A',
   'avatar_visible_files(id) with invalid id raises' do
-    error = assert_raises(ArgumentError) {
+    assert_invalid {
       storer.avatar_visible_files('sdfsdf', 'lion')
     }
-    assert_invalid(error)
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
@@ -118,20 +113,18 @@ class StorerFakeTest < AppServicesTestBase
   'avatar_ran_tests(kata_id) with invalid kata_id raises' do
     args = [ invalid_kata_id, 'lion', any_starting_files={'cyber-dojo.sh'=>'pwd'} ]
     args += [ time_now, 'stdout', 'stderr', 'red' ]
-    error = assert_raises(ArgumentError) {
+    assert_invalid {
       storer.avatar_ran_tests(*args)
     }
-    assert_invalid(error)
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
 
   test '93C',
   'tag_visible_files(id) with invalid kata_id raises' do
-    error = assert_raises(ArgumentError) {
+    assert_invalid {
       storer.tag_visible_files('sdfsdf', 'lion', tag=3)
     }
-    assert_invalid(error)
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -158,10 +151,9 @@ class StorerFakeTest < AppServicesTestBase
 
   test '3EB',
   'kata_manifest raises when kata-id does not exist' do
-    error = assert_raises(ArgumentError) {
+    assert_invalid {
       storer.kata_manifest(kata_id)
     }
-    assert_invalid(error)
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -280,10 +272,9 @@ class StorerFakeTest < AppServicesTestBase
   test '48D',
   'avatar_increments raises when avatar_name is mal-formed' do
     kata_create
-    error = assert_raises(ArgumentError) {
+    assert_invalid {
       storer.avatar_increments(kata_id, 'xxxx')
     }
-    assert_invalid(error)
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
@@ -291,10 +282,9 @@ class StorerFakeTest < AppServicesTestBase
   test '48E',
   'avatar_increments raises when avatar_name has not started' do
     kata_create
-    error = assert_raises(ArgumentError) {
+    assert_invalid {
       storer.avatar_increments(kata_id, 'lion')
     }
-    assert_invalid(error)
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
@@ -313,10 +303,9 @@ class StorerFakeTest < AppServicesTestBase
   'tag_visible_files raises when tag is mal-formed' do
     kata_create
     storer.avatar_start(kata_id, ['lion'])
-    error = assert_raises(ArgumentError) {
+    assert_invalid {
       storer.tag_visible_files(kata_id, 'lion', nil)
     }
-    assert_invalid(error)
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
@@ -325,10 +314,9 @@ class StorerFakeTest < AppServicesTestBase
   'tag_visible_files raises when tag does not exist' do
     kata_create
     storer.avatar_start(kata_id, ['lion'])
-    error = assert_raises(ArgumentError) {
+    assert_invalid {
       storer.tag_visible_files(kata_id, 'lion', 1)
     }
-    assert_invalid(error)
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
@@ -440,10 +428,9 @@ class StorerFakeTest < AppServicesTestBase
 
   test '172',
   'tag_visible_files raises when kata_id is invalid' do
-    error = assert_raises(ArgumentError) {
+    assert_invalid {
       storer.tag_visible_files('xxx', 'dolphin', 20)
     }
-    assert_invalid(error)
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
@@ -451,10 +438,9 @@ class StorerFakeTest < AppServicesTestBase
   test '173',
   'tag_visible_files raises when avatar_name is invalid' do
     kata_create
-    error = assert_raises(ArgumentError) {
+    assert_invalid {
       storer.tag_visible_files(kata_id, 'xxx', 20)
     }
-    assert_invalid(error)
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
@@ -462,10 +448,9 @@ class StorerFakeTest < AppServicesTestBase
   test '174',
   'tag_visible_files raises when avatar_name is valid but unstarted' do
     kata_create
-    error = assert_raises(ArgumentError) {
+    assert_invalid {
       storer.tag_visible_files(kata_id, 'lion', 20)
     }
-    assert_invalid(error)
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
@@ -474,10 +459,9 @@ class StorerFakeTest < AppServicesTestBase
   'tag_visible_files raises when tag is invalid' do
     kata_create
     storer.avatar_start(kata_id, ['lion'])
-    error = assert_raises(ArgumentError) {
+    assert_invalid {
       storer.tag_visible_files(kata_id, 'lion', 1)
     }
-    assert_invalid(error)
   end
 
   private # = = = = = = = = = = = =
@@ -503,7 +487,10 @@ class StorerFakeTest < AppServicesTestBase
     'sdfsdfsdf'
   end
 
-  def assert_invalid(error)
+  def assert_invalid
+    error = assert_raises(ArgumentError) {
+      yield
+    }
     assert error.message.start_with?('invalid'), error.message
   end
 
