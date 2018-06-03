@@ -22,14 +22,11 @@ $(() => {
         cd.setReviewDialogData("<%= @kata.id %>", "<%= @avatar.name %>", wasTag, nowTag);
         review.dialog('open');
       });
-      cd.setTip(light, () => {
-        const tip = 'review<br/>' + wasTag + ' &harr; ' + nowTag;
-        cd.showHoverTip(light, tip);
-      });
     });
   };
 
   cd.setupReviewTrafficLight($('.diff-traffic-light'));
+  cd.setupHoverTip($('[data-tip]'));
 
 });
 
@@ -38,8 +35,12 @@ $(() => {
 <div id="traffic-lights">
   <table>
     <tr>
+      <% id = @kata.id %>
+      <% name = @avatar.name %>
       <% @avatar.lights.each do |light| %>
-        <td><%= raw simple_diff_traffic_light(light) %></td>
+        <% colour = light.colour %>
+        <% number = light.number %>
+        <td><%= raw diff_traffic_light(id, name, colour, number) %></td>
       <% end %>
       <td><%= render partial: 'traffic_lights_count' %></td>
       <td><%= render partial: 'traffic_lights_pie_chart' %></td>

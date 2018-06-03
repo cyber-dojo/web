@@ -12,22 +12,10 @@ module TrafficLightHelper # mix-in
   #   see setupHoverTips()
   #   in app/asserts/javascripts/cyber-dojo_hover_tips.js
 
-  def simple_diff_traffic_light(light)
-    # used from test page and from dashboard page
-    number = light.number
-    colour = light.colour
-    "<div class='diff-traffic-light'" +
-        " data-tip='simple_review_traffic_light'" +
-        " data-colour='#{colour}'" +
-        " data-was-tag='#{number - 1}'" +
-        " data-now-tag='#{number}'>" +
-        traffic_light_image(light.colour) +
-     '</div>'
-  end
-
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def diff_traffic_light(kata_id, avatar_name, colour, number)
+    # used from test page and dashboard page
     "<div class='diff-traffic-light'" +
         " data-tip='ajax:traffic_light'" +
         " data-id='#{kata_id}'" +

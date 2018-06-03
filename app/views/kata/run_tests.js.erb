@@ -8,16 +8,19 @@ const appendTestTrafficLight = () => {
   });
   const div = $('<div>', {
     'class': 'diff-traffic-light',
-    'data-tip':'simple_review_traffic_light',
-    'data-colour': colour,
-    'data-was-tag': lightsCount,
-    'data-now-tag': lightsCount + 1
+    'data-tip'        : 'ajax:traffic_light',
+    'data-id'         : "<%= @avatar.kata.id %>",
+    'data-avatar-name': "<%= @avatar.name %>",
+    'data-colour'     : colour,
+    'data-was-tag'    : lightsCount,
+    'data-now-tag'    : lightsCount + 1
   });
   const td = $('<td>');
   div.append(img);
   td.append(div);
   $('.traffic-lights-count').parent().before(td);
   cd.setupReviewTrafficLight(div);
+  cd.setupHoverTip(div);
 };
 
 //- - - - - - - - - - - - - - - - - - - - - -

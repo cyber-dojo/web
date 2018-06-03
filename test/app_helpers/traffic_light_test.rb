@@ -66,29 +66,6 @@ class TrafficLightTest < AppHelpersTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test 'E77',
-  'simple_diff_traffic_light' do
-    avatar = Avatar.new(nil, Object.new, 'hippo')
-    light = Tag.new(nil, avatar, {
-      'number' => (tag = 3),
-      'colour' => (colour = 'red')
-    })
-    expected = '' +
-      '<div' +
-      " class='diff-traffic-light'" +
-      " data-tip='simple_review_traffic_light'" +
-      " data-colour='#{colour}'" +
-      " data-was-tag='#{tag - 1}'" +
-      " data-now-tag='#{tag}'>" +
-      "<img src='/images/bulb_#{colour}.png'" +
-          " alt='#{colour} traffic-light'/>" +
-      '</div>'
-    actual = simple_diff_traffic_light(light)
-    assert_equal expected, actual
-  end
-
-  #- - - - - - - - - - - - - - - -
-
   test '443',
   'diff_traffic_light' do
     diff_traffic_light_func('red')
