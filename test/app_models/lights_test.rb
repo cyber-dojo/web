@@ -13,7 +13,7 @@ class LightsTest < AppModelsTestBase
   'lights initially empty' do
     in_kata {
       as(:wolf) {
-        assert_equal [], wolf.lights.to_a
+        assert_equal [], wolf.lights
         assert_equal 0, wolf.lights.count
         n = 0
         wolf.lights.each { n += 1 }
@@ -53,9 +53,9 @@ class LightsTest < AppModelsTestBase
     end
     assert_equal 3, n
 
-    assert_equal 3, wolf.lights.to_a.length
+    assert_equal 3, wolf.lights.length
 
-    a = wolf.lights.to_a
+    a = wolf.lights
     assert_equal 'Array', a.class.name
     assert_equal 'Tag', a[0].class.name
   end
