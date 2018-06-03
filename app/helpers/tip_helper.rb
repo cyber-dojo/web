@@ -4,15 +4,15 @@ module TipHelper # mix-in
   def traffic_light_tip_html(diffs, avatar, was_tag, now_tag)
     was_tag = was_tag.to_i
     now_tag = now_tag.to_i
-    lights = avatar.lights
+    tags = avatar.tags
 
     tip = '<table><tr>'
-    tip += td(traffic_light_img(lights, was_tag))  # rag
-    tip += td(colour_tag_html(lights, was_tag))    # 13
-    tip += td(right_arrow)                         # ->
-    tip += td(traffic_light_img(lights, now_tag))  # rag
-    tip += td(colour_tag_html(lights, now_tag))    # 14
-    tip += td(avatar_img(avatar.name))             # panda
+    tip += td(traffic_light_img(tags, was_tag))  # rag
+    tip += td(colour_tag_html(tags, was_tag))    # 13
+    tip += td(right_arrow)                       # ->
+    tip += td(traffic_light_img(tags, now_tag))  # rag
+    tip += td(colour_tag_html(tags, now_tag))    # 14
+    tip += td(avatar_img(avatar.name))           # panda
     tip += '</tr></table>'
 
     tip += '<table>'
@@ -32,23 +32,19 @@ module TipHelper # mix-in
 
   module_function
 
-  def colour_tag_html(lights, tag)
-    colour = (tag == 0) ? 'none' : tag_colour(lights, tag)
-    "<span class='traffic-light-diff-tip-tag #{colour}'>#{tag}</span>"
+  def colour_tag_html(tags, tag_number)
+    colour = (tag_number == 0) ? 'none' : tag_colour(tags, tag_number)
+    "<span class='traffic-light-diff-tip-tag #{colour}'>#{tag_number}</span>"
   end
 
-  def traffic_light_img(lights, tag)
-    return '' if tag == 0
-    colour = tag_colour(lights, tag)
+  def traffic_light_img(tags, tag_number)
+    return '' if tag_number == 0
+    colour = tag_colour(tags, tag_number)
     "<img src='/images/bulb_#{colour}.png' class='traffic-light-diff-tip-traffic-light-image'>"
   end
 
-  def tag_colour(lights, tag)
-    # This assumes that all tags except tag-zero are lights.
-    # Viz, the only events in storer's increments.json are traffic-lights.
-    # If and when other events are recorded you will need something like
-    #        lights.find { |light| light.number == tag}.colour
-    lights[tag-1].colour
+  def tag_colour(tags, tag_number)
+    tags[tag_number].colour
   end
 
   def right_arrow
