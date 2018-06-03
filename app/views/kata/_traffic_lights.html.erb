@@ -13,13 +13,16 @@ $(() => {
       closeOnEscape: true,
     });
 
-  cd.setupReviewTrafficLight = (lights) => {
-    lights.each(function() {
+  cd.setupReviewTrafficLight = ($lights) => {
+    // also called from run_tests.js.erb
+    $lights.each(function() {
       const light = $(this);
+      const id     = light.data('id');
+      const avatar = light.data('avatar-name');
       const wasTag = light.data('was-tag');
       const nowTag = light.data('now-tag');
       light.click(() => {
-        cd.setReviewDialogData("<%= @kata.id %>", "<%= @avatar.name %>", wasTag, nowTag);
+        cd.setReviewDialogData(id, avatar, wasTag, nowTag);
         review.dialog('open');
       });
     });
