@@ -61,9 +61,14 @@ $(function() {
 		    <% else %>
           <table align="right">
             <tr>
+            <% was_tag = 0 %>
 				    <% td.each do |light| %>
               <td>
-                <%= raw diff_traffic_light(@kata.id, name, light['colour'], light['number']) %>
+                <% id = @kata.id %>
+                <% colour = light['colour'] %>
+                <% now_tag = light['number'] %>
+                <%= raw diff_traffic_light(id, name, colour, was_tag, now_tag) %>
+                <% was_tag = now_tag %>
               </td>
             <% end %>
             </tr>

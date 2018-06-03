@@ -22,7 +22,10 @@ class Avatar
   end
 
   def tested(files, at, stdout, stderr, colour)
-    storer.avatar_ran_tests(kata.id, name, files, at, stdout, stderr, colour)
+    args = [kata.id, name]
+    args += [files, at, stdout, stderr, colour]
+    increments = storer.avatar_ran_tests(*args)
+    increments.map { |h| Tag.new(@externals, self, h) }
   end
 
   # queries

@@ -1,7 +1,6 @@
 
 const appendTestTrafficLight = () => {
   const colour = "<%= @colour %>";
-  const lightsCount = $('.diff-traffic-light').size();
   const img = $('<img>', {
     'src': '/images/bulb_' + colour + '.png',
     'alt': colour + ' traffic-light'
@@ -12,8 +11,8 @@ const appendTestTrafficLight = () => {
     'data-id'         : "<%= @avatar.kata.id %>",
     'data-avatar-name': "<%= @avatar.name %>",
     'data-colour'     : colour,
-    'data-was-tag'    : lightsCount,
-    'data-now-tag'    : lightsCount + 1
+    'data-was-tag'    : "<%= @was_tag %>",
+    'data-now-tag'    : "<%= @now_tag %>"
   });
   const td = $('<td>');
   div.append(img);

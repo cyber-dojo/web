@@ -38,12 +38,14 @@ $(() => {
 <div id="traffic-lights">
   <table>
     <tr>
+      <% was_tag = 0 %>
       <% id = @kata.id %>
       <% name = @avatar.name %>
       <% @avatar.lights.each do |light| %>
         <% colour = light.colour %>
-        <% number = light.number %>
-        <td><%= raw diff_traffic_light(id, name, colour, number) %></td>
+        <% now_tag = light.number %>
+        <td><%= raw diff_traffic_light(id, name, colour, was_tag, now_tag) %></td>
+        <% was_tag = now_tag %>
       <% end %>
       <td><%= render partial: 'traffic_lights_count' %></td>
       <td><%= render partial: 'traffic_lights_pie_chart' %></td>

@@ -74,14 +74,11 @@ class KataController < ApplicationController
       files[filename] = content
     end
 
-    # avatar.tested() saves the test results to storer which
-    # also validates a kata with the given id exists.
-    # It could become a fire-and-forget method.
-    # This might decrease run_tests() response time.
-    # Also, I have tried to make it fire-and-forget using the
-    # spawnling gem and it breaks a test in a non-obvious way.
-    avatar.tested(files, time_now, stdout, stderr, @colour)
+    tags = avatar.tested(files, time_now, stdout, stderr, @colour)
+    lights = tags.select(&:light?)
 
+    @was_tag = lights.size == 1 ? 0 : lights[-2].number
+    @now_tag = lights[-1].number
     @output = stdout + stderr
 
     respond_to do |format|

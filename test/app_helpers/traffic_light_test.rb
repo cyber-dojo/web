@@ -78,7 +78,8 @@ class TrafficLightTest < AppHelpersTestBase
   def diff_traffic_light_func(colour)
     id = 'ABCDE12345'
     avatar_name = 'hippo'
-    tag = 3
+    was_tag = 2
+    now_tag = 3
     expected = '' +
       '<div' +
       " class='diff-traffic-light'" +
@@ -86,12 +87,12 @@ class TrafficLightTest < AppHelpersTestBase
       " data-id='#{id}'" +
       " data-avatar-name='#{avatar_name}'" +
       " data-colour='#{colour}'" +
-      " data-was-tag='#{tag - 1}'" +
-      " data-now-tag='#{tag}'>" +
+      " data-was-tag='#{was_tag}'" +
+      " data-now-tag='#{now_tag}'>" +
       "<img src='/images/bulb_#{colour}.png'" +
           " alt='#{colour} traffic-light'/>" +
       '</div>'
-    actual = diff_traffic_light(id, avatar_name, colour, tag)
+    actual = diff_traffic_light(id, avatar_name, colour, was_tag, now_tag)
     assert_equal expected, actual
   end
 
