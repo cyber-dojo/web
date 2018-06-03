@@ -8,10 +8,10 @@ module TipHelper # mix-in
 
     tip = '<table><tr>'
     tip += td(traffic_light_img(lights, was_tag))  # rag
-    tip += td(colour_tag(lights, was_tag))         # 13
+    tip += td(colour_tag_html(lights, was_tag))    # 13
     tip += td(right_arrow)                         # ->
     tip += td(traffic_light_img(lights, now_tag))  # rag
-    tip += td(colour_tag(lights, now_tag))         # 14
+    tip += td(colour_tag_html(lights, now_tag))    # 14
     tip += td(avatar_img(avatar.name))             # panda
     tip += '</tr></table>'
 
@@ -32,15 +32,23 @@ module TipHelper # mix-in
 
   module_function
 
-  def colour_tag(lights, tag)
-    colour = (tag == 0) ? 'none' : lights[tag-1].colour
+  def colour_tag_html(lights, tag)
+    colour = (tag == 0) ? 'none' : tag_colour(lights, tag)
     "<span class='traffic-light-diff-tip-tag #{colour}'>#{tag}</span>"
   end
 
   def traffic_light_img(lights, tag)
     return '' if tag == 0
-    colour = lights[tag-1].colour
+    colour = tag_colour(lights, tag)
     "<img src='/images/bulb_#{colour}.png' class='traffic-light-diff-tip-traffic-light-image'>"
+  end
+
+  def tag_colour(lights, tag)
+    # This assumes that all tags except tag-zero are lights.
+    # Viz, the only events in storer's increments.json are traffic-lights.
+    # If and when other events are recorded you will need something like
+    #        lights.find { |light| light.number == tag}.colour
+    lights[tag-1].colour
   end
 
   def right_arrow
