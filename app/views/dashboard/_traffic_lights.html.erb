@@ -47,6 +47,7 @@ $(function() {
   <% @gapped.keys.sort.each do |name| %>
 	<tr>
 	  <% td_map = @gapped[name] %>
+    <% now_tag = 0 %>
 
 	  <% td_map.keys.sort.each_with_index do |td_no,index| %>
 		  <% td = td_map[td_no] %>
@@ -61,14 +62,13 @@ $(function() {
 		    <% else %>
           <table align="right">
             <tr>
-            <% was_tag = 0 %>
 				    <% td.each do |light| %>
               <td>
                 <% id = @kata.id %>
                 <% colour = light['colour'] %>
+                <% was_tag = now_tag %>
                 <% now_tag = light['number'] %>
                 <%= raw diff_traffic_light(id, name, colour, was_tag, now_tag) %>
-                <% was_tag = now_tag %>
               </td>
             <% end %>
             </tr>
