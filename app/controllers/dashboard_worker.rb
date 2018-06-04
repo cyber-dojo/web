@@ -10,8 +10,8 @@ module DashboardWorker # mixin
     @auto_refresh = bool('auto_refresh')
 
     @all_lights = {}
-    storer.kata_increments(kata.id).each do |name, lights|
-      lights.shift # 0==created-event
+    storer.kata_increments(kata.id).each do |name, increments|
+      lights = increments.select {|inc| inc.has_key?('colour') }
       unless lights.empty?
         @all_lights[name] = lights
       end
