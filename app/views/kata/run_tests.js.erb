@@ -1,21 +1,7 @@
 
 const appendTestTrafficLight = () => {
-  const colour = "<%= @colour %>";
-  const img = $('<img>', {
-    'src': '/images/bulb_' + colour + '.png',
-    'alt': colour + ' traffic-light'
-  });
-  const div = $('<div>', {
-    'class': 'diff-traffic-light',
-    'data-tip'        : 'ajax:traffic_light',
-    'data-id'         : "<%= @avatar.kata.id %>",
-    'data-avatar-name': "<%= @avatar.name %>",
-    'data-colour'     : colour,
-    'data-was-tag'    : "<%= @was_tag %>",
-    'data-now-tag'    : "<%= @now_tag %>"
-  });
+  const div = $("<%= raw diff_traffic_light(@avatar.kata.id, @avatar.name, @colour, @was_tag, @now_tag) %>");
   const td = $('<td>');
-  div.append(img);
   td.append(div);
   $('.traffic-lights-count').parent().before(td);
   cd.setupReviewTrafficLight(div);
