@@ -23,11 +23,10 @@
          width: 737px;
     overflow-x: auto;
     &::-webkit-scrollbar:horizontal { height: 1px; }
-    .traffic-light {
-      display: table-cell;
-      padding: { top: 2px; right: 2px; }
+    .diff-traffic-light {
+      padding: { left: 0px; top: 2px; }
        cursor: pointer;
-      img { width: 22px; height: 29px; }
+      img.with-bar-gap { width: 22px; height: 29px; }
     }
     .traffic-light-count {
       position: relative;

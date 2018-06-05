@@ -55,43 +55,40 @@ $(() => {
   const refreshTrafficLights = () => {
     const trafficLights = $('#review-traffic-lights');
     trafficLights.html(makeTrafficLightsHtml(param.lights));
-    $.each($('img[src $= "_gap.png"]'), (_, light) => {
+    $.each($('.diff-traffic-light'), (_, light) => {
       const $light = $(light);
-      const index = $light.data('index');
-      const tag = $light.data('tag');
-      $light
-        .attr('title', toolTip(index))
-        .click(() => { show(tag); });
+      const wasTag = $light.data('was-tag');
+      const nowTag = $light.data('now-tag');
+      $light.click(() => { show(nowTag); });
+      cd.setupHoverTip($light);
     });
   };
 
   const makeTrafficLightsHtml = (lights) => {
     let html = '';
-    let index = 1;
+    let wasTag = 0;
     let lastColour = '';
     html += '<table><tr>';
     $.each(lights, (n, light) => {
-      const barGap = (param.nowTag == light.number) ? 'bar' : 'gap';
+      const nowTag = light.number;
+      const colour = light.colour;
+      const barGap = (param.nowTag == nowTag) ? 'bar' : 'gap';
       html +=
-        "<td><div class='traffic-light'>" +
-          "<img src='/images/bulb_" + light.colour + '_' + barGap + ".png'" +
-              " data-index='" + index + "'" +
-              " data-tag='" + light.number + "'/>" +
+        "<td><div class='diff-traffic-light'" +
+              " data-tip='ajax:traffic_light'" +
+              " data-id='" + param.id + "'" +
+              " data-avatar-name='" + param.avatar + "'" +
+              " data-colour='" + colour + "'" +
+              " data-was-tag='" + wasTag + "'" +
+              " data-now-tag='" + nowTag + "'>" +
+          "<img class='with-bar-gap' src='/images/bulb_" + colour + '_' + barGap + ".png'/>" +
         '</div></td>';
-        index += 1;
+        wasTag = nowTag;
         lastColour = light.colour;
     });
     html += "<td><div class='traffic-light-count " + lastColour + "'>" + lights.length + '</div></td>';
     html += '</tr></table>';
     return html;
-  };
-
-  const toolTip = (tag) => {
-    if (inDiffMode()) {
-      return 'Show diff ' + (tag-1) + '<->' + tag;
-    } else {
-      return 'Show ' + tag;
-    }
   };
 
   //-----------------------------------------
@@ -168,6 +165,14 @@ $(() => {
         .attr('title', toolTip(newTag))
         .unbind('click')
         .bind('click', () => { show(newTag); });
+    }
+  };
+
+  const toolTip = (tag) => {
+    if (inDiffMode()) {
+      return 'Show diff ' + (tag-1) + '<->' + tag;
+    } else {
+      return 'Show ' + tag;
     }
   };
 
