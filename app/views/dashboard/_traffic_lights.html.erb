@@ -4,18 +4,18 @@
 $(function() {
 
   $('.diff-traffic-light').click(function() {
-    var light = $(this);
-    var id         = light.data('id');
-    var avatarName = light.data('avatar-name');
-    var wasTag     = light.data('was-tag');
-    var nowTag     = light.data('now-tag');
+    const light = $(this);
+    const id         = light.data('id');
+    const avatarName = light.data('avatar-name');
+    const wasTag     = light.data('was-tag');
+    const nowTag     = light.data('now-tag');
     window.open(cd.showReviewUrl(id, avatarName, wasTag, nowTag));
   });
 
   cd.pieChart($('#traffic-lights .pie'));
   cd.setupHoverTip($('[data-tip]'));
 
-  var allTheWay = 100000;
+  const allTheWay = 100000;
   $('#traffic-lights').scrollLeft(allTheWay);
 
 });
