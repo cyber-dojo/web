@@ -54,7 +54,7 @@ $(() => {
 
   const refreshTrafficLights = () => {
     const trafficLights = $('#review-traffic-lights');
-    trafficLights.html(makeTrafficLightsHtml(param.lights));
+    trafficLights.html(makeTrafficLightsHtml(param.tags));
     $.each($('.diff-traffic-light'), (_, light) => {
       const $light = $(light);
       const wasTag = $light.data('was-tag');
@@ -64,31 +64,39 @@ $(() => {
     });
   };
 
-  const makeTrafficLightsHtml = (lights) => {
+  const makeTrafficLightsHtml = (tags) => {
     let html = '';
     let wasTag = 0;
     let lastColour = '';
+    let trafficLightCount = 0;
     html += '<table><tr>';
-    $.each(lights, (n, light) => {
-      const nowTag = light.number;
-      const colour = light.colour;
-      const barGap = (param.nowTag == nowTag) ? 'bar' : 'gap';
-      html +=
-        "<td><div class='diff-traffic-light'" +
-              " data-tip='ajax:traffic_light'" +
-              " data-id='" + param.id + "'" +
-              " data-avatar-name='" + param.avatar + "'" +
-              " data-colour='" + colour + "'" +
-              " data-was-tag='" + wasTag + "'" +
-              " data-now-tag='" + nowTag + "'>" +
-          "<img class='with-bar-gap' src='/images/bulb_" + colour + '_' + barGap + ".png'/>" +
-        '</div></td>';
+    $.each(tags, (_n, tag) => {
+      if (isTrafficLight(tag)) {
+        const colour = tag.colour;
+        const nowTag = tag.number;
+        const barGap = (param.nowTag == nowTag) ? 'bar' : 'gap';
+        html +=
+          "<td><div class='diff-traffic-light'" +
+                " data-tip='ajax:traffic_light'" +
+                " data-id='" + param.id + "'" +
+                " data-avatar-name='" + param.avatar + "'" +
+                " data-colour='" + colour + "'" +
+                " data-was-tag='" + wasTag + "'" +
+                " data-now-tag='" + nowTag + "'>" +
+            "<img class='with-bar-gap' src='/images/bulb_" + colour + '_' + barGap + ".png'/>" +
+          '</div></td>';
         wasTag = nowTag;
-        lastColour = light.colour;
+        lastColour = tag.colour;
+        trafficLightCount++;
+      }
     });
-    html += "<td><div class='traffic-light-count " + lastColour + "'>" + lights.length + '</div></td>';
+    html += "<td><div class='traffic-light-count " + lastColour + "'>" + trafficLightCount + '</div></td>';
     html += '</tr></table>';
     return html;
+  };
+
+  const isTrafficLight = (tag) => {
+    return tag.colour != '';
   };
 
   //-----------------------------------------
@@ -141,9 +149,9 @@ $(() => {
   //-----------------------------------------
 
   const refreshTagControls = () => {
-    const colour = param.lights[param.nowTag - 1].colour;
+    const colour = param.tags[param.nowTag].colour;
     const minTag = 1;
-    const maxTag = param.lights.length;
+    const maxTag = param.tags.length;
     const hasPrevTag = minTag < param.nowTag;
     const hasNextTag =          param.nowTag < maxTag;
 
