@@ -29,7 +29,7 @@ class DifferController < ApplicationController
 
   def get_tag(name, size)
     raw = params[name].to_i
-    raw != -1 ? raw : size
+    raw != -1 ? raw : size - 1
   end
 
   def current_filename

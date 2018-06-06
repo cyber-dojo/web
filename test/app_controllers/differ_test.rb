@@ -16,14 +16,12 @@ class DifferControllerTest < AppControllerTestBase
         change_file(filename, content='some_change...')
         run_tests
         run_tests
-
         differ(was_tag = 1, now_tag = 2)
-
-        lights = json['lights']
+        tags = json['tags']
         info = " " + kata.id + ":" + avatar.name
-        was_light = lights[was_tag-1]
+        was_light = tags[was_tag]
         assert_equal was_tag, was_light['number'], info
-        now_light = lights[now_tag-1]
+        now_light = tags[now_tag]
         assert_equal now_tag, now_light['number'], info
         diffs = json['diffs']
         index = diffs.find_index{|diff| diff['filename'] == filename }
@@ -48,14 +46,12 @@ class DifferControllerTest < AppControllerTestBase
         run_tests
         change_file(filename, to='snafu')
         run_tests
-
         differ(was_tag = 1, now_tag = 2)
-
-        lights = json['lights']
+        tags = json['tags']
         info = " " + kata.id + ':' + avatar.name + ':'
-        was_light = lights[was_tag-1]
+        was_light = tags[was_tag]
         assert_equal was_tag, was_light['number'], info
-        now_light = lights[now_tag-1]
+        now_light = tags[now_tag]
         assert_equal now_tag, now_light['number'], info
         diffs = json['diffs']
         index = diffs.find_index{|diff| diff['filename'] == filename }
