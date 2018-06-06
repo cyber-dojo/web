@@ -45,21 +45,24 @@
       border: 1px solid lighten($darker-color, 15%);
     }
 
-    #now-tag-number {
+    #now-tag-number-container {
       @include rounded-corner(4px);
-           font-size: 20px;
-          background: lighten($darker-color, 15%);
-               color: $lighter-color;
-               width: 34px;
-              height: 32px;
-             display: table-cell;
-      vertical-align: middle;
-          text-align: center;
+       font-size: 22px;
+         padding: { left: 3px; right: 3px; }
+          height: 32px;
+         display: table-cell;
+  vertical-align: middle;
 
-      &.red       { color: $red;   }
-      &.amber     { color: $amber; }
-      &.green     { color: $green; }
-      &.timed_out { color: Gray;   }
+     img { width: 22px; height: 22px; }
+
+      #now-tag-number {
+        text-align: center;
+
+        &.red       { color: $red;   }
+        &.amber     { color: $amber; }
+        &.green     { color: $green; }
+        &.timed_out { color: Gray;   }
+      }
     }
 
     #prev-avatar img, #next-avatar img, #prev-tag img, #next-tag img {

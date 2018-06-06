@@ -155,14 +155,28 @@ $(() => {
     const hasPrevTag = minTag < param.nowTag;
     const hasNextTag =          param.nowTag < maxTag;
 
-    $('#now-tag-number')
-      .removeClass()
-      .addClass(colour)
-      .text(param.nowTag);
+    $('#now-tag-number-container').html(nowTagHtml(colour));
 
     refreshTag(hasPrevTag, $('#prev-tag'),  param.nowTag - 1);
     refreshTag(hasNextTag, $('#next-tag'),  param.nowTag + 1);
   };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const nowTagHtml = (colour) => {
+      return '' +
+        '<table>' +
+        '<tr>' +
+        '<td><img src="/images/bulb_' + colour + '.png"></td>' +
+        '<td>' +
+        '<div id="now-tag-number" class="' + colour + '">' + param.nowTag +
+        '</div>' +
+        '</td>' +
+        '</tr>' +
+        '</table>';
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const refreshTag = (on, button, newTag) => {
     button
@@ -175,6 +189,8 @@ $(() => {
         .bind('click', () => { show(newTag); });
     }
   };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const toolTip = (tag) => {
     if (inDiffMode()) {
