@@ -149,13 +149,12 @@ $(() => {
   //-----------------------------------------
 
   const refreshTagControls = () => {
-    const colour = param.tags[param.nowTag].colour;
     const minTag = 1;
     const maxTag = param.tags.length;
     const hasPrevTag = minTag < param.nowTag;
     const hasNextTag =          param.nowTag < maxTag;
 
-    $('#now-tag-number-container').html(nowTagHtml(colour));
+    $('#tag-number-container').html(tagHtml());
 
     refreshTag(hasPrevTag, $('#prev-tag'),  param.nowTag - 1);
     refreshTag(hasNextTag, $('#next-tag'),  param.nowTag + 1);
@@ -163,17 +162,30 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const nowTagHtml = (colour) => {
-      return '' +
-        '<table>' +
-        '<tr>' +
-        '<td><img src="/images/bulb_' + colour + '.png"></td>' +
-        '<td>' +
-        '<div id="now-tag-number" class="' + colour + '">' + param.nowTag +
-        '</div>' +
-        '</td>' +
-        '</tr>' +
-        '</table>';
+  const tagHtml = () => {
+    let html = '';
+    html += '<table><tr>';
+    if (inDiffMode()) {
+      html += tagTrafficLightHtml(param.wasTag);
+      html += '<td id="arrow">&rarr;</td>';
+    }
+    html += tagTrafficLightHtml(param.nowTag);
+    html += '</tr></table>';
+    return html;
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const tagTrafficLightHtml = (tagNumber) => {
+    const colour = param.tags[tagNumber].colour;
+    let html = '';
+    if (colour != '') {
+      html += '<td><img src="/images/bulb_' + colour + '.png"></td>';
+    }
+    html += '<td><div id="tag-number" class="' + colour + '">';
+    html += tagNumber;
+    html += '</div></td>';
+    return html;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -

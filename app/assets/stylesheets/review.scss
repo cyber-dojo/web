@@ -45,7 +45,7 @@
       border: 1px solid lighten($darker-color, 15%);
     }
 
-    #now-tag-number-container {
+    #tag-number-container {
       @include rounded-corner(4px);
        font-size: 22px;
          padding: { left: 3px; right: 3px; }
@@ -55,7 +55,9 @@
 
      img { width: 22px; height: 22px; }
 
-      #now-tag-number {
+     #arrow { padding-bottom: 7px; font-size: 15px; }
+
+      #tag-number {
         text-align: center;
 
         &.red       { color: $red;   }
