@@ -2,7 +2,9 @@
 class DifferController < ApplicationController
 
   def diff
-    @lights = avatar.lights.map(&:to_json)
+    lights = avatar.lights.map(&:to_json)
+    was_tag = tag(:was_tag, lights.length)
+    now_tag = tag(:now_tag, lights.length)
     diff = differ.diff(kata.id, avatar.name, was_tag, now_tag)
     view = diff_view(diff)
     render json: {
@@ -10,7 +12,7 @@ class DifferController < ApplicationController
                      avatar: avatar.name,
                      wasTag: was_tag,
                      nowTag: now_tag,
-                     lights: @lights,
+                     lights: lights,
 	                    diffs: view,
                  prevAvatar: ring_prev(active_avatar_names, avatar.name),
                  nextAvatar: ring_next(active_avatar_names, avatar.name),
@@ -25,17 +27,9 @@ class DifferController < ApplicationController
   include RingPicker
   include ReviewFilePicker
 
-  def was_tag
-    tag(:was_tag)
-  end
-
-  def now_tag
-    tag(:now_tag)
-  end
-
-  def tag(n)
-    raw = params[n].to_i
-    raw != -1 ? raw : @lights.length
+  def tag(name, size)
+    raw = params[name].to_i
+    raw != -1 ? raw : size
   end
 
   def current_filename

@@ -492,7 +492,7 @@ $(() => {
       refreshForkButton();
       refreshRevertButton();
       refreshDownloadButton();
-      const light = $('img[src$="_bar.png"]');
+      const light = $('img[src $= "_bar.png"]');
       const options = { direction: 'horizontal', duration: 'slow' };
       light.scrollIntoView(options);
     });
