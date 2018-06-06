@@ -126,13 +126,8 @@ $(() => {
   };
 
   const refreshAvatarHandler = (id, name) => {
-    const title = () => {
-      const text = 'Click to review ' + name + "'s ";
-      return text + (inDiffMode() ? 'diffs' : 'current code');
-    };
     $('#' + id + '-avatar')
       .attr('disabled', name == '')
-      .attr('title', title())
       .unbind('click')
       .bind('click', () => {
         param.avatar = name;
@@ -196,19 +191,8 @@ $(() => {
       .css('cursor', on ? 'pointer' : 'default');
     if (on) {
       button
-        .attr('title', toolTip(newTag))
         .unbind('click')
         .bind('click', () => { show(newTag); });
-    }
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const toolTip = (tag) => {
-    if (inDiffMode()) {
-      return 'Show diff ' + (tag-1) + '<->' + tag;
-    } else {
-      return 'Show ' + tag;
     }
   };
 
