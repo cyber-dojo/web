@@ -3,15 +3,15 @@
 
 $(function() {
 
-  var id = '<%= @kata.id %>';
-  var minuteColumns = $('#minute-columns-checkbox');
-  var autoRefresh   = $('#auto-refresh-checkbox');
+  const id = '<%= @kata.id %>';
+  const minuteColumns = $('#minute-columns-checkbox');
+  const autoRefresh   = $('#auto-refresh-checkbox');
 
-  var isChecked = function(checkbox) {
+  const isChecked = (checkbox) => {
     return checkbox.is(':checked');
   };
 
-  var dashboardHeartbeat = function() {
+  const dashboardHeartbeat = () => {
     if (isChecked(autoRefresh)) {
       $.ajax({
         url: '/dashboard/heartbeat',
@@ -25,25 +25,25 @@ $(function() {
     }
   };
 
-  var refreshDashboard = function() {
-    var url = '/dashboard/show/' + id +
+  const refreshDashboard = () => {
+    const url = '/dashboard/show/' + id +
               '?' + 'minute_columns=' + isChecked(minuteColumns) +
               '&' + 'auto_refresh=' + isChecked(autoRefresh);
     window.location = url;
   };
 
-  var milliSecond = 1;
-  var seconds = 1000 * milliSecond;
+  const milliSecond = 1;
+  const seconds = 1000 * milliSecond;
 
   setInterval(dashboardHeartbeat, 10*seconds);
 
   minuteColumns
     .attr('checked', '<%= @minute_columns %>' == 'true')
-    .click(function() { refreshDashboard(); });
+    .click(() => { refreshDashboard(); });
 
   autoRefresh
     .attr('checked', '<%= @auto_refresh %>' == 'true')
-    .click(function() { refreshDashboard(); });
+    .click(() => { refreshDashboard(); });
 
 });
 
