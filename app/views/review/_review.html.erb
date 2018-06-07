@@ -145,7 +145,7 @@ $(() => {
 
   const refreshTagControls = () => {
     const minTag = 1;
-    const maxTag = param.tags.length;
+    const maxTag = param.tags.length - 1;
     const hasPrevTag = minTag < param.nowTag;
     const hasNextTag =          param.nowTag < maxTag;
 
