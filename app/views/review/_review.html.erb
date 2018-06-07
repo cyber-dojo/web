@@ -144,15 +144,34 @@ $(() => {
   //-----------------------------------------
 
   const refreshTagControls = () => {
-    const minTag = 1;
-    const maxTag = param.tags.length - 1;
-    const hasPrevTag = minTag < param.nowTag;
-    const hasNextTag =          param.nowTag < maxTag;
-
+    refreshTag(hasPrevTag(), $('#prev-tag'), prevTag());
     $('#tag-number-container').html(tagHtml());
+    refreshTag(hasNextTag(), $('#next-tag'), nextTag());
+  };
 
-    refreshTag(hasPrevTag, $('#prev-tag'),  param.nowTag - 1);
-    refreshTag(hasNextTag, $('#next-tag'),  param.nowTag + 1);
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  // At the moment the show() function takes a single tag
+  // and the was-tag is extracted from the html's data entry.
+  // It would be better if the html data entries only knew their
+  // own tag and the was-tag for it is _calculated_.
+  // Would be better if the -1,+1 was calculated as a delta.
+
+  const hasPrevTag = () => {
+    const minTag = 1;
+    return minTag < param.nowTag;
+  };
+
+  const hasNextTag = () => {
+    const maxTag = param.tags.length - 1;
+    return param.nowTag < maxTag;
+  };
+
+  const prevTag = () => {
+    return param.nowTag - 1;
+  };
+
+  const nextTag = () => {
+    return param.nowTag + 1;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
