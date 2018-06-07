@@ -154,9 +154,9 @@ $(() => {
   const refreshTagControls = () => {
     const prevTag = getPrevTag();
     const nextTag = getNextTag();
-    refreshTag(prevTag != -1, $('#prev-tag'), prevTag);
+    refreshTag(prevTag != null, $('#prev-tag'), prevTag);
     $('#tag-number-container').html(tagHtml());
-    refreshTag(nextTag != -1, $('#next-tag'), nextTag);
+    refreshTag(nextTag != null, $('#next-tag'), nextTag);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -168,7 +168,7 @@ $(() => {
         return i;
       }
     }
-    return -1;
+    return null;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -180,7 +180,7 @@ $(() => {
         return i;
       }
     }
-    return -1;
+    return null;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -483,7 +483,7 @@ $(() => {
     // preserve diff on/off state
     if (diffCheckBox().is(':checked')) {
       const prev = getPrevTag()
-      param.wasTag = (prev != -1) ? prev : 0;
+      param.wasTag = (prev != null) ? prev : 0;
     } else {
       param.wasTag = tag;
     }
@@ -545,9 +545,9 @@ $(() => {
       refreshForkButton();
       refreshRevertButton();
       refreshDownloadButton();
-      const light = $('img[src $= "_bar.png"]');
+      const tag = $('img[src $= "_bar.png"]');
       const options = { direction: 'horizontal', duration: 'slow' };
-      light.scrollIntoView(options);
+      tag.scrollIntoView(options);
     });
   };
 
