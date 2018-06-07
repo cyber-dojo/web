@@ -1,7 +1,7 @@
 
 class TipperController < ApplicationController
 
-  include TipHelper
+  include TrafficLightTipHelper
 
   def traffic_light_tip
     diff = differ.diff(kata.id, avatar.name, was_tag, now_tag)
