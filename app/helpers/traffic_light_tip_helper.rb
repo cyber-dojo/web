@@ -1,5 +1,5 @@
 
-module TipHelper # mix-in
+module TrafficLightTipHelper # mix-in
 
   def traffic_light_tip_html(diffs, avatar, was_tag, now_tag)
     was_tag = was_tag.to_i
