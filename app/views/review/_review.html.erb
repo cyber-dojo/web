@@ -479,9 +479,14 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const show = (tag) => {
-    // preserve diff on/off state
-    param.wasTag = tag - (diffCheckBox().is(':checked') ? 1 : 0);
     param.nowTag = tag;
+    // preserve diff on/off state
+    if (diffCheckBox().is(':checked')) {
+      const prev = getPrevTag()
+      param.wasTag = (prev != -1) ? prev : 0;
+    } else {
+      param.wasTag = tag;
+    }
     refresh();
   };
 
