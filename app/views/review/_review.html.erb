@@ -64,6 +64,8 @@ $(() => {
     });
   };
 
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
   const makeTrafficLightsHtml = (tags) => {
     let html = '';
     let wasTag = 0;
@@ -94,6 +96,8 @@ $(() => {
     html += '</tr></table>';
     return html;
   };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const isTrafficLight = (tag) => {
     return tag.colour != '';
@@ -146,9 +150,9 @@ $(() => {
   const refreshTagControls = () => {
     const prevTag = getPrevTag();
     const nextTag = getNextTag();
-    refreshTag(prevTag != null, $('#prev-tag'), prevTag);
+    refreshTag($('#prev-tag'), prevTag);
     $('#tag-number-container').html(tagHtml());
-    refreshTag(nextTag != null, $('#next-tag'), nextTag);
+    refreshTag($('#next-tag'), nextTag);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -205,7 +209,8 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const refreshTag = (on, button, newTag) => {
+  const refreshTag = (button, newTag) => {
+    const on = newTag != null;
     button
       .attr('disabled', !on)
       .css('cursor', on ? 'pointer' : 'default');
