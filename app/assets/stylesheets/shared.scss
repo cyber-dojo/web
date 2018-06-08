@@ -53,6 +53,13 @@ a:link, a:visited { color: $text-color; }
 
 //----------------------------------------------
 
+.right-arrow {
+   font-size: 15px;
+  padding-bottom: 5px;
+}
+
+//----------------------------------------------
+
 .diff-traffic-light {
   cursor: pointer;
   margin : { left: 0px; right: 0px; }

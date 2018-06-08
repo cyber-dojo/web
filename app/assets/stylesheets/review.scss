@@ -46,8 +46,8 @@
     }
 
     #tag-number-container {
+
       @include rounded-corner(4px);
-       font-size: 22px;
          padding: { left: 3px; right: 3px; }
           height: 32px;
          display: table-cell;
@@ -55,15 +55,9 @@
 
      img { width: 22px; height: 22px; }
 
-     #arrow { padding-bottom: 7px; font-size: 15px; }
-
       #tag-number {
+         font-size: 12px;
         text-align: center;
-
-        &.red       { color: $red;   }
-        &.amber     { color: $amber; }
-        &.green     { color: $green; }
-        &.timed_out { color: Gray;   }
       }
     }
 

@@ -89,8 +89,10 @@
 // - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 .traffic-light-diff-tip-tag {
-  @include font-size-medium;
   @include non-code-font;
+       font-size: 12px;
+         display: table-cell;
+  vertical-align: middle;
 }
 
 .traffic-light-diff-tip-traffic-light-image {

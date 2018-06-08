@@ -186,7 +186,7 @@ $(() => {
     html += '<table><tr>';
     if (inDiffMode()) {
       html += tagTrafficLightHtml(param.wasTag);
-      html += '<td id="arrow">&rarr;</td>';
+      html += '<td class="right-arrow">&rarr;</td>';
     }
     html += tagTrafficLightHtml(param.nowTag);
     html += '</tr></table>';
@@ -201,7 +201,7 @@ $(() => {
     if (colour != '') {
       html += '<td><img src="/images/bulb_' + colour + '.png"></td>';
     }
-    html += '<td><div id="tag-number" class="' + colour + '">';
+    html += '<td><div id="tag-number">';
     html += tagNumber;
     html += '</div></td>';
     return html;
