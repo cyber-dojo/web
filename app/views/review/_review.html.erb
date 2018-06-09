@@ -29,6 +29,51 @@ $(() => {
     reviewRefresh();
   };
 
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const show = (tag) => {
+    param.nowTag = tag;
+    // preserve diff on/off state
+    if (diffCheckBox().is(':checked')) {
+      const prev = getPrevTag()
+      param.wasTag = (prev != null) ? prev : 0;
+    } else {
+      param.wasTag = tag;
+    }
+    refresh();
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const showLatestNoDiff = () => {
+    const lastTag = -1;
+    param.wasTag = lastTag;
+    param.nowTag = lastTag;
+    // Note: this refresh() will cause nowTag/wasTag to become the
+    // very last tag. Viz the server assumes all tags are traffic-lights.
+    // If non-test event tags are introduced this will be wrong.
+    // Note further: The param.avatar_name is set in refreshAvatarHandler()
+    // Viz, the param.tags array may not match param.avatar_name.
+    refresh();
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const refresh = () => {
+    if (inDialog()) {
+      reviewRefresh();
+    } else {
+      window.location.href =
+        cd.showReviewUrl(
+          param.id,
+          param.avatar,
+          param.wasTag,
+          param.nowTag,
+          param.filename
+        );
+    }
+  };
+
   //-----------------------------------------
   // refresh diff? [x]
   //-----------------------------------------
@@ -472,51 +517,6 @@ $(() => {
     const filename =  $('#radio_' + filenameId);
     filename.click();
     filename.scrollIntoView({ direction: 'vertical' });
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const show = (tag) => {
-    param.nowTag = tag;
-    // preserve diff on/off state
-    if (diffCheckBox().is(':checked')) {
-      const prev = getPrevTag()
-      param.wasTag = (prev != null) ? prev : 0;
-    } else {
-      param.wasTag = tag;
-    }
-    refresh();
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const showLatestNoDiff = () => {
-    const lastTag = -1;
-    param.wasTag = lastTag;
-    param.nowTag = lastTag;
-    // Note: this refresh() will cause nowTag/wasTag to become the
-    // very last tag. Viz the server assumes all tags are traffic-lights.
-    // If non-test event tags are introduced this will be wrong.
-    // Note further: The param.avatar_name is set in refreshAvatarHandler()
-    // Viz, the param.tags array may not match param.avatar_name.
-    refresh();
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const refresh = () => {
-    if (inDialog()) {
-      reviewRefresh();
-    } else {
-      window.location.href =
-        cd.showReviewUrl(
-          param.id,
-          param.avatar,
-          param.wasTag,
-          param.nowTag,
-          param.filename
-        );
-    }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
