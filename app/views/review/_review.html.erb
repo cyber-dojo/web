@@ -102,7 +102,6 @@ $(() => {
     trafficLights.html(makeTrafficLightsHtml(param.tags));
     $.each($('.diff-traffic-light'), (_, light) => {
       const $light = $(light);
-      const wasTag = $light.data('was-tag');
       const nowTag = $light.data('now-tag');
       $light.click(() => { show(nowTag); });
       cd.setupHoverTip($light);
