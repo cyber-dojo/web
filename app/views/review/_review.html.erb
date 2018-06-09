@@ -136,6 +136,7 @@ $(() => {
       .bind('click', () => {
         param.avatar = name;
         if (inDiffMode()) {
+          // Show the first tag that is a traffic-light
           show(1);
         } else {
           showLatestNoDiff();
@@ -493,6 +494,11 @@ $(() => {
     const lastTag = -1;
     param.wasTag = lastTag;
     param.nowTag = lastTag;
+    // Note: this refresh() will cause nowTag/wasTag to become the
+    // very last tag. Viz the server assumes all tags are traffic-lights.
+    // If non-test event tags are introduced this will be wrong.
+    // Note further: The param.avatar_name is set in refreshAvatarHandler()
+    // Viz, the param.tags array may not match param.avatar_name.
     refresh();
   };
 
