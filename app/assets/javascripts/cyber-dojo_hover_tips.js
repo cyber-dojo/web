@@ -31,7 +31,7 @@ var cyberDojo = (function(cd, $) {
               " src='/images/bulb_" + colour + ".png'>" +
           '</td>' +
           '<td>' +
-             "&nbsp;<span class='traffic-light-diff-tip-tag " + colour + "'>" +
+             "<span class='traffic-light-diff-tip-tag " + colour + "'>" +
               count +
              '</span>' +
           '</td>' +
