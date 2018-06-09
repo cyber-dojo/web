@@ -136,8 +136,18 @@ $(() => {
         trafficLightCount++;
       }
     });
-    html += "<td><div class='traffic-light-count " + lastColour + "'>" + trafficLightCount + '</div></td>';
+
+    // I have tried making the traffic-light-count below into
+    // a hover-tip to match the kata/edit and dashboard pages.
+    // For some reason the hover-tip gets displayed behind
+    // the file-diff.
+    html += '<td>';
+    html += "<div class='traffic-light-count " + lastColour + "'>";
+    html += trafficLightCount;
+    html += '</div>';
+    html += '</td>';
     html += '</tr></table>';
+
     return html;
   };
 
