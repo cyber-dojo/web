@@ -2,6 +2,9 @@
 class ReviewController < ApplicationController
 
   def show
+    # Note that once you are on the review dialog/page
+    # all interaction with the web server is via the
+    # differ-controller.
     @kata = kata
     @avatar_name = params[:avatar] || kata.avatars.active.map(&:name).sort[0]
     @avatar = avatars[@avatar_name]

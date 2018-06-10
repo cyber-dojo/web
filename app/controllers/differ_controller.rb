@@ -2,6 +2,12 @@
 class DifferController < ApplicationController
 
   def diff
+    # This currently returns tags that are traffic-lights.
+    # The matches the default tag handling in the review-controller.
+    # The review/diff dialog/page has been refactored so it
+    # works when sent either lights or the full set of tags.
+    # However, it does not yet have a way to select between these
+    # two options.
     tags = avatar.lights.map(&:to_json)
     was_tag, now_tag = *was_now(tags)
     diff = differ.diff(kata.id, avatar.name, was_tag, now_tag)
