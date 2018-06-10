@@ -103,24 +103,22 @@ $(() => {
     let trafficLightCount = 0;
     html += '<table><tr>';
     $.each(tags, (_n, tag) => {
-      if (isTrafficLight(tag)) {
-        const colour = tag.colour;
-        const nowTag = tag.number;
-        const barGap = (param.nowTag == nowTag) ? 'bar' : 'gap';
-        html +=
-          "<td><div class='diff-traffic-light'" +
-                " data-tip='ajax:traffic_light'" +
-                " data-id='" + param.id + "'" +
-                " data-avatar-name='" + param.avatar + "'" +
-                " data-colour='" + colour + "'" +
-                " data-was-tag='" + wasTag + "'" +
-                " data-now-tag='" + nowTag + "'>" +
-            "<img class='with-bar-gap' src='/images/bulb_" + colour + '_' + barGap + ".png'/>" +
-          '</div></td>';
-        wasTag = nowTag;
-        lastColour = tag.colour;
-        trafficLightCount++;
-      }
+      const colour = tag.colour;
+      const nowTag = tag.number;
+      const barGap = (param.nowTag == nowTag) ? 'bar' : 'gap';
+      html +=
+        "<td><div class='diff-traffic-light'" +
+              " data-tip='ajax:traffic_light'" +
+              " data-id='" + param.id + "'" +
+              " data-avatar-name='" + param.avatar + "'" +
+              " data-colour='" + colour + "'" +
+              " data-was-tag='" + wasTag + "'" +
+              " data-now-tag='" + nowTag + "'>" +
+          "<img class='with-bar-gap' src='/images/bulb_" + colour + '_' + barGap + ".png'/>" +
+        '</div></td>';
+      wasTag = nowTag;
+      lastColour = tag.colour;
+      trafficLightCount++;
     });
 
     // I have tried making the traffic-light-count below into
@@ -135,12 +133,6 @@ $(() => {
     html += '</tr></table>';
 
     return html;
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const isTrafficLight = (tag) => {
-    return tag.colour != '';
   };
 
   //-----------------------------------------
@@ -214,25 +206,40 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const getPrevTag = () => {
-    const minTag = 0;
-    for (let i = param.nowTag - 1; i >= minTag; i--) {
-      if (isTrafficLight(param.tags[i])) {
-        return i;
-      }
-    }
-    return null;
+    const index = indexForTag(param.nowTag);
+    if (index == null || index == 0)
+      return null;
+    else if (index == 1 && inDiffMode() && showingAllTags())
+      return null;
+    else
+      return param.tags[index-1].number;
+  };
+
+  const showingAllTags = () => {
+    return param.tags[0].colour == '';
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const getNextTag = () => {
-    const maxTag = param.tags.length - 1;
-    for (let i = param.nowTag + 1; i <= maxTag; i++) {
-      if (isTrafficLight(param.tags[i])) {
-        return i;
+    const index = indexForTag(param.nowTag);
+    if (index == null || index == param.tags.length - 1)
+      return null;
+    else
+      return param.tags[index+1].number;
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const indexForTag = (number) => {
+    let index = null;
+    for (let i = 0; i < param.tags.length; i++) {
+      if (param.tags[i].number == number) {
+        index = i;
+        break;
       }
     }
-    return null;
+    return index;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -252,7 +259,8 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const tagTrafficLightHtml = (tagNumber) => {
-    const colour = param.tags[tagNumber].colour;
+    const index = indexForTag(tagNumber);
+    const colour = (index == null) ? '' : param.tags[index].colour;
     let html = '';
     if (colour != '') {
       html += '<td><img src="/images/bulb_' + colour + '.png"></td>';
@@ -550,10 +558,10 @@ $(() => {
     $.getJSON('/differ/diff', reviewParams, (data) => {
       $('.ui-dialog').removeClass('busy');
       param = data;
-      refreshDiffCheckBox();
       refreshTrafficLights();
-      refreshAvatarControls();
+      refreshDiffCheckBox();
       refreshTagControls();
+      refreshAvatarControls();
       refreshFiles();
       refreshForkButton();
       refreshRevertButton();

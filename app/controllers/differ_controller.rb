@@ -2,9 +2,8 @@
 class DifferController < ApplicationController
 
   def diff
-    tags = avatar.tags.map(&:to_json)
-    was_tag = get_tag(:was_tag, tags.length)
-    now_tag = get_tag(:now_tag, tags.length)
+    tags = avatar.lights.map(&:to_json)
+    was_tag, now_tag = *was_now(tags)
     diff = differ.diff(kata.id, avatar.name, was_tag, now_tag)
     view = diff_view(diff)
     render json: {
@@ -27,9 +26,14 @@ class DifferController < ApplicationController
   include RingPicker
   include ReviewFilePicker
 
-  def get_tag(name, size)
-    raw = params[name].to_i
-    raw != -1 ? raw : size - 1
+  def was_now(tags)
+    # You only get -1 when in non-diff mode and you switch to a
+    # new avatar in which case was_tag==-1 and now_tag==-1
+    was = params[:was_tag].to_i
+    now = params[:now_tag].to_i
+    was = tags[-1].number if was == -1
+    now = tags[-1].number if now == -1
+    [was,now]
   end
 
   def current_filename
