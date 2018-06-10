@@ -47,7 +47,7 @@ module TrafficLightTipHelper # mix-in
   end
 
   def right_arrow
-    '<div class="right-arrow">&rarr;</div>'
+    "<div class='right-arrow'>&rarr;</div>"
   end
 
   def avatar_img(avatar)
