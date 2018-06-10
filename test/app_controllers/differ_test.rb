@@ -18,11 +18,13 @@ class DifferControllerTest < AppControllerTestBase
         run_tests
         differ(was_tag = 1, now_tag = 2)
         tags = json['tags']
+
         info = " " + kata.id + ":" + avatar.name
-        was_light = tags[was_tag]
-        assert_equal was_tag, was_light['number'], info
-        now_light = tags[now_tag]
-        assert_equal now_tag, now_light['number'], info
+        # At the moment differ_controller returns lights (not tags)
+        assert_equal 2, tags.size, info
+        assert_equal was_tag, tags[0]['number'], info
+        assert_equal now_tag, tags[1]['number'], info
+
         diffs = json['diffs']
         index = diffs.find_index{|diff| diff['filename'] == filename }
         assert_equal filename, diffs[index]['filename'], info

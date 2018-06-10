@@ -31,8 +31,8 @@ class DifferController < ApplicationController
     # new avatar in which case was_tag==-1 and now_tag==-1
     was = params[:was_tag].to_i
     now = params[:now_tag].to_i
-    was = tags[-1].number if was == -1
-    now = tags[-1].number if now == -1
+    was = tags[-1]['number'] if was == -1
+    now = tags[-1]['number'] if now == -1
     [was,now]
   end
 
