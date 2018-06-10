@@ -12,7 +12,7 @@ class DifferController < ApplicationController
                      wasTag: was_tag,
                      nowTag: now_tag,
                        tags: tags,
-	                    diffs: view,
+                      diffs: view,
                  prevAvatar: ring_prev(active_avatar_names, avatar.name),
                  nextAvatar: ring_next(active_avatar_names, avatar.name),
 	      idsAndSectionCounts: prune(view),
