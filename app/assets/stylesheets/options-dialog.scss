@@ -1,0 +1,10 @@
+
+#options-dialog button
+{
+  margin: 3px;
+  padding: 8px;
+  font-size: 25px;
+  @include non-code-font();
+  width: 300px;
+  text-align: left;
+}

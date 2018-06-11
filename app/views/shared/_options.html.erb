@@ -5,29 +5,27 @@ $(() => {
 
   const optionsDialog = () => {
     let html = '';
-    html += '<div id="options-dialog">';
     html += '<table style="border: 1px;">';
-    html += tr('syntax-highlight', '<button type="button" ' +
-      'id="toggle-syntax-highlight" ' +
-      'onClick="cd.toggleSyntaxHighlight();">toggle</button>');
-    html += tr('line-numbers', '<button type="button" ' +
-      'id="toggle-line-numbers" ' +
-      'onClick="cd.toggleLineNumbers();">toggle</button>');
+    html += tr('<button type="button" ' +
+      'onClick="cd.toggleSyntaxHighlight();">toggle syntax highlighting</button>');
+    html += tr('<button type="button" ' +
+      'onClick="cd.toggleLineNumbers();">toggle line numbers</button>');
     html += '</table>';
     html += '</div>';
 
-    const node = $(html);
-    node.dialog({
+    $('<div id="options-dialog">')
+      .html(html)
+      .dialog({
         autoOpen: true,
         modal: true,
         title: cd.dialogTitle('options'),
-      buttons: { close: () => { node.remove(); } },
+      buttons: { close: function() { $(this).remove(); } },
         width: '350'
     });
   };
 
-  const tr = (name, button) => {
-    return '<tr>' + td(button) + td('&nbsp;'+name) + '</tr>';
+  const tr = (button) => {
+    return '<tr>' + td(button) + '</tr>';
   };
 
   const td = (s) => {
@@ -37,7 +35,7 @@ $(() => {
   const optionsButton = $('#options-button');
 
   if (window.location.href.indexOf('kata/edit') != -1) {
-    optionsButton.show().click(function() { optionsDialog(); });
+    optionsButton.show().click(() => { optionsDialog(); });
   } else {
     optionsButton.hide();
   }
