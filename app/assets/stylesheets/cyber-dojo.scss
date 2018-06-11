@@ -58,9 +58,8 @@ div[class~='filename'] { @include wide-list-item(); }
 
 .file_content
 {
+   // height and width are set in codemirror.scss
    background: lighten($darker-color, 4%);
-       height: 560px;
-        width: 690px;
        border: 0px;
        margin: 0px;
       display: block;
