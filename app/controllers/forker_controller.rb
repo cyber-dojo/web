@@ -35,7 +35,7 @@ class ForkerController < ApplicationController
       when -> (msg) { msg.include? 'avatar_name' }
         result[:reason] = "avatar(#{avatar_name})"
       when -> (msg) { msg.include? 'tag' }
-        result[:reason] = "traffic_light(#{tag})"
+        result[:reason] = "traffic_light(#{params['tag']})"
       else
         raise caught
     end

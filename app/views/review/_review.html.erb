@@ -602,40 +602,6 @@ $(() => {
     });
   };
 
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const doFork = () => {
-    const forkParams = {
-          id: param.id,
-      avatar: param.avatar,
-         tag: param.nowTag
-    };
-    $.getJSON('/forker/fork', forkParams, (data) => {
-      if (data.forked) {
-        cd.newDojoDialog(data);
-      } else {
-        forkFailedDialog(data.reason);
-      }
-    });
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const forkFailedDialog = (reason) => {
-    const message =
-      'Failed: On the originating server, ' + reason + ' does not exist';
-    $('<div>')
-    .html(message)
-    .dialog({
-      title: cd.dialogTitle('create a practice-session'),
-      autoOpen: true,
-      closeOnEscape: true,
-      modal: true,
-      width: 510,
-      buttons: { ok: function() { $(this).remove(); } }
-    });
-  };
-
   //-----------------------------------------
   // refresh [revert] (from dialog only)
   //-----------------------------------------
@@ -730,7 +696,7 @@ $(() => {
     reviewRefresh();
   }
   setupButton('download', () => { doDownload(); })
-  setupButton('fork',     () => { doFork(); });
+  setupButton('fork',     () => { cd.forkDialog(param.id, param.avatar, param.nowTag); });
 
 });
 

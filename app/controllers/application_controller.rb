@@ -41,7 +41,7 @@ class ApplicationController < ActionController::Base
   end
 
   def tag
-    params['tag'].to_i
+    number_or_nil(params['tag'])
   end
 
   def runner_choice
@@ -65,6 +65,13 @@ class ApplicationController < ActionController::Base
   def bind(pathed_filename)
     filename = Rails.root.to_s + pathed_filename
     ERB.new(File.read(filename)).result(binding)
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def number_or_nil(string)
+    num = string.to_i
+    num if num.to_s == string
   end
 
 end
