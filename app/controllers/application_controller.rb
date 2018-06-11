@@ -33,11 +33,11 @@ class ApplicationController < ActionController::Base
   end
 
   def was_tag
-    params['was_tag'].to_i
+    number_or_nil(params['was_tag'])
   end
 
   def now_tag
-    params['now_tag'].to_i
+    number_or_nil(params['now_tag'])
   end
 
   def tag
