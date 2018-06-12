@@ -1,0 +1,34 @@
+
+<div id="info">
+  <%
+     id = @kata.id[0..5]
+     tip  = "Your id is #{id} (#{Phonetic.spelling(id).join('-')})."
+     tip += "<br/>"
+     tip += "Your avatar is the #{@avatar.name}."
+     tip += "<br/>"
+     tip += " You'll need these to come back to this session. "
+  %>
+  <div id="id-and-avatar" data-tip="<%= tip %>">
+    <%= @kata.id[0..5] %>, <%= @avatar.name %>
+  </div>
+
+  <%
+    if @kata.exercise.nil?
+      tip = 'You are doing a custom exercise.'
+    else
+      parts = @kata.display_name.split(',')
+      language = parts[0]
+      test_framework = parts[1..-1].join(',')
+      tip  = "Your language is #{language}."
+      tip += '<br/>'
+      tip += "Your test-framework is #{test_framework}."
+    end
+  %>
+  <div id="language-and-test-framework" data-tip="<%= tip %>">
+    <%= @kata.display_name %>
+  </div>
+
+  <div>
+    <%= (@kata.exercise || '').gsub('_',' ') %>
+  </div>
+</div>
