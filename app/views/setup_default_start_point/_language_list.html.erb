@@ -8,22 +8,6 @@ $(function() {
   var previousLanguage = undefined;
   var selectedLanguage = $('#language_' + '<%= @language_index %>');
 
-  var languageInfo =
-    'The starting files for your chosen language, test-framework are always ' +
-    'a function called ' +
-    '<code>' +
-    '<a href="https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy" target="_blank">' +
-    'answer</a></code> that returns ' +
-    '<code>' +
-    '<a href="https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy" target="_blank">' +
-    '6 * 9</a></code> ' +
-    'and a test that expects ' +
-    '<code>' +
-    '<a href="https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy" target="_blank">' +
-    '42</a></code>. The starting files are <em>unrelated</em> to your ' +
-    'chosen exercise. They are simply an example to start you off. ' +
-    'Tests must complete in ~15 seconds.';
-
   $('[id^=language_]').each(function() {
     var language = $(this);
     language.click(function() {
@@ -31,7 +15,7 @@ $(function() {
       previousLanguage = language;
 
       exerciseInfoContainer.hide();
-      languageInfoContainer.show().html(languageInfo);
+      languageInfoContainer.show();
     });
   });
 
