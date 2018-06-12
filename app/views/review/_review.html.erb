@@ -219,10 +219,8 @@ $(() => {
     const index = indexForTag(param.nowTag);
     if (index == null || index == 0)
       return null;
-    else if (index == 1 && inDiffMode() && showingAllTags())
-      return null;
     else
-      return param.tags[index-1].number;
+      return param.tags[index - 1].number;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -232,7 +230,7 @@ $(() => {
     if (index == null || index == param.tags.length - 1)
       return null;
     else
-      return param.tags[index+1].number;
+      return param.tags[index + 1].number;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -248,14 +246,6 @@ $(() => {
       }
     }
     return index;
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const showingAllTags = () => {
-    // Returns true if param.tags includes more than
-    // just red/amber/green traffic-lights.
-    return param.tags[0].colour == '';
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -

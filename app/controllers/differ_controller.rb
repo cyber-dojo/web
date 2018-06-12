@@ -5,9 +5,17 @@ class DifferController < ApplicationController
     # This currently returns tags that are traffic-lights.
     # The matches the default tag handling in the review-controller.
     # The review/diff dialog/page has been refactored so it
-    # works when sent either lights or the full set of tags.
-    # However, it does not yet have a way to select between these
-    # two options.
+    # works when sent either just traffic-lights or the full set of tags.
+    # It does not yet have a way to select between these two options.
+    # However if it is sent the full set of tags it must drop tag zero
+    # (which is the _kata_ creation time). This is partly so that
+    # the lowest tag.number is 1 (one) and not 0 (zero) as it is not
+    # clear how to cleanly handle a tag of zero in diff-mode since it does
+    # not have a previous tag. It is also partly because it makes sense
+    # for the tags to correspond to actual kata/edit events.
+    # So, in summary, if returning all the tags the first line needs to be
+    #         tags = avatar.tags.map(&:to_json)
+    #         tags.shift
     tags = avatar.lights.map(&:to_json)
     was_tag, now_tag = *was_now(tags)
     diff = differ.diff(kata.id, avatar.name, was_tag, now_tag)
