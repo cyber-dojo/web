@@ -135,7 +135,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   def save_individual(params)
     get "/#{controller}/save_individual", params:params
     assert_response :redirect
-    regex = /^(.*)\/kata\/individual\/([0-9A-Z]*)\?avatar=([a-z]*)$/
+    regex = /^(.*)\/kata\/edit\/([0-9A-Z]*)\?avatar=([a-z]*)$/
     assert m = regex.match(@response.redirect_url)
     id = m[2]
     avatar = m[3]
@@ -161,7 +161,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   end
 
   def language_index
-    md = /var selectedLanguage = \$\('#language_' \+ '(\d+)'\);/.match(html)
+    md = /let selectedLanguage = \$\('#language_' \+ '(\d+)'\);/.match(html)
     refute_nil md
     md[1].to_i
   end
@@ -175,7 +175,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   end
 
   def exercise_index
-    md = /var selectedExercise = \$\('#exercise_' \+ '(\d+)'\);/.match(html)
+    md = /let selectedExercise = \$\('#exercise_' \+ '(\d+)'\);/.match(html)
     refute_nil md
     md[1].to_i
   end

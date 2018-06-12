@@ -114,22 +114,16 @@ input#new-filename, input#rename-filename, input#delete-filename
 //==================================================
 // individual/group landing pages
 
-#individual-landing-page, #group-landing-page
+#group-landing-page
 {
   margin: { top: 40px; }
+  #title { font-size: 36px; }
+  #kata-id { font-size: 155px; }
 
   #phonetic-kata-id {
     font-size: 17px;
     color: lighten($darker-color, 30%);
     padding: { bottom: 10px; }
-  }
-
-  .traffic-light
-  {
-    width: 20px;
-    height: 20px;
-    margin: { top: 2px; bottom: 0px; left: 0px; right: 5px; }
-    padding: 0px;
   }
 
   .info
@@ -153,15 +147,4 @@ input#new-filename, input#rename-filename, input#delete-filename
        padding: { top: 8px; bottom: 8px; left: 15px; right: 15px; }
         margin: { top: 5px; }
   }
-}
-
-#individual-landing-page
-{
-  #kata-id { font-size: 17px; }
-}
-
-#group-landing-page
-{
-  #title { font-size: 36px; }
-  #kata-id { font-size: 155px; }
 }

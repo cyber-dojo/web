@@ -93,7 +93,16 @@
 
   #language-info-container
   {
+    font-size: 12pt;
     text-align: left;
+
+    .traffic-light
+    {
+      width: 20px;
+      height: 20px;
+      margin: { top: 2px; bottom: 0px; left: 10px; right: 5px; }
+      padding: 0px;
+    }
   }
 
   #exercise-info-container

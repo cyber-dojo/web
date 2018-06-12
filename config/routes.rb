@@ -45,7 +45,6 @@ CyberDojo::Application.routes.draw do
   end
 
   scope path: '/kata', controller: :kata do
-    get  'individual(/:id)' => :individual
     get  'group(/:id)'      => :group
     get  'edit(/:id)'       => :edit
     get  'show_json(/:id)'  => :show_json

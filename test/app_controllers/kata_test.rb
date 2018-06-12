@@ -23,15 +23,6 @@ class KataControllerTest  < AppControllerTestBase
   # landing pages
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '9B7', %w( individual landing page ) do
-    in_kata(:stateless) {
-      as_avatar {
-        get "/kata/individual/#{kata.id}", params:{'avatar':avatar.name}
-        assert_response :success
-      }
-    }
-  end
-
   test '9B8', %w( group landing page ) do
     in_kata(:stateless) {
       get "/kata/group/#{kata.id}"
