@@ -3,7 +3,7 @@ class DifferController < ApplicationController
 
   def diff
     # This currently returns tags that are traffic-lights.
-    # The matches the default tag handling in the review-controller.
+    # This matches the default tag handling in the review-controller.
     # The review/diff dialog/page has been refactored so it
     # works when sent either just traffic-lights or the full set of tags.
     # It does not yet have a way to select between these two options.
