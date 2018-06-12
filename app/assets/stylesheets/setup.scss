@@ -17,16 +17,16 @@
   {
     @include font-size-medium();
     color: $lighter-color;
-    text-align: left;
+      text-align: left;
     padding-left: 5px;
-    font-weight: bold;
+     font-weight: bold;
   }
 
   #languages-list, #exercises-list, #custom-list
   {
     @include non-code-font();
-     height: 340px;
-    padding: 6px;
+           height: 340px;
+          padding: 6px;
      margin-right: 5px;
 
     overflow-y: auto;
@@ -37,8 +37,8 @@
     {
       @include font-size-medium();
         padding-left: 0px;
-      font-size: 13pt;
-      text-align: left;
+           font-size: 13pt;
+          text-align: left;
       &[class~='selected']
       {
         font-style: bold;
@@ -57,14 +57,15 @@
 
   #custom-list
   {
+    max-width: 350px;
+        width: 350px;
+
     .display-name
     {
       @include wide-list-item();
       text-align: left;
-      max-width: 350px;
+       max-width: 350px;
     }
-    max-width: 350px;
-    width: 350px;
   }
 
   #button-container
@@ -82,15 +83,18 @@
   #language-info-container, #exercise-info-container
   {
     @include plaintext-font();
-         width: 450px;
-        height: 342px;
-       padding: 10px;
-       display: none;
-       position: relative;
-       top: -2px;
+      height: 342px;
+       width: 450px;
+     padding: 10px;
+     display: none;
+    position: relative;
+         top: -2px;
   }
 
-  #language-info-container { text-align: left; }
+  #language-info-container
+  {
+    text-align: left;
+  }
 
   #exercise-info-container
   {
