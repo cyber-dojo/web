@@ -43,8 +43,8 @@ class DifferController < ApplicationController
   def was_now(tags)
     # You only get -1 when in non-diff mode and you switch to a
     # new avatar in which case was_tag==-1 and now_tag==-1
-    was = params[:was_tag].to_i
-    now = params[:now_tag].to_i
+    was = number_or_nil(params[:was_tag])
+    now = number_or_nil(params[:now_tag])
     was = tags[-1]['number'] if was == -1
     now = tags[-1]['number'] if now == -1
     [was,now]

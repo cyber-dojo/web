@@ -24,7 +24,7 @@ class ReviewController < ApplicationController
   end
 
   def tag(param, default)
-    n = (params[param] || default).to_i
+    n = number_or_nil(params[param] || default)
     n != -1 ? n : @avatar.lights[-1].number
   end
 
