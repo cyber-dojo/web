@@ -103,9 +103,9 @@ $(() => {
   const makeTrafficLightsHtml = (tags) => {
     // Displays all the tags that it receives from the differ/diff
     // JSON call and sets up was/now tags for each tag with the
-    // was-tag simply being the now-tag of the previous tag.
-    // Note that tag.numbers may not be contiguous because of
-    // non-test events.
+    // was-tag simply being the previous tag number.
+    // Note that tag.numbers will not be contiguous if tags
+    // contains non-test events.
     let html = '';
     let wasTag = 0;
     let lastColour = '';
@@ -255,8 +255,8 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const showingAllTags = () => {
-    // Does param.tags include more than just
-    // red/amber/green traffic-lights?
+    // Returns true if param.tags includes more than
+    // just red/amber/green traffic-lights?
     return param.tags[0].colour == '';
   };
 
