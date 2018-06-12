@@ -170,35 +170,33 @@ $(() => {
     refreshAvatarHandler('next', param.nextAvatar);
   };
 
-  const refreshAvatarHandler = (id, name) => {
-    $('#' + id + '-avatar')
+  const refreshAvatarHandler = (direction, name) => {
+    $('#' + direction + '-avatar')
       .attr('disabled', name == '')
       .unbind('click')
       .bind('click', () => {
         param.avatar = name;
         if (inDiffMode()) {
-          // Show the first tag that is a traffic-light
-          // NOTE: If non-test events are supported this will
-          // be wrong and need fixing.
+          // Move to the new avatar's first tag.
+          // tag zero is created for an avatar when it joins a session.
+          // I am assuming that this review page/dialog will only ever
+          // be displayed for a tag greater than zero, that is, for a
+          // tag corresponding to an actual kata/edit event, even if
+          // that event is a non-test event.
           show(1);
         } else {
-          showLatestNoDiff();
+          // Move to the new avatar's last tag.
+          // Note: the refresh() will cause nowTag/wasTag to become
+          // the actual last tag.number (rather than -1).
+          // Note: The param.avatar is set above but the
+          // param.tags array will not match param.avatar until
+          // after refresh() has completed (which is an async call).
+          const lastTag = -1;
+          param.wasTag = lastTag;
+          param.nowTag = lastTag;
+          refresh();
         }
       });
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const showLatestNoDiff = () => {
-    const lastTag = -1;
-    param.wasTag = lastTag;
-    param.nowTag = lastTag;
-    // Note: this refresh() will cause nowTag/wasTag to become
-    // the last tag.number
-    // Note: The param.avatar is set in refreshAvatarHandler() but
-    // the param.tags array will not match param.avatar_name until
-    // after refresh() has completed (which is an async call).
-    refresh();
   };
 
   //-----------------------------------------
@@ -256,7 +254,7 @@ $(() => {
 
   const showingAllTags = () => {
     // Returns true if param.tags includes more than
-    // just red/amber/green traffic-lights?
+    // just red/amber/green traffic-lights.
     return param.tags[0].colour == '';
   };
 
