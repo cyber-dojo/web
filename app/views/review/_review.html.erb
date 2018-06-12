@@ -630,23 +630,6 @@ $(() => {
     });
   };
 
-  //-----------------------------------------
-  // refresh [download]
-  //-----------------------------------------
-
-  const refreshDownloadButton = () => {
-    const button = $('#download-button');
-    cd.setTip(button, () => {
-      const tip = 'download files from ' + param.avatar + ' ' + param.nowTag;
-      cd.showHoverTip(button, tip);
-    });
-  };
-
-  const doDownload = () => {
-    const url = '/download_tag/' + param.id + '/' + param.avatar + '/' + param.nowTag;
-    window.location = url;
-  };
-
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const deleteAllCurrentFiles = () => {
@@ -665,6 +648,23 @@ $(() => {
         cd.newFileContent(filename, visibleFiles[filename]);
       }
     }
+  };
+
+  //-----------------------------------------
+  // refresh [download]
+  //-----------------------------------------
+
+  const refreshDownloadButton = () => {
+    const button = $('#download-button');
+    cd.setTip(button, () => {
+      const tip = 'download files from ' + param.avatar + ' ' + param.nowTag;
+      cd.showHoverTip(button, tip);
+    });
+  };
+
+  const doDownload = () => {
+    const url = '/download_tag/' + param.id + '/' + param.avatar + '/' + param.nowTag;
+    window.location = url;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
