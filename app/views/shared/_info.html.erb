@@ -1,9 +1,9 @@
 
 <%
   content = []
-  id = @kata.id[0..5]
+  id = @kata.short_id
   content << id
-  tip  = "Your id is #{id} (#{Phonetic.spelling(id).join('-')})."
+  tip  = "Your id is #{id} (#{@kata.phonetic_short_id})."
   #tip += "<br/>"
   #tip += " You'll need this to come back to this session. "
   unless @avatar.nil?

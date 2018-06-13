@@ -1,4 +1,3 @@
-require_relative '../../lib/phonetic_alphabet'
 
 class ReviewController < ApplicationController
 
