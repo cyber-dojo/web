@@ -10,4 +10,6 @@ export SHA=$(cd "${MY_DIR}" && git rev-parse HEAD)
 "${MY_DIR}/sh/docker_containers_up.sh"
 if "${MY_DIR}/sh/run_tests_in_container.sh" "$@"; then
   "${MY_DIR}/sh/docker_containers_down.sh"
+else
+  exit 1
 fi
