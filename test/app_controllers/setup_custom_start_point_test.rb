@@ -81,7 +81,7 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
   creates a new kata
   with the given display_name
   and starts a new avatar
-  and redirects to kata/individual page ) do
+  and redirects to kata/edit page ) do
     display_name = yahtzee_python_unittest
     params = { 'display_name' => display_name }
     id,avatar = save_individual(params)

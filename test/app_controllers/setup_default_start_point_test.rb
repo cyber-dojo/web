@@ -93,7 +93,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   creates a new kata
   with the given language+test and exercise
   and starts a new avatar
-  and redirects to kata/individual page ) do
+  and redirects to kata/edit page ) do
     language = ruby_minitest
     exercise = fizz_buzz
     params = {
