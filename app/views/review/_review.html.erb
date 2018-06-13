@@ -94,8 +94,8 @@ $(() => {
       const $light = $(light);
       const nowTag = $light.data('now-tag');
       $light.click(() => { show(nowTag); });
-      cd.setupHoverTip($light);
     });
+    cd.setupHoverTip($('[data-tip]')); // lights + other tips
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
