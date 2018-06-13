@@ -19,6 +19,7 @@
  *= depend_on force-scrollbars.scss
  *= depend_on wide-list-item.scss
  *= depend_on shared.scss
+ *= depend_on hover-tip.scss
  *= depend_on cyber-dojo.scss
  *= depend_on home.scss
  *= depend_on individual.scss
@@ -51,6 +52,7 @@
 @import "force-scrollbars.scss";
 @import "wide-list-item.scss";
 @import "shared.scss";
+@import "hover-tip.scss";
 @import "cyber-dojo.scss";
 @import "home.scss";
 @import "individual.scss";
