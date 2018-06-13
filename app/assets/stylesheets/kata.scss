@@ -117,27 +117,18 @@ input#new-filename, input#rename-filename, input#delete-filename
 #group-landing-page
 {
   margin: { top: 40px; }
+
   #title { font-size: 36px; }
+
   #kata-id { font-size: 155px; }
 
   #phonetic-kata-id {
-    font-size: 17px;
-    color: lighten($darker-color, 30%);
+    font-size: 30px;
+    //color: darken($lighter-color, 10%);
     padding: { bottom: 10px; }
   }
 
-  .info
-  {
-    @include plaintext-font();
-    @include rounded-corner(6px);
-    background: lighten($darker-color, 5%);
-     font-size: 17px;
-        margin: { top: 4px; bottom: 4px; }
-       padding: 12px;
-    text-align: left;
-  }
-
-  button#ok
+  button#dashboard
   {
     @include non-code-font();
     @include font-size-larger();
