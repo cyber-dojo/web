@@ -1,0 +1,31 @@
+
+&nbsp;
+
+<%
+   id = @kata.id[0..5]
+   tip  = "Your id is #{id} (#{Phonetic.spelling(id).join('-')})."
+   tip += "<br/>"
+   tip += " You'll need this to come back to this session. "
+%>
+<span data-tip="<%= tip %>">
+  <%= @kata.id[0..5] %>,
+</span>
+
+
+<%
+  if @kata.exercise.nil?
+    tip = 'You are doing a custom exercise.'
+  else
+    parts = @kata.display_name.split(',')
+    language = parts[0]
+    test_framework = parts[1..-1].join(',')
+    tip  = "Your language is #{language}."
+    tip += '<br/>'
+    tip += "Your test-framework is #{test_framework}."
+  end
+%>
+<span data-tip="<%= tip %>">
+  <%= @kata.display_name %>,
+</span>
+
+<%= @kata.exercise.gsub('_',' ') %>

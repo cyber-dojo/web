@@ -76,14 +76,6 @@
     &::-webkit-scrollbar:vertical   {  width: 7px; }
     &::-webkit-scrollbar:horizontal { height: 0px; }
   }
-
-  #info
-  {
-    padding-top: 10px;
-    margin: 5px;
-    @include plaintext-font();
-    font-weight: normal;
-  }
 }
 
 input#new-filename, input#rename-filename, input#delete-filename
