@@ -109,7 +109,7 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
   def save_individual(params)
     get "/#{controller}/save_individual", params:params
     assert_response :redirect
-    regex = /^(.*)\/kata\/individual\/([0-9A-Z]*)\?avatar=([a-z]*)$/
+    regex = /^(.*)\/kata\/edit\/([0-9A-Z]*)\?avatar=([a-z]*)$/
     assert m = regex.match(@response.redirect_url)
     id = m[2]
     avatar = m[3]
