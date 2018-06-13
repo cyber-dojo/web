@@ -12,7 +12,7 @@ class SetupCustomStartPointController < ApplicationController
   def save_individual
     kata = kata_create
     avatar = kata.avatar_start
-    redirect_to "/kata/individual/#{kata.id}?avatar=#{avatar.name}"
+    redirect_to "/kata/edit/#{kata.id}?avatar=#{avatar.name}"
   end
 
   def save_group
