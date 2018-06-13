@@ -21,7 +21,7 @@ class KataTest < AppModelsTestBase
   test 'A57', %w(
   short_id is the first 6 digits of the id which statistically is enough for uniqueness ) do
     in_kata {
-      assert_equal kata.id[0..5], kata.short_id + 'DELIBERATE FAIL'
+      assert_equal kata.id[0..5], kata.short_id
     }
   end
 
