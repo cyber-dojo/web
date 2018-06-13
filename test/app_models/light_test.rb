@@ -11,7 +11,7 @@ class LightTest < AppModelsTestBase
 
   test '6D0',
   'colour is converted to a symbol' do
-    light = make_light(:red, [2015, 2, 15, 8, 54, 6], 1)
+    light = make_light(:red, [2015,2,15, 8,54,6], 1)
     assert_equal :red, light.colour
   end
 
@@ -19,7 +19,7 @@ class LightTest < AppModelsTestBase
 
   test '6BD',
   'colour was once stored as outcome' do
-    light = make_light(:red, [2015, 2, 15, 8, 54, 6], 1, 'outcome')
+    light = make_light(:red, [2015,2,15, 8,54,6], 1, 'outcome')
     assert_equal :red, light.colour
   end
 
@@ -48,7 +48,7 @@ class LightTest < AppModelsTestBase
   test '954',
   'number is read as set' do
     number = 7
-    light = make_light(:red, [2015, 2, 15, 8, 54, 6], number)
+    light = make_light(:red, [2015,2,15, 8,54,6], number)
     assert_equal number, light.number
   end
 
@@ -57,7 +57,7 @@ class LightTest < AppModelsTestBase
   test 'AC8',
   'to_json' do
     colour = :red
-    time = [2015, 2, 15, 8, 54, 6]
+    time = [2015,2,15, 8,54,6]
     number = 7
     light = make_light(colour, time, number)
     assert_equal({

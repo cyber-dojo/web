@@ -33,7 +33,7 @@ class TimeNowTest < LibTestBase
 
   test '9F0',
   'time_now' do
-    expected = [1966,11,23,8,45,59]
+    expected = [1966,11,23, 8,45,59]
     assert_equal expected, time_now(FakeTime.new)
   end
 

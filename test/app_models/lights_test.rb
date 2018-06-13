@@ -31,17 +31,17 @@ class LightsTest < AppModelsTestBase
         maker = DeltaMaker.new(wolf)
 
         runner.stub_run_colour('red')
-        maker.run_test(red_time=[2014, 2, 15, 8, 54, 6])
+        maker.run_test(red_time=[2014,2,15, 8,54,6])
         assert_equal 1, wolf.lights.count
         assert_equal_light 1, :red, Time.mktime(*red_time), wolf.lights[0]
 
         runner.stub_run_colour('amber')
-        maker.run_test(amber_time=[2014, 2, 15, 8, 54, 34])
+        maker.run_test(amber_time=[2014,2,15, 8,54,34])
         assert_equal 2, wolf.lights.count
         assert_equal_light 2, :amber, Time.mktime(*amber_time), wolf.lights[1]
 
         runner.stub_run_colour('green')
-        maker.run_test(green_time=[2014, 2, 15, 8, 55, 7])
+        maker.run_test(green_time=[2014,2,15, 8,55,7])
         assert_equal 3, wolf.lights.count
         assert_equal_light 3, :green, Time.mktime(*green_time), wolf.lights[2]
       }
