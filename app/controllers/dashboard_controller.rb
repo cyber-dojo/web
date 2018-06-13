@@ -1,3 +1,4 @@
+require_relative '../../lib/phonetic_alphabet'
 
 class DashboardController < ApplicationController
 
