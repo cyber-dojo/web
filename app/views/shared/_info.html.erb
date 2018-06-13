@@ -3,17 +3,17 @@
   content = []
   id = @kata.short_id
   content << id
-  tip  = "Your id is #{id} (#{@kata.phonetic_short_id})."
+  tip  = "your id is #{id} (#{@kata.phonetic_short_id})"
   #tip += "<br/>"
   #tip += " You'll need this to come back to this session. "
   unless @avatar.nil?
     content << @avatar.name
     tip += "<br/>"
-    tip += "Your avatar is the #{@avatar.name}."
+    tip += "your avatar is the #{@avatar.name}"
   end
   if @kata.exercise.nil?
     tip += '<br/>'
-    tip += 'You are doing a custom exercise.'
+    tip += 'you are doing a custom exercise'
   else
     parts = @kata.display_name.split(',')
     language = parts[0]
@@ -23,11 +23,11 @@
     content << test_framework
     content << exercise
     tip += '<br/>'
-    tip += "Your language is #{language}."
+    tip += "your language is #{language}"
     tip += '<br/>'
-    tip += "Your test-framework is #{test_framework}."
+    tip += "your test-framework is #{test_framework}"
     tip += '<br/>'
-    tip += "Your exercise is #{exercise}."
+    tip += "your exercise is #{exercise}"
   end
 %>
 <span data-tip="<%= tip %>">
