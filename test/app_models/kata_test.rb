@@ -18,6 +18,19 @@ class KataTest < AppModelsTestBase
     }
   end
 
+  test 'A57', %w(
+  short_id is the first 6 digits of the id which statistically is enough for uniqueness ) do
+    in_kata {
+      assert_equal kata.id[0..5], kata.short_id
+    }
+  end
+
+  test 'A58', %w(
+  phonetic_short_id is phonetic wording of short_id separated by hyphens ) do
+    expected = %w( six seven seven CHARLIE zero CHARLIE ).join('-')
+    assert_equal expected, kata.phonetic_short_id
+  end
+
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # manifest properties
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - -
