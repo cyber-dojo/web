@@ -81,7 +81,7 @@ $(() => {
         }
       }
     });
-  	input.keyup((event) => {
+  	input.keyup(function(event) {
       const ok = $('#file-ok');
       const newFilename = $.trim(input.val());
       event.preventDefault();
