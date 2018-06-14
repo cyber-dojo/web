@@ -24,7 +24,7 @@ const updateTrafficLightPieChart = () => {
 
 const addNewFiles = () => {
   <% @new_files.each do |filename,content| %>
-    cd.newFileContent("<%= filename%>", "<%= content %>");
+    cd.newFileContent("<%= filename %>", "<%= content %>");
   <% end %>
 };
 
