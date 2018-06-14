@@ -23,8 +23,9 @@ const updateTrafficLightPieChart = () => {
 //- - - - - - - - - - - - - - - - - - - - - -
 
 const addNewFiles = () => {
-  $("#visible-files-container")
-    .append("<%= js_partial('new_files') %>");
+  <% @new_files.each do |filename,content| %>
+    cd.newFileContent("<%= filename%>", "<%= content %>")
+  <% end %>
 };
 
 //- - - - - - - - - - - - - - - - - - - - - -
