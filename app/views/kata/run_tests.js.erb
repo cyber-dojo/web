@@ -11,20 +11,20 @@ const appendTestTrafficLight = () => {
 //- - - - - - - - - - - - - - - - - - - - - -
 
 const updateTrafficLightCount = () => {
-  $('.traffic-lights-count')
-    .html("<%= js_partial('traffic_lights_count') %>");
+  $('.traffic-lights-count').html("<%= js_partial('traffic_lights_count') %>");
 };
 
+
 const updateTrafficLightPieChart = () => {
-  $('#traffic-lights-pie-chart')
-    .html("<%= js_partial('traffic_lights_pie_chart') %>");
+  $('#traffic-lights-pie-chart').html("<%= js_partial('traffic_lights_pie_chart') %>");
 };
 
 //- - - - - - - - - - - - - - - - - - - - - -
 
 const addNewFiles = () => {
-  <% @new_files.each do |filename,content| %>
-    cd.newFileContent("<%= filename %>", "<%= content %>");
+  $("#visible-files-container").append("<%= js_partial('new_files') %>");
+  <% @new_files.keys.each do |filename| %>
+    cd.switchEditorToCodeMirror("<%= filename %>");
   <% end %>
 };
 
@@ -42,8 +42,10 @@ const updateChangedFiles = () => {
   <% @changed_files.keys.each do |filename| %>
     cd.deleteFile("<%= filename %>");
   <% end %>
-  $("#visible-files-container")
-    .append("<%= js_partial('changed_files') %>");
+  $("#visible-files-container").append("<%= js_partial('changed_files') %>");
+  <% @changed_files.keys.each do |filename| %>
+    cd.switchEditorToCodeMirror("<%= filename %>");
+  <% end %>
 };
 
 //- - - - - - - - - - - - - - - - - - - - - -

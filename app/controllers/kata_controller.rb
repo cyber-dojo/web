@@ -59,9 +59,11 @@ class KataController < ApplicationController
     @deleted_files.keys.each do |filename|
       files.delete(filename)
     end
+
     @new_files.each do |filename,content|
       files[filename] = content
     end
+
     @changed_files.each do |filename,content|
       files[filename] = content
     end
