@@ -84,6 +84,20 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  cd.renameFile = (oldFilename, newFilename) => {
+    cd.saveCodeFromIndividualSyntaxHighlightEditor(oldFilename);
+    const oldFile = cd.fileContentFor(oldFilename);
+    const content = oldFile.val();
+    //const scrollTop = oldFile.scrollTop();
+    //const scrollLeft = oldFile.scrollLeft();
+    //const caretPos = oldFile.caret();
+    cd.fileDiv(oldFilename).remove();
+    cd.newFileContent(newFilename, content);
+    cd.rebuildFilenameList();
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   cd.editorRefocus = function() {
     cd.loadFile(cd.currentFilename());
   };
