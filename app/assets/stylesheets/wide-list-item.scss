@@ -19,8 +19,6 @@
     max-width: 250px;
    overflow-x: auto;
 
-  &:hover { color: lighten($darker-color, 60); }
-
   &[class~='selected'] {
     // See app/assets/javascripts/cyber-dojo_files.js function radioEntrySwitch()
          color: $lighter-color;
