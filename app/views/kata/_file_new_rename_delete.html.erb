@@ -4,44 +4,56 @@
 $(() => {
 
   const fileButtons = $('#file-operations');
+  const fileNew     = fileButtons.find('#new');
+  const fileRename  = fileButtons.find('#rename');
+  const fileDelete  = fileButtons.find('#delete');
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  fileButtons.find('#new').click(() => {
+
+  fileNew.click(() => {
     const initialFilename = 'filename' + cd.extensionFilenames()[0];
     const okInitiallyDisabled = !isValidFilename(initialFilename);
     const okClicked = (filename) => {
       cd.newFileContent(filename, '');
     };
-    openDialog('new', initialFilename, okInitiallyDisabled, okClicked);
+    openDialog(fileNew, initialFilename, okInitiallyDisabled, okClicked);
   });
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  fileButtons.find('#rename').click(() => {
+  fileRename.click(() => {
     const initialFilename = cd.currentFilename();
     const okInitiallyDisabled = true;
     const okClicked = (filename) => {
       renameFileFromTo(initialFilename, filename);
     };
-    openDialog('rename', initialFilename, okInitiallyDisabled, okClicked);
+    openDialog(fileRename, initialFilename, okInitiallyDisabled, okClicked);
   });
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  fileButtons.find('#delete').click(() => {
+  fileDelete.click(() => {
     const initialFilename = cd.currentFilename();
     const okInitiallyDisabled = false;
     const okClicked = (filename) => {
       cd.deleteFile(filename);
     };
-    openDialog('delete', initialFilename, okInitiallyDisabled, okClicked);
+    openDialog(fileDelete, initialFilename, okInitiallyDisabled, okClicked);
   });
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const openDialog = function(name, initialFilename, okInitiallyDisabled, okClicked) {
+  const openDialog = function(originator, initialFilename, okInitiallyDisabled, okClicked) {
+    // position the dialog next to the button that launched it.
+    const xPos = originator.offset().left + originator.width() + 30;
+    const yPos = originator.offset().top;
+    // get dialog title from button that launched it.
+    const title = originator.text();
+    const name = title.split(/\s+/)[0];
+    // input element shows filename which may or may not enabled
     const input = makeInput(name, initialFilename);
+    // dialog has ok and close buttons
     const ok = {
       text: 'ok',
       id: 'file-ok',
@@ -60,6 +72,7 @@ $(() => {
         cd.editorRefocus();
       }
     };
+
     const div = $('<div>');
     div.append(input);
     const fileOperationDialog = div.dialog({
@@ -68,9 +81,10 @@ $(() => {
         $(this).remove();
         cd.editorRefocus();
       },
-  	  title: cd.dialogTitle(name + '&nbsp;file'),
+  	  title: cd.dialogTitle(title),
     	autoOpen: false,
       width: 250,
+      position: [xPos,yPos],
   	  modal: true,
       buttons: [ ok, cancel ],
       beforeClose: function(event) {
@@ -81,6 +95,7 @@ $(() => {
         }
       }
     });
+
   	input.keyup(function(event) {
       const ok = $('#file-ok');
       const newFilename = $.trim(input.val());
