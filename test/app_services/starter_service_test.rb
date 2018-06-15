@@ -16,12 +16,8 @@ class StarterServiceTest < AppServicesTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '3A9',
-  'sha' do
-    sha = starter.sha
-    assert_equal 40, sha.size
-    sha.each_char do |ch|
-      assert "0123456789abcdef".include?(ch)
-    end
+  'smoke test starter.sha' do
+    assert_sha starter.sha
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -

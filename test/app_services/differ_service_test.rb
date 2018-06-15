@@ -10,11 +10,7 @@ class DifferServiceTest < AppServicesTestBase
 
   test '3AA',
   'smoke test differ.sha' do
-    sha = differ.sha
-    assert_equal 40, sha.size
-    sha.each_char do |ch|
-      assert "0123456789abcdef".include?(ch)
-    end
+    assert_sha differ.sha
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -

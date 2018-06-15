@@ -17,11 +17,7 @@ class ZipperServiceTest < AppServicesTestBase
 
   test 'C16',
   'smoke test zipper.sha' do
-    sha = zipper.sha
-    assert_equal 40, sha.size
-    sha.each_char do |ch|
-      assert "0123456789abcdef".include?(ch)
-    end
+    assert_sha zipper.sha
   end
 
   # - - - - - - - - - - - - - - - - - - - - -

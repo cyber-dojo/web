@@ -25,12 +25,8 @@ class StorerServiceTest < AppServicesTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '300',
-  'sha' do
-    sha = storer.sha
-    assert_equal 40, sha.size
-    sha.each_char do |ch|
-      assert "0123456789abcdef".include?(ch)
-    end
+  'smoke test storer.sha' do
+    assert_sha storer.sha
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -

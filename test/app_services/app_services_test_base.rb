@@ -16,4 +16,17 @@ class AppServicesTestBase < TestBase
     }
   end
 
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def assert_sha(sha)
+    assert_equal(40, sha.size)
+    sha.chars.all? { |ch| assert is_hex?(ch), ch }
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def is_hex?(ch)
+    '0123456789abcdef'.include?(ch)
+  end
+
 end
