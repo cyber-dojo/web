@@ -3,6 +3,8 @@
 var cyberDojo = (function(cd, $) {
   "use strict";
 
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   cd.fileContentFor = function(filename) {
     return cd.id('file_content_for_' + filename);
   };
@@ -71,7 +73,6 @@ var cyberDojo = (function(cd, $) {
     const newFile = cd.makeNewFile(filename, content);
     $('#visible-files-container').append(newFile);
     cd.rebuildFilenameList();
-    cd.loadFile(filename);
     cd.switchEditorToCodeMirror(filename);
   };
 
@@ -79,9 +80,6 @@ var cyberDojo = (function(cd, $) {
 
   cd.deleteFile = function(filename) {
     cd.fileDiv(filename).remove();
-    const filenames = cd.rebuildFilenameList();
-    const i = cd.testFilenameIndex(filenames);
-    cd.loadFile(filenames[i]);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
