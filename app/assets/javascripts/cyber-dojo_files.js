@@ -21,7 +21,6 @@ var cyberDojo = (function(cd, $) {
     selectFileInFileList(filename);
     fileDiv(filename).show();
 
-    cd.fileContentFor(filename).focus();
     cd.focusSyntaxHighlightEditor(filename);
     theCurrentFilename = filename;
     if (filename !== 'output') {
