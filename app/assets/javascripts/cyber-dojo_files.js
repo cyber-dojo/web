@@ -22,7 +22,7 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.makeNewFile = function(filename, content) {
+  const makeNewFile = function(filename, content) {
     const div = $('<div>', {
       'class': 'filename_div',
       id: filename + '_div'
@@ -80,7 +80,7 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.newFile = function(filename, content) {
-    const newFile = cd.makeNewFile(filename, content);
+    const newFile = makeNewFile(filename, content);
     $('#visible-files-container').append(newFile);
     cd.rebuildFilenameList();
     cd.switchEditorToCodeMirror(filename);
