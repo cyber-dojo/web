@@ -20,9 +20,6 @@ var cyberDojo = (function(cd, $) {
       'class': 'filename_div',
       id: filename + '_div'
     });
-    const table = $('<table>');
-    const tr = $('<tr>');
-    const td = $('<td>');
     const text = $('<textarea>', {
       'class': 'file_content',
       'spellcheck': 'false',
@@ -38,10 +35,7 @@ var cyberDojo = (function(cd, $) {
     text.attr('wrap', 'off');
 
     text.val(content);
-    td.append(text);
-    tr.append(td);
-    table.append(tr);
-    div.append(table);
+    div.append(text);
 
     return div;
   };
