@@ -2,7 +2,7 @@
 $(() => {
 
   <% @visible_files.each do |filename,content| %>
-    cd.newFileContent("<%= j raw(filename) %>", "<%= j raw(content) %>");
+    cd.newFile("<%= j raw(filename) %>", "<%= j raw(content) %>");
   <% end %>
 
 });

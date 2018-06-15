@@ -5,6 +5,11 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  let theCurrentFilename = '';
+  let theLastNonOutputFilename = '';
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   cd.fileContentFor = function(filename) {
     return cd.id('file_content_for_' + filename);
   };
@@ -74,7 +79,7 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.newFileContent = function(filename, content) {
+  cd.newFile = function(filename, content) {
     const newFile = cd.makeNewFile(filename, content);
     $('#visible-files-container').append(newFile);
     cd.rebuildFilenameList();
@@ -92,15 +97,12 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.renameFile = (oldFilename, newFilename) => {
+    // This should restore the caret/cursor/selection
     cd.saveCodeFromIndividualSyntaxHighlightEditor(oldFilename);
     const oldFile = cd.fileContentFor(oldFilename);
     const content = oldFile.val();
-    //const scrollTop = oldFile.scrollTop();
-    //const scrollLeft = oldFile.scrollLeft();
-    //const caretPos = oldFile.caret();
-    cd.fileDiv(oldFilename).remove();
-    cd.newFileContent(newFilename, content);
-    cd.rebuildFilenameList();
+    cd.deleteFile(oldFilename);
+    cd.newFile(newFilename, content);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -157,9 +159,6 @@ var cyberDojo = (function(cd, $) {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  let theCurrentFilename = '';
-  let theLastNonOutputFilename = '';
 
   cd.currentFilename = function() {
     return theCurrentFilename;

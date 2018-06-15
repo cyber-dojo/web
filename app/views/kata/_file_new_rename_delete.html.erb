@@ -14,7 +14,7 @@ $(() => {
     const initialFilename = 'filename' + cd.extensionFilenames()[0];
     const okInitiallyDisabled = !isValidFilename(initialFilename);
     const okClicked = (filename) => {
-      cd.newFileContent(filename, '');
+      cd.newFile(filename, '');
       cd.loadFile(filename);
     };
     openDialog(fileNew, initialFilename, okInitiallyDisabled, okClicked);
