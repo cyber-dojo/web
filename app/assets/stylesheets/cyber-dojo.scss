@@ -54,17 +54,11 @@ div[class~='filename'] { @include wide-list-item(); }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-.file_content, .diff_line_numbers, #instructions { @include code-font; }
+.file_content, #instructions { @include code-font; }
 
 .file_content
 {
-   // height and width are also set in codemirror.scss
-   // They need to be set here too so that generated text
-   // files (that round-trip back to the browser from the container)
-   // appear with the right size.
-   height: 560px;
-   width: 892px;
-
+   // height and width are set in codemirror.scss
    background: lighten($darker-color, 4%);
        border: 0px;
        margin: 0px;
