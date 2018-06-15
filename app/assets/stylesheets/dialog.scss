@@ -1,0 +1,16 @@
+.dialog
+{
+  background: $lighter-color;
+       color: $darker-color;
+     display: table;
+      margin: { top: 0; bottom: auto; left: 45px; right: 45px; }
+
+  a:link, a:visited { color: $lighter-color; }
+
+  &.title
+  {
+    @include non-code-font();
+    position: relative;
+        left: -45px;
+  }
+}
