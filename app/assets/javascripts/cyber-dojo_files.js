@@ -22,7 +22,7 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const makeNewFile = function(filename, content) {
+  const makeNewFile = (filename, content) => {
     const div = $('<div>', {
       'class': 'filename_div',
       id: filename + '_div'
