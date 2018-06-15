@@ -62,6 +62,12 @@ var cyberDojo = (function(cd, $) {
       element.CodeMirror.refresh();
       element.CodeMirror.focus();
     }
+    if (syntaxHighlightEnabled()) {
+      enableSyntaxHighlight(element.CodeMirror);
+    }
+    if (!areLineNumbersVisible()) {
+      hideLineNumbersForEditor(element.CodeMirror);
+    }
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
