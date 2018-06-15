@@ -14,7 +14,7 @@ class KataController < ApplicationController
     @visible_files = @avatar.visible_files
     @traffic_lights = @avatar.lights
     @output = @visible_files['output']
-    @title = 'test:' + @kata.id[0..5] + ':' + @avatar.name
+    @title = 'test:' + @kata.short_id + ':' + @avatar.name
   end
 
   def run_tests
