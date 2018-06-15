@@ -10,13 +10,13 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.currentFilename = function() {
+  cd.currentFilename = () => {
     return theCurrentFilename;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.loadFile = function(filename) {
+  cd.loadFile = (filename) => {
     fileDiv(cd.currentFilename()).hide();
     selectFileInFileList(filename);
     fileDiv(filename).show();
@@ -31,7 +31,7 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.loadTestFile = function() {
+  cd.loadTestFile = () => {
     cd.loadFile(testFilename());
   };
 
@@ -47,7 +47,7 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.newFile = function(filename, content) {
+  cd.newFile = (filename, content) => {
     const newFile = makeNewFile(filename, content);
     $('#visible-files-container').append(newFile);
     cd.rebuildFilenameList();
@@ -56,7 +56,7 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.deleteFile = function(filename) {
+  cd.deleteFile = (filename) => {
     fileDiv(filename).remove();
     cd.rebuildFilenameList();
     theLastNonOutputFilename = testFilename();
@@ -75,13 +75,13 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.editorRefocus = function() {
+  cd.editorRefocus = () => {
     cd.loadFile(cd.currentFilename());
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.radioEntrySwitch = function(previous, current) {
+  cd.radioEntrySwitch = (previous, current) => {
     // Used in test-page, setup-page, and history-dialog
     if (previous != undefined) {
       previous.removeClass('selected');
@@ -91,7 +91,7 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.fileContentFor = function(filename) {
+  cd.fileContentFor = (filename) => {
     return jqElement('file_content_for_' + filename);
   };
 
@@ -100,7 +100,7 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const jqElement = function(name) {
+  const jqElement = (name) => {
     return $('[id="' + name + '"]');
   };
 
@@ -163,13 +163,13 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const setRenameAndDeleteButtons = function(filename) {
+  const setRenameAndDeleteButtons = (filename) => {
     const fileOps = $('#file-operations');
     const   newFile  = fileOps.find('#new');
     const renameFile = fileOps.find('#rename');
     const deleteFile = fileOps.find('#delete');
-    const disable = function(node) { node.prop('disabled', true); };
-    const enable  = function(node) { node.prop('disabled', false); };
+    const disable = (node) => { node.prop('disabled', true ); };
+    const enable  = (node) => { node.prop('disabled', false); };
 
     if (cantBeRenamedOrDeleted(filename)) {
       disable(renameFile);
@@ -180,14 +180,14 @@ var cyberDojo = (function(cd, $) {
     }
   };
 
-  const cantBeRenamedOrDeleted = function(filename) {
+  const cantBeRenamedOrDeleted = (filename) => {
     const filenames = [ 'cyber-dojo.sh', 'output' ];
     return cd.inArray(filename, filenames);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const selectFileInFileList = function(filename) {
+  const selectFileInFileList = (filename) => {
     // Can't do $('radio_' + filename) because filename
     // could contain characters that aren't strictly legal
     // characters in a dom node id so I do this instead...
