@@ -51,7 +51,7 @@ var cyberDojo = (function(cd, $) {
 
   const testFilename = () => {
     const filenames = cd.filenames();
-    return filenames[cd.testFilenameIndex(filenames)];
+    return filenames[testFilenameIndex(filenames)];
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -62,7 +62,7 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.testFilenameIndex = function(filenames) {
+  const testFilenameIndex = (filenames) => {
     // When starting and in file-knave navigation
     // the current file is sometimes not present.
     // (eg the file has been renamed/deleted).
