@@ -16,7 +16,7 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.toggleLineNumbers = () => {
-    if (areLineNumbersVisible()) {
+    if (lineNumbersAreVisible()) {
       runActionOnAllCodeMirrorEditors(hideLineNumbersForEditor);
     } else {
       runActionOnAllCodeMirrorEditors(showLineNumbersForEditor);
@@ -34,7 +34,7 @@ var cyberDojo = (function(cd, $) {
     editor.cyberDojoTextArea = textArea;
     editor.setValue(textArea.value);
 
-    if (!areLineNumbersVisible()) {
+    if (!lineNumbersAreVisible()) {
       hideLineNumbersForEditor(editor);
     }
 
@@ -65,7 +65,7 @@ var cyberDojo = (function(cd, $) {
     if (syntaxHighlightEnabled()) {
       enableSyntaxHighlight(element.CodeMirror);
     }
-    if (!areLineNumbersVisible()) {
+    if (!lineNumbersAreVisible()) {
       hideLineNumbersForEditor(element.CodeMirror);
     }
   };
@@ -245,7 +245,7 @@ var cyberDojo = (function(cd, $) {
 
   //================================================================
 
-  const areLineNumbersVisible = () => {
+  const lineNumbersAreVisible = () => {
     let enabled = true;
     runActionOnAllCodeMirrorEditors((editor) => {
       const theme = editor.getOption('theme');
