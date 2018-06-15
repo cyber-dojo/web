@@ -92,7 +92,7 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.fileContentFor = function(filename) {
-    return cd.id('file_content_for_' + filename);
+    return jqElement('file_content_for_' + filename);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -100,8 +100,14 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  const jqElement = function(name) {
+    return $('[id="' + name + '"]');
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   const fileDiv = (filename) => {
-    return cd.id(filename + '_div');
+    return jqElement(filename + '_div');
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
