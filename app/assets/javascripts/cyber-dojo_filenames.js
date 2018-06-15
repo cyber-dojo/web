@@ -110,15 +110,15 @@ var cyberDojo = (function(cd, $) {
     var filenameList = $('#filename-list');
     filenameList.empty();
     $.each(cd.sortedFilenames(filenames), function(_, filename) {
-      filenameList.append(cd.makeFileListEntry(filename));
+      filenameList.append(makeFileListEntry(filename));
     });
     return filenames;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.makeFileListEntry = function(filename) {
-    var div = $('<div>', {
+  const makeFileListEntry = (filename) => {
+    const div = $('<div>', {
       'class': 'filename',
       id: 'radio_' + filename,
       text: filename
