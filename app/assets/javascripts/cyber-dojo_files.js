@@ -10,10 +10,94 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  cd.currentFilename = function() {
+    return theCurrentFilename;
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.loadFile = function(filename) {
+    fileDiv(cd.currentFilename()).hide();
+    selectFileInFileList(filename);
+    fileDiv(filename).show();
+
+    cd.fileContentFor(filename).focus();
+    cd.focusSyntaxHighlightEditor(filename);
+    theCurrentFilename = filename;
+    if (filename !== 'output') {
+      theLastNonOutputFilename = filename;
+    }
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.loadTestFile = function() {
+    cd.loadFile(testFilename());
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.toggleOutputFile = () => {
+    if (cd.currentFilename() !== 'output') {
+      cd.loadFile('output');
+    } else {
+      cd.loadFile(theLastNonOutputFilename);
+    }
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.newFile = function(filename, content) {
+    const newFile = makeNewFile(filename, content);
+    $('#visible-files-container').append(newFile);
+    cd.rebuildFilenameList();
+    cd.switchEditorToCodeMirror(filename);
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.deleteFile = function(filename) {
+    fileDiv(filename).remove();
+    cd.rebuildFilenameList();
+    theLastNonOutputFilename = testFilename();
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.renameFile = (oldFilename, newFilename) => {
+    // This should restore the caret/cursor/selection
+    cd.saveCodeFromIndividualSyntaxHighlightEditor(oldFilename);
+    const oldFile = cd.fileContentFor(oldFilename);
+    const content = oldFile.val();
+    cd.deleteFile(oldFilename);
+    cd.newFile(newFilename, content);
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.editorRefocus = function() {
+    cd.loadFile(cd.currentFilename());
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.radioEntrySwitch = function(previous, current) {
+    // Used in test-page, setup-page, and history-dialog
+    if (previous != undefined) {
+      previous.removeClass('selected');
+    }
+    current.addClass('selected');
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   cd.fileContentFor = function(filename) {
     return cd.id('file_content_for_' + filename);
   };
 
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const fileDiv = (filename) => {
@@ -56,12 +140,6 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.loadTestFile = function() {
-    cd.loadFile(testFilename());
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   const testFilenameIndex = (filenames) => {
     // When starting and in file-knave navigation
     // the current file is sometimes not present.
@@ -75,40 +153,6 @@ var cyberDojo = (function(cd, $) {
       }
     }
     return 0;
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.newFile = function(filename, content) {
-    const newFile = makeNewFile(filename, content);
-    $('#visible-files-container').append(newFile);
-    cd.rebuildFilenameList();
-    cd.switchEditorToCodeMirror(filename);
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.deleteFile = function(filename) {
-    fileDiv(filename).remove();
-    cd.rebuildFilenameList();
-    theLastNonOutputFilename = testFilename();
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.renameFile = (oldFilename, newFilename) => {
-    // This should restore the caret/cursor/selection
-    cd.saveCodeFromIndividualSyntaxHighlightEditor(oldFilename);
-    const oldFile = cd.fileContentFor(oldFilename);
-    const content = oldFile.val();
-    cd.deleteFile(oldFilename);
-    cd.newFile(newFilename, content);
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.editorRefocus = function() {
-    cd.loadFile(cd.currentFilename());
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -146,47 +190,6 @@ var cyberDojo = (function(cd, $) {
     const previous = $('[id="radio_' + previousFilename + '"]');
     cd.radioEntrySwitch(previous, node);
     setRenameAndDeleteButtons(filename);
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.radioEntrySwitch = function(previous, current) {
-    // Used in test-page, setup-page, and history-dialog
-    if (previous != undefined) {
-      previous.removeClass('selected');
-    }
-    current.addClass('selected');
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.currentFilename = function() {
-    return theCurrentFilename;
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.loadFile = function(filename) {
-    fileDiv(cd.currentFilename()).hide();
-    selectFileInFileList(filename);
-    fileDiv(filename).show();
-
-    cd.fileContentFor(filename).focus();
-    cd.focusSyntaxHighlightEditor(filename);
-    theCurrentFilename = filename;
-    if (filename !== 'output') {
-      theLastNonOutputFilename = filename;
-    }
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.toggleOutputFile = () => {
-    if (cd.currentFilename() !== 'output') {
-      cd.loadFile('output');
-    } else {
-      cd.loadFile(theLastNonOutputFilename);
-    }
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
