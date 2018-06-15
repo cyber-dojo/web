@@ -16,7 +16,7 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.fileDiv = function(filename) {
+  const fileDiv = (filename) => {
     return cd.id(filename + '_div');
   };
 
@@ -89,7 +89,7 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.deleteFile = function(filename) {
-    cd.fileDiv(filename).remove();
+    fileDiv(filename).remove();
     cd.rebuildFilenameList();
     theLastNonOutputFilename = testFilename();
   };
@@ -167,9 +167,9 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.loadFile = function(filename) {
-    cd.fileDiv(cd.currentFilename()).hide();
+    fileDiv(cd.currentFilename()).hide();
     cd.selectFileInFileList(filename);
-    cd.fileDiv(filename).show();
+    fileDiv(filename).show();
 
     cd.fileContentFor(filename).focus();
     cd.focusSyntaxHighlightEditor(filename);
