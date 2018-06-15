@@ -137,7 +137,7 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.selectFileInFileList = function(filename) {
+  const selectFileInFileList = function(filename) {
     // Can't do $('radio_' + filename) because filename
     // could contain characters that aren't strictly legal
     // characters in a dom node id so I do this instead...
@@ -168,7 +168,7 @@ var cyberDojo = (function(cd, $) {
 
   cd.loadFile = function(filename) {
     fileDiv(cd.currentFilename()).hide();
-    cd.selectFileInFileList(filename);
+    selectFileInFileList(filename);
     fileDiv(filename).show();
 
     cd.fileContentFor(filename).focus();
