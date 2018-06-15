@@ -46,8 +46,6 @@ const updateChangedFiles = () => {
 
 //- - - - - - - - - - - - - - - - - - - - - -
 
-$('#output').html("<%= js_partial('output') %>");
-
 appendTestTrafficLight();
 updateTrafficLightCount();
 updateTrafficLightPieChart();
@@ -56,6 +54,5 @@ addNewFiles();
 removeDeletedFiles();
 updateChangedFiles();
 
-cd.switchEditorToCodeMirror('output');
 cd.scrollAvatarImageIntoView();
 

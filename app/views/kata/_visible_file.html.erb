@@ -1,7 +1,6 @@
 
 <div class="filename_div"
      id="<%= filename %>_div">
-        <% if filename != 'output' %>
           <textarea class="file_content"
                     spellcheck="false"
                     data-filename="<%= filename %>"
@@ -9,7 +8,4 @@
                     id="file_content_for_<%= filename %>"
                     wrap="off">
 <%= h content %></textarea>
-        <% else %>
-          <%= render partial: 'output' %>
-        <% end %>
 </div>

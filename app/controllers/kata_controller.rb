@@ -13,7 +13,6 @@ class KataController < ApplicationController
     @avatar = avatar
     @visible_files = @avatar.visible_files
     @traffic_lights = @avatar.lights
-    @output = @visible_files['output']
     @title = 'test:' + @kata.short_id + ':' + @avatar.name
   end
 
@@ -49,6 +48,7 @@ class KataController < ApplicationController
     # If there is a file called output remove it otherwise
     # it will interfere with the @output pseudo-file.
     @new_files.delete('output')
+    @changed_files['output'] = stdout + stderr
 
     # don't show generated hidden filenames
     remove_hidden_files(@new_files, hidden_filenames)
@@ -70,10 +70,8 @@ class KataController < ApplicationController
 
     tags = avatar.tested(files, time_now, stdout, stderr, @colour)
     lights = tags.select(&:light?)
-
     @was_tag = lights.size == 1 ? 0 : lights[-2].number
     @now_tag = lights[-1].number
-    @output = stdout + stderr
 
     respond_to do |format|
       format.js   { render layout: false }
