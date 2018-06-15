@@ -16,11 +16,23 @@ $(() => {
     $('<div id="options-dialog">')
       .html(html)
       .dialog({
+      closeOnEscape: true,
         autoOpen: true,
         modal: true,
+        width: '350',
         title: cd.dialogTitle('options'),
-      buttons: { close: function() { $(this).remove(); } },
-        width: '350'
+      buttons: { close: function() {
+          $(this).remove();
+          cd.editorRefocus();
+        }
+      },
+      beforeClose: function(event) {
+        if (event.keyCode === $.ui.keyCode.ESCAPE) {
+          $(this).remove();
+          cd.editorRefocus();
+          return true;
+        }
+      }
     });
   };
 
