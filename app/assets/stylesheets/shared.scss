@@ -110,33 +110,3 @@ a:link, a:visited { color: $text-color; }
     vertical-align: middle;
   }
 }
-
-//----------------------------------------------
-
-#pull-spinner {
-     display: none;
-  background: url('/images/rotate-cyber-dojo.gif') no-repeat;
-       width: 500px;
-      height: 500px;
-    position: absolute;
-         top: 150px;
-        left: 400px;
-}
-
-//----------------------------------------------
-
-#pull-overlay {
-    // mimic jQuery modal dialog background
-    background: #666666 url(images/ui-bg_diagonals-thick_20_666666_40x40.png) 50% 50% repeat;
-       opacity: .50;
-        filter: Alpha(Opacity=50);
-       z-index: 999;
-      position: absolute;
-          left: 0;
-           top: 0;
-         width: 100%;
-        height: 100%;
-}
-
-
-
