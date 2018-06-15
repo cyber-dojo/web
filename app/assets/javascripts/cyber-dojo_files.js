@@ -44,10 +44,15 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.loadTestFile = function() {
+  const testFilename = () => {
     const filenames = cd.filenames();
-    const filename = filenames[cd.testFilenameIndex(filenames)];
-    cd.loadFile(filename);
+    return filenames[cd.testFilenameIndex(filenames)];
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.loadTestFile = function() {
+    cd.loadFile(testFilename());
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -81,6 +86,7 @@ var cyberDojo = (function(cd, $) {
   cd.deleteFile = function(filename) {
     cd.fileDiv(filename).remove();
     cd.rebuildFilenameList();
+    theLastNonOutputFilename = testFilename();
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
