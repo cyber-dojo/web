@@ -38,7 +38,6 @@ $(() => {
         testSpinner.show();
       },
       success: (_data, _status, _xhr) => {
-        cd.rebuildFilenameList();
         cd.storeIncomingFileHashes();
       },
       error: (_xhr, status, _thrown) => {
