@@ -19,6 +19,4 @@ div[class~='filename'] { @include wide-list-item(); }
 
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
-
-  &[data-filename=output] { cursor: default; }
 }
