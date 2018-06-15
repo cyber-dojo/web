@@ -54,11 +54,10 @@ div[class~='filename'] { @include wide-list-item(); }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-.file_content, #instructions { @include code-font; }
-
 .file_content
 {
    // height and width are set in codemirror.scss
+   @include code-font;
    background: lighten($darker-color, 4%);
        border: 0px;
        margin: 0px;
