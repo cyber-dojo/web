@@ -80,6 +80,7 @@ var cyberDojo = (function(cd, $) {
 
   cd.deleteFile = function(filename) {
     cd.fileDiv(filename).remove();
+    cd.rebuildFilenameList();
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
