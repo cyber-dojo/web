@@ -56,15 +56,6 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.switchAllEditorsToCodeMirror = () => {
-    $.each($('.file_content'), (i, editorTextArea) => {
-      const filename = editorTextArea.attributes['data-filename'].value;
-      cd.switchEditorToCodeMirror(filename);
-    });
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   cd.focusSyntaxHighlightEditor = (filename) => {
     const element = document.getElementById(syntaxHighlightFileContentForId(filename));
     if (element != null) {
