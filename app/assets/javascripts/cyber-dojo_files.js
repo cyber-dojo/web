@@ -113,12 +113,7 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const cantBeRenamedOrDeleted = function(filename) {
-    const filenames = [ 'cyber-dojo.sh', 'output' ];
-    return cd.inArray(filename, filenames);
-  };
-
-  cd.setRenameAndDeleteButtons = function(filename) {
+  const setRenameAndDeleteButtons = function(filename) {
     const fileOps = $('#file-operations');
     const   newFile  = fileOps.find('#new');
     const renameFile = fileOps.find('#rename');
@@ -135,6 +130,11 @@ var cyberDojo = (function(cd, $) {
     }
   };
 
+  const cantBeRenamedOrDeleted = function(filename) {
+    const filenames = [ 'cyber-dojo.sh', 'output' ];
+    return cd.inArray(filename, filenames);
+  };
+
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.selectFileInFileList = function(filename) {
@@ -145,7 +145,7 @@ var cyberDojo = (function(cd, $) {
     const previousFilename = cd.currentFilename();
     const previous = $('[id="radio_' + previousFilename + '"]');
     cd.radioEntrySwitch(previous, node);
-    cd.setRenameAndDeleteButtons(filename);
+    setRenameAndDeleteButtons(filename);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
