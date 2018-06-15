@@ -81,7 +81,7 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.radioEntrySwitch = (previous, current) => {
-    // Used in test-page, setup-page, and history-dialog
+    // Used in test-page, setup-page, and history/diff-dialog
     if (previous != undefined) {
       previous.removeClass('selected');
     }
