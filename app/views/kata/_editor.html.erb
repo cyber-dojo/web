@@ -1,10 +1,12 @@
+<script type="text/javascript"><!--
+$(() => {
 
-<div id="visible-files-container">
   <% @visible_files.each do |filename,content| %>
-    <%= render partial: 'visible_file',
-               locals: { filename: filename,
-                         content: content
-                       }
-    %>
+    cd.newFileContent("<%= j raw(filename) %>", "<%= j raw(content) %>");
   <% end %>
-</div>
+
+});
+
+//--></script>
+
+<div id="visible-files-container"></div>
