@@ -4,6 +4,8 @@ var cyberDojo = (function(cd, $) {
   "use strict";
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // Filenames
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   let theCurrentFilename = '';
   let theLastNonOutputFilename = '';
@@ -14,6 +16,98 @@ var cyberDojo = (function(cd, $) {
     return theCurrentFilename;
   };
 
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.eachFilename = (f) => {
+    cd.filenames().forEach(f);
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.rebuildFilenameList = () => {
+    const filenames = cd.filenames();
+    const filenameList = $('#filename-list');
+    filenameList.empty();
+    $.each(cd.sortedFilenames(filenames), (_, filename) => {
+      filenameList.append(makeFileListEntry(filename));
+    });
+    return filenames;
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.filenames = () => {
+    // Gets the kata/edit page filenames. The review/show
+    // page/dialog collects filenames in its own way.
+    const filenames = [];
+    const prefix = 'file_content_for_';
+    $('textarea[id^=' + prefix + ']').each(function(_) {
+      const id = $(this).attr('id');
+      const filename = id.substr(prefix.length, id.length - prefix.length);
+      filenames.push(filename);
+    });
+    return filenames;
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.sortedFilenames = (filenames) => {
+    // Controls the order of files in the filename-list
+    // Used in two places
+    //
+    // 1. kata/edit page to help show filename-list
+    // 2. review/show page/dialog to help show filename-list
+    //
+    return [].concat(cd.hiFilenames(filenames), ['output'], cd.loFilenames(filenames));
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.hiFilenames = (filenames) => {
+    // Controls which filenames appear at the
+    // top of the filename-list, above 'output'
+    //
+    // Used in three places.
+    // 1. kata/edit page to help show filename list
+    // 2. kata/edit page in alt-j alt-k hotkeys
+    // 3. review/show page/dialog to help show filename list
+    //
+    let hi = [];
+    $.each(filenames, function(_, filename) {
+      if (isSourceFile(filename) || filename == 'instructions') {
+        hi.push(filename);
+      }
+    });
+    hi.sort();
+    hi = hi.filter(item => item !== 'output')
+    hi = hi.filter(item => item != 'cyber-dojo.sh')
+    return hi;
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.loFilenames = (filenames) => {
+    // Controls which filenames appear at the
+    // bottom of the filename list, below 'output'
+    //
+    // Used in three places.
+    // 1. kata/edit page to help show filename-list
+    // 2. kata/edit page in Alt-j Alt-k hotkeys
+    // 3. review/show page/dialog to help show filename-list
+    //
+    let lo = [];
+    $.each(filenames, (_, filename) => {
+      if (!isSourceFile(filename) && filename != 'instructions') {
+        lo.push(filename);
+      }
+    });
+    lo.sort();
+    lo = lo.filter(item => item !== 'output')
+    return lo;
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // Load a named file
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.loadFile = (filename) => {
@@ -100,24 +194,15 @@ var cyberDojo = (function(cd, $) {
 
   cd.renameFile = (oldFilename, newFilename) => {
     // This should restore the caret/cursor/selection
-    // but it currently does not.
+    // but it currently does not. See
+    // https://github.com/cyber-dojo/web/issues/51
     const content = fileContent(oldFilename);
     cd.deleteFile(oldFilename);
     cd.newFile(newFilename, content);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.hashOfFileContent = (filename) => {
-    const content = fileContent(filename);
-    let hash = 0;
-    for (let i = 0; i < content.length; ++i) {
-      hash = (hash << 5) - hash + content.charCodeAt(i);
-      hash &= hash;
-    }
-    return hash;
-  };
-
+  // Helpers
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.editorRefocus = () => {
@@ -139,6 +224,18 @@ var cyberDojo = (function(cd, $) {
       previous.removeClass('selected');
     }
     current.addClass('selected');
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.hashOfFileContent = (filename) => {
+    const content = fileContent(filename);
+    let hash = 0;
+    for (let i = 0; i < content.length; ++i) {
+      hash = (hash << 5) - hash + content.charCodeAt(i);
+      hash &= hash;
+    }
+    return hash;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -250,6 +347,36 @@ var cyberDojo = (function(cd, $) {
     const previous = $('[id="radio_' + previousFilename + '"]');
     cd.radioEntrySwitch(previous, node);
     setRenameAndDeleteButtons(filename);
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const isSourceFile = (filename) => {
+    let match = false;
+    $.each(cd.extensionFilenames(), (_, extension) => {
+      // Shell test frameworks (eg shunit2) use .sh as their
+      // filename extension but we don't want cyber-dojo.sh
+      // in the hiFilenames() above output in the filename-list.
+      if (filename.endsWith(extension) && filename != 'cyber-dojo.sh') {
+        match = true;
+      }
+    });
+    return match;
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const makeFileListEntry = (filename) => {
+    const div = $('<div>', {
+      'class': 'filename',
+           id: 'radio_' + filename,
+         text: filename
+    });
+    if (cd.inArray(filename, cd.highlightFilenames())) {
+      div.addClass('highlight');
+    }
+    div.click(() => { cd.loadFile(filename); });
+    return div;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
