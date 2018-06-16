@@ -40,14 +40,18 @@ $(() => {
       success: (_data, _status, _xhr) => {
         cd.storeIncomingFileHashes();
       },
-      error: (_xhr, status, _thrown) => {
-        const output = cd.fileContentFor('output');
+      error: (_xhr, status, thrown) => {
+        let info = "ERROR\n";
+        info += thrown + "\n";
+        info += 'status=' + status + "\n";
         if (status == 'timeout') {
-          output.val(status + ': have you lost your network connection?');
+          info += 'have you lost your network connection?'
         }
         if (status == 'error') {
-          output.val(status + ': is the cyber-dojo server down?');
+          info += 'is the cyber-dojo server down?';
         }
+        cd.deleteFile('output');
+        cd.newFile('output', info);
       },
       complete: (_xhr, _status) => {
         testSpinner.hide();
