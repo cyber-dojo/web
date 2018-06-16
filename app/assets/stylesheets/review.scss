@@ -108,7 +108,8 @@
       padding: { right: 3px; top: 0px; bottom: 4px; }
        border: 1px solid $darker-color;
        margin: { bottom: 2px; }
-      &[data-filename='output'] { margin-top: 20px; } // mimic test-page file-knave
+      // mimic test-page filename-list
+      &[data-filename='output'] { margin-top: 20px; }
     }
   }
 
@@ -179,7 +180,8 @@
       cursor: default;
     }
 
-    &[data-filename='output'] { margin-top: 20px;  } // mimic test-page file-knave
+    // mimic test-page filename-list
+    &[data-filename='output'] { margin-top: 20px;  }
   }
 
   .diff-deleted-line-count {
