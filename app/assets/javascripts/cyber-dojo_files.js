@@ -24,18 +24,6 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.rebuildFilenameList = () => {
-    const filenames = cd.filenames();
-    const filenameList = $('#filename-list');
-    filenameList.empty();
-    $.each(cd.sortedFilenames(filenames), (_, filename) => {
-      filenameList.append(makeFileListEntry(filename));
-    });
-    return filenames;
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   cd.filenames = () => {
     // Gets the kata/edit page filenames. The review/show
     // page/dialog collects filenames in its own way.
@@ -131,7 +119,7 @@ var cyberDojo = (function(cd, $) {
   cd.newFile = (filename, content) => {
     const newFile = makeNewFile(filename, content);
     $('#visible-files-container').append(newFile);
-    cd.rebuildFilenameList();
+    rebuildFilenameList();
     cd.switchEditorToCodeMirror(filename);
   };
 
@@ -139,7 +127,7 @@ var cyberDojo = (function(cd, $) {
 
   cd.deleteFile = (filename) => {
     fileDiv(filename).remove();
-    cd.rebuildFilenameList();
+    rebuildFilenameList();
     theLastNonOutputFilename = testFilename();
   };
 
@@ -287,6 +275,18 @@ var cyberDojo = (function(cd, $) {
 
   const cantBeRenamedOrDeleted = (filename) => {
     return cd.inArray(filename, [ 'cyber-dojo.sh', 'output' ]);
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const rebuildFilenameList = () => {
+    const filenames = cd.filenames();
+    const filenameList = $('#filename-list');
+    filenameList.empty();
+    $.each(cd.sortedFilenames(filenames), (_, filename) => {
+      filenameList.append(makeFileListEntry(filename));
+    });
+    return filenames;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
