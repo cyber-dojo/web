@@ -169,7 +169,7 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.hashOfFileContent = (filename) => {
+  cd.hashOfFile = (filename) => {
     const content = fileContent(filename);
     let hash = 0;
     for (let i = 0; i < content.length; ++i) {
