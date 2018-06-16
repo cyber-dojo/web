@@ -122,7 +122,8 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.radioEntrySwitch = (previous, current) => {
-    // Used in test-page, setup-page, and history/diff-dialog
+    // Used in test-page, setup-pages, and history/diff-dialog
+    // See app/assets/stylesheets/wide-list-item.scss
     if (previous != undefined) {
       previous.removeClass('selected');
     }
@@ -223,8 +224,7 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const cantBeRenamedOrDeleted = (filename) => {
-    const filenames = [ 'cyber-dojo.sh', 'output' ];
-    return cd.inArray(filename, filenames);
+    return cd.inArray(filename, [ 'cyber-dojo.sh', 'output' ]);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

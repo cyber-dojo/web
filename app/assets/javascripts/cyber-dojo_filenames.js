@@ -12,9 +12,8 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.filenames = () => {
-    // Gets the kata/edit page filenames.
-    // The review/show page/dialog has to collect its filenames
-    // in its own way.
+    // Gets the kata/edit page filenames. The review/show
+    // page/dialog collects filenames in its own way.
     const filenames = [];
     const prefix = 'file_content_for_';
     $('textarea[id^=' + prefix + ']').each(function(_) {
@@ -114,8 +113,8 @@ var cyberDojo = (function(cd, $) {
   const makeFileListEntry = (filename) => {
     const div = $('<div>', {
       'class': 'filename',
-      id: 'radio_' + filename,
-      text: filename
+           id: 'radio_' + filename,
+         text: filename
     });
     if (cd.inArray(filename, cd.highlightFilenames())) {
       div.addClass('highlight');

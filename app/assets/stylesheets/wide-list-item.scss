@@ -3,10 +3,6 @@
 {
   @include plaintext-font();
 
-  // no up/down scrolling, #filename-list has its own
-  overflow-y: none;
-  &::-webkit-scrollbar:vertical { width: 0px; }
-
   background: $darker-color;
        color: lighten($darker-color, 30%);
       margin: { bottom: 2px; left: 0px; left: 0px; right: 0px; }
@@ -14,13 +10,17 @@
       cursor: pointer;
   text-align: right;
 
+  // no up/down scrolling, #filename-list has its own
+  overflow-y: none;
+  &::-webkit-scrollbar:vertical { width: 0px; }
+
   // individual left/right scrolling for looooooong filenames
   &::-webkit-scrollbar:horizontal { height: 0px; }
     max-width: 250px;
    overflow-x: auto;
 
+  // See app/assets/javascripts/cyber-dojo_files.js function radioEntrySwitch()
   &[class~='selected'] {
-    // See app/assets/javascripts/cyber-dojo_files.js function radioEntrySwitch()
          color: $lighter-color;
     background: $darker-color;
         cursor: default;
