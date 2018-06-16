@@ -235,8 +235,6 @@ var cyberDojo = (function(cd, $) {
     return filenames[testFilenameIndex(filenames)];
   };
 
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   const testFilenameIndex = (filenames) => {
     // When starting and in file-knave navigation
     // the current file is sometimes not present.
@@ -270,8 +268,6 @@ var cyberDojo = (function(cd, $) {
     }
   };
 
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   const cantBeRenamedOrDeleted = (filename) => {
     return cd.inArray(filename, [ 'cyber-dojo.sh', 'output' ]);
   };
@@ -284,6 +280,19 @@ var cyberDojo = (function(cd, $) {
     $.each(cd.sortedFilenames(cd.filenames()), (_, filename) => {
       filenameList.append(makeFileListEntry(filename));
     });
+  };
+
+  const makeFileListEntry = (filename) => {
+    const div = $('<div>', {
+      'class': 'filename',
+           id: 'radio_' + filename,
+         text: filename
+    });
+    if (cd.inArray(filename, cd.highlightFilenames())) {
+      div.addClass('highlight');
+    }
+    div.click(() => { cd.loadFile(filename); });
+    return div;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -353,21 +362,6 @@ var cyberDojo = (function(cd, $) {
       }
     });
     return match;
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const makeFileListEntry = (filename) => {
-    const div = $('<div>', {
-      'class': 'filename',
-           id: 'radio_' + filename,
-         text: filename
-    });
-    if (cd.inArray(filename, cd.highlightFilenames())) {
-      div.addClass('highlight');
-    }
-    div.click(() => { cd.loadFile(filename); });
-    return div;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
