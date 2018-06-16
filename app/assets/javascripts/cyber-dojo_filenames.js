@@ -15,7 +15,7 @@ var cyberDojo = (function(cd, $) {
     // Gets the kata/edit page filenames.
     // The review/show page/dialog has to collect its filenames
     // in its own way.
-    var filenames = [];
+    const filenames = [];
     const prefix = 'file_content_for_';
     $('textarea[id^=' + prefix + ']').each(function(_) {
       const id = $(this).attr('id');
@@ -28,7 +28,7 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const isSourceFile = (filename) => {
-    var match = false;
+    let match = false;
     $.each(cd.extensionFilenames(), (_, extension) => {
       // Shell test frameworks (eg shunit2) use .sh as their
       // filename extension but we don't want cyber-dojo.sh
@@ -51,7 +51,7 @@ var cyberDojo = (function(cd, $) {
     // 2. kata/edit page in alt-j alt-k hotkeys
     // 3. review/show page/dialog to help show filename list
     //
-    var hi = [];
+    let hi = [];
     $.each(filenames, function(_, filename) {
       if (isSourceFile(filename) || filename == 'instructions') {
         hi.push(filename);
@@ -74,7 +74,7 @@ var cyberDojo = (function(cd, $) {
     // 2. kata/edit page in Alt-j Alt-k hotkeys
     // 3. review/show page/dialog to help show filename-list
     //
-    var lo = [];
+    let lo = [];
     $.each(filenames, (_, filename) => {
       if (!isSourceFile(filename) && filename != 'instructions') {
         lo.push(filename);
@@ -100,8 +100,8 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.rebuildFilenameList = () => {
-    var filenames = cd.filenames();
-    var filenameList = $('#filename-list');
+    const filenames = cd.filenames();
+    const filenameList = $('#filename-list');
     filenameList.empty();
     $.each(cd.sortedFilenames(filenames), (_, filename) => {
       filenameList.append(makeFileListEntry(filename));
