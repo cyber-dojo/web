@@ -17,12 +17,6 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.td = function(html) {
- 	  return '<td>' + html + '</td>';
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   return cd;
 
 })(cyberDojo || {}, jQuery);
