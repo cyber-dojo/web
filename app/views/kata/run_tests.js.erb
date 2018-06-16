@@ -53,7 +53,8 @@ updateTrafficLightPieChart();
 addNewFiles();
 removeDeletedFiles();
 updateChangedFiles();
-cd.rebuildFilenameList();
 
+cd.storeIncomingFileHashes();
+cd.rebuildFilenameList();
 cd.scrollAvatarImageIntoView();
 

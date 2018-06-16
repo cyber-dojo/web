@@ -37,9 +37,6 @@ $(() => {
         testOverlay.insertAfter($('body'));
         testSpinner.show();
       },
-      success: (_data, _status, _xhr) => {
-        cd.storeIncomingFileHashes();
-      },
       error: (_xhr, status, thrown) => {
         let info = "ERROR\n";
         info += thrown + "\n";
