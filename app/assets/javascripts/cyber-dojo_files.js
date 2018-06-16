@@ -60,51 +60,6 @@ var cyberDojo = (function(cd, $) {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const hiFilenames = (filenames) => {
-    // Controls which filenames appear at the
-    // top of the filename-list, above 'output'
-    //
-    // Used in three places.
-    // 1. kata/edit page to help show filename list
-    // 2. kata/edit page in alt-j alt-k hotkeys
-    // 3. review/show page/dialog to help show filename list
-    //
-    let hi = [];
-    $.each(filenames, function(_, filename) {
-      if (isSourceFile(filename) || filename == 'instructions') {
-        hi.push(filename);
-      }
-    });
-    hi.sort();
-    hi = hi.filter(item => item !== 'output')
-    hi = hi.filter(item => item != 'cyber-dojo.sh')
-    return hi;
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const loFilenames = (filenames) => {
-    // Controls which filenames appear at the
-    // bottom of the filename list, below 'output'
-    //
-    // Used in three places.
-    // 1. kata/edit page to help show filename-list
-    // 2. kata/edit page in Alt-j Alt-k hotkeys
-    // 3. review/show page/dialog to help show filename-list
-    //
-    let lo = [];
-    $.each(filenames, (_, filename) => {
-      if (!isSourceFile(filename) && filename != 'instructions') {
-        lo.push(filename);
-      }
-    });
-    lo.sort();
-    lo = lo.filter(item => item !== 'output')
-    return lo;
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // Load a named file
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -345,6 +300,47 @@ var cyberDojo = (function(cd, $) {
     const previous = $('[id="radio_' + previousFilename + '"]');
     cd.radioEntrySwitch(previous, node);
     setRenameAndDeleteButtons(filename);
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const hiFilenames = (filenames) => {
+    // Controls which filenames appear at the
+    // top of the filename-list, above 'output'
+    // Used in three places.
+    // 1. kata/edit page to help show filename list
+    // 2. kata/edit page in alt-j alt-k hotkeys
+    // 3. review/show page/dialog to help show filename list
+    let hi = [];
+    $.each(filenames, function(_, filename) {
+      if (isSourceFile(filename) || filename == 'instructions') {
+        hi.push(filename);
+      }
+    });
+    hi.sort();
+    hi = hi.filter(item => item !== 'output')
+    hi = hi.filter(item => item != 'cyber-dojo.sh')
+    return hi;
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const loFilenames = (filenames) => {
+    // Controls which filenames appear at the
+    // bottom of the filename list, below 'output'
+    // Used in three places.
+    // 1. kata/edit page to help show filename-list
+    // 2. kata/edit page in Alt-j Alt-k hotkeys
+    // 3. review/show page/dialog to help show filename-list
+    let lo = [];
+    $.each(filenames, (_, filename) => {
+      if (!isSourceFile(filename) && filename != 'instructions') {
+        lo.push(filename);
+      }
+    });
+    lo.sort();
+    lo = lo.filter(item => item !== 'output')
+    return lo;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
