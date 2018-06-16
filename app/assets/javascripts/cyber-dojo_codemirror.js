@@ -277,39 +277,14 @@ var cyberDojo = (function(cd, $) {
   const bindHotKeys = (editor) => {
     editor.setOption('extraKeys', {
       'Alt-T': (cm) => { $('#test-button').click(); },
-      'Alt-J': (cm) => { loadNextFile(); },
-      'Alt-K': (cm) => { loadPreviousFile(); },
+      'Alt-J': (cm) => { cd.loadNextFile(); },
+      'Alt-K': (cm) => { cd.loadPreviousFile(); },
       'Alt-O': (cm) => { cd.toggleOutputFile(); }
     });
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const loadNextFile = () => {
-    const hiFilenames = cd.hiFilenames(cd.filenames());
-    const index = $.inArray(cd.currentFilename(), hiFilenames);
-    if (index == -1) {
-      const next = 0;
-      cd.loadFile(hiFilenames[next]);
-    } else {
-      const next = (index + 1) % hiFilenames.length;
-      cd.loadFile(hiFilenames[next]);
-    }
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const loadPreviousFile = () => {
-    const hiFilenames = cd.hiFilenames(cd.filenames());
-    const index = $.inArray(cd.currentFilename(), hiFilenames)
-    if (index === 0 || index === -1) {
-      const previous = hiFilenames.length - 1;
-      cd.loadFile(hiFilenames[previous]);
-    } else {
-      const previous = index - 1;
-      cd.loadFile(hiFilenames[previous]);
-    }
-  };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

@@ -30,6 +30,34 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  cd.loadNextFile = () => {
+    const hiFilenames = cd.hiFilenames(cd.filenames());
+    const index = $.inArray(cd.currentFilename(), hiFilenames);
+    if (index == -1) {
+      const next = 0;
+      cd.loadFile(hiFilenames[next]);
+    } else {
+      const next = (index + 1) % hiFilenames.length;
+      cd.loadFile(hiFilenames[next]);
+    }
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.loadPreviousFile = () => {
+    const hiFilenames = cd.hiFilenames(cd.filenames());
+    const index = $.inArray(cd.currentFilename(), hiFilenames)
+    if (index === 0 || index === -1) {
+      const previous = hiFilenames.length - 1;
+      cd.loadFile(hiFilenames[previous]);
+    } else {
+      const previous = index - 1;
+      cd.loadFile(hiFilenames[previous]);
+    }
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   cd.loadTestFile = () => {
     cd.loadFile(testFilename());
   };
@@ -178,6 +206,8 @@ var cyberDojo = (function(cd, $) {
       enable(deleteFile);
     }
   };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const cantBeRenamedOrDeleted = (filename) => {
     const filenames = [ 'cyber-dojo.sh', 'output' ];
