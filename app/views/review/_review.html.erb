@@ -611,7 +611,7 @@ $(() => {
          tag: param.nowTag
     };
     $.getJSON('/reverter/revert', revertParams, (data) => {
-      $('#review-dialog').dialog('close');
+      $('#review-dialog').remove();
       deleteAllCurrentFiles();
       copyRevertFilesToCurrentFiles(data.visibleFiles);
       $('#test-button').click();
