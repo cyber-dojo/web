@@ -100,9 +100,8 @@ var cyberDojo = (function(cd, $) {
 
   cd.renameFile = (oldFilename, newFilename) => {
     // This should restore the caret/cursor/selection
-    cd.saveCodeFromIndividualSyntaxHighlightEditor(oldFilename);
-    const oldFile = cd.fileContentFor(oldFilename);
-    const content = oldFile.val();
+    // but it currently does not.
+    const content = fileContent(oldFilename);
     cd.deleteFile(oldFilename);
     cd.newFile(newFilename, content);
   };
@@ -110,8 +109,7 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.hashOfFileContent = (filename) => {
-    const node = cd.fileContentFor(filename);
-    const content = node.val();
+    const content = fileContent(filename);
     let hash = 0;
     for (let i = 0; i < content.length; ++i) {
       hash = (hash << 5) - hash + content.charCodeAt(i);
@@ -144,14 +142,15 @@ var cyberDojo = (function(cd, $) {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.fileContentFor = (filename) => {
-    return jqElement('file_content_for_' + filename);
+  const fileContent = (filename) => {
+    cd.saveCodeFromIndividualSyntaxHighlightEditor(filename);
+    return jqElement('file_content_for_' + filename).val();
   };
 
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const jqElement = (name) => {
