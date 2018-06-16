@@ -231,26 +231,22 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const testFilename = () => {
+    // When starting and in filename-list navigation
+    // and when the current file is deleted,
+    // try to select a test file.
     const filenames = cd.filenames();
-    return filenames[testFilenameIndex(filenames)];
-  };
-
-  const testFilenameIndex = (filenames) => {
-    // When starting and in file-knave navigation
-    // the current file is sometimes not present.
-    // (eg the file has been renamed/deleted).
-    // When this happens, try to select a test file.
     for (let i = 0; i < filenames.length; i++) {
+      // split into dir names and filename
       const parts = filenames[i].toLowerCase().split('/');
       const filename = parts[parts.length - 1];
       if (filename.search('test') !== -1) {
-        return i;
+        return filename;
       }
       if (filename.search('spec') !== -1) {
-        return i;
+        return filename;
       }
     }
-    return 0;
+    return filenames[0];
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
