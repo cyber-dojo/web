@@ -109,6 +109,19 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  cd.hashOfFileContent = (filename) => {
+    const node = cd.fileContentFor(filename);
+    const content = node.val();
+    let hash = 0;
+    for (let i = 0; i < content.length; ++i) {
+      hash = (hash << 5) - hash + content.charCodeAt(i);
+      hash &= hash;
+    }
+    return hash;
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   cd.editorRefocus = () => {
     cd.loadFile(cd.currentFilename());
   };

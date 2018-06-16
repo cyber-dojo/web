@@ -31,22 +31,12 @@ $(() => {
       'type': 'hidden',
       'data-filename': filename,
       'name': 'file_hashes_' + io + '[' + filename + ']',
-      'value': hashOf(filename)
+      'value': cd.hashOfFileContent(filename)
     })
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const hashOf = (filename) => {
-    const node = cd.fileContentFor(filename);
-    const content = node.val();
-    let hash = 0;
-    for (let i = 0; i < content.length; ++i) {
-      hash = (hash << 5) - hash + content.charCodeAt(i);
-      hash &= hash;
-    }
-    return hash;
-  };
 
 });
 //--></script>
