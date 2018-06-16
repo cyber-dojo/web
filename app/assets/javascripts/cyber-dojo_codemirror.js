@@ -212,7 +212,7 @@ var cyberDojo = (function(cd, $) {
     });
   };
 
-  //================================================================
+  //=========================================================
 
   const syntaxHighlightEnabled = () => {
     let enabled = false;
@@ -243,7 +243,7 @@ var cyberDojo = (function(cd, $) {
     editor.setOption('smartIndent', false);
   };
 
-  //================================================================
+  //=========================================================
 
   const lineNumbersAreVisible = () => {
     let enabled = true;
@@ -282,9 +282,6 @@ var cyberDojo = (function(cd, $) {
       'Alt-O': (cm) => { cd.toggleOutputFile(); }
     });
   };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
