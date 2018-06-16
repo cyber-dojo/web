@@ -621,7 +621,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const deleteAllCurrentFiles = () => {
-    $.each(cd.filenames(), (_, filename) => {
+    cd.eachFilename((filename) => {
       if (filename !== 'output') {
         cd.deleteFile(filename);
       }
