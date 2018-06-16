@@ -27,12 +27,6 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.filenameAlreadyExists = function(filename) {
-    return cd.inArray(filename, cd.filenames());
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   const isSourceFile = function(filename) {
     var match = false;
     $.each(cd.extensionFilenames(), function(_, extension) {

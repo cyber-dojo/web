@@ -135,12 +135,18 @@ $(() => {
 
   const isValidFilename = (filename) => {
     const contains = (illegal) => { return filename.indexOf(illegal) != -1; };
-    if (cd.filenameAlreadyExists(filename)) { return false; }
+    if (alreadyExists(filename)) { return false; }
     if (contains('..')) { return false; }
     if (contains('\\')) { return false; }
     if (contains(' '))  { return false; }
     if (filename == '') { return false; }
     return true;
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const alreadyExists = (filename) => {
+    return cd.inArray(filename, cd.filenames());
   };
 
 });
