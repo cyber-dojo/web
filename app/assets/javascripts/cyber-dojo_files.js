@@ -54,16 +54,14 @@ var cyberDojo = (function(cd, $) {
   cd.sortedFilenames = (filenames) => {
     // Controls the order of files in the filename-list
     // Used in two places
-    //
     // 1. kata/edit page to help show filename-list
     // 2. review/show page/dialog to help show filename-list
-    //
-    return [].concat(cd.hiFilenames(filenames), ['output'], cd.loFilenames(filenames));
+    return [].concat(hiFilenames(filenames), ['output'], loFilenames(filenames));
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.hiFilenames = (filenames) => {
+  const hiFilenames = (filenames) => {
     // Controls which filenames appear at the
     // top of the filename-list, above 'output'
     //
@@ -86,7 +84,7 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.loFilenames = (filenames) => {
+  const loFilenames = (filenames) => {
     // Controls which filenames appear at the
     // bottom of the filename list, below 'output'
     //
@@ -133,28 +131,28 @@ var cyberDojo = (function(cd, $) {
   // Alt-O ==> toggleOutputFile()
 
   cd.loadNextFile = () => {
-    const hiFilenames = cd.hiFilenames(cd.filenames());
-    const index = $.inArray(cd.currentFilename(), hiFilenames);
+    const hi = hiFilenames(cd.filenames());
+    const index = $.inArray(cd.currentFilename(), hi);
     if (index == -1) {
       const next = 0;
-      cd.loadFile(hiFilenames[next]);
+      cd.loadFile(hi[next]);
     } else {
-      const next = (index + 1) % hiFilenames.length;
-      cd.loadFile(hiFilenames[next]);
+      const next = (index + 1) % hi.length;
+      cd.loadFile(hi[next]);
     }
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.loadPreviousFile = () => {
-    const hiFilenames = cd.hiFilenames(cd.filenames());
-    const index = $.inArray(cd.currentFilename(), hiFilenames)
+    const hi = hiFilenames(cd.filenames());
+    const index = $.inArray(cd.currentFilename(), hi);
     if (index === 0 || index === -1) {
-      const previous = hiFilenames.length - 1;
-      cd.loadFile(hiFilenames[previous]);
+      const previous = hi.length - 1;
+      cd.loadFile(hi[previous]);
     } else {
       const previous = index - 1;
-      cd.loadFile(hiFilenames[previous]);
+      cd.loadFile(hi[previous]);
     }
   };
 
