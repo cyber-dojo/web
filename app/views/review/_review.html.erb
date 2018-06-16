@@ -622,9 +622,7 @@ $(() => {
 
   const deleteAllCurrentFiles = () => {
     cd.eachFilename((filename) => {
-      if (filename !== 'output') {
-        cd.deleteFile(filename);
-      }
+      cd.deleteFile(filename);
     });
   };
 
@@ -632,9 +630,7 @@ $(() => {
 
   const copyRevertFilesToCurrentFiles = (visibleFiles) => {
     for (let filename in visibleFiles) {
-      if (filename !== 'output') {
-        cd.newFile(filename, visibleFiles[filename]);
-      }
+      cd.newFile(filename, visibleFiles[filename]);
     }
   };
 
