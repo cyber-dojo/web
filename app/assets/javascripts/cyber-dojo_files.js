@@ -18,10 +18,11 @@ var cyberDojo = (function(cd, $) {
 
   cd.loadFile = (filename) => {
     fileDiv(cd.currentFilename()).hide();
-    selectFileInFileList(filename);
     fileDiv(filename).show();
 
+    selectFileInFileList(filename);
     cd.focusSyntaxHighlightEditor(filename);
+
     theCurrentFilename = filename;
     if (filename !== 'output') {
       theLastNonOutputFilename = filename;
