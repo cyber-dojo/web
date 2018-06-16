@@ -256,7 +256,6 @@ var cyberDojo = (function(cd, $) {
 
   const setRenameAndDeleteButtons = (filename) => {
     const fileOps = $('#file-operations');
-    const   newFile  = fileOps.find('#new');
     const renameFile = fileOps.find('#rename');
     const deleteFile = fileOps.find('#delete');
     const disable = (node) => { node.prop('disabled', true ); };
