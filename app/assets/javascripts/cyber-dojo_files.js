@@ -246,6 +246,9 @@ var cyberDojo = (function(cd, $) {
       if (filename.search('test') !== -1) {
         return i;
       }
+      if (filename.search('spec') !== -1) {
+        return i;
+      }
     }
     return 0;
   };
