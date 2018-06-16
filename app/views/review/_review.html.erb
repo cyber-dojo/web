@@ -629,7 +629,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const copyRevertFilesToCurrentFiles = (visibleFiles) => {
-    for (let filename in visibleFiles) {
+    for (const filename in visibleFiles) {
       cd.newFile(filename, visibleFiles[filename]);
     }
   };
