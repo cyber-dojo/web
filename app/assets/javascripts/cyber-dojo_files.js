@@ -29,6 +29,13 @@ var cyberDojo = (function(cd, $) {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // Filename hot-key navigation
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // See app/assets/javascripts/cyber-dojo_codemirror.js
+  // See app/views/shared/_hotkeys.html.erb
+  // Alt-J ==> loadNextFile()
+  // Alt-K ==> loadPreviousFile()
+  // Alt-O ==> toggleOutputFile()
 
   cd.loadNextFile = () => {
     const hiFilenames = cd.hiFilenames(cd.filenames());
@@ -58,12 +65,6 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.loadTestFile = () => {
-    cd.loadFile(testFilename());
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   cd.toggleOutputFile = () => {
     if (cd.currentFilename() !== 'output') {
       cd.loadFile('output');
@@ -73,6 +74,11 @@ var cyberDojo = (function(cd, $) {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // new-file, rename-file, delete-file
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // See app/views/kata/_file_new_rename_delete.html.erb
+  // See app/views/kata/_files.html.erb
+  // See app/views/kata/_run_tests.js.erb
 
   cd.newFile = (filename, content) => {
     const newFile = makeNewFile(filename, content);
@@ -104,6 +110,12 @@ var cyberDojo = (function(cd, $) {
 
   cd.editorRefocus = () => {
     cd.loadFile(cd.currentFilename());
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.loadTestFile = () => {
+    cd.loadFile(testFilename());
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
