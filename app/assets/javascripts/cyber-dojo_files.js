@@ -279,13 +279,11 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const rebuildFilenameList = () => {
-    const filenames = cd.filenames();
     const filenameList = $('#filename-list');
     filenameList.empty();
-    $.each(cd.sortedFilenames(filenames), (_, filename) => {
+    $.each(cd.sortedFilenames(cd.filenames()), (_, filename) => {
       filenameList.append(makeFileListEntry(filename));
     });
-    return filenames;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
