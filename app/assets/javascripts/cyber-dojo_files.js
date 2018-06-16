@@ -11,6 +11,23 @@ var cyberDojo = (function(cd, $) {
   let theLastNonOutputFilename = '';
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // Load a named file
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.loadFile = (filename) => {
+    fileDiv(cd.currentFilename()).hide();
+    fileDiv(filename).show();
+
+    selectFileInFileList(filename);
+    cd.focusSyntaxHighlightEditor(filename);
+
+    theCurrentFilename = filename;
+    if (filename !== 'output') {
+      theLastNonOutputFilename = filename;
+    }
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.currentFilename = () => {
     return theCurrentFilename;
@@ -45,23 +62,6 @@ var cyberDojo = (function(cd, $) {
     // 1. kata/edit page to help show filename-list
     // 2. review/show page/dialog to help show filename-list
     return [].concat(hiFilenames(filenames), ['output'], loFilenames(filenames));
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // Load a named file
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.loadFile = (filename) => {
-    fileDiv(cd.currentFilename()).hide();
-    fileDiv(filename).show();
-
-    selectFileInFileList(filename);
-    cd.focusSyntaxHighlightEditor(filename);
-
-    theCurrentFilename = filename;
-    if (filename !== 'output') {
-      theLastNonOutputFilename = filename;
-    }
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
