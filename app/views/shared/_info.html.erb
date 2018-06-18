@@ -4,8 +4,6 @@
   id = @kata.short_id
   content << id
   tip  = "your id is #{id} (#{@kata.phonetic_short_id})"
-  #tip += "<br/>"
-  #tip += " You'll need this to come back to this session. "
   unless @avatar.nil?
     content << @avatar.name
     tip += "<br/>"
