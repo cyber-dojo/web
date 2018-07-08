@@ -20,11 +20,13 @@ services:
     volumes:
       - ./test:${CYBER_DOJO_HOME}/test:ro
     environment:
-      - STARTER_SERVICE_NAME
+      - DIFFER_SERVICE_NAME=differ
+      - DIFFER_SERVICE_PORT
+      - STARTER_SERVICE_NAME=starter
       - STARTER_SERVICE_PORT
-      - STORER_SERVICE_NAME
+      - STORER_SERVICE_NAME=storer
       - STORER_SERVICE_PORT
-      - ZIPPER_SERVICE_NAME
+      - ZIPPER_SERVICE_NAME=zipper
       - ZIPPER_SERVICE_PORT
       - CYBER_DOJO_HOME
     depends_on:
@@ -110,11 +112,14 @@ services:
     image: cyberdojo/differ
     init: true
     container_name: test-web-cyber-dojo-differ
+    expose: [ "${DIFFER_SERVICE_PORT}" ]
     read_only: true
     tmpfs: /tmp
     mem_limit: 1G
     memswap_limit: 1G
     restart: 'no'
+    environment:
+      - DIFFER_SERVICE_PORT
 
   # - - - - - - - - - - - - - - - -
 

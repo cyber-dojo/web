@@ -28,11 +28,11 @@ class DifferService
   include HttpHelper
 
   def hostname
-    'differ'
+    ENV['DIFFER_SERVICE_NAME']
   end
 
   def port
-    4567
+    ENV['DIFFER_SERVICE_PORT'].to_i
   end
 
   def storer
