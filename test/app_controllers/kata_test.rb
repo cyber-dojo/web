@@ -106,6 +106,8 @@ class KataControllerTest  < AppControllerTestBase
           :avatar => avatar.name,
           :max_seconds => kata.max_seconds
         }
+        # TODO: not enough. Need to set the ENV-VAR so
+        # storer is set in new controller thread
         @storer = StorerDummy.new
         begin
           post '/kata/run_tests', params:params.merge(@params_maker.params)

@@ -20,7 +20,6 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     display_name = {
        stateless: 'Ruby, MiniTest',
         stateful: 'Ruby, RSpec'
-      #processful: 'Ruby, Test::Unit'
     }[choice] || choice
     refute_nil display_name, choice
     create_language_kata(display_name)

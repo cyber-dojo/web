@@ -25,7 +25,6 @@ services:
       - differ
       - runner-stateless
       - runner-stateful
-      #- runner-processful
       - starter
       - storer
       - zipper
