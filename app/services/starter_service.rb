@@ -45,7 +45,7 @@ class StarterService
   end
 
   def port
-    4527
+    ENV['STARTER_SERVICE_PORT'].to_i
   end
 
 end

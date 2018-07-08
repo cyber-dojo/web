@@ -20,6 +20,8 @@ services:
     volumes:
       - ./test:${CYBER_DOJO_HOME}/test:ro
     environment:
+      - STARTER_SERVICE_PORT
+      - STORER_SERVICE_PORT
       - CYBER_DOJO_HOME
     depends_on:
       - differ
@@ -55,12 +57,14 @@ services:
     image: cyberdojo/storer
     init: true
     container_name: test-web-cyber-dojo-storer
+    expose: [ "${STORER_SERVICE_PORT}" ]
     read_only: true
     tmpfs: /tmp
     mem_limit: 2G
     memswap_limit: 2G
     restart: 'no'
     environment:
+      - STORER_SERVICE_PORT
       - CYBER_DOJO_KATAS_ROOT
     depends_on:
       - starter
