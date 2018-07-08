@@ -41,7 +41,7 @@ class StarterService
   include HttpHelper
 
   def hostname
-    'starter'
+    ENV['STARTER_SERVICE_NAME']
   end
 
   def port
