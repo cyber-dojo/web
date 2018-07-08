@@ -21,7 +21,7 @@ $light-orange:      #FFE082;
 
 $syntax-text-color: $very-light-gray;
 $syntax-background-color: $very-dark-gray;
-$syntax-comment-color: lighten($very-dark-gray, 20%);
+$syntax-comment-color: lighten($very-dark-gray, 70%);
 
 .cm-s-cyber-dojo-colour.CodeMirror {
   @include code-font;
