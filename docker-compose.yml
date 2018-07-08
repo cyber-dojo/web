@@ -7,6 +7,7 @@ services:
     build:
       context: .
       args:
+        - ALPINE_VERSION=${ALPINE_VERSION}
         - CYBER_DOJO_HOME=${CYBER_DOJO_HOME}
         - SHA=${SHA}
     user: nobody
@@ -36,15 +37,17 @@ services:
     image: cyberdojo/starter
     init: true
     container_name: test-web-cyber-dojo-starter
+    expose: [ "${STARTER_SERVICE_PORT}" ]
     read_only: true
     tmpfs: /tmp
     mem_limit: 50M
     memswap_limit: 50M
     restart: 'no'
     environment:
-      - CYBER_DOJO_START_POINTS_ROOT
+      - STARTER_SERVICE_PORT
+      - START_POINTS_ROOT
     volumes:
-      - ./test/data/start_points:${CYBER_DOJO_START_POINTS_ROOT}:ro
+      - ./test/data/start_points:${START_POINTS_ROOT}:ro
 
   # - - - - - - - - - - - - - - - -
 
@@ -92,21 +95,6 @@ services:
     restart: 'no'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-
-  # - - - - - - - - - - - - - - - -
-
-  #runner-processful:
-  #  user: root
-  #  image: cyberdojo/runner-processful
-  #  init: true
-  #  container_name: test-web-cyber-dojo-runner-processful
-  #  read_only: true
-  #  tmpfs: /tmp
-  #  mem_limit: 2G
-  #  memswap_limit: 2G
-  #  restart: 'no'
-  #  volumes:
-  #    - /var/run/docker.sock:/var/run/docker.sock
 
   # - - - - - - - - - - - - - - - -
 
