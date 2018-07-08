@@ -20,8 +20,12 @@ services:
     volumes:
       - ./test:${CYBER_DOJO_HOME}/test:ro
     environment:
+      - STARTER_SERVICE_NAME
       - STARTER_SERVICE_PORT
+      - STORER_SERVICE_NAME
       - STORER_SERVICE_PORT
+      - ZIPPER_SERVICE_NAME
+      - ZIPPER_SERVICE_PORT
       - CYBER_DOJO_HOME
     depends_on:
       - differ
@@ -119,10 +123,14 @@ services:
     image: cyberdojo/zipper
     init: true
     container_name: test-web-cyber-dojo-zipper
+    expose: [ "${ZIPPER_SERVICE_PORT}" ]
     read_only: true
     tmpfs: /tmp
     mem_limit: 50M
     memswap_limit: 50M
     restart: 'no'
+    environment:
+      - ZIPPER_SERVICE_PORT
+      - STORER_SERVICE_PORT
     depends_on:
       - storer

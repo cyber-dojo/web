@@ -23,11 +23,11 @@ class ZipperService
   include HttpHelper
 
   def hostname
-    'zipper'
+    ENV['ZIPPER_SERVICE_NAME']
   end
 
   def port
-    4587
+    ENV['ZIPPER_SERVICE_PORT'].to_i
   end
 
 end
