@@ -3,8 +3,9 @@
 {
   @include plaintext-font();
 
+       color: $lighter-color;
   background: $darker-color;
-       color: lighten($darker-color, 30%);
+
       margin: { bottom: 2px; left: 0px; left: 0px; right: 0px; }
      padding: { right: 0px; }
       cursor: pointer;
@@ -21,9 +22,7 @@
 
   // See app/assets/javascripts/cyber-dojo_files.js function radioEntrySwitch()
   &[class~='selected'] {
-         color: $lighter-color;
-    background: $darker-color;
+    background: lighten($darker-color, 20%);
         cursor: default;
-    &:hover { color: $lighter-color; }
   }
 }
