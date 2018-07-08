@@ -27,9 +27,9 @@ RUN apk --update --no-cache add \
 # install gems
 # - - - - - - - - - - - - - - - - -
 
-ARG             CYBER_DOJO_HOME
-COPY Gemfile  ${CYBER_DOJO_HOME}/
-WORKDIR       ${CYBER_DOJO_HOME}
+ARG             WEB_HOME
+COPY Gemfile  ${WEB_HOME}/
+WORKDIR       ${WEB_HOME}
 
 RUN  apk --update --no-cache add --virtual build-dependencies build-base \
   && bundle config --global silence_root_warning 1 \
@@ -37,14 +37,14 @@ RUN  apk --update --no-cache add --virtual build-dependencies build-base \
   && apk del build-dependencies build-base \
   && rm -vrf /var/cache/apk/*
 
-RUN  cat ${CYBER_DOJO_HOME}/Gemfile.lock
+RUN  cat ${WEB_HOME}/Gemfile.lock
 
 # - - - - - - - - - - - - - - - - -
 # copy source & set ownership
 # - - - - - - - - - - - - - - - - -
 
-COPY . ${CYBER_DOJO_HOME}
-RUN  chown -R nobody:nogroup ${CYBER_DOJO_HOME}
+COPY . ${WEB_HOME}
+RUN  chown -R nobody:nogroup ${WEB_HOME}
 USER nobody
 
 # - - - - - - - - - - - - - - - - -
@@ -52,7 +52,7 @@ USER nobody
 # - - - - - - - - - - - - - - - - -
 
 ARG SHA
-RUN echo ${SHA} > ${CYBER_DOJO_HOME}/sha.txt
+RUN echo ${SHA} > ${WEB_HOME}/sha.txt
 
 # - - - - - - - - - - - - - - - - -
 # bring it up

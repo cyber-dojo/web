@@ -9,7 +9,7 @@ require_relative './test_coverage'
   app/models
   app/services
 ).each do |dir|
-  Dir.glob("#{ENV['CYBER_DOJO_HOME']}/#{dir}/*.rb").each { |filename|
+  Dir.glob("#{ENV['WEB_HOME']}/#{dir}/*.rb").each { |filename|
     require filename
   }
 end

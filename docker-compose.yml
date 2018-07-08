@@ -7,9 +7,9 @@ services:
     build:
       context: .
       args:
-        - ALPINE_VERSION=${ALPINE_VERSION}
-        - CYBER_DOJO_HOME=${CYBER_DOJO_HOME}
-        - SHA=${SHA}
+        - ALPINE_VERSION
+        - WEB_HOME
+        - SHA
     user: nobody
     image: cyberdojo/web
     init: true
@@ -18,7 +18,7 @@ services:
     memswap_limit: 2G
     restart: 'no'
     volumes:
-      - ./test:${CYBER_DOJO_HOME}/test:ro
+      - ./test:${WEB_HOME}/test:ro
     environment:
       - DIFFER_SERVICE_NAME=differ
       - DIFFER_SERVICE_PORT
@@ -28,7 +28,7 @@ services:
       - STORER_SERVICE_PORT
       - ZIPPER_SERVICE_NAME=zipper
       - ZIPPER_SERVICE_PORT
-      - CYBER_DOJO_HOME
+      - WEB_HOME
     depends_on:
       - differ
       - runner-stateless
