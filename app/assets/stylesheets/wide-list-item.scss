@@ -22,7 +22,7 @@
 
   // See app/assets/javascripts/cyber-dojo_files.js function radioEntrySwitch()
   &[class~='selected'] {
-    background: lighten($darker-color, 20%);
+    background: lighten($darker-color, 5%);
         cursor: default;
   }
 }
