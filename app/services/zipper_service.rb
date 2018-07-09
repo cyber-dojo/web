@@ -4,6 +4,8 @@ class ZipperService
 
   def initialize(externals)
     @externals = externals
+    @hostname = ENV['ZIPPER_SERVICE_NAME']
+    @port = ENV['ZIPPER_SERVICE_PORT'].to_i
   end
 
   def sha
@@ -22,12 +24,6 @@ class ZipperService
 
   include HttpHelper
 
-  def hostname
-    ENV['ZIPPER_SERVICE_NAME']
-  end
-
-  def port
-    ENV['ZIPPER_SERVICE_PORT'].to_i
-  end
+  attr_reader :hostname, :port
 
 end

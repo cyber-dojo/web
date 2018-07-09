@@ -4,6 +4,8 @@ class StarterService
 
   def initialize(externals)
     @externals = externals
+    @hostname = ENV['STARTER_SERVICE_NAME']
+    @port = ENV['STARTER_SERVICE_PORT'].to_i
   end
 
   # - - - - - - - - - - - -
@@ -40,12 +42,6 @@ class StarterService
 
   include HttpHelper
 
-  def hostname
-    ENV['STARTER_SERVICE_NAME']
-  end
-
-  def port
-    ENV['STARTER_SERVICE_PORT'].to_i
-  end
+  attr_reader :hostname, :port
 
 end

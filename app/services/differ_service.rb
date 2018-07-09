@@ -4,6 +4,8 @@ class DifferService
 
   def initialize(externals)
     @externals = externals
+    @hostname = ENV['DIFFER_SERVICE_NAME']
+    @port = ENV['DIFFER_SERVICE_PORT'].to_i
   end
 
   # - - - - - - - - - - - - -
@@ -27,13 +29,7 @@ class DifferService
 
   include HttpHelper
 
-  def hostname
-    ENV['DIFFER_SERVICE_NAME']
-  end
-
-  def port
-    ENV['DIFFER_SERVICE_PORT'].to_i
-  end
+  attr_reader :hostname, :port
 
   def storer
     @externals.storer
