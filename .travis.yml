@@ -9,7 +9,6 @@ script:
     # pull images used in tests so test-duration does not include pull time
     - docker pull cyberdojofoundation/ruby_mini_test:latest  # stateless
     - docker pull cyberdojofoundation/ruby_rspec:latest      # stateful
-    - docker pull cyberdojofoundation/ruby_test_unit:latest  # processful
 
     #
     - ./pipe_build_up_test.sh \
