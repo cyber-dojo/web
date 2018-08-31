@@ -2,8 +2,8 @@ version: 2
 jobs:
   build-image:
 
-    docker:
-      - image: google/cloud-sdk:latest
+    machine:
+      enabled: true
 
     working_directory: ~/repo
 
