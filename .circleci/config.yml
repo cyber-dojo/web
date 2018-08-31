@@ -1,0 +1,52 @@
+version: 2
+jobs:
+  build-image:
+
+    docker:
+      - image: google/cloud-sdk:latest
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+
+      # starts a remote docker environment to run docker commands
+      - setup_remote_docker
+
+      - run:
+          name: build web docker image and push image to docker hub
+          command: |
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker build -t cyberdojo/web:${CIRCLE_SHA1:0:7} .
+            docker push cyberdojo/web:${CIRCLE_SHA1:0:7}
+            docker tag cyberdojo/web:${CIRCLE_SHA1:0:7} cyberdojo/web:beta
+            docker push cyberdojo/web:beta
+
+  deploy-image-to-beta:
+    docker:
+      - image: lfaoro/gcloud-kubectl-helm
+    steps:
+      - run:
+          name: authenticate with gcloud and deploy with helm
+          command: |
+            echo $GCP_K8S_CREDENTIALS > /gcp/gcp-credentials.json
+            gcloud auth activate-service-account "$SERVICE_ACCOUNT" --key-file=/gcp/gcp-credentials.json
+            gcloud container clusters get-credentials "$CLUSTER" --zone "$ZONE" --project "$PROJECT"
+            helm init --client-only
+            helm repo add praqma https://praqma-helm-repo.s3.amazonaws.com/
+            helm upgrade --install --namespace=beta --set image.web.tag=${CIRCLE_SHA1:0:7} beta-cyber-dojo praqma/cyber-dojo
+
+workflows:
+  version: 2
+  build-publish-deploy:
+    jobs:
+      - build-image:
+          context: cyberdojo-context
+          filters:
+            branches:
+              only:
+                  - master
+      - deploy-image-to-beta:
+          context: cyberdojo-context
+          requires:
+            - build-image
