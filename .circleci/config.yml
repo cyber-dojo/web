@@ -16,6 +16,7 @@ jobs:
       - run:
           name: build web docker image and push image to docker hub
           command: |
+            source .env
             docker login -u $DOCKER_USER -p $DOCKER_PASS
             docker build -t cyberdojo/web:${CIRCLE_SHA1:0:7} .
             docker push cyberdojo/web:${CIRCLE_SHA1:0:7}
