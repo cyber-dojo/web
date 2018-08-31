@@ -12,6 +12,7 @@ jobs:
       - run:
           name: build web docker image and push image to docker hub
           command: |
+            set -e
             docker login -u $DOCKER_USER -p $DOCKER_PASS
             ./pipe_build_up_test.sh
             docker tag cyberdojo/web:latest cyberdojo/web:${CIRCLE_SHA1:0:7}
@@ -26,6 +27,7 @@ jobs:
       - run:
           name: authenticate with gcloud and deploy with helm
           command: |
+            set -e
             echo $GCP_K8S_CREDENTIALS > /gcp/gcp-credentials.json
             gcloud auth activate-service-account "$SERVICE_ACCOUNT" --key-file=/gcp/gcp-credentials.json
             gcloud container clusters get-credentials "$CLUSTER" --zone "$ZONE" --project "$PROJECT"
