@@ -89,6 +89,7 @@ CyberDojo::Application.routes.draw do
   get '/download_tag(/:id/:avatar/:tag)' => 'downloader#download_tag'
 
   # Backward compatibility
+  # Used to explicitly start avatars to create prepared session
 
   scope path: '/enter', controller: :id_join do
     get 'start' => :drop_down, :constraints => { :format => :json }
