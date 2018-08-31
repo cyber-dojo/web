@@ -16,11 +16,11 @@ jobs:
       - run:
           name: build web docker image and push image to docker hub
           command: |
-            source .env
             docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker build -t cyberdojo/web:${CIRCLE_SHA1:0:7} .
+            ./pipe_build_up_test.sh
+            docker tag cyberdojo/web:latest cyberdojo/web:${CIRCLE_SHA1:0:7}
+            docker tag cyberdojo/web:latest cyberdojo/web:beta
             docker push cyberdojo/web:${CIRCLE_SHA1:0:7}
-            docker tag cyberdojo/web:${CIRCLE_SHA1:0:7} cyberdojo/web:beta
             docker push cyberdojo/web:beta
 
   deploy-image-to-beta:
