@@ -9,10 +9,6 @@ jobs:
 
     steps:
       - checkout
-
-      # starts a remote docker environment to run docker commands
-      - setup_remote_docker
-
       - run:
           name: build web docker image and push image to docker hub
           command: |
