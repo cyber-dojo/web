@@ -1,8 +1,12 @@
 #!/bin/sh
+set -e
+
+readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && pwd )"
+source ${ROOT_DIR}/.env
 
 # See https://github.com/docker/compose/issues/1393
 # See http://stackoverflow.com/questions/35022428
-rm -f /app/tmp/pids/server.pid
+rm -f ${WEB_HOME}/tmp/pids/server.pid
 
 export CYBER_DOJO_DIFFER_CLASS=DifferService
 export CYBER_DOJO_RUNNER_CLASS=RunnerService

@@ -38,6 +38,9 @@ do
     test_log="${coverage_dir}/test.log"
     export COVERAGE_DIR=${coverage_dir}
 
+    # set env-vars
+    source ../.env
+
     # set defaults for externals
     export CYBER_DOJO_DIFFER_CLASS=DifferService
     export CYBER_DOJO_RUNNER_CLASS=RunnerStub

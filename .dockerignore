@@ -13,4 +13,5 @@
 !Gemfile
 !config.ru
 !script/rails
+!.env
 !up.sh

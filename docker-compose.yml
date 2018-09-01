@@ -19,20 +19,6 @@ services:
     restart: 'no'
     volumes:
       - ./test:${WEB_HOME}/test:ro
-    environment:
-      - DIFFER_SERVICE_NAME=differ
-      - DIFFER_SERVICE_PORT
-      - RUNNER_STATEFUL_SERVICE_NAME=runner-stateful
-      - RUNNER_STATEFUL_SERVICE_PORT
-      - RUNNER_STATELESS_SERVICE_NAME=runner-stateless
-      - RUNNER_STATELESS_SERVICE_PORT
-      - STARTER_SERVICE_NAME=starter
-      - STARTER_SERVICE_PORT
-      - STORER_SERVICE_NAME=storer
-      - STORER_SERVICE_PORT
-      - ZIPPER_SERVICE_NAME=zipper
-      - ZIPPER_SERVICE_PORT
-      - WEB_HOME
     depends_on:
       - differ
       - runner-stateful
