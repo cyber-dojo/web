@@ -1,5 +1,4 @@
-ARG   ALPINE_VERSION
-FROM  alpine:${ALPINE_VERSION}
+FROM  alpine:3.7
 LABEL maintainer=jon@jaggersoft.com
 
 # - - - - - - - - - - - - - - - - -

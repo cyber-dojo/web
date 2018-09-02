@@ -7,7 +7,6 @@ services:
     build:
       context: .
       args:
-        - ALPINE_VERSION
         - WEB_HOME
         - SHA
     user: nobody
