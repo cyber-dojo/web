@@ -2,6 +2,8 @@
 # This line must come first, before any required/loaded files to be covered.
 require_relative './test_coverage'
 
+web_home = '/cyber-dojo'
+
 %w(
   lib
   app/helpers
@@ -9,7 +11,7 @@ require_relative './test_coverage'
   app/models
   app/services
 ).each do |dir|
-  Dir.glob("#{ENV['WEB_HOME']}/#{dir}/*.rb").each { |filename|
+  Dir.glob("#{web_home}/#{dir}/*.rb").each { |filename|
     require filename
   }
 end

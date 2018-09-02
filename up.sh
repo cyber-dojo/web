@@ -6,6 +6,7 @@ source ${ROOT_DIR}/.env
 
 # See https://github.com/docker/compose/issues/1393
 # See http://stackoverflow.com/questions/35022428
+readonly WEB_HOME=/cyber-dojo
 rm -f ${WEB_HOME}/tmp/pids/server.pid
 
 export CYBER_DOJO_DIFFER_CLASS=DifferService

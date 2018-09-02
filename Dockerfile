@@ -26,7 +26,7 @@ RUN apk --update --no-cache add \
 # install gems
 # - - - - - - - - - - - - - - - - -
 
-ARG             WEB_HOME
+ARG             WEB_HOME=/cyber-dojo
 COPY Gemfile  ${WEB_HOME}/
 WORKDIR       ${WEB_HOME}
 

@@ -2,15 +2,15 @@ require 'simplecov'
 
 SimpleCov.start do
 
-  home = ENV['WEB_HOME']
+  web_home = '/cyber-dojo'
   modyule = ARGV[0]                      # eg 'app_lib'
   slashed_modyule = modyule.sub('_','/') # eg 'app/lib'
 
   add_group('test/'+modyule) { |src|
-    src.filename.start_with?("#{home}/test/#{modyule}/")
+    src.filename.start_with?("#{web_home}/test/#{modyule}/")
   }
   add_group(slashed_modyule) { |src|
-    src.filename.start_with?("#{home}/#{slashed_modyule}/")
+    src.filename.start_with?("#{web_home}/#{slashed_modyule}/")
   }
 end
 

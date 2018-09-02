@@ -7,7 +7,6 @@ services:
     build:
       context: .
       args:
-        - WEB_HOME
         - SHA
     user: nobody
     image: cyberdojo/web
