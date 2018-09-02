@@ -100,14 +100,11 @@ services:
     image: cyberdojo/differ
     init: true
     container_name: test-web-cyber-dojo-differ
-    expose: [ 4567 ]
     read_only: true
     tmpfs: /tmp
     mem_limit: 1G
     memswap_limit: 1G
     restart: 'no'
-    environment:
-      - DIFFER_SERVICE_PORT=4567
 
   # - - - - - - - - - - - - - - - -
 
