@@ -35,10 +35,8 @@ services:
     mem_limit: 50M
     memswap_limit: 50M
     restart: 'no'
-    environment:
-      - START_POINTS_ROOT
     volumes:
-      - ./test/data/start_points:${START_POINTS_ROOT}:ro
+      - ./test/data/start_points:/app/start_points:ro
 
   # - - - - - - - - - - - - - - - -
 

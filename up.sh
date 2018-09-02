@@ -2,7 +2,6 @@
 set -e
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && pwd )"
-source ${ROOT_DIR}/.env
 
 # See https://github.com/docker/compose/issues/1393
 # See http://stackoverflow.com/questions/35022428
