@@ -4,8 +4,8 @@ class ZipperService
 
   def initialize(externals)
     @externals = externals
-    @hostname = ENV['ZIPPER_SERVICE_NAME']
-    @port = ENV['ZIPPER_SERVICE_PORT'].to_i
+    @hostname = 'zipper'
+    @port = 4587
   end
 
   def sha

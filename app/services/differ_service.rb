@@ -4,8 +4,8 @@ class DifferService
 
   def initialize(externals)
     @externals = externals
-    @hostname = ENV['DIFFER_SERVICE_NAME']
-    @port = ENV['DIFFER_SERVICE_PORT'].to_i
+    @hostname = 'differ'
+    @port = 4567
   end
 
   # - - - - - - - - - - - - -

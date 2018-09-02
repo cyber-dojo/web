@@ -100,14 +100,14 @@ services:
     image: cyberdojo/differ
     init: true
     container_name: test-web-cyber-dojo-differ
-    expose: [ "${DIFFER_SERVICE_PORT}" ]
+    expose: [ 4567 ]
     read_only: true
     tmpfs: /tmp
     mem_limit: 1G
     memswap_limit: 1G
     restart: 'no'
     environment:
-      - DIFFER_SERVICE_PORT
+      - DIFFER_SERVICE_PORT=4567
 
   # - - - - - - - - - - - - - - - -
 
@@ -116,14 +116,14 @@ services:
     image: cyberdojo/zipper
     init: true
     container_name: test-web-cyber-dojo-zipper
-    expose: [ "${ZIPPER_SERVICE_PORT}" ]
+    expose: [ 4587 ]
     read_only: true
     tmpfs: /tmp
     mem_limit: 50M
     memswap_limit: 50M
     restart: 'no'
     environment:
-      - ZIPPER_SERVICE_PORT
-      - STORER_SERVICE_PORT
+      - ZIPPER_SERVICE_PORT=4587
+      - STORER_SERVICE_PORT=4577
     depends_on:
       - storer

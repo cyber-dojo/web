@@ -4,8 +4,8 @@ class StorerService
 
   def initialize(externals)
     @externals = externals
-    @hostname = ENV['STORER_SERVICE_NAME']
-    @port = ENV['STORER_SERVICE_PORT'].to_i
+    @hostname = 'storer'
+    @port = 4577
   end
 
   # - - - - - - - - - - - -
