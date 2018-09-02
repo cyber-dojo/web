@@ -31,14 +31,14 @@ services:
     image: cyberdojo/starter
     init: true
     container_name: test-web-cyber-dojo-starter
-    expose: [ "${STARTER_SERVICE_PORT}" ]
+    expose: [ 4527 ]
     read_only: true
     tmpfs: /tmp
     mem_limit: 50M
     memswap_limit: 50M
     restart: 'no'
     environment:
-      - STARTER_SERVICE_PORT
+      - STARTER_SERVICE_PORT=4527
       - START_POINTS_ROOT
     volumes:
       - ./test/data/start_points:${START_POINTS_ROOT}:ro
@@ -82,14 +82,14 @@ services:
     image: cyberdojo/runner-stateful
     init: true
     container_name: test-web-cyber-dojo-runner-stateful
-    expose: [ "${RUNNER_STATEFUL_SERVICE_PORT}" ]
+    expose: [ 4557 ]
     read_only: true
     tmpfs: /tmp
     mem_limit: 2G
     memswap_limit: 2G
     restart: 'no'
     environment:
-      - RUNNER_STATEFUL_SERVICE_PORT
+      - RUNNER_STATEFUL_SERVICE_PORT=4557
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 

@@ -93,13 +93,13 @@ class RunnerService
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def set_hostname_port_stateless
-    @hostname = ENV['RUNNER_STATELESS_SERVICE_NAME']
-    @port = ENV['RUNNER_STATELESS_SERVICE_PORT'].to_i
+    @hostname = 'runner-stateless'
+    @port = 4597
   end
 
   def set_hostname_port_stateful
-    @hostname = ENV['RUNNER_STATEFUL_SERVICE_NAME']
-    @port = ENV['RUNNER_STATEFUL_SERVICE_PORT'].to_i
+    @hostname = 'runner-stateful'
+    @port = 4557
   end
 
   private # = = = = = = = = = = = = = = = = = = = = =

@@ -4,8 +4,8 @@ class StarterService
 
   def initialize(externals)
     @externals = externals
-    @hostname = ENV['STARTER_SERVICE_NAME']
-    @port = ENV['STARTER_SERVICE_PORT'].to_i
+    @hostname = 'starter'
+    @port = 4527
   end
 
   # - - - - - - - - - - - -
