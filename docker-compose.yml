@@ -113,14 +113,10 @@ services:
     image: cyberdojo/zipper
     init: true
     container_name: test-web-cyber-dojo-zipper
-    expose: [ 4587 ]
     read_only: true
     tmpfs: /tmp
     mem_limit: 50M
     memswap_limit: 50M
     restart: 'no'
-    environment:
-      - ZIPPER_SERVICE_PORT=4587
-      - STORER_SERVICE_PORT=4577
     depends_on:
       - storer
