@@ -17,8 +17,6 @@ services:
     mem_limit: 2G
     memswap_limit: 2G
     restart: 'no'
-    volumes:
-      - ./test:${WEB_HOME}/test:ro
     depends_on:
       - differ
       - runner-stateful
