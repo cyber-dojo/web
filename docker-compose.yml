@@ -68,14 +68,11 @@ services:
     image: cyberdojo/runner-stateless
     init: true
     container_name: test-web-cyber-dojo-runner-stateless
-    expose: [ "${RUNNER_STATELESS_SERVICE_PORT}" ]
     read_only: true
     tmpfs: /tmp
     mem_limit: 2G
     memswap_limit: 2G
     restart: 'no'
-    environment:
-      - RUNNER_STATELESS_SERVICE_PORT
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
