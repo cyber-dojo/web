@@ -1,4 +1,3 @@
-
 split server needs prometheus+grafana running
   should be fairly simply docker-compose.prod.yml update DONE
   needs to copy default grafana.env file into image
@@ -21,4 +20,3 @@ app/controllers/id_rejoin_controller.rb:
   # which does another round-trip to the storer
 
 when you create a new file, make sure the cursor is in it ready to type.
-
