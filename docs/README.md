@@ -1,4 +1,3 @@
-
 [![Build Status](https://travis-ci.org/cyber-dojo/web.svg?branch=master)](https://travis-ci.org/cyber-dojo/web)
 
 <img src="https://raw.githubusercontent.com/cyber-dojo/nginx/master/images/avatars/cyber-dojo.png"
