@@ -11,8 +11,6 @@
 
 #-----!Except these files
 
-!Gemfile
 !config.ru
 !script/rails
-!.env
 !up.sh

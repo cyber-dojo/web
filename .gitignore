@@ -16,13 +16,11 @@
 # and these files...
 
 !/.dockerignore
-!/.env
 !/.gitignore
 !/.travis.yml
 !/config.ru
 !/docker-compose.yml
 !/Dockerfile
-!/Gemfile
 !/pipe_build_up_test.sh
 !/up.sh
 !/LICENSE.md
