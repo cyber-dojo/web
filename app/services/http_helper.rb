@@ -1,3 +1,5 @@
+require_relative 'service_error'
+require 'json'
 
 module HttpHelper # mix-in
 
@@ -36,13 +38,17 @@ module HttpHelper # mix-in
   def result(json, name)
     fail error(name, 'bad json') unless json.class.name == 'Hash'
     exception = json['exception']
-    fail error(name, exception)  unless exception.nil?
-    fail error(name, 'no key')   unless json.key? name
+    fail error(name, pretty(exception)) unless exception.nil?
+    fail error(name, 'no key')   unless json.key?(name)
     json[name]
   end
 
   def error(name, message)
-    StandardError.new("#{self.class.name}:#{name}:#{message}")
+    ServiceError.new(self.class.name, name, message)
+  end
+
+  def pretty(json)
+    JSON.pretty_generate(json)
   end
 
   def http

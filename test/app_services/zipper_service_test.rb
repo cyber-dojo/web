@@ -1,4 +1,5 @@
 require_relative 'app_services_test_base'
+require 'json'
 
 class ZipperServiceTest < AppServicesTestBase
 
@@ -25,8 +26,16 @@ class ZipperServiceTest < AppServicesTestBase
   test 'EBF',
   'smoke test zipper.zip' do
     error = assert_raises { zipper.zip(kata_id='') }
-    assert error.message.start_with?('ZipperService:'), error.message
-    assert error.message.end_with?('kata_id:malformed'), error.message
+    assert_equal 'ServiceError', error.class.name
+    assert_equal 'ZipperService', error.service_name
+    assert_equal 'zip', error.method_name
+    exception = JSON.parse(error.message)
+    refute_nil exception
+    assert_equal 'ServiceError', exception['class']
+    json = JSON.parse(exception['message'])
+    assert_equal 'ArgumentError', json['class']
+    assert_equal 'kata_id:malformed', json['message']
+    assert_equal 'Array', json['backtrace'].class.name
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
@@ -34,8 +43,16 @@ class ZipperServiceTest < AppServicesTestBase
   test '959',
   'smoke test zipper.zip_tag' do
     error = assert_raises { zipper.zip_tag(kata_id='', 'lion', 0) }
-    assert error.message.start_with?('ZipperService:'), error.message
-    assert error.message.end_with?('kata_id:malformed'), error.message
+    assert_equal 'ServiceError', error.class.name
+    assert_equal 'ZipperService', error.service_name
+    assert_equal 'zip_tag', error.method_name
+    exception = JSON.parse(error.message)
+    refute_nil exception
+    assert_equal 'ServiceError', exception['class']
+    json = JSON.parse(exception['message'])
+    assert_equal 'ArgumentError', json['class']
+    assert_equal 'kata_id:malformed', json['message']
+    assert_equal 'Array', json['backtrace'].class.name
   end
 
 end

@@ -1,4 +1,5 @@
 require_relative 'app_services_test_base'
+require 'json'
 
 class StorerServiceTest < AppServicesTestBase
 
@@ -16,10 +17,17 @@ class StorerServiceTest < AppServicesTestBase
 
   test '51A',
   'non-existant kata-id raises exception' do
-    error = assert_raises (StandardError) {
+    error = assert_raises {
       storer.kata_manifest(kata_id)
     }
-    assert error.message.end_with?('kata_id:invalid')
+    assert_equal 'ServiceError', error.class.name
+    assert_equal 'StorerService', error.service_name
+    assert_equal 'kata_manifest', error.method_name
+    exception = JSON.parse(error.message)
+    refute_nil exception
+    assert_equal 'ArgumentError', exception['class']
+    assert_equal 'kata_id:invalid', exception['message']
+    assert_equal 'Array', exception['backtrace'].class.name
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
