@@ -1,4 +1,3 @@
-
 module TimeTickHelper # mix-in
 
   module_function
@@ -18,11 +17,11 @@ module TimeTickHelper # mix-in
     tick += minutes.to_s + 'm'
   end
 
-  HOURS_PER_DAY = 24
-  MINUTES_PER_HOUR = 60
-  SECONDS_PER_MINUTE = 60
+  HOURS_PER_DAY ||= 24
+  MINUTES_PER_HOUR ||= 60
+  SECONDS_PER_MINUTE ||= 60
 
-  SECONDS_PER_HOUR = SECONDS_PER_MINUTE * MINUTES_PER_HOUR
-  SECONDS_PER_DAY = SECONDS_PER_HOUR * HOURS_PER_DAY
+  SECONDS_PER_HOUR ||= SECONDS_PER_MINUTE * MINUTES_PER_HOUR
+  SECONDS_PER_DAY ||= SECONDS_PER_HOUR * HOURS_PER_DAY
 
 end

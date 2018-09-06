@@ -65,10 +65,11 @@ module CyberDojo
 
     config.colorize_logging = true
 
-    config.exceptions_app = lambda do |env|
-      ExceptionController.action(:render_error).call(env)
-      #ExceptionController.action(:render_offline).call(env)
-    end
+
+    # Show raw exceptions
+    config.action_dispatch.show_exceptions = true
+    # Show full error reports
+    config.consider_all_requests_local = true
 
   end
 end

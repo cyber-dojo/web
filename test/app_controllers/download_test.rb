@@ -65,10 +65,9 @@ class DownloadControllerTest < AppControllerTestBase
   test '0EF',
   'download with empty id raises' do
     @id = ''
-    error = assert_raises(StandardError) {
-      download
-    }
-    assert error.message.end_with? 'invalid kata_id', error.message
+    download
+    assert_equal 500, @response.status
+    assert html.include?('invalid kata_id')
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -76,10 +75,9 @@ class DownloadControllerTest < AppControllerTestBase
   test '849',
   'download with bad id raises' do
     @id = 'XX'
-    error = assert_raises(StandardError) {
-      download
-    }
-    assert error.message.end_with? 'invalid kata_id', error.message
+    download
+    assert_equal 500, @response.status
+    assert html.include?('invalid kata_id')
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -112,10 +110,9 @@ class DownloadControllerTest < AppControllerTestBase
     @id = ''
     @avatar_name = 'salmon'
     @tag = 0
-    error = assert_raises(StandardError) {
-      download_tag
-    }
-    assert error.message.end_with?'invalid kata_id', error.message
+    download_tag
+    assert_equal 500, @response.status
+    assert html.include?('invalid kata_id')
   end
 
   private # = = = = = = = = = = = = = = = = = = =

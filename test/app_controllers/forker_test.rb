@@ -122,11 +122,9 @@ class ForkerControllerTest < AppControllerTestBase
       as_avatar {
         kata_id = kata.id
         set_storer_class('NotExist')
-        error = assert_raises {
-          fork(kata_id, avatar.name, tag=1, 'html')
-        }
-        diagnostic = 'uninitialized constant NotExist'
-        assert_equal diagnostic, error.message
+        fork(kata_id, avatar.name, tag=1, 'html')
+        assert_equal 500, @response.status
+        assert html.include?('uninitialized constant NotExist')
       }
     }
   end

@@ -1,8 +1,3 @@
-
-# Setting this environment-variable means exceptions
-# are _not_ routed to views/error and so can be tested.
-ENV['RAILS_ENV'] = 'test'
-
 require_relative '../../test/all'
 require_relative '../../config/environment'
 require_relative 'params_maker'

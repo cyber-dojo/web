@@ -11,12 +11,8 @@ CyberDojo::Application.configure do
   config.public_file_server.enabled = true
   config.public_file_server.headers = { 'Cache-Control' => 'public, max-age=3600' }
 
-  # Show full error reports and disable caching
-  config.consider_all_requests_local       = true
+  # Disable caching
   config.action_controller.perform_caching = false
-
-  # Raise exceptions instead of rendering exception templates
-  config.action_dispatch.show_exceptions = false
 
   # Disable request forgery protection in test environment
   config.action_controller.allow_forgery_protection    = false
@@ -34,10 +30,6 @@ CyberDojo::Application.configure do
 
   # Opt into Rails 5 behaviour
   config.active_support.test_order = :sorted
-
-  config.exceptions_app = lambda do |env|
-    ExceptionController.action(:render_error).call(env)
-  end
 
   # turn off warning about this defaulting to true in future
   I18n.enforce_available_locales = false
