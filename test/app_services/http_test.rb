@@ -25,7 +25,10 @@ class HttpTest < AppServicesTestBase
       image_name:'',
       kata_id:''
     })
-    assert_equal 'image_name:malformed', json['exception']
+    ex = json['exception']
+    assert_equal 'ClientError', ex['class']
+    assert_equal 'image_name:malformed', ex['message']
+    assert_equal 'Array', ex['backtrace'].class.name
   end
 
 end
