@@ -50,7 +50,7 @@ services:
     tmpfs: /tmp
     restart: 'no'
     volumes:
-      - /tmp/persistent-dir/ids:/persistent-dir/ids
+      - /tmp/persistent-dir/ids:/persistent-dir/ids:rw
 
   # - - - - - - - - - - - - - - - -
 
