@@ -20,6 +20,7 @@ services:
       - runner-stateful
       - runner-stateless
       - starter
+      - singler
       - storer
       - zipper
 
@@ -37,6 +38,19 @@ services:
     restart: 'no'
     volumes:
       - ./test/data/start_points:/app/start_points:ro
+
+  # - - - - - - - - - - - - - - - -
+
+  singler:
+    user: singler
+    image: cyberdojo/singler
+    init: true
+    container_name: cyber-dojo-singler
+    read_only: true
+    tmpfs: /tmp
+    restart: 'no'
+    volumes:
+      - /tmp/persistent-dir/ids:/persistent-dir/ids
 
   # - - - - - - - - - - - - - - - -
 
