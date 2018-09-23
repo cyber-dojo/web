@@ -37,16 +37,17 @@ $(() => {
         testOverlay.insertAfter($('body'));
         testSpinner.show();
       },
-      error: (_xhr, status, thrown) => {
+      error: (request, status, thrown) => {
         let info = "ERROR\n";
         info += thrown + "\n";
         info += 'status=' + status + "\n";
         if (status == 'timeout') {
-          info += 'have you lost your network connection?'
+          info += 'timeout:have you lost your network connection?' + "\n";
         }
         if (status == 'error') {
-          info += 'is the cyber-dojo server down?';
+          info += 'error:is the cyber-dojo server down?' + "\n";
         }
+        info += request.responseText + "\n";
         cd.deleteFile('output');
         cd.newFile('output', info);
       },
