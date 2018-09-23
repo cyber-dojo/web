@@ -13,6 +13,10 @@ module Externals # mix-in
     @starter ||= external
   end
 
+  def grouper
+    @grouper ||= external
+  end
+
   def singler
     @singler ||= external
   end

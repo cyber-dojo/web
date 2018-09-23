@@ -11,6 +11,7 @@ module TestExternalHelpers # mix-in
       'RUNNER'  => ENV['CYBER_DOJO_RUNNER_CLASS'],
       'STARTER' => ENV['CYBER_DOJO_STARTER_CLASS'],
       'STORER'  => ENV['CYBER_DOJO_STORER_CLASS'],
+      'GROUPER' => ENV['CYBER_DOJO_GROUPER_CLASS'],
       'SINGLER' => ENV['CYBER_DOJO_SINGLER_CLASS'],
       'ZIPPER'  => ENV['CYBER_DOJO_ZIPPER_CLASS'],
       'HTTP'    => ENV['CYBER_DOJO_HTTP_CLASS']
@@ -22,6 +23,7 @@ module TestExternalHelpers # mix-in
     ENV['CYBER_DOJO_RUNNER_CLASS']  = @config['RUNNER']
     ENV['CYBER_DOJO_STARTER_CLASS'] = @config['STARTER']
     ENV['CYBER_DOJO_STORER_CLASS']  = @config['STORER']
+    ENV['CYBER_DOJO_GROUPER_CLASS'] = @config['GROUPER']
     ENV['CYBER_DOJO_SINGLER_CLASS'] = @config['SINGLER']
     ENV['CYBER_DOJO_ZIPPER_CLASS']  = @config['ZIPPER']
     ENV['CYBER_DOJO_HTTP_CLASS']  =   @config['HTTP']
