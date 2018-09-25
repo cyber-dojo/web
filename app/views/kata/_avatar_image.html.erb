@@ -23,10 +23,12 @@ $(() => {
 
 //--></script>
 
+<% if @avatar_name != '' %>
 <div id="avatar-image-opens-dashboard"
      class="avatar-image"
      data-id="<%= @kata.id %>">
-  <img src="/images/avatars/<%= @avatar.name %>.jpg"
-       alt="<%= @avatar.name %>"
+  <img src="/images/avatars/<%= @avatar_name %>.jpg"
+       alt="<%= @avatar_name %>"
        class="avatar-image" />
 </div>
+<% end %>

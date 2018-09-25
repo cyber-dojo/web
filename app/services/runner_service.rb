@@ -16,9 +16,19 @@ class RunnerService
     http_get(__method__)
   end
 
+  def set_hostname_port_stateless
+    @hostname = 'runner-stateless'
+    @port = 4597
+  end
+
+  def set_hostname_port_stateful
+    @hostname = 'runner-stateful'
+    @port = 4557
+  end
+
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def kata_new(image_name, kata_id)
+  def kata_new(image_name, kata_id, starting_files)
     unless stateless?(kata_id)
       runner_http_post(__method__, *args(binding))
     end
@@ -32,28 +42,14 @@ class RunnerService
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def avatar_new(image_name, kata_id, avatar_name, starting_files)
-    unless stateless?(kata_id)
-      runner_http_post(__method__, *args(binding))
-    end
-  end
+  #def run(image_name, kata_id, max_seconds, delta, files)
+  #  # This makes a call to storer to get the runner-choice.
+  #  # Typically get here from resurrection call.
+  #  set_hostname_port(kata_id)
+  #  run_cyber_dojo_sh(image_name, kata_id, max_seconds, delta, files)
+  #end
 
-  def avatar_old(image_name, kata_id, avatar_name)
-    unless stateless?(kata_id)
-      runner_http_post(__method__, *args(binding))
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def run(image_name, kata_id, avatar_name, max_seconds, delta, files)
-    # This makes a call to storer to get the runner-choice.
-    # Typically get here from resurrection call.
-    set_hostname_port(kata_id)
-    run_cyber_dojo_sh(image_name, kata_id, avatar_name, max_seconds, delta, files)
-  end
-
-  def run_cyber_dojo_sh(image_name, kata_id, avatar_name, max_seconds, delta, files)
+  def run_cyber_dojo_sh(image_name, kata_id, max_seconds, delta, files)
     # This does NOT make a call to storer to get the runner-choice.
     # Assumes appropriate set_hostname_port_X method has already been called.
     new_files = files.select { |filename|
@@ -72,7 +68,6 @@ class RunnerService
     args = {
              image_name:image_name,
                 kata_id:kata_id,
-            avatar_name:avatar_name,
               new_files:new_files,
           deleted_files:deleted_files,
           changed_files:changed_files,
@@ -88,18 +83,6 @@ class RunnerService
      tuple['deleted_files'],
      tuple['changed_files']
    ]
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def set_hostname_port_stateless
-    @hostname = 'runner-stateless'
-    @port = 4597
-  end
-
-  def set_hostname_port_stateful
-    @hostname = 'runner-stateful'
-    @port = 4557
   end
 
   private # = = = = = = = = = = = = = = = = = = = = =

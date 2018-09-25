@@ -6,6 +6,10 @@ class ApplicationController < ActionController::Base
 
   include Externals
 
+  def id
+    params['id']
+  end
+
   def katas
     Katas.new(self)
   end
@@ -13,6 +17,8 @@ class ApplicationController < ActionController::Base
   def kata
     katas[id]
   end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def avatars
     kata.avatars
@@ -22,15 +28,11 @@ class ApplicationController < ActionController::Base
     avatars[avatar_name]
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def id
-    params['id']
-  end
-
   def avatar_name
     params['avatar']
   end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def was_tag
     number_or_nil(params['was_tag'])

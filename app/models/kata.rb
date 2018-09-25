@@ -10,28 +10,34 @@ class Kata
 
   # - - - - - - - - - - - - -
 
-  def avatar_start(avatar_names = Avatars.names.shuffle)
-    name = storer.avatar_start(id, avatar_names)
-    unless name.nil?
-      visible_files.delete('output')
-      runner.avatar_new(image_name, id, name, visible_files)
+  def group
+    gid = manifest_property
+    if gid.nil?
+      nil
+    else
+      Group.new(gid)
     end
-    name.nil? ? nil : Avatar.new(externals, self, name)
   end
 
   # - - - - - - - - - - - - -
-  # queries
+
+  def visible_files
+    singler.visible_files(id)
+  end
+
+  def tags
+    singler.increments(id).map { |h| Tag.new(@externals, self, h) }
+  end
+
+  def lights
+    tags.select(&:light?)
+  end
+
+  # - - - - - - - - - - - - -
+  # identifier
 
   def exists?
-    storer.kata_exists?(id)
-  end
-
-  def avatars
-    Avatars.new(externals, self)
-  end
-
-  def active?
-    avatars.active.count > 0
+    singler.id?(id)
   end
 
   def id
@@ -59,7 +65,7 @@ class Kata
   end                 # not present in custom kata
 
   # - - - - - - - - - - - - -
-  # filenames
+  # filenames/tabs
 
   def filename_extension # required
     if manifest_property.is_a?(Array)
@@ -77,15 +83,8 @@ class Kata
     manifest_property || []
   end
 
-  # - - - - - - - - - - - - -
-  # source
-
   def tab_size # optional
     manifest_property || 4
-  end
-
-  def visible_files # required
-    manifest_property
   end
 
   # - - - - - - - - - - - - -
@@ -117,22 +116,6 @@ class Kata
     manifest_property || []
   end
 
-  def age
-    first_times = []
-    last_times = []
-    # using storer.kata_increments() as BatchMethod
-    storer.kata_increments(id).each do |name,increments|
-      avatar = Avatar.new(externals, self, name)
-      tags = increments.map { |h| Tag.new(externals, avatar, h) }
-      lights = tags.select(&:light?)
-      if lights != []
-        first_times << lights[0].time
-        last_times  << lights[-1].time
-      end
-    end
-    first_times == [] ? 0 : (last_times.sort[-1] - first_times.sort[0]).to_i
-  end
-
   private # = = = = = = = = = =
 
   def manifest_property
@@ -142,7 +125,7 @@ class Kata
   # - - - - - - - - - - - - -
 
   def manifest
-    @manifest ||= storer.kata_manifest(id)
+    @manifest ||= singler.manifest(id)
   end
 
   # - - - - - - - - - - - - -
@@ -160,9 +143,43 @@ class Kata
     externals.runner
   end
 
-  def storer
-    externals.storer
+  def singler
+    externals.singler
   end
+
+=begin
+  def X_avatar_start(avatar_names = Avatars.names.shuffle)
+    name = storer.avatar_start(id, avatar_names)
+    unless name.nil?
+      visible_files.delete('output')
+      runner.avatar_new(image_name, id, name, visible_files)
+    end
+    name.nil? ? nil : Avatar.new(externals, self, name)
+  end
+  def X_avatars
+    Avatars.new(externals, self)
+  end
+
+  def X_active?
+    avatars.active.count > 0
+  end
+
+  def age
+    first_times = []
+    last_times = []
+    # using storer.kata_increments() as BatchMethod
+    storer.kata_increments(id).each do |name,increments|
+      avatar = Avatar.new(externals, self, name)
+      tags = increments.map { |h| Tag.new(externals, avatar, h) }
+      lights = tags.select(&:light?)
+      if lights != []
+        first_times << lights[0].time
+        last_times  << lights[-1].time
+      end
+    end
+    first_times == [] ? 0 : (last_times.sort[-1] - first_times.sort[0]).to_i
+  end
+=end
 
 end
 

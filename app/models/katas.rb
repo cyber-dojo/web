@@ -16,8 +16,10 @@ class Katas
 
   def kata_create(manifest)
     manifest['created'] ||= time_now
-    id = storer.kata_create(manifest)
-    runner.kata_new(manifest['image_name'], id)
+    id = singler.create(manifest)
+    image_name = manifest['image_name']
+    starting_files = manifest['visible_files']
+    runner.kata_new(image_name, id, starting_files)
     self[id]
   end
 
@@ -25,8 +27,8 @@ class Katas
 
   include TimeNow
 
-  def storer
-    @externals.storer
+  def singler
+    @externals.singler
   end
 
   def runner

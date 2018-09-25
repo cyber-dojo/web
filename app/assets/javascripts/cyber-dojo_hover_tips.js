@@ -39,9 +39,11 @@ var cyberDojo = (function(cd, $) {
     };
 
     let html = '';
-    html += '<img';
-    html +=   " class='traffic-light-diff-tip-avatar-image'";
-    html +=   " src='/images/avatars/" + avatarName + ".jpg'>";
+    if (avatarName != '') {
+      html += '<img';
+      html +=   " class='traffic-light-diff-tip-avatar-image'";
+      html +=   " src='/images/avatars/" + avatarName + ".jpg'>";
+    }
     html += '<table>';
     html += trLight('red', reds);
     html += trLight('amber', ambers);

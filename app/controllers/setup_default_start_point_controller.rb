@@ -1,3 +1,4 @@
+require_relative '../../lib/time_now'
 
 class SetupDefaultStartPointController < ApplicationController
 
@@ -18,23 +19,25 @@ class SetupDefaultStartPointController < ApplicationController
   end
 
   def save_individual
-    kata = kata_create
-    avatar = kata.avatar_start
-    redirect_to "/kata/edit/#{kata.id}?avatar=#{avatar.name}"
+    kata = katas.kata_create(make_manifest)
+    redirect_to "/kata/edit/#{kata.id}"
   end
 
   def save_group
-    kata = kata_create
-    redirect_to "/kata/group/#{kata.id}"
+    manifest = make_manifest
+    manifest['created'] ||= time_now
+    gid = grouper.create(manifest)
+    redirect_to "/kata/group/#{gid}"
   end
 
   private
 
-  def kata_create
+  include TimeNow
+
+  def make_manifest
     language = params['language']
     exercise = params['exercise']
-    manifest = starter.language_manifest(language, exercise)
-    katas.kata_create(manifest)
+    starter.language_manifest(language, exercise)
   end
 
   def index_match(names, current_name)

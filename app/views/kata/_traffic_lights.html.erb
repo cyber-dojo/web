@@ -40,8 +40,8 @@ $(() => {
     <tr>
       <% was_tag = 0 %>
       <% id = @kata.id %>
-      <% name = @avatar.name %>
-      <% @avatar.lights.each do |light| %>
+      <% name = @avatar_name %>
+      <% @traffic_lights.each do |light| %>
         <% colour = light.colour %>
         <% now_tag = light.number %>
         <td><%= raw diff_traffic_light(id, name, colour, was_tag, now_tag) %></td>

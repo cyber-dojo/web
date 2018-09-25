@@ -11,18 +11,10 @@ class RunnerStub
 
   # - - - - - - - - - - - - - - - - -
 
-  def kata_new(_image_name, _kata_id)
+  def kata_new(_image_name, _kata_id, _starting_files)
   end
 
   def kata_old(_image_name, _kata_id)
-  end
-
-  # - - - - - - - - - - - - - - - - -
-
-  def avatar_new(_image_name, _kata_id, _avatar_name, _starting_files)
-  end
-
-  def avatar_old(_image_name, _kata_id, _avatar_name)
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -36,11 +28,11 @@ class RunnerStub
     dir.write(filename, [stdout,stderr,status,colour])
   end
 
-  def run(image_name, kata_id, name, max_seconds, delta, files)
-    run_cyber_dojo_sh(image_name, kata_id, name, max_seconds, delta, files)
-  end
+  #def run(image_name, kata_id, name, max_seconds, delta, files)
+  #  run_cyber_dojo_sh(image_name, kata_id, name, max_seconds, delta, files)
+  #end
 
-  def run_cyber_dojo_sh(_image_name, _kata_id, _name, _max_seconds, _delta, _files)
+  def run_cyber_dojo_sh(_image_name, _kata_id, _max_seconds, _delta, _files)
     if dir.exists?
       dir.read(filename)
     else

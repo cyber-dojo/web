@@ -1,18 +1,22 @@
 
 class IdJoinController < ApplicationController
 
+  # Only for a group practice-session
   def drop_down
-    @id = params['id'] = storer.katas_completed(id)
+    @id = params['id'] = grouper.id_completed(id)
     json = { exists: @id != '' }
     if json[:exists]
-      avatar = kata.avatar_start
-      json[:full] = avatar.nil?
+
+      index,sid = grouper.join(@id)
+
+      json[:full] = index.nil?
       if json[:full]
         json[:fullHtml] = full_html
       else
-        json[:id] = @id
-        json[:avatarName] = avatar.name
-        json[:avatarStartHtml] = start_html(avatar.name)
+        name = Avatars.names[index]
+        json[:id] = sid
+        json[:avatarName] = name
+        json[:avatarStartHtml] = start_html(name)
       end
     end
     render json:json

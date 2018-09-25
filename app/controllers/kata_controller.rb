@@ -9,11 +9,19 @@ class KataController < ApplicationController
   end
 
   def edit
+    # if /kata/edit/ID?avatar=lion
+    #    id==grouper-id and you need to find the sid
+    #    from grouper.joined(ID)
+
+    # if /kata/edit/ID
+    #    ID=singler-id
+
+    @id = id
+    @avatar_name = avatar_name || ''
     @kata = kata
-    @avatar = avatar
-    @visible_files = @avatar.visible_files
-    @traffic_lights = @avatar.lights
-    @title = 'test:' + @kata.short_id + ':' + @avatar.name
+    @visible_files = @kata.visible_files
+    @traffic_lights = @kata.lights
+    @title = 'test:' + @kata.short_id
   end
 
   def run_tests
@@ -22,8 +30,6 @@ class KataController < ApplicationController
       runner.set_hostname_port_stateless
     when 'stateful'
       runner.set_hostname_port_stateful
-    #when 'processful'
-      #runner.set_hostname_port_processful
     end
 
     incoming = params[:file_hashes_incoming]
@@ -31,15 +37,15 @@ class KataController < ApplicationController
     delta = FileDeltaMaker.make_delta(incoming, outgoing)
     files = received_files
 
-    @avatar = Avatar.new(self, kata, avatar_name)
     args = []
+    args << image_name  # eg 'cyberdojofoundation/gcc_assert'
+    args << id
+    args << max_seconds # eg 10
     args << delta
     args << files
-    args << max_seconds # eg 10
-    args << image_name  # eg 'cyberdojofoundation/gcc_assert'
 
     stdout,stderr,status,@colour,
-      @new_files,@deleted_files,@changed_files = avatar.test(*args)
+      @new_files,@deleted_files,@changed_files = runner.run_cyber_dojo_sh(*args)
 
     if @colour == 'timed_out'
       stdout = timed_out_message(max_seconds) + stdout
@@ -68,10 +74,13 @@ class KataController < ApplicationController
       files[filename] = content
     end
 
-    tags = avatar.tested(files, time_now, stdout, stderr, @colour)
+    args = [id, files, time_now, stdout, stderr, @colour]
+    increments = singler.ran_tests(*args)
+    tags = increments.map { |h| Tag.new(self, id, h) }
     lights = tags.select(&:light?)
     @was_tag = lights.size == 1 ? 0 : lights[-2].number
     @now_tag = lights[-1].number
+    @id = id
 
     respond_to do |format|
       format.js   { render layout: false }
