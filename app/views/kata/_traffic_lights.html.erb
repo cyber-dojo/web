@@ -41,7 +41,7 @@ $(() => {
       <% was_tag = 0 %>
       <% id = @kata.id %>
       <% name = @avatar_name %>
-      <% @traffic_lights.each do |light| %>
+      <% @kata.lights.each do |light| %>
         <% colour = light.colour %>
         <% now_tag = light.number %>
         <td><%= raw diff_traffic_light(id, name, colour, was_tag, now_tag) %></td>

@@ -16,11 +16,8 @@ class KataController < ApplicationController
     # if /kata/edit/ID
     #    ID=singler-id
 
-    @id = id
     @avatar_name = avatar_name || ''
     @kata = kata
-    @visible_files = @kata.visible_files
-    @traffic_lights = @kata.lights
     @title = 'test:' + @kata.short_id
   end
 
