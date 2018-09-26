@@ -9,13 +9,8 @@ class KataController < ApplicationController
   end
 
   def edit
-    # if /kata/edit/ID?avatar=lion
-    #    id==grouper-id and you need to find the sid
-    #    from grouper.joined(ID)
-
-    # if /kata/edit/ID
-    #    ID=singler-id
-
+    # /kata/edit/ID?avatar=lion ==> in-group
+    # /kata/edit/ID ==> on-own
     @avatar_name = avatar_name || ''
     @kata = kata
     @title = 'test:' + @kata.short_id
