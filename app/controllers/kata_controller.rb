@@ -21,12 +21,6 @@ class KataController < ApplicationController
     @title = 'test:' + @kata.short_id
   end
 
-  def sid(avatar_name)
-    joined = grouper.joined(id)
-    index = Avatars.names.index(avatar_name)
-    joined[index.to_s]
-  end
-
   def run_tests
     case runner_choice
     when 'stateless'
@@ -108,6 +102,14 @@ class KataController < ApplicationController
   include HiddenFileRemover
   include StringCleaner
   include TimeNow
+
+  def sid(avatar_name)
+    joined = grouper.joined(id)
+    index = Avatars.names.index(avatar_name)
+    joined[index.to_s]
+  end
+
+  # - - - - - - - - - - - - - - - - - -
 
   def received_files
     seen = {}

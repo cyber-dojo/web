@@ -16,10 +16,8 @@ class IdRejoinController < ApplicationController
 
   def avatar_picker_html(indexes)
     @all_avatar_names = Avatars.names
-    @started_avatar_names = []
-    indexes.each do |index|
-      name = Avatars.names[index.to_i]
-      @started_avatar_names << name
+    @started_avatar_names = indexes.map do |index|
+      Avatars.names[index.to_i]
     end
     bind('/app/views/id_rejoin/avatar_picker.html.erb')
   end
