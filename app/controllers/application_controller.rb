@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
   end
 
   def avatar_name
-    params['avatar']
+    params['avatar'] || ''
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -

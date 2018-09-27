@@ -9,11 +9,22 @@ class KataController < ApplicationController
   end
 
   def edit
-    # /kata/edit/ID?avatar=lion ==> in-group
-    # /kata/edit/ID ==> on-own
-    @avatar_name = avatar_name || ''
-    @kata = kata
+    if avatar_name != ''
+      # group session
+      @kata = katas[sid(avatar_name)]
+      @avatar_name = avatar_name
+    else
+      # individual session
+      @kata = katas[id]
+      @avatar_name = ''
+    end
     @title = 'test:' + @kata.short_id
+  end
+
+  def sid(avatar_name)
+    joined = grouper.joined(id)
+    index = Avatars.names.index(avatar_name)
+    joined[index.to_s]
   end
 
   def run_tests

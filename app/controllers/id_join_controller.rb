@@ -3,16 +3,16 @@ class IdJoinController < ApplicationController
 
   # Only for a group practice-session
   def drop_down
-    @id = params['id'] = grouper.id_completed(id)
-    json = { exists: @id != '' }
+    gid = grouper.id_completed(id)
+    json = { exists: gid != '' }
     if json[:exists]
-      index,sid = grouper.join(@id)
+      index,_sid = grouper.join(gid)
       json[:full] = index.nil?
       if json[:full]
         json[:fullHtml] = full_html
       else
         name = Avatars.names[index]
-        json[:id] = sid
+        json[:id] = gid
         json[:avatarName] = name
         json[:avatarStartHtml] = start_html(name)
       end
