@@ -11,9 +11,6 @@ $(function() {
 
   const inputId = $('input#id');
   const dropDown = $('#drop-down');
-  const hiText = $('#hi-text');
-  const avatarPicker = $('#avatar-picker');
-  const loText = $('#lo-text');
   const cancel = $('button#cancel');
 
   const autoDropDown = function() {
@@ -21,6 +18,9 @@ $(function() {
     if (id.length >= 6) {
       $.getJSON('/id_rejoin/drop_down', { id: id }, function(dojo) {
         if (dojo.exists) {
+          const hiText = $('#hi-text');
+          const avatarPicker = $('#avatar-picker');
+          const loText = $('#lo-text');
           if (dojo.empty) {
             hiText.html('no one has joined yet!');
             loText.html('');
