@@ -6,9 +6,7 @@ class IdJoinController < ApplicationController
     @id = params['id'] = grouper.id_completed(id)
     json = { exists: @id != '' }
     if json[:exists]
-
       index,sid = grouper.join(@id)
-
       json[:full] = index.nil?
       if json[:full]
         json[:fullHtml] = full_html
