@@ -31,7 +31,7 @@ class SetupCustomStartPointController < ApplicationController
     manifest = starter.custom_manifest(display_name)
     manifest['created'] = time_now
     files = manifest.delete('visible_files')
-    return [manifest,files]
+    [manifest,files]
   end
 
   def index_match(names, current_name)

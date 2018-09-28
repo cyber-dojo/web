@@ -40,7 +40,7 @@ class SetupDefaultStartPointController < ApplicationController
     manifest = starter.language_manifest(language, exercise)
     manifest['created'] = time_now
     files = manifest.delete('visible_files')
-    return [manifest,files]
+    [manifest,files]
   end
 
   def index_match(names, current_name)
