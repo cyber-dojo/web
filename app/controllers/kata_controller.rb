@@ -78,7 +78,7 @@ class KataController < ApplicationController
     @was_tag = lights.size == 1 ? 0 : lights[-2].number
     @now_tag = lights[-1].number
     @id = id
-
+    @avatar_name = avatar_name
     respond_to do |format|
       format.js   { render layout: false }
       format.json { show_json }

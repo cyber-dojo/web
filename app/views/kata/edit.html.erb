@@ -4,7 +4,8 @@
 <%= render partial: 'tab_size' %>
 
 <%= form_tag( { action: 'run_tests',
-                id: @kata.id
+                id: @kata.id,
+                avatar: @avatar_name
               } ) do %>
 
   <div id="kata-page">
