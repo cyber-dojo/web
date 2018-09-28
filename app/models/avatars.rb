@@ -22,20 +22,23 @@ class Avatars
     )
   end
 
-  def initialize(externals, kata)
+  def initialize(externals, gid)
     @externals = externals
-    @kata = kata
+    @joined = grouper.joined(gid)
+    @ids = Hash[@joined.map{ |index,id|
+      name = names[index.to_i]
+      [name,id]
+    }]
+    @started = Hash[@joined.map{ |index,id|
+      name = names[index.to_i]
+      [name, self[name]]
+    }]
   end
 
   # queries
 
-  attr_reader :kata
-
   def started
-    names = storer.avatars_started(kata.id)
-    Hash[names.map { |name|
-      [name, self[name]]
-    }]
+    @started
   end
 
   def each(&block)
@@ -43,7 +46,7 @@ class Avatars
   end
 
   def [](name)
-    Avatar.new(@externals, kata, name)
+    Avatar.new(@externals, @ids[name], name)
   end
 
   def active
@@ -56,8 +59,12 @@ class Avatars
 
   private # = = = = = = = = =
 
-  def storer
-    @externals.storer
+  def katas
+    Katas.new(@externals)
+  end
+
+  def grouper
+    @externals.grouper
   end
 
 end

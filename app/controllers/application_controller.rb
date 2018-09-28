@@ -10,6 +10,8 @@ class ApplicationController < ActionController::Base
     params['id']
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
   def katas
     Katas.new(self)
   end
@@ -18,8 +20,14 @@ class ApplicationController < ActionController::Base
     katas[id]
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
   def groups
     Groups.new(self)
+  end
+
+  def group
+    groups[id]
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -

@@ -5,12 +5,12 @@ module DashboardWorker # mixin
   module_function
 
   def gather
-    @kata = kata
+    @group = group
     @minute_columns = bool('minute_columns')
     @auto_refresh = bool('auto_refresh')
 
     @all_lights = {}
-    storer.kata_increments(kata.id).each do |name, increments|
+    storer.kata_increments(group.id).each do |name, increments|
       lights = increments.select {|inc| inc.has_key?('colour') }
       unless lights.empty?
         @all_lights[name] = lights

@@ -5,7 +5,7 @@ class DashboardController < ApplicationController
 
   def show
     gather
-    @title = 'dashboard:' + @kata.short_id
+    @title = 'dashboard:' + @group.short_id
   end
 
   def heartbeat

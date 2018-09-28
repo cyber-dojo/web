@@ -6,7 +6,7 @@ $(function() {
   const downloadButton = $('#download-button');
 
   downloadButton.click(function() {
-    const url = '/download/' + "<%=@kata.id%>";
+    const url = '/download/' + "<%=@group.id%>";
     window.location = url;
   });
 

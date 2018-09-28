@@ -143,28 +143,12 @@ class Kata
 
   attr_reader :externals
 
-  def runner
-    externals.runner
-  end
-
   def singler
     externals.singler
   end
 
 =begin
-  def X_avatar_start(avatar_names = Avatars.names.shuffle)
-    name = storer.avatar_start(id, avatar_names)
-    unless name.nil?
-      visible_files.delete('output')
-      runner.avatar_new(image_name, id, name, visible_files)
-    end
-    name.nil? ? nil : Avatar.new(externals, self, name)
-  end
-  def X_avatars
-    Avatars.new(externals, self)
-  end
-
-  def X_active?
+  def active?
     avatars.active.count > 0
   end
 
