@@ -9,8 +9,6 @@ class Tag
 
   # queries
 
-  #attr_reader :kata
-
   def visible_files
     @manifest ||= singler.tag_visible_files(@id, number)
   end

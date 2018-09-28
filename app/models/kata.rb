@@ -26,7 +26,7 @@ class Kata
   end
 
   def tags
-    singler.increments(id).map { |h| Tag.new(@externals, self, h) }
+    singler.increments(id).map { |h| Tag.new(@externals, id, h) }
   end
 
   def lights
