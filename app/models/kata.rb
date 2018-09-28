@@ -137,6 +137,10 @@ class Kata
 
   # - - - - - - - - - - - - -
 
+  def groups
+    Groups.new(externals)
+  end
+
   attr_reader :externals
 
   def runner
@@ -145,10 +149,6 @@ class Kata
 
   def singler
     externals.singler
-  end
-
-  def groups
-    externals.groups
   end
 
 =begin

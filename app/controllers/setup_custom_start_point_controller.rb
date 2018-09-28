@@ -1,3 +1,4 @@
+require_relative '../../lib/time_now'
 
 class SetupCustomStartPointController < ApplicationController
 
@@ -10,22 +11,27 @@ class SetupCustomStartPointController < ApplicationController
   end
 
   def save_individual
-    kata = kata_create
-    avatar = kata.avatar_start
-    redirect_to "/kata/edit/#{kata.id}?avatar=#{avatar.name}"
+    manifest,files = from_starter
+    kata = katas.new_kata(manifest, files)
+    redirect_to "/kata/edit/#{kata.id}"
   end
 
   def save_group
-    kata = kata_create
-    redirect_to "/kata/group/#{kata.id}"
+    manifest,files = from_starter
+    group = groups.new_group(manifest, files)
+    redirect_to "/kata/group/#{group.id}"
   end
 
   private
 
-  def kata_create
+  include TimeNow
+
+  def from_starter
     display_name = params['display_name']
     manifest = starter.custom_manifest(display_name)
-    katas.kata_create(manifest)
+    manifest['created'] = time_now
+    files = manifest.delete('visible_files')
+    return [manifest,files]
   end
 
   def index_match(names, current_name)
