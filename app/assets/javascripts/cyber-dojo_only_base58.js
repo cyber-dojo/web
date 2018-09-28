@@ -3,8 +3,8 @@
 var cyberDojo = (function(cd, $) {
   "use strict";
 
-  cd.base58Only = function(element) {
-    // Only accept base58 input.
+  cd.onlyBase56 = function(element) {
+    // Only accept base56 input.
     // Also accepts a Ctrl-V paste event which will allow
     // non-hex chars to be entered.
     element.keypress(function(e) {
@@ -12,7 +12,7 @@ var cyberDojo = (function(cd, $) {
       if (e.which == 0 || e.charCode == 0) { // special key
         return true;
       }
-      else if (str.match(/IOio/)) {
+      else if (str.match(/IOioLl/)) {
         return false
       }
       else if (str.match(/[a-zA-Z0-9]/)) {
