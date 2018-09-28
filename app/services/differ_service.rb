@@ -4,8 +4,6 @@ class DifferService
 
   def initialize(externals)
     @externals = externals
-    @hostname = 'differ'
-    @port = 4567
   end
 
   # - - - - - - - - - - - - -
@@ -16,9 +14,9 @@ class DifferService
 
   # - - - - - - - - - - - - -
 
-  def diff(kata_id, avatar_name, was_tag, now_tag)
-    args = [kata_id, avatar_name, was_tag, now_tag]
-    visible_files = storer.tags_visible_files(*args)
+  def diff(kata_id, was_tag, now_tag)
+    args = [kata_id, was_tag, now_tag]
+    visible_files = singler.tags_visible_files(*args)
     http_get_hash('diff', {
       :was_files => visible_files['was_tag'],
       :now_files => visible_files['now_tag']
@@ -29,10 +27,16 @@ class DifferService
 
   include HttpHelper
 
-  attr_reader :hostname, :port
+  def hostname
+    'differ'
+  end
 
-  def storer
-    @externals.storer
+  def port
+    4567
+  end
+
+  def singler
+    @externals.singler
   end
 
 end

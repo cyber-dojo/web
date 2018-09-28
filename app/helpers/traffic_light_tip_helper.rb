@@ -1,10 +1,9 @@
 
 module TrafficLightTipHelper # mix-in
 
-  def traffic_light_tip_html(diffs, avatar, was_tag, now_tag)
+  def traffic_light_tip_html(diffs, tags, avatar_name, was_tag, now_tag)
     was_tag = was_tag.to_i
     now_tag = now_tag.to_i
-    tags = avatar.tags
 
     tip = '<table><tr>'
     tip += td(traffic_light_img(tags, was_tag))  # rag
@@ -12,7 +11,9 @@ module TrafficLightTipHelper # mix-in
     tip += td(right_arrow)                       # ->
     tip += td(traffic_light_img(tags, now_tag))  # rag
     tip += td(tag_html(now_tag))                 # 14
-    tip += td(avatar_img(avatar.name))           # panda
+    unless avatar_name == ''
+      tip += td(avatar_img(avatar_name))           # panda
+    end
     tip += '</tr></table>'
 
     tip += '<table>'

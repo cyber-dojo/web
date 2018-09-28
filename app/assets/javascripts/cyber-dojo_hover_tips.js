@@ -11,6 +11,10 @@ var cyberDojo = (function(cd, $) {
       now_tag: light.data('now-tag')
     }, function(response) {
       cd.showHoverTip(light, response.html);
+    }).error(function(request, status, thrown) {
+      console.log("error:request:"+request.responseText);
+      console.log("error:status:"+status);
+      console.log("error:thrown:"+thrown);
     });
   };
 
