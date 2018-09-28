@@ -4,8 +4,6 @@ class GrouperService
 
   def initialize(externals)
     @externals = externals
-    @hostname = 'grouper'
-    @port = 4537
   end
 
   # - - - - - - - - - - - -
@@ -16,8 +14,8 @@ class GrouperService
 
   # - - - - - - - - - - - -
 
-  def create(manifest)
-    http_post(__method__, manifest)
+  def create(manifest, files)
+    http_post(__method__, manifest, files)
   end
 
   def manifest(id)
@@ -52,6 +50,12 @@ class GrouperService
 
   include HttpHelper
 
-  attr_reader :hostname, :port
+  def hostname
+    'grouper'
+  end
+
+  def port
+    4537
+  end
 
 end

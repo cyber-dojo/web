@@ -2,6 +2,7 @@
 class IdRejoinController < ApplicationController
 
   def drop_down
+    # TODO: individual-rejoin
     @id = grouper.id_completed(id)
     json = { exists: @id != '' }
     if json[:exists]

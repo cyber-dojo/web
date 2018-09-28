@@ -19,14 +19,14 @@ class SetupDefaultStartPointController < ApplicationController
   end
 
   def save_individual
-    kata = katas.kata_create(make_manifest)
+    manifest,files = from_starter
+    kata = katas.kata_create(manifest, files)
     redirect_to "/kata/edit/#{kata.id}"
   end
 
   def save_group
-    manifest = make_manifest
-    manifest['created'] ||= time_now
-    gid = grouper.create(manifest)
+    manifest,files = from_starter
+    gid = grouper.create(manifest, files)
     redirect_to "/kata/group/#{gid}"
   end
 
@@ -34,10 +34,13 @@ class SetupDefaultStartPointController < ApplicationController
 
   include TimeNow
 
-  def make_manifest
+  def from_starter
     language = params['language']
     exercise = params['exercise']
-    starter.language_manifest(language, exercise)
+    manifest = starter.language_manifest(language, exercise)
+    manifest['created'] = time_now
+    files = manifest.delete('visible_files')
+    return [manifest,files]
   end
 
   def index_match(names, current_name)

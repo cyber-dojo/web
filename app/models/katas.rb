@@ -1,4 +1,3 @@
-require_relative '../../lib/time_now'
 
 class Katas
 
@@ -14,18 +13,13 @@ class Katas
 
   # modifier
 
-  def kata_create(manifest)
-    manifest['created'] ||= time_now
-    id = singler.create(manifest)
-    image_name = manifest['image_name']
-    starting_files = manifest['visible_files']
-    runner.kata_new(image_name, id, starting_files)
+  def kata_create(manifest, files)
+    id = singler.create(manifest, files)
+    runner.kata_new(manifest['image_name'], id, files)
     self[id]
   end
 
   private
-
-  include TimeNow
 
   def singler
     @externals.singler

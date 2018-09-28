@@ -4,8 +4,6 @@ class SinglerService
 
   def initialize(externals)
     @externals = externals
-    @hostname = 'singler'
-    @port = 4517
   end
 
   # - - - - - - - - - - - -
@@ -16,8 +14,8 @@ class SinglerService
 
   # - - - - - - - - - - - -
 
-  def create(manifest)
-    http_post(__method__, manifest)
+  def create(manifest, files)
+    http_post(__method__, manifest, files)
   end
 
   def manifest(id)
@@ -66,6 +64,12 @@ class SinglerService
 
   include HttpHelper
 
-  attr_reader :hostname, :port
+  def hostname
+    'singler'
+  end
+
+  def port
+    4517
+  end
 
 end
