@@ -15,7 +15,7 @@ class Kata
     if gid.nil?
       nil
     else
-      Group.new(gid)
+      groups[gid]
     end
   end
 
@@ -145,6 +145,10 @@ class Kata
 
   def singler
     externals.singler
+  end
+
+  def groups
+    externals.groups
   end
 
 =begin

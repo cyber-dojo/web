@@ -18,6 +18,10 @@ class ApplicationController < ActionController::Base
     katas[id]
   end
 
+  def groups
+    Groups.new(self)
+  end
+
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def avatars

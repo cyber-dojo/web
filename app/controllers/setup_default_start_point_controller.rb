@@ -20,14 +20,14 @@ class SetupDefaultStartPointController < ApplicationController
 
   def save_individual
     manifest,files = from_starter
-    kata = katas.kata_create(manifest, files)
+    kata = katas.new_kata(manifest, files)
     redirect_to "/kata/edit/#{kata.id}"
   end
 
   def save_group
     manifest,files = from_starter
-    gid = grouper.create(manifest, files)
-    redirect_to "/kata/group/#{gid}"
+    group = groups.new_group(manifest, files)
+    redirect_to "/kata/group/#{group.id}"
   end
 
   private
