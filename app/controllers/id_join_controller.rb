@@ -6,7 +6,8 @@ class IdJoinController < ApplicationController
     gid = grouper.id_completed(id)
     json = { exists: gid != '' }
     if json[:exists]
-      index,_sid = grouper.join(gid)
+      indexes = (0..63).to_a.shuffle
+      index,_sid = grouper.join(gid, indexes)
       json[:full] = index.nil?
       if json[:full]
         json[:fullHtml] = full_html
