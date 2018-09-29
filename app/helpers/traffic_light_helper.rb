@@ -15,7 +15,6 @@ module TrafficLightHelper # mix-in
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def diff_traffic_light(kata_id, avatar_name, colour, was_tag, now_tag)
-    # used from test page and dashboard page
     "<div class='diff-traffic-light'" +
         " data-tip='ajax:traffic_light'" +
         " data-id='#{kata_id}'" +

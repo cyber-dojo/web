@@ -6,7 +6,7 @@ class TipperController < ApplicationController
   def traffic_light_tip
     diff = differ.diff(kata.id, was_tag, now_tag)
     render json: {
-      html: traffic_light_tip_html(diff, kata.tags, avatar_name, was_tag, now_tag)
+      html: traffic_light_tip_html(diff, kata.tags, was_tag, now_tag)
     }
   end
 

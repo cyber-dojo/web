@@ -6,7 +6,6 @@ var cyberDojo = (function(cd, $) {
   const showTrafficLightHoverTipViaAjax = (light) => {
     $.getJSON('/tipper/traffic_light_tip', {
            id: light.data('id'),
-       avatar: light.data('avatar-name'),
       was_tag: light.data('was-tag'),
       now_tag: light.data('now-tag')
     }, function(response) {
