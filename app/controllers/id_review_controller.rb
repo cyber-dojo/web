@@ -2,7 +2,7 @@
 class IdReviewController < ApplicationController
 
   def drop_down
-    @id = params['id'] = storer.katas_completed(id)
+    @id = grouper.id_completed(id)
     json = { exists: @id != '' }
     if json[:exists]
       json[:id] = @id
