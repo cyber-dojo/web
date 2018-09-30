@@ -8,10 +8,10 @@ class Avatar
     @name = name
   end
 
-  attr_reader :id, :name
+  attr_reader :name
 
   def kata
-    Kata.new(@externals, id)
+    Kata.new(@externals, @id)
   end
 
   def active?
@@ -38,25 +38,7 @@ class Avatar
     increments.map { |h| Tag.new(@externals, self, h) }
   end
 
-  # queries
-
-  def tags
-    increments.map { |h| Tag.new(@externals, id, h) }
-  end
-
-  def lights
-    tags.select(&:light?)
-  end
-
-  def visible_filenames
-    visible_files.keys
-  end
-
-  def visible_files
-    singler.visible_files(id)
-  end
-
-  private # = = = = = = = = =
+  private
 
   def increments
     singler.increments(id)
