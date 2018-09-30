@@ -30,16 +30,6 @@ class ApplicationController < ActionController::Base
     groups[id]
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def avatars
-    kata.avatars
-  end
-
-  def avatar
-    avatars[avatar_name]
-  end
-
   def avatar_name
     params['avatar'] || ''
   end

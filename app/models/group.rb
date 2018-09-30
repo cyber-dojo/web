@@ -19,6 +19,10 @@ class Group
     ages == [] ? 0 : ages.sort[-1]
   end
 
+  def avatars
+    Avatars.new(@externals, id)
+  end
+
   # - - - - - - - - - - - - -
 
   def id
@@ -34,10 +38,6 @@ class Group
   end
 
   # - - - - - - - - - - - - -
-
-  def avatars
-    Avatars.new(@externals, id)
-  end
 
   def created # required
     Time.mktime(*manifest_property)

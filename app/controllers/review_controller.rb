@@ -6,8 +6,11 @@ class ReviewController < ApplicationController
     # all interaction with the web server is via the
     # differ-controller.
     @kata = kata
-    @avatar_name = params[:avatar] || kata.avatars.active.map(&:name).sort[0]
-    @avatar = avatars[@avatar_name]
+
+    # Need   kata.avatar.name
+    #@avatar_name = params[:avatar] || kata.avatars.active.map(&:name).sort[0]
+    #@avatar = avatars[@avatar_name]
+
     @was_tag = was_tag
     @now_tag = now_tag
     @filename = filename
