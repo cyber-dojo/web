@@ -10,6 +10,26 @@ class Kata
 
   # - - - - - - - - - - - - -
 
+  #TODO: rename to run_tests()
+  def test(delta, files, max_seconds, the_image_name = image_name)
+    args = []
+    args << the_image_name    # eg 'cyberdojofoundation/gcc_assert'
+    args << id                # eg 'FE8A79A264'
+    args << max_seconds       # eg 10
+    args << delta
+    args << files
+    runner.run(*args)
+  end
+
+  #TODO: rename to ran_tests()
+  def tested(files, at, stdout, stderr, colour)
+    args += [id, files, at, stdout, stderr, colour]
+    increments = singler.ran_tests(*args)
+    increments.map { |h| Tag.new(@externals, self, h) }
+  end
+
+  # - - - - - - - - - - - - -
+
   def exists?
     singler.id?(id)
   end
@@ -149,13 +169,15 @@ class Kata
   # - - - - - - - - - - - - -
 
   def groups
-    Groups.new(externals)
+    Groups.new(@externals)
   end
 
-  attr_reader :externals
-
   def singler
-    externals.singler
+    @externals.singler
+  end
+
+  def runner
+    @externals.runner
   end
 
 end

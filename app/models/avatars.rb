@@ -28,7 +28,7 @@ class Avatars
     @joined = grouper.joined(id)
     names = []
     @ids = Hash[@joined.map{ |index,id|
-      name = names[index.to_i]
+      name = Avatars.names[index.to_i]
       names << name
       [name,id]
     }]
