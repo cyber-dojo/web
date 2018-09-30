@@ -18,13 +18,6 @@ module DashboardWorker # mixin
       end
     end
 
-    #storer.kata_increments(group.id).each do |name, increments|
-    #  lights = increments.select {|inc| inc.has_key?('colour') }
-    #  unless lights.empty?
-    #    @all_lights[name] = lights
-    #  end
-    #end
-
     max_seconds_uncollapsed = seconds_per_column * 5
     args = []
     args << group.created
