@@ -58,10 +58,18 @@ class Kata
 
   def group
     gid = manifest_property
-    if gid.nil?
-      nil
-    else
+    if gid
       groups[gid]
+    else
+      nil
+    end
+  end
+
+  def avatar
+    if group
+      group.avatars.detect{|avatar| avatar.kata.id == id }
+    else
+      nil
     end
   end
 
