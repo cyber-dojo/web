@@ -10,16 +10,24 @@ module DashboardWorker # mixin
     @auto_refresh = bool('auto_refresh')
 
     @all_lights = {}
-    storer.kata_increments(group.id).each do |name, increments|
-      lights = increments.select {|inc| inc.has_key?('colour') }
+    grouper.joined(@group.id).each do |index,sid|
+      name = Avatars.names[index.to_i]
+      lights = katas[sid].lights
       unless lights.empty?
         @all_lights[name] = lights
       end
     end
 
+    #storer.kata_increments(group.id).each do |name, increments|
+    #  lights = increments.select {|inc| inc.has_key?('colour') }
+    #  unless lights.empty?
+    #    @all_lights[name] = lights
+    #  end
+    #end
+
     max_seconds_uncollapsed = seconds_per_column * 5
     args = []
-    args << kata.created
+    args << group.created
     args << seconds_per_column
     args << max_seconds_uncollapsed
     gapper = DashboardTdGapper.new(*args)

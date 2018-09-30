@@ -1,47 +1,47 @@
 
 class Avatar
 
-  def initialize(externals, kata, name)
+  def initialize(externals, id, name)
     # Does *not* validate.
     @externals = externals
-    @kata = kata
+    @id = id
     @name = name
+  end
+
+  attr_reader :id, :name
+
+  def kata
+    Kata.new(@externals, id)
+  end
+
+  def active?
+    kata.active?
   end
 
   # modifiers
 
+  #TODO: rename to run_tests()
   def test(delta, files, max_seconds, image_name = kata.image_name)
     args = []
     args << image_name        # eg 'cyberdojofoundation/gcc_assert'
-    args << kata.id           # eg 'FE8A79A264'
-    args << name              # eg 'salmon'
+    args << id                # eg 'FE8A79A264'
     args << max_seconds       # eg 10
     args << delta
     args << files
     runner.run(*args)
   end
 
+  #TODO: rename to ran_tests()
   def tested(files, at, stdout, stderr, colour)
-    args = [kata.id, name]
-    args += [files, at, stdout, stderr, colour]
-    increments = storer.avatar_ran_tests(*args)
+    args += [id, files, at, stdout, stderr, colour]
+    increments = singler.ran_tests(*args)
     increments.map { |h| Tag.new(@externals, self, h) }
   end
 
   # queries
 
-  attr_reader :kata, :name
-
-  def active?
-    # Players sometimes start an extra avatar solely to read the
-    # instructions. I don't want these avatars appearing on the
-    # dashboard. When forking a new kata you can enter as one
-    # animal to sanity check it is ok (but not press [test])
-    !lights.empty?
-  end
-
   def tags
-    increments.map { |h| Tag.new(@externals, self, h) }
+    increments.map { |h| Tag.new(@externals, id, h) }
   end
 
   def lights
@@ -53,17 +53,17 @@ class Avatar
   end
 
   def visible_files
-    storer.avatar_visible_files(kata.id, name)
+    singler.visible_files(id)
   end
 
   private # = = = = = = = = =
 
   def increments
-    storer.avatar_increments(kata.id, name)
+    singler.increments(id)
   end
 
-  def storer
-    @externals.storer
+  def singler
+    @externals.singler
   end
 
   def runner

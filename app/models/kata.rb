@@ -10,6 +10,32 @@ class Kata
 
   # - - - - - - - - - - - - -
 
+  def exists?
+    singler.id?(id)
+  end
+
+  def age
+    last = lights[-1]
+    last == nil ? 0 : (last.time - created).to_i
+  end
+
+  # - - - - - - - - - - - - -
+  # identifier
+
+  def id
+    @id
+  end
+
+  def short_id
+    id[0..5]
+  end
+
+  def phonetic_short_id
+    Phonetic.spelling(short_id).join('-')
+  end
+
+  # - - - - - - - - - - - - -
+
   def group
     gid = manifest_property
     if gid.nil?
@@ -33,23 +59,8 @@ class Kata
     tags.select(&:light?)
   end
 
-  # - - - - - - - - - - - - -
-  # identifier
-
-  def exists?
-    singler.id?(id)
-  end
-
-  def id
-    @id
-  end
-
-  def short_id
-    id[0..5]
-  end
-
-  def phonetic_short_id
-    Phonetic.spelling(short_id).join('-')
+  def active?
+    lights != []
   end
 
   # - - - - - - - - - - - - -
@@ -146,28 +157,6 @@ class Kata
   def singler
     externals.singler
   end
-
-=begin
-  def active?
-    avatars.active.count > 0
-  end
-
-  def age
-    first_times = []
-    last_times = []
-    # using storer.kata_increments() as BatchMethod
-    storer.kata_increments(id).each do |name,increments|
-      avatar = Avatar.new(externals, self, name)
-      tags = increments.map { |h| Tag.new(externals, avatar, h) }
-      lights = tags.select(&:light?)
-      if lights != []
-        first_times << lights[0].time
-        last_times  << lights[-1].time
-      end
-    end
-    first_times == [] ? 0 : (last_times.sort[-1] - first_times.sort[0]).to_i
-  end
-=end
 
 end
 

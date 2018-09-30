@@ -6,7 +6,7 @@ $(function() {
   const yinYang = $('#yin-yang-logo');
 
   yinYang.click(function() {
-    window.location.href = '/dojo/index/' + "<%= @kata.id %>";
+    window.location.href = '/dojo/index/'; // TODO: add /dojo/index/ID
   });
 
   cd.createTip(yinYang,
