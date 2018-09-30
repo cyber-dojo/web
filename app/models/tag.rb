@@ -1,16 +1,18 @@
 
 class Tag
 
-  def initialize(externals, id, hash)
+  def initialize(externals, kata, hash)
     @externals = externals
-    @id = id
+    @kata = kata
     @hash = hash
   end
+
+  attr_reader :kata
 
   # queries
 
   def visible_files
-    @manifest ||= singler.tag_visible_files(@id, number)
+    @manifest ||= singler.tag_visible_files(kata.id, number)
   end
 
   def output

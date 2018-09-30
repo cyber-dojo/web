@@ -42,7 +42,7 @@ module TrafficLightHelper # mix-in
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def traffic_light_count(kata_id, avatar_name, lights)
-    colour = lights[-1]['colour']
+    colour = lights[-1].colour
     "<div class='traffic-light-count #{colour}'" +
         " data-tip='traffic_light_count'" +
         " data-id='#{kata_id}'" +
@@ -59,7 +59,7 @@ module TrafficLightHelper # mix-in
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def count(traffic_lights, colour)
-     traffic_lights.entries.count { |light| light['colour'] == colour.to_s }
+     traffic_lights.entries.count { |light| light.colour == colour.to_s }
   end
 
   def avatar_image(avatar_name)

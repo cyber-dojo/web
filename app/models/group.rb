@@ -15,7 +15,7 @@ class Group
   end
 
   def age
-    ages = avatars.map{ |avatar| avatar.age }
+    ages = avatars.active.map{ |avatar| avatar.kata.age }
     ages == [] ? 0 : ages.sort[-1]
   end
 

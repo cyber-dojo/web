@@ -178,7 +178,7 @@ class DashboardTdGapper
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def number(light)
-    n(light['time'])
+    n(light.time)
   end
 
   def n(now)

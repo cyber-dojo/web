@@ -64,10 +64,10 @@ $(function() {
             <tr>
 				    <% td.each do |light| %>
               <td>
-                <% id = @kata.id %>
-                <% colour = light['colour'] %>
+                <% id = light.kata.id %>
+                <% colour = light.colour %>
                 <% was_tag = now_tag %>
-                <% now_tag = light['number'] %>
+                <% now_tag = light.number %>
                 <%= raw diff_traffic_light(id, name, colour, was_tag, now_tag) %>
               </td>
             <% end %>
@@ -79,7 +79,7 @@ $(function() {
 	  <% end %>
 
     <td class="align-right">
-      <%= raw traffic_light_count(@kata.id, name, @all_lights[name]) %>
+      <%= raw traffic_light_count(@group.avatars[name].id, name, @all_lights[name]) %>
     </td>
 
     <td class="align-center">
@@ -87,7 +87,7 @@ $(function() {
     </td>
 
     <td class="align-left valign-center">
-      <%= raw diff_avatar_image(@kata.id, name) %>
+      <%= raw diff_avatar_image(@group.avatars[name].id, name) %>
     </td>
 
 	</tr>

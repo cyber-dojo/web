@@ -22,27 +22,21 @@ class Avatars
     )
   end
 
-  def initialize(externals, gid)
+  def initialize(externals, id)
     @externals = externals
-    @joined = grouper.joined(gid)
+    @id = id
+    @joined = grouper.joined(id)
+    names = []
     @ids = Hash[@joined.map{ |index,id|
       name = names[index.to_i]
+      names << name
       [name,id]
     }]
-    @started = Hash[@joined.map{ |index,id|
-      name = names[index.to_i]
-      [name, self[name]]
-    }]
-  end
-
-  # queries
-
-  def started
-    @started
+    @all = names.map{ |name| self[name] }
   end
 
   def each(&block)
-    started.values.each(&block)
+    @all.each(&block)
   end
 
   def [](name)
@@ -57,11 +51,7 @@ class Avatars
     collect(&:name).sort
   end
 
-  private # = = = = = = = = =
-
-  def katas
-    Katas.new(@externals)
-  end
+  private
 
   def grouper
     @externals.grouper
