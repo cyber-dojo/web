@@ -1,17 +1,9 @@
 
 <%
   content = []
-  id = @kata.short_id
-  content << id
-  tip  = "your id is #{id} (#{@kata.phonetic_short_id})"
-  unless @avatar.nil?
-    content << @avatar.name
-    tip += "<br/>"
-    tip += "your avatar is the #{@avatar.name}"
-  end
+  tip = ''
   if @kata.exercise.nil?
-    tip += '<br/>'
-    tip += 'you are doing a custom exercise'
+    tip += 'you are doing a custom exercise' # TODO: BROKEN
   else
     parts = @kata.display_name.split(',')
     language = parts[0]
@@ -20,7 +12,7 @@
     content << language
     content << test_framework
     content << exercise
-    tip += '<br/>'
+    #tip += '<br/>'
     tip += "your language is #{language}"
     tip += '<br/>'
     tip += "your test-framework is #{test_framework}"
