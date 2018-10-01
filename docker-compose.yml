@@ -45,7 +45,7 @@ services:
     user: grouper
     image: cyberdojo/grouper
     init: true
-    container_name: cyber-dojo-grouper
+    container_name: test-web-cyber-dojo-grouper
     read_only: true
     tmpfs: /tmp
     restart: 'no'
@@ -58,7 +58,7 @@ services:
     user: singler
     image: cyberdojo/singler
     init: true
-    container_name: cyber-dojo-singler
+    container_name: test-web-cyber-dojo-singler
     read_only: true
     tmpfs: /tmp
     restart: 'no'
