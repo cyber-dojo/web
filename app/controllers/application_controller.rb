@@ -45,7 +45,7 @@ class ApplicationController < ActionController::Base
   end
 
   def group
-    groups[id]
+    groups[id] # kata.group?
   end
 
   def avatar_name
