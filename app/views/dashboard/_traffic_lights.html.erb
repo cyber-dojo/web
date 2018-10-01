@@ -82,11 +82,12 @@ $(function() {
 	  <% end %>
 
     <td class="align-right">
-      <%= raw traffic_light_count(@group.avatars[name].kata.id, name, @all_lights[name]) %>
+      <% lights = @all_lights[name] %>
+      <%= raw traffic_light_count(lights[-1].kata.id, name, lights) %>
     </td>
 
     <td class="align-center">
-      <%= raw pie_chart(@all_lights[name], name) %>
+      <%= raw pie_chart(lights, name) %>
     </td>
 
     <td class="align-left valign-center">
