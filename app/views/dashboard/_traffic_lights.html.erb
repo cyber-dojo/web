@@ -49,6 +49,7 @@ $(function() {
 
   <% @gapped.keys.sort.each do |name| %>
 	<tr>
+	  <% lights = @all_lights[name] %>
 	  <% td_map = @gapped[name] %>
     <% now_tag = 0 %>
 
@@ -67,7 +68,6 @@ $(function() {
             <tr>
 				    <% td.each do |light| %>
               <td>
-                <% id = light.kata.id %>
                 <% colour = light.colour %>
                 <% was_tag = now_tag %>
                 <% now_tag = light.number %>
@@ -82,7 +82,6 @@ $(function() {
 	  <% end %>
 
     <td class="align-right">
-      <% lights = @all_lights[name] %>
       <%= raw traffic_light_count(lights[-1].kata.id, name, lights) %>
     </td>
 
