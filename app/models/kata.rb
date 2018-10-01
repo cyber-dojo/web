@@ -11,6 +11,16 @@ class Kata
 
   # - - - - - - - - - - - - -
 
+  def id
+    @id
+  end
+
+  def exists?
+    singler.id?(id)
+  end
+
+  # - - - - - - - - - - - - -
+
   def run_tests(image_name, max_seconds, delta, files, hidden_filenames)
     args = []
     args << image_name    # eg 'cyberdojofoundation/gcc_assert'
@@ -65,21 +75,12 @@ class Kata
 
   # - - - - - - - - - - - - -
 
-  def exists?
-    singler.id?(id)
-  end
-
   def age
     last = lights[-1]
     last == nil ? 0 : (last.time - created).to_i
   end
 
   # - - - - - - - - - - - - -
-  # identifier
-
-  def id
-    @id
-  end
 
   def short_id
     id[0..5]
@@ -237,8 +238,3 @@ class Kata
   end
 
 end
-
-# Each avatar does _not_ choose their own language+test.
-# The language+test is chosen for the _kata_.
-# cyber-dojo is a team-based Interactive Dojo Environment,
-# not an Individual Development Environment

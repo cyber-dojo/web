@@ -49,10 +49,10 @@ class KataController < ApplicationController
   def show_json
     # https://atom.io/packages/cyber-dojo
     render :json => {
-      'visible_files' => avatar.visible_files,
-             'avatar' => avatar.name,
+      'visible_files' => kata.visible_files,
+             'avatar' => avatar_name,
          'csrf_token' => form_authenticity_token,
-             'lights' => avatar.lights.map { |light| light.to_json }
+             'lights' => kata.lights.map { |light| light.to_json }
     }
   end
 
