@@ -5,6 +5,7 @@ class ReviewController < ApplicationController
     # Note that once you are on the review dialog/page
     # all interaction with the web server is via the
     # differ-controller.
+    @id = id
     @kata = kata
     @avatar_name = avatar_name
     @was_tag = was_tag

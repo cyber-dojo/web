@@ -21,7 +21,7 @@ class DifferController < ApplicationController
     diff = differ.diff(kata.id, was_tag, now_tag)
     view = diff_view(diff)
     render json: {
-                         id: kata.id,
+                         id: id,
                      avatar: avatar_name,
                      wasTag: was_tag,
                      nowTag: now_tag,
