@@ -21,7 +21,7 @@ module Externals # mix-in
     @singler ||= external
   end
 
-  def storer
+  def storer # TODO: drop
     @storer  ||= external
   end
 

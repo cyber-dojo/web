@@ -17,7 +17,11 @@ class ApplicationController < ActionController::Base
   end
 
   def kata_id
-    if avatar_name != ''
+    param = params['kata_id']
+    if param
+      # cached kata/edit run_tests()
+      param
+    elsif avatar_name != ''
       # group practice-session
       joined = grouper.joined(id)
       index = Avatars.names.index(avatar_name)

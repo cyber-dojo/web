@@ -1,4 +1,5 @@
 require_relative '../../lib/phonetic_alphabet'
+require_relative '../lib/hidden_file_remover'
 
 class Kata
 
@@ -10,16 +11,51 @@ class Kata
 
   # - - - - - - - - - - - - -
 
-  #TODO: rename to run_tests()
-  def test(delta, files, max_seconds, the_image_name = image_name)
+  def run_tests(image_name, max_seconds, delta, files)
     args = []
-    args << the_image_name    # eg 'cyberdojofoundation/gcc_assert'
-    args << id                # eg 'FE8A79A264'
-    args << max_seconds       # eg 10
+    args << image_name    # eg 'cyberdojofoundation/gcc_assert'
+    args << id            # eg 'FE8A79A264'
+    args << max_seconds   # eg 10
     args << delta
     args << files
-    runner.run(*args)
+
+    stdout,stderr,status,colour,
+      new_files,deleted_files,changed_files = runner.run_cyber_dojo_sh(*args)
+
+    if colour == 'timed_out'
+      stdout = timed_out_message(max_seconds) + stdout
+    end
+
+    # If there is a file called output remove it otherwise
+    # it will interfere with the output pseudo-file.
+    new_files.delete('output')
+    changed_files['output'] = stdout + stderr
+
+    # don't show generated files that match hidden filenames
+    remove_hidden_files(new_files, hidden_filenames)
+
+    # Singler's snapshot exactly mirrors the files after the test-event
+    # has completed. That is, after a test-event completes if you
+    # refresh the page in the browser then nothing will change.
+    deleted_files.keys.each do |filename|
+      files.delete(filename)
+    end
+
+    new_files.each do |filename,content|
+      files[filename] = content
+    end
+
+    changed_files.each do |filename,content|
+      files[filename] = content
+    end
+
+    [stdout,stderr,status,
+     colour,
+     new_files,deleted_files,changed_files
+    ]
   end
+
+  # - - - - - - - - - - - - -
 
   #TODO: rename to ran_tests()
   def tested(files, at, stdout, stderr, colour)
@@ -156,6 +192,19 @@ class Kata
   end
 
   private # = = = = = = = = = =
+
+  include HiddenFileRemover
+
+  def timed_out_message(max_seconds)
+    [
+      "Unable to complete the tests in #{max_seconds} seconds.",
+      'Is there an accidental infinite loop?',
+      'Is the server very busy?',
+      'Please try again.'
+    ].join("\n") + "\n"
+  end
+
+  # - - - - - - - - - - - - -
 
   def manifest_property
     manifest[name_of(caller)]
