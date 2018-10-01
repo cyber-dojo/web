@@ -1,8 +1,6 @@
 #!/bin/sh
 set -e
 
-readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && pwd )"
-
 # See https://github.com/docker/compose/issues/1393
 # See http://stackoverflow.com/questions/35022428
 readonly WEB_HOME=/cyber-dojo

@@ -9,5 +9,5 @@ docker-compose \
   --file "${ROOT_DIR}/docker-compose.yml" \
   build
 
-docker image     prune --force
-docker container prune --force
+docker image     prune --force > /dev/null 2>&1
+docker container prune --force > /dev/null 2>&1

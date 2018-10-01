@@ -11,7 +11,7 @@ services:
     user: nobody
     image: cyberdojo/web
     init: true
-    container_name: test-cyber-dojo-web
+    container_name: test-web
     mem_limit: 2G
     memswap_limit: 2G
     restart: 'no'
@@ -30,7 +30,7 @@ services:
     user: nobody
     image: cyberdojo/starter
     init: true
-    container_name: test-web-cyber-dojo-starter
+    container_name: test-web-starter
     read_only: true
     tmpfs: /tmp
     mem_limit: 50M
@@ -45,7 +45,7 @@ services:
     user: grouper
     image: cyberdojo/grouper
     init: true
-    container_name: test-web-cyber-dojo-grouper
+    container_name: test-web-grouper
     read_only: true
     tmpfs: /tmp
     restart: 'no'
@@ -58,7 +58,7 @@ services:
     user: singler
     image: cyberdojo/singler
     init: true
-    container_name: test-web-cyber-dojo-singler
+    container_name: test-web-singler
     read_only: true
     tmpfs: /tmp
     restart: 'no'
@@ -71,7 +71,7 @@ services:
     user: root
     image: cyberdojo/runner-stateless
     init: true
-    container_name: test-web-cyber-dojo-runner-stateless
+    container_name: test-web-runner-stateless
     read_only: true
     tmpfs: /tmp
     mem_limit: 2G
@@ -86,7 +86,7 @@ services:
     user: root
     image: cyberdojo/runner-stateful
     init: true
-    container_name: test-web-cyber-dojo-runner-stateful
+    container_name: test-web-runner-stateful
     expose: [ 4557 ]
     read_only: true
     tmpfs: /tmp
@@ -104,7 +104,7 @@ services:
     user: nobody
     image: cyberdojo/differ
     init: true
-    container_name: test-web-cyber-dojo-differ
+    container_name: test-web-differ
     read_only: true
     tmpfs: /tmp
     mem_limit: 1G
@@ -117,7 +117,7 @@ services:
     user: nobody
     image: cyberdojo/zipper
     init: true
-    container_name: test-web-cyber-dojo-zipper
+    container_name: test-web-zipper
     read_only: true
     tmpfs: /tmp
     mem_limit: 50M

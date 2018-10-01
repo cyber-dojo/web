@@ -30,11 +30,11 @@ docker-compose \
   --detach \
   --force-recreate
 
-wait_till_up 'test-cyber-dojo-web'
-wait_till_up 'test-web-cyber-dojo-starter'
-wait_till_up 'test-web-cyber-dojo-grouper'
-wait_till_up 'test-web-cyber-dojo-singler'
-wait_till_up 'test-web-cyber-dojo-runner-stateless'
-wait_till_up 'test-web-cyber-dojo-runner-stateful'
-wait_till_up 'test-web-cyber-dojo-differ'
-wait_till_up 'test-web-cyber-dojo-zipper'
+wait_till_up 'test-web'
+wait_till_up 'test-web-starter'
+wait_till_up 'test-web-grouper'
+wait_till_up 'test-web-singler'
+wait_till_up 'test-web-runner-stateless'
+wait_till_up 'test-web-runner-stateful'
+wait_till_up 'test-web-differ'
+wait_till_up 'test-web-zipper'
