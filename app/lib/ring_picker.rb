@@ -6,17 +6,23 @@ module RingPicker # mix-in
   module_function
 
   def ring_prev(array, current)
-    return '' if array.length == 0
-    return '' if array.length == 1
-    return array[-1] if array.first == current
-    return array[array.rindex(current) - 1]
+    if array.length < 2
+      ''
+    elsif array[0] == current
+      array[-1]
+    else
+      array[array.index(current) - 1]
+    end
   end
 
   def ring_next(array, current)
-    return '' if array.length == 0
-    return '' if array.length == 1
-    return array[0] if array.last == current
-    return array[array.index(current) + 1]
+    if array.length < 2
+      ''
+    elsif array[-1] == current
+      array[0]
+    else
+      array[array.index(current) + 1]
+    end
   end
 
 end
