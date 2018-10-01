@@ -3,7 +3,6 @@ require_relative '../lib/hidden_file_remover'
 class Kata
 
   def initialize(externals, id)
-    # Does *not* validate.
     @externals = externals
     @id = id
   end

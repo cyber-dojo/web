@@ -2,7 +2,6 @@
 class Avatar
 
   def initialize(externals, id, name)
-    # Does *not* validate.
     @externals = externals
     @id = id
     @name = name
