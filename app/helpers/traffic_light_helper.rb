@@ -49,18 +49,18 @@ module TrafficLightHelper # mix-in
         " data-id='#{kata_id}'" +
         " data-avatar-name='#{avatar_name}'" +
         " data-current-colour='#{colour}'" +
-        " data-red-count='#{count(lights, :red)}'" +
-        " data-amber-count='#{count(lights, :amber)}'" +
-        " data-green-count='#{count(lights, :green)}'" +
-        " data-timed-out-count='#{count(lights, :timed_out)}'>" +
+        " data-red-count='#{colour_count(lights, :red)}'" +
+        " data-amber-count='#{colour_count(lights, :amber)}'" +
+        " data-green-count='#{colour_count(lights, :green)}'" +
+        " data-timed-out-count='#{colour_count(lights, :timed_out)}'>" +
       lights.count.to_s +
     '</div>'
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def count(traffic_lights, colour)
-     traffic_lights.entries.count { |light| light.colour == colour.to_s }
+  def colour_count(traffic_lights, colour)
+     traffic_lights.count { |light| light.colour == colour }
   end
 
   def avatar_image(avatar_name)
