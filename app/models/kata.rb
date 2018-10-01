@@ -1,4 +1,3 @@
-require_relative '../../lib/phonetic_alphabet'
 require_relative '../lib/hidden_file_remover'
 
 class Kata
@@ -78,16 +77,6 @@ class Kata
   def age
     last = lights[-1]
     last == nil ? 0 : (last.time - created).to_i
-  end
-
-  # - - - - - - - - - - - - -
-
-  def short_id
-    id[0..5]
-  end
-
-  def phonetic_short_id
-    Phonetic.spelling(short_id).join('-')
   end
 
   # - - - - - - - - - - - - -

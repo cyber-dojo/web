@@ -5,7 +5,7 @@ class DashboardController < ApplicationController
 
   def show
     gather
-    @title = 'dashboard:' + @group.short_id
+    @title = 'dashboard:' + partial(@group.id)
   end
 
   def heartbeat

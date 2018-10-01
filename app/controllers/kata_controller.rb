@@ -11,7 +11,7 @@ class KataController < ApplicationController
     @id = id
     @kata = kata
     @avatar_name = avatar_name
-    @title = 'test:' + @kata.short_id
+    @title = 'test:' + partial(@kata.id)
   end
 
   def run_tests

@@ -1,3 +1,4 @@
+require_relative '../helpers/id_helper'
 require 'json'
 
 class ApplicationController < ActionController::Base
@@ -5,6 +6,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   include Externals
+  include IdHelper
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -19,7 +21,7 @@ class ApplicationController < ActionController::Base
   def kata_id
     param = params['kata_id']
     if param
-      # cached kata/edit run_tests()
+      # cached for kata/edit run_tests()
       param
     elsif avatar_name != ''
       # group practice-session
