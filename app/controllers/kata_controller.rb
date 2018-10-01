@@ -29,19 +29,12 @@ class KataController < ApplicationController
     delta = FileDeltaMaker.make_delta(incoming, outgoing)
     files = received_files
 
-    args = []
-    args << image_name  # eg 'cyberdojofoundation/gcc_assert'
-    args << max_seconds # eg 10
-    args << delta
-    args << files
+    stdout,stderr,status,
+      @colour,
+        @new_files,@deleted_files,@changed_files =
+          *kata.run_tests(image_name, max_seconds, delta, files, hidden_filenames)
 
-    stdout,stderr,status,@colour,
-      @new_files,@deleted_files,@changed_files = *kata.run_tests(*args)
-
-    args = [kata.id, files, time_now, stdout, stderr, @colour]
-    increments = singler.ran_tests(*args)
-    tags = increments.map { |h| Tag.new(self, kata, h) }
-    lights = tags.select(&:light?)
+    lights = kata.ran_tests(files, time_now, stdout, stderr, @colour)
 
     @was_tag = lights.size == 1 ? 0 : lights[-2].number
     @now_tag = lights[-1].number
@@ -63,12 +56,10 @@ class KataController < ApplicationController
     }
   end
 
-  private # = = = = = = = = = = = = = =
+  private
 
   include StringCleaner
   include TimeNow
-
-  # - - - - - - - - - - - - - - - - - -
 
   def received_files
     seen = {}

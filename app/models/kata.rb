@@ -11,7 +11,7 @@ class Kata
 
   # - - - - - - - - - - - - -
 
-  def run_tests(image_name, max_seconds, delta, files)
+  def run_tests(image_name, max_seconds, delta, files, hidden_filenames)
     args = []
     args << image_name    # eg 'cyberdojofoundation/gcc_assert'
     args << id            # eg 'FE8A79A264'
@@ -57,11 +57,10 @@ class Kata
 
   # - - - - - - - - - - - - -
 
-  #TODO: rename to ran_tests()
-  def tested(files, at, stdout, stderr, colour)
-    args += [id, files, at, stdout, stderr, colour]
-    increments = singler.ran_tests(*args)
-    increments.map { |h| Tag.new(@externals, self, h) }
+  def ran_tests(files, at, stdout, stderr, colour)
+    increments = singler.ran_tests(id, files, at, stdout, stderr, colour)
+    tags = increments.map { |h| Tag.new(self, self, h) }
+    tags.select(&:light?)
   end
 
   # - - - - - - - - - - - - -

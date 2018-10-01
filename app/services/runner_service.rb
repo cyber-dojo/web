@@ -42,13 +42,6 @@ class RunnerService
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  #def run(image_name, kata_id, max_seconds, delta, files)
-  #  # This makes a call to storer to get the runner-choice.
-  #  # Typically get here from resurrection call.
-  #  set_hostname_port(kata_id)
-  #  run_cyber_dojo_sh(image_name, kata_id, max_seconds, delta, files)
-  #end
-
   def run_cyber_dojo_sh(image_name, kata_id, max_seconds, delta, files)
     # This does NOT make a call to storer to get the runner-choice.
     # Assumes appropriate set_hostname_port_X method has already been called.
