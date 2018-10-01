@@ -10,9 +10,9 @@ module DashboardWorker # mixin
     @auto_refresh = bool('auto_refresh')
 
     @all_lights = {}
-    grouper.joined(@group.id).each do |index,sid|
+    grouper.joined(@group.id).each do |index,id|
       name = Avatars.names[index.to_i]
-      lights = katas[sid].lights
+      lights = katas[id].lights
       unless lights.empty?
         @all_lights[name] = lights
       end
