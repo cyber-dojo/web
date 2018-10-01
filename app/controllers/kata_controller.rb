@@ -16,6 +16,10 @@ class KataController < ApplicationController
   end
 
   def run_tests
+    @id = id
+    @avatar_name = avatar_name
+    # TODO: re-calculating kata_id for each use is slow...
+    #       make kata_id a secret run-parameter.
     case runner_choice
     when 'stateless'
       runner.set_hostname_port_stateless
@@ -30,7 +34,7 @@ class KataController < ApplicationController
 
     args = []
     args << image_name  # eg 'cyberdojofoundation/gcc_assert'
-    args << id
+    args << kata_id
     args << max_seconds # eg 10
     args << delta
     args << files
@@ -65,14 +69,12 @@ class KataController < ApplicationController
       files[filename] = content
     end
 
-    args = [id, files, time_now, stdout, stderr, @colour]
+    args = [kata_id, files, time_now, stdout, stderr, @colour]
     increments = singler.ran_tests(*args)
-    tags = increments.map { |h| Tag.new(self, id, h) }
+    tags = increments.map { |h| Tag.new(self, kata, h) }
     lights = tags.select(&:light?)
     @was_tag = lights.size == 1 ? 0 : lights[-2].number
     @now_tag = lights[-1].number
-    @id = id
-    @avatar_name = avatar_name
     respond_to do |format|
       format.js   { render layout: false }
       format.json { show_json }
