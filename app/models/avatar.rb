@@ -8,7 +8,9 @@ class Avatar
     @name = name
   end
 
-  attr_reader :name
+  def name
+    @name
+  end
 
   def kata
     Kata.new(@externals, @id)

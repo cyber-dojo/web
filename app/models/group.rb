@@ -7,10 +7,12 @@ class Group
     @id = id
   end
 
-  attr_reader :id
+  def id
+    @id
+  end
 
   def exists?
-    grouper.id?(id)
+    grouper.id?(@id)
   end
 
   def age
@@ -19,7 +21,7 @@ class Group
   end
 
   def avatars
-    Avatars.new(externals, id)
+    Avatars.new(@externals, id)
   end
 
   # - - - - - - - - - - - - -
@@ -37,19 +39,13 @@ class Group
 
   private
 
-  attr_reader :externals
-
   def manifest_property
     manifest[name_of(caller)]
   end
 
-  # - - - - - - - - - - - - -
-
   def manifest
     @manifest ||= grouper.manifest(id)
   end
-
-  # - - - - - - - - - - - - -
 
   def name_of(caller)
     # eg caller[0] == "group.rb:28:in `created'"
@@ -57,7 +53,7 @@ class Group
   end
 
   def grouper
-    externals.grouper
+    @externals.grouper
   end
 
 end

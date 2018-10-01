@@ -6,7 +6,9 @@ class Manifest
     @id = id
   end
 
-  attr_reader :id
+  def id
+    @id
+  end
 
   def group
     manifest_entry
@@ -65,8 +67,6 @@ class Manifest
 
   private
 
-  attr_reader :externals
-
   def manifest_entry
     manifest[name_of(caller)]
   end
@@ -81,7 +81,7 @@ class Manifest
   end
 
   def singler
-    externals.singler
+    @externals.singler
   end
 
 end

@@ -25,9 +25,8 @@ class Avatars
   def initialize(externals, id)
     @externals = externals
     @id = id
-    @joined = grouper.joined(id)
     names = []
-    @ids = Hash[@joined.map{ |index,id|
+    @ids = Hash[grouper.joined(id).map{ |index,id|
       name = Avatars.names[index.to_i]
       names << name
       [name,id]

@@ -8,7 +8,9 @@ class Kata
     @id = id
   end
 
-  attr_reader :id
+  def id
+    @id
+  end
 
   def manifest
     Manifest.new(@externals, id)
@@ -21,15 +23,11 @@ class Kata
   # - - - - - - - - - - - - -
 
   def run_tests(image_name, max_seconds, delta, files, hidden_filenames)
-    args = []
-    args << image_name    # eg 'cyberdojofoundation/gcc_assert'
-    args << id            # eg 'FE8A79A264'
-    args << max_seconds   # eg 10
-    args << delta
-    args << files
 
-    stdout,stderr,status,colour,
-      new_files,deleted_files,changed_files = runner.run_cyber_dojo_sh(*args)
+    stdout,stderr,status,
+      colour,
+        new_files,deleted_files,changed_files =
+          runner.run_cyber_dojo_sh(image_name, id, max_seconds, delta, files)
 
     if colour == 'timed_out'
       stdout = timed_out_message(max_seconds) + stdout
@@ -105,7 +103,7 @@ class Kata
   end
 
   def tags
-    singler.increments(id).map { |h| Tag.new(externals, self, h) }
+    singler.increments(id).map { |h| Tag.new(@externals, self, h) }
   end
 
   def lights
@@ -116,9 +114,7 @@ class Kata
     lights != []
   end
 
-  private # = = = = = = = = = =
-
-  attr_reader :externals
+  private
 
   include HiddenFileRemover
 
@@ -132,15 +128,15 @@ class Kata
   end
 
   def groups
-    Groups.new(externals)
+    Groups.new(@externals)
   end
 
   def singler
-    externals.singler
+    @externals.singler
   end
 
   def runner
-    externals.runner
+    @externals.runner
   end
 
 end

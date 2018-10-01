@@ -5,13 +5,9 @@ class Katas
     @externals = externals
   end
 
-  # queries
-
   def [](id)
     Kata.new(@externals, id)
   end
-
-  # modifier
 
   def new_kata(manifest, files)
     id = singler.create(manifest, files)

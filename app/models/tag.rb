@@ -7,9 +7,9 @@ class Tag
     @hash = hash
   end
 
-  attr_reader :kata
-
-  # queries
+  def kata
+    @kata
+  end
 
   def visible_files
     @manifest ||= singler.tag_visible_files(kata.id, number)
@@ -21,7 +21,7 @@ class Tag
   end
 
   def time
-    Time.mktime(*hash['time'])
+    Time.mktime(*@hash['time'])
   end
 
   def light?
@@ -30,7 +30,7 @@ class Tag
 
   def colour
     # Very early dojos used outcome
-    (hash['colour'] || hash['outcome'] || '').to_sym
+    (@hash['colour'] || @hash['outcome'] || '').to_sym
   end
 
   def to_json
@@ -43,12 +43,10 @@ class Tag
   end
 
   def number
-    hash['number']
+    @hash['number']
   end
 
-  private # = = = = = = = = = = =
-
-  attr_reader :hash
+  private
 
   def singler
     @externals.singler
