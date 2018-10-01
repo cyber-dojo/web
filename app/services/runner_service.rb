@@ -103,7 +103,7 @@ class RunnerService
   end
 
   def runner_choice(kata_id)
-    katas[kata_id].runner_choice
+    katas[kata_id].manifest.runner_choice
   end
 
   def katas

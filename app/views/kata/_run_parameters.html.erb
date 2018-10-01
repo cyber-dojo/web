@@ -1,7 +1,7 @@
 
 <input type="hidden"
        name="image_name"
-       value="<%= @kata.image_name %>">
+       value="<%= @kata.manifest.image_name %>">
 
 <input type="hidden"
        name="kata_id"
@@ -9,12 +9,12 @@
 
 <input type="hidden"
        name="max_seconds"
-       value="<%= @kata.max_seconds %>">
+       value="<%= @kata.manifest.max_seconds %>">
 
 <input type="hidden"
       name="runner_choice"
-      value="<%= @kata.runner_choice %>">
+      value="<%= @kata.manifest.runner_choice %>">
 
 <input type="hidden"
        name="hidden_filenames"
-       value='<%= raw @kata.hidden_filenames %>'>
+       value='<%= raw @kata.manifest.hidden_filenames %>'>

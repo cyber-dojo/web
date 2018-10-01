@@ -7,11 +7,7 @@ class Group
     @id = id
   end
 
-  # - - - - - - - - - - - - -
-
-  def id
-    @id
-  end
+  attr_reader :id
 
   def exists?
     grouper.id?(id)
@@ -23,7 +19,7 @@ class Group
   end
 
   def avatars
-    Avatars.new(@externals, id)
+    Avatars.new(externals, id)
   end
 
   # - - - - - - - - - - - - -
@@ -40,6 +36,8 @@ class Group
   end
 
   private
+
+  attr_reader :externals
 
   def manifest_property
     manifest[name_of(caller)]
@@ -59,7 +57,7 @@ class Group
   end
 
   def grouper
-    @externals.grouper
+    externals.grouper
   end
 
 end

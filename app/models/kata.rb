@@ -8,10 +8,10 @@ class Kata
     @id = id
   end
 
-  # - - - - - - - - - - - - -
+  attr_reader :id
 
-  def id
-    @id
+  def manifest
+    Manifest.new(@externals, id)
   end
 
   def exists?
@@ -36,14 +36,14 @@ class Kata
     end
 
     # If there is a file called output remove it otherwise
-    # it will interfere with the output pseudo-file.
+    # it interferes with the output pseudo-file.
     new_files.delete('output')
     changed_files['output'] = stdout + stderr
 
-    # don't show generated files that match hidden filenames
+    # Don't show generated files that match hidden filenames
     remove_hidden_files(new_files, hidden_filenames)
 
-    # Singler's snapshot exactly mirrors the files after the test-event
+    # Stored snapshot exactly mirrors the files after the test-event
     # has completed. That is, after a test-event completes if you
     # refresh the page in the browser then nothing will change.
     deleted_files.keys.each do |filename|
@@ -68,7 +68,7 @@ class Kata
 
   def ran_tests(files, at, stdout, stderr, colour)
     increments = singler.ran_tests(id, files, at, stdout, stderr, colour)
-    tags = increments.map { |h| Tag.new(self, self, h) }
+    tags = increments.map { |h| Tag.new(@externals, self, h) }
     tags.select(&:light?)
   end
 
@@ -76,13 +76,13 @@ class Kata
 
   def age
     last = lights[-1]
-    last == nil ? 0 : (last.time - created).to_i
+    last == nil ? 0 : (last.time - manifest.created).to_i
   end
 
   # - - - - - - - - - - - - -
 
   def group
-    gid = manifest_property
+    gid = manifest.group
     if gid
       groups[gid]
     else
@@ -105,7 +105,7 @@ class Kata
   end
 
   def tags
-    singler.increments(id).map { |h| Tag.new(@externals, self, h) }
+    singler.increments(id).map { |h| Tag.new(externals, self, h) }
   end
 
   def lights
@@ -116,71 +116,9 @@ class Kata
     lights != []
   end
 
-  # - - - - - - - - - - - - -
-  # info-bar
-
-  def display_name  # required
-    # eg 'Python, py.test'
-    manifest_property
-  end
-
-  def exercise
-    manifest_property # present in language+testFramework kata
-  end                 # not present in custom kata
-
-  # - - - - - - - - - - - - -
-  # filenames/tabs
-
-  def filename_extension # required
-    if manifest_property.is_a?(Array)
-      manifest_property # eg  [ ".c", ".h" ]
-    else
-      [ manifest_property ] # eg ".py" -> [ ".py" ]
-    end
-  end
-
-  def highlight_filenames # optional
-    manifest_property || []
-  end
-
-  def hidden_filenames # optional
-    manifest_property || []
-  end
-
-  def tab_size # optional
-    manifest_property || 4
-  end
-
-  # - - - - - - - - - - - - -
-  # runner
-
-  def image_name # required
-    manifest_property
-  end
-
-  def max_seconds # optional
-    manifest_property || 10
-  end
-
-  def runner_choice # required
-    manifest_property
-  end
-
-  # - - - - - - - - - - - - -
-  # dashboard
-
-  def created # required
-    Time.mktime(*manifest_property)
-  end
-
-  def progress_regexs # optional
-    # [] is not a valid progress_regex.
-    # It needs two regexs.
-    # This affects zipper.zip_tag()
-    manifest_property || []
-  end
-
   private # = = = = = = = = = =
+
+  attr_reader :externals
 
   include HiddenFileRemover
 
@@ -193,37 +131,16 @@ class Kata
     ].join("\n") + "\n"
   end
 
-  # - - - - - - - - - - - - -
-
-  def manifest_property
-    manifest[name_of(caller)]
-  end
-
-  # - - - - - - - - - - - - -
-
-  def manifest
-    @manifest ||= singler.manifest(id)
-  end
-
-  # - - - - - - - - - - - - -
-
-  def name_of(caller)
-    # eg caller[0] == "kata.rb:1077:in `tab_size'"
-    /`(?<name>[^']*)/ =~ caller[0] && name
-  end
-
-  # - - - - - - - - - - - - -
-
   def groups
-    Groups.new(@externals)
+    Groups.new(externals)
   end
 
   def singler
-    @externals.singler
+    externals.singler
   end
 
   def runner
-    @externals.runner
+    externals.runner
   end
 
 end
