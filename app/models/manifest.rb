@@ -14,7 +14,7 @@ class Manifest
     manifest_entry
   end
 
-  def display_name    # required
+  def display_name # required
     manifest_entry # eg 'Python, py.test'
   end
 

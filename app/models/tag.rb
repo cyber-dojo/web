@@ -33,15 +33,6 @@ class Tag
     (@hash['colour'] || @hash['outcome'] || '').to_sym
   end
 
-  def to_json
-    # Used only in differ_controller.rb
-    {
-      'colour' => colour,
-      'time'   => time,
-      'number' => number
-    }
-  end
-
   def number
     @hash['number']
   end

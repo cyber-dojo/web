@@ -20,8 +20,6 @@ class Kata
     singler.id?(id)
   end
 
-  # - - - - - - - - - - - - -
-
   def run_tests(image_name, max_seconds, delta, files, hidden_filenames)
 
     stdout,stderr,status,
@@ -44,17 +42,9 @@ class Kata
     # Stored snapshot exactly mirrors the files after the test-event
     # has completed. That is, after a test-event completes if you
     # refresh the page in the browser then nothing will change.
-    deleted_files.keys.each do |filename|
-      files.delete(filename)
-    end
-
-    new_files.each do |filename,content|
-      files[filename] = content
-    end
-
-    changed_files.each do |filename,content|
-      files[filename] = content
-    end
+    deleted_files.keys.each { |filename| files.delete(filename) }
+    new_files.each          { |filename,content| files[filename] = content }
+    changed_files.each      { |filename,content| files[filename] = content }
 
     [stdout,stderr,status,
      colour,
@@ -62,22 +52,16 @@ class Kata
     ]
   end
 
-  # - - - - - - - - - - - - -
-
   def ran_tests(files, at, stdout, stderr, colour)
     increments = singler.ran_tests(id, files, at, stdout, stderr, colour)
     tags = increments.map { |h| Tag.new(@externals, self, h) }
     tags.select(&:light?)
   end
 
-  # - - - - - - - - - - - - -
-
   def age
     last = lights[-1]
     last == nil ? 0 : (last.time - manifest.created).to_i
   end
-
-  # - - - - - - - - - - - - -
 
   def group
     gid = manifest.group
@@ -95,8 +79,6 @@ class Kata
       nil
     end
   end
-
-  # - - - - - - - - - - - - -
 
   def visible_files
     singler.visible_files(id)
@@ -119,8 +101,7 @@ class Kata
   include HiddenFileRemover
 
   def timed_out_message(max_seconds)
-    [
-      "Unable to complete the tests in #{max_seconds} seconds.",
+    [ "Unable to complete the tests in #{max_seconds} seconds.",
       'Is there an accidental infinite loop?',
       'Is the server very busy?',
       'Please try again.'

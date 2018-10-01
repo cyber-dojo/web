@@ -16,7 +16,7 @@ class DifferController < ApplicationController
     # So, in summary, if returning all the tags you need to do a
     #         tags.shift
 
-    tags = kata.lights.map(&:to_json)
+    tags = kata.lights.map{ |light| to_json(light) }
     was_tag, now_tag = *was_now(tags)
     diff = differ.diff(kata.id, was_tag, now_tag)
     view = diff_view(diff)
@@ -68,6 +68,14 @@ class DifferController < ApplicationController
       :id            => hash[:id],
       :section_count => hash[:section_count]
     }}
+  end
+
+  def to_json(light)
+    {
+      'colour' => light.colour,
+      'time'   => light.time,
+      'number' => light.number
+    }
   end
 
 end
