@@ -8,3 +8,6 @@ export SHA=$(cd "${ROOT_DIR}" && git rev-parse HEAD)
 docker-compose \
   --file "${ROOT_DIR}/docker-compose.yml" \
   build
+
+docker image     prune --force
+docker container prune --force
