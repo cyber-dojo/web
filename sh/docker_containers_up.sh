@@ -26,12 +26,14 @@ wait_till_up()
 
 docker-compose \
   --file "${ROOT_DIR}/docker-compose.yml" \
-  up -d \
+  up \
+  --detach \
   --force-recreate
 
 wait_till_up 'test-cyber-dojo-web'
 wait_till_up 'test-web-cyber-dojo-starter'
-wait_till_up 'test-web-cyber-dojo-storer'
+wait_till_up 'test-web-cyber-dojo-grouper'
+wait_till_up 'test-web-cyber-dojo-singler'
 wait_till_up 'test-web-cyber-dojo-runner-stateless'
 wait_till_up 'test-web-cyber-dojo-runner-stateful'
 wait_till_up 'test-web-cyber-dojo-differ'

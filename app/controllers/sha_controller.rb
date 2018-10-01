@@ -5,7 +5,8 @@ class ShaController < ApplicationController
     @shas = {
       #'differ' => differ.sha,
       #'starter' => starter.sha,
-      #'storer' => storer.sha,
+      #'grouper' => grouper.sha,
+      #'singler' => singler.sha,
       'web' => web_sha,
       #'zipper' => zipper.sha,
       #'runner-stateless' => runner.sha('stateless'),

@@ -21,10 +21,6 @@ module Externals # mix-in
     @singler ||= external
   end
 
-  def storer # TODO: drop
-    @storer  ||= external
-  end
-
   def zipper
     @zipper  ||= external
   end

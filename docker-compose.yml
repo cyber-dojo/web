@@ -22,7 +22,6 @@ services:
       - starter
       - grouper
       - singler
-      - storer
       - zipper
 
   # - - - - - - - - - - - - - - - -
@@ -65,23 +64,6 @@ services:
     restart: 'no'
     volumes:
       - /tmp/singler/persistent-dir/ids:/persistent-dir/ids:rw
-
-  # - - - - - - - - - - - - - - - -
-
-  storer:
-    user: storer
-    image: cyberdojo/storer
-    init: true
-    container_name: test-web-cyber-dojo-storer
-    read_only: true
-    tmpfs: /tmp
-    volumes:
-      - /tmp:/usr/src/cyber-dojo/katas:rw
-    mem_limit: 2G
-    memswap_limit: 2G
-    restart: 'no'
-    depends_on:
-      - starter
 
   # - - - - - - - - - - - - - - - -
 
@@ -142,4 +124,4 @@ services:
     memswap_limit: 50M
     restart: 'no'
     depends_on:
-      - storer
+      - singler

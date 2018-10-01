@@ -10,7 +10,8 @@ The main web-server for [cyber-dojo.org](http://cyber-dojo.org).
 - Uses [starter](https://github.com/cyber-dojo/starter) to help set up a practice session.
 - Uses [runner-stateless](https://github.com/cyber-dojo/runner-stateless) to run tests statelessly.
 - Uses [runner-stateful](https://github.com/cyber-dojo/runner-stateful) to run tests disk-statefully.
-- Uses [storer](https://github.com/cyber-dojo/storer) to save the code/tests associated with each test-run.
+- Uses [grouper](https://github.com/cyber-dojo/grouper) to remember the whose joined a group.
+- Uses [singler](https://github.com/cyber-dojo/singler) to remember the code/tests associated with each test-run.
 - Uses [differ](https://github.com/cyber-dojo/differ) to diff the code/tests in successive tests-runs.
 - Uses [zipper](https://github.com/cyber-dojo/zipper) to create tgz kata/avatar downloads.
 - Uses [prometheus](https://github.com/cyber-dojo/prometheus) to store monitoring data.

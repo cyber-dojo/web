@@ -43,7 +43,7 @@ class RunnerService
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def run_cyber_dojo_sh(image_name, kata_id, max_seconds, delta, files)
-    # This does NOT make a call to storer to get the runner-choice.
+    # This does NOT make a call to singler to get the runner-choice.
     # Assumes appropriate set_hostname_port_X method has already been called.
     new_files = files.select { |filename|
       delta[:new].include?(filename)
