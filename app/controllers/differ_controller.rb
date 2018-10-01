@@ -54,15 +54,6 @@ class DifferController < ApplicationController
     params[:filename]
   end
 
-  def avatar_name
-    avatar = kata.avatar
-    if avatar
-      avatar.name
-    else
-      ''
-    end
-  end
-
   def active_avatar_names
     @active_avatar_names ||= kata.group.avatars.active.map(&:name).sort
   end

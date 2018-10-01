@@ -5,19 +5,13 @@ require_relative '../lib/hidden_file_remover'
 class KataController < ApplicationController
 
   def group
-    @kata = kata
+    @kata = kata # TODO: @group
   end
 
   def edit
-    if avatar_name != ''
-      # group session
-      @kata = katas[sid(avatar_name)]
-      @avatar_name = avatar_name
-    else
-      # individual session
-      @kata = katas[id]
-      @avatar_name = ''
-    end
+    @id = id
+    @kata = kata
+    @avatar_name = avatar_name
     @title = 'test:' + @kata.short_id
   end
 
@@ -102,12 +96,6 @@ class KataController < ApplicationController
   include HiddenFileRemover
   include StringCleaner
   include TimeNow
-
-  def sid(avatar_name)
-    joined = grouper.joined(id)
-    index = Avatars.names.index(avatar_name)
-    joined[index.to_s]
-  end
 
   # - - - - - - - - - - - - - - - - - -
 

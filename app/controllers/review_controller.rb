@@ -14,15 +14,6 @@ class ReviewController < ApplicationController
 
   private
 
-  def avatar_name
-    avatar = kata.avatar
-    if avatar
-      avatar.name
-    else
-      ''
-    end
-  end
-
   def was_tag
     tag(:was_tag, '0')
   end

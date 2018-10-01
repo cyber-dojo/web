@@ -1,4 +1,4 @@
-require_relative '../../lib/time_now' # [1]
+require_relative '../../lib/time_now'
 
 module DashboardWorker # mixin
 
@@ -78,7 +78,3 @@ module DashboardWorker # mixin
   end
 
 end
-
-# [1] I see the occasional
-# ActionController::RoutingError (uninitialized constant DashboardWorker::TimeNow):
-# in the log unless I add this require

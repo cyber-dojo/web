@@ -39,7 +39,10 @@ $(function() {
       <td></td>
       <td></td>
       <td>
-        <div class='age' data-tip="time between oldest and newest traffic-lights"><%= raw time_tick(@group.age) %></div>
+        <div class='age'
+             data-tip="time between oldest and newest traffic-lights">
+             <%= raw time_tick(@group.age) %>
+           </div>
       </td>
     </tr>
   <% end %>
@@ -68,7 +71,7 @@ $(function() {
                 <% colour = light.colour %>
                 <% was_tag = now_tag %>
                 <% now_tag = light.number %>
-                <%= raw diff_traffic_light(id, name, colour, was_tag, now_tag) %>
+                <%= raw diff_traffic_light(@group.id, name, colour, was_tag, now_tag) %>
               </td>
             <% end %>
             </tr>

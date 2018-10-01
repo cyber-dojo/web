@@ -6,7 +6,7 @@ module TrafficLightHelper # mix-in
   # The data-id, data-avatar-name, data-was-tag, data-now-tag
   # properties are used to create click handlers that open a diff-dialog
   #   see setupTrafficLightOpensHistoryDialogHandlers()
-  #   in app/asserts/javascripts/cyber-dojo_traffic_lights.js
+  #   in app/asserts/javascripts/cyber-dojo_show_review_url.js
 
   # The data-tip property is used to create a hover-tip.
   #   see setupHoverTips()
@@ -14,10 +14,11 @@ module TrafficLightHelper # mix-in
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def diff_traffic_light(kata_id, avatar_name, colour, was_tag, now_tag)
+  def diff_traffic_light(id, avatar_name, colour, was_tag, now_tag)
+
     "<div class='diff-traffic-light'" +
         " data-tip='ajax:traffic_light'" +
-        " data-id='#{kata_id}'" +
+        " data-id='#{id}'" +
         " data-avatar-name='#{avatar_name}'" +
         " data-colour='#{colour}'" +
         " data-was-tag='#{was_tag}'" +

@@ -6,18 +6,30 @@ class ApplicationController < ActionController::Base
 
   include Externals
 
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
   def id
     params['id']
   end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def katas
     Katas.new(self)
   end
 
+  def kata_id
+    if avatar_name != ''
+      # group practice-session
+      joined = grouper.joined(id)
+      index = Avatars.names.index(avatar_name)
+      joined[index.to_s]
+    else
+      # individual practice-session
+      id
+    end
+  end
+
   def kata
-    katas[id]
+    katas[kata_id]
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -47,6 +59,8 @@ class ApplicationController < ActionController::Base
   def tag
     number_or_nil(params['tag'])
   end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def runner_choice
     params['runner_choice']

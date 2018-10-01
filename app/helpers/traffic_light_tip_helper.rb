@@ -1,7 +1,7 @@
 
 module TrafficLightTipHelper # mix-in
 
-  def traffic_light_tip_html(diffs, tags, was_tag, now_tag)
+  def traffic_light_tip_html(diffs, avatar_name, tags, was_tag, now_tag)
     was_tag = was_tag.to_i
     now_tag = now_tag.to_i
 
@@ -11,6 +11,9 @@ module TrafficLightTipHelper # mix-in
     tip += td(right_arrow)                       # ->
     tip += td(traffic_light_img(tags, now_tag))  # rag
     tip += td(tag_html(now_tag))                 # 14
+    unless avatar_name == ''
+      tip += td(avatar_img(avatar_name))         # panda
+    end
     tip += '</tr></table>'
 
     tip += '<table>'
@@ -46,6 +49,10 @@ module TrafficLightTipHelper # mix-in
 
   def right_arrow
     "<div class='right-arrow'>&rarr;</div>"
+  end
+
+  def avatar_img(name)
+    "<img src='/images/avatars/#{name}.jpg' class='traffic-light-diff-tip-avatar-image'>"
   end
 
   def diff_count(name, count)
