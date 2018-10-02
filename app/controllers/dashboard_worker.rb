@@ -8,19 +8,17 @@ module DashboardWorker # mixin
     @group = group
     @minute_columns = bool('minute_columns')
     @auto_refresh = bool('auto_refresh')
-
-    @all_lights = {}
-    group.katas.select(&:active?).each do |kata|
-      @all_lights[kata.avatar.name] = kata.lights
-    end
-
+    @all_lights = Hash[
+      group.katas
+           .select(&:active?)
+           .map{ |kata| [kata.avatar.name, kata.lights] }
+    ]
     max_seconds_uncollapsed = seconds_per_column * 5
     args = []
     args << group.created
     args << seconds_per_column
     args << max_seconds_uncollapsed
     gapper = DashboardTdGapper.new(*args)
-
     @gapped = gapper.fully_gapped(@all_lights, time_now)
     @time_ticks = gapper.time_ticks(@gapped)
   end
@@ -46,16 +44,13 @@ module DashboardWorker # mixin
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def animals_progress
-    animals = {}
-    group.katas.each do |kata|
-      if kata.active?
-        animals[kata.avatar.name] = {
-          colour: kata.lights[-1].colour,
-        progress: most_recent_progress(kata)
-        }
-      end
-    end
-    animals
+    Hash[group.katas
+              .select(&:active?)
+              .map { |kata| [
+                kata.avatar.name, {
+                  colour: kata.lights[-1].colour,
+                progress: most_recent_progress(kata)
+              }]}]
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -69,7 +64,7 @@ module DashboardWorker # mixin
     matches = regexs.map { |regex|
       Regexp.new(regex).match(output)
     }
-    return {
+    {
         text: matches.join,
       colour: (matches[0] != nil ? 'red' : 'green')
     }
