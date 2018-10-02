@@ -13,11 +13,7 @@ module DashboardWorker # mixin
            .select(&:active?)
            .map{ |kata| [kata.avatar.name, kata.lights] }
     ]
-    max_seconds_uncollapsed = seconds_per_column * 5
-    args = []
-    args << group.created
-    args << seconds_per_column
-    args << max_seconds_uncollapsed
+    args = [group.created, seconds_per_column, max_seconds_uncollapsed]
     gapper = DashboardTdGapper.new(*args)
     @gapped = gapper.fully_gapped(@all_lights, time_now)
     @time_ticks = gapper.time_ticks(@gapped)
@@ -39,6 +35,12 @@ module DashboardWorker # mixin
     # default is that time-gaps are on
     return 60 if flag.nil? || flag == 'true'
     return 60*60*24*365*1000
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def max_seconds_uncollapsed
+    seconds_per_column * 5
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -

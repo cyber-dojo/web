@@ -11,13 +11,31 @@ class Kata
     @id
   end
 
-  def manifest
-    @manifest ||= Manifest.new(@externals, id)
-  end
-
   def exists?
     singler.id?(id)
   end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def group
+    gid = manifest.group
+    if gid
+      @group ||= groups[gid]
+    else
+      nil
+    end
+  end
+
+  def avatar
+    if group
+      @avatar ||= group.avatars
+                       .detect{ |avatar| avatar.kata.id == id }
+    else
+      nil
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def run_tests(image_name, max_seconds, delta, files, hidden_filenames)
 
@@ -57,26 +75,11 @@ class Kata
     tags.select(&:light?)
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
   def age
     last = lights[-1]
     last == nil ? 0 : (last.time - manifest.created).to_i
-  end
-
-  def group
-    gid = manifest.group
-    if gid
-      @group ||= groups[gid]
-    else
-      nil
-    end
-  end
-
-  def avatar
-    if group
-      @avatar ||= group.avatars.detect{ |avatar| avatar.kata.id == id }
-    else
-      nil
-    end
   end
 
   def visible_files
@@ -93,6 +96,10 @@ class Kata
 
   def active?
     lights != []
+  end
+
+  def manifest
+    @manifest ||= Manifest.new(@externals, id)
   end
 
   private

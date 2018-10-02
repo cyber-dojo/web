@@ -14,6 +14,8 @@ class Group
     @exists ||= grouper.id?(@id)
   end
 
+  # - - - - - - - - - - - - -
+
   def katas
     joined.map{ |_    ,sid| Kata.new(@externals, sid) }
   end
