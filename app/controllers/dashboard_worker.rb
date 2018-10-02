@@ -10,10 +10,8 @@ module DashboardWorker # mixin
     @auto_refresh = bool('auto_refresh')
 
     @all_lights = {}
-    group.katas.each do |kata|
-      if kata.active?
-        @all_lights[kata.avatar.name] = kata.lights
-      end
+    group.katas.select(&:active?).each do |kata|
+      @all_lights[kata.avatar.name] = kata.lights
     end
 
     max_seconds_uncollapsed = seconds_per_column * 5

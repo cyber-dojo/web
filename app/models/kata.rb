@@ -73,7 +73,7 @@ class Kata
 
   def avatar
     if group
-      group.avatars.detect{|avatar| avatar.kata.id == id }
+      group.avatars.detect{ |avatar| avatar.kata.id == id }
     else
       nil
     end
