@@ -19,12 +19,12 @@ class ApplicationController < ActionController::Base
   end
 
   def kata_id
-    param = params['kata_id']  # TODO: cache this in review/_review partial
+    param = params['kata_id'] # TODO:cache for review/_review -> differ-diff
     if param
       # cached for kata/edit run_tests()
       param
     elsif avatar_name != ''
-      # group practice-session
+      # group practice-session    # differ-diff uses this...
       joined = grouper.joined(id)
       index = Avatars.names.index(avatar_name)
       joined[index.to_s]
@@ -45,8 +45,8 @@ class ApplicationController < ActionController::Base
   end
 
   def group
-    if avatar_name != ''
-      groups[id]
+    if avatar_name != '' # dashboard worker bypasses this...
+      groups[id]         # this works for differ-diff
     else
       nil
     end
