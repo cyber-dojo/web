@@ -4,7 +4,7 @@ require_relative '../../lib/time_now'
 class KataController < ApplicationController
 
   def group
-    @kata = kata # TODO: @group
+    @id = id
   end
 
   def edit

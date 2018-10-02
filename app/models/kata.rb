@@ -18,6 +18,7 @@ class Kata
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def group
+    # if the kata is in a group practice-session, the group, otherwise nil
     gid = manifest.group
     if gid
       @group ||= groups[gid]
@@ -27,6 +28,7 @@ class Kata
   end
 
   def avatar
+    # if the kata is in a group practice-session, the kata, otherwise nil
     if group
       @avatar ||= group.avatars
                        .detect{ |avatar| avatar.kata.id == id }
@@ -38,7 +40,7 @@ class Kata
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def run_tests(image_name, max_seconds, delta, files, hidden_filenames)
-
+    # run tests but don't store results
     stdout,stderr,status,
       colour,
         new_files,deleted_files,changed_files =
@@ -70,6 +72,7 @@ class Kata
   end
 
   def ran_tests(files, at, stdout, stderr, colour)
+    # store results from run_tests()
     incs = singler.ran_tests(id, files, at, stdout, stderr, colour)
     tags = incs.map { |h| Tag.new(@externals, self, h) }
     tags.select(&:light?)
@@ -83,10 +86,15 @@ class Kata
   end
 
   def visible_files
+    # the most recent set of files passes to ran_tests()
     @visible_files ||= singler.visible_files(id)
   end
 
   def tags
+    # an array of Tag objects, each one associated with
+    # a kata event. Currently all tag objects represent
+    # test-event, except the first one which represents
+    # the kata's creation.
     increments.map { |h| Tag.new(@externals, self, h) }
   end
 

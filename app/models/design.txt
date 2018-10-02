@@ -1,39 +1,14 @@
 
-A single 'kata' is created by selecting
-a language,test-framework,exercise triple
-and has a 10 digit base58 id.
-The animals (avatars) inside a kata thus share the same
-language,test-framework,exercise. It is a deliberate part
-of the design of cyber-dojo that different animals in the
-same kata *cannot* choose a different language or a
-different exercise.
+cyber-dojo is designed for group practice-sessions.
+In this 'mode' URLs typically look like this...
+   http://cyber-dojo.org/kata/edit/hVU93Kj8rq?avatar=tiger
+The hVU93Kj8rq is a group-id
+and the avatar=tiger is your animal inside this group
+Underneath, the [group-id, avatar-name] map to a
+kata with its own unique kata-id.
 
-A key cyber-dojo feature is the ability to review the [test]
-events, diff by diff.
-
-You can then
-o) use [ ] to select a specific kata.
-o) list all the avatars or use [ ] to select a specific avatar.
-o) list all the tags or use [ ] to select a specific tag
-o) list all the lights or use [ ] to select a specific light
-
-For example
-<code>
-...
-kata = katas['34D6E7823E']
-...
-kata.avatars.each {|avatar| ... }
-lion = kata.avatars['lion']
-...
-lion.tags.each {|tag| ... }
-tag = lion.tags[3]
-...
-lion.lights.each{|light| ... }
-light = lion.lights[5]
-</code>
-
-
-<code>
-src = katas['34D6E7823E'].avatars['lion'].tags[6].visible_files['wibble.h']
-colour = katas['34D6E7823E'].avatars['lion'].lights[3].colour
-</code>
+cyber-dojo can also be used for individual practice-sessions.
+In this 'mode' URLs typically look like this...
+  http://cyber-dojo.org/kata/edit/ym04AU98rH
+The ym04AU98rH is a kata-id
+and there is no avatar
