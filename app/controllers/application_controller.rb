@@ -72,24 +72,6 @@ class ApplicationController < ActionController::Base
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def runner_choice
-    params['runner_choice'] # TODO: drop
-  end
-
-  def image_name
-    params['image_name'] # TODO: drop
-  end
-
-  def max_seconds # TODO: drop
-    params['max_seconds'].to_i
-  end
-
-  def hidden_filenames # TODO: drop
-    JSON.parse(params['hidden_filenames'])
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - -
-
   def bind(pathed_filename)
     filename = Rails.root.to_s + pathed_filename
     ERB.new(File.read(filename)).result(binding)

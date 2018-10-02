@@ -20,12 +20,12 @@ class Kata
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def group
-    # if the kata is in a group practice-session, the group, otherwise nil
+    # if in a group practice-session, the group, otherwise nil
     @group
   end
 
   def avatar
-    # if the kata is in a group practice-session, the kata, otherwise nil
+    # if in a group practice-session, the avatar, otherwise nil
     @avatar
   end
 

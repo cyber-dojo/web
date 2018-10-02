@@ -17,7 +17,8 @@ class KataController < ApplicationController
   def run_tests
     @id = id
     @avatar_name = avatar_name
-    case runner_choice
+
+    case params['runner_choice']
     when 'stateless'
       runner.set_hostname_port_stateless
     when 'stateful'
@@ -26,8 +27,12 @@ class KataController < ApplicationController
 
     incoming = params[:file_hashes_incoming]
     outgoing = params[:file_hashes_outgoing]
+
+    image_name = params['image_name']
+    max_seconds = params['max_seconds'].to_i
     delta = FileDeltaMaker.make_delta(incoming, outgoing)
     files = received_files
+    hidden_filenames = JSON.parse(params['hidden_filenames'])
 
     stdout,stderr,status,
       @colour,
