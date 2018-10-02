@@ -39,11 +39,11 @@ $(() => {
   <table>
     <tr>
       <% was_tag = 0 %>
-      <% name = @avatar_name %>
       <% @kata.lights.each do |light| %>
-        <% colour = light.colour %>
         <% now_tag = light.number %>
-        <td><%= raw diff_traffic_light(@id, name, colour, was_tag, now_tag) %></td>
+        <td>
+          <%= raw diff_traffic_light(@id, @avatar_name, light.colour, was_tag, now_tag) %>
+        </td>
         <% was_tag = now_tag %>
       <% end %>
       <td><%= render partial: 'traffic_lights_count' %></td>

@@ -668,8 +668,7 @@ $(() => {
  	  return '<td>' + html + '</td>';
   };
 
-  //-----------------------------------------
-  //-----------------------------------------
+  // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const inDialog = () => {
     const dialog = $('div.ui-dialog-content');
@@ -677,10 +676,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  if (param.avatar == '') {
-    $('#avatar-control').hide();
-  }
 
   if (inDialog()) {
     setupButton('revert', () => { doRevert(); });
@@ -690,6 +685,10 @@ $(() => {
   }
   setupButton('download', () => { doDownload(); })
   setupButton('fork',     () => { cd.forkDialog(param.id, param.avatar, param.nowTag); });
+
+  if (param.avatar == '') {
+    $('#avatar-control').hide();
+  }
 
 });
 
