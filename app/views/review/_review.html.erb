@@ -678,6 +678,10 @@ $(() => {
   //-----------------------------------------
   //-----------------------------------------
 
+  if (param.avatar == '') {
+    $('#avatar-control').hide();
+  }
+
   if (inDialog()) {
     setupButton('revert', () => { doRevert(); });
     setupButton('close',  () => { $('#review-dialog').dialog('close'); });
