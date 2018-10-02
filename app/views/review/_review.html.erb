@@ -602,7 +602,9 @@ $(() => {
          tag: param.nowTag
     };
     $.getJSON('/reverter/revert', revertParams, (data) => {
-      $('#review-dialog').remove();
+      // This is .dialog('close') and not .remove() since the
+      // latter breaks inDialog()'s dialog.size() == 1 check.
+      $('#review-dialog').dialog('close');
       deleteAllCurrentFiles();
       copyRevertFilesToCurrentFiles(data.visibleFiles);
       $('#test-button').click();
