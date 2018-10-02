@@ -544,13 +544,6 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const inDialog = () => {
-    const dialog = $('div.ui-dialog-content');
-    return dialog.size() == 1;
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
   const reviewRefresh = () => {
     const reviewParams = {
             id: param.id,
@@ -677,6 +670,13 @@ $(() => {
 
   //-----------------------------------------
   //-----------------------------------------
+
+  const inDialog = () => {
+    const dialog = $('div.ui-dialog-content');
+    return dialog.size() == 1;
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
 
   if (param.avatar == '') {
     $('#avatar-control').hide();
