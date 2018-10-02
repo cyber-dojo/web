@@ -51,10 +51,10 @@ module DashboardWorker # mixin
 
   def animals_progress
     animals = {}
-    avatars.active.each do |avatar|
+    group.avatars.active.each do |avatar|
       animals[avatar.name] = {
-          colour: avatar.lights[-1].colour,
-        progress: most_recent_progress(avatar)
+          colour: avatar.kata.lights[-1].colour,
+        progress: most_recent_progress(avatar.kata)
       }
     end
     animals
@@ -62,9 +62,9 @@ module DashboardWorker # mixin
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def most_recent_progress(avatar)
-    regexs = avatar.kata.progress_regexs
-    non_amber = avatar.lights.reverse.find{ |light|
+  def most_recent_progress(kata)
+    regexs = kata.manifest.progress_regexs
+    non_amber = kata.lights.reverse.find{ |light|
       [:red,:green].include?(light.colour)
     }
     output = (non_amber != nil) ? non_amber.output : ''
