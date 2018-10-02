@@ -11,21 +11,23 @@ class Group
   end
 
   def exists?
-    grouper.id?(@id)
+    @exists ||= grouper.id?(@id)
   end
+
+  def katas
+    joined.map{ |_    ,sid| Kata.new(@externals, sid) }
+  end
+
+  def avatars
+    joined.map{ |index,sid| Avatar.new(@externals, sid, index) }
+  end
+
+  # - - - - - - - - - - - - -
 
   def age
     ages = katas.select(&:active?).map{ |kata| kata.age }
     ages == [] ? 0 : ages.sort[-1]
   end
-
-  def katas
-    grouper.joined(id)
-           .values
-           .map{ |id| Katas.new(@externals)[id] }
-  end
-
-  # - - - - - - - - - - - - -
 
   def progress_regexs # optional
     # TODO: [] is not a valid progress_regex.
@@ -39,6 +41,10 @@ class Group
   end
 
   private
+
+  def joined
+    @joined ||= grouper.joined(id)
+  end
 
   def manifest_property
     manifest[name_of(caller)]

@@ -52,8 +52,8 @@ class Kata
   end
 
   def ran_tests(files, at, stdout, stderr, colour)
-    increments = singler.ran_tests(id, files, at, stdout, stderr, colour)
-    tags = increments.map { |h| Tag.new(@externals, self, h) }
+    incs = singler.ran_tests(id, files, at, stdout, stderr, colour)
+    tags = incs.map { |h| Tag.new(@externals, self, h) }
     tags.select(&:light?)
   end
 
@@ -65,7 +65,7 @@ class Kata
   def group
     gid = manifest.group
     if gid
-      groups[gid]
+      @group ||= groups[gid]
     else
       nil
     end
@@ -73,22 +73,18 @@ class Kata
 
   def avatar
     if group
-      index,sid = *grouper.joined(group.id)
-                          .detect {|index,sid| sid == id }
-      name = Avatars.names[index.to_i]
-      Avatar.new(@externals, sid, name)
+      @avatar ||= group.avatars.detect{ |avatar| avatar.kata.id == id }
     else
       nil
     end
   end
 
   def visible_files
-    singler.visible_files(id)
+    @visible_files ||= singler.visible_files(id)
   end
 
   def tags
-    singler.increments(id)
-           .map { |h| Tag.new(@externals, self, h) }
+    increments.map { |h| Tag.new(@externals, self, h) }
   end
 
   def lights
@@ -103,6 +99,10 @@ class Kata
 
   include HiddenFileRemover
 
+  def increments
+    @increments ||= singler.increments(id)
+  end
+
   def timed_out_message(max_seconds)
     [ "Unable to complete the tests in #{max_seconds} seconds.",
       'Is there an accidental infinite loop?',
@@ -113,10 +113,6 @@ class Kata
 
   def groups
     Groups.new(@externals)
-  end
-
-  def grouper
-    @externals.grouper
   end
 
   def singler

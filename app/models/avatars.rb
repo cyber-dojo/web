@@ -22,38 +22,4 @@ class Avatars
     )
   end
 
-  def initialize(externals, id)
-    @externals = externals
-    @id = id
-    names = []
-    @ids = Hash[grouper.joined(id).map{ |index,id|
-      name = Avatars.names[index.to_i]
-      names << name
-      [name,id]
-    }]
-    @all = names.map{ |name| self[name] }
-  end
-
-  def each(&block)
-    @all.each(&block)
-  end
-
-  def [](name)
-    Avatar.new(@externals, @ids[name], name)
-  end
-
-  def active
-    select(&:active?)
-  end
-
-  def names
-    collect(&:name).sort
-  end
-
-  private
-
-  def grouper
-    @externals.grouper
-  end
-
 end

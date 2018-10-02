@@ -1,14 +1,14 @@
 
 class Avatar
 
-  def initialize(externals, id, name)
+  def initialize(externals, id, index)
     @externals = externals
     @id = id
-    @name = name
+    @index = index
   end
 
   def name
-    @name
+    Avatars.names[@index.to_i]
   end
 
   def kata
