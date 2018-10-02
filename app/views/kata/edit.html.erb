@@ -1,6 +1,5 @@
 <%= render partial: 'test_button_handler' %>
 <%= render partial: 'highlight_filenames' %>
-<%= render partial: 'shared/extension_filenames' %>
 <%= render partial: 'tab_size' %>
 
 <%= form_tag( { action: 'run_tests',
@@ -34,12 +33,10 @@
       </tr>
     </table>
   </div>
-
   <%= render partial: 'shared/app_bar_long',
              locals: {
                 help_url:"http://blog.cyber-dojo.org/2014/10/the-cyber-dojo-test-page.html"
              } %>
-
 <% end %>
 
 <script type="text/javascript"><!--
