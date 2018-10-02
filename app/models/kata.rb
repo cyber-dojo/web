@@ -12,7 +12,7 @@ class Kata
   end
 
   def manifest
-    Manifest.new(@externals, id)
+    @manifest ||= Manifest.new(@externals, id)
   end
 
   def exists?
@@ -73,7 +73,10 @@ class Kata
 
   def avatar
     if group
-      group.avatars.detect{ |avatar| avatar.kata.id == id }
+      index,sid = *grouper.joined(group.id)
+                          .detect {|index,sid| sid == id }
+      name = Avatars.names[index.to_i]
+      Avatar.new(@externals, sid, name)
     else
       nil
     end
@@ -84,7 +87,8 @@ class Kata
   end
 
   def tags
-    singler.increments(id).map { |h| Tag.new(@externals, self, h) }
+    singler.increments(id)
+           .map { |h| Tag.new(@externals, self, h) }
   end
 
   def lights
@@ -109,6 +113,10 @@ class Kata
 
   def groups
     Groups.new(@externals)
+  end
+
+  def grouper
+    @externals.grouper
   end
 
   def singler

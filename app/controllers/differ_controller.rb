@@ -57,7 +57,10 @@ class DifferController < ApplicationController
   def active_avatar_names
     group = kata.group
     if group
-      @active_avatar_names ||= group.avatars.active.map(&:name).sort
+      @active_avatar_names ||= group.katas
+                                    .select(&:active?)
+                                    .map{ |kata| kata.avatar.name }
+                                    .sort
     else
       []
     end

@@ -15,10 +15,6 @@ class Avatar
     Kata.new(@externals, @id)
   end
 
-  def active?
-    kata.active?
-  end
-
 end
 
 # Each avatar does _not_ choose their own language+test.
