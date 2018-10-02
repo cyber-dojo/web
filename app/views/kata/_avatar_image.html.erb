@@ -1,4 +1,3 @@
-
 <script type="text/javascript"><!--
 
 $(() => {
@@ -24,11 +23,11 @@ $(() => {
 //--></script>
 
 <% if @avatar_name != '' %>
-<div id="avatar-image-opens-dashboard"
-     class="avatar-image"
-     data-id="<%= @id %>">
-  <img src="/images/avatars/<%= @avatar_name %>.jpg"
-       alt="<%= @avatar_name %>"
-       class="avatar-image" />
-</div>
+  <div id="avatar-image-opens-dashboard"
+       class="avatar-image"
+       data-id="<%= @id %>">
+    <img src="/images/avatars/<%= @avatar_name %>.jpg"
+         alt="<%= @avatar_name %>"
+         class="avatar-image" />
+  </div>
 <% end %>

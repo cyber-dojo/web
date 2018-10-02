@@ -1,9 +1,5 @@
-<!-- when page is loaded <input> hashes are stored in here -->
-<div id="file_hashes_incoming_container"></div>
-<!-- when tests are run <input> hashes are stored in here -->
-<div id="file_hashes_outgoing_container"></div>
-
 <script type="text/javascript"><!--
+
 $(() => {
 
   cd.storeIncomingFileHashes = () => {
@@ -36,4 +32,15 @@ $(() => {
   };
 
 });
+
 //--></script>
+
+<!-- when page is loaded <input> hashes are stored in here -->
+<!-- when tests are run <input> hashes are stored in here  -->
+<!-- see end of edit.html.erb                              -->
+<!-- see end of run.tests.js.erb                           -->
+<div id="file_hashes_incoming_container"></div>
+
+<!-- when tests are run <input> hashes are stored in here  -->
+<!-- see _test_button_handler.html.erb                     -->
+<div id="file_hashes_outgoing_container"></div>
