@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
   end
 
   def kata_id
-    param = params['kata_id']
+    param = params['kata_id']  # TODO: cache this in review/_review partial
     if param
       # cached for kata/edit run_tests()
       param
@@ -45,7 +45,11 @@ class ApplicationController < ActionController::Base
   end
 
   def group
-    groups[id]
+    if avatar_name != ''
+      groups[id]
+    else
+      nil
+    end
   end
 
   def avatar_name
@@ -69,18 +73,18 @@ class ApplicationController < ActionController::Base
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def runner_choice
-    params['runner_choice']
+    params['runner_choice'] # TODO: drop
   end
 
   def image_name
-    params['image_name']
+    params['image_name'] # TODO: drop
   end
 
-  def max_seconds
+  def max_seconds # TODO: drop
     params['max_seconds'].to_i
   end
 
-  def hidden_filenames
+  def hidden_filenames # TODO: drop
     JSON.parse(params['hidden_filenames'])
   end
 

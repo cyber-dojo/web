@@ -17,11 +17,16 @@ class Group
   # - - - - - - - - - - - - -
 
   def katas
-    joined.map{ |_    ,sid| Kata.new(@externals, sid) }
+    joined.map{ |index,sid|
+      Kata.new(@externals, sid, [self,index])
+    }
   end
 
   def avatars
-    joined.map{ |index,sid| Avatar.new(@externals, sid, index) }
+    joined.map{ |index,sid|
+      kata = Kata.new(@externals, sid)
+      Avatar.new(kata, index)
+    }
   end
 
   # - - - - - - - - - - - - -
@@ -66,3 +71,7 @@ class Group
   end
 
 end
+
+# The language+test is chosen for the group.
+# cyber-dojo is a team-based Interactive Dojo Environment,
+# not an Individual Development Environment

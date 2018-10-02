@@ -55,7 +55,6 @@ class DifferController < ApplicationController
   end
 
   def active_avatar_names
-    group = kata.group
     if group
       @active_avatar_names ||= group.katas
                                     .select(&:active?)

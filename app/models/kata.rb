@@ -2,9 +2,11 @@ require_relative '../lib/hidden_file_remover'
 
 class Kata
 
-  def initialize(externals, id)
+  def initialize(externals, id, group_index = [nil,nil])
     @externals = externals
     @id = id
+    @group,index = group_index
+    @avatar = @group ? Avatar.new(self, index) : nil
   end
 
   def id
@@ -19,22 +21,12 @@ class Kata
 
   def group
     # if the kata is in a group practice-session, the group, otherwise nil
-    gid = manifest.group
-    if gid
-      @group ||= groups[gid]
-    else
-      nil
-    end
+    @group
   end
 
   def avatar
     # if the kata is in a group practice-session, the kata, otherwise nil
-    if group
-      @avatar ||= group.avatars
-                       .detect{ |avatar| avatar.kata.id == id }
-    else
-      nil
-    end
+    @avatar
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
