@@ -41,6 +41,8 @@ module TestExternalHelpers # mix-in
     set_class('starter', value)
   end
 
+  # - - - - - - - - - - - - - - - - - - -
+
   def set_class(name, value)
     key = 'CYBER_DOJO_' + name.upcase + '_CLASS'
     ENV[key] = value

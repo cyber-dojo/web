@@ -53,9 +53,9 @@ class Kata
     # Stored snapshot exactly mirrors the files after the test-event
     # has completed. That is, after a test-event completes if you
     # refresh the page in the browser then nothing will change.
-    deleted_files.keys.each { |filename| files.delete(filename) }
-    new_files.each          { |filename,content| files[filename] = content }
-    changed_files.each      { |filename,content| files[filename] = content }
+    deleted_files.each { |filename,_      | files.delete(filename)    }
+    new_files.each     { |filename,content| files[filename] = content }
+    changed_files.each { |filename,content| files[filename] = content }
 
     [stdout,stderr,status,
      colour,

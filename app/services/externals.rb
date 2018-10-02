@@ -29,11 +29,6 @@ module Externals # mix-in
     @http ||= external
   end
 
-  def id_generator
-    # used by StorerFake
-    @id_generator ||= KataIdGeneratorStub.new(self) #TODO: drop
-  end
-
   private # = = = = = = = = =
 
   def external
