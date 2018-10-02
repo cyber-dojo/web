@@ -11,6 +11,7 @@ class Manifest
   end
 
   def group
+    # in grouper manifest, not in singler manifest
     manifest_entry
   end
 

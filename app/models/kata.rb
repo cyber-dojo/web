@@ -118,10 +118,6 @@ class Kata
     ].join("\n") + "\n"
   end
 
-  def groups
-    Groups.new(@externals)
-  end
-
   def singler
     @externals.singler
   end
