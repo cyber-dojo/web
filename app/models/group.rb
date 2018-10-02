@@ -15,7 +15,7 @@ class Group
   end
 
   def age
-    ages = avatars.active.map{ |avatar| avatar.kata.age }
+    ages = katas.select(&:active?).map{ |kata| kata.age }
     ages == [] ? 0 : ages.sort[-1]
   end
 
@@ -23,17 +23,23 @@ class Group
     Avatars.new(@externals, id)
   end
 
-  # - - - - - - - - - - - - -
-
-  def created # required
-    Time.mktime(*manifest_property)
+  def katas
+    grouper.joined(id).values.map{ |id|
+      Katas.new(@externals)[id]
+    }
   end
+
+  # - - - - - - - - - - - - -
 
   def progress_regexs # optional
     # [] is not a valid progress_regex.
     # It needs two regexs.
     # This affects zipper.zip_tag()
     manifest_property || []
+  end
+
+  def created # required
+    Time.mktime(*manifest_property)
   end
 
   private

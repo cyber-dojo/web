@@ -10,11 +10,9 @@ module DashboardWorker # mixin
     @auto_refresh = bool('auto_refresh')
 
     @all_lights = {}
-    grouper.joined(@group.id).each do |index,id|
-      name = Avatars.names[index.to_i]
-      lights = katas[id].lights
-      unless lights.empty?
-        @all_lights[name] = lights
+    group.katas.each do |kata|
+      if kata.active?
+        @all_lights[kata.avatar.name] = kata.lights
       end
     end
 
@@ -51,11 +49,13 @@ module DashboardWorker # mixin
 
   def animals_progress
     animals = {}
-    group.avatars.active.each do |avatar|
-      animals[avatar.name] = {
-          colour: avatar.kata.lights[-1].colour,
-        progress: most_recent_progress(avatar.kata)
-      }
+    group.katas.each do |kata|
+      if kata.active?
+        animals[kata.avatar.name] = {
+          colour: kata.lights[-1].colour,
+        progress: most_recent_progress(kata)
+        }
+      end
     end
     animals
   end

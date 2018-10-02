@@ -31,7 +31,7 @@ module Externals # mix-in
 
   def id_generator
     # used by StorerFake
-    @id_generator ||= KataIdGeneratorStub.new(self)
+    @id_generator ||= KataIdGeneratorStub.new(self) #TODO: drop
   end
 
   private # = = = = = = = = =
