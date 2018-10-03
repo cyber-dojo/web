@@ -2,15 +2,15 @@
 
 $(function() {
 
-  var progressDialog = function(id) {
-    var id = "<%= @group.id %>";
+  const progressDialog = function() {
+    const id = "<%= @group.id %>";
 	  $.getJSON('/dashboard/progress', { id: id }, function(data) {
       var html = '';
       var index = 0;
       html += '<div id="progress-dialog">';
       html += '<table>';
       $.each(data.animals, function(name, animal) {
-        var parity = (index % 2 == 0) ? 'even' : 'odd';
+        const parity = (index % 2 == 0) ? 'even' : 'odd';
         index += 1;
         html +=
           "<tr class='" + parity + " animal'>" +
@@ -35,7 +35,7 @@ $(function() {
       html += '</table>';
       html += '</div>';
 
-      var node = $(html);
+      const node = $(html);
       node.dialog({
         autoOpen: true,
         modal: true,
@@ -44,15 +44,15 @@ $(function() {
         width: 600
       });
 
-      $('.avatar-image', node).click(function() {
-        var avatar = $(this).data('avatar');
-        var lastTag = -1;
+      $('.avatar-image', node).click((event) => {
+        const avatar = $(event.currentTarget).data('avatar');
+        const lastTag = -1;
         window.open(cd.showReviewUrl(id, avatar, lastTag, lastTag));
       });
     }); // getJSON
   };
 
-  $('#progress-button').click(function() {
+  $('#progress-button').click(() => {
     progressDialog();
   });
 
