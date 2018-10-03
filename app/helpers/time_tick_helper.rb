@@ -9,12 +9,15 @@ module TimeTickHelper # mix-in
 
     tick = ''
     if seconds >= SECONDS_PER_DAY
-      tick += days.to_s + 'd:'
+      d = "<span class='d-for-days'>d</span>"
+      tick += days.to_s + d + '&thinsp;'
     end
     if seconds >= SECONDS_PER_HOUR
-      tick += hours.to_s + 'h:'
+      h = "<span class='h-for-hours'>h</span>"
+      tick += hours.to_s + h + '&thinsp;'
     end
-    tick += minutes.to_s + 'm'
+    m = "<span class='m-for-minutes'>m</span>"
+    tick += minutes.to_s + m
   end
 
   HOURS_PER_DAY ||= 24
