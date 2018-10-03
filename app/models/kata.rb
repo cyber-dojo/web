@@ -1,6 +1,6 @@
 require_relative '../lib/file_delta_maker'
 require_relative '../lib/hidden_file_remover'
-require_relative '../../lib/string_cleaner'
+require_relative '../../lib/cleaner'
 
 class Kata
 
@@ -48,7 +48,7 @@ class Kata
     image_name = params[:image_name]
     max_seconds = params[:max_seconds].to_i
     delta = FileDeltaMaker.make_delta(incoming, outgoing)
-    files = received_files(params)
+    files = cleaned_files(params[:file_content])
     files.delete('output')
 
     stdout,stderr,status,
@@ -124,22 +124,10 @@ class Kata
 
   include FileDeltaMaker
   include HiddenFileRemover
-  include StringCleaner
+  include Cleaner
 
   def increments
     @increments ||= singler.increments(id)
-  end
-
-  def received_files(params)
-    # If params is a Rails ActionController::Parameters then
-    # you can't do a .map or .to_h on it, so using .each
-    seen = {}
-    params[:file_content].each do |filename, content|
-      content = cleaned(content)
-      # Cater for windows line endings from windows browser
-      seen[filename] = content.gsub(/\r\n/, "\n")
-    end
-    seen
   end
 
   def timed_out_message(max_seconds)
