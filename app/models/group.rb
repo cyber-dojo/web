@@ -37,34 +37,14 @@ class Group
     ages == [] ? 0 : ages.sort[-1]
   end
 
-  def progress_regexs # optional
-    # TODO: [] is not a valid progress_regex.
-    # It needs two regexs.
-    # This affects zipper.zip_tag()
-    manifest_property || []
-  end
-
-  def created # required
-    Time.mktime(*manifest_property)
+  def manifest
+    @manifest ||= Manifest.new(grouper.manifest(id))
   end
 
   private
 
   def joined
     @joined ||= grouper.joined(id)
-  end
-
-  def manifest_property
-    manifest[name_of(caller)]
-  end
-
-  def manifest
-    @manifest ||= grouper.manifest(id)
-  end
-
-  def name_of(caller)
-    # eg caller[0] == "group.rb:28:in `created'"
-    /`(?<name>[^']*)/ =~ caller[0] && name
   end
 
   def grouper

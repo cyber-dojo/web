@@ -1,13 +1,12 @@
 
 class Manifest
 
-  def initialize(externals, id)
-    @externals = externals
-    @id = id
+  def initialize(manifest)
+    @manifest = manifest
   end
 
   def id
-    @id
+    manifest_entry
   end
 
   def group
@@ -69,20 +68,12 @@ class Manifest
   private
 
   def manifest_entry
-    manifest[name_of(caller)]
-  end
-
-  def manifest
-    @manifest ||= singler.manifest(id)
+    @manifest[name_of(caller)]
   end
 
   def name_of(caller)
     # eg caller[0] == "manifest.rb:34:in `tab_size'"
     /`(?<name>[^']*)/ =~ caller[0] && name
-  end
-
-  def singler
-    @externals.singler
   end
 
 end

@@ -99,7 +99,7 @@ class Kata
   end
 
   def manifest
-    @manifest ||= Manifest.new(@externals, id)
+    @manifest ||= Manifest.new(singler.manifest(id))
   end
 
   private
