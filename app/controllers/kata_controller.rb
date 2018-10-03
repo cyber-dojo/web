@@ -28,6 +28,7 @@ class KataController < ApplicationController
     incoming = params[:file_hashes_incoming]
     outgoing = params[:file_hashes_outgoing]
 
+    kata = katas[params['kata_id']]
     image_name = params['image_name']
     max_seconds = params['max_seconds'].to_i
     delta = FileDeltaMaker.make_delta(incoming, outgoing)

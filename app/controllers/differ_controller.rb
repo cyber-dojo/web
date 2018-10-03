@@ -2,6 +2,9 @@
 class DifferController < ApplicationController
 
   def diff
+    # TODO:
+    # kata = katas[params['kata_id']]
+
     # This currently returns tags that are traffic-lights.
     # This matches the default tag handling in the review-controller.
     # The review/diff dialog/page has been refactored so it

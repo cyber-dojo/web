@@ -19,15 +19,9 @@ class ApplicationController < ActionController::Base
   end
 
   def kata_id
-    param = params['kata_id'] # TODO:cache for review/_review -> differ-diff
-    if param
-      # cached for kata/edit run_tests()
-      param
-    elsif avatar_name != ''
-      # group practice-session    # differ-diff uses this...
-      joined = grouper.joined(id)
-      index = Avatars.names.index(avatar_name)
-      joined[index.to_s]
+    if avatar_name != ''
+      # group practice-session
+      groups[id].avatars.detect{ |avatar| avatar.name == avatar_name }.kata.id
     else
       # individual practice-session
       id
