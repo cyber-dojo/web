@@ -2,8 +2,8 @@
 
 $(() => {
 
-  $('.diff-traffic-light').click(() => {
-    const light = $(this);
+  $('.diff-traffic-light').on('click',(event) => {
+    const light = $(event.currentTarget);
     const id         = light.data('id');
     const avatarName = light.data('avatar-name');
     const wasTag     = light.data('was-tag');
