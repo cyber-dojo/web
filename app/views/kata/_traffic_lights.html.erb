@@ -14,8 +14,8 @@ $(() => {
         closeOnEscape: true,
       });
 
-    $lights.each(function() {
-      const light = $(this);
+    $lights.each((_index,element) => {
+      const light = $(element);
       const id     = light.data('id');
       const avatar = light.data('avatar-name');
       const wasTag = light.data('was-tag');
