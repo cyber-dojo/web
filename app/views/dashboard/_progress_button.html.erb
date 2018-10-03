@@ -1,10 +1,10 @@
 <script type="text/javascript"><!--
 
-$(function() {
+$(() => {
 
-  const progressDialog = function() {
+  const progressDialog = () => {
     const id = "<%= @group.id %>";
-	  $.getJSON('/dashboard/progress', { id: id }, function(data) {
+	  $.getJSON('/dashboard/progress', { id: id }, (data) => {
       var html = '';
       var index = 0;
       html += '<div id="progress-dialog">';
@@ -40,8 +40,8 @@ $(function() {
         autoOpen: true,
         modal: true,
         title: cd.dialogTitle('progress'),
-        buttons: { close: function() { $(this).remove(); } },
-        width: 600
+        buttons: { close: () => { node.remove(); } },
+        maxWidth: 600
       });
 
       $('.avatar-image', node).click((event) => {
