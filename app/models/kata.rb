@@ -49,6 +49,7 @@ class Kata
     max_seconds = params[:max_seconds].to_i
     delta = FileDeltaMaker.make_delta(incoming, outgoing)
     files = received_files(params)
+    files.delete('output')
 
     stdout,stderr,status,
       colour,
@@ -130,14 +131,13 @@ class Kata
   end
 
   def received_files(params)
+    # If params is a Rails ActionController::Parameters then
+    # you can't do a .map or .to_h on it, so using .each
     seen = {}
-    (params[:file_content] || {}).each do |filename, content|
-      # Important to ignore output as it's not a 'real' file
-      unless filename == 'output'
-        content = cleaned(content)
-        # Cater for windows line endings from windows browser
-        seen[filename] = content.gsub(/\r\n/, "\n")
-      end
+    params[:file_content].each do |filename, content|
+      content = cleaned(content)
+      # Cater for windows line endings from windows browser
+      seen[filename] = content.gsub(/\r\n/, "\n")
     end
     seen
   end
