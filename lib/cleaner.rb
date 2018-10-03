@@ -9,8 +9,8 @@ module Cleaner # mix-in
     cleaned = {}
     files.each do |filename, content|
       content = cleaned_string(content)
-      # Cater for windows line endings from windows browser
-      cleaned[filename] = content.gsub(/\r\n/, "\n")
+      content = content.gsub(/\r\n/, "\n")
+      cleaned[filename] = content
     end
     cleaned
   end
