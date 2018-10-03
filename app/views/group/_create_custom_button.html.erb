@@ -1,9 +1,8 @@
-
 <script type="text/javascript"><!--
 
-$(function() {
+$(() => {
 
-  $('button#create-custom').click(function() {
+  $('button#create-custom').click(() => {
     const url = "/setup_custom_start_point/show/<%= @id %>?from=group";
     window.location = url;
   });
