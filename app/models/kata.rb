@@ -1,4 +1,6 @@
+require_relative '../lib/file_delta_maker'
 require_relative '../lib/hidden_file_remover'
+require_relative '../../lib/string_cleaner'
 
 class Kata
 
@@ -31,8 +33,23 @@ class Kata
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def run_tests(image_name, max_seconds, delta, files, hidden_filenames)
-    # run tests but don't store results
+  def run_tests(params)
+    # run tests but don't save the results
+    case params[:runner_choice]
+    when 'stateless'
+      runner.set_hostname_port_stateless
+    when 'stateful'
+      runner.set_hostname_port_stateful
+    end
+
+    incoming = params[:file_hashes_incoming]
+    outgoing = params[:file_hashes_outgoing]
+
+    image_name = params[:image_name]
+    max_seconds = params[:max_seconds].to_i
+    delta = FileDeltaMaker.make_delta(incoming, outgoing)
+    files = received_files(params)
+
     stdout,stderr,status,
       colour,
         new_files,deleted_files,changed_files =
@@ -47,24 +64,25 @@ class Kata
     new_files.delete('output')
     changed_files['output'] = stdout + stderr
 
-    # Don't show generated files that match hidden filenames
+    hidden_filenames = JSON.parse(params[:hidden_filenames])
     remove_hidden_files(new_files, hidden_filenames)
 
-    # Stored snapshot exactly mirrors the files after the test-event
-    # has completed. That is, after a test-event completes if you
-    # refresh the page in the browser then nothing will change.
-    deleted_files.each { |filename,_      | files.delete(filename)    }
     new_files.each     { |filename,content| files[filename] = content }
+    deleted_files.each { |filename,_      | files.delete(filename)    }
     changed_files.each { |filename,content| files[filename] = content }
 
     [stdout,stderr,status,
      colour,
-     new_files,deleted_files,changed_files
+     files,new_files,deleted_files,changed_files
     ]
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
   def ran_tests(files, at, stdout, stderr, colour)
-    # store results from run_tests()
+    # save run_tests() results.
+    # After a test-event completes if you refresh the
+    # page in the browser then nothing will change.
     incs = singler.ran_tests(id, files, at, stdout, stderr, colour)
     tags = incs.map { |h| Tag.new(@externals, self, h) }
     tags.select(&:light?)
@@ -78,19 +96,18 @@ class Kata
   end
 
   def visible_files
-    # the most recent set of files passes to ran_tests()
+    # the most recent set of files passed to ran_tests()
     @visible_files ||= singler.visible_files(id)
   end
 
   def tags
-    # an array of Tag objects, each one associated with
-    # a kata event. Currently all tag objects represent
-    # test-event, except the first one which represents
-    # the kata's creation.
+    # each array element is represents a kata event.
     increments.map { |h| Tag.new(@externals, self, h) }
   end
 
   def lights
+    # currently all tag objects are test-events, except
+    # the first one which represents the kata's creation.
     tags.select(&:light?)
   end
 
@@ -104,10 +121,25 @@ class Kata
 
   private
 
+  include FileDeltaMaker
   include HiddenFileRemover
+  include StringCleaner
 
   def increments
     @increments ||= singler.increments(id)
+  end
+
+  def received_files(params)
+    seen = {}
+    (params[:file_content] || {}).each do |filename, content|
+      # Important to ignore output as it's not a 'real' file
+      unless filename == 'output'
+        content = cleaned(content)
+        # Cater for windows line endings from windows browser
+        seen[filename] = content.gsub(/\r\n/, "\n")
+      end
+    end
+    seen
   end
 
   def timed_out_message(max_seconds)
