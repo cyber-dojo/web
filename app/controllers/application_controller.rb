@@ -18,16 +18,6 @@ class ApplicationController < ActionController::Base
     Katas.new(self)
   end
 
-  def kata_id
-    if avatar_name != ''
-      # group practice-session
-      groups[id].avatars.detect{ |avatar| avatar.name == avatar_name }.kata.id
-    else
-      # individual practice-session
-      id
-    end
-  end
-
   def kata
     katas[kata_id]
   end
@@ -44,6 +34,12 @@ class ApplicationController < ActionController::Base
     else
       nil
     end
+    # dashboard/show/ID
+    # ...does not have avatar and ID == group-id
+    # kata/edit/ID?avatar=tuna
+    # ...does have avatar and ID = group-id
+    # kata/edit/ID
+    # ...does not have avatar and ID = kata-id  NEW
   end
 
   def avatar_name
@@ -76,6 +72,18 @@ class ApplicationController < ActionController::Base
   def number_or_nil(string)
     num = string.to_i
     num if num.to_s == string
+  end
+
+  private
+
+  def kata_id
+    if avatar_name != ''
+      # group practice-session
+      groups[id].avatars[avatar_name].kata.id
+    else
+      # individual practice-session
+      id
+    end
   end
 
 end

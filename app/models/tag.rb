@@ -16,6 +16,7 @@ class Tag
   end
 
   def output
+    # Used in dashboard's recent_progress
     # Very early dojos didn't store output in initial tag 0
     visible_files['output'] || ''
   end

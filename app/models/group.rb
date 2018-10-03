@@ -23,10 +23,11 @@ class Group
   end
 
   def avatars
-    joined.map{ |index,sid|
+    Hash[joined.map{ |index,sid|
       kata = Kata.new(@externals, sid)
-      Avatar.new(kata, index)
-    }
+      name = Avatars.names[index.to_i]
+      [name, Avatar.new(kata, index)]
+    }]
   end
 
   # - - - - - - - - - - - - -
