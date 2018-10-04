@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def id
-    params['id']
+    params[:id]
   end
 
   def katas
@@ -37,21 +37,21 @@ class ApplicationController < ActionController::Base
   end
 
   def avatar_name
-    params['avatar'] || ''
+    params[:avatar] || ''
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def was_tag
-    number_or_nil(params['was_tag'])
+    number_or_nil(params[:was_tag])
   end
 
   def now_tag
-    number_or_nil(params['now_tag'])
+    number_or_nil(params[:now_tag])
   end
 
   def tag
-    number_or_nil(params['tag'])
+    number_or_nil(params[:tag])
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
