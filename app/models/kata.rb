@@ -60,8 +60,8 @@ class Kata
       stdout = timed_out_message(max_seconds) + stdout
     end
 
-    # If there is a file called output remove it otherwise
-    # it interferes with the output pseudo-file.
+    # If the runner has created a file called output remove it
+    # otherwise it interferes with the output pseudo-file.
     new_files.delete('output')
     changed_files['output'] = stdout + stderr
 
