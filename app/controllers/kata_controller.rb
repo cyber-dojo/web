@@ -16,7 +16,6 @@ class KataController < ApplicationController
   def run_tests
     @id = id
     @avatar_name = avatar_name
-    kata = katas[params[:kata_id]]
 
     stdout,stderr,status,
       @colour,

@@ -34,12 +34,6 @@ class ApplicationController < ActionController::Base
     else
       nil
     end
-    # dashboard/show/ID
-    # ...does not have avatar and ID == group-id
-    # kata/edit/ID?avatar=tuna
-    # ...does have avatar and ID = group-id
-    # kata/edit/ID
-    # ...does not have avatar and ID = kata-id  NEW
   end
 
   def avatar_name
@@ -77,7 +71,18 @@ class ApplicationController < ActionController::Base
   private
 
   def kata_id
-    if avatar_name != ''
+    # dashboard/show/ID
+    # ...does not have avatar and ID == group-id
+    # kata/edit/ID?avatar=tuna
+    # ...does have avatar and ID = group-id
+    # kata/edit/ID
+    # ...does not have avatar and ID = kata-id  NEW
+
+    param = params[:kata_id]
+    if param
+      # cached for KataController.run_tests()
+      param
+    elsif avatar_name != ''
       # group practice-session
       groups[id].avatars[avatar_name].kata.id
     else
