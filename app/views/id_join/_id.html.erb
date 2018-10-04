@@ -9,7 +9,7 @@ $(() => {
   const ok = $('button#ok');
   const cancel = $('button#cancel');
 
-  const autoDropDown = function() {
+  const autoDropDown = () => {
     const id = inputId.val();
     if (id.length >= 6) {
       $.getJSON('/id_join/drop_down', { id: id }, (dojo) => {
@@ -31,7 +31,7 @@ $(() => {
             cancel.hide();
           }
           inputId.prop('disabled', true);
-          inputId.slideUp('fast', function() {
+          inputId.slideUp('fast', () => {
             dropDown.slideDown('slow');
           });
         }
@@ -41,7 +41,7 @@ $(() => {
 
   dropDown.hide();
 
-  cancel.click(function() {
+  cancel.click(() => {
     dropDown.slideUp('slow', function() {
       inputId.show()
              .prop('disabled', false)
