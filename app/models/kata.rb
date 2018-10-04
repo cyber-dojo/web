@@ -80,10 +80,8 @@ class Kata
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def ran_tests(files, at, stdout, stderr, colour)
+  def ran_tests(files, at, stdout, stderr, status, colour)
     # save run_tests() results.
-    # After a test-event completes if you refresh the
-    # page in the browser then nothing will change.
     incs = singler.ran_tests(id, files, at, stdout, stderr, colour)
     tags = incs.map { |h| Tag.new(@externals, self, h) }
     tags.select(&:light?)

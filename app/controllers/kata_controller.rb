@@ -14,6 +14,8 @@ class KataController < ApplicationController
   end
 
   def run_tests
+    # After a test-event completes if you refresh the
+    # page in the browser then nothing will change.
     @id = id
     @avatar_name = avatar_name
 
@@ -21,7 +23,7 @@ class KataController < ApplicationController
       @colour,
         files,@new_files,@deleted_files,@changed_files = kata.run_tests(params)
 
-    lights = kata.ran_tests(files, time_now, stdout, stderr, @colour)
+    lights = kata.ran_tests(files, time_now, stdout, stderr, status, @colour)
 
     @was_tag = lights.size == 1 ? 0 : lights[-2].number
     @now_tag = lights[-1].number
