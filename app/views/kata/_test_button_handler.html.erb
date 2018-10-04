@@ -23,6 +23,9 @@ $(() => {
     const tags = $('#traffic-lights .diff-traffic-light');
     return (tags.last().data('now-tag') || 0) + 1;
   };
+  const storeNextTag = () => {
+    $("input[name='next_tag']").val(nextTag());
+  };
 
   testButton.click(() => {
     // Called from 3 places
@@ -32,6 +35,7 @@ $(() => {
 
     cd.saveCodeFromSyntaxHighlightEditors();
     cd.storeOutgoingFileHashes();
+    storeNextTag();
 
     $.ajax({
       timeout: 30000, // 30 seconds (twice server timeout)

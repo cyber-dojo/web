@@ -23,7 +23,8 @@ class KataController < ApplicationController
       @colour,
         files,@new_files,@deleted_files,@changed_files = kata.run_tests(params)
 
-    lights = kata.ran_tests(files, time_now, stdout, stderr, status, @colour)
+    n = params[:next_tag].to_i
+    lights = kata.ran_tests(n, files, time_now, stdout, stderr, status, @colour)
 
     @was_tag = lights.size == 1 ? 0 : lights[-2].number
     @now_tag = lights[-1].number
