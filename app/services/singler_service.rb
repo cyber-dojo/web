@@ -46,6 +46,10 @@ class SinglerService
     http_get(__method__, id)
   end
 
+  def tag(id, n)
+    http_get(__method__, id, n)
+  end
+
   # - - - - - - - - - - - -
 
   def visible_files(id)

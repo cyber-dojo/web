@@ -62,7 +62,11 @@ module DashboardWorker # mixin
     non_amber = kata.lights.reverse.find{ |light|
       [:red,:green].include?(light.colour)
     }
-    output = (non_amber != nil) ? non_amber.output : ''
+    if non_amber
+      output = non_amber.stdout + non_amber.stderr
+    else
+      output = ''
+    end
     matches = regexs.map { |regex|
       Regexp.new(regex).match(output)
     }

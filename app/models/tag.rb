@@ -12,16 +12,30 @@ class Tag
   end
 
   def visible_files
-    @manifest ||= singler.tag_visible_files(kata.id, number)
+    manifest['files']
   end
+
+  def stdout
+    manifest['stdout']
+  end
+
+  def stderr
+    manifest['stderr']
+  end
+
+  def status
+    manifest['status']
+  end
+
+  # - - - - - - - -
 
   def time
     Time.mktime(*@hash['time'])
   end
 
   def colour
-    # Very early dojos used outcome
-    (@hash['colour'] || @hash['outcome'] || '').to_sym
+    # colour.nil? unless light?
+    (@hash['colour'] || '').to_sym
   end
 
   def number
@@ -29,12 +43,6 @@ class Tag
   end
 
   # - - - - - - - -
-
-  def output
-    # Used in dashboard's recent_progress
-    # Very early dojos didn't store output in initial tag 0
-    visible_files['output'] || ''
-  end
 
   def light?
     colour.to_s != ''
@@ -44,6 +52,10 @@ class Tag
 
   def singler
     @externals.singler
+  end
+
+  def manifest
+    @manifest ||= singler.tag(kata.id, number)
   end
 
 end
