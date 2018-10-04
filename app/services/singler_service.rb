@@ -42,7 +42,7 @@ class SinglerService
     http_post(__method__, id, files, now, stdout, stderr, status, colour)
   end
 
-  def increments(id)
+  def tags(id)
     http_get(__method__, id)
   end
 

@@ -101,7 +101,8 @@ class Kata
 
   def tags
     # each array element is represents a kata event.
-    increments.map { |h| Tag.new(@externals, self, h) }
+    @tags ||= singler.tags(id)
+    @tags.map { |h| Tag.new(@externals, self, h) }
   end
 
   def lights
@@ -123,10 +124,6 @@ class Kata
   include FileDeltaMaker
   include HiddenFileRemover
   include Cleaner
-
-  def increments
-    @increments ||= singler.increments(id)
-  end
 
   def timed_out_message(max_seconds)
     [ "Unable to complete the tests in #{max_seconds} seconds.",

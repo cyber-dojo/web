@@ -9,7 +9,6 @@ class SinglerServiceTest < AppServicesTestBase
 
   def hex_setup
     set_differ_class('NotUsed')
-    set_storer_class('NotUsed')
     set_runner_class('NotUsed')
   end
 
@@ -54,11 +53,11 @@ class SinglerServiceTest < AppServicesTestBase
   after create() then
   the id can be completed
   and id?() is true
-  and the increments has tag0
+  and the tags has tag0
   and the manifest can be retrieved ) do
     id = singler.create(make_manifest)
     assert singler.id?(id)
-    assert_equal([tag0], singler.increments(id))
+    assert_equal([tag0], singler.tags(id))
     assert_equal id, singler.id_completed(id[0..5])
     outer = id[0..1]
     inner = id[2..-1]
@@ -69,7 +68,7 @@ class SinglerServiceTest < AppServicesTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'A20',
-  'ran_tests() returns increments' do
+  'ran_tests() returns tags' do
     # This is an optimization to avoid web service
     # having to make a call back to storer to get the
     # tag numbers for the new traffic-light's diff handler.
