@@ -1,25 +1,24 @@
-
 <script type="text/javascript"><!--
 
-$(function() {
+$(() => {
 
   const inputId = $('input#id');
   const dropDown = $('#drop-down');
   const ok = $('button#ok');
   const cancel = $('button#cancel');
 
-  const autoDropDown = function() {
+  const autoDropDown = () => {
     const id = inputId.val();
     if (id.length >= 6) {
-      $.getJSON('/id_review/drop_down', { id: id }, function(dojo) {
+      $.getJSON('/id_review/drop_down', { id: id }, (dojo) => {
         if (dojo.exists) {
-          ok.unbind().click(function() {
+          ok.unbind().click(() => {
             const url = '/dashboard/show/' + dojo.id;
             window.location.href = cd.homePageUrl(dojo.id);
             window.open(url);
           });
           inputId.prop('disabled', true);
-          inputId.slideUp('fast', function() {
+          inputId.slideUp('fast', () => {
             dropDown.slideDown('slow');
           });
         }
@@ -29,8 +28,8 @@ $(function() {
 
   dropDown.hide();
 
-  cancel.click(function() {
-    dropDown.slideUp('slow', function() {
+  cancel.click(() => {
+    dropDown.slideUp('slow', () => {
       inputId.show()
              .prop('disabled', false)
              .val('')
@@ -41,7 +40,7 @@ $(function() {
 
   cd.onlyBase58(inputId);
 
-  inputId.focus().keyup(function() { autoDropDown(); });
+  inputId.focus().keyup(() => { autoDropDown(); });
 
 });
 
