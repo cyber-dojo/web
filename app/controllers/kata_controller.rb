@@ -33,8 +33,6 @@ class KataController < ApplicationController
     end
   end
 
-  # - - - - - - - - - - - - - - - - - -
-
   def show_json
     # https://atom.io/packages/cyber-dojo
     render :json => {

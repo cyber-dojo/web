@@ -82,7 +82,7 @@ class Kata
 
   def ran_tests(files, at, stdout, stderr, status, colour)
     # save run_tests() results.
-    incs = singler.ran_tests(id, files, at, stdout, stderr, colour)
+    incs = singler.ran_tests(id, files, at, stdout, stderr, status, colour)
     tags = incs.map { |h| Tag.new(@externals, self, h) }
     tags.select(&:light?)
   end
