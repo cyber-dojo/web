@@ -4,7 +4,7 @@ $(() => {
 
   const updatePieChart = () => {
     let totalRagCount = 0;
-    const rags = $('.diff-traffic-light');
+    const rags = $('#traffic-lights .diff-traffic-light');
     const count = (colour) => {
       const n = cd.ragCount(rags, colour);
       totalRagCount += n;
