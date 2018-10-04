@@ -1,9 +1,8 @@
-
 <script type="text/javascript"><!--
 
-$(function() {
+$(() => {
 
-  cd.resume = function(id, avatarName) {
+  cd.resume = (id, avatarName) => {
     const url = '/kata/edit/' + id + '?avatar=' + avatarName;
     window.location.href = cd.homePageUrl(id);
     window.open(url);
@@ -13,10 +12,10 @@ $(function() {
   const dropDown = $('#drop-down');
   const cancel = $('button#cancel');
 
-  const autoDropDown = function() {
+  const autoDropDown = () => {
     const id = inputId.val();
     if (id.length >= 6) {
-      $.getJSON('/id_rejoin/drop_down', { id: id }, function(dojo) {
+      $.getJSON('/id_rejoin/drop_down', { id: id }, (dojo) => {
         if (dojo.exists) {
           const hiText = $('#hi-text');
           const avatarPicker = $('#avatar-picker');
@@ -31,7 +30,7 @@ $(function() {
           avatarPicker.html(dojo.avatarPickerHtml);
           cd.setupHoverTip($('[data-tip]'));
           inputId.prop('disabled', true);
-          inputId.slideUp('fast', function() {
+          inputId.slideUp('fast', () => {
             dropDown.slideDown('slow');
           });
         }
@@ -41,8 +40,8 @@ $(function() {
 
   dropDown.hide();
 
-  cancel.click(function() {
-    dropDown.slideUp('slow', function() {
+  cancel.click(() => {
+    dropDown.slideUp('slow', () => {
       inputId.show()
              .prop('disabled', false)
              .val('')
@@ -53,7 +52,7 @@ $(function() {
 
   cd.onlyBase58(inputId);
 
-  inputId.focus().keyup(function() { autoDropDown(); });
+  inputId.focus().keyup(() => { autoDropDown(); });
 
 });
 

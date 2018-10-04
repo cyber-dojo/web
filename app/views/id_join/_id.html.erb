@@ -42,7 +42,7 @@ $(() => {
   dropDown.hide();
 
   cancel.click(() => {
-    dropDown.slideUp('slow', function() {
+    dropDown.slideUp('slow', () => {
       inputId.show()
              .prop('disabled', false)
              .val('')
