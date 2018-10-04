@@ -50,20 +50,6 @@ class SinglerService
     http_get(__method__, id, n)
   end
 
-  # - - - - - - - - - - - -
-
-  def visible_files(id)
-    http_get(__method__, id)
-  end
-
-  def tag_visible_files(id, tag)
-    http_get(__method__, id, tag)
-  end
-
-  def tags_visible_files(id, was_tag, now_tag)
-    http_get(__method__, id, was_tag, now_tag)
-  end
-
   private
 
   include HttpHelper

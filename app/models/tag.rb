@@ -11,7 +11,7 @@ class Tag
     @kata
   end
 
-  def visible_files
+  def files
     manifest['files']
   end
 

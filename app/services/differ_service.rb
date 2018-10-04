@@ -15,12 +15,11 @@ class DifferService
   # - - - - - - - - - - - - -
 
   def diff(kata_id, was_tag, now_tag)
-    args = [kata_id, was_tag, now_tag]
-    visible_files = singler.tags_visible_files(*args)
     http_get_hash('diff', {
-      :was_files => visible_files['was_tag'],
-      :now_files => visible_files['now_tag']
+      :was_files => singler.tag(kata_id, was_tag)['files'],
+      :now_files => singler.tag(kata_id, now_tag)['files']
     })
+
   end
 
   private # = = = = = = = = =

@@ -2,7 +2,7 @@
 
 $(() => {
 
-  <% @kata.visible_files.each do |filename,content| %>
+  <% @kata.files.each do |filename,content| %>
     cd.newFile("<%= j raw(filename) %>", "<%= j raw(content) %>");
   <% end %>
 

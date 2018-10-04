@@ -94,13 +94,13 @@ class Kata
     last == nil ? 0 : (last.time - manifest.created).to_i
   end
 
-  def visible_files
+  def files
     # the most recent set of files passed to ran_tests()
-    @visible_files ||= singler.visible_files(id)
+    @files ||= singler.tag(id, -1)['files']
   end
 
   def tags
-    # each array element is represents a kata event.
+    # each array element represents a kata event.
     @tags ||= singler.tags(id)
     @tags.map { |h| Tag.new(@externals, self, h) }
   end
