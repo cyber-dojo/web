@@ -36,14 +36,14 @@ module HttpHelper # mix-in
   end
 
   def result(json, name)
-    fail_if(name, 'bad json') { json.class.name == 'Hash' }
+    fail_unless(name, 'bad json') { json.class.name == 'Hash' }
     exception = json['exception']
-    fail_if(name, pretty(exception)) { exception.nil? }
-    fail_if(name, 'no key') { json.key?(name) }
+    fail_unless(name, pretty(exception)) { exception.nil? }
+    fail_unless(name, 'no key') { json.key?(name) }
     json[name]
   end
 
-  def fail_if(name, message, &block)
+  def fail_unless(name, message, &block)
     unless block.call
       fail ServiceError.new(self.class.name, name, message)
     end
