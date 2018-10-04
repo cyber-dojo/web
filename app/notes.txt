@@ -1,0 +1,18 @@
+
+It would be better if each traffic-light
+simply stored its own tag (and we drop was-tag).
+
+The previous tag would have to be calculated
+and would depend on the mode, do you want to
+see (are you seeing) just traffic-lights, or all events?
+
+This would also mean singler.ran_tests() would
+not need to return anything.
+
+I would also like singler.ran_tests() to take tag as an argument.
+This will help caching (cache server).
+It will also mean I can directly append to the end
+of the tags.json file
+Viz, each line is a json
+{ 'number' => 0, 'time' => [2018,10,4,10,45,32], 'event' => 'created' }
+{ 'number' => 1, 'time' => [2018,10,4,10,45,57], 'colour' => 'red' }
