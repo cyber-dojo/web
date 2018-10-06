@@ -28,21 +28,21 @@ class RunnerService
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def kata_new(image_name, kata_id, starting_files)
-    unless stateless?(kata_id)
+  def kata_new(image_name, id, starting_files)
+    unless stateless?(id)
       runner_http_post(__method__, *args(binding))
     end
   end
 
-  def kata_old(image_name, kata_id)
-    unless stateless?(kata_id)
+  def kata_old(image_name, id)
+    unless stateless?(id)
       runner_http_post(__method__, *args(binding))
     end
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def run_cyber_dojo_sh(image_name, kata_id, max_seconds, delta, files)
+  def run_cyber_dojo_sh(image_name, id, max_seconds, delta, files)
     # This does NOT make a call to singler to get the runner-choice.
     # Assumes appropriate set_hostname_port_X method has already been called.
     new_files = files.select { |filename|
@@ -60,7 +60,7 @@ class RunnerService
 
     args = {
              image_name:image_name,
-                kata_id:kata_id,
+                     id:id,
               new_files:new_files,
           deleted_files:deleted_files,
           changed_files:changed_files,
@@ -89,8 +89,8 @@ class RunnerService
 
   attr_reader :hostname, :port
 
-  def set_hostname_port(kata_id)
-    case runner_choice(kata_id)
+  def set_hostname_port(id)
+    case runner_choice(id)
     when 'stateless'
       set_hostname_port_stateless
     when 'stateful'
@@ -98,12 +98,12 @@ class RunnerService
     end
   end
 
-  def stateless?(kata_id)
-    runner_choice(kata_id) == 'stateless'
+  def stateless?(id)
+    runner_choice(id) == 'stateless'
   end
 
-  def runner_choice(kata_id)
-    katas[kata_id].manifest.runner_choice
+  def runner_choice(id)
+    katas[id].manifest.runner_choice
   end
 
   def katas

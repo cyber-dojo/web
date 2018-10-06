@@ -2,8 +2,9 @@
 class IdReviewController < ApplicationController
 
   def drop_down
-    @id = grouper.id_completed(id)
-    json = { exists: @id != '' }
+    @id = id
+    exists = grouper.exists?(id)
+    json = { exists:exists }
     if json[:exists]
       json[:id] = @id
     end

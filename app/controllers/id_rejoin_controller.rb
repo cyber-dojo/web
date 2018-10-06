@@ -3,8 +3,9 @@ class IdRejoinController < ApplicationController
 
   def drop_down
     # TODO: individual-rejoin
-    @id = grouper.id_completed(id)
-    json = { exists: @id != '' }
+    @id = id
+    exists = grouper.exists?(id)
+    json = { exists:exists }
     if json[:exists]
       indexes = grouper.joined(@id).keys
       json[:empty] = (indexes == [])

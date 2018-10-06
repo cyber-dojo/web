@@ -11,7 +11,7 @@ $(() => {
 
   const autoDropDown = () => {
     const id = inputId.val();
-    if (id.length >= 6) {
+    if (id.length == 6) {
       $.getJSON('/id_join/drop_down', { id: id }, (dojo) => {
         if (dojo.exists) {
           if (dojo.full) {
