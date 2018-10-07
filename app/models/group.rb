@@ -11,7 +11,7 @@ class Group
   end
 
   def exists?
-    @exists ||= grouper.id?(@id)
+    @exists ||= grouper.exists?(@id)
   end
 
   # - - - - - - - - - - - - -

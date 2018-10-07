@@ -16,7 +16,7 @@ class Kata
   end
 
   def exists?
-    singler.id?(id)
+    singler.exists?(id)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
