@@ -14,7 +14,7 @@ $(() => {
 
   const autoDropDown = () => {
     const id = inputId.val();
-    if (id.length == 6) {
+    if (id.length >= 6) {
       $.getJSON('/id_rejoin/drop_down', { id: id }, (dojo) => {
         if (dojo.exists) {
           const hiText = $('#hi-text');
