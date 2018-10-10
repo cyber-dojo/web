@@ -10,7 +10,7 @@ class Groups
   end
 
   def new_group(manifest, files)
-    id = grouper.create(manifest, files)
+    id = grouper.group_create(manifest, files)
     self[id]
   end
 

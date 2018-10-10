@@ -3,7 +3,7 @@ class IdReviewController < ApplicationController
 
   def drop_down
     @id = id
-    exists = grouper.exists?(id)
+    exists = grouper.group_exists?(id)
     json = { exists:exists }
     if json[:exists]
       json[:id] = @id

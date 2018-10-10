@@ -10,7 +10,7 @@ class Katas
   end
 
   def new_kata(manifest, files)
-    id = singler.create(manifest, files)
+    id = singler.kata_create(manifest, files)
     runner.kata_new(manifest['image_name'], id, files)
     self[id]
   end

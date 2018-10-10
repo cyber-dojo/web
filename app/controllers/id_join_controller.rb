@@ -3,11 +3,11 @@ class IdJoinController < ApplicationController
 
   # Only for a group practice-session
   def drop_down
-    exists = grouper.exists?(id)
+    exists = grouper.group_exists?(id)
     json = { exists:exists }
     if json[:exists]
       indexes = (0..63).to_a.shuffle
-      index,_sid = grouper.join(id, indexes)
+      index,_sid = grouper.group_join(id, indexes)
       json[:full] = index.nil?
       if json[:full]
         json[:fullHtml] = full_html
