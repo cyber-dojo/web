@@ -4,10 +4,10 @@ class IdRejoinController < ApplicationController
   def drop_down
     # TODO: individual-rejoin
     @id = id
-    exists = grouper.group_exists?(id)
-    json = { exists:exists }
+    joined = grouper.group_joined(@id)
+    json = { exists:!joined.nil? }
     if json[:exists]
-      indexes = grouper.group_joined(@id).keys
+      indexes = joined.keys
       json[:empty] = (indexes == [])
       json[:avatarPickerHtml] = avatar_picker_html(indexes)
     end

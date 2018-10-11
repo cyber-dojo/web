@@ -50,7 +50,7 @@ services:
     tmpfs: /tmp
     restart: 'no'
     volumes:
-      - /tmp/grouper/persistent-dir/ids:/persistent-dir/ids:rw
+      - /tmp/groups/:/groups:rw
 
   # - - - - - - - - - - - - - - - -
 
@@ -63,7 +63,7 @@ services:
     tmpfs: /tmp
     restart: 'no'
     volumes:
-      - /tmp/singler/persistent-dir/ids:/persistent-dir/ids:rw
+      - /tmp/katas:/katas:rw
 
   # - - - - - - - - - - - - - - - -
 

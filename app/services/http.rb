@@ -7,11 +7,15 @@ class Http
   end
 
   def get(hostname, port, path, named_args)
-    call(hostname, port, path, named_args) { |url| Net::HTTP::Get.new(url) }
+    call(hostname, port, path, named_args) { |url|
+      Net::HTTP::Get.new(url)
+    }
   end
 
   def post(hostname, port, path, named_args)
-    call(hostname, port, path, named_args) { |url| Net::HTTP::Post.new(url) }
+    call(hostname, port, path, named_args) { |url|
+      Net::HTTP::Post.new(url)
+    }
   end
 
   private
