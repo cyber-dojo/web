@@ -9,8 +9,8 @@ class Groups
     Group.new(@externals, id)
   end
 
-  def new_group(manifest, files)
-    id = grouper.group_create(manifest, files)
+  def new_group(manifest)
+    id = grouper.group_create(manifest)
     self[id]
   end
 

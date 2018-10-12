@@ -18,8 +18,8 @@ class SinglerService
     http_get(__method__, id)
   end
 
-  def kata_create(manifest, files)
-    http_post(__method__, manifest, files)
+  def kata_create(manifest)
+    http_post(__method__, manifest)
   end
 
   def kata_manifest(id)

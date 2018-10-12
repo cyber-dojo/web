@@ -11,14 +11,12 @@ class SetupCustomStartPointController < ApplicationController
   end
 
   def save_individual
-    manifest,files = from_starter
-    kata = katas.new_kata(manifest, files)
+    kata = katas.new_kata(starter_manifest)
     redirect_to "/kata/edit/#{kata.id}"
   end
 
   def save_group
-    manifest,files = from_starter
-    group = groups.new_group(manifest, files)
+    group = groups.new_group(starter_manifest)
     redirect_to "/kata/group/#{group.id}"
   end
 
@@ -26,12 +24,11 @@ class SetupCustomStartPointController < ApplicationController
 
   include TimeNow
 
-  def from_starter
+  def starter_manifest
     display_name = params['display_name']
     manifest = starter.custom_manifest(display_name)
     manifest['created'] = time_now
-    files = manifest.delete('visible_files')
-    [manifest,files]
+    manifest
   end
 
   def index_match(names, current_name)

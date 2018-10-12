@@ -9,9 +9,9 @@ class Katas
     Kata.new(@externals, id)
   end
 
-  def new_kata(manifest, files)
-    id = singler.kata_create(manifest, files)
-    runner.kata_new(manifest['image_name'], id, files)
+  def new_kata(manifest)
+    id = singler.kata_create(manifest)
+    runner.kata_new(manifest['image_name'], id, manifest['visible_files'])
     self[id]
   end
 

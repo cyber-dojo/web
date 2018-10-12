@@ -127,6 +127,7 @@ var cyberDojo = (function(cd, $) {
       case 'makefile':
         return 'text/x-makefile';
       case 'instructions':
+      case 'readme.txt':
       case 'output':
         return '';
     }

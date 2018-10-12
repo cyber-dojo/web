@@ -18,8 +18,8 @@ class GrouperService
     http_get(__method__, id)
   end
 
-  def group_create(manifest, files)
-    http_post(__method__, manifest, files)
+  def group_create(manifest)
+    http_post(__method__, manifest)
   end
 
   def group_manifest(id)
