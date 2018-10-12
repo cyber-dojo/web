@@ -6,7 +6,6 @@ class ShaController < ApplicationController
       'differ' => differ.sha,
       'starter' => starter.sha,
       'grouper' => grouper.sha,
-      'singler' => singler.sha,
       'web' => web_sha,
       'zipper' => zipper.sha,
       'runner-stateless' => runner.sha('stateless'),
