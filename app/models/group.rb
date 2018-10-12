@@ -11,7 +11,7 @@ class Group
   end
 
   def exists?
-    @exists ||= grouper.group_exists?(@id)
+    @exists ||= saver.group_exists?(@id)
   end
 
   # - - - - - - - - - - - - -
@@ -38,17 +38,17 @@ class Group
   end
 
   def manifest
-    @manifest ||= Manifest.new(grouper.group_manifest(id))
+    @manifest ||= Manifest.new(saver.group_manifest(id))
   end
 
   private
 
   def joined
-    @joined ||= grouper.group_joined(id)
+    @joined ||= saver.group_joined(id)
   end
 
-  def grouper
-    @externals.grouper
+  def saver
+    @externals.saver
   end
 
 end

@@ -21,7 +21,6 @@ services:
       - runner-stateless
       - starter
       - grouper
-      - singler
       - zipper
 
   # - - - - - - - - - - - - - - - -
@@ -51,19 +50,7 @@ services:
     restart: 'no'
     volumes:
       - /tmp/groups/:/groups:rw
-
-  # - - - - - - - - - - - - - - - -
-
-  singler:
-    user: singler
-    image: cyberdojo/singler
-    init: true
-    container_name: test-web-singler
-    read_only: true
-    tmpfs: /tmp
-    restart: 'no'
-    volumes:
-      - /tmp/katas:/katas:rw
+      - /tmp/katas/:/katas:rw
 
   # - - - - - - - - - - - - - - - -
 
@@ -124,4 +111,4 @@ services:
     memswap_limit: 50M
     restart: 'no'
     depends_on:
-      - singler
+      - grouper  # will be saver

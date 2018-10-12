@@ -16,8 +16,8 @@ class DifferService
 
   def diff(kata_id, was_tag, now_tag)
     http_get_hash('diff', {
-      :was_files => singler.kata_tag(kata_id, was_tag)['files'],
-      :now_files => singler.kata_tag(kata_id, now_tag)['files']
+      :was_files => saver.kata_tag(kata_id, was_tag)['files'],
+      :now_files => saver.kata_tag(kata_id, now_tag)['files']
     })
 
   end
@@ -34,8 +34,8 @@ class DifferService
     4567
   end
 
-  def singler
-    @externals.singler
+  def saver
+    @externals.saver
   end
 
 end

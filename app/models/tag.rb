@@ -50,12 +50,12 @@ class Tag
 
   private
 
-  def singler
-    @externals.singler
+  def manifest
+    @manifest ||= saver.tag(kata.id, number)
   end
 
-  def manifest
-    @manifest ||= singler.tag(kata.id, number)
+  def saver
+    @externals.saver
   end
 
 end

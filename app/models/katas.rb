@@ -10,15 +10,15 @@ class Katas
   end
 
   def new_kata(manifest)
-    id = singler.kata_create(manifest)
+    id = saver.kata_create(manifest)
     runner.kata_new(manifest['image_name'], id, manifest['visible_files'])
     self[id]
   end
 
   private
 
-  def singler
-    @externals.singler
+  def saver
+    @externals.saver
   end
 
   def runner

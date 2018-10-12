@@ -1,24 +1,20 @@
 
 module Externals # mix-in
 
-  def differ
-    @differ  ||= external
+  def starter
+    @starter ||= external
   end
 
   def runner
     @runner  ||= external
   end
 
-  def starter
-    @starter ||= external
+  def saver
+    grouper
   end
 
-  def grouper
-    @grouper ||= external
-  end
-
-  def singler
-    @singler ||= external
+  def differ
+    @differ  ||= external
   end
 
   def zipper
@@ -30,6 +26,10 @@ module Externals # mix-in
   end
 
   private # = = = = = = = = =
+
+  def grouper
+    @grouper ||= external
+  end
 
   def external
     # See comment below

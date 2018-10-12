@@ -10,14 +10,14 @@ class Groups
   end
 
   def new_group(manifest)
-    id = grouper.group_create(manifest)
+    id = saver.group_create(manifest)
     self[id]
   end
 
   private
 
-  def grouper
-    @externals.grouper
+  def saver
+    @externals.saver
   end
 
 end

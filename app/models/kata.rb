@@ -16,7 +16,7 @@ class Kata
   end
 
   def exists?
-    singler.kata_exists?(id)
+    saver.kata_exists?(id)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -82,7 +82,7 @@ class Kata
 
   def ran_tests(n, files, at, stdout, stderr, status, colour)
     # save run_tests() results.
-    incs = singler.kata_ran_tests(id, n, files, at, stdout, stderr, status, colour)
+    incs = saver.kata_ran_tests(id, n, files, at, stdout, stderr, status, colour)
     tags = incs.map { |h| Tag.new(@externals, self, h) }
     tags.select(&:light?)
   end
@@ -96,12 +96,12 @@ class Kata
 
   def files
     # the most recent set of files passed to ran_tests()
-    @files ||= singler.kata_tag(id, -1)['files']
+    @files ||= saver.kata_tag(id, -1)['files']
   end
 
   def tags
     # each array element represents a kata event.
-    @tags ||= singler.kata_tags(id)
+    @tags ||= saver.kata_tags(id)
     @tags.map { |h| Tag.new(@externals, self, h) }
   end
 
@@ -116,7 +116,7 @@ class Kata
   end
 
   def manifest
-    @manifest ||= Manifest.new(singler.kata_manifest(id))
+    @manifest ||= Manifest.new(saver.kata_manifest(id))
   end
 
   private
@@ -133,8 +133,8 @@ class Kata
     ].join("\n") + "\n"
   end
 
-  def singler
-    @externals.singler
+  def saver
+    @externals.saver
   end
 
   def runner
