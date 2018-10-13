@@ -24,7 +24,7 @@ class StarterService
     hash = http_get(__method__, display_name, exercise_name)
     manifest = hash['manifest']
     manifest['exercise'] = exercise_name
-    manifest['starter_files']['readme.txt'] = hash['exercise']
+    manifest['visible_files']['readme.txt'] = hash['exercise']
     manifest
   end
 
