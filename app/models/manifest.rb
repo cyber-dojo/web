@@ -10,7 +10,7 @@ class Manifest
   end
 
   def group
-    # in grouper manifest, not in singler manifest
+    # in group's manifest, not in kata's manifest
     manifest_entry
   end
 
