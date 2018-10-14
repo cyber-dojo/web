@@ -11,12 +11,6 @@
 
 #-----!Except these files
 
-!docker-compose.yml
-!Dockerfile
 !config.ru
 !script/rails
 !up.sh
-
-!README.md
-!LICENSE.md
-!pipe_build_up_test.sh
