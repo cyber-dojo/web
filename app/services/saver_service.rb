@@ -1,6 +1,6 @@
 require_relative 'http_helper'
 
-class GrouperService
+class SaverService
 
   def initialize(externals)
     @externals = externals
@@ -69,7 +69,7 @@ class GrouperService
   include HttpHelper
 
   def hostname
-    'grouper'
+    'saver'
   end
 
   def port

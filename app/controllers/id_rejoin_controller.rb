@@ -4,7 +4,7 @@ class IdRejoinController < ApplicationController
   def drop_down
     # TODO: individual-rejoin
     @id = id
-    joined = grouper.group_joined(@id)
+    joined = saver.group_joined(@id)
     json = { exists:!joined.nil? }
     if json[:exists]
       indexes = joined.keys

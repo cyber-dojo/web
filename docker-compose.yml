@@ -16,11 +16,11 @@ services:
     memswap_limit: 2G
     restart: 'no'
     depends_on:
-      - differ
+      - starter
       - runner-stateful
       - runner-stateless
-      - starter
-      - grouper
+      - saver
+      - differ
       - zipper
 
   # - - - - - - - - - - - - - - - -
@@ -40,11 +40,11 @@ services:
 
   # - - - - - - - - - - - - - - - -
 
-  grouper:
-    user: grouper
-    image: cyberdojo/grouper
+  saver:
+    user: saver
+    image: cyberdojo/saver
     init: true
-    container_name: test-web-grouper
+    container_name: test-web-saver
     read_only: true
     tmpfs: /tmp
     restart: 'no'
@@ -111,4 +111,4 @@ services:
     memswap_limit: 50M
     restart: 'no'
     depends_on:
-      - grouper  # will be saver
+      - saver

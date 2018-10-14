@@ -39,10 +39,10 @@ do
     export COVERAGE_DIR=${coverage_dir}
 
     # set defaults for externals
-    export CYBER_DOJO_DIFFER_CLASS=DifferService
-    export CYBER_DOJO_RUNNER_CLASS=RunnerStub
     export CYBER_DOJO_STARTER_CLASS=StarterStub
-    export CYBER_DOJO_GROUPER_CLASS=GrouperService
+    export CYBER_DOJO_SAVER_CLASS=SaverService
+    export CYBER_DOJO_RUNNER_CLASS=RunnerStub
+    export CYBER_DOJO_DIFFER_CLASS=DifferService
     export CYBER_DOJO_ZIPPER_CLASS=ZipperService
     export CYBER_DOJO_HTTP_CLASS=Http
 

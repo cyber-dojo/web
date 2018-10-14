@@ -32,7 +32,7 @@ docker-compose \
 
 wait_till_up 'test-web'
 wait_till_up 'test-web-starter'
-wait_till_up 'test-web-grouper'
+wait_till_up 'test-web-saver'
 wait_till_up 'test-web-runner-stateless'
 wait_till_up 'test-web-runner-stateful'
 wait_till_up 'test-web-differ'
