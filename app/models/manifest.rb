@@ -5,24 +5,34 @@ class Manifest
     @manifest = manifest
   end
 
-  def id
-    manifest_entry
-  end
-
   def group
     # in group's manifest, not in kata's manifest
     manifest_entry
   end
 
-  def display_name # required
+  # required
+
+  def id
+    manifest_entry # eg '260Fa8'
+  end
+
+  def display_name
     manifest_entry # eg 'Python, py.test'
   end
 
-  def exercise
-    manifest_entry # present in language+testFramework kata
-  end              # not present in custom kata
+  def image_name
+    manifest_entry # eg 'cyberdojofoundation/java_junit'
+  end
 
-  def filename_extension # required
+  def runner_choice
+    manifest_entry # eg 'stateless'
+  end
+
+  def created
+    Time.mktime(*manifest_entry) # eg [2018,10,14, 9,50,23]
+  end
+
+  def filename_extension
     if manifest_entry.is_a?(Array)
       manifest_entry     # eg  [ ".c", ".h" ]
     else
@@ -30,35 +40,29 @@ class Manifest
     end
   end
 
-  def highlight_filenames # optional
+  # optional
+
+  def exercise
+    manifest_entry # present in language+testFramework kata
+  end              # not present in custom kata
+
+  def highlight_filenames
     manifest_entry || []
   end
 
-  def hidden_filenames # optional
+  def hidden_filenames
     manifest_entry || []
   end
 
-  def tab_size # optional
+  def tab_size
     manifest_entry || 4
   end
 
-  def image_name # required
-    manifest_entry
-  end
-
-  def max_seconds # optional
+  def max_seconds
     manifest_entry || 10
   end
 
-  def runner_choice # required
-    manifest_entry
-  end
-
-  def created # required
-    Time.mktime(*manifest_entry)
-  end
-
-  def progress_regexs # optional
+  def progress_regexs
     # [] is not a valid progress_regex.
     # It needs two regexs.
     # This affects zipper.zip_tag()
@@ -72,7 +76,7 @@ class Manifest
   end
 
   def name_of(caller)
-    # eg caller[0] == "manifest.rb:34:in `tab_size'"
+    # eg caller[0] == "manifest.rb:58:in `tab_size'"
     /`(?<name>[^']*)/ =~ caller[0] && name
   end
 
