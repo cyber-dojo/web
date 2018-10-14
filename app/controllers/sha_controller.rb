@@ -3,13 +3,13 @@ class ShaController < ApplicationController
 
   def index
     @shas = {
-      'differ' => differ.sha,
-      'starter' => starter.sha,
-      'grouper' => grouper.sha,
       'web' => web_sha,
-      'zipper' => zipper.sha,
+      'starter' => starter.sha,
+      'saver' => saver.sha,
       'runner-stateless' => runner.sha('stateless'),
       'runner-stateful' => runner.sha('stateful'),
+      'differ' => differ.sha,
+      'zipper' => zipper.sha,
     }
   end
 
