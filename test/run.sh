@@ -44,6 +44,7 @@ do
     export CYBER_DOJO_RUNNER_CLASS=RunnerStub
     export CYBER_DOJO_DIFFER_CLASS=DifferService
     export CYBER_DOJO_ZIPPER_CLASS=ZipperService
+    export CYBER_DOJO_PORTER_CLASS=PorterService
     export CYBER_DOJO_HTTP_CLASS=Http
 
     # run-the-tests!

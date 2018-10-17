@@ -10,6 +10,7 @@ class ShaController < ApplicationController
       'runner-stateful' => runner.sha('stateful'),
       'differ' => differ.sha,
       'zipper' => zipper.sha,
+      'porter' => porter.sha
     }
   end
 
