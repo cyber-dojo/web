@@ -85,7 +85,7 @@ class RunnerService
     http_post(method, *args)
   end
 
-  include HttpHelper
+  #include HttpHelper
 
   attr_reader :hostname, :port
 

@@ -3,31 +3,23 @@ require_relative 'http_helper'
 class PorterService
 
   def initialize(externals)
-    @externals = externals
+    @http = HttpHelper.new(externals, self, 'porter', 4517)
   end
 
   # - - - - - - - - - - - -
 
   def sha
-    http_get(__method__)
+    http.get(__method__)
   end
 
   # - - - - - - - - - - - -
 
   def port(id)
-    http_post(__method__, id)
+    http.post(__method__, id)
   end
 
   private
 
-  include HttpHelper
-
-  def hostname
-    'porter'
-  end
-
-  def port
-    4517
-  end
+  attr_reader :http
 
 end
