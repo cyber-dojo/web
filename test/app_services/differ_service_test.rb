@@ -17,34 +17,32 @@ class DifferServiceTest < AppServicesTestBase
 
   test '3AB',
   'smoke test differ.diff(..., was_tag=0, now_tag=1)' do
-    in_kata(:stateless) {
-      as(:wolf) {
-        args = []
-        args << kata.id
-        args << wolf.name
-        args << wolf.visible_files
-        args << (now = [2016,12,8, 8,3,23])
-        args << (stdout = "Expected: 42\nActual: 54")
-        args << (stderr = 'assertion failed')
-        args << (colour = 'red')
-        storer.avatar_ran_tests(*args)
+    in_kata(:stateless) { |kata|
+      args = []
+      args << (n = 1)
+      args << kata.files
+      args << (now = [2016,12,8, 8,3,23])
+      args << (stdout = "Expected: 42\nActual: 54")
+      args << (stderr = 'assertion failed')
+      args << (status = 0)
+      args << (colour = 'red')
+      kata.ran_tests(*args)
 
-        actual = differ.diff(kata.id, wolf.name, was_tag=0, now_tag=1)
+      actual = differ.diff(kata.id, was_tag=0, now_tag=1)
 
-        filename = 'hiker.rb'
-        refute_nil actual[filename]
-        assert_equal({
-          'type'   => 'same',
-          'line'   => 'def answer',
-          'number' => 1
-        }, actual[filename][0])
+      filename = 'hiker.rb'
+      refute_nil actual[filename]
+      assert_equal({
+        'type'   => 'same',
+        'line'   => 'def answer',
+        'number' => 1
+      }, actual[filename][0])
 
-        assert_equal({
-          'type'   => 'same',
-          'line'   => '  6 * 9',
-          'number' => 2
-        }, actual[filename][1])
-      }
+      assert_equal({
+        'type'   => 'same',
+        'line'   => '  6 * 9',
+        'number' => 2
+      }, actual[filename][1])
     }
   end
 

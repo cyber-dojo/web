@@ -8,22 +8,11 @@ module TestDomainHelpers # mix-in
        processful: 'Ruby, Test::Unit'
     }[runner_choice]
     refute_nil display_name, runner_choice
-    make_language_kata({ 'display_name' => display_name })
+    kata = make_language_kata({ 'display_name' => display_name })
     begin
-      block.call
+      block.call(kata)
     ensure
-      runner.kata_old(kata.image_name, kata.id)
-    end
-  end
-
-  # - - - - - - - - - - - - - - - -
-
-  def as(name = :wolf, &block)
-    avatar = kata.avatar_start([name.to_s])
-    begin
-      block.call
-    ensure
-      runner.avatar_old(kata.image_name, kata.id, avatar.name)
+      runner.kata_old(kata.manifest.image_name, kata.id)
     end
   end
 
@@ -44,7 +33,7 @@ module TestDomainHelpers # mix-in
     exercise_name = options['exercise'] || default_exercise_name
     manifest = starter.language_manifest(display_name, exercise_name)
     manifest['created'] = (options['created'] || time_now)
-    katas.kata_create(manifest)
+    katas.new_kata(manifest)
   end
 
   def default_language_name
@@ -66,7 +55,7 @@ module TestDomainHelpers # mix-in
   end
 
   def kata_id
-    ENV['CYBER_DOJO_TEST_ID']
+    ENV['CYBER_DOJO_TEST_ID'][0..5]
   end
 
   def time_now(now = Time.now)

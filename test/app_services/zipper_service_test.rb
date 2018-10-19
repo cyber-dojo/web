@@ -10,7 +10,6 @@ class ZipperServiceTest < AppServicesTestBase
   def hex_setup
     set_differ_class('NotUsed')
     set_starter_class('NotUsed')
-    set_storer_class('StorerFake')
     set_runner_class('NotUsed')
   end
 
@@ -31,11 +30,15 @@ class ZipperServiceTest < AppServicesTestBase
     assert_equal 'zip', error.method_name
     exception = JSON.parse(error.message)
     refute_nil exception
-    assert_equal 'ServiceError', exception['class']
-    json = JSON.parse(exception['message'])
-    assert_equal 'ArgumentError', json['class']
-    assert_equal 'kata_id:malformed', json['message']
-    assert_equal 'Array', json['backtrace'].class.name
+    diagnostic = pretty(exception)
+    assert_equal 'ServiceError', exception['class'], diagnostic
+    assert_equal 'ArgumentError', json['class'], diagnostic
+    assert_equal 'kata_id:malformed', json['message'], diagnostic
+    assert_equal 'Array', json['backtrace'].class.name, diagnostic
+  end
+
+  def pretty(json)
+    JSON.pretty_generate(json)
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
