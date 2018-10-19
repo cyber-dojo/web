@@ -13,7 +13,7 @@ class RunnerService
     when 'stateless' then set_hostname_port_stateless
     when 'stateful'  then set_hostname_port_stateful
     end
-    http_get(__method__)
+    http.get(__method__)
   end
 
   def set_hostname_port_stateless
@@ -67,7 +67,7 @@ class RunnerService
         unchanged_files:unchanged_files,
             max_seconds:max_seconds
     }
-    tuple = http_post_hash(:run_cyber_dojo_sh, args)
+    tuple = http.post_hash(:run_cyber_dojo_sh, args)
     [tuple['stdout'],
      tuple['stderr'],
      tuple['status'],
@@ -80,9 +80,13 @@ class RunnerService
 
   private # = = = = = = = = = = = = = = = = = = = = =
 
+  def http
+    HttpHelper.new(@externals, self, hostname, port)
+  end
+
   def runner_http_post(method, *args)
     set_hostname_port(args[1])
-    http_post(method, *args)
+    http.post(method, *args)
   end
 
   #include HttpHelper
