@@ -4,7 +4,7 @@ class IdJoinController < ApplicationController
   # Only for a group practice-session
   def drop_down
     gid = porter.port(id)
-    exists = (gid != '') && saver.group_exists?(gid)
+    exists = saver.group_exists?(gid)
     json = { exists:exists }
     if json[:exists]
       indexes = (0..63).to_a.shuffle

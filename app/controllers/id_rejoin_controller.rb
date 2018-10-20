@@ -3,7 +3,7 @@ class IdRejoinController < ApplicationController
 
   def drop_down
     # TODO: individual-rejoin
-    @id = id
+    @id = porter.port(id)
     joined = saver.group_joined(@id)
     json = { exists:!joined.nil? }
     if json[:exists]

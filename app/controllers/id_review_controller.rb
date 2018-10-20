@@ -2,11 +2,11 @@
 class IdReviewController < ApplicationController
 
   def drop_down
-    @id = id
-    exists = saver.group_exists?(id)
+    gid = porter.port(id)
+    exists = saver.group_exists?(gid)
     json = { exists:exists }
     if json[:exists]
-      json[:id] = @id
+      json[:id] = gid
     end
     render json:json
   end
