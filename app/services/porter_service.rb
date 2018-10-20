@@ -14,8 +14,8 @@ class PorterService
 
   # - - - - - - - - - - - -
 
-  def port(id)
-    http.post(__method__, id)
+  def port(partial_id)
+    http.post(__method__, partial_id)
   end
 
   private
