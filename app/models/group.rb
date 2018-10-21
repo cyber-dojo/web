@@ -16,6 +16,15 @@ class Group
 
   # - - - - - - - - - - - - -
 
+  def join(indexes = (0..63).to_a.shuffle)
+    index,sid = saver.group_join(@id, indexes)
+    if index.nil?
+      nil
+    else
+      Kata.new(@externals, sid, [self,index])
+    end
+  end
+
   def katas
     joined.map{ |index,sid|
       Kata.new(@externals, sid, [self,index])

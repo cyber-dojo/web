@@ -4,16 +4,15 @@ class IdJoinController < ApplicationController
   # Only for a group practice-session
   def drop_down
     gid = porter.port(id)
-    exists = saver.group_exists?(gid)
-    json = { exists:exists }
+    group = groups[gid]
+    json = { exists:group.exists? }
     if json[:exists]
-      indexes = (0..63).to_a.shuffle
-      index,_sid = saver.group_join(gid, indexes)
-      json[:full] = index.nil?
+      kata = group.join
+      json[:full] = kata.nil?
       if json[:full]
         json[:fullHtml] = full_html
       else
-        name = Avatars.names[index]
+        name = kata.avatar.name
         json[:id] = gid
         json[:avatarName] = name
         json[:avatarStartHtml] = start_html(name)
