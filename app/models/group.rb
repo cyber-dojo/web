@@ -13,38 +13,35 @@ class Group
   # - - - - - - - - - - - - -
 
   def exists?
-    if @id == ''
+    if id == ''
       false
     else
-      @exists ||= saver.group_exists?(@id)
+      @exists ||= saver.group_exists?(id)
     end
   end
 
   # - - - - - - - - - - - - -
 
   def join(indexes = (0..63).to_a.shuffle)
-    index,sid = saver.group_join(@id, indexes)
+    index,kid = saver.group_join(id, indexes)
     if index.nil?
       nil
     else
-      kata = Kata.new(@externals, sid, [self,index])
-      Avatar.new(kata, index)
+      Avatar.new(kata_for(index, kid), index)
     end
   end
 
   # - - - - - - - - - - - - -
 
   def katas
-    joined.map{ |index,sid|
-      Kata.new(@externals, sid, [self,index])
-    }
+    joined.map{ |index,kid| kata_for(index, kid) }
   end
 
   # - - - - - - - - - - - - -
 
   def avatars
-    Hash[joined.map{ |index,sid|
-      kata = Kata.new(@externals, sid, [self,index])
+    Hash[joined.map{ |index,kid|
+      kata = kata_for(index, kid)
       name = Avatars.names[index.to_i]
       [name, Avatar.new(kata, index)]
     }]
@@ -63,12 +60,18 @@ class Group
 
   private
 
+  attr_reader :externals
+
+  def kata_for(index, kid)
+    Kata.new(externals, kid, [self,index])
+  end
+
   def joined
     @joined ||= saver.group_joined(id)
   end
 
   def saver
-    @externals.saver
+    externals.saver
   end
 
 end
