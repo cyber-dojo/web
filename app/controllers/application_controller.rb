@@ -10,6 +10,16 @@ class ApplicationController < ActionController::Base
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
+  def ported
+    if id.size == 10
+      redirect_to request.url.sub(id, porter.port(id))
+    else
+      yield
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
   def id
     params[:id]
   end

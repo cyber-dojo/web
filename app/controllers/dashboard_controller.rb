@@ -4,12 +4,10 @@ class DashboardController < ApplicationController
   protect_from_forgery except: :heartbeat
 
   def show
-    if id.size == 10
-      redirect_to request.url.sub(id, porter.port(id))
-    else
+    ported {
       gather
       @title = 'dashboard:' + partial(@group.id)
-    end
+    }
   end
 
   def heartbeat

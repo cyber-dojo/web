@@ -7,10 +7,12 @@ class KataController < ApplicationController
   end
 
   def edit
-    @id = id
-    @kata = kata
-    @avatar_name = avatar_name
-    @title = 'test:' + partial(@kata.id)
+    ported {
+      @id = id
+      @kata = kata
+      @avatar_name = avatar_name
+      @title = 'test:' + partial(@kata.id)
+    }
   end
 
   def run_tests
