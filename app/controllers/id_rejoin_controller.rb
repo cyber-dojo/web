@@ -4,23 +4,21 @@ class IdRejoinController < ApplicationController
   def drop_down
     # TODO: individual-rejoin
     @id = porter.port(id)
-    joined = saver.group_joined(@id)
-    json = { exists:!joined.nil? }
+    group = groups[@id]
+    json = { exists:group.exists? }
     if json[:exists]
-      indexes = joined.keys
-      json[:empty] = (indexes == [])
-      json[:avatarPickerHtml] = avatar_picker_html(indexes)
+      avatars = group.avatars
+      json[:empty] = (avatars.size == 0)
+      json[:avatarPickerHtml] = avatar_picker_html(avatars.keys)
     end
     render json:json
   end
 
   private
 
-  def avatar_picker_html(indexes)
+  def avatar_picker_html(started_avatar_names)
     @all_avatar_names = Avatars.names
-    @started_avatar_names = indexes.map do |index|
-      Avatars.names[index.to_i]
-    end
+    @started_avatar_names = started_avatar_names
     bind('/app/views/id_rejoin/avatar_picker.html.erb')
   end
 

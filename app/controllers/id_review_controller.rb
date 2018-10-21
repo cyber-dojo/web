@@ -3,8 +3,8 @@ class IdReviewController < ApplicationController
 
   def drop_down
     gid = porter.port(id)
-    exists = groups[gid].exists?
-    json = { exists:exists }
+    group = groups[gid]
+    json = { exists:group.exists? }
     if json[:exists]
       json[:id] = gid
     end

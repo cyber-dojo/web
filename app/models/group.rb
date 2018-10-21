@@ -21,9 +21,12 @@ class Group
     if index.nil?
       nil
     else
-      Kata.new(@externals, sid, [self,index])
+      kata = Kata.new(@externals, sid, [self,index])
+      Avatar.new(kata, index)
     end
   end
+
+  # - - - - - - - - - - - - -
 
   def katas
     joined.map{ |index,sid|
@@ -31,9 +34,11 @@ class Group
     }
   end
 
+  # - - - - - - - - - - - - -
+
   def avatars
     Hash[joined.map{ |index,sid|
-      kata = Kata.new(@externals, sid)
+      kata = Kata.new(@externals, sid, [self,index])
       name = Avatars.names[index.to_i]
       [name, Avatar.new(kata, index)]
     }]
@@ -61,7 +66,3 @@ class Group
   end
 
 end
-
-# The language+test is chosen for the group.
-# cyber-dojo is a team-based Interactive Dojo Environment,
-# not an Individual Development Environment
