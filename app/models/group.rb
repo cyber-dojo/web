@@ -10,8 +10,14 @@ class Group
     @id
   end
 
+  # - - - - - - - - - - - - -
+
   def exists?
-    @exists ||= saver.group_exists?(@id)
+    if @id == ''
+      false
+    else
+      @exists ||= saver.group_exists?(@id)
+    end
   end
 
   # - - - - - - - - - - - - -
