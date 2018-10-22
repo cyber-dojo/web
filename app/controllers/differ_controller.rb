@@ -26,13 +26,13 @@ class DifferController < ApplicationController
     view = diff_view(diff)
     render json: {
                          id: @kata.id,
-                     avatar: avatar_name,
+                     avatar: my_avatar_name,
                      wasTag: was_tag,
                      nowTag: now_tag,
                        tags: tags,
                       diffs: view,
-                 prevAvatar: ring_prev(active_avatar_names, avatar_name),
-                 nextAvatar: ring_next(active_avatar_names, avatar_name),
+                 prevAvatar: ring_prev(active_avatar_names, my_avatar_name),
+                 nextAvatar: ring_next(active_avatar_names, my_avatar_name),
 	      idsAndSectionCounts: prune(view),
           currentFilenameId: pick_file_id(view, current_filename),
 	  }
@@ -62,7 +62,7 @@ class DifferController < ApplicationController
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def avatar_name
+  def my_avatar_name
     if @kata.avatar
       @kata.avatar.name
     else

@@ -9,7 +9,7 @@ class KataController < ApplicationController
   def edit
     ported {
       @kata = kata
-      @avatar_name = avatar_name
+      @avatar_name = my_avatar_name
       @title = 'test:' #+ partial(@kata.id)
     }
   end
@@ -18,7 +18,7 @@ class KataController < ApplicationController
     # After a test-event completes if you refresh the
     # page in the browser then nothing will change.
     @kata = katas[id]
-    @avatar_name = avatar_name
+    @avatar_name = my_avatar_name
 
     stdout,stderr,status,
       @colour,
@@ -55,6 +55,14 @@ class KataController < ApplicationController
       'time'   => light.time,
       'number' => light.number
     }
+  end
+
+  def my_avatar_name
+    if @kata.avatar
+      @kata.avatar.name
+    else
+      ''
+    end
   end
 
 end
