@@ -2,8 +2,8 @@
 'use strict';
 $(() => {
 
-  cd.resume = (id, avatarName) => {
-    const url = '/kata/edit/' + id + '?avatar=' + avatarName;
+  cd.resume = (id) => {
+    const url = '/kata/edit/' + id;
     window.location.href = cd.homePageUrl(id);
     window.open(url);
   };

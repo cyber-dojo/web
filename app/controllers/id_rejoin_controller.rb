@@ -9,16 +9,16 @@ class IdRejoinController < ApplicationController
       @id = group.id
       avatars = group.avatars
       json[:empty] = (avatars.size == 0)
-      json[:avatarPickerHtml] = avatar_picker_html(avatars.keys)
+      json[:avatarPickerHtml] = avatar_picker_html(avatars)
     end
     render json:json
   end
 
   private
 
-  def avatar_picker_html(started_avatar_names)
+  def avatar_picker_html(started_avatars)
     @all_avatar_names = Avatars.names
-    @started_avatar_names = started_avatar_names
+    @started_avatars = started_avatars
     bind('/app/views/id_rejoin/avatar_picker.html.erb')
   end
 
