@@ -2,9 +2,6 @@
 class DifferController < ApplicationController
 
   def diff
-    # TODO:
-    # kata = katas[params['kata_id']]
-
     # This currently returns tags that are traffic-lights.
     # This matches the default tag handling in the review-controller.
     # The review/diff dialog/page has been refactored so it
@@ -26,13 +23,13 @@ class DifferController < ApplicationController
     view = diff_view(diff)
     render json: {
                          id: @kata.id,
-                     avatar: my_avatar_name,
+                     avatar: @kata.avatar_name,
                      wasTag: was_tag,
                      nowTag: now_tag,
                        tags: tags,
                       diffs: view,
-                 prevAvatar: ring_prev(active_avatar_names, my_avatar_name),
-                 nextAvatar: ring_next(active_avatar_names, my_avatar_name),
+                 prevAvatar: ring_prev(active_avatar_names, @kata.avatar_name),
+                 nextAvatar: ring_next(active_avatar_names, @kata.avatar_name),
 	      idsAndSectionCounts: prune(view),
           currentFilenameId: pick_file_id(view, current_filename),
 	  }
@@ -58,16 +55,6 @@ class DifferController < ApplicationController
 
   def current_filename
     params[:filename]
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
-  def my_avatar_name
-    if @kata.avatar
-      @kata.avatar.name
-    else
-      ''
-    end
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
