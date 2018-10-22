@@ -96,13 +96,7 @@ class Kata
 
   def files
     # the most recent set of files passed to ran_tests()
-    @files ||= saver.kata_tag(id, -1)['files']
-  end
-
-  def tags
-    # each array element represents a kata event.
-    @tags ||= saver.kata_tags(id)
-    @tags.map { |h| Tag.new(@externals, self, h) }
+    @files ||= saver.kata_event(id, -1)['files']
   end
 
   def lights
@@ -113,6 +107,11 @@ class Kata
 
   def active?
     lights != []
+  end
+
+  def tags
+    @events ||= saver.kata_events(id)
+    @events.map { |h| Tag.new(@externals, self, h) }
   end
 
   def manifest

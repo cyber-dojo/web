@@ -56,11 +56,11 @@ class SaverService
     http.post(__method__, id, n, files, now, stdout, stderr, status, colour)
   end
 
-  def kata_tags(id)
+  def kata_events(id)
     http.get(__method__, id)
   end
 
-  def kata_tag(id, n)
+  def kata_event(id, n)
     http.get(__method__, id, n)
   end
 

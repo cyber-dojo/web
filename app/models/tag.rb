@@ -51,7 +51,7 @@ class Tag
   private
 
   def manifest
-    @manifest ||= saver.tag(kata.id, number)
+    @manifest ||= saver.kata_event(kata.id, number)
   end
 
   def saver
