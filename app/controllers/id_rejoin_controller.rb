@@ -6,7 +6,6 @@ class IdRejoinController < ApplicationController
     group = groups[porter.port(id)]
     json = { exists:group.exists? }
     if json[:exists]
-      @id = group.id
       avatars = group.avatars
       json[:empty] = (avatars.size == 0)
       json[:avatarPickerHtml] = avatar_picker_html(avatars)
