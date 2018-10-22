@@ -11,7 +11,7 @@ class ReviewController < ApplicationController
     @was_tag = was_tag
     @now_tag = now_tag
     @filename = filename
-    @title = 'review:' # + partial(id)
+    @title = 'review:' + @kata.id
   end
 
   private
