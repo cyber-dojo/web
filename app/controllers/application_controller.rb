@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def ported
+    # TODO: aim to drop avatar from URL
     if id.size == 10
       redirect_to request.url.sub(id, porter.port(id))
     else
@@ -42,18 +43,8 @@ class ApplicationController < ActionController::Base
     Groups.new(self)
   end
 
-  def group
-    # TODO: replace this with
-    # kata.group
-
-    if avatar_name != '' # dashboard worker bypasses this...
-      groups[id]         # this works for differ-diff
-    else
-      nil
-    end
-  end
-
   def avatar_name
+    # TODO: aim to have no avatars on URLs
     params[:avatar] || ''
   end
 

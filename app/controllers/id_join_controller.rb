@@ -11,7 +11,7 @@ class IdJoinController < ApplicationController
       if json[:full]
         json[:fullHtml] = full_html
       else
-        json[:id] = group.id
+        json[:id] = avatar.kata.id
         json[:avatarName] = avatar.name
         json[:avatarStartHtml] = start_html(avatar.name)
       end

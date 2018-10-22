@@ -23,7 +23,7 @@ $(() => {
             loText.html('your animal is the ' + dojo.avatarName);
             avatarStart.html(dojo.avatarStartHtml);
             ok.unbind().click(() => {
-              const url = '/kata/edit/' + dojo.id + '?avatar=' + dojo.avatarName;
+              const url = '/kata/edit/' + dojo.id;
               window.location.href = cd.homePageUrl(dojo.id);
               window.open(url);
             });

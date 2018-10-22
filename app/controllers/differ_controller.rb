@@ -54,9 +54,23 @@ class DifferController < ApplicationController
     [was,now]
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - -
+
   def current_filename
     params[:filename]
   end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  def avatar_name
+    if @kata.avatar
+      @kata.avatar.name
+    else
+      ''
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
 
   def active_avatar_names
     if @kata.group
@@ -69,6 +83,8 @@ class DifferController < ApplicationController
       []
     end
   end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
 
   def prune(array)
     array.map { |hash| {
