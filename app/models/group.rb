@@ -6,6 +6,8 @@ class Group
     @id = id
   end
 
+  # - - - - - - - - - - - - -
+
   def id
     @id
   end
@@ -40,9 +42,8 @@ class Group
   # - - - - - - - - - - - - -
 
   def avatars
-    Hash[joined.map{ |index,kid|
-      name = Avatars.names[index.to_i]
-      [name, Avatar.new(kata(kid), index)]
+    Hash[katas.map{ |kata|
+      [kata.avatar.name, kata.avatar]
     }]
   end
 
@@ -52,6 +53,8 @@ class Group
     ages = katas.select(&:active?).map{ |kata| kata.age }
     ages == [] ? 0 : ages.sort[-1]
   end
+
+  # - - - - - - - - - - - - -
 
   def manifest
     @manifest ||= Manifest.new(saver.group_manifest(id))
