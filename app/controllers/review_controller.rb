@@ -5,8 +5,8 @@ class ReviewController < ApplicationController
     # Note that once you are on the review dialog/page
     # all interaction with the web server is via the
     # differ-controller.
-    @id = id
-    #@kata = katas[id]
+    #@id = id
+    @kata = katas[id]
     @avatar_name = avatar_name
     @was_tag = was_tag
     @now_tag = now_tag
@@ -26,7 +26,7 @@ class ReviewController < ApplicationController
 
   def tag(param, default)
     n = number_or_nil(params[param] || default)
-    n != -1 ? n : katas[id].lights[-1].number
+    n != -1 ? n : @kata.lights[-1].number
   end
 
   def filename

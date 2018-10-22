@@ -7,8 +7,8 @@ class Kata
   def initialize(externals, id, group_index = [nil,nil])
     @externals = externals
     @id = id
-    @group,index = group_index
-    @avatar = @group ? Avatar.new(self, index) : nil
+    #@group,index = group_index
+    #@avatar = @group ? Avatar.new(self, index) : nil
   end
 
   def id
@@ -23,12 +23,21 @@ class Kata
 
   def group
     # if in a group practice-session, the group, otherwise nil
-    @group
+    gid = manifest.group
+    if !gid.nil?
+      Group.new(@externals, gid)
+    else
+      nil
+    end
   end
 
   def avatar
     # if in a group practice-session, the avatar, otherwise nil
-    @avatar
+    if group
+      group.avatars.values.detect { |avatar| avatar.kata.id == id }
+    else
+      nil
+    end
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -

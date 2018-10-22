@@ -19,13 +19,13 @@ class DifferController < ApplicationController
     # So, in summary, if returning all the tags you need to do a
     #         tags.shift
 
-    kata = katas[id]
-    tags = kata.lights.map{ |light| to_json(light) }
+    @kata = katas[id]
+    tags = @kata.lights.map{ |light| to_json(light) }
     was_tag, now_tag = *was_now(tags)
-    diff = differ.diff(kata.id, was_tag, now_tag)
+    diff = differ.diff(@kata.id, was_tag, now_tag)
     view = diff_view(diff)
     render json: {
-                         id: kata.id,
+                         id: @kata.id,
                      avatar: avatar_name,
                      wasTag: was_tag,
                      nowTag: now_tag,
@@ -59,8 +59,9 @@ class DifferController < ApplicationController
   end
 
   def active_avatar_names
-    if group
-      @active_avatar_names ||= group.katas
+    if @kata.group
+      @active_avatar_names ||= @kata.group
+                                    .katas
                                     .select(&:active?)
                                     .map{ |kata| kata.avatar.name }
                                     .sort
