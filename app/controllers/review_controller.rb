@@ -6,12 +6,12 @@ class ReviewController < ApplicationController
     # all interaction with the web server is via the
     # differ-controller.
     @id = id
-    @kata = kata
+    #@kata = katas[id]
     @avatar_name = avatar_name
     @was_tag = was_tag
     @now_tag = now_tag
     @filename = filename
-    @title = 'review:' + partial(id)
+    @title = 'review:' # + partial(id)
   end
 
   private
@@ -26,7 +26,7 @@ class ReviewController < ApplicationController
 
   def tag(param, default)
     n = number_or_nil(params[param] || default)
-    n != -1 ? n : @kata.lights[-1].number
+    n != -1 ? n : katas[id].lights[-1].number
   end
 
   def filename

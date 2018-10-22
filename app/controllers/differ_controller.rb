@@ -19,12 +19,13 @@ class DifferController < ApplicationController
     # So, in summary, if returning all the tags you need to do a
     #         tags.shift
 
+    kata = katas[id]
     tags = kata.lights.map{ |light| to_json(light) }
     was_tag, now_tag = *was_now(tags)
     diff = differ.diff(kata.id, was_tag, now_tag)
     view = diff_view(diff)
     render json: {
-                         id: id,
+                         id: kata.id,
                      avatar: avatar_name,
                      wasTag: was_tag,
                      nowTag: now_tag,

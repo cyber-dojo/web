@@ -29,7 +29,11 @@ class ApplicationController < ActionController::Base
   end
 
   def kata
-    katas[kata_id]
+    if avatar_name != ''
+      groups[id].avatars[avatar_name].kata
+    else
+      katas[id]
+    end
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -39,6 +43,9 @@ class ApplicationController < ActionController::Base
   end
 
   def group
+    # TODO: replace this with
+    # kata.group
+
     if avatar_name != '' # dashboard worker bypasses this...
       groups[id]         # this works for differ-diff
     else
@@ -78,6 +85,8 @@ class ApplicationController < ActionController::Base
     num if num.to_s == string
   end
 
+=begin
+
   private
 
   def kata_id
@@ -100,5 +109,6 @@ class ApplicationController < ActionController::Base
       id
     end
   end
+=end
 
 end

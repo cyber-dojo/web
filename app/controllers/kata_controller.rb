@@ -8,25 +8,26 @@ class KataController < ApplicationController
 
   def edit
     ported {
-      @id = id
+      #@id = id
       @kata = kata
       @avatar_name = avatar_name
-      @title = 'test:' + partial(@kata.id)
+      @title = 'test:' #+ partial(@kata.id)
     }
   end
 
   def run_tests
     # After a test-event completes if you refresh the
     # page in the browser then nothing will change.
-    @id = id
+    #@id = id
+    @kata = katas[id]
     @avatar_name = avatar_name
 
     stdout,stderr,status,
       @colour,
-        files,@new_files,@deleted_files,@changed_files = kata.run_tests(params)
+        files,@new_files,@deleted_files,@changed_files = @kata.run_tests(params)
 
     n = params[:next_tag].to_i
-    lights = kata.ran_tests(n, files, time_now, stdout, stderr, status, @colour)
+    lights = @kata.ran_tests(n, files, time_now, stdout, stderr, status, @colour)
 
     @was_tag = lights.size == 1 ? 0 : lights[-2].number
     @now_tag = lights[-1].number
