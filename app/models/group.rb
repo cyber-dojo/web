@@ -27,23 +27,22 @@ class Group
     if index.nil?
       nil
     else
-      Avatar.new(kata_for(index, kid), index)
+      Avatar.new(kata(kid), index)
     end
   end
 
   # - - - - - - - - - - - - -
 
   def katas
-    joined.map{ |index,kid| kata_for(index, kid) }
+    joined.values.map{ |kid| kata(kid) }
   end
 
   # - - - - - - - - - - - - -
 
   def avatars
     Hash[joined.map{ |index,kid|
-      kata = kata_for(index, kid)
       name = Avatars.names[index.to_i]
-      [name, Avatar.new(kata, index)]
+      [name, Avatar.new(kata(kid), index)]
     }]
   end
 
@@ -60,10 +59,8 @@ class Group
 
   private
 
-  attr_reader :externals
-
-  def kata_for(index, kid)
-    Kata.new(externals, kid, [self,index])
+  def kata(kid)
+    Kata.new(@externals, kid)
   end
 
   def joined
@@ -71,7 +68,7 @@ class Group
   end
 
   def saver
-    externals.saver
+    @externals.saver
   end
 
 end

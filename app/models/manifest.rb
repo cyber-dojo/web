@@ -6,7 +6,10 @@ class Manifest
   end
 
   def group
-    # in group's manifest, not in kata's manifest
+    manifest_entry
+  end
+
+  def index
     manifest_entry
   end
 
