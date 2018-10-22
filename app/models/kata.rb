@@ -20,7 +20,8 @@ class Kata
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def group
-    # if in a group practice-session, the group, otherwise nil
+    # if in a group practice-session
+    # then the group, otherwise nil
     gid = manifest.group
     if !gid.nil?
       Group.new(@externals, gid)
@@ -30,13 +31,20 @@ class Kata
   end
 
   def avatar
-    # if in a group practice-session, the avatar, otherwise nil
+    # if in a group practice-session
+    # then the avatar, otherwise nil
     index = manifest.index
     if index
       Avatar.new(self, index)
     else
       nil
     end
+  end
+
+  def avatar_name
+    # if in a group practice-session
+    # then the avatar's name, otherwise nil
+    avatar ? avatar.name : ''
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
