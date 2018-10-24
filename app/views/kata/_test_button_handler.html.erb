@@ -2,7 +2,6 @@
 'use strict';
 $(() => {
 
-  const testSpinner = $('#test-spinner');
   const testOverlay = $('<div id="test-overlay"></div>');
 
   const form = cd.testButton.closest('form');
@@ -25,7 +24,7 @@ $(() => {
       beforeSend: (_xhr, _settings) => {
         cd.testButton.disable();
         testOverlay.insertAfter($('body'));
-        testSpinner.show();
+        cd.testSpinner.show();
       },
       error: (request, status, thrown) => {
         let info = "ERROR\n";
@@ -42,7 +41,7 @@ $(() => {
         cd.newFile('output', info);
       },
       complete: (_xhr, _status) => {
-        testSpinner.hide();
+        cd.testSpinner.hide();
         testOverlay.remove();
         cd.testButton.enable();
         cd.loadFile('output');
