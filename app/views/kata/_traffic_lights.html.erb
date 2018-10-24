@@ -17,7 +17,7 @@ $(() => {
     $lights.each((_index,element) => {
       const light = $(element);
       const id     = light.data('id');
-      const avatar = light.data('avatar-name');
+      const avatar = ''; //light.data('avatar-name');
       const wasTag = light.data('was-tag');
       const nowTag = light.data('now-tag');
       light.click(() => {
@@ -40,7 +40,7 @@ $(() => {
       <% @kata.lights.each do |light| %>
         <% now_tag = light.number %>
         <td>
-          <%= raw diff_traffic_light(@kata.id, @kata.avatar_name, light.colour, was_tag, now_tag) %>
+          <%= raw diff_traffic_light(@kata.id, light.colour, was_tag, now_tag) %>
         </td>
         <% was_tag = now_tag %>
       <% end %>

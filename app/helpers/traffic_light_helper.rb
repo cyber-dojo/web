@@ -14,12 +14,11 @@ module TrafficLightHelper # mix-in
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def diff_traffic_light(id, avatar_name, colour, was_tag, now_tag)
+  def diff_traffic_light(id, colour, was_tag, now_tag)
 
     "<div class='diff-traffic-light'" +
         " data-tip='ajax:traffic_light'" +
         " data-id='#{id}'" +
-        " data-avatar-name='#{avatar_name}'" +
         " data-colour='#{colour}'" +
         " data-was-tag='#{was_tag}'" +
         " data-now-tag='#{now_tag}'>" +

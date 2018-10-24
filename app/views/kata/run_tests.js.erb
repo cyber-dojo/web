@@ -1,7 +1,7 @@
 'use strict';
 
 const appendTestTrafficLight = () => {
-  const div = $("<%= raw diff_traffic_light(@kata.id, @kata.avatar_name, @colour, @was_tag, @now_tag) %>");
+  const div = $("<%= raw diff_traffic_light(@kata.id, @colour, @was_tag, @now_tag) %>");
   const td = $('<td>');
   td.append(div);
   $('.traffic-lights-count').parent().before(td);
