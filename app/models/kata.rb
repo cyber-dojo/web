@@ -24,8 +24,6 @@ class Kata
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def group
-    # if in a group practice-session
-    # then the group, otherwise nil
     gid = manifest.group
     if gid
       Group.new(@externals, gid)
@@ -37,8 +35,6 @@ class Kata
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def avatar_name
-    # if in a group practice-session
-    # then the avatar's name, otherwise ''
     if group
       Avatars.names[manifest.index]
     else
