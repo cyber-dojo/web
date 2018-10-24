@@ -2,21 +2,12 @@
 'use strict';
 $(() => {
 
-  const testButton  = $('#test-button');
   const testSpinner = $('#test-spinner');
   const testOverlay = $('<div id="test-overlay"></div>');
 
-  const form = testButton.closest('form');
+  const form = cd.testButton.closest('form');
 
-  testButton.enable = () => {
-    testButton.attr('disabled', false);
-  };
-
-  testButton.disable = () => {
-    testButton.attr('disabled', true);
-  };
-
-  testButton.click(() => {
+  cd.testButton.click(() => {
     // Called from 3 places
     // 1. when you click [test]
     // 2. when you hot-key Alt-T
@@ -32,7 +23,7 @@ $(() => {
          data: form.serialize(),
 
       beforeSend: (_xhr, _settings) => {
-        testButton.disable();
+        cd.testButton.disable();
         testOverlay.insertAfter($('body'));
         testSpinner.show();
       },
@@ -53,7 +44,7 @@ $(() => {
       complete: (_xhr, _status) => {
         testSpinner.hide();
         testOverlay.remove();
-        testButton.enable();
+        cd.testButton.enable();
         cd.loadFile('output');
       }
     });
