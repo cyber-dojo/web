@@ -98,7 +98,7 @@ class Kata
   def ran_tests(n, files, at, stdout, stderr, status, colour)
     # save run_tests() results.
     incs = saver.kata_ran_tests(id, n, files, at, stdout, stderr, status, colour)
-    tags = incs.map { |h| Tag.new(@externals, self, h) }
+    tags = incs.map.with_index { |h,i| Event.new(@externals, self, h, i) }
     tags.select(&:light?)
   end
 
