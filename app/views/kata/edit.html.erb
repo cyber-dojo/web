@@ -1,4 +1,3 @@
-
 <%= render partial: 'highlight_filenames' %>
 <%= render partial: 'tab_size' %>
 
@@ -7,7 +6,6 @@
               } ) do %>
 
   <div id="kata-page">
-    <%= render partial: 'test_spinner' %>
     <%= render partial: 'file_hashes' %>
     <%= render partial: 'cached_run_parameters' %>
     <table>
@@ -34,12 +32,12 @@
   </div>
 <% end %>
 
+<%= render partial: 'test_spinner' %>
+<%= render partial: 'test_button_handler' %>
 <%= render partial: 'shared/app_bar_long',
            locals: {
               help_url:"http://blog.cyber-dojo.org/2014/10/the-cyber-dojo-test-page.html"
            } %>
-
-<%= render partial: 'test_button_handler' %>
 
 <script type="text/javascript"><!--
 'use strict';

@@ -1,18 +1,18 @@
 
+#test-spinner
+{
+   display: none;
+  position: absolute;
+       top: 250px;
+      left: 600px;
+   z-index: 1000;
+     width: 75px;
+    height: 75px;
+}
+
 #kata-page
 {
   margin: { top: 15px; left: 45px; }
-
-  #test-spinner
-  {
-     display: none;
-    position: absolute;
-         top: 250px;
-        left: 600px;
-     z-index: 1000;
-       width: 75px;
-      height: 75px;
-  }
 
   #test-button
   {
