@@ -14,8 +14,8 @@ $(() => {
     const colour = rags.last().data('colour');
     const newCount = $('<div>', {
       'class': 'traffic-light-count ' + colour,
-      'data-avatar-name': "<%= @kata.avatar_name %>",
       'data-tip': 'traffic_light_count',
+      'data-avatar-name': "<%= @kata.avatar_name %>",
       'data-red-count': redCount,
       'data-amber-count': amberCount,
       'data-green-count': greenCount,
