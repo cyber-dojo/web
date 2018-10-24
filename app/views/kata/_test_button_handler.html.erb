@@ -27,16 +27,15 @@ $(() => {
         cd.testSpinner.show();
       },
       error: (request, status, thrown) => {
-        let info = "ERROR\n";
-        info += thrown + "\n";
-        info += 'status=' + status + "\n";
+        let info = `${thrown}\n`;
+        info += `status=${status}\n`;
         if (status == 'timeout') {
-          info += 'timeout:have you lost your network connection?' + "\n";
+          info += `have you lost your network connection?\n\n`;
         }
         if (status == 'error') {
-          info += 'error:is the cyber-dojo server down?' + "\n";
+          info += `is the cyber-dojo server down?\n\n`;
         }
-        info += request.responseText + "\n";
+        info += request.responseText;
         cd.deleteFile('output');
         cd.newFile('output', info);
       },
