@@ -26,7 +26,7 @@ $(() => {
     return $('<input>', {
       'type': 'hidden',
       'data-filename': filename,
-      'name': 'file_hashes_' + io + '[' + filename + ']',
+      'name': `file_hashes_${io}[${filename}]`,
       'value': cd.hashOfFile(filename)
     })
   };
