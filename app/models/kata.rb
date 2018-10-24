@@ -27,10 +27,10 @@ class Kata
     # if in a group practice-session
     # then the group, otherwise nil
     gid = manifest.group
-    if gid.nil?
-      nil
-    else
+    if gid
       Group.new(@externals, gid)
+    else
+      nil
     end
   end
 
@@ -115,7 +115,7 @@ class Kata
   end
 
   def lights
-    # currently all tag objects are test-events, except
+    # currently all events are test-events, except
     # the first one which represents the kata's creation.
     tags.select(&:light?)
   end
