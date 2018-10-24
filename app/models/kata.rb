@@ -99,8 +99,13 @@ class Kata
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def age
+    # in seconds
     last = lights[-1]
-    last == nil ? 0 : (last.time - manifest.created).to_i
+    if last
+      (last.time - manifest.created).to_i
+    else
+       0
+     end
   end
 
   def files
