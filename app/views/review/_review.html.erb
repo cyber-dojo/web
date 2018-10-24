@@ -161,19 +161,20 @@ $(() => {
   };
 
   const refreshPrevAvatarHandler = () => {
-    refreshAvatarHandler('prev', param.prevAvatar);
+    refreshAvatarHandler('prev', param.prevAvatar, param.prevAvatarId);
   };
 
   const refreshNextAvatarHandler = () => {
-    refreshAvatarHandler('next', param.nextAvatar);
+    refreshAvatarHandler('next', param.nextAvatar, param.nextAvatarId);
   };
 
-  const refreshAvatarHandler = (direction, name) => {
+  const refreshAvatarHandler = (direction, name, id) => {
     $('#' + direction + '-avatar')
       .attr('disabled', name == '')
       .unbind('click')
       .bind('click', () => {
         param.avatar = name;
+        param.id = id;
         if (inDiffMode()) {
           // Move to the new avatar's first tag.
           // tag zero is created for an avatar when it joins a session.

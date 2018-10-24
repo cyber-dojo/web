@@ -21,6 +21,15 @@ class DifferController < ApplicationController
     was_tag, now_tag = *was_now(tags)
     diff = differ.diff(@kata.id, was_tag, now_tag)
     view = diff_view(diff)
+
+    prev_kata, next_kata = *ring_prev_next(@kata)
+
+    prev_avatar = prev_kata ? prev_kata.avatar_name : ''
+    next_avatar = next_kata ? next_kata.avatar_name : ''
+
+    prev_id = prev_kata ? prev_kata.id : 0;
+    next_id = next_kata ? next_kata.id : 0;
+
     render json: {
                          id: @kata.id,
                      avatar: @kata.avatar_name,
@@ -28,8 +37,10 @@ class DifferController < ApplicationController
                      nowTag: now_tag,
                        tags: tags,
                       diffs: view,
-                 prevAvatar: ring_prev(active_avatar_names, @kata.avatar_name),
-                 nextAvatar: ring_next(active_avatar_names, @kata.avatar_name),
+                 prevAvatar: prev_avatar,
+                 nextAvatar: next_avatar,
+               prevAvatarId: prev_id,
+               nextAvatarId: next_id,
 	      idsAndSectionCounts: prune(view),
           currentFilenameId: pick_file_id(view, current_filename),
 	  }
@@ -59,26 +70,14 @@ class DifferController < ApplicationController
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def active_avatar_names
-    if @kata.group
-      @active_avatar_names ||= @kata.group
-                                    .katas
-                                    .select(&:active?)
-                                    .map{ |kata| kata.avatar_name }
-                                    .sort
-    else
-      []
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
   def prune(array)
     array.map { |hash| {
       :id            => hash[:id],
       :section_count => hash[:section_count]
     }}
   end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
 
   def to_json(light)
     {
