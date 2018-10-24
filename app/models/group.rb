@@ -35,16 +35,20 @@ class Group
 
   # - - - - - - - - - - - - -
 
-  def katas
-    joined.values.map{ |kid| kata(kid) }
+  def size
+    katas.size
   end
 
   # - - - - - - - - - - - - -
 
-  def avatars
-    Hash[katas.map{ |kata|
-      [kata.avatar.name, kata.avatar]
-    }]
+  def empty?
+    size == 0
+  end
+
+  # - - - - - - - - - - - - -
+
+  def katas
+    joined.values.map{ |kid| kata(kid) }
   end
 
   # - - - - - - - - - - - - -

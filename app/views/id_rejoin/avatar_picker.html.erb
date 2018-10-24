@@ -1,14 +1,12 @@
 <script type="text/javascript"><!--
 'use strict';
-
 $(() => {
-  cd.resume = (id) => {
+  cd.rejoin = (id) => {
     const url = '/kata/edit/' + id;
     window.location.href = cd.homePageUrl(id);
     window.open(url);
   };
 });
-
 //--></script>
 
 <div>
@@ -17,11 +15,12 @@ $(() => {
     <tr>
       <% 8.times do |x| %>
       <td>
-        <% avatar_name = @all_avatar_names[y*8 + x] %>
-        <% avatar = @started_avatars[avatar_name] %>
-        <% if avatar %>
+        <% index = y*8 + x %>
+        <% avatar_name = @avatar_names[index] %>
+        <% id = @started_ids[avatar_name] %>
+        <% if id %>
           <div data-tip="<%= avatar_name %>">
-            <img onclick='cd.resume("<%= avatar.kata.id %>");'
+            <img onclick='cd.rejoin("<%= id %>");'
                  src="/images/avatars/<%= avatar_name %>.jpg"
                  class="avatar"
                  data-cursor="pointer"/>

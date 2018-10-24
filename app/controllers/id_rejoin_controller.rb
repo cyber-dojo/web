@@ -6,18 +6,19 @@ class IdRejoinController < ApplicationController
     group = groups[porter.port(id)]
     json = { exists:group.exists? }
     if json[:exists]
-      avatars = group.avatars
-      json[:empty] = (avatars.size == 0)
-      json[:avatarPickerHtml] = avatar_picker_html(avatars)
+      json[:empty] = group.empty?
+      json[:avatarPickerHtml] = avatar_picker_html(group.katas)
     end
     render json:json
   end
 
   private
 
-  def avatar_picker_html(started_avatars)
-    @all_avatar_names = Avatars.names
-    @started_avatars = started_avatars
+  def avatar_picker_html(katas)
+    @avatar_names = Avatars.names
+    @started_ids = Hash[katas.map{ |kata|
+      [kata.avatar_name, kata.id]
+    }]
     bind('/app/views/id_rejoin/avatar_picker.html.erb')
   end
 
