@@ -359,7 +359,7 @@ $(() => {
       const td = $('<td>');
       const noneOrSome = (count == 0) ? 'none' : 'some';
       const div = $('<div>', {
-        'class': 'diff-' + cssName + '-line-count ' + noneOrSome + ' button',
+        'class': `diff-${cssName}-line-count ${noneOrSome} button`,
         'data-filename': diff.filename
       });
       div.append(count);
@@ -400,7 +400,7 @@ $(() => {
     const display = (node, name, value) => {
       if ($(node).attr('disabled') != 'disabled') {
         const filename = $(node).data('filename');
-        const selector = '[id="' + filename + '_diff_div"] ' + name;
+        const selector = `[id="${filename}_diff_div"] ${name}`;
         $(selector).css('display', value);
       }
     };
@@ -432,17 +432,17 @@ $(() => {
       return $('[id="' + name + '"]');
     };
     const diffFileContentFor = (filename) => {
-      return id('diff_file_content_for_' + filename);
+      return id(`diff_file_content_for_${filename}`);
     };
     const diffFileDiv = (filename) => {
-      return id(filename + '_diff_div');
+      return id(`${filename}_diff_div`);
     };
     let previousFilenameNode;
     let alreadyOpened = [];
 
     const loadFrom = (diff) => {
       const id = diff.id;
-      const filenameNode = $('#radio_' + id);
+      const filenameNode = $(`#radio_${id}`);
       const filename = getFilename(filenameNode);
       const sectionCount = diff.section_count;
       const diffSheet = diffFileContentFor(filename);
@@ -472,7 +472,7 @@ $(() => {
         param.filename = filename;
 
         if (sectionCount > 0 && (reselected || !cd.inArray(filename, alreadyOpened))) {
-          const section = $('#' + id + '_section_' + sectionIndex);
+          const section = $(`#${id}_section_${sectionIndex}`);
           const downFromTop = 250;
           const halfSecond = 500;
           diffSheet.animate({
@@ -486,7 +486,7 @@ $(() => {
     }; // loadFrom()
 
     $.each(diffs, (_n, diff) => {
-      const filename = $('#radio_' + diff.id);
+      const filename = $(`#radio_${diff.id}`);
       filename.click(loadFrom(diff));
     });
   }; // buildDiffFilenameHandlers()
@@ -536,7 +536,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const showFile = (filenameId) => {
-    const filename =  $('#radio_' + filenameId);
+    const filename =  $(`#radio_${filenameId}`);
     filename.click();
     filename.scrollIntoView({ direction: 'vertical' });
   };
@@ -588,7 +588,7 @@ $(() => {
   const refreshRevertButton = () => {
     const button = $('#revert-button');
     cd.setTip(button, () => {
-      const tip = 'revert to ' + param.avatar + ' '  + param.nowTag;
+      const tip = `revert to ${param.avatar} ${param.nowTag}`;
       cd.showHoverTip(button, tip);
     });
   };
@@ -634,13 +634,13 @@ $(() => {
   const refreshDownloadButton = () => {
     const button = $('#download-button');
     cd.setTip(button, () => {
-      const tip = 'download files from ' + param.avatar + ' ' + param.nowTag;
+      const tip = `download files from ${param.avatar} ${param.nowTag}`;
       cd.showHoverTip(button, tip);
     });
   };
 
   const doDownload = () => {
-    const url = '/download_tag/' + param.id + '/' + param.avatar + '/' + param.nowTag;
+    const url = `/download_tag/${param.id}/${param.avatar}/${param.nowTag}`;
     window.location = url;
   };
 
