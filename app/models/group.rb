@@ -25,8 +25,8 @@ class Group
   # - - - - - - - - - - - - -
 
   def join(indexes = (0..63).to_a.shuffle)
-    index,kid = saver.group_join(id, indexes)
-    if index.nil?
+    kid = saver.group_join(id, indexes)
+    if kid.nil?
       nil
     else
       kata(kid)
