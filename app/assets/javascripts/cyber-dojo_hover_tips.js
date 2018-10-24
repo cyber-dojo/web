@@ -1,13 +1,14 @@
 /*global jQuery,cyberDojo*/
-
+'use strict';
 var cyberDojo = (function(cd, $) {
-  "use strict";
 
   const showTrafficLightHoverTipViaAjax = (light) => {
+    const id = light.data('id');
+    const tag = light.data('tag');
     $.getJSON('/tipper/traffic_light_tip', {
-           id: light.data('id'),
-      was_tag: light.data('was-tag'),
-      now_tag: light.data('now-tag')
+           id: id,
+      was_tag: tag-1,
+      now_tag: tag
     }, function(response) {
       cd.showHoverTip(light, response.html);
     }).error(function(request, status, thrown) {

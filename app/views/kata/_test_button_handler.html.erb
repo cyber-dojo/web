@@ -16,15 +16,12 @@ $(() => {
     testButton.attr('disabled', true);
   };
 
-  // TODO: use this to populate a new cached-run-parameter
-  //       which kata-controller will use as argument n
-  //       to singler.ran_tests(id, n, files, ...)
   const nextTag = () => {
     const tags = $('#traffic-lights .diff-traffic-light');
-    return (tags.last().data('now-tag') || 0) + 1;
+    return (tags.last().data('tag') || 0) + 1;
   };
   const storeNextTag = () => {
-    $("input[name='next_tag']").val(nextTag());
+    $("input[name='tag']").val(nextTag());
   };
 
   testButton.click(() => {

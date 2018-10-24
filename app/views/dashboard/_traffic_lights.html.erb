@@ -6,8 +6,8 @@ $(() => {
     const light = $(event.currentTarget);
     const id         = light.data('id');
     const avatarName = light.data('avatar-name');
-    const wasTag     = light.data('was-tag');
-    const nowTag     = light.data('now-tag');
+    const nowTag     = light.data('tag');
+    const wasTag = nowTag - 1;
     window.open(cd.showReviewUrl(id, avatarName, wasTag, nowTag));
   });
 
@@ -51,7 +51,6 @@ $(() => {
 	  <% lights = @all_lights[name] %>
 	  <% td_map = @gapped[name] %>
     <% kata_id = lights[-1].kata.id %>
-    <% now_tag = 0 %>
 
 	  <% td_map.keys.sort.each_with_index do |td_no,index| %>
 		  <% td = td_map[td_no] %>
@@ -68,10 +67,7 @@ $(() => {
             <tr>
 				    <% td.each do |light| %>
               <td>
-                <% colour = light.colour %>
-                <% was_tag = now_tag %>
-                <% now_tag = light.number %>
-                <%= raw diff_traffic_light(kata_id, colour, was_tag, now_tag) %>
+                <%= raw diff_traffic_light(kata_id, light.colour, light.number) %>
               </td>
             <% end %>
             </tr>

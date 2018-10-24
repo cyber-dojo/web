@@ -17,9 +17,9 @@ $(() => {
     $lights.each((_index,element) => {
       const light = $(element);
       const id     = light.data('id');
-      const avatar = ''; //light.data('avatar-name');
-      const wasTag = light.data('was-tag');
-      const nowTag = light.data('now-tag');
+      const avatar = '';
+      const nowTag = light.data('tag');
+      const wasTag = nowTag - 1;
       light.click(() => {
         cd.setReviewDialogData(id, avatar, wasTag, nowTag);
         review.dialog('open');
@@ -36,13 +36,10 @@ $(() => {
 <div id="traffic-lights">
   <table>
     <tr>
-      <% was_tag = 0 %>
       <% @kata.lights.each do |light| %>
-        <% now_tag = light.number %>
         <td>
-          <%= raw diff_traffic_light(@kata.id, light.colour, was_tag, now_tag) %>
+          <%= raw diff_traffic_light(@kata.id, light.colour, light.number) %>
         </td>
-        <% was_tag = now_tag %>
       <% end %>
       <td><%= render partial: 'traffic_lights_count' %></td>
       <td><%= render partial: 'traffic_lights_pie_chart' %></td>

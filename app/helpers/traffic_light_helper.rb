@@ -14,15 +14,14 @@ module TrafficLightHelper # mix-in
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def diff_traffic_light(id, colour, was_tag, now_tag)
+  def diff_traffic_light(id, colour, tag)
     # [1] data-colour is needed in app/views/kata/edit to
     # count the number of red/amber/green traffic-lights
     "<div class='diff-traffic-light'" +
         " data-tip='ajax:traffic_light'" +
         " data-id='#{id}'" +
         " data-colour='#{colour}'" + # [1]
-        " data-was-tag='#{was_tag}'" +
-        " data-now-tag='#{now_tag}'>" +
+        " data-tag='#{tag}'>" +
         traffic_light_image(colour) +
      '</div>'
   end
