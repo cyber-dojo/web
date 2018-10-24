@@ -19,10 +19,10 @@ module RingPicker # mix-in
 
     size = active.size
     i = active.index{ |k| k.avatar_name == kata.avatar_name }
-    if i.nil?
-      [ nil, nil ]
+    if i
+      [ active[i-1].id, active[(i+1) % size].id ]
     else
-      [ active[i-1], active[(i+1) % size] ]
+      [ '', '' ]
     end
   end
 

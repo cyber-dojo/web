@@ -13,7 +13,7 @@ class DifferController < ApplicationController
     # clear how to cleanly handle a tag of zero in diff-mode since it does
     # not have a previous tag. It is also partly because it makes sense
     # for the tags to correspond to actual kata/edit events.
-    # So, in summary, if returning all the tags you need to do a
+    # So, in summary, if returning all the tags you still need to do a
     #         tags.shift
 
     @kata = katas[id]
@@ -21,15 +21,7 @@ class DifferController < ApplicationController
     was_tag, now_tag = *was_now(tags)
     diff = differ.diff(@kata.id, was_tag, now_tag)
     view = diff_view(diff)
-
-    prev_kata, next_kata = *ring_prev_next(@kata)
-
-    prev_avatar = prev_kata ? prev_kata.avatar_name : ''
-    next_avatar = next_kata ? next_kata.avatar_name : ''
-
-    prev_id = prev_kata ? prev_kata.id : 0;
-    next_id = next_kata ? next_kata.id : 0;
-
+    prev_kata_id, next_kata_id = *ring_prev_next(@kata)
     render json: {
                          id: @kata.id,
                      avatar: @kata.avatar_name,
@@ -37,10 +29,8 @@ class DifferController < ApplicationController
                      nowTag: now_tag,
                        tags: tags,
                       diffs: view,
-                 prevAvatar: prev_avatar,
-                 nextAvatar: next_avatar,
-               prevAvatarId: prev_id,
-               nextAvatarId: next_id,
+                 prevKataId: prev_kata_id,
+                 nextKataId: next_kata_id,
 	      idsAndSectionCounts: prune(view),
           currentFilenameId: pick_file_id(view, current_filename),
 	  }

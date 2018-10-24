@@ -161,19 +161,18 @@ $(() => {
   };
 
   const refreshPrevAvatarHandler = () => {
-    refreshAvatarHandler('prev', param.prevAvatar, param.prevAvatarId);
+    refreshAvatarHandler('prev', param.prevKataId);
   };
 
   const refreshNextAvatarHandler = () => {
-    refreshAvatarHandler('next', param.nextAvatar, param.nextAvatarId);
+    refreshAvatarHandler('next', param.nextKataId);
   };
 
-  const refreshAvatarHandler = (direction, name, id) => {
-    $('#' + direction + '-avatar')
-      .attr('disabled', name == '')
+  const refreshAvatarHandler = (direction, id) => {
+    $(`#${direction}-avatar`)
+      .attr('disabled', id == '')
       .unbind('click')
       .bind('click', () => {
-        param.avatar = name;
         param.id = id;
         if (inDiffMode()) {
           // Move to the new avatar's first tag.
@@ -374,7 +373,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const sortedDiffs = (diffs) => {
-    var filenames = [];
+    let filenames = [];
     $.each(diffs, (_, diff) => {
       filenames.push(diff.filename);
     });
@@ -400,8 +399,8 @@ $(() => {
 
     const display = (node, name, value) => {
       if ($(node).attr('disabled') != 'disabled') {
-        var filename = $(node).data('filename');
-        var selector = '[id="' + filename + '_diff_div"] ' + name;
+        const filename = $(node).data('filename');
+        const selector = '[id="' + filename + '_diff_div"] ' + name;
         $(selector).css('display', value);
       }
     };
