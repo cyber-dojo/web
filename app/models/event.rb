@@ -1,11 +1,11 @@
 
 class Event
 
-  def initialize(externals, kata, hash, n)
+  def initialize(externals, kata, hash, number)
     @externals = externals
     @kata = kata
     @hash = hash
-    @number = n
+    @number = number
   end
 
   def kata
