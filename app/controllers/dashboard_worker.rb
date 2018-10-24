@@ -11,7 +11,7 @@ module DashboardWorker # mixin
     @all_lights = Hash[
       @group.katas
            .select(&:active?)
-           .map{ |kata| [kata.avatar.name, kata.lights] }
+           .map{ |kata| [kata.avatar_name, kata.lights] }
     ]
     args = [@group.manifest.created, seconds_per_column, max_seconds_uncollapsed]
     gapper = DashboardTdGapper.new(*args)

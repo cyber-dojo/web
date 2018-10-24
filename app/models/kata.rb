@@ -9,9 +9,13 @@ class Kata
     @id = id
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
   def id
     @id
   end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def exists?
     saver.kata_exists?(id)
@@ -23,28 +27,23 @@ class Kata
     # if in a group practice-session
     # then the group, otherwise nil
     gid = manifest.group
-    if !gid.nil?
-      Group.new(@externals, gid)
-    else
+    if gid.nil?
       nil
+    else
+      Group.new(@externals, gid)
     end
   end
 
-  def avatar
-    # if in a group practice-session
-    # then the avatar, otherwise nil
-    index = manifest.index
-    if index
-      Avatar.new(self, index)
-    else
-      nil
-    end
-  end
+  # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def avatar_name
     # if in a group practice-session
-    # then the avatar's name, otherwise nil
-    avatar ? avatar.name : ''
+    # then the avatar's name, otherwise ''
+    if group
+      Avatars.names[manifest.index]
+    else
+      ''
+    end
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -125,7 +124,7 @@ class Kata
     lights != []
   end
 
-  def tags
+  def tags # TODO: rename to events
     @events ||= saver.kata_events(id)
     @events.map { |h| Tag.new(@externals, self, h) }
   end

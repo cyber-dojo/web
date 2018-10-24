@@ -64,7 +64,7 @@ class DifferController < ApplicationController
       @active_avatar_names ||= @kata.group
                                     .katas
                                     .select(&:active?)
-                                    .map{ |kata| kata.avatar.name }
+                                    .map{ |kata| kata.avatar_name }
                                     .sort
     else
       []
