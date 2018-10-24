@@ -10,6 +10,8 @@ class KataController < ApplicationController
     ported {
       @kata = katas[id]
       @title = 'test:' + @kata.id
+      latest = @kata.lights[-1]
+      @tag = latest ? latest.number : 0
     }
   end
 
@@ -22,10 +24,9 @@ class KataController < ApplicationController
       @colour,
         files,@new_files,@deleted_files,@changed_files = @kata.run_tests(params)
 
-    n = params[:tag].to_i
-    @kata.ran_tests(n, files, time_now, stdout, stderr, status, @colour)
+    @tag = params[:tag].to_i + 1
+    @kata.ran_tests(@tag, files, time_now, stdout, stderr, status, @colour)
 
-    @tag = n
     respond_to do |format|
       format.js   { render layout: false }
       format.json { show_json }

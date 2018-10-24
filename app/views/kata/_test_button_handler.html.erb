@@ -16,14 +16,6 @@ $(() => {
     testButton.attr('disabled', true);
   };
 
-  const nextTag = () => {
-    const tags = $('#traffic-lights .diff-traffic-light');
-    return (tags.last().data('tag') || 0) + 1;
-  };
-  const storeNextTag = () => {
-    $("input[name='tag']").val(nextTag());
-  };
-
   testButton.click(() => {
     // Called from 3 places
     // 1. when you click [test]
@@ -32,7 +24,6 @@ $(() => {
 
     cd.saveCodeFromSyntaxHighlightEditors();
     cd.storeOutgoingFileHashes();
-    storeNextTag();
 
     $.ajax({
       timeout: 30000, // 30 seconds (twice server timeout)

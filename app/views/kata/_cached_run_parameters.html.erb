@@ -1,11 +1,11 @@
 
 <!-- Parameters needed by kata.run_tests() so it can  -->
-<!-- avoid hitting the grouper/singler service except -->
-<!-- except for singler.ran_tests()                   -->
+<!-- avoid hitting the saver service except for       -->
+<!-- saver.kata_ran_tests()                           -->
 
 <input type="hidden"
        name="tag"
-       value="0">
+       value="<%= @tag %>">
 
 <input type="hidden"
        name="image_name"

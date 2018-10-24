@@ -11,6 +11,12 @@ const appendTestTrafficLight = () => {
 
 //- - - - - - - - - - - - - - - - - - - - - -
 
+const updateTag = () => {
+  $("input[name='tag']").val("<%= @tag %>");
+};
+
+//- - - - - - - - - - - - - - - - - - - - - -
+
 const updateTrafficLightCount = () => {
   $('.traffic-lights-count').html("<%= js_partial('traffic_lights_count') %>");
 };
@@ -47,7 +53,9 @@ const updateChangedFiles = () => {
 
 //- - - - - - - - - - - - - - - - - - - - - -
 
+
 appendTestTrafficLight();
+updateTag();
 updateTrafficLightCount();
 updateTrafficLightPieChart();
 

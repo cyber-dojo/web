@@ -6,7 +6,7 @@ $(() => {
 
   avatar.click(() => {
     const groupId = avatar.data('group-id');
-    const url = '/dashboard/show/' + groupId;
+    const url = `/dashboard/show/${groupId}`;
     window.open(url);
   });
 
