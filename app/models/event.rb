@@ -1,10 +1,11 @@
 
-class Tag
+class Event
 
-  def initialize(externals, kata, hash)
+  def initialize(externals, kata, hash, n)
     @externals = externals
     @kata = kata
     @hash = hash
+    @number = n
   end
 
   def kata
@@ -39,7 +40,7 @@ class Tag
   end
 
   def number
-    @hash['number']
+    @number
   end
 
   # - - - - - - - -

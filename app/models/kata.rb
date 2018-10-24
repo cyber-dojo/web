@@ -126,7 +126,7 @@ class Kata
 
   def tags # TODO: rename to events
     @events ||= saver.kata_events(id)
-    @events.map { |h| Tag.new(@externals, self, h) }
+    @events.map.with_index { |h,i| Event.new(@externals, self, h, i) }
   end
 
   def manifest
