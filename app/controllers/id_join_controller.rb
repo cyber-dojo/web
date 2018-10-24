@@ -6,14 +6,14 @@ class IdJoinController < ApplicationController
     group = groups[porter.port(id)]
     json = { exists:group.exists? }
     if json[:exists]
-      avatar = group.join
-      json[:full] = avatar.nil?
+      kata = group.join
+      json[:full] = kata.nil?
       if json[:full]
         json[:fullHtml] = full_html
       else
-        json[:id] = avatar.kata.id
-        json[:avatarName] = avatar.name
-        json[:avatarStartHtml] = start_html(avatar.name)
+        json[:id] = kata.id
+        json[:avatarName] = kata.avatar_name
+        json[:avatarStartHtml] = start_html(kata.avatar_name)
       end
     end
     render json:json
@@ -27,7 +27,7 @@ class IdJoinController < ApplicationController
   end
 
   def full_html
-    @all_avatar_names = Avatars.names
+    @avatar_names = Avatars.names
     bind('/app/views/id_join/full.html.erb')
   end
 

@@ -29,7 +29,7 @@ class Group
     if index.nil?
       nil
     else
-      Avatar.new(kata(kid), index)
+      kata(kid)
     end
   end
 
