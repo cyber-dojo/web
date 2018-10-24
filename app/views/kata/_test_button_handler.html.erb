@@ -1,52 +1,53 @@
 <script type="text/javascript"><!--
 'use strict';
 $(() => {
+  // Called from 3 places
+  // 1. when you click [test]
+  // 2. when you hot-key Alt-T
+  // 3. when you revert from a diff-dialog
+  cd.testButton.click(() => {
+    cd.saveCodeFromSyntaxHighlightEditors();
+    cd.storeOutgoingFileHashes();
+    const form = cd.testButton.closest('form');
+    $.ajax({
+         timeout: 30000, // 30 seconds
+            type: 'POST',
+             url: form.attr('action'),
+            data: form.serialize(),
+      beforeSend: beforeSend,
+        complete: complete,
+           error: error
+    });
+  });
 
   const testOverlay = $('<div id="test-overlay"></div>');
 
-  const form = cd.testButton.closest('form');
+  const beforeSend = (_xhr, _settings) => {
+    cd.testButton.disable();
+    testOverlay.insertAfter($('body'));
+    cd.testSpinner.show();
+  };
 
-  cd.testButton.click(() => {
-    // Called from 3 places
-    // 1. when you click [test]
-    // 2. when you hot-key Alt-T
-    // 3. when you revert from a diff-dialog
+  const complete = (_xhr, _status) => {
+    cd.testSpinner.hide();
+    testOverlay.remove();
+    cd.testButton.enable();
+    cd.loadFile('output');
+  };
 
-    cd.saveCodeFromSyntaxHighlightEditors();
-    cd.storeOutgoingFileHashes();
-
-    $.ajax({
-      timeout: 30000, // 30 seconds (twice server timeout)
-         type: 'POST',
-          url: form.attr('action'),
-         data: form.serialize(),
-
-      beforeSend: (_xhr, _settings) => {
-        cd.testButton.disable();
-        testOverlay.insertAfter($('body'));
-        cd.testSpinner.show();
-      },
-      error: (request, status, thrown) => {
-        let info = `${thrown}\n`;
-        info += `status=${status}\n`;
-        if (status == 'timeout') {
-          info += `have you lost your network connection?\n\n`;
-        }
-        if (status == 'error') {
-          info += `is the cyber-dojo server down?\n\n`;
-        }
-        info += request.responseText;
-        cd.deleteFile('output');
-        cd.newFile('output', info);
-      },
-      complete: (_xhr, _status) => {
-        cd.testSpinner.hide();
-        testOverlay.remove();
-        cd.testButton.enable();
-        cd.loadFile('output');
-      }
-    });
-  });
+  const error = (request, status, thrown) => {
+    let info = `${thrown}\n`;
+    info += `status=${status}\n`;
+    if (status == 'timeout') {
+      info += `have you lost your network connection?\n\n`;
+    }
+    if (status == 'error') {
+      info += `is the cyber-dojo server down?\n\n`;
+    }
+    info += request.responseText;
+    cd.deleteFile('output');
+    cd.newFile('output', info);
+  };
 
 });
 //--></script>
