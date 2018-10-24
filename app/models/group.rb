@@ -48,7 +48,7 @@ class Group
   # - - - - - - - - - - - - -
 
   def katas
-    joined.values.map{ |kid| kata(kid) }
+    @katas ||= saver.group_joined(id).map{ |kid| kata(kid) }
   end
 
   # - - - - - - - - - - - - -
@@ -68,10 +68,6 @@ class Group
 
   def kata(kid)
     Kata.new(@externals, kid)
-  end
-
-  def joined
-    @joined ||= saver.group_joined(id)
   end
 
   def saver
