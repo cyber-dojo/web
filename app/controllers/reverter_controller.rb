@@ -3,7 +3,7 @@ class ReverterController < ApplicationController
 
   def revert
     render json: {
-      visibleFiles: kata.tags[tag].files
+      visibleFiles: kata.events[tag].files
     }
   end
 

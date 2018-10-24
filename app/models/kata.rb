@@ -115,14 +115,14 @@ class Kata
   def lights
     # currently all events are test-events, except
     # the first one which represents the kata's creation.
-    tags.select(&:light?)
+    events.select(&:light?)
   end
 
   def active?
     lights != []
   end
 
-  def tags # TODO: rename to events
+  def events
     @events ||= saver.kata_events(id)
     @events.map.with_index { |h,i| Event.new(@externals, self, h, i) }
   end
