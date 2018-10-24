@@ -5,7 +5,7 @@
 
 <input type="hidden"
        name="tag"
-       value="<%= @tag %>">
+       value="">
 
 <input type="hidden"
        name="image_name"
@@ -22,3 +22,12 @@
 <input type="hidden"
        name="hidden_filenames"
        value='<%= raw @kata.manifest.hidden_filenames %>'>
+
+
+<script type="text/javascript"><!--
+'use strict';
+$(() => {
+  cd.setTag = (value) => $("input[name='tag']").val(value);
+  cd.setTag("<%= @tag %>");
+});
+//--></script>
