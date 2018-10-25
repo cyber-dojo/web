@@ -6,7 +6,7 @@ class ReviewController < ApplicationController
     # all interaction with the web server is via the
     # differ-controller.
     @kata = katas[id]
-    @avatar_name = avatar_name
+    @avatar_name = @kata.avatar_name
     @was_tag = was_tag
     @now_tag = now_tag
     @filename = filename
