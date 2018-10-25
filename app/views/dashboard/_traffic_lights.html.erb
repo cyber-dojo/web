@@ -4,8 +4,8 @@ $(() => {
 
   $('.diff-traffic-light').on('click',(event) => {
     const light = $(event.currentTarget);
-    const id         = light.data('id');
-    const nowTag     = light.data('tag');
+    const id = light.data('id');
+    const nowTag = light.data('tag');
     const wasTag = nowTag - 1;
     window.open(cd.showReviewUrl(id, wasTag, nowTag));
   });
@@ -64,9 +64,7 @@ $(() => {
           <table align="right">
             <tr>
 				    <% td.each do |light| %>
-              <td>
-                <%= raw diff_traffic_light(kata_id, light.colour, light.number) %>
-              </td>
+              <td><%= raw diff_traffic_light(light) %></td>
             <% end %>
             </tr>
           </table>

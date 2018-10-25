@@ -23,12 +23,15 @@ class KataController < ApplicationController
     #   o) have already been set in files ready to be saved.
     #   o) need to be updated in the browser.
     @stdout,@stderr,status,
-      @colour,
+      colour,
         files,@new_files,@deleted_files,@changed_files = @kata.run_tests(params)
 
-    @tag = params[:tag].to_i + 1
+    t = time_now
+    tag = params[:tag].to_i + 1
 
-    @kata.ran_tests(@tag, files, time_now, @stdout, @stderr, status, @colour)
+    @kata.ran_tests(tag, files, t, @stdout, @stderr, status, colour)
+
+    @light = Event.new(self, @kata, { 'time' => t, 'colour' => colour }, tag)
 
     respond_to do |format|
       format.js   { render layout: false }

@@ -14,7 +14,12 @@ module TrafficLightHelper # mix-in
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def diff_traffic_light(id, colour, tag)
+  def diff_traffic_light(light)
+    id = light.kata.id
+    colour = light.colour
+    tag = light.number
+
+
     # [1] data-colour is needed in app/views/kata/edit to
     # count the number of red/amber/green traffic-lights
     "<div class='diff-traffic-light'" +

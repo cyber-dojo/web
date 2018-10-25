@@ -1,7 +1,7 @@
 'use strict';
 
 const appendTestTrafficLight = () => {
-  const div = $("<%= raw diff_traffic_light(@kata.id, @colour, @tag) %>");
+  const div = $("<%= raw diff_traffic_light(@light) %>");
   const td = $('<td>');
   td.append(div);
   $('.traffic-lights-count').parent().before(td);
@@ -19,7 +19,7 @@ const updateOutput = () => {
 //- - - - - - - - - - - - - - - - - - - - - -
 
 const updateTag = () => {
-  cd.setTag("<%= @tag %>");
+  cd.setTag("<%= @light.number %>");
 };
 
 //- - - - - - - - - - - - - - - - - - - - - -
