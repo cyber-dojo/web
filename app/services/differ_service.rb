@@ -10,21 +10,25 @@ class DifferService
   # - - - - - - - - - - - - -
 
   def sha
-    http.get(__method__)
+    @http.get(__method__)
   end
 
   # - - - - - - - - - - - - -
 
   def diff(kata_id, was_tag, now_tag)
-    saver = externals.saver
-    http.get_hash('diff', {
-      :was_files => saver.kata_event(kata_id, was_tag)['files'],
-      :now_files => saver.kata_event(kata_id, now_tag)['files']
+    @http.get_hash('diff', {
+      :was_files => files(kata_id, was_tag),
+      :now_files => files(kata_id, now_tag)
     })
   end
 
   private
 
-  attr_reader :externals, :http
+  def files(kata_id, tag)
+    event = @externals.saver.kata_event(kata_id, tag)
+    all = event['files']
+    all['output'] = event['stdout'] + event['stderr']
+    all
+  end
 
 end
