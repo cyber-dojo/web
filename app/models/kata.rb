@@ -55,10 +55,14 @@ class Kata
 
     incoming = params[:file_hashes_incoming]
     outgoing = params[:file_hashes_outgoing]
+    incoming.delete('output')
+    outgoing.delete('output')
+    delta = FileDeltaMaker.make_delta(incoming, outgoing)
 
     image_name = params[:image_name]
+
     max_seconds = params[:max_seconds].to_i
-    delta = FileDeltaMaker.make_delta(incoming, outgoing)
+
     files = cleaned_files(params[:file_content])
     files.delete('output')
 
@@ -74,11 +78,11 @@ class Kata
     # If the runner has created a file called output remove it
     # otherwise it interferes with the output pseudo-file.
     new_files.delete('output')
-    changed_files['output'] = stdout + stderr
 
     hidden_filenames = JSON.parse(params[:hidden_filenames])
     remove_hidden_files(new_files, hidden_filenames)
 
+    # ensure (saved) files reflect changes
     new_files.each     { |filename,content| files[filename] = content }
     deleted_files.each { |filename,_      | files.delete(filename)    }
     changed_files.each { |filename,content| files[filename] = content }

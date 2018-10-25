@@ -20,12 +20,16 @@ class KataController < ApplicationController
     # page in the browser then nothing will change.
     @kata = katas[id]
 
-    stdout,stderr,status,
+    # @new_files,@deleted_files,@changed_files
+    #   o) have already been set in files ready to be saved.
+    #   o) need to be updated in the browser.
+    @stdout,@stderr,status,
       @colour,
         files,@new_files,@deleted_files,@changed_files = @kata.run_tests(params)
 
     @tag = params[:tag].to_i + 1
-    @kata.ran_tests(@tag, files, time_now, stdout, stderr, status, @colour)
+
+    @kata.ran_tests(@tag, files, time_now, @stdout, @stderr, status, @colour)
 
     respond_to do |format|
       format.js   { render layout: false }

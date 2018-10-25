@@ -11,6 +11,13 @@ const appendTestTrafficLight = () => {
 
 //- - - - - - - - - - - - - - - - - - - - - -
 
+const updateOutput = () => {
+  cd.deleteFile('output');
+  cd.newFile('output', "<%= j(raw(@stdout)) + j(raw(@stderr)) %>");
+};
+
+//- - - - - - - - - - - - - - - - - - - - - -
+
 const updateTag = () => {
   cd.setTag("<%= @tag %>");
 };
@@ -53,8 +60,8 @@ const updateChangedFiles = () => {
 
 //- - - - - - - - - - - - - - - - - - - - - -
 
-
 appendTestTrafficLight();
+updateOutput();
 updateTag();
 updateTrafficLightCount();
 updateTrafficLightPieChart();
