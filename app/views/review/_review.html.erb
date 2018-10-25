@@ -323,7 +323,6 @@ $(() => {
     let html = '';
     html += '<table>';
     $.each(sortedDiffs(diffs), (_, diff) => {
-      if (diff == undefined) return; // TODO: FIX ME
       const td = $('<td>');
       const filenameDiv =
         $('<div>', {
@@ -356,7 +355,6 @@ $(() => {
     }
     html += '<table>';
     $.each(sortedDiffs(diffs), (_, diff) => {
-      if (diff == undefined) return; // TODO: FIX ME
       const count = diff[propertyName];
       const td = $('<td>');
       const noneOrSome = (count == 0) ? 'none' : 'some';
@@ -387,7 +385,6 @@ $(() => {
           return diffs[i];
         }
       }
-      //alert(`sortedDiffs:diffFor(:${filename}:)... NO MATCH`);
     };
     let result = [];
     $.each(sorted, (_, filename) => {
