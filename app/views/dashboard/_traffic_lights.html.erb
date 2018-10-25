@@ -1,14 +1,13 @@
 <script type="text/javascript"><!--
-
+'use strict';
 $(() => {
 
   $('.diff-traffic-light').on('click',(event) => {
     const light = $(event.currentTarget);
     const id         = light.data('id');
-    const avatarName = light.data('avatar-name');
     const nowTag     = light.data('tag');
     const wasTag = nowTag - 1;
-    window.open(cd.showReviewUrl(id, avatarName, wasTag, nowTag));
+    window.open(cd.showReviewUrl(id, wasTag, nowTag));
   });
 
   cd.pieChart($('#traffic-lights .pie'));
@@ -18,7 +17,6 @@ $(() => {
   $('#traffic-lights').scrollLeft(allTheWay);
 
 });
-
 //--></script>
 
 <table>

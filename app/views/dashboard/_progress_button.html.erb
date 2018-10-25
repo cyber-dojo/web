@@ -5,11 +5,11 @@ $(() => {
   const progressDialog = () => {
     const id = "<%= @group.id %>";
 	  $.getJSON('/dashboard/progress', { id: id }, (data) => {
-      var html = '';
-      var index = 0;
+      let html = '';
+      let index = 0;
       html += '<div id="progress-dialog">';
       html += '<table>';
-      $.each(data.animals, function(name, animal) {
+      $.each(data.animals, (name, animal) => {
         const parity = (index % 2 == 0) ? 'even' : 'odd';
         index += 1;
         html +=
@@ -38,16 +38,16 @@ $(() => {
       const node = $(html);
       node.dialog({
         autoOpen: true,
-        modal: true,
-        title: cd.dialogTitle('progress?'),
-        buttons: { close: () => { node.remove(); } },
+           modal: true,
+           title: cd.dialogTitle('progress?'),
+         buttons: { close: () => { node.remove(); } },
         maxWidth: 600
       });
 
       $('.avatar-image', node).click((event) => {
-        const avatar = $(event.currentTarget).data('avatar');
+        const kataId = $(event.currentTarget).data('id');
         const lastTag = -1;
-        window.open(cd.showReviewUrl(id, avatar, lastTag, lastTag));
+        window.open(cd.showReviewUrl(kataId, lastTag, lastTag));
       });
     }); // getJSON
   };
@@ -57,14 +57,13 @@ $(() => {
   });
 
 });
-
 //--></script>
 
 <% if @group.manifest.progress_regexs != [] %>
   <div id="progress-button-container">
     <button type="button"
-            title="show progress"
-            id="progress-button">
+           title="show progress"
+              id="progress-button">
       progress?
     </button>
   </div>

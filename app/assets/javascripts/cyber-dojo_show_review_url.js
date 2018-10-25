@@ -1,9 +1,8 @@
 /*global jQuery,cyberDojo*/
-
+'use strict';
 var cyberDojo = ((cd, $) => {
-  'use strict';
 
-  cd.showReviewUrl = (id, _avatarName, wasTag, nowTag, filename) => {
+  cd.showReviewUrl = (id, wasTag, nowTag, filename) => {
     return '/review/show/' + id +
       '?was_tag=' + wasTag +
       '&now_tag=' + nowTag +
