@@ -5,7 +5,7 @@ module DashboardWorker # mixin
   module_function
 
   def gather
-    @group = groups[id]
+    @group = group
     @minute_columns = bool('minute_columns')
     @auto_refresh = bool('auto_refresh')
     @all_lights = Hash[
@@ -46,7 +46,7 @@ module DashboardWorker # mixin
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def animals_progress
-    Hash[groups[id].katas
+    Hash[group.katas
               .select(&:active?)
               .map { |kata| [
                 kata.avatar.name, {

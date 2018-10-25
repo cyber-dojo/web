@@ -5,12 +5,14 @@ class ReviewController < ApplicationController
     # Note that once you are on the review dialog/page
     # all interaction with the web server is via the
     # differ-controller.
-    @kata = katas[id]
-    @avatar_name = @kata.avatar_name
-    @was_tag = was_tag
-    @now_tag = now_tag
-    @filename = filename
-    @title = 'review:' + @kata.id
+    ported {
+      @kata = kata
+      @avatar_name = @kata.avatar_name
+      @was_tag = was_tag
+      @now_tag = now_tag
+      @filename = filename
+      @title = 'review:' + @kata.id
+    }
   end
 
   private

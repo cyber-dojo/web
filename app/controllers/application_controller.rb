@@ -11,9 +11,24 @@ class ApplicationController < ActionController::Base
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def ported
-    # TODO: aim to drop avatar from URL
+    #     dashboard/show/1F00C1BFC8
+    # --> dashboard/show/2M0Ry7?
+
+    #     kata/edit/1F00C1BFC8?avatar=lion
+    # --> kata/edit/2M0Ry7?
+
+    #     review/show/1F00C1BFC8?avatar=lion&was_tag=2&now_tag=3
+    # --> review/show/2M0Ry7?was_tag=2&now_tag=3
     if id.size == 10
-      redirect_to request.url.sub(id, porter.port(id))
+      url = request.url
+      id6 = porter.port(id)
+      if m = /#{id}\?avatar=([a-z]*)&?/.match(url)
+        kata = groups[id6].katas.detect{ |k| k.avatar_name == m[1] }
+        url6 = url.sub(m.to_s, kata.id+'?')
+      else
+        url6 = url.sub(id, id6)
+      end
+      redirect_to url6
     else
       yield
     end
@@ -21,31 +36,14 @@ class ApplicationController < ActionController::Base
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def id
-    params[:id]
-  end
-
-  def katas
-    Katas.new(self)
-  end
-
   def kata
-    if avatar_name != ''
-      groups[id].avatars[avatar_name].kata
-    else
-      katas[id]
-    end
+    katas[id]
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def groups
-    Groups.new(self)
-  end
-
-  def avatar_name
-    # TODO: aim to have no avatars on URLs
-    params[:avatar] || ''
+  def group
+    groups[id]
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -69,37 +67,24 @@ class ApplicationController < ActionController::Base
     ERB.new(File.read(filename)).result(binding)
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - - - -
+  def katas
+    # Used in runner_service
+    Katas.new(self)
+  end
+
+  private
+
+  def id
+    params[:id]
+  end
+
+  def groups
+    Groups.new(self)
+  end
 
   def number_or_nil(string)
     num = string.to_i
     num if num.to_s == string
   end
-
-=begin
-
-  private
-
-  def kata_id
-    # dashboard/show/ID
-    # ...does not have avatar and ID == group-id
-    # kata/edit/ID?avatar=tuna
-    # ...does have avatar and ID = group-id
-    # kata/edit/ID
-    # ...does not have avatar and ID = kata-id  NEW
-
-    param = params[:kata_id]
-    if param
-      # cached for KataController.run_tests()
-      param
-    elsif avatar_name != ''
-      # group practice-session
-      groups[id].avatars[avatar_name].kata.id
-    else
-      # individual practice-session
-      id
-    end
-  end
-=end
 
 end

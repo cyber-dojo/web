@@ -8,17 +8,16 @@ class KataController < ApplicationController
 
   def edit
     ported {
-      @kata = katas[id]
+      @kata = kata
       @title = 'test:' + @kata.id
-      latest = @kata.lights[-1]
-      @tag = latest ? latest.number : 0
+      @tag = @kata.events.last.number
     }
   end
 
   def run_tests
     # After a test-event completes if you refresh the
     # page in the browser then nothing will change.
-    @kata = katas[id]
+    @kata = kata
 
     # @new_files,@deleted_files,@changed_files
     #   o) have already been set in files ready to be saved.
