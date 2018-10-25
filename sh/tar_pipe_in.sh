@@ -11,6 +11,6 @@ ${ROOT_DIR}/../porter/test/storer_katas/old/tar_pipe_in.sh ${STORER_CONTAINER}
 ${ROOT_DIR}/../porter/test/storer_katas/dup/tar_pipe_in.sh ${STORER_CONTAINER}
 
 echo "clearing out new saver"
-docker-machine ssh default sh -c 'cd /tmp/id-map && sudo rm -rf *'
-docker-machine ssh default sh -c 'cd /tmp/groups && sudo rm -rf *'
-docker-machine ssh default sh -c 'cd /tmp/katas  && sudo rm -rf *'
+docker-machine ssh default 'cd /tmp/id-map && sudo rm -rf *'
+docker-machine ssh default 'cd /tmp/groups && sudo rm -rf *'
+docker-machine ssh default 'cd /tmp/katas  && sudo rm -rf *'
