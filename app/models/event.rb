@@ -17,15 +17,15 @@ class Event
   end
 
   def stdout
-    manifest['stdout']
+    manifest['stdout'] || ''
   end
 
   def stderr
-    manifest['stderr']
+    manifest['stderr'] || ''
   end
 
   def status
-    manifest['status']
+    manifest['status'] || ''
   end
 
   # - - - - - - - -

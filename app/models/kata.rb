@@ -119,28 +119,24 @@ class Kata
   end
 
   def files
-    # the most recent files passed to ran_tests()
-    @files ||= saver.kata_event(id, -1)['files']
+    most_recent.files
   end
 
   def stdout
-    # the most recent stdout passed to ran_tests()
-    @stdout ||= saver.kata_event(id, -1)['stdout']
+    most_recent.stdout
   end
 
   def stderr
-    # the most recent stderr passed to ran_tests()
-    @stderr ||= saver.kata_event(id, -1)['stderr']
+    most_recent.stderr
   end
 
   def status
-    # the most recent status passed to ran_tests()
-    @status ||= saver.kata_event(id, -1)['status']
+    most_recent.status
   end
 
   def lights
     # currently all events are test-events, except
-    # the first one which represents the kata's creation.
+    # the first creation event.
     events.select(&:light?)
   end
 
@@ -169,6 +165,10 @@ class Kata
       'Is the server very busy?',
       'Please try again.'
     ].join("\n") + "\n"
+  end
+
+  def most_recent
+    events.last
   end
 
   def saver
