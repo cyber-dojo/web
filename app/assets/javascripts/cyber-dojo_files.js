@@ -27,6 +27,14 @@ var cyberDojo = (function(cd, $) {
     }
   };
 
+  cd.loadTestOutfileFile = () => {
+    if (fileContent('stderr') != '') {
+      cd.loadFile('stderr');
+    } else {
+      cd.loadFile('stdout');
+    }
+  };
+
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.currentFilename = () => {
