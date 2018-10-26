@@ -1,6 +1,6 @@
 require_relative '../../lib/phonetic_alphabet'
 
-module IdHelper # mix-in
+module PhoneticHelper # mix-in
 
   module_function
 

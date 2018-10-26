@@ -1,4 +1,4 @@
-require_relative '../helpers/id_helper'
+require_relative '../helpers/phonetic_helper'
 require 'json'
 
 class ApplicationController < ActionController::Base
@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   include Externals
-  include IdHelper
+  include PhoneticHelper
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
