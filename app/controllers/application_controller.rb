@@ -19,6 +19,7 @@ class ApplicationController < ActionController::Base
 
     #     review/show/1F00C1BFC8?avatar=lion&was_tag=2&now_tag=3
     # --> review/show/2M0Ry7?was_tag=2&now_tag=3
+
     if id.size == 10
       url = request.url
       id6 = porter.port(id)
@@ -36,11 +37,19 @@ class ApplicationController < ActionController::Base
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
+  def katas
+    Katas.new(self)
+  end
+
   def kata
     katas[id]
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def groups
+    Groups.new(self)
+  end
 
   def group
     groups[id]
@@ -67,19 +76,10 @@ class ApplicationController < ActionController::Base
     ERB.new(File.read(filename)).result(binding)
   end
 
-  def katas
-    # Used in runner_service
-    Katas.new(self)
-  end
-
   private
 
   def id
     params[:id]
-  end
-
-  def groups
-    Groups.new(self)
   end
 
   def number_or_nil(string)
