@@ -1,6 +1,6 @@
 /*global jQuery,cyberDojo*/
 'use strict';
-var cyberDojo = (function(cd, $) {
+var cyberDojo = ((cd, $) => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -57,7 +57,7 @@ var cyberDojo = (function(cd, $) {
 
   cd.focusSyntaxHighlightEditor = (filename) => {
     const element = document.getElementById(syntaxHighlightFileContentForId(filename));
-    if (element != null) {
+    if (element !== null) {
       element.CodeMirror.refresh();
       element.CodeMirror.focus();
     }
@@ -110,7 +110,7 @@ var cyberDojo = (function(cd, $) {
 
   const fileExtension = (filename) => {
     const lastPoint = filename.lastIndexOf('.');
-    if (lastPoint == -1) {
+    if (lastPoint === -1) {
       return '';
     } else {
       return filename.substring(lastPoint);
@@ -191,18 +191,13 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const codeMirrorIndentWithTabs = (filename) => {
-    switch (filename.toLowerCase()) {
-      case 'makefile':
-        return true;
-      default:
-        return false;
-    }
+    return filename.toLowerCase() === 'makefile';
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const syntaxHighlightFileContentForId = (filename) => {
-    return 'syntax_highlight_file_content_for_' + filename;
+    return `syntax_highlight_file_content_for_${filename}`;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
