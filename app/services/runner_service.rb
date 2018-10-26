@@ -29,14 +29,16 @@ class RunnerService
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def kata_new(image_name, id, starting_files)
-    unless stateless?(id)
-      runner_http_post(__method__, *args(binding))
+    if stateful?(id)
+      set_hostname_port_stateful
+      http.post(__method__, *args(binding))
     end
   end
 
   def kata_old(image_name, id)
-    unless stateless?(id)
-      runner_http_post(__method__, *args(binding))
+    if stateful?(id)
+      set_hostname_port_stateful
+      http.post(__method__, *args(binding))
     end
   end
 
@@ -81,27 +83,11 @@ class RunnerService
   private # = = = = = = = = = = = = = = = = = = = = =
 
   def http
-    HttpHelper.new(@externals, self, hostname, port)
+    HttpHelper.new(@externals, self, @hostname, @port)
   end
 
-  def runner_http_post(method, *args)
-    set_hostname_port(args[1])
-    http.post(method, *args)
-  end
-
-  attr_reader :hostname, :port
-
-  def set_hostname_port(id)
-    case runner_choice(id)
-    when 'stateless'
-      set_hostname_port_stateless
-    when 'stateful'
-      set_hostname_port_stateful
-    end
-  end
-
-  def stateless?(id)
-    runner_choice(id) == 'stateless'
+  def stateful?(id)
+    runner_choice(id) == 'stateful'
   end
 
   def runner_choice(id)
