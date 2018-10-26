@@ -1,7 +1,7 @@
 
 <script type="text/javascript"><!--
-
-$(function() {
+'use strict';
+$(() => {
 
   const hotkeysButton = $('#hotkeys-button');
 
@@ -49,9 +49,9 @@ $(function() {
 
   const tr = (key, what) => {
     return '<tr>' +
-      '<td style="text-align:right;">' + key + '</td>' +
-      '<td>==</td>' +
-      '<td>' + what + '</td>' +
+      `<td style="text-align:right;">${key}</td>` +
+      '<td>&nbsp;:&nbsp;</td>' +
+      `<td>${what}</td>` +
     '</tr>';
   };
 
@@ -62,10 +62,9 @@ $(function() {
   }
 
 });
-
 //--></script>
 
 <button type="button"
-        id="hotkeys-button">
+          id="hotkeys-button">
   hotkeys
 </button>
