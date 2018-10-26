@@ -20,7 +20,7 @@ module TrafficLightTipHelper # mix-in
     diffs.each do |filename, diff|
       added   = diff.count { |line| line['type'] == 'added'   }
       deleted = diff.count { |line| line['type'] == 'deleted' }
-      if filename != 'output' && (added + deleted != 0)
+      if !output?(filename) && (added + deleted != 0)
         tip += '<tr>'
         tip += td(diff_count('deleted', deleted))
         tip += td(diff_count('added', added))
@@ -32,6 +32,10 @@ module TrafficLightTipHelper # mix-in
   end
 
   module_function
+
+  def output?(filename)
+    %w( stdout stderr status ).include?(filename)
+  end
 
   def tag_html(tag_number)
     "<span class='traffic-light-diff-tip-tag'>#{tag_number}</span>"
