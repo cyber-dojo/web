@@ -199,10 +199,11 @@ $(() => {
   //-----------------------------------------
   // refresh [<] tag [>]
   //-----------------------------------------
+  // [<] is enabled if there is a useable tag to the lhs of param.nowTag
+  // [>] is enabled if there is a useable tag to the rhs of param.nowTag
+  //-----------------------------------------
 
   const refreshTagControls = () => {
-    // < is enabled if there is a useable tag to the lhs of param.nowTag
-    // > is enabled if there is a useable tag to the rhs of param.nowTag
     const prevTag = getPrevTag();
     const nextTag = getNextTag();
     refreshTag($('#prev-tag'), prevTag);
@@ -248,15 +249,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const tagHtml = () => {
-    let html = '';
-    html += '<table><tr>';
-    if (inDiffMode()) {
-      html += tagTrafficLightHtml(param.wasTag);
-      html += '<td class="right-arrow">&rarr;</td>';
-    }
-    html += tagTrafficLightHtml(param.nowTag);
-    html += '</tr></table>';
-    return html;
+    return tagTrafficLightHtml(param.nowTag);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -265,12 +258,9 @@ $(() => {
     const index = indexForTag(tagNumber);
     const colour = (index == null) ? '' : param.tags[index].colour;
     let html = '';
-    if (colour != '') {
-      html += '<td><img src="/images/bulb_' + colour + '.png"></td>';
-    }
-    html += '<td><div id="tag-number">';
+    html += `<div id="tag-number" class="${colour}">`;
     html += tagNumber;
-    html += '</div></td>';
+    html += '</div>';
     return html;
   };
 
