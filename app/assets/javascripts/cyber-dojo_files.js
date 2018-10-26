@@ -32,7 +32,7 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.loadTestOutputFile = () => {
-    if (fileContent('stderr') != '') {
+    if (fileContent('stderr') !== '') {
       cd.loadFile('stderr');
     } else {
       cd.loadFile('stdout');
@@ -41,15 +41,11 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.currentFilename = () => {
-    return theCurrentFilename;
-  };
+  cd.currentFilename = () => theCurrentFilename;
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.eachFilename = (f) => {
-    cd.filenames().forEach(f);
-  };
+  cd.eachFilename = (f) => cd.filenames().forEach(f);
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -58,7 +54,7 @@ var cyberDojo = (function(cd, $) {
     // page/dialog collects filenames in its own way.
     const filenames = [];
     const prefix = 'file_content_for_';
-    $('textarea[id^=' + prefix + ']').each(function(_) {
+    $(`textarea[id^=${prefix}]`).each(function(_) {
       const id = $(this).attr('id');
       const filename = id.substr(prefix.length, id.length - prefix.length);
       filenames.push(filename);
@@ -89,7 +85,7 @@ var cyberDojo = (function(cd, $) {
   cd.loadNextFile = () => {
     const hi = hiFilenames(cd.filenames());
     const index = $.inArray(cd.currentFilename(), hi);
-    if (index == -1) {
+    if (index === -1) {
       const next = 0;
       cd.loadFile(hi[next]);
     } else {
@@ -115,7 +111,7 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.toggleOutputFile = () => {
-    if (cd.isOutputFile(cd.currentFilename())) { //} !== 'stdout') {
+    if (cd.isOutputFile(cd.currentFilename())) {
       cd.loadFile(theLastNonOutputFilename);
     } else {
       cd.loadFile(theLastOutputFilename);
@@ -181,7 +177,7 @@ var cyberDojo = (function(cd, $) {
   cd.radioEntrySwitch = (previous, current) => {
     // Used in test-page, setup-pages, and history/diff-dialog
     // See app/assets/stylesheets/wide-list-item.scss
-    if (previous != undefined) {
+    if (previous !== undefined) {
       previous.removeClass('selected');
     }
     current.addClass('selected');
@@ -229,19 +225,19 @@ var cyberDojo = (function(cd, $) {
 
   const fileContent = (filename) => {
     cd.saveCodeFromIndividualSyntaxHighlightEditor(filename);
-    return jqElement('file_content_for_' + filename).val();
+    return jqElement(`file_content_for_${filename}`).val();
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const jqElement = (name) => {
-    return $('[id="' + name + '"]');
+    return $(`[id="${name}"]`);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const fileDiv = (filename) => {
-    return jqElement(filename + '_div');
+    return jqElement(`${filename}_div`);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -249,14 +245,14 @@ var cyberDojo = (function(cd, $) {
   const makeNewFile = (filename, content) => {
     const div = $('<div>', {
       'class': 'filename_div',
-      id: filename + '_div'
+           id: `${filename}_div`
     });
     const text = $('<textarea>', {
       'class': 'file_content',
       'spellcheck': 'false',
       'data-filename': filename,
-      name: 'file_content[' + filename + ']',
-      id: 'file_content_for_' + filename
+      name: `file_content[${filename}]`,
+      id: `file_content_for_${filename}`
       //wrap: 'off'
     });
     // For some reason, setting wrap cannot be done as per the
@@ -277,8 +273,8 @@ var cyberDojo = (function(cd, $) {
     const fileOps = $('#file-operations');
     const renameFile = fileOps.find('#rename');
     const deleteFile = fileOps.find('#delete');
-    const disable = (node) => { node.prop('disabled', true ); };
-    const enable  = (node) => { node.prop('disabled', false); };
+    const disable = (node) => node.prop('disabled', true );
+    const enable  = (node) => node.prop('disabled', false);
 
     if (cantBeRenamedOrDeleted(filename)) {
       disable(renameFile);
@@ -306,7 +302,7 @@ var cyberDojo = (function(cd, $) {
   const makeFileListEntry = (filename) => {
     const div = $('<div>', {
       'class': 'filename',
-           id: 'radio_' + filename,
+           id: `radio_${filename}`,
          text: filename
     });
     if (cd.inArray(filename, cd.highlightFilenames())) {
@@ -322,9 +318,9 @@ var cyberDojo = (function(cd, $) {
     // Can't do $('radio_' + filename) because filename
     // could contain characters that aren't strictly legal
     // characters in a dom node id so I do this instead...
-    const node = $('[id="radio_' + filename + '"]');
+    const node = $(`[id="radio_${filename}"]`);
     const previousFilename = cd.currentFilename();
-    const previous = $('[id="radio_' + previousFilename + '"]');
+    const previous = $(`[id="radio_${previousFilename}"]`);
     cd.radioEntrySwitch(previous, node);
     setRenameAndDeleteButtons(filename);
   };
@@ -373,9 +369,9 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.isOutputFile = (filename) => {
-    if (filename == 'stdout') return true;
-    if (filename == 'stderr') return true;
-    if (filename == 'status') return true;
+    if (filename === 'stdout') return true;
+    if (filename === 'stderr') return true;
+    if (filename === 'status') return true;
     return false;
   };
 
@@ -387,7 +383,7 @@ var cyberDojo = (function(cd, $) {
       // Shell test frameworks (eg shunit2) use .sh as their
       // filename extension but we don't want cyber-dojo.sh
       // in the hiFilenames() above output in the filename-list.
-      if (filename.endsWith(extension) && filename != 'cyber-dojo.sh') {
+      if (filename.endsWith(extension) && filename !== 'cyber-dojo.sh') {
         match = true;
       }
     });
@@ -397,7 +393,7 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const isReadmeFile = (filename) => {
-      return filename == 'readme.txt' || filename === 'instructions';
+      return filename === 'readme.txt' || filename === 'instructions';
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
