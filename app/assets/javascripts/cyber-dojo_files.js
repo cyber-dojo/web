@@ -22,7 +22,7 @@ var cyberDojo = (function(cd, $) {
     cd.focusSyntaxHighlightEditor(filename);
 
     theCurrentFilename = filename;
-    if (cd.isOutput(filename)) {
+    if (cd.isOutputFile(filename)) {
       theLastOutputFilename = filename;
     } else {
       theLastNonOutputFilename = filename;
@@ -64,15 +64,6 @@ var cyberDojo = (function(cd, $) {
       filenames.push(filename);
     });
     return filenames;
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.isOutput = (filename) => {
-    if (filename == 'stdout') return true;
-    if (filename == 'stderr') return true;
-    if (filename == 'status') return true;
-    return false;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -124,7 +115,7 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.toggleOutputFile = () => {
-    if (cd.isOutput(cd.currentFilename())) { //} !== 'stdout') {
+    if (cd.isOutputFile(cd.currentFilename())) { //} !== 'stdout') {
       cd.loadFile(theLastNonOutputFilename);
     } else {
       cd.loadFile(theLastOutputFilename);
@@ -299,7 +290,7 @@ var cyberDojo = (function(cd, $) {
   };
 
   const cantBeRenamedOrDeleted = (filename) => {
-    return cd.isOutput(filename) || filename == 'cyber-dojo.sh';
+    return cd.isOutputFile(filename) || filename == 'cyber-dojo.sh';
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -349,15 +340,13 @@ var cyberDojo = (function(cd, $) {
     // 3. review/show page/dialog to help show filename list
     let hi = [];
     $.each(filenames, (_, filename) => {
-      if (isSourceFile(filename) || filename == 'instructions' || filename == 'readme.txt') {
+      if (isSourceFile(filename) || isReadmeFile(filename)) {
         hi.push(filename);
       }
     });
     hi.sort();
-    hi = hi.filter(item => item !== 'stdout');
-    hi = hi.filter(item => item !== 'stderr');
-    hi = hi.filter(item => item !== 'status');
-    hi = hi.filter(item => item !== 'cyber-dojo.sh');
+    hi = hi.filter(filename => !cd.isOutputFile(filename));
+    hi = hi.filter(filename => filename !== 'cyber-dojo.sh');
     return hi;
   };
 
@@ -372,15 +361,22 @@ var cyberDojo = (function(cd, $) {
     // 3. review/show page/dialog to help show filename-list
     let lo = [];
     $.each(filenames, (_, filename) => {
-      if (!isSourceFile(filename) && filename != 'instructions' && filename != 'readme.txt') {
+      if (!isSourceFile(filename) && !isReadmeFile(filename)) {
         lo.push(filename);
       }
     });
     lo.sort();
-    lo = lo.filter(item => item !== 'stdout');
-    lo = lo.filter(item => item !== 'stderr');
-    lo = lo.filter(item => item !== 'status');
+    lo = lo.filter(filename => !cd.isOutputFile(filename));
     return lo;
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.isOutputFile = (filename) => {
+    if (filename == 'stdout') return true;
+    if (filename == 'stderr') return true;
+    if (filename == 'status') return true;
+    return false;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -396,6 +392,12 @@ var cyberDojo = (function(cd, $) {
       }
     });
     return match;
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const isReadmeFile = (filename) => {
+      return filename == 'readme.txt' || filename === 'instructions';
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -101,7 +101,7 @@ var cyberDojo = ((cd, $) => {
              tabSize: cd.syntaxHighlightTabSize,
       indentWithTabs: codeMirrorIndentWithTabs(filename),
                theme: plainTheme,
-            readOnly: cd.isOutput(filename),
+            readOnly: cd.isOutputFile(filename),
          smartIndent: false
     };
   };
