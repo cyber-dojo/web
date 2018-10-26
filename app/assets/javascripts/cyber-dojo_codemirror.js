@@ -191,8 +191,7 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const codeMirrorIndentWithTabs = (filename) => {
-    filename = filename.toLowerCase();
-    switch (filename) {
+    switch (filename.toLowerCase()) {
       case 'makefile':
         return true;
       default:
@@ -209,7 +208,7 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const runActionOnAllCodeMirrorEditors = (action) => {
-    $.each($('.CodeMirror'), (i, editorDiv) => {
+    $.each($('.CodeMirror'), (_i, editorDiv) => {
       action(editorDiv.CodeMirror);
     });
   };
@@ -278,10 +277,10 @@ var cyberDojo = (function(cd, $) {
 
   const bindHotKeys = (editor) => {
     editor.setOption('extraKeys', {
-      'Alt-T': (cm) => { $('#test-button').click(); },
-      'Alt-J': (cm) => { cd.loadNextFile(); },
-      'Alt-K': (cm) => { cd.loadPreviousFile(); },
-      'Alt-O': (cm) => { cd.toggleOutputFile(); }
+      'Alt-T': () => $('#test-button').click(),
+      'Alt-J': () => cd.loadNextFile(),
+      'Alt-K': () => cd.loadPreviousFile(),
+      'Alt-O': () => cd.toggleOutputFile()
     });
   };
 
