@@ -11,7 +11,7 @@ $(function() {
     html += '<table>';
     html += tr('Alt-J', 'cycles forwards through the upper filenames');
     html += tr('Alt-K', 'cycles backwards through the upper filenames');
-    html += tr('Alt-O', 'moves to/from the output file');
+    html += tr('Alt-O', 'moves to/from stdout/stderr/status');
     html += tr('Alt-T', 'runs the tests');
     html += '</table>';
     html += '<hr/>';
@@ -55,8 +55,8 @@ $(function() {
     '</tr>';
   };
 
-  if (window.location.href.indexOf('kata/edit') != -1) {
-    hotkeysButton.show().click(function() { hotkeysDialog(); });
+  if (window.location.href.indexOf('kata/edit') !== -1) {
+    hotkeysButton.show().click(() => { hotkeysDialog(); });
   } else {
     hotkeysButton.hide();
   }
