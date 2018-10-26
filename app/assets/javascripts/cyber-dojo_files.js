@@ -1,7 +1,6 @@
 /*global jQuery,cyberDojo*/
-
+'use strict';
 var cyberDojo = (function(cd, $) {
-  "use strict";
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // Filenames
@@ -9,6 +8,7 @@ var cyberDojo = (function(cd, $) {
 
   let theCurrentFilename = '';
   let theLastNonOutputFilename = '';
+  let theLastOutputFilename = '';
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // Load a named file
@@ -22,12 +22,16 @@ var cyberDojo = (function(cd, $) {
     cd.focusSyntaxHighlightEditor(filename);
 
     theCurrentFilename = filename;
-    if (filename !== 'output') {
+    if (cd.isOutput(filename)) {
+      theLastOutputFilename = filename;
+    } else {
       theLastNonOutputFilename = filename;
     }
   };
 
-  cd.loadTestOutfileFile = () => {
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.loadTestOutputFile = () => {
     if (fileContent('stderr') != '') {
       cd.loadFile('stderr');
     } else {
@@ -60,6 +64,15 @@ var cyberDojo = (function(cd, $) {
       filenames.push(filename);
     });
     return filenames;
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.isOutput = (filename) => {
+    if (filename == 'stdout') return true;
+    if (filename == 'stderr') return true;
+    if (filename == 'status') return true;
+    return false;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -111,10 +124,10 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.toggleOutputFile = () => {
-    if (cd.currentFilename() !== 'stdout') {
-      cd.loadFile('stdout');
-    } else {
+    if (cd.isOutput(cd.currentFilename())) { //} !== 'stdout') {
       cd.loadFile(theLastNonOutputFilename);
+    } else {
+      cd.loadFile(theLastOutputFilename);
     }
   };
 
@@ -286,7 +299,7 @@ var cyberDojo = (function(cd, $) {
   };
 
   const cantBeRenamedOrDeleted = (filename) => {
-    return cd.inArray(filename, [ 'cyber-dojo.sh', 'stdout','stderr','status' ]);
+    return cd.isOutput(filename) || filename == 'cyber-dojo.sh';
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
