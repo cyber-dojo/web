@@ -26,12 +26,14 @@ const updateTag = () => {
 //- - - - - - - - - - - - - - - - - - - - - -
 
 const updateTrafficLightCount = () => {
-  $('.traffic-lights-count').html("<%= js_partial('traffic_lights_count') %>");
+  const count = "<%= js_partial('traffic_lights_count') %>";
+  $('.traffic-lights-count').html(count);
 };
 
 
 const updateTrafficLightPieChart = () => {
-  $('#traffic-lights-pie-chart').html("<%= js_partial('traffic_lights_pie_chart') %>");
+  const pieChart = "<%= js_partial('traffic_lights_pie_chart') %>";
+  $('#traffic-lights-pie-chart').html(pieChart);
 };
 
 //- - - - - - - - - - - - - - - - - - - - - -
