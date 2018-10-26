@@ -62,9 +62,7 @@ class Kata
     delta = FileDeltaMaker.make_delta(incoming, outgoing)
 
     image_name = params[:image_name]
-
     max_seconds = params[:max_seconds].to_i
-
     files = cleaned_files(params[:file_content])
     output_filenames.each do |output_filename|
       files.delete(output_filename)
@@ -74,10 +72,6 @@ class Kata
       colour,
         new_files,deleted_files,changed_files =
           runner.run_cyber_dojo_sh(image_name, id, max_seconds, delta, files)
-
-    if colour == 'timed_out'
-      stdout = timed_out_message(max_seconds) + stdout
-    end
 
     # If the runner has created an 'output' file remove it
     # otherwise it interferes with the pseudo output-files.
@@ -153,14 +147,6 @@ class Kata
   include FileDeltaMaker
   include HiddenFileRemover
   include Cleaner
-
-  def timed_out_message(max_seconds)
-    [ "Unable to complete the tests in #{max_seconds} seconds.",
-      'Is there an accidental infinite loop?',
-      'Is the server very busy?',
-      'Please try again.'
-    ].join("\n") + "\n"
-  end
 
   def output_filenames
     %w( stdout stderr status )

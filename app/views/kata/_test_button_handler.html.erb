@@ -20,6 +20,8 @@ $(() => {
     });
   });
 
+  //- - - - - - - - - - - - - - - - - - - - - - -
+
   const testOverlay = $('<div id="test-overlay"></div>');
 
   const beforeSend = (_xhr, _settings) => {
@@ -34,6 +36,8 @@ $(() => {
     cd.testButton.enable();
   };
 
+  //- - - - - - - - - - - - - - - - - - - - - - -
+
   const error = (request, status, thrown) => {
     let info = `${thrown}\n`;
     info += `status=${status}\n`;
@@ -44,10 +48,35 @@ $(() => {
       info += `is the cyber-dojo server down?\n\n`;
     }
     info += request.responseText;
-    // TODO: dont change stderr. Show this in popup instead.
-    //       move timeout text from kata to here.
-    cd.deleteFile('stdout');
-    cd.newFile('stdout', info);
+
+    errorDialog($(
+      '<div>' +
+      `<textarea id="error" readonly="readonly">${info}</textarea>` +
+      '</div>'));
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - -
+
+  const errorDialog = (node) => {
+    node.dialog({
+              width: '620',
+           autoOpen: true,
+      closeOnEscape: true,
+              modal: true,
+              title: cd.dialogTitle('error'),
+            buttons: { close: () => {
+                node.remove();
+                cd.editorRefocus();
+              }
+            },
+        beforeClose: (event) => {
+          if (event.keyCode === $.ui.keyCode.ESCAPE) {
+            node.remove();
+            cd.editorRefocus();
+            return true;
+          }
+        }
+    });
   };
 
 });
