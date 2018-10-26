@@ -27,7 +27,9 @@ class DifferService
   def files(kata_id, tag)
     event = @externals.saver.kata_event(kata_id, tag)
     all = event['files']
-    all['output'] = event['stdout'] + event['stderr']
+    all['stdout'] = event['stdout']
+    all['stderr'] = event['stderr']
+    all['status'] = event['status'].to_s
     all
   end
 

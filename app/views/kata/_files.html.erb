@@ -8,5 +8,9 @@ $(() => {
     cd.newFile("<%= j raw(filename) %>", "<%= j raw(content) %>");
   <% end %>
 
+  cd.newFile('stdout', "<%= j raw(@kata.stdout) %>");
+  cd.newFile('stderr', "<%= j raw(@kata.stderr) %>");
+  cd.newFile('status', "<%= j raw(@kata.status) %>");
+
 });
 //--></script>

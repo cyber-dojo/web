@@ -12,8 +12,15 @@ const appendTestTrafficLight = () => {
 //- - - - - - - - - - - - - - - - - - - - - -
 
 const updateOutput = () => {
-  cd.deleteFile('output');
-  cd.newFile('output', "<%= j(raw(@stdout)) + j(raw(@stderr)) %>");
+  //TODO: add cd.changeFile(filename,content);
+  cd.deleteFile('stdout');
+  cd.newFile('stdout', "<%= j raw(@stdout) %>");
+
+  cd.deleteFile('stderr');
+  cd.newFile('stderr', "<%= j raw(@stderr) %>");
+
+  cd.deleteFile('status');
+  cd.newFile('status', "<%= j raw(@status) %>");
 };
 
 //- - - - - - - - - - - - - - - - - - - - - -

@@ -32,7 +32,8 @@ $(() => {
     cd.testSpinner.hide();
     testOverlay.remove();
     cd.testButton.enable();
-    cd.loadFile('output');
+    // TODO: load either stdout or stderr
+    cd.loadFile('stdout');
   };
 
   const error = (request, status, thrown) => {
@@ -45,8 +46,10 @@ $(() => {
       info += `is the cyber-dojo server down?\n\n`;
     }
     info += request.responseText;
-    cd.deleteFile('output');
-    cd.newFile('output', info);
+    // TODO: dont change stderr. Show this in popup instead.
+    //       move timeout text from kata to here.
+    cd.deleteFile('stdout');
+    cd.newFile('stdout', info);
   };
 
 });

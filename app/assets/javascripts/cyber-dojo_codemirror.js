@@ -1,7 +1,6 @@
 /*global jQuery,cyberDojo*/
-
+'use strict';
 var cyberDojo = (function(cd, $) {
-  "use strict";
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -93,6 +92,13 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  const output = (filename) => {
+    if (filename == 'stdout') return true;
+    if (filename == 'stderr') return true;
+    if (filename == 'status') return true;
+    return false;
+  };
+
   const editorOptions = (filename) => {
     return {
          lineNumbers: true,
@@ -102,7 +108,7 @@ var cyberDojo = (function(cd, $) {
              tabSize: cd.syntaxHighlightTabSize,
       indentWithTabs: codeMirrorIndentWithTabs(filename),
                theme: plainTheme,
-            readOnly: (filename == 'output'),
+            readOnly: output(filename),
          smartIndent: false
     };
   };
@@ -128,7 +134,9 @@ var cyberDojo = (function(cd, $) {
         return 'text/x-makefile';
       case 'instructions':
       case 'readme.txt':
-      case 'output':
+      case 'stdout':
+      case 'stderr':
+      case 'status':
         return '';
     }
 

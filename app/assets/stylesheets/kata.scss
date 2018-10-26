@@ -46,7 +46,8 @@
 
     div[class~='filename'][class~='highlight'] { &:before { content: ">"; } }
 
-    div[class~='filename'][id='radio_output'] { margin-top: 20px; }
+    div[class~='filename'][id='radio_stdout'] { margin-top: 20px; }
+    div[class~='filename'][id='radio_status'] { margin-bottom: 20px; }
 
          width: 250px;
         height: 410px;

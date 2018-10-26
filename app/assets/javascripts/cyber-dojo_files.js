@@ -61,7 +61,8 @@ var cyberDojo = (function(cd, $) {
     // Used in two places
     // 1. kata/edit page to help show filename-list
     // 2. review/show page/dialog to help show filename-list
-    return [].concat(hiFilenames(filenames), ['output'], loFilenames(filenames));
+    const output = ['stdout','stderr','status'];
+    return [].concat(hiFilenames(filenames), output, loFilenames(filenames));
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -102,8 +103,8 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.toggleOutputFile = () => {
-    if (cd.currentFilename() !== 'output') {
-      cd.loadFile('output');
+    if (cd.currentFilename() !== 'stdout') {
+      cd.loadFile('stdout');
     } else {
       cd.loadFile(theLastNonOutputFilename);
     }
@@ -270,7 +271,7 @@ var cyberDojo = (function(cd, $) {
   };
 
   const cantBeRenamedOrDeleted = (filename) => {
-    return cd.inArray(filename, [ 'cyber-dojo.sh', 'output' ]);
+    return cd.inArray(filename, [ 'cyber-dojo.sh', 'stdout','stderr','status' ]);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -325,8 +326,10 @@ var cyberDojo = (function(cd, $) {
       }
     });
     hi.sort();
-    hi = hi.filter(item => item !== 'output')
-    hi = hi.filter(item => item != 'cyber-dojo.sh')
+    hi = hi.filter(item => item !== 'stdout');
+    hi = hi.filter(item => item !== 'stderr');
+    hi = hi.filter(item => item !== 'status');
+    hi = hi.filter(item => item !== 'cyber-dojo.sh');
     return hi;
   };
 
@@ -346,7 +349,9 @@ var cyberDojo = (function(cd, $) {
       }
     });
     lo.sort();
-    lo = lo.filter(item => item !== 'output')
+    lo = lo.filter(item => item !== 'stdout');
+    lo = lo.filter(item => item !== 'stderr');
+    lo = lo.filter(item => item !== 'status');
     return lo;
   };
 

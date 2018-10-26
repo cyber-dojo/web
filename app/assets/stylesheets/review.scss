@@ -109,7 +109,8 @@
        border: 1px solid $darker-color;
        margin: { bottom: 2px; }
       // mimic test-page filename-list
-      &[data-filename='output'] { margin-top: 20px; }
+      &[data-filename='stdout'] { margin-top: 20px; }
+      &[data-filename='status'] { margin-bottom: 20px; }
     }
   }
 
@@ -181,7 +182,8 @@
     }
 
     // mimic test-page filename-list
-    &[data-filename='output'] { margin-top: 20px;  }
+    &[data-filename='stdout'] { margin-top: 20px;  }
+    &[data-filename='status'] { margin-bottom: 20px;  }
   }
 
   .diff-deleted-line-count {

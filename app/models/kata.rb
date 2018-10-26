@@ -55,8 +55,10 @@ class Kata
 
     incoming = params[:file_hashes_incoming]
     outgoing = params[:file_hashes_outgoing]
-    incoming.delete('output')
-    outgoing.delete('output')
+    %w( stdout stderr status ).each do |output|
+      incoming.delete(output)
+      outgoing.delete(output)
+    end
     delta = FileDeltaMaker.make_delta(incoming, outgoing)
 
     image_name = params[:image_name]
@@ -64,7 +66,9 @@ class Kata
     max_seconds = params[:max_seconds].to_i
 
     files = cleaned_files(params[:file_content])
-    files.delete('output')
+    %w( stdout stderr status ).each do |output|
+      files.delete(output)
+    end
 
     stdout,stderr,status,
       colour,
@@ -75,9 +79,11 @@ class Kata
       stdout = timed_out_message(max_seconds) + stdout
     end
 
-    # If the runner has created a file called output remove it
-    # otherwise it interferes with the output pseudo-file.
-    new_files.delete('output')
+    # If the runner has created an output file remove it
+    # otherwise it interferes with the pseudo output-files.
+    %w( stdout stderr status ).each do |output|
+      new_files.delete(output)
+    end
 
     hidden_filenames = JSON.parse(params[:hidden_filenames])
     remove_hidden_files(new_files, hidden_filenames)
@@ -113,8 +119,23 @@ class Kata
   end
 
   def files
-    # the most recent set of files passed to ran_tests()
+    # the most recent files passed to ran_tests()
     @files ||= saver.kata_event(id, -1)['files']
+  end
+
+  def stdout
+    # the most recent stdout passed to ran_tests()
+    @stdout ||= saver.kata_event(id, -1)['stdout']
+  end
+
+  def stderr
+    # the most recent stderr passed to ran_tests()
+    @stderr ||= saver.kata_event(id, -1)['stderr']
+  end
+
+  def status
+    # the most recent status passed to ran_tests()
+    @status ||= saver.kata_event(id, -1)['status']
   end
 
   def lights
