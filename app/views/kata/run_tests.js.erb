@@ -63,38 +63,14 @@ const updateChangedFiles = () => {
 //- - - - - - - - - - - - - - - - - - - - - -
 
 const warnIfTestsTimedOut = () => {
-  if ("<%= @light.colour %>" !== 'timed_out') {
-    return;
+  if ("<%= @light.colour %>" === 'timed_out') {
+    const info = "Unable to complete the tests in 10 seconds.\n" +
+                 "Is there an accidental infinite loop?\n";
+    const html = '<div data-width="600">' +
+                 `<textarea id="timed-out" readonly="readonly">${info}</textarea>` +
+                 '</div>';
+    cd.dialog(html, 'timed out', 'close').dialog('open');
   }
-
-  const info =
-    "Unable to complete the tests in 10 seconds.\n" +
-    "Is there an accidental infinite loop?\n";
-
-  const node = $(
-    '<div>' +
-    `<textarea id="timed-out" readonly="readonly">${info}</textarea>` +
-    '</div>');
-
-  node.dialog({
-            width: '620',
-         autoOpen: true,
-    closeOnEscape: true,
-            modal: true,
-            title: cd.dialogTitle('timed out'),
-          buttons: { close: () => {
-              node.remove();
-              cd.editorRefocus();
-            }
-          },
-      beforeClose: (event) => {
-        if (event.keyCode === $.ui.keyCode.ESCAPE) {
-          node.remove();
-          cd.editorRefocus();
-          return true;
-        }
-      }
-  });
 };
 
 //- - - - - - - - - - - - - - - - - - - - - -

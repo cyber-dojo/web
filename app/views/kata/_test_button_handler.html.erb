@@ -40,44 +40,19 @@ $(() => {
 
   const error = (request, status, thrown) => {
     let info = `${thrown}\n`;
-    info += `status=${status}\n`;
+    info += `Status=${status}\n`;
     if (status == 'timeout') {
-      info += `have you lost your network connection?\n\n`;
+      info += `Have you lost your network connection?\n\n`;
     }
     if (status == 'error') {
-      info += `is the cyber-dojo server down?\n\n`;
+      info += `Is the cyber-dojo server down?\n\n`;
     }
     info += request.responseText;
-
-    errorDialog($(
-      '<div>' +
+    const html =
+      '<div data-width="620">' +
       `<textarea id="error" readonly="readonly">${info}</textarea>` +
-      '</div>'));
+      '</div>';
+    cd.dialog(html, 'error', 'close').dialog('open');
   };
-
-  //- - - - - - - - - - - - - - - - - - - - - - -
-
-  const errorDialog = (node) => {
-    node.dialog({
-              width: '620',
-           autoOpen: true,
-      closeOnEscape: true,
-              modal: true,
-              title: cd.dialogTitle('error'),
-            buttons: { close: () => {
-                node.remove();
-                cd.editorRefocus();
-              }
-            },
-        beforeClose: (event) => {
-          if (event.keyCode === $.ui.keyCode.ESCAPE) {
-            node.remove();
-            cd.editorRefocus();
-            return true;
-          }
-        }
-    });
-  };
-
 });
 //--></script>
