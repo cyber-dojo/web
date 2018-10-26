@@ -55,9 +55,9 @@ class Kata
 
     incoming = params[:file_hashes_incoming]
     outgoing = params[:file_hashes_outgoing]
-    %w( stdout stderr status ).each do |output|
-      incoming.delete(output)
-      outgoing.delete(output)
+    output_filenames.each do |output_filename|
+      incoming.delete(output_filename)
+      outgoing.delete(output_filename)
     end
     delta = FileDeltaMaker.make_delta(incoming, outgoing)
 
@@ -66,8 +66,8 @@ class Kata
     max_seconds = params[:max_seconds].to_i
 
     files = cleaned_files(params[:file_content])
-    %w( stdout stderr status ).each do |output|
-      files.delete(output)
+    output_filenames.each do |output_filename|
+      files.delete(output_filename)
     end
 
     stdout,stderr,status,
@@ -79,10 +79,10 @@ class Kata
       stdout = timed_out_message(max_seconds) + stdout
     end
 
-    # If the runner has created an output file remove it
+    # If the runner has created an 'output' file remove it
     # otherwise it interferes with the pseudo output-files.
-    %w( stdout stderr status ).each do |output|
-      new_files.delete(output)
+    output_filenames.each do |output_filename|
+      new_files.delete(output_filename)
     end
 
     hidden_filenames = JSON.parse(params[:hidden_filenames])
@@ -110,28 +110,28 @@ class Kata
 
   def age
     # in seconds
-    (most_recent.time - manifest.created).to_i
+    (most_recent_event.time - manifest.created).to_i
   end
 
   def files
-    most_recent.files
+    most_recent_event.files
   end
 
   def stdout
-    most_recent.stdout
+    most_recent_event.stdout
   end
 
   def stderr
-    most_recent.stderr
+    most_recent_event.stderr
   end
 
   def status
-    most_recent.status
+    most_recent_event.status
   end
 
   def lights
-    # currently all events are test-events, except
-    # the first creation event.
+    # currently all events are test-events,
+    # except the first creation event.
     events.select(&:light?)
   end
 
@@ -162,7 +162,11 @@ class Kata
     ].join("\n") + "\n"
   end
 
-  def most_recent
+  def output_filenames
+    %w( stdout stderr status )
+  end
+
+  def most_recent_event
     events.last
   end
 
