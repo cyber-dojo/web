@@ -8,7 +8,7 @@ var cyberDojo = (function(cd, $) {
 
   let theCurrentFilename = '';
   let theLastNonOutputFilename = '';
-  let theLastOutputFilename = '';
+  let theLastOutputFilename = 'stdout';
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // Load a named file
