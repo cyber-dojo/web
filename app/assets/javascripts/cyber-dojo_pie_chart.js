@@ -1,6 +1,5 @@
 /*global jQuery,cyberDojo*/
-"use strict";
-
+'use strict';
 var cyberDojo = ((cd, $) => {
 
   const options = {
@@ -30,7 +29,7 @@ var cyberDojo = ((cd, $) => {
       const totalCount = redCount + amberCount + greenCount + timedOutCount;
       const animation = ($.data(document.body, key) != totalCount);
       options['animation'] = animation;
-      // Chart.js http://www.chartjs.org/docs/      
+      // Chart.js http://www.chartjs.org/docs/
       new Chart(ctx).Pie(data, options);
       $.data(document.body, key, totalCount);
     });

@@ -32,10 +32,10 @@ var cyberDojo = (function(cd, $) {
           '<td>' +
             '<img' +
               " class='traffic-light-diff-tip-traffic-light-image'" +
-              " src='/images/bulb_" + colour + ".png'>" +
+              ` src='/images/bulb_${colour}.png'>` +
           '</td>' +
           '<td>' +
-             "<span class='traffic-light-diff-tip-tag " + colour + "'>" +
+             `<span class='traffic-light-diff-tip-tag ${colour}'>` +
               count +
              '</span>' +
           '</td>' +
@@ -46,7 +46,7 @@ var cyberDojo = (function(cd, $) {
     if (avatarName != '') {
       html += '<img';
       html +=   " class='traffic-light-diff-tip-avatar-image'";
-      html +=   " src='/images/avatars/" + avatarName + ".jpg'>";
+      html +=   ` src='/images/avatars/${avatarName}.jpg'>`;
     }
     html += '<table>';
     html += trLight('red', reds);
@@ -108,7 +108,7 @@ var cyberDojo = (function(cd, $) {
     // mouse-has-left attribute reduces this race's chance.
     if (!node.hasClass('mouse-has-left')) {
       if (!node.attr('disabled')) {
-        node.append($('<span class="hover-tip">' + tip + '</span>'));
+        node.append($(`<span class="hover-tip">${tip}</span>`));
         // dashboard auto-scroll requires forced positioning.
         $('.hover-tip').position({
           my: 'left top',

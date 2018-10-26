@@ -1,14 +1,13 @@
 /*global jQuery,cyberDojo*/
+'use strict';
+var cyberDojo = ((cd, $) => {
 
-var cyberDojo = (function(cd, $) {
-  "use strict";
-
-  cd.onlyBase58 = function(element) {
+  cd.onlyBase58 = (element) => {
     // Only accept base58 input.
-    // Also accepts a Ctrl-V paste event which will allow
-    // non-hex chars to be entered.
-    element.keypress(function(e) {
-      var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+    // Also accepts a Ctrl-V paste event which
+    // will allow any chars to be entered.
+    element.keypress((e) => {
+      const str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
       if (e.which == 0 || e.charCode == 0) { // special key
         return true;
       }
