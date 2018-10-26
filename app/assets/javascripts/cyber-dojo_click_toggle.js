@@ -6,11 +6,11 @@
 
 jQuery.fn.clickToggle = function(func1, func2) {
   // usedin cyber-dojo_dialog_history.js
-  var funcs = [func1, func2];
+  const funcs = [func1, func2];
   this.data('toggle_clicked', 0);
   this.click(function() {
-	  var data = $(this).data();
-	  var tc = data.toggle_clicked;
+	  const data = $(this).data();
+	  const tc = data.toggle_clicked;
 	  $.proxy(funcs[tc], this)();
 	  data.toggle_clicked = (tc + 1) % 2;
   });

@@ -25,7 +25,7 @@ var cyberDojo = ((cd, $) => {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.switchEditorToCodeMirror = (filename) => {
-    const textArea = document.getElementById('file_content_for_' + filename);
+    const textArea = document.getElementById(`file_content_for_${filename}`);
     const parent = textArea.parentNode;
     const editor = CodeMirror(parent, editorOptions(filename));
 
