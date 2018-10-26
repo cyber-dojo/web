@@ -139,8 +139,8 @@ var cyberDojo = (function(cd, $) {
   // See app/views/kata/_run_tests.js.erb
 
   cd.changeFile = (filename, content) => {
-      cd.deleteFile(filename);
-      cd.newFile(filename, content);
+    cd.deleteFile(filename);
+    cd.newFile(filename, content);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

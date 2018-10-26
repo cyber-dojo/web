@@ -44,7 +44,7 @@ $(() => {
     const okInitiallyDisabled = false;
     const okClicked = (filename) => {
       cd.deleteFile(filename);
-      cd.loadFile('output');
+      cd.loadFile('stdout');
     };
     openDialog(fileDelete, initialFilename, okInitiallyDisabled, okClicked);
   });
