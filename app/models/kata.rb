@@ -110,12 +110,7 @@ class Kata
 
   def age
     # in seconds
-    last = lights[-1]
-    if last
-      (last.time - manifest.created).to_i
-    else
-       0
-     end
+    (most_recent.time - manifest.created).to_i
   end
 
   def files
