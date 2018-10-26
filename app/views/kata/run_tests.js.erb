@@ -7,16 +7,6 @@ const appendTestTrafficLight = () => {
   $('.traffic-lights-count').parent().before(td);
   cd.setupReviewTrafficLight(div);
   cd.setupHoverTip(div);
-
-  //if ("<%= @light.colour %>" === 'timed_out') {
-  // 
-  /*def timed_out_message(max_seconds)
-    [ "Unable to complete the tests in #{max_seconds} seconds.",
-      'Is there an accidental infinite loop?',
-      'Is the server very busy?',
-      'Please try again.'
-    ].join("\n") + "\n"
-  end */
 };
 
 //- - - - - - - - - - - - - - - - - - - - - -
@@ -72,15 +62,52 @@ const updateChangedFiles = () => {
 
 //- - - - - - - - - - - - - - - - - - - - - -
 
+const warnIfTestsTimedOut = () => {
+  if ("<%= @light.colour %>" !== 'timed_out') {
+    return;
+  }
+
+  const info =
+    "Unable to complete the tests in 10 seconds.\n" +
+    "Is there an accidental infinite loop?\n";
+
+  const node = $(
+    '<div>' +
+    `<textarea id="timed-out" readonly="readonly">${info}</textarea>` +
+    '</div>');
+
+  node.dialog({
+            width: '620',
+         autoOpen: true,
+    closeOnEscape: true,
+            modal: true,
+            title: cd.dialogTitle('timed out'),
+          buttons: { close: () => {
+              node.remove();
+              cd.editorRefocus();
+            }
+          },
+      beforeClose: (event) => {
+        if (event.keyCode === $.ui.keyCode.ESCAPE) {
+          node.remove();
+          cd.editorRefocus();
+          return true;
+        }
+      }
+  });
+};
+
+//- - - - - - - - - - - - - - - - - - - - - -
+
 appendTestTrafficLight();
 updateOutput();
 updateTag();
 updateTrafficLightCount();
 updateTrafficLightPieChart();
-
 addNewFiles();
 removeDeletedFiles();
 updateChangedFiles();
+warnIfTestsTimedOut();
 
 cd.loadTestOutputFile();
 cd.storeIncomingFileHashes();
