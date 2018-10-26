@@ -6,11 +6,13 @@ class Manifest
   end
 
   def group
+    # nil if individual practice-session
     manifest_entry
   end
 
   def index
-    manifest_entry
+    # nil if individual practice-session
+    manifest_entry 
   end
 
   # required
