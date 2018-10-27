@@ -580,8 +580,8 @@ $(() => {
          tag: param.nowTag
     };
     $.getJSON('/reverter/revert', revertParams, (data) => {
-      // This is .dialog('close') and not .remove() since the
-      // latter breaks inDialog()'s dialog.size() == 1 check.
+      // This is .dialog('close') and NOT .remove() since the
+      // latter breaks inDialog()'s dialog.size() === 1 check.
       $('#review-dialog').dialog('close');
       deleteAllCurrentFiles();
       copyRevertFilesToCurrentFiles(data.visibleFiles);
@@ -592,7 +592,17 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const deleteAllCurrentFiles = () => {
-    cd.eachFilename((filename) => cd.deleteFile(filename));
+    cd.eachFilename((filename) => {
+      if (!isOutputFile(filename)) {
+        cd.deleteFile(filename);
+      }
+    });
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const isOutputFile = (filename) => {
+    return ['stdout','stderr','status'].includes(filename);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
