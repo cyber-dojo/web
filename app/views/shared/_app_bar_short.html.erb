@@ -1,20 +1,17 @@
 
 <script type="text/javascript"><!--
-
-$(function() {
+'use strict';
+$(() => {
 
   const yinYang = $('#yin-yang-logo');
 
-  yinYang.click(function() {
-    window.location.href = '/dojo/index/';
-  });
+  yinYang.click(() => window.location.href = '/dojo/index/';
 
   cd.createTip(yinYang,
     'go&nbsp;back&nbsp;to<br/>the&nbsp;home&nbsp;page'
   );
 
 });
-
 //--></script>
 
 <div id="app-bar">

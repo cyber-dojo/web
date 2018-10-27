@@ -1,12 +1,12 @@
 <script type="text/javascript"><!--
-
+'use strict';
 $(function() {
 
-  var previousCustom = undefined;
-  var selectedCustom = $('#custom_' + '<%= @custom_index %>');
+  let previousCustom = undefined;
+  let selectedCustom = $('#custom_' + '<%= @custom_index %>');
 
   $('[id^=custom_]').each(function() {
-    var custom = $(this);
+    const custom = $(this);
     custom.click(function() {
       cd.radioEntrySwitch(previousCustom, custom);
       previousCustom = custom;
@@ -17,7 +17,6 @@ $(function() {
   selectedCustom.scrollIntoView({ direction: 'vertical' });
 
 });
-
 //--></script>
 
 <div id="custom-list">

@@ -1,16 +1,14 @@
 
 <script type="text/javascript"><!--
+'use strict';
+$(() => {
 
-$(function () {
-
-  $('#help-button').click(function() {
-    var url = "<%= help_url %>";
+  $('#help-button').click(() => {
+    const url = "<%= help_url %>";
     window.open(url);
   });
 
 });
-
 //--></script>
 
 <button type="button" id="help-button">help</button>
-
