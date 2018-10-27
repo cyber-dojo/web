@@ -49,7 +49,7 @@ module DashboardWorker # mixin
     Hash[group.katas
               .select(&:active?)
               .map { |kata| [
-                kata.avatar.name, {
+                kata.avatar_name, {
                   colour: kata.lights[-1].colour,
                 progress: most_recent_progress(kata)
               }]}]
