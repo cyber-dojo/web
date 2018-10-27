@@ -10,7 +10,7 @@ $(() => {
       html += '<div id="progress-dialog">';
       html += '<table>';
       $.each(data.animals, (name, animal) => {
-        const parity = (index % 2 == 0) ? 'even' : 'odd';
+        const parity = (index % 2 === 0) ? 'even' : 'odd';
         index += 1;
         html +=
           `<tr class='${parity} animal'>` +

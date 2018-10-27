@@ -1,5 +1,5 @@
 <script type="text/javascript"><!--
-
+'use strict';
 $(() => {
 
   const id = '<%= @group.id %>';
@@ -37,15 +37,14 @@ $(() => {
   setInterval(dashboardHeartbeat, 10*seconds);
 
   minuteColumns
-    .attr('checked', '<%= @minute_columns %>' == 'true')
+    .attr('checked', '<%= @minute_columns %>' === 'true')
     .click(() => { refreshDashboard(); });
 
   autoRefresh
-    .attr('checked', '<%= @auto_refresh %>' == 'true')
+    .attr('checked', '<%= @auto_refresh %>' === 'true')
     .click(() => { refreshDashboard(); });
 
 });
-
 //--></script>
 
 <table id="auto-refresh-container">
