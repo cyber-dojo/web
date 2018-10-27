@@ -17,7 +17,7 @@ $(() => {
     $lights.each((_index,element) => {
       const light = $(element);
       const id     = light.data('id');
-      const avatar = '';
+      const avatar = "<%= @kata.avatar_name %>";
       const nowTag = light.data('tag');
       const wasTag = nowTag - 1;
       light.click(() => {
