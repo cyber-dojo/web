@@ -9,13 +9,7 @@ var cyberDojo = (function(cd, $) {
            id: id,
       was_tag: tag-1,
       now_tag: tag
-    }, function(response) {
-      cd.showHoverTip(light, response.html);
-    }).error(function(request, status, thrown) {
-      console.log("error:request:"+request.responseText);
-      console.log("error:status:"+status);
-      console.log("error:thrown:"+thrown);
-    });
+    }, response => cd.showHoverTip(light, response.html));
   };
 
   // - - - - - - - - - - - - - - - - - - - -
