@@ -64,11 +64,15 @@ const updateChangedFiles = () => {
 
 const warnIfTestsTimedOut = () => {
   if ("<%= @light.colour %>" === 'timed_out') {
-    const info = "Unable to complete the tests in 10 seconds.\n" +
-                 "Is there an accidental infinite loop?\n";
-    const html = '<div data-width="600">' +
-                 `<textarea id="timed-out" readonly="readonly">${info}</textarea>` +
-                 '</div>';
+    const info = [
+      'Unable to complete the tests in 10 seconds.',
+      'Is there an accidental infinite loop?'
+    ].join("\n");
+    const html = $('<textarea>', {
+      'data-width':600,
+              'id':'timed-out',
+        'readonly':'readonly'
+    }).val(info);
     cd.dialog(html, 'timed out', 'close').dialog('open');
   }
 };
