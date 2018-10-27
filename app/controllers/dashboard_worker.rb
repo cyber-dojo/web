@@ -10,8 +10,8 @@ module DashboardWorker # mixin
     @auto_refresh = bool('auto_refresh')
     @all_lights = Hash[
       @group.katas
-           .select(&:active?)
-           .map{ |kata| [kata.avatar_name, kata.lights] }
+            .select(&:active?)
+            .map{ |kata| [kata.avatar_name, kata.lights] }
     ]
     args = [@group.manifest.created, seconds_per_column, max_seconds_uncollapsed]
     gapper = DashboardTdGapper.new(*args)
