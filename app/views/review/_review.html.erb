@@ -146,9 +146,13 @@ $(() => {
   //-----------------------------------------
 
   const refreshAvatarControls = () => {
-    refreshPrevAvatarHandler();
-    refreshAvatarImage();
-    refreshNextAvatarHandler();
+    if (param.avatar === '') {
+      $('#avatar-control').hide();
+    } else {
+      refreshPrevAvatarHandler();
+      refreshAvatarImage();
+      refreshNextAvatarHandler();
+    }
   };
 
   const refreshAvatarImage = () => {
