@@ -66,9 +66,9 @@ var cyberDojo = (function(cd, $) {
       const node = $(this);
       const setTipCallBack = function() {
         const tip = node.data('tip');
-        if (tip == 'ajax:traffic_light') {
+        if (tip === 'ajax:traffic_light') {
           showTrafficLightHoverTipViaAjax(node);
-        } else if (tip == 'traffic_light_count') {
+        } else if (tip === 'traffic_light_count') {
           cd.showHoverTip(node, trafficLightCountHoverTip(node));
         } else {
           cd.showHoverTip(node, tip);
