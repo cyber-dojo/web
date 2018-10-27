@@ -10,6 +10,14 @@ $(() => {
     window.open(cd.showReviewUrl(id, wasTag, nowTag));
   });
 
+  $('.avatar-image').on('click', (event) => {
+    const avatar = $(event.currentTarget);
+    const id = avatar.data('id');
+    const wasTag = avatar.data('was-tag');
+    const nowTag = avatar.data('now-tag');
+    window.open(cd.showReviewUrl(id, wasTag, nowTag));
+  });
+
   cd.pieChart($('#traffic-lights .pie'));
   cd.setupHoverTips($('[data-tip]'));
 

@@ -27,7 +27,7 @@ class ReviewController < ApplicationController
 
   def tag(param, default)
     n = number_or_nil(params[param] || default)
-    n != -1 ? n : @kata.lights[-1].number
+    n != -1 ? n : @kata.lights[-1].index
   end
 
   def filename
