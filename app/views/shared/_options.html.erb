@@ -1,5 +1,5 @@
 <script type="text/javascript"><!--
-
+'use strict';
 $(() => {
 
   const optionsDialog = () => {
@@ -35,24 +35,23 @@ $(() => {
     });
   };
 
-  const tr = (button) => {
-    return '<tr>' + td(button) + '</tr>';
+  const tr = button => {
+    return `<tr>${td(button)}</tr>`;
   };
 
-  const td = (s) => {
-    return '<td>' + s + '</td>';
+  const td = s => {
+    return `<td>${s}</td>`;
   };
 
   const optionsButton = $('#options-button');
 
-  if (window.location.href.indexOf('kata/edit') != -1) {
-    optionsButton.show().click(() => { optionsDialog(); });
+  if (window.location.href.indexOf('kata/edit') !== -1) {
+    optionsButton.show().click(() => optionsDialog());
   } else {
     optionsButton.hide();
   }
 
 });
-
 //--></script>
 
 <button type="button"
