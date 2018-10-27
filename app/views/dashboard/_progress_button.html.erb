@@ -4,7 +4,7 @@ $(() => {
 
   const progressDialog = () => {
     const id = "<%= @group.id %>";
-	  $.getJSON('/dashboard/progress', { id: id }, (data) => {
+	  $.getJSON('/dashboard/progress', { id:id }, (data) => {
       let html = '';
       let index = 0;
       html += '<div id="progress-dialog">';
@@ -44,7 +44,7 @@ $(() => {
         maxWidth: 600
       });
 
-      $('.avatar-image', node).click((event) => {
+      $('.avatar-image', node).click(event => {
         const kataId = $(event.currentTarget).data('id');
         const lastIndex = -1;
         window.open(cd.showReviewUrl(kataId, lastIndex, lastIndex));
