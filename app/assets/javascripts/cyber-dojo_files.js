@@ -32,7 +32,10 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.loadTestOutputFile = () => {
-    if (fileContent('stderr') !== '') {
+    if (fileContent('status') === '137') {
+      cd.loadFile('status'); // timed-out
+    }
+    else if (fileContent('stderr') !== '') {
       cd.loadFile('stderr');
     } else {
       cd.loadFile('stdout');
