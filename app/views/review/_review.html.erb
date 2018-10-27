@@ -38,7 +38,7 @@ $(() => {
     // preserve diff on/off state
     if (diffCheckBox().is(':checked')) {
       const prev = getPrevTag()
-      param.wasTag = (prev != null) ? prev : 0;
+      param.wasTag = (prev !== null) ? prev : 0;
     } else {
       param.wasTag = tag;
     }
@@ -69,16 +69,12 @@ $(() => {
     diffCheckBox()
       .attr('checked', inDiffMode())
       .unbind('click')
-      .bind('click', () => { show(param.nowTag); });
+      .bind('click', () => show(param.nowTag));
   };
 
-  const diffCheckBox = () => {
-    return $('#diff-checkbox');
-  };
+  const diffCheckBox = () => $('#diff-checkbox');
 
-  const inDiffMode = () => {
-    return param.wasTag != param.nowTag;
-  }
+  const inDiffMode = () => param.wasTag != param.nowTag;
 
   //-----------------------------------------
   // refresh traffic-lights
@@ -90,7 +86,7 @@ $(() => {
     $.each($('.diff-traffic-light'), (_, light) => {
       const $light = $(light);
       const nowTag = $light.data('now-tag');
-      $light.click(() => { show(nowTag); });
+      $light.click(() => show(nowTag));
     });
     cd.setupHoverTips($('[data-tip]')); // lights + other tips
   };
@@ -111,15 +107,15 @@ $(() => {
     $.each(tags, (_n, tag) => {
       const colour = tag.colour;
       const nowTag = tag.index;
-      const barGap = (param.nowTag == nowTag) ? 'bar' : 'gap';
+      const barGap = (param.nowTag === nowTag) ? 'bar' : 'gap';
       html +=
         "<td><div class='diff-traffic-light'" +
               " data-tip='ajax:traffic_light'" +
-              " data-id='" + param.id + "'" +
-              " data-avatar-name='" + param.avatar + "'" +
-              " data-colour='" + colour + "'" +
-              " data-was-tag='" + wasTag + "'" +
-              " data-now-tag='" + nowTag + "'>" +
+              ` data-id='${param.id}'` +
+              ` data-avatar-name='${param.avatar}'` +
+              ` data-colour='${colour}'` +
+              ` data-was-tag='${wasTag}'` +
+              ` data-now-tag='${nowTag}'>` +
           "<img class='with-bar-gap' src='/images/bulb_" + colour + '_' + barGap + ".png'/>" +
         '</div></td>';
       wasTag = nowTag;
@@ -132,7 +128,7 @@ $(() => {
     // For some reason the hover-tip gets displayed behind
     // the file-diff.
     html += '<td>';
-    html += "<div class='traffic-light-count " + lastColour + "'>";
+    html += `<div class='traffic-light-count ${lastColour}'>`;
     html += trafficLightCount;
     html += '</div>';
     html += '</td>';
@@ -219,7 +215,7 @@ $(() => {
 
   const getPrevTag = () => {
     const index = indexForTag(param.nowTag);
-    if (index == null || index == 0)
+    if (index === null || index === 0)
       return null;
     else
       return param.tags[index - 1].index;
@@ -229,7 +225,7 @@ $(() => {
 
   const getNextTag = () => {
     const index = indexForTag(param.nowTag);
-    if (index == null || index == param.tags.length - 1)
+    if (index === null || index === param.tags.length - 1)
       return null;
     else
       return param.tags[index + 1].index;
@@ -242,7 +238,7 @@ $(() => {
     // whose tag.number equals the number argument.
     let index = null;
     for (let i = 0; i < param.tags.length; i++) {
-      if (param.tags[i].index == number) {
+      if (param.tags[i].index === number) {
         index = i;
         break;
       }
@@ -260,21 +256,21 @@ $(() => {
 
   const tagTrafficLightHtml = (tagNumber) => {
     const index = indexForTag(tagNumber);
-    const colour = (index == null) ? '' : param.tags[index].colour;
+    const colour = (index === null) ? '' : param.tags[index].colour;
     return `<div id="tag-number" class="${colour}">${tagNumber}</div>`;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const refreshTag = (button, newTag) => {
-    const on = newTag != null;
+    const on = newTag !== null;
     button
       .attr('disabled', !on)
       .css('cursor', on ? 'pointer' : 'default');
     if (on) {
       button
         .unbind('click')
-        .bind('click', () => { show(newTag); });
+        .bind('click', () => show(newTag));
     }
   };
 
@@ -317,11 +313,11 @@ $(() => {
         $('<div>', {
             'class': 'filename',
             'data-filename': diff.filename,
-            'id': 'radio_' + diff.id,
+            'id': `radio_${diff.id}`,
             'text': diff.filename
         });
       td.append(filenameDiv);
-      html += '<tr>' + td.html() + '</tr>';
+      html += `<tr>${td.html()}</tr>`;
     });
     html += '</table>';
     return html;
@@ -346,14 +342,14 @@ $(() => {
     $.each(sortedDiffs(diffs), (_, diff) => {
       const count = diff[propertyName];
       const td = $('<td>');
-      const noneOrSome = (count == 0) ? 'none' : 'some';
+      const noneOrSome = (count === 0) ? 'none' : 'some';
       const div = $('<div>', {
         'class': `diff-${cssName}-line-count ${noneOrSome} button`,
         'data-filename': diff.filename
       });
       div.append(count);
       td.append(div);
-      html += '<tr>' + td.html() + '</tr>';
+      html += `<tr>${td.html()}</tr>`;
     });
     html += '</table>';
     return html;
@@ -370,7 +366,7 @@ $(() => {
     const sorted = cd.sortedFilenames(filenames);
     const diffFor = (filename) => {
       for (let i = 0; i < diffs.length; i++) {
-        if (diffs[i].filename == filename) {
+        if (diffs[i].filename === filename) {
           return diffs[i];
         }
       }
@@ -414,18 +410,11 @@ $(() => {
     // [ kata-id, animal-name, was-tag, now-tag] tuple.
     // When you open a new filename it auto-scrolls its first diff-chunk.
     // When you reclick a filename it auto-scrolls to its *next* diff-chunk.
-    const getFilename = (node) => {
-      return $.trim(node.text());
-    };
-    const id = (name) => {
-      return $('[id="' + name + '"]');
-    };
-    const diffFileContentFor = (filename) => {
-      return id(`diff_file_content_for_${filename}`);
-    };
-    const diffFileDiv = (filename) => {
-      return id(`${filename}_diff_div`);
-    };
+    const getFilename = (node) => $.trim(node.text());
+    const id = (name) => $(`[id="${name}"]`);
+    const diffFileContentFor = (filename) => id(`diff_file_content_for_${filename}`);
+    const diffFileDiv = (filename) => id(`${filename}_diff_div`);
+
     let previousFilenameNode;
     let alreadyOpened = [];
 
@@ -466,7 +455,7 @@ $(() => {
           const halfSecond = 500;
           diffSheet.animate({
             scrollTop: '+=' + (section.offset().top - downFromTop) + 'px'
-            }, halfSecond);
+          }, halfSecond);
           sectionIndex += 1;
           sectionIndex %= sectionCount;
         }
@@ -603,9 +592,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const deleteAllCurrentFiles = () => {
-    cd.eachFilename((filename) => {
-      cd.deleteFile(filename);
-    });
+    cd.eachFilename((filename) => cd.deleteFile(filename));
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
