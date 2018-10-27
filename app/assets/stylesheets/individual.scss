@@ -15,11 +15,11 @@
 
   button
   {
-    &#create, &#create-custom, &#join, &#rejoin {
+    &#create, &#create-custom, &#rejoin {
       @include non-code-font();
            color: $darker-color;
       text-align: left;
-           width: 425px;
+           width: 500px;
        font-size: 1.97em;
      line-height: 95%;
          padding: 12px;
@@ -29,24 +29,6 @@
 
     &#create { @include font-size-largest(); }
 
-    &#create-custom, &#join, &#rejoin { @include font-size-medium(); }
-  }
-
-  #avatar
-  {
-     width: 182px;
-    height: 182px;
-    position: relative;
-    top: -3px;
-    @include rounded-corner();
-    filter: grayscale(100%);
-  }
-
-  #nadya
-  {
-    @include plaintext-font();
-    text-align: left;
-     font-size: 12px;
-       padding: { left: 17px; }
+    &#create-custom, &#rejoin { @include font-size-medium(); }
   }
 }
