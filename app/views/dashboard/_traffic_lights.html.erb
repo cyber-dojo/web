@@ -2,7 +2,7 @@
 'use strict';
 $(() => {
 
-  $('.diff-traffic-light').on('click',(event) => {
+  $('.diff-traffic-light').click((event) => {
     const light = $(event.currentTarget);
     const id = light.data('id');
     const nowTag = light.data('tag');
@@ -10,12 +10,10 @@ $(() => {
     window.open(cd.showReviewUrl(id, wasTag, nowTag));
   });
 
-  $('.avatar-image').on('click', (event) => {
-    const avatar = $(event.currentTarget);
-    const id = avatar.data('id');
-    const wasTag = avatar.data('was-tag');
-    const nowTag = avatar.data('now-tag');
-    window.open(cd.showReviewUrl(id, wasTag, nowTag));
+  $('.avatar-image').click((event) => {
+    const id = $(event.currentTarget).data('id');
+    const lastIndex = -1;
+    window.open(cd.showReviewUrl(id, lastIndex, lastIndex));
   });
 
   cd.pieChart($('#traffic-lights .pie'));

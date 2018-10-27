@@ -46,8 +46,8 @@ $(() => {
 
       $('.avatar-image', node).click((event) => {
         const kataId = $(event.currentTarget).data('id');
-        const lastTag = -1;
-        window.open(cd.showReviewUrl(kataId, lastTag, lastTag));
+        const lastIndex = -1;
+        window.open(cd.showReviewUrl(kataId, lastIndex, lastIndex));
       });
     }); // getJSON
   };
