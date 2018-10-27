@@ -64,8 +64,9 @@ const updateChangedFiles = () => {
 
 const warnIfTestsTimedOut = () => {
   if ("<%= @light.colour %>" === 'timed_out') {
+    const maxSeconds = $('input[name="max_seconds"]').val();
     const info = [
-      'Unable to complete the tests in 10 seconds.',
+      `Unable to complete the tests in ${maxSeconds} seconds.`,
       'Is there an accidental infinite loop?'
     ].join("\n");
     const html = $('<textarea>', {
