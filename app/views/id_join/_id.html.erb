@@ -12,7 +12,7 @@ $(() => {
   const autoDropDown = () => {
     const id = inputId.val();
     if (id.length >= 6) {
-      $.getJSON('/id_join/drop_down', { id: id }, (dojo) => {
+      $.getJSON('/id_join/drop_down', { id:id }, (dojo) => {
         if (dojo.exists) {
           if (dojo.full) {
             loText.html('sorry, full up!');
@@ -20,10 +20,10 @@ $(() => {
             ok.hide();
             cancel.show();
           } else {
-            loText.html('your animal is the ' + dojo.avatarName);
+            loText.html(`your animal is the ${dojo.avatarName}`);
             avatarStart.html(dojo.avatarStartHtml);
             ok.unbind().click(() => {
-              const url = '/kata/edit/' + dojo.id;
+              const url = `/kata/edit/${dojo.id}`;
               window.location.href = cd.homePageUrl(dojo.id);
               window.open(url);
             });
@@ -31,9 +31,7 @@ $(() => {
             cancel.hide();
           }
           inputId.prop('disabled', true);
-          inputId.slideUp('fast', () => {
-            dropDown.slideDown('slow');
-          });
+          inputId.slideUp('fast', () => dropDown.slideDown('slow'));
         }
       });
     }
@@ -53,7 +51,7 @@ $(() => {
 
   cd.onlyBase58(inputId);
 
-  inputId.focus().keyup(() => { autoDropDown(); });
+  inputId.focus().keyup(() => autoDropDown());
 
 });
 
