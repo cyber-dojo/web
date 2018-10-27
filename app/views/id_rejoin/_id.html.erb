@@ -23,7 +23,7 @@ $(() => {
             loText.html('or');
           }
           avatarPicker.html(dojo.avatarPickerHtml);
-          cd.setupHoverTip($('[data-tip]'));
+          cd.setupHoverTips($('[data-tip]'));
           inputId.prop('disabled', true);
           inputId.slideUp('fast', () => {
             dropDown.slideDown('slow');

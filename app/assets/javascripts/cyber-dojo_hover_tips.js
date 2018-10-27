@@ -61,7 +61,7 @@ var cyberDojo = (function(cd, $) {
 
   // - - - - - - - - - - - - - - - - - - - -
 
-  cd.setupHoverTip = function(nodes) {
+  cd.setupHoverTips = function(nodes) {
     nodes.each(function() {
       const node = $(this);
       const setTipCallBack = function() {

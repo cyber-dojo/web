@@ -2,7 +2,7 @@
 'use strict';
 $(() => {
 
-  cd.setupReviewTrafficLight = ($lights) => {
+  cd.setupReviewTrafficLights = ($lights) => {
     // also called from run_tests.js.erb
     const review = $('#review-dialog')
       .dialog({
@@ -27,8 +27,8 @@ $(() => {
     });
   };
 
-  cd.setupReviewTrafficLight($('.diff-traffic-light'));
-  cd.setupHoverTip($('[data-tip]'));
+  cd.setupReviewTrafficLights($('.diff-traffic-light'));
+  cd.setupHoverTips($('[data-tip]'));
 
 });
 //--></script>
