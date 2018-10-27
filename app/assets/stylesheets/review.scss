@@ -216,14 +216,14 @@
   }
 
   #buttons {
-    position: absolute; top: 40px; left: 10px;
+    position: absolute; top: 5px; left: 5px;
     #fork-button, #revert-button, #download-button, #close-button {
       @include non-code-font();
-      font-size: 13px;
-      width: 75px;
-      margin: { left: 3px; bottom: 2px; }
+      font-size: 11px;
+      width: 65px;
+      margin: { left: 3px; top: 1px; bottom: 1px; }
       text-align: left;
-      padding: { right: 7px; bottom: 3px; }
+      padding: { right: 7px; top: 1px; bottom: 1px; }
     }
   }
 
