@@ -21,7 +21,7 @@ module TrafficLightHelper # mix-in
         " data-tip='ajax:traffic_light'" +
         " data-id='#{light.kata.id}'" +
         " data-colour='#{light.colour}'" + # [1]
-        " data-tag='#{light.number}'>" +
+        " data-tag='#{light.index}'>" +
         traffic_light_image(light.colour) +
      '</div>'
   end

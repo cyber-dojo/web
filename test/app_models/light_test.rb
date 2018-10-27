@@ -46,10 +46,10 @@ class LightTest < AppModelsTestBase
   # - - - - - - - - - - - - - - - - - - - - - - -
 
   test '954',
-  'number is read as set' do
-    number = 7
-    light = make_light(:red, [2015,2,15, 8,54,6], number)
-    assert_equal number, light.number
+  'index is read as set' do
+    index = 7
+    light = make_light(:red, [2015,2,15, 8,54,6], index)
+    assert_equal index, light.index
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - -
@@ -58,12 +58,12 @@ class LightTest < AppModelsTestBase
   'to_json' do
     colour = :red
     time = [2015,2,15, 8,54,6]
-    number = 7
-    light = make_light(colour, time, number)
+    index = 7
+    light = make_light(colour, time, index)
     assert_equal({
       'colour' => colour,
       'time'   => Time.mktime(*time),
-      'number' => number
+      'index'  => index
     }, light.to_json)
   end
 
@@ -91,11 +91,11 @@ class LightTest < AppModelsTestBase
 
   private
 
-  def make_light(rgb, time, n, key = 'colour')
+  def make_light(rgb, time, index, key = 'colour')
     Tag.new(nil, dummy_avatar, {
       key      => rgb.to_sym,
       'time'   => time,
-      'number' => n
+      'index'  => index
     })
   end
 

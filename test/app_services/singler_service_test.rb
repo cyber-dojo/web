@@ -84,7 +84,7 @@ class SinglerServiceTest < AppServicesTestBase
 
     expected = [
       tag0,
-      {"colour"=>"amber", "time"=>[2016,12,5, 21,1,34], "number"=>1}
+      { "colour"=>"amber", "time"=>[2016,12,5, 21,1,34] }
     ]
     assert_equal expected, tags
 
@@ -92,8 +92,8 @@ class SinglerServiceTest < AppServicesTestBase
     tags = singler.ran_tests(id, tag1_files, now, stdout, stderr, colour)
     expected = [
       tag0,
-      {"colour"=>"amber", "time"=>[2016,12,5, 21,1,34], "number"=>1},
-      {"colour"=>"amber", "time"=>[2016,12,5, 21,2,15], "number"=>2}
+      { "colour"=>"amber", "time"=>[2016,12,5, 21,1,34] },
+      { "colour"=>"amber", "time"=>[2016,12,5, 21,2,15] }
     ]
     assert_equal expected, tags
   end

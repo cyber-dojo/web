@@ -62,10 +62,10 @@ class LightsTest < AppModelsTestBase
 
   private # = = = = = = = = = = =
 
-  def assert_equal_light expected_number, expected_colour, expected_time, light
+  def assert_equal_light expected_index, expected_colour, expected_time, light
     assert_equal expected_colour, light.colour
     assert_equal expected_time  , light.time
-    assert_equal expected_number, light.number
+    assert_equal expected_index,  light.index
   end
 
 end

@@ -19,11 +19,11 @@ class DifferControllerTest < AppControllerTestBase
         differ(was_tag = 1, now_tag = 2)
         tags = json['tags']
 
-        info = " " + kata.id + ":" + avatar.name
+        info = ":#{kata.id}:#{avatar.name}:"
         # At the moment differ_controller returns lights (not tags)
         assert_equal 2, tags.size, info
-        assert_equal was_tag, tags[0]['number'], info
-        assert_equal now_tag, tags[1]['number'], info
+        assert_equal was_tag, tags[0]['index'], info
+        assert_equal now_tag, tags[1]['index'], info
 
         diffs = json['diffs']
         index = diffs.find_index{|diff| diff['filename'] == filename }
@@ -54,8 +54,8 @@ class DifferControllerTest < AppControllerTestBase
         info = " " + kata.id + ':' + avatar.name + ':'
         # At the moment differ_controller returns lights (not tags)
         assert_equal 2, tags.size, info
-        assert_equal was_tag, tags[0]['number'], info
-        assert_equal now_tag, tags[1]['number'], info
+        assert_equal was_tag, tags[0]['index'], info
+        assert_equal now_tag, tags[1]['index'], info
 
         diffs = json['diffs']
         index = diffs.find_index{|diff| diff['filename'] == filename }
@@ -124,7 +124,7 @@ class DifferControllerTest < AppControllerTestBase
     params = {
        'format' => 'json',
            'id' => kata.id,
-       'avatar' => avatar.name,
+       'avatar' => kata.avatar_name,
       'was_tag' => was_tag,
       'now_tag' => now_tag
     }

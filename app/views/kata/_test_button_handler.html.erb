@@ -48,6 +48,7 @@ $(() => {
       info += `Is the cyber-dojo server down?\n\n`;
     }
     info += request.responseText;
+    // TODO: info might not work in a textarea...
     const html =
       '<div data-width="620">' +
       `<textarea id="error" readonly="readonly">${info}</textarea>` +

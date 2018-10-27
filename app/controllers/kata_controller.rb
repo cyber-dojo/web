@@ -10,7 +10,7 @@ class KataController < ApplicationController
     ported {
       @kata = kata
       @title = 'test:' + @kata.id
-      @tag = @kata.events.last.number
+      @index = @kata.events.last.index
     }
   end
 
@@ -27,11 +27,11 @@ class KataController < ApplicationController
         files,@new_files,@deleted_files,@changed_files = @kata.run_tests(params)
 
     t = time_now
-    tag = params[:tag].to_i + 1
+    index = params[:index].to_i + 1
 
-    @kata.ran_tests(tag, files, t, @stdout, @stderr, @status, colour)
+    @kata.ran_tests(index, files, t, @stdout, @stderr, @status, colour)
 
-    @light = Event.new(self, @kata, { 'time' => t, 'colour' => colour }, tag)
+    @light = Event.new(self, @kata, { 'time' => t, 'colour' => colour }, index)
 
     respond_to do |format|
       format.js   { render layout: false }
@@ -57,7 +57,7 @@ class KataController < ApplicationController
     {
       'colour' => light.colour,
       'time'   => light.time,
-      'number' => light.number
+      'index'  => light.index
     }
   end
 

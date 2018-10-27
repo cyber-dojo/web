@@ -50,9 +50,9 @@ class TagsTest < AppModelsTestBase
         maker.run_test
         maker.run_test
         assert_equal 4, wolf.tags.length
-        wolf.tags.each_with_index do |tag, i|
-          assert_equal i, tag.number
-          assert i == 0 || tag.light?
+        wolf.tags.each_with_index do |tag, index|
+          assert_equal index, tag.index
+          assert index == 0 || tag.light?
         end
       }
     }
@@ -70,7 +70,7 @@ class TagsTest < AppModelsTestBase
         maker.run_test
         tags = wolf.tags
         (1..tags.length).each do |i|
-          assert_equal tags.length - i, tags[-i].number
+          assert_equal tags.length - i, tags[-i].index
         end
       }
     }

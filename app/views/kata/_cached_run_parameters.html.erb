@@ -4,7 +4,7 @@
 <!-- saver.kata_ran_tests()                           -->
 
 <input type="hidden"
-       name="tag"
+       name="index"
        value="">
 
 <input type="hidden"
@@ -27,7 +27,7 @@
 <script type="text/javascript"><!--
 'use strict';
 $(() => {
-  cd.setTag = (value) => $("input[name='tag']").val(value);
-  cd.setTag("<%= @tag %>");
+  cd.setEventIndex = (value) => $("input[name='index']").val(value);
+  cd.setEventIndex("<%= @index %>");
 });
 //--></script>

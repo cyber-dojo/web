@@ -18,7 +18,7 @@ $(() => {
   };
 
   // after refresh() has been called param also contains param.tags
-  // which is an array of tags where tag[i].number is the tag-increment.
+  // which is an array of events where events[i].index is the event index.
 
   cd.setReviewDialogData = (id, avatar, wasTag, nowTag, filename) => {
     param = {
@@ -98,10 +98,10 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const makeTrafficLightsHtml = (tags) => {
-    // Displays all the tags that it receives from the differ/diff
-    // JSON call and sets up was/now tags for each tag with the
-    // was-tag simply being the previous tag number.
-    // Note that tag.numbers will not be contiguous if tags
+    // Displays all the events that it receives from the differ/diff
+    // JSON call and sets up was/now tags for each event with the
+    // was-tag simply being the previous event index.
+    // Note that event.indexs will not be contiguous if events
     // contains non-test events.
     let html = '';
     let wasTag = 0;
@@ -110,7 +110,7 @@ $(() => {
     html += '<table><tr>';
     $.each(tags, (_n, tag) => {
       const colour = tag.colour;
-      const nowTag = tag.number;
+      const nowTag = tag.index;
       const barGap = (param.nowTag == nowTag) ? 'bar' : 'gap';
       html +=
         "<td><div class='diff-traffic-light'" +
@@ -182,9 +182,9 @@ $(() => {
           // that event is a non-test event.
           show(1);
         } else {
-          // Move to the new avatar's last tag.
+          // Move to the new avatar's last event.
           // Note: the refresh() will cause nowTag/wasTag to become
-          // the actual last tag.number (rather than -1).
+          // the actual last event.index (rather than -1).
           // Note: The param.avatar is set above but the
           // param.tags array will not match param.avatar until
           // after refresh() has completed (which is an async call).
@@ -218,7 +218,7 @@ $(() => {
     if (index == null || index == 0)
       return null;
     else
-      return param.tags[index - 1].number;
+      return param.tags[index - 1].index;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -228,7 +228,7 @@ $(() => {
     if (index == null || index == param.tags.length - 1)
       return null;
     else
-      return param.tags[index + 1].number;
+      return param.tags[index + 1].index;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -238,7 +238,7 @@ $(() => {
     // whose tag.number equals the number argument.
     let index = null;
     for (let i = 0; i < param.tags.length; i++) {
-      if (param.tags[i].number == number) {
+      if (param.tags[i].index == number) {
         index = i;
         break;
       }

@@ -95,9 +95,9 @@ class Kata
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def ran_tests(n, files, at, stdout, stderr, status, colour)
+  def ran_tests(index, files, at, stdout, stderr, status, colour)
     # save run_tests() results.
-    saver.kata_ran_tests(id, n, files, at, stdout, stderr, status, colour)
+    saver.kata_ran_tests(id, index, files, at, stdout, stderr, status, colour)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -136,7 +136,9 @@ class Kata
 
   def events
     @events ||= saver.kata_events(id)
-    @events.map.with_index { |h,i| Event.new(@externals, self, h, i) }
+    @events.map.with_index { |h,index|
+      Event.new(@externals, self, h, index) 
+    }
   end
 
   def manifest

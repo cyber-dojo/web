@@ -19,8 +19,8 @@ const updateOutput = () => {
 
 //- - - - - - - - - - - - - - - - - - - - - -
 
-const updateTag = () => {
-  cd.setTag("<%= @light.number %>");
+const updateEventIndex = () => {
+  cd.setEventIndex("<%= @light.index %>");
 };
 
 //- - - - - - - - - - - - - - - - - - - - - -
@@ -77,7 +77,7 @@ const warnIfTestsTimedOut = () => {
 
 appendTestTrafficLight();
 updateOutput();
-updateTag();
+updateEventIndex();
 updateTrafficLightCount();
 updateTrafficLightPieChart();
 addNewFiles();

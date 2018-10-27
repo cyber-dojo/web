@@ -12,7 +12,7 @@ class AppServicesTestBase < TestBase
     {
       'event'  => 'created',
       'time'   => creation_time,
-      'number' => 0
+      'index'  => 0
     }
   end
 

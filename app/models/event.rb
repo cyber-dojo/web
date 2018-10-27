@@ -1,11 +1,11 @@
 
 class Event
 
-  def initialize(externals, kata, hash, number)
+  def initialize(externals, kata, hash, index)
     @externals = externals
     @kata = kata
     @hash = hash
-    @number = number
+    @index = index
   end
 
   def kata
@@ -34,13 +34,13 @@ class Event
     Time.mktime(*@hash['time'])
   end
 
+  def index
+    @index
+  end
+
   def colour
     # colour.nil? unless light?
     (@hash['colour'] || '').to_sym
-  end
-
-  def number
-    @number
   end
 
   # - - - - - - - -
@@ -52,7 +52,7 @@ class Event
   private
 
   def manifest
-    @manifest ||= saver.kata_event(kata.id, number)
+    @manifest ||= saver.kata_event(kata.id, index)
   end
 
   def saver

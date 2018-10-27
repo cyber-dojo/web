@@ -35,13 +35,13 @@ class DifferServiceTest < AppServicesTestBase
       assert_equal({
         'type'   => 'same',
         'line'   => 'def answer',
-        'number' => 1
+        'index'  => 1
       }, actual[filename][0])
 
       assert_equal({
         'type'   => 'same',
         'line'   => '  6 * 9',
-        'number' => 2
+        'index'  => 2
       }, actual[filename][1])
     }
   end

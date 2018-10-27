@@ -47,8 +47,8 @@ class DifferController < ApplicationController
     # new avatar in which case was_tag==-1 and now_tag==-1
     was = number_or_nil(params[:was_tag])
     now = number_or_nil(params[:now_tag])
-    was = tags[-1]['number'] if was == -1
-    now = tags[-1]['number'] if now == -1
+    was = tags[-1]['index'] if was == -1
+    now = tags[-1]['index'] if now == -1
     [was,now]
   end
 
@@ -73,7 +73,7 @@ class DifferController < ApplicationController
     {
       'colour' => light.colour,
       'time'   => light.time,
-      'number' => light.number
+      'index'  => light.index
     }
   end
 
