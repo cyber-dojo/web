@@ -4,14 +4,8 @@
 $(() => {
 
   const yinYang = $('#yin-yang-logo');
-
-  yinYang.click(() => {
-    window.location.href = '/dojo/index/'; // TODO: add /dojo/index/ID
-  });
-
-  cd.createTip(yinYang,
-    'go&nbsp;back&nbsp;to<br/>the&nbsp;home&nbsp;page'
-  );
+  yinYang.click(() => window.location.href = '/dojo/index/'); // TODO: add /dojo/index/ID
+  cd.createTip(yinYang, 'go&nbsp;back&nbsp;to<br/>the&nbsp;home&nbsp;page');
 
 });
 //--></script>
