@@ -317,7 +317,7 @@ $(() => {
             'text': diff.filename
         });
       td.append(filenameDiv);
-      html += `<tr>${td.html()}</tr>`;
+      html += makeTr(td.html());
     });
     html += '</table>';
     return html;
@@ -349,7 +349,7 @@ $(() => {
       });
       div.append(count);
       td.append(div);
-      html += `<tr>${td.html()}</tr>`;
+      html += makeTr(td.html());
     });
     html += '</table>';
     return html;
@@ -628,29 +628,19 @@ $(() => {
       .text(name)
       .unbind('click')
       .bind('click', handler);
-    if (name === 'download') {
-      refreshDownloadButton();
-    }
-    if (name === 'fork') {
-      refreshForkButton();
-    }
-    if (name === 'revert') {
-      refreshRevertButton();
-    }
+    if (name === 'download') { refreshDownloadButton(); }
+    if (name === 'fork') { refreshForkButton(); }
+    if (name === 'revert') { refreshRevertButton(); }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const makeTd = (html) => {
- 	  return `<td>${html}</td>`;
-  };
+  const makeTr = (html) => `<tr>${html}</tr>`;
+  const makeTd = (html) => `<td>${html}</td>`;
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const inDialog = () => {
-    const dialog = $('div.ui-dialog-content');
-    return dialog.size() === 1;
-  };
+  const inDialog = () => $('div.ui-dialog-content').size() === 1;
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
