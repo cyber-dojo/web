@@ -156,7 +156,7 @@ $(() => {
   };
 
   const makeAvatarImageHtml = () => {
-    return '<img id="avatar" src="/images/avatars/' + param.avatar + '.jpg"/>';
+    return `<img id="avatar" src="/images/avatars/${param.avatar}.jpg"/>`;
   };
 
   const refreshPrevAvatarHandler = () => {
@@ -169,7 +169,7 @@ $(() => {
 
   const refreshAvatarHandler = (direction, id) => {
     $(`#${direction}-avatar`)
-      .attr('disabled', id == '')
+      .attr('disabled', id === '')
       .unbind('click')
       .bind('click', () => {
         param.id = id;
@@ -188,9 +188,9 @@ $(() => {
           // Note: The param.avatar is set above but the
           // param.tags array will not match param.avatar until
           // after refresh() has completed (which is an async call).
-          const lastTag = -1;
-          param.wasTag = lastTag;
-          param.nowTag = lastTag;
+          const lastIndex = -1;
+          param.wasTag = lastIndex;
+          param.nowTag = lastIndex;
           refresh();
         }
       });
@@ -257,11 +257,7 @@ $(() => {
   const tagTrafficLightHtml = (tagNumber) => {
     const index = indexForTag(tagNumber);
     const colour = (index == null) ? '' : param.tags[index].colour;
-    let html = '';
-    html += `<div id="tag-number" class="${colour}">`;
-    html += tagNumber;
-    html += '</div>';
-    return html;
+    return `<div id="tag-number" class="${colour}">${tagNumber}</div>`;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -526,8 +522,8 @@ $(() => {
 
   const showFile = (filenameId) => {
     const filename =  $(`#radio_${filenameId}`);
-    filename.click();
-    filename.scrollIntoView({ direction: 'vertical' });
+    filename.click()
+            .scrollIntoView({ direction: 'vertical' });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -565,7 +561,7 @@ $(() => {
   const refreshForkButton = () => {
     const button = $('#fork-button');
     cd.setTip(button, () => {
-      const tip = 'setup a new session from ' + param.avatar + ' ' + param.nowTag;
+      const tip = `setup a new session from ${param.avatar} ${param.nowTag}`;
       cd.showHoverTip(button, tip);
     });
   };
@@ -641,13 +637,13 @@ $(() => {
       .text(name)
       .unbind('click')
       .bind('click', handler);
-    if (name == 'download') {
+    if (name === 'download') {
       refreshDownloadButton();
     }
-    if (name == 'fork') {
+    if (name === 'fork') {
       refreshForkButton();
     }
-    if (name == 'revert') {
+    if (name === 'revert') {
       refreshRevertButton();
     }
   };
@@ -655,30 +651,26 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const makeTd = (html) => {
- 	  return '<td>' + html + '</td>';
+ 	  return `<td>${html}</td>`;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const inDialog = () => {
     const dialog = $('div.ui-dialog-content');
-    return dialog.size() == 1;
+    return dialog.size() === 1;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   if (inDialog()) {
-    setupButton('revert', () => { doRevert(); });
-    setupButton('close',  () => { $('#review-dialog').dialog('close'); });
+    setupButton('revert', () => doRevert());
+    setupButton('close',  () => $('#review-dialog').dialog('close'));
   } else {
     reviewRefresh();
   }
-  setupButton('download', () => { doDownload(); })
-  setupButton('fork',     () => { cd.forkDialog(param.id, param.avatar, param.nowTag); });
-
-  if (param.avatar == '') {
-    $('#avatar-control').hide();
-  }
+  setupButton('download', () => doDownload());
+  setupButton('fork',     () => cd.forkDialog(param.id, param.avatar, param.nowTag));
 
 });
 
