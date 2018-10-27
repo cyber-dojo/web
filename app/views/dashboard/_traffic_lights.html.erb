@@ -2,7 +2,7 @@
 'use strict';
 $(() => {
 
-  $('.diff-traffic-light').click((event) => {
+  $('.diff-traffic-light').click(event => {
     const light = $(event.currentTarget);
     const id = light.data('id');
     const nowTag = light.data('tag');
@@ -10,7 +10,7 @@ $(() => {
     window.open(cd.showReviewUrl(id, wasTag, nowTag));
   });
 
-  $('.avatar-image').click((event) => {
+  $('.avatar-image').click(event => {
     const id = $(event.currentTarget).data('id');
     const lastIndex = -1;
     window.open(cd.showReviewUrl(id, lastIndex, lastIndex));
