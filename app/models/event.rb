@@ -39,7 +39,7 @@ class Event
   end
 
   def colour
-    # colour.nil? unless light?
+    # '' unless light?
     (@hash['colour'] || '').to_sym
   end
 

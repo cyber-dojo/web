@@ -52,16 +52,16 @@ class SaverService
 
   # - - - - - - - - - - - -
 
-  def kata_ran_tests(id, n, files, now, stdout, stderr, status, colour)
-    http.post(__method__, id, n, files, now, stdout, stderr, status, colour)
+  def kata_ran_tests(id, index, files, now, stdout, stderr, status, colour)
+    http.post(__method__, id, index, files, now, stdout, stderr, status, colour)
   end
 
   def kata_events(id)
     http.get(__method__, id)
   end
 
-  def kata_event(id, n)
-    http.get(__method__, id, n)
+  def kata_event(id, index)
+    http.get(__method__, id, index)
   end
 
   private
