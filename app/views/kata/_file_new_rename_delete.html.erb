@@ -16,9 +16,9 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   fileNew.click(() => {
-    const initialFilename = 'filename' + cd.extensionFilenames()[0];
+    const initialFilename = `filename${cd.extensionFilenames()[0]}`;
     const okInitiallyDisabled = !isValidFilename(initialFilename);
-    const okClicked = (filename) => {
+    const okClicked = filename => {
       cd.newFile(filename, '');
       cd.loadFile(filename);
     };
@@ -30,7 +30,7 @@ $(() => {
   fileRename.click(() => {
     const initialFilename = cd.currentFilename();
     const okInitiallyDisabled = true;
-    const okClicked = (filename) => {
+    const okClicked = filename => {
       cd.renameFile(initialFilename, filename);
       cd.loadFile(filename);
     };
@@ -42,7 +42,7 @@ $(() => {
   fileDelete.click(() => {
     const initialFilename = cd.currentFilename();
     const okInitiallyDisabled = false;
-    const okClicked = (filename) => {
+    const okClicked = filename => {
       cd.deleteFile(filename);
       cd.loadFile('stdout');
     };
@@ -105,7 +105,7 @@ $(() => {
       event.preventDefault();
       if (isValidFilename(newFilename))  {
         ok.button('enable');
-        if (event.keyCode == $.ui.keyCode.ENTER) {
+        if (event.keyCode === $.ui.keyCode.ENTER) {
           okClicked(newFilename);
           ok.closest('.ui-dialog').remove();
         }
@@ -115,7 +115,7 @@ $(() => {
     });
 
     const lastDot = initialFilename.lastIndexOf('.');
-    const end = (lastDot != -1) ? lastDot : initialFilename.length;
+    const end = (lastDot !== -1) ? lastDot : initialFilename.length;
     input[0].setSelectionRange(0, end);
 
     fileOperationDialog.dialog('open');
@@ -130,7 +130,7 @@ $(() => {
       'name': `${name}-filename`,
        value: filename
     });
-    if (name == 'delete') {
+    if (name === 'delete') {
       input.attr('disabled', 'disabled');
     }
     return input;
@@ -138,21 +138,19 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const isValidFilename = (filename) => {
-    const contains = (illegal) => { return filename.indexOf(illegal) != -1; };
+  const isValidFilename = filename => {
+    const contains = illegal => filename.indexOf(illegal) !== -1;
     if (alreadyExists(filename)) { return false; }
     if (contains('..')) { return false; }
     if (contains('\\')) { return false; }
     if (contains(' '))  { return false; }
-    if (filename == '') { return false; }
+    if (filename === '') { return false; }
     return true;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const alreadyExists = (filename) => {
-    return cd.inArray(filename, cd.filenames());
-  };
+  const alreadyExists = filename => cd.inArray(filename, cd.filenames());
 
 });
 //--></script>
