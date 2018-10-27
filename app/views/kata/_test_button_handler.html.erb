@@ -39,20 +39,17 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - - - - -
 
   const error = (request, status, thrown) => {
-    let info = `${thrown}\n`;
-    info += `Status=${status}\n`;
-    if (status == 'timeout') {
-      info += `Have you lost your network connection?\n\n`;
-    }
-    if (status == 'error') {
-      info += `Is the cyber-dojo server down?\n\n`;
-    }
-    info += request.responseText;
-    // TODO: info might not work in a textarea...
-    const html =
-      '<div data-width="620">' +
-      `<textarea id="error" readonly="readonly">${info}</textarea>` +
-      '</div>';
+    const info = [
+      request.responseText,
+      '----------------------------',
+      `Status=${status}`,
+      thrown
+    ].join("\n");
+    const html = $('<textarea>', {
+      'data-width':620,
+              'id':'error',
+        'readonly':'readonly'
+    }).val(info);
     cd.dialog(html, 'error', 'close').dialog('open');
   };
 });
