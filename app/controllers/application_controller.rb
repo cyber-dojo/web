@@ -65,6 +65,8 @@ class ApplicationController < ActionController::Base
     number_or_nil(params[:now_tag])
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
   def tag
     number_or_nil(params[:tag])
   end

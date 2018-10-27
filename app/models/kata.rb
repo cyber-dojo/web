@@ -24,7 +24,7 @@ class Kata
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def group
-    gid = manifest.group
+    gid = manifest.group_id
     if gid
       Group.new(@externals, gid)
     else
@@ -36,7 +36,7 @@ class Kata
 
   def avatar_name
     if group
-      Avatars.names[manifest.index]
+      Avatars.names[manifest.group_index]
     else
       ''
     end
@@ -130,6 +130,7 @@ class Kata
   end
 
   def active?
+    # only active katas are show on the dashboard
     lights != []
   end
 

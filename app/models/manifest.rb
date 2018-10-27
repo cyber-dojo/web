@@ -5,20 +5,20 @@ class Manifest
     @manifest = manifest
   end
 
-  def group
+  def group_id
     # nil if individual practice-session
-    manifest_entry
+    manifest_entry # eg '8bvlJk'
   end
 
-  def index
+  def group_index
     # nil if individual practice-session
-    manifest_entry 
+    manifest_entry # eg 45 (==salmon)
   end
 
   # required
 
   def id
-    manifest_entry # eg '260Fa8'
+    manifest_entry # eg '260za8'
   end
 
   def display_name
