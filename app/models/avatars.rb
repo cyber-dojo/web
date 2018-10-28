@@ -22,4 +22,8 @@ class Avatars
     )
   end
 
+  def self.index(name)
+    names.index(name)
+  end
+
 end

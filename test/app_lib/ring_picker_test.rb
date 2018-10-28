@@ -16,7 +16,7 @@ class RingPickerTest < AppLibTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '099',
-  'previous/next for individual kata is empty-string' do
+  'prev/next for individual kata is empty-string' do
     in_kata do |kata|
       assert_equal ['',''], ring_prev_next(kata)
     end
@@ -25,11 +25,41 @@ class RingPickerTest < AppLibTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '3BA',
-  'previous/next for one inactive member of group is empty-string' do
+  'prev/next for any number of inactive group members is empty-string' do
     in_group do |group|
-      kata = group.join((0..63).to_a.shuffle)
-      assert_equal ['',''], ring_prev_next(kata)
+      lion = join(group, 'lion')
+      assert_equal ['',''], ring_prev_next(lion)
+      tiger = join(group, 'tiger')
+      assert_equal ['',''], ring_prev_next(lion)
+      assert_equal ['',''], ring_prev_next(tiger)
+      wolf = join(group, 'wolf')
+      assert_equal ['',''], ring_prev_next(lion)
+      assert_equal ['',''], ring_prev_next(tiger)
+      assert_equal ['',''], ring_prev_next(wolf)
     end
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '345',
+  'prev/next for one active member of group is the member' do
+    in_group do |group|
+      lion = join(group, 'lion')
+      lion.ran_tests(1, lion.files, time_now, '', '', 0, 'red')
+      assert_equal [lion.id,lion.id], ring_prev_next(lion)
+      wolf = join(group, 'wolf')
+      assert_equal ['',''], ring_prev_next(wolf) # ????
+    end
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def join(group, avatar_name)
+    indexes = (0..63).to_a.shuffle
+    index = Avatars.index(avatar_name)
+    indexes.delete(index)
+    indexes.unshift(index)
+    group.join(indexes)
   end
 
 =begin
