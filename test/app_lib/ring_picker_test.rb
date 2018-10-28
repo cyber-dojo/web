@@ -10,22 +10,29 @@ class RingPickerTest < AppLibTestBase
 
   def hex_setup
     set_differ_class('NotUsed')
-    set_runner_class('NotUsed')
+    #set_runner_class('NotUsed')
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '099',
-  'previous when single entry is empty string' do
-    assert_prev('a', %w{ a }, '')
+  'previous/next for individual kata is empty-string' do
+    in_kata do |kata|
+      assert_equal ['',''], ring_prev_next(kata)
+    end
   end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '3BA',
-  'previous in two entries' do
-    assert_prev('a', %w{ a b }, 'b')
-    assert_prev('b', %w{ a b }, 'a')
+  'previous/next for one inactive member of group is empty-string' do
+    in_group do |group|
+      kata = group.join((0..63).to_a.shuffle)
+      assert_equal ['',''], ring_prev_next(kata)
+    end
   end
 
+=begin
   test '085',
   'previous in three entries' do
     assert_prev('a', %w{ a b c }, 'c')
@@ -82,5 +89,6 @@ class RingPickerTest < AppLibTestBase
     assert_equal expected, ring_next(clone, arg)
     assert_equal clone, entries
   end
+=end
 
 end

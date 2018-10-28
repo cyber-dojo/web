@@ -20,6 +20,7 @@ services:
       - runner-stateful
       - runner-stateless
       - saver
+      - storer
       - differ
       - zipper
 
@@ -51,6 +52,19 @@ services:
     volumes:
       - /tmp/groups/:/groups:rw
       - /tmp/katas/:/katas:rw
+
+  # - - - - - - - - - - - - - - - -
+
+  storer:
+    user: storer
+    image: cyberdojo/storer
+    init: true
+    container_name: test-web-storer
+    read_only: true
+    tmpfs: /tmp
+    volumes:
+      - /tmp/storer_katas/:/usr/src/cyber-dojo/katas:rw
+    restart: 'no'
 
   # - - - - - - - - - - - - - - - -
 
