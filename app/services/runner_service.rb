@@ -9,35 +9,24 @@ class RunnerService
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def sha(runner_name)
-    case runner_name
-    when 'stateless' then set_hostname_port_stateless
-    when 'stateful'  then set_hostname_port_stateful
-    end
+    set_hostname_port(runner_name)
     http.get(__method__)
-  end
-
-  def set_hostname_port_stateless
-    @hostname = 'runner-stateless'
-    @port = 4597
-  end
-
-  def set_hostname_port_stateful
-    @hostname = 'runner-stateful'
-    @port = 4557
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def kata_new(image_name, id, starting_files)
     if stateful?(id)
-      set_hostname_port_stateful
+      set_hostname_port('stateful')
       http.post(__method__, *args(binding))
     end
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
   def kata_old(image_name, id)
     if stateful?(id)
-      set_hostname_port_stateful
+      set_hostname_port('stateful')
       http.post(__method__, *args(binding))
     end
   end
@@ -45,8 +34,6 @@ class RunnerService
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def run_cyber_dojo_sh(image_name, id, max_seconds, delta, files)
-    # This does NOT make a service call to get the runner-choice.
-    # Assumes appropriate set_hostname_port_X method has already been called.
     new_files = files.select { |filename|
       delta[:new].include?(filename)
     }
@@ -69,7 +56,10 @@ class RunnerService
         unchanged_files:unchanged_files,
             max_seconds:max_seconds
     }
+
+    set_hostname_port(@externals.params[:runner_choice])
     tuple = http.post_hash(:run_cyber_dojo_sh, args)
+
     [tuple['stdout'],
      tuple['stderr'],
      tuple['status'],
@@ -81,6 +71,17 @@ class RunnerService
   end
 
   private # = = = = = = = = = = = = = = = = = = = = =
+
+  def set_hostname_port(runner_choice)
+    if runner_choice == 'stateless'
+      @hostname = 'runner-stateless'
+      @port = 4597
+    end
+    if runner_choice == 'stateful'
+      @hostname = 'runner-stateful'
+      @port = 4557
+    end
+  end
 
   def http
     HttpHelper.new(@externals, self, @hostname, @port)

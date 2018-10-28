@@ -46,13 +46,6 @@ class Kata
 
   def run_tests(params)
     # run tests but don't save the results
-    case params[:runner_choice]
-    when 'stateless'
-      runner.set_hostname_port_stateless
-    when 'stateful'
-      runner.set_hostname_port_stateful
-    end
-
     incoming = params[:file_hashes_incoming]
     outgoing = params[:file_hashes_outgoing]
     output_filenames.each do |output_filename|
