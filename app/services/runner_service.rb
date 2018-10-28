@@ -8,17 +8,20 @@ class RunnerService
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def sha(runner_name)
-    set_hostname_port(runner_name)
-    http.get(__method__)
+  def sha(runner_choice)
+    http(runner_choice).get(__method__)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def kata_new(image_name, id, starting_files)
     if stateful?(id)
-      set_hostname_port('stateful')
-      http.post(__method__, *args(binding))
+      args = {
+            image_name:image_name,
+                    id:id,
+        starting_files:starting_files
+      }
+      http('stateful').post_hash(__method__, args)
     end
   end
 
@@ -26,8 +29,8 @@ class RunnerService
 
   def kata_old(image_name, id)
     if stateful?(id)
-      set_hostname_port('stateful')
-      http.post(__method__, *args(binding))
+      args = { image_name:image_name, id:id }
+      http('stateful').post_hash(__method__, args)
     end
   end
 
@@ -57,8 +60,11 @@ class RunnerService
             max_seconds:max_seconds
     }
 
-    set_hostname_port(@externals.params[:runner_choice])
-    tuple = http.post_hash(:run_cyber_dojo_sh, args)
+    # Get runner-choice from html <input> and not kata's
+    # manifest which would make a slower saver-service call.
+    runner_choice = @externals.params['runner_choice']
+    
+    tuple = http(runner_choice).post_hash(:run_cyber_dojo_sh, args)
 
     [tuple['stdout'],
      tuple['stderr'],
@@ -72,38 +78,17 @@ class RunnerService
 
   private # = = = = = = = = = = = = = = = = = = = = =
 
-  def set_hostname_port(runner_choice)
-    if runner_choice == 'stateless'
-      @hostname = 'runner-stateless'
-      @port = 4597
+  def http(runner_choice)
+    case runner_choice
+    when 'stateless'
+      HttpHelper.new(@externals, self, 'runner-stateless', 4597)
+    when 'stateful'
+      HttpHelper.new(@externals, self, 'runner-stateful',  4557)
     end
-    if runner_choice == 'stateful'
-      @hostname = 'runner-stateful'
-      @port = 4557
-    end
-  end
-
-  def http
-    HttpHelper.new(@externals, self, @hostname, @port)
   end
 
   def stateful?(id)
-    runner_choice(id) == 'stateful'
-  end
-
-  def runner_choice(id)
-    katas[id].manifest.runner_choice
-  end
-
-  def katas
-    @externals.katas
-  end
-
-  def args(callers_binding)
-    callers_name = caller[0][/`.*'/][1..-2]
-    method(callers_name).parameters.map do |_, arg_name|
-      callers_binding.local_variable_get(arg_name)
-    end
+    @externals.katas[id].manifest.runner_choice == 'stateful'
   end
 
 end
