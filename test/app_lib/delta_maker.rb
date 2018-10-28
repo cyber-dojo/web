@@ -3,10 +3,10 @@ class DeltaMaker
 
   include FileDeltaMaker
 
-  def initialize(avatar)
-    @avatar = avatar
-    @was = avatar.visible_files
-    @now = avatar.visible_files
+  def initialize(kata)
+    @kata = kata
+    @was = kata.files
+    @now = kata.files
   end
 
   attr_reader :was, :now
@@ -32,11 +32,20 @@ class DeltaMaker
   end
 
   def run_test(at = time_now)
-    visible_files = now
-    delta = make_delta(@was, @now)
-    stdout,stderr,status,colour = @avatar.test(delta, visible_files, max_seconds=10)
-    @avatar.tested(visible_files, at, stdout, stderr, colour)
-    [delta, visible_files, stdout+stderr]
+    params = {
+      file_hashes_outgoing:@was,
+      file_hashes_incoming:@now,
+      image_name:@kata.manifest.image_name,
+      max_seconds:@kata.manifest.max_seconds,
+      file_content:@now,
+    }
+    #stdout,stderr,status,
+    # colour,
+    #  files,new_files,deleted_files,changed_files = *@kata.run_tests(params)
+
+    @kata.ran_tests(visible_files, at, stdout, stderr, colour)
+
+    [delta, visible_files, stdout, stderr]
   end
 
   def test_args
