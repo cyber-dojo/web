@@ -15,13 +15,13 @@ class RunnerService
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def kata_new(image_name, id, starting_files)
-    http(runner_choice).post(__method__, *args(binding))
+    http(runner_choice(id)).post(__method__, *args(binding))
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def kata_old(image_name, id)
-    http(runner_choice).post(__method__, *args(binding))
+    http(runner_choice(id)).post(__method__, *args(binding))
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -77,7 +77,7 @@ class RunnerService
     end
   end
 
-  def runner_choice
+  def runner_choice(id)
     @externals.katas[id].manifest.runner_choice
   end
 
