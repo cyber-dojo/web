@@ -18,16 +18,6 @@ module TestDomainHelpers # mix-in
 
   # - - - - - - - - - - - - - - - -
 
-  def wolf
-    kata.avatars['wolf']
-  end
-
-  def lion
-    kata.avatars['lion']
-  end
-
-  # - - - - - - - - - - - - - - - -
-
   def make_language_kata(options = {})
     display_name = options['display_name'] || default_language_name
     exercise_name = options['exercise'] || default_exercise_name

@@ -10,8 +10,7 @@ module TestExternalHelpers # mix-in
       'DIFFER'  => ENV['CYBER_DOJO_DIFFER_CLASS'],
       'RUNNER'  => ENV['CYBER_DOJO_RUNNER_CLASS'],
       'STARTER' => ENV['CYBER_DOJO_STARTER_CLASS'],
-      'GROUPER' => ENV['CYBER_DOJO_GROUPER_CLASS'],
-      'SINGLER' => ENV['CYBER_DOJO_SINGLER_CLASS'],
+      'SAVER'   => ENV['CYBER_DOJO_SAVER_CLASS'],
       'ZIPPER'  => ENV['CYBER_DOJO_ZIPPER_CLASS'],
       'HTTP'    => ENV['CYBER_DOJO_HTTP_CLASS']
     }
@@ -21,8 +20,7 @@ module TestExternalHelpers # mix-in
     ENV['CYBER_DOJO_DIFFER_CLASS']  = @config['DIFFER']
     ENV['CYBER_DOJO_RUNNER_CLASS']  = @config['RUNNER']
     ENV['CYBER_DOJO_STARTER_CLASS'] = @config['STARTER']
-    ENV['CYBER_DOJO_GROUPER_CLASS'] = @config['GROUPER']
-    ENV['CYBER_DOJO_SINGLER_CLASS'] = @config['SINGLER']
+    ENV['CYBER_DOJO_SAVER_CLASS']   = @config['SAVER']
     ENV['CYBER_DOJO_ZIPPER_CLASS']  = @config['ZIPPER']
     ENV['CYBER_DOJO_HTTP_CLASS']  =   @config['HTTP']
   end

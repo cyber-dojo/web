@@ -128,8 +128,7 @@ class Kata
   end
 
   def events
-    @events ||= saver.kata_events(id)
-    @events.map.with_index { |h,index|
+    saver.kata_events(id).map.with_index { |h,index|
       Event.new(@externals, self, h, index)
     }
   end
