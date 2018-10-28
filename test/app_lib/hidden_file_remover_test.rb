@@ -6,6 +6,8 @@ class HiddenFileRemoverTest < AppLibTestBase
     '33199'
   end
 
+  include HiddenFileRemover
+
   #- - - - - - - - - - - - - - - - - - - - - -
 
   test '52A',
@@ -98,9 +100,5 @@ class HiddenFileRemoverTest < AppLibTestBase
     expected = [ 'coverage.txt' ]
     assert_equal(expected.sort, new_files.keys.sort)
   end
-
-  #- - - - - - - - - - - - - - - - - - - - - -
-
-  include HiddenFileRemover
 
 end

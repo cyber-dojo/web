@@ -371,23 +371,23 @@ class DashboardTdGapperTest < AppLibTestBase
   private
 
   def year
-    2011
+    YEAR
   end
 
   def month
-    5
+    MONTH
   end
 
   def day
-    18
+    DAY
   end
 
   def hour
-    2
+    HOUR
   end
 
   def start
-    Time.mktime(*[year,month,day,hour,30,0])
+    Time.mktime(*[year,month, day,hour,30,0])
   end
 
   def max_seconds_uncollapsed
@@ -398,8 +398,23 @@ class DashboardTdGapperTest < AppLibTestBase
     20
   end
 
-  def make_light(min,sec)
-    { 'time' => [year,month,day, hour,min,sec] }
+  def make_light(min, sec)
+    LightStub.new(min, sec)
   end
+
+  class LightStub
+    def initialize(min, sec)
+      @min = min
+      @sec = sec
+    end
+    def time
+      Time.mktime(YEAR,MONTH,DAY, HOUR,@min,@sec)
+    end
+  end
+
+  YEAR = 2011
+  MONTH = 5
+  DAY = 18
+  HOUR = 2
 
 end
