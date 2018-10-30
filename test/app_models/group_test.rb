@@ -8,9 +8,15 @@ class GroupTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '6A0',
+  test '6A9',
   'a group with an arbitrary id does not exist' do
     refute groups['123AbZ'].exists?
+  end
+
+  test '6A0', %w(
+  groups[''] is false to simplify ported implementation
+  ) do
+    refute groups[''].exists?    
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
