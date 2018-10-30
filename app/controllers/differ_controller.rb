@@ -18,13 +18,16 @@ class DifferController < ApplicationController
 
     @kata = kata
     events = @kata.events
-    tags = events.select(&:light?).map{ |light| to_json(light) }
-    was_tag, now_tag = *was_now(tags)
+    was_tag, now_tag = *was_now(events)
     was_files = files(events[was_tag])
     now_files = files(events[now_tag])
     diff = differ.diff(was_files, now_files)
     view = diff_view(diff)
+
     prev_kata_id, next_kata_id = *ring_prev_next(@kata)
+
+    tags = events.select(&:light?).map{ |light| to_json(light) }
+
     render json: {
                          id: @kata.id,
                      avatar: @kata.avatar_name,
@@ -45,13 +48,13 @@ class DifferController < ApplicationController
   include RingPrevNext
   include ReviewFilePicker
 
-  def was_now(tags)
+  def was_now(events)
     # You only get -1 when in non-diff mode and you switch to a
     # new avatar in which case was_tag==-1 and now_tag==-1
     was = number_or_nil(params[:was_tag])
     now = number_or_nil(params[:now_tag])
-    was = tags[-1]['index'] if was == -1
-    now = tags[-1]['index'] if now == -1
+    was = events[-1].index if was == -1
+    now = events[-1].index if now == -1
     [was,now]
   end
 
