@@ -17,9 +17,12 @@ class DifferController < ApplicationController
     #         tags.shift
 
     @kata = kata
-    tags = @kata.lights.map{ |light| to_json(light) }
+    events = @kata.events
+    tags = events.select(&:light?).map{ |light| to_json(light) }
     was_tag, now_tag = *was_now(tags)
-    diff = differ.diff(@kata.id, was_tag, now_tag)
+    was_files = files(events[was_tag])
+    now_files = files(events[now_tag])
+    diff = differ.diff(was_files, now_files)
     view = diff_view(diff)
     prev_kata_id, next_kata_id = *ring_prev_next(@kata)
     render json: {
@@ -50,6 +53,16 @@ class DifferController < ApplicationController
     was = tags[-1]['index'] if was == -1
     now = tags[-1]['index'] if now == -1
     [was,now]
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  def files(event)
+    all = event.files
+    all['stdout'] = event.stdout
+    all['stderr'] = event.stderr
+    all['status'] = event.status.to_s
+    all
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
