@@ -10,7 +10,7 @@ class TipperController < ApplicationController
     now_files = events[now_tag].files(:with_output)
     diff = differ.diff(was_files, now_files)
     render json: {
-      html: traffic_light_tip_html(diff, kata.avatar_name, events, was_tag, now_tag)
+      html: traffic_light_tip_html(diff, events, was_tag, now_tag)
     }
   end
 

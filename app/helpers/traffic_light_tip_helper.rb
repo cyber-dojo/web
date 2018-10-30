@@ -1,7 +1,7 @@
 
 module TrafficLightTipHelper # mix-in
 
-  def traffic_light_tip_html(diffs, _avatar_name, events, was_tag, now_tag)
+  def traffic_light_tip_html(diffs, events, was_tag, now_tag)
     was_index = was_tag.to_i
     now_index = now_tag.to_i
 
