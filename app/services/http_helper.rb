@@ -11,22 +11,12 @@ class HttpHelper
   end
 
   def get(method, *args)
-    get_hash(method, args_hash(method, *args))
-  end
-
-  def post(method, *args)
-    post_hash(method, args_hash(method, *args))
-  end
-
-  # - - - - - - - - - - - - - - - - - - -
-
-  def get_hash(method, args_hash)
-    json = http.get(@hostname, @port, method, args_hash)
+    json = http.get(@hostname, @port, method, args_hash(method, *args))
     result(json, method.to_s)
   end
 
-  def post_hash(method, args_hash)
-    json = http.post(@hostname, @port, method, args_hash)
+  def post(method, *args)
+    json = http.post(@hostname, @port, method, args_hash(method, *args))
     result(json, method.to_s)
   end
 
