@@ -15,47 +15,11 @@ class AvatarsTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '12F',
-  'avatars.each is [] when empty' do
-    in_kata {
-      assert_equal [], kata.avatars.to_a
-    }
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'F79',
-  'avatars returns all avatars started in the kata' do
-    in_kata {
-      assert_equal [], kata.avatars.names.sort
-      as(:cheetah) {}
-      assert_equal ['cheetah'], kata.avatars.names.sort
-      as(:lion) {}
-      assert_equal ['cheetah', 'lion'], kata.avatars.names.sort
-    }
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '638', %w(
-  avatars[invalid-name] is not nil
-  because validity is check on use not on creation ) do
-    in_kata {
-      refute_nil kata.avatars[nil], 'nil'
-      refute_nil kata.avatars['mobile-phone'], 'invalid'
-      refute_nil kata.avatars['cheetah'], 'unstarted'
-    }
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '74D',
-  'avatars[panda] is the panda when the panda has started' do
-    in_kata {
-      as(:panda) {}
-      assert_equal ['panda'], kata.avatars.names
-      assert_equal 'panda', katas[kata.id].avatars['panda'].name
-    }
+  test '14A',
+  'index of an avatar name' do
+    assert_equal  0, Avatars.index('alligator')
+    assert_equal 45, Avatars.index('salmon')
+    assert_equal 63, Avatars.index('zebra')
   end
 
 end
