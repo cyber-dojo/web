@@ -15,6 +15,18 @@ class GroupTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test '6A2',
+  'a new group cannot be created from a manifest missing any required property' do
+    manifest = starter.language_manifest('Ruby, MiniTest', 'Fizz_Buzz')
+    manifest.delete('image_name')
+    error = assert_raises(ServiceError) { groups.new_group(manifest) }
+    info = JSON.parse(error.message)
+    assert_equal 'SaverService', info['class']
+    assert_equal 'malformed:manifest:missing key[image_name]', info['message']
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '6A1',
   'a new group can be created from a well-formed manifest and is initially empty' do
     manifest = starter.language_manifest('Ruby, MiniTest', 'Fizz_Buzz')
@@ -27,18 +39,6 @@ class GroupTest < AppModelsTestBase
     assert_equal [], group.katas
     assert_equal 0, group.age
     assert_equal 'Ruby, MiniTest', group.manifest.display_name
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '6A2',
-  'a new group cannot be created from a manifest missing any required property' do
-    manifest = starter.language_manifest('Ruby, MiniTest', 'Fizz_Buzz')
-    manifest.delete('image_name')
-    error = assert_raises(ServiceError) { groups.new_group(manifest) }
-    info = JSON.parse(error.message)
-    assert_equal 'SaverService', info['class']
-    assert_equal 'malformed:manifest:missing key[image_name]', info['message']
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
