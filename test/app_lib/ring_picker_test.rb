@@ -16,8 +16,18 @@ class RingPickerTest < AppLibTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '099',
-  'prev/next for individual kata is empty-string' do
+  'prev/next for individual inactive kata is empty-string' do
     in_kata do |kata|
+      assert_equal ['',''], ring_prev_next(kata)
+    end
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '09A',
+  'prev/next for individual active kata is empty-string' do
+    in_kata do |kata|
+      ran_tests(kata, 1)
       assert_equal ['',''], ring_prev_next(kata)
     end
   end
@@ -41,18 +51,78 @@ class RingPickerTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '345',
-  'prev/next for one active member of group is the member' do
+  test '345', %w(
+  prev/next for one active member of group is the member
+  regardless of how many ther inactive group members there are
+  ) do
     in_group do |group|
       lion = join(group, 'lion')
-      lion.ran_tests(1, lion.files, time_now, '', '', 0, 'red')
+      ran_tests(lion, 1)
       assert_equal [lion.id,lion.id], ring_prev_next(lion)
       wolf = join(group, 'wolf')
-      assert_equal ['',''], ring_prev_next(wolf) # ????
+      assert_equal [lion.id,lion.id], ring_prev_next(lion)
+      spider = join(group, 'spider')
+      assert_equal [lion.id,lion.id], ring_prev_next(lion)
     end
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '346', %w(
+  prev/next for inactive group member is empty-string
+  regardless of how many other active group members there are
+  ) do
+    in_group do |group|
+      bee = join(group, 'bee')
+      assert_equal ['',''], ring_prev_next(bee)
+      snake = join(group, 'snake')
+      ran_tests(snake, 1)
+      assert_equal ['',''], ring_prev_next(bee)
+      fox = join(group, 'fox')
+      ran_tests(fox, 1)
+      assert_equal ['',''], ring_prev_next(bee)
+    end
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '69B', %w(
+  prev/next for active group member when there are two active group members
+  ) do
+    in_group do |group|
+      frog = join(group, 'frog')
+      ran_tests(frog, 1)
+      owl = join(group, 'owl')
+      ran_tests(owl, 1)
+      assert_equal [owl.id,owl.id], ring_prev_next(frog)
+      assert_equal [frog.id,frog.id], ring_prev_next(owl)
+    end
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '69C', %w(
+  prev/next for active group member when there are three active group members
+  ) do
+    in_group do |group|
+      frog = join(group, 'frog')
+      ran_tests(frog, 1)
+      owl = join(group, 'owl')
+      ran_tests(owl, 1)
+      lion = join(group, 'lion')
+      ran_tests(lion, 1)
+      assert_equal [owl.id,lion.id], ring_prev_next(frog)
+      assert_equal [lion.id,frog.id], ring_prev_next(owl)
+      assert_equal [frog.id,owl.id], ring_prev_next(lion)      
+    end
+  end
+
+  private
+
+  def ran_tests(kata, index)
+    colour = ['red','amber','green'].sample
+    kata.ran_tests(index, kata.files, time_now, '', '', 0, colour)
+  end
 
   def join(group, avatar_name)
     indexes = (0..63).to_a.shuffle
@@ -61,64 +131,5 @@ class RingPickerTest < AppLibTestBase
     indexes.unshift(index)
     group.join(indexes)
   end
-
-=begin
-  test '085',
-  'previous in three entries' do
-    assert_prev('a', %w{ a b c }, 'c')
-    assert_prev('b', %w{ a b c }, 'a')
-    assert_prev('c', %w{ a b c }, 'b')
-  end
-
-  test '41B',
-  'previous in four entries' do
-    assert_prev('a', %w{ a b c d }, 'd')
-    assert_prev('b', %w{ a b c d }, 'a')
-    assert_prev('c', %w{ a b c d }, 'b')
-    assert_prev('d', %w{ a b c d }, 'c')
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '549',
-  'next when single entry is empty string' do
-    assert_next('a', %w{ a }, '')
-  end
-
-  test '283',
-  'next in two entries' do
-    assert_next('a', %w{ a b }, 'b')
-    assert_next('b', %w{ a b }, 'a')
-  end
-
-  test '3EF',
-  'next in three entries' do
-    assert_next('a', %w{ a b c }, 'b')
-    assert_next('b', %w{ a b c }, 'c')
-    assert_next('c', %w{ a b c }, 'a')
-  end
-
-  test '6FB',
-  'next in four entries' do
-    assert_next('a', %w{ a b c d }, 'b')
-    assert_next('b', %w{ a b c d }, 'c')
-    assert_next('c', %w{ a b c d }, 'd')
-    assert_next('d', %w{ a b c d }, 'a')
-  end
-
-  private
-
-  def assert_prev(arg, entries, expected)
-    clone = entries.clone
-    assert_equal expected, ring_prev(clone, arg)
-    assert_equal clone, entries
-  end
-
-  def assert_next(arg, entries, expected)
-    clone = entries.clone
-    assert_equal expected, ring_next(clone, arg)
-    assert_equal clone, entries
-  end
-=end
 
 end
