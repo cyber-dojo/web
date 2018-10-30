@@ -19,8 +19,8 @@ class DifferController < ApplicationController
     @kata = kata
     events = @kata.events
     was_tag, now_tag = *was_now(events)
-    was_files = files(events[was_tag])
-    now_files = files(events[now_tag])
+    was_files = events[was_tag].files(:with_output)
+    now_files = events[now_tag].files(:with_output)
     diff = differ.diff(was_files, now_files)
     view = diff_view(diff)
 
@@ -49,23 +49,12 @@ class DifferController < ApplicationController
   include ReviewFilePicker
 
   def was_now(events)
-    # You only get -1 when in non-diff mode and you switch to a
-    # new avatar in which case was_tag==-1 and now_tag==-1
+    # You get -1 when in non-diff mode
     was = number_or_nil(params[:was_tag])
     now = number_or_nil(params[:now_tag])
     was = events[-1].index if was == -1
     now = events[-1].index if now == -1
     [was,now]
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
-  def files(event)
-    all = event.files
-    all['stdout'] = event.stdout
-    all['stderr'] = event.stderr
-    all['status'] = event.status.to_s
-    all
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -

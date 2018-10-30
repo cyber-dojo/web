@@ -12,8 +12,14 @@ class Event
     @kata
   end
 
-  def files
-    manifest['files']
+  def files(sym = nil)
+    all = manifest['files']
+    if sym == :with_output
+      all['stdout'] = stdout
+      all['stderr'] = stderr
+      all['status'] = status.to_s
+    end
+    all
   end
 
   def stdout
