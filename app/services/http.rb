@@ -21,7 +21,7 @@ class Http
   private
 
   def call(hostname, port, path, named_args)
-    url = URI.parse("http://#{hostname}:#{port}/" + path.to_s)
+    url = URI.parse("http://#{hostname}:#{port}/" + path)
     req = yield url
     req.content_type = 'application/json'
     req.body = named_args.to_json

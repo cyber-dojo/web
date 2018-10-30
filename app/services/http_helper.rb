@@ -10,14 +10,16 @@ class HttpHelper
     @port = port
   end
 
-  def get(method, *args)
+  def get(method_sym, *args)
+    method = method_sym.to_s
     json = http.get(@hostname, @port, method, args_hash(method, *args))
-    result(json, method.to_s)
+    result(json, method)
   end
 
-  def post(method, *args)
+  def post(method_sym, *args)
+    method = method_sym.to_s
     json = http.post(@hostname, @port, method, args_hash(method, *args))
-    result(json, method.to_s)
+    result(json, method)
   end
 
   private
@@ -33,7 +35,7 @@ class HttpHelper
     # Reflection sees that the names of the parameters are
     # 'was_files' and 'now_files' and so constructs the hash
     # { 'was_files' => args[0], 'now_files' => args[1] }
-    parameters = @parent.class.instance_method(method.to_s).parameters
+    parameters = @parent.class.instance_method(method).parameters
     Hash[parameters.map.with_index { |parameter,index|
       [parameter[1], args[index]]
     }]
