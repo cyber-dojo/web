@@ -2,42 +2,42 @@
 class DifferController < ApplicationController
 
   def diff
-    # This currently returns tags that are traffic-lights.
-    # This matches the default tag handling in the review-controller.
+    # This currently returns events that are traffic-lights.
+    # This matches the default event handling in the review-controller.
     # The review/diff dialog/page has been refactored so it
-    # works when sent either just traffic-lights or the full set of tags.
+    # works when sent either just traffic-lights or the full set of events.
     # It does not yet have a way to select between these two options.
-    # However if it is sent the full set of tags it must drop tag zero
-    # (which is the _kata_ creation time). This is partly so that
-    # the lowest tag.number is 1 (one) and not 0 (zero) as it is not
-    # clear how to cleanly handle a tag of zero in diff-mode since it does
-    # not have a previous tag. It is also partly because it makes sense
-    # for the tags to correspond to actual kata/edit events.
-    # So, in summary, if returning all the tags you still need to do a
-    #         tags.shift
+    # However if it is sent the full set of events it must drop event zero
+    # (which is the _kata_ creation event). This is partly so that
+    # the lowest index is 1 (one) and not 0 (zero) as it is not
+    # clear how to cleanly handle a index of zero in diff-mode since it does
+    # not have a previous index. It is also partly because it makes sense
+    # for the events to correspond to actual kata/edit events.
+    # So, in summary, if returning all the events you still need to do a
+    #         events.shift
 
     @kata = kata
     events = @kata.events
-    was_tag, now_tag = *was_now(events)
-    was_files = events[was_tag].files(:with_output)
-    now_files = events[now_tag].files(:with_output)
+    was_index, now_index = *was_now(events)
+    was_files = events[was_index].files(:with_output)
+    now_files = events[now_index].files(:with_output)
     diff = differ.diff(was_files, now_files)
     view = diff_view(diff)
 
     prev_kata_id, next_kata_id = *ring_prev_next(@kata)
 
-    tags = events.select(&:light?).map{ |light| to_json(light) }
+    lights = events.select(&:light?).map{ |light| to_json(light) }
 
     render json: {
                          id: @kata.id,
                      avatar: @kata.avatar_name,
-                     wasTag: was_tag,
-                     nowTag: now_tag,
-                       tags: tags,
+                     wasTag: was_index,
+                     nowTag: now_index,
+                       tags: lights,
                       diffs: view,
                  prevKataId: prev_kata_id,
                  nextKataId: next_kata_id,
-	      idsAndSectionCounts: prune(view),
+	      idsAndSectionCounts: pruned(view),
           currentFilenameId: pick_file_id(view, current_filename),
 	  }
   end
@@ -50,8 +50,8 @@ class DifferController < ApplicationController
 
   def was_now(events)
     # You get -1 when in non-diff mode
-    was = number_or_nil(params[:was_tag])
-    now = number_or_nil(params[:now_tag])
+    was = was_tag
+    now = now_tag
     was = events[-1].index if was == -1
     now = events[-1].index if now == -1
     [was,now]
@@ -65,7 +65,7 @@ class DifferController < ApplicationController
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def prune(array)
+  def pruned(array)
     array.map { |hash| {
       :id            => hash[:id],
       :section_count => hash[:section_count]
