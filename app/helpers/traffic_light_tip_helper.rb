@@ -1,16 +1,18 @@
 
 module TrafficLightTipHelper # mix-in
 
-  def traffic_light_tip_html(diffs, avatar_name, tags, was_tag, now_tag)
-    was_tag = was_tag.to_i
-    now_tag = now_tag.to_i
+  def traffic_light_tip_html(diffs, _avatar_name, events, was_tag, now_tag)
+    was_index = was_tag.to_i
+    now_index = now_tag.to_i
 
     tip = '<table><tr>'
-    tip += td(traffic_light_img(tags, was_tag))  # rag
-    tip += td(tag_html(was_tag))                 # 13
+    tip += td(traffic_light_img(events, was_index))  # red/amber/green
+    tip += td(tag_html(was_index))                 # 13
     tip += td(right_arrow)                       # ->
-    tip += td(traffic_light_img(tags, now_tag))  # rag
-    tip += td(tag_html(now_tag))                 # 14
+    tip += td(traffic_light_img(events, now_index))  # red/amber/green
+    tip += td(tag_html(now_index))                 # 14
+
+    avatar_name = events[was_index].kata.avatar_name
     unless avatar_name == ''
       tip += td(avatar_img(avatar_name))         # panda
     end
@@ -37,18 +39,18 @@ module TrafficLightTipHelper # mix-in
     %w( stdout stderr status ).include?(filename)
   end
 
-  def tag_html(tag_number)
-    "<span class='traffic-light-diff-tip-tag'>#{tag_number}</span>"
+  def tag_html(index)
+    "<span class='traffic-light-diff-tip-tag'>#{index}</span>"
   end
 
-  def traffic_light_img(tags, tag_number)
-    return '' if tag_number == 0
-    colour = tag_colour(tags, tag_number)
+  def traffic_light_img(events, index)
+    return '' if index == 0
+    colour = tag_colour(events, index)
     "<img src='/images/bulb_#{colour}.png' class='traffic-light-diff-tip-traffic-light-image'>"
   end
 
-  def tag_colour(tags, tag_number)
-    tags[tag_number].colour
+  def tag_colour(events, index)
+    events[index].colour
   end
 
   def right_arrow
@@ -64,7 +66,7 @@ module TrafficLightTipHelper # mix-in
   end
 
   def td(text)
-    '<td>' + text + '</td>'
+    "<td>#{text}</td>"
   end
 
 end
