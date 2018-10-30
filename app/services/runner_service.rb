@@ -15,13 +15,13 @@ class RunnerService
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def kata_new(image_name, id, starting_files)
-    http(runner_choice(id)).post(__method__, *args(binding))
+    http(runner_choice(id)).post(__method__, image_name, id, starting_files)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def kata_old(image_name, id)
-    http(runner_choice(id)).post(__method__, *args(binding))
+    http(runner_choice(id)).post(__method__, image_name, id)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -35,7 +35,10 @@ class RunnerService
     # manifest which would make a slower saver-service call.
     runner_choice = @externals.params['runner_choice']
 
-    tuple = http(runner_choice).post(__method__, *args(binding))
+    tuple = http(runner_choice).post(__method__,
+      image_name, id,
+      new_files, deleted_files, changed_files, unchanged_files,
+      max_seconds)
 
     [tuple['stdout'],
      tuple['stderr'],
@@ -61,12 +64,5 @@ class RunnerService
   def runner_choice(id)
     @externals.katas[id].manifest.runner_choice
   end
-
-  def args(callers_binding)
-     callers_name = caller[0][/`.*'/][1..-2]
-     method(callers_name).parameters.map do |_, arg_name|
-       callers_binding.local_variable_get(arg_name)
-     end
-   end
 
 end
