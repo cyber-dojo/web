@@ -1,6 +1,6 @@
 require_relative 'app_models_test_base'
 
-class KataDefaultsTest < AppModelsTestBase
+class ManifestDefaultsTest < AppModelsTestBase
 
   def self.hex_prefix
     '4BB621'
