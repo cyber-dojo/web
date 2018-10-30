@@ -1,7 +1,7 @@
 
-# On the diff dialog/page to cycle through the avatars.
+# On the review dialog/page to cycle through the avatars.
 
-module RingPicker # mix-in
+module RingPrevNext # mix-in
 
   module_function
 

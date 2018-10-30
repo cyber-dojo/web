@@ -1,16 +1,15 @@
 require_relative 'app_lib_test_base'
 
-class RingPickerTest < AppLibTestBase
+class RingPrevNextTest < AppLibTestBase
 
   def self.hex_prefix
     '9A996B'
   end
 
-  include RingPicker
+  include RingPrevNext
 
   def hex_setup
     set_differ_class('NotUsed')
-    #set_runner_class('NotUsed')
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -113,7 +112,7 @@ class RingPickerTest < AppLibTestBase
       ran_tests(lion, 1)
       assert_equal [owl.id,lion.id], ring_prev_next(frog)
       assert_equal [lion.id,frog.id], ring_prev_next(owl)
-      assert_equal [frog.id,owl.id], ring_prev_next(lion)      
+      assert_equal [frog.id,owl.id], ring_prev_next(lion)
     end
   end
 

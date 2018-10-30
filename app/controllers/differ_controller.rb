@@ -42,7 +42,7 @@ class DifferController < ApplicationController
   private
 
   include DiffView
-  include RingPicker
+  include RingPrevNext
   include ReviewFilePicker
 
   def was_now(tags)
