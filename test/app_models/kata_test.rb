@@ -9,20 +9,30 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '860',
-  'a kata with an aribtrary id does not exist' do
+  'a kata with an arbitrary id does not exist' do
     refute katas['123AbZ'].exists?
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test '861',
+  'a kata cannot be created from a manifest missing any required property' do
+    manifest = starter_manifest
+    manifest.delete('image_name')
+    error = assert_raises(ServiceError) { katas.new_kata(manifest) }
+    info = JSON.parse(error.message)
+    assert_equal 'SaverService', info['class']
+    assert_equal 'malformed:manifest:missing key[image_name]', info['message']
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '862', %w(
-  a new kata can be created from a well-formed manifest
-  is empty
-  and is not a member of a group
+  an individual kata is created from a well-formed manifest,
+  is empty,
+  and is not a member of a group,
   ) do
-    manifest = starter.language_manifest('Ruby, MiniTest', 'Fizz_Buzz')
-    manifest['created'] = time_now
-    kata = katas.new_kata(manifest)
+    kata = create_kata
     assert kata.exists?
 
     assert_equal 0, kata.age
@@ -36,9 +46,49 @@ class KataTest < AppModelsTestBase
 
     assert_nil kata.group
     assert_equal '', kata.avatar_name
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '863', %w(
+  a new group-kata can be created by joining a group,
+  is empty,
+  and is a member of the group
+  ) do
+    manifest = starter_manifest
+    group = groups.new_group(manifest)
+    indexes = (0..63).to_a.shuffle
+
+    kata = group.join(indexes)
+
+    assert_equal 0, kata.age
+
+    assert_equal '', kata.stdout
+    assert_equal '', kata.stderr
+    assert_equal '', kata.status
+
+    refute kata.active?
+    assert_equal [], kata.lights
+
+    refute_nil kata.group
+    assert_equal group.id, kata.group.id
+    assert_equal Avatars.names[indexes[0]], kata.avatar_name
 
     assert_equal 'Ruby, MiniTest', kata.manifest.display_name
   end
 
+  #- - - - - - - - - - - - - - - - - - - - - - - - -
+
+  private
+
+  def create_kata
+    katas.new_kata(starter_manifest)
+  end
+
+  def starter_manifest
+    manifest = starter.language_manifest('Ruby, MiniTest', 'Fizz_Buzz')
+    manifest['created'] = time_now
+    manifest
+  end
 
 end
