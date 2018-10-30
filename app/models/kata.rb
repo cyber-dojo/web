@@ -46,13 +46,6 @@ class Kata
 
   def run_tests(params)
     # run tests but don't save the results
-    incoming = params[:file_hashes_incoming]
-    outgoing = params[:file_hashes_outgoing]
-    output_filenames.each do |output_filename|
-      incoming.delete(output_filename)
-      outgoing.delete(output_filename)
-    end
-    delta = FileDeltaMaker.make_delta(incoming, outgoing)
 
     image_name = params[:image_name]
     max_seconds = params[:max_seconds].to_i
@@ -61,28 +54,53 @@ class Kata
       files.delete(output_filename)
     end
 
+    incoming = params[:file_hashes_incoming]
+    outgoing = params[:file_hashes_outgoing]
+    output_filenames.each do |output_filename|
+      incoming.delete(output_filename)
+      outgoing.delete(output_filename)
+    end
+    delta = FileDeltaMaker.make_delta(incoming, outgoing)
+
+    new_files = files.select { |filename|
+      delta[:new].include?(filename)
+    }
+    deleted_files = Hash[
+      delta[:deleted].map { |filename| [filename, ''] }
+    ]
+    changed_files = files.select { |filename|
+      delta[:changed].include?(filename)
+    }
+    unchanged_files = files.select { |filename|
+      delta[:unchanged].include?(filename)
+    }
+
     stdout,stderr,status,
       colour,
-        new_files,deleted_files,changed_files =
-          runner.run_cyber_dojo_sh(image_name, id, max_seconds, delta, files)
+        @new_files,@deleted_files,@changed_files =
+          runner.run_cyber_dojo_sh(
+            image_name, id,
+            new_files, deleted_files,
+            changed_files, unchanged_files,
+            max_seconds)
 
     # If the runner has created an 'output' file remove it
     # otherwise it interferes with the pseudo output-files.
     output_filenames.each do |output_filename|
-      new_files.delete(output_filename)
+      @new_files.delete(output_filename)
     end
 
     hidden_filenames = JSON.parse(params[:hidden_filenames])
-    remove_hidden_files(new_files, hidden_filenames)
+    remove_hidden_files(@new_files, hidden_filenames)
 
-    # ensure (saved) files reflect changes
-    new_files.each     { |filename,content| files[filename] = content }
-    deleted_files.each { |filename,_      | files.delete(filename)    }
-    changed_files.each { |filename,content| files[filename] = content }
+    # ensure files which will get sent to ran_tests() reflect changes
+    @new_files.each     { |filename,content| files[filename] = content }
+    @deleted_files.each { |filename,_      | files.delete(filename)    }
+    @changed_files.each { |filename,content| files[filename] = content }
 
     [stdout,stderr,status,
      colour,
-     files,new_files,deleted_files,changed_files
+     files,@new_files,@deleted_files,@changed_files
     ]
   end
 

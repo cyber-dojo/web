@@ -26,19 +26,9 @@ class RunnerService
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def run_cyber_dojo_sh(image_name, id, max_seconds, delta, files)
-    new_files = files.select { |filename|
-      delta[:new].include?(filename)
-    }
-    deleted_files = Hash[
-      delta[:deleted].map { |filename| [filename, ''] }
-    ]
-    changed_files = files.select { |filename|
-      delta[:changed].include?(filename)
-    }
-    unchanged_files = files.select { |filename|
-      delta[:unchanged].include?(filename)
-    }
+  def run_cyber_dojo_sh(image_name, id,
+    new_files, deleted_files, changed_files, unchanged_files,
+    max_seconds)
 
     args = {
              image_name:image_name,
