@@ -9,7 +9,7 @@ class TipTest < AppHelpersTestBase
   include TrafficLightTipHelper
 
   test 'D52',
-  'traffic light tip for individual kata' do
+  'traffic light tip for individual kata does not have avatar-image' do
     in_kata do |kata|
       files = kata.files
       stdout = "Expected: 42\nActual: 54"
@@ -54,10 +54,10 @@ class TipTest < AppHelpersTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-=begin
   test 'D53',
-  'traffic light tip for kata in a group' do
-    in_kata do |kata|
+  'traffic light tip for kata in a group does have an avatar-image' do
+    in_group do |group|
+      kata = group.join
       files = kata.files
       stdout = "Expected: 42\nActual: 54"
       stderr = 'assert failed'
@@ -84,7 +84,7 @@ class TipTest < AppHelpersTestBase
             "<td><div class='right-arrow'>&rarr;</div></td>" +
             "<td><img src='/images/bulb_green.png' class='traffic-light-diff-tip-traffic-light-image'></td>" +
             "<td><span class='traffic-light-diff-tip-tag'>#{now_index}</span></td>" +
-            "<td><img src='/images/avatars/wolf.jpg' class='traffic-light-diff-tip-avatar-image'></td>" +
+            "<td><img src='/images/avatars/#{kata.avatar_name}.jpg' class='traffic-light-diff-tip-avatar-image'></td>" +
           '</tr>' +
         '</table>' +
         '<table>' +
@@ -99,6 +99,5 @@ class TipTest < AppHelpersTestBase
       assert_equal expected, actual
     end
   end
-=end
 
 end
