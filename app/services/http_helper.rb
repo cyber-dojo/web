@@ -23,6 +23,16 @@ class HttpHelper
   private
 
   def args_hash(method, *args)
+    # Uses reflection to create a hash of args where each key is
+    # the parameter name. For example, differ_services does this
+    #
+    #   def diff(was_files, now_files)
+    #     @http.get(__method__, was_files, now_files)
+    #  end
+    #
+    # Reflection sees that the names of the parameters are
+    # 'was_files' and 'now_files' and so constructs the hash
+    # { 'was_files' => args[0], 'now_files' => args[1] }
     parameters = @parent.class.instance_method(method.to_s).parameters
     Hash[parameters.map.with_index { |parameter,index|
       [parameter[1], args[index]]
