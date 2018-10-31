@@ -56,7 +56,8 @@ class ApplicationController < ActionController::Base
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
-
+  # tipper and differ
+  
   def was_tag
     number_or_nil(params[:was_tag])
   end
