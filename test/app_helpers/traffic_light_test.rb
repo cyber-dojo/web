@@ -9,19 +9,18 @@ class TrafficLightTest < AppHelpersTestBase
   include TrafficLightHelper
 
   class KataStub
-    def id
-      '456eGz'
+    def initialize(id, avatar_name)
+      @id = id
+      @avatar_name = avatar_name
     end
-    def avatar_name
-      'lion'
-    end
+    attr_reader :id, :avatar_name
   end
 
   #- - - - - - - - - - - - - - - -
 
   test '67C',
   'traffic_light_count' do
-    stub = KataStub.new
+    stub = KataStub.new(nil, 'fox')
     lights = [
       Event.new(nil, stub, { 'colour' => 'red'     }, 0),
       Event.new(nil, stub, { 'colour' => 'red'     }, 1),
@@ -32,7 +31,7 @@ class TrafficLightTest < AppHelpersTestBase
     expected =
       "<div class='traffic-light-count amber'" +
           " data-tip='traffic_light_count'" +
-          " data-avatar-name='lion'" +
+          " data-avatar-name='fox'" +
           " data-red-count='2'" +
           " data-amber-count='2'" +
           " data-green-count='1'" +
@@ -58,19 +57,17 @@ class TrafficLightTest < AppHelpersTestBase
 
   test '647',
   'diff_avatar_image' do
-    stub = KataStub.new
+    stub = KataStub.new('456eGz', 'snake')
     lights = [
-      Event.new(nil, stub, { 'colour' => 'red'     }, 0),
+      Event.new(nil, stub, { 'colour' => 'red' }, 0),
     ]
-    id = '456eGz'
-    avatar_name = 'lion'
     expected = '' +
       '<div' +
       " class='avatar-image'" +
-      " data-tip='review #{avatar_name}&#39;s<br/>current code'" +
-      " data-id='#{id}'>" +
-      "<img src='/images/avatars/#{avatar_name}.jpg'" +
-          " alt='#{avatar_name}'/>" +
+      " data-tip='review snake&#39;s<br/>current code'" +
+      " data-id='456eGz'>" +
+      "<img src='/images/avatars/snake.jpg'" +
+          " alt='snake'/>" +
       '</div>'
     actual = diff_avatar_image(lights)
     assert_equal expected, actual
@@ -80,12 +77,12 @@ class TrafficLightTest < AppHelpersTestBase
 
   test '443',
   'diff_traffic_light' do
-    stub = KataStub.new
+    stub = KataStub.new('a4r9YN', nil)
     red = Event.new(nil, stub, { 'colour' => 'red'     }, 14)
     expected = '' +
       "<div class='diff-traffic-light'" +
         " data-tip='ajax:traffic_light'" +
-        " data-id='#{stub.id}'" +
+        " data-id='a4r9YN'" +
         " data-colour='red'" + # [1]
         " data-tag='14'>" +
         "<img src='/images/bulb_red.png'" +
