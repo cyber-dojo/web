@@ -58,8 +58,12 @@ class TrafficLightTest < AppHelpersTestBase
 
   test '647',
   'diff_avatar_image' do
-    id = 'ABCDz1'
-    avatar_name = 'hippo'
+    stub = KataStub.new
+    lights = [
+      Event.new(nil, stub, { 'colour' => 'red'     }, 0),
+    ]
+    id = '456eGz'
+    avatar_name = 'lion'
     expected = '' +
       '<div' +
       " class='avatar-image'" +
@@ -68,7 +72,7 @@ class TrafficLightTest < AppHelpersTestBase
       "<img src='/images/avatars/#{avatar_name}.jpg'" +
           " alt='#{avatar_name}'/>" +
       '</div>'
-    actual = diff_avatar_image(id, avatar_name)
+    actual = diff_avatar_image(lights)
     assert_equal expected, actual
   end
 
