@@ -61,7 +61,7 @@ class Group
 
   def age
     ages = katas.select(&:active?).map{ |kata| kata.age }
-    ages == [] ? 0 : ages.sort[-1]
+    ages.sort[-1] || 0
   end
 
   # - - - - - - - - - - - - -
