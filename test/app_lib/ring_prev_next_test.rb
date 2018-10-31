@@ -51,17 +51,16 @@ class RingPrevNextTest < AppLibTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '345', %w(
-  prev/next for one active member of group is the member
-  regardless of how many ther inactive group members there are
+  prev/next for one active member of group is the empty-string
   ) do
     in_group do |group|
       lion = join(group, 'lion')
       ran_tests(lion, 1)
-      assert_equal [lion.id,lion.id], ring_prev_next(lion)
+      assert_equal ['',''], ring_prev_next(lion)
       wolf = join(group, 'wolf')
-      assert_equal [lion.id,lion.id], ring_prev_next(lion)
+      assert_equal ['',''], ring_prev_next(lion)
       spider = join(group, 'spider')
-      assert_equal [lion.id,lion.id], ring_prev_next(lion)
+      assert_equal ['',''], ring_prev_next(lion)
     end
   end
 

@@ -19,7 +19,7 @@ module RingPrevNext # mix-in
 
     size = active.size
     i = active.index{ |k| k.avatar_name == kata.avatar_name }
-    if i
+    if i && size > 1
       [ active[i-1].id, active[(i+1) % size].id ]
     else
       [ '', '' ]
