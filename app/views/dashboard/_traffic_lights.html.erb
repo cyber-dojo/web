@@ -50,7 +50,7 @@ $(() => {
     </tr>
   <% end %>
 
-  <% @gapped.keys.sort.each do |kata_id| %>
+  <% @gapped.keys.sort_by{|kata_id| @all_lights[kata_id][0].kata.avatar_name }.each do |kata_id| %>
 	<tr>
 	  <% lights = @all_lights[kata_id] %>
 	  <% td_map = @gapped[kata_id] %>
@@ -85,8 +85,7 @@ $(() => {
       <%= raw pie_chart(lights) %>
     </td>
     <td class="align-left valign-center">
-      <% name = lights[-1].kata.avatar_name %>
-      <%= raw diff_avatar_image(kata_id, name) %>
+      <%= raw diff_avatar_image(lights) %>
     </td>
 
 	</tr>

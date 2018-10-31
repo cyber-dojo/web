@@ -28,10 +28,12 @@ module TrafficLightHelper # mix-in
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def diff_avatar_image(kata_id, avatar_name)
+  def diff_avatar_image(lights)
+    kata = lights[0].kata
+    avatar_name = kata.avatar_name
     "<div class='avatar-image'" +
         " data-tip='review #{avatar_name}#{apostrophe}s<br/>current code'" +
-        " data-id='#{kata_id}'>" +
+        " data-id='#{kata.id}'>" +
         avatar_image(avatar_name) +
      '</div>'
   end
