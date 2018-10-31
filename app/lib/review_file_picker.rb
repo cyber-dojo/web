@@ -19,10 +19,8 @@ module ReviewFilePicker # mix-in
     }
 
     files = diffs.select { |diff|
-      diff[:filename] != 'stdout' &&
-      diff[:filename] != 'stderr' &&
-      diff[:filename] != 'status' &&
-      diff[:filename] != current_filename
+      filename = diff[:filename]
+      !output?(filename) && filename != current_filename
     }
     files = files.select { |diff| change_count(diff) > 0 }
     most_changed_diff = files.max { |lhs, rhs|
@@ -58,6 +56,10 @@ module ReviewFilePicker # mix-in
 
   def change_count(diff)
     diff[:deleted_line_count] + diff[:added_line_count]
+  end
+
+  def output?(filename)
+    ['stdout','stderr','status'].include?(filename)
   end
 
 end
