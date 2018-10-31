@@ -16,14 +16,14 @@ class GroupTest < AppModelsTestBase
   test '6A0', %w(
   groups[''] is false to simplify ported implementation
   ) do
-    refute groups[''].exists?    
+    refute groups[''].exists?
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '6A2',
   'a group cannot be created from a manifest missing any required property' do
-    manifest = starter.language_manifest('Ruby, MiniTest', 'Fizz_Buzz')
+    manifest = starter_manifest
     manifest.delete('image_name')
     error = assert_raises(ServiceError) { groups.new_group(manifest) }
     info = JSON.parse(error.message)
@@ -43,7 +43,6 @@ class GroupTest < AppModelsTestBase
     assert group.empty?
     assert_equal 0, group.size
     assert_equal [], group.katas
-    assert_equal 0, group.age
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -53,12 +52,18 @@ class GroupTest < AppModelsTestBase
   and are a member of the group
   ) do
     group = create_group
+    expected_ids = []
+    actual_ids = lambda { group.katas.map{ |kata| kata.id } }
+
     kata1 = group.join
+    expected_ids << kata1.id
     assert_equal 1, group.size
-    assert_equal [kata1.id], group.katas.map{ |kata| kata.id }
+    assert_equal expected_ids.sort, actual_ids.call.sort
+
     kata2 = group.join
+    expected_ids << kata2.id
     assert_equal 2, group.size
-    assert_equal [kata1.id, kata2.id].sort, group.katas.map{ |kata| kata.id }.sort
+    assert_equal expected_ids.sort, actual_ids.call.sort
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -71,8 +76,7 @@ class GroupTest < AppModelsTestBase
     64.times do
       kata = group.join(indexes)
       refute_nil kata
-      index = indexes.shift
-      indexes << index
+      indexes.rotate!
     end
     kata = group.join(indexes)
     assert_nil kata
@@ -80,15 +84,29 @@ class GroupTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
+=begin
+  test '6A5', %w(
+  the age (seconds) of a group is zero until one member becomes active
+  and then it is age of the most recent event
+  ) do
+    group = create_group([2018,30,11, 9,34,56])
+    assert_equal 0, group.age
+    kata = group.join
+    assert_equal 0, group.age
+    kata.ran_tests(1, kata.files, [2018,30,11, 9,35,8], '', '', 0, 'green')
+    assert_equal 14, group.age
+  end
+=end
+
   private
 
-  def create_group
-    groups.new_group(starter_manifest)
+  def create_group(t = time_now)
+    groups.new_group(starter_manifest(t))
   end
 
-  def starter_manifest
+  def starter_manifest(t = time_now)
     manifest = starter.language_manifest('Ruby, MiniTest', 'Fizz_Buzz')
-    manifest['created'] = time_now
+    manifest['created'] = t
     manifest
   end
 
