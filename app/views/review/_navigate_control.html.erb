@@ -7,8 +7,10 @@
       </button>
     </td>
     <td align="center">
-      <img id="avatar"
-          src="/images/avatars/<%= @avatar_name %>.jpg"/>
+      <% if @kata.avatar_name != '' %>
+        <img id="avatar"
+            src="/images/avatars/<%= @kata.avatar_name %>.jpg"/>
+      <% end %>
     </td>
     <td align="center">
       <button class="triangle button" id="next-avatar">
