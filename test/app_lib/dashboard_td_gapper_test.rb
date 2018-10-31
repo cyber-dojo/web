@@ -48,23 +48,23 @@ class DashboardTdGapperTest < AppLibTestBase
 
     all_lights =
     {
-      'hippo' => [ t1=make_light(30,21), # 1
-                   t2=make_light(31,33), # 4
-                 ],
-      'lion' =>  [ t3=make_light(30,25), # 1
-                   t4=make_light(31,37), # 4
-                   t5=make_light(31,39), # 4
-                 ],
-      'panda' => [ t6=make_light(31,42), # 5
-                 ]
+      hippo => [ t1=make_light(30,21), # 1
+                 t2=make_light(31,33), # 4
+               ],
+      lion =>  [ t3=make_light(30,25), # 1
+                 t4=make_light(31,37), # 4
+                 t5=make_light(31,39), # 4
+               ],
+      panda => [ t6=make_light(31,42), # 5
+               ]
     }
     expected =
     {
       :avatars =>
       {
-        'hippo' => { 1 => [ t1 ], 4 => [ t2    ] },
-        'lion'  => { 1 => [ t3 ], 4 => [ t4,t5 ] },
-        'panda' => {                             5 => [ t6 ] }
+        hippo => { 1 => [ t1 ], 4 => [ t2    ] },
+        lion  => { 1 => [ t3 ], 4 => [ t4,t5 ] },
+        panda => {                             5 => [ t6 ] }
       },
       :td_nos => [0,1,4,5,7]
     }
@@ -78,21 +78,21 @@ class DashboardTdGapperTest < AppLibTestBase
   'vertical bleed' do
     all_lights =
     {
-      'hippo' => [ t1=make_light(30,21), # 1
-                   t2=make_light(31,33), # 4
-                 ],
-      'lion' =>  [ t3=make_light(30,25), # 1
-                   t4=make_light(31,37), # 4
-                   t5=make_light(31,39), # 4
-                 ],
-      'panda' => [ t6=make_light(31,42), # 5
-                 ]
+      hippo => [ t1=make_light(30,21), # 1
+                 t2=make_light(31,33), # 4
+               ],
+      lion =>  [ t3=make_light(30,25), # 1
+                 t4=make_light(31,37), # 4
+                 t5=make_light(31,39), # 4
+               ],
+      panda => [ t6=make_light(31,42), # 5
+               ]
     }
     expected =
     {
-      'hippo' => { 0 => [], 1 => [ t1 ], 4 => [ t2    ], 5 => [    ], 7 => [ ] },
-      'lion'  => { 0 => [], 1 => [ t3 ], 4 => [ t4,t5 ], 5 => [    ], 7 => [ ] },
-      'panda' => { 0 => [], 1 => [    ], 4 => [       ], 5 => [ t6 ], 7 => [ ] }
+      hippo => { 0 => [], 1 => [ t1 ], 4 => [ t2    ], 5 => [    ], 7 => [ ] },
+      lion  => { 0 => [], 1 => [ t3 ], 4 => [ t4,t5 ], 5 => [    ], 7 => [ ] },
+      panda => { 0 => [], 1 => [    ], 4 => [       ], 5 => [ t6 ], 7 => [ ] }
     }
     now = [year,month,day,hour,32,23] #td 7
     s = gapper.stats(all_lights, now)
@@ -138,15 +138,15 @@ class DashboardTdGapperTest < AppLibTestBase
     t6=make_light(31,42) # 5
     unstripped =
     {
-      'hippo' => { 0 => [], 1 => [ t1 ], 2 => [], 3 => [], 4 => [ t2    ], 5 => [    ], 6 => { :collapsed => 4321 }, 4327 => [ ] },
-      'lion'  => { 0 => [], 1 => [ t3 ], 2 => [], 3 => [], 4 => [ t4,t5 ], 5 => [    ], 6 => { :collapsed => 4321 }, 4327 => [ ] },
-      'panda' => { 0 => [], 1 => [    ], 2 => [], 3 => [], 4 => [       ], 5 => [ t6 ], 6 => { :collapsed => 4321 }, 4327 => [ ] }
+      hippo => { 0 => [], 1 => [ t1 ], 2 => [], 3 => [], 4 => [ t2    ], 5 => [    ], 6 => { :collapsed => 4321 }, 4327 => [ ] },
+      lion  => { 0 => [], 1 => [ t3 ], 2 => [], 3 => [], 4 => [ t4,t5 ], 5 => [    ], 6 => { :collapsed => 4321 }, 4327 => [ ] },
+      panda => { 0 => [], 1 => [    ], 2 => [], 3 => [], 4 => [       ], 5 => [ t6 ], 6 => { :collapsed => 4321 }, 4327 => [ ] }
     }
     stripped =
     {
-      'hippo' => { 1 => [ t1 ], 2 => [], 3 => [], 4 => [ t2    ], 5 => [    ] },
-      'lion'  => { 1 => [ t3 ], 2 => [], 3 => [], 4 => [ t4,t5 ], 5 => [    ] },
-      'panda' => { 1 => [    ], 2 => [], 3 => [], 4 => [       ], 5 => [ t6 ] }
+      hippo => { 1 => [ t1 ], 2 => [], 3 => [], 4 => [ t2    ], 5 => [    ] },
+      lion  => { 1 => [ t3 ], 2 => [], 3 => [], 4 => [ t4,t5 ], 5 => [    ] },
+      panda => { 1 => [    ], 2 => [], 3 => [], 4 => [       ], 5 => [ t6 ] }
     }
     assert_equal stripped, gapper.strip(unstripped)
   end
@@ -168,21 +168,21 @@ class DashboardTdGapperTest < AppLibTestBase
   'fully gapped with no collapsing and no td-holes' do
     all_lights =
     {
-      'hippo' => [ t1=make_light(30,21), # 1
-                   t2=make_light(31,33), # 4
-                 ],
-      'lion' =>  [ t3=make_light(30,25), # 1
-                   t4=make_light(31,37), # 4
-                   t5=make_light(31,39), # 4
-                 ],
-      'panda' => [ t6=make_light(31,42), # 5
-                 ]
+      hippo => [ t1=make_light(30,21), # 1
+                 t2=make_light(31,33), # 4
+               ],
+      lion =>  [ t3=make_light(30,25), # 1
+                 t4=make_light(31,37), # 4
+                 t5=make_light(31,39), # 4
+               ],
+      panda => [ t6=make_light(31,42), # 5
+               ]
     }
     expected =
     {
-      'hippo' => { 1 => [ t1 ], 2 => [], 3 => [], 4 => [ t2    ], 5 => [    ] },
-      'lion'  => { 1 => [ t3 ], 2 => [], 3 => [], 4 => [ t4,t5 ], 5 => [    ] },
-      'panda' => { 1 => [    ], 2 => [], 3 => [], 4 => [       ], 5 => [ t6 ] }
+      hippo => { 1 => [ t1 ], 2 => [], 3 => [], 4 => [ t2    ], 5 => [    ] },
+      lion  => { 1 => [ t3 ], 2 => [], 3 => [], 4 => [ t4,t5 ], 5 => [    ] },
+      panda => { 1 => [    ], 2 => [], 3 => [], 4 => [       ], 5 => [ t6 ] }
     }
     now = [year,month,day+1,hour,32,23] #td 4327
     actual = gapper.fully_gapped(all_lights, now)
@@ -198,16 +198,16 @@ class DashboardTdGapperTest < AppLibTestBase
 
     all_lights =
     {
-      'lion' =>  [ t1=make_light( 5, 0),
-                   t2=make_light( 5,10),
-                   t3=make_light(11, 0),
-                   t4=make_light(11,10)
-                 ],
-      'tiger' => [ t5=make_light( 5,11),
-                   t6=make_light( 7, 0),
-                   t7=make_light( 7,10),
-                   t8=make_light(18,20)
-                 ]
+      lion =>  [ t1=make_light( 5, 0),
+                 t2=make_light( 5,10),
+                 t3=make_light(11, 0),
+                 t4=make_light(11,10)
+               ],
+      tiger => [ t5=make_light( 5,11),
+                 t6=make_light( 7, 0),
+                 t7=make_light( 7,10),
+                 t8=make_light(18,20)
+               ]
     }
 
     assert_equal  5, @gapper.number(t1)
@@ -224,13 +224,13 @@ class DashboardTdGapperTest < AppLibTestBase
     {
       :avatars =>
       {
-        'lion'  => { 5 => [ t1,t2 ],
-                    11 => [ t3,t4 ]
-                   },
-        'tiger' => { 5 => [ t5 ],
-                     7 => [ t6,t7 ],
-                    18 => [t8]
-                   },
+        lion  => { 5 => [ t1,t2 ],
+                  11 => [ t3,t4 ]
+                 },
+        tiger => { 5 => [ t5 ],
+                   7 => [ t6,t7 ],
+                  18 => [t8]
+                 },
       },
       :td_nos => [0,5,7,11,18,32]
     }
@@ -244,8 +244,8 @@ class DashboardTdGapperTest < AppLibTestBase
     {
       :avatars =>
       {
-        'lion'  => { 0=>[], 5 => [t1,t2], 7=>[],        11=>[t3,t4], 18=>[],   32=>[] },
-        'tiger' => { 0=>[], 5 => [t5],    7=>[ t6,t7 ], 11=>[]     , 18=>[t8], 32=>[] },
+        lion  => { 0=>[], 5 => [t1,t2], 7=>[],        11=>[t3,t4], 18=>[],   32=>[] },
+        tiger => { 0=>[], 5 => [t5],    7=>[ t6,t7 ], 11=>[]     , 18=>[t8], 32=>[] },
       },
       :td_nos => (td_nos=[0,5,7,11,18,32])
     }
@@ -267,22 +267,22 @@ class DashboardTdGapperTest < AppLibTestBase
 
     expected =
     {
-      'lion'  => {  5 => [t1,t2],
-                    6 => [],
-                    7 => [],
-                    8 => {collapsed:3},
-                   11 => [t3,t4],
-                   12 => {collapsed:6},
-                   18 => []
-                 },
-      'tiger' => {  5 => [t5],
-                    6 => [],
-                    7 => [t6,t7],
-                    8 => {collapsed:3},
-                   11 => [],
-                   12 => {collapsed:6},
-                   18 => [t8]
-                 }
+      lion  => {  5 => [t1,t2],
+                  6 => [],
+                  7 => [],
+                  8 => {collapsed:3},
+                 11 => [t3,t4],
+                 12 => {collapsed:6},
+                 18 => []
+               },
+      tiger => {  5 => [t5],
+                  6 => [],
+                  7 => [t6,t7],
+                  8 => {collapsed:3},
+                 11 => [],
+                 12 => {collapsed:6},
+                 18 => [t8]
+               }
     }
     actual = @gapper.fully_gapped(all_lights, now)
 
@@ -315,15 +315,15 @@ class DashboardTdGapperTest < AppLibTestBase
 
     all_lights =
     {
-      'hippo' => [ t1=make_light(0,21), # 0
-                   t2=make_light(1,33), # 1
-                 ],
-      'lion' =>  [ t3=make_light(0,25), # 0
-                   t4=make_light(1,37), # 1
-                   t5=make_light(2,39), # 2
-                 ],
-      'panda' => [ t6=make_light(3,42), # 3
-                 ]
+      hippo => [ t1=make_light(0,21), # 0
+                 t2=make_light(1,33), # 1
+               ],
+      lion =>  [ t3=make_light(0,25), # 0
+                 t4=make_light(1,37), # 1
+                 t5=make_light(2,39), # 2
+               ],
+      panda => [ t6=make_light(3,42), # 3
+               ]
     }
 
     assert_equal  0, @gapper.number(t1)
@@ -349,16 +349,16 @@ class DashboardTdGapperTest < AppLibTestBase
 
     all_lights =
     {
-      'lion' =>  [ t1=make_light( 5, 0),
-                   t2=make_light( 5,10),
-                   t3=make_light(11, 0),
-                   t4=make_light(11,10)
-                 ],
-      'tiger' => [ t5=make_light( 5,11),
-                   t6=make_light( 7, 0),
-                   t7=make_light( 7,10),
-                   t8=make_light(18,20)
-                 ]
+      lion =>  [ t1=make_light( 5, 0),
+                 t2=make_light( 5,10),
+                 t3=make_light(11, 0),
+                 t4=make_light(11,10)
+               ],
+      tiger => [ t5=make_light( 5,11),
+                 t6=make_light( 7, 0),
+                 t7=make_light( 7,10),
+                 t8=make_light(18,20)
+               ]
     }
 
     expected = { 5=>360, 6=>420, 7=>480, 8=>{collapsed:3}, 11=>720, 12=>{collapsed:6}, 18=>1140 }
@@ -369,6 +369,22 @@ class DashboardTdGapperTest < AppLibTestBase
   end
 
   private
+
+  def hippo
+    'hippo'
+  end
+
+  def lion
+    'lion'
+  end
+
+  def panda
+    'panda'
+  end
+
+  def tiger
+    'tiger'
+  end
 
   def year
     YEAR
