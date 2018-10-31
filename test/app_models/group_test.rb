@@ -98,6 +98,45 @@ class GroupTest < AppModelsTestBase
   end
 =end
 
+#- - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '6A6', %w(
+  a group's manifest is identical to the manifest it was created with
+  and does not have group_id nor group_index properties
+  ) do
+    m = starter_manifest
+    group = groups.new_group(m)
+    am = group.manifest
+    assert_nil am.group_id
+    assert_nil am.group_index
+
+    assert_equal group.id, am.id
+    assert_equal m['display_name'], am.display_name
+    assert_equal m['image_name'], am.image_name
+    assert_equal m['runner_choice'], am.runner_choice
+    assert_equal m['exercise'], am.exercise
+    assert_equal m['tab_size'], am.tab_size
+
+    # Should these differences be ported?
+    assert_equal Time.mktime(*m['created']), am.created  # keep as [] ?
+
+    assert_equal '.rb', m['filename_extension']
+    assert_equal ['.rb'], am.filename_extension  # extensionS ?
+
+    hf = %w( coverage/\\.last_run\\.json coverage/\\.resultset\\.json ) # regex
+    assert_equal hf, m['hidden_filenames']
+    assert_equal hf, am.hidden_filenames
+
+    assert_nil m['highlight_filenames'] # []
+    assert_equal [], am.highlight_filenames
+
+    assert_nil m['max_seconds'] # 10
+    assert_equal 10, am.max_seconds
+
+    assert_nil m['progress_regexs'] # []
+    assert_equal [], am.progress_regexs
+  end
+
   private
 
   def create_group(t = time_now)
