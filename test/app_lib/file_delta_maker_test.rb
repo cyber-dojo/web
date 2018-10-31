@@ -3,7 +3,7 @@ require_relative 'app_lib_test_base'
 class FileDeltaMakerTest < AppLibTestBase
 
   def self.hex_prefix
-    '89FA01'
+    '89F'
   end
 
   #- - - - - - - - - - - - - - - - - - - - - -

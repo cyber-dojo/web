@@ -3,7 +3,7 @@ require_relative 'app_lib_test_base'
 class ReviewFilePickerTest < AppLibTestBase
 
   def self.hex_prefix
-    '9EF4D0'
+    '9EF'
   end
 
   include ReviewFilePicker

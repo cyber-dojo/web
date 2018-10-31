@@ -3,7 +3,7 @@ require_relative 'app_lib_test_base'
 class DiffHtmlTest <  AppLibTestBase
 
   def self.hex_prefix
-    '7484C8'
+    '748'
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -

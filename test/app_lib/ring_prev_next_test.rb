@@ -3,7 +3,7 @@ require_relative 'app_lib_test_base'
 class RingPrevNextTest < AppLibTestBase
 
   def self.hex_prefix
-    '9A996B'
+    '9A9'
   end
 
   include RingPrevNext

@@ -4,7 +4,7 @@ require_relative 'delta_maker'
 class DeltaMakerTest < AppLibTestBase
 
   def self.hex_prefix
-    'A63245'
+    'A63'
   end
 
   def hex_setup
