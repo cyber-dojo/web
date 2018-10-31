@@ -47,15 +47,13 @@ class GroupTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-=begin
   test '6A4', %w(
   a group's creation time is set in the manifest used to create it
   ) do
-    t = [2018,30,11, 9,34,56]
+    t = [2018,11,30, 9,34,56]
     group = create_group(t)
     assert_equal Time.mktime(*t), group.created
   end
-=end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -96,19 +94,17 @@ class GroupTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-=begin
   test '6A7', %w(
   the age (seconds) of a group is zero until one member becomes active
   and then it is age of the most recent event
   ) do
-    group = create_group([2018,30,11, 9,34,56])
+    group = create_group([2018,11,30, 9,34,56])
     assert_equal 0, group.age
     kata = group.join
     assert_equal 0, group.age
-    kata.ran_tests(1, kata.files, [2018,30,11, 9,35,8], '', '', 0, 'green')
-    assert_equal 14, group.age
+    kata.ran_tests(1, kata.files, [2018,11,30, 9,35,8], '', '', 0, 'green')
+    assert_equal 12, group.age
   end
-=end
 
 #- - - - - - - - - - - - - - - - - - - - - - - - -
 
