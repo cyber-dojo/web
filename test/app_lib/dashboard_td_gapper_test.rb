@@ -60,7 +60,7 @@ class DashboardTdGapperTest < AppLibTestBase
     }
     expected =
     {
-      :avatars =>
+      :katas =>
       {
         hippo => { 1 => [ t1 ], 4 => [ t2    ] },
         lion  => { 1 => [ t3 ], 4 => [ t4,t5 ] },
@@ -97,7 +97,7 @@ class DashboardTdGapperTest < AppLibTestBase
     now = [year,month,day,hour,32,23] #td 7
     s = gapper.stats(all_lights, now)
     gapper.vertical_bleed(s)
-    assert_equal expected, s[:avatars]
+    assert_equal expected, s[:katas]
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -222,7 +222,7 @@ class DashboardTdGapperTest < AppLibTestBase
     now = [year,month,day,hour,32,23] #td 32
     expected =
     {
-      :avatars =>
+      :katas =>
       {
         lion  => { 5 => [ t1,t2 ],
                   11 => [ t3,t4 ]
@@ -242,7 +242,7 @@ class DashboardTdGapperTest < AppLibTestBase
     gapper.vertical_bleed(actual)
     expected =
     {
-      :avatars =>
+      :katas =>
       {
         lion  => { 0=>[], 5 => [t1,t2], 7=>[],        11=>[t3,t4], 18=>[],   32=>[] },
         tiger => { 0=>[], 5 => [t5],    7=>[ t6,t7 ], 11=>[]     , 18=>[t8], 32=>[] },
@@ -286,11 +286,11 @@ class DashboardTdGapperTest < AppLibTestBase
     }
     actual = @gapper.fully_gapped(all_lights, now)
 
-    assert_equal expected.keys, actual.keys, 'animal names'
-    expected.keys.each do |name|
-      assert_equal expected[name].keys.sort, actual[name].keys.sort, "#{name}'s td_nos"
-      expected[name].keys.each do |td|
-        assert_equal expected[name][td], actual[name][td], "#{name}[#{td}]"
+    assert_equal expected.keys, actual.keys, 'kata-ids'
+    expected.keys.each do |kata_id|
+      assert_equal expected[kata_id].keys.sort, actual[kata_id].keys.sort, "#{name}'s td_nos"
+      expected[kata_id].keys.each do |td|
+        assert_equal expected[kata_id][td], actual[kata_id][td], "#{kata_id}[#{td}]"
       end
     end
   end
@@ -299,7 +299,7 @@ class DashboardTdGapperTest < AppLibTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '9F7',
-  'time-ticks with no avatars is {}' do
+  'time-ticks with no katas is {}' do
     all_lights = { }
     now = [year,month,day+1,hour,32,23] #td 4327
     gapped = gapper.fully_gapped(all_lights, now)
@@ -371,19 +371,19 @@ class DashboardTdGapperTest < AppLibTestBase
   private
 
   def hippo
-    'hippo'
+    'a4r9YN'
   end
 
   def lion
-    'lion'
+    'TAWcLv'
   end
 
   def panda
-    'panda'
+    'Z38WR4'
   end
 
   def tiger
-    'tiger'
+    'Ztxp3p'
   end
 
   def year
