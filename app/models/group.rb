@@ -24,6 +24,12 @@ class Group
 
   # - - - - - - - - - - - - -
 
+  def created
+    Time.mktime(*manifest.created)
+  end
+
+  # - - - - - - - - - - - - -
+
   def join(indexes = (0..63).to_a.shuffle)
     kid = saver.group_join(id, indexes)
     if kid.nil?

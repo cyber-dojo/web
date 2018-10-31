@@ -34,7 +34,7 @@ class Manifest
   end
 
   def created
-    Time.mktime(*manifest_entry) # eg [2018,10,14, 9,50,23]
+    manifest_entry # eg [2018,10,14, 9,50,23]
   end
 
   def filename_extension

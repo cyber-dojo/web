@@ -8,12 +8,12 @@ class GroupTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '6A9',
+  test '6A0',
   'a group with an arbitrary id does not exist' do
     refute groups['123AbZ'].exists?
   end
 
-  test '6A0', %w(
+  test '6A1', %w(
   groups[''] is false to simplify ported implementation
   ) do
     refute groups[''].exists?
@@ -33,7 +33,7 @@ class GroupTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '6A1', %w(
+  test '6A3', %w(
   a group can be created from a well-formed manifest,
   and is initially empty
   ) do
@@ -47,7 +47,19 @@ class GroupTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '6A3', %w(
+=begin
+  test '6A4', %w(
+  a group's creation time is set in the manifest used to create it
+  ) do
+    t = [2018,30,11, 9,34,56]
+    group = create_group(t)
+    assert_equal Time.mktime(*t), group.created
+  end
+=end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '6A5', %w(
   when you join a group you increase its size by one,
   and are a member of the group
   ) do
@@ -68,7 +80,7 @@ class GroupTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '6A4', %w(
+  test '6A6', %w(
   you can join 64 times and then the group is full
   ) do
     group = create_group
@@ -85,7 +97,7 @@ class GroupTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
 =begin
-  test '6A5', %w(
+  test '6A7', %w(
   the age (seconds) of a group is zero until one member becomes active
   and then it is age of the most recent event
   ) do
@@ -100,7 +112,7 @@ class GroupTest < AppModelsTestBase
 
 #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '6A6', %w(
+  test '6A8', %w(
   a group's manifest is identical to the manifest it was created with
   and does not have group_id nor group_index properties
   ) do
@@ -116,24 +128,23 @@ class GroupTest < AppModelsTestBase
     assert_equal m['runner_choice'], am.runner_choice
     assert_equal m['exercise'], am.exercise
     assert_equal m['tab_size'], am.tab_size
-
-    # Should these differences be ported?
-    assert_equal Time.mktime(*m['created']), am.created  # keep as [] ?
-
-    assert_equal '.rb', m['filename_extension']
-    assert_equal ['.rb'], am.filename_extension  # extensionS ?
+    assert_equal m['created'], am.created
 
     hf = %w( coverage/\\.last_run\\.json coverage/\\.resultset\\.json ) # regex
     assert_equal hf, m['hidden_filenames']
     assert_equal hf, am.hidden_filenames
 
-    assert_nil m['highlight_filenames'] # []
+    # Should these differences be ported?
+    assert_equal '.rb', m['filename_extension']
+    assert_equal ['.rb'], am.filename_extension  # extensionS ?
+
+    assert_nil m['highlight_filenames'] # nil -> [] ?
     assert_equal [], am.highlight_filenames
 
-    assert_nil m['max_seconds'] # 10
+    assert_nil m['max_seconds'] # nil -> 10 ?
     assert_equal 10, am.max_seconds
 
-    assert_nil m['progress_regexs'] # []
+    assert_nil m['progress_regexs'] # nil -> [] ?
     assert_equal [], am.progress_regexs
   end
 

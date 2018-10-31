@@ -115,7 +115,8 @@ class Kata
 
   def age
     # in seconds
-    (most_recent_event.time - manifest.created).to_i
+    created = Time.mktime(*manifest.created)
+    (most_recent_event.time - created).to_i
   end
 
   def files
