@@ -5,47 +5,28 @@ class Manifest
     @manifest = manifest
   end
 
-  def group_id
-    # nil if individual practice-session
-    manifest_entry # eg '8bvlJk'
+  def self.required(*names)
+    names.each do |name|
+      define_method name, &lambda {
+        @manifest[name.to_s]
+      }
+    end
   end
 
-  def group_index
-    # nil if individual practice-session
-    manifest_entry # eg 45 (==salmon)
-  end
-
-  # required
-
-  def id
-    manifest_entry # eg '260za8'
-  end
-
-  def display_name
-    manifest_entry # eg 'Python, py.test'
-  end
-
-  def image_name
-    manifest_entry # eg 'cyberdojofoundation/java_junit'
-  end
-
-  def runner_choice
-    manifest_entry # eg 'stateless'
-  end
-
-  def created
-    manifest_entry # eg [2018,10,14, 9,50,23]
-  end
-
-  def filename_extension
-    manifest_entry # eg ".py" -> [ ".py" ]
-  end
+  required :group_id,    # eg '8bvlJk',    nil if !group-practice-session
+           :group_index, # eg 45 (salmon), nil if !group-practice-session
+           :created,            # eg [2018,10,14, 9,50,23]
+           :display_name,       # eg 'Python, py.test'
+           :filename_extension, # eg [ ".py" ]
+           :id,                 # eg '260za8'
+           :image_name,         # eg 'cyberdojofoundation/java_junit'
+           :runner_choice       # eg 'stateless'
 
   # optional
 
   def exercise
-    manifest_entry # present in language+testFramework kata
-  end              # not present in custom kata
+    manifest_entry || '' # present in language+testFramework kata
+  end                    # not present in custom kata
 
   def highlight_filenames
     manifest_entry || []
