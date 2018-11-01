@@ -17,9 +17,7 @@ class HttpHelper
   end
 
   def post(method_sym, *args)
-    method = method_sym.to_s
-    json = http.post(@hostname, @port, method, args_hash(method, *args))
-    result(json, method)
+    post_hash(method_sym, args_hash(method_sym.to_s, *args))
   end
 
   def post_hash(method_sym, args_hash)
