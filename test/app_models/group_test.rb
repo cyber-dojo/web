@@ -132,14 +132,13 @@ class GroupTest < AppModelsTestBase
 
     assert_equal m['filename_extension'], am.filename_extension
 
-    # Should these differences be ported?
-    assert_nil m['highlight_filenames'] # nil -> [] ?
+    assert_nil m['highlight_filenames'] # nil -> []
     assert_equal [], am.highlight_filenames
 
-    assert_nil m['max_seconds'] # nil -> 10 ?
+    assert_nil m['max_seconds'] # nil -> 10
     assert_equal 10, am.max_seconds
 
-    assert_nil m['progress_regexs'] # nil -> [] ?
+    assert_nil m['progress_regexs'] # nil -> []
     assert_equal [], am.progress_regexs
   end
 
