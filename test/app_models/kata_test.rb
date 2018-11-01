@@ -3,7 +3,7 @@ require_relative 'app_models_test_base'
 class KataTest < AppModelsTestBase
 
   def self.hex_prefix
-    'F3B488'
+    'Fb9'
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -117,18 +117,6 @@ class KataTest < AppModelsTestBase
         'status' => light.status.to_s
     })
     assert_equal expected, light.files(:with_output)
-  end
-
-  private
-
-  def create_kata(t = time_now)
-    katas.new_kata(starter_manifest(t))
-  end
-
-  def starter_manifest(t = time_now)
-    manifest = starter.language_manifest('Ruby, MiniTest', 'Fizz_Buzz')
-    manifest['created'] = t
-    manifest
   end
 
 end

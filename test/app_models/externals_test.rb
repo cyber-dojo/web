@@ -8,7 +8,7 @@ end
 class ExternalsTest < AppModelsTestBase
 
   def self.hex_prefix
-    'A1E2DC'
+    'A1k'
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -

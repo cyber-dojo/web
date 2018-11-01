@@ -3,7 +3,7 @@ require_relative 'app_models_test_base'
 class GroupTest < AppModelsTestBase
 
   def self.hex_prefix
-    '1414D2'
+    '1P4'
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -141,18 +141,6 @@ class GroupTest < AppModelsTestBase
 
     assert_nil m['progress_regexs'] # nil -> [] ?
     assert_equal [], am.progress_regexs
-  end
-
-  private
-
-  def create_group(t = time_now)
-    groups.new_group(starter_manifest(t))
-  end
-
-  def starter_manifest(t = time_now)
-    manifest = starter.language_manifest('Ruby, MiniTest', 'Fizz_Buzz')
-    manifest['created'] = t
-    manifest
   end
 
 end

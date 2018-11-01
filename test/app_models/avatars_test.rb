@@ -3,7 +3,7 @@ require_relative 'app_models_test_base'
 class AvatarsTest < AppModelsTestBase
 
   def self.hex_prefix
-    'B6FE29'
+    'B6s'
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

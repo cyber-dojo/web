@@ -34,16 +34,14 @@ module TestHexIdHelpers # mix-in
       name = words.join(' ')
       # check hex-id is well-formed
       diagnostic = "'#{id}',#{name}"
-      hex_chars = '0123456789ABCDEF'
-      is_hex_id = id.chars.all? { |ch| hex_chars.include? ch }
-      raise  "no hex-ID: #{diagnostic}" if id == ''
-      raise "bad hex-ID: #{diagnostic}" unless is_hex_id
+      raise  "no test-ID: #{diagnostic}" if id == ''
+      raise "bad test-ID: #{diagnostic}" unless is_base58?(id)
       # if no hex-id supplied, or test method matches any supplied hex-id
       # then define a mini_test method using the hex-id
       no_args = @@args == []
       any_arg_is_part_of_id = @@args.any?{ |arg| id.include?(arg) }
       if no_args || any_arg_is_part_of_id
-        raise "duplicate hex_ID: #{diagnostic}" if @@seen_ids.include?(id)
+        raise "duplicate test-ID: #{diagnostic}" if @@seen_ids.include?(id)
         @@seen_ids << id
         block_with_test_id = lambda {
           ENV['CYBER_DOJO_TEST_ID'] = id
@@ -56,6 +54,15 @@ module TestHexIdHelpers # mix-in
         }
         define_method("test_'#{id}',\n #{name}\n".to_sym, &block_with_test_id)
       end
+    end
+
+    def is_base58?(id)
+      alphabet = %w(
+        0123456789
+        abcdefgh jklmn pqrstuvwxyz
+        ABCDEFGH JKLMN PQRSTUVWXYZ
+      ).join
+      id.chars.all?{ |ch| alphabet.include?(ch) }
     end
 
     ObjectSpace.define_finalizer(self, proc {
