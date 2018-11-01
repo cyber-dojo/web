@@ -3,7 +3,7 @@ require_relative 'app_controller_test_base'
 class IdJoinControllerTest < AppControllerTestBase
 
   def self.hex_prefix
-    '8A08FC'
+    '8A0'
   end
 
   #- - - - - - - - - - - - - - - -

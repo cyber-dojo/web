@@ -3,7 +3,7 @@ require_relative 'app_controller_test_base'
 class DojoControllerTest < AppControllerTestBase
 
   def self.hex_prefix
-    '1032DA'
+    '103'
   end
 
   #- - - - - - - - - - - - - - - -

@@ -3,7 +3,7 @@ require_relative 'app_controller_test_base'
 class DashboardControllerTest < AppControllerTestBase
 
   def self.hex_prefix
-    '62AB98'
+    '62A'
   end
 
   #- - - - - - - - - - - - - - - -

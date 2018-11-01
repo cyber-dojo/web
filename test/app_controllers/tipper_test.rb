@@ -3,7 +3,7 @@ require_relative 'app_controller_test_base'
 class TipperControllerTest < AppControllerTestBase
 
   def self.hex_prefix
-    '25E83A'
+    '25E'
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -

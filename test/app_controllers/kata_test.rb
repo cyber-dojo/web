@@ -3,7 +3,7 @@ require_relative 'app_controller_test_base'
 class KataControllerTest  < AppControllerTestBase
 
   def self.hex_prefix
-    'BE83BC'
+    'BE8'
   end
 
   def hex_setup

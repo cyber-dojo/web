@@ -3,7 +3,7 @@ require_relative 'app_controller_test_base'
 class SetupCustomStartPointControllerTest < AppControllerTestBase
 
   def self.hex_prefix
-    'EB7634'
+    'EB7'
   end
 
   def hex_setup

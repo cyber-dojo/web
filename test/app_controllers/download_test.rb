@@ -3,7 +3,7 @@ require_relative 'app_controller_test_base'
 class DownloadControllerTest < AppControllerTestBase
 
   def self.hex_prefix
-    'C446C5'
+    'C44'
   end
 
   def hex_setup

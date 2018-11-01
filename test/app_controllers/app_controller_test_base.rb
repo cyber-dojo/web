@@ -145,4 +145,3 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   end
 
 end
-

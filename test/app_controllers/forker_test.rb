@@ -3,7 +3,7 @@ require_relative 'app_controller_test_base'
 class ForkerControllerTest < AppControllerTestBase
 
   def self.hex_prefix
-    '3E9892'
+    '3E9'
   end
 
   def hex_setup

@@ -3,7 +3,7 @@ require_relative 'app_controller_test_base'
 class IdReviewControllerTest < AppControllerTestBase
 
   def self.hex_prefix
-    '5EFE47'
+    '5EF'
   end
 
   #- - - - - - - - - - - - - - - -

@@ -3,7 +3,7 @@ require_relative 'app_controller_test_base'
 class ReverterControllerTest  < AppControllerTestBase
 
   def self.hex_prefix
-    '81F879'
+    '81F'
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -

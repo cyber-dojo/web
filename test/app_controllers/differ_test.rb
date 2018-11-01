@@ -3,7 +3,7 @@ require_relative 'app_controller_test_base'
 class DifferControllerTest < AppControllerTestBase
 
   def self.hex_prefix
-    '2D6238'
+    '2D6'
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
