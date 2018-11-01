@@ -5,8 +5,6 @@ class Manifest
     @manifest = manifest
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - -
-
   def self.required(*names)
     names.each do |name|
       define_method name do
@@ -22,8 +20,6 @@ class Manifest
       end
     end
   end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
 
   required :group_id,    # eg '8bvlJk',    nil if !group-practice-session
            :group_index, # eg 45 (salmon), nil if !group-practice-session

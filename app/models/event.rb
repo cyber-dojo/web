@@ -34,8 +34,6 @@ class Event
     manifest['status'] || ''
   end
 
-  # - - - - - - - -
-
   def time
     Time.mktime(*@hash['time'])
   end
@@ -48,8 +46,6 @@ class Event
     # '' unless light?
     (@hash['colour'] || '').to_sym
   end
-
-  # - - - - - - - -
 
   def light?
     colour.to_s != ''
