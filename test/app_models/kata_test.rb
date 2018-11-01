@@ -79,15 +79,47 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  private
-
-  def create_kata
-    katas.new_kata(starter_manifest)
+  test '864', %w(
+  after run_tests()/ran_tests(),
+  the kata is active,
+  the kata is a bit older,
+  there is a new traffic-light event,
+  which is now the most recent event
+  ) do
+    kata = create_kata([2018,11,1, 9,13,56])
+    manifest = kata.manifest
+    params = {
+      image_name:manifest.image_name,
+      max_seconds:manifest.max_seconds,
+      file_content:kata.files,
+      file_hashes_incoming:kata.files,
+      file_hashes_outgoing:kata.files,
+      hidden_filenames:'[]'
+    }
+    kata.run_tests(params)
+    kata.ran_tests(1, kata.files, [2018,11,1, 9,14,9], 'so', 'se', 39, 'red')
+    assert_equal 13, kata.age
+    assert kata.active?
+    assert_equal 2, kata.events.size
+    assert_equal 1, kata.lights.size
+    light = kata.lights[0]
+    assert_equal 'so', light.stdout
+    assert_equal 'so', kata.stdout
+    assert_equal 'se', light.stderr
+    assert_equal 'se', kata.stderr
+    assert_equal 39, light.status
+    assert_equal 39, kata.status
   end
 
-  def starter_manifest
+  private
+
+  def create_kata(t = time_now)
+    katas.new_kata(starter_manifest(t))
+  end
+
+  def starter_manifest(t = time_now)
     manifest = starter.language_manifest('Ruby, MiniTest', 'Fizz_Buzz')
-    manifest['created'] = time_now
+    manifest['created'] = t
     manifest
   end
 
