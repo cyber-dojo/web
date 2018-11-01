@@ -4,7 +4,7 @@ require 'json'
 class ZipperServiceTest < AppServicesTestBase
 
   def self.hex_prefix
-    'D1279C'
+    'D12'
   end
 
   def hex_setup

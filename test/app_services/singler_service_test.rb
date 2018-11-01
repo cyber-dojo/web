@@ -4,7 +4,7 @@ require 'json'
 class SinglerServiceTest < AppServicesTestBase
 
   def self.hex_prefix
-    '162402'
+    '162'
   end
 
   def hex_setup

@@ -3,7 +3,7 @@ require_relative 'app_services_test_base'
 class DifferServiceTest < AppServicesTestBase
 
   def self.hex_prefix
-    '702922'
+    '702'
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -

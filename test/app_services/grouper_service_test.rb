@@ -4,7 +4,7 @@ require 'json'
 class GrouperServiceTest < AppServicesTestBase
 
   def self.hex_prefix
-    'D2FF5'
+    'D2w'
   end
 
   def hex_setup

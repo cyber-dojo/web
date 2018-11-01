@@ -3,7 +3,7 @@ require_relative 'app_services_test_base'
 class RunnerStubTest < AppServicesTestBase
 
   def self.hex_prefix
-    'AF798B'
+    'AF7'
   end
 
   def hex_setup

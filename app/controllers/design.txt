@@ -1,12 +1,11 @@
 
 cyber-dojo is designed for group practice-sessions.
-In this 'mode' URLs typically looked like this...
+In this 'mode' URLs used to look like this...
    http://cyber-dojo.org/kata/edit/hVU93Kj8rq?avatar=tiger
 The hVU93Kj8rq was a 10-digit group-id
 and the avatar=tiger was your animal inside this group
-Underneath, the [group-id, avatar-name] mapped to a
-kata with its own unique 10-digit kata-id.
-Now, the URLs will redirect to something like this...
+
+Now, this URLs will redirect to something like this...
    http://cyber-dojo.org/kata/edit/mFL6se
 where mFL6se is the 6-digit kata-id
 
@@ -14,6 +13,5 @@ cyber-dojo can also be used for individual practice-sessions.
 In this 'mode' URLs also look like this...
   http://cyber-dojo.org/kata/edit/ym04AU
 The ym04AU is a 6-digit kata-id with no associated avatar-name.
-
 
 See ApplicationController.ported

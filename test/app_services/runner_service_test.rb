@@ -3,7 +3,7 @@ require_relative 'app_services_test_base'
 class RunnerServiceTest < AppServicesTestBase
 
   def self.hex_prefix
-    '2BDF80'
+    '2BD'
   end
 
   def hex_setup

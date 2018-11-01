@@ -3,7 +3,7 @@ require_relative 'app_services_test_base'
 class HttpTest < AppServicesTestBase
 
   def self.hex_prefix
-    'F02B3E'
+    'F02'
   end
 
   # - - - - - - - - - - - - - - - - - - - - -

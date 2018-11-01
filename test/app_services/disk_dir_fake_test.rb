@@ -5,7 +5,7 @@ require_relative '../../app/services/dir_fake'
 class DiskDirFakeTest < AppServicesTestBase
 
   def self.hex_prefix
-    '5E7765'
+    '5E7'
   end
 
   def disk

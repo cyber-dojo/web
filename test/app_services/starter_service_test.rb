@@ -3,7 +3,7 @@ require_relative 'app_services_test_base'
 class StarterServiceTest < AppServicesTestBase
 
   def self.hex_prefix
-    'D76AD9'
+    'D76'
   end
 
   def hex_setup

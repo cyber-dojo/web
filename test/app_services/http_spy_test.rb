@@ -3,7 +3,7 @@ require_relative 'app_services_test_base'
 class HttpSpyTest < AppServicesTestBase
 
   def self.hex_prefix
-    '951608'
+    '951'
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
