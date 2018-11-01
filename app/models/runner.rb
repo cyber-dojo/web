@@ -10,22 +10,10 @@ class Runner
   end
 
   def run(params)
-    # run tests but don't save the results
-
     image_name = params[:image_name]
     max_seconds = params[:max_seconds].to_i
-    files = cleaned_files(params[:file_content])
-    output_filenames.each do |output_filename|
-      files.delete(output_filename)
-    end
-
-    incoming = params[:file_hashes_incoming]
-    outgoing = params[:file_hashes_outgoing]
-    output_filenames.each do |output_filename|
-      incoming.delete(output_filename)
-      outgoing.delete(output_filename)
-    end
-    delta = FileDeltaMaker.make_delta(incoming, outgoing)
+    files = files_from(params)
+    delta = delta_from(params)
 
     new_files = files.select { |filename|
       delta[:new].include?(filename)
@@ -49,8 +37,8 @@ class Runner
             changed_files, unchanged_files,
             max_seconds)
 
-    # If the runner has created an 'output' file remove it
-    # otherwise it interferes with the pseudo output-files.
+    # If there are newlycreated 'output' files remove them
+    # otherwise they interferes with the pseudo output-files.
     output_filenames.each do |output_filename|
       @new_files.delete(output_filename)
     end
@@ -74,6 +62,24 @@ class Runner
   include FileDeltaMaker
   include HiddenFileRemover
   include Cleaner
+
+  def files_from(params)
+    files = cleaned_files(params[:file_content])
+    output_filenames.each do |output_filename|
+      files.delete(output_filename)
+    end
+    files
+  end
+
+  def delta_from(params)
+    incoming = params[:file_hashes_incoming]
+    outgoing = params[:file_hashes_outgoing]
+    output_filenames.each do |output_filename|
+      incoming.delete(output_filename)
+      outgoing.delete(output_filename)
+    end
+    FileDeltaMaker.make_delta(incoming, outgoing)
+  end
 
   def output_filenames
     %w( stdout stderr status )
