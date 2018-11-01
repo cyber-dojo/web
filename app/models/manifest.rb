@@ -15,8 +15,8 @@ class Manifest
     end
   end
 
-  def self.optional(fields)
-    fields.each do |name,default|
+  def self.optional(names)
+    names.each do |name,default|
       define_method name do
         @manifest[name.to_s] || default
       end
