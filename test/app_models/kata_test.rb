@@ -109,6 +109,14 @@ class KataTest < AppModelsTestBase
     assert_equal 'se', kata.stderr
     assert_equal 39, light.status
     assert_equal 39, kata.status
+
+    # event files can include pseudo output-files to help differ
+    expected = kata.files.merge({
+        'stdout' => light.stdout,
+        'stderr' => light.stderr,
+        'status' => light.status.to_s
+    })
+    assert_equal expected, light.files(:with_output)
   end
 
   private
