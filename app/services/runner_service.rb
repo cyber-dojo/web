@@ -32,24 +32,15 @@ class RunnerService
     new_files, deleted_files, changed_files, unchanged_files,
     max_seconds)
 
-    tuple = http(runner_choice).post_hash(__method__,
-      { image_name:image_name,
-        id:id,
-        new_files:new_files,
-        deleted_files:deleted_files,
-        changed_files:changed_files,
+    http(runner_choice).post_hash(__method__, {
+             image_name:image_name,
+                     id:id,
+              new_files:new_files,
+          deleted_files:deleted_files,
+          changed_files:changed_files,
         unchanged_files:unchanged_files,
-        max_seconds:max_seconds
+            max_seconds:max_seconds
       })
-
-    [tuple['stdout'],
-     tuple['stderr'],
-     tuple['status'],
-     tuple['colour'],
-     tuple['new_files'],
-     tuple['deleted_files'],
-     tuple['changed_files']
-   ]
   end
 
   private # = = = = = = = = = = = = = = = = = = = = =

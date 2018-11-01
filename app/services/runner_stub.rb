@@ -19,14 +19,14 @@ class RunnerStub
 
   # - - - - - - - - - - - - - - - - -
 
-  def stub_run_colour(colour)
-    stub_run('', '', 0, colour)
-  end
+  #def stub_run_colour(colour)
+  # stub_run('', '', 0, colour)
+  #end
 
-  def stub_run(stdout, stderr='', status=0, colour='red')
-    dir.make
-    dir.write(filename, [stdout,stderr,status,colour])
-  end
+  #def stub_run(stdout, stderr='', status=0, colour='red')
+  #  dir.make
+  #  dir.write(filename, [stdout,stderr,status,colour])
+  #end
 
   def run_cyber_dojo_sh(
     _runner_choice,
@@ -34,18 +34,18 @@ class RunnerStub
     _new_files, _deleted_files, _changed_files, _unchanged_files,
     _max_seconds
   )
-    if dir.exists?
-      dir.read(filename)
-    else
-      [stdout='blah blah blah',
-       stderr='',
-       status=0,
-       colour='red',
-       new_files={},
-       deleted_files={},
-       changed_files={}
-      ]
-    end
+    #if dir.exists?
+    #  dir.read(filename)
+    #else
+      { 'stdout' => 'blah blah blah',
+        'stderr' => '',
+        'status' => 0,
+        'colour' => 'red',
+        'new_files' => {},
+        'deleted_files' => {},
+        'changed_files' => {}
+      }
+    #end
   end
 
   private

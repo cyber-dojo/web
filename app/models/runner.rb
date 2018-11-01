@@ -29,17 +29,19 @@ class Runner
       delta[:unchanged].include?(filename)
     }
 
-    stdout,stderr,status,
-      colour,
-        @new_files,@deleted_files,@changed_files =
-          @externals.runner.run_cyber_dojo_sh(
-            runner_choice,
-            image_name, @kata_id,
-            new_files, deleted_files,
-            changed_files, unchanged_files,
-            max_seconds)
+    results =
+      @externals.runner.run_cyber_dojo_sh(
+        runner_choice,
+        image_name, @kata_id,
+        new_files, deleted_files,
+        changed_files, unchanged_files,
+        max_seconds)
 
-    # If there are newlycreated 'output' files remove them
+    @new_files = results['new_files']
+    @deleted_files = results['deleted_files']
+    @changed_files = results['changed_files']
+
+    # If there are newly created 'output' files remove them
     # otherwise they interferes with the pseudo output-files.
     output_filenames.each do |output_filename|
       @new_files.delete(output_filename)
@@ -53,8 +55,8 @@ class Runner
     @deleted_files.each { |filename,_      | files.delete(filename)    }
     @changed_files.each { |filename,content| files[filename] = content }
 
-    [stdout,stderr,status,
-     colour,
+    [results['stdout'], results['stderr'], results['status'],
+     results['colour'],
      files,@new_files,@deleted_files,@changed_files
     ]
   end
