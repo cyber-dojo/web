@@ -7,9 +7,7 @@ class Kata
     @id = id
   end
 
-  def id
-    @id
-  end
+  attr_reader :id
 
   def exists?
     saver.kata_exists?(id)

@@ -6,9 +6,7 @@ class Group
     @id = id
   end
 
-  def id
-    @id
-  end
+  attr_reader :id
 
   def exists?
     if id == ''
