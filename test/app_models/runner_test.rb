@@ -6,28 +6,66 @@ class RunnerTest < AppModelsTestBase
     'Nn2'
   end
 
+  def hex_setup
+    set_runner_class('RunnerService')
+  end
+
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '149',
+  'run with deleted_files' do
+    params = create_params
+    params[:file_hashes_outgoing].delete('hiker.rb')
+    params[:file_content].delete('hiker.rb')
+    spy_http
+    kata.run_tests(params)
+    assert_equal ['hiker.rb'], http_args[:deleted_files].keys
+  end
+
+  # - - - - - - - - - - - - - - - - - -
+
+  test '150',
   'run with new_files' do
-    set_runner_class('RunnerService')
-    kata = create_kata([2018,11,1, 9,13,56])
+    params = create_params
+    params[:file_hashes_outgoing]['new-file.txt'] = 'hello world'
+    params[:file_content]['new-file.txt'] = 'hello world'
+    spy_http
+    kata.run_tests(params)
+    assert_equal ['new-file.txt'], http_args[:new_files].keys
+  end
+
+  # - - - - - - - - - - - - - - - - - -
+
+  test '151',
+  'run with changed_files' do
+    params = create_params
+    params[:file_hashes_outgoing]['cyber-dojo.sh'] = 'changed...'
+    params[:file_content]['cyber-dojo.sh'] = 'changed...'
+    spy_http
+    kata.run_tests(params)
+    assert_equal ['cyber-dojo.sh'], http_args[:changed_files].keys
+  end
+
+  # hidden_filenames
+
+  private
+
+  def create_params
+    kata = create_kata
     manifest = kata.manifest
     files = kata.files
-    incoming = files.clone
-    outgoing = files.clone
-    outgoing.delete('hiker.rb')
-    files.delete('hiker.rb')
-
-    params = {
+    {
       runner_choice:manifest.runner_choice,
       image_name:manifest.image_name,
       max_seconds:manifest.max_seconds,
-      file_content:files,
-      file_hashes_incoming:incoming,
-      file_hashes_outgoing:outgoing,
+      file_content:files.clone,
+      file_hashes_incoming:files.clone,
+      file_hashes_outgoing:files.clone,
       hidden_filenames:'[]'
     }
+  end
+
+  def spy_http
     @http = nil
     set_class('http', 'HttpSpy')
     http.stub({
@@ -39,13 +77,10 @@ class RunnerTest < AppModelsTestBase
       'deleted_files' => {},
       'changed_files' => {}
     })
-
-    kata.run_tests(params)
-
-    assert_equal ['hiker.rb'], http.spied[0][3][:deleted_files].keys
   end
 
-  # deleted_files
-  # changed_files
-  # hidden_filenames
+  def http_args
+    http.spied[0][3]
+  end
+
 end

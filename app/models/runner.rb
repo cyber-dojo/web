@@ -76,6 +76,7 @@ class Runner
   end
 
   def delta_from(params)
+    # incoming/outgoing is from the Browser's perspective
     incoming = params[:file_hashes_incoming]
     outgoing = params[:file_hashes_outgoing]
     output_filenames.each do |output_filename|
