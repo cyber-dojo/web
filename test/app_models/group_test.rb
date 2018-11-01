@@ -130,10 +130,9 @@ class GroupTest < AppModelsTestBase
     assert_equal hf, m['hidden_filenames']
     assert_equal hf, am.hidden_filenames
 
-    # Should these differences be ported?
-    assert_equal '.rb', m['filename_extension']
-    assert_equal ['.rb'], am.filename_extension  # extensionS ?
+    assert_equal m['filename_extension'], am.filename_extension
 
+    # Should these differences be ported?
     assert_nil m['highlight_filenames'] # nil -> [] ?
     assert_equal [], am.highlight_filenames
 

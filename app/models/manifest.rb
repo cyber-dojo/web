@@ -38,11 +38,7 @@ class Manifest
   end
 
   def filename_extension
-    if manifest_entry.is_a?(Array)
-      manifest_entry     # eg  [ ".c", ".h" ]
-    else
-      [ manifest_entry ] # eg ".py" -> [ ".py" ]
-    end
+    manifest_entry # eg ".py" -> [ ".py" ]
   end
 
   # optional
