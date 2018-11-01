@@ -27,18 +27,20 @@ class RunnerService
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def run_cyber_dojo_sh(
+    runner_choice,
     image_name, id,
     new_files, deleted_files, changed_files, unchanged_files,
     max_seconds)
 
-    # Get runner-choice from html <input> and not kata's
-    # manifest which would make a slower saver-service call.
-    runner_choice = @externals.params['runner_choice']
-
-    tuple = http(runner_choice).post(__method__,
-      image_name, id,
-      new_files, deleted_files, changed_files, unchanged_files,
-      max_seconds)
+    tuple = http(runner_choice).post_hash(__method__,
+      { image_name:image_name,
+        id:id,
+        new_files:new_files,
+        deleted_files:deleted_files,
+        changed_files:changed_files,
+        unchanged_files:unchanged_files,
+        max_seconds:max_seconds
+      })
 
     [tuple['stdout'],
      tuple['stderr'],

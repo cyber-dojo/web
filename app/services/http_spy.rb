@@ -11,14 +11,23 @@ class HttpSpy
     @spied = []
   end
 
-  def get(hostname, port, method, named_args)
-    @spied << [ hostname, port, method.to_s, named_args ]
-    { method.to_s => { 'stdout' => '', 'stderr' => '', 'status' => 0, 'colour' => 'amber' } }
+  def stub(response)
+    @response = response
   end
 
-  def post(hostname, port, method, named_args)
-    @spied << [ hostname, port, method.to_s, named_args ]
-    { method.to_s => { 'stdout' => '', 'stderr' => '', 'status' => 0, 'colour' => 'amber' } }
+  def get(hostname, port, method, args)
+    @spied << [ hostname, port, method.to_s, args ]
+    { method.to_s => @response }
+  end
+
+  def post(hostname, port, method, args)
+    @spied << [ hostname, port, method.to_s, args ]
+    { method.to_s => @response }
+  end
+
+  def post_hash(hostname, port, method, args_hash)
+    @spied << [ hostname, port, method.to_s, args_hash ]
+    { method.to_s => @response }
   end
 
 end

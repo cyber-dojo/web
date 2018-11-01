@@ -29,6 +29,7 @@ class RunnerStub
   end
 
   def run_cyber_dojo_sh(
+    _runner_choice,
     _image_name, _kata_id,
     _new_files, _deleted_files, _changed_files, _unchanged_files,
     _max_seconds

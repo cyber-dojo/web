@@ -20,7 +20,7 @@ module TestHexIdHelpers # mix-in
   module ClassMethods
 
     # ARGV[0] == module name
-    @@args = ARGV[1..-1].sort.uniq.map(&:upcase)  # eg 2DD6F3 eg 2dd
+    @@args = ARGV[1..-1].sort.uniq # eg 2DD6F3 eg 2dd
     @@seen_ids = []
     @@timings = {}
 
@@ -29,10 +29,9 @@ module TestHexIdHelpers # mix-in
       src_file = src[0]
       src_line = src[1].to_s
       id = hex_prefix + id
-      # test id is used as kata.id in StorerFake
-      id += '0' * (10 - id.size)
+      id += '0' * (6 - id.size)
       name = words.join(' ')
-      # check hex-id is well-formed
+      # check test-id is well-formed
       diagnostic = "'#{id}',#{name}"
       raise  "no test-ID: #{diagnostic}" if id == ''
       raise "bad test-ID: #{diagnostic}" unless is_base58?(id)
@@ -77,7 +76,7 @@ module TestHexIdHelpers # mix-in
     })
 
     ObjectSpace.define_finalizer(self, proc {
-      # complain about any unfound hex-id args
+      # complain about any unfound test-id args
       unseen_arg = lambda { |arg|
         @@seen_ids.none? { |id|
           id.include?(arg)
