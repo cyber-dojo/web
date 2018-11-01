@@ -29,7 +29,6 @@ module TestHexIdHelpers # mix-in
       src_file = src[0]
       src_line = src[1].to_s
       id = hex_prefix + id
-      id += '0' * (6 - id.size)
       name = words.join(' ')
       # check test-id is well-formed
       diagnostic = "'#{id}',#{name}"
@@ -61,7 +60,7 @@ module TestHexIdHelpers # mix-in
         abcdefgh jklmn pqrstuvwxyz
         ABCDEFGH JKLMN PQRSTUVWXYZ
       ).join
-      id.chars.all?{ |ch| alphabet.include?(ch) }
+      id.size == 6 && id.chars.all?{ |ch| alphabet.include?(ch) }
     end
 
     ObjectSpace.define_finalizer(self, proc {

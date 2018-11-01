@@ -3,7 +3,7 @@ require_relative 'app_helpers_test_base'
 class TimeTickTest < AppHelpersTestBase
 
   def self.hex_prefix
-    '86F491'
+    '8r6'
   end
 
   include TimeTickHelper

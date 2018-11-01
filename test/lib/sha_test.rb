@@ -3,7 +3,7 @@ require_relative 'lib_test_base'
 class ShaTest < LibTestBase
 
   def self.hex_prefix
-    'FB359'
+    'Fv3'
   end
 
   # - - - - - - - - - - - - - - - - -

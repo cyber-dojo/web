@@ -3,7 +3,7 @@ require_relative 'app_helpers_test_base'
 class TipTest < AppHelpersTestBase
 
   def self.hex_prefix
-    'BDA2B5'
+    'Qd4'
   end
 
   include TrafficLightTipHelper

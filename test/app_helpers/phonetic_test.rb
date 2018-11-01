@@ -3,7 +3,7 @@ require_relative 'app_helpers_test_base'
 class PhoneticTest < AppHelpersTestBase
 
   def self.hex_prefix
-    '85A03E'
+    '85k'
   end
 
   include PhoneticHelper

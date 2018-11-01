@@ -4,7 +4,7 @@ require_relative '../app_lib/delta_maker'
 class PieChartTest < AppHelpersTestBase
 
   def self.hex_prefix
-    '10E59F'
+    '1PE'
   end
 
   include PieChartHelper

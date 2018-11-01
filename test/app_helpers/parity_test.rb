@@ -3,7 +3,7 @@ require_relative 'app_helpers_test_base'
 class ParityTest < AppHelpersTestBase
 
   def self.hex_prefix
-    '6AFD2D'
+    '6Az'
   end
 
   include ParityHelper

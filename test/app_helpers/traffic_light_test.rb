@@ -3,7 +3,7 @@ require_relative 'app_helpers_test_base'
 class TrafficLightTest < AppHelpersTestBase
 
   def self.hex_prefix
-    'CF694D'
+    'Hf6'
   end
 
   include TrafficLightHelper

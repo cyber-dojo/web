@@ -4,7 +4,7 @@ require_relative '../../lib/cleaner'
 class CleanerTest < LibTestBase
 
   def self.hex_prefix
-    '3D97EF'
+    '3d9'
   end
 
   include Cleaner

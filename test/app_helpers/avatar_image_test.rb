@@ -3,7 +3,7 @@ require_relative 'app_helpers_test_base'
 class AvatarImageTest < AppHelpersTestBase
 
   def self.hex_prefix
-    'E30BDE'
+    'E30'
   end
 
   include AvatarImageHelper

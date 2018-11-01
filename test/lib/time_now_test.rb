@@ -3,7 +3,7 @@ require_relative 'lib_test_base'
 class TimeNowTest < LibTestBase
 
   def self.hex_prefix
-    '831F29'
+    'x81'
   end
 
   # - - - - - - - - - - - - - -
