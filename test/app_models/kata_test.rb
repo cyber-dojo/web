@@ -22,7 +22,7 @@ class KataTest < AppModelsTestBase
     error = assert_raises(ServiceError) { katas.new_kata(manifest) }
     info = JSON.parse(error.message)
     assert_equal 'SaverService', info['class']
-    assert_equal 'malformed:manifest:missing key[image_name]', info['message']
+    assert_equal 'malformed:manifest["image_name"]:missing:', info['message']
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
