@@ -57,20 +57,13 @@ class ApplicationController < ActionController::Base
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
   # tipper and differ
-  
+
   def was_tag
     number_or_nil(params[:was_tag])
   end
 
   def now_tag
     number_or_nil(params[:now_tag])
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def bind(pathed_filename)
-    filename = Rails.root.to_s + pathed_filename
-    ERB.new(File.read(filename)).result(binding)
   end
 
   private

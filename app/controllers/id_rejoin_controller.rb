@@ -27,7 +27,7 @@ class IdRejoinController < ApplicationController
     #      go straight to the avatar using its kata-id
     #    if it has several avatars
     #      ???
-    
+
 
     # id could be new id for a kata
     #    go straight to the kata
@@ -55,6 +55,11 @@ class IdRejoinController < ApplicationController
       [kata.avatar_name, kata.id]
     }]
     bind('/app/views/id_rejoin/avatar_picker.html.erb')
+  end
+
+  def bind(pathed_filename)
+    filename = Rails.root.to_s + pathed_filename
+    ERB.new(File.read(filename)).result(binding)
   end
 
 end
