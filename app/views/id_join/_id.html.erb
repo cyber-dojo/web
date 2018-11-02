@@ -4,47 +4,61 @@ $(() => {
 
   const inputId = $('input#id');
   const dropDown = $('#drop-down');
-  const avatarStart = $('#avatar-start');
-  const loText = $('#lo-text');
+  const hiDiv = $('#hi-div');
+  const loDiv = $('#lo-div');
   const ok = $('button#ok');
   const cancel = $('button#cancel');
 
-  const autoDropDown = () => {
+  const inputIdHandler = () => {
     const id = inputId.val();
     if (id.length >= 6) {
-      $.getJSON('/id_join/drop_down', { id:id }, (dojo) => {
-        if (dojo.exists) {
-          if (dojo.full) {
-            loText.html('sorry, full up!');
-
-            avatarStart.html(dojo.fullHtml);
-
-            ok.hide();
-            cancel.show();
-          } else {
-            avatarStart.html($('#traffic-light-info').html());
-            $('#avatar',avatarStart).html($('<img>', {
-              'class':'avatar large',
-              'src':`/images/avatars/${dojo.avatarName}.jpg`
-            }));
-            loText.html(`your animal is the ${dojo.avatarName}`);
-
-            ok.unbind().click(() => {
-              const url = `/kata/edit/${dojo.id}`;
-              window.location.href = cd.homePageUrl(dojo.id);
-              window.open(url);
-            });
-            ok.show();
-            cancel.hide();
-          }
-          inputId.prop('disabled', true);
-          inputId.slideUp('fast', () => dropDown.slideDown('slow'));
-        }
-      });
+      autoDropDown(id);
     }
   };
 
-  dropDown.hide();
+  const autoDropDown = (id) => {
+    $.getJSON('/id_join/drop_down', { id:id }, (dojo) => {
+      if (dojo.exists) {
+        if (dojo.full) {
+          loDiv.html('sorry, full up!');
+          hiDiv.html(dojo.fullHtml);// todo
+          ok.hide();
+          cancel.show();
+        } else {
+          prepareAvatarDropDown(dojo.avatarName, dojo.id);
+        }
+        inputId.prop('disabled', true);
+        inputId.slideUp('fast', () => dropDown.slideDown('slow'));
+      }
+    });
+  };
+
+  const prepareAvatarDropDown = (avatarName, id) => {
+    showTrafficLightInfo();
+    showAvatar(avatarName);
+    cancel.hide();
+    ok.unbind()
+      .click(() => join(id))
+      .show();
+  };
+
+  const showTrafficLightInfo = () => {
+    hiDiv.html($('#traffic-light-info').html());
+  };
+
+  const showAvatar = (avatarName) => {
+    $('#avatar',hiDiv).html($('<img>', {
+      'class':'avatar large',
+      'src':`/images/avatars/${avatarName}.jpg`
+    }));
+    loDiv.html(`your animal is the ${avatarName}`);
+  };
+
+  const join = (id) => {
+    const url = `/kata/edit/${id}`;
+    window.location.href = cd.homePageUrl(id);
+    window.open(url);
+  };
 
   cancel.click(() => {
     dropDown.slideUp('slow', () => {
@@ -56,11 +70,12 @@ $(() => {
     });
   });
 
+  //- - - - - - - - - - - - - - - - - - - - -
+
+  dropDown.hide();
   cd.onlyBase58(inputId);
-
-  inputId.keyup(() => autoDropDown())
+  inputId.keyup(() => inputIdHandler())
          .focus();
-
 });
 
 //--></script>
@@ -73,8 +88,8 @@ $(() => {
 </input>
 
 <div id="drop-down">
-  <div id="avatar-start"></div>
-  <div id="lo-text"></div>
+  <div id="hi-div"></div>
+  <div id="lo-div"></div>
   <button id="ok">ok</button>
   <button id="cancel">cancel</button>
 </div>

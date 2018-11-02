@@ -5,7 +5,7 @@
 
   #title { font-size: 95px; }
 
-  #lo-text
+  #lo-div
   {
     @include non-code-font();
     font-size: 40px;
@@ -67,4 +67,3 @@
   }
 
 }
-
