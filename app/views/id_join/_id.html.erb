@@ -16,12 +16,19 @@ $(() => {
         if (dojo.exists) {
           if (dojo.full) {
             loText.html('sorry, full up!');
+
             avatarStart.html(dojo.fullHtml);
+
             ok.hide();
             cancel.show();
           } else {
+            avatarStart.html($('#traffic-light-info').html());
+            $('#avatar',avatarStart).html($('<img>', {
+              'class':'avatar large',
+              'src':`/images/avatars/${dojo.avatarName}.jpg`
+            }));
             loText.html(`your animal is the ${dojo.avatarName}`);
-            avatarStart.html(dojo.avatarStartHtml);
+
             ok.unbind().click(() => {
               const url = `/kata/edit/${dojo.id}`;
               window.location.href = cd.homePageUrl(dojo.id);
@@ -51,7 +58,8 @@ $(() => {
 
   cd.onlyBase58(inputId);
 
-  inputId.focus().keyup(() => autoDropDown());
+  inputId.keyup(() => autoDropDown())
+         .focus();
 
 });
 
