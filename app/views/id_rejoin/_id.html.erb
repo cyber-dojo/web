@@ -2,32 +2,55 @@
 'use strict';
 $(() => {
 
+  const from = "<%= @from %>";
+
   const inputId = $('input#id');
   const dropDown = $('#drop-down');
   const hiText = $('#hi-text');
   const avatarPicker = $('#avatar-picker');
-  const loText = $('#lo-text');  
+  const loText = $('#lo-text');
   const cancel = $('button#cancel');
 
-  const autoDropDown = () => {
+  const inputIdHandler = () => {
     const id = inputId.val();
     if (id.length >= 6) {
-      $.getJSON('/id_rejoin/drop_down', { id:id }, (dojo) => {
-        if (dojo.exists) {
-          if (dojo.empty) {
-            hiText.html('no one has joined yet!');
-            loText.html('');
-          } else {
-            hiText.html('click your animal');
-            loText.html('or');
-          }
-          avatarPicker.html(dojo.avatarPickerHtml);
-          cd.setupHoverTips($('[data-tip]'));
-          inputId.prop('disabled', true);
-          inputId.slideUp('fast', () => dropDown.slideDown('slow'));
-        }
-      });
+      autoDropDown(id);
     }
+  };
+
+  const autoDropDown = (id) => {
+    const args = { id:id, from:from };
+    $.getJSON('/id_rejoin/drop_down', args,
+      (response) => {
+        if (from === 'group') {
+          groupDropDown(response);
+        }
+        if (from === 'individual') {
+          individualDropDown(response);
+        }
+      }
+    );
+  };
+
+  const groupDropDown = (group) => {
+    if (group.exists) {
+      if (group.empty) {
+        hiText.html('no one has joined yet!');
+        loText.html('');
+      } else {
+        hiText.html('click your animal');
+        loText.html('or');
+      }
+      avatarPicker.html(group.avatarPickerHtml);
+      cd.setupHoverTips($('[data-tip]'));
+      inputId.prop('disabled', true);
+      inputId.slideUp('fast', () => dropDown.slideDown('slow'));
+    }
+  };
+
+  const individualDropDown = (data) => {
+    alert('todo');
+    //cd.rejoin(data.kataId);
   };
 
   dropDown.hide();
@@ -42,9 +65,10 @@ $(() => {
     });
   });
 
-  cd.onlyBase58(inputId);
 
-  inputId.focus().keyup(() => autoDropDown());
+  cd.onlyBase58(inputId);
+  inputId.focus()
+         .keyup(() => inputIdHandler());
 
 });
 //--></script>
