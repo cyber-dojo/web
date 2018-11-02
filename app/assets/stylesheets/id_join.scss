@@ -54,7 +54,7 @@
 
   button
   {
-    &#ok
+    &#ok, &#cancel
     {
       @include non-code-font();
       @include font-size-largest();

@@ -17,20 +17,24 @@ $(() => {
   };
 
   const autoDropDown = (id) => {
-    $.getJSON('/id_join/drop_down', { id:id }, (dojo) => {
-      if (dojo.exists) {
-        if (dojo.full) {
-          loDiv.html('sorry, full up!');
-          hiDiv.html(dojo.fullHtml);// todo
-          ok.hide();
-          cancel.show();
+    $.getJSON('/id_join/drop_down', { id:id }, (r) => {
+      if (r.exists) {
+        if (r.full) {
+          prepareFullDropDown();
         } else {
-          prepareAvatarDropDown(dojo.avatarName, dojo.id);
+          prepareAvatarDropDown(r.avatarName, r.id);
         }
         inputId.prop('disabled', true);
         inputId.slideUp('fast', () => dropDown.slideDown('slow'));
       }
     });
+  };
+
+  const prepareFullDropDown = () => {
+    hiDiv.html($('#full-info').html());
+    loDiv.html('sorry, full up!');
+    ok.hide();
+    cancel.show();
   };
 
   const prepareAvatarDropDown = (avatarName, id) => {
