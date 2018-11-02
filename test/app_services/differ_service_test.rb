@@ -17,9 +17,9 @@ class DifferServiceTest < AppServicesTestBase
 
   test '3AB',
   'smoke test differ.diff(..., was_tag=0, now_tag=1)' do
-    in_kata(:stateless) { |kata|
+    in_kata do |kata|
       args = []
-      args << (n = 1)
+      args << (index = 1)
       args << kata.files
       args << (now = [2016,12,8, 8,3,23])
       args << (stdout = "Expected: 42\nActual: 54")
@@ -28,22 +28,24 @@ class DifferServiceTest < AppServicesTestBase
       args << (colour = 'red')
       kata.ran_tests(*args)
 
-      actual = differ.diff(kata.id, was_tag=0, now_tag=1)
+      was_files = kata.events[0].files
+      now_files = kata.events[1].files
+      actual = differ.diff(was_files, now_files)
 
       filename = 'hiker.rb'
       refute_nil actual[filename]
       assert_equal({
         'type'   => 'same',
         'line'   => 'def answer',
-        'index'  => 1
+        'number' => 1
       }, actual[filename][0])
 
       assert_equal({
         'type'   => 'same',
         'line'   => '  6 * 9',
-        'index'  => 2
+        'number' => 2
       }, actual[filename][1])
-    }
+    end
   end
 
 end
