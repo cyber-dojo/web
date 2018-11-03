@@ -23,6 +23,13 @@
        height: 219px;
        margin: { right: 5px; }
     }
+    &.small
+    {
+      @include rounded-corner(2px);
+        width: 37px;
+       height: 37px;
+      display: block;
+    }    
   }
 
   img.grey
