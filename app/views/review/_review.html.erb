@@ -37,8 +37,7 @@ $(() => {
     param.nowIndex = index;
     // preserve diff on/off state
     if (diffCheckBox().is(':checked')) {
-      const prevIndex = getPrevEventIndex()
-      param.wasIndex = (prevIndex !== null) ? prevIndex : 0;
+      param.wasIndex = (getPrevEventIndex() || 0);
     } else {
       param.wasIndex = index;
     }
