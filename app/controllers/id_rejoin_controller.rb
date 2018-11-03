@@ -3,6 +3,7 @@ class IdRejoinController < ApplicationController
 
   def show
     @from = from
+    @possessive = (from == 'individual') ? 'my' : 'our'
   end
 
   def drop_down
