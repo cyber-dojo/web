@@ -31,8 +31,6 @@ $(() => {
         if (from === 'individual') {
           prepareIndividualDropDown(response);
         }
-        inputId.prop('disabled', true);
-        inputId.slideUp('fast', () => dropDown.slideDown('slow'));
       }
     );
   };
@@ -50,6 +48,8 @@ $(() => {
       cancel.show();
       midDiv.html(group.avatarPickerHtml);
       cd.setupHoverTips($('[data-tip]'));
+      inputId.prop('disabled', true);
+      inputId.slideUp('fast', () => dropDown.slideDown('slow'));
     }
   };
 
