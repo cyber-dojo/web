@@ -33,7 +33,7 @@ class DifferController < ApplicationController
                      avatar: @kata.avatar_name,
                      wasTag: was_index,
                      nowTag: now_index,
-                       tags: lights,
+                     events: lights,
                       diffs: view,
                  prevKataId: prev_kata_id,
                  nextKataId: next_kata_id,

@@ -17,7 +17,7 @@ $(() => {
     filename: "<%= @filename %>"
   };
 
-  // after refresh() has been called param also contains param.tags
+  // after refresh() has been called param also contains param.events
   // which is an array of events where events[i].index is the event index.
 
   cd.setReviewDialogData = (id, avatar, wasTag, nowTag, filename) => {
@@ -82,7 +82,7 @@ $(() => {
 
   const refreshTrafficLights = () => {
     const trafficLights = $('#review-traffic-lights');
-    trafficLights.html(makeTrafficLightsHtml(param.tags));
+    trafficLights.html(makeTrafficLightsHtml(param.events));
     $.each($('.diff-traffic-light'), (_, light) => {
       const $light = $(light);
       const nowTag = $light.data('now-tag');
@@ -93,10 +93,10 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const makeTrafficLightsHtml = (tags) => {
+  const makeTrafficLightsHtml = (events) => {
     // Displays all the events that it receives from the differ/diff
-    // JSON call and sets up was/now tags for each event with the
-    // was-tag simply being the previous event index.
+    // JSON call and sets up was/now index for each event with the
+    // was-index simply being the previous event index.
     // Note that event.indexs will not be contiguous if events
     // contains non-test events.
     let html = '';
@@ -104,9 +104,9 @@ $(() => {
     let lastColour = '';
     let trafficLightCount = 0;
     html += '<table><tr>';
-    $.each(tags, (_n, tag) => {
-      const colour = tag.colour;
-      const nowTag = tag.index;
+    $.each(events, (_n, event) => {
+      const colour = event.colour;
+      const nowTag = event.index;
       const barGap = (param.nowTag === nowTag) ? 'bar' : 'gap';
       html +=
         "<td><div class='diff-traffic-light'" +
@@ -119,7 +119,7 @@ $(() => {
           "<img class='with-bar-gap' src='/images/bulb_" + colour + '_' + barGap + ".png'/>" +
         '</div></td>';
       wasTag = nowTag;
-      lastColour = tag.colour;
+      lastColour = event.colour;
       trafficLightCount++;
     });
 
@@ -186,7 +186,7 @@ $(() => {
           // Note: the refresh() will cause nowTag/wasTag to become
           // the actual last event.index (rather than -1).
           // Note: The param.avatar is set above but the
-          // param.tags array will not match param.avatar until
+          // param.events array will not match param.avatar until
           // after refresh() has completed (which is an async call).
           const lastIndex = -1;
           param.wasTag = lastIndex;
@@ -218,27 +218,27 @@ $(() => {
     if (index === null || index === 0)
       return null;
     else
-      return param.tags[index - 1].index;
+      return param.events[index - 1].index;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const getNextTag = () => {
     const index = indexForTag(param.nowTag);
-    if (index === null || index === param.tags.length - 1)
+    if (index === null || index === param.events.length - 1)
       return null;
     else
-      return param.tags[index + 1].index;
+      return param.events[index + 1].index;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const indexForTag = (number) => {
-    // Finds the index of the tag in the param.tags array
+    // Finds the index of the tag in the param.events array
     // whose tag.number equals the number argument.
     let index = null;
-    for (let i = 0; i < param.tags.length; i++) {
-      if (param.tags[i].index === number) {
+    for (let i = 0; i < param.events.length; i++) {
+      if (param.events[i].index === number) {
         index = i;
         break;
       }
@@ -256,7 +256,7 @@ $(() => {
 
   const tagTrafficLightHtml = (tagNumber) => {
     const index = indexForTag(tagNumber);
-    const colour = (index === null) ? '' : param.tags[index].colour;
+    const colour = (index === null) ? '' : param.events[index].colour;
     return `<div id="tag-number" class="${colour}">${tagNumber}</div>`;
   };
 
