@@ -37,8 +37,8 @@ $(() => {
     param.nowIndex = index;
     // preserve diff on/off state
     if (diffCheckBox().is(':checked')) {
-      const prev = getPrevTag()
-      param.wasIndex = (prev !== null) ? prev : 0;
+      const prevIndex = getPrevEventIndex()
+      param.wasIndex = (prevIndex !== null) ? prevIndex : 0;
     } else {
       param.wasIndex = index;
     }
@@ -74,7 +74,7 @@ $(() => {
 
   const diffCheckBox = () => $('#diff-checkbox');
 
-  const inDiffMode = () => param.wasIndex != param.nowIndex;
+  const inDiffMode = () => param.wasIndex !== param.nowIndex;
 
   //-----------------------------------------
   // refresh traffic-lights
@@ -203,47 +203,47 @@ $(() => {
   // [>] is enabled if there is a useable event to the rhs of param.nowIndex
   //-----------------------------------------
 
-  const refreshTagControls = () => {
-    const prevTag = getPrevTag();
-    const nextTag = getNextTag();
-    refreshTag($('#prev-tag'), prevTag);
+  const refreshEventControls = () => {
+    const prevIndex = getPrevEventIndex();
+    const nextIndex = getNextEventIndex();
+    refreshTag($('#prev-tag'), prevIndex);
     $('#tag-number-container').html(tagHtml());
-    refreshTag($('#next-tag'), nextTag);
+    refreshTag($('#next-tag'), nextIndex);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const getPrevTag = () => {
-    const index = indexForTag(param.nowIndex);
-    if (index === null || index === 0)
+  const getPrevEventIndex = () => {
+    const n = getEventIndex(param.nowIndex);
+    if (n === null || n === 0) {
       return null;
-    else
-      return param.events[index - 1].index;
+    } else {
+      return param.events[n - 1].index;
+    }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const getNextTag = () => {
-    const index = indexForTag(param.nowIndex);
-    if (index === null || index === param.events.length - 1)
+  const getNextEventIndex = () => {
+    const n = getEventIndex(param.nowIndex);
+    if (n === null || n === param.events.length - 1) {
       return null;
-    else
-      return param.events[index + 1].index;
+    } else {
+      return param.events[n + 1].index;
+    }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const indexForTag = (number) => {
-    // Finds the index of the tag in the param.events array
-    // whose tag.number equals the number argument.
-    let index = null;
-    for (let i = 0; i < param.events.length; i++) {
-      if (param.events[i].index === number) {
-        index = i;
-        break;
+  const getEventIndex = (n) => {
+    // Finds the index of the event in the param.events
+    // array whose index equals n.
+    for (let i = 0; i !== param.events.length; i++) {
+      if (param.events[i].index === n) {
+        return i;
       }
     }
-    return index;
+    return null;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -254,10 +254,10 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const tagTrafficLightHtml = (tagNumber) => {
-    const index = indexForTag(tagNumber);
-    const colour = (index === null) ? '' : param.events[index].colour;
-    return `<div id="tag-number" class="${colour}">${tagNumber}</div>`;
+  const tagTrafficLightHtml = (n) => {
+    const i = getEventIndex(n);
+    const colour = (i === null) ? '' : param.events[i].colour;
+    return `<div id="tag-number" class="${colour}">${n}</div>`;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -365,7 +365,7 @@ $(() => {
     // ensure filenames appear in the same order as kata/edit page
     const sorted = cd.sortedFilenames(filenames);
     const diffFor = (filename) => {
-      for (let i = 0; i < diffs.length; i++) {
+      for (let i = 0; i !== diffs.length; i++) {
         if (diffs[i].filename === filename) {
           return diffs[i];
         }
@@ -383,7 +383,7 @@ $(() => {
   const resetFilenameAddedDeletedLineCountHandlers = () => {
 
     const display = (node, name, value) => {
-      if ($(node).attr('disabled') != 'disabled') {
+      if ($(node).attr('disabled') !== 'disabled') {
         const filename = $(node).data('filename');
         const selector = `[id="${filename}_diff_div"] ${name}`;
         $(selector).css('display', value);
@@ -433,8 +433,8 @@ $(() => {
       return () => {
 
         const reselected =
-          previousFilenameNode != undefined &&
-            getFilename(previousFilenameNode) == filename;
+          previousFilenameNode !== undefined &&
+            getFilename(previousFilenameNode) === filename;
 
         $('.diff-deleted-line-count, .diff-added-line-count').attr('disabled', true);
         $('.diff-deleted-line-count[data-filename="'+filename+'"]').attr('disabled', false);
@@ -442,7 +442,7 @@ $(() => {
 
         cd.radioEntrySwitch(previousFilenameNode, filenameNode);
 
-        if (previousFilenameNode != undefined) {
+        if (previousFilenameNode !== undefined) {
           diffFileDiv(getFilename(previousFilenameNode)).hide();
         }
         diffFileDiv(getFilename(filenameNode)).show();
@@ -533,9 +533,9 @@ $(() => {
       $('.ui-dialog').removeClass('busy');
       param = data;
       refreshTrafficLights();
-      refreshDiffCheckBox();
-      refreshTagControls();
       refreshAvatarControls();
+      refreshEventControls();
+      refreshDiffCheckBox();
       refreshFiles();
       refreshForkButton();
       refreshRevertButton();

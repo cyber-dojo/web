@@ -14,4 +14,4 @@ In this 'mode' URLs also look like this...
   http://cyber-dojo.org/kata/edit/ym04AU
 The ym04AU is a 6-digit kata-id with no associated avatar-name.
 
-See ApplicationController.ported
+See ApplicationController.ported()
