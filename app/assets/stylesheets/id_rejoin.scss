@@ -15,10 +15,14 @@
 
   img.avatar
   {
-    width: 40px;
-    height: 40px;
-    display: block;
-    @include rounded-corner(4px);
+    &.large
+    {
+      @include rounded-corner(6px);
+      display: block;
+        width: 219px;
+       height: 219px;
+       margin: { right: 5px; }
+    }
   }
 
   img.grey
@@ -27,16 +31,37 @@
     opacity: 0.15;
   }
 
-  button#cancel
+  .traffic-light
   {
-    @include non-code-font();
-    @include font-size-large();
-         color: $darker-color;
-    text-align: right;
-   line-height: 95%;
+      width: 20px;
+     height: 20px;
+     margin: { top: 0px; bottom: 0px; left: 0px; right: 5px; }
+    padding: 0px;
+  }
+
+  .info
+  {
+    @include plaintext-font();
+    @include rounded-corner(6px);
+    background: lighten($darker-color, 5%);
+     font-size: 17px;
+        margin: { top: 3px; bottom: 3px; left: 0px; }
        padding: 8px;
-        margin: { left: 10px; top: 5px; }
+    text-align: left;
+  }
+
+  button
+  {
+    &#ok, &#cancel
+    {
+      @include non-code-font();
+      @include font-size-large();
+           color: $darker-color;
+      text-align: right;
+     line-height: 95%;
+         padding: 8px;
+          margin: { left: 10px; top: 5px; }
+    }
   }
 
 }
-

@@ -6,9 +6,12 @@ $(() => {
 
   const inputId = $('input#id');
   const dropDown = $('#drop-down');
+
   const hiText = $('#hi-text');
-  const avatarPicker = $('#avatar-picker');
+  const midDiv = $('#mid-div');
   const loText = $('#lo-text');
+
+  const ok     = $('button#ok');
   const cancel = $('button#cancel');
 
   const inputIdHandler = () => {
@@ -23,16 +26,18 @@ $(() => {
     $.getJSON('/id_rejoin/drop_down', args,
       (response) => {
         if (from === 'group') {
-          groupDropDown(response);
+          prepareGroupDropDown(response);
         }
         if (from === 'individual') {
-          individualDropDown(response);
+          prepareIndividualDropDown(response);
         }
+        inputId.prop('disabled', true);
+        inputId.slideUp('fast', () => dropDown.slideDown('slow'));
       }
     );
   };
 
-  const groupDropDown = (group) => {
+  const prepareGroupDropDown = (group) => {
     if (group.exists) {
       if (group.empty) {
         hiText.html('no one has joined yet!');
@@ -41,19 +46,34 @@ $(() => {
         hiText.html('click your animal');
         loText.html('or');
       }
-      avatarPicker.html(group.avatarPickerHtml);
+      midDiv.html(group.avatarPickerHtml);
       cd.setupHoverTips($('[data-tip]'));
-      inputId.prop('disabled', true);
-      inputId.slideUp('fast', () => dropDown.slideDown('slow'));
     }
   };
 
-  const individualDropDown = (data) => {
-    alert('todo');
-    //cd.rejoin(data.kataId);
+  const prepareIndividualDropDown = (data) => {
+    if (data.exists) {
+      showTrafficLightInfo();
+      showAvatar(data.avatarName);
+      cancel.hide();
+      ok.unbind()
+        .click(() => cd.rejoin(data.kataId))
+        .show();
+    }
   };
 
-  dropDown.hide();
+  const showTrafficLightInfo = () => {
+    midDiv.html($('#traffic-light-info').html());
+  };
+
+  const showAvatar = (avatarName) => {
+    if (avatarName !== '') {
+      $('#avatar',midDiv).html($('<img>', {
+        'class':'avatar large',
+        'src':`/images/avatars/${avatarName}.jpg`
+      }));
+    }
+  };
 
   cancel.click(() => {
     dropDown.slideUp('slow', () => {
@@ -65,7 +85,9 @@ $(() => {
     });
   });
 
+  //- - - - - - - - - - -
 
+  dropDown.hide();
   cd.onlyBase58(inputId);
   inputId.focus()
          .keyup(() => inputIdHandler());
@@ -82,7 +104,8 @@ $(() => {
 
 <div id="drop-down">
   <span id="hi-text"></span>
-  <div id="avatar-picker"></div>
+  <div id="mid-div"></div>
   <span id="lo-text"></span>
+  <button id="ok">ok</button>
   <button id="cancel">cancel</button>
 </div>
