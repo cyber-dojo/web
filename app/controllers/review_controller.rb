@@ -8,8 +8,8 @@ class ReviewController < ApplicationController
     ported {
       @kata = kata
       @avatar_name = @kata.avatar_name
-      @was_tag = was_tag
-      @now_tag = now_tag
+      @was_index = was_tag
+      @now_index = now_tag
       @filename = filename
       @title = 'review:' + @kata.id
     }

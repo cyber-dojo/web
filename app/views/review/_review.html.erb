@@ -10,37 +10,37 @@ $(() => {
   //---------------------------------------------------------------------
 
   let param = {
-          id: "<%= @kata.id %>",
-      avatar: "<%= @kata.avatar_name %>",
-      wasTag: "<%= @was_tag %>",
-      nowTag: "<%= @now_tag %>",
-    filename: "<%= @filename %>"
+            id: "<%= @kata.id %>",
+    avatarName: "<%= @kata.avatar_name %>",
+      wasIndex: "<%= @was_index %>",
+      nowIndex: "<%= @now_index %>",
+      filename: "<%= @filename %>"
   };
 
   // after refresh() has been called param also contains param.events
   // which is an array of events where events[i].index is the event index.
 
-  cd.setReviewDialogData = (id, avatar, wasTag, nowTag, filename) => {
+  cd.setReviewDialogData = (id, avatarName, wasIndex, nowIndex, filename) => {
     param = {
-            id:id,
-        avatar:avatar,
-        wasTag:wasTag,
-        nowTag:nowTag,
-      filename:filename
+              id:id,
+      avatarName:avatarName,
+        wasIndex:wasIndex,
+        nowIndex:nowIndex,
+        filename:filename
     };
     reviewRefresh();
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const show = (tag) => {
-    param.nowTag = tag;
+  const show = (index) => {
+    param.nowIndex = index;
     // preserve diff on/off state
     if (diffCheckBox().is(':checked')) {
       const prev = getPrevTag()
-      param.wasTag = (prev !== null) ? prev : 0;
+      param.wasIndex = (prev !== null) ? prev : 0;
     } else {
-      param.wasTag = tag;
+      param.wasIndex = index;
     }
     refresh();
   };
@@ -54,8 +54,8 @@ $(() => {
       window.location.href =
         cd.showReviewUrl(
           param.id,
-          param.wasTag,
-          param.nowTag,
+          param.wasIndex,
+          param.nowIndex,
           param.filename
         );
     }
@@ -69,12 +69,12 @@ $(() => {
     diffCheckBox()
       .attr('checked', inDiffMode())
       .unbind('click')
-      .bind('click', () => show(param.nowTag));
+      .bind('click', () => show(param.nowIndex));
   };
 
   const diffCheckBox = () => $('#diff-checkbox');
 
-  const inDiffMode = () => param.wasTag != param.nowTag;
+  const inDiffMode = () => param.wasIndex != param.nowIndex;
 
   //-----------------------------------------
   // refresh traffic-lights
@@ -85,8 +85,8 @@ $(() => {
     trafficLights.html(makeTrafficLightsHtml(param.events));
     $.each($('.diff-traffic-light'), (_, light) => {
       const $light = $(light);
-      const nowTag = $light.data('now-tag');
-      $light.click(() => show(nowTag));
+      const nowIndex = $light.data('now-tag');
+      $light.click(() => show(nowIndex));
     });
     cd.setupHoverTips($('[data-tip]')); // lights + other tips
   };
@@ -100,25 +100,25 @@ $(() => {
     // Note that event.indexs will not be contiguous if events
     // contains non-test events.
     let html = '';
-    let wasTag = 0;
+    let wasIndex = 0;
     let lastColour = '';
     let trafficLightCount = 0;
     html += '<table><tr>';
     $.each(events, (_n, event) => {
       const colour = event.colour;
-      const nowTag = event.index;
-      const barGap = (param.nowTag === nowTag) ? 'bar' : 'gap';
+      const nowIndex = event.index;
+      const barGap = (param.nowIndex === nowIndex) ? 'bar' : 'gap';
       html +=
         "<td><div class='diff-traffic-light'" +
               " data-tip='ajax:traffic_light'" +
               ` data-id='${param.id}'` +
-              ` data-avatar-name='${param.avatar}'` +
+              ` data-avatar-name='${param.avatarName}'` +
               ` data-colour='${colour}'` +
-              ` data-was-tag='${wasTag}'` +
-              ` data-now-tag='${nowTag}'>` +
+              ` data-was-tag='${wasIndex}'` +
+              ` data-now-tag='${nowIndex}'>` +
           "<img class='with-bar-gap' src='/images/bulb_" + colour + '_' + barGap + ".png'/>" +
         '</div></td>';
-      wasTag = nowTag;
+      wasIndex = nowIndex;
       lastColour = event.colour;
       trafficLightCount++;
     });
@@ -142,7 +142,7 @@ $(() => {
   //-----------------------------------------
 
   const refreshAvatarControls = () => {
-    if (param.avatar === '') {
+    if (param.avatarName === '') {
       $('#avatar-control').hide();
     } else {
       refreshPrevAvatarHandler();
@@ -156,7 +156,7 @@ $(() => {
   };
 
   const makeAvatarImageHtml = () => {
-    return `<img id="avatar" src="/images/avatars/${param.avatar}.jpg"/>`;
+    return `<img id="avatar" src="/images/avatars/${param.avatarName}.jpg"/>`;
   };
 
   const refreshPrevAvatarHandler = () => {
@@ -183,24 +183,24 @@ $(() => {
           show(1);
         } else {
           // Move to the new avatar's last event.
-          // Note: the refresh() will cause nowTag/wasTag to become
+          // Note: the refresh() will cause nowIndex/wasIndex to become
           // the actual last event.index (rather than -1).
-          // Note: The param.avatar is set above but the
-          // param.events array will not match param.avatar until
+          // Note: The param.avatarName is set above but the
+          // param.events array will not match param.avatarName until
           // after refresh() has completed (which is an async call).
           const lastIndex = -1;
-          param.wasTag = lastIndex;
-          param.nowTag = lastIndex;
+          param.wasIndex = lastIndex;
+          param.nowIndex = lastIndex;
           refresh();
         }
       });
   };
 
   //-----------------------------------------
-  // refresh [<] tag [>]
+  // refresh [<] event [>]
   //-----------------------------------------
-  // [<] is enabled if there is a useable tag to the lhs of param.nowTag
-  // [>] is enabled if there is a useable tag to the rhs of param.nowTag
+  // [<] is enabled if there is a useable event to the lhs of param.nowIndex
+  // [>] is enabled if there is a useable event to the rhs of param.nowIndex
   //-----------------------------------------
 
   const refreshTagControls = () => {
@@ -214,7 +214,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const getPrevTag = () => {
-    const index = indexForTag(param.nowTag);
+    const index = indexForTag(param.nowIndex);
     if (index === null || index === 0)
       return null;
     else
@@ -224,7 +224,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const getNextTag = () => {
-    const index = indexForTag(param.nowTag);
+    const index = indexForTag(param.nowIndex);
     if (index === null || index === param.events.length - 1)
       return null;
     else
@@ -249,7 +249,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const tagHtml = () => {
-    return tagTrafficLightHtml(param.nowTag);
+    return tagTrafficLightHtml(param.nowIndex);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -262,15 +262,15 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const refreshTag = (button, newTag) => {
-    const on = newTag !== null;
+  const refreshTag = (button, newIndex) => {
+    const on = newIndex !== null;
     button
       .attr('disabled', !on)
       .css('cursor', on ? 'pointer' : 'default');
     if (on) {
       button
         .unbind('click')
-        .bind('click', () => show(newTag));
+        .bind('click', () => show(newIndex));
     }
   };
 
@@ -523,11 +523,10 @@ $(() => {
 
   const reviewRefresh = () => {
     const reviewParams = {
-            id: param.id,
-        avatar: param.avatar,
-       was_tag: param.wasTag,
-       now_tag: param.nowTag,
-      filename: param.filename
+                id: param.id,
+           was_tag: param.wasIndex,
+           now_tag: param.nowIndex,
+          filename: param.filename
     };
     $('.ui-dialog').addClass('busy');
     $.getJSON('/differ/diff', reviewParams, (data) => {
@@ -554,7 +553,7 @@ $(() => {
   const refreshForkButton = () => {
     const button = $('#fork-button');
     cd.setTip(button, () => {
-      const tip = `setup a new session from ${param.avatar} ${param.nowTag}`;
+      const tip = `setup a new session from ${param.avatarName} ${param.nowIndex}`;
       cd.showHoverTip(button, tip);
     });
   };
@@ -566,7 +565,7 @@ $(() => {
   const refreshRevertButton = () => {
     const button = $('#revert-button');
     cd.setTip(button, () => {
-      const tip = `revert to ${param.avatar} ${param.nowTag}`;
+      const tip = `revert to ${param.avatarName} ${param.nowIndex}`;
       cd.showHoverTip(button, tip);
     });
   };
@@ -576,8 +575,7 @@ $(() => {
   const doRevert = () => {
     const revertParams = {
           id: param.id,
-      avatar: param.avatar,
-         tag: param.nowTag
+         tag: param.nowIndex
     };
     $.getJSON('/reverter/revert', revertParams, (data) => {
       // This is .dialog('close') and NOT .remove() since the
@@ -620,13 +618,13 @@ $(() => {
   const refreshDownloadButton = () => {
     const button = $('#download-button');
     cd.setTip(button, () => {
-      const tip = `download files from ${param.avatar} ${param.nowTag}`;
+      const tip = `download files from ${param.avatarName} ${param.nowIndex}`;
       cd.showHoverTip(button, tip);
     });
   };
 
   const doDownload = () => {
-    const url = `/download_tag/${param.id}/${param.avatar}/${param.nowTag}`;
+    const url = `/download_tag/${param.id}/${param.avatarName}/${param.nowIndex}`;
     window.location = url;
   };
 
@@ -661,7 +659,7 @@ $(() => {
     reviewRefresh();
   }
   setupButton('download', () => doDownload());
-  setupButton('fork',     () => cd.forkDialog(param.id, param.avatar, param.nowTag));
+  setupButton('fork',     () => cd.forkDialog(param.id, param.avatarName, param.nowIndex));
 
 });
 

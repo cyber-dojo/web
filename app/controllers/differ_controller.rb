@@ -30,9 +30,9 @@ class DifferController < ApplicationController
 
     render json: {
                          id: @kata.id,
-                     avatar: @kata.avatar_name,
-                     wasTag: was_index,
-                     nowTag: now_index,
+                 avatarName: @kata.avatar_name,
+                   wasIndex: was_index,
+                   nowIndex: now_index,
                      events: lights,
                       diffs: view,
                  prevKataId: prev_kata_id,
