@@ -631,14 +631,15 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const setupButton = (name, handler) => {
-    $('#'+name+'-button-container').html('<button id="'+name+'-button" type="button"></button>');
-    $('#'+name+'-button')
+    const button = `<button id="${name}-button" type="button"></button>`;
+    $(`#${name}-button-container`).html(button);
+    $(`#${name}-button`)
       .text(name)
       .unbind('click')
       .bind('click', handler);
     if (name === 'download') { refreshDownloadButton(); }
-    if (name === 'fork') { refreshForkButton(); }
-    if (name === 'revert') { refreshRevertButton(); }
+    if (name === 'fork'    ) { refreshForkButton();     }
+    if (name === 'revert'  ) { refreshRevertButton();   }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
