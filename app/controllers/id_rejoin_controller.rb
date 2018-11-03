@@ -23,6 +23,13 @@ class IdRejoinController < ApplicationController
   end
 
   def individual_drop_down_json
+    # id could be a new id for a kata
+    json = { exists:kata.exists? }
+    if json[:exists]
+      json[:kataId] = kata.id
+      json[:avatarName] = kata.avatar_name
+      return json
+    end
     # id could be an old id for a group
     group = groups[porter.port(id)]
     json = { exists:group.exists? }
@@ -35,14 +42,6 @@ class IdRejoinController < ApplicationController
         json[:empty] = group.empty?
         json[:avatarPickerHtml] = avatar_picker_html(katas)
       end
-      return json
-    end
-    # id could be a new id ? for a kata
-    kata = Katas.new(self)[id]
-    json = { exists:kata.exists? }
-    if json[:exists]
-      json[:kataId] = kata.id
-      json[:avatarName] = kata.avatar_name
     end
     json
   end
