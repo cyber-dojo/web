@@ -64,7 +64,7 @@ class StarterServiceTest < AppServicesTestBase
     manifest = starter.language_manifest('Ruby, MiniTest', 'Fizz_Buzz')
     assert_equal 'Ruby, MiniTest', manifest['display_name']
     assert_equal 'cyberdojofoundation/ruby_mini_test', manifest['image_name']
-    assert_equal '.rb', manifest['filename_extension']
+    assert_equal ['.rb'], manifest['filename_extension']
     assert_equal 2, manifest['tab_size']
     assert_equal 'stateless', manifest['runner_choice']
     assert_equal 'Fizz_Buzz', manifest['exercise']
@@ -73,7 +73,6 @@ class StarterServiceTest < AppServicesTestBase
       test_hiker.rb
       hiker.rb
       cyber-dojo.sh
-      output
       instructions
     ).sort, manifest['visible_files'].keys.sort
   end
@@ -97,13 +96,12 @@ class StarterServiceTest < AppServicesTestBase
     manifest = starter.custom_manifest('Yahtzee refactoring, C# NUnit')
     assert_equal 'Yahtzee refactoring, C# NUnit', manifest['display_name']
     assert_equal 'cyberdojofoundation/csharp_nunit', manifest['image_name']
-    assert_equal '.cs', manifest['filename_extension']
+    assert_equal ['.cs'], manifest['filename_extension']
     assert_equal 'stateless', manifest['runner_choice']
     assert_equal %w(
       YahtzeeTest.cs
       Yahtzee.cs
       cyber-dojo.sh
-      output
       instructions
     ).sort, manifest['visible_files'].keys.sort
   end
