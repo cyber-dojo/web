@@ -9,6 +9,7 @@ class DownloaderController < ApplicationController
   end
 
   def download_tag
+    avatar_name = kata.avatar_name
     encoded = zipper.zip_tag(id, avatar_name, tag)
     filename = "#{id}_#{avatar_name}_#{tag}.tgz"
     send_data Base64.decode64(encoded), :filename => filename

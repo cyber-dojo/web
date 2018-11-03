@@ -581,15 +581,15 @@ $(() => {
       // This is .dialog('close') and NOT .remove() since the
       // latter breaks inDialog()'s dialog.size() === 1 check.
       $('#review-dialog').dialog('close');
-      deleteAllCurrentFiles();
-      copyRevertFilesToCurrentFiles(data.visibleFiles);
+      deleteAllNonOutputFiles();
+      insertNewFiles(data.visibleFiles);
       $('#test-button').click();
     });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const deleteAllCurrentFiles = () => {
+  const deleteAllNonOutputFiles = () => {
     cd.eachFilename((filename) => {
       if (!isOutputFile(filename)) {
         cd.deleteFile(filename);
@@ -605,7 +605,7 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const copyRevertFilesToCurrentFiles = (visibleFiles) => {
+  const insertNewFiles = (visibleFiles) => {
     for (const filename in visibleFiles) {
       cd.newFile(filename, visibleFiles[filename]);
     }
@@ -624,7 +624,7 @@ $(() => {
   };
 
   const doDownload = () => {
-    const url = `/download_tag/${param.id}/${param.avatarName}/${param.nowIndex}`;
+    const url = `/download_tag/${param.id}/${param.nowIndex}`;
     window.location = url;
   };
 

@@ -2,9 +2,9 @@
 class ReverterController < ApplicationController
 
   def revert
-    tag = params[:tag].to_i
+    index = params[:tag].to_i
     render json: {
-      visibleFiles: kata.events[tag].files
+      visibleFiles: kata.events[index].files
     }
   end
 
