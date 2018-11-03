@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
       url = request.url
       id6 = porter.port(id)
       if m = /#{id}\?avatar=([a-z]*)&?/.match(url)
-        kata = groups[id6].katas.detect{ |k| k.avatar_name == m[1] }
+        kata = groups[id6].katas.find{ |k| k.avatar_name == m[1] }
         url6 = url.sub(m.to_s, kata.id+'?')
       else
         url6 = url.sub(id, id6)
