@@ -175,9 +175,9 @@ $(() => {
   //-----------------------------------------
 
   const refreshEventControls = () => {
-    refreshTag($('#prev-tag'), prevEventIndex());
-    $('#tag-number-container').html(eventHtml());
-    refreshTag($('#next-tag'), nextEventIndex());
+    refreshIndex($('#prev-index'), prevEventIndex());
+    $('#index-container').html(eventHtml());
+    refreshIndex($('#next-index'), nextEventIndex());
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -210,19 +210,14 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const eventHtml = () => {
-    return tagTrafficLightHtml(param.nowIndex);
+    const index = param.nowIndex;
+    const colour = param.events[index].colour;
+    return `<div id="index-number" class="${colour}">${index}</div>`;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const tagTrafficLightHtml = (n) => {
-    const colour = param.events[n].colour;
-    return `<div id="tag-number" class="${colour}">${n}</div>`;
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const refreshTag = (button, index) => {
+  const refreshIndex = (button, index) => {
     const on = (index !== null);
     button
       .attr('disabled', !on)
@@ -500,9 +495,9 @@ $(() => {
       refreshForkButton();
       refreshRevertButton();
       refreshDownloadButton();
-      const tag = $('img[src $= "_bar.png"]');
+      const rag = $('img[src $= "_bar.png"]');
       const options = { direction: 'horizontal', duration: 'slow' };
-      tag.scrollIntoView(options);
+      rag.scrollIntoView(options);
     });
   };
 

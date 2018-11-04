@@ -47,7 +47,7 @@
       top: 2px;
     }
 
-    #tag-number-container {
+    #index-container {
 
       @include rounded-corner(4px);
          padding: { left: 3px; right: 3px; }
@@ -56,21 +56,21 @@
          display: table-cell;
   vertical-align: middle;
 
-      #tag-number {
+      #index-number {
          font-size: 20px;
         text-align: center;
       }
     }
 
-    #prev-avatar img, #next-avatar img, #prev-tag img, #next-tag img {
+    #prev-avatar img, #next-avatar img, #prev-index img, #next-index img {
       @include rounded-corner(4px);
         width: 22px;
        height: 22px;
       padding: { top: 2px; bottom: 0px; }
     }
 
-    #prev-avatar img, #prev-tag img { padding: { right: 2px; left: 0px; } }
-    #next-avatar img, #next-tag img { padding: { left: 2px; right: 0px; } }
+    #prev-avatar img, #prev-index img { padding: { right: 2px; left: 0px; } }
+    #next-avatar img, #next-index img { padding: { left: 2px; right: 0px; } }
 
     .triangle.button {
       width: 32px;
