@@ -103,33 +103,40 @@ $(() => {
       const colour = event.colour;
       if (colour !== '') {
         const nowIndex = event.index;
-        const barGap = (param.nowIndex === nowIndex) ? 'bar' : 'gap';
-        html += makeTd([
-          "<div class='diff-traffic-light'",
-              " data-tip='ajax:traffic_light'",
-              ` data-id='${param.id}'`,
-              ` data-avatar-name='${param.avatarName}'`,
-              ` data-colour='${colour}'`,
-              ` data-was-tag='${wasIndex}'`,
-              ` data-now-tag='${nowIndex}'>`,
-              `<img class='with-bar-gap' src='/images/bulb_${colour}_${barGap}.png'/>`,
-          '</div>'
-        ].join(''));
+        const barOrGap = (param.nowIndex === nowIndex) ? 'bar' : 'gap';
+        html += makeTd(makeTrafficLightHtml(colour, wasIndex, nowIndex, barOrGap));
         wasIndex = nowIndex;
         lastColour = event.colour;
         trafficLightCount++;
       }
     });
 
-    html += makeTd([
-      `<div class='traffic-light-count ${lastColour}'>`,
-      trafficLightCount,
-      '</div>'
-    ].join(''));
-
+    html += makeTd(makeTrafficLightCountHtml(trafficLightCount, lastColour));
     html += '</tr></table>';
 
     return html;
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const makeTrafficLightHtml = (colour, wasIndex, nowIndex, barOrGap) => {
+    return [
+      "<div class='diff-traffic-light'",
+        " data-tip='ajax:traffic_light'",
+        ` data-id='${param.id}'`,
+        ` data-avatar-name='${param.avatarName}'`,
+        ` data-colour='${colour}'`,
+        ` data-was-tag='${wasIndex}'`,
+        ` data-now-tag='${nowIndex}'>`,
+        `<img class='with-bar-gap' src='/images/bulb_${colour}_${barOrGap}.png'/>`,
+      '</div>'
+    ].join('');
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const makeTrafficLightCountHtml = (count, colour) => {
+    return `<div class='traffic-light-count ${colour}'>${count}</div>`;
   };
 
   //-----------------------------------------
