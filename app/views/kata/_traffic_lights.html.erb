@@ -49,6 +49,6 @@ $(() => {
 
 <div style="display:none;">
   <div id="review-dialog">
-    <%= render partial: 'review/review' %>
+    <%= render partial: 'review/review', locals: { inDialog:true } %>
   </div>
 </div>

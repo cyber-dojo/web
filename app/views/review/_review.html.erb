@@ -9,6 +9,8 @@ $(() => {
   // The [revert] button is available only from the review *dialog*.
   //---------------------------------------------------------------------
 
+  const inDialog = <%= inDialog %>;
+
   let param = {
             id: "<%= @kata.id %>",
     avatarName: "<%= @kata.avatar_name %>",
@@ -46,7 +48,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const refresh = () => {
-    if (inDialog()) {
+    if (inDialog) {
       reviewRefresh();
     } else {
       window.location.href =
@@ -601,11 +603,7 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const inDialog = () => $('div.ui-dialog-content').size() === 1;
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  if (inDialog()) {
+  if (inDialog) {
     setupButton('revert', () => doRevert());
     setupButton('close',  () => $('#review-dialog').dialog('close'));
   } else {
