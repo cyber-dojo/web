@@ -38,6 +38,20 @@ class Kata
     saver.kata_ran_tests(id, index, files, at, stdout, stderr, status, colour)
   end
 
+  def events
+    saver.kata_events(id).map.with_index do |h,index|
+      Event.new(@externals, self, h, index)
+    end
+  end
+
+  def lights
+    events.select(&:light?)
+  end
+
+  def active?
+    lights != []
+  end
+
   def age
     created = Time.mktime(*manifest.created)
     (most_recent_event.time - created).to_i # in seconds
