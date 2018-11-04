@@ -115,7 +115,7 @@ $(() => {
                 ` data-colour='${colour}'` +
                 ` data-was-tag='${wasIndex}'` +
                 ` data-now-tag='${nowIndex}'>` +
-            "<img class='with-bar-gap' src='/images/bulb_" + colour + '_' + barGap + ".png'/>" +
+            `<img class='with-bar-gap' src='/images/bulb_${colour}_${barGap}.png'/>` +
           '</div></td>';
         wasIndex = nowIndex;
         lastColour = event.colour;
@@ -392,8 +392,8 @@ $(() => {
             getFilename(previousFilenameNode) === filename;
 
         $('.diff-deleted-line-count, .diff-added-line-count').attr('disabled', true);
-        $('.diff-deleted-line-count[data-filename="'+filename+'"]').attr('disabled', false);
-        $('.diff-added-line-count[data-filename="'+filename+'"]').attr('disabled', false);
+        $(`.diff-deleted-line-count[data-filename="${filename}"]`).attr('disabled', false);
+        $(`.diff-added-line-count[data-filename="${filename}"]`).attr('disabled', false);
 
         cd.radioEntrySwitch(previousFilenameNode, filenameNode);
 
@@ -430,11 +430,11 @@ $(() => {
     const holder = $('<span>');
     $.each(diffs, (_, diff) => {
       const table = $('' +
-        '<div id="' + diff.filename + '_diff_div" class="filename_div">' +
+        `<div id="${diff.filename}_diff_div" class="filename_div">` +
         '<table>' +
           '<tr class="valign-top">' +
             makeTd('<div class="diff-line-numbers"></div>') +
-            makeTd('<div id="diff_file_content_for_' + diff.filename + '"' +
+            makeTd(`<div id="diff_file_content_for_${diff.filename}"` +
                    ' class="diff-sheet"></div>') +
           '</tr>' +
         '</table>' +
