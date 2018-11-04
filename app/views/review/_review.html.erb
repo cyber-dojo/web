@@ -82,7 +82,7 @@ $(() => {
 
   const refreshTrafficLights = () => {
     const trafficLights = $('#review-traffic-lights');
-    trafficLights.html(makeTrafficLightsHtml(param.events));
+    trafficLights.html(makeTrafficLightsHtml());
     $.each($('.diff-traffic-light', trafficLights), (_, light) => {
       const $light = $(light);
       const nowIndex = $light.data('now-tag');
@@ -93,13 +93,13 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const makeTrafficLightsHtml = (events) => {
+  const makeTrafficLightsHtml = () => {
     let html = '';
     let wasIndex = 0;
     let lastColour = '';
     let trafficLightCount = 0;
     html += '<table><tr>';
-    $.each(events, (_n, event) => {
+    $.each(param.events, (_n, event) => {
       const colour = event.colour;
       if (colour !== '') {
         const nowIndex = event.index;
