@@ -59,22 +59,17 @@ class ApplicationController < ActionController::Base
   # tipper and differ
 
   def was_tag
-    number_or_nil(params[:was_tag])
+    params[:was_tag].to_i
   end
 
   def now_tag
-    number_or_nil(params[:now_tag])
+    params[:now_tag].to_i
   end
 
   private
 
   def id
     params[:id]
-  end
-
-  def number_or_nil(string)
-    num = string.to_i
-    num if num.to_s == string
   end
 
 end
