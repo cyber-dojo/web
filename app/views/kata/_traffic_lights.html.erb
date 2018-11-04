@@ -2,18 +2,18 @@
 'use strict';
 $(() => {
 
+  const review = $('#review-dialog')
+    .dialog({
+        dialogClass: 'no-title',
+              width: 1150,
+             height: 650,
+              modal: true,
+           autoOpen: false,
+      closeOnEscape: true,
+    });
+
   cd.setupReviewTrafficLights = ($lights) => {
     // also called from run_tests.js.erb
-    const review = $('#review-dialog')
-      .dialog({
-          dialogClass: 'no-title',
-                width: 1150,
-               height: 650,
-                modal: true,
-             autoOpen: false,
-        closeOnEscape: true,
-      });
-
     $lights.each((_index,element) => {
       const light = $(element);
       const id     = light.data('id');
