@@ -122,10 +122,6 @@ $(() => {
       trafficLightCount++;
     });
 
-    // I have tried making the traffic-light-count below into
-    // a hover-tip to match the kata/edit and dashboard pages.
-    // For some reason the hover-tip gets displayed behind
-    // the file-diff.
     html += '<td>';
     html += `<div class='traffic-light-count ${lastColour}'>`;
     html += trafficLightCount;
@@ -144,26 +140,14 @@ $(() => {
     if (param.avatarName === '') {
       $('#avatar-control').hide();
     } else {
-      refreshPrevAvatarHandler();
-      refreshAvatarImage();
-      refreshNextAvatarHandler();
+      refreshAvatarHandler('prev', param.prevKataId);
+      $('#avatar').parent().html(makeAvatarImageHtml());
+      refreshAvatarHandler('next', param.nextKataId);
     }
-  };
-
-  const refreshAvatarImage = () => {
-    $('#avatar').parent().html(makeAvatarImageHtml());
   };
 
   const makeAvatarImageHtml = () => {
     return `<img id="avatar" src="/images/avatars/${param.avatarName}.jpg"/>`;
-  };
-
-  const refreshPrevAvatarHandler = () => {
-    refreshAvatarHandler('prev', param.prevKataId);
-  };
-
-  const refreshNextAvatarHandler = () => {
-    refreshAvatarHandler('next', param.nextKataId);
   };
 
   const refreshAvatarHandler = (direction, id) => {
