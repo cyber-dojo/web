@@ -18,7 +18,6 @@ $(() => {
   };
 
   // after refresh() has been called param also contains param.events
-  // which is an array of events where events[i].index is the event index.
 
   cd.setReviewDialogData = (id, avatarName, wasIndex, nowIndex, filename) => {
     param = {
@@ -105,21 +104,23 @@ $(() => {
     html += '<table><tr>';
     $.each(events, (_n, event) => {
       const colour = event.colour;
-      const nowIndex = event.index;
-      const barGap = (param.nowIndex === nowIndex) ? 'bar' : 'gap';
-      html +=
-        "<td><div class='diff-traffic-light'" +
-              " data-tip='ajax:traffic_light'" +
-              ` data-id='${param.id}'` +
-              ` data-avatar-name='${param.avatarName}'` +
-              ` data-colour='${colour}'` +
-              ` data-was-tag='${wasIndex}'` +
-              ` data-now-tag='${nowIndex}'>` +
-          "<img class='with-bar-gap' src='/images/bulb_" + colour + '_' + barGap + ".png'/>" +
-        '</div></td>';
-      wasIndex = nowIndex;
-      lastColour = event.colour;
-      trafficLightCount++;
+      if (colour !== '') {
+        const nowIndex = event.index;
+        const barGap = (param.nowIndex === nowIndex) ? 'bar' : 'gap';
+        html +=
+          "<td><div class='diff-traffic-light'" +
+                " data-tip='ajax:traffic_light'" +
+                ` data-id='${param.id}'` +
+                ` data-avatar-name='${param.avatarName}'` +
+                ` data-colour='${colour}'` +
+                ` data-was-tag='${wasIndex}'` +
+                ` data-now-tag='${nowIndex}'>` +
+            "<img class='with-bar-gap' src='/images/bulb_" + colour + '_' + barGap + ".png'/>" +
+          '</div></td>';
+        wasIndex = nowIndex;
+        lastColour = event.colour;
+        trafficLightCount++;
+      }
     });
 
     html += '<td>';
@@ -198,7 +199,7 @@ $(() => {
 
   const getPrevEventIndex = () => {
     const n = getEventIndex(param.nowIndex);
-    if (n === null || n === 0) {
+    if (n === null || n === 1) {
       return null;
     } else {
       return param.events[n - 1].index;
@@ -245,15 +246,15 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const refreshTag = (button, newIndex) => {
-    const on = newIndex !== null;
+  const refreshTag = (button, index) => {
+    const on = (index !== null);
     button
       .attr('disabled', !on)
       .css('cursor', on ? 'pointer' : 'default');
     if (on) {
       button
         .unbind('click')
-        .bind('click', () => show(newIndex));
+        .bind('click', () => show(index));
     }
   };
 

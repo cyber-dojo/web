@@ -2,20 +2,6 @@
 class DifferController < ApplicationController
 
   def diff
-    # This currently returns events that are traffic-lights.
-    # This matches the default event handling in the review-controller.
-    # The review/diff dialog/page has been refactored so it
-    # works when sent either just traffic-lights or the full set of events.
-    # It does not yet have a way to select between these two options.
-    # However if it is sent the full set of events it must drop event zero
-    # (which is the _kata_ creation event). This is partly so that
-    # the lowest index is 1 (one) and not 0 (zero) as it is not
-    # clear how to cleanly handle a index of zero in diff-mode since it does
-    # not have a previous index. It is also partly because it makes sense
-    # for the events to correspond to actual kata/edit events.
-    # So, in summary, if returning all the events you still need to do a
-    #         events.shift
-
     @kata = kata
     events = @kata.events
     was_index, now_index = *was_now(events)
@@ -23,17 +9,14 @@ class DifferController < ApplicationController
     now_files = events[now_index].files(:with_output)
     diff = differ.diff(was_files, now_files)
     view = diff_view(diff)
-
     prev_kata_id, next_kata_id = *ring_prev_next(@kata)
-
-    lights = events.select(&:light?).map{ |light| to_json(light) }
 
     render json: {
                          id: @kata.id,
                  avatarName: @kata.avatar_name,
                    wasIndex: was_index,
                    nowIndex: now_index,
-                     events: lights,
+                     events: events.map{ |event| to_json(event) },
                       diffs: view,
                  prevKataId: prev_kata_id,
                  nextKataId: next_kata_id,
