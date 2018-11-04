@@ -36,7 +36,7 @@ $(() => {
     param.nowIndex = index;
     // preserve diff on/off state
     if (diffCheckBox().is(':checked')) {
-      param.wasIndex = (getPrevEventIndex() || 0);
+      param.wasIndex = (prevEventIndex() || 0);
     } else {
       param.wasIndex = index;
     }
@@ -158,20 +158,10 @@ $(() => {
       .bind('click', () => {
         param.id = id;
         if (inDiffMode()) {
-          // Move to the new avatar's first tag.
-          // tag zero is created for an avatar when it joins a session.
-          // I am assuming that this review page/dialog will only ever
-          // be displayed for a tag greater than zero, that is, for a
-          // tag corresponding to an actual kata/edit event, even if
-          // that event is a non-test event.
+          // Move to the new avatar's first event.
           show(1);
         } else {
           // Move to the new avatar's last event.
-          // Note: the refresh() will cause nowIndex/wasIndex to become
-          // the actual last event.index (rather than -1).
-          // Note: The param.avatarName is set above but the
-          // param.events array will not match param.avatarName until
-          // after refresh() has completed (which is an async call).
           const lastIndex = -1;
           param.wasIndex = lastIndex;
           param.nowIndex = lastIndex;
@@ -188,59 +178,43 @@ $(() => {
   //-----------------------------------------
 
   const refreshEventControls = () => {
-    const prevIndex = getPrevEventIndex();
-    const nextIndex = getNextEventIndex();
-    refreshTag($('#prev-tag'), prevIndex);
-    $('#tag-number-container').html(tagHtml());
-    refreshTag($('#next-tag'), nextIndex);
+    refreshTag($('#prev-tag'), prevEventIndex());
+    $('#tag-number-container').html(eventHtml());
+    refreshTag($('#next-tag'), nextEventIndex());
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const getPrevEventIndex = () => {
-    const n = getEventIndex(param.nowIndex);
+  const prevEventIndex = () => {
+    const n = param.nowIndex;
     if (n === null || n === 1) {
       return null;
     } else {
-      return param.events[n - 1].index;
+      return n - 1;
     }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const getNextEventIndex = () => {
-    const n = getEventIndex(param.nowIndex);
+  const nextEventIndex = () => {
+    const n = param.nowIndex;
     if (n === null || n === param.events.length - 1) {
       return null;
     } else {
-      return param.events[n + 1].index;
+      return n + 1;
     }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const getEventIndex = (n) => {
-    // Finds the index of the event in the param.events
-    // array whose index equals n.
-    for (let i = 0; i !== param.events.length; i++) {
-      if (param.events[i].index === n) {
-        return i;
-      }
-    }
-    return null;
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const tagHtml = () => {
+  const eventHtml = () => {
     return tagTrafficLightHtml(param.nowIndex);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const tagTrafficLightHtml = (n) => {
-    const i = getEventIndex(n);
-    const colour = (i === null) ? '' : param.events[i].colour;
+    const colour = param.events[n].colour;
     return `<div id="tag-number" class="${colour}">${n}</div>`;
   };
 
