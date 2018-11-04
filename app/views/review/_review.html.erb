@@ -92,11 +92,6 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const makeTrafficLightsHtml = (events) => {
-    // Displays all the events that it receives from the differ/diff
-    // JSON call and sets up was/now index for each event with the
-    // was-index simply being the previous event index.
-    // Note that event.indexs will not be contiguous if events
-    // contains non-test events.
     let html = '';
     let wasIndex = 0;
     let lastColour = '';
@@ -107,27 +102,29 @@ $(() => {
       if (colour !== '') {
         const nowIndex = event.index;
         const barGap = (param.nowIndex === nowIndex) ? 'bar' : 'gap';
-        html +=
-          "<td><div class='diff-traffic-light'" +
-                " data-tip='ajax:traffic_light'" +
-                ` data-id='${param.id}'` +
-                ` data-avatar-name='${param.avatarName}'` +
-                ` data-colour='${colour}'` +
-                ` data-was-tag='${wasIndex}'` +
-                ` data-now-tag='${nowIndex}'>` +
-            `<img class='with-bar-gap' src='/images/bulb_${colour}_${barGap}.png'/>` +
-          '</div></td>';
+        html += makeTd([
+          "<div class='diff-traffic-light'",
+              " data-tip='ajax:traffic_light'",
+              ` data-id='${param.id}'`,
+              ` data-avatar-name='${param.avatarName}'`,
+              ` data-colour='${colour}'`,
+              ` data-was-tag='${wasIndex}'`,
+              ` data-now-tag='${nowIndex}'>`,
+              `<img class='with-bar-gap' src='/images/bulb_${colour}_${barGap}.png'/>`,
+          '</div>'
+        ].join(''));
         wasIndex = nowIndex;
         lastColour = event.colour;
         trafficLightCount++;
       }
     });
 
-    html += '<td>';
-    html += `<div class='traffic-light-count ${lastColour}'>`;
-    html += trafficLightCount;
-    html += '</div>';
-    html += '</td>';
+    html += makeTd([
+      `<div class='traffic-light-count ${lastColour}'>`,
+      trafficLightCount,
+      '</div>'
+    ].join(''));
+
     html += '</tr></table>';
 
     return html;
@@ -170,8 +167,8 @@ $(() => {
   //-----------------------------------------
   // refresh [<] event [>]
   //-----------------------------------------
-  // [<] is enabled if there is a useable event to the lhs of param.nowIndex
-  // [>] is enabled if there is a useable event to the rhs of param.nowIndex
+  // [<] is enabled if there is an event to the lhs of param.nowIndex
+  // [>] is enabled if there is an event to the rhs of param.nowIndex
   //-----------------------------------------
 
   const refreshEventControls = () => {
