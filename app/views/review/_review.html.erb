@@ -158,13 +158,10 @@ $(() => {
       .bind('click', () => {
         param.id = id;
         if (inDiffMode()) {
-          // Move to the new avatar's first event.
           show(1);
         } else {
-          // Move to the new avatar's last event.
-          const lastIndex = -1;
-          param.wasIndex = lastIndex;
-          param.nowIndex = lastIndex;
+          param.wasIndex = -1;
+          param.nowIndex = -1;
           refresh();
         }
       });
@@ -187,7 +184,7 @@ $(() => {
 
   const prevEventIndex = () => {
     const n = param.nowIndex;
-    if (n === null || n === 1) {
+    if (n === null || n === firstIndex()) {
       return null;
     } else {
       return n - 1;
@@ -198,12 +195,17 @@ $(() => {
 
   const nextEventIndex = () => {
     const n = param.nowIndex;
-    if (n === null || n === param.events.length - 1) {
+    if (n === null || n === lastIndex()) {
       return null;
     } else {
       return n + 1;
     }
   };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const firstIndex = () => 1;
+  const lastIndex = () => param.events.length - 1;
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
