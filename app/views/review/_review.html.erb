@@ -81,7 +81,7 @@ $(() => {
   const refreshTrafficLights = () => {
     const trafficLights = $('#review-traffic-lights');
     trafficLights.html(makeTrafficLightsHtml(param.events));
-    $.each($('.diff-traffic-light'), (_, light) => {
+    $.each($('.diff-traffic-light', trafficLights), (_, light) => {
       const $light = $(light);
       const nowIndex = $light.data('now-tag');
       $light.click(() => show(nowIndex));
