@@ -32,7 +32,7 @@ class DifferController < ApplicationController
   include ReviewFilePicker
 
   def was_now(events)
-    # You get -1 when in non-diff mode
+    # You get -1 when switching avatars in non-diff mode
     was = was_tag
     now = now_tag
     was = events[-1].index if was == -1
