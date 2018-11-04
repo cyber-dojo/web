@@ -73,20 +73,6 @@ class Kata
     most_recent_event.status
   end
 
-  def lights
-    events.select(&:light?)
-  end
-
-  def active?
-    lights != []
-  end
-
-  def events
-    saver.kata_events(id).map.with_index do |h,index|
-      Event.new(@externals, self, h, index)
-    end
-  end
-
   def manifest
     @manifest ||= Manifest.new(saver.kata_manifest(id))
   end
