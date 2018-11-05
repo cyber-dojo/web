@@ -81,12 +81,25 @@ $(() => {
   //-----------------------------------------
 
   const refreshTrafficLights = () => {
+    let wasIndex = 0;
     const trafficLights = $('#review-traffic-lights');
     trafficLights.html(makeTrafficLightsHtml());
     $.each($('.diff-traffic-light', trafficLights), (_, light) => {
       const $light = $(light);
-      const nowIndex = $light.data('now-tag');
-      $light.click(() => show(nowIndex));
+      const index = $light.data('index');
+      param.events[index].review = () => {
+        if (inDiffMode()) {
+          param.wasIndex = wasIndex;
+          param.nowIndex = index;
+        } else {
+          param.wasIndex = index;
+          param.nowIndex = index;
+        }
+        refresh();
+      };
+      wasIndex = index;
+      $light.click(() => param.events[index].review());
+      //TODO: setHoverTip here....
     });
     cd.setupHoverTips($('[data-tip]')); // lights + other tips
   };
@@ -126,6 +139,8 @@ $(() => {
         ` data-id='${param.id}'`,
         ` data-avatar-name='${param.avatarName}'`,
         ` data-colour='${colour}'`,
+        ` data-index='${nowIndex}'`,
+        ` data-tag='${nowIndex}'`,
         ` data-was-tag='${wasIndex}'`,
         ` data-now-tag='${nowIndex}'>`,
         `<img class='with-bar-gap' src='/images/bulb_${colour}_${barOrGap}.png'/>`,

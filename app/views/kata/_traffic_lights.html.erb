@@ -2,6 +2,9 @@
 'use strict';
 $(() => {
 
+  const id = "<%= @kata.id %>";
+  const avatarName = "<%= @kata.avatar_name %>";
+
   const review = $('#review-dialog')
     .dialog({
         dialogClass: 'no-title',
@@ -12,23 +15,38 @@ $(() => {
       closeOnEscape: true,
     });
 
+  // wasIndex holds the index of rightmost traffic-light
+  // and is needed when run_tests.js.erb calls
+  // setupReviewTrafficLights() with its new traffic-light.
+  let wasIndex = 0;
+
   cd.setupReviewTrafficLights = ($lights) => {
-    // also called from run_tests.js.erb
     $lights.each((_index,element) => {
       const light = $(element);
-      const id     = light.data('id');
-      const avatar = "<%= @kata.avatar_name %>";
-      const nowTag = light.data('tag');
-      const wasTag = nowTag - 1;
-      light.click(() => {
-        cd.setReviewDialogData(id, avatar, wasTag, nowTag);
-        review.dialog('open');
+      const nowIndex = light.data('index');
+      setupTrafficLightReview(light, wasIndex, nowIndex);
+      setupTrafficLightTip(light, wasIndex, nowIndex);
+      wasIndex = nowIndex;
+    });
+  };
+
+  const setupTrafficLightReview = ($light, wasIndex, nowIndex) => {
+    $light.click(() => {
+      cd.setReviewDialogData(id, avatarName, wasIndex, nowIndex);
+      review.dialog('open');
+    });
+  };
+
+  const setupTrafficLightTip = ($light, wasIndex, nowIndex) => {
+    const data = { id:id, was_tag:wasIndex, now_tag:nowIndex };
+    cd.setTip($light, () => {
+      $.getJSON('/tipper/traffic_light_tip', data, (response) => {
+        cd.showHoverTip($light, response.html);
       });
     });
   };
 
   cd.setupReviewTrafficLights($('.diff-traffic-light'));
-  cd.setupHoverTips($('[data-tip]'));
 
 });
 //--></script>
