@@ -13,18 +13,6 @@ var cyberDojo = (function(cd, $) {
 
   // - - - - - - - - - - - - - - - - - - - -
 
-  const showTrafficLightHoverTipViaAjax = (light) => {
-    const id = light.data('id');
-    const tag = light.data('tag');
-    $.getJSON('/tipper/traffic_light_tip', {
-           id: id,
-      was_tag: tag-1,
-      now_tag: tag
-    }, response => cd.showHoverTip(light, response.html));
-  };
-
-  // - - - - - - - - - - - - - - - - - - - -
-
   const trafficLightCountHoverTip = (node) => {
     const avatarName = node.data('avatar-name');
     const reds = node.data('red-count');
@@ -69,11 +57,9 @@ var cyberDojo = (function(cd, $) {
   cd.setupHoverTips = function(nodes) {
     nodes.each(function() {
       const node = $(this);
-      const setTipCallBack = function() {
+      const setTipCallBack = () => {
         const tip = node.data('tip');
-        if (tip === 'ajax:traffic_light') {
-          showTrafficLightHoverTipViaAjax(node);
-        } else if (tip === 'traffic_light_count') {
+        if (tip === 'traffic_light_count') {
           cd.showHoverTip(node, trafficLightCountHoverTip(node));
         } else {
           cd.showHoverTip(node, tip);
