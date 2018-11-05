@@ -21,11 +21,11 @@ $(() => {
   let wasIndex = 0;
 
   cd.setupReviewTrafficLights = ($lights) => {
-    $lights.each((_index,element) => {
-      const light = $(element);
-      const nowIndex = light.data('index');
-      setupTrafficLightReview(light, wasIndex, nowIndex);
-      setupTrafficLightTip(light, wasIndex, nowIndex);
+    $lights.each((_i,element) => {
+      const $light = $(element);
+      const nowIndex = $light.data('index');
+      setupTrafficLightReview($light, wasIndex, nowIndex);
+      setupTrafficLightTip($light, wasIndex, nowIndex);
       wasIndex = nowIndex;
     });
   };
@@ -65,8 +65,7 @@ $(() => {
   </table>
 </div>
 
-<div style="display:none;">
-  <div id="review-dialog">
-    <%= render partial: 'review/review', locals: { inDialog:true } %>
-  </div>
+<div id="review-dialog" style="display:none;">
+  <%= render partial: 'review/review',
+              locals: { inDialog:true } %>
 </div>
