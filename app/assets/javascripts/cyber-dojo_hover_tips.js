@@ -2,6 +2,17 @@
 'use strict';
 var cyberDojo = (function(cd, $) {
 
+  cd.setupTrafficLightTip = ($light, id, wasIndex, nowIndex) => {
+    const data = { id:id, was_tag:wasIndex, now_tag:nowIndex };
+    cd.setTip($light, () => {
+      $.getJSON('/tipper/traffic_light_tip', data, (response) => {
+        cd.showHoverTip($light, response.html);
+      });
+    });
+  };
+
+  // - - - - - - - - - - - - - - - - - - - -
+
   const showTrafficLightHoverTipViaAjax = (light) => {
     const id = light.data('id');
     const tag = light.data('tag');

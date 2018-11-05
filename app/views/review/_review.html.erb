@@ -86,22 +86,22 @@ $(() => {
     trafficLights.html(makeTrafficLightsHtml());
     $.each($('.diff-traffic-light', trafficLights), (_, light) => {
       const $light = $(light);
-      const index = $light.data('index');
-      param.events[index].review = () => {
+      const nowIndex = $light.data('index');
+      param.events[nowIndex].review = () => {
         if (inDiffMode()) {
           param.wasIndex = wasIndex;
-          param.nowIndex = index;
+          param.nowIndex = nowIndex;
         } else {
-          param.wasIndex = index;
-          param.nowIndex = index;
+          param.wasIndex = nowIndex;
+          param.nowIndex = nowIndex;
         }
         refresh();
       };
-      wasIndex = index;
-      $light.click(() => param.events[index].review());
-      //TODO: setHoverTip here....
+      $light.click(() => param.events[nowIndex].review());
+      cd.setupTrafficLightTip($light, $light.data('id'), wasIndex, nowIndex);
+      wasIndex = nowIndex;
     });
-    cd.setupHoverTips($('[data-tip]')); // lights + other tips
+    cd.setupHoverTips($('[data-tip]')); // other tips????
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -

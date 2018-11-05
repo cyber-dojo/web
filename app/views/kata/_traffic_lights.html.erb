@@ -23,7 +23,7 @@ $(() => {
       const id = $light.data('id');
       const nowIndex = $light.data('index');
       setupTrafficLightReviewDialog($light, id, wasIndex, nowIndex);
-      setupTrafficLightTip($light, id, wasIndex, nowIndex);
+      cd.setupTrafficLightTip($light, id, wasIndex, nowIndex);
       wasIndex = nowIndex;
     });
   };
@@ -32,15 +32,6 @@ $(() => {
     $light.click(() => {
       cd.setReviewDialogData(id, "<%= @kata.avatar_name %>", wasIndex, nowIndex);
       review.dialog('open');
-    });
-  };
-
-  const setupTrafficLightTip = ($light, id, wasIndex, nowIndex) => {
-    const data = { id:id, was_tag:wasIndex, now_tag:nowIndex };
-    cd.setTip($light, () => {
-      $.getJSON('/tipper/traffic_light_tip', data, (response) => {
-        cd.showHoverTip($light, response.html);
-      });
     });
   };
 
