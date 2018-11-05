@@ -2,12 +2,16 @@
 'use strict';
 $(() => {
 
-  $('.diff-traffic-light').click(event => {
-    const light = $(event.currentTarget);
-    const id = light.data('id');
-    const nowTag = light.data('tag');
-    const wasTag = nowTag - 1;
-    window.open(cd.showReviewUrl(id, wasTag, nowTag));
+  $('.kata-row').each((_i,row) => {
+    let wasIndex = 0;
+    $.each($('.diff-traffic-light', $(row)), (_,light) => {
+      const $light = $(light);
+      const id = $light.data('id');
+      const nowIndex = $light.data('index');
+      $light.click(() => window.open(cd.showReviewUrl(id, wasIndex, nowIndex)));
+      cd.setupTrafficLightTip($light, id, wasIndex, nowIndex);
+      wasIndex = nowIndex;
+    });
   });
 
   $('.avatar-image').click(element => {
@@ -50,7 +54,7 @@ $(() => {
   <% end %>
 
   <% @gapped.keys.sort_by{|kata_id| @all_lights[kata_id][0].kata.avatar_name }.each do |kata_id| %>
-	<tr>
+	<tr class="kata-row">
 	  <% lights = @all_lights[kata_id] %>
 	  <% td_map = @gapped[kata_id] %>
 
