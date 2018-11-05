@@ -87,18 +87,14 @@ $(() => {
     $.each($('.diff-traffic-light', trafficLights), (_, light) => {
       const $light = $(light);
       const nowIndex = $light.data('index');
+      // review() function is also used by < event-index > navigator
       param.events[nowIndex].review = () => {
-        if (inDiffMode()) {
-          param.wasIndex = wasIndex;
-          param.nowIndex = nowIndex;
-        } else {
-          param.wasIndex = nowIndex;
-          param.nowIndex = nowIndex;
-        }
+        param.wasIndex = inDiffMode() ? wasIndex : nowIndex;
+        param.nowIndex = nowIndex;
         refresh();
       };
       $light.click(() => param.events[nowIndex].review());
-      cd.setupTrafficLightTip($light, $light.data('id'), wasIndex, nowIndex);
+      cd.setupTrafficLightTip($light, param.id, wasIndex, nowIndex);
       wasIndex = nowIndex;
     });
     cd.setupHoverTips($('[data-tip]')); // other tips????
