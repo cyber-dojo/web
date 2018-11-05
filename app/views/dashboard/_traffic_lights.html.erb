@@ -10,10 +10,9 @@ $(() => {
     window.open(cd.showReviewUrl(id, wasTag, nowTag));
   });
 
-  $('.avatar-image').click(event => {
-    const id = $(event.currentTarget).data('id');
-    const lastIndex = -1;
-    window.open(cd.showReviewUrl(id, lastIndex, lastIndex));
+  $('.avatar-image').click(element => {
+    const id = $(element.currentTarget).data('id');
+    window.open(cd.showReviewUrl(id, -1, -1));
   });
 
   cd.pieChart($('#traffic-lights .pie'));
