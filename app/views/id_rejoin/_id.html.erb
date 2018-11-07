@@ -13,6 +13,7 @@ $(() => {
   const cancel = $('button#cancel');
 
   const inputIdHandler = () => {
+    // TODO: disable <input> here, for robustness if slow response
     const id = inputId.val();
     if (id.length >= 6) {
       const args = { id:id, from:"<%= @from %>" };
@@ -95,7 +96,6 @@ $(() => {
 
   //- - - - - - - - - - -
 
-  dropDown.hide();
   cd.onlyBase58(inputId);
   inputId.focus()
          .keyup(() => inputIdHandler());
@@ -110,7 +110,7 @@ $(() => {
        value="">
 </input>
 
-<div id="drop-down">
+<div id="drop-down" style="display:none;">
   <span id="hi-text"></span>
   <div id="mid-div"></div>
   <span id="lo-text"></span>

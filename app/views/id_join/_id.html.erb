@@ -17,6 +17,7 @@ $(() => {
   };
 
   const autoDropDown = (id) => {
+    // TODO: disable <input> here, for robustness if slow response
     $.getJSON('/id_join/drop_down', { id:id }, (r) => {
       if (r.exists) {
         if (r.full) {
@@ -76,7 +77,6 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - -
 
-  dropDown.hide();
   cd.onlyBase58(inputId);
   inputId.keyup(() => inputIdHandler())
          .focus();
@@ -91,7 +91,7 @@ $(() => {
        value="">
 </input>
 
-<div id="drop-down">
+<div id="drop-down" style="display:none;">
   <div id="hi-div"></div>
   <div id="lo-div"></div>
   <button id="ok">ok</button>
