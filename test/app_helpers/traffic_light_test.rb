@@ -81,10 +81,9 @@ class TrafficLightTest < AppHelpersTestBase
     red = Event.new(nil, stub, { 'colour' => 'red'     }, 14)
     expected = '' +
       "<div class='diff-traffic-light'" +
-        " data-tip='ajax:traffic_light'" +
         " data-id='a4r9YN'" +
-        " data-colour='red'" + # [1]
-        " data-tag='14'>" +
+        " data-index='14'" +
+        " data-colour='red'>" + # [1]
         "<img src='/images/bulb_red.png'" +
            " alt='red traffic-light'/>" +
       '</div>'
