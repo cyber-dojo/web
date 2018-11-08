@@ -13,9 +13,9 @@ $(() => {
   const cancel = $('button#cancel');
 
   const inputIdHandler = () => {
-    // TODO: disable <input> here, for robustness if slow response
     const id = inputId.val();
     if (id.length >= 6) {
+      inputId.prop('disabled', true);
       const args = { id:id, from:"<%= @from %>" };
       $.getJSON('/id_rejoin/drop_down', args, dropDownHandler);
     }
@@ -23,8 +23,9 @@ $(() => {
 
   const dropDownHandler = (response) => {
     if (dropDownPrepared(response)) {
-      inputId.prop('disabled', true);
       inputId.slideUp('fast', () => dropDown.slideDown('slow'));
+    } else {
+      inputId.prop('disabled', false);      
     }
   };
 
