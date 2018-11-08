@@ -11,6 +11,6 @@ echo "filling old ${STORER_CONTAINER} will test data"
 ${SH_DIR}/insert_katas_test_data.sh ${STORER_CONTAINER}
 
 echo "clearing out new saver"
-docker-machine ssh default 'cd /tmp/id-map && sudo rm -rf *'
-docker-machine ssh default 'cd /tmp/groups && sudo rm -rf *'
-docker-machine ssh default 'cd /tmp/katas  && sudo rm -rf *'
+docker-machine ssh default 'cd /tmp/id-map && sudo rm -rf * && sudo chown -R 19664 .'
+docker-machine ssh default 'cd /tmp/groups && sudo rm -rf * && sudo chown -R 19663 .'
+docker-machine ssh default 'cd /tmp/katas  && sudo rm -rf * && sudo chown -R 19663 .'
