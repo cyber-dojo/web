@@ -3,25 +3,34 @@
 {
   @include id-common();
 
-  #lights, #avatars
+  img.avatar
   {
-    @include center-align();
+    &.small
+    {
+      @include rounded-corner(2px);
+        width: 37px;
+       height: 37px;
+      display: block;
+    }
+  }
+
+  .traffic-light
+  {
+      width: 20px;
+     height: 20px;
+     margin: { top: 0px; bottom: 0px; left: 0px; right: 5px; }
+    padding: 0px;
+  }
+
+  .info
+  {
     @include plaintext-font();
     @include rounded-corner(6px);
     background: lighten($darker-color, 5%);
-     font-size: 15px;
-         width: 304px;
-        margin: { top: 0px; bottom: 10px; }
-       padding: 5px;
+     font-size: 17px;
+        margin: { top: 3px; bottom: 3px; left: 0px; }
+       padding: 8px;
     text-align: left;
-  }
-
-  #lights img, #avatars img
-  {
-    @include rounded-corner(4px);
-     width: 40px;
-    height: 40px;
-    margin: { left: 2px; right: 4px; }
   }
 
   button
@@ -39,4 +48,3 @@
   }
 
 }
-

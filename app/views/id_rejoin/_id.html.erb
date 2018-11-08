@@ -15,8 +15,8 @@ $(() => {
   const inputIdHandler = () => {
     const id = inputId.val();
     if (id.length >= 6) {
-      inputId.prop('disabled', true);
       const args = { id:id, from:"<%= @from %>" };
+      inputId.prop('disabled', true);
       $.getJSON('/id_rejoin/drop_down', args, dropDownHandler);
     }
   };
@@ -25,7 +25,7 @@ $(() => {
     if (dropDownPrepared(response)) {
       inputId.slideUp('fast', () => dropDown.slideDown('slow'));
     } else {
-      inputId.prop('disabled', false);      
+      inputId.prop('disabled', false);
     }
   };
 
