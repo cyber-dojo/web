@@ -4,7 +4,6 @@ class DifferController < ApplicationController
   def diff
     @kata = kata
     events = @kata.events
-    was_index, now_index = *was_now(events)
     was_files = events[was_index].files(:with_output)
     now_files = events[now_index].files(:with_output)
     diff = differ.diff(was_files, now_files)
@@ -30,19 +29,6 @@ class DifferController < ApplicationController
   include DiffView
   include RingPrevNext
   include ReviewFilePicker
-
-  def was_now(events)
-    # You get -1 when switching avatars in non-diff mode
-    was = was_index
-    now = now_index
-    if was == -1 && now == -1
-      was = events.size - 1;
-      now = events.size - 1;
-    end
-    [was,now]
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
 
   def current_filename
     params[:filename]

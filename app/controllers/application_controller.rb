@@ -57,25 +57,23 @@ class ApplicationController < ActionController::Base
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
   # review/show
-
-  def was_tag
-    params[:was_tag].to_i
-  end
-
-  def now_tag
-    params[:now_tag].to_i
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - -
   # differ/diff
   # tipper/traffic_light_tip
 
   def was_index
-    params[:was_index].to_i
+    was = params[:was_index].to_i
+    if was == -1
+      was = kata.events.size - 1
+    end
+    was
   end
 
   def now_index
-    params[:now_index].to_i
+    now = params[:now_index].to_i
+    if now == -1
+      now = kata.events.size - 1
+    end
+    now
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
