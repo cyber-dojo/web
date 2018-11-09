@@ -11,16 +11,6 @@ class ApplicationController < ActionController::Base
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def ported
-    #     dashboard/show/1F00C1BFC8
-    # --> dashboard/show/2M0Ry7?
-
-    #     kata/edit/1F00C1BFC8?avatar=turtle
-    # --> kata/edit/2M0Ry7?
-
-    #     review/show/1F00C1BFC8?avatar=turtle&was_tag=2&now_tag=3
-    # --> review/show/2M0Ry7?was_tag=2&now_tag=3
-    # --> review/show/2M0Ry7?was_index=2&now_index=3
-
     if id.size == 10
       url = request.url
       id6 = porter.port(id)
@@ -94,3 +84,32 @@ class ApplicationController < ActionController::Base
   end
 
 end
+
+# - - - - - - - - - - - - - - - - - - - - - - - -
+# ported()
+#
+# cyber-dojo is designed for group practice-sessions.
+# In this 'mode' URLs used to look like this...
+#    http://cyber-dojo.org/kata/edit/hVU93Kj8rq?avatar=tiger
+# The hVU93Kj8rq was a 10-digit group-id
+# and the avatar=tiger was your animal inside this group
+# Now, ported() will redirect this URLs to something like this...
+#    http://cyber-dojo.org/kata/edit/mFL6se
+# where mFL6se is the 6-digit kata-id
+#
+# cyber-dojo can also be used for individual practice-sessions.
+# In this 'mode' URLs also look like this...
+#   http://cyber-dojo.org/kata/edit/ym04AU
+# The ym04AU is a 6-digit kata-id with no associated avatar-name.
+#
+# Examples of ported() URL redirections...
+#
+#     dashboard/show/1F00C1BFC8
+# --> dashboard/show/2M0Ry7?
+
+#     kata/edit/1F00C1BFC8?avatar=turtle
+# --> kata/edit/2M0Ry7?
+
+#     review/show/1F00C1BFC8?avatar=turtle&was_tag=2&now_tag=3
+# --> review/show/2M0Ry7?was_tag=2&now_tag=3
+# --> review/show/2M0Ry7?was_index=2&now_index=3
