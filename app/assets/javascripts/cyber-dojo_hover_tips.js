@@ -3,9 +3,9 @@
 var cyberDojo = (function(cd, $) {
 
   cd.setupTrafficLightTip = ($light, id, wasIndex, nowIndex) => {
-    const data = { id:id, was_tag:wasIndex, now_tag:nowIndex };
+    const args = { id:id, was_index:wasIndex, now_index:nowIndex };
     cd.setTip($light, () => {
-      $.getJSON('/tipper/traffic_light_tip', data, (response) => {
+      $.getJSON('/tipper/traffic_light_tip', args, (response) => {
         cd.showHoverTip($light, response.html);
       });
     });

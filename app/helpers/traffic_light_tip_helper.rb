@@ -1,10 +1,7 @@
 
 module TrafficLightTipHelper # mix-in
 
-  def traffic_light_tip_html(diffs, events, was_tag, now_tag)
-    was_index = was_tag.to_i
-    now_index = now_tag.to_i
-
+  def traffic_light_tip_html(diffs, events, was_index, now_index)
     tip = '<table><tr>'
     tip += td(traffic_light_img(events, was_index))  # red/amber/green
     tip += td(tag_html(was_index))                 # 13

@@ -56,7 +56,8 @@ class ApplicationController < ActionController::Base
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
-  # tipper and differ
+  # differ/diff
+  # review/show
 
   def was_tag
     params[:was_tag].to_i
@@ -64,6 +65,17 @@ class ApplicationController < ActionController::Base
 
   def now_tag
     params[:now_tag].to_i
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+  # tipper/traffic_light_tip
+
+  def was_index
+    params[:was_index].to_i
+  end
+
+  def now_index
+    params[:now_index].to_i
   end
 
   private
