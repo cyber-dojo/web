@@ -2,20 +2,18 @@
 class DifferController < ApplicationController
 
   def diff
-    @kata = kata
-    events = @kata.events
-    was_files = events[was_index].files(:with_output)
-    now_files = events[now_index].files(:with_output)
+    was_files = kata.events[was_index].files(:with_output)
+    now_files = kata.events[now_index].files(:with_output)
     diff = differ.diff(was_files, now_files)
     view = diff_view(diff)
-    prev_kata_id, next_kata_id = *ring_prev_next(@kata)
+    prev_kata_id, next_kata_id = *ring_prev_next(kata)
 
     render json: {
-                         id: @kata.id,
-                 avatarName: @kata.avatar_name,
+                         id: kata.id,
+                 avatarName: kata.avatar_name,
                    wasIndex: was_index,
                    nowIndex: now_index,
-                     events: events.map{ |event| to_json(event) },
+                     events: kata.events.map{ |event| to_json(event) },
                       diffs: view,
                  prevKataId: prev_kata_id,
                  nextKataId: next_kata_id,

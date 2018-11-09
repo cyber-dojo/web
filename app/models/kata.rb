@@ -39,9 +39,7 @@ class Kata
   end
 
   def events
-    saver.kata_events(id).map.with_index do |h,index|
-      Event.new(@externals, self, h, index)
-    end
+    @events ||= get_events
   end
 
   def lights
@@ -78,6 +76,12 @@ class Kata
   end
 
   private
+
+  def get_events
+    saver.kata_events(id).map.with_index do |h,index|
+      Event.new(@externals, self, h, index)
+    end
+  end
 
   def most_recent_event
     events.last
