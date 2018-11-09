@@ -3,14 +3,18 @@
 $(() => {
 
   $('.kata-row').each((_i,row) => {
-    let wasIndex = 0;
+    let index = 0;
     $.each($('.diff-traffic-light', $(row)), (_,light) => {
       const $light = $(light);
       const id = $light.data('id');
+      const wasIndex = index;
       const nowIndex = $light.data('index');
-      $light.click(() => window.open(cd.showReviewUrl(id, wasIndex, nowIndex)));
+      alert(`:${wasIndex}:${nowIndex}:`);
+      $light.click(() => {
+        window.open(cd.showReviewUrl(id, wasIndex, nowIndex));
+      });
       cd.setupTrafficLightTip($light, id, wasIndex, nowIndex);
-      wasIndex = nowIndex;
+      index = nowIndex;
     });
   });
 
