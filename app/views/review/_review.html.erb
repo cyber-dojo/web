@@ -545,8 +545,6 @@ $(() => {
        index: param.nowIndex
     };
     $.getJSON('/reverter/revert', revertParams, (data) => {
-      // This is .dialog('close') and NOT .remove() since the
-      // latter breaks inDialog()'s dialog.size() === 1 check.
       $('#review-dialog').dialog('close');
       deleteAllNonOutputFiles();
       insertNewFiles(data.visibleFiles);
