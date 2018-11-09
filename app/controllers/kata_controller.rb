@@ -21,12 +21,15 @@ class KataController < ApplicationController
     # @new_files,@deleted_files,@changed_files
     #   o) have already been set in files ready to be saved.
     #   o) need to be updated in the browser.
+    t1 = time_now
+
     @stdout,@stderr,@status,
       colour,
         files,@new_files,@deleted_files,@changed_files = kata.run_tests(params)
 
+    t2 = time_now
+    took = (t2 - t1)
     index = params[:index].to_i + 1
-    t1 = time_now
     kata.ran_tests(index, files, t1, @stdout, @stderr, @status, colour)
 
     @light = Event.new(self, kata, { 'time' => t1, 'colour' => colour }, index)
