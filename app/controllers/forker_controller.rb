@@ -5,7 +5,7 @@ class ForkerController < ApplicationController
 
   def fork
     begin
-      forked_id = storer.tag_fork(id, avatar_name, tag, time_now)
+      forked_id = storer.tag_fork(id, index, time_now)
       result = {
         forked: true,
         id: forked_id,
@@ -32,8 +32,6 @@ class ForkerController < ApplicationController
     case caught.message
       when -> (msg) { msg.include? 'kata_id' }
         result[:reason] = "dojo(#{id})"
-      when -> (msg) { msg.include? 'avatar_name' }
-        result[:reason] = "avatar(#{avatar_name})"
       when -> (msg) { msg.include? 'tag' }
         result[:reason] = "traffic_light(#{params['tag']})"
       else

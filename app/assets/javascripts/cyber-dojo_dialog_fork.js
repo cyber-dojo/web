@@ -1,26 +1,24 @@
 /*global jQuery,cyberDojo*/
-
+'use strict';
 var cyberDojo = (function(cd, $) {
-  "use strict";
 
-  cd.forkDialog = (kata_id, avatar_name, tag) => {
-    const forkParams = {
+  cd.forkDialog = (kata_id, index) => {
+    const args = {
           id: kata_id,
-      avatar: avatar_name,
-         tag: tag
+       index: index
     };
-    $.getJSON('/forker/fork', forkParams, (data) => {
-      if (data.forked) {
-        forkWorkedDialog(data, avatar_name, tag);
+    $.getJSON('/forker/fork', args, (response) => {
+      if (response.forked) {
+        forkWorkedDialog(response, index);
       } else {
-        forkFailedDialog(data, avatar_name, tag);
+        forkFailedDialog(response, index);
       }
     });
   };
 
   //- - - - - - - - - - - - - - - - - - - -
 
-  const forkWorkedDialog = function(params, avatar_name, tag) {
+  const forkWorkedDialog = function(params, index) {
     const id = params['id'];
     const phonetic = params['phonetic'];
 
@@ -34,7 +32,7 @@ var cyberDojo = (function(cd, $) {
          success: function(dojo) {
            // assuming dojo.exists
            // assuming !dojo.full
-           const url = '/kata/edit/' + dojo.id + '?avatar=' + dojo.avatarName;
+           const url = '/kata/edit/' + dojo.id;
            window.open(url);
          }
       });
@@ -46,7 +44,7 @@ var cyberDojo = (function(cd, $) {
     };
 
     const html = '' +
-      '<div>A new session has been setup from ' + avatar_name + ' ' + tag + ':</div>' +
+      '<div>A new session has been setup from ' + id + ' ' + index + ':</div>' +
       "<div id='dojo-id'>" + id.substring(0,6) + '</div>' +
       "<div id='phonetic-dojo-id'>" + phonetic + '</div>' +
       '<table>' +
@@ -76,9 +74,9 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - -
 
-  const forkFailedDialog = (data, avatar_name, tag) => {
+  const forkFailedDialog = (data, tag) => {
     const message =
-      'Could not setup a new session from ' + avatar_name + ' ' + tag + '.' + '<br/>' +
+      'Could not setup a new session from ' + ' ' + tag + '.' + '<br/>' +
       data.reason + ' does not exist.';
     $('<div>')
       .html(message)

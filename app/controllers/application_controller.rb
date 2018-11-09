@@ -49,9 +49,6 @@ class ApplicationController < ActionController::Base
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
-  # review/show
-  # differ/diff
-  # tipper/traffic_light_tip
 
   def was_index
     was = params[:was_index].to_i
@@ -69,15 +66,9 @@ class ApplicationController < ActionController::Base
     now
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - - - -
-  # reverter/revert
-  # forker/fork
-
   def index
     params[:index].to_i
   end
-
-  private
 
   def id
     params[:id]

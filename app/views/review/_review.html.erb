@@ -514,7 +514,7 @@ $(() => {
   };
 
   //-----------------------------------------
-  // refresh [fork] {create a new practice-session}
+  // refresh [fork]
   //-----------------------------------------
 
   const refreshForkButton = () => {
@@ -621,7 +621,7 @@ $(() => {
     reviewRefresh();
   }
   setupButton('download', () => doDownload());
-  setupButton('fork',     () => cd.forkDialog(param.id, param.avatarName, param.nowIndex));
+  setupButton('fork',     () => cd.forkDialog(param.id, param.nowIndex));
 
 });
 

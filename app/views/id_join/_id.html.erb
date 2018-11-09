@@ -82,6 +82,8 @@ $(() => {
   cd.onlyBase58(inputId);
   inputId.keyup(() => inputIdHandler())
          .focus();
+  inputIdHandler();
+           
 });
 
 //--></script>
@@ -90,7 +92,7 @@ $(() => {
        id="id"
        placeholder="id?"
        size="8"
-       value="">
+       value="<%= @id %>">
 </input>
 
 <div id="drop-down" style="display:none;">

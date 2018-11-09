@@ -3,6 +3,7 @@ class IdJoinController < ApplicationController
 
   def show
     @avatar_names = Avatars.names
+    @id = id
   end
 
   def drop_down
