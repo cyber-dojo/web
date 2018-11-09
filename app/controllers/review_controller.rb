@@ -6,12 +6,13 @@ class ReviewController < ApplicationController
     # all interaction with the web server is via the
     # differ-controller.
     ported {
-      @kata = kata
-      @avatar_name = @kata.avatar_name
+      @kata = kata # TODO: needed for extension_filenames
+      @title = 'review:' + kata.id
+      @id = kata.id
+      @avatar_name = kata.avatar_name
       @was_index = was_index
       @now_index = now_index
       @filename = filename
-      @title = 'review:' + @kata.id
     }
   end
 
