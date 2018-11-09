@@ -56,7 +56,6 @@ class ApplicationController < ActionController::Base
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
-  # differ/diff
   # review/show
 
   def was_tag
@@ -68,6 +67,7 @@ class ApplicationController < ActionController::Base
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
+  # differ/diff
   # tipper/traffic_light_tip
 
   def was_index
@@ -77,6 +77,11 @@ class ApplicationController < ActionController::Base
   def now_index
     params[:now_index].to_i
   end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+  # reverter/revert
+  # forker/fork
+  # tag
 
   private
 

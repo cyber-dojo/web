@@ -43,4 +43,3 @@ class ForkerController < ApplicationController
   end
 
 end
-

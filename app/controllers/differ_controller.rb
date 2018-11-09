@@ -33,8 +33,8 @@ class DifferController < ApplicationController
 
   def was_now(events)
     # You get -1 when switching avatars in non-diff mode
-    was = was_tag
-    now = now_tag
+    was = was_index
+    now = now_index
     if was == -1 && now == -1
       was = events.size - 1;
       now = events.size - 1;
