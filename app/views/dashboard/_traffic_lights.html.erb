@@ -9,7 +9,6 @@ $(() => {
       const id = $light.data('id');
       const wasIndex = index;
       const nowIndex = $light.data('index');
-      alert(`:${wasIndex}:${nowIndex}:`);
       $light.click(() => {
         window.open(cd.showReviewUrl(id, wasIndex, nowIndex));
       });
