@@ -14,11 +14,12 @@ class ApplicationController < ActionController::Base
     #     dashboard/show/1F00C1BFC8
     # --> dashboard/show/2M0Ry7?
 
-    #     kata/edit/1F00C1BFC8?avatar=lion
+    #     kata/edit/1F00C1BFC8?avatar=turtle
     # --> kata/edit/2M0Ry7?
 
-    #     review/show/1F00C1BFC8?avatar=lion&was_tag=2&now_tag=3
+    #     review/show/1F00C1BFC8?avatar=turtle&was_tag=2&now_tag=3
     # --> review/show/2M0Ry7?was_tag=2&now_tag=3
+    # --> review/show/2M0Ry7?was_index=2&now_index=3
 
     if id.size == 10
       url = request.url
@@ -29,6 +30,8 @@ class ApplicationController < ActionController::Base
       else
         url6 = url.sub(id, id6)
       end
+      url6 = url6.sub('was_tag', 'was_index')
+      url6 = url6.sub('now_tag', 'now_index')
       redirect_to url6
     else
       yield
