@@ -43,7 +43,6 @@ module TrafficLightHelper # mix-in
   def traffic_light_count(lights)
     "<div class='traffic-light-count #{lights[-1].colour}'" +
         " data-tip='traffic_light_count'" +
-        " data-avatar-name='#{lights[-1].kata.avatar_name}'" +
         " data-red-count='#{colour_count(lights, :red)}'" +
         " data-amber-count='#{colour_count(lights, :amber)}'" +
         " data-green-count='#{colour_count(lights, :green)}'" +
