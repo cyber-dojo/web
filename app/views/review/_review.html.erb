@@ -542,7 +542,7 @@ $(() => {
   const doRevert = () => {
     const revertParams = {
           id: param.id,
-         tag: param.nowIndex
+       index: param.nowIndex
     };
     $.getJSON('/reverter/revert', revertParams, (data) => {
       // This is .dialog('close') and NOT .remove() since the

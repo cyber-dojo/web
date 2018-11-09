@@ -81,7 +81,10 @@ class ApplicationController < ActionController::Base
   # - - - - - - - - - - - - - - - - - - - - - - - -
   # reverter/revert
   # forker/fork
-  # tag
+
+  def index
+    params[:index].to_i
+  end
 
   private
 
