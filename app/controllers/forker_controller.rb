@@ -3,13 +3,18 @@ require_relative '../../lib/time_now'
 
 class ForkerController < ApplicationController
 
-  def fork
+  def fork_individual
     begin
-      forked_id = storer.tag_fork(id, index, time_now)
+      manifest = kata.manifest.to_json
+      manifest.delete('id')
+      manifest['visible_files'] = kata.events[index].files
+      manifest['created'] = time_now
+
+      forked_id = saver.kata_create(manifest)
       result = {
         forked: true,
-        id: forked_id,
-        phonetic: Phonetic.spelling(forked_id[0..5]).join('-')
+        id: forked_id
+        #phonetic: Phonetic.spelling(forked_id[0..5]).join('-')
       }
     rescue => caught
       result = fork_failed(caught)
@@ -30,10 +35,10 @@ class ForkerController < ApplicationController
   def fork_failed(caught)
     result = { forked: false }
     case caught.message
-      when -> (msg) { msg.include? 'kata_id' }
-        result[:reason] = "dojo(#{id})"
-      when -> (msg) { msg.include? 'tag' }
-        result[:reason] = "traffic_light(#{params['tag']})"
+      when -> (msg) { msg.include? 'id' }
+        result[:reason] = "kata(#{id})"
+      when -> (msg) { msg.include? 'index' }
+        result[:reason] = "event(#{index})"
       else
         raise caught
     end

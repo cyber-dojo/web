@@ -13,6 +13,8 @@ class Manifest
     end
   end
 
+  # - - - - - - - - - -
+
   def self.optional(names)
     names.each do |name,default|
       define_method name do
@@ -20,6 +22,8 @@ class Manifest
       end
     end
   end
+
+  # - - - - - - - - - -
 
   required :group_id,    # eg '8bvlJk',    nil if !group-practice-session
            :group_index, # eg 45 (salmon), nil if !group-practice-session
@@ -30,6 +34,8 @@ class Manifest
            :image_name,         # eg 'cyberdojofoundation/java_junit'
            :runner_choice       # eg 'stateless'
 
+  # - - - - - - - - - -
+
   optional({
                exercise:'',
     highlight_filenames:[],
@@ -38,5 +44,23 @@ class Manifest
             max_seconds:10,
         progress_regexs:[]
   })
+
+  # - - - - - - - - - -
+
+  def to_json
+    {
+      'display_name' => display_name,
+      'filename_extension' => filename_extension,
+      'id' => id,
+      'image_name' => image_name,
+      'runner_choice' => runner_choice,
+      'exercise' => exercise,
+      'highlight_filenames' => highlight_filenames,
+      'hidden_filenames' => hidden_filenames,
+      'tab_size' => tab_size,
+      'max_seconds' => max_seconds,
+      'progress_regexs' => progress_regexs
+    }
+  end
 
 end

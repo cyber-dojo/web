@@ -1,42 +1,77 @@
 /*global jQuery,cyberDojo*/
 'use strict';
-var cyberDojo = (function(cd, $) {
+var cyberDojo = ((cd, $) => {
 
   cd.forkDialog = (kata_id, index) => {
-    const args = {
-          id: kata_id,
-       index: index
-    };
-    $.getJSON('/forker/fork', args, (response) => {
-      if (response.forked) {
-        forkWorkedDialog(response, index);
-      } else {
-        forkFailedDialog(response, index);
+    const html = $('<div>', {
+        id: 'fork-dialog',
+      text: 'what kind of practice-session do you want to create?'
+    });
+    html.append($('<button>', {
+         id: 'individual',
+       type: 'button',
+       text: 'individual'
+    }).click(() => forkIndividual(kata_id, index)));
+    html.append($('<button>', {
+         id: 'group',
+       type: 'button',
+       text: 'group'
+    }).click(() => forkGroup(kata_id, index)));
+
+    $(html).dialog({
+      title: cd.dialogTitle('fork'),
+      autoOpen: true,
+      modal: true,
+      width: 350,
+      closeOnEscape: true,
+      buttons: {
+        'close': function() {
+          $(this).remove();
+        }
       }
+    });
+  };
+
+  const forkIndividual = (kata_id, index) => {
+    $.ajax({
+             url: '/forker/fork_individual',
+            data: { id:kata_id, index:index },
+        dataType: 'json',
+           async: false,
+         success: (response) => {
+          if (response.forked) {
+            const url = '/kata/edit/' + response.id;
+            window.open(url);
+          } else {
+            //TODO:...
+            alert(`failed :${response.reason}:`);
+          }
+        }
+    });
+  };
+
+  const forkGroup = (kata_id, index) => {
+    $.ajax({
+             url: '/forker/fork_group',
+            data: { id:kata_id, index:index },
+        dataType: 'json',
+           async: false,
+         success: (response) => {
+          if (response.forked) {
+            //TODO:...
+          } else {
+            //TODO:...
+          }
+        }
     });
   };
 
   //- - - - - - - - - - - - - - - - - - - -
 
+  /*
   const forkWorkedDialog = function(params, index) {
     const id = params['id'];
     const phonetic = params['phonetic'];
-
-    cd.forkJoin = () => {
-      // async:false prevents window.open(url) causing a blocked popup
-      $.ajax({
-             url: '/id_join/drop_down',
-        dataType: 'json',
-           async: false,
-            data: { id: id },
-         success: function(dojo) {
-           // assuming dojo.exists
-           // assuming !dojo.full
-           const url = '/kata/edit/' + dojo.id;
-           window.open(url);
-         }
-      });
-    };
 
     cd.forkDashboard = () => {
       const url = '/dashboard/show/' + id;
@@ -97,7 +132,8 @@ var cyberDojo = (function(cd, $) {
   };
 
   //- - - - - - - - - - - - - - - - - - - -
-
+  */
+  
   return cd;
 
 })(cyberDojo || {}, jQuery);
