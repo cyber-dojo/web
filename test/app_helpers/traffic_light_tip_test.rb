@@ -25,8 +25,8 @@ class TipTest < AppHelpersTestBase
       status = 0
       kata.ran_tests(2, files, time_now, stdout, stderr, status, 'green')
 
-      # uses real differ-service
-      events = kata.events
+      # kata caches its events so have to get new kata object
+      events = katas[kata.id].events
       diff = differ.diff(events[was_index=1].files, events[now_index=2].files)
 
       expected =
@@ -47,7 +47,7 @@ class TipTest < AppHelpersTestBase
           '</tr>' +
         '</table>'
 
-      actual = traffic_light_tip_html(diff, kata.events, was_index, now_index)
+      actual = traffic_light_tip_html(diff, events, was_index, now_index)
       assert_equal expected, actual
     end
   end
@@ -72,8 +72,8 @@ class TipTest < AppHelpersTestBase
       status = 0
       kata.ran_tests(2, files, time_now, stdout, stderr, status, 'green')
 
-      # uses real differ-service
-      events = kata.events
+      # kata caches its events so have to get new kata object
+      events = katas[kata.id].events
       diff = differ.diff(events[was_index=1].files, events[now_index=2].files)
 
       expected =
@@ -95,7 +95,7 @@ class TipTest < AppHelpersTestBase
           '</tr>' +
         '</table>'
 
-      actual = traffic_light_tip_html(diff, kata.events, was_index, now_index)
+      actual = traffic_light_tip_html(diff, events, was_index, now_index)
       assert_equal expected, actual
     end
   end

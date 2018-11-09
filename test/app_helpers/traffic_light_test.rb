@@ -31,7 +31,6 @@ class TrafficLightTest < AppHelpersTestBase
     expected =
       "<div class='traffic-light-count amber'" +
           " data-tip='traffic_light_count'" +
-          " data-avatar-name='fox'" +
           " data-red-count='2'" +
           " data-amber-count='2'" +
           " data-green-count='1'" +
