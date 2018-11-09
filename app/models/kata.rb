@@ -36,10 +36,13 @@ class Kata
 
   def ran_tests(index, files, at, stdout, stderr, status, colour)
     saver.kata_ran_tests(id, index, files, at, stdout, stderr, status, colour)
+    @events = nil
   end
 
   def events
-    @events ||= get_events
+    @events ||= saver.kata_events(id).map.with_index do |h,index|
+      Event.new(@externals, self, h, index)
+    end
   end
 
   def lights
@@ -76,12 +79,6 @@ class Kata
   end
 
   private
-
-  def get_events
-    saver.kata_events(id).map.with_index do |h,index|
-      Event.new(@externals, self, h, index)
-    end
-  end
 
   def most_recent_event
     events.last

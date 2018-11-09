@@ -25,8 +25,7 @@ class TipTest < AppHelpersTestBase
       status = 0
       kata.ran_tests(2, files, time_now, stdout, stderr, status, 'green')
 
-      # kata caches its events so have to get new kata object
-      events = katas[kata.id].events
+      events = kata.events
       diff = differ.diff(events[was_index=1].files, events[now_index=2].files)
 
       expected =
@@ -72,8 +71,7 @@ class TipTest < AppHelpersTestBase
       status = 0
       kata.ran_tests(2, files, time_now, stdout, stderr, status, 'green')
 
-      # kata caches its events so have to get new kata object
-      events = katas[kata.id].events
+      events = kata.events
       diff = differ.diff(events[was_index=1].files, events[now_index=2].files)
 
       expected =

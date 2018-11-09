@@ -98,8 +98,6 @@ class KataTest < AppModelsTestBase
     }
     kata.run_tests(params)
     kata.ran_tests(1, kata.files, [2018,11,1, 9,14,9], 'so', 'se', 39, 'red')
-    # kata caches its events so have to recreate
-    kata = katas[kata.id]
     assert_equal 13, kata.age
     assert kata.active?
     assert_equal 2, kata.events.size
