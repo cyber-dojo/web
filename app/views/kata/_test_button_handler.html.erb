@@ -40,23 +40,13 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - - - - -
 
   const error = (request, status, thrown) => {
-    const info = [
+    cd.dialogError([
       request.responseText,
       '----------------------------',
       `Status=${status}`,
       thrown
-    ].join("\n");
-    cd.dialogError(info);
+    ].join("\n"));
   };
 
-  cd.dialogError = (info) => {
-    const html = $('<textarea>', {
-      'data-width':620,
-              'id':'error',
-        'readonly':'readonly'
-    }).val(info);
-    cd.dialog(html, 'error', 'close').dialog('open');
-  };
-  
 });
 //--></script>
