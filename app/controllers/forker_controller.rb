@@ -1,4 +1,3 @@
-require_relative '../../lib/phonetic_alphabet'
 require_relative '../../lib/time_now'
 
 class ForkerController < ApplicationController
@@ -24,8 +23,7 @@ class ForkerController < ApplicationController
       forked_id = yield(manifest)
       result = {
         forked: true,
-        id: forked_id,
-        phonetic: Phonetic.spelling(forked_id[0..5]).join('-')
+            id: forked_id
       }
     rescue => caught
       result = fork_failed(caught)
