@@ -5,15 +5,14 @@ module DashboardWorker # mixin
   module_function
 
   def gather
-    @group = group
     @minute_columns = bool('minute_columns')
     @auto_refresh = bool('auto_refresh')
     @all_lights = Hash[
-      @group.katas
+      group.katas
             .select(&:active?)
             .map{ |kata| [kata.id, kata.lights] }
     ]
-    args = [@group.created, seconds_per_column, max_seconds_uncollapsed]
+    args = [group.created, seconds_per_column, max_seconds_uncollapsed]
     gapper = DashboardTdGapper.new(*args)
     @gapped = gapper.fully_gapped(@all_lights, time_now)
     @time_ticks = gapper.time_ticks(@gapped)

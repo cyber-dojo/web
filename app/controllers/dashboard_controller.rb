@@ -6,7 +6,7 @@ class DashboardController < ApplicationController
   def show
     ported {
       gather
-      @title = 'dashboard:' + @group.id
+      @title = 'dashboard:' + group.id
     }
   end
 

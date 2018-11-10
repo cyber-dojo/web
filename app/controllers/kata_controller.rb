@@ -8,9 +8,8 @@ class KataController < ApplicationController
 
   def edit
     ported {
-      @kata = kata
-      @title = 'test:' + @kata.id
-      @index = @kata.events.last.index
+      @title = 'test:' + kata.id
+      @index = kata.events.last.index
     }
   end
 

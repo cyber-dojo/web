@@ -35,7 +35,7 @@ class ApplicationController < ActionController::Base
   end
 
   def kata
-    @cached_kata ||= katas[id]
+    @kata ||= katas[id]
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -45,7 +45,7 @@ class ApplicationController < ActionController::Base
   end
 
   def group
-    @cached_group ||= groups[id]
+    @group ||= groups[id]
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
