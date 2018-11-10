@@ -11,14 +11,4 @@
     width: 200px;
     text-align: left;
   }
-
-  #dojo-id
-  {
-    font-size: 3.5em;
-    @include non-code-font();
-  }
-
-  #phonetic-dojo-id {
-    padding: { bottom: 10px; }
-  }
 }
