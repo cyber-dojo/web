@@ -44,7 +44,7 @@ var cyberDojo = ((cd, $) => {
             window.open(url);
           } else {
             //TODO:...
-            alert(`failed :${response.reason}:`);
+            alert(`individual-fork:failed :${response.reason}:`);
           }
         }
     });
@@ -58,9 +58,11 @@ var cyberDojo = ((cd, $) => {
            async: false,
          success: (response) => {
           if (response.forked) {
-            //TODO:...
+            const url = '/kata/group/' + response.id;
+            window.open(url);
           } else {
             //TODO:...
+            alert(`group-fork:failed :${response.reason}:`);
           }
         }
     });
@@ -133,7 +135,7 @@ var cyberDojo = ((cd, $) => {
 
   //- - - - - - - - - - - - - - - - - - - -
   */
-  
+
   return cd;
 
 })(cyberDojo || {}, jQuery);
