@@ -46,6 +46,10 @@ $(() => {
       `Status=${status}`,
       thrown
     ].join("\n");
+    cd.dialogError(info);
+  };
+
+  cd.dialogError = (info) => {
     const html = $('<textarea>', {
       'data-width':620,
               'id':'error',
@@ -53,5 +57,6 @@ $(() => {
     }).val(info);
     cd.dialog(html, 'error', 'close').dialog('open');
   };
+  
 });
 //--></script>
