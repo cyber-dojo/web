@@ -26,24 +26,14 @@ class ForkerController < ApplicationController
             id: forked_id
       }
     rescue => caught
-      result = fork_failed(caught)
+      result = {
+        forked: false,
+        message: caught.message
+      }
     end
     respond_to do |format|
       format.json { render json: result }
     end
-  end
-
-  def fork_failed(caught)
-    result = { forked: false }
-    case caught.message
-      when -> (msg) { msg.include? 'id' }
-        result[:reason] = "kata(#{id})"
-      when -> (msg) { msg.include? 'index' }
-        result[:reason] = "event(#{index})"
-      else
-        raise caught
-    end
-    result
   end
 
 end

@@ -42,30 +42,11 @@ var cyberDojo = ((cd, $) => {
           if (response.forked) {
             window.open(`/kata/${routeTo}/${response.id}`);
           } else {
-            //TODO:...
-            alert(`individual-fork:failed :${response.reason}:`);
+            cd.dialogError(response.message);
           }
         }
     });
   };
-
-  /*
-  const forkFailedDialog = (data, tag) => {
-    const message =
-      'Could not setup a new session from ' + ' ' + tag + '.' + '<br/>' +
-      data.reason + ' does not exist.';
-    $('<div>')
-      .html(message)
-      .dialog({
-                title: cd.dialogTitle('fork failed'),
-             autoOpen: true,
-        closeOnEscape: true,
-                modal: true,
-                width: 450,
-              buttons: { ok: function() { $(this).remove(); } }
-      });
-  };
-  */
 
   return cd;
 
