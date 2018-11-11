@@ -58,7 +58,7 @@ module TestDomainHelpers # mix-in
   end
 
   def kata_id
-    ENV['CYBER_DOJO_TEST_ID']
+    hex_test_kata_id
   end
 
   def time_now(now = Time.now)
