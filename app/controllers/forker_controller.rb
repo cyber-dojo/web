@@ -27,7 +27,7 @@ class ForkerController < ApplicationController
       }
     rescue => caught
       result = {
-        forked: false,
+         forked: false,
         message: caught.message
       }
     end
