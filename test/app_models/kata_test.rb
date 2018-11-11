@@ -15,8 +15,10 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '861',
-  'a kata cannot be created from a manifest missing any required property' do
+  test '861', %w(
+  attempting to create a kata
+  from a manifest missing any required property
+  raises ) do
     manifest = starter_manifest
     manifest.delete('image_name')
     error = assert_raises(ServiceError) { katas.new_kata(manifest) }
@@ -117,6 +119,34 @@ class KataTest < AppModelsTestBase
         'status' => light.status.to_s
     })
     assert_equal expected, light.files(:with_output)
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '865', %w(
+  an event's manifest is ready to create a new kata from
+  ) do
+    kata = create_kata([2018,11,1, 9,13,56])
+    kmanifest = kata.manifest
+    params = {
+      image_name:kmanifest.image_name,
+      max_seconds:kmanifest.max_seconds,
+      file_content:kata.files,
+      file_hashes_incoming:kata.files,
+      file_hashes_outgoing:kata.files,
+      hidden_filenames:'[]'
+    }
+    kata.run_tests(params)
+    kata.ran_tests(1, kata.files, [2018,11,1, 9,14,9], 'so', 'se', 39, 'red')
+
+    emanifest = kata.events[1].manifest
+    refute_nil emanifest
+    assert_nil emanifest['id']
+    assert_nil emanifest['created']
+    assert_equal kata.files, emanifest['visible_files']
+    assert_equal kmanifest.display_name, emanifest['display_name']
+    assert_equal kmanifest.image_name, emanifest['image_name']
+    assert_equal kmanifest.runner_choice, emanifest['runner_choice']
   end
 
 end
