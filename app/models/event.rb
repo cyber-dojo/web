@@ -13,7 +13,7 @@ class Event
   end
 
   def files(sym = nil)
-    all = manifest['files']
+    all = event['files']
     if sym == :with_output
       all['stdout'] = stdout
       all['stderr'] = stderr
@@ -23,15 +23,15 @@ class Event
   end
 
   def stdout
-    manifest['stdout'] || ''
+    event['stdout'] || ''
   end
 
   def stderr
-    manifest['stderr'] || ''
+    event['stderr'] || ''
   end
 
   def status
-    manifest['status'] || ''
+    event['status'] || ''
   end
 
   def time
@@ -51,10 +51,14 @@ class Event
     colour.to_s != ''
   end
 
+  def manifest
+    kata.manifest.to_json.merge({'visible_files' => files})
+  end
+
   private
 
-  def manifest
-    @manifest ||= saver.kata_event(kata.id, index)
+  def event
+    @event ||= saver.kata_event(kata.id, index)
   end
 
   def saver

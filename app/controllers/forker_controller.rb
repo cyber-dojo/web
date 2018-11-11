@@ -16,9 +16,7 @@ class ForkerController < ApplicationController
 
   def fork
     begin
-      manifest = kata.manifest.to_json
-      manifest.delete('id')
-      manifest['visible_files'] = kata.events[index].files
+      manifest = kata.events[index].manifest
       manifest['created'] = time_now
       forked_id = yield(manifest)
       result = {
