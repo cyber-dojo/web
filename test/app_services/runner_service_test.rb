@@ -42,13 +42,13 @@ class RunnerServiceTest < AppServicesTestBase
 
   test '812',
   'run() is red' do
-    in_kata(:stateful) {
-      stdout,stderr,status,colour = runner.run(*run_args)
-      assert stdout.include?('expected: 42'), stdout
-      assert stdout.include?('got: 54'), stdout
-      assert_equal '', stderr
-      assert_equal 1, status
-      assert_equal 'red', colour
+    in_kata(:stateless) {
+      result = runner.run_cyber_dojo_sh(*run_args)
+      assert result['stdout'].include?('Expected: 42'), result
+      assert result['stdout'].include?('  Actual: 54'), result
+      assert_equal '', result['stderr'], result
+      assert_equal 1, result['status'], result
+      assert_equal 'red', result['colour'], result
     }
   end
 
@@ -57,64 +57,28 @@ class RunnerServiceTest < AppServicesTestBase
   test '9DC',
   'deleting a file' do
     in_kata(:stateless) {
-      starting_files = kata.visible_files
-      starting_files.delete('instructions')
-      starting_files['cyber-dojo.sh'] = 'ls -al'
+      files = kata.files
+      readme = files.delete('readme.txt')
+      files['cyber-dojo.sh'] = 'ls -al'
       args = []
       args << kata.manifest.runner_choice
       args << kata.manifest.image_name
       args << kata.id
+      args << {} # new_files
+      args << { 'readme.txt' => readme } # deleted_files
+      args << { 'cyber-dojo.sh' => files['cyber-dojo.sh'] } # changed_files
+      args << files # unchanged_files
       args << (max_seconds = 10)
-      args << (delta = {
-        :deleted   => [ 'instructions' ],
-        :new       => [],
-        :changed   => [ 'cyber-dojo.sh' ],
-        :unchanged => starting_files.keys - ['cyber-dojo.sh']
-      })
-      args << starting_files
-      args
-      stdout,stderr,status,colour = runner.run(*args)
-      assert stdout.include?('cyber-dojo.sh')
-      refute stdout.include?('instructions')
-      assert_equal '', stderr
-      assert_equal 0, status
-      assert_equal 'amber', colour
+      result = runner.run_cyber_dojo_sh(*args)
+      assert result['stdout'].include?('cyber-dojo.sh'), result
+      refute result['stdout'].include?('readme.txt'), result
+      assert_equal '', result['stderr'], result
+      assert_equal 0, result['status'], result
+      assert_equal 'amber', result['colour'], result
     }
   end
 
   private # = = = = = = = = = = = = = = = = = = =
-
-=begin
-  def in_kata(runner_choice = :stateless, &block)
-    display_name = {
-       stateless: 'Ruby, MiniTest',
-        stateful: 'Ruby, RSpec'
-      #processful: 'Ruby, Test::Unit'
-    }[runner_choice]
-    refute_nil display_name, runner_choice
-    make_language_kata({ 'display_name' => display_name })
-    begin
-      assert_equal runner_choice.to_s, kata.runner_choice
-      block.call
-    ensure
-      runner.kata_old(kata.image_name, kata.id)
-    end
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def as_lion(&block)
-    starting_files = kata.visible_files
-    runner.avatar_new(kata.image_name, kata.id, 'lion', starting_files)
-    begin
-      block.call
-    ensure
-      runner.avatar_old(kata.image_name, kata.id, 'lion')
-    end
-  end
-=end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def run_args
     args = []
@@ -133,14 +97,13 @@ class RunnerServiceTest < AppServicesTestBase
 
   def expected_run_args
     {
-      :runner_choice     => kata.manifest.runner_choice,
-      :image_name        => kata.manifest.image_name,
-      :kata_id           => kata.id,
-      :new_files         => {},
-      :deleted_files     => {},
-      :changed_files     => kata.files,
-      :unchanged_files   => {},
-      :max_seconds       => (max_seconds = 10)
+      :image_name      => kata.manifest.image_name,
+      :id              => kata.id,
+      :new_files       => {},
+      :deleted_files   => {},
+      :changed_files   => kata.files,
+      :unchanged_files => {},
+      :max_seconds     => (max_seconds = 10)
     }
   end
 
@@ -150,7 +113,7 @@ class RunnerServiceTest < AppServicesTestBase
     http_spied_run {
       assert_equal [ 'runner-stateless', 4597,
         'run_cyber_dojo_sh', expected_run_args
-      ], http.spied[0]
+      ], @spy.spied[0]
     }
   end
 
@@ -158,7 +121,7 @@ class RunnerServiceTest < AppServicesTestBase
     http_spied_run {
       assert_equal [ 'runner-stateful', 4557,
         'run_cyber_dojo_sh', expected_run_args
-      ], http.spied[0]
+      ], @spy.spied[0]
     }
   end
 
@@ -167,7 +130,7 @@ class RunnerServiceTest < AppServicesTestBase
   def http_spied_run(&block)
     args = run_args
     saved_http = @http
-    @http = HttpSpy.new(nil)
+    @http = @spy = HttpSpy.new(nil)
     begin
       runner.run_cyber_dojo_sh(*args)
       @http = saved_http
