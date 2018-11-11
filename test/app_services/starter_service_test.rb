@@ -9,7 +9,7 @@ class StarterServiceTest < AppServicesTestBase
   def hex_setup
     set_differ_class('NotUsed')
     set_starter_class('StarterService')
-    set_storer_class('NotUsed')
+    set_saver_class('NotUsed')
     set_runner_class('NotUsed')
   end
 
@@ -73,7 +73,7 @@ class StarterServiceTest < AppServicesTestBase
       test_hiker.rb
       hiker.rb
       cyber-dojo.sh
-      instructions
+      readme.txt
     ).sort, manifest['visible_files'].keys.sort
   end
 

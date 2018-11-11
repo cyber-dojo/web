@@ -39,6 +39,10 @@ module TestExternalHelpers # mix-in
     set_class('starter', value)
   end
 
+  def set_saver_class(value)
+    set_class('saver', value)
+  end
+
   # - - - - - - - - - - - - - - - - - - -
 
   def set_class(name, value)
