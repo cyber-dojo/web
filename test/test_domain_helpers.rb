@@ -29,6 +29,7 @@ module TestDomainHelpers # mix-in
     exercise_name = options['exercise'] || default_exercise_name
     manifest = starter.language_manifest(display_name, exercise_name)
     manifest['created'] = (options['created'] || time_now)
+    manifest['id'] = (options['id'] || kata_id)
     manifest
   end
 
@@ -57,7 +58,7 @@ module TestDomainHelpers # mix-in
   end
 
   def kata_id
-    ENV['CYBER_DOJO_TEST_ID'][0..5]
+    ENV['CYBER_DOJO_TEST_ID']
   end
 
   def time_now(now = Time.now)

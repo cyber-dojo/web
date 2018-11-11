@@ -8,7 +8,7 @@ class RunnerServiceTest < AppServicesTestBase
 
   def hex_setup
     set_differ_class('NotUsed')
-    set_storer_class('StorerFake')
+    set_saver_class('SaverService')
     set_runner_class('RunnerService')
   end
 
@@ -117,19 +117,15 @@ class RunnerServiceTest < AppServicesTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def run_args
-    starting_files = kata.visible_files
     args = []
-    args << kata.image_name
+    args << kata.manifest.runner_choice
+    args << kata.manifest.image_name
     args << kata.id
-    args << 'lion'
+    args << (new_files={})
+    args << (deleted_files={})
+    args << (changed_files=kata.files)
+    args << (unchanged_files={})
     args << (max_seconds = 10)
-    args << (delta = {
-      :deleted   => [],
-      :new       => [],
-      :changed   => starting_files.keys,
-      :unchanged => []
-    })
-    args << starting_files
     args
   end
 
@@ -137,12 +133,12 @@ class RunnerServiceTest < AppServicesTestBase
 
   def expected_run_args
     {
-      :image_name        => kata.image_name,
+      :runner_choice     => kata.manifest.runner_choice,
+      :image_name        => kata.manifest.image_name,
       :kata_id           => kata.id,
-      :avatar_name       => 'lion',
       :new_files         => {},
       :deleted_files     => {},
-      :changed_files     => kata.visible_files,
+      :changed_files     => kata.files,
       :unchanged_files   => {},
       :max_seconds       => (max_seconds = 10)
     }
@@ -169,10 +165,12 @@ class RunnerServiceTest < AppServicesTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def http_spied_run(&block)
+    args = run_args
     saved_http = @http
     @http = HttpSpy.new(nil)
     begin
-      runner.run(*run_args)
+      runner.run_cyber_dojo_sh(*args)
+      @http = saved_http
       block.call
     ensure
       @http = saved_http
