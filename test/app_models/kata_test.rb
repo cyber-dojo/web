@@ -88,7 +88,7 @@ class KataTest < AppModelsTestBase
   there is a new traffic-light event,
   which is now the most recent event
   ) do
-    kata = create_kata([2018,11,1, 9,13,56])
+    kata = create_kata([2018,11,1, 9,13,56,6574])
     manifest = kata.manifest
     params = {
       image_name:manifest.image_name,
@@ -99,7 +99,8 @@ class KataTest < AppModelsTestBase
       hidden_filenames:'[]'
     }
     kata.run_tests(params)
-    kata.ran_tests(1, kata.files, [2018,11,1, 9,14,9], 'so', 'se', 39, 'red')
+    now = [2018,11,1, 9,14,9,9154]
+    kata.ran_tests(1, kata.files, now, duration, 'so', 'se', 39, 'red')
     assert_equal 13, kata.age
     assert kata.active?
     assert_equal 2, kata.events.size
@@ -126,7 +127,7 @@ class KataTest < AppModelsTestBase
   test '865', %w(
   an event's manifest is ready to create a new kata from
   ) do
-    kata = create_kata([2018,11,1, 9,13,56])
+    kata = create_kata([2018,11,1, 9,13,56,765])
     kmanifest = kata.manifest
     params = {
       image_name:kmanifest.image_name,
@@ -137,7 +138,7 @@ class KataTest < AppModelsTestBase
       hidden_filenames:'[]'
     }
     kata.run_tests(params)
-    kata.ran_tests(1, kata.files, [2018,11,1, 9,14,9], 'so', 'se', 39, 'red')
+    kata.ran_tests(1, kata.files, time_now, duration, 'so', 'se', 39, 'red')
 
     emanifest = kata.events[1].manifest
     refute_nil emanifest

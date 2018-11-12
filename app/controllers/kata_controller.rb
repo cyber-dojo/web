@@ -27,9 +27,9 @@ class KataController < ApplicationController
         files,@new_files,@deleted_files,@changed_files = kata.run_tests(params)
 
     t2 = time_now
-    took = (t2 - t1)
+    duration = (Time.mktime(*t2) - Time.mktime(*t1))
     index = params[:index].to_i + 1
-    kata.ran_tests(index, files, t1, @stdout, @stderr, @status, colour)
+    kata.ran_tests(index, files, t1, duration, @stdout, @stderr, @status, colour)
 
     @light = Event.new(self, kata, { 'time' => t1, 'colour' => colour }, index)
     @id = kata.id

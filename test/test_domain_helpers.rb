@@ -62,7 +62,11 @@ module TestDomainHelpers # mix-in
   end
 
   def time_now(now = Time.now)
-    [now.year, now.month, now.day, now.hour, now.min, now.sec]
+    [now.year, now.month, now.day, now.hour, now.min, now.sec, now.usec]
+  end
+
+  def duration
+    1.6543
   end
 
   def display_name(runner_choice = :stateless)

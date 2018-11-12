@@ -119,7 +119,7 @@ class RingPrevNextTest < AppLibTestBase
 
   def ran_tests(kata, index)
     colour = ['red','amber','green'].sample
-    kata.ran_tests(index, kata.files, time_now, '', '', 0, colour)
+    kata.ran_tests(index, kata.files, time_now, duration, '', '', 0, colour)
   end
 
   def join(group, avatar_name)

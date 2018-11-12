@@ -15,7 +15,7 @@ class TipTest < AppHelpersTestBase
       stdout = "Expected: 42\nActual: 54"
       stderr = 'assert failed'
       status = 4
-      kata.ran_tests(1, files, time_now, stdout, stderr, status, 'red')
+      kata.ran_tests(1, files, time_now, duration, stdout, stderr, status, 'red')
 
       filename = 'hiker.rb'
       hiker_rb = kata.files[filename]
@@ -23,7 +23,7 @@ class TipTest < AppHelpersTestBase
       stdout = 'All tests passed'
       stderr = ''
       status = 0
-      kata.ran_tests(2, files, time_now, stdout, stderr, status, 'green')
+      kata.ran_tests(2, files, time_now, duration, stdout, stderr, status, 'green')
 
       events = kata.events
       diff = differ.diff(events[was_index=1].files, events[now_index=2].files)
@@ -61,7 +61,7 @@ class TipTest < AppHelpersTestBase
       stdout = "Expected: 42\nActual: 54"
       stderr = 'assert failed'
       status = 4
-      kata.ran_tests(1, files, time_now, stdout, stderr, status, 'red')
+      kata.ran_tests(1, files, time_now, duration, stdout, stderr, status, 'red')
 
       filename = 'hiker.rb'
       hiker_rb = kata.files[filename]
@@ -69,7 +69,7 @@ class TipTest < AppHelpersTestBase
       stdout = 'All tests passed'
       stderr = ''
       status = 0
-      kata.ran_tests(2, files, time_now, stdout, stderr, status, 'green')
+      kata.ran_tests(2, files, time_now, duration, stdout, stderr, status, 'green')
 
       events = kata.events
       diff = differ.diff(events[was_index=1].files, events[now_index=2].files)

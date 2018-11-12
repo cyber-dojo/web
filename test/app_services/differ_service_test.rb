@@ -21,7 +21,8 @@ class DifferServiceTest < AppServicesTestBase
       args = []
       args << (index = 1)
       args << kata.files
-      args << (now = [2016,12,8, 8,3,23])
+      args << (now = [2016,12,8, 8,3,23,654])
+      args << (duration = 1.6754)
       args << (stdout = "Expected: 42\nActual: 54")
       args << (stderr = 'assertion failed')
       args << (status = 0)

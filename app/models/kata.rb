@@ -34,8 +34,8 @@ class Kata
     Runner.new(@externals, id).run(params)
   end
 
-  def ran_tests(index, files, at, stdout, stderr, status, colour)
-    saver.kata_ran_tests(id, index, files, at, stdout, stderr, status, colour)
+  def ran_tests(index, files, at, duration, stdout, stderr, status, colour)
+    saver.kata_ran_tests(id, index, files, at, duration, stdout, stderr, status, colour)
     @events = nil
   end
 
