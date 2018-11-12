@@ -582,6 +582,9 @@ $(() => {
 
   const refreshDownloadButton = () => {
     const button = $('#download-button');
+    // zipper is not upgraded to the new saver format
+    // and it's better to ship without it for now.
+    button.hide();
     cd.setTip(button, () => {
       const tip = `download files from ${param.avatarName} ${param.nowIndex}`;
       cd.showHoverTip(button, tip);

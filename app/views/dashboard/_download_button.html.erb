@@ -4,6 +4,10 @@ $(() => {
 
   const downloadButton = $('#download-button');
 
+  // zipper is not upgraded to the new saver format
+  // and it's better to ship without it for now.
+  downloadButton.hide();
+
   downloadButton.click(() => {
     const url = '/download/' + "<%=@group.id%>";
     window.location = url;
