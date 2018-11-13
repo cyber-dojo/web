@@ -1,11 +1,12 @@
 
 <%
-  if @kata.manifest.exercise == ''
-    content = @kata.manifest.display_name
+  manifest = (@group || @kata).manifest
+  if manifest.exercise == ''
+    content = manifest.display_name
   else
     content = [
-      @kata.manifest.display_name,
-      @kata.manifest.exercise.gsub('_',' ')
+      manifest.display_name,
+      manifest.exercise.gsub('_',' ')
     ].join(', ')
   end
 %>
