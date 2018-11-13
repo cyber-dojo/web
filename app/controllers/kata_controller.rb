@@ -14,12 +14,6 @@ class KataController < ApplicationController
   end
 
   def run_tests
-    # After a test-event completes if you refresh the
-    # page in the browser then nothing will change.
-
-    # @new_files,@deleted_files,@changed_files
-    #   o) have already been set in files ready to be saved.
-    #   o) need to be updated in the browser.
     t1 = time_now
 
     @stdout,@stderr,@status,
