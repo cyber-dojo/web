@@ -19,6 +19,7 @@ services:
       - starter
       - runner-stateful
       - runner-stateless
+      - porter
       - saver
       - storer
       - differ
@@ -52,6 +53,22 @@ services:
     volumes:
       - /tmp/groups/:/groups:rw
       - /tmp/katas/:/katas:rw
+
+  # - - - - - - - - - - - - - - - -
+
+  porter:
+    user: porter
+    image: cyberdojo/porter
+    init: true
+    container_name: test-web-porter
+    read_only: true
+    tmpfs: /tmp
+    restart: 'no'    
+    volumes:
+      - /tmp/id-map:/id-map:rw
+    depends_on:
+      - saver
+      - storer
 
   # - - - - - - - - - - - - - - - -
 
