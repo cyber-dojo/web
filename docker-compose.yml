@@ -34,8 +34,6 @@ services:
     container_name: test-web-starter
     read_only: true
     tmpfs: /tmp
-    mem_limit: 50M
-    memswap_limit: 50M
     restart: 'no'
     volumes:
       - ./test/data/start_points:/app/start_points:ro
@@ -63,7 +61,7 @@ services:
     container_name: test-web-porter
     read_only: true
     tmpfs: /tmp
-    restart: 'no'    
+    restart: 'no'
     volumes:
       - /tmp/id-map:/id-map:rw
     depends_on:
@@ -92,8 +90,6 @@ services:
     container_name: test-web-runner-stateless
     read_only: true
     tmpfs: /tmp
-    mem_limit: 2G
-    memswap_limit: 2G
     restart: 'no'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -108,8 +104,6 @@ services:
     expose: [ 4557 ]
     read_only: true
     tmpfs: /tmp
-    mem_limit: 2G
-    memswap_limit: 2G
     restart: 'no'
     environment:
       - RUNNER_STATEFUL_SERVICE_PORT=4557
@@ -138,8 +132,6 @@ services:
     container_name: test-web-zipper
     read_only: true
     tmpfs: /tmp
-    mem_limit: 50M
-    memswap_limit: 50M
     restart: 'no'
     depends_on:
       - saver
