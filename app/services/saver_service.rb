@@ -36,6 +36,10 @@ class SaverService
     http.get(__method__, id)
   end
 
+  def group_events(id)
+    http.get(__method__, id)
+  end
+
   # - - - - - - - - - - - -
 
   def kata_exists?(id)
