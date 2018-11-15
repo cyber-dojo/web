@@ -8,8 +8,20 @@ module DashboardWorker # mixin
     @minute_columns = bool('minute_columns')
     @auto_refresh = bool('auto_refresh')
     active = group.katas.select(&:active?)
-    @all_lights = Hash[active.map{ |kata| [kata.id, kata.lights] }]
-    @all_indexes = Hash[active.map{ |kata| [kata.id, kata.avatar_name]}]
+
+    raw = {}
+    active.each do |kata|
+      raw[kata.id] = {
+        'index' => kata.avatar_name,
+        'lights' => saver.kata_events(kata.id).each_with_index.map{ |event,index|
+          Event.new(self, kata, event, index)
+        }.select(&:light?)
+      }
+    end
+
+    @all_lights  = Hash[raw.map{ |id,o| [id, o['lights']] }]
+    @all_indexes = Hash[raw.map{ |id,o| [id, o['index']] }]
+
     args = [group.created, seconds_per_column, max_seconds_uncollapsed]
     gapper = DashboardTdGapper.new(*args)
     @gapped = gapper.fully_gapped(@all_lights, time_now)
