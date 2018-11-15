@@ -7,11 +7,9 @@ module DashboardWorker # mixin
   def gather
     @minute_columns = bool('minute_columns')
     @auto_refresh = bool('auto_refresh')
-    @all_lights = Hash[
-      group.katas
-            .select(&:active?)
-            .map{ |kata| [kata.id, kata.lights] }
-    ]
+    active = group.katas.select(&:active?)
+    @all_lights = Hash[active.map{ |kata| [kata.id, kata.lights] }]
+    @all_indexes = Hash[active.map{ |kata| [kata.id, kata.avatar_name]}]
     args = [group.created, seconds_per_column, max_seconds_uncollapsed]
     gapper = DashboardTdGapper.new(*args)
     @gapped = gapper.fully_gapped(@all_lights, time_now)

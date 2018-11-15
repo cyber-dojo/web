@@ -56,7 +56,7 @@ $(() => {
     </tr>
   <% end %>
 
-  <% @gapped.keys.sort_by{|kata_id| @all_lights[kata_id][0].kata.avatar_name }.each do |kata_id| %>
+  <% @gapped.keys.sort_by{|kata_id| @all_indexes[kata_id] }.each do |kata_id| %>
 	<tr class="kata-row">
 	  <% lights = @all_lights[kata_id] %>
 	  <% td_map = @gapped[kata_id] %>
