@@ -54,26 +54,6 @@ class TrafficLightTest < AppHelpersTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test '647',
-  'diff_avatar_image' do
-    stub = KataStub.new('456eGz', 'snake')
-    lights = [
-      Event.new(nil, stub, { 'colour' => 'red' }, 0),
-    ]
-    expected = '' +
-      '<div' +
-      " class='avatar-image'" +
-      " data-tip='review snake&#39;s<br/>current code'" +
-      " data-id='456eGz'>" +
-      "<img src='/images/avatars/snake.jpg'" +
-          " alt='snake'/>" +
-      '</div>'
-    actual = diff_avatar_image(lights)
-    assert_equal expected, actual
-  end
-
-  #- - - - - - - - - - - - - - - -
-
   test '443',
   'diff_traffic_light' do
     stub = KataStub.new('a4r9YN', nil)

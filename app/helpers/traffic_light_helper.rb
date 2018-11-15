@@ -28,18 +28,6 @@ module TrafficLightHelper # mix-in
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def diff_avatar_image(lights)
-    kata = lights[0].kata
-    avatar_name = kata.avatar_name
-    "<div class='avatar-image'" +
-        " data-tip='review #{avatar_name}#{apostrophe}s<br/>current code'" +
-        " data-id='#{kata.id}'>" +
-        avatar_image(avatar_name) +
-     '</div>'
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   def traffic_light_count(lights)
     "<div class='traffic-light-count #{lights[-1].colour}'" +
         " data-tip='traffic_light_count'" +
@@ -57,18 +45,9 @@ module TrafficLightHelper # mix-in
      traffic_lights.count { |light| light.colour == colour }
   end
 
-  def avatar_image(avatar_name)
-    "<img src='/images/avatars/#{avatar_name}.jpg'" +
-        " alt='#{avatar_name}'/>"
-  end
-
   def traffic_light_image(colour)
     "<img src='/images/bulb_#{colour}.png'" +
        " alt='#{colour} traffic-light'/>"
-  end
-
-  def apostrophe
-    '&#39;'
   end
 
 end

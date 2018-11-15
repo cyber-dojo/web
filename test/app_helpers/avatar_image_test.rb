@@ -19,4 +19,23 @@ class AvatarImageTest < AppHelpersTestBase
     assert html.match("class='avatar-image'"), 'class: ' + html
   end
 
+  #- - - - - - - - - - - - - - - -
+
+  test '647',
+  'diff_avatar_image' do
+    kata_id = '456eGz'
+    avatar_name = 'snake'
+    expected = '' +
+      '<div' +
+      " class='avatar-image'" +
+      " data-tip='review #{avatar_name}&#39;s<br/>current code'" +
+      " data-id='#{kata_id}'>" +
+      "<img src='/images/avatars/#{avatar_name}.jpg'" +
+          " alt='#{avatar_name}'/>" +
+      '</div>'
+    index = Avatars.names.index(avatar_name)
+    actual = diff_avatar_image(kata_id, index)
+    assert_equal expected, actual
+  end
+
 end
