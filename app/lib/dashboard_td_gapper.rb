@@ -22,15 +22,15 @@ class DashboardTdGapper
       end
     end
     # eg
-    # s[:avatars] == {
-    #    'lion'  => {
-    #        0 => [],
-    #        5 => [R,G],
-    #        7 => [],
-    #       11 => [G,R],
-    #       99 => []
+    # s[:katas] == {
+    #   'de535Z' => {
+    #       0 => [],
+    #       5 => [R,G],
+    #       7 => [],
+    #      11 => [G,R],
+    #      99 => []
     #   },
-    #   'tiger' => {
+    #   '3s1BqT' => {
     #       0 => [],
     #       5 => [A],
     #       7 => [G,A],
@@ -55,9 +55,9 @@ class DashboardTdGapper
     #   11: 11+1  12 => { collapsed:87 }
     #
     # so td_map becomes
-    #         0   1        5      6   7     8   9   10   11    12
-    # 'lion'  []  {c'd:4}  [R,G]  []  []    []  []  []   [G,R] {c'd:87},
-    # 'tiger' []  {c'd:4}  [A]    []  [G,A] []  []  []   []    {c'd:87}
+    #          0   1        5      6   7     8   9   10   11    12
+    # 'de535Z' []  {c'd:4}  [R,G]  []  []    []  []  []   [G,R] {c'd:87},
+    # '3s1BqT' []  {c'd:4}  [A]    []  [G,A] []  []  []   []    {c'd:87}
 
     strip(s[:katas])
   end
@@ -95,8 +95,8 @@ class DashboardTdGapper
     obj[:td_nos].sort!.uniq!
     obj
     # eg katas: {
-    #     lion  => { 5=>[R,G], 11=[G,R] },
-    #     tiger => { 5=>[A],   7=>[G,A] }
+    #     'de535Z' => { 5=>[R,G], 11=[G,R] },
+    #     '3s1BqT' => { 5=>[A],   7=>[G,A] }
     #   }
     # eg td_nos: [ 0,5,7,11,99 ]
   end
@@ -110,8 +110,8 @@ class DashboardTdGapper
       end
     end
     # eg katas: {
-    #     lion  => { 0=>[], 5=>[R,G], 7=>[],    11=[G,R], 99=>[] },
-    #     tiger => { 0=>[], 5=>[A],   7=>[G,A], 11=>[],   99=>[] }
+    #     'de535Z' => { 0=>[], 5=>[R,G], 7=>[],    11=[G,R], 99=>[] },
+    #     '3s1BqT' => { 0=>[], 5=>[A],   7=>[G,A], 11=>[],   99=>[] }
     #   }
   end
 
@@ -213,27 +213,30 @@ end
 
 # collapsed_table
 # ---------------
-# Suppose I have :hippo with lights for td's numbered
+# Suppose I have hippo with lights for td's numbered
 # 5 and 15 and that the time this gap (from 5 to 15, viz
 # 9 td's) represents is large enough to be collapsed.
 # Does this mean the hippo's tr gets 9 empty td's between
 # the td#5 and the td#15?
-# The answer is it depends on the other avatars.
+# The answer is it depends on the _other_ avatars.
 # The td's have to align vertically.
-# For example if the :lion has a td at 11 then
-# this effectively means that for the :hippo its 5-15 has
-# to be considered as 5-11-15 and the gaps are really 5-11
-# (5 td gaps) and 11-15 (3 td gaps).
+# For example if the lion has a td at 11 then
+# this effectively means that for the hippo its 5-15 has
+# to be considered as 5-11-15 and the gaps are really
+#  5-11 (5 td gaps) and
+# 11-15 (3 td gaps).
 # This is where the :td_nos array comes in.
 # It is an array of all td numbers for a dojo across all
 # avatars.
 # Suppose the :td_nos array is [1,5,11,13,15,16,18,23]
 # This means that the hippo has to treat its 5-15 gap as
-# 5-11-13-15 so the gaps are really 5-11 (5 td gaps),
-# 11-13 (1 td gap) and 13-15 (1 td gap). Note that the
-# :hippo doesn't have a light at either 13 or 15
-# but that doesn't matter, we can't collapse "across" or
-# "through" these because I want vertical consistency.
+# 5-11-13-15 so the gaps are really
+#  5-11 (5 td gaps),
+# 11-13 (1 td gap) and
+# 13-15 (1 td gap).
+# Note that the hippo doesn't have a light at either
+# 13 or 15 but that doesn't matter, we can't collapse "across"
+# or "through" these because I want vertical consistency.
 
 # Now, suppose a dojo runs over two days, there would be a
 # long period of time at night when no traffic lights would
