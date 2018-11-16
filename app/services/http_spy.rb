@@ -25,9 +25,9 @@ class HttpSpy
     { method.to_s => @response }
   end
 
-  def post_hash(hostname, port, method, args_hash)
-    @spied << [ hostname, port, method.to_s, args_hash ]
-    { method.to_s => @response }
-  end
+  #def post_hash(hostname, port, method, args_hash)
+  #  @spied << [ hostname, port, method.to_s, args_hash ]
+  #  { method.to_s => @response }
+  #end
 
 end
