@@ -3,6 +3,7 @@
 $(() => {
 
   const inputId = $('input#id');
+  const waitSpinner = $('#wait-spinner');
   const dropDown = $('#drop-down');
 
   const hiDiv = $('#hi-div');
@@ -15,11 +16,13 @@ $(() => {
     if (id.length >= 6) {
       const args = { id:id };
       inputId.prop('disabled', true);
+      waitSpinner.show();
       $.getJSON('/id_review/drop_down', args, dropDownHandler);
     }
   };
 
   const dropDownHandler = (group) => {
+    waitSpinner.hide();
     if (group.exists) {
       prepareDropDown(group);
       inputId.slideUp('fast', () => dropDown.slideDown('slow'));
@@ -69,6 +72,9 @@ $(() => {
        size="8"
        value="">
 </input>
+<br/>
+<%= render partial: 'shared/wait_spinner' %>
+
 
 <div id="drop-down" style="display:none;">
   <div id="hi-div"></div>

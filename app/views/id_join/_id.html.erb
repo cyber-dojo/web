@@ -3,6 +3,7 @@
 $(() => {
 
   const inputId = $('input#id');
+  const waitSpinner = $('#wait-spinner');
   const dropDown = $('#drop-down');
 
   const hiDiv = $('#hi-div');
@@ -16,16 +17,18 @@ $(() => {
     if (id.length >= 6) {
       const args = { id:id };
       inputId.prop('disabled', true);
-      $.getJSON('/id_join/drop_down', args, autoDropDown);
+      waitSpinner.show();
+      $.getJSON('/id_join/drop_down', args, dropDownHandler);
     }
   };
 
-  const autoDropDown = (r) => {
-    if (r.exists) {
-      if (r.full) {
+  const dropDownHandler = (response) => {
+    waitSpinner.hide();
+    if (response.exists) {
+      if (response.full) {
         prepareFullDropDown();
       } else {
-        prepareAvatarDropDown(r.avatarName, r.id);
+        prepareAvatarDropDown(response.avatarName, response.id);
       }
       inputId.slideUp('fast', () => dropDown.slideDown('slow'));
     } else {
@@ -83,7 +86,7 @@ $(() => {
   inputId.keyup(() => inputIdHandler())
          .focus();
   inputIdHandler();
-           
+
 });
 
 //--></script>
@@ -94,6 +97,8 @@ $(() => {
        size="8"
        value="<%= @id %>">
 </input>
+<br/>
+<%= render partial: 'shared/wait_spinner' %>
 
 <div id="drop-down" style="display:none;">
   <div id="hi-div"></div>
