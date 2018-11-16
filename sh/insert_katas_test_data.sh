@@ -9,3 +9,5 @@ docker run \
    --volume /var/run/docker.sock:/var/run/docker.sock \
    cyberdojo/inserter \
      ${CONTAINER}
+
+# dup old new
