@@ -114,7 +114,7 @@ class SinglerServiceTest < AppServicesTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '28C',
-  'non-existant id raises exception' do
+  'non-existent id raises exception' do
     id = kata_id
     error = assert_raises {
       singler.manifest(id)
