@@ -7,6 +7,7 @@ module DashboardWorker # mixin
   def gather
     @minute_columns = bool('minute_columns')
     @auto_refresh = bool('auto_refresh')
+    # using saver.group_events() BatchMethod
     @all_lights = {}
     @all_indexes = {}
     saver.group_events(group.id).each do |kata_id,o|
@@ -14,8 +15,8 @@ module DashboardWorker # mixin
         Event.new(self, Kata.new(self, kata_id), event, index)
       }.select(&:light?)
       unless lights == []
-        @all_indexes[kata_id] = o['index']
         @all_lights[kata_id] = lights
+        @all_indexes[kata_id] = o['index']
       end
     end
     args = [group.created, seconds_per_column, max_seconds_uncollapsed]
