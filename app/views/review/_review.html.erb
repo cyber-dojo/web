@@ -87,7 +87,7 @@ $(() => {
     $.each($('.diff-traffic-light', trafficLights), (_, light) => {
       const $light = $(light);
       const nowIndex = $light.data('index');
-      // review() function is also used by < event-index > navigator
+      // review() is also used by [<] event-index [>] navigator
       param.events[nowIndex].review = () => {
         param.wasIndex = inDiffMode() ? wasIndex : nowIndex;
         param.nowIndex = nowIndex;
@@ -146,7 +146,7 @@ $(() => {
   };
 
   //-----------------------------------------
-  // refresh [<] avatar [>]
+  // refresh [<] avatar-image [>]
   //-----------------------------------------
 
   const refreshAvatarControls = () => {
@@ -180,10 +180,10 @@ $(() => {
   };
 
   //-----------------------------------------
-  // refresh [<] event [>]
+  // refresh [<] event-index [>]
   //-----------------------------------------
-  // [<] is enabled if there is an event to the lhs of param.nowIndex
-  // [>] is enabled if there is an event to the rhs of param.nowIndex
+  // [<] is enabled if there is an event before param.wasIndex
+  // [>] is enabled if there is an event after  param.nowIndex
   //-----------------------------------------
 
   const refreshEventControls = () => {
@@ -196,7 +196,8 @@ $(() => {
 
   const prevEventIndex = () => {
     const n = param.nowIndex;
-    if (n === null || n === firstIndex()) {
+    const firstIndex = 1;
+    if (n === null || n === firstIndex) {
       return null;
     } else {
       return n - 1;
@@ -207,17 +208,13 @@ $(() => {
 
   const nextEventIndex = () => {
     const n = param.nowIndex;
-    if (n === null || n === lastIndex()) {
+    const lastIndex = param.events.length - 1;
+    if (n === null || n === lastIndex) {
       return null;
     } else {
       return n + 1;
     }
   };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const firstIndex = () => 1;
-  const lastIndex = () => param.events.length - 1;
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
