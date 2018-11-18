@@ -374,7 +374,7 @@ $(() => {
 
   const buildDiffFilenameHandlers = (diffs) => {
     // Builds click handlers for all filenames for a given
-    // [ kata-id, animal-name, was-tag, now-tag] tuple.
+    // [ kata-id, was-index, now-index] tuple.
     // When you open a new filename it auto-scrolls its first diff-chunk.
     // When you reclick a filename it auto-scrolls to its *next* diff-chunk.
     const getFilename = (node) => $.trim(node.text());
