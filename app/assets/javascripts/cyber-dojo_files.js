@@ -128,15 +128,15 @@ var cyberDojo = (function(cd, $) {
   // See app/views/kata/_files.html.erb
   // See app/views/kata/_run_tests.js.erb
 
-  cd.changeFile = (filename, content) => {
+  cd.changeFile = (filename, file) => {
     cd.deleteFile(filename);
-    cd.newFile(filename, content);
+    cd.newFile(filename, file);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.newFile = (filename, content) => {
-    const newFile = makeNewFile(filename, content);
+  cd.newFile = (filename, file) => {
+    const newFile = makeNewFile(filename, file);
     $('#visible-files-container').append(newFile);
     rebuildFilenameList();
     cd.switchEditorToCodeMirror(filename);
@@ -245,7 +245,7 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const makeNewFile = (filename, content) => {
+  const makeNewFile = (filename, file) => {
     const div = $('<div>', {
       'class': 'filename_div',
            id: `${filename}_div`
@@ -264,7 +264,7 @@ var cyberDojo = (function(cd, $) {
     // So instead I do it like this, which works in FireFox?!
     text.attr('wrap', 'off');
 
-    text.val(content);
+    text.val(file['content']);
     div.append(text);
 
     return div;

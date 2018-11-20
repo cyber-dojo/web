@@ -4,13 +4,23 @@
 'use strict';
 $(() => {
 
-  <% @kata.files.each do |filename,content| %>
-    cd.newFile("<%= j raw(filename) %>", "<%= j raw(content) %>");
+  <% @kata.files.each do |filename,file| %>
+    cd.newFile("<%= j raw(filename) %>", {
+      'content': "<%= j raw(file['content']) %>"
+    });
   <% end %>
 
-  cd.newFile('stdout', "<%= j raw(@kata.stdout) %>");
-  cd.newFile('stderr', "<%= j raw(@kata.stderr) %>");
-  cd.newFile('status', "<%= j raw(@kata.status) %>");
+  cd.newFile('stdout', {
+    'content': "<%= j raw(@kata.stdout['content']) %>"
+  });
+
+  cd.newFile('stderr', {
+    'content': "<%= j raw(@kata.stderr['content']) %>"
+  });
+
+  cd.newFile('status', {
+    'content': "<%= j raw(@kata.status.to_s) %>"
+  });
 
 });
 //--></script>

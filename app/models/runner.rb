@@ -13,6 +13,14 @@ class Runner
     runner_choice = params[:runner_choice]
     image_name = params[:image_name]
     max_seconds = params[:max_seconds].to_i
+
+    files = files_from(params)
+    unchanged_files = files_from(params)
+
+=begin
+    deleted_files = {}
+    changed_files = {}
+    new_files = {}
     files = files_from(params)
     delta = delta_from(params)
 
@@ -28,43 +36,42 @@ class Runner
     unchanged_files = files.select { |filename|
       delta[:unchanged].include?(filename)
     }
-
+=end
     result =
       @externals.runner.run_cyber_dojo_sh(
         runner_choice,
         image_name, @kata_id,
-        new_files, deleted_files,
-        changed_files, unchanged_files,
+        {}, {}, {}, unchanged_files,
         max_seconds)
 
-    new_files = result['new_files']
+    created_files = result['created_files']
     deleted_files = result['deleted_files']
     changed_files = result['changed_files']
 
     # If there are newly created 'output' files remove them
     # otherwise they interferes with the pseudo output-files.
     output_filenames.each do |output_filename|
-      new_files.delete(output_filename)
+      created_files.delete(output_filename)
     end
 
     hidden_filenames = JSON.parse(params[:hidden_filenames])
-    remove_hidden_files(new_files, hidden_filenames)
+    remove_hidden_files(created_files, hidden_filenames)
 
     # Ensure files which will get sent to saver.ran_tests()
     # reflect changes; refreshing the browser should be a no-op.
-    new_files.each     { |filename,content| files[filename] = content }
-    deleted_files.each { |filename,_      | files.delete(filename)    }
-    changed_files.each { |filename,content| files[filename] = content }
+    created_files.each { |filename,file| files[filename] = file }
+    deleted_files.each { |filename,_   | files.delete(filename) }
+    changed_files.each { |filename,file| files[filename] = file }
 
     [result['stdout'], result['stderr'], result['status'],
      result['colour'],
-     files,new_files,deleted_files,changed_files
+     files,created_files,deleted_files,changed_files
     ]
   end
 
   private
 
-  include FileDeltaMaker
+  #include FileDeltaMaker
   include HiddenFileRemover
   include Cleaner
 
@@ -76,6 +83,7 @@ class Runner
     files
   end
 
+=begin
   def delta_from(params)
     # incoming/outgoing is from the Browser's perspective
     incoming = params[:file_hashes_incoming]
@@ -86,6 +94,7 @@ class Runner
     end
     FileDeltaMaker.make_delta(incoming, outgoing)
   end
+=end
 
   def output_filenames
     %w( stdout stderr status )

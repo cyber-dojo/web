@@ -13,7 +13,7 @@ class SetupDefaultStartPointController < ApplicationController
     @exercise_index = index_match(@exercise_names, current_exercise_name)
     @instructions = []
     @exercise_names.each do |name|
-      @instructions << start_points['exercises'][name]
+      @instructions << start_points['exercises'][name]['content']
     end
     @from = params['from']
   end

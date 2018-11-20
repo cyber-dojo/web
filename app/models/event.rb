@@ -23,15 +23,15 @@ class Event
   end
 
   def stdout
-    event['stdout'] || ''
+    event['stdout'] || no_content
   end
 
   def stderr
-    event['stderr'] || ''
+    event['stderr'] || no_content
   end
 
   def status
-    event['status'] || ''
+    event['status'] || no_content
   end
 
   def time
@@ -56,6 +56,10 @@ class Event
   end
 
   private
+
+  def no_content
+    { 'content' => '' }
+  end
 
   def event
     @event ||= saver.kata_event(kata.id, index)

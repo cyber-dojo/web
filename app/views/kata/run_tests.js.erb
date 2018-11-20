@@ -11,9 +11,15 @@ const appendTestTrafficLight = () => {
 //- - - - - - - - - - - - - - - - - - - - - -
 
 const updateOutput = () => {
-  cd.changeFile('stdout', "<%= j raw(@stdout) %>");
-  cd.changeFile('stderr', "<%= j raw(@stderr) %>");
-  cd.changeFile('status', "<%= j raw(@status) %>");
+  cd.changeFile('stdout', {
+    'content': "<%= j raw(@stdout['content']) %>"
+  });
+  cd.changeFile('stderr', {
+    'content': "<%= j raw(@stderr['content']) %>"
+  });
+  cd.changeFile('status', {
+    'content': "<%= j raw(@status.to_s) %>"
+  });
 };
 
 //- - - - - - - - - - - - - - - - - - - - - -
@@ -37,9 +43,11 @@ const updateTrafficLightPieChart = () => {
 
 //- - - - - - - - - - - - - - - - - - - - - -
 
-const addNewFiles = () => {
-  <% @new_files.each do |filename,content| %>
-    cd.newFile("<%= j raw(filename) %>", "<%= j raw(content) %>");
+const insertCreatedFiles = () => {
+  <% @created_files.each do |filename,file| %>
+    cd.newFile("<%= j raw(filename) %>", {
+      'content': "<%= j raw(file['content']) %>"
+    });
   <% end %>
 };
 
@@ -54,8 +62,10 @@ const removeDeletedFiles = () => {
 //- - - - - - - - - - - - - - - - - - - - - -
 
 const updateChangedFiles = () => {
-  <% @changed_files.each do |filename,content| %>
-    cd.changeFile("<%= j raw(filename) %>", "<%= j raw(content) %>");
+  <% @changed_files.each do |filename,file| %>
+    cd.changeFile("<%= j raw(filename) %>", {
+      'content': "<%= j raw(file['content']) %>"
+    });
   <% end %>
 };
 
@@ -84,7 +94,7 @@ updateOutput();
 updateEventIndex();
 updateTrafficLightCount();
 updateTrafficLightPieChart();
-addNewFiles();
+insertCreatedFiles();
 removeDeletedFiles();
 updateChangedFiles();
 warnIfTestsTimedOut();

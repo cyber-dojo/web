@@ -29,13 +29,13 @@ class RunnerService
   def run_cyber_dojo_sh(
     runner_choice,
     image_name, id,
-    new_files, deleted_files, changed_files, unchanged_files,
+    created_files, deleted_files, changed_files, unchanged_files,
     max_seconds)
 
     http(runner_choice).post_hash(__method__, {
              image_name:image_name,
                      id:id,
-              new_files:new_files,
+          created_files:created_files,
           deleted_files:deleted_files,
           changed_files:changed_files,
         unchanged_files:unchanged_files,
