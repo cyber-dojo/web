@@ -2,8 +2,6 @@
 class DifferController < ApplicationController
 
   def diff
-    was_files = kata.events[was_index].files(:with_output)
-    now_files = kata.events[now_index].files(:with_output)
     diff = differ.diff(was_files, now_files)
     view = diff_view(diff)
     prev_kata_id, next_kata_id = *ring_prev_next(kata)

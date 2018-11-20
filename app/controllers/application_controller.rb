@@ -50,6 +50,16 @@ class ApplicationController < ActionController::Base
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
+  def was_files
+    files_for(was_index)
+  end
+
+  def now_files
+    files_for(now_index)
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
   def was_index
     was = params[:was_index].to_i
     if was == -1
@@ -72,6 +82,19 @@ class ApplicationController < ActionController::Base
 
   def id
     params[:id]
+  end
+
+  private
+  
+  def files_for(index)
+    event = kata.events[index]
+    files = Hash[event.files.map{ |filename,file|
+      [filename, file['content']]
+    }]
+    files['stdout'] = event.stdout['content']
+    files['stderr'] = event.stderr['content']
+    files['status'] = event.status.to_s
+    files
   end
 
 end

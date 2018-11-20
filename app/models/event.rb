@@ -31,7 +31,7 @@ class Event
   end
 
   def status
-    event['status'] || no_content
+    event['status']
   end
 
   def time
