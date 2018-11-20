@@ -1,4 +1,3 @@
-require_relative '../lib/file_delta_maker'
 require_relative '../lib/hidden_file_remover'
 require_relative '../../lib/cleaner'
 
@@ -17,26 +16,6 @@ class Runner
     files = files_from(params)
     unchanged_files = files_from(params)
 
-=begin
-    deleted_files = {}
-    changed_files = {}
-    new_files = {}
-    files = files_from(params)
-    delta = delta_from(params)
-
-    new_files = files.select { |filename|
-      delta[:new].include?(filename)
-    }
-    deleted_files = Hash[
-      delta[:deleted].map { |filename| [filename, ''] }
-    ]
-    changed_files = files.select { |filename|
-      delta[:changed].include?(filename)
-    }
-    unchanged_files = files.select { |filename|
-      delta[:unchanged].include?(filename)
-    }
-=end
     result =
       @externals.runner.run_cyber_dojo_sh(
         runner_choice,
@@ -71,7 +50,6 @@ class Runner
 
   private
 
-  #include FileDeltaMaker
   include HiddenFileRemover
   include Cleaner
 
@@ -82,19 +60,6 @@ class Runner
     end
     files
   end
-
-=begin
-  def delta_from(params)
-    # incoming/outgoing is from the Browser's perspective
-    incoming = params[:file_hashes_incoming]
-    outgoing = params[:file_hashes_outgoing]
-    output_filenames.each do |output_filename|
-      incoming.delete(output_filename)
-      outgoing.delete(output_filename)
-    end
-    FileDeltaMaker.make_delta(incoming, outgoing)
-  end
-=end
 
   def output_filenames
     %w( stdout stderr status )
