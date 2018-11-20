@@ -567,9 +567,9 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const insertNewFiles = (visibleFiles) => {
-    for (const filename in visibleFiles) {
-      cd.fileCreate(filename, { content:visibleFiles[filename]});
+  const insertNewFiles = (files) => {
+    for (const filename in files) {
+      cd.fileCreate(filename, { content:files[filename] });
     }
   };
 

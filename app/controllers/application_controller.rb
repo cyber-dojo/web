@@ -84,8 +84,6 @@ class ApplicationController < ActionController::Base
     params[:id]
   end
 
-  private
-  
   def files_for(index)
     event = kata.events[index]
     files = Hash[event.files.map{ |filename,file|
