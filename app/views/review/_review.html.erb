@@ -554,7 +554,7 @@ $(() => {
   const deleteAllNonOutputFiles = () => {
     cd.eachFilename((filename) => {
       if (!isOutputFile(filename)) {
-        cd.deleteFile(filename);
+        cd.fileDelete(filename);
       }
     });
   };
@@ -569,7 +569,7 @@ $(() => {
 
   const insertNewFiles = (visibleFiles) => {
     for (const filename in visibleFiles) {
-      cd.newFile(filename, visibleFiles[filename]);
+      cd.fileCreate(filename, { content:visibleFiles[filename]});
     }
   };
 

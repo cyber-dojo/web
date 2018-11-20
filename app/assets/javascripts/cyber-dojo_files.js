@@ -128,14 +128,14 @@ var cyberDojo = (function(cd, $) {
   // See app/views/kata/_files.html.erb
   // See app/views/kata/_run_tests.js.erb
 
-  cd.changeFile = (filename, file) => {
-    cd.deleteFile(filename);
-    cd.newFile(filename, file);
+  cd.fileChange = (filename, file) => {
+    cd.fileDelete(filename);
+    cd.fileCreate(filename, file);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.newFile = (filename, file) => {
+  cd.fileCreate = (filename, file) => {
     const newFile = makeNewFile(filename, file);
     $('#visible-files-container').append(newFile);
     rebuildFilenameList();
@@ -144,7 +144,7 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.deleteFile = (filename) => {
+  cd.fileDelete = (filename) => {
     fileDiv(filename).remove();
     rebuildFilenameList();
     theLastNonOutputFilename = testFilename();
@@ -152,13 +152,13 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.renameFile = (oldFilename, newFilename) => {
+  cd.fileRename = (oldFilename, newFilename) => {
     // This should restore the caret/cursor/selection
     // but it currently does not. See
     // https://github.com/cyber-dojo/web/issues/51
     const content = fileContent(oldFilename);
-    cd.deleteFile(oldFilename);
-    cd.newFile(newFilename, content);
+    cd.fileDelete(oldFilename);
+    cd.fileCreate(newFilename, { content:content });
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

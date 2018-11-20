@@ -5,20 +5,20 @@
 $(() => {
 
   <% @kata.files.each do |filename,file| %>
-    cd.newFile("<%= j raw(filename) %>", {
+    cd.fileCreate("<%= j raw(filename) %>", {
       'content': "<%= j raw(file['content']) %>"
     });
   <% end %>
 
-  cd.newFile('stdout', {
+  cd.fileCreate('stdout', {
     'content': "<%= j raw(@kata.stdout['content']) %>"
   });
 
-  cd.newFile('stderr', {
+  cd.fileCreate('stderr', {
     'content': "<%= j raw(@kata.stderr['content']) %>"
   });
 
-  cd.newFile('status', {
+  cd.fileCreate('status', {
     'content': "<%= j raw(@kata.status.to_s) %>"
   });
 

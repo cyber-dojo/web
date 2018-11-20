@@ -19,7 +19,7 @@ $(() => {
     const initialFilename = `filename${cd.extensionFilenames()[0]}`;
     const okInitiallyDisabled = !isValidFilename(initialFilename);
     const okClicked = filename => {
-      cd.newFile(filename, '');
+      cd.fileCreate(filename, '');
       cd.loadFile(filename);
     };
     openDialog(fileNew, initialFilename, okInitiallyDisabled, okClicked);
@@ -31,7 +31,7 @@ $(() => {
     const initialFilename = cd.currentFilename();
     const okInitiallyDisabled = true;
     const okClicked = filename => {
-      cd.renameFile(initialFilename, filename);
+      cd.fileRename(initialFilename, filename);
       cd.loadFile(filename);
     };
     openDialog(fileRename, initialFilename, okInitiallyDisabled, okClicked);
@@ -43,7 +43,7 @@ $(() => {
     const initialFilename = cd.currentFilename();
     const okInitiallyDisabled = false;
     const okClicked = filename => {
-      cd.deleteFile(filename);
+      cd.fileDelete(filename);
       cd.loadFile('stdout');
     };
     openDialog(fileDelete, initialFilename, okInitiallyDisabled, okClicked);
