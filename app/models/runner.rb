@@ -13,13 +13,10 @@ class Runner
     max_seconds = params[:max_seconds].to_i
 
     files = files_from(params)
-    unchanged_files = files_from(params)
 
     result =
       @externals.runner.run_cyber_dojo_sh(
-        image_name, @kata_id,
-        {}, {}, {}, unchanged_files,
-        max_seconds)
+        image_name, @kata_id, files, max_seconds)
 
     created_files = result['created_files']
     deleted_files = result['deleted_files']

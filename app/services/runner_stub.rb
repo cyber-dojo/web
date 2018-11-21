@@ -26,11 +26,7 @@ class RunnerStub
     }))
   end
 
-  def run_cyber_dojo_sh(
-    _image_name, _kata_id,
-    _new_files, _deleted_files, _changed_files, _unchanged_files,
-    _max_seconds
-  )
+  def run_cyber_dojo_sh(_image_name, _kata_id, _files, _max_seconds)
     if dir.exists?
       JSON.parse(dir.read(filename))
     else

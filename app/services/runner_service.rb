@@ -14,20 +14,13 @@ class RunnerService
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def run_cyber_dojo_sh(
-    image_name, id,
-    created_files, deleted_files, changed_files, unchanged_files,
-    max_seconds)
-
+  def run_cyber_dojo_sh(image_name, id, files, max_seconds)
     @http.post_hash(__method__, {
-             image_name:image_name,
-                     id:id,
-          created_files:created_files,
-          deleted_files:deleted_files,
-          changed_files:changed_files,
-        unchanged_files:unchanged_files,
-            max_seconds:max_seconds
-      })
+       image_name:image_name,
+               id:id,
+            files:files,
+      max_seconds:max_seconds
+    })
   end
 
   private
