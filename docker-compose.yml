@@ -17,7 +17,6 @@ services:
     restart: 'no'
     depends_on:
       - starter
-      - runner-stateful
       - runner-stateless
       - porter
       - saver
@@ -91,22 +90,6 @@ services:
     read_only: true
     tmpfs: /tmp
     restart: 'no'
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-
-  # - - - - - - - - - - - - - - - -
-
-  runner-stateful:
-    user: root
-    image: cyberdojo/runner-stateful
-    init: true
-    container_name: test-web-runner-stateful
-    expose: [ 4557 ]
-    read_only: true
-    tmpfs: /tmp
-    restart: 'no'
-    environment:
-      - RUNNER_STATEFUL_SERVICE_PORT=4557
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
