@@ -9,7 +9,6 @@ class Runner
   end
 
   def run(params)
-    runner_choice = params[:runner_choice]
     image_name = params[:image_name]
     max_seconds = params[:max_seconds].to_i
 
@@ -18,7 +17,6 @@ class Runner
 
     result =
       @externals.runner.run_cyber_dojo_sh(
-        runner_choice,
         image_name, @kata_id,
         {}, {}, {}, unchanged_files,
         max_seconds)

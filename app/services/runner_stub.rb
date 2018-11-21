@@ -12,14 +12,6 @@ class RunnerStub
 
   # - - - - - - - - - - - - - - - - -
 
-  def kata_new(_image_name, _kata_id, _starting_files)
-  end
-
-  def kata_old(_image_name, _kata_id)
-  end
-
-  # - - - - - - - - - - - - - - - - -
-
   def stub_run_colour(colour)
    stub_run('', '', 0, colour)
   end
@@ -35,7 +27,6 @@ class RunnerStub
   end
 
   def run_cyber_dojo_sh(
-    _runner_choice,
     _image_name, _kata_id,
     _new_files, _deleted_files, _changed_files, _unchanged_files,
     _max_seconds
@@ -43,8 +34,8 @@ class RunnerStub
     if dir.exists?
       JSON.parse(dir.read(filename))
     else
-      { 'stdout' => 'blah blah blah',
-        'stderr' => '',
+      { 'stdout' => { 'content' => 'blah blah blah' },
+        'stderr' => { 'content' => '' },
         'status' => 0,
         'colour' => 'red',
         'new_files' => {},

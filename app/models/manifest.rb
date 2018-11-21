@@ -31,8 +31,7 @@ class Manifest
            :display_name,       # eg 'Java, JUnit'
            :filename_extension, # eg [ '.java' ]
            :id,                 # eg '260za8'
-           :image_name,         # eg 'cyberdojofoundation/java_junit'
-           :runner_choice       # eg 'stateless'
+           :image_name          # eg 'cyberdojofoundation/java_junit'
 
   # - - - - - - - - - -
 

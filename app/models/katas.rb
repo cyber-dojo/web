@@ -11,7 +11,6 @@ class Katas
 
   def new_kata(manifest)
     id = saver.kata_create(manifest)
-    #runner.kata_new(manifest['image_name'], id, manifest['visible_files'])
     self[id]
   end
 
