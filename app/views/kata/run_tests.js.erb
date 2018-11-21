@@ -12,13 +12,13 @@ const appendTestTrafficLight = () => {
 
 const updateOutput = () => {
   cd.fileChange('stdout', {
-    'content': "<%= j raw(@stdout['content']) %>"
+    content: "<%= j raw(@stdout['content']) %>"
   });
   cd.fileChange('stderr', {
-    'content': "<%= j raw(@stderr['content']) %>"
+    content: "<%= j raw(@stderr['content']) %>"
   });
   cd.fileChange('status', {
-    'content': "<%= j raw(@status.to_s) %>"
+    content: "<%= j raw(@status.to_s) %>"
   });
 };
 
@@ -46,7 +46,7 @@ const updateTrafficLightPieChart = () => {
 const insertCreatedFiles = () => {
   <% @created_files.each do |filename,file| %>
     cd.fileCreate("<%= j raw(filename) %>", {
-      'content': "<%= j raw(file['content']) %>"
+      content: "<%= j raw(file['content']) %>"
     });
   <% end %>
 };
@@ -64,7 +64,7 @@ const removeDeletedFiles = () => {
 const updateChangedFiles = () => {
   <% @changed_files.each do |filename,file| %>
     cd.fileChange("<%= j raw(filename) %>", {
-      'content': "<%= j raw(file['content']) %>"
+      content: "<%= j raw(file['content']) %>"
     });
   <% end %>
 };

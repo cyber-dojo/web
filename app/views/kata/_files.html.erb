@@ -6,7 +6,7 @@ $(() => {
 
   <% @files.each do |filename,file| %>
     cd.fileCreate("<%= j raw(filename) %>", {
-      'content': "<%= j raw(file['content']) %>"
+      content: "<%= j raw(file['content']) %>"
     });
   <% end %>
 
