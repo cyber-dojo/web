@@ -30,22 +30,22 @@ class ApplicationController < ActionController::Base
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def katas
-    Katas.new(self)
-  end
-
-  def kata
-    @kata ||= katas[id]
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - -
-
   def groups
     Groups.new(self)
   end
 
   def group
     @group ||= groups[id]
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def katas
+    Katas.new(self)
+  end
+
+  def kata
+    @kata ||= katas[id]
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
