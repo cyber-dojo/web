@@ -17,7 +17,7 @@ services:
     restart: 'no'
     depends_on:
       - starter
-      - runner-stateless
+      - runner
       - porter
       - saver
       - storer
@@ -36,6 +36,19 @@ services:
     restart: 'no'
     volumes:
       - ./test/data/start_points:/app/start_points:ro
+
+  # - - - - - - - - - - - - - - - -
+  
+  runner:
+    user: root
+    image: cyberdojo/runner-stateless
+    init: true
+    container_name: test-web-runner
+    read_only: true
+    tmpfs: /tmp
+    restart: 'no'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
 
   # - - - - - - - - - - - - - - - -
 
@@ -79,19 +92,6 @@ services:
     volumes:
       - /tmp/storer_katas/:/usr/src/cyber-dojo/katas:rw
     restart: 'no'
-
-  # - - - - - - - - - - - - - - - -
-
-  runner-stateless:
-    user: root
-    image: cyberdojo/runner-stateless
-    init: true
-    container_name: test-web-runner-stateless
-    read_only: true
-    tmpfs: /tmp
-    restart: 'no'
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
 
   # - - - - - - - - - - - - - - - -
 
