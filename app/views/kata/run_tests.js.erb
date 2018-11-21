@@ -90,13 +90,15 @@ const warnIfTestsTimedOut = () => {
 //- - - - - - - - - - - - - - - - - - - - - -
 
 appendTestTrafficLight();
-updateOutput();
-updateEventIndex();
 updateTrafficLightCount();
 updateTrafficLightPieChart();
+updateEventIndex();
+updateOutput();
+
 insertCreatedFiles();
 removeDeletedFiles();
 updateChangedFiles();
+
 warnIfTestsTimedOut();
 
 cd.loadTestOutputFile();
