@@ -6,7 +6,6 @@
               } ) do %>
 
   <div id="kata-page">
-    <%= render partial: 'file_hashes' %>
     <%= render partial: 'cached_run_parameters' %>
     <table>
       <tr>
@@ -42,7 +41,6 @@
 <script type="text/javascript"><!--
 'use strict';
 $(() => {
-  cd.storeIncomingFileHashes();
   cd.loadTestFile();
 });
 //--></script>

@@ -7,7 +7,6 @@ $(() => {
   // 3. when you revert from a diff-dialog
   cd.testButton.click(() => {
     cd.saveCodeFromSyntaxHighlightEditors();
-    cd.storeOutgoingFileHashes();
     const form = cd.testButton.closest('form');
     $.ajax({
          timeout: 30000, // 30 seconds

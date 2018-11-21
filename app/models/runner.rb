@@ -33,6 +33,7 @@ class Runner
       created_files.delete(output_filename)
     end
 
+    # TODO: this has not been checked since {'content'=>content}
     hidden_filenames = JSON.parse(params[:hidden_filenames])
     remove_hidden_files(created_files, hidden_filenames)
 

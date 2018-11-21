@@ -188,18 +188,6 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.hashOfFile = (filename) => {
-    const content = fileContent(filename);
-    let hash = 0;
-    for (let i = 0; i < content.length; ++i) {
-      hash = (hash << 5) - hash + content.charCodeAt(i);
-      hash &= hash;
-    }
-    return hash;
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   const testFilename = () => {
     // When starting and in filename-list navigation
     // when the current file is deleted, try to
