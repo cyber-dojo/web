@@ -11,36 +11,35 @@ class Runner
   def run(params)
     image_name = params[:image_name]
     max_seconds = params[:max_seconds].to_i
-
     files = files_from(params)
 
     result =
       @externals.runner.run_cyber_dojo_sh(
         image_name, @kata_id, files, max_seconds)
 
-    created_files = result['created_files']
-    deleted_files = result['deleted_files']
-    changed_files = result['changed_files']
+    created = result['created']
+    deleted = result['deleted']
+    changed = result['changed']
 
     # If there are newly created 'output' files remove them
     # otherwise they interferes with the pseudo output-files.
     output_filenames.each do |output_filename|
-      created_files.delete(output_filename)
+      created.delete(output_filename)
     end
 
     # TODO: this has not been checked since {'content'=>content}
     hidden_filenames = JSON.parse(params[:hidden_filenames])
-    remove_hidden_files(created_files, hidden_filenames)
+    remove_hidden_files(created, hidden_filenames)
 
     # Ensure files which will get sent to saver.ran_tests()
     # reflect changes; refreshing the browser should be a no-op.
-    created_files.each { |filename,file| files[filename] = file }
-    deleted_files.each { |filename,_   | files.delete(filename) }
-    changed_files.each { |filename,file| files[filename] = file }
+    created.each { |filename,file| files[filename] = file }
+    deleted.each { |filename,_   | files.delete(filename) }
+    changed.each { |filename,file| files[filename] = file }
 
     [result['stdout'], result['stderr'], result['status'],
      result['colour'],
-     files,created_files,deleted_files,changed_files
+     files,created,deleted,changed
     ]
   end
 

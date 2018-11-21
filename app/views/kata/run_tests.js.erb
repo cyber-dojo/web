@@ -44,7 +44,7 @@ const updateTrafficLightPieChart = () => {
 //- - - - - - - - - - - - - - - - - - - - - -
 
 const insertCreatedFiles = () => {
-  <% @created_files.each do |filename,file| %>
+  <% @created.each do |filename,file| %>
     cd.fileCreate("<%= j raw(filename) %>", {
       content: "<%= j raw(file['content']) %>"
     });
@@ -54,7 +54,7 @@ const insertCreatedFiles = () => {
 //- - - - - - - - - - - - - - - - - - - - - -
 
 const removeDeletedFiles = () => {
-  <% @deleted_files.keys.each do |filename| %>
+  <% @deleted.keys.each do |filename| %>
     cd.fileDelete("<%= j raw(filename) %>");
   <% end %>
 };
@@ -62,7 +62,7 @@ const removeDeletedFiles = () => {
 //- - - - - - - - - - - - - - - - - - - - - -
 
 const updateChangedFiles = () => {
-  <% @changed_files.each do |filename,file| %>
+  <% @changed.each do |filename,file| %>
     cd.fileChange("<%= j raw(filename) %>", {
       content: "<%= j raw(file['content']) %>"
     });

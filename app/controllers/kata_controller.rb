@@ -16,9 +16,8 @@ class KataController < ApplicationController
   def run_tests
     t1 = time_now
 
-    @stdout,@stderr,@status,
-      colour,
-        files,@created_files,@deleted_files,@changed_files = kata.run_tests(params)
+    @stdout,@stderr,@status,colour,
+      files,@created,@deleted,@changed = kata.run_tests(params)
 
     t2 = time_now
     duration = (Time.mktime(*t2) - Time.mktime(*t1))
