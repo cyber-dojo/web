@@ -12,8 +12,8 @@ class ApplicationController < ActionController::Base
 
   def ported
     if id.size == 10
-      url = request.url
       id6 = porter.port(id)
+      url = request.url
       if m = /#{id}\?avatar=([a-z]*)&?/.match(url)
         kata = groups[id6].katas.find{ |k| k.avatar_name == m[1] }
         url6 = url.sub(m.to_s, kata.id+'?')
