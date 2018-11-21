@@ -15,19 +15,19 @@ class Event
   def files(sym = nil)
     all = event['files']
     if sym == :with_output
-      all['stdout'] = stdout
-      all['stderr'] = stderr
-      all['status'] = status.to_s
+      all['stdout'] = stdout || content('')
+      all['stderr'] = stderr || content('')
+      all['status'] = content((status || '').to_s)
     end
     all
   end
 
   def stdout
-    event['stdout'] || no_content
+    event['stdout']
   end
 
   def stderr
-    event['stderr'] || no_content
+    event['stderr']
   end
 
   def status
@@ -57,8 +57,8 @@ class Event
 
   private
 
-  def no_content
-    { 'content' => '' }
+  def content(s)
+    { 'content' => s }
   end
 
   def event

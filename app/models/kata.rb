@@ -58,8 +58,8 @@ class Kata
     (most_recent_event.time - created).to_i # in seconds
   end
 
-  def files
-    most_recent_event.files
+  def files(sym = nil)
+    most_recent_event.files(sym)
   end
 
   def stdout

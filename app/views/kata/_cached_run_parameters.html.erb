@@ -28,6 +28,6 @@
 'use strict';
 $(() => {
   cd.setEventIndex = (value) => $("input[name='index']").val(value);
-  cd.setEventIndex("<%= @index %>");
+  cd.setEventIndex("<%= @kata.events.last.index %>");
 });
 //--></script>
