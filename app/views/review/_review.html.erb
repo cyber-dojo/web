@@ -96,8 +96,6 @@ $(() => {
       $light.click(() => param.events[nowIndex].review());
       cd.setupTrafficLightTip($light, param.id, wasIndex, nowIndex);
     });
-    // TODO: put this setup call in its own method
-    cd.setupHoverTips($('[data-tip]')); // other tips????
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
