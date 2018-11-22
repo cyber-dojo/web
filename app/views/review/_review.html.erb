@@ -67,37 +67,48 @@ $(() => {
 
   const refreshDiffCheckBox = () => {
     diffCheckBox()
-      .attr('checked', inDiffMode())
+      .attr('checked', param.wasIndex !== param.nowIndex)
       .unbind('click')
       .bind('click', () => show(param.nowIndex));
   };
 
   const diffCheckBox = () => $('#diff-checkbox');
 
-  const inDiffMode = () => param.wasIndex !== param.nowIndex;
+  const inDiffMode = () => diffCheckBox.checked;
 
   //-----------------------------------------
   // refresh traffic-lights
   //-----------------------------------------
 
   const refreshTrafficLights = () => {
-    let wasIndex = 0;
     const trafficLights = $('#review-traffic-lights');
     trafficLights.html(makeTrafficLightsHtml());
     $.each($('.diff-traffic-light', trafficLights), (_, light) => {
       const $light = $(light);
       const nowIndex = $light.data('index');
+      const wasIndex = previousIndex(nowIndex);
       // review() is also used by [<] event-index [>] navigator
       param.events[nowIndex].review = () => {
-        param.wasIndex = inDiffMode() ? wasIndex : nowIndex;
+        param.wasIndex = wasIndex;
         param.nowIndex = nowIndex;
         refresh();
       };
       $light.click(() => param.events[nowIndex].review());
       cd.setupTrafficLightTip($light, param.id, wasIndex, nowIndex);
-      wasIndex = nowIndex;
     });
+    // TODO: put this setup call in its own method
     cd.setupHoverTips($('[data-tip]')); // other tips????
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const previousIndex = (index) => {
+    // if there are toggleable fine-grained non-test
+    // events then index-1 will need to change.
+    if (inDiffMode())
+      return index;
+    else
+      return index - 1;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
