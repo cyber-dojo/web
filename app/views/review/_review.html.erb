@@ -36,9 +36,8 @@ $(() => {
 
   const show = (index) => {
     param.nowIndex = index;
-    // preserve diff on/off state
-    if (diffCheckBox().is(':checked')) {
-      param.wasIndex = (prevEventIndex() || 0);
+    if (inDiffMode()) {
+      param.wasIndex = (prevEventIndex(param.nowIndex) || 0);
     } else {
       param.wasIndex = index;
     }
@@ -68,13 +67,12 @@ $(() => {
   const refreshDiffCheckBox = () => {
     diffCheckBox()
       .attr('checked', param.wasIndex !== param.nowIndex)
-      .unbind('click')
-      .bind('click', () => show(param.nowIndex));
+      .click(() => show(param.nowIndex));
   };
 
   const diffCheckBox = () => $('#diff-checkbox');
 
-  const inDiffMode = () => diffCheckBox.checked;
+  const inDiffMode = () => diffCheckBox().is(':checked');
 
   //-----------------------------------------
   // refresh traffic-lights
@@ -86,27 +84,11 @@ $(() => {
     $.each($('.diff-traffic-light', trafficLights), (_, light) => {
       const $light = $(light);
       const nowIndex = $light.data('index');
-      const wasIndex = previousIndex(nowIndex);
-      // review() is also used by [<] event-index [>] navigator
-      param.events[nowIndex].review = () => {
-        param.wasIndex = wasIndex;
-        param.nowIndex = nowIndex;
-        refresh();
-      };
-      $light.click(() => param.events[nowIndex].review());
+      $light.click(() => show(nowIndex));
+      const wasIndex = inDiffMode() ? prevEventIndex(nowIndex) : nowIndex;
+      // is the tip worth having if we're not in diff mode?
       cd.setupTrafficLightTip($light, param.id, wasIndex, nowIndex);
     });
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const previousIndex = (index) => {
-    // if there are toggleable fine-grained non-test
-    // events then index-1 will need to change.
-    if (inDiffMode())
-      return index;
-    else
-      return index - 1;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -196,31 +178,34 @@ $(() => {
   //-----------------------------------------
 
   const refreshEventControls = () => {
-    refreshIndex($('#prev-index'), prevEventIndex());
+    refreshIndex($('#prev-index'), prevEventIndex(param.nowIndex));
     $('#index-container').html(eventHtml());
-    refreshIndex($('#next-index'), nextEventIndex());
+    refreshIndex($('#next-index'), nextEventIndex(param.nowIndex));
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const prevEventIndex = () => {
-    const n = param.nowIndex;
+  const prevEventIndex = (n) => {
+    // index==0 is the kata creation event
     const firstIndex = 1;
     if (n === null || n === firstIndex) {
+      // signals disabled-button in refreshIndex()
       return null;
     } else {
+      // Note: assumes only test events
       return n - 1;
     }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const nextEventIndex = () => {
-    const n = param.nowIndex;
+  const nextEventIndex = (n) => {
     const lastIndex = param.events.length - 1;
     if (n === null || n === lastIndex) {
+      // signals disabled-button in refreshIndex()
       return null;
     } else {
+      // Note: assumes only test events
       return n + 1;
     }
   };
@@ -505,10 +490,10 @@ $(() => {
     $.getJSON('/differ/diff', reviewParams, (data) => {
       $('.ui-dialog').removeClass('busy');
       param = data;
+      refreshDiffCheckBox(); // must refresh first
       refreshTrafficLights();
       refreshAvatarControls();
       refreshEventControls();
-      refreshDiffCheckBox();
       refreshFiles();
       refreshForkButton();
       refreshRevertButton();
