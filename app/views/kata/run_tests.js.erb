@@ -10,20 +10,6 @@ const appendTestTrafficLight = () => {
 
 //- - - - - - - - - - - - - - - - - - - - - -
 
-const updateOutput = () => {
-  cd.fileChange('stdout', {
-    content: "<%= j raw(@stdout['content']) %>"
-  });
-  cd.fileChange('stderr', {
-    content: "<%= j raw(@stderr['content']) %>"
-  });
-  cd.fileChange('status', {
-    content: "<%= j raw(@status.to_s) %>"
-  });
-};
-
-//- - - - - - - - - - - - - - - - - - - - - -
-
 const updateEventIndex = () => {
   cd.setEventIndex("<%= @light.index %>");
 };
@@ -39,6 +25,20 @@ const updateTrafficLightCount = () => {
 const updateTrafficLightPieChart = () => {
   const pieChart = "<%= js_partial('traffic_lights_pie_chart') %>";
   $('#traffic-lights-pie-chart').html(pieChart);
+};
+
+//- - - - - - - - - - - - - - - - - - - - - -
+
+const updateOutput = () => {
+  cd.fileChange('stdout', {
+    content: "<%= j raw(@stdout['content']) %>"
+  });
+  cd.fileChange('stderr', {
+    content: "<%= j raw(@stderr['content']) %>"
+  });
+  cd.fileChange('status', {
+    content: "<%= j raw(@status.to_s) %>"
+  });
 };
 
 //- - - - - - - - - - - - - - - - - - - - - -
@@ -93,13 +93,14 @@ appendTestTrafficLight();
 updateTrafficLightCount();
 updateTrafficLightPieChart();
 updateEventIndex();
-updateOutput();
 
+updateOutput();
 insertCreatedFiles();
 removeDeletedFiles();
 updateChangedFiles();
 
 warnIfTestsTimedOut();
+//warnIfTruncatedFiles();
 
 cd.loadTestOutputFile();
 cd.scrollIntoView();
