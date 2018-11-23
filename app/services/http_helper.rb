@@ -11,17 +11,11 @@ class HttpHelper
   end
 
   def get(*args)
-    method = name_of(caller)
-    call(method, *args) { |args_hash|
-      http.get(@hostname, @port, method, args_hash)
-    }
+    call('get', name_of(caller), *args)
   end
 
   def post(*args)
-    method = name_of(caller)
-    call(method, *args) { |args_hash|
-      http.post(@hostname, @port, method, args_hash)
-    }
+    call('post', name_of(caller), *args)
   end
 
   private
@@ -30,9 +24,13 @@ class HttpHelper
     /`(?<name>[^']*)/ =~ caller[0] && name
   end
 
-  def call(method, *args)
-    json = yield(args_hash(method, *args))
-    result(json, method)
+  def call(gp, method, *args)
+    json = http.public_send(gp, @hostname, @port, method, args_hash(method, *args))
+    fail_unless(method, 'bad json') { json.class.name == 'Hash' }
+    exception = json['exception']
+    fail_unless(method, pretty(exception)) { exception.nil? }
+    fail_unless(method, 'no key') { json.key?(method) }
+    json[method]
   end
 
   def args_hash(method, *args)
@@ -50,14 +48,6 @@ class HttpHelper
     Hash[parameters.map.with_index { |parameter,index|
       [parameter[1], args[index]]
     }]
-  end
-
-  def result(json, name)
-    fail_unless(name, 'bad json') { json.class.name == 'Hash' }
-    exception = json['exception']
-    fail_unless(name, pretty(exception)) { exception.nil? }
-    fail_unless(name, 'no key') { json.key?(name) }
-    json[name]
   end
 
   def fail_unless(name, message, &block)
