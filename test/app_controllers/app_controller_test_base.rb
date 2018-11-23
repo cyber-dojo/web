@@ -118,16 +118,12 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   end
 
   def run_tests(options = {})
-    id = options['id'] || kata.id
-    manifest = kata.manifest
     params = {
       'format'           => 'js',
-      'id'               => id,
-      'runner_choice'    => manifest.runner_choice,
-      'hidden_filenames' => JSON.unparse(manifest.hidden_filenames),
-      'max_seconds'      => (options['max_seconds'] || manifest.max_seconds),
-      'image_name'       => (options['image_name' ] || manifest.image_name),
-      'avatar'           => avatar.name
+      'image_name'       => (options['image_name' ] || kata.manifest.image_name),
+      'id'               => (options['id']          || kata.id
+      'max_seconds'      => (options['max_seconds'] || kata.manifest.max_seconds),
+      'hidden_filenames' => JSON.unparse(kata.manifest.hidden_filenames),
     }
     post '/kata/run_tests', params:params.merge(@params_maker.params)
     assert_response :success
