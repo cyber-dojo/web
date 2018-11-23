@@ -45,16 +45,16 @@ class StarterServiceTest < AppServicesTestBase
     ], exercises.keys.sort
 
     line = 'Write a program to score a game of Ten-Pin Bowling'
-    assert exercises['Bowling_Game'].start_with? line
+    assert exercises['Bowling_Game']['content'].start_with? line
 
     line = 'Write a program that prints the numbers from 1 to 100'
-    assert exercises['Fizz_Buzz'].start_with? line
+    assert exercises['Fizz_Buzz']['content'].start_with? line
 
     line = 'Write a function that returns true or false depending on'
-    assert exercises['Leap_Years'].start_with? line
+    assert exercises['Leap_Years']['content'].start_with? line
 
     line = 'Alice found herself very tiny and wandering around Wonderland'
-    assert exercises['Tiny_Maze'].start_with? line
+    assert exercises['Tiny_Maze']['content'].start_with? line
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -66,7 +66,6 @@ class StarterServiceTest < AppServicesTestBase
     assert_equal 'cyberdojofoundation/ruby_mini_test', manifest['image_name']
     assert_equal ['.rb'], manifest['filename_extension']
     assert_equal 2, manifest['tab_size']
-    assert_equal 'stateless', manifest['runner_choice']
     assert_equal 'Fizz_Buzz', manifest['exercise']
     assert_equal %w(
       coverage.rb
@@ -97,7 +96,6 @@ class StarterServiceTest < AppServicesTestBase
     assert_equal 'Yahtzee refactoring, C# NUnit', manifest['display_name']
     assert_equal 'cyberdojofoundation/csharp_nunit', manifest['image_name']
     assert_equal ['.cs'], manifest['filename_extension']
-    assert_equal 'stateless', manifest['runner_choice']
     assert_equal %w(
       YahtzeeTest.cs
       Yahtzee.cs

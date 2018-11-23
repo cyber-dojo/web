@@ -21,8 +21,8 @@ class RunnerStubTest < AppServicesTestBase
   'colour defaulted to red' do
     runner.stub_run(expected='syntax error line 1')
     result = runner.run_cyber_dojo_sh(*unused_args)
-    assert_equal expected, result['stdout']
-    assert_equal '', result['stderr']
+    assert_equal expected, result['stdout']['content']
+    assert_equal '', result['stderr']['content']
     assert_equal 0, result['status']
     assert_equal 'red', result['colour']
   end
@@ -38,8 +38,8 @@ class RunnerStubTest < AppServicesTestBase
     args << (colour='red')
     runner.stub_run(*args)
     result = runner.run_cyber_dojo_sh(*unused_args)
-    assert_equal stdout, result['stdout']
-    assert_equal stderr, result['stderr']
+    assert_equal stdout, result['stdout']['content']
+    assert_equal stderr, result['stderr']['content']
     assert_equal status, result['status']
     assert_equal colour, result['colour']
   end
@@ -64,10 +64,10 @@ class RunnerStubTest < AppServicesTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '97A',
-  'run without preceeding stub returns blah blah' do
+  'run without preceeding stub returns so/se/0/red' do
     result = runner.run_cyber_dojo_sh(*unused_args)
-    assert_equal 'blah blah blah', result['stdout']
-    assert_equal '', result['stderr']
+    assert_equal 'so', result['stdout']['content']
+    assert_equal 'se', result['stderr']['content']
     assert_equal 0, result['status']
     assert_equal 'red', result['colour']
   end
@@ -83,20 +83,16 @@ class RunnerStubTest < AppServicesTestBase
       result = runner.run_cyber_dojo_sh(*unused_args)
     }
     tid.join
-    assert_equal expected, result['stdout']
+    assert_equal expected, result['stdout']['content']
   end
 
   private
 
   def unused_args
     args = []
-    args << (runner_choice = nil)
     args << (image_name = nil)
     args << (kata_id = nil)
-    args << (new_files = nil)
-    args << (deleted_files = nil)
-    args << (changed_files = nil)
-    args << (unchanged_files = nil)
+    args << (files = nil)
     args << (max_seconds = nil)
     args
   end

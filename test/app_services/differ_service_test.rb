@@ -23,14 +23,14 @@ class DifferServiceTest < AppServicesTestBase
       args << kata.files
       args << (now = [2016,12,8, 8,3,23,654])
       args << (duration = 1.6754)
-      args << (stdout = "Expected: 42\nActual: 54")
-      args << (stderr = 'assertion failed')
+      args << (stdout = file("Expected: 42\nActual: 54"))
+      args << (stderr = file('assertion failed'))
       args << (status = 0)
       args << (colour = 'red')
       kata.ran_tests(*args)
 
-      was_files = kata.events[0].files
-      now_files = kata.events[1].files
+      was_files = flattened(kata.events[0].files)
+      now_files = flattened(kata.events[1].files)
       actual = differ.diff(was_files, now_files)
 
       filename = 'hiker.rb'
@@ -47,6 +47,20 @@ class DifferServiceTest < AppServicesTestBase
         'number' => 2
       }, actual[filename][1])
     end
+  end
+
+  private
+
+  def file(content)
+    { 'content' => content,
+      'truncated' => false
+    }
+  end
+
+  def flattened(files)
+    Hash[files.map{ |filename,file|
+      [filename, file['content']]
+    }]
   end
 
 end
