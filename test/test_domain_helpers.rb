@@ -1,21 +1,17 @@
 
 module TestDomainHelpers # mix-in
 
-  def in_group(runner_choice = :stateless, &block)
-    manifest = make_manifest({ 'display_name' => display_name(runner_choice) })
+  def in_group(&block)
+    manifest = make_manifest({ 'display_name' => default_display_name })
     group = groups.new_group(manifest)
     block.call(group)
   end
 
   # - - - - - - - - - - - - - - - -
 
-  def in_kata(runner_choice = :stateless, &block)
-    kata = make_language_kata({ 'display_name' => display_name(runner_choice) })
-    begin
-      block.call(kata)
-    ensure
-      runner.kata_old(kata.manifest.image_name, kata.id)
-    end
+  def in_kata(&block)
+    kata = make_language_kata({ 'display_name' => default_display_name })
+    block.call(kata)
   end
 
   # - - - - - - - - - - - - - - - -
@@ -25,7 +21,7 @@ module TestDomainHelpers # mix-in
   end
 
   def make_manifest(options = {})
-    display_name = options['display_name'] || default_language_name
+    display_name = options['display_name'] || default_display_name
     exercise_name = options['exercise'] || default_exercise_name
     manifest = starter.language_manifest(display_name, exercise_name)
     manifest['created'] = (options['created'] || time_now)
@@ -33,7 +29,7 @@ module TestDomainHelpers # mix-in
     manifest
   end
 
-  def default_language_name
+  def default_display_name
     'Ruby, MiniTest'
   end
 
@@ -69,10 +65,8 @@ module TestDomainHelpers # mix-in
     1.6543
   end
 
-  def display_name(runner_choice = :stateless)
-    { stateless: 'Ruby, MiniTest',
-       stateful: 'Ruby, RSpec'
-    }[runner_choice]
-  end
+  #def display_name
+  #  'Ruby, MiniTest'
+  #end
 
 end

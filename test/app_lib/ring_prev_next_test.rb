@@ -118,8 +118,11 @@ class RingPrevNextTest < AppLibTestBase
   private
 
   def ran_tests(kata, index)
+    stdout = file('')
+    stderr = file('')
+    status = 0
     colour = ['red','amber','green'].sample
-    kata.ran_tests(index, kata.files, time_now, duration, '', '', 0, colour)
+    kata.ran_tests(index, kata.files, time_now, duration, stdout, stderr, status, colour)
   end
 
   def join(group, avatar_name)
@@ -128,6 +131,12 @@ class RingPrevNextTest < AppLibTestBase
     indexes.delete(index)
     indexes.unshift(index)
     group.join(indexes)
+  end
+
+  def file(content)
+    { 'content' => content,
+      'truncated' => false
+    }
   end
 
 end

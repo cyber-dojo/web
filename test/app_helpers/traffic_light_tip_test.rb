@@ -12,21 +12,23 @@ class TipTest < AppHelpersTestBase
   'traffic light tip for individual kata does not have avatar-image' do
     in_kata do |kata|
       files = kata.files
-      stdout = "Expected: 42\nActual: 54"
-      stderr = 'assert failed'
+      stdout = file("Expected: 42\nActual: 54")
+      stderr = file('assert failed')
       status = 4
       kata.ran_tests(1, files, time_now, duration, stdout, stderr, status, 'red')
 
       filename = 'hiker.rb'
-      hiker_rb = kata.files[filename]
-      files[filename] = hiker_rb.sub('9','7')
-      stdout = 'All tests passed'
-      stderr = ''
+      hiker_rb = kata.files[filename]['content']
+      files[filename] = file(hiker_rb.sub('9','7'))
+      stdout = file('All tests passed')
+      stderr = file('')
       status = 0
       kata.ran_tests(2, files, time_now, duration, stdout, stderr, status, 'green')
 
       events = kata.events
-      diff = differ.diff(events[was_index=1].files, events[now_index=2].files)
+      was_files = files_for(events, was_index=1)
+      now_files = files_for(events, now_index=2)
+      diff = differ.diff(was_files, now_files)
 
       expected =
         '<table>' +
@@ -58,21 +60,23 @@ class TipTest < AppHelpersTestBase
     in_group do |group|
       kata = group.join
       files = kata.files
-      stdout = "Expected: 42\nActual: 54"
-      stderr = 'assert failed'
+      stdout = file("Expected: 42\nActual: 54")
+      stderr = file('assert failed')
       status = 4
       kata.ran_tests(1, files, time_now, duration, stdout, stderr, status, 'red')
 
       filename = 'hiker.rb'
-      hiker_rb = kata.files[filename]
-      files[filename] = hiker_rb.sub('9','7')
-      stdout = 'All tests passed'
-      stderr = ''
+      hiker_rb = kata.files[filename]['content']
+      files[filename] = file(hiker_rb.sub('9','7'))
+      stdout = file('All tests passed')
+      stderr = file('')
       status = 0
       kata.ran_tests(2, files, time_now, duration, stdout, stderr, status, 'green')
 
       events = kata.events
-      diff = differ.diff(events[was_index=1].files, events[now_index=2].files)
+      was_files = files_for(events, was_index=1)
+      now_files = files_for(events, now_index=2)
+      diff = differ.diff(was_files, now_files)
 
       expected =
         '<table>' +
@@ -93,9 +97,23 @@ class TipTest < AppHelpersTestBase
           '</tr>' +
         '</table>'
 
-      actual = traffic_light_tip_html(diff, events, was_index, now_index)
+      actual = traffic_light_tip_html(diff, kata.events, was_index, now_index)
       assert_equal expected, actual
     end
+  end
+
+  private
+
+  def files_for(events, index)
+    Hash[events[index].files(:with_output).map{ |filename,file|
+      [filename, file['content']]
+    }]
+  end
+
+  def file(content)
+    { 'content' => content,
+      'truncated' => false
+    }
   end
 
 end

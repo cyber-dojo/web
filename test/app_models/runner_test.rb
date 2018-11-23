@@ -13,74 +13,31 @@ class RunnerTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '149',
-  'run with deleted_files' do
-    params = create_params
-    params[:file_hashes_outgoing].delete('hiker.rb')
-    params[:file_content].delete('hiker.rb')
-    spy_http
-    kata.run_tests(params)
-    assert_equal ['hiker.rb'], http_args[:deleted_files].keys
-  end
-
-  # - - - - - - - - - - - - - - - - - -
-
-  test '150',
-  'run with new_files' do
-    params = create_params
-    params[:file_hashes_outgoing]['new-file.txt'] = 'hello world'
-    params[:file_content]['new-file.txt'] = 'hello world'
-    spy_http
-    kata.run_tests(params)
-    assert_equal ['new-file.txt'], http_args[:new_files].keys
-  end
-
-  # - - - - - - - - - - - - - - - - - -
-
-  test '151',
-  'run with changed_files' do
-    params = create_params
-    params[:file_hashes_outgoing]['cyber-dojo.sh'] = 'changed...'
-    params[:file_content]['cyber-dojo.sh'] = 'changed...'
-    spy_http
-    kata.run_tests(params)
-    assert_equal ['cyber-dojo.sh'], http_args[:changed_files].keys
+  'smoke test run' do
+    in_kata { |kata|
+      result = kata.run_tests(run_params(kata))
+      assert_equal 'red', result[3]
+    }
   end
 
   # hidden_filenames
 
   private
 
-  def create_params
-    kata = create_kata
-    manifest = kata.manifest
-    files = kata.files
+  def run_params(kata)
     {
-      runner_choice:manifest.runner_choice,
-      image_name:manifest.image_name,
-      max_seconds:manifest.max_seconds,
-      file_content:files.clone,
-      file_hashes_incoming:files.clone,
-      file_hashes_outgoing:files.clone,
+      id:kata.id,
+      image_name:kata.manifest.image_name,
+      max_seconds:kata.manifest.max_seconds,
+      file_content:flattened(kata.files),
       hidden_filenames:'[]'
     }
   end
 
-  def spy_http
-    @http = nil
-    set_class('http', 'HttpSpy')
-    http.stub({
-      'stdout' => '',
-      'stderr' => '',
-      'status' => 0,
-      'colour' => 'red',
-      'new_files' => {},
-      'deleted_files' => {},
-      'changed_files' => {}
-    })
-  end
-
-  def http_args
-    http.spied[0][3]
+  def flattened(files)
+    Hash[files.map{|filename,file|
+      [filename, file['content']]
+    }]
   end
 
 end
