@@ -17,12 +17,8 @@ class HttpHelper
   end
 
   def post(method_sym, *args)
-    post_hash(method_sym, args_hash(method_sym.to_s, *args))
-  end
-
-  def post_hash(method_sym, args_hash)
     method = method_sym.to_s
-    json = http.post(@hostname, @port, method, args_hash)
+    json = http.post(@hostname, @port, method, args_hash(method, *args))
     result(json, method)
   end
 
@@ -33,10 +29,10 @@ class HttpHelper
     # the parameter name. For example, differ_services does this
     #
     #   def diff(was_files, now_files)
-    #     @http.get(__method__, was_files, now_files)
+    #     http.get(__method__, was_files, now_files)
     #  end
     #
-    # Reflection sees that the names of the parameters are
+    # Reflection sees the names of diff()'s parameters are
     # 'was_files' and 'now_files' and so constructs the hash
     # { 'was_files' => args[0], 'now_files' => args[1] }
     parameters = @parent.class.instance_method(method).parameters
