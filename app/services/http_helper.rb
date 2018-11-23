@@ -10,19 +10,25 @@ class HttpHelper
     @port = port
   end
 
-  def get(method_sym, *args)
-    method = method_sym.to_s
-    json = http.get(@hostname, @port, method, args_hash(method, *args))
-    result(json, method)
+  def get(method, *args)
+    call(method, *args) { |args_hash|
+      http.get(@hostname, @port, method.to_s, args_hash)
+    }
   end
 
-  def post(method_sym, *args)
-    method = method_sym.to_s
-    json = http.post(@hostname, @port, method, args_hash(method, *args))
-    result(json, method)
+  def post(method, *args)
+    call(method, *args) { |args_hash|
+      http.post(@hostname, @port, method.to_s, args_hash)
+    }
   end
 
   private
+
+  def call(method, *args)
+    method = method.to_s
+    json = yield(args_hash(method, *args))
+    result(json, method)
+  end
 
   def args_hash(method, *args)
     # Uses reflection to create a hash of args where each key is
