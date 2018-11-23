@@ -9,17 +9,17 @@ class StarterService
   # - - - - - - - - - - - -
 
   def sha
-    http.get(__method__)
+    http.get
   end
 
   # - - - - - - - - - - - -
 
   def language_start_points
-    http.get(__method__)
+    http.get
   end
 
   def language_manifest(display_name, exercise_name)
-    hash = http.get(__method__, display_name, exercise_name)
+    hash = http.get(display_name, exercise_name)
     manifest = hash['manifest']
     manifest['exercise'] = exercise_name
     manifest['visible_files']['readme.txt'] = hash['exercise']
@@ -29,11 +29,11 @@ class StarterService
   # - - - - - - - - - - - -
 
   def custom_start_points
-    http.get(__method__)
+    http.get
   end
 
   def custom_manifest(display_name)
-    http.get(__method__, display_name)
+    http.get(display_name)
   end
 
   private

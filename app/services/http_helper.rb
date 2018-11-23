@@ -10,13 +10,15 @@ class HttpHelper
     @port = port
   end
 
-  def get(method, *args)
+  def get(*args)
+    method = name_of(caller)
     call(method, *args) { |args_hash|
       http.get(@hostname, @port, method, args_hash)
     }
   end
 
-  def post(method, *args)
+  def post(*args)
+    method = name_of(caller)
     call(method, *args) { |args_hash|
       http.post(@hostname, @port, method, args_hash)
     }
@@ -24,8 +26,11 @@ class HttpHelper
 
   private
 
+  def name_of(caller)
+    /`(?<name>[^']*)/ =~ caller[0] && name
+  end
+
   def call(method, *args)
-    method = method.to_s
     json = yield(args_hash(method, *args))
     result(json, method)
   end

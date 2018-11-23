@@ -9,13 +9,13 @@ class DifferService
   # - - - - - - - - - - - - -
 
   def sha
-    http.get(__method__)
+    http.get
   end
 
   # - - - - - - - - - - - - -
 
   def diff(was_files, now_files)
-    http.get(__method__, was_files, now_files)
+    http.get(was_files, now_files)
   end
 
   private

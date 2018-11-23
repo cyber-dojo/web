@@ -7,11 +7,11 @@ class PorterService
   end
 
   def sha
-    http.get(__method__)
+    http.get
   end
 
   def port(partial_id)
-    http.post(__method__, partial_id)
+    http.post(partial_id)
   end
 
   private
