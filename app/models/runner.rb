@@ -53,7 +53,9 @@ class Runner
     output_filenames.each do |output_filename|
       files.delete(output_filename)
     end
-    files
+    Hash[files.map{|filename,content|
+      [filename, { 'content' => content }]
+    }]
   end
 
   def output_filenames

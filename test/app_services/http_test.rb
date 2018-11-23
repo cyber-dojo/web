@@ -10,7 +10,7 @@ class HttpTest < AppServicesTestBase
 
   test '621',
   'test using runner' do
-    json = http.post('runner', '4597', 'sha', {})
+    json = http.post('runner', '4597', 'sha', {})    
     assert_nil json['exception']
     assert_sha json['sha']
   end

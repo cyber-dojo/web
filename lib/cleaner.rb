@@ -10,9 +10,7 @@ module Cleaner # mix-in
     files.each do |filename, content|
       content = cleaned_string(content)
       content = content.gsub(/\r\n/, "\n")
-      cleaned[filename] = {
-        'content' => content
-      }
+      cleaned[filename] = content
     end
     cleaned
   end
