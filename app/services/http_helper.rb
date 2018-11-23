@@ -12,13 +12,13 @@ class HttpHelper
 
   def get(method, *args)
     call(method, *args) { |args_hash|
-      http.get(@hostname, @port, method.to_s, args_hash)
+      http.get(@hostname, @port, method, args_hash)
     }
   end
 
   def post(method, *args)
     call(method, *args) { |args_hash|
-      http.post(@hostname, @port, method.to_s, args_hash)
+      http.post(@hostname, @port, method, args_hash)
     }
   end
 
