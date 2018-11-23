@@ -39,9 +39,9 @@ class KataTest < AppModelsTestBase
 
     assert_equal 0, kata.age
 
-    assert_equal '', kata.stdout
-    assert_equal '', kata.stderr
-    assert_equal '', kata.status
+    assert_nil kata.stdout
+    assert_nil kata.stderr
+    assert_nil kata.status
 
     refute kata.active?
     assert_equal [], kata.lights
@@ -65,9 +65,9 @@ class KataTest < AppModelsTestBase
 
     assert_equal 0, kata.age
 
-    assert_equal '', kata.stdout
-    assert_equal '', kata.stderr
-    assert_equal '', kata.status
+    assert_nil kata.stdout
+    assert_nil kata.stderr
+    assert_nil kata.status
 
     refute kata.active?
     assert_equal [], kata.lights
@@ -89,35 +89,36 @@ class KataTest < AppModelsTestBase
   which is now the most recent event
   ) do
     kata = create_kata([2018,11,1, 9,13,56,6574])
-    manifest = kata.manifest
     params = {
-      image_name:manifest.image_name,
-      max_seconds:manifest.max_seconds,
-      file_content:kata.files,
-      file_hashes_incoming:kata.files,
-      file_hashes_outgoing:kata.files,
+      image_name:kata.manifest.image_name,
+      max_seconds:kata.manifest.max_seconds,
+      file_content:files_for(kata),
       hidden_filenames:'[]'
     }
-    kata.run_tests(params)
+    result = kata.run_tests(params)
+    stdout = result[0]
+    stderr = result[1]
+    status = result[2]
+    colour = result[3]
     now = [2018,11,1, 9,14,9,9154]
-    kata.ran_tests(1, kata.files, now, duration, 'so', 'se', 39, 'red')
+    kata.ran_tests(1, kata.files, now, duration, stdout, stderr, status, colour)
     assert_equal 13, kata.age
     assert kata.active?
     assert_equal 2, kata.events.size
     assert_equal 1, kata.lights.size
     light = kata.lights[0]
-    assert_equal 'so', light.stdout
-    assert_equal 'so', kata.stdout
-    assert_equal 'se', light.stderr
-    assert_equal 'se', kata.stderr
-    assert_equal 39, light.status
-    assert_equal 39, kata.status
+    assert_equal stdout, light.stdout
+    assert_equal stderr, light.stderr
+    assert_equal status, light.status
+    assert_equal stdout, kata.stdout
+    assert_equal stderr, kata.stderr
+    assert_equal status, kata.status
 
     # event files can include pseudo output-files to help differ
     expected = kata.files.merge({
         'stdout' => light.stdout,
         'stderr' => light.stderr,
-        'status' => light.status.to_s
+        'status' => file(light.status.to_s)
     })
     assert_equal expected, light.files(:with_output)
   end
@@ -132,13 +133,15 @@ class KataTest < AppModelsTestBase
     params = {
       image_name:kmanifest.image_name,
       max_seconds:kmanifest.max_seconds,
-      file_content:kata.files,
-      file_hashes_incoming:kata.files,
-      file_hashes_outgoing:kata.files,
+      file_content:files_for(kata),
       hidden_filenames:'[]'
     }
-    kata.run_tests(params)
-    kata.ran_tests(1, kata.files, time_now, duration, 'so', 'se', 39, 'red')
+    result = kata.run_tests(params)
+    stdout = result[0]
+    stderr = result[1]
+    status = result[2]
+    colour = result[3]
+    kata.ran_tests(1, kata.files, time_now, duration, stdout, stderr, status, colour)
 
     emanifest = kata.events[1].manifest
     refute_nil emanifest
@@ -147,7 +150,18 @@ class KataTest < AppModelsTestBase
     assert_equal kata.files, emanifest['visible_files']
     assert_equal kmanifest.display_name, emanifest['display_name']
     assert_equal kmanifest.image_name, emanifest['image_name']
-    assert_equal kmanifest.runner_choice, emanifest['runner_choice']
+  end
+
+  private
+
+  def files_for(kata)
+    Hash[kata.files(:with_output).map{ |filename,file|
+      [filename, file['content']]
+    }]
+  end
+
+  def file(content)
+    { 'content' => content }
   end
 
 end

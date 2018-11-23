@@ -51,7 +51,6 @@ class Manifest
       'display_name' => display_name,
       'filename_extension' => filename_extension,
       'image_name' => image_name,
-      'runner_choice' => runner_choice,
       'exercise' => exercise,
       'highlight_filenames' => highlight_filenames,
       'hidden_filenames' => hidden_filenames,

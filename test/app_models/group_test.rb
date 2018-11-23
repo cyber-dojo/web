@@ -102,8 +102,17 @@ class GroupTest < AppModelsTestBase
     assert_equal 0, group.age
     kata = group.join
     assert_equal 0, group.age
-    kata.ran_tests(1, kata.files, [2018,11,30, 9,35,8,7564], duration, '', '', 0, 'green')
+    stdout = file('')
+    stderr = file('')
+    status = 0
+    kata.ran_tests(1, kata.files, [2018,11,30, 9,35,8,7564], duration, stdout, stderr, status, 'green')
     assert_equal 12, group.age
+  end
+
+  def file(content)
+    { 'content' => content,
+      'truncated' => false
+    }
   end
 
 #- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -121,7 +130,6 @@ class GroupTest < AppModelsTestBase
     assert_equal group.id, am.id
     assert_equal m['display_name'], am.display_name
     assert_equal m['image_name'], am.image_name
-    assert_equal m['runner_choice'], am.runner_choice
     assert_equal m['exercise'], am.exercise
     assert_equal m['tab_size'], am.tab_size
     assert_equal m['created'], am.created

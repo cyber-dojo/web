@@ -20,8 +20,4 @@ class Katas
     @externals.saver
   end
 
-  def runner
-    @externals.runner
-  end
-
 end

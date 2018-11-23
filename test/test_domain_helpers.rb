@@ -64,9 +64,5 @@ module TestDomainHelpers # mix-in
   def duration
     1.6543
   end
-
-  #def display_name
-  #  'Ruby, MiniTest'
-  #end
-
+  
 end

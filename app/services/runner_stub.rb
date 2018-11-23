@@ -19,10 +19,13 @@ class RunnerStub
   def stub_run(stdout, stderr='', status=0, colour='red')
     dir.make
     dir.write(filename, JSON.generate({
-        'stdout' => stdout,
-        'stderr' => stderr,
+        'stdout' => file(stdout),
+        'stderr' => file(stderr),
         'status' => status,
-        'colour' => colour
+        'colour' => colour,
+        'created' => {},
+        'deleted' => {},
+        'changed' => {}
     }))
   end
 
@@ -30,13 +33,13 @@ class RunnerStub
     if dir.exists?
       JSON.parse(dir.read(filename))
     else
-      { 'stdout' => { 'content' => 'blah blah blah' },
-        'stderr' => { 'content' => '' },
+      { 'stdout' => file('so'),
+        'stderr' => file('se'),
         'status' => 0,
         'colour' => 'red',
-        'new_files' => {},
-        'deleted_files' => {},
-        'changed_files' => {}
+        'created' => {},
+        'deleted' => {},
+        'changed' => {}
       }
     end
   end
@@ -57,6 +60,12 @@ class RunnerStub
 
   def test_id
     ENV['CYBER_DOJO_TEST_ID']
+  end
+
+  def file(content)
+    { 'content' => content,
+      'truncated' => false
+    }
   end
 
 end
