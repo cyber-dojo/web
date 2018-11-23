@@ -9,26 +9,10 @@ class HttpTest < AppServicesTestBase
   # - - - - - - - - - - - - - - - - - - - - -
 
   test '621',
-  'test using runner-stateless' do
-    json = http.post('runner-stateless', '4597', 'kata_new', {
-      image_name:'',
-      id:hex_test_kata_id
-    })
-    ex = json['exception']
-    assert_equal 'RunnerStatelessService', ex['class']
-    assert_equal 'image_name:malformed', ex['message']
-    assert_equal 'Array', ex['backtrace'].class.name
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - -
-
-  test '620',
-  'test using runner-stateful' do
-    json = http.post('runner-stateful', '4557', 'kata_new', {
-      image_name:'',
-      id:hex_test_kata_id
-    })
-    assert_equal 'image_name:malformed', json['exception']
+  'test using runner' do
+    json = http.post('runner', '4597', 'sha', {})
+    assert_nil json['exception']
+    assert_sha json['sha']
   end
 
 end
