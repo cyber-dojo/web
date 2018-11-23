@@ -9,13 +9,13 @@ class RunnerService
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def sha
-    @http.get(__method__)
+    http.get(__method__)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def run_cyber_dojo_sh(image_name, id, files, max_seconds)
-    @http.post_hash(__method__, {
+    http.post_hash(__method__, {
        image_name:image_name,
                id:id,
             files:files,
@@ -24,5 +24,7 @@ class RunnerService
   end
 
   private
+
+  attr_reader :http
 
 end
