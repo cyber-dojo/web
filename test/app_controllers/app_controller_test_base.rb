@@ -121,7 +121,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     params = {
       'format'           => 'js',
       'image_name'       => (options['image_name' ] || kata.manifest.image_name),
-      'id'               => (options['id']          || kata.id
+      'id'               => (options['id']          || kata.id),
       'max_seconds'      => (options['max_seconds'] || kata.manifest.max_seconds),
       'hidden_filenames' => JSON.unparse(kata.manifest.hidden_filenames),
     }

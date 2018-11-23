@@ -105,9 +105,9 @@ class TipTest < AppHelpersTestBase
   private
 
   def files_for(events, index)
-    Hash[events[index].files(:with_output).map{ |filename,file|
-      [filename, file['content']]
-    }]
+    events[index].files(:with_output)
+                 .map{ |filename,file| [filename, file['content']] }
+                 .to_h
   end
 
   def file(content)

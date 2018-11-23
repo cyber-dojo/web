@@ -58,9 +58,9 @@ class IdRejoinController < ApplicationController
 
   def avatar_picker_html(katas)
     @avatar_names = Avatars.names
-    @started_ids = Hash[katas.map{ |kata|
+    @started_ids = katas.map{ |kata|
       [kata.avatar_name, kata.id]
-    }]
+    }.to_h
     bind('/app/views/id_rejoin/avatar_picker.html.erb')
   end
 

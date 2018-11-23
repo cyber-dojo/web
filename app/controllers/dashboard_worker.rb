@@ -52,13 +52,17 @@ module DashboardWorker # mixin
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def animals_progress
-    Hash[group.katas
-              .select(&:active?)
-              .map { |kata| [
-                kata.avatar_name, {
-                  colour: kata.lights[-1].colour,
-                progress: most_recent_progress(kata)
-              }]}]
+    group.katas
+         .select(&:active?)
+         .map { |kata| animal_progress(kata) }
+         .to_h
+  end
+
+  def animal_progress(kata)
+    [kata.avatar_name, {
+        colour: kata.lights[-1].colour,
+      progress: most_recent_progress(kata)
+    }]
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -86,9 +86,10 @@ class ApplicationController < ActionController::Base
   end
 
   def files_for(index)
-    Hash[kata.events[index].files(:with_output).map{ |filename,file|
-      [filename, file['content']]
-    }]
+    kata.events[index]
+        .files(:with_output)
+        .map{ |filename,file| [filename, file['content']] }
+        .to_h
   end
 
 end

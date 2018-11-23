@@ -45,9 +45,9 @@ class HttpHelper
     # 'was_files' and 'now_files' and so constructs the hash
     # { 'was_files' => args[0], 'now_files' => args[1] }
     parameters = @parent.class.instance_method(method).parameters
-    Hash[parameters.map.with_index { |parameter,index|
-      [parameter[1], args[index]]
-    }]
+    parameters.map
+              .with_index { |parameter,index| [parameter[1], args[index]] }
+              .to_h
   end
 
   def fail_unless(name, message, &block)

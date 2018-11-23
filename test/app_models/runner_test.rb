@@ -35,9 +35,8 @@ class RunnerTest < AppModelsTestBase
   end
 
   def flattened(files)
-    Hash[files.map{|filename,file|
-      [filename, file['content']]
-    }]
+    files.map{|filename,file| [filename, file['content']] }
+         .to_h
   end
 
 end
