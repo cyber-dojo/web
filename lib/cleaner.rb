@@ -4,9 +4,15 @@ module Cleaner # mix-in
   module_function
 
   def cleaned_files(files)
-    files.transform_values! do |content|
-      cleaned_string(content).gsub(/\r\n/, "\n")
+    # files is an ActionController::Parameters
+    # so you can use .map or .transform_values!
+    cleaned = {}
+    files.each do |filename,content|
+      content = cleaned_string(content)
+      content = content.gsub(/\r\n/, "\n")
+      cleaned[filename] = content
     end
+    cleaned
   end
 
   def cleaned_string(s)
