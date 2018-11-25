@@ -11,40 +11,29 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   # - - - - - - - - - - - - - - - -
 
-  def in_kata(choice, &block)
-    display_name = {
-       stateless: 'Ruby, MiniTest',
-        stateful: 'Ruby, RSpec'
-    }[choice] || choice
-    refute_nil display_name, choice
+  def in_kata(&block)
+    display_name = 'Ruby, MiniTest'
     create_language_kata(display_name)
-    begin
-      block.call
-    ensure
-      runner.kata_old(kata.image_name, kata.id)
-    end
+    block.call(kata)
   end
 
   # - - - - - - - - - - - - - - - -
 
+=begin
   def as_avatar(&block)
     assert_join
-    begin
-      block.call
-    ensure
-      runner.avatar_old(kata.image_name, kata.id, avatar.name)
-    end
+    block.call
   end
-
+=end
   # - - - - - - - - - - - - - - - -
 
   def kata
     katas[@id]
   end
 
-  def avatar
-    kata.avatars[@avatar_name]
-  end
+  #def avatar
+  #  kata.avatars[@avatar_name]
+  #end
 
   # - - - - - - - - - - - - - - - -
 
@@ -54,10 +43,10 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
       'language' => display_name,
       'exercise' => exercise_name
     }
-    get '/setup_default_start_point/save_group', params:params
+    get '/setup_default_start_point/save_individual', params:params
     assert_response :redirect
-    #http://.../kata/group/BC8E8A6433
-    regex = /^(.*)\/kata\/group\/([0-9A-Za-z]*)$/
+    #http://.../kata/edit/Bc84S3
+    regex = /^(.*)\/kata\/edit\/([0-9A-Za-z]*)$/
     assert m = regex.match(@response.redirect_url)
     @id = m[2]
     nil
@@ -96,7 +85,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   # - - - - - - - - - - - - - - - -
 
   def kata_edit
-    params = { 'id' => kata.id, 'avatar' => avatar.name }
+    params = { 'id' => kata.id }
     get '/kata/edit', params:params
     assert_response :success
   end

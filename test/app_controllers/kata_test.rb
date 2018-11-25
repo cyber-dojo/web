@@ -24,19 +24,23 @@ class KataControllerTest  < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '9B8', %w( group landing page ) do
-    in_kata { |kata|
-      get "/kata/group/#{kata.id}"
-      assert_response :success
-    }
+    group = groups.new_group(starter_manifest)
+    get "/kata/group/#{group.id}"
+    assert_response :success
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '9B9', %w( edit landing page ) do
-    in_kata { |kata|
-      get "/kata/edit/#{kata.id}"
-      assert_response :success
-    }
+    kata = katas.new_kata(starter_manifest)
+    get "/kata/edit/#{kata.id}"
+    assert_response :success
+  end
+
+  def starter_manifest
+    manifest = starter.language_manifest(default_display_name, default_exercise_name)
+    manifest['created'] = time_now
+    manifest
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
