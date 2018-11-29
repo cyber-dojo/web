@@ -14,26 +14,15 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   def in_kata(&block)
     display_name = 'Ruby, MiniTest'
     create_language_kata(display_name)
+    @files = kata.files.map{|filename,file| [filename,file['content']]}.to_h
     block.call(kata)
   end
 
   # - - - - - - - - - - - - - - - -
 
-=begin
-  def as_avatar(&block)
-    assert_join
-    block.call
-  end
-=end
-  # - - - - - - - - - - - - - - - -
-
   def kata
     katas[@id]
   end
-
-  #def avatar
-  #  kata.avatars[@avatar_name]
-  #end
 
   # - - - - - - - - - - - - - - - -
 
@@ -95,7 +84,9 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   end
 
   def change_file(filename, content)
-    @params_maker.change_file(filename, content)
+    refute_nil @files
+    assert @files.keys.include?(filename), @files.keys.sort
+    @files[filename] = content
   end
 
   def delete_file(filename)
@@ -113,10 +104,10 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
       'id'               => (options['id']          || kata.id),
       'max_seconds'      => (options['max_seconds'] || kata.manifest.max_seconds),
       'hidden_filenames' => JSON.unparse(kata.manifest.hidden_filenames),
+      'file_content'     => @files
     }
-    post '/kata/run_tests', params:params.merge(@params_maker.params)
+    post '/kata/run_tests', params:params
     assert_response :success
-    @params_maker = ParamsMaker.new(avatar)
   end
 
   # - - - - - - - - - - - - - - - -
@@ -130,3 +121,13 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   end
 
 end
+
+=begin
+  def as_avatar(&block)
+    assert_join
+    block.call
+  end
+=end
+  #def avatar
+  #  kata.avatars[@avatar_name]
+  #end

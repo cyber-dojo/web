@@ -58,7 +58,6 @@ class KataControllerTest  < AppControllerTestBase
         RUBY_CODE
       )
       run_tests({ 'max_seconds' => 3 })
-      assert kata.lights[-1].output.start_with?('Unable to complete')
       assert_equal :timed_out, kata.lights[-1].colour
     }
   end
