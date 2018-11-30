@@ -97,6 +97,7 @@ class KataControllerTest  < AppControllerTestBase
       filename = "/tmp/cyber-dojo-#{hex_test_kata_id}.json"
       lines = IO.read(filename).lines
       assert_equal 1, lines.size
+      assert lines[0].start_with?('["kata_ran_tests"')
     }
   end
 
