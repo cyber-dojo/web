@@ -15,6 +15,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     display_name = 'Ruby, MiniTest'
     create_language_kata(display_name)
     @files = kata.files.map{|filename,file| [filename,file['content']]}.to_h
+    @index = 1
     block.call(kata)
   end
 
@@ -80,7 +81,11 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   end
 
   def sub_file(filename, from, to)
-    @params_maker.sub_file(filename, from, to)
+    refute_nil @files
+    assert @files.keys.include?(filename), @files.keys.sort
+    content = @files[filename]
+    assert content.include?(from)
+    @files[filename] = content.sub(from, to)
   end
 
   def change_file(filename, content)
@@ -104,9 +109,12 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
       'id'               => (options['id']          || kata.id),
       'max_seconds'      => (options['max_seconds'] || kata.manifest.max_seconds),
       'hidden_filenames' => JSON.unparse(kata.manifest.hidden_filenames),
+      'index'            => @index,
       'file_content'     => @files
     }
+
     post '/kata/run_tests', params:params
+    @index += 1
     assert_response :success
   end
 

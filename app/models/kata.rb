@@ -40,7 +40,7 @@ class Kata
   end
 
   def events
-    @events ||= saver.kata_events(id).map.with_index do |h,index|
+    saver.kata_events(id).map.with_index do |h,index|
       Event.new(@externals, self, h, index)
     end
   end

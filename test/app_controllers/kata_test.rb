@@ -68,11 +68,9 @@ class KataControllerTest  < AppControllerTestBase
     in_kata { |kata|
       run_tests
       assert_equal :red, kata.lights[-1].colour
-
       sub_file('hiker.rb', '6 * 9', '6 * 7')
       run_tests
       assert_equal :green, kata.lights[-1].colour
-
       change_file('hiker.rb', 'syntax-error')
       run_tests
       assert_equal :amber, kata.lights[-1].colour
