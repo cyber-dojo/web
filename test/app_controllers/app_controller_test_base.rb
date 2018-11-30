@@ -10,6 +10,14 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   # - - - - - - - - - - - - - - - -
 
+  def starter_manifest
+    manifest = starter.language_manifest(default_display_name, default_exercise_name)
+    manifest['created'] = time_now
+    manifest
+  end
+
+  # - - - - - - - - - - - - - - - -
+
   def in_kata(&block)
     display_name = 'Ruby, MiniTest'
     create_language_kata(display_name)
@@ -56,6 +64,46 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   # - - - - - - - - - - - - - - - -
 
+  def sub_file(filename, from, to)
+    refute_nil @files
+    assert @files.keys.include?(filename), @files.keys.sort
+    content = @files[filename]
+    assert content.include?(from)
+    @files[filename] = content.sub(from, to)
+  end
+
+  # - - - - - - - - - - - - - - - -
+
+  def change_file(filename, content)
+    refute_nil @files
+    assert @files.keys.include?(filename), @files.keys.sort
+    @files[filename] = content
+  end
+
+  # - - - - - - - - - - - - - - - -
+
+  def post_run_tests(options = {})
+    post '/kata/run_tests', params:run_test_params(options)
+    @index += 1
+    assert_response :success
+  end
+
+  # - - - - - - - - - - - - - - - -
+
+  def run_test_params(options = {})
+    {
+      'format'           => 'js',
+      'image_name'       => (options['image_name' ] || kata.manifest.image_name),
+      'id'               => (options['id']          || kata.id),
+      'max_seconds'      => (options['max_seconds'] || kata.manifest.max_seconds),
+      'hidden_filenames' => JSON.unparse(kata.manifest.hidden_filenames),
+      'index'            => @index,
+      'file_content'     => @files
+    }
+  end
+
+  # - - - - - - - - - - - - - - - -
+
   def assert_join(id = kata.id)
     @avatar_name = join(id)
     assert json['exists']
@@ -69,46 +117,6 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     get '/id_join/drop_down', params:params
     assert_response :success
     json['avatarName']
-  end
-
-  # - - - - - - - - - - - - - - - -
-
-  def kata_edit
-    params = { 'id' => kata.id }
-    get '/kata/edit', params:params
-    assert_response :success
-  end
-
-  def sub_file(filename, from, to)
-    refute_nil @files
-    assert @files.keys.include?(filename), @files.keys.sort
-    content = @files[filename]
-    assert content.include?(from)
-    @files[filename] = content.sub(from, to)
-  end
-
-  def change_file(filename, content)
-    refute_nil @files
-    assert @files.keys.include?(filename), @files.keys.sort
-    @files[filename] = content
-  end
-
-  def post_run_tests(options = {})
-    post '/kata/run_tests', params:run_test_params(options)
-    @index += 1
-    assert_response :success
-  end
-
-  def run_test_params(options = {})
-    {
-      'format'           => 'js',
-      'image_name'       => (options['image_name' ] || kata.manifest.image_name),
-      'id'               => (options['id']          || kata.id),
-      'max_seconds'      => (options['max_seconds'] || kata.manifest.max_seconds),
-      'hidden_filenames' => JSON.unparse(kata.manifest.hidden_filenames),
-      'index'            => @index,
-      'file_content'     => @files
-    }
   end
 
   # - - - - - - - - - - - - - - - -
@@ -139,4 +147,10 @@ end
 
   #def new_file(filename, content)
   #  @params_maker.new_file(filename, content)
+  #end
+
+  #def kata_edit
+  #  params = { 'id' => kata.id }
+  #  get '/kata/edit', params:params
+  #  assert_response :success
   #end

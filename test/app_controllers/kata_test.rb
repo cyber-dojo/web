@@ -11,8 +11,6 @@ class KataControllerTest  < AppControllerTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # landing pages
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '9B8', %w( group landing page ) do
     group = groups.new_group(starter_manifest)
@@ -26,12 +24,6 @@ class KataControllerTest  < AppControllerTestBase
     kata = katas.new_kata(starter_manifest)
     get "/kata/edit/#{kata.id}"
     assert_response :success
-  end
-
-  def starter_manifest
-    manifest = starter.language_manifest(default_display_name, default_exercise_name)
-    manifest['created'] = time_now
-    manifest
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
