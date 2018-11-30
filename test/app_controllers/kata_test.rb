@@ -11,15 +11,6 @@ class KataControllerTest  < AppControllerTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '76E', %w( run_tests with bad kata id raises ) do
-    error = assert_raises(StandardError) {
-      run_tests({ 'id' => 'bad' })
-    }
-    assert_equal 'invalid kata_id', error.message
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # landing pages
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -44,7 +35,14 @@ class KataControllerTest  < AppControllerTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # traffic-lights
+
+  test '76E', %w( run_tests with bad is 500 ) do
+    in_kata { |kata|
+      post '/kata/run_tests', params:run_test_params({ 'id' => 'bad' })
+      assert_response 500
+    }
+  end
+
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '221', %w( timed_out ) do
@@ -57,7 +55,7 @@ class KataControllerTest  < AppControllerTestBase
         end
         RUBY_CODE
       )
-      run_tests({ 'max_seconds' => 3 })
+      post_run_tests({ 'max_seconds' => 3 })
       assert_equal :timed_out, kata.lights[-1].colour
     }
   end
@@ -66,19 +64,17 @@ class KataControllerTest  < AppControllerTestBase
 
   test '223', %w( red-green-amber ) do
     in_kata { |kata|
-      run_tests
+      post_run_tests
       assert_equal :red, kata.lights[-1].colour
       sub_file('hiker.rb', '6 * 9', '6 * 7')
-      run_tests
+      post_run_tests
       assert_equal :green, kata.lights[-1].colour
       change_file('hiker.rb', 'syntax-error')
-      run_tests
+      post_run_tests
       assert_equal :amber, kata.lights[-1].colour
     }
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # Batch-Method Optimization
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'B29', %w(
@@ -93,7 +89,7 @@ class KataControllerTest  < AppControllerTestBase
         'hidden_filenames' => JSON.unparse(kata.manifest.hidden_filenames)
       }
       set_saver_class('SaverDummy')
-      run_tests(options)
+      post_run_tests(options)
       filename = "/tmp/cyber-dojo-#{hex_test_kata_id}.json"
       lines = IO.read(filename).lines
       assert_equal 1, lines.size
@@ -101,8 +97,6 @@ class KataControllerTest  < AppControllerTestBase
     }
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # round-tripping
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '9DC', %w( round-tripping:
@@ -112,7 +106,7 @@ class KataControllerTest  < AppControllerTestBase
     in_kata { |kata|
       filename = 'readme.txt'
       change_file('cyber-dojo.sh', "rm #{filename}")
-      run_tests
+      post_run_tests
       filenames = kata.files.keys.sort
       refute filenames.include?(filename), filenames
     }
@@ -126,92 +120,127 @@ class KataControllerTest  < AppControllerTestBase
   ) do
     in_kata { |kata|
       filename = 'wibble.txt'
-      change_file('cyber-dojo.sh', "echo Hello > #{filename}")
-      run_tests
+      change_file('cyber-dojo.sh', "echo -n Hello > #{filename}")
+      post_run_tests
       filenames = kata.files.keys.sort
       assert filenames.include?(filename), filenames
-      assert_equal "Hello\n", kata.files[filename]
+      assert_equal 'Hello', kata.files[filename]['content']
     }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '9DE', %w( round-tripping:
-  when a test-event changes a text-file
+  when a test-event changes a regular text-file
   then the storer records it ) do
     in_kata { |kata|
       filename = 'readme.txt'
-      change_file('cyber-dojo.sh', "echo Hello > #{filename}")
-      run_tests
+      change_file('cyber-dojo.sh', "echo -n Hello > #{filename}")
+      post_run_tests
       filenames = kata.files.keys.sort
       assert filenames.include?(filename), filenames
-      assert_equal "Hello\n", kata.files[filename]
+      assert_equal 'Hello', kata.files[filename]['content']
     }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '9DF', %w( round-tripping:
-  when a test-event creates a new text file called output
+  test '736', %w( round-tripping:
+  when a test-event creates a new text file called stdout
   then the storer does _not_ record it because it already records
-  stdout+stderr as output
+  stdout,stderr,status as 'output' files
   ) do
     in_kata { |kata|
-      filename = 'output'
-      script = kata.files['cyber-dojo.sh']
-      script += "\necho Hello > #{filename}"
+      filename = 'stdout'
+      script = kata.files['cyber-dojo.sh']['content']
+      script += "\necho -n Hello > #{filename}"
       change_file('cyber-dojo.sh', script)
-      run_tests
+      post_run_tests
       filenames = kata.files.keys.sort
-      assert filenames.include?(filename), filenames
+      refute filenames.include?(filename), filenames
       expected = [
         '  1) Failure:',
         'TestHiker#test_life_the_universe_and_everything [test_hiker.rb:7]:',
         'Expected: 42',
         '  Actual: 54'
       ].join("\n")
-      actual = kata.files['stdout']
+      actual = kata.lights[-1].stdout['content']
       assert actual.include?(expected), actual
     }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # hidden_filenames
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'A28', %w( round-tripping:
-  hidden files are not visible
+  test '737', %w( round-tripping:
+  when a test-event creates a new text file called stderr
+  then the storer does _not_ record it because it already records
+  stdout,stderr,status as 'output' files
   ) do
     in_kata { |kata|
-      run_tests
+      filename = 'stderr'
+      script = kata.files['cyber-dojo.sh']['content']
+      script += "\necho -n Hello > #{filename}"
+      change_file('cyber-dojo.sh', script)
+      post_run_tests
       filenames = kata.files.keys.sort
-      expected = %w(
-        coverage.rb
-        cyber-dojo.sh
-        hiker.rb
-        readme.txt
-        status
-        stdout
-        stderr
-        test_hiker.rb
-      )
-      # coverage/.resultset.json has been removed
-      # coverage/.last_run.json has been removed
-      assert_equal expected.sort, filenames.sort
+      refute filenames.include?(filename), filenames
+      assert_equal '', kata.lights[-1].stderr['content']
     }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # show-json for Atom editor plug-in
+
+  test '738', %w( round-tripping:
+  when a test-event creates a new text file called status
+  then the storer does _not_ record it because it already records
+  stdout,stderr,status as 'output' files
+  ) do
+    in_kata { |kata|
+      filename = 'status'
+      script = kata.files['cyber-dojo.sh']['content']
+      script += "\necho -n Hello > #{filename}"
+      change_file('cyber-dojo.sh', script)
+      post_run_tests
+      filenames = kata.files.keys.sort
+      refute filenames.include?(filename), filenames
+      assert_equal 0, kata.lights[-1].status
+    }
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'A28', %w( round-tripping:
+  generated files that match hidden files are stripped away
+  ) do
+    in_kata { |kata|
+      filenames = %w(
+        coverage.rb
+        cyber-dojo.sh
+        hiker.rb
+        readme.txt
+        test_hiker.rb
+      )
+      assert_equal filenames.sort, kata.files.keys.sort
+      script = kata.files['cyber-dojo.sh']['content']
+      script += "\nls -al coverage"
+      change_file('cyber-dojo.sh', script)
+      post_run_tests
+      light = kata.lights[-1]
+      stdout = light.stdout['content']
+      assert stdout.include?('.resultset.json'), stdout
+      filenames << 'coverage.txt'
+      assert_equal filenames.sort, light.files.keys.sort
+    }
+  end
+
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'B75', %w(
   show-json which is used in an Atom plugin ) do
-    set_runner_class('RunnerStub')
     in_kata { |kata|
-      run_tests
-      params = { :format => :json, :id => kata.id, :avatar => avatar.name }
-      get '/kata/show_json', params:params
+      post_run_tests
+      get '/kata/show_json', params:{ :format => :json, :id => kata.id }
+      assert_response :success
     }
   end
 

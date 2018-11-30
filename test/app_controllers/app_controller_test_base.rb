@@ -1,6 +1,5 @@
 require_relative '../../test/all'
 require_relative '../../config/environment'
-require_relative 'params_maker'
 require 'json'
 
 class AppControllerTestBase < ActionDispatch::IntegrationTest
@@ -15,7 +14,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     display_name = 'Ruby, MiniTest'
     create_language_kata(display_name)
     @files = kata.files.map{|filename,file| [filename,file['content']]}.to_h
-    @index = 1
+    @index = 0
     block.call(kata)
   end
 
@@ -94,16 +93,14 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     @files[filename] = content
   end
 
-  #def delete_file(filename)
-  #  @params_maker.delete_file(filename)
-  #end
+  def post_run_tests(options = {})
+    post '/kata/run_tests', params:run_test_params(options)
+    @index += 1
+    assert_response :success
+  end
 
-  #def new_file(filename, content)
-  #  @params_maker.new_file(filename, content)
-  #end
-
-  def run_tests(options = {})
-    params = {
+  def run_test_params(options = {})
+    {
       'format'           => 'js',
       'image_name'       => (options['image_name' ] || kata.manifest.image_name),
       'id'               => (options['id']          || kata.id),
@@ -112,9 +109,6 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
       'index'            => @index,
       'file_content'     => @files
     }
-    post '/kata/run_tests', params:params
-    @index += 1
-    assert_response :success
   end
 
   # - - - - - - - - - - - - - - - -
@@ -137,4 +131,12 @@ end
 =end
   #def avatar
   #  kata.avatars[@avatar_name]
+  #end
+
+  #def delete_file(filename)
+  #  @params_maker.delete_file(filename)
+  #end
+
+  #def new_file(filename, content)
+  #  @params_maker.new_file(filename, content)
   #end
