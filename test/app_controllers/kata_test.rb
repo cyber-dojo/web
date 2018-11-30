@@ -78,34 +78,25 @@ class KataControllerTest  < AppControllerTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # Batch-Method
+  # Batch-Method Optimization
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  class SaverDummy
-    def kata_ran_tests(_id, _index, _files, _now, _duration, _stdout, _stderr, _status, _colour)
-    end
-  end
 
   test 'B29', %w(
   the browser caches all the run_test parameters
   to ensure run_tests() only issues a
-  single saver command to save the test-run result ) do
+  single command to saver which is to save the test-run result ) do
     in_kata { |kata|
-      params = {
-        :format => :js,
-        :id => kata.id,
-        :image_name => kata.manifest.image_name,
-        :hidden_filenames => JSON.unparse([]),
-        :max_seconds => kata.manifest.max_seconds
+      options = {
+        'image_name' => kata.manifest.image_name,
+        'id' => kata.id,
+        'max_seconds' => kata.manifest.max_seconds,
+        'hidden_filenames' => JSON.unparse(kata.manifest.hidden_filenames)
       }
-      # TODO: not enough. Need to set the ENV-VAR so
-      # storer is set in new controller thread
-      @saver = SaverDummy.new
-      begin
-        post '/kata/run_tests', params:params.merge(@params_maker.params)
-      ensure
-        @saver = nil
-      end
+      set_saver_class('SaverDummy')
+      run_tests(options)
+      filename = "/tmp/cyber-dojo-#{hex_test_kata_id}.json"
+      lines = IO.read(filename).lines
+      assert_equal 1, lines.size
     }
   end
 

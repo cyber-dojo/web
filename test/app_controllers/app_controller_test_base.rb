@@ -94,13 +94,13 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     @files[filename] = content
   end
 
-  def delete_file(filename)
-    @params_maker.delete_file(filename)
-  end
+  #def delete_file(filename)
+  #  @params_maker.delete_file(filename)
+  #end
 
-  def new_file(filename, content)
-    @params_maker.new_file(filename, content)
-  end
+  #def new_file(filename, content)
+  #  @params_maker.new_file(filename, content)
+  #end
 
   def run_tests(options = {})
     params = {
@@ -112,7 +112,6 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
       'index'            => @index,
       'file_content'     => @files
     }
-
     post '/kata/run_tests', params:params
     @index += 1
     assert_response :success
