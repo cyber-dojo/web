@@ -27,7 +27,7 @@ wait_till_up()
 docker-compose \
   --file "${ROOT_DIR}/docker-compose.yml" \
   up \
-  --detach \
+  -d \
   --force-recreate
 
 wait_till_up 'test-web'
