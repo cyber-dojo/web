@@ -10,7 +10,7 @@ class IdRejoinControllerTest < AppControllerTestBase
 
   test '408',
   'rejoin empty==true' do
-    in_kata(:stateless) {
+    in_kata {
       rejoin
       assert exists?
       assert empty?
@@ -21,7 +21,7 @@ class IdRejoinControllerTest < AppControllerTestBase
 
   test '409',
   'rejoin empty==false' do
-    in_kata(:stateless) {
+    in_kata {
       as_avatar {
         rejoin
         assert exists?

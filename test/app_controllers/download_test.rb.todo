@@ -17,7 +17,7 @@ class DownloadControllerTest < AppControllerTestBase
   test '561',
   'download of empty dojo with no avatars',
   'untars to same as original folder' do
-    in_kata(:stateless) {}
+    in_kata {}
     download
     assert_downloaded
   end
@@ -27,12 +27,10 @@ class DownloadControllerTest < AppControllerTestBase
   test '1B1',
   'download of dojo with one avatar and one traffic-light',
   'untars to same as original folder' do
-    in_kata(:stateful) {
-      as_avatar {
-        kata_edit
-        change_file('hiker.rb', '...')
-        run_tests
-      }
+    in_kata {
+      kata_edit
+      change_file('hiker.rb', '...')
+      run_tests
     }
     download
     assert_downloaded
@@ -43,7 +41,7 @@ class DownloadControllerTest < AppControllerTestBase
   test 'E9B',
   'download of dojo with five animals and five traffic-lights',
   'untars to same as original folder' do
-    in_kata(:stateful) {
+    in_kata {
       5.times {
         as_avatar {
           kata_edit

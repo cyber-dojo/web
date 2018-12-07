@@ -10,7 +10,7 @@ class IdJoinControllerTest < AppControllerTestBase
 
   test 'F11',
   'join succeeds once for each avatar name, then dojo is full' do
-    in_kata(:stateless) {
+    in_kata {
       Avatars.names.each do
         avatar_name = assert_join
         refute_nil avatar_name

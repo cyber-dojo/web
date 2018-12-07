@@ -28,7 +28,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   show lists all language,testFramework and all exercise display_names
   and chooses indexes to match the ID
   to encourage repetition ) do
-    in_kata(:stateless) {}
+    in_kata {}
     assert_equal ruby_minitest, kata.display_name
 
     show 'id' => kata.id

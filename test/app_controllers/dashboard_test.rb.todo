@@ -9,7 +9,7 @@ class DashboardControllerTest < AppControllerTestBase
   #- - - - - - - - - - - - - - - -
 
   test '971', %w( minute_column/auto_refresh true/false ) do
-    in_kata(:stateless) {}
+    in_kata {}
     options = [ false, true, 'xxx' ]
     options.each do |mc|
       options.each do |ar|

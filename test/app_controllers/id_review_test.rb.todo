@@ -10,7 +10,7 @@ class IdReviewControllerTest < AppControllerTestBase
 
   test '408',
   'review exists==true' do
-    in_kata(:stateless) {
+    in_kata {
       review(kata.id)
       assert exists?
     }

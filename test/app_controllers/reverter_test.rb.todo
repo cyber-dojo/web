@@ -10,7 +10,7 @@ class ReverterControllerTest  < AppControllerTestBase
 
   test '276',
   'revert' do
-    in_kata(:stateless) {
+    in_kata {
       as_avatar {
         kata_edit
         filename = 'hiker.rb'

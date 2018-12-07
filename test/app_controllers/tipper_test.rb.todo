@@ -6,11 +6,9 @@ class TipperControllerTest < AppControllerTestBase
     '25E'
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - -
-
   test '3D4',
   'traffic_light_tip' do
-    in_kata(:stateless) {
+    in_kata {
       as_avatar {
         2.times {
           run_tests
