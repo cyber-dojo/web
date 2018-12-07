@@ -5,7 +5,9 @@ class SaverDummy
   end
 
   def method_missing(m, *args, &block)
-    File.open(filename, 'a') { |fd| fd.write([m,*args].to_json) }
+    File.open(filename, 'a') { |fd|
+      fd.write([m,*args].to_json + "\n")
+    }
   end
 
   private
