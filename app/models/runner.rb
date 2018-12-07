@@ -22,7 +22,7 @@ class Runner
     changed = result['changed']
 
     # If there are newly created 'output' files remove them
-    # otherwise they interferes with the pseudo output-files.
+    # otherwise they interfere with the pseudo output-files.
     output_filenames.each do |output_filename|
       created.delete(output_filename)
     end
