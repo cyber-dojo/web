@@ -1,6 +1,5 @@
 
 class Avatars
-  include Enumerable
 
   def self.names
     %w(alligator antelope     bat       bear
@@ -22,42 +21,8 @@ class Avatars
     )
   end
 
-  def initialize(externals, kata)
-    @externals = externals
-    @kata = kata
-  end
-
-  # queries
-
-  attr_reader :kata
-
-  def started
-    names = storer.avatars_started(kata.id)
-    Hash[names.map { |name|
-      [name, self[name]]
-    }]
-  end
-
-  def each(&block)
-    started.values.each(&block)
-  end
-
-  def [](name)
-    Avatar.new(@externals, kata, name)
-  end
-
-  def active
-    select(&:active?)
-  end
-
-  def names
-    collect(&:name).sort
-  end
-
-  private # = = = = = = = = =
-
-  def storer
-    @externals.storer
+  def self.index(name)
+    names.index(name)
   end
 
 end

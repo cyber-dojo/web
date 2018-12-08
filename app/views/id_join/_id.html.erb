@@ -1,49 +1,77 @@
-
 <script type="text/javascript"><!--
-
-$(function() {
+'use strict';
+$(() => {
 
   const inputId = $('input#id');
+  const waitSpinner = $('#wait-spinner');
   const dropDown = $('#drop-down');
-  const avatarStart = $('#avatar-start');
-  const loText = $('#lo-text');
+
+  const hiDiv = $('#hi-div');
+  const loDiv = $('#lo-div');
+
   const ok = $('button#ok');
   const cancel = $('button#cancel');
 
-  const autoDropDown = function() {
+  const inputIdHandler = () => {
     const id = inputId.val();
     if (id.length >= 6) {
-      $.getJSON('/id_join/drop_down', { id: id }, function(dojo) {
-        if (dojo.exists) {
-          if (dojo.full) {
-            loText.html('sorry, full up!');
-            avatarStart.html(dojo.fullHtml);
-            ok.hide();
-            cancel.show();
-          } else {
-            loText.html('your animal is the ' + dojo.avatarName);
-            avatarStart.html(dojo.avatarStartHtml);
-            ok.unbind().click(function() {
-              const url = '/kata/edit/' + dojo.id + '?avatar=' + dojo.avatarName;
-              window.location.href = cd.homePageUrl(dojo.id);
-              window.open(url);
-            });
-            ok.show();
-            cancel.hide();
-          }
-          inputId.prop('disabled', true);
-          inputId.slideUp('fast', function() {
-            dropDown.slideDown('slow');
-          });
-        }
-      });
+      const args = { id:id };
+      inputId.prop('disabled', true);
+      waitSpinner.show();
+      $.getJSON('/id_join/drop_down', args, dropDownHandler);
     }
   };
 
-  dropDown.hide();
+  const dropDownHandler = (response) => {
+    waitSpinner.hide();
+    if (response.exists) {
+      if (response.full) {
+        prepareFullDropDown();
+      } else {
+        prepareAvatarDropDown(response.avatarName, response.id);
+      }
+      inputId.slideUp('fast', () => dropDown.slideDown('slow'));
+    } else {
+      inputId.prop('disabled', false);
+    }
+  };
 
-  cancel.click(function() {
-    dropDown.slideUp('slow', function() {
+  const prepareFullDropDown = () => {
+    hiDiv.html($('#full-info').html());
+    loDiv.html('sorry, full up!');
+    ok.hide();
+    cancel.show();
+  };
+
+  const prepareAvatarDropDown = (avatarName, id) => {
+    showTrafficLightInfo();
+    showAvatar(avatarName);
+    cancel.hide();
+    ok.unbind()
+      .click(() => join(id))
+      .show();
+  };
+
+  const showTrafficLightInfo = () => {
+    hiDiv.html($('#traffic-light-info').html());
+  };
+
+  const showAvatar = (avatarName) => {
+    $('#avatar',hiDiv).html($('<img>', {
+      'class':'avatar large',
+      'src':`/images/avatars/${avatarName}.jpg`
+    }));
+    loDiv.html(`your animal is the ${avatarName}`);
+  };
+
+  const join = (id) => {
+    const url = `/kata/edit/${id}`;
+    window.location.href = cd.homePageUrl(id);
+    window.open(url);
+  };
+
+  cancel.click(() => {
+    dropDown.slideUp('slow', () => {
       inputId.show()
              .prop('disabled', false)
              .val('')
@@ -52,9 +80,12 @@ $(function() {
     });
   });
 
-  cd.base58Only(inputId);
+  //- - - - - - - - - - - - - - - - - - - - -
 
-  inputId.focus().keyup(function() { autoDropDown(); });
+  cd.onlyBase58(inputId);
+  inputId.keyup(() => inputIdHandler())
+         .focus();
+  inputIdHandler();
 
 });
 
@@ -64,12 +95,14 @@ $(function() {
        id="id"
        placeholder="id?"
        size="8"
-       value="">
+       value="<%= @id %>">
 </input>
+<br/>
+<%= render partial: 'shared/wait_spinner' %>
 
-<div id="drop-down">
-  <div id="avatar-start"></div>
-  <div id="lo-text"></div>
+<div id="drop-down" style="display:none;">
+  <div id="hi-div"></div>
+  <div id="lo-div"></div>
   <button id="ok">ok</button>
   <button id="cancel">cancel</button>
 </div>

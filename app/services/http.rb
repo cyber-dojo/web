@@ -7,17 +7,21 @@ class Http
   end
 
   def get(hostname, port, path, named_args)
-    call(hostname, port, path, named_args) { |url| Net::HTTP::Get.new(url) }
+    call(hostname, port, path, named_args) { |url|
+      Net::HTTP::Get.new(url)
+    }
   end
 
   def post(hostname, port, path, named_args)
-    call(hostname, port, path, named_args) { |url| Net::HTTP::Post.new(url) }
+    call(hostname, port, path, named_args) { |url|
+      Net::HTTP::Post.new(url)
+    }
   end
 
   private
 
   def call(hostname, port, path, named_args)
-    url = URI.parse("http://#{hostname}:#{port}/" + path.to_s)
+    url = URI.parse("http://#{hostname}:#{port}/#{path}")
     req = yield url
     req.content_type = 'application/json'
     req.body = named_args.to_json

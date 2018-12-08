@@ -1,11 +1,10 @@
 /*global jQuery,cyberDojo*/
+'use strict';
+var cyberDojo = ((cd, $) => {
 
-var cyberDojo = (function(cd, $) {
-  "use strict";
-
-  cd.ragCount = function(lights, colour) {
-    var count = 0;
-    lights.each(function(_, node) {
+  cd.ragCount = (lights, colour) => {
+    let count = 0;
+    lights.each((_, node) => {
       if ($(node).data('colour') == colour  ) {
         count += 1;
       }

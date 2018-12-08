@@ -40,36 +40,37 @@
 
     #avatar {
       @include rounded-corner(4px);
-       width: 30px;
-      height: 30px;
+       width: 29px;
+      height: 29px;
       border: 1px solid lighten($darker-color, 15%);
+      position: relative;
+      top: 2px;
     }
 
-    #tag-number-container {
+    #index-container {
 
       @include rounded-corner(4px);
          padding: { left: 3px; right: 3px; }
-          height: 32px;
+          height: 30px;
+           width: 30px;
          display: table-cell;
   vertical-align: middle;
 
-     img { width: 22px; height: 22px; }
-
-      #tag-number {
-         font-size: 12px;
+      #index-number {
+         font-size: 20px;
         text-align: center;
       }
     }
 
-    #prev-avatar img, #next-avatar img, #prev-tag img, #next-tag img {
+    #prev-avatar img, #next-avatar img, #prev-index img, #next-index img {
       @include rounded-corner(4px);
         width: 22px;
        height: 22px;
       padding: { top: 2px; bottom: 0px; }
     }
 
-    #prev-avatar img, #prev-tag img { padding: { right: 2px; left: 0px; } }
-    #next-avatar img, #next-tag img { padding: { left: 2px; right: 0px; } }
+    #prev-avatar img, #prev-index img { padding: { right: 2px; left: 0px; } }
+    #next-avatar img, #next-index img { padding: { left: 2px; right: 0px; } }
 
     .triangle.button {
       width: 32px;
@@ -109,7 +110,8 @@
        border: 1px solid $darker-color;
        margin: { bottom: 2px; }
       // mimic test-page filename-list
-      &[data-filename='output'] { margin-top: 20px; }
+      &[data-filename='stdout'] { margin-top: 20px; }
+      &[data-filename='status'] { margin-bottom: 20px; }
     }
   }
 
@@ -141,7 +143,7 @@
     border-top-left-radius: 5px;
     added   { &:after { content: '+'; } }
     deleted { &:after { content: '-'; } }
-    same    { &:after { content: '='; } }
+    same    { &:after { content: ' '; } }
     same    { color: lighten($darker-color,20%); }
   }
 
@@ -181,7 +183,8 @@
     }
 
     // mimic test-page filename-list
-    &[data-filename='output'] { margin-top: 20px;  }
+    &[data-filename='stdout'] { margin-top: 20px;  }
+    &[data-filename='status'] { margin-bottom: 20px;  }
   }
 
   .diff-deleted-line-count {
@@ -213,14 +216,14 @@
   }
 
   #buttons {
-    position: absolute; top: 40px; left: 10px;
+    position: absolute; top: 5px; left: 5px;
     #fork-button, #revert-button, #download-button, #close-button {
       @include non-code-font();
-      font-size: 13px;
-      width: 75px;
-      margin: { left: 3px; bottom: 2px; }
+      font-size: 11px;
+      width: 65px;
+      margin: { left: 3px; top: 1px; bottom: 1px; }
       text-align: left;
-      padding: { right: 7px; bottom: 3px; }
+      padding: { right: 7px; top: 1px; bottom: 1px; }
     }
   }
 

@@ -1,49 +1,56 @@
 require_relative 'service_error'
 require 'json'
 
-module HttpHelper # mix-in
+class HttpHelper
 
-  module_function
-
-  def http_get(method, *args)
-    http_get_hash(method, args_hash(method, *args))
+  def initialize(externals, parent, hostname, port)
+    @externals = externals
+    @parent = parent
+    @hostname = hostname
+    @port = port
   end
 
-  def http_post(method, *args)
-    http_post_hash(method, args_hash(method, *args))
+  def get(*args)
+    call('get', name_of(caller), *args)
   end
 
-  # - - - - - - - - - - - - - - - - - - -
-
-  def http_get_hash(method, args_hash)
-    json = http.get(hostname, port, method, args_hash)
-    result(json, method.to_s)
+  def post(*args)
+    call('post', name_of(caller), *args)
   end
 
-  def http_post_hash(method, args_hash)
-    json = http.post(hostname, port, method, args_hash)
-    result(json, method.to_s)
+  private
+
+  def name_of(caller)
+    /`(?<name>[^']*)/ =~ caller[0] && name
   end
 
-  # - - - - - - - - - - - - - - - - - - -
-  # - - - - - - - - - - - - - - - - - - -
+  def call(gp, method, *args)
+    json = http.public_send(gp, @hostname, @port, method, args_hash(method, *args))
+    fail_unless(method, 'bad json') { json.class.name == 'Hash' }
+    exception = json['exception']
+    fail_unless(method, pretty(exception)) { exception.nil? }
+    fail_unless(method, 'no key') { json.key?(method) }
+    json[method]
+  end
 
   def args_hash(method, *args)
-    parameters = self.class.instance_method(method.to_s).parameters
-    Hash[parameters.map.with_index { |parameter,index|
-      [parameter[1], args[index]]
-    }]
+    # Uses reflection to create a hash of args where each key is
+    # the parameter name. For example, differ_services does this
+    #
+    #   def diff(was_files, now_files)
+    #     http.get(__method__, was_files, now_files)
+    #  end
+    #
+    # Reflection sees the names of diff()'s parameters are
+    # 'was_files' and 'now_files' and so constructs the hash
+    # { 'was_files' => args[0], 'now_files' => args[1] }
+    parameters = @parent.class.instance_method(method).parameters
+    parameters.map
+              .with_index { |parameter,index| [parameter[1], args[index]] }
+              .to_h
   end
 
-  def result(json, name)
-    fail_if(name, 'bad json') { json.class.name == 'Hash' }
-    exception = json['exception']
-    fail_if(name, pretty(exception)) { exception.nil? }
-    fail_if(name, 'no key') { json.key?(name) }
-    json[name]
-  end
-
-  def fail_if(name, message, &block)
+  def fail_unless(name, message, &block)
     unless block.call
       fail ServiceError.new(self.class.name, name, message)
     end

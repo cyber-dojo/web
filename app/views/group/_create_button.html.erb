@@ -1,15 +1,13 @@
-
 <script type="text/javascript"><!--
+'use strict';
+$(() => {
 
-$(function() {
-
-  $('button#create').click(function() {
+  $('button#create').click(() => {
     const url = "/setup_default_start_point/show/<%= @id %>?from=group";
     window.location = url;
   });
 
 });
-
 //--></script>
 
 <button id="create">

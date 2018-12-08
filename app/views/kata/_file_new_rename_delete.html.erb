@@ -1,6 +1,11 @@
+<div id="file-operations">
+  <div><button type="button" id="new">new&nbsp;file</button></div>
+  <div><button type="button" id="rename">rename&nbsp;file</button></div>
+  <div><button type="button" id="delete">delete&nbsp;file</button></div>
+</div>
 
 <script type="text/javascript"><!--
-
+'use strict';
 $(() => {
 
   const fileButtons = $('#file-operations');
@@ -11,10 +16,10 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   fileNew.click(() => {
-    const initialFilename = 'filename' + cd.extensionFilenames()[0];
+    const initialFilename = `filename${cd.extensionFilenames()[0]}`;
     const okInitiallyDisabled = !isValidFilename(initialFilename);
-    const okClicked = (filename) => {
-      cd.newFile(filename, '');
+    const okClicked = filename => {
+      cd.fileCreate(filename, '');
       cd.loadFile(filename);
     };
     openDialog(fileNew, initialFilename, okInitiallyDisabled, okClicked);
@@ -25,8 +30,8 @@ $(() => {
   fileRename.click(() => {
     const initialFilename = cd.currentFilename();
     const okInitiallyDisabled = true;
-    const okClicked = (filename) => {
-      cd.renameFile(initialFilename, filename);
+    const okClicked = filename => {
+      cd.fileRename(initialFilename, filename);
       cd.loadFile(filename);
     };
     openDialog(fileRename, initialFilename, okInitiallyDisabled, okClicked);
@@ -37,9 +42,9 @@ $(() => {
   fileDelete.click(() => {
     const initialFilename = cd.currentFilename();
     const okInitiallyDisabled = false;
-    const okClicked = (filename) => {
-      cd.deleteFile(filename);
-      cd.loadFile('output');
+    const okClicked = filename => {
+      cd.fileDelete(filename);
+      cd.loadFile('stdout');
     };
     openDialog(fileDelete, initialFilename, okInitiallyDisabled, okClicked);
   });
@@ -100,7 +105,7 @@ $(() => {
       event.preventDefault();
       if (isValidFilename(newFilename))  {
         ok.button('enable');
-        if (event.keyCode == $.ui.keyCode.ENTER) {
+        if (event.keyCode === $.ui.keyCode.ENTER) {
           okClicked(newFilename);
           ok.closest('.ui-dialog').remove();
         }
@@ -110,7 +115,7 @@ $(() => {
     });
 
     const lastDot = initialFilename.lastIndexOf('.');
-    const end = (lastDot != -1) ? lastDot : initialFilename.length;
+    const end = (lastDot !== -1) ? lastDot : initialFilename.length;
     input[0].setSelectionRange(0, end);
 
     fileOperationDialog.dialog('open');
@@ -121,11 +126,11 @@ $(() => {
   const makeInput = (name, filename) => {
     const input = $('<input>', {
         type: 'text',
-          id: name+'-filename',
-      'name': name+'-filename',
+          id: `${name}-filename`,
+      'name': `${name}-filename`,
        value: filename
     });
-    if (name == 'delete') {
+    if (name === 'delete') {
       input.attr('disabled', 'disabled');
     }
     return input;
@@ -133,28 +138,19 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const isValidFilename = (filename) => {
-    const contains = (illegal) => { return filename.indexOf(illegal) != -1; };
+  const isValidFilename = filename => {
+    const contains = illegal => filename.indexOf(illegal) !== -1;
     if (alreadyExists(filename)) { return false; }
     if (contains('..')) { return false; }
     if (contains('\\')) { return false; }
     if (contains(' '))  { return false; }
-    if (filename == '') { return false; }
+    if (filename === '') { return false; }
     return true;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const alreadyExists = (filename) => {
-    return cd.inArray(filename, cd.filenames());
-  };
+  const alreadyExists = filename => cd.inArray(filename, cd.filenames());
 
 });
-
 //--></script>
-
-<div id="file-operations">
-  <div><button type="button" id="new">new&nbsp;file</button></div>
-  <div><button type="button" id="rename">rename&nbsp;file</button></div>
-  <div><button type="button" id="delete">delete&nbsp;file</button></div>
-</div>

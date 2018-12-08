@@ -10,11 +10,6 @@ o) duplicate minor-name == 'assert'
    'C (gcc), assert'
    'G++ (g++), assert'
 
-o) all three runner_choices
-   stateless  - 'Ruby, MiniTest'
-   stateful   - 'Ruby, RSpec'
-   processful - 'Ruby, Test::Unit'
-
 
 The rules for a display_name such as 'C (gcc), assert' are
 - it must have a single comma
@@ -24,4 +19,3 @@ The rules for a display_name such as 'C (gcc), assert' are
 - the minor_name cannot be the empty string
 - the major_name cannot container a hyphen '-'
     see commander's start_point_checker.rb check_display_name_is_valid()
-

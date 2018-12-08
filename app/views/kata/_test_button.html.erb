@@ -1,6 +1,14 @@
-
 <button type="button"
         id="test-button"
         value="test">
   test
 </button>
+
+<script type="text/javascript"><!--
+'use strict';
+$(() => {
+  cd.testButton = $('#test-button');
+  cd.testButton.enable  = () => cd.testButton.attr('disabled', false);
+  cd.testButton.disable = () => cd.testButton.attr('disabled', true);
+});
+//--></script>

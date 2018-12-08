@@ -3,7 +3,7 @@ require_relative 'app_controller_test_base'
 class DojoControllerTest < AppControllerTestBase
 
   def self.hex_prefix
-    '1032DA'
+    '103'
   end
 
   #- - - - - - - - - - - - - - - -
@@ -17,8 +17,16 @@ class DojoControllerTest < AppControllerTestBase
   #- - - - - - - - - - - - - - - -
 
   test '957',
-  'index with id' do
+  'index with old 10-char id' do
     get '/dojo/index', params: { id:'1234512345' }
+    assert_response :success
+  end
+
+  #- - - - - - - - - - - - - - - -
+
+  test '958',
+  'index with new 6-char id' do
+    get '/dojo/index', params: { id:'8rb67w' }
     assert_response :success
   end
 

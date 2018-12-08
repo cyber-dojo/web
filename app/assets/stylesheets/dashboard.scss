@@ -19,8 +19,9 @@
       @include non-code-font();
        font-size: 1em;
          padding: { bottom: 3px; left: 9px; right: 9px; }
-          margin: { bottom: 2px; }
-      text-align: right;
+          margin: { bottom: 3px; }
+      text-align: left;
+           width: 85px;
     }
   }
 
@@ -118,4 +119,8 @@
 }
 .traffic-light-diff-tip-line-count-added {
   background: $diff-added-color;
+}
+
+.d-for-days, .m-for-minutes, .h-for-hours {
+  font-size: 10px;
 }

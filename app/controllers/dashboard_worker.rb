@@ -1,29 +1,26 @@
-require_relative '../../lib/time_now' # [1]
+require_relative '../../lib/time_now'
 
 module DashboardWorker # mixin
 
   module_function
 
   def gather
-    @kata = kata
     @minute_columns = bool('minute_columns')
     @auto_refresh = bool('auto_refresh')
-
+    # using saver.group_events() BatchMethod
     @all_lights = {}
-    storer.kata_increments(kata.id).each do |name, increments|
-      lights = increments.select {|inc| inc.has_key?('colour') }
-      unless lights.empty?
-        @all_lights[name] = lights
+    @all_indexes = {}
+    saver.group_events(group.id).each do |kata_id,o|
+      lights = o['events'].each_with_index.map{ |event,index|
+        Event.new(self, Kata.new(self, kata_id), event, index)
+      }.select(&:light?)
+      unless lights == []
+        @all_lights[kata_id] = lights
+        @all_indexes[kata_id] = o['index']
       end
     end
-
-    max_seconds_uncollapsed = seconds_per_column * 5
-    args = []
-    args << kata.created
-    args << seconds_per_column
-    args << max_seconds_uncollapsed
+    args = [group.created, seconds_per_column, max_seconds_uncollapsed]
     gapper = DashboardTdGapper.new(*args)
-
     @gapped = gapper.fully_gapped(@all_lights, time_now)
     @time_ticks = gapper.time_ticks(@gapped)
   end
@@ -48,36 +45,45 @@ module DashboardWorker # mixin
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def animals_progress
-    animals = {}
-    avatars.active.each do |avatar|
-      animals[avatar.name] = {
-          colour: avatar.lights[-1].colour,
-        progress: most_recent_progress(avatar)
-      }
-    end
-    animals
+  def max_seconds_uncollapsed
+    seconds_per_column * 5
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def most_recent_progress(avatar)
-    regexs = avatar.kata.progress_regexs
-    non_amber = avatar.lights.reverse.find{ |light|
+  def animals_progress
+    group.katas
+         .select(&:active?)
+         .map { |kata| animal_progress(kata) }
+         .to_h
+  end
+
+  def animal_progress(kata)
+    [kata.avatar_name, {
+        colour: kata.lights[-1].colour,
+      progress: most_recent_progress(kata)
+    }]
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def most_recent_progress(kata)
+    regexs = kata.manifest.progress_regexs
+    non_amber = kata.lights.reverse.find{ |light|
       [:red,:green].include?(light.colour)
     }
-    output = (non_amber != nil) ? non_amber.output : ''
+    if non_amber
+      output = non_amber.stdout + non_amber.stderr
+    else
+      output = ''
+    end
     matches = regexs.map { |regex|
       Regexp.new(regex).match(output)
     }
-    return {
+    {
         text: matches.join,
       colour: (matches[0] != nil ? 'red' : 'green')
     }
   end
 
 end
-
-# [1] I see the occasional
-# ActionController::RoutingError (uninitialized constant DashboardWorker::TimeNow):
-# in the log unless I add this require

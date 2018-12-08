@@ -1,23 +1,14 @@
 
 #fork-dialog
 {
-  button
+  button#individual, button#group
   {
+    display: block;
     margin-top: 6px;
     padding: 8px;
     font-size: 25px;
     @include non-code-font();
-    width: 250px;
+    width: 200px;
     text-align: left;
-  }
-
-  #dojo-id
-  {
-    font-size: 3.5em;
-    @include non-code-font();
-  }
-
-  #phonetic-dojo-id {
-    padding: { bottom: 10px; }
   }
 }

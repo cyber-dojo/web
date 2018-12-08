@@ -26,13 +26,14 @@ wait_till_up()
 
 docker-compose \
   --file "${ROOT_DIR}/docker-compose.yml" \
-  up -d \
+  up \
+  -d \
   --force-recreate
 
-wait_till_up 'test-cyber-dojo-web'
-wait_till_up 'test-web-cyber-dojo-starter'
-wait_till_up 'test-web-cyber-dojo-storer'
-wait_till_up 'test-web-cyber-dojo-runner-stateless'
-wait_till_up 'test-web-cyber-dojo-runner-stateful'
-wait_till_up 'test-web-cyber-dojo-differ'
-wait_till_up 'test-web-cyber-dojo-zipper'
+wait_till_up 'test-web'
+wait_till_up 'test-web-starter'
+wait_till_up 'test-web-saver'
+wait_till_up 'test-web-runner'
+wait_till_up 'test-web-differ'
+wait_till_up 'test-web-zipper'
+wait_till_up 'test-web-porter'

@@ -1,19 +1,21 @@
-
 <script type="text/javascript"><!--
-
-$(function() {
+'use strict';
+$(() => {
 
   const downloadButton = $('#download-button');
 
-  downloadButton.click(function() {
-    const url = '/download/' + "<%=@kata.id%>";
+  // zipper is not upgraded to the new saver format
+  // and it's better to ship without it for now.
+  downloadButton.hide();
+
+  downloadButton.click(() => {
+    const url = '/download/' + "<%=@group.id%>";
     window.location = url;
   });
 
   cd.createTip(downloadButton, 'download the whole<br/>session as a .tgz file');
 
 });
-
 //--></script>
 
 <div id="download-button-container">

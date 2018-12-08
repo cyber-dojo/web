@@ -4,9 +4,9 @@ class TipperController < ApplicationController
   include TrafficLightTipHelper
 
   def traffic_light_tip
-    diff = differ.diff(kata.id, avatar.name, was_tag, now_tag)
+    diff = differ.diff(was_files, now_files)
     render json: {
-      html: traffic_light_tip_html(diff, avatar, was_tag, now_tag)
+      html: traffic_light_tip_html(diff, kata.events, was_index, now_index)
     }
   end
 

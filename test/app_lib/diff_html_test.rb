@@ -3,7 +3,7 @@ require_relative 'app_lib_test_base'
 class DiffHtmlTest <  AppLibTestBase
 
   def self.hex_prefix
-    '7484C8'
+    '748'
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -11,7 +11,6 @@ class DiffHtmlTest <  AppLibTestBase
   include DiffView
 
   def hex_setup
-    set_storer_class('NotUsed')
     set_runner_class('NotUsed')
     set_differ_class('NotUsed')
   end

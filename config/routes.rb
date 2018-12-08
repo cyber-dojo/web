@@ -52,8 +52,8 @@ CyberDojo::Application.routes.draw do
   end
 
   scope path: '/id_join', controller: :id_join do
-    get 'show'      => :show
-    get 'drop_down' => :drop_down,  :constraints => { :format => :json }
+    get 'show(/:id)' => :show
+    get 'drop_down'  => :drop_down,  :constraints => { :format => :json }
   end
 
   scope path: '/id_rejoin', controller: :id_rejoin do
@@ -64,6 +64,11 @@ CyberDojo::Application.routes.draw do
   scope path: '/id_review', controller: :id_review do
     get 'show'      => :show
     get 'drop_down' => :drop_down,  :constraints => { :format => :json }
+  end
+
+  scope path: '/forker', controller: :forker do
+    get 'fork_individual(/:id)' => :fork_individual, :constraints => { :format => :json }
+    get 'fork_group(/:id)'      => :fork_group,      :constraints => { :format => :json }
   end
 
   scope path: '/dashboard', controller: :dashboard do
@@ -81,9 +86,9 @@ CyberDojo::Application.routes.draw do
   end
 
 
-  get '/differ/diff'       => 'differ#diff',     :constraints => { :format => :json }
-  get '/forker/fork(/:id)' => 'forker#fork'
-  get '/reverter/revert'   => 'reverter#revert', :constraints => { :format => :json }
+  get '/differ/diff' => 'differ#diff', :constraints => { :format => :json }
+
+  get '/reverter/revert' => 'reverter#revert', :constraints => { :format => :json }
 
   get '/download(/:id)' => 'downloader#download'
   get '/download_tag(/:id/:avatar/:tag)' => 'downloader#download_tag'

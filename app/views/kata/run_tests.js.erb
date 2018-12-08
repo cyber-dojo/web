@@ -1,47 +1,90 @@
+'use strict';
 
 const appendTestTrafficLight = () => {
-  const div = $("<%= raw diff_traffic_light(@avatar.kata.id, @avatar.name, @colour, @was_tag, @now_tag) %>");
+  const div = $("<%= raw diff_traffic_light(@light) %>");
   const td = $('<td>');
   td.append(div);
   $('.traffic-lights-count').parent().before(td);
-  cd.setupReviewTrafficLight(div);
-  cd.setupHoverTip(div);
+  cd.setupReviewDialogTrafficLights(div);
+};
+
+//- - - - - - - - - - - - - - - - - - - - - -
+
+const updateEventIndex = () => {
+  cd.setEventIndex("<%= @light.index %>");
 };
 
 //- - - - - - - - - - - - - - - - - - - - - -
 
 const updateTrafficLightCount = () => {
-  $('.traffic-lights-count').html("<%= js_partial('traffic_lights_count') %>");
+  const count = "<%= js_partial('traffic_lights_count') %>";
+  $('.traffic-lights-count').html(count);
 };
 
 
 const updateTrafficLightPieChart = () => {
-  $('#traffic-lights-pie-chart').html("<%= js_partial('traffic_lights_pie_chart') %>");
+  const pieChart = "<%= js_partial('traffic_lights_pie_chart') %>";
+  $('#traffic-lights-pie-chart').html(pieChart);
 };
 
 //- - - - - - - - - - - - - - - - - - - - - -
 
-const addNewFiles = () => {
-  <% @new_files.each do |filename,content| %>
-    cd.newFile("<%= j raw(filename) %>", "<%= j raw(content) %>");
+const updateOutput = () => {
+  cd.fileChange('stdout', {
+    content: "<%= j raw(@stdout['content']) %>"
+  });
+  cd.fileChange('stderr', {
+    content: "<%= j raw(@stderr['content']) %>"
+  });
+  cd.fileChange('status', {
+    content: "<%= j raw(@status.to_s) %>"
+  });
+};
+
+//- - - - - - - - - - - - - - - - - - - - - -
+
+const insertCreatedFiles = () => {
+  <% @created.each do |filename,file| %>
+    cd.fileCreate("<%= j raw(filename) %>", {
+      content: "<%= j raw(file['content']) %>"
+    });
   <% end %>
 };
 
 //- - - - - - - - - - - - - - - - - - - - - -
 
 const removeDeletedFiles = () => {
-  <% @deleted_files.keys.each do |filename| %>
-    cd.deleteFile("<%= j raw(filename) %>");
+  <% @deleted.keys.each do |filename| %>
+    cd.fileDelete("<%= j raw(filename) %>");
   <% end %>
 };
 
 //- - - - - - - - - - - - - - - - - - - - - -
 
 const updateChangedFiles = () => {
-  <% @changed_files.each do |filename,content| %>
-    cd.deleteFile("<%= j raw(filename) %>");
-    cd.newFile("<%= j raw(filename) %>", "<%= j raw(content) %>");
+  <% @changed.each do |filename,file| %>
+    cd.fileChange("<%= j raw(filename) %>", {
+      content: "<%= j raw(file['content']) %>"
+    });
   <% end %>
+};
+
+//- - - - - - - - - - - - - - - - - - - - - -
+
+const warnIfTestsTimedOut = () => {
+  if ("<%= @light.colour %>" === 'timed_out') {
+    const maxSeconds = $('input[name="max_seconds"]').val();
+    const info = [
+      `Unable to complete the tests in ${maxSeconds} seconds.`,
+      'Is there an accidental infinite loop?'
+    ].join("\n");
+    const html = $('<textarea>', {
+      'data-width':600,
+              'id':'timed-out',
+        'readonly':'readonly'
+    }).val(info);
+    cd.dialog(html, 'timed out', 'close').dialog('open');
+  }
 };
 
 //- - - - - - - - - - - - - - - - - - - - - -
@@ -49,11 +92,15 @@ const updateChangedFiles = () => {
 appendTestTrafficLight();
 updateTrafficLightCount();
 updateTrafficLightPieChart();
+updateEventIndex();
 
-addNewFiles();
+updateOutput();
+insertCreatedFiles();
 removeDeletedFiles();
 updateChangedFiles();
 
-cd.storeIncomingFileHashes();
-cd.scrollAvatarImageIntoView();
+warnIfTestsTimedOut();
+//warnIfTruncatedFiles();
 
+cd.loadTestOutputFile();
+cd.scrollIntoView();

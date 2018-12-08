@@ -3,13 +3,13 @@ require_relative 'app_services_test_base'
 class StarterServiceTest < AppServicesTestBase
 
   def self.hex_prefix
-    'D76AD9'
+    'D76'
   end
 
   def hex_setup
     set_differ_class('NotUsed')
     set_starter_class('StarterService')
-    set_storer_class('NotUsed')
+    set_saver_class('NotUsed')
     set_runner_class('NotUsed')
   end
 
@@ -45,16 +45,16 @@ class StarterServiceTest < AppServicesTestBase
     ], exercises.keys.sort
 
     line = 'Write a program to score a game of Ten-Pin Bowling'
-    assert exercises['Bowling_Game'].start_with? line
+    assert exercises['Bowling_Game']['content'].start_with? line
 
     line = 'Write a program that prints the numbers from 1 to 100'
-    assert exercises['Fizz_Buzz'].start_with? line
+    assert exercises['Fizz_Buzz']['content'].start_with? line
 
     line = 'Write a function that returns true or false depending on'
-    assert exercises['Leap_Years'].start_with? line
+    assert exercises['Leap_Years']['content'].start_with? line
 
     line = 'Alice found herself very tiny and wandering around Wonderland'
-    assert exercises['Tiny_Maze'].start_with? line
+    assert exercises['Tiny_Maze']['content'].start_with? line
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -64,17 +64,15 @@ class StarterServiceTest < AppServicesTestBase
     manifest = starter.language_manifest('Ruby, MiniTest', 'Fizz_Buzz')
     assert_equal 'Ruby, MiniTest', manifest['display_name']
     assert_equal 'cyberdojofoundation/ruby_mini_test', manifest['image_name']
-    assert_equal '.rb', manifest['filename_extension']
+    assert_equal ['.rb'], manifest['filename_extension']
     assert_equal 2, manifest['tab_size']
-    assert_equal 'stateless', manifest['runner_choice']
     assert_equal 'Fizz_Buzz', manifest['exercise']
     assert_equal %w(
       coverage.rb
       test_hiker.rb
       hiker.rb
       cyber-dojo.sh
-      output
-      instructions
+      readme.txt
     ).sort, manifest['visible_files'].keys.sort
   end
 
@@ -97,13 +95,11 @@ class StarterServiceTest < AppServicesTestBase
     manifest = starter.custom_manifest('Yahtzee refactoring, C# NUnit')
     assert_equal 'Yahtzee refactoring, C# NUnit', manifest['display_name']
     assert_equal 'cyberdojofoundation/csharp_nunit', manifest['image_name']
-    assert_equal '.cs', manifest['filename_extension']
-    assert_equal 'stateless', manifest['runner_choice']
+    assert_equal ['.cs'], manifest['filename_extension']
     assert_equal %w(
       YahtzeeTest.cs
       Yahtzee.cs
       cyber-dojo.sh
-      output
       instructions
     ).sort, manifest['visible_files'].keys.sort
   end

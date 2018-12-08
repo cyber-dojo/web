@@ -1,58 +1,46 @@
 
 module TestDomainHelpers # mix-in
 
-  def in_kata(runner_choice = :stateless, &block)
-    display_name = {
-        stateless: 'Ruby, MiniTest',
-         stateful: 'Ruby, RSpec',
-       processful: 'Ruby, Test::Unit'
-    }[runner_choice]
-    refute_nil display_name, runner_choice
-    make_language_kata({ 'display_name' => display_name })
-    begin
-      block.call
-    ensure
-      runner.kata_old(kata.image_name, kata.id)
-    end
+  def in_group(&block)
+    manifest = make_manifest({ 'display_name' => default_display_name })
+    group = groups.new_group(manifest)
+    block.call(group)
   end
 
   # - - - - - - - - - - - - - - - -
 
-  def as(name = :wolf, &block)
-    avatar = kata.avatar_start([name.to_s])
-    begin
-      block.call
-    ensure
-      runner.avatar_old(kata.image_name, kata.id, avatar.name)
-    end
-  end
-
-  # - - - - - - - - - - - - - - - -
-
-  def wolf
-    kata.avatars['wolf']
-  end
-
-  def lion
-    kata.avatars['lion']
+  def in_kata(&block)
+    kata = make_language_kata({ 'display_name' => default_display_name })
+    block.call(kata)
   end
 
   # - - - - - - - - - - - - - - - -
 
   def make_language_kata(options = {})
-    display_name = options['display_name'] || default_language_name
+    katas.new_kata(make_manifest(options))
+  end
+
+  def make_manifest(options = {})
+    display_name = options['display_name'] || default_display_name
     exercise_name = options['exercise'] || default_exercise_name
     manifest = starter.language_manifest(display_name, exercise_name)
     manifest['created'] = (options['created'] || time_now)
-    katas.kata_create(manifest)
+    manifest['id'] = (options['id'] || kata_id)
+    manifest
   end
 
-  def default_language_name
+  def default_display_name
     'Ruby, MiniTest'
   end
 
   def default_exercise_name
     'Fizz_Buzz'
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - -
+
+  def groups
+    Groups.new(self)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - -
@@ -66,11 +54,15 @@ module TestDomainHelpers # mix-in
   end
 
   def kata_id
-    ENV['CYBER_DOJO_TEST_ID']
+    hex_test_kata_id
   end
 
   def time_now(now = Time.now)
-    [now.year, now.month, now.day, now.hour, now.min, now.sec]
+    [now.year, now.month, now.day, now.hour, now.min, now.sec, now.usec]
   end
 
+  def duration
+    1.6543
+  end
+  
 end

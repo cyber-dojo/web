@@ -12,10 +12,10 @@ class Phonetic
   private
 
   def self.alphabet
-    @@ALPHABET
+    ALPHABET
   end
 
-  @@ALPHABET = {
+  ALPHABET = {
     '0' => 'zero',
     '1' => 'one',
     '2' => 'two',

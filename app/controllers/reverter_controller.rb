@@ -3,7 +3,7 @@ class ReverterController < ApplicationController
 
   def revert
     render json: {
-      visibleFiles: avatar.tags[tag].visible_files
+      visibleFiles: files_for(index)
     }
   end
 

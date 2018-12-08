@@ -1,172 +1,91 @@
-require_relative '../../lib/phonetic_alphabet'
+require_relative 'runner'
 
 class Kata
 
   def initialize(externals, id)
-    # Does *not* validate.
     @externals = externals
     @id = id
   end
 
-  # - - - - - - - - - - - - -
-
-  def avatar_start(avatar_names = Avatars.names.shuffle)
-    name = storer.avatar_start(id, avatar_names)
-    unless name.nil?
-      visible_files.delete('output')
-      runner.avatar_new(image_name, id, name, visible_files)
-    end
-    name.nil? ? nil : Avatar.new(externals, self, name)
-  end
-
-  # - - - - - - - - - - - - -
-  # queries
+  attr_reader :id
 
   def exists?
-    storer.kata_exists?(id)
+    saver.kata_exists?(id)
   end
 
-  def avatars
-    Avatars.new(externals, self)
+  def group
+    gid = manifest.group_id
+    if gid
+      Group.new(@externals, gid)
+    else
+      nil
+    end
+  end
+
+  def avatar_name
+    if group
+      Avatars.names[manifest.group_index]
+    else
+      ''
+    end
+  end
+
+  def run_tests(params)
+    Runner.new(@externals, id).run(params)
+  end
+
+  def ran_tests(index, files, at, duration, stdout, stderr, status, colour)
+    saver.kata_ran_tests(id, index, files, at, duration, stdout, stderr, status, colour)
+    @events = nil
+  end
+
+  def events
+    saver.kata_events(id).map.with_index do |h,index|
+      Event.new(@externals, self, h, index)
+    end
+  end
+
+  def lights
+    events.select(&:light?)
   end
 
   def active?
-    avatars.active.count > 0
-  end
-
-  def id
-    @id
-  end
-
-  def short_id
-    id[0..5]
-  end
-
-  def phonetic_short_id
-    Phonetic.spelling(short_id).join('-')
-  end
-
-  # - - - - - - - - - - - - -
-  # info-bar
-
-  def display_name  # required
-    # eg 'Python, py.test'
-    manifest_property
-  end
-
-  def exercise
-    manifest_property # present in language+testFramework kata
-  end                 # not present in custom kata
-
-  # - - - - - - - - - - - - -
-  # filenames
-
-  def filename_extension # required
-    if manifest_property.is_a?(Array)
-      manifest_property # eg  [ ".c", ".h" ]
-    else
-      [ manifest_property ] # eg ".py" -> [ ".py" ]
-    end
-  end
-
-  def highlight_filenames # optional
-    manifest_property || []
-  end
-
-  def hidden_filenames # optional
-    manifest_property || []
-  end
-
-  # - - - - - - - - - - - - -
-  # source
-
-  def tab_size # optional
-    manifest_property || 4
-  end
-
-  def visible_files # required
-    manifest_property
-  end
-
-  # - - - - - - - - - - - - -
-  # runner
-
-  def image_name # required
-    manifest_property
-  end
-
-  def max_seconds # optional
-    manifest_property || 10
-  end
-
-  def runner_choice # required
-    manifest_property
-  end
-
-  # - - - - - - - - - - - - -
-  # dashboard
-
-  def created # required
-    Time.mktime(*manifest_property)
-  end
-
-  def progress_regexs # optional
-    # [] is not a valid progress_regex.
-    # It needs two regexs.
-    # This affects zipper.zip_tag()
-    manifest_property || []
+    lights != []
   end
 
   def age
-    first_times = []
-    last_times = []
-    # using storer.kata_increments() as BatchMethod
-    storer.kata_increments(id).each do |name,increments|
-      avatar = Avatar.new(externals, self, name)
-      tags = increments.map { |h| Tag.new(externals, avatar, h) }
-      lights = tags.select(&:light?)
-      if lights != []
-        first_times << lights[0].time
-        last_times  << lights[-1].time
-      end
-    end
-    first_times == [] ? 0 : (last_times.sort[-1] - first_times.sort[0]).to_i
+    created = Time.mktime(*manifest.created)
+    (most_recent_event.time - created).to_i # in seconds
   end
 
-  private # = = = = = = = = = =
-
-  def manifest_property
-    manifest[name_of(caller)]
+  def files(sym = nil)
+    most_recent_event.files(sym)
   end
 
-  # - - - - - - - - - - - - -
+  def stdout
+    most_recent_event.stdout
+  end
+
+  def stderr
+    most_recent_event.stderr
+  end
+
+  def status
+    most_recent_event.status
+  end
 
   def manifest
-    @manifest ||= storer.kata_manifest(id)
+    @manifest ||= Manifest.new(saver.kata_manifest(id))
   end
 
-  # - - - - - - - - - - - - -
+  private
 
-  def name_of(caller)
-    # eg caller[0] == "kata.rb:1077:in `tab_size'"
-    /`(?<name>[^']*)/ =~ caller[0] && name
+  def most_recent_event
+    events.last
   end
 
-  # - - - - - - - - - - - - -
-
-  attr_reader :externals
-
-  def runner
-    externals.runner
-  end
-
-  def storer
-    externals.storer
+  def saver
+    @externals.saver
   end
 
 end
-
-# Each avatar does _not_ choose their own language+test.
-# The language+test is chosen for the _kata_.
-# cyber-dojo is a team-based Interactive Dojo Environment,
-# not an Individual Development Environment

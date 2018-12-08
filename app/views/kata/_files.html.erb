@@ -1,12 +1,14 @@
+<div id="visible-files-container"></div>
+
 <script type="text/javascript"><!--
+'use strict';
 $(() => {
 
-  <% @visible_files.each do |filename,content| %>
-    cd.newFile("<%= j raw(filename) %>", "<%= j raw(content) %>");
+  <% @files.each do |filename,file| %>
+    cd.fileCreate("<%= j raw(filename) %>", {
+      content: "<%= j raw(file['content']) %>"
+    });
   <% end %>
 
 });
-
 //--></script>
-
-<div id="visible-files-container"></div>

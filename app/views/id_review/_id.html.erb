@@ -1,36 +1,53 @@
-
 <script type="text/javascript"><!--
-
-$(function() {
+'use strict';
+$(() => {
 
   const inputId = $('input#id');
+  const waitSpinner = $('#wait-spinner');
   const dropDown = $('#drop-down');
+
+  const hiDiv = $('#hi-div');
+
   const ok = $('button#ok');
   const cancel = $('button#cancel');
 
-  const autoDropDown = function() {
+  const inputIdHandler = () => {
     const id = inputId.val();
     if (id.length >= 6) {
-      $.getJSON('/id_review/drop_down', { id: id }, function(dojo) {
-        if (dojo.exists) {
-          ok.unbind().click(function() {
-            const url = '/dashboard/show/' + dojo.id;
-            window.location.href = cd.homePageUrl(dojo.id);
-            window.open(url);
-          });
-            inputId.prop('disabled', true);
-          inputId.slideUp('fast', function() {
-            dropDown.slideDown('slow');
-          });
-        }
-      });
+      const args = { id:id };
+      inputId.prop('disabled', true);
+      waitSpinner.show();
+      $.getJSON('/id_review/drop_down', args, dropDownHandler);
     }
   };
 
-  dropDown.hide();
+  const dropDownHandler = (group) => {
+    waitSpinner.hide();
+    if (group.exists) {
+      prepareDropDown(group);
+      inputId.slideUp('fast', () => dropDown.slideDown('slow'));
+    } else {
+      inputId.prop('disabled', false);
+    }
+  };
 
-  cancel.click(function() {
-    dropDown.slideUp('slow', function() {
+  const prepareDropDown = (group) => {
+    showTrafficLightInfo();
+    ok.unbind().click(() => openDashboard(group.id));
+  };
+
+  const showTrafficLightInfo = () => {
+    hiDiv.html($('#traffic-light-info').html());
+  };
+
+  const openDashboard = (groupId) => {
+    const url = `/dashboard/show/${groupId}`;
+    window.location.href = cd.homePageUrl(groupId);
+    window.open(url);
+  };
+
+  cancel.click(() => {
+    dropDown.slideUp('slow', () => {
       inputId.show()
              .prop('disabled', false)
              .val('')
@@ -39,9 +56,11 @@ $(function() {
     });
   });
 
-  cd.base58Only(inputId);
+  //- - - - - - - - - - - - - - -
 
-  inputId.focus().keyup(function() { autoDropDown(); });
+  cd.onlyBase58(inputId);
+  inputId.focus()
+         .keyup(() => inputIdHandler());
 
 });
 
@@ -53,44 +72,12 @@ $(function() {
        size="8"
        value="">
 </input>
+<br/>
+<%= render partial: 'shared/wait_spinner' %>
 
-<div id="drop-down">
-  <div id="lights">
-    <table>
-      <tr>
-        <td>
-          <table>
-            <tr>
-              <td><img src="/images/bulb_red.png"></td>
-              <td><img src="/images/bulb_amber.png"></td>
-              <td><img src="/images/bulb_green.png"></td>
-            </tr>
-          </table>
-        </td>
-        <td>
-          click a traffic-light to review its diff
-        </td>
-      </tr>
-    </table>
-  </div>
-  <div id="avatars">
-    <table>
-      <tr>
-        <td>
-          <table>
-            <tr>
-              <td><img src="/images/avatars/gorilla.jpg"></td>
-              <td><img src="/images/avatars/lobster.jpg"></td>
-              <td><img src="/images/avatars/butterfly.jpg"></td>
-            </tr>
-          </table>
-        </td>
-        <td>
-          click an animal to review their code
-        </td>
-      </tr>
-    </table>
-  </div>
+
+<div id="drop-down" style="display:none;">
+  <div id="hi-div"></div>
   <button id="ok">ok</button>
   <button id="cancel">cancel</button>
 </div>

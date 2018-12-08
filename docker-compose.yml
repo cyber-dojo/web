@@ -11,16 +11,17 @@ services:
     user: nobody
     image: cyberdojo/web
     init: true
-    container_name: test-cyber-dojo-web
+    container_name: test-web
     mem_limit: 2G
     memswap_limit: 2G
     restart: 'no'
     depends_on:
-      - differ
-      - runner-stateful
-      - runner-stateless
       - starter
+      - runner
+      - porter
+      - saver
       - storer
+      - differ
       - zipper
 
   # - - - - - - - - - - - - - - - -
@@ -29,14 +30,55 @@ services:
     user: nobody
     image: cyberdojo/starter
     init: true
-    container_name: test-web-cyber-dojo-starter
+    container_name: test-web-starter
     read_only: true
     tmpfs: /tmp
-    mem_limit: 50M
-    memswap_limit: 50M
     restart: 'no'
     volumes:
       - ./test/data/start_points:/app/start_points:ro
+
+  # - - - - - - - - - - - - - - - -
+
+  runner:
+    user: root
+    image: cyberdojo/runner-stateless
+    init: true
+    container_name: test-web-runner
+    read_only: true
+    tmpfs: /tmp
+    restart: 'no'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  # - - - - - - - - - - - - - - - -
+
+  saver:
+    user: saver
+    image: cyberdojo/saver
+    init: true
+    container_name: test-web-saver
+    read_only: true
+    tmpfs: /tmp
+    restart: 'no'
+    volumes:
+      - /tmp/groups/:/groups:rw
+      - /tmp/katas/:/katas:rw
+
+  # - - - - - - - - - - - - - - - -
+
+  porter:
+    user: porter
+    image: cyberdojo/porter
+    init: true
+    container_name: test-web-porter
+    read_only: true
+    tmpfs: /tmp
+    restart: 'no'
+    volumes:
+      - /tmp/id-map:/id-map:rw
+    depends_on:
+      - saver
+      - storer
 
   # - - - - - - - - - - - - - - - -
 
@@ -44,49 +86,12 @@ services:
     user: storer
     image: cyberdojo/storer
     init: true
-    container_name: test-web-cyber-dojo-storer
+    container_name: test-web-storer
     read_only: true
     tmpfs: /tmp
     volumes:
-      - /tmp:/usr/src/cyber-dojo/katas:rw
-    mem_limit: 2G
-    memswap_limit: 2G
+      - /tmp/storer_katas/:/usr/src/cyber-dojo/katas:rw
     restart: 'no'
-    depends_on:
-      - starter
-
-  # - - - - - - - - - - - - - - - -
-
-  runner-stateless:
-    user: root
-    image: cyberdojo/runner-stateless
-    init: true
-    container_name: test-web-cyber-dojo-runner-stateless
-    read_only: true
-    tmpfs: /tmp
-    mem_limit: 2G
-    memswap_limit: 2G
-    restart: 'no'
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-
-  # - - - - - - - - - - - - - - - -
-
-  runner-stateful:
-    user: root
-    image: cyberdojo/runner-stateful
-    init: true
-    container_name: test-web-cyber-dojo-runner-stateful
-    expose: [ 4557 ]
-    read_only: true
-    tmpfs: /tmp
-    mem_limit: 2G
-    memswap_limit: 2G
-    restart: 'no'
-    environment:
-      - RUNNER_STATEFUL_SERVICE_PORT=4557
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
 
   # - - - - - - - - - - - - - - - -
 
@@ -94,7 +99,7 @@ services:
     user: nobody
     image: cyberdojo/differ
     init: true
-    container_name: test-web-cyber-dojo-differ
+    container_name: test-web-differ
     read_only: true
     tmpfs: /tmp
     mem_limit: 1G
@@ -107,11 +112,9 @@ services:
     user: nobody
     image: cyberdojo/zipper
     init: true
-    container_name: test-web-cyber-dojo-zipper
+    container_name: test-web-zipper
     read_only: true
     tmpfs: /tmp
-    mem_limit: 50M
-    memswap_limit: 50M
     restart: 'no'
     depends_on:
-      - storer
+      - saver

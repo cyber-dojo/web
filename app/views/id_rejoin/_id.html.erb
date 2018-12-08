@@ -1,48 +1,95 @@
-
 <script type="text/javascript"><!--
-
-$(function() {
-
-  cd.resume = function(id, avatarName) {
-    const url = '/kata/edit/' + id + '?avatar=' + avatarName;
-    window.location.href = cd.homePageUrl(id);
-    window.open(url);
-  };
+'use strict';
+$(() => {
 
   const inputId = $('input#id');
+  const waitSpinner = $('#wait-spinner');
   const dropDown = $('#drop-down');
+
   const hiText = $('#hi-text');
-  const avatarPicker = $('#avatar-picker');
+  const midDiv = $('#mid-div');
   const loText = $('#lo-text');
+
+  const ok     = $('button#ok');
   const cancel = $('button#cancel');
 
-  const autoDropDown = function() {
+  const inputIdHandler = () => {
     const id = inputId.val();
     if (id.length >= 6) {
-      $.getJSON('/id_rejoin/drop_down', { id: id }, function(dojo) {
-        if (dojo.exists) {
-          if (dojo.empty) {
-            hiText.html('no one has joined yet!');
-            loText.html('');
-          } else {
-            hiText.html('click your animal');
-            loText.html('or');
-          }
-          avatarPicker.html(dojo.avatarPickerHtml);
-          cd.setupHoverTip($('[data-tip]'));
-          inputId.prop('disabled', true);
-          inputId.slideUp('fast', function() {
-            dropDown.slideDown('slow');
-          });
-        }
-      });
+      const args = { id:id, from:"<%= @from %>" };
+      inputId.prop('disabled', true);
+      waitSpinner.show();
+      $.getJSON('/id_rejoin/drop_down', args, dropDownHandler);
     }
   };
 
-  dropDown.hide();
+  const dropDownHandler = (response) => {
+    waitSpinner.hide();    
+    if (dropDownPrepared(response)) {
+      inputId.slideUp('fast', () => dropDown.slideDown('slow'));
+    } else {
+      inputId.prop('disabled', false);
+    }
+  };
 
-  cancel.click(function() {
-    dropDown.slideUp('slow', function() {
+  const dropDownPrepared = (data) => {
+    if (!data.exists) {
+      return false;
+    }
+    if (data.kataId) {
+      prepareIndividualDropDown(data);
+    } else {
+      prepareGroupDropDown(data);
+    }
+    return true;
+  };
+
+  //- - - - - - - - - - -
+
+  const prepareIndividualDropDown = (data) => {
+    hiText.hide();
+    showTrafficLightInfo();
+    showAvatar(data.avatarName);
+    loText.hide();
+    cancel.hide();
+    ok.unbind()
+      .click(() => cd.rejoin(data.kataId))
+      .show();
+  };
+
+  const showTrafficLightInfo = () => {
+    midDiv.html($('#traffic-light-info').html());
+  };
+
+  const showAvatar = (avatarName) => {
+    if (avatarName !== '') {
+      $('#avatar',midDiv).html($('<img>', {
+        'class':'avatar large',
+        'src':`/images/avatars/${avatarName}.jpg`
+      }));
+    }
+  };
+
+  //- - - - - - - - - - -
+
+  const prepareGroupDropDown = (group) => {
+    if (group.empty) {
+      hiText.html('no one has joined yet!');
+      loText.html('');
+    } else {
+      hiText.html('click your animal');
+      loText.html('or');
+    }
+    midDiv.html(group.avatarPickerHtml);
+    ok.hide();
+    cancel.show();
+    cd.setupHoverTips($('[data-tip]'));
+  };
+
+  //- - - - - - - - - - -
+
+  cancel.click(() => {
+    dropDown.slideUp('slow', () => {
       inputId.show()
              .prop('disabled', false)
              .val('')
@@ -51,12 +98,13 @@ $(function() {
     });
   });
 
-  cd.base58Only(inputId);
+  //- - - - - - - - - - -
 
-  inputId.focus().keyup(function() { autoDropDown(); });
+  cd.onlyBase58(inputId);
+  inputId.focus()
+         .keyup(() => inputIdHandler());
 
 });
-
 //--></script>
 
 <input type="text"
@@ -65,11 +113,13 @@ $(function() {
        size="8"
        value="">
 </input>
+<br/>
+<%= render partial: 'shared/wait_spinner' %>
 
-<div id="drop-down">
+<div id="drop-down" style="display:none;">
   <span id="hi-text"></span>
-  <div id="avatar-picker"></div>
+  <div id="mid-div"></div>
   <span id="lo-text"></span>
+  <button id="ok">ok</button>
   <button id="cancel">cancel</button>
 </div>
-

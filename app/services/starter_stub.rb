@@ -31,16 +31,14 @@ class StarterStub
       'display_name'       => 'Ruby, MiniTest',
       'exercise'           => 'Fizz_Buzz',
       'image_name'         => 'cyberdojofoundation/ruby_mini_test',
-      'filename_extension' => '.rb',
+      'filename_extension' => ['.rb'],
       'tab_size'           => 2,
-      'runner_choice'      => 'stateless',
       'visible_files'      => {
-        'coverage.rb'   => ruby_minitest_coverage_rb,
-        'test_hiker.rb' => ruby_minitest_test_hiker_rb,
-        'hiker.rb'      => ruby_minitest_hiker_rb,
-        'cyber-dojo.sh' => ruby_minitest_cyber_dojo_sh,
-        'output'        => '',
-        'instructions'  => 'Write a program that prints the numbers from 1 to 100.'
+        'coverage.rb'   => file(ruby_minitest_coverage_rb),
+        'test_hiker.rb' => file(ruby_minitest_test_hiker_rb),
+        'hiker.rb'      => file(ruby_minitest_hiker_rb),
+        'cyber-dojo.sh' => file(ruby_minitest_cyber_dojo_sh),
+        'readme.txt'    => file('Write a program that prints the numbers from 1 to 100.')
       },
       'hidden_filenames' => [
         "coverage/\\.last_run\\.json",
@@ -236,15 +234,13 @@ class StarterStub
       'display_name'       => 'Ruby, RSpec',
       'exercise'           => 'Fizz_Buzz',
       'image_name'         => 'cyberdojofoundation/ruby_rspec',
-      'filename_extension' => '.rb',
+      'filename_extension' => ['.rb'],
       'tab_size'           => 2,
-      'runner_choice'      => 'stateful',
       'visible_files'      => {
-        'hiker_spec.rb' => ruby_rspec_hiker_spec_rb,
-        'hiker.rb'      => ruby_rspec_hiker_rb,
-        'cyber-dojo.sh' => ruby_rspec_cyber_dojo_sh,
-        'output'        => '',
-        'instructions'  => 'Write a program that prints the numbers from 1 to 100.'
+        'hiker_spec.rb' => file(ruby_rspec_hiker_spec_rb),
+        'hiker.rb'      => file(ruby_rspec_hiker_rb),
+        'cyber-dojo.sh' => file(ruby_rspec_cyber_dojo_sh),
+        'readme.txt'    => file('Write a program that prints the numbers from 1 to 100.')
       }
     }
   end
@@ -285,15 +281,13 @@ class StarterStub
       'display_name'       => 'Ruby, Test::Unit',
       'exercise'           => 'Fizz_Buzz',
       'image_name'         => 'cyberdojofoundation/ruby_test_unit',
-      'filename_extension' => '.rb',
+      'filename_extension' => ['.rb'],
       'tab_size'           => 2,
-      'runner_choice'      => 'processful',
       'visible_files'      => {
-        'test_hiker.rb' => ruby_test_unit_test_hiker_rb,
-        'hiker.rb'      => ruby_test_unit_hiker_rb,
-        'cyber-dojo.sh' => ruby_test_unit_cyber_dojo_sh,
-        'output'        => '',
-        'instructions'  => 'Write a program that prints the numbers from 1 to 100.'
+        'test_hiker.rb' => file(ruby_test_unit_test_hiker_rb),
+        'hiker.rb'      => file(ruby_test_unit_hiker_rb),
+        'cyber-dojo.sh' => file(ruby_test_unit_cyber_dojo_sh),
+        'readme.txt'    => file('Write a program that prints the numbers from 1 to 100.')
       }
     }
   end
@@ -335,18 +329,16 @@ class StarterStub
       'display_name'       => 'Java, JUnit',
       'exercise'           => 'Fizz_Buzz',
       'image_name'         => 'cyberdojofoundation/java_junit',
-      'filename_extension' => '.java',
+      'filename_extension' => ['.java'],
       'progress_regexs'    => [
         "Tests run\\: (\\d)+,(\\s)+Failures\\: (\\d)+",
         "OK \\((\\d)+ test(s)?\\)"
       ],
-      'runner_choice'      => 'stateless',
       'visible_files'      => {
-        'HikerTest.java' => java_junit_hikertest_java,
-        'Hiker.java'     => java_junit_hiker_java,
-        'cyber-dojo.sh'  => java_junit_cyber_dojo_sh,
-        'output'         => '',
-        'instructions'   => 'Write a program that prints the numbers from 1 to 100.'
+        'HikerTest.java' => file(java_junit_hikertest_java),
+        'Hiker.java'     => file(java_junit_hiker_java),
+        'cyber-dojo.sh'  => file(java_junit_cyber_dojo_sh),
+        'readme.txt'     => file('Write a program that prints the numbers from 1 to 100.')
       }
     }
   end
@@ -389,6 +381,10 @@ class StarterStub
         | grep -Ev 'org.junit.runner|org.junit.internal|sun.reflect|org.junit.Assert|java.lang.reflect|org.hamcrest'
     fi
     SHELL
+  end
+
+  def file(content)
+    { 'content' => content }
   end
 
 end

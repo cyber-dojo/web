@@ -1,18 +1,17 @@
 /*global jQuery,cyberDojo*/
+'use strict';
+var cyberDojo = ((cd, $) => {
 
-var cyberDojo = (function(cd, $) {
-  "use strict";
+  const options = {
+    segmentShowStroke : false,
+    segmentStrokeColor : '#757575',
+    animationEasing : 'easeOutExpo'
+  };
 
-  cd.pieChart = function(nodes) {
-    // Chart.js http://www.chartjs.org/docs/
-    const options = {
-      segmentShowStroke : false,
-      segmentStrokeColor : '#757575',
-      animationEasing : 'easeOutExpo'
-    };
-    nodes.each(function() {
-      const node = $(this);
-      const count = function(of) { return node.data(of + '-count'); };
+  cd.pieChart = ($nodes) => {
+    $nodes.each((_,node) => {
+      const $node = $(node);
+      const count = (of) => $node.data(of + '-count');
       const      redCount = count('red');
       const    amberCount = count('amber');
       const    greenCount = count('green');
@@ -25,11 +24,12 @@ var cyberDojo = (function(cd, $) {
           { value: timedOutCount, color: 'darkGray' }
       ];
 
-      const ctx = node[0].getContext('2d');
-      const key = node.data('key');
+      const ctx = $node[0].getContext('2d');
+      const key = $node.data('key');
       const totalCount = redCount + amberCount + greenCount + timedOutCount;
       const animation = ($.data(document.body, key) != totalCount);
       options['animation'] = animation;
+      // Chart.js http://www.chartjs.org/docs/
       new Chart(ctx).Pie(data, options);
       $.data(document.body, key, totalCount);
     });

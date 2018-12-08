@@ -3,7 +3,7 @@ require_relative 'app_lib_test_base'
 class DiffViewTest < AppLibTestBase
 
   def self.hex_prefix
-    '836A0A'
+    '836'
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - -
@@ -13,7 +13,6 @@ class DiffViewTest < AppLibTestBase
   def hex_setup
     set_differ_class('NotUsed')
     set_runner_class('NotUsed')
-    set_storer_class('NotUsed')
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - -

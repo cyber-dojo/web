@@ -1,10 +1,11 @@
+<div class="traffic-lights-count"></div>
 
 <script type="text/javascript"><!--
-
+'use strict';
 $(() => {
 
   const updateTrafficLightsCount = () => {
-    const rags = $('.diff-traffic-light');
+    const rags = $('#traffic-lights .diff-traffic-light');
     const redCount     = cd.ragCount(rags, 'red');
     const amberCount   = cd.ragCount(rags, 'amber');
     const greenCount   = cd.ragCount(rags, 'green');
@@ -12,8 +13,7 @@ $(() => {
     const count = redCount + amberCount + greenCount + timeOutCount;
     const colour = rags.last().data('colour');
     const newCount = $('<div>', {
-      'class': 'traffic-light-count ' + colour,
-      'data-avatar-name': "<%= @avatar.name %>",
+      'class': `traffic-light-count ${colour}`,
       'data-tip': 'traffic_light_count',
       'data-red-count': redCount,
       'data-amber-count': amberCount,
@@ -24,14 +24,11 @@ $(() => {
     if (count > 0) {
       $('.traffic-lights-count').html(newCount);
       // cant reuse newCount, have to refind it
-      cd.setupHoverTip($('.traffic-light-count'));
+      cd.setupHoverTips($('.traffic-light-count'));
     }
   };
 
   updateTrafficLightsCount();
 
 });
-
 //--></script>
-
-<div class="traffic-lights-count"></div>

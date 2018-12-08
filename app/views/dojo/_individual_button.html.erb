@@ -1,14 +1,12 @@
-
 <script type="text/javascript"><!--
+'use strict';
+$(() => {
 
-$(function() {
-
-  $('button#individual').click(function() {
+  $('button#individual').click(() => {
     window.location = "/individual/show/<%= @id %>";
   });
 
 });
-
 //--></script>
 
 <button id="individual">

@@ -3,7 +3,7 @@ require_relative 'app_lib_test_base'
 class ReviewFilePickerTest < AppLibTestBase
 
   def self.hex_prefix
-    '9EF4D0'
+    '9EF'
   end
 
   include ReviewFilePicker
@@ -11,7 +11,6 @@ class ReviewFilePickerTest < AppLibTestBase
   def hex_setup
     set_differ_class('NotUsed')
     set_runner_class('NotUsed')
-    set_storer_class('NotUsed')
     @n = -1
   end
 
@@ -60,7 +59,7 @@ class ReviewFilePickerTest < AppLibTestBase
   'only other file with diffs is output' do
     @current_filename = 'fubar.cpp'
     @diffs = [] <<
-      diff('output',2,4) <<
+      diff('stdout',2,4) <<
       (@picked=diff(@current_filename,0,0))
     assert_picked
   end
@@ -84,7 +83,7 @@ class ReviewFilePickerTest < AppLibTestBase
   'has diffs then the one with the most diffs is chosen' do
     @current_filename = 'not-present'
     @diffs = [] <<
-      diff('output',9,8) <<
+      diff('stdout',9,8) <<
       diff('wibble.h',2,4) <<
       diff('wibble.c',0,0) <<
       (@picked=diff('instructions',3,4))
@@ -100,7 +99,7 @@ class ReviewFilePickerTest < AppLibTestBase
     non_code_filenames = [ 'instructions','makefile','cyber-dojo.sh' ]
     non_code_filenames.each do |filename|
       @diffs = [] <<
-        diff('output',6,8,'13453453534535345345') <<
+        diff('stdout',6,8,'13453453534535345345') <<
         diff(filename,0,0,'bigger-but-not-codefile') <<
         (@picked=diff('wibble.c',0,0,'smaller'))
       assert_picked
@@ -114,7 +113,7 @@ class ReviewFilePickerTest < AppLibTestBase
   'has diffs and no code files then pick cyber-dojo.sh' do
     @current_filename = nil
     @diffs = [] <<
-      diff('output',6,8,'13453453534535345345') <<
+      diff('stdout',6,8,'13453453534535345345') <<
       (@picked = diff('cyber-dojo.sh',0,0,'145345'))
     assert_picked
   end

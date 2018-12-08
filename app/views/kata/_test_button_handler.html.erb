@@ -1,65 +1,51 @@
-
 <script type="text/javascript"><!--
-
+'use strict';
 $(() => {
-
-  const testButton  = $('#test-button');
-  const testSpinner = $('#test-spinner');
-  const testOverlay = $('<div id="test-overlay"></div>');
-
-  const form = testButton.closest('form');
-
-  testButton.enable = () => {
-    testButton.attr('disabled', false);
-  };
-
-  testButton.disable = () => {
-    testButton.attr('disabled', true);
-  };
-
-  testButton.click(() => {
-    // Called from 3 places
-    // 1. when you click [test]
-    // 2. when you hot-key Alt-T
-    // 3. when you revert from a diff-dialog
-
+  // Called from 3 places
+  // 1. when you click [test]
+  // 2. when you hot-key Alt-T
+  // 3. when you revert from a diff-dialog
+  cd.testButton.click(() => {
     cd.saveCodeFromSyntaxHighlightEditors();
-    cd.storeOutgoingFileHashes();
-
+    const form = cd.testButton.closest('form');
     $.ajax({
-      timeout: 30000, // 30 seconds (twice server timeout)
-         type: 'POST',
-          url: form.attr('action'),
-         data: form.serialize(),
-
-      beforeSend: (_xhr, _settings) => {
-        testButton.disable();
-        testOverlay.insertAfter($('body'));
-        testSpinner.show();
-      },
-      error: (request, status, thrown) => {
-        let info = "ERROR\n";
-        info += thrown + "\n";
-        info += 'status=' + status + "\n";
-        if (status == 'timeout') {
-          info += 'timeout:have you lost your network connection?' + "\n";
-        }
-        if (status == 'error') {
-          info += 'error:is the cyber-dojo server down?' + "\n";
-        }
-        info += request.responseText + "\n";
-        cd.deleteFile('output');
-        cd.newFile('output', info);
-      },
-      complete: (_xhr, _status) => {
-        testSpinner.hide();
-        testOverlay.remove();
-        testButton.enable();
-        cd.loadFile('output');
-      }
+         timeout: 30000, // 30 seconds
+            type: 'POST',
+             url: form.attr('action'),
+            data: form.serialize(),
+      beforeSend: beforeSend,
+        complete: complete,
+           error: error
     });
   });
 
-});
+  //- - - - - - - - - - - - - - - - - - - - - - -
 
+  const testOverlay = $('<div id="test-overlay"></div>');
+  const testSpinner = $('#test-spinner');
+
+  const beforeSend = (_xhr, _settings) => {
+    cd.testButton.disable();
+    testOverlay.insertAfter($('body'));
+    testSpinner.show();
+  };
+
+  const complete = (_xhr, _status) => {
+    testSpinner.hide();
+    testOverlay.remove();
+    cd.testButton.enable();
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - -
+
+  const error = (request, status, thrown) => {
+    cd.dialogError([
+      request.responseText,
+      '----------------------------',
+      `Status=${status}`,
+      thrown
+    ].join("\n"));
+  };
+
+});
 //--></script>

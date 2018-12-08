@@ -1,5 +1,5 @@
 <script type="text/javascript"><!--
-
+'use strict';
 $(() => {
 
   const languageInfoContainer = $('#language-info-container');
@@ -16,7 +16,6 @@ $(() => {
     language.click(() => {
       cd.radioEntrySwitch(previousLanguage, language);
       previousLanguage = language;
-
       exerciseInfoContainer.hide();
       languageInfoContainer.show();
     });
@@ -29,7 +28,6 @@ $(() => {
        const instructions = $('#instructions_' + index).val();
        languageInfoContainer.hide();
        exerciseInfoContainer.show().val(instructions);
-
        cd.radioEntrySwitch(previousExercise, exercise);
        previousExercise = exercise;
      });
@@ -42,5 +40,4 @@ $(() => {
   selectedExercise.scrollIntoView({ direction: 'vertical' });
 
 });
-
 //--></script>

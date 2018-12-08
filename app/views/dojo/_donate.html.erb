@@ -1,15 +1,13 @@
-
 <script type="text/javascript"><!--
+'use strict';
+$(() => {
 
-$(function() {
-
-  $('button#donate').click(function(event) {
+  $('button#donate').click(event => {
     event.preventDefault();
     cd.dialog_donate().dialog('open');
   })
 
 });
-
 //--></script>
 
 <button id="donate">please&nbsp;donate</button>

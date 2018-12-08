@@ -1,19 +1,16 @@
 /*global jQuery,cyberDojo*/
-
+'use strict';
 var cyberDojo = (function(cd, $) {
-  "use strict";
 
-  cd.invoiceMe = function() {
-    var url = "mailto:pies@cyber-dojo.org?subject=cyber-dojo donation - please invoice me";
+  cd.invoiceMe = () => {
+    const url = "mailto:pies@cyber-dojo.org?subject=cyber-dojo donation - please invoice me";
     window.open(url, '_blank');
     return false;
   };
 
-  cd.dialog_donate = function() {
-
-    var title = 'please donate';
-
-    var donateButton = function() {
+  cd.dialog_donate = () => {
+    const title = 'please donate';
+    const donateButton = () => {
       return '' +
       '<form action="https://www.paypal.com/cgi-bin/webscr"' +
            ' method="post"' +
@@ -38,7 +35,7 @@ var cyberDojo = (function(cd, $) {
       '</form>';
     };
 
-    var html = '' +
+    const html = '' +
       '<div data-width="600">' +
         '<table>' +
           '<tr>' +
@@ -72,4 +69,5 @@ var cyberDojo = (function(cd, $) {
   };
 
   return cd;
+
 })(cyberDojo || {}, jQuery);

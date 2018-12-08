@@ -1,25 +1,34 @@
-
 <script type="text/javascript"><!--
+'use strict';
+$(() => {
 
-$(function() {
+  $('.kata-row').each((_i,row) => {
+    let index = 0;
+    $.each($('.diff-traffic-light', $(row)), (_,light) => {
+      const $light = $(light);
+      const id = $light.data('id');
+      const wasIndex = index;
+      const nowIndex = $light.data('index');
+      $light.click(() => {
+        window.open(cd.showReviewUrl(id, wasIndex, nowIndex));
+      });
+      cd.setupTrafficLightTip($light, id, wasIndex, nowIndex);
+      index = nowIndex;
+    });
+  });
 
-  $('.diff-traffic-light').click(function() {
-    const light = $(this);
-    const id         = light.data('id');
-    const avatarName = light.data('avatar-name');
-    const wasTag     = light.data('was-tag');
-    const nowTag     = light.data('now-tag');
-    window.open(cd.showReviewUrl(id, avatarName, wasTag, nowTag));
+  $('.avatar-image').click(element => {
+    const id = $(element.currentTarget).data('id');
+    window.open(cd.showReviewUrl(id, -1, -1));
   });
 
   cd.pieChart($('#traffic-lights .pie'));
-  cd.setupHoverTip($('[data-tip]'));
+  cd.setupHoverTips($('[data-tip]'));
 
   const allTheWay = 100000;
   $('#traffic-lights').scrollLeft(allTheWay);
 
 });
-
 //--></script>
 
 <table>
@@ -39,15 +48,18 @@ $(function() {
       <td></td>
       <td></td>
       <td>
-        <div class='age' data-tip="time between oldest and newest traffic-lights"><%= raw time_tick(@kata.age) %></div>
+        <div class='age'
+             data-tip="time between<br/>the oldest and newest<br/>traffic-lights">
+             <%= raw time_tick(@group.age) %>
+           </div>
       </td>
     </tr>
   <% end %>
 
-  <% @gapped.keys.sort.each do |name| %>
-	<tr>
-	  <% td_map = @gapped[name] %>
-    <% now_tag = 0 %>
+  <% @gapped.keys.sort_by{|kata_id| @all_indexes[kata_id] }.each do |kata_id| %>
+	<tr class="kata-row">
+	  <% lights = @all_lights[kata_id] %>
+	  <% td_map = @gapped[kata_id] %>
 
 	  <% td_map.keys.sort.each_with_index do |td_no,index| %>
 		  <% td = td_map[td_no] %>
@@ -63,13 +75,7 @@ $(function() {
           <table align="right">
             <tr>
 				    <% td.each do |light| %>
-              <td>
-                <% id = @kata.id %>
-                <% colour = light['colour'] %>
-                <% was_tag = now_tag %>
-                <% now_tag = light['number'] %>
-                <%= raw diff_traffic_light(id, name, colour, was_tag, now_tag) %>
-              </td>
+              <td><%= raw diff_traffic_light(light) %></td>
             <% end %>
             </tr>
           </table>
@@ -79,15 +85,13 @@ $(function() {
 	  <% end %>
 
     <td class="align-right">
-      <%= raw traffic_light_count(@kata.id, name, @all_lights[name]) %>
+      <%= raw traffic_light_count(lights) %>
     </td>
-
     <td class="align-center">
-      <%= raw pie_chart(@all_lights[name], name) %>
+      <%= raw pie_chart(lights) %>
     </td>
-
     <td class="align-left valign-center">
-      <%= raw diff_avatar_image(@kata.id, name) %>
+      <%= raw diff_avatar_image(kata_id, @all_indexes[kata_id]) %>
     </td>
 
 	</tr>

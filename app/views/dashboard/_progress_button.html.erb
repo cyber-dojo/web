@@ -1,34 +1,33 @@
-
 <script type="text/javascript"><!--
+'use strict';
+$(() => {
 
-$(function() {
-
-  var progressDialog = function(id) {
-    var id = "<%= @kata.id %>";
-	  $.getJSON('/dashboard/progress', { id: id }, function(data) {
-      var html = '';
-      var index = 0;
+  const progressDialog = () => {
+    const id = "<%= @group.id %>";
+	  $.getJSON('/dashboard/progress', { id:id }, (data) => {
+      let html = '';
+      let index = 0;
       html += '<div id="progress-dialog">';
       html += '<table>';
-      $.each(data.animals, function(name, animal) {
-        var parity = (index % 2 == 0) ? 'even' : 'odd';
+      $.each(data.animals, (name, animal) => {
+        const parity = (index % 2 === 0) ? 'even' : 'odd';
         index += 1;
         html +=
-          "<tr class='" + parity + " animal'>" +
+          `<tr class='${parity} animal'>` +
             "<td class='progress'>" +
-              "<img src='/images/bulb_" + animal.colour + ".png'" +
-                  " alt='" + animal.colour + " traffic-light'" +
+              `<img src='/images/bulb_${animal.colour}.png'` +
+                  ` alt='${animal.colour} traffic-light'` +
                   " width='20'" +
                   " height='20'/>" +
             '</td>' +
             '<td>' +
-              "<img src='/images/avatars/" + name + ".jpg'" +
-                " data-avatar='" + name + "'" +
+              `<img src='/images/avatars/${name}.jpg'` +
+                ` data-avatar='${name}'` +
                 " width='30'" +
                 " height='30'" +
                 " class='avatar-image'/>" +
             '</td>' +
-            "<td class='" + animal.colour + " progress'>" +
+            `<td class='${animal.colour} progress'>` +
               animal.progress.text +
             '</td>' +
           '</tr>';
@@ -36,36 +35,35 @@ $(function() {
       html += '</table>';
       html += '</div>';
 
-      var node = $(html);
+      const node = $(html);
       node.dialog({
         autoOpen: true,
-        modal: true,
-        title: cd.dialogTitle('progress'),
-        buttons: { close: function() { $(this).remove(); } },
-        width: 600
+           modal: true,
+           title: cd.dialogTitle('progress?'),
+         buttons: { close: () => node.remove() },
+        maxWidth: 600
       });
 
-      $('.avatar-image', node).click(function() {
-        var avatar = $(this).data('avatar');
-        var lastTag = -1;
-        window.open(cd.showReviewUrl(id, avatar, lastTag, lastTag));
+      $('.avatar-image', node).click(event => {
+        const kataId = $(event.currentTarget).data('id');
+        const lastIndex = -1;
+        window.open(cd.showReviewUrl(kataId, lastIndex, lastIndex));
       });
     }); // getJSON
   };
 
-  $('#progress-button').click(function() {
+  $('#progress-button').click(() => {
     progressDialog();
   });
 
 });
-
 //--></script>
 
-<% if @kata.progress_regexs != [] %>
+<% if @group.manifest.progress_regexs != [] %>
   <div id="progress-button-container">
     <button type="button"
-            title="show progress"
-            id="progress-button">
+           title="show progress"
+              id="progress-button">
       progress?
     </button>
   </div>

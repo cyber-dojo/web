@@ -3,7 +3,7 @@ require_relative 'app_services_test_base'
 class StarterStubTest < AppServicesTestBase
 
   def self.hex_prefix
-    '8AB303'
+    '8AB'
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -

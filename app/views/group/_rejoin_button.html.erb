@@ -1,16 +1,14 @@
-
 <script type="text/javascript"><!--
+'use strict';
+$(() => {
 
-$(function() {
-
-  $('button#rejoin').click(function() {
-    window.location = '/id_rejoin/show';
+  $('button#rejoin').click(() => {
+    window.location = '/id_rejoin/show?from=group';
   });
 
 });
-
 //--></script>
 
 <button id="rejoin">
-  rejoin&nbsp;a&nbsp;session
+  rejoin&nbsp;our&nbsp;session
 </button>

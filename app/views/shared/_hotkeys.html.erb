@@ -1,7 +1,7 @@
 
 <script type="text/javascript"><!--
-
-$(function() {
+'use strict';
+$(() => {
 
   const hotkeysButton = $('#hotkeys-button');
 
@@ -11,7 +11,7 @@ $(function() {
     html += '<table>';
     html += tr('Alt-J', 'cycles forwards through the upper filenames');
     html += tr('Alt-K', 'cycles backwards through the upper filenames');
-    html += tr('Alt-O', 'moves to/from the output file');
+    html += tr('Alt-O', 'moves to/from stdout/stderr/status');
     html += tr('Alt-T', 'runs the tests');
     html += '</table>';
     html += '<hr/>';
@@ -37,7 +37,7 @@ $(function() {
                 cd.editorRefocus();
               }
             },
-        beforeClose: (event) => {
+        beforeClose: event => {
           if (event.keyCode === $.ui.keyCode.ESCAPE) {
             node.remove();
             cd.editorRefocus();
@@ -49,23 +49,22 @@ $(function() {
 
   const tr = (key, what) => {
     return '<tr>' +
-      '<td style="text-align:right;">' + key + '</td>' +
-      '<td>==</td>' +
-      '<td>' + what + '</td>' +
+      `<td style="text-align:right;">${key}</td>` +
+      '<td>&nbsp;:&nbsp;</td>' +
+      `<td>${what}</td>` +
     '</tr>';
   };
 
-  if (window.location.href.indexOf('kata/edit') != -1) {
-    hotkeysButton.show().click(function() { hotkeysDialog(); });
+  if (window.location.href.indexOf('kata/edit') !== -1) {
+    hotkeysButton.show().click(() => { hotkeysDialog(); });
   } else {
     hotkeysButton.hide();
   }
 
 });
-
 //--></script>
 
 <button type="button"
-        id="hotkeys-button">
+          id="hotkeys-button">
   hotkeys
 </button>

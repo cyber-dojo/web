@@ -16,21 +16,21 @@ class DashboardTdGapper
     vertical_bleed(s)
     collapsed_table(s[:td_nos]).each do |td, gi|
       count = gi[1]
-      s[:avatars].each do |_name, td_map|
+      s[:katas].each do |_id, td_map|
         count.times { |n| td_map[td + n + 1] = [] } if gi[0] == :dont_collapse
         td_map[td + 1] = { collapsed: count } if gi[0] == :collapse
       end
     end
     # eg
-    # s[:avatars] == {
-    #    'lion'  => {
-    #        0 => [],
-    #        5 => [R,G],
-    #        7 => [],
-    #       11 => [G,R],
-    #       99 => []
+    # s[:katas] == {
+    #   'de535Z' => {
+    #       0 => [],
+    #       5 => [R,G],
+    #       7 => [],
+    #      11 => [G,R],
+    #      99 => []
     #   },
-    #   'tiger' => {
+    #   '3s1BqT' => {
     #       0 => [],
     #       5 => [A],
     #       7 => [G,A],
@@ -55,11 +55,11 @@ class DashboardTdGapper
     #   11: 11+1  12 => { collapsed:87 }
     #
     # so td_map becomes
-    #         0   1        5      6   7     8   9   10   11    12
-    # 'lion'  []  {c'd:4}  [R,G]  []  []    []  []  []   [G,R] {c'd:87},
-    # 'tiger' []  {c'd:4}  [A]    []  [G,A] []  []  []   []    {c'd:87}
+    #          0   1        5      6   7     8   9   10   11    12
+    # 'de535Z' []  {c'd:4}  [R,G]  []  []    []  []  []   [G,R] {c'd:87},
+    # '3s1BqT' []  {c'd:4}  [A]    []  [G,A] []  []  []   []    {c'd:87}
 
-    strip(s[:avatars])
+    strip(s[:katas])
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -67,8 +67,8 @@ class DashboardTdGapper
   def time_ticks(gapped)
     return {} if gapped == {}
     ticks = {}
-    avatar = gapped.keys.sample
-    gapped[avatar].each do |td,content|
+    kata_id = gapped.keys.sample
+    gapped[kata_id].each do |td,content|
       if content.class.name == 'Array'
         ticks[td] = (td+1) * @seconds_per_td
       else
@@ -81,10 +81,10 @@ class DashboardTdGapper
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def stats(all_lights, now)
-    obj = { avatars: {}, td_nos: [0, n(now)] }
+    obj = { katas: {}, td_nos: [0, n(now)] }
     # eg td_nos: [0,99]
-    all_lights.each do |avatar_name, lights|
-      an = obj[:avatars][avatar_name] = {}
+    all_lights.each do |kata_id, lights|
+      an = obj[:katas][kata_id] = {}
       lights.each do |light|
         tdn = number(light)
         an[tdn] ||= []
@@ -94,9 +94,9 @@ class DashboardTdGapper
     end
     obj[:td_nos].sort!.uniq!
     obj
-    # eg avatars: {
-    #     'lion'  => { 5=>[R,G], 11=[G,R] },
-    #     'tiger' => { 5=>[A],   7=>[G,A] }
+    # eg katas: {
+    #     'de535Z' => { 5=>[R,G], 11=[G,R] },
+    #     '3s1BqT' => { 5=>[A],   7=>[G,A] }
     #   }
     # eg td_nos: [ 0,5,7,11,99 ]
   end
@@ -105,13 +105,13 @@ class DashboardTdGapper
 
   def vertical_bleed(s)
     s[:td_nos].each do |n|
-      s[:avatars].each do |_name, td_map|
+      s[:katas].each do |_kata_id, td_map|
         td_map[n] ||= []
       end
     end
-    # eg avatars: {
-    #     'lion'  => { 0=>[], 5=>[R,G], 7=>[],    11=[G,R], 99=>[] },
-    #     'tiger' => { 0=>[], 5=>[A],   7=>[G,A], 11=>[],   99=>[] }
+    # eg katas: {
+    #     'de535Z' => { 0=>[], 5=>[R,G], 7=>[],    11=[G,R], 99=>[] },
+    #     '3s1BqT' => { 0=>[], 5=>[A],   7=>[G,A], 11=>[],   99=>[] }
     #   }
   end
 
@@ -157,15 +157,15 @@ class DashboardTdGapper
     lightless_column = ->(td) { empty_column.call(td) || collapsed_column.call(td) }
        delete_column = ->(td) { gapped.each { |_, h| h.delete(td) } }
 
-    animal = gapped.keys[0]
-    gapped[animal].keys.sort.reverse_each do |td|
+    kata_id = gapped.keys[0]
+    gapped[kata_id].keys.sort.reverse_each do |td|
       if lightless_column.call(td)
         delete_column.call(td)
       else
         break
       end
     end
-    gapped[animal].keys.sort.each do |td|
+    gapped[kata_id].keys.sort.each do |td|
       if lightless_column.call(td)
         delete_column.call(td)
       else
@@ -178,7 +178,7 @@ class DashboardTdGapper
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def number(light)
-    n(light['time'])
+    n(light.time)
   end
 
   def n(now)
@@ -213,27 +213,30 @@ end
 
 # collapsed_table
 # ---------------
-# Suppose I have :hippo with lights for td's numbered
+# Suppose I have hippo with lights for td's numbered
 # 5 and 15 and that the time this gap (from 5 to 15, viz
 # 9 td's) represents is large enough to be collapsed.
 # Does this mean the hippo's tr gets 9 empty td's between
 # the td#5 and the td#15?
-# The answer is it depends on the other avatars.
+# The answer is it depends on the _other_ avatars.
 # The td's have to align vertically.
-# For example if the :lion has a td at 11 then
-# this effectively means that for the :hippo its 5-15 has
-# to be considered as 5-11-15 and the gaps are really 5-11
-# (5 td gaps) and 11-15 (3 td gaps).
+# For example if the lion has a td at 11 then
+# this effectively means that for the hippo its 5-15 has
+# to be considered as 5-11-15 and the gaps are really
+#  5-11 (5 td gaps) and
+# 11-15 (3 td gaps).
 # This is where the :td_nos array comes in.
 # It is an array of all td numbers for a dojo across all
 # avatars.
 # Suppose the :td_nos array is [1,5,11,13,15,16,18,23]
 # This means that the hippo has to treat its 5-15 gap as
-# 5-11-13-15 so the gaps are really 5-11 (5 td gaps),
-# 11-13 (1 td gap) and 13-15 (1 td gap). Note that the
-# :hippo doesn't have a light at either 13 or 15
-# but that doesn't matter, we can't collapse "across" or
-# "through" these because I want vertical consistency.
+# 5-11-13-15 so the gaps are really
+#  5-11 (5 td gaps),
+# 11-13 (1 td gap) and
+# 13-15 (1 td gap).
+# Note that the hippo doesn't have a light at either
+# 13 or 15 but that doesn't matter, we can't collapse "across"
+# or "through" these because I want vertical consistency.
 
 # Now, suppose a dojo runs over two days, there would be a
 # long period of time at night when no traffic lights would

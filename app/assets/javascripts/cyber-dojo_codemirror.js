@@ -1,7 +1,6 @@
 /*global jQuery,cyberDojo*/
-
-var cyberDojo = (function(cd, $) {
-  "use strict";
+'use strict';
+var cyberDojo = ((cd, $) => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -26,7 +25,7 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.switchEditorToCodeMirror = (filename) => {
-    const textArea = document.getElementById('file_content_for_' + filename);
+    const textArea = document.getElementById(`file_content_for_${filename}`);
     const parent = textArea.parentNode;
     const editor = CodeMirror(parent, editorOptions(filename));
 
@@ -58,7 +57,7 @@ var cyberDojo = (function(cd, $) {
 
   cd.focusSyntaxHighlightEditor = (filename) => {
     const element = document.getElementById(syntaxHighlightFileContentForId(filename));
-    if (element != null) {
+    if (element !== null) {
       element.CodeMirror.refresh();
       element.CodeMirror.focus();
     }
@@ -102,7 +101,7 @@ var cyberDojo = (function(cd, $) {
              tabSize: cd.syntaxHighlightTabSize,
       indentWithTabs: codeMirrorIndentWithTabs(filename),
                theme: plainTheme,
-            readOnly: (filename == 'output'),
+            readOnly: cd.isOutputFile(filename),
          smartIndent: false
     };
   };
@@ -111,7 +110,7 @@ var cyberDojo = (function(cd, $) {
 
   const fileExtension = (filename) => {
     const lastPoint = filename.lastIndexOf('.');
-    if (lastPoint == -1) {
+    if (lastPoint === -1) {
       return '';
     } else {
       return filename.substring(lastPoint);
@@ -127,7 +126,10 @@ var cyberDojo = (function(cd, $) {
       case 'makefile':
         return 'text/x-makefile';
       case 'instructions':
-      case 'output':
+      case 'readme.txt':
+      case 'stdout':
+      case 'stderr':
+      case 'status':
         return '';
     }
 
@@ -189,25 +191,19 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const codeMirrorIndentWithTabs = (filename) => {
-    filename = filename.toLowerCase();
-    switch (filename) {
-      case 'makefile':
-        return true;
-      default:
-        return false;
-    }
+    return filename.toLowerCase() === 'makefile';
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const syntaxHighlightFileContentForId = (filename) => {
-    return 'syntax_highlight_file_content_for_' + filename;
+    return `syntax_highlight_file_content_for_${filename}`;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const runActionOnAllCodeMirrorEditors = (action) => {
-    $.each($('.CodeMirror'), (i, editorDiv) => {
+    $.each($('.CodeMirror'), (_i, editorDiv) => {
       action(editorDiv.CodeMirror);
     });
   };
@@ -276,10 +272,10 @@ var cyberDojo = (function(cd, $) {
 
   const bindHotKeys = (editor) => {
     editor.setOption('extraKeys', {
-      'Alt-T': (cm) => { $('#test-button').click(); },
-      'Alt-J': (cm) => { cd.loadNextFile(); },
-      'Alt-K': (cm) => { cd.loadPreviousFile(); },
-      'Alt-O': (cm) => { cd.toggleOutputFile(); }
+      'Alt-T': () => $('#test-button').click(),
+      'Alt-J': () => cd.loadNextFile(),
+      'Alt-K': () => cd.loadPreviousFile(),
+      'Alt-O': () => cd.toggleOutputFile()
     });
   };
 

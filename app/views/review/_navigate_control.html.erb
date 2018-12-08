@@ -1,14 +1,16 @@
-
 <table id="navigate-control">
-  <tr>
-    <td align="right">
-      <img id="avatar"
-           src="/images/avatars/<%= @avatar.name %>.jpg"/>
-    </td>
+
+  <tr id="avatar-control">
     <td align="center">
       <button class="triangle button" id="prev-avatar">
         <img src="/images/triangle_prev.gif"/>
       </button>
+    </td>
+    <td align="center">
+      <% if @kata.avatar_name != '' %>
+        <img id="avatar"
+            src="/images/avatars/<%= @kata.avatar_name %>.jpg"/>
+      <% end %>
     </td>
     <td align="center">
       <button class="triangle button" id="next-avatar">
@@ -18,18 +20,19 @@
   </tr>
 
   <tr>
-    <td align="right">
-      <div id="tag-number-container"/></div>
-    </td>
     <td align="center">
-      <button class="triangle button" id="prev-tag">
+      <button class="triangle button" id="prev-index">
         <img src="/images/triangle_prev.gif" alt="move to previous diff"/>
       </button>
     </td>
     <td align="center">
-      <button class="triangle button" id="next-tag">
+      <div id="index-container"></div>
+    </td>
+    <td align="center">
+      <button class="triangle button" id="next-index">
         <img src="/images/triangle_next.gif" alt="move to next diff"/>
       </button>
     </td>
   </tr>
+
 </table>

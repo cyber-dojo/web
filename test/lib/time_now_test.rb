@@ -3,7 +3,7 @@ require_relative 'lib_test_base'
 class TimeNowTest < LibTestBase
 
   def self.hex_prefix
-    '831F29'
+    'x81'
   end
 
   # - - - - - - - - - - - - - -
@@ -27,13 +27,16 @@ class TimeNowTest < LibTestBase
     def sec
       59
     end
+    def usec
+      5435
+    end
   end
 
   # - - - - - - - - - - - - - -
 
   test '9F0',
   'time_now' do
-    expected = [1966,11,23, 8,45,59]
+    expected = [1966,11,23, 8,45,59,5435]
     assert_equal expected, time_now(FakeTime.new)
   end
 

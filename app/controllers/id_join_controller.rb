@@ -1,33 +1,24 @@
 
 class IdJoinController < ApplicationController
 
+  def show
+    @avatar_names = Avatars.names
+    @id = id
+  end
+
   def drop_down
-    @id = params['id'] = storer.katas_completed(id)
-    json = { exists: @id != '' }
+    group = groups[porter.port(id)]
+    json = { exists:group.exists? }
     if json[:exists]
-      avatar = kata.avatar_start
-      json[:full] = avatar.nil?
-      if json[:full]
-        json[:fullHtml] = full_html
+      kata = group.join
+      if kata
+        json[:id] = kata.id
+        json[:avatarName] = kata.avatar_name
       else
-        json[:id] = @id
-        json[:avatarName] = avatar.name
-        json[:avatarStartHtml] = start_html(avatar.name)
+        json[:full] = true
       end
     end
     render json:json
-  end
-
-  private
-
-  def start_html(avatar_name)
-    @avatar_name = avatar_name
-    bind('/app/views/id_join/start.html.erb')
-  end
-
-  def full_html
-    @all_avatar_names = Avatars.names
-    bind('/app/views/id_join/full.html.erb')
   end
 
 end

@@ -1,61 +1,60 @@
-
 <script type="text/javascript"><!--
-
+'use strict';
 $(() => {
 
-  cd.setupReviewTrafficLight = ($lights) => {
-    // also called from run_tests.js.erb
-    const review = $('#review-dialog')
-      .dialog({
-          dialogClass: 'no-title',
-                width: 1150,
-               height: 650,
-                modal: true,
-             autoOpen: false,
-        closeOnEscape: true,
-      });
+  const review = $('#review-dialog')
+    .dialog({
+        dialogClass: 'no-title',
+              width: 1150,
+             height: 650,
+              modal: true,
+           autoOpen: false,
+      closeOnEscape: true,
+    });
 
-    $lights.each(function() {
-      const light = $(this);
-      const id     = light.data('id');
-      const avatar = light.data('avatar-name');
-      const wasTag = light.data('was-tag');
-      const nowTag = light.data('now-tag');
-      light.click(() => {
-        cd.setReviewDialogData(id, avatar, wasTag, nowTag);
-        review.dialog('open');
-      });
+  // wasIndex holds the index of rightmost traffic-light
+  // and is needed when run_tests.js.erb calls
+  // setupReviewDialogTrafficLights() with its new traffic-light.
+  let wasIndex = 0;
+
+  cd.setupReviewDialogTrafficLights = ($lights) => {
+    $lights.each((_i,element) => {
+      const $light = $(element);
+      const id = $light.data('id');
+      const nowIndex = $light.data('index');
+      setupTrafficLightReviewDialog($light, id, wasIndex, nowIndex);
+      cd.setupTrafficLightTip($light, id, wasIndex, nowIndex);
+      wasIndex = nowIndex;
     });
   };
 
-  cd.setupReviewTrafficLight($('.diff-traffic-light'));
-  cd.setupHoverTip($('[data-tip]'));
+  const setupTrafficLightReviewDialog = ($light, id, wasIndex, nowIndex) => {
+    $light.click(() => {
+      cd.setReviewDialogData(id, "<%= @kata.avatar_name %>", wasIndex, nowIndex);
+      review.dialog('open');
+    });
+  };
+
+  cd.setupReviewDialogTrafficLights($('.diff-traffic-light'));
 
 });
-
 //--></script>
 
 <div id="traffic-lights">
   <table>
     <tr>
-      <% was_tag = 0 %>
-      <% id = @kata.id %>
-      <% name = @avatar.name %>
-      <% @avatar.lights.each do |light| %>
-        <% colour = light.colour %>
-        <% now_tag = light.number %>
-        <td><%= raw diff_traffic_light(id, name, colour, was_tag, now_tag) %></td>
-        <% was_tag = now_tag %>
+      <% @kata.lights.each do |light| %>
+        <td><%= raw diff_traffic_light(light) %></td>
       <% end %>
       <td><%= render partial: 'traffic_lights_count' %></td>
       <td><%= render partial: 'traffic_lights_pie_chart' %></td>
       <td><%= render partial: 'avatar_image' %></td>
+      <td><%= render partial: 'scroll_handle' %></td>
     </tr>
   </table>
 </div>
 
-<div style="display:none;">
-  <div id="review-dialog">
-    <%= render(:partial => 'review/review') %>
-  </div>
+<div id="review-dialog" style="display:none;">
+  <%= render partial: 'review/review',
+              locals: { inDialog:true } %>
 </div>

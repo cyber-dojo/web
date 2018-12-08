@@ -1,21 +1,22 @@
-
 <div>
   <table class="align-center">
     <% 8.times do |y| %>
     <tr>
       <% 8.times do |x| %>
       <td>
-        <% avatar_name = @all_avatar_names[y*8 + x] %>
-        <% if @started_avatar_names.include?(avatar_name) %>
+        <% index = y*8 + x %>
+        <% avatar_name = @avatar_names[index] %>
+        <% id = @started_ids[avatar_name] %>
+        <% if id %>
           <div data-tip="<%= avatar_name %>">
-            <img onclick='cd.resume("<%= @id %>","<%= avatar_name %>");'
+            <img onclick='cd.rejoin("<%= id %>");'
                  src="/images/avatars/<%= avatar_name %>.jpg"
-                 class="avatar"
+                 class="avatar small"
                  data-cursor="pointer"/>
           </div>
         <% else %>
           <img src="/images/avatars/<%= avatar_name %>.jpg"
-               class="avatar grey"/>
+               class="avatar small grey"/>
         <% end %>
       </td>
       <% end %>

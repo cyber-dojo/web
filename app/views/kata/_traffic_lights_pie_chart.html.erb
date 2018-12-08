@@ -1,11 +1,12 @@
+<div id="traffic-lights-pie-chart"></div>
 
 <script type="text/javascript"><!--
-
+'use strict';
 $(() => {
 
   const updatePieChart = () => {
     let totalRagCount = 0;
-    const rags = $('.diff-traffic-light');
+    const rags = $('#traffic-lights .diff-traffic-light');
     const count = (colour) => {
       const n = cd.ragCount(rags, colour);
       totalRagCount += n;
@@ -17,7 +18,7 @@ $(() => {
         'data-amber-count': count('amber'),
         'data-green-count': count('green'),
         'data-timed-out-count': count('timed_out'),
-        'data-key': "<%= @avatar.name %>",
+        'data-key': "<%= @id %>",
       });
     // Canvas width/height have to be set as follows.
     // Setting them via attr({..}) above doesn't work.
@@ -34,7 +35,4 @@ $(() => {
   updatePieChart();
 
 });
-
 //--></script>
-
-<div id="traffic-lights-pie-chart"></div>

@@ -1,17 +1,12 @@
-<%= render partial: 'test_button_handler' %>
 <%= render partial: 'highlight_filenames' %>
-<%= render partial: 'shared/extension_filenames' %>
 <%= render partial: 'tab_size' %>
 
 <%= form_tag( { action: 'run_tests',
-                id: @kata.id,
-                avatar: @avatar.name
+                id: @kata.id
               } ) do %>
 
   <div id="kata-page">
-    <%= render partial: 'test_spinner' %>
-    <%= render partial: 'file_hashes' %>
-    <%= render partial: 'run_parameters' %>
+    <%= render partial: 'cached_run_parameters' %>
     <table>
       <tr>
         <td class="align-right">
@@ -34,17 +29,18 @@
       </tr>
     </table>
   </div>
-
-  <%= render partial: 'shared/app_bar_long',
-             locals: {
-                help_url:"http://blog.cyber-dojo.org/2014/10/the-cyber-dojo-test-page.html"
-             } %>
-
 <% end %>
 
+<%= render partial: 'test_spinner' %>
+<%= render partial: 'test_button_handler' %>
+<%= render partial: 'shared/app_bar_long',
+           locals: {
+              help_url:"http://blog.cyber-dojo.org/2014/10/the-cyber-dojo-test-page.html"
+           } %>
+
 <script type="text/javascript"><!--
+'use strict';
 $(() => {
-  cd.storeIncomingFileHashes();
   cd.loadTestFile();
 });
 //--></script>

@@ -1,17 +1,15 @@
-
 <script type="text/javascript"><!--
+'use strict';
+$(() => {
 
-$(function() {
-
-  $('button#create-custom').click(function() {
+  $('button#create-custom').click(() => {
     const url = "/setup_custom_start_point/show/<%= @id %>?from=individual";
     window.location = url;
   });
 
 });
-
 //--></script>
 
 <button id="create-custom">
-  create&nbsp;a&nbsp;new&nbsp;custom&nbsp;session
+  create&nbsp;a&nbsp;new&nbsp;<i>custom</i>&thinsp;&nbsp;session
 </button>

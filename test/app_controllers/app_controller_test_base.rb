@@ -1,6 +1,5 @@
 require_relative '../../test/all'
 require_relative '../../config/environment'
-require_relative 'params_maker'
 require 'json'
 
 class AppControllerTestBase < ActionDispatch::IntegrationTest
@@ -11,39 +10,26 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   # - - - - - - - - - - - - - - - -
 
-  def in_kata(choice, &block)
-    display_name = {
-       stateless: 'Ruby, MiniTest',
-        stateful: 'Ruby, RSpec'
-    }[choice] || choice
-    refute_nil display_name, choice
-    create_language_kata(display_name)
-    begin
-      block.call
-    ensure
-      runner.kata_old(kata.image_name, kata.id)
-    end
+  def starter_manifest
+    manifest = starter.language_manifest(default_display_name, default_exercise_name)
+    manifest['created'] = time_now
+    manifest
   end
 
   # - - - - - - - - - - - - - - - -
 
-  def as_avatar(&block)
-    assert_join
-    begin
-      block.call
-    ensure
-      runner.avatar_old(kata.image_name, kata.id, avatar.name)
-    end
+  def in_kata(&block)
+    display_name = 'Ruby, MiniTest'
+    create_language_kata(display_name)
+    @files = kata.files.map{|filename,file| [filename,file['content']]}.to_h
+    @index = 0
+    block.call(kata)
   end
 
   # - - - - - - - - - - - - - - - -
 
   def kata
     katas[@id]
-  end
-
-  def avatar
-    kata.avatars[@avatar_name]
   end
 
   # - - - - - - - - - - - - - - - -
@@ -54,10 +40,10 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
       'language' => display_name,
       'exercise' => exercise_name
     }
-    get '/setup_default_start_point/save_group', params:params
+    get '/setup_default_start_point/save_individual', params:params
     assert_response :redirect
-    #http://.../kata/group/BC8E8A6433
-    regex = /^(.*)\/kata\/group\/([0-9A-Za-z]*)$/
+    #http://.../kata/edit/Bc84S3
+    regex = /^(.*)\/kata\/edit\/([0-9A-Za-z]*)$/
     assert m = regex.match(@response.redirect_url)
     @id = m[2]
     nil
@@ -74,6 +60,46 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     assert m = regex.match(@response.redirect_url)
     @id = m[2]
     nil
+  end
+
+  # - - - - - - - - - - - - - - - -
+
+  def sub_file(filename, from, to)
+    refute_nil @files
+    assert @files.keys.include?(filename), @files.keys.sort
+    content = @files[filename]
+    assert content.include?(from)
+    @files[filename] = content.sub(from, to)
+  end
+
+  # - - - - - - - - - - - - - - - -
+
+  def change_file(filename, content)
+    refute_nil @files
+    assert @files.keys.include?(filename), @files.keys.sort
+    @files[filename] = content
+  end
+
+  # - - - - - - - - - - - - - - - -
+
+  def post_run_tests(options = {})
+    post '/kata/run_tests', params:run_test_params(options)
+    @index += 1
+    assert_response :success
+  end
+
+  # - - - - - - - - - - - - - - - -
+
+  def run_test_params(options = {})
+    {
+      'format'           => 'js',
+      'image_name'       => (options['image_name' ] || kata.manifest.image_name),
+      'id'               => (options['id']          || kata.id),
+      'max_seconds'      => (options['max_seconds'] || kata.manifest.max_seconds),
+      'hidden_filenames' => JSON.unparse(kata.manifest.hidden_filenames),
+      'index'            => @index,
+      'file_content'     => @files
+    }
   end
 
   # - - - - - - - - - - - - - - - -
@@ -95,46 +121,6 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   # - - - - - - - - - - - - - - - -
 
-  def kata_edit
-    params = { 'id' => kata.id, 'avatar' => avatar.name }
-    get '/kata/edit', params:params
-    assert_response :success
-  end
-
-  def sub_file(filename, from, to)
-    @params_maker.sub_file(filename, from, to)
-  end
-
-  def change_file(filename, content)
-    @params_maker.change_file(filename, content)
-  end
-
-  def delete_file(filename)
-    @params_maker.delete_file(filename)
-  end
-
-  def new_file(filename, content)
-    @params_maker.new_file(filename, content)
-  end
-
-  def run_tests(options = {})
-    id = options['id'] || kata.id
-    params = {
-      'format'           => 'js',
-      'id'               => id,
-      'runner_choice'    => kata.runner_choice,
-      'hidden_filenames' => JSON.unparse(kata.hidden_filenames),
-      'max_seconds'      => (options['max_seconds'] || kata.max_seconds),
-      'image_name'       => (options['image_name' ] || kata.image_name),
-      'avatar'           => avatar.name
-    }
-    post '/kata/run_tests', params:params.merge(@params_maker.params)
-    assert_response :success
-    @params_maker = ParamsMaker.new(avatar)
-  end
-
-  # - - - - - - - - - - - - - - - -
-
   def json
     ActiveSupport::JSON.decode html
   end
@@ -145,3 +131,26 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
 end
 
+=begin
+  def as_avatar(&block)
+    assert_join
+    block.call
+  end
+=end
+  #def avatar
+  #  kata.avatars[@avatar_name]
+  #end
+
+  #def delete_file(filename)
+  #  @params_maker.delete_file(filename)
+  #end
+
+  #def new_file(filename, content)
+  #  @params_maker.new_file(filename, content)
+  #end
+
+  #def kata_edit
+  #  params = { 'id' => kata.id }
+  #  get '/kata/edit', params:params
+  #  assert_response :success
+  #end

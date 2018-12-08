@@ -1,48 +1,45 @@
-
 <script type="text/javascript"><!--
-
+'use strict';
 $(() => {
 
   //---------------------------------------------------------------------
-  // This review page doubles as a review *dialog* from the kata/edit page
-  // traffic-light click handlers.
+  // This review page doubles as a review *dialog* from the kata/edit
+  // page traffic-light click handlers.
   // Everywhere else review is its own *page* with its own URL.
   // The [revert] button is available only from the review *dialog*.
   //---------------------------------------------------------------------
 
+  const inDialog = <%= inDialog %>;
+
   let param = {
-          id: "<%= @kata.id %>",
-      avatar: "<%= @avatar.name %>",
-      wasTag: "<%= @was_tag %>",
-      nowTag: "<%= @now_tag %>",
-    filename: "<%= @filename %>"
+            id: "<%= @id %>",
+    avatarName: "<%= @avatar_name %>",
+      wasIndex: "<%= @was_index %>",
+      nowIndex: "<%= @now_index %>",
+      filename: "<%= @filename %>"
   };
 
-  // after refresh() has been called param also contains param.tags
-  // which is an array of tags where tag[i].number is the tag-increment
-  // as held in the storer.
+  // after refresh() has been called param also contains param.events
 
-  cd.setReviewDialogData = (id, avatar, wasTag, nowTag, filename) => {
+  cd.setReviewDialogData = (id, avatarName, wasIndex, nowIndex, filename) => {
     param = {
-            id:id,
-        avatar:avatar,
-        wasTag:wasTag,
-        nowTag:nowTag,
-      filename:filename
+              id:id,
+      avatarName:avatarName,
+        wasIndex:wasIndex,
+        nowIndex:nowIndex,
+        filename:filename
     };
     reviewRefresh();
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const show = (tag) => {
-    param.nowTag = tag;
-    // preserve diff on/off state
-    if (diffCheckBox().is(':checked')) {
-      const prev = getPrevTag()
-      param.wasTag = (prev != null) ? prev : 0;
+  const show = (index) => {
+    param.nowIndex = index;
+    if (inDiffMode()) {
+      param.wasIndex = (prevEventIndex(param.nowIndex) || 0);
     } else {
-      param.wasTag = tag;
+      param.wasIndex = index;
     }
     refresh();
   };
@@ -50,15 +47,14 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const refresh = () => {
-    if (inDialog()) {
+    if (inDialog) {
       reviewRefresh();
     } else {
       window.location.href =
         cd.showReviewUrl(
           param.id,
-          param.avatar,
-          param.wasTag,
-          param.nowTag,
+          param.wasIndex,
+          param.nowIndex,
           param.filename
         );
     }
@@ -70,18 +66,13 @@ $(() => {
 
   const refreshDiffCheckBox = () => {
     diffCheckBox()
-      .attr('checked', inDiffMode())
-      .unbind('click')
-      .bind('click', () => { show(param.nowTag); });
+      .attr('checked', param.wasIndex !== param.nowIndex)
+      .click(() => show(param.nowIndex));
   };
 
-  const diffCheckBox = () => {
-    return $('#diff-checkbox');
-  };
+  const diffCheckBox = () => $('#diff-checkbox');
 
-  const inDiffMode = () => {
-    return param.wasTag != param.nowTag;
-  }
+  const inDiffMode = () => diffCheckBox().is(':checked');
 
   //-----------------------------------------
   // refresh traffic-lights
@@ -89,205 +80,155 @@ $(() => {
 
   const refreshTrafficLights = () => {
     const trafficLights = $('#review-traffic-lights');
-    trafficLights.html(makeTrafficLightsHtml(param.tags));
-    $.each($('.diff-traffic-light'), (_, light) => {
+    trafficLights.html(makeTrafficLightsHtml());
+    $.each($('.diff-traffic-light', trafficLights), (_, light) => {
       const $light = $(light);
-      const nowTag = $light.data('now-tag');
-      $light.click(() => { show(nowTag); });
+      const nowIndex = $light.data('index');
+      $light.click(() => show(nowIndex));
+      const wasIndex = inDiffMode() ? prevEventIndex(nowIndex) : nowIndex;
+      // is the tip worth having if we're not in diff mode?
+      cd.setupTrafficLightTip($light, param.id, wasIndex, nowIndex);
     });
-    cd.setupHoverTip($('[data-tip]')); // lights + other tips
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const makeTrafficLightsHtml = (tags) => {
-    // Displays all the tags that it receives from the differ/diff
-    // JSON call and sets up was/now tags for each tag with the
-    // was-tag simply being the previous tag number.
-    // Note that tag.numbers will not be contiguous if tags
-    // contains non-test events.
+  const makeTrafficLightsHtml = () => {
     let html = '';
-    let wasTag = 0;
+    let wasIndex = 0;
     let lastColour = '';
     let trafficLightCount = 0;
     html += '<table><tr>';
-    $.each(tags, (_n, tag) => {
-      const colour = tag.colour;
-      const nowTag = tag.number;
-      const barGap = (param.nowTag == nowTag) ? 'bar' : 'gap';
-      html +=
-        "<td><div class='diff-traffic-light'" +
-              " data-tip='ajax:traffic_light'" +
-              " data-id='" + param.id + "'" +
-              " data-avatar-name='" + param.avatar + "'" +
-              " data-colour='" + colour + "'" +
-              " data-was-tag='" + wasTag + "'" +
-              " data-now-tag='" + nowTag + "'>" +
-          "<img class='with-bar-gap' src='/images/bulb_" + colour + '_' + barGap + ".png'/>" +
-        '</div></td>';
-      wasTag = nowTag;
-      lastColour = tag.colour;
-      trafficLightCount++;
+    $.each(param.events, (_n, event) => {
+      const colour = event.colour;
+      if (colour !== '') {
+        const nowIndex = event.index;
+        const barOrGap = (param.nowIndex === nowIndex) ? 'bar' : 'gap';
+        html += makeTd(makeTrafficLightHtml(colour, wasIndex, nowIndex, barOrGap));
+        wasIndex = nowIndex;
+        lastColour = event.colour;
+        trafficLightCount++;
+      }
     });
 
-    // I have tried making the traffic-light-count below into
-    // a hover-tip to match the kata/edit and dashboard pages.
-    // For some reason the hover-tip gets displayed behind
-    // the file-diff.
-    html += '<td>';
-    html += "<div class='traffic-light-count " + lastColour + "'>";
-    html += trafficLightCount;
-    html += '</div>';
-    html += '</td>';
+    html += makeTd(makeTrafficLightCountHtml(trafficLightCount, lastColour));
     html += '</tr></table>';
 
     return html;
   };
 
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const makeTrafficLightHtml = (colour, wasIndex, nowIndex, barOrGap) => {
+    return [
+      "<div class='diff-traffic-light'",
+        ` data-id='${param.id}'`,
+        ` data-colour='${colour}'`,
+        ` data-index='${nowIndex}'>`,
+        `<img class='with-bar-gap' src='/images/bulb_${colour}_${barOrGap}.png'/>`,
+      '</div>'
+    ].join('');
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const makeTrafficLightCountHtml = (count, colour) => {
+    return `<div class='traffic-light-count ${colour}'>${count}</div>`;
+  };
+
   //-----------------------------------------
-  // refresh [<] avatar [>]
+  // refresh [<] avatar-image [>]
   //-----------------------------------------
 
   const refreshAvatarControls = () => {
-    refreshPrevAvatarHandler();
-    refreshAvatarImage();
-    refreshNextAvatarHandler();
-  };
-
-  const refreshAvatarImage = () => {
-    $('#avatar').parent().html(makeAvatarImageHtml());
+    if (param.avatarName === '') {
+      $('#avatar-control').hide();
+    } else {
+      refreshAvatarHandler('prev', param.prevKataId);
+      $('#avatar').parent().html(makeAvatarImageHtml());
+      refreshAvatarHandler('next', param.nextKataId);
+    }
   };
 
   const makeAvatarImageHtml = () => {
-    return '<img id="avatar" src="/images/avatars/' + param.avatar + '.jpg"/>';
+    return `<img id="avatar" src="/images/avatars/${param.avatarName}.jpg"/>`;
   };
 
-  const refreshPrevAvatarHandler = () => {
-    refreshAvatarHandler('prev', param.prevAvatar);
-  };
-
-  const refreshNextAvatarHandler = () => {
-    refreshAvatarHandler('next', param.nextAvatar);
-  };
-
-  const refreshAvatarHandler = (direction, name) => {
-    $('#' + direction + '-avatar')
-      .attr('disabled', name == '')
+  const refreshAvatarHandler = (direction, id) => {
+    $(`#${direction}-avatar`)
+      .attr('disabled', id === '')
       .unbind('click')
       .bind('click', () => {
-        param.avatar = name;
+        param.id = id;
         if (inDiffMode()) {
-          // Move to the new avatar's first tag.
-          // tag zero is created for an avatar when it joins a session.
-          // I am assuming that this review page/dialog will only ever
-          // be displayed for a tag greater than zero, that is, for a
-          // tag corresponding to an actual kata/edit event, even if
-          // that event is a non-test event.
           show(1);
         } else {
-          // Move to the new avatar's last tag.
-          // Note: the refresh() will cause nowTag/wasTag to become
-          // the actual last tag.number (rather than -1).
-          // Note: The param.avatar is set above but the
-          // param.tags array will not match param.avatar until
-          // after refresh() has completed (which is an async call).
-          const lastTag = -1;
-          param.wasTag = lastTag;
-          param.nowTag = lastTag;
+          param.wasIndex = -1;
+          param.nowIndex = -1;
           refresh();
         }
       });
   };
 
   //-----------------------------------------
-  // refresh [<] tag [>]
+  // refresh [<] event-index [>]
+  //-----------------------------------------
+  // [<] is enabled if there is an event before param.wasIndex
+  // [>] is enabled if there is an event after  param.nowIndex
   //-----------------------------------------
 
-  const refreshTagControls = () => {
-    // < is enabled if there is a useable tag to the lhs of param.nowTag
-    // > is enabled if there is a useable tag to the rhs of param.nowTag
-    const prevTag = getPrevTag();
-    const nextTag = getNextTag();
-    refreshTag($('#prev-tag'), prevTag);
-    $('#tag-number-container').html(tagHtml());
-    refreshTag($('#next-tag'), nextTag);
+  const refreshEventControls = () => {
+    refreshIndex($('#prev-index'), prevEventIndex(param.nowIndex));
+    $('#index-container').html(eventHtml());
+    refreshIndex($('#next-index'), nextEventIndex(param.nowIndex));
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const getPrevTag = () => {
-    const index = indexForTag(param.nowTag);
-    if (index == null || index == 0)
+  const prevEventIndex = (n) => {
+    // index==0 is the kata creation event
+    const firstIndex = 1;
+    if (n === null || n === firstIndex) {
+      // signals disabled-button in refreshIndex()
       return null;
-    else
-      return param.tags[index - 1].number;
+    } else {
+      // Note: assumes only test events
+      return n - 1;
+    }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const getNextTag = () => {
-    const index = indexForTag(param.nowTag);
-    if (index == null || index == param.tags.length - 1)
+  const nextEventIndex = (n) => {
+    const lastIndex = param.events.length - 1;
+    if (n === null || n === lastIndex) {
+      // signals disabled-button in refreshIndex()
       return null;
-    else
-      return param.tags[index + 1].number;
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const indexForTag = (number) => {
-    // Finds the index of the tag in the param.tags array
-    // whose tag.number equals the number argument.
-    let index = null;
-    for (let i = 0; i < param.tags.length; i++) {
-      if (param.tags[i].number == number) {
-        index = i;
-        break;
-      }
+    } else {
+      // Note: assumes only test events
+      return n + 1;
     }
-    return index;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const tagHtml = () => {
-    let html = '';
-    html += '<table><tr>';
-    if (inDiffMode()) {
-      html += tagTrafficLightHtml(param.wasTag);
-      html += '<td class="right-arrow">&rarr;</td>';
-    }
-    html += tagTrafficLightHtml(param.nowTag);
-    html += '</tr></table>';
-    return html;
+  const eventHtml = () => {
+    const index = param.nowIndex;
+    const colour = param.events[index].colour;
+    return `<div id="index-number" class="${colour}">${index}</div>`;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const tagTrafficLightHtml = (tagNumber) => {
-    const index = indexForTag(tagNumber);
-    const colour = (index == null) ? '' : param.tags[index].colour;
-    let html = '';
-    if (colour != '') {
-      html += '<td><img src="/images/bulb_' + colour + '.png"></td>';
-    }
-    html += '<td><div id="tag-number">';
-    html += tagNumber;
-    html += '</div></td>';
-    return html;
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const refreshTag = (button, newTag) => {
-    const on = newTag != null;
+  const refreshIndex = (button, index) => {
+    const on = (index !== null);
     button
       .attr('disabled', !on)
       .css('cursor', on ? 'pointer' : 'default');
     if (on) {
       button
         .unbind('click')
-        .bind('click', () => { show(newTag); });
+        .bind('click', () => show(index));
     }
   };
 
@@ -330,11 +271,11 @@ $(() => {
         $('<div>', {
             'class': 'filename',
             'data-filename': diff.filename,
-            'id': 'radio_' + diff.id,
+            'id': `radio_${diff.id}`,
             'text': diff.filename
         });
       td.append(filenameDiv);
-      html += '<tr>' + td.html() + '</tr>';
+      html += makeTr(td.html());
     });
     html += '</table>';
     return html;
@@ -359,14 +300,14 @@ $(() => {
     $.each(sortedDiffs(diffs), (_, diff) => {
       const count = diff[propertyName];
       const td = $('<td>');
-      const noneOrSome = (count == 0) ? 'none' : 'some';
+      const noneOrSome = (count === 0) ? 'none' : 'some';
       const div = $('<div>', {
-        'class': 'diff-' + cssName + '-line-count ' + noneOrSome + ' button',
+        'class': `diff-${cssName}-line-count ${noneOrSome} button`,
         'data-filename': diff.filename
       });
       div.append(count);
       td.append(div);
-      html += '<tr>' + td.html() + '</tr>';
+      html += makeTr(td.html());
     });
     html += '</table>';
     return html;
@@ -375,15 +316,15 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const sortedDiffs = (diffs) => {
-    var filenames = [];
+    let filenames = [];
     $.each(diffs, (_, diff) => {
       filenames.push(diff.filename);
     });
     // ensure filenames appear in the same order as kata/edit page
     const sorted = cd.sortedFilenames(filenames);
     const diffFor = (filename) => {
-      for (let i = 0; i < diffs.length; i++) {
-        if (diffs[i].filename == filename) {
+      for (let i = 0; i !== diffs.length; i++) {
+        if (diffs[i].filename === filename) {
           return diffs[i];
         }
       }
@@ -400,9 +341,9 @@ $(() => {
   const resetFilenameAddedDeletedLineCountHandlers = () => {
 
     const display = (node, name, value) => {
-      if ($(node).attr('disabled') != 'disabled') {
-        var filename = $(node).data('filename');
-        var selector = '[id="' + filename + '_diff_div"] ' + name;
+      if ($(node).attr('disabled') !== 'disabled') {
+        const filename = $(node).data('filename');
+        const selector = `[id="${filename}_diff_div"] ${name}`;
         $(selector).css('display', value);
       }
     };
@@ -424,27 +365,20 @@ $(() => {
 
   const buildDiffFilenameHandlers = (diffs) => {
     // Builds click handlers for all filenames for a given
-    // [ kata-id, animal-name, was-tag, now-tag] tuple.
+    // [ kata-id, was-index, now-index] tuple.
     // When you open a new filename it auto-scrolls its first diff-chunk.
     // When you reclick a filename it auto-scrolls to its *next* diff-chunk.
-    const getFilename = (node) => {
-      return $.trim(node.text());
-    };
-    const id = (name) => {
-      return $('[id="' + name + '"]');
-    };
-    const diffFileContentFor = (filename) => {
-      return id('diff_file_content_for_' + filename);
-    };
-    const diffFileDiv = (filename) => {
-      return id(filename + '_diff_div');
-    };
+    const getFilename = (node) => $.trim(node.text());
+    const id = (name) => $(`[id="${name}"]`);
+    const diffFileContentFor = (filename) => id(`diff_file_content_for_${filename}`);
+    const diffFileDiv = (filename) => id(`${filename}_diff_div`);
+
     let previousFilenameNode;
     let alreadyOpened = [];
 
     const loadFrom = (diff) => {
       const id = diff.id;
-      const filenameNode = $('#radio_' + id);
+      const filenameNode = $(`#radio_${id}`);
       const filename = getFilename(filenameNode);
       const sectionCount = diff.section_count;
       const diffSheet = diffFileContentFor(filename);
@@ -457,16 +391,16 @@ $(() => {
       return () => {
 
         const reselected =
-          previousFilenameNode != undefined &&
-            getFilename(previousFilenameNode) == filename;
+          previousFilenameNode !== undefined &&
+            getFilename(previousFilenameNode) === filename;
 
         $('.diff-deleted-line-count, .diff-added-line-count').attr('disabled', true);
-        $('.diff-deleted-line-count[data-filename="'+filename+'"]').attr('disabled', false);
-        $('.diff-added-line-count[data-filename="'+filename+'"]').attr('disabled', false);
+        $(`.diff-deleted-line-count[data-filename="${filename}"]`).attr('disabled', false);
+        $(`.diff-added-line-count[data-filename="${filename}"]`).attr('disabled', false);
 
         cd.radioEntrySwitch(previousFilenameNode, filenameNode);
 
-        if (previousFilenameNode != undefined) {
+        if (previousFilenameNode !== undefined) {
           diffFileDiv(getFilename(previousFilenameNode)).hide();
         }
         diffFileDiv(getFilename(filenameNode)).show();
@@ -474,12 +408,12 @@ $(() => {
         param.filename = filename;
 
         if (sectionCount > 0 && (reselected || !cd.inArray(filename, alreadyOpened))) {
-          const section = $('#' + id + '_section_' + sectionIndex);
+          const section = $(`#${id}_section_${sectionIndex}`);
           const downFromTop = 250;
           const halfSecond = 500;
           diffSheet.animate({
             scrollTop: '+=' + (section.offset().top - downFromTop) + 'px'
-            }, halfSecond);
+          }, halfSecond);
           sectionIndex += 1;
           sectionIndex %= sectionCount;
         }
@@ -488,7 +422,7 @@ $(() => {
     }; // loadFrom()
 
     $.each(diffs, (_n, diff) => {
-      const filename = $('#radio_' + diff.id);
+      const filename = $(`#radio_${diff.id}`);
       filename.click(loadFrom(diff));
     });
   }; // buildDiffFilenameHandlers()
@@ -499,11 +433,11 @@ $(() => {
     const holder = $('<span>');
     $.each(diffs, (_, diff) => {
       const table = $('' +
-        '<div id="' + diff.filename + '_diff_div" class="filename_div">' +
+        `<div id="${diff.filename}_diff_div" class="filename_div">` +
         '<table>' +
           '<tr class="valign-top">' +
             makeTd('<div class="diff-line-numbers"></div>') +
-            makeTd('<div id="diff_file_content_for_' + diff.filename + '"' +
+            makeTd(`<div id="diff_file_content_for_${diff.filename}"` +
                    ' class="diff-sheet"></div>') +
           '</tr>' +
         '</table>' +
@@ -538,54 +472,46 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const showFile = (filenameId) => {
-    const filename =  $('#radio_' + filenameId);
-    filename.click();
-    filename.scrollIntoView({ direction: 'vertical' });
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const inDialog = () => {
-    const dialog = $('div.ui-dialog-content');
-    return dialog.size() == 1;
+    const filename =  $(`#radio_${filenameId}`);
+    filename.click()
+            .scrollIntoView({ direction: 'vertical' });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const reviewRefresh = () => {
     const reviewParams = {
-            id: param.id,
-        avatar: param.avatar,
-       was_tag: param.wasTag,
-       now_tag: param.nowTag,
-      filename: param.filename
+                id: param.id,
+         was_index: param.wasIndex,
+         now_index: param.nowIndex,
+          filename: param.filename
     };
     $('.ui-dialog').addClass('busy');
     $.getJSON('/differ/diff', reviewParams, (data) => {
       $('.ui-dialog').removeClass('busy');
       param = data;
+      refreshDiffCheckBox(); // must refresh first
       refreshTrafficLights();
-      refreshDiffCheckBox();
-      refreshTagControls();
       refreshAvatarControls();
+      refreshEventControls();
       refreshFiles();
       refreshForkButton();
       refreshRevertButton();
       refreshDownloadButton();
-      const tag = $('img[src $= "_bar.png"]');
+      const rag = $('img[src $= "_bar.png"]');
       const options = { direction: 'horizontal', duration: 'slow' };
-      tag.scrollIntoView(options);
+      rag.scrollIntoView(options);
     });
   };
 
   //-----------------------------------------
-  // refresh [fork] {create a new practice-session}
+  // refresh [fork]
   //-----------------------------------------
 
   const refreshForkButton = () => {
     const button = $('#fork-button');
     cd.setTip(button, () => {
-      const tip = 'setup a new session from ' + param.avatar + ' ' + param.nowTag;
+      const tip = `setup a new session from ${param.avatarName} ${param.nowIndex}`;
       cd.showHoverTip(button, tip);
     });
   };
@@ -597,7 +523,7 @@ $(() => {
   const refreshRevertButton = () => {
     const button = $('#revert-button');
     cd.setTip(button, () => {
-      const tip = 'revert to ' + param.avatar + ' '  + param.nowTag;
+      const tip = `revert to ${param.avatarName} ${param.nowIndex}`;
       cd.showHoverTip(button, tip);
     });
   };
@@ -607,30 +533,37 @@ $(() => {
   const doRevert = () => {
     const revertParams = {
           id: param.id,
-      avatar: param.avatar,
-         tag: param.nowTag
+       index: param.nowIndex
     };
     $.getJSON('/reverter/revert', revertParams, (data) => {
-      $('#review-dialog').remove();
-      deleteAllCurrentFiles();
-      copyRevertFilesToCurrentFiles(data.visibleFiles);
+      $('#review-dialog').dialog('close');
+      deleteAllNonOutputFiles();
+      insertNewFiles(data.visibleFiles);
       $('#test-button').click();
     });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const deleteAllCurrentFiles = () => {
+  const deleteAllNonOutputFiles = () => {
     cd.eachFilename((filename) => {
-      cd.deleteFile(filename);
+      if (!isOutputFile(filename)) {
+        cd.fileDelete(filename);
+      }
     });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const copyRevertFilesToCurrentFiles = (visibleFiles) => {
-    for (const filename in visibleFiles) {
-      cd.newFile(filename, visibleFiles[filename]);
+  const isOutputFile = (filename) => {
+    return ['stdout','stderr','status'].includes(filename);
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const insertNewFiles = (files) => {
+    for (const filename in files) {
+      cd.fileCreate(filename, { content:files[filename] });
     }
   };
 
@@ -640,59 +573,56 @@ $(() => {
 
   const refreshDownloadButton = () => {
     const button = $('#download-button');
+    // zipper is not upgraded to the new saver format
+    // and it's better to ship without it for now.
+    button.hide();
     cd.setTip(button, () => {
-      const tip = 'download files from ' + param.avatar + ' ' + param.nowTag;
+      const tip = `download files from ${param.avatarName} ${param.nowIndex}`;
       cd.showHoverTip(button, tip);
     });
   };
 
   const doDownload = () => {
-    const url = '/download_tag/' + param.id + '/' + param.avatar + '/' + param.nowTag;
+    const url = `/download_tag/${param.id}/${param.nowIndex}`;
     window.location = url;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const setupButton = (name, handler) => {
-    $('#'+name+'-button-container').html('<button id="'+name+'-button" type="button"></button>');
-    $('#'+name+'-button')
+    const button = `<button id="${name}-button" type="button"></button>`;
+    $(`#${name}-button-container`).html(button);
+    $(`#${name}-button`)
       .text(name)
       .unbind('click')
       .bind('click', handler);
-    if (name == 'download') {
-      refreshDownloadButton();
-    }
-    if (name == 'fork') {
-      refreshForkButton();
-    }
-    if (name == 'revert') {
-      refreshRevertButton();
-    }
+    if (name === 'download') { refreshDownloadButton(); }
+    if (name === 'fork'    ) { refreshForkButton();     }
+    if (name === 'revert'  ) { refreshRevertButton();   }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const makeTd = (html) => {
- 	  return '<td>' + html + '</td>';
-  };
+  const makeTr = (html) => `<tr>${html}</tr>`;
+  const makeTd = (html) => `<td>${html}</td>`;
 
-  //-----------------------------------------
-  //-----------------------------------------
+  // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  if (inDialog()) {
-    setupButton('revert', () => { doRevert(); });
-    setupButton('close',  () => { $('#review-dialog').dialog('close'); });
+  if (inDialog) {
+    setupButton('revert', () => doRevert());
+    setupButton('close',  () => $('#review-dialog').dialog('close'));
   } else {
     reviewRefresh();
   }
-  setupButton('download', () => { doDownload(); })
-  setupButton('fork',     () => { cd.forkDialog(param.id, param.avatar, param.nowTag); });
+  setupButton('download', () => doDownload());
+  setupButton('fork',     () => cd.forkDialog(param.id, param.nowIndex));
 
 });
 
 //--></script>
 
 <%= render(:partial => 'shared/extension_filenames') %>
+<%= render(:partial => 'review/buttons') %>
 
 <table>
   <tr valign="top">
@@ -711,5 +641,3 @@ $(() => {
     </td>
   </tr>
 </table>
-
-<%= render(:partial => 'review/buttons') %>

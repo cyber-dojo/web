@@ -1,12 +1,16 @@
-
 <div id="id-rejoin-page">
 
   <div id="heading" class="center-content">
-    rejoin&nbsp;a&nbsp;session
+    rejoin&nbsp;<%= @possessive %>&nbsp;session
   </div>
 
   <div class="center-content">
+    <%= render partial: 'rejoin' %>
     <%= render partial: 'id' %>
+  </div>
+
+  <div style="display:none;">
+    <%= render partial: 'info' %>
   </div>
 
 </div>

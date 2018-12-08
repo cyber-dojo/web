@@ -4,7 +4,7 @@ require_relative '../../lib/phonetic_alphabet'
 class PhoneticAlphabetTest < LibTestBase
 
   def self.hex_prefix
-    '18169'
+    '181'
   end
 
   # - - - - - - - - - - - - - -

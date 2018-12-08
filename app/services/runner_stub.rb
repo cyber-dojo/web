@@ -1,4 +1,5 @@
 require_relative 'disk_fake'
+require 'json'
 
 class RunnerStub
 
@@ -11,57 +12,36 @@ class RunnerStub
 
   # - - - - - - - - - - - - - - - - -
 
-  def kata_new(_image_name, _kata_id)
-  end
-
-  def kata_old(_image_name, _kata_id)
-  end
-
-  # - - - - - - - - - - - - - - - - -
-
-  def avatar_new(_image_name, _kata_id, _avatar_name, _starting_files)
-  end
-
-  def avatar_old(_image_name, _kata_id, _avatar_name)
-  end
-
-  # - - - - - - - - - - - - - - - - -
-
   def stub_run_colour(colour)
-    stub_run('', '', 0, colour)
+   stub_run('', '', 0, colour)
   end
 
   def stub_run(stdout, stderr='', status=0, colour='red')
     dir.make
-    dir.write(filename, [stdout,stderr,status,colour])
+    dir.write(filename, JSON.generate({
+        'stdout' => file(stdout),
+        'stderr' => file(stderr),
+        'status' => status,
+        'colour' => colour,
+        'created' => {},
+        'deleted' => {},
+        'changed' => {}
+    }))
   end
 
-  def run(image_name, kata_id, name, max_seconds, delta, files)
-    run_cyber_dojo_sh(image_name, kata_id, name, max_seconds, delta, files)
-  end
-
-  def run_cyber_dojo_sh(_image_name, _kata_id, _name, _max_seconds, _delta, _files)
+  def run_cyber_dojo_sh(_image_name, _kata_id, _files, _max_seconds)
     if dir.exists?
-      dir.read(filename)
+      JSON.parse(dir.read(filename))
     else
-      [stdout='blah blah blah',
-       stderr='',
-       status=0,
-       colour='red',
-       new_files={},
-       deleted_files={},
-       changed_files={}
-      ]
+      { 'stdout' => file('so'),
+        'stderr' => file('se'),
+        'status' => 0,
+        'colour' => 'red',
+        'created' => {},
+        'deleted' => {},
+        'changed' => {}
+      }
     end
-  end
-
-  def set_hostname_port_stateless
-  end
-
-  def set_hostname_port_stateful
-  end
-
-  def set_hostname_port_processful
   end
 
   private
@@ -80,6 +60,12 @@ class RunnerStub
 
   def test_id
     ENV['CYBER_DOJO_TEST_ID']
+  end
+
+  def file(content)
+    { 'content' => content,
+      'truncated' => false
+    }
   end
 
 end

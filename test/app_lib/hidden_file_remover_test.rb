@@ -3,8 +3,10 @@ require_relative 'app_lib_test_base'
 class HiddenFileRemoverTest < AppLibTestBase
 
   def self.hex_prefix
-    '33199'
+    '331'
   end
+
+  include HiddenFileRemover
 
   #- - - - - - - - - - - - - - - - - - - - - -
 
@@ -98,9 +100,5 @@ class HiddenFileRemoverTest < AppLibTestBase
     expected = [ 'coverage.txt' ]
     assert_equal(expected.sort, new_files.keys.sort)
   end
-
-  #- - - - - - - - - - - - - - - - - - - - - -
-
-  include HiddenFileRemover
 
 end

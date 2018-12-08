@@ -5,7 +5,7 @@ module ApplicationHelper # mix-in
 
   def js_partial(partial)
     # :nocov:
-    escape_javascript(render :partial => partial)
+    escape_javascript(render partial:partial)
     # :nocov:
   end
 

@@ -3,7 +3,7 @@ require_relative 'app_services_test_base'
 class DifferServiceTest < AppServicesTestBase
 
   def self.hex_prefix
-    '702922'
+    '702'
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -17,35 +17,49 @@ class DifferServiceTest < AppServicesTestBase
 
   test '3AB',
   'smoke test differ.diff(..., was_tag=0, now_tag=1)' do
-    in_kata(:stateless) {
-      as(:wolf) {
-        args = []
-        args << kata.id
-        args << wolf.name
-        args << wolf.visible_files
-        args << (now = [2016,12,8, 8,3,23])
-        args << (stdout = "Expected: 42\nActual: 54")
-        args << (stderr = 'assertion failed')
-        args << (colour = 'red')
-        storer.avatar_ran_tests(*args)
+    in_kata do |kata|
+      args = []
+      args << (index = 1)
+      args << kata.files
+      args << (now = [2016,12,8, 8,3,23,654])
+      args << (duration = 1.6754)
+      args << (stdout = file("Expected: 42\nActual: 54"))
+      args << (stderr = file('assertion failed'))
+      args << (status = 0)
+      args << (colour = 'red')
+      kata.ran_tests(*args)
 
-        actual = differ.diff(kata.id, wolf.name, was_tag=0, now_tag=1)
+      was_files = flattened(kata.events[0].files)
+      now_files = flattened(kata.events[1].files)
+      actual = differ.diff(was_files, now_files)
 
-        filename = 'hiker.rb'
-        refute_nil actual[filename]
-        assert_equal({
-          'type'   => 'same',
-          'line'   => 'def answer',
-          'number' => 1
-        }, actual[filename][0])
+      filename = 'hiker.rb'
+      refute_nil actual[filename]
+      assert_equal({
+        'type'   => 'same',
+        'line'   => 'def answer',
+        'number' => 1
+      }, actual[filename][0])
 
-        assert_equal({
-          'type'   => 'same',
-          'line'   => '  6 * 9',
-          'number' => 2
-        }, actual[filename][1])
-      }
+      assert_equal({
+        'type'   => 'same',
+        'line'   => '  6 * 9',
+        'number' => 2
+      }, actual[filename][1])
+    end
+  end
+
+  private
+
+  def file(content)
+    { 'content' => content,
+      'truncated' => false
     }
+  end
+
+  def flattened(files)
+    files.map{ |filename,file| [filename, file['content']] }
+         .to_h
   end
 
 end

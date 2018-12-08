@@ -1,33 +1,32 @@
 
 module Externals # mix-in
 
-  def differ
-    @differ  ||= external
-  end
-
-  def runner
-    @runner  ||= external
-  end
-
   def starter
     @starter ||= external
   end
 
-  def storer
-    @storer  ||= external
+  def saver
+    @saver ||= external
   end
 
-  def zipper
-    @zipper  ||= external
+  def runner
+    @runner ||= external
+  end
+
+  def differ
+    @differ ||= external
+  end
+
+  #def zipper
+  #  @zipper ||= external
+  #end
+
+  def porter
+    @porter ||= external
   end
 
   def http
     @http ||= external
-  end
-
-  def id_generator
-    # used by StorerFake
-    @id_generator ||= KataIdGeneratorStub.new(self)
   end
 
   private # = = = = = = = = =

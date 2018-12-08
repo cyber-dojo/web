@@ -1,15 +1,12 @@
-
 <script type="text/javascript"><!--
+'use strict';
+$(() => {
 
-$(function() {
-
-  const id = '<%= @kata.id %>';
+  const id = '<%= @group.id %>';
   const minuteColumns = $('#minute-columns-checkbox');
   const autoRefresh   = $('#auto-refresh-checkbox');
 
-  const isChecked = (checkbox) => {
-    return checkbox.is(':checked');
-  };
+  const isChecked = checkbox => checkbox.is(':checked');
 
   const dashboardHeartbeat = () => {
     if (isChecked(autoRefresh)) {
@@ -26,9 +23,9 @@ $(function() {
   };
 
   const refreshDashboard = () => {
-    const url = '/dashboard/show/' + id +
-              '?' + 'minute_columns=' + isChecked(minuteColumns) +
-              '&' + 'auto_refresh=' + isChecked(autoRefresh);
+    const url = `/dashboard/show/${id}` +
+                `?minute_columns=${isChecked(minuteColumns)}` +
+                `&auto_refresh=${isChecked(autoRefresh)}`;
     window.location = url;
   };
 
@@ -38,15 +35,14 @@ $(function() {
   setInterval(dashboardHeartbeat, 10*seconds);
 
   minuteColumns
-    .attr('checked', '<%= @minute_columns %>' == 'true')
-    .click(() => { refreshDashboard(); });
+    .attr('checked', '<%= @minute_columns %>' === 'true')
+    .click(() => refreshDashboard());
 
   autoRefresh
-    .attr('checked', '<%= @auto_refresh %>' == 'true')
-    .click(() => { refreshDashboard(); });
+    .attr('checked', '<%= @auto_refresh %>' === 'true')
+    .click(() => refreshDashboard());
 
 });
-
 //--></script>
 
 <table id="auto-refresh-container">

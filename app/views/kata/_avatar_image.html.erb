@@ -1,32 +1,22 @@
-
 <script type="text/javascript"><!--
-
+'use strict';
 $(() => {
-
   const avatar = $('#avatar-image-opens-dashboard');
-
   avatar.click(() => {
-    const id = avatar.data('id');
-    const url = '/dashboard/show/' + id;
+    const groupId = avatar.data('group-id');
+    const url = `/dashboard/show/${groupId}`;
     window.open(url);
   });
-
   cd.createTip(avatar, 'open a dashboard');
-
-  cd.scrollAvatarImageIntoView = () => {
-    $('.avatar-image').scrollIntoView();
-  };
-
-  cd.scrollAvatarImageIntoView();
-
 });
-
 //--></script>
 
-<div id="avatar-image-opens-dashboard"
-     class="avatar-image"
-     data-id="<%= @kata.id %>">
-  <img src="/images/avatars/<%= @avatar.name %>.jpg"
-       alt="<%= @avatar.name %>"
-       class="avatar-image" />
-</div>
+<% if @kata.group %>
+  <div id="avatar-image-opens-dashboard"
+       class="avatar-image"
+       data-group-id="<%= @kata.group.id %>">
+    <img src="/images/avatars/<%= @kata.avatar_name %>.jpg"
+         alt="<%= @kata.avatar_name %>"
+         class="avatar-image" />
+  </div>
+<% end %>

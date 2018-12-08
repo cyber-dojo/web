@@ -1,13 +1,11 @@
 /*global jQuery,cyberDojo*/
-
+'use strict';
 var cyberDojo = ((cd, $) => {
-  'use strict';
 
-  cd.showReviewUrl = (id, avatarName, wasTag, nowTag, filename) => {
+  cd.showReviewUrl = (id, wasIndex, nowIndex, filename) => {
     return '/review/show/' + id +
-      '?avatar=' + avatarName +
-      '&was_tag=' + wasTag +
-      '&now_tag=' + nowTag +
+      '?was_index=' + wasIndex +
+      '&now_index=' + nowIndex +
       '&filename=' + filename;
   };
 

@@ -3,7 +3,7 @@ require_relative 'app_helpers_test_base'
 class AvatarImageTest < AppHelpersTestBase
 
   def self.hex_prefix
-    'E30BDE'
+    'E30'
   end
 
   include AvatarImageHelper
@@ -17,6 +17,25 @@ class AvatarImageTest < AppHelpersTestBase
     assert html.match("src='/images/avatars/#{name}.jpg'"), 'src: ' + html
     assert html.match("title='wibble'"), 'title: ' + html
     assert html.match("class='avatar-image'"), 'class: ' + html
+  end
+
+  #- - - - - - - - - - - - - - - -
+
+  test '647',
+  'diff_avatar_image' do
+    kata_id = '456eGz'
+    avatar_name = 'snake'
+    expected = '' +
+      '<div' +
+      " class='avatar-image'" +
+      " data-tip='review #{avatar_name}&#39;s<br/>current code'" +
+      " data-id='#{kata_id}'>" +
+      "<img src='/images/avatars/#{avatar_name}.jpg'" +
+          " alt='#{avatar_name}'/>" +
+      '</div>'
+    index = Avatars.names.index(avatar_name)
+    actual = diff_avatar_image(kata_id, index)
+    assert_equal expected, actual
   end
 
 end

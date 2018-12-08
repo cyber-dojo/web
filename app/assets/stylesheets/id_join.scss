@@ -5,7 +5,7 @@
 
   #title { font-size: 95px; }
 
-  #lo-text
+  #lo-div
   {
     @include non-code-font();
     font-size: 40px;
@@ -20,8 +20,8 @@
     {
       @include rounded-corner(6px);
       display: block;
-        width: 211px;
-       height: 211px;
+        width: 219px;
+       height: 219px;
        margin: { right: 5px; }
     }
     &.small
@@ -54,7 +54,7 @@
 
   button
   {
-    &#ok
+    &#ok, &#cancel
     {
       @include non-code-font();
       @include font-size-largest();
@@ -67,4 +67,3 @@
   }
 
 }
-

@@ -3,36 +3,19 @@ require_relative 'http_helper'
 class DifferService
 
   def initialize(externals)
-    @externals = externals
-    @hostname = 'differ'
-    @port = 4567
+    @http = HttpHelper.new(externals, self, 'differ', 4567)
   end
-
-  # - - - - - - - - - - - - -
 
   def sha
-    http_get(__method__)
+    http.get
   end
 
-  # - - - - - - - - - - - - -
-
-  def diff(kata_id, avatar_name, was_tag, now_tag)
-    args = [kata_id, avatar_name, was_tag, now_tag]
-    visible_files = storer.tags_visible_files(*args)
-    http_get_hash('diff', {
-      :was_files => visible_files['was_tag'],
-      :now_files => visible_files['now_tag']
-    })
+  def diff(was_files, now_files)
+    http.get(was_files, now_files)
   end
 
-  private # = = = = = = = = =
+  private
 
-  include HttpHelper
-
-  attr_reader :hostname, :port
-
-  def storer
-    @externals.storer
-  end
+  attr_reader :http
 
 end

@@ -20,7 +20,7 @@ module TestHexIdHelpers # mix-in
   module ClassMethods
 
     # ARGV[0] == module name
-    @@args = ARGV[1..-1].sort.uniq.map(&:upcase)  # eg 2DD6F3 eg 2dd
+    @@args = ARGV[1..-1].sort.uniq # eg 2DD6F3 eg 2dd
     @@seen_ids = []
     @@timings = {}
 
@@ -29,21 +29,17 @@ module TestHexIdHelpers # mix-in
       src_file = src[0]
       src_line = src[1].to_s
       id = hex_prefix + id
-      # test id is used as kata.id in StorerFake
-      id += '0' * (10 - id.size)
       name = words.join(' ')
-      # check hex-id is well-formed
+      # check test-id is well-formed
       diagnostic = "'#{id}',#{name}"
-      hex_chars = '0123456789ABCDEF'
-      is_hex_id = id.chars.all? { |ch| hex_chars.include? ch }
-      raise  "no hex-ID: #{diagnostic}" if id == ''
-      raise "bad hex-ID: #{diagnostic}" unless is_hex_id
+      raise  "no test-ID: #{diagnostic}" if id == ''
+      raise "bad test-ID: #{diagnostic}" unless is_base58?(id)
       # if no hex-id supplied, or test method matches any supplied hex-id
       # then define a mini_test method using the hex-id
       no_args = @@args == []
       any_arg_is_part_of_id = @@args.any?{ |arg| id.include?(arg) }
       if no_args || any_arg_is_part_of_id
-        raise "duplicate hex_ID: #{diagnostic}" if @@seen_ids.include?(id)
+        raise "duplicate test-ID: #{diagnostic}" if @@seen_ids.include?(id)
         @@seen_ids << id
         block_with_test_id = lambda {
           ENV['CYBER_DOJO_TEST_ID'] = id
@@ -58,9 +54,18 @@ module TestHexIdHelpers # mix-in
       end
     end
 
+    def is_base58?(id)
+      alphabet = %w(
+        0123456789
+        abcdefgh jklmn pqrstuvwxyz
+        ABCDEFGH JKLMN PQRSTUVWXYZ
+      ).join
+      id.size == 6 && id.chars.all?{ |ch| alphabet.include?(ch) }
+    end
+
     ObjectSpace.define_finalizer(self, proc {
       slow = @@timings.select{ |_name,secs| secs > 0.000 }
-      sorted = Hash[slow.sort_by{ |name,secs| -secs}]
+      sorted = slow.sort_by{ |name,secs| -secs }.to_h
       size = sorted.size < 5 ? sorted.size : 5
       puts "Slowest #{size} tests are..." if size != 0
       sorted.each_with_index { |(name,secs),index|
@@ -70,7 +75,7 @@ module TestHexIdHelpers # mix-in
     })
 
     ObjectSpace.define_finalizer(self, proc {
-      # complain about any unfound hex-id args
+      # complain about any unfound test-id args
       unseen_arg = lambda { |arg|
         @@seen_ids.none? { |id|
           id.include?(arg)
