@@ -38,7 +38,7 @@ services:
       - ./test/data/start_points:/app/start_points:ro
 
   # - - - - - - - - - - - - - - - -
-  
+
   runner:
     user: root
     image: cyberdojo/runner-stateless
