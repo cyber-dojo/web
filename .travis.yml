@@ -8,6 +8,7 @@ before_script:
 script:
     # pull images used in tests so test-duration does not include pull time
     - docker pull cyberdojofoundation/ruby_mini_test:latest
-    
-    - ./pipe_build_up_test.sh
-    - travis_retry ./push_and_trigger.sh cyber-dojo/commander
+
+    - travis_retry ./pipe_build_up_test.sh \
+        && ./push_and_trigger.sh \
+              cyber-dojo/commander
