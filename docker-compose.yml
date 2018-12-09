@@ -18,9 +18,7 @@ services:
     depends_on:
       - starter
       - runner
-      - porter
       - saver
-      - storer
       - differ
       - zipper
 
@@ -63,35 +61,6 @@ services:
     volumes:
       - /tmp/groups/:/groups:rw
       - /tmp/katas/:/katas:rw
-
-  # - - - - - - - - - - - - - - - -
-
-  porter:
-    user: porter
-    image: cyberdojo/porter
-    init: true
-    container_name: test-web-porter
-    read_only: true
-    tmpfs: /tmp
-    restart: 'no'
-    volumes:
-      - /tmp/id-map:/id-map:rw
-    depends_on:
-      - saver
-      - storer
-
-  # - - - - - - - - - - - - - - - -
-
-  storer:
-    user: storer
-    image: cyberdojo/storer
-    init: true
-    container_name: test-web-storer
-    read_only: true
-    tmpfs: /tmp
-    volumes:
-      - /tmp/storer_katas/:/usr/src/cyber-dojo/katas:rw
-    restart: 'no'
 
   # - - - - - - - - - - - - - - - -
 

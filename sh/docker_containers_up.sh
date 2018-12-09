@@ -32,8 +32,7 @@ docker-compose \
 
 wait_till_up 'test-web'
 wait_till_up 'test-web-starter'
-wait_till_up 'test-web-saver'
 wait_till_up 'test-web-runner'
+wait_till_up 'test-web-saver'
 wait_till_up 'test-web-differ'
 wait_till_up 'test-web-zipper'
-wait_till_up 'test-web-porter'
