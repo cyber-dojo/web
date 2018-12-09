@@ -9,15 +9,12 @@ chown_dir()
   local dir_name=$1
   local gid=$2
   local command="cd ${dir_name} && sudo rm -rf * && sudo chown -R ${gid}:${gid} ."
-  if [[ ! -z ${DOCKER_MACHINE_NAME} && -z ${TRAVIS} ]]; then    
+  if [[ ! -z ${DOCKER_MACHINE_NAME} && -z ${TRAVIS} ]]; then
     docker-machine ssh default "${command}"
   else
     ${command}
   fi
 }
-
-echo "clearing out /tmp/id-map and setting its ownership to porter"
-chown_dir '/tmp/id-map' 19664
 
 echo "clearing out /tmp/groups and setting its ownership to saver"
 chown_dir '/tmp/groups' 19663
