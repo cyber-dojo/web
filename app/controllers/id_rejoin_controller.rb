@@ -31,7 +31,7 @@ class IdRejoinController < ApplicationController
       return json
     end
     # id could be an old id for a group
-    group = groups[porter.port(id)]
+    group = groups[id] # [porter.port(id)]
     json = { exists:group.exists? }
     if json[:exists]
       katas = group.katas
@@ -47,7 +47,7 @@ class IdRejoinController < ApplicationController
   end
 
   def group_drop_down_json
-    group = groups[porter.port(id)]
+    group = groups[id] # [porter.port(id)]
     json = { exists:group.exists? }
     if json[:exists]
       json[:empty] = group.empty?

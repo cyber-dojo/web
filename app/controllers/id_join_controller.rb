@@ -7,7 +7,7 @@ class IdJoinController < ApplicationController
   end
 
   def drop_down
-    group = groups[porter.port(id)]
+    group = groups[id] # [porter.port(id)]
     json = { exists:group.exists? }
     if json[:exists]
       kata = group.join

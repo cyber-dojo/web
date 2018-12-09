@@ -21,9 +21,9 @@ module Externals # mix-in
   #  @zipper ||= external
   #end
 
-  def porter
-    @porter ||= external
-  end
+  #def porter
+  #  @porter ||= external
+  #end
 
   def http
     @http ||= external
