@@ -8,12 +8,12 @@ chown_dir()
   # See the volume-mounts in docker-compose.yml
   local dir_name=$1
   local gid=$2
-  local command="cd ${dir_name} && sudo rm -rf * && sudo chown -R ${gid} ."
-  if [[ ! -z ${DOCKER_MACHINE_NAME} && -z ${TRAVIS} ]]; then
-    echo "running on docker-machine: chown -R ${gid} ${dir_name}"
-    command="docker-machine ssh default '${command}'"
+  local command="cd ${dir_name} && sudo rm -rf * && sudo chown -R ${gid}:${gid} ."
+  if [[ ! -z ${DOCKER_MACHINE_NAME} && -z ${TRAVIS} ]]; then    
+    docker-machine ssh default "${command}"
+  else
+    ${command}
   fi
-  eval ${command}
 }
 
 echo "clearing out /tmp/id-map and setting its ownership to porter"

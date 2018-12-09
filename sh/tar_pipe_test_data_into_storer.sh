@@ -8,5 +8,4 @@ echo "clearing out old ${STORER_CONTAINER}"
 docker exec -it ${STORER_CONTAINER} sh -c 'rm -rf /usr/src/cyber-dojo/katas/*'
 
 echo "filling old ${STORER_CONTAINER} with test data"
-# Insert when needed (eg in porter tests)
 ${SH_DIR}/insert_katas_test_data.sh ${STORER_CONTAINER}
