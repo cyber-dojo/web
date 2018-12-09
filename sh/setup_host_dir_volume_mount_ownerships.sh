@@ -10,8 +10,10 @@ chown_dir()
   local gid=$2
   local command="cd ${dir_name} && sudo rm -rf * && sudo chown -R ${gid}:${gid} ."
   if [[ ! -z ${DOCKER_MACHINE_NAME} && -z ${TRAVIS} ]]; then
+    echo "...running: docker-machine ssh default '${command}'"
     docker-machine ssh default "${command}"
   else
+    echo "...running: ${command}"
     ${command}
   fi
 }
