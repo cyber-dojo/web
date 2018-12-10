@@ -8,9 +8,8 @@ class ShaController < ApplicationController
       'saver'   => saver.sha,
       'runner'  => runner.sha,
       'differ'  => differ.sha,
-      'zipper'  => zipper.sha,
-      'porter'  => porter.sha,
-      'storer'  => storer.sha
+      #'zipper'  => zipper.sha,
+      #'porter'  => porter.sha,
     }
   end
 
