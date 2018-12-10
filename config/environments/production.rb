@@ -61,4 +61,8 @@ CyberDojo::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
+  # Add configuration option for STDOUT logging
+  if ENV["RAILS_LOG_TO_STDOUT"].present?
+    config.logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
+  end
 end
