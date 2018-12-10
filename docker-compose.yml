@@ -58,9 +58,9 @@ services:
     read_only: true
     tmpfs: /tmp
     restart: 'no'
-    volumes:
-      - /tmp/groups/:/groups:rw
-      - /tmp/katas/:/katas:rw
+    tmpfs:
+      - /cyber-dojo:uid=19663,gid=19663
+      - /tmp:uid=19663,gid=19663
 
   # - - - - - - - - - - - - - - - -
 
