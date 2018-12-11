@@ -28,7 +28,7 @@ class AvatarImageTest < AppHelpersTestBase
     expected = '' +
       '<div' +
       " class='avatar-image'" +
-      " data-tip='review #{avatar_name}&#39;s<br/>current code'" +
+      " data-tip='review #{avatar_name}&#39;s<br/> code'" +
       " data-id='#{kata_id}'>" +
       "<img src='/images/avatars/#{avatar_name}.jpg'" +
           " alt='#{avatar_name}'/>" +

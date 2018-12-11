@@ -36,11 +36,7 @@ $(() => {
 
   const show = (index) => {
     param.nowIndex = index;
-    if (inDiffMode()) {
-      param.wasIndex = (prevEventIndex(param.nowIndex) || 0);
-    } else {
-      param.wasIndex = index;
-    }
+    param.wasIndex = (prevEventIndex(param.nowIndex) || 0);
     refresh();
   };
 
@@ -61,20 +57,6 @@ $(() => {
   };
 
   //-----------------------------------------
-  // refresh diff? [x]
-  //-----------------------------------------
-
-  const refreshDiffCheckBox = () => {
-    diffCheckBox()
-      .attr('checked', param.wasIndex !== param.nowIndex)
-      .click(() => show(param.nowIndex));
-  };
-
-  const diffCheckBox = () => $('#diff-checkbox');
-
-  const inDiffMode = () => diffCheckBox().is(':checked');
-
-  //-----------------------------------------
   // refresh traffic-lights
   //-----------------------------------------
 
@@ -85,7 +67,7 @@ $(() => {
       const $light = $(light);
       const nowIndex = $light.data('index');
       $light.click(() => show(nowIndex));
-      const wasIndex = inDiffMode() ? prevEventIndex(nowIndex) : nowIndex;
+      const wasIndex = prevEventIndex(nowIndex);
       // is the tip worth having if we're not in diff mode?
       cd.setupTrafficLightTip($light, param.id, wasIndex, nowIndex);
     });
@@ -270,9 +252,6 @@ $(() => {
 
   const makeDiffCountColumn = (diffs, propertyName, cssName) => {
     let html = '';
-    if (!diffCheckBox().is(':checked')) {
-      return html;
-    }
     html += '<table>';
     $.each(sortedDiffs(diffs), (_, diff) => {
       const count = diff[propertyName];
@@ -467,7 +446,6 @@ $(() => {
     $.getJSON('/differ/diff', reviewParams, (data) => {
       $('.ui-dialog').removeClass('busy');
       param = data;
-      refreshDiffCheckBox(); // must refresh first
       refreshTrafficLights();
       refreshEventControls();
       refreshFiles();
@@ -598,13 +576,12 @@ $(() => {
 //--></script>
 
 <%= render(:partial => 'shared/extension_filenames') %>
-<%= render(:partial => 'review/buttons') %>
 
 <table>
   <tr valign="top">
     <td align="right" style="width:300px" rowspan="2">
       <%= render(:partial => 'review/navigate_control') %>
-      <%= render(:partial => 'review/diff_checkbox') %>
+      <%= render(:partial => 'review/buttons') %>
       <div id="diff-filenames"></div>
     </td>
     <td>
