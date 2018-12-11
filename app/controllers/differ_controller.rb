@@ -4,7 +4,6 @@ class DifferController < ApplicationController
   def diff
     diff = differ.diff(was_files, now_files)
     view = diff_view(diff)
-    prev_kata_id, next_kata_id = *ring_prev_next(kata)
 
     render json: {
                          id: kata.id,
@@ -13,8 +12,6 @@ class DifferController < ApplicationController
                    nowIndex: now_index,
                      events: kata.events.map{ |event| to_json(event) },
                       diffs: view,
-                 prevKataId: prev_kata_id,
-                 nextKataId: next_kata_id,
 	      idsAndSectionCounts: pruned(view),
           currentFilenameId: pick_file_id(view, current_filename),
 	  }
@@ -23,7 +20,6 @@ class DifferController < ApplicationController
   private
 
   include DiffView
-  include RingPrevNext
   include ReviewFilePicker
 
   def current_filename

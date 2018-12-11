@@ -137,40 +137,6 @@ $(() => {
   };
 
   //-----------------------------------------
-  // refresh [<] avatar-image [>]
-  //-----------------------------------------
-
-  const refreshAvatarControls = () => {
-    if (param.avatarName === '') {
-      $('#avatar-control').hide();
-    } else {
-      refreshAvatarHandler('prev', param.prevKataId);
-      $('#avatar').parent().html(makeAvatarImageHtml());
-      refreshAvatarHandler('next', param.nextKataId);
-    }
-  };
-
-  const makeAvatarImageHtml = () => {
-    return `<img id="avatar" src="/images/avatars/${param.avatarName}.jpg"/>`;
-  };
-
-  const refreshAvatarHandler = (direction, id) => {
-    $(`#${direction}-avatar`)
-      .attr('disabled', id === '')
-      .unbind('click')
-      .bind('click', () => {
-        param.id = id;
-        if (inDiffMode()) {
-          show(1);
-        } else {
-          param.wasIndex = -1;
-          param.nowIndex = -1;
-          refresh();
-        }
-      });
-  };
-
-  //-----------------------------------------
   // refresh [<] event-index [>]
   //-----------------------------------------
   // [<] is enabled if there is an event before param.wasIndex
@@ -492,7 +458,6 @@ $(() => {
       param = data;
       refreshDiffCheckBox(); // must refresh first
       refreshTrafficLights();
-      refreshAvatarControls();
       refreshEventControls();
       refreshFiles();
       refreshForkButton();
