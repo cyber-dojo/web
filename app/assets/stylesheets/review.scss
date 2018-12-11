@@ -31,21 +31,20 @@
     .traffic-light-count {
       position: relative;
       top: -3px;
+      margin: { left: 3px; right: 3px; }
     }
+  }
+
+  img.avatar-image {
+    @include rounded-corner(4px);
+     width: 29px;
+    height: 29px;
+    border: 1px solid lighten($darker-color, 15%);
   }
 
   #navigate-control {
 
     @include right-align(0px);
-
-    #avatar {
-      @include rounded-corner(4px);
-       width: 29px;
-      height: 29px;
-      border: 1px solid lighten($darker-color, 15%);
-      position: relative;
-      top: 2px;
-    }
 
     #index-container {
 
@@ -62,15 +61,15 @@
       }
     }
 
-    #prev-avatar img, #next-avatar img, #prev-index img, #next-index img {
+    #prev-index img, #next-index img {
       @include rounded-corner(4px);
         width: 22px;
        height: 22px;
       padding: { top: 2px; bottom: 0px; }
     }
 
-    #prev-avatar img, #prev-index img { padding: { right: 2px; left: 0px; } }
-    #next-avatar img, #next-index img { padding: { left: 2px; right: 0px; } }
+    #prev-index img { padding: { right: 2px; left: 0px; } }
+    #next-index img { padding: { left: 2px; right: 0px; } }
 
     .triangle.button {
       width: 32px;

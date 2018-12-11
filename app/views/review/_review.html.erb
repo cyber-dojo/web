@@ -112,6 +112,7 @@ $(() => {
     });
 
     html += makeTd(makeTrafficLightCountHtml(trafficLightCount, lastColour));
+    html += makeTd(makeAvatarImageHtml());
     html += '</tr></table>';
 
     return html;
@@ -134,6 +135,16 @@ $(() => {
 
   const makeTrafficLightCountHtml = (count, colour) => {
     return `<div class='traffic-light-count ${colour}'>${count}</div>`;
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const makeAvatarImageHtml = () => {
+    if (param.avatarName === '') {
+      return '';
+    } else {
+      return `<img class="avatar-image" src="/images/avatars/${param.avatarName}.jpg"/>`;
+    }
   };
 
   //-----------------------------------------
