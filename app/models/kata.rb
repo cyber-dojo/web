@@ -36,7 +36,6 @@ class Kata
 
   def ran_tests(index, files, at, duration, stdout, stderr, status, colour)
     saver.kata_ran_tests(id, index, files, at, duration, stdout, stderr, status, colour)
-    @events = nil
   end
 
   def events
