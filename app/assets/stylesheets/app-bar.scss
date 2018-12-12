@@ -47,6 +47,15 @@
     }
   }
 
+  #praqma-container {
+    #praqma-image {
+      @include rounded-corner(3px);
+      padding: 0px;
+       height: 15px;
+       margin: { top: 7px; right: 4px; }
+    }
+  }
+
   #help-button, #hotkeys-button, #options-button {
     @include non-code-font();
      padding: { left: 9px; right: 9px; }
