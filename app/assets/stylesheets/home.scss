@@ -100,9 +100,9 @@
     {
       background: lighten($darker-color, 10%);
       @include rounded-corner(6px);
-       width: 105px;
-      height: 105px;
-      margin: { top: 10px; bottom: 0px; left: 3px; right: 3px; }
+       width: 74px;
+      height: 74px;
+      margin: { top: 0px; bottom: 0px; left: 3px; right: 3px; }
       filter: grayscale(100%);
     }
     .name { font-size: 12px; }
