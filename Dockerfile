@@ -22,5 +22,4 @@ RUN echo ${SHA} > ${WEB_HOME}/sha.txt
 # - - - - - - - - - - - - - - - - -
 
 EXPOSE  3000
-ENV RAILS_LOG_TO_STDOUT=TRUE
 CMD [ "./up.sh" ]
