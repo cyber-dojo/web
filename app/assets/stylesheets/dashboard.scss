@@ -32,11 +32,10 @@
   }
 
   #traffic-lights {
-    margin-left: 110px;
-         width: 1000px;
+    margin-left: 110px; // 1312236
+          width: 1000px;
     overflow-x: scroll;
-    overflow-y: visible;
-    padding: 0;
+    overflow-y: auto;
 
     .time-tick {
       display: block;
