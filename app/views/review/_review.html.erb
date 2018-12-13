@@ -471,7 +471,7 @@ $(() => {
   const refreshForkButton = () => {
     const button = $('#fork-button');
     cd.setTip(button, () => {
-      const tip = `create a new session from ${param.avatarName} ${param.nowIndex}`;
+      const tip = `create a new session from this traffic-light's files`;
       cd.showHoverTip(button, tip);
     });
   };
@@ -484,7 +484,7 @@ $(() => {
     const button = $('#revert-button');
     button.prop('disabled', !inDialog);
     cd.setTip(button, () => {
-      const tip = `revert to ${param.avatarName} ${param.nowIndex}`;
+      const tip = `revert to this traffic-light's files`;
       cd.showHoverTip(button, tip);
     });
   };
@@ -537,7 +537,7 @@ $(() => {
     // zipper is not yet upgraded to the new saver format
     button.prop('disabled', true);
     cd.setTip(button, () => {
-      const tip = `download files from ${param.avatarName} ${param.nowIndex}`;
+      const tip = `download this traffic-light's files`;
       cd.showHoverTip(button, tip);
     });
   };
@@ -594,9 +594,9 @@ $(() => {
   </tr>
   <tr valign="top">
     <td align="right" style="width:300px">
-      <div id="fork-button-container"></div>
-      <div id="revert-button-container"></div>
-      <div id="download-button-container"></div>
+      <span id="fork-button-container"></span>
+      <span id="revert-button-container"></span>
+      <span id="download-button-container"></span>
       <div id="diff-filenames"></div>
     </td>
     <td colspan="2">
