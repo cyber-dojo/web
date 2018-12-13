@@ -97,19 +97,19 @@ $(() => {
 
   const makeNavigatorHtml = () => {
     return '' +
-    '<td align="center">' +
-      '<button class="triangle button" id="prev-index">' +
-        '<img src="/images/triangle_prev.gif" alt="move to previous diff"/>' +
-      '</button>' +
-    '</td>' +
-    '<td align="center">' +
-      '<div id="index-container"></div>' +
-    '</td>' +
-    '<td align="center">' +
-      '<button class="triangle button" id="next-index">' +
-        '<img src="/images/triangle_next.gif" alt="move to next diff"/>' +
-      '</button>' +
-    '</td>';
+      '<td align="center">' +
+        '<button class="triangle button" id="prev-index">' +
+          '<img src="/images/triangle_prev.gif" alt="move to previous diff"/>' +
+        '</button>' +
+      '</td>' +
+      '<td align="center">' +
+        '<div id="index-container"></div>' +
+      '</td>' +
+      '<td align="center">' +
+        '<button class="triangle button" id="next-index">' +
+          '<img src="/images/triangle_next.gif" alt="move to next diff"/>' +
+        '</button>' +
+      '</td>';
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -137,9 +137,6 @@ $(() => {
 
   //-----------------------------------------
   // refresh [<] event-index [>]
-  //-----------------------------------------
-  // [<] is enabled if there is an event before param.wasIndex
-  // [>] is enabled if there is an event after  param.nowIndex
   //-----------------------------------------
 
   const refreshEventControls = () => {
@@ -458,9 +455,10 @@ $(() => {
       refreshForkButton();
       refreshRevertButton();
       refreshDownloadButton();
-      const rag = $('img[src $= "_bar.png"]');
-      const options = { direction: 'horizontal', duration: 'slow' };
-      rag.scrollIntoView(options);
+      $('img[src $= "_bar.png"]').scrollIntoView({
+        direction:'horizontal',
+        duration:'slow'
+      });
     });
   };
 

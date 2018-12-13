@@ -3,7 +3,10 @@
 $(() => {
 
   cd.scrollLastTrafficLightIntoView = () => {
-    $('#traffic-lights-row td:last-child').scrollIntoView();
+    $('#traffic-lights-row td:last-child').scrollIntoView({
+      direction: 'horizontal',
+      duration: 'slow'      
+    });
   };
 
   cd.scrollLastTrafficLightIntoView();
