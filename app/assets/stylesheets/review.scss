@@ -194,15 +194,24 @@
     background: lighten($darker-color,10%);
   }
 
-  #fork-button, #revert-button, #download-button {
+  #fork-button-container,
+  #revert-button-container,
+  #download-button-container {
+    display: block; // inline-block gives horizontal alignment
+  }
+
+  #fork-button,
+  #revert-button,
+  #download-button {
+    width: 65px;
     @include non-code-font();
     @include rounded-corner(4px);
     text-align: left;
     font-size: 10px;
     margin: { top: 0px; bottom: 0px; }
-    padding: { bottom: 2px; top: 2px; left: 9px; right: 9px; }
+    padding: { bottom: 1px; top: 1px; left: 9px; right: 9px; }
     position: relative;
-    top: -1px;
+    top: -2px;
   }
 
   #resume-button {
@@ -214,5 +223,4 @@
     text-align: right;
          width: 125px;
   }
-
 }
