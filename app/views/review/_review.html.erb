@@ -78,8 +78,6 @@ $(() => {
   const makeTrafficLightsHtml = () => {
     let html = '';
     let wasIndex = 0;
-    let lastColour = '';
-    let trafficLightCount = 0;
     html += '<table><tr>';
     $.each(param.events, (_n, event) => {
       const colour = event.colour;
@@ -88,15 +86,10 @@ $(() => {
         const barOrGap = (param.nowIndex === nowIndex) ? 'bar' : 'gap';
         html += makeTd(makeTrafficLightHtml(colour, wasIndex, nowIndex, barOrGap));
         wasIndex = nowIndex;
-        lastColour = event.colour;
-        trafficLightCount++;
       }
     });
-
-    html += makeTd(makeTrafficLightCountHtml(trafficLightCount, lastColour));
     html += makeTd(makeAvatarImageHtml());
     html += '</tr></table>';
-
     return html;
   };
 
@@ -446,8 +439,8 @@ $(() => {
     $.getJSON('/differ/diff', reviewParams, (data) => {
       $('.ui-dialog').removeClass('busy');
       param = data;
-      refreshTrafficLights();
       refreshEventControls();
+      refreshTrafficLights();
       refreshFiles();
       refreshForkButton();
       refreshRevertButton();
