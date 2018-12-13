@@ -35,7 +35,7 @@
     @include non-code-font();
     @include font-size-large();
     @include right-align(15px);
-        margin: { right: 0px; bottom: 2px; }
+        margin: { right: 0px; bottom: 2px; right: 4px; }
        padding: { top: 0px; bottom: 2px; left: 9px; right: 9px; }
     text-align: right;
          width: 73px;
@@ -49,7 +49,7 @@
       @include rounded-corner(4px);
       text-align: right;
        font-size: 10px;
-          margin: { top: 0px; bottom: 2px; }
+          margin: { top: 0px; bottom: 2px; right: 4px; }
          padding: { bottom: 2px; top: 2px; left: 9px; right: 9px; }
            width: 73px;
     }
