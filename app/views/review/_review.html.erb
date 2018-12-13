@@ -482,6 +482,7 @@ $(() => {
 
   const refreshRevertButton = () => {
     const button = $('#revert-button');
+    button.prop('disabled', !inDialog);
     cd.setTip(button, () => {
       const tip = `revert to ${param.avatarName} ${param.nowIndex}`;
       cd.showHoverTip(button, tip);
@@ -555,9 +556,9 @@ $(() => {
       .text(name)
       .unbind('click')
       .bind('click', handler);
+    if (name === 'revert'  ) { refreshRevertButton();   }
     if (name === 'download') { refreshDownloadButton(); }
     if (name === 'fork'    ) { refreshForkButton();     }
-    if (name === 'revert'  ) { refreshRevertButton();   }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -567,14 +568,15 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
+  setupButton('revert',   () => doRevert());
+  setupButton('download', () => doDownload());
+  setupButton('fork',     () => cd.forkDialog(param.id, param.nowIndex));
+
   if (inDialog) {
     setupButton('resume', () => $('#review-dialog').dialog('close'));
-    setupButton('revert', () => doRevert());
   } else {
     reviewRefresh();
   }
-  setupButton('download', () => doDownload());
-  setupButton('fork',     () => cd.forkDialog(param.id, param.nowIndex));
 
 });
 
