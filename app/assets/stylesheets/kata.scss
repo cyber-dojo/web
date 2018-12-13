@@ -17,6 +17,7 @@
   background: red;
   font-size: 12px;
 }
+
 #timed-out
 {
   width: 480px;
@@ -75,7 +76,7 @@
   #traffic-lights
   {
         margin: { left: 5px; bottom: 0px; }
-         width: 892px; // to match code-mirror width
+         width: 750px;
     overflow-x: auto;
     overflow-y: hidden;
     &::-webkit-scrollbar:horizontal { height: 0px; }

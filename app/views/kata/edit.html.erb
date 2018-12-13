@@ -20,7 +20,6 @@
             <%= render partial: 'traffic_lights' %>
           </div>
         </td>
-        <td><%= render partial: 'scroll_handle' %></td>        
       </tr>
       <tr class="valign-top">
         <td class="align-right">
@@ -35,11 +34,12 @@
   </div>
 <% end %>
 
+<%= render partial: 'scroller' %>
 <%= render partial: 'test_spinner' %>
 <%= render partial: 'test_button_handler' %>
 <%= render partial: 'shared/app_bar_long',
            locals: {
-              help_url:"http://blog.cyber-dojo.org/2014/10/the-cyber-dojo-test-page.html"
+              help_url:"https://blog.cyber-dojo.org/2014/10/the-cyber-dojo-test-page.html"
            } %>
 
 <script type="text/javascript"><!--
