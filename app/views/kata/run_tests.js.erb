@@ -4,7 +4,7 @@ const appendTestTrafficLight = () => {
   const div = $("<%= raw diff_traffic_light(@light) %>");
   const td = $('<td>');
   td.append(div);
-  $('.traffic-lights-count').parent().before(td);
+  $('#traffic-lights-row').append(td);
   cd.setupReviewDialogTrafficLights(div);
 };
 

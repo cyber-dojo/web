@@ -40,19 +40,13 @@ $(() => {
 });
 //--></script>
 
-<div id="traffic-lights">
-  <table>
-    <tr>
-      <% @kata.lights.each do |light| %>
-        <td><%= raw diff_traffic_light(light) %></td>
-      <% end %>
-      <td><%= render partial: 'traffic_lights_count' %></td>
-      <td><%= render partial: 'traffic_lights_pie_chart' %></td>
-      <td><%= render partial: 'avatar_image' %></td>
-      <td><%= render partial: 'scroll_handle' %></td>
-    </tr>
-  </table>
-</div>
+<table>
+  <tr id="traffic-lights-row">
+    <% @kata.lights.each do |light| %>
+      <td><%= raw diff_traffic_light(light) %></td>
+    <% end %>
+  </tr>
+</table>
 
 <div id="review-dialog" style="display:none;">
   <%= render partial: 'review/review',
