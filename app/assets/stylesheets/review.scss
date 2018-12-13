@@ -19,20 +19,21 @@
 
   #review-traffic-lights {
        display: block;
-        margin: { left: 4px; right: 0px; top: 1px; }
-         width: 887px;
+        margin: { left: 0px; right: 0px; top: 1px; }
+         width: 700px;
     overflow-x: auto;
-    &::-webkit-scrollbar:horizontal { height: 1px; }
+    overflow-y: hidden;
+    &::-webkit-scrollbar:horizontal { height: 0px; }
     .diff-traffic-light {
-      padding: { left: 0px; top: 2px; }
+      padding: { left: 0px; right: 0px; top: 2px; }
        cursor: pointer;
       img.with-bar-gap { width: 22px; height: 29px; }
     }
-    .traffic-light-count {
-      position: relative;
-      top: -3px;
-      margin: { left: 3px; right: 3px; }
-    }
+  }
+
+  #review-navigator {
+    padding: { left: 4px; }
+    margin: 0px;
   }
 
   img.avatar-image {
@@ -44,12 +45,8 @@
   }
 
   #index-container {
-    @include rounded-corner(4px);
        padding: { left: 3px; right: 3px; }
-        height: 30px;
          width: 30px;
-       display: table-cell;
-vertical-align: middle;
     #index-number {
        font-size: 23px;
       text-align: center;
@@ -63,8 +60,8 @@ vertical-align: middle;
     padding: { top: 2px; bottom: 0px; }
   }
 
-  #prev-index img { padding: { right: 2px;  left: 0px; } }
-  #next-index img { padding: {  left: 2px; right: 0px; } }
+  #prev-index img { padding: { right: 2px;  left: 2px; } }
+  #next-index img { padding: {  left: 2px; right: 2px; } }
 
   .triangle.button {
     width: 32px;

@@ -78,7 +78,6 @@ $(() => {
     let html = '';
     let wasIndex = 0;
     html += '<table><tr>';
-    html += makeNavigatorHtml();
     $.each(param.events, (_n, event) => {
       const colour = event.colour;
       if (colour !== '') {
@@ -91,25 +90,6 @@ $(() => {
     html += makeTd(makeAvatarImageHtml());
     html += '</tr></table>';
     return html;
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const makeNavigatorHtml = () => {
-    return '' +
-      '<td align="center">' +
-        '<button class="triangle button" id="prev-index">' +
-          '<img src="/images/triangle_prev.gif" alt="move to previous diff"/>' +
-        '</button>' +
-      '</td>' +
-      '<td align="center">' +
-        '<div id="index-container"></div>' +
-      '</td>' +
-      '<td align="center">' +
-        '<button class="triangle button" id="next-index">' +
-          '<img src="/images/triangle_next.gif" alt="move to next diff"/>' +
-        '</button>' +
-      '</td>';
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -136,13 +116,34 @@ $(() => {
   };
 
   //-----------------------------------------
-  // refresh [<] event-index [>]
+  // refresh navigator
+  //       [<] event-index [>]
   //-----------------------------------------
 
-  const refreshEventControls = () => {
+  const refreshNavigator = () => {
+    $('#review-navigator').html(makeNavigatorHtml());
     refreshIndex($('#prev-index'), prevEventIndex(param.nowIndex));
     $('#index-container').html(eventHtml());
     refreshIndex($('#next-index'), nextEventIndex(param.nowIndex));
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const makeNavigatorHtml = () => {
+    return '' +
+      '<td align="center">' +
+        '<button class="triangle button" id="prev-index">' +
+          '<img src="/images/triangle_prev.gif" alt="move to previous diff"/>' +
+        '</button>' +
+      '</td>' +
+      '<td align="center">' +
+        '<div id="index-container"></div>' +
+      '</td>' +
+      '<td align="center">' +
+        '<button class="triangle button" id="next-index">' +
+          '<img src="/images/triangle_next.gif" alt="move to next diff"/>' +
+        '</button>' +
+      '</td>';
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -450,7 +451,7 @@ $(() => {
       $('.ui-dialog').removeClass('busy');
       param = data;
       refreshTrafficLights();
-      refreshEventControls();
+      refreshNavigator();
       refreshFiles();
       refreshForkButton();
       refreshRevertButton();
@@ -469,7 +470,7 @@ $(() => {
   const refreshForkButton = () => {
     const button = $('#fork-button');
     cd.setTip(button, () => {
-      const tip = `setup a new session from ${param.avatarName} ${param.nowIndex}`;
+      const tip = `create a new session from ${param.avatarName} ${param.nowIndex}`;
       cd.showHoverTip(button, tip);
     });
   };
@@ -585,9 +586,8 @@ $(() => {
     <td align="right">
       <div id="resume-button-container"></div>
     </td>
-    <td>
-      <div id="review-traffic-lights"></div>
-    </td>
+    <td><div id="review-navigator"></div></td>
+    <td><div id="review-traffic-lights"></div></td>
   </tr>
   <tr valign="top">
     <td align="right" style="width:300px">
@@ -596,7 +596,7 @@ $(() => {
       <div id="download-button-container"></div>
       <div id="diff-filenames"></div>
     </td>
-    <td>
+    <td colspan="2">
       <div id="diff-content"></div>
     </td>
   </tr>
