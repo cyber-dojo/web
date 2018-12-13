@@ -35,6 +35,12 @@ $(() => {
 
   <% if @minute_columns == 'true' %>
     <tr>
+      <th class="frozen-left-column">
+        <div class='age'
+             data-tip='time between the oldest and newest traffic-lights'>
+             <%= raw time_tick(@group.age) %>
+           </div>
+      </th>
       <% @time_ticks.keys.sort.each_with_index do |td_no,index| %>
   		  <% seconds = @time_ticks[td_no] %>
   		  <td class="<%= parity(index) %> column">
@@ -45,22 +51,24 @@ $(() => {
           <% end %>
         </td>
       <% end %>
-      <td></td>
-      <td></td>
-      <td>
-        <div class='age'
-             data-tip="time between<br/>the oldest and newest<br/>traffic-lights">
-             <%= raw time_tick(@group.age) %>
-           </div>
-      </td>
     </tr>
   <% end %>
 
   <% @gapped.keys.sort_by{|kata_id| @all_indexes[kata_id] }.each do |kata_id| %>
 	<tr class="kata-row">
-	  <% lights = @all_lights[kata_id] %>
-	  <% td_map = @gapped[kata_id] %>
+    <% lights = @all_lights[kata_id] %>
 
+    <th class="frozen-left-column">
+      <table>
+        <tr>
+          <td><%= raw diff_avatar_image(kata_id, @all_indexes[kata_id]) %></td>
+          <td><%= raw pie_chart(lights) %></td>
+          <td><%= raw traffic_light_count(lights) %></td>
+        </tr>
+      </table>
+    </th>
+
+	  <% td_map = @gapped[kata_id] %>
 	  <% td_map.keys.sort.each_with_index do |td_no,index| %>
 		  <% td = td_map[td_no] %>
 
@@ -83,16 +91,6 @@ $(() => {
 		  <% end %>
 		  </td>
 	  <% end %>
-
-    <td class="align-right">
-      <%= raw traffic_light_count(lights) %>
-    </td>
-    <td class="align-center">
-      <%= raw pie_chart(lights) %>
-    </td>
-    <td class="align-left valign-center">
-      <%= raw diff_avatar_image(kata_id, @all_indexes[kata_id]) %>
-    </td>
 
 	</tr>
   <% end %>

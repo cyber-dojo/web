@@ -6,10 +6,8 @@
   #auto-refresh-container, #minute-columns-container {
     @include edged-panel();
     @include right-align(15px);
-      width: 90px;
-     margin: { bottom: 10px; right: 12px; }
-    display: block;
-    #text { width: 57px; }
+     margin: { bottom: 10px; left: 0px; right: 12px; }
+    display: inline-block;
   }
 
   #progress-button-container, #download-button-container {
@@ -25,10 +23,21 @@
     }
   }
 
+  // Stackoverflow 1312236
+  .frozen-left-column {
+    position: absolute;
+    width: 80px;
+    left: 30px;
+    top: auto;
+  }
+
   #traffic-lights {
-         width: 1050px;
+    margin-left: 110px;
+         width: 1000px;
     overflow-x: scroll;
-    overflow-y: auto;
+    overflow-y: visible;
+    padding: 0;
+
     .time-tick {
       display: block;
       @include non-code-font();
@@ -64,7 +73,10 @@
        text-align: center;
       &:after { content: $thin-space; }
     }
-    .traffic-light-count { cursor: default; }
+    .traffic-light-count {
+      cursor: default;
+      padding-right: 7px;
+    }
   }
 
 }

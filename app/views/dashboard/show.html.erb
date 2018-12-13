@@ -1,18 +1,10 @@
 <div id="dashboard-page">
-  <table>
-    <tr class="valign-top">
-      <td class='align-right'>
-        <%= render partial: 'controls' %>
-        <%= render partial: 'progress_button' %>
-        <%= render partial: 'download_button' %>
-      </td>
-      <td>
-        <div id="traffic-lights">
-          <%= render partial: 'traffic_lights' %>
-        </div>
-      </td>
-    </tr>
-  </table>
+  <%= render partial: 'controls' %>
+  <%= render partial: 'progress_button' %>
+  <%= render partial: 'download_button' %>
+  <div id="traffic-lights">
+    <%= render partial: 'traffic_lights' %>
+  </div>
 </div>
 
 <%= render partial: 'shared/app_bar_long',

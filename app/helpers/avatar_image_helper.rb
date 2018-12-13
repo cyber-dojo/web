@@ -18,7 +18,7 @@ module AvatarImageHelper # mix-in
     apostrophe = '&#39;'
     avatar_name = Avatars.names[avatar_index]
     "<div class='avatar-image'" +
-        " data-tip='review #{avatar_name}#{apostrophe}s<br/> code'" +
+        " data-tip='review #{avatar_name}#{apostrophe}s code'" +
         " data-id='#{kata_id}'>" +
         "<img src='/images/avatars/#{avatar_name}.jpg'" +
             " alt='#{avatar_name}'/>" +
