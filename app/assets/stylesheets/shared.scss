@@ -70,7 +70,7 @@ a:link, a:visited { color: $text-color; }
 
 .traffic-light-count {
   font-size: 28px;
-    padding: { left: 4px; bottom: 0px; }
+    padding: 0px;
 }
 
 .avatar_name, #id { @include font-size-tiny(); text-align: right; }

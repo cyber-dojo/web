@@ -77,7 +77,7 @@ $(() => {
   const makeTrafficLightsHtml = () => {
     let html = '';
     let wasIndex = 0;
-    html += '<table><tr>';
+    html += '<table><tr valign="top">';
     $.each(param.events, (_n, event) => {
       const colour = event.colour;
       if (colour !== '') {
@@ -87,7 +87,6 @@ $(() => {
         wasIndex = nowIndex;
       }
     });
-    html += makeTd(makeAvatarImageHtml());
     html += '</tr></table>';
     return html;
   };
@@ -105,19 +104,9 @@ $(() => {
     ].join('');
   };
 
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const makeAvatarImageHtml = () => {
-    if (param.avatarName === '') {
-      return '';
-    } else {
-      return `<img class="avatar-image" src="/images/avatars/${param.avatarName}.jpg"/>`;
-    }
-  };
-
   //-----------------------------------------
   // refresh navigator
-  //       [<] event-index [>]
+  //       avatar [<] event-index [>]
   //-----------------------------------------
 
   const refreshNavigator = () => {
@@ -130,7 +119,8 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const makeNavigatorHtml = () => {
-    return '' +
+    return '<table><tr valign="top">' +
+      makeTd(makeAvatarImageHtml()) +
       '<td align="center">' +
         '<button class="triangle button" id="prev-index">' +
           '<img src="/images/triangle_prev.gif" alt="move to previous diff"/>' +
@@ -143,7 +133,18 @@ $(() => {
         '<button class="triangle button" id="next-index">' +
           '<img src="/images/triangle_next.gif" alt="move to next diff"/>' +
         '</button>' +
-      '</td>';
+      '</td>' +
+      '</tr></table>';
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const makeAvatarImageHtml = () => {
+    if (param.avatarName === '') {
+      return '';
+    } else {
+      return `<img class="avatar-image" src="/images/avatars/${param.avatarName}.jpg"/>`;
+    }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
