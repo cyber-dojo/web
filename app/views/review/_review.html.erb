@@ -68,7 +68,6 @@ $(() => {
       const nowIndex = $light.data('index');
       $light.click(() => show(nowIndex));
       const wasIndex = prevEventIndex(nowIndex);
-      // is the tip worth having if we're not in diff mode?
       cd.setupTrafficLightTip($light, param.id, wasIndex, nowIndex);
     });
   };
@@ -79,6 +78,7 @@ $(() => {
     let html = '';
     let wasIndex = 0;
     html += '<table><tr>';
+    html += makeNavigatorHtml();
     $.each(param.events, (_n, event) => {
       const colour = event.colour;
       if (colour !== '') {
@@ -95,6 +95,25 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
+  const makeNavigatorHtml = () => {
+    return '' +
+    '<td align="center">' +
+      '<button class="triangle button" id="prev-index">' +
+        '<img src="/images/triangle_prev.gif" alt="move to previous diff"/>' +
+      '</button>' +
+    '</td>' +
+    '<td align="center">' +
+      '<div id="index-container"></div>' +
+    '</td>' +
+    '<td align="center">' +
+      '<button class="triangle button" id="next-index">' +
+        '<img src="/images/triangle_next.gif" alt="move to next diff"/>' +
+      '</button>' +
+    '</td>';
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
   const makeTrafficLightHtml = (colour, wasIndex, nowIndex, barOrGap) => {
     return [
       "<div class='diff-traffic-light'",
@@ -104,12 +123,6 @@ $(() => {
         `<img class='with-bar-gap' src='/images/bulb_${colour}_${barOrGap}.png'/>`,
       '</div>'
     ].join('');
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const makeTrafficLightCountHtml = (count, colour) => {
-    return `<div class='traffic-light-count ${colour}'>${count}</div>`;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -439,8 +452,8 @@ $(() => {
     $.getJSON('/differ/diff', reviewParams, (data) => {
       $('.ui-dialog').removeClass('busy');
       param = data;
-      refreshEventControls();
       refreshTrafficLights();
+      refreshEventControls();
       refreshFiles();
       refreshForkButton();
       refreshRevertButton();
@@ -555,8 +568,8 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   if (inDialog) {
+    setupButton('resume', () => $('#review-dialog').dialog('close'));
     setupButton('revert', () => doRevert());
-    setupButton('close',  () => $('#review-dialog').dialog('close'));
   } else {
     reviewRefresh();
   }
@@ -571,16 +584,20 @@ $(() => {
 
 <table>
   <tr valign="top">
-    <td align="right" style="width:300px" rowspan="2">
-      <%= render(:partial => 'review/navigate_control') %>
-      <%= render(:partial => 'review/buttons') %>
-      <div id="diff-filenames"></div>
+    <td align="right">
+      <div id="resume-button-container"></div>
     </td>
     <td>
       <div id="review-traffic-lights"></div>
     </td>
   </tr>
   <tr valign="top">
+    <td align="right" style="width:300px">
+      <div id="fork-button-container"></div>
+      <div id="revert-button-container"></div>
+      <div id="download-button-container"></div>
+      <div id="diff-filenames"></div>
+    </td>
     <td>
       <div id="diff-content"></div>
     </td>
