@@ -479,7 +479,7 @@ $(() => {
   };
 
   //-----------------------------------------
-  // refresh [revert] (from dialog only)
+  // refresh [revert] (from kata/edit page only)
   //-----------------------------------------
 
   const refreshRevertButton = () => {
@@ -499,7 +499,8 @@ $(() => {
        index: param.nowIndex
     };
     $.getJSON('/reverter/revert', revertParams, (data) => {
-      $('#review-dialog').dialog('close');
+      $('#review-page').hide();
+      $('#kata-page').show();
       deleteAllNonOutputFiles();
       insertNewFiles(data.visibleFiles);
       $('#test-button').click();
