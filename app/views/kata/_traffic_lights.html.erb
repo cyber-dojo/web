@@ -2,18 +2,6 @@
 'use strict';
 $(() => {
 
-  const reviewPage = () => {
-    return $('#review-page')
-      .dialog({
-          dialogClass: 'no-title',
-                width: 1150,
-               height: 650,
-                modal: true,
-             autoOpen: false,
-        closeOnEscape: true,
-      });
-  };
-
   // wasIndex holds the index of rightmost traffic-light
   // and is needed when run_tests.js.erb calls
   // setupReviewDialogTrafficLights() with its new traffic-light.
