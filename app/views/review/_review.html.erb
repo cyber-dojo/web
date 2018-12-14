@@ -3,16 +3,16 @@
 $(() => {
 
   //---------------------------------------------------------------------
-  // This review page doubles as a review *dialog* from the kata/edit
-  // page traffic-light click handlers.
-  // Everywhere else review is its own *page* with its own URL.
-  // The [revert] button is available only from the review *dialog*.
+  // This review page is used in kata/edit and dashboard/show
+  // when a traffic-light is clicked.
+  // The [resume] [revert] buttons are only on kata/edit.
   //---------------------------------------------------------------------
 
   const inTestPage = () => {
     return $('#kata-page').length != 0;
   };
 
+  // after refresh() has been called param also contains param.events
   let param = {
             id: "<%= @id %>",
     avatarName: "<%= @avatar_name %>",
@@ -21,7 +21,7 @@ $(() => {
       filename: "<%= @filename %>"
   };
 
-  // after refresh() has been called param also contains param.events
+  // - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.setReviewDialogData = (id, avatarName, wasIndex, nowIndex, filename) => {
     param = {
@@ -108,7 +108,7 @@ $(() => {
 
   //-----------------------------------------
   // refresh navigator
-  //       avatar [<] event-index [>]
+  //       avatar? [<] event-index [>]
   //-----------------------------------------
 
   const refreshNavigator = () => {
