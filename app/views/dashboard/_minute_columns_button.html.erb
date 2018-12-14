@@ -1,0 +1,26 @@
+<script type="text/javascript"><!--
+'use strict';
+$(() => {
+
+  $('#minute-columns-checkbox')
+    .attr('checked', '<%= @minute_columns %>' === 'true')
+    .click(() => cd.refreshDashboard());
+
+});
+//--></script>
+
+<table id="minute-columns-container">
+  <tr>
+    <td>
+      <div id="text" title="toggle 1-minute columns on/off">
+        minute columns
+      </div>
+    </td>
+    <td>
+      <input type="checkbox"
+             class="regular-checkbox"
+             id="minute-columns-checkbox"/>
+        <label for="minute-columns-checkbox"></label>
+    </td>
+  </tr>
+</table>

@@ -1,0 +1,26 @@
+<script type="text/javascript"><!--
+'use strict';
+$(() => {
+
+  $('#auto-refresh-checkbox')
+    .attr('checked', '<%= @auto_refresh %>' === 'true')
+    .click(() => cd.refreshDashboard());
+
+});
+//--></script>
+
+<table id="auto-refresh-container">
+  <tr>
+    <td>
+      <div id="text" title="toggle the 10 second auto-refresh on/off">
+        auto refresh
+      </div>
+    </td>
+    <td>
+      <input type="checkbox"
+             class="regular-checkbox"
+             id="auto-refresh-checkbox"/>
+        <label for="auto-refresh-checkbox"></label>
+    </td>
+  </tr>
+</table>

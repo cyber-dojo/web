@@ -1,0 +1,18 @@
+<script type="text/javascript"><!--
+'use strict';
+$(() => {
+
+  const id = '<%= @group.id %>';
+  const minuteColumns = $('#minute-columns-checkbox');
+  const autoRefresh   = $('#auto-refresh-checkbox');
+  const isChecked = (checkbox) => checkbox.is(':checked');
+
+  cd.refreshDashboard = () => {
+    const url = `/dashboard/show/${id}` +
+                `?minute_columns=${isChecked(minuteColumns)}` +
+                `&auto_refresh=${isChecked(autoRefresh)}`;
+    window.location = url;
+  };
+
+});
+//--></script>
