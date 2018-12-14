@@ -16,10 +16,10 @@
     #progress-button, #download-button {
       @include non-code-font();
        font-size: 1em;
-         padding: { bottom: 3px; left: 9px; right: 9px; }
-          margin: { bottom: 3px; }
+         padding: { bottom: 2px; left: 9px; right: 9px; }
       text-align: left;
-           width: 85px;
+        position: relative;
+             top: -7px;
     }
   }
 

@@ -1,10 +1,14 @@
 <div id="dashboard-page">
-  <%= render partial: 'refresh' %>
   <%= render partial: 'heartbeat' %>
-  <%= render partial: 'auto_refresh_button' %>
-  <%= render partial: 'minute_columns_button' %>
-  <%= render partial: 'progress_button' %>
-  <%= render partial: 'download_button' %>
+  <%= render partial: 'refresh_fn' %>
+  <table>
+    <tr>
+      <td><%= render partial: 'auto_refresh_button' %></td>
+      <td><%= render partial: 'minute_columns_button' %></td>
+      <td><%= render partial: 'progress_button' %></td>
+      <td><%= render partial: 'download_button' %></td>
+    </tr>
+  </table>
   <%= render partial: 'traffic_lights' %>
 </div>
 
