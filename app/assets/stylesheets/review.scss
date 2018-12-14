@@ -10,7 +10,7 @@
 
 #review-page { margin: { top: 15px; } }
 
-#review-page, #review-dialog {
+#review-page {
 
   @include non-code-font();
      padding: none;
@@ -216,7 +216,7 @@
 
   #resume-button {
     @include non-code-font();
-    @include font-size-medium();
+    @include font-size-large();
     @include right-align(15px);
         margin: { right: 0px; bottom: 2px; }
        padding: { top: 0px; bottom: 2px; left: 9px; right: 9px; }
