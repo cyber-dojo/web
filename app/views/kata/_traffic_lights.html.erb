@@ -2,15 +2,17 @@
 'use strict';
 $(() => {
 
-  const review = $('#review-dialog')
-    .dialog({
-        dialogClass: 'no-title',
-              width: 1150,
-             height: 650,
-              modal: true,
-           autoOpen: false,
-      closeOnEscape: true,
-    });
+  const reviewPage = () => {
+    return $('#review-page')
+      .dialog({
+          dialogClass: 'no-title',
+                width: 1150,
+               height: 650,
+                modal: true,
+             autoOpen: false,
+        closeOnEscape: true,
+      });
+  };
 
   // wasIndex holds the index of rightmost traffic-light
   // and is needed when run_tests.js.erb calls
@@ -31,7 +33,7 @@ $(() => {
   const setupTrafficLightReviewDialog = ($light, id, wasIndex, nowIndex) => {
     $light.click(() => {
       cd.setReviewDialogData(id, "<%= @kata.avatar_name %>", wasIndex, nowIndex);
-      review.dialog('open');
+      reviewPage().dialog('open');
     });
   };
 
@@ -47,8 +49,3 @@ $(() => {
     <% end %>
   </tr>
 </table>
-
-<div id="review-dialog" style="display:none;">
-  <%= render partial: 'review/review',
-              locals: { inDialog:true } %>
-</div>

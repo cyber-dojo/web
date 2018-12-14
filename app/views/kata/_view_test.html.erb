@@ -1,0 +1,34 @@
+<%= render partial: 'highlight_filenames' %>
+<%= render partial: 'tab_size' %>
+
+<%= form_tag( { action: 'run_tests', id: @kata.id } ) do %>
+  <%= render partial: 'cached_run_parameters' %>
+  <table>
+    <tr>
+      <td class="align-right">
+        <%= render partial: 'test_button' %>
+      </td>
+      <td><%= render partial: 'avatar_image' %></td>
+      <td><%= render partial: 'traffic_lights_pie_chart' %></td>
+      <td><%= render partial: 'traffic_lights_count' %></td>
+      <td>
+        <div id="traffic-lights">
+          <%= render partial: 'traffic_lights' %>
+        </div>
+      </td>
+    </tr>
+    <tr class="valign-top">
+      <td class="align-right">
+        <%= render partial: 'file_new_rename_delete' %>
+        <%= render partial: 'filename_list' %>
+      </td>
+      <td colspan="4">
+        <%= render partial: 'files' %>
+      </td>
+    </tr>
+  </table>
+<% end %>
+
+<%= render partial: 'scroller' %>
+<%= render partial: 'test_spinner' %>
+<%= render partial: 'test_button_handler' %>
