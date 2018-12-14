@@ -1,0 +1,15 @@
+
+<input type="hidden"
+       name="index"
+       value="">
+
+<script type="text/javascript"><!--
+'use strict';
+$(() => {
+  // also called from run_tests.js.erb
+  cd.setEventIndex = (value) => {
+    $("input[name='index']").val(value);
+  };
+  cd.setEventIndex("<%= @kata.events.last.index %>");
+});
+//--></script>

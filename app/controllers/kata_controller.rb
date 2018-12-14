@@ -20,7 +20,7 @@ class KataController < ApplicationController
       files,@created,@deleted,@changed = kata.run_tests(params)
 
     t2 = time_now
-    duration = (Time.mktime(*t2) - Time.mktime(*t1))
+    duration = Time.mktime(*t2) - Time.mktime(*t1)
     index = params[:index].to_i + 1
     kata.ran_tests(index, files, t1, duration, @stdout, @stderr, @status, colour)
 

@@ -3,19 +3,19 @@ require_relative '../../lib/cleaner'
 
 class Runner
 
-  def initialize(externals, kata_id)
+  def initialize(externals)
     @externals = externals
-    @kata_id = kata_id
   end
 
-  def run(params)
-    image_name = params[:image_name]
-    max_seconds = params[:max_seconds].to_i
+  def run(kata, params)
+    image_name = kata.manifest.image_name
+    max_seconds = kata.manifest.max_seconds
+    hidden_filenames = kata.manifest.hidden_filenames
     files = files_from(params)
 
     result =
       @externals.runner.run_cyber_dojo_sh(
-        image_name, @kata_id, files, max_seconds)
+        image_name, kata.id, files, max_seconds)
 
     created = result['created']
     deleted = result['deleted']
@@ -28,7 +28,6 @@ class Runner
     end
 
     # TODO: this has not been checked since {'content'=>content}
-    hidden_filenames = JSON.parse(params[:hidden_filenames])
     remove_hidden_files(created, hidden_filenames)
 
     # Ensure files which will get sent to saver.ran_tests()

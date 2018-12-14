@@ -31,7 +31,7 @@ class Kata
   end
 
   def run_tests(params)
-    Runner.new(@externals, id).run(params)
+    Runner.new(@externals).run(self, params)
   end
 
   def ran_tests(index, files, at, duration, stdout, stderr, status, colour)

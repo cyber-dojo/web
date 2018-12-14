@@ -69,6 +69,7 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+=begin saver now has a single call to get the manifest.
   test 'B29', %w(
   the browser caches all the run_test parameters
   to ensure run_tests() only issues a
@@ -88,6 +89,7 @@ class KataControllerTest  < AppControllerTestBase
       assert lines[0].start_with?('["kata_ran_tests"')
     }
   end
+=end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
