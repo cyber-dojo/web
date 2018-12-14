@@ -573,7 +573,10 @@ $(() => {
   setupButton('fork',     () => cd.forkDialog(param.id, param.nowIndex));
 
   if (inDialog) {
-    setupButton('resume', () => $('#review-page').dialog('close'));
+    setupButton('resume', () => {
+      $('#review-page').hide();
+      $('#kata-page').show();
+    });
   } else {
     reviewRefresh();
   }

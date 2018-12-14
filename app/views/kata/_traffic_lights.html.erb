@@ -33,7 +33,8 @@ $(() => {
   const setupTrafficLightReviewDialog = ($light, id, wasIndex, nowIndex) => {
     $light.click(() => {
       cd.setReviewDialogData(id, "<%= @kata.avatar_name %>", wasIndex, nowIndex);
-      reviewPage().dialog('open');
+      $('#kata-page').hide();
+      $('#review-page').show();
     });
   };
 
