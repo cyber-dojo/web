@@ -1,15 +1,11 @@
 
 <%
   manifest = (@group || @kata).manifest
-  if manifest.exercise == ''
-    content = manifest.display_name
-  else
-    content = [
-      manifest.display_name,
-      manifest.exercise.gsub('_',' ')
-    ].join(', ')
+  parts = [ manifest.id, manifest.display_name ]
+  if manifest.exercise != ''
+    parts << manifest.exercise.gsub('_',' ')
   end
 %>
 <span>
-  <%= content %>
+  <%= parts.join(', ') %>
 </span>
