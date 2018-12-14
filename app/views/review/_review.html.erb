@@ -9,7 +9,9 @@ $(() => {
   // The [revert] button is available only from the review *dialog*.
   //---------------------------------------------------------------------
 
-  const inTestPage = <%= inTestPage %>;
+  const inTestPage = () => {
+    return $('#kata-page').length != 0;
+  };
 
   let param = {
             id: "<%= @id %>",
@@ -43,7 +45,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const refresh = () => {
-    if (inTestPage) {
+    if (inTestPage()) {
       reviewRefresh();
     } else {
       window.location.href =
@@ -482,7 +484,7 @@ $(() => {
 
   const refreshRevertButton = () => {
     const button = $('#revert-button');
-    button.prop('disabled', !inTestPage);
+    button.prop('disabled', !inTestPage());
     cd.setTip(button, () => {
       const tip = `revert to this traffic-light's files`;
       cd.showHoverTip(button, tip);
@@ -572,7 +574,7 @@ $(() => {
   setupButton('download', () => doDownload());
   setupButton('fork',     () => cd.forkDialog(param.id, param.nowIndex));
 
-  if (inTestPage) {
+  if (inTestPage()) {
     setupButton('resume', () => {
       $('#review-page').hide();
       $('#kata-page').show();
