@@ -10,7 +10,7 @@
 
 #review-page {
 
-  margin-top: 17px;
+  margin-top: 20px;
   @include non-code-font();
      padding: none;
   background: $darker-color;
@@ -43,6 +43,8 @@
   #index-number {
      font-size: 24px;
     text-align: center;
+    position: relative;
+    top: -2px;
   }
 
   #prev-index img, #next-index img {
@@ -52,7 +54,11 @@
     padding: 0px;
   }
 
-  #prev-index, #next-index { margin: 2px; }
+  #prev-index, #next-index { margin-right: 2px; }
+  #prev-index {
+    position: relative;
+    right: -4px;
+  }
 
   .triangle.button {
     width: 28px;
@@ -210,5 +216,8 @@
         margin: { right: 0px; bottom: 2px; top: 2px; }
        padding: { top: 0px; bottom: 2px; left: 9px; right: 9px; }
     text-align: right;
+    position: relative;
+    top: -3px;
+    right: -1px;
   }
 }
