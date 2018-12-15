@@ -29,13 +29,15 @@ class TrafficLightTest < AppHelpersTestBase
       Event.new(nil, stub, { 'colour' => 'amber'   }, 4),
     ]
     expected =
-      "<div class='traffic-light-count amber'" +
-          " data-tip='traffic_light_count'" +
-          " data-red-count='2'" +
-          " data-amber-count='2'" +
-          " data-green-count='1'" +
-          " data-timed-out-count='0'>" +
-        "5" +
+      "<div class='traffic-light-count-wrapper'>" +
+        "<div class='traffic-light-count amber'" +
+            " data-tip='traffic_light_count'" +
+            " data-red-count='2'" +
+            " data-amber-count='2'" +
+            " data-green-count='1'" +
+            " data-timed-out-count='0'>" +
+          "5" +
+        "</div>" +
       "</div>"
     actual = traffic_light_count(lights)
     assert_equal expected, actual
