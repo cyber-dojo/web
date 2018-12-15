@@ -82,22 +82,15 @@
     left: 50px;
     top: auto;
 
-    .avatar-image {
-      display: inline-block;
-      img { width: 26px; height: 26px; }
-    }
-    .pie-chart-wrapper {
-      display: inline-block;
-      padding: 0px;
-      margin: 0px;
-    }
+    .avatar-image img { width: 26px; height: 26px; }
+    .traffic-light-count-wrapper { width: 40px; }
     .traffic-light-count {
       cursor: default;
-      padding: { left: 0px; right: 8px; }
+      padding: { right: 8px; }
       font-size: 24px;
-      text-align: right;
       position: relative;
       top: -2px;
+      text-align: right;
     }
   }
 }
