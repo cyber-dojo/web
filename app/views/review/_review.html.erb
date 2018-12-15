@@ -108,7 +108,7 @@ $(() => {
 
   //-----------------------------------------
   // refresh navigator
-  //       avatar? [<] event-index [>]
+  //     [<] event-index [>] avatar?
   //-----------------------------------------
 
   const refreshNavigator = () => {
@@ -122,7 +122,6 @@ $(() => {
 
   const makeNavigatorHtml = () => {
     return '<table><tr valign="top">' +
-      makeTd(makeAvatarImageHtml()) +
       '<td align="center">' +
         '<button class="triangle button" id="prev-index">' +
           '<img src="/images/triangle_prev.gif" alt="move to previous diff"/>' +
@@ -136,6 +135,7 @@ $(() => {
           '<img src="/images/triangle_next.gif" alt="move to next diff"/>' +
         '</button>' +
       '</td>' +
+      makeTd(makeAvatarImageHtml()) +      
       '</tr></table>';
   };
 
