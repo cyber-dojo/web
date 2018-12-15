@@ -10,7 +10,7 @@
 
 #review-page {
 
-  margin-top: 20px;
+  margin-top: 17px;
   @include non-code-font();
      padding: none;
   background: $darker-color;
@@ -21,7 +21,7 @@
   #review-traffic-lights {
        display: block;
         margin: 0px;
-         width: 830px;
+         width: 832px;
     overflow-x: auto;
     overflow-y: hidden;
     &::-webkit-scrollbar:horizontal { height: 0px; }
@@ -49,7 +49,7 @@
     @include rounded-corner(4px);
       width: 18px;
      height: 18px;
-    padding: { top: 2px; bottom: 0px; left: 0px; right: 0px; }
+    padding: 0px;
   }
 
   #prev-index, #next-index { margin: 2px; }
@@ -207,7 +207,7 @@
     @include non-code-font();
     @include font-size-medium();
     @include right-align(15px);
-        margin: { right: 0px; bottom: 2px; }
+        margin: { right: 0px; bottom: 2px; top: 2px; }
        padding: { top: 0px; bottom: 2px; left: 9px; right: 9px; }
     text-align: right;
   }
