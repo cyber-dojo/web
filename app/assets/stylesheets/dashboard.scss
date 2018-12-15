@@ -23,38 +23,13 @@
     }
   }
 
-  // Stackoverflow 1312236
-  .frozen-left-column {
-    position: absolute;
-    width: 100px;
-    left: 30px;
-    top: auto;
-
-    .avatar-image {
-      display: inline-block;
-      img { width: 26px; height: 26px; }
-    }
-    .pie-chart-wrapper {
-      display: inline-block;
-      padding: 0px;
-      margin: 0px;
-    }
-    .traffic-light-count {
-      cursor: default;
-      padding: { left: 0px; right: 8px; }
-      font-size: 24px;
-      text-align: right;
-      position: relative;
-      top: -2px;
-    }
-  }
-
   #traffic-lights {
+    width: 1000px;
+    max-height: 20000px;
     margin-left: 110px; // 1312236
-          width: 1000px;
-          height: 600px;
     overflow-x: scroll;
-    overflow-y: auto;
+    overflow-y: hidden;
+    margin-bottom: 50px;
 
     .time-tick {
       display: block;
@@ -100,6 +75,31 @@
     }
   }
 
+  // Stackoverflow 1312236
+  .frozen-left-column {
+    position: absolute;
+    width: 100px;
+    left: 30px;
+    top: auto;
+
+    .avatar-image {
+      display: inline-block;
+      img { width: 26px; height: 26px; }
+    }
+    .pie-chart-wrapper {
+      display: inline-block;
+      padding: 0px;
+      margin: 0px;
+    }
+    .traffic-light-count {
+      cursor: default;
+      padding: { left: 0px; right: 8px; }
+      font-size: 24px;
+      text-align: right;
+      position: relative;
+      top: -2px;
+    }
+  }
 }
 
 #progress-dialog {
