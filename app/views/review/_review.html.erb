@@ -80,8 +80,6 @@ $(() => {
     let html = '';
     let wasIndex = 0;
     html += '<table><tr valign="top">';
-    html += makeTd(makeIndexLeft());
-    html += makeTd(makeIndexRight());
     $.each(param.events, (_n, event) => {
       const colour = event.colour;
       if (colour !== '') {
@@ -93,24 +91,6 @@ $(() => {
     });
     html += '</tr></table>';
     return html;
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const makeIndexLeft = () => {
-    return '' +
-      '<button class="triangle button" id="prev-index">' +
-        '<img src="/images/triangle_prev.gif" alt="move to previous diff"/>' +
-      '</button>';
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const makeIndexRight = () => {
-    return '' +
-      '<button class="triangle button" id="next-index">' +
-        '<img src="/images/triangle_next.gif" alt="move to next diff"/>' +
-      '</button>';
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -610,7 +590,16 @@ $(() => {
       </table>
     </td>
     <td>
-      <div id="review-navigator"></div>
+      <button id="prev-index" class="triangle button">
+        <img src="/images/triangle_prev.gif" alt="move to previous diff"/>
+      </button>
+    </td>
+    <td>
+      <button id="next-index" class="triangle button">
+        <img src="/images/triangle_next.gif" alt="move to next diff"/>
+      </button>
+    </td>
+    <td>
       <div id="review-traffic-lights"></div>
     </td>
   </tr>
@@ -621,7 +610,7 @@ $(() => {
       <div id="download-button-container"></div>
       <div id="diff-filenames"></div>
     </td>
-    <td>
+    <td colspan="3">
       <div id="diff-content"></div>
     </td>
   </tr>
