@@ -16,14 +16,12 @@
   background: $darker-color;
        color: $lighter-color;
 
-  #review-summary {
-    float: right;
-  }
+  #review-summary { float: right; }
 
   #review-traffic-lights {
        display: block;
         margin: 0px;
-         width: 700px;
+         width: 830px;
     overflow-x: auto;
     overflow-y: hidden;
     &::-webkit-scrollbar:horizontal { height: 0px; }
@@ -32,11 +30,6 @@
        cursor: pointer;
       img.with-bar-gap { width: 22px; height: 29px; }
     }
-  }
-
-  #review-navigator {
-    padding: 0px;
-    margin-left: 3px;
   }
 
   img.avatar-image {
@@ -59,7 +52,7 @@
     padding: { top: 2px; bottom: 0px; left: 0px; right: 0px; }
   }
 
-  #prev-index { margin-left: 4px; }
+  #prev-index, #next-index { margin: 2px; }
 
   .triangle.button {
     width: 28px;
