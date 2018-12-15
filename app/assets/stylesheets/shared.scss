@@ -65,7 +65,6 @@ a:link, a:visited { color: $text-color; }
    height: 30px;
    margin: 0px;
   padding: 0px;
-   border: 1px solid lighten($darker-color, 15%);
 }
 
 .avatar_name, #id { @include font-size-tiny(); text-align: right; }
