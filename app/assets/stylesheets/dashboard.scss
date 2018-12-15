@@ -6,13 +6,14 @@
   #auto-refresh-container, #minute-columns-container {
     @include edged-panel();
     @include right-align(15px);
-     margin: { bottom: 10px; left: 0px; right: 12px; }
+     margin: { bottom: 10px; left: 15px; right: 0px; }
     display: inline-block;
   }
 
   #progress-button-container, #download-button-container {
     @include right-align(15px);
     text-align: right;
+    margin-left: 10px;
     #progress-button, #download-button {
       @include non-code-font();
        font-size: 1em;
