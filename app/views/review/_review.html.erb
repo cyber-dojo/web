@@ -80,6 +80,8 @@ $(() => {
     let html = '';
     let wasIndex = 0;
     html += '<table><tr valign="top">';
+    html += makeTd(makeIndexLeft());
+    html += makeTd(makeIndexRight());
     $.each(param.events, (_n, event) => {
       const colour = event.colour;
       if (colour !== '') {
@@ -91,6 +93,24 @@ $(() => {
     });
     html += '</tr></table>';
     return html;
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const makeIndexLeft = () => {
+    return '' +
+      '<button class="triangle button" id="prev-index">' +
+        '<img src="/images/triangle_prev.gif" alt="move to previous diff"/>' +
+      '</button>';
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const makeIndexRight = () => {
+    return '' +
+      '<button class="triangle button" id="next-index">' +
+        '<img src="/images/triangle_next.gif" alt="move to next diff"/>' +
+      '</button>';
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -114,7 +134,7 @@ $(() => {
   const refreshSummary = () => {
     $('#review-index-wrapper').html(makeIndexHtml());
     $('#review-avatar-image-wrapper').html(makeAvatarImageHtml());
-    //pie-chart
+    //TODO: pie-chart
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -141,7 +161,6 @@ $(() => {
   //-----------------------------------------
 
   const refreshNavigator = () => {
-    $('#review-navigator').html(makeNavigatorHtml());
     refreshIndex($('#prev-index'), prevEventIndex(param.nowIndex));
     refreshIndex($('#next-index'), nextEventIndex(param.nowIndex));
   };
@@ -156,26 +175,6 @@ $(() => {
         .unbind('click')
         .bind('click', () => show(index));
     }
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const makeNavigatorHtml = () => {
-    return '' +
-      '<table>' +
-        '<tr valign="top">' +
-          '<td align="center">' +
-            '<button class="triangle button" id="prev-index">' +
-              '<img src="/images/triangle_prev.gif" alt="move to previous diff"/>' +
-            '</button>' +
-          '</td>' +
-          '<td align="center">' +
-            '<button class="triangle button" id="next-index">' +
-              '<img src="/images/triangle_next.gif" alt="move to next diff"/>' +
-            '</button>' +
-          '</td>' +
-        '</tr>' +
-      '</table>';
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -600,7 +599,7 @@ $(() => {
 
 <table>
   <tr valign="top">
-    <td>
+    <td id="review-summary">
       <table>
         <tr>
           <td><div id="review-index-wrapper"></div></td>
