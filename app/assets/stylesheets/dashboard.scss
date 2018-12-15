@@ -1,7 +1,7 @@
 
 #dashboard-page {
 
-  margin: 25px;
+  margin: 45px;
 
   #auto-refresh-container, #minute-columns-container {
     @include edged-panel();
@@ -24,12 +24,12 @@
   }
 
   #traffic-lights {
-    width: 1100px;
+    width: 1030px;
     max-height: 20000px;
     margin-left: 110px; // 1312236
     overflow-x: scroll;
     overflow-y: hidden;
-    margin-bottom: 60px;
+    margin-bottom: 80px;
 
     .time-tick {
       display: block;
@@ -79,7 +79,7 @@
   .frozen-left-column {
     position: absolute;
     width: 100px;
-    left: 30px;
+    left: 50px;
     top: auto;
 
     .avatar-image {
