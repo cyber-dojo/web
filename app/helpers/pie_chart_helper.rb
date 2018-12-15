@@ -11,20 +11,26 @@ module PieChartHelper # mix-in
           amber: colour_count(lights, :amber),
           green: colour_count(lights, :green),
       timed_out: colour_count(lights, :timed_out)
-    }, 34, key)
+    }, key)
   end
 
-  def pie_chart_from_counts(counts, size, key)
-     '<canvas' +
-        " class='pie'" +
-        " data-red-count='#{counts[:red]}'" +
-        " data-amber-count='#{counts[:amber]}'" +
-        " data-green-count='#{counts[:green]}'" +
-        " data-timed-out-count='#{counts[:timed_out]}'" +
-        " data-key='#{key}'" +
-        " width='#{size}'" +
-        " height='#{size}'>" +
-      '</canvas>'
+  def pie_chart_from_counts(counts, key)
+    size = 32
+     '<div ' +
+       " class='pie-chart-wrapper'" +
+       " width='#{size}px'" +
+       " height='#{size}px'>" +
+       '<canvas' +
+          " class='pie'" +
+          " data-red-count='#{counts[:red]}'" +
+          " data-amber-count='#{counts[:amber]}'" +
+          " data-green-count='#{counts[:green]}'" +
+          " data-timed-out-count='#{counts[:timed_out]}'" +
+          " data-key='#{key}'" +
+          " width='#{size}px'" +
+          " height='#{size}px'>" +
+        '</canvas>' +
+      '</div>';
   end
 
   def colour_count(lights, colour)

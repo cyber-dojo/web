@@ -68,11 +68,6 @@ a:link, a:visited { color: $text-color; }
    border: 1px solid lighten($darker-color, 15%);
 }
 
-.traffic-light-count {
-  font-size: 28px;
-    padding: 0px;
-}
-
 .avatar_name, #id { @include font-size-tiny(); text-align: right; }
 
 //----------------------------------------------

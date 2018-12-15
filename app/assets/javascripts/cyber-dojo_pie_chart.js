@@ -3,9 +3,10 @@
 var cyberDojo = ((cd, $) => {
 
   const options = {
-    segmentShowStroke : false,
-    segmentStrokeColor : '#757575',
-    animationEasing : 'easeOutExpo'
+    segmentShowStroke: false,
+    segmentStrokeColor: '#757575',
+    animationEasing: 'easeOutExpo',
+    legend: { display: false }
   };
 
   cd.pieChart = ($nodes) => {

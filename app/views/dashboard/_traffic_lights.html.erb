@@ -22,7 +22,8 @@ $(() => {
     window.open(cd.showReviewUrl(id, 0, 1));
   });
 
-  cd.pieChart($('#traffic-lights .pie'));
+  //TODO: pie-chart is messing with vertical alignment
+  //cd.pieChart($('#traffic-lights .pie'));
   cd.setupHoverTips($('[data-tip]'));
 
   const allTheWay = 100000;
@@ -61,7 +62,6 @@ $(() => {
       <table>
         <tr>
           <td><%= raw diff_avatar_image(kata_id, @all_indexes[kata_id]) %></td>
-          <td><%= raw pie_chart(lights) %></td>
           <td><%= raw traffic_light_count(lights) %></td>
         </tr>
       </table>

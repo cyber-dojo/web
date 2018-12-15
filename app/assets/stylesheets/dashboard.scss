@@ -29,10 +29,26 @@
     width: 80px;
     left: 30px;
     top: auto;
+
+    .avatar-image {
+      display: inline-block;
+      img { width: 26px; height: 26px; }
+    }
+    .pie-chart-wrapper {
+      display: inline-block;
+      padding: 0px;
+      margin: 0px;
+    }
+    .traffic-light-count {
+      cursor: default;
+      padding: { left: 4px; right: 8px; }
+      font-size: 22px;
+      text-align: right;
+    }
   }
 
   #traffic-lights {
-    margin-left: 110px; // 1312236
+    margin-left: 80px; // 1312236
           width: 1000px;
     overflow-x: scroll;
     overflow-y: auto;
@@ -71,10 +87,6 @@
       $thin-space: "\2009";
        text-align: center;
       &:after { content: $thin-space; }
-    }
-    .traffic-light-count {
-      cursor: default;
-      padding-right: 7px;
     }
     th {
       background-color: transparent !important;
