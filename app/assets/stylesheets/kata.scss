@@ -30,23 +30,38 @@
 {
   margin: { top: 15px; left: 45px; }
 
+  #summary {
+    float: right;
+  }
+  .traffic-light-count {
+    display: inline;
+    padding-right: 0px;
+  }
+  .avatar-image {
+    display: inline;
+    margin-left: 5px;
+  }
+  .traffic-light-count-wrapper {
+    display: inline;
+    position: relative;
+    right: -10px;
+  }
+
   #test-button
   {
     @include non-code-font();
-    @include font-size-large();
+    @include font-size-medium();
     @include right-align(15px);
         margin: { right: 0px; bottom: 2px; right: 4px; }
        padding: { top: 0px; bottom: 2px; left: 9px; right: 9px; }
     text-align: right;
-         width: 73px;
   }
 
   #file-operations
   {
-    div { display: block; } // inline-block gives horizontal alignment
+    div { display: inline-block; }
     #new, #rename, #delete
     {
-      width: 65px;
       @include non-code-font();
       @include rounded-corner(4px);
       text-align: right;
@@ -70,7 +85,7 @@
 
          width: 250px;
         height: 410px;
-    overflow-y: auto;
+    overflow-y: hidden;
     // up/down hidden scrollbar
     overflow-x: none;
     &::-webkit-scrollbar:vertical { width: 0px; }
@@ -78,8 +93,8 @@
 
   #traffic-lights
   {
-        margin: { left: 5px; bottom: 0px; }
-         width: 750px;
+        margin: 0px;
+         width: 890px;
     overflow-x: auto;
     overflow-y: hidden;
     &::-webkit-scrollbar:horizontal { height: 0px; }
@@ -87,7 +102,9 @@
     .diff-traffic-light
     {
       padding: { left: 0px; bottom: 0px; }
-      img { width: 22px; height: 22px; }
+      img { width: 21px; height: 21px; }
+      position: relative;
+      top: 4px;
     }
   }
 
