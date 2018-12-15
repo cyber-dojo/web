@@ -26,7 +26,7 @@
   // Stackoverflow 1312236
   .frozen-left-column {
     position: absolute;
-    width: 80px;
+    width: 90px;
     left: 30px;
     top: auto;
 
@@ -41,14 +41,16 @@
     }
     .traffic-light-count {
       cursor: default;
-      padding: { left: 4px; right: 8px; }
+      padding: { left: 0px; right: 8px; }
       font-size: 22px;
       text-align: right;
+      position: relative;
+      top: -2px;
     }
   }
 
   #traffic-lights {
-    margin-left: 80px; // 1312236
+    margin-left: 105px; // 1312236
           width: 1000px;
     overflow-x: scroll;
     overflow-y: auto;

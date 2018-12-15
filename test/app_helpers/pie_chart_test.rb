@@ -21,8 +21,12 @@ class PieChartTest < AppHelpersTestBase
       Event.new(nil, stub, { 'colour' => 'red'   }, 0),
       Event.new(nil, stub, { 'colour' => 'green' }, 1),
     ]
-    size = 34
+    size = 32
     expected = '' +
+    '<div ' +
+      " class='pie-chart-wrapper'" +
+      " width='#{size}px'" +
+      " height='#{size}px'>" +
       '<canvas' +
       " class='pie'" +
       " data-red-count='1'" +
@@ -30,9 +34,10 @@ class PieChartTest < AppHelpersTestBase
       " data-green-count='1'" +
       " data-timed-out-count='0'" +
       " data-key='wolf'" +
-      " width='#{size}'" +
-      " height='#{size}'>" +
-      '</canvas>'
+      " width='#{size}px'" +
+      " height='#{size}px'>" +
+      '</canvas>' +
+      '</div>'
 
     actual = pie_chart(lights)
 
