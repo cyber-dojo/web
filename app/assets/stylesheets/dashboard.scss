@@ -41,7 +41,7 @@
       display: block;
       @include non-code-font();
       text-align: center;
-      font-size: 10px;
+      font-size: 13px;
       color: lighten(black,60%);
       $down-triangle: "\25BF";
       &:after { content: $down-triangle; }
@@ -61,9 +61,9 @@
     }
     .collapsed-multi-gap {
         display: inline-block;
-      font-size: 18px;
+      font-size: 12px;
           color: lighten(black,60%);
-         margin: { left: 3px; right: 3px; bottom: 10px; }
+         margin: { left: 6px; right: 6px; bottom: 10px; }
       &:after { content: "\2026"; } // ellipsis
     }
     .gap {
@@ -75,6 +75,9 @@
     .traffic-light-count {
       cursor: default;
       padding-right: 7px;
+    }
+    th {
+      background-color: transparent !important;
     }
   }
 
