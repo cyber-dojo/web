@@ -25,8 +25,7 @@ $(() => {
   cd.pieChart($('#traffic-lights .pie'));
   cd.setupHoverTips($('[data-tip]'));
 
-  const allTheWay = 100000;
-  $('#traffic-lights').scrollLeft(allTheWay);
+  $('.scroll-handle').scrollIntoView();
 
 });
 //--></script>
@@ -50,6 +49,7 @@ $(() => {
           <% end %>
         </th>
       <% end %>
+      <th></th>
     </tr>
   <% end %>
 
@@ -90,6 +90,9 @@ $(() => {
 		  <% end %>
 		  </td>
 	  <% end %>
+    <td>
+      <div class="scroll-handle"><div>
+    </td>
 
 	</tr>
   <% end %>
