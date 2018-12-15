@@ -60,9 +60,9 @@ $(() => {
     <td class="frozen-left-column">
       <table>
         <tr>
+          <td><%= raw traffic_light_count(lights) %></td>
           <td><%= raw diff_avatar_image(kata_id, @all_indexes[kata_id]) %></td>
           <td><%= raw pie_chart(lights) %></td>
-          <td><%= raw traffic_light_count(lights) %></td>
         </tr>
       </table>
     </td>
