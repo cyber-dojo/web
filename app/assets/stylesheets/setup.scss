@@ -68,10 +68,7 @@
     }
   }
 
-  #button-container
-  {
-    text-align: center;
-  }
+  #button-box { text-align: center; }
 
   button#ok
   {
@@ -80,7 +77,7 @@
     margin-top: 5px;
   }
 
-  #language-info-container, #exercise-info-container
+  #language-info-box, #exercise-info-box
   {
     @include plaintext-font();
       height: 342px;
@@ -91,11 +88,10 @@
          top: -2px;
   }
 
-  #language-info-container
+  #language-info-box
   {
     font-size: 12pt;
     text-align: left;
-
     .traffic-light
     {
       width: 20px;
@@ -105,7 +101,7 @@
     }
   }
 
-  #exercise-info-container
+  #exercise-info-box
   {
     @include code-font();
     @include rounded-corner();

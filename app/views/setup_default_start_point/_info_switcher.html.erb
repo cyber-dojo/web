@@ -2,8 +2,8 @@
 'use strict';
 $(() => {
 
-  const languageInfoContainer = $('#language-info-container');
-  const exerciseInfoContainer = $('#exercise-info-container');
+  const languageInfoBox = $('#language-info-box');
+  const exerciseInfoBox = $('#exercise-info-box');
 
   let previousLanguage = undefined;
   let selectedLanguage = $('#language_' + '<%= @language_index %>');
@@ -16,8 +16,8 @@ $(() => {
     language.click(() => {
       cd.radioEntrySwitch(previousLanguage, language);
       previousLanguage = language;
-      exerciseInfoContainer.hide();
-      languageInfoContainer.show();
+      exerciseInfoBox.hide();
+      languageInfoBox.show();
     });
   });
 
@@ -26,8 +26,8 @@ $(() => {
      exercise.click(() => {
        const index = exercise.data('index');
        const instructions = $('#instructions_' + index).val();
-       languageInfoContainer.hide();
-       exerciseInfoContainer.show().val(instructions);
+       languageInfoBox.hide();
+       exerciseInfoBox.show().val(instructions);
        cd.radioEntrySwitch(previousExercise, exercise);
        previousExercise = exercise;
      });
