@@ -3,14 +3,14 @@
 
   margin: 45px;
 
-  #auto-refresh-container, #minute-columns-container {
+  #auto-refresh-box, #minute-columns-box {
     @include edged-panel();
     @include right-align(15px);
      margin: { bottom: 10px; left: 15px; right: 0px; }
     display: inline-block;
   }
 
-  #progress-button-container, #download-button-container {
+  #progress-button-box, #download-button-box {
     @include right-align(15px);
     text-align: right;
     margin-left: 10px;
