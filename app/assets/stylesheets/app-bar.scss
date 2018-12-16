@@ -21,7 +21,7 @@
       img { height: 20px; width: 20px; }
   }
 
-  #tweet-container {
+  #tweet-box {
     #twitter-widget-0 {
       position: relative;
            top: 5px;
@@ -29,7 +29,7 @@
     }
   }
 
-  #accu-container {
+  #accu-box {
     #accu-image {
       @include rounded-corner(3px);
       background: CornSilk;
@@ -39,7 +39,7 @@
     }
   }
 
-  #cucumber-container {
+  #cucumber-box {
     #cucumber-image {
       padding: 0px;
        height: 27px;
@@ -47,7 +47,7 @@
     }
   }
 
-  #praqma-container {
+  #praqma-box {
     #praqma-image {
       @include rounded-corner(3px);
       padding: 0px;
@@ -69,5 +69,4 @@
     padding-left: 10px;
     font-size: 0.87em;
   }
-
 }
