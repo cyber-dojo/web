@@ -15,7 +15,7 @@ class ShaController < ApplicationController
   private
 
   def web_sha
-    IO.read('/cyber-dojo/sha.txt').strip
+    ENV['SHA']
   end
 
 end

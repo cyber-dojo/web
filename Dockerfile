@@ -1,12 +1,11 @@
-FROM  cyberdojo/web-base
+FROM cyberdojo/web-base
 LABEL maintainer=jon@jaggersoft.com
 
-ARG                            WEB_HOME=/cyber-dojo
-COPY .                       ${WEB_HOME}
-RUN  chown -R nobody:nogroup ${WEB_HOME}
+COPY . /cyber-dojo
+RUN  chown -R nobody:nogroup /cyber-dojo
 
 ARG SHA
-RUN echo ${SHA} > ${WEB_HOME}/sha.txt
+ENV SHA=${SHA}
 
 EXPOSE  3000
 USER nobody
