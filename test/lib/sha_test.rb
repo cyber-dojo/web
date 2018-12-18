@@ -10,7 +10,7 @@ class ShaTest < LibTestBase
 
   test '191', %w(
   sha of git commit for server image lives in /app/sha.txt ) do
-    sha = IO.read('/cyber-dojo/sha.txt').strip
+    sha = ENV['SHA']
     assert_equal 40, sha.size
     sha.each_char do |ch|
       assert "0123456789abcdef".include?(ch)
