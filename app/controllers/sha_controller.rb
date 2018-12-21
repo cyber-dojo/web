@@ -6,7 +6,7 @@ class ShaController < ApplicationController
       'web'     => web_sha,
       'starter' => starter.sha,
       'saver'   => saver.sha,
-      'runner'  => runner.sha,
+      #'runner'  => runner.sha,
       'differ'  => differ.sha,
       #'zipper'  => zipper.sha,
     }
