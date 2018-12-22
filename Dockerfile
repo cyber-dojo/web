@@ -1,8 +1,9 @@
 FROM cyberdojo/web-base
 LABEL maintainer=jon@jaggersoft.com
 
-COPY . /cyber-dojo
-RUN  chown -R nobody:nogroup /cyber-dojo
+WORKDIR /cyber-dojo
+COPY . .
+RUN chown -R nobody:nogroup .
 
 ARG SHA
 ENV SHA=${SHA}
