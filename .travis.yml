@@ -1,5 +1,8 @@
 services: docker
 language: node_js
+git:
+  depth: 1
+  quiet: true
 
 before_script:
     - curl -O https://raw.githubusercontent.com/cyber-dojo/cyber-dojo/master/shared/push_and_trigger.sh
