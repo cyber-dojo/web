@@ -89,21 +89,28 @@ end
 # - - - - - - - - - - - - - - - - - - - - - - - -
 # ported()
 # - - - - - - - - - - - - - - - - - - - - - - - -
-# cyber-dojo is designed for group practice-sessions.
-# In this 'mode' URLs used to look like this...
+# cyber-dojo was originally designed for group practice-sessions.
+# An individual practice-session was just a group
+# practice-session with a single avatar.
+# So originally, edit/ URLs always looked like this...
 #    http://cyber-dojo.org/kata/edit/hVU93Kj8rq?avatar=tiger
-# The hVU93Kj8rq was a 10-digit group-id
-# and the avatar=tiger was your animal inside this group.
-# Now, ported() will redirect these URLs to, eg...
-#    http://cyber-dojo.org/kata/edit/mFL6se
-# where mFL6se is the 6-digit kata-id
-# and the associated avatar-name is _not_ part of the URL.
+# There was a 10-digit id (hVU93Kj8rq) and an avatar name (tiger).
 #
-# cyber-dojo can also be used for individual practice-sessions.
-# In this 'mode' URLs also look like this...
-#   http://cyber-dojo.org/kata/edit/ym04AU
-# The ym04AU is a 6-digit kata-id
-# and there is no associated avatar-name.
+# cyber-dojo now properly supports both group practice-sessions
+# and individual practice sessions, but the URLs always look like this
+#    http://cyber-dojo.org/kata/edit/mFL6se
+# and use 6-digit ids (mFL6se) and never contain an avatar name.
+# If mFL6se is in a group practice-session an avatar will be visible.
+# If mFL6se is an individual practice-session an avatar won't be visible.
+#
+# The job of ported() is to redirect old 10-digit ids to new 6-digit ids.
+# For example
+#    http://cyber-dojo.org/kata/edit/hVU93Kj8rq?avatar=tiger
+# to
+#    http://cyber-dojo.org/kata/edit/mFL6se
+#
+# Of course, there were URLs that used 10-digit ids and did not contain
+# an avatar name, for the dashboard and diff/review for example.
 #
 # Examples of ported() URL redirections...
 #
