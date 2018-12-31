@@ -14,8 +14,7 @@ class RunnerTest < AppModelsTestBase
 
   test '149',
   'red: deliberately initially failing test' do
-    kata = gcc_assert_kata
-    params = run_params(kata)
+    params = gcc_assert_params
     result = kata.run_tests(params)
     assert_equal 'red', result[3]
   end
@@ -24,8 +23,7 @@ class RunnerTest < AppModelsTestBase
 
   test '150',
   'amber: file large than max_file_size is truncated' do
-    kata = gcc_assert_kata
-    params = run_params(kata)
+    params = gcc_assert_params
     large = "/*" + ('-'* (51*1024)) + "*/"
     params[:file_content]['large.c'] = large
     result = kata.run_tests(params)
@@ -36,9 +34,10 @@ class RunnerTest < AppModelsTestBase
 
   private
 
-  def gcc_assert_kata
+  def gcc_assert_params
     set_starter_class('StarterService')
-    make_language_kata({ 'display_name' => 'C (gcc), assert' })
+    kata = make_language_kata({ 'display_name' => 'C (gcc), assert' })
+    run_params(kata)
   end
 
   def run_params(kata)
