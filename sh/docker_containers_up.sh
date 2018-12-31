@@ -30,6 +30,7 @@ wait_until_ready()
   local port="${2}"
   local method="sha"
   local max_tries=20
+  local tries=20
   local cmd="curl --silent --fail --data '{}' -X GET http://localhost:${port}/${method}"
   cmd+=" > /dev/null 2>&1"
 
@@ -37,7 +38,7 @@ wait_until_ready()
     cmd="docker-machine ssh ${DOCKER_MACHINE_NAME} ${cmd}"
   fi
   echo -n "Waiting until ${name} is ready"
-  while [ $(( max_tries -= 1 )) -ge 0 ] ; do
+  while [ $(( tries -= 1 )) -ge 0 ] ; do
     echo -n '.'
     if eval ${cmd} ; then
       echo 'OK'
@@ -47,7 +48,7 @@ wait_until_ready()
     fi
   done
   echo 'FAIL'
-  echo "${name} not ready after 20 tries"
+  echo "${name} not ready after ${max_tries} tries"
   docker logs ${name}
   exit 1
 }
