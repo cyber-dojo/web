@@ -36,3 +36,5 @@ wait_till_up 'test-web-runner'
 wait_till_up 'test-web-saver'
 wait_till_up 'test-web-differ'
 wait_till_up 'test-web-zipper'
+# hack because I'm not doing proper readyness check
+sleep 3

@@ -20,6 +20,21 @@ class RunnerTest < AppModelsTestBase
     }
   end
 
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '150',
+  'smoke test run' do
+    set_starter_class('StarterService')
+    kata = make_language_kata({ 'display_name' => 'C (gcc), assert' })
+    params = run_params(kata)
+    # large .c file which truncates in its middle...
+    large = "/*" + ('-'* (51*1024)) + "*/"
+    params[:file_content]['large.c'] = large
+    result = kata.run_tests(params)
+    # which means it won't compile
+    assert_equal 'amber', result[3]
+  end
+
   # hidden_filenames
 
   private
