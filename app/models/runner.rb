@@ -53,12 +53,17 @@ class Runner
       files.delete(output_filename)
     end
     files.map{ |filename,content|
-      [filename, { 'content' => content }]
+      [filename, { 'content' => sanitized(content) }]
     }.to_h
   end
 
   def output_filenames
     %w( stdout stderr status )
+  end
+
+  def sanitized(content)
+    max_file_size = 50 * 1024
+    content[0..max_file_size]
   end
 
 end
