@@ -6,7 +6,7 @@ readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 
 # - - - - - - - - - - - - - - - - - - - - -
 
-wait_till_up()
+wait_until_running()
 {
   local n=10
   while [ $(( n -= 1 )) -ge 0 ]
@@ -24,17 +24,46 @@ wait_till_up()
 
 # - - - - - - - - - - - - - - - - - - - - -
 
+wait_until_ready()
+{
+  local name="${1}"
+  local port="${2}"
+  local method="sha"
+  local max_tries=20
+  local cmd="curl --silent --fail --data '{}' -X GET http://localhost:${port}/${method}"
+  cmd+=" > /dev/null 2>&1"
+
+  if [ ! -z ${DOCKER_MACHINE_NAME} ]; then
+    cmd="docker-machine ssh ${DOCKER_MACHINE_NAME} ${cmd}"
+  fi
+  echo -n "Waiting until ${name} is ready"
+  while [ $(( max_tries -= 1 )) -ge 0 ] ; do
+    echo -n '.'
+    if eval ${cmd} ; then
+      echo 'OK'
+      return
+    else
+      sleep 0.1
+    fi
+  done
+  echo 'FAIL'
+  echo "${name} not ready after 20 tries"
+  docker logs ${name}
+  exit 1
+}
+
+# - - - - - - - - - - - - - - - - - - - - -
+
 docker-compose \
   --file "${ROOT_DIR}/docker-compose.yml" \
   up \
   -d \
   --force-recreate
 
-wait_till_up 'test-web'
-wait_till_up 'test-web-starter'
-wait_till_up 'test-web-runner'
-wait_till_up 'test-web-saver'
-wait_till_up 'test-web-differ'
-wait_till_up 'test-web-zipper'
-# hack because I'm not doing proper readyness check
-sleep 3
+wait_until_running 'test-web'
+
+wait_until_ready 'starter' 4527
+wait_until_ready 'runner'  4597
+wait_until_ready 'saver'   4537
+wait_until_ready 'differ'  4567
+wait_until_ready 'zipper'  4587

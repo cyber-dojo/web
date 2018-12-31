@@ -29,6 +29,8 @@ services:
     image: cyberdojo/starter
     init: true
     container_name: test-web-starter
+    ports:
+      - 4527:4527        
     read_only: true
     tmpfs: /tmp
     restart: 'no'
@@ -43,6 +45,8 @@ services:
     init: true
     container_name: test-web-runner
     read_only: true
+    ports:
+      - 4597:4597
     tmpfs: /tmp
     restart: 'no'
     volumes:
@@ -56,6 +60,8 @@ services:
     init: true
     container_name: test-web-saver
     read_only: true
+    ports:
+      - 4537:4537
     tmpfs: /tmp
     restart: 'no'
     tmpfs:
@@ -70,6 +76,8 @@ services:
     init: true
     container_name: test-web-differ
     read_only: true
+    ports:
+      - 4567:4567
     tmpfs: /tmp
     mem_limit: 1G
     memswap_limit: 1G
@@ -83,6 +91,8 @@ services:
     init: true
     container_name: test-web-zipper
     read_only: true
+    ports:
+      - 4587:4587
     tmpfs: /tmp
     restart: 'no'
     depends_on:
