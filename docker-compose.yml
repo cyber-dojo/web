@@ -30,7 +30,7 @@ services:
     init: true
     container_name: test-web-starter
     ports:
-      - 4527:4527        
+      - 4527:4527
     read_only: true
     tmpfs: /tmp
     restart: 'no'
@@ -64,9 +64,27 @@ services:
       - 4537:4537
     tmpfs: /tmp
     restart: 'no'
+    depends_on:
+      - ported
     tmpfs:
       - /cyber-dojo:uid=19663,gid=19663
       - /tmp:uid=19663,gid=19663
+
+  # - - - - - - - - - - - - - - - -
+
+  ported:
+    user: nobody
+    image: cyberdojo/ported
+    init: true
+    container_name: test-web-ported
+    read_only: true
+    ports:
+      - 4547:4547
+    tmpfs: /tmp
+    restart: 'no'
+    tmpfs:
+      - /porter:uid=65534,gid=65533
+      - /tmp:uid=65534,gid=65533
 
   # - - - - - - - - - - - - - - - -
 
