@@ -65,18 +65,18 @@ services:
     tmpfs: /tmp
     restart: 'no'
     depends_on:
-      - ported
+      - mapper
     tmpfs:
       - /cyber-dojo:uid=19663,gid=19663
       - /tmp:uid=19663,gid=19663
 
   # - - - - - - - - - - - - - - - -
 
-  ported:
+  mapper:
     user: nobody
-    image: cyberdojo/ported
+    image: cyberdojo/mapper
     init: true
-    container_name: test-web-ported
+    container_name: test-web-mapper
     read_only: true
     ports:
       - 4547:4547
