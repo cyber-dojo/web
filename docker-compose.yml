@@ -67,8 +67,8 @@ services:
     depends_on:
       - mapper
     tmpfs:
-      - /cyber-dojo:uid=19663,gid=19663
-      - /tmp:uid=19663,gid=19663
+      - /cyber-dojo:uid=19663,gid=65533
+      - /tmp:uid=19663,gid=65533
 
   # - - - - - - - - - - - - - - - -
 
