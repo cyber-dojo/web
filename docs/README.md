@@ -9,7 +9,6 @@
 The main web-server for [cyber-dojo.org](http://cyber-dojo.org). Uses:
 - [nginx](https://github.com/cyber-dojo/nginx) for web-proxy, security, and to cache images.
 - [starter](https://github.com/cyber-dojo/starter) to help set up a practice session.
-- [porter](https://github.com/cyber-dojo/porter) to port old katas to saver.
 - [saver](https://github.com/cyber-dojo/saver) to remember groups/katas/tests.
 - [runner-stateless](https://github.com/cyber-dojo/runner-stateless) to run tests.
 - [differ](https://github.com/cyber-dojo/differ) to diff the code/tests in successive tests-runs.
