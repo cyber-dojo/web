@@ -17,6 +17,10 @@ module Externals # mix-in
     @differ ||= external
   end
 
+  def mapper
+    @mapper ||= external
+  end
+
   #def zipper
   #  @zipper ||= external
   #end

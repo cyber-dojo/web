@@ -28,7 +28,7 @@ wait_until_ready()
 {
   local name="${1}"
   local port="${2}"
-  local method="sha"
+  local method="${3:-sha}"
   local max_tries=20
   local cmd="curl --silent --fail --data '{}' -X GET http://localhost:${port}/${method}"
   cmd+=" > /dev/null 2>&1"
@@ -67,4 +67,5 @@ wait_until_ready 'starter' 4527
 wait_until_ready 'runner'  4597
 wait_until_ready 'saver'   4537
 wait_until_ready 'differ'  4567
-wait_until_ready 'zipper'  4587
+wait_until_ready 'mapper'  4547 ready
+#wait_until_ready 'zipper'  4587
