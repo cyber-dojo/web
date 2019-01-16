@@ -20,6 +20,7 @@ services:
       - runner
       - saver
       - differ
+      - mapper
       - zipper
 
   # - - - - - - - - - - - - - - - -
