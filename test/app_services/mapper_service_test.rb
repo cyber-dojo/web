@@ -13,7 +13,7 @@ class MapperServiceTest < AppServicesTestBase
     assert mapper.ready?
     assert_sha mapper.sha
     refute mapper.mapped?('112233')
-    assert_equal '', mapper.mapped_id('332211')
+    assert_equal '332211', mapper.mapped_id('332211')
   end
 
 end
