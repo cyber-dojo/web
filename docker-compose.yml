@@ -84,8 +84,9 @@ services:
     tmpfs: /tmp
     restart: 'no'
     tmpfs:
-      - /porter:uid=65534,gid=65533
       - /tmp:uid=65534,gid=65533
+    volumes:
+      - ./test/data/porter:/porter:ro
 
   # - - - - - - - - - - - - - - - -
 

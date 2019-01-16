@@ -1,0 +1,113 @@
+{
+  "display_name": "Ruby, MiniTest",
+  "hidden_filenames": [
+    "coverage/\\.last_run\\.json",
+    "coverage/\\.resultset\\.json"
+  ],
+  "image_name": "cyberdojofoundation/ruby_mini_test",
+  "filename_extension": [
+    ".rb"
+  ],
+  "tab_size": 2,
+  "visible_files": {
+    "test_hiker.rb": {
+      "content": [
+        "require_relative 'coverage'\n",
+        "require_relative 'hiker'\n",
+        "require 'minitest/autorun'\n",
+        "\n",
+        "class TestHiker < MiniTest::Test\n",
+        "\n",
+        "  def test_life_the_universe_and_everything\n",
+        "    assert_equal 42, answer\n",
+        "  end\n",
+        "\n",
+        "end\n"
+      ]
+    },
+    "hiker.rb": {
+      "content": [
+        "\n",
+        "def answer\n",
+        "  6 * 9\n",
+        "end\n"
+      ]
+    },
+    "cyber-dojo.sh": {
+      "content": [
+        "for test_file in *test*.rb\n",
+        "do\n",
+        "  ruby $test_file\n",
+        "done\n"
+      ]
+    },
+    "coverage.rb": {
+      "content": [
+        "require 'simplecov'\n",
+        "require 'simplecov-console'\n",
+        "SimpleCov.formatter = SimpleCov::Formatter::Console\n",
+        "SimpleCov.start\n"
+      ]
+    },
+    "readme.txt": {
+      "content": [
+        "\n",
+        "ISBN - International Standard Book Number\n",
+        "-----------------------------------------\n",
+        "There are two ISBN standards: ISBN-10 and ISBN-13.\n",
+        "Support for ISBN-13 is essential, whereas support\n",
+        "for ISBN-10 is optional.\n",
+        "Here are some valid examples of each:\n",
+        "\n",
+        "ISBN-10:    0471958697\n",
+        "            0 471 60695 2\n",
+        "            0-470-84525-2\n",
+        "            0-321-14653-0\n",
+        "\n",
+        "ISBN-13:    9780470059029\n",
+        "            978 0 471 48648 0\n",
+        "            978-0596809485\n",
+        "            978-0-13-149505-0\n",
+        "            978-0-262-13472-9\n",
+        "\n",
+        "ISBN-10 is made up of 9 digits plus a check digit (which\n",
+        "may be 'X') and ISBN-13 is made up of 12 digits plus a\n",
+        "check digit. Spaces and hyphens may be included in a code,\n",
+        "but are not significant. This means that 9780471486480 is\n",
+        "equivalent to 978-0-471-48648-0 and 978 0 471 48648 0.\n",
+        "\n",
+        "The check digit for ISBN-10 is calculated by multiplying\n",
+        "each digit by its position (i.e., 1 x 1st digit, 2 x 2nd\n",
+        "digit, etc.), summing these products together and taking\n",
+        "modulo 11 of the result (with 'X' being used if the result\n",
+        "is 10).\n",
+        "\n",
+        "The check digit for ISBN-13 is calculated by multiplying\n",
+        "each digit alternately by 1 or 3 (i.e., 1 x 1st digit,\n",
+        "3 x 2nd digit, 1 x 3rd digit, 3 x 4th digit, etc.), summing\n",
+        "these products together, taking modulo 10 of the result\n",
+        "and subtracting this value from 10, and then taking the\n",
+        "modulo 10 of the result again to produce a single digit.\n",
+        "\n",
+        "\n",
+        "Basic task:\n",
+        "Create a function that takes a string and returns true\n",
+        "if that is a valid ISBN-13 and false otherwise.\n",
+        "\n",
+        "Advanced task:\n",
+        "Also return true if the string is a valid ISBN-10."
+      ]
+    }
+  },
+  "exercise": "ISBN",
+  "created": [
+    2019,
+    1,
+    16,
+    12,
+    44,
+    55,
+    800239
+  ],
+  "id": "FxWwrr"
+}

@@ -1,0 +1,25 @@
+{
+  "display_name": "Ruby, MiniTest",
+  "hidden_filenames": [
+    "coverage/\\.last_run\\.json",
+    "coverage/\\.resultset\\.json"
+  ],
+  "image_name": "cyberdojofoundation/ruby_mini_test",
+  "filename_extension": [
+    ".rb"
+  ],
+  "tab_size": 2,
+  "exercise": "ISBN",
+  "created": [
+    2019,
+    1,
+    16,
+    12,
+    44,
+    55,
+    800239
+  ],
+  "group_id": "FxWwrr",
+  "group_index": 32,
+  "id": "5rTJv5"
+}
