@@ -4,7 +4,7 @@ class DashboardController < ApplicationController
   protect_from_forgery except: :heartbeat
 
   def show
-    #ported {
+    #mapped {
       gather
       @title = 'dashboard:' + group.id
     #}

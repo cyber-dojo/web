@@ -10,10 +10,10 @@ class ApplicationController < ActionController::Base
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def ported
+  def mapped
     # See comment below
     if id.size == 10
-      id6 = porter.port(id)
+      id6 = mapper.mapped_id(id)
       url = request.url
       if m = /#{id}\?avatar=([a-z]*)&?/.match(url)
         kata = groups[id6].katas.find{ |k| k.avatar_name == m[1] }
@@ -87,7 +87,7 @@ class ApplicationController < ActionController::Base
 end
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-# ported()
+# mapped()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 # cyber-dojo was originally designed for group practice-sessions.
 # An individual practice-session was just a group
@@ -103,7 +103,7 @@ end
 # If mFL6se is in a group practice-session an avatar will be visible.
 # If mFL6se is an individual practice-session an avatar won't be visible.
 #
-# The job of ported() is to redirect old 10-digit ids to new 6-digit ids.
+# The job of mapped() is to redirect old 10-digit ids to new 6-digit ids.
 # For example
 #    http://cyber-dojo.org/kata/edit/hVU93Kj8rq?avatar=tiger
 # to
@@ -112,7 +112,7 @@ end
 # Of course, there were URLs that used 10-digit ids and did not contain
 # an avatar name, for the dashboard and diff/review for example.
 #
-# Examples of ported() URL redirections...
+# Examples of mapped() URL redirections...
 #
 #     dashboard/show/1F00C1BFC8
 # --> dashboard/show/2M0Ry7?

@@ -5,7 +5,7 @@ class ReviewController < ApplicationController
     # Once you are on the review dialog/page
     # all interaction with the web server is via the
     # differ-controller.
-    #ported {
+    #mapped {
       @title = 'review:' + kata.id
       @id = kata.id
       @avatar_name = kata.avatar_name

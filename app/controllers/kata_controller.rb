@@ -7,7 +7,7 @@ class KataController < ApplicationController
   end
 
   def edit
-    #ported {
+    #mapped {
       @title = 'kata:' + kata.id
       @files = kata.files(:with_output)
     #}
