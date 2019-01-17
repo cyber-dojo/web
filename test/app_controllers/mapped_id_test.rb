@@ -48,4 +48,25 @@ class MappedIdTest < AppControllerTestBase
     assert regex.match(@response.redirect_url)
   end
 
+  #- - - - - - - - - - - - - - - -
+  # review/show
+  #- - - - - - - - - - - - - - - -
+
+  test '9F8', 'review/show no mapped-id6 redirection' do
+    id6 = '5rTJv5'
+    get "/review/show/#{id6}", params:{}
+    assert_response :success
+  end
+
+  #- - - - - - - - - - - - - - - -
+
+  test '9F9', 'review/show mapped-id10 redirection' do
+    id10 = '733E9E16FC'
+    params = { avatar:'mouse' }
+    get "/review/show/#{id10}", params:params
+    assert_response :redirect
+    regex = /^(.*)\/review\/show\/5rTJv5$/
+    assert regex.match(@response.redirect_url)
+  end
+
 end
