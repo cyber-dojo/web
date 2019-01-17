@@ -4,10 +4,10 @@ class DashboardController < ApplicationController
   protect_from_forgery except: :heartbeat
 
   def show
-    #mapped {
+    mapped_id {
       gather
       @title = 'dashboard:' + group.id
-    #}
+    }
   end
 
   def heartbeat

@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def mapped
+  def mapped_id
     # See comment below
     if id.size == 10
       id6 = mapper.mapped_id(id)
