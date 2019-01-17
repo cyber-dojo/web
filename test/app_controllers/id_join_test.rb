@@ -24,22 +24,6 @@ class IdJoinControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test 'F12',
-  'join with no id results in json with exists=false' do
-    get '/id_join/drop_down', params:{}
-    refute exists?
-  end
-
-  #- - - - - - - - - - - - - - - -
-
-  test 'F13',
-  'join with empty string id results in json with exists=false' do
-    join('')
-    refute exists?
-  end
-
-  #- - - - - - - - - - - - - - - -
-
   test 'F14',
   'join with id that does not exist results in json with exists=false' do
     join(hex_test_kata_id)

@@ -7,7 +7,7 @@ class IdJoinController < ApplicationController
   end
 
   def drop_down
-    group = groups[id] # group = groups[mapper.mapped_id(id)]
+    group = groups[mapper.mapped_id(id)]
     json = { exists:group.exists? }
     if json[:exists]
       kata = group.join
