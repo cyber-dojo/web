@@ -59,7 +59,7 @@ class IdRejoinControllerTest < AppControllerTestBase
   private
 
   def rejoin(from, id)
-    params = { 'format' => 'json', 'id' => id, 'from' => from }
+    params = { format:'json', id:id, from: from }
     get '/id_rejoin/drop_down', params:params
     assert_response :success
   end
