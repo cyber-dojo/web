@@ -96,8 +96,8 @@ class MappedIdTest < AppControllerTestBase
   # id_rejoin
   #- - - - - - - - - - - - - - - -
 
-  test '9C7', 'id_rejoin mapped-id10 redirection with 6..10 digits' do
-    id10 = '733E9E16FC' 
+  test '9C7', 'group id_rejoin mapped-id10 redirection with 6..10 digits' do
+    id10 = '733E9E16FC'
     (6..10).each do |n|
       partial_id = id10[0...n]
       assert_equal n, partial_id.size
@@ -106,6 +106,19 @@ class MappedIdTest < AppControllerTestBase
       assert_response :success
       assert json['exists']
       refute json['empty']
+    end
+  end
+
+  test '9C8', 'individual id_rejoin mapped-id10 redirection with 6..10 digits' do
+    id10 = '733E9E16FC'
+    (6..10).each do |n|
+      partial_id = id10[0...n]
+      params = { format:'json', from:'individual', id:partial_id }
+      get '/id_rejoin/drop_down', params:params
+      assert_response :success
+      assert json['exists']
+      assert_equal '5rTJv5', json['kataId']
+      assert_equal 'mouse', json['avatarName']
     end
   end
 
