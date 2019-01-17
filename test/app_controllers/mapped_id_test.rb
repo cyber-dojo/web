@@ -24,7 +24,7 @@ class MappedIdTest < AppControllerTestBase
     params = { avatar:'mouse' }
     get "/kata/edit/#{id10}", params:params
     assert_response :redirect
-    regex = /^(.*)\/kata\/edit\/5rTJv5\?$/
+    regex = /^(.*)\/kata\/edit\/5rTJv5$/
     assert regex.match(@response.redirect_url)
   end
 
