@@ -26,13 +26,9 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     block.call(kata)
   end
 
-  # - - - - - - - - - - - - - - - -
-
   def kata
     katas[@id]
   end
-
-  # - - - - - - - - - - - - - - - -
 
   def create_language_kata(display_name = default_display_name,
                            exercise_name = default_exercise_name)
@@ -104,16 +100,15 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   # - - - - - - - - - - - - - - - -
 
-  def assert_join(id = kata.id)
-    @avatar_name = join(id)
+  def assert_join(gid)
+    @avatar_name = join(gid)
     assert json['exists']
     refute_nil @avatar_name
-    @params_maker = ParamsMaker.new(katas[id].avatars[@avatar_name])
     @avatar_name
   end
 
-  def join(id)
-    params = { 'format' => 'json', 'id' => id }
+  def join(gid)
+    params = { 'format' => 'json', 'id' => gid }
     get '/id_join/drop_down', params:params
     assert_response :success
     json['avatarName']

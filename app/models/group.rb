@@ -9,7 +9,7 @@ class Group
   attr_reader :id
 
   def exists?
-    if id == ''
+    if id.nil? || id == ''
       false
     else
       @exists ||= saver.group_exists?(id)

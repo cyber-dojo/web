@@ -78,4 +78,16 @@ class MappedIdTest < AppControllerTestBase
     assert regex.match(@response.redirect_url)
   end
 
+  #- - - - - - - - - - - - - - - -
+  # id_join
+  #- - - - - - - - - - - - - - - -
+
+  #- - - - - - - - - - - - - - - -
+  # id_rejoin
+  #- - - - - - - - - - - - - - - -
+
+  #- - - - - - - - - - - - - - - -
+  # id_review
+  #- - - - - - - - - - - - - - - -
+
 end

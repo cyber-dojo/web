@@ -30,7 +30,7 @@ class IdRejoinController < ApplicationController
       json[:avatarName] = kata.avatar_name
       return json
     end
-    # id could be an old id for a group
+    # id could be an old id for a group (with single avatar)
     group = groups[id] # group = groups[mapper.mapped_id(id)]
     json = { exists:group.exists? }
     if json[:exists]
@@ -47,7 +47,7 @@ class IdRejoinController < ApplicationController
   end
 
   def group_drop_down_json
-    group = groups[id] # [porter.port(id)]
+    group = groups[id] # group = groups[mapper.mapped_id(id)]
     json = { exists:group.exists? }
     if json[:exists]
       json[:empty] = group.empty?
