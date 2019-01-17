@@ -47,7 +47,7 @@ class IdRejoinController < ApplicationController
   end
 
   def group_drop_down_json
-    group = groups[id] # group = groups[mapper.mapped_id(id)]
+    group = groups[mapper.mapped_id(id)]
     json = { exists:group.exists? }
     if json[:exists]
       json[:empty] = group.empty?
