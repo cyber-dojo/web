@@ -11,13 +11,13 @@ class IdJoinControllerTest < AppControllerTestBase
   test 'F11',
   'join succeeds once for each avatar name, then session is full' do
     in_group do |group|
-      Avatars.names.each do
-        avatar_name = assert_join(group.id)
-        refute_nil avatar_name
+      Avatars.names.size.times do
+        kata = assert_join(group.id)
+        assert Avatars.names.include?(kata.avatar_name)
         refute full?
       end
-      avatar_name = join(group.id)
-      assert_nil avatar_name
+      kata = join(group.id)
+      assert_nil kata
       assert full?
     end
   end
