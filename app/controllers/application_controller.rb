@@ -93,9 +93,9 @@ end
 # mapped()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 # cyber-dojo was originally designed for group practice-sessions.
-# An individual practice-session was just a group
+# At that time, an individual practice-session was just a group
 # practice-session with a single avatar.
-# So originally, edit/ URLs always looked like this...
+# So originally, kata/edit/ URLs always looked like this...
 #    http://cyber-dojo.org/kata/edit/hVU93Kj8rq?avatar=tiger
 # There was a 10-digit id (hVU93Kj8rq) and an avatar name (tiger).
 #
@@ -106,16 +106,16 @@ end
 # If mFL6se is in a group practice-session an avatar will be visible.
 # If mFL6se is an individual practice-session an avatar won't be visible.
 #
-# The job of mapped() is to redirect old 10-digit ids to new 6-digit ids.
+# The job of mapped_id() is to redirect old 10-digit ids to new 6-digit ids.
 # For example
 #    http://cyber-dojo.org/kata/edit/hVU93Kj8rq?avatar=tiger
 # to
 #    http://cyber-dojo.org/kata/edit/mFL6se
 #
 # Of course, there were URLs that used 10-digit ids and did not contain
-# an avatar name, for the dashboard and diff/review for example.
+# an avatar name, the dashboard/show and diff/review for example.
 #
-# Examples of mapped() URL redirections...
+# Examples of mapped_id() URL redirections...
 #
 #     dashboard/show/1F00C1BFC8
 # --> dashboard/show/2M0Ry7?

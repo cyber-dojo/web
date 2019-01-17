@@ -69,4 +69,13 @@ class MappedIdTest < AppControllerTestBase
     assert regex.match(@response.redirect_url)
   end
 
+  test '9FA', 'review/show mapped-id10 redirection with tag->index' do
+    id10 = '733E9E16FC'
+    params = { avatar:'mouse', was_tag:1, now_tag:2 }
+    get "/review/show/#{id10}", params:params
+    assert_response :redirect
+    regex = /^(.*)\/review\/show\/5rTJv5\?was_index\=1\&now_index\=2$/
+    assert regex.match(@response.redirect_url)
+  end
+
 end
