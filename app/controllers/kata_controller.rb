@@ -7,10 +7,10 @@ class KataController < ApplicationController
   end
 
   def edit
-    #mapped {
+    mapped {
       @title = 'kata:' + kata.id
       @files = kata.files(:with_output)
-    #}
+    }
   end
 
   def run_tests
