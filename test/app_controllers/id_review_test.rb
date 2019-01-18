@@ -9,28 +9,32 @@ class IdReviewControllerTest < AppControllerTestBase
   #- - - - - - - - - - - - - - - -
 
   test '408',
-  'review exists==true' do
-    in_kata {
-      review(kata.id)
-      assert exists?
-    }
+  'review from existing group' do
+    review('FxWwrr')
+    assert exists?
+    assert_equal id, 'FxWwrr'
   end
 
   #- - - - - - - - - - - - - - - -
 
   test '409',
-  'review exists==false' do
-    review(hex_test_kata_id)
-    refute exists?
+  'review from new group' do
+    in_group do |group|
+      review(group.id)
+      assert exists?
+      assert_equal id, group.id
+    end
   end
 
   #- - - - - - - - - - - - - - - -
 
   test '40A',
-  'review with no id results in json with exists=false' do
-    get '/id_review/drop_down', params:{}
+  'review from group that does not exist' do
+    review('112233')
     refute exists?
   end
+
+  #- - - - - - - - - - - - - - - -
 
   private
 
@@ -42,6 +46,10 @@ class IdReviewControllerTest < AppControllerTestBase
 
   def exists?
     json['exists']
+  end
+
+  def id
+    json['id']
   end
 
 end
