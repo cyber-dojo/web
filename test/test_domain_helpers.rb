@@ -64,5 +64,5 @@ module TestDomainHelpers # mix-in
   def duration
     1.6543
   end
-  
+
 end

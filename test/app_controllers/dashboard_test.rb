@@ -9,7 +9,7 @@ class DashboardControllerTest < AppControllerTestBase
   #- - - - - - - - - - - - - - - -
 
   test '971', %w( minute_column/auto_refresh true/false ) do
-    in_kata {}
+    @gid = 'FxWwrr'
     options = [ false, true, 'xxx' ]
     options.each do |mc|
       options.each do |ar|
@@ -20,49 +20,50 @@ class DashboardControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test 'E43', %w(
+  test '972', %w(
   with and without avatars, and
   with and without traffic lights ) do
-    has_progress_set_in_manifest = 'Java, JUnit'
-    in_kata(has_progress_set_in_manifest) {
-      # no avatars
-      dashboard
-      heartbeat
-      progress
-      # some avatars
-      3.times {
-        assert_join
+    manifest = make_manifest({ 'display_name' => 'Java, JUnit' })
+    group = groups.new_group(manifest)
+    @gid = group.id
+    # no avatars
+    dashboard
+    heartbeat
+    progress
+    # some avatars
+    3.times {
+      in_kata {
         # no traffic-lights
         dashboard
         heartbeat
         progress
         # some traffic-lights
         2.times {
-          run_tests
+          post_run_tests
         }
       }
-      dashboard
-      heartbeat
-      progress
     }
+    dashboard
+    heartbeat
+    progress
   end
 
   private # = = = = = = = = = = = = = =
 
   def dashboard(params = {})
-    params[:id] = @id
+    params[:id] = @gid
     get '/dashboard/show', params:params
     assert_response :success
   end
 
   def heartbeat
-    params = { :format => :js, :id => @id }
+    params = { :format => :js, :id => @gid }
     get '/dashboard/heartbeat', params:params
     assert_response :success
   end
 
   def progress
-    params = { :format => :js, :id => @id }
+    params = { :format => :js, :id => @gid }
     get '/dashboard/progress', params:params
     assert_response :success
   end
