@@ -126,4 +126,16 @@ class MappedIdTest < AppControllerTestBase
   # id_review
   #- - - - - - - - - - - - - - - -
 
+  test '11C', 'group id_review mapped-id10 redirection with 6..10 digits' do
+    id10 = '733E9E16FC'
+    (6..10).each do |n|
+      partial_id = id10[0...n]
+      params = { format:'json', id:partial_id }
+      get '/id_review/drop_down', params:params
+      assert_response :success
+      assert json['exists']
+      assert_equal 'FxWwrr', json['id']
+    end
+  end
+
 end
