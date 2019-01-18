@@ -13,18 +13,21 @@ class Kata
     saver.kata_exists?(id)
   end
 
+  def group?
+    group_id
+  end
+
   def group
-    gid = manifest.group_id
-    if gid
-      Group.new(@externals, gid)
+    if group?
+      Group.new(@externals, group_id)
     else
       nil
     end
   end
 
   def avatar_name
-    if group
-      Avatars.names[manifest.group_index]
+    if group?
+      Avatars.names[group_index]
     else
       ''
     end
@@ -78,6 +81,17 @@ class Kata
   end
 
   private
+
+  def group_id
+    # if this kata is inside a group, the group's id, else nil
+    manifest.group_id
+  end
+
+  def group_index
+    # if this kata is inside a group, the kata's index in the group
+    # (which is used to determine its avatar), else nil
+    manifest.group_index
+  end
 
   def most_recent_event
     events.last

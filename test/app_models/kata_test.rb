@@ -46,6 +46,7 @@ class KataTest < AppModelsTestBase
     refute kata.active?
     assert_equal [], kata.lights
 
+    refute kata.group?
     assert_nil kata.group
     assert_equal '', kata.avatar_name
   end
@@ -63,6 +64,8 @@ class KataTest < AppModelsTestBase
 
     kata = group.join(indexes)
 
+    assert kata.exists?
+
     assert_equal 0, kata.age
 
     assert_nil kata.stdout
@@ -72,6 +75,7 @@ class KataTest < AppModelsTestBase
     refute kata.active?
     assert_equal [], kata.lights
 
+    assert kata.group?
     refute_nil kata.group
     assert_equal group.id, kata.group.id
     assert_equal Avatars.names[indexes[0]], kata.avatar_name
