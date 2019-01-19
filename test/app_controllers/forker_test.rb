@@ -124,13 +124,13 @@ class ForkerControllerTest < AppControllerTestBase
   private # = = = = = = = = = = = = = = = = = = =
 
   def fork_individual(id, index, format=:json)
-    params = { id:id, index:index }
-    get '/forker/fork_individual', params:params, as: format
+    params = { index:index }
+    get "/forker/fork_individual/#{id}", params:params, as: format
   end
 
   def fork_group(id, index, format=:json)
-    params = { id:id, index:index }
-    get '/forker/fork_group', params:params, as: format
+    params = { index:index }
+    get "/forker/fork_group/#{id}", params:params, as: format
   end
 
   def forked?
