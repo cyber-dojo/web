@@ -125,27 +125,3 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   end
 
 end
-
-=begin
-  def as_avatar(&block)
-    assert_join
-    block.call
-  end
-=end
-  #def avatar
-  #  kata.avatars[@avatar_name]
-  #end
-
-  #def delete_file(filename)
-  #  @params_maker.delete_file(filename)
-  #end
-
-  #def new_file(filename, content)
-  #  @params_maker.new_file(filename, content)
-  #end
-
-  #def kata_edit
-  #  params = { 'id' => kata.id }
-  #  get '/kata/edit', params:params
-  #  assert_response :success
-  #end
