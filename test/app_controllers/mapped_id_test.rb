@@ -139,27 +139,22 @@ class MappedIdTest < AppControllerTestBase
     end
   end
 
-=begin
+=begin 
   #- - - - - - - - - - - - - - - -
   # forker/fork_individual
   #- - - - - - - - - - - - - - - -
 
-  test '7D4', 'fork_individual mapped-id10 redirection with 6..10 digits' do
+  test '7D4', 'fork_individual mapped-id10 redirection with 10 digits' do
     id10 = '733E9E16FC'
-    # TODO: (6..10).each do |n|
-    (10..10).each do |n|
-      partial_id = id10[0...n]
-      params = { id:partial_id, avatar:'mouse', tag:1 }
-      get '/forker/fork_individual', params:params, as: :html
-      assert_response :redirect
-      regex = /^(.*)\/kata\/edit\/([0-9A-Za-z]*)$/
-      assert m = regex.match(@response.redirect_url)
-      forked_id = m[2]
-      puts ":#{forked_id.class.name}:"
-      assert_equal 6, forked_id.size
-      forked_kata = katas[forked_id]
-      assert forked_kata.exists?
-    end
+    params = { avatar:'mouse', tag:1 }
+    get "/forker/fork_individual/#{id10}", params:params, as: :html
+    assert_response :redirect
+    regex = /^(.*)\/kata\/edit\/([0-9A-Za-z]*)$/
+    assert m = regex.match(@response.redirect_url)
+    forked_id = m[2]
+    assert_equal 6, forked_id.size
+    forked_kata = katas[forked_id]
+    assert forked_kata.exists?
   end
 =end
 
