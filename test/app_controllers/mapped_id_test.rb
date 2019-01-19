@@ -102,8 +102,8 @@ class MappedIdTest < AppControllerTestBase
     (6..10).each do |n|
       partial_id = id10[0...n]
       assert_equal n, partial_id.size
-      params = { format:'json', from:'group', id:partial_id }
-      get '/id_rejoin/drop_down', params:params
+      params = { from:'group', id:partial_id }
+      get '/id_rejoin/drop_down', params:params, as: :json
       assert_response :success
       assert json['exists'], json
       refute json['empty'], json
@@ -114,8 +114,8 @@ class MappedIdTest < AppControllerTestBase
     id10 = '733E9E16FC'
     (6..10).each do |n|
       partial_id = id10[0...n]
-      params = { format:'json', from:'individual', id:partial_id }
-      get '/id_rejoin/drop_down', params:params
+      params = { from:'individual', id:partial_id }
+      get '/id_rejoin/drop_down', params:params, as: :json
       assert_response :success
       assert json['exists']
       assert_equal '5rTJv5', json['kataId'], json
