@@ -39,8 +39,8 @@ class IdReviewControllerTest < AppControllerTestBase
   private
 
   def review(id)
-    params = { 'format' => 'json', 'id' => id }
-    get '/id_review/drop_down', params:params
+    params = { id:id }
+    get '/id_review/drop_down', params:params, as: :json
     assert_response :success
   end
 
