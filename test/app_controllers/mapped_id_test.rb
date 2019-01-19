@@ -143,9 +143,23 @@ class MappedIdTest < AppControllerTestBase
   # forker/fork (html)
   #- - - - - - - - - - - - - - - -
 
-  test 'EF7', 'fork_individual mapped-id10 redirection with 10 digits' do
+  test 'EF7', 'fork mapped-id10 redirection with 10 digits' do
     id10 = '733E9E16FC'
     params = { avatar:'mouse', tag:1 }
+    get "/forker/fork/#{id10}", params:params, as: :html
+    follow_redirect!
+    assert_response :redirect
+    regex = /^(.*)\/kata\/group\/([0-9A-Za-z]*)$/
+    assert m = regex.match(@response.redirect_url)
+    gid = m[2]
+    assert_equal 6, gid.size
+    group = groups[gid]
+    assert group.exists?
+  end
+
+  test 'EF8', 'fork mapped-id10 tag=-1 redirection with 10 digits' do
+    id10 = '733E9E16FC'
+    params = { avatar:'mouse', tag:-1 }
     get "/forker/fork/#{id10}", params:params, as: :html
     follow_redirect!
     assert_response :redirect

@@ -62,6 +62,21 @@ class ForkerControllerTest < AppControllerTestBase
     }
   end
 
+  test '7D5', 'forker/fork with tag=-1 (html)' do
+    in_kata { |kata|
+      post_run_tests # 1
+      params = { index:-1 }
+      get "/forker/fork/#{kata.id}", params:params, as: :html
+      assert_response :redirect
+      regex = /^(.*)\/kata\/group\/([0-9A-Za-z]*)$/
+      assert m = regex.match(@response.redirect_url)
+      gid = m[2]
+      assert_equal 6, gid.size
+      group = groups[gid]
+      assert group.exists?
+    }
+  end
+
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'AF2', %w( when id is malformed the fork fails ) do
@@ -84,45 +99,6 @@ class ForkerControllerTest < AppControllerTestBase
       refute forked?
     }
   end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - -
-=begin
-  test '835', %w(
-  when id,avatar,tag are all ok,
-  format=html fork works,
-  and you are redirected to the group landing page with the new dojo's id ) do
-    in_kata {
-      as_avatar {
-        run_tests # 1
-        fork(kata.id, avatar.name, tag=1, 'html')
-        assert_response :redirect
-        url = /(.*)\/kata\/group\/(.*)/
-        m = url.match(@response.location)
-        forked_kata_id = m[2]
-      }
-    }
-  end
-
-  #- - - - - - - - - - - - - - - - - -
-
-  test '7E7', %w(
-  when id,avatar are all ok, tag==-1,
-  format=html fork works,
-  and you are redirected to the group landing page with the new dojo's id ) do
-    in_kata {
-      as_avatar {
-        run_tests # 1
-        run_tests # 2
-        fork(kata.id, avatar.name, tag=-1, 'html')
-        assert_response :redirect
-        url = /(.*)\/kata\/group\/(.*)/
-        m = url.match(@response.location)
-        forked_kata_id = m[2]
-        refute_equal kata.id, forked_kata_id
-      }
-    }
-  end
-=end
 
   private # = = = = = = = = = = = = = = = = = = =
 
