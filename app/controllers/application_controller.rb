@@ -80,6 +80,7 @@ class ApplicationController < ActionController::Base
       end
       url6 = url6.sub('was_tag', 'was_index')
       url6 = url6.sub('now_tag', 'now_index')
+      url6 = url6.sub('tag', 'index')
       if url6.end_with?('?')
         url6 = url6[0..-2]
       end

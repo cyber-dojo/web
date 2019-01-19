@@ -15,16 +15,17 @@ class ForkerController < ApplicationController
   end
 
   def fork
-    # See
-    # https://blog.cyber-dojo.org/2014/08/custom-starting-point.html
-    manifest = kata.events[index].manifest
-    manifest['created'] = time_now
-    forked_id = saver.group_create(manifest)
-    respond_to do |format|
-      format.html {
-        redirect_to "/kata/group/#{forked_id}"
-      }
-    end
+    # See https://blog.cyber-dojo.org/2014/08/custom-starting-point.html
+    mapped_id {
+      manifest = kata.events[index].manifest
+      manifest['created'] = time_now
+      gid = saver.group_create(manifest)
+      respond_to do |format|
+        format.html {
+          redirect_to "/kata/group/#{gid}"
+        }
+      end
+    }
   end
 
   private
