@@ -83,12 +83,13 @@ class MappedIdTest < AppControllerTestBase
   #- - - - - - - - - - - - - - - -
 
   test '866', 'id_join mapped-id10 redirection with 6..10 digits' do
-    id10 = '733E9E16FC'
+    # This is the only test using this test-data since it alters it.
+    id10 = 'FD7FF5FA61'
     (6..10).each do |n|
       partial_id = id10[0...n]
       assert_equal n, partial_id.size
       kata = assert_join(partial_id)
-      assert_equal 'FxWwrr', kata.group.id
+      assert_equal 'chy6BJ', kata.group.id
     end
   end
 
@@ -104,8 +105,8 @@ class MappedIdTest < AppControllerTestBase
       params = { format:'json', from:'group', id:partial_id }
       get '/id_rejoin/drop_down', params:params
       assert_response :success
-      assert json['exists']
-      refute json['empty']
+      assert json['exists'], json
+      refute json['empty'], json
     end
   end
 
@@ -117,8 +118,8 @@ class MappedIdTest < AppControllerTestBase
       get '/id_rejoin/drop_down', params:params
       assert_response :success
       assert json['exists']
-      assert_equal '5rTJv5', json['kataId']
-      assert_equal 'mouse', json['avatarName']
+      assert_equal '5rTJv5', json['kataId'], json
+      assert_equal 'mouse', json['avatarName'], json
     end
   end
 
