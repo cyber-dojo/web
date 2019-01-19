@@ -30,10 +30,13 @@ class ForkerController < ApplicationController
       }
     end
     respond_to do |format|
-      format.json { render json: result }
-      #See
-      #https://blog.cyber-dojo.org/2014/08/custom-starting-point.html
-      #format.html { redirect_to "/kata/edit/#{result['id']}" }
+      format.json {
+        render json: result
+      }
+      format.html { # See
+        # https://blog.cyber-dojo.org/2014/08/custom-starting-point.html
+        redirect_to "/kata/edit/#{result[:id]}"
+      }
     end
   end
 

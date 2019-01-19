@@ -42,6 +42,25 @@ class ForkerControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test '8B1', %w(
+  when id,index are all ok
+  format=html fork_individual works
+  and redirects to kata/edit ) do
+    in_kata { |kata|
+      post_run_tests # 1
+      fork_individual(kata.id, index=1, :html)
+      assert_response :redirect
+      regex = /^(.*)\/kata\/edit\/([0-9A-Za-z]*)$/
+      assert m = regex.match(@response.redirect_url)
+      forked_id = m[2]
+      assert_equal 6, forked_id.size
+      forked_kata = katas[forked_id]
+      assert forked_kata.exists?
+    }
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test 'AF2', %w( when id is malformed the fork fails ) do
     fork_individual(malformed_id = 'bad-id', index=1)
     refute forked?
