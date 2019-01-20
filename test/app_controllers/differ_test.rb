@@ -9,7 +9,48 @@ class DifferControllerTest < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'AF6',
-  'no lines different in any files between successive tags' do
+  'diff where was_index==now_index results in content of all files' do
+    differ('5rTJv5', 0, 0)
+    json['diffs'].each do |diff|
+      assert_equal 0, diff['section_count']
+      assert_equal 0, diff['deleted_line_count']
+      assert_equal 0, diff['added_line_count']
+    end
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'AF7',
+  'diff where was_index!=now_index result in a diff' do
+    differ('5rTJv5', 0, 1)
+  end
+
+  private
+
+  def differ(id, was_index, now_index)
+    params = {
+             id:id,
+      was_files:files(id, was_index),
+      now_files:files(id, now_index)
+    }
+    get '/differ/diff', params:params, as: :json
+    assert_response :success
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def files(id, index)
+    katas[id].events[index]
+             .files
+             .map{ |filename,file| [filename, file['content']] }
+             .to_h
+  end
+
+end
+
+=begin
+  test 'AF7',
+  'dsfsdfsdfsdf' do
     in_kata {
       filename = 'hiker.rb'
       change_file(filename, content='some_change...')
@@ -79,45 +120,4 @@ class DifferControllerTest < AppControllerTestBase
       assert_equal 2, json['nowTag']
     }
   end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '490',
-  'nextAvatar and prevAvatar are empty string for dojo with one avatar' do
-    in_kata {
-      run_tests # 1
-      differ(0, 1)
-      assert_equal '', json['prevAvatar']
-      assert_equal '', json['nextAvatar']
-    }
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '76A',
-  'nextAvatar and prevAvatar for dojo with two avatars' do
-    in_kata {
-      run_tests # 1
-      first_avatar_name = avatar.name
-      run_tests # 1
-      differ(0, 1)
-      assert_equal first_avatar_name, json['prevAvatar']
-      assert_equal first_avatar_name, json['nextAvatar']
-    }
-  end
-
-  private
-
-  def differ(was_tag, now_tag)
-    params = {
-       'format' => 'json',
-           'id' => kata.id,
-       'avatar' => kata.avatar_name,
-      'was_tag' => was_tag,
-      'now_tag' => now_tag
-    }
-    get '/differ/diff', params:params
-    assert_response :success
-  end
-
-end
+=end
