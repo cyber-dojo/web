@@ -10,19 +10,22 @@ class ReviewControllerTest < AppControllerTestBase
 
   test '443',
   'review existing session' do
-    review('5rTJv5', 1, 2)
-    assert_response :success
+    assert_review_show('5rTJv5', 1, 2)
+    assert_review_show('5rTJv5', -1, -1)
   end
 
   test '444',
-  'review existing session, indexes both -1' do
-    review('5rTJv5', -1, -1)
-    assert_response :success
+  'review new session' do
+    in_kata { |kata|
+      post_run_tests # 1
+      assert_review_show(kata.id, 0, 1)
+      assert_review_show(kata.id, -1, -1)
+    }
   end
 
   private
 
-  def review(id, was_index, now_index)
+  def assert_review_show(id, was_index, now_index)
     params = { id:id, was_index:was_index, now_index:now_index }
     get '/review/show', params:params, as: :html
     assert_response :success
