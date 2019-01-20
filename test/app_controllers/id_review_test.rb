@@ -9,8 +9,8 @@ class IdReviewControllerTest < AppControllerTestBase
   #- - - - - - - - - - - - - - - -
 
   test '408',
-  'review from existing group' do
-    review('FxWwrr')
+  'id_review from existing group' do
+    id_review('FxWwrr')
     assert exists?
     assert_equal id, 'FxWwrr'
   end
@@ -18,9 +18,9 @@ class IdReviewControllerTest < AppControllerTestBase
   #- - - - - - - - - - - - - - - -
 
   test '409',
-  'review from new group' do
+  'id_review from new group' do
     in_group do |group|
-      review(group.id)
+      id_review(group.id)
       assert exists?
       assert_equal id, group.id
     end
@@ -29,8 +29,8 @@ class IdReviewControllerTest < AppControllerTestBase
   #- - - - - - - - - - - - - - - -
 
   test '40A',
-  'review from group that does not exist' do
-    review('112233')
+  'id_review from group that does not exist' do
+    id_review('112233')
     refute exists?
   end
 
@@ -38,7 +38,7 @@ class IdReviewControllerTest < AppControllerTestBase
 
   private
 
-  def review(id)
+  def id_review(id)
     params = { id:id }
     get '/id_review/drop_down', params:params, as: :json
     assert_response :success

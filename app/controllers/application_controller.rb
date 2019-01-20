@@ -47,19 +47,11 @@ class ApplicationController < ActionController::Base
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def was_index
-    value = params[:was_index].to_i
-    if value == -1
-      value = kata.events.size - 1 
-    end
-    value
+    value_of(:was_index)
   end
 
   def now_index
-    value = params[:now_index].to_i
-    if value == -1
-      value = kata.events.size - 1
-    end
-    value
+    value_of(:now_index)
   end
 
   def index
@@ -71,6 +63,16 @@ class ApplicationController < ActionController::Base
         .files(:with_output)
         .map{ |filename,file| [filename, file['content']] }
         .to_h
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def value_of(sym)
+    value = params[sym].to_i
+    if value == -1
+      value = kata.events.size - 1
+    end
+    value
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
