@@ -22,6 +22,7 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
+=begin
   test 'BA3', %w(
   when ID matches a current custom start-point
   show lists all custom display_names
@@ -32,6 +33,7 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
     start_points = starter.custom_start_points
     assert_equal yahtzee_csharp_nunit, start_points[custom_index]
   end
+=end
 
   # - - - - - - - - - - - - - - - - - - -
 
