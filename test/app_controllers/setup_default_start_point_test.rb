@@ -28,13 +28,13 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   show lists all language,testFramework and all exercise display_names
   and chooses indexes to match the ID
   to encourage repetition ) do
-    in_kata {}
-    assert_equal ruby_minitest, kata.display_name
-
-    show 'id' => kata.id
-    start_points = starter.language_start_points
-    assert_equal ruby_minitest, start_points['languages'][language_index]
-    assert_equal fizz_buzz,     start_points['exercises'].keys.sort[exercise_index]
+    in_kata { |kata|
+      assert_equal ruby_minitest, kata.manifest.display_name
+      show({ id: kata.id })
+      start_points = starter.language_start_points
+      assert_equal ruby_minitest, start_points['languages'][language_index]
+      assert_equal fizz_buzz,     start_points['exercises'].keys.sort[exercise_index]
+    }
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -43,7 +43,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   when ID does not designate a kata
   show lists all language,testFramework and all exercise display_names
   and chooses a random index for both lists ) do
-    show 'id' => invalid_id
+    show({ id:invalid_id })
     assert valid_language_index?
     assert valid_exercise_index?
   end
@@ -55,11 +55,11 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   show lists all language,testFramework and all exercise display_names
   and chooses a random index for both lists ) do
     manifest = starter.language_manifest(ruby_minitest, fizz_buzz)
+    manifest['created'] = time_now
     manifest['display_name'] = 'XXXX'
     manifest['exercise'] = 'YYYY'
-    kata_id = storer.kata_create(manifest)
-
-    show 'id' => kata_id
+    kata = katas.new_kata(manifest)
+    show({ id:kata.id })
     assert valid_language_index?
     assert valid_exercise_index?
   end
@@ -68,45 +68,43 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   test '3D8', %w(
   save_group
-  creates a new kata
+  creates a new group
   with the given display_name
   and does not start any avatars
   and redirects to kata/group page ) do
     language = ruby_rspec
     exercise = leap_years
     params = {
-      'language' => language,
-      'exercise' => exercise
+      language:language,
+      exercise:exercise
     }
-    id = save_group(params)
-    kata = katas[id]
-    assert_equal language,  kata.display_name
-    assert_equal exercise, kata.exercise
-    started = kata.avatars.started
-    assert_equal 0, started.size
+    gid = save_group(params)
+    group = groups[gid]
+    assert group.exists?
+    assert_equal language,  group.manifest.display_name
+    assert_equal exercise, group.manifest.exercise
+    assert_equal [], group.katas
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test '3D9', %w(
   save_individual
-  creates a new kata
+  creates a new individual kata
   with the given language+test and exercise
-  and starts a new avatar
   and redirects to kata/edit page ) do
     language = ruby_minitest
     exercise = fizz_buzz
     params = {
-      'language' => language,
-      'exercise' => exercise
+      language:language,
+      exercise:exercise
     }
-    id,avatar = save_individual(params)
+    id = save_individual(params)
     kata = katas[id]
-    assert_equal language, kata.display_name
-    assert_equal exercise, kata.exercise
-    started = kata.avatars.started
-    assert_equal 1, started.size
-    assert_equal [avatar], started.keys
+    assert kata.exists?
+    assert_equal language, kata.manifest.display_name
+    assert_equal exercise, kata.manifest.exercise
+    refute kata.group?
   end
 
   private # = = = = = = = = = = = = = = = = = =
@@ -135,21 +133,19 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   def save_individual(params)
     get "/#{controller}/save_individual", params:params
     assert_response :redirect
-    regex = /^(.*)\/kata\/edit\/([0-9A-Z]*)\?avatar=([a-z]*)$/
+    regex = /^(.*)\/kata\/edit\/([0-9A-Za-z]*)$/
     assert m = regex.match(@response.redirect_url)
     id = m[2]
-    avatar = m[3]
-    [id,avatar]
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def save_group(params)
-    get "/#{controller}/save_group", params:params
+    get "/#{controller}/save_group", params:params, as: :html
     assert_response :redirect
-    regex = /^(.*)\/kata\/group\/([0-9A-Z]*)$/
+    regex = /^(.*)\/kata\/group\/([0-9A-Za-z]*)$/
     assert m = regex.match(@response.redirect_url)
-    id = m[2]
+    gid = m[2]
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -203,7 +199,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def listed?(entry)
-    html.include? "data-name=#{quoted(entry)}"
+    html.include?("data-name=#{quoted(entry)}")
   end
 
   def quoted(s)
@@ -211,7 +207,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   end
 
   def invalid_id
-    '379C8ABFDF'
+    '379C8A'
   end
 
 end
