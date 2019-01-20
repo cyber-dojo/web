@@ -38,7 +38,11 @@ $(() => {
 
   const show = (index) => {
     param.nowIndex = index;
-    param.wasIndex = (prevEventIndex(param.nowIndex) || 0);
+    if (inDiffMode()) {
+      param.wasIndex = (prevEventIndex(param.nowIndex) || 0);
+    } else {
+      param.wasIndex = index;
+    }
     refresh();
   };
 
@@ -59,6 +63,21 @@ $(() => {
   };
 
   //-----------------------------------------
+  // refresh diff? [x]
+  //-----------------------------------------
+
+  const refreshDiffCheckBox = () => {
+    diffCheckBox()
+      .attr('checked', param.wasIndex !== param.nowIndex)
+      .unbind('click')
+      .bind('click', () => show(param.nowIndex));
+  };
+
+  const diffCheckBox = () => $('#diff-checkbox');
+
+  const inDiffMode = () => diffCheckBox().is(':checked');
+
+  //-----------------------------------------
   // refresh traffic-lights
   //-----------------------------------------
 
@@ -69,7 +88,7 @@ $(() => {
       const $light = $(light);
       const nowIndex = $light.data('index');
       $light.click(() => show(nowIndex));
-      const wasIndex = prevEventIndex(nowIndex);
+      const wasIndex = inDiffMode() ? prevEventIndex(nowIndex) : nowIndex;
       cd.setupTrafficLightTip($light, param.id, wasIndex, nowIndex);
     });
   };
@@ -245,6 +264,9 @@ $(() => {
 
   const makeDiffCountColumn = (diffs, propertyName, cssName) => {
     let html = '';
+    if (!diffCheckBox().is(':checked')) {
+      return html;
+    }
     html += '<table>';
     $.each(sortedDiffs(diffs), (_, diff) => {
       const count = diff[propertyName];
@@ -443,6 +465,7 @@ $(() => {
       refreshTrafficLights(); // this
       refreshNavigator(); // before this
       refreshFiles();
+      refreshDiffCheckBox();
       refreshForkButton();
       refreshRevertButton();
       refreshDownloadButton();
@@ -603,6 +626,7 @@ $(() => {
   </tr>
   <tr valign="top">
     <td align="right" style="width:295px">
+      <%= render(:partial => 'review/diff_checkbox') %>
       <div id="fork-button-box"></div>
       <div id="revert-button-box"></div>
       <div id="download-button-box"></div>

@@ -47,11 +47,19 @@ class ApplicationController < ActionController::Base
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def was_index
-    params[:was_index].to_i
+    value = params[:was_index].to_i
+    if value == -1
+      value = kata.events.size - 1 
+    end
+    value
   end
 
   def now_index
-    params[:now_index].to_i
+    value = params[:now_index].to_i
+    if value == -1
+      value = kata.events.size - 1
+    end
+    value
   end
 
   def index

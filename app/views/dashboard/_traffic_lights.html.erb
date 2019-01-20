@@ -19,7 +19,7 @@ $(() => {
 
   $('.avatar-image').click(element => {
     const id = $(element.currentTarget).data('id');
-    window.open(cd.showReviewUrl(id, 0, 1));
+    window.open(cd.showReviewUrl(id, -1, -1));
   });
 
   cd.pieChart($('#traffic-lights .pie'));

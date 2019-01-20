@@ -60,6 +60,18 @@
     right: -4px;
   }
 
+  #diff-checkbox-container {
+    @include edged-panel();
+    width: 61px;
+    padding: { top: 5px; bottom: 2px; }
+    #diff-checkbox-title {
+       font-size: 14px;
+         display: inline;
+        position: relative; bottom: 2px;
+    }
+    margin: { top: 5px; }
+  }
+
   .triangle.button {
     width: 28px;
     height: 28px;
