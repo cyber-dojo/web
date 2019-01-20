@@ -72,17 +72,15 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   with the given display_name
   and does not start any avatars
   and redirects to kata/group page ) do
-    language = ruby_rspec
-    exercise = leap_years
     params = {
-      language:language,
-      exercise:exercise
+      language:ruby_rspec,
+      exercise:leap_years
     }
     gid = save_group(params)
     group = groups[gid]
     assert group.exists?
-    assert_equal language,  group.manifest.display_name
-    assert_equal exercise, group.manifest.exercise
+    assert_equal ruby_rspec,  group.manifest.display_name
+    assert_equal leap_years, group.manifest.exercise
     assert_equal [], group.katas
   end
 
@@ -93,17 +91,15 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   creates a new individual kata
   with the given language+test and exercise
   and redirects to kata/edit page ) do
-    language = ruby_minitest
-    exercise = fizz_buzz
     params = {
-      language:language,
-      exercise:exercise
+      language:ruby_minitest,
+      exercise:fizz_buzz
     }
     id = save_individual(params)
     kata = katas[id]
     assert kata.exists?
-    assert_equal language, kata.manifest.display_name
-    assert_equal exercise, kata.manifest.exercise
+    assert_equal ruby_minitest, kata.manifest.display_name
+    assert_equal fizz_buzz, kata.manifest.exercise
     refute kata.group?
   end
 
@@ -116,7 +112,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def show(params = {})
-    get "/#{controller}/show", params:params
+    get "/#{controller}/show", params:params, as: :html
     assert_response :success
 
     start_points = starter.language_start_points
@@ -131,7 +127,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def save_individual(params)
-    get "/#{controller}/save_individual", params:params
+    get "/#{controller}/save_individual", params:params, as: :html
     assert_response :redirect
     regex = /^(.*)\/kata\/edit\/([0-9A-Za-z]*)$/
     assert m = regex.match(@response.redirect_url)
