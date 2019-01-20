@@ -33,8 +33,8 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   def create_language_kata(display_name = default_display_name,
                            exercise_name = default_exercise_name)
     params = {
-      'language' => display_name,
-      'exercise' => exercise_name
+      language:display_name,
+      exercise:exercise_name
     }
     get '/setup_default_start_point/save_individual', params:params
     assert_response :redirect
@@ -48,10 +48,10 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   # - - - - - - - - - - - - - - - -
 
   def create_custom_kata(display_name)
-    params = { 'display_name' => display_name }
+    params = { display_name:display_name }
     get '/setup_custom_start_point/save_group', params:params
     assert_response :redirect
-    #http://.../kata/group/BC8E8A6433
+    #http://.../kata/group/6433rG
     regex = /^(.*)\/kata\/group\/([0-9A-Za-z]*)$/
     assert m = regex.match(@response.redirect_url)
     @id = m[2]

@@ -28,7 +28,7 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
   and chooses an index to match the ID
   to encourage repetition ) do
     create_custom_kata(yahtzee_csharp_nunit)
-    show 'id' => kata.id
+    show({ id:@id })
     start_points = starter.custom_start_points
     assert_equal yahtzee_csharp_nunit, start_points[custom_index]
   end
@@ -36,10 +36,10 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - -
 
   test 'BA4', %w(
-  when ID does not designate a kata
+  when ID does not designate a kata or a group
   show lists all custom display_names
   and chooses a random index for it ) do
-    show 'id' => invalid_id
+    show({ id:invalid_id })
     assert valid_custom_index?
   end
 
@@ -50,10 +50,10 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
   show lists all custom display_names
   and chooses a random index for it ) do
     manifest = starter.custom_manifest(yahtzee_csharp_nunit)
+    manifest['created'] = time_now
     manifest['display_name'] = 'XXXXX'
-    kata_id = storer.kata_create(manifest)
-
-    show 'id' => kata_id
+    group = groups.new_group(manifest)
+    show({ id:group.id })
     assert valid_custom_index?
   end
 
@@ -61,35 +61,31 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
 
   test '3D8', %w(
   save_group
-  creates a new kata
+  creates a new group
   with the given display_name
   and does not start any avatars
   and redirects to kata/group page ) do
-    display_name = yahtzee_csharp_nunit
-    params = { 'display_name' => display_name }
-    id = save_group(params)
-    kata = katas[id]
-    assert_equal display_name,  kata.display_name
-    started = kata.avatars.started
-    assert_equal 0, started.size
+    params = { display_name:yahtzee_csharp_nunit }
+    gid = save_group(params)
+    group = groups[gid]
+    assert group.exists?
+    assert_equal yahtzee_csharp_nunit,  group.manifest.display_name
+    assert_equal [], group.katas
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test '3D9', %w(
   save_individual
-  creates a new kata
+  creates a new individual kata
   with the given display_name
-  and starts a new avatar
   and redirects to kata/edit page ) do
-    display_name = yahtzee_python_unittest
-    params = { 'display_name' => display_name }
-    id,avatar = save_individual(params)
+    params = { display_name:yahtzee_python_unittest }
+    id = save_individual(params)
     kata = katas[id]
-    assert_equal display_name,  kata.display_name
-    started = kata.avatars.started
-    assert_equal 1, started.size
-    assert_equal [avatar], started.keys
+    assert kata.exists?
+    assert_equal yahtzee_python_unittest,  kata.manifest.display_name
+    refute kata.group?
   end
 
   private # = = = = = = = = = = = = = = = = = =
@@ -99,7 +95,7 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
   end
 
   def show(params = {})
-    get "/#{controller}/show", params:params
+    get "/#{controller}/show", params:params, as: :html
     assert_response :success
     starter.custom_start_points.each do |display_name|
       assert listed?(display_name)
@@ -107,19 +103,17 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
   end
 
   def save_individual(params)
-    get "/#{controller}/save_individual", params:params
+    get "/#{controller}/save_individual", params:params, as: :html
     assert_response :redirect
-    regex = /^(.*)\/kata\/edit\/([0-9A-Z]*)\?avatar=([a-z]*)$/
+    regex = /^(.*)\/kata\/edit\/([0-9A-Za-z]*)$/
     assert m = regex.match(@response.redirect_url)
     id = m[2]
-    avatar = m[3]
-    [id,avatar]
   end
 
   def save_group(params)
-    get "/#{controller}/save_group", params:params
+    get "/#{controller}/save_group", params:params, as: :html
     assert_response :redirect
-    regex = /^(.*)\/kata\/group\/([0-9A-Z]*)$/
+    regex = /^(.*)\/kata\/group\/([0-9A-Za-z]*)$/
     assert m = regex.match(@response.redirect_url)
     id = m[2]
   end
@@ -132,7 +126,7 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
   end
 
   def custom_index
-    md = /var selectedCustom = \$\('#custom_' \+ '(\d+)'\);/.match(html)
+    md = /let selectedCustom = \$\('#custom_' \+ '(\d+)'\);/.match(html)
     refute_nil md
     md[1].to_i
   end
@@ -158,7 +152,7 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
   end
 
   def invalid_id
-    '379C8ABFDF'
+    '379C8A'
   end
 
 end
