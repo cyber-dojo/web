@@ -73,7 +73,7 @@ module DashboardWorker # mixin
       [:red,:green].include?(light.colour)
     }
     if non_amber
-      output = non_amber.stdout + non_amber.stderr
+      output = non_amber.stdout['content'] + non_amber.stderr['content']
     else
       output = ''
     end
