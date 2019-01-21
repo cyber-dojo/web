@@ -6,6 +6,11 @@ class IdJoinControllerTest < AppControllerTestBase
     '8A0'
   end
 
+  test 'F10', 'show' do
+    get '/id_join/show', as: :html
+    assert_response :success
+  end
+
   #- - - - - - - - - - - - - - - -
 
   test 'F11',

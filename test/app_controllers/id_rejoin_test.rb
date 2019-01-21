@@ -8,19 +8,42 @@ class IdRejoinControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test '407',
-  'rejoin from existing group (with one kata)' do
-    rejoin('group', 'FxWwrr')
+  test '405', 'show' do
+    get '/id_rejoin/show?from=individual', as: :html
+    assert_response :success
+    get '/id_rejoin/show?from=group', as: :html
+    assert_response :success
+  end
+
+  test '406',
+  'rejoin from existing group always shows avatar-picker even if only one kata' do
+    group = groups['FxWwrr']
+    rejoin('group', group.id)
+    assert_equal 1, group.katas.size
     assert exists?
     refute empty?
+    assert avatarPicker?
+  end
+
+  test '407',
+  'rejoin as individual from group with several katas' do
+    in_group do |group|
+      kata = assert_join(group.id)
+      kata = assert_join(group.id)
+      rejoin('individual', group.id)
+      assert exists?
+      refute empty?
+      assert avatarPicker?
+    end
   end
 
   test '408',
-  'rejoin from new group' do
+  'rejoin from new empty group' do
     in_group do |group|
       rejoin('group', group.id)
       assert exists?
       assert empty?
+      assert avatarPicker?
     end
   end
 
@@ -36,6 +59,8 @@ class IdRejoinControllerTest < AppControllerTestBase
   'rejoin from existing individual kata' do
     rejoin('individual', '5rTJv5')
     assert exists?
+    refute empty?
+    refute avatarPicker?
     assert_equal 'mouse', avatar_name
   end
 
@@ -44,6 +69,8 @@ class IdRejoinControllerTest < AppControllerTestBase
     in_kata do |kata|
       rejoin('individual', kata.id)
       assert exists?
+      refute empty?
+      refute avatarPicker?
       assert_equal '', avatar_name
     end
   end
@@ -74,6 +101,10 @@ class IdRejoinControllerTest < AppControllerTestBase
 
   def avatar_name
     json['avatarName']
+  end
+
+  def avatarPicker?
+    !json['avatarPickerHtml'].nil?
   end
 
 end
