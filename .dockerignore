@@ -1,16 +1,7 @@
-#-----Ignore everything
-
 *
-
-#-----!Except these folders
-
-!app
-!config
-!lib
-!test
-
-#-----!Except these files
-
+!app/
+!config/
+!lib/
 !config.ru
 !script/rails
 !up.sh
