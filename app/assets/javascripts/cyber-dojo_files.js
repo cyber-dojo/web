@@ -32,7 +32,7 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.loadTestOutputFile = () => {
-    // TODO: this could be passed the traffic-light colour.
+    // TODO: this could be passed the trafficLight.colour
     // If green, prefer to show stdout?
     // If non-green, prefer to show stderr?
     if (fileContent('status') === '137') {
