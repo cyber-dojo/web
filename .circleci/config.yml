@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build-image:
+  build-publish:
 
     machine:
       enabled: true
@@ -10,18 +10,22 @@ jobs:
     steps:
       - checkout
       - run:
-          name: build web docker image and push to docker hub
+          name: build docker image
           command: |
-            set -e
-            echo "${DOCKER_PASS}" | docker login -u "${DOCKER_USER}" --password-stdin
+            set -ev
             ./pipe_build_up_test.sh
+      - run:
+          name: publish tagged docker image on dockerhub
+          command: |
+            set -ev
             readonly project=${CIRCLE_PROJECT_REPONAME}
             docker tag  cyberdojo/${project}:latest cyberdojo/${project}:${CIRCLE_SHA1:0:7}
             docker tag  cyberdojo/${project}:latest cyberdojo/${project}:beta
+            echo "${DOCKER_PASS}" | docker login -u "${DOCKER_USER}" --password-stdin
             docker push cyberdojo/${project}:${CIRCLE_SHA1:0:7}
             docker push cyberdojo/${project}:beta
 
-  deploy-image-to-beta:
+  deploy-to-beta:
     docker:
       - image: cyberdojo/gcloud-kubectl-helm
     steps:
@@ -41,13 +45,13 @@ workflows:
   version: 2
   build-publish-deploy:
     jobs:
-      - build-image:
+      - build-publish:
           context: cyberdojo-context
           filters:
             branches:
               only:
                   - master
-      - deploy-image-to-beta:
+      - deploy-to-beta:
           context: cyberdojo-context
           requires:
-            - build-image
+            - build-publish
