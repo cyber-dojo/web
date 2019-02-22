@@ -24,6 +24,8 @@ jobs:
             echo "${DOCKER_PASS}" | docker login -u "${DOCKER_USER}" --password-stdin
             docker push cyberdojo/${project}:${CIRCLE_SHA1:0:7}
             docker push cyberdojo/${project}:beta
+            # old architecture
+            docker push cyberdojo/${project}:latest
 
   deploy-to-beta:
     docker:
