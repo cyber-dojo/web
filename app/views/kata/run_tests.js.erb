@@ -30,15 +30,11 @@ const updateTrafficLightPieChart = () => {
 //- - - - - - - - - - - - - - - - - - - - - -
 
 const updateOutput = () => {
-  cd.fileChange('stdout', {
-    content: "<%= j raw(@stdout['content']) %>"
-  });
-  cd.fileChange('stderr', {
-    content: "<%= j raw(@stderr['content']) %>"
-  });
-  cd.fileChange('status', {
-    content: "<%= j raw(@status.to_s) %>"
-  });
+  const colour = "<%= @light.colour %>";
+  const stdout = "<%= j raw(@stdout['content']) %>";
+  const stderr = "<%= j raw(@stderr['content']) %>";
+  const status = "<%= j raw(@status.to_s) %>";
+  cd.loadTestOutputFiles(colour, stdout, stderr, status);
 };
 
 //- - - - - - - - - - - - - - - - - - - - - -
@@ -93,7 +89,6 @@ appendTestTrafficLight();
 updateTrafficLightCount();
 updateTrafficLightPieChart();
 updateEventIndex();
-
 updateOutput();
 insertCreatedFiles();
 removeDeletedFiles();
@@ -102,5 +97,4 @@ updateChangedFiles();
 warnIfTestsTimedOut();
 //warnIfTruncatedFiles();
 
-cd.loadTestOutputFile();
 cd.scrollLastTrafficLightIntoView();

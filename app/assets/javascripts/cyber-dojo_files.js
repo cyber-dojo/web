@@ -31,17 +31,18 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.loadTestOutputFile = () => {
-    // TODO: this could be passed the trafficLight.colour
-    // If green, prefer to show stdout?
-    // If non-green, prefer to show stderr?
-    if (fileContent('status') === '137') {
-      cd.loadFile('status'); // timed-out
+  cd.loadTestOutputFiles = (colour, stdout, stderr, status) => {
+    cd.fileChange('stdout', { content: stdout });
+    cd.fileChange('stderr', { content: stderr });
+    cd.fileChange('status', { content: status });
+    if (colour === 'timed_out') {
+      cd.loadFile('status'); // timed-out: status == '137'
     }
-    else if (fileContent('stderr') !== '') {
-      cd.loadFile('stderr');
-    } else {
+    else if (stdout.length > stderr.length) {
       cd.loadFile('stdout');
+    }
+    else {
+        cd.loadFile('stderr');
     }
   };
 
