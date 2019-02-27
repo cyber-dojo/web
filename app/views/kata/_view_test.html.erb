@@ -3,6 +3,7 @@
 
 <%= form_tag( { action: 'run_tests', id: @kata.id } ) do %>
   <%= render partial: 'index' %>
+  <%= render partial: 'max_seconds' %>  
   <table>
     <tr class="valign-top">
       <td><%= render partial: 'summary_and_test' %></td>
