@@ -5,6 +5,7 @@ class ShaController < ApplicationController
     @services = {
       'differ'  => triple('differ', differ.sha),
       'mapper'  => triple('mapper', mapper.sha),
+      'nginx'   => triple('nginx', nginx_sha),
       'runner'  => triple('runner', runner.sha, github_url('runner-stateless', runner.sha)),
       'saver'   => triple('saver', saver.sha),
       'starter' => triple('starter', starter.sha, github_url('start-points-base', starter.sha)),
@@ -17,6 +18,10 @@ class ShaController < ApplicationController
 
   def web_sha
     ENV['SHA']
+  end
+
+  def nginx_sha
+    `wget --quiet -O - 'http://nginx:80/sha.txt'`
   end
 
   def triple(name, sha, url = github_url(name, sha))
