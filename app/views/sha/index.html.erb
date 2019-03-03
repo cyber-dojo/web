@@ -3,9 +3,9 @@
     <% @services.each do |name,values| %>
     <tr>
       <td><%= values['name'] %></td>
-      <td><%= values['sha'] %></td>
+      <td><%= values['sha'][0...7] %></td>
       <td><a href="<%= values['github_url'] %>">github</a></td>
-      <!-- link to image on dockerhub -->
+      <!-- add link to image on dockerhub? -->
     </tr>
     <% end %>
   </table>
