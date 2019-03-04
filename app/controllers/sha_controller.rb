@@ -21,7 +21,9 @@ class ShaController < ApplicationController
   end
 
   def nginx_sha
-    # This does not work in prod or beta
+    # This does not work in prod or beta.
+    # The problem is nginx is upstream of web.
+    # I think nginx's sha will need to be retrieved inside the browser.
     `wget --quiet -O - 'http://nginx:80/sha.txt'`
   end
 
