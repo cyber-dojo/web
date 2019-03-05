@@ -1,9 +1,31 @@
+<script type="text/javascript"><!--
+'use strict';
+$(() => {
+  $.ajax({
+    url: '/sha.txt',
+    type: 'GET',
+    crossDomain: true,
+    success: (sha) => {
+      $('tr#nginx td:nth-child(2)').text(sha.substring(0,7));
+      $('tr#nginx td:nth-child(3)').empty().append(
+        $('<a/>', {
+          href: `https://github.com/cyber-dojo/nginx/tree/${sha}`,
+          text:'github'
+        })
+      );
+    }
+  });
+});
+//--></script>
+
 <div id="sha-page">
   <table id="aligner">
     <% @services.each do |name,values| %>
-    <tr>
-      <td><%= values['name'] %></td>
-      <td><%= values['sha'][0...7] %></td>
+    <% repo_name = values['repo_name'] %>
+    <% sha = values['sha'] %>
+    <tr id="<%= name %>">
+      <td><%= name %></td>
+      <td><%= sha[0...7] %></td>
       <td><a href="<%= values['github_url'] %>">github</a></td>
       <td><a href="<%= values['dockerhub_url'] %>">dockerhub</a></td>
     </tr>

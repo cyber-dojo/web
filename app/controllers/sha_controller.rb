@@ -21,14 +21,11 @@ class ShaController < ApplicationController
   end
 
   def nginx_sha
-    # This does not work in prod or beta.
-    # The problem is nginx is upstream of web.
-    # I think nginx's sha will need to be retrieved inside the browser.
-    `wget --quiet -O - 'http://nginx:80/sha.txt'`
+    '' # nginx is upstream of web, client fills this in
   end
 
   def info(name, sha, repo_name = name)
-    { 'name' => name,
+    { 'repo_name' => repo_name,
       'sha' => sha,
       'github_url' => github_url(repo_name, sha),
       'dockerhub_url' => dockerhub_url(repo_name)
