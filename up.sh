@@ -8,6 +8,9 @@ rm -f ${WEB_HOME}/tmp/pids/server.pid
 
 export CYBER_DOJO_STARTER_CLASS=StarterService
 export CYBER_DOJO_CUSTOM_CLASS=StarterCustomService
+export CYBER_DOJO_EXERCISES_CLASS=StarterExercisesService
+export CYBER_DOJO_LANGUAGES_CLASS=StarterLanguagesService
+
 export CYBER_DOJO_SAVER_CLASS=SaverService
 export CYBER_DOJO_RUNNER_CLASS=RunnerService
 export CYBER_DOJO_DIFFER_CLASS=DifferService

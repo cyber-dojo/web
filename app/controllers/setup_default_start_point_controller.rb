@@ -6,14 +6,16 @@ class SetupDefaultStartPointController < ApplicationController
     @id = id
     current_display_name = (id != nil && kata.exists?) ? kata.manifest.display_name : nil
     current_exercise_name = (id != nil && kata.exists?) ? kata.manifest.exercise : nil
-    start_points = starter.language_start_points
-    @language_names = start_points['languages']
+
+    @language_names = languages.start_points
     @language_index = index_match(@language_names, current_display_name)
-    @exercise_names = start_points['exercises'].keys.sort
+
+    esp = exercises.start_points
+    @exercise_names = esp.keys.sort
     @exercise_index = index_match(@exercise_names, current_exercise_name)
     @instructions = []
     @exercise_names.each do |name|
-      @instructions << start_points['exercises'][name]['content']
+      @instructions << esp[name]['content']
     end
     @from = params['from']
   end
