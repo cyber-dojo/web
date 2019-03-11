@@ -4,6 +4,9 @@ module Externals # mix-in
   def starter
     @starter ||= external
   end
+  def custom
+    @custom ||= external
+  end
 
   def saver
     @saver ||= external
