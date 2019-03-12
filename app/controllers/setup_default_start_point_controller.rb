@@ -35,9 +35,9 @@ class SetupDefaultStartPointController < ApplicationController
   include TimeNow
 
   def starter_manifest
-    language = params['language']
-    exercise = params['exercise']
-    manifest = starter.language_manifest(language, exercise)
+    em = exercises.manifest(params['exercise'])
+    manifest = languages.manifest(params['language'])
+    manifest['visible_files'].merge!(em['visible_files'])
     manifest['created'] = time_now
     manifest
   end
