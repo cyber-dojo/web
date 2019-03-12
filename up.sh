@@ -6,7 +6,6 @@ set -e
 readonly WEB_HOME=/cyber-dojo
 rm -f ${WEB_HOME}/tmp/pids/server.pid
 
-export CYBER_DOJO_STARTER_CLASS=StarterService
 export CYBER_DOJO_CUSTOM_CLASS=StarterCustomService
 export CYBER_DOJO_EXERCISES_CLASS=StarterExercisesService
 export CYBER_DOJO_LANGUAGES_CLASS=StarterLanguagesService
