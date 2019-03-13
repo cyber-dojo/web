@@ -3,7 +3,7 @@ require_relative 'http_helper'
 class StarterExercisesService
 
   def initialize(externals)
-    @http = HttpHelper.new(externals, self, 'exercises', 4527)
+    @http = HttpHelper.new(externals, self, 'exercises', 4526)
   end
 
   # - - - - - - - - - - - -
