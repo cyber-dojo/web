@@ -6,20 +6,16 @@ class StarterLanguagesService
     @http = HttpHelper.new(externals, self, 'languages', 4525)
   end
 
-  # - - - - - - - - - - - -
-
   def sha
     http.get
   end
 
-  # - - - - - - - - - - - -
-
-  def start_points
+  def names
     http.get
   end
 
-  def manifest(display_name)
-    http.get(display_name)
+  def manifest(name)
+    http.get(name)
   end
 
   private

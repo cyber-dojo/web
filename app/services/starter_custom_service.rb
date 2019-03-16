@@ -6,20 +6,16 @@ class StarterCustomService
     @http = HttpHelper.new(externals, self, 'custom', 4527)
   end
 
-  # - - - - - - - - - - - -
-
   def sha
     http.get
   end
 
-  # - - - - - - - - - - - -
-
-  def start_points
+  def names
     http.get
   end
 
-  def manifest(display_name)
-    http.get(display_name)
+  def manifest(name)
+    http.get(name)
   end
 
   private

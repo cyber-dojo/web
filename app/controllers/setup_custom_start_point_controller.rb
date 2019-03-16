@@ -5,7 +5,7 @@ class SetupCustomStartPointController < ApplicationController
   def show
     @id = id
     current_display_name = (id != nil && kata.exists?) ? kata.manifest.display_name : nil
-    @custom_names = custom.start_points
+    @custom_names = custom.names
     @custom_index = index_match(@custom_names, current_display_name)
     @from = params['from']
   end
@@ -25,8 +25,8 @@ class SetupCustomStartPointController < ApplicationController
   include TimeNow
 
   def starter_manifest
-    display_name = params['display_name']
-    manifest = custom.manifest(display_name)
+    name = params['display_name']
+    manifest = custom.manifest(name)
     manifest['created'] = time_now
     manifest
   end

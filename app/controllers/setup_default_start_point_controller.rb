@@ -7,15 +7,15 @@ class SetupDefaultStartPointController < ApplicationController
     current_display_name = (id != nil && kata.exists?) ? kata.manifest.display_name : nil
     current_exercise_name = (id != nil && kata.exists?) ? kata.manifest.exercise : nil
 
-    @language_names = languages.start_points
+    @language_names = languages.names
     @language_index = index_match(@language_names, current_display_name)
 
-    esp = exercises.start_points
-    @exercise_names = esp.keys.sort
+    manifests = exercises.manifests
+    @exercise_names = manifests.keys.sort
     @exercise_index = index_match(@exercise_names, current_exercise_name)
     @instructions = []
     @exercise_names.each do |name|
-      @instructions << esp[name]['content']
+      @instructions << largest(manifests[name]['visible_files'])
     end
     @from = params['from']
   end
@@ -45,6 +45,12 @@ class SetupDefaultStartPointController < ApplicationController
   def index_match(names, current_name)
     index = names.index(current_name)
     index ? index : rand(0...names.size)
+  end
+
+  def largest(visible_files)
+    visible_files.max{ |lhs,rhs|
+      lhs[1]['content'].size <=> rhs[1]['content'].size
+    }[1]['content']
   end
 
 end

@@ -6,20 +6,20 @@ class StarterExercisesService
     @http = HttpHelper.new(externals, self, 'exercises', 4526)
   end
 
-  # - - - - - - - - - - - -
-
   def sha
     http.get
   end
 
-  # - - - - - - - - - - - -
-
-  def start_points
+  def names
     http.get
   end
 
-  def manifest(display_name)
-    http.get(display_name)
+  def manifests
+    http.get
+  end
+
+  def manifest(name)
+    http.get(name)
   end
 
   private
