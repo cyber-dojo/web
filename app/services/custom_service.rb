@@ -1,9 +1,9 @@
 require_relative 'http_helper'
 
-class StarterExercisesService
+class CustomService
 
   def initialize(externals)
-    @http = HttpHelper.new(externals, self, 'exercises', 4526)
+    @http = HttpHelper.new(externals, self, 'custom', 4527)
   end
 
   def sha
@@ -11,10 +11,6 @@ class StarterExercisesService
   end
 
   def names
-    http.get
-  end
-
-  def manifests
     http.get
   end
 

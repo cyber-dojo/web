@@ -23,7 +23,9 @@ module TestDomainHelpers # mix-in
   def make_manifest(options = {})
     display_name = options['display_name'] || default_display_name
     exercise_name = options['exercise'] || default_exercise_name
-    manifest = starter.language_manifest(display_name, exercise_name)
+    manifest = languages.manifest(display_name)
+    em = exercises.manifest(exercise_name)
+    manifest['visible_files'].merge!(em['visible_files'])
     manifest['created'] = (options['created'] || time_now)
     manifest['id'] = (options['id'] || kata_id)
     manifest
@@ -34,7 +36,7 @@ module TestDomainHelpers # mix-in
   end
 
   def default_exercise_name
-    'Fizz_Buzz'
+    'Fizz Buzz'
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - -

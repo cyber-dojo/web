@@ -1,9 +1,9 @@
 require_relative 'http_helper'
 
-class StarterCustomService
+class LanguagesService
 
   def initialize(externals)
-    @http = HttpHelper.new(externals, self, 'custom', 4527)
+    @http = HttpHelper.new(externals, self, 'languages', 4525)
   end
 
   def sha
