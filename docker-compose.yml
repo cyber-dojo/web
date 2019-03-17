@@ -18,7 +18,9 @@ services:
     memswap_limit: 2G
     restart: 'no'
     depends_on:
-      - starter
+      - custom
+      - exercises
+      - languages
       - runner
       - saver
       - differ
@@ -27,18 +29,42 @@ services:
 
   # - - - - - - - - - - - - - - - -
 
-  starter:
+  custom:
     user: nobody
-    image: cyberdojo/starter
+    image: cyberdojo/start-points-custom
     init: true
-    container_name: test-web-starter
+    container_name: test-web-custom
+    read_only: true
     ports:
       - 4527:4527
-    read_only: true
     tmpfs: /tmp
     restart: 'no'
-    volumes:
-      - ./test/data/start_points:/app/start_points:ro
+
+  # - - - - - - - - - - - - - - - -
+
+  exercises:
+    user: nobody
+    image: cyberdojo/start-points-exercises
+    init: true
+    container_name: test-web-exercises
+    read_only: true
+    ports:
+      - 4526:4526
+    tmpfs: /tmp
+    restart: 'no'
+
+  # - - - - - - - - - - - - - - - -
+
+  languages:
+    user: nobody
+    image: cyberdojo/start-points-languages
+    init: true
+    container_name: test-web-languages
+    read_only: true
+    ports:
+      - 4525:4525
+    tmpfs: /tmp
+    restart: 'no'
 
   # - - - - - - - - - - - - - - - -
 

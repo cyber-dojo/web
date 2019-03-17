@@ -14,8 +14,10 @@ export CYBER_DOJO_SAVER_CLASS=SaverService
 export CYBER_DOJO_RUNNER_CLASS=RunnerService
 export CYBER_DOJO_DIFFER_CLASS=DifferService
 export CYBER_DOJO_ZIPPER_CLASS=ZipperService
+
 export CYBER_DOJO_PORTER_CLASS=PorterService
 export CYBER_DOJO_MAPPER_CLASS=MapperService
+
 export CYBER_DOJO_HTTP_CLASS=Http
 
 rails server \
