@@ -20,6 +20,8 @@ class CustomServiceTest < AppServicesTestBase
     assert custom.ready?
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '3A9',
   'smoke test sha' do
     assert_sha custom.sha
@@ -53,28 +55,28 @@ class CustomServiceTest < AppServicesTestBase
 
   def expected_names
     [
-      "C++ Countdown, Practice Round",
-      "C++ Countdown, Round 1",
-      "C++ Countdown, Round 2",
-      "C++ Countdown, Round 3",
-      "C++ Countdown, Round 4",
-      "C++ Countdown, Round 5",
-      "C++ Countdown, Round 6",
-      "Java Countdown, Practice Round",
-      "Java Countdown, Round 1",
-      "Java Countdown, Round 2",
-      "Java Countdown, Round 3",
-      "Java Countdown, Round 4",
-      "Tennis refactoring, C# NUnit",
-      "Tennis refactoring, C++ (g++) assert",
-      "Tennis refactoring, Java JUnit",
-      "Tennis refactoring, Python unitttest",
-      "Tennis refactoring, Ruby Test::Unit",
-      "Yahtzee refactoring, C (gcc) assert",
-      "Yahtzee refactoring, C# NUnit",
-      "Yahtzee refactoring, C++ (g++) assert",
-      "Yahtzee refactoring, Java JUnit",
-      "Yahtzee refactoring, Python unitttest"
+      'C++ Countdown, Practice Round',
+      'C++ Countdown, Round 1',
+      'C++ Countdown, Round 2',
+      'C++ Countdown, Round 3',
+      'C++ Countdown, Round 4',
+      'C++ Countdown, Round 5',
+      'C++ Countdown, Round 6',
+      'Java Countdown, Practice Round',
+      'Java Countdown, Round 1',
+      'Java Countdown, Round 2',
+      'Java Countdown, Round 3',
+      'Java Countdown, Round 4',
+      'Tennis refactoring, C# NUnit',
+      'Tennis refactoring, C++ (g++) assert',
+      'Tennis refactoring, Java JUnit',
+      'Tennis refactoring, Python unitttest',
+      'Tennis refactoring, Ruby Test::Unit',
+      'Yahtzee refactoring, C (gcc) assert',
+      'Yahtzee refactoring, C# NUnit',
+      'Yahtzee refactoring, C++ (g++) assert',
+      'Yahtzee refactoring, Java JUnit',
+      'Yahtzee refactoring, Python unitttest'
     ]
   end
 
