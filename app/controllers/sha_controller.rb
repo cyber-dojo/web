@@ -6,7 +6,7 @@ class ShaController < ApplicationController
       'custom'    => info('custom', custom.sha),
       'differ'    => info('differ', differ.sha),
       'exercises' => info('exercises', exercises.sha),
-      'languages' => info('languages', languages.sha),
+      'languages' => info('languages', languages.sha), 
       'mapper'    => info('mapper', mapper.sha),
       'nginx'     => info('nginx', nginx_sha),
       'runner'    => info('runner', runner.sha, 'runner-stateless'),
