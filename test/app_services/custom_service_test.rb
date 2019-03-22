@@ -45,6 +45,8 @@ class CustomServiceTest < AppServicesTestBase
     assert_is_Yahtzee_refactoring_CSharp_NUnit_manifest(manifest)
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '3AD',
   'smoke test manifest(name)' do
     manifest = custom.manifest('Yahtzee refactoring, C# NUnit')
@@ -94,18 +96,6 @@ class CustomServiceTest < AppServicesTestBase
     assert_starts_with(visible_files, 'Yahtzee.cs', 'public class Yahtzee {')
     assert_starts_with(visible_files, 'YahtzeeTest.cs', 'using NUnit.Framework;')
     assert_starts_with(visible_files, 'cyber-dojo.sh', 'NUNIT_PATH=/nunit/lib/net45')
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - -
-
-  def assert_starts_with(visible_files, filename, content)
-    actual = visible_files[filename]['content']
-    diagnostic = [
-      "filename:#{filename}",
-      "expected:#{content}:",
-      "--actual:#{actual.split[0]}:"
-    ].join("\n")
-    assert actual.start_with?(content), diagnostic
   end
 
 end

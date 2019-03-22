@@ -29,4 +29,16 @@ class AppServicesTestBase < TestBase
     '0123456789abcdef'.include?(ch)
   end
 
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def assert_starts_with(visible_files, filename, content)
+    actual = visible_files[filename]['content']
+    diagnostic = [
+      "filename:#{filename}",
+      "expected:#{content}:",
+      "--actual:#{actual.split[0]}:"
+    ].join("\n")
+    assert actual.start_with?(content), diagnostic
+  end
+
 end

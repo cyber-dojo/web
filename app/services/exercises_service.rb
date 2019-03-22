@@ -6,6 +6,10 @@ class ExercisesService
     @http = HttpHelper.new(externals, self, 'exercises', 4526)
   end
 
+  def ready?
+    http.get
+  end
+
   def sha
     http.get
   end
