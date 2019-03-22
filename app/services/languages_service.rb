@@ -6,11 +6,19 @@ class LanguagesService
     @http = HttpHelper.new(externals, self, 'languages', 4525)
   end
 
+  def ready?
+    http.get
+  end
+
   def sha
     http.get
   end
 
   def names
+    http.get
+  end
+
+  def manifests
     http.get
   end
 
