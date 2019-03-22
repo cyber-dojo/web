@@ -8,6 +8,10 @@ class SaverService
 
   # - - - - - - - - - - - -
 
+  def ready?
+    http.get
+  end
+
   def sha
     http.get
   end
