@@ -7,7 +7,8 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   end
 
   def hex_setup
-    set_starter_class('StarterService')
+    set_languages_class('LanguagesService')
+    set_exercises_class('ExercisesService')
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -31,9 +32,8 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     in_kata { |kata|
       assert_equal ruby_minitest, kata.manifest.display_name
       show({ id: kata.id })
-      start_points = starter.language_start_points
-      assert_equal ruby_minitest, start_points['languages'][language_index]
-      assert_equal fizz_buzz,     start_points['exercises'].keys.sort[exercise_index]
+      assert_equal ruby_minitest, languages.names[language_index]
+      assert_equal fizz_buzz,     exercises.names[exercise_index]
     }
   end
 
@@ -54,7 +54,9 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   when ID does not match a current start-point
   show lists all language,testFramework and all exercise display_names
   and chooses a random index for both lists ) do
-    manifest = starter.language_manifest(ruby_minitest, fizz_buzz)
+    em = exercises.manifest(fizz_buzz)
+    manifest = languages.manifest(ruby_minitest)
+    manifest['visible_files'].merge!(em['visible_files'])
     manifest['created'] = time_now
     manifest['display_name'] = 'XXXX'
     manifest['exercise'] = 'YYYY'
@@ -115,12 +117,11 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     get "/#{controller}/show", params:params, as: :html
     assert_response :success
 
-    start_points = starter.language_start_points
-    start_points['languages'].each do |display_name|
+    languages.names.each do |display_name|
       assert listed?(display_name)
     end
-    start_points['exercises'].keys.each do |exercise|
-      assert listed?(exercise)
+    exercises.names.each do |exercise_name|
+      assert listed?(exercise_name)
     end
   end
 
@@ -147,8 +148,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def valid_language_index?
-    start_points = starter.language_start_points
-    max = start_points['languages'].size
+    max = languages.names.size
     (0...max).include?(language_index)
   end
 
@@ -161,8 +161,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def valid_exercise_index?
-    start_points = starter.language_start_points
-    max = start_points['exercises'].size
+    max = exercises.names.size
     (0...max).include?(exercise_index)
   end
 
@@ -185,11 +184,11 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def fizz_buzz
-    'Fizz_Buzz'
+    'Fizz Buzz'
   end
 
   def leap_years
-    'Leap_Years'
+    'Leap Years'
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -

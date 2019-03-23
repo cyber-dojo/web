@@ -7,7 +7,7 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
   end
 
   def hex_setup
-    set_starter_class('StarterService')
+    set_custom_class('CustomService')
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -51,7 +51,7 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
   when ID does not match a current custom start-point
   show lists all custom display_names
   and chooses a random index for it ) do
-    manifest = starter.custom_manifest(yahtzee_csharp_nunit)
+    manifest = custom.manifest(yahtzee_csharp_nunit)
     manifest['created'] = time_now
     manifest['display_name'] = 'XXXXX'
     group = groups.new_group(manifest)
@@ -99,7 +99,7 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
   def show(params = {})
     get "/#{controller}/show", params:params, as: :html
     assert_response :success
-    starter.custom_start_points.each do |display_name|
+    custom.names.each do |display_name|
       assert listed?(display_name)
     end
   end
@@ -123,7 +123,7 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def valid_custom_index?
-    max = starter.custom_start_points.size
+    max = custom.names.size
     (0...max).include?(custom_index)
   end
 
