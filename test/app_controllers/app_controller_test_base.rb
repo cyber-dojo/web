@@ -14,7 +14,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     em = exercises.manifest(default_exercise_name)
     manifest = languages.manifest(default_display_name)
     manifest['visible_files'].merge!(em['visible_files'])
-    manifest['exercise'] = default_exercise_name        
+    manifest['exercise'] = default_exercise_name
     manifest['created'] = time_now
     manifest
   end
