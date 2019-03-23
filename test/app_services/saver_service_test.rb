@@ -7,14 +7,6 @@ class SaverServiceTest < AppServicesTestBase
     'D2w'
   end
 
-  def hex_setup
-    set_differ_class('NotUsed')
-    set_custom_class('NotUsed')
-    set_exercises_class('NotUsed')
-    set_languages_class('NotUsed')
-    set_runner_class('NotUsed')
-  end
-
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '441',

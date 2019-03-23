@@ -6,13 +6,6 @@ class ExercisesServiceTest < AppServicesTestBase
     '438'
   end
 
-  def hex_setup
-    set_differ_class('NotUsed')
-    set_exercises_class('ExercisesService')
-    set_saver_class('NotUsed')
-    set_runner_class('NotUsed')
-  end
-
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '3A8',

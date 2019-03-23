@@ -6,13 +6,6 @@ class LanguagesServiceTest < AppServicesTestBase
     '6C3'
   end
 
-  def hex_setup
-    set_differ_class('NotUsed')
-    set_languages_class('LanguagesService')
-    set_saver_class('NotUsed')
-    set_runner_class('NotUsed')
-  end
-
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '3A8',

@@ -6,13 +6,6 @@ class CustomServiceTest < AppServicesTestBase
     '08A'
   end
 
-  def hex_setup
-    set_differ_class('NotUsed')
-    set_custom_class('CustomService')
-    set_saver_class('NotUsed')
-    set_runner_class('NotUsed')
-  end
-
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '3A8',

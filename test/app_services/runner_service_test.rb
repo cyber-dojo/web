@@ -7,7 +7,6 @@ class RunnerServiceTest < AppServicesTestBase
   end
 
   def hex_setup
-    set_differ_class('NotUsed')
     set_saver_class('SaverService')
     set_runner_class('RunnerService')
   end

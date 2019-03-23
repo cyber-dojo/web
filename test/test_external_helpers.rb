@@ -31,18 +31,6 @@ module TestExternalHelpers # mix-in
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def set_custom_class(value)
-    set_class('custom', value)
-  end
-
-  def set_exercises_class(value)
-    set_class('exercises', value)
-  end
-
-  def set_languages_class(value)
-    set_class('languages', value)
-  end
-
   def set_differ_class(value)
     set_class('differ', value)
   end

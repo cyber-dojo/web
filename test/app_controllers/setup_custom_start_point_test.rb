@@ -6,10 +6,6 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
     'EB7'
   end
 
-  def hex_setup
-    set_custom_class('CustomService')
-  end
-
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test 'BA2', %w(
