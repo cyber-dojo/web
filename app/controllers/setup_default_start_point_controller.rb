@@ -33,6 +33,7 @@ class SetupDefaultStartPointController < ApplicationController
   private
 
   include TimeNow
+  include LargestHelper
 
   def starter_manifest
     exercise_name = params['exercise']
@@ -48,12 +49,6 @@ class SetupDefaultStartPointController < ApplicationController
   def index_match(names, current_name)
     index = names.index(current_name)
     index ? index : rand(0...names.size)
-  end
-
-  def largest(visible_files)
-    visible_files.max{ |lhs,rhs|
-      lhs[1]['content'].size <=> rhs[1]['content'].size
-    }[1]['content']
   end
 
 end
