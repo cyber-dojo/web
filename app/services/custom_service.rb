@@ -3,7 +3,7 @@ require_relative 'http_helper'
 class CustomService
 
   def initialize(externals)
-    @http = HttpHelper.new(externals, self, 'custom', 4527)
+    @http = HttpHelper.new(externals, self, 'custom', 4526)
   end
 
   def ready?

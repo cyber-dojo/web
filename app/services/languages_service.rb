@@ -3,7 +3,7 @@ require_relative 'http_helper'
 class LanguagesService
 
   def initialize(externals)
-    @http = HttpHelper.new(externals, self, 'languages', 4525)
+    @http = HttpHelper.new(externals, self, 'languages', 4524)
   end
 
   def ready?
