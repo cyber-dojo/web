@@ -23,3 +23,26 @@ Have two modes:
 A good first step in preparing for this would be to
 cyber-dojo.sh/makefile/etc back into the main filelist
 and have only stdout/stderr/status below that.
+
+So the diff-view has 3 'modes'
+
+1. its own page with its own URL, reached from dashboard
+   - full functionality
+   - shows files at top with diffs
+   - shows sss underneath with no diffs
+2. as pseudo dialog from kata page, reached by pressing [test]
+   - [resume] button
+   - single traffic-light
+   - no < > navigation
+   - no diff check-box
+   - no fork/revert/download buttons
+   - sss at the TOP in no-diff view
+   - files below sss in diff view
+3. as pseudo dialog from kata page, reached by pressing a traffic-light
+   - [resume] button
+   - sequence of traffic-lights
+   - < > navigation
+   - diff check-box
+   - fork/rever/download buttons
+   - files at the TOP in diff-view
+   - sss below in no-diff view
