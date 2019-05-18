@@ -32,17 +32,20 @@ So the diff-view has 3 'modes'
    - shows sss underneath with no diffs
 2. as pseudo dialog from kata page, reached by pressing [test]
    - [resume] button
+     o) takes you back to [test] page at the same file with same cursor
    - single traffic-light
    - no < > navigation
    - no diff check-box
    - no fork/revert/download buttons
    - sss at the TOP in no-diff view
+     o) one of stdout/stderr will be opened
    - files below sss in diff view
 3. as pseudo dialog from kata page, reached by pressing a traffic-light
    - [resume] button
-   - sequence of traffic-lights
+     o) takes you back to [test] page at the same file with same cursor
+   - full sequence of traffic-lights
    - < > navigation
    - diff check-box
-   - fork/rever/download buttons
+   - fork/revert/download buttons
    - files at the TOP in diff-view
    - sss below in no-diff view
