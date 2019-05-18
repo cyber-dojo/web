@@ -1,0 +1,25 @@
+
+IDE's have a lot of richness in the way devs create code.
+But they have a lot less richness in the feedback of the
+results of that code.
+I would like cyber-dojo to try to be richer in its feedback.
+Have two modes:
+
+- INPUT
+  - a [test] button which takes you to OUTPUT
+  - [new file] [rename file] [delete file] buttons
+  - the source files in alphabetical order
+  - no stdout/stderr/status
+
+- OUTPUT
+  - a [resume] button which takes you back to INPUT
+  - a single traffic-light (not the full sequence)
+  - no traffic-light < > navigation
+  - no diff check-box
+  - no fork/revert/download buttons
+  - at the _top_, stdout/stderr/status in plain view (not diffed)
+  - below sss, a diff view of the source files
+
+A good first step in preparing for this would be to
+cyber-dojo.sh/makefile/etc back into the main filelist
+and have only stdout/stderr/status below that.
