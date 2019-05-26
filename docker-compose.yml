@@ -31,22 +31,9 @@ services:
 
   custom:
     user: nobody
-    image: cyberdojo/custom:beta
+    image: cyberdojo/custom
     init: true
     container_name: test-web-custom
-    read_only: true
-    ports:
-      - 4527:4527
-    tmpfs: /tmp
-    restart: 'no'
-
-  # - - - - - - - - - - - - - - - -
-
-  exercises:
-    user: nobody
-    image: cyberdojo/exercises:beta
-    init: true
-    container_name: test-web-exercises
     read_only: true
     ports:
       - 4526:4526
@@ -55,14 +42,27 @@ services:
 
   # - - - - - - - - - - - - - - - -
 
+  exercises:
+    user: nobody
+    image: cyberdojo/exercises
+    init: true
+    container_name: test-web-exercises
+    read_only: true
+    ports:
+      - 4525:4525
+    tmpfs: /tmp
+    restart: 'no'
+
+  # - - - - - - - - - - - - - - - -
+
   languages:
     user: nobody
-    image: cyberdojo/languages:beta
+    image: cyberdojo/languages-all
     init: true
     container_name: test-web-languages
     read_only: true
     ports:
-      - 4525:4525
+      - 4524:4524
     tmpfs: /tmp
     restart: 'no'
 

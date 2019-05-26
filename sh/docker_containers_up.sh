@@ -63,9 +63,9 @@ docker-compose \
 
 wait_until_running 'test-web'
 
-wait_until_ready    'custom' 4527 ready?
-wait_until_ready 'exercises' 4526 ready?
-wait_until_ready 'languages' 4525 ready?
+wait_until_ready    'custom' 4526 ready?
+wait_until_ready 'exercises' 4525 ready?
+wait_until_ready 'languages' 4524 ready?
 
 wait_until_ready 'runner'  4597
 wait_until_ready 'differ'  4567
