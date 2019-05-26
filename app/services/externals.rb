@@ -1,8 +1,14 @@
 
 module Externals # mix-in
 
-  def starter
-    @starter ||= external
+  def custom
+    @custom ||= external
+  end
+  def exercises
+    @exercises ||= external
+  end
+  def languages
+    @languages ||= external
   end
 
   def saver

@@ -6,21 +6,20 @@ class TipperControllerTest < AppControllerTestBase
     '25E'
   end
 
+  # - - - - - - - - - - - - - - - - - -
+
   test '3D4',
   'traffic_light_tip' do
     in_kata {
-      as_avatar {
-        2.times {
-          run_tests
-        }
+      2.times {
+        post_run_tests
       }
     }
     get '/tipper/traffic_light_tip', params: {
-      'format'  => 'js',
-      'id'      => kata.id,
-      'avatar'  => avatar.name,
-      'was_tag' => 0,
-      'now_tag' => 1
+      'format'    => 'js',
+      'id'        => kata.id,
+      'was_index' => 0,
+      'now_index' => 1
     }
     assert_response :success
   end

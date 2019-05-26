@@ -6,14 +6,16 @@ class SetupDefaultStartPointController < ApplicationController
     @id = id
     current_display_name = (id != nil && kata.exists?) ? kata.manifest.display_name : nil
     current_exercise_name = (id != nil && kata.exists?) ? kata.manifest.exercise : nil
-    start_points = starter.language_start_points
-    @language_names = start_points['languages']
+
+    @language_names = languages.names
     @language_index = index_match(@language_names, current_display_name)
-    @exercise_names = start_points['exercises'].keys.sort
+
+    manifests = exercises.manifests
+    @exercise_names = manifests.keys.sort
     @exercise_index = index_match(@exercise_names, current_exercise_name)
     @instructions = []
     @exercise_names.each do |name|
-      @instructions << start_points['exercises'][name]['content']
+      @instructions << largest(manifests[name]['visible_files'])
     end
     @from = params['from']
   end
@@ -31,11 +33,15 @@ class SetupDefaultStartPointController < ApplicationController
   private
 
   include TimeNow
+  include LargestHelper
 
   def starter_manifest
-    language = params['language']
-    exercise = params['exercise']
-    manifest = starter.language_manifest(language, exercise)
+    exercise_name = params['exercise']
+    em = exercises.manifest(exercise_name)
+    language_name = params['language']
+    manifest = languages.manifest(language_name)
+    manifest['visible_files'].merge!(em['visible_files'])
+    manifest['exercise'] = em['display_name']
     manifest['created'] = time_now
     manifest
   end

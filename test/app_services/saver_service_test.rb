@@ -7,17 +7,24 @@ class SaverServiceTest < AppServicesTestBase
     'D2w'
   end
 
-  def hex_setup
-    set_differ_class('NotUsed')
-    set_starter_class('NotUsed')
-    set_runner_class('NotUsed')
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '441',
+  'smoke test ready?' do
+    assert saver.ready?
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '444', 'smoke test saver methods' do
+  test '442',
+  'smoke test sha' do
     assert_sha saver.sha
+  end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '444',
+  'smoke test saver methods' do
     assert_saver_service_error { saver.group_exists?(1) }
     assert_saver_service_error { saver.group_create(1) }
     assert_saver_service_error { saver.group_manifest(1) }

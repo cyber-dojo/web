@@ -7,9 +7,7 @@ class SaverDummyTest < AppServicesTestBase
   end
 
   def hex_setup
-    set_differ_class('NotUsed')
     set_saver_class('SaverDummy')
-    set_runner_class('NotUsed')
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -

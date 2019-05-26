@@ -6,6 +6,10 @@ class DifferService
     @http = HttpHelper.new(externals, self, 'differ', 4567)
   end
 
+  def ready?
+    http.get
+  end
+
   def sha
     http.get
   end

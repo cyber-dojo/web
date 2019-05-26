@@ -9,13 +9,20 @@ class DifferServiceTest < AppServicesTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '3AA',
-  'smoke test differ.sha' do
-    assert_sha differ.sha
+  'smoke test ready' do
+    assert differ.ready?
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '3AB',
+  'smoke test sha' do
+    assert_sha differ.sha
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '3AC',
   'smoke test differ.diff(..., was_tag=0, now_tag=1)' do
     in_kata do |kata|
       args = []
@@ -35,17 +42,13 @@ class DifferServiceTest < AppServicesTestBase
 
       filename = 'hiker.rb'
       refute_nil actual[filename]
-      assert_equal({
-        'type'   => 'same',
-        'line'   => 'def answer',
-        'number' => 1
-      }, actual[filename][0])
-
-      assert_equal({
-        'type'   => 'same',
-        'line'   => '  6 * 9',
-        'number' => 2
-      }, actual[filename][1])
+      expected = [
+        { "line"=>"",           "type"=>"same", "number"=>1 },
+        { "line"=>"def answer", "type"=>"same", "number"=>2 },
+        { "line"=>"  6 * 9",    "type"=>"same", "number"=>3 },
+        { "line"=>"end",        "type"=>"same", "number"=>4 }
+      ]
+      assert_equal(expected, actual[filename])
     end
   end
 

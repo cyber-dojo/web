@@ -3,7 +3,7 @@
   manifest = (@group || @kata).manifest
   parts = [ manifest.id, manifest.display_name ]
   if manifest.exercise != ''
-    parts << manifest.exercise.gsub('_',' ')
+    parts << manifest.exercise
   end
 %>
 <span>

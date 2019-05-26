@@ -35,7 +35,6 @@ class RunnerTest < AppModelsTestBase
   private
 
   def gcc_assert_params
-    set_starter_class('StarterService')
     kata = make_language_kata({ 'display_name' => 'C (gcc), assert' })
     run_params(kata)
   end

@@ -154,7 +154,7 @@ class KataControllerTest  < AppControllerTestBase
       refute filenames.include?(filename), filenames
       expected = [
         '  1) Failure:',
-        'TestHiker#test_life_the_universe_and_everything [test_hiker.rb:7]:',
+        'TestHiker#test_life_the_universe_and_everything [test_hiker.rb:8]:',
         'Expected: 42',
         '  Actual: 54'
       ].join("\n")
@@ -222,7 +222,6 @@ class KataControllerTest  < AppControllerTestBase
       light = kata.lights[-1]
       stdout = light.stdout['content']
       assert stdout.include?('.resultset.json'), stdout
-      filenames << 'coverage.txt'
       assert_equal filenames.sort, light.files.keys.sort
     }
   end

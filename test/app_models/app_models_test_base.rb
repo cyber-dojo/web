@@ -11,7 +11,10 @@ class AppModelsTestBase < TestBase
   end
 
   def starter_manifest(t = time_now)
-    manifest = starter.language_manifest('Ruby, MiniTest', 'Fizz_Buzz')
+    em = exercises.manifest('Fizz Buzz')
+    manifest = languages.manifest('Ruby, MiniTest')
+    manifest['visible_files'].merge!(em['visible_files'])
+    manifest['exercise'] = em['display_name']
     manifest['created'] = t
     manifest
   end

@@ -3,14 +3,16 @@ class ShaController < ApplicationController
 
   def index
     @services = {
-      'differ'  => info('differ', differ.sha),
-      'mapper'  => info('mapper', mapper.sha),
-      'nginx'   => info('nginx', nginx_sha),
-      'runner'  => info('runner', runner.sha, 'runner-stateless'),
-      'saver'   => info('saver', saver.sha),
-      'starter' => info('starter', starter.sha, 'start-points-base'),
-      'web'     => info('web', web_sha),
-      # 'zipper'  => info('zipper', zipper.sha)
+      'custom'    => info('custom', custom.sha),
+      'differ'    => info('differ', differ.sha),
+      'exercises' => info('exercises', exercises.sha),
+      'languages' => info('languages', languages.sha), 
+      'mapper'    => info('mapper', mapper.sha),
+      'nginx'     => info('nginx', nginx_sha),
+      'runner'    => info('runner', runner.sha, 'runner-stateless'),
+      'saver'     => info('saver', saver.sha),
+      'web'       => info('web', web_sha),
+      # 'zipper'    => info('zipper', zipper.sha)
     }
   end
 
