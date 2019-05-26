@@ -8,13 +8,13 @@ readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 
 wait_until_running()
 {
-  local n=10
+  local n=20
   while [ $(( n -= 1 )) -ge 0 ]
   do
     if docker ps --filter status=running --format '{{.Names}}' | grep -q "^${1}$" ; then
       return
     else
-      sleep 0.5
+      sleep 0.1
     fi
   done
   echo "${1} not up after 5 seconds"
@@ -29,7 +29,7 @@ wait_until_ready()
   local name="${1}"
   local port="${2}"
   local method="${3:-sha}"
-  local max_tries=10
+  local max_tries=20
   local cmd="curl --silent --fail --data '{}' -X GET http://localhost:${port}/${method}"
   cmd+=" > /dev/null 2>&1"
 
