@@ -81,8 +81,6 @@ services:
     depends_on:
       - runner
     tmpfs: /tmp
-    tmpfs:
-      - /tmp:uid=65534,gid=65533
 
   # - - - - - - - - - - - - - - - -
 
@@ -112,7 +110,6 @@ services:
     restart: 'no'
     depends_on:
       - mapper
-    tmpfs: /tmp
     tmpfs:
       - /cyber-dojo:uid=19663,gid=65533
       - /tmp:uid=19663,gid=65533
@@ -128,7 +125,6 @@ services:
     ports:
       - 4547:4547
     restart: 'no'
-    tmpfs: /tmp
     tmpfs:
       - /tmp:uid=65534,gid=65533
     volumes:
