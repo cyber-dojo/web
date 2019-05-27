@@ -40,9 +40,9 @@ class Runner
     stderr = result['stderr']['content']
     status = result['status']
 
-    colour = result['colour']
-    timed_out = colour
-    if timed_out != 'timed_out'
+    if result['timed_out']
+      colour = 'timed_out'
+    else
       colour = ragger.colour(image_name, kata.id, stdout, stderr, status.to_i)
     end
 

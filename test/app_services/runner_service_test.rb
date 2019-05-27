@@ -21,7 +21,7 @@ class RunnerServiceTest < AppServicesTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '812',
-  'run() is red' do
+  'run() tests expecting 42 actual 6*9' do
     in_kata { |kata|
       result = runner.run_cyber_dojo_sh(*run_args(kata))
       stdout = result['stdout']
@@ -29,7 +29,7 @@ class RunnerServiceTest < AppServicesTestBase
       assert stdout['content'].include?('  Actual: 54'), result
       assert_equal '', result['stderr']['content'], result
       assert_equal 1, result['status'], result
-      assert_equal 'red', result['colour'], result
+      refute result['timed_out'], result
     }
   end
 
