@@ -67,8 +67,8 @@ wait_until_ready    'custom' 4526 ready?
 wait_until_ready 'exercises' 4525 ready?
 wait_until_ready 'languages' 4524 ready?
 
-wait_until_ready 'runner'  4597
-wait_until_ready 'differ'  4567
+wait_until_ready 'runner'  4597 ready?
+wait_until_ready 'differ'  4567 ready?
 wait_until_ready 'saver'   4537 ready?
 wait_until_ready 'mapper'  4547 ready?
 wait_until_ready 'ragger'  5537 ready?
