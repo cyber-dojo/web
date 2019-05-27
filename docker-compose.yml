@@ -19,12 +19,13 @@ services:
     restart: 'no'
     depends_on:
       - custom
+      - differ
       - exercises
       - languages
+      - mapper
+      - ragger
       - runner
       - saver
-      - differ
-      - mapper
       - zipper
 
   # - - - - - - - - - - - - - - - -
@@ -68,6 +69,23 @@ services:
 
   # - - - - - - - - - - - - - - - -
 
+  ragger:
+    user: nobody
+    image: cyberdojo/ragger
+    init: true
+    container_name: test-web-ragger
+    read_only: true
+    ports:
+      - 5537:5537
+    restart: 'no'
+    depends_on:
+      - runner
+    tmpfs: /tmp
+    tmpfs:
+      - /tmp:uid=65534,gid=65533
+
+  # - - - - - - - - - - - - - - - -
+
   runner:
     user: root
     image: cyberdojo/runner-stateless
@@ -91,10 +109,10 @@ services:
     read_only: true
     ports:
       - 4537:4537
-    tmpfs: /tmp
     restart: 'no'
     depends_on:
       - mapper
+    tmpfs: /tmp
     tmpfs:
       - /cyber-dojo:uid=19663,gid=65533
       - /tmp:uid=19663,gid=65533
@@ -109,8 +127,8 @@ services:
     read_only: true
     ports:
       - 4547:4547
-    tmpfs: /tmp
     restart: 'no'
+    tmpfs: /tmp
     tmpfs:
       - /tmp:uid=65534,gid=65533
     volumes:
