@@ -30,7 +30,7 @@ wait_until_ready()
   local port="${2}"
   local method="${3:-sha}"
   local max_tries=20
-  local cmd="curl --silent --fail --data '{}' -X GET http://localhost:${port}/${method}"
+  local cmd="curl --silent --fail --data '{}' -X GET http://localhost:${port}/ready?"
   cmd+=" > /dev/null 2>&1"
 
   if [ ! -z ${DOCKER_MACHINE_NAME} ]; then
@@ -63,14 +63,14 @@ docker-compose \
 
 wait_until_running 'test-web'
 
-wait_until_ready    'custom' 4526 ready?
-wait_until_ready 'exercises' 4525 ready?
-wait_until_ready 'languages' 4524 ready?
+wait_until_ready    'custom' 4526
+wait_until_ready 'exercises' 4525
+wait_until_ready 'languages' 4524
 
-wait_until_ready 'runner'  4597 ready?
-wait_until_ready 'differ'  4567 ready?
-wait_until_ready 'saver'   4537 ready?
-wait_until_ready 'mapper'  4547 ready?
-wait_until_ready 'ragger'  5537 ready?
+wait_until_ready 'runner'  4597
+wait_until_ready 'differ'  4567
+wait_until_ready 'saver'   4537
+wait_until_ready 'mapper'  4547
+wait_until_ready 'ragger'  5537
 
 #wait_until_ready 'zipper'  4587
