@@ -14,7 +14,7 @@ class Runner
     files = files_from(params)
 
     result =
-      @externals.runner.run_cyber_dojo_sh(
+      runner.run_cyber_dojo_sh(
         image_name, kata.id, files, max_seconds)
 
     created = result['created']
@@ -36,9 +36,19 @@ class Runner
     deleted.each { |filename,_   | files.delete(filename) }
     changed.each { |filename,file| files[filename] = file }
 
-    [result['stdout'], result['stderr'], result['status'],
-     result['colour'],
-     files,created,deleted,changed
+    stdout = result['stdout']['content']
+    stderr = result['stderr']['content']
+    status = result['status']
+
+    colour = result['colour']
+    timed_out = colour
+    if timed_out != 'timed_out'
+      colour = ragger.colour(image_name, kata.id, stdout, stderr, status.to_i)
+    end
+
+    [result['stdout'],result['stderr'],status,colour,
+     files,
+     created,deleted,changed
     ]
   end
 
@@ -64,6 +74,14 @@ class Runner
   def sanitized(content)
     max_file_size = 50 * 1024
     content[0..max_file_size]
+  end
+
+  def runner
+    @externals.runner
+  end
+
+  def ragger
+    @externals.ragger
   end
 
 end

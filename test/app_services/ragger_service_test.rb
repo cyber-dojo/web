@@ -12,7 +12,7 @@ class RaggerServiceTest < AppServicesTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'F84', 'smoke test ragger.sha' do 
+  test 'F84', 'smoke test ragger.sha' do
     assert_sha(ragger.sha)
   end
 
@@ -41,7 +41,7 @@ class RaggerServiceTest < AppServicesTestBase
     args << kata_id
     args << stdout
     args << (stderr = '')
-    args << (status = '')
+    args << (status = 0)
     ragger.colour(*args)
   end
 
