@@ -20,7 +20,7 @@ $(() => {
 
 <div id="sha-page">
   <table id="aligner">
-    <% @services.each do |name,values| %>
+    <% @services.sort.each do |name,values| %>
     <% repo_name = values['repo_name'] %>
     <% sha = values['sha'] %>
     <tr id="<%= name %>">
