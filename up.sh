@@ -17,6 +17,7 @@ export CYBER_DOJO_ZIPPER_CLASS=ZipperService
 
 export CYBER_DOJO_PORTER_CLASS=PorterService
 export CYBER_DOJO_MAPPER_CLASS=MapperService
+export CYBER_DOJO_RAGGER_CLASS=RaggerService
 
 export CYBER_DOJO_HTTP_CLASS=Http
 
