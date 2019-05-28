@@ -7,9 +7,8 @@ class Runner
     @externals = externals
   end
 
-  def run(kata, params)
+  def run(kata, params, max_seconds)
     image_name = kata.manifest.image_name
-    max_seconds = kata.manifest.max_seconds
     hidden_filenames = kata.manifest.hidden_filenames
     files = files_from(params)
 

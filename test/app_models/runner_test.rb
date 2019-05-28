@@ -13,7 +13,7 @@ class RunnerTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '149',
-  'red: deliberately initially failing test' do
+  'red: expected=42, actual=6*9' do
     params = gcc_assert_params
     result = kata.run_tests(params)
     assert_equal 'red', result[3]
@@ -28,6 +28,30 @@ class RunnerTest < AppModelsTestBase
     params[:file_content]['large.c'] = large
     result = kata.run_tests(params)
     assert_equal 'amber', result[3]
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '151',
+  'green: expected=42, actual=6*7' do
+    params = gcc_assert_params
+    src = params[:file_content]['hiker.c']
+    src.sub!('6 * 9', '6 * 7')
+    params[:file_content]['hiker.c'] = src
+    result = kata.run_tests(params)
+    assert_equal 'green', result[3]
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '152',
+  'timed_out: infinite loop' do
+    params = gcc_assert_params
+    src = params[:file_content]['hiker.c']
+    src.sub!('return', 'for(;;); return')
+    params[:file_content]['hiker.c'] = src
+    result = kata.run_tests(params, max_seconds = 2)
+    assert_equal 'timed_out', result[3]
   end
 
   # hidden_filenames
