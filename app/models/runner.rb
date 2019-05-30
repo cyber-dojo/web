@@ -32,7 +32,7 @@ class Runner
     # Ensure files which will get sent to saver.ran_tests()
     # reflect changes; refreshing the browser should be a no-op.
     created.each { |filename,file| files[filename] = file }
-    deleted.each { |filename,_   | files.delete(filename) }
+    deleted.each { |filename     | files.delete(filename) }
     changed.each { |filename,file| files[filename] = file }
 
     stdout = result['stdout']['content']

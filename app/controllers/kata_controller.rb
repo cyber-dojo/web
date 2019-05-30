@@ -19,10 +19,6 @@ class KataController < ApplicationController
     @stdout,@stderr,@status,colour,
       files,@created,@deleted,@changed = kata.run_tests(params)
 
-    if @deleted.is_a?(Hash)
-      @deleted = @deleted.keys
-    end
-
     t2 = time_now
     duration = Time.mktime(*t2) - Time.mktime(*t1)
     index = params[:index].to_i + 1
