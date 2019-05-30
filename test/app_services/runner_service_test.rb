@@ -48,7 +48,13 @@ class RunnerServiceTest < AppServicesTestBase
         kata.manifest.max_seconds
       ]
       result = runner.run_cyber_dojo_sh(*args)
-      assert_equal ['readme.txt'], result['deleted'].keys
+      actual = result['deleted']
+      if actual.is_a?(Array)
+        assert_equal ['readme.txt'], actual
+      end
+      if actual.is_a?(Hash)
+        assert_equal ['readme.txt'], actual.keys
+      end
     }
   end
 

@@ -50,7 +50,7 @@ const insertCreatedFiles = () => {
 //- - - - - - - - - - - - - - - - - - - - - -
 
 const removeDeletedFiles = () => {
-  <% @deleted.keys.each do |filename| %>
+  <% @deleted.each do |filename| %>
     cd.fileDelete("<%= j raw(filename) %>");
   <% end %>
 };
