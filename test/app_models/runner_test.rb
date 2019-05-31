@@ -68,14 +68,15 @@ class RunnerTest < AppModelsTestBase
       id:kata.id,
       image_name:kata.manifest.image_name,
       max_seconds:kata.manifest.max_seconds,
-      file_content:flattened(kata.files),
+      file_content:plain(kata.files),
       hidden_filenames:'[]'
     }
   end
 
-  def flattened(files)
-    files.map{|filename,file| [filename, file['content']] }
-         .to_h
+  def plain(files)
+    files.map do |filename,file|
+      [filename, file['content']]
+    end.to_h
   end
 
 end

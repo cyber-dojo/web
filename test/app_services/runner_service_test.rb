@@ -40,7 +40,7 @@ class RunnerServiceTest < AppServicesTestBase
     in_kata { |kata|
       args = run_args(kata)
       files = args[2]
-      files['cyber-dojo.sh']['content'] += "\nrm readme.txt"
+      files['cyber-dojo.sh'] += "\nrm readme.txt"
       args = [
         kata.manifest.image_name,
         kata.id,
@@ -57,9 +57,15 @@ class RunnerServiceTest < AppServicesTestBase
   def run_args(kata)
     [ kata.manifest.image_name,
       kata.id,
-      kata.files,
+      plain(kata.files),
       kata.manifest.max_seconds
     ]
+  end
+
+  def plain(files)
+    files.map do |filename,file|
+      [filename, file['content']]
+    end.to_h
   end
 
 end

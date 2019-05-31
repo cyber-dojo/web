@@ -14,7 +14,7 @@ class Runner
 
     result =
       runner.run_cyber_dojo_sh(
-        image_name, kata.id, files, max_seconds)
+        image_name, kata.id, plain(files), max_seconds)
 
     created = result['created']
     deleted = result['deleted']
@@ -45,7 +45,7 @@ class Runner
       colour = ragger.colour(image_name, kata.id, stdout, stderr, status.to_i)
     end
 
-    [result['stdout'],result['stderr'],status,colour,
+    [result['stdout'], result['stderr'], status, colour,
      files,
      created,deleted,changed
     ]
@@ -61,9 +61,17 @@ class Runner
     output_filenames.each do |output_filename|
       files.delete(output_filename)
     end
-    files.map{ |filename,content|
-      [filename, { 'content' => sanitized(content) }]
-    }.to_h
+    files.map do |filename,content|
+      [filename, {
+        'content' => sanitized(content)
+      }]
+    end.to_h
+  end
+
+  def plain(files)
+    files.map do |filename,file|
+      [filename, file['content']]
+    end.to_h
   end
 
   def output_filenames

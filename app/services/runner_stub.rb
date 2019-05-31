@@ -24,7 +24,7 @@ class RunnerStub
         'status' => status,
         'colour' => colour,
         'created' => {},
-        'deleted' => {},
+        'deleted' => [],
         'changed' => {}
     }))
   end
@@ -38,7 +38,7 @@ class RunnerStub
         'status' => 0,
         'colour' => 'red',
         'created' => {},
-        'deleted' => {},
+        'deleted' => [],
         'changed' => {}
       }
     end
