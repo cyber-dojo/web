@@ -5,7 +5,7 @@
      width="50px"
      height="50px"/>
 
-- The source for the [cyberdojo/web](https://hub.docker.com/r/cyberdojo/web/tags) docker image
+- The source for the [cyberdojo/web](https://hub.docker.com/r/cyberdojo/web/tags) Docker image.
 - A docker-containerized stateless micro-service for [https://cyber-dojo.org](http://cyber-dojo.org).
 - Runs a rails web server.
 - Go to cyber-dojo's [home repo](https://github.com/cyber-dojo/cyber-dojo).
