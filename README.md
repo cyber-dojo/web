@@ -17,7 +17,14 @@ The main web-server for [cyber-dojo.org](http://cyber-dojo.org). Uses:
 - [![CircleCI](https://circleci.com/gh/cyber-dojo/saver.svg?style=svg)](https://circleci.com/gh/cyber-dojo/saver) [saver](https://github.com/cyber-dojo/saver) - saves groups/katas and code/test files in a host dir volume-mounted to /cyber-dojo  
 - [![CircleCI](https://circleci.com/gh/cyber-dojo/zipper.svg?style=svg)](https://circleci.com/gh/cyber-dojo/zipper) [zipper](https://github.com/cyber-dojo/zipper) - creates tgz files for download
 
+- - - -
 
+# run the tests
+
+```bash
+$ ./pipe_build_up_test.sh
+TO FOLLOW...
+```
 
 - - - -
 
