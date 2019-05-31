@@ -5,9 +5,12 @@
      width="50px"
      height="50px"/>
 
-The main web-server for [https://cyber-dojo.org](https://cyber-dojo.org).
+- The source for the [cyberdojo/web](https://hub.docker.com/r/cyberdojo/web/tags) docker image
+- A docker-containerized stateless micro-service for [https://cyber-dojo.org](http://cyber-dojo.org).
+- Runs a rails web server.
+- Go to cyber-dojo's [home repo](https://github.com/cyber-dojo/cyber-dojo).
 
-Uses:
+Uses these microservices:
 - [![CircleCI](https://circleci.com/gh/cyber-dojo/custom.svg?style=svg)](https://circleci.com/gh/cyber-dojo/custom) [custom](https://github.com/cyber-dojo/custom) - serves the custom start-points
 - [![CircleCI](https://circleci.com/gh/cyber-dojo/differ.svg?style=svg)](https://circleci.com/gh/cyber-dojo/differ) [differ](https://github.com/cyber-dojo/differ) - diffs two sets of files
 - [![CircleCI](https://circleci.com/gh/cyber-dojo/exercises.svg?style=svg)](https://circleci.com/gh/cyber-dojo/exercises) [exercises](https://github.com/cyber-dojo/exercises) - serves the exercises start-points
@@ -243,7 +246,5 @@ Removing test-web-exercises ... done
 ```
 
 - - - -
-
-* Go to cyber-dojo's [home repo](https://github.com/cyber-dojo/cyber-dojo).
 
 ![cyber-dojo.org home page](https://github.com/cyber-dojo/cyber-dojo/blob/master/shared/home_page_snapshot.png)
