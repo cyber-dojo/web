@@ -5,7 +5,7 @@
      width="50px"
      height="50px"/>
 
-The main web-server for [cyber-dojo.org](http://cyber-dojo.org).
+The main web-server for [https://cyber-dojo.org](https://cyber-dojo.org).
 
 Uses:
 - [![CircleCI](https://circleci.com/gh/cyber-dojo/custom.svg?style=svg)](https://circleci.com/gh/cyber-dojo/custom) [custom](https://github.com/cyber-dojo/custom) - serves the custom start-points
@@ -244,7 +244,6 @@ Removing test-web-exercises ... done
 
 - - - -
 
-* Take me to cyber-dojo's [home repo](https://github.com/cyber-dojo/cyber-dojo).
-* Take me to [http://cyber-dojo.org](http://cyber-dojo.org).
+* Go to cyber-dojo's [home repo](https://github.com/cyber-dojo/cyber-dojo).
 
 ![cyber-dojo.org home page](https://github.com/cyber-dojo/cyber-dojo/blob/master/shared/home_page_snapshot.png)
