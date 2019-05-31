@@ -86,7 +86,7 @@ services:
 
   runner:
     user: root
-    image: cyberdojo/runner-stateless
+    image: cyberdojo/runner
     init: true
     container_name: test-web-runner
     read_only: true

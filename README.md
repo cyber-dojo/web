@@ -10,7 +10,7 @@ The main web-server for [cyber-dojo.org](http://cyber-dojo.org). Uses:
 - [grafana](https://github.com/cyber-dojo/grafana) to display monitoring data.
 - [nginx](https://github.com/cyber-dojo/nginx) for web-proxy, security, and to cache images.
 - [prometheus](https://github.com/cyber-dojo/prometheus) to store monitoring data.
-- [runner-stateless](https://github.com/cyber-dojo/runner-stateless) to run tests.
+- [runner](https://github.com/cyber-dojo/runner) to run tests.
 - [starter](https://github.com/cyber-dojo/starter) to help set up a practice session.
 - [saver](https://github.com/cyber-dojo/saver) to remember groups/katas/tests.
 - [zipper](https://github.com/cyber-dojo/zipper) to create tgz kata/avatar downloads.

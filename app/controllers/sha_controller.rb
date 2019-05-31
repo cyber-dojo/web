@@ -10,7 +10,7 @@ class ShaController < ApplicationController
       'mapper'    => info('mapper', mapper.sha),
       'nginx'     => info('nginx', nginx_sha),
       'ragger'    => info('ragger', ragger.sha),
-      'runner'    => info('runner', runner.sha, 'runner-stateless'),
+      'runner'    => info('runner', runner.sha),
       'saver'     => info('saver', saver.sha),
       'web'       => info('web', web_sha),
       # 'zipper'    => info('zipper', zipper.sha)
