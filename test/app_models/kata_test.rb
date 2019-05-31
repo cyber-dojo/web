@@ -159,9 +159,9 @@ class KataTest < AppModelsTestBase
   private
 
   def files_for(kata)
-    Hash[kata.files(:with_output).map{ |filename,file|
+    kata.files(:with_output).map{ |filename,file|
       [filename, file['content']]
-    }]
+    }.to_h
   end
 
   def file(content)
