@@ -52,7 +52,7 @@ class RunnerServiceTest < AppServicesTestBase
     }
   end
 
-  private # = = = = = = = = = = = = = = = = = = =
+  private
 
   def run_args(kata)
     [ kata.manifest.image_name,
@@ -60,12 +60,6 @@ class RunnerServiceTest < AppServicesTestBase
       plain(kata.files),
       kata.manifest.max_seconds
     ]
-  end
-
-  def plain(files)
-    files.map do |filename,file|
-      [filename, file['content']]
-    end.to_h
   end
 
 end

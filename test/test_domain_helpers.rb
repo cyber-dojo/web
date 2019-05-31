@@ -39,6 +39,12 @@ module TestDomainHelpers # mix-in
     'Fizz Buzz'
   end
 
+  def plain(files)
+    files.map do |filename,file|
+      [filename, file['content']]
+    end.to_h
+  end
+
   # - - - - - - - - - - - - - - - - - - - - - - -
 
   def groups

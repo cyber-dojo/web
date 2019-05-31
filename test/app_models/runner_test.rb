@@ -73,10 +73,4 @@ class RunnerTest < AppModelsTestBase
     }
   end
 
-  def plain(files)
-    files.map do |filename,file|
-      [filename, file['content']]
-    end.to_h
-  end
-
 end
