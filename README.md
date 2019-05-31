@@ -6,14 +6,17 @@
      height="50px"/>
 
 The main web-server for [cyber-dojo.org](http://cyber-dojo.org). Uses:
-- [differ](https://github.com/cyber-dojo/differ) to diff the code/tests in successive tests-runs.
+- [custom](https://github.com/cyber-dojo/custom) to hold custom start-points.
+- [differ](https://github.com/cyber-dojo/differ) to diff the code/tests in successive test-runs.
+- [exercises](https://github.com/cyber-dojo/exercises) to hold exercises start-points.
 - [grafana](https://github.com/cyber-dojo/grafana) to display monitoring data.
+- [languages](https://github.com/cyber-dojo/languages) to hold languages+testFramework start-points.
 - [nginx](https://github.com/cyber-dojo/nginx) for web-proxy, security, and to cache images.
 - [prometheus](https://github.com/cyber-dojo/prometheus) to store monitoring data.
-- [runner](https://github.com/cyber-dojo/runner) to run tests.
-- [starter](https://github.com/cyber-dojo/starter) to help set up a practice session.
+- [ragger](https://github.com/cyber-dojo/ragger) to colour the [stdout,stderr,status] Red/Amber/Green.
+- [runner](https://github.com/cyber-dojo/runner) to run tests and return [stdout,stderr,status]
 - [saver](https://github.com/cyber-dojo/saver) to remember groups/katas/tests.
-- [zipper](https://github.com/cyber-dojo/zipper) to create tgz kata/avatar downloads.
+- [zipper](https://github.com/cyber-dojo/zipper) to create tgz groups/katas downloads.
 
 - - - -
 
