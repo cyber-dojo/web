@@ -10,21 +10,34 @@ jobs:
     steps:
       - checkout
       - run:
-          name: build docker image
+          name: Build tested docker image
           command: |
             set -e
             ./pipe_build_up_test.sh
       - run:
-          name: publish tagged docker image on dockerhub
+          name: Tag docker image
           command: |
             set -e
-            readonly project=${CIRCLE_PROJECT_REPONAME}
-            docker tag  cyberdojo/${project}:latest cyberdojo/${project}:${CIRCLE_SHA1:0:7}
-            docker tag  cyberdojo/${project}:latest cyberdojo/${project}:beta
-            echo "${DOCKER_PASS}" | docker login -u "${DOCKER_USER}" --password-stdin
-            docker push cyberdojo/${project}:${CIRCLE_SHA1:0:7}
-            docker push cyberdojo/${project}:beta
-            docker push cyberdojo/${project}:latest
+            TAG=tag-image.sh
+            curl -O --fail ${CIRCLECI_SCRIPT_DIR}/${TAG}
+            chmod 700 ./${TAG}
+            ./${TAG}
+      - run:
+          name: Publish tagged docker image on dockerhub
+          command: |
+            set -e
+            PUBLISH=publish-tagged-image.sh
+            curl -O --fail ${CIRCLECI_SCRIPT_DIR}/${PUBLISH}
+            chmod 700 ./${PUBLISH}
+            ./${PUBLISH}
+      - run:
+          name: Trigger dependent repos
+          command: |
+            set -e
+            TRIGGER=trigger-dependent-repos.sh
+            curl -O --fail ${CIRCLECI_SCRIPT_DIR}/${TRIGGER}
+            chmod 700 ./${TRIGGER}
+            ./${TRIGGER} commander
 
   deploy-to-beta:
     docker:
