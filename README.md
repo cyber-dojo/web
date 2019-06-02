@@ -240,6 +240,4 @@ Removing test-web-custom    ... done
 Removing test-web-exercises ... done
 ```
 
-- - - -
-
 ![cyber-dojo.org home page](https://github.com/cyber-dojo/cyber-dojo/blob/master/shared/home_page_snapshot.png)
