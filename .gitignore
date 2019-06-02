@@ -25,5 +25,9 @@
 !/up.sh
 !/LICENSE.md
 !/README.md
+
+!/ragger.trigger
 !/runner.trigger
+!/saver.trigger
 !/web-base.trigger
+!/zipper.trigger
