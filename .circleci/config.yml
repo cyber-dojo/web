@@ -29,6 +29,7 @@ jobs:
             PUBLISH=publish-tagged-image.sh
             curl -O --fail ${CIRCLECI_SCRIPT_DIR}/${PUBLISH}
             chmod 700 ./${PUBLISH}
+            echo "${DOCKER_PASS}" | docker login -u "${DOCKER_USER}" --password-stdin
             ./${PUBLISH}
       - run:
           name: Trigger dependent repos
