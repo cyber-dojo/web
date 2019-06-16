@@ -1,7 +1,7 @@
 
 <%
-  sha = ENV['CYBER_DOJO_SHA']
-  release = ENV['CYBER_DOJO_RELEASE']
+  sha = ENV['CYBER_DOJO_SHA'] || ''
+  release = ENV['CYBER_DOJO_RELEASE'] || ''
   if release.empty?
     @version = "#{sha[0...7]}"
     @version_tip = 'A development release'
