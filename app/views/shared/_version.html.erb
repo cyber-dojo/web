@@ -1,0 +1,28 @@
+
+<%
+  sha = ENV['CYBER_DOJO_SHA']
+  release = ENV['CYBER_DOJO_RELEASE']
+  if release.empty?
+    @version = "#{sha[0...7]}"
+    @version_tip = 'A development release'
+    @href = "https://github.com/cyber-dojo/versioner/blob/#{sha}/.env.md"
+  else
+    @version = release
+    @version_tip = 'A public release'
+    @href = "https://github.com/cyber-dojo/versioner/releases/tag/#{release}"
+  end
+%>
+
+<script type="text/javascript"><!--
+'use strict';
+$(() => {
+  cd.createTip($('#version-box'), "<%= @version_tip %>");
+});
+//--></script>
+
+<div id="version-box">
+  <a href="<%= @href %>"
+    target="_blank">
+    <%= @version %>
+  </a>
+</div>

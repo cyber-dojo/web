@@ -1,7 +1,9 @@
 
 <%
+  parts = []
   manifest = (@group || @kata).manifest
-  parts = [ manifest.id, manifest.display_name ]
+  parts << manifest.id
+  parts << manifest.display_name
   if manifest.exercise != ''
     parts << manifest.exercise
   end
