@@ -17,7 +17,7 @@ readonly IP_ADDRESS=$(ip_address)
 
 wait_until_ready()
 {
-  local -r name="${1}"
+  local -r name="test-web-${1}"
   local -r port="${2}"
   local -r max_tries=20
   echo -n "Waiting until ${name} is ready"
@@ -28,7 +28,7 @@ wait_until_ready()
       echo 'OK'
       return
     else
-      sleep 0.1
+      sleep 0.2
     fi
   done
   echo 'FAIL'

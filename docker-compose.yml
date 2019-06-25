@@ -26,13 +26,25 @@ services:
       - ragger
       - runner
       - saver
+      - versioner
       - zipper
 
   # - - - - - - - - - - - - - - - -
 
+  versioner:
+    user: nobody
+    image: cyberdojo/versioner:latest
+    init: true
+    container_name: test-web-versioner
+    read_only: true
+    ports:
+      - 5647:5647
+    tmpfs: /tmp
+    restart: 'no'
+
   custom:
     user: nobody
-    image: cyberdojo/custom
+    image: cyberdojo/custom:4133685
     init: true
     container_name: test-web-custom
     read_only: true
@@ -45,7 +57,7 @@ services:
 
   exercises:
     user: nobody
-    image: cyberdojo/exercises
+    image: cyberdojo/exercises:5c87ac3
     init: true
     container_name: test-web-exercises
     read_only: true
@@ -58,7 +70,7 @@ services:
 
   languages:
     user: nobody
-    image: cyberdojo/languages-all
+    image: cyberdojo/languages-all:d996783
     init: true
     container_name: test-web-languages
     read_only: true

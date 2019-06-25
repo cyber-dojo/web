@@ -1,6 +1,10 @@
 
 module Externals # mix-in
 
+  def versioner
+    @versioner ||= external
+  end
+
   def custom
     @custom ||= external
   end
