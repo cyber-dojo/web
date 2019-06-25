@@ -2,7 +2,50 @@
 # shellcheck source=/dev/null
 set -e
 
-readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
+ip_address()
+{
+  if [ -n "${DOCKER_MACHINE_NAME}" ]; then
+    docker-machine ip ${DOCKER_MACHINE_NAME}
+  else
+    echo localhost
+  fi
+}
+
+readonly IP_ADDRESS=$(ip_address)
+
+# - - - - - - - - - - - - - - - - - - - - -
+
+wait_until_ready()
+{
+  local -r name="${1}"
+  local -r port="${2}"
+  local -r max_tries=20
+  echo -n "Waiting until ${name} is ready"
+  for _ in $(seq ${max_tries})
+  do
+    echo -n '.'
+    if $(curl_cmd ${port} ready?) ; then
+      echo 'OK'
+      return
+    else
+      sleep 0.1
+    fi
+  done
+  echo 'FAIL'
+  echo "${name} not ready after ${max_tries} tries"
+  docker logs ${name}
+  exit 1
+}
+
+# - - - - - - - - - - - - - - - - - - -
+
+curl_cmd()
+{
+  local -r port="${1}"
+  local -r path="${2}"
+  local -r cmd="curl --output /dev/null --silent --fail --data {} -X GET http://${IP_ADDRESS}:${port}/${path}"
+  echo "${cmd}"
+}
 
 # - - - - - - - - - - - - - - - - - - - - -
 
@@ -24,36 +67,7 @@ wait_until_running()
 
 # - - - - - - - - - - - - - - - - - - - - -
 
-wait_until_ready()
-{
-  local name="${1}"
-  local port="${2}"
-  local method="${3:-sha}"
-  local max_tries=20
-  local cmd="curl --silent --fail --data '{}' -X GET http://localhost:${port}/ready?"
-  cmd+=" > /dev/null 2>&1"
-
-  if [ ! -z ${DOCKER_MACHINE_NAME} ]; then
-    cmd="docker-machine ssh ${DOCKER_MACHINE_NAME} ${cmd}"
-  fi
-  echo -n "Waiting until ${name} is ready"
-  for _ in $(seq ${max_tries})
-  do
-    echo -n '.'
-    if eval ${cmd} ; then
-      echo 'OK'
-      return
-    else
-      sleep 0.1
-    fi
-  done
-  echo 'FAIL'
-  echo "${name} not ready after ${max_tries} tries"
-  docker logs ${name}
-  exit 1
-}
-
-# - - - - - - - - - - - - - - - - - - - - -
+readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 
 echo
 docker-compose \
