@@ -48,11 +48,11 @@ jobs:
           name: authenticate with gcloud and deploy with helm
           command: |
             set -e
-            echo $GCP_K8S_CREDENTIALS > /gcp/gcp-credentials.json
-            gcloud auth activate-service-account "$SERVICE_ACCOUNT" --key-file=/gcp/gcp-credentials.json
-            gcloud container clusters get-credentials "$CLUSTER" --zone "$ZONE" --project "$PROJECT"
-            helm init --client-only
-            helm repo add praqma https://praqma-helm-repo.s3.amazonaws.com/
+            #echo $GCP_K8S_CREDENTIALS > /gcp/gcp-credentials.json
+            #gcloud auth activate-service-account "$SERVICE_ACCOUNT" --key-file=/gcp/gcp-credentials.json
+            #gcloud container clusters get-credentials "$CLUSTER" --zone "$ZONE" --project "$PROJECT"
+            #helm init --client-only
+            #helm repo add praqma https://praqma-helm-repo.s3.amazonaws.com/
             #helm upgrade --install --namespace=beta --set-string image.web.tag=${CIRCLE_SHA1:0:7} beta-cyber-dojo praqma/cyber-dojo
 
 workflows:
