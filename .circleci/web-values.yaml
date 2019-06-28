@@ -2,25 +2,22 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-# app name
 fullnameOverride: "web"
 
-# deployment spec
 replicaCount: 1
- 
-       
 
-# containers
-# provide default values that you HAVE to overwrite in your values.yaml file
-containers: 
+service:
+  port: 3000
+
+containers:
   - name: web
     image: cyberdojo/web
-    tag: "55a2328"  
-    resources: 
+    tag: "55a2328"
+    resources:
       limits:
-       memory: 1Gi
+        memory: 1Gi
       requests:
-       memory: 1Gi
+        memory: 1Gi
     # livenessProbe:
     #   path: /health
     #   port: 80
@@ -29,16 +26,9 @@ containers:
     #   port: 80
 
 envFromSecret: {}
- 
 
 nodeSelector: {}
 
 affinity: {}
 
 tolerations: []
-
-# service
-service: 
-  port: 3000  
-  
-  
