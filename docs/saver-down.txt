@@ -1,0 +1,29 @@
+
+If saver is down you should be able to use cyber-dojo but with reduced
+functionality.
+
+1) setup - creation of a new session
+- setup gets display_names from languages service
+- user chooses a display_name
+- setup runs: manifest = languages.manifest(display_name)
+- setup fails to save this manifest to saver, saver raises specific exception
+- so web has to
+  - allocate the id itself 999999?
+  - redirect to kata/edit which is populated directly from the manifest and not the id
+  - redirect_to allows additional parameters
+  -   def save_individual
+        kata = katas.new_kata(starter_manifest)
+        redirect_to "/kata/edit/#{kata.id}"
+      rescue SaverError
+        redirect_to "/kata/edit/999999", manifest:starter_manifest
+      end
+
+
+2) running the tests
+- if kata.ran_tests(...) fails because saver is down
+- get saver-service to raise specific saver-error exception
+- trap this
+- browser has to
+  - know save fails
+  - add message to footer
+  - not switch to diff view of the [test] run

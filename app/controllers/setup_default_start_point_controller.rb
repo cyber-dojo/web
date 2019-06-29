@@ -3,9 +3,9 @@ require_relative '../../lib/time_now'
 class SetupDefaultStartPointController < ApplicationController
 
   def show
-    @id = id
-    current_display_name = (id != nil && kata.exists?) ? kata.manifest.display_name : nil
-    current_exercise_name = (id != nil && kata.exists?) ? kata.manifest.exercise : nil
+    @id = id    
+    current_display_name = (!id.nil? && kata.exists?) ? kata.manifest.display_name : nil
+    current_exercise_name = (!id.nil? && kata.exists?) ? kata.manifest.exercise : nil
 
     @language_names = languages.names
     @language_index = index_match(@language_names, current_display_name)
