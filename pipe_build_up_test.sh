@@ -4,17 +4,11 @@ set -e
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 readonly SH_DIR="${ROOT_DIR}/sh"
 
-docker run --rm cyberdojo/versioner:latest sh -c 'cat /app/.env' > /tmp/versioner.web.env
+docker run --rm cyberdojo/versioner:latest sh -c 'ruby /app/src/echo_env_vars.rb' > /tmp/versioner.web.env
 set -a
 . /tmp/versioner.web.env
 set +a
 export CYBER_DOJO_LANGUAGES=cyberdojo/languages-all:d996783
-export CYBER_DOJO_DIFFER_TAG=${CYBER_DOJO_DIFFER_SHA:0:7}
-export CYBER_DOJO_MAPPER_TAG=${CYBER_DOJO_MAPPER_SHA:0:7}
-export CYBER_DOJO_RAGGER_TAG=${CYBER_DOJO_RAGGER_SHA:0:7}
-export CYBER_DOJO_RUNNER_TAG=${CYBER_DOJO_RUNNER_SHA:0:7}
-export CYBER_DOJO_SAVER_TAG=${CYBER_DOJO_SAVER_SHA:0:7}
-export CYBER_DOJO_ZIPPER_TAG=${CYBER_DOJO_ZIPPER_SHA:0:7}
 export CYBER_DOJO_VERSIONER_TAG=${CYBER_DOJO_VERSIONER_TAG:-latest}
 
 "${SH_DIR}/docker_containers_down.sh"
