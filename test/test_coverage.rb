@@ -14,11 +14,11 @@ SimpleCov.start do
   }
 end
 
-cov_root = File.expand_path('..', File.dirname(__FILE__))
 # what to cover
-SimpleCov.root cov_root
+cov_root = File.expand_path('..', __dir__)
+SimpleCov.root(cov_root)
 # where coverage reports are written
-SimpleCov.coverage_dir ENV['COVERAGE_DIR']
+SimpleCov.coverage_dir(ENV['COVERAGE_DIR'])
 
 #- - - - - - - - - - - - - - - - - - - - - - -
 #filters.clear
