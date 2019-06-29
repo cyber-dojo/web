@@ -1,0 +1,9 @@
+
+Spotted a BUG when looking into this...
+in kata/edit
+click traffic-light
+diff is on, diff-checkbox is ticked
+turn diff off, diff-checkbox is not-ticked
+click resume
+click traffic-light again
+diff is still off but diff-checkbox is ticked

@@ -33,7 +33,7 @@ services:
 
   versioner:
     user: nobody
-    image: cyberdojo/versioner:latest
+    image: cyberdojo/versioner:${CYBER_DOJO_VERSIONER_TAG}
     init: true
     container_name: test-web-versioner
     read_only: true
@@ -42,9 +42,11 @@ services:
     tmpfs: /tmp
     restart: 'no'
 
+  # - - - - - - - - - - - - - - - -
+
   custom:
     user: nobody
-    image: cyberdojo/custom:4133685
+    image: ${CYBER_DOJO_CUSTOM}
     init: true
     container_name: test-web-custom
     read_only: true
@@ -57,7 +59,7 @@ services:
 
   exercises:
     user: nobody
-    image: cyberdojo/exercises:5c87ac3
+    image: ${CYBER_DOJO_EXERCISES}
     init: true
     container_name: test-web-exercises
     read_only: true
@@ -70,7 +72,7 @@ services:
 
   languages:
     user: nobody
-    image: cyberdojo/languages-all:d996783
+    image: ${CYBER_DOJO_LANGUAGES}
     init: true
     container_name: test-web-languages
     read_only: true
@@ -83,7 +85,7 @@ services:
 
   ragger:
     user: nobody
-    image: cyberdojo/ragger
+    image: cyberdojo/ragger:${CYBER_DOJO_RAGGER_TAG}
     init: true
     container_name: test-web-ragger
     read_only: true
@@ -98,7 +100,7 @@ services:
 
   runner:
     user: root
-    image: cyberdojo/runner
+    image: cyberdojo/runner:${CYBER_DOJO_RUNNER_TAG}
     init: true
     container_name: test-web-runner
     read_only: true
@@ -113,7 +115,7 @@ services:
 
   saver:
     user: saver
-    image: cyberdojo/saver
+    image: cyberdojo/saver:${CYBER_DOJO_SAVER_TAG}
     init: true
     container_name: test-web-saver
     read_only: true
@@ -130,7 +132,7 @@ services:
 
   mapper:
     user: nobody
-    image: cyberdojo/mapper
+    image: cyberdojo/mapper:${CYBER_DOJO_MAPPER_TAG}
     init: true
     container_name: test-web-mapper
     read_only: true
@@ -146,7 +148,7 @@ services:
 
   differ:
     user: nobody
-    image: cyberdojo/differ
+    image: cyberdojo/differ:${CYBER_DOJO_DIFFER_TAG}
     init: true
     container_name: test-web-differ
     read_only: true
@@ -161,7 +163,7 @@ services:
 
   zipper:
     user: nobody
-    image: cyberdojo/zipper
+    image: cyberdojo/zipper:${CYBER_DOJO_ZIPPER_TAG}
     init: true
     container_name: test-web-zipper
     read_only: true
