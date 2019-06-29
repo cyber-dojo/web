@@ -4,12 +4,15 @@ set -e
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 readonly SH_DIR="${ROOT_DIR}/sh"
 
-docker run --rm cyberdojo/versioner:latest sh -c 'ruby /app/src/echo_env_vars.rb' > /tmp/versioner.web.env
+export CYBER_DOJO_VERSIONER_TAG=${CYBER_DOJO_VERSIONER_TAG:-latest}
+docker run --rm cyberdojo/versioner:${CYBER_DOJO_VERSIONER_TAG} \
+  sh -c 'ruby /app/src/echo_env_vars.rb' > /tmp/versioner.web.env
+
 set -a
 . /tmp/versioner.web.env
 set +a
+# tests currently rely on LTFs outside languages-common
 export CYBER_DOJO_LANGUAGES=cyberdojo/languages-all:d996783
-export CYBER_DOJO_VERSIONER_TAG=${CYBER_DOJO_VERSIONER_TAG:-latest}
 
 "${SH_DIR}/docker_containers_down.sh"
 "${SH_DIR}/build_docker_images.sh"
