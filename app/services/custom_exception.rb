@@ -1,5 +1,6 @@
+require_relative 'http_service_exception'
 
-class CustomException < StandardError
+class CustomException < HttpServiceException
 
   def initialize(message)
     super

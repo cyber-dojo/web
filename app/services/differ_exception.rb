@@ -1,5 +1,6 @@
+require_relative 'http_service_exception'
 
-class DifferException < StandardError
+class DifferException < HttpServiceException
 
   def initialize(message)
     super

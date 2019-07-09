@@ -1,5 +1,6 @@
+require_relative 'http_service_exception'
 
-class VersionerException < StandardError
+class VersionerException < HttpServiceException
 
   def initialize(message)
     super
