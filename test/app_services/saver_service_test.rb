@@ -1,10 +1,21 @@
 require_relative 'app_services_test_base'
+require_relative 'http_json_request_packer_not_json_stub'
+require_relative '../../app/services/saver_exception'
 require 'json'
 
 class SaverServiceTest < AppServicesTestBase
 
   def self.hex_prefix
     'D2w'
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '3A7',
+  'response.body get failure is mapped to SaverException' do
+    set_http(HttpJsonRequestPackerNotJsonStub)
+    error = assert_raises(SaverException) { saver.sha }
+    assert error.message.start_with?('http response.body is not JSON'), error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -43,7 +54,7 @@ class SaverServiceTest < AppServicesTestBase
   private
 
   def assert_saver_service_error(&block)
-    error = assert_raises(ServiceError) {
+    error = assert_raises(SaverException) {
       block.call
     }
     json = JSON.parse!(error.message)

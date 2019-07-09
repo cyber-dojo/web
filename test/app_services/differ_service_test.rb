@@ -1,9 +1,19 @@
 require_relative 'app_services_test_base'
+require_relative 'http_json_request_packer_not_json_stub'
 
 class DifferServiceTest < AppServicesTestBase
 
   def self.hex_prefix
     '702'
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '3A9',
+  'response.body failure is mapped to ExercisesException' do
+    set_http(HttpJsonRequestPackerNotJsonStub)
+    error = assert_raises(DifferException) { differ.sha }
+    assert error.message.start_with?('http response.body is not JSON'), error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -

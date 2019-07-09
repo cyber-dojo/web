@@ -1,4 +1,5 @@
 require_relative 'app_models_test_base'
+require_relative '../../app/services/saver_exception'
 
 class KataTest < AppModelsTestBase
 
@@ -21,7 +22,7 @@ class KataTest < AppModelsTestBase
   raises ) do
     manifest = starter_manifest
     manifest.delete('image_name')
-    error = assert_raises(ServiceError) { katas.new_kata(manifest) }
+    error = assert_raises(SaverException) { katas.new_kata(manifest) }
     info = JSON.parse(error.message)
     assert_equal 'SaverService', info['class']
     assert_equal 'malformed:manifest["image_name"]:missing:', info['message']

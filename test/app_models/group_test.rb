@@ -1,4 +1,5 @@
 require_relative 'app_models_test_base'
+require_relative '../../app/services/saver_exception'
 
 class GroupTest < AppModelsTestBase
 
@@ -25,7 +26,7 @@ class GroupTest < AppModelsTestBase
   'a group cannot be created from a manifest missing any required property' do
     manifest = starter_manifest
     manifest.delete('image_name')
-    error = assert_raises(ServiceError) { groups.new_group(manifest) }
+    error = assert_raises(SaverException) { groups.new_group(manifest) }
     info = JSON.parse(error.message)
     assert_equal 'SaverService', info['class']
     assert_equal 'malformed:manifest["image_name"]:missing:', info['message']

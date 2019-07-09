@@ -1,4 +1,5 @@
 require_relative 'app_services_test_base'
+require_relative 'http_json_request_packer_not_json_stub'
 
 class VersionerServiceTest < AppServicesTestBase
 
@@ -8,10 +9,31 @@ class VersionerServiceTest < AppServicesTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'Ef0',
-  'smoke test versioner' do
+  test '3A7',
+  'response.body failure is mapped to ExercisesException' do
+    set_http(HttpJsonRequestPackerNotJsonStub)
+    error = assert_raises(VersionerException) { versioner.sha }
+    assert error.message.start_with?('http response.body is not JSON'), error.message
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '3A8',
+  'smoke test ready?()' do
     assert versioner.ready?
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '3A9',
+  'smoke test sha()' do
     assert_sha versioner.sha
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'Ef0',
+  'smoke test dot_env()' do
     dot_env = versioner.dot_env
     keys = %w(
       CYBER_DOJO_PORT

@@ -40,7 +40,10 @@ module Externals # mix-in
   #end
 
   def http
-    @http ||= external
+    @http ||= Net::HTTP
+  end
+  def set_http(obj)
+    @http = obj
   end
 
   private # = = = = = = = = =
@@ -53,7 +56,7 @@ module Externals # mix-in
   end
 
   def name_of(caller)
-    # eg caller[0] == "externals.rb:21:in `zipper'"
+    # eg caller[0] == "externals.rb:23:in `runner'"
     /`(?<name>[^']*)/ =~ caller[0] && name
   end
 

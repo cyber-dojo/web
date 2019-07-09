@@ -21,7 +21,5 @@ export CYBER_DOJO_PORTER_CLASS=PorterService
 export CYBER_DOJO_MAPPER_CLASS=MapperService
 export CYBER_DOJO_RAGGER_CLASS=RaggerService
 
-export CYBER_DOJO_HTTP_CLASS=Http
-
 rails server \
   --environment=production

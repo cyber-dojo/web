@@ -1,33 +1,32 @@
-require_relative 'http_helper'
+require_relative 'http_json/request_packer'
+require_relative 'http_json/response_unpacker'
+require_relative 'custom_exception'
 
 class CustomService
 
   def initialize(externals)
-    @http = HttpHelper.new(externals, self, 'custom', 4526)
+    requester = HttpJson::RequestPacker.new(externals.http, 'custom', 4526)
+    @http = HttpJson::ResponseUnpacker.new(requester, CustomException)
   end
 
   def ready?
-    http.get
+    @http.get(__method__, {})
   end
 
   def sha
-    http.get
+    @http.get(__method__, {})
   end
 
   def names
-    http.get
+    @http.get(__method__, {})
   end
 
   def manifests
-    http.get
+    @http.get(__method__, {})
   end
 
   def manifest(name)
-    http.get(name)
+    @http.get(__method__, { name:name })
   end
-
-  private
-
-  attr_reader :http
 
 end

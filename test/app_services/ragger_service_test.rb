@@ -12,6 +12,21 @@ class RaggerServiceTest < AppServicesTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test '3A7',
+  'response.body failure is mapped to RaggerException' do
+    set_http(HttpJsonRequestPackerNotJsonStub)
+    error = assert_raises(RaggerException) { ragger.sha }
+    assert error.message.start_with?('http response.body is not JSON'), error.message
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '3A8', 'smoke test ready?' do
+    assert ragger.ready?
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test 'F84', 'smoke test ragger.sha' do
     assert_sha(ragger.sha)
   end

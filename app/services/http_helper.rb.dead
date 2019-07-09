@@ -61,7 +61,7 @@ class HttpHelper
   end
 
   def http
-    @externals.http
+    @externals.old_http
   end
 
 end
