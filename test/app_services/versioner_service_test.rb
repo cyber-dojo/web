@@ -50,8 +50,6 @@ class VersionerServiceTest < AppServicesTestBase
       CYBER_DOJO_STARTER_BASE_SHA
       CYBER_DOJO_WEB_SHA
       CYBER_DOJO_ZIPPER_SHA
-      CYBER_DOJO_GRAFANA_SHA
-      CYBER_DOJO_PROMETHEUS_SHA
     )
     keys.each do |key|
       assert dot_env.has_key?(key)
