@@ -17,10 +17,10 @@ class DifferService
     @http.get(__method__, {})
   end
 
-  def diff(was_files, now_files)
+  def diff(old_files, new_files)
     @http.get(__method__, {
-      was_files:was_files,
-      now_files:now_files
+      old_files:old_files,
+      new_files:new_files
     })
   end
 
