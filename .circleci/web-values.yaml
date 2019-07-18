@@ -18,12 +18,12 @@ containers:
         memory: 1Gi
       requests:
         memory: 1Gi
-    # livenessProbe:
-    #   path: /sha
-    #   port: 3000
-    # readinessProbe:
-    #   path: /ready?
-    #   port: 3000
+      livenessProbe:
+        path: /sha
+        port: 3000
+      readinessProbe:
+        path: /ready?
+        port: 3000
 
 envFromSecret: {}
 
