@@ -28,7 +28,7 @@ class TipTest < AppHelpersTestBase
       events = kata.events
       was_files = files_for(events, was_index=1)
       now_files = files_for(events, now_index=2)
-      diff = differ.diff(was_files, now_files)
+      diff = differ.diff(kata.id, was_files, now_files)
 
       expected =
         '<table>' +
@@ -76,7 +76,7 @@ class TipTest < AppHelpersTestBase
       events = kata.events
       was_files = files_for(events, was_index=1)
       now_files = files_for(events, now_index=2)
-      diff = differ.diff(was_files, now_files)
+      diff = differ.diff(kata.id, was_files, now_files)
 
       expected =
         '<table>' +

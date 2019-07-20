@@ -48,7 +48,7 @@ class DifferServiceTest < AppServicesTestBase
 
       was_files = flattened(kata.events[0].files)
       now_files = flattened(kata.events[1].files)
-      actual = differ.diff(was_files, now_files)
+      actual = differ.diff(kata.id, was_files, now_files)
 
       filename = 'hiker.rb'
       refute_nil actual[filename]
