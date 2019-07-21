@@ -137,25 +137,8 @@ index a29813d28..e2a1ec4e7 100644
 
  })(cyberDojo || {}, jQuery);
 
-
-
-diff --git a/app/assets/stylesheets/filename.scss b/app/assets/stylesheets/filename.scss
-index fcacc71a6..e4651d0e0 100644
---- a/app/assets/stylesheets/filename.scss
-+++ b/app/assets/stylesheets/filename.scss
-@@ -1,6 +1,10 @@
- .filename_div { display: none; }
-
--div[class~='filename'] { @include wide-list-item(); }
-+div[class~='filename']
-+{
-+  @include wide-list-item();
-+  text-align: left;
-+}
-
- .file_content
- {
-
+================================================================================
+================================================================================
 
 diff --git a/app/assets/stylesheets/kata.scss b/app/assets/stylesheets/kata.scss
 index d3fa93c5f..f37ff0904 100644
@@ -179,6 +162,9 @@ index d3fa93c5f..f37ff0904 100644
          height: 410px;
      overflow-y: scroll;
 
+
+================================================================================
+================================================================================
 
 diff --git a/app/assets/stylesheets/review.scss b/app/assets/stylesheets/review.scss
 index eb2c699de..e3df38313 100644
@@ -237,7 +223,8 @@ index eb2c699de..e3df38313 100644
 
    .diff-deleted-line-count {
 
-
+================================================================================
+================================================================================
 
 diff --git a/app/assets/stylesheets/shared.scss b/app/assets/stylesheets/shared.scss
 index eb5e69da4..fb598d814 100644
@@ -251,6 +238,9 @@ index eb5e69da4..fb598d814 100644
       padding: 2px;
     font-size: 13px;
         width: 20px;
+
+================================================================================
+================================================================================
 
 diff --git a/app/controllers/differ_controller.rb b/app/controllers/differ_controller.rb
 index df01cd351..b84df0622 100644
@@ -271,6 +261,10 @@ index df01cd351..b84df0622 100644
      view = diff_view(diff)
 
      render json: {
+
+================================================================================
+================================================================================
+
 diff --git a/app/controllers/kata_controller.rb b/app/controllers/kata_controller.rb
 index ef000573e..b8d1e43ba 100644
 --- a/app/controllers/kata_controller.rb
@@ -300,8 +294,8 @@ index ef000573e..b8d1e43ba 100644
      @light = Event.new(self, kata, { 'time' => t1, 'colour' => colour }, index)
      @id = kata.id
 
-
-
+================================================================================
+================================================================================
 
 diff --git a/app/views/kata/_filename_list.html.erb b/app/views/kata/_filename_list.html.erb
 index c298b7eee..bd15ecd2a 100644
@@ -312,22 +306,9 @@ index c298b7eee..bd15ecd2a 100644
 -</div>
 +<span class="valign-top" id="hi-filename-list"></span>
 +<span class="valign-top" id="lo-filename-list"></span>
-diff --git a/app/views/kata/_view_test.html.erb b/app/views/kata/_view_test.html.erb
-index 8d0f2e14c..8155e50cb 100644
---- a/app/views/kata/_view_test.html.erb
-+++ b/app/views/kata/_view_test.html.erb
-@@ -3,7 +3,7 @@
 
- <%= form_tag( { action: 'run_tests', id: @kata.id } ) do %>
-   <%= render partial: 'index' %>
--  <%= render partial: 'max_seconds' %>
-+  <%= render partial: 'max_seconds' %>
-   <table>
-     <tr class="valign-top">
-       <td><%= render partial: 'summary_and_test' %></td>
-
-
-
+================================================================================
+================================================================================
 
 diff --git a/app/views/kata/run_tests.js.erb b/app/views/kata/run_tests.js.erb
 index 378bbb072..1072e58d5 100644
@@ -377,6 +358,10 @@ index 378bbb072..1072e58d5 100644
 +$('.full-view').hide();
 +$('#kata-page').addClass('test-result');
 +$('.diff-traffic-light').last().click();
+
+================================================================================
+================================================================================
+
 diff --git a/app/views/review/_diff_checkbox.html.erb b/app/views/review/_diff_checkbox.html.erb
 index 29d524a01..2c245b0bd 100644
 --- a/app/views/review/_diff_checkbox.html.erb
@@ -387,6 +372,10 @@ index 29d524a01..2c245b0bd 100644
    <div id="diff-checkbox-title">diff?</div>
    <input type="checkbox"
           class="regular-checkbox"
+
+================================================================================
+================================================================================
+
 diff --git a/app/views/review/_review.html.erb b/app/views/review/_review.html.erb
 index 577800239..c60097b06 100644
 --- a/app/views/review/_review.html.erb

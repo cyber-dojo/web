@@ -331,13 +331,12 @@ var cyberDojo = (function(cd, $) {
     // 3. review/show page/dialog to help show filename list
     let hi = [];
     $.each(filenames, (_, filename) => {
-      if (isSourceFile(filename) || isReadmeFile(filename)) {
+      if (isSourceFile(filename)) {
         hi.push(filename);
       }
     });
     hi.sort();
     hi = hi.filter(filename => !cd.isOutputFile(filename));
-    hi = hi.filter(filename => filename !== 'cyber-dojo.sh');
     return hi;
   };
 
@@ -352,7 +351,7 @@ var cyberDojo = (function(cd, $) {
     // 3. review/show page/dialog to help show filename-list
     let lo = [];
     $.each(filenames, (_, filename) => {
-      if (!isSourceFile(filename) && !isReadmeFile(filename)) {
+      if (!isSourceFile(filename)) {
         lo.push(filename);
       }
     });
@@ -383,12 +382,6 @@ var cyberDojo = (function(cd, $) {
       }
     });
     return match;
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const isReadmeFile = (filename) => {
-      return filename === 'readme.txt' || filename === 'instructions';
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
