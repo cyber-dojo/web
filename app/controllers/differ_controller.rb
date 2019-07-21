@@ -2,7 +2,13 @@
 class DifferController < ApplicationController
 
   def diff
-    diff = differ.diff(kata.id, was_files, now_files)
+    old_files = was_files
+    new_files = now_files
+    # ensure stdout/stderr/status show no diff 
+    old_files['stdout'] = new_files['stdout']
+    old_files['stderr'] = new_files['stderr']
+    old_files['status'] = new_files['status']
+    diff = differ.diff(kata.id, old_files, new_files)
     view = diff_view(diff)
 
     render json: {
