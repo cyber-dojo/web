@@ -1,6 +1,10 @@
 .filename_div { display: none; }
 
-div[class~='filename'] { @include wide-list-item(); }
+div[class~='filename']
+{
+  @include wide-list-item();
+  text-align: left;
+}
 
 .file_content
 {
