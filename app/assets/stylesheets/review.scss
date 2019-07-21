@@ -146,7 +146,7 @@
     border-top-left-radius: 5px;
     added   { &:after { content: '+'; } }
     deleted { &:after { content: '-'; } }
-    same    { &:after { content: ' '; } }
+    same    { &:after { content: '='; } }
     same    { color: lighten($darker-color,20%); }
   }
 
