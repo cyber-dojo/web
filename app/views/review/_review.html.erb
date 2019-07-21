@@ -224,9 +224,9 @@ $(() => {
     return '' +
       '<table align="right">' +
         '<tr>' +
-            makeTd(makeDiffFilenamesColumn(diffs)) +
             makeTd(makeDiffDeletedCountColumn(diffs)) +
             makeTd(makeDiffAddedCountColumn(diffs)) +
+            makeTd(makeDiffFilenamesColumn(diffs)) +
         '</tr>' +
       '</table>';
   };
