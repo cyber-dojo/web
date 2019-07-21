@@ -242,29 +242,6 @@ index eb5e69da4..fb598d814 100644
 ================================================================================
 ================================================================================
 
-diff --git a/app/controllers/differ_controller.rb b/app/controllers/differ_controller.rb
-index df01cd351..b84df0622 100644
---- a/app/controllers/differ_controller.rb
-+++ b/app/controllers/differ_controller.rb
-@@ -2,7 +2,13 @@
- class DifferController < ApplicationController
-
-   def diff
--    diff = differ.diff(kata.id, was_files, now_files)
-+    wf = was_files
-+    nf = now_files
-+    # ensure sss show no diff
-+    wf['stdout'] = nf['stdout']
-+    wf['stderr'] = nf['stderr']
-+    wf['status'] = nf['status']
-+    diff = differ.diff(wf, nf)
-     view = diff_view(diff)
-
-     render json: {
-
-================================================================================
-================================================================================
-
 diff --git a/app/controllers/kata_controller.rb b/app/controllers/kata_controller.rb
 index ef000573e..b8d1e43ba 100644
 --- a/app/controllers/kata_controller.rb
