@@ -4,6 +4,7 @@ div[class~='filename']
 {
   @include wide-list-item();
   text-align: left;
+  padding: { left: 4px; }
 }
 
 .file_content

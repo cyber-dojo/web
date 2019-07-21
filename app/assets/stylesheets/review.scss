@@ -105,13 +105,13 @@
       // diff-(added/deleted)-line-counts so
       // they vertically align
        height: 16px;
-      padding: { right: 3px; top: 0px; bottom: 4px; }
+      padding: { left: 4px; top: 0px; bottom: 4px; }
        border: 1px solid $darker-color;
        margin: { bottom: 2px; }
 
            width: 220px;
        max-width: 220px;
-       
+
       // mimic test-page filename-list
       &[data-filename='stdout'] { margin-top: 20px; }
       &[data-filename='status'] { margin-bottom: 20px; }
