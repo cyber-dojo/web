@@ -1,5 +1,4 @@
 #!/bin/bash
-# shellcheck source=/dev/null
 set -e
 
 ip_address()
@@ -86,7 +85,7 @@ docker-compose \
   -d \
   --force-recreate
 
-wait_until_running 'test-web'
+wait_until_running test-web
 
 wait_until_ready  custom   4526
 wait_until_ready exercises 4525
