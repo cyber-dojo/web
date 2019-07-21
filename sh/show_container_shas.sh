@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-sha()
+echo_sha()
 {
   local -r container_name="test-web-${1}"
   local -r sha=$(docker exec ${container_name} sh -c 'echo ${SHA}')
@@ -10,12 +10,11 @@ sha()
 }
 
 echo
-sha custom
-sha exercises
-sha languages
+for start_point in custom exercises languages; do
+  echo_sha ${start_point}
+done
+
 echo
-sha differ
-sha mapper
-sha ragger
-sha runner
-sha saver
+for service in differ mapper ragger runner saver; do
+  echo_sha ${service}
+done

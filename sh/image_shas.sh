@@ -3,8 +3,7 @@ set -e
 
 image_sha()
 {
-  local -r name="${1}"
-  docker run --rm cyberdojo/${name}:latest sh -c 'echo -n ${SHA}'
+  docker run --rm cyberdojo/$1:latest sh -c 'echo -n ${SHA}'
 }
 
 image_tag()
@@ -15,20 +14,22 @@ image_tag()
 
 tag_image()
 {
-  local -r name="${1}"
-  docker tag cyberdojo/${name}:latest cyberdojo/${name}:$(image_tag $1)
+  docker tag cyberdojo/$1:latest cyberdojo/$1:$(image_tag $1)
 }
 
 export_sha()
 {
-  local -r up_name=$(echo ${1} | tr a-z A-Z)
-  export CYBER_DOJO_${up_name}_SHA=$(image_sha $1)
+  export CYBER_DOJO_$(up_name $1)_SHA=$(image_sha $1)
 }
 
 export_tag()
 {
-  local -r up_name=$(echo ${1} | tr a-z A-Z)
-  export CYBER_DOJO_${up_name}_TAG=$(image_tag $1)
+  export CYBER_DOJO_$(up_name $1)_TAG=$(image_tag $1)
+}
+
+up_name()
+{
+    echo ${1} | tr a-z A-Z
 }
 
 echo
