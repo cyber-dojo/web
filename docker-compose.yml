@@ -26,21 +26,7 @@ services:
       - ragger
       - runner
       - saver
-      - versioner
       - zipper
-
-  # - - - - - - - - - - - - - - - -
-
-  versioner:
-    user: nobody
-    image: cyberdojo/versioner:${CYBER_DOJO_VERSIONER_TAG}
-    init: true
-    container_name: test-web-versioner
-    read_only: true
-    ports:
-      - 5647:5647
-    tmpfs: /tmp
-    restart: 'no'
 
   # - - - - - - - - - - - - - - - -
 
@@ -183,7 +169,7 @@ services:
     init: true
     container_name: test-web-zipper
     environment:
-      - NO_PROMETHEUS    
+      - NO_PROMETHEUS
     read_only: true
     ports:
       - 4587:4587
