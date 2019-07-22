@@ -5,7 +5,7 @@ readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 readonly SH_DIR="${ROOT_DIR}/sh"
 
 # assume we want image tags from versioner:latest
-export CYBER_DOJO_VERSIONER_TAG=${CYBER_DOJO_VERSIONER_TAG:-latest}
+readonly CYBER_DOJO_VERSIONER_TAG=${CYBER_DOJO_VERSIONER_TAG:-latest}
 docker run --rm cyberdojo/versioner:${CYBER_DOJO_VERSIONER_TAG} \
   sh -c 'ruby /app/src/echo_env_vars.rb' > /tmp/versioner.web.env
 
