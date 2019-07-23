@@ -7,7 +7,6 @@ readonly WEB_CID=$(docker ps --filter status=running --format '{{.Names}}' | gre
 readonly SRC=${WEB_CID}:/tmp/cyber-dojo/coverage
 readonly DST=${ROOT_DIR}/coverage/
 
-echo
 docker exec "${WEB_CID}" sh -c "cd /cyber-dojo/test && ./run.sh ${*}"
 readonly STATUS=$?
 mkdir -p "${DST}"
