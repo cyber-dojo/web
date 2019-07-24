@@ -14,16 +14,22 @@ env_sha()
   echo ${sha}
 }
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 image_sha()
 {
   # sha of local image, could be WIP
   docker run --rm cyberdojo/$1:latest sh -c 'echo -n ${SHA}'
 }
 
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 up_name()
 {
     echo ${1} | tr a-z A-Z
 }
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 set_image_tag()
 {
