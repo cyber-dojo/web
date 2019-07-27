@@ -3,6 +3,7 @@ set -e
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 readonly SH_DIR="${ROOT_DIR}/sh"
+export SHA=$(cd "${ROOT_DIR}" && git rev-parse HEAD)
 
 # assume we want image tags from versioner:latest
 docker run --rm \
