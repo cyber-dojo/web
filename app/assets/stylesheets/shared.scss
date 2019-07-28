@@ -87,32 +87,3 @@ a:link, a:visited { color: $text-color; }
   left: 120px;
   top: 30px;
 }
-
-//----------------------------------------------
-
-.avatar-background
-{
-  @include center-align();
-  background: url('/images/avatars/all_avatars_background.png') no-repeat;
-       width: 315px;
-      height: 315px;
-
-  -webkit-background-size: cover;
-     -moz-background-size: cover;
-       -o-background-size: cover;
-          background-size: cover;
-
-  .centerer
-  {
-           display: inline-block;
-            height: 100%;
-    vertical-align: middle;
-  }
-
-  .avatar_image
-  {
-             width: 162px;
-            height: 162px;
-    vertical-align: middle;
-  }
-}

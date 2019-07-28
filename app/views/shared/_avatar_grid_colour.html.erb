@@ -1,2 +1,16 @@
 
-<img src="/images/avatars/all_avatars_background.png" id="avatars-grid" alt="">
+<table id="avatars-grid">
+<% (0..7).each do |row| %>
+  <tr>
+    <% (0..7).each do |col| %>
+      <% n = row*8 + col %>
+      <% name = @avatar_names[n] %>
+      <td>
+        <img src='/images/avatars/<%= name %>.jpg'
+           title='<%= name %>'
+           class='avatar-image'/>
+      </td>
+    <% end %>
+  </tr>
+<% end %>
+</table>

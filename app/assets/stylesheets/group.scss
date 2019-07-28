@@ -15,11 +15,17 @@
 
   #avatars-grid
   {
-    width: 271px;
-    height: 271px;
     filter: grayscale(100%);
-    position: relative;
-    top: -1px;
+    border-collapse: collapse;
+    border-spacing: 0px;
+    border: 0;
+    td {
+      padding: 0px;
+      img {
+        height: 32px;
+        width: 32px;
+      }
+    }
   }
 
   button

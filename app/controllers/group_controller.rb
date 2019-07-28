@@ -8,6 +8,7 @@ class GroupController < ApplicationController
   def show
     @title = 'group'
     @id = id
+    @avatar_names = Avatars.names.shuffle
   end
 
 end
