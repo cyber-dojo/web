@@ -12,7 +12,6 @@ service:
 containers:
   - name: web
     image: cyberdojo/web
-    tag: ""
     resources:
       limits:
         memory: 128Mi
