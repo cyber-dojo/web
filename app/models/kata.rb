@@ -25,9 +25,15 @@ class Kata
     end
   end
 
+  def avatar_index
+    # if this kata is inside a group, the kata's index in the group
+    # (which is used to determine its avatar), else nil
+    manifest.group_index
+  end
+
   def avatar_name
     if group?
-      Avatars.names[group_index]
+      avatars.names[avatar_index]
     else
       ''
     end
