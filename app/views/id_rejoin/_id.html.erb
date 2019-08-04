@@ -24,7 +24,7 @@ $(() => {
   };
 
   const dropDownHandler = (response) => {
-    waitSpinner.hide();    
+    waitSpinner.hide();
     if (dropDownPrepared(response)) {
       inputId.slideUp('fast', () => dropDown.slideDown('slow'));
     } else {
@@ -49,7 +49,7 @@ $(() => {
   const prepareIndividualDropDown = (data) => {
     hiText.hide();
     showTrafficLightInfo();
-    showAvatar(data.avatarName);
+    showAvatar(data.avatarIndex, data.avatarName);
     loText.hide();
     cancel.hide();
     ok.unbind()
@@ -61,11 +61,11 @@ $(() => {
     midDiv.html($('#traffic-light-info').html());
   };
 
-  const showAvatar = (avatarName) => {
+  const showAvatar = (avatarIndex, avatarName) => {
     if (avatarName !== '') {
       $('#avatar',midDiv).html($('<img>', {
         'class':'avatar large',
-        'src':`/images/avatars/${avatarName}.jpg`
+        'src':`/avatar/image/${avatarIndex}`
       }));
     }
   };

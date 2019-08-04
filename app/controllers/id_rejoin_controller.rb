@@ -31,6 +31,7 @@ class IdRejoinController < ApplicationController
       if katas.size == 1
         json[:kataId] = katas[0].id
         json[:avatarName] = katas[0].avatar_name
+        json[:avatarIndex] = katas[0].avatar_index
       else
         json[:empty] = group.empty?
         json[:avatarPickerHtml] = avatar_picker_html(katas)
@@ -42,7 +43,7 @@ class IdRejoinController < ApplicationController
     if json[:exists]
       json[:kataId] = kata.id
       json[:avatarName] = kata.avatar_name
-      #return json
+      json[:avatarIndex] = kata.avatar_index
     end
     json
   end
