@@ -1,12 +1,12 @@
 
 <table id="avatars-grid">
-<% (0..7).each do |row| %>
+<% 8.times do |row| %>
   <tr>
-    <% (0..7).each do |col| %>
+    <% 8.times do |col| %>
       <% n = row*8 + col %>
       <% name = @avatar_names[n] %>
       <td>
-        <img src='/images/avatars/<%= name %>.jpg'
+        <img src='/avatar/image/<%= n %>'
            title='<%= name %>'
            class='avatar-image'/>
       </td>

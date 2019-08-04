@@ -13,16 +13,10 @@ module Externals # mix-in
     @languages ||= external
   end
 
-  def saver
-    @saver ||= external
-  end
+  # - - - - - - - - - - - - - - -
 
-  def runner
-    @runner ||= external
-  end
-
-  def ragger
-    @ragger ||= external
+  def avatars
+    @avatars ||= external
   end
 
   def differ
@@ -31,6 +25,18 @@ module Externals # mix-in
 
   def mapper
     @mapper ||= external
+  end
+
+  def ragger
+    @ragger ||= external
+  end
+
+  def runner
+    @runner ||= external
+  end
+
+  def saver
+    @saver ||= external
   end
 
   #def zipper

@@ -3,6 +3,7 @@ class ShaController < ApplicationController
 
   def index
     @services = {
+      'avatars'   => info('avatars', avatars.sha),
       'custom'    => info('custom', custom.sha),
       'differ'    => info('differ', differ.sha),
       'exercises' => info('exercises', exercises.sha),

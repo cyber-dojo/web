@@ -18,6 +18,7 @@ services:
     memswap_limit: 2G
     restart: 'no'
     depends_on:
+      - avatars
       - custom
       - differ
       - exercises
@@ -72,6 +73,21 @@ services:
       - 4524:4524
     tmpfs: /tmp
     restart: 'no'
+
+  # - - - - - - - - - - - - - - - -
+
+  avatars:
+    user: nobody
+    image: cyberdojo/avatars:${CYBER_DOJO_AVATARS_TAG}
+    init: true
+    container_name: test-web-avatars
+    environment:
+      - NO_PROMETHEUS
+    read_only: true
+    ports:
+      - 5027:5027
+    restart: 'no'
+    tmpfs: /tmp
 
   # - - - - - - - - - - - - - - - -
 
