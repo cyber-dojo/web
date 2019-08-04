@@ -61,7 +61,7 @@ $(() => {
       <table>
         <tr>
           <td><%= raw traffic_light_count(lights) %></td>
-          <td><%= raw diff_avatar_image(kata_id, @all_indexes[kata_id]) %></td>
+          <td><%= raw diff_avatar_image(kata_id, @all_indexes[kata_id], @all_names[kata_id]) %></td>
           <td><%= raw pie_chart(lights) %></td>
         </tr>
       </table>

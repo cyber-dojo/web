@@ -14,9 +14,8 @@ module AvatarImageHelper # mix-in
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def diff_avatar_image(kata_id, avatar_index)
+  def diff_avatar_image(kata_id, avatar_index, avatar_name)
     apostrophe = '&#39;'
-    avatar_name = Avatars.names[avatar_index]
     "<div class='avatar-image'" +
         " data-tip='review #{avatar_name}#{apostrophe}s<br/>current code'" +
         " data-id='#{kata_id}'>" +
