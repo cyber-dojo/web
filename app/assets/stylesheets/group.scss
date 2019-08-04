@@ -15,15 +15,15 @@
 
   #avatars-grid
   {
-    filter: grayscale(100%);
     border-collapse: collapse;
     border-spacing: 0px;
     border: 0;
     td {
       padding: 0px;
       img {
-        height: 32px;
-        width: 32px;
+        cursor: default;
+        height: 31px;
+        width: 31px;
       }
     }
   }

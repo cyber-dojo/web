@@ -5,7 +5,7 @@ class DashboardController < ApplicationController
 
   def show
     mapped_id {
-      gather
+      gather      
       @title = 'dashboard:' + group.id
     }
   end
