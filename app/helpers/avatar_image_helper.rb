@@ -20,7 +20,7 @@ module AvatarImageHelper # mix-in
     "<div class='avatar-image'" +
         " data-tip='review #{avatar_name}#{apostrophe}s<br/>current code'" +
         " data-id='#{kata_id}'>" +
-        "<img src='/images/avatars/#{avatar_name}.jpg'" +
+        "<img src='/avatar/image/#{avatar_index}'" +
             " alt='#{avatar_name}'/>" +
      '</div>'
   end
