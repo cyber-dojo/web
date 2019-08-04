@@ -14,11 +14,12 @@ $(() => {
 
   // after refresh() has been called param also contains param.events
   let param = {
-            id: "<%= @id %>",
-    avatarName: "<%= @avatar_name %>",
-      wasIndex: "<%= @was_index %>",
-      nowIndex: "<%= @now_index %>",
-      filename: "<%= @filename %>"
+             id: "<%= @id %>",
+    avatarIndex: "<%= @avatar_index %>",
+     avatarName: "<%= @avatar_name %>",
+       wasIndex: "<%= @was_index %>",
+       nowIndex: "<%= @now_index %>",
+       filename: "<%= @filename %>"
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -150,7 +151,7 @@ $(() => {
     if (param.avatarName === '') {
       return '';
     } else {
-      return `<img class="avatar-image" src="/images/avatars/${param.avatarName}.jpg"/>`;
+      return `<img class="avatar-image" src="/avatar/image/${param.avatarIndex}"/>`;
     }
   };
 

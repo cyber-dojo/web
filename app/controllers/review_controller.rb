@@ -8,6 +8,7 @@ class ReviewController < ApplicationController
     mapped_id {
       @title = 'review:' + kata.id
       @id = kata.id
+      @avatar_index = kata.avatar_index
       @avatar_name = kata.avatar_name
       @was_index = was_index
       @now_index = now_index

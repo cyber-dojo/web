@@ -4,7 +4,7 @@ class DifferController < ApplicationController
   def diff
     old_files = was_files
     new_files = now_files
-    # ensure stdout/stderr/status show no diff 
+    # ensure stdout/stderr/status show no diff
     old_files['stdout'] = new_files['stdout']
     old_files['stderr'] = new_files['stderr']
     old_files['status'] = new_files['status']
@@ -13,6 +13,7 @@ class DifferController < ApplicationController
 
     render json: {
                          id: kata.id,
+                avatarIndex: kata.avatar_index,
                  avatarName: kata.avatar_name,
                    wasIndex: was_index,
                    nowIndex: now_index,
