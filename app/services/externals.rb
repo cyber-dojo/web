@@ -1,6 +1,8 @@
 
 module Externals # mix-in
 
+  # - - - - - - - - - - - - - - -
+  # start-points
   def custom
     @custom ||= external
   end
