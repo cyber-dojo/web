@@ -33,7 +33,7 @@ class Kata
 
   def avatar_name
     if group?
-      avatars.names[avatar_index]
+      Avatars.names[avatar_index]
     else
       ''
     end
