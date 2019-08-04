@@ -13,6 +13,7 @@ class IdJoinController < ApplicationController
       kata = group.join
       if kata
         json[:id] = kata.id
+        json[:avatarIndex] = kata.avatar_index
         json[:avatarName] = kata.avatar_name
       else
         json[:full] = true

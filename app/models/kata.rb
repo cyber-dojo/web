@@ -93,12 +93,6 @@ class Kata
     manifest.group_id
   end
 
-  def group_index
-    # if this kata is inside a group, the kata's index in the group
-    # (which is used to determine its avatar), else nil
-    manifest.group_index
-  end
-
   def most_recent_event
     events.last
   end

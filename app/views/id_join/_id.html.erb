@@ -28,7 +28,7 @@ $(() => {
       if (response.full) {
         prepareFullDropDown();
       } else {
-        prepareAvatarDropDown(response.avatarName, response.id);
+        prepareAvatarDropDown(response.avatarIndex, response.avatarName, response.id);
       }
       inputId.slideUp('fast', () => dropDown.slideDown('slow'));
     } else {
@@ -43,9 +43,9 @@ $(() => {
     cancel.show();
   };
 
-  const prepareAvatarDropDown = (avatarName, id) => {
+  const prepareAvatarDropDown = (avatarIndex, avatarName, id) => {
     showTrafficLightInfo();
-    showAvatar(avatarName);
+    showAvatar(avatarIndex, avatarName);
     cancel.hide();
     ok.unbind()
       .click(() => join(id))
@@ -56,10 +56,10 @@ $(() => {
     hiDiv.html($('#traffic-light-info').html());
   };
 
-  const showAvatar = (avatarName) => {
+  const showAvatar = (avatarIndex, avatarName) => {
     $('#avatar',hiDiv).html($('<img>', {
       'class':'avatar large',
-      'src':`/images/avatars/${avatarName}.jpg`
+      'src':`/avatar/image/${avatarIndex}`
     }));
     loDiv.html(`your animal is the ${avatarName}`);
   };
