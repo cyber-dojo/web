@@ -38,7 +38,6 @@
  *= depend_on dashboard.scss
  *= depend_on review.scss
  *= depend_on sha.scss
- *= depend_on version.scss
  *= depend_on app-bar.scss
  *= depend_on jquery-ui-1.8.16.custom.scss
  *= depend_on codemirror.scss
@@ -75,7 +74,6 @@
 @import "dashboard.scss";
 @import "review.scss";
 @import "sha.scss";
-@import "version.scss";
 @import "app-bar.scss";
 @import "jquery-ui-1.8.16.custom.scss";
 @import "codemirror.scss";

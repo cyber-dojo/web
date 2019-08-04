@@ -39,7 +39,6 @@ do
     export COVERAGE_DIR=${coverage_dir}
 
     # set defaults for externals
-    export CYBER_DOJO_VERSIONER_CLASS=VersionerService
     export CYBER_DOJO_CUSTOM_CLASS=CustomService
     export CYBER_DOJO_EXERCISES_CLASS=ExercisesService
     export CYBER_DOJO_LANGUAGES_CLASS=LanguagesService
