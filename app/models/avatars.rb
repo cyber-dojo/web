@@ -1,3 +1,4 @@
+require_relative '../services/externals'
 
 class Avatars
 

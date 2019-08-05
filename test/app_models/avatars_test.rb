@@ -11,15 +11,9 @@ class AvatarsTest < AppModelsTestBase
   test '149',
   'there are 64 avatar names' do
     assert_equal 64, Avatars.names.length
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '14A',
-  'index of an avatar name' do
-    assert_equal  0, Avatars.index('alligator')
-    assert_equal 45, Avatars.index('salmon')
-    assert_equal 63, Avatars.index('zebra')
+    assert_equal 'alligator', Avatars.names[0]
+    assert_equal 'salmon', Avatars.names[45]
+    assert_equal 'zebra', Avatars.names[63]
   end
 
 end

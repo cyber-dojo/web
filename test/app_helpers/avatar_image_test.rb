@@ -30,11 +30,10 @@ class AvatarImageTest < AppHelpersTestBase
       " class='avatar-image'" +
       " data-tip='review #{avatar_name}&#39;s<br/>current code'" +
       " data-id='#{kata_id}'>" +
-      "<img src='/images/avatars/#{avatar_name}.jpg'" +
+      "<img src='/avatar/image/49'" +
           " alt='#{avatar_name}'/>" +
       '</div>'
-    index = Avatars.names.index(avatar_name)
-    actual = diff_avatar_image(kata_id, index)
+    actual = diff_avatar_image(kata_id, 49)
     assert_equal expected, actual
   end
 

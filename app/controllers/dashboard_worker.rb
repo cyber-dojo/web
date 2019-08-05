@@ -11,7 +11,6 @@ module DashboardWorker # mixin
     # using saver.group_events() BatchMethod
     @all_lights = {}
     @all_indexes = {}
-    @all_names = {}
     saver.group_events(group.id).each do |kata_id,o|
       lights = o['events'].each_with_index.map{ |event,index|
         Event.new(self, Kata.new(self, kata_id), event, index)
@@ -19,7 +18,6 @@ module DashboardWorker # mixin
       unless lights === []
         @all_lights[kata_id] = lights
         @all_indexes[kata_id] = o['index']
-        @all_names[kata_id] = names[o['index']]
       end
     end
     args = [group.created, seconds_per_column, max_seconds_uncollapsed]
