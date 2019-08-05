@@ -27,10 +27,11 @@
   #traffic-lights {
     width: 1030px;
     max-height: 20000px;
-    margin-left: 110px; // 1312236
+    margin-left: 110px; // 1312236  See below
     overflow-x: scroll;
     overflow-y: hidden;
     margin-bottom: 80px;
+    padding-bottom: 100px; // space for tool-tip popup
 
     .time-tick {
       display: block;
