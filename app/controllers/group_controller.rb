@@ -8,7 +8,6 @@ class GroupController < ApplicationController
   def show
     @title = 'group'
     @id = id
-    @avatar_names = avatars.names
   end
 
 end

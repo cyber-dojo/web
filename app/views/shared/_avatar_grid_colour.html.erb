@@ -1,16 +1,2 @@
 
-<table id="avatars-grid">
-<% 8.times do |row| %>
-  <tr>
-    <% 8.times do |col| %>
-      <% n = row*8 + col %>
-      <% name = @avatar_names[n] %>
-      <td>
-        <img src='/avatar/image/<%= n %>'
-           title='<%= name %>'
-           class='avatar-image'/>
-      </td>
-    <% end %>
-  </tr>
-<% end %>
-</table>
+<img id="avatars-grid" src="/avatar/image/all" />

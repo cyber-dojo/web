@@ -60,6 +60,7 @@ module DashboardWorker # mixin
   end
 
   def animal_progress(kata)
+    # TODO: use kata.avatar_index as the key
     [kata.avatar_name, {
         colour: kata.lights[-1].colour,
       progress: most_recent_progress(kata)
