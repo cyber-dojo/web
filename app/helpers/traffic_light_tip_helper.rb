@@ -3,15 +3,15 @@ module TrafficLightTipHelper # mix-in
 
   def traffic_light_tip_html(diffs, events, was_index, now_index)
     tip = '<table><tr>'
-    tip += td(traffic_light_img(events, was_index))  # red/amber/green
-    tip += td(tag_html(was_index))                 # 13
-    tip += td(right_arrow)                       # ->
-    tip += td(traffic_light_img(events, now_index))  # red/amber/green
-    tip += td(tag_html(now_index))                 # 14
+    tip += td(traffic_light_img(events, was_index)) # red/amber/green
+    tip += td(tag_html(was_index))                  # 13
+    tip += td(right_arrow)                          # ->
+    tip += td(traffic_light_img(events, now_index)) # red/amber/green
+    tip += td(tag_html(now_index))                  # 14
 
-    avatar_name = events[was_index].kata.avatar_name
-    unless avatar_name == ''
-      tip += td(avatar_img(avatar_name))         # panda
+    avatar_index = events[was_index].kata.avatar_index
+    unless avatar_index.nil?
+      tip += td(avatar_img(avatar_index))           # panda
     end
     tip += '</tr></table>'
 
@@ -54,8 +54,8 @@ module TrafficLightTipHelper # mix-in
     "<div class='right-arrow'>&rarr;</div>"
   end
 
-  def avatar_img(name)
-    "<img src='/images/avatars/#{name}.jpg' class='traffic-light-diff-tip-avatar-image'>"
+  def avatar_img(index)
+    "<img src='/avatar/image/#{index}' class='traffic-light-diff-tip-avatar-image'>"
   end
 
   def diff_count(name, count)

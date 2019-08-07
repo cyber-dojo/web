@@ -86,7 +86,7 @@ class TipTest < AppHelpersTestBase
             "<td><div class='right-arrow'>&rarr;</div></td>" +
             "<td><img src='/images/bulb_green.png' class='traffic-light-diff-tip-traffic-light-image'></td>" +
             "<td><span class='traffic-light-diff-tip-tag'>#{now_index}</span></td>" +
-            "<td><img src='/images/avatars/#{kata.avatar_name}.jpg' class='traffic-light-diff-tip-avatar-image'></td>" +
+            "<td><img src='/avatar/image/#{kata.avatar_index}' class='traffic-light-diff-tip-avatar-image'></td>" +
           '</tr>' +
         '</table>' +
         '<table>' +
