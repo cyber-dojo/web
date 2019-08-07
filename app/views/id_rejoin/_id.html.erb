@@ -19,16 +19,18 @@ $(() => {
       const args = { id:id, from:"<%= @from %>" };
       inputId.prop('disabled', true);
       waitSpinner.show();
-      $.getJSON('/id_rejoin/drop_down', args, dropDownHandler);
+      $.getJSON('/id_rejoin/drop_down', args, dropDownHandler)
+      .always(() => {
+        waitSpinner.hide();
+        inputId.prop('disabled', false);
+      });
+      // TODO: add .fail() handler
     }
   };
 
   const dropDownHandler = (response) => {
-    waitSpinner.hide();
     if (dropDownPrepared(response)) {
       inputId.slideUp('fast', () => dropDown.slideDown('slow'));
-    } else {
-      inputId.prop('disabled', false);
     }
   };
 

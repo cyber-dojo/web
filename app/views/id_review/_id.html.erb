@@ -17,7 +17,12 @@ $(() => {
       const args = { id:id };
       inputId.prop('disabled', true);
       waitSpinner.show();
-      $.getJSON('/id_review/drop_down', args, dropDownHandler);
+      $.getJSON('/id_review/drop_down', args, dropDownHandler)
+      .always(() => {
+        waitSpinner.hide();
+        inputId.prop('disabled', false);
+      });
+      // TODO: add .fail() handler
     }
   };
 
@@ -26,8 +31,6 @@ $(() => {
     if (group.exists) {
       prepareDropDown(group);
       inputId.slideUp('fast', () => dropDown.slideDown('slow'));
-    } else {
-      inputId.prop('disabled', false);
     }
   };
 
