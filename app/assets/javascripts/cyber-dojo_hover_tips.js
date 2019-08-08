@@ -91,14 +91,20 @@ var cyberDojo = (function(cd, $) {
     // which means mouseleave could have already occurred
     // by the time the ajax returns to set the tip. The
     // mouse-has-left attribute reduces this race's chance.
+    const allLights = node.closest('#traffic-lights');
     if (!node.hasClass('mouse-has-left')) {
       if (!node.attr('disabled')) {
         node.append($(`<span class="hover-tip">${tip}</span>`));
-        // dashboard auto-scroll requires forced positioning.
+        // This is the jQuery UI plug-in
+        // https://jqueryui.com/position/
+        // Note: dashboard auto-scroll requires forced positioning.
+        // at:'center' is important to match the position of the time-tick tool-tip
         $('.hover-tip').position({
           my: 'left top',
-          at: 'right bottom',
-          of: node
+          at: 'center',
+          of: node,
+          within: allLights,
+          collision: 'fit'
         });
       }
     }
