@@ -65,14 +65,21 @@ var cyberDojo = (function(cd, $) {
 
   // - - - - - - - - - - - - - - - - - - - -
 
+  const hoverTipContainer = () => {
+    return $('#hover-tip-container');
+  };
+
+  const removeAllHoverTips = () => {
+    $('.hover-tip',hoverTipContainer()).remove();
+  };
+
   cd.setTip = (node, setTipCallBack) => {
     node.mouseenter(() => {
-      node.removeClass('mouse-has-left');
+      //setTimeout(removeAllHoverTips, 5000);
       setTipCallBack();
     });
     node.mouseleave(() => {
-      node.addClass('mouse-has-left');
-      $('.hover-tip', node).remove();
+      removeAllHoverTips();
     });
   };
 
@@ -87,26 +94,21 @@ var cyberDojo = (function(cd, $) {
   // - - - - - - - - - - - - - - - - - - - -
 
   cd.showHoverTip = (node, tip) => {
-    // mouseenter may retrieve the tip via a slow ajax call
-    // which means mouseleave could have already occurred
-    // by the time the ajax returns to set the tip. The
-    // mouse-has-left attribute reduces this race's chance.
-    const allLights = node.closest('#traffic-lights');
-    if (!node.hasClass('mouse-has-left')) {
-      if (!node.attr('disabled')) {
-        node.append($(`<span class="hover-tip">${tip}</span>`));
-        // This is the jQuery UI plug-in
-        // https://jqueryui.com/position/
-        // Note: dashboard auto-scroll requires forced positioning.
-        // at:'center' is important to match the position of the time-tick tool-tip
-        $('.hover-tip').position({
-          my: 'left top',
-          at: 'center',
-          of: node,
-          within: allLights,
-          collision: 'fit'
-        });
-      }
+    if (!node.attr('disabled')) {
+      // position() is the jQuery UI plug-in
+      // https://jqueryui.com/position/
+      // Note: dashboard auto-scroll requires forced positioning.
+      // at:'center' matches the time-tick tool-tip's position
+      const htc = hoverTipContainer();
+      $('.hover-tip',htc).remove();
+      htc.append($('<span/>', {
+        'class': 'hover-tip'
+      }).html(tip).position({
+        my: 'left top',
+        at: 'center bottom',
+        of: node,
+        collision: 'none'
+      }));
     }
   };
 
