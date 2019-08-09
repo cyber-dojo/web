@@ -102,13 +102,12 @@ var cyberDojo = (function(cd, $) {
         // at:'center' matches the time-tick tool-tip's position
         const htc = hoverTipContainer();
         $('.hover-tip',htc).remove();
-        htc.append($('<span/>', {
+        htc.append($('<div>', {
           'class': 'hover-tip'
         }).html(tip).position({
           my: 'left top',
           at: 'center bottom',
-          of: node,
-          collision: 'none'
+          of: node
         }));
       }
     }
