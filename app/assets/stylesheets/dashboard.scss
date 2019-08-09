@@ -36,7 +36,7 @@
   }
 
   .table-scroll {
-    width: 1000px;
+    max-width: 1000px;
     max-height: 500px;
     z-index: 1;
     overflow-x: auto;
@@ -127,16 +127,6 @@
         padding: { left: 5px; right: 5px; }
   }
 }
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - -
-// I've tried using .traffic-light-diff-tip as an outer tag
-// eg
-//    .traffic-light-diff-tip {
-//      .tag { .. }
-//      .traffic-light-image { ... }
-//    }
-// I can't get it to work...
-// - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 .traffic-light-diff-tip-tag {
   @include non-code-font;
