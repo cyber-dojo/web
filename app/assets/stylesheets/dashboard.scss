@@ -47,37 +47,28 @@
       margin: auto;
       border-collapse: separate;
       border-spacing: 0;
+      /* keep width minimal, otherwise cells expand to fill max-width */
+      /* which looks odd on a new dashboard which only has a few columns */
       display: inline-block !important;
     }
-    th, td {
-      vertical-align: middle;
-    }
+    th, td { vertical-align: middle; }
     thead th {
       position: -webkit-sticky;
       position: sticky;
       top: 0;
-      background: $darker-color; /* overlay element scrolling underneath */
+      background: $darker-color; /* overlay what scrolls underneath */
     }
     th:nth-child(1), th:nth-child(2), th:nth-child(3) {
       position: -webkit-sticky;
       position: sticky;
       z-index: 2;
-      background: $darker-color; /* overlay element scrolling underneath */
+      background: $darker-color; /* overlay what scrolls underneath */
     }
-    th:nth-child(1), thead th:nth-child(1) {
-      left: 0px;
-    }
-    th:nth-child(2), thead th:nth-child(2) {
-      left: 40px;
-    }
-    th:nth-child(3), thead th:nth-child(3) {
-      left: 65px;
-    }
-    thead th:nth-child(1),
-    thead th:nth-child(2),
-    thead th:nth-child(3) {
-      z-index: 5;
-    }
+    /* fix horizontal positions of... */
+    th:nth-child(1), thead th:nth-child(1) { left:  0px; } /* traffic-light count */
+    th:nth-child(2), thead th:nth-child(2) { left: 40px; } /* avatar image */
+    th:nth-child(3), thead th:nth-child(3) { left: 65px; } /* pie-chart */
+    thead th:nth-child(1), thead th:nth-child(2), thead th:nth-child(3) { z-index: 5; }
   }
 
   #traffic-lights {
@@ -87,7 +78,7 @@
       text-align: center;
       font-size: 13px;
       color: lighten(black,60%);
-      background: $darker-color; /* overlay element scrolling underneath */
+      background: $darker-color; /* overlay what scrolls underneath */
       $down-triangle: "\25BF";
       &:after { content: $down-triangle; }
     }
