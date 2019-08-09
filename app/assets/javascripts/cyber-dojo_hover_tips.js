@@ -69,17 +69,17 @@ var cyberDojo = (function(cd, $) {
     return $('#hover-tip-container');
   };
 
-  const removeAllHoverTips = () => {
-    $('.hover-tip',hoverTipContainer()).remove();
-  };
-
   cd.setTip = (node, setTipCallBack) => {
+    // The speed of the mouse could easily exceed
+    // the speed of the getJSON callback...
+    // The mouse-has-left attribute caters for this.
     node.mouseenter(() => {
-      //setTimeout(removeAllHoverTips, 5000);
+      node.removeClass('mouse-has-left');
       setTipCallBack();
     });
     node.mouseleave(() => {
-      removeAllHoverTips();
+      node.addClass('mouse-has-left');
+      $('.hover-tip',hoverTipContainer()).remove();
     });
   };
 
@@ -95,20 +95,22 @@ var cyberDojo = (function(cd, $) {
 
   cd.showHoverTip = (node, tip) => {
     if (!node.attr('disabled')) {
-      // position() is the jQuery UI plug-in
-      // https://jqueryui.com/position/
-      // Note: dashboard auto-scroll requires forced positioning.
-      // at:'center' matches the time-tick tool-tip's position
-      const htc = hoverTipContainer();
-      $('.hover-tip',htc).remove();
-      htc.append($('<span/>', {
-        'class': 'hover-tip'
-      }).html(tip).position({
-        my: 'left top',
-        at: 'center bottom',
-        of: node,
-        collision: 'none'
-      }));
+      if (!node.hasClass('mouse-has-left')) {
+        // position() is the jQuery UI plug-in
+        // https://jqueryui.com/position/
+        // Note: dashboard auto-scroll requires forced positioning.
+        // at:'center' matches the time-tick tool-tip's position
+        const htc = hoverTipContainer();
+        $('.hover-tip',htc).remove();
+        htc.append($('<span/>', {
+          'class': 'hover-tip'
+        }).html(tip).position({
+          my: 'left top',
+          at: 'center bottom',
+          of: node,
+          collision: 'none'
+        }));
+      }
     }
   };
 

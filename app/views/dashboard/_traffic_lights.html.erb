@@ -30,71 +30,77 @@ $(() => {
 });
 //--></script>
 
-<div id="traffic-lights">
+<div id="traffic-lights" class="table-scroll">
 <table>
 
   <% if @minute_columns == 'true' %>
-    <tr>
-      <th class="frozen-left-column">
-        <div class='age'
-             data-tip='time between the oldest and newest traffic-lights'>
-             <%= raw time_tick(@group.age) %>
-           </div>
-      </th>
-      <% @time_ticks.keys.sort.each_with_index do |td_no,index| %>
-  		  <% seconds = @time_ticks[td_no] %>
-  		  <th class="<%= parity(index) %> column">
-    	    <% if seconds.class != Hash %>
-            <div class='time-tick' data-tip="<%= raw time_tick(seconds) %>"></div>
-          <% end %>
+    <thead>
+      <tr>
+        <th>
+          <div class='age'
+               data-tip='time between the oldest and newest traffic-lights'>
+               <%= raw time_tick(@group.age) %>
+             </div>
         </th>
-      <% end %>
-      <th></th>
-    </tr>
+        <% @time_ticks.keys.sort.each_with_index do |td_no,index| %>
+  		    <% seconds = @time_ticks[td_no] %>
+  		    <th>
+    	      <% if seconds.class != Hash %>
+              <div class='time-tick' data-tip="<%= raw time_tick(seconds) %>"></div>
+            <% end %>
+          </th>
+        <% end %>
+        <th>
+        </th>
+      </tr>
+    </thead>
   <% end %>
 
-  <% @gapped.keys.sort_by{|kata_id| @all_indexes[kata_id] }.each do |kata_id| %>
-	<tr class="kata-row">
+  <tbody>
+    <% @gapped.keys.sort_by{|kata_id| @all_indexes[kata_id] }.each do |kata_id| %>
     <% lights = @all_lights[kata_id] %>
 
-    <td class="frozen-left-column">
-      <table>
-        <tr>
-          <td><%= raw traffic_light_count(lights) %></td>
-          <td><%= raw diff_avatar_image(kata_id, @all_indexes[kata_id]) %></td>
-          <td><%= raw pie_chart(lights) %></td>
-        </tr>
-      </table>
-    </td>
+    <tr class="kata-row">
 
-	  <% td_map = @gapped[kata_id] %>
-	  <% td_map.keys.sort.each_with_index do |td_no,index| %>
-		  <% td = td_map[td_no] %>
+      <th class="left-column">
+        <table>
+          <tr>
+            <td><%= raw traffic_light_count(lights) %></td>
+            <td><%= raw diff_avatar_image(kata_id, @all_indexes[kata_id]) %></td>
+            <td><%= raw pie_chart(lights) %></td>
+          </tr>
+        </table>
+      </th>
 
-		  <td class="<%= parity(index) %> column">
-		  <% if td.class == Hash %>
-		    <span class="collapsed-multi-gap"></span>
-		  <% end %>
-		  <% if td.class == Array %>
-		    <% if td.length == 0 %>
-			    <div class="gap"></div>
-		    <% else %>
-          <table align="right">
-            <tr>
-				    <% td.each do |light| %>
-              <td><%= raw diff_traffic_light(light) %></td>
-            <% end %>
-            </tr>
-          </table>
-		    <% end %>
-		  <% end %>
-		  </td>
-	  <% end %>
-    <td>
-      <div class="scroll-handle"><div>
-    </td>
+  	  <% td_map = @gapped[kata_id] %>
+  	  <% td_map.keys.sort.each_with_index do |td_no,index| %>
+  		  <% td = td_map[td_no] %>
 
-	</tr>
-  <% end %>
+  		  <td class="<%= parity(index) %> column">
+  		  <% if td.class == Hash %>
+  		    <span class="collapsed-multi-gap"></span>
+  		  <% end %>
+  		  <% if td.class == Array %>
+  		    <% if td.length == 0 %>
+  			    <div class="gap"></div>
+  		    <% else %>
+            <table align="right">
+              <tr>
+  				    <% td.each do |light| %>
+                <td><%= raw diff_traffic_light(light) %></td>
+              <% end %>
+              </tr>
+            </table>
+  		    <% end %>
+  		  <% end %>
+  		  </td>
+  	  <% end %>
+      <td>
+        <div class="scroll-handle"><div>
+      </td>
+  	</tr>
+    <% end %>
+
+  </tbody>
 </table>
 </div>
