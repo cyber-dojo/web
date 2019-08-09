@@ -3,11 +3,22 @@
 
   margin: 45px;
 
-  #auto-refresh-box, #minute-columns-box {
+  #age {
+    @include non-code-font();
+    text-align: center;
+    font-size: 13px;
+  }
+
+  #age-box, #auto-refresh-box, #minute-columns-box {
     @include edged-panel();
     @include right-align(15px);
      margin: { bottom: 10px; left: 15px; right: 0px; }
     display: inline-block;
+  }
+  #age-box {
+    padding: { top: 8px; bottom: 8px; }
+    position: relative;
+    top: -1px;
   }
 
   #progress-button-box, #download-button-box {
@@ -72,13 +83,6 @@
       background: $darker-color; /* overlay element scrolling underneath */
       $down-triangle: "\25BF";
       &:after { content: $down-triangle; }
-    }
-    .age {
-      display: block;
-      @include non-code-font();
-      text-align: center;
-      font-size: 13px;
-      color: lighten(black,90%);
     }
     .column {
       padding: 0px;
