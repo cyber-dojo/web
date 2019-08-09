@@ -2,19 +2,17 @@
 'use strict';
 $(() => {
 
-  $('.kata-row').each((_i,row) => {
-    let index = 0;
-    $.each($('.diff-traffic-light', $(row)), (_,light) => {
-      const $light = $(light);
-      const id = $light.data('id');
-      const wasIndex = index;
-      const nowIndex = $light.data('index');
-      $light.click(() => {
-        window.open(cd.showReviewUrl(id, wasIndex, nowIndex));
-      });
-      cd.setupTrafficLightTip($light, id, wasIndex, nowIndex);
-      index = nowIndex;
+  let index = 0;
+  $.each($('.diff-traffic-light'), (_,light) => {
+    const $light = $(light);
+    const id = $light.data('id');
+    const wasIndex = index;
+    const nowIndex = $light.data('index');
+    $light.click(() => {
+      window.open(cd.showReviewUrl(id, wasIndex, nowIndex));
     });
+    cd.setupTrafficLightTip($light, id, wasIndex, nowIndex);
+    index = nowIndex;
   });
 
   $('.avatar-image').click(element => {
@@ -31,17 +29,20 @@ $(() => {
 //--></script>
 
 <div id="traffic-lights" class="table-scroll">
+
+<div class='age'
+     data-tip='time between the oldest and newest traffic-lights'>
+     <%= raw time_tick(@group.age) %>
+</div>
+
 <table>
 
   <% if @minute_columns == 'true' %>
     <thead>
       <tr>
-        <th>
-          <div class='age'
-               data-tip='time between the oldest and newest traffic-lights'>
-               <%= raw time_tick(@group.age) %>
-             </div>
-        </th>
+        <th></th>
+        <th></th>
+        <th></th>
         <% @time_ticks.keys.sort.each_with_index do |td_no,index| %>
   		    <% seconds = @time_ticks[td_no] %>
   		    <th>
@@ -60,16 +61,16 @@ $(() => {
     <% @gapped.keys.sort_by{|kata_id| @all_indexes[kata_id] }.each do |kata_id| %>
     <% lights = @all_lights[kata_id] %>
 
-    <tr class="kata-row">
+    <tr>
 
-      <th class="left-column">
-        <table>
-          <tr>
-            <td><%= raw traffic_light_count(lights) %></td>
-            <td><%= raw diff_avatar_image(kata_id, @all_indexes[kata_id]) %></td>
-            <td><%= raw pie_chart(lights) %></td>
-          </tr>
-        </table>
+      <th class="fixed-column">
+        <%= raw traffic_light_count(lights) %>
+      </th>
+      <th class="fixed-column">
+        <%= raw diff_avatar_image(kata_id, @all_indexes[kata_id]) %>
+      </th>
+      <th class="fixed-column">
+        <%= raw pie_chart(lights) %>
       </th>
 
   	  <% td_map = @gapped[kata_id] %>
