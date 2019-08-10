@@ -103,8 +103,8 @@ var cyberDojo = (function(cd, $) {
         const hoverTip = $('<div>', {
           'class': 'hover-tip'
         }).html(tip).position({
-          my: 'center',
-          at: 'center',
+          my: 'top',
+          at: 'bottom',
           of: node,
           collision: 'fit'
         });
