@@ -475,7 +475,7 @@ $(() => {
   const refreshForkButton = () => {
     const button = $('#fork-button');
     cd.setTip(button, () => {
-      const tip = `create a new session from this traffic-light's files`;
+      const tip = `create a new practice session<br/>from this traffic-light's files`;
       cd.showHoverTip(button, tip);
     });
   };
@@ -488,7 +488,7 @@ $(() => {
     const button = $('#revert-button');
     button.prop('disabled', !inTestPage());
     cd.setTip(button, () => {
-      const tip = `revert to this traffic-light's files`;
+      const tip = `revert back to this<br/>traffic-light's files`;
       cd.showHoverTip(button, tip);
     });
   };
