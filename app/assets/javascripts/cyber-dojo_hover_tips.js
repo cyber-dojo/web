@@ -105,9 +105,10 @@ var cyberDojo = (function(cd, $) {
         htc.append($('<div>', {
           'class': 'hover-tip'
         }).html(tip).position({
-          my: 'left top',
-          at: 'center bottom',
-          of: node
+          my: 'center',
+          at: 'center',
+          of: node,
+          collision: 'fit'
         }));
       }
     }
