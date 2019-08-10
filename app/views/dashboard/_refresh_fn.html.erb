@@ -11,7 +11,7 @@ $(() => {
     const url = `/dashboard/show/${id}` +
                 `?minute_columns=${isChecked(minuteColumns)}` +
                 `&auto_refresh=${isChecked(autoRefresh)}`;
-    window.location = url;
+    window.location.href = url;
   };
 
 });
