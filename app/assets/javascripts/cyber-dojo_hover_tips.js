@@ -79,7 +79,7 @@ var cyberDojo = (function(cd, $) {
     });
     node.mouseleave(() => {
       node.addClass('mouse-has-left');
-      $('.hover-tip',hoverTipContainer()).remove();
+      hoverTipContainer().empty();
     });
   };
 
@@ -100,16 +100,15 @@ var cyberDojo = (function(cd, $) {
         // https://jqueryui.com/position/
         // Note: dashboard auto-scroll requires forced positioning.
         // at:'center' matches the time-tick tool-tip's position
-        const htc = hoverTipContainer();
-        $('.hover-tip',htc).remove();
-        htc.append($('<div>', {
+        const hoverTip = $('<div>', {
           'class': 'hover-tip'
         }).html(tip).position({
           my: 'center',
           at: 'center',
           of: node,
           collision: 'fit'
-        }));
+        });
+        hoverTipContainer().html(hoverTip);
       }
     }
   };
