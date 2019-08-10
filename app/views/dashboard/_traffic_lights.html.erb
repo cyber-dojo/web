@@ -2,17 +2,19 @@
 'use strict';
 $(() => {
 
-  let index = 0;
-  $.each($('.diff-traffic-light'), (_,light) => {
-    const $light = $(light);
-    const id = $light.data('id');
-    const wasIndex = index;
-    const nowIndex = $light.data('index');
-    $light.click(() => {
-      window.open(cd.showReviewUrl(id, wasIndex, nowIndex));
+  $('.kata-row').each((_i,row) => {
+    let index = 0; // each row must restart index at zero
+    $.each($('.diff-traffic-light', $(row)), (_,light) => {
+      const $light = $(light);
+      const id = $light.data('id');
+      const wasIndex = index;
+      const nowIndex = $light.data('index');
+      $light.click(() => {
+        window.open(cd.showReviewUrl(id, wasIndex, nowIndex));
+      });
+      cd.setupTrafficLightTip($light, id, wasIndex, nowIndex);
+      index = nowIndex;
     });
-    cd.setupTrafficLightTip($light, id, wasIndex, nowIndex);
-    index = nowIndex;
   });
 
   $('.avatar-image').click(element => {
@@ -56,7 +58,7 @@ $(() => {
     <% @gapped.keys.sort_by{|kata_id| @all_indexes[kata_id] }.each do |kata_id| %>
     <% lights = @all_lights[kata_id] %>
 
-    <tr>
+    <tr class="kata-row">
 
       <th><%= raw traffic_light_count(lights) %></th>
       <th><%= raw diff_avatar_image(kata_id, @all_indexes[kata_id]) %></th>
