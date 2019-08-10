@@ -98,8 +98,6 @@ var cyberDojo = (function(cd, $) {
       if (!node.hasClass('mouse-has-left')) {
         // position() is the jQuery UI plug-in
         // https://jqueryui.com/position/
-        // Note: dashboard auto-scroll requires forced positioning.
-        // at:'center' matches the time-tick tool-tip's position
         const hoverTip = $('<div>', {
           'class': 'hover-tip'
         }).html(tip).position({
