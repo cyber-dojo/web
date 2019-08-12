@@ -8,8 +8,8 @@ $(() => {
     const url = '/setup_default_start_point/save_<%= @from %>' +
       '?language=' + encodeURIComponent(language) +
       '&exercise=' + encodeURIComponent(exercise);
-    window.location.href = cd.homePageUrl('<%= @kata_id %>');
     window.open(url);
+    window.location.href = cd.homePageUrl('<%= @kata_id %>');
   });
 
 });

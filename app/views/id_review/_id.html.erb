@@ -45,8 +45,8 @@ $(() => {
 
   const openDashboard = (groupId) => {
     const url = `/dashboard/show/${groupId}`;
-    window.location.href = cd.homePageUrl(groupId);
     window.open(url);
+    window.location.href = cd.homePageUrl(groupId);
   };
 
   cancel.click(() => {

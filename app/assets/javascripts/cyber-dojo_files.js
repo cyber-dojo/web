@@ -42,7 +42,7 @@ var cyberDojo = (function(cd, $) {
       cd.loadFile('stdout');
     }
     else {
-        cd.loadFile('stderr');
+      cd.loadFile('stderr');
     }
   };
 
