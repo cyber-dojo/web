@@ -19,10 +19,14 @@ class KataController < ApplicationController
     @stdout,@stderr,@status,colour,
       files,@created,@deleted,@changed = kata.run_tests(params)
 
+    # The saver service does not yet know about 
+    # the new 'faulty' traffic-light colour.
+    saver_colour = (colour === 'faulty') ? 'amber' : colour
+
     t2 = time_now
     duration = Time.mktime(*t2) - Time.mktime(*t1)
     index = params[:index].to_i + 1
-    kata.ran_tests(index, files, t1, duration, @stdout, @stderr, @status, colour)
+    kata.ran_tests(index, files, t1, duration, @stdout, @stderr, @status, saver_colour)
 
     @light = Event.new(self, kata, { 'time' => t1, 'colour' => colour }, index)
     @id = kata.id
