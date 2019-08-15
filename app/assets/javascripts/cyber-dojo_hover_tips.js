@@ -24,7 +24,7 @@ var cyberDojo = (function(cd, $) {
           '<td>' +
             '<img' +
               " class='traffic-light-diff-tip-traffic-light-image'" +
-              ` src='/images/bulb_${colour}.png'>` +
+              ` src='/traffic-light/image/${colour}.png'>` +
           '</td>' +
           '<td>' +
              `<span class='traffic-light-diff-tip-tag ${colour}'>` +

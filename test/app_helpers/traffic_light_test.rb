@@ -48,7 +48,7 @@ class TrafficLightTest < AppHelpersTestBase
   test 'E41',
   'traffic_light_image' do
     colour = 'red'
-    expected = "<img src='/images/bulb_#{colour}.png'" +
+    expected = "<img src='/traffic-light/image/#{colour}.png'" +
                " alt='red traffic-light'/>"
     actual = traffic_light_image(colour)
     assert_equal expected, actual
@@ -65,7 +65,7 @@ class TrafficLightTest < AppHelpersTestBase
         " data-id='a4r9YN'" +
         " data-index='14'" +
         " data-colour='red'>" + # [1]
-        "<img src='/images/bulb_red.png'" +
+        "<img src='/traffic-light/image/red.png'" +
            " alt='red traffic-light'/>" +
       '</div>'
     actual = diff_traffic_light(red)

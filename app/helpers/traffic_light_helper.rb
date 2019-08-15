@@ -48,7 +48,7 @@ module TrafficLightHelper # mix-in
   end
 
   def traffic_light_image(colour)
-    "<img src='/images/bulb_#{colour}.png'" +
+    "<img src='/traffic-light/image/#{colour}.png'" +
        " alt='#{colour} traffic-light'/>"
   end
 

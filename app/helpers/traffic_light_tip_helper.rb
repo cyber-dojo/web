@@ -43,7 +43,7 @@ module TrafficLightTipHelper # mix-in
   def traffic_light_img(events, index)
     return '' if index == 0
     colour = tag_colour(events, index)
-    "<img src='/images/bulb_#{colour}.png' class='traffic-light-diff-tip-traffic-light-image'>"
+    "<img src='/traffic-light/image/#{colour}.png' class='traffic-light-diff-tip-traffic-light-image'>"
   end
 
   def tag_colour(events, index)
