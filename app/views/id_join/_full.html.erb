@@ -5,9 +5,8 @@
       <% 8.times do |x| %>
       <td>
         <% index = y*8 + x %>
-        <% avatar_name = @avatar_names[index] %>
-          <img src="/images/avatars/<%= avatar_name %>.jpg"
-               class="avatar small" />
+        <img src="/avatar/image/<%= index %>"
+             class="avatar small" />
       </td>
       <% end %>
     </tr>

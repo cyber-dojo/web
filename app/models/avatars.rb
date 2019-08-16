@@ -3,7 +3,12 @@ require_relative '../services/externals'
 class Avatars
 
   def self.names
-    @@names ||= Avatars.new.avatars.names
+    # self.new to create object to get avatars from Externals
+    @@names ||= self.new.avatars.names
+  end
+
+  def self.index(name)
+    self.names.index(name)
   end
 
   private

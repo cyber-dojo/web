@@ -14,7 +14,7 @@ class AvatarImageTest < AppHelpersTestBase
     assert html.start_with?('<img '), '<img : ' + html
     assert html.match("height='#{size}'"), 'height: ' + html
     assert html.match("width='#{size}'"), 'width: ' + html
-    assert html.match("src='/images/avatars/#{name}.jpg'"), 'src: ' + html
+    assert html.match("src='/avatar/image/20'"), 'src: ' + html
     assert html.match("title='wibble'"), 'title: ' + html
     assert html.match("class='avatar-image'"), 'class: ' + html
   end

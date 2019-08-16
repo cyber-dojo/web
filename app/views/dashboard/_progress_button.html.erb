@@ -21,7 +21,7 @@ $(() => {
                   " height='20'/>" +
             '</td>' +
             '<td>' +
-              `<img src='/images/avatars/${name}.jpg'` +
+              `<img src='/avatar/image/${animal.index}'` +
                 ` data-avatar='${name}'` +
                 " width='30'" +
                 " height='30'" +
@@ -62,7 +62,6 @@ $(() => {
 <% if @group.manifest.progress_regexs != [] %>
   <div id="progress-button-box">
     <button type="button"
-           title="show progress"
               id="progress-button">
       progress?
     </button>
