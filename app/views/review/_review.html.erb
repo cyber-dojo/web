@@ -263,9 +263,9 @@ $(() => {
       return html;
     }
     const count = diff[propertyName];
-    const noneOrSome = (count === 0) ? 'none' : 'some';
+    const noneMarker = (count === 0) ? 'none' : '';
     const div = $('<div>', {
-      'class': `diff-${cssName}-line-count ${noneOrSome} button`,
+      'class': `diff-${cssName}-line-count ${noneMarker} button`,
       'data-filename': diff.filename
     });
     div.append(count);
@@ -306,10 +306,18 @@ $(() => {
   const resetFilenameAddedDeletedLineCountHandlers = () => {
 
     const display = (node, name, value) => {
+      // only [+][-] counts for current filename are live
       if ($(node).attr('disabled') !== 'disabled') {
         const filename = $(node).data('filename');
         const selector = `[id="${filename}_diff_div"] ${name}`;
         $(selector).css('display', value);
+        if (value === 'none') {
+          $(node).removeClass('on');
+          $(node).addClass('off');
+        } else {
+          $(node).removeClass('off');
+          $(node).addClass('on');
+        }
       }
     };
 
