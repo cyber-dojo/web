@@ -535,25 +535,6 @@ $(() => {
     }
   };
 
-  //-----------------------------------------
-  // refresh [download]
-  //-----------------------------------------
-
-  const refreshDownloadButton = () => {
-    const button = $('#download-button');
-    // zipper is not yet upgraded to the new saver format
-    button.prop('disabled', true);
-    cd.setTip(button, () => {
-      const tip = `download this traffic-light's files`;
-      cd.showHoverTip(button, tip);
-    });
-  };
-
-  const doDownload = () => {
-    const url = `/download_tag/${param.id}/${param.nowIndex}`;
-    window.location = url;
-  };
-
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const setupButton = (name, handler) => {
@@ -564,7 +545,6 @@ $(() => {
       .unbind('click')
       .bind('click', handler);
     if (name === 'revert'  ) { refreshRevertButton();   }
-    if (name === 'download') { refreshDownloadButton(); }
     if (name === 'fork'    ) { refreshForkButton();     }
   };
 
@@ -576,7 +556,6 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   setupButton('revert',   () => doRevert());
-  setupButton('download', () => doDownload());
   setupButton('fork',     () => cd.forkDialog(param.id, param.nowIndex));
 
   if (inTestPage()) {
@@ -613,7 +592,6 @@ $(() => {
       <%= render(:partial => 'review/diff_checkbox') %>
       <div id="fork-button-box"></div>
       <div id="revert-button-box"></div>
-      <div id="download-button-box"></div>
       <div id="diff-filenames"></div>
     </td>
     <td colspan="2">
