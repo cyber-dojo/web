@@ -116,7 +116,6 @@
            width: 220px;
        max-width: 220px;
 
-      // mimic test-page filename-list
       &[data-filename='stdout'] { margin-top: 20px; }
       &[data-filename='status'] { margin-bottom: 20px; }
     }
@@ -182,16 +181,17 @@
     &[disabled]:hover { border: 1px solid lighten($darker-color,6%); }
     cursor: pointer;
 
-    &.none { color: transparent; }
+    &.none {
+      visibility: hidden;
+    }
 
     &[disabled] {
       background: lighten($darker-color,10%);
       cursor: default;
     }
 
-    // mimic test-page filename-list
-    &[data-filename='stdout'] { margin-top: 20px;  }
-    &[data-filename='status'] { margin-bottom: 20px;  }
+    &[data-filename='stdout'] { margin: {    top: 20px;  } }
+    &[data-filename='status'] { margin: { bottom: 20px;  } }
   }
 
   .diff-deleted-line-count {
