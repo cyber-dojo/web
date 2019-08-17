@@ -30,22 +30,8 @@
 {
   margin: { top: 15px; left: 45px; }
 
-  #edit-summary {
-    float: right;
-  }
-  .traffic-light-count {
-    display: inline;
-    padding-right: 0px;
-  }
-  .avatar-image {
-    display: inline;
-    margin-left: 5px;
-  }
-  .traffic-light-count-wrapper {
-    display: inline;
-    position: relative;
-    right: -10px;
-  }
+  #edit-summary { float: right; }
+  .avatar-image { display: inline; }
 
   #test-button
   {
@@ -103,8 +89,6 @@
     {
       padding: { left: 0px; bottom: 0px; }
       img { width: 21px; height: 21px; }
-      position: relative;
-      top: 4px;
     }
   }
 

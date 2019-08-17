@@ -34,6 +34,7 @@ $(() => {
 <div id="traffic-lights">
   <table>
     <tr id="traffic-lights-row">
+      <td><%= render partial: 'traffic_lights_count' %></td>
       <% @kata.lights.each do |light| %>
         <td><%= raw diff_traffic_light(light) %></td>
       <% end %>

@@ -74,6 +74,14 @@
   }
 
   #traffic-lights {
+    .avatar-image img {
+       width: 26px;
+      height: 26px;
+    }
+    .traffic-light-count-wrapper {
+       width: 35px;
+       text-align: right;
+    }    
     .time-tick {
       display: block;
       @include non-code-font();
@@ -103,14 +111,6 @@
       $thin-space: "\2009";
        text-align: center;
       &:after { content: $thin-space; }
-    }
-    .traffic-light-count-wrapper {
-       width: 35px;
-       text-align: right;
-    }
-    .avatar-image img {
-       width: 26px;
-      height: 26px;
     }
   }
 }
