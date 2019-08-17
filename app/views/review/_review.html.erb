@@ -128,12 +128,11 @@ $(() => {
 
   //-----------------------------------------
   // refresh summary
-  //    event-index avatar? pie-chart
+  //    event-index avatar?
   //-----------------------------------------
 
   const refreshSummary = () => {
     $('#review-avatar-image-box').html(makeAvatarImageHtml());
-    //TODO: pie-chart
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -465,7 +464,7 @@ $(() => {
       param = data;
       refreshSummary();
       refreshTrafficLights(); // this
-      refreshNavigator(); // before this
+      refreshNavigator();     // before this
       refreshFiles();
       refreshDiffCheckBox();
       refreshForkButton();
@@ -583,15 +582,7 @@ $(() => {
 
 <table>
   <tr valign="top">
-    <td id="review-summary">
-      <table>
-        <tr>
-          <td><div id="review-avatar-image-box"></div></td>
-          <td><div id="review-pie-chart-box"></div></td>
-          <td><div id="resume-button-box"></div></td>
-        </tr>
-      </table>
-    </td>
+    <td><%= render(:partial => 'review/resume_button') %></td>
     <td><%= render(:partial => 'review/traffic_light_navigator') %></td>
     <td><div id="review-traffic-lights"></div></td>
   </tr>

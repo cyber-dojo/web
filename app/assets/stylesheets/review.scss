@@ -10,13 +10,33 @@
 
 #review-page {
 
-  margin-top: 20px;
+  margin: { top: 15px; left: 35px; }
+
+  img.avatar-image {
+    @include rounded-corner(4px);
+     width: 30px;
+    height: 30px;
+    margin: 0px;
+  }
+
   @include non-code-font();
      padding: none;
   background: $darker-color;
        color: $lighter-color;
 
-  #review-summary { float: right; }
+  #resume-button-box {
+    float: left;
+    #resume-button {
+      @include non-code-font();
+      @include font-size-medium();
+      @include right-align(15px);
+          margin: { top:0px; bottom:0px; left:2px; right:2px; }
+         padding: { top:0px; bottom:2px; left:8px; right:8px; }
+      text-align: center;
+        position: relative;
+             top: -2px;
+    }
+  }
 
   #review-traffic-lights {
        display: block;
@@ -35,14 +55,6 @@
         top: 2px;           // with < > navigator triangle buttons
       }
     }
-  }
-
-  img.avatar-image {
-    @include rounded-corner(4px);
-     width: 29px;
-    height: 29px;
-    margin: { left: 4px; right: 2px; }
-    padding-left: 5px;
   }
 
   #review-index-box {
@@ -222,17 +234,5 @@
     padding: { bottom: 1px; top: 1px; left: 9px; right: 9px; }
     position: relative;
     top: -3px;
-  }
-
-  #resume-button {
-    @include non-code-font();
-    @include font-size-medium();
-    @include right-align(15px);
-        margin: { right: 0px; bottom: 2px; top: 2px; }
-       padding: { top: 0px; bottom: 2px; left: 9px; right: 9px; }
-    text-align: right;
-    position: relative;
-    top: -3px;
-    right: -1px;
   }
 }

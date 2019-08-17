@@ -28,19 +28,23 @@
 
 #kata-page
 {
-  margin: { top: 15px; left: 45px; }
+  margin: { top: 15px; left: 35px; }
 
-  #edit-summary { float: right; }
   .avatar-image { display: inline; }
 
-  #test-button
-  {
-    @include non-code-font();
-    @include font-size-medium();
-    @include right-align(15px);
-        margin: { right: 0px; bottom: 2px; right: 4px; }
-       padding: { top: 0px; bottom: 2px; left: 9px; right: 9px; }
-    text-align: right;
+  #test-button-box {
+    float: left;
+    #test-button
+    {
+      @include non-code-font();
+      @include font-size-medium();
+      @include right-align(15px);
+          margin: { top:0px; bottom:0px; left:2px; right:2px; }
+         padding: { top: 0px; bottom: 2px; left: 8px; right: 8px; }
+      text-align: center;
+        position: relative;
+             top: -2px;
+    }
   }
 
   #file-operations
