@@ -28,7 +28,12 @@
     .diff-traffic-light {
       padding: 0px;
        cursor: pointer;
-      img.with-bar-gap { width: 22px; height: 29px; }
+      img.with-bar-gap {
+        width: 22px;
+        height: 29px;
+        position: relative; // move down slightly to align vertically
+        top: 2px;           // with < > navigator triangle buttons
+      }
     }
   }
 
@@ -40,24 +45,23 @@
     padding-left: 5px;
   }
 
-  #index-number {
-     font-size: 24px;
-    text-align: center;
-    position: relative;
-    top: -2px;
+  #review-index-box {
+    #index-number {
+      width: 30px;
+      padding: { left: 5px; right: 5px; }
+       font-size: 22px;
+      text-align: center;
+    }
   }
-
   #prev-index img, #next-index img {
     @include rounded-corner(4px);
-      width: 18px;
-     height: 18px;
-    padding: 0px;
+       width: 18px;
+      height: 18px;
+     padding: 0px;
   }
 
-  #prev-index, #next-index { margin-right: 2px; }
-  #prev-index {
-    position: relative;
-    right: -4px;
+  #prev-index {       // move right to align vertically
+    margin-left: 4px; // with line-numbers gutter
   }
 
   #diff-checkbox-container {

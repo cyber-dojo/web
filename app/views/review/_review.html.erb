@@ -132,17 +132,8 @@ $(() => {
   //-----------------------------------------
 
   const refreshSummary = () => {
-    $('#review-index-box').html(makeIndexHtml());
     $('#review-avatar-image-box').html(makeAvatarImageHtml());
     //TODO: pie-chart
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const makeIndexHtml = () => {
-    const index = param.nowIndex;
-    const colour = param.events[index].colour;
-    return `<div id="index-number" class="${colour}">${index}</div>`;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -157,13 +148,24 @@ $(() => {
 
   //-----------------------------------------
   // refresh navigator
-  //    [<] [>]
+  //    [<] traffic-light-index [>]
   //-----------------------------------------
 
   const refreshNavigator = () => {
     refreshIndex($('#prev-index'), prevEventIndex(param.nowIndex));
+    $('#review-index-box').html(makeIndexHtml());
     refreshIndex($('#next-index'), nextEventIndex(param.nowIndex));
   };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const makeIndexHtml = () => {
+    const index = param.nowIndex;
+    const colour = param.events[index].colour;
+    return `<div id="index-number" class="${colour}">${index}</div>`;
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const refreshIndex = (button, index) => {
     const on = (index !== null);
@@ -597,24 +599,14 @@ $(() => {
     <td id="review-summary">
       <table>
         <tr>
-          <td><div id="review-index-box"></div></td>
           <td><div id="review-avatar-image-box"></div></td>
           <td><div id="review-pie-chart-box"></div></td>
           <td><div id="resume-button-box"></div></td>
         </tr>
       </table>
     </td>
-    <td>
-      <button id="prev-index" class="triangle button">
-        <img src="/images/triangle_prev.gif" alt="move to previous diff"/>
-      </button>
-      <button id="next-index" class="triangle button">
-        <img src="/images/triangle_next.gif" alt="move to next diff"/>
-      </button>
-    </td>
-    <td>
-      <div id="review-traffic-lights"></div>
-    </td>
+    <td><%= render(:partial => 'review/traffic_light_navigator') %></td>
+    <td><div id="review-traffic-lights"></div></td>
   </tr>
   <tr valign="top">
     <td align="right" style="width:295px">
