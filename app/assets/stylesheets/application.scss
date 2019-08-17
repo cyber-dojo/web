@@ -36,6 +36,7 @@
  *= depend_on options-dialog.scss
  *= depend_on kata.scss
  *= depend_on dashboard.scss
+ *= depend_on pie-chart.scss
  *= depend_on review.scss
  *= depend_on sha.scss
  *= depend_on app-bar.scss
@@ -72,6 +73,7 @@
 @import "options-dialog.scss";
 @import "kata.scss";
 @import "dashboard.scss";
+@import "pie-chart.scss";
 @import "review.scss";
 @import "sha.scss";
 @import "app-bar.scss";

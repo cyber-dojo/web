@@ -60,9 +60,9 @@ $(() => {
 
     <tr class="kata-row">
 
-      <th><%= raw traffic_light_count(lights) %></th>
       <th><%= raw diff_avatar_image(kata_id, @all_indexes[kata_id]) %></th>
       <th><%= raw pie_chart(lights) %></th>
+      <th><%= raw traffic_light_count(lights) %></th>
 
   	  <% td_map = @gapped[kata_id] %>
   	  <% td_map.keys.sort.each_with_index do |td_no,index| %>
