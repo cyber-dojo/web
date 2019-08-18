@@ -99,17 +99,15 @@ $(() => {
   const makeTrafficLightsHtml = () => {
     let html = '';
     let wasIndex = 0;
-    html += '<table><tr valign="top">';
     $.each(param.events, (_n, event) => {
       const colour = event.colour;
       if (colour !== '') {
         const nowIndex = event.index;
         const barOrGap = (param.nowIndex === nowIndex) ? 'bar' : 'gap';
-        html += makeTd(makeTrafficLightHtml(colour, wasIndex, nowIndex, barOrGap));
+        html += makeTrafficLightHtml(colour, wasIndex, nowIndex, barOrGap);
         wasIndex = nowIndex;
       }
     });
-    html += '</tr></table>';
     return html;
   };
 

@@ -41,14 +41,16 @@
   }
 
   #review-traffic-lights {
-       display: block;
+       display: flex;
+         float:left;
         margin: 0px;
-         width: 796px;
+         width: 799px;
     overflow-x: auto;
     overflow-y: hidden;
     &::-webkit-scrollbar:horizontal { height: 0px; }
     .diff-traffic-light {
       padding: 0px;
+       margin: 0px;
        cursor: pointer;
       img.with-bar-gap {
         width: 22px;
@@ -106,7 +108,7 @@
   #diff-filenames {
     float: left;
     height: 490px;
-    margin: { top: 8px; }    
+    margin: { top: 8px; }
     overflow-x: auto; // make scrollbars invisible
     overflow-y: auto;
     &::-webkit-scrollbar:vertical { width: 0px; }
