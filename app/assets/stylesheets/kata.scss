@@ -1,34 +1,9 @@
 
-#test-spinner
-{
-   display: none;
-  position: absolute;
-       top: 250px;
-      left: 600px;
-   z-index: 1000;
-     width: 75px;
-    height: 75px;
-}
-
-#error
-{
-  width: 580px;
-  height: 280px;
-  background: red;
-  font-size: 12px;
-}
-
-#timed-out
-{
-  width: 480px;
-  height: 120px;
-  background: gray;
-  font-size: 18px;
-}
-
 #kata-page
 {
   margin: { top: 15px; left: 35px; }
+
+  .left-column { width: 250px; }
 
   .avatar-image { display: inline; }
 
@@ -51,6 +26,7 @@
   {
     div { display: inline-block; }
     float: left;
+    margin-bottom: 8px;
     #new, #rename, #delete
     {
       @include non-code-font();
@@ -60,12 +36,11 @@
           margin: { top:0px; bottom:0px; left:0px; right:4px; }
          padding: { top:1px; bottom:1px; left:7px; right:7px; }
     }
-    #delete { margin-bottom: 10px; }
   }
 
   #filename-list
   {
-    margin: { right: 5px; }
+    margin: { right: 3px; }
 
     div[class~='filename'][class~='highlight'] { &:before { content: ">"; } }
 
@@ -127,6 +102,33 @@ input#new-filename, input#rename-filename, input#delete-filename
           top: 0;
         width: 100%;
       height: 100%;
+}
+
+#test-spinner
+{
+   display: none;
+  position: absolute;
+       top: 250px;
+      left: 600px;
+   z-index: 1000;
+     width: 75px;
+    height: 75px;
+}
+
+#error
+{
+  width: 580px;
+  height: 280px;
+  background: red;
+  font-size: 12px;
+}
+
+#timed-out
+{
+  width: 480px;
+  height: 120px;
+  background: gray;
+  font-size: 18px;
 }
 
 //==================================================
