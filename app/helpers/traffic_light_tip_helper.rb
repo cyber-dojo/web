@@ -3,18 +3,16 @@ module TrafficLightTipHelper # mix-in
 
   def traffic_light_tip_html(diffs, events, was_index, now_index)
     tip = '<table><tr>'
+    avatar_index = events[was_index].kata.avatar_index
+    unless avatar_index.nil?
+      tip += td(avatar_img(avatar_index))           # panda
+    end
     tip += td(traffic_light_img(events, was_index)) # red/amber/green
     tip += td(tag_html(was_index))                  # 13
     tip += td(right_arrow)                          # ->
     tip += td(traffic_light_img(events, now_index)) # red/amber/green
     tip += td(tag_html(now_index))                  # 14
-
-    avatar_index = events[was_index].kata.avatar_index
-    unless avatar_index.nil?
-      tip += td(avatar_img(avatar_index))           # panda
-    end
     tip += '</tr></table>'
-
     tip += '<table>'
     diffs.each do |filename, diff|
       added   = diff.count { |line| line['type'] == 'added'   }
