@@ -5,13 +5,13 @@
 
   .left-column { width: 250px; }
 
-  .avatar-image { display: inline-block; }
+  .avatar-image { display: inline; }
 
   #test-button
   {
     @include non-code-font();
     @include font-size-medium();
-           display: inline-block;
+           display: inline;
     vertical-align: top;
             margin: 0px;
            padding: { top: 0px; bottom: 2px; left: 10px; right: 10px; }
@@ -20,7 +20,7 @@
 
   #file-operations
   {
-    div { display: inline-block; }
+    div { display: inline; }
     float: left;
     margin: { top: 6px; bottom: 8px; }
     #new, #rename, #delete

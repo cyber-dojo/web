@@ -11,33 +11,33 @@
 #review-page {
 
   margin: { top: 15px; left: 35px; }
-
-  .left-column { width: 295px; }
-
-  img.avatar-image {
-    @include rounded-corner(4px);
-     width: 30px;
-    height: 30px;
-    margin: 0px;
-  }
-
   @include non-code-font();
      padding: none;
   background: $darker-color;
        color: $lighter-color;
 
-  #resume-button-box {
+  .left-column { width: 295px; }
+
+  #review-avatar-image-box, #resume-button-box {
+    display: inline;
+    vertical-align: top;
     float: left;
-    #resume-button {
-      @include non-code-font();
-      @include font-size-medium();
-      @include right-align(15px);
-          margin: { top:0px; bottom:0px; left:2px; right:2px; }
-         padding: { top:0px; bottom:2px; left:8px; right:8px; }
-      text-align: center;
-        position: relative;
-             top: -2px;
-    }
+    margin-right: 4px;
+  }
+
+  img.avatar-image {
+    @include rounded-corner(6px);
+     width: 30px;
+    height: 30px;
+    margin: 0px;
+  }
+
+  #resume-button {
+    @include non-code-font();
+    @include font-size-medium();
+        margin: 0px;
+       padding: { top:0px; bottom:2px; left:8px; right:8px; }
+    text-align: center;
   }
 
   #review-traffic-lights {
@@ -106,10 +106,8 @@
   #diff-filenames {
     float: left;
     height: 490px;
-    margin: { top: 8px; }
-
-    // make scrollbars invisible
-    overflow-x: auto;
+    margin: { top: 8px; }    
+    overflow-x: auto; // make scrollbars invisible
     overflow-y: auto;
     &::-webkit-scrollbar:vertical { width: 0px; }
     &::-webkit-scrollbar:horizontal { height: 0px; }
