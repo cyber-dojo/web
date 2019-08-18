@@ -74,8 +74,9 @@
      padding: 0px;
   }
 
-  #prev-index {       // move right to align vertically
-    margin-left: 4px; // with line-numbers gutter
+  #prev-index {
+    position: relative; // move right to align vertically
+    right: -4px;        // with line-numbers gutter
   }
 
   #diff-checkbox-container {
@@ -103,10 +104,9 @@
   }
 
   #diff-filenames {
-
-    @include left-align(30px);
+    float: left;
     height: 490px;
-    margin: { top: 5px; }
+    margin: { top: 8px; }
 
     // make scrollbars invisible
     overflow-x: auto;

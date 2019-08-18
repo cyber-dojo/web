@@ -40,7 +40,7 @@
 
   #filename-list
   {
-    margin: { right: 3px; }
+    margin: { right: 5px; }
 
     .filename:not(.selected):hover {
       background-color: lighten($darker-color,5%);
