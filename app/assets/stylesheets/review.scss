@@ -117,9 +117,6 @@
     border-bottom-right-radius: 5px;
 
     .filename {
-      // total height has to be the same as
-      // diff-(added/deleted)-line-counts so
-      // they vertically align
        height: 16px;
       padding: { left: 4px; top: 0px; bottom: 4px; }
        border: 1px solid $darker-color;
@@ -130,6 +127,10 @@
 
       &[data-filename='stdout'] { margin-top: 20px; }
       &[data-filename='status'] { margin-bottom: 20px; }
+
+      &:not(.selected):hover {
+        background-color: lighten($darker-color,5%);
+      }
     }
   }
 
