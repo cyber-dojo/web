@@ -20,7 +20,7 @@ $(() => {
     }).text(count);
 
     if (count > 0) {
-      $('.traffic-lights-count').html(newCount);
+      $('#traffic-lights-count-box').html(newCount);
       // cant reuse newCount, have to refind it
       cd.setupHoverTips($('.traffic-light-count'));
     }
@@ -31,4 +31,4 @@ $(() => {
 });
 //--></script>
 
-<div class="traffic-lights-count"></div>
+<div id="traffic-lights-count-box"></div>

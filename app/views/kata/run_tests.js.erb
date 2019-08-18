@@ -1,11 +1,9 @@
 'use strict';
 
 const appendTestTrafficLight = () => {
-  const div = $("<%= raw diff_traffic_light(@light) %>");
-  const td = $('<td>');
-  td.append(div);
-  $('#traffic-lights-row').append(td);
-  cd.setupReviewTrafficLights(div);
+  const light = $("<%= raw diff_traffic_light(@light) %>");
+  $('#traffic-lights').append(light);
+  cd.setupReviewTrafficLights(light);
 };
 
 //- - - - - - - - - - - - - - - - - - - - - -
@@ -18,7 +16,7 @@ const updateEventIndex = () => {
 
 const updateTrafficLightCount = () => {
   const count = "<%= js_partial('traffic_lights_count') %>";
-  $('.traffic-lights-count').html(count);
+  $('#traffic-lights-count-box').html(count);
 };
 
 
@@ -87,7 +85,7 @@ const warnIfTestsTimedOut = () => {
 
 appendTestTrafficLight();
 updateTrafficLightCount();
-updateTrafficLightPieChart();
+//updateTrafficLightPieChart();
 updateEventIndex();
 updateOutput();
 insertCreatedFiles();
