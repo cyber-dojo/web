@@ -37,9 +37,7 @@ $(() => {
   <% if @minute_columns == 'true' %>
     <thead>
       <tr>
-        <th></th>
-        <th></th>
-        <th></th>
+        <th><%# avatar-image,pie-chart,traffic-light-count %></th>
         <% @time_ticks.keys.sort.each_with_index do |td_no,index| %>
   		    <% seconds = @time_ticks[td_no] %>
   		    <th>
@@ -48,8 +46,7 @@ $(() => {
             <% end %>
           </th>
         <% end %>
-        <th>
-        </th>
+        <th><%# scroll-marker %></th>
       </tr>
     </thead>
   <% end %>
@@ -58,11 +55,15 @@ $(() => {
     <% @gapped.keys.sort_by{|kata_id| @all_indexes[kata_id] }.each do |kata_id| %>
     <% lights = @all_lights[kata_id] %>
 
-    <tr class="kata-row">
+    <tr class="kata-row"> <%# JS above uses kata-row %>
 
-      <th><%= raw diff_avatar_image(kata_id, @all_indexes[kata_id]) %></th>
-      <th><%= raw pie_chart(lights) %></th>
-      <th><%= raw traffic_light_count(lights) %></th>
+      <th>
+        <div class="fixed-column">
+          <%= raw diff_avatar_image(kata_id, @all_indexes[kata_id]) %>
+          <%= raw pie_chart(lights) %>
+          <%= raw traffic_light_count(lights) %>
+        </div>
+      </th>
 
   	  <% td_map = @gapped[kata_id] %>
   	  <% td_map.keys.sort.each_with_index do |td_no,index| %>
@@ -73,13 +74,9 @@ $(() => {
       		    <span class="collapsed-multi-gap"></span>
       		  <% end %>
       		  <% if lights.is_a?(Array) %>
-      		    <% if lights.length == 0 %>
-      			    <div class="gap"></div>
-      		    <% else %>
-      				  <% lights.each do |light| %>
-                  <%= raw diff_traffic_light(light) %>
-                <% end %>
-      		    <% end %>
+      		    <% lights.each do |light| %>
+                <%= raw diff_traffic_light(light) %>
+              <% end %>
       		  <% end %>
   		    </div>
   		  </td>
@@ -90,7 +87,7 @@ $(() => {
       </td>
   	</tr>
     <% end %>
-
   </tbody>
 </table>
+
 </div>

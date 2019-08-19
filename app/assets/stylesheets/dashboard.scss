@@ -35,8 +35,6 @@
     }
   }
 
-  // https://codepen.io/paulobrien/pen/LBrMxa
-  // was very useful to learn about position:sticky
   .table-scroll {
     max-width: 1000px;
     max-height: 520px;
@@ -49,48 +47,50 @@
       margin: auto;
       border-collapse: separate;
       border-spacing: 0;
-      /* keep width minimal, otherwise cells expand to fill max-width */
-      /* which looks odd on a new dashboard which only has a few columns */
+      // stop cells expanding to fill max-width which looks
+      // wrong on a new dashboard with only a few traffic-lights
       display: inline-block !important;
     }
     th, td { vertical-align: middle; }
-    thead th {
+    thead th { // fix vertical positions of time-tick column headings
       position: -webkit-sticky;
       position: sticky;
       top: 0;
-      background: $darker-color; /* overlay what scrolls underneath */
+      background: $darker-color; // overlay what scrolls underneath
     }
-    th:nth-child(1), th:nth-child(2), th:nth-child(3) {
+    th:nth-child(1) {   // fix horizontal position of
+      position: sticky; // [avatar-image] (pie-chart) traffic-light-count
       position: -webkit-sticky;
-      position: sticky;
       z-index: 2;
-      background: $darker-color; /* overlay what scrolls underneath */
+      background: $darker-color; // overlay what scrolls underneath
+      left: 0px;
     }
-    /* fix horizontal positions of... */
-    th:nth-child(1), thead th:nth-child(1) { left:  0px; } /* avatar-image  */
-    th:nth-child(2), thead th:nth-child(2) { left: 28px; } /* traffic-light count */
-    th:nth-child(3), thead th:nth-child(3) { left: 40px; } /* pie-chart */
-    thead th:nth-child(1), thead th:nth-child(2), thead th:nth-child(3) { z-index: 5; }
+    thead th:nth-child(1) { z-index: 5; }
   }
 
   #traffic-lights {
-    .avatar-image img {
-       width: 26px;
-      height: 26px;
-    }
-    .traffic-light-count-wrapper {
-       width: 35px;
-       text-align: right;
-    }
     .time-tick {
-      display: block;
       @include non-code-font();
+         display: block;
       text-align: center;
-      font-size: 13px;
-      color: lighten(black,60%);
-      background: $darker-color; /* overlay what scrolls underneath */
+       font-size: 13px;
+           color: lighten(black,60%);
+      background: $darker-color; // overlay what scrolls underneath
       $down-triangle: "\25BF";
       &:after { content: $down-triangle; }
+    }
+    .fixed-column {
+      display: flex;
+      .avatar-image img {
+         width: 26px;
+        height: 26px;
+      }
+      .traffic-light-count-wrapper {
+        width: 35px;
+        .traffic-light-count {
+          text-align: right;
+        }
+      }
     }
     .column {
       padding: 0px;
@@ -99,22 +99,17 @@
       &.even { background: lighten($darker-color, 11%); }
     }
     .minute-box {
-      display: flex;
-      float: left;
-      vertical-align: center;
-      .gap {
-          font-size: 0.7em;
-        $thin-space: "\2009";
-         text-align: center;
-        &:after { content: $thin-space; }
-      }
+             display: flex;
+               float: left;
+      vertical-align: middle;
       .collapsed-multi-gap {
-        display: inline-block;
-        font-size: 12px;
-            color: lighten(black,40%);
-           margin: { left: 6px; right: 6px; bottom: 6px; }
+               display: inline-block;
+             font-size: 12px;
+                 color: lighten(black,40%);
+                margin: { left: 6px; right: 6px; bottom: 6px; }
         vertical-align: middle;
-        &:after { content: "\2026"; } // ellipsis
+        $ellipsis: "\2026";
+        &:after { content: $ellipsis; }
       }
     }
   }
