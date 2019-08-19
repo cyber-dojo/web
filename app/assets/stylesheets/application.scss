@@ -40,6 +40,7 @@
  *= depend_on review.scss
  *= depend_on sha.scss
  *= depend_on app-bar.scss
+ *= depend_on yin-yang-logo.scss
  *= depend_on jquery-ui-1.8.16.custom.scss
  *= depend_on codemirror.scss
  *= depend_on codemirror-cyber-dojo-colour.scss
@@ -77,6 +78,7 @@
 @import "review.scss";
 @import "sha.scss";
 @import "app-bar.scss";
+@import "yin-yang-logo.scss";
 @import "jquery-ui-1.8.16.custom.scss";
 @import "codemirror.scss";
 @import "codemirror-cyber-dojo-colour.scss";
