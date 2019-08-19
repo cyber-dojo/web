@@ -1,7 +1,7 @@
 
 #kata-page
 {
-  margin: { top: 15px; left: 35px; }
+  margin: { top: 20px; left: 35px; }
 
   .left-column { width: 250px; }
 
@@ -64,7 +64,7 @@
        display:flex;
          float:left;
         margin:0px;
-     max-width:859px;
+     max-width:737px;
     overflow-x:auto;
     overflow-y:hidden;
     &::-webkit-scrollbar:horizontal { height:0px; }

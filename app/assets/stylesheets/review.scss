@@ -10,7 +10,7 @@
 
 #review-page {
 
-  margin: { top: 15px; left: 35px; }
+  margin: { top: 20px; left: 35px; }
   @include non-code-font();
      padding: none;
   background: $darker-color;
@@ -186,9 +186,7 @@
     &[disabled]:hover { border: 1px solid lighten($darker-color,6%); }
     cursor: pointer;
 
-    &.none {
-      visibility: hidden;
-    }
+    &.none { visibility: hidden; }
 
     &[disabled] {
       background: lighten($darker-color,10%);
