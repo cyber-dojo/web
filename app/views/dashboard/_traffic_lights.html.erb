@@ -3,7 +3,7 @@
 $(() => {
 
   $('.kata-row').each((_i,row) => {
-    let index = 0; // each avatar must restart index at zero
+    let index = 0; // each avatar resets traffic-light index to zero
     $.each($('.diff-traffic-light', $(row)), (_,light) => {
       const $light = $(light);
       const id = $light.data('id');
@@ -66,27 +66,25 @@ $(() => {
 
   	  <% td_map = @gapped[kata_id] %>
   	  <% td_map.keys.sort.each_with_index do |td_no,index| %>
-  		  <% td = td_map[td_no] %>
-
+  		  <% lights = td_map[td_no] %>
   		  <td class="<%= parity(index) %> column">
-  		  <% if td.class == Hash %>
-  		    <span class="collapsed-multi-gap"></span>
-  		  <% end %>
-  		  <% if td.class == Array %>
-  		    <% if td.length == 0 %>
-  			    <div class="gap"></div>
-  		    <% else %>
-            <table align="right">
-              <tr>
-  				    <% td.each do |light| %>
-                <td><%= raw diff_traffic_light(light) %></td>
-              <% end %>
-              </tr>
-            </table>
-  		    <% end %>
-  		  <% end %>
+  		    <div class="minute-box">
+      		  <% if lights.is_a?(Hash) %>
+      		    <span class="collapsed-multi-gap"></span>
+      		  <% end %>
+      		  <% if lights.is_a?(Array) %>
+      		    <% if lights.length == 0 %>
+      			    <div class="gap"></div>
+      		    <% else %>
+      				  <% lights.each do |light| %>
+                  <%= raw diff_traffic_light(light) %>
+                <% end %>
+      		    <% end %>
+      		  <% end %>
+  		    </div>
   		  </td>
   	  <% end %>
+
       <td>
         <div class="scroll-handle"><div>
       </td>

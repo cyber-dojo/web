@@ -81,7 +81,7 @@
     .traffic-light-count-wrapper {
        width: 35px;
        text-align: right;
-    }    
+    }
     .time-tick {
       display: block;
       @include non-code-font();
@@ -98,19 +98,24 @@
       &.odd  { background: lighten($darker-color,  5%); }
       &.even { background: lighten($darker-color, 11%); }
     }
-    .collapsed-multi-gap {
+    .minute-box {
+      display: flex;
+      float: left;
+      vertical-align: center;
+      .gap {
+          font-size: 0.7em;
+        $thin-space: "\2009";
+         text-align: center;
+        &:after { content: $thin-space; }
+      }
+      .collapsed-multi-gap {
         display: inline-block;
-      font-size: 12px;
-          color: lighten(black,60%);
-         margin: { left: 6px; right: 6px; bottom: 6px; }
-      vertical-align: middle;
-      &:after { content: "\2026"; } // ellipsis
-    }
-    .gap {
-        font-size: 0.7em;
-      $thin-space: "\2009";
-       text-align: center;
-      &:after { content: $thin-space; }
+        font-size: 12px;
+            color: lighten(black,40%);
+           margin: { left: 6px; right: 6px; bottom: 6px; }
+        vertical-align: middle;
+        &:after { content: "\2026"; } // ellipsis
+      }
     }
   }
 }
