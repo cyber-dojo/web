@@ -28,7 +28,7 @@
 .align-right   { text-align: right;  }
 
 .valign-top    { vertical-align: top;    }
-.valign-center { vertical-align: center; }
+.valign-center { vertical-align: middle; }
 
 //----------------------------------------------
 
@@ -49,12 +49,12 @@ a:link, a:visited { color: $text-color; }
 
 .traffic-light-count {
   cursor: default;
-  margin-left: 3px;
-  padding-right: 8px;
+  margin: 0px;
+  padding: { left: 8px; right: 8px; }
   font-size: 24px;
+  text-align: center;
   position: relative;
   top: -2px;
-  text-align: center;
 }
 
 .diff-traffic-light {
