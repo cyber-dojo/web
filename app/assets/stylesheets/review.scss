@@ -62,9 +62,9 @@
   }
 
   #review-index-box {
+    width: 35px;
     #index-number {
-      width: 28px;
-      padding: { left: 5px; right: 5px; }
+         padding: { left: 3px; right: 3px; }
        font-size: 22px;
       text-align: center;
     }
@@ -74,11 +74,6 @@
        width: 18px;
       height: 18px;
      padding: 0px;
-  }
-
-  #prev-index {
-    position: relative; // move right to align vertically
-    right: -4px;        // with line-numbers gutter
   }
 
   #diff-checkbox-container {
@@ -152,14 +147,10 @@
 
   .diff-line-numbers {
          width: 40px;
-        margin: { left: 2px; }
     text-align: right;
       overflow: hidden;
          color: lighten($darker-color, 10%);
         border: none;
-
-    position: relative; // lose 1px gap to file-content
-        left: 2px;
 
     border-top-left-radius: 5px;
     added   { &:after { content: '+'; } }
@@ -181,7 +172,6 @@
     &::-webkit-scrollbar:horizontal { height: 0px; }
     outline: none;
      border: none;
-    padding: { left: 2px; }
     added, deleted, same { padding-left: 3px; }
     :hover { background: lighten($darker-color,10%); }
   }
