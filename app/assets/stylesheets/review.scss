@@ -11,12 +11,12 @@
 #review-page {
 
   margin: { top: 20px; left: 35px; }
+  .left-column { width: 295px; }
+
   @include non-code-font();
      padding: none;
   background: $darker-color;
        color: $lighter-color;
-
-  .left-column { width: 295px; }
 
   #review-avatar-image-box, #resume-button-box {
     display: inline;
