@@ -16,7 +16,8 @@ class RunnerTest < AppModelsTestBase
   'red: expected=42, actual=6*9' do
     params = gcc_assert_params
     result = kata.run_tests(params)
-    assert_equal 'red', result[3]
+    assert_equal false, result[0]['timed_out']
+    assert_equal 'red', colour_of(kata, result[0])
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -27,7 +28,8 @@ class RunnerTest < AppModelsTestBase
     large = "/*" + ('-'* (51*1024)) + "*/"
     params[:file_content]['large.c'] = large
     result = kata.run_tests(params)
-    assert_equal 'amber', result[3]
+    assert_equal false, result[0]['timed_out']
+    assert_equal 'amber', colour_of(kata, result[0])
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -39,7 +41,8 @@ class RunnerTest < AppModelsTestBase
     src.sub!('6 * 9', '6 * 7')
     params[:file_content]['hiker.c'] = src
     result = kata.run_tests(params)
-    assert_equal 'green', result[3]
+    assert_equal false, result[0]['timed_out']
+    assert_equal 'green', colour_of(kata, result[0])
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -48,12 +51,16 @@ class RunnerTest < AppModelsTestBase
   'timed_out: infinite loop' do
     params = gcc_assert_params
     src = params[:file_content]['hiker.c']
-    src.sub!('return', 'for(;;); return')
+    src.sub!('return', 'for(;;);return')
     params[:file_content]['hiker.c'] = src
     result = kata.run_tests(params, max_seconds = 2)
-    assert_equal 'timed_out', result[3]
+    assert_equal true, result[0]['timed_out']
   end
 
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # faulty
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # hidden_filenames
 
   private
@@ -71,6 +78,13 @@ class RunnerTest < AppModelsTestBase
       file_content:plain(kata.files),
       hidden_filenames:'[]'
     }
+  end
+
+  def colour_of(kata, result)
+    stdout = result['stdout']['content']
+    stderr = result['stderr']['content']
+    status = result['status'].to_i
+    ragger.colour(kata.manifest.image_name, kata.id, stdout, stderr, status)
   end
 
 end

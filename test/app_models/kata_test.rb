@@ -101,10 +101,10 @@ class KataTest < AppModelsTestBase
       hidden_filenames:'[]'
     }
     result = kata.run_tests(params)
-    stdout = result[0]
-    stderr = result[1]
-    status = result[2]
-    colour = result[3]
+    stdout = result[0]['stdout']
+    stderr = result[0]['stderr']
+    status = result[0]['status']
+    colour = 'red'
     now = [2018,11,1, 9,14,9,9154]
     kata.ran_tests(1, kata.files, now, duration, stdout, stderr, status, colour)
     assert_equal 13, kata.age
@@ -142,10 +142,10 @@ class KataTest < AppModelsTestBase
       hidden_filenames:'[]'
     }
     result = kata.run_tests(params)
-    stdout = result[0]
-    stderr = result[1]
-    status = result[2]
-    colour = result[3]
+    stdout = result[0]['stdout']
+    stderr = result[0]['stderr']
+    status = result[0]['status']
+    colour = 'red'
     kata.ran_tests(1, kata.files, time_now, duration, stdout, stderr, status, colour)
 
     emanifest = kata.events[1].manifest

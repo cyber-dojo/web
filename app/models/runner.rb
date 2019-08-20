@@ -8,8 +8,8 @@ class Runner
   end
 
   def run(kata, params, max_seconds)
-    image_name = params['image_name']
-    hidden_filenames = JSON.parse(params['hidden_filenames'])
+    image_name = params[:image_name]
+    hidden_filenames = JSON.parse(params[:hidden_filenames])
     files = files_from(params)
 
     result =

@@ -40,14 +40,13 @@ class KataController < ApplicationController
     # [1] The saver service does not yet know about
     # the new 'faulty' traffic-light colour.
     args = []
-    args << kata.id                     # identity of session
-    args << index                       # index of event (traffic-light)
+    args << index                       # index of traffic-light event
     args << files                       # including @created,@deleted,@changed
     args += [t1,duration]               # how long runner+ragger took
     args += [@stdout, @stderr, @status] # output of [test] kata.run_tests()
     args << ((colour === 'faulty') ? 'amber' : colour) # [1]
     begin
-      saver.kata_ran_tests(*args)
+      kata.ran_tests(*args)
     rescue SaverException
       #TODO: @message on footer...
     end

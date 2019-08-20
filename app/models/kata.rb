@@ -43,6 +43,10 @@ class Kata
     Runner.new(@externals).run(self, params, max_seconds)
   end
 
+  def ran_tests(index, files, at, duration, stdout, stderr, status, colour)
+    saver.kata_ran_tests(id, index, files, at, duration, stdout, stderr, status, colour)
+  end
+
   def events
     saver.kata_events(id).map.with_index do |h,index|
       Event.new(@externals, self, h, index)
