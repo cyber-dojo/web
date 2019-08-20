@@ -16,17 +16,41 @@ class KataController < ApplicationController
   def run_tests
     t1 = time_now
 
-    @stdout,@stderr,@status,colour,
-      files,@created,@deleted,@changed = kata.run_tests(params)
+    result,files,@created,@deleted,@changed = kata.run_tests(params)
+    @stdout = result['stdout']
+    @stderr = result['stderr']
+    @status = result['status']
 
-    # The saver service does not yet know about 
-    # the new 'faulty' traffic-light colour.
-    saver_colour = (colour === 'faulty') ? 'amber' : colour
+    if result['timed_out']
+      colour = 'timed_out'
+    else
+      args = [params['image_name'], kata.id]
+      args += [@stdout['content'], @stderr['content'], @status.to_i]
+      begin
+        colour = ragger.colour(*args)
+      rescue RaggerException
+        colour = 'faulty'
+        # TODO: @message on footer
+      end
+    end
 
     t2 = time_now
     duration = Time.mktime(*t2) - Time.mktime(*t1)
     index = params[:index].to_i + 1
-    kata.ran_tests(index, files, t1, duration, @stdout, @stderr, @status, saver_colour)
+    # [1] The saver service does not yet know about
+    # the new 'faulty' traffic-light colour.
+    args = []
+    args << kata.id                     # identity of session
+    args << index                       # index of event (traffic-light)
+    args << files                       # including @created,@deleted,@changed
+    args += [t1,duration]               # how long runner+ragger took
+    args += [@stdout, @stderr, @status] # output of [test] kata.run_tests()
+    args << ((colour === 'faulty') ? 'amber' : colour) # [1]
+    begin
+      saver.kata_ran_tests(*args)
+    rescue SaverException
+      #TODO: @message on footer...
+    end
 
     @light = Event.new(self, kata, { 'time' => t1, 'colour' => colour }, index)
     @id = kata.id

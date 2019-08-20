@@ -8,8 +8,8 @@ class Runner
   end
 
   def run(kata, params, max_seconds)
-    image_name = kata.manifest.image_name
-    hidden_filenames = kata.manifest.hidden_filenames
+    image_name = params['image_name']
+    hidden_filenames = JSON.parse(params['hidden_filenames'])
     files = files_from(params)
 
     result =
@@ -29,26 +29,13 @@ class Runner
     # TODO: this has not been checked since {'content'=>content}
     remove_hidden_files(created, hidden_filenames)
 
-    # Ensure files which will get sent to saver.ran_tests()
-    # reflect changes; refreshing the browser should be a no-op.
+    # Ensure files sent to saver.kata_ran_tests() reflect
+    # changes; refreshing the browser should be a no-op.
     created.each { |filename,file| files[filename] = file }
     deleted.each { |filename     | files.delete(filename) }
     changed.each { |filename,file| files[filename] = file }
 
-    stdout = result['stdout']['content']
-    stderr = result['stderr']['content']
-    status = result['status']
-
-    if result['timed_out']
-      colour = 'timed_out'
-    else
-      colour = ragger.colour(image_name, kata.id, stdout, stderr, status.to_i)
-    end
-
-    [result['stdout'], result['stderr'], status, colour,
-     files,
-     created,deleted,changed
-    ]
+    [result,files,created,deleted,changed]
   end
 
   private
@@ -85,10 +72,6 @@ class Runner
 
   def runner
     @externals.runner
-  end
-
-  def ragger
-    @externals.ragger
   end
 
 end

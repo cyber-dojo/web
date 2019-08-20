@@ -1,0 +1,17 @@
+
+<script type="text/javascript"><!--
+'use strict';
+$(() => {
+
+  const hiddenFilenames =
+    JSON.stringify(<%= raw @kata.manifest.hidden_filenames %>);
+
+  $('#hidden_filenames').prop('value', hiddenFilenames);
+
+});
+//--></script>
+
+<input id="hidden_filenames"
+       type="hidden"
+       name="hidden_filenames"
+       value="">

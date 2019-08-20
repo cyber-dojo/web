@@ -2,6 +2,8 @@
 <%= render partial: 'tab_size' %>
 
 <%= form_tag( { action: 'run_tests', id: @kata.id } ) do %>
+  <%= render partial: 'hidden_filenames' %>
+  <%= render partial: 'image_name' %>
   <%= render partial: 'index' %>
   <%= render partial: 'max_seconds' %>
   <table>
