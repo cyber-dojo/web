@@ -6,33 +6,18 @@ const appendTestTrafficLight = () => {
   cd.setupReviewTrafficLights(light);
 };
 
-//- - - - - - - - - - - - - - - - - - - - - -
-
-const updateEventIndex = () => {
-  cd.setEventIndex("<%= @light.index %>");
-};
-
-//- - - - - - - - - - - - - - - - - - - - - -
-
 const updateTrafficLightCount = () => {
   const count = "<%= js_partial('traffic_lights_count') %>";
   $('#traffic-lights-count-box').html(count);
 };
 
-
 const updateTrafficLightPieChart = () => {
-  const pieChart = "<%= js_partial('traffic_lights_pie_chart') %>";
-  $('#traffic-lights-pie-chart').html(pieChart);
+  //const pieChart = "<%= js_partial('traffic_lights_pie_chart') %>";
+  //$('#traffic-lights-pie-chart').html(pieChart);
 };
 
-//- - - - - - - - - - - - - - - - - - - - - -
-
-const updateOutput = () => {
-  const colour = "<%= @light.colour %>";
-  const stdout = "<%= j raw(@stdout['content']) %>";
-  const stderr = "<%= j raw(@stderr['content']) %>";
-  const status = "<%= j raw(@status.to_s) %>";
-  cd.loadTestOutputFiles(colour, stdout, stderr, status);
+const updateEventIndex = () => {
+  cd.setEventIndex("<%= @light.index %>");
 };
 
 //- - - - - - - - - - - - - - - - - - - - - -
@@ -45,15 +30,11 @@ const insertCreatedFiles = () => {
   <% end %>
 };
 
-//- - - - - - - - - - - - - - - - - - - - - -
-
 const removeDeletedFiles = () => {
   <% @deleted.each do |filename| %>
     cd.fileDelete("<%= j raw(filename) %>");
   <% end %>
 };
-
-//- - - - - - - - - - - - - - - - - - - - - -
 
 const updateChangedFiles = () => {
   <% @changed.each do |filename,file| %>
@@ -61,6 +42,14 @@ const updateChangedFiles = () => {
       content: "<%= j raw(file['content']) %>"
     });
   <% end %>
+};
+
+const updateOutput = () => {
+  const colour = "<%= @light.colour %>";
+  const stdout = "<%= j raw(@stdout['content']) %>";
+  const stderr = "<%= j raw(@stderr['content']) %>";
+  const status = "<%= j raw(@status.to_s) %>";
+  cd.loadTestOutputFiles(colour, stdout, stderr, status);
 };
 
 //- - - - - - - - - - - - - - - - - - - - - -
@@ -82,17 +71,23 @@ const warnIfTestsTimedOut = () => {
 };
 
 //- - - - - - - - - - - - - - - - - - - - - -
-
+// Update changed controls
 appendTestTrafficLight();
 updateTrafficLightCount();
-//updateTrafficLightPieChart();
+updateTrafficLightPieChart();
 updateEventIndex();
-updateOutput();
+
+//- - - - - - - - - - - - - - - - - - - - - -
+// Update changes files
 insertCreatedFiles();
 removeDeletedFiles();
 updateChangedFiles();
+updateOutput(); // stdout,stderr,status Must be last
 
+//- - - - - - - - - - - - - - - - - - - - - -
+// Warnings
 warnIfTestsTimedOut();
+//warnIfTrafficLightFaulty();
 //warnIfTruncatedFiles();
 
 cd.scrollLastTrafficLightIntoView();
