@@ -5,8 +5,8 @@ module ReviewFilePicker # mix-in
 
   def pick_file_id(diffs, current_filename)
     # Choose the same file if it still exists
-    # (it could have been deleted or renamed) and has at
-    # least one change.
+    # (it could have been deleted or renamed)
+    # and has at least one change.
     # Otherwise choose the file with the most changes.
     # If nothing has changed choose the largest code file
     # (this is likely to be a test file).
