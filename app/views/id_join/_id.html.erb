@@ -14,16 +14,17 @@ $(() => {
 
   const inputIdHandler = () => {
     const id = inputId.val();
+    // When old-architecture 10-digit ID mapping is turned off
+    // limit id to 6 digits, and paint invalid IDs red.
     if (id.length >= 6) {
       const args = { id:id };
       inputId.prop('disabled', true);
       waitSpinner.show();
       $.getJSON('/id_join/drop_down', args, dropDownHandler)
-      .always(() => {
-        waitSpinner.hide();
-        inputId.prop('disabled', false);
-      });
-      // TODO: add .fail() handler
+       .always(() => {
+         waitSpinner.hide();
+         inputId.prop('disabled', false);
+       });
     }
   };
 
@@ -61,7 +62,7 @@ $(() => {
   const showAvatar = (avatarIndex, avatarName) => {
     $('#avatar',hiDiv).html($('<img>', {
       'class':'avatar large',
-      'src':`/avatar/image/${avatarIndex}`
+        'src':`/avatar/image/${avatarIndex}`
     }));
     loDiv.html(`your animal is the ${avatarName}`);
   };
@@ -87,6 +88,7 @@ $(() => {
   cd.onlyBase58(inputId);
   inputId.keyup(() => inputIdHandler())
          .focus();
+
   inputIdHandler();
 
 });

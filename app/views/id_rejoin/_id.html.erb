@@ -15,16 +15,17 @@ $(() => {
 
   const inputIdHandler = () => {
     const id = inputId.val();
+    // When old-architecture 10-digit ID mapping is turned off
+    // limit id to 6 digits, and paint invalid IDs red.
     if (id.length >= 6) {
       const args = { id:id, from:"<%= @from %>" };
       inputId.prop('disabled', true);
       waitSpinner.show();
       $.getJSON('/id_rejoin/drop_down', args, dropDownHandler)
-      .always(() => {
-        waitSpinner.hide();
-        inputId.prop('disabled', false);
-      });
-      // TODO: add .fail() handler
+       .always(() => {
+         waitSpinner.hide();
+         inputId.prop('disabled', false);
+       });
     }
   };
 
@@ -67,7 +68,7 @@ $(() => {
     if (avatarName !== '') {
       $('#avatar',midDiv).html($('<img>', {
         'class':'avatar large',
-        'src':`/avatar/image/${avatarIndex}`
+          'src':`/avatar/image/${avatarIndex}`
       }));
     }
   };
