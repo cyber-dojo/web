@@ -37,10 +37,6 @@
   {
     margin: { right: 5px; }
 
-    .filename:not(.selected):hover {
-      background-color: lighten($darker-color,5%);
-    }
-
     div[class~='filename'][class~='highlight'] { &:before { content: ">"; } }
 
     div[class~='filename'][id='radio_stdout'] { margin-top: 20px; }

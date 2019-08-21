@@ -131,10 +131,6 @@
 
       &[data-filename='stdout'] { margin-top: 20px; }
       &[data-filename='status'] { margin-bottom: 20px; }
-
-      &:not(.selected):hover {
-        background-color: lighten($darker-color,5%);
-      }
     }
   }
 
