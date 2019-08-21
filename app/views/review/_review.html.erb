@@ -221,15 +221,13 @@ $(() => {
 
   const makeDiffFilenames = (diffs) => {
     let html = '';
-    html += '<table>';
     $.each(sortedDiffs(diffs), (_, diff) => {
-      html += '<tr>';
-      html += makeTd(makeDiffDeletedCount(diff));
-      html += makeTd(makeDiffAddedCount(diff));
-      html += makeTd(makeDiffFilename(diff));
-      html += '</tr>';
+      html += '<div class="diff-filename-box">';
+      html += makeDiffDeletedCount(diff);
+      html += makeDiffAddedCount(diff);
+      html += makeDiffFilename(diff);
+      html += '</div>';
     });
-    html += '</table>';
     return html;
   };
 

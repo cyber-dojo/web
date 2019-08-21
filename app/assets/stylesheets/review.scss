@@ -101,6 +101,8 @@
   }
 
   #diff-filenames {
+    display: flex;
+    flex-direction: column;
     float: left;
     height: 490px;
     margin: { top: 8px; }
@@ -112,6 +114,11 @@
     font-size: 11pt;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
+
+    .diff-filename-box {
+      display: flex;
+      flex-direction: row;
+    }
 
     .filename {
        height: 16px;
@@ -180,8 +187,9 @@
     @include rounded-corner(4px);
     @include right-align(0px);
     @include diff-line-count;
-    color: $darker-color;
+     color: $darker-color;
     border: 1px solid lighten($darker-color,6%);
+    margin: { right: 2px; }
     &:hover { border: 1px dotted lighten($darker-color,6%); }
     &[disabled]:hover { border: 1px solid lighten($darker-color,6%); }
     cursor: pointer;
