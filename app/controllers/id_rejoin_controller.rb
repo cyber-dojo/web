@@ -23,8 +23,7 @@ class IdRejoinController < ApplicationController
   end
 
   def individual_drop_down_json
-    # id could be an old id for a group (with possibly single avatar)
-    group = groups[mapper.mapped_id(id)]
+    # rejoin group session
     json = { exists:group.exists? }
     if json[:exists]
       katas = group.katas
@@ -38,7 +37,7 @@ class IdRejoinController < ApplicationController
       end
       return json
     end
-    # id could be a new id for an individual kata
+    # rejoin individual session
     json = { exists:kata.exists? }
     if json[:exists]
       json[:kataId] = kata.id
@@ -49,7 +48,6 @@ class IdRejoinController < ApplicationController
   end
 
   def group_drop_down_json
-    group = groups[mapper.mapped_id(id)]
     json = { exists:group.exists? }
     if json[:exists]
       json[:empty] = group.empty?

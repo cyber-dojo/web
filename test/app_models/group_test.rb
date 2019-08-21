@@ -14,6 +14,12 @@ class GroupTest < AppModelsTestBase
     refute groups['123AbZ'].exists?
   end
 
+  test '5A0',
+  'a group with an invalid id does not exist' do
+    # id is base58, which does not include i
+    refute groups['12345i'].exists?
+  end
+
   test '6A1', %w(
   groups[''] is false to simplify ported implementation
   ) do

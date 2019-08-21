@@ -9,11 +9,9 @@ class Group
   attr_reader :id
 
   def exists?
-    if id.nil? || id == ''
-      false
-    else
-      @exists ||= saver.group_exists?(id)
-    end
+    saver.group_exists?(id)
+  rescue SaverException
+    false
   end
 
   def created

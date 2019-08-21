@@ -15,18 +15,42 @@ class IdRejoinControllerTest < AppControllerTestBase
     assert_response :success
   end
 
-  test '406',
-  'rejoin from existing group always shows avatar-picker even if only one kata' do
-    group = groups['FxWwrr']
-    rejoin('group', group.id)
-    assert_equal 1, group.katas.size
-    assert exists?
-    refute empty?
-    assert avatarPicker?
+  #- - - - - - - - - - - - - - - -
+
+  test '406', %w(
+  given an group-rejoin with a group-id
+  when there is one or more avatar
+  then show the avatar-picker ) do
+    in_group do |group|
+      assert_join(group.id)
+      rejoin('group', group.id)
+      assert exists?
+      refute empty?
+      assert avatarPicker?
+    end
   end
 
-  test '407',
-  'rejoin as individual from group with several katas' do
+  #- - - - - - - - - - - - - - - -
+
+  test '307', %w(
+  given an individual-rejoin with a group-id
+  when there is only one-avatar
+  then show the avatar and not the avatar-picker ) do
+    in_group do |group|
+      kata = assert_join(group.id)
+      rejoin('individual', group.id)
+      assert exists?
+      refute empty?
+      refute avatarPicker?
+    end
+  end
+
+  #- - - - - - - - - - - - - - - -
+
+  test '407', %w(
+  given an individual-rejoin with a group-id
+  when there is more than one avatar
+  then show the avatar-picker  ) do
     in_group do |group|
       kata = assert_join(group.id)
       kata = assert_join(group.id)
@@ -37,6 +61,8 @@ class IdRejoinControllerTest < AppControllerTestBase
     end
   end
 
+  #- - - - - - - - - - - - - - - -
+
   test '408',
   'rejoin from new empty group' do
     in_group do |group|
@@ -46,6 +72,8 @@ class IdRejoinControllerTest < AppControllerTestBase
       assert avatarPicker?
     end
   end
+
+  #- - - - - - - - - - - - - - - -
 
   test '409',
   'rejoin from group that does not exist' do
@@ -64,6 +92,8 @@ class IdRejoinControllerTest < AppControllerTestBase
     assert_equal 'mouse', avatar_name
   end
 
+  #- - - - - - - - - - - - - - - -
+
   test '509',
   'rejoin from new individual kata' do
     in_kata do |kata|
@@ -74,6 +104,8 @@ class IdRejoinControllerTest < AppControllerTestBase
       assert_equal '', avatar_name
     end
   end
+
+  #- - - - - - - - - - - - - - - -
 
   test '50A',
   'rejoin from individual kata that does not exist' do

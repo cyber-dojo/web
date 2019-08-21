@@ -11,6 +11,8 @@ class Kata
 
   def exists?
     saver.kata_exists?(id)
+  rescue SaverException
+    false
   end
 
   def group?

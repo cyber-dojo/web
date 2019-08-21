@@ -13,9 +13,11 @@ $(() => {
 
   const inputIdHandler = () => {
     const id = inputId.val();
-    // When old-architecture 10-digit ID mapping is turned off
-    // limit id to 6 digits, and paint invalid IDs red.
-    if (id.length >= 6) {
+    inputId.removeClass('invalid');
+    if (id.length > 6) {
+      inputId.addClass('invalid');
+    }
+    else if (id.length == 6) {
       const args = { id:id };
       inputId.prop('disabled', true);
       waitSpinner.show();
@@ -32,6 +34,8 @@ $(() => {
     if (group.exists) {
       prepareDropDown(group);
       inputId.slideUp('fast', () => dropDown.slideDown('slow'));
+    } else {
+      inputId.addClass('invalid');      
     }
   };
 
@@ -72,8 +76,7 @@ $(() => {
 
 <input type="text"
        id="id"
-       placeholder="id?"
-       size="8"
+       placeholder="6-digit-id?"
        value="">
 </input>
 <br/>

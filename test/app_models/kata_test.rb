@@ -14,6 +14,12 @@ class KataTest < AppModelsTestBase
     refute katas['123AbZ'].exists?
   end
 
+  test '760',
+  'a kata with an invalid id does not exist' do
+    # id is base58, which does not include i
+    refute katas['12345i'].exists?
+  end
+
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '861', %w(
