@@ -11,8 +11,8 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.homePageUrl = function(id) {
-    return '/dojo/index/' + id;
+  cd.homePageUrl = function() {
+    return '/dojo/index/';
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

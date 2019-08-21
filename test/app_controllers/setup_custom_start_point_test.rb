@@ -9,49 +9,9 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test 'BA2', %w(
-  when there is no ID
   show lists all custom display_names
   and chooses a random index for it ) do
     show
-    assert valid_custom_index?
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
-=begin
-  test 'BA3', %w(
-  when ID matches a current custom start-point
-  show lists all custom display_names
-  and chooses an index to match the ID
-  to encourage repetition ) do
-    create_custom_kata(yahtzee_csharp_nunit)
-    show({ id:@id })
-    start_points = starter.custom_start_points
-    assert_equal yahtzee_csharp_nunit, start_points[custom_index]
-  end
-=end
-
-  # - - - - - - - - - - - - - - - - - - -
-
-  test 'BA4', %w(
-  when ID does not designate a kata or a group
-  show lists all custom display_names
-  and chooses a random index for it ) do
-    show({ id:invalid_id })
-    assert valid_custom_index?
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'BA5', %w(
-  when ID does not match a current custom start-point
-  show lists all custom display_names
-  and chooses a random index for it ) do
-    manifest = custom.manifest(yahtzee_csharp_nunit)
-    manifest['created'] = time_now
-    manifest['display_name'] = 'XXXXX'
-    group = groups.new_group(manifest)
-    show({ id:group.id })
     assert valid_custom_index?
   end
 

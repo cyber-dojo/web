@@ -9,54 +9,9 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test 'BA2', %w(
-  when there is no ID
-  show lists all language,testFramework and all exercise display_names
+  show() lists all language,testFramework and all exercise display_names
   and chooses a random index for both lists ) do
     show
-    assert valid_language_index?
-    assert valid_exercise_index?
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'BA3', %w(
-  when ID matches a current start-point
-  show lists all language,testFramework and all exercise display_names
-  and chooses indexes to match the ID
-  to encourage repetition ) do
-    in_kata { |kata|
-      assert_equal ruby_minitest, kata.manifest.display_name
-      show({ id: kata.id })
-      assert_equal ruby_minitest, languages.names[language_index]
-      assert_equal fizz_buzz,     exercises.names[exercise_index]
-    }
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'BA4', %w(
-  when ID does not designate a kata
-  show lists all language,testFramework and all exercise display_names
-  and chooses a random index for both lists ) do
-    show({ id:invalid_id })
-    assert valid_language_index?
-    assert valid_exercise_index?
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'BA5', %w(
-  when ID does not match a current start-point
-  show lists all language,testFramework and all exercise display_names
-  and chooses a random index for both lists ) do
-    em = exercises.manifest(fizz_buzz)
-    manifest = languages.manifest(ruby_minitest)
-    manifest['visible_files'].merge!(em['visible_files'])
-    manifest['created'] = time_now
-    manifest['display_name'] = 'XXXX'
-    manifest['exercise'] = 'YYYY'
-    kata = katas.new_kata(manifest)
-    show({ id:kata.id })
     assert valid_language_index?
     assert valid_exercise_index?
   end

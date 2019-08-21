@@ -7,7 +7,7 @@ $(() => {
     const url = '/setup_custom_start_point/save_<%= @from %>' +
       '?display_name=' + encodeURIComponent(display_name);
     window.open(url);
-    window.location.href = cd.homePageUrl('<%= @kata_id %>');
+    window.location.href = cd.homePageUrl();
   });
 
 });

@@ -2,9 +2,8 @@
 'use strict';
 $(() => {
   cd.rejoin = (id) => {
-    const url = `/kata/edit/${id}`;
-    window.open(url);
-    window.location.href = cd.homePageUrl(id);
+    window.open(`/kata/edit/${id}`);
+    window.location.href = cd.homePageUrl();
   };
 });
 //--></script>

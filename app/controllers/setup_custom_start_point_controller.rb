@@ -4,9 +4,8 @@ class SetupCustomStartPointController < ApplicationController
 
   def show
     @id = id
-    current_display_name = (id != nil && kata.exists?) ? kata.manifest.display_name : nil
     @custom_names = custom.names
-    @custom_index = index_match(@custom_names, current_display_name)
+    @custom_index = random_index(@custom_names)
     @from = params['from']
   end
 
@@ -31,9 +30,8 @@ class SetupCustomStartPointController < ApplicationController
     manifest
   end
 
-  def index_match(names, current_name)
-    index = names.index(current_name)
-    index ? index : rand(0...names.size)
+  def random_index(names)
+    rand(0...names.size)
   end
 
 end

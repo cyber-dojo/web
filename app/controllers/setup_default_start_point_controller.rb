@@ -3,16 +3,12 @@ require_relative '../../lib/time_now'
 class SetupDefaultStartPointController < ApplicationController
 
   def show
-    @id = id    
-    current_display_name = (!id.nil? && kata.exists?) ? kata.manifest.display_name : nil
-    current_exercise_name = (!id.nil? && kata.exists?) ? kata.manifest.exercise : nil
-
+    @id = id
     @language_names = languages.names
-    @language_index = index_match(@language_names, current_display_name)
-
+    @language_index = random_index(@language_names)
     manifests = exercises.manifests
     @exercise_names = manifests.keys.sort
-    @exercise_index = index_match(@exercise_names, current_exercise_name)
+    @exercise_index = random_index(@exercise_names)
     @instructions = []
     @exercise_names.each do |name|
       @instructions << largest(manifests[name]['visible_files'])
@@ -46,9 +42,8 @@ class SetupDefaultStartPointController < ApplicationController
     manifest
   end
 
-  def index_match(names, current_name)
-    index = names.index(current_name)
-    index ? index : rand(0...names.size)
+  def random_index(names)
+    rand(0...names.size)
   end
 
 end

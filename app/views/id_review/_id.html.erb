@@ -35,7 +35,7 @@ $(() => {
       prepareDropDown(group);
       inputId.slideUp('fast', () => dropDown.slideDown('slow'));
     } else {
-      inputId.addClass('invalid');      
+      inputId.addClass('invalid');
     }
   };
 
@@ -51,7 +51,7 @@ $(() => {
   const openDashboard = (groupId) => {
     const url = `/dashboard/show/${groupId}`;
     window.open(url);
-    window.location.href = cd.homePageUrl(groupId);
+    window.location.href = cd.homePageUrl();
   };
 
   cancel.click(() => {
