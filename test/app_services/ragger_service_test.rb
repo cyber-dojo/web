@@ -6,10 +6,6 @@ class RaggerServiceTest < AppServicesTestBase
     'B96'
   end
 
-  def hex_setup
-    set_runner_class('RunnerService')
-  end
-
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '3A6', 'RaggerExceptionRaiser raises RaggerException' do
