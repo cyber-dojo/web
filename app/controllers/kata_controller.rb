@@ -30,7 +30,7 @@ class KataController < ApplicationController
         colour = ragger.colour(*args)
       rescue RaggerException
         colour = 'faulty'
-        # TODO: @message on footer
+        # TODO: @message on footer...
       end
     end
 

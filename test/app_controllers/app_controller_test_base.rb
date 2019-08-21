@@ -120,7 +120,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   # - - - - - - - - - - - - - - - -
 
   def json
-    ActiveSupport::JSON.decode html
+    ActiveSupport::JSON.decode(html)
   end
 
   def html

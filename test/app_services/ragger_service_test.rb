@@ -12,6 +12,14 @@ class RaggerServiceTest < AppServicesTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test '3A6', 'RaggerExceptionRaiser raises RaggerException' do
+    set_ragger_class('RaggerExceptionRaiser')
+    error = assert_raises(RaggerException) { ragger.sha }
+    assert error.message.start_with?('stub-raiser'), error.message
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '3A7',
   'response.body failure is mapped to RaggerException' do
     set_http(HttpJsonRequestPackerNotJsonStub)

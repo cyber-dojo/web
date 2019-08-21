@@ -28,7 +28,7 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '76E', %w( run_tests with bad is 500 ) do
+  test '76E', %w( run_tests with bad ID is 500 ) do
     in_kata { |kata|
       post '/kata/run_tests', params:run_test_params({ 'id' => 'bad' })
       assert_response 500
@@ -69,6 +69,31 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test 'c24',
+  %w( RaggerException gracefully degrades [test] to 'faulty' colour ) do
+    set_runner_class('RunnerStub')
+    set_ragger_class('RaggerExceptionRaiser')
+    in_kata { |kata|
+      post_run_tests
+      # Saver does not yet know about 'faulty' colour
+      assert_equal :amber, kata.lights[-1].colour
+    }
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'c25',
+  %w( SaverException gracefully degrades [test] to offline functionality ) do
+    set_runner_class('RunnerStub')
+    in_kata {
+      set_saver_class('SaverExceptionRaiser')
+      post_run_tests
+      assert_response :success
+    }
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 =begin saver now has a single call to get the manifest.
   test 'B29', %w(
   the browser caches all the run_test parameters
@@ -93,12 +118,13 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '9DC', %w( round-tripping:
+  test '9DC', %w(
   when a test-event deletes an existing text file
-  then the storer records it
+  then the saver records it
   ) do
     in_kata { |kata|
       filename = 'readme.txt'
+      assert kata.files.keys.include?(filename)
       change_file('cyber-dojo.sh', "rm #{filename}")
       post_run_tests
       filenames = kata.files.keys.sort
@@ -108,9 +134,9 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '9DD', %w( round-tripping:
+  test '9DD', %w(
   when a test-event creates a new text file
-  then the storer records it
+  then the saver records it
   ) do
     in_kata { |kata|
       filename = 'wibble.txt'
@@ -124,11 +150,12 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '9DE', %w( round-tripping:
+  test '9DE', %w(
   when a test-event changes a regular text-file
-  then the storer records it ) do
+  then the saver records it ) do
     in_kata { |kata|
       filename = 'readme.txt'
+      assert kata.files.keys.include?(filename)
       change_file('cyber-dojo.sh', "echo -n Hello > #{filename}")
       post_run_tests
       filenames = kata.files.keys.sort
@@ -139,9 +166,9 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '736', %w( round-tripping:
+  test '736', %w(
   when a test-event creates a new text file called stdout
-  then the storer does _not_ record it because it already records
+  then the saver does _not_ record it because it already records
   stdout,stderr,status as 'output' files
   ) do
     in_kata { |kata|
@@ -165,9 +192,9 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '737', %w( round-tripping:
+  test '737', %w(
   when a test-event creates a new text file called stderr
-  then the storer does _not_ record it because it already records
+  then the saver does _not_ record it because it already records
   stdout,stderr,status as 'output' files
   ) do
     in_kata { |kata|
@@ -184,9 +211,9 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '738', %w( round-tripping:
+  test '738', %w(
   when a test-event creates a new text file called status
-  then the storer does _not_ record it because it already records
+  then the saver does _not_ record it because it already records
   stdout,stderr,status as 'output' files
   ) do
     in_kata { |kata|
@@ -203,9 +230,8 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'A28', %w( round-tripping:
-  generated files that match hidden files are stripped away
-  ) do
+  test 'A28',
+  %w( generated files that match hidden files are stripped away ) do
     in_kata { |kata|
       filenames = %w(
         coverage.rb
@@ -228,8 +254,8 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'B75', %w(
-  show-json which is used in an Atom plugin ) do
+  test 'B75',
+  %w( show-json which is used in an Atom plugin ) do
     in_kata { |kata|
       post_run_tests
       get '/kata/show_json', params:{ :format => :json, :id => kata.id }

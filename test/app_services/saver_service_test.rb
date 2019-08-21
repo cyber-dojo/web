@@ -11,6 +11,14 @@ class SaverServiceTest < AppServicesTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test '3A6', 'SaverExceptionRaiser raises SaverException' do
+    set_saver_class('SaverExceptionRaiser')
+    error = assert_raises(SaverException) { saver.sha }
+    assert error.message.start_with?('stub-raiser'), error.message
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '3A7',
   'response.body get failure is mapped to SaverException' do
     set_http(HttpJsonRequestPackerNotJsonStub)
