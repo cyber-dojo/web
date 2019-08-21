@@ -1,4 +1,5 @@
 require_relative 'runner'
+require_relative '../../lib/base58'
 
 class Kata
 
@@ -10,9 +11,9 @@ class Kata
   attr_reader :id
 
   def exists?
-    saver.kata_exists?(id)
-  rescue SaverException
-    false
+    Base58.string?(id) &&
+      id.length === 6 &&
+        saver.kata_exists?(id)
   end
 
   def group?

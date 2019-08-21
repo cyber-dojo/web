@@ -1,3 +1,4 @@
+require_relative '../../lib/base58'
 
 class Group
 
@@ -9,9 +10,9 @@ class Group
   attr_reader :id
 
   def exists?
-    saver.group_exists?(id)
-  rescue SaverException
-    false
+    Base58.string?(id) &&
+      id.length === 6 &&
+        saver.group_exists?(id)
   end
 
   def created

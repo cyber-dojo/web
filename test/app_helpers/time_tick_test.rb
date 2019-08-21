@@ -47,9 +47,7 @@ class TimeTickTest < AppHelpersTestBase
 
   test '603', %w(
   when days!=0
-  then days are shown with d suffix
-  and hours are shown with h suffix
-  and minutes are shown with m suffix ) do
+  then days,hours,minutes are shown with d,h,m suffixes ) do
     assert_equal dhm(1,0,0),  time_tick(1*24*60*60)
     assert_equal dhm(1,0,1),  time_tick(1*24*60*60 + 0*60*60 + 1*60)
     assert_equal dhm(1,0,1),  time_tick(1*24*60*60 + 0*60*60 + 1*60 + 1)

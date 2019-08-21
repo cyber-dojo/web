@@ -9,15 +9,31 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '860',
-  'a kata with an arbitrary id does not exist' do
-    refute katas['123AbZ'].exists?
-  end
-
   test '760',
   'a kata with an invalid id does not exist' do
-    # id is base58, which does not include i
-    refute katas['12345i'].exists?
+    refute katas[42].exists?, 'Integer'
+    refute katas[nil].exists?, 'nil'
+    refute katas[[]].exists?, '[]'
+    refute katas[{}].exists?, '{}'
+    refute katas[true].exists?, 'true'
+    refute katas[''].exists?, 'length == 0'
+    refute katas['12345'].exists?, 'length == 5'
+    refute katas['12345i'].exists?, '!Base58'
+    refute katas['123AbZ'].exists?, 'no kata with that id'
+  end
+
+  test '761',
+  'a kata with a valid id exists' do
+    kata = create_kata
+    assert katas[kata.id].exists?
+  end
+
+  test '762',
+  'when saver is offline kata.exists? raises' do
+    set_saver_class('SaverExceptionRaiser')
+    assert_raises(SaverException) {
+      katas['123AbZ'].exists?
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -

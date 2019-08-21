@@ -9,21 +9,31 @@ class GroupTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '6A0',
-  'a group with an arbitrary id does not exist' do
-    refute groups['123AbZ'].exists?
-  end
-
-  test '5A0',
+  test '5A6',
   'a group with an invalid id does not exist' do
-    # id is base58, which does not include i
-    refute groups['12345i'].exists?
+    refute groups[42].exists?, 'Integer'
+    refute groups[nil].exists?, 'nil'
+    refute groups[[]].exists?, '[]'
+    refute groups[{}].exists?, '{}'
+    refute groups[true].exists?, 'true'
+    refute groups[''].exists?, 'length == 0'
+    refute groups['12345'].exists?, 'length == 5'
+    refute groups['12345i'].exists?, '!Base58'
+    refute groups['123AbZ'].exists?, 'no group with that id'
   end
 
-  test '6A1', %w(
-  groups[''] is false to simplify ported implementation
-  ) do
-    refute groups[''].exists?
+  test '5A7',
+  'a group with a valid id exists' do
+    group = create_group
+    assert groups[group.id].exists?
+  end
+
+  test '5A8',
+  'when saver is offline, group.exists? raises' do
+    set_saver_class('SaverExceptionRaiser')
+    assert_raises(SaverException) {
+      groups['123AbZ'].exists?
+    }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
