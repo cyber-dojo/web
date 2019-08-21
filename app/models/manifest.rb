@@ -25,8 +25,8 @@ class Manifest
 
   # - - - - - - - - - -
 
-  required :group_id,    # eg '8bvlJk',    nil if !group-practice-session
-           :group_index, # eg 45 (salmon), nil if !group-practice-session
+  required :group_id,           # eg '8bvlJk',    nil if !group-session
+           :group_index,        # eg 45 (salmon), nil if !group-session
            :created,            # eg [2018,10,14, 9,50,23]
            :display_name,       # eg 'Java, JUnit'
            :filename_extension, # eg [ '.java' ]

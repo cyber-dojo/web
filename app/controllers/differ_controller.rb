@@ -10,6 +10,7 @@ class DifferController < ApplicationController
     old_files['status'] = new_files['status']
     diff = differ.diff(kata.id, old_files, new_files)
     view = diff_view(diff)
+    exts = kata.manifest.filename_extension
 
     render json: {
                          id: kata.id,
@@ -20,7 +21,7 @@ class DifferController < ApplicationController
                      events: kata.events.map{ |event| to_json(event) },
                       diffs: view,
 	      idsAndSectionCounts: pruned(view),
-          currentFilenameId: pick_file_id(view, current_filename),
+          currentFilenameId: pick_file_id(view, current_filename, exts)
 	  }
   end
 
