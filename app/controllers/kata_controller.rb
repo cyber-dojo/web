@@ -9,6 +9,7 @@ class KataController < ApplicationController
   def edit
     mapped_id {
       @title = 'kata:' + kata.id
+      @manifest = kata.manifest
       @files = kata.files(:with_output)
     }
   end

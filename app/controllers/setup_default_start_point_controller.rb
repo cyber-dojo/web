@@ -17,12 +17,14 @@ class SetupDefaultStartPointController < ApplicationController
   end
 
   def save_individual
-    kata = katas.new_kata(starter_manifest)
+    manifest = starter_manifest
+    kata = katas.new_kata(manifest)
     redirect_to "/kata/edit/#{kata.id}"
   end
 
   def save_group
-    group = groups.new_group(starter_manifest)
+    manifest = starter_manifest
+    group = groups.new_group(manifest)
     redirect_to "/kata/group/#{group.id}"
   end
 
