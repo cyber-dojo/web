@@ -1,11 +1,10 @@
 
 <%
   parts = []
-  manifest = (@group || @kata).manifest
-  parts << manifest.id
-  parts << manifest.display_name
-  if manifest.exercise != ''
-    parts << manifest.exercise
+  parts << @id
+  parts << @display_name
+  if @exercise != ''
+    parts << @exercise
   end
 %>
 <span>

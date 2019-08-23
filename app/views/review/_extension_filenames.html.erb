@@ -1,0 +1,10 @@
+<script type="text/javascript"><!--
+'use strict';
+$(() => {
+
+  cd.extensionFilenames = () => {
+    return $.parseJSON('<%= @filename_extension.inspect.html_safe %>');
+  };
+
+});
+//--></script>

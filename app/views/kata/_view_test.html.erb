@@ -1,7 +1,7 @@
 <%= render partial: 'highlight_filenames' %>
 <%= render partial: 'tab_size' %>
 
-<%= form_tag( { action: 'run_tests', id: @kata.id } ) do %>
+<%= form_tag( { action: 'run_tests', id: @id } ) do %>
   <%= render partial: 'hidden_filenames' %>
   <%= render partial: 'image_name' %>
   <%= render partial: 'index' %>

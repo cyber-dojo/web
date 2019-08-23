@@ -4,7 +4,7 @@
 $(() => {
 
   const hiddenFilenames =
-    JSON.stringify(<%= raw @manifest.hidden_filenames %>);
+    JSON.stringify(<%= raw @hidden_filenames %>);
 
   $('#hidden_filenames').prop('value', hiddenFilenames);
 

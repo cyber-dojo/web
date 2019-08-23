@@ -10,6 +10,6 @@ $(() => {
   cd.setEventIndex = (value) => {
     $("input[name='index']").val(value);
   };
-  cd.setEventIndex("<%= @kata.events.last.index %>");
+  cd.setEventIndex("<%= @last_index %>");
 });
 //--></script>

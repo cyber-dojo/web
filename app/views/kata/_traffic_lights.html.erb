@@ -20,7 +20,7 @@ $(() => {
 
   const setupTrafficLightReview = ($light, id, wasIndex, nowIndex) => {
     $light.click(() => {
-      cd.setReviewData(id, "<%= @kata.avatar_name %>", wasIndex, nowIndex);
+      cd.setReviewData(id, "<%= @avatar_name %>", wasIndex, nowIndex);
       $('#kata-page').hide();
       $('#review-page').show();
     });
@@ -32,7 +32,7 @@ $(() => {
 //--></script>
 
 <div id="traffic-lights">
-  <% @kata.lights.each do |light| %>
+  <% @lights.each do |light| %>
     <%= raw diff_traffic_light(light) %>
   <% end %>
 </div>

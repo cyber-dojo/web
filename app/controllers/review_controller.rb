@@ -6,20 +6,23 @@ class ReviewController < ApplicationController
     # all interaction with the web server is via the
     # differ-controller.
     mapped_id {
+      set_footer_info
       @title = 'review:' + kata.id
-      @id = kata.id
       @avatar_index = kata.avatar_index
       @avatar_name = kata.avatar_name
       @was_index = was_index
       @now_index = now_index
-      @filename = filename
+      @filename = params['filename']
+      @filename_extension = kata.manifest.filename_extension
     }
   end
 
   private
 
-  def filename
-    params[:filename]
+  def set_footer_info
+    @id = kata.id
+    @display_name = kata.manifest.display_name
+    @exercise = kata.manifest.exercise
   end
 
 end

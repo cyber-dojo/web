@@ -3,7 +3,7 @@
 $(() => {
 
   cd.highlightFilenames = () => {
-    return $.parseJSON('<%= @kata.manifest.highlight_filenames.inspect.html_safe %>');
+    return $.parseJSON('<%= raw @highlight_filenames %>');
   };
 
 });

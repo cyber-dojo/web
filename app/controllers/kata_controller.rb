@@ -8,11 +8,70 @@ class KataController < ApplicationController
 
   def edit
     mapped_id {
-      @title = 'kata:' + kata.id
-      @manifest = kata.manifest
+      manifest = kata.manifest
+      @id = kata.id
+      @title = "kata: #{@id}"
+      # who
+      @avatar_name = kata.avatar_name
+      @avatar_index = kata.avatar_index
+      if kata.group?
+        @group_id = kata.group.id
+      else
+        @group_id = nil
+      end
+      # previous traffic-light-lights
+      @lights = kata.lights
+      @last_index = kata.events.last.index
+      # most recent files
       @files = kata.files(:with_output)
+      # required parameters
+      @image_name = manifest.image_name
+      @filename_extension = manifest.filename_extension
+      # optional parameters
+      @hidden_filenames = manifest.hidden_filenames
+      @highlight_filenames = manifest.highlight_filenames
+      @max_seconds = manifest.max_seconds
+      @tab_size = manifest.tab_size
+      # footer info
+      @display_name = manifest.display_name
+      @exercise = manifest.exercise
     }
   end
+
+  # - - - - - - - - - - - - - - - - - -
+
+=begin
+  def edit_offline
+    manifest = starter_manifest
+    @id = '999999'
+    @title = "kata: #{@id}"
+    # who
+    @avatar_name = ''
+    @avatar_index = nil
+    @group_id = nil
+    # no previous lights
+    @lights = []
+    @last_index = 0
+    # no previous files
+    @files = manifest['visible_files']
+    # required parameters
+    @image_name = manifest['image_name']
+    @filename_extension = manifest['filename_extension']
+    # optional parameters
+    @hidden_filenames = manifest['hidden_filenames'] || []
+    @highlight_filenames = manifest['highlight_filenames'] || []
+    @max_seconds = manifest['max_seconds'] || 10
+    @tab_size = manifest['tab_size'] || 4
+    # footer info
+    @display_name = manifest['display_name']
+    @exercise = manifest['exercise']
+       
+    # TODO: Turn off traffic-light click opens diff review
+    # TODO: Turn off traffic-lights tool-tip
+  end
+=end
+
+  # - - - - - - - - - - - - - - - - - -
 
   def run_tests
     t1 = time_now
@@ -82,5 +141,18 @@ class KataController < ApplicationController
       'index'  => light.index
     }
   end
+
+=begin
+  def starter_manifest
+    exercise_name = params['exercise']
+    em = exercises.manifest(exercise_name)
+    language_name = params['language']
+    manifest = languages.manifest(language_name)
+    manifest['visible_files'].merge!(em['visible_files'])
+    manifest['exercise'] = em['display_name']
+    manifest['created'] = time_now
+    manifest
+  end
+=end
 
 end

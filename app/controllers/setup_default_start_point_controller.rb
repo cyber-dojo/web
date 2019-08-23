@@ -18,8 +18,14 @@ class SetupDefaultStartPointController < ApplicationController
 
   def save_individual
     manifest = starter_manifest
-    kata = katas.new_kata(manifest)
+    kata = katas.new_kata(manifest)  # TODO: rescue SaverException
     redirect_to "/kata/edit/#{kata.id}"
+=begin
+    # TODO: go 'offline' if SaverException
+    language = "language=#{params['language']}"
+    exercise = "exercise=#{params['exercise']}"
+    redirect_to "/kata/edit_offline?#{language}&#{exercise}"
+=end
   end
 
   def save_group

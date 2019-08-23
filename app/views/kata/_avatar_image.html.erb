@@ -1,3 +1,4 @@
+
 <script type="text/javascript"><!--
 'use strict';
 $(() => {
@@ -11,12 +12,12 @@ $(() => {
 });
 //--></script>
 
-<% if @kata.group %>
+<% if @avatar_name != '' %>
   <div id="avatar-image-opens-dashboard"
        class="avatar-image"
-       data-group-id="<%= @kata.group.id %>">
-    <img src="/avatar/image/<%= @kata.avatar_index %>"
-         alt="<%= @kata.avatar_name %>"
+       data-group-id="<%= @group_id %>">
+    <img src="/avatar/image/<%= @avatar_index %>"
+         alt="<%= @avatar_name %>"
          class="avatar-image" />
   </div>
 <% end %>

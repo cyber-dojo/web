@@ -24,11 +24,18 @@ module DashboardWorker # mixin
     gapper = DashboardTdGapper.new(*args)
     @gapped = gapper.fully_gapped(@all_lights, time_now)
     @time_ticks = gapper.time_ticks(@gapped)
+    set_footer_info    
   end
 
   include TimeNow
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def set_footer_info
+    @id = group.id
+    @display_name = group.manifest.display_name
+    @exercise = group.manifest.exercise
+  end
 
   def bool(attribute)
     tf = params[attribute]
