@@ -27,9 +27,9 @@ class Kata_v1
     }
     saver.batch([
       create_cmd(id, 0),
-      manifest_write_cmd(id, manifest),
-      event_write_cmd(id, 0, { 'files' => files }),
-      events_write_cmd(id, event0)
+      manifest_write_cmd(id, json_plain(manifest)),
+      event_write_cmd(id, 0, json_plain(lined({ 'files' => files }))),
+      events_write_cmd(id, json_plain(event0) + "\n")
     ])
     # TODO: unless result === [true]*4
     id
@@ -71,8 +71,8 @@ class Kata_v1
     result = saver.batch([
       exists_cmd(id),
       create_cmd(id, index),
-      event_write_cmd(id, index, event_n),
-      events_append_cmd(id, event_summary)
+      event_write_cmd(id, index, json_plain(lined(event_n))),
+      events_append_cmd(id, json_plain(event_summary) + "\n")
     ])
     unless result[0]
       fail invalid('id', id)
@@ -155,8 +155,8 @@ class Kata_v1
   # start-point services. In practice, it doesn't work because the
   # start-point services can change over time.
 
-  def manifest_write_cmd(id, manifest)
-    ['write', manifest_filename(id), json_plain(manifest)]
+  def manifest_write_cmd(id, manifest_src)
+    ['write', manifest_filename(id), manifest_src]
   end
 
   def manifest_read_cmd(id)
@@ -176,12 +176,12 @@ class Kata_v1
   # This is an optimization for ran_tests() which need only
   # append to the end of the file.
 
-  def events_write_cmd(id, event0)
-    ['write', events_filename(id), json_plain(event0) + "\n"]
+  def events_write_cmd(id, event0_src)
+    ['write', events_filename(id), event0_src]
   end
 
-  def events_append_cmd(id, event)
-    ['append', events_filename(id), json_plain(event) + "\n"]
+  def events_append_cmd(id, eventN_src)
+    ['append', events_filename(id), eventN_src]
   end
 
   def events_read_cmd(id)
@@ -198,8 +198,8 @@ class Kata_v1
   # The visible-files are stored in a lined-format so they be easily
   # inspected on disk. Have to be unlined when read back.
 
-  def event_write_cmd(id, index, event)
-    ['write', event_filename(id, index), json_plain(lined(event))]
+  def event_write_cmd(id, index, event_src)
+    ['write', event_filename(id, index), event_src]
   end
 
   def event_read_cmd(id, index)
