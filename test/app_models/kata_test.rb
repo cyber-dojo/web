@@ -38,6 +38,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
+=begin
   test '861', %w(
   attempting to create a kata
   from a manifest missing any required property
@@ -49,6 +50,7 @@ class KataTest < AppModelsTestBase
     assert_equal 'SaverService', info['class']
     assert_equal 'malformed:manifest["image_name"]:missing:', info['message']
   end
+=end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 

@@ -19,7 +19,32 @@ class SaverService
     @http.get(__method__, {})
   end
 
+  def create(key)
+    @http.post(__method__, { key:key })
+  end
+
+  def exists?(key)
+    @http.get(__method__, { key:key })
+  end
+
+  def write(key, value)
+    @http.post(__method__, { key:key, value:value })
+  end
+
+  def append(key, value)
+    @http.post(__method__, { key:key, value:value })
+  end
+
+  def read(key)
+    @http.get(__method__, { key:key })
+  end
+
+  def batch(commands)
+    @http.post(__method__, { commands:commands })
+  end
+
   # - - - - - - - - - - - -
+  # deprecated
 
   def group_exists?(id)
     @http.get(__method__, { id:id })
@@ -49,6 +74,7 @@ class SaverService
   end
 
   # - - - - - - - - - - - -
+  # deprecated
 
   def kata_exists?(id)
     @http.get(__method__, { id:id })

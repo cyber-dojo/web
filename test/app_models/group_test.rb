@@ -38,6 +38,7 @@ class GroupTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
+=begin
   test '6A2',
   'a group cannot be created from a manifest missing any required property' do
     manifest = starter_manifest
@@ -47,6 +48,7 @@ class GroupTest < AppModelsTestBase
     assert_equal 'SaverService', info['class']
     assert_equal 'malformed:manifest["image_name"]:missing:', info['message']
   end
+=end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 

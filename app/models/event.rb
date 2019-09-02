@@ -4,7 +4,6 @@ class Event
 
   def initialize(externals, kata, hash, index)
     @v = Kata_v0.new(externals)
-    #@externals = externals
     @kata = kata
     @hash = hash
     @index = index
