@@ -19,10 +19,10 @@ class ForkerController < ApplicationController
     mapped_id {
       manifest = kata.events[index].manifest
       manifest['created'] = time_now
-      gid = groups.new_group(manifest)
+      group = groups.new_group(manifest)
       respond_to do |format|
         format.html {
-          redirect_to "/kata/group/#{gid}"
+          redirect_to "/kata/group/#{group.id}"
         }
       end
     }
@@ -36,10 +36,10 @@ class ForkerController < ApplicationController
     begin
       manifest = kata.events[index].manifest
       manifest['created'] = time_now
-      forked_id = yield(manifest)
+      forked = yield(manifest)
       result = {
         forked: true,
-            id: forked_id
+            id: forked.id
       }
     rescue => caught
       result = {

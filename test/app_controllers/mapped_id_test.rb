@@ -75,8 +75,6 @@ class MappedIdTest < AppControllerTestBase
   #- - - - - - - - - - - - - - - -
 
   test 'EF7', 'fork mapped-id10 redirection with 10 digits' do
-    puts "Skipping:#{hex_test_kata_id}\n"
-    skip
     id10 = '733E9E16FC'
     params = { avatar:'mouse', tag:1 }
     get "/forker/fork/#{id10}", params:params, as: :html
@@ -91,8 +89,6 @@ class MappedIdTest < AppControllerTestBase
   end
 
   test 'EF8', 'fork mapped-id10 tag=-1 redirection with 10 digits' do
-    puts "Skipping:#{hex_test_kata_id}\n"    
-    skip
     id10 = '733E9E16FC'
     params = { avatar:'mouse', tag:-1 }
     get "/forker/fork/#{id10}", params:params, as: :html

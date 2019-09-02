@@ -14,8 +14,6 @@ class ForkerControllerTest < AppControllerTestBase
   when id,index are all ok
   format=json fork_individual works
   and the new individual session's id is returned ) do
-    puts "Skipping:#{hex_test_kata_id}\n"
-    skip
     in_kata { |kata|
       post_run_tests # 1
       fork_individual(kata.id, index=1)
@@ -34,8 +32,6 @@ class ForkerControllerTest < AppControllerTestBase
   when id,index are all ok
   format=json fork_group works
   and the new group session's id is returned ) do
-    puts "Skipping:#{hex_test_kata_id}\n"
-    skip
     in_kata { |kata|
       post_run_tests # 1
       fork_group(kata.id, index=1)
@@ -52,8 +48,6 @@ class ForkerControllerTest < AppControllerTestBase
 
   test '7D4', 'forker/fork forks a group session (html)' do
     # See https://blog.cyber-dojo.org/2014/08/custom-starting-point.html
-    puts "Skipping:#{hex_test_kata_id}\n"
-    skip
     in_kata { |kata|
       post_run_tests # 1
       params = { index:1 }
@@ -69,8 +63,6 @@ class ForkerControllerTest < AppControllerTestBase
   end
 
   test '7D5', 'forker/fork with tag=-1 (html)' do
-    puts "Skipping:#{hex_test_kata_id}\n"
-    skip
     in_kata { |kata|
       post_run_tests # 1
       params = { index:-1 }
