@@ -16,7 +16,6 @@ class Kata
     Base58.string?(id) &&
       id.length === 6 &&
         @v0.exists?(id)
-        #saver.kata_exists?(id)
   end
 
   def group?
@@ -50,12 +49,10 @@ class Kata
   end
 
   def ran_tests(index, files, at, duration, stdout, stderr, status, colour)
-    #saver.kata_ran_tests(id, index, files, at, duration, stdout, stderr, status, colour)
     @v0.ran_tests(id, index, files, at, duration, stdout, stderr, status, colour)
   end
 
   def events
-    #saver.kata_events(id).map.with_index do |h,index|
     @v0.events(id).map.with_index do |h,index|
       Event.new(@externals, self, h, index)
     end
@@ -91,7 +88,6 @@ class Kata
   end
 
   def manifest
-    #@manifest ||= Manifest.new(saver.kata_manifest(id))
     @manifest ||= Manifest.new(@v0.manifest(id))
   end
 
@@ -105,9 +101,5 @@ class Kata
   def most_recent_event
     events.last
   end
-
-  #def saver
-  #  @externals.saver
-  #end
 
 end

@@ -46,14 +46,12 @@ module TestDomainHelpers # mix-in
 
   # - - - - - - - - - - - - - - - - - - - - - - -
 
-  # TODO: used?
   def groups
     Groups.new(self)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - -
 
-  # TODO: used?
   def katas
     Katas.new(self)
   end
