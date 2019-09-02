@@ -1,7 +1,9 @@
+require_relative 'kata_v0'
 
 class Katas
 
   def initialize(externals)
+    @v = Kata_v0.new(externals)
     @externals = externals
   end
 
@@ -10,14 +12,8 @@ class Katas
   end
 
   def new_kata(manifest)
-    id = saver.kata_create(manifest)
+    id = @v.create(manifest)
     self[id]
-  end
-
-  private
-
-  def saver
-    @externals.saver
   end
 
 end

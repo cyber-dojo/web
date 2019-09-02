@@ -1,7 +1,9 @@
+require_relative 'group_v0'
 
 class Groups
 
   def initialize(externals)
+    @v = Group_v0.new(externals)
     @externals = externals
   end
 
@@ -10,14 +12,8 @@ class Groups
   end
 
   def new_group(manifest)
-    id = saver.group_create(manifest)
+    id = @v.create(manifest)
     self[id]
-  end
-
-  private
-
-  def saver
-    @externals.saver
   end
 
 end
