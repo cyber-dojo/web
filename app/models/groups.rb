@@ -1,4 +1,3 @@
-require_relative 'group_v0'
 require_relative 'group_v1'
 
 class Groups

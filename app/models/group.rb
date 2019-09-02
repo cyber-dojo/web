@@ -1,5 +1,4 @@
 require_relative '../../lib/base58'
-require_relative 'group_v0'
 require_relative 'group_v1'
 
 class Group

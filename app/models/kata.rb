@@ -1,5 +1,4 @@
 require_relative 'runner'
-require_relative 'kata_v0'
 require_relative 'kata_v1'
 require_relative '../../lib/base58'
 

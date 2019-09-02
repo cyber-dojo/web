@@ -1,4 +1,3 @@
-require_relative 'kata_v0'
 require_relative 'kata_v1'
 
 class Katas
