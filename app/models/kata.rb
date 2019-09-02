@@ -5,7 +5,7 @@ require_relative '../../lib/base58'
 class Kata
 
   def initialize(externals, id)
-    @v0 = Kata_v0.new(externals)
+    @v = Kata_v0.new(externals)
     @externals = externals
     @id = id
   end
@@ -15,7 +15,7 @@ class Kata
   def exists?
     Base58.string?(id) &&
       id.length === 6 &&
-        @v0.exists?(id)
+        @v.exists?(id)
   end
 
   def group?
@@ -49,11 +49,11 @@ class Kata
   end
 
   def ran_tests(index, files, at, duration, stdout, stderr, status, colour)
-    @v0.ran_tests(id, index, files, at, duration, stdout, stderr, status, colour)
+    @v.ran_tests(id, index, files, at, duration, stdout, stderr, status, colour)
   end
 
   def events
-    @v0.events(id).map.with_index do |h,index|
+    @v.events(id).map.with_index do |h,index|
       Event.new(@externals, self, h, index)
     end
   end
@@ -88,7 +88,7 @@ class Kata
   end
 
   def manifest
-    @manifest ||= Manifest.new(@v0.manifest(id))
+    @manifest ||= Manifest.new(@v.manifest(id))
   end
 
   private

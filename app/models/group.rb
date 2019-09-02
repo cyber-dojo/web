@@ -1,8 +1,10 @@
 require_relative '../../lib/base58'
+require_relative 'group_v0'
 
 class Group
 
   def initialize(externals, id)
+    @v = Group_v0.new(externals)
     @externals = externals
     @id = id
   end
@@ -12,7 +14,7 @@ class Group
   def exists?
     Base58.string?(id) &&
       id.length === 6 &&
-        saver.group_exists?(id)
+        @v.exists?(id)
   end
 
   def created
@@ -20,7 +22,7 @@ class Group
   end
 
   def join(indexes = (0..63).to_a.shuffle)
-    kid = saver.group_join(id, indexes)
+    kid = @v.join(id, indexes)
     if kid.nil?
       nil
     else
@@ -37,7 +39,7 @@ class Group
   end
 
   def katas
-    saver.group_joined(id).map{ |kid| kata(kid) }
+    @v.joined(id).map{ |kid| kata(kid) }
   end
 
   def age
@@ -45,17 +47,13 @@ class Group
   end
 
   def manifest
-    @manifest ||= Manifest.new(saver.group_manifest(id))
+    @manifest ||= Manifest.new(@v.manifest(id))
   end
 
   private
 
   def kata(kid)
     Kata.new(@externals, kid)
-  end
-
-  def saver
-    @externals.saver
   end
 
 end
