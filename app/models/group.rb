@@ -1,10 +1,11 @@
 require_relative '../../lib/base58'
 require_relative 'group_v0'
+require_relative 'group_v1'
 
 class Group
 
   def initialize(externals, id)
-    @v = Group_v0.new(externals)
+    @v = Group_v1.new(externals)
     @externals = externals
     @id = id
   end

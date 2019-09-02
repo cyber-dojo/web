@@ -128,6 +128,7 @@ class KataTest < AppModelsTestBase
     stdout = result[0]['stdout']
     stderr = result[0]['stderr']
     status = result[0]['status']
+
     colour = 'red'
     now = [2018,11,1, 9,14,9,9154]
     kata.ran_tests(1, kata.files, now, duration, stdout, stderr, status, colour)

@@ -1,3 +1,4 @@
+require_relative '../models/id_generator'
 
 module Externals # mix-in
 
@@ -37,6 +38,10 @@ module Externals # mix-in
 
   def saver
     @saver ||= external
+  end
+
+  def id_generator
+    @id_generator ||= IdGenerator.new
   end
 
   #def zipper
