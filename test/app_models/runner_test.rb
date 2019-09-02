@@ -14,70 +14,63 @@ class RunnerTest < AppModelsTestBase
 
   test '149',
   'red: expected=42, actual=6*9' do
-    params = gcc_assert_params
-    result = kata.run_tests(params)
-    assert_equal false, result[0]['timed_out']
-    assert_equal 'red', colour_of(kata, result[0])
+    in_kata do |kata|
+      result = kata.run_tests(params(kata, '6 * 9', '6 * 99'))
+      assert_equal false, result[0]['timed_out']
+      assert_equal 'red', colour_of(kata, result[0])
+    end
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '150',
-  'amber: file large than max_file_size is truncated' do
-    params = gcc_assert_params
-    large = "/*" + ('-'* (51*1024)) + "*/"
-    params[:file_content]['large.c'] = large
-    result = kata.run_tests(params)
-    assert_equal false, result[0]['timed_out']
-    assert_equal 'amber', colour_of(kata, result[0])
+  'amber: expected=42, actual=6*7sss' do
+    in_kata do |kata|
+      result = kata.run_tests(params(kata, '6 * 9', '6 * 9sss'))
+      assert_equal false, result[0]['timed_out']
+      assert_equal 'amber', colour_of(kata, result[0])
+    end
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '151',
   'green: expected=42, actual=6*7' do
-    params = gcc_assert_params
-    src = params[:file_content]['hiker.c']
-    src.sub!('6 * 9', '6 * 7')
-    params[:file_content]['hiker.c'] = src
-    result = kata.run_tests(params)
-    assert_equal false, result[0]['timed_out']
-    assert_equal 'green', colour_of(kata, result[0])
+    in_kata do |kata|
+      result = kata.run_tests(params(kata, '6 * 9', '6 * 7'))
+      assert_equal false, result[0]['timed_out']
+      assert_equal 'green', colour_of(kata, result[0])
+    end
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '152',
   'timed_out: infinite loop' do
-    params = gcc_assert_params
-    src = params[:file_content]['hiker.c']
-    src.sub!('return', 'for(;;);return')
-    params[:file_content]['hiker.c'] = src
-    result = kata.run_tests(params, max_seconds = 2)
-    assert_equal true, result[0]['timed_out']
+    in_kata do |kata|
+      result = kata.run_tests(params(kata, '6 * 9', 'loop do;end', 2))
+      assert_equal true, result[0]['timed_out']
+    end
   end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # faulty
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # hidden_filenames
 
   private
 
-  def gcc_assert_params
-    kata = make_language_kata({ 'display_name' => 'C (gcc), assert' })
-    run_params(kata)
-  end
-
-  def run_params(kata)
-    {
+  def params(kata, from, to, max_seconds = kata.manifest.max_seconds)
+    all = {
       id:kata.id,
       image_name:kata.manifest.image_name,
-      max_seconds:kata.manifest.max_seconds,
+      max_seconds:max_seconds,
       file_content:plain(kata.files),
       hidden_filenames:'[]'
     }
+    filename = 'hiker.rb'
+    src = all[:file_content][filename]
+    src.sub!(from, to)
+    all[:file_content][filename] = src
+    all
   end
 
   def colour_of(kata, result)

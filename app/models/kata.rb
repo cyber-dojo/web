@@ -1,9 +1,11 @@
 require_relative 'runner'
+require_relative 'kata_v0'
 require_relative '../../lib/base58'
 
 class Kata
 
   def initialize(externals, id)
+    @v0 = Kata_v0.new(externals)
     @externals = externals
     @id = id
   end
@@ -13,7 +15,8 @@ class Kata
   def exists?
     Base58.string?(id) &&
       id.length === 6 &&
-        saver.kata_exists?(id)
+        @v0.exists?(id)
+        #saver.kata_exists?(id)
   end
 
   def group?
@@ -42,16 +45,18 @@ class Kata
     end
   end
 
-  def run_tests(params, max_seconds = params[:max_seconds].to_i)
-    Runner.new(@externals).run(self, params, max_seconds)
+  def run_tests(params)
+    Runner.new(@externals).run(self, params)
   end
 
   def ran_tests(index, files, at, duration, stdout, stderr, status, colour)
-    saver.kata_ran_tests(id, index, files, at, duration, stdout, stderr, status, colour)
+    #saver.kata_ran_tests(id, index, files, at, duration, stdout, stderr, status, colour)
+    @v0.ran_tests(id, index, files, at, duration, stdout, stderr, status, colour)
   end
 
   def events
-    saver.kata_events(id).map.with_index do |h,index|
+    #saver.kata_events(id).map.with_index do |h,index|
+    @v0.events(id).map.with_index do |h,index|
       Event.new(@externals, self, h, index)
     end
   end
@@ -86,7 +91,8 @@ class Kata
   end
 
   def manifest
-    @manifest ||= Manifest.new(saver.kata_manifest(id))
+    #@manifest ||= Manifest.new(saver.kata_manifest(id))
+    @manifest ||= Manifest.new(@v0.manifest(id))
   end
 
   private
@@ -100,8 +106,8 @@ class Kata
     events.last
   end
 
-  def saver
-    @externals.saver
-  end
+  #def saver
+  #  @externals.saver
+  #end
 
 end

@@ -75,7 +75,7 @@ class KataControllerTest  < AppControllerTestBase
     set_ragger_class('RaggerExceptionRaiser')
     in_kata { |kata|
       post_run_tests
-      # Saver does not yet know about 'faulty' colour
+      # TODO: Saver does not yet know about 'faulty' colour
       assert_equal :amber, kata.lights[-1].colour
     }
   end

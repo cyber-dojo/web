@@ -27,7 +27,6 @@ module TestDomainHelpers # mix-in
     em = exercises.manifest(exercise_name)
     manifest['visible_files'].merge!(em['visible_files'])
     manifest['created'] = (options['created'] || time_now)
-    manifest['id'] = (options['id'] || kata_id)
     manifest
   end
 
@@ -47,22 +46,16 @@ module TestDomainHelpers # mix-in
 
   # - - - - - - - - - - - - - - - - - - - - - - -
 
+  # TODO: used?
   def groups
     Groups.new(self)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - -
 
+  # TODO: used?
   def katas
     Katas.new(self)
-  end
-
-  def kata
-    katas[kata_id]
-  end
-
-  def kata_id
-    hex_test_kata_id
   end
 
   def time_now(now = Time.now)

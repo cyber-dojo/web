@@ -7,10 +7,10 @@ class Runner
     @externals = externals
   end
 
-  def run(kata, params, max_seconds)
+  def run(kata, params)
     image_name = params[:image_name]
-    hidden_filenames = JSON.parse(params[:hidden_filenames])
     files = files_from(params)
+    max_seconds = params[:max_seconds].to_i
 
     result =
       runner.run_cyber_dojo_sh(
@@ -27,6 +27,7 @@ class Runner
     end
 
     # TODO: this has not been checked since {'content'=>content}
+    hidden_filenames = JSON.parse(params[:hidden_filenames])
     remove_hidden_files(created, hidden_filenames)
 
     # Ensure files sent to saver.kata_ran_tests() reflect

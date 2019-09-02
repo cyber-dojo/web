@@ -57,7 +57,7 @@ class RaggerServiceTest < AppServicesTestBase
   def csharp_nunit_colour(stdout)
     args = []
     args << (image_name = 'cyberdojofoundation/csharp_nunit')
-    args << kata_id
+    args << hex_test_kata_id
     args << stdout
     args << (stderr = '')
     args << (status = 0)
