@@ -8,10 +8,9 @@ module DashboardWorker # mixin
     names = Avatars.names
     @minute_columns = bool('minute_columns')
     @auto_refresh = bool('auto_refresh')
-    # using saver.group_events() BatchMethod
     @all_lights = {}
     @all_indexes = {}
-    saver.group_events(group.id).each do |kata_id,o|
+    group.events.each do |kata_id,o|
       lights = o['events'].each_with_index.map{ |event,index|
         Event.new(self, Kata.new(self, kata_id), event, index)
       }.select(&:light?)
@@ -24,7 +23,7 @@ module DashboardWorker # mixin
     gapper = DashboardTdGapper.new(*args)
     @gapped = gapper.fully_gapped(@all_lights, time_now)
     @time_ticks = gapper.time_ticks(@gapped)
-    set_footer_info    
+    set_footer_info
   end
 
   include TimeNow

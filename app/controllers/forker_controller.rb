@@ -4,13 +4,13 @@ class ForkerController < ApplicationController
 
   def fork_individual
     fork_json { |manifest|
-      saver.kata_create(manifest)
+      katas.new_kata(manifest)
     }
   end
 
   def fork_group
     fork_json { |manifest|
-      saver.group_create(manifest)
+      groups.new_group(manifest)
     }
   end
 
@@ -19,7 +19,7 @@ class ForkerController < ApplicationController
     mapped_id {
       manifest = kata.events[index].manifest
       manifest['created'] = time_now
-      gid = saver.group_create(manifest)
+      gid = groups.new_group(manifest)
       respond_to do |format|
         format.html {
           redirect_to "/kata/group/#{gid}"

@@ -42,21 +42,14 @@ class SaverServiceTest < AppServicesTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '444',
+  test '443',
   'smoke test saver methods' do
-    assert_saver_service_error { saver.group_exists?(1) }
-    assert_saver_service_error { saver.group_create(1) }
-    assert_saver_service_error { saver.group_manifest(1) }
-    assert_saver_service_error { saver.group_join(1,2) }
-    assert_saver_service_error { saver.group_joined(1) }
-    assert_saver_service_error { saver.group_events(1) }
-
-    assert_saver_service_error { saver.kata_exists?(1) }
-    assert_saver_service_error { saver.kata_create(1) }
-    assert_saver_service_error { saver.kata_manifest(1) }
-    assert_saver_service_error { saver.kata_ran_tests(1,2,3,4,5,6,7,8,9) }
-    assert_saver_service_error { saver.kata_events(1) }
-    assert_saver_service_error { saver.kata_event(1,2) }
+    assert_saver_service_error { saver.create(42) }
+    assert_saver_service_error { saver.exists?(42) }
+    assert_saver_service_error { saver.write(4,2) }
+    assert_saver_service_error { saver.append(4,2) }
+    assert_saver_service_error { saver.read(42) }
+    assert_saver_service_error { saver.batch(['read',42]) }
   end
 
   private

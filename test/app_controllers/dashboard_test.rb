@@ -9,7 +9,9 @@ class DashboardControllerTest < AppControllerTestBase
   #- - - - - - - - - - - - - - - -
 
   test '971', %w( minute_column/auto_refresh true/false ) do
-    @gid = 'FxWwrr'
+    manifest = make_manifest({ 'display_name' => 'Java, JUnit' })
+    group = groups.new_group(manifest)
+    @gid = group.id
     options = [ false, true, 'xxx' ]
     options.each do |mc|
       options.each do |ar|

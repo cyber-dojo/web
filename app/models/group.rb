@@ -31,6 +31,10 @@ class Group
     end
   end
 
+  def events
+    @v.events(id)
+  end
+
   def size
     katas.size
   end
