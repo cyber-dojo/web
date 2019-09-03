@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'liner'
-require_relative 'oj_adapter'
+require_relative '../../lib/oj_adapter'
 require_relative '../services/saver_exception'
 
 class Kata_v1
