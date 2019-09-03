@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# require 'oj'
-
 module OjAdapter # mix-in
 
   def json_plain(obj)
