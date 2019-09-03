@@ -26,7 +26,8 @@ class DashboardControllerTest < AppControllerTestBase
   with and without avatars, and
   with and without traffic lights ) do
     set_runner_class('RunnerService')
-    manifest = make_manifest({ 'display_name' => 'Java, JUnit' })
+    # TODO: put back to Java,JUnit to get kata with progress-regex
+    manifest = make_manifest #({ 'display_name' => 'Java, JUnit' })
     group = groups.new_group(manifest)
     @gid = group.id
     # an animal with a non-amber traffic-light
@@ -44,7 +45,8 @@ class DashboardControllerTest < AppControllerTestBase
       @id = kata.id
       @files = kata.files.map{|filename,file| [filename,file['content']]}.to_h
       @index = 0
-      change_file('Hiker.java', 'syntax-error')
+      #change_file('Hiker.java', 'syntax-error')
+      change_file('hiker.rb', 'syntax-error')
       post_run_tests
       assert_equal :amber, kata.lights[-1].colour
     }

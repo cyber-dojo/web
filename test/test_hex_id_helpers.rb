@@ -5,6 +5,10 @@ module TestHexIdHelpers # mix-in
     ENV['CYBER_DOJO_TEST_ID']
   end
 
+  def hex_test_name
+    ENV['CYBER_DOJO_TEST_NAME']
+  end
+
   def hex_setup
   end
 
@@ -43,6 +47,7 @@ module TestHexIdHelpers # mix-in
         @@seen_ids << id
         block_with_test_id = lambda {
           ENV['CYBER_DOJO_TEST_ID'] = id
+          ENV['CYBER_DOJO_TEST_NAME'] = name
           hex_setup
           t1 = Time.now
           self.instance_eval &block
@@ -60,7 +65,7 @@ module TestHexIdHelpers # mix-in
         abcdefgh jklmn pqrstuvwxyz
         ABCDEFGH JKLMN PQRSTUVWXYZ
       ).join
-      id.size == 6 && id.chars.all?{ |ch| alphabet.include?(ch) }
+      id.chars.all?{ |ch| alphabet.include?(ch) }
     end
 
     ObjectSpace.define_finalizer(self, proc {

@@ -8,8 +8,8 @@ class RunnerServiceTest < AppServicesTestBase
   end
 
   def hex_setup
-    set_saver_class('SaverService')
     set_runner_class('RunnerService')
+    #set_saver_class('SaverService')
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -42,6 +42,7 @@ class RunnerServiceTest < AppServicesTestBase
     in_kata { |kata|
       result = runner.run_cyber_dojo_sh(*run_args(kata))
       stdout = result['stdout']['content']
+      # output == Ruby, MiniTest
       assert stdout.include?('Expected: 42'), result
       assert stdout.include?('  Actual: 54'), result
       assert_equal '', result['stderr']['content'], result

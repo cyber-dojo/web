@@ -9,6 +9,10 @@ class SaverServiceTest < AppServicesTestBase
     'D2w'
   end
 
+  def hex_setup
+    #set_saver_class('SaverService')
+  end
+
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '3A6', 'SaverExceptionRaiser raises SaverException' do

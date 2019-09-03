@@ -151,8 +151,4 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     '"' + s + '"'
   end
 
-  def invalid_id
-    '379C8A'
-  end
-
 end
