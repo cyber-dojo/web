@@ -31,6 +31,64 @@ class LinerTest < AppModelsTestBase
     assert_equal LINED_EVENT['stderr']['content'], LINED_STDERR
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  test '7A3',
+  'unlined(event) has truncated fields when event has' do
+    lined = {
+      'files' => {
+        'cyber-dojo.sh' => {
+          'content' => [ "a\n","z\n"],
+          'truncated' => false
+        },
+        'readme.txt' => {
+          'content' => [ "read\n","me\n","blah"]
+        },
+      }
+    }
+    expected = {
+      'files' => {
+        'cyber-dojo.sh' => {
+          'content' => "a\nz\n",
+          'truncated' => false
+        },
+        'readme.txt' => {
+          'content' => "read\nme\nblah"
+        },
+      }
+    }
+    assert_equal expected, unlined(lined)
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  test '7A4',
+  'lined(event) has truncated fields when event has' do
+    unlined = {
+      'files' => {
+        'cyber-dojo.sh' => {
+          'content' => "a\nz\n",
+          'truncated' => false
+        },
+        'readme.txt' => {
+          'content' => "read\nme\nblah"
+        },
+      }
+    }
+    expected = {
+      'files' => {
+        'cyber-dojo.sh' => {
+          'content' => [ "a\n","z\n"],
+          'truncated' => false
+        },
+        'readme.txt' => {
+          'content' => [ "read\n","me\n","blah"]
+        },
+      }
+    }
+    assert_equal expected, lined(unlined)
+  end
+
   private
 
   UNLINED_TEST_HIKER_RB = "require 'sss'\nxxx"

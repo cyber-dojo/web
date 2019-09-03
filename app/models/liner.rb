@@ -25,9 +25,13 @@ module Liner # mix-in
 
   def lined_file(file)
     content = file['content']
-    { 'content' => (content=='') ? [ '' ] : content.lines,
-      'truncated' => file['truncated']
+    lined = {
+      'content' => (content=='') ? [ '' ] : content.lines
     }
+    if file.has_key?('truncated')
+      lined['truncated'] = file['truncated']
+    end
+    lined
   end
 
   # - - - - - - - - - - - - - - - - - -
@@ -48,22 +52,19 @@ module Liner # mix-in
   end
 
   def unlined_files(files)
-    unlined = {}
-    files.each{ |filename,file|
-      unlined[filename] = unlined_file(file)
-    }
-    unlined
-    # I thought this was equivalent... but its not....
-    #Hash[files.each{ |filename,file|
-    #  [filename, unlined_file(file)]
-    #}]
+    Hash[files.map{ |filename,file|
+      [filename,unlined_file(file)]
+    }]
   end
 
   def unlined_file(file)
-    {
-      'content' => file['content'].join,
-      'truncated' => file['truncated']
+    unlined = {
+      'content' => file['content'].join
     }
+    if file.has_key?('truncated')
+      unlined['truncated'] = file['truncated']
+    end
+    unlined
   end
 
 end
