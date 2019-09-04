@@ -15,6 +15,10 @@ class SaverService
     @http.get(__method__, {})
   end
 
+  def alive?
+    @http.get(__method__, {})
+  end
+
   def sha
     @http.get(__method__, {})
   end

@@ -2,7 +2,7 @@ require_relative 'app_services_test_base'
 require_relative '../../app/services/saver_service'
 require_relative '../../app/services/saver_fake'
 
-class SaverTest < AppServicesTestBase
+class SaverFakeTest < AppServicesTestBase
 
   def self.hex_prefix
     '6AA'
@@ -48,11 +48,19 @@ class SaverTest < AppServicesTestBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - -
-  # ready
+  # ready?
 
   multi_test '602',
   %w( ready? is always true ) do
     assert saver.ready?
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - -
+  # alive?
+
+  multi_test '603',
+  %w( alive? is always true ) do
+    assert saver.alive?
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -96,7 +104,7 @@ class SaverTest < AppServicesTestBase
     # saver.create(dirname) # missing
     filename = dirname + '/readme.md'
     refute saver.write(filename, 'bonjour')
-    assert_nil saver.read(filename)
+    assert saver.read(filename).is_a?(FalseClass)
   end
 
   multi_test '642', %w(
@@ -137,7 +145,7 @@ class SaverTest < AppServicesTestBase
     # saver.create(dirname) # missing
     filename = dirname + '/readme.md'
     refute saver.append(filename, 'greetings')
-    assert_nil saver.read(filename)
+    assert saver.read(filename).is_a?(FalseClass)
   end
 
   multi_test '842', %w(
@@ -149,7 +157,7 @@ class SaverTest < AppServicesTestBase
     filename = dirname + '/hiker.h'
     # saver.write(filename, '...') # missing
     refute saver.append(filename, 'int main(void);')
-    assert_nil saver.read(filename)
+    assert saver.read(filename).is_a?(FalseClass)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -166,23 +174,23 @@ class SaverTest < AppServicesTestBase
   end
 
   multi_test '438',
-  'read() returns nil given a non-existent file-name' do
+  'read() returns false given a non-existent file-name' do
     filename = 'client/1z/23/e4/not-there.txt'
-    assert_nil saver.read(filename)
+    assert saver.read(filename).is_a?(FalseClass)
   end
 
   multi_test '439',
-  'read() returns nil given an existing dir-name' do
+  'read() returns false given an existing dir-name' do
     dirname = 'client/2f/7k/3P'
     saver.create(dirname)
-    assert_nil saver.read(dirname)
+    assert saver.read(dirname).is_a?(FalseClass)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - -
   # batch()
 
   multi_test '514',
-  'batch() batches all other commands' do
+  'batch() batches all other commands (except sha/ready/alive/itself)' do
     expected = []
     commands = []
     dirname = 'client/e3/t6/A8'
@@ -206,7 +214,7 @@ class SaverTest < AppServicesTestBase
     expected << content*2
 
     commands << ['read',there_not]
-    expected << nil
+    expected << false
 
     result = saver.batch(commands)
     assert_equal expected, result

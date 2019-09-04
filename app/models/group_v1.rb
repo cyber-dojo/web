@@ -23,7 +23,7 @@ class Group_v1
   def create(manifest)
     id = manifest['id'] = generate_id
     manifest['visible_files'] = lined_files(manifest['visible_files'])
-    unless saver.send(*manifest_write_cmd(id, manifest))
+    unless saver.send(*manifest_write_cmd(id, json_plain(manifest)))
       fail invalid('id', id)
     end
     id
@@ -33,7 +33,7 @@ class Group_v1
 
   def manifest(id)
     manifest_src = saver.send(*manifest_read_cmd(id))
-    unless manifest_src
+    unless manifest_src.is_a?(String)
       fail invalid('id', id)
     end
     manifest = json_parse(manifest_src)
@@ -119,8 +119,8 @@ class Group_v1
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def manifest_write_cmd(id, manifest)
-    ['write', manifest_filename(id), json_plain(manifest)]
+  def manifest_write_cmd(id, manifest_src)
+    ['write', manifest_filename(id), manifest_src]
   end
 
   def manifest_read_cmd(id)

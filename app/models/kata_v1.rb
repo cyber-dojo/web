@@ -42,7 +42,7 @@ class Kata_v1
       manifest_read_cmd(id),
       event_read_cmd(id, 0)
     ])
-    if [manifest_src,event0_src].include?(nil)
+    if [manifest_src,event0_src].include?(false)
       fail invalid('id', id)
     end
     manifest = json_parse(manifest_src)
@@ -87,7 +87,7 @@ class Kata_v1
 
   def events(id)
     events_src = saver.send(*events_read_cmd(id))
-    if events_src.nil?
+    unless events_src.is_a?(String)
       fail invalid('id', id)
     end
     json_parse('[' + events_src.lines.join(',') + ']')
@@ -100,13 +100,13 @@ class Kata_v1
   def event(id, index)
     if index === -1
       events_src = saver.send(*events_read_cmd(id))
-      if events_src.nil?
+     unless events_src.is_a?(String)
         fail invalid('id', id)
       end
       index = events_src.count("\n") - 1
     end
     event_src = saver.send(*event_read_cmd(id, index))
-    if event_src.nil?
+    unless event_src.is_a?(String)
       fail invalid('index', index)
     end
     unlined(json_parse(event_src))

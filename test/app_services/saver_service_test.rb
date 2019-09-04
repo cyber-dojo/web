@@ -32,9 +32,16 @@ class SaverServiceTest < AppServicesTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '441',
+  test '440',
   'smoke test ready?' do
     assert saver.ready?
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '441',
+  'smoke test alive?' do
+    assert saver.alive?
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
