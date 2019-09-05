@@ -12,20 +12,16 @@ class RunnerStub
 
   # - - - - - - - - - - - - - - - - -
 
-  def stub_run_colour(colour)
-   stub_run('', '', 0, colour)
-  end
-
-  def stub_run(stdout, stderr='', status=0, colour='red')
+  def stub_run(stdout, stderr='', status=0, timed_out=false)
     dir.make
     dir.write(filename, JSON.generate({
         'stdout' => file(stdout),
         'stderr' => file(stderr),
         'status' => status,
-        'colour' => colour,
         'created' => {},
         'deleted' => [],
-        'changed' => {}
+        'changed' => {},
+        'timed_out' => timed_out
     }))
   end
 
@@ -36,10 +32,10 @@ class RunnerStub
       { 'stdout' => file('so'),
         'stderr' => file('se'),
         'status' => 0,
-        'colour' => 'red',
         'created' => {},
         'deleted' => [],
-        'changed' => {}
+        'changed' => {},
+        'timed_out' => false
       }
     end
   end

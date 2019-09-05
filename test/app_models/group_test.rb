@@ -100,6 +100,7 @@ class GroupTest < AppModelsTestBase
   test '6A6', %w(
   you can join 64 times and then the group is full
   ) do
+    set_saver_class('SaverFake')
     group = create_group
     indexes = (0..63).to_a.shuffle
     64.times do

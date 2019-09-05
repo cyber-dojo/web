@@ -18,58 +18,41 @@ class RunnerStubTest < AppServicesTestBase
   'stub_run can stub stdout and leave',
   'stderr defaulted to stub empty-string and',
   'status defaulted to stub zero and',
-  'colour defaulted to red' do
+  'timed_out defaulted to false' do
     runner.stub_run(expected='syntax error line 1')
     result = runner.run_cyber_dojo_sh(*unused_args)
     assert_equal expected, result['stdout']['content']
     assert_equal '', result['stderr']['content']
     assert_equal 0, result['status']
-    assert_equal 'red', result['colour']
+    assert_equal false, result['timed_out']
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '09C',
-  'stdout,stderr,status,colour can all be stubbed explicitly' do
+  'stdout,stderr,status,timed_out can all be stubbed explicitly' do
     args = []
     args << (stdout='Assertion failed')
     args << (stderr='makefile...')
     args << (status=2)
-    args << (colour='red')
+    args << (timed_out=true)
     runner.stub_run(*args)
     result = runner.run_cyber_dojo_sh(*unused_args)
     assert_equal stdout, result['stdout']['content']
     assert_equal stderr, result['stderr']['content']
     assert_equal status, result['status']
-    assert_equal colour, result['colour']
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '111',
-  'run colour can be stubbed on its own' do
-    runner.stub_run_colour('red')
-    result = runner.run_cyber_dojo_sh(*unused_args)
-    assert_equal 'red', result['colour']
-
-    runner.stub_run_colour('amber')
-    result = runner.run_cyber_dojo_sh(*unused_args)
-    assert_equal 'amber', result['colour']
-
-    runner.stub_run_colour('green')
-    result = runner.run_cyber_dojo_sh(*unused_args)
-    assert_equal 'green', result['colour']
+    assert_equal timed_out, result['timed_out']
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '97A',
-  'run without preceeding stub returns so/se/0/red' do
+  'run without preceeding stub returns so/se/0/false' do
     result = runner.run_cyber_dojo_sh(*unused_args)
     assert_equal 'so', result['stdout']['content']
     assert_equal 'se', result['stderr']['content']
     assert_equal 0, result['status']
-    assert_equal 'red', result['colour']
+    assert_equal false, result['timed_out']
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
