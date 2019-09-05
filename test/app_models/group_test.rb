@@ -7,10 +7,16 @@ class GroupTest < AppModelsTestBase
     '1P4'
   end
 
+  def hex_setup
+    set_saver_class('SaverFake')
+  end
+
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '5A6',
-  'a group with an invalid id does not exist' do
+  test '5A6', %w(
+  a group with an invalid returns false for exist?
+  viz it does not raise
+  ) do
     refute groups[42].exists?, 'Integer'
     refute groups[nil].exists?, 'nil'
     refute groups[[]].exists?, '[]'
@@ -22,18 +28,18 @@ class GroupTest < AppModelsTestBase
     refute groups['123AbZ'].exists?, 'no group with that id'
   end
 
-  test '5A7',
-  'a group with a valid id exists' do
-    group = create_group
-    assert groups[group.id].exists?
-  end
-
   test '5A8',
   'when saver is offline, group.exists? raises' do
     set_saver_class('SaverExceptionRaiser')
     assert_raises(SaverException) {
       groups['123AbZ'].exists?
     }
+  end
+
+  test '5A7',
+  'a group with a valid id exists' do
+    group = create_group
+    assert groups[group.id].exists?
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -100,7 +106,6 @@ class GroupTest < AppModelsTestBase
   test '6A6', %w(
   you can join 64 times and then the group is full
   ) do
-    set_saver_class('SaverFake')
     group = create_group
     indexes = (0..63).to_a.shuffle
     64.times do
@@ -158,16 +163,18 @@ class GroupTest < AppModelsTestBase
     assert_equal hf, m['hidden_filenames']
     assert_equal hf, am.hidden_filenames
 
-    assert_equal m['filename_extension'], am.filename_extension
+    fe = ['.rb']
+    assert_equal fe, m['filename_extension']
+    assert_equal fe, am.filename_extension
 
-    assert_nil m['highlight_filenames'] # nil -> []
-    assert_equal [], am.highlight_filenames
+    refute m.has_key?('highlight_filenames')
+    assert_equal [], am.highlight_filenames, 'default highlight_filenames'
 
-    assert_nil m['max_seconds'] # nil -> 10
-    assert_equal 10, am.max_seconds
+    refute m.has_key?('max_seconds')
+    assert_equal 10, am.max_seconds, 'default max_seconds'
 
-    assert_nil m['progress_regexs'] # nil -> []
-    assert_equal [], am.progress_regexs
+    refute m.has_key?('progress_regexs')
+    assert_equal [], am.progress_regexs, 'default progress_regexs'
   end
 
 end

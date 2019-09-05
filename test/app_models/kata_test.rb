@@ -7,6 +7,10 @@ class KataTest < AppModelsTestBase
     'Fb9'
   end
 
+  def hex_setup
+    set_saver_class('SaverFake')
+  end
+
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '760',

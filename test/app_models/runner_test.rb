@@ -7,14 +7,15 @@ class RunnerTest < AppModelsTestBase
   end
 
   def hex_setup
+    set_saver_class('SaverFake')
     set_runner_class('RunnerStub')
+    set_ragger_class('RaggerStub')
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '149',
   'red: expected=42, actual=6*9' do
-    set_ragger_class('RaggerStub')
     ragger.stub_colour('red')
     in_kata do |kata|
       result = kata.run_tests(params(kata))
@@ -27,7 +28,6 @@ class RunnerTest < AppModelsTestBase
 
   test '150',
   'amber: expected=42, actual=6*7sss' do
-    set_ragger_class('RaggerStub')
     ragger.stub_colour('amber')
     in_kata do |kata|
       result = kata.run_tests(params(kata))
@@ -40,7 +40,6 @@ class RunnerTest < AppModelsTestBase
 
   test '151',
   'green: expected=42, actual=6*7' do
-    set_ragger_class('RaggerStub')
     ragger.stub_colour('green')
     in_kata do |kata|
       result = kata.run_tests(params(kata))
@@ -76,7 +75,7 @@ class RunnerTest < AppModelsTestBase
       file_content:plain(kata.files),
       hidden_filenames:'[]'
     }
-  end 
+  end
 
   def colour_of(kata, result)
     stdout = result['stdout']['content']
