@@ -10,6 +10,7 @@ class DifferControllerTest < AppControllerTestBase
 
   test 'AF6',
   'diff where was_index==now_index results in content of all files' do
+    set_saver_class('SaverService')
     differ('5rTJv5', 0, 0)
     json['diffs'].each do |diff|
       assert_equal 0, diff['section_count']
@@ -22,6 +23,7 @@ class DifferControllerTest < AppControllerTestBase
 
   test 'AF7',
   'diff where was_index!=now_index result in a diff' do
+    set_saver_class('SaverService')    
     differ('5rTJv5', 0, 1)
   end
 

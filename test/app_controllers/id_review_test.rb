@@ -10,6 +10,7 @@ class IdReviewControllerTest < AppControllerTestBase
 
   test '408',
   'id_review from existing group' do
+    set_saver_class('SaverService')        
     id_review('FxWwrr')
     assert exists?
     assert_equal id, 'FxWwrr'

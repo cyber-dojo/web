@@ -10,6 +10,7 @@ class ReviewControllerTest < AppControllerTestBase
 
   test '443',
   'review existing session' do
+    set_saver_class('SaverService')    
     assert_review_show('5rTJv5', 1, 2)
     assert_review_show('5rTJv5', -1, -1)
   end

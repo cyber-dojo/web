@@ -85,6 +85,7 @@ class IdRejoinControllerTest < AppControllerTestBase
 
   test '508',
   'rejoin from existing individual kata' do
+    set_saver_class('SaverService')
     rejoin('individual', '5rTJv5')
     assert exists?
     refute empty?

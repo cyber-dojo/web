@@ -47,8 +47,7 @@ do
     export CYBER_DOJO_MAPPER_CLASS=MapperService
     export CYBER_DOJO_RAGGER_CLASS=RaggerService
     export CYBER_DOJO_RUNNER_CLASS=RunnerStub
-    export CYBER_DOJO_SAVER_CLASS=SaverService
-    #export CYBER_DOJO_SAVER_CLASS=SaverFake
+    export CYBER_DOJO_SAVER_CLASS=SaverFake
     export CYBER_DOJO_ZIPPER_CLASS=ZipperService
 
     # run-the-tests!

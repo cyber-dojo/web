@@ -10,7 +10,7 @@ class SaverServiceTest < AppServicesTestBase
   end
 
   def hex_setup
-    #set_saver_class('SaverService')
+    set_saver_class('SaverService')
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -

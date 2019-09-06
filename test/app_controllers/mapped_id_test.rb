@@ -7,6 +7,10 @@ class MappedIdTest < AppControllerTestBase
     'C43'
   end
 
+  def hex_setup
+    set_saver_class('SaverService')
+  end
+
   #- - - - - - - - - - - - - - - -
   # kata/edit
   #- - - - - - - - - - - - - - - -
