@@ -25,13 +25,15 @@ class Kata_v1
       'event' => 'created',
       'time' => manifest['created']
     }
-    saver.batch([
+    result = saver.batch([
       create_cmd(id, 0),
       manifest_write_cmd(id, json_plain(manifest)),
       event_write_cmd(id, 0, json_plain(lined({ 'files' => files }))),
       events_write_cmd(id, json_plain(event0) + "\n")
     ])
-    # TODO: unless result === [true]*4
+    unless result === [true]*4
+      fail invalid('id', id) # TODO: cover this
+    end
     id
   end
 
