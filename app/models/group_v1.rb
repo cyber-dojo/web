@@ -99,7 +99,7 @@ class Group_v1
   include Liner
 
   def generate_id
-    loop do
+    42.times do
       id = id_generator.id
       if saver.create(id_path(id))
         return id
