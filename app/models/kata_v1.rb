@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 require_relative 'liner'
+require_relative '../services/saver_asserter'
 require_relative '../../lib/oj_adapter'
-require_relative '../services/saver_exception'
 
 class Kata_v1
 
@@ -31,22 +31,19 @@ class Kata_v1
       event_write_cmd(id, 0, json_plain(lined({ 'files' => files }))),
       events_write_cmd(id, json_plain(event0) + "\n")
     ])
-    unless result === [true]*4
-      fail invalid('id', id) # TODO: cover this
-    end
+    saver_assert_equal(result,[true]*4)
     id
   end
 
   # - - - - - - - - - - - - - - - - - - -
 
   def manifest(id)
-    manifest_src,event0_src = saver.batch([
+     result = saver.batch([
       manifest_read_cmd(id),
       event_read_cmd(id, 0)
     ])
-    if [manifest_src,event0_src].include?(false)
-      fail invalid('id', id)
-    end
+    saver_assert(result.none?(false))
+    manifest_src,event0_src = result
     manifest = json_parse(manifest_src)
     event0 = unlined(json_parse(event0_src))
     manifest['visible_files'] = event0['files']
@@ -56,9 +53,6 @@ class Kata_v1
   # - - - - - - - - - - - - - - - - - - -
 
   def ran_tests(id, index, files, now, duration, stdout, stderr, status, colour)
-    unless index >= 1
-      fail invalid('index', index)
-    end
     event_n = {
       'files' => files,
       'stdout' => stdout,
@@ -76,12 +70,7 @@ class Kata_v1
       event_write_cmd(id, index, json_plain(lined(event_n))),
       events_append_cmd(id, json_plain(event_summary) + "\n")
     ])
-    unless result[0]
-      fail invalid('id', id)
-    end
-    unless result[1]
-      fail invalid('index', index)
-    end
+    saver_assert_equal(result, [true]*4)
     nil
   end
 
@@ -89,9 +78,7 @@ class Kata_v1
 
   def events(id)
     events_src = saver.send(*events_read_cmd(id))
-    unless events_src.is_a?(String)
-      fail invalid('id', id)
-    end
+    saver_assert(events_src.is_a?(String))
     json_parse('[' + events_src.lines.join(',') + ']')
     # Alternative implementation, which profiling shows is slower.
     # events_src.lines.map { |line| json_parse(line) }
@@ -102,22 +89,21 @@ class Kata_v1
   def event(id, index)
     if index === -1
       events_src = saver.send(*events_read_cmd(id))
-     unless events_src.is_a?(String)
-        fail invalid('id', id)
-      end
+      saver_assert(events_src.is_a?(String))
       index = events_src.count("\n") - 1
     end
     event_src = saver.send(*event_read_cmd(id, index))
-    unless event_src.is_a?(String)
-      fail invalid('index', index)
-    end
+    saver_assert(event_src.is_a?(String))
     unlined(json_parse(event_src))
   end
 
   private
 
-  include OjAdapter
   include Liner
+  include OjAdapter
+  include SaverAsserter
+
+  # - - - - - - - - - - - - - -
 
   def generate_id
     42.times do
@@ -126,14 +112,6 @@ class Kata_v1
         return id
       end
     end
-  end
-
-  def id_path(id, *parts)
-    # Using 2/2/2 split.
-    # See https://github.com/cyber-dojo/id-split-timer
-    args = ['', 'katas', id[0..1], id[2..3], id[4..5]]
-    args += parts.map(&:to_s)
-    File.join(*args)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -214,11 +192,15 @@ class Kata_v1
 
   # - - - - - - - - - - - - - -
 
-  def invalid(name, value)
-    SaverException.new(json_pretty({
-      "message" => "#{name}:invalid:#{value}"
-    }))
+  def id_path(id, *parts)
+    # Using 2/2/2 split.
+    # See https://github.com/cyber-dojo/id-split-timer
+    args = ['', 'katas', id[0..1], id[2..3], id[4..5]]
+    args += parts.map(&:to_s)
+    File.join(*args)
   end
+
+  # - - - - - - - - - - - - - -
 
   def saver
     @externals.saver
