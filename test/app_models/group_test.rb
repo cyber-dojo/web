@@ -44,20 +44,6 @@ class GroupTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-=begin
-  test '6A2',
-  'a group cannot be created from a manifest missing any required property' do
-    manifest = starter_manifest
-    manifest.delete('image_name')
-    error = assert_raises(SaverException) { groups.new_group(manifest) }
-    info = JSON.parse(error.message)
-    assert_equal 'SaverService', info['class']
-    assert_equal 'malformed:manifest["image_name"]:missing:', info['message']
-  end
-=end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - -
-
   test '6A3', %w(
   a group can be created from a well-formed manifest,
   and is initially empty
@@ -143,7 +129,7 @@ class GroupTest < AppModelsTestBase
 #- - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '6A8', %w(
-  a group's manifest is identical to the manifest it was created with
+  a group's manifest is identical to the starter-manifest it was created with
   and does not have group_id nor group_index properties
   ) do
     m = starter_manifest
@@ -175,6 +161,42 @@ class GroupTest < AppModelsTestBase
 
     refute m.has_key?('progress_regexs')
     assert_equal [], am.progress_regexs, 'default progress_regexs'
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '45D', 'events is nil when id does not exist' do
+    group = groups['123467']
+    assert_nil group.events
+  end
+
+  test '45E', 'events is hash of each avatars events when id does exist' do
+    m = starter_manifest
+    group = groups.new_group(m)
+    assert_equal({}, group.events)
+    k1 = group.join
+    k1_events = {
+      'index' => k1.avatar_index,
+      'events' => [
+        { 'event' => 'created',
+          'time' => k1.manifest.created
+        }
+      ]
+    }
+    assert_equal({k1.id=>k1_events}, group.events)
+    k2 = group.join
+    k2_events = {
+      'index' => k2.avatar_index,
+      'events' => [
+        { 'event' => 'created',
+          'time' => k2.manifest.created
+        }
+      ]
+    }
+    assert_equal({
+      k1.id => k1_events,
+      k2.id => k2_events
+    }, group.events)
   end
 
 end
