@@ -12,9 +12,9 @@ docker run --rm \
         > /tmp/versioner.web.env
 
 set -a
-. /tmp/versioner.web.env
+source /tmp/versioner.web.env
 set +a
-. "${SH_DIR}/set_image_tags.sh"
+source "${SH_DIR}/set_image_tags.sh"
 
 "${SH_DIR}/docker_containers_down.sh"
 "${SH_DIR}/build_docker_images.sh"
