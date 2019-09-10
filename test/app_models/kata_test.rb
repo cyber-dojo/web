@@ -42,22 +42,6 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-=begin
-  test '861', %w(
-  attempting to create a kata
-  from a manifest missing any required property
-  raises ) do
-    manifest = starter_manifest
-    manifest.delete('image_name')
-    error = assert_raises(SaverException) { katas.new_kata(manifest) }
-    info = JSON.parse(error.message)
-    assert_equal 'SaverService', info['class']
-    assert_equal 'malformed:manifest["image_name"]:missing:', info['message']
-  end
-=end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - -
-
   test '862', %w(
   an individual kata is created from a well-formed manifest,
   is empty,
@@ -184,7 +168,31 @@ class KataTest < AppModelsTestBase
     assert_equal kata.files, emanifest['visible_files']
     assert_equal kmanifest.display_name, emanifest['display_name']
     assert_equal kmanifest.image_name, emanifest['image_name']
-  end 
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '866', %w(
+  kata_v1.event(id,-1) is currently unused but ready for plumbing in
+  ) do
+    k = create_kata
+    v = Kata_v1.new(self)
+    assert_equal v.event(k.id,0), v.event(k.id, -1)
+    kmanifest = k.manifest
+    params = {
+      image_name:kmanifest.image_name,
+      max_seconds:kmanifest.max_seconds,
+      file_content:files_for(k),
+      hidden_filenames:'[]'
+    }
+    result = k.run_tests(params)
+    stdout = result[0]['stdout']
+    stderr = result[0]['stderr']
+    status = result[0]['status']
+    colour = 'red'
+    k.ran_tests(1, k.files, time_now, duration, stdout, stderr, status, colour)
+    assert_equal v.event(k.id,1), v.event(k.id, -1)
+  end
 
   private
 
