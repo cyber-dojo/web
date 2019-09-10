@@ -184,7 +184,7 @@ class KataTest < AppModelsTestBase
     assert_equal kata.files, emanifest['visible_files']
     assert_equal kmanifest.display_name, emanifest['display_name']
     assert_equal kmanifest.image_name, emanifest['image_name']
-  end
+  end 
 
   private
 
