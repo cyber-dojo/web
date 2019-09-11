@@ -25,25 +25,22 @@ class Kata_v1
       'event' => 'created',
       'time' => manifest['created']
     }
-    result = saver.batch([
+    saver_assert_batch([
       create_cmd(id, 0),
       manifest_write_cmd(id, json_plain(manifest)),
       event_write_cmd(id, 0, json_plain(lined({ 'files' => files }))),
       events_write_cmd(id, json_plain(event0) + "\n")
     ])
-    saver_assert_equal(result,[true]*4)
     id
   end
 
   # - - - - - - - - - - - - - - - - - - -
 
   def manifest(id)
-     result = saver.batch([
+     manifest_src,event0_src = saver_assert_batch([
       manifest_read_cmd(id),
       event_read_cmd(id, 0)
     ])
-    saver_assert(result.none?(false))
-    manifest_src,event0_src = result
     manifest = json_parse(manifest_src)
     event0 = unlined(json_parse(event0_src))
     manifest['visible_files'] = event0['files']
@@ -64,13 +61,12 @@ class Kata_v1
       'time' => now,
       'duration' => duration
     }
-    result = saver.batch([
+    saver_assert_batch([
       exists_cmd(id),
       create_cmd(id, index),
       event_write_cmd(id, index, json_plain(lined(event_n))),
       events_append_cmd(id, json_plain(event_summary) + "\n")
     ])
-    saver_assert_equal(result, [true]*4)
     nil
   end
 
