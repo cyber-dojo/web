@@ -99,6 +99,9 @@ class Group_v1
   def generate_id
     42.times do
       id = id_generator.id
+      if id === '999999'
+        next
+      end      
       if saver.create(id_path(id))
         return id
       end

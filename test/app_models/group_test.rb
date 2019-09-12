@@ -13,6 +13,19 @@ class GroupTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test '8B1',
+  'reserve id=999999 for non-persistent session' do
+    @id_generator = Class.new do
+      def initialize(*ids); @n = 0; @ids = ids; end
+      def id; r = @ids[@n]; @n += 1; r; end
+    end.new('999999',id_generator.id)
+    group = create_group
+    refute_equal '999999', group.id
+  end
+  @id_generator = nil
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '5A6', %w(
   a group with an invalid returns false for exist?
   viz it does not raise
