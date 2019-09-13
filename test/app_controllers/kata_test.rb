@@ -75,15 +75,15 @@ class KataControllerTest  < AppControllerTestBase
     set_ragger_class('RaggerExceptionRaiser')
     in_kata { |kata|
       post_run_tests
-      # TODO: Saver does not yet know about 'faulty' colour
-      assert_equal :amber, kata.lights[-1].colour
+      assert_equal :faulty, kata.lights[-1].colour
     }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'c25',
-  %w( SaverException gracefully degrades [test] to offline functionality ) do
+  test 'c25', %w(
+  SaverException on already existing session
+  gracefully degrades [test] to offline functionality ) do
     set_runner_class('RunnerStub')
     in_kata {
       set_saver_class('SaverExceptionRaiser')

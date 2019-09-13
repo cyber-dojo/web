@@ -65,7 +65,7 @@ class KataController < ApplicationController
     # footer info
     @display_name = manifest['display_name']
     @exercise = manifest['exercise']
-       
+
     # TODO: Turn off traffic-light click opens diff review
     # TODO: Turn off traffic-lights tool-tip
   end
@@ -97,14 +97,12 @@ class KataController < ApplicationController
     t2 = time_now
     duration = Time.mktime(*t2) - Time.mktime(*t1)
     index = params[:index].to_i + 1
-    # [1] The saver service does not yet know about
-    # the new 'faulty' traffic-light colour.
     args = []
     args << index                       # index of traffic-light event
     args << files                       # including @created,@deleted,@changed
     args += [t1,duration]               # how long runner+ragger took
     args += [@stdout, @stderr, @status] # output of [test] kata.run_tests()
-    args << ((colour === 'faulty') ? 'amber' : colour) # [1]
+    args << colour
     begin
       kata.ran_tests(*args)
     rescue SaverException
