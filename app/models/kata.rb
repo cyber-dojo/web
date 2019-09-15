@@ -1,11 +1,11 @@
 require_relative 'runner'
-require_relative 'kata_v1'
+require_relative 'kata_v0'
 require_relative '../../lib/base58'
 
 class Kata
 
   def initialize(externals, id)
-    @v = Kata_v1.new(externals)
+    @v = Kata_v0.new(externals)
     @externals = externals
     @id = id
   end

@@ -1,9 +1,9 @@
-require_relative 'group_v1'
+require_relative 'group_v0'
 
 class Groups
 
   def initialize(externals)
-    @v = Group_v1.new(externals)
+    @v = Group_v0.new(externals)
     @externals = externals
   end
 

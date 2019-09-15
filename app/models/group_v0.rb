@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-require_relative 'kata_v1'
+require_relative 'kata_v0'
 require_relative 'liner'
 require_relative '../services/saver_asserter'
 require_relative '../../lib/oj_adapter'
 
-class Group_v1
+class Group_v0
 
   def initialize(externals)
-    @kata = Kata_v1.new(externals)
+    @kata = Kata_v0.new(externals)
     @externals = externals
   end
 
@@ -101,7 +101,7 @@ class Group_v1
       id = id_generator.id
       if id === '999999'
         next
-      end      
+      end
       if saver.create(id_path(id))
         return id
       end

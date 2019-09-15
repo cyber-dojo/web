@@ -4,7 +4,7 @@ require_relative 'liner'
 require_relative '../services/saver_asserter'
 require_relative '../../lib/oj_adapter'
 
-class Kata_v1
+class Kata_v0
 
   def initialize(externals)
     @externals = externals

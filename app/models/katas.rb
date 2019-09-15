@@ -1,9 +1,9 @@
-require_relative 'kata_v1'
+require_relative 'kata_v0'
 
 class Katas
 
   def initialize(externals)
-    @v = Kata_v1.new(externals)
+    @v = Kata_v0.new(externals)
     @externals = externals
   end
 

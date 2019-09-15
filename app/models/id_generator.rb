@@ -2,19 +2,6 @@
 
 require 'securerandom'
 
-# Similar to https://en.wikipedia.org/wiki/Base58
-# o) includes the digits zero and one
-#    (to be backwards compatible as hex)
-# o) excludes the letters IO
-#    (India,Oscar) both lowercase and uppercase
-#
-# Within a single server it is easy to guarantee
-# there are no ID clashes. However, the larger
-# the alphabet the less you have to worry about
-# ID clashes when merging server sessions.
-#
-# 58^6 == 38,068,692,544 == 38 billion
-
 class IdGenerator
 
   def self.alphabet
@@ -43,3 +30,16 @@ class IdGenerator
   }.join.freeze
 
 end
+
+# Similar to https://en.wikipedia.org/wiki/Base58
+# o) includes the digits zero and one
+#    (to be backwards compatible as hex)
+# o) excludes the letters IO
+#    (India,Oscar) both lowercase and uppercase
+#
+# Within a single server it is easy to guarantee
+# there are no ID clashes. However, the larger
+# the alphabet the less you have to worry about
+# ID clashes when merging server sessions.
+#
+# 58^6 == 38,068,692,544 == 38 billion

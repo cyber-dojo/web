@@ -186,10 +186,10 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '866', %w(
-  kata_v1.event(id,-1) is currently unused but ready for plumbing in
+  kata_v0.event(id,-1) is currently unused but ready for plumbing in
   ) do
     k = create_kata
-    v = Kata_v1.new(self)
+    v = Kata_v0.new(self)
     assert_equal v.event(k.id,0), v.event(k.id, -1)
     kmanifest = k.manifest
     params = {
