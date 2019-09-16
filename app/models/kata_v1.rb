@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
-require_relative '../../lib/oj_adapter'
+require_relative 'id_pather'
 require_relative '../services/saver_asserter'
+require_relative '../../lib/oj_adapter'
 
-# 1. Manifest now has explicit version (2)
+# 1. Manifest now has explicit version (1)
 # 2. Manifest is retrieved in single read call.
 # 3. No longer stores JSON in pretty format.
 # 4. No longer stores file contents in lined format.
@@ -30,7 +31,7 @@ class Kata_v1
   end
 
   # - - - - - - - - - - - - - - - - - - -
-  
+
   def exists?(id)
     saver.exists?(id_path(id))
   end
@@ -113,6 +114,7 @@ class Kata_v1
 
   private
 
+  include IdPather
   include OjAdapter
   include SaverAsserter
 
@@ -193,11 +195,7 @@ class Kata_v1
   # - - - - - - - - - - - - - -
 
   def id_path(id, *parts)
-    # Using 2/2/2 split.
-    # See https://github.com/cyber-dojo/id-split-timer
-    args = ['katas', id[0..1], id[2..3], id[4..5]]
-    args += parts.map(&:to_s)
-    File.join(*args)
+    katas_id_path(id, *parts)
   end
 
   # - - - - - - - - - - - - - -

@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
+require_relative 'id_pather'
 require_relative 'kata_v1'
-require_relative '../../lib/oj_adapter'
 require_relative '../services/saver_asserter'
+require_relative '../../lib/oj_adapter'
 
-# 1. Manifest now has explicit version (2)
-# 2. joined() now does a single read rather than 64.
+# 1. Manifest now has explicit version (1)
+# 2. joined() now does a single batch-read rather than 64.
 # 3. No longer stores JSON in pretty format.
 # 4. No longer stores file contents in lined format.
 # 5. Uses Oj as its JSON gem.
@@ -87,6 +88,7 @@ class Group_v1
 
   private
 
+  include IdPather
   include OjAdapter
   include SaverAsserter
 
@@ -168,11 +170,7 @@ class Group_v1
   # - - - - - - - - - - - - - -
 
   def id_path(id, *parts)
-    # Using 2/2/2 split.
-    # See https://github.com/cyber-dojo/id-split-timer
-    args = ['groups', id[0..1], id[2..3], id[4..5]]
-    args += parts.map(&:to_s)
-    File.join(*args)
+    groups_id_path(id, *parts)
   end
 
   # - - - - - - - - - - - - - -

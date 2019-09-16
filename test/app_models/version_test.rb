@@ -27,4 +27,22 @@ class VersionTest < AppModelsTestBase
     assert_equal 0, Version.for_kata(self, kata.id)
   end
 
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '526',
+  'group version=1' do
+    groups = Groups.new(self, 1)
+    group = groups.new_group(starter_manifest)
+    assert_equal 1, Version.for_group(self, group.id)
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '527',
+  'kata version=1' do
+    katas = Katas.new(self, 1)
+    kata = katas.new_kata(starter_manifest)
+    assert_equal 1, Version.for_kata(self, kata.id)
+  end
+
 end
