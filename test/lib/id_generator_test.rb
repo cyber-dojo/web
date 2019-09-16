@@ -49,9 +49,9 @@ class IdGeneratorTest < LibTestBase
 
   test '066', %w( <new>
   id generation is sufficiently random that there are
-  no duplicates in 25,000 repeats ) do
+  no duplicates in 5,000 repeats ) do
     ids = {}
-    repeats = 25000
+    repeats = 5000
     repeats.times do
       ids[id_generator.id] = true
     end
