@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative 'id_pather'
 require_relative 'liner'
 require_relative '../services/saver_asserter'
 require_relative '../../lib/oj_adapter'
@@ -13,7 +14,7 @@ class Kata_v0
   # - - - - - - - - - - - - - - - - - - -
 
   def exists?(id)
-    saver.exists?(id_path(id))
+    saver.exists?(katas_id_path(id))
   end
 
   # - - - - - - - - - - - - - - - - - - -
@@ -95,6 +96,7 @@ class Kata_v0
 
   private
 
+  include IdPather
   include Liner
   include OjAdapter
   include SaverAsserter
@@ -107,7 +109,7 @@ class Kata_v0
       if id === '999999'
         next
       end
-      if saver.create(id_path(id))
+      if saver.create(katas_id_path(id))
         return id
       end
     end
@@ -116,11 +118,11 @@ class Kata_v0
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def create_cmd(id, *parts)
-    ['create', id_path(id, *parts)]
+    ['create', katas_id_path(id, *parts)]
   end
 
   def exists_cmd(id, *parts)
-    ['exists?', id_path(id, *parts)]
+    ['exists?', katas_id_path(id, *parts)]
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -143,7 +145,7 @@ class Kata_v0
   end
 
   def manifest_filename(id)
-    id_path(id, 'manifest.json')
+    katas_id_path(id, 'manifest.json')
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -168,7 +170,7 @@ class Kata_v0
   end
 
   def events_filename(id)
-    id_path(id, 'events.json')
+    katas_id_path(id, 'events.json')
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -186,17 +188,7 @@ class Kata_v0
   end
 
   def event_filename(id, index)
-    id_path(id, index, 'event.json')
-  end
-
-  # - - - - - - - - - - - - - -
-
-  def id_path(id, *parts)
-    # Using 2/2/2 split.
-    # See https://github.com/cyber-dojo/id-split-timer
-    args = ['', 'katas', id[0..1], id[2..3], id[4..5]]
-    args += parts.map(&:to_s)
-    File.join(*args)
+    katas_id_path(id, index, 'event.json')
   end
 
   # - - - - - - - - - - - - - -
