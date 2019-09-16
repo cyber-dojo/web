@@ -1,0 +1,17 @@
+
+Common code to get basic manifest ...
+
+require_relative '../../lib/oj_adapter'
+
+manifest_src = externals.saver.read(id_path(id, 'manifest.json'))
+@manifest ||= Manifest.new(json_parse(manifest_src))
+
+#include OjAdapter
+
+def id_path(id, *parts)
+  # Using 2/2/2 split.
+  # See https://github.com/cyber-dojo/id-split-timer
+  args = ['katas', id[0..1], id[2..3], id[4..5]]
+  args += parts.map(&:to_s)
+  File.join(*args)
+end

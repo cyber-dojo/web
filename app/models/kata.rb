@@ -1,13 +1,12 @@
 require_relative 'runner'
-require_relative 'kata_v0'
 require_relative '../../lib/base58'
 
 class Kata
 
-  def initialize(externals, id)
-    @v = Kata_v0.new(externals)
+  def initialize(externals, id, v)
     @externals = externals
     @id = id
+    @v = v
   end
 
   attr_reader :id
@@ -15,7 +14,7 @@ class Kata
   def exists?
     Base58.string?(id) &&
       id.length === 6 &&
-        @v.exists?(id)
+        @v.kata.exists?(id)
   end
 
   def group?
@@ -24,7 +23,7 @@ class Kata
 
   def group
     if group?
-      Group.new(@externals, group_id)
+      Group.new(@externals, group_id, @v)
     else
       nil
     end
@@ -49,11 +48,11 @@ class Kata
   end
 
   def ran_tests(index, files, at, duration, stdout, stderr, status, colour)
-    @v.ran_tests(id, index, files, at, duration, stdout, stderr, status, colour)
+    @v.kata.ran_tests(id, index, files, at, duration, stdout, stderr, status, colour)
   end
 
   def events
-    @v.events(id).map.with_index do |h,index|
+    @v.kata.events(id).map.with_index do |h,index|
       Event.new(@externals, self, h, index)
     end
   end
@@ -88,7 +87,7 @@ class Kata
   end
 
   def manifest
-    @manifest ||= Manifest.new(@v.manifest(id))
+    @manifest ||= Manifest.new(@v.kata.manifest(id))
   end
 
   private

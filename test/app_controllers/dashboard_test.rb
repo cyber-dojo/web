@@ -44,7 +44,6 @@ class DashboardControllerTest < AppControllerTestBase
       @id = kata.id
       @files = kata.files.map{|filename,file| [filename,file['content']]}.to_h
       @index = 0
-      #change_file('Hiker.java', 'syntax-error')
       change_file('hiker.py', 'syntax-error')
       post_run_tests
       assert_equal :amber, kata.lights[-1].colour
