@@ -14,7 +14,7 @@ class Kata_v0
   # - - - - - - - - - - - - - - - - - - -
 
   def exists?(id)
-    saver.exists?(katas_id_path(id))
+    saver.exists?(id_path(id))
   end
 
   # - - - - - - - - - - - - - - - - - - -
@@ -109,7 +109,7 @@ class Kata_v0
       if id === '999999'
         next
       end
-      if saver.create(katas_id_path(id))
+      if saver.create(id_path(id))
         return id
       end
     end
@@ -118,11 +118,11 @@ class Kata_v0
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def create_cmd(id, *parts)
-    ['create', katas_id_path(id, *parts)]
+    ['create', id_path(id, *parts)]
   end
 
   def exists_cmd(id, *parts)
-    ['exists?', katas_id_path(id, *parts)]
+    ['exists?', id_path(id, *parts)]
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -145,7 +145,7 @@ class Kata_v0
   end
 
   def manifest_filename(id)
-    katas_id_path(id, 'manifest.json')
+    id_path(id, 'manifest.json')
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -170,7 +170,7 @@ class Kata_v0
   end
 
   def events_filename(id)
-    katas_id_path(id, 'events.json')
+    id_path(id, 'events.json')
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -188,10 +188,14 @@ class Kata_v0
   end
 
   def event_filename(id, index)
-    katas_id_path(id, index, 'event.json')
+    id_path(id, index, 'event.json')
   end
 
   # - - - - - - - - - - - - - -
+
+  def id_path(id, *parts)
+    katas_id_path(id, *parts)
+  end
 
   def saver
     @externals.saver

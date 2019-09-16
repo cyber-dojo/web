@@ -1,9 +1,0 @@
-
-Common code to get basic manifest ...
-
-require_relative '../../lib/oj_adapter'
-
-manifest_src = externals.saver.read(katas_id_path(id, 'manifest.json'))
-@manifest ||= Manifest.new(json_parse(manifest_src))
-
-#include OjAdapter

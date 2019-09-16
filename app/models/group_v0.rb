@@ -49,7 +49,7 @@ class Group_v0
       if saver.send(*create_cmd(id, index))
         manifest['group_index'] = index
         kata_id = @kata.create(manifest)
-        result = saver.write(groups_id_path(id, index, 'kata.id'), kata_id)
+        result = saver.write(id_path(id, index, 'kata.id'), kata_id)
         saver_assert(result)
         return kata_id
       end
@@ -104,7 +104,7 @@ class Group_v0
       if id === '999999'
         next
       end
-      if saver.create(groups_id_path(id))
+      if saver.create(id_path(id))
         return id
       end
     end
@@ -113,11 +113,11 @@ class Group_v0
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def create_cmd(id, *parts)
-    ['create', groups_id_path(id, *parts)]
+    ['create', id_path(id, *parts)]
   end
 
   def exists_cmd(id)
-    ['exists?', groups_id_path(id)]
+    ['exists?', id_path(id)]
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -131,14 +131,14 @@ class Group_v0
   end
 
   def manifest_filename(id)
-    groups_id_path(id, 'manifest.json')
+    id_path(id, 'manifest.json')
   end
 
   # - - - - - - - - - - - - - - - - - - -
 
   def kata_indexes(id)
     read_commands = (0..63).map do |index|
-      ['read', groups_id_path(id, index, 'kata.id')]
+      ['read', id_path(id, index, 'kata.id')]
     end
     reads = saver.batch(read_commands)
     # reads is an array of 64 entries, eg
@@ -165,6 +165,12 @@ class Group_v0
     json_parse('[' + s.lines.join(',') + ']')
     # Alternative implementation, which tests show is slower.
     # s.lines.map { |line| json_parse(line) }
+  end
+
+  # - - - - - - - - - - - - - -
+
+  def id_path(id, *parts)
+    groups_id_path(id, *parts)
   end
 
   # - - - - - - - - - - - - - -
