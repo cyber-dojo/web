@@ -1,9 +1,9 @@
-require_relative 'app_models_test_base'
-require_relative '../../app/models/id_generator'
+require_relative 'lib_test_base'
+require_relative '../../lib/id_generator'
 require 'fileutils'
 require 'tmpdir'
 
-class IdGeneratorTest < AppModelsTestBase
+class IdGeneratorTest < LibTestBase
 
   def self.hex_prefix
     'A6D'
@@ -62,11 +62,11 @@ class IdGeneratorTest < AppModelsTestBase
 
   test '068', %w(
   id?(s) true ) do
-    assert id?('012AaEefFgG89Zz')
-    assert id?('345BbCcDdEeFfGg')
-    assert id?('678HhJjKkMmNnPp')
-    assert id?('999PpQqRrSsTtUu')
-    assert id?('263VvWwXxYyZz11')
+    assert id?('012AaE')
+    assert id?('345BbC')
+    assert id?('678HhJ')
+    assert id?('999PpQ')
+    assert id?('263VvW')
   end
 
   # - - - - - - - - - - - - - - - - - - -
@@ -80,6 +80,8 @@ class IdGeneratorTest < AppModelsTestBase
     refute id?('i'), :india
     refute id?('O'), :Oscar
     refute id?('o'), :oscar
+    refute id?('12345'), :not_length_6
+    refute id?('1234567'), :not_length_6
   end
 
   private

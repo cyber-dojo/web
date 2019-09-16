@@ -1,5 +1,5 @@
 require_relative 'runner'
-require_relative '../../lib/base58'
+require_relative '../../lib/id_generator'
 
 class Kata
 
@@ -12,9 +12,8 @@ class Kata
   attr_reader :id
 
   def exists?
-    Base58.string?(id) &&
-      id.length === 6 &&
-        @v.kata.exists?(id)
+    IdGenerator.id?(id) &&
+      @v.kata.exists?(id)
   end
 
   def group?

@@ -37,7 +37,7 @@ class GroupTest < AppModelsTestBase
     refute groups[true].exists?, 'true'
     refute groups[''].exists?, 'length == 0'
     refute groups['12345'].exists?, 'length == 5'
-    refute groups['12345i'].exists?, '!Base58'
+    refute groups['12345i'].exists?, '!id?()'
     refute groups['123AbZ'].exists?, 'no group with that id'
   end
 

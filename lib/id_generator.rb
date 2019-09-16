@@ -14,7 +14,8 @@ class IdGenerator
 
   def self.id?(s)
     s.is_a?(String) &&
-      s.chars.all?{ |ch| ALPHABET.include?(ch) }
+      s.length === 6 &&
+        s.chars.all?{ |ch| ALPHABET.include?(ch) }
   end
 
   private

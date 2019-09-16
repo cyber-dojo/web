@@ -1,4 +1,4 @@
-require_relative '../models/id_generator'
+require_relative '../../lib/id_generator'
 
 module Externals # mix-in
 

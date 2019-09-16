@@ -35,7 +35,7 @@ class KataTest < AppModelsTestBase
     refute katas[true].exists?, 'true'
     refute katas[''].exists?, 'length == 0'
     refute katas['12345'].exists?, 'length == 5'
-    refute katas['12345i'].exists?, '!Base58'
+    refute katas['12345i'].exists?, '!id?()'
     refute katas['123AbZ'].exists?, 'no kata with that id'
   end
 

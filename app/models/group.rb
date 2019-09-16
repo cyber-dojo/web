@@ -1,4 +1,4 @@
-require_relative '../../lib/base58'
+require_relative '../../lib/id_generator'
 
 class Group
 
@@ -11,9 +11,8 @@ class Group
   attr_reader :id
 
   def exists?
-    Base58.string?(id) &&
-      id.length === 6 &&
-        @v.group.exists?(id)
+    IdGenerator.id?(id) &&
+      @v.group.exists?(id)
   end
 
   def created
@@ -23,7 +22,7 @@ class Group
   def join(indexes = (0..63).to_a.shuffle)
     kid = @v.group.join(id, indexes)
     if kid.nil?
-      nil
+      nil # full
     else
       kata(kid)
     end
