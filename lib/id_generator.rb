@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'securerandom'
-
 class IdGenerator
 
   def self.alphabet
@@ -28,7 +26,7 @@ class IdGenerator
   private
 
   def random_index
-    SecureRandom.random_number(ALPHABET.size)
+    Random.rand(ALPHABET.size)
   end
 
   ALPHABET = %w{
