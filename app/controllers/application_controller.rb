@@ -11,25 +11,31 @@ class ApplicationController < ActionController::Base
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def groups
-    Groups.new(self, version)
+    @groups ||= Groups.new(self, group_version)
   end
-
-  def katas
-    Katas.new(self, version)
-  end
-
-  def version
-    0
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def group
     @group ||= groups[id]
   end
 
+  def group_version
+    #params[:version] || Version.for_group(self, id)
+    0
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def katas
+    @katas ||= Katas.new(self, kata_version)
+  end
+
   def kata
     @kata ||= katas[id]
+  end
+
+  def kata_version
+    #params[:version] || Version.for_kata(self, id)
+    0
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
