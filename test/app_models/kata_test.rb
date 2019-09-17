@@ -13,19 +13,6 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '8B1',
-  'reserve id=999999 for non-persistent session' do
-    @id_generator = Class.new do
-      def initialize(*ids); @n = 0; @ids = ids; end
-      def id; r = @ids[@n]; @n += 1; r; end
-    end.new('999999',id_generator.id)
-    kata = create_kata
-    refute_equal '999999', kata.id
-    @id_generator = nil
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - -
-
   test '760',
   'a kata with an invalid id does not exist' do
     refute katas[42].exists?, 'Integer'

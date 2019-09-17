@@ -9,7 +9,14 @@ class IdGenerator
   end
 
   def id
-    6.times.map{ ALPHABET[random_index] }.join
+    generated = 6.times.map{ ALPHABET[random_index] }.join
+    if generated === '999999'
+      # :nocov:
+      id
+      # :nocov:
+    else
+      generated
+    end
   end
 
   def self.id?(s)
