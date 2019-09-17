@@ -52,7 +52,7 @@ class Kata_v1
     }
     saver_assert_batch([
       manifest_write_cmd(id, json_plain(manifest)),
-      events_write_cmd(id, json_plain(event_summary) + "\n"),
+      events_write_cmd(id, json_plain(event_summary)),
       event_write_cmd(id, 0, json_plain(to_diff))
     ])
     id
@@ -82,7 +82,7 @@ class Kata_v1
       'status' => status
     }.merge(event_summary)
     saver_assert_batch([
-      events_append_cmd(id, json_plain(event_summary) + "\n"),
+      events_append_cmd(id, ',' + json_plain(event_summary)),
       event_write_cmd(id, index, json_plain(event_n))
     ])
     nil
@@ -93,19 +93,14 @@ class Kata_v1
   def events(id)
     events_src = saver.send(*events_read_cmd(id))
     saver_assert(events_src.is_a?(String))
-    json_parse('[' + events_src.lines.join(',') + ']')
-    # Alternative implementation, which profiling shows is slower.
-    # events_src.lines.map { |line| json_parse(line) }
+    json_parse('[' + events_src + ']')
   end
 
   # - - - - - - - - - - - - - - - - - - -
 
   def event(id, index)
     if index === -1
-      events_src = saver.send(*events_read_cmd(id))
-      saver_assert(events_src.is_a?(String))
-      last_line = events_src.lines.last
-      index = json_parse(last_line)['index']
+      index = events(id)[-1]['index']
     end
     event_src = saver.send(*event_read_cmd(id, index))
     saver_assert(event_src.is_a?(String))
