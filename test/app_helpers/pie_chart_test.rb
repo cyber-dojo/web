@@ -18,8 +18,8 @@ class PieChartTest < AppHelpersTestBase
   'pie-chart from lights' do
     stub = KataStub.new
     lights = [
-      Event.new(nil, stub, { 'colour' => 'red'   }, 0),
-      Event.new(nil, stub, { 'colour' => 'green' }, 1),
+      Event.new(stub, { 'colour' => 'red'   }, 0),
+      Event.new(stub, { 'colour' => 'green' }, 1),
     ]
     size = 32
     expected = '' +

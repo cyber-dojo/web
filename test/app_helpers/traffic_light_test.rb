@@ -1,4 +1,5 @@
 require_relative 'app_helpers_test_base'
+require 'ostruct'
 
 class TrafficLightTest < AppHelpersTestBase
 
@@ -8,25 +9,16 @@ class TrafficLightTest < AppHelpersTestBase
 
   include TrafficLightHelper
 
-  class KataStub
-    def initialize(id, avatar_name)
-      @id = id
-      @avatar_name = avatar_name
-    end
-    attr_reader :id, :avatar_name
-  end
-
   #- - - - - - - - - - - - - - - -
 
   test '67C',
   'traffic_light_count' do
-    stub = KataStub.new(nil, 'fox')
     lights = [
-      Event.new(nil, stub, { 'colour' => 'red'     }, 0),
-      Event.new(nil, stub, { 'colour' => 'red'     }, 1),
-      Event.new(nil, stub, { 'colour' => 'amber'   }, 2),
-      Event.new(nil, stub, { 'colour' => 'green'   }, 3),
-      Event.new(nil, stub, { 'colour' => 'amber'   }, 4),
+      Event.new(nil, { 'colour' => 'red'     }, 0),
+      Event.new(nil, { 'colour' => 'red'     }, 1),
+      Event.new(nil, { 'colour' => 'amber'   }, 2),
+      Event.new(nil, { 'colour' => 'green'   }, 3),
+      Event.new(nil, { 'colour' => 'amber'   }, 4),
     ]
     expected =
       "<div class='traffic-light-count-wrapper'>" +
@@ -58,8 +50,8 @@ class TrafficLightTest < AppHelpersTestBase
 
   test '443',
   'diff_traffic_light' do
-    stub = KataStub.new('a4r9YN', nil)
-    red = Event.new(nil, stub, { 'colour' => 'red'     }, 14)
+    kata = OpenStruct.new(id: 'a4r9YN')
+    red = Event.new(kata, { 'colour' => 'red' }, 14)
     expected = '' +
       "<div class='diff-traffic-light'" +
         " data-id='a4r9YN'" +
@@ -70,7 +62,6 @@ class TrafficLightTest < AppHelpersTestBase
       '</div>'
     actual = diff_traffic_light(red)
     assert_equal expected, actual
-
   end
 
 end

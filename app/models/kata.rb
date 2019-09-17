@@ -52,8 +52,12 @@ class Kata
 
   def events
     @v.kata.events(id).map.with_index do |h,index|
-      Event.new(@externals, self, h, index)
+      Event.new(self, h, index)
     end
+  end
+
+  def event(index)
+    @v.kata.event(id, index)
   end
 
   def lights

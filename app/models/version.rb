@@ -9,6 +9,7 @@ class Version
 
   def initialize(externals, n)
     @externals = externals
+    @n = n
     if n === 0
       @group ||= Group_v0.new(@externals)
       @kata  ||= Kata_v0.new(@externals)
@@ -20,6 +21,10 @@ class Version
   end
 
   attr_reader :group, :kata
+
+  def number
+    @n
+  end
 
   def self.for_group(externals, gid)
     path = groups_id_path(gid, manifest_filename)

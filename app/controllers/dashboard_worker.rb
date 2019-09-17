@@ -12,7 +12,7 @@ module DashboardWorker # mixin
     @all_indexes = {}
     group.events.each do |kata_id,o|
       lights = o['events'].each_with_index.map{ |event,index|
-        Event.new(self, katas[kata_id], event, index)
+        Event.new(katas[kata_id], event, index)
       }.select(&:light?)
       unless lights === []
         @all_lights[kata_id] = lights

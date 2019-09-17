@@ -178,14 +178,25 @@ class GroupTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '45D', 'events is nil when id does not exist' do
+  test '45D', %w(
+  In Version-0 events is nil when id does not exist
+  In Version-1 events raises when id does not exist
+  ) do
+    groups = Groups.new(self, version=0)
     group = groups['123467']
     assert_nil group.events
+    groups = Groups.new(self, version=1)
+    group = groups['123467']
+    assert_raises(SaverException) { group.events }
   end
 
-  test '45E', 'events is hash of each avatars events when id does exist' do
-    m = starter_manifest
-    group = groups.new_group(m)
+  #- - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '45E', %w(
+  In Version-0 events is hash of each avatars events when id does exist
+  ) do
+    groups = Groups.new(self, version=0)
+    group = groups.new_group(starter_manifest)
     assert_equal({}, group.events)
     k1 = group.join
     k1_events = {

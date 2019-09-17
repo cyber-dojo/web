@@ -2,8 +2,7 @@ require_relative 'kata_v0'
 
 class Event
 
-  def initialize(externals, kata, hash, index)
-    @v = Kata_v0.new(externals)
+  def initialize(kata, hash, index)
     @kata = kata
     @hash = hash
     @index = index
@@ -63,7 +62,7 @@ class Event
   end
 
   def event
-    @event ||= @v.event(kata.id, index)
+    @event ||= kata.event(index)
   end
 
 end

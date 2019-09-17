@@ -47,14 +47,18 @@ module TestDomainHelpers # mix-in
   # - - - - - - - - - - - - - - - - - - - - - - -
 
   def groups
-    Groups.new(self)
+    Groups.new(self, version)
+  end
+
+  def katas
+    Katas.new(self, version)
+  end
+
+  def version
+    0
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - -
-
-  def katas
-    Katas.new(self)
-  end
 
   def time_now(now = Time.now)
     [now.year, now.month, now.day, now.hour, now.min, now.sec, now.usec]
