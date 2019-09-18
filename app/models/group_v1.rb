@@ -74,7 +74,7 @@ class Group_v1
     kindexes.each.with_index(0) do |(kid,kindex),index|
       result[kid] = {
         'index' => kindex.to_i,
-        'events' => events_parse(katas_events[index])
+        'events' => events_parse('[' + katas_events[index] + ']')
       }
     end
     result
@@ -144,12 +144,6 @@ class Group_v1
     #   ['G2ws77','15'], # 15 == fox
     #   ...
     # ]
-  end
-
-  # - - - - - - - - - - - - - -
-
-  def events_parse(s)
-    json_parse('[' + s + ']')
   end
 
   # - - - - - - - - - - - - - -
