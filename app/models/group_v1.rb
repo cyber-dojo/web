@@ -137,7 +137,7 @@ class Group_v1
 
   def katas_indexes(id)
     katas_src = saver.send(*katas_read_cmd(id))
-    saver_assert(katas_src)
+    saver_assert(katas_src.is_a?(String))
     katas_src.split.each_slice(2).to_a
     # [
     #   ['w34rd5', '2'], #  2 == bat
