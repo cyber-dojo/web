@@ -65,7 +65,7 @@ class GroupTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
   # ...
-  
+
   test '6A3', %w(
   a group can be created from a well-formed manifest,
   and is initially empty
@@ -188,21 +188,11 @@ class GroupTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '45C', %w(
-  Version-0 events does not raise when id does not exist
-  because its implementation uses a saver.batch(read)
+  events raises when id does not exist
   ) do
-    groups = Groups.new(self, version=0)
+    groups = Groups.new(self)
     group = groups['123456']
-    assert_equal({}, group.events)
-  end
-
-  test '45D', %w(
-  Version-1 events raises when id does not exist
-  because its implementation uses a single saver.read()
-  ) do
-    groups = Groups.new(self, version=1)
-    group = groups['123456']
-    assert_raises(SaverException) { group.events }
+    assert_raises { group.events }
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -210,7 +200,6 @@ class GroupTest < AppModelsTestBase
   test '45E', %w(
   In Version-0 events is hash of each avatars events when id does exist
   ) do
-    groups = Groups.new(self, version=0)
     group = groups.new_group(starter_manifest)
     assert_equal({}, group.events)
     k1 = group.join

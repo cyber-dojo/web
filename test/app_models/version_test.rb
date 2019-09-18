@@ -11,34 +11,48 @@ class VersionTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test 'C53',
+  'existing group version=0' do
+    set_saver_class('SaverService')
+    assert_equal 0, groups['chy6BJ'].version.number
+  end
+
+  test 'C54',
+  'existing kata version=0' do
+    set_saver_class('SaverService')    
+    assert_equal 0, katas['k5ZTk0'].version.number
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '426',
-  'group version=0' do
-    groups = Groups.new(self, 0)
+  'new_group version=0' do
     group = groups.new_group(starter_manifest)
-    assert_equal 0, Version.for_group(self, group.id)
+    assert_equal 0, group.version.number
   end
 
   test '526',
-  'group version=1' do
-    groups = Groups.new(self, 1)
-    group = groups.new_group(starter_manifest)
-    assert_equal 1, Version.for_group(self, group.id)
+  'new_group version=1' do
+    manifest = starter_manifest
+    manifest['version'] = 1
+    group = groups.new_group(manifest)
+    assert_equal 1, group.version.number
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '427',
-  'kata version=0' do
-    katas = Katas.new(self, 0)
+  'new_kata version=0' do
     kata = katas.new_kata(starter_manifest)
-    assert_equal 0, Version.for_kata(self, kata.id)
+    assert_equal 0, kata.version.number
   end
 
   test '527',
-  'kata version=1' do
-    katas = Katas.new(self, 1)
-    kata = katas.new_kata(starter_manifest)
-    assert_equal 1, Version.for_kata(self, kata.id)
+  'new_kata version=1' do
+    manifest = starter_manifest
+    manifest['version'] = 1
+    kata = katas.new_kata(manifest)
+    assert_equal 1, kata.version.number
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

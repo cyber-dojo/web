@@ -1,19 +1,18 @@
-require_relative 'version'
 require_relative 'group'
 
 class Groups
 
-  def initialize(externals, n = 0)
+  def initialize(externals)
     @externals = externals
-    @v = Version.new(@externals, n)
   end
 
   def [](id)
-    Group.new(@externals, id, @v)
+    Group.new(@externals, id)
   end
 
   def new_group(manifest)
-    id = @v.group.create(manifest)
+    n = manifest['version'] || 0
+    id = Version.new(@externals, n).group.create(manifest)
     self[id]
   end
 

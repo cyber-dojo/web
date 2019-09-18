@@ -1,19 +1,18 @@
-require_relative 'version'
 require_relative 'kata'
 
 class Katas
 
-  def initialize(externals, n = 0)
+  def initialize(externals)
     @externals = externals
-    @v = Version.new(@externals, n)
   end
 
   def [](id)
-    Kata.new(@externals, id, @v)
+    Kata.new(@externals, id)
   end
 
   def new_kata(manifest)
-    id = @v.kata.create(manifest)
+    n = manifest['version'] || 0
+    id = Version.new(@externals, n).kata.create(manifest)
     self[id]
   end
 

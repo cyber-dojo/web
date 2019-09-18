@@ -4,16 +4,26 @@ require_relative 'id_pather'
 require_relative 'manifest'
 require_relative 'runner'
 require_relative '../../lib/id_generator'
+require_relative '../../lib/oj_adapter'
 
 class Kata
 
-  def initialize(externals, id, v)
+  def initialize(externals, id)
     @externals = externals
     @id = id
-    @v = v
   end
 
   attr_reader :id
+
+  def version
+    @version ||= begin
+      # TODO: params[:version]
+      path = katas_id_path(id, 'manifest.json')
+      manifest_src = saver.read(path)
+      n = json_parse(manifest_src)['version'] || 0
+      Version.new(@externals, n)
+    end
+  end
 
   def exists?
     IdGenerator.id?(id) &&
@@ -26,7 +36,7 @@ class Kata
 
   def group
     if group?
-      Group.new(@externals, group_id, @v)
+      Group.new(@externals, group_id)
     else
       nil
     end
@@ -51,17 +61,17 @@ class Kata
   end
 
   def ran_tests(index, files, at, duration, stdout, stderr, status, colour)
-    @v.kata.ran_tests(id, index, files, at, duration, stdout, stderr, status, colour)
+    kata.ran_tests(id, index, files, at, duration, stdout, stderr, status, colour)
   end
 
   def events
-    @v.kata.events(id).map.with_index do |h,index|
+    kata.events(id).map.with_index do |h,index|
       Event.new(self, h, index)
     end
   end
 
   def event(index)
-    @v.kata.event(id, index)
+    kata.event(id, index)
   end
 
   def lights
@@ -94,12 +104,17 @@ class Kata
   end
 
   def manifest
-    @manifest ||= Manifest.new(@v.kata.manifest(id))
+    @manifest ||= Manifest.new(kata.manifest(id))
   end
 
   private
 
   include IdPather
+  include OjAdapter
+
+  def kata
+    version.kata
+  end
 
   def group_id
     # if this kata is inside a group, the group's id, else nil

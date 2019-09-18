@@ -200,26 +200,22 @@ class KataTest < AppModelsTestBase
   test '866', %w(
   kata.event(id,-1) is currently unused but ready for plumbing in
   ) do
-    [0,1].each do |version|
-      katas = Katas.new(self, version)
-      k = katas.new_kata(starter_manifest)
-      v = [Kata_v0.new(self),Kata_v1.new(self)][version]
-      assert_equal v.event(k.id,0), v.event(k.id,-1)
-      kmanifest = k.manifest
-      params = {
-        image_name:kmanifest.image_name,
-        max_seconds:kmanifest.max_seconds,
-        file_content:files_for(k),
-        hidden_filenames:'[]'
-      }
-      result = k.run_tests(params)
-      stdout = result[0]['stdout']
-      stderr = result[0]['stderr']
-      status = result[0]['status']
-      colour = 'red'
-      k.ran_tests(1, k.files, time_now, duration, stdout, stderr, status, colour)
-      assert_equal v.event(k.id,1), v.event(k.id,-1)
-    end
+    k = katas.new_kata(starter_manifest)
+    assert_equal k.event(0), k.event(-1)
+    kmanifest = k.manifest
+    params = {
+      image_name:kmanifest.image_name,
+      max_seconds:kmanifest.max_seconds,
+      file_content:files_for(k),
+      hidden_filenames:'[]'
+    }
+    result = k.run_tests(params)
+    stdout = result[0]['stdout']
+    stderr = result[0]['stderr']
+    status = result[0]['status']
+    colour = 'red'
+    k.ran_tests(1, k.files, time_now, duration, stdout, stderr, status, colour)
+    assert_equal k.event(1), k.event(-1) 
   end
 
   private
