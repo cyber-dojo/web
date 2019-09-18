@@ -124,7 +124,7 @@ class Kata_v1
   # In theory the manifest could store only the display_name
   # and exercise_name and be recreated, on-demand, from the relevant
   # start-point services. In practice it creates coupling, and it
-  # doesn't work because start-point services change over time.
+  # doesn't work anyway, since start-point services change over time.
 
   def manifest_write_cmd(id, manifest_src)
     ['write', manifest_filename(id), manifest_src]
@@ -140,12 +140,6 @@ class Kata_v1
 
   # - - - - - - - - - - - - - - - - - - - - - -
   # events
-  #
-  # A cache of colours/time-stamps for all [test] events.
-  # Helps optimize dashboard traffic-lights views.
-  # Each event is stored as a single "\n" terminated line.
-  # This is an optimization for ran_tests() which need only
-  # append to the end of the file.
 
   def events_write_cmd(id, event0_src)
     ['write', events_filename(id), event0_src]

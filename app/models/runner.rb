@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../lib/hidden_file_remover'
 require_relative '../../lib/cleaner'
 

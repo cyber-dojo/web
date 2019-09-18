@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'id_pather'
 require_relative 'manifest'
 require_relative 'schema'

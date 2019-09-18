@@ -1,4 +1,4 @@
-require_relative 'kata_v0'
+# frozen_string_literal: true
 
 class Event
 

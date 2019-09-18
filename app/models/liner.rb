@@ -17,11 +17,15 @@ module Liner # mix-in
     result
   end
 
+  # - - - - - - - - - - - - - - - - -
+
   def lined_files(files)
     Hash[files.map{ |filename,file|
       [filename,lined_file(file)]
     }]
   end
+
+  # - - - - - - - - - - - - - - - - -
 
   def lined_file(file)
     content = file['content']
@@ -34,7 +38,7 @@ module Liner # mix-in
     lined
   end
 
-  # - - - - - - - - - - - - - - - - - -
+  # = = = = = = = = = = = = = = = = =
 
   def unlined(event)
     result = {}
@@ -51,11 +55,15 @@ module Liner # mix-in
     result
   end
 
+  # - - - - - - - - - - - - - - - - -
+
   def unlined_files(files)
     Hash[files.map{ |filename,file|
       [filename,unlined_file(file)]
     }]
   end
+
+  # - - - - - - - - - - - - - - - - -
 
   def unlined_file(file)
     unlined = {
