@@ -10,7 +10,7 @@ module SaverAsserter # mix-in
     end
   end
 
-  def saver_assert_batch(commands)
+  def saver_assert_batch(*commands)
     result = saver.batch(commands)
     if result.any?(false)
       fail SaverException.new(result.inspect)

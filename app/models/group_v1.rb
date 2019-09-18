@@ -6,7 +6,7 @@ require_relative '../services/saver_asserter'
 require_relative '../../lib/oj_adapter'
 
 # 1. Manifest now has explicit version (1)
-# 2. joined() now does a single batch-read rather than 64.
+# 2. joined() now does one batch-read, not 64 reads.
 # 3. No longer stores JSON in pretty format.
 # 4. No longer stores file contents in lined format.
 # 5. Uses Oj as its JSON gem.
@@ -23,10 +23,10 @@ class Group_v1
   def create(manifest)
     id = manifest['id'] = generate_id
     manifest['version'] = 1
-    saver_assert_batch([
+    saver_assert_batch(
       manifest_write_cmd(id, json_plain(manifest)),
       katas_write_cmd(id, '')
-    ])
+    )
     id
   end
 

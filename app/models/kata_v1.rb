@@ -44,11 +44,11 @@ class Kata_v1
     to_diff = {
       'files' => manifest['visible_files']
     }
-    saver_assert_batch([
+    saver_assert_batch(
       manifest_write_cmd(id, json_plain(manifest)),
       events_write_cmd(id, json_plain(event_summary)),
       event_write_cmd(id, 0, json_plain(to_diff))
-    ])
+    )
     id
   end
 
@@ -75,11 +75,10 @@ class Kata_v1
       'stderr' => stderr,
       'status' => status
     }.merge(event_summary)
-    saver_assert_batch([
+    saver_assert_batch(
       events_append_cmd(id, ',' + json_plain(event_summary)),
       event_write_cmd(id, index, json_plain(event_n))
-    ])
-    nil
+    )
   end
 
   # - - - - - - - - - - - - - - - - - - -
