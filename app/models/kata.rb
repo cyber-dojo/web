@@ -1,3 +1,7 @@
+require_relative 'avatars'
+require_relative 'group'
+require_relative 'id_pather'
+require_relative 'manifest'
 require_relative 'runner'
 require_relative '../../lib/id_generator'
 
@@ -13,7 +17,7 @@ class Kata
 
   def exists?
     IdGenerator.id?(id) &&
-      @v.kata.exists?(id)
+      saver.exists?(katas_id_path(id))
   end
 
   def group?
@@ -95,6 +99,8 @@ class Kata
 
   private
 
+  include IdPather
+
   def group_id
     # if this kata is inside a group, the group's id, else nil
     manifest.group_id
@@ -102,6 +108,10 @@ class Kata
 
   def most_recent_event
     events.last
+  end
+
+  def saver
+    @externals.saver
   end
 
 end

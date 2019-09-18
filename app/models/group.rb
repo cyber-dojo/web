@@ -1,3 +1,5 @@
+require_relative 'id_pather'
+require_relative 'manifest'
 require_relative '../../lib/id_generator'
 
 class Group
@@ -12,7 +14,7 @@ class Group
 
   def exists?
     IdGenerator.id?(id) &&
-      @v.group.exists?(id)
+      saver.exists?(groups_id_path(id))
   end
 
   def created
@@ -54,8 +56,14 @@ class Group
 
   private
 
+  include IdPather
+
   def kata(kid)
     Kata.new(@externals, kid, @v)
+  end
+
+  def saver
+    @externals.saver
   end
 
 end
