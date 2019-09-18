@@ -69,7 +69,7 @@ class ApplicationController < ActionController::Base
 
   def value_of(sym)
     value = params[sym].to_i
-    if value == -1
+    if value === -1
       value = kata.events.size - 1
     end
     value
@@ -79,11 +79,11 @@ class ApplicationController < ActionController::Base
 
   def mapped_id
     # See comment below
-    if id.size == 10
+    if id.size === 10
       id6 = mapper.mapped_id(id)
       url = request.url
       if m = /#{id}\?avatar=([a-z]*)&?/.match(url)
-        kata = groups[id6].katas.find{ |k| k.avatar_name == m[1] }
+        kata = groups[id6].katas.find{ |k| k.avatar_name === m[1] }
         url6 = url.sub(m.to_s, kata.id+'?')
       else
         url6 = url.sub(id, id6)

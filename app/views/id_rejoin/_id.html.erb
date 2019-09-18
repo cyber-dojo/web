@@ -19,7 +19,7 @@ $(() => {
     if (id.length > 6) {
       inputId.addClass('invalid');
     }
-    else if (id.length == 6) {
+    else if (id.length === 6) {
       const args = { id:id, from:"<%= @from %>" };
       inputId.prop('disabled', true);
       waitSpinner.show();

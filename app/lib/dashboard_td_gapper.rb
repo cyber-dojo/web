@@ -69,7 +69,7 @@ class DashboardTdGapper
     ticks = {}
     kata_id = gapped.keys.sample
     gapped[kata_id].each do |td,content|
-      if content.class.name == 'Array'
+      if content.is_a?(Array)
         ticks[td] = (td+1) * @seconds_per_td
       else
         ticks[td] = content # { collapsed:N }
@@ -153,7 +153,7 @@ class DashboardTdGapper
     return gapped if gapped == {}
 
         empty_column = ->(td) { gapped.all? { |_, h| h[td] == [] } }
-    collapsed_column = ->(td) { gapped.all? { |_, h| h[td].class == Hash } }
+    collapsed_column = ->(td) { gapped.all? { |_, h| h[td].is_a?(Hash) } }
     lightless_column = ->(td) { empty_column.call(td) || collapsed_column.call(td) }
        delete_column = ->(td) { gapped.each { |_, h| h.delete(td) } }
 

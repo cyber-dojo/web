@@ -3,14 +3,14 @@ class IdRejoinController < ApplicationController
 
   def show
     @from = from
-    @possessive = (from == 'individual') ? 'my' : 'our'
+    @possessive = (from === 'individual') ? 'my' : 'our'
   end
 
   def drop_down
-    if from == 'individual'
+    if from === 'individual'
       json = individual_drop_down_json
     end
-    if from == 'group'
+    if from === 'group'
       json = group_drop_down_json
     end
     render json:json
@@ -27,7 +27,7 @@ class IdRejoinController < ApplicationController
     json = { exists:group.exists? }
     if json[:exists]
       katas = group.katas
-      if katas.size == 1
+      if katas.size === 1
         json[:kataId] = katas[0].id
         json[:avatarName] = katas[0].avatar_name
         json[:avatarIndex] = katas[0].avatar_index

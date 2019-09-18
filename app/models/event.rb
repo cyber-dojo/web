@@ -14,7 +14,7 @@ class Event
 
   def files(sym = nil)
     all = event['files']
-    if sym == :with_output
+    if sym === :with_output
       all['stdout'] = stdout || content('')
       all['stderr'] = stderr || content('')
       all['status'] = content((status || '').to_s)
