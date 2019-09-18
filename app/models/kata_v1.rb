@@ -32,12 +32,6 @@ class Kata_v1
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def exists?(id)
-    saver.exists?(id_path(id))
-  end
-
-  # - - - - - - - - - - - - - - - - - - -
-
   def create(manifest)
     id = manifest['id'] = generate_id
     manifest['version'] = 1

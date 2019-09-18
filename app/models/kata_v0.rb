@@ -13,12 +13,6 @@ class Kata_v0
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def exists?(id)
-    saver.exists?(id_path(id))
-  end
-
-  # - - - - - - - - - - - - - - - - - - -
-
   def create(manifest)
     files = manifest.delete('visible_files')
     id = manifest['id'] = generate_id

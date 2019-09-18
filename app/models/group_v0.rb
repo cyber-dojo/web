@@ -15,12 +15,6 @@ class Group_v0
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def exists?(id)
-    saver.send(*exists_cmd(id))
-  end
-
-  # - - - - - - - - - - - - - - - - - - -
-
   def create(manifest)
     id = manifest['id'] = generate_id
     manifest['visible_files'] = lined_files(manifest['visible_files'])
@@ -60,33 +54,26 @@ class Group_v0
   # - - - - - - - - - - - - - - - - - - -
 
   def joined(id)
-    if !exists?(id)
-      nil
-    else
-      kata_indexes(id).map{ |kid,_| kid }
-    end
+    kata_indexes(id).map{ |kid,_| kid }
   end
 
   # - - - - - - - - - - - - - - - - - - -
 
   def events(id)
-    if !exists?(id)
-      events = nil
-    else
-      kindexes = kata_indexes(id)
-      read_events_files_commands = kindexes.map do |kid,_|
-        @kata.send(:events_read_cmd, kid)
-      end
-      katas_events = saver.batch(read_events_files_commands)
-      events = {}
-      kindexes.each.with_index(0) do |(kid,kindex),index|
-        events[kid] = {
-          'index' => kindex,
-          'events' => events_parse(katas_events[index])
-        }
-      end
+    results = {}
+    kindexes = kata_indexes(id)
+    read_events_files_commands = kindexes.map do |kid,_|
+      @kata.send(:events_read_cmd, kid)
     end
-    events
+    katas_events = saver.batch(read_events_files_commands)
+    events = {}
+    kindexes.each.with_index(0) do |(kid,kindex),index|
+      results[kid] = {
+        'index' => kindex,
+        'events' => events_parse(katas_events[index])
+      }
+    end
+    results
   end
 
   private
@@ -111,10 +98,6 @@ class Group_v0
 
   def create_cmd(id, *parts)
     ['create', id_path(id, *parts)]
-  end
-
-  def exists_cmd(id)
-    ['exists?', id_path(id)]
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -

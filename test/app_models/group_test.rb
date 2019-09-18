@@ -165,15 +165,21 @@ class GroupTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '45D', %w(
-  In Version-0 events is nil when id does not exist
-  In Version-1 events raises when id does not exist
+  test '45C', %w(
+  Version-0 events does not raise when id does not exist
+  because its implementation uses a saver.batch(read)
   ) do
     groups = Groups.new(self, version=0)
-    group = groups['123467']
-    assert_nil group.events
+    group = groups['123456']
+    assert_equal({}, group.events)
+  end
+
+  test '45D', %w(
+  Version-1 events raises when id does not exist
+  because its implementation uses a single saver.read()
+  ) do
     groups = Groups.new(self, version=1)
-    group = groups['123467']
+    group = groups['123456']
     assert_raises(SaverException) { group.events }
   end
 
