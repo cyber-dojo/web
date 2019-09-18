@@ -14,11 +14,11 @@ class Group
 
   def version
     @version ||= begin
-      # TODO: params[:version]
+      # TODO: use params[:version]
       path = groups_id_path(id, 'manifest.json')
       manifest_src = saver.read(path)
       n = json_parse(manifest_src)['version'] || 0
-      Version.new(@externals, n)
+      Version.new(externals, n)
     end
   end
 
@@ -33,10 +33,10 @@ class Group
     Time.mktime(*manifest.created)
   end
 
-  def join(indexes = (0..63).to_a.shuffle)
+  def join(indexes = AVATAR_INDEXES.shuffle)
     kid = group.join(id, indexes)
-    if kid.nil?
-      nil # full
+    if full?(kid)
+      nil
     else
       kata(kid)
     end
@@ -71,8 +71,14 @@ class Group
   include IdPather
   include OjAdapter
 
+  AVATAR_INDEXES = (0..63).to_a
+
+  def full?(kid)
+    kid.nil?
+  end
+
   def kata(kid)
-    Kata.new(@externals, kid)
+    Kata.new(externals, kid)
   end
 
   def group
@@ -80,7 +86,9 @@ class Group
   end
 
   def saver
-    @externals.saver
+    externals.saver
   end
+
+  attr_reader :externals
 
 end
