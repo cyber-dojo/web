@@ -22,11 +22,10 @@ names.keys.sort.each do |name|
   p "#{name} #{names[name].size} #{names[name][0]}"
 end
 
-# TODO?: Write a script to fix up all the katas on the main server
-#       so the language entry in their manifests is fixed and is
-#       split into two entries, one for the language name and one for
-#       the test name.
-#
+# ?Write a script to fix up all the katas on the main server
+# so the language entry in their manifests is fixed and is
+# split into two entries, one for the language name and one for
+# the test name.
 
 
 =begin

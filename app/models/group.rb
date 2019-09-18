@@ -55,7 +55,6 @@ class Group
   end
 
   def katas
-    # TODO: group.katas(id).map{...}
     group.joined(id).map{ |kid| kata(kid) }
   end
 
