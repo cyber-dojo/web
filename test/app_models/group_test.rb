@@ -12,10 +12,34 @@ class GroupTest < AppModelsTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
+  # exists?
+
+  test '5A5', %w(
+  exists? is true,
+  for a well-formed group-id that exists,
+  when saver is online
+  ) do
+    group = create_group
+    assert groups[group.id].exists?
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '5A6', %w(
-  a group with an invalid returns false for exist?
-  viz it does not raise
+  exists? is false,
+  for a well-formed group-id that does not exist,
+  when saver is online
+  ) do
+    group = create_group
+    refute groups['123AbZ'].exists?
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '5A7', %w(
+  exists? is false,
+  for a malformed group-id,
+  when saver is online
   ) do
     refute groups[42].exists?, 'Integer'
     refute groups[nil].exists?, 'nil'
@@ -25,25 +49,23 @@ class GroupTest < AppModelsTestBase
     refute groups[''].exists?, 'length == 0'
     refute groups['12345'].exists?, 'length == 5'
     refute groups['12345i'].exists?, '!id?()'
-    refute groups['123AbZ'].exists?, 'no group with that id'
   end
 
-  test '5A8',
-  'when saver is offline, group.exists? raises' do
+  #- - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '5A8', %w(
+  exists? raises,
+  when saver is offline
+  ) do
     set_saver_class('SaverExceptionRaiser')
     assert_raises(SaverException) {
       groups['123AbZ'].exists?
     }
   end
 
-  test '5A7',
-  'a group with a valid id exists' do
-    group = create_group
-    assert groups[group.id].exists?
-  end
-
   #- - - - - - - - - - - - - - - - - - - - - - - - -
-
+  # ...
+  
   test '6A3', %w(
   a group can be created from a well-formed manifest,
   and is initially empty

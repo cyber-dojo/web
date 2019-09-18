@@ -12,9 +12,35 @@ class KataTest < AppModelsTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
+  # exists?
 
-  test '760',
-  'a kata with an invalid id does not exist' do
+  test '760', %w(
+  exists? is true,
+  for a well-formed kata-id that exists,
+  when saver is online
+  ) do
+    kata = create_kata
+    assert katas[kata.id].exists?
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '761', %w(
+  exists? is false,
+  for a well-formed kata-id that does not exist,
+  when saver is online
+  ) do
+    kata = create_kata
+    refute katas['123AbZ'].exists?
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '762', %w(
+  exists? is false,
+  for a malformed kata-id,
+  when saver is online
+  ) do
     refute katas[42].exists?, 'Integer'
     refute katas[nil].exists?, 'nil'
     refute katas[[]].exists?, '[]'
@@ -23,17 +49,15 @@ class KataTest < AppModelsTestBase
     refute katas[''].exists?, 'length == 0'
     refute katas['12345'].exists?, 'length == 5'
     refute katas['12345i'].exists?, '!id?()'
-    refute katas['123AbZ'].exists?, 'no kata with that id'
   end
 
-  test '761',
-  'a kata with a valid id exists' do
-    kata = create_kata
-    assert katas[kata.id].exists?
-  end
+  #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '762',
-  'when saver is offline kata.exists? raises' do
+  test '763', %w(
+  exists? raises,
+  when kata-id is well-formed,
+  and saver is offline
+  ) do
     set_saver_class('SaverExceptionRaiser')
     assert_raises(SaverException) {
       katas['123AbZ'].exists?
@@ -41,6 +65,7 @@ class KataTest < AppModelsTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
+  # ...
 
   test '862', %w(
   an individual kata is created from a well-formed manifest,
