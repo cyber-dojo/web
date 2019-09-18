@@ -3,6 +3,7 @@ require_relative 'group'
 require_relative 'id_pather'
 require_relative 'manifest'
 require_relative 'runner'
+require_relative 'schema'
 require_relative '../../lib/id_generator'
 require_relative '../../lib/oj_adapter'
 
@@ -15,13 +16,13 @@ class Kata
 
   attr_reader :id
 
-  def version
-    @version ||= begin
+  def schema
+    @schema ||= begin
       # TODO: use params[:version]
       path = katas_id_path(id, 'manifest.json')
       manifest_src = saver.read(path)
-      n = json_parse(manifest_src)['version'] || 0
-      Version.new(externals, n)
+      version = json_parse(manifest_src)['version'] || 0
+      Schema.new(externals, version)
     end
   end
 
@@ -113,7 +114,7 @@ class Kata
   include OjAdapter
 
   def kata
-    version.kata
+    schema.kata
   end
 
   def group_id

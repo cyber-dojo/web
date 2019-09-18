@@ -1,4 +1,5 @@
 require_relative 'kata'
+require_relative 'schema'
 
 class Katas
 
@@ -11,8 +12,8 @@ class Katas
   end
 
   def new_kata(manifest)
-    n = manifest['version'] || 0
-    id = Version.new(@externals, n).kata.create(manifest)
+    version = manifest['version'] || 0
+    id = Schema.new(@externals, version).kata.create(manifest)
     self[id]
   end
 

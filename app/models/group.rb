@@ -1,5 +1,6 @@
 require_relative 'id_pather'
 require_relative 'manifest'
+require_relative 'schema'
 require_relative '../../lib/id_generator'
 require_relative '../../lib/oj_adapter'
 
@@ -12,13 +13,13 @@ class Group
 
   attr_reader :id
 
-  def version
-    @version ||= begin
+  def schema
+    @schema ||= begin
       # TODO: use params[:version]
       path = groups_id_path(id, 'manifest.json')
       manifest_src = saver.read(path)
-      n = json_parse(manifest_src)['version'] || 0
-      Version.new(externals, n)
+      version = json_parse(manifest_src)['version'] || 0
+      Schema.new(externals, version)
     end
   end
 
@@ -82,7 +83,7 @@ class Group
   end
 
   def group
-    version.group
+    schema.group
   end
 
   def saver

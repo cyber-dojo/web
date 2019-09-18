@@ -1,4 +1,5 @@
 require_relative 'group'
+require_relative 'schema'
 
 class Groups
 
@@ -11,8 +12,8 @@ class Groups
   end
 
   def new_group(manifest)
-    n = manifest['version'] || 0
-    id = Version.new(@externals, n).group.create(manifest)
+    version = manifest['version'] || 0
+    id = Schema.new(@externals, version).group.create(manifest)
     self[id]
   end
 

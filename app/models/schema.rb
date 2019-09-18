@@ -3,19 +3,15 @@ require_relative 'group_v1'
 require_relative 'kata_v0'
 require_relative 'kata_v1'
 
-class Version
+class Schema
 
-  def initialize(externals, n)
-    @group = GROUPS[n].new(externals)
-    @kata = KATAS[n].new(externals)
-    @n = n
+  def initialize(externals, version)
+    @group = GROUPS[version].new(externals)
+    @kata = KATAS[version].new(externals)
+    @version = version
   end
 
-  attr_reader :group, :kata
-
-  def number
-    @n
-  end
+  attr_reader :group, :kata, :version
 
   private
 
