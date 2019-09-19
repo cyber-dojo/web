@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module TimeTickHelper # mix-in
 
   module_function

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../../lib/phonetic_alphabet'
 
 module PhoneticHelper # mix-in

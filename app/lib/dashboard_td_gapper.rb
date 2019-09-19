@@ -1,5 +1,4 @@
-
-# See comments at end of file
+# frozen_string_literal: true
 
 class DashboardTdGapper
 
