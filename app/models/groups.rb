@@ -12,7 +12,7 @@ class Groups
   end
 
   def [](id)
-    Group.new(@externals, @params.clone.merge({id:id}))
+    Group.new(@externals, @params.merge({id:id}))
   end
 
   def new_group(manifest)

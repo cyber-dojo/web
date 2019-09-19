@@ -34,7 +34,7 @@ class Kata
 
   def group
     if group?
-      Group.new(@externals, @params.clone.merge({id:group_id}))
+      Group.new(@externals, @params.merge({id:group_id}))
     else
       nil
     end

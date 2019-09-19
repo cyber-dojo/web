@@ -75,7 +75,7 @@ class Group
   end
 
   def kata(kid)
-    Kata.new(@externals, @params.clone.merge({id:kid}))
+    Kata.new(@externals, @params.merge({id:kid}))
   end
 
   def group

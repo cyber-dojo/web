@@ -12,7 +12,7 @@ class Katas
   end
 
   def [](id)
-    Kata.new(@externals, @params.clone.merge({id:id}))
+    Kata.new(@externals, @params.merge({id:id}))
   end
 
   def new_kata(manifest)
