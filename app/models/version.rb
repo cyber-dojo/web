@@ -14,6 +14,10 @@ module Version
     version(:kata_id_path)
   end
 
+  def manifest_version(manifest)
+    manifest['version'] || 0
+  end
+
   private
 
   def version(pather)
@@ -21,7 +25,7 @@ module Version
     path = method(pather).call(id, 'manifest.json')
     manifest_src = saver.read(path)
     saver_assert(manifest_src.is_a?(String))
-    json_parse(manifest_src)['version'] || 0
+    manifest_version(json_parse(manifest_src))
   end
 
   include IdPather
