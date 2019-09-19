@@ -10,17 +10,13 @@ class Katas
   end
 
   def [](id)
-    Kata.new(externals, id)
+    Kata.new(@externals, id)
   end
 
   def new_kata(manifest)
     version = manifest['version'] || 0
-    id = Schema.new(externals, version).kata.create(manifest)
+    id = Schema.new(@externals, version).kata.create(manifest)
     self[id]
   end
-
-  private
-
-  attr_reader :externals
 
 end

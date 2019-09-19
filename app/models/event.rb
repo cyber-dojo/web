@@ -8,9 +8,7 @@ class Event
     @index = index
   end
 
-  def kata
-    @kata
-  end
+  attr_reader :kata, :index
 
   def files(sym = nil)
     all = event['files']
@@ -36,10 +34,6 @@ class Event
 
   def time
     Time.mktime(*@hash['time'])
-  end
-
-  def index
-    @index
   end
 
   def colour

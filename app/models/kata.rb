@@ -24,7 +24,7 @@ class Kata
       path = katas_id_path(id, 'manifest.json')
       manifest_src = saver.read(path)
       version = json_parse(manifest_src)['version'] || 0
-      Schema.new(externals, version)
+      Schema.new(@externals, version)
     end
   end
 
@@ -39,7 +39,7 @@ class Kata
 
   def group
     if group?
-      Group.new(externals, group_id)
+      Group.new(@externals, group_id)
     else
       nil
     end
@@ -60,7 +60,7 @@ class Kata
   end
 
   def run_tests(params)
-    Runner.new(externals).run(self, params)
+    Runner.new(@externals).run(self, params)
   end
 
   def ran_tests(index, files, at, duration, stdout, stderr, status, colour)
@@ -129,9 +129,7 @@ class Kata
   end
 
   def saver
-    externals.saver
+    @externals.saver
   end
-
-  attr_reader :externals
 
 end

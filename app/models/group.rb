@@ -21,7 +21,7 @@ class Group
       path = groups_id_path(id, 'manifest.json')
       manifest_src = saver.read(path)
       version = json_parse(manifest_src)['version'] || 0
-      Schema.new(externals, version)
+      Schema.new(@externals, version)
     end
   end
 
@@ -81,7 +81,7 @@ class Group
   end
 
   def kata(kid)
-    Kata.new(externals, kid)
+    Kata.new(@externals, kid)
   end
 
   def group
@@ -89,9 +89,7 @@ class Group
   end
 
   def saver
-    externals.saver
+    @externals.saver
   end
-
-  attr_reader :externals
 
 end
