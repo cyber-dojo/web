@@ -19,7 +19,7 @@ class AppModelsTestBase < TestBase
     manifest
   end
 
-  def kata_params(kata)
+  def kata_params(kata = create_kata)
     {
       id:kata.id,
       image_name:kata.manifest.image_name,

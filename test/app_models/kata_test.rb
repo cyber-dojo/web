@@ -166,8 +166,7 @@ class KataTest < AppModelsTestBase
   test '865', %w(
   an event's manifest is ready to create a new kata from
   ) do
-    k = create_kata([2018,11,1, 9,13,56,765])
-    kata = Kata.new(self, kata_params(k))
+    kata = Kata.new(self, kata_params)
     result = kata.run_tests
     stdout = result[0]['stdout']
     stderr = result[0]['stderr']
@@ -189,7 +188,7 @@ class KataTest < AppModelsTestBase
   test '866', %w(
   kata.event(id,-1) is currently unused but ready for plumbing in
   ) do
-    kata = Kata.new(self, kata_params(create_kata))
+    kata = Kata.new(self, kata_params)
     assert_equal kata.event(0), kata.event(-1)
 
     result = kata.run_tests
