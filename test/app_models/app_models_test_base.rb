@@ -19,4 +19,14 @@ class AppModelsTestBase < TestBase
     manifest
   end
 
+  def kata_params(kata)
+    {
+      id:kata.id,
+      image_name:kata.manifest.image_name,
+      max_seconds:kata.manifest.max_seconds,
+      file_content:plain(kata.files),
+      hidden_filenames:'[]'
+    }
+  end
+
 end

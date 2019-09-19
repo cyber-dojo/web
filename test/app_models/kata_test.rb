@@ -130,14 +130,9 @@ class KataTest < AppModelsTestBase
   there is a new traffic-light event,
   which is now the most recent event
   ) do
-    kata = create_kata([2018,11,1, 9,13,56,6574])
-    params = {
-      image_name:kata.manifest.image_name,
-      max_seconds:kata.manifest.max_seconds,
-      file_content:files_for(kata),
-      hidden_filenames:'[]'
-    }
-    result = kata.run_tests(params)
+    k = create_kata([2018,11,1, 9,13,56,6574])
+    kata = Kata.new(self, kata_params(k))
+    result = kata.run_tests
     stdout = result[0]['stdout']
     stderr = result[0]['stderr']
     status = result[0]['status']
@@ -161,7 +156,7 @@ class KataTest < AppModelsTestBase
     expected = kata.files.merge({
         'stdout' => light.stdout,
         'stderr' => light.stderr,
-        'status' => file(light.status.to_s)
+        'status' => { 'content' => light.status.to_s }
     })
     assert_equal expected, light.files(:with_output)
   end
@@ -171,15 +166,9 @@ class KataTest < AppModelsTestBase
   test '865', %w(
   an event's manifest is ready to create a new kata from
   ) do
-    kata = create_kata([2018,11,1, 9,13,56,765])
-    kmanifest = kata.manifest
-    params = {
-      image_name:kmanifest.image_name,
-      max_seconds:kmanifest.max_seconds,
-      file_content:files_for(kata),
-      hidden_filenames:'[]'
-    }
-    result = kata.run_tests(params)
+    k = create_kata([2018,11,1, 9,13,56,765])
+    kata = Kata.new(self, kata_params(k))
+    result = kata.run_tests
     stdout = result[0]['stdout']
     stderr = result[0]['stderr']
     status = result[0]['status']
@@ -191,8 +180,8 @@ class KataTest < AppModelsTestBase
     assert_nil emanifest['id']
     assert_nil emanifest['created']
     assert_equal kata.files, emanifest['visible_files']
-    assert_equal kmanifest.display_name, emanifest['display_name']
-    assert_equal kmanifest.image_name, emanifest['image_name']
+    assert_equal kata.manifest.display_name, emanifest['display_name']
+    assert_equal kata.manifest.image_name, emanifest['image_name']
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -200,34 +189,16 @@ class KataTest < AppModelsTestBase
   test '866', %w(
   kata.event(id,-1) is currently unused but ready for plumbing in
   ) do
-    k = katas.new_kata(starter_manifest)
-    assert_equal k.event(0), k.event(-1)
-    kmanifest = k.manifest
-    params = {
-      image_name:kmanifest.image_name,
-      max_seconds:kmanifest.max_seconds,
-      file_content:files_for(k),
-      hidden_filenames:'[]'
-    }
-    result = k.run_tests(params)
+    kata = Kata.new(self, kata_params(create_kata))
+    assert_equal kata.event(0), kata.event(-1)
+
+    result = kata.run_tests
     stdout = result[0]['stdout']
     stderr = result[0]['stderr']
     status = result[0]['status']
     colour = 'red'
-    k.ran_tests(1, k.files, time_now, duration, stdout, stderr, status, colour)
-    assert_equal k.event(1), k.event(-1)
-  end
-
-  private
-
-  def files_for(kata)
-    kata.files(:with_output).map{ |filename,file|
-      [filename, file['content']]
-    }.to_h
-  end
-
-  def file(content)
-    { 'content' => content }
+    kata.ran_tests(1, kata.files, time_now, duration, stdout, stderr, status, colour)
+    assert_equal kata.event(1), kata.event(-1)
   end
 
 end

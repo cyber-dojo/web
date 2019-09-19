@@ -76,7 +76,7 @@ class KataController < ApplicationController
   def run_tests
     t1 = time_now
 
-    result,files,@created,@deleted,@changed = kata.run_tests(params)
+    result,files,@created,@deleted,@changed = kata.run_tests
     @stdout = result['stdout']
     @stderr = result['stderr']
     @status = result['status']
