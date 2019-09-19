@@ -150,7 +150,7 @@ class Group_v0
   # - - - - - - - - - - - - - -
 
   def id_path(id, *parts)
-    groups_id_path(id, *parts)
+    group_id_path(id, *parts)
   end
 
   # - - - - - - - - - - - - - -

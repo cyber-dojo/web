@@ -23,7 +23,7 @@ class Kata
 
   def exists?
     IdGenerator.id?(id) &&
-      saver.exists?(katas_id_path(id))
+      saver.exists?(kata_id_path(id))
   end
 
   def group?

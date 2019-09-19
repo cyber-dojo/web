@@ -184,7 +184,7 @@ class Kata_v0
   # - - - - - - - - - - - - - -
 
   def id_path(id, *parts)
-    katas_id_path(id, *parts)
+    kata_id_path(id, *parts)
   end
 
   def saver

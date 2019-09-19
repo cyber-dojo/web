@@ -7,11 +7,11 @@ require_relative '../../lib/oj_adapter'
 module Version
 
   def group_version
-    version(:groups_id_path)
+    version(:group_id_path)
   end
 
   def kata_version
-    version(:katas_id_path)
+    version(:kata_id_path)
   end
 
   private

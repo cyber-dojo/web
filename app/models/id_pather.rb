@@ -2,11 +2,11 @@
 
 module IdPather
 
-  def katas_id_path(id, *parts)
+  def kata_id_path(id, *parts)
     id_path3('katas', id, *parts)
   end
 
-  def groups_id_path(id, *parts)
+  def group_id_path(id, *parts)
     id_path3('groups', id, *parts)
   end
 
