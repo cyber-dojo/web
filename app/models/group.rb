@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
-require_relative 'id_pather'
 require_relative 'manifest'
 require_relative 'schema'
+require_relative 'version'
 require_relative '../lib/id_generator'
-require_relative '../../lib/oj_adapter'
 
 class Group
 
@@ -16,7 +15,7 @@ class Group
   attr_reader :id
 
   def schema
-    @schema ||= Schema.new(@externals, version)
+    @schema ||= Schema.new(@externals, group_version)
   end
 
   def exists?
@@ -65,17 +64,7 @@ class Group
 
   private
 
-  include IdPather
-  include OjAdapter
-
-  def version
-    @version ||= begin
-      # TODO: use @params[:version]
-      path = groups_id_path(id, 'manifest.json')
-      manifest_src = saver.read(path)
-      json_parse(manifest_src)['version'] || 0
-    end
-  end
+  include Version
 
   AVATAR_INDEXES = (0..63).to_a
 

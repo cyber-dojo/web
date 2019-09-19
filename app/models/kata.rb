@@ -2,12 +2,11 @@
 
 require_relative 'avatars'
 require_relative 'group'
-require_relative 'id_pather'
 require_relative 'manifest'
 require_relative 'runner'
 require_relative 'schema'
+require_relative 'version'
 require_relative '../lib/id_generator'
-require_relative '../../lib/oj_adapter'
 
 class Kata
 
@@ -19,7 +18,7 @@ class Kata
   attr_reader :id
 
   def schema
-    @schema ||= Schema.new(@externals, version)
+    @schema ||= Schema.new(@externals, kata_version)
   end
 
   def exists?
@@ -106,17 +105,7 @@ class Kata
 
   private
 
-  include IdPather
-  include OjAdapter
-
-  def version
-    @version ||= begin
-      # TODO: use @params[:version]
-      path = katas_id_path(id, 'manifest.json')
-      manifest_src = saver.read(path)
-      json_parse(manifest_src)['version'] || 0
-    end
-  end
+  include Version
 
   def kata
     schema.kata
