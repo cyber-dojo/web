@@ -1,9 +1,9 @@
 require 'ostruct'
 
-class HttpJsonRequestPackerNotJsonStub
+class HttpJsonRequesterNotJsonStub
   def initialize(_hostname, _port)
   end
   def request(_req)
-    return OpenStruct.new(body:'sdgdfg')
+    OpenStruct.new(body:'sdgdfg')
   end
 end

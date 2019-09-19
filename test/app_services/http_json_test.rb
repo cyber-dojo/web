@@ -1,5 +1,5 @@
 require_relative 'app_services_test_base'
-require_relative 'http_json_request_packer_not_json_stub'
+require_relative 'http_json_requester_not_json_stub'
 require_relative '../../app/services/differ_service'
 require 'ostruct'
 
@@ -13,41 +13,41 @@ class HttpJsonTest < AppServicesTestBase
 
   test '2C6',
   'response.body is not JSON raises' do
-    set_http(HttpJsonRequestPackerNotJsonStub)
+    set_http(HttpJsonRequesterNotJsonStub)
     error = assert_raises(DifferService::Error) { differ.sha }
     assert_equal 'http response.body is not JSON:sdgdfg', error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  class HttpJsonRequestPackerNotJsonHashStub
+  class HttpJsonRequesterNotJsonHashStub
     def initialize(_hostname, _port)
     end
     def request(_req)
-      return OpenStruct.new(body:'[]')
+      OpenStruct.new(body:'[]')
     end
   end
 
   test '2C7',
   'response.body is not JSON Hash raises' do
-    set_http(HttpJsonRequestPackerNotJsonHashStub)
+    set_http(HttpJsonRequesterNotJsonHashStub)
     error = assert_raises(DifferService::Error) { differ.sha }
     assert_equal 'http response.body is not JSON Hash:[]', error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  class HttpJsonRequestPackerNoPathKeyStub
+  class HttpJsonRequesterNoPathKeyStub
     def initialize(_hostname, _port)
     end
     def request(_req)
-      return OpenStruct.new(body:'{"not_sha":"3234234"}')
+      OpenStruct.new(body:'{"not_sha":"3234234"}')
     end
   end
 
   test '2C8',
   'response.body is not JSON Hash raises' do
-    set_http(HttpJsonRequestPackerNoPathKeyStub)
+    set_http(HttpJsonRequesterNoPathKeyStub)
     error = assert_raises(DifferService::Error) { differ.sha }
     json = '{"not_sha":"3234234"}'
     assert_equal "http response.body has no key for 'sha':#{json}", error.message
@@ -55,17 +55,17 @@ class HttpJsonTest < AppServicesTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  class HttpJsonRequestPackerExceptionKeyStub
+  class HttpJsonRequesterExceptionKeyStub
     def initialize(_hostname, _port)
     end
     def request(_req)
-      return OpenStruct.new(body:'{"exception":"http-stub-threw"}')
+      OpenStruct.new(body:'{"exception":"http-stub-threw"}')
     end
   end
 
   test '2C9',
   'response.body has exception key raises' do
-    set_http(HttpJsonRequestPackerExceptionKeyStub)
+    set_http(HttpJsonRequesterExceptionKeyStub)
     error = assert_raises(DifferService::Error) { differ.sha }
     assert_equal '"http-stub-threw"', error.message
   end

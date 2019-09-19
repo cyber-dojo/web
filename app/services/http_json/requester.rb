@@ -6,7 +6,7 @@ require 'uri'
 
 module HttpJson
 
-  class RequestPacker
+  class Requester
 
     def initialize(http, hostname, port)
       @http = http.new(hostname, port)

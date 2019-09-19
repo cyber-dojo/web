@@ -1,5 +1,5 @@
 require_relative 'app_services_test_base'
-require_relative 'http_json_request_packer_not_json_stub'
+require_relative 'http_json_requester_not_json_stub'
 require_relative '../../app/services/ragger_service'
 
 class RaggerServiceTest < AppServicesTestBase
@@ -24,7 +24,7 @@ class RaggerServiceTest < AppServicesTestBase
 
   test '3A7',
   'response.body failure is mapped to exception' do
-    set_http(HttpJsonRequestPackerNotJsonStub)
+    set_http(HttpJsonRequesterNotJsonStub)
     error = assert_raises(RaggerService::Error) { ragger.sha }
     assert error.message.start_with?('http response.body is not JSON'), error.message
   end

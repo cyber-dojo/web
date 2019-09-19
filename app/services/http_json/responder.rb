@@ -4,7 +4,7 @@ require 'json'
 
 module HttpJson
 
-  class ResponseUnpacker
+  class Responder
 
     def initialize(requester, exception_class)
       @requester = requester
