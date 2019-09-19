@@ -1,3 +1,4 @@
+require_relative 'externals_test_services'
 require_relative '../lib/id_generator'
 
 module Externals # mix-in
@@ -65,7 +66,7 @@ module Externals # mix-in
   end
 
   def name_of(caller)
-    # eg caller[0] == "externals.rb:23:in `runner'"
+    # eg caller[0] == "externals.rb:36:in `runner'"
     /`(?<name>[^']*)/ =~ caller[0] && name
   end
 
@@ -74,9 +75,9 @@ end
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # External class-names are set using environment variables.
 # This gives tests a way to do Parameterize-From-Above that
-# can tunnel through a *deep* stack. In particular, I can set an
-# environment variable and then run a controller test which issues
-# GETs/POSTs, which work their way through the rails stack,
+# can tunnel through a *deep* stack. In particular, you can set
+# an environment variable and then run a controller test which
+# issue GETs/POSTs, which work their way through the rails stack,
 # -In-A-Different-Thread-, reaching externals.rb, where the
 # specificied Substitute class takes effect.
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

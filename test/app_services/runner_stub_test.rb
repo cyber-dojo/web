@@ -1,4 +1,5 @@
 require_relative 'app_services_test_base'
+require_relative 'runner_stub'
 
 class RunnerStubTest < AppServicesTestBase
 

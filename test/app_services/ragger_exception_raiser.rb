@@ -1,4 +1,4 @@
-require_relative 'ragger_exception'
+require_relative '../../app/services/ragger_exception'
 
 class RaggerExceptionRaiser
 

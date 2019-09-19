@@ -1,6 +1,5 @@
 require_relative 'app_services_test_base'
-require_relative '../../app/services/disk_fake'
-require_relative '../../app/services/dir_fake'
+require_relative 'disk_fake'
 
 class DiskDirFakeTest < AppServicesTestBase
 

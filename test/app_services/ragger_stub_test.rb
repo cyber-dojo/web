@@ -1,4 +1,5 @@
 require_relative 'app_services_test_base'
+require_relative 'ragger_stub'
 
 class RaggerStubTest < AppServicesTestBase
 

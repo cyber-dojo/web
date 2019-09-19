@@ -1,3 +1,4 @@
+require_relative '../services/externals'
 require_relative '../helpers/phonetic_helper'
 require 'json'
 

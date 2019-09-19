@@ -1,4 +1,4 @@
-require_relative 'saver_exception'
+require_relative '../../app/services/saver_exception'
 
 class SaverExceptionRaiser
 

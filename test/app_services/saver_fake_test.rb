@@ -1,6 +1,6 @@
 require_relative 'app_services_test_base'
 require_relative '../../app/services/saver_service'
-require_relative '../../app/services/saver_fake'
+require_relative 'saver_fake'
 
 class SaverFakeTest < AppServicesTestBase
 
