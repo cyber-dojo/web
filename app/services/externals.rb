@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative 'externals_test_services'
 require_relative '../lib/id_generator'
+require_relative '../../test/app_services/service_doubles'
 
 module Externals # mix-in
 
