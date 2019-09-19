@@ -6,14 +6,12 @@ services:
   web:
     build:
       context: .
-      args: 
+      args:
         - SHA
     user: nobody
     image: cyberdojo/web
     init: true
     container_name: test-web
-    volumes:
-      - ./test:/cyber-dojo/test:ro
     restart: 'no'
     depends_on:
       - avatars
