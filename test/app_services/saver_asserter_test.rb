@@ -29,7 +29,7 @@ class SaverAsserterTest < AppServicesTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '968',
-  'saver_assert_batch(commands) raises SaverException when any command fails' do
+  'saver_assert_batch(commands) raises exception when any command fails' do
     error = assert_raises(SaverService::Error) {
       saver_assert_batch(
         ['read','a/b/c/d/e/44/67/89']

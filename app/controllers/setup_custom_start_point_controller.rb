@@ -11,7 +11,7 @@ class SetupCustomStartPointController < ApplicationController
 
   def save_individual
     manifest = starter_manifest
-    kata = katas.new_kata(manifest)
+    kata = katas.new_kata(manifest) # TODO: rescue SaverService::Error
     redirect_to "/kata/edit/#{kata.id}"
   end
 
