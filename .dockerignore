@@ -1,5 +1,6 @@
 *
 !app/
+!test/
 !config/
 !lib/
 !config.ru
