@@ -14,8 +14,6 @@ services:
     container_name: test-web
     volumes:
       - ./test:/cyber-dojo/test:ro
-    mem_limit: 2G
-    memswap_limit: 2G
     restart: 'no'
     depends_on:
       - avatars
@@ -173,8 +171,6 @@ services:
     ports:
       - 4567:4567
     tmpfs: /tmp
-    mem_limit: 1G
-    memswap_limit: 1G
     restart: 'no'
 
   # - - - - - - - - - - - - - - - -
