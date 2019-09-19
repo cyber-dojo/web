@@ -30,7 +30,7 @@ module TestHexIdHelpers # mix-in
 
     def test(id, *words, &block)
       src = block.source_location
-      src_file = src[0]
+      src_file = File.basename(src[0])
       src_line = src[1].to_s
       id = hex_prefix + id
       name = words.join(' ')

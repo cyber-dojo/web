@@ -49,8 +49,6 @@ class CleanerTest < LibTestBase
   test '985', %w(
   cleaned_files() cleans away invalid-encodings
   and then converts Windows line-endings
-  since it is safer and easier to clean away invalid-encodings first
-  and only then perform operations on the cleaned strings
   ) do
     plain = [
       'the boy stood on',
