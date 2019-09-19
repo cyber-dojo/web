@@ -1,12 +1,10 @@
-require_relative 'http_json/request_packer'
-require_relative 'http_json/response_unpacker'
+require_relative 'http_json/service'
 require_relative 'exercises_exception'
 
 class ExercisesService
 
   def initialize(externals)
-    requester = HttpJson::RequestPacker.new(externals.http, 'exercises', 4525)
-    @http = HttpJson::ResponseUnpacker.new(requester, ExercisesException)
+    @http = HttpJson::service(externals.http, 'exercises', 4525, ExercisesException)
   end
 
   def ready?

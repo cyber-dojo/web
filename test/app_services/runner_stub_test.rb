@@ -8,8 +8,6 @@ class RunnerStubTest < AppServicesTestBase
   end
 
   def hex_setup
-    set_differ_class('NotUsed')
-    set_saver_class('NotUsed')
     set_runner_class('RunnerStub')
   end
 

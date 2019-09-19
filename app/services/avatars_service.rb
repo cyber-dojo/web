@@ -1,12 +1,10 @@
-require_relative 'http_json/request_packer'
-require_relative 'http_json/response_unpacker'
+require_relative 'http_json/service'
 require_relative 'avatars_exception'
 
 class AvatarsService
 
   def initialize(externals)
-    requester = HttpJson::RequestPacker.new(externals.http, 'avatars', 5027)
-    @http = HttpJson::ResponseUnpacker.new(requester, AvatarsException)
+    @http = HttpJson::service(externals.http, 'avatars', 5027, AvatarsException)
   end
 
   def sha

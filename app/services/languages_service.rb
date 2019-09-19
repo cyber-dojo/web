@@ -1,12 +1,10 @@
-require_relative 'http_json/request_packer'
-require_relative 'http_json/response_unpacker'
+require_relative 'http_json/service'
 require_relative 'languages_exception'
 
 class LanguagesService
 
   def initialize(externals)
-    requester = HttpJson::RequestPacker.new(externals.http, 'languages', 4524)
-    @http = HttpJson::ResponseUnpacker.new(requester, LanguagesException)
+    @http = HttpJson::service(externals.http, 'languages', 4524, LanguagesException)
   end
 
   def ready?

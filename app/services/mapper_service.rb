@@ -1,12 +1,10 @@
-require_relative 'http_json/request_packer'
-require_relative 'http_json/response_unpacker'
+require_relative 'http_json/service'
 require_relative 'mapper_exception'
 
 class MapperService
 
   def initialize(externals)
-    requester = HttpJson::RequestPacker.new(externals.http, 'mapper', 4547)
-    @http = HttpJson::ResponseUnpacker.new(requester, MapperException)
+    @http = HttpJson::service(externals.http, 'mapper', 4547, MapperException)
   end
 
   def ready?
