@@ -9,14 +9,15 @@ class Runner
     @externals = externals
   end
 
-  def run(kata, params)
+  def run(params)
     image_name = params[:image_name]
+    id = params[:id]
     files = files_from(params)
     max_seconds = params[:max_seconds].to_i
 
     result =
       runner.run_cyber_dojo_sh(
-        image_name, kata.id, plain(files), max_seconds)
+        image_name, id, plain(files), max_seconds)
 
     created = result['created']
     deleted = result['deleted']
