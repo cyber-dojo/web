@@ -7,10 +7,6 @@ class GroupTest < AppModelsTestBase
     '1P4'
   end
 
-  def hex_setup
-    set_saver_class('SaverFake')
-  end
-
   #- - - - - - - - - - - - - - - - - - - - - - - - -
   # exists?
 
