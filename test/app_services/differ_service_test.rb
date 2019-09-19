@@ -1,5 +1,6 @@
 require_relative 'app_services_test_base'
 require_relative 'http_json_request_packer_not_json_stub'
+require_relative '../../app/services/differ_service'
 
 class DifferServiceTest < AppServicesTestBase
 
@@ -10,24 +11,22 @@ class DifferServiceTest < AppServicesTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '3A9',
-  'response.body failure is mapped to ExercisesException' do
+  'response.body failure is mapped to exception' do
     set_http(HttpJsonRequestPackerNotJsonStub)
-    error = assert_raises(DifferException) { differ.sha }
+    error = assert_raises(DifferService::Error) { differ.sha }
     assert error.message.start_with?('http response.body is not JSON'), error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '3AA',
-  'smoke test ready' do
-    assert differ.ready?
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '3AB',
   'smoke test sha' do
     assert_sha differ.sha
+  end
+
+  test '3AB',
+  'smoke test ready' do
+    assert differ.ready?
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -1,6 +1,6 @@
 require_relative 'app_services_test_base'
 require_relative 'http_json_request_packer_not_json_stub'
-require_relative '../../app/services/saver_exception'
+require_relative '../../app/services/saver_service'
 require 'json'
 
 class SaverServiceTest < AppServicesTestBase
@@ -15,41 +15,31 @@ class SaverServiceTest < AppServicesTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '3A6', 'SaverExceptionRaiser raises SaverException' do
+  test '3A6', 'SaverExceptionRaiser raises exception' do
     set_saver_class('SaverExceptionRaiser')
-    error = assert_raises(SaverException) { saver.sha }
+    error = assert_raises(SaverService::Error) { saver.sha }
     assert error.message.start_with?('stub-raiser'), error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '3A7',
-  'response.body get failure is mapped to SaverException' do
+  'response.body get failure is mapped to exception' do
     set_http(HttpJsonRequestPackerNotJsonStub)
-    error = assert_raises(SaverException) { saver.sha }
+    error = assert_raises(SaverService::Error) { saver.sha }
     assert error.message.start_with?('http response.body is not JSON'), error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '440',
-  'smoke test ready?' do
+  test '442',
+  'smoke test sha,ready?,alive?' do
+    assert_sha saver.sha
     assert saver.ready?
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '441',
-  'smoke test alive?' do
     assert saver.alive?
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '442',
-  'smoke test sha' do
-    assert_sha saver.sha
-  end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -66,7 +56,7 @@ class SaverServiceTest < AppServicesTestBase
   private
 
   def assert_saver_service_error(&block)
-    error = assert_raises(SaverException) {
+    error = assert_raises(SaverService::Error) {
       block.call
     }
     json = JSON.parse!(error.message)

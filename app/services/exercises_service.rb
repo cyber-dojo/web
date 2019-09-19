@@ -1,12 +1,18 @@
 # frozen_string_literal: true
 
 require_relative 'http_json/service'
-require_relative 'exercises_exception'
+require_relative 'http_json/service_error'
 
 class ExercisesService
 
+  class Error < HttpJson::ServiceError
+    def initialize(message)
+      super
+    end
+  end
+
   def initialize(externals)
-    @http = HttpJson::service(externals.http, 'exercises', 4525, ExercisesException)
+    @http = HttpJson::service(externals.http, 'exercises', 4525, Error)
   end
 
   def ready?

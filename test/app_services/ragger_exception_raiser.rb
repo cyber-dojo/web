@@ -1,4 +1,4 @@
-require_relative '../../app/services/ragger_exception'
+require_relative '../../app/services/ragger_service'
 
 class RaggerExceptionRaiser
 
@@ -6,7 +6,7 @@ class RaggerExceptionRaiser
   end
 
   def method_missing(_m, *_args, &_block)
-    raise RaggerException.new('stub-raiser')
+    raise RaggerService::Error.new('stub-raiser')
   end
 
 end

@@ -1,12 +1,18 @@
 # frozen_string_literal: true
 
 require_relative 'http_json/service'
-require_relative 'custom_exception'
+require_relative 'http_json/service_error'
 
 class CustomService
 
+  class Error < HttpJson::ServiceError
+    def initialize(message)
+      super
+    end
+  end
+
   def initialize(externals)
-    @http = HttpJson::service(externals.http, 'custom', 4526, CustomException)
+    @http = HttpJson::service(externals.http, 'custom', 4526, Error)
   end
 
   def ready?

@@ -1,12 +1,18 @@
 # frozen_string_literal: true
 
 require_relative 'http_json/service'
-require_relative 'differ_exception'
+require_relative 'http_json/service_error'
 
 class DifferService
 
+  class Error < HttpJson::ServiceError
+    def initialize(message)
+      super
+    end
+  end
+
   def initialize(externals)
-    @http = HttpJson::service(externals.http, 'differ', 4567, DifferException)
+    @http = HttpJson::service(externals.http, 'differ', 4567, Error)
   end
 
   def ready?

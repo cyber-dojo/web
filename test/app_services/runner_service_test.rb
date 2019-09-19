@@ -1,5 +1,6 @@
 require_relative 'app_services_test_base'
 require_relative 'http_json_request_packer_not_json_stub'
+require_relative '../../app/services/runner_service'
 
 class RunnerServiceTest < AppServicesTestBase
 
@@ -9,23 +10,15 @@ class RunnerServiceTest < AppServicesTestBase
 
   def hex_setup
     set_runner_class('RunnerService')
-    #set_saver_class('SaverService')
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '3A7',
-  'response.body failure is mapped to RunnerException' do
+  'response.body failure is mapped to exception' do
     set_http(HttpJsonRequestPackerNotJsonStub)
-    error = assert_raises(RunnerException) { runner.sha }
+    error = assert_raises(RunnerService::Error) { runner.sha }
     assert error.message.start_with?('http response.body is not JSON'), error.message
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '3A8',
-  'smoke test ready?' do
-    assert runner.ready?
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -33,6 +26,11 @@ class RunnerServiceTest < AppServicesTestBase
   test '74F',
   'smoke test sha' do
     assert_sha(runner.sha)
+  end
+
+  test '3A8',
+  'smoke test ready?' do
+    assert runner.ready?
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -

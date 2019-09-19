@@ -69,8 +69,9 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'c24',
-  %w( RaggerException gracefully degrades [test] to 'faulty' colour ) do
+  test 'c24', %w(
+  Raggerservice::Error gracefully degrades [test] to 'faulty' colour
+  ) do
     set_runner_class('RunnerStub')
     set_ragger_class('RaggerExceptionRaiser')
     in_kata { |kata|
@@ -82,8 +83,9 @@ class KataControllerTest  < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'c25', %w(
-  SaverException on already existing session
-  gracefully degrades [test] to offline functionality ) do
+  SaverService::Error on already existing session
+  gracefully degrades [test] to offline functionality
+  ) do
     set_runner_class('RunnerStub')
     in_kata {
       set_saver_class('SaverExceptionRaiser')

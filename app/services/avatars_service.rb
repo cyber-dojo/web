@@ -1,12 +1,18 @@
 # frozen_string_literal: true
 
 require_relative 'http_json/service'
-require_relative 'avatars_exception'
+require_relative 'http_json/service_error'
 
 class AvatarsService
 
+  class Error < HttpJson::ServiceError
+    def initialize(message)
+      super
+    end
+  end
+
   def initialize(externals)
-    @http = HttpJson::service(externals.http, 'avatars', 5027, AvatarsException)
+    @http = HttpJson::service(externals.http, 'avatars', 5027, Error)
   end
 
   def sha

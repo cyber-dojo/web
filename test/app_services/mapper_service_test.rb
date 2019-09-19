@@ -1,5 +1,6 @@
 require_relative 'app_services_test_base'
 require_relative 'http_json_request_packer_not_json_stub'
+require_relative '../../app/services/mapper_service'
 
 class MapperServiceTest < AppServicesTestBase
 
@@ -10,9 +11,9 @@ class MapperServiceTest < AppServicesTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '3A7',
-  'response.body failure is mapped to ExercisesException' do
+  'response.body failure is mapped to exception' do
     set_http(HttpJsonRequestPackerNotJsonStub)
-    error = assert_raises(MapperException) { mapper.sha }
+    error = assert_raises(MapperService::Error) { mapper.sha }
     assert error.message.start_with?('http response.body is not JSON'), error.message
   end
 

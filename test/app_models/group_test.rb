@@ -1,5 +1,5 @@
 require_relative 'app_models_test_base'
-require_relative '../../app/services/saver_exception'
+require_relative '../../app/services/saver_service'
 
 class GroupTest < AppModelsTestBase
 
@@ -58,7 +58,7 @@ class GroupTest < AppModelsTestBase
   when saver is offline
   ) do
     set_saver_class('SaverExceptionRaiser')
-    assert_raises(SaverException) {
+    assert_raises(SaverService::Error) {
       groups['123AbZ'].exists?
     }
   end

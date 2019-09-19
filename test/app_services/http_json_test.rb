@@ -1,6 +1,6 @@
-require_relative '../../app/services/differ_exception'
 require_relative 'app_services_test_base'
 require_relative 'http_json_request_packer_not_json_stub'
+require_relative '../../app/services/differ_service'
 require 'ostruct'
 
 class HttpJsonTest < AppServicesTestBase
@@ -14,7 +14,7 @@ class HttpJsonTest < AppServicesTestBase
   test '2C6',
   'response.body is not JSON raises' do
     set_http(HttpJsonRequestPackerNotJsonStub)
-    error = assert_raises(DifferException) { differ.sha }
+    error = assert_raises(DifferService::Error) { differ.sha }
     assert_equal 'http response.body is not JSON:sdgdfg', error.message
   end
 
@@ -31,7 +31,7 @@ class HttpJsonTest < AppServicesTestBase
   test '2C7',
   'response.body is not JSON Hash raises' do
     set_http(HttpJsonRequestPackerNotJsonHashStub)
-    error = assert_raises(DifferException) { differ.sha }
+    error = assert_raises(DifferService::Error) { differ.sha }
     assert_equal 'http response.body is not JSON Hash:[]', error.message
   end
 
@@ -48,7 +48,7 @@ class HttpJsonTest < AppServicesTestBase
   test '2C8',
   'response.body is not JSON Hash raises' do
     set_http(HttpJsonRequestPackerNoPathKeyStub)
-    error = assert_raises(DifferException) { differ.sha }
+    error = assert_raises(DifferService::Error) { differ.sha }
     json = '{"not_sha":"3234234"}'
     assert_equal "http response.body has no key for 'sha':#{json}", error.message
   end
@@ -66,7 +66,7 @@ class HttpJsonTest < AppServicesTestBase
   test '2C9',
   'response.body has exception key raises' do
     set_http(HttpJsonRequestPackerExceptionKeyStub)
-    error = assert_raises(DifferException) { differ.sha }
+    error = assert_raises(DifferService::Error) { differ.sha }
     assert_equal '"http-stub-threw"', error.message
   end
 

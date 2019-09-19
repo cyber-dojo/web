@@ -1,4 +1,6 @@
 require_relative 'app_services_test_base'
+require_relative 'http_json_request_packer_not_json_stub'
+require_relative '../../app/services/ragger_service'
 
 class RaggerServiceTest < AppServicesTestBase
 
@@ -8,31 +10,29 @@ class RaggerServiceTest < AppServicesTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '3A6', 'RaggerExceptionRaiser raises RaggerException' do
+  test '3A6', 'RaggerExceptionRaiser raises exception' do
     set_ragger_class('RaggerExceptionRaiser')
-    error = assert_raises(RaggerException) { ragger.sha }
+    error = assert_raises(RaggerService::Error) { ragger.sha }
     assert error.message.start_with?('stub-raiser'), error.message
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '3A7',
-  'response.body failure is mapped to RaggerException' do
+  'response.body failure is mapped to exception' do
     set_http(HttpJsonRequestPackerNotJsonStub)
-    error = assert_raises(RaggerException) { ragger.sha }
+    error = assert_raises(RaggerService::Error) { ragger.sha }
     assert error.message.start_with?('http response.body is not JSON'), error.message
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '3A8', 'smoke test ready?' do
-    assert ragger.ready?
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'F84', 'smoke test ragger.sha' do
     assert_sha(ragger.sha)
+  end
+
+  test '3A8', 'smoke test ready?' do
+    assert ragger.ready?
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -

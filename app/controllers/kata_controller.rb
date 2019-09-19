@@ -88,7 +88,7 @@ class KataController < ApplicationController
       args += [@stdout['content'], @stderr['content'], @status.to_i]
       begin
         colour = ragger.colour(*args)
-      rescue RaggerException
+      rescue RaggerService::Error
         colour = 'faulty'
         # TODO: @message on footer...
       end
@@ -105,7 +105,7 @@ class KataController < ApplicationController
     args << colour
     begin
       kata.ran_tests(*args)
-    rescue SaverException
+    rescue SaverService::Error
       #TODO: @message on footer...
     end
 

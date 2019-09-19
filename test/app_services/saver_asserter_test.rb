@@ -12,8 +12,8 @@ class SaverAsserterTest < AppServicesTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'CB1',
-  'saver_assert(false) raises SaverException' do
-    error = assert_raises(SaverException) {
+  'saver_assert(false) raises SaverService::Error' do
+    error = assert_raises(SaverService::Error) {
       saver_assert(false)
     }
     assert_equal 'false', error.message
@@ -30,7 +30,7 @@ class SaverAsserterTest < AppServicesTestBase
 
   test '968',
   'saver_assert_batch(commands) raises SaverException when any command fails' do
-    error = assert_raises(SaverException) {
+    error = assert_raises(SaverService::Error) {
       saver_assert_batch(
         ['read','a/b/c/d/e/44/67/89']
       )

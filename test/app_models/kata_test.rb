@@ -1,5 +1,5 @@
 require_relative 'app_models_test_base'
-require_relative '../../app/services/saver_exception'
+require_relative '../../app/services/saver_service'
 
 class KataTest < AppModelsTestBase
 
@@ -59,7 +59,7 @@ class KataTest < AppModelsTestBase
   and saver is offline
   ) do
     set_saver_class('SaverExceptionRaiser')
-    assert_raises(SaverException) {
+    assert_raises(SaverService::Error) {
       katas['123AbZ'].exists?
     }
   end
@@ -215,7 +215,7 @@ class KataTest < AppModelsTestBase
     status = result[0]['status']
     colour = 'red'
     k.ran_tests(1, k.files, time_now, duration, stdout, stderr, status, colour)
-    assert_equal k.event(1), k.event(-1) 
+    assert_equal k.event(1), k.event(-1)
   end
 
   private
