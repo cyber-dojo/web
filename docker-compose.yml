@@ -34,8 +34,7 @@ services:
     image: ${CYBER_DOJO_CUSTOM}
     init: true
     container_name: test-web-custom
-    environment: 
-      - NO_PROMETHEUS
+    environment: [NO_PROMETHEUS]
     read_only: true
     ports: [4526:4526]
     tmpfs: /tmp
@@ -48,8 +47,7 @@ services:
     image: ${CYBER_DOJO_EXERCISES}
     init: true
     container_name: test-web-exercises
-    environment:
-      - NO_PROMETHEUS
+    environment: [NO_PROMETHEUS]
     read_only: true
     ports: [4525:4525]
     tmpfs: /tmp
@@ -62,8 +60,7 @@ services:
     image: ${CYBER_DOJO_LANGUAGES}
     init: true
     container_name: test-web-languages
-    environment:
-      - NO_PROMETHEUS
+    environment: [NO_PROMETHEUS]
     read_only: true
     ports: [4524:4524]
     tmpfs: /tmp
@@ -76,8 +73,7 @@ services:
     image: cyberdojo/avatars:${CYBER_DOJO_AVATARS_TAG}
     init: true
     container_name: test-web-avatars
-    environment:
-      - NO_PROMETHEUS
+    environment: [NO_PROMETHEUS]
     read_only: true
     ports: [5027:5027]
     restart: 'no'
@@ -90,8 +86,7 @@ services:
     image: cyberdojo/ragger:${CYBER_DOJO_RAGGER_TAG}
     init: true
     container_name: test-web-ragger
-    environment:
-      - NO_PROMETHEUS
+    environment: [NO_PROMETHEUS]
     read_only: true
     ports: [5537:5537]
     restart: 'no'
@@ -106,8 +101,7 @@ services:
     image: cyberdojo/runner:${CYBER_DOJO_RUNNER_TAG}
     init: true
     container_name: test-web-runner
-    environment:
-      - NO_PROMETHEUS
+    environment: [NO_PROMETHEUS]
     read_only: true
     ports: [4597:4597]
     tmpfs: /tmp
@@ -122,8 +116,7 @@ services:
     image: cyberdojo/saver:${CYBER_DOJO_SAVER_TAG}
     init: true
     container_name: test-web-saver
-    environment:
-      - NO_PROMETHEUS
+    environment: [NO_PROMETHEUS]
     read_only: true
     ports: [4537:4537]
     restart: 'no'
@@ -140,8 +133,7 @@ services:
     image: cyberdojo/mapper:${CYBER_DOJO_MAPPER_TAG}
     init: true
     container_name: test-web-mapper
-    environment:
-      - NO_PROMETHEUS
+    environment: [NO_PROMETHEUS]
     read_only: true
     ports: [4547:4547]
     restart: 'no'
@@ -157,8 +149,7 @@ services:
     image: cyberdojo/differ:${CYBER_DOJO_DIFFER_TAG}
     init: true
     container_name: test-web-differ
-    environment:
-      - NO_PROMETHEUS
+    environment: [NO_PROMETHEUS]
     read_only: true
     ports: [4567:4567]
     tmpfs: /tmp
@@ -171,8 +162,7 @@ services:
     image: cyberdojo/zipper:${CYBER_DOJO_ZIPPER_TAG}
     init: true
     container_name: test-web-zipper
-    environment:
-      - NO_PROMETHEUS
+    environment: [NO_PROMETHEUS]
     read_only: true
     ports: [4587:4587]
     tmpfs: /tmp
