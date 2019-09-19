@@ -6,12 +6,13 @@ require_relative 'version'
 
 class Groups
 
-  def initialize(externals)
+  def initialize(externals, params)
     @externals = externals
+    @params = params
   end
 
   def [](id)
-    Group.new(@externals, id)
+    Group.new(@externals, @params.clone.merge({id:id}))
   end
 
   def new_group(manifest)

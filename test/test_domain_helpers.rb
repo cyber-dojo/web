@@ -47,11 +47,11 @@ module TestDomainHelpers # mix-in
   # - - - - - - - - - - - - - - - - - - - - - - -
 
   def groups
-    Groups.new(self)
+    Groups.new(self, {})
   end
 
   def katas
-    Katas.new(self)
+    Katas.new(self, {})
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - -

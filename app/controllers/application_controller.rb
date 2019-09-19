@@ -12,21 +12,21 @@ class ApplicationController < ActionController::Base
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def groups
-    @groups ||= Groups.new(self)
+    @groups ||= Groups.new(self, params)
   end
 
   def group
-    @group ||= groups[id]
+    @group ||= Group.new(self, params)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def katas
-    @katas ||= Katas.new(self)
+    @katas ||= Katas.new(self, params)
   end
 
   def kata
-    @kata ||= katas[id]
+    @kata ||= Kata.new(self, params)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -

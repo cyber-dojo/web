@@ -56,9 +56,47 @@ class SchemaTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '8DE',
-  'version numbers' do
+  'version number is set in initializer' do
     assert_equal 0, Schema.new(self, 0).version
     assert_equal 1, Schema.new(self, 1).version
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'F48', %w(
+  group.schema.version uses params[:version] if present
+  which avoids any saver-service call
+  ) do
+    set_saver_class('Unused')
+    id = '64327a'
+    [0,1].each do |version|
+      group = Group.new(self, {version:version, id:id})
+      schema = group.schema
+      assert_equal version, schema.version
+      assert_equal id, group.id
+      case version
+      when 0 then assert schema.group.is_a?(Group_v0)
+      when 1 then assert schema.group.is_a?(Group_v1)
+      end
+    end
+  end
+
+  test 'F49', %w(
+  group.schema.version uses params[:version] if present
+  which avoids any saver-service call
+  ) do
+    set_saver_class('Unused')
+    id = '52d425'
+    [0,1].each do |version|
+      kata = Kata.new(self, {version:version, id:id})
+      schema = kata.schema
+      assert_equal version, schema.version
+      assert_equal id, kata.id
+      case version
+      when 0 then schema.kata.is_a?(Kata_v0)
+      when 1 then schema.kata.is_a?(Kata_v1)
+      end
+    end
   end
 
 end

@@ -190,7 +190,6 @@ class GroupTest < AppModelsTestBase
   test '45C', %w(
   events raises when id does not exist
   ) do
-    groups = Groups.new(self)
     group = groups['123456']
     assert_raises { group.events }
   end

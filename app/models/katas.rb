@@ -6,12 +6,13 @@ require_relative 'version'
 
 class Katas
 
-  def initialize(externals)
+  def initialize(externals, params)
     @externals = externals
+    @params = params
   end
 
   def [](id)
-    Kata.new(@externals, id)
+    Kata.new(@externals, @params.clone.merge({id:id}))
   end
 
   def new_kata(manifest)

@@ -10,12 +10,14 @@ require_relative '../lib/id_generator'
 
 class Kata
 
-  def initialize(externals, id)
+  def initialize(externals, params)
     @externals = externals
-    @id = id
+    @params = params
   end
 
-  attr_reader :id
+  def id
+    @params[:id]
+  end
 
   def schema
     @schema ||= Schema.new(@externals, kata_version)
@@ -32,7 +34,7 @@ class Kata
 
   def group
     if group?
-      Group.new(@externals, group_id)
+      Group.new(@externals, @params.clone.merge({id:group_id}))
     else
       nil
     end
@@ -52,7 +54,7 @@ class Kata
     end
   end
 
-  def run_tests(params)
+  def run_tests(params) # DROP!
     Runner.new(@externals).run(self, params)
   end
 
