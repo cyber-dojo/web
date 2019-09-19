@@ -34,11 +34,10 @@ services:
     image: ${CYBER_DOJO_CUSTOM}
     init: true
     container_name: test-web-custom
-    environment:
+    environment: 
       - NO_PROMETHEUS
     read_only: true
-    ports:
-      - 4526:4526
+    ports: [4526:4526]
     tmpfs: /tmp
     restart: 'no'
 
@@ -52,8 +51,7 @@ services:
     environment:
       - NO_PROMETHEUS
     read_only: true
-    ports:
-      - 4525:4525
+    ports: [4525:4525]
     tmpfs: /tmp
     restart: 'no'
 
@@ -67,8 +65,7 @@ services:
     environment:
       - NO_PROMETHEUS
     read_only: true
-    ports:
-      - 4524:4524
+    ports: [4524:4524]
     tmpfs: /tmp
     restart: 'no'
 
@@ -82,8 +79,7 @@ services:
     environment:
       - NO_PROMETHEUS
     read_only: true
-    ports:
-      - 5027:5027
+    ports: [5027:5027]
     restart: 'no'
     tmpfs: /tmp
 
@@ -97,8 +93,7 @@ services:
     environment:
       - NO_PROMETHEUS
     read_only: true
-    ports:
-      - 5537:5537
+    ports: [5537:5537]
     restart: 'no'
     depends_on:
       - runner
@@ -114,8 +109,7 @@ services:
     environment:
       - NO_PROMETHEUS
     read_only: true
-    ports:
-      - 4597:4597
+    ports: [4597:4597]
     tmpfs: /tmp
     restart: 'no'
     volumes:
@@ -131,8 +125,7 @@ services:
     environment:
       - NO_PROMETHEUS
     read_only: true
-    ports:
-      - 4537:4537
+    ports: [4537:4537]
     restart: 'no'
     depends_on:
       - mapper
@@ -150,8 +143,7 @@ services:
     environment:
       - NO_PROMETHEUS
     read_only: true
-    ports:
-      - 4547:4547
+    ports: [4547:4547]
     restart: 'no'
     tmpfs:
       - /tmp:uid=65534,gid=65533
@@ -168,8 +160,7 @@ services:
     environment:
       - NO_PROMETHEUS
     read_only: true
-    ports:
-      - 4567:4567
+    ports: [4567:4567]
     tmpfs: /tmp
     restart: 'no'
 
@@ -183,8 +174,7 @@ services:
     environment:
       - NO_PROMETHEUS
     read_only: true
-    ports:
-      - 4587:4587
+    ports: [4587:4587]
     tmpfs: /tmp
     restart: 'no'
     depends_on:
