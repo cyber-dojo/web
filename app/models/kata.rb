@@ -19,13 +19,7 @@ class Kata
   attr_reader :id
 
   def schema
-    @schema ||= begin
-      # TODO: use params[:version]
-      path = katas_id_path(id, 'manifest.json')
-      manifest_src = saver.read(path)
-      version = json_parse(manifest_src)['version'] || 0
-      Schema.new(@externals, version)
-    end
+    @schema ||= Schema.new(@externals, version)
   end
 
   def exists?
@@ -114,6 +108,15 @@ class Kata
 
   include IdPather
   include OjAdapter
+
+  def version
+    @version ||= begin
+      # TODO: use @params[:version]
+      path = katas_id_path(id, 'manifest.json')
+      manifest_src = saver.read(path)
+      json_parse(manifest_src)['version'] || 0
+    end
+  end
 
   def kata
     schema.kata
