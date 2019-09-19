@@ -55,6 +55,7 @@ class KataControllerTest  < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '223', %w( red-green-amber ) do
+    set_ragger_class('RaggerService')
     in_kata { |kata|
       post_run_tests
       assert_equal :red, kata.lights[-1].colour

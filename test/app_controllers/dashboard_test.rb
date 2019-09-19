@@ -26,6 +26,7 @@ class DashboardControllerTest < AppControllerTestBase
   with and without avatars, and
   with and without traffic lights ) do
     set_runner_class('RunnerService')
+    set_ragger_class('RaggerService')
     manifest = make_manifest({ 'display_name' => 'Python, unittest' })
     group = groups.new_group(manifest)
     @gid = group.id

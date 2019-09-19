@@ -6,12 +6,6 @@ class RunnerTest < AppModelsTestBase
     'Nn2'
   end
 
-  def hex_setup
-    set_saver_class('SaverFake')
-    set_runner_class('RunnerStub')
-    set_ragger_class('RaggerStub')
-  end
-
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '149',

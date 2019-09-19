@@ -8,6 +8,10 @@ class RaggerServiceTest < AppServicesTestBase
     'B96'
   end
 
+  def hex_setup
+    set_ragger_class('RaggerService')
+  end
+
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '3A6', 'RaggerExceptionRaiser raises exception' do
