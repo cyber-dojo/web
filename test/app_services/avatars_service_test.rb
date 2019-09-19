@@ -19,22 +19,20 @@ class AvatarsServiceTest < AppServicesTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '3A8',
+  'smoke test sha' do
+    assert_sha avatars.sha
+  end
+
+  test '3A9',
   'smoke test ready?' do
     assert avatars.ready?
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '3A9',
-  'smoke test sha' do
-    assert_sha avatars.sha
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test '3AC',
   'smoke test names' do
-    assert_equal expected_names.sort, avatars.names
+    assert_equal expected_names, avatars.names
   end
 
   def expected_names

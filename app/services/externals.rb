@@ -9,7 +9,7 @@ module Externals # mix-in
   def exercises
     @exercises ||= external
   end
-  
+
   def languages
     @languages ||= external
   end
@@ -51,8 +51,8 @@ module Externals # mix-in
   def http
     @http ||= Net::HTTP
   end
-  def set_http(obj)
-    @http = obj
+  def set_http(klass)
+    @http = klass
   end
 
   private # = = = = = = = = =
