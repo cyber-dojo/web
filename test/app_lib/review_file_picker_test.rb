@@ -21,7 +21,8 @@ class ReviewFilePickerTest < AppLibTestBase
   test 'D89', %w(
   Rule 1: when the current-filename exists
   and has at least one diff, then pick it,
-  even if a filenameExtension has a bigger diff ) do
+  even if a filenameExtension has a bigger diff
+  ) do
     @current_filename = 'readme.txt'
     @diffs = [] <<
       fdiff('hiker.c',22,32) <<
@@ -34,7 +35,8 @@ class ReviewFilePickerTest < AppLibTestBase
   test 'D90', %w(
   else Rule 2:
   when a filenameExtension file has a diff
-  pick the largest diff ) do
+  pick the largest diff
+  ) do
     @current_filename = 'hiker.h'
     @diffs = [] <<
       fdiff('hiker.h',0,0) <<
@@ -48,7 +50,8 @@ class ReviewFilePickerTest < AppLibTestBase
   test 'D91', %w(
   else Rule 3:
   when a non-filenameExtension file has a diff
-  pick the largest diff ) do
+  pick the largest diff
+  ) do
     @current_filename = 'hiker.h'
     @diffs = [] <<
       fdiff('hiker.h',0,0) <<
@@ -62,7 +65,8 @@ class ReviewFilePickerTest < AppLibTestBase
 
   test 'D92', %w(
   else Rule 4:
-  when the current_filename exists (with no diff), pick it ) do
+  when the current_filename exists (with no diff), pick it
+  ) do
     @current_filename = 'hiker.h'
     @diffs = [] <<
       (@picked=fdiff('hiker.h',0,0)) <<
@@ -76,7 +80,8 @@ class ReviewFilePickerTest < AppLibTestBase
 
   test 'D93', %w(
   else Rule 5:
-  pick largest of stdout/stderr, when it is not empty ) do
+  pick largest of stdout/stderr, when it is not empty
+  ) do
     @current_filename = 'hiker.h'
     @diffs = [] <<
       fdiff('hiker.test.c',0,0) <<
@@ -101,7 +106,8 @@ class ReviewFilePickerTest < AppLibTestBase
 
   test 'D94', %w(
   else Rule 6:
-  pick cyber-dojo.sh ) do
+  pick cyber-dojo.sh
+  ) do
     @current_filename = 'hiker.h'
     @diffs = [] <<
       fdiff('hiker.test.c',0,0) <<

@@ -6,7 +6,7 @@ require_relative 'id_pather'
 require_relative 'manifest'
 require_relative 'runner'
 require_relative 'schema'
-require_relative '../../lib/id_generator'
+require_relative '../lib/id_generator'
 require_relative '../../lib/oj_adapter'
 
 class Kata

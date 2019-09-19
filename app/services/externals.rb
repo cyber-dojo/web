@@ -1,15 +1,15 @@
-require_relative '../../lib/id_generator'
+require_relative '../lib/id_generator'
 
 module Externals # mix-in
 
-  # - - - - - - - - - - - - - - -
-  # start-points
   def custom
     @custom ||= external
   end
+
   def exercises
     @exercises ||= external
   end
+  
   def languages
     @languages ||= external
   end
@@ -40,13 +40,13 @@ module Externals # mix-in
     @saver ||= external
   end
 
-  def id_generator
-    @id_generator ||= IdGenerator.new
-  end
-
   #def zipper
   #  @zipper ||= external
   #end
+
+  def id_generator
+    @id_generator ||= IdGenerator.new
+  end
 
   def http
     @http ||= Net::HTTP

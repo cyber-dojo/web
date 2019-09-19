@@ -1,9 +1,9 @@
-require_relative 'lib_test_base'
-require_relative '../../lib/id_generator'
+require_relative 'app_lib_test_base'
+require_relative '../../app/lib/id_generator'
 require 'fileutils'
 require 'tmpdir'
 
-class IdGeneratorTest < LibTestBase
+class IdGeneratorTest < AppLibTestBase
 
   def self.hex_prefix
     'A6D'
@@ -16,7 +16,8 @@ class IdGeneratorTest < LibTestBase
   # - - - - - - - - - - - - - - - - - - -
 
   test '064', %w(
-  alphabet has 58 characters all of which get used ) do
+  alphabet has 58 characters all of which get used
+  ) do
     assert_equal 58, alphabet.size
     counts = {}
     until counts.size === 58 do
@@ -24,7 +25,7 @@ class IdGeneratorTest < LibTestBase
         counts[ch] = true
       end
     end
-    assert_equal alphabet.chars.sort.join, counts.keys.sort.join
+    assert_equal alphabet.chars.sort, counts.keys.sort
   end
 
   # - - - - - - - - - - - - - - - - - - -
@@ -49,7 +50,8 @@ class IdGeneratorTest < LibTestBase
 
   test '066', %w( <new>
   id generation is sufficiently random that there are
-  no duplicates in 5,000 repeats ) do
+  no duplicates in 5,000 repeats
+  ) do
     ids = {}
     repeats = 5000
     repeats.times do
@@ -61,7 +63,8 @@ class IdGeneratorTest < LibTestBase
   # - - - - - - - - - - - - - - - - - - -
 
   test '068', %w(
-  id?(s) true ) do
+  id?(s) true
+  ) do
     assert id?('012AaE')
     assert id?('345BbC')
     assert id?('678HhJ')
@@ -72,8 +75,11 @@ class IdGeneratorTest < LibTestBase
   # - - - - - - - - - - - - - - - - - - -
 
   test '069', %w(
-  id?(s) false ) do
+  id?(s) false
+  ) do
+    refute id?(42)
     refute id?(nil)
+    refute id?({})
     refute id?([])
     refute id?(25)
     refute id?('I'), :India
