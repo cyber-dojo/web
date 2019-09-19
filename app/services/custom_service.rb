@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'http_json/service'
 require_relative 'custom_exception'
 

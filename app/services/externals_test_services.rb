@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # make names of service test-double classes available
 
 TEST_SERVICES = File.expand_path('../../test/app_services', __dir__)

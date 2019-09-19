@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'externals_test_services'
 require_relative '../lib/id_generator'
 

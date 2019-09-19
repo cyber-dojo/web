@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'request_packer'
 require_relative 'response_unpacker'
 
