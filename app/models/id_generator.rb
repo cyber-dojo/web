@@ -12,39 +12,41 @@ class IdGenerator
     a b c d e f g h   j k l m n   p q r s t u v w x y z
   }.join.freeze
 
-  def initialize(externals)
-    @externals = externals
-  end
-
-  def group_id
-    4.times.find do
-      id = SIZE.times.map{ ALPHABET[random_index] }.join
-      if unreserved?(id) && saver.create(group_id_path(id))
-        break id
-      end
-    end
-  end
-
-  def kata_id
-    4.times.find do
-      id = SIZE.times.map{ ALPHABET[random_index] }.join
-      if unreserved?(id) && saver.create(kata_id_path(id))
-        break id
-      end
-    end
-  end
-
   def self.id?(s)
     s.is_a?(String) &&
       s.length === SIZE &&
         s.chars.all?{ |ch| ALPHABET.include?(ch) }
   end
 
+  # - - - - - - - - - - - - - - - - - - -
+  
+  def initialize(externals)
+    @externals = externals
+  end
+
+  def group_id
+    generate_id(:group_id_path)
+  end
+
+  def kata_id
+    generate_id(:kata_id_path)
+  end
+
   private
+
+  SIZE = 6
 
   include IdPather
 
-  SIZE = 6
+  def generate_id(pather)
+    pather = method(pather)
+    4.times.find do
+      id = SIZE.times.map{ ALPHABET[random_index] }.join
+      if unreserved?(id) && saver.create(pather.call(id))
+        break id
+      end
+    end
+  end
 
   def unreserved?(id)
     id != SAVER_OFFLINE_ID
