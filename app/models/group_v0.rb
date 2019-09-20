@@ -84,10 +84,10 @@ class Group_v0
 
   def generate_id
     id_generator = IdGenerator.new(@externals)
-    42.times do
+    42.times.find do
       id = id_generator.id
       if saver.create(id_path(id))
-        return id
+        break id
       end
     end
   end
