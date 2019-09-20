@@ -36,18 +36,17 @@ class Kata_v1
     id = manifest['id'] = generate_id
     manifest['version'] = 1
     event_summary = {
-      'event' => 'created',
+      'index' => 0,
       'time' => manifest['created'],
-      'index' => 0
+      'event' => 'created'
     }
-    # So you can diff against the first traffic-light.
-    to_diff = {
+    event0 = {
       'files' => manifest['visible_files']
     }
     saver_assert_batch(
       manifest_write_cmd(id, json_plain(manifest)),
       events_write_cmd(id, json_plain(event_summary)),
-      event_write_cmd(id, 0, json_plain(to_diff))
+      event_write_cmd(id, 0, json_plain(event0.merge(event_summary)))
     )
     id
   end
@@ -63,20 +62,20 @@ class Kata_v1
 
   def ran_tests(id, index, files, now, duration, stdout, stderr, status, colour)
     event_summary = {
-      'colour' => colour,
+      'index' => index,
       'time' => now,
       'duration' => duration,
-      'index' => index
+      'colour' => colour
     }
     event_n = {
       'files' => files,
       'stdout' => stdout,
       'stderr' => stderr,
       'status' => status
-    }.merge(event_summary)
+    }
     saver_assert_batch(
       events_append_cmd(id, ',' + json_plain(event_summary)),
-      event_write_cmd(id, index, json_plain(event_n))
+      event_write_cmd(id, index, json_plain(event_n.merge(event_summary)))
     )
   end
 
