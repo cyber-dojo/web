@@ -43,15 +43,14 @@ class Group_v1
     manifest = self.manifest(id)
     manifest.delete('id')
     manifest['group_id'] = id
-    indexes.each do |index|
+    indexes.find do |index|
       if saver.send(*create_cmd(id, index))
         manifest['group_index'] = index
         kata_id = @kata.create(manifest)
         saver_assert(katas_append_cmd(id, "#{kata_id} #{index}\n"))
-        return kata_id
+        break kata_id
       end
-    end
-    nil # full
+    end # nil -> full
   end
 
   # - - - - - - - - - - - - - - - - - - -
