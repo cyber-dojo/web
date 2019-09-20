@@ -10,14 +10,14 @@ class SaverFakeTest < AppServicesTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  REAL_TEST_MARK = '<real>'
-  FAKE_TEST_MARK = '<fake>'
+  REAL_TEST_MARK = '<saver-real>'
+  FAKE_TEST_MARK = '<saver-fake>'
 
   def fake_test?
     hex_test_name.start_with?(FAKE_TEST_MARK)
   end
 
-  def self.multi_test(hex_suffix, *lines, &block)
+  def self.multi_saver_test(hex_suffix, *lines, &block)
     real_lines = [REAL_TEST_MARK] + lines
     test(hex_suffix+'0', *real_lines, &block)
     fake_lines = [FAKE_TEST_MARK] + lines
@@ -39,7 +39,7 @@ class SaverFakeTest < AppServicesTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - -
   # sha
 
-  multi_test '190', %w( sha is sha of image's git commit ) do
+  multi_saver_test '190', %w( sha is sha of image's git commit ) do
     sha = saver.sha
     assert_equal 40, sha.size
     sha.each_char do |ch|
@@ -50,7 +50,7 @@ class SaverFakeTest < AppServicesTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - -
   # ready?
 
-  multi_test '602',
+  multi_saver_test '602',
   %w( ready? is always true ) do
     assert saver.ready?
   end
@@ -58,7 +58,7 @@ class SaverFakeTest < AppServicesTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - -
   # alive?
 
-  multi_test '603',
+  multi_saver_test '603',
   %w( alive? is always true ) do
     assert saver.alive?
   end
@@ -66,7 +66,7 @@ class SaverFakeTest < AppServicesTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - -
   # exists?(), create()
 
-  multi_test '431',
+  multi_saver_test '431',
   'exists?(k) is false before create(k) and true after' do
     dirname = 'client/34/f7/a8'
     refute saver.exists?(dirname)
@@ -74,7 +74,7 @@ class SaverFakeTest < AppServicesTestBase
     assert saver.exists?(dirname)
   end
 
-  multi_test '432',
+  multi_saver_test '432',
   'create succeeds once and then fails' do
     dirname = 'client/r5/s7/03'
     assert saver.create(dirname)
@@ -84,7 +84,7 @@ class SaverFakeTest < AppServicesTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - -
   # write()
 
-  multi_test '640', %w(
+  multi_saver_test '640', %w(
     write() succeeds
     when its dir-name exists and its file-name does not exist
   ) do
@@ -96,7 +96,7 @@ class SaverFakeTest < AppServicesTestBase
     assert_equal content, saver.read(filename)
   end
 
-  multi_test '641', %w(
+  multi_saver_test '641', %w(
     write() fails
     when its dir-name does not already exist
   ) do
@@ -107,7 +107,7 @@ class SaverFakeTest < AppServicesTestBase
     assert saver.read(filename).is_a?(FalseClass)
   end
 
-  multi_test '642', %w(
+  multi_saver_test '642', %w(
     write() fails
     when its file-name already exists
   ) do
@@ -123,7 +123,7 @@ class SaverFakeTest < AppServicesTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - -
   # append()
 
-  multi_test '840', %w(
+  multi_saver_test '840', %w(
     append() returns true and appends to the end of file-name
     when file-name already exists
   ) do
@@ -137,7 +137,7 @@ class SaverFakeTest < AppServicesTestBase
     assert_equal content+more, saver.read(filename)
   end
 
-  multi_test '841', %w(
+  multi_saver_test '841', %w(
     append() returns false and does nothing
     when its dir-name does not already exist
   ) do
@@ -148,7 +148,7 @@ class SaverFakeTest < AppServicesTestBase
     assert saver.read(filename).is_a?(FalseClass)
   end
 
-  multi_test '842', %w(
+  multi_saver_test '842', %w(
     append() does nothing and returns false
     when its file-name does not already exist
   ) do
@@ -163,7 +163,7 @@ class SaverFakeTest < AppServicesTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - -
   # read()
 
-  multi_test '437',
+  multi_saver_test '437',
   'read() gives back what a successful write() accepts' do
     dirname = 'client/FD/F4/38'
     assert saver.create(dirname)
@@ -173,13 +173,13 @@ class SaverFakeTest < AppServicesTestBase
     assert_equal content, saver.read(filename)
   end
 
-  multi_test '438',
+  multi_saver_test '438',
   'read() returns false given a non-existent file-name' do
     filename = 'client/1z/23/e4/not-there.txt'
     assert saver.read(filename).is_a?(FalseClass)
   end
 
-  multi_test '439',
+  multi_saver_test '439',
   'read() returns false given an existing dir-name' do
     dirname = 'client/2f/7k/3P'
     saver.create(dirname)
@@ -189,7 +189,7 @@ class SaverFakeTest < AppServicesTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - -
   # batch()
 
-  multi_test '514',
+  multi_saver_test '514',
   'batch() batches all other commands (except sha/ready/alive/itself)' do
     expected = []
     commands = []

@@ -57,10 +57,12 @@ class SaverAsserterTest < AppModelsTestBase
   ) do
     error = assert_raises(SaverService::Error) {
       saver_assert_batch(
+        ['create','qw/jk/56'],
+        ['exists?','qw/jk/56'],
         ['read','a/b/c/d/e/44/67/manifest.json']
       )
     }
-    assert_equal '[false]', error.message
+    assert_equal '[true, true, false]', error.message
   end
 
 end
