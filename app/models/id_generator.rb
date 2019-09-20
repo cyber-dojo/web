@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
+require_relative 'id_pather'
+
 class IdGenerator
+
+  SAVER_OFFLINE_ID = '999999'
 
   ALPHABET = %w{
     0 1 2 3 4 5 6 7 8 9
@@ -12,27 +16,38 @@ class IdGenerator
     @externals = externals
   end
 
-  def id
-    generated = 6.times.map{ ALPHABET[random_index] }.join
-    if reserved?(generated)
-      id
-    else
-      generated
+  def group_id
+    4.times.find do
+      id = SIZE.times.map{ ALPHABET[random_index] }.join
+      if unreserved?(id) && saver.create(group_id_path(id))
+        break id
+      end
+    end
+  end
+
+  def kata_id
+    4.times.find do
+      id = SIZE.times.map{ ALPHABET[random_index] }.join
+      if unreserved?(id) && saver.create(kata_id_path(id))
+        break id
+      end
     end
   end
 
   def self.id?(s)
     s.is_a?(String) &&
-      s.length === 6 &&
+      s.length === SIZE &&
         s.chars.all?{ |ch| ALPHABET.include?(ch) }
   end
 
   private
 
-  SAVER_OFFLINE_ID = '999999'
+  include IdPather
 
-  def reserved?(id)
-    id === SAVER_OFFLINE_ID
+  SIZE = 6
+
+  def unreserved?(id)
+    id != SAVER_OFFLINE_ID
   end
 
   def random_index
@@ -41,6 +56,10 @@ class IdGenerator
 
   def random
     @externals.random
+  end
+
+  def saver
+    @externals.saver
   end
 
 end

@@ -17,7 +17,7 @@ class Group_v0
   # - - - - - - - - - - - - - - - - - - -
 
   def create(manifest)
-    id = manifest['id'] = generate_id
+    id = manifest['id'] = IdGenerator.new(@externals).group_id
     manifest['visible_files'] = lined_files(manifest['visible_files'])
     saver_assert(manifest_write_cmd(id, json_plain(manifest)))
     id
@@ -79,18 +79,6 @@ class Group_v0
   include Liner
   include OjAdapter
   include SaverAsserter
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
-  def generate_id
-    id_generator = IdGenerator.new(@externals)
-    42.times.find do
-      id = id_generator.id
-      if saver.create(id_path(id))
-        break id
-      end
-    end
-  end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 

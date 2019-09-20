@@ -16,7 +16,7 @@ class Kata_v0
 
   def create(manifest)
     files = manifest.delete('visible_files')
-    id = manifest['id'] = generate_id
+    id = manifest['id'] = IdGenerator.new(@externals).kata_id
     event0 = {
       'event' => 'created',
       'time' => manifest['created']
@@ -91,18 +91,6 @@ class Kata_v0
   include Liner
   include OjAdapter
   include SaverAsserter
-
-  # - - - - - - - - - - - - - -
-
-  def generate_id
-    id_generator = IdGenerator.new(@externals)
-    42.times.find do
-      id = id_generator.id
-      if saver.create(id_path(id))
-        break id
-      end
-    end
-  end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 

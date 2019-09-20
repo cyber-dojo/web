@@ -15,14 +15,34 @@ class IdGeneratorTest < AppModelsTestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  test '064', %w(
-  alphabet has 58 characters all of which get used
+  test 's82', %w(
+  alphabet has 58 characters
   ) do
     assert_equal 58, alphabet.size
+  end
+
+  # - - - - - - - - - - - - - - - - - - -
+
+  test '063', %w(
+  entire alphabet is used in group ids
+  ) do
     id_generator = IdGenerator.new(self)
     counts = {}
     until counts.size === 58 do
-      id_generator.id.each_char do |ch|
+      id_generator.group_id.each_char do |ch|
+        counts[ch] = true
+      end
+    end
+    assert_equal alphabet.chars.sort, counts.keys.sort
+  end
+
+  test '064', %w(
+  entire alphabet is used in kata ids
+  ) do
+    id_generator = IdGenerator.new(self)
+    counts = {}
+    until counts.size === 58 do
+      id_generator.kata_id.each_char do |ch|
         counts[ch] = true
       end
     end
@@ -49,18 +69,53 @@ class IdGeneratorTest < AppModelsTestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  test '066', %w( <new>
-  id generation is sufficiently random that there are
-  no duplicates in 5,000 repeats
+  test '066', %w(
+  kata-id generation is sufficiently random that there are
+  no duplicates in 5000 repeats
   ) do
     id_generator = IdGenerator.new(self)
     ids = {}
     repeats = 5000
     repeats.times do
-      ids[id_generator.id] = true
+      ids[id_generator.kata_id] = true
     end
-    assert repeats, ids.keys.size
+    assert_equal repeats, ids.keys.size
   end
+
+  test '067', %w(
+  group-id generation is sufficiently random that there are
+  no duplicates in 5000 repeats
+  ) do
+    id_generator = IdGenerator.new(self)
+    ids = {}
+    repeats = 5000
+    repeats.times do
+      ids[id_generator.group_id] = true
+    end
+    assert_equal repeats, ids.keys.size
+  end
+
+  # - - - - - - - - - - - - - - - - - - -
+
+  test '13d', %w(
+  id 999999 is reserved for a kata id created when saver is offline
+  ) do
+    @random = Class.new do
+      def initialize
+        @indexes = [9]*6 + [5]*6
+        @n = 0
+      end
+      def rand(size)
+        index = @indexes[@n]
+        @n += 1
+        index
+      end
+    end.new
+    id_generator = IdGenerator.new(self)
+    assert_equal '555555', id_generator.kata_id
+  end
+
+  # - - - - - - - - - - - - - - - - - - -
 
   # - - - - - - - - - - - - - - - - - - -
 
@@ -90,26 +145,6 @@ class IdGeneratorTest < AppModelsTestBase
     refute id?('o'), :oscar
     refute id?('12345'), :not_length_6
     refute id?('1234567'), :not_length_6
-  end
-
-  # - - - - - - - - - - - - - - - - - - -
-
-  test '13d', %w(
-  id 999999 is reserved for katas created when saver is offline
-  ) do
-    @random = Class.new do
-      def initialize
-        @indexes = [9]*6 + [5]*6
-        @n = 0
-      end
-      def rand(size)
-        index = @indexes[@n]
-        @n += 1
-        index
-      end
-    end.new
-    id_generator = IdGenerator.new(self)
-    assert_equal '555555', id_generator.id
   end
 
   private
