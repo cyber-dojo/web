@@ -26,7 +26,7 @@ module TestDomainHelpers # mix-in
     manifest = languages.manifest(display_name)
     em = exercises.manifest(exercise_name)
     manifest['visible_files'].merge!(em['visible_files'])
-    manifest['created'] = (options['created'] || time_now)
+    manifest['created'] = (options['created'] || time.now)
     manifest
   end
 
@@ -55,10 +55,6 @@ module TestDomainHelpers # mix-in
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - -
-
-  def time_now(now = Time.now)
-    [now.year, now.month, now.day, now.hour, now.min, now.sec, now.usec]
-  end
 
   def duration
     1.6543

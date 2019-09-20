@@ -172,7 +172,7 @@ class KataTest < AppModelsTestBase
     stderr = result[0]['stderr']
     status = result[0]['status']
     colour = 'red'
-    kata.ran_tests(1, kata.files, time_now, duration, stdout, stderr, status, colour)
+    kata.ran_tests(1, kata.files, time.now, duration, stdout, stderr, status, colour)
 
     emanifest = kata.events[1].manifest
     refute_nil emanifest
@@ -196,7 +196,7 @@ class KataTest < AppModelsTestBase
     stderr = result[0]['stderr']
     status = result[0]['status']
     colour = 'red'
-    kata.ran_tests(1, kata.files, time_now, duration, stdout, stderr, status, colour)
+    kata.ran_tests(1, kata.files, time.now, duration, stdout, stderr, status, colour)
     assert_equal kata.event(1), kata.event(-1)
   end
 

@@ -9,6 +9,8 @@ class AppModelsTestBase < TestBase
     attr_reader :now
   end
 
+  # - - - - - - - - - - - - - - - - - -
+  
   def create_group
     groups.new_group(starter_manifest)
   end
