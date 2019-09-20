@@ -2,7 +2,7 @@
 
 require_relative 'id_pather'
 require_relative 'kata_v1'
-require_relative '../services/saver_asserter'
+require_relative 'saver_asserter'
 require_relative '../../lib/oj_adapter'
 
 # 1. Manifest now has explicit version (1)
@@ -33,8 +33,7 @@ class Group_v1
   # - - - - - - - - - - - - - - - - - - -
 
   def manifest(id)
-    manifest_src = saver.send(*manifest_read_cmd(id))
-    saver_assert(manifest_src.is_a?(String))
+    manifest_src = saver_assert(manifest_read_cmd(id))
     json_parse(manifest_src)
   end
 
@@ -48,8 +47,7 @@ class Group_v1
       if saver.send(*create_cmd(id, index))
         manifest['group_index'] = index
         kata_id = @kata.create(manifest)
-        result = saver.send(*katas_append_cmd(id, "#{kata_id} #{index}\n"))
-        saver_assert(result)
+        saver_assert(katas_append_cmd(id, "#{kata_id} #{index}\n"))
         return kata_id
       end
     end
@@ -99,6 +97,18 @@ class Group_v1
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
+  def katas_indexes(id)
+    katas_src = saver_assert(katas_read_cmd(id))
+    katas_src.split.each_slice(2).to_a
+    # [
+    #   ['w34rd5', '2'], #  2 == bat
+    #   ['G2ws77','15'], # 15 == fox
+    #   ...
+    # ]
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
   def create_cmd(id, *parts)
     ['create', id_path(id, *parts)]
   end
@@ -133,17 +143,6 @@ class Group_v1
 
   def katas_filename(id)
     id_path(id, 'katas.txt')
-  end
-
-  def katas_indexes(id)
-    katas_src = saver.send(*katas_read_cmd(id))
-    saver_assert(katas_src.is_a?(String))
-    katas_src.split.each_slice(2).to_a
-    # [
-    #   ['w34rd5', '2'], #  2 == bat
-    #   ['G2ws77','15'], # 15 == fox
-    #   ...
-    # ]
   end
 
   # - - - - - - - - - - - - - -

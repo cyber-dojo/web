@@ -2,7 +2,7 @@
 
 require_relative 'id_pather'
 require_relative 'liner'
-require_relative '../services/saver_asserter'
+require_relative 'saver_asserter'
 require_relative '../../lib/oj_adapter'
 
 class Kata_v0
@@ -67,8 +67,7 @@ class Kata_v0
   # - - - - - - - - - - - - - - - - - - -
 
   def events(id)
-    events_src = saver.send(*events_read_cmd(id))
-    saver_assert(events_src.is_a?(String))
+    events_src = saver_assert(events_read_cmd(id))
     json_parse('[' + events_src.lines.join(',') + ']')
     # Alternative implementation, which profiling shows is slower.
     # events_src.lines.map { |line| json_parse(line) }
@@ -78,12 +77,10 @@ class Kata_v0
 
   def event(id, index)
     if index === -1
-      events_src = saver.send(*events_read_cmd(id))
-      saver_assert(events_src.is_a?(String))
+      events_src = saver_assert(events_read_cmd(id))
       index = events_src.count("\n") - 1
     end
-    event_src = saver.send(*event_read_cmd(id, index))
-    saver_assert(event_src.is_a?(String))
+    event_src = saver_assert(event_read_cmd(id, index))
     unlined(json_parse(event_src))
   end
 

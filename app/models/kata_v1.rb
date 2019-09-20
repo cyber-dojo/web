@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'id_pather'
-require_relative '../services/saver_asserter'
+require_relative 'saver_asserter'
 require_relative '../../lib/oj_adapter'
 
 # 1. Manifest now has explicit version (1)
@@ -55,8 +55,7 @@ class Kata_v1
   # - - - - - - - - - - - - - - - - - - -
 
   def manifest(id)
-    manifest_src = saver.send(*manifest_read_cmd(id))
-    saver_assert(manifest_src.is_a?(String))
+    manifest_src = saver_assert(manifest_read_cmd(id))
     json_parse(manifest_src)
   end
 
@@ -84,8 +83,7 @@ class Kata_v1
   # - - - - - - - - - - - - - - - - - - -
 
   def events(id)
-    events_src = saver.send(*events_read_cmd(id))
-    saver_assert(events_src.is_a?(String))
+    events_src = saver_assert(events_read_cmd(id))
     json_parse('[' + events_src + ']')
   end
 
@@ -95,8 +93,7 @@ class Kata_v1
     if index === -1
       index = events(id)[-1]['index']
     end
-    event_src = saver.send(*event_read_cmd(id, index))
-    saver_assert(event_src.is_a?(String))
+    event_src = saver_assert(event_read_cmd(id, index))
     json_parse(event_src)
   end
 

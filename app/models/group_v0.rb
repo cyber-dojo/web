@@ -3,7 +3,7 @@
 require_relative 'id_pather'
 require_relative 'kata_v0'
 require_relative 'liner'
-require_relative '../services/saver_asserter'
+require_relative 'saver_asserter'
 require_relative '../../lib/oj_adapter'
 
 class Group_v0
@@ -18,16 +18,14 @@ class Group_v0
   def create(manifest)
     id = manifest['id'] = generate_id
     manifest['visible_files'] = lined_files(manifest['visible_files'])
-    result = saver.send(*manifest_write_cmd(id, json_plain(manifest)))
-    saver_assert(result)
+    saver_assert(manifest_write_cmd(id, json_plain(manifest)))
     id
   end
 
   # - - - - - - - - - - - - - - - - - - -
 
   def manifest(id)
-    manifest_src = saver.send(*manifest_read_cmd(id))
-    saver_assert(manifest_src.is_a?(String))
+    manifest_src = saver_assert(manifest_read_cmd(id))
     manifest = json_parse(manifest_src)
     manifest['visible_files'] = unlined_files(manifest['visible_files'])
     manifest
@@ -43,8 +41,7 @@ class Group_v0
       if saver.send(*create_cmd(id, index))
         manifest['group_index'] = index
         kata_id = @kata.create(manifest)
-        result = saver.write(id_path(id, index, 'kata.id'), kata_id)
-        saver_assert(result)
+        saver_assert(['write',id_path(id, index, 'kata.id'), kata_id])
         return kata_id
       end
     end

@@ -114,8 +114,7 @@ class Kata
   end
 
   def group_id
-    # if this kata is inside a group, the group's id, else nil
-    manifest.group_id
+    manifest.group_id # nil if not in a group
   end
 
   def most_recent_event

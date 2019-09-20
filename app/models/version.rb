@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'id_pather'
-require_relative '../services/saver_asserter'
+require_relative 'saver_asserter'
 require_relative '../../lib/oj_adapter'
 
 module Version
@@ -24,8 +24,7 @@ module Version
     @version ||= @params[:version]
     @version ||= begin
       path = method(pather).call(id, 'manifest.json')
-      manifest_src = saver.read(path)
-      saver_assert(manifest_src.is_a?(String))
+      manifest_src = saver_assert(['read',path])
       manifest_version(json_parse(manifest_src))
     end
   end
