@@ -10,17 +10,6 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   # - - - - - - - - - - - - - - - -
 
-  def starter_manifest
-    em = exercises.manifest(default_exercise_name)
-    manifest = languages.manifest(default_display_name)
-    manifest['visible_files'].merge!(em['visible_files'])
-    manifest['exercise'] = default_exercise_name
-    manifest['created'] = time.now
-    manifest
-  end
-
-  # - - - - - - - - - - - - - - - -
-
   def in_kata(&block)
     display_name = 'Ruby, MiniTest'
     create_language_kata(display_name)

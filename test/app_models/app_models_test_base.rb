@@ -10,22 +10,13 @@ class AppModelsTestBase < TestBase
   end
 
   # - - - - - - - - - - - - - - - - - -
-  
+
   def create_group
     groups.new_group(starter_manifest)
   end
 
   def create_kata
     katas.new_kata(starter_manifest)
-  end
-
-  def starter_manifest
-    em = exercises.manifest('Fizz Buzz')
-    manifest = languages.manifest('Ruby, MiniTest')
-    manifest['visible_files'].merge!(em['visible_files'])
-    manifest['exercise'] = em['display_name']
-    manifest['created'] = time.now
-    manifest
   end
 
   def kata_params(kata = create_kata)

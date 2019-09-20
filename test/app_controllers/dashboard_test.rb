@@ -9,7 +9,7 @@ class DashboardControllerTest < AppControllerTestBase
   #- - - - - - - - - - - - - - - -
 
   test '971', %w( minute_column/auto_refresh true/false ) do
-    manifest = make_manifest({ 'display_name' => 'Java, JUnit' })
+    manifest = starter_manifest('Java, JUnit')
     group = groups.new_group(manifest)
     @gid = group.id
     options = [ false, true, 'xxx' ]
@@ -27,7 +27,7 @@ class DashboardControllerTest < AppControllerTestBase
   with and without traffic lights ) do
     set_runner_class('RunnerService')
     set_ragger_class('RaggerService')
-    manifest = make_manifest({ 'display_name' => 'Python, unittest' })
+    manifest = starter_manifest('Python, unittest')
     group = groups.new_group(manifest)
     @gid = group.id
     # an animal with a non-amber traffic-light

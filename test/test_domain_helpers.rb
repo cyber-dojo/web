@@ -1,32 +1,37 @@
 
 module TestDomainHelpers # mix-in
 
+  def groups(params = {})
+    Groups.new(self, params)
+  end
+
+  def katas(params = {})
+    Katas.new(self, params)
+  end
+
+  # - - - - - - - - - - - - - - - -
+
   def in_group(&block)
-    manifest = make_manifest({ 'display_name' => default_display_name })
-    group = groups.new_group(manifest)
+    group = groups.new_group(starter_manifest)
     block.call(group)
   end
 
   # - - - - - - - - - - - - - - - -
 
   def in_kata(&block)
-    kata = make_language_kata({ 'display_name' => default_display_name })
+    kata = katas.new_kata(starter_manifest)
     block.call(kata)
   end
 
   # - - - - - - - - - - - - - - - -
 
-  def make_language_kata(options = {})
-    katas.new_kata(make_manifest(options))
-  end
-
-  def make_manifest(options = {})
-    display_name = options['display_name'] || default_display_name
-    exercise_name = options['exercise'] || default_exercise_name
+  def starter_manifest(display_name = default_display_name)
+    exercise_name = default_exercise_name
     manifest = languages.manifest(display_name)
     em = exercises.manifest(exercise_name)
     manifest['visible_files'].merge!(em['visible_files'])
-    manifest['created'] = (options['created'] || time.now)
+    manifest['exercise'] = em['display_name']    
+    manifest['created'] = time.now
     manifest
   end
 
@@ -42,16 +47,6 @@ module TestDomainHelpers # mix-in
     files.map do |filename,file|
       [filename, file['content']]
     end.to_h
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - -
-
-  def groups
-    Groups.new(self, {})
-  end
-
-  def katas
-    Katas.new(self, {})
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - -
