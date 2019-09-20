@@ -6,7 +6,7 @@ require_relative '../../lib/oj_adapter'
 module SaverAsserter # mix-in
 
   def saver_assert(command)
-    result = saver.send(*command)
+    result = saver.public_send(*command)
     unless result
       name,arg0 = command
       message = saver_assert_info(name,arg0,result)
