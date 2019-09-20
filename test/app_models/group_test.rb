@@ -15,8 +15,9 @@ class GroupTest < AppModelsTestBase
   for a well-formed group-id that exists,
   when saver is online
   ) do
-    group = create_group
-    assert groups[group.id].exists?
+    in_group do |group|
+      assert groups[group.id].exists?
+    end
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -26,8 +27,9 @@ class GroupTest < AppModelsTestBase
   for a well-formed group-id that does not exist,
   when saver is online
   ) do
-    group = create_group
-    refute groups['123AbZ'].exists?
+    in_group do |group|
+      refute groups['123AbZ'].exists?
+    end
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -66,12 +68,13 @@ class GroupTest < AppModelsTestBase
   a group can be created from a well-formed manifest,
   and is initially empty
   ) do
-    group = create_group
-    assert_equal group.id, groups[group.id].id
-    assert group.exists?
-    assert group.empty?
-    assert_equal 0, group.size
-    assert_equal [], group.katas
+    in_group do |group|
+      assert_equal group.id, groups[group.id].id
+      assert group.exists?
+      assert group.empty?
+      assert_equal 0, group.size
+      assert_equal [], group.katas
+    end
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -81,8 +84,9 @@ class GroupTest < AppModelsTestBase
   ) do
     now = [2018,11,30, 9,34,56,6453]
     @time = TimeStub.new(now)
-    group = create_group
-    assert_equal Time.mktime(*now), group.created
+    in_group do |group|
+      assert_equal Time.mktime(*now), group.created
+    end
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -91,19 +95,20 @@ class GroupTest < AppModelsTestBase
   when you join a group you increase its size by one,
   and are a member of the group
   ) do
-    group = create_group
-    expected_ids = []
-    actual_ids = lambda { group.katas.map{ |kata| kata.id } }
+    in_group do |group|
+      expected_ids = []
+      actual_ids = lambda { group.katas.map{ |kata| kata.id } }
 
-    kata1 = group.join
-    expected_ids << kata1.id
-    assert_equal 1, group.size
-    assert_equal expected_ids.sort, actual_ids.call.sort
+      kata1 = group.join
+      expected_ids << kata1.id
+      assert_equal 1, group.size
+      assert_equal expected_ids.sort, actual_ids.call.sort
 
-    kata2 = group.join
-    expected_ids << kata2.id
-    assert_equal 2, group.size
-    assert_equal expected_ids.sort, actual_ids.call.sort
+      kata2 = group.join
+      expected_ids << kata2.id
+      assert_equal 2, group.size
+      assert_equal expected_ids.sort, actual_ids.call.sort
+    end
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -111,15 +116,16 @@ class GroupTest < AppModelsTestBase
   test '6A6', %w(
   you can join 64 times and then the group is full
   ) do
-    group = create_group
-    indexes = (0..63).to_a.shuffle
-    64.times do
+    in_group do |group|
+      indexes = (0..63).to_a.shuffle
+      64.times do
+        kata = group.join(indexes)
+        refute_nil kata
+        indexes.rotate!
+      end
       kata = group.join(indexes)
-      refute_nil kata
-      indexes.rotate!
+      assert_nil kata
     end
-    kata = group.join(indexes)
-    assert_nil kata
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -129,15 +135,16 @@ class GroupTest < AppModelsTestBase
   and then it is age of the most recent event
   ) do
     @time = TimeStub.new([2018,11,30, 9,34,56,6543])
-    group = create_group
-    assert_equal 0, group.age
-    kata = group.join
-    assert_equal 0, group.age
-    stdout = file('')
-    stderr = file('')
-    status = 0
-    kata.ran_tests(1, kata.files, [2018,11,30, 9,35,8,7564], duration, stdout, stderr, status, 'green')
-    assert_equal 12, group.age
+    in_group do |group|
+      assert_equal 0, group.age
+      kata = group.join
+      assert_equal 0, group.age
+      stdout = file('')
+      stderr = file('')
+      status = 0
+      kata.ran_tests(1, kata.files, [2018,11,30, 9,35,8,7564], duration, stdout, stderr, status, 'green')
+      assert_equal 12, group.age
+    end
   end
 
   def file(content)

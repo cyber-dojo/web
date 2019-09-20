@@ -11,15 +11,7 @@ class AppModelsTestBase < TestBase
 
   # - - - - - - - - - - - - - - - - - -
 
-  def create_group
-    groups.new_group(starter_manifest)
-  end
-
-  def create_kata
-    katas.new_kata(starter_manifest)
-  end
-
-  def kata_params(kata = create_kata)
+  def kata_params(kata = katas.new_kata(starter_manifest))
     {
       id:kata.id,
       image_name:kata.manifest.image_name,

@@ -30,7 +30,7 @@ module TestDomainHelpers # mix-in
     manifest = languages.manifest(display_name)
     em = exercises.manifest(exercise_name)
     manifest['visible_files'].merge!(em['visible_files'])
-    manifest['exercise'] = em['display_name']    
+    manifest['exercise'] = em['display_name']
     manifest['created'] = time.now
     manifest
   end

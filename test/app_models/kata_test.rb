@@ -15,8 +15,9 @@ class KataTest < AppModelsTestBase
   for a well-formed kata-id that exists,
   when saver is online
   ) do
-    kata = create_kata
-    assert katas[kata.id].exists?
+    in_kata do |kata|
+      assert katas[kata.id].exists?
+    end
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -26,7 +27,6 @@ class KataTest < AppModelsTestBase
   for a well-formed kata-id that does not exist,
   when saver is online
   ) do
-    kata = create_kata
     refute katas['123AbZ'].exists?
   end
 
@@ -68,23 +68,24 @@ class KataTest < AppModelsTestBase
   is empty,
   and is not a member of a group,
   ) do
-    kata = create_kata
-    assert kata.exists?
+    in_kata do |kata|
+      assert kata.exists?
 
-    assert_equal 0, kata.age
+      assert_equal 0, kata.age
 
-    assert_nil kata.stdout
-    assert_nil kata.stderr
-    assert_nil kata.status
+      assert_nil kata.stdout
+      assert_nil kata.stderr
+      assert_nil kata.status
 
-    refute kata.active?
-    assert_equal [], kata.lights
+      refute kata.active?
+      assert_equal [], kata.lights
 
-    refute kata.group?
-    refute_nil kata.group # NullObject pattern
-    refute kata.group.exists?
-    assert_nil kata.group.id
-    assert_equal '', kata.avatar_name
+      refute kata.group?
+      refute_nil kata.group # NullObject pattern
+      refute kata.group.exists?
+      assert_nil kata.group.id
+      assert_equal '', kata.avatar_name
+    end
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -94,30 +95,29 @@ class KataTest < AppModelsTestBase
   is empty,
   and is a member of the group
   ) do
-    manifest = starter_manifest
-    group = groups.new_group(manifest)
     indexes = (0..63).to_a.shuffle
+    in_group do |group|
+      kata = group.join(indexes)
 
-    kata = group.join(indexes)
+      assert kata.exists?
 
-    assert kata.exists?
+      assert_equal 0, kata.age
 
-    assert_equal 0, kata.age
+      assert_nil kata.stdout
+      assert_nil kata.stderr
+      assert_nil kata.status
 
-    assert_nil kata.stdout
-    assert_nil kata.stderr
-    assert_nil kata.status
+      refute kata.active?
+      assert_equal [], kata.lights
 
-    refute kata.active?
-    assert_equal [], kata.lights
+      assert kata.group?
+      assert kata.group.exists?
+      refute_nil kata.group
+      assert_equal group.id, kata.group.id
+      assert_equal Avatars.names[indexes[0]], kata.avatar_name
 
-    assert kata.group?
-    assert kata.group.exists?
-    refute_nil kata.group
-    assert_equal group.id, kata.group.id
-    assert_equal Avatars.names[indexes[0]], kata.avatar_name
-
-    assert_equal 'Ruby, MiniTest', kata.manifest.display_name
+      assert_equal 'Ruby, MiniTest', kata.manifest.display_name
+    end
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -130,7 +130,7 @@ class KataTest < AppModelsTestBase
   which is now the most recent event
   ) do
     @time = TimeStub.new([2018,11,1, 9,13,56,6574])
-    k = create_kata
+    k = katas.new_kata(starter_manifest)
     kata = Kata.new(self, kata_params(k))
     result = kata.run_tests
     stdout = result[0]['stdout']
