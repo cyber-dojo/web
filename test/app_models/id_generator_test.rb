@@ -36,6 +36,8 @@ class IdGeneratorTest < AppModelsTestBase
     assert_equal alphabet.chars.sort, counts.keys.sort
   end
 
+  # - - - - - - - - - - - - - - - - - - -
+
   test '064', %w(
   entire alphabet is used in kata ids
   ) do
@@ -82,6 +84,8 @@ class IdGeneratorTest < AppModelsTestBase
     assert_equal repeats, ids.keys.size
   end
 
+  # - - - - - - - - - - - - - - - - - - -
+
   test '067', %w(
   group-id generation is sufficiently random that there are
   no duplicates in 5000 repeats
@@ -98,29 +102,29 @@ class IdGeneratorTest < AppModelsTestBase
   # - - - - - - - - - - - - - - - - - - -
 
   test '13d', %w(
-  id 999999 is reserved for a kata id created when saver is offline
+  id 999999 is reserved for a kata id when saver is offline
   ) do
-    @random = Class.new do
-      def initialize
-        @indexes = [9]*6 + [5]*6
-        @n = 0
-      end
-      def rand(size)
-        index = @indexes[@n]
-        @n += 1
-        index
-      end
-    end.new
+    @random = RandomStub.new([9]*6 + [5]*6)
     id_generator = IdGenerator.new(self)
     assert_equal '555555', id_generator.kata_id
   end
 
   # - - - - - - - - - - - - - - - - - - -
 
+  test '13e', %w(
+  generator tries 4 times and then gives up and returns nil
+  and you either have the worst random-number generator ever
+  or you are the unluckiest person ever
+  ) do
+    @random = RandomStub.new([9]*6*4)
+    id_generator = IdGenerator.new(self)
+    assert_nil id_generator.kata_id
+  end
+
   # - - - - - - - - - - - - - - - - - - -
 
   test '068', %w(
-  id?(s) true
+  id?(s) true examples
   ) do
     assert id?('012AaE')
     assert id?('345BbC')
@@ -132,7 +136,7 @@ class IdGeneratorTest < AppModelsTestBase
   # - - - - - - - - - - - - - - - - - - -
 
   test '069', %w(
-  id?(s) false
+  id?(s) false examples
   ) do
     refute id?(42)
     refute id?(nil)
@@ -151,6 +155,18 @@ class IdGeneratorTest < AppModelsTestBase
 
   def id?(s)
     IdGenerator::id?(s)
+  end
+
+  class RandomStub
+    def initialize(stubbed)
+      @indexes = stubbed
+      @n = 0
+    end
+    def rand(size)
+      index = @indexes[@n]
+      @n += 1
+      index
+    end
   end
 
 end
