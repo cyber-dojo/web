@@ -1,4 +1,3 @@
-require_relative '../../lib/time_now'
 
 class ForkerController < ApplicationController
 
@@ -18,7 +17,7 @@ class ForkerController < ApplicationController
     # See https://blog.cyber-dojo.org/2014/08/custom-starting-point.html
     mapped_id {
       manifest = kata.events[index].manifest
-      manifest['created'] = time_now
+      manifest['created'] = time.now
       group = groups.new_group(manifest)
       respond_to do |format|
         format.html {
@@ -30,12 +29,10 @@ class ForkerController < ApplicationController
 
   private
 
-  include TimeNow
-
   def fork_json
     begin
       manifest = kata.events[index].manifest
-      manifest['created'] = time_now
+      manifest['created'] = time.now
       forked = yield(manifest)
       result = {
         forked: true,

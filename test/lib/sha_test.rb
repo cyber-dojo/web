@@ -9,7 +9,8 @@ class ShaTest < LibTestBase
   # - - - - - - - - - - - - - - - - -
 
   test '191', %w(
-  sha of git commit for server image lives in /app/sha.txt ) do
+  sha of git commit for image is set as env-var
+  ) do
     sha = ENV['SHA']
     assert_equal 40, sha.size
     sha.each_char do |ch|

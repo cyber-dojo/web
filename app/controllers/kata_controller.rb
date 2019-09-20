@@ -1,4 +1,3 @@
-require_relative '../../lib/time_now'
 
 class KataController < ApplicationController
 
@@ -70,7 +69,7 @@ class KataController < ApplicationController
   # - - - - - - - - - - - - - - - - - -
 
   def run_tests
-    t1 = time_now
+    t1 = time.now
 
     result,files,@created,@deleted,@changed = kata.run_tests
     @stdout = result['stdout']
@@ -90,7 +89,7 @@ class KataController < ApplicationController
       end
     end
 
-    t2 = time_now
+    t2 = time.now
     duration = Time.mktime(*t2) - Time.mktime(*t1)
     index = params[:index].to_i + 1
     args = []
@@ -126,8 +125,6 @@ class KataController < ApplicationController
 
   private
 
-  include TimeNow
-
   def to_json(light)
     {
       'colour' => light.colour,
@@ -144,7 +141,7 @@ class KataController < ApplicationController
     manifest = languages.manifest(language_name)
     manifest['visible_files'].merge!(em['visible_files'])
     manifest['exercise'] = em['display_name']
-    manifest['created'] = time_now
+    manifest['created'] = time.now
     manifest
   end
 =end

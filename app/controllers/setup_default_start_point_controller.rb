@@ -1,4 +1,3 @@
-require_relative '../../lib/time_now'
 
 class SetupDefaultStartPointController < ApplicationController
 
@@ -36,7 +35,6 @@ class SetupDefaultStartPointController < ApplicationController
 
   private
 
-  include TimeNow
   include LargestHelper
 
   def starter_manifest
@@ -46,7 +44,7 @@ class SetupDefaultStartPointController < ApplicationController
     manifest = languages.manifest(language_name)
     manifest['visible_files'].merge!(em['visible_files'])
     manifest['exercise'] = em['display_name']
-    manifest['created'] = time_now
+    manifest['created'] = time.now
     manifest
   end
 

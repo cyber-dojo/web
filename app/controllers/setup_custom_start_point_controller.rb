@@ -1,4 +1,3 @@
-require_relative '../../lib/time_now'
 
 class SetupCustomStartPointController < ApplicationController
 
@@ -23,12 +22,10 @@ class SetupCustomStartPointController < ApplicationController
 
   private
 
-  include TimeNow
-
   def starter_manifest
     name = params['display_name']
     manifest = custom.manifest(name)
-    manifest['created'] = time_now
+    manifest['created'] = time.now
     manifest
   end
 

@@ -1,27 +1,18 @@
 # frozen_string_literal: true
 
 require_relative '../../test/app_services/service_doubles'
+require_relative '../../lib/random_adapter'
+require_relative '../../lib/time_adapter'
 
 module Externals # mix-in
 
   def random
-    @random ||= Class.new do
-      def rand(size)
-        Random.rand(size)
-      end
-    end.new
+    @random ||= RandomAdapter.new
   end
 
-=begin
   def time
-    @time ||= Class.new do
-      def now
-        t = Time.now
-        [t.year, t.month, t.day, t.hour, t.min, t.sec, t.usec]
-      end
-    end.new
+    @time ||= TimeAdapter.new
   end
-=end
 
   # - - - - - - - - - - - - - - -
 

@@ -1,4 +1,3 @@
-require_relative '../../lib/time_now'
 
 module DashboardWorker # mixin
 
@@ -21,12 +20,10 @@ module DashboardWorker # mixin
     end
     args = [group.created, seconds_per_column, max_seconds_uncollapsed]
     gapper = DashboardTdGapper.new(*args)
-    @gapped = gapper.fully_gapped(@all_lights, time_now)
+    @gapped = gapper.fully_gapped(@all_lights, time.now)
     @time_ticks = gapper.time_ticks(@gapped)
     set_footer_info
   end
-
-  include TimeNow
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
