@@ -1,5 +1,6 @@
 require_relative 'app_models_test_base'
 require_relative '../../app/models/saver_asserter'
+require 'json'
 
 class SaverAsserterTest < AppModelsTestBase
 
@@ -28,11 +29,18 @@ class SaverAsserterTest < AppModelsTestBase
   test 'CB2', %w(
   when command fails
   then saver_assert(command) raises SaverService::Error
+  with a json error.message
   ) do
     error = assert_raises(SaverService::Error) {
       saver_assert(['read','er/df/gh/yu/gh/manifest.json'])
     }
-    assert_equal 'false', error.message
+    actual = JSON.parse(error.message)
+    expected = {
+      'name' => 'read',
+      'arg[0]' => 'er/df/gh/yu/gh/manifest.json',
+      'result' => false
+    }
+    assert_equal expected, actual
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -54,15 +62,22 @@ class SaverAsserterTest < AppModelsTestBase
   test '968', %w(
   when any command fails
   saver_assert_batch(commands) raises a SaverService::Error
+  with a json error.message
   ) do
     error = assert_raises(SaverService::Error) {
       saver_assert_batch(
         ['create','qw/jk/56'],
         ['exists?','qw/jk/56'],
-        ['read','a/b/c/d/e/44/67/manifest.json']
+        ['read','qw/jk/56/manifest.json']
       )
     }
-    assert_equal '[true, true, false]', error.message
+    actual = JSON.parse(error.message)
+    expected = [
+      { 'name' => 'create',  'arg[0]' => 'qw/jk/56', 'result' => true },
+      { 'name' => 'exists?', 'arg[0]' => 'qw/jk/56', 'result' => true },
+      { 'name' => 'read',    'arg[0]' => 'qw/jk/56/manifest.json', 'result' => false }
+    ]
+    assert_equal expected, actual
   end
 
 end
