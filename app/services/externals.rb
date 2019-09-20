@@ -12,6 +12,17 @@ module Externals # mix-in
     end.new
   end
 
+=begin
+  def time
+    @time ||= Class.new do
+      def now
+        t = Time.now
+        [t.year, t.month, t.day, t.hour, t.min, t.sec, t.usec]
+      end
+    end.new
+  end
+=end
+
   # - - - - - - - - - - - - - - -
 
   def custom

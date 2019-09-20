@@ -13,6 +13,10 @@ class IdGeneratorTest < AppModelsTestBase
     IdGenerator::ALPHABET
   end
 
+  def saver_offline_id
+    IdGenerator::SAVER_OFFLINE_ID
+  end
+
   # - - - - - - - - - - - - - - - - - - -
 
   test 's82', %w(
@@ -104,7 +108,7 @@ class IdGeneratorTest < AppModelsTestBase
   test '13d', %w(
   id 999999 is reserved for a kata id when saver is offline
   ) do
-    @random = RandomStub.new([9]*6 + [5]*6)
+    @random = RandomStub.new([saver_offline_id,'555555'])
     id_generator = IdGenerator.new(self)
     assert_equal '555555', id_generator.kata_id
   end
@@ -116,7 +120,7 @@ class IdGeneratorTest < AppModelsTestBase
   and you either have the worst random-number generator ever
   or you are the unluckiest person ever
   ) do
-    @random = RandomStub.new([9]*6*4)
+    @random = RandomStub.new([saver_offline_id]*4)
     id_generator = IdGenerator.new(self)
     assert_nil id_generator.kata_id
   end
@@ -158,8 +162,10 @@ class IdGeneratorTest < AppModelsTestBase
   end
 
   class RandomStub
-    def initialize(stubbed)
-      @indexes = stubbed
+    def initialize(ids)
+      alphabet = IdGenerator::ALPHABET
+      chars = ids.join.each_char
+      @indexes = chars.map{ |ch| alphabet.index(ch) }
       @n = 0
     end
     def rand(size)

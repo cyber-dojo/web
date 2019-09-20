@@ -19,7 +19,7 @@ class IdGenerator
   end
 
   # - - - - - - - - - - - - - - - - - - -
-  
+
   def initialize(externals)
     @externals = externals
   end
