@@ -3,7 +3,6 @@
 require_relative 'manifest'
 require_relative 'schema'
 require_relative 'version'
-require_relative '../lib/id_generator'
 
 class Group
 

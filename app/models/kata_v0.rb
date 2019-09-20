@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative 'id_generator'
 require_relative 'id_pather'
 require_relative 'liner'
 require_relative 'saver_asserter'
@@ -94,6 +95,7 @@ class Kata_v0
   # - - - - - - - - - - - - - -
 
   def generate_id
+    id_generator = IdGenerator.new(@externals)
     42.times do
       id = id_generator.id
       if saver.create(id_path(id))
@@ -186,10 +188,6 @@ class Kata_v0
 
   def saver
     @externals.saver
-  end
-
-  def id_generator
-    @externals.id_generator
   end
 
 end

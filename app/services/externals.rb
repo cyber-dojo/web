@@ -1,9 +1,18 @@
 # frozen_string_literal: true
 
-require_relative '../lib/id_generator'
 require_relative '../../test/app_services/service_doubles'
 
 module Externals # mix-in
+
+  def random
+    @random ||= Class.new do
+      def rand(size)
+        Random.rand(size)
+      end
+    end.new
+  end
+
+  # - - - - - - - - - - - - - - -
 
   def custom
     @custom ||= external
@@ -46,10 +55,6 @@ module Externals # mix-in
   #def zipper
   #  @zipper ||= external
   #end
-
-  def id_generator
-    @id_generator ||= IdGenerator.new
-  end
 
   def http
     @http ||= Net::HTTP

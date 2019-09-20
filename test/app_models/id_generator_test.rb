@@ -1,16 +1,16 @@
-require_relative 'app_lib_test_base'
-require_relative '../../app/lib/id_generator'
+require_relative 'app_models_test_base'
+require_relative '../../app/models/id_generator'
 require 'fileutils'
 require 'tmpdir'
 
-class IdGeneratorTest < AppLibTestBase
+class IdGeneratorTest < AppModelsTestBase
 
   def self.hex_prefix
     'A6D'
   end
 
   def alphabet
-    IdGenerator::alphabet
+    IdGenerator::ALPHABET
   end
 
   # - - - - - - - - - - - - - - - - - - -
@@ -19,6 +19,7 @@ class IdGeneratorTest < AppLibTestBase
   alphabet has 58 characters all of which get used
   ) do
     assert_equal 58, alphabet.size
+    id_generator = IdGenerator.new(self)
     counts = {}
     until counts.size === 58 do
       id_generator.id.each_char do |ch|
@@ -52,6 +53,7 @@ class IdGeneratorTest < AppLibTestBase
   id generation is sufficiently random that there are
   no duplicates in 5,000 repeats
   ) do
+    id_generator = IdGenerator.new(self)
     ids = {}
     repeats = 5000
     repeats.times do
