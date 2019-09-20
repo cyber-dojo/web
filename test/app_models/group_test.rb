@@ -79,9 +79,10 @@ class GroupTest < AppModelsTestBase
   test '6A4', %w(
   a group's creation time is set in the manifest used to create it
   ) do
-    t = [2018,11,30, 9,34,56,6453]
-    group = create_group(t)
-    assert_equal Time.mktime(*t), group.created
+    now = [2018,11,30, 9,34,56,6453]
+    @time = TimeStub.new(now)
+    group = create_group
+    assert_equal Time.mktime(*now), group.created
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -127,7 +128,8 @@ class GroupTest < AppModelsTestBase
   the age (seconds) of a group is zero until one member becomes active
   and then it is age of the most recent event
   ) do
-    group = create_group([2018,11,30, 9,34,56,6543])
+    @time = TimeStub.new([2018,11,30, 9,34,56,6543])
+    group = create_group
     assert_equal 0, group.age
     kata = group.join
     assert_equal 0, group.age

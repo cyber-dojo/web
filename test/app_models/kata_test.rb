@@ -129,7 +129,8 @@ class KataTest < AppModelsTestBase
   there is a new traffic-light event,
   which is now the most recent event
   ) do
-    k = create_kata([2018,11,1, 9,13,56,6574])
+    @time = TimeStub.new([2018,11,1, 9,13,56,6574])
+    k = create_kata
     kata = Kata.new(self, kata_params(k))
     result = kata.run_tests
     stdout = result[0]['stdout']

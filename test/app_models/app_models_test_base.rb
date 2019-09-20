@@ -2,20 +2,27 @@ require_relative '../all'
 
 class AppModelsTestBase < TestBase
 
-  def create_group(t = time_now)
-    groups.new_group(starter_manifest(t))
+  class TimeStub
+    def initialize(now)
+      @now = now
+    end
+    attr_reader :now
   end
 
-  def create_kata(t = time_now)
-    katas.new_kata(starter_manifest(t))
+  def create_group
+    groups.new_group(starter_manifest)
   end
 
-  def starter_manifest(t = time_now)
+  def create_kata
+    katas.new_kata(starter_manifest)
+  end
+
+  def starter_manifest
     em = exercises.manifest('Fizz Buzz')
     manifest = languages.manifest('Ruby, MiniTest')
     manifest['visible_files'].merge!(em['visible_files'])
     manifest['exercise'] = em['display_name']
-    manifest['created'] = t
+    manifest['created'] = time.now
     manifest
   end
 
