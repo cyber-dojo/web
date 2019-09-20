@@ -14,10 +14,8 @@ class IdGenerator
 
   def id
     generated = 6.times.map{ ALPHABET[random_index] }.join
-    if generated === '999999'
-      # :nocov:
+    if reserved?(generated)
       id
-      # :nocov:
     else
       generated
     end
@@ -30,6 +28,12 @@ class IdGenerator
   end
 
   private
+
+  SAVER_OFFLINE_ID = '999999'
+
+  def reserved?(id)
+    id === SAVER_OFFLINE_ID
+  end
 
   def random_index
     random.rand(ALPHABET.size)

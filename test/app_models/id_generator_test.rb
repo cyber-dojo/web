@@ -92,6 +92,26 @@ class IdGeneratorTest < AppModelsTestBase
     refute id?('1234567'), :not_length_6
   end
 
+  # - - - - - - - - - - - - - - - - - - -
+
+  test '13d', %w(
+  id 999999 is reserved for katas created when saver is offline
+  ) do
+    @random = Class.new do
+      def initialize
+        @indexes = [9]*6 + [5]*6
+        @n = 0
+      end
+      def rand(size)
+        index = @indexes[@n]
+        @n += 1
+        index
+      end
+    end.new
+    id_generator = IdGenerator.new(self)
+    assert_equal '555555', id_generator.id
+  end
+
   private
 
   def id?(s)
