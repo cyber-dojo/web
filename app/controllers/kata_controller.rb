@@ -14,11 +14,7 @@ class KataController < ApplicationController
       # who
       @avatar_name = kata.avatar_name
       @avatar_index = kata.avatar_index
-      if kata.group?
-        @group_id = kata.group.id
-      else
-        @group_id = nil
-      end
+      @group_id = kata.group.id
       # previous traffic-light-lights
       @lights = kata.lights
       @last_index = kata.events.last.index

@@ -15,16 +15,16 @@ class Group
     @params[:id]
   end
 
-  def schema
-    @schema ||= Schema.new(@externals, group_version)
-  end
-
   def exists?
     IdGenerator.id?(id) &&
       saver.exists?(group_id_path(id))
   end
 
   # - - - - - - - - - - - - - - - - -
+
+  def schema
+    @schema ||= Schema.new(@externals, group_version)
+  end
 
   def created
     Time.mktime(*manifest.created)

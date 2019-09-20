@@ -18,13 +18,15 @@ class Kata
     @params[:id]
   end
 
-  def schema
-    @schema ||= Schema.new(@externals, kata_version)
-  end
-
   def exists?
     IdGenerator.id?(id) &&
       saver.exists?(kata_id_path(id))
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
+  def schema
+    @schema ||= Schema.new(@externals, kata_version)
   end
 
   def group?
@@ -32,11 +34,7 @@ class Kata
   end
 
   def group
-    if group?
-      Group.new(@externals, @params.merge({id:group_id}))
-    else
-      nil
-    end
+    Group.new(@externals, @params.merge({id:group_id}))
   end
 
   def avatar_index
@@ -108,12 +106,12 @@ class Kata
 
   include Version
 
-  def kata
-    schema.kata
-  end
-
   def group_id
     manifest.group_id # nil if not in a group
+  end
+
+  def kata
+    schema.kata
   end
 
   def most_recent_event

@@ -81,7 +81,9 @@ class KataTest < AppModelsTestBase
     assert_equal [], kata.lights
 
     refute kata.group?
-    assert_nil kata.group
+    refute_nil kata.group # NullObject pattern
+    refute kata.group.exists?
+    assert_nil kata.group.id
     assert_equal '', kata.avatar_name
   end
 
@@ -110,6 +112,7 @@ class KataTest < AppModelsTestBase
     assert_equal [], kata.lights
 
     assert kata.group?
+    assert kata.group.exists?
     refute_nil kata.group
     assert_equal group.id, kata.group.id
     assert_equal Avatars.names[indexes[0]], kata.avatar_name
