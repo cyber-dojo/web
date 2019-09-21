@@ -76,8 +76,7 @@ class IdGeneratorTest < AppModelsTestBase
   # - - - - - - - - - - - - - - - - - - -
 
   test '066', %w(
-  kata-id generation is sufficiently random that there are
-  no duplicates in 5000 repeats
+  no kata-id duplicates in 5000 repeats
   ) do
     id_generator = IdGenerator.new(self)
     ids = {}
@@ -91,8 +90,7 @@ class IdGeneratorTest < AppModelsTestBase
   # - - - - - - - - - - - - - - - - - - -
 
   test '067', %w(
-  group-id generation is sufficiently random that there are
-  no duplicates in 5000 repeats
+  no group-id duplicates in 5000 repeats
   ) do
     id_generator = IdGenerator.new(self)
     ids = {}
@@ -108,7 +106,7 @@ class IdGeneratorTest < AppModelsTestBase
   test '13d', %w(
   id 999999 is reserved for a kata id when saver is offline
   ) do
-    @random = RandomStub.new([saver_offline_id,'555555'])
+    @random = RandomStub.new(saver_offline_id+'555555')
     id_generator = IdGenerator.new(self)
     assert_equal '555555', id_generator.kata_id
   end
@@ -120,7 +118,7 @@ class IdGeneratorTest < AppModelsTestBase
   and you either have the worst random-number generator ever
   or you are the unluckiest person ever
   ) do
-    @random = RandomStub.new([saver_offline_id]*4)
+    @random = RandomStub.new(saver_offline_id*4)
     id_generator = IdGenerator.new(self)
     assert_nil id_generator.kata_id
   end
@@ -162,10 +160,9 @@ class IdGeneratorTest < AppModelsTestBase
   end
 
   class RandomStub
-    def initialize(ids)
+    def initialize(letters)
       alphabet = IdGenerator::ALPHABET
-      chars = ids.join.each_char
-      @indexes = chars.map{ |ch| alphabet.index(ch) }
+      @indexes = letters.each_char.map{ |ch| alphabet.index(ch) }
       @n = 0
     end
     def rand(size)
