@@ -1,11 +1,26 @@
 
 module TestDomainHelpers # mix-in
 
-  def groups(params = {})
+  def v_test?(n)
+    hex_test_name.start_with?("<version=#{n}>")
+  end
+
+  def params
+    @params ||= {}
+    if v_test?(0)
+      @params[:version] = 0
+    end
+    if v_test?(1)
+      @params[:version] = 1
+    end
+    @params
+  end
+
+  def groups
     Groups.new(self, params)
   end
 
-  def katas(params = {})
+  def katas
     Katas.new(self, params)
   end
 

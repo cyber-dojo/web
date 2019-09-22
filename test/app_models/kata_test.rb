@@ -10,7 +10,7 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - -
   # exists?
 
-  test '760', %w(
+  v_tests [0], '760', %w(
   exists? is true,
   for a well-formed kata-id that exists,
   when saver is online
@@ -63,7 +63,7 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - -
   # ...
 
-  test '862', %w(
+  v_tests [0,1], '862', %w(
   an individual kata is created from a well-formed manifest,
   is empty,
   and is not a member of a group,

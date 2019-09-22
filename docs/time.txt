@@ -1,0 +1,9 @@
+
+At the moment the time.now calls occur in the web service.
+When web service has 3 replicas (swarm, k8s) then the times
+are not g'teed to be consistent.
+The simplest way to fix this is to set the time in the saver
+service.
+This would mean that tests for, eg the age of a kata would
+need to be run with the SaverFake so you could use a TimeStub
+(see app_models_test_base.rb)
