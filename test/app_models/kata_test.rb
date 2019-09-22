@@ -10,7 +10,7 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - -
   # exists?
 
-  v_tests [0], '760', %w(
+  v_tests [0,1], '760', %w(
   exists? is true,
   for a well-formed kata-id that exists,
   when saver is online
@@ -22,7 +22,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '761', %w(
+  v_tests [0,1], '761', %w(
   exists? is false,
   for a well-formed kata-id that does not exist,
   when saver is online
@@ -32,7 +32,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '762', %w(
+  v_tests [0,1], '762', %w(
   exists? is false,
   for a malformed kata-id,
   when saver is online
@@ -49,7 +49,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '763', %w(
+  v_tests [0,1], '763', %w(
   exists? raises,
   when kata-id is well-formed,
   and saver is offline
@@ -90,7 +90,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '863', %w(
+  v_tests [0,1], '863', %w(
   a new group-kata can be created by joining a group,
   is empty,
   and is a member of the group
@@ -122,7 +122,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '864', %w(
+  v_tests [0,1], '864', %w(
   after run_tests()/ran_tests(),
   the kata is active,
   the kata is a bit older,
@@ -163,7 +163,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '865', %w(
+  v_tests [0,1], '865', %w(
   an event's manifest is ready to create a new kata from
   ) do
     kata = Kata.new(self, kata_params)
@@ -185,7 +185,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '866', %w(
+  v_tests [0,1], '866', %w(
   kata.event(id,-1) is currently unused but ready for plumbing in
   ) do
     kata = Kata.new(self, kata_params)

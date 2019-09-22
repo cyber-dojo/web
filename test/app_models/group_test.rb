@@ -10,7 +10,7 @@ class GroupTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - -
   # exists?
 
-  test '5A5', %w(
+  v_tests [0,1], '5A5', %w(
   exists? is true,
   for a well-formed group-id that exists,
   when saver is online
@@ -22,7 +22,7 @@ class GroupTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '5A6', %w(
+  v_tests [0,1], '5A6', %w(
   exists? is false,
   for a well-formed group-id that does not exist,
   when saver is online
@@ -34,7 +34,7 @@ class GroupTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '5A7', %w(
+  v_tests [0,1], '5A7', %w(
   exists? is false,
   for a malformed group-id,
   when saver is online
@@ -51,7 +51,7 @@ class GroupTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '5A8', %w(
+  v_tests [0,1], '5A8', %w(
   exists? raises,
   when saver is offline
   ) do
@@ -64,7 +64,7 @@ class GroupTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - -
   # ...
 
-  test '6A3', %w(
+  v_tests [0,1], '6A3', %w(
   a group can be created from a well-formed manifest,
   and is initially empty
   ) do
@@ -79,7 +79,7 @@ class GroupTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '6A4', %w(
+  v_tests [0,1], '6A4', %w(
   a group's creation time is set in the manifest used to create it
   ) do
     now = [2018,11,30, 9,34,56,6453]
@@ -91,7 +91,7 @@ class GroupTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '6A5', %w(
+  v_tests [0,1], '6A5', %w(
   when you join a group you increase its size by one,
   and are a member of the group
   ) do
@@ -113,7 +113,7 @@ class GroupTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '6A6', %w(
+  v_tests [0,1], '6A6', %w(
   you can join 64 times and then the group is full
   ) do
     in_group do |group|
@@ -130,7 +130,7 @@ class GroupTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '6A7', %w(
+  v_tests [0,1], '6A7', %w(
   the age (seconds) of a group is zero until one member becomes active
   and then it is age of the most recent event
   ) do
@@ -147,15 +147,9 @@ class GroupTest < AppModelsTestBase
     end
   end
 
-  def file(content)
-    { 'content' => content,
-      'truncated' => false
-    }
-  end
-
 #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '6A8', %w(
+  v_tests [0,1], '6A8', %w(
   a group's manifest is identical to the starter-manifest it was created with
   and does not have group_id nor group_index properties
   ) do
@@ -192,8 +186,8 @@ class GroupTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '45C', %w(
-  events raises when id does not exist
+  v_tests [1], '45C', %w(
+  In Version-1 events raises when id does not exist
   ) do
     group = groups['123456']
     assert_raises { group.events }
@@ -201,7 +195,7 @@ class GroupTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '45E', %w(
+  v_tests [0], '45E', %w(
   In Version-0 events is hash of each avatars events when id does exist
   ) do
     group = groups.new_group(starter_manifest)
@@ -229,6 +223,14 @@ class GroupTest < AppModelsTestBase
       k1.id => k1_events,
       k2.id => k2_events
     }, group.events)
+  end
+
+  private
+
+  def file(content)
+    { 'content' => content,
+      'truncated' => false
+    }
   end
 
 end
