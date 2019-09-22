@@ -50,7 +50,7 @@ module TestHexIdHelpers # mix-in
           ENV['CYBER_DOJO_TEST_NAME'] = name
           hex_setup
           t1 = Time.now
-          self.instance_eval &block
+          self.instance_eval(&block)
           t2 = Time.now
           @@timings[id+':'+src_file+':'+src_line+':'+name] = (t2 - t1)
           hex_teardown
