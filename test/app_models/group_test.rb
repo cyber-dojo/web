@@ -186,6 +186,13 @@ class GroupTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
+  v_tests [0], '45C', %w(
+  In Version-0 events does not raise when id does not exist
+  ) do
+    group = groups['123456']
+    group.events
+  end
+
   v_tests [1], '45C', %w(
   In Version-1 events raises when id does not exist
   ) do
@@ -195,7 +202,7 @@ class GroupTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  v_tests [0], '45E', %w(
+  v_tests [0,1], '45E', %w(
   In Version-0 events is hash of each avatars events when id does exist
   ) do
     group = groups.new_group(starter_manifest)
@@ -209,6 +216,9 @@ class GroupTest < AppModelsTestBase
         }
       ]
     }
+    if v_test?(1)
+      k1_events['events'][0]['index'] = 0
+    end
     assert_equal({k1.id=>k1_events}, group.events)
     k2 = group.join
     k2_events = {
@@ -219,6 +229,9 @@ class GroupTest < AppModelsTestBase
         }
       ]
     }
+    if v_test?(1)
+      k2_events['events'][0]['index'] = 0
+    end
     assert_equal({
       k1.id => k1_events,
       k2.id => k2_events
