@@ -37,7 +37,7 @@ class IdRejoinControllerTest < AppControllerTestBase
   when there is only one-avatar
   then show the avatar and not the avatar-picker ) do
     in_group do |group|
-      kata = assert_join(group.id)
+      assert_join(group.id)
       rejoin('individual', group.id)
       assert exists?
       refute empty?
@@ -52,8 +52,8 @@ class IdRejoinControllerTest < AppControllerTestBase
   when there is more than one avatar
   then show the avatar-picker  ) do
     in_group do |group|
-      kata = assert_join(group.id)
-      kata = assert_join(group.id)
+      assert_join(group.id)
+      assert_join(group.id)
       rejoin('individual', group.id)
       assert exists?
       refute empty?

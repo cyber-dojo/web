@@ -26,8 +26,6 @@ class SaverFakeTest < AppServicesTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  attr_reader :saver
-
   def saver
     if fake_test?
       @saver ||= SaverFake.new(self)

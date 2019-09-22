@@ -127,7 +127,6 @@ end
 
 def print_stats(stats)
   modules.each do |module_name|
-    h = stats[module_name]
     print_left(indent, module_name)
     column_names.each { |name|
       print_right(columns[name][0], stats[module_name][name])

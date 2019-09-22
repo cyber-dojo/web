@@ -53,8 +53,15 @@ do
     # run-the-tests!
     cd "${module}"
     testFiles=(*_test.rb)
+
+    #export RUBYOPT='-W2'
+    #TODO: setting this reveals
+    # app_services    : 1 warning
+    # app_controllers : lots of warnings
+
     ruby -e "%w( ${testFiles[*]} ).shuffle.map{ |file| require './'+file }" \
       "${module}" "$@" 2>&1 | tee "${test_log}"
+
     ruby ../print_coverage_percent.rb \
       "${module}"           | tee -a "${test_log}"
     cd ..

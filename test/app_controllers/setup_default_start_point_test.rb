@@ -82,7 +82,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     assert_response :redirect
     regex = /^(.*)\/kata\/edit\/([0-9A-Za-z]*)$/
     assert m = regex.match(@response.redirect_url)
-    id = m[2]
+    m[2] # id
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -92,7 +92,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     assert_response :redirect
     regex = /^(.*)\/kata\/group\/([0-9A-Za-z]*)$/
     assert m = regex.match(@response.redirect_url)
-    gid = m[2]
+    m[2] # id
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
