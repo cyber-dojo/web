@@ -186,7 +186,7 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
   v_tests [0,1], '866', %w(
-  kata.event(id,-1) is currently unused but ready for plumbing in
+  kata.event(-1) returns the most recent event
   ) do
     kata = Kata.new(self, kata_params)
     assert_equal kata.event(0), kata.event(-1)
@@ -198,6 +198,31 @@ class KataTest < AppModelsTestBase
     colour = 'red'
     kata.ran_tests(1, kata.files, time.now, duration, stdout, stderr, status, colour)
     assert_equal kata.event(1), kata.event(-1)
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - -
+
+  v_tests [0,1], '824', %w(
+  given a saver outage during a session
+  when kata.event(-1) is called
+  then v0 raises
+  but v1 handles it
+  ) do
+    kata = Kata.new(self, kata_params)
+    result = kata.run_tests
+    stdout = result[0]['stdout']
+    stderr = result[0]['stderr']
+    status = result[0]['status']
+    colour = 'red'
+    kata.ran_tests(index=1, kata.files, time.now, duration, stdout, stderr, status, colour)
+    # saver-outage for index=2,3,4,5
+    stdout['content'] = 'x1x2x3'
+    kata.ran_tests(index=6, kata.files, time.now, duration, stdout, stderr, status, colour)
+    if v_test?(0)
+      assert_raises { kata.event(-1) }
+    else
+      assert_equal 'x1x2x3', kata.event(-1)['stdout']['content']
+    end
   end
 
 end

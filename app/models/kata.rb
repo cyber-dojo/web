@@ -66,6 +66,7 @@ class Kata
   end
 
   def event(index)
+    # TODO: This is returning a Hash and not an Event
     kata.event(id, index)
   end
 
