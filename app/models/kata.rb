@@ -66,7 +66,8 @@ class Kata
   end
 
   def event(index)
-    # TODO: This is returning a Hash and not an Event
+    # TODO: This is returning a Hash and not an Event.
+    # Does schema need [group,kata,event] triple?
     kata.event(id, index)
   end
 
@@ -116,6 +117,8 @@ class Kata
   end
 
   def most_recent_event
+    # TODO: which is quicker?
+    # event(-1) or events.last
     events.last
   end
 
