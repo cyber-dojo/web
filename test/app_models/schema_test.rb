@@ -10,15 +10,37 @@ class SchemaTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'C53',
-  'existing group version=0' do
+  'existing pre-schema group defaults to version=0' do
     set_saver_class('SaverService')
     assert_equal 0, groups['chy6BJ'].schema.version
   end
 
   test 'C54',
-  'existing kata version=0' do
+  'existing pre-schema kata default to version=0' do
     set_saver_class('SaverService')
     assert_equal 0, katas['k5ZTk0'].schema.version
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'BAB', %w(
+  when you join an existing pre-schema group your kata is at version=0
+  ) do
+    set_saver_class('SaverService')
+    group = groups['chy6BJ']
+    kata = group.join
+    assert_equal 0, kata.schema.version
+  end
+
+  test 'BAC', %w(
+  when you join a version=1 group your kata is at version=1
+  ) do
+    manifest = starter_manifest
+    manifest['version'] = 1
+    group = groups.new_group(manifest)
+    assert_equal 1, group.schema.version
+    kata = group.join
+    assert_equal 1, kata.schema.version
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -98,5 +120,12 @@ class SchemaTest < AppModelsTestBase
       end
     end
   end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  # a newly created group is at the latest schema version
+  # a newly created kata is at the latest schema version
+  # a newly forked kata is at the latest schema version
+  # a newly forked group is at the latest schema version
 
 end
