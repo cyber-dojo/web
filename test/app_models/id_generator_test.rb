@@ -103,6 +103,32 @@ class IdGeneratorTest < AppModelsTestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
+  test '13b', %w(
+  group-id does not exist before generation, does after
+  ) do
+    id =  'sD92wM'
+    @random = RandomStub.new(id)
+    id_generator = IdGenerator.new(self)
+    refute groups[id].exists?
+    assert_equal id, id_generator.group_id
+    assert groups[id].exists?
+  end
+
+  # - - - - - - - - - - - - - - - - - - -
+
+  test '13c', %w(
+  kata-id does not exist before generation, does after
+  ) do
+    id =  '7w3RPx'
+    @random = RandomStub.new(id)
+    id_generator = IdGenerator.new(self)
+    refute katas[id].exists?
+    assert_equal id, id_generator.kata_id
+    assert katas[id].exists?
+  end
+
+  # - - - - - - - - - - - - - - - - - - -
+
   test '13d', %w(
   id 999999 is reserved for a kata id when saver is offline
   ) do
