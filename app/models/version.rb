@@ -21,11 +21,14 @@ module Version
   private
 
   def version(pather)
-    @version ||= @params[:version].to_i
     @version ||= begin
-      path = method(pather).call(id, 'manifest.json')
-      manifest_src = saver_assert(['read',path])
-      manifest_version(json_parse(manifest_src))
+      if @params.has_key?(:version)
+        @params[:version].to_i
+      else
+        path = method(pather).call(id, 'manifest.json')
+        manifest_src = saver_assert(['read',path])
+        manifest_version(json_parse(manifest_src))
+      end
     end
   end
 

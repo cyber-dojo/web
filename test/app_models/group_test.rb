@@ -8,6 +8,19 @@ class GroupTest < AppModelsTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'B7F', %w(
+  using existing group.methods (except for exists?)
+  when params does not specify a version number
+  forces schema.version determination via the manifest
+  ) do
+    set_saver_class('SaverService')
+    groups = Groups.new(self, {})
+    group = groups['chy6BJ']
+    assert_equal 'Ruby, MiniTest', group.manifest.display_name
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - -
   # exists?
 
   v_tests [0,1], '5A5', %w(
@@ -16,7 +29,7 @@ class GroupTest < AppModelsTestBase
   when saver is online
   ) do
     in_group do |group|
-      assert groups[group.id].exists?
+      assert group.exists?
     end
   end
 
@@ -189,16 +202,14 @@ class GroupTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  v_tests [0], '45C', %w(
+  test '45C', %w(
   In Version-0 events does not raise when id does not exist
-  ) do
-    group = groups['123456']
-    group.events
-  end
-
-  v_tests [1], '45C', %w(
   In Version-1 events raises when id does not exist
   ) do
+    groups = Groups.new(self, {version:0})
+    group = groups['123456']
+    group.events
+    groups = Groups.new(self, {version:1})
     group = groups['123456']
     assert_raises { group.events }
   end

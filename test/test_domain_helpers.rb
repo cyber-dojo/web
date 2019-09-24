@@ -31,13 +31,6 @@ module TestDomainHelpers # mix-in
 
   def params
     @params ||= {}
-    if v_test?(0)
-      @params[:version] = 0
-    end
-    if v_test?(1)
-      @params[:version] = 1
-    end
-    @params
   end
 
   # - - - - - - - - - - - - - - - - - - -

@@ -8,6 +8,19 @@ class KataTest < AppModelsTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'B7F', %w(
+  using existing kata.methods (except for exists?)
+  when params does not specify a version number
+  forces schema.version determination via the manifest
+  ) do
+    set_saver_class('SaverService')
+    katas = Katas.new(self, {})
+    kata = katas['5rTJv5']
+    assert_equal 'Ruby, MiniTest', kata.manifest.display_name
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - -
   # exists?
 
   v_tests [0,1], '760', %w(
@@ -16,7 +29,7 @@ class KataTest < AppModelsTestBase
   when saver is online
   ) do
     in_kata do |kata|
-      assert katas[kata.id].exists?
+      assert kata.exists?
       assert_schema_version(kata)
     end
   end
