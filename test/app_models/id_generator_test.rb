@@ -107,8 +107,7 @@ class IdGeneratorTest < AppModelsTestBase
   group-id does not exist before generation, does after
   ) do
     id =  'sD92wM'
-    @random = RandomStub.new(id)
-    id_generator = IdGenerator.new(self)
+    id_generator = stubbed_id_generator(id)
     refute groups[id].exists?
     assert_equal id, id_generator.group_id
     assert groups[id].exists?
@@ -120,8 +119,7 @@ class IdGeneratorTest < AppModelsTestBase
   kata-id does not exist before generation, does after
   ) do
     id =  '7w3RPx'
-    @random = RandomStub.new(id)
-    id_generator = IdGenerator.new(self)
+    id_generator = stubbed_id_generator(id)
     refute katas[id].exists?
     assert_equal id, id_generator.kata_id
     assert katas[id].exists?
@@ -132,21 +130,31 @@ class IdGeneratorTest < AppModelsTestBase
   test '13d', %w(
   id 999999 is reserved for a kata id when saver is offline
   ) do
-    @random = RandomStub.new(saver_offline_id+'555555')
-    id_generator = IdGenerator.new(self)
-    assert_equal '555555', id_generator.kata_id
+    id = 'eF762A'
+    id_generator = stubbed_id_generator(saver_offline_id+id)
+    assert_equal id, id_generator.kata_id
   end
 
   # - - - - - - - - - - - - - - - - - - -
 
   test '13e', %w(
-  generator tries 4 times and then gives up and returns nil
+  kata-id generation tries 4 times and then gives up and returns nil
   and you either have the worst random-number generator ever
   or you are the unluckiest person ever
   ) do
-    @random = RandomStub.new(saver_offline_id*4)
-    id_generator = IdGenerator.new(self)
+    id_generator = stubbed_id_generator(saver_offline_id*4)
     assert_nil id_generator.kata_id
+  end
+
+  # - - - - - - - - - - - - - - - - - - -
+
+  test '13f', %w(
+  group-id generation tries 4 times and then gives up and returns nil
+  and you either have the worst random-number generator ever
+  or you are the unluckiest person ever
+  ) do
+    id_generator = stubbed_id_generator(saver_offline_id*4)
+    assert_nil id_generator.group_id
   end
 
   # - - - - - - - - - - - - - - - - - - -
@@ -183,6 +191,11 @@ class IdGeneratorTest < AppModelsTestBase
 
   def id?(s)
     IdGenerator::id?(s)
+  end
+
+  def stubbed_id_generator(stub)
+    @random = RandomStub.new(stub)
+    IdGenerator.new(self)
   end
 
   class RandomStub
