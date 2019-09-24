@@ -15,13 +15,13 @@ module Version
   end
 
   def manifest_version(manifest)
-    manifest['version'] || 0
+    manifest['version'].to_i || 0
   end
 
   private
 
   def version(pather)
-    @version ||= @params[:version]
+    @version ||= @params[:version].to_i
     @version ||= begin
       path = method(pather).call(id, 'manifest.json')
       manifest_src = saver_assert(['read',path])

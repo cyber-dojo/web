@@ -16,9 +16,9 @@ class Katas
   end
 
   def new_kata(manifest)
-    version = @params[:version] || manifest_version(manifest)
+    version = manifest_version(manifest)
     id = Schema.new(@externals, version).kata.create(manifest)
-    self[id]
+    Kata.new(@externals, @params.merge({id:id,version:version}))
   end
 
   private

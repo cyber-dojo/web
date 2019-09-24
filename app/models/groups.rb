@@ -16,9 +16,9 @@ class Groups
   end
 
   def new_group(manifest)
-    version = @params[:version] || manifest_version(manifest)
+    version = manifest_version(manifest)
     id = Schema.new(@externals, version).group.create(manifest)
-    self[id]
+    Group.new(@externals, @params.merge({id:id,version:version}))
   end
 
   private

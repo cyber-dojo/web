@@ -69,6 +69,7 @@ class GroupTest < AppModelsTestBase
   and is initially empty
   ) do
     in_group do |group|
+      assert_schema_version(group)
       assert_equal group.id, groups[group.id].id
       assert group.exists?
       assert group.empty?
@@ -139,8 +140,8 @@ class GroupTest < AppModelsTestBase
       assert_equal 0, group.age
       kata = group.join
       assert_equal 0, group.age
-      stdout = file('')
-      stderr = file('')
+      stdout = content('')
+      stderr = content('')
       status = 0
       kata.ran_tests(1, kata.files, [2018,11,30, 9,35,8,7564], duration, stdout, stderr, status, 'green')
       assert_equal 12, group.age
@@ -153,35 +154,37 @@ class GroupTest < AppModelsTestBase
   a group's manifest is identical to the starter-manifest it was created with
   and does not have group_id nor group_index properties
   ) do
+    @time = TimeStub.new([2019,9,24, 12,35,46,214204])
     m = starter_manifest
-    group = groups.new_group(m)
-    am = group.manifest
-    assert_nil am.group_id
-    assert_nil am.group_index
+    in_group do |group|
+      am = group.manifest
+      assert_nil am.group_id
+      assert_nil am.group_index
 
-    assert_equal group.id, am.id
-    assert_equal m['display_name'], am.display_name
-    assert_equal m['image_name'], am.image_name
-    assert_equal m['exercise'], am.exercise
-    assert_equal m['tab_size'], am.tab_size
-    assert_equal m['created'], am.created
+      assert_equal group.id, am.id
+      assert_equal m['display_name'], am.display_name
+      assert_equal m['image_name'], am.image_name
+      assert_equal m['exercise'], am.exercise
+      assert_equal m['tab_size'], am.tab_size
+      assert_equal m['created'], am.created
 
-    hf = %w( coverage/\\.last_run\\.json coverage/\\.resultset\\.json ) # regex
-    assert_equal hf, m['hidden_filenames']
-    assert_equal hf, am.hidden_filenames
+      hf = %w( coverage/\\.last_run\\.json coverage/\\.resultset\\.json ) # regex
+      assert_equal hf, m['hidden_filenames']
+      assert_equal hf, am.hidden_filenames
 
-    fe = ['.rb']
-    assert_equal fe, m['filename_extension']
-    assert_equal fe, am.filename_extension
+      fe = ['.rb']
+      assert_equal fe, m['filename_extension']
+      assert_equal fe, am.filename_extension
 
-    refute m.has_key?('highlight_filenames')
-    assert_equal [], am.highlight_filenames, 'default highlight_filenames'
+      refute m.has_key?('highlight_filenames')
+      assert_equal [], am.highlight_filenames, 'default highlight_filenames'
 
-    refute m.has_key?('max_seconds')
-    assert_equal 10, am.max_seconds, 'default max_seconds'
+      refute m.has_key?('max_seconds')
+      assert_equal 10, am.max_seconds, 'default max_seconds'
 
-    refute m.has_key?('progress_regexs')
-    assert_equal [], am.progress_regexs, 'default progress_regexs'
+      refute m.has_key?('progress_regexs')
+      assert_equal [], am.progress_regexs, 'default progress_regexs'
+    end
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -205,7 +208,9 @@ class GroupTest < AppModelsTestBase
   v_tests [0,1], '45E', %w(
   In Version-0 events is hash of each avatars events when id does exist
   ) do
-    group = groups.new_group(starter_manifest)
+    manifest = starter_manifest
+    manifest['version'] = schema_version
+    group = groups.new_group(manifest)
     assert_equal({}, group.events)
     k1 = group.join
     k1_events = {
@@ -236,14 +241,6 @@ class GroupTest < AppModelsTestBase
       k1.id => k1_events,
       k2.id => k2_events
     }, group.events)
-  end
-
-  private
-
-  def file(content)
-    { 'content' => content,
-      'truncated' => false
-    }
   end
 
 end

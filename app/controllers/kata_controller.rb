@@ -8,6 +8,7 @@ class KataController < ApplicationController
   def edit
     mapped_id {
       manifest = kata.manifest
+      @version = kata.schema.version
       @id = kata.id
       @title = "kata: #{@id}"
       # who
