@@ -63,16 +63,14 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-=begin
   v_tests [0,1], '861', %w(
   group-version propagates to joined kata-version
   ) do
     in_group do |group|
-      kata = kata.join
+      kata = group.join
       assert_equal kata.schema.version, group.schema.version
     end
   end
-=end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
