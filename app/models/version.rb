@@ -15,7 +15,10 @@ module Version
   end
 
   def manifest_version(manifest)
-    manifest['version'].to_i || 0
+    # if manifest['version'].nil?
+    # then nil.to_i ==> 0
+    # which is what we want
+    manifest['version'].to_i
   end
 
   private
