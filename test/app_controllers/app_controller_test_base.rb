@@ -13,19 +13,32 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   def in_group(&block)
     display_name = custom.names[0]
     create_custom_group(display_name)
-    block.call(groups[@id])
+    block.call(group)
   end
+
+  def create_custom_group(display_name)
+    params = { display_name:display_name }
+    get '/setup_custom_start_point/save_group', params:params
+    assert_response :redirect
+    #http://.../kata/group/6433rG
+    regex = /^(.*)\/kata\/group\/([0-9A-Za-z]*)$/
+    assert m = regex.match(@response.redirect_url)
+    @id = m[2]
+    nil
+  end
+
+  def group
+    groups[@id]
+  end
+
+  # - - - - - - - - - - - - - - - -
 
   def in_kata(&block)
     display_name = 'Ruby, MiniTest'
     create_language_kata(display_name)
     @files = kata.files.map{|filename,file| [filename,file['content']]}.to_h
     @index = 0
-    block.call(katas[@id])
-  end
-
-  def kata # USED?
-    katas[@id]
+    block.call(kata)
   end
 
   def create_language_kata(display_name = default_display_name,
@@ -43,17 +56,8 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     nil
   end
 
-  # - - - - - - - - - - - - - - - -
-
-  def create_custom_group(display_name)
-    params = { display_name:display_name }
-    get '/setup_custom_start_point/save_group', params:params
-    assert_response :redirect
-    #http://.../kata/group/6433rG
-    regex = /^(.*)\/kata\/group\/([0-9A-Za-z]*)$/
-    assert m = regex.match(@response.redirect_url)
-    @id = m[2]
-    nil
+  def kata
+    katas[@id]
   end
 
   # - - - - - - - - - - - - - - - -
