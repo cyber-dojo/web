@@ -11,8 +11,9 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   # - - - - - - - - - - - - - - - -
 
   def in_group(&block)
-    group = groups.new_group(versioned_starter_manifest)
-    block.call(group)
+    display_name = custom.names[0]
+    create_custom_group(display_name)
+    block.call(groups[@id])
   end
 
   def in_kata(&block)
@@ -20,10 +21,10 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     create_language_kata(display_name)
     @files = kata.files.map{|filename,file| [filename,file['content']]}.to_h
     @index = 0
-    block.call(kata)
+    block.call(katas[@id])
   end
 
-  def kata
+  def kata # USED?
     katas[@id]
   end
 
@@ -44,7 +45,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   # - - - - - - - - - - - - - - - -
 
-  def create_custom_kata(display_name)
+  def create_custom_group(display_name)
     params = { display_name:display_name }
     get '/setup_custom_start_point/save_group', params:params
     assert_response :redirect
