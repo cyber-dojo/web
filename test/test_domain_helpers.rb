@@ -46,28 +46,15 @@ module TestDomainHelpers # mix-in
   # - - - - - - - - - - - - - - - -
 
   def in_new_group(&block)
-    group = groups.new_group(versioned_starter_manifest)
+    group = groups.new_group(starter_manifest)
     block.call(group)
   end
 
   # - - - - - - - - - - - - - - - -
 
   def in_new_kata(&block)
-    kata = katas.new_kata(versioned_starter_manifest)
+    kata = katas.new_kata(starter_manifest)
     block.call(kata)
-  end
-
-  # - - - - - - - - - - - - - - - -
-
-  def versioned_starter_manifest
-    manifest = starter_manifest
-    if v_test?(0)
-      manifest['version'] = 0
-    end
-    if v_test?(1)
-      manifest['version'] = 1
-    end
-    manifest
   end
 
   # - - - - - - - - - - - - - - - -
@@ -79,8 +66,16 @@ module TestDomainHelpers # mix-in
     manifest['visible_files'].merge!(em['visible_files'])
     manifest['exercise'] = em['display_name']
     manifest['created'] = time.now
+    if v_test?(0)
+      manifest['version'] = 0
+    end
+    if v_test?(1)
+      manifest['version'] = 1
+    end
     manifest
   end
+
+  # - - - - - - - - - - - - - - - -
 
   def default_display_name
     'Ruby, MiniTest'
@@ -89,6 +84,8 @@ module TestDomainHelpers # mix-in
   def default_exercise_name
     'Fizz Buzz'
   end
+
+  # - - - - - - - - - - - - - - - -
 
   def plain(files)
     files.map do |filename,file|
