@@ -29,30 +29,26 @@ module TestDomainHelpers # mix-in
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def params
-    @params ||= {}
-  end
-
-  # - - - - - - - - - - - - - - - - - - -
-
-  def groups
+  def groups(params = {})
     Groups.new(self, params)
   end
 
-  def katas
+  def katas(params = {})
     Katas.new(self, params)
   end
 
   # - - - - - - - - - - - - - - - -
 
-  def in_new_group(&block)
+  def in_new_group(params = {}, &block)
+    groups = Groups.new(self, params)
     group = groups.new_group(starter_manifest)
     block.call(group)
   end
 
   # - - - - - - - - - - - - - - - -
 
-  def in_new_kata(&block)
+  def in_new_kata(params = {}, &block)
+    katas = Katas.new(self, params)
     kata = katas.new_kata(starter_manifest)
     block.call(kata)
   end
