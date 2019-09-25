@@ -13,18 +13,33 @@ class IdJoinControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test 'F11',
-  'join succeeds once for each avatar name, then session is full' do
+  test 'F11', %w(
+  join new group succeeds 64 times
+  and then session is full
+  ) do
     in_group do |group|
       Avatars.names.size.times do
         kata = assert_join(group.id)
-        assert Avatars.names.include?(kata.avatar_name)
         refute full?
+        assert Avatars.names.include?(kata.avatar_name)
       end
       kata = join(group.id)
       assert_nil kata
       assert full?
     end
+  end
+
+  #- - - - - - - - - - - - - - - -
+
+  test 'F12', %w(
+  joining a (not-full) existing (schema.version==0) group succeeds
+  and kata.schema.version==0
+  ) do
+    set_saver_class('SaverService')
+    kata = assert_join('FxWwrr')
+    refute full?
+    assert Avatars.names.include?(kata.avatar_name)
+    assert_equal 0, kata.schema.version
   end
 
   #- - - - - - - - - - - - - - - -

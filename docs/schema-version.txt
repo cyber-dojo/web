@@ -5,7 +5,6 @@
 3. setup new group is always version 1 DONE
 4. setup new kata is always version 1 DONE
 
-5. rejoining an existing kata must respect the original kata version
+5. joining an existing group must respect the original group version DONE
 
-6. joining an existing group must respect the original group version
-   that is, the kata's version follows the group's version
+6. rejoining an existing kata must respect the original kata version

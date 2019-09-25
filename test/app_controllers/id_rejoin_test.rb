@@ -17,11 +17,29 @@ class IdRejoinControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - -
 
+  test '329', %w(
+  schema version==0
+  group-rejoin
+  ) do
+    set_saver_class('SaverService')
+    gid = 'chy6BJ'
+    assert_equal 0, groups[gid].schema.version
+    assert_join(gid)
+    rejoin('group', gid)
+    assert exists?
+    refute empty?
+    assert avatarPicker?
+  end
+
+  #- - - - - - - - - - - - - - - -
+
   test '406', %w(
-  given an group-rejoin with a group-id
+  schema.version==1
+  given a group-rejoin with a group-id
   when there is one or more avatar
   then show the avatar-picker ) do
     in_group do |group|
+      # assert_equal 1, group.schema.version FAILING
       assert_join(group.id)
       rejoin('group', group.id)
       assert exists?
@@ -63,9 +81,12 @@ class IdRejoinControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test '408',
-  'rejoin from new empty group' do
+  test '408', %w(
+  schema version==1
+  rejoin from new empty group
+  ) do
     in_group do |group|
+      # assert_equal 1, group.schema.version # FAILING
       rejoin('group', group.id)
       assert exists?
       assert empty?
@@ -84,8 +105,9 @@ class IdRejoinControllerTest < AppControllerTestBase
   #- - - - - - - - - - - - - - - -
 
   test '508',
-  'rejoin from existing individual kata' do
+  'rejoin from existing individual kata (schema.version==0)' do
     set_saver_class('SaverService')
+    assert_equal 0, katas['5rTJv5'].schema.version
     rejoin('individual', '5rTJv5')
     assert exists?
     refute empty?
@@ -96,8 +118,9 @@ class IdRejoinControllerTest < AppControllerTestBase
   #- - - - - - - - - - - - - - - -
 
   test '509',
-  'rejoin from new individual kata' do
+  'rejoin from new individual kata (schema.version==1)' do
     in_kata do |kata|
+      assert_equal 1, kata.schema.version
       rejoin('individual', kata.id)
       assert exists?
       refute empty?
