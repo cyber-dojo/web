@@ -12,7 +12,7 @@ class RunnerTest < AppModelsTestBase
   'red: expected=42, actual=6*9' do
     ragger.stub_colour('red')
     @params = kata_params
-    in_kata do |kata|
+    in_new_kata do |kata|
       result = kata.run_tests
       assert_equal false, result[0]['timed_out']
       assert_equal 'red', colour_of(kata, result[0])
@@ -25,7 +25,7 @@ class RunnerTest < AppModelsTestBase
   'amber: expected=42, actual=6*7sss' do
     ragger.stub_colour('amber')
     @params = kata_params
-    in_kata do |kata|
+    in_new_kata do |kata|
       result = kata.run_tests
       assert_equal false, result[0]['timed_out']
       assert_equal 'amber', colour_of(kata, result[0])
@@ -38,7 +38,7 @@ class RunnerTest < AppModelsTestBase
   'green: expected=42, actual=6*7' do
     ragger.stub_colour('green')
     @params = kata_params
-    in_kata do |kata|
+    in_new_kata do |kata|
       result = kata.run_tests
       assert_equal false, result[0]['timed_out']
       assert_equal 'green', colour_of(kata, result[0])
@@ -51,7 +51,7 @@ class RunnerTest < AppModelsTestBase
   'timed_out: infinite loop' do
     runner.stub_run('','',0,timed_out=true)
     @params = kata_params
-    in_kata do |kata|
+    in_new_kata do |kata|
       result = kata.run_tests
       assert_equal true, result[0]['timed_out']
     end

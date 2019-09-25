@@ -45,21 +45,21 @@ module TestDomainHelpers # mix-in
 
   # - - - - - - - - - - - - - - - -
 
-  def in_group(&block)
-    manifest = starter_manifest
-    if v_test?(0)
-      manifest['version'] = 0
-    end
-    if v_test?(1)
-      manifest['version'] = 1
-    end
-    group = groups.new_group(manifest)
+  def in_new_group(&block)
+    group = groups.new_group(versioned_starter_manifest)
     block.call(group)
   end
 
   # - - - - - - - - - - - - - - - -
 
-  def in_kata(&block)
+  def in_new_kata(&block)
+    kata = katas.new_kata(versioned_starter_manifest)
+    block.call(kata)
+  end
+
+  # - - - - - - - - - - - - - - - -
+
+  def versioned_starter_manifest
     manifest = starter_manifest
     if v_test?(0)
       manifest['version'] = 0
@@ -67,8 +67,7 @@ module TestDomainHelpers # mix-in
     if v_test?(1)
       manifest['version'] = 1
     end
-    kata = katas.new_kata(manifest)
-    block.call(kata)
+    manifest
   end
 
   # - - - - - - - - - - - - - - - -

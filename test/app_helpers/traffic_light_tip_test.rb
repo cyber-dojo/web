@@ -10,7 +10,7 @@ class TipTest < AppHelpersTestBase
 
   test 'D52',
   'traffic light tip for individual kata does not have avatar-image' do
-    in_kata do |kata|
+    in_new_kata do |kata|
       files = kata.files
       stdout = file("Expected: 42\nActual: 54")
       stderr = file('assert failed')
@@ -57,7 +57,7 @@ class TipTest < AppHelpersTestBase
 
   test 'D53',
   'traffic light tip for kata in a group does have an avatar-image' do
-    in_group do |group|
+    in_new_group do |group|
       kata = group.join
       files = kata.files
       stdout = file("Expected: 42\nActual: 54")

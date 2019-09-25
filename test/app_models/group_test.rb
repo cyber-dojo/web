@@ -28,7 +28,7 @@ class GroupTest < AppModelsTestBase
   for a well-formed group-id that exists,
   when saver is online
   ) do
-    in_group do |group|
+    in_new_group do |group|
       assert group.exists?
     end
   end
@@ -40,9 +40,7 @@ class GroupTest < AppModelsTestBase
   for a well-formed group-id that does not exist,
   when saver is online
   ) do
-    in_group do |group|
-      refute groups['123AbZ'].exists?
-    end
+    refute groups['123AbZ'].exists?
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -81,7 +79,7 @@ class GroupTest < AppModelsTestBase
   a group can be created from a well-formed manifest,
   and is initially empty
   ) do
-    in_group do |group|
+    in_new_group do |group|
       assert_schema_version(group)
       assert_equal group.id, groups[group.id].id
       assert group.exists?
@@ -98,7 +96,7 @@ class GroupTest < AppModelsTestBase
   ) do
     now = [2018,11,30, 9,34,56,6453]
     @time = TimeStub.new(now)
-    in_group do |group|
+    in_new_group do |group|
       assert_equal Time.mktime(*now), group.created
     end
   end
@@ -109,7 +107,7 @@ class GroupTest < AppModelsTestBase
   when you join a group you increase its size by one,
   and are a member of the group
   ) do
-    in_group do |group|
+    in_new_group do |group|
       expected_ids = []
       actual_ids = lambda { group.katas.map{ |kata| kata.id } }
 
@@ -130,7 +128,7 @@ class GroupTest < AppModelsTestBase
   v_tests [0,1], '6A6', %w(
   you can join 64 times and then the group is full
   ) do
-    in_group do |group|
+    in_new_group do |group|
       indexes = (0..63).to_a.shuffle
       64.times do
         kata = group.join(indexes)
@@ -149,7 +147,7 @@ class GroupTest < AppModelsTestBase
   and then it is age of the most recent event
   ) do
     @time = TimeStub.new([2018,11,30, 9,34,56,6543])
-    in_group do |group|
+    in_new_group do |group|
       assert_equal 0, group.age
       kata = group.join
       assert_equal 0, group.age
@@ -169,7 +167,7 @@ class GroupTest < AppModelsTestBase
   ) do
     @time = TimeStub.new([2019,9,24, 12,35,46,214204])
     m = starter_manifest
-    in_group do |group|
+    in_new_group do |group|
       am = group.manifest
       assert_nil am.group_id
       assert_nil am.group_index

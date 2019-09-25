@@ -37,7 +37,7 @@ class RunnerServiceTest < AppServicesTestBase
 
   test '812',
   'run() tests expecting 42 actual 6*9' do
-    in_kata { |kata|
+    in_new_kata { |kata|
       result = runner.run_cyber_dojo_sh(*run_args(kata))
       stdout = result['stdout']['content']
       # output == Ruby, MiniTest
@@ -53,7 +53,7 @@ class RunnerServiceTest < AppServicesTestBase
 
   test '9DC',
   'deleting a file' do
-    in_kata { |kata|
+    in_new_kata { |kata|
       args = run_args(kata)
       files = args[2]
       files['cyber-dojo.sh'] += "\nrm readme.txt"

@@ -28,7 +28,7 @@ class KataTest < AppModelsTestBase
   for a well-formed kata-id that exists,
   when saver is online
   ) do
-    in_kata do |kata|
+    in_new_kata do |kata|
       assert kata.exists?
       assert_schema_version(kata)
     end
@@ -79,7 +79,7 @@ class KataTest < AppModelsTestBase
   v_tests [0,1], '861', %w(
   group-version propagates to joined kata-version
   ) do
-    in_group do |group|
+    in_new_group do |group|
       kata = group.join
       assert_equal kata.schema.version, group.schema.version
     end
@@ -92,7 +92,7 @@ class KataTest < AppModelsTestBase
   is empty,
   and is not a member of a group,
   ) do
-    in_kata do |kata|
+    in_new_kata do |kata|
       assert kata.exists?
       assert_schema_version(kata)
       assert_equal 0, kata.age
@@ -120,7 +120,7 @@ class KataTest < AppModelsTestBase
   and is a member of the group
   ) do
     indexes = (0..63).to_a.shuffle
-    in_group do |group|
+    in_new_group do |group|
       kata = group.join(indexes)
 
       assert_schema_version(kata)
@@ -156,7 +156,7 @@ class KataTest < AppModelsTestBase
   which is now the most recent event
   ) do
     @time = TimeStub.new([2018,11,1, 9,13,56,6574])
-    in_kata do |kata|
+    in_new_kata do |kata|
       assert_schema_version(kata)
       stdout = content('dfg')
       stderr = content('uystd')
@@ -191,7 +191,7 @@ class KataTest < AppModelsTestBase
   v_tests [0,1], '865', %w(
   an event's manifest is ready to create a new kata from
   ) do
-    in_kata do |kata|
+    in_new_kata do |kata|
       assert_schema_version(kata)
       stdout = content('dfsdf')
       stderr = content('76546')
@@ -214,7 +214,7 @@ class KataTest < AppModelsTestBase
   v_tests [0,1], '866', %w(
   kata.event(-1) returns the most recent event
   ) do
-    in_kata do |kata|
+    in_new_kata do |kata|
       assert_schema_version(kata)
       assert_equal kata.event(0), kata.event(-1)
       stdout = content('xxxx')
@@ -241,7 +241,7 @@ class KataTest < AppModelsTestBase
   then v0 raises
   but v1 handles it
   ) do
-    in_kata do |kata|
+    in_new_kata do |kata|
       assert_schema_version(kata)
       stdout = content('aaaa')
       stderr = content('bbbb')

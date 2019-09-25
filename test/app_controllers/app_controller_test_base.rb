@@ -10,6 +10,11 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   # - - - - - - - - - - - - - - - -
 
+  def in_group(&block)
+    group = groups.new_group(versioned_starter_manifest)
+    block.call(group)
+  end
+
   def in_kata(&block)
     display_name = 'Ruby, MiniTest'
     create_language_kata(display_name)
