@@ -11,13 +11,12 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   # - - - - - - - - - - - - - - - -
 
   def in_group(&block)
-    display_name = custom.names[0]
-    create_custom_group(display_name)
+    create_custom_group
     block.call(group)
   end
 
-  def create_custom_group(display_name)
-    params = { display_name:display_name }
+  def create_custom_group
+    params = { display_name:custom.names[0] }
     get '/setup_custom_start_point/save_group', params:params
     assert_response :redirect
     #http://.../kata/group/6433rG
@@ -34,18 +33,16 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   # - - - - - - - - - - - - - - - -
 
   def in_kata(&block)
-    display_name = 'Ruby, MiniTest'
-    create_language_kata(display_name)
+    create_language_kata
     @files = kata.files.map{|filename,file| [filename,file['content']]}.to_h
     @index = 0
     block.call(kata)
   end
 
-  def create_language_kata(display_name = default_display_name,
-                           exercise_name = default_exercise_name)
+  def create_language_kata
     params = {
-      language:display_name,
-      exercise:exercise_name
+      language:default_display_name,
+      exercise:default_exercise_name
     }
     get '/setup_default_start_point/save_individual', params:params
     assert_response :redirect
@@ -91,9 +88,9 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   def run_test_params(options = {})
     {
       'format'           => 'js',
-      'id'               => (options['id']          || kata.id),
-      'version'          => (options['version']     || kata.schema.version),
-      'image_name'       => (options['image_name' ] || kata.manifest.image_name),
+      'id'               => kata.id,
+      'version'          => kata.schema.version,
+      'image_name'       => kata.manifest.image_name,
       'max_seconds'      => (options['max_seconds'] || kata.manifest.max_seconds),
       'hidden_filenames' => JSON.unparse(kata.manifest.hidden_filenames),
       'index'            => @index,
