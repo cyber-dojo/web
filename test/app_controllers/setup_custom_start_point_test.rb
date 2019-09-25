@@ -19,7 +19,7 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
 
   test '3D8', %w(
   save_group
-  creates a new group
+  creates a new group at schema.version==1
   with the given display_name
   and does not start any avatars
   and redirects to kata/group page ) do
@@ -27,6 +27,7 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
     gid = save_group(params)
     group = groups[gid]
     assert group.exists?
+    assert_equal 1, group.schema.version
     assert_equal yahtzee_csharp_nunit,  group.manifest.display_name
     assert_equal [], group.katas
   end
@@ -35,13 +36,14 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
 
   test '3D9', %w(
   save_individual
-  creates a new individual kata
+  creates a new individual kata at schema.version==1
   with the given display_name
   and redirects to kata/edit page ) do
     params = { display_name:yahtzee_python_unittest }
     id = save_individual(params)
     kata = katas[id]
     assert kata.exists?
+    assert_equal 1, kata.schema.version        
     assert_equal yahtzee_python_unittest,  kata.manifest.display_name
     refute kata.group?
   end

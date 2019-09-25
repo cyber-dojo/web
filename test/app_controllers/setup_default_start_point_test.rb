@@ -20,7 +20,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   test '3D8', %w(
   save_group
-  creates a new group
+  creates a new group at schema.version==1
   with the given display_name
   and does not start any avatars
   and redirects to kata/group page ) do
@@ -31,6 +31,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     gid = save_group(params)
     group = groups[gid]
     assert group.exists?
+    assert_equal 1, group.schema.version
     assert_equal ruby_rspec,  group.manifest.display_name
     assert_equal leap_years, group.manifest.exercise
     assert_equal [], group.katas
@@ -40,7 +41,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   test '3D9', %w(
   save_individual
-  creates a new individual kata
+  creates a new individual kata at schema.version==1
   with the given language+test and exercise
   and redirects to kata/edit page ) do
     params = {
@@ -50,6 +51,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     id = save_individual(params)
     kata = katas[id]
     assert kata.exists?
+    assert_equal 1, kata.schema.version
     assert_equal ruby_minitest, kata.manifest.display_name
     assert_equal fizz_buzz, kata.manifest.exercise
     refute kata.group?

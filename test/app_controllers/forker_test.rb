@@ -13,13 +13,15 @@ class ForkerControllerTest < AppControllerTestBase
   test '32E', %w(
   when id,index are all ok
   format=json fork_individual works
-  and the new individual session's id is returned ) do
+  and the new individual session's id is returned
+  and designates a kata at schema.version==1) do
     in_kata { |kata|
       post_run_tests # 1
       fork_individual(kata.id, index=1)
       assert forked?
       forked_kata = katas[json['id']]
       assert forked_kata.exists?
+      assert_equal 1, forked_kata.schema.version
       refute forked_kata.group?
       assert_equal kata.manifest.image_name, forked_kata.manifest.image_name
       assert_equal kata.files, forked_kata.files
@@ -31,13 +33,15 @@ class ForkerControllerTest < AppControllerTestBase
   test '32F', %w(
   when id,index are all ok
   format=json fork_group works
-  and the new group session's id is returned ) do
+  and the new group session's id is returned
+  and designates a group at schema.version==1) do
     in_kata { |kata|
       post_run_tests # 1
       fork_group(kata.id, index=1)
       assert forked?
       forked_group = groups[json['id']]
       assert forked_group.exists?
+      assert_equal 1, forked_group.schema.version
       assert_equal kata.manifest.image_name, forked_group.manifest.image_name
     }
   end

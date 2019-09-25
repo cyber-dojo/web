@@ -17,7 +17,6 @@ class SetupDefaultStartPointController < ApplicationController
 
   def save_individual
     manifest = starter_manifest
-    #manifest['version'] = 1
     kata = katas.new_kata(manifest) # TODO: rescue SaverService::Error
     redirect_to "/kata/edit/#{kata.id}"
 =begin
@@ -30,7 +29,6 @@ class SetupDefaultStartPointController < ApplicationController
 
   def save_group
     manifest = starter_manifest
-    #manifest['version'] = 1
     group = groups.new_group(manifest)
     redirect_to "/kata/group/#{group.id}"
   end
@@ -47,6 +45,7 @@ class SetupDefaultStartPointController < ApplicationController
     manifest['visible_files'].merge!(em['visible_files'])
     manifest['exercise'] = em['display_name']
     manifest['created'] = time.now
+    manifest['version'] = 1    
     manifest
   end
 

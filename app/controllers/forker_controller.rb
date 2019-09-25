@@ -32,6 +32,7 @@ class ForkerController < ApplicationController
   def fork_json
     begin
       manifest = kata.events[index].manifest
+      manifest['version'] = 1
       manifest['created'] = time.now
       forked = yield(manifest)
       result = {

@@ -26,6 +26,7 @@ class SetupCustomStartPointController < ApplicationController
     name = params['display_name']
     manifest = custom.manifest(name)
     manifest['created'] = time.now
+    manifest['version'] = 1
     manifest
   end
 

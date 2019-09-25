@@ -1,11 +1,11 @@
 
-1. forked katas (individual & group) are always version 1
+1. forked kata ->individual is always version 1 DONE
+2. forked kata -> group is always version 1 DONE
 
-2. new groups are always version 1
+3. setup new group is always version 1 DONE
+4. setup new kata is always version 1 DONE
 
-3. new katas are always version 1
+5. rejoining an existing kata must respect the original kata version
 
-4. rejoining an existing kata must respect the original kata version 
-
-5. joining an existing group must respect the original group version
+6. joining an existing group must respect the original group version
    that is, the kata's version follows the group's version
