@@ -42,7 +42,7 @@ do
     export CYBER_DOJO_CUSTOM_CLASS=CustomService
     export CYBER_DOJO_EXERCISES_CLASS=ExercisesService
     export CYBER_DOJO_LANGUAGES_CLASS=LanguagesService
-    export CYBER_DOJO_AVATARS_CLASS=AvatarsService
+    export CYBER_DOJO_AVATARS_CLASS=AvatarsFake
     export CYBER_DOJO_DIFFER_CLASS=DifferService
     export CYBER_DOJO_MAPPER_CLASS=MapperService
     export CYBER_DOJO_RAGGER_CLASS=RaggerStub

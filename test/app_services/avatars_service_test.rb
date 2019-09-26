@@ -8,6 +8,10 @@ class AvatarsServiceTest < AppServicesTestBase
     '6B9'
   end
 
+  def hex_setup
+    set_avatars_class('AvatarsService')
+  end
+
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '3A7',
@@ -20,89 +24,13 @@ class AvatarsServiceTest < AppServicesTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '3A8',
-  'smoke test sha' do
+  'smoke test sha,ready?,names' do
     assert_sha avatars.sha
-  end
-
-  test '3A9',
-  'smoke test ready?' do
     assert avatars.ready?
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '3AC',
-  'smoke test names' do
-    assert_equal expected_names, avatars.names
-  end
-
-  def expected_names
-    %w(
-      alligator
-      antelope
-      bat
-      bear
-      bee
-      beetle
-      buffalo
-      butterfly
-      cheetah
-      crab
-      deer
-      dolphin
-      eagle
-      elephant
-      flamingo
-      fox
-      frog
-      gopher
-      gorilla
-      heron
-      hippo
-      hummingbird
-      hyena
-      jellyfish
-      kangaroo
-      kingfisher
-      koala
-      leopard
-      lion
-      lizard
-      lobster
-      moose
-      mouse
-      ostrich
-      owl
-      panda
-      parrot
-      peacock
-      penguin
-      porcupine
-      puffin
-      rabbit
-      raccoon
-      ray
-      rhino
-      salmon
-      seal
-      shark
-      skunk
-      snake
-      spider
-      squid
-      squirrel
-      starfish
-      swan
-      tiger
-      toucan
-      tuna
-      turtle
-      vulture
-      walrus
-      whale
-      wolf
-      zebra
-    )
+    names = avatars.names
+    assert_equal 64, names.size
+    assert_equal 'alligator', names[0]
+    assert_equal 'zebra', names[-1]
   end
 
 end

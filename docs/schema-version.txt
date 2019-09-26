@@ -7,4 +7,4 @@
 
 5. joining an existing group must respect the original group version DONE
 
-6. rejoining an existing kata must respect the original kata version
+6. rejoining an existing kata must respect the original kata version DONE
