@@ -13,32 +13,34 @@ class KataControllerTest  < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '9B8', %w( group landing page ) do
-    group = groups.new_group(starter_manifest)
-    get "/kata/group/#{group.id}"
-    assert_response :success
+    in_group do |group|
+      get "/kata/group/#{group.id}"
+      assert_response :success
+    end
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '9B9', %w( edit landing page ) do
-    kata = katas.new_kata(starter_manifest)
-    get "/kata/edit/#{kata.id}"
-    assert_response :success
+    in_kata do |kata|
+      get "/kata/edit/#{kata.id}"
+      assert_response :success
+    end
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '76E', %w( run_tests with bad ID is 500 ) do
-    in_kata { |kata|
+    in_kata do |kata|
       post '/kata/run_tests', params:run_test_params({ 'id' => 'bad' })
       assert_response 500
-    }
+    end
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '221', %w( timed_out ) do
-    in_kata { |kata|
+    in_kata do |kata|
       change_file('hiker.rb',
         <<~RUBY_CODE
         def answer
@@ -49,14 +51,14 @@ class KataControllerTest  < AppControllerTestBase
       )
       post_run_tests({ 'max_seconds' => 3 })
       assert_equal :timed_out, kata.lights[-1].colour
-    }
+    end
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '223', %w( red-green-amber ) do
     set_ragger_class('RaggerService')
-    in_kata { |kata|
+    in_kata do |kata|
       post_run_tests
       assert_equal :red, kata.lights[-1].colour
       sub_file('hiker.rb', '6 * 9', '6 * 7')
@@ -65,7 +67,7 @@ class KataControllerTest  < AppControllerTestBase
       change_file('hiker.rb', 'syntax-error')
       post_run_tests
       assert_equal :amber, kata.lights[-1].colour
-    }
+    end
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -75,10 +77,10 @@ class KataControllerTest  < AppControllerTestBase
   ) do
     set_runner_class('RunnerStub')
     set_ragger_class('RaggerExceptionRaiser')
-    in_kata { |kata|
+    in_kata do |kata|
       post_run_tests
       assert_equal :faulty, kata.lights[-1].colour
-    }
+    end
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -88,36 +90,38 @@ class KataControllerTest  < AppControllerTestBase
   gracefully degrades [test] to offline functionality
   ) do
     set_runner_class('RunnerStub')
-    in_kata {
+    in_kata do
       set_saver_class('SaverExceptionRaiser')
       post_run_tests
       assert_response :success
-    }
+    end
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-=begin TODO: saver now has a single call to get the manifest.
   test 'B29', %w(
   the browser caches all the run_test parameters
   to ensure run_tests() only issues a
-  single command to saver which is to save the test-run result ) do
-    in_kata { |kata|
-      options = {
-        'image_name' => kata.manifest.image_name,
+  single command to the saver service
+  ) do
+    in_kata do |kata|
+      params = {
+        'format' => 'js',
+        'version' => kata.schema.version,
         'id' => kata.id,
+        'index' => 1,
+        'image_name' => kata.manifest.image_name,
+        'file_content' => plain(kata.files),
         'max_seconds' => kata.manifest.max_seconds,
-        'hidden_filenames' => JSON.unparse(kata.manifest.hidden_filenames)
+        'hidden_filenames' => JSON.unparse(kata.manifest.hidden_filenames),
       }
-      set_saver_class('SaverDummy')
-      post_run_tests(options)
-      filename = "/tmp/cyber-dojo-#{hex_test_kata_id}.json"
-      lines = IO.read(filename).lines
-      assert_equal 1, lines.size
-      assert lines[0].start_with?('["kata_ran_tests"')
-    }
+      count_before = saver.log.size
+      post '/kata/run_tests', params:params
+      assert_response :success
+      count_after = saver.log.size
+      assert_equal 1, count_after-count_before, saver.log
+    end
   end
-=end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -125,14 +129,18 @@ class KataControllerTest  < AppControllerTestBase
   when a test-event deletes an existing text file
   then the saver records it
   ) do
-    in_kata { |kata|
-      filename = 'readme.txt'
+    filename = 'readme.txt'
+    id = in_kata do |kata|
+      id = kata.id
       assert kata.files.keys.include?(filename)
       change_file('cyber-dojo.sh', "rm #{filename}")
       post_run_tests
-      filenames = kata.files.keys.sort
-      refute filenames.include?(filename), filenames
-    }
+      kata.id
+    end
+    kata = katas[id]
+    files = kata.files
+    filenames = files.keys.sort
+    refute filenames.include?(filename), filenames
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -141,14 +149,17 @@ class KataControllerTest  < AppControllerTestBase
   when a test-event creates a new text file
   then the saver records it
   ) do
-    in_kata { |kata|
-      filename = 'wibble.txt'
+    filename = 'wibble.txt'
+    id = in_kata do |kata|
       change_file('cyber-dojo.sh', "echo -n Hello > #{filename}")
       post_run_tests
-      filenames = kata.files.keys.sort
-      assert filenames.include?(filename), filenames
-      assert_equal 'Hello', kata.files[filename]['content']
-    }
+      kata.id
+    end
+    kata = katas[id]
+    files = kata.files
+    filenames = files.keys.sort
+    assert filenames.include?(filename), filenames
+    assert_equal 'Hello', files[filename]['content']
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -156,15 +167,18 @@ class KataControllerTest  < AppControllerTestBase
   test '9DE', %w(
   when a test-event changes a regular text-file
   then the saver records it ) do
-    in_kata { |kata|
-      filename = 'readme.txt'
+    filename = 'readme.txt'
+    id = in_kata do |kata|
       assert kata.files.keys.include?(filename)
       change_file('cyber-dojo.sh', "echo -n Hello > #{filename}")
       post_run_tests
-      filenames = kata.files.keys.sort
-      assert filenames.include?(filename), filenames
-      assert_equal 'Hello', kata.files[filename]['content']
-    }
+      kata.id
+    end
+    kata = katas[id]
+    files = kata.files
+    filenames = files.keys.sort
+    assert filenames.include?(filename), filenames
+    assert_equal 'Hello', files[filename]['content']
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -174,23 +188,26 @@ class KataControllerTest  < AppControllerTestBase
   then the saver does _not_ record it because it already records
   stdout,stderr,status as 'output' files
   ) do
-    in_kata { |kata|
-      filename = 'stdout'
+    filename = 'stdout'
+    id = in_kata do |kata|
       script = kata.files['cyber-dojo.sh']['content']
       script += "\necho -n Hello > #{filename}"
       change_file('cyber-dojo.sh', script)
       post_run_tests
-      filenames = kata.files.keys.sort
-      refute filenames.include?(filename), filenames
-      expected = [
-        '  1) Failure:',
-        'TestHiker#test_life_the_universe_and_everything [test_hiker.rb:8]:',
-        'Expected: 42',
-        '  Actual: 54'
-      ].join("\n")
-      actual = kata.lights[-1].stdout['content']
-      assert actual.include?(expected), actual
-    }
+      kata.id
+    end
+    kata = katas[id]
+    files = kata.files
+    filenames = files.keys.sort
+    refute filenames.include?(filename), filenames
+    expected = [
+      '  1) Failure:',
+      'TestHiker#test_life_the_universe_and_everything [test_hiker.rb:8]:',
+      'Expected: 42',
+      '  Actual: 54'
+    ].join("\n")
+    actual = kata.lights[-1].stdout['content']
+    assert actual.include?(expected), actual
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -200,16 +217,18 @@ class KataControllerTest  < AppControllerTestBase
   then the saver does _not_ record it because it already records
   stdout,stderr,status as 'output' files
   ) do
-    in_kata { |kata|
-      filename = 'stderr'
+    filename = 'stderr'
+    id = in_kata do |kata|
       script = kata.files['cyber-dojo.sh']['content']
       script += "\necho -n Hello > #{filename}"
       change_file('cyber-dojo.sh', script)
       post_run_tests
-      filenames = kata.files.keys.sort
-      refute filenames.include?(filename), filenames
-      assert_equal '', kata.lights[-1].stderr['content']
-    }
+      kata.id
+    end
+    kata = katas[id]
+    filenames = kata.files.keys.sort
+    refute filenames.include?(filename), filenames
+    assert_equal '', kata.lights[-1].stderr['content']
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -219,51 +238,55 @@ class KataControllerTest  < AppControllerTestBase
   then the saver does _not_ record it because it already records
   stdout,stderr,status as 'output' files
   ) do
-    in_kata { |kata|
-      filename = 'status'
+    filename = 'status'
+    id = in_kata do |kata|
       script = kata.files['cyber-dojo.sh']['content']
       script += "\necho -n Hello > #{filename}"
       change_file('cyber-dojo.sh', script)
       post_run_tests
-      filenames = kata.files.keys.sort
-      refute filenames.include?(filename), filenames
-      assert_equal 0, kata.lights[-1].status
-    }
+      kata.id
+    end
+    kata = katas[id]
+    filenames = kata.files.keys.sort
+    refute filenames.include?(filename), filenames
+    assert_equal 0, kata.lights[-1].status
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'A28',
   %w( generated files that match hidden files are stripped away ) do
-    in_kata { |kata|
-      filenames = %w(
-        coverage.rb
-        cyber-dojo.sh
-        hiker.rb
-        readme.txt
-        test_hiker.rb
-      )
+    filenames = %w(
+      coverage.rb
+      cyber-dojo.sh
+      hiker.rb
+      readme.txt
+      test_hiker.rb
+    )
+    id = in_kata do |kata|
       assert_equal filenames.sort, kata.files.keys.sort
       script = kata.files['cyber-dojo.sh']['content']
       script += "\nls -al coverage"
       change_file('cyber-dojo.sh', script)
       post_run_tests
-      light = kata.lights[-1]
-      stdout = light.stdout['content']
-      assert stdout.include?('.resultset.json'), stdout
-      assert_equal filenames.sort, light.files.keys.sort
-    }
+      kata.id
+    end
+    kata = katas[id]
+    light = kata.lights[-1]
+    stdout = light.stdout['content']
+    assert stdout.include?('.resultset.json'), stdout
+    assert_equal filenames.sort, light.files.keys.sort
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'B75',
   %w( show-json which is used in an Atom plugin ) do
-    in_kata { |kata|
+    in_kata do |kata|
       post_run_tests
       get '/kata/show_json', params:{ :format => :json, :id => kata.id }
       assert_response :success
-    }
+    end
   end
 
 end

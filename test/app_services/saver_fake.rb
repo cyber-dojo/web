@@ -5,27 +5,86 @@ class SaverFake
   def initialize(_externals)
     @@dirs ||= {}
     @@files ||= {}
+    @@log ||= []
+  end
+
+  def log
+    @@log
   end
 
   def sha
+    @@log << ['sha']
     '71333653be9b1ca2c31f83810d4e6f128817deac'
   end
 
   def ready?
+    @@log << ['ready?']
     true
   end
 
   def alive?
+    @@log << ['alive?']
     true
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def exists?(key)
-    dir?(path_name(key))
+    @@log << ['exists?',key]
+    do_exists?(key)
   end
 
   def create(key)
+    @@log << ['create',key]
+    do_create(key)
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def write(key, value)
+    @@log << ['write',key]
+    do_write(key, value)
+  end
+
+  def append(key, value)
+    @@log << ['append',key]
+    do_append(key, value)
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def read(key)
+    @@log << ['read',key]
+    do_read(key)
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def batch(commands)
+    @@log << ['batch',commands.size]
+    results = []
+    commands.each do |command|
+      name,*args = command
+      result = case name
+      when 'exists?' then do_exists?(*args)
+      when 'create'  then do_create(*args)
+      when 'write'   then do_write(*args)
+      when 'append'  then do_append(*args)
+      when 'read'    then do_read(*args)
+      #TODO: else raise...
+      end
+      results << result
+    end
+    results
+  end
+
+  private
+
+  def do_exists?(key)
+    dir?(path_name(key))
+  end
+
+  def do_create(key)
     if exists?(key)
       false
     else
@@ -33,9 +92,7 @@ class SaverFake
     end
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def write(key, value)
+  def do_write(key,value)
     path = path_name(key)
     if dir?(File.dirname(path)) && !file?(path)
       @@files[path] = value
@@ -45,7 +102,7 @@ class SaverFake
     end
   end
 
-  def append(key, value)
+  def do_append(key, value)
     path = path_name(key)
     if dir?(File.dirname(path)) && file?(path)
       @@files[path] += value
@@ -55,29 +112,8 @@ class SaverFake
     end
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def read(key)
+  def do_read(key)
     @@files[path_name(key)] || false
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def batch(commands)
-    results = []
-    commands.each do |command|
-      name,*args = command
-      result = case name
-      when 'create'  then create(*args)
-      when 'exists?' then exists?(*args)
-      when 'write'   then write(*args)
-      when 'append'  then append(*args)
-      when 'read'    then read(*args)
-      #TODO: else raise...
-      end
-      results << result
-    end
-    results
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
