@@ -75,7 +75,7 @@ class Kata_v1
       'status' => status
     }
     saver_assert_batch(
-      events_append_cmd(id, ',' + json_plain(event_summary)),
+      events_append_cmd(id, ",\n" + json_plain(event_summary)),
       event_write_cmd(id, index, json_plain(event_n.merge(event_summary)))
     )
   end
@@ -91,7 +91,9 @@ class Kata_v1
 
   def event(id, index)
     if index === -1
-      index = events(id)[-1]['index']
+      events_src = saver_assert(events_read_cmd(id))
+      pos = events_src.rindex("\n") || 0
+      index = json_parse(events_src[pos..-1])['index']
     end
     event_src = saver_assert(event_read_cmd(id, index))
     json_parse(event_src)
