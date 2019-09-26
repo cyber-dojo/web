@@ -40,7 +40,7 @@ do
 
     # set defaults for externals
     export CYBER_DOJO_CUSTOM_CLASS=CustomService
-    export CYBER_DOJO_EXERCISES_CLASS=ExercisesService
+    export CYBER_DOJO_EXERCISES_CLASS=ExercisesFake
     export CYBER_DOJO_LANGUAGES_CLASS=LanguagesService
     export CYBER_DOJO_AVATARS_CLASS=AvatarsFake
     export CYBER_DOJO_DIFFER_CLASS=DifferService

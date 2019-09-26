@@ -8,6 +8,10 @@ class ExercisesServiceTest < AppServicesTestBase
     '438'
   end
 
+  def hex_setup
+    set_exercises_class('ExercisesService')
+  end
+
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '3A7',

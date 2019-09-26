@@ -6,6 +6,10 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     '59C'
   end
 
+  def hex_setup
+    set_exercises_class('ExercisesService')
+  end
+
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test 'BA2', %w(
