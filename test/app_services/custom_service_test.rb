@@ -8,6 +8,10 @@ class CustomServiceTest < AppServicesTestBase
     '08A'
   end
 
+  def hex_setup
+    set_custom_class('CustomService')
+  end
+
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '3A7',

@@ -39,6 +39,10 @@ module TestExternalHelpers # mix-in
     set_class('avatars', name)
   end
 
+  def set_custom_class(name)
+    set_class('custom', name)
+  end
+
   def set_exercises_class(name)
     set_class('exercises', name)
   end

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'avatars_fake'
+require_relative 'custom_fake'
 require_relative 'exercises_fake'
 require_relative 'languages_fake'
 require_relative 'ragger_exception_raiser'
