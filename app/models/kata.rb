@@ -34,6 +34,7 @@ class Kata
   end
 
   def group
+    # NullObject pattern if group_id.nil?
     Group.new(@externals, @params.merge({id:group_id}))
   end
 
@@ -66,8 +67,6 @@ class Kata
   end
 
   def event(index)
-    # TODO: This is returning a Hash and not an Event.
-    # Does schema need [group,kata,event] triple?
     kata.event(id, index)
   end
 
@@ -117,8 +116,7 @@ class Kata
   end
 
   def most_recent_event
-    # TODO: which is quicker?
-    # event(-1) or events.last
+    # This should be quicker than event(-1) 
     events.last
   end
 
