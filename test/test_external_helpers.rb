@@ -43,6 +43,10 @@ module TestExternalHelpers # mix-in
     set_class('exercises', name)
   end
 
+  def set_languages_class(name)
+    set_class('languages', name)
+  end
+
   def set_differ_class(name)
     set_class('differ', name)
   end

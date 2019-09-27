@@ -8,6 +8,10 @@ class LanguagesServiceTest < AppServicesTestBase
     '6C3'
   end
 
+  def hex_setup
+    set_languages_class('LanguagesService')
+  end
+
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '3A7',
