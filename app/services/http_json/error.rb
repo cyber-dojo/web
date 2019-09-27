@@ -2,7 +2,7 @@
 
 module HttpJson
 
-  class ServiceError < StandardError
+  class Error < StandardError
     def initialize(message)
       super
     end

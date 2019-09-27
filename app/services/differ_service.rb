@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 require_relative 'http_json/service'
-require_relative 'http_json/service_error'
+require_relative 'http_json/error'
 
 class DifferService
 
-  class Error < HttpJson::ServiceError
+  class Error < HttpJson::Error
     def initialize(message)
       super
     end
