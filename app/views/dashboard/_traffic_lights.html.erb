@@ -60,7 +60,7 @@ $(() => {
       <th>
         <div class="fixed-column">
           <%= raw diff_avatar_image(kata_id, @all_indexes[kata_id]) %>
-          <%= raw pie_chart(lights) %>
+          <%= raw pie_chart(kata_id, lights) %>
           <%= raw traffic_light_count(lights) %>
         </div>
       </th>

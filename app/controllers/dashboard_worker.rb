@@ -9,9 +9,9 @@ module DashboardWorker # mixin
     @auto_refresh = bool('auto_refresh')
     @all_lights = {}
     @all_indexes = {}
-#puts "A:#{saver.log.size}"   49
+#puts "A:#{saver.log.size}"   #49
     e = group.events
-#puts "B:#{saver.log.size}"   51
+#puts "B:#{saver.log.size}"   #51
     e.each do |kata_id,o|
       lights = o['events'].each_with_index.map{ |event,index|
         Event.new(katas[kata_id], event, index)
@@ -21,17 +21,14 @@ module DashboardWorker # mixin
         @all_indexes[kata_id] = o['index']
       end
     end
-#puts "C:#{saver.log.size}"  51
+#puts "C:#{saver.log.size}"  #51
     args = [group.created, seconds_per_column, max_seconds_uncollapsed]
-#puts "D:#{saver.log.size}"  52
+#puts "D:#{saver.log.size}"  #52
     gapper = DashboardTdGapper.new(*args)
     @gapped = gapper.fully_gapped(@all_lights, time.now)
     @time_ticks = gapper.time_ticks(@gapped)
-#puts "E:#{saver.log.size}"  52
     @age = group.age(e)
-#puts "F:#{saver.log.size}"  52
     set_footer_info
-#puts "G:#{saver.log.size}"  52
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -

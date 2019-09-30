@@ -4,15 +4,14 @@ module PieChartHelper # mix-in
 
   module_function
 
-  def pie_chart(lights)
+  def pie_chart(kata_id, lights)
     # used in dashboard view
-    key = lights[-1].kata.avatar_name
     pie_chart_from_counts({
             red: colour_count(lights, :red),
           amber: colour_count(lights, :amber),
           green: colour_count(lights, :green),
       timed_out: colour_count(lights, :timed_out)
-    }, key)
+    }, kata_id)
   end
 
   def pie_chart_from_counts(counts, key)

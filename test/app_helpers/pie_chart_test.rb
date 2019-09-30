@@ -8,18 +8,12 @@ class PieChartTest < AppHelpersTestBase
 
   include PieChartHelper
 
-  class KataStub
-    def avatar_name
-      'wolf'
-    end
-  end
-
   test '060',
   'pie-chart from lights' do
-    stub = KataStub.new
+    kata_id = 'eMjjWQ'
     lights = [
-      Event.new(stub, { 'colour' => 'red'   }, 0),
-      Event.new(stub, { 'colour' => 'green' }, 1),
+      Event.new(nil, { 'colour' => 'red'   }, 0),
+      Event.new(nil, { 'colour' => 'green' }, 1),
     ]
     size = 32
     expected = '' +
@@ -33,13 +27,13 @@ class PieChartTest < AppHelpersTestBase
       " data-amber-count='0'" +
       " data-green-count='1'" +
       " data-timed-out-count='0'" +
-      " data-key='wolf'" +
+      " data-key='#{kata_id}'" +
       " width='#{size}px'" +
       " height='#{size}px'>" +
       '</canvas>' +
       '</div>'
 
-    actual = pie_chart(lights)
+    actual = pie_chart(kata_id, lights)
 
     assert_equal expected, actual
   end

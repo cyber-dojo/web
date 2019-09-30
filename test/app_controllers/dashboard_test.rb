@@ -76,9 +76,8 @@ class DashboardControllerTest < AppControllerTestBase
     count_before = saver.log.size
     dashboard
     count_after = saver.log.size
-    #puts "[#{count_before},#{count_after}]"
-    assert_equal 5, (count_after-count_before), [count_before,count_after]   # v1
-    #tail = saver.log[-5..-1]
+    assert_equal 3, (count_after-count_before), [count_before,count_after]   # v1
+    #tail = saver.log[-3..-1]
     #puts "tail:#{tail.inspect}"
     heartbeat
     progress
