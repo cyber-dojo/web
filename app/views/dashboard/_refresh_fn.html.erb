@@ -2,6 +2,7 @@
 'use strict';
 $(() => {
 
+  const version = '<%= @group.schema.version %>';
   const id = '<%= @group.id %>';
   const minuteColumns = $('#minute-columns-checkbox');
   const autoRefresh   = $('#auto-refresh-checkbox');
@@ -10,7 +11,8 @@ $(() => {
   cd.refreshDashboard = () => {
     const url = `/dashboard/show/${id}` +
                 `?minute_columns=${isChecked(minuteColumns)}` +
-                `&auto_refresh=${isChecked(autoRefresh)}`;
+                `&auto_refresh=${isChecked(autoRefresh)}` +
+                `&version=${version}`;
     window.location.href = url;
   };
 

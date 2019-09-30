@@ -2,6 +2,7 @@
 'use strict';
 $(() => {
 
+  const version = '<%= @group.schema.version %>';
   const id = '<%= @group.id %>';
   const minuteColumns = $('#minute-columns-checkbox');
   const autoRefresh   = $('#auto-refresh-checkbox');
@@ -13,6 +14,7 @@ $(() => {
       $.ajax({
         url: '/dashboard/heartbeat',
         data: {
+          version: version,
           id: id,
           minute_columns: isChecked(minuteColumns),
           auto_refresh: isChecked(autoRefresh)

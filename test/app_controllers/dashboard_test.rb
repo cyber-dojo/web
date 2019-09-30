@@ -8,9 +8,22 @@ class DashboardControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test '971', %w( minute_column/auto_refresh true/false ) do
+  test '970', %w( Version 0: minute_column/auto_refresh true/false ) do
     manifest = starter_manifest('Java, JUnit')
-    manifest['version'] = 1
+    @version = manifest['version'] = 0
+    group = groups.new_group(manifest)
+    @gid = group.id
+    options = [ false, true, 'xxx' ]
+    options.each do |mc|
+      options.each do |ar|
+        dashboard minute_columns: mc, auto_refresh: ar
+      end
+    end
+  end
+
+  test '971', %w( Version 1: minute_column/auto_refresh true/false ) do
+    manifest = starter_manifest('Java, JUnit')
+    @version = manifest['version'] = 1
     group = groups.new_group(manifest)
     @gid = group.id
     options = [ false, true, 'xxx' ]
@@ -23,13 +36,22 @@ class DashboardControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test '972', %w(
+  test '972', %w( version 0 dashboard ) do
+    set_saver_class('SaverService')
+    @version = 0
+    @gid = 'chy6BJ'
+    dashboard
+  end
+
+  #- - - - - - - - - - - - - - - -
+
+  test '973', %w(
   with and without avatars, and
   with and without traffic lights ) do
     set_runner_class('RunnerService')
     set_ragger_class('RaggerService')
     manifest = starter_manifest('Python, unittest')
-    manifest['version'] = 1
+    @version = manifest['version'] = 1
     group = groups.new_group(manifest)
     @gid = group.id
     # an animal with a non-amber traffic-light
@@ -65,19 +87,19 @@ class DashboardControllerTest < AppControllerTestBase
   private # = = = = = = = = = = = = = =
 
   def dashboard(params = {})
-    params[:id] = @gid
-    params[:version] = 1
+    params[:id] ||= @gid
+    params[:version] ||= @version
     get '/dashboard/show', params:params, as: :html
     assert_response :success
   end
 
   def heartbeat
-    params = { id:@gid }
+    params = { id:@gid, version:@version }
     get '/dashboard/heartbeat', params:params, as: :json
   end
 
   def progress
-    params = { id:@gid }
+    params = { id:@gid, version:@version }
     get '/dashboard/progress', params:params, as: :json
   end
 

@@ -10,7 +10,7 @@ class DashboardController < ApplicationController
     }
   end
 
-  def heartbeat    
+  def heartbeat
     gather
     respond_to { |format| format.js }
   end
