@@ -55,8 +55,8 @@ class Group
     group.joined(id).map{ |kid| kata(kid) }
   end
 
-  def age
-    katas.select(&:active?).map{ |kata| kata.age }.sort[-1] || 0
+  def age(e = events)
+    e.map{|kata_id,o| age_of(o['events']) }.max || 0
   end
 
   def manifest
@@ -75,6 +75,14 @@ class Group
 
   def kata(kid)
     Kata.new(@externals, @params.merge({id:kid}))
+  end
+
+  def age_of(o)
+    seconds_diff(o[0]['time'], o[-1]['time'])
+  end
+
+  def seconds_diff(from, to)
+    (Time.mktime(*to) - Time.mktime(*from)).to_i
   end
 
   def group

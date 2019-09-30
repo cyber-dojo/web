@@ -10,6 +10,7 @@ class DashboardControllerTest < AppControllerTestBase
 
   test '971', %w( minute_column/auto_refresh true/false ) do
     manifest = starter_manifest('Java, JUnit')
+    manifest['version'] = 1
     group = groups.new_group(manifest)
     @gid = group.id
     options = [ false, true, 'xxx' ]
@@ -28,6 +29,7 @@ class DashboardControllerTest < AppControllerTestBase
     set_runner_class('RunnerService')
     set_ragger_class('RaggerService')
     manifest = starter_manifest('Python, unittest')
+    manifest['version'] = 1
     group = groups.new_group(manifest)
     @gid = group.id
     # an animal with a non-amber traffic-light
@@ -49,7 +51,13 @@ class DashboardControllerTest < AppControllerTestBase
       post_run_tests
       assert_equal :amber, kata.lights[-1].colour
     }
+    count_before = saver.log.size
     dashboard
+    count_after = saver.log.size
+    #puts "[#{count_before},#{count_after}]"
+    assert_equal 5, (count_after-count_before), [count_before,count_after]   # v1
+    #tail = saver.log[-5..-1]
+    #puts "tail:#{tail.inspect}"
     heartbeat
     progress
   end
@@ -58,6 +66,7 @@ class DashboardControllerTest < AppControllerTestBase
 
   def dashboard(params = {})
     params[:id] = @gid
+    params[:version] = 1
     get '/dashboard/show', params:params, as: :html
     assert_response :success
   end

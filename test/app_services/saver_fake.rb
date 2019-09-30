@@ -13,55 +13,55 @@ class SaverFake
   end
 
   def sha
-    @@log << ['sha']
+    append_log(['sha'])
     '71333653be9b1ca2c31f83810d4e6f128817deac'
   end
 
   def ready?
-    @@log << ['ready?']
+    append_log(['ready?'])
     true
   end
 
   def alive?
-    @@log << ['alive?']
+    append_log(['alive?'])
     true
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def exists?(key)
-    @@log << ['exists?',key]
+    append_log(['exists?',key])
     do_exists?(key)
   end
 
   def create(key)
-    @@log << ['create',key]
+    append_log(['create',key])
     do_create(key)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def write(key, value)
-    @@log << ['write',key]
+    append_log(['write',key])
     do_write(key, value)
   end
 
   def append(key, value)
-    @@log << ['append',key]
+    append_log(['append',key])
     do_append(key, value)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def read(key)
-    @@log << ['read',key]
+    append_log(['read',key])
     do_read(key)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def batch(commands)
-    @@log << ['batch',commands.size]
+    append_log(['batch',commands.size])
     results = []
     commands.each do |command|
       name,*args = command
@@ -79,6 +79,10 @@ class SaverFake
   end
 
   private
+
+  def append_log(info)
+    @@log << info
+  end
 
   def do_exists?(key)
     dir?(path_name(key))

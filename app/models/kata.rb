@@ -116,7 +116,7 @@ class Kata
   end
 
   def most_recent_event
-    # This should be quicker than event(-1) 
+    # This should be quicker than event(-1)
     events.last
   end
 
