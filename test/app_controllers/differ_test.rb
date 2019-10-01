@@ -37,8 +37,10 @@ class DifferControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'AF8',
-  'tag -1 gives most recent traffic-light' do
+  test 'AF8', %w(
+  index -1 gives most recent traffic-light
+  when no-saver-outages means indexes are sequential
+  ) do
     set_saver_class('SaverService')
     differ('5rTJv5', -1, -1)
     assert_equal 3, json['wasIndex']
@@ -48,22 +50,26 @@ class DifferControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test 'AF9', %w(
+  index -1 gives most recent traffic-light
+  when saver-outage means indexes are not sequential
+  ) do
+
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '115', %w( checking saver call efficiency ) do
     manifest = starter_manifest('Python, unittest')
     version = manifest['version'] = 1
-    group = groups.new_group(manifest)
-    gid = group.id
-    # an animal with a non-amber traffic-light
-    1.times {
-      kata = assert_join(gid)
-      @id = kata.id
-      @files = kata.files.map{|filename,file| [filename,file['content']]}.to_h
-      @index = 0
-      post_run_tests
-    }
-    count_before = saver.log.size
+    kata = katas.new_kata(manifest)
+    @id = kata.id
+    @files = plain(kata.files)
+    @index = 0
+    post_run_tests
+    count_before = saver.log.size #13
     differ(@id, 0, 1, version)
-    count_after = saver.log.size
+    count_after = saver.log.size # 19
     puts [count_before,count_after]
     assert_equal 6, (count_after-count_before)
   end

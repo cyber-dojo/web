@@ -34,7 +34,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   def in_kata(&block)
     create_language_kata
-    @files = kata.files.map{|filename,file| [filename,file['content']]}.to_h
+    @files = plain(kata.files)
     @index = 0
     block.call(kata)
   end

@@ -60,7 +60,7 @@ class DashboardControllerTest < AppControllerTestBase
     1.times {
       kata = assert_join(@gid)
       @id = kata.id
-      @files = kata.files.map{|filename,file| [filename,file['content']]}.to_h
+      @files = plain(kata.files)
       @index = 0
       post_run_tests
       assert_equal :red, kata.lights[-1].colour
@@ -69,7 +69,7 @@ class DashboardControllerTest < AppControllerTestBase
     1.times {
       kata = assert_join(@gid)
       @id = kata.id
-      @files = kata.files.map{|filename,file| [filename,file['content']]}.to_h
+      @files = plain(kata.files)
       @index = 0
       change_file('hiker.py', 'syntax-error')
       post_run_tests
