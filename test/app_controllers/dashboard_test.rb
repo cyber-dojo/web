@@ -47,7 +47,9 @@ class DashboardControllerTest < AppControllerTestBase
 
   test '973', %w(
   with and without avatars, and
-  with and without traffic lights ) do
+  with and without traffic lights
+  checking saver call efficiency
+  ) do
     set_runner_class('RunnerService')
     set_ragger_class('RaggerService')
     manifest = starter_manifest('Python, unittest')
@@ -76,7 +78,11 @@ class DashboardControllerTest < AppControllerTestBase
     count_before = saver.log.size
     dashboard
     count_after = saver.log.size
-    assert_equal 3, (count_after-count_before), [count_before,count_after]   # v1
+    saver_call_count = count_after - count_before
+    # 1 - find kata ids
+    # 2 - get events for each kata (batch)
+    # 3 - get manifest for group
+    assert_equal 3, saver_call_count, [count_before,count_after]
     #tail = saver.log[-3..-1]
     #puts "tail:#{tail.inspect}"
     heartbeat

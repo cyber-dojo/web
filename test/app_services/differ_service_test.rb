@@ -32,7 +32,7 @@ class DifferServiceTest < AppServicesTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '3AC',
-  'smoke test differ.diff(..., was_tag=0, now_tag=1)' do
+  'smoke test differ.diff(..., was_index=0, now_index=1)' do
     in_new_kata do |kata|
       args = []
       args << (index = 1)
