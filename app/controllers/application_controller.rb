@@ -38,25 +38,11 @@ class ApplicationController < ActionController::Base
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def was_files
-    files_for(was_index)
+    files_for(params[:was_index].to_i)
   end
 
   def now_files
-    files_for(now_index)
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def was_index
-    value_of(:was_index)
-  end
-
-  def now_index
-    value_of(:now_index)
-  end
-
-  def index
-    params[:index].to_i
+    files_for(params[:now_index].to_i)
   end
 
   def files_for(index)
@@ -68,10 +54,24 @@ class ApplicationController < ActionController::Base
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
+  def index
+    params[:index].to_i
+  end
+
+  def was_index
+    value_of(:was_index)
+  end
+
+  def now_index
+    value_of(:now_index)
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
   def value_of(sym)
     value = params[sym].to_i
     if value === -1
-      value = kata.events.size - 1
+      value = kata.events[-1].index
     end
     value
   end
