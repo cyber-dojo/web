@@ -4,7 +4,6 @@ module DashboardWorker # mixin
   module_function
 
   def gather
-    names = Avatars.names
     @minute_columns = bool('minute_columns')
     @auto_refresh = bool('auto_refresh')
     @all_lights = {}
