@@ -21,6 +21,8 @@ class DashboardControllerTest < AppControllerTestBase
     end
   end
 
+  #- - - - - - - - - - - - - - - -
+
   test '971', %w( Version 1: minute_column/auto_refresh true/false ) do
     manifest = starter_manifest('Java, JUnit')
     @version = manifest['version'] = 1
@@ -46,9 +48,7 @@ class DashboardControllerTest < AppControllerTestBase
   #- - - - - - - - - - - - - - - -
 
   test '973', %w(
-  with and without avatars, and
-  with and without traffic lights
-  checking saver call efficiency
+  saver-service call efficiency
   ) do
     manifest = starter_manifest('Python, unittest')
     @version = manifest['version'] = 1
@@ -72,6 +72,19 @@ class DashboardControllerTest < AppControllerTestBase
     assert_equal 3, saver_call_count, [count_before,count_after]
     #tail = saver.log[-3..-1]
     #puts "tail:#{tail.inspect}"
+    heartbeat
+    progress
+  end
+
+  #- - - - - - - - - - - - - - - -
+
+  test '974', %w(
+  dashboard regex-progress
+  ) do
+    set_saver_class('SaverService')
+    @gid = 'chy6BJ'
+    @version = 0
+    dashboard
     heartbeat
     progress
   end
