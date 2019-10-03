@@ -25,15 +25,17 @@ class AvatarImageTest < AppHelpersTestBase
   'diff_avatar_image' do
     kata_id = '456eGz'
     avatar_name = 'snake'
+    index = 23
     expected = '' +
       '<div' +
       " class='avatar-image'" +
       " data-tip='review #{avatar_name}&#39;s<br/>current code'" +
-      " data-id='#{kata_id}'>" +
+      " data-id='#{kata_id}'" +
+      " data-index='#{index}'>" +
       "<img src='/avatar/image/49'" +
           " alt='#{avatar_name}'/>" +
       '</div>'
-    actual = diff_avatar_image(kata_id, 49)
+    actual = diff_avatar_image(kata_id, 49, index)
     assert_equal expected, actual
   end
 

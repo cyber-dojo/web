@@ -18,8 +18,10 @@ $(() => {
   });
 
   $('.avatar-image').click(element => {
-    const id = $(element.currentTarget).data('id');
-    window.open(cd.showReviewUrl(id, -1, -1));
+    const e = $(element.currentTarget);
+    const id = e.data('id');
+    const index = e.data('index');
+    window.open(cd.showReviewUrl(id, index, index));
   });
 
   cd.pieChart($('#traffic-lights .pie'));
@@ -59,7 +61,7 @@ $(() => {
 
       <th>
         <div class="fixed-column">
-          <%= raw diff_avatar_image(kata_id, @all_indexes[kata_id]) %>
+          <%= raw diff_avatar_image(kata_id, @all_indexes[kata_id], lights.last.index) %>
           <%= raw pie_chart(kata_id, lights) %>
           <%= raw traffic_light_count(lights) %>
         </div>
