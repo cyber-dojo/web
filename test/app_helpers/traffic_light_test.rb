@@ -14,11 +14,11 @@ class TrafficLightTest < AppHelpersTestBase
   test '67C',
   'traffic_light_count' do
     lights = [
-      Event.new(nil, { 'colour' => 'red',   'index' => 0}),
-      Event.new(nil, { 'colour' => 'red',   'index' => 1}),
-      Event.new(nil, { 'colour' => 'amber', 'index' => 2}),
-      Event.new(nil, { 'colour' => 'green', 'index' => 3}),
-      Event.new(nil, { 'colour' => 'amber', 'index' => 4}),
+      event(0, 'red'),
+      event(1, 'red'),
+      event(2, 'amber'),
+      event(3, 'green'),
+      event(4, 'amber'),
     ]
     expected =
       "<div class='traffic-light-count-wrapper'>" +
@@ -51,17 +51,23 @@ class TrafficLightTest < AppHelpersTestBase
   test '443',
   'diff_traffic_light' do
     kata = OpenStruct.new(id: 'a4r9YN')
-    red = Event.new(kata, { 'colour' => 'red', 'index' => 14})
+    red = event(14, 'red', kata)
     expected = '' +
       "<div class='diff-traffic-light'" +
         " data-id='a4r9YN'" +
         " data-index='14'" +
-        " data-colour='red'>" + # [1]
+        " data-colour='red'>" +
         "<img src='/traffic-light/image/red.png'" +
            " alt='red traffic-light'/>" +
       '</div>'
     actual = diff_traffic_light(red)
     assert_equal expected, actual
+  end
+
+  private
+
+  def event(index, colour, kata=nil)
+    Event.new(kata, { 'index' => index, 'colour' => colour })
   end
 
 end
