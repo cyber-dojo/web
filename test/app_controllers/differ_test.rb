@@ -11,7 +11,7 @@ class DifferControllerTest < AppControllerTestBase
   test 'AF6',
   'diff with no differences' do
     set_saver_class('SaverService')
-    differ('5rTJv5', 0, 0)
+    differ('5rTJv5', 0, 0, version=0)
     json['diffs'].each do |diff|
       filename = diff['filename']
       assert_equal 0, diff['section_count'], filename
@@ -25,7 +25,7 @@ class DifferControllerTest < AppControllerTestBase
   test 'AF7',
   'diff with one line difference in only one file' do
     set_saver_class('SaverService')
-    differ('5rTJv5', 0, 1)
+    differ('5rTJv5', 0, 1, version=0)
     json['diffs'].each do |diff|
       filename = diff['filename']
       n = (filename === 'hiker.rb') ? 1 : 0
@@ -42,7 +42,7 @@ class DifferControllerTest < AppControllerTestBase
   when no-saver-outages means indexes are sequential
   ) do
     set_saver_class('SaverService')
-    differ('5rTJv5', -1, -1)
+    differ('5rTJv5', -1, -1, version=0)
     assert_equal 3, json['wasIndex']
     assert_equal 3, json['nowIndex']
     assert_equal 32, json['avatarIndex']
@@ -71,26 +71,28 @@ class DifferControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '115', %w( checking saver call efficiency ) do
-    manifest = starter_manifest('Python, unittest')
-    version = manifest['version'] = 1
-    kata = katas.new_kata(manifest)
-    @id = kata.id
-    @files = plain(kata.files)
-    @index = 0
-    post_run_tests
-    count_before = saver.log.size #13
-    differ(@id, 0, 1, version)
-    count_after = saver.log.size # 19
-    #puts [count_before,count_after]
-    assert_equal 6, (count_after-count_before)
+  test '115', %w(
+  saver-service call efficiency
+  ) do
+    [0,1].each do |version|
+      manifest = starter_manifest('Python, unittest')
+      manifest['version'] = version
+      kata = katas.new_kata(manifest)
+      @id = kata.id
+      @files = plain(kata.files)
+      @index = 0
+      post_run_tests
+      count_before = saver.log.size #13
+      differ(@id, 0, 1, version)
+      count_after = saver.log.size # 19
+      #puts [count_before,count_after]
+      assert_equal 6, (count_after-count_before)
+    end
   end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   private
 
-  def differ(id, was_index, now_index, version = 0)
+  def differ(id, was_index, now_index, version)
     params = {
         version:version,
              id:id,
