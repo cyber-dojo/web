@@ -73,7 +73,8 @@ module DashboardWorker # mixin
     [kata.avatar_name, {
         colour: kata.lights[-1].colour,
       progress: most_recent_progress(kata),
-         index: Avatars.index(kata.avatar_name)
+         index: Avatars.index(kata.avatar_name),
+            id: kata.id
     }]
   end
 
