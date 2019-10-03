@@ -50,30 +50,17 @@ class DashboardControllerTest < AppControllerTestBase
   with and without traffic lights
   checking saver call efficiency
   ) do
-    set_runner_class('RunnerService')
-    set_ragger_class('RaggerService')
     manifest = starter_manifest('Python, unittest')
     @version = manifest['version'] = 1
     group = groups.new_group(manifest)
     @gid = group.id
-    # an animal with a non-amber traffic-light
-    1.times {
+    2.times {
       kata = assert_join(@gid)
       @id = kata.id
       @files = plain(kata.files)
       @index = 0
       post_run_tests
-      assert_equal :red, kata.lights[-1].colour
-    }
-    # an animal with only amber traffic-lights
-    1.times {
-      kata = assert_join(@gid)
-      @id = kata.id
-      @files = plain(kata.files)
-      @index = 0
-      change_file('hiker.py', 'syntax-error')
-      post_run_tests
-      assert_equal :amber, kata.lights[-1].colour
+      assert_equal 1, kata.lights.size
     }
     count_before = saver.log.size
     dashboard
