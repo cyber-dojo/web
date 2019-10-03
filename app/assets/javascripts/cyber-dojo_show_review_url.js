@@ -3,10 +3,10 @@
 var cyberDojo = ((cd, $) => {
 
   cd.showReviewUrl = (id, wasIndex, nowIndex, filename) => {
-    return '/review/show/' + id +
-      '?was_index=' + wasIndex +
-      '&now_index=' + nowIndex +
-      '&filename=' + filename;
+    return `/review/show/${id}` +
+      `?was_index=${wasIndex}` +
+      `&now_index=${nowIndex}` +
+      `&filename=${filename}`;
   };
 
   return cd;
