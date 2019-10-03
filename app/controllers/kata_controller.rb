@@ -105,7 +105,7 @@ class KataController < ApplicationController
       #TODO: @message on footer...
     end
 
-    @light = Event.new(kata, { 'time' => t1, 'colour' => colour }, index)
+    @light = Event.new(kata, { 'time' => t1, 'colour' => colour, 'index' => index})
     @id = kata.id
 
     respond_to do |format|

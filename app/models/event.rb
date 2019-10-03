@@ -2,13 +2,17 @@
 
 class Event
 
-  def initialize(kata, hash, index)
+  def initialize(kata, hash)
     @kata = kata
     @hash = hash
     @index = index
   end
 
-  attr_reader :kata, :index
+  attr_reader :kata
+
+  def index
+    @hash['index']
+  end
 
   def files(sym = nil)
     all = event['files']

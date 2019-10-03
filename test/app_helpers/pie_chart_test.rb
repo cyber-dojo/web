@@ -12,8 +12,8 @@ class PieChartTest < AppHelpersTestBase
   'pie-chart from lights' do
     kata_id = 'eMjjWQ'
     lights = [
-      Event.new(nil, { 'colour' => 'red'   }, 0),
-      Event.new(nil, { 'colour' => 'green' }, 1),
+      Event.new(nil, { 'colour' => 'red',   'index' => 0}),
+      Event.new(nil, { 'colour' => 'green', 'index' => 1}),
     ]
     size = 32
     expected = '' +

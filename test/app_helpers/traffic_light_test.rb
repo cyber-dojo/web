@@ -14,11 +14,11 @@ class TrafficLightTest < AppHelpersTestBase
   test '67C',
   'traffic_light_count' do
     lights = [
-      Event.new(nil, { 'colour' => 'red'     }, 0),
-      Event.new(nil, { 'colour' => 'red'     }, 1),
-      Event.new(nil, { 'colour' => 'amber'   }, 2),
-      Event.new(nil, { 'colour' => 'green'   }, 3),
-      Event.new(nil, { 'colour' => 'amber'   }, 4),
+      Event.new(nil, { 'colour' => 'red',   'index' => 0}),
+      Event.new(nil, { 'colour' => 'red',   'index' => 1}),
+      Event.new(nil, { 'colour' => 'amber', 'index' => 2}),
+      Event.new(nil, { 'colour' => 'green', 'index' => 3}),
+      Event.new(nil, { 'colour' => 'amber', 'index' => 4}),
     ]
     expected =
       "<div class='traffic-light-count-wrapper'>" +
@@ -51,7 +51,7 @@ class TrafficLightTest < AppHelpersTestBase
   test '443',
   'diff_traffic_light' do
     kata = OpenStruct.new(id: 'a4r9YN')
-    red = Event.new(kata, { 'colour' => 'red' }, 14)
+    red = Event.new(kata, { 'colour' => 'red', 'index' => 14})
     expected = '' +
       "<div class='diff-traffic-light'" +
         " data-id='a4r9YN'" +

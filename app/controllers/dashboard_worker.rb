@@ -14,7 +14,8 @@ module DashboardWorker # mixin
 #puts "B:#{saver.log.size}"   #51
     e.each do |kata_id,o|
       lights = o['events'].each_with_index.map{ |event,index|
-        Event.new(katas[kata_id], event, index)
+        event['index'] ||= index
+        Event.new(katas[kata_id], event)
       }.select(&:light?)
       unless lights === []
         @all_lights[kata_id] = lights

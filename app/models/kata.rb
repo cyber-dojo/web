@@ -62,8 +62,8 @@ class Kata
 
   def events
     kata.events(id).map.with_index do |h,index|
-      i = h['index'] || index
-      Event.new(self, h, i)
+      h['index'] ||= index
+      Event.new(self, h)
     end
   end
 
