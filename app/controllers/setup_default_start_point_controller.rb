@@ -20,7 +20,6 @@ class SetupDefaultStartPointController < ApplicationController
     kata = katas.new_kata(manifest) # [1]
     respond_to do |format|
       format.html { redirect_to "/kata/edit/#{kata.id}" }
-      format.json { render json:{id:kata.id} }
     end
   end
 
@@ -29,6 +28,23 @@ class SetupDefaultStartPointController < ApplicationController
     group = groups.new_group(manifest)
     respond_to do |format|
       format.html { redirect_to "/kata/group/#{group.id}" }
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - -
+
+  def save_individual_json
+    manifest = starter_manifest
+    kata = katas.new_kata(manifest)
+    respond_to do |format|
+      format.json { render json:{id:kata.id} }
+    end
+  end
+
+  def save_group_json
+    manifest = starter_manifest
+    group = groups.new_group(manifest)
+    respond_to do |format|
       format.json { render json:{id:group.id} }      
     end
   end

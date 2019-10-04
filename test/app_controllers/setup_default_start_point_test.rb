@@ -63,44 +63,16 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'E12', %w(
-  format=html
-  save_individual with display_name and exercise in URL
-  creates new individual session and redirects to it
-  ) do
-    get individual_url_params, as: :html
-    assert_response :redirect
-    regex = /^(.*)\/kata\/edit\/([0-9A-Za-z]*)$/
-    assert m = regex.match(@response.redirect_url)
-    id = m[2]
-    kata = katas[id]
-    assert kata.exists?
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'E13', %w(
-  format=html
-  save_group with display_name and exercise in URL
-  creates new group session and redirects to it
-  ) do
-    get group_url_params, as: :html
-    assert_response :redirect
-    regex = /^(.*)\/kata\/group\/([0-9A-Za-z]*)$/
-    assert m = regex.match(@response.redirect_url)
-    id = m[2]
-    group = groups[id]
-    assert group.exists?
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
   test '7A0', %w(
   format=json
   save_individual with display_name and exercise in URL
   creates new individual session and returns its id in json response
   ) do
-    get individual_url_params, as: :json
+    params = {
+      language:ruby_rspec,
+      exercise:leap_years
+    }
+    post "/#{controller}/save_individual_json", params:params, as: :json
     assert_response :success
     id = json['id']
     kata = katas[id]
@@ -114,7 +86,11 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   save_group with display_name and exercise in URL
   creates new group session and returns its id in json response
   ) do
-    get group_url_params, as: :json
+    params = {
+      language:ruby_minitest,
+      exercise:fizz_buzz
+    }
+    post "/#{controller}/save_group_json", params:params, as: :json
     assert_response :success
     id = json['id']
     group = groups[id]
@@ -158,22 +134,6 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     regex = /^(.*)\/kata\/group\/([0-9A-Za-z]*)$/
     assert m = regex.match(@response.redirect_url)
     m[2] # id
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
-  def individual_url_params
-    "/#{controller}/save_individual?#{url_params}"
-  end
-
-  def group_url_params
-    "/#{controller}/save_group?#{url_params}"
-  end
-
-  def url_params
-    language = url_encoded(ruby_minitest)
-    exercise = url_encoded(fizz_buzz)
-    "language=#{language}&exercise=#{exercise}"
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -

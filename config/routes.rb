@@ -36,12 +36,16 @@ CyberDojo::Application.routes.draw do
     get 'show(/:id)'      => :show
     get 'save_individual' => :save_individual
     get 'save_group'      => :save_group
+    post 'save_individual_json' => :save_individual_json, :constraints => { :format => :json }
+    post 'save_group_json'      => :save_group_json,      :constraints => { :format => :json }
   end
 
   scope path: '/setup_custom_start_point', controller: :setup_custom_start_point do
     get 'show(/:id)'      => :show
     get 'save_individual' => :save_individual
     get 'save_group'      => :save_group
+    post 'save_individual_json' => :save_individual_json, :constraints => { :format => :json }
+    post 'save_group_json'      => :save_group_json,      :constraints => { :format => :json }
   end
 
   scope path: '/kata', controller: :kata do
