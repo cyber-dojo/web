@@ -51,6 +51,7 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test 'DDD', %w(
+  format=html
   save_individual with display_name in URL
   creates new individual session and redirects to it
   ) do
@@ -68,6 +69,7 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test 'DDE', %w(
+  format=html
   save_group with display_name in URL
   creates new group session and redirects to it
   ) do
@@ -78,6 +80,36 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
     regex = /^(.*)\/kata\/group\/([0-9A-Za-z]*)$/
     assert m = regex.match(@response.redirect_url)
     id = m[2]
+    group = groups[id]
+    assert group.exists?
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  test '933', %w(
+  format=json
+  save_individual with display_name in URL
+  creates new individual session and returns its id in json response
+  ) do
+    display_name = url_encoded(yahtzee_csharp_nunit)
+    get "/#{controller}/save_individual?display_name=#{display_name}",  as: :json
+    assert_response :success
+    id = json['id']
+    kata = katas[id]
+    assert kata.exists?
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  test '934', %w(
+  format=json
+  save_group with display_name in URL
+  creates new group session and returns its id in json response
+  ) do
+    display_name = url_encoded(yahtzee_csharp_nunit)
+    get "/#{controller}/save_group?display_name=#{display_name}",  as: :json
+    assert_response :success
+    id = json['id']
     group = groups[id]
     assert group.exists?
   end

@@ -13,6 +13,7 @@ class SetupCustomStartPointController < ApplicationController
     kata = katas.new_kata(manifest) # TODO: rescue SaverService::Error
     respond_to do |format|
       format.html { redirect_to "/kata/edit/#{kata.id}" }
+      format.json { render json:{id:kata.id} }
     end
   end
 
@@ -21,6 +22,7 @@ class SetupCustomStartPointController < ApplicationController
     group = groups.new_group(manifest)
     respond_to do |format|
       format.html { redirect_to "/kata/group/#{group.id}" }
+      format.json { render json:{id:group.id} }
     end
   end
 

@@ -64,6 +64,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test 'E12', %w(
+  format=html
   save_individual with display_name and exercise in URL
   creates new individual session and redirects to it
   ) do
@@ -84,6 +85,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - -
 
   test 'E13', %w(
+  format=html
   save_group with display_name and exercise in URL
   creates new group session and redirects to it
   ) do
@@ -101,6 +103,42 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     assert group.exists?
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  test '7A0', %w(
+  format=json
+  save_individual with display_name and exercise in URL
+  creates new individual session and returns its id in json response
+  ) do
+    language = url_encoded(ruby_minitest)
+    exercise = url_encoded(fizz_buzz)
+    params = "language=#{language}&exercise=#{exercise}"
+    url = "/#{controller}/save_individual?#{params}"
+    get url,  as: :json
+    assert_response :success
+    id = json['id']
+    kata = katas[id]
+    assert kata.exists?
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  test '7A1', %w(
+  format=json
+  save_group with display_name and exercise in URL
+  creates new group session and returns its id in json response
+  ) do
+    language = url_encoded(ruby_minitest)
+    exercise = url_encoded(fizz_buzz)
+    params = "language=#{language}&exercise=#{exercise}"
+    url = "/#{controller}/save_group?#{params}"
+    get url,  as: :json
+    assert_response :success
+    id = json['id']
+    group = groups[id]
+    assert group.exists?
+  end
+
   private # = = = = = = = = = = = = = = = = = =
 
   def controller
@@ -112,7 +150,6 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   def show(params = {})
     get "/#{controller}/show", params:params, as: :html
     assert_response :success
-
     languages.names.each do |display_name|
       assert listed?(display_name)
     end

@@ -17,16 +17,11 @@ class SetupDefaultStartPointController < ApplicationController
 
   def save_individual
     manifest = starter_manifest
-    kata = katas.new_kata(manifest) # TODO: rescue SaverService::Error
+    kata = katas.new_kata(manifest) # [1]
     respond_to do |format|
       format.html { redirect_to "/kata/edit/#{kata.id}" }
+      format.json { render json:{id:kata.id} }
     end
-=begin
-    # TODO: go 'offline' if SaverService::Error
-    language = "language=#{params['language']}"
-    exercise = "exercise=#{params['exercise']}"
-    redirect_to "/kata/edit_offline?#{language}&#{exercise}"
-=end
   end
 
   def save_group
@@ -34,6 +29,7 @@ class SetupDefaultStartPointController < ApplicationController
     group = groups.new_group(manifest)
     respond_to do |format|
       format.html { redirect_to "/kata/group/#{group.id}" }
+      format.json { render json:{id:group.id} }      
     end
   end
 
@@ -58,3 +54,11 @@ class SetupDefaultStartPointController < ApplicationController
   end
 
 end
+
+=begin
+[1] TODO: rescue SaverService::Error
+  # go 'offline' if SaverService::Error
+  language = "language=#{params['language']}"
+  exercise = "exercise=#{params['exercise']}"
+  redirect_to "/kata/edit_offline?#{language}&#{exercise}"
+=end
