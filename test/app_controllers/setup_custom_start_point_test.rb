@@ -55,7 +55,7 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
   creates new individual session and redirects to it
   ) do
     display_name = url_encoded(yahtzee_csharp_nunit)
-    get "/#{controller}/save_individual/#{display_name}",  as: :html
+    get "/#{controller}/save_individual?display_name=#{display_name}",  as: :html
     assert_response :redirect
     #http://.../kata/edit/6433rG
     regex = /^(.*)\/kata\/edit\/([0-9A-Za-z]*)$/
@@ -72,7 +72,7 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
   creates new group session and redirects to it
   ) do
     display_name = url_encoded(yahtzee_csharp_nunit)
-    get "/#{controller}/save_group/#{display_name}",  as: :html
+    get "/#{controller}/save_group?display_name=#{display_name}",  as: :html
     assert_response :redirect
     #http://.../kata/group/6433rG
     regex = /^(.*)\/kata\/group\/([0-9A-Za-z]*)$/
