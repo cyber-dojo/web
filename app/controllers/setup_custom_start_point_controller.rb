@@ -11,13 +11,17 @@ class SetupCustomStartPointController < ApplicationController
   def save_individual
     manifest = starter_manifest
     kata = katas.new_kata(manifest) # TODO: rescue SaverService::Error
-    redirect_to "/kata/edit/#{kata.id}"
+    respond_to do |format|
+      format.html { redirect_to "/kata/edit/#{kata.id}" }
+    end
   end
 
   def save_group
     manifest = starter_manifest
     group = groups.new_group(manifest)
-    redirect_to "/kata/group/#{group.id}"
+    respond_to do |format|
+      format.html { redirect_to "/kata/group/#{group.id}" }
+    end
   end
 
   private
