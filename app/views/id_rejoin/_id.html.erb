@@ -110,13 +110,15 @@ $(() => {
   inputId.focus()
          .keyup(() => inputIdHandler());
 
+  inputIdHandler();
+  
 });
 //--></script>
 
 <input type="text"
        id="id"
        placeholder="6-digit-id?"
-       value="">
+       value="<%= @id %>">
 </input>
 <br/>
 <%= render partial: 'shared/wait_spinner' %>

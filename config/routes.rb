@@ -58,8 +58,8 @@ CyberDojo::Application.routes.draw do
   end
 
   scope path: '/id_rejoin', controller: :id_rejoin do
-    get 'show'      => :show
-    get 'drop_down' => :drop_down,  :constraints => { :format => :json }
+    get 'show(/:id)' => :show
+    get 'drop_down'  => :drop_down,  :constraints => { :format => :json }
   end
 
   scope path: '/id_review', controller: :id_review do

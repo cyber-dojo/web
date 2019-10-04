@@ -2,6 +2,7 @@
 class IdRejoinController < ApplicationController
 
   def show
+    @id = id
     @from = from
     @possessive = (from === 'individual') ? 'my' : 'our'
   end
