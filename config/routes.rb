@@ -40,8 +40,8 @@ CyberDojo::Application.routes.draw do
 
   scope path: '/setup_custom_start_point', controller: :setup_custom_start_point do
     get 'show(/:id)'      => :show
-    get 'save_individual' => :save_individual
-    get 'save_group'      => :save_group
+    get 'save_individual(/:display_name)' => :save_individual
+    get 'save_group(/:display_name)'      => :save_group
   end
 
   scope path: '/kata', controller: :kata do

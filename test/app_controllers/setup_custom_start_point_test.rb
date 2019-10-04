@@ -43,9 +43,43 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
     id = save_individual(params)
     kata = katas[id]
     assert kata.exists?
-    assert_equal 1, kata.schema.version        
+    assert_equal 1, kata.schema.version
     assert_equal yahtzee_python_unittest,  kata.manifest.display_name
     refute kata.group?
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'DDD', %w(
+  save_individual with display_name in URL
+  creates new individual session and redirects to it
+  ) do
+    display_name = url_encoded(yahtzee_csharp_nunit)
+    get "/#{controller}/save_individual/#{display_name}",  as: :html
+    assert_response :redirect
+    #http://.../kata/edit/6433rG
+    regex = /^(.*)\/kata\/edit\/([0-9A-Za-z]*)$/
+    assert m = regex.match(@response.redirect_url)
+    id = m[2]
+    kata = katas[id]
+    assert kata.exists?
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'DDE', %w(
+  save_group with display_name in URL
+  creates new group session and redirects to it
+  ) do
+    display_name = url_encoded(yahtzee_csharp_nunit)
+    get "/#{controller}/save_group/#{display_name}",  as: :html
+    assert_response :redirect
+    #http://.../kata/group/6433rG
+    regex = /^(.*)\/kata\/group\/([0-9A-Za-z]*)$/
+    assert m = regex.match(@response.redirect_url)
+    id = m[2]
+    group = groups[id]
+    assert group.exists?
   end
 
   private # = = = = = = = = = = = = = = = = = =
@@ -99,6 +133,10 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
 
   def yahtzee_python_unittest
     'Yahtzee refactoring, Python unitttest'
+  end
+
+  def url_encoded(s)
+    ERB::Util.url_encode(s)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
