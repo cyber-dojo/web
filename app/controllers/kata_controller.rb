@@ -61,7 +61,6 @@ class KataController < ApplicationController
     # footer info
     @display_name = manifest['display_name']
     @exercise = manifest['exercise']
-
     # TODO: Turn off traffic-light click opens diff review
     # TODO: Turn off traffic-lights tool-tip
   end

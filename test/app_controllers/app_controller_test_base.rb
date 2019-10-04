@@ -114,6 +114,10 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     json['id']
   end
 
+  def url_encoded(s)
+    ERB::Util.url_encode(s)
+  end
+
   # - - - - - - - - - - - - - - - -
 
   def json

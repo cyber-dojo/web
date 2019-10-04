@@ -135,10 +135,6 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
     'Yahtzee refactoring, Python unitttest'
   end
 
-  def url_encoded(s)
-    ERB::Util.url_encode(s)
-  end
-
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def listed?(entry)

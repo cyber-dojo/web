@@ -61,6 +61,46 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     refute kata.group?
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'E12', %w(
+  save_individual with display_name and exercise in URL
+  creates new individual session and redirects to it
+  ) do
+    language = url_encoded(ruby_minitest)
+    exercise = url_encoded(fizz_buzz)
+    params = "language=#{language}&exercise=#{exercise}"
+    url = "/#{controller}/save_individual?#{params}"
+    get url,  as: :html
+    assert_response :redirect
+    #http://.../kata/edit/6433rG
+    regex = /^(.*)\/kata\/edit\/([0-9A-Za-z]*)$/
+    assert m = regex.match(@response.redirect_url)
+    id = m[2]
+    kata = katas[id]
+    assert kata.exists?
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'E13', %w(
+  save_group with display_name and exercise in URL
+  creates new group session and redirects to it
+  ) do
+    language = url_encoded(ruby_minitest)
+    exercise = url_encoded(fizz_buzz)
+    params = "language=#{language}&exercise=#{exercise}"
+    url = "/#{controller}/save_group?#{params}"
+    get url,  as: :html
+    assert_response :redirect
+    #http://.../kata/group/6433rG
+    regex = /^(.*)\/kata\/group\/([0-9A-Za-z]*)$/
+    assert m = regex.match(@response.redirect_url)
+    id = m[2]
+    group = groups[id]
+    assert group.exists?
+  end
+
   private # = = = = = = = = = = = = = = = = = =
 
   def controller
