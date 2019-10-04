@@ -68,13 +68,8 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   save_individual with display_name and exercise in URL
   creates new individual session and redirects to it
   ) do
-    language = url_encoded(ruby_minitest)
-    exercise = url_encoded(fizz_buzz)
-    params = "language=#{language}&exercise=#{exercise}"
-    url = "/#{controller}/save_individual?#{params}"
-    get url,  as: :html
+    get individual_url_params, as: :html
     assert_response :redirect
-    #http://.../kata/edit/6433rG
     regex = /^(.*)\/kata\/edit\/([0-9A-Za-z]*)$/
     assert m = regex.match(@response.redirect_url)
     id = m[2]
@@ -89,13 +84,8 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   save_group with display_name and exercise in URL
   creates new group session and redirects to it
   ) do
-    language = url_encoded(ruby_minitest)
-    exercise = url_encoded(fizz_buzz)
-    params = "language=#{language}&exercise=#{exercise}"
-    url = "/#{controller}/save_group?#{params}"
-    get url,  as: :html
+    get group_url_params, as: :html
     assert_response :redirect
-    #http://.../kata/group/6433rG
     regex = /^(.*)\/kata\/group\/([0-9A-Za-z]*)$/
     assert m = regex.match(@response.redirect_url)
     id = m[2]
@@ -110,11 +100,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   save_individual with display_name and exercise in URL
   creates new individual session and returns its id in json response
   ) do
-    language = url_encoded(ruby_minitest)
-    exercise = url_encoded(fizz_buzz)
-    params = "language=#{language}&exercise=#{exercise}"
-    url = "/#{controller}/save_individual?#{params}"
-    get url,  as: :json
+    get individual_url_params, as: :json
     assert_response :success
     id = json['id']
     kata = katas[id]
@@ -128,11 +114,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   save_group with display_name and exercise in URL
   creates new group session and returns its id in json response
   ) do
-    language = url_encoded(ruby_minitest)
-    exercise = url_encoded(fizz_buzz)
-    params = "language=#{language}&exercise=#{exercise}"
-    url = "/#{controller}/save_group?#{params}"
-    get url,  as: :json
+    get group_url_params, as: :json
     assert_response :success
     id = json['id']
     group = groups[id]
@@ -176,6 +158,22 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     regex = /^(.*)\/kata\/group\/([0-9A-Za-z]*)$/
     assert m = regex.match(@response.redirect_url)
     m[2] # id
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  def individual_url_params
+    "/#{controller}/save_individual?#{url_params}"
+  end
+
+  def group_url_params
+    "/#{controller}/save_group?#{url_params}"
+  end
+
+  def url_params
+    language = url_encoded(ruby_minitest)
+    exercise = url_encoded(fizz_buzz)
+    "language=#{language}&exercise=#{exercise}"
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -

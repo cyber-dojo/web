@@ -55,8 +55,7 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
   save_individual with display_name in URL
   creates new individual session and redirects to it
   ) do
-    display_name = url_encoded(yahtzee_csharp_nunit)
-    get "/#{controller}/save_individual?display_name=#{display_name}",  as: :html
+    get individual_url_params, as: :html
     assert_response :redirect
     #http://.../kata/edit/6433rG
     regex = /^(.*)\/kata\/edit\/([0-9A-Za-z]*)$/
@@ -73,8 +72,7 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
   save_group with display_name in URL
   creates new group session and redirects to it
   ) do
-    display_name = url_encoded(yahtzee_csharp_nunit)
-    get "/#{controller}/save_group?display_name=#{display_name}",  as: :html
+    get group_url_params, as: :html
     assert_response :redirect
     #http://.../kata/group/6433rG
     regex = /^(.*)\/kata\/group\/([0-9A-Za-z]*)$/
@@ -91,8 +89,7 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
   save_individual with display_name in URL
   creates new individual session and returns its id in json response
   ) do
-    display_name = url_encoded(yahtzee_csharp_nunit)
-    get "/#{controller}/save_individual?display_name=#{display_name}",  as: :json
+    get individual_url_params, as: :json
     assert_response :success
     id = json['id']
     kata = katas[id]
@@ -106,8 +103,7 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
   save_group with display_name in URL
   creates new group session and returns its id in json response
   ) do
-    display_name = url_encoded(yahtzee_csharp_nunit)
-    get "/#{controller}/save_group?display_name=#{display_name}",  as: :json
+    get group_url_params, as: :json
     assert_response :success
     id = json['id']
     group = groups[id]
@@ -142,6 +138,21 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
     regex = /^(.*)\/kata\/group\/([0-9A-Za-z]*)$/
     assert m = regex.match(@response.redirect_url)
     m[2] # id
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  def individual_url_params
+    "/#{controller}/save_individual?#{url_params}"
+  end
+
+  def group_url_params
+    "/#{controller}/save_group?#{url_params}"
+  end
+
+  def url_params
+    display_name = url_encoded(yahtzee_csharp_nunit)
+    "display_name=#{display_name}"
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
