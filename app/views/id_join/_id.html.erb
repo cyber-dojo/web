@@ -50,9 +50,9 @@ $(() => {
     cancel.show();
   };
 
-  const prepareAvatarDropDown = (avatarIndex, avatarName, id) => {
+  const prepareAvatarDropDown = (index, name, id) => {
     showTrafficLightInfo();
-    showAvatar(avatarIndex, avatarName);
+    showAvatar(index, name);
     cancel.hide();
     ok.unbind()
       .click(() => join(id))
@@ -63,12 +63,12 @@ $(() => {
     hiDiv.html($('#traffic-light-info').html());
   };
 
-  const showAvatar = (avatarIndex, avatarName) => {
+  const showAvatar = (index, name) => {
     $('#avatar',hiDiv).html($('<img>', {
       'class':'avatar large',
-        'src':`/avatar/image/${avatarIndex}`
+        'src':`/avatar/image/${index}`
     }));
-    loDiv.html(`your animal is the ${avatarName}`);
+    loDiv.html(`your animal is the ${name}`);
   };
 
   const join = (id) => {
