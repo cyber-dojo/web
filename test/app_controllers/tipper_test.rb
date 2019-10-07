@@ -17,7 +17,7 @@ class TipperControllerTest < AppControllerTestBase
         get '/tipper/traffic_light_tip', params:tip_params(version,kata)
         assert_response :success
         count_after = saver.log.size
-        diagnostic = [version,count_before,count_after]        
+        diagnostic = [version,count_before,count_after]
         assert_equal 6, (count_after-count_before), diagnostic
       end
     end
@@ -26,7 +26,7 @@ class TipperControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - -
 
   test '3D5',
-  'new traffic_light_tip2 uses only one saver-service call' do
+  'new traffic_light_tip2 uses 1 saver-service call' do
     [0,1].each do |version|
       in_kata(version:version) do |kata|
         post_run_tests

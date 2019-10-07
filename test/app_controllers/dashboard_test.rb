@@ -10,9 +10,9 @@ class DashboardControllerTest < AppControllerTestBase
 
   test '971', %w( minute_column/auto_refresh true/false ) do
     [0,1].each do |version|
+      @version = version
       in_group(version:version) do |group|
         @gid = group.id
-        @version = version
         options = [ false, true, 'xxx' ]
         options.each do |mc|
           options.each do |ar|
@@ -38,13 +38,13 @@ class DashboardControllerTest < AppControllerTestBase
   saver-service call efficiency
   ) do
     [0,1].each do |version|
+      @version = version
       options = {
              version:version,
         display_name:'Python, unittest'
       }
       in_group(options) do |group|
         @gid = group.id
-        @version = version
         2.times {
           kata = assert_join(@gid)
           @id = kata.id
@@ -60,7 +60,7 @@ class DashboardControllerTest < AppControllerTestBase
         # 1 - find kata ids
         # 2 - get events for each kata (batch)
         # 3 - get manifest for group
-        assert_equal 3, saver_call_count, [count_before,count_after]
+        assert_equal 3, saver_call_count, [version,count_before,count_after]
         #tail = saver.log[-3..-1]
         #puts "tail:#{tail.inspect}"
         heartbeat
