@@ -15,14 +15,11 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     block.call(group)
   end
 
-  def create_custom_group
-    params = { display_name:custom.names[0] }
-    get '/setup_custom_start_point/save_group', params:params
-    assert_response :redirect
-    #http://.../kata/group/6433rG
-    regex = /^(.*)\/kata\/group\/([0-9A-Za-z]*)$/
-    assert m = regex.match(@response.redirect_url)
-    @id = m[2]
+  def create_custom_group(version = 1)
+    manifest = starter_manifest
+    version = manifest['version'] = version
+    group = groups.new_group(manifest)
+    @id = group.id
     nil
   end
 
@@ -39,17 +36,11 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     block.call(kata)
   end
 
-  def create_language_kata
-    params = {
-      language:default_display_name,
-      exercise:default_exercise_name
-    }
-    get '/setup_default_start_point/save_individual', params:params
-    assert_response :redirect
-    #http://.../kata/edit/Bc84S3
-    regex = /^(.*)\/kata\/edit\/([0-9A-Za-z]*)$/
-    assert m = regex.match(@response.redirect_url)
-    @id = m[2]
+  def create_language_kata(version = 1)
+    manifest = starter_manifest
+    version = manifest['version'] = version
+    kata = katas.new_kata(manifest)
+    @id = kata.id
     nil
   end
 
