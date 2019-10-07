@@ -67,17 +67,11 @@ class DifferControllerTest < AppControllerTestBase
   index -1 gives most recent traffic-light
   when saver-outage means indexes are not sequential
   ) do
-    manifest = starter_manifest('Python, unittest')
-    version = manifest['version'] = 1
-    kata = katas.new_kata(manifest)
-    @id = kata.id
-    @files = plain(kata.files)
-    @index = 0
-    post_run_tests
+    in_kata { post_run_tests }
     # saver-outage 1,2,3
     @index = 3
     post_run_tests
-    differ(@id, -1, -1, version)
+    differ(@id, -1, -1, version=1)
     assert_equal 4, json['wasIndex']
     assert_equal 4, json['nowIndex']
   end
@@ -88,18 +82,13 @@ class DifferControllerTest < AppControllerTestBase
   saver-service call efficiency
   ) do
     [0,1].each do |version|
-      manifest = starter_manifest('Python, unittest')
-      manifest['version'] = version
-      kata = katas.new_kata(manifest)
-      @id = kata.id
-      @files = plain(kata.files)
-      @index = 0
-      post_run_tests
+      in_kata(version:version) { post_run_tests }
       count_before = saver.log.size #13
       differ(@id, 0, 1, version)
       count_after = saver.log.size # 19
       #puts [count_before,count_after]
       assert_equal 6, (count_after-count_before)
+      assert_equal version, kata.schema.version
     end
   end
 
