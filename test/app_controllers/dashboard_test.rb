@@ -38,7 +38,11 @@ class DashboardControllerTest < AppControllerTestBase
   saver-service call efficiency
   ) do
     [0,1].each do |version|
-      in_group(version:version,display_name:'Python, unittest') do |group|
+      options = {
+             version:version,
+        display_name:'Python, unittest'
+      }
+      in_group(options) do |group|
         @gid = group.id
         @version = version
         2.times {
