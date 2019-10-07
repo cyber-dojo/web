@@ -49,13 +49,7 @@ class TipperControllerTest < AppControllerTestBase
 
   test '3D6',
   'V0: traffic_light_tip2 uses only one saver-service call' do
-    manifest = starter_manifest('Java, JUnit')
-    version = manifest['version'] = 0
-    kata = katas.new_kata(manifest)
-    @files = plain(kata.files)
-    @index = 0
-    @id = kata.id
-    post_run_tests
+    in_kata(version:0) { post_run_tests }
     count_before = saver.log.size
     get '/tipper/traffic_light_tip2', params: {
          format: :js,

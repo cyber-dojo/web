@@ -29,16 +29,17 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   # - - - - - - - - - - - - - - - -
 
-  def in_kata(&block)
-    create_language_kata
+  def in_kata(options={}, &block)
+    create_language_kata(options)
     @files = plain(kata.files)
     @index = 0
     block.call(kata)
   end
 
-  def create_language_kata(version = 1)
+  def create_language_kata(options = {})
+    options[:version] ||= 1
     manifest = starter_manifest
-    version = manifest['version'] = version
+    manifest['version'] = options[:version]
     kata = katas.new_kata(manifest)
     @id = kata.id
     nil
