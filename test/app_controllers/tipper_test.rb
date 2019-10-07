@@ -9,60 +9,47 @@ class TipperControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - -
 
   test '3D4',
-  'V1: traffic_light_tip uses 7 saver-service calls' do
-    in_kata { post_run_tests }
-    count_before = saver.log.size
-    get '/tipper/traffic_light_tip', params: {
-      'format'    => 'js',
-      'id'        => kata.id,
-      'was_index' => 0,
-      'now_index' => 1
-    }
-    assert_response :success
-    count_after = saver.log.size
-    #puts [count_before,count_after] # [14,21]
-    assert_equal 7, (count_after-count_before)
-    assert_equal 1, kata.schema.version
+  'old traffic_light_tip uses 6 saver-service calls' do
+    [0,1].each do |version|
+      in_kata(version:version) do |kata|
+        post_run_tests
+        count_before = saver.log.size
+        get '/tipper/traffic_light_tip', params:tip_params(version,kata)
+        assert_response :success
+        count_after = saver.log.size
+        diagnostic = [version,count_before,count_after]        
+        assert_equal 6, (count_after-count_before), diagnostic
+      end
+    end
   end
 
   # - - - - - - - - - - - - - - - - - -
 
   test '3D5',
-  'V1: traffic_light_tip2 uses only one saver-service call' do
-    in_kata { post_run_tests }
-    count_before = saver.log.size
-    get '/tipper/traffic_light_tip2', params: {
-         format: :js,
-        version: 1,
-             id: kata.id,
-      was_index: 0,
-      now_index: 1
-    }
-    assert_response :success
-    count_after = saver.log.size
-    #puts [count_before,count_after] # [14,15]
-    assert_equal 1, (count_after-count_before)
-    assert_equal 1, kata.schema.version
+  'new traffic_light_tip2 uses only one saver-service call' do
+    [0,1].each do |version|
+      in_kata(version:version) do |kata|
+        post_run_tests
+        count_before = saver.log.size
+        get '/tipper/traffic_light_tip2', params:tip_params(version,kata)
+        assert_response :success
+        count_after = saver.log.size
+        diagnostic = [version,count_before,count_after]
+        assert_equal 1, (count_after-count_before), diagnostic
+      end
+    end
   end
 
   # - - - - - - - - - - - - - - - - - -
 
-  test '3D6',
-  'V0: traffic_light_tip2 uses only one saver-service call' do
-    in_kata(version:0) { post_run_tests }
-    count_before = saver.log.size
-    get '/tipper/traffic_light_tip2', params: {
+  def tip_params(version, kata)
+    {
          format: :js,
-        version: 0,
+        version: version,
              id: kata.id,
       was_index: 0,
       now_index: 1
     }
-    assert_response :success
-    count_after = saver.log.size
-    #puts [count_before,count_after] # [15,16]
-    assert_equal 1, (count_after-count_before)
-    assert_equal 0, kata.schema.version
   end
 
 end
