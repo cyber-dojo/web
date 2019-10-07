@@ -89,6 +89,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     {
       'format'           => 'js',
       'id'               => (options['id'] || kata.id),
+      'avatar_index'     => kata.avatar_index,
       'version'          => kata.schema.version,
       'image_name'       => kata.manifest.image_name,
       'max_seconds'      => (options['max_seconds'] || kata.manifest.max_seconds),

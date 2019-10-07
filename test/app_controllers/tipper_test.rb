@@ -32,11 +32,11 @@ class TipperControllerTest < AppControllerTestBase
     in_kata { post_run_tests }
     count_before = saver.log.size
     get '/tipper/traffic_light_tip2', params: {
-      'format'    => 'js',
-      'version'   => '1',
-      'id'        => kata.id,
-      'was_index' => 0,
-      'now_index' => 1
+         format: :js,
+        version: 1,
+             id: kata.id,
+      was_index: 0,
+      now_index: 1
     }
     assert_response :success
     count_after = saver.log.size
@@ -58,11 +58,11 @@ class TipperControllerTest < AppControllerTestBase
     post_run_tests
     count_before = saver.log.size
     get '/tipper/traffic_light_tip2', params: {
-      'format'    => 'js',
-      'version'   => '0',
-      'id'        => kata.id,
-      'was_index' => 0,
-      'now_index' => 1
+         format: :js,
+        version: 0,
+             id: kata.id,
+      was_index: 0,
+      now_index: 1
     }
     assert_response :success
     count_after = saver.log.size

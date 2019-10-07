@@ -17,6 +17,8 @@ var cyberDojo = (function(cd, $) {
     });
   };
 
+  // The only call left to this is in  app/views/review/_review.html.erb
+  // To move this to the above version the review page needs params.version
   cd.setupTrafficLightTip = ($light, id, wasIndex, nowIndex) => {
     const args = { id:id, was_index:wasIndex, now_index:nowIndex };
     cd.setTip($light, () => {
