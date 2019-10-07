@@ -33,6 +33,6 @@ $(() => {
 
 <div id="traffic-lights">
   <% @lights.each do |light| %>
-    <%= raw diff_traffic_light(light) %>
+    <%= raw diff_traffic_light(light, @avatar_index) %>
   <% end %>
 </div>

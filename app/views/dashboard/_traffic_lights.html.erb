@@ -5,17 +5,18 @@ $(() => {
   const version = '<%= @version %>';
 
   $('.kata-row').each((_i,row) => {
-    let index = 0; // each avatar resets traffic-light index to zero
+    let index = 0; // each avatar-row must reset traffic-light index to zero
     $.each($('.diff-traffic-light', $(row)), (_,light) => {
       const $light = $(light);
       const id = $light.data('id');
+      const avatarIndex = $light.data('avatar-index');
       const wasIndex = index;
       const nowIndex = $light.data('index');
       $light.click(() => {
         window.open(cd.showReviewUrl(id, wasIndex, nowIndex));
       });
       //cd.setupTrafficLightTip($light, id, wasIndex, nowIndex);
-      cd.setupTrafficLightTip2($light, version, id, wasIndex, nowIndex);
+      cd.setupTrafficLightTip2($light, version, id, avatarIndex, wasIndex, nowIndex);
       index = nowIndex;
     });
   });
@@ -81,7 +82,7 @@ $(() => {
       		  <% end %>
       		  <% if lights.is_a?(Array) %>
       		    <% lights.each do |light| %>
-                <%= raw diff_traffic_light(light) %>
+                <%= raw diff_traffic_light(light, avatar_index) %>
               <% end %>
       		  <% end %>
   		    </div>

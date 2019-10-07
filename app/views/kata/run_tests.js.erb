@@ -1,7 +1,7 @@
 'use strict';
 
 const appendTestTrafficLight = () => {
-  const light = $("<%= raw diff_traffic_light(@light) %>");
+  const light = $("<%= raw diff_traffic_light(@light, @avatar_index) %>");
   $('#traffic-lights').append(light);
   cd.setupReviewTrafficLights(light);
 };

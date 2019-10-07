@@ -108,7 +108,7 @@ class KataController < ApplicationController
     @id = kata.id
 
     respond_to do |format|
-      format.js   { render layout: false }
+      format.js   { render layout:false }
       format.json { show_json }
     end
   end

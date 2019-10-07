@@ -2,8 +2,14 @@
 'use strict';
 var cyberDojo = (function(cd, $) {
 
-  cd.setupTrafficLightTip2 = ($light, version, id, wasIndex, nowIndex) => {
-    const args = { version:version, id:id, was_index:wasIndex, now_index:nowIndex };
+  cd.setupTrafficLightTip2 = ($light, version, id, avatarIndex, wasIndex, nowIndex) => {
+    const args = {
+           version:version,
+                id:id,
+      avatar_index:avatarIndex,
+         was_index:wasIndex,
+         now_index:nowIndex
+    };
     cd.setTip($light, () => {
       $.getJSON('/tipper/traffic_light_tip2', args, (response) => {
         cd.showHoverTip($light, response.html);
