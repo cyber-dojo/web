@@ -10,14 +10,10 @@ class TipperControllerTest < AppControllerTestBase
 
   test '3D4',
   'traffic_light_tip' do
-    in_kata {
-      2.times {
-        post_run_tests
-      }
-    }
+    set_saver_class('SaverService')
     get '/tipper/traffic_light_tip', params: {
       'format'    => 'js',
-      'id'        => kata.id,
+      'id'        => '5rTJv5',
       'was_index' => 0,
       'now_index' => 1
     }
