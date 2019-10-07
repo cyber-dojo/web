@@ -28,6 +28,7 @@ module DashboardWorker # mixin
     @gapped = gapper.fully_gapped(@all_lights, time.now)
     @time_ticks = gapper.time_ticks(@gapped)
     @age = group.age(e)
+    @version = group.schema.version
     set_footer_info
 #puts "E:#{saver.log.size}"  #52
   end

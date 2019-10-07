@@ -2,6 +2,8 @@
 'use strict';
 $(() => {
 
+  const version = '<%= @version %>';
+
   $('.kata-row').each((_i,row) => {
     let index = 0; // each avatar resets traffic-light index to zero
     $.each($('.diff-traffic-light', $(row)), (_,light) => {
@@ -12,7 +14,8 @@ $(() => {
       $light.click(() => {
         window.open(cd.showReviewUrl(id, wasIndex, nowIndex));
       });
-      cd.setupTrafficLightTip($light, id, wasIndex, nowIndex);
+      //cd.setupTrafficLightTip($light, id, wasIndex, nowIndex);
+      cd.setupTrafficLightTip2($light, version, id, wasIndex, nowIndex);
       index = nowIndex;
     });
   });
@@ -56,12 +59,13 @@ $(() => {
   <tbody>
     <% @gapped.keys.sort_by{|kata_id| @all_indexes[kata_id] }.each do |kata_id| %>
     <% lights = @all_lights[kata_id] %>
+    <% avatar_index = @all_indexes[kata_id] %>
 
     <tr class="kata-row"> <%# JS above uses kata-row %>
 
       <th>
         <div class="fixed-column">
-          <%= raw diff_avatar_image(kata_id, @all_indexes[kata_id], lights.last.index) %>
+          <%= raw diff_avatar_image(kata_id, avatar_index, lights.last.index) %>
           <%= raw pie_chart(kata_id, lights) %>
           <%= raw traffic_light_count(lights) %>
         </div>

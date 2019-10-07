@@ -52,6 +52,23 @@ class Kata
     end
   end
 
+  # - - - - - - - - - - - - - - - - -
+
+  def tipper_files(was_index, now_index)
+    m,e,was_files,now_files = kata.tipper_files(id, was_index, now_index)
+    events = e.map.with_index do |h,index|
+      h['index'] ||= index
+      Event.new(self, h)
+    end
+    [m,events,plain(was_files),plain(now_files)]
+  end
+
+  def plain(files)
+    files.map{ |filename,file| [filename, file['content']] }.to_h
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
   def run_tests
     Runner.new(@externals).run(@params)
   end

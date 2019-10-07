@@ -3,8 +3,12 @@
 module TrafficLightTipHelper # mix-in
 
   def traffic_light_tip_html(diffs, events, was_index, now_index)
-    tip = '<table><tr>'
     avatar_index = events[was_index].kata.avatar_index
+    traffic_light_tip_html2(diffs, avatar_index, events, was_index, now_index)
+  end
+
+  def traffic_light_tip_html2(diffs, avatar_index, events, was_index, now_index)
+    tip = '<table><tr>'
     unless avatar_index.nil?
       tip += td(avatar_img(avatar_index))           # panda
     end
