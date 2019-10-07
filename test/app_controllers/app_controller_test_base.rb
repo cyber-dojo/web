@@ -10,14 +10,15 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   # - - - - - - - - - - - - - - - -
 
-  def in_group(&block)
-    create_custom_group
+  def in_group(options={}, &block)
+    create_custom_group(options)
     block.call(group)
   end
 
-  def create_custom_group(version = 1)
-    manifest = starter_manifest
-    version = manifest['version'] = version
+  def create_custom_group(options={})
+    display_name = options[:display_name] || default_display_name
+    manifest = starter_manifest(display_name)
+    manifest['version'] = (options[:version] || 1)
     group = groups.new_group(manifest)
     @id = group.id
     nil
@@ -37,9 +38,8 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   end
 
   def create_language_kata(options = {})
-    options[:version] ||= 1
     manifest = starter_manifest
-    manifest['version'] = options[:version]
+    manifest['version'] = (options[:version] || 1)
     kata = katas.new_kata(manifest)
     @id = kata.id
     nil
