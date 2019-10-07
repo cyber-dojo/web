@@ -2,6 +2,8 @@
 'use strict';
 $(() => {
 
+  const version = '<%= @version %>';
+
   // wasIndex holds the index of rightmost traffic-light
   // and is needed when run_tests.js.erb calls
   // setupReviewTrafficLights() with its new traffic-light.
@@ -11,9 +13,11 @@ $(() => {
     $lights.each((_i,element) => {
       const $light = $(element);
       const id = $light.data('id');
+      const avatarIndex = $light.data('avatar-index');
       const nowIndex = $light.data('index');
       setupTrafficLightReview($light, id, wasIndex, nowIndex);
-      cd.setupTrafficLightTip($light, id, wasIndex, nowIndex);
+      //cd.setupTrafficLightTip($light, id, wasIndex, nowIndex);
+      cd.setupTrafficLightTip2($light, version, id, avatarIndex, wasIndex, nowIndex);
       wasIndex = nowIndex;
     });
   };

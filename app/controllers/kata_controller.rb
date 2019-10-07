@@ -104,6 +104,7 @@ class KataController < ApplicationController
       #TODO: @message on footer...
     end
 
+    @avatar_index = kata.avatar_index
     @light = Event.new(kata, { 'time' => t1, 'colour' => colour, 'index' => index})
     @id = kata.id
 
