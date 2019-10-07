@@ -67,6 +67,20 @@ class Kata_v0
 
   # - - - - - - - - - - - - - - - - - - -
 
+  def tipper_info(id, was_index, now_index)
+    results = saver_assert_batch(
+      events_read_cmd(id),
+      event_read_cmd(id, was_index),
+      event_read_cmd(id, now_index)
+    )
+    events = json_parse('[' + results[0].lines.join(',') + ']')
+    was_files = unlined(json_parse(results[1]))['files']
+    now_files = unlined(json_parse(results[2]))['files']
+    [events,was_files,now_files]
+  end
+
+  # - - - - - - - - - - - - - - - - - - -
+
   def events(id)
     events_src = saver_assert(events_read_cmd(id))
     json_parse('[' + events_src.lines.join(',') + ']')
