@@ -8,7 +8,9 @@ class DashboardControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test '971', %w( minute_column/auto_refresh true/false ) do
+  test '971', %w(
+  minute_column/auto_refresh true/false
+  ) do
     [0,1].each do |version|
       @version = version
       in_group(version:version) do |group|
@@ -25,7 +27,9 @@ class DashboardControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test '972', %w( version 0 dashboard ) do
+  test '972', %w(
+  version 0 dashboard
+  ) do
     set_saver_class('SaverService')
     @version = 0
     @gid = 'chy6BJ'

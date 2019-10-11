@@ -7,6 +7,7 @@ class ReviewController < ApplicationController
     # differ-controller.
     mapped_id {
       set_footer_info
+      @version = kata.schema.version
       @title = 'review:' + kata.id
       @avatar_index = kata.avatar_index
       @avatar_name = kata.avatar_name

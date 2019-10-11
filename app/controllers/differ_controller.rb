@@ -23,6 +23,7 @@ class DifferController < ApplicationController
     exts = kata.manifest.filename_extension
     info('G') # 30
     render json: {
+                    version: kata.schema.version,
                          id: kata.id,
                 avatarIndex: kata.avatar_index,
                  avatarName: kata.avatar_name,

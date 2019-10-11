@@ -9,7 +9,7 @@ module TrafficLightTipHelper # mix-in
 
   def traffic_light_tip_html2(diffs, avatar_index, events, was_index, now_index)
     tip = '<table><tr>'
-    unless avatar_index.nil?
+    unless avatar_index.nil? || avatar_index === ''
       tip += td(avatar_img(avatar_index))           # panda
     end
     tip += td(traffic_light_img(events, was_index)) # red/amber/green
