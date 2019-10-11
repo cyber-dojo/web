@@ -90,8 +90,7 @@ $(() => {
       const nowIndex = $light.data('index');
       $light.click(() => show(nowIndex));
       const wasIndex = inDiffMode() ? prevEventIndex(nowIndex) : nowIndex;
-      //cd.setupTrafficLightTip($light, param.id, wasIndex, nowIndex);
-      cd.setupTrafficLightTip2($light, param.version, param.id, param.avatarIndex, wasIndex, nowIndex);
+      cd.setupTrafficLightTip($light, param.version, param.id, param.avatarIndex, wasIndex, nowIndex);
     });
   };
 

@@ -16,8 +16,7 @@ $(() => {
       const avatarIndex = $light.data('avatar-index');
       const nowIndex = $light.data('index');
       setupTrafficLightReview($light, id, wasIndex, nowIndex);
-      //cd.setupTrafficLightTip($light, id, wasIndex, nowIndex);
-      cd.setupTrafficLightTip2($light, version, id, avatarIndex, wasIndex, nowIndex);
+      cd.setupTrafficLightTip($light, version, id, avatarIndex, wasIndex, nowIndex);
       wasIndex = nowIndex;
     });
   };

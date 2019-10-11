@@ -2,7 +2,7 @@
 'use strict';
 var cyberDojo = (function(cd, $) {
 
-  cd.setupTrafficLightTip2 = ($light, version, id, avatarIndex, wasIndex, nowIndex) => {
+  cd.setupTrafficLightTip = ($light, version, id, avatarIndex, wasIndex, nowIndex) => {
     const args = {
            version:version,
                 id:id,
@@ -10,17 +10,6 @@ var cyberDojo = (function(cd, $) {
          was_index:wasIndex,
          now_index:nowIndex
     };
-    cd.setTip($light, () => {
-      $.getJSON('/tipper/traffic_light_tip2', args, (response) => {
-        cd.showHoverTip($light, response.html);
-      });
-    });
-  };
-
-  // The only call left to this is in  app/views/review/_review.html.erb
-  // To move this to the above version the review page needs params.version
-  cd.setupTrafficLightTip = ($light, id, wasIndex, nowIndex) => {
-    const args = { id:id, was_index:wasIndex, now_index:nowIndex };
     cd.setTip($light, () => {
       $.getJSON('/tipper/traffic_light_tip', args, (response) => {
         cd.showHoverTip($light, response.html);

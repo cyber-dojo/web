@@ -15,8 +15,7 @@ $(() => {
       $light.click(() => {
         window.open(cd.showReviewUrl(id, wasIndex, nowIndex));
       });
-      //cd.setupTrafficLightTip($light, id, wasIndex, nowIndex);
-      cd.setupTrafficLightTip2($light, version, id, avatarIndex, wasIndex, nowIndex);
+      cd.setupTrafficLightTip($light, version, id, avatarIndex, wasIndex, nowIndex);
       index = nowIndex;
     });
   });

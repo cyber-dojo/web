@@ -48,7 +48,7 @@ class TipTest < AppHelpersTestBase
           '</tr>' +
         '</table>'
 
-      actual = traffic_light_tip_html(diff, events, was_index, now_index)
+      actual = traffic_light_tip_html(diff, kata.avatar_index, events, was_index, now_index)
       assert_equal expected, actual
     end
   end
@@ -97,7 +97,7 @@ class TipTest < AppHelpersTestBase
           '</tr>' +
         '</table>'
 
-      actual = traffic_light_tip_html(diff, kata.events, was_index, now_index)
+      actual = traffic_light_tip_html(diff, kata.avatar_index, kata.events, was_index, now_index)
       assert_equal expected, actual
     end
   end

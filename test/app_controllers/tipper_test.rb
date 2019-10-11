@@ -8,8 +8,8 @@ class TipperControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - -
 
-  test '3D4',
-  'old traffic_light_tip uses 6 saver-service calls' do
+  test '3D5',
+  'new traffic_light_tip uses 1 saver-service call' do
     [0,1].each do |version|
       in_kata(version:version) do |kata|
         post_run_tests
@@ -18,27 +18,12 @@ class TipperControllerTest < AppControllerTestBase
         assert_response :success
         count_after = saver.log.size
         diagnostic = [version,count_before,count_after]
-        assert_equal 6, (count_after-count_before), diagnostic
-      end
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - - -
-
-  test '3D5',
-  'new traffic_light_tip2 uses 1 saver-service call' do
-    [0,1].each do |version|
-      in_kata(version:version) do |kata|
-        post_run_tests
-        count_before = saver.log.size
-        get '/tipper/traffic_light_tip2', params:tip_params(version,kata)
-        assert_response :success
-        count_after = saver.log.size
-        diagnostic = [version,count_before,count_after]
         assert_equal 1, (count_after-count_before), diagnostic
       end
     end
   end
+
+  # TODO: add 3D5 but for kata in a group
 
   # - - - - - - - - - - - - - - - - - -
 
