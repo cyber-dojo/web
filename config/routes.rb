@@ -80,6 +80,7 @@ CyberDojo::Application.routes.draw do
 
 
   get '/differ/diff' => 'differ#diff', :constraints => { :format => :json }
+  get '/differ/diff2' => 'differ#diff2', :constraints => { :format => :json }
 
   get '/reverter/revert' => 'reverter#revert', :constraints => { :format => :json }
 

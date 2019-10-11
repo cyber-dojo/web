@@ -449,13 +449,14 @@ $(() => {
 
   const reviewRefresh = () => {
     const reviewParams = {
+           version: param.version,
                 id: param.id,
          was_index: param.wasIndex,
          now_index: param.nowIndex,
           filename: param.filename
     };
     $('.ui-dialog').addClass('busy');
-    $.getJSON('/differ/diff', reviewParams, (data) => {
+    $.getJSON('/differ/diff2', reviewParams, (data) => {
       $('.ui-dialog').removeClass('busy');
       param = data;
       refreshSummary();
