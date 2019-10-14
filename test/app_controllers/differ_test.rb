@@ -97,6 +97,17 @@ class DifferControllerTest < AppControllerTestBase
     assert_equal 32, json['avatarIndex']
   end
 
+  test 'BF8', %w(
+  index -1 gives most recent traffic-light
+  when no-saver-outages means indexes are sequential
+  ) do
+    set_saver_class('SaverService')
+    differ2('5rTJv5', -1, -1, version=0)
+    assert_equal 3, json['wasIndex']
+    assert_equal 3, json['nowIndex']
+    assert_equal 32, json['avatarIndex']
+  end
+
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'AF9', %w(
@@ -108,6 +119,19 @@ class DifferControllerTest < AppControllerTestBase
     @index = 3
     post_run_tests
     differ(@id, -1, -1, version=1)
+    assert_equal 4, json['wasIndex']
+    assert_equal 4, json['nowIndex']
+  end
+
+  test 'BF9', %w(
+  index -1 gives most recent traffic-light
+  when saver-outage means indexes are not sequential
+  ) do
+    in_kata(version:1) { post_run_tests }
+    # saver-outage 1,2,3
+    @index = 3
+    post_run_tests
+    differ2(@id, -1, -1, version=1)
     assert_equal 4, json['wasIndex']
     assert_equal 4, json['nowIndex']
   end

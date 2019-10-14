@@ -55,14 +55,14 @@ class Kata
   # - - - - - - - - - - - - - - - - -
 
   def diff_info(was_index, now_index)
-    m,e,was,now = kata.diff_info(id, was_index, now_index)
+    was_index,now_index,m,e,was,now = kata.diff_info(id, was_index, now_index)
     was_files = diff_files(was)
     now_files = diff_files(now)
     events = e.map.with_index do |h,index|
       h['index'] ||= index
       Event.new(self, h)
     end
-    [m,events,was_files,now_files]
+    [was_index,now_index,m,events,was_files,now_files]
   end
 
   # - - - - - - - - - - - - - - - - -
