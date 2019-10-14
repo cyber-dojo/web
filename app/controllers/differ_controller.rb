@@ -6,7 +6,7 @@ class DifferController < ApplicationController
     id = params[:id]
     was_index = params[:was_index].to_i
     now_index = params[:now_index].to_i
-    was_index,now_index,manifest,events,old_files,new_files = kata.diff_info(was_index, now_index)
+    manifest,events,old_files,new_files = kata.diff_info(was_index, now_index)
     # ensure stdout/stderr/status show no diff
     old_files['stdout'] = new_files['stdout']
     old_files['stderr'] = new_files['stderr']

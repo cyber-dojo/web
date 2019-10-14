@@ -37,14 +37,6 @@ class ApplicationController < ActionController::Base
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def was_files
-    files_for(params[:was_index].to_i)
-  end
-
-  def now_files
-    files_for(params[:now_index].to_i)
-  end
-
   def files_for(index)
     kata.events[index]
         .files(:with_output)

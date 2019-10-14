@@ -50,38 +50,6 @@ class DifferControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'AF8', %w(
-  in a version=0 kata
-  index -1 gives most recent traffic-light
-  when no-saver-outages means indexes are sequential
-  (saver-outages cause indexes to be non-sequential and causes exception)
-  ) do
-    set_saver_class('SaverService')
-    differ('5rTJv5', -1, -1, version=0)
-    assert_equal 3, json['wasIndex']
-    assert_equal 3, json['nowIndex']
-    assert_equal 32, json['avatarIndex']
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'AF9', %w(
-  in a version=1 kata
-  index -1 gives most recent traffic-light
-  when saver-outage means indexes are not sequential
-  (this was a key improvement in version=1)
-  ) do
-    in_kata(version:1) { post_run_tests }
-    # saver-outage 1,2,3
-    @index = 3
-    post_run_tests
-    differ(@id, -1, -1, version=1)
-    assert_equal 4, json['wasIndex']
-    assert_equal 4, json['nowIndex']
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test '215', %w(
   diff of (was,now) which is not (-1,-1) makes a single saver-service call
   ) do
@@ -92,20 +60,6 @@ class DifferControllerTest < AppControllerTestBase
       count_after = saver.log.size
       diagnostic = [version,count_before,count_after]
       assert_equal 1, (count_after-count_before), diagnostic
-      assert_equal version, kata.schema.version
-    end
-  end
-
-  test '216', %w(
-  diff of (-1,-1) makes two saver-service calls
-  ) do
-    [0,1].each do |version|
-      in_kata(version:version) { post_run_tests }
-      count_before = saver.log.size
-      differ(@id, -1, -1, version)
-      count_after = saver.log.size
-      diagnostic = [version,count_before,count_after]
-      assert_equal 2, (count_after-count_before), diagnostic
       assert_equal version, kata.schema.version
     end
   end

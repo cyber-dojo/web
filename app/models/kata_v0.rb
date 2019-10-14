@@ -82,9 +82,6 @@ class Kata_v0
   # - - - - - - - - - - - - - - - - - - -
 
   def diff_info(id, was_index, now_index)
-    if was_index === -1 && now_index === -1
-      was_index = now_index = events(id).size - 1
-    end
     results = saver_assert_batch(
       manifest_read_cmd(id),
       events_read_cmd(id),
@@ -95,7 +92,7 @@ class Kata_v0
     events = json_parse('[' + results[1].lines.join(',') + ']')
     was = unlined(json_parse(results[2]))
     now = unlined(json_parse(results[3]))
-    [was_index,now_index,manifest,events,was,now]
+    [manifest,events,was,now]
   end
 
   # - - - - - - - - - - - - - - - - - - -
