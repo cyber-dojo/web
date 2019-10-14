@@ -456,7 +456,7 @@ $(() => {
           filename: param.filename
     };
     $('.ui-dialog').addClass('busy');
-    $.getJSON('/differ/diff2', reviewParams, (data) => {
+    $.getJSON('/differ/diff', reviewParams, (data) => {
       $('.ui-dialog').removeClass('busy');
       param = data;
       refreshSummary();
