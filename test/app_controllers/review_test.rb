@@ -8,6 +8,23 @@ class ReviewControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - -
 
+  test '441', %w(
+  was_index!=now_index,makes 2 saver-service calls ) do
+    [0,1].each do |version|
+      in_kata(version:version) { |kata|
+        post_run_tests # 1
+        count_before = saver.log.size
+        assert_review_show(kata.id, 0, 1)
+        count_after = saver.log.size
+        diagnostic = [version,count_before,count_after]
+        assert_equal 2, (count_after-count_before), diagnostic
+        assert_equal version, kata.schema.version        
+      }
+    end
+  end
+
+  #- - - - - - - - - - - - - - - -
+
   test '442',
   'was_index!=now_index, review existing version=0 session' do
     set_saver_class('SaverService')
