@@ -3,7 +3,7 @@
 $(() => {
 
   //---------------------------------------------------------------------
-  // This review page is also load in kata/edit and kata/edit_offline
+  // This review page is also loaded in kata/edit
   // The [resume] [revert] buttons are only on kata/edit.
   //---------------------------------------------------------------------
 
@@ -11,7 +11,7 @@ $(() => {
     return $('#kata-page').length != 0;
   };
 
-  // after refresh() has been called param also contains param.events
+  // After refresh() has been called param also contains param.events
   let param = {
         version: "<%= @version %>",
              id: "<%= @id %>",
@@ -23,13 +23,18 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
+  // Only app/views/kata/_traffic_lights.html.erb calls setReviewData()
 
-  cd.setReviewData = (id, avatarName, wasIndex, nowIndex, filename) => {
-    param.id = id;
-    param.avatarName = avatarName;
-    param.wasIndex = wasIndex;
-    param.nowIndex = nowIndex;
-    param.filename = filename;
+  cd.setReviewData = (version, id, avatarName, avatarIndex, wasIndex, nowIndex, filename) => {
+    param = {
+          version:version,
+               id:id,
+       avatarName:avatarName,
+      avatarIndex:avatarIndex,
+         wasIndex:wasIndex,
+         nowIndex:nowIndex,
+         filename:filename
+    };
     reviewRefresh();
   };
 

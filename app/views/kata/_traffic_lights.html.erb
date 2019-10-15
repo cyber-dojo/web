@@ -3,6 +3,8 @@
 $(() => {
 
   const version = '<%= @version %>';
+  const avatarName = '<%= @avatar_name %>';
+  const avatarIndex = '<%= @avatar_index %>';
 
   // wasIndex holds the index of rightmost traffic-light
   // and is needed when run_tests.js.erb calls
@@ -23,7 +25,7 @@ $(() => {
 
   const setupTrafficLightReview = ($light, id, wasIndex, nowIndex) => {
     $light.click(() => {
-      cd.setReviewData(id, "<%= @avatar_name %>", wasIndex, nowIndex);
+      cd.setReviewData(version, id, avatarName, avatarIndex, wasIndex, nowIndex);
       $('#kata-page').hide();
       $('#review-page').show();
     });
