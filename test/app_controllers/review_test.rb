@@ -8,21 +8,37 @@ class ReviewControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test '443',
-  'review existing session' do
-    set_saver_class('SaverService')    
+  test '442',
+  'was_index!=now_index, review existing version=0 session' do
+    set_saver_class('SaverService')
     assert_review_show('5rTJv5', 1, 2)
+  end
+
+  test '443',
+  '(was_index,now_index)=(-1,-1) review existing version=0 session' do
+    set_saver_class('SaverService')
     assert_review_show('5rTJv5', -1, -1)
   end
 
+  #- - - - - - - - - - - - - - - -
+
   test '444',
-  'review new session' do
+  'was_index!=now_index, review new version=1 session' do
     in_kata { |kata|
       post_run_tests # 1
       assert_review_show(kata.id, 0, 1)
+    }
+  end
+
+  test '445',
+  '(was_index,now_index)=(-1,-1), review new version=1 session' do
+    in_kata { |kata|
+      post_run_tests # 1
       assert_review_show(kata.id, -1, -1)
     }
   end
+
+  #- - - - - - - - - - - - - - - -
 
   private
 
