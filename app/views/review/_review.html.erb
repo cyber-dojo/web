@@ -25,13 +25,11 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.setReviewData = (id, avatarName, wasIndex, nowIndex, filename) => {
-    param = {
-              id:id,
-      avatarName:avatarName,
-        wasIndex:wasIndex,
-        nowIndex:nowIndex,
-        filename:filename
-    };
+    param.id = id;
+    param.avatarName = avatarName;
+    param.wasIndex = wasIndex;
+    param.nowIndex = nowIndex;
+    param.filename = filename;
     reviewRefresh();
   };
 
