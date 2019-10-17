@@ -204,6 +204,12 @@ $(() => {
     showFile(param.currentFilenameId);
   };
 
+  const showFile = (filenameId) => {
+    const filename =  $(`#radio_${filenameId}`);
+    filename.click()
+            .scrollIntoView({ direction: 'vertical' });
+  };
+
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const makeDiffFilenames = (diffs) => {
@@ -422,14 +428,6 @@ $(() => {
       mousedown : synchScroll,
       mouseup   : synchScroll
     });
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const showFile = (filenameId) => {
-    const filename =  $(`#radio_${filenameId}`);
-    filename.click()
-            .scrollIntoView({ direction: 'vertical' });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
