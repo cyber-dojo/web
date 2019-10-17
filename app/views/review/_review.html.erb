@@ -11,7 +11,7 @@ $(() => {
     return $('#kata-page').length != 0;
   };
 
-  // After refresh() has been called param also contains param.events
+  // After reviewRefresh() has been called param also contains param.events
   let param = {
         version: "<%= @version %>",
              id: "<%= @id %>",
@@ -47,23 +47,7 @@ $(() => {
     } else {
       param.wasIndex = index;
     }
-    refresh();
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const refresh = () => {
-    if (inTestPage()) {
-      reviewRefresh();
-    } else {
-      window.location.href =
-        cd.showReviewUrl(
-          param.id,
-          param.wasIndex,
-          param.nowIndex,
-          param.filename
-        );
-    }
+    reviewRefresh();
   };
 
   //-----------------------------------------
