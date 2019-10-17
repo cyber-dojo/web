@@ -11,11 +11,6 @@ const updateTrafficLightCount = () => {
   $('#traffic-lights-count-box').html(count);
 };
 
-const updateTrafficLightPieChart = () => {
-  //const pieChart = "<%= js_partial('traffic_lights_pie_chart') %>";
-  //$('#traffic-lights-pie-chart').html(pieChart);
-};
-
 const updateEventIndex = () => {
   cd.setEventIndex("<%= @light.index %>");
 };
@@ -74,7 +69,6 @@ const warnIfTestsTimedOut = () => {
 // Update changed controls
 appendTestTrafficLight();
 updateTrafficLightCount();
-updateTrafficLightPieChart();
 updateEventIndex();
 
 //- - - - - - - - - - - - - - - - - - - - - -
