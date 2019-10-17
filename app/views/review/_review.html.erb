@@ -440,9 +440,9 @@ $(() => {
          now_index: param.nowIndex,
           filename: param.filename
     };
-    $('.ui-dialog').addClass('busy');
+    cd.showWaitSpinner();
     $.getJSON('/differ/diff', reviewParams, (data) => {
-      $('.ui-dialog').removeClass('busy');
+      cd.hideWaitSpinner();
       param = data;
       refreshSummary();
       refreshNavigator();

@@ -21,18 +21,13 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - -
 
-  const testOverlay = $('<div id="test-overlay"></div>');
-  const testSpinner = $('#test-spinner');
-
   const beforeSend = (_xhr, _settings) => {
     cd.testButton.disable();
-    testOverlay.insertAfter($('body'));
-    testSpinner.show();
+    cd.showWaitSpinner();
   };
 
   const complete = (_xhr, _status) => {
-    testSpinner.hide();
-    testOverlay.remove();
+    cd.hideWaitSpinner();
     cd.testButton.enable();
   };
 
