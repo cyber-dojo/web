@@ -1,12 +1,10 @@
 
+$projector-background: white;
+
 @mixin diff-pre-block {
   white-space: pre;
       display: block;
 }
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-.no-title .ui-dialog-titlebar { display: none; }
 
 #review-page {
 
@@ -135,20 +133,23 @@
   }
 
   .diff-line-numbers, .diff-sheet {
+    background: $projector-background;
+    :hover { background: darken($projector-background, 10%); }
     @include code-font();
-    background: lighten($darker-color, 3%);
         height: 572px;
         margin: 0px;
        padding: 0px;
         cursor: default;
     ln { margin: { left : 4px; right: 3px; } font-weight: normal; }
+
     added, deleted, same { @include diff-pre-block; }
-    added   { color: $diff-added-color; }
-    deleted { color: $diff-deleted-color; }
-    same    { color: $lighter-color; }
+    added { color: darken($diff-added-color, 40%); }
+		deleted { color: darken($diff-deleted-color, 30%); }
+		same { color: black; }
   }
 
   .diff-line-numbers {
+    background: darken($projector-background, 10%);
          width: 40px;
     text-align: right;
       overflow: hidden;
@@ -176,7 +177,6 @@
     outline: none;
      border: none;
     added, deleted, same { padding-left: 3px; }
-    :hover { background: lighten($darker-color,10%); }
   }
 
   .diff-deleted-line-count, .diff-added-line-count {
@@ -231,3 +231,5 @@
     top: -3px;
   }
 }
+
+.no-title .ui-dialog-titlebar { display: none; }
