@@ -322,6 +322,23 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  const highlightSorter = (lhs,rhs) => {
+    const lit = cd.highlightFilenames();
+    const lhsLit = lit.includes(lhs);
+    const rhsLit = lit.includes(rhs);
+    if (lhsLit && !rhsLit) {
+      return -1;
+    } else if (!lhsLit && rhsLit) {
+      return +1;
+    } else if (lhs < rhs) {
+      return -1;
+    } else if (lhs > rhs) {
+      return +1;
+    } else {
+      return 0;
+    }
+  };
+
   const hiFilenames = (filenames) => {
     // Controls which filenames appear at the
     // top of the filename-list, above 'output'
@@ -335,7 +352,7 @@ var cyberDojo = (function(cd, $) {
         hi.push(filename);
       }
     });
-    hi.sort();
+    hi.sort(highlightSorter);
     hi = hi.filter(filename => !cd.isOutputFile(filename));
     return hi;
   };
