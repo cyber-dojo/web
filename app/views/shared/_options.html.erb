@@ -2,13 +2,20 @@
 'use strict';
 $(() => {
 
+  const toggle = (all) => {
+    all.unshift('toggle');
+    return all.join('&nbsp');
+  };
+
   const optionsDialog = () => {
+    const toggleSyntaxTitle = toggle(['syntax','highlighting']);
+    const toggleLineNumbersTitle = toggle(['line','numbers']);
     let html = '';
     html += '<table style="border: 1px;">';
     html += tr('<button type="button" ' +
-      'onClick="cd.toggleSyntaxHighlight();">toggle syntax highlighting</button>');
+      `onClick="cd.toggleSyntaxHighlight();">${toggleSyntaxTitle}</button>`);
     html += tr('<button type="button" ' +
-      'onClick="cd.toggleLineNumbers();">toggle line numbers</button>');
+      `onClick="cd.toggleLineNumbers();">${toggleLineNumbersTitle}</button>`);
     html += '</table>';
     html += '</div>';
 
