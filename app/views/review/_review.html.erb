@@ -550,6 +550,7 @@ $(() => {
     setupButton('resume', () => {
       $('#review-page').hide();
       $('#kata-page').show();
+      cd.editorRefocus();
     });
   } else {
     refresh();
