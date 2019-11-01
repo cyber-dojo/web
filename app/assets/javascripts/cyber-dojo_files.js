@@ -352,7 +352,7 @@ var cyberDojo = (function(cd, $) {
         hi.push(filename);
       }
     });
-    hi.sort(highlightSorter);
+    hi.sort();
     hi = hi.filter(filename => !cd.isOutputFile(filename));
     return hi;
   };
