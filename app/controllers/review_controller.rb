@@ -15,6 +15,7 @@ class ReviewController < ApplicationController
       @now_index = now_index
       @filename = params['filename']
       @filename_extension = kata.manifest.filename_extension
+      @highlight_filenames = kata.manifest.highlight_filenames
     }
   end
 
