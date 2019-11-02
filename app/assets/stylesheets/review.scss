@@ -42,7 +42,7 @@ $projector-background: white;
        display: flex;
          float: left;
         margin: 0px;
-         width: 799px;
+         width: 750px;
     overflow-x: auto;
     overflow-y: hidden;
     &::-webkit-scrollbar:horizontal { height: 0px; }
@@ -166,7 +166,7 @@ $projector-background: white;
   .diff-sheet {
     background: $projector-background;
     added, deleted { background: darken($projector-background, 10%); }
-         width: 855px;
+         width: 805px;
     text-align: left;
     overflow-x: auto;
     overflow-y: auto;
