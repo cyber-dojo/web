@@ -3,8 +3,7 @@
 {
   margin: { top: 20px; left: 35px; }
   .left-column { width: 295px; }
-
-  .avatar-image { display: inline; }
+  .avatar-image { margin-left: 2px; display: inline; }
 
   #test-button
   {
@@ -40,7 +39,7 @@
 
   #filename-list
   {
-    margin: { top: 5px; right: 5px; }
+    margin: { top: 2px; right: 3px; }
 
     div[class~='filename'][class~='highlight'] { &:before { content: "> "; } }
 
