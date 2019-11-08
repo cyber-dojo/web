@@ -51,16 +51,18 @@ $projector-background: white;
   #diff-checkbox-container
   {
     @include edged-panel();
-    width: 55px;
-    margin-right: 5px;
-    padding: { top:5px; bottom:2px; right:0px; }
+       width: 55px;
+      margin: { right: 5px; }
+     padding: { top:5px; bottom:2px; right:0px; }
+    position: relative;
+         top: 1px;
     #diff-checkbox-title
     {
       @include plaintext-font();
        font-size: 12px;
          display: inline;
-        position: relative;
-          bottom: 3px;
+         position: relative;
+           bottom: 3px;
     }
   }
 
