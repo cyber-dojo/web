@@ -53,16 +53,15 @@
   #help-button, #hotkeys-button, #options-button
   {
     @include rounded-corner(4px);
-       padding: { left: 9px; right: 9px; }
-        margin: { top: 4px; right: 5px; }
+       padding: { left: 7px; right: 7px; }
+        margin: { top: 4px; right: 0px; }
          color: darken($darker-color, 10%);
-    text-align: right;
-    font-size: 0.70em;
+     font-size: 0.60em;
   }
 
   #message
   {
-    padding-left: 10px;
-    font-size: 0.87em;
+    padding-left: 5px;
+       font-size: 0.70em;
   }
 }
