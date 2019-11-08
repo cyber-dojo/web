@@ -110,6 +110,7 @@ $projector-background: white;
       text-align: center;
     }
   }
+
   #prev-index img,
   #next-index img
   {
@@ -145,8 +146,6 @@ $projector-background: white;
     &::-webkit-scrollbar:horizontal { height: 0px; }
 
     font-size: 11pt;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
 
     .diff-filename-box
     {
@@ -195,7 +194,7 @@ $projector-background: white;
          color: lighten($darker-color, 10%);
         border: none;
 
-    border-top-left-radius: 5px;
+    border-top-left-radius: 1px;
     added, deleted { background: darken($projector-background, 12%); }
     added   { &:after { content: '+'; } }
     deleted { &:after { content: '-'; } }

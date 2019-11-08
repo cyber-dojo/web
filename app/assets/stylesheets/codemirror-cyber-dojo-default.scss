@@ -3,7 +3,6 @@
   @include code-font;
   background: lighten($darker-color, 4%);
   color: $lighter-color;
-  @include rounded-corner(6px);
 }
 
 .cm-s-cyber-dojo-default .CodeMirror-linenumber,
