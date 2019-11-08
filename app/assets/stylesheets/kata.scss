@@ -23,15 +23,13 @@
     @include edged-panel();
     @include font-size-tiny();
     vertical-align:top;
-    padding:{ top:3px; bottom:4px; }
+    padding:{ top:5px; bottom:5px; }
     margin:{ top:1px; bottom:0px; left:0px; right:0px }
     div { display:inline; }
     #label
     {
       @include plaintext-font();
-      font-size: 10px;
-      position: relative;
-      top: 1px;
+      font-size: 12px;
     }
     #new, #rename, #delete
     {

@@ -53,14 +53,14 @@ $projector-background: white;
     @include edged-panel();
     width: 55px;
     margin-right: 5px;
-    padding: { top:5px; bottom:2px; }
+    padding: { top:5px; bottom:2px; right:0px; }
     #diff-checkbox-title
     {
       @include plaintext-font();
-       font-size: 14px;
+       font-size: 12px;
          display: inline;
         position: relative;
-          bottom: 2px;
+          bottom: 3px;
     }
   }
 
