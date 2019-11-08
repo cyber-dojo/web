@@ -1,12 +1,14 @@
 
 $projector-background: white;
 
-@mixin diff-pre-block {
+@mixin diff-pre-block
+{
   white-space: pre;
       display: block;
 }
 
-#review-page {
+#review-page
+{
 
   margin: { top: 20px; left: 35px; }
   .left-column { width: 295px; }
@@ -16,29 +18,65 @@ $projector-background: white;
   background: $darker-color;
        color: $lighter-color;
 
-  #review-avatar-image-box, #resume-button-box {
+  #review-avatar-image-box,
+  #resume-button-box,
+  #diff-checkbox-container,
+  #fork-button-box,
+  #revert-button-box
+  {
     display: inline;
     vertical-align: top;
     float: left;
-    margin-right: 4px;
-  }
-
-  img.avatar-image {
-    @include rounded-corner(6px);
-     width: 30px;
-    height: 30px;
     margin: 0px;
   }
 
-  #resume-button {
-    @include non-code-font();
-    @include font-size-medium();
-        margin: 0px;
-       padding: { top:0px; bottom:2px; left:8px; right:8px; }
-    text-align: center;
+  img.avatar-image
+  {
+    @include rounded-corner(6px);
+     width: 30px;
+    height: 30px;
+    margin-right: 5px;
   }
 
-  #review-traffic-lights {
+  #resume-button
+  {
+    @include non-code-font();
+    @include font-size-medium();
+     font-weight: bold;
+    margin-right: 4px;
+         padding: { top:0px; bottom:2px; left:8px; right:8px; }
+      text-align: center;
+  }
+
+  #diff-checkbox-container
+  {
+    @include edged-panel();
+    width: 55px;
+    margin-right: 5px;
+    padding: { top:5px; bottom:2px; }
+    #diff-checkbox-title
+    {
+      @include plaintext-font();
+       font-size: 14px;
+         display: inline;
+        position: relative;
+          bottom: 2px;
+    }
+  }
+
+  #fork-button, #revert-button
+  {
+    @include rounded-corner(4px);
+    text-align: left;
+    font-size: 10px;
+    margin-right: 3px;
+    padding: { bottom:1px; top:1px; left:6px; right:6px; }
+    position: relative;
+    top: 4px;
+  }
+
+  #review-traffic-lights
+  {
        display: flex;
          float: left;
         margin: 0px;
@@ -46,11 +84,13 @@ $projector-background: white;
     overflow-x: auto;
     overflow-y: hidden;
     &::-webkit-scrollbar:horizontal { height: 0px; }
-    .diff-traffic-light {
+    .diff-traffic-light
+    {
       padding: 0px;
        margin: 0px;
        cursor: pointer;
-      img.with-bar-gap {
+      img.with-bar-gap
+      {
         width: 22px;
         height: 29px;
         position: relative; // move down slightly to align vertically
@@ -59,7 +99,8 @@ $projector-background: white;
     }
   }
 
-  #review-index-box {
+  #review-index-box
+  {
     width: 35px;
     #index-number {
          padding: { left: 3px; right: 3px; }
@@ -67,26 +108,17 @@ $projector-background: white;
       text-align: center;
     }
   }
-  #prev-index img, #next-index img {
+  #prev-index img,
+  #next-index img
+  {
     @include rounded-corner(4px);
        width: 18px;
       height: 18px;
      padding: 0px;
   }
 
-  #diff-checkbox-container {
-    @include edged-panel();
-    width: 55px;
-    padding: { top: 5px; bottom: 2px; }
-    #diff-checkbox-title {
-       font-size: 14px;
-         display: inline;
-        position: relative; bottom: 2px;
-    }
-    margin: { top: 5px; }
-  }
-
-  .triangle.button {
+  .triangle.button
+  {
     width: 28px;
     height: 28px;
     padding: 0px;
@@ -98,7 +130,8 @@ $projector-background: white;
     }
   }
 
-  #diff-filenames {
+  #diff-filenames
+  {
     display: flex;
     flex-direction: column;
     float: left;
@@ -113,12 +146,14 @@ $projector-background: white;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
 
-    .diff-filename-box {
+    .diff-filename-box
+    {
       display: flex;
       flex-direction: row;
     }
 
-    .filename {
+    .filename
+    {
        height: 16px;
       padding: { left: 4px; top: 0px; bottom: 4px; }
        border: 1px solid $darker-color;
@@ -132,7 +167,9 @@ $projector-background: white;
     }
   }
 
-  .diff-line-numbers, .diff-sheet {
+  .diff-line-numbers,
+  .diff-sheet
+  {
     :hover { background: darken($projector-background, 20%); }
     @include code-font();
         height: 572px;
@@ -147,7 +184,8 @@ $projector-background: white;
 		same { color: black; }
   }
 
-  .diff-line-numbers {
+  .diff-line-numbers
+  {
     background: darken($projector-background, 5%);
          width: 40px;
     text-align: right;
@@ -163,7 +201,8 @@ $projector-background: white;
     same    { color: lighten($darker-color,20%); }
   }
 
-  .diff-sheet {
+  .diff-sheet
+  {
     background: $projector-background;
     added, deleted { background: darken($projector-background, 10%); }
          width: 805px;
@@ -181,7 +220,8 @@ $projector-background: white;
     added, deleted, same { padding-left: 3px; }
   }
 
-  .diff-deleted-line-count, .diff-added-line-count {
+  .diff-deleted-line-count, .diff-added-line-count
+  {
     @include rounded-corner(4px);
     @include right-align(0px);
     @include diff-line-count;
@@ -194,7 +234,8 @@ $projector-background: white;
 
     &.none { visibility: hidden; }
 
-    &[disabled] {
+    &[disabled]
+    {
       background: lighten($darker-color,10%);
       cursor: default;
     }
@@ -203,34 +244,22 @@ $projector-background: white;
     &[data-filename='status'] { margin: { bottom: 20px;  } }
   }
 
-  .diff-deleted-line-count {
+  .diff-deleted-line-count
+  {
     background: $diff-deleted-color;
     &[disabled] { color: lighten($diff-deleted-color,5%); }
   }
 
-  .diff-added-line-count {
+  .diff-added-line-count
+  {
     background: $diff-added-color;
     &[disabled] { color: lighten($diff-added-color,5%); }
   }
 
-  .diff-added-line-count, .diff-deleted-line-count {
+  .diff-added-line-count, .diff-deleted-line-count
+  {
     &.on  { &:before { content: ' '; } }
     &.off { &:before { content: '*'; } }
-  }
-
-  #fork-button-box, #revert-button-box {
-    display: inline-block;
-  }
-
-  #fork-button, #revert-button {
-    @include non-code-font();
-    @include rounded-corner(4px);
-    text-align: left;
-    font-size: 10px;
-    margin: { top: 0px; bottom: 0px; right: 1px; }
-    padding: { bottom: 1px; top: 1px; left: 9px; right: 9px; }
-    position: relative;
-    top: -3px;
   }
 }
 

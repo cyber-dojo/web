@@ -12,30 +12,37 @@
     @include font-size-medium();
            display: inline;
     vertical-align: top;
-            margin: 0px;
+            margin: { right: 2px; }
            padding: { top: 0px; bottom: 2px; left: 10px; right: 10px; }
         text-align: center;
   }
 
   #file-operations
   {
-    div { display: inline; }
-    float: left;
-    margin: { top: 6px; bottom: 8px; }
+    display:inline;
+    @include edged-panel();
+    @include font-size-tiny();
+    vertical-align:top;
+    padding:{ top:3px; bottom:4px; }
+    margin:{ top:1px; bottom:0px; left:0px; right:0px }
+    div { display:inline; }
+    #label
+    {
+      @include plaintext-font();
+      font-size: 10px;
+      position: relative;
+      top: 1px;
+    }
     #new, #rename, #delete
     {
-      @include non-code-font();
       @include rounded-corner(4px);
-      text-align: right;
-       font-size: 10px;
-          margin: { top:0px; bottom:0px; left:0px; right:4px; }
-         padding: { top:1px; bottom:1px; left:7px; right:7px; }
+      padding:{ top:0px; bottom:1px; left:6px; right:6px; }
     }
   }
 
   #filename-list
   {
-    margin: { right: 5px; }
+    margin: { top: 5px; right: 5px; }
 
     div[class~='filename'][class~='highlight'] { &:before { content: "> "; } }
 
@@ -49,10 +56,15 @@
     &::-webkit-scrollbar:vertical { width: 0px; }
   }
 
-  #traffic-lights-count-box {
+  #traffic-lights-count-box
+  {
     vertical-align:top;
            display:inline-block;
              float:left;
+    .traffic-light-count {
+      position:relative;
+      top:-3px;
+    }
   }
   #traffic-lights
   {
@@ -121,7 +133,8 @@ input#new-filename, input#rename-filename, input#delete-filename
 
   #kata-id { font-size: 155px; }
 
-  #phonetic-kata-id {
+  #phonetic-kata-id
+  {
     font-size: 30px;
     padding: { bottom: 10px; }
   }
