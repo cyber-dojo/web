@@ -38,10 +38,6 @@ module Externals # mix-in
     @differ ||= external
   end
 
-  def mapper
-    @mapper ||= external
-  end
-
   def ragger
     @ragger ||= external
   end

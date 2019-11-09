@@ -19,7 +19,6 @@ services:
       - differ
       - exercises
       - languages
-      - mapper
       - ragger
       - runner
       - saver
@@ -125,28 +124,9 @@ services:
     ports:
       - 4537:4537
     restart: 'no'
-    depends_on:
-      - mapper
     tmpfs:
       - /cyber-dojo:uid=19663,gid=65533
       - /tmp:uid=19663,gid=65533
-
-  # - - - - - - - - - - - - - - - -
-
-  mapper:
-    user: nobody
-    image: cyberdojo/mapper:${CYBER_DOJO_MAPPER_TAG}
-    init: true
-    container_name: test-web-mapper
-    environment: [NO_PROMETHEUS]
-    read_only: true
-    ports:
-      - 4547:4547
-    restart: 'no'
-    tmpfs:
-      - /tmp:uid=65534,gid=65533
-    volumes:
-      - ./test/data/porter:/porter:ro
 
   # - - - - - - - - - - - - - - - -
 
