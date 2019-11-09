@@ -56,6 +56,6 @@ echo "versioner ${CYBER_DOJO_EXERCISES}"
 echo "versioner ${CYBER_DOJO_LANGUAGES}"
 
 echo
-for service in differ mapper ragger runner saver zipper; do
+for service in differ ragger runner saver zipper; do
   set_image_tag ${service}
 done

@@ -1,9 +1,4 @@
-This cyber-dojo/ dir holds test data for mapper/saver
-
-mapper
-------
-/porter/mapped-ids/73/3E9E16FC  --> FxWwrr
-/porter/mapped-ids/FD/7FF5FA61  --> chy6BJ
+This cyber-dojo/ dir holds test data for saver
 
 saver
 -----
