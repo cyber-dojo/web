@@ -1,6 +1,8 @@
 
 CyberDojo::Application.routes.draw do
 
+  get '/alive', to: proc { [200, {}, ['']] }
+
   root :to => 'dojo#index'
 
   scope path: '/sha', controller: :sha do
@@ -78,7 +80,6 @@ CyberDojo::Application.routes.draw do
     get 'traffic_light_tip' => :traffic_light_tip, :constraints => { :format => :json }
   end
 
-
   get '/differ/diff' => 'differ#diff', :constraints => { :format => :json }
 
   get '/reverter/revert' => 'reverter#revert', :constraints => { :format => :json }
@@ -86,7 +87,6 @@ CyberDojo::Application.routes.draw do
   get '/download(/:id)' => 'downloader#download'
   get '/download_tag(/:id/:avatar/:tag)' => 'downloader#download_tag'
 
-  # Backward compatibility
   # Used to explicitly start avatars to create prepared session
 
   scope path: '/enter', controller: :id_join do
