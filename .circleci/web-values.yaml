@@ -10,10 +10,12 @@ containers:
   - name: web
     image: cyberdojo/web
     resources:
-      limits:
-        memory: 128Mi
       requests:
+        cpu: 50m
         memory: 128Mi
+      limits:
+        cpu: 100m
+        memory: 256Mi
     livenessProbe:
       path: /alive?
       port: 3000
