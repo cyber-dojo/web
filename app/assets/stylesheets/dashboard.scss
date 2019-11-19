@@ -1,32 +1,38 @@
 
-#dashboard-page {
+#dashboard-page
+{
 
   margin: { left: 45px; top: 30px; }
 
-  #age {
-    @include non-code-font();
+  #age
+  {
     text-align: center;
     font-size: 13px;
   }
 
-  #age-box, #auto-refresh-box, #minute-columns-box {
+  #age-box, #auto-refresh-box, #minute-columns-box
+  {
     @include edged-panel();
     @include right-align(15px);
+    @include plaintext-font();
      margin: { bottom: 10px; left: 15px; right: 0px; }
     display: inline-block;
   }
-  #age-box {
-    padding: { top: 8px; bottom: 8px; }
+  #age-box
+  {
+    padding: { top: 7px; bottom: 6px; }
     position: relative;
     top: -1px;
   }
 
-  #progress-button-box, #download-button-box {
+  #progress-button-box, #download-button-box
+  {
     @include right-align(15px);
     text-align: right;
     margin-left: 10px;
-    #progress-button, #download-button {
-      @include non-code-font();
+    #progress-button, #download-button
+    {
+      @include plaintext-font();
        font-size: 1em;
          padding: { bottom: 2px; left: 9px; right: 9px; }
       text-align: left;
@@ -35,13 +41,15 @@
     }
   }
 
-  .table-scroll {
+  .table-scroll
+  {
     max-width: 1000px;
     max-height: 520px;
     z-index: 1;
     overflow-x: auto;
     overflow-y: auto;
-    table {
+    table
+    {
       width: 100%;
       height: 100%;
       margin: auto;
@@ -52,13 +60,15 @@
       display: inline-block !important;
     }
     th, td { vertical-align: middle; }
-    thead th { // fix vertical positions of time-tick column headings
+    thead th
+    { // fix vertical positions of time-tick column headings
       position: -webkit-sticky;
       position: sticky;
       top: 0;
       background: $darker-color; // overlay what scrolls underneath
     }
-    th:nth-child(1) {   // fix horizontal position of
+    th:nth-child(1)
+    { // fix horizontal position of
       position: sticky; // [avatar-image] (pie-chart) traffic-light-count
       position: -webkit-sticky;
       z-index: 2;
@@ -68,8 +78,10 @@
     thead th:nth-child(1) { z-index: 5; }
   }
 
-  #traffic-lights {
-    .time-tick {
+  #traffic-lights
+  {
+    .time-tick
+    {
       @include non-code-font();
          display: block;
       text-align: center;
@@ -79,30 +91,37 @@
       $down-triangle: "\25BF";
       &:after { content: $down-triangle; }
     }
-    .fixed-column {
+    .fixed-column
+    {
       display: flex;
-      .avatar-image img {
+      .avatar-image img
+      {
          width: 26px;
         height: 26px;
       }
-      .traffic-light-count-wrapper {
+      .traffic-light-count-wrapper
+      {
         width: 40px;
-        .traffic-light-count {
+        .traffic-light-count
+        {
           text-align: right;
         }
       }
     }
-    .column {
+    .column
+    {
       padding: 0px;
        border: { bottom: dotted lighten($darker-color, 3%) 1px; }
       &.odd  { background: lighten($darker-color,  5%); }
       &.even { background: lighten($darker-color, 11%); }
     }
-    .minute-box {
+    .minute-box
+    {
              display: flex;
                float: left;
       vertical-align: middle;
-      .collapsed-multi-gap {
+      .collapsed-multi-gap
+      {
                display: inline-block;
              font-size: 12px;
                  color: lighten(black,40%);
@@ -115,33 +134,40 @@
   }
 }
 
-#progress-dialog {
+#progress-dialog
+{
   padding-top: 0px;
   .animal.odd  { background: lighten($darker-color,3%); }
   .animal.even { background: lighten($darker-color,6%); }
-  .progress {
+  .progress
+  {
     white-space: nowrap;
         padding: { left: 5px; right: 5px; }
   }
 }
 
-.traffic-light-diff-tip-tag {
+.traffic-light-diff-tip-tag
+{
   @include non-code-font;
        font-size: 12px;
 }
 
-.traffic-light-diff-tip-traffic-light-image {
+.traffic-light-diff-tip-traffic-light-image
+{
   height: 22px;
    width: 22px;
 }
 
-.traffic-light-diff-tip-avatar-image {
+.traffic-light-diff-tip-avatar-image
+{
   @include rounded-corner(4px);
    width: 30px !important;
   height: 30px !important;
 }
 
-.traffic-light-diff-tip-line-count-deleted, .traffic-light-diff-tip-line-count-added {
+.traffic-light-diff-tip-line-count-deleted,
+.traffic-light-diff-tip-line-count-added
+{
   @include rounded-corner(4px);
   @include right-align(0px);
   @include diff-line-count;
@@ -150,13 +176,16 @@
   border: 1px solid lighten($darker-color,6%);
 }
 
-.traffic-light-diff-tip-line-count-deleted {
+.traffic-light-diff-tip-line-count-deleted
+{
   background: $diff-deleted-color;
 }
-.traffic-light-diff-tip-line-count-added {
+.traffic-light-diff-tip-line-count-added
+{
   background: $diff-added-color;
 }
 
-.d-for-days, .m-for-minutes, .h-for-hours {
+.d-for-days, .m-for-minutes, .h-for-hours
+{
   font-size: 10px;
 }
