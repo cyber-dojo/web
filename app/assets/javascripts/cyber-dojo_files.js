@@ -347,8 +347,9 @@ var cyberDojo = (function(cd, $) {
     // 2. kata/edit page in alt-j alt-k hotkeys
     // 3. review/show page/dialog to help show filename list
     let hi = [];
+    const lit = cd.highlightFilenames();
     $.each(filenames, (_, filename) => {
-      if (isSourceFile(filename)) {
+      if (isSourceFile(filename) || lit.includes(filename)) {
         hi.push(filename);
       }
     });
@@ -367,8 +368,9 @@ var cyberDojo = (function(cd, $) {
     // 2. kata/edit page in Alt-j Alt-k hotkeys
     // 3. review/show page/dialog to help show filename-list
     let lo = [];
+    const lit = cd.highlightFilenames();    
     $.each(filenames, (_, filename) => {
-      if (!isSourceFile(filename)) {
+      if (!isSourceFile(filename) && !lit.includes(filename)) {
         lo.push(filename);
       }
     });
