@@ -175,8 +175,12 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.loadTestFile = () => {
-    cd.loadFile(testFilename());
+  cd.loadInitialFile = () => {
+    if (cd.filenames().includes('readme.txt')) {
+      cd.loadFile('readme.txt');
+    } else {
+      cd.loadFile(testFilename());
+    }
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
