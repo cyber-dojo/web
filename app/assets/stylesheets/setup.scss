@@ -32,25 +32,17 @@
     overflow-y: auto;
     overflow-x: none;
     &::-webkit-scrollbar:vertical { width: 10px; }
-
-    .filename
-    {
-      @include font-size-medium();
-        padding-left: 0px;
-           font-size: 13pt;
-          text-align: left;
-      &[class~='selected']
-      {
-        font-style: bold;
-             color: darken($lighter-color, 5%);
-      }
-    }
   }
 
   #languages-list, #exercises-list, #custom-list
   {
     @include edged-panel();
     padding: 10px;
+    .display-name
+    {
+      @include wide-list-item();
+      text-align: left;
+    }
   }
   #languages-list { width: 260px; }
   #exercises-list { width: 200px; }
@@ -59,13 +51,7 @@
   {
     max-width: 350px;
         width: 350px;
-
-    .display-name
-    {
-      @include wide-list-item();
-      text-align: left;
-       max-width: 350px;
-    }
+    .display-name { max-width: 350px; }
   }
 
   #button-box { text-align: center; }
