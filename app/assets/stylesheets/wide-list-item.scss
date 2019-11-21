@@ -26,7 +26,6 @@
     cursor: default;
   }
   &:hover {
-    background-color: lighten($darker-color,10%);
-    border: 1px dashed lighten($darker-color,20%);
+    border: 1px dotted lighten($darker-color,15%);
   }
 }
