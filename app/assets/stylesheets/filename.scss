@@ -1,12 +1,5 @@
 .filename_div { display: none; }
 
-div[class~='filename']
-{
-  @include wide-list-item();
-  text-align: left;
-  padding: { left: 4px; }
-}
-
 .file_content
 {
    // height and width are set in codemirror.scss
