@@ -153,15 +153,9 @@ $projector-background: white;
       flex-direction: row;
     }
 
-    div[class~='filename']
-    {
-      @include wide-list-item();
-      text-align: left;
-      padding: { left: 4px; }
-    }
-
     .filename
     {
+      @include wide-list-item();
        height: 16px;
       padding: { left: 4px; top: 0px; bottom: 4px; }
        border: 1px solid $darker-color;

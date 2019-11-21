@@ -37,12 +37,7 @@
   #languages-list, #exercises-list, #custom-list
   {
     @include edged-panel();
-    padding: 10px;
-    .display-name
-    {
-      @include wide-list-item();
-      text-align: left;
-    }
+    .display-name { @include wide-list-item(); }
   }
   #languages-list { width: 260px; }
   #exercises-list { width: 200px; }

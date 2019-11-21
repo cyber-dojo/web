@@ -6,9 +6,11 @@
        color: $lighter-color;
   background: $darker-color;
 
+  text-align: left;
+
       border: 1px solid $darker-color;
       margin: { bottom: 0px; left: 0px; left: 0px; right: 0px; }
-     padding: { right: 0px; }
+     padding: { left: 4px; right: 0px; }
       cursor: pointer;
 
   // no up/down scrolling, #filename-list has its own
