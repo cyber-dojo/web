@@ -155,6 +155,7 @@ $projector-background: white;
 
     .filename
     {
+      @include wide-list-item();      
        height: 16px;
       padding: { left: 4px; top: 0px; bottom: 4px; }
        border: 1px solid $darker-color;
