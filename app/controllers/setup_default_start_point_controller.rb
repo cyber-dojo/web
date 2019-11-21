@@ -45,7 +45,7 @@ class SetupDefaultStartPointController < ApplicationController
     manifest = starter_manifest
     group = groups.new_group(manifest)
     respond_to do |format|
-      format.json { render json:{id:group.id} }      
+      format.json { render json:{id:group.id} }
     end
   end
 

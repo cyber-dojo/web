@@ -6,7 +6,8 @@
        color: $lighter-color;
   background: $darker-color;
 
-      margin: { bottom: 2px; left: 0px; left: 0px; right: 0px; }
+      border: 1px solid $darker-color;
+      margin: { bottom: 0px; left: 0px; left: 0px; right: 0px; }
      padding: { right: 0px; }
       cursor: pointer;
   text-align: right;
@@ -22,7 +23,11 @@
 
   // See app/assets/javascripts/cyber-dojo_files.js function radioEntrySwitch()
   &[class~='selected'] {
-    background: lighten($darker-color, 10%);
-        cursor: default;
+    background-color: lighten($darker-color, 10%);
+    cursor: default;
+  }
+  &:hover {
+    background-color: lighten($darker-color,10%);
+    border: 1px dashed lighten($darker-color,20%);
   }
 }

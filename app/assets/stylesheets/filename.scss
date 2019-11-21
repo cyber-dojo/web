@@ -6,11 +6,6 @@ div[class~='filename']
   text-align: left;
   padding: { left: 4px; }
 }
-div[class~='filename'], div[class~='display-name'] {
-  &:not(.selected):hover {
-    background-color: lighten($darker-color,5%) !important;
-  }
-}
 
 .file_content
 {
