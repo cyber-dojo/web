@@ -347,9 +347,8 @@ var cyberDojo = (function(cd, $) {
     // 2. kata/edit page in alt-j alt-k hotkeys
     // 3. review/show page/dialog to help show filename list
     let hi = [];
-    const lit = cd.highlightFilenames();
     $.each(filenames, (_, filename) => {
-      if (isSourceFile(filename) || lit.includes(filename)) {
+      if (isSourceFile(filename) || isHilightFile(filename)) {
         hi.push(filename);
       }
     });
@@ -368,9 +367,8 @@ var cyberDojo = (function(cd, $) {
     // 2. kata/edit page in Alt-j Alt-k hotkeys
     // 3. review/show page/dialog to help show filename-list
     let lo = [];
-    const lit = cd.highlightFilenames();
     $.each(filenames, (_, filename) => {
-      if (!isSourceFile(filename) && !lit.includes(filename)) {
+      if (!isSourceFile(filename) && !isHilightFile(filename)) {
         lo.push(filename);
       }
     });
@@ -393,10 +391,29 @@ var cyberDojo = (function(cd, $) {
   const isSourceFile = (filename) => {
     let match = false;
     $.each(cd.extensionFilenames(), (_, extension) => {
+      if (filename.endsWith(extension)) {
+        match = true;
+      }
+      // Special case for non-custom kata
+      if (filename === 'readme.txt') {
+        match = true;
+      }
       // Shell test frameworks (eg shunit2) use .sh as their
       // filename extension but we don't want cyber-dojo.sh
-      // in the hiFilenames() above output in the filename-list.
-      if (filename.endsWith(extension) && filename !== 'cyber-dojo.sh') {
+      // in the top filename section.
+      if (filename === 'cyber-dojo.sh') {
+        match = false;
+      }
+    });
+    return match;
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const isHilightFile = (filename) => {
+    let match = false;
+    $.each(cd.highlightFilenames(), (_, hilightFilename) => {
+      if (filename === hilightFilename) {
         match = true;
       }
     });
