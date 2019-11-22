@@ -9,6 +9,10 @@ service:
 containers:
   - name: web
     image: cyberdojo/web
+    securityContext:
+      runAsUser: 65534 # nobody
+      fsGroup: 65534 # nobody
+      allowPrivilegeEscalation: false
     resources:
       requests:
         cpu: 100m
