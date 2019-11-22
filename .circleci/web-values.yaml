@@ -20,9 +20,9 @@ containers:
       limits:
         cpu: 200m
         memory: 256Mi
-    #livenessProbe:
-    #  path: /alive?
-    #  port: 3000
+    livenessProbe:
+      path: /alive?
+      port: 3000
     #readinessProbe:
     #  path: /ready?
     #  port: 3000
