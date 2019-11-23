@@ -50,7 +50,7 @@
      margin: { top: 7px; right: 0px; }
   }
 
-  #help-button, #hotkeys-button, #options-button
+  #help-button, #hotkeys-button, #options-button, #dashboard-button
   {
     @include rounded-corner(4px);
        padding: { left: 7px; right: 7px; }
@@ -59,9 +59,35 @@
      font-size: 0.60em;
   }
 
-  #message
+  #info
   {
-    padding-left: 5px;
-       font-size: 0.70em;
+    #display-name-box,
+    #exercise-name-box,
+    #id-box,
+    #group-id-box,
+    #avatar-name-box
+    {
+      font-size: 0.70em;
+      @include edged-panel();
+      position: relative; top: -2px; // up
+      margin-right: 3px;
+    }
+    #avatar-image-box
+    {
+      display: inline;
+      img.avatar-image {
+        @include rounded-corner(6px);
+         cursor: default;
+          width: 22px;
+         height: 22px;
+         margin: 0px;
+        padding: 0px;
+        position: relative; top: 5px; // down
+      }
+    }
+    #dashboard-button
+    {
+      position: relative; top: -2px; // up
+    }
   }
 }

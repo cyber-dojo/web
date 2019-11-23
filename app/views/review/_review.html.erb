@@ -112,25 +112,6 @@ $(() => {
   };
 
   //-----------------------------------------
-  // refresh summary
-  //    event-index avatar?
-  //-----------------------------------------
-
-  const refreshSummary = () => {
-    $('#review-avatar-image-box').html(makeAvatarImageHtml());
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const makeAvatarImageHtml = () => {
-    if (param.avatarName === '') {
-      return '';
-    } else {
-      return `<img class="avatar-image" src="/avatar/image/${param.avatarIndex}"/>`;
-    }
-  };
-
-  //-----------------------------------------
   // refresh navigator
   //    [<] traffic-light-index [>]
   //-----------------------------------------
@@ -444,7 +425,6 @@ $(() => {
     $.getJSON('/differ/diff', reviewParams, (data) => {
       cd.hideWaitSpinner();
       param = data;
-      refreshSummary();
       refreshNavigator();
       refreshTrafficLights();
       refreshFiles();
