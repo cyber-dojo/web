@@ -54,40 +54,30 @@
   {
     @include rounded-corner(4px);
        padding: { left: 7px; right: 7px; }
-        margin: { top: 4px; right: 0px; }
+        margin: { bottom: 3px; top: 3px; right: 0px; }
          color: darken($darker-color, 10%);
      font-size: 0.60em;
   }
 
-  #info
+  #display-name-box,
+  #exercise-name-box,
+  #id-box,
+  #group-id-box,
+  #avatar-name-box
   {
-    #display-name-box,
-    #exercise-name-box,
-    #id-box,
-    #group-id-box,
-    #avatar-name-box
-    {
-      font-size: 0.70em;
-      @include edged-panel();
-      position: relative; top: -2px; // up
-      margin-right: 3px;
-    }
-    #avatar-image-box
-    {
-      display: inline;
-      img.avatar-image {
-        @include rounded-corner(6px);
-         cursor: default;
-          width: 22px;
-         height: 22px;
-         margin: 0px;
-        padding: 0px;
-        position: relative; top: 5px; // down
-      }
-    }
-    #dashboard-button
-    {
-      position: relative; top: -2px; // up
+    font-size: 0.70em;
+    @include edged-panel();
+  }
+  #avatar-image-box
+  {
+    display: inline;
+    img.avatar-image {
+      @include rounded-corner(6px);
+       cursor: default;
+        width: 22px;
+       height: 22px;
+       margin: 0px;
+      padding: 0px;
     }
   }
 }

@@ -1,0 +1,14 @@
+
+<script type="text/javascript"><!--
+'use strict';
+$(() => {
+  $('#dashboard-button').click(() => {
+    const url = `/dashboard/show/<%= @group_id %>`;
+    window.open(url);
+  });
+});
+//--></script>
+
+<% if @avatar_name != '' %>
+  <button type="button" id="dashboard-button">dashboard</button>
+<% end %>
