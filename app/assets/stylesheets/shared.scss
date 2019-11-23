@@ -8,7 +8,7 @@
   @include rounded-corner(5px);
   background: $darker-color;
      display: inline-block;
-      border: 1px dotted gray;
+      border: 1px solid darken(gray,20%);
      padding: 4px;
       margin: 0px;
 }
