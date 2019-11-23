@@ -55,14 +55,24 @@
     div[class~='filename'] { @include wide-list-item(); }
   }
 
+  img.avatar-image {
+    display: inline-block;
+    float: left;
+    @include rounded-corner(4px);
+      width: 22px;
+     height: 22px;
+     margin: 0px;
+    padding: 0px;
+  }
+
   #traffic-lights-count-box
   {
     vertical-align:top;
            display:inline-block;
              float:left;
     .traffic-light-count {
-      position:relative;
-      top:-3px;
+      font-size: 23px;
+      position:relative; top:-3px;
     }
   }
   #traffic-lights
