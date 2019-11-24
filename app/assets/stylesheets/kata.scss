@@ -5,8 +5,9 @@
   .left-column { width: 295px; }
 
   img.avatar-image {
-    display: inline-block;
     @include rounded-corner(6px);
+    display: inline-block;
+     cursor: default;
       width: 29px;
      height: 29px;
      margin: 0px;
@@ -28,6 +29,7 @@
   {
     display:inline;
     @include edged-panel();
+    background: lighten($darker-color,10%);
     @include font-size-tiny();
     vertical-align:top;
     padding:{ top:5px; bottom:5px; }

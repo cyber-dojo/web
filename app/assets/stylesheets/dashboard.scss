@@ -13,8 +13,10 @@
   #age-box, #auto-refresh-box, #minute-columns-box
   {
     @include edged-panel();
+    background: lighten($darker-color,8%);
     @include right-align(15px);
     @include plaintext-font();
+    font-size: 13px;
      margin: { bottom: 10px; left: 15px; right: 0px; }
     display: inline-block;
   }

@@ -3,7 +3,7 @@
 {
 
   @include plaintext-font();
-  background: lighten($darker-color, 6%);
+  background: lighten($darker-color, 8%);
        color: $lighter-color;
    font-size: 1.05em;
        width: 100%;
@@ -67,6 +67,7 @@
   {
     font-size: 0.70em;
     @include edged-panel();
+    background: $darker-color;
   }
   #avatar-image-box
   {

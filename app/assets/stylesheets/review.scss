@@ -32,13 +32,14 @@ $projector-background: white;
 
   img.avatar-image
   {
-    display: inline-block;
     @include rounded-corner(6px);
-     width: 29px;
-    height: 29px;
-    margin: 0px;
-   padding: 0px;
-    margin-right: 3px;
+    display: inline-block;
+     cursor: default;
+      width: 29px;
+     height: 29px;
+     margin: 0px;
+    padding: 0px;
+     margin: { right: 3px; }
   }
 
   #resume-button
@@ -54,6 +55,7 @@ $projector-background: white;
   #diff-checkbox-container
   {
     @include edged-panel();
+    background: lighten($darker-color,10%);    
        width: 55px;
       margin: { left: 2px; right: 5px; }
      padding: { top:5px; bottom:2px; right:0px; }
@@ -62,6 +64,7 @@ $projector-background: white;
     #diff-checkbox-title
     {
       @include plaintext-font();
+          cursor: default;
        font-size: 12px;
          display: inline;
          position: relative;
@@ -114,7 +117,7 @@ $projector-background: white;
       #index-number
       {
         @include rounded-corner(4px);
-        background: lighten($darker-color,20%);
+        background: lighten($darker-color,15%);
            padding: { left: 3px; right: 3px; }
          font-size: 20px;
         text-align: center;
@@ -128,12 +131,12 @@ $projector-background: white;
       width: 22px;
       height: 22px;
       padding: 0px;
-      border: 1px solid lighten($darker-color,20%);
-      &:hover { border: 1px dotted lighten($darker-color,20%); }
+      border: 1px solid lighten($darker-color,15%);
+      &:hover { border: 1px dotted lighten($darker-color,15%); }
       &[disabled]
       {
         background: lighten($darker-color,30%);
-        &:hover { border: 1px solid lighten($darker-color,20%); }
+        &:hover { border: 1px solid lighten($darker-color,15%); }
       }
     }
 
