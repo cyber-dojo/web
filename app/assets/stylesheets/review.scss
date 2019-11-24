@@ -32,10 +32,13 @@ $projector-background: white;
 
   img.avatar-image
   {
+    display: inline-block;
     @include rounded-corner(6px);
-     width: 30px;
-    height: 30px;
-    margin-left: 2px;
+     width: 29px;
+    height: 29px;
+    margin: 0px;
+   padding: 0px;
+    margin-right: 3px;
   }
 
   #resume-button

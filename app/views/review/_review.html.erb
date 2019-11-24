@@ -51,6 +51,23 @@ $(() => {
   };
 
   //-----------------------------------------
+  // refresh summary
+  //    avatar?
+  //-----------------------------------------
+  const refreshSummary = () => {
+    $('#review-avatar-image-box').html(makeAvatarImageHtml());
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  const makeAvatarImageHtml = () => {
+    if (param.avatarName === '') {
+      return '';
+    } else {
+      return `<img class="avatar-image" src="/avatar/image/${param.avatarIndex}"/>`;
+    }
+  };
+
+  //-----------------------------------------
   // refresh diff? [x]
   //-----------------------------------------
 
@@ -425,6 +442,7 @@ $(() => {
     $.getJSON('/differ/diff', reviewParams, (data) => {
       cd.hideWaitSpinner();
       param = data;
+      refreshSummary();
       refreshNavigator();
       refreshTrafficLights();
       refreshFiles();
@@ -546,6 +564,7 @@ $(() => {
 <table>
   <tr valign="top">
     <td>
+      <div id="review-avatar-image-box"></div>
       <div id="resume-button-box"></div>
       <%= render(:partial => 'review/diff_checkbox') %>
       <div id="fork-button-box"></div>

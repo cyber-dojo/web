@@ -3,7 +3,15 @@
 {
   margin: { top: 20px; left: 35px; }
   .left-column { width: 295px; }
-  .avatar-image { margin-left: 2px; display: inline; }
+
+  img.avatar-image {
+    display: inline-block;
+    @include rounded-corner(6px);
+      width: 29px;
+     height: 29px;
+     margin: 0px;
+    padding: 0px;
+  }
 
   #test-button
   {
@@ -53,16 +61,6 @@
     div[class~='filename'][id='radio_status'] { margin-bottom: 20px; }
 
     div[class~='filename'] { @include wide-list-item(); }
-  }
-
-  img.avatar-image {
-    display: inline-block;
-    float: left;
-    @include rounded-corner(4px);
-      width: 22px;
-     height: 22px;
-     margin: 0px;
-    padding: 0px;
   }
 
   #traffic-lights-count-box
