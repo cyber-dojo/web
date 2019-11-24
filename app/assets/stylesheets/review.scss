@@ -55,7 +55,7 @@ $projector-background: white;
   #diff-checkbox-container
   {
     @include edged-panel();
-    background: lighten($darker-color,10%);    
+    background: lighten($darker-color,10%);
        width: 55px;
       margin: { left: 2px; right: 5px; }
      padding: { top:5px; bottom:2px; right:0px; }

@@ -67,6 +67,7 @@
   {
     font-size: 0.70em;
     @include edged-panel();
+    cursor: default;
     background: $darker-color;
   }
   #avatar-image-box

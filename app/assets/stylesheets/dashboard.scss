@@ -16,6 +16,7 @@
     background: lighten($darker-color,8%);
     @include right-align(15px);
     @include plaintext-font();
+    cursor: default;        
     font-size: 13px;
      margin: { bottom: 10px; left: 15px; right: 0px; }
     display: inline-block;
