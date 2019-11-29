@@ -17,19 +17,19 @@ jobs:
           name: Tag docker image
           command: |
             set -e
-            TAG=tag-image.sh
-            curl -O --fail ${CIRCLECI_SCRIPT_DIR}/${TAG}
-            chmod 700 ./${TAG}
-            ./${TAG}
+            declare -r NAME="${CIRCLE_PROJECT_REPONAME}"
+            declare -r SHA="${CIRCLE_SHA1}"
+            docker tag cyberdojo/${NAME}:latest cyberdojo/${NAME}:${SHA:0:7}
       - run:
           name: Publish tagged docker image on dockerhub
           command: |
             set -e
-            PUBLISH=publish-tagged-image.sh
-            curl -O --fail ${CIRCLECI_SCRIPT_DIR}/${PUBLISH}
-            chmod 700 ./${PUBLISH}
+            declare -r NAME="${CIRCLE_PROJECT_REPONAME}"
+            declare -r SHA="${CIRCLE_SHA1}"
             echo "${DOCKER_PASS}" | docker login -u "${DOCKER_USER}" --password-stdin
-            ./${PUBLISH}
+            docker push cyberdojo/${NAME}:${SHA:0:7}
+            docker push cyberdojo/${NAME}:latest
+            docker logout
       - run:
           name: Trigger dependent repos
           command: |
@@ -65,7 +65,7 @@ jobs:
               --values .circleci/web-values.yaml \
               beta-web \
               praqma/cyber-dojo-service \
-              --version 0.2.3
+              --version 0.2.4
 
   deploy-to-prod:
     docker:
@@ -93,7 +93,7 @@ jobs:
               --values .circleci/web-values.yaml \
               prod-web \
               praqma/cyber-dojo-service \
-              --version 0.2.3
+              --version 0.2.4
 
 
 workflows:
