@@ -9,6 +9,8 @@ rm -f ${WEB_HOME}/tmp/pids/server.pid
 export CYBER_DOJO_CUSTOM_START_POINTS_CLASS=CustomStartPointsService
 
 export CYBER_DOJO_EXERCISES_CLASS=ExercisesService
+export CYBER_DOJO_EXERCISES_START_POINTS_CLASS=ExercisesStartPointsService
+
 export CYBER_DOJO_LANGUAGES_CLASS=LanguagesService
 
 export CYBER_DOJO_AVATARS_CLASS=AvatarsService

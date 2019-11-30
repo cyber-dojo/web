@@ -23,6 +23,9 @@ module Externals # mix-in
   def exercises
     @exercises ||= external
   end
+  def exercises_start_points
+    @exercises_start_points ||= external
+  end
 
   def languages
     @languages ||= external

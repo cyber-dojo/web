@@ -111,7 +111,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
     languages.names.each do |display_name|
       assert listed?(display_name)
     end
-    exercises.names.each do |exercise_name|
+    exercises_start_points.names.each do |exercise_name|
       assert listed?(exercise_name)
     end
   end
@@ -152,7 +152,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def valid_exercise_index?
-    max = exercises.names.size
+    max = exercises_start_points.names.size
     (0...max).include?(exercise_index)
   end
 

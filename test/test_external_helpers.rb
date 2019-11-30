@@ -17,7 +17,8 @@ module TestExternalHelpers # mix-in
       'ZIPPER'    => ENV['CYBER_DOJO_ZIPPER_CLASS'],
       'HTTP'      => ENV['CYBER_DOJO_HTTP_CLASS'],
 
-      'CUSTOM_START_POINTS' => ENV['CYBER_DOJO_CUSTOM_START_POINTS_CLASS']
+      'CUSTOM_START_POINTS'    => ENV['CYBER_DOJO_CUSTOM_START_POINTS_CLASS'],
+      'EXERCISES_START_POINTS' => ENV['CYBER_DOJO_EXERCISES_START_POINTS_CLASS']
     }
   end
 
@@ -32,7 +33,8 @@ module TestExternalHelpers # mix-in
     ENV['CYBER_DOJO_ZIPPER_CLASS']    = @config['ZIPPER']
     ENV['CYBER_DOJO_HTTP_CLASS']      = @config['HTTP']
 
-    ENV['CYBER_DOJO_CUSTOM_START_POINTS_CLASS'] = @config['CUSTOM_START_POINTS']
+    ENV['CYBER_DOJO_CUSTOM_START_POINTS_CLASS']    = @config['CUSTOM_START_POINTS']
+    ENV['CYBER_DOJO_EXERCISES_START_POINTS_CLASS'] = @config['EXERCISES_START_POINTS']
   end
 
   # - - - - - - - - - - - - - - - - - - -
@@ -47,6 +49,9 @@ module TestExternalHelpers # mix-in
 
   def set_exercises_class(name)
     set_class('exercises', name)
+  end
+  def set_exercises_start_points_class(name)
+    set_class('exercises_start_points', name)
   end
 
   def set_languages_class(name)
