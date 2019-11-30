@@ -43,7 +43,7 @@ services:
 
   exercises:
     user: nobody
-    image: ${CYBER_DOJO_EXERCISES}
+    image: cyberdojo/exercises:latest
     init: true
     container_name: test-web-exercises
     environment: [ NO_PROMETHEUS ]
