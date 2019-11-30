@@ -49,7 +49,7 @@ services:
     environment: [ NO_PROMETHEUS ]
     read_only: true
     ports:
-      - 4525:4525
+      - 4999:4999
     tmpfs: /tmp
     restart: 'no'
 

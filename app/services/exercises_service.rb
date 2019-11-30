@@ -12,7 +12,7 @@ class ExercisesService
   end
 
   def initialize(externals)
-    @http = HttpJson::service(externals.http, 'exercises', 4525, Error)
+    @http = HttpJson::service(externals.http, 'exercises', 4999, Error)
   end
 
   def ready?

@@ -5,7 +5,7 @@ class SetupDefaultStartPointController < ApplicationController
     @id = id
     @language_names = languages.names
     @language_index = random_index(@language_names)
-    manifests = exercises_start_points.manifests
+    manifests = exercises.manifests
     @exercise_names = manifests.keys.sort
     @exercise_index = random_index(@exercise_names)
     @instructions = []
@@ -55,7 +55,7 @@ class SetupDefaultStartPointController < ApplicationController
 
   def starter_manifest
     exercise_name = params['exercise']
-    em = exercises_start_points.manifest(exercise_name)
+    em = exercises.manifest(exercise_name)
     language_name = params['language']
     manifest = languages.manifest(language_name)
     manifest['visible_files'].merge!(em['visible_files'])
