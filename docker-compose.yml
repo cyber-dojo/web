@@ -16,7 +16,6 @@ services:
     depends_on:
       - avatars
       - custom-start-points
-      - exercises
       - exercises-start-points
       - languages
       - differ
@@ -41,27 +40,15 @@ services:
 
   # - - - - - - - - - - - - - - - -
 
-  exercises:
-    user: nobody
-    image: cyberdojo/exercises:latest
-    init: true
-    container_name: test-web-exercises
-    environment: [ NO_PROMETHEUS ]
-    read_only: true
-    ports:
-      - 4999:4999
-    tmpfs: /tmp
-    restart: 'no'
-
   exercises-start-points:
     user: nobody
-    image: cyberdojo/exercises-start-points:latest
+    image: cyberdojo/exercises-start-points:latest # TODO: ${CYBER_DOJO_EXERCISES}
     init: true
     container_name: test-web-exercises-start-points
     environment: [ NO_PROMETHEUS ]
     read_only: true
     ports:
-      - 4535:4535
+      - 4525:4525
     tmpfs: /tmp
     restart: 'no'
 

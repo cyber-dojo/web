@@ -47,9 +47,6 @@ module TestExternalHelpers # mix-in
     set_class('custom_start_points', name)
   end
 
-  def set_exercises_class(name)
-    set_class('exercises', name)
-  end
   def set_exercises_start_points_class(name)
     set_class('exercises_start_points', name)
   end

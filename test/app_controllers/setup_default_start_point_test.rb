@@ -7,7 +7,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   end
 
   def hex_setup
-    set_exercises_class('ExercisesService')
+    set_exercises_start_points_class('ExercisesStartPointsService')
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -

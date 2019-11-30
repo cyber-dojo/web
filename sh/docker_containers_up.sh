@@ -89,9 +89,7 @@ docker-compose \
   --force-recreate
 
 wait_until_ready custom-start-points    4526
-
-wait_until_ready exercises-start-points 4535
-wait_until_ready exercises 4999
+wait_until_ready exercises-start-points 4525
 
 wait_until_ready languages 4524
 

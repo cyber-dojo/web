@@ -20,9 +20,6 @@ module Externals # mix-in
     @custom_start_points ||= external
   end
 
-  def exercises
-    @exercises ||= external
-  end
   def exercises_start_points
     @exercises_start_points ||= external
   end
