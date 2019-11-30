@@ -28,7 +28,7 @@ services:
 
   custom-start-points:
     user: nobody
-    image: cyberdojo/custom-start-points:latest # TODO: ${CYBER_DOJO_CUSTOM}
+    image: ${CYBER_DOJO_CUSTOM}
     init: true
     container_name: test-web-custom-start-points
     environment: [ NO_PROMETHEUS ]
@@ -42,7 +42,7 @@ services:
 
   exercises-start-points:
     user: nobody
-    image: cyberdojo/exercises-start-points:latest # TODO: ${CYBER_DOJO_EXERCISES}
+    image: ${CYBER_DOJO_EXERCISES}
     init: true
     container_name: test-web-exercises-start-points
     environment: [ NO_PROMETHEUS ]
