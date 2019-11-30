@@ -3,7 +3,7 @@ set -e
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 readonly SH_DIR="${ROOT_DIR}/sh"
-readonly TAG=${1:-latest}
+readonly TAG=latest
 source ${SH_DIR}/cat_env_vars.sh
 export SHA=$(cd "${ROOT_DIR}" && git rev-parse HEAD)
 export $(cat_env_vars ${TAG})

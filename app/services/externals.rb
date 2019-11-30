@@ -19,6 +19,9 @@ module Externals # mix-in
   def custom
     @custom ||= external
   end
+  def custom_start_points
+    @custom_start_points ||= external
+  end
 
   def exercises
     @exercises ||= external
