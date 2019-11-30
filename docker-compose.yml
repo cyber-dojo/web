@@ -15,7 +15,6 @@ services:
     restart: 'no'
     depends_on:
       - avatars
-      - custom
       - custom-start-points
       - differ
       - exercises
@@ -26,18 +25,6 @@ services:
       - zipper
 
   # - - - - - - - - - - - - - - - -
-
-  custom:
-    user: nobody
-    image: cyberdojo/custom:latest
-    init: true
-    container_name: test-web-custom
-    environment: [ NO_PROMETHEUS ]
-    read_only: true
-    ports:
-      - 4999:4999
-    tmpfs: /tmp
-    restart: 'no'
 
   custom-start-points:
     user: nobody

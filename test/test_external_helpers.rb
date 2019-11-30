@@ -8,7 +8,6 @@ module TestExternalHelpers # mix-in
   def setup
     @config = {
       'AVATARS'   => ENV['CYBER_DOJO_AVATARS_CLASS'],
-      'CUSTOM'    => ENV['CYBER_DOJO_CUSTOM_CLASS'],
       'EXERCISES' => ENV['CYBER_DOJO_EXERCISES_CLASS'],
       'LANGUAGES' => ENV['CYBER_DOJO_LANGUAGES_CLASS'],
       'DIFFER'    => ENV['CYBER_DOJO_DIFFER_CLASS'],
@@ -24,7 +23,6 @@ module TestExternalHelpers # mix-in
 
   def teardown
     ENV['CYBER_DOJO_AVATARS_CLASS']   = @config['AVATARS']
-    ENV['CYBER_DOJO_CUSTOM_CLASS']    = @config['CUSTOM']
     ENV['CYBER_DOJO_EXERCISES_CLASS'] = @config['EXERCISES']
     ENV['CYBER_DOJO_LANGUAGES_CLASS'] = @config['LANGUAGES']
     ENV['CYBER_DOJO_DIFFER_CLASS']    = @config['DIFFER']
@@ -43,9 +41,6 @@ module TestExternalHelpers # mix-in
     set_class('avatars', name)
   end
 
-  def set_custom_class(name)
-    set_class('custom', name)
-  end
   def set_custom_start_points_class(name)
     set_class('custom_start_points', name)
   end
