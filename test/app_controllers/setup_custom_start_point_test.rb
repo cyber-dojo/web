@@ -87,7 +87,7 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
   def show(params = {})
     get "/#{controller}/show", params:params, as: :html
     assert_response :success
-    custom.names.each do |display_name|
+    custom_start_points.names.each do |display_name|
       assert listed?(display_name)
     end
   end
@@ -111,7 +111,7 @@ class SetupCustomStartPointControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def valid_custom_index?
-    max = custom.names.size
+    max = custom_start_points.names.size
     (0...max).include?(custom_index)
   end
 
