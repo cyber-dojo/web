@@ -16,6 +16,7 @@ services:
     depends_on:
       - avatars
       - custom
+      - custom-start-points
       - differ
       - exercises
       - languages
@@ -28,13 +29,13 @@ services:
 
   custom:
     user: nobody
-    image: ${CYBER_DOJO_CUSTOM}
+    image: cyberdojo/custom:latest
     init: true
     container_name: test-web-custom
     environment: [ NO_PROMETHEUS ]
     read_only: true
     ports:
-      - 4526:4526
+      - 4999:4999
     tmpfs: /tmp
     restart: 'no'
 

@@ -12,7 +12,7 @@ class CustomService
   end
 
   def initialize(externals)
-    @http = HttpJson::service(externals.http, 'custom', 4526, Error)
+    @http = HttpJson::service(externals.http, 'custom', 4999, Error)
   end
 
   def ready?

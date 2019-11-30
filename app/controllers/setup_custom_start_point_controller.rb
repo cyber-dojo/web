@@ -3,7 +3,7 @@ class SetupCustomStartPointController < ApplicationController
 
   def show
     @id = id
-    @custom_names = custom_start_points.names
+    @custom_names = custom.names
     @custom_index = random_index(@custom_names)
     @from = params['from']
   end
@@ -46,7 +46,7 @@ class SetupCustomStartPointController < ApplicationController
 
   def starter_manifest
     name = params['display_name']
-    manifest = custom_start_points.manifest(name)
+    manifest = custom.manifest(name)
     manifest['created'] = time.now
     manifest['version'] = 1
     manifest
