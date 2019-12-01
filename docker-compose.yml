@@ -57,7 +57,7 @@ services:
 
   languages-start-points:
     user: nobody
-    image: cyberdojo/languages-start-points-all:latest
+    image: cyberdojo/languages-start-points-all:latest # ${CYBER_DOJO_LANGUAGES}
     init: true
     container_name: test-web-languages-start-points
     environment: [ NO_PROMETHEUS ]
@@ -69,13 +69,13 @@ services:
 
   languages:
     user: nobody
-    image: ${CYBER_DOJO_LANGUAGES}
+    image: cyberdojo/languages-all
     init: true
     container_name: test-web-languages
     environment: [ NO_PROMETHEUS ]
     read_only: true
     ports:
-      - 4524:4524
+      - 4999:4999
     tmpfs: /tmp
     restart: 'no'
 
