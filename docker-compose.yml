@@ -17,6 +17,7 @@ services:
       - avatars
       - custom-start-points
       - exercises-start-points
+      - languages-start-points
       - languages
       - differ
       - ragger
@@ -53,6 +54,18 @@ services:
     restart: 'no'
 
   # - - - - - - - - - - - - - - - -
+
+  languages-start-points:
+    user: nobody
+    image: cyberdojo/languages-start-points-all:latest
+    init: true
+    container_name: test-web-languages-start-points
+    environment: [ NO_PROMETHEUS ]
+    read_only: true
+    ports:
+      - 4534:4534
+    tmpfs: /tmp
+    restart: 'no'
 
   languages:
     user: nobody

@@ -1,6 +1,6 @@
 require_relative 'app_services_test_base'
 require_relative 'http_json_requester_not_json_stub'
-require_relative '../../app/services/differ_service'
+require_relative '../../app/services/exercises_start_points_service'
 
 class ExercisesStartPointsServiceTest < AppServicesTestBase
 

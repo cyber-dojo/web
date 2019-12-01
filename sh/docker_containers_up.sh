@@ -90,7 +90,7 @@ docker-compose \
 
 wait_until_ready custom-start-points    4526
 wait_until_ready exercises-start-points 4525
-
+wait_until_ready languages-start-points 4534
 wait_until_ready languages 4524
 
 wait_until_ready runner    4597
