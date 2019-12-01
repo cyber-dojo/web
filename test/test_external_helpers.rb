@@ -56,9 +56,6 @@ module TestExternalHelpers # mix-in
   def set_languages_start_points_class(name)
     set_class('languages_start_points', name)
   end
-  def set_languages_class(name)
-    set_class('languages', name)
-  end
 
   def set_differ_class(name)
     set_class('differ', name)

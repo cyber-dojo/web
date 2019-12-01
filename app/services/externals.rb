@@ -27,9 +27,6 @@ module Externals # mix-in
   def languages_start_points
     @languages_start_points ||= external
   end
-  def languages
-    @languages ||= external
-  end
 
   # - - - - - - - - - - - - - - -
 

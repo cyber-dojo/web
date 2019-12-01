@@ -18,7 +18,6 @@ services:
       - custom-start-points
       - exercises-start-points
       - languages-start-points
-      - languages
       - differ
       - ragger
       - runner
@@ -39,8 +38,6 @@ services:
     tmpfs: /tmp
     restart: 'no'
 
-  # - - - - - - - - - - - - - - - -
-
   exercises-start-points:
     user: nobody
     image: ${CYBER_DOJO_EXERCISES}
@@ -53,8 +50,6 @@ services:
     tmpfs: /tmp
     restart: 'no'
 
-  # - - - - - - - - - - - - - - - -
-
   languages-start-points:
     user: nobody
     image: cyberdojo/languages-start-points-all:latest # ${CYBER_DOJO_LANGUAGES}
@@ -63,19 +58,7 @@ services:
     environment: [ NO_PROMETHEUS ]
     read_only: true
     ports:
-      - 4534:4534
-    tmpfs: /tmp
-    restart: 'no'
-
-  languages:
-    user: nobody
-    image: cyberdojo/languages-all
-    init: true
-    container_name: test-web-languages
-    environment: [ NO_PROMETHEUS ]
-    read_only: true
-    ports:
-      - 4999:4999
+      - 4524:4524
     tmpfs: /tmp
     restart: 'no'
 

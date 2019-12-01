@@ -108,7 +108,7 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   def show(params = {})
     get "/#{controller}/show", params:params, as: :html
     assert_response :success
-    languages.names.each do |display_name|
+    languages_start_points.names.each do |display_name|
       assert listed?(display_name)
     end
     exercises_start_points.names.each do |exercise_name|
@@ -139,21 +139,21 @@ class SetupDefaultStartPointControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def valid_language_index?
-    max = languages.names.size
+    max = languages_start_points.names.size
     (0...max).include?(language_index)
   end
+
+  def valid_exercise_index?
+    max = exercises_start_points.names.size
+    (0...max).include?(exercise_index)
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
 
   def language_index
     md = /let selectedLanguage = \$\('#language_' \+ '(\d+)'\);/.match(html)
     refute_nil md
     md[1].to_i
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
-  def valid_exercise_index?
-    max = exercises_start_points.names.size
-    (0...max).include?(exercise_index)
   end
 
   def exercise_index

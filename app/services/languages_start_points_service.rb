@@ -12,7 +12,7 @@ class LanguagesStartPointsService
   end
 
   def initialize(externals)
-    @http = HttpJson::service(externals.http, 'languages-start-points', 4534, Error)
+    @http = HttpJson::service(externals.http, 'languages-start-points', 4524, Error)
   end
 
   def ready?

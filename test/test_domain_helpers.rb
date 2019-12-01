@@ -56,7 +56,7 @@ module TestDomainHelpers # mix-in
   # - - - - - - - - - - - - - - - -
 
   def starter_manifest(display_name = default_display_name)
-    manifest = languages.manifest(display_name)
+    manifest = languages_start_points.manifest(display_name)
     exercise_name = default_exercise_name
     em = exercises_start_points.manifest(exercise_name)
     manifest['visible_files'].merge!(em['visible_files'])
