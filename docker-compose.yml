@@ -6,8 +6,7 @@ services:
   web:
     build:
       context: .
-      args:
-        - SHA
+      args: [ SHA ]
     user: nobody
     image: cyberdojo/web
     init: true
@@ -50,7 +49,7 @@ services:
 
   languages-start-points:
     user: nobody
-    image: cyberdojo/languages-start-points-all:latest
+    image: cyberdojo/languages-start-points-all:latest # tests need all CYBER_DOJO_LANGUAGES=common
     init: true
     container_name: test-web-languages-start-points
     environment: [ NO_PROMETHEUS ]
@@ -83,8 +82,7 @@ services:
     read_only: true
     ports: [ "5537:5537" ]
     restart: 'no'
-    depends_on:
-      - runner
+    depends_on: [ runner ]
     tmpfs: /tmp
 
   # - - - - - - - - - - - - - - - -
@@ -142,5 +140,4 @@ services:
     ports: [ "4587:4587" ]
     tmpfs: /tmp
     restart: 'no'
-    depends_on:
-      - saver
+    depends_on: [ saver ]
