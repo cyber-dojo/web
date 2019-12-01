@@ -1,5 +1,5 @@
 
-version: '2.2'
+version: '3.7'
 
 services:
 
@@ -33,8 +33,7 @@ services:
     container_name: test-web-custom-start-points
     environment: [ NO_PROMETHEUS ]
     read_only: true
-    ports:
-      - 4526:4526
+    ports: [ "4526:4526" ]
     tmpfs: /tmp
     restart: 'no'
 
@@ -45,20 +44,18 @@ services:
     container_name: test-web-exercises-start-points
     environment: [ NO_PROMETHEUS ]
     read_only: true
-    ports:
-      - 4525:4525
+    ports: [ "4525:4525" ]
     tmpfs: /tmp
     restart: 'no'
 
   languages-start-points:
     user: nobody
-    image: cyberdojo/languages-start-points-all:latest # ${CYBER_DOJO_LANGUAGES}
+    image: cyberdojo/languages-start-points-all:latest
     init: true
     container_name: test-web-languages-start-points
     environment: [ NO_PROMETHEUS ]
     read_only: true
-    ports:
-      - 4524:4524
+    ports: [ "4524:4524" ]
     tmpfs: /tmp
     restart: 'no'
 
@@ -71,8 +68,7 @@ services:
     container_name: test-web-avatars
     environment: [ NO_PROMETHEUS ]
     read_only: true
-    ports:
-      - 5027:5027
+    ports: [ "5027:5027" ]
     restart: 'no'
     tmpfs: /tmp
 
@@ -85,8 +81,7 @@ services:
     container_name: test-web-ragger
     environment: [ NO_PROMETHEUS ]
     read_only: true
-    ports:
-      - 5537:5537
+    ports: [ "5537:5537" ]
     restart: 'no'
     depends_on:
       - runner
@@ -101,8 +96,7 @@ services:
     container_name: test-web-runner
     environment: [ NO_PROMETHEUS ]
     read_only: true
-    ports:
-      - 4597:4597
+    ports: [ "4597:4597" ]
     tmpfs: /tmp
     restart: 'no'
     volumes:
@@ -117,8 +111,7 @@ services:
     container_name: test-web-saver
     environment: [ NO_PROMETHEUS ]
     read_only: true
-    ports:
-      - 4537:4537
+    ports: [ "4537:4537" ]
     restart: 'no'
     tmpfs:
       - /cyber-dojo:uid=19663,gid=65533
@@ -133,8 +126,7 @@ services:
     container_name: test-web-differ
     environment: [ NO_PROMETHEUS ]
     read_only: true
-    ports:
-      - 4567:4567
+    ports: [ "4567:4567" ]
     tmpfs: /tmp
     restart: 'no'
 
@@ -147,8 +139,7 @@ services:
     container_name: test-web-zipper
     environment: [ NO_PROMETHEUS ]
     read_only: true
-    ports:
-      - 4587:4587
+    ports: [ "4587:4587" ]
     tmpfs: /tmp
     restart: 'no'
     depends_on:
