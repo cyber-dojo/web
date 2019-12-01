@@ -2,7 +2,8 @@ version: 2
 jobs:
   build-publish:
 
-    machine: true
+    machine:
+      image: ubuntu-1604:201903-01
 
     working_directory: ~/repo
 
@@ -45,7 +46,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: authenticate with gcloud and deploy with helm
+          name: Authenticate with gcloud and deploy with helm
           command: |
             set -e
             echo $GCP_K8S_CREDENTIALS > /gcp/gcp-credentials.json
@@ -73,7 +74,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: authenticate with gcloud and deploy with helm
+          name: Authenticate with gcloud and deploy with helm
           command: |
             set -e
             echo $GCP_K8S_CREDENTIALS > /gcp/gcp-credentials.json
