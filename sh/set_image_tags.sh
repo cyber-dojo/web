@@ -47,8 +47,6 @@ set_image_tag()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# tests currently rely on LTFs outside languages-common
-export CYBER_DOJO_LANGUAGES=cyberdojo/languages-all:d996783
 
 echo
 echo "versioner ${CYBER_DOJO_CUSTOM}"
