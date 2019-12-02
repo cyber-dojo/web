@@ -1,6 +1,4 @@
 
-$projector-background: white;
-
 @mixin diff-pre-block
 {
   white-space: pre;
@@ -72,7 +70,8 @@ $projector-background: white;
     }
   }
 
-  #fork-button, #revert-button
+  #fork-button,
+  #revert-button
   {
     @include rounded-corner(4px);
     text-align: left;
@@ -126,7 +125,7 @@ $projector-background: white;
 
     .triangle.button
     {
-      position: relative; top: -2px; //up
+      position: relative; top: -2px; // up
       @include rounded-corner(4px);
       width: 22px;
       height: 22px;
@@ -140,7 +139,8 @@ $projector-background: white;
       }
     }
 
-    #prev-index, #next-index
+    #prev-index,
+    #next-index
     {
       display: inline-block;
       img
@@ -193,41 +193,37 @@ $projector-background: white;
   .diff-line-numbers,
   .diff-sheet
   {
-    :hover { background: darken($projector-background, 20%); }
+    background: $projector-background;
     @include code-font();
         height: 572px;
         margin: 0px;
        padding: 0px;
         cursor: default;
-    ln { margin: { left : 4px; right: 3px; } font-weight: normal; }
+    ln { margin: { left : 1px; right: 3px; } font-weight: normal; }
 
-    added, deleted, same { @include diff-pre-block; }
-    added { color: darken($diff-added-color, 40%); }
-		deleted { color: darken($diff-deleted-color, 30%); }
-		same { color: black; }
+    added, deleted, same
+    {
+      @include diff-pre-block;
+      padding-left: 0px;
+      color: black;
+    }
+    added   { background: $diff-added-line-background; }
+		deleted { background: $diff-deleted-line-background; }
   }
 
   .diff-line-numbers
   {
     background: darken($projector-background, 5%);
-         width: 40px;
+         width: 35px;
     text-align: right;
       overflow: hidden;
-         color: lighten($darker-color, 10%);
         border: none;
-
     border-top-left-radius: 1px;
-    added, deleted { background: darken($projector-background, 12%); }
-    added   { &:after { content: '+'; } }
-    deleted { &:after { content: '-'; } }
-    same    { &:after { content: '='; } }
-    same    { color: lighten($darker-color,20%); }
+    added, deleted, same { color: lighten($darker-color, 50%); }
   }
 
   .diff-sheet
   {
-    background: $projector-background;
-    added, deleted { background: darken($projector-background, 10%); }
          width: 805px;
     text-align: left;
     overflow-x: auto;
@@ -240,10 +236,48 @@ $projector-background: white;
     &::-webkit-scrollbar:horizontal { height: 0px; }
     outline: none;
      border: none;
-    added, deleted, same { padding-left: 3px; }
+
+    added, deleted, same
+    {
+      margin: { left: 1px; right: 3px; }
+      &:before
+      {
+        padding: { left: 3px; right: 3px; }
+      }
+      &:hover:before
+      {
+        border-left: 2px solid darken($projector-background,60%);
+      }
+    }
+
+    added
+    {
+      &:before
+      {
+        content: '+';
+        border-left: 2px solid $diff-added-line-background;
+      }
+    }
+    deleted
+    {
+      &:before
+      {
+        content: '-';
+        border-left: 2px solid $diff-deleted-line-background;
+      }
+    }
+    same
+    {
+      &:before
+      {
+        content: ' ';
+        border-left: 2px solid $projector-background;
+      }
+    }
   }
 
-  .diff-deleted-line-count, .diff-added-line-count
+  .diff-deleted-line-count,
+  .diff-added-line-count
   {
     @include rounded-corner(4px);
     @include right-align(0px);
@@ -269,14 +303,14 @@ $projector-background: white;
 
   .diff-deleted-line-count
   {
-    background: $diff-deleted-color;
-    &[disabled] { color: lighten($diff-deleted-color,5%); }
+    background: $diff-deleted-count-color;
+    &[disabled] { color: lighten($diff-deleted-count-color,5%); }
   }
 
   .diff-added-line-count
   {
-    background: $diff-added-color;
-    &[disabled] { color: lighten($diff-added-color,5%); }
+    background: $diff-added-count-color;
+    &[disabled] { color: lighten($diff-added-count-color,5%); }
   }
 
   .diff-added-line-count, .diff-deleted-line-count

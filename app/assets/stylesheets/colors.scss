@@ -15,5 +15,10 @@ $green: #0F0;
 .timed_out { color: gray; }
 .faulty    { color: darkGray; }
 
-$diff-added-color: lighten($green, 25%);
-$diff-deleted-color: lighten($red, 25%);
+$diff-added-count-color: lighten($green, 25%);
+$diff-deleted-count-color: lighten($red, 25%);
+
+$projector-background: white;
+
+$diff-added-line-background: lighten($green, 45%);
+$diff-deleted-line-background: lighten($red, 45%);

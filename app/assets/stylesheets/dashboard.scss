@@ -16,7 +16,7 @@
     background: lighten($darker-color,8%);
     @include right-align(15px);
     @include plaintext-font();
-    cursor: default;        
+    cursor: default;
     font-size: 13px;
      margin: { bottom: 10px; left: 15px; right: 0px; }
     display: inline-block;
@@ -181,11 +181,11 @@
 
 .traffic-light-diff-tip-line-count-deleted
 {
-  background: $diff-deleted-color;
+  background: $diff-deleted-count-color;
 }
 .traffic-light-diff-tip-line-count-added
 {
-  background: $diff-added-color;
+  background: $diff-added-count-color;
 }
 
 .d-for-days, .m-for-minutes, .h-for-hours
