@@ -199,7 +199,6 @@
         margin: 0px;
        padding: 0px;
         cursor: default;
-    ln { margin: { left : 1px; right: 3px; } font-weight: normal; }
 
     added, deleted, same
     {
@@ -214,12 +213,15 @@
   .diff-line-numbers
   {
     background: darken($projector-background, 5%);
-         width: 35px;
+         width: 40px;
     text-align: right;
       overflow: hidden;
         border: none;
     border-top-left-radius: 1px;
     added, deleted, same { color: lighten($darker-color, 50%); }
+      added:after { content: '+'; }
+    deleted:after { content: '-'; }
+       same:after { content: ' '; }
   }
 
   .diff-sheet
@@ -237,42 +239,13 @@
     outline: none;
      border: none;
 
+      added { border-left: 2px solid $diff-added-line-background; }
+    deleted { border-left: 2px solid $diff-deleted-line-background; }
+       same { border-left: 2px solid $projector-background; }
+
     added, deleted, same
     {
-      margin: { left: 1px; right: 3px; }
-      &:before
-      {
-        padding: { left: 3px; right: 3px; }
-      }
-      &:hover:before
-      {
-        border-left: 2px solid darken($projector-background,60%);
-      }
-    }
-
-    added
-    {
-      &:before
-      {
-        content: '+';
-        border-left: 2px solid $diff-added-line-background;
-      }
-    }
-    deleted
-    {
-      &:before
-      {
-        content: '-';
-        border-left: 2px solid $diff-deleted-line-background;
-      }
-    }
-    same
-    {
-      &:before
-      {
-        content: ' ';
-        border-left: 2px solid $projector-background;
-      }
+      &:hover { border-left: 2px solid darken($projector-background,40%); }
     }
   }
 
