@@ -3,12 +3,12 @@ class ShaController < ApplicationController
 
   def index
     @services = {
+      'custom-start-points'    => info('custom-start-points', custom_start_points.sha),
+      'exercises-start-points' => info('exercises-start-points', exercises_start_points.sha),
+      'languages-start-points' => info('languages-start-points', languages_start_points.sha),
       'avatars'   => info('avatars', avatars.sha),
-      'custom'    => info('custom', custom.sha),
       'differ'    => info('differ', differ.sha),
-      'exercises' => info('exercises', exercises.sha),
-      'languages' => info('languages', languages.sha),
-      'nginx'     => info('nginx', nginx_sha), 
+      'nginx'     => info('nginx', nginx_sha),
       'ragger'    => info('ragger', ragger.sha),
       'runner'    => info('runner', runner.sha),
       'saver'     => info('saver', saver.sha),
