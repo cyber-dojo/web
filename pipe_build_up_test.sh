@@ -3,10 +3,9 @@ set -e
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 readonly SH_DIR="${ROOT_DIR}/sh"
-readonly TAG=latest
 source ${SH_DIR}/cat_env_vars.sh
+export $(cat_env_vars)
 export SHA=$(cd "${ROOT_DIR}" && git rev-parse HEAD)
-export $(cat_env_vars ${TAG})
 source "${SH_DIR}/set_image_tags.sh"
 "${SH_DIR}/docker_containers_down.sh"
 "${SH_DIR}/build_docker_images.sh"
@@ -15,5 +14,5 @@ source "${SH_DIR}/set_image_tags.sh"
 if "${SH_DIR}/run_tests_in_container.sh" "$@"; then
   "${SH_DIR}/docker_containers_down.sh"
 else
-  exit 3
+  exit 4
 fi

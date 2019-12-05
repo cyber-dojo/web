@@ -13,6 +13,9 @@ build_service_image()
         "${1}"
 }
 
+source ${ROOT_DIR}/sh/cat_env_vars.sh
+export $(cat_env_vars ${TAG})
+
 build_service_image web
 
 # Assuming we do not have any new web commits, web's latest commit
