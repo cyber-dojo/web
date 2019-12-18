@@ -10,8 +10,8 @@ RUN chown -R nobody:nogroup .
 # but it currently causes a failure...
 # /usr/lib/ruby/2.5.0/fileutils.rb:232:in `mkdir': Permission denied @ dir_s_mkdir - /cyber-dojo/tmp (Errno::EACCES)
 
-ARG SHA
-ENV SHA=${SHA}
+ARG COMMIT_SHA
+ENV SHA=${COMMIT_SHA}
 
 EXPOSE  3000
 USER nobody

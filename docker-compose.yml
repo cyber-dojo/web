@@ -6,7 +6,7 @@ services:
   web:
     build:
       context: .
-      args: [ SHA ]
+      args: [ COMMIT_SHA ]
     user: nobody
     image: cyberdojo/web
     init: true

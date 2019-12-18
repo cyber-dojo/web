@@ -72,6 +72,7 @@ module TestHexIdHelpers # mix-in
       slow = @@timings.select{ |_name,secs| secs > 0.000 }
       sorted = slow.sort_by{ |name,secs| -secs }.to_h
       size = sorted.size < 5 ? sorted.size : 5
+      puts
       puts "Slowest #{size} tests are..." if size != 0
       sorted.each_with_index { |(name,secs),index|
         puts "%3.4f - %-72s" % [secs,name]
