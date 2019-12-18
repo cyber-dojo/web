@@ -42,14 +42,14 @@ jobs:
           name: Authenticate with gcloud and deploy with helm
           command: |
             set -e
-            echo $GCP_K8S_CREDENTIALS > /gcp/gcp-credentials.json
+            echo ${GCP_K8S_CREDENTIALS} > /gcp/gcp-credentials.json
             gcloud auth activate-service-account \
-              "$SERVICE_ACCOUNT" \
+              "${SERVICE_ACCOUNT}" \
               --key-file=/gcp/gcp-credentials.json
             gcloud container clusters get-credentials \
-              "$CLUSTER" \
-              --zone "$ZONE" \
-              --project "$PROJECT"
+              "${CLUSTER}" \
+              --zone "${ZONE}" \
+              --project "${PROJECT}"
             helm init --client-only
             helm repo add praqma https://praqma-helm-repo.s3.amazonaws.com/
             helm upgrade \
@@ -70,14 +70,14 @@ jobs:
           name: Authenticate with gcloud and deploy with helm
           command: |
             set -e
-            echo $GCP_K8S_CREDENTIALS > /gcp/gcp-credentials.json
+            echo ${GCP_K8S_CREDENTIALS} > /gcp/gcp-credentials.json
             gcloud auth activate-service-account \
-              "$SERVICE_ACCOUNT" \
+              "${SERVICE_ACCOUNT}" \
               --key-file=/gcp/gcp-credentials.json
             gcloud container clusters get-credentials \
-              "$CLUSTER" \
-              --zone "$ZONE" \
-              --project "$PROJECT"
+              "${CLUSTER}" \
+              --zone "${ZONE}" \
+              --project "${PROJECT}"
             helm init --client-only
             helm repo add praqma https://praqma-helm-repo.s3.amazonaws.com/
             helm upgrade \
