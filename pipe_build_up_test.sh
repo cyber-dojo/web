@@ -14,5 +14,5 @@ source "${SH_DIR}/set_image_tags.sh"
 if "${SH_DIR}/run_tests_in_container.sh" "$@"; then
   "${SH_DIR}/docker_containers_down.sh"
 else
-  exit 4
+  exit 42
 fi

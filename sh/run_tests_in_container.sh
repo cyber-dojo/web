@@ -1,5 +1,5 @@
 #!/bin/bash
-#Don't do [set -e] because we want to get coverage stats out
+# Don't do [set -e] because we want to get coverage stats out
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 readonly WEB_CID=$(docker ps --filter status=running --format '{{.Names}}' | grep "^test-web$")
