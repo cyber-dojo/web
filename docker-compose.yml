@@ -27,7 +27,7 @@ services:
 
   custom-start-points:
     user: nobody
-    image: ${CYBER_DOJO_CUSTOM}
+    image: ${CYBER_DOJO_CUSTOM_START_POINTS_IMAGE}:${CYBER_DOJO_CUSTOM_START_POINTS_TAG}
     init: true
     container_name: test-web-custom-start-points
     environment: [ NO_PROMETHEUS ]
@@ -38,7 +38,7 @@ services:
 
   exercises-start-points:
     user: nobody
-    image: ${CYBER_DOJO_EXERCISES}
+    image: ${CYBER_DOJO_EXERCISES_START_POINTS_IMAGE}:${CYBER_DOJO_EXERCISES_START_POINTS_TAG}
     init: true
     container_name: test-web-exercises-start-points
     environment: [ NO_PROMETHEUS ]
@@ -49,7 +49,7 @@ services:
 
   languages-start-points:
     user: nobody
-    image: cyberdojo/languages-start-points-all:latest # tests need all CYBER_DOJO_LANGUAGES=common
+    image: cyberdojo/languages-start-points-all:${CYBER_DOJO_LANGUAGES_START_POINTS_TAG} # tests need -all
     init: true
     container_name: test-web-languages-start-points
     environment: [ NO_PROMETHEUS ]
@@ -62,7 +62,7 @@ services:
 
   avatars:
     user: nobody
-    image: cyberdojo/avatars:${CYBER_DOJO_AVATARS_TAG}
+    image: ${CYBER_DOJO_AVATARS_IMAGE}:${CYBER_DOJO_AVATARS_TAG}
     init: true
     container_name: test-web-avatars
     environment: [ NO_PROMETHEUS ]
@@ -75,7 +75,7 @@ services:
 
   ragger:
     user: nobody
-    image: cyberdojo/ragger:${CYBER_DOJO_RAGGER_TAG}
+    image: ${CYBER_DOJO_RAGGER_IMAGE}:${CYBER_DOJO_RAGGER_TAG}
     init: true
     container_name: test-web-ragger
     environment: [ NO_PROMETHEUS ]
@@ -89,7 +89,7 @@ services:
 
   runner:
     user: root
-    image: cyberdojo/runner:${CYBER_DOJO_RUNNER_TAG}
+    image: ${CYBER_DOJO_RUNNER_IMAGE}:${CYBER_DOJO_RUNNER_TAG}
     init: true
     container_name: test-web-runner
     environment: [ NO_PROMETHEUS ]
@@ -104,7 +104,7 @@ services:
 
   saver:
     user: saver
-    image: cyberdojo/saver:${CYBER_DOJO_SAVER_TAG}
+    image: ${CYBER_DOJO_SAVER_IMAGE}:${CYBER_DOJO_SAVER_TAG}
     init: true
     container_name: test-web-saver
     environment: [ NO_PROMETHEUS ]
@@ -119,7 +119,7 @@ services:
 
   differ:
     user: nobody
-    image: cyberdojo/differ:${CYBER_DOJO_DIFFER_TAG}
+    image: ${CYBER_DOJO_DIFFER_IMAGE}:${CYBER_DOJO_DIFFER_TAG}
     init: true
     container_name: test-web-differ
     environment: [ NO_PROMETHEUS ]
@@ -132,7 +132,7 @@ services:
 
   zipper:
     user: nobody
-    image: cyberdojo/zipper:${CYBER_DOJO_ZIPPER_TAG}
+    image: ${CYBER_DOJO_ZIPPER_IMAGE}:${CYBER_DOJO_ZIPPER_TAG}
     init: true
     container_name: test-web-zipper
     environment: [ NO_PROMETHEUS ]
