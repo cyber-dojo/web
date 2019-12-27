@@ -32,7 +32,7 @@ services:
     container_name: test-web-custom-start-points
     environment: [ NO_PROMETHEUS ]
     read_only: true
-    ports: [ "4526:4526" ]
+    ports: [ "${CYBER_DOJO_CUSTOM_START_POINTS_PORT}:${CYBER_DOJO_CUSTOM_START_POINTS_PORT}" ]
     tmpfs: /tmp
     restart: 'no'
 
@@ -43,7 +43,7 @@ services:
     container_name: test-web-exercises-start-points
     environment: [ NO_PROMETHEUS ]
     read_only: true
-    ports: [ "4525:4525" ]
+    ports: [ "${CYBER_DOJO_EXERCISES_START_POINTS_PORT}:${CYBER_DOJO_EXERCISES_START_POINTS_PORT}" ]
     tmpfs: /tmp
     restart: 'no'
 
@@ -54,7 +54,7 @@ services:
     container_name: test-web-languages-start-points
     environment: [ NO_PROMETHEUS ]
     read_only: true
-    ports: [ "4524:4524" ]
+    ports: [ "${CYBER_DOJO_LANGUAGES_START_POINTS_PORT}:${CYBER_DOJO_LANGUAGES_START_POINTS_PORT}" ]
     tmpfs: /tmp
     restart: 'no'
 
@@ -67,7 +67,7 @@ services:
     container_name: test-web-avatars
     environment: [ NO_PROMETHEUS ]
     read_only: true
-    ports: [ "5027:5027" ]
+    ports: [ "${CYBER_DOJO_AVATARS_PORT}:${CYBER_DOJO_AVATARS_PORT}" ]
     restart: 'no'
     tmpfs: /tmp
 
@@ -80,7 +80,7 @@ services:
     container_name: test-web-ragger
     environment: [ NO_PROMETHEUS ]
     read_only: true
-    ports: [ "5537:5537" ]
+    ports: [ "${CYBER_DOJO_RAGGER_PORT}:${CYBER_DOJO_RAGGER_PORT}" ]
     restart: 'no'
     depends_on: [ runner ]
     tmpfs: /tmp
@@ -94,11 +94,10 @@ services:
     container_name: test-web-runner
     environment: [ NO_PROMETHEUS ]
     read_only: true
-    ports: [ "4597:4597" ]
+    ports: [ "${CYBER_DOJO_RUNNER_PORT}:${CYBER_DOJO_RUNNER_PORT}" ]
     tmpfs: /tmp
     restart: 'no'
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+    volumes: [ "/var/run/docker.sock:/var/run/docker.sock" ]
 
   # - - - - - - - - - - - - - - - -
 
@@ -109,11 +108,9 @@ services:
     container_name: test-web-saver
     environment: [ NO_PROMETHEUS ]
     read_only: true
-    ports: [ "4537:4537" ]
+    ports: [ "${CYBER_DOJO_SAVER_PORT}:${CYBER_DOJO_SAVER_PORT}" ]
     restart: 'no'
-    tmpfs:
-      - /cyber-dojo:uid=19663,gid=65533
-      - /tmp:uid=19663,gid=65533
+    tmpfs: [ "/cyber-dojo:uid=19663,gid=65533", "/tmp:uid=19663,gid=65533" ]
 
   # - - - - - - - - - - - - - - - -
 
@@ -124,7 +121,7 @@ services:
     container_name: test-web-differ
     environment: [ NO_PROMETHEUS ]
     read_only: true
-    ports: [ "4567:4567" ]
+    ports: [ "${CYBER_DOJO_DIFFER_PORT}:${CYBER_DOJO_DIFFER_PORT}" ]
     tmpfs: /tmp
     restart: 'no'
 
@@ -137,7 +134,7 @@ services:
     container_name: test-web-zipper
     environment: [ NO_PROMETHEUS ]
     read_only: true
-    ports: [ "4587:4587" ]
+    ports: [ "${CYBER_DOJO_ZIPPER_PORT}:${CYBER_DOJO_ZIPPER_PORT}" ]
     tmpfs: /tmp
     restart: 'no'
     depends_on: [ saver ]
