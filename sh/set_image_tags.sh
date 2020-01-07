@@ -1,5 +1,5 @@
-#!/bin/bash
-set -e
+#!/bin/bash -Ee
+
 # source this file to set image tags as required by
 # web's docker-compose.yml file which has entries such as:
 # services:
@@ -47,11 +47,6 @@ set_image_tag()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-echo
-echo "versioner ${CYBER_DOJO_CUSTOM}"
-echo "versioner ${CYBER_DOJO_EXERCISES}"
-echo "versioner ${CYBER_DOJO_LANGUAGES}"
 
 echo
 for service in differ ragger runner saver zipper; do

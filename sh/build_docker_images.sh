@@ -1,5 +1,4 @@
-#!/bin/bash
-set -e
+#!/bin/bash -Ee
 
 readonly IMAGE=cyberdojo/web
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
@@ -39,8 +38,8 @@ tag_web_image()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-source ${ROOT_DIR}/sh/cat_env_vars.sh
-export $(cat_env_vars)
+source ${ROOT_DIR}/sh/versioner_env_vars.sh
+export $(versioner_env_vars)
 build_images
 assert_web_image_has_sha_env_var
 tag_web_image
