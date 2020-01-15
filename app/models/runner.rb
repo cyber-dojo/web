@@ -19,9 +19,9 @@ class Runner
 
     result = json['run_cyber_dojo_sh']
 
-    created = result['created']
-    deleted = result['deleted']
-    changed = result['changed']
+    created = result.delete('created')
+    deleted = result.delete('deleted')
+    changed = result.delete('changed')
 
     # If there are newly created 's/s/s' files remove them
     # otherwise they interfere with the pseudo output-files.
