@@ -95,7 +95,6 @@ wait_until_ready languages-start-points 4524
 wait_until_ready runner    4597
 wait_until_ready differ    4567
 wait_until_ready saver     4537
-wait_until_ready ragger    5537
 #wait_until_ready zipper    4587
 
 wait_until_running test-web

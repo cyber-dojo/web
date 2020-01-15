@@ -12,7 +12,7 @@ class RunnerStub
 
   # - - - - - - - - - - - - - - - - -
 
-  def stub_run(stdout, stderr='', status=0, timed_out=false)
+  def stub_run(stdout, stderr='', status=0, timed_out=false, colour='red')
     dir.make
     dir.write(filename, JSON.generate({
       'run_cyber_dojo_sh' => {
@@ -23,7 +23,8 @@ class RunnerStub
         'deleted' => [],
         'changed' => {},
         'timed_out' => timed_out
-      }
+      },
+      'colour' => colour
     }))
   end
 
@@ -33,15 +34,16 @@ class RunnerStub
     if dir.exists?
       JSON.parse(dir.read(filename))
     else
-      { 'run_cyber_dojo_sh' =>
-        { 'stdout' => file('so'),
+      { 'run_cyber_dojo_sh' => {
+          'stdout' => file('so'),
           'stderr' => file('se'),
           'status' => 0,
           'created' => {},
           'deleted' => [],
           'changed' => {},
           'timed_out' => false
-        }
+        },
+        'colour' => 'red'
       }
     end
   end

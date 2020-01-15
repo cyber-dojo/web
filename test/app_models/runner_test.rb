@@ -10,11 +10,11 @@ class RunnerTest < AppModelsTestBase
 
   test '149',
   'red: expected=42, actual=6*9' do
-    ragger.stub_colour('red')
+    runner.stub_run('','',0,timed_out=false,colour='red')
     in_new_kata(kata_params) do |kata|
       result = kata.run_tests
-      assert_equal false, result[0]['timed_out']
-      assert_equal 'red', colour_of(kata, result[0])
+      assert_equal false, result[0]['timed_out'], :timed_out
+      assert_equal 'red', result[0]['colour'], :colour
     end
   end
 
@@ -22,11 +22,11 @@ class RunnerTest < AppModelsTestBase
 
   test '150',
   'amber: expected=42, actual=6*7sss' do
-    ragger.stub_colour('amber')
+    runner.stub_run('','',0,timed_out=false,colour='amber')
     in_new_kata(kata_params) do |kata|
       result = kata.run_tests
-      assert_equal false, result[0]['timed_out']
-      assert_equal 'amber', colour_of(kata, result[0])
+      assert_equal false, result[0]['timed_out'], :timed_out
+      assert_equal 'amber', result[0]['colour'], :colour
     end
   end
 
@@ -34,11 +34,11 @@ class RunnerTest < AppModelsTestBase
 
   test '151',
   'green: expected=42, actual=6*7' do
-    ragger.stub_colour('green')
+    runner.stub_run('','',0,timed_out=false,colour='green')
     in_new_kata(kata_params) do |kata|
       result = kata.run_tests
-      assert_equal false, result[0]['timed_out']
-      assert_equal 'green', colour_of(kata, result[0])
+      assert_equal false, result[0]['timed_out'], :timed_out
+      assert_equal 'green', result[0]['colour'], :colour
     end
   end
 
@@ -49,7 +49,7 @@ class RunnerTest < AppModelsTestBase
     runner.stub_run('','',0,timed_out=true)
     in_new_kata(kata_params) do |kata|
       result = kata.run_tests
-      assert_equal true, result[0]['timed_out']
+      assert_equal true, result[0]['timed_out'], :timed_out
     end
   end
 
@@ -60,13 +60,6 @@ class RunnerTest < AppModelsTestBase
   # TODO: changed files
 
   private
-
-  def colour_of(kata, result)
-    stdout = result['stdout']['content']
-    stderr = result['stderr']['content']
-    status = result['status'].to_i
-    ragger.colour(kata.manifest.image_name, kata.id, stdout, stderr, status)
-  end
 
   def kata_params(kata = katas.new_kata(starter_manifest))
     {

@@ -4,7 +4,7 @@
 # web's docker-compose.yml file which has entries such as:
 # services:
 #   differ:
-#     image: cyberdojo/ragger:${CYBER_DOJO_DIFFER_TAG}
+#     image: ${CYBER_DOJO_DIFFER_IMAGE}:${CYBER_DOJO_DIFFER_TAG}
 
 env_sha()
 {
@@ -49,6 +49,6 @@ set_image_tag()
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 echo
-for service in differ ragger runner saver zipper; do
+for service in differ runner saver zipper; do
   set_image_tag ${service}
 done

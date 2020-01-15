@@ -42,10 +42,6 @@ module Externals # mix-in
     @differ ||= external
   end
 
-  def ragger
-    @ragger ||= external
-  end
-
   def runner
     @runner ||= external
   end

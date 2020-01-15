@@ -12,7 +12,6 @@ module TestExternalHelpers # mix-in
       'LANGUAGES' => ENV['CYBER_DOJO_LANGUAGES_CLASS'],
       'DIFFER'    => ENV['CYBER_DOJO_DIFFER_CLASS'],
       'RUNNER'    => ENV['CYBER_DOJO_RUNNER_CLASS'],
-      'RAGGER'    => ENV['CYBER_DOJO_RAGGER_CLASS'],
       'SAVER'     => ENV['CYBER_DOJO_SAVER_CLASS'],
       'ZIPPER'    => ENV['CYBER_DOJO_ZIPPER_CLASS'],
       'HTTP'      => ENV['CYBER_DOJO_HTTP_CLASS'],
@@ -29,7 +28,6 @@ module TestExternalHelpers # mix-in
     ENV['CYBER_DOJO_LANGUAGES_CLASS'] = @config['LANGUAGES']
     ENV['CYBER_DOJO_DIFFER_CLASS']    = @config['DIFFER']
     ENV['CYBER_DOJO_RUNNER_CLASS']    = @config['RUNNER']
-    ENV['CYBER_DOJO_RAGGER_CLASS']    = @config['RAGGER']
     ENV['CYBER_DOJO_SAVER_CLASS']     = @config['SAVER']
     ENV['CYBER_DOJO_ZIPPER_CLASS']    = @config['ZIPPER']
     ENV['CYBER_DOJO_HTTP_CLASS']      = @config['HTTP']
@@ -59,10 +57,6 @@ module TestExternalHelpers # mix-in
 
   def set_differ_class(name)
     set_class('differ', name)
-  end
-
-  def set_ragger_class(name)
-    set_class('ragger', name)
   end
 
   def set_runner_class(name)

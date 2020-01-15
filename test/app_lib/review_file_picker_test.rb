@@ -11,7 +11,6 @@ class ReviewFilePickerTest < AppLibTestBase
   def hex_setup
     set_differ_class('NotUsed')
     set_runner_class('NotUsed')
-    set_ragger_class('NotUsed')
     @filenameExtension = [ '.h', '.c' ]
     @n = -1
   end

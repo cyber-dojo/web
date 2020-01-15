@@ -9,7 +9,6 @@ class ShaController < ApplicationController
       'avatars'   => info('avatars', avatars.sha),
       'differ'    => info('differ', differ.sha),
       'nginx'     => info('nginx', nginx_sha),
-      'ragger'    => info('ragger', ragger.sha),
       'runner'    => info('runner', runner.sha),
       'saver'     => info('saver', saver.sha),
       'web'       => info('web', web_sha),
