@@ -1,6 +1,6 @@
 # frozen_string_literal: true
-
-require_relative 'http_json/service'
+require_relative 'http_json/requester'
+require_relative 'http_json/responder'
 
 class CustomStartPointsService
 
@@ -11,7 +11,8 @@ class CustomStartPointsService
   end
 
   def initialize(externals)
-    @http = HttpJson::service(externals.http, 'custom-start-points', 4526, Error)
+    requester = HttpJson::Requester.new(externals.http, 'custom-start-points', 4526)
+    @http = HttpJson::Responder.new(requester, Error, {keyed:true})
   end
 
   def ready?

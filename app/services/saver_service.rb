@@ -1,6 +1,6 @@
 # frozen_string_literal: true
-
-require_relative 'http_json/service'
+require_relative 'http_json/requester'
+require_relative 'http_json/responder'
 
 class SaverService
 
@@ -11,7 +11,8 @@ class SaverService
   end
 
   def initialize(externals)
-    @http = HttpJson::service(externals.http, 'saver', 4537, Error)
+    requester = HttpJson::Requester.new(externals.http, 'saver', 4537)
+    @http = HttpJson::Responder.new(requester, Error, {keyed:true})
   end
 
   def ready?

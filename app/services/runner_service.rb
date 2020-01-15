@@ -1,6 +1,6 @@
 # frozen_string_literal: true
-
-require_relative 'http_json/service'
+require_relative 'http_json/requester'
+require_relative 'http_json/responder'
 
 class RunnerService
 
@@ -11,7 +11,8 @@ class RunnerService
   end
 
   def initialize(externals)
-    @http = HttpJson::service(externals.http, 'runner', 4597, Error)
+    requester = HttpJson::Requester.new(externals.http, 'runner', 4597)
+    @http = HttpJson::Responder.new(requester, Error, {keyed:true})
   end
 
   def ready?

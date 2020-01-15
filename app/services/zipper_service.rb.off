@@ -1,11 +1,12 @@
 # frozen_string_literal: true
-
-require_relative 'http_helper'
+require_relative 'http_json/requester'
+require_relative 'http_json/responder'
 
 class ZipperService
 
   def initialize(externals)
-    @http = HttpHelper.new(externals, self, 'zipper', 4587)
+    requester = HttpJson::Requester.new(externals.http, 'zipper', 4587)
+    @http = HttpJson::Responder.new(requester, Error, {keyed:true})
   end
 
   def sha
