@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
 require_relative 'http_json/service'
-require_relative 'http_json/error'
 
 class CustomStartPointsService
 
-  class Error < HttpJson::Error
+  class Error < RuntimeError
     def initialize(message)
       super
     end
