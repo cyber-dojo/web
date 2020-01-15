@@ -9,6 +9,8 @@ class Runner
     @externals = externals
   end
 
+  # - - - - - - - - - - - - - - -
+
   def run(params)
     image_name = params[:image_name]
     id = params[:id]
@@ -18,6 +20,7 @@ class Runner
     json = runner.run_cyber_dojo_sh(image_name, id, plain(files), max_seconds)
 
     result = json.delete('run_cyber_dojo_sh')
+    result['colour'] = json.delete('colour')
 
     created = result.delete('created')
     deleted = result.delete('deleted')
@@ -59,20 +62,28 @@ class Runner
     end.to_h
   end
 
+  # - - - - - - - - - - - - - - -
+
   def plain(files)
     files.map do |filename,file|
       [filename, file['content']]
     end.to_h
   end
 
+  # - - - - - - - - - - - - - - -
+
   def output_filenames
     %w( stdout stderr status )
   end
+
+  # - - - - - - - - - - - - - - -
 
   def sanitized(content)
     max_file_size = 50 * 1024
     content[0..max_file_size]
   end
+
+  # - - - - - - - - - - - - - - -
 
   def runner
     @externals.runner

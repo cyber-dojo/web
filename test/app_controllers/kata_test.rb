@@ -57,7 +57,6 @@ class KataControllerTest  < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '223', %w( red-green-amber ) do
-    set_ragger_class('RaggerService')
     in_kata do |kata|
       post_run_tests
       assert_equal :red, kata.lights[-1].colour
@@ -67,19 +66,6 @@ class KataControllerTest  < AppControllerTestBase
       change_file('hiker.rb', 'syntax-error')
       post_run_tests
       assert_equal :amber, kata.lights[-1].colour
-    end
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'c24', %w(
-  Raggerservice::Error gracefully degrades [test] to 'faulty' colour
-  ) do
-    set_runner_class('RunnerStub')
-    set_ragger_class('RaggerExceptionRaiser')
-    in_kata do |kata|
-      post_run_tests
-      assert_equal :faulty, kata.lights[-1].colour
     end
   end
 

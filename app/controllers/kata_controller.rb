@@ -36,8 +36,10 @@ class KataController < ApplicationController
 
   def run_tests
     t1 = time.now
-
     result,files,@created,@deleted,@changed = kata.run_tests
+    t2 = time.now
+    duration = Time.mktime(*t2) - Time.mktime(*t1)
+
     @stdout = result['stdout']
     @stderr = result['stderr']
     @status = result['status']
@@ -45,23 +47,17 @@ class KataController < ApplicationController
     if result['timed_out']
       colour = 'timed_out'
     else
-      args = [params['image_name'], kata.id]
-      args += [@stdout['content'], @stderr['content'], @status.to_i]
-      begin
-        colour = ragger.colour(*args)
-      rescue RaggerService::Error
-        colour = 'faulty'
-        # TODO: @message on footer...
-      end
+      colour = result['colour']
+      # TODO: if colour==faulty, do popup in browser
+      #       populate the pop-up with result['diagnostic']
+      #       line-formatted like image_hiker does.
     end
 
-    t2 = time.now
-    duration = Time.mktime(*t2) - Time.mktime(*t1)
     index = params[:index].to_i + 1
     args = []
     args << index                       # index of traffic-light event
-    args << files                       # including @created,@deleted,@changed
-    args += [t1,duration]               # how long runner+ragger took
+    args << files                       # includes @created,@deleted,@changed
+    args += [t1,duration]               # how long runner took
     args += [@stdout, @stderr, @status] # output of [test] kata.run_tests()
     args << colour
     begin

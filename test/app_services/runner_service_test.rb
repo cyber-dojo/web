@@ -39,14 +39,14 @@ class RunnerServiceTest < AppServicesTestBase
   'run() tests expecting 42 actual 6*9' do
     in_new_kata { |kata|
       json = runner.run_cyber_dojo_sh(*run_args(kata))
-      result = json['run_cyber_dojo_sh']
-      stdout = result['stdout']['content']
-      # output == Ruby, MiniTest
-      assert stdout.include?('Expected: 42'), result
-      assert stdout.include?('  Actual: 54'), result
-      assert_equal '', result['stderr']['content'], result
-      assert_equal 1, result['status'], result
-      refute result['timed_out'], result
+      pkey = 'run_cyber_dojo_sh'
+      stdout = json[pkey]['stdout']['content']
+      assert stdout.include?('Expected: 42'), json
+      assert stdout.include?('  Actual: 54'), json
+      assert_equal '', json[pkey]['stderr']['content'], json
+      assert_equal 1, json[pkey]['status'], json
+      assert_equal false, json[pkey]['timed_out'], json
+      assert_equal 'red', json['colour'], json
     }
   end
 
