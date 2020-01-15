@@ -41,4 +41,10 @@ class AppServicesTestBase < TestBase
     assert actual.start_with?(content), diagnostic
   end
 
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def set_http(klass)
+    @http = klass
+  end
+
 end

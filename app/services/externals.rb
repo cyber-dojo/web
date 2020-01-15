@@ -14,6 +14,10 @@ module Externals # mix-in
     @time ||= TimeAdapter.new
   end
 
+  def http
+    @http ||= Net::HTTP
+  end
+
   # - - - - - - - - - - - - - - -
 
   def custom_start_points
@@ -53,13 +57,6 @@ module Externals # mix-in
   #def zipper
   #  @zipper ||= external
   #end
-
-  def http
-    @http ||= Net::HTTP
-  end
-  def set_http(klass)
-    @http = klass
-  end
 
   private # = = = = = = = = =
 
