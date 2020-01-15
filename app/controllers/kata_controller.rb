@@ -34,38 +34,6 @@ class KataController < ApplicationController
 
   # - - - - - - - - - - - - - - - - - -
 
-=begin
-  def edit_offline
-    manifest = starter_manifest
-    @id = '999999'
-    @title = "kata: #{@id}"
-    # who
-    @avatar_name = ''
-    @avatar_index = nil
-    @group_id = nil
-    # no previous lights
-    @lights = []
-    @last_index = 0
-    # no previous files
-    @files = manifest['visible_files']
-    # required parameters
-    @image_name = manifest['image_name']
-    @filename_extension = manifest['filename_extension']
-    # optional parameters
-    @hidden_filenames = manifest['hidden_filenames'] || []
-    @highlight_filenames = manifest['highlight_filenames'] || []
-    @max_seconds = manifest['max_seconds'] || 10
-    @tab_size = manifest['tab_size'] || 4
-    # footer info
-    @display_name = manifest['display_name']
-    @exercise = manifest['exercise']
-    # TODO: Turn off traffic-light click opens diff review
-    # TODO: Turn off traffic-lights tool-tip
-  end
-=end
-
-  # - - - - - - - - - - - - - - - - - -
-
   def run_tests
     t1 = time.now
 
@@ -112,6 +80,8 @@ class KataController < ApplicationController
     end
   end
 
+  # - - - - - - - - - - - - - - - - - -
+
   def show_json
     # https://atom.io/packages/cyber-dojo
     render :json => {
@@ -132,7 +102,37 @@ class KataController < ApplicationController
     }
   end
 
+end
+
 =begin
+  def edit_offline
+    manifest = starter_manifest
+    @id = '999999'
+    @title = "kata: #{@id}"
+    # who
+    @avatar_name = ''
+    @avatar_index = nil
+    @group_id = nil
+    # no previous lights
+    @lights = []
+    @last_index = 0
+    # no previous files
+    @files = manifest['visible_files']
+    # required parameters
+    @image_name = manifest['image_name']
+    @filename_extension = manifest['filename_extension']
+    # optional parameters
+    @hidden_filenames = manifest['hidden_filenames'] || []
+    @highlight_filenames = manifest['highlight_filenames'] || []
+    @max_seconds = manifest['max_seconds'] || 10
+    @tab_size = manifest['tab_size'] || 4
+    # footer info
+    @display_name = manifest['display_name']
+    @exercise = manifest['exercise']
+    # TODO: Turn off traffic-light click opens diff review
+    # TODO: Turn off traffic-lights tool-tip
+  end
+
   def starter_manifest
     exercise_name = params['exercise']
     em = exercises.manifest(exercise_name)
@@ -144,5 +144,3 @@ class KataController < ApplicationController
     manifest
   end
 =end
-
-end

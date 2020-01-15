@@ -25,12 +25,12 @@ class RunnerServiceTest < AppServicesTestBase
 
   test '74F',
   'smoke test sha' do
-    assert_sha(runner.sha)
+    assert_sha(runner.sha['sha'])
   end
 
   test '3A8',
   'smoke test ready?' do
-    assert runner.ready?
+    assert runner.ready?['ready?']
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -38,7 +38,8 @@ class RunnerServiceTest < AppServicesTestBase
   test '812',
   'run() tests expecting 42 actual 6*9' do
     in_new_kata { |kata|
-      result = runner.run_cyber_dojo_sh(*run_args(kata))
+      json = runner.run_cyber_dojo_sh(*run_args(kata))
+      result = json['run_cyber_dojo_sh']
       stdout = result['stdout']['content']
       # output == Ruby, MiniTest
       assert stdout.include?('Expected: 42'), result
@@ -63,7 +64,8 @@ class RunnerServiceTest < AppServicesTestBase
         files,
         kata.manifest.max_seconds
       ]
-      result = runner.run_cyber_dojo_sh(*args)
+      json = runner.run_cyber_dojo_sh(*args)
+      result = json['run_cyber_dojo_sh']
       assert_equal ['readme.txt'], result['deleted']
     }
   end

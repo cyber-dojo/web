@@ -12,7 +12,7 @@ class RunnerService
 
   def initialize(externals)
     requester = HttpJson::Requester.new(externals.http, 'runner', 4597)
-    @http = HttpJson::Responder.new(requester, Error, {keyed:true})
+    @http = HttpJson::Responder.new(requester, Error, {keyed:false})
   end
 
   def ready?

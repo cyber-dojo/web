@@ -15,6 +15,7 @@ class RunnerStub
   def stub_run(stdout, stderr='', status=0, timed_out=false)
     dir.make
     dir.write(filename, JSON.generate({
+      'run_cyber_dojo_sh' => {
         'stdout' => file(stdout),
         'stderr' => file(stderr),
         'status' => status,
@@ -22,20 +23,25 @@ class RunnerStub
         'deleted' => [],
         'changed' => {},
         'timed_out' => timed_out
+      }
     }))
   end
+
+  # - - - - - - - - - - - - - - - - -
 
   def run_cyber_dojo_sh(_image_name, _kata_id, _files, _max_seconds)
     if dir.exists?
       JSON.parse(dir.read(filename))
     else
-      { 'stdout' => file('so'),
-        'stderr' => file('se'),
-        'status' => 0,
-        'created' => {},
-        'deleted' => [],
-        'changed' => {},
-        'timed_out' => false
+      { 'run_cyber_dojo_sh' =>
+        { 'stdout' => file('so'),
+          'stderr' => file('se'),
+          'status' => 0,
+          'created' => {},
+          'deleted' => [],
+          'changed' => {},
+          'timed_out' => false
+        }
       }
     end
   end

@@ -15,15 +15,15 @@ class Runner
     files = files_from(params)
     max_seconds = params[:max_seconds].to_i
 
-    result =
-      runner.run_cyber_dojo_sh(
-        image_name, id, plain(files), max_seconds)
+    json = runner.run_cyber_dojo_sh(image_name, id, plain(files), max_seconds)
+
+    result = json['run_cyber_dojo_sh']
 
     created = result['created']
     deleted = result['deleted']
     changed = result['changed']
 
-    # If there are newly created 'output' files remove them
+    # If there are newly created 's/s/s' files remove them
     # otherwise they interfere with the pseudo output-files.
     output_filenames.each do |output_filename|
       created.delete(output_filename)

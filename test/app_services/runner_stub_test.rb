@@ -19,7 +19,8 @@ class RunnerStubTest < AppServicesTestBase
   'status defaulted to stub zero and',
   'timed_out defaulted to false' do
     runner.stub_run(expected='syntax error line 1')
-    result = runner.run_cyber_dojo_sh(*unused_args)
+    json = runner.run_cyber_dojo_sh(*unused_args)
+    result = json['run_cyber_dojo_sh']
     assert_equal expected, result['stdout']['content']
     assert_equal '', result['stderr']['content']
     assert_equal 0, result['status']
@@ -36,7 +37,8 @@ class RunnerStubTest < AppServicesTestBase
     args << (status=2)
     args << (timed_out=true)
     runner.stub_run(*args)
-    result = runner.run_cyber_dojo_sh(*unused_args)
+    json = runner.run_cyber_dojo_sh(*unused_args)
+    result = json['run_cyber_dojo_sh']
     assert_equal stdout, result['stdout']['content']
     assert_equal stderr, result['stderr']['content']
     assert_equal status, result['status']
@@ -47,7 +49,8 @@ class RunnerStubTest < AppServicesTestBase
 
   test '97A',
   'run without preceeding stub returns so/se/0/false' do
-    result = runner.run_cyber_dojo_sh(*unused_args)
+    json = runner.run_cyber_dojo_sh(*unused_args)
+    result = json['run_cyber_dojo_sh']
     assert_equal 'so', result['stdout']['content']
     assert_equal 'se', result['stderr']['content']
     assert_equal 0, result['status']
@@ -60,11 +63,12 @@ class RunnerStubTest < AppServicesTestBase
   'stub set in one thread has to be visible in another thread',
   'because app_controller methods are routed into a new thread' do
     runner.stub_run(expected='syntax error line 1')
-    result = nil
+    json = nil
     tid = Thread.new {
-      result = runner.run_cyber_dojo_sh(*unused_args)
+      json = runner.run_cyber_dojo_sh(*unused_args)
     }
     tid.join
+    result = json['run_cyber_dojo_sh']
     assert_equal expected, result['stdout']['content']
   end
 
