@@ -17,7 +17,7 @@ class Runner
 
     json = runner.run_cyber_dojo_sh(image_name, id, plain(files), max_seconds)
 
-    result = json['run_cyber_dojo_sh']
+    result = json.delete('run_cyber_dojo_sh')
 
     created = result.delete('created')
     deleted = result.delete('deleted')
