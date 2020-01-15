@@ -78,8 +78,7 @@ module DashboardWorker # mixin
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def most_recent_progress(kata)
-    regexs = kata.manifest.progress_regexs
-    non_amber = kata.lights.reverse.find{ |light|
+    non_amber = kata.lights.reverse.find { |light|
       [:red,:green].include?(light.colour)
     }
     if non_amber
@@ -87,9 +86,10 @@ module DashboardWorker # mixin
     else
       output = ''
     end
-    matches = regexs.map { |regex|
-      Regexp.new(regex).match(output)
-    }
+
+    regexs = kata.manifest.progress_regexs
+    matches = regexs.map { |regex| Regexp.new(regex).match(output) }
+    
     {
         text: matches.join,
       colour: (matches[0] != nil ? 'red' : 'green')

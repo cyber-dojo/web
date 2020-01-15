@@ -86,6 +86,35 @@ class DashboardControllerTest < AppControllerTestBase
     progress
   end
 
+  #- - - - - - - - - - - - - - - -
+
+  test '975', %w(
+  progress with avatar's having only amber traffic-lights
+  ) do
+    set_runner_class('RunnerService')
+    [0,1].each do |version|
+      @version = version
+      options = {
+             version:version,
+        display_name:'Python, unittest'
+      }
+      in_group(options) do |group|
+        @gid = group.id
+        2.times {
+          kata = assert_join(@gid)
+          @id = kata.id
+          @files = plain(ambered(kata.files))
+          @index = 0
+          post_run_tests
+          assert_equal 1, kata.lights.size
+        }
+      end
+      dashboard
+      heartbeat
+      progress
+    end
+  end
+
   private # = = = = = = = = = = = = = =
 
   def dashboard(params = {})
@@ -103,6 +132,11 @@ class DashboardControllerTest < AppControllerTestBase
   def progress
     params = { id:@gid, version:@version }
     get '/dashboard/progress', params:params, as: :json
+  end
+
+  def ambered(files)
+    files['hiker.py']['content'] = files['hiker.py']['content'].sub('6 * 9', '6 * 9ssss')
+    files
   end
 
 end
