@@ -8,33 +8,9 @@ class RunnerTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '149',
-  'red: expected=42, actual=6*9' do
-    runner.stub_run('','',0,timed_out=false,colour='red')
-    in_new_kata(kata_params) do |kata|
-      result = kata.run_tests
-      assert_equal false, result[0]['timed_out'], :timed_out
-      assert_equal 'red', result[0]['colour'], :colour
-    end
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '150',
-  'amber: expected=42, actual=6*7sss' do
-    runner.stub_run('','',0,timed_out=false,colour='amber')
-    in_new_kata(kata_params) do |kata|
-      result = kata.run_tests
-      assert_equal false, result[0]['timed_out'], :timed_out
-      assert_equal 'amber', result[0]['colour'], :colour
-    end
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test '151',
   'green: expected=42, actual=6*7' do
-    runner.stub_run('','',0,timed_out=false,colour='green')
+    runner.stub_run(colour:'green')
     in_new_kata(kata_params) do |kata|
       result = kata.run_tests
       assert_equal false, result[0]['timed_out'], :timed_out
@@ -46,7 +22,7 @@ class RunnerTest < AppModelsTestBase
 
   test '152',
   'timed_out: infinite loop' do
-    runner.stub_run('','',0,timed_out=true)
+    runner.stub_run(timed_out:true)
     in_new_kata(kata_params) do |kata|
       result = kata.run_tests
       assert_equal true, result[0]['timed_out'], :timed_out

@@ -12,19 +12,24 @@ class RunnerStub
 
   # - - - - - - - - - - - - - - - - -
 
-  def stub_run(stdout, stderr='', status=0, timed_out=false, colour='red')
+  def stub_run(stub = {})
+    stub[:stdout] ||= ''
+    stub[:stderr] ||= ''
+    stub[:status] ||= 0
+    stub[:timed_out] ||= false
+    stub[:colour] ||= 'red'
     dir.make
     dir.write(filename, JSON.generate({
       'run_cyber_dojo_sh' => {
-        'stdout' => file(stdout),
-        'stderr' => file(stderr),
-        'status' => status,
+        'stdout' => file(stub[:stdout]),
+        'stderr' => file(stub[:stderr]),
+        'status' => stub[:status],
         'created' => {},
         'deleted' => [],
         'changed' => {},
-        'timed_out' => timed_out
+        'timed_out' => stub[:timed_out]
       },
-      'colour' => colour
+      'colour' => stub[:colour]
     }))
   end
 
