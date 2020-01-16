@@ -125,12 +125,12 @@ input#new-filename, input#rename-filename, input#delete-filename
   font-size: 12px;
 }
 
-#timed-out
+#timed-out, #faulty
 {
-  width: 480px;
-  height: 120px;
+  width: 550px;
+  height: 240px;
   background: gray;
-  font-size: 18px;
+  font-size: 14px;
 }
 
 //==================================================

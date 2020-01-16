@@ -48,9 +48,10 @@ class KataController < ApplicationController
       colour = 'timed_out'
     else
       colour = result['colour']
-      # TODO: if colour==faulty, do popup in browser
-      #       populate the pop-up with result['diagnostic']
-      #       line-formatted like image_hiker does.
+    end
+
+    if colour === 'faulty'
+      @diagnostic = JSON.pretty_generate(result['diagnostic'])
     end
 
     index = params[:index].to_i + 1

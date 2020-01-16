@@ -16,7 +16,6 @@ const updateEventIndex = () => {
 };
 
 //- - - - - - - - - - - - - - - - - - - - - -
-
 const insertCreatedFiles = () => {
   <% @created.each do |filename,file| %>
     cd.fileCreate("<%= j raw(filename) %>", {
@@ -48,7 +47,6 @@ const updateOutput = () => {
 };
 
 //- - - - - - - - - - - - - - - - - - - - - -
-
 const warnIfTestsTimedOut = () => {
   if ("<%= @light.colour %>" === 'timed_out') {
     const maxSeconds = $('input[name="max_seconds"]').val();
@@ -62,6 +60,19 @@ const warnIfTestsTimedOut = () => {
         'readonly':'readonly'
     }).val(info);
     cd.dialog(html, 'timed out', 'close').dialog('open');
+  }
+};
+
+//- - - - - - - - - - - - - - - - - - - - - -
+const warnIfTrafficLightFaulty = () => {
+  if ("<%= @light.colour %>" === 'faulty') {
+    const info = `<%= raw @diagnostic %>`;
+    const html = $('<textarea>', {
+       'data-width':600,
+               'id':'faulty',
+         'readonly':'readonly'
+    }).val(info);
+    cd.dialog(html, 'faulty traffic-light', 'close').dialog('open');
   }
 };
 
@@ -81,7 +92,7 @@ updateOutput(); // stdout,stderr,status Must be last
 //- - - - - - - - - - - - - - - - - - - - - -
 // Warnings
 warnIfTestsTimedOut();
-//warnIfTrafficLightFaulty();
+warnIfTrafficLightFaulty();
 //warnIfTruncatedFiles();
 
 cd.scrollLastTrafficLightIntoView();

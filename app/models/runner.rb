@@ -20,7 +20,11 @@ class Runner
     json = runner.run_cyber_dojo_sh(image_name, id, plain(files), max_seconds)
 
     result = json.delete('run_cyber_dojo_sh')
-    result['colour'] = json.delete('colour')
+    colour = json.delete('colour')
+    result['colour'] = colour
+    if colour === 'faulty'
+      result['diagnostic'] = json.delete('diagnostic')
+    end
 
     created = result.delete('created')
     deleted = result.delete('deleted')

@@ -168,10 +168,10 @@ end
 #- - - - - - - - - - - - - - - - - - - - -
 
 def coverage(stats, name)
-  if name === 'app_models'
-    min = 90
-  else
-    min = 100
+  min = case name
+  when 'app_models' then 93
+  when 'app_controllers' then 99
+  else 100
   end
   percent = stats[name][:coverage]
   [ "#{name} coverage >= #{min}", percent.to_f >= min ]
