@@ -9,7 +9,7 @@ class ShaController < ApplicationController
       'avatars'   => info('avatars', avatars.sha),
       'differ'    => info('differ', differ.sha),
       'nginx'     => info('nginx', nginx_sha),
-      'runner'    => info('runner', runner.sha),
+      'runner'    => info('runner', runner.sha['sha']),
       'saver'     => info('saver', saver.sha),
       'web'       => info('web', web_sha),
       # 'zipper'    => info('zipper', zipper.sha)
