@@ -17,11 +17,10 @@
 
 !/.dockerignore
 !/.gitignore
-!/.travis.yml
 !/config.ru
 !/docker-compose.yml
 !/Dockerfile
-!/pipe_build_up_test.sh
+!/build_test_tag_publish.sh
 !/up.sh
 !/LICENSE.md
 !/README.md
