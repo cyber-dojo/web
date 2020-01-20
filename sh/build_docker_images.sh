@@ -31,17 +31,5 @@ assert_web_image_has_sha_env_var()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-tag_web_image()
-{
-  local -r tag=${COMMIT_SHA:0:7}
-  docker tag ${IMAGE}:latest ${IMAGE}:${tag}
-  echo "${COMMIT_SHA}"
-  echo "${tag}"
-}
-
-# - - - - - - - - - - - - - - - - - - - - - - - -
-source ${ROOT_DIR}/sh/versioner_env_vars.sh
-export $(versioner_env_vars)
 build_images
 assert_web_image_has_sha_env_var
-tag_web_image

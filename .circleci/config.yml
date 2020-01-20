@@ -1,37 +1,13 @@
 version: 2
 jobs:
   build-publish:
-
     machine:
       image: ubuntu-1604:201903-01
-
-    working_directory: ~/repo
-
     steps:
       - checkout
       - run:
-          name: Build tested tagged docker image
-          command: |
-            set -e
-            ./pipe_build_up_test.sh
-      - run:
-          name: Publish tagged docker image on dockerhub
-          command: |
-            set -e
-            declare -r NAME="${CIRCLE_PROJECT_REPONAME}"
-            declare -r SHA="${CIRCLE_SHA1}"
-            echo "${DOCKER_PASS}" | docker login -u "${DOCKER_USER}" --password-stdin
-            docker push cyberdojo/${NAME}:${SHA:0:7}
-            docker push cyberdojo/${NAME}:latest
-            docker logout
-      - run:
-          name: Trigger dependent repos
-          command: |
-            set -e
-            TRIGGER=trigger-dependent-repos.sh
-            curl -O --fail ${CIRCLECI_SCRIPT_DIR}/${TRIGGER}
-            chmod 700 ./${TRIGGER}
-            # ./${TRIGGER} commander # off. Needs authentication.
+          name: Build, test, tag, publish docker image
+          command: ./build_test_tag_publish.sh
 
   deploy-to-beta:
     docker:
