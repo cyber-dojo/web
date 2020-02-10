@@ -16,7 +16,6 @@ class KataController < ApplicationController
     @group_id = kata.group.id
     # previous traffic-light-lights
     @lights = kata.lights
-    @last_index = kata.events.last.index
     # most recent files
     @files = kata.files(:with_output)
     # required parameters
@@ -112,7 +111,6 @@ end
     @group_id = nil
     # no previous lights
     @lights = []
-    @last_index = 0
     # no previous files
     @files = manifest['visible_files']
     # required parameters

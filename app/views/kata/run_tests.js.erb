@@ -11,10 +11,6 @@ const updateTrafficLightCount = () => {
   $('#traffic-lights-count-box').html(count);
 };
 
-const updateEventIndex = () => {
-  cd.setEventIndex("<%= @light.index %>");
-};
-
 //- - - - - - - - - - - - - - - - - - - - - -
 const insertCreatedFiles = () => {
   <% @created.each do |filename,file| %>
@@ -77,17 +73,16 @@ const warnIfTrafficLightFaulty = () => {
 };
 
 //- - - - - - - - - - - - - - - - - - - - - -
-// Update changed controls
+// Update traffic-lights
 appendTestTrafficLight();
 updateTrafficLightCount();
-updateEventIndex();
 
 //- - - - - - - - - - - - - - - - - - - - - -
 // Update changed files
 insertCreatedFiles();
 removeDeletedFiles();
 updateChangedFiles();
-updateOutput(); // stdout,stderr,status Must be last
+updateOutput(); // [stdout,stderr,status] Must be last
 
 //- - - - - - - - - - - - - - - - - - - - - -
 // Warnings
