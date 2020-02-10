@@ -206,7 +206,7 @@ class KataControllerTest  < AppControllerTestBase
     filename = 'stderr'
     id = in_kata do |kata|
       script = kata.files['cyber-dojo.sh']['content']
-      script += "\necho -n Hello > #{filename}"
+      script += "\nprintf Hello > #{filename}"
       change_file('cyber-dojo.sh', script)
       post_run_tests
       kata.id
@@ -214,7 +214,7 @@ class KataControllerTest  < AppControllerTestBase
     kata = katas[id]
     filenames = kata.files.keys.sort
     refute filenames.include?(filename), filenames
-    assert_equal '', kata.lights[-1].stderr['content']
+    refute_equal 'Hello', kata.lights[-1].stderr['content']
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
