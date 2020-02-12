@@ -163,6 +163,8 @@ var cyberDojo = ((cd, $) => {
         return 'text/x-python';
       case '.rb':
         return 'text/x-ruby';
+      case '.rs':
+        return 'text/x-rustsrc';      
       case '.sh':
         return 'text/x-sh';
       case '.vb':
