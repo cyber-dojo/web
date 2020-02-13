@@ -68,7 +68,7 @@ class LanguagesStartPointsServiceTest < AppServicesTestBase
       "C (clang), Cgreen", "C (clang), assert", "C (gcc), Cgreen",
       "C (gcc), CppUTest", "C (gcc), GoogleTest", "C (gcc), assert",
       "C#, Moq", "C#, NUnit", "C#, SpecFlow", "C++ (clang++), Cgreen",
-      "C++ (clang++), Catch", "C++ (clang++), GoogleMock", "C++ (clang++), GoogleTest", 
+      "C++ (clang++), Catch", "C++ (clang++), GoogleMock", "C++ (clang++), GoogleTest",
       "C++ (clang++), Igloo", "C++ (clang++), assert", "C++ (g++), Boost.Test",
       "C++ (g++), Catch", "C++ (g++), Cgreen", "C++ (g++), CppUTest",
       "C++ (g++), Cucumber-cpp", "C++ (g++), GoogleMock", "C++ (g++), GoogleTest",
@@ -86,7 +86,7 @@ class LanguagesStartPointsServiceTest < AppServicesTestBase
       "Python, behave", "Python, pytest", "Python, unittest", "R, RUnit",
       "Ruby, Approval", "Ruby, Cucumber", "Ruby, MiniTest", "Ruby, RSpec",
       "Ruby, Test::Unit", "Rust, test", "Swift, Swordfish", "Swift, XCTest",
-      "VHDL, assert", "VisualBasic, NUnit"
+      "VHDL, assert", "VisualBasic, NUnit", "Zig, test"
     ]
   end
 

@@ -50,7 +50,7 @@ class LanguagesFake
       "Python, behave", "Python, pytest", "Python, unittest", "R, RUnit",
       "Ruby, Approval", "Ruby, Cucumber", "Ruby, MiniTest", "Ruby, RSpec",
       "Ruby, Test::Unit", "Rust, test", "Swift, Swordfish", "Swift, XCTest",
-      "VHDL, assert", "VisualBasic, NUnit"
+      "VHDL, assert", "VisualBasic, NUnit", "Zig, test"
     ]
 
   RUBY_MINITEST_MANIFEST = {
