@@ -1,10 +1,14 @@
 #!/bin/sh
 set -e
 
-# See https://github.com/docker/compose/issues/1393
-# See http://stackoverflow.com/questions/35022428
+# [1] https://github.com/docker/compose/issues/1393
+# [1] http://stackoverflow.com/questions/35022428
 readonly WEB_HOME=/cyber-dojo
-rm -f ${WEB_HOME}/tmp/pids/server.pid
+rm -f ${WEB_HOME}/tmp/pids/server.pid # [1]
+
+export CYBER_DOJO_CREATOR_CLASS=CustomCreatorService
+
+export CYBER_DOJO_CUSTOM_CHOOSER_CLASS=CustomChooserService
 
 export CYBER_DOJO_CUSTOM_START_POINTS_CLASS=CustomStartPointsService
 export CYBER_DOJO_EXERCISES_START_POINTS_CLASS=ExercisesStartPointsService

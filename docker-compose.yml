@@ -13,14 +13,40 @@ services:
     container_name: test-web
     restart: 'no'
     depends_on:
+      - creator
       - avatars
+      - custom-chooser
       - custom-start-points
       - exercises-start-points
       - languages-start-points
       - differ
       - runner
       - saver
-      - zipper
+      #- zipper
+
+  # - - - - - - - - - - - - - - - -
+  creator:
+    user: nobody
+    image: ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}
+    init: true
+    container_name: test-web-creator
+    environment: [ NO_PROMETHEUS ]
+    read_only: true
+    ports: [ "${CYBER_DOJO_CREATOR_PORT}:${CYBER_DOJO_CREATOR_PORT}" ]
+    tmpfs: /tmp
+    restart: 'no'
+
+  # - - - - - - - - - - - - - - - -
+  custom-chooser:
+    user: nobody
+    image: ${CYBER_DOJO_CUSTOM_CHOOSER_IMAGE}:${CYBER_DOJO_CUSTOM_CHOOSER_TAG}
+    init: true
+    container_name: test-web-custom-chooser
+    environment: [ NO_PROMETHEUS ]
+    read_only: true
+    ports: [ "${CYBER_DOJO_CUSTOM_CHOOSER_PORT}:${CYBER_DOJO_CUSTOM_CHOOSER_PORT}" ]
+    tmpfs: /tmp
+    restart: 'no'
 
   # - - - - - - - - - - - - - - - -
   custom-start-points:

@@ -3,6 +3,8 @@ class ShaController < ApplicationController
 
   def index
     @services = {
+      'creator'                => info('creator', creator.sha),
+      'custom-chooser'         => info('custom-chooser', custom_chooser.sha),
       'custom-start-points'    => info('custom-start-points', custom_start_points.sha),
       'exercises-start-points' => info('exercises-start-points', exercises_start_points.sha),
       'languages-start-points' => info('languages-start-points', languages_start_points.sha),
@@ -23,7 +25,7 @@ class ShaController < ApplicationController
   end
 
   def nginx_sha
-    '' # nginx is upstream of web, client fills this in
+    '' # nginx is upstream of web, client has to fill this in
   end
 
   def info(name, sha, repo_name = name)

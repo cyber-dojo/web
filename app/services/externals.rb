@@ -20,6 +20,18 @@ module Externals # mix-in
 
   # - - - - - - - - - - - - - - -
 
+  def creator
+    @creator ||= external
+  end
+
+  # - - - - - - - - - - - - - - -
+
+  def custom_chooser
+    @custom_chooser ||= external
+  end
+
+  # - - - - - - - - - - - - - - -
+
   def custom_start_points
     @custom_start_points ||= external
   end
