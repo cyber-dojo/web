@@ -6,17 +6,14 @@ set -e
 readonly WEB_HOME=/cyber-dojo
 rm -f ${WEB_HOME}/tmp/pids/server.pid # [1]
 
-export CYBER_DOJO_CREATOR_CLASS=CustomCreatorService
+export CYBER_DOJO_CUSTOM_START_POINTS_CLASS=CustomStartPointsService
+export CYBER_DOJO_EXERCISES_START_POINTS_CLASS=ExercisesStartPointsService
+export CYBER_DOJO_LANGUAGES_START_POINTS_CLASS=LanguagesStartPointsService
 
 export CYBER_DOJO_CUSTOM_CHOOSER_CLASS=CustomChooserService
 
-export CYBER_DOJO_CUSTOM_START_POINTS_CLASS=CustomStartPointsService
-export CYBER_DOJO_EXERCISES_START_POINTS_CLASS=ExercisesStartPointsService
-
-export CYBER_DOJO_LANGUAGES_CLASS=LanguagesService
-export CYBER_DOJO_LANGUAGES_START_POINTS_CLASS=LanguagesStartPointsService
-
 export CYBER_DOJO_AVATARS_CLASS=AvatarsService
+export CYBER_DOJO_CREATOR_CLASS=CreatorService
 export CYBER_DOJO_DIFFER_CLASS=DifferService
 export CYBER_DOJO_RUNNER_CLASS=RunnerService
 export CYBER_DOJO_SAVER_CLASS=SaverService
