@@ -1,6 +1,6 @@
 #!/bin/bash -Eeu
 
-readonly SH_DIR="$( cd "$( dirname "${0}" )/sh" && pwd )"
+readonly SH_DIR="$(cd "$(dirname "${0}")/sh" && pwd)"
 
 source ${SH_DIR}/versioner_env_vars.sh
 export $(versioner_env_vars)

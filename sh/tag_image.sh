@@ -14,7 +14,7 @@ tag_image()
 #- - - - - - - - - - - - - - - - - - - - - - - -
 image_name()
 {
-  echo cyberdojo/web
+  echo -n "${CYBER_DOJO_WEB_IMAGE}"
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - -

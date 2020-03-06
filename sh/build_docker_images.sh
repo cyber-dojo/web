@@ -16,7 +16,7 @@ build_images()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 images_sha_env_var()
 {
-  docker run --rm "${IMAGE}:latest" sh -c 'echo ${SHA}'
+  docker run --rm "${IMAGE}:latest" sh -c 'echo -n ${SHA}'
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
