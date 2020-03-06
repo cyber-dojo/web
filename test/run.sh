@@ -39,11 +39,13 @@ do
     export COVERAGE_DIR=${coverage_dir}
 
     # set defaults for externals
+    export CYBER_DOJO_CUSTOM_CHOOSER_CLASS=CustomChooserService
     export CYBER_DOJO_CUSTOM_START_POINTS_CLASS=CustomStartPointsService
     export CYBER_DOJO_EXERCISES_START_POINTS_CLASS=ExercisesStartPointsService
     export CYBER_DOJO_LANGUAGES_START_POINTS_CLASS=LanguagesStartPointsService
 
     export CYBER_DOJO_AVATARS_CLASS=AvatarsFake
+    export CYBER_DOJO_CREATOR_CLASS=CreatorService    
     export CYBER_DOJO_DIFFER_CLASS=DifferService
     export CYBER_DOJO_RUNNER_CLASS=RunnerStub
     export CYBER_DOJO_SAVER_CLASS=SaverFake
