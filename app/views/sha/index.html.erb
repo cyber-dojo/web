@@ -8,13 +8,13 @@ $(() => {
     $(`tr#${name} td:nth-child(3)`).empty().append(
       $('<a/>', {
         href: `https://github.com/cyber-dojo/${name}/tree/${sha}`,
-        text: 'github_repo'
+        text: 'repo'
       })
     );
     $(`tr#${name} td:nth-child(4)`).empty().append(
       $('<a/>', {
-        href: `https://hub.docker.com/r/cyberdojo/#{name}/tags`,
-        text: 'dockerhub_image'
+        href: `https://hub.docker.com/r/cyberdojo/${name}/tags`,
+        text: 'image'
       })
     );
   };
