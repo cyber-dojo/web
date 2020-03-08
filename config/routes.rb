@@ -29,14 +29,6 @@ CyberDojo::Application.routes.draw do
     post 'save_group_json'      => :save_group_json,      :constraints => { :format => :json }
   end
 
-  scope path: '/setup_custom_start_point', controller: :setup_custom_start_point do
-    get 'show(/:id)'      => :show
-    get 'save_individual' => :save_individual # [1]
-    get 'save_group'      => :save_group      # [1]
-    post 'save_individual_json' => :save_individual_json, :constraints => { :format => :json }
-    post 'save_group_json'      => :save_group_json,      :constraints => { :format => :json }
-  end
-
   scope path: '/kata', controller: :kata do
     get  'group(/:id)'      => :group
     get  'edit(/:id)'       => :edit
@@ -95,7 +87,7 @@ CyberDojo::Application.routes.draw do
 
 end
 
-# [1] These four are get's and not post's
+# [1] These are get's and not post's
 # This is because I want the creation of a new session to take
 # you _directly_ to its URL, which includes the session-ID, eg
 # /kata/edit/D46hN3
