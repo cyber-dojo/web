@@ -22,7 +22,7 @@
      font-weight: bold;
   }
 
-  #languages-list, #exercises-list, #custom-list
+  #languages-list, #exercises-list
   {
     @include non-code-font();
            height: 340px;
@@ -34,20 +34,13 @@
     &::-webkit-scrollbar:vertical { width: 10px; }
   }
 
-  #languages-list, #exercises-list, #custom-list
+  #languages-list, #exercises-list
   {
     @include edged-panel();
     .display-name { @include wide-list-item(); }
   }
   #languages-list { width: 260px; }
   #exercises-list { width: 200px; }
-
-  #custom-list
-  {
-    max-width: 350px;
-        width: 350px;
-    .display-name { max-width: 350px; }
-  }
 
   #button-box { text-align: center; }
 
