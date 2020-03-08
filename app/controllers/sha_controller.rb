@@ -5,7 +5,7 @@ class ShaController < ApplicationController
     @names = %w(
       creator custom-chooser
       custom-start-points exercises-start-points languages-start-points
-      avatar differ runner saver
+      avatars differ runner saver
     )
     @web_sha = ENV['SHA']
   end
