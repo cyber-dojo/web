@@ -9,10 +9,6 @@ class ZipperService
     @http = HttpJson::Responder.new(requester, Error, {keyed:true})
   end
 
-  def sha
-    http.get
-  end
-
   def zip(kata_id)
     http.get(kata_id)
   end

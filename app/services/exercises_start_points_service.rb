@@ -19,10 +19,6 @@ class ExercisesStartPointsService
     @http.get(__method__, {})
   end
 
-  def sha
-    @http.get(__method__, {})
-  end
-
   def names
     @http.get(__method__, {})
   end

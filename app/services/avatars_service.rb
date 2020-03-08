@@ -15,10 +15,6 @@ class AvatarsService
     @http = HttpJson::Responder.new(requester, Error, {keyed:true})
   end
 
-  def sha
-    @http.get(__method__, {})
-  end
-
   def ready?
     @http.get(__method__, {})
   end

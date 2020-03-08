@@ -17,16 +17,11 @@ class CustomStartPointsServiceTest < AppServicesTestBase
   test '3A7',
   'response.body failure is mapped to exception' do
     set_http(HttpJsonRequesterNotJsonStub)
-    error = assert_raises(CustomStartPointsService::Error) { custom_start_points.sha }
+    error = assert_raises(CustomStartPointsService::Error) { custom_start_points.ready? }
     assert error.message.start_with?('http response.body is not JSON'), error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '3A8',
-  'smoke test sha' do
-    assert_sha custom_start_points.sha
-  end
 
   test '3A9',
   'smoke test ready?' do

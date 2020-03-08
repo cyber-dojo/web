@@ -35,30 +35,11 @@ class SaverFakeTest < AppServicesTestBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - -
-  # sha
-
-  multi_saver_test '190', %w( sha is sha of image's git commit ) do
-    sha = saver.sha
-    assert_equal 40, sha.size
-    sha.each_char do |ch|
-      assert '0123456789abcdef'.include?(ch)
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - -
   # ready?
 
   multi_saver_test '602',
   %w( ready? is always true ) do
     assert saver.ready?
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - -
-  # alive?
-
-  multi_saver_test '603',
-  %w( alive? is always true ) do
-    assert saver.alive?
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - -

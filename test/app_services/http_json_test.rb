@@ -14,7 +14,7 @@ class HttpJsonTest < AppServicesTestBase
   test '2C6',
   'response.body is not JSON raises' do
     set_http(HttpJsonRequesterNotJsonStub)
-    error = assert_raises(DifferService::Error) { differ.sha }
+    error = assert_raises(DifferService::Error) { differ.ready? }
     assert_equal 'http response.body is not JSON:sdgdfg', error.message
   end
 
@@ -31,7 +31,7 @@ class HttpJsonTest < AppServicesTestBase
   test '2C7',
   'response.body is not JSON Hash raises' do
     set_http(HttpJsonRequesterNotJsonHashStub)
-    error = assert_raises(DifferService::Error) { differ.sha }
+    error = assert_raises(DifferService::Error) { differ.ready? }
     assert_equal 'http response.body is not JSON Hash:[]', error.message
   end
 
@@ -41,16 +41,16 @@ class HttpJsonTest < AppServicesTestBase
     def initialize(_hostname, _port)
     end
     def request(_req)
-      OpenStruct.new(body:'{"not_sha":"3234234"}')
+      OpenStruct.new(body:'{"not_ready?":true}')
     end
   end
 
   test '2C8',
   'response.body is not JSON Hash raises' do
     set_http(HttpJsonRequesterNoPathKeyStub)
-    error = assert_raises(DifferService::Error) { differ.sha }
-    json = '{"not_sha":"3234234"}'
-    assert_equal "http response.body has no key for 'sha':#{json}", error.message
+    error = assert_raises(DifferService::Error) { differ.ready? }
+    json = '{"not_ready?":true}'
+    assert_equal "http response.body has no key for 'ready?':#{json}", error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -66,7 +66,7 @@ class HttpJsonTest < AppServicesTestBase
   test '2C9',
   'response.body has exception key raises' do
     set_http(HttpJsonRequesterExceptionKeyStub)
-    error = assert_raises(DifferService::Error) { differ.sha }
+    error = assert_raises(DifferService::Error) { differ.ready? }
     assert_equal '"http-stub-threw"', error.message
   end
 

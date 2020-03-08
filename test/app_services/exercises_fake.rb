@@ -9,10 +9,6 @@ class ExercisesFake
     true
   end
 
-  def sha
-    '3f700d20c279cf26389670544da5df64a2c2fa97'
-  end
-
   def names
     NAMES
   end

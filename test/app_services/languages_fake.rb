@@ -9,10 +9,6 @@ class LanguagesFake
     true
   end
 
-  def sha
-    'bab40251b949b4308db2b85d4151f4d82c5cbdb6'
-  end
-
   def names
     NAMES
   end

@@ -17,16 +17,11 @@ class RunnerServiceTest < AppServicesTestBase
   test '3A7',
   'response.body failure is mapped to exception' do
     set_http(HttpJsonRequesterNotJsonStub)
-    error = assert_raises(RunnerService::Error) { runner.sha }
+    error = assert_raises(RunnerService::Error) { runner.ready? }
     assert error.message.start_with?('http response.body is not JSON'), error.message
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '74F',
-  'smoke test sha' do
-    assert_sha(runner.sha['sha'])
-  end
 
   test '3A8',
   'smoke test ready?' do

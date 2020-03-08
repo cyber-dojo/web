@@ -13,16 +13,11 @@ class DifferServiceTest < AppServicesTestBase
   test '3A9',
   'response.body failure is mapped to exception' do
     set_http(HttpJsonRequesterNotJsonStub)
-    error = assert_raises(DifferService::Error) { differ.sha }
+    error = assert_raises(DifferService::Error) { differ.ready? }
     assert error.message.start_with?('http response.body is not JSON'), error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '3AA',
-  'smoke test sha' do
-    assert_sha differ.sha
-  end
 
   test '3AB',
   'smoke test ready' do

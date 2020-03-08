@@ -17,16 +17,21 @@ class AvatarsServiceTest < AppServicesTestBase
   test '3A7',
   'response.body failure is mapped to exception' do
     set_http(HttpJsonRequesterNotJsonStub)
-    error = assert_raises(AvatarsService::Error) { avatars.sha }
+    error = assert_raises(AvatarsService::Error) { avatars.ready? }
     assert error.message.start_with?('http response.body is not JSON'), error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '3A8',
-  'smoke test sha,ready?,names' do
-    assert_sha avatars.sha
+  'smoke test ready?' do
     assert avatars.ready?
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '3A9',
+  'smoke test names' do
     names = avatars.names
     assert_equal 64, names.size
     assert_equal 'alligator', names[0]

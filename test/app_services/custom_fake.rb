@@ -9,10 +9,6 @@ class CustomFake
     true
   end
 
-  def sha
-    '6896dbfa64d9d73fecd2ebfa0ac96bc05136bd30'
-  end
-
   def names
     NAMES
   end

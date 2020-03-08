@@ -12,18 +12,8 @@ class SaverFake
     @@log
   end
 
-  def sha
-    append_log(['sha'])
-    '71333653be9b1ca2c31f83810d4e6f128817deac'
-  end
-
   def ready?
     append_log(['ready?'])
-    true
-  end
-
-  def alive?
-    append_log(['alive?'])
     true
   end
 

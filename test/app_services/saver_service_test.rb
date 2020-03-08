@@ -26,20 +26,16 @@ class SaverServiceTest < AppServicesTestBase
   test '3A7',
   'response.body get failure is mapped to exception' do
     set_http(HttpJsonRequesterNotJsonStub)
-    error = assert_raises(SaverService::Error) { saver.sha }
+    error = assert_raises(SaverService::Error) { saver.ready? }
     assert error.message.start_with?('http response.body is not JSON'), error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '442',
-  'smoke test sha,ready?,alive?' do
-    assert_sha saver.sha
+  'smoke test ready?' do
     assert saver.ready?
-    assert saver.alive?
   end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
