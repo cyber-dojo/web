@@ -1,33 +1,51 @@
 <script type="text/javascript"><!--
 'use strict';
 $(() => {
-  $.ajax({
-    url: '/sha.txt',
-    type: 'GET',
-    crossDomain: true,
-    success: (sha) => {
-      $('tr#nginx td:nth-child(2)').text(sha.substring(0,7));
-      $('tr#nginx td:nth-child(3)').empty().append(
-        $('<a/>', {
-          href: `https://github.com/cyber-dojo/nginx/tree/${sha}`,
-          text: 'github'
-        })
-      );
-    }
-  });
+
+  const fillIn = (name, sha) => {
+    const tag = sha.substring(0,7);
+    $(`tr#${name} td:nth-child(2)`).text(tag);
+    $(`tr#${name} td:nth-child(3)`).empty().append(
+      $('<a/>', {
+        href: `https://github.com/cyber-dojo/${name}/tree/${sha}`,
+        text: 'github_repo'
+      })
+    );
+    $(`tr#${name} td:nth-child(4)`).empty().append(
+      $('<a/>', {
+        href: `https://hub.docker.com/r/cyberdojo/#{name}/tags`,
+        text: 'dockerhub_image'
+      })
+    );
+  };
+
+  const ajaxSha = (name, url, extractSha) => {
+    $.ajax({
+      url: url,
+      type: 'GET',
+      success: (data) => fillIn(name, extractSha(data)),
+      error: (jq,status,thrown) => {
+        const msg = {js:jq, status:status, thrown:thrown };
+        alert(`${name} => ${JSON.stringify(msg)}`);
+      }
+    });
+  };
+
+  fillIn('web', "<%= @web_sha %>");
+  ajaxSha('nginx', '/sha.txt', (sha) => sha);
+  <%= raw @names %>.forEach((name) => ajaxSha(name, `/${name}/sha`, (data) => data.sha));
+
 });
 //--></script>
 
 <div id="sha-page">
   <table id="aligner">
-    <% @services.sort.each do |name,values| %>
-    <% repo_name = values['repo_name'] %>
-    <% sha = values['sha'] %>
+    <% @names.sort.each do |name| %>
     <tr id="<%= name %>">
       <td><%= name %></td>
-      <td><%= sha[0...7] %></td>
-      <td><a href="<%= values['github_url'] %>">github</a></td>
-      <td><a href="<%= values['dockerhub_url'] %>">dockerhub</a></td>
+      <td>?</td>
+      <td>?</td>
+      <td>?</td>
     </tr>
     <% end %>
   </table>
