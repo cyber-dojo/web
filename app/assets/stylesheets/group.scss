@@ -9,7 +9,7 @@
   {
     @include non-code-font();
          color: $lighter-color;
-     font-size: 87px;
+     font-size: 90px;
      padding: 0px;
   }
 
@@ -26,7 +26,7 @@
       @include non-code-font();
            color: $darker-color;
       text-align: left;
-           width: 285px;
+           width: 315px;
        font-size: 1.97em;
      line-height: 95%;
          padding: 10px;
