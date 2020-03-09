@@ -1,7 +1,7 @@
 
 #dashboard-page
 {
-  margin: { left: 45px; top: 45px; }
+  margin: { left: 35px; top: 40px; }
 
   #age
   {
@@ -17,7 +17,7 @@
     @include plaintext-font();
     cursor: default;
     font-size: 13px;
-     margin: { bottom: 10px; left: 15px; right: 0px; }
+     margin: { bottom: 0px; left: 0px; right: 15px; }
     display: inline-block;
   }
   #age-box
