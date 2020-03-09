@@ -5,7 +5,7 @@ var cyberDojo = ((cd, $) => {
   cd.forkDialog = (kata_id, index) => {
     const html = $('<div>', {
         id: 'fork-dialog',
-      text: 'what kind of practice do you want to create?'
+      text: 'what kind of exercise do you want to create?'
     });
     html.append($('<button>', {
          id: 'individual',
