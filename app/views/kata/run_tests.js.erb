@@ -21,8 +21,13 @@ const insertCreatedFiles = () => {
 };
 
 const removeDeletedFiles = () => {
+  // cyber-dojo.sh cannot be deleted in the browser
+  // but it can be deleted inside the container
+  // and that will come back to here...
   <% @deleted.each do |filename| %>
-    cd.fileDelete("<%= j raw(filename) %>");
+    if (!"<%= j raw(filename) %>".equals('cyber-dojo.sh')) {
+      cd.fileDelete("<%= j raw(filename) %>");
+    }
   <% end %>
 };
 

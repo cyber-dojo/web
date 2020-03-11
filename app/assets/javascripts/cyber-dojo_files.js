@@ -149,14 +149,9 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.fileDelete = (filename) => {
-    // cyber-dojo.sh cannot be deleted in the browser
-    // but it can be deleted inside the container (in itself!)
-    // and that will come back to here.
-    if (filename != 'cyber-dojo.sh') {
-      fileDiv(filename).remove();
-      rebuildFilenameList();
-      theLastNonOutputFilename = testFilename();
-    }
+    fileDiv(filename).remove();
+    rebuildFilenameList();
+    theLastNonOutputFilename = testFilename();
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
