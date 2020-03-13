@@ -248,13 +248,14 @@ $(() => {
     if (!diffCheckBox().is(':checked')) {
       return html;
     }
-    const count = diff[propertyName];
-    const noneMarker = (count === 0) ? 'none' : '';
     const div = $('<div>', {
-      'class': `diff-${cssName}-line-count ${noneMarker} button`,
+      'class': `diff-${cssName}-line-count button`,
       'data-filename': diff.filename
     });
-    div.append(count);
+    const count = diff[propertyName];
+    if (count !== 0) {
+      div.append(count);
+    }
     return outerHTML(div);
   };
 
