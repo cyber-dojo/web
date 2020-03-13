@@ -82,6 +82,11 @@ $(() => {
 
   const inDiffMode = () => diffCheckBox().is(':checked');
 
+  $('#diff-checkbox-title').click(() => {
+    diffCheckBox().attr('checked', !diffCheckBox().is(':checked'));
+    show(param.nowIndex);
+  });
+
   //-----------------------------------------
   // refresh traffic-lights
   //-----------------------------------------

@@ -61,7 +61,7 @@
     #diff-checkbox-title
     {
       @include plaintext-font();
-          cursor: default;
+          cursor: pointer;
        font-size: 12px;
          display: inline;
          position: relative;
