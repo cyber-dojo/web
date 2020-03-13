@@ -1,6 +1,8 @@
 
 #fork-dialog
 {
+  white-space: pre;
+
   button#individual, button#group
   {
     display: block;
@@ -8,7 +10,7 @@
     padding: 8px;
     font-size: 25px;
     @include non-code-font();
-    width: 200px;
+    width: 230px;
     text-align: left;
   }
 }

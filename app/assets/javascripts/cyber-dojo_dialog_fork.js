@@ -5,18 +5,24 @@ var cyberDojo = ((cd, $) => {
   cd.forkDialog = (kata_id, index) => {
     const html = $('<div>', {
         id: 'fork-dialog',
-      text: 'what kind of exercise do you want to create?'
+      text: "create a new exercise\r\nfrom this traffic-light's files"
     });
     html.append($('<button>', {
          id: 'individual',
        type: 'button',
-       text: 'individual'
-    }).click(() => fork(kata_id, index, 'individual', 'edit')));
+       text: 'individual exercise'
+    }).click(() => {
+      fork(kata_id, index, 'individual', 'edit');
+      $('#fork-dialog').remove();
+    }));
     html.append($('<button>', {
          id: 'group',
        type: 'button',
-       text: 'group'
-    }).click(() => fork(kata_id, index, 'group', 'group')));
+       text: 'group exercise'
+    }).click(() => {
+      fork(kata_id, index, 'group', 'group');
+      $('#fork-dialog').remove();
+    }));
 
     $(html).dialog({
       title: cd.dialogTitle('fork'),
