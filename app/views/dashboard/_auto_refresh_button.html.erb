@@ -2,9 +2,16 @@
 'use strict';
 $(() => {
 
-  $('#auto-refresh-checkbox')
+  const checkBox = $('#auto-refresh-checkbox');
+
+  checkBox
     .attr('checked', '<%= @auto_refresh %>' === 'true')
     .click(() => cd.refreshDashboard());
+
+  $('#auto-refresh-text').click(() => {
+    checkBox.attr('checked', !checkBox.is(':checked'));
+    cd.refreshDashboard();    
+  });
 
 });
 //--></script>
@@ -12,7 +19,7 @@ $(() => {
 <table id="auto-refresh-box">
   <tr>
     <td>
-      <div id="text" data-tip="toggle the 10 second<br/>auto-refresh on/off">
+      <div id="auto-refresh-text" data-tip="toggle the 10 second<br/>auto-refresh on/off">
         auto&nbsp;refresh
       </div>
     </td>
