@@ -5,11 +5,11 @@ class ReviewController < ApplicationController
     # Once you are on the review dialog/page
     # all interaction with the web server is via the
     # differ-controller.
-    set_footer_info
+    set_bar_info
     @version = kata.schema.version
     @title = 'review:' + kata.id
-    @avatar_index = kata.avatar_index
     @avatar_name = kata.avatar_name
+    @avatar_index = kata.avatar_index
     @was_index = was_index
     @now_index = now_index
     @filename = params['filename']
@@ -19,8 +19,9 @@ class ReviewController < ApplicationController
 
   private
 
-  def set_footer_info
+  def set_bar_info
     @id = kata.id
+    @group_id = kata.group.id
     @display_name = kata.manifest.display_name
     @exercise = kata.manifest.exercise
   end
