@@ -77,9 +77,9 @@ class LanguagesStartPointsServiceTest < AppServicesTestBase
       "Java, PowerMockito", "Javascript, Cucumber", "Javascript, Mocha+chai+sinon",
       "Javascript, assert", "Javascript, assert+jQuery", "Javascript, jasmine",
       "Javascript, qunit+sinon", "Kotlin, Kotlintest", "PHP, PHPUnit",
-      "Pascal (FreePascal), assert", "Perl, Test::Simple", "Python, assert",
-      "Python, behave", "Python, pytest", "Python, unittest", "R, RUnit",
-      "Ruby, Approval", "Ruby, Cucumber", "Ruby, MiniTest", "Ruby, RSpec",
+      "Pascal (FreePascal), assert", "Perl, Test::Simple", "Prolog, plunit",
+      "Python, assert", "Python, behave", "Python, pytest", "Python, unittest",
+      "R, RUnit", "Ruby, Approval", "Ruby, Cucumber", "Ruby, MiniTest", "Ruby, RSpec",
       "Ruby, Test::Unit", "Rust, test", "Swift, Swordfish", "Swift, XCTest",
       "VHDL, assert", "VisualBasic, NUnit", "Zig, test"
     ]

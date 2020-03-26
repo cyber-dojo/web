@@ -90,10 +90,10 @@ class CustomStartPointsServiceTest < AppServicesTestBase
     assert_equal 'Yahtzee refactoring, C# NUnit', manifest['display_name']
     assert_equal ['.cs'], manifest['filename_extension']
     assert_equal 'cyberdojofoundation/csharp_nunit', manifest['image_name']
-    expected_filenames = %w( Yahtzee.cs YahtzeeTest.cs cyber-dojo.sh instructions )
+    expected_filenames = %w( Yahtzee.cs YahtzeeTest.cs cyber-dojo.sh readme.txt )
     visible_files = manifest['visible_files']
     assert_equal expected_filenames, visible_files.keys.sort
-    assert_starts_with(visible_files, 'instructions', 'The starting code and tests')
+    assert_starts_with(visible_files, 'readme.txt', 'The starting code and tests')
     assert_starts_with(visible_files, 'Yahtzee.cs', 'public class Yahtzee {')
     assert_starts_with(visible_files, 'YahtzeeTest.cs', 'using NUnit.Framework;')
     assert_starts_with(visible_files, 'cyber-dojo.sh', 'NUNIT_PATH=/nunit/lib/net45')

@@ -91,6 +91,7 @@ class DashboardControllerTest < AppControllerTestBase
   test '975', %w(
   progress with avatar's having only amber traffic-lights
   ) do
+    set_saver_class('SaverService')
     set_runner_class('RunnerService')
     [0,1].each do |version|
       @version = version
