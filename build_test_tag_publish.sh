@@ -1,6 +1,6 @@
 #!/bin/bash -Eeu
 
-readonly SH_DIR="$(cd "$(dirname "${0}")/sh" && pwd)"
+readonly SH_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/sh" && pwd)"
 
 source ${SH_DIR}/versioner_env_vars.sh
 export $(versioner_env_vars)
@@ -8,7 +8,7 @@ export $(versioner_env_vars)
 "${SH_DIR}/docker_containers_down.sh"
 "${SH_DIR}/build_docker_images.sh"
 "${SH_DIR}/tag_image.sh"
-if [ "${1}" == '--no-test' ]; then
+if [ "${1:-}" == '--no-test' ]; then
   exit 0
 fi
 "${SH_DIR}/docker_containers_up.sh"
