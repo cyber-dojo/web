@@ -61,8 +61,8 @@ do
     ruby -e "%w( ${testFiles[*]} ).shuffle.map{ |file| require './'+file }" \
       "${module}" "$@" 2>&1 | tee "${test_log}"
 
-    ruby ../print_coverage_percent.rb \
-      "${module}"           | tee -a "${test_log}"
+    ruby ../print_coverage_percent.rb "${module}" \
+      | tee -a "${test_log}"
     cd ..
 done
 

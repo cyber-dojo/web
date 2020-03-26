@@ -27,7 +27,6 @@
  *= depend_on home.scss
  *= depend_on individual.scss
  *= depend_on group.scss
- *= depend_on setup.scss
  *= depend_on id_common.scss
  *= depend_on id_join.scss
  *= depend_on id_rejoin.scss
@@ -67,7 +66,6 @@
 @import "home.scss";
 @import "individual.scss";
 @import "group.scss";
-@import "setup.scss";
 @import "id_common.scss";
 @import "id_join.scss";
 @import "id_rejoin.scss";

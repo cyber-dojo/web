@@ -21,14 +21,6 @@ CyberDojo::Application.routes.draw do
     get 'show(/:id)'      => :show
   end
 
-  scope path: '/setup_default_start_point', controller: :setup_default_start_point do
-    get 'show(/:id)'      => :show
-    get 'save_individual' => :save_individual # [1]
-    get 'save_group'      => :save_group      # [1]
-    post 'save_individual_json' => :save_individual_json, :constraints => { :format => :json }
-    post 'save_group_json'      => :save_group_json,      :constraints => { :format => :json }
-  end
-
   scope path: '/kata', controller: :kata do
     get  'group(/:id)'      => :group
     get  'edit(/:id)'       => :edit
