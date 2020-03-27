@@ -550,6 +550,21 @@ $(() => {
   setupButton('checkout', () => doCheckout());
   setupButton('fork',     () => cd.forkDialog(param.id, param.nowIndex));
 
+  if (param.avatarName.length != 0) {
+    // CSS maxWidth for review-traffic-lights is for individual exercise
+    // so when in a group-exercise, reduce by width of avatar-image.
+    // [1] I tried using jQuery to retrieve the css width using
+    // $('#review-avatar-image-box').width(); but this failed.
+    // I think this is because when this page is loaded the
+    // element is initially hidden.
+    const lights = $('#review-traffic-lights');
+    const maxWidth = lights.css('maxWidth');             // eg 730px
+    const imageWidth = 29;                               // [1]
+    const newMaxWidth = parseInt(maxWidth) - imageWidth; // eg 701
+    alert(`${maxWidth},${imageWidth},${newMaxWidth}px`);
+    lights.css('maxWidth', `${newMaxWidth}px`);
+  }
+
   if (inTestPage()) {
     setupButton('resume', () => {
       $('#review-page').hide();
