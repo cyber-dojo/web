@@ -21,7 +21,7 @@
            display: inline;
     vertical-align: top;
             margin: { right: 2px; }
-           padding: { top: 0px; bottom: 2px; left: 10px; right: 10px; }
+           padding: { top: 0px; bottom: 2px; left: 7px; right: 7px; }
         text-align: center;
   }
 
@@ -44,7 +44,7 @@
     #new, #rename, #delete
     {
       @include rounded-corner(4px);
-      padding:{ top:0px; bottom:1px; left:6px; right:6px; }
+      padding:{ top:0px; bottom:1px; left:4px; right:4px; }
     }
   }
 
