@@ -68,9 +68,8 @@
 
   #traffic-lights-count-box
   {
-    vertical-align:top;
-           display:inline-block;
-             float:left;
+     display:inline-block;
+    position:relative; top:-2px;
     .traffic-light-count {
       font-size: 23px;
       position:relative; top:-3px;
@@ -78,8 +77,8 @@
   }
   #traffic-lights
   {
-       display:flex;
-         float:left;
+       display:inline-flex;
+      position:relative; top:-4px;
         margin:0px;
      max-width:730px;
     overflow-x:auto;

@@ -570,13 +570,12 @@ $(() => {
 <table>
   <tr valign="top">
     <td>
-      <div id="review-avatar-image-box"></div>
       <div id="resume-button-box"></div>
       <%= render(:partial => 'review/diff_checkbox') %>
       <div id="fork-button-box"></div>
       <div id="checkout-button-box"></div>
-      <div id="review-avatar-image-box"></div>
     </td>
+    <td><div id="review-avatar-image-box"></div></td>
     <td><%= render(:partial => 'review/traffic_light_navigator') %></td>
     <td><div id="review-traffic-lights"></div></td>
   </tr>
@@ -584,7 +583,7 @@ $(() => {
     <td class="left-column">
       <div id="diff-filenames"></div>
     </td>
-    <td colspan="2">
+    <td colspan="3">
       <div id="diff-content"></div>
     </td>
   </tr>
