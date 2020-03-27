@@ -4,7 +4,7 @@ $(() => {
 
   //---------------------------------------------------------------------
   // This review page is also loaded in kata/edit
-  // The [resume] [revert] buttons are only on kata/edit.
+  // The [resume] [checkout] buttons are only on kata/edit.
   //---------------------------------------------------------------------
 
   const inTestPage = () => {
@@ -475,26 +475,26 @@ $(() => {
   };
 
   //-----------------------------------------
-  // refresh [revert] (from kata/edit page only)
+  // refresh [checkout] (from kata/edit page only)
   //-----------------------------------------
 
-  const refreshRevertButton = () => {
-    const button = $('#revert-button');
+  const refreshCheckoutButton = () => {
+    const button = $('#checkout-button');
     button.prop('disabled', !inTestPage());
     cd.setTip(button, () => {
-      const tip = `revert back to this<br/>traffic-light's files`;
+      const tip = `checkout this<br/>traffic-light's files`;
       cd.showHoverTip(button, tip);
     });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const doRevert = () => {
-    const revertParams = {
+  const doCheckout = () => {
+    const checkoutParams = {
           id: param.id,
        index: param.nowIndex
     };
-    $.getJSON('/reverter/revert', revertParams, (data) => {
+    $.getJSON('/reverter/revert', checkoutParams, (data) => {
       $('#review-page').hide();
       $('#kata-page').show();
       deleteAllNonOutputFiles();
@@ -536,7 +536,7 @@ $(() => {
       .text(name)
       .unbind('click')
       .bind('click', handler);
-    if (name === 'revert'  ) { refreshRevertButton();   }
+    if (name === 'checkout') { refreshCheckoutButton(); }
     if (name === 'fork'    ) { refreshForkButton();     }
   };
 
@@ -547,7 +547,7 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  setupButton('revert',   () => doRevert());
+  setupButton('checkout', () => doCheckout());
   setupButton('fork',     () => cd.forkDialog(param.id, param.nowIndex));
 
   if (inTestPage()) {
@@ -574,7 +574,7 @@ $(() => {
       <div id="resume-button-box"></div>
       <%= render(:partial => 'review/diff_checkbox') %>
       <div id="fork-button-box"></div>
-      <div id="revert-button-box"></div>
+      <div id="checkout-button-box"></div>
       <div id="review-avatar-image-box"></div>
     </td>
     <td><%= render(:partial => 'review/traffic_light_navigator') %></td>

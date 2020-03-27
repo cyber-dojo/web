@@ -19,7 +19,7 @@
   #resume-button-box,
   #diff-checkbox-container,
   #fork-button-box,
-  #revert-button-box
+  #checkout-button-box
   {
     display: inline;
     vertical-align: top;
@@ -70,7 +70,7 @@
   }
 
   #fork-button,
-  #revert-button
+  #checkout-button
   {
     @include rounded-corner(4px);
     text-align: left;
