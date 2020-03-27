@@ -86,7 +86,7 @@
        display: flex;
          float: left;
         margin: 0px;
-         width: 750px;
+     max-width: 762px;
     overflow-x: auto;
     overflow-y: hidden;
     &::-webkit-scrollbar:horizontal { height: 0px; }
