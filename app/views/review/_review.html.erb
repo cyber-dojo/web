@@ -13,11 +13,12 @@ $(() => {
 
   // After refresh() has been called param also contains param.events
   // which holds the traffic-lights and is used to enable/disable
-  // the <| tag |> navigator buttons.
+  // the traffic-light [<]index[>] navigator buttons.
 
   let param = {
         version: "<%= @version %>",
              id: "<%= @id %>",
+        groupId: "<%= @group_id %>",
     avatarIndex: "<%= @avatar_index %>",
      avatarName: "<%= @avatar_name %>",
        wasIndex: "<%= @was_index %>",
@@ -28,10 +29,11 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   // Only app/views/kata/_traffic_lights.html.erb calls setReviewData()
 
-  cd.setReviewData = (version, id, avatarName, avatarIndex, wasIndex, nowIndex, filename) => {
+  cd.setReviewData = (version, id, groupId, avatarName, avatarIndex, wasIndex, nowIndex, filename) => {
     param = {
           version:version,
                id:id,
+          groupId:groupId,
        avatarName:avatarName,
       avatarIndex:avatarIndex,
          wasIndex:wasIndex,
@@ -438,6 +440,7 @@ $(() => {
     const reviewParams = {
            version: param.version,
                 id: param.id,
+          group_id: param.groupId,
          was_index: param.wasIndex,
          now_index: param.nowIndex,
           filename: param.filename
@@ -571,6 +574,8 @@ $(() => {
       $('#review-page').hide();
       $('#kata-page').show();
       cd.editorRefocus();
+      // Dont call refresh() here because kata/edit page will
+      // call cd.setReviewData() which calls refresh().
     });
   } else {
     refresh();

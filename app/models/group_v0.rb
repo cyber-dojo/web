@@ -51,14 +51,14 @@ class Group_v0
   # - - - - - - - - - - - - - - - - - - -
 
   def joined(id)
-    kata_indexes(id).map{ |kid,_| kid }
+    katas_indexes(id).map{ |kid,_| kid }
   end
 
   # - - - - - - - - - - - - - - - - - - -
 
   def events(id)
     results = {}
-    kindexes = kata_indexes(id)
+    kindexes = katas_indexes(id)
     read_events_files_commands = kindexes.map do |kid,_|
       @kata.send(:events_read_cmd, kid)
     end
@@ -70,6 +70,34 @@ class Group_v0
       }
     end
     results
+  end
+
+  # - - - - - - - - - - - - - - - - - - -
+
+  def katas_indexes(id)
+    read_commands = (0..63).map do |index|
+      ['read', id_path(id, index, 'kata.id')]
+    end
+    reads = saver.batch(read_commands)
+    # reads is an array of 64 entries, eg
+    # [
+    #    nil,      # 0
+    #    nil,      # 1
+    #    'w34rd5', # 2
+    #    nil,      # 3
+    #    'G2ws77', # 4
+    #    nil
+    #    ...
+    # ]
+    # indicating there are joined animals at indexes
+    # 2 (bat) id == w34rd5
+    # 4 (bee) id == G2ws77
+    reads.each.with_index(0).select{ |kid,_| kid }
+    # [
+    #   ['w34rd5', 2], #  2 == bat
+    #   ['G2ws77',15], # 15 == fox
+    #   ...
+    # ]
   end
 
   private
@@ -97,34 +125,6 @@ class Group_v0
 
   def manifest_filename(id)
     id_path(id, 'manifest.json')
-  end
-
-  # - - - - - - - - - - - - - - - - - - -
-
-  def kata_indexes(id)
-    read_commands = (0..63).map do |index|
-      ['read', id_path(id, index, 'kata.id')]
-    end
-    reads = saver.batch(read_commands)
-    # reads is an array of 64 entries, eg
-    # [
-    #    nil,      # 0
-    #    nil,      # 1
-    #    'w34rd5', # 2
-    #    nil,      # 3
-    #    'G2ws77', # 4
-    #    nil
-    #    ...
-    # ]
-    # indicating there are joined animals at indexes
-    # 2 (bat) id == w34rd5
-    # 4 (bee) id == G2ws77
-    reads.each.with_index(0).select{ |kid,_| kid }
-    # [
-    #   ['w34rd5', 2], #  2 == bat
-    #   ['G2ws77',15], # 15 == fox
-    #   ...
-    # ]
   end
 
   # - - - - - - - - - - - - - -

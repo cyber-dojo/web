@@ -5,6 +5,7 @@ $(() => {
   const version = '<%= @version %>';
   const avatarName = '<%= @avatar_name %>';
   const avatarIndex = '<%= @avatar_index %>';
+  const groupId = '<%= @group_id %>';
 
   // wasIndex holds the index of rightmost traffic-light
   // and is needed when the...
@@ -28,7 +29,7 @@ $(() => {
 
   const setupTrafficLightReview = ($light, id, wasIndex, nowIndex) => {
     $light.click(() => {
-      cd.setReviewData(version, id, avatarName, avatarIndex, wasIndex, nowIndex);
+      cd.setReviewData(version, id, groupId, avatarName, avatarIndex, wasIndex, nowIndex);
       $('#kata-page').hide();
       $('#review-page').show();
     });

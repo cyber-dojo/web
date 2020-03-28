@@ -17,9 +17,21 @@ class DifferController < ApplicationController
     exts = m.filename_extension
     avatar_index = m.group_index
     avatar_name = avatar_index ? Avatars.names[avatar_index] : ''
+
+    group_id = params[:group_id]
+    if group_id != ''
+      katas_indexes = groups[group_id].katas_indexes
+      # prev_avatar_id
+      # next_avatar_id
+    else
+      prev_avatar_id = ''
+      next_avatar_id = ''
+    end
+
     result = {
                     version: version,
                          id: id,
+                    groupId: group_id,
                 avatarIndex: avatar_index,
                  avatarName: avatar_name,
                    wasIndex: was_index,

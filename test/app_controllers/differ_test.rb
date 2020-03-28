@@ -11,8 +11,9 @@ class DifferControllerTest < AppControllerTestBase
   test 'AF5',
   'misc json values of existing version 0 kata' do
     set_saver_class('SaverService')
-    differ('5rTJv5', 0, 1, version=0)
+    differ('5rTJv5', 'FxWwrr', 0, 1, version=0)
     assert_equal '5rTJv5', json['id']
+    assert_equal 'FxWwrr', json['groupId']
     assert_equal 32, json['avatarIndex']
     assert_equal 'mouse', json['avatarName']
     assert_equal 0, json['wasIndex']
@@ -24,7 +25,7 @@ class DifferControllerTest < AppControllerTestBase
   test 'AF6',
   'was_index==now_index diff of existing version=0 kata has no differences' do
     set_saver_class('SaverService')
-    differ('5rTJv5', 0, 0, version=0)
+    differ('5rTJv5', 'FxWwrr', 0, 0, version=0)
     json['diffs'].each do |diff|
       filename = diff['filename']
       assert_equal 0, diff['section_count'], filename
@@ -38,7 +39,7 @@ class DifferControllerTest < AppControllerTestBase
   test 'AF7',
   'was_index!=now_index diff of existing version=0 kata with a difference' do
     set_saver_class('SaverService')
-    differ('5rTJv5', 0, 1, version=0)
+    differ('5rTJv5', 'FxWwrr', 0, 1, version=0)
     json['diffs'].each do |diff|
       filename = diff['filename']
       n = (filename === 'hiker.rb') ? 1 : 0
@@ -56,7 +57,7 @@ class DifferControllerTest < AppControllerTestBase
     [0,1].each do |version|
       in_kata(version:version) { post_run_tests }
       count_before = saver.log.size
-      differ(@id, 0, 1, version)
+      differ(@id, '', 0, 1, version)
       count_after = saver.log.size
       diagnostic = [version,count_before,count_after]
       assert_equal 1, (count_after-count_before), diagnostic
@@ -66,10 +67,11 @@ class DifferControllerTest < AppControllerTestBase
 
   private
 
-  def differ(id, was_index, now_index, version)
+  def differ(id, group_id, was_index, now_index, version)
     params = {
         version:version,
              id:id,
+       group_id:group_id,
       was_index:was_index,
       now_index:now_index
     }
