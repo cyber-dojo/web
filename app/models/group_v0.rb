@@ -121,8 +121,8 @@ class Group_v0
     # 4 (bee) id == G2ws77
     reads.each.with_index(0).select{ |kid,_| kid }
     # [
-    #   ['w34rd5', '2'], #  2 == bat
-    #   ['G2ws77','15'], # 15 == fox
+    #   ['w34rd5', 2], #  2 == bat
+    #   ['G2ws77',15], # 15 == fox
     #   ...
     # ]
   end

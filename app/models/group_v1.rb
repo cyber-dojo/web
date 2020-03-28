@@ -71,7 +71,7 @@ class Group_v1
     katas_events = saver.batch(read_events_files_commands)
     kindexes.each.with_index(0) do |(kid,kindex),index|
       result[kid] = {
-        'index' => kindex.to_i,
+        'index' => kindex,
         'events' => json_parse('[' + katas_events[index] + ']')
       }
     end
@@ -88,10 +88,12 @@ class Group_v1
 
   def katas_indexes(id)
     katas_src = saver_assert(katas_read_cmd(id))
-    katas_src.split.each_slice(2).to_a
+    # w34rd5 2
+    # G2ws77 15
+    katas_src.split.each_slice(2).map{|kid,kindex| [kid,kindex.to_i] }
     # [
-    #   ['w34rd5', '2'], #  2 == bat
-    #   ['G2ws77','15'], # 15 == fox
+    #   ['w34rd5', 2], #  2 == bat
+    #   ['G2ws77',15], # 15 == fox
     #   ...
     # ]
   end
