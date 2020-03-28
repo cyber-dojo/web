@@ -69,8 +69,7 @@
     }
   }
 
-  #fork-button,
-  #checkout-button
+  #fork-button, #checkout-button
   {
     @include rounded-corner(4px);
     text-align: left;
@@ -86,7 +85,7 @@
        display: flex;
          float: left;
         margin: 0px;
-     max-width: 762px;
+     max-width: 766px;
     overflow-x: auto;
     overflow-y: hidden;
     &::-webkit-scrollbar:horizontal { height: 0px; }
@@ -124,10 +123,10 @@
 
     .triangle.button
     {
-      position: relative; top: -2px; // up
+      position: relative; top: -3px; // up
       @include rounded-corner(4px);
-      width: 22px;
-      height: 22px;
+      width: 20px;
+      height: 20px;
       padding: 0px;
       border: 1px solid lighten($darker-color,15%);
       &:hover { border: 1px dotted lighten($darker-color,15%); }
@@ -138,15 +137,14 @@
       }
     }
 
-    #prev-index,
-    #next-index
+    #prev-index, #next-index
     {
       display: inline-block;
       img
       {
         @include rounded-corner(0px);
-           width: 14px;
-          height: 14px;
+           width: 12px;
+          height: 12px;
          padding: 0px;
          position: relative; top: 1px; // down
       }
