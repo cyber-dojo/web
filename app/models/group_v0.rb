@@ -120,8 +120,11 @@ class Group_v0
     # 2 (bat) id == w34rd5
     # 4 (bee) id == G2ws77
     reads.each.with_index(0).select{ |kid,_| kid }
-    # Select the non-nil entries whilst retaining the index
-    # [ ['w34rd5',2], ['G2ws77',4], ... ]
+    # [
+    #   ['w34rd5', '2'], #  2 == bat
+    #   ['G2ws77','15'], # 15 == fox
+    #   ...
+    # ]
   end
 
   # - - - - - - - - - - - - - -

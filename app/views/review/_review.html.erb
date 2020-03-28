@@ -12,6 +12,9 @@ $(() => {
   };
 
   // After refresh() has been called param also contains param.events
+  // which holds the traffic-lights and is used to enable/disable
+  // the <| tag |> navigator buttons.
+
   let param = {
         version: "<%= @version %>",
              id: "<%= @id %>",
@@ -51,23 +54,6 @@ $(() => {
   };
 
   //-----------------------------------------
-  // refresh summary
-  //    avatar?
-  //-----------------------------------------
-  const refreshSummary = () => {
-    $('#review-avatar-image-box').html(makeAvatarImageHtml());
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  const makeAvatarImageHtml = () => {
-    if (param.avatarName === '') {
-      return '';
-    } else {
-      return `<img class="avatar-image" src="/avatar/image/${param.avatarIndex}"/>`;
-    }
-  };
-
-  //-----------------------------------------
   // refresh diff? [x]
   //-----------------------------------------
 
@@ -86,6 +72,80 @@ $(() => {
     diffCheckBox().attr('checked', !diffCheckBox().is(':checked'));
     show(param.nowIndex);
   });
+
+  //-----------------------------------------
+  // refresh avatar navigator
+  //    [<] avatar [>]
+  //-----------------------------------------
+
+  const refreshAvatarNavigator = () => {
+    $('#review-avatar-image-box').html(makeAvatarImageHtml());
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  const makeAvatarImageHtml = () => {
+    if (param.avatarName === '') {
+      return '';
+    } else {
+      return `<img class="avatar-image" src="/avatar/image/${param.avatarIndex}"/>`;
+    }
+  };
+
+  //-----------------------------------------
+  // refresh RAG navigator
+  //    [<] traffic-light-index [>]
+  //-----------------------------------------
+
+  const refreshIndexNavigator = () => {
+    refreshIndex($('#prev-index'), prevEventIndex(param.nowIndex));
+    $('#review-index-box').html(makeIndexHtml());
+    refreshIndex($('#next-index'), nextEventIndex(param.nowIndex));
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const makeIndexHtml = () => {
+    const index = param.nowIndex;
+    const colour = param.events[index].colour;
+    return `<div id="index-number" class="${colour}">${index}</div>`;
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const refreshIndex = (button, index) => {
+    const on = (index !== null);
+    button
+      .attr('disabled', !on)
+      .css('cursor', on ? 'pointer' : 'default');
+    if (on) {
+      button
+        .unbind('click')
+        .bind('click', () => show(index));
+    }
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const prevEventIndex = (n) => {
+    // index==0 is the kata creation event
+    const firstIndex = 1;
+    if (n === null || n === firstIndex) {
+      return null; // signals disabled-button in refreshIndex()
+    } else {
+      return n - 1; // Note: assumes only test events
+    }
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const nextEventIndex = (n) => {
+    const lastIndex = param.events.length - 1;
+    if (n === null || n === lastIndex) {
+      return null; // signals disabled-button in refreshIndex()
+    } else {
+      return n + 1; // Note: assumes only test events
+    }
+  };
 
   //-----------------------------------------
   // refresh traffic-lights
@@ -131,66 +191,6 @@ $(() => {
         `<img class='with-bar-gap' src='/traffic-light/image/${colour}_${barOrGap}.png'/>`,
       '</div>'
     ].join('');
-  };
-
-  //-----------------------------------------
-  // refresh navigator
-  //    [<] traffic-light-index [>]
-  //-----------------------------------------
-
-  const refreshNavigator = () => {
-    refreshIndex($('#prev-index'), prevEventIndex(param.nowIndex));
-    $('#review-index-box').html(makeIndexHtml());
-    refreshIndex($('#next-index'), nextEventIndex(param.nowIndex));
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const makeIndexHtml = () => {
-    const index = param.nowIndex;
-    const colour = param.events[index].colour;
-    return `<div id="index-number" class="${colour}">${index}</div>`;
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const refreshIndex = (button, index) => {
-    const on = (index !== null);
-    button
-      .attr('disabled', !on)
-      .css('cursor', on ? 'pointer' : 'default');
-    if (on) {
-      button
-        .unbind('click')
-        .bind('click', () => show(index));
-    }
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const prevEventIndex = (n) => {
-    // index==0 is the kata creation event
-    const firstIndex = 1;
-    if (n === null || n === firstIndex) {
-      // signals disabled-button in refreshIndex()
-      return null;
-    } else {
-      // Note: assumes only test events
-      return n - 1;
-    }
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const nextEventIndex = (n) => {
-    const lastIndex = param.events.length - 1;
-    if (n === null || n === lastIndex) {
-      // signals disabled-button in refreshIndex()
-      return null;
-    } else {
-      // Note: assumes only test events
-      return n + 1;
-    }
   };
 
   //-----------------------------------------
@@ -448,8 +448,8 @@ $(() => {
     $.getJSON('/differ/diff', reviewParams, (data) => {
       cd.hideWaitSpinner();
       param = data;
-      refreshSummary();
-      refreshNavigator();
+      refreshAvatarNavigator();
+      refreshIndexNavigator();
       refreshTrafficLights();
       refreshFiles();
       refreshDiffCheckBox();
@@ -475,7 +475,7 @@ $(() => {
   };
 
   //-----------------------------------------
-  // refresh [checkout] (from kata/edit page only)
+  // refresh [checkout] (on kata/edit page only)
   //-----------------------------------------
 
   const refreshCheckoutButton = () => {
@@ -547,23 +547,27 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
+  const setTrafficLightsCssWidth = () => {
+    if (param.avatarName.length != 0) {
+      // CSS maxWidth for review-traffic-lights is for individual exercise
+      // so when in a group-exercise, reduce by width of avatar-image.
+      // [1] Using jQuery to retrieve the css width using
+      // $('#review-avatar-image-box').width(); fails.
+      // I think this is because the element is hidden
+      // when this page is initially loaded.
+      const lights = $('#review-traffic-lights');
+      const maxWidth = lights.css('maxWidth');             // eg 730px
+      const imageWidth = 29;                               // [1]
+      const newMaxWidth = parseInt(maxWidth) - imageWidth; // eg 701
+      lights.css('maxWidth', `${newMaxWidth}px`);
+    }
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  setTrafficLightsCssWidth();
   setupButton('checkout', () => doCheckout());
   setupButton('fork',     () => cd.forkDialog(param.id, param.nowIndex));
-
-  if (param.avatarName.length != 0) {
-    // CSS maxWidth for review-traffic-lights is for individual exercise
-    // so when in a group-exercise, reduce by width of avatar-image.
-    // [1] I tried using jQuery to retrieve the css width using
-    // $('#review-avatar-image-box').width(); but this failed.
-    // I think this is because when this page is loaded the
-    // element is initially hidden.
-    const lights = $('#review-traffic-lights');
-    const maxWidth = lights.css('maxWidth');             // eg 730px
-    const imageWidth = 29;                               // [1]
-    const newMaxWidth = parseInt(maxWidth) - imageWidth; // eg 701
-    lights.css('maxWidth', `${newMaxWidth}px`);
-  }
-
   if (inTestPage()) {
     setupButton('resume', () => {
       $('#review-page').hide();
