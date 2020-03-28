@@ -495,11 +495,14 @@ $(() => {
 
   const refreshCheckoutButton = () => {
     const button = $('#checkout-button');
-    button.prop('disabled', !inTestPage());
-    cd.setTip(button, () => {
-      const tip = `checkout this<br/>traffic-light's files`;
-      cd.showHoverTip(button, tip);
-    });
+    if (!inTestPage()) {
+      button.hide();
+    } else {
+      cd.setTip(button, () => {
+        const tip = `checkout this<br/>traffic-light's files`;
+        cd.showHoverTip(button, tip);
+      });
+    }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
