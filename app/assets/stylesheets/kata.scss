@@ -8,8 +8,8 @@
     @include rounded-corner(6px);
     display: inline-block;
      cursor: default;
-      width: 29px;
-     height: 29px;
+      width: 26px;
+     height: 26px;
      margin: 0px;
     padding: 0px;
   }
@@ -71,7 +71,7 @@
      display:inline-block;
     position:relative; top:-2px;
     .traffic-light-count {
-      font-size: 23px;
+      font-size: 22px;
       position:relative; top:-3px;
     }
   }
