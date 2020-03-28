@@ -65,6 +65,29 @@ class DifferControllerTest < AppControllerTestBase
     end
   end
 
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '216', %w(
+  diff of kata that is part of a group-exercise
+  ) do
+    [0,1].each do |version|
+      @version = version
+      in_group(version:version) do |group|
+        @gid = group.id
+        3.times do
+          kata = assert_join(@gid)
+          @id = kata.id
+          @files = plain(kata.files)
+          @index = 0
+          post_run_tests
+          differ(@id, @gid, 0, 1, version)
+          assert_equal @id, json['id']
+          assert_equal @gid, json['groupId']          
+        end
+      end
+    end
+  end
+
   private
 
   def differ(id, group_id, was_index, now_index, version)
