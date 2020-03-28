@@ -72,6 +72,13 @@ class Group_v0
     results
   end
 
+  private
+
+  include IdPather
+  include Liner
+  include OjAdapter
+  include SaverAsserter
+
   # - - - - - - - - - - - - - - - - - - -
 
   def katas_indexes(id)
@@ -99,13 +106,6 @@ class Group_v0
     #   ...
     # ]
   end
-
-  private
-
-  include IdPather
-  include Liner
-  include OjAdapter
-  include SaverAsserter
 
   # - - - - - - - - - - - - - - - - - - - - - -
 

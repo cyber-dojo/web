@@ -63,10 +63,6 @@ class Group
     @manifest ||= Manifest.new(group.manifest(id))
   end
 
-  def katas_indexes
-    group.katas_indexes(id)
-  end
-
   private
 
   include Version
