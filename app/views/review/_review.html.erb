@@ -81,7 +81,9 @@ $(() => {
   //-----------------------------------------
 
   const refreshAvatarNavigator = () => {
-    if (param.avatarName != '') {
+    if (param.avatarName === '') {
+      $('#avatar-navigator').hide();
+    } else {
       refreshAvatar($('#prev-avatar'), param.prevAvatarId);
       $('#review-avatar-image-box').html(makeAvatarImageHtml());
       refreshAvatar($('#next-avatar'), param.nextAvatarId);
@@ -97,29 +99,14 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const refreshAvatar = (button, id) => {
-    button.hide();
-    return;
-
-    // TODO Server cannot handle lastIndex == -1 yet
-    // TODO Server must not return prevAvatarId/nextAvatarId if
-    //      that avatar has not pressed [test] yet...
-
-    // if diff[x] is on,  move to avatar's initial traffic-light
-    // if diff[ ] is off, move to avatar's last traffic-light
-    const lastIndex = -1;
-    const index = inDiffMode() ? 1 : lastIndex;
     const on = (id !== '');
     button
       .attr('disabled', !on)
-      .css('cursor', on ? 'pointer' : 'default');
-    if (on) {
-      button
-        .unbind('click')
-        .bind('click', () => {
-          param.id = id;
-          show(index);
-        });
-    }
+      .unbind('click')
+      .bind('click', () => {
+        param.id = id;
+        show(1);
+      });
   };
 
   //-----------------------------------------
@@ -147,12 +134,8 @@ $(() => {
     const on = (index !== null);
     button
       .attr('disabled', !on)
-      .css('cursor', on ? 'pointer' : 'default');
-    if (on) {
-      button
-        .unbind('click')
-        .bind('click', () => show(index));
-    }
+      .unbind('click')
+      .bind('click', () => show(index));
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -

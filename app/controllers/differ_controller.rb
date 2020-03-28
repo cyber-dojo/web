@@ -21,8 +21,8 @@ class DifferController < ApplicationController
 
     group_id = params[:group_id]
     if group_id != ''
-      katas_indexes = groups[group_id].katas_indexes
-      prev_avatar_id,next_avatar_id = prev_next_avatar_ids(id, katas_indexes)
+      group_events = groups[group_id].events
+      prev_avatar_id,next_avatar_id = prev_next_avatar_ids(id, group_events)
     else
       prev_avatar_id,next_avatar_id = '',''
     end
