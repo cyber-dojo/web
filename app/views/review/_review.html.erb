@@ -82,18 +82,49 @@ $(() => {
 
   const refreshAvatarNavigator = () => {
     if (param.avatarName != '') {
+      refreshAvatar($('#prev-avatar'), param.prevAvatarId);
       $('#review-avatar-image-box').html(makeAvatarImageHtml());
+      refreshAvatar($('#next-avatar'), param.nextAvatarId);
     }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
+
   const makeAvatarImageHtml = () => {
     return `<img class="avatar-image" src="/avatar/image/${param.avatarIndex}"/>`;
   };
 
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const refreshAvatar = (button, id) => {
+    button.hide();
+    return;
+
+    // TODO Server cannot handle lastIndex == -1 yet
+    // TODO Server must not return prevAvatarId/nextAvatarId if
+    //      that avatar has not pressed [test] yet...
+
+    // if diff[x] is on,  move to avatar's initial traffic-light
+    // if diff[ ] is off, move to avatar's last traffic-light
+    const lastIndex = -1;
+    const index = inDiffMode() ? 1 : lastIndex;
+    const on = (id !== '');
+    button
+      .attr('disabled', !on)
+      .css('cursor', on ? 'pointer' : 'default');
+    if (on) {
+      button
+        .unbind('click')
+        .bind('click', () => {
+          param.id = id;
+          show(index);
+        });
+    }
+  };
+
   //-----------------------------------------
   // refresh traffic-light navigator
-  //    traffic-light [<]index[>]
+  //    [<]index[>] traffic-lights...
   //-----------------------------------------
 
   const refreshIndexNavigator = () => {
@@ -551,14 +582,14 @@ $(() => {
   const setTrafficLightsCssWidth = () => {
     if (param.avatarName.length != 0) {
       // CSS maxWidth for review-traffic-lights is for individual exercise
-      // so when in a group-exercise, reduce by width of avatar-image.
+      // so when in a group-exercise, reduce by width of [<]avatar[>] navigator.
       // [1] Using jQuery to retrieve the css width using
-      // $('#review-avatar-image-box').width(); fails.
+      // $('#avatar-navigator').width(); fails.
       // I think this is because the element is hidden
       // when this page is initially loaded.
       const lights = $('#review-traffic-lights');
       const maxWidth = lights.css('maxWidth');             // eg 730px
-      const imageWidth = 29;                               // [1]
+      const imageWidth = 70;                               // [1]
       const newMaxWidth = parseInt(maxWidth) - imageWidth; // eg 701
       lights.css('maxWidth', `${newMaxWidth}px`);
     }
@@ -597,7 +628,7 @@ $(() => {
       <div id="checkout-button-box"></div>
     </td>
     <td>
-      <div id="review-avatar-image-box"></div>
+      <%= render(:partial => 'review/avatar_navigator') %>
       <%= render(:partial => 'review/traffic_light_navigator') %>
       <div id="review-traffic-lights"></div>
     </td>

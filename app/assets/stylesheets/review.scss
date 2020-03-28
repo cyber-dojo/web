@@ -15,7 +15,6 @@
   background: $darker-color;
        color: $lighter-color;
 
-  #review-avatar-image-box,
   #resume-button-box,
   #diff-checkbox-container,
   #fork-button-box,
@@ -23,12 +22,6 @@
   {
     display: inline;
     margin: 0px;
-  }
-
-  #review-avatar-image-box
-  {
-    position: relative;
-    top: -2px;
   }
 
   img.avatar-image
@@ -41,6 +34,8 @@
      margin: 0px;
     padding: 0px;
      margin: 0px;
+     position:relative;
+     top: 5px;
   }
 
   #resume-button
@@ -107,13 +102,13 @@
     }
   }
 
-  #traffic-light-navigator
+  #traffic-light-navigator, #avatar-navigator
   {
     display: inline;
     font-size: 0; // remove whitespace between child inline-block elements
     position:relative; top:-8px;
-    margin-left: 3px;
-    margin-right: 3px;
+    margin-left: 0px;
+    margin-right: 6px;
     #review-index-box
     {
       display: inline-block;
@@ -127,7 +122,10 @@
         text-align: center;
       }
     }
-
+    #review-avatar-image-box
+    {
+      display: inline-block;
+    }
     .triangle.button
     {
       position: relative; top: -3px; // up
@@ -143,8 +141,7 @@
         &:hover { border: 1px solid lighten($darker-color,15%); }
       }
     }
-
-    #prev-index, #next-index
+    #prev-index, #next-index, #prev-avatar, #next-avatar
     {
       display: inline-block;
       img
