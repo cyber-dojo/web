@@ -82,7 +82,7 @@ class DifferControllerTest < AppControllerTestBase
           post_run_tests
           differ(@id, @gid, 0, 1, version)
           assert_equal @id, json['id']
-          assert_equal @gid, json['groupId']          
+          assert_equal @gid, json['groupId']
         end
       end
     end

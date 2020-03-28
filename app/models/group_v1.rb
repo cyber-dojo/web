@@ -82,9 +82,14 @@ class Group_v1
 
   def katas_indexes(id)
     katas_src = saver_assert(katas_read_cmd(id))
-    # w34rd5 2
     # G2ws77 15
-    katas_src.split.each_slice(2).map{|kid,kindex| [kid,kindex.to_i] }
+    # w34rd5 2
+    # ...
+    katas_src
+      .split
+      .each_slice(2)
+      .map{|kid,kindex| [kid,kindex.to_i] }
+      .sort{|lhs,rhs| lhs[1] <=> rhs[1] }
     # [
     #   ['w34rd5', 2], #  2 == bat
     #   ['G2ws77',15], # 15 == fox

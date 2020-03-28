@@ -1,3 +1,4 @@
+require_relative '../helpers/prev_next_avatar_ids_helper'
 
 class DifferController < ApplicationController
 
@@ -21,16 +22,16 @@ class DifferController < ApplicationController
     group_id = params[:group_id]
     if group_id != ''
       katas_indexes = groups[group_id].katas_indexes
-      # prev_avatar_id
-      # next_avatar_id
+      prev_avatar_id,next_avatar_id = prev_next_avatar_ids(id, katas_indexes)
     else
-      prev_avatar_id = ''
-      next_avatar_id = ''
+      prev_avatar_id,next_avatar_id = '',''
     end
 
     result = {
                     version: version,
                          id: id,
+               prevAvatarId: prev_avatar_id,
+               nextAvatarId: next_avatar_id,
                     groupId: group_id,
                 avatarIndex: avatar_index,
                  avatarName: avatar_name,
@@ -47,6 +48,7 @@ class DifferController < ApplicationController
   private
 
   include DiffView
+  include PrevNextAvatarIdsHelper
   include ReviewFilePicker
 
   def current_filename
