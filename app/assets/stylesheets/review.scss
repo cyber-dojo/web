@@ -22,9 +22,13 @@
   #checkout-button-box
   {
     display: inline;
-    vertical-align: top;
-    float: left;
     margin: 0px;
+  }
+
+  #review-avatar-image-box
+  {
+    position: relative;
+    top: -2px;
   }
 
   img.avatar-image
@@ -36,7 +40,7 @@
      height: 26px;
      margin: 0px;
     padding: 0px;
-     margin: { right: 3px; }
+     margin: 0px;
   }
 
   #resume-button
@@ -77,15 +81,14 @@
     margin-right: 3px;
     padding: { bottom:1px; top:1px; left:6px; right:6px; }
     position: relative;
-    top: 4px;
+    top: -3px;
   }
 
   #review-traffic-lights
   {
-       display: flex;
-         float: left;
+       display: inline-flex;
         margin: 0px;
-     max-width: 766px;
+     max-width: 762px;
     overflow-x: auto;
     overflow-y: hidden;
     &::-webkit-scrollbar:horizontal { height: 0px; }
@@ -106,7 +109,11 @@
 
   #traffic-light-navigator
   {
+    display: inline;
     font-size: 0; // remove whitespace between child inline-block elements
+    position:relative; top:-8px;
+    margin-left: 3px;
+    margin-right: 3px;
     #review-index-box
     {
       display: inline-block;
