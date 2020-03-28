@@ -26,7 +26,7 @@ class KataController < ApplicationController
     @highlight_filenames = manifest.highlight_filenames
     @max_seconds = manifest.max_seconds
     @tab_size = manifest.tab_size
-    # footer info
+    # app-bar info
     @display_name = manifest.display_name
     @exercise = manifest.exercise
   end
