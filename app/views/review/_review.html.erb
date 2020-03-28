@@ -75,20 +75,18 @@ $(() => {
 
   //-----------------------------------------
   // refresh avatar navigator
-  //    [<] avatar [>]
+  //    [<]avatar[>]
   //-----------------------------------------
 
   const refreshAvatarNavigator = () => {
-    $('#review-avatar-image-box').html(makeAvatarImageHtml());
+    if (param.avatarName != '') {
+      $('#review-avatar-image-box').html(makeAvatarImageHtml());
+    }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const makeAvatarImageHtml = () => {
-    if (param.avatarName === '') {
-      return '';
-    } else {
-      return `<img class="avatar-image" src="/avatar/image/${param.avatarIndex}"/>`;
-    }
+    return `<img class="avatar-image" src="/avatar/image/${param.avatarIndex}"/>`;
   };
 
   //-----------------------------------------
