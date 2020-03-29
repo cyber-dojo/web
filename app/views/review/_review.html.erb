@@ -107,7 +107,7 @@ $(() => {
   const inDiffMode = () => diffCheckBox().is(':checked');
 
   $('#diff-checkbox-title').click(() => {
-    diffCheckBox().attr('checked', !diffCheckBox().is(':checked'));
+    diffCheckBox().attr('checked', !inDiffMode());
     moveToTrafficLight(param.nowIndex);
   });
 
@@ -300,7 +300,7 @@ $(() => {
 
   const makeDiffCount = (diff, propertyName, cssName) => {
     let html = '';
-    if (!diffCheckBox().is(':checked')) {
+    if (!inDiffMode()) {
       return html;
     }
     const div = $('<div>', {
