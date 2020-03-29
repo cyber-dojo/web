@@ -172,7 +172,10 @@ $(() => {
       const $light = $(light);
       const nowIndex = $light.data('index');
       $light.click(() => show(nowIndex));
-      const wasIndex = inDiffMode() ? prevEventIndex(nowIndex) : nowIndex;
+      // Show full tool-tip even if diff[x] is off
+      // otherwise you end up with odd tool-tip such as
+      //    (RED) 12 -> (RED) 12
+      const wasIndex = prevEventIndex(nowIndex);
       cd.setupTrafficLightTip($light, param.version, param.id, param.avatarIndex, wasIndex, nowIndex);
     });
   };
