@@ -10,12 +10,12 @@ button
           padding: { left: 0.5em; right: 0.5em; bottom: 0.1em; }
   text-decoration: none;
       font-weight: normal;
-           border: $filename_and_button_border_size solid $darker-color;
+           border: $filename_and_button_border_size solid lighten($darker-color, 35%);
 
-  &:hover { border: $filename_and_button_border_size dotted lighten($darker-color, 20%); }
+  &:hover { border: $filename_and_button_border_size dotted lighten($darker-color, 35%); }
   &[disabled] {
     background: lighten($darker-color, 20%);
         cursor: default;
-    &:hover { border: $filename_and_button_border_size solid $darker-color; }
+    &:hover { border: $filename_and_button_border_size solid lighten($darker-color,35%); }
   }
 }
