@@ -83,7 +83,7 @@
   {
        display: inline-flex;
         margin: 0px;
-     max-width: 762px;
+     max-width: 733px;
     overflow-x: auto;
     overflow-y: hidden;
     &::-webkit-scrollbar:horizontal { height: 0px; }
@@ -141,7 +141,8 @@
         &:hover { border: 1px solid lighten($darker-color,15%); }
       }
     }
-    #prev-index, #next-index, #prev-avatar, #next-avatar
+    #first-index, #prev-index, #next-index, #last-index,
+    #prev-avatar, #next-avatar
     {
       display: inline-block;
       img
@@ -151,6 +152,21 @@
           height: 12px;
          padding: 0px;
          position: relative; top: 1px; // down
+      }
+    }
+    #first-index, #last-index
+    {
+      &.triangle.button
+      {
+        width: 15px;
+        height: 15px;
+      }
+      img
+      {
+        width: 6px;
+       height: 6px;
+       padding: 0px;
+       position: relative; top: -1px; // up
       }
     }
   }

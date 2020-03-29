@@ -3,12 +3,12 @@
 $(() => {
 
   //---------------------------------------------------------------------
-  // This review page is also loaded in kata/edit
-  // The [resume] [checkout] buttons are only on kata/edit.
+  // This review page is also loaded in kata/edit (the test page)
+  // The [resume] & [checkout] buttons are only on kata/edit.
   //---------------------------------------------------------------------
 
   const inTestPage = () => {
-    return $('#kata-page').length != 0;
+    return $('#kata-page').length !== 0;
   };
 
   // After refresh() has been called param also contains param.events
@@ -53,12 +53,9 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const moveToTrafficLight = (index) => {
+    const delta = inDiffMode() ? 1 : 0;
     param.nowIndex = index;
-    if (inDiffMode()) {
-      param.wasIndex = (prevEventIndex(param.nowIndex) || 0);
-    } else {
-      param.wasIndex = index;
-    }
+    param.wasIndex = index - delta;
     refresh();
   };
 
@@ -95,21 +92,25 @@ $(() => {
   // refresh diff? [x]
   //-----------------------------------------
 
-  const refreshDiffCheckBox = () => {
-    diffCheckBox()
-      .attr('checked', param.wasIndex !== param.nowIndex)
-      .unbind('click')
-      .bind('click', () => moveToTrafficLight(param.nowIndex));
-  };
+  const inDiffMode = () => diffCheckBox().is(':checked');
 
   const diffCheckBox = () => $('#diff-checkbox');
 
-  const inDiffMode = () => diffCheckBox().is(':checked');
-
-  $('#diff-checkbox-title').click(() => {
-    diffCheckBox().attr('checked', !inDiffMode());
-    moveToTrafficLight(param.nowIndex);
-  });
+  const refreshDiffCheckBox = () => {
+    const checked = param.wasIndex !== param.nowIndex;
+    diffCheckBox()
+      .attr('checked', checked) // must be from params
+      .unbind('click')
+      .bind('click', () => {
+        moveToTrafficLight(param.nowIndex);
+      });
+    $('#diff-checkbox-title')
+      .unbind('click')
+      .bind('click', () => {
+        diffCheckBox().attr('checked', !inDiffMode());
+        moveToTrafficLight(param.nowIndex);
+      });
+  };
 
   //-----------------------------------------
   // refresh avatar navigator
@@ -135,9 +136,8 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const refreshAvatar = (button, id) => {
-    const on = (id !== '');
     button
-      .attr('disabled', !on)
+      .attr('disabled', id === '')
       .unbind('click')
       .bind('click', () => moveToAvatar(id));
   };
@@ -148,9 +148,11 @@ $(() => {
   //-----------------------------------------
 
   const refreshIndexNavigator = () => {
-    refreshIndex($('#prev-index'), prevEventIndex(param.nowIndex));
+    refreshIndex($('#first-index'),prevEventIndex(1));
+    refreshIndex($('#prev-index'), prevEventIndex(param.nowIndex-1));
     $('#review-index-box').html(makeIndexHtml());
-    refreshIndex($('#next-index'), nextEventIndex(param.nowIndex));
+    refreshIndex($('#next-index'), nextEventIndex(param.nowIndex+1));
+    refreshIndex($('#last-index'), nextEventIndex(param.events.length-1));
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -164,9 +166,8 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const refreshIndex = (button, index) => {
-    const on = (index !== null);
     button
-      .attr('disabled', !on)
+      .attr('disabled', index === null)
       .unbind('click')
       .bind('click', () => moveToTrafficLight(index));
   };
@@ -174,23 +175,20 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const prevEventIndex = (n) => {
-    // index==0 is the kata creation event
-    const firstIndex = 1;
-    if (n === null || n === firstIndex) {
-      return null; // signals disabled-button in refreshIndex()
+    if (param.nowIndex === 1) { // 0 is creation event
+      return null; // disable
     } else {
-      return n - 1; // Note: assumes only test events
+      return n;
     }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const nextEventIndex = (n) => {
-    const lastIndex = param.events.length - 1;
-    if (n === null || n === lastIndex) {
-      return null; // signals disabled-button in refreshIndex()
+    if (param.nowIndex === param.events.length-1) {
+      return null; // disable
     } else {
-      return n + 1; // Note: assumes only test events
+      return n;
     }
   };
 
@@ -201,6 +199,7 @@ $(() => {
   const refreshTrafficLights = () => {
     const trafficLights = $('#review-traffic-lights');
     trafficLights.html(makeTrafficLightsHtml());
+    let wasIndex = 0;
     $.each($('.diff-traffic-light', trafficLights), (_, light) => {
       const $light = $(light);
       const nowIndex = $light.data('index');
@@ -208,8 +207,8 @@ $(() => {
       // Show full tool-tip even if diff[x] is off
       // otherwise you end up with odd tool-tip such as
       //    (RED) 12 -> (RED) 12
-      const wasIndex = prevEventIndex(nowIndex);
       cd.setupTrafficLightTip($light, param.version, param.id, param.avatarIndex, wasIndex, nowIndex);
+      wasIndex = nowIndex;
     });
   };
 
