@@ -25,7 +25,7 @@ const removeDeletedFiles = () => {
   // but it can be deleted inside the container
   // and that will come back to here...
   <% @deleted.each do |filename| %>
-    if (!"<%= j raw(filename) %>".equals('cyber-dojo.sh')) {
+    if ("<%= j raw(filename) %>" !== 'cyber-dojo.sh') {
       cd.fileDelete("<%= j raw(filename) %>");
     }
   <% end %>
