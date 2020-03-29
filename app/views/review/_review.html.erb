@@ -45,7 +45,14 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const show = (index) => {
+  const moveToAvatar = (id) => {
+    param.id = id;
+    moveToTrafficLight(1);
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const moveToTrafficLight = (index) => {
     param.nowIndex = index;
     if (inDiffMode()) {
       param.wasIndex = (prevEventIndex(param.nowIndex) || 0);
@@ -53,6 +60,35 @@ $(() => {
       param.wasIndex = index;
     }
     refresh();
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const refresh = () => {
+    const reviewParams = {
+           version: param.version,
+                id: param.id,
+          group_id: param.groupId,
+         was_index: param.wasIndex,
+         now_index: param.nowIndex,
+          filename: param.filename
+    };
+    cd.showWaitSpinner();
+    $.getJSON('/differ/diff', reviewParams, (data) => {
+      cd.hideWaitSpinner();
+      param = data;
+      refreshAvatarNavigator();
+      refreshIndexNavigator();
+      refreshTrafficLights();
+      refreshFiles();
+      refreshDiffCheckBox();
+      refreshForkButton();
+      refreshCheckoutButton();
+      $('img[src $= "_bar.png"]').scrollIntoView({
+        direction:'horizontal',
+        duration:'slow'
+      });
+    });
   };
 
   //-----------------------------------------
@@ -63,7 +99,7 @@ $(() => {
     diffCheckBox()
       .attr('checked', param.wasIndex !== param.nowIndex)
       .unbind('click')
-      .bind('click', () => show(param.nowIndex));
+      .bind('click', () => moveToTrafficLight(param.nowIndex));
   };
 
   const diffCheckBox = () => $('#diff-checkbox');
@@ -72,7 +108,7 @@ $(() => {
 
   $('#diff-checkbox-title').click(() => {
     diffCheckBox().attr('checked', !diffCheckBox().is(':checked'));
-    show(param.nowIndex);
+    moveToTrafficLight(param.nowIndex);
   });
 
   //-----------------------------------------
@@ -103,10 +139,7 @@ $(() => {
     button
       .attr('disabled', !on)
       .unbind('click')
-      .bind('click', () => {
-        param.id = id;
-        show(1);
-      });
+      .bind('click', () => moveToAvatar(id));
   };
 
   //-----------------------------------------
@@ -135,7 +168,7 @@ $(() => {
     button
       .attr('disabled', !on)
       .unbind('click')
-      .bind('click', () => show(index));
+      .bind('click', () => moveToTrafficLight(index));
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -171,7 +204,7 @@ $(() => {
     $.each($('.diff-traffic-light', trafficLights), (_, light) => {
       const $light = $(light);
       const nowIndex = $light.data('index');
-      $light.click(() => show(nowIndex));
+      $light.click(() => moveToTrafficLight(nowIndex));
       // Show full tool-tip even if diff[x] is off
       // otherwise you end up with odd tool-tip such as
       //    (RED) 12 -> (RED) 12
@@ -448,35 +481,6 @@ $(() => {
       mousemove : synchScroll,
       mousedown : synchScroll,
       mouseup   : synchScroll
-    });
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const refresh = () => {
-    const reviewParams = {
-           version: param.version,
-                id: param.id,
-          group_id: param.groupId,
-         was_index: param.wasIndex,
-         now_index: param.nowIndex,
-          filename: param.filename
-    };
-    cd.showWaitSpinner();
-    $.getJSON('/differ/diff', reviewParams, (data) => {
-      cd.hideWaitSpinner();
-      param = data;
-      refreshAvatarNavigator();
-      refreshIndexNavigator();
-      refreshTrafficLights();
-      refreshFiles();
-      refreshDiffCheckBox();
-      refreshForkButton();
-      refreshCheckoutButton();
-      $('img[src $= "_bar.png"]').scrollIntoView({
-        direction:'horizontal',
-        duration:'slow'
-      });
     });
   };
 
