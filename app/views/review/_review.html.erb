@@ -2,18 +2,25 @@
 'use strict';
 $(() => {
 
-  //---------------------------------------------------------------------
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // This review page is also loaded in kata/edit (the test page)
   // The [resume] & [checkout] buttons are only on kata/edit.
-  //---------------------------------------------------------------------
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const inTestPage = () => {
     return $('#kata-page').length !== 0;
   };
 
-  // After refresh() has been called param also contains param.events
-  // which holds the traffic-lights and is used to enable/disable
-  // the traffic-light [<]index[>] navigator buttons.
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // After refresh() has been called param also contains
+  // param.events
+  //   holds the traffic-lights and is used to program
+  //   the traffic-light [<][>] navigator buttons.
+  // param.prevAvatarId
+  // param.nextAvatarId
+  //   hold the kata-ids and used is used to program
+  //   the avatar [<][>] navigator buttons.
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   let param = {
         version: "<%= @version %>",
@@ -27,7 +34,9 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  // Only app/views/kata/_traffic_lights.html.erb calls setReviewData()
+  // There is only one call to cd.setReviewData() in
+  // app/views/kata/_traffic_lights.html.erb
+  // - - - - - - - - - - - - - - - - - - - - - - - - 
 
   cd.setReviewData = (version, id, groupId, avatarName, avatarIndex, wasIndex, nowIndex, filename) => {
     param = {
@@ -40,6 +49,13 @@ $(() => {
          nowIndex:nowIndex,
          filename:filename
     };
+    $('#kata-page').hide();
+    $('#review-page').show();
+    setupButton('resume', () => {
+      $('#review-page').hide();
+      $('#kata-page').show();
+      cd.editorRefocus();
+    });
     refresh();
   };
 
@@ -72,8 +88,8 @@ $(() => {
     };
     cd.showWaitSpinner();
     $.getJSON('/differ/diff', reviewParams, (data) => {
-      cd.hideWaitSpinner();
       param = data;
+      cd.hideWaitSpinner();
       refreshAvatarNavigator();
       refreshIndexNavigator();
       refreshTrafficLights();
@@ -592,17 +608,7 @@ $(() => {
   setTrafficLightsCssWidth();
   setupButton('checkout', () => doCheckout());
   setupButton('fork',     () => cd.forkDialog(param.id, param.nowIndex));
-  if (inTestPage()) {
-    setupButton('resume', () => {
-      $('#review-page').hide();
-      $('#kata-page').show();
-      cd.editorRefocus();
-      // Dont call refresh() here because kata/edit page will
-      // call cd.setReviewData() which calls refresh().
-    });
-  } else {
-    refresh();
-  }
+  if (!inTestPage()) { refresh(); }
 
 });
 

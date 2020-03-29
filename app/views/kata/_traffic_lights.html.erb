@@ -30,8 +30,6 @@ $(() => {
   const setupTrafficLightReview = ($light, id, wasIndex, nowIndex) => {
     $light.click(() => {
       cd.setReviewData(version, id, groupId, avatarName, avatarIndex, wasIndex, nowIndex);
-      $('#kata-page').hide();
-      $('#review-page').show();
     });
   };
 
