@@ -25,7 +25,7 @@ services:
       - "./config.ru:/cyber-dojo/config.ru"
       - "./script/rails:/cyber-dojo/script/rails"
       - "./up.sh:/cyber-dojo/up.sh"
-    tmpfs: /cyber-dojo/tmp
+    tmpfs: [ "/cyber-dojo/tmp", "/cyber-dojo/log" ]
 
   custom-chooser:
     depends_on:
