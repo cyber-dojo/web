@@ -61,12 +61,13 @@ class Kata_v1
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def ran_tests(id, index, files, now, duration, stdout, stderr, status, colour)
+  def ran_tests(id, index, files, now, duration, stdout, stderr, status, colour, predicted='none')
     event_summary = {
       'index' => index,
       'time' => now,
+      'colour' => colour,
       'duration' => duration,
-      'colour' => colour
+      #'predicted' => predicted,
     }
     event_n = {
       'files' => files,

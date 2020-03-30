@@ -45,17 +45,18 @@ class Kata_v0
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def ran_tests(id, index, files, now, duration, stdout, stderr, status, colour)
+  def ran_tests(id, index, files, now, duration, stdout, stderr, status, colour, predicted='none')
+    event_summary = {
+      'time' => now,
+      'colour' => colour,
+      'duration' => duration,
+      #'predicted' => predicted,
+    }
     event_n = {
       'files' => files,
       'stdout' => stdout,
       'stderr' => stderr,
       'status' => status
-    }
-    event_summary = {
-      'colour' => colour,
-      'time' => now,
-      'duration' => duration
     }
     saver_assert_batch(
       exists_cmd(id),

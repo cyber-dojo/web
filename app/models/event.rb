@@ -40,6 +40,10 @@ class Event
     Time.mktime(*@hash['time'])
   end
 
+  def predicted
+    @hash['predicted'] || 'none'
+  end
+
   def colour
     # '' unless light?
     (@hash['colour'] || '').to_sym

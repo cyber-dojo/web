@@ -82,8 +82,8 @@ class Kata
     Runner.new(@externals).run(@params)
   end
 
-  def ran_tests(index, files, at, duration, stdout, stderr, status, colour)
-    kata.ran_tests(id, index, files, at, duration, stdout, stderr, status, colour)
+  def ran_tests(index, files, at, duration, stdout, stderr, status, colour, predicted='none')
+    kata.ran_tests(id, index, files, at, duration, stdout, stderr, status, colour, predicted)
   end
 
   def events

@@ -53,6 +53,8 @@ class KataController < ApplicationController
       @diagnostic = JSON.pretty_generate(result['diagnostic'])
     end
 
+    predicted = 'none'
+
     index = params[:index].to_i + 1
     args = []
     args << index                       # index of traffic-light event
@@ -60,6 +62,7 @@ class KataController < ApplicationController
     args += [t1,duration]               # how long runner took
     args += [@stdout, @stderr, @status] # output of [test] kata.run_tests()
     args << colour
+    args << predicted
     begin
       kata.ran_tests(*args)
     rescue SaverService::Error
@@ -67,7 +70,12 @@ class KataController < ApplicationController
     end
 
     @avatar_index = params[:avatar_index]
-    @light = Event.new(kata, { 'time' => t1, 'colour' => colour, 'index' => index})
+    @light = Event.new(kata, {
+      'time' => t1,
+      'index' => index,
+      'colour' => colour,
+      'predicted' => predicted,
+    })
     @id = kata.id
 
     respond_to do |format|

@@ -20,7 +20,7 @@ module TrafficLightHelper # mix-in
         " data-index='#{light.index}'",
         " data-avatar-index='#{avatar_index}'",
         " data-colour='#{light.colour}'>", # [1]
-        traffic_light_image(light.colour),
+        traffic_light_image(light),
       '</div>'
     ].join
   end
@@ -46,9 +46,9 @@ module TrafficLightHelper # mix-in
      traffic_lights.count { |light| light.colour == colour }
   end
 
-  def traffic_light_image(colour)
-    "<img src='/traffic-light/image/#{colour}.png'" +
-       " alt='#{colour} traffic-light'/>"
+  def traffic_light_image(light)
+    "<img src='/traffic-light/image/#{light.colour}_predicted_#{light.predicted}.png'" +
+       " alt='#{light.colour} traffic-light'/>"
   end
 
 end
