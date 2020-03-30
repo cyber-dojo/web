@@ -1,0 +1,67 @@
+
+version: '3.7'
+
+services:
+
+  nginx:
+    depends_on:
+      - web
+    image: ${CYBER_DOJO_NGINX_IMAGE}:${CYBER_DOJO_NGINX_TAG}
+    user: root
+    init: true
+    ports: [ "${CYBER_DOJO_NGINX_PORT}:80" ]
+    restart: "no"
+
+  web:
+    depends_on:
+      - custom-chooser
+      - exercises-chooser
+      - languages-chooser
+    volumes:
+      - "./app:/cyber-dojo/app"
+      - "./test:/cyber-dojo/test"
+      - "./config:/cyber-dojo/config"
+      - "./lib:/cyber-dojo/lib"
+      - "./config.ru:/cyber-dojo/config.ru"
+      - "./script/rails:/cyber-dojo/script/rails"
+      - "./up.sh:/cyber-dojo/up.sh"
+    tmpfs: /cyber-dojo/tmp
+
+  custom-chooser:
+    depends_on:
+      - custom-start-points
+      - creator
+    environment: [ NO_PROMETHEUS ]
+    image: ${CYBER_DOJO_CUSTOM_CHOOSER_IMAGE}:${CYBER_DOJO_CUSTOM_CHOOSER_TAG}
+    init: true
+    ports: [ "${CYBER_DOJO_CUSTOM_CHOOSER_PORT}:${CYBER_DOJO_CUSTOM_CHOOSER_PORT}" ]
+    read_only: true
+    restart: "no"
+    tmpfs: /tmp
+    user: nobody
+
+  exercises-chooser:
+    depends_on:
+      - exercises-start-points
+      - creator
+    environment: [ NO_PROMETHEUS ]
+    image: ${CYBER_DOJO_EXERCISES_CHOOSER_IMAGE}:${CYBER_DOJO_EXERCISES_CHOOSER_TAG}
+    init: true
+    ports: [ "${CYBER_DOJO_EXERCISES_CHOOSER_PORT}:${CYBER_DOJO_EXERCISES_CHOOSER_PORT}" ]
+    read_only: true
+    restart: "no"
+    tmpfs: /tmp
+    user: nobody
+
+  languages-chooser:
+    depends_on:
+      - languages-start-points
+      - creator
+    environment: [ NO_PROMETHEUS ]
+    image: ${CYBER_DOJO_LANGUAGES_CHOOSER_IMAGE}:${CYBER_DOJO_LANGUAGES_CHOOSER_TAG}
+    init: true
+    ports: [ "${CYBER_DOJO_LANGUAGES_CHOOSER_PORT}:${CYBER_DOJO_LANGUAGES_CHOOSER_PORT}" ]
+    read_only: true
+    restart: "no"
+    tmpfs: /tmp
+    user: nobody
