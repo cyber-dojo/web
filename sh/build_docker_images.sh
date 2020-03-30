@@ -10,7 +10,8 @@ build_images()
   echo
   docker-compose \
     --file "${ROOT_DIR}/docker-compose.yml" \
-    build
+    build \
+    --build-arg BUILD_ENV=copy    
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
