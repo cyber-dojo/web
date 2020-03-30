@@ -15,14 +15,12 @@ services:
     depends_on:
       - creator
       - avatars
-      - custom-chooser
       - custom-start-points
       - exercises-start-points
       - languages-start-points
       - differ
       - runner
       - saver
-      #- zipper
 
   # - - - - - - - - - - - - - - - -
   creator:
