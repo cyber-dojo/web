@@ -37,16 +37,9 @@ module TrafficLightTipHelper # mix-in
 
   def traffic_light_img(events, index)
     return '' if index == 0
-    colour = tag_colour(events, index)
-    "<img src='/traffic-light/image/#{colour}.png' class='traffic-light-diff-tip-traffic-light-image'>"
-  end
-
-  def tag_colour(events, index)
-    events[index].colour
-  end
-
-  def right_arrow
-    "<div class='right-arrow'>&rarr;</div>"
+    light = events[index]
+    "<img src='/traffic-light/image/#{light.colour}_predicted_#{light.predicted}.png'" +
+      " class='traffic-light-diff-tip-traffic-light-image'>"
   end
 
   def avatar_img(index)

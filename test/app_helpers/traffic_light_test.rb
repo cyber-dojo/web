@@ -14,11 +14,11 @@ class TrafficLightTest < AppHelpersTestBase
   test '67C',
   'traffic_light_count' do
     lights = [
-      event(0, 'red'),
-      event(1, 'red'),
-      event(2, 'amber'),
-      event(3, 'green'),
-      event(4, 'amber'),
+      event(0, 'red'  , 'none'),
+      event(1, 'red'  , 'none'),
+      event(2, 'amber', 'none'),
+      event(3, 'green', 'none'),
+      event(4, 'amber', 'none'),
     ]
     expected =
       "<div class='traffic-light-count-wrapper'>" +
@@ -39,10 +39,10 @@ class TrafficLightTest < AppHelpersTestBase
 
   test 'E41',
   'traffic_light_image' do
-    colour = 'red'
-    expected = "<img src='/traffic-light/image/#{colour}.png'" +
+    light = event(index=14, colour='red', predicted='none')
+    expected = "<img src='/traffic-light/image/red_predicted_none.png'" +
                " alt='red traffic-light'/>"
-    actual = traffic_light_image(colour)
+    actual = traffic_light_image(light)
     assert_equal expected, actual
   end
 
@@ -52,7 +52,7 @@ class TrafficLightTest < AppHelpersTestBase
   'diff_traffic_light' do
     id = 'a4r9YN'
     kata = OpenStruct.new(id:id)
-    red = event(index=14, colour='red', kata)
+    light = event(index=14, colour='green', predicted='none', kata)
     avatar_index = 37
     expected = '' +
       "<div class='diff-traffic-light'" +
@@ -60,17 +60,21 @@ class TrafficLightTest < AppHelpersTestBase
         " data-index='#{index}'" +
         " data-avatar-index='#{avatar_index}'" +
         " data-colour='#{colour}'>" +
-        "<img src='/traffic-light/image/red.png'" +
-           " alt='red traffic-light'/>" +
+        "<img src='/traffic-light/image/green_predicted_none.png'" +
+           " alt='green traffic-light'/>" +
       '</div>'
-    actual = diff_traffic_light(red, avatar_index)
+    actual = diff_traffic_light(light, avatar_index)
     assert_equal expected, actual
   end
 
   private
 
-  def event(index, colour, kata=nil)
-    Event.new(kata, { 'index' => index, 'colour' => colour })
+  def event(index, colour, predicted, kata=nil)
+    Event.new(kata, {
+      'index' => index,
+      'colour' => colour,
+      'predicted' => predicted,
+    })
   end
 
 end
