@@ -7,9 +7,6 @@ module TrafficLightTipHelper # mix-in
     unless avatar_index.nil? || avatar_index === ''
       tip += td(avatar_img(avatar_index))           # panda
     end
-    tip += td(traffic_light_img(events, was_index)) # red/amber/green
-    tip += td(tag_html(was_index))                  # 13
-    tip += td(right_arrow)                          # ->
     tip += td(traffic_light_img(events, now_index)) # red/amber/green
     tip += td(tag_html(now_index))                  # 14
     tip += '</tr></table>'
