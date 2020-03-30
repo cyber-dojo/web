@@ -22,6 +22,6 @@ WORKDIR /cyber-dojo
 ARG COMMIT_SHA
 ENV SHA=${COMMIT_SHA}
 
-EXPOSE  3000
+EXPOSE 3000
 USER nobody
 CMD [ "./up.sh" ]

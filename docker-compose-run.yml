@@ -17,6 +17,7 @@ services:
       - custom-chooser
       - exercises-chooser
       - languages-chooser
+    ports: [ 3000:3000 ]
     volumes:
       - "./app:/cyber-dojo/app"
       - "./test:/cyber-dojo/test"
