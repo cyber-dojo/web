@@ -3,7 +3,7 @@
 const appendTestTrafficLight = () => {
   const light = $("<%= raw diff_traffic_light(@light, @avatar_index) %>");
   $('#traffic-lights').append(light);
-  cd.setupReviewTrafficLights(light);
+  cd.setupTrafficLights(light);
 };
 
 const updateTrafficLightCount = () => {
