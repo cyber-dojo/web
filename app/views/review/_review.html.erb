@@ -2,11 +2,6 @@
 'use strict';
 $(() => {
 
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // This review page is also loaded in kata/edit (the test page)
-  // The [resume] & [checkout] buttons are only on kata/edit.
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   const inTestPage = () => {
     return $('#kata-page').length !== 0;
   };
@@ -36,7 +31,8 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   // There is only one call to cd.setReviewData() in
   // app/views/kata/_traffic_lights.html.erb
-  // - - - - - - - - - - - - - - - - - - - - - - - - 
+  // The [resume] & [checkout] buttons are only on kata/edit.
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.setReviewData = (version, id, groupId, avatarName, avatarIndex, wasIndex, nowIndex, filename) => {
     param = {
@@ -56,6 +52,8 @@ $(() => {
       $('#kata-page').show();
       cd.editorRefocus();
     });
+    setupButton('checkout', () => doCheckout());
+    setCheckoutButtonTip();
     refresh();
   };
 
@@ -499,11 +497,9 @@ $(() => {
     });
   };
 
-  //-----------------------------------------
-  // refresh [fork]
-  //-----------------------------------------
+  // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const refreshForkButton = () => {
+  const setForkButtonTip = () => {
     const button = $('#fork-button');
     cd.setTip(button, () => {
       const tip = `create a new exercise<br/>from this traffic-light's files`;
@@ -511,20 +507,14 @@ $(() => {
     });
   };
 
-  //-----------------------------------------
-  // refresh [checkout] (on kata/edit page only)
-  //-----------------------------------------
+  // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const refreshCheckoutButton = () => {
+  const setCheckoutButtonTip = () => {
     const button = $('#checkout-button');
-    if (!inTestPage()) {
-      button.hide();
-    } else {
-      cd.setTip(button, () => {
-        const tip = `checkout this<br/>traffic-light's files`;
-        cd.showHoverTip(button, tip);
-      });
-    }
+    cd.setTip(button, () => {
+      const tip = `checkout this<br/>traffic-light's files`;
+      cd.showHoverTip(button, tip);
+    });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -576,8 +566,6 @@ $(() => {
       .text(name)
       .unbind('click')
       .bind('click', handler);
-    if (name === 'checkout') { refreshCheckoutButton(); }
-    if (name === 'fork'    ) { refreshForkButton();     }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -606,9 +594,11 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   setTrafficLightsCssWidth();
-  setupButton('checkout', () => doCheckout());
-  setupButton('fork',     () => cd.forkDialog(param.id, param.nowIndex));
-  if (!inTestPage()) { refresh(); }
+  setupButton('fork', () => cd.forkDialog(param.id, param.nowIndex));
+  setForkButtonTip();
+  if (!inTestPage()) {
+    refresh();
+  }
 
 });
 
