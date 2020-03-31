@@ -45,12 +45,15 @@ $(() => {
          nowIndex:nowIndex,
          filename:filename
     };
-    $('#kata-page').hide();
-    $('#review-page').show();
+    $('#kata-page').fadeOut('slow', () => {
+      $('#review-page').fadeIn('slow');
+    });
     setupButton('resume', () => {
-      $('#review-page').hide();
-      $('#kata-page').show();
-      cd.editorRefocus();
+      $('#review-page').fadeOut('fast', () => {
+        $('#kata-page').fadeIn('fast', () => {
+          cd.editorRefocus();
+        });
+      });
     });
     setupButton('checkout', () => doCheckout());
     setCheckoutButtonTip();
@@ -84,20 +87,20 @@ $(() => {
          now_index: param.nowIndex,
           filename: param.filename
     };
-    cd.showWaitSpinner();
-    $.getJSON('/differ/diff', reviewParams, (data) => {
-      param = data;
-      cd.hideWaitSpinner();
-      refreshAvatarNavigator();
-      refreshIndexNavigator();
-      refreshTrafficLights();
-      refreshFiles();
-      refreshDiffCheckBox();
-      refreshForkButton();
-      refreshCheckoutButton();
-      $('img[src $= "_bar.png"]').scrollIntoView({
-        direction:'horizontal',
-        duration:'slow'
+    cd.waitSpinner.fadeIn('fast', () => {
+      $.getJSON('/differ/diff', reviewParams, (data) => {
+        param = data;
+        cd.waitSpinner.fadeOut('fast', () => {
+          refreshAvatarNavigator();
+          refreshIndexNavigator();
+          refreshTrafficLights();
+          refreshFiles();
+          refreshDiffCheckBox();
+          $('img[src $= "_bar.png"]').scrollIntoView({
+            direction:'horizontal',
+            duration:'slow'
+          });
+        });
       });
     });
   };

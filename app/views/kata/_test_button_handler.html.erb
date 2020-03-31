@@ -1,15 +1,16 @@
 <script type="text/javascript"><!--
 'use strict';
 $(() => {
+
   // Called from 3 places
   // 1. when you click [test]
   // 2. when you hot-key Alt-T
   // 3. when you checkout from a diff-review
   cd.testButton.click(() => {
-    const form = cd.testButton.closest('form');
-    cd.saveCodeFromSyntaxHighlightEditors();
     cd.testButton.disable();
-    cd.waitSpinner().fadeIn('slow', () => {
+    cd.saveCodeFromSyntaxHighlightEditors();
+    cd.waitSpinner.fadeIn('slow', () => {
+      const form = cd.testButton.closest('form');
       $.ajax({
            timeout: 30000, // 30 seconds
               type: 'POST',
@@ -24,7 +25,7 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - - - - -
 
   const complete = (_xhr, _status) => {
-    cd.waitSpinner().fadeOut('slow', () => {
+    cd.waitSpinner.fadeOut('slow', () => {
       cd.testButton.enable();
     });
   };
