@@ -22,11 +22,12 @@ $(() => {
     else if (id.length === 6) {
       const args = { id:id, from:"<%= @from %>" };
       inputId.prop('disabled', true);
-      waitSpinner.show();
-      $.getJSON('/id_rejoin/drop_down', args, dropDownHandler)
-       .always(() => {
-         waitSpinner.hide();
-         inputId.prop('disabled', false);
+      cd.waitSpinner.fadeIn('slow', () => {
+        $.getJSON('/id_rejoin/drop_down', args, dropDownHandler)
+         .always(() => {
+           cd.waitSpinner.hide('slow');
+           inputId.prop('disabled', false);
+         });
        });
     }
   };
@@ -121,7 +122,6 @@ $(() => {
        value="<%= @id %>">
 </input>
 <br/>
-<%= render partial: 'shared/wait_spinner' %>
 
 <div id="drop-down" style="display:none;">
   <span id="hi-text"></span>
