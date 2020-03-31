@@ -2,15 +2,11 @@
 'use strict';
 $(() => {
 
-  const inTestPage = () => {
-    return $('#kata-page').length !== 0;
-  };
-
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // After refresh() has been called param also contains
   // param.events
   //   holds the traffic-lights and is used to program
-  //   the traffic-light [<][>] navigator buttons.
+  //   the traffic-light [<][<][>][>] navigator buttons.
   // param.prevAvatarId
   // param.nextAvatarId
   //   hold the kata-ids and used is used to program
@@ -29,8 +25,8 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  // There is only one call to cd.setReviewData() in
-  // app/views/kata/_traffic_lights.html.erb
+  // There is only one call to cd.setReviewData() and its
+  // in app/views/kata/_traffic_lights.html.erb
   // The [resume] & [checkout] buttons are only on kata/edit.
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -59,6 +55,8 @@ $(() => {
     setCheckoutButtonTip();
     refresh();
   };
+
+  const inTestPage = $('#kata-page').length !== 0;
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -94,15 +92,21 @@ $(() => {
       refreshTrafficLights();
       refreshFiles();
       refreshDiffCheckBox();
-      $('img[src $= "_bar.png"]').scrollIntoView({
-        direction:'horizontal',
-        duration:'slow'
-      });
+      scrollCurrentTrafficLightIntoView();
+    });
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const scrollCurrentTrafficLightIntoView = () => {
+    $('img[src $= "_bar.png"]').scrollIntoView({
+      direction:'horizontal',
+      duration:'slow'
     });
   };
 
   //-----------------------------------------
-  // refresh diff? [x]
+  // diff? [x]
   //-----------------------------------------
 
   const inDiffMode = () => diffCheckBox().is(':checked');
@@ -126,8 +130,7 @@ $(() => {
   };
 
   //-----------------------------------------
-  // refresh avatar navigator
-  //    [<]avatar[>]
+  // [<]avatar[>]
   //-----------------------------------------
 
   const refreshAvatarNavigator = () => {
@@ -156,8 +159,7 @@ $(() => {
   };
 
   //-----------------------------------------
-  // refresh traffic-light navigator
-  //    [<]index[>] traffic-lights...
+  // [<][<]traffic-light-index[>][>]
   //-----------------------------------------
 
   const refreshIndexNavigator = () => {
@@ -217,9 +219,6 @@ $(() => {
       const $light = $(light);
       const nowIndex = $light.data('index');
       $light.click(() => moveToTrafficLight(nowIndex));
-      // Show full tool-tip even if diff[x] is off
-      // otherwise you end up with odd tool-tip such as
-      //    (RED) 12 -> (RED) 12
       cd.setupTrafficLightTip($light, param.version, param.id, param.avatarIndex, wasIndex, nowIndex);
       wasIndex = nowIndex;
     });
@@ -231,12 +230,9 @@ $(() => {
     let html = '';
     let wasIndex = 0;
     $.each(param.events, (_n, event) => {
-      const colour = event.colour;
-      if (colour !== '') {
-        const nowIndex = event.index;
-        const barOrGap = (param.nowIndex === nowIndex) ? 'bar' : 'gap';
-        html += makeTrafficLightHtml(colour, wasIndex, nowIndex, barOrGap);
-        wasIndex = nowIndex;
+      if (event.colour !== '') {
+        html += makeTrafficLightHtml(wasIndex, event);
+        wasIndex = event.index;
       }
     });
     return html;
@@ -244,7 +240,10 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const makeTrafficLightHtml = (colour, wasIndex, nowIndex, barOrGap) => {
+  const makeTrafficLightHtml = (wasIndex, light) => {
+    const nowIndex = light.index;
+    const barOrGap = (param.nowIndex === nowIndex) ? 'bar' : 'gap';
+    const colour = light.colour;
     return [
       "<div class='diff-traffic-light'",
         ` data-id='${param.id}'`,
@@ -270,9 +269,9 @@ $(() => {
   };
 
   const showFile = (filenameId) => {
-    const filename =  $(`#radio_${filenameId}`);
-    filename.click()
-            .scrollIntoView({ direction: 'vertical' });
+    $(`#radio_${filenameId}`)
+      .click()
+      .scrollIntoView({ direction: 'vertical' });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -311,9 +310,8 @@ $(() => {
   };
 
   const makeDiffCount = (diff, propertyName, cssName) => {
-    let html = '';
     if (!inDiffMode()) {
-      return html;
+      return '';
     }
     const div = $('<div>', {
       'class': `diff-${cssName}-line-count button`,
@@ -595,7 +593,7 @@ $(() => {
   setTrafficLightsCssWidth();
   setupButton('fork', () => cd.forkDialog(param.id, param.nowIndex));
   setForkButtonTip();
-  if (!inTestPage()) {
+  if (!inTestPage) {
     refresh();
   }
 
