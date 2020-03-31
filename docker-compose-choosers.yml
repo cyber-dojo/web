@@ -1,0 +1,46 @@
+
+version: '3.7'
+
+services:
+
+  custom-chooser:
+    depends_on:
+      - custom-start-points
+      - creator
+    environment: [ NO_PROMETHEUS ]
+    image: ${CYBER_DOJO_CUSTOM_CHOOSER_IMAGE}:${CYBER_DOJO_CUSTOM_CHOOSER_TAG}
+    init: true
+    container_name: test-web-custom-chooser
+    ports: [ "${CYBER_DOJO_CUSTOM_CHOOSER_PORT}:${CYBER_DOJO_CUSTOM_CHOOSER_PORT}" ]
+    read_only: true
+    restart: "no"
+    tmpfs: /tmp
+    user: nobody
+
+  exercises-chooser:
+    depends_on:
+      - exercises-start-points
+      - creator
+    environment: [ NO_PROMETHEUS ]
+    image: ${CYBER_DOJO_EXERCISES_CHOOSER_IMAGE}:${CYBER_DOJO_EXERCISES_CHOOSER_TAG}
+    init: true
+    container_name: test-web-exercises-chooser
+    ports: [ "${CYBER_DOJO_EXERCISES_CHOOSER_PORT}:${CYBER_DOJO_EXERCISES_CHOOSER_PORT}" ]
+    read_only: true
+    restart: "no"
+    tmpfs: /tmp
+    user: nobody
+
+  languages-chooser:
+    depends_on:
+      - languages-start-points
+      - creator
+    environment: [ NO_PROMETHEUS ]
+    image: ${CYBER_DOJO_LANGUAGES_CHOOSER_IMAGE}:${CYBER_DOJO_LANGUAGES_CHOOSER_TAG}
+    init: true
+    container_name: test-web-languages-chooser
+    ports: [ "${CYBER_DOJO_LANGUAGES_CHOOSER_PORT}:${CYBER_DOJO_LANGUAGES_CHOOSER_PORT}" ]
+    read_only: true
+    restart: "no"
+    tmpfs: /tmp
+    user: nobody
