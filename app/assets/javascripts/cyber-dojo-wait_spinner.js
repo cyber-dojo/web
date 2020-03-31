@@ -2,19 +2,26 @@
 'use strict';
 var cyberDojo = (function(cd, $) {
 
-  const overlaySpinner = $('<div>', {
-     id:'wait-overlay'
+  const waitSpinner = $('<div>', {
+    id:'wait-overlay',
+    style:'display:none;'
   }).add($('<img>', {
-     id:'wait-spinner',
-    src:'/images/rotate-cyber-dojo.gif'
+    src:'/images/rotate-cyber-dojo.gif',
+     id:'wait-spinner'
   }));
 
-  cd.showWaitSpinner = () => {
-    overlaySpinner.insertAfter($('body'));
+  cd.showWaitSpinner = (onComplete) => {
+    waitSpinner
+      .insertAfter($('body'))
+      .fadeIn('slow', onComplete);
   };
 
-  cd.hideWaitSpinner = () => {
-    overlaySpinner.remove();
+  cd.hideWaitSpinner = (onComplete) => {
+    waitSpinner
+      .fadeOut('fast', () => {
+        waitSpinner.remove();
+        onComplete();
+      });
   };
 
   return cd;
