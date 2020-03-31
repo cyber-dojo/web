@@ -87,20 +87,16 @@ $(() => {
          now_index: param.nowIndex,
           filename: param.filename
     };
-    cd.waitSpinner.fadeIn('fast', () => {
-      $.getJSON('/differ/diff', reviewParams, (data) => {
-        param = data;
-        cd.waitSpinner.fadeOut('fast', () => {
-          refreshAvatarNavigator();
-          refreshIndexNavigator();
-          refreshTrafficLights();
-          refreshFiles();
-          refreshDiffCheckBox();
-          $('img[src $= "_bar.png"]').scrollIntoView({
-            direction:'horizontal',
-            duration:'slow'
-          });
-        });
+    $.getJSON('/differ/diff', reviewParams, (data) => {
+      param = data;
+      refreshAvatarNavigator();
+      refreshIndexNavigator();
+      refreshTrafficLights();
+      refreshFiles();
+      refreshDiffCheckBox();
+      $('img[src $= "_bar.png"]').scrollIntoView({
+        direction:'horizontal',
+        duration:'slow'
       });
     });
   };
