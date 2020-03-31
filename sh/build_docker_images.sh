@@ -1,7 +1,7 @@
-#!/bin/bash -Ee
+#!/bin/bash -Eeu
 
 readonly IMAGE=cyberdojo/web
-readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
+readonly ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 export COMMIT_SHA=$(cd "${ROOT_DIR}" && git rev-parse HEAD)
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
