@@ -9,7 +9,7 @@ $(() => {
     const form = cd.testButton.closest('form');
     cd.saveCodeFromSyntaxHighlightEditors();
     cd.testButton.disable();
-    cd.showWaitSpinner(() => {
+    cd.waitSpinner().fadeIn('slow', () => {
       $.ajax({
            timeout: 30000, // 30 seconds
               type: 'POST',
@@ -24,7 +24,7 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - - - - -
 
   const complete = (_xhr, _status) => {
-    cd.hideWaitSpinner(() => {
+    cd.waitSpinner().fadeOut('slow', () => {
       cd.testButton.enable();
     });
   };
