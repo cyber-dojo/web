@@ -85,14 +85,18 @@ $(() => {
          now_index: param.nowIndex,
           filename: param.filename
     };
-    $.getJSON('/differ/diff', reviewParams, (data) => {
-      param = data;
-      refreshAvatarNavigator();
-      refreshIndexNavigator();
-      refreshTrafficLights();
-      refreshFiles();
-      refreshDiffCheckBox();
-      scrollCurrentTrafficLightIntoView();
+    cd.waitSpinner.fadeIn('fast', () => {
+      $.getJSON('/differ/diff', reviewParams, (data) => {
+        cd.waitSpinner.fadeOut('fast', () => {
+          param = data;
+          refreshAvatarNavigator();
+          refreshIndexNavigator();
+          refreshTrafficLights();
+          refreshFiles();
+          refreshDiffCheckBox();
+          scrollCurrentTrafficLightIntoView();
+        });
+      });
     });
   };
 
