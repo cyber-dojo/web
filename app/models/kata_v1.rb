@@ -74,51 +74,6 @@ class Kata_v1
       'stderr' => stderr,
       'status' => status
     }
-    # TODO: Description of problem...
-    # Suppose two laptops are in as the same animal and they are
-    # *not* keeping sync with browser refreshes. What happens is this:
-    # lion-1 gets (say)  [red, amber]
-    # Saver's state is
-    #   events.json
-    #     {"index":0,...,"event":"created"},
-    #     {"index":1,...,"colour":"red"},
-    #     {"index":2,...,"colour":"amber"},
-    #   0.event.json
-    #   1.event.json
-    #   2.event.json
-    #
-    # Now, suppose lion-2 presses their [test] and gets a green.
-    # On the web service, a Saver exception has arisen (and been swallowed)
-    # because the event_write_cmd() returned false (since a file
-    # called 1.event.json already exists). However, the preceeding
-    # events_append_cmd() call has succeeded...
-    # Saver's state is now:
-    #   events.json
-    #     {"index":0,...,"event":"created"},
-    #     {"index":1,...,"colour":"red"},
-    #     {"index":2,...,"colour":"amber"},
-    #     {"index":1,...,"colour":"green"}, <----- appended
-    #   0.event.json
-    #   1.event.json <--- still the original from lion-1
-    #   2.event.json
-    #
-    # If you now looked at a review-page (for either lion) you would see
-    # three traffic-lights [red,amber,green], and *two* of them will be
-    # marked as current (with an underbar).
-    #
-    # The solution is
-    #   1) Add a saver.batch_assert() which stops (and raises) on the
-    #      first command that returns false.
-    #   2) Swap the order of these two cmd's
-    #
-    # It should then be possible to inspect the fine details of the
-    # exception to determine if it is arising from an attempt to create
-    # a file that *already* exists.
-    # The Saver exception could be allowed to reach the browser
-    # and the lion presented with information saying...
-    #   o) failed to *save* this traffic-light
-    #   o) there is more than one lion!
-    #   o) info about how to do browser refreshing...
     saver_assert_batch(
       events_append_cmd(id, ",\n" + json_plain(event_summary)),
       event_write_cmd(id, index, json_plain(event_n.merge(event_summary)))
