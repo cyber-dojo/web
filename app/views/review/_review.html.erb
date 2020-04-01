@@ -103,7 +103,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const scrollCurrentTrafficLightIntoView = () => {
-    $('img[src $= "_bar.png"]').scrollIntoView({
+    $('#traffic-light-marker').scrollIntoView({
       direction:'horizontal',
       duration:'slow'
     });
@@ -263,7 +263,7 @@ $(() => {
   const makeTrafficLightMarkerHtml = (light) => {
     const currentIndex = (param.nowIndex === light.index);
     if (currentIndex) {
-      return `<img class='marker' src='/traffic-light/image/marker_${light.colour}.png'/>`;
+      return `<img id='traffic-light-marker' src='/traffic-light/image/marker_${light.colour}.png'/>`;
     } else {
       return '';
     }
