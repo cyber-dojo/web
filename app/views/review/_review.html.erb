@@ -212,7 +212,7 @@ $(() => {
   };
 
   //-----------------------------------------
-  // refresh traffic-lights
+  // traffic-lights
   //-----------------------------------------
 
   const refreshTrafficLights = () => {
@@ -231,35 +231,46 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const makeTrafficLightsHtml = () => {
-    let html = '';
-    let wasIndex = 0;
-    $.each(param.events, (_n, event) => {
-      if (event.colour !== '') {
-        html += makeTrafficLightHtml(wasIndex, event);
-        wasIndex = event.index;
-      }
-    });
+    let html = '<table>';
+      html += '<tr>';
+      $.each(param.events, (_n, event) => {
+        if (event.colour !== '') { // 0 == creation
+          html += makeTd(makeTrafficLightHtml(event));
+        }
+      });
+      html += '</tr>';
+    html += '</table>';
     return html;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const makeTrafficLightHtml = (wasIndex, light) => {
-    const nowIndex = light.index;
-    const barOrGap = (param.nowIndex === nowIndex) ? 'bar' : 'gap';
+  const makeTrafficLightHtml = (light) => {
     const colour = light.colour;
     return [
       "<div class='diff-traffic-light'",
         ` data-id='${param.id}'`,
         ` data-colour='${colour}'`,
-        ` data-index='${nowIndex}'>`,
-        `<img class='with-bar-gap' src='/traffic-light/image/${colour}_${barOrGap}.png'/>`,
-      '</div>'
+        ` data-index='${light.index}'>`,
+        `<img src='/traffic-light/image/${colour}.png'/>`,
+      '</div>',
+      makeTrafficLightMarkerHtml(light)
     ].join('');
   };
 
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const makeTrafficLightMarkerHtml = (light) => {
+    const currentIndex = (param.nowIndex === light.index);
+    if (currentIndex) {
+      return `<img class='marker' src='/traffic-light/image/marker_${light.colour}.png'/>`;
+    } else {
+      return '';
+    }
+  };
+
   //-----------------------------------------
-  // refresh files
+  // files
   //-----------------------------------------
 
   const refreshFiles = () => {
