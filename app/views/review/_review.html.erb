@@ -176,14 +176,6 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const makeIndexHtml = () => {
-    const index = param.nowIndex;
-    const colour = param.events[index].colour;
-    return `<div id="index-number" class="${colour}">${index}</div>`;
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
   const refreshIndex = (button, index) => {
     button
       .attr('disabled', index === null)
@@ -209,6 +201,14 @@ $(() => {
     } else {
       return n;
     }
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const makeIndexHtml = () => {
+    const index = param.nowIndex;
+    const colour = param.events[index].colour;
+    return `<div id="index-number" class="${colour}">${index}</div>`;
   };
 
   //-----------------------------------------
