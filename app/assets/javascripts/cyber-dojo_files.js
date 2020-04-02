@@ -35,14 +35,27 @@ var cyberDojo = (function(cd, $) {
     cd.fileChange('stdout', { content: stdout });
     cd.fileChange('stderr', { content: stderr });
     cd.fileChange('status', { content: status });
-    if (colour === 'timed_out') {
-      cd.loadFile('status'); // timed-out: status == '137'
-    }
-    else if (stdout.length > stderr.length) {
-      cd.loadFile('stdout');
-    }
-    else {
-      cd.loadFile('stderr');
+    const empty = (s) => s.length === 0;
+    switch (colour) {
+      case 'timed_out':
+      case 'faulty':
+        cd.loadFile('status');
+        break;
+      case 'red':
+      case 'green':
+        if (!empty(stdout) || empty(stderr)) {
+          cd.loadFile('stdout');
+        } else {
+          cd.loadFile('stderr');
+        }
+        break;
+      case 'amber':
+        if (stdout.length > stderr.length) {
+          cd.loadFile('stdout');
+        } else {
+          cd.loadFile('stderr');
+        }
+        break;
     }
   };
 
