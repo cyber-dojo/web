@@ -3,3 +3,8 @@
        type="hidden"
        name="hidden_filenames"
        value='<%= raw JSON.generate(@hidden_filenames) %>'>
+
+<%# Note %>
+<%# 1) The value attribute uses single quotes               %> 
+<%# 2) The json contains double quotes                      %>
+<%# 3) The @hidden_filenames must not contain single quotes %>
