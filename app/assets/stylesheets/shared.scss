@@ -50,7 +50,7 @@ a:link, a:visited { color: $text-color; }
   @include non-code-font();
   cursor: default;
   margin: 0px;
-  padding: { left: 8px; right: 8px; }
+  padding: { left: 8px; right: 5px; }
   font-size: 22px;
   text-align: center;
   position: relative;
