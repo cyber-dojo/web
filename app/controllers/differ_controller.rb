@@ -68,9 +68,10 @@ class DifferController < ApplicationController
 
   def to_json(light)
     {
-      'colour' => light.colour,
-      'time'   => light.time,
-      'index'  => light.index
+      'index'     => light.index,
+      'time'      => light.time,
+      'predicted' => light.predicted,
+      'colour'    => light.colour,
     }
   end
 
