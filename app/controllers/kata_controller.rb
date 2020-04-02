@@ -8,27 +8,26 @@ class KataController < ApplicationController
   def edit
     manifest = kata.manifest
     @version = kata.schema.version
-    @id = kata.id
     @title = "kata: #{@id}"
+    # what
+    @display_name = manifest.display_name
+    @exercise = manifest.exercise
     # who
+    @id = kata.id
+    @group_id = kata.group.id
     @avatar_name = kata.avatar_name
     @avatar_index = kata.avatar_index
-    @group_id = kata.group.id
     # previous traffic-light-lights
     @lights = kata.lights
     # most recent files
     @files = kata.files(:with_output)
-    # required parameters
+    # parameters
     @image_name = manifest.image_name
     @filename_extension = manifest.filename_extension
-    # optional parameters
     @hidden_filenames = manifest.hidden_filenames
     @highlight_filenames = manifest.highlight_filenames
     @max_seconds = manifest.max_seconds
     @tab_size = manifest.tab_size
-    # app-bar info
-    @display_name = manifest.display_name
-    @exercise = manifest.exercise
   end
 
   # - - - - - - - - - - - - - - - - - -

@@ -2,11 +2,8 @@
 <%= render partial: 'scroller' %>
 
 <%= form_tag( { action: 'run_tests', id: @id } ) do %>
-  <%# For some reason hidden_filenames has to be the first partial here. %>
-  <%# If I put it after avatar_index then the hidden_values contents     %>
-  <%# end up inside the avatar_index partial                             %>  
-  <%= render partial: 'hidden_filenames' %>
   <%= render partial: 'avatar_index' %>
+  <%= render partial: 'hidden_filenames' %>
   <%= render partial: 'image_name' %>
   <%= render partial: 'max_seconds' %>
   <%= render partial: 'schema_version' %>
