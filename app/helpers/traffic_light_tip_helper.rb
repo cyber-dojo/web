@@ -5,10 +5,11 @@ module TrafficLightTipHelper # mix-in
   def traffic_light_tip_html(diffs, avatar_index, events, now_index)
     tip = '<table><tr>'
     unless avatar_index.nil? || avatar_index === ''
-      tip += td(avatar_img(avatar_index))           # panda
+      tip += td(avatar_img(avatar_index)) # panda
     end
-    tip += td(traffic_light_img(events, now_index)) # red/amber/green
-    tip += td(tag_html(now_index))                  # 14
+    event = events[now_index]
+    tip += td(tag_html(event))            # 14
+    tip += td(traffic_light_img(event))   # red/amber/green
     tip += '</tr></table>'
     tip += '<table>'
     diffs.each do |filename, diff|
@@ -31,12 +32,11 @@ module TrafficLightTipHelper # mix-in
     %w( stdout stderr status ).include?(filename)
   end
 
-  def tag_html(index)
-    "<span class='traffic-light-diff-tip-tag'>#{index}</span>"
+  def tag_html(light)
+    "<span class='traffic-light-count #{light.colour}'>#{light.index}</span>"
   end
 
-  def traffic_light_img(events, index)
-    light = events[index]
+  def traffic_light_img(light)
     colour = light.colour
     if colour === ''
       ''
@@ -52,7 +52,8 @@ module TrafficLightTipHelper # mix-in
   end
 
   def avatar_img(index)
-    "<img src='/avatar/image/#{index}' class='traffic-light-diff-tip-avatar-image'>"
+    "<img src='/avatar/image/#{index}'" +
+      " class='traffic-light-diff-tip-avatar-image'>"
   end
 
   def diff_count(name, count)

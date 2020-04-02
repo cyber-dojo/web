@@ -47,6 +47,7 @@ a:link, a:visited { color: $text-color; }
 //----------------------------------------------
 
 .traffic-light-count {
+  @include non-code-font();
   cursor: default;
   margin: 0px;
   padding: { left: 8px; right: 8px; }
