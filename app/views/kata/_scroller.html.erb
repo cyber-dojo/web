@@ -3,13 +3,14 @@
 $(() => {
 
   cd.scrollLastTrafficLightIntoView = () => {
+    // called in two places
+    //   1) edit.html.erb
+    //   2) run_tests.js.erb
     $('#kata-page .diff-traffic-light:last-of-type').scrollIntoView({
       direction: 'horizontal',
        duration: 'slow'
     });
   };
-
-  cd.scrollLastTrafficLightIntoView();
 
 });
 //--></script>

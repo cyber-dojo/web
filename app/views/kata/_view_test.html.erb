@@ -1,6 +1,10 @@
 <%= render partial: 'tab_size' %>
+<%= render partial: 'scroller' %>
 
 <%= form_tag( { action: 'run_tests', id: @id } ) do %>
+  <%# For some reason hidden_filenames has to be the first partial here. %>
+  <%# If I put it after avatar_index then the hidden_values contents     %>
+  <%# end up inside the avatar_index partial                             %>  
   <%= render partial: 'hidden_filenames' %>
   <%= render partial: 'avatar_index' %>
   <%= render partial: 'image_name' %>
@@ -10,6 +14,7 @@
     <tr class="valign-top">
       <td class="left-column">
         <%= render partial: 'test_button' %>
+        <%= render partial: 'test_button_handler' %>
         <%= render partial: 'file_new_rename_delete' %>
       </td>
       <td>
@@ -28,6 +33,3 @@
     </tr>
   </table>
 <% end %>
-
-<%= render partial: 'scroller' %>
-<%= render partial: 'test_button_handler' %>

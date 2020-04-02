@@ -68,7 +68,6 @@ class KataController < ApplicationController
     rescue SaverService::Error
       #TODO: @message on footer...
     end
-
     @avatar_index = params[:avatar_index]
     @light = Event.new(kata, {
       'time' => t1,
