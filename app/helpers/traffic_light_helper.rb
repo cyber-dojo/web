@@ -47,8 +47,14 @@ module TrafficLightHelper # mix-in
   end
 
   def traffic_light_image(light)
-    "<img src='/traffic-light/image/#{light.colour}_predicted_#{light.predicted}.png'" +
+    colour = light.colour
+    predicted = rag?(colour) ? "_predicted_#{light.predicted}" : ''
+    "<img src='/traffic-light/image/#{colour}#{predicted}.png'" +
        " alt='#{light.colour} traffic-light'/>"
+  end
+
+  def rag?(colour)
+    %w( red amber green ).include?(colour.to_s)
   end
 
 end
