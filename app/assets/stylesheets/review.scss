@@ -87,18 +87,21 @@
     overflow-x: auto;
     overflow-y: hidden;
     &::-webkit-scrollbar:horizontal { height: 0px; }
-    .diff-traffic-light
+
+    table { border-collapse: collapse; }
+    tr td { padding:0px; margin:0px; border:none; line-height:0; vertical-align:top; }
+
+    img.diff-traffic-light
     {
-      padding: 0px;
-       margin: 0px;
-       cursor: pointer;
-      img.with-bar-gap
-      {
-        width: 22px;
-        height: 29px;
-        position: relative; // move down slightly to align vertically
-        top: 2px;           // with < > navigator triangle buttons
-      }
+      cursor: pointer;
+      width: 22px;
+      height: 22px;
+    }
+    img#traffic-light-marker
+    {
+      padding-left: 1px;
+      width: 22px;
+      height: 3px;
     }
   }
 

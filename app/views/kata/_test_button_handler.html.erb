@@ -1,34 +1,33 @@
 <script type="text/javascript"><!--
 'use strict';
 $(() => {
+
   // Called from 3 places
   // 1. when you click [test]
   // 2. when you hot-key Alt-T
   // 3. when you checkout from a diff-review
   cd.testButton.click(() => {
+    cd.testButton.disable();
     cd.saveCodeFromSyntaxHighlightEditors();
-    const form = cd.testButton.closest('form');
-    $.ajax({
-         timeout: 30000, // 30 seconds
-            type: 'POST',
-             url: form.attr('action'),
-            data: form.serialize(),
-      beforeSend: beforeSend,
-        complete: complete,
-           error: error
+    cd.waitSpinner.fadeIn('slow', () => {
+      const form = cd.testButton.closest('form');
+      $.ajax({
+           timeout: 30000, // 30 seconds
+              type: 'POST',
+               url: form.attr('action'),
+              data: form.serialize(),
+          complete: complete,
+             error: error
+      });
     });
   });
 
   //- - - - - - - - - - - - - - - - - - - - - - -
 
-  const beforeSend = (_xhr, _settings) => {
-    cd.testButton.disable();
-    cd.showWaitSpinner();
-  };
-
   const complete = (_xhr, _status) => {
-    cd.hideWaitSpinner();
-    cd.testButton.enable();
+    cd.waitSpinner.fadeOut('slow', () => {
+      cd.testButton.enable();
+    });
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - -

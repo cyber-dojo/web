@@ -1,0 +1,65 @@
+# TODO: Description of problem...
+# Suppose two laptops are in as the same animal and they are
+# *not* keeping sync with browser refreshes. What happens is this:
+# lion-1 gets (say)  [red, amber]
+# Saver's state is
+#   events.json
+#     {"index":0,...,"event":"created"},
+#     {"index":1,...,"colour":"red"},
+#     {"index":2,...,"colour":"amber"},
+#   0.event.json
+#   1.event.json
+#   2.event.json
+#
+# Now, suppose lion-2 presses their [test] and gets a green.
+# On the web service, a Saver exception has arisen (and been swallowed)
+# because the event_write_cmd() returned false (since a file
+# called 1.event.json already exists). However, the preceeding
+# events_append_cmd() call has succeeded...
+# Saver's state is now:
+#   events.json
+#     {"index":0,...,"event":"created"},
+#     {"index":1,...,"colour":"red"},
+#     {"index":2,...,"colour":"amber"},
+#     {"index":1,...,"colour":"green"}, <----- appended
+#   0.event.json
+#   1.event.json <--- still the original from lion-1
+#   2.event.json
+#
+# If you now looked at a review-page (for either lion) you would see
+# three traffic-lights [red,amber,green], and *two* of them will be
+# marked as current (with an underbar).
+#
+# The solution is
+#   1) Add a saver.batch_assert() which stops (and raises) on the
+#      first command that returns false.
+#   2) Swap the order of these two cmd's
+#
+# It should then be possible to inspect the fine details of the
+# exception to determine if it is arising from an attempt to create
+# a file that *already* exists.
+# The Saver exception could be allowed to reach the browser
+# and the lion presented with information saying...
+#   o) failed to *save* this traffic-light
+#   o) there is *probably* more than one lion!
+#   o) display info re how to do alternate browser refreshing...
+
+# Note that it would be possible to retrieve the true
+# traffic-lights and then redo the save with an updated
+# index. However, the result would in no way 'merge' the code
+# from the two lions, so showing an error feels better.
+
+There are 3 useful 'modes' for batch...
+
+1) batch(...)
+     run them all. As now.
+     return true/false for each, swallow exceptions
+2) batch_until_true(...)
+     stop at first true, if exceptions then swallow them
+       Group_v1.join(...)
+         64 attempts to create at each specific index.
+3) batch_until_false(...)
+     stop at first false. If exception, swallow it, return false?
+       Kata_v1.ran_tests(...)
+         event_write_cmd(id, index, json_plain(event_n.merge(event_summary)))
+         events_append_cmd(id, ",\n" + json_plain(event_summary)),

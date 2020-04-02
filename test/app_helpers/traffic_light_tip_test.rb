@@ -26,7 +26,7 @@ class TipTest < AppHelpersTestBase
       kata.ran_tests(2, files, time.now, duration, stdout, stderr, status, 'green')
 
       events = kata.events
-      was_files = files_for(events, was_index=1)
+      was_files = files_for(events, 1)
       now_files = files_for(events, now_index=2)
       diff = differ.diff(kata.id, was_files, now_files)
 
@@ -45,7 +45,7 @@ class TipTest < AppHelpersTestBase
           '</tr>' +
         '</table>'
 
-      actual = traffic_light_tip_html(diff, kata.avatar_index, events, was_index, now_index)
+      actual = traffic_light_tip_html(diff, kata.avatar_index, events, now_index)
       assert_equal expected, actual
     end
   end
@@ -71,7 +71,7 @@ class TipTest < AppHelpersTestBase
       kata.ran_tests(2, files, time.now, duration, stdout, stderr, status, 'green')
 
       events = kata.events
-      was_files = files_for(events, was_index=1)
+      was_files = files_for(events, 1)
       now_files = files_for(events, now_index=2)
       diff = differ.diff(kata.id, was_files, now_files)
 
@@ -91,7 +91,7 @@ class TipTest < AppHelpersTestBase
           '</tr>' +
         '</table>'
 
-      actual = traffic_light_tip_html(diff, kata.avatar_index, kata.events, was_index, now_index)
+      actual = traffic_light_tip_html(diff, kata.avatar_index, kata.events, now_index)
       assert_equal expected, actual
     end
   end

@@ -19,6 +19,8 @@
 !/.gitignore
 !/config.ru
 !/docker-compose.yml
+!/docker-compose-choosers.yml
+!/docker-compose-nginx.yml
 !/Dockerfile
 !/build_test_tag_publish.sh
 !/up.sh

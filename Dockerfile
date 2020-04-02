@@ -7,12 +7,13 @@ RUN chown -R nobody:nogroup .
 
 # NB: should be able to replace the above 2 lines with
 # COPY --chown=nobody:nogroup . .
-# but it currently causes a failure...
-# /usr/lib/ruby/2.5.0/fileutils.rb:232:in `mkdir': Permission denied @ dir_s_mkdir - /cyber-dojo/tmp (Errno::EACCES)
+# but it causes a run (docker exec cyber-dojo-web) failure...
+# /usr/lib/ruby/2.5.0/fileutils.rb:232:in `mkdir':
+# Permission denied @ dir_s_mkdir - /cyber-dojo/tmp (Errno::EACCES)
 
 ARG COMMIT_SHA
 ENV SHA=${COMMIT_SHA}
 
-EXPOSE  3000
+EXPOSE 3000
 USER nobody
 CMD [ "./up.sh" ]

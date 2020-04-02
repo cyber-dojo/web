@@ -2,15 +2,11 @@
 'use strict';
 $(() => {
 
-  const inTestPage = () => {
-    return $('#kata-page').length !== 0;
-  };
-
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // After refresh() has been called param also contains
   // param.events
   //   holds the traffic-lights and is used to program
-  //   the traffic-light [<][>] navigator buttons.
+  //   the traffic-light [<][<][>][>] navigator buttons.
   // param.prevAvatarId
   // param.nextAvatarId
   //   hold the kata-ids and used is used to program
@@ -29,8 +25,8 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  // There is only one call to cd.setReviewData() in
-  // app/views/kata/_traffic_lights.html.erb
+  // There is only one call to cd.setReviewData() and its
+  // in app/views/kata/_traffic_lights.html.erb
   // The [resume] & [checkout] buttons are only on kata/edit.
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -45,17 +41,22 @@ $(() => {
          nowIndex:nowIndex,
          filename:filename
     };
-    $('#kata-page').hide();
-    $('#review-page').show();
+    $('#kata-page').fadeOut('slow', () => {
+      $('#review-page').fadeIn('slow');
+    });
     setupButton('resume', () => {
-      $('#review-page').hide();
-      $('#kata-page').show();
-      cd.editorRefocus();
+      $('#review-page').fadeOut('fast', () => {
+        $('#kata-page').fadeIn('fast', () => {
+          cd.editorRefocus();
+        });
+      });
     });
     setupButton('checkout', () => doCheckout());
     setCheckoutButtonTip();
     refresh();
   };
+
+  const inTestPage = $('#kata-page').length !== 0;
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -84,26 +85,41 @@ $(() => {
          now_index: param.nowIndex,
           filename: param.filename
     };
-    cd.showWaitSpinner();
-    $.getJSON('/differ/diff', reviewParams, (data) => {
-      param = data;
-      cd.hideWaitSpinner();
-      refreshAvatarNavigator();
-      refreshIndexNavigator();
-      refreshTrafficLights();
-      refreshFiles();
-      refreshDiffCheckBox();
-      refreshForkButton();
-      refreshCheckoutButton();
-      $('img[src $= "_bar.png"]').scrollIntoView({
-        direction:'horizontal',
-        duration:'slow'
+    cd.waitSpinner.fadeIn('fast', () => {
+      $.getJSON('/differ/diff', reviewParams, (data) => {
+        cd.waitSpinner.fadeOut('fast', () => {
+          param = data;
+          refreshAvatarNavigator();
+          refreshIndexNavigator();
+          refreshTrafficLights();
+          refreshFiles();
+          refreshDiffCheckBox();
+          scrollCurrentTrafficLightIntoView();
+        });
       });
     });
   };
 
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const scrollCurrentTrafficLightIntoView = () => {
+    // refreshTrafficLights() has updated the dom with an
+    // element $('#traffic-light-marker') but we cannot
+    // reliably access it until the dom is ready.
+    // $(scrollCurrentTrafficLightIntoView); does not work.
+    // So this instead... Yeuch.
+    const halfSecond = 500;
+    const scroller = () => {
+      $('#traffic-light-marker').scrollIntoView({
+        direction:'horizontal',
+        duration:'slow'
+      });
+    };
+    setTimeout(scroller, halfSecond);
+  };
+
   //-----------------------------------------
-  // refresh diff? [x]
+  // diff? [x]
   //-----------------------------------------
 
   const inDiffMode = () => diffCheckBox().is(':checked');
@@ -127,8 +143,7 @@ $(() => {
   };
 
   //-----------------------------------------
-  // refresh avatar navigator
-  //    [<]avatar[>]
+  // [<]avatar[>]
   //-----------------------------------------
 
   const refreshAvatarNavigator = () => {
@@ -157,8 +172,7 @@ $(() => {
   };
 
   //-----------------------------------------
-  // refresh traffic-light navigator
-  //    [<]index[>] traffic-lights...
+  // [<][<]traffic-light-index[>][>]
   //-----------------------------------------
 
   const refreshIndexNavigator = () => {
@@ -167,14 +181,6 @@ $(() => {
     $('#review-index-box').html(makeIndexHtml());
     refreshIndex($('#next-index'), nextEventIndex(param.nowIndex+1));
     refreshIndex($('#last-index'), nextEventIndex(param.events.length-1));
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const makeIndexHtml = () => {
-    const index = param.nowIndex;
-    const colour = param.events[index].colour;
-    return `<div id="index-number" class="${colour}">${index}</div>`;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -206,8 +212,16 @@ $(() => {
     }
   };
 
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const makeIndexHtml = () => {
+    const index = param.nowIndex;
+    const colour = param.events[index].colour;
+    return `<div id="index-number" class="${colour}">${index}</div>`;
+  };
+
   //-----------------------------------------
-  // refresh traffic-lights
+  // traffic-lights
   //-----------------------------------------
 
   const refreshTrafficLights = () => {
@@ -218,9 +232,6 @@ $(() => {
       const $light = $(light);
       const nowIndex = $light.data('index');
       $light.click(() => moveToTrafficLight(nowIndex));
-      // Show full tool-tip even if diff[x] is off
-      // otherwise you end up with odd tool-tip such as
-      //    (RED) 12 -> (RED) 12
       cd.setupTrafficLightTip($light, param.version, param.id, param.avatarIndex, wasIndex, nowIndex);
       wasIndex = nowIndex;
     });
@@ -229,35 +240,46 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const makeTrafficLightsHtml = () => {
-    let html = '';
-    let wasIndex = 0;
-    $.each(param.events, (_n, event) => {
-      const colour = event.colour;
-      if (colour !== '') {
-        const nowIndex = event.index;
-        const barOrGap = (param.nowIndex === nowIndex) ? 'bar' : 'gap';
-        html += makeTrafficLightHtml(colour, wasIndex, nowIndex, barOrGap);
-        wasIndex = nowIndex;
-      }
-    });
+    let html = '<table>';
+      html += '<tr>';
+      $.each(param.events, (_n, event) => {
+        if (event.colour !== '') { // 0 == creation
+          html += makeTd(makeTrafficLightHtml(event));
+        }
+      });
+      html += '</tr>';
+    html += '</table>';
     return html;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const makeTrafficLightHtml = (colour, wasIndex, nowIndex, barOrGap) => {
+  const makeTrafficLightHtml = (light) => {
+    const colour = light.colour;
     return [
       "<div class='diff-traffic-light'",
         ` data-id='${param.id}'`,
         ` data-colour='${colour}'`,
-        ` data-index='${nowIndex}'>`,
-        `<img class='with-bar-gap' src='/traffic-light/image/${colour}_${barOrGap}.png'/>`,
-      '</div>'
+        ` data-index='${light.index}'>`,
+        `<img src='/traffic-light/image/${colour}.png'/>`,
+      '</div>',
+      makeTrafficLightMarkerHtml(light)
     ].join('');
   };
 
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const makeTrafficLightMarkerHtml = (light) => {
+    const currentIndex = (param.nowIndex === light.index);
+    if (currentIndex) {
+      return `<img id='traffic-light-marker' src='/traffic-light/image/marker_${light.colour}.png'/>`;
+    } else {
+      return '';
+    }
+  };
+
   //-----------------------------------------
-  // refresh files
+  // files
   //-----------------------------------------
 
   const refreshFiles = () => {
@@ -271,9 +293,9 @@ $(() => {
   };
 
   const showFile = (filenameId) => {
-    const filename =  $(`#radio_${filenameId}`);
-    filename.click()
-            .scrollIntoView({ direction: 'vertical' });
+    $(`#radio_${filenameId}`)
+      .click()
+      .scrollIntoView({ direction: 'vertical' });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -312,9 +334,8 @@ $(() => {
   };
 
   const makeDiffCount = (diff, propertyName, cssName) => {
-    let html = '';
     if (!inDiffMode()) {
-      return html;
+      return '';
     }
     const div = $('<div>', {
       'class': `diff-${cssName}-line-count button`,
@@ -596,7 +617,7 @@ $(() => {
   setTrafficLightsCssWidth();
   setupButton('fork', () => cd.forkDialog(param.id, param.nowIndex));
   setForkButtonTip();
-  if (!inTestPage()) {
+  if (!inTestPage) {
     refresh();
   }
 
