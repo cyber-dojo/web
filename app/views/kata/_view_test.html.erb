@@ -2,11 +2,7 @@
 <%= render partial: 'scroller' %>
 
 <%= form_tag( { action: 'run_tests', id: @id } ) do %>
-  <%= render partial: 'avatar_index' %>
-  <%= render partial: 'hidden_filenames' %>
-  <%= render partial: 'image_name' %>
-  <%= render partial: 'max_seconds' %>
-  <%= render partial: 'schema_version' %>
+  <%= render partial: 'hidden_inputs' %>
   <table>
     <tr class="valign-top">
       <td class="left-column">
