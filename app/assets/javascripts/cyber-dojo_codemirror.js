@@ -88,6 +88,7 @@ var cyberDojo = ((cd, $) => {
 
   const noColourTheme = 'cyber-dojo-no-colour';
   const darkColourTheme = 'cyber-dojo-dark-colour';
+  const lightColourTheme = 'cyber-dojo-light-colour';
   const noLineNumbersTheme = ' cyber-dojo-no-linenumbers';
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -

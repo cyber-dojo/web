@@ -1,0 +1,100 @@
+// Based on atom-material-syntax-dark
+
+$very-light-gray:   #DDDDDD;
+$light-gray:        #B2CCD6;
+$gray:              #373b41;
+$dark-gray:         #282a2e;
+$very-dark-gray:    #212121;
+
+$darken-percentage: 35%;
+
+$green:             darken(#C3E88D, $darken-percentage);
+$teal:              darken(#009688, $darken-percentage);
+$light-teal:        darken(#73d1c8, $darken-percentage);
+$cyan:              darken(#89DDF3, $darken-percentage);
+$blue:              darken(#82AAFF, $darken-percentage);
+$indigo:            darken(#7986CB, $darken-percentage);
+$purple:            darken(#C792EA, $darken-percentage);
+$pink:              darken(#FF5370, $darken-percentage);
+$red:               darken(#F07178, $darken-percentage);
+$strong-orange:     darken(#F78C6A, $darken-percentage);
+$orange:            darken(#FFCB6B, $darken-percentage);
+$light-orange:      darken(#FFE082, $darken-percentage);
+
+$syntax-text-color: $very-dark-gray;
+$syntax-background-color: white;
+$syntax-comment-color: darken($very-light-gray, 70%);
+
+.cm-s-cyber-dojo-light-colour.CodeMirror {
+  @include code-font;
+  background: $syntax-background-color;
+  color: $syntax-text-color;
+}
+
+.cm-s-cyber-dojo-light-colour .CodeMirror-linenumber,
+.cm-s-cyber-dojo-light-colour .CodeMirror-linenumbers,
+.cm-s-cyber-dojo-light-colour .CodeMirror-gutters {
+  @include code-font;
+  background: $syntax-background-color;
+  color: darken($syntax-text-color, 20%);
+}
+
+.cm-s-cyber-dojo-light-colour .CodeMirror-gutters {
+  border-right: 0px;
+}
+
+.cm-s-cyber-dojo-light-colour div.CodeMirror-selected {
+  background: #515151;
+}
+
+.cm-s-cyber-dojo-light-colour .CodeMirror-cursor {
+  border-left: 1px solid $lighter-color;
+}
+
+$default: $syntax-text-color;
+
+.cm-s-cyber-dojo-light-colour .cm-header {color: $blue;}
+.cm-s-cyber-dojo-light-colour .cm-quote {color: $default;}
+.cm-s-cyber-dojo-light-colour .cm-negative {color: $default;}
+.cm-s-cyber-dojo-light-colour .cm-positive {color: $default;}
+.cm-s-cyber-dojo-light-colour .cm-header, .cm-strong {font-weight: bold;}
+.cm-s-cyber-dojo-light-colour .cm-em {font-style: italic;}
+.cm-s-cyber-dojo-light-colour .cm-link {text-decoration: underline;}
+.cm-s-cyber-dojo-light-colour .cm-strikethrough {text-decoration: line-through;}
+
+.cm-s-cyber-dojo-light-colour .cm-keyword {color: $purple;}
+.cm-s-cyber-dojo-light-colour .cm-atom {color: $default;}
+.cm-s-cyber-dojo-light-colour .cm-number {color: $strong-orange;}
+.cm-s-cyber-dojo-light-colour .cm-def {color: $blue;}
+.cm-s-cyber-dojo-light-colour .cm-variable,
+.cm-s-cyber-dojo-light-colour .cm-punctuation,
+.cm-s-cyber-dojo-light-colour .cm-property  {color: $blue;}
+.cm-s-cyber-dojo-light-colour .cm-operator {color: $cyan;}
+.cm-s-cyber-dojo-light-colour .cm-variable-2 {color: $blue;}
+.cm-s-cyber-dojo-light-colour .cm-variable-3 {color: $blue;}
+.cm-s-cyber-dojo-light-colour .cm-type {color: $purple;}
+.cm-s-cyber-dojo-light-colour .cm-comment {color: $syntax-comment-color;}
+.cm-s-cyber-dojo-light-colour .cm-string {color: $red;}
+.cm-s-cyber-dojo-light-colour .cm-string-2 {color: $red;}
+.cm-s-cyber-dojo-light-colour .cm-meta { color: $green; }
+.cm-s-cyber-dojo-light-colour .cm-qualifier {color: $default;}
+.cm-s-cyber-dojo-light-colour .cm-builtin {color: $purple;}
+.cm-s-cyber-dojo-light-colour .cm-bracket {color: $default;}
+.cm-s-cyber-dojo-light-colour .cm-tag {color: $default;}
+.cm-s-cyber-dojo-light-colour .cm-attribute {color: $default;}
+.cm-s-cyber-dojo-light-colour .cm-hr {color: $default;}
+.cm-s-cyber-dojo-light-colour .cm-link {color: $default;}
+
+.cm-s-cyber-dojo-light-colour .cm-tab {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAMCAYAAAAkuj5RAAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4QceFzkFdK1S+wAAACR0RVh0Q29tbWVudABUYWIgY2hhcmFjdGVyIGZvciBjeWJlci1kb2pvbQcIaAAAAE5JREFUSMftkjEOACAMAltfyFP5YZ1cHGoXk2K8kYkLmH3uACAq2VCTkBKoSAzVOy28MlMnSLrcAhmuchuSDiAkF9hLSwlk5dsLnMo/wQQwlBvvo1+QQQAAAABJRU5ErkJggg==);
+  background-position: right;
+  background-repeat: no-repeat;
+}
+
+.cm-s-cyber-dojo-light-colour .cm-error {color: #f00;}
+.cm-s-cyber-dojo-light-colour .cm-invalidchar {color: #f00;}
+
+.cm-s-cyber-dojo-light-colour span.CodeMirror-matchingbracket {color: #0f0;}
+.cm-s-cyber-dojo-light-colour span.CodeMirror-nonmatchingbracket {color: #f22;}
+.cm-s-cyber-dojo-light-colour .CodeMirror-matchingtag { background: rgba(255, 150, 0, .3); }
+.cm-s-cyber-dojo-light-colour .CodeMirror-activeline-background {background: #414141;}

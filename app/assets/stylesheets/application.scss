@@ -45,6 +45,7 @@
  *= depend_on jquery-ui-1.8.16.custom.scss
  *= depend_on codemirror.scss
  *= depend_on codemirror-cyber-dojo-dark-colour.scss
+ *= depend_on codemirror-cyber-dojo-light-colour.scss
  *= depend_on codemirror-cyber-dojo-no-colour.scss
  *= depend_on codemirror-dialog.scss
  *= require_self
@@ -84,5 +85,6 @@
 @import "jquery-ui-1.8.16.custom.scss";
 @import "codemirror.scss";
 @import "codemirror-cyber-dojo-dark-colour.scss";
+@import "codemirror-cyber-dojo-light-colour.scss";
 @import "codemirror-cyber-dojo-no-colour.scss";
 @import "codemirror-dialog.scss";
