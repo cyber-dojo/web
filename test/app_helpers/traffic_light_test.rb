@@ -37,13 +37,35 @@ class TrafficLightTest < AppHelpersTestBase
 
   #- - - - - - - - - - - - - - - -
 
-  test 'E41',
-  'traffic_light_image' do
-    light = event(index=14, colour='red', predicted='none')
-    expected = "<img src='/traffic-light/image/red_predicted_none.png'" +
-               " alt='red traffic-light'/>"
-    actual = traffic_light_image(light)
-    assert_equal expected, actual
+  test 'E41', %w(
+  traffic_light_image has
+  prediction for red|amber|green
+  but not for faulty|timed_out
+  ) do
+    red = event(0, colour='red')
+    expected_red = "<img src='/traffic-light/image/red_predicted_none.png'" +
+                   " alt='red traffic-light'/>"
+    assert_equal expected_red, traffic_light_image(red)
+
+    amber = event(1, colour='amber')
+    expected_amber = "<img src='/traffic-light/image/amber_predicted_none.png'" +
+                     " alt='amber traffic-light'/>"
+    assert_equal expected_amber, traffic_light_image(amber)
+
+    green = event(2, colour='green')
+    expected_green = "<img src='/traffic-light/image/green_predicted_none.png'" +
+                     " alt='green traffic-light'/>"
+    assert_equal expected_green, traffic_light_image(green)
+
+    faulty = event(3, colour='faulty')
+    expected_faulty = "<img src='/traffic-light/image/faulty.png'" +
+                      " alt='faulty traffic-light'/>"
+    assert_equal expected_faulty, traffic_light_image(faulty)
+
+    timed_out = event(4, colour='timed_out')
+    expected_timed_out = "<img src='/traffic-light/image/timed_out.png'" +
+                         " alt='timed_out traffic-light'/>"
+    assert_equal expected_timed_out, traffic_light_image(timed_out)
   end
 
   #- - - - - - - - - - - - - - - -
@@ -69,7 +91,7 @@ class TrafficLightTest < AppHelpersTestBase
 
   private
 
-  def event(index, colour, predicted, kata=nil)
+  def event(index, colour, predicted='none', kata=nil)
     Event.new(kata, {
       'index' => index,
       'colour' => colour,

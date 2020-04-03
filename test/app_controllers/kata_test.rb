@@ -266,6 +266,22 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test 'A29',
+  %w( prediction is not saved (yet) ) do
+    id = in_kata do |kata|
+      post_run_tests
+      kata.id
+    end
+    args = ['', 'katas', id[0..1], id[2..3], id[4..5], 'manifest.json']
+    filename = File.join(*args)
+    manifest = JSON.parse(saver.read(filename))
+    refute manifest.has_key?('predicted')
+    # See app/models/kata_v0.ran_tests()
+    # See app/models/kata_v1.ran_tests()
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test 'B75',
   %w( show-json which is used in an Atom plugin ) do
     in_kata do |kata|

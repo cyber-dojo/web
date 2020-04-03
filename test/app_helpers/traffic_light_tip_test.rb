@@ -96,6 +96,26 @@ class TipTest < AppHelpersTestBase
     end
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'D54',
+  'traffic light tip for creation event (index==0) is...' do
+    in_new_group do |group|
+      kata = group.join
+      files = kata.files
+      stdout = file("Expected: 42\nActual: 54")
+      stderr = file('assert failed')
+      status = 4
+      kata.ran_tests(1, files, time.now, duration, stdout, stderr, status, 'red')
+      events = kata.events
+      was_files = files_for(events, was_index=0)
+      now_files = files_for(events, now_index=0)
+      diff = differ.diff(kata.id, was_files, now_files)
+      actual = traffic_light_tip_html(diff, kata.avatar_index, kata.events, now_index)
+      assert actual.include?("src='/avatar/image/"), actual+':'+actual.class.name+':'
+    end
+  end
+
   private
 
   def files_for(events, index)

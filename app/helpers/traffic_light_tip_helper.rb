@@ -38,7 +38,7 @@ module TrafficLightTipHelper # mix-in
 
   def traffic_light_img(light)
     colour = light.colour
-    if colour === ''
+    if colour.to_s === ''
       ''
     else
       predicted = rag?(colour) ? "_predicted_#{light.predicted}" : ''
