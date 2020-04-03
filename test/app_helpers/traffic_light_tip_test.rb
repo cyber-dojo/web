@@ -33,8 +33,8 @@ class TipTest < AppHelpersTestBase
       expected =
         '<table>' +
           '<tr>' +
+            "<td><span class='traffic-light-count green'>#{now_index}</span></td>" +
             "<td><img src='/traffic-light/image/green_predicted_none.png' class='traffic-light-diff-tip-traffic-light-image'></td>" +
-            "<td><span class='traffic-light-diff-tip-tag'>#{now_index}</span></td>" +
           '</tr>' +
         '</table>' +
         '<table>' +
@@ -79,8 +79,8 @@ class TipTest < AppHelpersTestBase
         '<table>' +
           '<tr>' +
             "<td><img src='/avatar/image/#{kata.avatar_index}' class='traffic-light-diff-tip-avatar-image'></td>" +
+            "<td><span class='traffic-light-count green'>#{now_index}</span></td>" +
             "<td><img src='/traffic-light/image/green_predicted_none.png' class='traffic-light-diff-tip-traffic-light-image'></td>" +
-            "<td><span class='traffic-light-diff-tip-tag'>#{now_index}</span></td>" +
           '</tr>' +
         '</table>' +
         '<table>' +
