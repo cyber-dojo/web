@@ -1,6 +1,7 @@
 
 .cm-s-cyber-dojo-no-colour.CodeMirror {
   @include code-font;
+  font-size: 10.5pt;
   background: lighten($darker-color, 4%);
   color: $lighter-color;
 }
@@ -16,7 +17,6 @@
 .cm-s-cyber-dojo-no-colour .CodeMirror-gutters {
   border-right: 0px;
 }
-
 
 .cm-s-cyber-dojo-no-colour div.CodeMirror-selected {
   background: #515151;

@@ -27,6 +27,7 @@ $syntax-comment-color: darken($very-light-gray, 70%);
 
 .cm-s-cyber-dojo-light-colour.CodeMirror {
   @include code-font;
+  font-size: 10.5pt;
   background: $syntax-background-color;
   color: $syntax-text-color;
 }
