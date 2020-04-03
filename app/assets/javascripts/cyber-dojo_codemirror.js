@@ -4,22 +4,29 @@ var cyberDojo = ((cd, $) => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.toggleSyntaxHighlight = () => {
-    if (syntaxHighlightEnabled()) {
-      runActionOnAllCodeMirrorEditors(disableSyntaxHighlight);
-    } else {
-      runActionOnAllCodeMirrorEditors(enableSyntaxHighlight);
-    }
+  cd.setThemeToDark = () => {
+    runActionOnAllCodeMirrorEditors(disableSyntaxHighlight);
+    $('#set-theme-to-dark').attr('disabled', true);
+    $('#set-theme-to-dark-colour').attr('disabled', false);
+  };
+  cd.setThemeToDarkColour = () => {
+    runActionOnAllCodeMirrorEditors(enableSyntaxHighlight);
+    $('#set-theme-to-dark-colour').attr('disabled', true);
+    $('#set-theme-to-dark').attr('disabled', false);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.toggleLineNumbers = () => {
-    if (lineNumbersAreVisible()) {
-      runActionOnAllCodeMirrorEditors(hideLineNumbersForEditor);
-    } else {
-      runActionOnAllCodeMirrorEditors(showLineNumbersForEditor);
-    }
+  cd.turnLineNumberingOn = () => {
+    runActionOnAllCodeMirrorEditors(showLineNumbersForEditor);
+    $('#turn-line-numbering-on').attr('disabled', true);
+    $('#turn-line-numbering-off').attr('disabled', false);
+  };
+
+  cd.turnLineNumberingOff = () => {
+    runActionOnAllCodeMirrorEditors(hideLineNumbersForEditor);
+    $('#turn-line-numbering-off').attr('disabled', true);
+    $('#turn-line-numbering-on').attr('disabled', false);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -

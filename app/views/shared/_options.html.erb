@@ -2,20 +2,30 @@
 'use strict';
 $(() => {
 
-  const toggle = (all) => {
-    all.unshift('toggle');
-    return all.join('&nbsp');
-  };
-
   const optionsDialog = () => {
-    const toggleSyntaxTitle = toggle(['syntax','hilighting']);
-    const toggleLineNumbersTitle = toggle(['line','numbers']);
+    const title = (all) => all.join('&nbsp');
+    const setThemeToDarkTitle       = title(['set','theme','to','dark']);
+    const setThemeToDarkColourTitle = title(['set','theme','to','dark','colour']);
+    const turnLineNumberingOnTitle  = title(['turn','line','numbering','on']);
+    const turnLineNumberingOffTitle = title(['turn','line','numbering','off']);
+
     let html = '';
     html += '<table style="border: 1px;">';
-    html += tr('<button type="button" ' +
-      `onClick="cd.toggleSyntaxHighlight();">${toggleSyntaxTitle}</button>`);
-    html += tr('<button type="button" ' +
-      `onClick="cd.toggleLineNumbers();">${toggleLineNumbersTitle}</button>`);
+
+    html += tr('<button type="button" id="set-theme-to-dark"' +
+      `onClick="cd.setThemeToDark();" disabled>${setThemeToDarkTitle}</button>`);
+
+    html += tr('<button type="button" id="set-theme-to-dark-colour"' +
+      `onClick="cd.setThemeToDarkColour();">${setThemeToDarkColourTitle}</button>`);
+
+    html += tr('&nbsp;');
+
+    html += tr('<button type="button" id="turn-line-numbering-on"' +
+      `onClick="cd.turnLineNumberingOn();" disabled>${turnLineNumberingOnTitle}</button>`);
+
+    html += tr('<button type="button" id="turn-line-numbering-off"' +
+      `onClick="cd.turnLineNumberingOff();">${turnLineNumberingOffTitle}</button>`);
+
     html += '</table>';
     html += '</div>';
 
@@ -25,7 +35,6 @@ $(() => {
       closeOnEscape: true,
         autoOpen: true,
         modal: true,
-        width: '350',
         title: cd.dialogTitle('options'),
       buttons: { close: function() {
           $(this).remove();
@@ -42,13 +51,8 @@ $(() => {
     });
   };
 
-  const tr = button => {
-    return `<tr>${td(button)}</tr>`;
-  };
-
-  const td = s => {
-    return `<td>${s}</td>`;
-  };
+  const tr = (s) => `<tr>${td(s)}</tr>`;
+  const td = (s) => `<td>${s}</td>`;
 
   const optionsButton = $('#options-button');
 

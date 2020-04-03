@@ -2,9 +2,9 @@
 #options-dialog button
 {
   margin: 3px;
-  padding: 8px;
-  font-size: 25px;
+  padding: { left:8px; right:8px; top:3px; bottom:3px; }
+  font-size: 15px;
   @include non-code-font();
-  width: 315px;
+  width: 200px;
   text-align: left;
 }
