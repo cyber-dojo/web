@@ -86,8 +86,8 @@ var cyberDojo = ((cd, $) => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const plainTheme = 'cyber-dojo-default';
-  const colourTheme = 'cyber-dojo-colour';
+  const noColourTheme = 'cyber-dojo-no-colour';
+  const darkColourTheme = 'cyber-dojo-dark-colour';
   const noLineNumbersTheme = ' cyber-dojo-no-linenumbers';
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -100,7 +100,7 @@ var cyberDojo = ((cd, $) => {
           indentUnit: cd.syntaxHighlightTabSize,
              tabSize: cd.syntaxHighlightTabSize,
       indentWithTabs: codeMirrorIndentWithTabs(filename),
-               theme: plainTheme,
+               theme: noColourTheme,
             readOnly: cd.isOutputFile(filename),
          smartIndent: false
     };
@@ -216,7 +216,7 @@ var cyberDojo = ((cd, $) => {
     let enabled = false;
     runActionOnAllCodeMirrorEditors((editor) => {
       const theme = editor.getOption('theme');
-      if (theme.indexOf(colourTheme) !== -1) {
+      if (theme.indexOf(darkColourTheme) !== -1) {
         enabled = true;
       }
     });
@@ -228,7 +228,7 @@ var cyberDojo = ((cd, $) => {
   const enableSyntaxHighlight = (editor) => {
     let theme = editor.getOption('theme');
     theme = theme.replace(noLineNumbersTheme, '');
-    editor.setOption('theme', colourTheme);
+    editor.setOption('theme', darkColourTheme);
     editor.setOption('smartIndent', true);
   };
 
@@ -237,7 +237,7 @@ var cyberDojo = ((cd, $) => {
   const disableSyntaxHighlight = (editor) => {
     let theme = editor.getOption('theme');
     theme += noLineNumbersTheme;
-    editor.setOption('theme', plainTheme);
+    editor.setOption('theme', noColourTheme);
     editor.setOption('smartIndent', false);
   };
 

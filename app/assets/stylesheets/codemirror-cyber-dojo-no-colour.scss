@@ -1,32 +1,32 @@
 
-.cm-s-cyber-dojo-default.CodeMirror {
+.cm-s-cyber-dojo-no-colour.CodeMirror {
   @include code-font;
   background: lighten($darker-color, 4%);
   color: $lighter-color;
 }
 
-.cm-s-cyber-dojo-default .CodeMirror-linenumber,
-.cm-s-cyber-dojo-default .CodeMirror-linenumbers,
-.cm-s-cyber-dojo-default .CodeMirror-gutters {
+.cm-s-cyber-dojo-no-colour .CodeMirror-linenumber,
+.cm-s-cyber-dojo-no-colour .CodeMirror-linenumbers,
+.cm-s-cyber-dojo-no-colour .CodeMirror-gutters {
   @include code-font;
   background: lighten($darker-color, 4%);
   color: lighten($darker-color, 20%);
 }
 
-.cm-s-cyber-dojo-default .CodeMirror-gutters {
+.cm-s-cyber-dojo-no-colour .CodeMirror-gutters {
   border-right: 0px;
 }
 
 
-.cm-s-cyber-dojo-default div.CodeMirror-selected {
+.cm-s-cyber-dojo-no-colour div.CodeMirror-selected {
   background: #515151;
 }
 
-.cm-s-cyber-dojo-default .CodeMirror-cursor {
+.cm-s-cyber-dojo-no-colour .CodeMirror-cursor {
   border-left: 1px solid $lighter-color;
 }
 
-.cm-s-cyber-dojo-default .cm-tab {
+.cm-s-cyber-dojo-no-colour .cm-tab {
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAMCAYAAAAkuj5RAAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4QceFzkFdK1S+wAAACR0RVh0Q29tbWVudABUYWIgY2hhcmFjdGVyIGZvciBjeWJlci1kb2pvbQcIaAAAAE5JREFUSMftkjEOACAMAltfyFP5YZ1cHGoXk2K8kYkLmH3uACAq2VCTkBKoSAzVOy28MlMnSLrcAhmuchuSDiAkF9hLSwlk5dsLnMo/wQQwlBvvo1+QQQAAAABJRU5ErkJggg==);
   background-position: right;
   background-repeat: no-repeat;
