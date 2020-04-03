@@ -164,7 +164,7 @@ var cyberDojo = ((cd, $) => {
       case '.rb':
         return 'text/x-ruby';
       case '.rs':
-        return 'text/x-rustsrc';      
+        return 'text/x-rustsrc';
       case '.sh':
         return 'text/x-sh';
       case '.vb':
