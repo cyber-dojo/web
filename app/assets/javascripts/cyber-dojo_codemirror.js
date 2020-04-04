@@ -2,7 +2,7 @@
 'use strict';
 var cyberDojo = ((cd, $) => {
 
-  const spaced = (words) => words.join('&nbsp');  
+  const spaced = (words) => words.join('&nbsp');
   const disable = (id) => $(`#${id}`).attr('disabled', true);
   const enable  = (id) => $(`#${id}`).attr('disabled', false);
 
@@ -13,42 +13,69 @@ var cyberDojo = ((cd, $) => {
 
   let currentThemeId = themeToDarkId;
 
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  //const darkTheme = 'cyber-dojo-dark';
+  //const darkColourTheme = 'cyber-dojo-dark-colour';
+  //const lightColourTheme = 'cyber-dojo-light-colour';
+
+  const codeMirrorTheme = () => {
+    switch (currentThemeId) {
+    case themeToDarkId:       return 'cyber-dojo-dark';
+    case themeToDarkColourId: return 'cyber-dojo-dark-colour';
+    default: //error
+    }
+  };
+
+  const codeMirrorSmartIndent = () => {
+    switch (currentThemeId) {
+    case themeToDarkId:       return false;
+    case themeToDarkColourId: return true;
+    default: //error
+    }
+  };
+
   cd.themeToDarkButtonHtml = () => {
     const title = spaced(['set','theme','to','dark']);
-    const myThemeId = themeToDarkId;
-    const disabled = (currentThemeId === myThemeId) ? 'disabled' : '';
-    return `<button type="button" id="${myThemeId}"` +
+    const myId = themeToDarkId;
+    const disabled = (currentThemeId === myId) ? 'disabled' : '';
+    return `<button type="button" id="${myId}"` +
       `onClick="cd.themeToDark();" ${disabled}>${title}</button>`;
   };
   cd.themeToDarkColourButtonHtml = () => {
     const title = spaced(['set','theme','to','dark','+','colour']);
-    const myThemeId = themeToDarkColourId;
-    const disabled = (currentThemeId === myThemeId) ? 'disabled' : '';
-    return `<button type="button" id="${myThemeId}"` +
+    const myId = themeToDarkColourId;
+    const disabled = (currentThemeId === myId) ? 'disabled' : '';
+    return `<button type="button" id="${myId}"` +
       `onClick="cd.themeToDarkColour();" ${disabled}>${title}</button>`;
   };
 
   cd.themeToDark = () => {
     currentThemeId = themeToDarkId;
-    runActionOnAllCodeMirrorEditors(setDarkTheme);
+    runActionOnAllCodeMirrorEditors(setTheme);
     disable(themeToDarkId);
     enable(themeToDarkColourId);
   };
   cd.themeToDarkColour = () => {
     currentThemeId = themeToDarkColourId;
-    runActionOnAllCodeMirrorEditors(setDarkColourTheme);
+    runActionOnAllCodeMirrorEditors(setTheme);
     disable(themeToDarkColourId);
     enable(themeToDarkId);
   };
 
-  const setDarkTheme = (editor) => {
+  const setTheme = (editor) => {
+    editor.setOption('theme', codeMirrorTheme());
+    editor.setOption('smartIndent', codeMirrorSmartIndent());
+  };
+
+  /*const setDarkTheme = (editor) => {
     editor.setOption('theme', darkTheme);
     editor.setOption('smartIndent', false);
   };
   const setDarkColourTheme = (editor) => {
     editor.setOption('theme', darkColourTheme);
     editor.setOption('smartIndent', true);
-  };
+  };*/
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -86,7 +113,8 @@ var cyberDojo = ((cd, $) => {
       element.CodeMirror.focus();
     }
     if (currentThemeId === themeToDarkColourId) {
-      setDarkColourTheme(element.CodeMirror);
+      //setDarkColourTheme(element.CodeMirror);
+      setTheme(element.CodeMirror);
     }
   };
 
@@ -107,12 +135,6 @@ var cyberDojo = ((cd, $) => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const darkTheme = 'cyber-dojo-dark';
-  const darkColourTheme = 'cyber-dojo-dark-colour';
-  const lightColourTheme = 'cyber-dojo-light-colour';
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   const editorOptions = (filename) => {
     return {
          lineNumbers: true,
@@ -121,9 +143,9 @@ var cyberDojo = ((cd, $) => {
           indentUnit: cd.syntaxHighlightTabSize,
              tabSize: cd.syntaxHighlightTabSize,
       indentWithTabs: codeMirrorIndentWithTabs(filename),
-               theme: darkTheme,
+               theme: codeMirrorTheme(), //darkTheme,
             readOnly: cd.isOutputFile(filename),
-         smartIndent: false
+         smartIndent: codeMirrorSmartIndent() //false
     };
   };
 
