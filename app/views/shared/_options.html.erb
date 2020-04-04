@@ -4,20 +4,13 @@ $(() => {
 
   const optionsDialog = () => {
     const title = (all) => all.join('&nbsp');
-    const setThemeToDarkTitle       = title(['set','theme','to','dark']);
-    const setThemeToDarkColourTitle = title(['set','theme','to','dark','colour']);
     const turnLineNumberingOnTitle  = title(['turn','line','numbering','on']);
     const turnLineNumberingOffTitle = title(['turn','line','numbering','off']);
 
     let html = '';
     html += '<table style="border: 1px;">';
-
-    html += tr('<button type="button" id="set-theme-to-dark"' +
-      `onClick="cd.setThemeToDark();" disabled>${setThemeToDarkTitle}</button>`);
-
-    html += tr('<button type="button" id="set-theme-to-dark-colour"' +
-      `onClick="cd.setThemeToDarkColour();">${setThemeToDarkColourTitle}</button>`);
-
+    html += tr(cd.getThemeToDarkButton());
+    html += tr(cd.getThemeToDarkColourButton());
     html += tr('&nbsp;');
 
     html += tr('<button type="button" id="turn-line-numbering-on"' +

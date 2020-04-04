@@ -4,6 +4,19 @@ var cyberDojo = ((cd, $) => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  const spaced = (words) => words.join('&nbsp');
+
+  cd.getThemeToDarkButton = () => {
+    const title = spaced(['set','theme','to','dark']);
+    return '<button type="button" id="set-theme-to-dark"' +
+      `onClick="cd.setThemeToDark();" disabled>${title}</button>`;
+  };
+  cd.getThemeToDarkColourButton = () => {
+    const title = spaced(['set','theme','to','dark','colour']);
+    return '<button type="button" id="set-theme-to-dark-colour"' +
+      `onClick="cd.setThemeToDarkColour();">${title}</button>`;
+  };
+
   cd.setThemeToDark = () => {
     runActionOnAllCodeMirrorEditors(disableSyntaxHighlight);
     $('#set-theme-to-dark').attr('disabled', true);
