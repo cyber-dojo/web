@@ -2,18 +2,10 @@
 'use strict';
 var cyberDojo = ((cd, $) => {
 
-  const spaced = (words) => words.join('&nbsp');
-  const disable = (id) => $(`#${id}`).attr('disabled', true);
-  const enable  = (id) => $(`#${id}`).attr('disabled', false);
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   const darkTheme       = 'cyber-dojo-dark';
   const darkColourTheme = 'cyber-dojo-dark-colour';
 
   let codeMirrorTheme = darkTheme;
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const codeMirrorSmartIndent = () => {
     switch (codeMirrorTheme) {
@@ -23,19 +15,27 @@ var cyberDojo = ((cd, $) => {
     }
   };
 
-  cd.themeToDarkButtonHtml = () => {
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const spaced = (words) => words.join('&nbsp');
+  const disable = (id) => $(`#${id}`).attr('disabled', true);
+  const enable  = (id) => $(`#${id}`).attr('disabled', false);
+
+  const disabledIf = (theme) => {
+    return (codeMirrorTheme === theme) ? 'disabled' : '';
+  };
+
+  cd.darkThemeButtonHtml = () => {
     const title = spaced(['set','theme','to','dark']);
     const myTheme = darkTheme;
-    const disabled = (codeMirrorTheme === myTheme) ? 'disabled' : '';
     return `<button type="button" id="${myTheme}"` +
-      `onClick="cd.themeToDark();" ${disabled}>${title}</button>`;
+      `onClick="cd.themeToDark();" ${disabledIf(myTheme)}>${title}</button>`;
   };
-  cd.themeToDarkColourButtonHtml = () => {
+  cd.darkColourThemeButtonHtml = () => {
     const title = spaced(['set','theme','to','dark','+','colour']);
     const myTheme = darkColourTheme;
-    const disabled = (codeMirrorTheme === myTheme) ? 'disabled' : '';
     return `<button type="button" id="${myTheme}"` +
-      `onClick="cd.themeToDarkColour();" ${disabled}>${title}</button>`;
+      `onClick="cd.themeToDarkColour();" ${disabledIf(myTheme)}>${title}</button>`;
   };
 
   cd.themeToDark = () => {
