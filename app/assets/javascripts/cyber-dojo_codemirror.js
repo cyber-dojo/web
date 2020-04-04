@@ -8,59 +8,51 @@ var cyberDojo = ((cd, $) => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const themeToDarkId       = 'theme-to-dark';
-  const themeToDarkColourId = 'theme-to-dark-colour';
+  const darkTheme       = 'cyber-dojo-dark';
+  const darkColourTheme = 'cyber-dojo-dark-colour';
 
-  let currentThemeId = themeToDarkId;
+  let codeMirrorTheme = darkTheme;
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const codeMirrorTheme = () => {
-    switch (currentThemeId) {
-    case themeToDarkId:       return 'cyber-dojo-dark';
-    case themeToDarkColourId: return 'cyber-dojo-dark-colour';
-    default: //error
-    }
-  };
-
   const codeMirrorSmartIndent = () => {
-    switch (currentThemeId) {
-    case themeToDarkId:       return false;
-    case themeToDarkColourId: return true;
+    switch (codeMirrorTheme) {
+    case darkTheme:       return false;
+    case darkColourTheme: return true;
     default: //error
     }
   };
 
   cd.themeToDarkButtonHtml = () => {
     const title = spaced(['set','theme','to','dark']);
-    const myId = themeToDarkId;
-    const disabled = (currentThemeId === myId) ? 'disabled' : '';
-    return `<button type="button" id="${myId}"` +
+    const myTheme = darkTheme;
+    const disabled = (codeMirrorTheme === myTheme) ? 'disabled' : '';
+    return `<button type="button" id="${myTheme}"` +
       `onClick="cd.themeToDark();" ${disabled}>${title}</button>`;
   };
   cd.themeToDarkColourButtonHtml = () => {
     const title = spaced(['set','theme','to','dark','+','colour']);
-    const myId = themeToDarkColourId;
-    const disabled = (currentThemeId === myId) ? 'disabled' : '';
-    return `<button type="button" id="${myId}"` +
+    const myTheme = darkColourTheme;
+    const disabled = (codeMirrorTheme === myTheme) ? 'disabled' : '';
+    return `<button type="button" id="${myTheme}"` +
       `onClick="cd.themeToDarkColour();" ${disabled}>${title}</button>`;
   };
 
   cd.themeToDark = () => {
-    currentThemeId = themeToDarkId;
+    codeMirrorTheme = darkTheme;
     runActionOnAllCodeMirrorEditors(setTheme);
-    disable(themeToDarkId);
-    enable(themeToDarkColourId);
+    disable(darkTheme);
+    enable(darkColourTheme);
   };
   cd.themeToDarkColour = () => {
-    currentThemeId = themeToDarkColourId;
+    codeMirrorTheme = darkColourTheme;
     runActionOnAllCodeMirrorEditors(setTheme);
-    disable(themeToDarkColourId);
-    enable(themeToDarkId);
+    disable(darkColourTheme);
+    enable(darkTheme);
   };
 
   const setTheme = (editor) => {
-    editor.setOption('theme', codeMirrorTheme());
+    editor.setOption('theme', codeMirrorTheme);
     editor.setOption('smartIndent', codeMirrorSmartIndent());
   };
 
@@ -99,7 +91,7 @@ var cyberDojo = ((cd, $) => {
       element.CodeMirror.refresh();
       element.CodeMirror.focus();
     }
-    if (currentThemeId === themeToDarkColourId) {
+    if (codeMirrorTheme === darkColourTheme) {
       setTheme(element.CodeMirror);
     }
   };
@@ -129,7 +121,7 @@ var cyberDojo = ((cd, $) => {
           indentUnit: cd.syntaxHighlightTabSize,
              tabSize: cd.syntaxHighlightTabSize,
       indentWithTabs: codeMirrorIndentWithTabs(filename),
-               theme: codeMirrorTheme(),
+               theme: codeMirrorTheme,
             readOnly: cd.isOutputFile(filename),
          smartIndent: codeMirrorSmartIndent()
     };
