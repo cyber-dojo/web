@@ -15,10 +15,6 @@ var cyberDojo = ((cd, $) => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  //const darkTheme = 'cyber-dojo-dark';
-  //const darkColourTheme = 'cyber-dojo-dark-colour';
-  //const lightColourTheme = 'cyber-dojo-light-colour';
-
   const codeMirrorTheme = () => {
     switch (currentThemeId) {
     case themeToDarkId:       return 'cyber-dojo-dark';
@@ -68,15 +64,6 @@ var cyberDojo = ((cd, $) => {
     editor.setOption('smartIndent', codeMirrorSmartIndent());
   };
 
-  /*const setDarkTheme = (editor) => {
-    editor.setOption('theme', darkTheme);
-    editor.setOption('smartIndent', false);
-  };
-  const setDarkColourTheme = (editor) => {
-    editor.setOption('theme', darkColourTheme);
-    editor.setOption('smartIndent', true);
-  };*/
-
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.switchEditorToCodeMirror = (filename) => {
@@ -113,7 +100,6 @@ var cyberDojo = ((cd, $) => {
       element.CodeMirror.focus();
     }
     if (currentThemeId === themeToDarkColourId) {
-      //setDarkColourTheme(element.CodeMirror);
       setTheme(element.CodeMirror);
     }
   };
@@ -143,9 +129,9 @@ var cyberDojo = ((cd, $) => {
           indentUnit: cd.syntaxHighlightTabSize,
              tabSize: cd.syntaxHighlightTabSize,
       indentWithTabs: codeMirrorIndentWithTabs(filename),
-               theme: codeMirrorTheme(), //darkTheme,
+               theme: codeMirrorTheme(),
             readOnly: cd.isOutputFile(filename),
-         smartIndent: codeMirrorSmartIndent() //false
+         smartIndent: codeMirrorSmartIndent()
     };
   };
 
