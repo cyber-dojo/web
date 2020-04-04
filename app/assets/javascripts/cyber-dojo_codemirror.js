@@ -40,29 +40,14 @@ var cyberDojo = ((cd, $) => {
     enable(themeToDarkId);
   };
 
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.lineNumbersOnButtonHtml = () => {
-    const title = spaced(['turn','line','numbering','on']);
-    return '<button type="button" id="turn-line-numbering-on"' +
-      `onClick="cd.turnLineNumberingOn();" disabled>${title}</button>`;
-  };
-  cd.lineNumbersOffButtonHtml = () => {
-    const title = spaced(['turn','line','numbering','off']);
-    return '<button type="button" id="turn-line-numbering-off"' +
-      `onClick="cd.turnLineNumberingOff();">${title}</button>`;
+  const disableSyntaxHighlight = (editor) => {
+    editor.setOption('theme', noColourTheme);
+    editor.setOption('smartIndent', false);
   };
 
-  cd.turnLineNumberingOn = () => {
-    runActionOnAllCodeMirrorEditors(showLineNumbersForEditor);
-    $('#turn-line-numbering-on').attr('disabled', true);
-    $('#turn-line-numbering-off').attr('disabled', false);
-  };
-
-  cd.turnLineNumberingOff = () => {
-    runActionOnAllCodeMirrorEditors(hideLineNumbersForEditor);
-    $('#turn-line-numbering-off').attr('disabled', true);
-    $('#turn-line-numbering-on').attr('disabled', false);
+  const enableSyntaxHighlight = (editor) => {
+    editor.setOption('theme', darkColourTheme);
+    editor.setOption('smartIndent', true);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -75,10 +60,6 @@ var cyberDojo = ((cd, $) => {
     textArea.style.display = 'none';
     editor.cyberDojoTextArea = textArea;
     editor.setValue(textArea.value);
-
-    if (!lineNumbersAreVisible()) {
-      hideLineNumbersForEditor(editor);
-    }
 
     editor.getWrapperElement().id = syntaxHighlightFileContentForId(filename);
     bindHotKeys(editor);
@@ -107,9 +88,6 @@ var cyberDojo = ((cd, $) => {
     if (syntaxHighlightEnabled()) {
       enableSyntaxHighlight(element.CodeMirror);
     }
-    if (!lineNumbersAreVisible()) {
-      hideLineNumbersForEditor(element.CodeMirror);
-    }
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -132,7 +110,6 @@ var cyberDojo = ((cd, $) => {
   const noColourTheme = 'cyber-dojo-no-colour';
   const darkColourTheme = 'cyber-dojo-dark-colour';
   const lightColourTheme = 'cyber-dojo-light-colour';
-  const noLineNumbersTheme = ' cyber-dojo-no-linenumbers';
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -267,54 +244,7 @@ var cyberDojo = ((cd, $) => {
     return enabled;
   };
 
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const enableSyntaxHighlight = (editor) => {
-    let theme = editor.getOption('theme');
-    theme = theme.replace(noLineNumbersTheme, '');
-    editor.setOption('theme', darkColourTheme);
-    editor.setOption('smartIndent', true);
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const disableSyntaxHighlight = (editor) => {
-    let theme = editor.getOption('theme');
-    theme += noLineNumbersTheme;
-    editor.setOption('theme', noColourTheme);
-    editor.setOption('smartIndent', false);
-  };
-
   //=========================================================
-
-  const lineNumbersAreVisible = () => {
-    let enabled = true;
-    runActionOnAllCodeMirrorEditors((editor) => {
-      const theme = editor.getOption('theme');
-      if (theme.indexOf(noLineNumbersTheme) !== -1) {
-        enabled = false;
-      }
-    });
-    return enabled;
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const showLineNumbersForEditor = (editor) => {
-    let theme = editor.getOption('theme');
-    theme = theme.replace(noLineNumbersTheme, '');
-    editor.setOption('theme', theme);
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const hideLineNumbersForEditor = (editor) => {
-    let theme = editor.getOption('theme');
-    theme += noLineNumbersTheme;
-    editor.setOption('theme', theme);
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const bindHotKeys = (editor) => {
     editor.setOption('extraKeys', {
