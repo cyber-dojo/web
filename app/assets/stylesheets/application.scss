@@ -32,7 +32,7 @@
  *= depend_on id_rejoin.scss
  *= depend_on id_review.scss
  *= depend_on fork-dialog.scss
- *= depend_on options-dialog.scss
+ *= depend_on theme-dialog.scss
  *= depend_on kata.scss
  *= depend_on dashboard.scss
  *= depend_on pie-chart.scss
@@ -74,7 +74,7 @@
 @import "id_rejoin.scss";
 @import "id_review.scss";
 @import "fork-dialog.scss";
-@import "options-dialog.scss";
+@import "theme-dialog.scss";
 @import "kata.scss";
 @import "dashboard.scss";
 @import "pie-chart.scss";

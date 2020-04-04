@@ -12,19 +12,19 @@ var cyberDojo = ((cd, $) => {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.darkColourThemeButtonHtml = () => {
-    const titleWords = ['set','theme','to','dark','+','colour'];
+    const titleWords = ['dark','+','colour'];
     return themeButtonHtml(darkColourTheme, titleWords);
   };
   cd.lightColourThemeButtonHtml = () => {
-    const titleWords = ['set','theme','to','light','+','colour'];
+    const titleWords = ['light','+','colour'];
     return themeButtonHtml(lightColourTheme, titleWords);
   };
   cd.darkThemeButtonHtml = () => {
-    const titleWords = ['set','theme','to','dark'];
+    const titleWords = ['dark'];
     return themeButtonHtml(darkTheme, titleWords);
   };
   cd.lightThemeButtonHtml = () => {
-    const titleWords = ['set','theme','to','light'];
+    const titleWords = ['light'];
     return themeButtonHtml(lightTheme, titleWords);
   };
 
