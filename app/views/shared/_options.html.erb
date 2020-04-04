@@ -3,21 +3,24 @@
 $(() => {
 
   const optionsDialog = () => {
-    const title = (all) => all.join('&nbsp');
-    const turnLineNumberingOnTitle  = title(['turn','line','numbering','on']);
-    const turnLineNumberingOffTitle = title(['turn','line','numbering','off']);
+    const trTd = (s) => `<tr><td>${s}</td></tr>`;    
+    //const title = (all) => all.join('&nbsp');
+    //const turnLineNumberingOnTitle  = title(['turn','line','numbering','on']);
+    //const turnLineNumberingOffTitle = title(['turn','line','numbering','off']);
 
     let html = '';
     html += '<table style="border: 1px;">';
     html += trTd(cd.themeToDarkButtonHtml());
     html += trTd(cd.themeToDarkColourButtonHtml());
     html += trTd('&nbsp;');
+    html += trTd(cd.lineNumbersOnButtonHtml());
+    html += trTd(cd.lineNumbersOffButtonHtml());
 
-    html += trTd('<button type="button" id="turn-line-numbering-on"' +
+    /*html += trTd('<button type="button" id="turn-line-numbering-on"' +
       `onClick="cd.turnLineNumberingOn();" disabled>${turnLineNumberingOnTitle}</button>`);
 
     html += trTd('<button type="button" id="turn-line-numbering-off"' +
-      `onClick="cd.turnLineNumberingOff();">${turnLineNumberingOffTitle}</button>`);
+      `onClick="cd.turnLineNumberingOff();">${turnLineNumberingOffTitle}</button>`);*/
 
     html += '</table>';
     html += '</div>';
@@ -43,8 +46,6 @@ $(() => {
       }
     });
   };
-
-  const trTd = (s) => `<tr><td>${s}</td></tr>`;
 
   const optionsButton = $('#options-button');
 
