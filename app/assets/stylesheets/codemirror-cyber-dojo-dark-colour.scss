@@ -35,7 +35,7 @@ $syntax-comment-color: lighten($very-dark-gray, 70%);
 .cm-s-cyber-dojo-dark-colour .CodeMirror-gutters {
   @include code-font;
   background: $syntax-background-color;
-  color: darken($syntax-text-color, 20%);
+  color: darken($syntax-text-color, 60%);
 }
 
 .cm-s-cyber-dojo-dark-colour .CodeMirror-gutters {
