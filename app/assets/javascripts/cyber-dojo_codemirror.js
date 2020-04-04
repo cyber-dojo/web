@@ -7,14 +7,6 @@ var cyberDojo = ((cd, $) => {
 
   let codeMirrorTheme = darkTheme;
 
-  const codeMirrorSmartIndent = () => {
-    switch (codeMirrorTheme) {
-    case darkTheme:       return false;
-    case darkColourTheme: return true;
-    default: //error
-    }
-  };
-
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.darkThemeButtonHtml = () => {
@@ -52,6 +44,14 @@ var cyberDojo = ((cd, $) => {
     enable(darkColourTheme);
   };
 
+  const codeMirrorSmartIndent = () => {
+    switch (codeMirrorTheme) {
+    case darkTheme:       return false;
+    case darkColourTheme: return true;
+    default: //error
+    }
+  };
+
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.switchEditorToCodeMirror = (filename) => {
@@ -84,11 +84,9 @@ var cyberDojo = ((cd, $) => {
   cd.focusSyntaxHighlightEditor = (filename) => {
     const element = document.getElementById(syntaxHighlightFileContentForId(filename));
     if (element !== null) {
+      setTheme(element.CodeMirror);
       element.CodeMirror.refresh();
       element.CodeMirror.focus();
-    }
-    if (codeMirrorTheme === darkColourTheme) {
-      setTheme(element.CodeMirror);
     }
   };
 

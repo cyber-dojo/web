@@ -15,10 +15,11 @@ $(() => {
       .html(html)
       .dialog({
       closeOnEscape: true,
-        autoOpen: true,
-        modal: true,
-        title: cd.dialogTitle('options'),
-      buttons: { close: function() {
+      autoOpen: true,
+      modal: true,
+      title: cd.dialogTitle('options'),
+      buttons: {
+        close: function() {
           $(this).remove();
           cd.editorRefocus();
         }
