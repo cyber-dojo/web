@@ -123,6 +123,45 @@ var cyberDojo = ((cd, $) => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  const codeMirrorMode = (filename) => {
+    filename = filename.toLowerCase();
+    if (filename === 'makefile') {
+      return 'text/x-makefile';
+    }
+    switch (fileExtension(filename)) {
+      // C/C++ have split source
+      case '.c'      : return 'text/x-csrc';
+      case '.cpp'    : return 'text/x-c++src';
+      case '.hpp'    : return 'text/x-c++hdr';
+      case '.h'      : return 'text/x-c++hdr';
+      // all the rest don't
+      case '.clj'    : return 'text/x-clojure';
+      case '.coffee' : return 'text/x-coffeescript';
+      case '.cs'     : return 'text/x-csharp';
+      case '.d'      : return 'text/x-d';
+      case '.feature': return 'text/x-feature';
+      case '.go'     : return 'text/x-go';
+      case '.groovy' : return 'text/x-groovy';
+      case '.htm'    : return 'text/html';
+      case '.html'   : return 'text/html';
+      case '.hs'     : return 'text/x-haskell';
+      case '.java'   : return 'text/x-java';
+      case '.js'     : return 'text/javascript';
+      case '.md'     : return 'text/x-markdown';
+      case '.php'    : return 'text/x-php';
+      case '.py'     : return 'text/x-python';
+      case '.rb'     : return 'text/x-ruby';
+      case '.rs'     : return 'text/x-rustsrc';
+      case '.scala'  : return 'text/x-scala';
+      case '.sh'     : return 'text/x-sh';
+      case '.swift'  : return 'text/x-swift';
+      case '.vb'     : return 'text/x-vb';
+      case '.vhdl'   : return 'text/x-vhdl';
+      case '.xml'    : return 'text/xml';
+    }
+    return '';
+  };
+
   const fileExtension = (filename) => {
     const lastPoint = filename.lastIndexOf('.');
     if (lastPoint === -1) {
@@ -130,79 +169,6 @@ var cyberDojo = ((cd, $) => {
     } else {
       return filename.substring(lastPoint);
     }
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const codeMirrorMode = (filename) => {
-    filename = filename.toLowerCase();
-
-    switch (filename) {
-      case 'makefile':
-        return 'text/x-makefile';
-      case 'instructions':
-      case 'readme.txt':
-      case 'stdout':
-      case 'stderr':
-      case 'status':
-        return '';
-    }
-
-    switch (fileExtension(filename)) {
-      case '.c':
-        return 'text/x-csrc';
-      case '.cpp':
-        return 'text/x-c++src';
-      case '.hpp':
-      case '.h':
-        return 'text/x-c++hdr';
-      case '.java':
-        return 'text/x-java';
-      case '.cs':
-        return 'text/x-csharp';
-      case '.scala':
-        return 'text/x-scala';
-      case '.clj':
-        return 'text/x-clojure';
-      case '.coffee':
-        return 'text/x-coffeescript';
-      case '.d':
-        return 'text/x-d';
-      case '.feature':
-        return 'text/x-feature';
-      case '.js':
-        return 'text/javascript';
-      case '.php':
-        return 'text/x-php';
-      case '.py':
-        return 'text/x-python';
-      case '.rb':
-        return 'text/x-ruby';
-      case '.rs':
-        return 'text/x-rustsrc';
-      case '.sh':
-        return 'text/x-sh';
-      case '.vb':
-        return 'text/x-vb';
-      case '.vhdl':
-        return 'text/x-vhdl';
-      case '.html':
-      case '.htm':
-        return 'text/html';
-      case '.xml':
-        return 'text/xml';
-      case '.md':
-        return 'text/x-markdown';
-      case '.go':
-        return 'text/x-go';
-      case '.groovy':
-        return 'text/x-groovy';
-      case '.hs':
-        return 'text/x-haskell';
-      case '.swift':
-        return 'text/x-swift';
-    }
-    return '';
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
