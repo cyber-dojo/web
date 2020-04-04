@@ -2,9 +2,11 @@
 'use strict';
 var cyberDojo = ((cd, $) => {
 
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   const spaced = (words) => words.join('&nbsp');
+  const disable = (id) => $(`#${id}`).attr('disabled', true);
+  const enable  = (id) => $(`#${id}`).attr('disabled', false);
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const setThemeToDarkId       = 'set-theme-to-dark';
   const setThemeToDarkColourId = 'set-theme-to-dark-colour';
@@ -28,14 +30,14 @@ var cyberDojo = ((cd, $) => {
   cd.setThemeToDark = () => {
     currentThemeId = setThemeToDarkId;
     runActionOnAllCodeMirrorEditors(disableSyntaxHighlight);
-    $(`#${setThemeToDarkId}`).attr('disabled', true);
-    $(`#${setThemeToDarkColourId}`).attr('disabled', false);
+    disable(setThemeToDarkId);
+    enable(setThemeToDarkColourId);
   };
   cd.setThemeToDarkColour = () => {
     currentThemeId = setThemeToDarkColourId;
     runActionOnAllCodeMirrorEditors(enableSyntaxHighlight);
-    $('#set-theme-to-dark-colour').attr('disabled', true);
-    $('#set-theme-to-dark').attr('disabled', false);
+    disable(setThemeToDarkColourId);
+    enable(setThemeToDarkId);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
