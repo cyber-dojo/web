@@ -2,7 +2,7 @@
 'use strict';
 var cyberDojo = ((cd, $) => {
 
-  const spaced = (words) => words.join('&nbsp');
+  const spaced = (words) => words.join('&nbsp');  
   const disable = (id) => $(`#${id}`).attr('disabled', true);
   const enable  = (id) => $(`#${id}`).attr('disabled', false);
 
@@ -10,6 +10,7 @@ var cyberDojo = ((cd, $) => {
 
   const themeToDarkId       = 'theme-to-dark';
   const themeToDarkColourId = 'theme-to-dark-colour';
+
   let currentThemeId = themeToDarkId;
 
   cd.themeToDarkButtonHtml = () => {
@@ -20,7 +21,7 @@ var cyberDojo = ((cd, $) => {
       `onClick="cd.themeToDark();" ${disabled}>${title}</button>`;
   };
   cd.themeToDarkColourButtonHtml = () => {
-    const title = spaced(['set','theme','to','dark','colour']);
+    const title = spaced(['set','theme','to','dark','+','colour']);
     const myThemeId = themeToDarkColourId;
     const disabled = (currentThemeId === myThemeId) ? 'disabled' : '';
     return `<button type="button" id="${myThemeId}"` +
@@ -29,23 +30,22 @@ var cyberDojo = ((cd, $) => {
 
   cd.themeToDark = () => {
     currentThemeId = themeToDarkId;
-    runActionOnAllCodeMirrorEditors(disableSyntaxHighlight);
+    runActionOnAllCodeMirrorEditors(setDarkTheme);
     disable(themeToDarkId);
     enable(themeToDarkColourId);
   };
   cd.themeToDarkColour = () => {
     currentThemeId = themeToDarkColourId;
-    runActionOnAllCodeMirrorEditors(enableSyntaxHighlight);
+    runActionOnAllCodeMirrorEditors(setDarkColourTheme);
     disable(themeToDarkColourId);
     enable(themeToDarkId);
   };
 
-  const disableSyntaxHighlight = (editor) => {
-    editor.setOption('theme', noColourTheme);
+  const setDarkTheme = (editor) => {
+    editor.setOption('theme', darkTheme);
     editor.setOption('smartIndent', false);
   };
-
-  const enableSyntaxHighlight = (editor) => {
+  const setDarkColourTheme = (editor) => {
     editor.setOption('theme', darkColourTheme);
     editor.setOption('smartIndent', true);
   };
@@ -85,8 +85,8 @@ var cyberDojo = ((cd, $) => {
       element.CodeMirror.refresh();
       element.CodeMirror.focus();
     }
-    if (syntaxHighlightEnabled()) {
-      enableSyntaxHighlight(element.CodeMirror);
+    if (currentThemeId === themeToDarkColourId) {
+      setDarkColourTheme(element.CodeMirror);
     }
   };
 
@@ -107,7 +107,7 @@ var cyberDojo = ((cd, $) => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const noColourTheme = 'cyber-dojo-no-colour';
+  const darkTheme = 'cyber-dojo-dark';
   const darkColourTheme = 'cyber-dojo-dark-colour';
   const lightColourTheme = 'cyber-dojo-light-colour';
 
@@ -121,7 +121,7 @@ var cyberDojo = ((cd, $) => {
           indentUnit: cd.syntaxHighlightTabSize,
              tabSize: cd.syntaxHighlightTabSize,
       indentWithTabs: codeMirrorIndentWithTabs(filename),
-               theme: noColourTheme,
+               theme: darkTheme,
             readOnly: cd.isOutputFile(filename),
          smartIndent: false
     };
@@ -231,20 +231,7 @@ var cyberDojo = ((cd, $) => {
     });
   };
 
-  //=========================================================
-
-  const syntaxHighlightEnabled = () => {
-    let enabled = false;
-    runActionOnAllCodeMirrorEditors((editor) => {
-      const theme = editor.getOption('theme');
-      if (theme.indexOf(darkColourTheme) !== -1) {
-        enabled = true;
-      }
-    });
-    return enabled;
-  };
-
-  //=========================================================
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const bindHotKeys = (editor) => {
     editor.setOption('extraKeys', {
