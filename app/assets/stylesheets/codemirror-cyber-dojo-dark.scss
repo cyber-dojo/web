@@ -2,16 +2,16 @@
 .cm-s-cyber-dojo-dark.CodeMirror {
   @include code-font;
   font-size: 10.5pt;
-  background: lighten($darker-color, 4%);
-  color: $lighter-color;
+  background: #212121;
+  color: #DDDDDD;
 }
 
 .cm-s-cyber-dojo-dark .CodeMirror-linenumber,
 .cm-s-cyber-dojo-dark .CodeMirror-linenumbers,
 .cm-s-cyber-dojo-dark .CodeMirror-gutters {
   @include code-font;
-  background: lighten($darker-color, 4%);
-  color: lighten($darker-color, 20%);
+  background: #212121;
+  color: darken(#DDDDDD, 60%);
 }
 
 .cm-s-cyber-dojo-dark .CodeMirror-gutters {
