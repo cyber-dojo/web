@@ -6,23 +6,33 @@ var cyberDojo = ((cd, $) => {
 
   const spaced = (words) => words.join('&nbsp');
 
-  cd.getThemeToDarkButton = () => {
+  const setThemeToDarkId       = 'set-theme-to-dark';
+  const setThemeToDarkColourId = 'set-theme-to-dark-colour';
+  let currentThemeId = setThemeToDarkId;
+
+  cd.getThemeToDarkButtonHtml = () => {
     const title = spaced(['set','theme','to','dark']);
-    return '<button type="button" id="set-theme-to-dark"' +
-      `onClick="cd.setThemeToDark();" disabled>${title}</button>`;
+    const myThemeId = setThemeToDarkId;
+    const disabled = (currentThemeId === myThemeId) ? 'disabled' : '';
+    return `<button type="button" id="${myThemeId}"` +
+      `onClick="cd.setThemeToDark();" ${disabled}>${title}</button>`;
   };
-  cd.getThemeToDarkColourButton = () => {
+  cd.getThemeToDarkColourButtonHtml = () => {
     const title = spaced(['set','theme','to','dark','colour']);
-    return '<button type="button" id="set-theme-to-dark-colour"' +
-      `onClick="cd.setThemeToDarkColour();">${title}</button>`;
+    const myThemeId = setThemeToDarkColourId;
+    const disabled = (currentThemeId === myThemeId) ? 'disabled' : '';
+    return `<button type="button" id="${myThemeId}"` +
+      `onClick="cd.setThemeToDarkColour();" ${disabled}>${title}</button>`;
   };
 
   cd.setThemeToDark = () => {
+    currentThemeId = setThemeToDarkId;
     runActionOnAllCodeMirrorEditors(disableSyntaxHighlight);
-    $('#set-theme-to-dark').attr('disabled', true);
-    $('#set-theme-to-dark-colour').attr('disabled', false);
+    $(`#${setThemeToDarkId}`).attr('disabled', true);
+    $(`#${setThemeToDarkColourId}`).attr('disabled', false);
   };
   cd.setThemeToDarkColour = () => {
+    currentThemeId = setThemeToDarkColourId;
     runActionOnAllCodeMirrorEditors(enableSyntaxHighlight);
     $('#set-theme-to-dark-colour').attr('disabled', true);
     $('#set-theme-to-dark').attr('disabled', false);
