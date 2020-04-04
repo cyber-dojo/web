@@ -36,9 +36,9 @@ var cyberDojo = ((cd, $) => {
   cd.setThemeFrom = (theme) => {
     codeMirrorTheme = theme;
     runActionOnAllCodeMirrorEditors(setTheme);
-    disableAllThemeButtons();
-    const enableButton  = () => $(`#${theme}`).attr('disabled', false);
-    enableButton();
+    enableAllThemeButtons();
+    const disableButton  = () => $(`#${theme}`).attr('disabled', true);
+    disableButton();
   };
 
   const setTheme = (editor) => {
@@ -46,10 +46,10 @@ var cyberDojo = ((cd, $) => {
     editor.setOption('smartIndent', codeMirrorSmartIndent());
   };
 
-  const disableAllThemeButtons = () => {
-    const disable = (id) => $(`#${id}`).attr('disabled', true);
-    disable(darkTheme);
-    disable(darkColourTheme);
+  const enableAllThemeButtons = () => {
+    const enable = (id) => $(`#${id}`).attr('disabled', false);
+    enable(darkTheme);
+    enable(darkColourTheme);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
