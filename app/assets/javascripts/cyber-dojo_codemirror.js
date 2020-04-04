@@ -18,8 +18,6 @@ var cyberDojo = ((cd, $) => {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const spaced = (words) => words.join('&nbsp');
-  const disable = (id) => $(`#${id}`).attr('disabled', true);
-  const enable  = (id) => $(`#${id}`).attr('disabled', false);
 
   const disabledIf = (theme) => {
     return (codeMirrorTheme === theme) ? 'disabled' : '';
@@ -29,31 +27,32 @@ var cyberDojo = ((cd, $) => {
     const title = spaced(['set','theme','to','dark']);
     const myTheme = darkTheme;
     return `<button type="button" id="${myTheme}"` +
-      `onClick="cd.themeToDark(this);" ${disabledIf(myTheme)}>${title}</button>`;
+      `onClick="cd.setThemeFrom(this.id);" ${disabledIf(myTheme)}>${title}</button>`;
   };
   cd.darkColourThemeButtonHtml = () => {
     const title = spaced(['set','theme','to','dark','+','colour']);
     const myTheme = darkColourTheme;
     return `<button type="button" id="${myTheme}"` +
-      `onClick="cd.themeToDarkColour(this);" ${disabledIf(myTheme)}>${title}</button>`;
+      `onClick="cd.setThemeFrom(this.id);" ${disabledIf(myTheme)}>${title}</button>`;
   };
 
-  cd.themeToDark = (button) => {
-    codeMirrorTheme = button.id;
+  cd.setThemeFrom = (theme) => {
+    codeMirrorTheme = theme;
     runActionOnAllCodeMirrorEditors(setTheme);
-    disable(darkTheme);
-    enable(darkColourTheme);
-  };
-  cd.themeToDarkColour = (button) => {
-    codeMirrorTheme = button.id;
-    runActionOnAllCodeMirrorEditors(setTheme);
-    disable(darkColourTheme);
-    enable(darkTheme);
+    disableAllThemeButtons();
+    const enableButton  = () => $(`#${theme}`).attr('disabled', false);
+    enableButton();
   };
 
   const setTheme = (editor) => {
     editor.setOption('theme', codeMirrorTheme);
     editor.setOption('smartIndent', codeMirrorSmartIndent());
+  };
+
+  const disableAllThemeButtons = () => {
+    const disable = (id) => $(`#${id}`).attr('disabled', true);
+    disable(darkTheme);
+    disable(darkColourTheme);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
