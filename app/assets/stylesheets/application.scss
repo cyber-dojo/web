@@ -46,7 +46,6 @@
  *= depend_on codemirror.scss
  *= depend_on codemirror-cyber-dojo-dark.scss
  *= depend_on codemirror-cyber-dojo-dark-colour.scss
- *= depend_on codemirror-cyber-dojo-light-colour.scss
  *= depend_on codemirror-dialog.scss
  *= require_self
 */
@@ -86,5 +85,4 @@
 @import "codemirror.scss";
 @import "codemirror-cyber-dojo-dark.scss";
 @import "codemirror-cyber-dojo-dark-colour.scss";
-@import "codemirror-cyber-dojo-light-colour.scss";
 @import "codemirror-dialog.scss";
