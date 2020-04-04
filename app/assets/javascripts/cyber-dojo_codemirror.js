@@ -43,16 +43,14 @@ var cyberDojo = ((cd, $) => {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.lineNumbersOnButtonHtml = () => {
-    const title = (all) => all.join('&nbsp');
-    const turnLineNumberingOnTitle  = title(['turn','line','numbering','on']);
+    const title = spaced(['turn','line','numbering','on']);
     return '<button type="button" id="turn-line-numbering-on"' +
-      `onClick="cd.turnLineNumberingOn();" disabled>${turnLineNumberingOnTitle}</button>`;
+      `onClick="cd.turnLineNumberingOn();" disabled>${title}</button>`;
   };
   cd.lineNumbersOffButtonHtml = () => {
-    const title = (all) => all.join('&nbsp');
-    const turnLineNumberingOffTitle = title(['turn','line','numbering','off']);
+    const title = spaced(['turn','line','numbering','off']);
     return '<button type="button" id="turn-line-numbering-off"' +
-      `onClick="cd.turnLineNumberingOff();">${turnLineNumberingOffTitle}</button>`;
+      `onClick="cd.turnLineNumberingOff();">${title}</button>`;
   };
 
   cd.turnLineNumberingOn = () => {
