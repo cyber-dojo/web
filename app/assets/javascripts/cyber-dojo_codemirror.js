@@ -8,36 +8,36 @@ var cyberDojo = ((cd, $) => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const setThemeToDarkId       = 'set-theme-to-dark';
-  const setThemeToDarkColourId = 'set-theme-to-dark-colour';
-  let currentThemeId = setThemeToDarkId;
+  const themeToDarkId       = 'theme-to-dark';
+  const themeToDarkColourId = 'theme-to-dark-colour';
+  let currentThemeId = themeToDarkId;
 
-  cd.getThemeToDarkButtonHtml = () => {
+  cd.themeToDarkButtonHtml = () => {
     const title = spaced(['set','theme','to','dark']);
-    const myThemeId = setThemeToDarkId;
+    const myThemeId = themeToDarkId;
     const disabled = (currentThemeId === myThemeId) ? 'disabled' : '';
     return `<button type="button" id="${myThemeId}"` +
-      `onClick="cd.setThemeToDark();" ${disabled}>${title}</button>`;
+      `onClick="cd.themeToDark();" ${disabled}>${title}</button>`;
   };
-  cd.getThemeToDarkColourButtonHtml = () => {
+  cd.themeToDarkColourButtonHtml = () => {
     const title = spaced(['set','theme','to','dark','colour']);
-    const myThemeId = setThemeToDarkColourId;
+    const myThemeId = themeToDarkColourId;
     const disabled = (currentThemeId === myThemeId) ? 'disabled' : '';
     return `<button type="button" id="${myThemeId}"` +
-      `onClick="cd.setThemeToDarkColour();" ${disabled}>${title}</button>`;
+      `onClick="cd.themeToDarkColour();" ${disabled}>${title}</button>`;
   };
 
-  cd.setThemeToDark = () => {
-    currentThemeId = setThemeToDarkId;
+  cd.themeToDark = () => {
+    currentThemeId = themeToDarkId;
     runActionOnAllCodeMirrorEditors(disableSyntaxHighlight);
-    disable(setThemeToDarkId);
-    enable(setThemeToDarkColourId);
+    disable(themeToDarkId);
+    enable(themeToDarkColourId);
   };
-  cd.setThemeToDarkColour = () => {
-    currentThemeId = setThemeToDarkColourId;
+  cd.themeToDarkColour = () => {
+    currentThemeId = themeToDarkColourId;
     runActionOnAllCodeMirrorEditors(enableSyntaxHighlight);
-    disable(setThemeToDarkColourId);
-    enable(setThemeToDarkId);
+    disable(themeToDarkColourId);
+    enable(themeToDarkId);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -

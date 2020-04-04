@@ -9,14 +9,14 @@ $(() => {
 
     let html = '';
     html += '<table style="border: 1px;">';
-    html += tr(cd.getThemeToDarkButtonHtml());
-    html += tr(cd.getThemeToDarkColourButtonHtml());
-    html += tr('&nbsp;');
+    html += trTd(cd.themeToDarkButtonHtml());
+    html += trTd(cd.themeToDarkColourButtonHtml());
+    html += trTd('&nbsp;');
 
-    html += tr('<button type="button" id="turn-line-numbering-on"' +
+    html += trTd('<button type="button" id="turn-line-numbering-on"' +
       `onClick="cd.turnLineNumberingOn();" disabled>${turnLineNumberingOnTitle}</button>`);
 
-    html += tr('<button type="button" id="turn-line-numbering-off"' +
+    html += trTd('<button type="button" id="turn-line-numbering-off"' +
       `onClick="cd.turnLineNumberingOff();">${turnLineNumberingOffTitle}</button>`);
 
     html += '</table>';
@@ -44,8 +44,7 @@ $(() => {
     });
   };
 
-  const tr = (s) => `<tr>${td(s)}</tr>`;
-  const td = (s) => `<td>${s}</td>`;
+  const trTd = (s) => `<tr><td>${s}</td></tr>`;
 
   const optionsButton = $('#options-button');
 
