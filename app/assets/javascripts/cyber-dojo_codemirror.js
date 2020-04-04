@@ -29,23 +29,23 @@ var cyberDojo = ((cd, $) => {
     const title = spaced(['set','theme','to','dark']);
     const myTheme = darkTheme;
     return `<button type="button" id="${myTheme}"` +
-      `onClick="cd.themeToDark();" ${disabledIf(myTheme)}>${title}</button>`;
+      `onClick="cd.themeToDark(this);" ${disabledIf(myTheme)}>${title}</button>`;
   };
   cd.darkColourThemeButtonHtml = () => {
     const title = spaced(['set','theme','to','dark','+','colour']);
     const myTheme = darkColourTheme;
     return `<button type="button" id="${myTheme}"` +
-      `onClick="cd.themeToDarkColour();" ${disabledIf(myTheme)}>${title}</button>`;
+      `onClick="cd.themeToDarkColour(this);" ${disabledIf(myTheme)}>${title}</button>`;
   };
 
-  cd.themeToDark = () => {
-    codeMirrorTheme = darkTheme;
+  cd.themeToDark = (button) => {
+    codeMirrorTheme = button.id;
     runActionOnAllCodeMirrorEditors(setTheme);
     disable(darkTheme);
     enable(darkColourTheme);
   };
-  cd.themeToDarkColour = () => {
-    codeMirrorTheme = darkColourTheme;
+  cd.themeToDarkColour = (button) => {
+    codeMirrorTheme = button.id;
     runActionOnAllCodeMirrorEditors(setTheme);
     disable(darkColourTheme);
     enable(darkTheme);
