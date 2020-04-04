@@ -2,20 +2,30 @@
 'use strict';
 var cyberDojo = ((cd, $) => {
 
-  const darkTheme       = 'cyber-dojo-dark';
-  const darkColourTheme = 'cyber-dojo-dark-colour';
+  const darkColourTheme  = 'cyber-dojo-dark-colour';
+  const lightColourTheme = 'cyber-dojo-light-colour';
+  const darkTheme        = 'cyber-dojo-dark';
+  const lightTheme       = 'cyber-dojo-light';
 
   let codeMirrorTheme = darkTheme;
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  cd.darkColourThemeButtonHtml = () => {
+    const titleWords = ['set','theme','to','dark','+','colour'];
+    return themeButtonHtml(darkColourTheme, titleWords);
+  };
+  cd.lightColourThemeButtonHtml = () => {
+    const titleWords = ['set','theme','to','light','+','colour'];
+    return themeButtonHtml(lightColourTheme, titleWords);
+  };
   cd.darkThemeButtonHtml = () => {
     const titleWords = ['set','theme','to','dark'];
     return themeButtonHtml(darkTheme, titleWords);
   };
-  cd.darkColourThemeButtonHtml = () => {
-    const titleWords = ['set','theme','to','dark','+','colour'];
-    return themeButtonHtml(darkColourTheme, titleWords);
+  cd.lightThemeButtonHtml = () => {
+    const titleWords = ['set','theme','to','light'];
+    return themeButtonHtml(lightTheme, titleWords);
   };
 
   const themeButtonHtml = (theme, words) => {
@@ -40,14 +50,18 @@ var cyberDojo = ((cd, $) => {
 
   const enableAllThemeButtons = () => {
     const enable = (id) => $(`#${id}`).attr('disabled', false);
-    enable(darkTheme);
     enable(darkColourTheme);
+    enable(lightColourTheme);
+    enable(darkTheme);
+    enable(lightTheme);
   };
 
   const codeMirrorSmartIndent = () => {
     switch (codeMirrorTheme) {
-    case darkTheme:       return false;
-    case darkColourTheme: return true;
+    case darkColourTheme : return true;
+    case lightColourTheme: return true;
+    case darkTheme       : return false;
+    case lightTheme      : return false;
     default: //error
     }
   };

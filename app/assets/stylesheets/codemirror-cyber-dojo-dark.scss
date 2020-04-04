@@ -1,17 +1,25 @@
 
+$syntax-text-color: $very-light-gray;
+$syntax-background-color: $very-dark-gray;
+
 .cm-s-cyber-dojo-dark.CodeMirror {
   @include code-font;
   font-size: 10.5pt;
-  background: #212121;
-  color: #DDDDDD;
+  background: $syntax-background-color;
+  color: $syntax-text-color;
+}
+
+.cm-s-cyber-dojo-dark .CodeMirror-lines {
+  cursor: url(images/white-text-cursor.png), text;
+  min-height: 1px; /* prevents collapsing before first draw */
 }
 
 .cm-s-cyber-dojo-dark .CodeMirror-linenumber,
 .cm-s-cyber-dojo-dark .CodeMirror-linenumbers,
 .cm-s-cyber-dojo-dark .CodeMirror-gutters {
   @include code-font;
-  background: #212121;
-  color: darken(#DDDDDD, 60%);
+  background: lighten($syntax-background-color,3%);
+  color: darken($syntax-text-color, 60%);
 }
 
 .cm-s-cyber-dojo-dark .CodeMirror-gutters {
@@ -23,7 +31,7 @@
 }
 
 .cm-s-cyber-dojo-dark .CodeMirror-cursor {
-  border-left: 1px solid $lighter-color;
+  border-left: 1px solid $syntax-text-color;
 }
 
 .cm-s-cyber-dojo-dark .cm-tab {

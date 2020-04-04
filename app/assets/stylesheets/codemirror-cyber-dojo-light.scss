@@ -1,0 +1,57 @@
+// Based on atom-material-syntax-dark
+
+$darken-percentage: 5%;
+
+$green:             darken(#C3E88D, $darken-percentage);
+$teal:              darken(#009688, $darken-percentage);
+$light-teal:        darken(#73d1c8, $darken-percentage);
+$cyan:              darken(#89DDF3, $darken-percentage);
+$blue:              darken(#82AAFF, 15%);
+$indigo:            darken(#7986CB, $darken-percentage);
+$purple:            darken(#C792EA, 15%);
+$pink:              darken(#FF5370, $darken-percentage);
+$red:               darken(#F07178, $darken-percentage);
+$strong-orange:     darken(#F78C6A, $darken-percentage);
+$orange:            darken(#FFCB6B, $darken-percentage);
+$light-orange:      darken(#FFE082, $darken-percentage);
+
+$syntax-text-color: $very-dark-gray;
+$syntax-background-color: white;
+$syntax-comment-color: darken($green, 30%);
+
+.cm-s-cyber-dojo-light.CodeMirror {
+  @include code-font;
+  font-size: 10.5pt;
+  background: $syntax-background-color;
+  color: $syntax-text-color;
+}
+
+.cm-s-cyber-dojo-light .CodeMirror-lines {
+  min-height: 1px; /* prevents collapsing before first draw */
+}
+
+.cm-s-cyber-dojo-light .CodeMirror-linenumber,
+.cm-s-cyber-dojo-light .CodeMirror-linenumbers,
+.cm-s-cyber-dojo-light .CodeMirror-gutters {
+  @include code-font;
+  background: darken($syntax-background-color, 10%);
+  color: lighten($syntax-text-color, 60%);
+}
+
+.cm-s-cyber-dojo-light .CodeMirror-gutters {
+  border-right: 0px;
+}
+
+.cm-s-cyber-dojo-light div.CodeMirror-selected {
+  background: darken($syntax-background-color, 10%);
+}
+
+.cm-s-cyber-dojo-light .CodeMirror-cursor {
+  border-left: 1px solid $syntax-text-color;
+}
+
+.cm-s-cyber-dojo-light .cm-tab {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAMCAYAAAAkuj5RAAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4QceFzkFdK1S+wAAACR0RVh0Q29tbWVudABUYWIgY2hhcmFjdGVyIGZvciBjeWJlci1kb2pvbQcIaAAAAE5JREFUSMftkjEOACAMAltfyFP5YZ1cHGoXk2K8kYkLmH3uACAq2VCTkBKoSAzVOy28MlMnSLrcAhmuchuSDiAkF9hLSwlk5dsLnMo/wQQwlBvvo1+QQQAAAABJRU5ErkJggg==);
+  background-position: right;
+  background-repeat: no-repeat;
+}

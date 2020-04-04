@@ -1,20 +1,14 @@
 // Based on atom-material-syntax-dark
 
-$very-light-gray:   #DDDDDD;
-$light-gray:        #B2CCD6;
-$gray:              #373b41;
-$dark-gray:         #282a2e;
-$very-dark-gray:    #212121;
-
-$darken-percentage: 35%;
+$darken-percentage: 5%;
 
 $green:             darken(#C3E88D, $darken-percentage);
 $teal:              darken(#009688, $darken-percentage);
 $light-teal:        darken(#73d1c8, $darken-percentage);
 $cyan:              darken(#89DDF3, $darken-percentage);
-$blue:              darken(#82AAFF, $darken-percentage);
+$blue:              darken(#82AAFF, 15%);
 $indigo:            darken(#7986CB, $darken-percentage);
-$purple:            darken(#C792EA, $darken-percentage);
+$purple:            darken(#C792EA, 15%);
 $pink:              darken(#FF5370, $darken-percentage);
 $red:               darken(#F07178, $darken-percentage);
 $strong-orange:     darken(#F78C6A, $darken-percentage);
@@ -23,7 +17,7 @@ $light-orange:      darken(#FFE082, $darken-percentage);
 
 $syntax-text-color: $very-dark-gray;
 $syntax-background-color: white;
-$syntax-comment-color: darken($very-light-gray, 70%);
+$syntax-comment-color: darken($green, 30%);
 
 .cm-s-cyber-dojo-light-colour.CodeMirror {
   @include code-font;
@@ -32,12 +26,16 @@ $syntax-comment-color: darken($very-light-gray, 70%);
   color: $syntax-text-color;
 }
 
+.cm-s-cyber-dojo-light-colour .CodeMirror-lines {
+  min-height: 1px; /* prevents collapsing before first draw */
+}
+
 .cm-s-cyber-dojo-light-colour .CodeMirror-linenumber,
 .cm-s-cyber-dojo-light-colour .CodeMirror-linenumbers,
 .cm-s-cyber-dojo-light-colour .CodeMirror-gutters {
   @include code-font;
-  background: $syntax-background-color;
-  color: darken($syntax-text-color, 20%);
+  background: darken($syntax-background-color, 10%);
+  color: lighten($syntax-text-color, 60%);
 }
 
 .cm-s-cyber-dojo-light-colour .CodeMirror-gutters {
@@ -45,11 +43,11 @@ $syntax-comment-color: darken($very-light-gray, 70%);
 }
 
 .cm-s-cyber-dojo-light-colour div.CodeMirror-selected {
-  background: #515151;
+  background: darken($syntax-background-color, 10%);
 }
 
 .cm-s-cyber-dojo-light-colour .CodeMirror-cursor {
-  border-left: 1px solid $lighter-color;
+  border-left: 1px solid $syntax-text-color;
 }
 
 $default: $syntax-text-color;

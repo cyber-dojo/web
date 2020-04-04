@@ -1,11 +1,5 @@
 // Based on atom-material-syntax-dark
 
-$very-light-gray:   #DDDDDD;
-$light-gray:        #B2CCD6;
-$gray:              #373b41;
-$dark-gray:         #282a2e;
-$very-dark-gray:    #212121;
-
 $green:             #C3E88D;
 $teal:              #009688;
 $light-teal:        #73d1c8;
@@ -30,11 +24,16 @@ $syntax-comment-color: lighten($very-dark-gray, 70%);
   color: $syntax-text-color;
 }
 
+.cm-s-cyber-dojo-dark-colour .CodeMirror-lines {
+  cursor: url(images/white-text-cursor.png), text;
+  min-height: 1px; /* prevents collapsing before first draw */
+}
+
 .cm-s-cyber-dojo-dark-colour .CodeMirror-linenumber,
 .cm-s-cyber-dojo-dark-colour .CodeMirror-linenumbers,
 .cm-s-cyber-dojo-dark-colour .CodeMirror-gutters {
   @include code-font;
-  background: $syntax-background-color;
+  background: lighten($syntax-background-color,3%);
   color: darken($syntax-text-color, 60%);
 }
 
@@ -47,7 +46,7 @@ $syntax-comment-color: lighten($very-dark-gray, 70%);
 }
 
 .cm-s-cyber-dojo-dark-colour .CodeMirror-cursor {
-  border-left: 1px solid $lighter-color;
+  border-left: 1px solid $syntax-text-color;
 }
 
 $default: $syntax-text-color;
