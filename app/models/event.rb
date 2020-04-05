@@ -5,7 +5,6 @@ class Event
   def initialize(kata, hash)
     @kata = kata
     @hash = hash
-    @index = index
   end
 
   attr_reader :kata
