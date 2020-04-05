@@ -1,14 +1,14 @@
 // Based on atom-material-syntax-dark
 
-$darken-percentage: 5%;
+$darken-percentage: 25%;
 
 $green:             darken(#C3E88D, $darken-percentage);
 $teal:              darken(#009688, $darken-percentage);
 $light-teal:        darken(#73d1c8, $darken-percentage);
 $cyan:              darken(#89DDF3, $darken-percentage);
-$blue:              darken(#82AAFF, 15%);
+$blue:              darken(#82AAFF, $darken-percentage);
 $indigo:            darken(#7986CB, $darken-percentage);
-$purple:            darken(#C792EA, 15%);
+$purple:            darken(#C792EA, $darken-percentage);
 $pink:              darken(#FF5370, $darken-percentage);
 $red:               darken(#F07178, $darken-percentage);
 $strong-orange:     darken(#F78C6A, $darken-percentage);
@@ -17,7 +17,7 @@ $light-orange:      darken(#FFE082, $darken-percentage);
 
 $syntax-text-color: $very-dark-gray;
 $syntax-background-color: white;
-$syntax-comment-color: darken($green, 30%);
+$syntax-comment-color: $light-gray;
 
 .cm-s-cyber-dojo-light-colour.CodeMirror {
   @include code-font;
