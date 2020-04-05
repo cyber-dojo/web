@@ -55,7 +55,7 @@ class SaverFake
     batch_until(commands) {|r| r === :never }
   end
 
-  def batch_assert(*commands)
+  def batch_assert(commands)
     append_log(['batch_assert',commands.size])
     batch_until(commands) {|r,index|
       if r
