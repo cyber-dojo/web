@@ -1,0 +1,15 @@
+
+version: '3.7'
+
+services:
+
+  web:
+    volumes:
+      - "./app:/cyber-dojo/app"
+      - "./config:/cyber-dojo/config"
+      - "./lib:/cyber-dojo/lib"
+      - "./config.ru:/cyber-dojo/config.ru"
+      - "./script/rails:/cyber-dojo/script/rails"
+      - "./up.sh:/cyber-dojo/up.sh"
+      - "./test:/cyber-dojo/test"
+    tmpfs: /cyber-dojo/tmp

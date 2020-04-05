@@ -1,6 +1,6 @@
 #!/bin/bash -Eeu
 
-readonly IMAGE=cyberdojo/web
+readonly IMAGE=${CYBER_DOJO_WEB_IMAGE}
 readonly ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 export COMMIT_SHA=$(cd "${ROOT_DIR}" && git rev-parse HEAD)
 
@@ -11,6 +11,7 @@ build_images()
   docker-compose \
     --file "${ROOT_DIR}/docker-compose.yml" \
     --file "${ROOT_DIR}/docker-compose-choosers.yml" \
+    --file "${ROOT_DIR}/docker-compose-depends.yml" \
     build \
     --build-arg BUILD_ENV=copy
 }

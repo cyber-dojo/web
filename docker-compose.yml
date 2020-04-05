@@ -8,10 +8,10 @@ services:
       context: .
       args: [ COMMIT_SHA ]
     user: nobody
-    image: cyberdojo/web
+    image: ${CYBER_DOJO_WEB_IMAGE}
     init: true
     container_name: test-web
-    ports: [ "${CYBER_DOJO_WEB_PORT}:${CYBER_DOJO_WEB_PORT}" ]    
+    ports: [ "${CYBER_DOJO_WEB_PORT}:${CYBER_DOJO_WEB_PORT}" ]
     restart: 'no'
 
   # - - - - - - - - - - - - - - - -

@@ -1,15 +1,13 @@
 #!/bin/bash -Eeu
 
 # Rebuilds and restarts the web service without using commander.
-# Use after bringing up a server with the dev_server_up.sh script.
-# Intended for dev use to allow a reasonably short feedback loop.
+# Use after bringing up a server with /sh/dev_server_up.sh
+# Intended for dev use to allow a reasonably short ux feedback loop.
 # o) edit the web source
 # o) rerun this script
 # o) refresh the browser
 #
-# TODOS:
-# - saver has no persistence, not ideal for dev
-# - fold dev_server_up.sh into this script and auto-start if no web service?
+# TODO: saver has no persistence (uses tmpfs)
 
 readonly ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${ROOT_DIR}/sh/versioner_env_vars.sh
@@ -22,14 +20,18 @@ web_build()
   docker-compose \
     --file "${ROOT_DIR}/docker-compose.yml" \
     build \
-      web
+    --build-arg BUILD_ENV=copy
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - -
-web_refresh()
+web_remove()
 {
   docker rm --force $(container_on_port 3000)
+}
 
+# - - - - - - - - - - - - - - - - - - - - - - -
+web_run()
+{
   docker-compose \
     --file "${ROOT_DIR}/docker-compose.yml" \
     --file "${ROOT_DIR}/docker-compose-choosers.yml" \
@@ -55,4 +57,5 @@ container_on_port()
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 web_build
-web_refresh
+web_remove
+web_run

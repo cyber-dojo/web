@@ -4,25 +4,13 @@
 
 # except these dirs...
 
-!/app
-!/config
-!/lib
-!/script
-!/sh
-!/test
-!/docs
-!/.circleci
+!app/
+!test/
+!config/
+!lib/
 
 # and these files...
 
-!/.dockerignore
-!/.gitignore
-!/config.ru
-!/docker-compose.yml
-!/docker-compose-choosers.yml
-!/docker-compose-nginx.yml
-!/Dockerfile
-!/build_test_tag_publish.sh
-!/up.sh
-!/LICENSE.md
-!/README.md
+!config.ru
+!script/rails
+!up.sh

@@ -1,0 +1,33 @@
+
+version: '3.7'
+
+services:
+
+  web:
+    depends_on:
+      - avatars
+      - creator
+      - differ
+      - runner
+      - saver
+      - custom-chooser
+      - exercises-chooser
+      - languages-chooser
+
+  exercises-chooser:
+    depends_on:
+      - exercises-start-points
+
+  languages-chooser:
+    depends_on:
+      - languages-start-points
+      - creator
+
+  custom-chooser:
+    depends_on:
+      - custom-start-points
+      - creator
+
+  creator:
+    depends_on:
+      - saver
