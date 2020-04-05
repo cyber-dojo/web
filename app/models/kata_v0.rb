@@ -21,12 +21,12 @@ class Kata_v0
       'event' => 'created',
       'time' => manifest['created']
     }
-    saver_assert_batch(
+    saver.batch_assert([
       create_cmd(id, 0),
       manifest_write_cmd(id, json_plain(manifest)),
       event_write_cmd(id, 0, json_plain(lined({ 'files' => files }))),
       events_write_cmd(id, json_plain(event0) + "\n")
-    )
+    ])
     id
   end
 
