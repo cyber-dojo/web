@@ -11,7 +11,8 @@ build_images()
   docker-compose \
     --file "${ROOT_DIR}/docker-compose.yml" \
     --file "${ROOT_DIR}/docker-compose-choosers.yml" \
-    build
+    build \
+    --build-arg BUILD_ENV=copy
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
