@@ -55,7 +55,6 @@ class SaverFake
     batch_until(commands) {|r| r === :never }
   end
 
-=begin
   def batch_assert(*commands)
     append_log(['batch_assert',commands.size])
     batch_until(commands) {|r,index|
@@ -66,7 +65,14 @@ class SaverFake
       end
     }
   end
-=end
+
+  def batch_until_true(commands)
+    batch_until(commands) {|r| r}
+  end
+
+  def batch_until_false(commands)
+    batch_until(commands) {|r| !r}
+  end
 
   private
 

@@ -261,7 +261,6 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-=begin
   v_tests [0,1], '825', %w(
   given two laptops as the same avatar
   when one is behind (has not synced by hitting refresh in their browser)
@@ -304,6 +303,5 @@ class KataTest < AppModelsTestBase
       assert_equal :green, events[3].colour
     end
   end
-=end
 
 end

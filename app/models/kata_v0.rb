@@ -58,15 +58,6 @@ class Kata_v0
       'stderr' => stderr,
       'status' => status
     }
-    saver_assert_batch(
-      exists_cmd(id),
-      create_cmd(id, index),
-      event_write_cmd(id, index, json_plain(lined(event_n))),
-      events_append_cmd(id, json_plain(event_summary) + "\n")
-    )
-  end
-
-=begin
     saver.batch_assert(
       # The order of these commands matters.
       # A failing write_cmd() ensure the append_cmd() is not run.
@@ -75,7 +66,7 @@ class Kata_v0
       event_write_cmd(id, index, json_plain(lined(event_n))),
       events_append_cmd(id, json_plain(event_summary) + "\n")
     )
-=end
+  end
 
   # - - - - - - - - - - - - - - - - - - -
 
