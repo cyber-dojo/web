@@ -9,6 +9,7 @@ fi
 # Fakes/Mocks save to Dir.tmpdir
 rm -rf /tmp/cyber-dojo
 
+# Default is to run tests for all modules
 modules=(
   lib
   app_helpers
@@ -18,6 +19,7 @@ modules=(
   app_controllers
 )
 
+# If module specified, only run its tests
 for module in ${modules[*]}
 do
   if [ "${module}" == "${1}" ]; then
