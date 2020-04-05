@@ -2,69 +2,42 @@
 'use strict';
 var cyberDojo = ((cd, $) => {
 
-  const darkColourTheme  = 'cyber-dojo-dark-colour';
-  const lightColourTheme = 'cyber-dojo-light-colour';
-  const darkTheme        = 'cyber-dojo-dark';
-  const lightTheme       = 'cyber-dojo-light';
-
-  let codeMirrorTheme = darkTheme;
+  let colour = 'colour';
+  let theme = 'dark';
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // 4 CodeMirror css themes are called
+  // o) dark
+  // o) dark-colour
+  // o) light
+  // o) light-colour
 
-  cd.darkColourThemeButtonHtml = () => {
-    const titleWords = ['dark','+','colour'];
-    return themeButtonHtml(darkColourTheme, titleWords);
-  };
-  cd.lightColourThemeButtonHtml = () => {
-    const titleWords = ['light','+','colour'];
-    return themeButtonHtml(lightColourTheme, titleWords);
-  };
-  cd.darkThemeButtonHtml = () => {
-    const titleWords = ['dark'];
-    return themeButtonHtml(darkTheme, titleWords);
-  };
-  cd.lightThemeButtonHtml = () => {
-    const titleWords = ['light'];
-    return themeButtonHtml(lightTheme, titleWords);
-  };
+  cd.setThemeDark  = () => setThemeFrom('dark');
+  cd.setThemeLight = () => setThemeFrom('light');
+  cd.setColourOn   = () => setColourFrom('colour');
+  cd.setColourOff  = () => setColourFrom('');
 
-  const themeButtonHtml = (theme, words) => {
-    const title = words.join('&nbsp');
-    const disabled = (codeMirrorTheme === theme) ? 'disabled' : '';
-    return `<button type="button" id="${theme}"` +
-      `onClick="cd.setThemeFrom(this.id);" ${disabled}>${title}</button>`;
-  };
-
-  cd.setThemeFrom = (theme) => {
-    codeMirrorTheme = theme;
+  const setColourFrom = (newColour) => {
+    colour = newColour;
     runActionOnAllCodeMirrorEditors(setTheme);
-    enableAllThemeButtons();
-    const disableButton  = () => $(`#${theme}`).attr('disabled', true);
-    disableButton();
+  };
+
+  const setThemeFrom = (newTheme) => {
+    theme = newTheme;
+    runActionOnAllCodeMirrorEditors(setTheme);
   };
 
   const setTheme = (editor) => {
-    editor.setOption('theme', codeMirrorTheme);
+    editor.setOption('theme', codeMirrorTheme());
     editor.setOption('smartIndent', codeMirrorSmartIndent());
   };
 
-  const enableAllThemeButtons = () => {
-    const enable = (id) => $(`#${id}`).attr('disabled', false);
-    enable(darkColourTheme);
-    enable(lightColourTheme);
-    enable(darkTheme);
-    enable(lightTheme);
+  const codeMirrorTheme = () => {
+    const inColour = (colour === '') ? '' : '-colour';
+    return 'cyber-dojo-' + theme + inColour;
   };
 
-  const codeMirrorSmartIndent = () => {
-    switch (codeMirrorTheme) {
-    case darkColourTheme : return true;
-    case lightColourTheme: return true;
-    case darkTheme       : return false;
-    case lightTheme      : return false;
-    default: //error
-    }
-  };
+  const codeMirrorSmartIndent = () => colour !== '';
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -129,7 +102,7 @@ var cyberDojo = ((cd, $) => {
           indentUnit: cd.syntaxHighlightTabSize,
              tabSize: cd.syntaxHighlightTabSize,
       indentWithTabs: codeMirrorIndentWithTabs(filename),
-               theme: codeMirrorTheme,
+               theme: codeMirrorTheme(),
             readOnly: cd.isOutputFile(filename),
          smartIndent: codeMirrorSmartIndent()
     };
