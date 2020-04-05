@@ -1,11 +1,11 @@
 #!/bin/bash -Eeu
 
-# Rebuilds and restarts the web service without using commander.
+# Rebuilds and restarts the web service (without using commander).
 # Use after bringing up a server with /sh/dev_server_up.sh
-# Intended for dev use to allow a reasonably short ux feedback loop.
-# o) edit the web source
-# o) rerun this script
-# o) refresh the browser
+# Gives a reasonably fast ux feedback loop.
+#   o) edit the web source
+#   o) rerun this script
+#   o) refresh the browser
 #
 # TODO: saver has no persistence (uses tmpfs)
 

@@ -5,7 +5,7 @@ readonly ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 export COMMIT_SHA=$(cd "${ROOT_DIR}" && git rev-parse HEAD)
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-build_images()
+build_web_image()
 {
   echo
   docker-compose \
@@ -34,5 +34,5 @@ assert_web_image_has_sha_env_var()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-build_images
+build_web_image
 assert_web_image_has_sha_env_var

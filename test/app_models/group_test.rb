@@ -127,7 +127,7 @@ class GroupTest < AppModelsTestBase
 
   v_tests [0,1], '6A6', %w(
   you can join 64 times and then the group is full
-  ) do
+  ) do    
     in_new_group do |group|
       indexes = (0..63).to_a.shuffle
       64.times do
