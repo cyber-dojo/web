@@ -80,6 +80,14 @@ class Kata_v1
       event_write_cmd(id, index, json_plain(event_n.merge(event_summary)))
     )
   end
+=begin
+    saver.batch_assert(
+      # The order of these commands matters.
+      # A failing write_cmd() ensure the append_cmd() is not run.
+      event_write_cmd(id, index, json_plain(event_n.merge(event_summary))),
+      events_append_cmd(id, ",\n" + json_plain(event_summary))
+    )
+=end
 
   # - - - - - - - - - - - - - - - - - - -
 

@@ -43,4 +43,8 @@ class SaverService
     @http.post(__method__, { commands:commands })
   end
 
+  #def batch_assert(*commands)
+  #  @http.post(__method__, { commands:commands })
+  #end
+
 end

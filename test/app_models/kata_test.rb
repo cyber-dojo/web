@@ -259,4 +259,51 @@ class KataTest < AppModelsTestBase
     end
   end
 
+  #- - - - - - - - - - - - - - - - - - - - - - - - -
+
+=begin
+  v_tests [0,1], '825', %w(
+  given two laptops as the same avatar
+  when one is behind (has not synced by hitting refresh in their browser)
+  and they hit the [test] button
+  a SaverService::Error is raised
+  and a new event is not created in the saver
+  ) do
+    set_saver_class('SaverService')
+    in_new_kata do |kata|
+      stdout = content('aaaa')
+      stderr = content('bbbb')
+      status = 1
+      # 1st avatar
+      kata.ran_tests(index=1, kata.files, time.now, duration, stdout, stderr, status, 'red')
+      kata.ran_tests(index=2, kata.files, time.now, duration, stdout, stderr, status, 'amber')
+      kata.ran_tests(index=3, kata.files, time.now, duration, stdout, stderr, status, 'green')
+
+      events = kata.events
+      assert_equal 4, events.size, :event_not_appended_to_events_json
+      assert_raises(SaverService::Error) {
+        kata.event(4).files # /4/event.json not created
+      }
+
+      # 2nd avatar - no refresh, so index not advanced to 2
+      error = assert_raises(SaverService::Error) {
+        kata.ran_tests(index=1, kata.files, time.now, duration, stdout, stderr, status, 'green')
+      }
+
+      events = kata.events
+      assert_equal 4, events.size, :event_not_appended_to_events_json
+      assert_raises(SaverService::Error) {
+        kata.event(4).files # /4.event.json not created
+      }
+      assert_equal 0, events[0].index # creation
+      assert_equal 1, events[1].index
+      assert_equal :red, events[1].colour
+      assert_equal 2, events[2].index
+      assert_equal :amber, events[2].colour
+      assert_equal 3, events[3].index
+      assert_equal :green, events[3].colour
+    end
+  end
+=end
+
 end

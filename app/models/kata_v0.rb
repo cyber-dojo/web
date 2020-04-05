@@ -66,6 +66,17 @@ class Kata_v0
     )
   end
 
+=begin
+    saver.batch_assert(
+      # The order of these commands matters.
+      # A failing write_cmd() ensure the append_cmd() is not run.
+      exists_cmd(id),
+      create_cmd(id, index),
+      event_write_cmd(id, index, json_plain(lined(event_n))),
+      events_append_cmd(id, json_plain(event_summary) + "\n")
+    )
+=end
+
   # - - - - - - - - - - - - - - - - - - -
 
   def tipper_info(id, was_index, now_index)

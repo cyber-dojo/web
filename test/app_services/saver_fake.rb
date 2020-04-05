@@ -52,23 +52,40 @@ class SaverFake
 
   def batch(commands)
     append_log(['batch',commands.size])
+    batch_until(commands) {|r| r === :never }
+  end
+
+=begin
+  def batch_assert(*commands)
+    append_log(['batch_assert',commands.size])
+    batch_until(commands) {|r,index|
+      if r
+        false
+      else
+        raise "commands[#{index}] != true"
+      end
+    }
+  end
+=end
+
+  private
+
+  def batch_until(commands, &block)
     results = []
-    commands.each do |command|
+    commands.each.with_index(0) do |command,index|
       name,*args = command
       result = case name
-      when 'exists?' then do_exists?(*args)
       when 'create'  then do_create(*args)
+      when 'exists?' then do_exists?(*args)
       when 'write'   then do_write(*args)
       when 'append'  then do_append(*args)
       when 'read'    then do_read(*args)
-      #TODO: else raise...
       end
       results << result
+      break if block.call(result,index)
     end
     results
   end
-
-  private
 
   def append_log(info)
     @@log << info
