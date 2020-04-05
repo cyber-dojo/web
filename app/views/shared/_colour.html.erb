@@ -4,6 +4,8 @@ $(() => {
 
   const colourButton = $('#colour-button');
 
+  cd.createTip(colourButton, 'toggle colour syntax on/off');
+
   if (window.location.href.indexOf('kata/edit') !== -1) {
     colourButton.clickToggle(cd.setColourOff, cd.setColourOn);
   } else {

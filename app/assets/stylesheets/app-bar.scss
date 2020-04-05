@@ -47,7 +47,7 @@
   #help-button, #hotkeys-button, #theme-button, #colour-button, #dashboard-button
   {
     @include rounded-corner(4px);
-       padding: { left: 7px; right: 7px; }
+       padding: { left: 7px; right: 7px; top: 1px; bottom: 1px; }
         margin: { bottom: 3px; top: 3px; right: 0px; }
          color: darken($darker-color, 10%);
      font-size: 0.60em;
