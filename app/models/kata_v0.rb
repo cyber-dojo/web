@@ -33,10 +33,10 @@ class Kata_v0
   # - - - - - - - - - - - - - - - - - - -
 
   def manifest(id)
-     manifest_src,event0_src = saver_assert_batch(
+     manifest_src,event0_src = saver.batch_assert([
       manifest_read_cmd(id),
       event_read_cmd(id, 0)
-    )
+    ])
     manifest = json_parse(manifest_src)
     event0 = unlined(json_parse(event0_src))
     manifest['visible_files'] = event0['files']
@@ -71,11 +71,11 @@ class Kata_v0
   # - - - - - - - - - - - - - - - - - - -
 
   def tipper_info(id, was_index, now_index)
-    results = saver_assert_batch(
+    results = saver.batch_assert([
       events_read_cmd(id),
       event_read_cmd(id, was_index),
       event_read_cmd(id, now_index)
-    )
+    ])
     events = json_parse('[' + results[0].lines.join(',') + ']')
     was_files = unlined(json_parse(results[1]))['files']
     now_files = unlined(json_parse(results[2]))['files']
@@ -85,12 +85,12 @@ class Kata_v0
   # - - - - - - - - - - - - - - - - - - -
 
   def diff_info(id, was_index, now_index)
-    results = saver_assert_batch(
+    results = saver.batch_assert([
       manifest_read_cmd(id),
       events_read_cmd(id),
       event_read_cmd(id, was_index),
       event_read_cmd(id, now_index)
-    )
+    ])
     manifest = json_parse(results[0])
     events = json_parse('[' + results[1].lines.join(',') + ']')
     was = unlined(json_parse(results[2]))

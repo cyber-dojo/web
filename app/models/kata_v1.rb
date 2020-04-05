@@ -44,11 +44,11 @@ class Kata_v1
     event0 = {
       'files' => manifest['visible_files']
     }
-    saver_assert_batch(
+    saver.batch_assert([
       manifest_write_cmd(id, json_plain(manifest)),
       events_write_cmd(id, json_plain(event_summary)),
       event_write_cmd(id, 0, json_plain(event0.merge(event_summary)))
-    )
+    ])
     id
   end
 
@@ -86,11 +86,11 @@ class Kata_v1
   # - - - - - - - - - - - - - - - - - - -
 
   def tipper_info(id, was_index, now_index)
-    results = saver_assert_batch(
+    results = saver.batch_assert([
       events_read_cmd(id),
       event_read_cmd(id, was_index),
       event_read_cmd(id, now_index)
-    )
+    ])
     events = json_parse('[' + results[0] + ']')
     was_files = json_parse(results[1])['files']
     now_files = json_parse(results[2])['files']
@@ -100,12 +100,12 @@ class Kata_v1
   # - - - - - - - - - - - - - - - - - - -
 
   def diff_info(id, was_index, now_index)
-    results = saver_assert_batch(
+    results = saver.batch_assert([
       manifest_read_cmd(id),
       events_read_cmd(id),
       event_read_cmd(id, was_index),
       event_read_cmd(id, now_index)
-    )
+    ])
     manifest = json_parse(results[0])
     events = json_parse('[' + results[1] + ']')
     was = json_parse(results[2])

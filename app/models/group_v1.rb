@@ -24,10 +24,10 @@ class Group_v1
   def create(manifest)
     id = manifest['id'] = IdGenerator.new(@externals).group_id
     manifest['version'] = 1
-    saver_assert_batch(
+    saver.batch_assert([
       manifest_write_cmd(id, json_plain(manifest)),
       katas_write_cmd(id, '')
-    )
+    ])
     id
   end
 

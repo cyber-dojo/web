@@ -15,17 +15,6 @@ module SaverAsserter # mix-in
     result
   end
 
-  def saver_assert_batch(*commands)
-    results = saver.batch(commands)
-    if results.any?(false)
-      message = results.zip(commands).map do |result,(name,arg0)|
-        saver_assert_info(name, arg0, result)
-      end
-      raise SaverService::Error, json_plain(message)
-    end
-    results
-  end
-
   include OjAdapter
 
   def saver_assert_info(name, arg0, result)

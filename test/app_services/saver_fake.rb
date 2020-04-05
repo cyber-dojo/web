@@ -61,7 +61,7 @@ class SaverFake
       if r
         false
       else
-        raise "commands[#{index}] != true"
+        raise SaverService::Error, "commands[#{index}] != true"
       end
     }
   end
