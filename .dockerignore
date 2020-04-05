@@ -1,8 +1,28 @@
-*
-!app/
-!test/
-!config/
-!lib/
-!config.ru
-!script/rails
-!up.sh
+# ignore everything
+/*
+/*/
+
+# except these dirs...
+
+!/app
+!/config
+!/lib
+!/script
+!/sh
+!/test
+!/docs
+!/.circleci
+
+# and these files...
+
+!/.dockerignore
+!/.gitignore
+!/config.ru
+!/docker-compose.yml
+!/docker-compose-choosers.yml
+!/docker-compose-nginx.yml
+!/Dockerfile
+!/build_test_tag_publish.sh
+!/up.sh
+!/LICENSE.md
+!/README.md
