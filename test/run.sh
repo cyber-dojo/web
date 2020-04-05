@@ -6,7 +6,7 @@ if [ ! -f /.dockerenv ]; then
   exit 1
 fi
 
-# Fakes/Mocks save to Dir.tmpdir
+# Fakes/Mocks saver writes to Dir.tmpdir
 rm -rf /tmp/cyber-dojo
 
 # Default is to run tests for all modules
