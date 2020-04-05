@@ -50,7 +50,7 @@ class RunnerServiceTest < AppServicesTestBase
     in_new_kata { |kata|
       args = run_args(kata)
       files = args[2]
-      files['cyber-dojo.sh'] += "\nrm readme.txt"
+      files['cyber-dojo.sh'] = 'rm readme.txt'
       args = [
         kata.manifest.image_name,
         kata.id,

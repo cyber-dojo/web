@@ -226,8 +226,7 @@ class KataControllerTest  < AppControllerTestBase
   ) do
     filename = 'status'
     id = in_kata do |kata|
-      script = kata.files['cyber-dojo.sh']['content']
-      script += "\necho -n Hello > #{filename}"
+      script = "echo -n Hello > #{filename}"
       change_file('cyber-dojo.sh', script)
       post_run_tests
       kata.id
@@ -250,9 +249,17 @@ class KataControllerTest  < AppControllerTestBase
       test_hiker.rb
     )
     id = in_kata do |kata|
+      # Relies on kata being Ruby,MiniTest which has
+      #   "hidden_filenames": [
+      #    "coverage/\\.last_run\\.json",
+      #    "coverage/\\.resultset\\.json"
+      #  ],
       assert_equal filenames.sort, kata.files.keys.sort
-      script = kata.files['cyber-dojo.sh']['content']
-      script += "\nls -al coverage"
+      script = [
+        'mkdir coverage',
+        'cat xxxx > coverage/.resultset.json',
+        'ls -al coverage'
+      ].join("\n")
       change_file('cyber-dojo.sh', script)
       post_run_tests
       kata.id
