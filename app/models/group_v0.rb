@@ -37,14 +37,18 @@ class Group_v0
     manifest = self.manifest(id)
     manifest.delete('id')
     manifest['group_id'] = id
-    indexes.find do |index|
-      if saver.public_send(*create_cmd(id, index))
-        manifest['group_index'] = index
-        kata_id = @kata.create(manifest)
-        saver.assert(['write',id_path(id, index, 'kata.id'), kata_id])
-        break kata_id
-      end
-    end # nil -> full
+    commands = indexes.map{ |index| create_cmd(id, index) }
+    results = saver.batch_until_true(commands)
+    result_index = results.find_index(true)
+    if result_index.nil?
+      nil # full
+    else
+      index = indexes[result_index]
+      manifest['group_index'] = index
+      kata_id = @kata.create(manifest)
+      saver.assert(['write',id_path(id, index, 'kata.id'), kata_id])
+      kata_id
+    end
   end
 
   # - - - - - - - - - - - - - - - - - - -

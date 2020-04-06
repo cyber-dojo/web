@@ -130,9 +130,10 @@ class GroupTest < AppModelsTestBase
   ) do
     in_new_group do |group|
       indexes = (0..63).to_a.shuffle
-      64.times do
+      64.times do |size|
         kata = group.join(indexes)
         refute_nil kata
+        assert_equal size+1, group.size
         indexes.rotate!
       end
       kata = group.join(indexes)
