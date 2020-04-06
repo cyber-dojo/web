@@ -71,7 +71,7 @@ class Group_v1
     read_events_files_commands = kindexes.map do |kid,_|
       @kata.send(:events_read_cmd, kid)
     end
-    katas_events = saver.batch(read_events_files_commands)
+    katas_events = saver.batch_assert(read_events_files_commands)
     kindexes.each.with_index(0) do |(kid,kindex),index|
       result[kid] = {
         'index' => kindex,
