@@ -18,14 +18,14 @@ class Group_v0
   def create(manifest)
     id = manifest['id'] = IdGenerator.new(@externals).group_id
     manifest['visible_files'] = lined_files(manifest['visible_files'])
-    saver.assert(manifest_write_cmd(id, json_plain(manifest)))
+    saver.assert(manifest_write_command(id, json_plain(manifest)))
     id
   end
 
   # - - - - - - - - - - - - - - - - - - -
 
   def manifest(id)
-    manifest_src = saver.assert(manifest_read_cmd(id))
+    manifest_src = saver.assert(manifest_read_command(id))
     manifest = json_parse(manifest_src)
     manifest['visible_files'] = unlined_files(manifest['visible_files'])
     manifest
@@ -37,7 +37,7 @@ class Group_v0
     manifest = self.manifest(id)
     manifest.delete('id')
     manifest['group_id'] = id
-    commands = indexes.map{ |index| create_cmd(id, index) }
+    commands = indexes.map{ |index| create_command(id, index) }
     results = saver.batch_until_true(commands)
     result_index = results.find_index(true)
     if result_index.nil?
@@ -63,7 +63,7 @@ class Group_v0
     results = {}
     kindexes = katas_indexes(id)
     read_events_files_commands = katas_ids(kindexes).map do |kata_id|
-      @kata.send(:events_read_cmd, kata_id)
+      @kata.send(:events_read_command, kata_id)
     end
     katas_events = saver.batch_assert(read_events_files_commands)
     kindexes.each.with_index(0) do |(kata_id,kata_index),index|
@@ -116,17 +116,17 @@ class Group_v0
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def create_cmd(id, *parts)
+  def create_command(id, *parts)
     saver.create_command(group_id_path(id, *parts))
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def manifest_write_cmd(id, manifest_src)
+  def manifest_write_command(id, manifest_src)
     saver.write_command(manifest_filename(id), manifest_src)
   end
 
-  def manifest_read_cmd(id)
+  def manifest_read_command(id)
     saver.read_command(manifest_filename(id))
   end
 

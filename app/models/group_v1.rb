@@ -24,8 +24,8 @@ class Group_v1
     id = manifest['id'] = IdGenerator.new(@externals).group_id
     manifest['version'] = 1
     saver.batch_assert([
-      manifest_write_cmd(id, json_plain(manifest)),
-      katas_write_cmd(id, '')
+      manifest_write_command(id, json_plain(manifest)),
+      katas_write_command(id, '')
     ])
     id
   end
@@ -33,7 +33,7 @@ class Group_v1
   # - - - - - - - - - - - - - - - - - - -
 
   def manifest(id)
-    manifest_src = saver.assert(manifest_read_cmd(id))
+    manifest_src = saver.assert(manifest_read_command(id))
     json_parse(manifest_src)
   end
 
@@ -43,7 +43,7 @@ class Group_v1
     manifest = self.manifest(id)
     manifest.delete('id')
     manifest['group_id'] = id
-    commands = indexes.map{ |index| create_cmd(id, index) }
+    commands = indexes.map{ |index| create_command(id, index) }
     results = saver.batch_until_true(commands)
     result_index = results.find_index(true)
     if result_index.nil?
@@ -52,7 +52,7 @@ class Group_v1
       index = indexes[result_index]
       manifest['group_index'] = index
       kata_id = @kata.create(manifest)
-      saver.assert(katas_append_cmd(id, "#{kata_id} #{index}\n"))
+      saver.assert(katas_append_command(id, "#{kata_id} #{index}\n"))
       kata_id
     end
   end
@@ -69,7 +69,7 @@ class Group_v1
     result = {}
     kindexes = katas_indexes(id)
     read_events_files_commands = katas_ids(kindexes).map do |kata_id|
-      @kata.send(:events_read_cmd, kata_id)
+      @kata.send(:events_read_command, kata_id)
     end
     katas_events = saver.batch_assert(read_events_files_commands)
     kindexes.each.with_index(0) do |(kata_id,kata_index),index|
@@ -94,7 +94,7 @@ class Group_v1
   # - - - - - - - - - - - - - - - - - - -
 
   def katas_indexes(id)
-    katas_src = saver.assert(katas_read_cmd(id))
+    katas_src = saver.assert(katas_read_command(id))
     # G2ws77 15
     # w34rd5 2
     # ...
@@ -112,31 +112,31 @@ class Group_v1
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def create_cmd(id, *parts)
+  def create_command(id, *parts)
     saver.create_command(dirname(id, *parts))
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def manifest_write_cmd(id, manifest_src)
+  def manifest_write_command(id, manifest_src)
     saver.write_command(manifest_filename(id), manifest_src)
   end
 
-  def manifest_read_cmd(id)
+  def manifest_read_command(id)
     saver.read_command(manifest_filename(id))
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def katas_write_cmd(id, src)
+  def katas_write_command(id, src)
     saver.write_command(katas_filename(id), src)
   end
 
-  def katas_append_cmd(id, src)
+  def katas_append_command(id, src)
     saver.append_command(katas_filename(id), src)
   end
 
-  def katas_read_cmd(id)
+  def katas_read_command(id)
     saver.read_command(katas_filename(id))
   end
 

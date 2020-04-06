@@ -20,7 +20,7 @@ require_relative '../../lib/oj_adapter'
 #           { ..., "index" => 24 }
 # 7. No longer uses separate dir for each event file.
 #    This makes ran_tests() faster as it no longer needs
-#    a create_cmd() in its saver.batch call.
+#    a create_command() in its saver.batch call.
 #    was     /cyber-dojo/katas/e3/T6/K2/0/event.json
 #    now     /cyber-dojo/katas/e3/T6/K2/0.event.json
 
@@ -44,9 +44,9 @@ class Kata_v1
       'files' => manifest['visible_files']
     }
     saver.batch_assert([
-      manifest_write_cmd(id, json_plain(manifest)),
-      events_write_cmd(id, json_plain(event_summary)),
-      event_write_cmd(id, 0, json_plain(event0.merge(event_summary)))
+      manifest_write_command(id, json_plain(manifest)),
+      events_write_command(id, json_plain(event_summary)),
+      event_write_command(id, 0, json_plain(event0.merge(event_summary)))
     ])
     id
   end
@@ -54,7 +54,7 @@ class Kata_v1
   # - - - - - - - - - - - - - - - - - - -
 
   def manifest(id)
-    manifest_src = saver.assert(manifest_read_cmd(id))
+    manifest_src = saver.assert(manifest_read_command(id))
     json_parse(manifest_src)
   end
 
@@ -76,9 +76,9 @@ class Kata_v1
     }
     saver.batch_assert([
       # The order of these commands matters.
-      # A failing write_cmd() ensure the append_cmd() is not run.
-      event_write_cmd(id, index, json_plain(event_n.merge(event_summary))),
-      events_append_cmd(id, ",\n" + json_plain(event_summary))
+      # A failing write_command() ensure the append_command() is not run.
+      event_write_command(id, index, json_plain(event_n.merge(event_summary))),
+      events_append_command(id, ",\n" + json_plain(event_summary))
     ])
   end
 
@@ -86,9 +86,9 @@ class Kata_v1
 
   def tipper_info(id, was_index, now_index)
     results = saver.batch_assert([
-      events_read_cmd(id),
-      event_read_cmd(id, was_index),
-      event_read_cmd(id, now_index)
+      events_read_command(id),
+      event_read_command(id, was_index),
+      event_read_command(id, now_index)
     ])
     events = json_parse('[' + results[0] + ']')
     was_files = json_parse(results[1])['files']
@@ -100,10 +100,10 @@ class Kata_v1
 
   def diff_info(id, was_index, now_index)
     results = saver.batch_assert([
-      manifest_read_cmd(id),
-      events_read_cmd(id),
-      event_read_cmd(id, was_index),
-      event_read_cmd(id, now_index)
+      manifest_read_command(id),
+      events_read_command(id),
+      event_read_command(id, was_index),
+      event_read_command(id, now_index)
     ])
     manifest = json_parse(results[0])
     events = json_parse('[' + results[1] + ']')
@@ -115,7 +115,7 @@ class Kata_v1
   # - - - - - - - - - - - - - - - - - - -
 
   def events(id)
-    events_src = saver.assert(events_read_cmd(id))
+    events_src = saver.assert(events_read_command(id))
     json_parse('[' + events_src + ']')
   end
 
@@ -123,11 +123,11 @@ class Kata_v1
 
   def event(id, index)
     if index === -1
-      events_src = saver.assert(events_read_cmd(id))
+      events_src = saver.assert(events_read_command(id))
       pos = events_src.rindex("\n") || 0
       index = json_parse(events_src[pos..-1])['index']
     end
-    event_src = saver.assert(event_read_cmd(id, index))
+    event_src = saver.assert(event_read_command(id, index))
     json_parse(event_src)
   end
 
@@ -143,37 +143,37 @@ class Kata_v1
   # start-point services. In practice it creates coupling, and it
   # doesn't work anyway, since start-point services change over time.
 
-  def manifest_write_cmd(id, manifest_src)
+  def manifest_write_command(id, manifest_src)
     saver.write_command(manifest_filename(id), manifest_src)
   end
 
-  def manifest_read_cmd(id)
+  def manifest_read_command(id)
     saver.read_command(manifest_filename(id))
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
   # events
 
-  def events_write_cmd(id, event0_src)
+  def events_write_command(id, event0_src)
     saver.write_command(events_filename(id), event0_src)
   end
 
-  def events_append_cmd(id, eventN_src)
+  def events_append_command(id, eventN_src)
     saver.append_command(events_filename(id), eventN_src)
   end
 
-  def events_read_cmd(id)
+  def events_read_command(id)
     saver.read_command(events_filename(id))
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
   # event
 
-  def event_write_cmd(id, index, event_src)
+  def event_write_command(id, index, event_src)
     saver.write_command(event_filename(id,index), event_src)
   end
 
-  def event_read_cmd(id, index)
+  def event_read_command(id, index)
     saver.read_command(event_filename(id,index))
   end
 
