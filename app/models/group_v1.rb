@@ -6,7 +6,7 @@ require_relative 'kata_v1'
 require_relative '../../lib/oj_adapter'
 
 # 1. Manifest now has explicit version (1)
-# 2. joined() now does one batch-read, not 64 reads.
+# 2. joined() now does 1 read, not 64 reads.
 # 3. No longer stores JSON in pretty format.
 # 4. No longer stores file contents in lined format.
 # 5. Uses Oj as its JSON gem.
@@ -60,7 +60,7 @@ class Group_v1
   # - - - - - - - - - - - - - - - - - - -
 
   def joined(id)
-    katas_indexes(id).map{ |kid,_| kid }
+    katas_ids(katas_indexes(id))
   end
 
   # - - - - - - - - - - - - - - - - - - -
@@ -68,13 +68,13 @@ class Group_v1
   def events(id)
     result = {}
     kindexes = katas_indexes(id)
-    read_events_files_commands = kindexes.map do |kid,_|
-      @kata.send(:events_read_cmd, kid)
+    read_events_files_commands = katas_ids(kindexes).map do |kata_id|
+      @kata.send(:events_read_cmd, kata_id)
     end
     katas_events = saver.batch_assert(read_events_files_commands)
-    kindexes.each.with_index(0) do |(kid,kindex),index|
-      result[kid] = {
-        'index' => kindex,
+    kindexes.each.with_index(0) do |(kata_id,kata_index),index|
+      result[kata_id] = {
+        'index' => kata_index,
         'events' => json_parse('[' + katas_events[index] + ']')
       }
     end
@@ -87,6 +87,12 @@ class Group_v1
   include OjAdapter
 
   # - - - - - - - - - - - - - - - - - - - - - -
+
+  def katas_ids(katas_indexes)
+    katas_indexes.map{ |kata_id,_| kata_id }
+  end
+
+  # - - - - - - - - - - - - - - - - - - -
 
   def katas_indexes(id)
     katas_src = saver.assert(katas_read_cmd(id))

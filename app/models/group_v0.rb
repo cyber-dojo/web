@@ -54,7 +54,7 @@ class Group_v0
   # - - - - - - - - - - - - - - - - - - -
 
   def joined(id)
-    katas_indexes(id).map{ |kid,_| kid }
+    katas_ids(katas_indexes(id))
   end
 
   # - - - - - - - - - - - - - - - - - - -
@@ -62,13 +62,13 @@ class Group_v0
   def events(id)
     results = {}
     kindexes = katas_indexes(id)
-    read_events_files_commands = kindexes.map do |kid,_|
-      @kata.send(:events_read_cmd, kid)
+    read_events_files_commands = katas_ids(kindexes).map do |kata_id|
+      @kata.send(:events_read_cmd, kata_id)
     end
     katas_events = saver.batch_assert(read_events_files_commands)
-    kindexes.each.with_index(0) do |(kid,kindex),index|
-      results[kid] = {
-        'index' => kindex,
+    kindexes.each.with_index(0) do |(kata_id,kata_index),index|
+      results[kata_id] = {
+        'index' => kata_index,
         'events' => events_parse(katas_events[index])
       }
     end
@@ -80,6 +80,12 @@ class Group_v0
   include IdPather
   include Liner
   include OjAdapter
+
+  # - - - - - - - - - - - - - - - - - - -
+
+  def katas_ids(katas_indexes)
+    katas_indexes.map{ |kata_id,_| kata_id }
+  end
 
   # - - - - - - - - - - - - - - - - - - -
 
