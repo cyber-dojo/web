@@ -46,7 +46,7 @@ class Group_v0
       index = indexes[result_index]
       manifest['group_index'] = index
       kata_id = @kata.create(manifest)
-      saver.assert(['write',group_id_path(id, index, 'kata.id'), kata_id])
+      saver.assert(saver.write_command(kata_id_filename(id, index), kata_id))
       kata_id
     end
   end
@@ -90,7 +90,7 @@ class Group_v0
 
   def katas_indexes(id)
     read_commands = (0..63).map do |index|
-      saver.read_command(group_id_path(id, index, 'kata.id'))
+      saver.read_command(kata_id_filename(id, index))
     end
     reads = saver.batch(read_commands)
     # reads is an array of 64 entries, eg
@@ -131,9 +131,14 @@ class Group_v0
   end
 
   # - - - - - - - - - - - - - -
+  # names of files
 
   def manifest_filename(id)
     group_id_path(id, 'manifest.json')
+  end
+
+  def kata_id_filename(id, index)
+    group_id_path(id, index, 'kata.id')
   end
 
   include IdPather
