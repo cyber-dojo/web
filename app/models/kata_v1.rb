@@ -182,14 +182,36 @@ class Kata_v1
 
   def manifest_filename(id)
     kata_id_path(id, 'manifest.json')
+    # eg id == 'SyG9sT' ==> '/cyber-dojo/katas/Sy/G9/sT/manifest.json'
+    # eg content ==> {"display_name":"Ruby, MiniTest",...}
   end
 
   def events_filename(id)
     kata_id_path(id, 'events.json')
+    # eg id == 'SyG9sT' ==> '/cyber-dojo/katas/Sy/G9/sT/events.json'
+    # eg content ==>
+    # {"index":0,...,"event":"created"},
+    # {"index":1,...,"colour":"red"},
+    # {"index":2,...,"colour":"amber"},
   end
 
   def event_filename(id, index)
     kata_id_path(id, "#{index}.event.json")
+    # eg id == 'SyG9sT', index == 2 ==> '/cyber-dojo/katas/Sy/G9/sT/2.event.json'
+    # eg content ==>
+    # {
+    #   "files":{
+    #     "hiker.rb":{"content":"......","truncated":false}
+    #     ...
+    #   },
+    #   "stdout":{"content":"...","truncated":false},
+    #   "stderr":{"content":"...","truncated":false},
+    #   "status":1
+    #   "index":2,
+    #   "time":[2020,3,27,11,56,7,719235],
+    #   "duration":1.064011,
+    #   "colour":"amber"
+    # }
   end
 
   include IdPather

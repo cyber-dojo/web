@@ -145,14 +145,22 @@ class Group_v1
 
   def dirname(id, *parts)
     group_id_path(id, *parts)
+    # eg id == 'wAtCfj' ==> '/cyber-dojo/groups/wA/tC/fj'
   end
 
   def manifest_filename(id)
     group_id_path(id, 'manifest.json')
+    # eg id == 'wAtCfj' ==> '/cyber-dojo/groups/wA/tC/fj/manifest.json'
+    # eg content ==>
+    # {"display_name":"Ruby, MiniTest",...}
   end
 
   def katas_filename(id)
     group_id_path(id, 'katas.txt')
+    # eg id == 'wAtCfj' ==> '/cyber-dojo/groups/wA/tC/fj/katas.txt'
+    # eg content ==>
+    # SyG9sT 50
+    # zhTLfa 32
   end
 
   include IdPather
