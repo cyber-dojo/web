@@ -83,7 +83,6 @@ class Group_v1
 
   private
 
-  include IdPather
   include OjAdapter
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -114,46 +113,49 @@ class Group_v1
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def create_cmd(id, *parts)
-    ['create', id_path(id, *parts)]
+    saver.create_command(dirname(id, *parts))
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def manifest_write_cmd(id, manifest_src)
-    ['write', manifest_filename(id), manifest_src]
+    saver.write_command(manifest_filename(id), manifest_src)
   end
 
   def manifest_read_cmd(id)
-    ['read', manifest_filename(id)]
-  end
-
-  def manifest_filename(id)
-    id_path(id, 'manifest.json')
+    saver.read_command(manifest_filename(id))
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def katas_write_cmd(id, src)
-    ['write', katas_filename(id), src]
+    saver.write_command(katas_filename(id), src)
   end
 
   def katas_append_cmd(id, src)
-    ['append', katas_filename(id), src]
+    saver.append_command(katas_filename(id), src)
   end
 
   def katas_read_cmd(id)
-    ['read', katas_filename(id)]
-  end
-
-  def katas_filename(id)
-    id_path(id, 'katas.txt')
+    saver.read_command(katas_filename(id))
   end
 
   # - - - - - - - - - - - - - -
+  # names of dirs/files
 
-  def id_path(id, *parts)
+  def dirname(id, *parts)
     group_id_path(id, *parts)
   end
+
+  def manifest_filename(id)
+    group_id_path(id, 'manifest.json')
+  end
+
+  def katas_filename(id)
+    group_id_path(id, 'katas.txt')
+  end
+
+  include IdPather
 
   # - - - - - - - - - - - - - -
 

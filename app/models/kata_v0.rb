@@ -119,18 +119,17 @@ class Kata_v0
 
   private
 
-  include IdPather
   include Liner
   include OjAdapter
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def create_cmd(id, *parts)
-    ['create', id_path(id, *parts)]
+    saver.create_command(dirname(id, *parts))
   end
 
   def exists_cmd(id, *parts)
-    ['exists?', id_path(id, *parts)]
+    saver.exists_command(dirname(id, *parts))
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -145,15 +144,11 @@ class Kata_v0
   # start-point services can change over time.
 
   def manifest_write_cmd(id, manifest_src)
-    ['write', manifest_filename(id), manifest_src]
+    saver.write_command(manifest_filename(id), manifest_src)
   end
 
   def manifest_read_cmd(id)
-    ['read', manifest_filename(id)]
-  end
-
-  def manifest_filename(id)
-    id_path(id, 'manifest.json')
+    saver.read_command(manifest_filename(id))
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -166,19 +161,15 @@ class Kata_v0
   # append to the end of the file.
 
   def events_write_cmd(id, event0_src)
-    ['write', events_filename(id), event0_src]
+    saver.write_command(events_filename(id), event0_src)
   end
 
   def events_append_cmd(id, eventN_src)
-    ['append', events_filename(id), eventN_src]
+    saver.append_command(events_filename(id), eventN_src)
   end
 
   def events_read_cmd(id)
-    ['read', events_filename(id)]
-  end
-
-  def events_filename(id)
-    id_path(id, 'events.json')
+    saver.read_command(events_filename(id))
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -188,22 +179,35 @@ class Kata_v0
   # inspected on disk. Have to be unlined when read back.
 
   def event_write_cmd(id, index, event_src)
-    ['write', event_filename(id, index), event_src]
+    saver.write_command(event_filename(id, index), event_src)
   end
 
   def event_read_cmd(id, index)
-    ['read', event_filename(id, index)]
-  end
-
-  def event_filename(id, index)
-    id_path(id, index, 'event.json')
+    saver.read_command(event_filename(id, index))
   end
 
   # - - - - - - - - - - - - - -
+  # names of dirs/files
 
-  def id_path(id, *parts)
+  def dirname(id, *parts)
     kata_id_path(id, *parts)
   end
+
+  def manifest_filename(id)
+    kata_id_path(id, 'manifest.json')
+  end
+
+  def events_filename(id)
+    kata_id_path(id, 'events.json')
+  end
+
+  def event_filename(id, index)
+    kata_id_path(id, index, 'event.json')
+  end
+
+  include IdPather
+
+  # - - - - - - - - - - - - - -
 
   def saver
     @externals.saver

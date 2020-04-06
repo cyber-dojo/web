@@ -46,7 +46,7 @@ class Group_v0
       index = indexes[result_index]
       manifest['group_index'] = index
       kata_id = @kata.create(manifest)
-      saver.assert(['write',id_path(id, index, 'kata.id'), kata_id])
+      saver.assert(['write',group_id_path(id, index, 'kata.id'), kata_id])
       kata_id
     end
   end
@@ -77,7 +77,6 @@ class Group_v0
 
   private
 
-  include IdPather
   include Liner
   include OjAdapter
 
@@ -91,7 +90,7 @@ class Group_v0
 
   def katas_indexes(id)
     read_commands = (0..63).map do |index|
-      ['read', id_path(id, index, 'kata.id')]
+      saver.read_command(group_id_path(id, index, 'kata.id'))
     end
     reads = saver.batch(read_commands)
     # reads is an array of 64 entries, eg
@@ -118,22 +117,26 @@ class Group_v0
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def create_cmd(id, *parts)
-    ['create', id_path(id, *parts)]
+    saver.create_command(group_id_path(id, *parts))
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def manifest_write_cmd(id, manifest_src)
-    ['write', manifest_filename(id), manifest_src]
+    saver.write_command(manifest_filename(id), manifest_src)
   end
 
   def manifest_read_cmd(id)
-    ['read', manifest_filename(id)]
+    saver.read_command(manifest_filename(id))
   end
 
+  # - - - - - - - - - - - - - -
+
   def manifest_filename(id)
-    id_path(id, 'manifest.json')
+    group_id_path(id, 'manifest.json')
   end
+
+  include IdPather
 
   # - - - - - - - - - - - - - -
 
@@ -141,12 +144,6 @@ class Group_v0
     json_parse('[' + s.lines.join(',') + ']')
     # Alternative implementation, which tests show is slower.
     # s.lines.map { |line| json_parse(line) }
-  end
-
-  # - - - - - - - - - - - - - -
-
-  def id_path(id, *parts)
-    group_id_path(id, *parts)
   end
 
   # - - - - - - - - - - - - - -

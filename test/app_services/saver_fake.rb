@@ -19,6 +19,28 @@ class SaverFake
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
+  def create_command(dirname)
+    ['create',dirname]
+  end
+
+  def exists_command(dirname)
+    ['exists?',dirname]
+  end
+
+  def write_command(filename, content)
+    ['write',filename,content]
+  end
+
+  def append_command(filename, content)
+    ['append',filename,content]
+  end
+
+  def read_command(filename)
+    ['read',filename]
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
   def exists?(key)
     append_log(['exists?',key])
     do_exists?(key)
@@ -51,7 +73,7 @@ class SaverFake
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def assert(command)
-    append_log(['assert',command])    
+    append_log(['assert',command])
     result = execute(command)
     if result
       result
@@ -110,6 +132,8 @@ class SaverFake
   def append_log(info)
     @@log << info
   end
+
+  # - - - - - - - - - - - - - - - - - -
 
   def do_exists?(key)
     dir?(path_name(key))
