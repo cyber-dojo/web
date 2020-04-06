@@ -39,11 +39,15 @@ class SaverService
     @http.get(__method__, { key:key })
   end
 
-  def batch(commands)
-    @http.post(__method__, { commands:commands })
+  def assert(command)
+    @http.post(__method__, { command:command })
   end
 
   def batch_assert(commands)
+    @http.post(__method__, { commands:commands })
+  end
+
+  def batch(commands)
     @http.post(__method__, { commands:commands })
   end
 

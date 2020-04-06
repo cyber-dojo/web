@@ -4,7 +4,6 @@ require_relative 'id_generator'
 require_relative 'id_pather'
 require_relative 'kata_v0'
 require_relative 'liner'
-require_relative 'saver_asserter'
 require_relative '../../lib/oj_adapter'
 
 class Group_v0
@@ -19,14 +18,14 @@ class Group_v0
   def create(manifest)
     id = manifest['id'] = IdGenerator.new(@externals).group_id
     manifest['visible_files'] = lined_files(manifest['visible_files'])
-    saver_assert(manifest_write_cmd(id, json_plain(manifest)))
+    saver.assert(manifest_write_cmd(id, json_plain(manifest)))
     id
   end
 
   # - - - - - - - - - - - - - - - - - - -
 
   def manifest(id)
-    manifest_src = saver_assert(manifest_read_cmd(id))
+    manifest_src = saver.assert(manifest_read_cmd(id))
     manifest = json_parse(manifest_src)
     manifest['visible_files'] = unlined_files(manifest['visible_files'])
     manifest
@@ -42,7 +41,7 @@ class Group_v0
       if saver.public_send(*create_cmd(id, index))
         manifest['group_index'] = index
         kata_id = @kata.create(manifest)
-        saver_assert(['write',id_path(id, index, 'kata.id'), kata_id])
+        saver.assert(['write',id_path(id, index, 'kata.id'), kata_id])
         break kata_id
       end
     end # nil -> full
@@ -77,7 +76,6 @@ class Group_v0
   include IdPather
   include Liner
   include OjAdapter
-  include SaverAsserter
 
   # - - - - - - - - - - - - - - - - - - -
 

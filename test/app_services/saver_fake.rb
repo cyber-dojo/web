@@ -50,9 +50,14 @@ class SaverFake
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def batch(commands)
-    append_log(['batch',commands.size])
-    batch_until(commands) {|r| r === :never }
+  def assert(command)
+    append_log(['assert',command])    
+    result = execute(command)
+    if result
+      result
+    else
+      raise "command != true"
+    end
   end
 
   def batch_assert(commands)
@@ -66,6 +71,11 @@ class SaverFake
     }
   end
 
+  def batch(commands)
+    append_log(['batch',commands.size])
+    batch_until(commands) {|r| r === :never }
+  end
+
   def batch_until_true(commands)
     batch_until(commands) {|r| r}
   end
@@ -76,17 +86,21 @@ class SaverFake
 
   private
 
+  def execute(command)
+    name,*args = command
+    case name
+    when 'create'  then do_create(*args)
+    when 'exists?' then do_exists?(*args)
+    when 'write'   then do_write(*args)
+    when 'append'  then do_append(*args)
+    when 'read'    then do_read(*args)
+    end
+  end
+
   def batch_until(commands, &block)
     results = []
     commands.each.with_index(0) do |command,index|
-      name,*args = command
-      result = case name
-      when 'create'  then do_create(*args)
-      when 'exists?' then do_exists?(*args)
-      when 'write'   then do_write(*args)
-      when 'append'  then do_append(*args)
-      when 'read'    then do_read(*args)
-      end
+      result = execute(command)
       results << result
       break if block.call(result,index)
     end

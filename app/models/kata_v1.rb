@@ -2,7 +2,6 @@
 
 require_relative 'id_generator'
 require_relative 'id_pather'
-require_relative 'saver_asserter'
 require_relative '../../lib/oj_adapter'
 
 # 1. Manifest now has explicit version (1)
@@ -55,7 +54,7 @@ class Kata_v1
   # - - - - - - - - - - - - - - - - - - -
 
   def manifest(id)
-    manifest_src = saver_assert(manifest_read_cmd(id))
+    manifest_src = saver.assert(manifest_read_cmd(id))
     json_parse(manifest_src)
   end
 
@@ -116,7 +115,7 @@ class Kata_v1
   # - - - - - - - - - - - - - - - - - - -
 
   def events(id)
-    events_src = saver_assert(events_read_cmd(id))
+    events_src = saver.assert(events_read_cmd(id))
     json_parse('[' + events_src + ']')
   end
 
@@ -124,11 +123,11 @@ class Kata_v1
 
   def event(id, index)
     if index === -1
-      events_src = saver_assert(events_read_cmd(id))
+      events_src = saver.assert(events_read_cmd(id))
       pos = events_src.rindex("\n") || 0
       index = json_parse(events_src[pos..-1])['index']
     end
-    event_src = saver_assert(event_read_cmd(id, index))
+    event_src = saver.assert(event_read_cmd(id, index))
     json_parse(event_src)
   end
 
@@ -136,7 +135,6 @@ class Kata_v1
 
   include IdPather
   include OjAdapter
-  include SaverAsserter
 
   # - - - - - - - - - - - - - - - - - - - - - -
   # manifest

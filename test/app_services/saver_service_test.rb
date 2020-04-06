@@ -41,22 +41,39 @@ class SaverServiceTest < AppServicesTestBase
 
   test '443',
   'smoke test saver methods' do
-    assert_saver_service_error { saver.create(42) }
-    assert_saver_service_error { saver.exists?(42) }
-    assert_saver_service_error { saver.write(4,2) }
-    assert_saver_service_error { saver.append(4,2) }
-    assert_saver_service_error { saver.read(42) }
-    assert_saver_service_error { saver.batch(['read',42]) }
-  end
-
-  private
-
-  def assert_saver_service_error(&block)
-    error = assert_raises(SaverService::Error) {
-      block.call
+    dirname = 'katas/34/56/7W'
+    filename = dirname + '/' + '7.events.json'
+    content = '{"colour":"red"}'
+    assert_equal true, saver.create(dirname)
+    assert_equal true, saver.exists?(dirname)
+    assert_equal true, saver.write(filename, content)
+    assert_equal true, saver.append(filename, content)
+    assert_equal content*2, saver.read(filename)
+    assert_equal content*2, saver.assert(['read',filename])
+    assert_equal [true,content*2], saver.batch_assert([
+      ['exists?',dirname],
+      ['read',filename]
+    ])
+    assert_equal [true,content*2], saver.batch([
+      ['exists?',dirname],
+      ['read',filename]
+    ])
+    assert_equal [false,false,true], saver.batch_until_true([
+      ['exists?',dirname+'1'],
+      ['exists?',dirname+'2'],
+      ['exists?',dirname],
+      ['exists?',dirname+'3'],
+    ])
+    assert_equal [true,true,false], saver.batch_until_false([
+      ['exists?',dirname],
+      ['exists?',dirname],
+      ['exists?',dirname+'42'],
+      ['exists?',dirname],
+    ])
+    assert_raises(SaverService::Error) { saver.exists?(42) }
+    assert_raises(SaverService::Error) {
+      saver.assert(['exists?',dirname+'42'])
     }
-    json = JSON.parse!(error.message)
-    assert_equal 'SaverService', json['class']
   end
 
 end

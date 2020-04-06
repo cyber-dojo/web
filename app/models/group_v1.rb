@@ -3,7 +3,6 @@
 require_relative 'id_generator'
 require_relative 'id_pather'
 require_relative 'kata_v1'
-require_relative 'saver_asserter'
 require_relative '../../lib/oj_adapter'
 
 # 1. Manifest now has explicit version (1)
@@ -34,7 +33,7 @@ class Group_v1
   # - - - - - - - - - - - - - - - - - - -
 
   def manifest(id)
-    manifest_src = saver_assert(manifest_read_cmd(id))
+    manifest_src = saver.assert(manifest_read_cmd(id))
     json_parse(manifest_src)
   end
 
@@ -48,7 +47,7 @@ class Group_v1
       if saver.public_send(*create_cmd(id, index))
         manifest['group_index'] = index
         kata_id = @kata.create(manifest)
-        saver_assert(katas_append_cmd(id, "#{kata_id} #{index}\n"))
+        saver.assert(katas_append_cmd(id, "#{kata_id} #{index}\n"))
         break kata_id
       end
     end # nil -> full
@@ -82,12 +81,11 @@ class Group_v1
 
   include IdPather
   include OjAdapter
-  include SaverAsserter
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def katas_indexes(id)
-    katas_src = saver_assert(katas_read_cmd(id))
+    katas_src = saver.assert(katas_read_cmd(id))
     # G2ws77 15
     # w34rd5 2
     # ...
