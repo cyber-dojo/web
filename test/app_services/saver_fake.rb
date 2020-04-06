@@ -1,8 +1,10 @@
 # frozen_string_literal: true
+require_relative '../../app/services/saver_service'
 
 class SaverFake
 
-  def initialize(_externals)
+  def initialize(externals)
+    @externals = externals
     @@dirs ||= {}
     @@files ||= {}
     @@log ||= []
@@ -20,23 +22,23 @@ class SaverFake
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def create_command(dirname)
-    ['create',dirname]
+    saver.create_command(dirname)
   end
 
   def exists_command(dirname)
-    ['exists?',dirname]
+    saver.exists_command(dirname)
   end
 
   def write_command(filename, content)
-    ['write',filename,content]
+    saver.write_command(filename, content)
   end
 
   def append_command(filename, content)
-    ['append',filename,content]
+    saver.append_command(filename, content)
   end
 
   def read_command(filename)
-    ['read',filename]
+    saver.read_command(filename)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -183,6 +185,10 @@ class SaverFake
 
   def file?(key)
     @@files.has_key?(key)
+  end
+
+  def saver
+    SaverService.new(@externals)
   end
 
 end
