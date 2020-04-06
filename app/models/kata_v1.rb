@@ -201,12 +201,12 @@ class Kata_v1
     # eg content ==>
     # {
     #   "files":{
-    #     "hiker.rb":{"content":"......","truncated":false}
+    #     "hiker.rb":{"content":"......","truncated":false},
     #     ...
     #   },
     #   "stdout":{"content":"...","truncated":false},
     #   "stderr":{"content":"...","truncated":false},
-    #   "status":1
+    #   "status":1,
     #   "index":2,
     #   "time":[2020,3,27,11,56,7,719235],
     #   "duration":1.064011,

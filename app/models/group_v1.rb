@@ -151,8 +151,7 @@ class Group_v1
   def manifest_filename(id)
     group_id_path(id, 'manifest.json')
     # eg id == 'wAtCfj' ==> '/cyber-dojo/groups/wA/tC/fj/manifest.json'
-    # eg content ==>
-    # {"display_name":"Ruby, MiniTest",...}
+    # eg content ==> {"display_name":"Ruby, MiniTest",...}
   end
 
   def katas_filename(id)

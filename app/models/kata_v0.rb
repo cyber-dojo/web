@@ -191,18 +191,39 @@ class Kata_v0
 
   def dirname(id, *parts)
     kata_id_path(id, *parts)
+    # eg id == 'k5ZTk0', parts = [] ==> '/cyber-dojo/katas/k5/ZT/k0'
+    # eg id == 'k5ZTk0', parts = [31] ==> '/cyber-dojo/katas/k5/ZT/k0/31'
   end
 
   def manifest_filename(id)
     kata_id_path(id, 'manifest.json')
+    # eg id == 'k5ZTk0' ==> '/cyber-dojo/katas/k5/ZT/manifest.json'
+    # eg content ==> {"display_name":"Ruby, MiniTest",...}
   end
 
   def events_filename(id)
     kata_id_path(id, 'events.json')
+    # eg id == 'k5ZTk0' ==> '/cyber-dojo/katas/k5/ZT/events.json'
+    # eg content ==>
+    # {"event":"created","time":[2019,1,19,12,41,0,406370]}
+    # {"colour":"red","time":[2019,1,19,12,45,19,994317],"duration":1.224763}
+    # {"colour":"amber","time":[2019,1,19,12,45,26,76791],"duration":1.1275}
+    # {"colour":"green","time":[2019,1,19,12,45,30,656924],"duration":1.072198}
   end
 
   def event_filename(id, index)
     kata_id_path(id, index, 'event.json')
+    # eg id == 'k5ZTk0', index == 2 ==> '/cyber-dojo/katas/k5/ZT//2/event.json'
+    # eg content ==>
+    # {
+    #   "files":{
+    #     "hiker.rb":{"content":"......","truncated":false},
+    #     ...
+    #   },
+    #   "stdout":{"content":"...","truncated":false},
+    #   "stderr":{"content":"...","truncated":false},
+    #   "status":1
+    # }
   end
 
   include IdPather

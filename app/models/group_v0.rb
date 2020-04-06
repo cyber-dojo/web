@@ -135,10 +135,14 @@ class Group_v0
 
   def manifest_filename(id)
     group_id_path(id, 'manifest.json')
+    # eg id == 'chy6BJ' ==> '/cyber-dojo/groups/ch/y6/BJ/manifest.json'
+    # eg content ==> {"display_name":"Ruby, MiniTest",...}
   end
 
   def kata_id_filename(id, index)
     group_id_path(id, index, 'kata.id')
+    # eg id == 'chy6BJ', index == 11 ==> '/cyber-dojo/groups/ch/y6/BJ/11/kata.id'
+    # eg content ==> 'k5ZTk0'
   end
 
   include IdPather
