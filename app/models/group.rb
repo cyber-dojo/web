@@ -17,7 +17,7 @@ class Group
 
   def exists?
     IdGenerator.id?(id) &&
-      saver.exists?(group_id_path(id))
+      saver.run(saver.exists_command(group_id_path(id)))
   end
 
   # - - - - - - - - - - - - - - - - -

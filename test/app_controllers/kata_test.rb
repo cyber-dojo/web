@@ -281,7 +281,7 @@ class KataControllerTest  < AppControllerTestBase
     end
     args = ['', 'katas', id[0..1], id[2..3], id[4..5], 'manifest.json']
     filename = File.join(*args)
-    manifest = JSON.parse(saver.read(filename))
+    manifest = JSON.parse(saver.run(saver.read_command(filename)))
     refute manifest.has_key?('predicted')
     # See app/models/kata_v0.ran_tests()
     # See app/models/kata_v1.ran_tests()

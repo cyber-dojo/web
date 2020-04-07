@@ -42,7 +42,8 @@ class IdGenerator
     pather = method(pather)
     4.times.find do
       id = SIZE.times.map{ ALPHABET[random_index] }.join
-      if unreserved?(id) && saver.create(pather.call(id))
+      command = saver.create_command(pather.call(id))
+      if unreserved?(id) && saver.run(command)
         break id
       end
     end

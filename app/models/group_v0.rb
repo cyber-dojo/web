@@ -38,7 +38,7 @@ class Group_v0
     manifest.delete('id')
     manifest['group_id'] = id
     commands = indexes.map{ |index| create_command(id, index) }
-    results = saver.batch_until_true(commands)
+    results = saver.batch_run_until_true(commands)
     result_index = results.find_index(true)
     if result_index.nil?
       nil # full
@@ -92,7 +92,7 @@ class Group_v0
     read_commands = (0..63).map do |index|
       saver.read_command(kata_id_filename(id, index))
     end
-    reads = saver.batch(read_commands)
+    reads = saver.batch_run(read_commands)
     # reads is an array of 64 entries, eg
     # [
     #    nil,      # 0

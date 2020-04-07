@@ -44,7 +44,7 @@ class Group_v1
     manifest.delete('id')
     manifest['group_id'] = id
     commands = indexes.map{ |index| create_command(id, index) }
-    results = saver.batch_until_true(commands)
+    results = saver.batch_run_until_true(commands)
     result_index = results.find_index(true)
     if result_index.nil?
       nil # full

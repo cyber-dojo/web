@@ -42,44 +42,32 @@ class SaverService
   end
 
   # - - - - - - - - - - - - - - - - - - -
-
-  def create(key)
-    @http.post(__method__, { key:key })
-  end
-
-  def exists?(key)
-    @http.get(__method__, { key:key })
-  end
-
-  def write(key, value)
-    @http.post(__method__, { key:key, value:value })
-  end
-
-  def append(key, value)
-    @http.post(__method__, { key:key, value:value })
-  end
-
-  def read(key)
-    @http.get(__method__, { key:key })
-  end
+  # primitives
 
   def assert(command)
     @http.post(__method__, { command:command })
   end
 
+  def run(command)
+    @http.post(__method__, { command:command })
+  end
+
+  # - - - - - - - - - - - - - - - - - - -
+  # batches
+
   def batch_assert(commands)
     @http.post(__method__, { commands:commands })
   end
 
-  def batch(commands)
+  def batch_run(commands)
     @http.post(__method__, { commands:commands })
   end
 
-  def batch_until_true(commands)
+  def batch_run_until_true(commands)
     @http.post(__method__, { commands:commands })
   end
 
-  def batch_until_false(commands)
+  def batch_run_until_false(commands)
     @http.post(__method__, { commands:commands })
   end
 
