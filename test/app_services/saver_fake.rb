@@ -21,24 +21,24 @@ class SaverFake
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def create_command(dirname)
-    saver.create_command(dirname)
+  def dir_make_command(dirname)
+    saver.dir_make_command(dirname)
   end
 
-  def exists_command(dirname)
-    saver.exists_command(dirname)
+  def dir_exists_command(dirname)
+    saver.dir_exists_command(dirname)
   end
 
-  def write_command(filename, content)
-    saver.write_command(filename, content)
+  def file_create_command(filename, content)
+    saver.file_create_command(filename, content)
   end
 
-  def append_command(filename, content)
-    saver.append_command(filename, content)
+  def file_append_command(filename, content)
+    saver.file_append_command(filename, content)
   end
 
-  def read_command(filename)
-    saver.read_command(filename)
+  def file_read_command(filename)
+    saver.file_read_command(filename)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -

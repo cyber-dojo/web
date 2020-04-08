@@ -46,44 +46,44 @@ class SaverServiceTest < AppServicesTestBase
     content = '{"colour":"red"}'
 
     # run
-    assert_equal true, saver.run(saver.create_command(dirname))
-    assert_equal true, saver.run(saver.exists_command(dirname))
-    assert_equal true, saver.run(saver.write_command(filename, content))
-    assert_equal true, saver.run(saver.append_command(filename, content))
-    assert_equal content*2, saver.run(saver.read_command(filename))
+    assert_equal true, saver.run(saver.dir_make_command(dirname))
+    assert_equal true, saver.run(saver.dir_exists_command(dirname))
+    assert_equal true, saver.run(saver.file_create_command(filename, content))
+    assert_equal true, saver.run(saver.file_append_command(filename, content))
+    assert_equal content*2, saver.run(saver.file_read_command(filename))
     assert_raises(SaverService::Error) {
-      saver.run(saver.exists_command(42))
+      saver.run(saver.dir_exists_command(42))
     }
 
     # assert
-    assert_equal content*2, saver.assert(saver.read_command(filename))
+    assert_equal content*2, saver.assert(saver.file_read_command(filename))
     assert_raises(SaverService::Error) {
-      saver.assert(saver.exists_command(dirname+'42'))
+      saver.assert(saver.dir_exists_command(dirname+'42'))
     }
 
     # assert_all
     assert_equal [true,content*2], saver.assert_all([
-      saver.exists_command(dirname),
-      saver.read_command(filename)
+      saver.dir_exists_command(dirname),
+      saver.file_read_command(filename)
     ])
     # run_all
     assert_equal [true,content*2], saver.run_all([
-      saver.exists_command(dirname),
-      saver.read_command(filename)
+      saver.dir_exists_command(dirname),
+      saver.file_read_command(filename)
     ])
     # run_until_true
     assert_equal [false,false,true], saver.run_until_true([
-      saver.exists_command(dirname+'1'),
-      saver.exists_command(dirname+'2'),
-      saver.exists_command(dirname),
-      saver.exists_command(dirname+'3')
+      saver.dir_exists_command(dirname+'1'),
+      saver.dir_exists_command(dirname+'2'),
+      saver.dir_exists_command(dirname),
+      saver.dir_exists_command(dirname+'3')
     ])
     # run_until_false
     assert_equal [true,true,false], saver.run_until_false([
-      saver.exists_command(dirname),
-      saver.exists_command(dirname),
-      saver.exists_command(dirname+'42'),
-      saver.exists_command(dirname),
+      saver.dir_exists_command(dirname),
+      saver.dir_exists_command(dirname),
+      saver.dir_exists_command(dirname+'42'),
+      saver.dir_exists_command(dirname),
     ])
   end
 

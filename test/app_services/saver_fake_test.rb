@@ -43,126 +43,126 @@ class SaverFakeTest < AppServicesTestBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - -
-  # exists?(), create()
+  # dir_exists?(), dir_make()
 
   multi_saver_test '431',
-  'exists?(k) is false before create(k) and true after' do
+  'dir_exists?(k) is false before dir_make(k) and true after' do
     dirname = 'client/34/f7/a8'
-    refute saver.run(saver.exists_command(dirname))
-    assert saver.run(saver.create_command(dirname))
-    assert saver.run(saver.exists_command(dirname))
+    refute saver.run(saver.dir_exists_command(dirname))
+    assert saver.run(saver.dir_make_command(dirname))
+    assert saver.run(saver.dir_exists_command(dirname))
   end
 
   multi_saver_test '432',
-  'create succeeds once and then fails' do
+  'dir_make() succeeds once and then fails' do
     dirname = 'client/r5/s7/03'
-    assert saver.run(saver.create_command(dirname))
-    refute saver.run(saver.create_command(dirname))
+    assert saver.run(saver.dir_make_command(dirname))
+    refute saver.run(saver.dir_make_command(dirname))
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - -
-  # write()
+  # file_create()
 
   multi_saver_test '640', %w(
-    write() succeeds
+    file_create() succeeds
     when its dir-name exists and its file-name does not exist
   ) do
     dirname = 'client/32/fg/9j'
-    assert saver.run(saver.create_command(dirname))
+    assert saver.run(saver.dir_make_command(dirname))
     filename = dirname + '/events.json'
     content = '{"time":[3,4,5,6,7,8]}'
-    assert saver.run(saver.write_command(filename, content))
-    assert_equal content, saver.run(saver.read_command(filename))
+    assert saver.run(saver.file_create_command(filename, content))
+    assert_equal content, saver.run(saver.file_read_command(filename))
   end
 
   multi_saver_test '641', %w(
-    write() fails
+    file_create() fails
     when its dir-name does not already exist
   ) do
     dirname = 'client/5e/94/Aa'
-    # no saver.run(saver.create_command(dirname))
     filename = dirname + '/readme.md'
-    refute saver.run(saver.write_command(filename, 'bonjour'))
-    assert saver.run(saver.read_command(filename)).is_a?(FalseClass)
+    # no saver.run(saver.dir_make_command(dirname))
+    refute saver.run(saver.file_create_command(filename, 'bonjour'))
+    assert saver.run(saver.file_read_command(filename)).is_a?(FalseClass)
   end
 
   multi_saver_test '642', %w(
-    write() fails
+    file_create() fails
     when its file-name already exists
   ) do
     dirname = 'client/73/Ff/69'
-    assert saver.run(saver.create_command(dirname))
     filename = dirname + '/readme.md'
     first_content = 'greetings'
-    assert saver.run(saver.write_command(filename, first_content))
-    refute saver.run(saver.write_command(filename, 'second-content'))
-    assert_equal first_content, saver.run(saver.read_command(filename))
+    assert saver.run(saver.dir_make_command(dirname))
+    assert saver.run(saver.file_create_command(filename, first_content))
+    refute saver.run(saver.file_create_command(filename, 'second-content'))
+    assert_equal first_content, saver.run(saver.file_read_command(filename))
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - -
-  # append()
+  # file_append()
 
   multi_saver_test '840', %w(
-    append() returns true and appends to the end of file-name
+    file_append() returns true and appends to the end of file-name
     when file-name already exists
   ) do
     dirname = 'client/69/1b/2B'
-    assert saver.run(saver.create_command(dirname))
     filename = dirname + '/readme.md'
     content = 'helloooo'
-    assert saver.run(saver.write_command(filename, content))
+    assert saver.run(saver.dir_make_command(dirname))
+    assert saver.run(saver.file_create_command(filename, content))
     more = 'some-more'
-    assert saver.run(saver.append_command(filename, more))
-    assert_equal content+more, saver.run(saver.read_command(filename))
+    assert saver.run(saver.file_append_command(filename, more))
+    assert_equal content+more, saver.run(saver.file_read_command(filename))
   end
 
   multi_saver_test '841', %w(
-    append() returns false and does nothing
+    file_append() returns false and does nothing
     when its dir-name does not already exist
   ) do
     dirname = 'client/96/18/59'
-    # no saver.run(saver.create_command(dirname))
     filename = dirname + '/readme.md'
-    refute saver.run(saver.append_command(filename, 'greetings'))
-    assert saver.run(saver.read_command(filename)).is_a?(FalseClass)
+    # no saver.run(saver.create_command(dirname))
+    refute saver.run(saver.file_append_command(filename, 'greetings'))
+    assert saver.run(saver.file_read_command(filename)).is_a?(FalseClass)
   end
 
   multi_saver_test '842', %w(
-    append() does nothing and returns false
+    file_append() does nothing and returns false
     when its file-name does not already exist
   ) do
     dirname = 'client/96/18/59'
-    assert saver.run(saver.create_command(dirname))
     filename = dirname + '/hiker.h'
+    assert saver.run(saver.dir_make_command(dirname))
     # no saver.run(saver.write_command(filename, '...'))
-    refute saver.run(saver.append_command(filename, 'int main(void);'))
-    assert saver.run(saver.read_command(filename)).is_a?(FalseClass)
+    refute saver.run(saver.file_append_command(filename, 'int main(void);'))
+    assert saver.run(saver.file_read_command(filename)).is_a?(FalseClass)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - -
-  # read()
+  # file_read()
 
   multi_saver_test '437',
   'read() gives back what a successful write() accepts' do
     dirname = 'client/FD/F4/38'
-    assert saver.run(saver.create_command(dirname))
     filename = dirname + '/limerick.txt'
     content = 'the boy stood on the burning deck'
-    assert saver.run(saver.write_command(filename, content))
-    assert_equal content, saver.run(saver.read_command(filename))
+    assert saver.run(saver.dir_make_command(dirname))
+    assert saver.run(saver.file_create_command(filename, content))
+    assert_equal content, saver.run(saver.file_read_command(filename))
   end
 
   multi_saver_test '438',
-  'read() returns false given a non-existent file-name' do
+  'file_read() returns false given a non-existent file-name' do
     filename = 'client/1z/23/e4/not-there.txt'
-    assert saver.run(saver.read_command(filename)).is_a?(FalseClass)
+    assert saver.run(saver.file_read_command(filename)).is_a?(FalseClass)
   end
 
   multi_saver_test '439',
-  'read() returns false given an existing dir-name' do
+  'file_read() returns false given an existing dir-name' do
     dirname = 'client/2f/7k/3P'
-    saver.run(saver.create_command(dirname))
-    assert saver.run(saver.read_command(dirname)).is_a?(FalseClass)
+    saver.run(saver.dir_make_command(dirname))
+    assert saver.run(saver.file_read_command(dirname)).is_a?(FalseClass)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -173,26 +173,26 @@ class SaverFakeTest < AppServicesTestBase
     expected = []
     commands = []
     dirname = 'client/e3/t6/A8'
-    commands << saver.create_command(dirname)
+    commands << saver.dir_make_command(dirname)
     expected << true
-    commands << saver.exists_command(dirname)
+    commands << saver.dir_exists_command(dirname)
     expected << true
 
     there_yes = dirname + '/there-yes.txt'
     content = 'inchmarlo'
-    commands << saver.write_command(there_yes,content)
+    commands << saver.file_create_command(there_yes,content)
     expected << true
-    commands << saver.append_command(there_yes,content)
+    commands << saver.file_append_command(there_yes,content)
     expected << true
 
     there_not = dirname + '/there-not.txt'
-    commands << saver.append_command(there_not,'nope')
+    commands << saver.file_append_command(there_not,'nope')
     expected << false
 
-    commands << saver.read_command(there_yes)
+    commands << saver.file_read_command(there_yes)
     expected << content*2
 
-    commands << saver.read_command(there_not)
+    commands << saver.file_read_command(there_not)
     expected << false
 
     result = saver.run_all(commands)

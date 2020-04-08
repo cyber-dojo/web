@@ -28,7 +28,7 @@ module Version
         @params[:version].to_i
       else
         path = method(pather).call(id, 'manifest.json')
-        manifest_src = saver.assert(saver.read_command(path))
+        manifest_src = saver.assert(saver.file_read_command(path))
         manifest_version(json_parse(manifest_src))
       end
     end

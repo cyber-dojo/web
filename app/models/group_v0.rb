@@ -18,7 +18,7 @@ class Group_v0
   def create(manifest)
     id = manifest['id'] = IdGenerator.new(@externals).group_id
     manifest['visible_files'] = lined_files(manifest['visible_files'])
-    saver.assert(manifest_write_command(id, json_plain(manifest)))
+    saver.assert(manifest_create_command(id, json_plain(manifest)))
     id
   end
 
@@ -37,7 +37,7 @@ class Group_v0
     manifest = self.manifest(id)
     manifest.delete('id')
     manifest['group_id'] = id
-    commands = indexes.map{ |index| create_command(id, index) }
+    commands = indexes.map{ |index| dir_make_command(id, index) }
     results = saver.run_until_true(commands)
     result_index = results.find_index(true)
     if result_index.nil?
@@ -46,7 +46,7 @@ class Group_v0
       index = indexes[result_index]
       manifest['group_index'] = index
       kata_id = @kata.create(manifest)
-      saver.assert(saver.write_command(kata_id_filename(id, index), kata_id))
+      saver.assert(saver.file_create_command(kata_id_filename(id, index), kata_id))
       kata_id
     end
   end
@@ -63,7 +63,7 @@ class Group_v0
     results = {}
     kindexes = katas_indexes(id)
     read_events_files_commands = katas_ids(kindexes).map do |kata_id|
-      @kata.send(:events_read_command, kata_id)
+      @kata.send(:events_file_read_command, kata_id)
     end
     katas_events = saver.assert_all(read_events_files_commands)
     kindexes.each.with_index(0) do |(kata_id,kata_index),index|
@@ -90,7 +90,7 @@ class Group_v0
 
   def katas_indexes(id)
     read_commands = (0..63).map do |index|
-      saver.read_command(kata_id_filename(id, index))
+      saver.file_read_command(kata_id_filename(id, index))
     end
     reads = saver.run_all(read_commands)
     # reads is an array of 64 entries, eg
@@ -116,18 +116,18 @@ class Group_v0
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def create_command(id, *parts)
-    saver.create_command(group_id_path(id, *parts))
+  def dir_make_command(id, *parts)
+    saver.dir_make_command(group_id_path(id, *parts))
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def manifest_write_command(id, manifest_src)
-    saver.write_command(manifest_filename(id), manifest_src)
+  def manifest_create_command(id, manifest_src)
+    saver.file_create_command(manifest_filename(id), manifest_src)
   end
 
   def manifest_read_command(id)
-    saver.read_command(manifest_filename(id))
+    saver.file_read_command(manifest_filename(id))
   end
 
   # - - - - - - - - - - - - - -

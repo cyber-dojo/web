@@ -24,8 +24,8 @@ class Group_v1
     id = manifest['id'] = IdGenerator.new(@externals).group_id
     manifest['version'] = 1
     saver.assert_all([
-      manifest_write_command(id, json_plain(manifest)),
-      katas_write_command(id, '')
+      manifest_create_command(id, json_plain(manifest)),
+      katas_create_command(id, '')
     ])
     id
   end
@@ -43,7 +43,7 @@ class Group_v1
     manifest = self.manifest(id)
     manifest.delete('id')
     manifest['group_id'] = id
-    commands = indexes.map{ |index| create_command(id, index) }
+    commands = indexes.map{ |index| dir_make_command(id, index) }
     results = saver.run_until_true(commands)
     result_index = results.find_index(true)
     if result_index.nil?
@@ -69,7 +69,7 @@ class Group_v1
     result = {}
     kindexes = katas_indexes(id)
     read_events_files_commands = katas_ids(kindexes).map do |kata_id|
-      @kata.send(:events_read_command, kata_id)
+      @kata.send(:events_file_read_command, kata_id)
     end
     katas_events = saver.assert_all(read_events_files_commands)
     kindexes.each.with_index(0) do |(kata_id,kata_index),index|
@@ -112,32 +112,32 @@ class Group_v1
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def create_command(id, *parts)
-    saver.create_command(dirname(id, *parts))
+  def dir_make_command(id, *parts)
+    saver.dir_make_command(dirname(id, *parts))
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def manifest_write_command(id, manifest_src)
-    saver.write_command(manifest_filename(id), manifest_src)
+  def manifest_create_command(id, manifest_src)
+    saver.file_create_command(manifest_filename(id), manifest_src)
   end
 
   def manifest_read_command(id)
-    saver.read_command(manifest_filename(id))
+    saver.file_read_command(manifest_filename(id))
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def katas_write_command(id, src)
-    saver.write_command(katas_filename(id), src)
+  def katas_create_command(id, src)
+    saver.file_create_command(katas_filename(id), src)
   end
 
   def katas_append_command(id, src)
-    saver.append_command(katas_filename(id), src)
+    saver.file_append_command(katas_filename(id), src)
   end
 
   def katas_read_command(id)
-    saver.read_command(katas_filename(id))
+    saver.file_read_command(katas_filename(id))
   end
 
   # - - - - - - - - - - - - - -

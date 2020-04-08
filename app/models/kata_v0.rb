@@ -21,10 +21,10 @@ class Kata_v0
       'time' => manifest['created']
     }
     saver.assert_all([
-      create_command(id, 0),
-      manifest_write_command(id, json_plain(manifest)),
-      event_write_command(id, 0, json_plain(lined({ 'files' => files }))),
-      events_write_command(id, json_plain(event0) + "\n")
+      dir_make_command(id, 0),
+      manifest_file_create_command(id, json_plain(manifest)),
+      event_file_create_command(id, 0, json_plain(lined({ 'files' => files }))),
+      events_file_create_command(id, json_plain(event0) + "\n")
     ])
     id
   end
@@ -33,8 +33,8 @@ class Kata_v0
 
   def manifest(id)
      manifest_src,event0_src = saver.assert_all([
-      manifest_read_command(id),
-      event_read_command(id, 0)
+      manifest_file_read_command(id),
+      event_file_read_command(id, 0)
     ])
     manifest = json_parse(manifest_src)
     event0 = unlined(json_parse(event0_src))
@@ -60,10 +60,10 @@ class Kata_v0
     saver.assert_all([
       # The order of these commands matters.
       # A failing write_command() ensure the append_command() is not run.
-      exists_command(id),
-      create_command(id, index),
-      event_write_command(id, index, json_plain(lined(event_n))),
-      events_append_command(id, json_plain(event_summary) + "\n")
+      dir_exists_command(id),
+      dir_make_command(id, index),
+      event_file_create_command(id, index, json_plain(lined(event_n))),
+      events_file_append_command(id, json_plain(event_summary) + "\n")
     ])
   end
 
@@ -71,9 +71,9 @@ class Kata_v0
 
   def tipper_info(id, was_index, now_index)
     results = saver.assert_all([
-      events_read_command(id),
-      event_read_command(id, was_index),
-      event_read_command(id, now_index)
+      events_file_read_command(id),
+      event_file_read_command(id, was_index),
+      event_file_read_command(id, now_index)
     ])
     events = json_parse('[' + results[0].lines.join(',') + ']')
     was_files = unlined(json_parse(results[1]))['files']
@@ -85,10 +85,10 @@ class Kata_v0
 
   def diff_info(id, was_index, now_index)
     results = saver.assert_all([
-      manifest_read_command(id),
-      events_read_command(id),
-      event_read_command(id, was_index),
-      event_read_command(id, now_index)
+      manifest_file_read_command(id),
+      events_file_read_command(id),
+      event_file_read_command(id, was_index),
+      event_file_read_command(id, now_index)
     ])
     manifest = json_parse(results[0])
     events = json_parse('[' + results[1].lines.join(',') + ']')
@@ -100,7 +100,7 @@ class Kata_v0
   # - - - - - - - - - - - - - - - - - - -
 
   def events(id)
-    events_src = saver.assert(events_read_command(id))
+    events_src = saver.assert(events_file_read_command(id))
     json_parse('[' + events_src.lines.join(',') + ']')
     # Alternative implementation, which profiling shows is slower.
     # events_src.lines.map { |line| json_parse(line) }
@@ -110,10 +110,10 @@ class Kata_v0
 
   def event(id, index)
     if index === -1
-      events_src = saver.assert(events_read_command(id))
+      events_src = saver.assert(events_file_read_command(id))
       index = events_src.count("\n") - 1
     end
-    event_src = saver.assert(event_read_command(id, index))
+    event_src = saver.assert(event_file_read_command(id, index))
     unlined(json_parse(event_src))
   end
 
@@ -124,18 +124,18 @@ class Kata_v0
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def create_command(id, *parts)
-    saver.create_command(dirname(id, *parts))
+  def dir_make_command(id, *parts)
+    saver.dir_make_command(dirname(id, *parts))
   end
 
-  def exists_command(id, *parts)
-    saver.exists_command(dirname(id, *parts))
+  def dir_exists_command(id, *parts)
+    saver.dir_exists_command(dirname(id, *parts))
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
   # manifest
   #
-  # create() extracts the visible_files from the manifest and
+  # Extracts the visible_files from the manifest and
   # stores them as event-zero files. This allows a diff of the
   # first traffic-light but means manifest() has to recombine two
   # files. In theory the manifest could store only the display_name
@@ -143,12 +143,12 @@ class Kata_v0
   # start-point services. In practice, it doesn't work because the
   # start-point services can change over time.
 
-  def manifest_write_command(id, manifest_src)
-    saver.write_command(manifest_filename(id), manifest_src)
+  def manifest_file_create_command(id, manifest_src)
+    saver.file_create_command(manifest_filename(id), manifest_src)
   end
 
-  def manifest_read_command(id)
-    saver.read_command(manifest_filename(id))
+  def manifest_file_read_command(id)
+    saver.file_read_command(manifest_filename(id))
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -160,16 +160,16 @@ class Kata_v0
   # This is an optimization for ran_tests() which need only
   # append to the end of the file.
 
-  def events_write_command(id, event0_src)
-    saver.write_command(events_filename(id), event0_src)
+  def events_file_create_command(id, event0_src)
+    saver.file_create_command(events_filename(id), event0_src)
   end
 
-  def events_append_command(id, eventN_src)
-    saver.append_command(events_filename(id), eventN_src)
+  def events_file_append_command(id, eventN_src)
+    saver.file_append_command(events_filename(id), eventN_src)
   end
 
-  def events_read_command(id)
-    saver.read_command(events_filename(id))
+  def events_file_read_command(id)
+    saver.file_read_command(events_filename(id))
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -178,12 +178,12 @@ class Kata_v0
   # The visible-files are stored in a lined-format so they be easily
   # inspected on disk. Have to be unlined when read back.
 
-  def event_write_command(id, index, event_src)
-    saver.write_command(event_filename(id, index), event_src)
+  def event_file_create_command(id, index, event_src)
+    saver.file_create_command(event_filename(id, index), event_src)
   end
 
-  def event_read_command(id, index)
-    saver.read_command(event_filename(id, index))
+  def event_file_read_command(id, index)
+    saver.file_read_command(event_filename(id, index))
   end
 
   # - - - - - - - - - - - - - -
