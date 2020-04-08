@@ -23,7 +23,7 @@ class Group_v1
   def create(manifest)
     id = manifest['id'] = IdGenerator.new(@externals).group_id
     manifest['version'] = 1
-    saver.batch_assert([
+    saver.assert_all([
       manifest_write_command(id, json_plain(manifest)),
       katas_write_command(id, '')
     ])
@@ -44,7 +44,7 @@ class Group_v1
     manifest.delete('id')
     manifest['group_id'] = id
     commands = indexes.map{ |index| create_command(id, index) }
-    results = saver.batch_run_until_true(commands)
+    results = saver.run_until_true(commands)
     result_index = results.find_index(true)
     if result_index.nil?
       nil # full
@@ -71,7 +71,7 @@ class Group_v1
     read_events_files_commands = katas_ids(kindexes).map do |kata_id|
       @kata.send(:events_read_command, kata_id)
     end
-    katas_events = saver.batch_assert(read_events_files_commands)
+    katas_events = saver.assert_all(read_events_files_commands)
     kindexes.each.with_index(0) do |(kata_id,kata_index),index|
       result[kata_id] = {
         'index' => kata_index,

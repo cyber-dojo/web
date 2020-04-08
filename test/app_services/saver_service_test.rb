@@ -44,6 +44,7 @@ class SaverServiceTest < AppServicesTestBase
     dirname = 'katas/34/56/7W'
     filename = dirname + '/' + '7.events.json'
     content = '{"colour":"red"}'
+
     # run
     assert_equal true, saver.run(saver.create_command(dirname))
     assert_equal true, saver.run(saver.exists_command(dirname))
@@ -60,22 +61,25 @@ class SaverServiceTest < AppServicesTestBase
       saver.assert(saver.exists_command(dirname+'42'))
     }
 
-    # batch
-    assert_equal [true,content*2], saver.batch_assert([
+    # assert_all
+    assert_equal [true,content*2], saver.assert_all([
       saver.exists_command(dirname),
       saver.read_command(filename)
     ])
-    assert_equal [true,content*2], saver.batch_run([
+    # run_all
+    assert_equal [true,content*2], saver.run_all([
       saver.exists_command(dirname),
       saver.read_command(filename)
     ])
-    assert_equal [false,false,true], saver.batch_run_until_true([
+    # run_until_true
+    assert_equal [false,false,true], saver.run_until_true([
       saver.exists_command(dirname+'1'),
       saver.exists_command(dirname+'2'),
       saver.exists_command(dirname),
       saver.exists_command(dirname+'3')
     ])
-    assert_equal [true,true,false], saver.batch_run_until_false([
+    # run_until_false
+    assert_equal [true,true,false], saver.run_until_false([
       saver.exists_command(dirname),
       saver.exists_command(dirname),
       saver.exists_command(dirname+'42'),

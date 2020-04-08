@@ -20,7 +20,7 @@ require_relative '../../lib/oj_adapter'
 #           { ..., "index" => 24 }
 # 7. No longer uses separate dir for each event file.
 #    This makes ran_tests() faster as it no longer needs
-#    a create_command() in its saver.batch call.
+#    a create_command() in its saver.assert_all() call.
 #    was     /cyber-dojo/katas/e3/T6/K2/0/event.json
 #    now     /cyber-dojo/katas/e3/T6/K2/0.event.json
 
@@ -43,7 +43,7 @@ class Kata_v1
     event0 = {
       'files' => manifest['visible_files']
     }
-    saver.batch_assert([
+    saver.assert_all([
       manifest_write_command(id, json_plain(manifest)),
       events_write_command(id, json_plain(event_summary)),
       event_write_command(id, 0, json_plain(event0.merge(event_summary)))
@@ -74,7 +74,7 @@ class Kata_v1
       'stderr' => stderr,
       'status' => status
     }
-    saver.batch_assert([
+    saver.assert_all([
       # The order of these commands matters.
       # A failing write_command() ensure the append_command() is not run.
       event_write_command(id, index, json_plain(event_n.merge(event_summary))),
@@ -85,7 +85,7 @@ class Kata_v1
   # - - - - - - - - - - - - - - - - - - -
 
   def tipper_info(id, was_index, now_index)
-    results = saver.batch_assert([
+    results = saver.assert_all([
       events_read_command(id),
       event_read_command(id, was_index),
       event_read_command(id, now_index)
@@ -99,7 +99,7 @@ class Kata_v1
   # - - - - - - - - - - - - - - - - - - -
 
   def diff_info(id, was_index, now_index)
-    results = saver.batch_assert([
+    results = saver.assert_all([
       manifest_read_command(id),
       events_read_command(id),
       event_read_command(id, was_index),
@@ -214,7 +214,7 @@ class Kata_v1
     # }
   end
 
-  include IdPather
+  include IdPather # kata_id_path
 
   # - - - - - - - - - - - - - -
 

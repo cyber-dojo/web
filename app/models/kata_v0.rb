@@ -20,7 +20,7 @@ class Kata_v0
       'event' => 'created',
       'time' => manifest['created']
     }
-    saver.batch_assert([
+    saver.assert_all([
       create_command(id, 0),
       manifest_write_command(id, json_plain(manifest)),
       event_write_command(id, 0, json_plain(lined({ 'files' => files }))),
@@ -32,7 +32,7 @@ class Kata_v0
   # - - - - - - - - - - - - - - - - - - -
 
   def manifest(id)
-     manifest_src,event0_src = saver.batch_assert([
+     manifest_src,event0_src = saver.assert_all([
       manifest_read_command(id),
       event_read_command(id, 0)
     ])
@@ -57,7 +57,7 @@ class Kata_v0
       'stderr' => stderr,
       'status' => status
     }
-    saver.batch_assert([
+    saver.assert_all([
       # The order of these commands matters.
       # A failing write_command() ensure the append_command() is not run.
       exists_command(id),
@@ -70,7 +70,7 @@ class Kata_v0
   # - - - - - - - - - - - - - - - - - - -
 
   def tipper_info(id, was_index, now_index)
-    results = saver.batch_assert([
+    results = saver.assert_all([
       events_read_command(id),
       event_read_command(id, was_index),
       event_read_command(id, now_index)
@@ -84,7 +84,7 @@ class Kata_v0
   # - - - - - - - - - - - - - - - - - - -
 
   def diff_info(id, was_index, now_index)
-    results = saver.batch_assert([
+    results = saver.assert_all([
       manifest_read_command(id),
       events_read_command(id),
       event_read_command(id, was_index),

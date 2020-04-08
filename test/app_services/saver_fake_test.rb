@@ -166,10 +166,10 @@ class SaverFakeTest < AppServicesTestBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - -
-  # batch_run()
+  # run_all()
 
   multi_saver_test '514',
-  'batch() batches all other commands (except sha/ready/alive/itself)' do
+  'run_all() runs all primitive commands' do
     expected = []
     commands = []
     dirname = 'client/e3/t6/A8'
@@ -195,7 +195,7 @@ class SaverFakeTest < AppServicesTestBase
     commands << saver.read_command(there_not)
     expected << false
 
-    result = saver.batch_run(commands)
+    result = saver.run_all(commands)
     assert_equal expected, result
   end
 

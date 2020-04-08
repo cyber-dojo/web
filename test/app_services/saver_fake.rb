@@ -99,9 +99,9 @@ class SaverFake
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def batch_assert(commands)
-    append_log(['batch_assert',commands.size])
-    batch_run_until(commands) {|r,index|
+  def assert_all(commands)
+    append_log(['assert_all',commands.size])
+    run_until(commands) {|r,index|
       if r
         false
       else
@@ -110,22 +110,22 @@ class SaverFake
     }
   end
 
-  def batch_run(commands)
-    append_log(['batch',commands.size])
-    batch_run_until(commands) {|r| r === :never }
+  def run_all(commands)
+    append_log(['run_all',commands.size])
+    run_until(commands) {|r| r === :never }
   end
 
-  def batch_run_until_true(commands)
-    batch_run_until(commands) {|r| r}
+  def run_until_true(commands)
+    run_until(commands) {|r| r}
   end
 
-  def batch_run_until_false(commands)
-    batch_run_until(commands) {|r| !r}
+  def run_until_false(commands)
+    run_until(commands) {|r| !r}
   end
 
   private
 
-  def batch_run_until(commands, &block)
+  def run_until(commands, &block)
     results = []
     commands.each.with_index(0) do |command,index|
       result = run(command)

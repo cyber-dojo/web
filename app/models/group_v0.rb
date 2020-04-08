@@ -38,7 +38,7 @@ class Group_v0
     manifest.delete('id')
     manifest['group_id'] = id
     commands = indexes.map{ |index| create_command(id, index) }
-    results = saver.batch_run_until_true(commands)
+    results = saver.run_until_true(commands)
     result_index = results.find_index(true)
     if result_index.nil?
       nil # full
@@ -65,7 +65,7 @@ class Group_v0
     read_events_files_commands = katas_ids(kindexes).map do |kata_id|
       @kata.send(:events_read_command, kata_id)
     end
-    katas_events = saver.batch_assert(read_events_files_commands)
+    katas_events = saver.assert_all(read_events_files_commands)
     kindexes.each.with_index(0) do |(kata_id,kata_index),index|
       results[kata_id] = {
         'index' => kata_index,
@@ -92,7 +92,7 @@ class Group_v0
     read_commands = (0..63).map do |index|
       saver.read_command(kata_id_filename(id, index))
     end
-    reads = saver.batch_run(read_commands)
+    reads = saver.run_all(read_commands)
     # reads is an array of 64 entries, eg
     # [
     #    nil,      # 0

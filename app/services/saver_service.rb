@@ -55,19 +55,19 @@ class SaverService
   # - - - - - - - - - - - - - - - - - - -
   # batches
 
-  def batch_assert(commands)
+  def assert_all(commands)
     @http.post(__method__, { commands:commands })
   end
 
-  def batch_run(commands)
+  def run_all(commands)
     @http.post(__method__, { commands:commands })
   end
 
-  def batch_run_until_true(commands)
+  def run_until_true(commands)
     @http.post(__method__, { commands:commands })
   end
 
-  def batch_run_until_false(commands)
+  def run_until_false(commands)
     @http.post(__method__, { commands:commands })
   end
 
