@@ -22,23 +22,23 @@ class SaverService
   # - - - - - - - - - - - - - - - - - - -
 
   def dir_make_command(dirname)
-    ['create',dirname]
+    ['dir_make',dirname]
   end
 
   def dir_exists_command(dirname)
-    ['exists?',dirname]
+    ['dir_exists?',dirname]
   end
 
   def file_create_command(filename, content)
-    ['write',filename,content]
+    ['file_create',filename,content]
   end
 
   def file_append_command(filename, content)
-    ['append',filename,content]
+    ['file_append',filename,content]
   end
 
   def file_read_command(filename)
-    ['read',filename]
+    ['file_read',filename]
   end
 
   # - - - - - - - - - - - - - - - - - - -

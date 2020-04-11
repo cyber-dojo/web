@@ -43,39 +43,6 @@ class SaverFake
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-=begin
-  def exists?(key)
-    append_log(['exists?',key])
-    do_exists?(key)
-  end
-
-  def create(key)
-    append_log(['create',key])
-    do_create(key)
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def write(key, value)
-    append_log(['write',key])
-    do_write(key, value)
-  end
-
-  def append(key, value)
-    append_log(['append',key])
-    do_append(key, value)
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def read(key)
-    append_log(['read',key])
-    do_read(key)
-  end
-=end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - -
-
   def assert(command)
     append_log(['assert',command])
     result = run(command)
@@ -89,11 +56,11 @@ class SaverFake
   def run(command)
     name,*args = command
     case name
-    when 'create'  then create(*args)
-    when 'exists?' then exists?(*args)
-    when 'write'   then write(*args)
-    when 'append'  then append(*args)
-    when 'read'    then read(*args)
+    when 'dir_make'    then dir_make(*args)
+    when 'dir_exists?' then dir_exists?(*args)
+    when 'file_create' then file_create(*args)
+    when 'file_append' then file_append(*args)
+    when 'file_read'   then file_read(*args)
     end
   end
 
@@ -141,19 +108,19 @@ class SaverFake
 
   # - - - - - - - - - - - - - - - - - -
 
-  def exists?(key)
+  def dir_exists?(key)
     dir?(path_name(key))
   end
 
-  def create(key)
-    if exists?(key)
+  def dir_make(key)
+    if dir_exists?(key)
       false
     else
       @@dirs[path_name(key)] = true
     end
   end
 
-  def write(key,value)
+  def file_create(key,value)
     path = path_name(key)
     if dir?(File.dirname(path)) && !file?(path)
       @@files[path] = value
@@ -163,7 +130,7 @@ class SaverFake
     end
   end
 
-  def append(key, value)
+  def file_append(key, value)
     path = path_name(key)
     if dir?(File.dirname(path)) && file?(path)
       @@files[path] += value
@@ -173,7 +140,7 @@ class SaverFake
     end
   end
 
-  def read(key)
+  def file_read(key)
     @@files[path_name(key)] || false
   end
 
