@@ -1,98 +1,102 @@
 'use strict';
 
-const appendTestTrafficLight = () => {
-  const light = $("<%= raw diff_traffic_light(@light, @avatar_index) %>");
-  $('#traffic-lights').append(light);
-  cd.setupTrafficLights(light);
-};
+(() => {
 
-const updateTrafficLightCount = () => {
-  const count = "<%= js_partial('traffic_lights_count') %>";
-  $('#traffic-lights-count-box').html(count);
-};
+  const appendTestTrafficLight = () => {
+    const light = $("<%= raw diff_traffic_light(@light, @avatar_index) %>");
+    $('#traffic-lights').append(light);
+    cd.setupTrafficLights(light);
+  };
 
-//- - - - - - - - - - - - - - - - - - - - - -
-const insertCreatedFiles = () => {
-  <% @created.each do |filename,file| %>
-    cd.fileCreate("<%= j raw(filename) %>", {
-      content: "<%= j raw(file['content']) %>"
-    });
-  <% end %>
-};
+  const updateTrafficLightCount = () => {
+    const count = "<%= js_partial('traffic_lights_count') %>";
+    $('#traffic-lights-count-box').html(count);
+  };
 
-const removeDeletedFiles = () => {
-  // cyber-dojo.sh cannot be deleted in the browser
-  // but it can be deleted inside the container
-  // and that will come back to here...
-  <% @deleted.each do |filename| %>
-    if ("<%= j raw(filename) %>" !== 'cyber-dojo.sh') {
-      cd.fileDelete("<%= j raw(filename) %>");
+  //- - - - - - - - - - - - - - - - - - - - - -
+  const insertCreatedFiles = () => {
+    <% @created.each do |filename,file| %>
+      cd.fileCreate("<%= j raw(filename) %>", {
+        content: "<%= j raw(file['content']) %>"
+      });
+    <% end %>
+  };
+
+  const removeDeletedFiles = () => {
+    // cyber-dojo.sh cannot be deleted in the browser
+    // but it can be deleted inside the container
+    // and that will come back to here...
+    <% @deleted.each do |filename| %>
+      if ("<%= j raw(filename) %>" !== 'cyber-dojo.sh') {
+        cd.fileDelete("<%= j raw(filename) %>");
+      }
+    <% end %>
+  };
+
+  const updateChangedFiles = () => {
+    <% @changed.each do |filename,file| %>
+      cd.fileChange("<%= j raw(filename) %>", {
+        content: "<%= j raw(file['content']) %>"
+      });
+    <% end %>
+  };
+
+  const updateOutput = () => {
+    const colour = "<%= @light.colour %>";
+    const stdout = "<%= j raw(@stdout['content']) %>";
+    const stderr = "<%= j raw(@stderr['content']) %>";
+    const status = "<%= j raw(@status.to_s) %>";
+    cd.loadTestOutputFiles(colour, stdout, stderr, status);
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - -
+  const warnIfTestsTimedOut = () => {
+    if ("<%= @light.colour %>" === 'timed_out') {
+      const maxSeconds = $('input[name="max_seconds"]').val();
+      const info = [
+        `Unable to complete the tests in ${maxSeconds} seconds.`,
+        'Is there an accidental infinite loop?'
+      ].join("\n");
+      const html = $('<textarea>', {
+        'data-width':600,
+                'id':'timed-out',
+          'readonly':'readonly'
+      }).val(info);
+      cd.dialog(html, 'timed out', 'close').dialog('open');
     }
-  <% end %>
-};
+  };
 
-const updateChangedFiles = () => {
-  <% @changed.each do |filename,file| %>
-    cd.fileChange("<%= j raw(filename) %>", {
-      content: "<%= j raw(file['content']) %>"
-    });
-  <% end %>
-};
+  //- - - - - - - - - - - - - - - - - - - - - -
+  const warnIfTrafficLightFaulty = () => {
+    if ("<%= @light.colour %>" === 'faulty') {
+      const info = `<%= raw @diagnostic %>`;
+      const html = $('<textarea>', {
+         'data-width':600,
+                 'id':'faulty',
+           'readonly':'readonly'
+      }).val(info);
+      cd.dialog(html, 'faulty traffic-light', 'close').dialog('open');
+    }
+  };
 
-const updateOutput = () => {
-  const colour = "<%= @light.colour %>";
-  const stdout = "<%= j raw(@stdout['content']) %>";
-  const stderr = "<%= j raw(@stderr['content']) %>";
-  const status = "<%= j raw(@status.to_s) %>";
-  cd.loadTestOutputFiles(colour, stdout, stderr, status);
-};
+  //- - - - - - - - - - - - - - - - - - - - - -
+  // Update traffic-lights
+  appendTestTrafficLight();
+  updateTrafficLightCount();
 
-//- - - - - - - - - - - - - - - - - - - - - -
-const warnIfTestsTimedOut = () => {
-  if ("<%= @light.colour %>" === 'timed_out') {
-    const maxSeconds = $('input[name="max_seconds"]').val();
-    const info = [
-      `Unable to complete the tests in ${maxSeconds} seconds.`,
-      'Is there an accidental infinite loop?'
-    ].join("\n");
-    const html = $('<textarea>', {
-      'data-width':600,
-              'id':'timed-out',
-        'readonly':'readonly'
-    }).val(info);
-    cd.dialog(html, 'timed out', 'close').dialog('open');
-  }
-};
+  //- - - - - - - - - - - - - - - - - - - - - -
+  // Update changed files
+  insertCreatedFiles();
+  removeDeletedFiles();
+  updateChangedFiles();
+  updateOutput(); // [stdout,stderr,status] Must be last
 
-//- - - - - - - - - - - - - - - - - - - - - -
-const warnIfTrafficLightFaulty = () => {
-  if ("<%= @light.colour %>" === 'faulty') {
-    const info = `<%= raw @diagnostic %>`;
-    const html = $('<textarea>', {
-       'data-width':600,
-               'id':'faulty',
-         'readonly':'readonly'
-    }).val(info);
-    cd.dialog(html, 'faulty traffic-light', 'close').dialog('open');
-  }
-};
+  //- - - - - - - - - - - - - - - - - - - - - -
+  // Warnings
+  warnIfTestsTimedOut();
+  warnIfTrafficLightFaulty();
+  //warnIfTruncatedFiles();
 
-//- - - - - - - - - - - - - - - - - - - - - -
-// Update traffic-lights
-appendTestTrafficLight();
-updateTrafficLightCount();
+  cd.scrollLastTrafficLightIntoView();
 
-//- - - - - - - - - - - - - - - - - - - - - -
-// Update changed files
-insertCreatedFiles();
-removeDeletedFiles();
-updateChangedFiles();
-updateOutput(); // [stdout,stderr,status] Must be last
-
-//- - - - - - - - - - - - - - - - - - - - - -
-// Warnings
-warnIfTestsTimedOut();
-warnIfTrafficLightFaulty();
-//warnIfTruncatedFiles();
-
-cd.scrollLastTrafficLightIntoView();
+})();
