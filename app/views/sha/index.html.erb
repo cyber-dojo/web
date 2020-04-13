@@ -40,7 +40,7 @@ $(() => {
 
 <div id="sha-page">
   <table id="aligner">
-    <% @names.sort.each do |name| %>
+    <% (@names + ['web','nginx']).sort.each do |name| %>
     <tr id="<%= name %>">
       <td><%= name %></td>
       <td>?</td>
