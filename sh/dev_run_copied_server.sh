@@ -1,8 +1,7 @@
 #!/bin/bash -Eeu
 
 # Brings up a local server (without using commander).
-# Does *not* COPY the web source into the web image.
-# Instead it volume-mounts web source into the web container.
+# COPYies the web source into the web image.
 # Execute sh/run_tests_in_container.sh
 # for a very fast feedback loop.
 
@@ -26,7 +25,7 @@ web_build()
     --file "${ROOT_DIR}/docker-compose.yml" \
     build \
     --build-arg COMMIT_SHA=${commit_sha} \
-    --build-arg BUILD_ENV=no_copy
+    --build-arg BUILD_ENV=copy
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - -
@@ -38,7 +37,6 @@ up_nginx()
     --file "${ROOT_DIR}/docker-compose-choosers.yml" \
     --file "${ROOT_DIR}/docker-compose-depends.yml" \
     --file "${ROOT_DIR}/docker-compose-nginx.yml" \
-    --file "${ROOT_DIR}/docker-compose-web-volume-mount.yml" \
     run \
       --detach \
       --name test_web_nginx \
