@@ -15,13 +15,12 @@
 //
 // cyber-dojo has some jquery js files for plug-ins in this dir directly.
 // It doesn't do a [gem jquery] in the Gemfile.
-// The main jQuery js is loaded from the nginx service. See
-// views/layouts/application.html.erb
 //
 // Some CodeMirror modes (such as the htmlmixed mode) override parts of other modes and must
 // be loaded after the those modes. To ensure this happens the modes which are order
 // dependent are stored in the codemirror/mode-ordered directory and required individually.
 //
+//= require ./jquery.min
 //= require ./jquery_ujs
 //= require ./jquery-ui.min
 //= require ./codemirror/lib/codemirror
