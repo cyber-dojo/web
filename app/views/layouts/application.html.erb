@@ -12,6 +12,7 @@
     <%= csrf_meta_tag %>
     <%= favicon_link_tag %>
     <%= stylesheet_link_tag :application %>
+    <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>    
     <%= javascript_include_tag :application %>
 
     <script>
@@ -30,7 +31,7 @@
   </head>
 
   <body>
-    <%= render partial: 'layouts/wait_spinner' %>    
+    <%= render partial: 'layouts/wait_spinner' %>
     <div id="cyber-dojo-page">
       <%= yield %>
     </div>
