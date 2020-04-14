@@ -9,18 +9,7 @@ readonly IP_ADDRESS="$(ip_address)" # slow
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 main()
 {
-  echo; demo
-}
-
-#- - - - - - - - - - - - - - - - - - - - - - - - - - -
-demo()
-{
-  demo_route__probing_non_JSON
-}
-
-demo_route__probing_non_JSON()
-{
-  echo 'API:new probing (non JSON)'
+  echo 'API:k8s probing'
   curl_200 GET /alive?
   curl_200 GET /ready?
   curl_200 GET /sha
