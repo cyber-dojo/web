@@ -21,9 +21,9 @@ demo()
 demo_route__probing_non_JSON()
 {
   echo 'API:new probing (non JSON)'
-  curl_200 GET "$(controller)/alive?"
-  curl_200 GET "$(controller)/ready?"
-  curl_200 GET "$(controller)/sha"
+  curl_200 GET /alive?
+  curl_200 GET /ready?
+  curl_200 GET /sha
   echo
 }
 
@@ -48,7 +48,6 @@ curl_200()
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 port() { printf 80; }
-controller() { echo -n ''; }
 tab() { printf '\t'; }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
