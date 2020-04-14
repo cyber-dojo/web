@@ -129,13 +129,16 @@ $(() => {
   const refreshDiffCheckBox = () => {
     const checked = param.wasIndex !== param.nowIndex;
     diffCheckBox()
-      .attr('checked', checked) // must be from params
+      .prop('checked', checked) // must be from params
       .unbind('click')
       .bind('click', () => moveToTrafficLight(param.nowIndex));
 
     $('#diff-checkbox-title')
       .unbind('click')
-      .bind('click', () => diffCheckBox().click());
+      .bind('click', () => {
+        diffCheckBox().attr('checked', !inDiffMode());
+        moveToTrafficLight(param.nowIndex);
+      });
   };
 
   //-----------------------------------------
