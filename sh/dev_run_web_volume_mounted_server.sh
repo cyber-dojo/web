@@ -15,7 +15,7 @@ export $(versioner_env_vars)
 remove()
 {
   local -r port="${1}"
-  docker rm --force $(container_on_port "${port}") || true
+  docker rm --force $(container_on_port "${port}") 2> /dev/null || true
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - -
