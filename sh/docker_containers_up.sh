@@ -18,7 +18,7 @@ readonly READY_FILENAME='/tmp/curl-ready-output'
 
 wait_until_ready()
 {
-  local -r name="test-web-${1}"
+  local -r name="test_web_${1}"
   local -r port="${2}"
   local -r max_tries=20
   echo -n "Waiting until ${name} is ready"
@@ -69,7 +69,7 @@ wait_until_running()
       sleep 0.1
     fi
   done
-  echo "${1} not up after 5 seconds"
+  echo "${1} not up after 2 seconds"
   docker logs "${1}"
   exit 1
 }
@@ -97,4 +97,4 @@ wait_until_ready differ    4567
 wait_until_ready saver     4537
 #wait_until_ready zipper    4587
 
-wait_until_running test-web
+wait_until_running test_web

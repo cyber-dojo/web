@@ -6,8 +6,8 @@ set -e
 # Done here to ensure it always happens before tests are run
 # eg after a sh/dev_server_web_restart.sh
 
-readonly ROOT_DIR="$(cd "$(dirname "${0}")/.." && pwd)"
-readonly CONTAINER=test-web-saver
+readonly ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+readonly CONTAINER=test_web_saver
 readonly SRC_PATH=${ROOT_DIR}/test/data/cyber-dojo
 readonly DEST_PATH=/cyber-dojo
 
@@ -18,7 +18,7 @@ cd ${SRC_PATH} \
 
 #- - - - - - - - - - - - - - - - - - - -
 # Now docker exec in and run the tests
-readonly WEB_CID=$(docker ps --filter status=running --format '{{.Names}}' | grep "^test-web$")
+readonly WEB_CID=$(docker ps --filter status=running --format '{{.Names}}' | grep "^test_web$")
 readonly SRC=${WEB_CID}:/tmp/cyber-dojo/coverage
 readonly DST=${ROOT_DIR}/coverage/
 

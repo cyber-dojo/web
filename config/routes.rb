@@ -1,7 +1,9 @@
 
 CyberDojo::Application.routes.draw do
 
-  get '/alive', to: proc { [200, {}, ['']] }
+  get '/alive', to: proc { [200, {}, ['{"alive?":true}']] }
+  get '/ready', to: proc { [200, {}, ['{"ready?":true}']] }
+  get '/sha',   to: proc { [200, {}, ["{\"sha\":#{ENV['SHA']}}"]] }
 
   root :to => 'dojo#index'
 

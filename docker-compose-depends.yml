@@ -8,6 +8,7 @@ services:
       - avatars
       - creator
       - differ
+      - repler
       - runner
       - saver
       - custom-chooser
