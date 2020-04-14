@@ -131,15 +131,11 @@ $(() => {
     diffCheckBox()
       .attr('checked', checked) // must be from params
       .unbind('click')
-      .bind('click', () => {
-        moveToTrafficLight(param.nowIndex);
-      });
+      .bind('click', () => moveToTrafficLight(param.nowIndex));
+
     $('#diff-checkbox-title')
       .unbind('click')
-      .bind('click', () => {
-        diffCheckBox().attr('checked', !inDiffMode());
-        moveToTrafficLight(param.nowIndex);
-      });
+      .bind('click', () => diffCheckBox().click());
   };
 
   //-----------------------------------------
