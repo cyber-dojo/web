@@ -3,7 +3,7 @@
 
 <%= form_tag( { action: 'run_tests', id: @id } ) do %>
   <%= render partial: 'hidden_inputs' %>
-  <div id="top-row">
+  <div id="edit-top-row">
     <%= render partial: 'test_button' %>
     <%= render partial: 'avatar_image' %>
     <%= render partial: 'traffic_lights_count' %>
@@ -11,7 +11,7 @@
   </div>
   <table>
     <tr class="valign-top">
-      <td id="left-column">
+      <td class="left-column">
         <%= render partial: 'file_new_rename_delete' %>
         <%= render partial: 'filename_list' %>
       </td>

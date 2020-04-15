@@ -8,12 +8,19 @@
 #review-page
 {
   margin: { top: 40px; left: 35px; }
-  .left-column { width: 295px; }
-
   @include non-code-font();
      padding: none;
   background: $darker-color;
        color: $lighter-color;
+
+  #review-top-row {
+    max-width: 1070px;
+    display: flex;
+  }
+  .left-column {
+    padding-top: 5px;
+    width: 295px;
+  }
 
   #resume-button-box,
   #diff-checkbox-container,
@@ -27,15 +34,12 @@
   img.avatar-image
   {
     @include rounded-corner(6px);
-    display: inline-block;
      cursor: default;
       width: 26px;
      height: 26px;
      margin: 0px;
     padding: 0px;
      margin: 0px;
-     position:relative;
-     top: 5px;
   }
 
   #resume-button
@@ -46,8 +50,6 @@
     margin-right: 4px;
          padding: { top:0px; bottom:2px; left:8px; right:8px; }
       text-align: center;
-        position: relative;
-             top: -8px;
   }
 
   #diff-checkbox-container
@@ -55,7 +57,7 @@
     @include edged-panel();
     background: lighten($darker-color,10%);
        width: 55px;
-      margin: { left: 2px; right: 5px; }
+      margin: { left: 0px; right: 5px; }
      padding: { top:5px; bottom:2px; right:0px; }
     position: relative;
          top: 1px;
@@ -85,13 +87,11 @@
   {
        display: inline-flex;
         margin: 0px;
-     max-width: 870px !important;
     overflow-x: auto;
-    overflow-y: hidden;
+    overflow-y: auto;
     &::-webkit-scrollbar:horizontal { height: 0px; }
 
-    table { border-collapse: collapse; }
-    tr td { padding:0px; margin:0px; border:none; line-height:0; vertical-align:top; }
+    .diff-traffic-light { display: grid; }
 
     img.diff-traffic-light
     {
@@ -104,19 +104,17 @@
       padding-left: 1px;
       width: 22px;
       height: 3px;
+      vertical-align: top;
     }
   }
 
   #traffic-light-navigator, #avatar-navigator
   {
-    display: inline;
-    font-size: 0; // remove whitespace between child inline-block elements
-    position:relative; top:-8px;
+    display: flex;
     margin-left: 0px;
     margin-right: 6px;
     #review-index-box
     {
-      display: inline-block;
       width: 37px;
       #index-number
       {
@@ -127,13 +125,8 @@
         text-align: center;
       }
     }
-    #review-avatar-image-box
-    {
-      display: inline-block;
-    }
     .triangle.button
     {
-      position: relative; top: -3px; // up
       @include rounded-corner(4px);
       width: 20px;
       height: 20px;
@@ -149,7 +142,6 @@
     #first-index, #prev-index, #next-index, #last-index,
     #prev-avatar, #next-avatar
     {
-      display: inline-block;
       img
       {
         @include rounded-corner(0px);
@@ -183,7 +175,7 @@
     float: left;
     height: 490px;
     margin: { top: 8px; }
-    overflow-x: auto; // make scrollbars invisible
+    overflow-x: auto;
     overflow-y: auto;
     &::-webkit-scrollbar:vertical { width: 0px; }
     &::-webkit-scrollbar:horizontal { height: 0px; }
@@ -248,7 +240,7 @@
 
   .diff-sheet
   {
-         width: 805px;
+         width: 730px;
     text-align: left;
     overflow-x: auto;
     overflow-y: auto;

@@ -239,15 +239,12 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const makeTrafficLightsHtml = () => {
-    let html = '<table>';
-      html += '<tr>';
-      $.each(param.events, (_n, event) => {
-        if (event.colour !== '') { // 0 == creation
-          html += makeTd(makeTrafficLightHtml(event));
-        }
-      });
-      html += '</tr>';
-    html += '</table>';
+    let html = '';
+    $.each(param.events, (_n, event) => {
+      if (event.colour !== '') { // 0 == creation
+        html += makeTrafficLightHtml(event);
+      }
+    });
     return html;
   };
 
@@ -263,8 +260,8 @@ $(() => {
         ` data-colour='${colour}'`,
         ` data-index='${light.index}'>`,
         `<img src='/traffic-light/image/${colour}${prediction}.png'/>`,
+        makeTrafficLightMarkerHtml(light),
       '</div>',
-      makeTrafficLightMarkerHtml(light)
     ].join('');
   };
 
@@ -597,25 +594,6 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const setTrafficLightsCssWidth = () => {
-    if (param.avatarName.length != 0) {
-      // CSS maxWidth for review-traffic-lights is for individual exercise
-      // so when in a group-exercise, reduce by width of [<]avatar[>] navigator.
-      // [1] Using jQuery to retrieve the css width using
-      // $('#avatar-navigator').width(); fails.
-      // I think this is because the element is hidden
-      // when this page is initially loaded.
-      const lights = $('#review-traffic-lights');
-      const maxWidth = lights.css('maxWidth');             // eg 730px
-      const imageWidth = 70;                               // [1]
-      const newMaxWidth = parseInt(maxWidth) - imageWidth; // eg 660
-      lights.css('maxWidth', `${newMaxWidth}px`);
-    }
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  setTrafficLightsCssWidth();
   setupButton('fork', () => cd.forkDialog(param.id, param.nowIndex));
   setForkButtonTip();
   if (!inTestPage) {
@@ -629,15 +607,14 @@ $(() => {
 <%= render(:partial => 'review/extension_filenames') %>
 <%= render(:partial => 'review/highlight_filenames') %>
 
+<div id="review-top-row">
+  <div id="resume-button-box"></div>
+  <%= render(:partial => 'review/avatar_navigator') %>
+  <%= render(:partial => 'review/traffic_light_navigator') %>
+  <div id="review-traffic-lights"></div>
+</div>
+
 <table>
-  <tr valign="top">
-    <td colspan="2">
-      <div id="resume-button-box"></div><!--
-      --><%= render(:partial => 'review/avatar_navigator') %><!--
-      --><%= render(:partial => 'review/traffic_light_navigator') %><!--
-      --><div id="review-traffic-lights"></div>
-    </td>
-  </tr>
   <tr valign="top">
     <td class="left-column">
       <%= render(:partial => 'review/diff_checkbox') %>
