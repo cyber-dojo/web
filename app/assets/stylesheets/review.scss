@@ -46,6 +46,8 @@
     margin-right: 4px;
          padding: { top:0px; bottom:2px; left:8px; right:8px; }
       text-align: center;
+        position: relative;
+             top: -8px;
   }
 
   #diff-checkbox-container
@@ -83,7 +85,7 @@
   {
        display: inline-flex;
         margin: 0px;
-     max-width: 733px;
+     max-width: 870px !important;
     overflow-x: auto;
     overflow-y: hidden;
     &::-webkit-scrollbar:horizontal { height: 0px; }
