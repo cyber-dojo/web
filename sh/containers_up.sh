@@ -75,13 +75,10 @@ wait_until_running()
 }
 
 # - - - - - - - - - - - - - - - - - - - - -
-
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
-
-echo
-
 export NO_PROMETHEUS=true
 
+echo
 docker-compose \
   --file "${ROOT_DIR}/docker-compose.yml" \
   up \
