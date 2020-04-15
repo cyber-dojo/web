@@ -3,7 +3,10 @@
 {
   margin: { top: 40px; left: 35px; }
   #left-column { width: 295px; }
-  #top-row { display: flex; }
+  #top-row {
+    max-width: 1070px;
+    display: flex;
+  }
 
   img.avatar-image {
     @include rounded-corner(6px);
@@ -79,7 +82,6 @@
   {
        display:inline-flex;
         margin:0px;
-     max-width:945px !important;
     overflow-x:auto;
     overflow-y:hidden;
     &::-webkit-scrollbar:horizontal { height:0px; }
