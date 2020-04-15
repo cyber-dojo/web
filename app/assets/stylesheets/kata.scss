@@ -2,7 +2,8 @@
 #kata-page
 {
   margin: { top: 40px; left: 35px; }
-  .left-column { width: 295px; }
+  #left-column { width: 295px; }
+  #top-row { display: flex; }
 
   img.avatar-image {
     @include rounded-corner(6px);
@@ -12,6 +13,7 @@
      height: 26px;
      margin: 0px;
     padding: 0px;
+     margin-left: 4px;
   }
 
   #test-button
@@ -71,12 +73,11 @@
   #traffic-lights-count-box
   {
      display:inline-block;
-    position:relative; top:-2px;
+     position:relative; top:2px;
   }
   #traffic-lights
   {
        display:inline-flex;
-      position:relative; top:-4px;
         margin:0px;
      max-width:945px !important;
     overflow-x:auto;
@@ -87,7 +88,7 @@
       padding:0px;
        margin:0px;
       img { width:21px; height:21px; }
-      position:relative; top:1px;
+      position:relative; top:2px;
     }
   }
 

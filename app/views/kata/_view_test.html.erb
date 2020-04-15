@@ -3,17 +3,15 @@
 
 <%= form_tag( { action: 'run_tests', id: @id } ) do %>
   <%= render partial: 'hidden_inputs' %>
+  <div id="top-row">
+    <%= render partial: 'test_button' %>
+    <%= render partial: 'avatar_image' %>
+    <%= render partial: 'traffic_lights_count' %>
+    <%= render partial: 'traffic_lights' %>
+  </div>
   <table>
     <tr class="valign-top">
-      <td class="left-column" colspan="2">
-        <%= render partial: 'test_button' %>
-        <%= render partial: 'avatar_image' %>
-        <%= render partial: 'traffic_lights_count' %>
-        <%= render partial: 'traffic_lights' %>
-      </td>
-    </tr>
-    <tr class="valign-top">
-      <td class="left-column">
+      <td id="left-column">
         <%= render partial: 'file_new_rename_delete' %>
         <%= render partial: 'filename_list' %>
       </td>
