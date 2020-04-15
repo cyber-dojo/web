@@ -108,8 +108,7 @@ services:
     read_only: true
     ports: [ "${CYBER_DOJO_SAVER_PORT}:${CYBER_DOJO_SAVER_PORT}" ]
     restart: 'no'
-    tmpfs: [ "/tmp:uid=19663,gid=65533" ]
-    volumes: [ "/cyber-dojo:/cyber-dojo" ]
+    tmpfs: [ "/cyber-dojo:uid=19663,gid=65533", "/tmp:uid=19663,gid=65533" ]
     
   # - - - - - - - - - - - - - - - -
   differ:
