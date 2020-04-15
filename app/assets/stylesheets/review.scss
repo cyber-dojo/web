@@ -38,7 +38,7 @@
     @include non-code-font();
     @include font-size-medium();
      font-weight: bold;
-    margin-right: 4px;
+    margin-right: 5px;
          padding: { top:0px; bottom:2px; left:8px; right:8px; }
       text-align: center;
   }
@@ -110,6 +110,9 @@
 
   #traffic-light-navigator, #avatar-navigator
   {
+    @include edged-panel();
+    background: lighten($darker-color,10%);
+    padding-bottom: 0px;
     display: flex;
     margin-left: 0px;
     margin-right: 6px;
