@@ -23,6 +23,8 @@
             margin: { right: 2px; }
            padding: { top: 0px; bottom: 2px; left: 7px; right: 7px; }
         text-align: center;
+          position: relative;
+               top: -2px;
   }
 
   #file-operations
@@ -76,7 +78,7 @@
        display:inline-flex;
       position:relative; top:-4px;
         margin:0px;
-     max-width:730px;
+     max-width:945px !important;
     overflow-x:auto;
     overflow-y:hidden;
     &::-webkit-scrollbar:horizontal { height:0px; }
