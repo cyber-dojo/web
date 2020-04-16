@@ -13,7 +13,7 @@ var cyberDojo = ((cd, $) => {
   // o) light-colour
 
   cd.setupThemeColourButtonsClickHandlers = (theme,colour) => {
-    
+
     switch (theme) {
       case 'dark':
         cd.setThemeDark();
@@ -38,16 +38,6 @@ var cyberDojo = ((cd, $) => {
     cd.themeButton().show();
     cd.colourButton().show();
   };
-
-  /*switch ("<%= @theme %>") {
-    case  'dark': cd.setThemeDark(); break;
-    case 'light': cd.setThemeLight(); break;
-  }
-  switch ("<% @colour %>") {
-    case  'on': cd.setColourOn(); break;
-    case 'off': cd.setColourOff(); break;
-  }*/
-
 
   cd.setThemeDark  = () => setThemeFrom('dark');
   cd.setThemeLight = () => setThemeFrom('light');
