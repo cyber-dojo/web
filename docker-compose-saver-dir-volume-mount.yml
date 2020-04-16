@@ -1,0 +1,8 @@
+
+version: '3.7'
+
+services:
+
+  saver:
+    tmpfs: /tmp
+    volumes: [ "/cyber-dojo:/cyber-dojo" ]

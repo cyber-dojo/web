@@ -19,9 +19,11 @@
 !/.gitignore
 !/config.ru
 !/docker-compose.yml
-!/docker-compose-depends.yml
 !/docker-compose-choosers.yml
+!/docker-compose-depends.yml
 !/docker-compose-nginx.yml
+!/docker-compose-saver-dir-volume-mount.yml
+!/docker-compose-saver-tmpfs-volume-mount.yml
 !/docker-compose-web-volume-mount.yml
 !/Dockerfile
 !/build_test_tag_publish.sh
