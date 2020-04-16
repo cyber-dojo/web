@@ -304,4 +304,54 @@ class KataTest < AppModelsTestBase
     end
   end
 
+  #- - - - - - - - - - - - - - - - - - - - - - - - -
+
+  v_tests [0,1], '826', %w(
+  the default colour-syntax theme is dark
+  ) do
+    set_saver_class('SaverService')
+    in_new_kata do |kata|
+      assert_equal  'dark', kata.theme
+    end
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - -
+
+  v_tests [0,1], '827', %w(
+  the default colour-syntax colour is on
+  ) do
+    set_saver_class('SaverService')
+    in_new_kata do |kata|
+      assert_equal  'on', kata.colour
+    end
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - -
+
+  v_tests [0,1], '828', %w(
+  setting the colour-syntax theme is persistent
+  ) do
+    set_saver_class('SaverService')
+    in_new_kata do |kata|
+      kata.theme = 'light'
+      assert_equal  'light', kata.theme
+      kata.theme = 'dark'
+      assert_equal  'dark', kata.theme
+    end
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - -
+
+  v_tests [0,1], '829', %w(
+  setting the colour-syntax colour is persistent
+  ) do
+    set_saver_class('SaverService')
+    in_new_kata do |kata|
+      kata.colour = 'off'
+      assert_equal  'off', kata.colour
+      kata.colour = 'on'
+      assert_equal  'on', kata.colour
+    end
+  end
+
 end

@@ -2,6 +2,7 @@
 
 require_relative 'avatars'
 require_relative 'group'
+require_relative 'id_pather'
 require_relative 'manifest'
 require_relative 'runner'
 require_relative 'schema'
@@ -55,23 +56,43 @@ class Kata
   # - - - - - - - - - - - - - - - - -
 
   def theme=(value)
-    #STDOUT.puts("models/kata/#{id} theme=(#{value})")
-    #STDOUT.flush
+    filename = kata_id_path(id, 'theme')
+    # There is no file-replace command
+    saver.run_all([
+      saver.file_create_command(filename, "\n"+value),
+      saver.file_append_command(filename, "\n"+value)
+    ])
   end
 
   def theme
-    'dark' # default
+    filename = kata_id_path(id, 'theme')
+    result = saver.run(saver.file_read_command(filename))
+    if result
+      result.lines.last
+    else
+      'dark' # default
+    end
   end
 
   # - - - - - - - - - - - - - - - - -
 
   def colour=(value)
-    #STDOUT.puts("models/kata/#{id} colour=(#{value})")
-    #STDOUT.flush
+    filename = kata_id_path(id, 'colour')
+    # There is no file-replace command    
+    saver.run_all([
+      saver.file_create_command(filename, "\n"+value),
+      saver.file_append_command(filename, "\n"+value)
+    ])
   end
 
   def colour
-    'on' # default
+    filename = kata_id_path(id, 'colour')
+    result = saver.run(saver.file_read_command(filename))
+    if result
+      result.lines.last
+    else
+      'on' # default
+    end
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -154,6 +175,7 @@ class Kata
 
   private
 
+  include IdPather
   include Version
 
   def plain(files)
