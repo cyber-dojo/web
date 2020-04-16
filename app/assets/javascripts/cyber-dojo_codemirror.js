@@ -13,36 +13,48 @@ var cyberDojo = ((cd, $) => {
   // o) light-colour
 
   cd.setupThemeColourButtonsClickHandlers = (theme,colour) => {
+    setupThemeButton(theme);
+    setupColourButton(colour);
+  };
 
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const setupThemeButton = (theme) => {
     switch (theme) {
       case 'dark':
-        cd.setThemeDark();
-        cd.themeButton().clickToggle(cd.setThemeLight, cd.setThemeDark);
+        setThemeDark();
+        cd.themeButton().clickToggle(setThemeLight, setThemeDark);
         break;
       case 'light':
-      cd.setThemeLight();
-      cd.themeButton().clickToggle(cd.setThemeDark, cd.setThemeLight);
-      break;
+        setThemeLight();
+        cd.themeButton().clickToggle(setThemeDark, setThemeLight);
+        break;
     }
+    cd.themeButton().show();
+  };
 
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const setupColourButton = (colour) => {
     switch (colour) {
       case 'on':
-        cd.setColourOn();
-        cd.colourButton().clickToggle(cd.setColourOff, cd.setColourOn);
+        setColourOn();
+        cd.colourButton().clickToggle(setColourOff, setColourOn);
         break;
       case 'off':
-        cd.setColourOff();
-        cd.colourButton().clickToggle(cd.setColourOn, cd.setColourOff);
+        setColourOff();
+        cd.colourButton().clickToggle(setColourOn, setColourOff);
         break;
-  }
-    cd.themeButton().show();
+    }
     cd.colourButton().show();
   };
 
-  cd.setThemeDark  = () => setThemeFrom('dark');
-  cd.setThemeLight = () => setThemeFrom('light');
-  cd.setColourOn   = () => setColourFrom('colour');
-  cd.setColourOff  = () => setColourFrom('');
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const setThemeDark  = () => setThemeFrom('dark');
+  const setThemeLight = () => setThemeFrom('light');
+  const setColourOn   = () => setColourFrom('colour');
+  const setColourOff  = () => setColourFrom('');
 
   const setColourFrom = (newColour) => {
     colour = newColour;
