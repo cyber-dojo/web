@@ -29,8 +29,8 @@ class KataController < ApplicationController
     @max_seconds = manifest.max_seconds
     @tab_size = manifest.tab_size
     # colour-syntax
-    @theme = 'dark'
-    @colour = 'on'
+    @theme = kata.theme
+    @colour = kata.colour
   end
 
   # - - - - - - - - - - - - - - - - - -

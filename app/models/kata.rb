@@ -54,6 +54,16 @@ class Kata
 
   # - - - - - - - - - - - - - - - - -
 
+  def theme
+    'dark'
+  end
+
+  def colour
+    'on'
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
   def diff_info(was_index, now_index)
     m,e,was,now = kata.diff_info(id, was_index, now_index)
     was_files = diff_files(was)
