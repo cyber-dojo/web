@@ -28,6 +28,9 @@ class KataController < ApplicationController
     @highlight_filenames = manifest.highlight_filenames
     @max_seconds = manifest.max_seconds
     @tab_size = manifest.tab_size
+    # colour-syntax
+    @theme = 'dark'
+    @colour = 'on'
   end
 
   # - - - - - - - - - - - - - - - - - -

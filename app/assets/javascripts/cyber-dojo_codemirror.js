@@ -2,8 +2,8 @@
 'use strict';
 var cyberDojo = ((cd, $) => {
 
-  let colour = 'colour';
-  let theme = 'dark';
+  let colour = 'colour';  // 'colour' || ''
+  let theme = 'dark';     // 'dark' || 'light'
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // 4 CodeMirror css themes are called
@@ -14,7 +14,7 @@ var cyberDojo = ((cd, $) => {
 
   cd.setThemeDark  = () => setThemeFrom('dark');
   cd.setThemeLight = () => setThemeFrom('light');
-  cd.setColourOn   = () => setColourFrom('colour');
+  cd.setColourOn   = () => setColourFrom('colour'); 
   cd.setColourOff  = () => setColourFrom('');
 
   const setColourFrom = (newColour) => {
