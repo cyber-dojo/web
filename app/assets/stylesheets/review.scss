@@ -9,7 +9,7 @@
 {
   margin: { top: 40px; left: 35px; }
   @include non-code-font();
-     padding: none;
+     padding: 0px;
   background: $darker-color;
        color: $lighter-color;
 
