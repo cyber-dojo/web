@@ -13,14 +13,7 @@
 <script type="text/javascript"><!--
 'use strict';
 $(() => {
-  switch ("<%= @theme %>") {
-    case  'dark': cd.setThemeDark(); break;
-    case 'light': cd.setThemeLight(); break;
-  }
-  switch ("<% @colour %>") {
-    case  'on': cd.setColourOn(); break;
-    case 'off': cd.setColourOff(); break;
-  }
+  cd.setupThemeColourButtonsClickHandlers("<%= @theme %>", "<%= @colour %>");
   cd.loadInitialFile();
   cd.scrollLastTrafficLightIntoView();
 });

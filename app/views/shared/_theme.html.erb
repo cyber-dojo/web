@@ -2,15 +2,8 @@
 'use strict';
 $(() => {
 
-  const themeButton = $('#theme-button');
-
-  cd.createTip(themeButton, 'toggle light/dark theme');
-
-  if (window.location.href.indexOf('kata/edit') !== -1) {
-    themeButton.clickToggle(cd.setThemeLight, cd.setThemeDark);
-  } else {
-    themeButton.hide();
-  }
+  cd.themeButton = () => $('#theme-button');
+  cd.createTip(cd.themeButton(), 'toggle light/dark theme');
 
 });
 //--></script>

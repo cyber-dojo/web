@@ -12,9 +12,46 @@ var cyberDojo = ((cd, $) => {
   // o) light
   // o) light-colour
 
+  cd.setupThemeColourButtonsClickHandlers = (theme,colour) => {
+    
+    switch (theme) {
+      case 'dark':
+        cd.setThemeDark();
+        cd.themeButton().clickToggle(cd.setThemeLight, cd.setThemeDark);
+        break;
+      case 'light':
+      cd.setThemeLight();
+      cd.themeButton().clickToggle(cd.setThemeDark, cd.setThemeLight);
+      break;
+    }
+
+    switch (colour) {
+      case 'on':
+        cd.setColourOn();
+        cd.colourButton().clickToggle(cd.setColourOff, cd.setColourOn);
+        break;
+      case 'off':
+        cd.setColourOff();
+        cd.colourButton().clickToggle(cd.setColourOn, cd.setColourOff);
+        break;
+  }
+    cd.themeButton().show();
+    cd.colourButton().show();
+  };
+
+  /*switch ("<%= @theme %>") {
+    case  'dark': cd.setThemeDark(); break;
+    case 'light': cd.setThemeLight(); break;
+  }
+  switch ("<% @colour %>") {
+    case  'on': cd.setColourOn(); break;
+    case 'off': cd.setColourOff(); break;
+  }*/
+
+
   cd.setThemeDark  = () => setThemeFrom('dark');
   cd.setThemeLight = () => setThemeFrom('light');
-  cd.setColourOn   = () => setColourFrom('colour'); 
+  cd.setColourOn   = () => setColourFrom('colour');
   cd.setColourOff  = () => setColourFrom('');
 
   const setColourFrom = (newColour) => {

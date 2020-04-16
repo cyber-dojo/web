@@ -2,15 +2,8 @@
 'use strict';
 $(() => {
 
-  const colourButton = $('#colour-button');
-
-  cd.createTip(colourButton, 'toggle colour syntax on/off');
-
-  if (window.location.href.indexOf('kata/edit') !== -1) {
-    colourButton.clickToggle(cd.setColourOff, cd.setColourOn);
-  } else {
-    colourButton.hide();
-  }
+  cd.colourButton = () => $('#colour-button');
+  cd.createTip(cd.colourButton(), 'toggle colour syntax on/off');
 
 });
 //--></script>
