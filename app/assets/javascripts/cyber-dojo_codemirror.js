@@ -22,15 +22,37 @@ var cyberDojo = ((cd, $) => {
   const setupThemeButton = (theme) => {
     switch (theme) {
       case 'dark':
-        setThemeDark();
+        setThemeTo('dark');
         cd.themeButton().clickToggle(setThemeLight, setThemeDark);
         break;
       case 'light':
-        setThemeLight();
+        setThemeTo('light');
         cd.themeButton().clickToggle(setThemeDark, setThemeLight);
         break;
     }
     cd.themeButton().show();
+  };
+
+  const setThemeDark  = () => {
+    setThemeTo('dark');
+    ajaxSetTheme('dark');
+  };
+  const setThemeLight = () => {
+    setThemeTo('light');
+    ajaxSetTheme('light');
+  };
+
+  const setThemeTo = (newTheme) => {
+    theme = newTheme;
+    runActionOnAllCodeMirrorEditors(setTheme);
+  };
+
+  const ajaxSetTheme = (theme) => {
+    $.ajax({
+      type:'POST',
+       url:'/kata/setTheme',
+      data:{ id:cd.kataId(), value:theme }
+    });
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -38,45 +60,45 @@ var cyberDojo = ((cd, $) => {
   const setupColourButton = (colour) => {
     switch (colour) {
       case 'on':
-        setColourOn();
+        setColourTo('colour');
         cd.colourButton().clickToggle(setColourOff, setColourOn);
         break;
       case 'off':
-        setColourOff();
+        setColourTo('');
         cd.colourButton().clickToggle(setColourOn, setColourOff);
         break;
     }
     cd.colourButton().show();
   };
 
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  const setColourOn   = () => {
+    setColourTo('colour');
+    ajaxSetColour('on');
+  };
+  const setColourOff  = () => {
+    setColourTo('');
+    ajaxSetColour('off');
+  };
 
-  const setThemeDark  = () => setThemeFrom('dark');
-  const setThemeLight = () => setThemeFrom('light');
-  const setColourOn   = () => setColourFrom('colour');
-  const setColourOff  = () => setColourFrom('');
-
-  const setColourFrom = (newColour) => {
+  const setColourTo = (newColour) => {
     colour = newColour;
     runActionOnAllCodeMirrorEditors(setTheme);
   };
 
-  const setThemeFrom = (newTheme) => {
-    theme = newTheme;
-    runActionOnAllCodeMirrorEditors(setTheme);
+  const ajaxSetColour = (onOff) => {
+    $.ajax({
+      type:'POST',
+       url:'/kata/setColour',
+      data:{ id:cd.kataId(), value:onOff }
+    });
   };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const setTheme = (editor) => {
     editor.setOption('theme', codeMirrorTheme());
     editor.setOption('smartIndent', codeMirrorSmartIndent());
   };
-
-  const codeMirrorTheme = () => {
-    const inColour = (colour === '') ? '' : '-colour';
-    return 'cyber-dojo-' + theme + inColour;
-  };
-
-  const codeMirrorSmartIndent = () => colour !== '';
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -137,17 +159,26 @@ var cyberDojo = ((cd, $) => {
     return {
          lineNumbers: true,
        matchBrackets: true,
-                mode: codeMirrorMode(filename),
           indentUnit: cd.syntaxHighlightTabSize,
              tabSize: cd.syntaxHighlightTabSize,
+            readOnly: cd.isOutputFile(filename),
       indentWithTabs: codeMirrorIndentWithTabs(filename),
                theme: codeMirrorTheme(),
-            readOnly: cd.isOutputFile(filename),
-         smartIndent: codeMirrorSmartIndent()
+         smartIndent: codeMirrorSmartIndent(),
+                mode: codeMirrorMode(filename),
     };
   };
 
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  const codeMirrorIndentWithTabs = (filename) => {
+    return filename.toLowerCase() === 'makefile';
+  };
+
+  const codeMirrorTheme = () => {
+    const inColour = (colour === '') ? '' : '-colour';
+    return 'cyber-dojo-' + theme + inColour;
+  };
+
+  const codeMirrorSmartIndent = () => colour !== '';
 
   const codeMirrorMode = (filename) => {
     filename = filename.toLowerCase();
@@ -195,12 +226,6 @@ var cyberDojo = ((cd, $) => {
     } else {
       return filename.substring(lastPoint);
     }
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const codeMirrorIndentWithTabs = (filename) => {
-    return filename.toLowerCase() === 'makefile';
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -

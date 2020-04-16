@@ -35,6 +35,16 @@ class KataController < ApplicationController
 
   # - - - - - - - - - - - - - - - - - -
 
+  def setColour
+    kata.colour = params['value']
+  end
+
+  def setTheme
+    kata.theme = params['value']
+  end
+
+  # - - - - - - - - - - - - - - - - - -
+
   def run_tests
     t1 = time.now
     result,files,@created,@deleted,@changed = kata.run_tests

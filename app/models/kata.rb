@@ -54,12 +54,24 @@ class Kata
 
   # - - - - - - - - - - - - - - - - -
 
+  def theme=(value)
+    #STDOUT.puts("models/kata/#{id} theme=(#{value})")
+    #STDOUT.flush
+  end
+
   def theme
-    'dark'
+    'dark' # default
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
+  def colour=(value)
+    #STDOUT.puts("models/kata/#{id} colour=(#{value})")
+    #STDOUT.flush
   end
 
   def colour
-    'on'
+    'on' # default
   end
 
   # - - - - - - - - - - - - - - - - -
