@@ -37,6 +37,7 @@ up_nginx()
     --file "${ROOT_DIR}/docker-compose-choosers.yml" \
     --file "${ROOT_DIR}/docker-compose-depends.yml" \
     --file "${ROOT_DIR}/docker-compose-nginx.yml" \
+    --file "${ROOT_DIR}/docker-compose-saver-dir-volume-mount.yml" \
     run \
       --detach \
       --name test_web_nginx \

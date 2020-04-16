@@ -81,6 +81,7 @@ export NO_PROMETHEUS=true
 echo
 docker-compose \
   --file "${ROOT_DIR}/docker-compose.yml" \
+  --file "${ROOT_DIR}/docker-compose-saver-tmpfs-volume-mount.yml" \
   up \
   -d \
   --force-recreate
