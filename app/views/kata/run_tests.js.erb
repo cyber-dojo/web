@@ -9,8 +9,12 @@
   };
 
   const updateTrafficLightCount = () => {
+    const box = $('#traffic-lights-count-box');
     const count = "<%= js_partial('traffic_lights_count') %>";
-    $('#traffic-lights-count-box').html(count);
+    box.fadeOut('slow', () => {
+      box.html(count);
+      box.fadeIn('slow');
+    });
   };
 
   //- - - - - - - - - - - - - - - - - - - - - -
