@@ -66,7 +66,7 @@ class Kata_v1
       'time' => now,
       'colour' => colour,
       'duration' => duration,
-      #'predicted' => predicted, # Not live yet
+      'predicted' => predicted,
     }
     event_n = {
       'files' => files,

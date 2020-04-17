@@ -78,7 +78,7 @@ class Kata
 
   def colour=(value)
     filename = kata_id_path(id, 'colour')
-    # There is no file-replace command    
+    # There is no file-replace command
     saver.run_all([
       saver.file_create_command(filename, "\n"+value),
       saver.file_append_command(filename, "\n"+value)

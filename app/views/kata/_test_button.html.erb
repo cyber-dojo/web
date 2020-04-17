@@ -8,11 +8,20 @@
 'use strict';
 $(() => {
 
+  const predicted = $('input[name=predicted]');
+
   cd.testButton = $('#test-button');
   cd.testButton.enable  = () => cd.testButton.attr('disabled', false);
   cd.testButton.disable = () => cd.testButton.attr('disabled', true);
 
   cd.testButton.click(() => {
+
+    /*if (prediction-on) {
+      // ...show prediction dialog
+      // ...get prediction from dialog
+      predicted.val('amber');
+    }*/
+
     // Called from 3 places
     // 1. when you click [test]
     // 2. when you hot-key Alt-T
@@ -36,6 +45,7 @@ $(() => {
   const complete = (_xhr, _status) => {
     cd.waitSpinner.fadeOut('slow', () => {
       cd.testButton.enable();
+      predicted.val('none');
     });
   };
 
