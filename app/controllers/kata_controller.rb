@@ -65,7 +65,7 @@ class KataController < ApplicationController
       @diagnostic = JSON.pretty_generate(result['diagnostic'])
     end
 
-    predicted = 'none'
+    predicted = params['predicted']
 
     index = params[:index].to_i + 1
     args = []
