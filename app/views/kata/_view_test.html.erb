@@ -4,8 +4,8 @@
 <%= form_tag( { action: 'run_tests', id: @id } ) do %>
   <%= render partial: 'hidden_inputs' %>
   <div id="edit-top-row">
-    <%= render partial: 'test_button' %>
     <%= render partial: 'avatar_image' %>
+    <%= render partial: 'test_button' %>
     <%= render partial: 'traffic_lights_count' %>
     <%= render partial: 'traffic_lights' %>
   </div>

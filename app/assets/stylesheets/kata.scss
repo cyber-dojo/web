@@ -10,13 +10,16 @@
 
   img.avatar-image {
     @include rounded-corner(6px);
-    display: inline-block;
+    display: block;
      cursor: default;
-      width: 26px;
-     height: 26px;
-     margin: 0px;
+      min-width: 29px; // prevet flex shrinkage
+     min-height: 29px; // prevet flex shrinkage
+      width: 29px;
+     height: 29px;
+     margin: { left:0px; right:4px; }
     padding: 0px;
-     margin-left: 4px;
+   position: relative;
+        top: -1px;
   }
 
   #test-button
@@ -24,8 +27,7 @@
     @include non-code-font();
     @include font-size-medium();
            display: inline;
-    vertical-align: top;
-            margin: { right: 2px; }
+            margin: 0px;
            padding: { top: 0px; bottom: 2px; left: 7px; right: 7px; }
         text-align: center;
           position: relative;
