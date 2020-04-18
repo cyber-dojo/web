@@ -84,23 +84,30 @@
   };
 
   //- - - - - - - - - - - - - - - - - - - - - -
-  // Update traffic-lights
-  appendTestTrafficLight();
-  updateTrafficLightCount();
+  const updateTrafficLights = () => {
+    appendTestTrafficLight();
+    updateTrafficLightCount();
+  }
 
   //- - - - - - - - - - - - - - - - - - - - - -
-  // Update changed files
-  insertCreatedFiles();
-  removeDeletedFiles();
-  updateChangedFiles();
+  const updateCreatedDeletedChangedFiles = () => {
+    insertCreatedFiles();
+    removeDeletedFiles();
+    updateChangedFiles();
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - -
+  const showWarnings = () => {
+    warnIfTestsTimedOut();
+    warnIfTrafficLightFaulty();
+    //warnIfTruncatedFiles();
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - -
+  updateTrafficLights();
+  updateCreatedDeletedChangedFiles();
   updateOutput(); // [stdout,stderr,status] Must be last
-
-  //- - - - - - - - - - - - - - - - - - - - - -
-  // Warnings
-  warnIfTestsTimedOut();
-  warnIfTrafficLightFaulty();
-  //warnIfTruncatedFiles();
-
+  showWarnings();
   cd.scrollLastTrafficLightIntoView();
 
 })();
