@@ -44,6 +44,7 @@ $(() => {
     $('#kata-page').fadeOut('slow', () => {
       $('#review-page').fadeIn('slow');
     });
+    setupAvatar(avatarName, avatarIndex);
     setupButton('resume', () => {
       $('#review-page').fadeOut('fast', () => {
         $('#kata-page').fadeIn('fast', () => {
@@ -54,6 +55,16 @@ $(() => {
     setupButton('checkout', () => doCheckout());
     setCheckoutButtonTip();
     refresh();
+  };
+
+  const setupAvatar = (avatarName, avatarIndex) => {
+    if (avatarName != '') {
+      $('#avatar-box').empty().append($('<img>', {
+        src:`/avatar/image/${avatarIndex}`,
+        alt:`${avatarName}`,
+        class:'avatar-image'
+      }));
+    }
   };
 
   const inTestPage = $('#kata-page').length !== 0;
@@ -608,6 +619,7 @@ $(() => {
 <%= render(:partial => 'review/highlight_filenames') %>
 
 <div id="review-top-row">
+  <div id="avatar-box"></div>
   <div id="resume-button-box"></div>
   <%= render(:partial => 'review/avatar_navigator') %>
   <%= render(:partial => 'review/traffic_light_navigator') %>
