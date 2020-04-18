@@ -313,8 +313,11 @@ $(() => {
     let html = '';
     $.each(sortedDiffs(diffs), (_, diff) => {
       html += '<div class="diff-filename-box">';
-      html += makeDiffDeletedCount(diff);
-      html += makeDiffAddedCount(diff);
+      const deletedLineCount = diff['delete_line_count'];
+      const addedLineCount = diff['added_line_count'];
+      const showCounts = (deletedLineCount > 0 || addedLineCount > 0);
+      html += makeDiffDeletedCount(showCounts, diff);
+      html += makeDiffAddedCount(showCounts, diff);
       html += makeDiffFilename(diff);
       html += '</div>';
     });
@@ -334,15 +337,15 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const makeDiffDeletedCount = (diff) => {
-    return makeDiffCount(diff, 'deleted_line_count', 'deleted');
+  const makeDiffDeletedCount = (showCounts, diff) => {
+    return makeDiffCount(showCounts, diff, 'deleted_line_count', 'deleted');
   };
 
-  const makeDiffAddedCount = (diff) => {
-    return makeDiffCount(diff, 'added_line_count', 'added');
+  const makeDiffAddedCount = (showCounts, diff) => {
+    return makeDiffCount(showCounts, diff, 'added_line_count', 'added');
   };
 
-  const makeDiffCount = (diff, propertyName, cssName) => {
+  const makeDiffCount = (showCounts, diff, propertyName, cssName) => {
     if (!inDiffMode()) {
       return '';
     }
@@ -350,9 +353,8 @@ $(() => {
       'class': `diff-${cssName}-line-count button`,
       'data-filename': diff.filename
     });
-    const count = diff[propertyName];
-    if (count !== 0) {
-      div.append(count);
+    if (showCounts) {
+      div.append(diff[propertyName]);
     }
     return outerHTML(div);
   };
