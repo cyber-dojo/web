@@ -1,0 +1,28 @@
+
+If you are working on web-service there are 3 ways of
+getting feedback on your local work:
+
+1) /build_test_tag_publish.sh
+   This runs a local server, using commander, but substitutes the
+   locally build web image. The slowest option, but very very close
+   to how it actually runs.
+
+2) /sh/dev_run_copied_server.sh
+   This runs a local server but does not use the commander service.
+   Instead it uses docker-compose, versioner, and its own docker-compose
+   yml files. The web image is rebuilt from source.
+   A lot quicker than using commander (1), but not how a local server
+   actually runs. A good (short) feedback loop for eg CSS tweaking.
+
+3) /sh/dev_run_volume_mounted_server.sh
+   This runs a local server but does not use the commander service.
+   Instead it uses docker-compose, versioner, and its own docker-compose
+   yml files. The web image is _not_ rebuilt from source, instead the
+   web source is volume-mounted into the web container.
+   You cannot use this option to edit code and then just refresh in the
+   browser (because the web service runs in production mode which caches).
+   However, you can run script (3) (which brings up a web-container),
+   then edit code, then then re-run, directly,
+     sh/run_tests_in_container.sh
+   which runs tests inside the already running web container.
+   The fastest feedback.
