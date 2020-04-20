@@ -1,15 +1,5 @@
 
-Still to do
-- only show one traffic-light (which has no tool-tip and no click-handler)
-  This is not simply a case of turning off full-view controls
-  one of which is all the traffic-lights.
-  I also have to put in a single traffic-light.
-  It seems I do need a mode for this.
-- [test] has to somehow open stdout/stderr
-  Again it seems like I'll need a explicit mode for this.
-- Alt-O to toggle back/forth?
-
-------------------------------------------
+Idea...
 
 IDE's have a lot of richness in the way devs create code.
 But they have a lot less richness in the feedback of the

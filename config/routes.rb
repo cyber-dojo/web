@@ -7,10 +7,6 @@ CyberDojo::Application.routes.draw do
 
   root :to => 'dojo#index'
 
-  scope path: '/sha', controller: :sha do
-    get 'index' => :index
-  end
-
   scope path: '/dojo', controller: :dojo do
     get 'index(/:id)' => :index
   end
