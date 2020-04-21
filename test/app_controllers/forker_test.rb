@@ -81,6 +81,36 @@ class ForkerControllerTest < AppControllerTestBase
     }
   end
 
+  test '7D6', 'forker/fork_group (html)' do
+    in_kata { |kata|
+      post_run_tests # 1
+      params = { index:1 }
+      get "/forker/fork_group/#{kata.id}", params:params, as: :html
+      assert_response :redirect
+      regex = /^(.*)\/kata\/group\/([0-9A-Za-z]*)$/
+      assert m = regex.match(@response.redirect_url)
+      gid = m[2]
+      assert_equal 6, gid.size
+      group = groups[gid]
+      assert group.exists?
+    }
+  end
+
+  test '7D7', 'forker/fork_individual (html)' do
+    in_kata { |kata|
+      post_run_tests # 1
+      params = { index:1 }
+      get "/forker/fork_individual/#{kata.id}", params:params, as: :html
+      assert_response :redirect
+      regex = /^(.*)\/kata\/edit\/([0-9A-Za-z]*)$/
+      assert m = regex.match(@response.redirect_url)
+      kid = m[2]
+      assert_equal 6, kid.size
+      kata = katas[kid]
+      assert kata.exists?
+    }
+  end
+
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'AF2', %w( when id is malformed the fork fails ) do

@@ -48,8 +48,8 @@ CyberDojo::Application.routes.draw do
   end
 
   scope path: '/forker', controller: :forker do
-    get 'fork_individual(/:id)' => :fork_individual, :constraints => { :format => :json }
-    get 'fork_group(/:id)'      => :fork_group,      :constraints => { :format => :json }
+    get 'fork_individual(/:id)' => :fork_individual
+    get 'fork_group(/:id)'      => :fork_group
     get 'fork(/:id)' => :fork
   end
 
