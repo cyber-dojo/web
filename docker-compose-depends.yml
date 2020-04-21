@@ -11,6 +11,7 @@ services:
       - repler
       - runner
       - saver
+      - shas
       - custom-chooser
       - exercises-chooser
       - languages-chooser
