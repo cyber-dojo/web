@@ -56,8 +56,9 @@ class Kata
   # - - - - - - - - - - - - - - - - -
 
   def theme=(value)
+    # value == 'dark'|'light'
     filename = kata_id_path(id, 'theme')
-    # There is no file-replace command
+    # There is no file-write command (yet)
     saver.run_all([
       saver.file_create_command(filename, "\n"+value),
       saver.file_append_command(filename, "\n"+value)
@@ -70,15 +71,16 @@ class Kata
     if result
       result.lines.last
     else
-      'dark' # default
+      'dark' # default (other options is 'light')
     end
   end
 
   # - - - - - - - - - - - - - - - - -
 
   def colour=(value)
+    # value == 'on'|'off'
     filename = kata_id_path(id, 'colour')
-    # There is no file-replace command
+    # There is no file-write command (yet)
     saver.run_all([
       saver.file_create_command(filename, "\n"+value),
       saver.file_append_command(filename, "\n"+value)
@@ -91,7 +93,7 @@ class Kata
     if result
       result.lines.last
     else
-      'on' # default
+      'on' # default (other options is 'off')
     end
   end
 

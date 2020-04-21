@@ -24,8 +24,8 @@ CyberDojo::Application.routes.draw do
     get  'edit(/:id)'       => :edit
     get  'show_json(/:id)'  => :show_json
     post 'run_tests(/:id)'  => :run_tests
-    post 'setTheme'         => :setTheme
-    post 'setColour'        => :setColour
+    post 'set_theme'        => :set_theme
+    post 'set_colour'       => :set_colour
     get  'edit_offline'     => :edit_offline
   end
 

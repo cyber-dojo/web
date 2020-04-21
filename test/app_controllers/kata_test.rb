@@ -298,4 +298,42 @@ class KataControllerTest  < AppControllerTestBase
     end
   end
 
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'B76',
+  %w( colour defaults to on ) do
+    in_kata do |kata|
+      assert_equal 'on', kata.colour
+    end
+  end
+
+  test 'B77',
+  %w( set_colour() persists the colour option ) do
+    in_kata do |kata|
+      post '/kata/set_colour', params:{ id:kata.id, value:'off' }
+      assert_equal 'off', kata.colour
+      post '/kata/set_colour', params:{ id:kata.id, value:'on' }
+      assert_equal 'on', kata.colour
+    end
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'B78',
+  %w( theme defaults to dark ) do
+    in_kata do |kata|
+      assert_equal 'dark', kata.theme
+    end
+  end
+
+  test 'B79',
+  %w( set_theme() persists the theme option ) do
+    in_kata do |kata|
+      post '/kata/set_theme', params:{ id:kata.id, value:'light' }
+      assert_equal 'light', kata.theme
+      post '/kata/set_theme', params:{ id:kata.id, value:'dark' }
+      assert_equal 'dark', kata.theme
+    end
+  end
+
 end

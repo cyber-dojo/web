@@ -48,11 +48,7 @@ var cyberDojo = ((cd, $) => {
   };
 
   const ajaxSetTheme = (theme) => {
-    $.ajax({
-      type:'POST',
-       url:'/kata/setTheme',
-      data:{ id:cd.kataId(), value:theme }
-    });
+    $.post('/kata/set_theme', { id:cd.kataId(), value:theme });
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -86,11 +82,7 @@ var cyberDojo = ((cd, $) => {
   };
 
   const ajaxSetColour = (onOff) => {
-    $.ajax({
-      type:'POST',
-       url:'/kata/setColour',
-      data:{ id:cd.kataId(), value:onOff }
-    });
+    $.post('/kata/set_colour', { id:cd.kataId(), value:onOff });
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -

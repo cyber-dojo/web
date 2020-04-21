@@ -35,11 +35,11 @@ class KataController < ApplicationController
 
   # - - - - - - - - - - - - - - - - - -
 
-  def setColour
+  def set_colour
     kata.colour = params['value']
   end
 
-  def setTheme
+  def set_theme
     kata.theme = params['value']
   end
 
