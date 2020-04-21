@@ -39,7 +39,7 @@ class IdRejoinControllerTest < AppControllerTestBase
   when there is one or more avatar
   then show the avatar-picker ) do
     in_group do |group|
-      # assert_equal 1, group.schema.version FAILING
+      assert_equal 1, group.schema.version
       assert_join(group.id)
       rejoin('group', group.id)
       assert exists?
@@ -86,7 +86,7 @@ class IdRejoinControllerTest < AppControllerTestBase
   rejoin from new empty group
   ) do
     in_group do |group|
-      # assert_equal 1, group.schema.version # FAILING
+      assert_equal 1, group.schema.version
       rejoin('group', group.id)
       assert exists?
       assert empty?
