@@ -7,14 +7,18 @@ class IdRejoinController < ApplicationController
     @possessive = (from === 'individual') ? 'my' : 'our'
   end
 
-  def drop_down
+  def rejoin
     if from === 'individual'
-      json = individual_drop_down_json
+      json = individual_rejoin_json
     end
     if from === 'group'
-      json = group_drop_down_json
+      json = group_rejoin_json
     end
     render json:json
+  end
+
+  def drop_down # deprecated
+    rejoin
   end
 
   private
@@ -23,7 +27,7 @@ class IdRejoinController < ApplicationController
     params[:from]
   end
 
-  def individual_drop_down_json
+  def individual_rejoin_json
     # rejoin group session
     json = { exists:group.exists? }
     if json[:exists]
@@ -48,7 +52,7 @@ class IdRejoinController < ApplicationController
     json
   end
 
-  def group_drop_down_json
+  def group_rejoin_json
     json = { exists:group.exists? }
     if json[:exists]
       json[:empty] = group.empty?

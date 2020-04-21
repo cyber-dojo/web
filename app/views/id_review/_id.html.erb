@@ -18,10 +18,9 @@ $(() => {
       inputId.addClass('invalid');
     }
     else if (id.length === 6) {
-      const args = { id:id };
       inputId.prop('disabled', true);
       cd.waitSpinner.fadeIn('slow', () => {
-        $.getJSON('/id_review/drop_down', args, dropDownHandler)
+        $.post('/id_review/review', { id:id }, dropDownHandler)
          .always(() => {
            cd.waitSpinner.fadeOut('slow');
            inputId.prop('disabled', false);

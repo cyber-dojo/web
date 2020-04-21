@@ -50,7 +50,36 @@ class IdJoinControllerTest < AppControllerTestBase
     refute exists?
   end
 
-  private # = = = = = = = = = = = =
+  #- - - - - - - - - - - - - - - -
+
+  test 'F01', %w( deprecated GET-dropdown is now POST-join ) do
+    in_group do |group|
+      Avatars.names.size.times do
+        kata = assert_old_join(group.id)
+        refute full?
+        assert Avatars.names.include?(kata.avatar_name)
+      end
+      kata = old_join(group.id)
+      assert_nil kata
+      assert full?
+    end
+  end
+
+  private
+
+  def assert_old_join(gid)
+    kid = old_join(gid)
+    assert json['exists']
+    refute_nil kid
+    katas[kid]
+  end
+
+  def old_join(gid)
+    params = { id:gid }
+    get '/id_join/drop_down', params:params, as: :json
+    assert_response :success
+    json['id']
+  end
 
   def exists?
     json['exists']

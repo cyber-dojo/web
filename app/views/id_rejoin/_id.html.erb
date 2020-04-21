@@ -23,7 +23,7 @@ $(() => {
       const args = { id:id, from:"<%= @from %>" };
       inputId.prop('disabled', true);
       cd.waitSpinner.fadeIn('slow', () => {
-        $.getJSON('/id_rejoin/drop_down', args, dropDownHandler)
+        $.post('/id_rejoin/rejoin', args, dropDownHandler)
          .always(() => {
            cd.waitSpinner.hide('slow');
            inputId.prop('disabled', false);

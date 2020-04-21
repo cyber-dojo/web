@@ -37,11 +37,24 @@ class IdReviewControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - -
 
+  test '400', %w( deprecated GET-dropdown is now POST-review ) do
+    set_saver_class('SaverService')
+    old_id_review('FxWwrr')
+    assert exists?
+    assert_equal id, 'FxWwrr'
+  end
+
   private
+
+  def old_id_review(id)
+    params = { id:id }
+    get '/id_review/drop_down', params:params, as: :json
+    assert_response :success
+  end
 
   def id_review(id)
     params = { id:id }
-    get '/id_review/drop_down', params:params, as: :json
+    post '/id_review/review', params:params, as: :json
     assert_response :success
   end
 

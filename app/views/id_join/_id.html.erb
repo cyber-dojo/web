@@ -19,10 +19,9 @@ $(() => {
       inputId.addClass('invalid');
     }
     else if (id.length === 6) {
-      const args = { id:id };
       inputId.prop('disabled', true);
       cd.waitSpinner.fadeIn('slow', () => {
-        $.getJSON('/id_join/drop_down', args, dropDownHandler)
+        $.post('/id_join/join', { id:id }, dropDownHandler)
          .always(() => {
            cd.waitSpinner.fadeOut('slow');
            inputId.prop('disabled', false);

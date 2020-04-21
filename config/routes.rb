@@ -31,17 +31,20 @@ CyberDojo::Application.routes.draw do
 
   scope path: '/id_join', controller: :id_join do
     get 'show(/:id)' => :show
-    get 'drop_down'  => :drop_down,  :constraints => { :format => :json }
+    post 'join'      => :join, :constraints => { :format => :json }
+    get 'drop_down' => :drop_down,  :constraints => { :format => :json } # deprecated
   end
 
   scope path: '/id_rejoin', controller: :id_rejoin do
     get 'show(/:id)' => :show
-    get 'drop_down'  => :drop_down,  :constraints => { :format => :json }
+    post 'rejoin'    => :rejoin, :constraints => { :format => :json }
+    get 'drop_down' => :drop_down,  :constraints => { :format => :json } # deprecated
   end
 
   scope path: '/id_review', controller: :id_review do
     get 'show'      => :show
-    get 'drop_down' => :drop_down,  :constraints => { :format => :json }
+    post 'review'   => :review, :constraints => { :format => :json }
+    get 'drop_down' => :drop_down,  :constraints => { :format => :json } # deprecated
   end
 
   scope path: '/forker', controller: :forker do
@@ -78,12 +81,3 @@ CyberDojo::Application.routes.draw do
   end
 
 end
-
-# [1] These are get's and not post's
-# This is because I want the creation of a new session to take
-# you _directly_ to its URL, which includes the session-ID, eg
-# /kata/edit/D46hN3
-# Now, if the javascript issues an Ajax call which returns
-# such a URL, then the browser will not, by default, allow
-# redirection to that URL (cross-scripting).
-# So it must be a plain non-ajax call.

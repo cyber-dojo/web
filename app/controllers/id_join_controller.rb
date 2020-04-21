@@ -6,7 +6,7 @@ class IdJoinController < ApplicationController
     @id = id
   end
 
-  def drop_down
+  def join
     json = { exists:group.exists? }
     if json[:exists]
       kata = group.join
@@ -19,6 +19,10 @@ class IdJoinController < ApplicationController
       end
     end
     render json:json
+  end
+
+  def drop_down # deprecated
+    join
   end
 
 end

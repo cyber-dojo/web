@@ -139,11 +139,27 @@ class IdRejoinControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - -
 
+  test '501', %w( deprecated GET-dropdown is now POST-rejoin ) do
+    in_group do |group|
+      assert_join(group.id)
+      old_rejoin('group', group.id)
+      assert exists?
+      refute empty?
+      assert avatarPicker?
+    end
+  end
+
   private
+
+  def old_rejoin(from, id)
+    params = { from: from, id:id }
+    get '/id_rejoin/drop_down', params:params, as: :json
+    assert_response :success
+  end
 
   def rejoin(from, id)
     params = { from: from, id:id }
-    get '/id_rejoin/drop_down', params:params, as: :json
+    post '/id_rejoin/rejoin', params:params, as: :json
     assert_response :success
   end
 

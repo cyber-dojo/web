@@ -102,7 +102,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   def join(gid)
     params = { id:gid }
-    get '/id_join/drop_down', params:params, as: :json
+    post '/id_join/join', params:params, as: :json
     assert_response :success
     json['id']
   end
