@@ -23,4 +23,4 @@ helm upgrade \
   --values .circleci/web-values.yml \
   ${NAMESPACE}-web \
   praqma/cyber-dojo-service \
-  --version 0.2.4
+  --version 0.2.5
