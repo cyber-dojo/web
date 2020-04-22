@@ -149,16 +149,21 @@ var cyberDojo = ((cd, $) => {
 
   const editorOptions = (filename) => {
     return {
-         lineNumbers: true,
-       matchBrackets: true,
           indentUnit: cd.syntaxHighlightTabSize,
              tabSize: cd.syntaxHighlightTabSize,
             readOnly: cd.isOutputFile(filename),
+       matchBrackets: true,
+         lineNumbers: true,
+        lineWrapping: codeMirrorLineWrapping(filename),
       indentWithTabs: codeMirrorIndentWithTabs(filename),
                theme: codeMirrorTheme(),
          smartIndent: codeMirrorSmartIndent(),
                 mode: codeMirrorMode(filename),
     };
+  };
+
+  const codeMirrorLineWrapping = (filename) => {
+    return ['readme.txt', 'stdout', 'stderr'].includes(filename);
   };
 
   const codeMirrorIndentWithTabs = (filename) => {
