@@ -37,25 +37,22 @@ class ApplicationController < ActionController::Base
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def files_for(index)
-    kata.events[index]
-        .files(:with_output)
-        .map{ |filename,file| [filename, file['content']] }
-        .to_h
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - -
-
   def index
     params[:index].to_i
   end
 
   def was_index
-    value_of(:was_index)
+    @was_index ||= value_of(:was_index)
+    # Avoid extra saver-call for diff(-1,-1)
+    @now_index = @was_index if params[:was_index].to_i === -1
+    @was_index
   end
 
   def now_index
-    value_of(:now_index)
+    @now_index ||= value_of(:now_index)
+    # Avoid extra saver-call for diff(-1,-1)
+    @was_index = @now_index if params[:now_index].to_i === -1
+    @now_index    
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -66,6 +63,15 @@ class ApplicationController < ActionController::Base
       value = kata.events[-1].index
     end
     value
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - -
+
+  def files_for(index)
+    kata.events[index]
+        .files(:with_output)
+        .map{ |filename,file| [filename, file['content']] }
+        .to_h
   end
 
 end

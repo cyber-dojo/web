@@ -67,6 +67,22 @@ class DifferControllerTest < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test '217', %w(
+  diff of (-1,-1) makes more than one saver-service call
+  ) do
+    [0,1].each do |version|
+      in_kata(version:version) { post_run_tests }
+      count_before = saver.log.size
+      differ(@id, '', -1, -1, version)
+      count_after = saver.log.size
+      diagnostic = [version,count_before,count_after]
+      assert_equal 2, (count_after-count_before), diagnostic
+      assert_equal version, kata.schema.version
+    end
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test '216', %w(
   diff of kata that is part of a group-exercise
   ) do
@@ -98,7 +114,6 @@ class DifferControllerTest < AppControllerTestBase
       was_index:was_index,
       now_index:now_index
     }
-
     get '/differ/diff', params:params, as: :json
     assert_response :success
   end

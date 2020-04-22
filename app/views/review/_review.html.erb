@@ -59,6 +59,8 @@ $(() => {
 
   const setupAvatar = (avatarName, avatarIndex) => {
     if (avatarName != '') {
+      // We are in a group-exercise. Display the active avatar
+      // to the left of the [resume] button.
       $('#avatar-box').empty().append($('<img>', {
         src:`/avatar/image/${avatarIndex}`,
         alt:`${avatarName}`,
@@ -73,7 +75,8 @@ $(() => {
 
   const moveToAvatar = (id) => {
     param.id = id;
-    moveToTrafficLight(1);
+    const index = inDiffMode() ? 1 : -1;
+    moveToTrafficLight(index);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
