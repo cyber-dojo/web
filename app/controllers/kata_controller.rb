@@ -6,17 +6,17 @@ class KataController < ApplicationController
   end
 
   def edit
-    manifest = kata.manifest
-    @version = kata.schema.version
-    @title = "kata: #{@id}"
-    # what
-    @display_name = manifest.display_name
-    @exercise = manifest.exercise
     # who
     @id = kata.id
     @group_id = kata.group.id
     @avatar_name = kata.avatar_name
     @avatar_index = kata.avatar_index
+    @version = kata.schema.version
+    @title = "kata: #{@id}"
+    # what
+    manifest = kata.manifest
+    @display_name = manifest.display_name
+    @exercise = manifest.exercise
     # previous traffic-light-lights
     @lights = kata.lights
     # most recent files
