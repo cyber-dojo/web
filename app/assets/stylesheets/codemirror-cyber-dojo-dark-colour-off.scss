@@ -2,39 +2,39 @@
 $syntax-text-color: $very-light-gray;
 $syntax-background-color: $very-dark-gray;
 
-.cm-s-cyber-dojo-dark.CodeMirror {
+.cm-s-cyber-dojo-dark-colour-off.CodeMirror {
   @include code-font;
   font-size: 10.5pt;
   background: $syntax-background-color;
   color: $syntax-text-color;
 }
 
-.cm-s-cyber-dojo-dark .CodeMirror-lines {
+.cm-s-cyber-dojo-dark-colour-off .CodeMirror-lines {
   cursor: url(images/white-text-cursor.png), text;
   min-height: 1px; /* prevents collapsing before first draw */
 }
 
-.cm-s-cyber-dojo-dark .CodeMirror-linenumber,
-.cm-s-cyber-dojo-dark .CodeMirror-linenumbers,
-.cm-s-cyber-dojo-dark .CodeMirror-gutters {
+.cm-s-cyber-dojo-dark-colour-off .CodeMirror-linenumber,
+.cm-s-cyber-dojo-dark-colour-off .CodeMirror-linenumbers,
+.cm-s-cyber-dojo-dark-colour-off .CodeMirror-gutters {
   @include code-font;
   background: lighten($syntax-background-color,3%);
   color: darken($syntax-text-color, 60%);
 }
 
-.cm-s-cyber-dojo-dark .CodeMirror-gutters {
+.cm-s-cyber-dojo-dark-colour-off .CodeMirror-gutters {
   border-right: 0px;
 }
 
-.cm-s-cyber-dojo-dark div.CodeMirror-selected {
+.cm-s-cyber-dojo-dark-colour-off div.CodeMirror-selected {
   background: #515151;
 }
 
-.cm-s-cyber-dojo-dark .CodeMirror-cursor {
+.cm-s-cyber-dojo-dark-colour-off .CodeMirror-cursor {
   border-left: 1px solid $syntax-text-color;
 }
 
-.cm-s-cyber-dojo-dark .cm-tab {
+.cm-s-cyber-dojo-dark-colour-off .cm-tab {
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAMCAYAAAAkuj5RAAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4QceFzkFdK1S+wAAACR0RVh0Q29tbWVudABUYWIgY2hhcmFjdGVyIGZvciBjeWJlci1kb2pvbQcIaAAAAE5JREFUSMftkjEOACAMAltfyFP5YZ1cHGoXk2K8kYkLmH3uACAq2VCTkBKoSAzVOy28MlMnSLrcAhmuchuSDiAkF9hLSwlk5dsLnMo/wQQwlBvvo1+QQQAAAABJRU5ErkJggg==);
   background-position: right;
   background-repeat: no-repeat;

@@ -3,24 +3,26 @@
 var cyberDojo = ((cd, $) => {
 
   // This is controlled by the [theme?] button.
-  // It's two values are 'dark' || 'light'
+  // Has two values: 'dark' || 'light'
   // It is different to the four CodeMirror themes below.
-  let theme = 'dark';
+  let theme = undefined;
 
   // This is controlled by the [colour?] button.
-  // It's two values are 'colour' || '' for colour on|off
-  let colour = 'colour';
+  // Has two values: 'on' || 'off'
+  let colour = undefined;
 
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // There are four CodeMirror css themes. Their names are the formed
-  // by combining the two theme values with the two colour values.
-  //   'dark'   'dark-colour'  'light'   'light-colour'
   const codeMirrorTheme = () => {
-    const inColour = (colour === '') ? '' : '-colour';
-    return 'cyber-dojo-' + theme + inColour;
+    // There are four CodeMirror css themes. Their names are the formed
+    // by combining the two theme values and the two colour values.
+    //   dark-colour-on
+    //   dark-colour-off
+    //   light-colour-on
+    //   light-colour-off
+    return ['cyber-dojo',theme,'colour',colour].join('-');
   };
 
-  cd.setupThemeColourButtonsClickHandlers = (theme,colour) => {
+  cd.setupThemeColourButtonsClickHandlers = (theme, colour) => {
+    // Called from kata/edit when page first loads.
     setupThemeButton(theme);
     setupColourButton(colour);
   };
@@ -41,13 +43,14 @@ var cyberDojo = ((cd, $) => {
     cd.themeButton().show();
   };
 
-  const setThemeDark  = () => {
+  const setThemeDark = () => {
     setThemeTo('dark');
-    ajaxSetTheme('dark');
+    ajaxSetThemeTo('dark');
   };
+
   const setThemeLight = () => {
     setThemeTo('light');
-    ajaxSetTheme('light');
+    ajaxSetThemeTo('light');
   };
 
   const setThemeTo = (newTheme) => {
@@ -55,7 +58,7 @@ var cyberDojo = ((cd, $) => {
     runActionOnAllCodeMirrorEditors(setTheme);
   };
 
-  const ajaxSetTheme = (theme) => {
+  const ajaxSetThemeTo = (theme) => {
     $.post('/kata/set_theme', { id:cd.kataId(), value:theme });
   };
 
@@ -64,24 +67,25 @@ var cyberDojo = ((cd, $) => {
   const setupColourButton = (colour) => {
     switch (colour) {
       case 'on':
-        setColourTo('colour');
+        setColourTo('on');
         cd.colourButton().clickToggle(setColourOff, setColourOn);
         break;
       case 'off':
-        setColourTo('');
+        setColourTo('off');
         cd.colourButton().clickToggle(setColourOn, setColourOff);
         break;
     }
     cd.colourButton().show();
   };
 
-  const setColourOn   = () => {
-    setColourTo('colour');
-    ajaxSetColour('on');
+  const setColourOn = () => {
+    setColourTo('on');
+    ajaxSetColourTo('on');
   };
-  const setColourOff  = () => {
-    setColourTo('');
-    ajaxSetColour('off');
+
+  const setColourOff = () => {
+    setColourTo('off');
+    ajaxSetColourTo('off');
   };
 
   const setColourTo = (newColour) => {
@@ -89,7 +93,7 @@ var cyberDojo = ((cd, $) => {
     runActionOnAllCodeMirrorEditors(setTheme);
   };
 
-  const ajaxSetColour = (onOff) => {
+  const ajaxSetColourTo = (onOff) => {
     $.post('/kata/set_colour', { id:cd.kataId(), value:onOff });
   };
 

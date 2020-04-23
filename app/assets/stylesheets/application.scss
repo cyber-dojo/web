@@ -43,10 +43,10 @@
  *= depend_on jquery-ui-1.8.16.custom.scss
  *= depend_on codemirror.scss
  *= depend_on codemirror-cyber-dojo-grays.scss
- *= depend_on codemirror-cyber-dojo-dark.scss
- *= depend_on codemirror-cyber-dojo-dark-colour.scss
- *= depend_on codemirror-cyber-dojo-light.scss
- *= depend_on codemirror-cyber-dojo-light-colour.scss
+ *= depend_on codemirror-cyber-dojo-dark-colour-on.scss
+ *= depend_on codemirror-cyber-dojo-dark-colour-off.scss
+ *= depend_on codemirror-cyber-dojo-light-colour-on.scss
+ *= depend_on codemirror-cyber-dojo-light-colour-off.scss
  *= depend_on codemirror-dialog.scss
  *= require_self
 */
@@ -83,8 +83,8 @@
 @import "jquery-ui-1.8.16.custom.scss";
 @import "codemirror.scss";
 @import "codemirror-cyber-dojo-grays.scss";
-@import "codemirror-cyber-dojo-dark.scss";
-@import "codemirror-cyber-dojo-dark-colour.scss";
-@import "codemirror-cyber-dojo-light.scss";
-@import "codemirror-cyber-dojo-light-colour.scss";
+@import "codemirror-cyber-dojo-dark-colour-on.scss";
+@import "codemirror-cyber-dojo-dark-colour-off.scss";
+@import "codemirror-cyber-dojo-light-colour-on.scss";
+@import "codemirror-cyber-dojo-light-colour-off.scss";
 @import "codemirror-dialog.scss";
