@@ -89,7 +89,6 @@ var cyberDojo = ((cd, $) => {
 
   const setTheme = (editor) => {
     editor.setOption('theme', codeMirrorTheme());
-    editor.setOption('smartIndent', codeMirrorSmartIndent());
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -150,15 +149,15 @@ var cyberDojo = ((cd, $) => {
   const editorOptions = (filename) => {
     return {
           indentUnit: cd.syntaxHighlightTabSize,
-             tabSize: cd.syntaxHighlightTabSize,
             readOnly: cd.isOutputFile(filename),
-       matchBrackets: true,
+             tabSize: cd.syntaxHighlightTabSize,
          lineNumbers: true,
-        lineWrapping: codeMirrorLineWrapping(filename),
+       matchBrackets: true,
+         smartIndent: true,
       indentWithTabs: codeMirrorIndentWithTabs(filename),
-               theme: codeMirrorTheme(),
-         smartIndent: codeMirrorSmartIndent(),
+        lineWrapping: codeMirrorLineWrapping(filename),
                 mode: codeMirrorMode(filename),
+               theme: codeMirrorTheme(),
     };
   };
 
@@ -185,8 +184,6 @@ var cyberDojo = ((cd, $) => {
     const inColour = (colour === '') ? '' : '-colour';
     return 'cyber-dojo-' + theme + inColour;
   };
-
-  const codeMirrorSmartIndent = () => colour !== '';
 
   const codeMirrorMode = (filename) => {
     filename = filename.toLowerCase();
