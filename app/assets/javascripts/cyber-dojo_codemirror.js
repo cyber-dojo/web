@@ -102,7 +102,7 @@ var cyberDojo = ((cd, $) => {
     textArea.style.display = 'none';
     editor.cyberDojoTextArea = textArea;
     editor.setValue(textArea.value);
-
+    setCodeMirrorFont(editor, filename);
     editor.getWrapperElement().id = syntaxHighlightFileContentForId(filename);
     bindHotKeys(editor);
 
@@ -162,8 +162,19 @@ var cyberDojo = ((cd, $) => {
     };
   };
 
+  // line-wrapping? proportional-font?
+  // Using the file extension is problematic because
+  // some .txt files need a monospace font. Eg
+  // reports/coverage.txt (produced by gcov).
+
+  const setCodeMirrorFont = (editor, filename) => {
+    if (filename === 'readme.txt') {
+      editor.getWrapperElement().style.fontFamily = 'Arial, Helvetica, Verdana, sans-serif';
+    }
+  };
+
   const codeMirrorLineWrapping = (filename) => {
-    return ['readme.txt', 'stdout', 'stderr'].includes(filename);
+    return ['readme.txt','stdout', 'stderr'].includes(filename);
   };
 
   const codeMirrorIndentWithTabs = (filename) => {
