@@ -2,15 +2,23 @@
 'use strict';
 var cyberDojo = ((cd, $) => {
 
-  let colour = 'colour';  // 'colour' || ''
-  let theme = 'dark';     // 'dark' || 'light'
+  // This is controlled by the [theme?] button.
+  // It's two values are 'dark' || 'light'
+  // It is different to the four CodeMirror themes below.
+  let theme = 'dark';
+
+  // This is controlled by the [colour?] button.
+  // It's two values are 'colour' || '' for colour on|off
+  let colour = 'colour';
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // 4 CodeMirror css themes are called
-  // o) dark
-  // o) dark-colour
-  // o) light
-  // o) light-colour
+  // There are four CodeMirror css themes. Their names are the formed
+  // by combining the two theme values with the two colour values.
+  //   'dark'   'dark-colour'  'light'   'light-colour'
+  const codeMirrorTheme = () => {
+    const inColour = (colour === '') ? '' : '-colour';
+    return 'cyber-dojo-' + theme + inColour;
+  };
 
   cd.setupThemeColourButtonsClickHandlers = (theme,colour) => {
     setupThemeButton(theme);
@@ -178,11 +186,6 @@ var cyberDojo = ((cd, $) => {
 
   const codeMirrorIndentWithTabs = (filename) => {
     return filename.toLowerCase() === 'makefile';
-  };
-
-  const codeMirrorTheme = () => {
-    const inColour = (colour === '') ? '' : '-colour';
-    return 'cyber-dojo-' + theme + inColour;
   };
 
   const codeMirrorMode = (filename) => {
