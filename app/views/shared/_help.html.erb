@@ -3,12 +3,16 @@
 'use strict';
 $(() => {
 
-  $('#help-button').click(() => {
+  const helpButton = $('#help-button');
+
+  helpButton.click(() => {
     const url = "http://blog.cyber-dojo.org/2014/10/the-cyber-dojo-history-dialog.html";
     window.open(url);
   });
 
+  cd.createTip(helpButton, 'open help page');
+
 });
 //--></script>
 
-<button type="button" id="help-button">help?</button>
+<button type="button" id="help-button">help</button>

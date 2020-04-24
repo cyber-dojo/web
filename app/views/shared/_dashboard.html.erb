@@ -2,10 +2,16 @@
 <script type="text/javascript"><!--
 'use strict';
 $(() => {
-  $('#dashboard-button').click(() => {
+
+  const dashboardButton = $('#dashboard-button');
+
+  dashboardButton.click(() => {
     const url = `/dashboard/show/<%= @group_id %>`;
     window.open(url);
   });
+
+  cd.createTip(dashboardButton, 'open dashboard page');
+
 });
 //--></script>
 

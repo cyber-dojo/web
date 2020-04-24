@@ -44,7 +44,9 @@
      margin: { top: 7px; right: 0px; }
   }
 
-  #help-button, #hotkeys-button, #theme-button, #colour-button, #predict-button, #dashboard-button
+  #theme-button, #colour-button,
+  #dashboard-button,
+  #help-button, #hotkeys-button, #predict-button, #shas-button
   {
     @include rounded-corner(4px);
        padding: { left: 7px; right: 7px; top: 1px; bottom: 1px; }
