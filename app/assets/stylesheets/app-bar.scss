@@ -45,8 +45,7 @@
   }
 
   #theme-button, #colour-button,
-  #dashboard-button,
-  #help-button, #hotkeys-button, #predict-button, #shas-button
+  #dashboard-button, #help-button, #hotkeys-button, #predict-button, #shas-button
   {
     @include rounded-corner(4px);
        padding: { left: 7px; right: 7px; top: 1px; bottom: 1px; }
@@ -55,12 +54,9 @@
      font-size: 0.60em;
   }
 
-  #theme-button, #colour-button, #predict-button { display:none; }
+  #theme-button, #colour-button, #hotkeys-button, #predict-button { display:none; }
 
-  #display-name-box,
-  #exercise-name-box,
-  #id-box,
-  #group-id-box
+  #display-name-box, #exercise-name-box, #id-box, #group-id-box
   {
     font-size: 0.70em;
     @include edged-panel();
