@@ -11,7 +11,7 @@ $(() => {
 
   const hotkeysDialog = () => {
     let html = '';
-    html += '<div id="hotkeys-dialog">';
+    html += '<div>';
     html += '<table>';
     html += tr2('Alt-J', 'cycles forwards through the upper filenames');
     html += tr2('Alt-K', 'cycles backwards through the upper filenames');
@@ -35,7 +35,7 @@ $(() => {
            autoOpen: true,
       closeOnEscape: true,
               modal: true,
-              title: cd.dialogTitle('hotkeys?'),
+              title: cd.dialogTitle('hotkeys'),
             buttons: { close: () => {
                 node.remove();
                 cd.editorRefocus();

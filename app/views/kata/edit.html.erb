@@ -14,8 +14,8 @@
 'use strict';
 $(() => {
   cd.kataId = () => "<%= @id %>";
-  //cd.predictButton().show();
   cd.setupThemeColourButtonsClickHandlers("<%= @theme %>", "<%= @colour %>");
+  //cd.setupPredictButton("<%= @predict %>");
   cd.loadInitialFile();
   cd.scrollLastTrafficLightIntoView();
 });

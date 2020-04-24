@@ -99,6 +99,28 @@ class Kata
 
   # - - - - - - - - - - - - - - - - -
 
+  def predict
+    filename = kata_id_path(id, 'predict')
+    result = saver.run(saver.file_read_command(filename))
+    if result
+      result.lines.last
+    else
+      'off' # default (other options in 'on')
+    end
+  end
+
+  def predict=(value)
+    # value == 'on'|'off'
+    filename = kata_id_path(id, 'predict')
+    # There is no file-write command (yet)
+    saver.run_all([
+      saver.file_create_command(filename, "\n"+value),
+      saver.file_append_command(filename, "\n"+value)
+    ])
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
   def diff_info(was_index, now_index)
     m,e,was,now = kata.diff_info(id, was_index, now_index)
     was_files = diff_files(was)

@@ -31,6 +31,7 @@ class KataController < ApplicationController
     # colour-syntax
     @theme = kata.theme
     @colour = kata.colour
+    @predict = kata.predict;
   end
 
   # - - - - - - - - - - - - - - - - - -
@@ -41,6 +42,10 @@ class KataController < ApplicationController
 
   def set_theme
     kata.theme = params['value']
+  end
+
+  def set_predict
+    kata.predict = params['value']
   end
 
   # - - - - - - - - - - - - - - - - - -

@@ -307,27 +307,34 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
   v_tests [0,1], '826', %w(
-  the default colour-syntax theme is dark
+  the default colour-theme is dark
   ) do
     in_new_kata do |kata|
       assert_equal  'dark', kata.theme
     end
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - -
-
   v_tests [0,1], '827', %w(
-  the default colour-syntax colour is on
+  the default for colour-syntax is on
   ) do
     in_new_kata do |kata|
       assert_equal  'on', kata.colour
     end
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - -
 
   v_tests [0,1], '828', %w(
-  setting the colour-syntax theme is persistent
+  the default for prediction is off
+  ) do
+    in_new_kata do |kata|
+      assert_equal  'off', kata.predict
+    end
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - -
+
+  v_tests [0,1], '926', %w(
+  setting the colour-theme is persistent
   ) do
     in_new_kata do |kata|
       kata.theme = 'light'
@@ -337,16 +344,25 @@ class KataTest < AppModelsTestBase
     end
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - -
-
-  v_tests [0,1], '829', %w(
-  setting the colour-syntax colour is persistent
+  v_tests [0,1], '927', %w(
+  setting the colour-syntax is persistent
   ) do
     in_new_kata do |kata|
       kata.colour = 'off'
       assert_equal  'off', kata.colour
       kata.colour = 'on'
       assert_equal  'on', kata.colour
+    end
+  end
+
+  v_tests [0,1], '928', %w(
+  setting the prediction is persistent
+  ) do
+    in_new_kata do |kata|
+      kata.predict = 'on'
+      assert_equal  'on', kata.predict
+      kata.predict = 'off'
+      assert_equal  'off', kata.predict
     end
   end
 

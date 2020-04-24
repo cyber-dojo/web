@@ -30,6 +30,7 @@ CyberDojo::Application.routes.draw do
     post 'run_tests(/:id)'  => :run_tests
     post 'set_theme'        => :set_theme
     post 'set_colour'       => :set_colour
+    post 'set_predict'      => :set_predict
     get  'edit_offline'     => :edit_offline
   end
 

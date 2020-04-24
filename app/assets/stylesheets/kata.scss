@@ -117,6 +117,21 @@ input#new-filename, input#rename-filename, input#delete-filename
        width: 200px;
 }
 
+img.predict { width:22px; height:22px; }
+#predict-text { display: inline; }
+#predict-blurb
+{
+  margin-left:10px;
+  position: relative;
+  top: -2px;
+}
+#predict-box
+{
+  @include edged-panel();
+  margin-top: 15px;
+  background: lighten($darker-color,8%);
+}
+
 #error
 {
   width: 580px;
