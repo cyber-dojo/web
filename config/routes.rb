@@ -1,9 +1,13 @@
 
+def json_triple(data)
+  [ 200, {"Content-Type" => "application/json"}, [data.to_json] ]
+end
+
 CyberDojo::Application.routes.draw do
 
-  get '/alive', to: proc { [200, {}, ['{"alive?":true}']] }
-  get '/ready', to: proc { [200, {}, ['{"ready?":true}']] }
-  get '/sha',   to: proc { [200, {}, ["{\"sha\":#{ENV['SHA']}}"]] }
+  get '/alive'  , to: proc { json_triple("alive?" => true      ) }
+  get '/ready'  , to: proc { json_triple("ready?" => true      ) }
+  get '/web/sha', to: proc { json_triple(   "sha" => ENV['SHA']) }
 
   root :to => 'dojo#index'
 
