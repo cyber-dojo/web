@@ -2,22 +2,50 @@
 #app-bar
 {
   @include plaintext-font();
+     display: flex;
   background: lighten($darker-color, 8%);
        color: $lighter-color;
    font-size: 1.05em;
        width: 100%;
-      height: 30px;
+      height: 23px;
   text-align: left;
-     padding: { left: 35px; top: 0px; bottom: 2px; }
+     padding: { left: 35px; top: 4px; bottom: 3px; }
     position: fixed;
-      top: 0px;
+         top: 0px;
      z-index: 1000;
 
-  #tweet-box #twitter-widget-0
+  #display-name-box, #exercise-name-box, #id-box, #group-id-box
   {
-    position: relative;
-         top: 5px;
-      margin: { top: 7px; left: 4px; right: 4px; }
+    @include edged-panel();
+    font-size: 10px;
+    cursor: default;
+    background: $darker-color;
+    display: inline-table;
+    margin: { left:3px; right:3px; }
+  }
+
+  #tweet-box
+  {
+    position:relative;
+    top:1px;
+    #twitter-widget-0 { margin: { top:0px; left:3px; right:3px; } }
+  }
+
+  #praqma-box #praqma-image
+  {
+    @include rounded-corner(2px);
+    padding: 0px;
+     height: 15px;
+     margin: { top:0px; left:3px; right:3px; }
+     position: relative;
+     top: 3px;
+  }
+
+  #cucumber-box #cucumber-image
+  {
+    padding: 0px;
+     height: 19px;
+     margin: { left:3px; right:3px; }
   }
 
   #accu-box #accu-image
@@ -26,41 +54,26 @@
     background: CornSilk;
        padding: 5px;
          width: 50px;
-        margin: { top: 7px; right: 4px; }
-  }
-
-  #cucumber-box #cucumber-image
-  {
-    padding: 0px;
-     height: 27px;
-     margin: { left: 0px; right: 4px; }
-  }
-
-  #praqma-box #praqma-image
-  {
-    @include rounded-corner(3px);
-    padding: 0px;
-     height: 15px;
-     margin: { top: 7px; right: 0px; }
+        margin: { top:0px; left:3px; right:3px; }
+        position: relative;
+        top: 2px;
   }
 
   #theme-button, #colour-button,
-  #dashboard-button, #help-button, #hotkeys-button, #predict-button, #shas-button
+  #dashboard-button, #help-button, #hotkeys-button,
+  #predict-button, #shas-button
   {
     @include rounded-corner(4px);
-       padding: { left: 7px; right: 7px; top: 1px; bottom: 1px; }
-        margin: { bottom: 3px; top: 3px; right: 0px; }
+       display: block;
+       padding: { left:7px; right:7px; top:0px; bottom:1px; }
+        margin: { top:0px; bottom:0px; left:3px; right:3px; }
          color: darken($darker-color, 10%);
-     font-size: 0.60em;
+     font-size: 10px;
+        height: 17px;
+        position: relative;
+        top: 2px;
   }
 
   #theme-button, #colour-button, #hotkeys-button, #predict-button { display:none; }
 
-  #display-name-box, #exercise-name-box, #id-box, #group-id-box
-  {
-    font-size: 0.70em;
-    @include edged-panel();
-    cursor: default;
-    background: $darker-color;
-  }
 }
