@@ -143,7 +143,12 @@ input#new-filename, input#rename-filename, input#delete-filename
        width: 200px;
 }
 
-img.predict { width:22px; height:22px; }
+img.predict
+{
+  width:42px;
+  height:42px;
+  cursor: pointer;
+}
 #predict-text { display: inline; }
 #predict-blurb
 {

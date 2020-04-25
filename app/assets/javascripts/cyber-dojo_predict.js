@@ -36,44 +36,54 @@ var cyberDojo = ((cd, $) => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  cd.predictTrafficLight = (input) => {
+  cd.predictTrafficLight = (input, handler) => {
     // Called from the test-button handler
     if (cd.predictOn()) {
-      // TODO: get from dialog
-      alert('get red|amber|green prediction...')
-      const prediction = 'amber';
-      input.val(prediction);
+      makePredictionDialog(input, handler);
+    } else {
+      handler();
     }
   };
 
-
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const showPredictOptionDialog = () => {
+  const makePredictionDialog = (input, handler) => {
     let html = '';
-    html += '<div>'
+    html += '<div id="prediction-dialog">'
     html += '<table>';
-    html += `<tr><td>${light('red')}</td><td rowspan="3">${blurb()}</td></tr>`;
-    html += trTd(light('amber'));
-    html += trTd(light('green'));
+    html += tr2('red',     redBlurb());
+    html += tr2('amber', amberBlurb());
+    html += tr2('green', greenBlurb());
     html += '</table>';
-    html += checkBoxHtml();
     html += '</div>';
     const node = $(html);
+    $('img#predict-red',node).click(() => {
+      input.val('red');
+      node.remove();
+      handler();
+    });
+    $('img#predict-amber',node).click(() => {
+      input.val('amber');
+      node.remove();
+      handler();
+    });
+    $('img#predict-green',node).click(() => {
+      input.val('green');
+      node.remove();
+      handler();
+    });
     node.dialog({
               width: '300',
            autoOpen: true,
       closeOnEscape: true,
               modal: true,
-              title: cd.dialogTitle('predict?'),
+              title: cd.dialogTitle('predict!'),
             buttons: { close: () => {
                 node.remove();
-                cd.editorRefocus();
               }
             },
         beforeClose: event => {
           if (event.keyCode === $.ui.keyCode.ESCAPE) {
             node.remove();
-            cd.editorRefocus();
             return true;
           }
         }
@@ -81,37 +91,30 @@ var cyberDojo = ((cd, $) => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const blurb = () => {
+  const redBlurb = () => {
     return [
-      '<div id="predict-blurb">',
-      'When on, you will be asked to predict',
-      'the traffic-light colour.',
-      '</div>'
+      'red-blurb'
+    ].join(' ');
+  };
+  const amberBlurb = () => {
+    return [
+      'amber-blurb'
+    ].join(' ');
+  };
+  const greenBlurb = () => {
+    return [
+      'green-blurb'
     ].join(' ');
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const light = (rag) => {
-    return `<img class="predict" src="/traffic-light/image/${rag}_predicted_${rag}.png">`;
+  const lightImg = (rag) => {
+    return `<img class="predict" id="predict-${rag}" src="/traffic-light/image/${rag}_predicted_${rag}.png">`;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const checkBoxHtml = () => {
-    return [
-      '<div id="predict-box">',
-      '<div id="predict-text">predict&nbsp;traffic-light&nbsp;colour?</div>',
-      '<input id="predict-checkbox"',
-      'type="checkbox"',
-      `class="regular-checkbox" ${predict==='on'?'checked':''}`,
-      'onchange="cd.predictOptionChange(this)"/>',
-      '<label for="predict-checkbox"></label>',
-      '</div>'
-    ].join(' ');
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const trTd = (s) => {
-    return `<tr><td>${s}</td><td></td></tr>`;
+  const tr2 = (rag, blurb) => {
+    return `<tr><td>${lightImg(rag)}</td><td>${blurb}</td></tr>`;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -

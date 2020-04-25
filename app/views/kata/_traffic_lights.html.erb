@@ -150,7 +150,7 @@ $(() => {
       'id':'miss-img',
       'src':'/traffic-light/image/circle-miss.png'
     });
-    const colour = lastEventPredictedIncorrectly() ? counts.lastEvent.colour : '';
+    const colour = lastEventPredictedIncorrectly() ? counts.lastEvent.predicted : '';
     const $missCount = $('<div>', {
       'id':'miss-count',
       'class':colour
