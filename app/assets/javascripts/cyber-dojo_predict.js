@@ -13,13 +13,24 @@ var cyberDojo = ((cd, $) => {
   cd.setupPredictButton = (value) => {
     // Called from kata/edit to make the button visible.
     predict = value;
-    cd.predictButton().show().click(() => showPredictOptionDialog());
+    switch (predict) {
+      case 'on' :
+        cd.predictButton().clickToggle(setPredictOff, setPredictOn);
+        break;
+      case 'off':
+        cd.predictButton().clickToggle(setPredictOn, setPredictOff);
+        break;
+    }
+    cd.predictButton().show();
   };
 
+  const setPredictOn = () => setPredict('on');
+  const setPredictOff = () => setPredict('off');
+
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  cd.predictOptionChange = (checkbox) => {
+  const setPredict = (value) => {
     // Called from the predict-option dialog
-    predict = checkbox.checked ? 'on' : 'off';
+    predict = value;
     $.post('/kata/set_predict', { id:cd.kataId(), value:predict });
     cd.updateTrafficLightsCount();
   };
