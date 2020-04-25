@@ -104,7 +104,7 @@ $(() => {
   const updateTrafficLightsTotalCount = () => {
     const total = counts.red + counts.amber + counts.green + counts.timed_out;
     const $newCount = $('<div>', {
-      'class': `traffic-light-count ${counts.lastEvent.colour}`,
+      'class': `traffic-light-count ${lastEventColour()}`,
       'data-tip': 'traffic_light_count',
       'data-red-count': counts.red,
       'data-amber-count': counts.amber,
@@ -118,9 +118,12 @@ $(() => {
     });
   };
 
+  const lastEventColour = () => {
+    const last = counts.lastEvent;
+    return last ? last.colour : '';
+  };
+
   const updateTrafficLightsPredictCount = () => {
-    // TODO if prediction was correct show count.hit in its counts.lastEvent.colour
-    // TODO if prediction was incorrect show counts.miss in counts.lastEvent.colour
     const total = counts.hit + counts.miss;
     box.fadeOut('fast', () => {
       box.empty().append(hitBox()).append(missBox());
@@ -134,8 +137,10 @@ $(() => {
       'id':'hit-img',
       'src':'/traffic-light/image/circle-hit.png'
     });
+    const colour = lastEventPredictedCorrectly() ? counts.lastEvent.colour : '';
     const $hitCount = $('<div>', {
-      'id':'hit-count'
+      'id':'hit-count',
+      'class':colour
     }).text(counts.hit);
     return $('<div>', {'id':'hit-box'}).append($hitImg).append($hitCount);
   };
@@ -145,10 +150,22 @@ $(() => {
       'id':'miss-img',
       'src':'/traffic-light/image/circle-miss.png'
     });
+    const colour = lastEventPredictedIncorrectly() ? counts.lastEvent.colour : '';
     const $missCount = $('<div>', {
-      'id':'miss-count'
+      'id':'miss-count',
+      'class':colour
     }).text(counts.miss);
     return $('<div>', {'id':'miss-box'}).append($missImg).append($missCount);
+  };
+
+  const lastEventPredictedCorrectly = () => {
+    const last = counts.lastEvent;
+    return last && last.predicted && last.predicted == last.colour;
+  };
+
+  const lastEventPredictedIncorrectly = () => {
+    const last = counts.lastEvent;
+    return last && last.predicted != 'none' && last.predicted != last.colour;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
