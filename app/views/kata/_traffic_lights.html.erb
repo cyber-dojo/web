@@ -65,6 +65,8 @@ $(() => {
     wasIndex(event.index);
   };
 
+  const isRag = (s) => ['red','amber','green'].includes(s);
+
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const counts = {
     red:0,
@@ -79,7 +81,7 @@ $(() => {
     const colour = event.colour;
     const predicted = event.predicted;
     counts[colour] += 1;
-    counts.lastColour = colour;
+    counts.lastEvent = event;
     if (predicted && predicted != 'none') {
       if (colour === predicted) {
         counts.hit += 1;
@@ -90,33 +92,69 @@ $(() => {
   };
 
   cd.updateTrafficLightsCount = () => {
-    const total = counts.red + counts.amber + counts.green + counts.timed_out;
-    if (total > 0) {
-      const box = $('#traffic-lights-count-box');
-      const $newCount = $('<div>', {
-        'class': `traffic-light-count ${counts.lastColour}`,
-        'data-tip': 'traffic_light_count',
-        'data-red-count': counts.red,
-        'data-amber-count': counts.amber,
-        'data-green-count': counts.green,
-        'data-timed-out-count': counts.timed_out
-      }).text(total);
-      box.fadeOut('slow', () => {
-        box.empty().append($newCount);
-        cd.setupHoverTips($('.traffic-light-count'));
-        box.fadeIn('slow');
-      });
+    if (cd.predictOn()) {
+      updateTrafficLightsPredictCount();
+    } else {
+      updateTrafficLightsTotalCount();
     }
   };
 
-  const isRag = (s) => ['red','amber','green'].includes(s);
+  const box = $('#traffic-lights-count-box');
+
+  const updateTrafficLightsTotalCount = () => {
+    const total = counts.red + counts.amber + counts.green + counts.timed_out;
+    const $newCount = $('<div>', {
+      'class': `traffic-light-count ${counts.lastEvent.colour}`,
+      'data-tip': 'traffic_light_count',
+      'data-red-count': counts.red,
+      'data-amber-count': counts.amber,
+      'data-green-count': counts.green,
+      'data-timed-out-count': counts.timed_out
+    }).text(total);
+    box.fadeOut('fast', () => {
+      box.empty().append($newCount);
+      cd.setupHoverTips($('.traffic-light-count'));
+      box.fadeIn('fast');
+    });
+  };
+
+  const updateTrafficLightsPredictCount = () => {
+    // TODO if prediction was correct show count.hit in its counts.lastEvent.colour
+    // TODO if prediction was incorrect show counts.miss in counts.lastEvent.colour
+    const total = counts.hit + counts.miss;
+    box.fadeOut('fast', () => {
+      box.empty().append(hitBox()).append(missBox());
+      // TODO set hover-tips
+      box.fadeIn('fast');
+    });
+  };
+
+  const hitBox = () => {
+    const $hitImg = $('<img>', {
+      'id':'hit-img',
+      'src':'/traffic-light/image/circle-hit.png'
+    });
+    const $hitCount = $('<div>', {
+      'id':'hit-count'
+    }).text(counts.hit);
+    return $('<div>', {'id':'hit-box'}).append($hitImg).append($hitCount);
+  };
+
+  const missBox = () => {
+    const $missImg = $('<img>', {
+      'id':'miss-img',
+      'src':'/traffic-light/image/circle-miss.png'
+    });
+    const $missCount = $('<div>', {
+      'id':'miss-count'
+    }).text(counts.miss);
+    return $('<div>', {'id':'miss-box'}).append($missImg).append($missCount);
+  };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const events = <%= raw @events_json.gsub("\n",'') %>;
   events.forEach((event) => cd.appendTrafficLight(event));
-  cd.updateTrafficLightsCount();
-  cd.scrollLastTrafficLightIntoView(); // TODO: sometimes misses last few on refresh
 
 });
 //--></script>

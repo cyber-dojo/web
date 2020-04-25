@@ -5,6 +5,11 @@ var cyberDojo = ((cd, $) => {
   let predict = undefined; // 'on'|'off'
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
+  cd.predictOn = () => {
+    return predict === 'on';
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
   cd.setupPredictButton = (value) => {
     // Called from kata/edit to make the button visible.
     predict = value;
@@ -16,16 +21,18 @@ var cyberDojo = ((cd, $) => {
     // Called from the predict-option dialog
     predict = checkbox.checked ? 'on' : 'off';
     $.post('/kata/set_predict', { id:cd.kataId(), value:predict });
+    cd.updateTrafficLightsCount();
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   cd.predictTrafficLight = (input) => {
     // Called from the test-button handler
-    if (predict === 'off') { return; }
-
-    alert('get red|amber|green prediction...')
-    const prediction = 'amber'; // TODO: get from dialog
-    input.val(prediction);
+    if (cd.predictOn()) {
+      // TODO: get from dialog
+      alert('get red|amber|green prediction...')
+      const prediction = 'amber';
+      input.val(prediction);
+    }
   };
 
 
@@ -66,8 +73,8 @@ var cyberDojo = ((cd, $) => {
   const blurb = () => {
     return [
       '<div id="predict-blurb">',
-      'When on, each test submission will ask you to',
-      'predict the colour of the forthcoming traffic-light.',
+      'When on, you will be asked to predict',
+      'the traffic-light colour.',
       '</div>'
     ].join(' ');
   };

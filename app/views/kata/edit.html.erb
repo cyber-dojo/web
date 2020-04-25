@@ -17,6 +17,8 @@ $(() => {
   cd.setupThemeColourButtonsClickHandlers("<%= @theme %>", "<%= @colour %>");
   cd.setupPredictButton("<%= @predict %>");
   cd.setupHotkeysButton();
+  cd.updateTrafficLightsCount();
+  cd.scrollLastTrafficLightIntoView(); // TODO: sometimes misses last few on refresh?  
   cd.loadInitialFile();
 });
 //--></script>

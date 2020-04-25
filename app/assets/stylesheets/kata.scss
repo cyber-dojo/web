@@ -27,7 +27,7 @@
     @include non-code-font();
     @include font-size-medium();
            display: inline;
-            margin: 0px;
+            margin: { right: 2px; }
            padding: { top: 0px; bottom: 2px; left: 7px; right: 7px; }
         text-align: center;
           position: relative;
@@ -78,8 +78,34 @@
 
   #traffic-lights-count-box
   {
-     display:inline-block;
+     display:inline-flex;
      position:relative; top:2px;
+
+     #hit-box, #miss-box
+     {
+       @include edged-panel();
+       display: inline-flex;
+       position:relative;
+       top:-4px;
+       margin: { left:2px; right:4px; }
+       max-height:20px;
+     }
+
+     #hit-img, #miss-img
+     {
+       width:10px;
+       height:10px;
+       padding: { left:3px; right:3px; }
+       position:relative;
+       top:5px;
+     }
+     #hit-count, #miss-count
+     {
+       font-size: 22px;
+       position:relative;
+       top:-3px;
+       padding: { left:3px; right:3px; }
+     }
   }
   #traffic-lights
   {
