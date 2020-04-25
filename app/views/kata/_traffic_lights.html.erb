@@ -9,6 +9,21 @@ $(() => {
   const avatarIndex = '<%= @avatar_index %>';
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // The index of most-recent (rightmost) traffic-light.
+  // Updated in the browser and sent to the web service
+  // as an optimization (so the web service does not need to
+  // retrieve it from saver).
+  const inputIndex = $("input[name='index']");
+
+  const wasIndex = (value) => {
+    if (value === undefined) {
+      return inputIndex.val();
+    } else {
+      inputIndex.val(value);
+    }
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // There are two sequences of traffic-lights:
   // o) kata-page traffic-lights live under #traffic-lights.
   //    Click any of these to open the diff-review
@@ -17,48 +32,26 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // cd.setupTrafficLights() sets up the tip/click handlers
+  // cd.appendTrafficLight() sets up the tip/click handlers
   // for the kata-page (but not review-page) traffic-lights.
   // It is called in two places:
   //   1) From this file
   //      - This happens when a page loads.
-  //      - It sets up the *existing* traffic-lights.
+  //      - It sets up the existing traffic-lights.
   //   2) From run_tests.js.erb
   //      - This happens when you run the [test]s
-  //      - It sets up the *new* traffic-light.
+  //      - It sets up the new traffic-light.
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const inputIndex = $("input[name='index']"); // the index of most-recent
-                                               // (rightmost) traffic-light.
-  cd.setupTrafficLights = ($lights) => {
-    let wasIndex = inputIndex.val(); // [1]
-    $lights.each((_i,element) => {
-      const $light = $(element);
-      const id = $light.data('id');
-      const avatarIndex = $light.data('avatar-index');
-      const now = $light.data('index');
-      const was = wasIndex; // Avoid lambda capture
-      $light.click(() => cd.setReviewData(version, id, groupId, avatarName, avatarIndex, was, now));
-      cd.setupTrafficLightTip($light, version, id, avatarIndex, was, now);
-      wasIndex = now;
-    });
-    inputIndex.val(wasIndex);
-  };
-
-  //const allLights = $('.diff-traffic-light', '#traffic-lights');
-  //inputIndex.val(0); // [1] Ensure wasIndex == 0 on page *refresh*.
-  //cd.setupTrafficLights(allLights);
-
   const $lights = $('#traffic-lights');
-  const events = <%= raw @events_json.gsub("\n",'') %>;
-  let wasIndex = inputIndex.val(); // [1]
-  events.forEach((event,index) => {
+
+  cd.appendTrafficLight = (event) => {
     const colour = event.colour;
     if (colour) {
       const $div = $('<div>', {
         'class':'diff-traffic-light',
         'data-id':id,
-        'data-index':index,
+        'data-index':event.index,
         'data-avatar-index':avatarIndex,
         'data-colour':colour
       });
@@ -69,25 +62,19 @@ $(() => {
         'alt':`${colour} traffic-light`
       });
       const $light = $div.append($img);
-      const now = index;
-      const was = wasIndex; // Avoid lambda capture
       $lights.append($light);
-      $light.click(() => cd.setReviewData(version, id, groupId, avatarName, avatarIndex, was, now));
-      cd.setupTrafficLightTip($light, version, id, avatarIndex, was, now);
-      wasIndex = now;
+      $light.click(() => cd.setReviewData(version, id, groupId, avatarName, avatarIndex, wasIndex(), event.index));
+      cd.setupTrafficLightTip($light, version, id, avatarIndex, wasIndex(), event.index);
     }
-  });
+    wasIndex(event.index);
+  };
 
+  const events = <%= raw @events_json.gsub("\n",'') %>;
+  events.forEach((event) => cd.appendTrafficLight(event));
 
 });
 //--></script>
 
-<input type="hidden" name="index" value="">
+<input type="hidden" name="index" value="0">
 
-<div id="traffic-lights">
-  <!--
-  <% @lights.each do |light| %>
-    <%= raw diff_traffic_light(light, @avatar_index) %>
-  <% end %>
-  -->
-</div>
+<div id="traffic-lights"></div>

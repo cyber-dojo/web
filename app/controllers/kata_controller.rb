@@ -83,7 +83,9 @@ class KataController < ApplicationController
     args << predicted
     begin
       kata.ran_tests(*args)
-    rescue SaverService::Error
+    rescue SaverService::Error => error
+      STDOUT.puts(error.message)
+      STDOUT.flush
       #TODO: @message on footer...
     end
     @avatar_index = params[:avatar_index]
@@ -93,6 +95,12 @@ class KataController < ApplicationController
       'colour' => colour,
       'predicted' => predicted,
     })
+    @event = {
+      'time' => t1,
+      'index' => index,
+      'colour' => colour,
+      'predicted' => predicted,
+    }.to_json
     @id = kata.id
 
     respond_to do |format|
