@@ -15,7 +15,7 @@
 $(() => {
   cd.kataId = () => "<%= @id %>";
   cd.setupThemeColourButtonsClickHandlers("<%= @theme %>", "<%= @colour %>");
-  //cd.setupPredictButton("<%= @predict %>");
+  cd.setupPredictButton("<%= @predict %>");
   cd.setupHotkeysButton();
   cd.loadInitialFile();
   cd.scrollLastTrafficLightIntoView();

@@ -18,6 +18,7 @@ class KataController < ApplicationController
     @display_name = manifest.display_name
     @exercise = manifest.exercise
     # previous traffic-light-lights
+    @events_json = kata.events_json
     @lights = kata.lights
     # most recent files
     @files = kata.files(:with_output)

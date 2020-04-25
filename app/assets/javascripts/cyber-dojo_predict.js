@@ -4,17 +4,33 @@ var cyberDojo = ((cd, $) => {
 
   let predict = undefined; // 'on'|'off'
 
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
   cd.setupPredictButton = (value) => {
+    // Called from kata/edit to make the button visible.
     predict = value;
-    cd.predictButton().show().click(() => predictDialog());
+    cd.predictButton().show().click(() => showPredictOptionDialog());
   };
 
-  cd.predictHandler = (checkbox) => {
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  cd.predictOptionChange = (checkbox) => {
+    // Called from the predict-option dialog
     predict = checkbox.checked ? 'on' : 'off';
     $.post('/kata/set_predict', { id:cd.kataId(), value:predict });
   };
 
-  const predictDialog = () => {
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  cd.predictTrafficLight = (input) => {
+    // Called from the test-button handler
+    if (predict === 'off') { return; }
+
+    alert('get red|amber|green prediction...')
+    const prediction = 'amber'; // TODO: get from dialog
+    input.val(prediction);
+  };
+
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  const showPredictOptionDialog = () => {
     let html = '';
     html += '<div>'
     html += '<table>';
@@ -24,7 +40,6 @@ var cyberDojo = ((cd, $) => {
     html += '</table>';
     html += checkBoxHtml();
     html += '</div>';
-
     const node = $(html);
     node.dialog({
               width: '300',
@@ -47,6 +62,7 @@ var cyberDojo = ((cd, $) => {
     });
   };
 
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
   const blurb = () => {
     return [
       '<div id="predict-blurb">',
@@ -56,10 +72,12 @@ var cyberDojo = ((cd, $) => {
     ].join(' ');
   };
 
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
   const light = (rag) => {
     return `<img class="predict" src="/traffic-light/image/${rag}_predicted_${rag}.png">`;
   };
 
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
   const checkBoxHtml = () => {
     return [
       '<div id="predict-box">',
@@ -67,18 +85,18 @@ var cyberDojo = ((cd, $) => {
       '<input id="predict-checkbox"',
       'type="checkbox"',
       `class="regular-checkbox" ${predict==='on'?'checked':''}`,
-      'onchange="cd.predictHandler(this)"/>',
+      'onchange="cd.predictOptionChange(this)"/>',
       '<label for="predict-checkbox"></label>',
       '</div>'
     ].join(' ');
   };
 
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
   const trTd = (s) => {
     return `<tr><td>${s}</td><td></td></tr>`;
   };
 
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
   return cd;
 
 })(cyberDojo || {}, jQuery);

@@ -3,9 +3,10 @@
 $(() => {
 
   const version = '<%= @version %>';
+  const id = '<%= @id %>';
+  const groupId = '<%= @group_id %>';
   const avatarName = '<%= @avatar_name %>';
   const avatarIndex = '<%= @avatar_index %>';
-  const groupId = '<%= @group_id %>';
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // There are two sequences of traffic-lights:
@@ -44,19 +45,49 @@ $(() => {
     inputIndex.val(wasIndex);
   };
 
-  const allLights = $('.diff-traffic-light', '#traffic-lights');
-  inputIndex.val(0); // [1] Ensure wasIndex == 0 on page *refresh*.
-  cd.setupTrafficLights(allLights);
+  //const allLights = $('.diff-traffic-light', '#traffic-lights');
+  //inputIndex.val(0); // [1] Ensure wasIndex == 0 on page *refresh*.
+  //cd.setupTrafficLights(allLights);
+
+  const $lights = $('#traffic-lights');
+  const events = <%= raw @events_json.gsub("\n",'') %>;
+  let wasIndex = inputIndex.val(); // [1]
+  events.forEach((event,index) => {
+    const colour = event.colour;
+    if (colour) {
+      const $div = $('<div>', {
+        'class':'diff-traffic-light',
+        'data-id':id,
+        'data-index':index,
+        'data-avatar-index':avatarIndex,
+        'data-colour':colour
+      });
+      const predicted = event.predicted || 'none';
+      const suffix = ['red','amber','green'].includes(colour) ? `_predicted_${predicted}` : '';
+      const $img = $('<img>', {
+        'src':`/traffic-light/image/${colour}${suffix}.png`,
+        'alt':`${colour} traffic-light`
+      });
+      const $light = $div.append($img);
+      const now = index;
+      const was = wasIndex; // Avoid lambda capture
+      $lights.append($light);
+      $light.click(() => cd.setReviewData(version, id, groupId, avatarName, avatarIndex, was, now));
+      cd.setupTrafficLightTip($light, version, id, avatarIndex, was, now);
+      wasIndex = now;
+    }
+  });
+
 
 });
 //--></script>
 
-<input type="hidden"
-       name="index"
-       value="">
+<input type="hidden" name="index" value="">
 
 <div id="traffic-lights">
+  <!--
   <% @lights.each do |light| %>
     <%= raw diff_traffic_light(light, @avatar_index) %>
   <% end %>
+  -->
 </div>

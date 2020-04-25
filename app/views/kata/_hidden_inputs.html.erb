@@ -1,29 +1,15 @@
 
-<input type="hidden"
-       name="avatar_index"
-       value="<%= @avatar_index %>">
-
-<input id="hidden_filenames"
+<input name="hidden_filenames"
+       id="hidden_filenames"
        type="hidden"
-       name="hidden_filenames"
        value='<%= raw JSON.generate(@hidden_filenames) %>'>
 <%# Note %>
 <%# 1) The value attribute uses single quotes               %>
 <%# 2) The json contains double quotes                      %>
 <%# 3) The @hidden_filenames must not contain single quotes %>
 
-<input type="hidden"
-       name="image_name"
-       value="<%= raw @image_name %>">
-
-<input type="hidden"
-       name="max_seconds"
-       value="<%= @max_seconds %>">
-
-<input type="hidden"
-       name="predicted"
-       value="none">
-
-<input type="hidden"
-       name="version"
-       value="<%= @version %>">
+<input name="avatar_index" type="hidden" value="<%= @avatar_index %>">
+<input name="image_name"   type="hidden" value="<%= raw @image_name %>">
+<input name="max_seconds"  type="hidden" value="<%= @max_seconds %>">
+<input name="predicted"    type="hidden" value="none">
+<input name="version"      type="hidden" value="<%= @version %>">

@@ -1,8 +1,5 @@
 
-<button type="button"
-        id="test-button">
-  test
-</button>
+<button type="button" id="test-button">test</button>
 
 <script type="text/javascript"><!--
 'use strict';
@@ -16,11 +13,7 @@ $(() => {
 
   cd.testButton.click(() => {
 
-    /*if (prediction-on) {
-      // ...show prediction dialog
-      // ...get prediction from dialog
-      predicted.val('amber');
-    }*/
+    cd.predictTrafficLight(predicted);
 
     // Called from 3 places
     // 1. when you click [test]
@@ -52,19 +45,20 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - - - - -
   const complete = (_xhr, _status) => {
     cd.waitSpinner.fadeOut('slow', () => {
-      cd.testButton.enable();
       predicted.val('none');
+      cd.testButton.enable();
     });
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - -
   const error = (request, status, thrown) => {
-    cd.dialogError([
+    const message = [
       request.responseText,
       '----------------------------',
       `Status=${status}`,
       thrown
-    ].join("\n"));
+    ].join("\n");
+    cd.dialogError(message);
   };
 
 });
