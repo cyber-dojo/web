@@ -2,20 +2,6 @@
 
 (() => {
 
-  const appendTestTrafficLight = () => {
-    cd.appendTrafficLight(<%= raw @event %>);
-  };
-
-  const updateTrafficLightCount = () => {
-    const box = $('#traffic-lights-count-box');
-    const count = "<%= js_partial('traffic_lights_count') %>";
-    box.fadeOut('slow', () => {
-      box.html(count);
-      box.fadeIn('slow');
-    });
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - -
   const insertCreatedFiles = () => {
     <% @created.each do |filename,file| %>
       cd.fileCreate("<%= j raw(filename) %>", {
@@ -83,8 +69,8 @@
 
   //- - - - - - - - - - - - - - - - - - - - - -
   const updateTrafficLights = () => {
-    appendTestTrafficLight();
-    updateTrafficLightCount();
+    cd.appendTrafficLight(<%= raw @event %>);
+    cd.updateTrafficLightsCount();
   }
 
   //- - - - - - - - - - - - - - - - - - - - - -

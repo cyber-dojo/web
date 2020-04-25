@@ -9,13 +9,8 @@ $(() => {
   const avatarIndex = '<%= @avatar_index %>';
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // The index of most-recent (rightmost) traffic-light.
-  // Updated in the browser and sent to the web service
-  // as an optimization (so the web service does not need to
-  // retrieve it from saver).
-  const inputIndex = $("input[name='index']");
-
   const wasIndex = (value) => {
+    const inputIndex = $("input[name='index']");
     if (value === undefined) {
       return inputIndex.val();
     } else {
@@ -56,24 +51,80 @@ $(() => {
         'data-colour':colour
       });
       const predicted = event.predicted || 'none';
-      const suffix = ['red','amber','green'].includes(colour) ? `_predicted_${predicted}` : '';
+      const imgSuffix = isRag(colour) ? `_predicted_${predicted}` : '';
       const $img = $('<img>', {
-        'src':`/traffic-light/image/${colour}${suffix}.png`,
+        'src':`/traffic-light/image/${colour}${imgSuffix}.png`,
         'alt':`${colour} traffic-light`
       });
       const $light = $div.append($img);
       $lights.append($light);
       $light.click(() => cd.setReviewData(version, id, groupId, avatarName, avatarIndex, wasIndex(), event.index));
       cd.setupTrafficLightTip($light, version, id, avatarIndex, wasIndex(), event.index);
+      updateCounts(event);
     }
     wasIndex(event.index);
   };
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  const counts = {
+    red:0,
+    amber:0,
+    green:0,
+    timed_out:0,
+    hit:0,
+    miss:0,
+  };
+
+  const updateCounts = (event) => {
+    const colour = event.colour;
+    const predicted = event.predicted;
+    counts[colour] += 1;
+    counts.lastColour = colour;
+    if (predicted && predicted != 'none') {
+      if (colour === predicted) {
+        counts.hit += 1;
+      } else {
+        counts.miss += 1;
+      }
+    }
+  };
+
+  cd.updateTrafficLightsCount = () => {
+    const total = counts.red + counts.amber + counts.green + counts.timed_out;
+    if (total > 0) {
+      const box = $('#traffic-lights-count-box');
+      const $newCount = $('<div>', {
+        'class': `traffic-light-count ${counts.lastColour}`,
+        'data-tip': 'traffic_light_count',
+        'data-red-count': counts.red,
+        'data-amber-count': counts.amber,
+        'data-green-count': counts.green,
+        'data-timed-out-count': counts.timed_out
+      }).text(total);
+      box.fadeOut('slow', () => {
+        box.empty().append($newCount);
+        cd.setupHoverTips($('.traffic-light-count'));
+        box.fadeIn('slow');
+      });
+    }
+  };
+
+  const isRag = (s) => ['red','amber','green'].includes(s);
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   const events = <%= raw @events_json.gsub("\n",'') %>;
   events.forEach((event) => cd.appendTrafficLight(event));
+  cd.updateTrafficLightsCount();
+  cd.scrollLastTrafficLightIntoView(); // TODO: sometimes misses last few on refresh
 
 });
 //--></script>
+
+<!-- The index of most-recent (rightmost) traffic-light -->
+<!-- event is updated in the browser and sent back to the -->
+<!-- web service as an optimization (so the web service -->
+<!-- does not need to retrieve it from saver). -->
 
 <input type="hidden" name="index" value="0">
 
