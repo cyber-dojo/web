@@ -84,8 +84,6 @@ class KataController < ApplicationController
     begin
       kata.ran_tests(*args)
     rescue SaverService::Error => error
-      STDOUT.puts(error.message)
-      STDOUT.flush
       #TODO: @message on footer...
     end
     @avatar_index = params[:avatar_index]
