@@ -4,81 +4,114 @@ var cyberDojo = ((cd, $) => {
 
   let predict = undefined; // 'on'|'off'
 
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  cd.predictOn = () => {
+    return predict === 'on';
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
   cd.setupPredictButton = (value) => {
+    // Called from kata/edit to make the button visible.
     predict = value;
-    cd.predictButton().show().click(() => predictDialog());
+    switch (predict) {
+      case 'on' :
+        cd.predictButton().clickToggle(setPredictOff, setPredictOn);
+        break;
+      case 'off':
+        cd.predictButton().clickToggle(setPredictOn, setPredictOff);
+        break;
+    }
+    cd.predictButton().show();
   };
 
-  cd.predictHandler = (checkbox) => {
-    predict = checkbox.checked ? 'on' : 'off';
+  const setPredictOn = () => setPredict('on');
+  const setPredictOff = () => setPredict('off');
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  const setPredict = (value) => {
+    // Called from the predict-option dialog
+    predict = value;
     $.post('/kata/set_predict', { id:cd.kataId(), value:predict });
+    cd.updateTrafficLightsCount();
   };
 
-  const predictDialog = () => {
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  cd.predictTrafficLight = (input, handler) => {
+    // Called from the test-button handler
+    if (cd.predictOn()) {
+      makePredictionDialog(input, handler);
+    } else {
+      handler();
+    }
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  const makePredictionDialog = (input, handler) => {
     let html = '';
     html += '<div>'
     html += '<table>';
-    html += `<tr><td>${light('red')}</td><td rowspan="3">${blurb()}</td></tr>`;
-    html += trTd(light('amber'));
-    html += trTd(light('green'));
+    html += tr2('red',     redBlurb());
+    html += tr2('amber', amberBlurb());
+    html += tr2('green', greenBlurb());
     html += '</table>';
-    html += checkBoxHtml();
     html += '</div>';
-
     const node = $(html);
+    setupRagClick(input, node, handler, 'red');
+    setupRagClick(input, node, handler, 'amber');
+    setupRagClick(input, node, handler, 'green');
     node.dialog({
               width: '300',
            autoOpen: true,
       closeOnEscape: true,
               modal: true,
-              title: cd.dialogTitle('predict?'),
+              title: cd.dialogTitle('predict!'),
             buttons: { close: () => {
                 node.remove();
-                cd.editorRefocus();
               }
             },
         beforeClose: event => {
           if (event.keyCode === $.ui.keyCode.ESCAPE) {
             node.remove();
-            cd.editorRefocus();
             return true;
           }
         }
     });
   };
 
-  const blurb = () => {
-    return [
-      '<div id="predict-blurb">',
-      'When on, each test submission will ask you to',
-      'predict the colour of the forthcoming traffic-light.',
-      '</div>'
-    ].join(' ');
+  const setupRagClick = (input,node,handler,colour) => {
+    $(`div#predict-${colour}`,node).click(() => {
+      input.val(colour);
+      node.remove();
+      handler();
+    });
   };
 
-  const light = (rag) => {
-    return `<img class="predict" src="/traffic-light/image/${rag}_predicted_${rag}.png">`;
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  const redBlurb = () => {
+    return blurb('some tests will fail');
+  };
+  const amberBlurb = () => {
+    return blurb('the tests wont run yet');
+  };
+  const greenBlurb = () => {
+    return blurb('all the tests will pass');
+  };
+  const blurb = (s) => {
+    return `<div class="predict-blurb">${s}</div>`;
   };
 
-  const checkBoxHtml = () => {
-    return [
-      '<div id="predict-box">',
-      '<div id="predict-text">predict&nbsp;traffic-light&nbsp;colour?</div>',
-      '<input id="predict-checkbox"',
-      'type="checkbox"',
-      `class="regular-checkbox" ${predict==='on'?'checked':''}`,
-      'onchange="cd.predictHandler(this)"/>',
-      '<label for="predict-checkbox"></label>',
-      '</div>'
-    ].join(' ');
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  const tr2 = (rag, s) => {
+    return `<tr><td>${lightImg(rag)}</td><td>${s}</td></tr>`;
   };
 
-  const trTd = (s) => {
-    return `<tr><td>${s}</td><td></td></tr>`;
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  const lightImg = (rag) => {
+    // kata.scss provides background image with custom :hover
+    return `<div class="predict" id="predict-${rag}"></div>`;
   };
 
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
   return cd;
 
 })(cyberDojo || {}, jQuery);

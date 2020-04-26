@@ -160,6 +160,10 @@ class Kata
     end
   end
 
+  def events_json
+    kata.events_json(id)
+  end
+
   def event(index)
     kata.event(id, index)
   end

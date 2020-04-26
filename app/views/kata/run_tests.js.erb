@@ -2,22 +2,6 @@
 
 (() => {
 
-  const appendTestTrafficLight = () => {
-    const light = $("<%= raw diff_traffic_light(@light, @avatar_index) %>");
-    $('#traffic-lights').append(light);
-    cd.setupTrafficLights(light);
-  };
-
-  const updateTrafficLightCount = () => {
-    const box = $('#traffic-lights-count-box');
-    const count = "<%= js_partial('traffic_lights_count') %>";
-    box.fadeOut('slow', () => {
-      box.html(count);
-      box.fadeIn('slow');
-    });
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - -
   const insertCreatedFiles = () => {
     <% @created.each do |filename,file| %>
       cd.fileCreate("<%= j raw(filename) %>", {
@@ -30,10 +14,8 @@
     // cyber-dojo.sh cannot be deleted in the browser
     // but it can be deleted inside the container
     // and that will come back to here...
-    <% @deleted.each do |filename| %>
-      if ("<%= j raw(filename) %>" !== 'cyber-dojo.sh') {
-        cd.fileDelete("<%= j raw(filename) %>");
-      }
+    <% @deleted.reject{|filename| filename === 'cyber-dojo.sh'}.each do |filename| %>
+      cd.fileDelete("<%= j raw(filename) %>");
     <% end %>
   };
 
@@ -46,7 +28,7 @@
   };
 
   const updateOutput = () => {
-    const colour = "<%= @light.colour %>";
+    const colour = "<%= @light['colour'] %>";
     const stdout = "<%= j raw(@stdout['content']) %>";
     const stderr = "<%= j raw(@stderr['content']) %>";
     const status = "<%= j raw(@status.to_s) %>";
@@ -55,7 +37,7 @@
 
   //- - - - - - - - - - - - - - - - - - - - - -
   const warnIfTestsTimedOut = () => {
-    if ("<%= @light.colour %>" === 'timed_out') {
+    if ("<%= @light['colour'] %>" === 'timed_out') {
       const maxSeconds = $('input[name="max_seconds"]').val();
       const info = [
         `Unable to complete the tests in ${maxSeconds} seconds.`,
@@ -72,7 +54,7 @@
 
   //- - - - - - - - - - - - - - - - - - - - - -
   const warnIfTrafficLightFaulty = () => {
-    if ("<%= @light.colour %>" === 'faulty') {
+    if ("<%= @light['colour'] %>" === 'faulty') {
       const info = `<%= raw @diagnostic %>`;
       const html = $('<textarea>', {
          'data-width':600,
@@ -85,8 +67,8 @@
 
   //- - - - - - - - - - - - - - - - - - - - - -
   const updateTrafficLights = () => {
-    appendTestTrafficLight();
-    updateTrafficLightCount();
+    cd.appendTrafficLight(<%= raw @light.to_json %>);
+    cd.updateTrafficLightsCount();
   }
 
   //- - - - - - - - - - - - - - - - - - - - - -

@@ -18,6 +18,7 @@ class KataController < ApplicationController
     @display_name = manifest.display_name
     @exercise = manifest.exercise
     # previous traffic-light-lights
+    @events_json = kata.events_json
     @lights = kata.lights
     # most recent files
     @files = kata.files(:with_output)
@@ -82,16 +83,18 @@ class KataController < ApplicationController
     args << predicted
     begin
       kata.ran_tests(*args)
-    rescue SaverService::Error
+    rescue SaverService::Error => error
+      STDOUT.puts(error.message)
+      STDOUT.flush
       #TODO: @message on footer...
     end
     @avatar_index = params[:avatar_index]
-    @light = Event.new(kata, {
+    @light = {
       'time' => t1,
       'index' => index,
       'colour' => colour,
       'predicted' => predicted,
-    })
+    }
     @id = kata.id
 
     respond_to do |format|

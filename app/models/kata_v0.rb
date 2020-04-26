@@ -100,10 +100,14 @@ class Kata_v0
   # - - - - - - - - - - - - - - - - - - -
 
   def events(id)
-    events_src = saver.assert(events_file_read_command(id))
-    json_parse('[' + events_src.lines.join(',') + ']')
+    json_parse(events_json(id))
     # Alternative implementation, which profiling shows is slower.
     # events_src.lines.map { |line| json_parse(line) }
+  end
+
+  def events_json(id)
+    events_src = saver.assert(events_file_read_command(id))
+    '[' + events_src.lines.join(',') + ']'
   end
 
   # - - - - - - - - - - - - - - - - - - -

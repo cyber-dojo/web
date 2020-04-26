@@ -15,9 +15,10 @@
 $(() => {
   cd.kataId = () => "<%= @id %>";
   cd.setupThemeColourButtonsClickHandlers("<%= @theme %>", "<%= @colour %>");
-  //cd.setupPredictButton("<%= @predict %>");
+  cd.setupPredictButton("<%= @predict %>");
   cd.setupHotkeysButton();
+  cd.updateTrafficLightsCount();
   cd.loadInitialFile();
-  cd.scrollLastTrafficLightIntoView();
+  cd.scrollLastTrafficLightIntoView(); // TODO: sometimes misses last few on refresh?
 });
 //--></script>

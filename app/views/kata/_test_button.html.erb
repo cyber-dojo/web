@@ -1,8 +1,5 @@
 
-<button type="button"
-        id="test-button">
-  test
-</button>
+<button type="button" id="test-button">test</button>
 
 <script type="text/javascript"><!--
 'use strict';
@@ -14,14 +11,9 @@ $(() => {
   cd.testButton.enable  = () => cd.testButton.attr('disabled', false);
   cd.testButton.disable = () => cd.testButton.attr('disabled', true);
 
-  cd.testButton.click(() => {
+  cd.testButton.click(() => cd.predictTrafficLight(predicted, testButtonClick));
 
-    /*if (prediction-on) {
-      // ...show prediction dialog
-      // ...get prediction from dialog
-      predicted.val('amber');
-    }*/
-
+  const testButtonClick = () => {
     // Called from 3 places
     // 1. when you click [test]
     // 2. when you hot-key Alt-T
@@ -47,24 +39,25 @@ $(() => {
     // node, causing it to do a [docker pull]. Only when
     // the [docker pull] finishes does the [docker run]
     // begin and the max_seconds sleep timer start.
-  });
+  };
 
   //- - - - - - - - - - - - - - - - - - - - - - -
   const complete = (_xhr, _status) => {
     cd.waitSpinner.fadeOut('slow', () => {
-      cd.testButton.enable();
       predicted.val('none');
+      cd.testButton.enable();
     });
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - -
   const error = (request, status, thrown) => {
-    cd.dialogError([
+    const message = [
       request.responseText,
       '----------------------------',
       `Status=${status}`,
       thrown
-    ].join("\n"));
+    ].join("\n");
+    cd.dialogError(message);
   };
 
 });
