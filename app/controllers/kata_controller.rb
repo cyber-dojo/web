@@ -89,18 +89,12 @@ class KataController < ApplicationController
       #TODO: @message on footer...
     end
     @avatar_index = params[:avatar_index]
-    @light = Event.new(kata, {
+    @light = {
       'time' => t1,
       'index' => index,
       'colour' => colour,
       'predicted' => predicted,
-    })
-    @event = {
-      'time' => t1,
-      'index' => index,
-      'colour' => colour,
-      'predicted' => predicted,
-    }.to_json
+    }
     @id = kata.id
 
     respond_to do |format|

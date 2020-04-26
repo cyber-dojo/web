@@ -30,7 +30,7 @@
   };
 
   const updateOutput = () => {
-    const colour = "<%= @light.colour %>";
+    const colour = "<%= @light['colour'] %>";
     const stdout = "<%= j raw(@stdout['content']) %>";
     const stderr = "<%= j raw(@stderr['content']) %>";
     const status = "<%= j raw(@status.to_s) %>";
@@ -39,7 +39,7 @@
 
   //- - - - - - - - - - - - - - - - - - - - - -
   const warnIfTestsTimedOut = () => {
-    if ("<%= @light.colour %>" === 'timed_out') {
+    if ("<%= @light['colour'] %>" === 'timed_out') {
       const maxSeconds = $('input[name="max_seconds"]').val();
       const info = [
         `Unable to complete the tests in ${maxSeconds} seconds.`,
@@ -56,7 +56,7 @@
 
   //- - - - - - - - - - - - - - - - - - - - - -
   const warnIfTrafficLightFaulty = () => {
-    if ("<%= @light.colour %>" === 'faulty') {
+    if ("<%= @light['colour'] %>" === 'faulty') {
       const info = `<%= raw @diagnostic %>`;
       const html = $('<textarea>', {
          'data-width':600,
@@ -69,7 +69,7 @@
 
   //- - - - - - - - - - - - - - - - - - - - - -
   const updateTrafficLights = () => {
-    cd.appendTrafficLight(<%= raw @event %>);
+    cd.appendTrafficLight(<%= raw @light.to_json %>);
     cd.updateTrafficLightsCount();
   }
 
