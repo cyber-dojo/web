@@ -42,13 +42,12 @@ $(() => {
 
   cd.appendTrafficLight = (event) => {
     const colour = event.colour;
-    // Version 0 events did not store their index
-    event.index = event.index || wasIndex() + 1;
+    const index = event.index;
     if (colour) {
       const $div = $('<div>', {
         'class':'diff-traffic-light',
         'data-id':id,
-        'data-index':event.index,
+        'data-index':index,
         'data-avatar-index':avatarIndex,
         'data-colour':colour
       });
@@ -60,11 +59,11 @@ $(() => {
       });
       const $light = $div.append($img);
       $lights.append($light);
-      $light.click(() => cd.setReviewData(version, id, groupId, avatarName, avatarIndex, wasIndex(), event.index));
-      cd.setupTrafficLightTip($light, version, id, avatarIndex, wasIndex(), event.index);
+      $light.click(() => cd.setReviewData(version, id, groupId, avatarName, avatarIndex, index-1, index));
+      cd.setupTrafficLightTip($light, version, id, avatarIndex, index-1, index);
       updateCounts(event);
     }
-    wasIndex(event.index);
+    wasIndex(index);
   };
 
   const isRag = (s) => ['red','amber','green'].includes(s);
@@ -175,15 +174,18 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const events = <%= raw @events_json.gsub("\n",'') %>;
-  events.forEach((event) => cd.appendTrafficLight(event));
+  events.forEach((event,index) => {
+    event.index = index; // version 0 events don't store their index
+    cd.appendTrafficLight(event);
+  });
 
 });
 //--></script>
 
 <!-- The index of most-recent (rightmost) traffic-light -->
-<!-- event is updated in the browser and sent back to the -->
-<!-- web service as an optimization (so the web service -->
-<!-- does not need to retrieve it from saver). -->
+<!-- is updated in the browser and sent back to the web -->
+<!-- service (on [test]) so the web service does not    -->
+<!-- not need to retrieve it from saver). -->
 
 <input type="hidden" name="index" value="0">
 
