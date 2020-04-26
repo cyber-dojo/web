@@ -48,7 +48,7 @@ var cyberDojo = ((cd, $) => {
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const makePredictionDialog = (input, handler) => {
     let html = '';
-    html += '<div id="prediction-dialog">'
+    html += '<div>'
     html += '<table>';
     html += tr2('red',     redBlurb());
     html += tr2('amber', amberBlurb());
@@ -56,21 +56,9 @@ var cyberDojo = ((cd, $) => {
     html += '</table>';
     html += '</div>';
     const node = $(html);
-    $('img#predict-red',node).click(() => {
-      input.val('red');
-      node.remove();
-      handler();
-    });
-    $('img#predict-amber',node).click(() => {
-      input.val('amber');
-      node.remove();
-      handler();
-    });
-    $('img#predict-green',node).click(() => {
-      input.val('green');
-      node.remove();
-      handler();
-    });
+    setupRagClick(input, node, handler, 'red');
+    setupRagClick(input, node, handler, 'amber');
+    setupRagClick(input, node, handler, 'green');
     node.dialog({
               width: '300',
            autoOpen: true,
@@ -90,6 +78,14 @@ var cyberDojo = ((cd, $) => {
     });
   };
 
+  const setupRagClick = (input,node,handler,colour) => {
+    $(`div#predict-${colour}`,node).click(() => {
+      input.val(colour);
+      node.remove();
+      handler();
+    });
+  };
+
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const redBlurb = () => {
     return blurb('some tests will fail');
@@ -105,13 +101,14 @@ var cyberDojo = ((cd, $) => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const tr2 = (rag, blurb) => {
-    return `<tr><td>${lightImg(rag)}</td><td>${blurb}</td></tr>`;
+  const tr2 = (rag, s) => {
+    return `<tr><td>${lightImg(rag)}</td><td>${s}</td></tr>`;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const lightImg = (rag) => {
-    return `<img class="predict" id="predict-${rag}" src="/traffic-light/image/${rag}_predicted_none.png">`;
+    // kata.scss provides background image with custom :hover
+    return `<div class="predict" id="predict-${rag}"></div>`;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -

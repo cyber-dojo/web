@@ -143,12 +143,19 @@ input#new-filename, input#rename-filename, input#delete-filename
        width: 200px;
 }
 
-img.predict
+div.predict
 {
   width:42px;
   height:42px;
   cursor: pointer;
 }
+div#predict-red         { background: url("/traffic-light/image/red_predicted_none.png")    no-repeat; }
+div#predict-red:hover   { background: url("/traffic-light/image/red_predicted_red.png")     no-repeat; }
+div#predict-amber       { background: url("/traffic-light/image/amber_predicted_none.png")  no-repeat; }
+div#predict-amber:hover { background: url("/traffic-light/image/amber_predicted_amber.png") no-repeat; }
+div#predict-green       { background: url("/traffic-light/image/green_predicted_none.png")  no-repeat; }
+div#predict-green:hover { background: url("/traffic-light/image/green_predicted_green.png") no-repeat; }
+
 .predict-blurb { padding-left:10px; }
 
 #error
