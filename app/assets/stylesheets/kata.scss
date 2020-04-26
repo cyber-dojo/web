@@ -149,19 +149,7 @@ img.predict
   height:42px;
   cursor: pointer;
 }
-#predict-text { display: inline; }
-#predict-blurb
-{
-  margin-left:10px;
-  position: relative;
-  top: -2px;
-}
-#predict-box
-{
-  @include edged-panel();
-  margin-top: 15px;
-  background: lighten($darker-color,8%);
-}
+.predict-blurb { padding-left:10px; }
 
 #error
 {

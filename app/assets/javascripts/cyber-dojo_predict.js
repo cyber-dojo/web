@@ -92,29 +92,26 @@ var cyberDojo = ((cd, $) => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const redBlurb = () => {
-    return [
-      'red-blurb'
-    ].join(' ');
+    return blurb('some tests will fail');
   };
   const amberBlurb = () => {
-    return [
-      'amber-blurb'
-    ].join(' ');
+    return blurb('the tests wont run yet');
   };
   const greenBlurb = () => {
-    return [
-      'green-blurb'
-    ].join(' ');
+    return blurb('all the tests will pass');
   };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const lightImg = (rag) => {
-    return `<img class="predict" id="predict-${rag}" src="/traffic-light/image/${rag}_predicted_${rag}.png">`;
+  const blurb = (s) => {
+    return `<div class="predict-blurb">${s}</div>`;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const tr2 = (rag, blurb) => {
     return `<tr><td>${lightImg(rag)}</td><td>${blurb}</td></tr>`;
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  const lightImg = (rag) => {
+    return `<img class="predict" id="predict-${rag}" src="/traffic-light/image/${rag}_predicted_none.png">`;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
