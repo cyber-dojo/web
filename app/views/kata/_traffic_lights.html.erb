@@ -133,27 +133,29 @@ $(() => {
   };
 
   const hitBox = () => {
+    const imgColour = lastEventPredictedCorrectly() ? counts.lastEvent.colour : 'black';
     const $hitImg = $('<img>', {
       'id':'hit-img',
-      'src':'/traffic-light/image/circle-hit.png'
+      'src':`/traffic-light/image/circle-hit-${imgColour}.png`
     });
-    const colour = lastEventPredictedCorrectly() ? counts.lastEvent.colour : '';
+    const countColour = lastEventPredictedCorrectly() ? counts.lastEvent.colour : '';
     const $hitCount = $('<div>', {
       'id':'hit-count',
-      'class':colour
+      'class':countColour
     }).text(counts.hit);
     return $('<div>', {'id':'hit-box'}).append($hitImg).append($hitCount);
   };
 
   const missBox = () => {
+    const imgColour = lastEventPredictedIncorrectly() ? counts.lastEvent.predicted : 'black';
     const $missImg = $('<img>', {
       'id':'miss-img',
-      'src':'/traffic-light/image/circle-miss.png'
+      'src':`/traffic-light/image/circle-miss-${imgColour}.png`
     });
-    const colour = lastEventPredictedIncorrectly() ? counts.lastEvent.predicted : '';
+    const countColour = lastEventPredictedCorrectly() ? '' : counts.lastEvent.colour;
     const $missCount = $('<div>', {
       'id':'miss-count',
-      'class':colour
+      'class':countColour
     }).text(counts.miss);
     return $('<div>', {'id':'miss-box'}).append($missImg).append($missCount);
   };
