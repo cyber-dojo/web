@@ -12,7 +12,7 @@ $(() => {
   const wasIndex = (value) => {
     const inputIndex = $("input[name='index']");
     if (value === undefined) {
-      return inputIndex.val();
+      return parseInt(inputIndex.val());
     } else {
       inputIndex.val(value);
     }
@@ -42,6 +42,8 @@ $(() => {
 
   cd.appendTrafficLight = (event) => {
     const colour = event.colour;
+    // Version 0 events did not store their index
+    event.index = event.index || wasIndex() + 1;
     if (colour) {
       const $div = $('<div>', {
         'class':'diff-traffic-light',
