@@ -5,9 +5,7 @@ $(() => {
   let predict = undefined; // 'on'|'off'
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  cd.predictIsOn = () => {
-    return predict === 'on';
-  };
+  cd.predictIsOn = () => predict === 'on';
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   cd.setupPredictButton = (value) => {
@@ -106,29 +104,17 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const redBlurb = () => {
-    return blurb('some tests will fail');
-  };
-  const amberBlurb = () => {
-    return blurb('the tests wont run yet');
-  };
-  const greenBlurb = () => {
-    return blurb('all the tests will pass');
-  };
-  const blurb = (s) => {
-    return `<div class="predict-blurb">${s}</div>`;
-  };
+  const redBlurb = () => blurb('some tests will fail');
+  const amberBlurb = () => blurb('the tests wont run yet');
+  const greenBlurb = () => blurb('all the tests will pass');
+  const blurb = (s) => `<div class="predict-blurb">${s}</div>`;
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const tr2 = (rag, s) => {
-    return `<tr><td>${lightImg(rag)}</td><td>${s}</td></tr>`;
-  };
+  const tr2 = (rag, s) => `<tr><td>${lightImg(rag)}</td><td>${s}</td></tr>`;
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const lightImg = (rag) => {
-    // kata.scss provides background image with custom :hover
-    return `<div class="predict" id="predict-${rag}"></div>`;
-  };
+  // kata.scss provides background image with custom :hover
+  const lightImg = (rag) => `<div class="predict" id="predict-${rag}"></div>`;
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   return cd;

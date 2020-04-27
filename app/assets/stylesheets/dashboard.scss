@@ -44,6 +44,8 @@
     }
   }
 
+  .traffic-light-count { padding-left: 0px; }
+
   .table-scroll
   {
     max-width: 1000px;
@@ -153,12 +155,14 @@
 {
   @include non-code-font;
        font-size: 12px;
+       text-align: right;
 }
 
 .traffic-light-diff-tip-traffic-light-image
 {
   height: 22px;
    width: 22px;
+   margin-right:4px;
 }
 
 .traffic-light-diff-tip-avatar-image

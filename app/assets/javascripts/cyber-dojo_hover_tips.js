@@ -19,41 +19,6 @@ var cyberDojo = (function(cd, $) {
 
   // - - - - - - - - - - - - - - - - - - - -
 
-  const trafficLightCountHoverTip = (node) => {
-    const reds = node.data('red-count');
-    const ambers = node.data('amber-count');
-    const greens = node.data('green-count');
-    const timeOuts = node.data('timed-out-count');
-    const trLight = (colour, count) => {
-      return '' +
-        '<tr>' +
-          '<td>' +
-            '<img' +
-              " class='traffic-light-diff-tip-traffic-light-image'" +
-              ` src='/traffic-light/image/${colour}.png'>` +
-          '</td>' +
-          '<td>' +
-             `<span class='traffic-light-diff-tip-tag ${colour}'>` +
-              count +
-             '</span>' +
-          '</td>' +
-        '</tr>';
-    };
-
-    let html = '';
-    html += '<table>';
-    html += trLight('red', reds);
-    html += trLight('amber', ambers);
-    html += trLight('green', greens);
-    if (timeOuts > 0) {
-      html += trLight('timed_out', timeOuts);
-    }
-    html += '</table>';
-    return html;
-  };
-
-  // - - - - - - - - - - - - - - - - - - - -
-
   cd.setupHoverTips = function(nodes) {
     nodes.each(function() {
       const node = $(this);
@@ -67,6 +32,36 @@ var cyberDojo = (function(cd, $) {
       };
       cd.setTip(node, setTipCallBack);
     });
+  };
+
+  // - - - - - - - - - - - - - - - - - - - -
+
+  const trafficLightCountHoverTip = (node) => {
+    // for dashboard avatar totalCount
+    const reds = node.data('red-count');
+    const ambers = node.data('amber-count');
+    const greens = node.data('green-count');
+    const timeOuts = node.data('timed-out-count');
+    const tr = (s) => `<tr>${s}</tr>`;
+    const td = (s) => `<td>${s}</td>`;
+    const trLight = (colour, count) => {
+      return tr(td('<img' +
+                   " class='traffic-light-diff-tip-traffic-light-image'" +
+                   ` src='/traffic-light/image/${colour}.png'>`) +
+                td(`<div class='traffic-light-diff-tip-tag ${colour}'>` +
+                   count +
+                   '</div>'));
+    };
+    let html = '';
+    html += '<table>';
+    html += trLight('red', reds);
+    html += trLight('amber', ambers);
+    html += trLight('green', greens);
+    if (timeOuts > 0) {
+      html += trLight('timed_out', timeOuts);
+    }
+    html += '</table>';
+    return html;
   };
 
   // - - - - - - - - - - - - - - - - - - - -

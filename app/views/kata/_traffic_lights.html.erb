@@ -87,15 +87,7 @@ $(() => {
     }
   };
 
-  const counts = {
-    red:0,
-    amber:0,
-    green:0,
-    timed_out:0,
-    faulty: 0,
-    hit:0,
-    miss:0,
-  };
+  const counts = { red:0, amber:0, green:0, timed_out:0, faulty: 0, hit:0, miss:0 };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // cd.updateTrafficLightsCount() updates the total and predicted counts.
@@ -116,8 +108,9 @@ $(() => {
   const updateTrafficLightsTotalCount = () => {
     const $box = $countTotalBox;
     $box.fadeOut('fast', () => {
-      $box.empty().append(totalCount());
-      cd.setupHoverTips($('.traffic-light-count', $box));
+      const $count = totalCount();
+      $box.empty().append($count);
+      cd.setTip($count, () => cd.showHoverTip($count, trafficLightsTotalCountHoverTip()));
       $box.fadeIn('fast');
     });
   };
@@ -126,17 +119,37 @@ $(() => {
     const total = counts.red + counts.amber + counts.green + counts.timed_out;
     return $('<div>', {
       'class': `traffic-light-count ${lastColour()}`,
-      'data-tip': 'traffic_light_count',
-      'data-red-count': counts.red,
-      'data-amber-count': counts.amber,
-      'data-green-count': counts.green,
-      'data-timed-out-count': counts.timed_out
     }).text(total);
   };
 
   const lastColour = () => {
     const last = counts.lastLight;
     return last ? last.colour : '';
+  };
+
+  const trafficLightsTotalCountHoverTip = () => {
+    let html = '';
+    html += '<table>';
+    html += trLight('red', counts.red);
+    html += trLight('amber', counts.amber);
+    html += trLight('green', counts.green);
+    if (counts.timed_out > 0) {
+      html += trLight('timed_out', counts.timed_out);
+    }
+    html += '</table>';
+    return html;
+  };
+
+  const trLight = (colour, count) => {
+    const tr = (s) => `<tr>${s}</tr>`;
+    const td = (s) => `<td>${s}</td>`;
+    return '' +
+      tr(td('<img' +
+            " class='traffic-light-diff-tip-traffic-light-image'" +
+            ` src='/traffic-light/image/${colour}.png'>`) +
+         td(`<div class='traffic-light-diff-tip-tag ${colour}'>` +
+            count +
+            '</div>'));
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -149,7 +162,6 @@ $(() => {
     const $box = cd.countPredictBox();
     $box.fadeOut('fast', () => {
       $box.empty().append(missBox()).append(hitBox());
-      // TODO set hover-tips
       $box.fadeIn('fast');
     });
   };
@@ -165,6 +177,7 @@ $(() => {
       id:'miss-count',
       class:`traffic-light-count ${missColour}`
     }).text(counts.miss);
+    // TODO $missCount hover-tip?
     return $('<div>', {'id':'miss-box'}).append($missImg).append($missCount);
   };
 
@@ -179,6 +192,7 @@ $(() => {
       id:'hit-count',
       class:`traffic-light-count ${hitColour}`
     }).text(counts.hit);
+    // TODO $hitCount hover-tip?
     return $('<div>', {'id':'hit-box'}).append($hitImg).append($hitCount);
   };
 
