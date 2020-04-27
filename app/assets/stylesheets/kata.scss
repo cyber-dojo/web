@@ -99,17 +99,18 @@
   }
   #traffic-lights-count-predict-box
   {
-     #hit-box, #miss-box
+     #miss-box,#hit-box
      {
        @include edged-panel();
        display: inline-flex;
        position:relative;
        top:-4px;
-       margin: { left:2px; right:4px; }
        max-height:20px;
      }
+     #miss-box { margin: { left:2px; right:0px; } }
+     #hit-box { margin: { left:0px; right:4px; } }
 
-     #hit-img, #miss-img
+     #miss-img,#hit-img
      {
        width:10px;
        height:10px;
@@ -117,7 +118,7 @@
        position:relative;
        top:5px;
      }
-     #hit-count, #miss-count
+     #miss-count,#hit-count
      {
        font-size: 22px;
        position:relative;
