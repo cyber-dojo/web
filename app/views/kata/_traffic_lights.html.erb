@@ -2,6 +2,15 @@
 'use strict';
 $(() => {
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // There are two sequences of traffic-lights:
+  // o) kata-page traffic-lights live under #traffic-lights.
+  //    Click any of these to open the diff-review
+  // o) review-page traffic-lights live under #review-traffic-lights.
+  //    Click any of these to move to it in the diff-review.
+  // The first of these are controlled here.
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   const version = '<%= @version %>';
   const id = '<%= @id %>';
   const groupId = '<%= @group_id %>';
@@ -9,6 +18,11 @@ $(() => {
   const avatarIndex = '<%= @avatar_index %>';
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // The index of most-recent (rightmost) traffic-light
+  // is updated in the browser and sent back to the web
+  // service (on [test] click) so the web service does not
+  // not need to retrieve it from saver).
+
   const wasIndex = (value) => {
     const inputIndex = $("input[name='index']");
     if (value === undefined) {
@@ -17,14 +31,6 @@ $(() => {
       inputIndex.val(value);
     }
   };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // There are two sequences of traffic-lights:
-  // o) kata-page traffic-lights live under #traffic-lights.
-  //    Click any of these to open the diff-review
-  // o) review-page traffic-lights live under #review-traffic-lights.
-  //    Click any of these to move to it in the diff-review.
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // cd.appendTrafficLight() sets up the tip/click handlers
@@ -61,29 +67,18 @@ $(() => {
       $lights.append($light);
       $light.click(() => cd.setReviewData(version, id, groupId, avatarName, avatarIndex, index-1, index));
       cd.setupTrafficLightTip($light, version, id, avatarIndex, index-1, index);
-      updateCounts(event);
+      updateCountData(event);
     }
     wasIndex(index);
   };
 
-  const isRag = (s) => ['red','amber','green'].includes(s);
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const counts = {
-    red:0,
-    amber:0,
-    green:0,
-    timed_out:0,
-    hit:0,
-    miss:0,
-  };
-
-  const updateCounts = (event) => {
+  const updateCountData = (event) => {
     const colour = event.colour;
     const predicted = event.predicted;
     counts[colour] += 1;
     counts.lastEvent = event;
-    if (predicted && predicted != 'none') {
+    // Don't count timed_out or faulty as incorrect predictions.
+    if (predicted && predicted != 'none' && isRag(colour)) {
       if (colour === predicted) {
         counts.hit += 1;
       } else {
@@ -92,19 +87,44 @@ $(() => {
     }
   };
 
+  const counts = {
+    red:0,
+    amber:0,
+    green:0,
+    timed_out:0,
+    faulty: 0,
+    hit:0,
+    miss:0,
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // cd.updateTrafficLightsCount() updates the total and predicted counts.
+  // It is called from two places:
+  //   1) kata/edit when page loads/refreshes.
+  //   2) run_tests.js.erb when [test] is clicked.
+
   cd.updateTrafficLightsCount = () => {
+    updateTrafficLightsTotalCount();
     if (cd.predictOn()) {
       updateTrafficLightsPredictCount();
-    } else {
-      updateTrafficLightsTotalCount();
     }
   };
 
-  const box = $('#traffic-lights-count-box');
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  const countTotalBox = $('#traffic-lights-count-total-box');
 
   const updateTrafficLightsTotalCount = () => {
+    const box = countTotalBox;
+    box.fadeOut('fast', () => {
+      box.empty().append(totalCount());
+      cd.setupHoverTips($('.traffic-light-count'));
+      box.fadeIn('fast');
+    });
+  };
+
+  const totalCount = () => {
     const total = counts.red + counts.amber + counts.green + counts.timed_out;
-    const $newCount = $('<div>', {
+    return $('<div>', {
       'class': `traffic-light-count ${lastEventColour()}`,
       'data-tip': 'traffic_light_count',
       'data-red-count': counts.red,
@@ -112,11 +132,6 @@ $(() => {
       'data-green-count': counts.green,
       'data-timed-out-count': counts.timed_out
     }).text(total);
-    box.fadeOut('fast', () => {
-      box.empty().append($newCount);
-      cd.setupHoverTips($('.traffic-light-count'));
-      box.fadeIn('fast');
-    });
   };
 
   const lastEventColour = () => {
@@ -124,10 +139,16 @@ $(() => {
     return last ? last.colour : '';
   };
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // Visibility of the predict-box is controlled from the
+  // [predict?] button handler.
+
+  cd.countPredictBox = () => $('#traffic-lights-count-predict-box');
+
   const updateTrafficLightsPredictCount = () => {
-    const total = counts.hit + counts.miss;
+    const box = cd.countPredictBox();
     box.fadeOut('fast', () => {
-      box.empty().append(hitBox()).append(missBox());
+      box.empty().append(missBox()).append(hitBox());
       // TODO set hover-tips
       box.fadeIn('fast');
     });
@@ -139,11 +160,7 @@ $(() => {
       'id':'hit-img',
       'src':`/traffic-light/image/circle-hit-${imgColour}.png`
     });
-    const countColour = lastEventPredictedCorrectly() ? counts.lastEvent.colour : '';
-    const $hitCount = $('<div>', {
-      'id':'hit-count',
-      'class':countColour
-    }).text(counts.hit);
+    const $hitCount = $('<div>', { id:'hit-count' }).text(counts.hit);
     return $('<div>', {'id':'hit-box'}).append($hitImg).append($hitCount);
   };
 
@@ -153,11 +170,7 @@ $(() => {
       'id':'miss-img',
       'src':`/traffic-light/image/circle-miss-${imgColour}.png`
     });
-    const countColour = lastEventPredictedCorrectly() ? '' : counts.lastEvent.colour;
-    const $missCount = $('<div>', {
-      'id':'miss-count',
-      'class':countColour
-    }).text(counts.miss);
+    const $missCount = $('<div>', { id:'miss-count'}).text(counts.miss);
     return $('<div>', {'id':'miss-box'}).append($missImg).append($missCount);
   };
 
@@ -171,6 +184,8 @@ $(() => {
     return last && last.predicted != 'none' && last.predicted != last.colour;
   };
 
+  const isRag = (s) => ['red','amber','green'].includes(s);
+
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const events = <%= raw @events_json.gsub("\n",'') %>;
@@ -181,11 +196,6 @@ $(() => {
 
 });
 //--></script>
-
-<!-- The index of most-recent (rightmost) traffic-light -->
-<!-- is updated in the browser and sent back to the web -->
-<!-- service (on [test]) so the web service does not    -->
-<!-- not need to retrieve it from saver). -->
 
 <input type="hidden" name="index" value="0">
 

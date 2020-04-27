@@ -76,7 +76,8 @@
     div[class~='filename'] { @include wide-list-item(); }
   }
 
-  #traffic-lights-count-box
+  #traffic-lights-count-total-box,
+  #traffic-lights-count-predict-box,
   {
      display:inline-flex;
      position:relative; top:2px;
@@ -107,6 +108,7 @@
        padding: { left:3px; right:3px; }
      }
   }
+  
   #traffic-lights
   {
        display:inline-flex;

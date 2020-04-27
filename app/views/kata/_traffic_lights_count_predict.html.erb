@@ -1,6 +1,6 @@
-/*global jQuery,cyberDojo*/
+<script type="text/javascript"><!--
 'use strict';
-var cyberDojo = ((cd, $) => {
+$(() => {
 
   let predict = undefined; // 'on'|'off'
 
@@ -12,41 +12,49 @@ var cyberDojo = ((cd, $) => {
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   cd.setupPredictButton = (value) => {
     // Called from kata/edit to make the button visible.
+    cd.predictButton().show();
+    // Restore the default|previous state
     predict = value;
     switch (predict) {
       case 'on' :
+        setPredictOn();
         cd.predictButton().clickToggle(setPredictOff, setPredictOn);
         break;
       case 'off':
+        setPredictOff();
         cd.predictButton().clickToggle(setPredictOn, setPredictOff);
         break;
     }
-    cd.predictButton().show();
   };
 
-  const setPredictOn = () => setPredict('on');
-  const setPredictOff = () => setPredict('off');
+  const setPredictOn = () => {
+    cd.countPredictBox().show();
+    setPredict('on');
+  };
+  const setPredictOff = () => {
+    cd.countPredictBox().hide();
+    setPredict('off');
+  };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const setPredict = (value) => {
-    // Called from the predict-option dialog
+    // Called from the predict-option dialog before [test] as POSTed.
     predict = value;
     $.post('/kata/set_predict', { id:cd.kataId(), value:predict });
-    cd.updateTrafficLightsCount();
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   cd.predictTrafficLight = (input, handler) => {
     // Called from the test-button handler
     if (cd.predictOn()) {
-      makePredictionDialog(input, handler);
+      openPredictionDialog(input, handler);
     } else {
       handler();
     }
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const makePredictionDialog = (input, handler) => {
+  const openPredictionDialog = (input, handler) => {
     let html = '';
     html += '<div>'
     html += '<table>';
@@ -114,4 +122,7 @@ var cyberDojo = ((cd, $) => {
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   return cd;
 
-})(cyberDojo || {}, jQuery);
+});
+//--></script>
+
+<div id="traffic-lights-count-predict-box"></div>
