@@ -105,7 +105,7 @@ $(() => {
 
   cd.updateTrafficLightsCount = () => {
     updateTrafficLightsTotalCount();
-    if (cd.predictOn()) {
+    if (cd.predictIsOn()) {
       updateTrafficLightsPredictCount();
     }
   };
@@ -154,34 +154,40 @@ $(() => {
     });
   };
 
-  const hitBox = () => {
-    const imgColour = lastEventPredictedCorrectly() ? counts.lastEvent.colour : 'black';
-    const $hitImg = $('<img>', {
-      'id':'hit-img',
-      'src':`/traffic-light/image/circle-hit-${imgColour}.png`
-    });
-    const $hitCount = $('<div>', { id:'hit-count' }).text(counts.hit);
-    return $('<div>', {'id':'hit-box'}).append($hitImg).append($hitCount);
-  };
-
   const missBox = () => {
-    const imgColour = lastEventPredictedIncorrectly() ? counts.lastEvent.predicted : 'black';
     const $missImg = $('<img>', {
-      'id':'miss-img',
-      'src':`/traffic-light/image/circle-miss-${imgColour}.png`
+      id:'miss-img',
+      src:'/traffic-light/image/circle-miss.png'
     });
-    const $missCount = $('<div>', { id:'miss-count'}).text(counts.miss);
+    const missColour = lastEventPredictedIncorrectly() ? counts.lastEvent.predicted : 'black';
+    const $missCount = $('<div>', {
+      id:'miss-count',
+      class:`traffic-light-count ${missColour}`
+    }).text(counts.miss);
     return $('<div>', {'id':'miss-box'}).append($missImg).append($missCount);
-  };
-
-  const lastEventPredictedCorrectly = () => {
-    const last = counts.lastEvent;
-    return last && last.predicted && last.predicted == last.colour;
   };
 
   const lastEventPredictedIncorrectly = () => {
     const last = counts.lastEvent;
     return last && last.predicted != 'none' && last.predicted != last.colour;
+  };
+
+  const hitBox = () => {
+    const $hitImg = $('<img>', {
+      id:'hit-img',
+      src:'/traffic-light/image/circle-hit.png'
+    });
+    const hitColour = lastEventPredictedCorrectly() ? counts.lastEvent.predicted : 'black';
+    const $hitCount = $('<div>', {
+      id:'hit-count',
+      class:`traffic-light-count ${hitColour}`
+    }).text(counts.hit);
+    return $('<div>', {'id':'hit-box'}).append($hitImg).append($hitCount);
+  };
+
+  const lastEventPredictedCorrectly = () => {
+    const last = counts.lastEvent;
+    return last && last.predicted != 'none' && last.predicted == last.colour;
   };
 
   const isRag = (s) => ['red','amber','green'].includes(s);

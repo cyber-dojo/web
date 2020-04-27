@@ -5,7 +5,7 @@ $(() => {
   let predict = undefined; // 'on'|'off'
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  cd.predictOn = () => {
+  cd.predictIsOn = () => {
     return predict === 'on';
   };
 
@@ -28,12 +28,23 @@ $(() => {
   };
 
   const setPredictOn = () => {
+    // [1] Must be first because cd.updateTrafficLightsCount()
+    // checks if predict is on.
+    // [2] Consider of the following scenario:
+    //   o) predict? is on and you predict green (say) correctly
+    //   o) you turn predict? off
+    //   o) you [test] and get a red (say) traffic-light
+    //   o) you turn predict? on
+    // In this case there was no prediction on the
+    // most recent traffic-light.
+    setPredict('on'); // [1]
+    cd.updateTrafficLightsCount(); // [2]
     cd.countPredictBox().show();
-    setPredict('on');
   };
+
   const setPredictOff = () => {
-    cd.countPredictBox().hide();
     setPredict('off');
+    cd.countPredictBox().hide();
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -46,7 +57,7 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   cd.predictTrafficLight = (input, handler) => {
     // Called from the test-button handler
-    if (cd.predictOn()) {
+    if (cd.predictIsOn()) {
       openPredictionDialog(input, handler);
     } else {
       handler();
