@@ -76,12 +76,29 @@
     div[class~='filename'] { @include wide-list-item(); }
   }
 
-  #traffic-lights-count-total-box,
-  #traffic-lights-count-predict-box,
+  #traffic-lights-count-total-box
+  {
+    @include edged-panel();
+    display: inline-flex;
+    position:relative;
+    top:-2px;
+    margin: { left:2px; right:4px; }
+    max-height:20px;
+    .traffic-light-count
+    {
+      position:relative;
+      top:-3px;
+      padding: { left:3px; right:3px; }
+    }
+  }
+
+  #traffic-lights-count-predict-box
   {
      display:inline-flex;
      position:relative; top:2px;
-
+  }
+  #traffic-lights-count-predict-box
+  {
      #hit-box, #miss-box
      {
        @include edged-panel();
@@ -108,7 +125,7 @@
        padding: { left:3px; right:3px; }
      }
   }
-  
+
   #traffic-lights
   {
        display:inline-flex;
