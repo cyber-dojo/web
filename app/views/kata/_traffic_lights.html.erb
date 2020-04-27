@@ -111,14 +111,14 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const countTotalBox = $('#traffic-lights-count-total-box');
+  const $countTotalBox = $('#traffic-lights-count-total-box');
 
   const updateTrafficLightsTotalCount = () => {
-    const box = countTotalBox;
-    box.fadeOut('fast', () => {
-      box.empty().append(totalCount());
-      cd.setupHoverTips($('.traffic-light-count'));
-      box.fadeIn('fast');
+    const $box = $countTotalBox;
+    $box.fadeOut('fast', () => {
+      $box.empty().append(totalCount());
+      cd.setupHoverTips($('.traffic-light-count', $box));
+      $box.fadeIn('fast');
     });
   };
 
@@ -146,11 +146,11 @@ $(() => {
   cd.countPredictBox = () => $('#traffic-lights-count-predict-box');
 
   const updateTrafficLightsPredictCount = () => {
-    const box = cd.countPredictBox();
-    box.fadeOut('fast', () => {
-      box.empty().append(missBox()).append(hitBox());
+    const $box = cd.countPredictBox();
+    $box.fadeOut('fast', () => {
+      $box.empty().append(missBox()).append(hitBox());
       // TODO set hover-tips
-      box.fadeIn('fast');
+      $box.fadeIn('fast');
     });
   };
 
