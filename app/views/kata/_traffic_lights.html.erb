@@ -68,6 +68,7 @@ $(() => {
       $light.click(() => cd.setReviewData(version, id, groupId, avatarName, avatarIndex, index-1, index));
       cd.setupTrafficLightTip($light, version, id, avatarIndex, index-1, index);
       updateCountData(event);
+      counts.lastLight = event;
     }
     wasIndex(index);
   };
@@ -76,7 +77,6 @@ $(() => {
     const colour = event.colour;
     const predicted = event.predicted;
     counts[colour] += 1;
-    counts.lastEvent = event;
     // Don't count timed_out or faulty as incorrect predictions.
     if (predicted && predicted != 'none' && isRag(colour)) {
       if (colour === predicted) {
@@ -125,7 +125,7 @@ $(() => {
   const totalCount = () => {
     const total = counts.red + counts.amber + counts.green + counts.timed_out;
     return $('<div>', {
-      'class': `traffic-light-count ${lastEventColour()}`,
+      'class': `traffic-light-count ${lastColour()}`,
       'data-tip': 'traffic_light_count',
       'data-red-count': counts.red,
       'data-amber-count': counts.amber,
@@ -134,8 +134,8 @@ $(() => {
     }).text(total);
   };
 
-  const lastEventColour = () => {
-    const last = counts.lastEvent;
+  const lastColour = () => {
+    const last = counts.lastLight;
     return last ? last.colour : '';
   };
 
@@ -159,7 +159,8 @@ $(() => {
       id:'miss-img',
       src:'/traffic-light/image/circle-miss.png'
     });
-    const missColour = lastEventPredictedIncorrectly() ? counts.lastEvent.predicted : 'black';
+    const light = lastLight();
+    const missColour = predictedIncorrectly(light) ? light.predicted : '';
     const $missCount = $('<div>', {
       id:'miss-count',
       class:`traffic-light-count ${missColour}`
@@ -167,17 +168,13 @@ $(() => {
     return $('<div>', {'id':'miss-box'}).append($missImg).append($missCount);
   };
 
-  const lastEventPredictedIncorrectly = () => {
-    const last = counts.lastEvent;
-    return last && last.predicted != 'none' && last.predicted != last.colour;
-  };
-
   const hitBox = () => {
     const $hitImg = $('<img>', {
       id:'hit-img',
       src:'/traffic-light/image/circle-hit.png'
     });
-    const hitColour = lastEventPredictedCorrectly() ? counts.lastEvent.predicted : 'black';
+    const light = lastLight();
+    const hitColour = predictedCorrectly(light) ? light.predicted : '';
     const $hitCount = $('<div>', {
       id:'hit-count',
       class:`traffic-light-count ${hitColour}`
@@ -185,9 +182,15 @@ $(() => {
     return $('<div>', {'id':'hit-box'}).append($hitImg).append($hitCount);
   };
 
-  const lastEventPredictedCorrectly = () => {
-    const last = counts.lastEvent;
-    return last && last.predicted != 'none' && last.predicted == last.colour;
+  const predictedIncorrectly = (light) => prediction(light) && light.predicted != light.colour;
+
+  const predictedCorrectly   = (light) => prediction(light) && light.predicted == light.colour;
+
+  const prediction = (light) => light.prediction != 'none';
+
+  const lastLight = () => {
+    const last = counts.lastLight;
+    return last ? last : { predicted:'none' }
   };
 
   const isRag = (s) => ['red','amber','green'].includes(s);
