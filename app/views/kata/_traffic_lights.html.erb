@@ -73,13 +73,10 @@ $(() => {
     wasIndex(index);
   };
 
-  const updateCountData = (event) => {
-    const colour = event.colour;
-    const predicted = event.predicted;
-    counts[colour] += 1;
-    // Don't count timed_out or faulty as incorrect predictions.
-    if (predicted && predicted != 'none' && isRag(colour)) {
-      if (colour === predicted) {
+  const updateCountData = (light) => {
+    counts[light.colour] += 1;
+    if (prediction(light)) {
+      if (light.colour === light.predicted) {
         counts.hit += 1;
       } else {
         counts.miss += 1;
@@ -92,7 +89,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // cd.updateTrafficLightsCount() updates the total and predicted counts.
   // It is called from two places:
-  //   1) kata/edit when page loads/refreshes.
+  //   1) _edit.html.erb when page loads/refreshes.
   //   2) run_tests.js.erb when [test] is clicked.
 
   cd.updateTrafficLightsCount = () => {
@@ -118,29 +115,24 @@ $(() => {
   const totalCount = () => {
     const total = counts.red + counts.amber + counts.green + counts.timed_out;
     return $('<div>', {
-      'class': `traffic-light-count ${lastColour()}`,
+      'class': `traffic-light-count ${lastLight().colour}`,
     }).text(total);
-  };
-
-  const lastColour = () => {
-    const last = counts.lastLight;
-    return last ? last.colour : '';
   };
 
   const trafficLightsTotalCountHoverTip = () => {
     let html = '';
     html += '<table>';
-    html += trLight('red', counts.red);
-    html += trLight('amber', counts.amber);
-    html += trLight('green', counts.green);
+    html += lightTr('red', counts.red);
+    html += lightTr('amber', counts.amber);
+    html += lightTr('green', counts.green);
     if (counts.timed_out > 0) {
-      html += trLight('timed_out', counts.timed_out);
+      html += lightTr('timed_out', counts.timed_out);
     }
     html += '</table>';
     return html;
   };
 
-  const trLight = (colour, count) => {
+  const lightTr = (colour, count) => {
     const tr = (s) => `<tr>${s}</tr>`;
     const td = (s) => `<td>${s}</td>`;
     return '' +
