@@ -196,16 +196,14 @@ $(() => {
     return $('<div>', {'id':'hit-box'}).append($hitImg).append($hitCount);
   };
 
+  const lastLight = () => counts.lastLight ? counts.lastLight : { predicted:'none' };
+
   const predictedIncorrectly = (light) => prediction(light) && light.predicted != light.colour;
 
   const predictedCorrectly   = (light) => prediction(light) && light.predicted == light.colour;
 
-  const prediction = (light) => light.prediction != 'none' && isRag(light.colour);
-
-  const lastLight = () => {
-    const last = counts.lastLight;
-    return last ? last : { predicted:'none' }
-  };
+  // Don't count timed_out or faulty as incorrect predictions.
+  const prediction = (light) => light.predicted && light.predicted != 'none' && isRag(light.colour);
 
   const isRag = (s) => ['red','amber','green'].includes(s);
 
