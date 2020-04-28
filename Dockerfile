@@ -1,4 +1,4 @@
-ARG TRUE_BASE=cyberdojo/web-base:c10c77c
+ARG TRUE_BASE=cyberdojo/web-base:e8c4aba
 ARG BUILD_ENV
 # copy|no_copy
 
