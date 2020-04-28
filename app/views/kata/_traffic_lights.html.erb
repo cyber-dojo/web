@@ -200,7 +200,7 @@ $(() => {
 
   const predictedCorrectly   = (light) => prediction(light) && light.predicted == light.colour;
 
-  const prediction = (light) => light.prediction != 'none';
+  const prediction = (light) => light.prediction != 'none' && isRag(light.colour);
 
   const lastLight = () => {
     const last = counts.lastLight;
