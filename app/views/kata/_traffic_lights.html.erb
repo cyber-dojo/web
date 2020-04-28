@@ -115,7 +115,7 @@ $(() => {
   const totalCount = () => {
     const total = counts.red + counts.amber + counts.green + counts.timed_out;
     return $('<div>', {
-      'class': `traffic-light-count ${lastLight().colour}`,
+      'class': `${lastLight().colour} traffic-light-count`,
     }).text(total);
   };
 
@@ -159,35 +159,35 @@ $(() => {
   };
 
   const missBox = () => {
+    const light = lastLight();
+    const colour = predictedIncorrectly(light) ? light.predicted : 'black';
     const $missImg = $('<img>', {
       id:'miss-img',
-      src:'/traffic-light/image/circle-miss.png'
+      src:`/traffic-light/image/circle-miss-${colour}.png`
     });
-    const light = lastLight();
-    const missColour = predictedIncorrectly(light) ? light.predicted : '';
     const $missCount = $('<div>', {
       id:'miss-count',
-      class:`traffic-light-count ${missColour}`
+      class:'traffic-light-count'
     }).text(counts.miss);
     const hoverTip = 'incorrect predictions';
     cd.setTip($missCount, () => cd.showHoverTip($missCount, hoverTip));
-    return $('<div>', {'id':'miss-box'}).append($missImg).append($missCount);
+    return $('<div>', {id:'miss-box'}).append($missImg).append($missCount);
   };
 
   const hitBox = () => {
+    const light = lastLight();
+    const colour = predictedCorrectly(light) ? light.predicted : 'black';
     const $hitImg = $('<img>', {
       id:'hit-img',
-      src:'/traffic-light/image/circle-hit.png'
+      src:`/traffic-light/image/circle-hit-${colour}.png`
     });
-    const light = lastLight();
-    const hitColour = predictedCorrectly(light) ? light.predicted : '';
     const $hitCount = $('<div>', {
       id:'hit-count',
-      class:`traffic-light-count ${hitColour}`
+      class:'traffic-light-count'
     }).text(counts.hit);
     const hoverTip = 'correct predictions';
     cd.setTip($hitCount, () => cd.showHoverTip($hitCount, hoverTip));
-    return $('<div>', {'id':'hit-box'}).append($hitImg).append($hitCount);
+    return $('<div>', {id:'hit-box'}).append($hitImg).append($hitCount);
   };
 
   const lastLight = () => counts.lastLight ? counts.lastLight : { predicted:'none' };
