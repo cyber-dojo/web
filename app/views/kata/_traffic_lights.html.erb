@@ -169,7 +169,8 @@ $(() => {
       id:'miss-count',
       class:`traffic-light-count ${missColour}`
     }).text(counts.miss);
-    // TODO $missCount hover-tip?
+    const hoverTip = 'incorrect predictions';
+    cd.setTip($missCount, () => cd.showHoverTip($missCount, hoverTip));
     return $('<div>', {'id':'miss-box'}).append($missImg).append($missCount);
   };
 
@@ -184,7 +185,8 @@ $(() => {
       id:'hit-count',
       class:`traffic-light-count ${hitColour}`
     }).text(counts.hit);
-    // TODO $hitCount hover-tip?
+    const hoverTip = 'correct predictions';
+    cd.setTip($hitCount, () => cd.showHoverTip($hitCount, hoverTip));
     return $('<div>', {'id':'hit-box'}).append($hitImg).append($hitCount);
   };
 
