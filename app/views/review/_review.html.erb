@@ -611,6 +611,7 @@ $(() => {
   setupButton('fork', () => cd.forkDialog(param.id, param.nowIndex));
   setForkButtonTip();
   if (!inTestPage) {
+    $('#review-page').show();
     refresh();
   }
 

@@ -7,8 +7,9 @@
 
 #review-page
 {
-  margin: { top: 40px; left: 35px; }
   @include non-code-font();
+  margin: { top: 40px; left: 35px; }
+  display: none;
      padding: 0px;
   background: $darker-color;
        color: $lighter-color;
@@ -29,7 +30,7 @@
        min-height: 29px; // prevet flex shrinkage
             width: 29px;
            height: 29px;
-           margin: { left:0px; right:4px; }           
+           margin: { left:0px; right:4px; }
       }
   }
 
