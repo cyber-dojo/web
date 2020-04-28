@@ -188,11 +188,12 @@ div#predict-green:hover { background: url("/traffic-light/image/green_predicted_
 
 #timed-out, #faulty
 {
-  width: 550px;
   height: 240px;
   background: gray;
   font-size: 14px;
 }
+#timed-out { width: 300px; }
+#faulty { width: 550px; }
 
 //==================================================
 
