@@ -30,4 +30,6 @@ CyberDojo::Application.configure do
 
   config.log_level = :warn
 
+  config.hosts << "www.example.com"
+
 end

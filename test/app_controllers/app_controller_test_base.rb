@@ -72,7 +72,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   def post_run_tests(options = {})
     post '/kata/run_tests', params:run_test_params(options)
     @index += 1
-    assert_response :success
+    assert_response :success, response.body
   end
 
   # - - - - - - - - - - - - - - - -
