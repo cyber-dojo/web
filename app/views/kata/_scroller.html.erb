@@ -4,12 +4,18 @@ $(() => {
 
   cd.scrollLastTrafficLightIntoView = () => {
     // called in two places
-    //   1) edit.html.erb
-    //   2) run_tests.js.erb
-    $('#kata-page .diff-traffic-light:last-of-type').scrollIntoView({
-      direction: 'horizontal',
-       duration: 'slow'
-    });
+    //   1) edit.html.erb on page load/refresh
+    //   2) run_tests.js.erb after [test]
+    // I cannot find a nice way to reliably access the last
+    // traffic-light once the dom is ready. So this :-(
+    const quarterSecond = 250;
+    const scroller = () => {
+      $('#kata-page .diff-traffic-light:last-of-type').scrollIntoView({
+        direction: 'horizontal',
+         duration: 'slow'
+      });
+    };
+    setTimeout(scroller, quarterSecond);
   };
 
 });
