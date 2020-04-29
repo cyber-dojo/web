@@ -23,6 +23,7 @@
     width: 295px;
   }
 
+  #avatar-navigator, #traffic-light-navigator { max-height: 25px; }
   #avatar-box
   {
       img {
@@ -38,8 +39,8 @@
   {
     @include rounded-corner(6px);
      cursor: default;
-      width: 26px;
-     height: 26px;
+      width: 21px;
+     height: 21px;
      margin: 0px;
     padding: 0px;
      margin: 0px;
@@ -130,14 +131,14 @@
     margin-right: 6px;
     #review-index-box
     {
-      width: 37px;
       #index-number
       {
         @include rounded-corner(4px);
-        background: lighten($darker-color,15%);
            padding: { left: 3px; right: 3px; }
-         font-size: 20px;
+         font-size: 21px;
         text-align: center;
+          position: relative;
+               top: -3px;
       }
     }
     .triangle.button
@@ -183,6 +184,7 @@
     }
   }
 
+  .diff-traffic-light img { position:relative; top:2px; }
   #diff-filenames
   {
     display: flex;
