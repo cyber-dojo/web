@@ -162,7 +162,8 @@ $(() => {
       $('#avatar-navigator').hide();
     } else {
       refreshAvatar($('#prev-avatar'), param.prevAvatarId);
-      $('#review-avatar-image-box').html(makeAvatarImageHtml());
+      const $box = $('#review-avatar-image-box').html(makeAvatarImageHtml());
+      cd.setTip($box, () => cd.showHoverTip($box, param.avatarName));
       refreshAvatar($('#next-avatar'), param.nextAvatarId);
     }
   };
