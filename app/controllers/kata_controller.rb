@@ -12,7 +12,11 @@ class KataController < ApplicationController
     @avatar_name = kata.avatar_name
     @avatar_index = kata.avatar_index
     @version = kata.schema.version
-    @title = "kata:#{@id}"
+    if @group_id.nil?
+      @title = @id
+    else
+      @title = "#{@avatar_name}:#{@group_id}"
+    end
     # what
     manifest = kata.manifest
     @display_name = manifest.display_name
