@@ -7,7 +7,7 @@ class ReviewController < ApplicationController
     # differ-controller.
     set_bar_info
     @version = kata.schema.version
-    @title = 'review:' + kata.id
+    @title = 'review:' + kata.group.id
     @avatar_name = kata.avatar_name
     @avatar_index = kata.avatar_index
     @was_index = was_index
