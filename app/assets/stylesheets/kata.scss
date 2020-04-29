@@ -1,4 +1,34 @@
 
+#traffic-light-info
+{
+  font-size: 0.9em;
+  text-align: left;
+  a { color: khaki !important; }
+}
+#charity-info
+{
+  margin-top: 15px;
+  font-size: 0.7em;
+}
+.info
+{
+  @include plaintext-font();
+  @include rounded-corner(6px);
+  background: lighten($darker-color, 5%);
+      margin: { top: 3px; bottom: 3px; left: 0px; }
+     padding: 8px 8px 2px 8px;
+  text-align: left;
+  img { width:20px; height:20px; margin-right:5px; }
+  ul { margin: { top:5px; bottom:5px; } }
+}
+.nobull
+{
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  margin-left:22px;
+}
+
 #kata-page
 {
   margin: { top: 40px; left: 35px; }

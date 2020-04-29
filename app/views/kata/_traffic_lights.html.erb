@@ -84,7 +84,7 @@ $(() => {
     }
   };
 
-  const counts = { red:0, amber:0, green:0, timed_out:0, faulty: 0, hit:0, miss:0 };
+  const counts = { red:0, amber:0, green:0, timed_out:0, faulty:0, hit:0, miss:0 };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // cd.updateTrafficLightsCount() updates the total and predicted counts.
@@ -99,25 +99,49 @@ $(() => {
     }
   };
 
+  cd.showStartingInfoDialog = () => {
+    if (totalCount() === 0) {
+      const node = $('#traffic-light-info');
+      node.dialog({
+                width: 420,
+             autoOpen: true,
+        closeOnEscape: true,
+                modal: true,
+                title: cd.dialogTitle('welcome'),
+              buttons: { close: () => {
+                  node.remove();
+                }
+              },
+          beforeClose: event => {
+            if (event.keyCode === $.ui.keyCode.ESCAPE) {
+              node.remove();
+              return true;
+            }
+          }
+      });
+    }
+  };
+
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const $countTotalBox = $('#traffic-lights-count-total-box');
 
   const updateTrafficLightsTotalCount = () => {
     const $box = $countTotalBox;
     $box.fadeOut('fast', () => {
-      const $count = totalCount();
+      const $count = $totalCount();
       $box.empty().append($count);
       cd.setTip($count, () => cd.showHoverTip($count, trafficLightsTotalCountHoverTip()));
       $box.fadeIn('fast');
     });
   };
 
-  const totalCount = () => {
-    const total = counts.red + counts.amber + counts.green + counts.timed_out;
+  const $totalCount = () => {
     return $('<div>', {
       'class': `${lastLight().colour} traffic-light-count`,
-    }).text(total);
+    }).text(totalCount());
   };
+
+  const totalCount = () => counts.red + counts.amber + counts.green + counts.timed_out + counts.faulty;
 
   const trafficLightsTotalCountHoverTip = () => {
     let html = '';
@@ -127,6 +151,9 @@ $(() => {
     html += lightTr('green', counts.green);
     if (counts.timed_out > 0) {
       html += lightTr('timed_out', counts.timed_out);
+    }
+    if (counts.faulty > 0) {
+      html += lightTr('faulty', counts.faulty);
     }
     html += '</table>';
     return html;

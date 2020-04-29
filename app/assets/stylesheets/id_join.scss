@@ -41,17 +41,6 @@
     padding: 0px;
   }
 
-  .info
-  {
-    @include plaintext-font();
-    @include rounded-corner(6px);
-    background: lighten($darker-color, 5%);
-     font-size: 17px;
-        margin: { top: 3px; bottom: 3px; left: 0px; }
-       padding: 8px;
-    text-align: left;
-  }
-
   button
   {
     &#ok, &#cancel

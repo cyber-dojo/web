@@ -1,4 +1,5 @@
 
+<%= render partial: 'starting_info' %>
 <%= render partial: 'shared/hover_tip_container' %>
 <%= render partial: 'shared/app_bar' %>
 <div id="review-page"><%= render partial: 'review/review' %></div>
@@ -14,5 +15,6 @@ $(() => {
   cd.updateTrafficLightsCount();
   cd.loadInitialFile();
   cd.scrollLastTrafficLightIntoView();
+  cd.showStartingInfoDialog();
 });
 //--></script>

@@ -41,19 +41,19 @@ var cyberDojo = (function(cd, $) {
           '<tr>' +
             '<td>' + donateButton() + '</td>' +
             '<td>' +
-              "&nbsp;&nbsp;for an individual, I suggest donating $5+" +
+              "&nbsp;&nbsp;for an individual, we suggest donating $5+" +
             '</td>' +
           '</tr>' +
           '<tr>' +
             '<td>' + donateButton() + '</td>' +
             '<td>' +
-              "&nbsp;&nbsp;for a non-profit meetup, I suggest donating $15+" +
+              "&nbsp;&nbsp;for a non-profit meetup, we suggest donating $15+" +
             '</td>' +
           '</tr>' +
           '<tr>' +
             '<td>' + donateButton() + '</td>' +
             '<td>' +
-              "&nbsp;&nbsp;for a commercial organization, I suggest donating $500+" +
+              "&nbsp;&nbsp;for a commercial organization, we suggest donating $500+" +
             '</td>' +
           '</tr>' +
           '<tr>' +
