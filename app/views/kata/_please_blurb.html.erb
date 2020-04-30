@@ -1,3 +1,15 @@
+<script type="text/javascript"><!--
+'use strict';
+$(() => {
+
+  cd.emailFeedback = () => {
+    const url = "mailto:feedback@cyber-dojo.org?subject=cyber-dojo feedback";
+    window.open(url, '_blank');
+    return false;
+  };
+
+});
+//--></script>
 
 <div class="info">
   Please:<ul>
@@ -10,7 +22,10 @@
       <script async src="https://platform.twitter.com/widgets.js"
               charset="utf-8">
       </script>
-      to help publicize cyber-dojo, make suggestions, or report errors
+      to help publicize cyber-dojo
+    </li>
+    <li>
+    <a href="javascript:;" onClick="cd.emailFeedback()">email</a> suggestions or error reports
     </li>
     <li>
       consider <a href="javascript:;" onClick="cd.dialog_donate().dialog('open');">making a donation</a>
