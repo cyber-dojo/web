@@ -36,7 +36,8 @@ class KataController < ApplicationController
     # colour-syntax
     @theme = kata.theme
     @colour = kata.colour
-    @predict = kata.predict;
+    @predict = kata.predict
+    @env = ENV
   end
 
   # - - - - - - - - - - - - - - - - - -
@@ -88,7 +89,7 @@ class KataController < ApplicationController
     begin
       kata.ran_tests(*args)
     rescue SaverService::Error => error
-      #TODO: @message on footer...
+      #TODO: @message on app-bar?...
     end
     @avatar_index = params[:avatar_index]
     @light = {
