@@ -99,29 +99,6 @@ $(() => {
     }
   };
 
-  cd.showStartingInfoDialog = () => {
-    if (totalCount() === 0) {
-      const node = $('#traffic-light-info');
-      node.dialog({
-                width: 420,
-             autoOpen: true,
-        closeOnEscape: true,
-                modal: true,
-                title: cd.dialogTitle('welcome'),
-              buttons: { close: () => {
-                  node.remove();
-                }
-              },
-          beforeClose: event => {
-            if (event.keyCode === $.ui.keyCode.ESCAPE) {
-              node.remove();
-              return true;
-            }
-          }
-      });
-    }
-  };
-
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const $countTotalBox = $('#traffic-lights-count-total-box');
 
@@ -138,10 +115,10 @@ $(() => {
   const $totalCount = () => {
     return $('<div>', {
       'class': `${lastLight().colour} traffic-light-count`,
-    }).text(totalCount());
+    }).text(cd.trafficLightsCount());
   };
 
-  const totalCount = () => counts.red + counts.amber + counts.green + counts.timed_out + counts.faulty;
+  cd.trafficLightsCount = () => counts.red + counts.amber + counts.green + counts.timed_out + counts.faulty;
 
   const trafficLightsTotalCountHoverTip = () => {
     let html = '';

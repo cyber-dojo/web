@@ -1,13 +1,37 @@
-<div id="traffic-light-info" style="display:none">
+<script type="text/javascript"><!--
+'use strict';
+$(() => {
+
+  cd.showStartingInfoDialog = () => {
+    if (cd.trafficLightsCount() === 0) {
+      const node = $('#starting-info');
+      node.dialog({
+                width: 420,
+             autoOpen: true,
+        closeOnEscape: true,
+                modal: true,
+                title: cd.dialogTitle('welcome'),
+              buttons: { close: () => {
+                  node.remove();
+                }
+              },
+          beforeClose: event => {
+            if (event.keyCode === $.ui.keyCode.ESCAPE) {
+              node.remove();
+              return true;
+            }
+          }
+      });
+    }
+  };
+
+});
+//--></script>
+
+<div id="starting-info" style="display:none">
   <table>
     <tr><td><%= render partial: 'traffic_light_bulb_info' %></td></tr>
     <tr><td><%= render partial: 'traffic_light_click_info' %></td></tr>
     <tr><td><%= render partial: 'please_blurb' %></td></tr>
   </table>
-  <div id="charity-info">
-  The <a href="https://blog.cyber-dojo.org/2015/08/cyber-dojo-foundation.html" target="_blank">cyberdojo Foundation</a> is a
-  Scottish Charitable Incorporated Organisation.
-  100% of license fees and donations helps
-  <a href="https://blog.cyber-dojo.org/2016/10/cyber-dojo-raspberry-pies-in-action.html" target="_blank">children learn about software</a>.
-  </div>
 </div>
