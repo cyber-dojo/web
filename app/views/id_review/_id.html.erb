@@ -5,9 +5,6 @@ $(() => {
   const inputId = $('input#id');
   const waitSpinner = $('#wait-spinner');
   const dropDown = $('#drop-down');
-
-  const hiDiv = $('#hi-div');
-
   const ok = $('button#ok');
   const cancel = $('button#cancel');
 
@@ -32,16 +29,11 @@ $(() => {
   const dropDownHandler = (group) => {
     waitSpinner.hide();
     if (group.exists) {
-      prepareDropDown(group);
+      ok.unbind().click(() => openDashboard(group.id));
       inputId.slideUp('fast', () => dropDown.slideDown('slow'));
     } else {
       inputId.addClass('invalid');
     }
-  };
-
-  const prepareDropDown = (group) => {
-    //TODO: show image of dashboard...
-    ok.unbind().click(() => openDashboard(group.id));
   };
 
   const openDashboard = (groupId) => {
@@ -77,8 +69,10 @@ $(() => {
 </input>
 <br/>
 
-<div id="drop-down" style="display:none;">
-  <div id="hi-div"></div>
+<div id="drop-down">
+  <div id="snapshot">
+    <img src="/images/snapshots/dashboard.png" />
+  </div>
   <button id="ok">ok</button>
   <button id="cancel">cancel</button>
 </div>
