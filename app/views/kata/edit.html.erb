@@ -15,8 +15,6 @@ $(() => {
   cd.updateTrafficLightsCount();
   cd.loadInitialFile();
   cd.scrollLastTrafficLightIntoView();
-  if ("<%= @env['STARTING_INFO_DIALOG'] %>" !== 'off') {
-    cd.showStartingInfoDialog();
-  }
+  cd.showStartingInfoDialog("<%= @env['STARTING_INFO_DIALOG'] %>");
 });
 //--></script>

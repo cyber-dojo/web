@@ -2,8 +2,8 @@
 'use strict';
 $(() => {
 
-  cd.showStartingInfoDialog = () => {
-    if (cd.trafficLightsCount() === 0) {
+  cd.showStartingInfoDialog = (onOff) => {
+    if (cd.trafficLightsCount() === 0 && onOff !== 'off') {
       const node = $('#starting-info');
       node.dialog({
                 width: 420,
@@ -28,7 +28,7 @@ $(() => {
 });
 //--></script>
 
-<div id="starting-info" style="display:none">
+<div id="starting-info">
   <table>
     <tr><td><%= render partial: 'traffic_light_bulb_info' %></td></tr>
     <tr><td><%= render partial: 'traffic_light_click_info' %></td></tr>
