@@ -40,12 +40,8 @@ $(() => {
   };
 
   const prepareDropDown = (group) => {
-    showTrafficLightInfo();
+    //TODO: show image of dashboard...
     ok.unbind().click(() => openDashboard(group.id));
-  };
-
-  const showTrafficLightInfo = () => {
-    hiDiv.html($('#traffic-light-info').html());
   };
 
   const openDashboard = (groupId) => {
