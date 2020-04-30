@@ -55,7 +55,6 @@ $(() => {
 
   const prepareIndividualDropDown = (data) => {
     hiText.hide();
-    showTrafficLightInfo();
     showAvatar(data.avatarIndex, data.avatarName);
     loText.hide();
     cancel.hide();
@@ -64,16 +63,13 @@ $(() => {
       .show();
   };
 
-  const showTrafficLightInfo = () => {
-    midDiv.html($('#traffic-light-info').html());
-  };
-
   const showAvatar = (avatarIndex, avatarName) => {
     if (avatarName !== '') {
-      $('#avatar',midDiv).html($('<img>', {
-        'class':'avatar large',
-          'src':`/avatar/image/${avatarIndex}`
-      }));
+      const $avatar = $('<img>', {
+        class:'avatar large',
+          src:`/avatar/image/${avatarIndex}`
+      });
+      midDiv.append($avatar);
     }
   };
 
