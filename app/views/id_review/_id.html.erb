@@ -3,7 +3,6 @@
 $(() => {
 
   const inputId = $('input#id');
-  const waitSpinner = $('#wait-spinner');
   const dropDown = $('#drop-down');
   const ok = $('button#ok');
   const cancel = $('button#cancel');
@@ -27,7 +26,6 @@ $(() => {
   };
 
   const dropDownHandler = (group) => {
-    waitSpinner.hide();
     if (group.exists) {
       ok.unbind().click(() => openDashboard(group.id));
       inputId.slideUp('fast', () => dropDown.slideDown('slow'));

@@ -3,13 +3,10 @@
 $(() => {
 
   const inputId = $('input#id');
-  const waitSpinner = $('#wait-spinner');
   const dropDown = $('#drop-down');
-
   const hiText = $('#hi-text');
   const midDiv = $('#mid-div');
   const loText = $('#lo-text');
-
   const ok     = $('button#ok');
   const cancel = $('button#cancel');
 
@@ -55,7 +52,6 @@ $(() => {
 
   const prepareIndividualDropDown = (data) => {
     hiText.hide();
-    //TODO: Show image of kata/edit
     showAvatar(data.avatarIndex, data.avatarName);
     loText.hide();
     cancel.hide();
@@ -71,6 +67,12 @@ $(() => {
           src:`/avatar/image/${avatarIndex}`
       });
       midDiv.append($avatar);
+    } else {
+      const $img = $('<img>', {
+        id:'snapshot',
+        src:'/images/snapshots/edit.png'
+      });
+      midDiv.append($img);
     }
   };
 
@@ -120,7 +122,7 @@ $(() => {
 </input>
 <br/>
 
-<div id="drop-down" style="display:none;">
+<div id="drop-down">
   <span id="hi-text"></span>
   <div id="mid-div"></div>
   <span id="lo-text"></span>

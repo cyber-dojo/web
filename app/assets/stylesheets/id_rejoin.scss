@@ -3,6 +3,17 @@
 {
   @include id-common();
 
+  #drop-down { display:none; }
+  #mid-div
+  {
+    text-align: center;
+    img#snapshot
+    {
+      width: 500px;
+      display: inline-block;
+      border: 1px solid lightgray;
+    }
+  }
   #hi-text, #lo-text
   {
     @include non-code-font();
