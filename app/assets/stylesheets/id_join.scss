@@ -24,21 +24,6 @@
        height: 219px;
        margin: { right: 5px; }
     }
-    &.small
-    {
-      @include rounded-corner(2px);
-        width: 37px;
-       height: 37px;
-      display: block;
-    }
-  }
-
-  .traffic-light
-  {
-      width: 20px;
-     height: 20px;
-     margin: { top: 0px; bottom: 0px; left: 0px; right: 5px; }
-    padding: 0px;
   }
 
   button
