@@ -51,7 +51,6 @@ $(() => {
   };
 
   const prepareAvatarDropDown = (index, name, id) => {
-    showTrafficLightInfo();
     showAvatar(index, name);
     cancel.hide();
     ok.unbind()
@@ -59,15 +58,12 @@ $(() => {
       .show();
   };
 
-  const showTrafficLightInfo = () => {
-    hiDiv.html($('#traffic-light-info').html());
-  };
-
   const showAvatar = (index, name) => {
-    $('#avatar',hiDiv).html($('<img>', {
-      'class':'avatar large',
-        'src':`/avatar/image/${index}`
-    }));
+    const $avatar = $('<img>', {
+      class:'avatar large',
+        src:`/avatar/image/${index}`
+    });
+    hiDiv.append($avatar);
     loDiv.html(`your animal is the ${name}`);
   };
 

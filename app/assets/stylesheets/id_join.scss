@@ -19,7 +19,7 @@
     &.large
     {
       @include rounded-corner(6px);
-      display: block;
+      display: inline-block;
         width: 219px;
        height: 219px;
        margin: { right: 5px; }
