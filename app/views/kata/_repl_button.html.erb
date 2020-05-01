@@ -1,0 +1,125 @@
+<div id="repl-box">
+    <div id="repl-terminal-container" ></div>
+    <button type="button"
+            id="repl-button"
+            title="(re)starts the REPL">
+       repl
+    </button>
+</div>
+
+<script type="text/javascript">
+'use strict';
+$(function() {
+
+  // SocketMonitor watches the websocket that we use to talk to the server.
+  // If it goes down outside of our control, it silently re-opens the socket.
+  function SocketMonitor(url, terminal) {
+    this.socket = null;
+    this.start(url, terminal);
+  };
+
+  SocketMonitor.prototype.start = function(url, terminal) {
+    var that = this;
+
+    this.socket = new WebSocket(url);
+
+    this.socket.onopen = function(event) {
+      console.log('socket opened');
+      terminal.attach(that.socket);
+      terminal._initialize = true;
+    };
+
+    this.socket.onclose = function(event) {
+      console.log('socket closed');
+      terminal.detach(that.socket);
+
+      // If the close corresponds to nginx timing out the socket, then
+      // restart it silently.
+      if (event.code == 1006) {
+        that.start(url, terminal);
+      }
+    };
+
+    this.socket.onerror = function(event) {
+      terminal.writeln('Error connecting to REPL');
+    };
+  };
+
+  SocketMonitor.prototype.close = function() {
+    this.socket.close(1000, "User requested new REPL");
+  };
+
+  // Create and configure the terminal
+  var terminalContainer = document.getElementById('repl-terminal-container') ;
+
+  Terminal.applyAddon(attach);
+  Terminal.applyAddon(fit);
+  Terminal.applyAddon(fullscreen);
+  Terminal.applyAddon(search);
+  Terminal.applyAddon(winptyCompat);
+
+  var term = new Terminal({
+    cursorBlink: true, // optionElements.cursorBlink.checked,
+    scrollback: 10, // parseInt(optionElements.scrollback.value, 10),
+    tabStopWidth: 10 // parseInt(optionElements.tabstopwidth.value, 10)
+  });
+
+  window.term = term;
+  term.open(terminalContainer);
+  term.winptyCompatInit();
+  term.fit();
+  term.focus();
+
+  var avatarName = 'lion'; // TODO: DROP
+  var kataId = "<%= @kata.id %>";
+  var replButton = $("#repl-button");
+  var urlId = kataId + '/' + avatarName;
+  var replURL = 'http://' + location.hostname + '/repl/' + urlId;
+  var socketURL = 'ws://' + location.hostname + '/repl_ws/' + urlId;
+
+  // The SocketMonitor for talking with the REPL on the server.
+  var socket = null;
+
+  // Request that the REPL be terminated.
+  // Returns the promise for the DELETE request.
+  var destroyRepl = function() {
+    console.log('destroying repl');
+    term.writeln('\n\r\033[31mREPL disconnected\033[0m');
+    return fetch(replURL, { method: 'DELETE' });
+  };
+
+  // Request that a REPL be created.
+  // Returns the promise for the POST request.
+  var createRepl = function() {
+    var form = replButton.closest('form');
+    term.writeln('\033[32mConnecting to REPL\033[0m');
+    console.log('creating repl');
+    cd.saveCodeFromSyntaxHighlightEditors();
+    const requestParams = {
+      method: 'POST',
+      body: JSON.stringify(form.serializeArray()),
+      headers: { 'content-type': 'application/json' }
+    };
+    return fetch(replURL, requestParams);
+  };
+
+  // At startup, we create a REPL and websocket(monitor) to talk to it.
+  createRepl().then(function() {
+    socket = new SocketMonitor(socketURL, term);
+  });
+
+  replButton.click(function() {
+    socket.close();
+    socket = null;
+    destroyRepl()
+      .then(createRepl)
+      .then(function() {
+        socket = new SocketMonitor(socketURL, term);
+      });
+  });
+
+  // TODO: How can we arrange for destroyRepl() to be called when the page closes?
+
+});
+
+</script>
