@@ -25,6 +25,8 @@
   margin-left:22px;
 }
 
+//---------------------------------------------------
+
 #kata-page
 {
   margin: { top: 40px; left: 35px; }
@@ -48,7 +50,7 @@
         top: -2px;
   }
 
-  #test-button
+  #test-button, #repl-button
   {
     @include non-code-font();
     @include font-size-medium();
