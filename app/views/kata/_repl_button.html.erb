@@ -7,9 +7,11 @@
     </button>
 </div>
 
-<script type="text/javascript">
+<script type="text/javascript"><!--
 'use strict';
 $(function() {
+
+  console.log('GOT TO HERE...');
 
   // SocketMonitor watches the websocket that we use to talk to the server.
   // If it goes down outside of our control, it silently re-opens the socket.
@@ -51,12 +53,15 @@ $(function() {
 
   // Create and configure the terminal
   var terminalContainer = document.getElementById('repl-terminal-container') ;
+  console.log(`terminalContainer=${terminalContainer}`);
 
   Terminal.applyAddon(attach);
   Terminal.applyAddon(fit);
   Terminal.applyAddon(fullscreen);
   Terminal.applyAddon(search);
   Terminal.applyAddon(winptyCompat);
+
+  console.log(`Terminal.applyAddOn() calls made`);
 
   var term = new Terminal({
     cursorBlink: true, // optionElements.cursorBlink.checked,
@@ -122,4 +127,4 @@ $(function() {
 
 });
 
-</script>
+//--></script>
