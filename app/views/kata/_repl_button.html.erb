@@ -73,8 +73,8 @@ $(() => {
   const avatarName = 'lion'; // TODO: DROP
   const kataId = "<%= @kata.id %>";
   const urlId = kataId + '/' + avatarName;
-  const replURL = 'http://' + location.hostname + '/repl/' + urlId;
-  const socketURL = 'ws://' + location.hostname + '/repl_ws/' + urlId;
+  const replURL = 'http://' + location.hostname + '/repler/' + urlId;
+  const socketURL = 'ws://' + location.hostname + '/repler_ws/' + urlId;
 
   const inGreen = (s) => {
     const greenCode = '\u001b[32m';
