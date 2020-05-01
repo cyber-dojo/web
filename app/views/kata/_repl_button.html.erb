@@ -11,9 +11,12 @@
 'use strict';
 $(() => {
 
-  // SocketMonitor watches the websocket that we use to talk to the server.
-  // If it goes down outside of our control, it silently re-opens the socket.
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   function SocketMonitor(url, terminal) {
+    // SocketMonitor watches the websocket
+    // we use to talk to the server.
+    // If it goes down outside of our control
+    // it silently re-opens the socket.
     this.socket = null;
     this.start(url, terminal);
   };
@@ -32,10 +35,9 @@ $(() => {
     this.socket.onclose = function(event) {
       console.log('socket closed');
       terminal.detach(that.socket);
-
-      // If the close corresponds to nginx timing out the socket, then
-      // restart it silently.
-      if (event.code == 1006) {
+      const NGINX_TIMEOUT_CODE = 1006;
+      if (event.code === NGINX_TIMEOUT_CODE) {
+        // Restart it silently.
         that.start(url, terminal);
       }
     };
@@ -46,30 +48,32 @@ $(() => {
   };
 
   SocketMonitor.prototype.close = function() {
-    this.socket.close(1000, "User requested new REPL");
+    this.socket.close(1000, 'User requested new REPL');
   };
 
-  // Create and configure the terminal
-  var terminalContainer = document.getElementById('repl-terminal-container') ;
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  const createTerminalIn = (cssId) => {
+    // Create and configure the terminal
+    const terminalContainer = document.getElementById(cssId) ;
+    const term = new Terminal({
+      cursorBlink: true, // optionElements.cursorBlink.checked,
+      scrollback: 10, // parseInt(optionElements.scrollback.value, 10),
+      tabStopWidth: 10 // parseInt(optionElements.tabstopwidth.value, 10)
+    });
+    Terminal.applyAddon(attach);
+    Terminal.applyAddon(fit);
+    Terminal.applyAddon(fullscreen);
+    Terminal.applyAddon(search);
+    Terminal.applyAddon(winptyCompat);
+    $(`#${cssId}`).show();
+    window.term = term;
+    term.open(terminalContainer);
+    term.winptyCompatInit();
+    term.fit();
+    term.focus();
+  };
 
-  Terminal.applyAddon(attach);
-  Terminal.applyAddon(fit);
-  Terminal.applyAddon(fullscreen);
-  Terminal.applyAddon(search);
-  Terminal.applyAddon(winptyCompat);
-
-  var term = new Terminal({
-    cursorBlink: true, // optionElements.cursorBlink.checked,
-    scrollback: 10, // parseInt(optionElements.scrollback.value, 10),
-    tabStopWidth: 10 // parseInt(optionElements.tabstopwidth.value, 10)
-  });
-
-  window.term = term;
-  term.open(terminalContainer);
-  term.winptyCompatInit();
-  term.fit();
-  term.focus();
-
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   var avatarName = 'lion'; // TODO: DROP
   var kataId = "<%= @kata.id %>";
   var replButton = $("#repl-button");
@@ -109,6 +113,7 @@ $(() => {
   //SyntaxError: "0"-prefixed octal literals and octal escape sequences are deprecated; for octal literals use the "0o" prefix instead
 
   replButton.click(() => {
+    createTerminalIn('repl-terminal-container');
     if (socket !== null) {
       socket.close();
       socket = null;
