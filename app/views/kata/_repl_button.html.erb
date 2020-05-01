@@ -85,6 +85,7 @@ $(() => {
   var destroyRepl = function() {
     console.log('destroying repl');
     //term.writeln('\n\r\033[31mREPL disconnected\033[0m'); // [1]
+    //term.writeln('REPL disconnected');
     return fetch(replURL, { method: 'DELETE' });
   };
 
@@ -93,6 +94,7 @@ $(() => {
   var createRepl = function() {
     var form = replButton.closest('form');
     //term.writeln('\033[32mConnecting to REPL\033[0m'); // [1]
+    term.writeln('Connecting to REPL');
     console.log('creating repl');
     cd.saveCodeFromSyntaxHighlightEditors();
     const requestParams = {
@@ -106,19 +108,15 @@ $(() => {
   // [1]
   //SyntaxError: "0"-prefixed octal literals and octal escape sequences are deprecated; for octal literals use the "0o" prefix instead
 
-  // At startup, we create a REPL and websocket(monitor) to talk to it.
-  createRepl().then(function() {
-    socket = new SocketMonitor(socketURL, term);
-  });
-
-  replButton.click(function() {
-    socket.close();
-    socket = null;
+  replButton.click(() => {
+    if (socket !== null) {
+      socket.close();
+      socket = null;
+    }
     destroyRepl()
       .then(createRepl)
-      .then(function() {
-        socket = new SocketMonitor(socketURL, term);
-      });
+      .then(() => { socket = new SocketMonitor(socketURL, term); })
+      .then(() => term.writeln('Ready...'));
   });
 
   // TODO: How can we arrange for destroyRepl() to be called when the page closes?
