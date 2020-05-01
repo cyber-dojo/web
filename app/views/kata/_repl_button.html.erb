@@ -13,10 +13,8 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   function SocketMonitor(url, terminal) {
-    // SocketMonitor watches the websocket
-    // we use to talk to the server.
-    // If it goes down outside of our control
-    // it silently re-opens the socket.
+    // Watches the websocket we talk to the server with.
+    // If it goes down outside of our control it silently re-opens the socket.
     this.socket = null;
     this.start(url, terminal);
   };
@@ -53,7 +51,6 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const createTerminalIn = (cssId) => {
-    // Create and configure the terminal
     const terminalContainer = document.getElementById(cssId) ;
     const term = new Terminal({
       cursorBlink: true, // optionElements.cursorBlink.checked,
@@ -66,60 +63,60 @@ $(() => {
     Terminal.applyAddon(search);
     Terminal.applyAddon(winptyCompat);
     $(`#${cssId}`).show();
-    window.term = term;
     term.open(terminalContainer);
     term.winptyCompatInit();
     term.fit();
     term.focus();
+    return term;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  var avatarName = 'lion'; // TODO: DROP
-  var kataId = "<%= @kata.id %>";
-  var replButton = $("#repl-button");
-  var urlId = kataId + '/' + avatarName;
-  var replURL = 'http://' + location.hostname + '/repl/' + urlId;
-  var socketURL = 'ws://' + location.hostname + '/repl_ws/' + urlId;
+  const avatarName = 'lion'; // TODO: DROP
+  const kataId = "<%= @kata.id %>";
+  const urlId = kataId + '/' + avatarName;
+  const replURL = 'http://' + location.hostname + '/repl/' + urlId;
+  const socketURL = 'ws://' + location.hostname + '/repl_ws/' + urlId;
 
-  // The SocketMonitor for talking with the REPL on the server.
-  var socket = null;
-
-  // Request that the REPL be terminated.
-  // Returns the promise for the DELETE request.
-  var destroyRepl = function() {
+  const destroyRepl = () => {
+    // Request that the REPL be terminated.
+    // Returns the promise for the DELETE request.
     console.log('destroying repl');
     //term.writeln('\n\r\033[31mREPL disconnected\033[0m'); // [1]
     //term.writeln('REPL disconnected');
     return fetch(replURL, { method: 'DELETE' });
   };
 
-  // Request that a REPL be created.
-  // Returns the promise for the POST request.
-  var createRepl = function() {
-    var form = replButton.closest('form');
-    //term.writeln('\033[32mConnecting to REPL\033[0m'); // [1]
-    term.writeln('Connecting to REPL');
-    console.log('creating repl');
-    cd.saveCodeFromSyntaxHighlightEditors();
+  const createRepl = (term) => {
+    // Request that a REPL be created.
+    // Returns the promise for the POST request.
+    const form = replButton.closest('form');
     const requestParams = {
       method: 'POST',
       body: JSON.stringify(form.serializeArray()),
       headers: { 'content-type': 'application/json' }
     };
+    //term.writeln('\033[32mConnecting to REPL\033[0m'); // [1]
+    term.writeln('Connecting to REPL');
+    console.log('creating repl');
+    cd.saveCodeFromSyntaxHighlightEditors();
     return fetch(replURL, requestParams);
   };
 
   // [1]
   //SyntaxError: "0"-prefixed octal literals and octal escape sequences are deprecated; for octal literals use the "0o" prefix instead
+  const replButton = $("#repl-button");
+
+  // The SocketMonitor for talking with the REPL on the server.
+  var socket = null;
 
   replButton.click(() => {
-    createTerminalIn('repl-terminal-container');
+    const term = createTerminalIn('repl-terminal-container');
     if (socket !== null) {
       socket.close();
       socket = null;
     }
     destroyRepl()
-      .then(createRepl)
+      .then(() => createRepl(term))
       .then(() => { socket = new SocketMonitor(socketURL, term); })
       .then(() => term.writeln('Ready...'));
   });
