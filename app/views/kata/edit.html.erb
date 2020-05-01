@@ -5,7 +5,7 @@
 <div id="review-page"><%= render partial: 'review/review' %></div>
 <div id="kata-page"><%= render partial: 'view_test' %></div>
 
-<script type="text/javascript"><!--
+<script type="text/javascript">
 'use strict';
 $(() => {
   cd.kataId = () => "<%= @id %>";
@@ -17,4 +17,4 @@ $(() => {
   cd.scrollLastTrafficLightIntoView();
   cd.showStartingInfoDialog("<%= @env['STARTING_INFO_DIALOG'] %>");
 });
-//--></script>
+</script>
