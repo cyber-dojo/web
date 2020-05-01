@@ -24,7 +24,7 @@ $(() => {
 
     this.socket = new WebSocket(url);
 
-    this.socket.onopen = function(event) {
+    this.socket.onopen = function(_event) {
       console.log('socket opened');
       terminal.attach(that.socket);
       terminal._initialize = true;
@@ -35,8 +35,7 @@ $(() => {
       terminal.detach(that.socket);
       const NGINX_TIMEOUT_CODE = 1006;
       if (event.code === NGINX_TIMEOUT_CODE) {
-        // Restart it silently.
-        that.start(url, terminal);
+        that.start(url, terminal); // Restart silently.
       }
     };
 
@@ -77,12 +76,17 @@ $(() => {
   const replURL = 'http://' + location.hostname + '/repl/' + urlId;
   const socketURL = 'ws://' + location.hostname + '/repl_ws/' + urlId;
 
-  const destroyRepl = () => {
+  const inGreen = (s) => {
+    const greenCode = '\u001b[32m';
+    const resetCode = '\u001b[0m';
+    return `${greenCode}${s}${resetCode}`;
+  };
+
+  const destroyRepl = (term) => {
     // Request that the REPL be terminated.
     // Returns the promise for the DELETE request.
     console.log('destroying repl');
-    //term.writeln('\n\r\033[31mREPL disconnected\033[0m'); // [1]
-    //term.writeln('REPL disconnected');
+    //term.writeln(inGreen('REPL disconnected'));
     return fetch(replURL, { method: 'DELETE' });
   };
 
@@ -95,15 +99,12 @@ $(() => {
       body: JSON.stringify(form.serializeArray()),
       headers: { 'content-type': 'application/json' }
     };
-    //term.writeln('\033[32mConnecting to REPL\033[0m'); // [1]
-    term.writeln('Connecting to REPL');
+    term.writeln(inGreen('Connecting to REPL'));
     console.log('creating repl');
     cd.saveCodeFromSyntaxHighlightEditors();
     return fetch(replURL, requestParams);
   };
 
-  // [1]
-  //SyntaxError: "0"-prefixed octal literals and octal escape sequences are deprecated; for octal literals use the "0o" prefix instead
   const replButton = $("#repl-button");
 
   // The SocketMonitor for talking with the REPL on the server.
@@ -115,7 +116,7 @@ $(() => {
       socket.close();
       socket = null;
     }
-    destroyRepl()
+    destroyRepl(term)
       .then(() => createRepl(term))
       .then(() => { socket = new SocketMonitor(socketURL, term); })
       .then(() => term.writeln('Ready...'));
