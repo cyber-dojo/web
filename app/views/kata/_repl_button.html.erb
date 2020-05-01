@@ -70,9 +70,7 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const avatarName = 'lion'; // TODO: DROP
-  const kataId = "<%= @kata.id %>";
-  const urlId = kataId + '/' + avatarName;
+  const urlId = "<%= @kata.id %>";
   const replURL = 'http://' + location.hostname + '/repler/' + urlId;
   const socketURL = 'ws://' + location.hostname + '/repler_ws/' + urlId;
 
