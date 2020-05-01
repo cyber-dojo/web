@@ -7,11 +7,9 @@
     </button>
 </div>
 
-<script type="text/javascript"><!--
+<script type="text/javascript">
 'use strict';
-$(function() {
-
-  console.log('GOT TO HERE...');
+$(() => {
 
   // SocketMonitor watches the websocket that we use to talk to the server.
   // If it goes down outside of our control, it silently re-opens the socket.
@@ -53,15 +51,12 @@ $(function() {
 
   // Create and configure the terminal
   var terminalContainer = document.getElementById('repl-terminal-container') ;
-  console.log(`terminalContainer=${terminalContainer}`);
 
   Terminal.applyAddon(attach);
   Terminal.applyAddon(fit);
   Terminal.applyAddon(fullscreen);
   Terminal.applyAddon(search);
   Terminal.applyAddon(winptyCompat);
-
-  console.log(`Terminal.applyAddOn() calls made`);
 
   var term = new Terminal({
     cursorBlink: true, // optionElements.cursorBlink.checked,
@@ -89,7 +84,7 @@ $(function() {
   // Returns the promise for the DELETE request.
   var destroyRepl = function() {
     console.log('destroying repl');
-    term.writeln('\n\r\033[31mREPL disconnected\033[0m');
+    //term.writeln('\n\r\033[31mREPL disconnected\033[0m'); // [1]
     return fetch(replURL, { method: 'DELETE' });
   };
 
@@ -97,7 +92,7 @@ $(function() {
   // Returns the promise for the POST request.
   var createRepl = function() {
     var form = replButton.closest('form');
-    term.writeln('\033[32mConnecting to REPL\033[0m');
+    //term.writeln('\033[32mConnecting to REPL\033[0m'); // [1]
     console.log('creating repl');
     cd.saveCodeFromSyntaxHighlightEditors();
     const requestParams = {
@@ -107,6 +102,9 @@ $(function() {
     };
     return fetch(replURL, requestParams);
   };
+
+  // [1]
+  //SyntaxError: "0"-prefixed octal literals and octal escape sequences are deprecated; for octal literals use the "0o" prefix instead
 
   // At startup, we create a REPL and websocket(monitor) to talk to it.
   createRepl().then(function() {
@@ -126,5 +124,4 @@ $(function() {
   // TODO: How can we arrange for destroyRepl() to be called when the page closes?
 
 });
-
-//--></script>
+</script>
