@@ -52,7 +52,7 @@
         top: -2px;
   }
 
-  #test-button, #repl-button
+  #test-button
   {
     @include font-size-medium();
            display: inline;
@@ -62,36 +62,39 @@
           position: relative;
                top: -2px;
   }
-  #repl-box { display: inline-block; }
-  #repl-button
-  {
-    @include font-size-tiny();
-    position: relative;
-    top: 6px;
-  }
 
   #file-operations
   {
     @include edged-panel();
-    background: lighten($darker-color,10%);
     @include font-size-tiny();
-    vertical-align:top;
-    padding:{ top:5px; bottom:5px; }
-    margin:{ top:3px; bottom:3px; left:0px; right:0px }
-    display:inline-flex;
-    div { display:inline; }
+    background: lighten($darker-color,10%);
+    vertical-align: top;
+    padding: { top:5px; bottom:5px; }
+    margin: { top:3px; bottom:3px; left:0px; right:0px }
+    display: inline-flex;
+    div { display: inline; }
     #label
     {
       @include plaintext-font();
       cursor: default;
-      font-size: 12px;
+      font-size: 13px;
+      margin-right: 3px;
+      position: relative;
+      top: 1px;
     }
-    #new, #rename, #delete
-    {
-      @include rounded-corner(4px);
-      padding:{ top:0px; bottom:1px; left:4px; right:4px; }
-      margin: { left:1px; right:1px; }
-    }
+  }
+  #repl-box
+  {
+    display: inline-block;
+    position: relative;
+    top: 7px;
+  }
+  #new, #rename, #delete, #repl-button
+  {
+    @include rounded-corner(4px);
+    font-size: 12px;
+    padding:{ top:0px; bottom:1px; left:4px; right:4px; }
+    margin: { left:1px; right:1px; }
   }
 
   #filename-list
