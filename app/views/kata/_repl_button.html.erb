@@ -35,7 +35,7 @@ $(() => {
       terminal.detach(that.socket);
       const NGINX_TIMEOUT_CODE = 1006;
       if (event.code === NGINX_TIMEOUT_CODE) {
-        that.start(url, terminal); // Restart silently.
+        that.start(url, terminal);
       }
     };
 
@@ -51,7 +51,7 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const createTerminalIn = (cssId) => {
     const terminalContainer = document.getElementById(cssId) ;
-    const term = new Terminal({
+    const terminal = new Terminal({
       cursorBlink: true, // optionElements.cursorBlink.checked,
       scrollback: 10, // parseInt(optionElements.scrollback.value, 10),
       tabStopWidth: 10 // parseInt(optionElements.tabstopwidth.value, 10)
@@ -62,17 +62,17 @@ $(() => {
     Terminal.applyAddon(search);
     Terminal.applyAddon(winptyCompat);
     $(`#${cssId}`).show();
-    term.open(terminalContainer);
-    term.winptyCompatInit();
-    term.fit();
-    term.focus();
-    return term;
+    terminal.open(terminalContainer);
+    terminal.winptyCompatInit();
+    terminal.fit();
+    terminal.focus();
+    return terminal;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const urlId = "<%= @kata.id %>";
-  const replURL = 'http://' + location.hostname + '/repler/' + urlId;
-  const socketURL = 'ws://' + location.hostname + '/repler_ws/' + urlId;
+  const id = "<%= @kata.id %>";
+  const replUrl = 'http://' + location.hostname + '/repler/' + id;
+  const socketUrl = 'ws://' + location.hostname + '/repler_ws/' + id;
 
   const inGreen = (s) => {
     const greenCode = '\u001b[32m';
@@ -80,18 +80,18 @@ $(() => {
     return `${greenCode}${s}${resetCode}`;
   };
 
-  const destroyRepl = (term) => {
+  const destroyRepl = (_terminal) => {
     // Request that the REPL be terminated.
     // Returns the promise for the DELETE request.
     console.log('destroying repl');
-    //term.writeln(inGreen('REPL disconnected'));
-    return fetch(replURL, { method: 'DELETE' });
+    //terminal.writeln(inGreen('REPL disconnected'));
+    return fetch(replUrl, { method: 'DELETE' });
   };
 
-  const createRepl = (term) => {
+  const createRepl = (terminal) => {
     // Request that a REPL be created.
     // Returns the promise for the POST request.
-    term.writeln(inGreen('Connecting to REPL'));
+    terminal.writeln(inGreen('Connecting to REPL'));
     console.log('creating repl');
     cd.saveCodeFromSyntaxHighlightEditors();
     const form = replButton.closest('form');
@@ -100,24 +100,27 @@ $(() => {
       body: JSON.stringify(form.serializeArray()),
       headers: { 'content-type': 'application/json' }
     };
-    return fetch(replURL, requestParams);
+    return fetch(replUrl, requestParams);
   };
 
   const replButton = $("#repl-button");
 
   // The SocketMonitor for talking with the REPL on the server.
+  // TODO: 1. put inside dialog
+  // TODO: 2. dialog.close => socket.close
+  // TODO: 3. move socket declaration inside replButton click handler
   var socket = null;
 
   replButton.click(() => {
-    const term = createTerminalIn('repl-terminal-container');
+    const terminal = createTerminalIn('repl-terminal-container');
     if (socket !== null) {
       socket.close();
       socket = null;
     }
-    destroyRepl(term)
-      .then(() => createRepl(term))
-      .then(() => { socket = new SocketMonitor(socketURL, term); })
-      .then(() => term.writeln('Ready...'));
+    destroyRepl(terminal)
+      .then(() => { socket = new SocketMonitor(socketUrl, terminal); })
+      .then(() => createRepl(terminal))
+      .then(() => terminal.writeln('Ready...'));
   });
 
   // TODO: How can we arrange for destroyRepl() to be called when the page closes?
