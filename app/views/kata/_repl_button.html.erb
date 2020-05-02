@@ -4,6 +4,14 @@
 'use strict';
 $(() => {
 
+  const replButton = $("#repl-button");
+
+  cd.setupReplButton = (onOff) => {
+    if (onOff === 'on' || cd.kataId() === 'gDDxYn') {
+      replButton.show();
+    }
+  };
+
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   function SocketMonitor(url, terminal) {
     // Watches the websocket we talk to the server with.
@@ -95,8 +103,6 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const replButton = $("#repl-button");
-
   replButton.click(() => {
     const node = $('<div>');
     const container = $('<div class="repl-box">');

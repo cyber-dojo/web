@@ -12,6 +12,7 @@ $(() => {
   cd.setupThemeColourButtonsClickHandlers("<%= @theme %>", "<%= @colour %>");
   cd.setupPredictButton("<%= @predict %>");
   cd.setupHotkeysButton();
+  cd.setupReplButton("<%= @env['REPL_BUTTON'] %>");
   cd.updateTrafficLightsCount();
   cd.loadInitialFile();
   cd.scrollLastTrafficLightIntoView();
