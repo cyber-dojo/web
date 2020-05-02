@@ -1,11 +1,4 @@
-<div id="repl-box">
-    <div id="repl-terminal-container" ></div>
-    <button type="button"
-            id="repl-button"
-            title="(re)starts the REPL">
-       repl
-    </button>
-</div>
+<button type="button" id="repl-button" title="starts a REPL">repl</button>
 
 <script type="text/javascript">
 'use strict';
@@ -49,8 +42,7 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const createTerminalIn = (cssId) => {
-    const terminalContainer = document.getElementById(cssId) ;
+  const createTerminalIn = (container) => {
     const terminal = new Terminal({
       cursorBlink: true, // optionElements.cursorBlink.checked,
       scrollback: 10, // parseInt(optionElements.scrollback.value, 10),
@@ -61,8 +53,7 @@ $(() => {
     Terminal.applyAddon(fullscreen);
     Terminal.applyAddon(search);
     Terminal.applyAddon(winptyCompat);
-    $(`#${cssId}`).show();
-    terminal.open(terminalContainer);
+    terminal.open(container); // container must be visible
     terminal.winptyCompatInit();
     terminal.fit();
     terminal.focus();
@@ -71,8 +62,8 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const id = "<%= @kata.id %>";
-  const replUrl = 'http://' + location.hostname + '/repler/' + id;
-  const socketUrl = 'ws://' + location.hostname + '/repler_ws/' + id;
+  const replUrl = `http://${location.hostname}/repler/repl/${id}`;
+  const socketUrl = `ws://${location.hostname}/repler_ws/repl/${id}`;
 
   const inGreen = (s) => {
     const greenCode = '\u001b[32m';
@@ -103,27 +94,37 @@ $(() => {
     return fetch(replUrl, requestParams);
   };
 
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const replButton = $("#repl-button");
 
-  // The SocketMonitor for talking with the REPL on the server.
-  // TODO: 1. put inside dialog
-  // TODO: 2. dialog.close => socket.close
-  // TODO: 3. move socket declaration inside replButton click handler
-  var socket = null;
-
   replButton.click(() => {
-    const terminal = createTerminalIn('repl-terminal-container');
-    if (socket !== null) {
-      socket.close();
-      socket = null;
-    }
+    const node = $('<div>');
+    const container = $('<div class="repl-box">');
+    node.append(container)
+        .dialog({
+              width: 700,
+           autoOpen: true,
+      closeOnEscape: true,
+              modal: true,
+              title: cd.dialogTitle('repl'),
+            buttons: { close: () => shutDown() },
+        beforeClose: event => {
+          if (event.keyCode === $.ui.keyCode.ESCAPE) {
+            shutDown();
+            return true;
+          }
+        }
+    });
+    const terminal = createTerminalIn(container[0]); // must be visible
+    const socket = new SocketMonitor(socketUrl, terminal);
+    const shutDown = () => { socket.close(); node.remove(); };
+    
     destroyRepl(terminal)
-      .then(() => { socket = new SocketMonitor(socketUrl, terminal); })
       .then(() => createRepl(terminal))
       .then(() => terminal.writeln('Ready...'));
   });
 
-  // TODO: How can we arrange for destroyRepl() to be called when the page closes?
+  // TODO: Call destroyRepl() when the page closes.
 
 });
 </script>
