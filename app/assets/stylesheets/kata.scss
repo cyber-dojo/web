@@ -54,7 +54,6 @@
 
   #test-button, #repl-button
   {
-    @include non-code-font();
     @include font-size-medium();
            display: inline;
             margin: { right: 2px; }
@@ -62,6 +61,13 @@
         text-align: center;
           position: relative;
                top: -2px;
+  }
+  #repl-box { display: inline-block; }
+  #repl-button
+  {
+    @include font-size-tiny();
+    position: relative;
+    top: 6px;
   }
 
   #file-operations
