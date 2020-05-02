@@ -118,10 +118,10 @@ $(() => {
     const terminal = createTerminalIn(container[0]); // must be visible
     const socket = new SocketMonitor(socketUrl, terminal);
     const shutDown = () => { socket.close(); node.remove(); };
-    
+
     destroyRepl(terminal)
-      .then(() => createRepl(terminal))
-      .then(() => terminal.writeln('Ready...'));
+      .then(() => createRepl(terminal));
+      //.then(() => terminal.writeln('Ready...'));
   });
 
   // TODO: Call destroyRepl() when the page closes.
