@@ -36,6 +36,7 @@ $(() => {
       terminal.detach(that.socket);
       const NGINX_TIMEOUT_CODE = 1006;
       if (event.code === NGINX_TIMEOUT_CODE) {
+        console.log('socket timed out');
         that.start(url, terminal);
       }
     };
@@ -52,9 +53,9 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const createTerminalIn = (container) => {
     const terminal = new Terminal({
-      cursorBlink: true, // optionElements.cursorBlink.checked,
-      scrollback: 10, // parseInt(optionElements.scrollback.value, 10),
-      tabStopWidth: 10 // parseInt(optionElements.tabstopwidth.value, 10)
+      cursorBlink: true,
+      scrollback: 10,
+      tabStopWidth: 10
     });
     Terminal.applyAddon(attach);
     Terminal.applyAddon(fit);
@@ -79,14 +80,6 @@ $(() => {
     return `${greenCode}${s}${resetCode}`;
   };
 
-  const destroyRepl = (_terminal) => {
-    // Request that the REPL be terminated.
-    // Returns the promise for the DELETE request.
-    console.log('destroying repl');
-    //terminal.writeln(inGreen('REPL disconnected'));
-    return fetch(replUrl, { method: 'DELETE' });
-  };
-
   const createRepl = (terminal) => {
     // Request that a REPL be created.
     // Returns the promise for the POST request.
@@ -102,43 +95,57 @@ $(() => {
     return fetch(replUrl, requestParams);
   };
 
+  const destroyRepl = () => {
+    // Request that the REPL be terminated.
+    // Returns the promise for the DELETE request.
+    console.log('destroying repl');
+    return fetch(replUrl, { method: 'DELETE' });
+  };
+
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   replButton.click(() => {
-    const node = $('<div>');
+    const div = $('<div>');
     const container = $('<div class="repl-box">');
 
-    let socket = null; //new SocketMonitor(socketUrl, terminal);
-    const shutDown = () => {
-      if (socket !== null) { socket.close(); }
-      node.remove();
-    };
-
-    node.append(container)
-        .dialog({
+    div.append(container).dialog({
               width: 700,
            autoOpen: true,
       closeOnEscape: true,
               modal: true,
               title: cd.dialogTitle('repl'),
-            buttons: { close: () => shutDown() },
+            buttons: { close: () => div.remove() },
         beforeClose: event => {
           if (event.keyCode === $.ui.keyCode.ESCAPE) {
-            shutDown();
+            div.remove();
             return true;
           }
         }
     });
-    const terminal = createTerminalIn(container[0]); // must be visible
+
+    const once = (f) => {
+      // Returns a function that calls f only once.
+      // (DOMNodeRemoved is called for all children of a node)
+      var first = true;
+      return function() {
+        if (first) {
+          first = false;
+          f();
+        }
+      };
+    };
+
+    // container[0] must already be visible
+    const terminal = createTerminalIn(container[0]);
 
     createRepl(terminal).then(() => {
-      socket = new SocketMonitor(socketUrl, terminal);
+      const socket = new SocketMonitor(socketUrl, terminal);
+      div.bind('DOMNodeRemoved', once(() => {
+        destroyRepl();
+        socket.close();
+      }));
     });
 
-    //destroyRepl(terminal).then(() => createRepl(terminal));
-    //.then(() => terminal.writeln('Ready...'));
   });
-
-  // TODO: Call destroyRepl() when the page closes.
 
 });
 </script>
