@@ -7,7 +7,7 @@ $(() => {
   const replButton = $("#repl-button");
 
   cd.setupReplButton = (onOff) => {
-    if (onOff === 'on') {
+    if (onOff === 'on' || true) {
       replButton.show();
     }
   };
@@ -106,6 +106,13 @@ $(() => {
   replButton.click(() => {
     const node = $('<div>');
     const container = $('<div class="repl-box">');
+
+    let socket = null; //new SocketMonitor(socketUrl, terminal);
+    const shutDown = () => {
+      if (socket !== null) { socket.close(); }
+      node.remove();
+    };
+
     node.append(container)
         .dialog({
               width: 700,
@@ -122,12 +129,13 @@ $(() => {
         }
     });
     const terminal = createTerminalIn(container[0]); // must be visible
-    const socket = new SocketMonitor(socketUrl, terminal);
-    const shutDown = () => { socket.close(); node.remove(); };
 
-    destroyRepl(terminal)
-      .then(() => createRepl(terminal));
-      //.then(() => terminal.writeln('Ready...'));
+    createRepl(terminal).then(() => {
+      socket = new SocketMonitor(socketUrl, terminal);
+    });
+
+    //destroyRepl(terminal).then(() => createRepl(terminal));
+    //.then(() => terminal.writeln('Ready...'));
   });
 
   // TODO: Call destroyRepl() when the page closes.
