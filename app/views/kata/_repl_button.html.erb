@@ -1,5 +1,7 @@
 <button type="button" id="repl-button" title="starts a REPL">repl</button>
 
+<div id="repl-box"></div>
+
 <script type="text/javascript">
 'use strict';
 $(() => {
@@ -7,7 +9,7 @@ $(() => {
   const replButton = $("#repl-button");
 
   cd.setupReplButton = (onOff) => {
-    if (onOff === 'on') {
+    if (onOff === 'on' || true) {
       replButton.show();
     }
   };
@@ -47,7 +49,7 @@ $(() => {
   };
 
   SocketMonitor.prototype.close = function() {
-    this.socket.close(1000, 'User requested new REPL');
+    this.socket.close(1000, 'User closed the REPL');
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -62,7 +64,7 @@ $(() => {
     Terminal.applyAddon(fullscreen);
     Terminal.applyAddon(search);
     Terminal.applyAddon(winptyCompat);
-    terminal.open(container); // container must be visible
+    terminal.open(container);
     terminal.winptyCompatInit();
     terminal.fit();
     terminal.focus();
@@ -105,9 +107,9 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   replButton.click(() => {
     const div = $('<div>');
-    const container = $('<div class="repl-box">');
+    const container = $('<div id="repl-box">');
 
-    div.append(container).dialog({
+    /*div.append(container).dialog({
               width: 700,
            autoOpen: true,
       closeOnEscape: true,
@@ -132,10 +134,13 @@ $(() => {
           f();
         }
       };
-    };
+    };*/
 
     // container[0] must already be visible
-    const terminal = createTerminalIn(container[0]);
+    //const terminal = createTerminalIn(container[0]);
+
+    const box = document.getElementById('repl-box');
+    const terminal = createTerminalIn(box);
 
     createRepl(terminal).then(() => {
       const socket = new SocketMonitor(socketUrl, terminal);
