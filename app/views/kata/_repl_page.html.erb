@@ -115,9 +115,9 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const kataId = "<%= @kata.id %>";
-  const replUrl = `${location.hostname}/repler/${kataId}-${sessionId}`;
-  const httpUrl = () => `http://${replUrl}`;
-  const socketUrl = () => `ws://${replUrl}`;
+  const replUrl = () => `${location.hostname}/repler/${kataId}${sessionId}`;
+  const httpUrl = () => `http://${replUrl()}`;
+  const socketUrl = () => `ws://${replUrl()}`;
 
   const inGreen = (s) => {
     const greenCode = '\u001b[32m';
