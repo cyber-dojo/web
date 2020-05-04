@@ -42,7 +42,6 @@ $(() => {
       resumeButton.unbind().click(() => {
         deleteRepl();
         socket.close();
-        //TODO: is there a terminal.close(); ????
         closeReplPage();
       });
     });
