@@ -11,7 +11,6 @@ $(() => {
   const resumeButton = $('.resume-button', replPage);
   const kataId = "<%= @kata.id %>";
   const replUrl = () => `${location.hostname}/repler/${kataId}-${sessionId}`;
-  const httpUrl = () => `http://${replUrl()}`;
   let sessionId = null;
 
   cd.openReplPage = () => {
@@ -35,15 +34,17 @@ $(() => {
   const replInit = () => {
     // Trying to put Terminal inside a jQuery dialog is, empirically,
     // very tricksy (because of CSS z-Index issues I think).
+    cd.saveCodeFromSyntaxHighlightEditors();
+    setSessionId();
     const element = document.getElementById('repl-terminal');
     const terminal = createTerminalIn(element);
-    setSessionId();
-    createRepl(terminal).then(() => {
-      const ws = new WebSocketMonitor(terminal);
-      ws.open();
+    const repl = new Repl(terminal);
+    repl.create().then(() => {
+      const socket = new WebSocketMonitor(terminal);
+      socket.open();
       resumeButton.unbind().click(() => {
-        ws.close();
-        deleteRepl(terminal);
+        socket.close();
+        repl.delete();
         closeReplPage();
       });
     });
@@ -74,7 +75,7 @@ $(() => {
     const that = this;
     this.socket = new WebSocket(this.url);
     this.socket.onopen = function(_event) {
-      that.terminal.greenWriteln('Opening a WebSocket to the REPL');
+      that.terminal.greenWriteln('Opening WebSocket');
       that.terminal.attach(that.socket);
       that.terminal._initialize = true;
     };
@@ -87,14 +88,14 @@ $(() => {
       }
     };
     this.socket.onerror = function(event) {
-      this.terminal.greenWriteln('Error connecting to REPL');
+      this.terminal.greenWriteln('WebSocket error');
     };
   };
 
   WebSocketMonitor.prototype.close = function() {
     this.terminal.greenWriteln('Closing WebSocket');
     this.terminal.detach(this.socket);
-    this.socket.close(1000, 'User closed the REPL');
+    this.socket.close(1000, 'User closed the WebSocket');
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -123,24 +124,28 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const createRepl = (terminal) => {
+  function Repl(terminal) {
+    this.url = `http://${replUrl()}`;
+    this.terminal = terminal;
+  };
+
+  Repl.prototype.create = function() {
     // Request that a REPL be created.
     // Returns the promise for the POST request.
-    terminal.greenWriteln('Creating a REPL');
-    cd.saveCodeFromSyntaxHighlightEditors();
+    this.terminal.greenWriteln('Creating REPL');
     const requestParams = {
       method: 'POST',
       body: JSON.stringify($('form').serializeArray()),
       headers: { 'content-type': 'application/json' }
     };
-    return fetch(httpUrl(), requestParams);
+    return fetch(this.url, requestParams);
   };
 
-  const deleteRepl = (terminal) => {
+  Repl.prototype.delete = function() {
     // Request that the REPL be terminated.
     // Returns the promise for the DELETE request.
-    terminal.greenWriteln('Deleting the REPL');
-    return fetch(httpUrl(), { method: 'DELETE' });
+    this.terminal.greenWriteln('Deleting REPL');
+    return fetch(this.url, { method: 'DELETE' });
   };
 
 });
