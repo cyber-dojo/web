@@ -115,8 +115,9 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const kataId = "<%= @kata.id %>";
-  const replUrl = () => `http://${location.hostname}/repler/${kataId}-${sessionId}`;
-  const socketUrl = () => `ws://${location.hostname}/repler_ws/${kataId}-${sessionId}`;
+  const replUrl = `${location.hostname}/repler/${kataId}-${sessionId}`;
+  const httpUrl = () => `http://${replUrl}`;
+  const socketUrl = () => `ws://${replUrl}`;
 
   const inGreen = (s) => {
     const greenCode = '\u001b[32m';
@@ -135,14 +136,14 @@ $(() => {
       body: JSON.stringify($('form').serializeArray()),
       headers: { 'content-type': 'application/json' }
     };
-    return fetch(replUrl(), requestParams);
+    return fetch(httpUrl(), requestParams);
   };
 
   const deleteRepl = () => {
     // Request that the REPL be terminated.
     // Returns the promise for the DELETE request.
     console.log('destroying repl');
-    return fetch(replUrl(), { method: 'DELETE' });
+    return fetch(httpUrl(), { method: 'DELETE' });
   };
 
 });
