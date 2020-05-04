@@ -6,17 +6,30 @@
 'use strict';
 $(() => {
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // Notes
+  // 1. If the repl docker container's id was based *only* on the kata-id,
+  // then creating a new repl could  fail if there was a very recent
+  // [resume], which caused a repl DELETE request, but the docker daemon
+  // had not yet actually deleted the repl container.
+  // So the repl and socket Urls for a repl session have a random suffix.
+  // 2. Trying to put Terminal inside a jQuery dialog is, empirically,
+  // very tricksy (because of CSS z-Index issues I think).
+
   const kataPage = $('#kata-page');
   const replPage = $('#repl-page');
   const resumeButton = $('.resume-button', replPage);
   const kataId = "<%= @kata.id %>";
-  const replUrl = () => `${location.hostname}/repler/${kataId}-${sessionId}`;
-  let sessionId = null;
+  const replUrl = (sessionId) => `${location.hostname}/repler/${kataId}-${sessionId}`;
+  const sessionId = () => Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0,6);
 
   cd.openReplPage = () => {
     kataPage.fadeOut('slow', () => {
       replPage.fadeIn('slow', () => {
-        replInit();
+        const element = document.getElementById('repl-terminal');
+        const terminal = createTerminalIn(element);
+        cd.saveCodeFromSyntaxHighlightEditors();
+        replInit(terminal,sessionId());
       });
     });
   };
@@ -24,54 +37,33 @@ $(() => {
   const closeReplPage = () => {
     replPage.fadeOut('slow', () => {
       kataPage.fadeIn('slow', () => {
-        replFini();
+        // Empty the dom element so next [repl] click is clean.
+        $('#repl-terminal').empty();
       });
     });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const replInit = () => {
-    // Trying to put Terminal inside a jQuery dialog is, empirically,
-    // very tricksy (because of CSS z-Index issues I think).
-    cd.saveCodeFromSyntaxHighlightEditors();
-    setSessionId();
-    const element = document.getElementById('repl-terminal');
-    const terminal = createTerminalIn(element);
-    const repl = new Repl(terminal);
-    repl.create().then(() => {
-      const socket = new WebSocketMonitor(terminal);
-      socket.open();
-      resumeButton.unbind().click(() => {
-        socket.close();
-        repl.delete();
-        closeReplPage();
-      });
+  const replInit = (terminal,sid) => {
+    const repl = new Repl(terminal,sid);
+    const socket = new WebSocketMonitor(terminal,sid);
+    resumeButton.unbind().click(() => {
+      socket.close();
+      repl.delete();
+      closeReplPage();
     });
-  };
-
-  const replFini = () => {
-    // Empty the dom element so next [repl] click is clean.
-    $('#repl-terminal').empty();
-  };
-
-  const setSessionId = () => {
-    // If the repl docker container's id was based *only* on the kata-id,
-    // then creating a new repl could  fail if there was a very recent
-    // [resume], which caused a repl DELETE request, but the docker daemon
-    // had not yet actually deleted the repl container.
-    // So the repl and socket Urls for a repl session have a random suffix.
-    sessionId = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0,6);
+    repl.create().then(() => socket.open());
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  function WebSocketMonitor(terminal) {
-    this.url = `ws://${replUrl()}`;
+  function WebSocketMonitor(terminal,sid) {
+    this.url = `ws://${replUrl(sid)}`;
     this.terminal = terminal;
   };
 
-  WebSocketMonitor.prototype.open = function() { //url, terminal) {
+  WebSocketMonitor.prototype.open = function() {
     const that = this;
     this.socket = new WebSocket(this.url);
     this.socket.onopen = function(_event) {
@@ -82,9 +74,8 @@ $(() => {
     this.socket.onclose = function(event) {
       const NGINX_TIMEOUT_CODE = 1006;
       if (event.code === NGINX_TIMEOUT_CODE) {
-        // silently restart
         that.terminal.greenWriteLn('WebSocket timed out');
-        that.start();
+        that.start(); // silently restart
       }
     };
     this.socket.onerror = function(event) {
@@ -99,6 +90,7 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   const createTerminalIn = (element) => {
     const terminal = new Terminal({
       cursorBlink: true,
@@ -124,14 +116,13 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  function Repl(terminal) {
-    this.url = `http://${replUrl()}`;
+
+  function Repl(terminal,sid) {
+    this.url = `http://${replUrl(sid)}`;
     this.terminal = terminal;
   };
 
   Repl.prototype.create = function() {
-    // Request that a REPL be created.
-    // Returns the promise for the POST request.
     this.terminal.greenWriteln('Creating REPL');
     const requestParams = {
       method: 'POST',
@@ -142,8 +133,6 @@ $(() => {
   };
 
   Repl.prototype.delete = function() {
-    // Request that the REPL be terminated.
-    // Returns the promise for the DELETE request.
     this.terminal.greenWriteln('Deleting REPL');
     return fetch(this.url, { method: 'DELETE' });
   };
