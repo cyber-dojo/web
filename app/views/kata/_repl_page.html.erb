@@ -32,16 +32,17 @@ $(() => {
         const resumeButton = $('.resume-button', replPage);
         cd.saveCodeFromSyntaxHighlightEditors();
         repl.create().then(() => socket.open());
-        resumeButton.click(() => closeReplPage(element, repl, socket));
+        resumeButton.click(() => closeReplPage(element, terminal, repl, socket));
       });
     });
   };
 
-  const closeReplPage = (terminal, repl, socket) => {
+  const closeReplPage = (element, terminal, repl, socket) => {
+    terminal.writeln('');
     repl.delete().then(() => socket.close());
     replPage.fadeOut('slow', () => {
       kataPage.fadeIn('slow', () => {
-        $(terminal).empty(); // Ready for next time.
+        $(element).empty(); // Ready for next time.
       });
     });
   };
