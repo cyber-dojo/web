@@ -6,17 +6,21 @@
 'use strict';
 $(() => {
 
-  // TODO: add random prefix to kata-id for each repl session
-  // Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
-
   // Do repl-state change the same way as the traffic-light
   // click review-state change. Viz, a page-flip.
 
   const kataPage = $('#kata-page');
   const replPage = $('#repl-page');
   const resumeButton = $('.resume-button', replPage);
+  let sessionId = null;
 
   cd.openReplPage = () => {
+    // If the repl docker container's id was based *only* on the kata-id,
+    // then creating a new repl could  fail if there was a very recent
+    // [resume], which caused a repl DELETE request, but the docker daemon
+    // had not yet actually deleted the repl container.
+    // So the repl and socket Urls for a repl session have a random suffix.
+    sessionId = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0,6);
     kataPage.fadeOut('slow', () => {
       replPage.fadeIn('slow', () => {
         replInit();
@@ -38,7 +42,7 @@ $(() => {
     const element = document.getElementById('repl-terminal');
     const terminal = createTerminalIn(element);
     createRepl(terminal).then(() => {
-      const socket = new SocketMonitor(socketUrl, terminal);
+      const socket = new SocketMonitor(socketUrl(), terminal);
       resumeButton.unbind().click(() => {
         deleteRepl();
         socket.close();
@@ -48,6 +52,7 @@ $(() => {
   };
 
   const replFini = () => {
+    // Empty the dom element so next [repl] click is clean.
     $('#repl-terminal').empty();
   };
 
@@ -109,9 +114,9 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const id = "<%= @kata.id %>";
-  const replUrl = `http://${location.hostname}/repler/${id}`;
-  const socketUrl = `ws://${location.hostname}/repler_ws/${id}`;
+  const kataId = "<%= @kata.id %>";
+  const replUrl = () => `http://${location.hostname}/repler/${kataId}-${sessionId}`;
+  const socketUrl = () => `ws://${location.hostname}/repler_ws/${kataId}-${sessionId}`;
 
   const inGreen = (s) => {
     const greenCode = '\u001b[32m';
@@ -130,14 +135,14 @@ $(() => {
       body: JSON.stringify($('form').serializeArray()),
       headers: { 'content-type': 'application/json' }
     };
-    return fetch(replUrl, requestParams);
+    return fetch(replUrl(), requestParams);
   };
 
   const deleteRepl = () => {
     // Request that the REPL be terminated.
     // Returns the promise for the DELETE request.
     console.log('destroying repl');
-    return fetch(replUrl, { method: 'DELETE' });
+    return fetch(replUrl(), { method: 'DELETE' });
   };
 
 });
