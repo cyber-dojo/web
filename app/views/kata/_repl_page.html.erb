@@ -43,6 +43,8 @@ $(() => {
       const socket = new SocketMonitor(socketUrl(), terminal);
       resumeButton.unbind().click(() => {
         socket.close();
+        deleteRepl(terminal);
+        closeReplPage();
       });
     });
   };
@@ -63,26 +65,22 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   function SocketMonitor(url, terminal) {
-    // Watches the websocket we talk to the server with.
-    // If it goes down outside of our control it silently re-opens the socket.
     this.start(url, terminal);
   };
 
   SocketMonitor.prototype.start = function(url, terminal) {
     const that = this;
     this.socket = new WebSocket(url);
+    this.terminal = terminal;
     this.socket.onopen = function(_event) {
       terminal.greenWriteln('Opening a WebSocket to the REPL');
       terminal.attach(that.socket);
       terminal._initialize = true;
     };
     this.socket.onclose = function(event) {
-      terminal.greenWriteln('Closing WebSocket');
-      deleteRepl(terminal);
-      terminal.detach(that.socket);
-      closeReplPage();
       const NGINX_TIMEOUT_CODE = 1006;
       if (event.code === NGINX_TIMEOUT_CODE) {
+        // silently restart
         terminal.greenWriteLn('WebSocket timed out');
         that.start(url, terminal);
       }
@@ -93,6 +91,8 @@ $(() => {
   };
 
   SocketMonitor.prototype.close = function() {
+    this.terminal.greenWriteln('Closing WebSocket');
+    this.terminal.detach(this.socket);
     this.socket.close(1000, 'User closed the REPL');
   };
 
