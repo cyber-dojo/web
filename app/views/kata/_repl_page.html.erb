@@ -18,29 +18,27 @@ $(() => {
 
   const kataPage = $('#kata-page');
   const replPage = $('#repl-page');
-  const resumeButton = $('.resume-button', replPage);
-  const kataId = "<%= @kata.id %>";
-  const replUrl = (sessionId) => `${location.hostname}/repler/${kataId}-${sessionId}`;
-  const sessionId = () => Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0,6);
 
   cd.openReplPage = () => {
     kataPage.fadeOut('slow', () => {
       replPage.fadeIn('slow', () => {
         const element = document.getElementById('repl-terminal');
         const terminal = createTerminalIn(element);
-        const sid = sessionId();
-        const repl = new Repl(terminal,sid);
-        const socket = new WebSocketMonitor(terminal,sid);
+        const kataId = "<%= @kata.id %>";
+        const sid = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0,6);
+        const route = `${location.hostname}/repler/${kataId}-${sid}`;
+        const repl = new Repl(`http://${route}`, terminal);
+        const socket = new WebSocketMonitor(`ws://${route}`, terminal);
+        const resumeButton = $('.resume-button', replPage);
         cd.saveCodeFromSyntaxHighlightEditors();
-        resumeButton.unbind().click(() => closeReplPage(repl, socket));
         repl.create().then(() => socket.open());
+        resumeButton.click(() => closeReplPage(repl, socket));
       });
     });
   };
 
   const closeReplPage = (repl, socket) => {
-    socket.close();
-    repl.delete();
+    repl.delete().then(() => socket.close());
     replPage.fadeOut('slow', () => {
       kataPage.fadeIn('slow', () => {
         $('#repl-terminal').empty(); // Ensure clean for next time.
@@ -50,8 +48,8 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  function WebSocketMonitor(terminal,sid) {
-    this.url = `ws://${replUrl(sid)}`;
+  function WebSocketMonitor(url, terminal) {
+    this.url = url;
     this.terminal = terminal;
   };
 
@@ -109,19 +107,18 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  function Repl(terminal,sid) {
-    this.url = `http://${replUrl(sid)}`;
+  function Repl(url, terminal) {
+    this.url = url;
     this.terminal = terminal;
   };
 
   Repl.prototype.create = function() {
     this.terminal.greenWriteln('Creating REPL');
-    const requestParams = {
+    return fetch(this.url, {
       method: 'POST',
       body: JSON.stringify($('form').serializeArray()),
       headers: { 'content-type': 'application/json' }
-    };
-    return fetch(this.url, requestParams);
+    });
   };
 
   Repl.prototype.delete = function() {
