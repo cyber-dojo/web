@@ -1,0 +1,143 @@
+
+<button class="resume-button" type="button">resume</button>
+<div id="repl-terminal"></div>
+
+<script type="text/javascript">
+'use strict';
+$(() => {
+
+  // Do repl-state change the same way as the traffic-light
+  // click review-state change. Viz, a page-flip.
+
+  const kataPage = $('#kata-page');
+  const replPage = $('#repl-page');
+  const resumeButton = $('.resume-button', replPage);
+
+  cd.openReplPage = () => {
+    kataPage.fadeOut('slow', () => {
+      replPage.fadeIn('slow', () => {
+        replInit();
+      });
+    });
+  };
+
+  const closeReplPage = () => {
+    replPage.fadeOut('slow', () => {
+      kataPage.fadeIn('slow', () => {
+        replFini();
+      });
+    });
+  };
+
+  const replInit = () => {
+    // Trying to put Terminal inside a jQuery dialog is, empirically,
+    // very tricksy (because of CSS z-Index issues I think).
+    const element = document.getElementById('repl-terminal');
+    const terminal = createTerminalIn(element);
+    createRepl(terminal).then(() => {
+      const socket = new SocketMonitor(socketUrl, terminal);
+      resumeButton.unbind().click(() => {
+        deleteRepl();
+        socket.close();
+        //TODO: is there a terminal.close(); ????
+        closeReplPage();
+      });
+    });
+  };
+
+  const replFini = () => {
+    $('#repl-terminal').empty();
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  function SocketMonitor(url, terminal) {
+    // Watches the websocket we talk to the server with.
+    // If it goes down outside of our control it silently re-opens the socket.
+    this.socket = null;
+    this.start(url, terminal);
+  };
+
+  SocketMonitor.prototype.start = function(url, terminal) {
+    var that = this;
+
+    this.socket = new WebSocket(url);
+
+    this.socket.onopen = function(_event) {
+      console.log('socket opened');
+      terminal.attach(that.socket);
+      terminal._initialize = true;
+    };
+
+    this.socket.onclose = function(event) {
+      console.log('socket closed');
+      terminal.detach(that.socket);
+      const NGINX_TIMEOUT_CODE = 1006;
+      if (event.code === NGINX_TIMEOUT_CODE) {
+        console.log('socket timed out');
+        that.start(url, terminal);
+      }
+    };
+
+    this.socket.onerror = function(event) {
+      terminal.writeln('Error connecting to REPL');
+    };
+  };
+
+  SocketMonitor.prototype.close = function() {
+    this.socket.close(1000, 'User closed the REPL');
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  const createTerminalIn = (element) => {
+    const terminal = new Terminal({
+      cursorBlink: true,
+      scrollback: 10,
+      tabStopWidth: 10
+    });
+    Terminal.applyAddon(attach);
+    Terminal.applyAddon(fit);
+    Terminal.applyAddon(fullscreen);
+    Terminal.applyAddon(search);
+    Terminal.applyAddon(winptyCompat);
+    terminal.open(element);
+    terminal.winptyCompatInit();
+    terminal.fit();
+    terminal.focus();
+    return terminal;
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  const id = "<%= @kata.id %>";
+  const replUrl = `http://${location.hostname}/repler/${id}`;
+  const socketUrl = `ws://${location.hostname}/repler_ws/${id}`;
+
+  const inGreen = (s) => {
+    const greenCode = '\u001b[32m';
+    const resetCode = '\u001b[0m';
+    return `${greenCode}${s}${resetCode}`;
+  };
+
+  const createRepl = (terminal) => {
+    // Request that a REPL be created.
+    // Returns the promise for the POST request.
+    terminal.writeln(inGreen('Connecting to REPL'));
+    console.log('creating repl');
+    cd.saveCodeFromSyntaxHighlightEditors();
+    const form = replPage.closest('form');
+    const requestParams = {
+      method: 'POST',
+      body: JSON.stringify(form.serializeArray()),
+      headers: { 'content-type': 'application/json' }
+    };
+    return fetch(replUrl, requestParams);
+  };
+
+  const deleteRepl = () => {
+    // Request that the REPL be terminated.
+    // Returns the promise for the DELETE request.
+    console.log('destroying repl');
+    return fetch(replUrl, { method: 'DELETE' });
+  };
+
+});
+</script>

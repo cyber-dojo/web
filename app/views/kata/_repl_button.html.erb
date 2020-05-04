@@ -1,155 +1,19 @@
 <button type="button" id="repl-button" title="starts a REPL">repl</button>
 
-<div id="repl-box"></div>
-
 <script type="text/javascript">
 'use strict';
 $(() => {
 
   const replButton = $("#repl-button");
-
   cd.setupReplButton = (onOff) => {
-    if (onOff === 'on' || true) {
+    // By default the [repl] button is not visible.
+    if (onOff === 'on') { // || true) {
       replButton.show();
     }
   };
 
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  function SocketMonitor(url, terminal) {
-    // Watches the websocket we talk to the server with.
-    // If it goes down outside of our control it silently re-opens the socket.
-    this.socket = null;
-    this.start(url, terminal);
-  };
-
-  SocketMonitor.prototype.start = function(url, terminal) {
-    var that = this;
-
-    this.socket = new WebSocket(url);
-
-    this.socket.onopen = function(_event) {
-      console.log('socket opened');
-      terminal.attach(that.socket);
-      terminal._initialize = true;
-    };
-
-    this.socket.onclose = function(event) {
-      console.log('socket closed');
-      terminal.detach(that.socket);
-      const NGINX_TIMEOUT_CODE = 1006;
-      if (event.code === NGINX_TIMEOUT_CODE) {
-        console.log('socket timed out');
-        that.start(url, terminal);
-      }
-    };
-
-    this.socket.onerror = function(event) {
-      terminal.writeln('Error connecting to REPL');
-    };
-  };
-
-  SocketMonitor.prototype.close = function() {
-    this.socket.close(1000, 'User closed the REPL');
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const createTerminalIn = (container) => {
-    const terminal = new Terminal({
-      cursorBlink: true,
-      scrollback: 10,
-      tabStopWidth: 10
-    });
-    Terminal.applyAddon(attach);
-    Terminal.applyAddon(fit);
-    Terminal.applyAddon(fullscreen);
-    Terminal.applyAddon(search);
-    Terminal.applyAddon(winptyCompat);
-    terminal.open(container);
-    terminal.winptyCompatInit();
-    terminal.fit();
-    terminal.focus();
-    return terminal;
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const id = "<%= @kata.id %>";
-  const replUrl = `http://${location.hostname}/repler/${id}`;
-  const socketUrl = `ws://${location.hostname}/repler_ws/${id}`;
-
-  const inGreen = (s) => {
-    const greenCode = '\u001b[32m';
-    const resetCode = '\u001b[0m';
-    return `${greenCode}${s}${resetCode}`;
-  };
-
-  const createRepl = (terminal) => {
-    // Request that a REPL be created.
-    // Returns the promise for the POST request.
-    terminal.writeln(inGreen('Connecting to REPL'));
-    console.log('creating repl');
-    cd.saveCodeFromSyntaxHighlightEditors();
-    const form = replButton.closest('form');
-    const requestParams = {
-      method: 'POST',
-      body: JSON.stringify(form.serializeArray()),
-      headers: { 'content-type': 'application/json' }
-    };
-    return fetch(replUrl, requestParams);
-  };
-
-  const destroyRepl = () => {
-    // Request that the REPL be terminated.
-    // Returns the promise for the DELETE request.
-    console.log('destroying repl');
-    return fetch(replUrl, { method: 'DELETE' });
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   replButton.click(() => {
-    const div = $('<div>');
-    const container = $('<div id="repl-box">');
-
-    /*div.append(container).dialog({
-              width: 700,
-           autoOpen: true,
-      closeOnEscape: true,
-              modal: true,
-              title: cd.dialogTitle('repl'),
-            buttons: { close: () => div.remove() },
-        beforeClose: event => {
-          if (event.keyCode === $.ui.keyCode.ESCAPE) {
-            div.remove();
-            return true;
-          }
-        }
-    });
-
-    const once = (f) => {
-      // Returns a function that calls f only once.
-      // (DOMNodeRemoved is called for all children of a node)
-      var first = true;
-      return function() {
-        if (first) {
-          first = false;
-          f();
-        }
-      };
-    };*/
-
-    // container[0] must already be visible
-    //const terminal = createTerminalIn(container[0]);
-
-    const box = document.getElementById('repl-box');
-    const terminal = createTerminalIn(box);
-
-    createRepl(terminal).then(() => {
-      const socket = new SocketMonitor(socketUrl, terminal);
-      div.bind('DOMNodeRemoved', once(() => {
-        destroyRepl();
-        socket.close();
-      }));
-    });
-
+    cd.openReplPage();
   });
 
 });

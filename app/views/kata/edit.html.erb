@@ -2,6 +2,7 @@
 <%= render partial: 'starting_info' %>
 <%= render partial: 'shared/hover_tip_container' %>
 <%= render partial: 'shared/app_bar' %>
+<div id="repl-page"><%= render partial: 'repl_page' %></div>
 <div id="review-page"><%= render partial: 'review/review' %></div>
 <div id="kata-page"><%= render partial: 'view_test' %></div>
 
@@ -11,8 +12,8 @@ $(() => {
   cd.kataId = () => "<%= @id %>";
   cd.setupThemeColourButtonsClickHandlers("<%= @theme %>", "<%= @colour %>");
   cd.setupPredictButton("<%= @predict %>");
-  cd.setupHotkeysButton();
   cd.setupReplButton("<%= @env['REPL_BUTTON'] %>");
+  cd.setupHotkeysButton();
   cd.updateTrafficLightsCount();
   cd.loadInitialFile();
   cd.scrollLastTrafficLightIntoView();
