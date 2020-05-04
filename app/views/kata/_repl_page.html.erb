@@ -41,6 +41,7 @@ $(() => {
     setSessionId();
     createRepl(terminal).then(() => {
       const socket = new SocketMonitor(socketUrl(), terminal);
+      socket.open();
       resumeButton.unbind().click(() => {
         socket.close();
         deleteRepl(terminal);
@@ -65,28 +66,28 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   function SocketMonitor(url, terminal) {
-    this.start(url, terminal);
+    this.url = url
+    this.terminal = terminal;
   };
 
-  SocketMonitor.prototype.start = function(url, terminal) {
+  SocketMonitor.prototype.open = function() { //url, terminal) {
     const that = this;
-    this.socket = new WebSocket(url);
-    this.terminal = terminal;
+    this.socket = new WebSocket(this.url);
     this.socket.onopen = function(_event) {
-      terminal.greenWriteln('Opening a WebSocket to the REPL');
-      terminal.attach(that.socket);
-      terminal._initialize = true;
+      that.terminal.greenWriteln('Opening a WebSocket to the REPL');
+      that.terminal.attach(that.socket);
+      that.terminal._initialize = true;
     };
     this.socket.onclose = function(event) {
       const NGINX_TIMEOUT_CODE = 1006;
       if (event.code === NGINX_TIMEOUT_CODE) {
         // silently restart
-        terminal.greenWriteLn('WebSocket timed out');
-        that.start(url, terminal);
+        that.terminal.greenWriteLn('WebSocket timed out');
+        that.start();
       }
     };
     this.socket.onerror = function(event) {
-      terminal.greenWriteln('Error connecting to REPL');
+      this.terminal.greenWriteln('Error connecting to REPL');
     };
   };
 
