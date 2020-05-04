@@ -12,7 +12,6 @@ $(() => {
   const kataId = "<%= @kata.id %>";
   const replUrl = () => `${location.hostname}/repler/${kataId}-${sessionId}`;
   const httpUrl = () => `http://${replUrl()}`;
-  const socketUrl = () => `ws://${replUrl()}`;
   let sessionId = null;
 
   cd.openReplPage = () => {
@@ -40,10 +39,10 @@ $(() => {
     const terminal = createTerminalIn(element);
     setSessionId();
     createRepl(terminal).then(() => {
-      const socket = new SocketMonitor(socketUrl(), terminal);
-      socket.open();
+      const ws = new WebSocketMonitor(terminal);
+      ws.open();
       resumeButton.unbind().click(() => {
-        socket.close();
+        ws.close();
         deleteRepl(terminal);
         closeReplPage();
       });
@@ -65,12 +64,13 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  function SocketMonitor(url, terminal) {
-    this.url = url
+
+  function WebSocketMonitor(terminal) {
+    this.url = `ws://${replUrl()}`;
     this.terminal = terminal;
   };
 
-  SocketMonitor.prototype.open = function() { //url, terminal) {
+  WebSocketMonitor.prototype.open = function() { //url, terminal) {
     const that = this;
     this.socket = new WebSocket(this.url);
     this.socket.onopen = function(_event) {
@@ -91,7 +91,7 @@ $(() => {
     };
   };
 
-  SocketMonitor.prototype.close = function() {
+  WebSocketMonitor.prototype.close = function() {
     this.terminal.greenWriteln('Closing WebSocket');
     this.terminal.detach(this.socket);
     this.socket.close(1000, 'User closed the REPL');
