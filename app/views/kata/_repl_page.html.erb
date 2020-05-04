@@ -115,7 +115,7 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const kataId = "<%= @kata.id %>";
-  const replUrl = () => `${location.hostname}/repler/${kataId}${sessionId}`;
+  const replUrl = () => `${location.hostname}/repler/${kataId}-${sessionId}`;
   const httpUrl = () => `http://${replUrl()}`;
   const socketUrl = () => `ws://${replUrl()}`;
 
