@@ -8,13 +8,13 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // Notes
-  // 1. If the repl docker container's id was based *only* on the kata-id,
+  // 1. The repl and web-socket Urls have a random suffix.
+  // If the repl docker container's id was based *only* on the kata-id,
   // then creating a new repl could  fail if there was a very recent
   // [resume], which caused a repl DELETE request, but the docker daemon
   // had not yet actually deleted the repl container.
-  // So the repl and socket Urls for a repl session have a random suffix.
-  // 2. Trying to put Terminal inside a jQuery dialog is, empirically,
-  // very tricksy (because of CSS z-Index issues I think).
+  // 2. I tried to put a Terminal inside a jQuery dialog. I failed.
+  // Some gnarly CSS z-Index issues I think.
 
   const kataPage = $('#kata-page');
   const replPage = $('#repl-page');
@@ -32,16 +32,16 @@ $(() => {
         const resumeButton = $('.resume-button', replPage);
         cd.saveCodeFromSyntaxHighlightEditors();
         repl.create().then(() => socket.open());
-        resumeButton.click(() => closeReplPage(repl, socket));
+        resumeButton.click(() => closeReplPage(element, repl, socket));
       });
     });
   };
 
-  const closeReplPage = (repl, socket) => {
+  const closeReplPage = (terminal, repl, socket) => {
     repl.delete().then(() => socket.close());
     replPage.fadeOut('slow', () => {
       kataPage.fadeIn('slow', () => {
-        $('#repl-terminal').empty(); // Ensure clean for next time.
+        $(terminal).empty(); // Ready for next time.
       });
     });
   };
@@ -87,11 +87,8 @@ $(() => {
       scrollback: 10,
       tabStopWidth: 10
     });
-    Terminal.applyAddon(attach);
-    Terminal.applyAddon(fit);
-    Terminal.applyAddon(fullscreen);
-    Terminal.applyAddon(search);
-    Terminal.applyAddon(winptyCompat);
+    const addOns = [attach,fit,fullscreen,search,winptyCompat];
+    addOns.forEach(addOn => Terminal.applyAddon(addOn));
     terminal.open(element);
     terminal.winptyCompatInit();
     terminal.fit();
