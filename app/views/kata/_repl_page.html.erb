@@ -6,21 +6,16 @@
 'use strict';
 $(() => {
 
-  // Do repl-state change the same way as the traffic-light
-  // click review-state change. Viz, a page-flip.
-
   const kataPage = $('#kata-page');
   const replPage = $('#repl-page');
   const resumeButton = $('.resume-button', replPage);
+  const kataId = "<%= @kata.id %>";
+  const replUrl = () => `${location.hostname}/repler/${kataId}-${sessionId}`;
+  const httpUrl = () => `http://${replUrl()}`;
+  const socketUrl = () => `ws://${replUrl()}`;
   let sessionId = null;
 
   cd.openReplPage = () => {
-    // If the repl docker container's id was based *only* on the kata-id,
-    // then creating a new repl could  fail if there was a very recent
-    // [resume], which caused a repl DELETE request, but the docker daemon
-    // had not yet actually deleted the repl container.
-    // So the repl and socket Urls for a repl session have a random suffix.
-    sessionId = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0,6);
     kataPage.fadeOut('slow', () => {
       replPage.fadeIn('slow', () => {
         replInit();
@@ -36,17 +31,18 @@ $(() => {
     });
   };
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   const replInit = () => {
     // Trying to put Terminal inside a jQuery dialog is, empirically,
     // very tricksy (because of CSS z-Index issues I think).
     const element = document.getElementById('repl-terminal');
     const terminal = createTerminalIn(element);
+    setSessionId();
     createRepl(terminal).then(() => {
       const socket = new SocketMonitor(socketUrl(), terminal);
       resumeButton.unbind().click(() => {
-        deleteRepl();
         socket.close();
-        closeReplPage();
       });
     });
   };
@@ -54,6 +50,15 @@ $(() => {
   const replFini = () => {
     // Empty the dom element so next [repl] click is clean.
     $('#repl-terminal').empty();
+  };
+
+  const setSessionId = () => {
+    // If the repl docker container's id was based *only* on the kata-id,
+    // then creating a new repl could  fail if there was a very recent
+    // [resume], which caused a repl DELETE request, but the docker daemon
+    // had not yet actually deleted the repl container.
+    // So the repl and socket Urls for a repl session have a random suffix.
+    sessionId = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0,6);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -70,23 +75,25 @@ $(() => {
     this.socket = new WebSocket(url);
 
     this.socket.onopen = function(_event) {
-      console.log('socket opened');
+      terminal.greenWriteln('Opening a WebSocket to the REPL');
       terminal.attach(that.socket);
       terminal._initialize = true;
     };
 
     this.socket.onclose = function(event) {
-      console.log('socket closed');
+      terminal.greenWriteln('Closing WebSocket');
+      deleteRepl(terminal);
       terminal.detach(that.socket);
+      closeReplPage();
       const NGINX_TIMEOUT_CODE = 1006;
       if (event.code === NGINX_TIMEOUT_CODE) {
-        console.log('socket timed out');
+        terminal.greenWriteLn('WebSocket timed out');
         that.start(url, terminal);
       }
     };
 
     this.socket.onerror = function(event) {
-      terminal.writeln('Error connecting to REPL');
+      terminal.greenWriteln('Error connecting to REPL');
     };
   };
 
@@ -110,26 +117,20 @@ $(() => {
     terminal.winptyCompatInit();
     terminal.fit();
     terminal.focus();
+    terminal.greenWriteln = (s) => {
+      const greenCode = '\u001b[32m';
+      const resetCode = '\u001b[0m';
+      terminal.writeln(`${greenCode}${s}${resetCode}`);
+      console.log(s);
+    };
     return terminal;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const kataId = "<%= @kata.id %>";
-  const replUrl = () => `${location.hostname}/repler/${kataId}-${sessionId}`;
-  const httpUrl = () => `http://${replUrl()}`;
-  const socketUrl = () => `ws://${replUrl()}`;
-
-  const inGreen = (s) => {
-    const greenCode = '\u001b[32m';
-    const resetCode = '\u001b[0m';
-    return `${greenCode}${s}${resetCode}`;
-  };
-
   const createRepl = (terminal) => {
     // Request that a REPL be created.
     // Returns the promise for the POST request.
-    terminal.writeln(inGreen('Connecting to REPL'));
-    console.log('creating repl');
+    terminal.greenWriteln('Creating a REPL');
     cd.saveCodeFromSyntaxHighlightEditors();
     const requestParams = {
       method: 'POST',
@@ -139,10 +140,10 @@ $(() => {
     return fetch(httpUrl(), requestParams);
   };
 
-  const deleteRepl = () => {
+  const deleteRepl = (terminal) => {
     // Request that the REPL be terminated.
     // Returns the promise for the DELETE request.
-    console.log('destroying repl');
+    terminal.greenWriteln('Deleting the REPL');
     return fetch(httpUrl(), { method: 'DELETE' });
   };
 
