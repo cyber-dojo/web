@@ -28,35 +28,27 @@ $(() => {
       replPage.fadeIn('slow', () => {
         const element = document.getElementById('repl-terminal');
         const terminal = createTerminalIn(element);
+        const sid = sessionId();
+        const repl = new Repl(terminal,sid);
+        const socket = new WebSocketMonitor(terminal,sid);
         cd.saveCodeFromSyntaxHighlightEditors();
-        replInit(terminal,sessionId());
+        resumeButton.unbind().click(() => closeReplPage(repl, socket));
+        repl.create().then(() => socket.open());
       });
     });
   };
 
-  const closeReplPage = () => {
+  const closeReplPage = (repl, socket) => {
+    socket.close();
+    repl.delete();
     replPage.fadeOut('slow', () => {
       kataPage.fadeIn('slow', () => {
-        // Empty the dom element so next [repl] click is clean.
-        $('#repl-terminal').empty();
+        $('#repl-terminal').empty(); // Ensure clean for next time.
       });
     });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const replInit = (terminal,sid) => {
-    const repl = new Repl(terminal,sid);
-    const socket = new WebSocketMonitor(terminal,sid);
-    resumeButton.unbind().click(() => {
-      socket.close();
-      repl.delete();
-      closeReplPage();
-    });
-    repl.create().then(() => socket.open());
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   function WebSocketMonitor(terminal,sid) {
     this.url = `ws://${replUrl(sid)}`;
