@@ -1,5 +1,9 @@
 
-<script type="text/javascript"><!--
+<% if @avatar_name != '' %>
+  <button type="button" id="dashboard-button">dashboard</button>
+<% end %>
+
+<script type="text/javascript">
 'use strict';
 $(() => {
 
@@ -13,8 +17,4 @@ $(() => {
   cd.createTip(dashboardButton, 'open dashboard page');
 
 });
-//--></script>
-
-<% if @avatar_name != '' %>
-  <button type="button" id="dashboard-button">dashboard</button>
-<% end %>
+</script>
