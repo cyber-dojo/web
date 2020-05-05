@@ -14,7 +14,7 @@
          top: 0px;
      z-index: 1000;
 
-  #display-name-box, #exercise-name-box, #id-box, #group-id-box
+  #display-name-box, #exercise-name-box, #id-box
   {
     @include edged-panel();
     font-size: 10px;

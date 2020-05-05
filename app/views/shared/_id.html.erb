@@ -1,20 +1,4 @@
 
-<script type="text/javascript"><!--
-'use strict';
-$(() => {
-  if (window.location.href.includes('/dashboard/show')) {
-    $('#group-id-holder').append(
-      $('<span>', {
-        'text': "<%= @group_id %>",
-        'id': 'group-id-box'
-      })
-    );
-  }
-});
-//--></script>
-
-<% if @id %>
-  <span id="id-box"><%= @group_id || @id %></span>
+<% if @group_id || @id %>
+  <div id="id-box"><%= @group_id || @id %></div>
 <% end %>
-
-<span id="group-id-holder"></span>
