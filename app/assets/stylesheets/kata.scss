@@ -12,7 +12,7 @@
   @include rounded-corner(6px);
   background: lighten($darker-color, 5%);
       margin: { top: 3px; bottom: 3px; left: 0px; }
-     padding: 8px 8px 2px 8px;
+     padding: 10px;
   text-align: left;
   img { width:20px; height:20px; margin-right:5px; }
   ul { margin: { top:5px; bottom:5px; } }
