@@ -1,20 +1,27 @@
 <div class="info">
-Each test run creates a new traffic-light:
+  Each test run creates a new traffic-light:
   <ul class="nobull">
     <li>
-      <%= render partial: 'shared/traffic_lights_red' %>
+      <img src='/traffic-light/image/red_predicted_none.png'
+           alt='red traffic-light'
+           class='traffic-light' />
       <span class="red">red</span>
       one or more tests failed
     </li>
     <li>
-      <%= render partial: 'shared/traffic_lights_amber' %>
+      <img src='/traffic-light/image/amber_predicted_none.png'
+           alt='amber traffic-light'
+           class='traffic-light' />
       <span class="amber">amber</span>
       something broke, e.g. syntax/linker error
     </li>
     <li>
-      <%= render partial: 'shared/traffic_lights_green' %>
+      <img src='/traffic-light/image/green_predicted_none.png'
+           alt='green traffic-light'
+           class='traffic-light' />
       <span class="green">green</span>
       all the tests passed
     </li>
   </ul>
+  When predict? is on you must forecast the colour!
 </div>

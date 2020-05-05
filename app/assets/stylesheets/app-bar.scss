@@ -25,14 +25,6 @@
     white-space: nowrap;
   }
 
-  #tweet-box
-  {
-    position:relative;
-    top:1px;
-    #twitter-widget-0 { margin: { top:0px; left:3px; right:3px; } }
-    margin: { left:3px; right:3px; top:0px; bottom:0px; }
-  }
-
   #praqma-box #praqma-image
   {
     @include rounded-corner(2px);
@@ -76,8 +68,6 @@
         position: relative;
         top: 2px;
   }
-
-  #traffic-lights-button img.traffic-light { width:12px; }
 
   // These buttons are switched in the kata/edit page.
   #theme-button, #colour-button, #hotkeys-button, #predict-button { display:none; }
