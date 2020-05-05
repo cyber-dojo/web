@@ -265,14 +265,7 @@ var cyberDojo = (function(cd, $) {
       'data-filename': filename,
       name: `file_content[${filename}]`,
       id: `file_content_for_${filename}`
-      //wrap: 'off'
     });
-    // For some reason, setting wrap cannot be done as per the
-    // commented out line above... when you create a new file in
-    // FireFox 17.0.1 it still wraps at the textarea width.
-    // So instead I do it like this, which works in FireFox?!
-    text.attr('wrap', 'off');
-
     text.val(file['content']);
     div.append(text);
 
