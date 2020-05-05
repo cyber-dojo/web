@@ -1,7 +1,3 @@
-<div id="starting-info">
-  <%= render partial: 'starting_bulb_info' %>
-  <%= render partial: 'starting_click_info' %>
-</div>
 
 <script type="text/javascript">
 'use strict';
@@ -9,24 +5,7 @@ $(() => {
 
   cd.showStartingInfoDialog = (onOff) => {
     if (cd.trafficLightsCount() === 0 && onOff !== 'off') {
-      const node = $('#starting-info');
-      node.dialog({
-                width: 520,
-             autoOpen: true,
-        closeOnEscape: true,
-                modal: true,
-                title: cd.dialogTitle('traffic-lights'),
-              buttons: { close: () => {
-                  node.remove();
-                }
-              },
-          beforeClose: event => {
-            if (event.keyCode === $.ui.keyCode.ESCAPE) {
-              node.remove();
-              return true;
-            }
-          }
-      });
+      cd.trafficLightsButton().click();
     }
   };
 

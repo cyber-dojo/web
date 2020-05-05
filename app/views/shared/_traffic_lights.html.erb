@@ -1,0 +1,39 @@
+<div style="display:none;">
+<%= render partial: 'shared/traffic_lights_red' %>
+<%= render partial: 'shared/traffic_lights_amber' %>
+<%= render partial: 'shared/traffic_lights_green' %>
+</div>
+
+<button type="button" id="traffic-lights-button">traffic-lights</button>
+
+<div id="traffic-lights-dialog" style="display:none;">
+  <%= render partial: 'shared/traffic_lights_bulb_info' %>
+  <%= render partial: 'shared/traffic_lights_click_info' %>
+</div>
+
+<script type="text/javascript">
+'use strict';
+$(() => {
+
+  cd.trafficLightsButton = () => $('#traffic-lights-button');
+  const trafficLights = $('#traffic-lights-dialog');
+
+  cd.trafficLightsButton().click(() => {
+    openTrafficLightsInfoDialog();
+  });
+
+  cd.createTip(cd.trafficLightsButton(), 'show traffic-lights info');
+
+  const openTrafficLightsInfoDialog = () => {
+    const div = trafficLights.dialog({
+                width: 520,
+             autoOpen: true,
+        closeOnEscape: true,
+                modal: true,
+                title: cd.dialogTitle('traffic-lights'),
+              buttons: { close: () => div.remove() }
+    });
+  };
+
+});
+</script>

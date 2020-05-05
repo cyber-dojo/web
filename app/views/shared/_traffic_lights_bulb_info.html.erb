@@ -1,0 +1,20 @@
+<div class="info">
+Each test run creates a new traffic-light:
+  <ul class="nobull">
+    <li>
+      <%= render partial: 'shared/traffic_lights_red' %>
+      <span class="red">red</span>
+      one or more tests failed
+    </li>
+    <li>
+      <%= render partial: 'shared/traffic_lights_amber' %>
+      <span class="amber">amber</span>
+      something broke, e.g. syntax/linker error
+    </li>
+    <li>
+      <%= render partial: 'shared/traffic_lights_green' %>
+      <span class="green">green</span>
+      all the tests passed
+    </li>
+  </ul>
+</div>
