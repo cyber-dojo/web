@@ -62,8 +62,9 @@
   }
 
   #theme-button, #colour-button,
-  #dashboard-button, #help-button, #hotkeys-button,
-  #predict-button, #shas-button
+  #charity-button, #feedback-button,
+  #dashboard-button, #help-button, #hotkeys-button, #shas-button,
+  #predict-button
   {
     @include rounded-corner(4px);
        display: block;
@@ -76,6 +77,13 @@
         top: 2px;
   }
 
+  // These buttons are switched in the kata/edit page.
   #theme-button, #colour-button, #hotkeys-button, #predict-button { display:none; }
 
 }
+
+#charity-dialog, #feedback-dialog
+{
+  a { color: khaki !important; }
+}
+#charity-dialog li { margin-top: 10px; }

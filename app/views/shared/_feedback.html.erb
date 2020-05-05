@@ -1,0 +1,52 @@
+
+<div id="feedback-dialog" style="display:none;">
+  <div class="info">
+    Please email us at <em>feedback@cyber-dojo.org</em>
+    <ul>
+      <li>make a suggestion?</li>
+      <li>report an error?</li>
+      <li>offer help!</li>
+      <li>say hello :-)</li>
+    </ul>
+  </div>
+  <div class="info">
+    Please
+      <a href="https://twitter.com/share?ref_src=twsrc%5Etfw"
+               class="twitter-share-button"
+               data-text="I&#39;m honing my craft with #cyberdojo!"
+               data-url="https://cyber-dojo.org"
+               data-show-count="false" target="_blank">Tweet</a> about cyber-dojo too.
+            <script async src="https://platform.twitter.com/widgets.js"
+                    charset="utf-8">
+            </script>
+  </div>
+</div>
+
+<script type="text/javascript"><!--
+'use strict';
+$(() => {
+
+  const feedbackButton = $('#feedback-button');
+  const feedback = $('#feedback-dialog');
+
+  feedbackButton.click(() => {
+    openFeedbackInfoDialog();
+  });
+
+  cd.createTip(feedbackButton, "We'd love your feedback");
+
+  const openFeedbackInfoDialog = () => {
+    const div = feedback.dialog({
+                width: 430,
+             autoOpen: true,
+        closeOnEscape: true,
+                modal: true,
+                title: cd.dialogTitle('feedback'),
+              buttons: { close: () => div.remove() }
+    });
+  };
+
+});
+//--></script>
+
+<button type="button" id="feedback-button">feedback</button>

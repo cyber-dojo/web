@@ -1,0 +1,56 @@
+
+<div id="charity-dialog" style="display:none;">
+  <div class="info">
+    The <a href="https://blog.cyber-dojo.org/2015/08/cyber-dojo-foundation.html"
+           target="_blank">cyberdojo Foundation</a> is a
+    Scottish Charitable Incorporated Organisation.<br/>
+    <ul>
+      <li>
+        100% of license fees and donations helps
+        <a href="https://blog.cyber-dojo.org/2016/10/cyber-dojo-raspberry-pies-in-action.html"
+           target="_blank">children learn about software</a>.
+      </li>
+      <li>
+        If you are using <em>https://cyber-dojo.org</em> commercially, please
+        <a href="http://blog.cyber-dojo.org/2015/08/cyber-dojo-foundation.html"
+           target="_blank">buy a licence</a>.
+      </li>
+      <li>
+        If you're not, please consider
+        <a href="javascript:;" onClick="cd.dialog_donate().dialog('open');">making a donation</a>.
+      </li>
+      <li>
+        Thank you.
+      </li>
+    </ul>
+  </div>
+</div>
+
+<script type="text/javascript"><!--
+'use strict';
+$(() => {
+
+  const charityButton = $('#charity-button');
+  const charity = $('#charity-dialog');
+
+  charityButton.click(() => {
+    openCharityInfoDialog();
+  });
+
+  cd.createTip(charityButton, 'cyber-dojo is a registered charity');
+
+  const openCharityInfoDialog = () => {
+    const div = charity.dialog({
+                width: 700,
+             autoOpen: true,
+        closeOnEscape: true,
+                modal: true,
+                title: cd.dialogTitle('charity'),
+              buttons: { close: () => div.remove() }
+    });
+  };
+
+});
+//--></script>
+
+<button type="button" id="charity-button">charity</button>

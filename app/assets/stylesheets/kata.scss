@@ -2,21 +2,19 @@
 #starting-info
 {
   display: none;
-  font-size: 0.8em;
   text-align: left;
-  a { color: khaki !important; }
 }
 .info
 {
   @include plaintext-font();
   @include rounded-corner(6px);
   background: lighten($darker-color, 5%);
-      margin: { top: 3px; bottom: 3px; left: 0px; }
      padding: 10px;
   text-align: left;
   img { width:20px; height:20px; margin-right:5px; }
   ul { margin: { top:5px; bottom:5px; } }
 }
+.info + .info { margin-top: 10px; }
 .nobull
 {
   list-style-type: none;
@@ -30,7 +28,7 @@
 #repl-page
 {
   display: none;
-  margin: { top: 40px; left: 35px; }  
+  margin: { top: 40px; left: 35px; }
   .resume-button
   {
     @include rounded-corner(4px);

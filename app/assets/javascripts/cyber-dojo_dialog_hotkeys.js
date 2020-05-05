@@ -13,14 +13,13 @@ var cyberDojo = ((cd, $) => {
   const hotkeysDialog = () => {
     let html = '';
     html += '<div>';
-    html += '<table>';
+    html += '<table class="info">';
     html += tr2('Alt-J', 'cycles forwards through the upper filenames');
     html += tr2('Alt-K', 'cycles backwards through the upper filenames');
     html += tr2('Alt-O', 'moves to/from stdout/stderr/status');
     html += tr2('Alt-T', 'runs the tests');
     html += '</table>';
-    html += '<hr/>';
-    html += '<table>';
+    html += '<table class="info">';
     html += tr3('start searching', 'Ctrl-F',       `${cmd}&thinsp;F`, );
     html += tr3('find next',       'Ctrl-G',       `${cmd}&thinsp;G`);
     html += tr3('find previous',   'Shift-Ctrl-G', `${cmd}${shift}&thinsp;G`);
@@ -65,11 +64,11 @@ var cyberDojo = ((cd, $) => {
       `<td style="text-align:right;">${key}</td>` +
       '<td>&nbsp;:&nbsp;</td>' +
       `<td>${notMac}</td>` +
-      '<td>&nbsp;&nbsp;&nbsp;</td>' +
+      '<td>&nbsp;&nbsp;&nbsp;&nbsp;</td>' +
       `<td>${mac}</td>` +
     '</tr>';
   };
-  
+
   return cd;
 
 })(cyberDojo || {}, jQuery);

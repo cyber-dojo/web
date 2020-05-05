@@ -1,9 +1,6 @@
 <div id="starting-info">
-  <table>
-    <tr><td><%= render partial: 'starting_bulb_info' %></td></tr>
-    <tr><td><%= render partial: 'starting_click_info' %></td></tr>
-    <tr><td><%= render partial: 'starting_please' %></td></tr>
-  </table>
+  <%= render partial: 'starting_bulb_info' %>
+  <%= render partial: 'starting_click_info' %>
 </div>
 
 <script type="text/javascript">
@@ -14,11 +11,11 @@ $(() => {
     if (cd.trafficLightsCount() === 0 && onOff !== 'off') {
       const node = $('#starting-info');
       node.dialog({
-                width: 600,
+                width: 520,
              autoOpen: true,
         closeOnEscape: true,
                 modal: true,
-                title: cd.dialogTitle('welcome'),
+                title: cd.dialogTitle('traffic-lights'),
               buttons: { close: () => {
                   node.remove();
                 }
