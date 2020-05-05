@@ -13,9 +13,10 @@
   <table>
     <tr class="valign-top">
       <td class="left-column">
+        <div id="stdout-stderr-status"></div>
         <%= render partial: 'file_new_rename_delete' %>
         <%= render partial: 'repl_button' %>
-        <%= render partial: 'filename_list' %>
+        <div id="filename-list"></div>
       </td>
       <td>
         <%= render partial: 'files' %>

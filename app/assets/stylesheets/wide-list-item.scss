@@ -24,7 +24,8 @@
 
   // See app/assets/javascripts/cyber-dojo_files.js function radioEntrySwitch()
   &[class~='selected'] {
-    background-color: lighten($darker-color, 10%);
+    color: $darker-color;
+    background-color: $lighter-color;
     cursor: default;
   }
   &:hover {

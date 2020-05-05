@@ -2,7 +2,6 @@ $filename_and_button_border_size: 1px;
 
 button
 {
-  @include rounded-corner(6px);
   @include gradient-lighten(darken($lighter-color, 12%), 9%, 2%, 0%);
 
           display: inline-block;

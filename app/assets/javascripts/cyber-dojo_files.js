@@ -90,7 +90,7 @@ var cyberDojo = (function(cd, $) {
     // 1. kata/edit page to help show filename-list
     // 2. review/show page/dialog to help show filename-list
     const output = ['stdout','stderr','status'];
-    return [].concat(hiFilenames(filenames), output, loFilenames(filenames));
+    return [].concat(hiFilenames(filenames), loFilenames(filenames));
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -297,6 +297,9 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const rebuildFilenameList = () => {
+    //const sss = $('#stdout-stderr-status');
+    //sss.empty();
+    //['stdout','stderr','status'].forEach(s => sss.append(makeFileListEntry(s)));
     const filenameList = $('#filename-list');
     filenameList.empty();
     $.each(cd.sortedFilenames(cd.filenames()), (_, filename) => {
@@ -332,7 +335,7 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const highlightSorter = (lhs,rhs) => {
+  /*const highlightSorter = (lhs,rhs) => {
     const lit = cd.highlightFilenames();
     const lhsLit = lit.includes(lhs);
     const rhsLit = lit.includes(rhs);
@@ -347,7 +350,7 @@ var cyberDojo = (function(cd, $) {
     } else {
       return 0;
     }
-  };
+  };*/ // TODO: Deleted
 
   const hiFilenames = (filenames) => {
     // Controls which filenames appear at the
@@ -358,11 +361,11 @@ var cyberDojo = (function(cd, $) {
     // 3. review/show page/dialog to help show filename list
     let hi = [];
     $.each(filenames, (_, filename) => {
-      if (isSourceFile(filename) || isHilightFile(filename)) {
+      if (isSourceFile(filename)) {
         hi.push(filename);
       }
     });
-    hi.sort(highlightSorter);
+    //hi.sort(highlightSorter); //TODO: Deleted
     hi = hi.filter(filename => !cd.isOutputFile(filename));
     return hi;
   };
@@ -378,7 +381,7 @@ var cyberDojo = (function(cd, $) {
     // 3. review/show page/dialog to help show filename-list
     let lo = [];
     $.each(filenames, (_, filename) => {
-      if (!isSourceFile(filename) && !isHilightFile(filename)) {
+      if (!isSourceFile(filename)) {
         lo.push(filename);
       }
     });
@@ -390,6 +393,7 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.isOutputFile = (filename) => {
+    if (filename === 'repl') return true;
     if (filename === 'stdout') return true;
     if (filename === 'stderr') return true;
     if (filename === 'status') return true;
@@ -405,9 +409,9 @@ var cyberDojo = (function(cd, $) {
         match = true;
       }
       // Special case for non-custom kata
-      if (filename === 'readme.txt') {
-        match = true;
-      }
+      //if (filename === 'readme.txt') {
+      //  match = true;
+      //}
       // Shell test frameworks (eg shunit2) use .sh as their
       // filename extension but we don't want cyber-dojo.sh
       // in the top filename section.

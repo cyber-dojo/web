@@ -1,3 +1,7 @@
+<div class="filename-tab">repl</div>
+<div class="filename-tab">stdout</div>
+<div class="filename-tab">stderr</div>
+<div class="filename-tab">status</div>
 <div id="visible-files-container"></div>
 
 <script type="text/javascript">
@@ -9,6 +13,14 @@ $(() => {
       content: "<%= j raw(file['content']) %>"
     });
   <% end %>
+
+  cd.fileCreate('repl', { content:
+    ['Python 3.8.2 (default, Feb 29 2020, 17:03:31)',
+     '[GCC 9.2.0] on linux',
+     'Type "help", "copyright", "credits" or "license" for more information.',
+     '>>>'
+    ].join("\n")
+  }); // FAKE
 
 });
 </script>
