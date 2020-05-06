@@ -106,7 +106,6 @@ var cyberDojo = (function(cd, $) {
     // Used in two places
     // 1. kata/edit page to help show filename-list
     // 2. review/show page/dialog to help show filename-list
-    const output = ['stdout','stderr','status'];
     return [].concat(hiFilenames(filenames), loFilenames(filenames));
   };
 
