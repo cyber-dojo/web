@@ -1,18 +1,17 @@
-<div id="file-operations">
-  <div id="label">file</div>
-  <div><button type="button" id="new">new</button></div>
-  <div><button type="button" id="rename">rename</button></div>
-  <div><button type="button" id="delete">delete</button></div>
+
+<div class="file-operations">
+  <button type="button" class="new-file">new</button>
+  <button type="button" class="rename-file">rename</button>
+  <button type="button" class="delete-file">delete</button>
 </div>
 
 <script type="text/javascript">
 'use strict';
 $(() => {
 
-  const fileButtons = $('#file-operations');
-  const fileNew     = fileButtons.find('#new');
-  const fileRename  = fileButtons.find('#rename');
-  const fileDelete  = fileButtons.find('#delete');
+  const fileNew     = $('.new-file');
+  const fileRename  = $('.rename-file');
+  const fileDelete  = $('.delete-file');
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -57,7 +56,7 @@ $(() => {
     const xPos = originator.offset().left + originator.width() + 30;
     const yPos = originator.offset().top;
     // get dialog title from button that launched it.
-    const title = 'file:&nbsp;' + originator.text();
+    const title = originator.text() + '&nbsp;file';
     const name = title.split(/\s+/)[0];
     // input element shows a filename which may or may not enabled
     const input = makeInput(name, initialFilename);

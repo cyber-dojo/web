@@ -3,7 +3,7 @@ $button_border_size: 2px;
 
 button
 {
-  @include rounded-corner(6px);
+  @include rounded-corner(3px);
   background: $lighter-color;
 
           display: inline-block;
