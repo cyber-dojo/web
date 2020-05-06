@@ -120,17 +120,6 @@
     @include wide-list-item();
     padding: { top:2px; bottom:2px; left:5px;}
     &[class~='highlight'] { &:before { content: "> "; } }
-  }
-  .fake-filenames { margin-top: 3px; }
-  #visible-files-container { margin-top: 8px; }
-  .fake-filename
-  {
-    @include plaintext-font();
-    display: inline-block;
-    border: 1px solid $darker-color;
-    cursor: pointer;
-    margin-right: 3px;
-    padding: { top: 3px; bottom: 4px; left:7px; right:7px; }
     &:hover
     {
       border: 1px dotted lighten($darker-color,25%);
@@ -143,6 +132,16 @@
       color: $darker-color;
     }
   }
+  
+  .fake-filenames { margin-top: 3px; }
+  .fake.filename
+  {
+    display: inline-block;
+    margin-right: 3px;
+    padding-right:7px;
+  }
+
+  #visible-files-container { margin-top: 8px; }
 
   #traffic-lights-count-total-box
   {

@@ -1,23 +1,31 @@
 
-<div class="fake-filenames">
-  <div class="fake-filename">repl</div>
-  <div class="fake-filename">stdout</div>
-  <div class="fake-filename">stderr</div>
-  <div class="fake-filename">status</div>
-  <div class="fake-filename selected">hiker.py</div>
-<div>
+<div class="fake-filenames"></div>
 
 <script type="text/javascript">
 'use strict';
 $(() => {
 
-  cd.fileCreate('repl', { content:
+  const fakeFilenames = $('.fake-filenames');
+  ['repl','stdout','stderr','status'].forEach((filename) => {
+    const div = $('<div>', {
+        class: 'fake filename',
+         text: filename
+    });
+    div.click(() => {
+      $('.filename').removeClass('selected');
+      cd.loadFile(filename);
+      div.addClass('selected');
+    });
+    fakeFilenames.append(div);
+  });
+
+  /*cd.fileCreate('repl', { content:
     ['Python 3.8.2 (default, Feb 29 2020, 17:03:31)',
      '[GCC 9.2.0] on linux',
      'Type "help", "copyright", "credits" or "license" for more information.',
      '>>>'
     ].join("\n")
-  });
+  });*/
 
 });
 </script>

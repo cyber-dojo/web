@@ -199,11 +199,12 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.radioEntrySwitch = (previous, current) => {
-    // Used in test-page, setup-pages, and history/diff-dialog
+    // Used in test-page, and history/diff-dialog
     // See app/assets/stylesheets/wide-list-item.scss
     if (previous !== undefined) {
       previous.removeClass('selected');
     }
+    $('.filename').removeClass('selected');
     current.addClass('selected');
   };
 
@@ -256,17 +257,17 @@ var cyberDojo = (function(cd, $) {
 
   const makeNewFile = (filename, file) => {
     const div = $('<div>', {
-      'class': 'filename_div',
+        class: 'filename_div',
            id: `${filename}_div`
     });
     const text = $('<textarea>', {
-      'class': 'file_content',
+      class: 'file_content',
+      name: `file_content[${filename}]`,
+      id: `file_content_for_${filename}`,
       'spellcheck': 'false',
       'data-filename': filename,
-      name: `file_content[${filename}]`,
-      id: `file_content_for_${filename}`
+      text: file['content']
     });
-    text.val(file['content']);
     div.append(text);
 
     return div;
