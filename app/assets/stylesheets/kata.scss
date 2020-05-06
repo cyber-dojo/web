@@ -121,20 +121,28 @@
     padding: { top:2px; bottom:2px; left:5px;}
     &[class~='highlight'] { &:before { content: "> "; } }
   }
-  .fake-filenames
-  {
-    margin-top: 3px;
-  }
+  .fake-filenames { margin-top: 3px; }
+  #visible-files-container { margin-top: 8px; }
   .fake-filename
   {
     @include plaintext-font();
     display: inline-block;
+    border: 1px solid $darker-color;
     cursor: pointer;
-    border-top: 1px solid gray;
-    border-left: 1px solid gray;
-    border-right: 1px solid gray;
     margin-right: 3px;
     padding: { top: 3px; bottom: 4px; left:7px; right:7px; }
+    &:hover
+    {
+      border: 1px dotted lighten($darker-color,25%);
+      color: $darker-color;
+      background: lighten($darker-color, 60%);
+    }
+    &.selected
+    {
+      cursor: default;
+      background: $lighter-color;
+      color: $darker-color;
+    }
   }
 
   #traffic-lights-count-total-box

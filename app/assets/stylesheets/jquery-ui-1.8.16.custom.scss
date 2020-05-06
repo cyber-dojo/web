@@ -386,7 +386,8 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 
 .ui-widget,
 .ui-widget-content,
-.ui-widget-header {
+.ui-widget-header
+{
     color: $lighter-color;
     background: $darker-color;
     border: 0;
@@ -429,7 +430,7 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 
 .ui-dialog .ui-dialog-buttonpane
 {
-  text-align: left; /* left/center/right */
+  text-align: left;
   margin-left: 1em;
 }
 
@@ -438,11 +439,13 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
   display: none;
 }
 
-.ui-dialog.busy * {
+.ui-dialog.busy *
+{
     cursor: wait !important;
 }
 
-.ui-button-text {
+.ui-button-text
+{
   @include non-code-font();
   font-size: 13pt !important;
 }
