@@ -6,10 +6,10 @@
 $(() => {
 
   const fakeFilenames = $('.fake-filenames');
-  ['repl','stdout','stderr','status'].forEach((filename) => {
+  ['stdout','stderr','status'].forEach((filename) => {
     const div = $('<div>', {
         class: 'fake filename',
-           id: `radio_${filename}`,        
+           id: `radio_${filename}`,
          text: filename
     });
     div.click(() => {
@@ -19,14 +19,6 @@ $(() => {
     });
     fakeFilenames.append(div);
   });
-
-  /*cd.fileCreate('repl', { content:
-    ['Python 3.8.2 (default, Feb 29 2020, 17:03:31)',
-     '[GCC 9.2.0] on linux',
-     'Type "help", "copyright", "credits" or "license" for more information.',
-     '>>>'
-    ].join("\n")
-  });*/
 
 });
 </script>
