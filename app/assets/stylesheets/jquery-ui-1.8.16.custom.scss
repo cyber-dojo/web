@@ -423,29 +423,16 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
   }
 }
 
-.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset
-{
-  float: none;
-}
-
 .ui-dialog .ui-dialog-buttonpane
 {
   text-align: left;
   margin-left: 1em;
 }
-
-.ui-dialog-titlebar-close,
-{
-  display: none;
-}
-
-.ui-dialog.busy *
-{
-    cursor: wait !important;
-}
-
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset { float: none; }
+.ui-dialog-titlebar-close { display: none; }
+.ui-dialog.busy * { cursor: wait !important; }
 .ui-button-text
 {
-  @include non-code-font();
   font-size: 13pt !important;
+  font-weight: normal;
 }
