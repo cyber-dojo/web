@@ -1,15 +1,17 @@
+
 <%= render partial: 'tab_size' %>
 <%= render partial: 'scroller' %>
 
+<div id="edit-top-row">
+  <%= render partial: 'avatar_image' %>
+  <%= render partial: 'test_button' %>
+  <%= render partial: 'traffic_lights_count_total' %>
+  <%= render partial: 'traffic_lights_count_predict' %>
+  <%= render partial: 'traffic_lights' %>
+</div>
+
 <%= form_tag( { action: 'run_tests', id: @id } ) do %>
   <%= render partial: 'hidden_inputs' %>
-  <div id="edit-top-row">
-    <%= render partial: 'avatar_image' %>
-    <%= render partial: 'test_button' %>
-    <%= render partial: 'traffic_lights_count_total' %>
-    <%= render partial: 'traffic_lights_count_predict' %>
-    <%= render partial: 'traffic_lights' %>
-  </div>
   <table>
     <tr class="valign-top">
       <td class="left-column">

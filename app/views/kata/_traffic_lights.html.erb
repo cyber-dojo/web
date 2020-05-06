@@ -1,4 +1,4 @@
-<input type="hidden" name="index" value="0">
+
 <div id="traffic-lights"></div>
 
 <script type="text/javascript">
@@ -21,10 +21,6 @@ $(() => {
   const avatarIndex = '<%= @avatar_index %>';
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // The index of most-recent (rightmost) traffic-light
-  // is updated in the browser and sent back to the web
-  // service (on [test] click) so the web service does not
-  // not need to retrieve it from saver).
 
   const wasIndex = (value) => {
     const inputIndex = $("input[name='index']");

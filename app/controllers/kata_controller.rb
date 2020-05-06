@@ -90,6 +90,8 @@ class KataController < ApplicationController
       kata.ran_tests(*args)
     rescue SaverService::Error => error
       #TODO: @message on app-bar?...
+      STDOUT.puts(error.message);
+      STDOUT.flush
     end
     @avatar_index = params[:avatar_index]
     @light = {

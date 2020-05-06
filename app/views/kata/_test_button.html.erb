@@ -5,6 +5,7 @@
 'use strict';
 $(() => {
 
+  const form = $('form');
   const predicted = $('input[name=predicted]');
 
   cd.testButton = $('#test-button');
@@ -21,7 +22,6 @@ $(() => {
     cd.testButton.disable();
     cd.saveCodeFromSyntaxHighlightEditors();
     cd.waitSpinner.fadeIn('slow', () => {
-      const form = cd.testButton.closest('form');
       $.ajax({
            timeout: 30000, // [1]
               type: 'POST',
