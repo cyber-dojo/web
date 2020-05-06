@@ -15,10 +15,11 @@
       <td class="left-column">
         <div id="stdout-stderr-status"></div>
         <%= render partial: 'file_new_rename_delete' %>
-        <%= render partial: 'repl_button' %>
         <div id="filename-list"></div>
       </td>
       <td>
+        <%= render partial: 'repl_button' %>        
+        <%= render partial: 'fake_filenames' %>
         <%= render partial: 'files' %>
       </td>
     </tr>
