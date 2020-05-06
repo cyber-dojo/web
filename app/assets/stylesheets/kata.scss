@@ -90,7 +90,7 @@
 
   #filename-list
   {
-        margin: { top: 2px; right: 1px; }
+        margin: { top: 2px; right: 0px; }
          width: 295px;
         height: 410px;
     overflow-y: scroll;
@@ -196,7 +196,7 @@
 
   #visible-files-container
   {
-    @include rounded-corner(3px);    
+    @include rounded-corner(3px);
     position: relative;
     top: -1px;
   }
