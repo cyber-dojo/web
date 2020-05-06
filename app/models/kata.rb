@@ -71,7 +71,7 @@ class Kata
     if result
       result.lines.last
     else
-      'dark' # default (other options is 'light')
+      'light' # default, better on projectors (other option is 'dark')
     end
   end
 
