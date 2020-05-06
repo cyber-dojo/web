@@ -9,6 +9,7 @@ $(() => {
   ['repl','stdout','stderr','status'].forEach((filename) => {
     const div = $('<div>', {
         class: 'fake filename',
+           id: `radio_${filename}`,        
          text: filename
     });
     div.click(() => {

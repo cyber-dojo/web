@@ -10,23 +10,48 @@ var cyberDojo = (function(cd, $) {
   let theLastNonOutputFilename = '';
   let theLastOutputFilename = 'stdout';
 
+  cd.currentFilename = () => theCurrentFilename;
+  cd.eachFilename = (f) => cd.filenames().forEach(f);
+
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // Load a named file
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.loadFile = (filename) => {
+    // switch to showing filename's contents
     fileDiv(cd.currentFilename()).hide();
     fileDiv(filename).show();
-
-    selectFileInFileList(filename);
     cd.focusSyntaxHighlightEditor(filename);
-
+    // switch to showing filename
+    selectFileInFileList(filename);
+    // remember info for Alt-O hotkey
     theCurrentFilename = filename;
     if (cd.isOutputFile(filename)) {
       theLastOutputFilename = filename;
     } else {
       theLastNonOutputFilename = filename;
     }
+  };
+
+  const selectFileInFileList = (filename) => {
+    // Can't do $('radio_' + filename) because filename
+    // could contain characters that aren't strictly legal
+    // characters in a dom node id so I do this instead...
+    const node = $(`[id="radio_${filename}"]`);
+    const previousFilename = cd.currentFilename();
+    const previous = $(`[id="radio_${previousFilename}"]`);
+    cd.radioEntrySwitch(previous, node);
+    setRenameAndDeleteButtons(filename);
+  };
+
+  cd.radioEntrySwitch = (previous, current) => {
+    // Used in test-page, and history/diff-dialog
+    // See app/assets/stylesheets/wide-list-item.scss
+    if (previous !== undefined) {
+      previous.removeClass('selected');
+    }
+    $('.filename').removeClass('selected');
+    current.addClass('selected');
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -58,14 +83,6 @@ var cyberDojo = (function(cd, $) {
         break;
     }
   };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.currentFilename = () => theCurrentFilename;
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.eachFilename = (f) => cd.filenames().forEach(f);
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -198,18 +215,6 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.radioEntrySwitch = (previous, current) => {
-    // Used in test-page, and history/diff-dialog
-    // See app/assets/stylesheets/wide-list-item.scss
-    if (previous !== undefined) {
-      previous.removeClass('selected');
-    }
-    $('.filename').removeClass('selected');
-    current.addClass('selected');
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   const testFilename = () => {
     // When starting and in filename-list navigation
     // when the current file is deleted, try to
@@ -307,7 +312,7 @@ var cyberDojo = (function(cd, $) {
 
   const makeFileListEntry = (filename) => {
     const div = $('<div>', {
-      'class': 'filename',
+        class: 'filename',
            id: `radio_${filename}`,
          text: filename
     });
@@ -316,19 +321,6 @@ var cyberDojo = (function(cd, $) {
     }
     div.click(() => { cd.loadFile(filename); });
     return div;
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const selectFileInFileList = (filename) => {
-    // Can't do $('radio_' + filename) because filename
-    // could contain characters that aren't strictly legal
-    // characters in a dom node id so I do this instead...
-    const node = $(`[id="radio_${filename}"]`);
-    const previousFilename = cd.currentFilename();
-    const previous = $(`[id="radio_${previousFilename}"]`);
-    cd.radioEntrySwitch(previous, node);
-    setRenameAndDeleteButtons(filename);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
