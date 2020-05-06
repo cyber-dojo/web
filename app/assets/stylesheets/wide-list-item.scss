@@ -13,6 +13,15 @@
      padding: { left: 4px; right: 0px; }
       cursor: pointer;
 
+  // See app/assets/javascripts/cyber-dojo_files.js function radioEntrySwitch()
+  &[class~='selected']
+  {
+    color: $darker-color;
+    background-color: $lighter-color;
+    cursor: default;
+  }
+  &:hover { border: 1px dotted lighten($darker-color,25%); }
+
   // no up/down scrolling, #filename-list has its own
   overflow-y: none;
   &::-webkit-scrollbar:vertical { width: 0px; }
@@ -21,14 +30,4 @@
   &::-webkit-scrollbar:horizontal { height: 0px; }
     max-width: 295px;
    overflow-x: auto;
-
-  // See app/assets/javascripts/cyber-dojo_files.js function radioEntrySwitch()
-  &[class~='selected'] {
-    color: $darker-color;
-    background-color: $lighter-color;
-    cursor: default;
-  }
-  &:hover {
-    border: 1px dotted lighten($darker-color,25%);
-  }
 }

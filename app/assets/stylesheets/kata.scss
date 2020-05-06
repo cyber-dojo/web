@@ -105,17 +105,6 @@
     margin: { left:1px; right:4px; }
   }
 
-  .fake-filename
-  {
-    @include plaintext-font();
-    display: inline-block;
-    border-top: 1px solid gray;
-    border-left: 1px solid gray;
-    border-right: 1px solid gray;
-    margin: { top:4px; left:0px; right:3px; }
-    padding: { top: 3px; bottom: 4px; left:7px; right:7px; }
-  }
-
   #filename-list
   {
         margin: { top: 2px; right: 3px; }
@@ -124,12 +113,28 @@
     overflow-y: scroll;
     overflow-x: none; // up/down hidden scrollbar
     &::-webkit-scrollbar:vertical { width: 0px; }
-    div[class~='filename'][class~='highlight'] { &:before { content: "> "; } }
-    div[class~='filename']
-    {
-      @include wide-list-item();
-      padding: { top:2px; bottom:2px; left:5px;}
-    }
+  }
+
+  .filename
+  {
+    @include wide-list-item();
+    padding: { top:2px; bottom:2px; left:5px;}
+    &[class~='highlight'] { &:before { content: "> "; } }
+  }
+  .fake-filenames
+  {
+    margin-top: 3px;
+  }
+  .fake-filename
+  {
+    @include plaintext-font();
+    display: inline-block;
+    cursor: pointer;
+    border-top: 1px solid gray;
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
+    margin-right: 3px;
+    padding: { top: 3px; bottom: 4px; left:7px; right:7px; }
   }
 
   #traffic-lights-count-total-box
