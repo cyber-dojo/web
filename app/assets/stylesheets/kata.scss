@@ -72,7 +72,7 @@
   {
     @include font-size-medium();
            display: inline;
-            margin: { right: 2px; }
+            margin: { left: 2px; right: 2px; }
            padding: { top: 0px; bottom: 2px; left: 7px; right: 7px; }
         text-align: center;
           position: relative;
@@ -102,7 +102,7 @@
 
   #new, #rename, #delete
   {
-    @include rounded-corner(4px);    
+    @include rounded-corner(4px);
     font-size: 12px;
     padding:{ top:0px; bottom:1px; left:7px; right:7px; }
     margin: { left:1px; right:4px; }
@@ -121,7 +121,8 @@
   .filename
   {
     @include wide-list-item();
-    padding: { top:2px; bottom:2px; left:5px;}
+    @include rounded-corner(4px);
+    padding: { top:2px; bottom:3px; left:5px;}
     &[class~='highlight'] { &:before { content: "> "; } }
     &:hover
     {
@@ -133,6 +134,8 @@
       cursor: default;
       background: $lighter-color;
       color: $darker-color;
+      border: 1px solid $lighter-color;
+      &:hover { border: 1px dotted lighten($darker-color,25%); }
     }
   }
 
