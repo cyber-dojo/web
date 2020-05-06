@@ -155,6 +155,67 @@ var cyberDojo = (function(cd, $) {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // hiFilenames() loFilenames()
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // Controls which filenames appear at the top and bottom
+  // of the filename-list. Used in three places.
+  //   1. kata/edit page to help show filename list
+  //   2. kata/edit page in alt-j alt-k hotkeys
+  //   3. review/show page/dialog to help show filename list
+
+  const hiFilenames = (filenames) => {
+    return filenames
+      .reject(filename => cd.isOutputFile(filename))
+      .filter(filename => isSourceFile(filename))
+      .sorted(highlightSorter);
+  };
+
+  const loFilenames = (filenames) => {
+    return filenames
+      .reject(filename => cd.isOutputFile(filename))
+      .filter(filename => !isSourceFile(filename))
+      .sorted();
+  };
+
+  const highlightSorter = (lhs,rhs) => {
+    const lit = cd.highlightFilenames();
+    const lhsLit = lit.includes(lhs);
+    const rhsLit = lit.includes(rhs);
+    if (lhsLit && !rhsLit) {
+      return -1;
+    } else if (!lhsLit && rhsLit) {
+      return +1;
+    } else if (lhs < rhs) {
+      return -1;
+    } else if (lhs > rhs) {
+      return +1;
+    } else {
+      return 0;
+    }
+  };
+
+  Array.prototype.reject = function(f) {
+    return this.filter(item => !f(item));
+  };
+
+  Array.prototype.sorted = function(f) {
+    this.sort(f);
+    return this;
+  };
+
+  cd.isOutputFile = (filename) => {
+    return ['stdout','stderr','status','repl'].includes(filename);
+  };
+
+  const isSourceFile = (filename) => {
+    // Shell test frameworks (eg shunit2) use .sh as their
+    // filename extension but we don't want cyber-dojo.sh
+    return filename !== 'cyber-dojo.sh' &&
+      cd.extensionFilenames().find(ext => filename.endsWith(ext));
+      // filename === 'readme.txt'
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // new-file, rename-file, delete-file
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // See app/views/kata/_file_new_rename_delete.html.erb
@@ -320,109 +381,6 @@ var cyberDojo = (function(cd, $) {
     div.click(() => { cd.loadFile(filename); });
     return div;
   };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const highlightSorter = (lhs,rhs) => {
-    const lit = cd.highlightFilenames();
-    const lhsLit = lit.includes(lhs);
-    const rhsLit = lit.includes(rhs);
-    if (lhsLit && !rhsLit) {
-      return -1;
-    } else if (!lhsLit && rhsLit) {
-      return +1;
-    } else if (lhs < rhs) {
-      return -1;
-    } else if (lhs > rhs) {
-      return +1;
-    } else {
-      return 0;
-    }
-  };
-
-  const hiFilenames = (filenames) => {
-    // Controls which filenames appear at the
-    // top of the filename-list, above 'output'
-    // Used in three places.
-    // 1. kata/edit page to help show filename list
-    // 2. kata/edit page in alt-j alt-k hotkeys
-    // 3. review/show page/dialog to help show filename list
-    let hi = [];
-    $.each(filenames, (_, filename) => {
-      if (isSourceFile(filename)) {
-        hi.push(filename);
-      }
-    });
-    hi.sort(highlightSorter);
-    hi = hi.filter(filename => !cd.isOutputFile(filename));
-    return hi;
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const loFilenames = (filenames) => {
-    // Controls which filenames appear at the
-    // bottom of the filename list, below 'output'
-    // Used in three places.
-    // 1. kata/edit page to help show filename-list
-    // 2. kata/edit page in Alt-j Alt-k hotkeys
-    // 3. review/show page/dialog to help show filename-list
-    let lo = [];
-    $.each(filenames, (_, filename) => {
-      if (!isSourceFile(filename)) {
-        lo.push(filename);
-      }
-    });
-    lo.sort();
-    lo = lo.filter(filename => !cd.isOutputFile(filename));
-    return lo;
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.isOutputFile = (filename) => {
-    if (filename === 'repl') return true;
-    if (filename === 'stdout') return true;
-    if (filename === 'stderr') return true;
-    if (filename === 'status') return true;
-    return false;
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const isSourceFile = (filename) => {
-    let match = false;
-    $.each(cd.extensionFilenames(), (_, extension) => {
-      if (filename.endsWith(extension)) {
-        match = true;
-      }
-      // Special case for non-custom kata
-      //if (filename === 'readme.txt') {
-      //  match = true;
-      //}
-      // Shell test frameworks (eg shunit2) use .sh as their
-      // filename extension but we don't want cyber-dojo.sh
-      // in the top filename section.
-      if (filename === 'cyber-dojo.sh') {
-        match = false;
-      }
-    });
-    return match;
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const isHilightFile = (filename) => {
-    let match = false;
-    $.each(cd.highlightFilenames(), (_, hilightFilename) => {
-      if (filename === hilightFilename) {
-        match = true;
-      }
-    });
-    return match;
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   return cd;
 
