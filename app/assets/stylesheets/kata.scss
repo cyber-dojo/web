@@ -76,11 +76,9 @@
             margin: { left: 1px; right: 2px; }
            padding: { top: 0px; bottom: 2px; left: 7px; right: 7px; }
         text-align: center;
-          position: relative;
-               top: -2px;
   }
 
-  .file-operations { margin: { top: 2px; bottom: 7px; } }
+  .file-operations { margin: { top: 4px; bottom: 7px; } }
 
   .new-file, .rename-file, .delete-file
   {
@@ -123,7 +121,7 @@
   .fake.filename
   {
     display: inline-block;
-    margin-right: 3px;
+    margin-right: 5px;
     padding-right:7px;
   }
 
@@ -131,32 +129,23 @@
   {
     @include edged-panel();
     display: inline-flex;
-    position:relative;
-    top:-2px;
-    margin: { left:2px; right:4px; }
-    max-height:20px;
+    margin: { left:4px; right:4px; }
+    max-height:23px;
     .traffic-light-count
     {
-      position:relative;
-      top:-3px;
+      font-size: 23px;
       padding: { left:3px; right:3px; }
+      position:relative; top:-3px;
     }
   }
 
-  #traffic-lights-count-predict-box
-  {
-     display:inline-flex;
-     position:relative; top:2px;
-  }
   #traffic-lights-count-predict-box
   {
      #miss-box,#hit-box
      {
        @include edged-panel();
        display: inline-flex;
-       position:relative;
-       top:-4px;
-       max-height:20px;
+       max-height:23px;
      }
      #miss-box { margin: { left:0px; right:0px; } }
      #hit-box { margin: { left:0px; right:4px; } }
@@ -166,15 +155,13 @@
        width:15px;
        height:15px;
        padding: { left:3px; right:3px; }
-       position:relative;
-       top:3px;
+       position:relative; top:3px;
      }
      #miss-count,#hit-count
      {
-       font-size: 22px;
-       position:relative;
-       top:-3px;
+       font-size: 23px;
        padding: { left:3px; right:3px; }
+       position:relative; top:-3px;
      }
   }
 
@@ -189,7 +176,7 @@
     {
       padding:0px;
        margin:0px;
-      img { width:21px; height:21px; }
+      img { width:28px; height:28px; }
       position:relative; top:2px;
     }
   }
