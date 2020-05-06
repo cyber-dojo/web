@@ -11,7 +11,6 @@
 </div>
 
 <%= form_tag( { action: 'run_tests', id: @id } ) do %>
-  <%= render partial: 'hidden_inputs' %>
   <table>
     <tr class="valign-top">
       <td class="left-column">
@@ -21,7 +20,9 @@
       <td>
         <%= render partial: 'repl_button' %>
         <%= render partial: 'fake_filenames' %>
-        <%= render partial: 'files' %>
+
+        <%= render partial: 'hidden_inputs' %>
+        <%= render partial: 'files' %>        
       </td>
     </tr>
   </table>
