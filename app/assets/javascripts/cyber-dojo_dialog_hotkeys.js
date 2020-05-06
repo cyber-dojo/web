@@ -14,12 +14,12 @@ var cyberDojo = ((cd, $) => {
     let html = '';
     html += '<div>';
     html += '<table class="info">';
-    html += tr2('Alt-J', 'cycles through the filenames &darr;&rarr;');
-    html += tr2('Alt-K', 'cycles through the filenames &uarr;&larr;');
-    html += tr2('Alt-O', 'moves to|from stdout|stderr|status');
+    html += tr2('Alt-J', 'cycles through the filenames &darr;');
+    html += tr2('Alt-K', 'cycles through the filenames &uarr;');
+    html += tr2('Alt-O', 'moves to-from stdout-stderr-status');
     html += tr2('Alt-T', 'runs the tests');
     html += '</table>';
-    html += '<table class="info">';
+    html += '<table class="info" style="width:370px;">';
     html += tr3('start searching', 'Ctrl-F',       `${cmd}&thinsp;F`, );
     html += tr3('find next',       'Ctrl-G',       `${cmd}&thinsp;G`);
     html += tr3('find previous',   'Shift-Ctrl-G', `${cmd}${shift}&thinsp;G`);
@@ -27,11 +27,12 @@ var cyberDojo = ((cd, $) => {
     html += tr3('replace all',     'Shift-Ctrl-R', `${cmd}${option}${shift}&thinsp;F`);
     html += tr3('jump to line',    'Alt-G',        `${option}&thinsp;G`);
     html += '</table>';
+    //html += 'Other <a href="https://defkey.com/codemirror-shortcuts">CodeMirror hotkeys</a> are also supported';
     html += '</div>';
 
     const node = $(html);
     node.dialog({
-              width: '500',
+              width: '405',
            autoOpen: true,
       closeOnEscape: true,
               modal: true,
