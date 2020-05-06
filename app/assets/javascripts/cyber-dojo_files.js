@@ -297,9 +297,6 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const rebuildFilenameList = () => {
-    //const sss = $('#stdout-stderr-status');
-    //sss.empty();
-    //['stdout','stderr','status'].forEach(s => sss.append(makeFileListEntry(s)));
     const filenameList = $('#filename-list');
     filenameList.empty();
     $.each(cd.sortedFilenames(cd.filenames()), (_, filename) => {
