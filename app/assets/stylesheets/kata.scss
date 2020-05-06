@@ -134,8 +134,7 @@
     &:hover
     {
       border: 1px dotted lighten($darker-color,25%);
-      color: $darker-color;
-      background: lighten($darker-color, 60%);
+      background: lighten($darker-color, 5%);
     }
     &.selected
     {
