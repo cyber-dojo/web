@@ -9,44 +9,44 @@
 'use strict';
 $(() => {
 
-  const fileNew     = $('.new-file');
-  const fileRename  = $('.rename-file');
-  const fileDelete  = $('.delete-file');
+  const newFileButton     = $('.new-file');
+  const renameFileButton  = $('.rename-file');
+  const deleteFileButton  = $('.delete-file');
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  fileNew.click(() => {
+  newFileButton.click(() => {
     const initialFilename = `filename${cd.extensionFilenames()[0]}`;
     const okInitiallyDisabled = !isValidFilename(initialFilename);
     const okClicked = filename => {
       cd.fileCreate(filename, '');
       cd.loadFile(filename);
     };
-    openDialog(fileNew, initialFilename, okInitiallyDisabled, okClicked);
+    openDialog(newFileButton, initialFilename, okInitiallyDisabled, okClicked);
   });
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  fileRename.click(() => {
+  renameFileButton.click(() => {
     const initialFilename = cd.currentFilename();
     const okInitiallyDisabled = true;
     const okClicked = filename => {
       cd.fileRename(initialFilename, filename);
       cd.loadFile(filename);
     };
-    openDialog(fileRename, initialFilename, okInitiallyDisabled, okClicked);
+    openDialog(renameFileButton, initialFilename, okInitiallyDisabled, okClicked);
   });
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  fileDelete.click(() => {
+  deleteFileButton.click(() => {
     const initialFilename = cd.currentFilename();
     const okInitiallyDisabled = false;
     const okClicked = filename => {
       cd.fileDelete(filename);
       cd.loadFile('stdout');
     };
-    openDialog(fileDelete, initialFilename, okInitiallyDisabled, okClicked);
+    openDialog(deleteFileButton, initialFilename, okInitiallyDisabled, okClicked);
   });
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
