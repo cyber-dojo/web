@@ -140,6 +140,7 @@ $(() => {
 
   const isValidFilename = filename => {
     const contains = illegal => filename.indexOf(illegal) !== -1;
+    if (filename === 'repl') { return false; }
     if (alreadyExists(filename)) { return false; }
     if (contains('..')) { return false; }
     if (contains('\\')) { return false; }
