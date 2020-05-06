@@ -52,9 +52,6 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const openDialog = function(originator, initialFilename, okInitiallyDisabled, okClicked) {
-    // position the dialog next to the button that launched it.
-    const xPos = originator.offset().left + originator.width() + 30;
-    const yPos = originator.offset().top;
     // get dialog title from button that launched it.
     const title = originator.text() + '&nbsp;file';
     const name = title.split(/\s+/)[0];
@@ -87,7 +84,6 @@ $(() => {
   	  title: cd.dialogTitle(title),
     	autoOpen: false,
       width: 250,
-      position: [xPos,yPos],
   	  modal: true,
       buttons: [ ok, cancel ],
       beforeClose: function(event) {
