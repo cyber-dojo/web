@@ -323,7 +323,7 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  /*const highlightSorter = (lhs,rhs) => {
+  const highlightSorter = (lhs,rhs) => {
     const lit = cd.highlightFilenames();
     const lhsLit = lit.includes(lhs);
     const rhsLit = lit.includes(rhs);
@@ -338,7 +338,7 @@ var cyberDojo = (function(cd, $) {
     } else {
       return 0;
     }
-  };*/ // TODO: Deleted
+  };
 
   const hiFilenames = (filenames) => {
     // Controls which filenames appear at the
@@ -353,7 +353,7 @@ var cyberDojo = (function(cd, $) {
         hi.push(filename);
       }
     });
-    //hi.sort(highlightSorter); //TODO: Deleted
+    hi.sort(highlightSorter);
     hi = hi.filter(filename => !cd.isOutputFile(filename));
     return hi;
   };
