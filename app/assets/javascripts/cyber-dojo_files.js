@@ -170,7 +170,7 @@ var cyberDojo = (function(cd, $) {
 
   cd.fileCreate = (filename, file) => {
     const newFile = makeNewFile(filename, file);
-    $('#visible-files-container').append(newFile);
+    $('#visible-files-box').append(newFile);
     rebuildFilenameList();
     cd.switchEditorToCodeMirror(filename);
   };
