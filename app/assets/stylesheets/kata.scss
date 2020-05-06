@@ -7,6 +7,7 @@
 .info
 {
   @include plaintext-font();
+  @include rounded-corner(6px);
   background: lighten($darker-color, 5%);
      padding: 10px;
   text-align: left;
@@ -30,6 +31,7 @@
   margin: { top: 40px; left: 35px; }
   .resume-button
   {
+    @include rounded-corner(4px);
     font-size: 12px;
     padding:{ top:0px; bottom:1px; left:4px; right:4px; }
     margin: { left:1px; right:1px; }
@@ -100,6 +102,7 @@
 
   #new, #rename, #delete
   {
+    @include rounded-corner(4px);    
     font-size: 12px;
     padding:{ top:0px; bottom:1px; left:7px; right:7px; }
     margin: { left:1px; right:4px; }
@@ -132,7 +135,7 @@
       color: $darker-color;
     }
   }
-  
+
   .fake-filenames { margin-top: 3px; }
   .fake.filename
   {

@@ -27,6 +27,7 @@
 
   #praqma-box #praqma-image
   {
+    @include rounded-corner(2px);
     padding: 0px;
      height: 15px;
      margin: { top:0px; left:3px; right:3px; }
@@ -43,6 +44,7 @@
 
   #accu-box #accu-image
   {
+    @include rounded-corner(3px);
     background: CornSilk;
        padding: 5px;
          width: 50px;
@@ -56,6 +58,7 @@
   #traffic-lights-button, #dashboard-button, #help-button, #hotkeys-button, #shas-button,
   #predict-button
   {
+    @include rounded-corner(4px);
        display: block;
        padding: { left:7px; right:7px; top:0px; bottom:1px; }
         margin: { top:0px; bottom:0px; left:3px; right:3px; }
