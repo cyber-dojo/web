@@ -13,11 +13,7 @@
      padding: { left: 4px; right: 0px; }
       cursor: pointer;
 
-  &:hover
-  {
-    border: 1px dotted lighten($darker-color,25%);
-    background: lighten($darker-color, 5%);
-  }
+  &:hover { background: lighten($darker-color, 5%); }
 
   // no up/down scrolling, #filename-list has its own
   overflow-y: none;
