@@ -6,18 +6,17 @@
 $(() => {
 
   const $tabFilenames = $('.tab-filenames');
-  const outputTabNames = ['stdout','stderr','status'];
+  const outputTabNames = ['stdout','stderr'];
   const selectedTabFilename = () => $('.selected', $tabFilenames).text();
   const currentFilename = () => $('#current_filename', $tabFilenames).text();
 
-  cd.isOutputFile = filename => outputTabNames.includes(filename);
+  cd.isOutputFile = filename => filename === 'status' || outputTabNames.includes(filename);
 
   cd.toggleOutputFile = () => {
     switch (selectedTabFilename()) {
-    case 'stdout': cd.loadFile('stderr'); break;
-    case 'stderr': cd.loadFile('status'); break;
-    case 'status': cd.loadFile(currentFilename()); break;
     default      : cd.loadFile('stdout'); break;
+    case 'stdout': cd.loadFile('stderr'); break;
+    case 'stderr': cd.loadFile(currentFilename()); break;
     }
   };
 
