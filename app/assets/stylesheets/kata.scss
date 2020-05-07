@@ -110,6 +110,7 @@
   {
     @include wide-list-item();
     @include rounded-corner(3px);
+    letter-spacing: 0.03em;
     padding: { top:2px; bottom:3px; left:7px;}
     &[class~='highlight'] { &:before { content: "> "; } }
     &:hover
