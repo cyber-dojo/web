@@ -51,7 +51,6 @@ $(() => {
   const openDialog = function(originator, initialFilename, okInitiallyDisabled, okClicked) {
     const name = originator.text();
     const title = name + '&nbsp;file';
-    // input element shows a filename which may or may not enabled
     const input = makeInput(name, initialFilename);
     // dialog has an [ok] button
     const ok = {
