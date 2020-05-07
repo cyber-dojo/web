@@ -14,8 +14,8 @@ var cyberDojo = ((cd, $) => {
     let html = '';
     html += '<div>';
     html += '<table class="info">';
-    html += tr2('Alt-J', 'cycles through the filenames &darr;');
-    html += tr2('Alt-K', 'cycles through the filenames &uarr;');
+    html += tr2('Alt-J', 'cycles through the filenames &darr;&rarr;');
+    html += tr2('Alt-K', 'cycles through the filenames &uarr;&larr;');
     html += tr2('Alt-O', 'moves to-from stdout-stderr-status');
     html += tr2('Alt-T', 'runs the tests');
     html += '</table>';

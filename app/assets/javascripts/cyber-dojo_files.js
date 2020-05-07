@@ -115,28 +115,34 @@ var cyberDojo = (function(cd, $) {
   // Alt-O ==> toggleOutputFile()
 
   cd.loadNextFile = () => {
-    const hi = cd.sortedFilenames();
-    const index = $.inArray(cd.currentFilename(), hi);
+    const filenames = nextPreviousFilenames();
+    const index = $.inArray(cd.currentFilename(), filenames);
     if (index === -1) {
       const next = 0;
-      cd.loadFile(hi[next]);
+      cd.loadFile(filenames[next]);
     } else {
-      const next = (index + 1) % hi.length;
-      cd.loadFile(hi[next]);
+      const next = (index + 1) % filenames.length;
+      cd.loadFile(filenames[next]);
     }
   };
 
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   cd.loadPreviousFile = () => {
-    const hi = cd.sortedFilenames();
-    const index = $.inArray(cd.currentFilename(), hi);
+    const filenames = nextPreviousFilenames();
+    const index = $.inArray(cd.currentFilename(), filenames);
     if (index === 0 || index === -1) {
-      const previous = hi.length - 1;
-      cd.loadFile(hi[previous]);
+      const previous = filenames.length - 1;
+      cd.loadFile(filenames[previous]);
     } else {
       const previous = index - 1;
-      cd.loadFile(hi[previous]);
+      cd.loadFile(filenames[previous]);
+    }
+  };
+
+  const nextPreviousFilenames = () => {
+    if (cd.isOutputFile(cd.currentFilename())) {
+      return ['stdout','stderr','status'];
+    } else {
+      return cd.sortedFilenames();
     }
   };
 
