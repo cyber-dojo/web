@@ -5,12 +5,6 @@ var cyberDojo = (function(cd, $) {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.inArray = function(find, array) {
-    return $.inArray(find, array) !== -1;
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   cd.homePageUrl = function() {
     return '/dojo/index/';
   };
