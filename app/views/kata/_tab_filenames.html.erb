@@ -5,9 +5,17 @@
 'use strict';
 $(() => {
 
+  cd.setFilenameTab = (filename) => {
+    const id = cd.isOutputFile(filename) ? `radio_${filename}` : 'current_filename';
+    const tab = $(`#${id}`);
+    tab.text(filename);
+    $('.tab.filename').removeClass('selected');
+    tab.addClass('selected');
+  };
+
   const $tabFilenames = $('.tab-filenames');
 
-  const setupTabClickHandler = (div) => {
+  const setupTabFilenameClickHandler = (div) => {
     div.click(() => {
       $('.tab.filename').removeClass('selected');
       const filename = div.text();
@@ -23,7 +31,7 @@ $(() => {
          text: filename
     });
     $tabFilenames.append($div);
-    setupTabClickHandler($div);
+    setupTabFilenameClickHandler($div);
   });
 
   const $currentFilenameTab = $('<div>', {
@@ -32,7 +40,7 @@ $(() => {
      text:'readme.txt'
   });
   $tabFilenames.append($currentFilenameTab);
-  setupTabClickHandler($currentFilenameTab);
+  setupTabFilenameClickHandler($currentFilenameTab);
 
 });
 </script>

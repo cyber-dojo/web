@@ -102,12 +102,12 @@
     @include rounded-corner(3px);
     padding: { top:2px; bottom:3px; left:5px;}
     &[class~='highlight'] { &:before { content: "> "; } }
-    &:hover { background: lighten($darker-color, 10%); }
+    &:hover { background: lighten($darker-color, 5%); }
     &.selected
     {
       cursor: default;
-      background: lighten($darker-color, 10%);
-      border: 1px solid lighten($darker-color, 10%);
+      background: lighten($darker-color, 5%);
+      border: 1px solid lighten($darker-color, 5%);
     }
   }
 

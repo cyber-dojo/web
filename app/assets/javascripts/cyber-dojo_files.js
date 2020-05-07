@@ -13,7 +13,7 @@ var cyberDojo = (function(cd, $) {
   cd.loadInitialFile = () => cd.loadFile(topFilename());
   cd.currentFilename = () => theCurrentFilename;
   cd.editorRefocus = () => cd.loadFile(cd.currentFilename());
-  cd.isOutputFile = filename => ['stdout','stderr','status','repl'].includes(filename);
+  cd.isOutputFile = filename => ['stdout','stderr','status'].includes(filename);
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // Load a named file
@@ -35,6 +35,7 @@ var cyberDojo = (function(cd, $) {
     }
     // update file new|rename|delete state
     setRenameAndDeleteButtons(filename);
+    cd.setFilenameTab(filename);
   };
 
   const topFilename = () => cd.sortedFilenames()[0];
