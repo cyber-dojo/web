@@ -116,7 +116,7 @@ var cyberDojo = (function(cd, $) {
 
   cd.loadNextFile = () => {
     const filenames = nextPreviousFilenames();
-    const index = $.inArray(cd.currentFilename(), filenames);
+    const index = filenames.indexOf(cd.currentFilename());
     if (index === -1) {
       const next = 0;
       cd.loadFile(filenames[next]);
@@ -128,7 +128,7 @@ var cyberDojo = (function(cd, $) {
 
   cd.loadPreviousFile = () => {
     const filenames = nextPreviousFilenames();
-    const index = $.inArray(cd.currentFilename(), filenames);
+    const index = filenames.indexOf(cd.currentFilename());
     if (index === 0 || index === -1) {
       const previous = filenames.length - 1;
       cd.loadFile(filenames[previous]);
@@ -319,7 +319,7 @@ var cyberDojo = (function(cd, $) {
            id: `radio_${filename}`,
          text: filename
     });
-    if (cd.inArray(filename, cd.highlightFilenames())) {
+    if (isHighlightFile(filename)) {
       div.addClass('highlight');
     }
     div.click(() => { cd.loadFile(filename); });
