@@ -6,23 +6,35 @@
 $(() => {
 
   const $tabFilenames = $('.tab-filenames');
-  const outputTabNames = ['stdout','stderr'];
+  const fakeFilenames = ['stdout','stderr','repl'];
   const selectedTabFilename = () => $('.selected', $tabFilenames).text();
   const currentFilename = () => $('#current_filename', $tabFilenames).text();
 
-  cd.isOutputFile = filename => filename === 'status' || outputTabNames.includes(filename);
+  cd.isOutputFile = filename => filename === 'status' || fakeFilenames.includes(filename);
 
   cd.toggleOutputFile = () => {
     switch (selectedTabFilename()) {
     default      : cd.loadFile('stdout'); break;
     case 'stdout': cd.loadFile('stderr'); break;
     case 'stderr': cd.loadFile(currentFilename()); break;
+    case 'repl'  : cd.loadFile(currentFilename()); break;
+    }
+  };
+
+  cd.setupReplTab = (onOff) => {
+    // By default the [repl] tab will be hidden.
+    const inDev = true;
+    if (onOff !== 'on' && !inDev) {
+      $('#radio_repl', $tabFilenames).hide();
     }
   };
 
   cd.setFilenameTab = (filename) => {
+    if (selectedTabFilename() === 'repl') {
+      cd.closeRepl();
+    }
     const id = cd.isOutputFile(filename) ? `radio_${filename}` : 'current_filename';
-    const tab = $(`#${id}`);
+    const tab = $(`#${id}`, $tabFilenames);
     tab.text(filename);
     $('.tab.filename').removeClass('selected');
     tab.addClass('selected');
@@ -38,8 +50,8 @@ $(() => {
     setupTabFilenameClickHandler($currentFilenameTab);
   };
 
-  const setupOutputTabs = () => {
-    outputTabNames.forEach(filename => {
+  const setupFakeFilenameTabs = () => {
+    fakeFilenames.forEach(filename => {
       const $div = $('<div>', {
           class: 'tab filename',
              id: `radio_${filename}`,
@@ -52,15 +64,22 @@ $(() => {
 
   const setupTabFilenameClickHandler = (div) => {
     div.click(() => {
-      $('.tab.filename').removeClass('selected');
       const filename = div.text();
-      cd.loadFile(filename);
+      if (filename === 'repl') {
+        if (selectedTabFilename() !== 'repl') {
+          cd.unloadFile(selectedTabFilename());
+          cd.openRepl();
+        }
+      } else {
+        cd.loadFile(filename);
+      }
+      $('.tab.filename').removeClass('selected');
       div.addClass('selected');
     });
   };
 
   setupCurrentFilenameTab();
-  setupOutputTabs();
+  setupFakeFilenameTabs();
 
 });
 </script>

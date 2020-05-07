@@ -12,12 +12,14 @@ var cyberDojo = (function(cd, $) {
   // Load a named file
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  cd.unloadFile = (filename) => fileDiv(filename).hide();
+
   cd.loadFile = (filename) => {
     // unshow what is currently being shown
-    unloadFile('stdout');
-    unloadFile('stderr');
-    unloadFile('status');
-    unloadFile(cd.currentFilename());
+    cd.unloadFile('stdout');
+    cd.unloadFile('stderr');
+    cd.unloadFile('status');
+    cd.unloadFile(cd.currentFilename());
     // show filename's contents
     fileDiv(filename).show();
     cd.focusSyntaxHighlightEditor(filename);
@@ -30,15 +32,15 @@ var cyberDojo = (function(cd, $) {
   };
 
   const unloadFile = (filename) => fileDiv(filename).hide();
-
+  const $filenameList = $('#filename-list');
   const topFilename = () => cd.sortedFilenames()[0];
 
   const selectFileInFileList = (filename) => {
     // Can't do $('radio_' + filename) because filename
     // could contain characters that aren't strictly legal
     // characters in a dom node id so I do this instead...
-    $('.filename').removeClass('selected');
-    const node = $(`[id="radio_${filename}"]`);
+    $('.filename', $filenameList).removeClass('selected');
+    const node = $(`[id="radio_${filename}"]`, $filenameList);
     node.addClass('selected');
   };
 
