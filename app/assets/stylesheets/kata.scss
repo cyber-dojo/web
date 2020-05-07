@@ -25,15 +25,10 @@
 
 //---------------------------------------------------
 
-#repl-page
+#repl-terminal
 {
-  display: none;
-  margin: { top: 40px; left: 35px; }
-  #repl-terminal
-  {
-    height: 450px;
-    width: 700px;
-  }
+  height: 450px;
+  width: 700px;
 }
 
 //---------------------------------------------------
