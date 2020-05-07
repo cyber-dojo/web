@@ -1,14 +1,14 @@
 
-<div class="fake-filenames"></div>
+<div class="tab-filenames"></div>
 
 <script type="text/javascript">
 'use strict';
 $(() => {
 
-  const fakeFilenames = $('.fake-filenames');
+  const tabFilenames = $('.tab-filenames');
   ['stdout','stderr','status'].forEach(filename => {
     const div = $('<div>', {
-        class: 'fake filename',
+        class: 'tab filename',
            id: `radio_${filename}`,
          text: filename
     });
@@ -17,7 +17,7 @@ $(() => {
       cd.loadFile(filename);
       div.addClass('selected');
     });
-    fakeFilenames.append(div);
+    tabFilenames.append(div);
   });
 
 });
