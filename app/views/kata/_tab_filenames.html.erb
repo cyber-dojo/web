@@ -5,20 +5,34 @@
 'use strict';
 $(() => {
 
-  const tabFilenames = $('.tab-filenames');
+  const $tabFilenames = $('.tab-filenames');
+
+  const setupTabClickHandler = (div) => {
+    div.click(() => {
+      $('.tab.filename').removeClass('selected');
+      const filename = div.text();
+      cd.loadFile(filename);
+      div.addClass('selected');
+    });
+  };
+
   ['stdout','stderr','status'].forEach(filename => {
-    const div = $('<div>', {
+    const $div = $('<div>', {
         class: 'tab filename',
            id: `radio_${filename}`,
          text: filename
     });
-    div.click(() => {
-      $('.filename').removeClass('selected');
-      cd.loadFile(filename);
-      div.addClass('selected');
-    });
-    tabFilenames.append(div);
+    $tabFilenames.append($div);
+    setupTabClickHandler($div);
   });
+
+  const $currentFilenameTab = $('<div>', {
+    class:'tab filename',
+       id:'current_filename',
+     text:'readme.txt'
+  });
+  $tabFilenames.append($currentFilenameTab);
+  setupTabClickHandler($currentFilenameTab);
 
 });
 </script>
