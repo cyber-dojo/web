@@ -32,15 +32,14 @@ var cyberDojo = (function(cd, $) {
   };
 
   const unloadFile = (filename) => fileDiv(filename).hide();
-  const $filenameList = $('#filename-list');
   const topFilename = () => cd.sortedFilenames()[0];
 
   const selectFileInFileList = (filename) => {
     // Can't do $('radio_' + filename) because filename
     // could contain characters that aren't strictly legal
     // characters in a dom node id so I do this instead...
-    $('.filename', $filenameList).removeClass('selected');
-    const node = $(`[id="radio_${filename}"]`, $filenameList);
+    $('.filename').removeClass('selected');
+    const node = $(`[id="radio_${filename}"]`);
     node.addClass('selected');
   };
 
