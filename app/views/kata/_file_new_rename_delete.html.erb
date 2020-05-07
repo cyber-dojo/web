@@ -42,10 +42,7 @@ $(() => {
   deleteFileButton.click(() => {
     const initialFilename = cd.currentFilename();
     const okInitiallyDisabled = false;
-    const okClicked = filename => {
-      cd.fileDelete(filename);
-      cd.loadFile('stdout');
-    };
+    const okClicked = filename => cd.fileDelete(filename);
     openDialog(deleteFileButton, initialFilename, okInitiallyDisabled, okClicked);
   });
 

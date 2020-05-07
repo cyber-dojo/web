@@ -6,12 +6,16 @@ var cyberDojo = (function(cd, $) {
   // Filenames
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  cd.loadInitialFile = () => cd.loadFile(topFilename());
+
   let theCurrentFilename = '';
   let theLastNonOutputFilename = '';
   let theLastOutputFilename = 'stdout';
 
   cd.currentFilename = () => theCurrentFilename;
   cd.eachFilename = (f) => cd.filenames().forEach(f);
+  cd.editorRefocus = () => cd.loadFile(cd.currentFilename());
+  cd.isOutputFile = (filename) => ['stdout','stderr','status','repl'].includes(filename);
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // Load a named file
@@ -32,6 +36,8 @@ var cyberDojo = (function(cd, $) {
       theLastNonOutputFilename = filename;
     }
   };
+
+  const topFilename = () => cd.sortedFilenames(cd.filenames())[0];
 
   const selectFileInFileList = (filename) => {
     // Can't do $('radio_' + filename) because filename
@@ -147,24 +153,15 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // cd.sortedFilenames()
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // Returns how the filenames are to appear in the filename list.
-  // Used in three places.
-  //   1. kata/edit page to help show filename list
-  //   2. kata/edit page in alt-j alt-k hotkeys
-  //   3. review/show page/dialog to help show filename list
+  // Returns how the filenames appear in the filename list.
+  // Used in two places
+  // 1. kata/edit page to help show filename-list
+  // 2. review/show page/dialog to help show filename-list
 
   cd.sortedFilenames = (filenames) => {
-    // Controls the order of files in the filename-list
-    // Used in two places
-    // 1. kata/edit page to help show filename-list
-    // 2. review/show page/dialog to help show filename-list
     const trueFilenames = filenames.slice().filter(filename => !cd.isOutputFile(filename));
     trueFilenames.sort(orderer);
     return trueFilenames;
-  };
-
-  cd.isOutputFile = (filename) => {
-    return ['stdout','stderr','status','repl'].includes(filename);
   };
 
   const orderer = (lhs,rhs) => {
@@ -224,7 +221,7 @@ var cyberDojo = (function(cd, $) {
   cd.fileDelete = (filename) => {
     fileDiv(filename).remove();
     rebuildFilenameList();
-    theLastNonOutputFilename = testFilename();
+    cd.loadFile(topFilename());
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -236,47 +233,6 @@ var cyberDojo = (function(cd, $) {
     const content = fileContent(oldFilename);
     cd.fileDelete(oldFilename);
     cd.fileCreate(newFilename, { content:content });
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // Helpers
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.editorRefocus = () => {
-    cd.loadFile(cd.currentFilename());
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.loadInitialFile = () => {
-    if (cd.filenames().includes('readme.txt')) {
-      cd.loadFile('readme.txt');
-    } else {
-      cd.loadFile(testFilename());
-    }
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const testFilename = () => {
-    // When starting and in filename-list navigation
-    // when the current file is deleted, try to
-    // select a test file.
-    const filenames = cd.filenames();
-    for (let i = 0; i < filenames.length; i++) {
-      // split into dir names and filename
-      const parts = filenames[i].toLowerCase().split('/');
-      // careful to return the whole dirs+filename
-      // and with the original case
-      const filename = parts[parts.length - 1];
-      if (filename.search('test') !== -1) {
-        return filenames[i];
-      }
-      if (filename.search('spec') !== -1) {
-        return filenames[i];
-      }
-    }
-    return filenames[0];
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -335,7 +291,7 @@ var cyberDojo = (function(cd, $) {
   };
 
   const cantBeRenamedOrDeleted = (filename) => {
-    return cd.isOutputFile(filename) || filename == 'cyber-dojo.sh';
+    return cd.isOutputFile(filename) || filename === 'cyber-dojo.sh';
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
