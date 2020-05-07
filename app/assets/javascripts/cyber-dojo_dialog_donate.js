@@ -36,7 +36,7 @@ var cyberDojo = (function(cd, $) {
     };
 
     const html = '' +
-      '<div data-width="600">' +
+      '<div data-width="620">' +
         '<table>' +
           '<tr>' +
             '<td>' + donateButton() + '</td>' +
@@ -56,12 +56,9 @@ var cyberDojo = (function(cd, $) {
               "&nbsp;&nbsp;for a commercial organization, we suggest donating $1000+" +
             '</td>' +
           '</tr>' +
-          '<tr>' +
-            '<td colspan="2">' +
-              'if you need an invoice, please email <em>license@cyber-dojo.org</em>' +
-            '</td>' +
-          '</tr>' +
          '</table>' +
+         '<br>' +
+         'if you need an invoice, please email <em>license@cyber-dojo.org</em>' +
       '<div>';
 
     return cd.dialog(html, title, 'close');
