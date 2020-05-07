@@ -22,11 +22,11 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.loadFile = (filename) => {
-    // switch to showing filename's contents
+    // show filename's contents
     fileDiv(cd.currentFilename()).hide();
     fileDiv(filename).show();
     cd.focusSyntaxHighlightEditor(filename);
-    // switch to showing filename
+    // show filename
     selectFileInFileList(filename);
     // remember info for Alt-O hotkey
     theCurrentFilename = filename;
@@ -35,6 +35,8 @@ var cyberDojo = (function(cd, $) {
     } else {
       theLastNonOutputFilename = filename;
     }
+    // update file new|rename|delete state
+    setRenameAndDeleteButtons(filename);
   };
 
   const topFilename = () => cd.sortedFilenames()[0];
@@ -44,20 +46,12 @@ var cyberDojo = (function(cd, $) {
     // could contain characters that aren't strictly legal
     // characters in a dom node id so I do this instead...
     const node = $(`[id="radio_${filename}"]`);
-    const previousFilename = cd.currentFilename();
-    const previous = $(`[id="radio_${previousFilename}"]`);
-    cd.radioEntrySwitch(previous, node);
-    setRenameAndDeleteButtons(filename);
+    selectFile(node);
   };
 
-  cd.radioEntrySwitch = (previous, current) => {
-    // Used in test-page, and history/diff-dialog
-    // See app/assets/stylesheets/wide-list-item.scss
-    if (previous !== undefined) {
-      previous.removeClass('selected');
-    }
+  const selectFile = (node) => {
     $('.filename').removeClass('selected');
-    current.addClass('selected');
+    node.addClass('selected');
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -166,7 +160,7 @@ var cyberDojo = (function(cd, $) {
 
   cd.sortedFilenames = (filenames) => {
     if (filenames === undefined) {
-      filenames = cd.filenames(); // default
+      filenames = cd.filenames(); // default arg
     }
     const trueFilenames = filenames.slice().filter(filename => !cd.isOutputFile(filename));
     trueFilenames.sort(orderer);
@@ -261,8 +255,6 @@ var cyberDojo = (function(cd, $) {
   const fileDiv = (filename) => {
     return jqElement(`${filename}_div`);
   };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const makeNewFile = (filename, file) => {
     const div = $('<div>', {

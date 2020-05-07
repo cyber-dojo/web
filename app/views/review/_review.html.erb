@@ -460,7 +460,7 @@ $(() => {
         $(`.diff-deleted-line-count[data-filename="${filename}"]`).attr('disabled', false);
         $(`.diff-added-line-count[data-filename="${filename}"]`).attr('disabled', false);
 
-        cd.radioEntrySwitch(previousFilenameNode, filenameNode);
+        radioEntrySwitch(previousFilenameNode, filenameNode);
 
         if (previousFilenameNode !== undefined) {
           diffFileDiv(getFilename(previousFilenameNode)).hide();
@@ -488,6 +488,17 @@ $(() => {
       filename.click(loadFrom(diff));
     });
   }; // buildDiffFilenameHandlers()
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const radioEntrySwitch = (previous, current) => {
+    // See app/assets/stylesheets/wide-list-item.scss
+    if (previous !== undefined) {
+      previous.removeClass('selected');
+    }
+    $('.filename').removeClass('selected');
+    current.addClass('selected');
+  };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
