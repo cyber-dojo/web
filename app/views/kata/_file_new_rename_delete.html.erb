@@ -135,6 +135,7 @@ $(() => {
     if (contains('..')) { return false; }
     if (contains('\\')) { return false; }
     if (contains(' '))  { return false; }
+    if (filename === 'repl') { return false; }
     if (filename === '') { return false; }
     return true;
   };
