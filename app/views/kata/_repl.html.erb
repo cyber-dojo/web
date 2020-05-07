@@ -28,7 +28,7 @@ $(() => {
     repl.create().then(() => socket.open());
     cd.closeRepl = () => {
       repl.delete().then(() => socket.close());
-      $(element).empty(); // Ready for next time.
+      $(element).empty().hide(); // Ready for next time.
     };
   };
 
@@ -75,6 +75,7 @@ $(() => {
     });
     const addOns = [attach,fit,fullscreen,search,winptyCompat];
     addOns.forEach(addOn => Terminal.applyAddon(addOn));
+    $(element).show();
     terminal.open(element);
     terminal.winptyCompatInit();
     terminal.fit();

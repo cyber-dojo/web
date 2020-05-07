@@ -27,8 +27,13 @@
 
 #repl-terminal
 {
-  height: 450px;
-  width: 700px;
+  height: 540px;
+  width: 760px;
+  padding: 5px;
+  background: black;
+  display: none;
+  position: relative;
+  top: -2px;
 }
 
 //---------------------------------------------------
