@@ -100,16 +100,6 @@ var cyberDojo = (function(cd, $) {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.sortedFilenames = (filenames) => {
-    // Controls the order of files in the filename-list
-    // Used in two places
-    // 1. kata/edit page to help show filename-list
-    // 2. review/show page/dialog to help show filename-list
-    return [].concat(hiFilenames(filenames), loFilenames(filenames));
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // Filename hot-key navigation
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // See app/assets/javascripts/cyber-dojo_codemirror.js
@@ -119,7 +109,7 @@ var cyberDojo = (function(cd, $) {
   // Alt-O ==> toggleOutputFile()
 
   cd.loadNextFile = () => {
-    const hi = hiFilenames(cd.filenames());
+    const hi = cd.sortedFilenames(cd.filenames());
     const index = $.inArray(cd.currentFilename(), hi);
     if (index === -1) {
       const next = 0;
@@ -133,7 +123,7 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.loadPreviousFile = () => {
-    const hi = hiFilenames(cd.filenames());
+    const hi = cd.sortedFilenames(cd.filenames());
     const index = $.inArray(cd.currentFilename(), hi);
     if (index === 0 || index === -1) {
       const previous = hi.length - 1;
@@ -155,64 +145,57 @@ var cyberDojo = (function(cd, $) {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // hiFilenames() loFilenames()
+  // cd.sortedFilenames()
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // Controls which filenames appear at the top and bottom
-  // of the filename-list. Used in three places.
+  // Returns how the filenames are to appear in the filename list.
+  // Used in three places.
   //   1. kata/edit page to help show filename list
   //   2. kata/edit page in alt-j alt-k hotkeys
   //   3. review/show page/dialog to help show filename list
 
-  const hiFilenames = (filenames) => {
-    return filenames
-      .reject(filename => cd.isOutputFile(filename))
-      .filter(filename => isSourceFile(filename))
-      .sorted(highlightSorter);
-  };
-
-  const loFilenames = (filenames) => {
-    return filenames
-      .reject(filename => cd.isOutputFile(filename))
-      .filter(filename => !isSourceFile(filename))
-      .sorted();
-  };
-
-  const highlightSorter = (lhs,rhs) => {
-    const lit = cd.highlightFilenames();
-    const lhsLit = lit.includes(lhs);
-    const rhsLit = lit.includes(rhs);
-    if (lhsLit && !rhsLit) {
-      return -1;
-    } else if (!lhsLit && rhsLit) {
-      return +1;
-    } else if (lhs < rhs) {
-      return -1;
-    } else if (lhs > rhs) {
-      return +1;
-    } else {
-      return 0;
-    }
-  };
-
-  Array.prototype.reject = function(f) {
-    return this.filter(item => !f(item));
-  };
-
-  Array.prototype.sorted = function(f) {
-    this.sort(f);
-    return this;
+  cd.sortedFilenames = (filenames) => {
+    // Controls the order of files in the filename-list
+    // Used in two places
+    // 1. kata/edit page to help show filename-list
+    // 2. review/show page/dialog to help show filename-list
+    const trueFilenames = filenames.slice().filter(filename => !cd.isOutputFile(filename));
+    trueFilenames.sort(orderer);
+    return trueFilenames;
   };
 
   cd.isOutputFile = (filename) => {
     return ['stdout','stderr','status','repl'].includes(filename);
   };
 
-  const isSourceFile = (filename) => {
+  const orderer = (lhs,rhs) => {
+    const lhsFileCat = fileCategory(lhs);
+    const rhsFileCat = fileCategory(rhs);
+    if (lhsFileCat < rhsFileCat) { return -1; }
+    else if (lhsFileCat > rhsFileCat) { return +1; }
+    else if (lhs < rhs) { return -1; }
+    else if (lhs > rhs) { return +1; }
+    else { return +1; }
+  };
+
+  const fileCategory = (filename) => {
+    let category = undefined;
+    if (isHighlightFile(filename))    { category = 1; }
+    else if (isSourceFile(filename))  { category = 2; }
+    else                              { category = 3; }
+    // Special cases
+    if (filename === 'readme.txt')    { category = 0; }
     // Shell test frameworks (eg shunit2) use .sh as their
-    // filename extension but we don't want cyber-dojo.sh
-    return filename !== 'cyber-dojo.sh' &&
-      cd.extensionFilenames().find(ext => filename.endsWith(ext));
-      // filename === 'readme.txt'
+    // extension but cyber-dojo.sh is always lowest category
+    if (filename === 'cyber-dojo.sh') { category = 3; }
+    return category;
+  };
+
+  const isHighlightFile = (filename) => {
+    return cd.highlightFilenames().includes(filename);
+  };
+
+  const isSourceFile = (filename) => {
+    return cd.extensionFilenames().find(ext => filename.endsWith(ext));
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -306,13 +289,9 @@ var cyberDojo = (function(cd, $) {
     return jqElement(`file_content_for_${filename}`).val();
   };
 
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   const jqElement = (name) => {
     return $(`[id="${name}"]`);
   };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const fileDiv = (filename) => {
     return jqElement(`${filename}_div`);
