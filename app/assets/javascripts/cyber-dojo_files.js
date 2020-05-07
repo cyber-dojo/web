@@ -37,7 +37,7 @@ var cyberDojo = (function(cd, $) {
     }
   };
 
-  const topFilename = () => cd.sortedFilenames(cd.filenames())[0];
+  const topFilename = () => cd.sortedFilenames()[0];
 
   const selectFileInFileList = (filename) => {
     // Can't do $('radio_' + filename) because filename
@@ -115,7 +115,7 @@ var cyberDojo = (function(cd, $) {
   // Alt-O ==> toggleOutputFile()
 
   cd.loadNextFile = () => {
-    const hi = cd.sortedFilenames(cd.filenames());
+    const hi = cd.sortedFilenames();
     const index = $.inArray(cd.currentFilename(), hi);
     if (index === -1) {
       const next = 0;
@@ -129,7 +129,7 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.loadPreviousFile = () => {
-    const hi = cd.sortedFilenames(cd.filenames());
+    const hi = cd.sortedFilenames();
     const index = $.inArray(cd.currentFilename(), hi);
     if (index === 0 || index === -1) {
       const previous = hi.length - 1;
@@ -159,6 +159,9 @@ var cyberDojo = (function(cd, $) {
   // 2. review/show page/dialog to help show filename-list
 
   cd.sortedFilenames = (filenames) => {
+    if (filenames === undefined) {
+      filenames = cd.filenames(); // default
+    }
     const trueFilenames = filenames.slice().filter(filename => !cd.isOutputFile(filename));
     trueFilenames.sort(orderer);
     return trueFilenames;
@@ -299,7 +302,7 @@ var cyberDojo = (function(cd, $) {
   const rebuildFilenameList = () => {
     const filenameList = $('#filename-list');
     filenameList.empty();
-    $.each(cd.sortedFilenames(cd.filenames()), (_, filename) => {
+    cd.sortedFilenames().forEach(filename => {
       filenameList.append(makeFileListEntry(filename));
     });
   };
