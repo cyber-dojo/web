@@ -5,6 +5,7 @@
 'use strict';
 $(() => {
 
+  const $tabFilenames = $('.tab-filenames');
   const outputTabNames = ['stdout','stderr','status'];
 
   cd.isOutputFile = filename => outputTabNames.includes(filename);
@@ -21,7 +22,27 @@ $(() => {
     tab.addClass('selected');
   };
 
-  const $tabFilenames = $('.tab-filenames');
+  const setupCurrentFilenameTab = () => {
+    const $currentFilenameTab = $('<div>', {
+      class:'tab filename',
+         id:'current_filename',
+       text:'readme.txt'
+    });
+    $tabFilenames.append($currentFilenameTab);
+    setupTabFilenameClickHandler($currentFilenameTab);
+  };
+
+  const setupOutputTabs = () => {
+    outputTabNames.forEach(filename => {
+      const $div = $('<div>', {
+          class: 'tab filename',
+             id: `radio_${filename}`,
+           text: filename
+      });
+      $tabFilenames.append($div);
+      setupTabFilenameClickHandler($div);
+    });
+  };
 
   const setupTabFilenameClickHandler = (div) => {
     div.click(() => {
@@ -32,23 +53,8 @@ $(() => {
     });
   };
 
-  outputTabNames.forEach(filename => {
-    const $div = $('<div>', {
-        class: 'tab filename',
-           id: `radio_${filename}`,
-         text: filename
-    });
-    $tabFilenames.append($div);
-    setupTabFilenameClickHandler($div);
-  });
-
-  const $currentFilenameTab = $('<div>', {
-    class:'tab filename',
-       id:'current_filename',
-     text:'readme.txt'
-  });
-  $tabFilenames.append($currentFilenameTab);
-  setupTabFilenameClickHandler($currentFilenameTab);
+  setupCurrentFilenameTab();
+  setupOutputTabs();
 
 });
 </script>
