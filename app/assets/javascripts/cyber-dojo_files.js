@@ -2,41 +2,34 @@
 'use strict';
 var cyberDojo = (function(cd, $) {
 
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // Filenames
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   let theCurrentFilename = '';
-  let theLastNonOutputFilename = '';
-  let theLastOutputFilename = 'stdout';
 
   cd.loadInitialFile = () => cd.loadFile(topFilename());
   cd.currentFilename = () => theCurrentFilename;
   cd.editorRefocus = () => cd.loadFile(cd.currentFilename());
-  cd.isOutputFile = filename => ['stdout','stderr','status'].includes(filename);
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // Load a named file
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.loadFile = (filename) => {
+    // unshow what is currently being shown
+    unloadFile('stdout');
+    unloadFile('stderr');
+    unloadFile('status');
+    unloadFile(cd.currentFilename());
     // show filename's contents
-    fileDiv(cd.currentFilename()).hide();
     fileDiv(filename).show();
     cd.focusSyntaxHighlightEditor(filename);
-    // show filename
-    selectFileInFileList(filename);
-    // remember info for Alt-O hotkey
-    theCurrentFilename = filename;
-    if (cd.isOutputFile(filename)) {
-      theLastOutputFilename = filename;
-    } else {
-      theLastNonOutputFilename = filename;
+    if (!cd.isOutputFile(filename)) {
+      selectFileInFileList(filename);
+      theCurrentFilename = filename;
     }
-    // update file new|rename|delete state
     setRenameAndDeleteButtons(filename);
     cd.setFilenameTab(filename);
   };
+
+  const unloadFile = (filename) => fileDiv(filename).hide();
 
   const topFilename = () => cd.sortedFilenames()[0];
 
@@ -44,12 +37,8 @@ var cyberDojo = (function(cd, $) {
     // Can't do $('radio_' + filename) because filename
     // could contain characters that aren't strictly legal
     // characters in a dom node id so I do this instead...
-    const node = $(`[id="radio_${filename}"]`);
-    selectFile(node);
-  };
-
-  const selectFile = (node) => {
     $('.filename').removeClass('selected');
+    const node = $(`[id="radio_${filename}"]`);
     node.addClass('selected');
   };
 
@@ -108,7 +97,7 @@ var cyberDojo = (function(cd, $) {
   // Alt-O ==> toggleOutputFile()
 
   cd.loadNextFile = () => {
-    const filenames = nextPreviousFilenames();
+    const filenames = cd.sortedFilenames();
     const index = filenames.indexOf(cd.currentFilename());
     if (index === -1) {
       const next = 0;
@@ -120,7 +109,7 @@ var cyberDojo = (function(cd, $) {
   };
 
   cd.loadPreviousFile = () => {
-    const filenames = nextPreviousFilenames();
+    const filenames = cd.sortedFilenames();
     const index = filenames.indexOf(cd.currentFilename());
     if (index === 0 || index === -1) {
       const previous = filenames.length - 1;
@@ -128,24 +117,6 @@ var cyberDojo = (function(cd, $) {
     } else {
       const previous = index - 1;
       cd.loadFile(filenames[previous]);
-    }
-  };
-
-  const nextPreviousFilenames = () => {
-    if (cd.isOutputFile(cd.currentFilename())) {
-      return ['stdout','stderr','status'];
-    } else {
-      return cd.sortedFilenames();
-    }
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.toggleOutputFile = () => {
-    if (cd.isOutputFile(cd.currentFilename())) {
-      cd.loadFile(theLastNonOutputFilename);
-    } else {
-      cd.loadFile(theLastOutputFilename);
     }
   };
 
