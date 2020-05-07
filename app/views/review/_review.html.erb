@@ -469,7 +469,7 @@ $(() => {
         previousFilenameNode = filenameNode;
         param.filename = filename;
 
-        if (sectionCount > 0 && (reselected || !cd.inArray(filename, alreadyOpened))) {
+        if (sectionCount > 0 && (reselected || !alreadyOpened.includes(filename))) {
           const section = $(`#${id}_section_${sectionIndex}`);
           const downFromTop = 250;
           const halfSecond = 500;
