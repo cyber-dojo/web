@@ -68,14 +68,16 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const createTerminalIn = (element) => {
+    // https://xtermjs.org/docs/api/terminal/interfaces/itheme/
     const terminal = new Terminal({
+      theme: { background:'white', foreground:'black',cursor:'black' },
       cursorBlink: true,
       scrollback: 10,
       tabStopWidth: 10
     });
     const addOns = [attach,fit,fullscreen,search,winptyCompat];
     addOns.forEach(addOn => Terminal.applyAddon(addOn));
-    $(element).show();
+    $(element).css({background:'white'}).show();
     terminal.open(element);
     terminal.winptyCompatInit();
     terminal.fit();
