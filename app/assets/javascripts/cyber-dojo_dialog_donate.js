@@ -41,25 +41,24 @@ var cyberDojo = (function(cd, $) {
           '<tr>' +
             '<td>' + donateButton() + '</td>' +
             '<td>' +
-              "&nbsp;&nbsp;for an individual, we suggest donating $5+" +
+              "&nbsp;&nbsp;for an individual, we suggest donating $10+" +
             '</td>' +
           '</tr>' +
           '<tr>' +
             '<td>' + donateButton() + '</td>' +
             '<td>' +
-              "&nbsp;&nbsp;for a non-profit meetup, we suggest donating $15+" +
+              "&nbsp;&nbsp;for a non-profit meetup, we suggest donating $25+" +
             '</td>' +
           '</tr>' +
           '<tr>' +
             '<td>' + donateButton() + '</td>' +
             '<td>' +
-              "&nbsp;&nbsp;for a commercial organization, we suggest donating $500+" +
+              "&nbsp;&nbsp;for a commercial organization, we suggest donating $1000+" +
             '</td>' +
           '</tr>' +
           '<tr>' +
             '<td colspan="2">' +
-              'if you need an invoice, please ' +
-              '<button id="email-me" onclick="return cd.invoiceMe();">email</button>' +
+              'if you need an invoice, please email <em>license@cyber-dojo.org</em>' +
             '</td>' +
           '</tr>' +
          '</table>' +
