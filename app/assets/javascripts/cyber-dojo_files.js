@@ -277,17 +277,14 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const setRenameAndDeleteButtons = (filename) => {
-    const renameFile = $('.rename-file');
-    const deleteFile = $('.delete-file');
-    const disable = (node) => node.prop('disabled', true );
+    const disable = (node) => node.prop('disabled', true);
     const enable  = (node) => node.prop('disabled', false);
-
     if (cantBeRenamedOrDeleted(filename)) {
-      disable(renameFile);
-      disable(deleteFile);
+      disable(cd.renameFileButton());
+      disable(cd.deleteFileButton());
     } else {
-      enable(renameFile);
-      enable(deleteFile);
+      enable(cd.renameFileButton());
+      enable(cd.deleteFileButton());
     }
   };
 
