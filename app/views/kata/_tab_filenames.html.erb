@@ -7,11 +7,18 @@ $(() => {
 
   const $tabFilenames = $('.tab-filenames');
   const outputTabNames = ['stdout','stderr','status'];
+  const selectedTabFilename = () => $('.selected', $tabFilenames).text();
+  const currentFilename = () => $('#current_filename', $tabFilenames).text();
 
   cd.isOutputFile = filename => outputTabNames.includes(filename);
 
   cd.toggleOutputFile = () => {
-    //TODO
+    switch (selectedTabFilename()) {
+    case 'stdout': cd.loadFile('stderr'); break;
+    case 'stderr': cd.loadFile('status'); break;
+    case 'status': cd.loadFile(currentFilename()); break;
+    default      : cd.loadFile('stdout'); break;
+    }
   };
 
   cd.setFilenameTab = (filename) => {
@@ -26,7 +33,7 @@ $(() => {
     const $currentFilenameTab = $('<div>', {
       class:'tab filename',
          id:'current_filename',
-       text:'readme.txt'
+       text:'cyber-dojo.sh'
     });
     $tabFilenames.append($currentFilenameTab);
     setupTabFilenameClickHandler($currentFilenameTab);
