@@ -6,16 +6,14 @@ var cyberDojo = (function(cd, $) {
   // Filenames
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.loadInitialFile = () => cd.loadFile(topFilename());
-
   let theCurrentFilename = '';
   let theLastNonOutputFilename = '';
   let theLastOutputFilename = 'stdout';
 
+  cd.loadInitialFile = () => cd.loadFile(topFilename());
   cd.currentFilename = () => theCurrentFilename;
-  cd.eachFilename = (f) => cd.filenames().forEach(f);
   cd.editorRefocus = () => cd.loadFile(cd.currentFilename());
-  cd.isOutputFile = (filename) => ['stdout','stderr','status','repl'].includes(filename);
+  cd.isOutputFile = filename => ['stdout','stderr','status','repl'].includes(filename);
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // Load a named file

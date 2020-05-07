@@ -581,17 +581,11 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const deleteAllNonOutputFiles = () => {
-    cd.eachFilename((filename) => {
-      if (!isOutputFile(filename)) {
+    cd.filenames().forEach(filename => {
+      if (!cd.isOutputFile(filename)) {
         cd.fileDelete(filename);
       }
     });
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const isOutputFile = (filename) => {
-    return ['stdout','stderr','status'].includes(filename);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
