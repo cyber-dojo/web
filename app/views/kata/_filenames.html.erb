@@ -60,27 +60,14 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.filenames = () => {
-    // Gets the kata/edit page filenames. The review/show
-    // page/dialog collects filenames in its own way.
-    const filenames = [];
-    const prefix = 'file_content_for_';
-    $(`textarea[id^=${prefix}]`).each(function(_) {
-      const id = $(this).attr('id');
-      const filename = id.substr(prefix.length, id.length - prefix.length);
-      filenames.push(filename);
-    });
-    return filenames;
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // cd.sortedFilenames()
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // Returns how the filenames appear in the filename list.
   // Used in two places
   // 1. kata/edit page to help show filename-list
   // 2. review/show page/dialog to help show filename-list
+
+  cd.filenames = () => cd.kata.editor.filenames();
 
   cd.sortedFilenames = (filenames) => {
     if (filenames === undefined) {

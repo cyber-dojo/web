@@ -64,6 +64,19 @@ var cyberDojo = ((cd, $) => {
     cd.focusSyntaxHighlightEditor(this.currentFilename);
   };
 
+  Editor.prototype.filenames = function() {
+    // Gets the kata/edit page filenames, including stdout,stderr,status
+    // page/dialog collects filenames in its own way.
+    const filenames = [];
+    const prefix = 'file_content_for_';
+    $(`textarea[id^=${prefix}]`).each(function(_) {
+      const id = $(this).attr('id');
+      const filename = id.substr(prefix.length, id.length - prefix.length);
+      filenames.push(filename);
+    });
+    return filenames;
+  };
+  
   // - - - - - - - - - - - - - - - - - - - - - -
 
   const $makeNewFile = (filename, file) => {
