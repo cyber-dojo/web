@@ -158,13 +158,6 @@ $(() => {
   // new-file, rename-file, delete-file
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.fileChange = (filename, file) => {
-    cd.kata.editor.changeFile(filename, file);
-    // Still used in _run_tests.js.erb
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   cd.fileCreate = (filename, file) => {
     cd.kata.editor.createFile(filename, file);
     rebuildFilenameList();
