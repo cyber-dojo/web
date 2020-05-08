@@ -1,6 +1,8 @@
 <script type="text/javascript">
 'use strict';
 $(() => {
-  cd.syntaxHighlightTabSize = <%= @tab_size %>;
+
+  cd.kata.editor.tabSize = () => <%= @tab_size %>;
+
 });
 </script>
