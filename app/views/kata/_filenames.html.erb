@@ -214,7 +214,6 @@ $(() => {
 
   cd.fileRename = (oldFilename, newFilename) => {
     cd.kata.editor.renameFile(oldFilename, newFilename);
-    cd.kata.editor.hideFile(oldFilename);
     cd.kata.editor.showFile(newFilename);
     rebuildFilenameList();
     selectFileInFileList(newFilename);

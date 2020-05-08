@@ -34,14 +34,21 @@ $(() => {
     // Alt-O tabs hot-key navigation
     // See app/assets/javascripts/cyber-dojo_codemirror.js
     // See app/views/shared/_hotkeys.html.erb
+    const editor = cd.kata.editor;
     switch ($selectedTab().text()) {
-    default               : cd.loadFile('stdout'); break;
-    case 'stdout'         : cd.loadFile('stderr'); break;
-    case 'stderr'         : cd.loadFile('status'); break;
-    case 'status'         : cd.loadFile(currentFilename()); break;
-    case $replTab().text(): cd.loadFile(currentFilename()); break;
+    default               : $stdoutTab().click(); break;
+    case 'stdout'         : $stderrTab().click(); break;
+    case 'stderr'         : $statusTab().click(); break;
+    case 'status'         : $filenameTab().click(); break;
+    case $replTab().text(): $filenameTab().click(); break;
     }
   };
+
+  const $replTab     = () => $('#radio_repl'      , $tabs);
+  const $filenameTab = () => $('#current_filename', $tabs);
+  const $stdoutTab   = () => $('#radio_stdout'    , $tabs);
+  const $stderrTab   = () => $('#radio_stderr'    , $tabs);
+  const $statusTab   = () => $('#radio_status'    , $tabs);
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -57,8 +64,6 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   // [+REPL]
 
-  const $replTab = () => $('#radio_repl', $tabs);
-
   const setupReplTab = (text) => {
     const $tab = $('<div>', {
         class: 'tab-filename',
@@ -72,7 +77,7 @@ $(() => {
   const setupReplTabClickHandler = ($tab) => {
     $tab.click(() => {
       if (alreadySelected($tab)) { return; }
-      cd.unloadFile($selectedTab().text());
+      cd.kata.editor.hideCurrentFile();
       cd.kata.repl.open();
       select($tab);
     });
@@ -80,8 +85,6 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // [current-filename]                     [stdout]  [stderr] [status]
-
-  const $filenameTab = () => $('#current_filename', $tabs);
 
   const setupCurrentFilenameTab = (filename) => {
     const $tab = $('<div>', {
@@ -107,7 +110,8 @@ $(() => {
     $tab.click(() => {
       if (alreadySelected($tab)) { return; }
       const filename = $tab.text();
-      cd.loadFile(filename);
+      cd.kata.repl.close();
+      cd.kata.editor.showFile(filename);
       select($tab);
     });
   };

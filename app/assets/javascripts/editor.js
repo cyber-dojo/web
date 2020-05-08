@@ -5,6 +5,7 @@ var cyberDojo = ((cd, $) => {
   cd.kata.editor = new Editor();
 
   function Editor() {
+    this.currentFilename = undefined;
   };
 
   Editor.prototype.createFiles = function(files) {
@@ -33,16 +34,30 @@ var cyberDojo = ((cd, $) => {
   };
 
   Editor.prototype.hideFile = function(filename) {
+    if (this.currentFilename === filename) {
+      this.currentFilename = undefined;
+    }
     $fileDiv(filename).hide();
   };
 
   Editor.prototype.showFile = function(filename) {
+    if (this.currentFilename !== undefined) {
+      this.hideFile(this.currentFilename);
+    }
     $fileDiv(filename).show();
+    cd.focusSyntaxHighlightEditor(filename);
+    this.currentFilename = filename;
+  };
+
+  Editor.prototype.hideCurrentFile = function() {
+    if (this.currentFilename !== undefined) {
+      this.hideFile(this.currentFilename);
+    }
   };
 
   Editor.prototype.changeFile = function(filename, file) {
     this.deleteFile(filename);
-    this.createFile(filename, file);    
+    this.createFile(filename, file);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - -
