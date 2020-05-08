@@ -21,9 +21,7 @@ $(() => {
     // Called from filenames. filename can be
     //  o) a true filename (but never '+REPL')
     //  o) 'stdout', 'stderr', 'status'
-    if (tabs.selected().text() === tabs.repl().text()) { //TODO: DELETE
-      cd.kata.repl.close();
-    }
+    cd.kata.repl.close();
     const id = cd.isOutputFile(filename) ? `radio_${filename}` : 'current_filename';
     const $tab = $(`#${id}`, $tabs);
     $tab.text(filename).click();

@@ -29,9 +29,9 @@ $(() => {
     cd.saveCodeFromSyntaxHighlightEditors();
     repler.create().then(() => socket.open());
     repl.close = () => {
+      repl.close = () => {};
       repler.delete().then(() => socket.close());
       $(element).empty().hide(); // Ready for next time.
-      repl.close = () => {};
     };
   };
 
