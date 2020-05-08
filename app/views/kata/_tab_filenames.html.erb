@@ -9,36 +9,40 @@ $(() => {
     // By default the [repl] tab will be hidden.
     const inDev = true;
     if (onOff !== 'on' && !inDev) {
-      $('#radio_repl', $tabFilenames).hide();
+      replTab().hide();
     }
   };
 
-  const $tabFilenames = $('.tab-filenames');
-  const fakeFilenames = ['stdout','stderr','repl'];
-  const selectedTabFilename = () => $('.selected', $tabFilenames).text();
-  const currentFilename = () => $('#current_filename', $tabFilenames).text();
+  const $tabs = $('.tab-filenames');
+  const selectedTabFilename = () => $('.selected', $tabs).text();
+  const currentFilename = () => $('#current_filename', $tabs).text();
+  //const replTabText = replTab().text();
 
-  cd.isOutputFile = filename => filename === 'status' || fakeFilenames.includes(filename);
+  cd.isOutputFile = filename => ['stdout','stderr','status',replTab().text()].includes(filename);
 
   cd.toggleOutputFile = () => {
     switch (selectedTabFilename()) {
-    default      : cd.loadFile('stdout'); break;
-    case 'stdout': cd.loadFile('stderr'); break;
-    case 'stderr': cd.loadFile(currentFilename()); break;
-    case 'repl'  : cd.loadFile(currentFilename()); break;
+    default              : cd.loadFile('stdout'); break;
+    case 'stdout'        : cd.loadFile('stderr'); break;
+    case 'stderr'        : cd.loadFile(currentFilename()); break;
+    case replTab().text(): cd.loadFile(currentFilename()); break;
     }
   };
 
   cd.setFilenameTab = (filename) => {
-    if (selectedTabFilename() === 'repl') {
+    // filename = from filename-knave, stdout, stderr (never repl)
+    if (selectedTabFilename() === replTab().text()) {
       cd.closeRepl();
     }
     const id = cd.isOutputFile(filename) ? `radio_${filename}` : 'current_filename';
-    const tab = $(`#${id}`, $tabFilenames);
+    const tab = $(`#${id}`, $tabs);
     tab.text(filename);
     $('.tab-filename').removeClass('selected');
     tab.addClass('selected');
   };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  // [current-filename]
 
   const setupCurrentFilenameTab = (filename) => {
     const $tab = $('<div>', {
@@ -46,17 +50,20 @@ $(() => {
          id:'current_filename',
        text:filename
     });
-    $tabFilenames.append($tab);
+    $tabs.append($tab);
     setupFilenameTabClickHandler($tab);
   };
 
-  const setupOutputTab = (s) => {
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  // stdout, stderr
+
+  const setupOutputTab = (text) => {
     const $tab = $('<div>', {
         class: 'tab-filename',
-           id: `radio_${s}`,
-         text: s
+           id: `radio_${text}`,
+         text: text
     });
-    $tabFilenames.append($tab);
+    $tabs.append($tab);
     setupFilenameTabClickHandler($tab);
   };
 
@@ -71,13 +78,17 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
+  // repl
 
-  const setupReplTab = () => {
+  const replTab = () => $('#radio_repl', $tabs);
+
+  const setupReplTab = (text) => {
     const $tab = $('<div>', {
         class: 'tab-filename',
-         text: 'repl'
+           id: 'radio_repl',
+         text: text
     });
-    $tabFilenames.append($tab);
+    $tabs.append($tab);
     setupReplTabClickHandler($tab);
   };
 
@@ -91,10 +102,12 @@ $(() => {
     });
   };
 
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+
   setupCurrentFilenameTab('cyber-dojo.sh');
   setupOutputTab('stdout')
   setupOutputTab('stderr')
-  setupReplTab()
+  setupReplTab('+REPL')
 
 });
 </script>
