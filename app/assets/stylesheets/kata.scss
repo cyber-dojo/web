@@ -131,22 +131,27 @@
   {
     @include selectable();
     display: inline-block;
-    margin-right: 1px;
+    margin-right: 2px;
     padding-right:7px;
     background: lighten($darker-color, 10%);
     border: 1px solid lighten($darker-color, 10%);
     border-bottom-left-radius:0px;
     border-bottom-right-radius:0px;
     border-bottom: none;
-    &.selected, &:hover
+    &:hover
     {
+      cursor:pointer;
+      border: 1px dotted $lighter-color;
+      border-bottom: none;
+    }
+    &.selected
+    {
+      cursor: default;
       color: $darker-color;
       background: $lighter-color;
       border: 1px solid $lighter-color;
       border-bottom: none;
     }
-    &:hover { cursor:pointer; }
-    &.selected { cursor:default; }
   }
 
   #traffic-lights-count-total-box
