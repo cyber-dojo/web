@@ -5,6 +5,10 @@
 'use strict';
 $(() => {
 
+  const editor = cd.kata.editor;
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   <% @files.each do |filename,file| %>
     cd.fileCreate("<%= j raw(filename) %>", {
       content: "<%= j raw(file['content']) %>"

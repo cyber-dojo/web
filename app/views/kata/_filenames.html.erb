@@ -5,7 +5,7 @@
 'use strict';
 $(() => {
 
-  const filenames = cd.kata.filenames;
+  const filenames = cd.kata.filenames; // {} ? []
 
   filenames.sorted = () => cd.sortedFilenames();
   filenames.length = () => filenames.sorted().length;
