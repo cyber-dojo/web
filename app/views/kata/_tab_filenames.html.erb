@@ -40,26 +40,44 @@ $(() => {
     tab.addClass('selected');
   };
 
-  const setupCurrentFilenameTab = () => {
-    const $currentFilenameTab = $('<div>', {
+  const setupCurrentFilenameTab = (filename) => {
+    const $tab = $('<div>', {
       class:'tab-filename',
          id:'current_filename',
-       text:'cyber-dojo.sh'
+       text:filename
     });
-    $tabFilenames.append($currentFilenameTab);
-    setupTabFilenameClickHandler($currentFilenameTab);
+    $tabFilenames.append($tab);
+    setupTabFilenameClickHandler($tab);
   };
 
-  const setupFakeFilenameTabs = () => {
-    fakeFilenames.forEach(filename => {
-      const $div = $('<div>', {
-          class: 'tab-filename',
-             id: `radio_${filename}`,
-           text: filename
-      });
-      $tabFilenames.append($div);
-      setupTabFilenameClickHandler($div);
+  const setupStdoutTab = () => {
+    const $tab = $('<div>', {
+        class: 'tab-filename',
+           id: 'radio_stdout',
+         text: 'stdout'
     });
+    $tabFilenames.append($tab);
+    setupTabFilenameClickHandler($tab);
+  };
+
+  const setupStderrTab = () => {
+    const $tab = $('<div>', {
+        class: 'tab-filename',
+           id: 'radio_stderr',
+         text: 'stderr'
+    });
+    $tabFilenames.append($tab);
+    setupTabFilenameClickHandler($tab);
+  };
+
+  const setupReplTab = () => {
+    const $tab = $('<div>', {
+        class: 'tab-filename',
+           id: 'radio_repl',
+         text: 'repl'
+    });
+    $tabFilenames.append($tab);
+    setupTabFilenameClickHandler($tab);
   };
 
   const setupTabFilenameClickHandler = (div) => {
@@ -78,8 +96,10 @@ $(() => {
     });
   };
 
-  setupCurrentFilenameTab();
-  setupFakeFilenameTabs();
+  setupCurrentFilenameTab('cyber-dojo.sh');
+  setupStdoutTab()
+  setupStderrTab()
+  setupReplTab()
 
 });
 </script>
