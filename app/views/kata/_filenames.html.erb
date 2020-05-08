@@ -21,8 +21,8 @@ $(() => {
   // Alt-J ==> selectNext()
   // Alt-K ==> selectPrevious()
 
-  filenames.selectNext = () => selectFileInFileList(nextFilename());
-  filenames.selectPrevious = () => selectFileInFileList(previousFilename());
+  filenames.selectNext = () => filenames.select(nextFilename());
+  filenames.selectPrevious = () => filenames.select(previousFilename());
 
   const indexOfSelected = () => filenames.sorted().indexOf(filenames.selected());
   const nextFilename = () => filenames.sorted()[indexOfNext()];
@@ -48,7 +48,7 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const selectFileInFileList = (filename) => {
+  filenames.select = (filename) => {
     // Can't do $('radio_' + filename) because filename
     // could contain characters that aren't strictly legal
     // characters in a dom node id so I do this instead...
@@ -115,17 +115,17 @@ $(() => {
 
   cd.fileCreate = (filename, file) => {
     cd.kata.editor.createFile(filename, file);
-    rebuildFilenameList();
-    selectFileInFileList(filename);
+    filenames.refresh();
+    filenames.select(filename);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.fileDelete = (filename) => {
     cd.kata.editor.deleteFile(filename);
-    rebuildFilenameList();
+    filenames.refresh();
     cd.kata.editor.showFile(filenames.top());
-    selectFileInFileList(filenames.top());
+    filenames.select(filenames.top());
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -133,8 +133,8 @@ $(() => {
   cd.fileRename = (oldFilename, newFilename) => {
     cd.kata.editor.renameFile(oldFilename, newFilename);
     cd.kata.editor.showFile(newFilename);
-    rebuildFilenameList();
-    selectFileInFileList(newFilename);
+    filenames.refresh();
+    filenames.select(newFilename);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -164,9 +164,9 @@ $(() => {
     filenameList.empty();
     sorted.forEach(filename => filenameList.append(makeFilename(filename)));
     if (sorted.includes(selected)) {
-      selectFileInFileList(selected);
+      filenames.select(selected);
     } else {
-      selectFileInFileList(sorted[0]);
+      filenames.select(sorted[0]);
     }
   };
 
@@ -179,7 +179,7 @@ $(() => {
     if (isHighlightFile(filename)) {
       div.addClass('highlight');
     }
-    div.click(() => selectFileInFileList(filename));
+    div.click(() => filenames.select(filename));
     return div;
   };
 
