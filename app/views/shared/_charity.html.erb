@@ -35,9 +35,7 @@ $(() => {
   const charityButton = $('#charity-button');
   const charity = $('#charity-dialog');
 
-  charityButton.click(() => {
-    openCharityInfoDialog();
-  });
+  charityButton.click(() => openCharityInfoDialog());
 
   cd.createTip(charityButton, 'cyber-dojo is a registered charity');
 
@@ -48,7 +46,19 @@ $(() => {
         closeOnEscape: true,
                 modal: true,
                 title: cd.dialogTitle('charity'),
-              buttons: { close: () => div.remove() }
+              buttons: {
+                close: () => {
+                  div.remove();
+                  cd.kata.editor.refocus();
+                }
+              },
+          beforeClose: event => {
+            if (event.keyCode === $.ui.keyCode.ESCAPE) {
+              div.remove();
+              cd.kata.editor.refocus();
+              return true;
+            }
+          }
     });
   };
 

@@ -31,9 +31,7 @@ $(() => {
   const feedbackButton = $('#feedback-button');
   const feedback = $('#feedback-dialog');
 
-  feedbackButton.click(() => {
-    openFeedbackInfoDialog();
-  });
+  feedbackButton.click(() => openFeedbackInfoDialog());
 
   cd.createTip(feedbackButton, "we'd love your feedback");
 
@@ -44,7 +42,19 @@ $(() => {
         closeOnEscape: true,
                 modal: true,
                 title: cd.dialogTitle('feedback'),
-              buttons: { close: () => div.remove() }
+              buttons: {
+                close: () => {
+                  div.remove();
+                  cd.kata.editor.refocus();
+                }
+              },
+          beforeClose: event => {
+            if (event.keyCode === $.ui.keyCode.ESCAPE) {
+              div.remove();
+              cd.kata.editor.refocus();
+              return true;
+            }
+          }
     });
   };
 

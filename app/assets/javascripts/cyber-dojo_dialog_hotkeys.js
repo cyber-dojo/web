@@ -37,7 +37,8 @@ var cyberDojo = ((cd, $) => {
       closeOnEscape: true,
               modal: true,
               title: cd.dialogTitle('hotkeys'),
-            buttons: { close: () => {
+            buttons: {
+              close: () => {
                 node.remove();
                 cd.kata.editor.refocus();
               }

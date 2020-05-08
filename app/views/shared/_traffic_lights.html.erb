@@ -13,9 +13,7 @@ $(() => {
   cd.trafficLightsButton = () => $('#traffic-lights-button');
   const trafficLights = $('#traffic-lights-dialog');
 
-  cd.trafficLightsButton().click(() => {
-    openTrafficLightsInfoDialog();
-  });
+  cd.trafficLightsButton().click(() => openTrafficLightsInfoDialog());
 
   cd.createTip(cd.trafficLightsButton(), 'show traffic-light info');
 
@@ -26,7 +24,19 @@ $(() => {
         closeOnEscape: true,
                 modal: true,
                 title: cd.dialogTitle('traffic-lights'),
-              buttons: { close: () => div.remove() }
+              buttons: {
+                close: () => {
+                  div.remove();
+                  cd.kata.editor.refocus();
+                }
+              },
+          beforeClose: event => {
+            if (event.keyCode === $.ui.keyCode.ESCAPE) {
+              div.remove();
+              cd.kata.editor.refocus();
+              return true;
+            }
+          }
     });
   };
 
