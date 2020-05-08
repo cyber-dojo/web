@@ -62,7 +62,7 @@ $(() => {
       text: 'cancel',
       click: function() {
         $(this).remove();
-        cd.editorRefocus();
+        cd.kata.editor.refocus();
       }
     };
 
@@ -78,7 +78,7 @@ $(() => {
       beforeClose: function(event) {
         if (event.keyCode === $.ui.keyCode.ESCAPE) {
           $(this).remove();
-          cd.editorRefocus();
+          cd.kata.editor.refocus();
           return true;
         }
       }

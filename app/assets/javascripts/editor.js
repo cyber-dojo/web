@@ -45,8 +45,8 @@ var cyberDojo = ((cd, $) => {
       this.hideFile(this.currentFilename);
     }
     $fileDiv(filename).show();
-    cd.focusSyntaxHighlightEditor(filename);
     this.currentFilename = filename;
+    this.refocus();
   };
 
   Editor.prototype.hideCurrentFile = function() {
@@ -58,6 +58,10 @@ var cyberDojo = ((cd, $) => {
   Editor.prototype.changeFile = function(filename, file) {
     this.deleteFile(filename);
     this.createFile(filename, file);
+  };
+
+  Editor.prototype.refocus = function() {
+    cd.focusSyntaxHighlightEditor(this.currentFilename);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - -

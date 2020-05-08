@@ -15,11 +15,7 @@ $(() => {
   cd.kata.tabs.setup({repl:"<%= @env['REPL'] %>"});
   cd.setupHotkeysButton();
   cd.updateTrafficLightsCount();
-
   cd.loadInitialFiles();
-  cd.kata.filenames.refresh();
-
-  cd.loadInitialFile();
   cd.scrollLastTrafficLightIntoView();
   cd.showStartingInfoDialog("<%= @env['STARTING_INFO_DIALOG'] %>");
 

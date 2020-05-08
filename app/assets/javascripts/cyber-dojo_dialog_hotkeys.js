@@ -39,13 +39,13 @@ var cyberDojo = ((cd, $) => {
               title: cd.dialogTitle('hotkeys'),
             buttons: { close: () => {
                 node.remove();
-                cd.editorRefocus();
+                cd.kata.editor.refocus();
               }
             },
         beforeClose: event => {
           if (event.keyCode === $.ui.keyCode.ESCAPE) {
             node.remove();
-            cd.editorRefocus();
+            cd.kata.editor.refocus();
             return true;
           }
         }

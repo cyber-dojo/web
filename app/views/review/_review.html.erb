@@ -48,7 +48,7 @@ $(() => {
     setupButton('resume', () => {
       $('#review-page').fadeOut('fast', () => {
         $('#kata-page').fadeIn('fast', () => {
-          cd.editorRefocus();
+          cd.kata.editor.refocus();
         });
       });
     });

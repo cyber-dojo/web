@@ -50,10 +50,7 @@ $(() => {
   //= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
   let theCurrentFilename = '';
-
-  cd.loadInitialFile = () => cd.loadFile(filenames.top());
   cd.currentFilename = () => theCurrentFilename;
-  cd.editorRefocus = () => cd.loadFile(cd.currentFilename());
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // Load a named file
