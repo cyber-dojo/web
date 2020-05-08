@@ -5,6 +5,14 @@
 'use strict';
 $(() => {
 
+  cd.setupReplTab = (onOff) => {
+    // By default the [repl] tab will be hidden.
+    const inDev = true;
+    if (onOff !== 'on' && !inDev) {
+      $('#radio_repl', $tabFilenames).hide();
+    }
+  };
+
   const $tabFilenames = $('.tab-filenames');
   const fakeFilenames = ['stdout','stderr','repl'];
   const selectedTabFilename = () => $('.selected', $tabFilenames).text();
@@ -18,14 +26,6 @@ $(() => {
     case 'stdout': cd.loadFile('stderr'); break;
     case 'stderr': cd.loadFile(currentFilename()); break;
     case 'repl'  : cd.loadFile(currentFilename()); break;
-    }
-  };
-
-  cd.setupReplTab = (onOff) => {
-    // By default the [repl] tab will be hidden.
-    const inDev = true;
-    if (onOff !== 'on' && !inDev) {
-      $('#radio_repl', $tabFilenames).hide();
     }
   };
 
@@ -53,7 +53,6 @@ $(() => {
   const setupStdoutTab = () => {
     const $tab = $('<div>', {
         class: 'tab-filename',
-           id: 'radio_stdout',
          text: 'stdout'
     });
     $tabFilenames.append($tab);
@@ -63,7 +62,6 @@ $(() => {
   const setupStderrTab = () => {
     const $tab = $('<div>', {
         class: 'tab-filename',
-           id: 'radio_stderr',
          text: 'stderr'
     });
     $tabFilenames.append($tab);
@@ -73,11 +71,10 @@ $(() => {
   const setupReplTab = () => {
     const $tab = $('<div>', {
         class: 'tab-filename',
-           id: 'radio_repl',
          text: 'repl'
     });
     $tabFilenames.append($tab);
-    setupReplClickHandler($tab);
+    setupReplTabClickHandler($tab);
   };
 
   const setupTabFilenameClickHandler = (div) => {
@@ -90,7 +87,7 @@ $(() => {
     });
   };
 
-  const setupReplClickHandler = (div) => {
+  const setupReplTabClickHandler = (div) => {
     div.click(() => {
       if (div.hasClass('selected')) { return; }
       cd.unloadFile(selectedTabFilename());
