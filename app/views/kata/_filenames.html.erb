@@ -184,13 +184,9 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // new-file, rename-file, delete-file
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // See app/views/kata/_file_new_rename_delete.html.erb
-  // See app/views/kata/_files.html.erb
-  // See app/views/kata/_run_tests.js.erb
 
   cd.fileChange = (filename, file) => {
-    cd.fileDelete(filename);
-    cd.fileCreate(filename, file);
+    cd.kata.editor.changeFile(filename, file);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

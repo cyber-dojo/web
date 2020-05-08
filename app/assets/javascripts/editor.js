@@ -40,6 +40,11 @@ var cyberDojo = ((cd, $) => {
     $fileDiv(filename).show();
   };
 
+  Editor.prototype.changeFile = function(filename, file) {
+    this.deleteFile(filename);
+    this.createFile(filename, file);    
+  };
+
   // - - - - - - - - - - - - - - - - - - - - - -
 
   const $makeNewFile = (filename, file) => {
