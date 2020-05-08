@@ -262,7 +262,7 @@ $(() => {
     if (isHighlightFile(filename)) {
       div.addClass('highlight');
     }
-    div.click(() => { cd.loadFile(filename); });
+    div.click(() => selectFileInFileList(filename));
     return div;
   };
 

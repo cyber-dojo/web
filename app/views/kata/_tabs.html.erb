@@ -46,7 +46,7 @@ $(() => {
   tabs.filename = () => $('#current_filename', $tabs);
   tabs.stdout   = () => $('#radio_stdout' , $tabs);
   tabs.stderr   = () => $('#radio_stderr' , $tabs);
-  tabs.status   = () => $('#radio_status' , $tabs);
+  tabs.status   = () => $('#radio_status' , $tabs); // selected when traffic-light times-out or is faulty
   tabs.selected = () => $('.selected', $tabs);
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
