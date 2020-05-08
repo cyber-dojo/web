@@ -171,16 +171,16 @@ $(() => {
   };
 
   const makeFilename = (filename) => {
-    const div = $('<div>', {
+    const $div = $('<div>', {
         class: 'filename',
            id: `radio_${filename}`,
          text: filename
     });
     if (isHighlightFile(filename)) {
-      div.addClass('highlight');
+      $div.addClass('highlight');
     }
-    div.click(() => filenames.select(filename));
-    return div;
+    $div.click(() => filenames.select(filename));
+    return $div;
   };
 
 });
