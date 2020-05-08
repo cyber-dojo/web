@@ -1,6 +1,9 @@
-/*global jQuery,cyberDojo*/
+
+<div id="filename-list"></div>
+
+<script type="text/javascript">
 'use strict';
-var cyberDojo = (function(cd, $) {
+$(() => {
 
   const filenames = cd.kata.filenames;
 
@@ -289,6 +292,5 @@ var cyberDojo = (function(cd, $) {
     return div;
   };
 
-  return cd;
-
-})(cyberDojo || {}, jQuery);
+});
+</script>
