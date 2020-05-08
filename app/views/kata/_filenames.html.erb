@@ -10,6 +10,8 @@ $(() => {
   filenames.sorted = () => cd.sortedFilenames();
   filenames.length = () => filenames.sorted().length;
   filenames.selected = () => $('.filename.selected').text().trim();
+  filenames.top = () => filenames.sorted()[0];
+  filenames.refresh = () => rebuildFilenameList();
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // Filenames hot-key navigation
@@ -21,9 +23,11 @@ $(() => {
 
   filenames.selectNext = () => selectFileInFileList(nextFilename());
   filenames.selectPrevious = () => selectFileInFileList(previousFilename());
-  filenames.refresh = () => rebuildFilenameList();
 
+  const indexOfSelected = () => filenames.sorted().indexOf(filenames.selected());
   const nextFilename = () => filenames.sorted()[indexOfNext()];
+  const previousFilename = () => filenames.sorted()[indexOfPrevious()];
+
   const indexOfNext = () => {
     const index = indexOfSelected();
     if (index === -1) {
@@ -33,7 +37,6 @@ $(() => {
     }
   };
 
-  const previousFilename = () => filenames.sorted()[indexOfPrevious()];
   const indexOfPrevious = () => {
     const index = indexOfSelected();
     if (index === 0 || index === -1) {
@@ -42,16 +45,6 @@ $(() => {
       return index - 1;
     }
   };
-  const indexOfSelected = () => filenames.sorted().indexOf(filenames.selected());
-
-  filenames.top = () => {
-    return filenames.sorted()[0];
-  };
-
-  //= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
-
-  let theCurrentFilename = '';
-  cd.currentFilename = () => theCurrentFilename;
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -60,11 +53,10 @@ $(() => {
     // could contain characters that aren't strictly legal
     // characters in a dom node id so I do this instead...
     $('.filename').removeClass('selected');
-    const node = $(`[id="radio_${filename}"]`); // TODO: needs to be specific to filenames
+    const node = $(`[id="radio_${filename}"]`); // TODO: should be specific to filenames
     node.addClass('selected');
     setRenameAndDeleteButtons(filename);
     cd.kata.tabs.setFilename(filename);
-    theCurrentFilename = filename;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

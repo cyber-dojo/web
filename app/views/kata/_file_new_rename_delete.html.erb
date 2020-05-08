@@ -25,7 +25,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.renameFileButton().click(() => {
-    const initialFilename = cd.currentFilename();
+    const initialFilename = cd.kata.filenames.selected();
     const okInitiallyDisabled = true;
     const okClicked = filename => cd.fileRename(initialFilename, filename);
     openDialog(cd.renameFileButton(), initialFilename, okInitiallyDisabled, okClicked);
@@ -34,7 +34,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.deleteFileButton().click(() => {
-    const initialFilename = cd.currentFilename();
+    const initialFilename = cd.kata.filenames.selected();
     const okInitiallyDisabled = false;
     const okClicked = filename => cd.fileDelete(filename);
     openDialog(cd.deleteFileButton(), initialFilename, okInitiallyDisabled, okClicked);
