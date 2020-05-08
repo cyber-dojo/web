@@ -124,7 +124,6 @@ $(() => {
   cd.fileDelete = (filename) => {
     cd.kata.editor.deleteFile(filename);
     filenames.refresh();
-    cd.kata.editor.showFile(filenames.top());
     filenames.select(filenames.top());
   };
 
@@ -132,7 +131,6 @@ $(() => {
 
   cd.fileRename = (oldFilename, newFilename) => {
     cd.kata.editor.renameFile(oldFilename, newFilename);
-    cd.kata.editor.showFile(newFilename);
     filenames.refresh();
     filenames.select(newFilename);
   };
