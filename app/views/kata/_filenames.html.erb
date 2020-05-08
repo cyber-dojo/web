@@ -53,8 +53,8 @@ $(() => {
     // could contain characters that aren't strictly legal
     // characters in a dom node id so I do this instead...
     $('.filename').removeClass('selected');
-    const node = $(`[id="radio_${filename}"]`); // TODO: should be specific to filenames
-    node.addClass('selected');
+    const $node = $(`[id="radio_${filename}"]`); // TODO: should be specific to filenames
+    $node.addClass('selected');
     setRenameAndDeleteButtons(filename);
     cd.kata.tabs.setFilename(filename);
   };
@@ -110,32 +110,6 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // new-file, rename-file, delete-file
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.fileCreate = (newFilename, file) => {
-    cd.kata.editor.createFile(newFilename, file);
-    filenames.refresh();
-    filenames.select(newFilename);
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.fileDelete = (oldFilename) => {
-    cd.kata.editor.deleteFile(oldFilename);
-    filenames.refresh();
-    filenames.select(filenames.top());
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.fileRename = (oldFilename, newFilename) => {
-    cd.kata.editor.renameFile(oldFilename, newFilename);
-    filenames.refresh();
-    filenames.select(newFilename);
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const setRenameAndDeleteButtons = (filename) => {
     const disable = (node) => node.prop('disabled', true);
@@ -156,7 +130,7 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const rebuildFilenameList = () => {
-    const selected = filenames.selected(); // Try to retain
+    const selected = filenames.selected(); // Try to keep selected
     const sorted = cd.sortedFilenames();
     const filenameList = $('#filename-list');
     filenameList.empty();

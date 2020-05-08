@@ -76,7 +76,7 @@ var cyberDojo = ((cd, $) => {
     });
     return filenames;
   };
-  
+
   // - - - - - - - - - - - - - - - - - - - - - -
 
   const $makeNewFile = (filename, file) => {
@@ -90,7 +90,7 @@ var cyberDojo = ((cd, $) => {
       id: `file_content_for_${filename}`,
       'spellcheck': 'false',
       'data-filename': filename,
-      text: file['content']
+      text: file.content
     });
     $div.append($text);
     return $div;

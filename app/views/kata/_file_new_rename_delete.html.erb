@@ -18,26 +18,38 @@ $(() => {
   cd.newFileButton().click(() => {
     const initialFilename = `filename${cd.extensionFilenames()[0]}`;
     const okInitiallyDisabled = !isValidFilename(initialFilename);
-    const okClicked = filename => cd.fileCreate(filename, '');
+    const okClicked = newFilename => {
+      cd.kata.editor.createFile(newFilename, {content:''});
+      cd.kata.filenames.refresh();
+      cd.kata.filenames.select(newFilename);
+    };
     openDialog(cd.newFileButton(), initialFilename, okInitiallyDisabled, okClicked);
   });
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.renameFileButton().click(() => {
-    const initialFilename = cd.kata.filenames.selected();
+    const oldFilename = cd.kata.filenames.selected();
     const okInitiallyDisabled = true;
-    const okClicked = filename => cd.fileRename(initialFilename, filename);
-    openDialog(cd.renameFileButton(), initialFilename, okInitiallyDisabled, okClicked);
+    const okClicked = newFilename => {
+      cd.kata.editor.renameFile(oldFilename, newFilename);
+      cd.kata.filenames.refresh();
+      cd.kata.filenames.select(newFilename);
+    };
+    openDialog(cd.renameFileButton(), oldFilename, okInitiallyDisabled, okClicked);
   });
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.deleteFileButton().click(() => {
-    const initialFilename = cd.kata.filenames.selected();
+    const oldFilename = cd.kata.filenames.selected();
     const okInitiallyDisabled = false;
-    const okClicked = filename => cd.fileDelete(filename);
-    openDialog(cd.deleteFileButton(), initialFilename, okInitiallyDisabled, okClicked);
+    const okClicked = filename => {
+      cd.kata.editor.deleteFile(oldFilename);
+      cd.kata.filenames.refresh();
+      cd.kata.filenames.select(cd.kata.filenames.top());
+    };
+    openDialog(cd.deleteFileButton(), oldFilename, okInitiallyDisabled, okClicked);
   });
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
