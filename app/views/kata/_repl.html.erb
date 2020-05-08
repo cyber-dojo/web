@@ -5,6 +5,8 @@
 'use strict';
 $(() => {
 
+  const repl = cd.kata.repl;
+
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // [1] The repl and web-socket Urls have a random suffix.
   // If the repl docker container's id was based *only* on the kata-id,
@@ -14,20 +16,20 @@ $(() => {
   // P.S. In an early iteration I tried to put a Terminal inside a
   // jQuery dialog. I failed. Some gnarly CSS z-Index issues I think.
 
-  cd.repl = {};
-  cd.repl.close = () => {};
-  cd.repl.open = () => {
+  repl.close = () => {};
+
+  repl.open = () => {
     const element = document.getElementById('repl-terminal');
     const terminal = createTerminalIn(element);
     const kataId = "<%= @kata.id %>";
     const sid = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0,6);
     const route = `${location.hostname}/repler/${kataId}-${sid}`; // [1]
-    const repl = new Repl(`http://${route}`, terminal);
+    const repler = new Repler(`http://${route}`, terminal);
     const socket = new WebSocketMonitor(`ws://${route}`, terminal);
     cd.saveCodeFromSyntaxHighlightEditors();
-    repl.create().then(() => socket.open());
-    cd.repl.close = () => {
-      repl.delete().then(() => socket.close());
+    repler.create().then(() => socket.open());
+    repl.close = () => {
+      repler.delete().then(() => socket.close());
       $(element).empty().hide(); // Ready for next time.
     };
   };
@@ -93,12 +95,12 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  function Repl(url, terminal) {
+  function Repler(url, terminal) {
     this.url = url;
     this.terminal = terminal;
   };
 
-  Repl.prototype.create = function() {
+  Repler.prototype.create = function() {
     this.terminal.greenWriteln('Creating REPL');
     return fetch(this.url, {
       method: 'POST',
@@ -107,7 +109,7 @@ $(() => {
     });
   };
 
-  Repl.prototype.delete = function() {
+  Repler.prototype.delete = function() {
     this.terminal.greenWriteln('Deleting REPL');
     return fetch(this.url, { method: 'DELETE' });
   };

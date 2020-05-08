@@ -44,7 +44,7 @@ $(() => {
   cd.setFilenameTab = (filename) => {
     // filename = from filename-knave, stdout, stderr, status (never +REPL)
     if ($selectedTab().text() === $replTab().text()) {
-      cd.repl.close();
+      cd.kata.repl.close();
     }
     const id = cd.isOutputFile(filename) ? `radio_${filename}` : 'current_filename';
     const $tab = $(`#${id}`, $tabs);
@@ -108,7 +108,7 @@ $(() => {
     $tab.click(() => {
       if (alreadySelected($tab)) { return; }
       cd.unloadFile($selectedTab().text());
-      cd.repl.open();
+      cd.kata.repl.open();
       select($tab);
     });
   };
