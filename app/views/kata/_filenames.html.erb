@@ -113,16 +113,16 @@ $(() => {
   // new-file, rename-file, delete-file
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.fileCreate = (filename, file) => {
-    cd.kata.editor.createFile(filename, file);
+  cd.fileCreate = (newFilename, file) => {
+    cd.kata.editor.createFile(newFilename, file);
     filenames.refresh();
-    filenames.select(filename);
+    filenames.select(newFilename);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.fileDelete = (filename) => {
-    cd.kata.editor.deleteFile(filename);
+  cd.fileDelete = (oldFilename) => {
+    cd.kata.editor.deleteFile(oldFilename);
     filenames.refresh();
     filenames.select(filenames.top());
   };
