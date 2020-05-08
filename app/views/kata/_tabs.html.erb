@@ -5,7 +5,7 @@
 'use strict';
 $(() => {
 
-  cd.isOutputFile = filename => ['stdout','stderr','status',$replTab().text()].includes(filename);
+  cd.isOutputFile = filename => ['stdout','stderr','status',tabs.repl().text()].includes(filename);
 
   const tabs = cd.kata.tabs;
 
@@ -13,7 +13,7 @@ $(() => {
     // By default the [repl] is hidden.
     const inDev = true;
     if (options.repl !== 'on' && !inDev) {
-      $replTab().hide();
+      tabs.repl().hide();
     }
   };
 
@@ -21,7 +21,7 @@ $(() => {
     // Called from filenames. filename can be
     //  o) a true filename (but never '+REPL')
     //  o) 'stdout', 'stderr', 'status'
-    if ($selectedTab().text() === $replTab().text()) {
+    if ($selectedTab().text() === tabs.repl().text()) {
       cd.kata.repl.close();
     }
     const id = cd.isOutputFile(filename) ? `radio_${filename}` : 'current_filename';
@@ -34,27 +34,26 @@ $(() => {
     // Alt-O tabs hot-key navigation
     // See app/assets/javascripts/cyber-dojo_codemirror.js
     // See app/views/shared/_hotkeys.html.erb
-    const editor = cd.kata.editor;
     switch ($selectedTab().text()) {
-    default               : tabs.stdout().click(); break;
-    case 'stdout'         : tabs.stderr().click(); break;
-    case 'stderr'         : tabs.status().click(); break;
-    case 'status'         : $filenameTab().click(); break;
-    case $replTab().text(): $filenameTab().click(); break;
+    default                : tabs.stdout().click(); break;
+    case 'stdout'          : tabs.stderr().click(); break;
+    case 'stderr'          : tabs.status().click(); break;
+    case 'status'          : tabs.filename().click(); break;
+    case tabs.repl().text(): tabs.filename().click(); break;
     }
   };
 
-  const $replTab     = () => $('#radio_repl'      , $tabs);
-  const $filenameTab = () => $('#current_filename', $tabs);
-  tabs.stdout = () => $('#radio_stdout' , $tabs);
-  tabs.stderr = () => $('#radio_stderr' , $tabs);
-  tabs.status = () => $('#radio_status' , $tabs);
+  tabs.repl     = () => $('#radio_repl'      , $tabs);
+  tabs.filename = () => $('#current_filename', $tabs);
+  tabs.stdout   = () => $('#radio_stdout' , $tabs);
+  tabs.stderr   = () => $('#radio_stderr' , $tabs);
+  tabs.status   = () => $('#radio_status' , $tabs);
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const $tabs = $('.tab-filenames');
   const $selectedTab = () => $('.selected', $tabs);
-  const currentFilename = () => $filenameTab().text();
+  const currentFilename = () => tabs.filename().text();
   const alreadySelected = $tab => $tab.hasClass('selected');
   const select = $tab => {
     $('.tab-filename').removeClass('selected');
