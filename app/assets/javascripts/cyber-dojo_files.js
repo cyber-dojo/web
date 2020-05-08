@@ -28,7 +28,7 @@ var cyberDojo = (function(cd, $) {
       theCurrentFilename = filename;
     }
     setRenameAndDeleteButtons(filename);
-    cd.setFilenameTab(filename);
+    cd.kata.tabs.setFilename(filename);
   };
 
   const unloadFile = (filename) => fileDiv(filename).hide();

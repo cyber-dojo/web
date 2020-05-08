@@ -11,7 +11,7 @@ $(() => {
   cd.kataId = () => "<%= @id %>";
   cd.setupThemeColourButtonsClickHandlers("<%= @theme %>", "<%= @colour %>");
   cd.setupPredictButton("<%= @predict %>");
-  cd.setupReplTab("<%= @env['REPL'] %>");
+  cd.kata.tabs.setup({repl:"<%= @env['REPL'] %>"});
   cd.setupHotkeysButton();
   cd.updateTrafficLightsCount();
   cd.loadInitialFile();

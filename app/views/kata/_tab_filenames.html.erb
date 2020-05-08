@@ -5,13 +5,45 @@
 'use strict';
 $(() => {
 
-  cd.setupReplTab = (onOff) => {
-    // By default the [repl] tab will be hidden.
+  cd.isOutputFile = filename => ['stdout','stderr','status',$replTab().text()].includes(filename);
+
+  const tabs = cd.kata.tabs;
+
+  tabs.setup = (options) => {
+    // By default the [repl] is hidden.
     const inDev = true;
-    if (onOff !== 'on' && !inDev) {
+    if (options.repl !== 'on' && !inDev) {
       $replTab().hide();
     }
   };
+
+  tabs.setFilename = (filename) => {
+    // Called from filenames. filename can be
+    //  o) a true filename (but never '+REPL')
+    //  o) 'stdout', 'stderr', 'status'
+    if ($selectedTab().text() === $replTab().text()) {
+      cd.kata.repl.close();
+    }
+    const id = cd.isOutputFile(filename) ? `radio_${filename}` : 'current_filename';
+    const $tab = $(`#${id}`, $tabs);
+    $tab.text(filename);
+    select($tab);
+  };
+
+  tabs.toggle = () => {
+    // Alt-O tabs hot-key navigation
+    // See app/assets/javascripts/cyber-dojo_codemirror.js
+    // See app/views/shared/_hotkeys.html.erb
+    switch ($selectedTab().text()) {
+    default               : cd.loadFile('stdout'); break;
+    case 'stdout'         : cd.loadFile('stderr'); break;
+    case 'stderr'         : cd.loadFile('status'); break;
+    case 'status'         : cd.loadFile(currentFilename()); break;
+    case $replTab().text(): cd.loadFile(currentFilename()); break;
+    }
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const $tabs = $('.tab-filenames');
   const $selectedTab = () => $('.selected', $tabs);
@@ -22,75 +54,8 @@ $(() => {
     $tab.addClass('selected');
   };
 
-  cd.isOutputFile = filename => ['stdout','stderr','status',$replTab().text()].includes(filename);
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // Tabs hot-key navigation
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // See app/assets/javascripts/cyber-dojo_codemirror.js
-  // See app/views/shared/_hotkeys.html.erb
-  // Alt-O ==> toggleOutputFile()
-
-  cd.toggleOutputFile = () => {
-    switch ($selectedTab().text()) {
-    default               : cd.loadFile('stdout'); break;
-    case 'stdout'         : cd.loadFile('stderr'); break;
-    case 'stderr'         : cd.loadFile('status'); break;
-    case 'status'         : cd.loadFile(currentFilename()); break;
-    case $replTab().text(): cd.loadFile(currentFilename()); break;
-    }
-  };
-
-  cd.setFilenameTab = (filename) => {
-    // filename = from filename-knave, stdout, stderr, status (never +REPL)
-    if ($selectedTab().text() === $replTab().text()) {
-      cd.kata.repl.close();
-    }
-    const id = cd.isOutputFile(filename) ? `radio_${filename}` : 'current_filename';
-    const $tab = $(`#${id}`, $tabs);
-    $tab.text(filename);
-    select($tab);
-  };
-
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  // [current-filename]
-
-  const $filenameTab = () => $('#current_filename', $tabs);
-
-  const setupCurrentFilenameTab = (filename) => {
-    const $tab = $('<div>', {
-      class:'tab-filename',
-         id:'current_filename',
-       text:filename
-    });
-    $tabs.append($tab);
-    setupFilenameTabClickHandler($tab);
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - -
-  // stdout, stderr
-
-  const setupOutputTab = (text) => {
-    const $tab = $('<div>', {
-        class: 'tab-filename',
-           id: `radio_${text}`,
-         text: text
-    });
-    $tabs.append($tab);
-    setupFilenameTabClickHandler($tab);
-  };
-
-  const setupFilenameTabClickHandler = ($tab) => {
-    $tab.click(() => {
-      if (alreadySelected($tab)) { return; }
-      const filename = $tab.text();
-      cd.loadFile(filename);
-      select($tab);
-    });
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - -
-  // repl
+  // [+REPL]
 
   const $replTab = () => $('#radio_repl', $tabs);
 
@@ -109,6 +74,40 @@ $(() => {
       if (alreadySelected($tab)) { return; }
       cd.unloadFile($selectedTab().text());
       cd.kata.repl.open();
+      select($tab);
+    });
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // [current-filename]                     [stdout]  [stderr] [status]
+
+  const $filenameTab = () => $('#current_filename', $tabs);
+
+  const setupCurrentFilenameTab = (filename) => {
+    const $tab = $('<div>', {
+      class:'tab-filename',
+         id:'current_filename',
+       text:filename
+    });
+    $tabs.append($tab);
+    setupFilenameTabClickHandler($tab);
+  };
+
+  const setupOutputTab = (text) => {
+    const $tab = $('<div>', {
+        class: 'tab-filename',
+           id: `radio_${text}`,
+         text: text
+    });
+    $tabs.append($tab);
+    setupFilenameTabClickHandler($tab);
+  };
+
+  const setupFilenameTabClickHandler = ($tab) => {
+    $tab.click(() => {
+      if (alreadySelected($tab)) { return; }
+      const filename = $tab.text();
+      cd.loadFile(filename);
       select($tab);
     });
   };

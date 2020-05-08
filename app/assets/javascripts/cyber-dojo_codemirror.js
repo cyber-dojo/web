@@ -249,7 +249,7 @@ var cyberDojo = ((cd, $) => {
       'Alt-T': () => $('#test-button').click(),
       'Alt-J': () => cd.loadNextFile(),
       'Alt-K': () => cd.loadPreviousFile(),
-      'Alt-O': () => cd.toggleOutputFile()
+      'Alt-O': () => cd.kata.tabs.toggle()
     });
   };
 
