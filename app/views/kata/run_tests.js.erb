@@ -36,7 +36,33 @@
     const stdout = "<%= j raw(@stdout['content']) %>";
     const stderr = "<%= j raw(@stderr['content']) %>";
     const status = "<%= j raw(@status.to_s) %>";
-    cd.loadTestOutputFiles(colour, stdout, stderr, status); // TODO: inline that to here
+    const editor = cd.kata.editor;
+    const tabs = cd.kata.tabs;
+    editor.changeFile('stdout', { content: stdout });
+    editor.changeFile('stderr', { content: stderr });
+    editor.changeFile('status', { content: status });
+    const empty = (s) => s.length === 0;
+    switch (colour) {
+      case 'timed_out':
+      case 'faulty':
+        tabs.status().click();
+        break;
+      case 'red':
+      case 'green':
+        if (!empty(stdout) || empty(stderr)) {
+          tabs.stdout().click();
+        } else {
+          tabs.stderr().click();
+        }
+        break;
+      case 'amber':
+        if (stdout.length > stderr.length) {
+          tabs.stdout().click();
+        } else {
+          tabs.stderr().click();
+        }
+        break;
+    }
   };
 
   //- - - - - - - - - - - - - - - - - - - - - -
