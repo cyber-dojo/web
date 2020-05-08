@@ -246,15 +246,19 @@ $(() => {
   };
 
   const rebuildFilenameList = () => {
-    // TODO: try to retain .select
+    const selected = filenames.selected(); // Try to retain
+    const sorted = cd.sortedFilenames();
     const filenameList = $('#filename-list');
     filenameList.empty();
-    cd.sortedFilenames().forEach(filename => {
-      filenameList.append(makeFileListEntry(filename));
-    });
+    sorted.forEach(filename => filenameList.append(makeFilename(filename)));
+    if (sorted.includes(selected)) {
+      selectFileInFileList(selected);
+    } else {
+      selectFileInFileList(sorted[0]);
+    }
   };
 
-  const makeFileListEntry = (filename) => {
+  const makeFilename = (filename) => {
     const div = $('<div>', {
         class: 'filename',
            id: `radio_${filename}`,
