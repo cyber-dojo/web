@@ -14,14 +14,13 @@ $(() => {
   };
 
   const $tabs = $('.tab-filenames');
+  const $selectedTab = () => $('.selected', $tabs);
+  const currentFilename = () => $filenameTab().text();
   const alreadySelected = $tab => $tab.hasClass('selected');
   const select = $tab => {
     $('.tab-filename').removeClass('selected');
     $tab.addClass('selected');
   };
-  const selectedTabFilename = () => $('.selected', $tabs).text();
-
-  const currentFilename = () => $filenameTab().text();
 
   cd.isOutputFile = filename => ['stdout','stderr','status',$replTab().text()].includes(filename);
 
@@ -33,7 +32,7 @@ $(() => {
   // Alt-O ==> toggleOutputFile()
 
   cd.toggleOutputFile = () => {
-    switch (selectedTabFilename()) {
+    switch ($selectedTab().text()) {
     default               : cd.loadFile('stdout'); break;
     case 'stdout'         : cd.loadFile('stderr'); break;
     case 'stderr'         : cd.loadFile('status'); break;
@@ -44,7 +43,7 @@ $(() => {
 
   cd.setFilenameTab = (filename) => {
     // filename = from filename-knave, stdout, stderr, status (never +REPL)
-    if (selectedTabFilename() === $replTab().text()) {
+    if ($selectedTab().text() === $replTab().text()) {
       cd.closeRepl();
     }
     const id = cd.isOutputFile(filename) ? `radio_${filename}` : 'current_filename';
@@ -108,7 +107,7 @@ $(() => {
   const setupReplTabClickHandler = ($tab) => {
     $tab.click(() => {
       if (alreadySelected($tab)) { return; }
-      cd.unloadFile(selectedTabFilename());
+      cd.unloadFile($selectedTab().text());
       cd.openRepl();
       select($tab);
     });
