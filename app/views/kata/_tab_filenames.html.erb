@@ -77,19 +77,23 @@ $(() => {
          text: 'repl'
     });
     $tabFilenames.append($tab);
-    setupTabFilenameClickHandler($tab);
+    setupReplClickHandler($tab);
   };
 
   const setupTabFilenameClickHandler = (div) => {
     div.click(() => {
       const filename = div.text();
-      if (filename === 'repl') {
-        if (selectedTabFilename() !== 'repl') {
-          cd.unloadFile(selectedTabFilename());
-          cd.openRepl();
-        }
-      } else {
-        cd.loadFile(filename);
+      cd.loadFile(filename);
+      $('.tab-filename').removeClass('selected');
+      div.addClass('selected');
+    });
+  };
+
+  const setupReplClickHandler = (div) => {
+    div.click(() => {
+      if (selectedTabFilename() !== 'repl') {
+        cd.unloadFile(selectedTabFilename());
+        cd.openRepl();
       }
       $('.tab-filename').removeClass('selected');
       div.addClass('selected');
