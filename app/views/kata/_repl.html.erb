@@ -14,9 +14,9 @@ $(() => {
   // P.S. In an early iteration I tried to put a Terminal inside a
   // jQuery dialog. I failed. Some gnarly CSS z-Index issues I think.
 
-  cd.closeRepl = () => {};
-
-  cd.openRepl = () => {
+  cd.repl = {};
+  cd.repl.close = () => {};
+  cd.repl.open = () => {
     const element = document.getElementById('repl-terminal');
     const terminal = createTerminalIn(element);
     const kataId = "<%= @kata.id %>";
@@ -26,7 +26,7 @@ $(() => {
     const socket = new WebSocketMonitor(`ws://${route}`, terminal);
     cd.saveCodeFromSyntaxHighlightEditors();
     repl.create().then(() => socket.open());
-    cd.closeRepl = () => {
+    cd.repl.close = () => {
       repl.delete().then(() => socket.close());
       $(element).empty().hide(); // Ready for next time.
     };
