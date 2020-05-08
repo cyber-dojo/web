@@ -154,6 +154,8 @@
     }
   }
 
+  #radio_stdout, #radio_stderr, #radio_status { float: right; }
+
   #traffic-lights-count-total-box
   {
     @include edged-panel();

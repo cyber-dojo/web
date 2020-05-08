@@ -23,7 +23,8 @@ $(() => {
     switch (selectedTabFilename()) {
     default              : cd.loadFile('stdout'); break;
     case 'stdout'        : cd.loadFile('stderr'); break;
-    case 'stderr'        : cd.loadFile(currentFilename()); break;
+    case 'stderr'        : cd.loadFile('status'); break;
+    case 'status'        : cd.loadFile(currentFilename()); break;
     case replTab().text(): cd.loadFile(currentFilename()); break;
     }
   };
@@ -103,10 +104,11 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  setupCurrentFilenameTab('cyber-dojo.sh');
-  setupOutputTab('stdout')
-  setupOutputTab('stderr')
   setupReplTab('+REPL')
+  setupCurrentFilenameTab('cyber-dojo.sh');
+  setupOutputTab('status')
+  setupOutputTab('stderr')
+  setupOutputTab('stdout')
 
 });
 </script>
