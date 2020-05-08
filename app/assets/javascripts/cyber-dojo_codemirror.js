@@ -247,8 +247,8 @@ var cyberDojo = ((cd, $) => {
   const bindHotKeys = (editor) => {
     editor.setOption('extraKeys', {
       'Alt-T': () => $('#test-button').click(),
-      'Alt-J': () => cd.loadNextFile(),
-      'Alt-K': () => cd.loadPreviousFile(),
+      'Alt-J': () => cd.kata.filenames.selectNext(),
+      'Alt-K': () => cd.kata.filenames.selectPrevious(),
       'Alt-O': () => cd.kata.tabs.toggle()
     });
   };

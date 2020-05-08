@@ -9,6 +9,13 @@
     <meta name="author" content="Jon Jagger" />
     <title><%= @title %></title>
 
+    <script type="text/javascript">
+      var cyberDojo = {
+        kata: { filenames:{}, tabs:{}, repl:{}, editor:{} }
+      };
+      var cd = cyberDojo;
+    </script>
+
     <%= csrf_meta_tag %>
     <%= favicon_link_tag %>
     <%= stylesheet_link_tag :application %>
@@ -21,11 +28,6 @@
       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
       ga('create', 'UA-15608469-5', 'cyber-dojo.org');
       ga('send', 'pageview');
-    </script>
-
-    <script type="text/javascript">
-      var cd = cyberDojo;
-      cd.kata = { filenames:{}, tabs:{}, repl:{}, editor:{} };
     </script>
 
   </head>

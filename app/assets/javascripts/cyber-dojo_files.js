@@ -2,6 +2,42 @@
 'use strict';
 var cyberDojo = (function(cd, $) {
 
+  const filenames = cd.kata.filenames;
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // Filenames hot-key navigation
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // See app/assets/javascripts/cyber-dojo_codemirror.js
+  // See app/views/shared/_hotkeys.html.erb
+  // Alt-J ==> selectNext()
+  // Alt-K ==> selectPrevious()
+
+  filenames.selectNext = () => {
+    const filenames = cd.sortedFilenames();
+    const index = filenames.indexOf(cd.currentFilename());
+    if (index === -1) {
+      const next = 0;
+      cd.loadFile(filenames[next]);
+    } else {
+      const next = (index + 1) % filenames.length;
+      cd.loadFile(filenames[next]);
+    }
+  };
+
+  filenames.selectPrevious = () => {
+    const filenames = cd.sortedFilenames();
+    const index = filenames.indexOf(cd.currentFilename());
+    if (index === 0 || index === -1) {
+      const previous = filenames.length - 1;
+      cd.loadFile(filenames[previous]);
+    } else {
+      const previous = index - 1;
+      cd.loadFile(filenames[previous]);
+    }
+  };
+
+  //= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
+
   let theCurrentFilename = '';
 
   cd.loadInitialFile = () => cd.loadFile(topFilename());
@@ -86,38 +122,6 @@ var cyberDojo = (function(cd, $) {
       filenames.push(filename);
     });
     return filenames;
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // Filename hot-key navigation
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // See app/assets/javascripts/cyber-dojo_codemirror.js
-  // See app/views/shared/_hotkeys.html.erb
-  // Alt-J ==> loadNextFile()
-  // Alt-K ==> loadPreviousFile()
-
-  cd.loadNextFile = () => {
-    const filenames = cd.sortedFilenames();
-    const index = filenames.indexOf(cd.currentFilename());
-    if (index === -1) {
-      const next = 0;
-      cd.loadFile(filenames[next]);
-    } else {
-      const next = (index + 1) % filenames.length;
-      cd.loadFile(filenames[next]);
-    }
-  };
-
-  cd.loadPreviousFile = () => {
-    const filenames = cd.sortedFilenames();
-    const index = filenames.indexOf(cd.currentFilename());
-    if (index === 0 || index === -1) {
-      const previous = filenames.length - 1;
-      cd.loadFile(filenames[previous]);
-    } else {
-      const previous = index - 1;
-      cd.loadFile(filenames[previous]);
-    }
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
