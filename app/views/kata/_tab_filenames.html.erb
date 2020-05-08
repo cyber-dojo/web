@@ -36,13 +36,13 @@ $(() => {
     const id = cd.isOutputFile(filename) ? `radio_${filename}` : 'current_filename';
     const tab = $(`#${id}`, $tabFilenames);
     tab.text(filename);
-    $('.tab.filename').removeClass('selected');
+    $('.tab-filename').removeClass('selected');
     tab.addClass('selected');
   };
 
   const setupCurrentFilenameTab = () => {
     const $currentFilenameTab = $('<div>', {
-      class:'tab filename',
+      class:'tab-filename',
          id:'current_filename',
        text:'cyber-dojo.sh'
     });
@@ -53,7 +53,7 @@ $(() => {
   const setupFakeFilenameTabs = () => {
     fakeFilenames.forEach(filename => {
       const $div = $('<div>', {
-          class: 'tab filename',
+          class: 'tab-filename',
              id: `radio_${filename}`,
            text: filename
       });
@@ -73,7 +73,7 @@ $(() => {
       } else {
         cd.loadFile(filename);
       }
-      $('.tab.filename').removeClass('selected');
+      $('.tab-filename').removeClass('selected');
       div.addClass('selected');
     });
   };

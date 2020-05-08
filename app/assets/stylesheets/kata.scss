@@ -38,6 +38,26 @@
 
 //---------------------------------------------------
 
+@mixin selectable
+{
+  @include wide-list-item();
+  @include rounded-corner(3px);
+  letter-spacing: 0.03em;
+  padding: { top:2px; bottom:3px; left:7px;}
+  &:hover
+  {
+    background: lighten($darker-color, 5%);
+    border-left: 1px solid lighten($darker-color, 5%);
+    border-right: 1px solid lighten($darker-color, 5%);
+  }
+  &.selected
+  {
+    cursor: default;
+    background: lighten($darker-color, 5%);
+    border: 1px solid lighten($darker-color, 5%);
+  }
+}
+
 #kata-page
 {
   margin: { top: 40px; left: 35px; }
@@ -101,29 +121,15 @@
 
   .filename
   {
-    @include wide-list-item();
-    @include rounded-corner(3px);
-    letter-spacing: 0.03em;
-    padding: { top:2px; bottom:3px; left:7px;}
+    @include selectable();
     &[class~='highlight'] { &:before { content: "> "; } }
-    &:hover
-    {
-      background: lighten($darker-color, 5%);
-      border-left: 1px solid lighten($darker-color, 5%);
-      border-right: 1px solid lighten($darker-color, 5%);
-    }
-    &.selected
-    {
-      cursor: default;
-      background: lighten($darker-color, 5%);
-      border: 1px solid lighten($darker-color, 5%);
-    }
   }
 
   .tab-filenames { position:relative; top:-1px; }
 
-  .tab.filename
+  .tab-filename
   {
+    @include selectable();
     display: inline-block;
     margin-right: 1px;
     padding-right:7px;
