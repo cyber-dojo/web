@@ -16,7 +16,6 @@ $(() => {
   const $tabs = $('.tab-filenames');
   const selectedTabFilename = () => $('.selected', $tabs).text();
   const currentFilename = () => $('#current_filename', $tabs).text();
-  //const replTabText = replTab().text();
 
   cd.isOutputFile = filename => ['stdout','stderr','status',replTab().text()].includes(filename);
 
@@ -30,7 +29,7 @@ $(() => {
   };
 
   cd.setFilenameTab = (filename) => {
-    // filename = from filename-knave, stdout, stderr (never repl)
+    // filename = from filename-knave, stdout, stderr, status (never +REPL)
     if (selectedTabFilename() === replTab().text()) {
       cd.closeRepl();
     }
