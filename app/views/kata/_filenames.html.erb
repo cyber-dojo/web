@@ -5,7 +5,7 @@
 'use strict';
 $(() => {
 
-  const filenames = cd.kata.filenames; // {} ? []
+  const filenames = cd.kata.filenames;
 
   filenames.sorted = () => cd.sortedFilenames();
   filenames.length = () => filenames.sorted().length;
@@ -195,10 +195,8 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.fileCreate = (filename, file) => {
-    const newFile = makeNewFile(filename, file);
-    $('#visible-files-box').append(newFile);
+    cd.kata.editor.createFile(filename, file);
     rebuildFilenameList();
-    cd.switchEditorToCodeMirror(filename);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -238,24 +236,6 @@ $(() => {
     return jqElement(`${filename}_div`);
   };
 
-  const makeNewFile = (filename, file) => {
-    const div = $('<div>', {
-        class: 'filename_div',
-           id: `${filename}_div`
-    });
-    const text = $('<textarea>', {
-      class: 'file_content',
-      name: `file_content[${filename}]`,
-      id: `file_content_for_${filename}`,
-      'spellcheck': 'false',
-      'data-filename': filename,
-      text: file['content']
-    });
-    div.append(text);
-
-    return div;
-  };
-
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const setRenameAndDeleteButtons = (filename) => {
@@ -275,6 +255,10 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  filenames.refresh = () => {
+    rebuildFilenameList();
+  };
 
   const rebuildFilenameList = () => {
     const filenameList = $('#filename-list');

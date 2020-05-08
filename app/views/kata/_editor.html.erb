@@ -5,15 +5,17 @@
 'use strict';
 $(() => {
 
-  const editor = cd.kata.editor;
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  <% @files.each do |filename,file| %>
-    cd.fileCreate("<%= j raw(filename) %>", {
-      content: "<%= j raw(file['content']) %>"
-    });
-  <% end %>
+  cd.loadInitialFiles = () => {
+    const files = [];
+    <% @files.each do |filename,file| %>
+      var file = {
+           name:"<%= j raw(filename) %>",
+        content:"<%= j raw(file['content']) %>"
+      };
+      files.push(file);
+    <% end %>
+    cd.kata.editor.createFiles(files);
+  };
 
 });
 </script>
