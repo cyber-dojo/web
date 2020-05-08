@@ -95,28 +95,30 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.loadTestOutputFiles = (colour, stdout, stderr, status) => {
-    cd.fileChange('stdout', { content: stdout });
-    cd.fileChange('stderr', { content: stderr });
-    cd.fileChange('status', { content: status });
+    const editor = cd.kata.editor;
+    const tabs = cd.kata.tabs;
+    editor.changeFile('stdout', { content: stdout });
+    editor.changeFile('stderr', { content: stderr });
+    editor.changeFile('status', { content: status });
     const empty = (s) => s.length === 0;
     switch (colour) {
       case 'timed_out':
       case 'faulty':
-        cd.loadFile('status');
+        tabs.status().click();
         break;
       case 'red':
       case 'green':
         if (!empty(stdout) || empty(stderr)) {
-          cd.loadFile('stdout');
+          tabs.stdout().click();
         } else {
-          cd.loadFile('stderr');
+          tabs.stderr().click();
         }
         break;
       case 'amber':
         if (stdout.length > stderr.length) {
-          cd.loadFile('stdout');
+          tabs.stdout().click();
         } else {
-          cd.loadFile('stderr');
+          tabs.stderr().click();
         }
         break;
     }

@@ -36,9 +36,9 @@ $(() => {
     // See app/views/shared/_hotkeys.html.erb
     const editor = cd.kata.editor;
     switch ($selectedTab().text()) {
-    default               : $stdoutTab().click(); break;
-    case 'stdout'         : $stderrTab().click(); break;
-    case 'stderr'         : $statusTab().click(); break;
+    default               : tabs.stdout().click(); break;
+    case 'stdout'         : tabs.stderr().click(); break;
+    case 'stderr'         : tabs.status().click(); break;
     case 'status'         : $filenameTab().click(); break;
     case $replTab().text(): $filenameTab().click(); break;
     }
@@ -46,9 +46,9 @@ $(() => {
 
   const $replTab     = () => $('#radio_repl'      , $tabs);
   const $filenameTab = () => $('#current_filename', $tabs);
-  const $stdoutTab   = () => $('#radio_stdout'    , $tabs);
-  const $stderrTab   = () => $('#radio_stderr'    , $tabs);
-  const $statusTab   = () => $('#radio_status'    , $tabs);
+  tabs.stdout = () => $('#radio_stdout' , $tabs);
+  tabs.stderr = () => $('#radio_stderr' , $tabs);
+  tabs.status = () => $('#radio_status' , $tabs);
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
