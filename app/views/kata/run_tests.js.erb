@@ -32,17 +32,15 @@
   };
 
   const updateOutput = () => {
-    const colour = "<%= @light['colour'] %>";
     const stdout = "<%= j raw(@stdout['content']) %>";
     const stderr = "<%= j raw(@stderr['content']) %>";
     const status = "<%= j raw(@status.to_s) %>";
-    const editor = cd.kata.editor;
-    const tabs = cd.kata.tabs;
     editor.changeFile('stdout', { content: stdout });
     editor.changeFile('stderr', { content: stderr });
     editor.changeFile('status', { content: status });
+    const tabs = cd.kata.tabs;
     const empty = (s) => s.length === 0;
-    switch (colour) {
+    switch ("<%= @light['colour'] %>") {
       case 'timed_out':
       case 'faulty':
         tabs.status().click();
@@ -118,8 +116,8 @@
   insertCreatedFiles();
   removeDeletedFiles();
   updateChangedFiles();
-  updateFilenames();
-  updateOutput(); // [stdout,stderr,status] Must be last
+  updateFilenames(); // must come after insert/remove/update
+  updateOutput();
   showWarnings();
   cd.scrollLastTrafficLightIntoView();
 
