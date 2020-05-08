@@ -202,7 +202,7 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.fileDelete = (filename) => {
-    fileDiv(filename).remove();
+    cd.kata.editor.deleteFile(filename);
     rebuildFilenameList();
     cd.loadFile(filenames.top());
   };
@@ -228,12 +228,12 @@ $(() => {
     return jqElement(`file_content_for_${filename}`).val();
   };
 
-  const jqElement = (name) => {
-    return $(`[id="${name}"]`);
-  };
-
   const fileDiv = (filename) => {
     return jqElement(`${filename}_div`);
+  };
+
+  const jqElement = (name) => {
+    return $(`[id="${name}"]`);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

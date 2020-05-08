@@ -14,19 +14,23 @@ var cyberDojo = ((cd, $) => {
   };
 
   Editor.prototype.createFile = function(filename, file) {
-    const newFile = makeNewFile(filename, file);
-    $('#visible-files-box').append(newFile);
+    const $newFile = $makeNewFile(filename, file);
+    $('#visible-files-box').append($newFile);
     cd.switchEditorToCodeMirror(filename);
+  };
+
+  Editor.prototype.deleteFile = function(filename) {
+    $fileDiv(filename).remove();
   };
 
   // - - - - - - - - - - - - - - - - - - - - - -
 
-  const makeNewFile = (filename, file) => {
-    const div = $('<div>', {
+  const $makeNewFile = (filename, file) => {
+    const $div = $('<div>', {
         class: 'filename_div',
            id: `${filename}_div`
     });
-    const text = $('<textarea>', {
+    const $text = $('<textarea>', {
       class: 'file_content',
       name: `file_content[${filename}]`,
       id: `file_content_for_${filename}`,
@@ -34,9 +38,13 @@ var cyberDojo = ((cd, $) => {
       'data-filename': filename,
       text: file['content']
     });
-    div.append(text);
-    return div;
+    $div.append($text);
+    return $div;
   };
+
+  const $fileDiv = (filename) => $jqElement(`${filename}_div`);
+
+  const $jqElement = (name) => $(`[id="${name}"]`);
 
   // - - - - - - - - - - - - - - - - - - - - - -
 
