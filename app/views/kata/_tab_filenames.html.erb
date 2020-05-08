@@ -9,40 +9,54 @@ $(() => {
     // By default the [repl] tab will be hidden.
     const inDev = true;
     if (onOff !== 'on' && !inDev) {
-      replTab().hide();
+      $replTab().hide();
     }
   };
 
   const $tabs = $('.tab-filenames');
+  const alreadySelected = $tab => $tab.hasClass('selected');
+  const select = $tab => {
+    $('.tab-filename').removeClass('selected');
+    $tab.addClass('selected');
+  };
   const selectedTabFilename = () => $('.selected', $tabs).text();
-  const currentFilename = () => $('#current_filename', $tabs).text();
 
-  cd.isOutputFile = filename => ['stdout','stderr','status',replTab().text()].includes(filename);
+  const currentFilename = () => $filenameTab().text();
+
+  cd.isOutputFile = filename => ['stdout','stderr','status',$replTab().text()].includes(filename);
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // Tabs hot-key navigation
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // See app/assets/javascripts/cyber-dojo_codemirror.js
+  // See app/views/shared/_hotkeys.html.erb
+  // Alt-O ==> toggleOutputFile()
 
   cd.toggleOutputFile = () => {
     switch (selectedTabFilename()) {
-    default              : cd.loadFile('stdout'); break;
-    case 'stdout'        : cd.loadFile('stderr'); break;
-    case 'stderr'        : cd.loadFile('status'); break;
-    case 'status'        : cd.loadFile(currentFilename()); break;
-    case replTab().text(): cd.loadFile(currentFilename()); break;
+    default               : cd.loadFile('stdout'); break;
+    case 'stdout'         : cd.loadFile('stderr'); break;
+    case 'stderr'         : cd.loadFile('status'); break;
+    case 'status'         : cd.loadFile(currentFilename()); break;
+    case $replTab().text(): cd.loadFile(currentFilename()); break;
     }
   };
 
   cd.setFilenameTab = (filename) => {
     // filename = from filename-knave, stdout, stderr, status (never +REPL)
-    if (selectedTabFilename() === replTab().text()) {
+    if (selectedTabFilename() === $replTab().text()) {
       cd.closeRepl();
     }
     const id = cd.isOutputFile(filename) ? `radio_${filename}` : 'current_filename';
-    const tab = $(`#${id}`, $tabs);
-    tab.text(filename);
-    $('.tab-filename').removeClass('selected');
-    tab.addClass('selected');
+    const $tab = $(`#${id}`, $tabs);
+    $tab.text(filename);
+    select($tab);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   // [current-filename]
+
+  const $filenameTab = () => $('#current_filename', $tabs);
 
   const setupCurrentFilenameTab = (filename) => {
     const $tab = $('<div>', {
@@ -67,20 +81,19 @@ $(() => {
     setupFilenameTabClickHandler($tab);
   };
 
-  const setupFilenameTabClickHandler = (div) => {
-    div.click(() => {
-      if (div.hasClass('selected')) { return; }
-      const filename = div.text();
+  const setupFilenameTabClickHandler = ($tab) => {
+    $tab.click(() => {
+      if (alreadySelected($tab)) { return; }
+      const filename = $tab.text();
       cd.loadFile(filename);
-      $('.tab-filename').removeClass('selected');
-      div.addClass('selected');
+      select($tab);
     });
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   // repl
 
-  const replTab = () => $('#radio_repl', $tabs);
+  const $replTab = () => $('#radio_repl', $tabs);
 
   const setupReplTab = (text) => {
     const $tab = $('<div>', {
@@ -92,13 +105,12 @@ $(() => {
     setupReplTabClickHandler($tab);
   };
 
-  const setupReplTabClickHandler = (div) => {
-    div.click(() => {
-      if (div.hasClass('selected')) { return; }
+  const setupReplTabClickHandler = ($tab) => {
+    $tab.click(() => {
+      if (alreadySelected($tab)) { return; }
       cd.unloadFile(selectedTabFilename());
       cd.openRepl();
-      $('.tab-filename').removeClass('selected');
-      div.addClass('selected');
+      select($tab);
     });
   };
 

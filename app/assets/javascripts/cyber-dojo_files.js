@@ -95,7 +95,6 @@ var cyberDojo = (function(cd, $) {
   // See app/views/shared/_hotkeys.html.erb
   // Alt-J ==> loadNextFile()
   // Alt-K ==> loadPreviousFile()
-  // Alt-O ==> toggleOutputFile()
 
   cd.loadNextFile = () => {
     const filenames = cd.sortedFilenames();
