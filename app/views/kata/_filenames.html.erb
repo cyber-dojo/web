@@ -7,6 +7,10 @@ $(() => {
 
   const filenames = cd.kata.filenames;
 
+  filenames.sorted = () => cd.sortedFilenames();
+  filenames.length = () => filenames.sorted().length;
+  filenames.selected = () => $('.filename.selected').text().trim();
+
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // Filenames hot-key navigation
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -15,32 +19,32 @@ $(() => {
   // Alt-J ==> selectNext()
   // Alt-K ==> selectPrevious()
 
-  filenames.selectNext = () => {
-    const filenames = cd.sortedFilenames();
-    const index = filenames.indexOf(cd.currentFilename());
+  filenames.selectNext = () => cd.loadFile(nextFilename());
+  filenames.selectPrevious = () => cd.loadFile(previousFilename());
+
+  const nextFilename = () => filenames.sorted()[indexOfNext()];
+  const indexOfNext = () => {
+    const index = indexOfSelected();
     if (index === -1) {
-      const next = 0;
-      cd.loadFile(filenames[next]);
+      return 0;
     } else {
-      const next = (index + 1) % filenames.length;
-      cd.loadFile(filenames[next]);
+      return (index + 1) % filenames.length();
     }
   };
 
-  filenames.selectPrevious = () => {
-    const filenames = cd.sortedFilenames();
-    const index = filenames.indexOf(cd.currentFilename());
+  const previousFilename = () => filenames.sorted()[indexOfPrevious()];
+  const indexOfPrevious = () => {
+    const index = indexOfSelected();
     if (index === 0 || index === -1) {
-      const previous = filenames.length - 1;
-      cd.loadFile(filenames[previous]);
+      return filenames.length() - 1;
     } else {
-      const previous = index - 1;
-      cd.loadFile(filenames[previous]);
+      return index - 1;
     }
   };
+  const indexOfSelected = () => filenames.sorted().indexOf(filenames.selected());
 
   filenames.top = () => {
-    return cd.sortedFilenames()[0];
+    return filenames.sorted()[0];
   };
 
   //= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
