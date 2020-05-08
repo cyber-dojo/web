@@ -21,7 +21,7 @@ $(() => {
     // Called from filenames. filename can be
     //  o) a true filename (but never '+REPL')
     //  o) 'stdout', 'stderr', 'status'
-    if ($selectedTab().text() === tabs.repl().text()) {
+    if (tabs.selected().text() === tabs.repl().text()) {
       cd.kata.repl.close();
     }
     const id = cd.isOutputFile(filename) ? `radio_${filename}` : 'current_filename';
@@ -34,7 +34,7 @@ $(() => {
     // Alt-O tabs hot-key navigation
     // See app/assets/javascripts/cyber-dojo_codemirror.js
     // See app/views/shared/_hotkeys.html.erb
-    switch ($selectedTab().text()) {
+    switch (tabs.selected().text()) {
     default                : tabs.stdout().click(); break;
     case 'stdout'          : tabs.stderr().click(); break;
     case 'stderr'          : tabs.status().click(); break;
@@ -48,12 +48,11 @@ $(() => {
   tabs.stdout   = () => $('#radio_stdout' , $tabs);
   tabs.stderr   = () => $('#radio_stderr' , $tabs);
   tabs.status   = () => $('#radio_status' , $tabs);
+  tabs.selected = () => $('.selected', $tabs);
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const $tabs = $('.tab-filenames');
-  const $selectedTab = () => $('.selected', $tabs);
-  const currentFilename = () => tabs.filename().text();
   const alreadySelected = $tab => $tab.hasClass('selected');
   const select = $tab => {
     $('.tab-filename').removeClass('selected');
