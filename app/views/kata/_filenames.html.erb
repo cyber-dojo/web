@@ -210,23 +210,15 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.fileRename = (oldFilename, newFilename) => {
-    // This should restore the caret/cursor/selection
-    // but it currently does not. See
-    // https://github.com/cyber-dojo/web/issues/51
-    const content = fileContent(oldFilename);
-    cd.fileDelete(oldFilename);
-    cd.fileCreate(newFilename, { content:content });
+    cd.kata.editor.renameFile(oldFilename, newFilename);
+    rebuildFilenameList();
+    cd.loadFile(newFilename);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const fileContent = (filename) => {
-    cd.saveCodeFromIndividualSyntaxHighlightEditor(filename);
-    return jqElement(`file_content_for_${filename}`).val();
-  };
 
   const fileDiv = (filename) => {
     return jqElement(`${filename}_div`);

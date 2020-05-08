@@ -23,6 +23,15 @@ var cyberDojo = ((cd, $) => {
     $fileDiv(filename).remove();
   };
 
+  Editor.prototype.renameFile = function(oldFilename, newFilename) {
+    // This should restore the caret/cursor/selection
+    // but it currently does not. See
+    // https://github.com/cyber-dojo/web/issues/51
+    const content = fileContent(oldFilename);
+    this.deleteFile(oldFilename);
+    this.createFile(newFilename, { content:content });
+  };
+
   // - - - - - - - - - - - - - - - - - - - - - -
 
   const $makeNewFile = (filename, file) => {
@@ -40,6 +49,11 @@ var cyberDojo = ((cd, $) => {
     });
     $div.append($text);
     return $div;
+  };
+
+  const fileContent = (filename) => {
+    cd.saveCodeFromIndividualSyntaxHighlightEditor(filename);
+    return $jqElement(`file_content_for_${filename}`).val();
   };
 
   const $fileDiv = (filename) => $jqElement(`${filename}_div`);
