@@ -246,6 +246,7 @@ $(() => {
   };
 
   const rebuildFilenameList = () => {
+    // TODO: try to retain .select
     const filenameList = $('#filename-list');
     filenameList.empty();
     cd.sortedFilenames().forEach(filename => {

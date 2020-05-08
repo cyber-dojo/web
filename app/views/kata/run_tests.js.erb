@@ -2,9 +2,11 @@
 
 (() => {
 
+  const editor = cd.kata.editor;
+
   const insertCreatedFiles = () => {
     <% @created.each do |filename,file| %>
-      cd.fileCreate("<%= j raw(filename) %>", {
+      editor.createFile("<%= j raw(filename) %>", {
         content: "<%= j raw(file['content']) %>"
       });
     <% end %>
@@ -16,14 +18,14 @@
     // and that will come back to here...
     <% @deleted.each do |filename| %>
       if ("<%= j raw(filename) %>" !== 'cyber-dojo.sh') {
-        cd.fileDelete("<%= j raw(filename) %>");
+        editor.deleteFile("<%= j raw(filename) %>");
       }
     <% end %>
   };
 
   const updateChangedFiles = () => {
     <% @changed.each do |filename,file| %>
-      cd.fileChange("<%= j raw(filename) %>", {
+      editor.changeFile("<%= j raw(filename) %>", {
         content: "<%= j raw(file['content']) %>"
       });
     <% end %>
@@ -34,7 +36,7 @@
     const stdout = "<%= j raw(@stdout['content']) %>";
     const stderr = "<%= j raw(@stderr['content']) %>";
     const status = "<%= j raw(@status.to_s) %>";
-    cd.loadTestOutputFiles(colour, stdout, stderr, status);
+    cd.loadTestOutputFiles(colour, stdout, stderr, status); // TODO: inline that to here
   };
 
   //- - - - - - - - - - - - - - - - - - - - - -
@@ -74,10 +76,8 @@
   }
 
   //- - - - - - - - - - - - - - - - - - - - - -
-  const updateCreatedDeletedChangedFiles = () => {
-    insertCreatedFiles();
-    removeDeletedFiles();
-    updateChangedFiles();
+  const updateFilenames = () => {
+    cd.kata.filenames.refresh();
   };
 
   //- - - - - - - - - - - - - - - - - - - - - -
@@ -89,7 +89,10 @@
 
   //- - - - - - - - - - - - - - - - - - - - - -
   updateTrafficLights();
-  updateCreatedDeletedChangedFiles();
+  insertCreatedFiles();
+  removeDeletedFiles();
+  updateChangedFiles();
+  updateFilenames();
   updateOutput(); // [stdout,stderr,status] Must be last
   showWarnings();
   cd.scrollLastTrafficLightIntoView();
