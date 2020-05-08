@@ -53,8 +53,8 @@
   &.selected
   {
     cursor: default;
-    background: lighten($darker-color, 5%);
-    border: 1px solid lighten($darker-color, 5%);
+    background: lighten($darker-color, 10%);
+    border: 1px solid lighten($darker-color, 10%);
   }
 }
 
@@ -133,8 +133,8 @@
     display: inline-block;
     margin-right: 2px;
     padding-right:7px;
-    background: lighten($darker-color, 10%);
-    border: 1px solid lighten($darker-color, 10%);
+    background: lighten($darker-color, 15%);
+    border: 1px solid lighten($darker-color, 15%);
     border-bottom-left-radius:0px;
     border-bottom-right-radius:0px;
     border-bottom: none;
