@@ -82,6 +82,7 @@ $(() => {
 
   const setupTabFilenameClickHandler = (div) => {
     div.click(() => {
+      if (div.hasClass('selected')) { return; }
       const filename = div.text();
       cd.loadFile(filename);
       $('.tab-filename').removeClass('selected');
@@ -91,10 +92,9 @@ $(() => {
 
   const setupReplClickHandler = (div) => {
     div.click(() => {
-      if (selectedTabFilename() !== 'repl') {
-        cd.unloadFile(selectedTabFilename());
-        cd.openRepl();
-      }
+      if (div.hasClass('selected')) { return; }
+      cd.unloadFile(selectedTabFilename());
+      cd.openRepl();
       $('.tab-filename').removeClass('selected');
       div.addClass('selected');
     });
