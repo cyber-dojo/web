@@ -21,14 +21,12 @@ $(() => {
     // Called from filenames. filename can be
     //  o) a true filename (but never '+REPL')
     //  o) 'stdout', 'stderr', 'status'
-    if (tabs.selected().text() === tabs.repl().text()) {
+    if (tabs.selected().text() === tabs.repl().text()) { //TODO: DELETE
       cd.kata.repl.close();
     }
     const id = cd.isOutputFile(filename) ? `radio_${filename}` : 'current_filename';
     const $tab = $(`#${id}`, $tabs);
-    $tab.text(filename);
-    select($tab);
-    $tab.click();
+    $tab.text(filename).click();
   };
 
   tabs.toggle = () => {
@@ -107,7 +105,6 @@ $(() => {
 
   const setupFilenameTabClickHandler = ($tab) => {
     $tab.click(() => {
-      if (alreadySelected($tab)) { return; }
       const filename = $tab.text();
       cd.kata.repl.close();
       cd.kata.editor.showFile(filename);

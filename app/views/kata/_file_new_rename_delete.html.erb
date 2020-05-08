@@ -18,10 +18,7 @@ $(() => {
   cd.newFileButton().click(() => {
     const initialFilename = `filename${cd.extensionFilenames()[0]}`;
     const okInitiallyDisabled = !isValidFilename(initialFilename);
-    const okClicked = filename => {
-      cd.fileCreate(filename, '');
-      cd.loadFile(filename);
-    };
+    const okClicked = filename => cd.fileCreate(filename, '');
     openDialog(cd.newFileButton(), initialFilename, okInitiallyDisabled, okClicked);
   });
 
@@ -30,10 +27,7 @@ $(() => {
   cd.renameFileButton().click(() => {
     const initialFilename = cd.currentFilename();
     const okInitiallyDisabled = true;
-    const okClicked = filename => {
-      cd.fileRename(initialFilename, filename);
-      cd.loadFile(filename);
-    };
+    const okClicked = filename => cd.fileRename(initialFilename, filename);
     openDialog(cd.renameFileButton(), initialFilename, okInitiallyDisabled, okClicked);
   });
 

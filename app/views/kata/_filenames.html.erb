@@ -84,7 +84,7 @@ $(() => {
     // could contain characters that aren't strictly legal
     // characters in a dom node id so I do this instead...
     $('.filename').removeClass('selected');
-    const node = $(`[id="radio_${filename}"]`);
+    const node = $(`[id="radio_${filename}"]`); // TODO: needs to be specific to filenames
     node.addClass('selected');
     setRenameAndDeleteButtons(filename);
     cd.kata.tabs.setFilename(filename);
@@ -192,6 +192,7 @@ $(() => {
 
   cd.fileChange = (filename, file) => {
     cd.kata.editor.changeFile(filename, file);
+    // Still used in _run_tests.js.erb
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
