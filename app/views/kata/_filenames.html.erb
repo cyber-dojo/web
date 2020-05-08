@@ -39,11 +39,15 @@ $(() => {
     }
   };
 
+  filenames.top = () => {
+    return cd.sortedFilenames()[0];
+  };
+
   //= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
   let theCurrentFilename = '';
 
-  cd.loadInitialFile = () => cd.loadFile(topFilename());
+  cd.loadInitialFile = () => cd.loadFile(filenames.top());
   cd.currentFilename = () => theCurrentFilename;
   cd.editorRefocus = () => cd.loadFile(cd.currentFilename());
 
@@ -69,9 +73,6 @@ $(() => {
     setRenameAndDeleteButtons(filename);
     cd.kata.tabs.setFilename(filename);
   };
-
-  const unloadFile = (filename) => fileDiv(filename).hide();
-  const topFilename = () => cd.sortedFilenames()[0];
 
   const selectFileInFileList = (filename) => {
     // Can't do $('radio_' + filename) because filename
@@ -201,7 +202,7 @@ $(() => {
   cd.fileDelete = (filename) => {
     fileDiv(filename).remove();
     rebuildFilenameList();
-    cd.loadFile(topFilename());
+    cd.loadFile(filenames.top());
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

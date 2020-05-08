@@ -1,0 +1,15 @@
+
+<div id="visible-files-box"></div>
+
+<script type="text/javascript">
+'use strict';
+$(() => {
+
+  <% @files.each do |filename,file| %>
+    cd.fileCreate("<%= j raw(filename) %>", {
+      content: "<%= j raw(file['content']) %>"
+    });
+  <% end %>
+
+});
+</script>
