@@ -19,8 +19,8 @@ $(() => {
   // Alt-J ==> selectNext()
   // Alt-K ==> selectPrevious()
 
-  filenames.selectNext = () => cd.loadFile(nextFilename());
-  filenames.selectPrevious = () => cd.loadFile(previousFilename());
+  filenames.selectNext = () => selectFileInFileList(nextFilename());
+  filenames.selectPrevious = () => selectFileInFileList(previousFilename());
 
   const nextFilename = () => filenames.sorted()[indexOfNext()];
   const indexOfNext = () => {
@@ -86,7 +86,6 @@ $(() => {
     $('.filename').removeClass('selected');
     const node = $(`[id="radio_${filename}"]`);
     node.addClass('selected');
-    cd.focusSyntaxHighlightEditor(filename);
     setRenameAndDeleteButtons(filename);
     cd.kata.tabs.setFilename(filename);
     theCurrentFilename = filename;
