@@ -86,6 +86,10 @@ $(() => {
     $('.filename').removeClass('selected');
     const node = $(`[id="radio_${filename}"]`);
     node.addClass('selected');
+    cd.focusSyntaxHighlightEditor(filename);
+    setRenameAndDeleteButtons(filename);
+    cd.kata.tabs.setFilename(filename);
+    theCurrentFilename = filename;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -194,6 +198,7 @@ $(() => {
   cd.fileCreate = (filename, file) => {
     cd.kata.editor.createFile(filename, file);
     rebuildFilenameList();
+    selectFileInFileList(filename);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -201,15 +206,18 @@ $(() => {
   cd.fileDelete = (filename) => {
     cd.kata.editor.deleteFile(filename);
     rebuildFilenameList();
-    cd.loadFile(filenames.top());
+    cd.kata.editor.showFile(filenames.top());
+    selectFileInFileList(filenames.top());
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.fileRename = (oldFilename, newFilename) => {
     cd.kata.editor.renameFile(oldFilename, newFilename);
+    cd.kata.editor.hideFile(oldFilename);
+    cd.kata.editor.showFile(newFilename);
     rebuildFilenameList();
-    cd.loadFile(newFilename);
+    selectFileInFileList(newFilename);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
