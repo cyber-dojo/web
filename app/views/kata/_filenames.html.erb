@@ -59,7 +59,7 @@ $(() => {
   // Load a named file
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.unloadFile = (filename) => fileDiv(filename).hide();
+  cd.unloadFile = (filename) => cd.kata.editor.hideFile(filename);
 
   cd.loadFile = (filename) => {
     // unshow what is currently being shown
@@ -67,8 +67,9 @@ $(() => {
     cd.unloadFile('stderr');
     cd.unloadFile('status');
     cd.unloadFile(cd.currentFilename());
-    // show filename's contents
-    fileDiv(filename).show();
+
+    cd.kata.editor.showFile(filename);
+
     cd.focusSyntaxHighlightEditor(filename);
     if (!cd.isOutputFile(filename)) {
       selectFileInFileList(filename);
@@ -213,19 +214,6 @@ $(() => {
     cd.kata.editor.renameFile(oldFilename, newFilename);
     rebuildFilenameList();
     cd.loadFile(newFilename);
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const fileDiv = (filename) => {
-    return jqElement(`${filename}_div`);
-  };
-
-  const jqElement = (name) => {
-    return $(`[id="${name}"]`);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

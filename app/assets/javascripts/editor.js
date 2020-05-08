@@ -32,6 +32,14 @@ var cyberDojo = ((cd, $) => {
     this.createFile(newFilename, { content:content });
   };
 
+  Editor.prototype.hideFile = function(filename) {
+    $fileDiv(filename).hide();
+  };
+
+  Editor.prototype.showFile = function(filename) {
+    $fileDiv(filename).show();
+  };
+
   // - - - - - - - - - - - - - - - - - - - - - -
 
   const $makeNewFile = (filename, file) => {
