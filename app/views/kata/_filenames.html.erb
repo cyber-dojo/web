@@ -21,6 +21,7 @@ $(() => {
 
   filenames.selectNext = () => selectFileInFileList(nextFilename());
   filenames.selectPrevious = () => selectFileInFileList(previousFilename());
+  filenames.refresh = () => rebuildFilenameList();
 
   const nextFilename = () => filenames.sorted()[indexOfNext()];
   const indexOfNext = () => {
@@ -53,28 +54,6 @@ $(() => {
   cd.currentFilename = () => theCurrentFilename;
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // Load a named file
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.unloadFile = (filename) => cd.kata.editor.hideFile(filename);
-
-  cd.loadFile = (filename) => {
-    // unshow what is currently being shown
-    cd.unloadFile('stdout');
-    cd.unloadFile('stderr');
-    cd.unloadFile('status');
-    cd.unloadFile(cd.currentFilename());
-
-    cd.kata.editor.showFile(filename);
-
-    cd.focusSyntaxHighlightEditor(filename);
-    if (!cd.isOutputFile(filename)) {
-      selectFileInFileList(filename);
-      theCurrentFilename = filename;
-    }
-    setRenameAndDeleteButtons(filename);
-    cd.kata.tabs.setFilename(filename);
-  };
 
   const selectFileInFileList = (filename) => {
     // Can't do $('radio_' + filename) because filename
@@ -198,10 +177,6 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  filenames.refresh = () => {
-    rebuildFilenameList();
-  };
 
   const rebuildFilenameList = () => {
     const selected = filenames.selected(); // Try to retain
