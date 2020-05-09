@@ -307,10 +307,10 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
   v_tests [0,1], '826', %w(
-  the default colour-theme is dark
+  the default colour-theme is light as its better for projection
   ) do
     in_new_kata do |kata|
-      assert_equal  'dark', kata.theme
+      assert_equal  'light', kata.theme
     end
   end
 
