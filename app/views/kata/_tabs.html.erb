@@ -11,6 +11,16 @@
 $(() => {
 
   const tabs = cd.kata.tabs;
+
+  tabs.setup = (options) => {
+    const inDev = false;
+    if (options.repl === 'on' && "<%= raw @image_name %>".includes('python')) {
+      tabs.repl().show();
+    } else if (inDev) {
+      tabs.repl().show();
+    }
+  };
+
   const $tabs = $('.tab-filenames');
   const alreadySelected = $tab => $tab.hasClass('selected');
   const select = $tab => {
@@ -32,14 +42,6 @@ $(() => {
     tabNames.push('status');
     tabNames.push(tabs.repl().text());
     return tabNames.includes(filename);
-  };
-
-  tabs.setup = (options) => {
-    tabs.repl().hide(); // By default the [repl] tab is hidden.
-    const inDev = true;
-    if (options.repl === 'on' || inDev) {
-      tabs.repl().show();
-    }
   };
 
   tabs.setFilename = (filename) => {

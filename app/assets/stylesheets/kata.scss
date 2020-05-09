@@ -156,7 +156,7 @@
       border-bottom: none;
     }
     &.stdout, &.stderr, &.REPL { float: right; }
-    &.REPL { margin-right: 0px; }
+    &.REPL { display: none; margin-right: 0px; }
   }
 
   #traffic-lights-count-total-box
