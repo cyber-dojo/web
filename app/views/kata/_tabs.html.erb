@@ -18,12 +18,9 @@ $(() => {
   };
 
   tabs.setFilename = (filename) => {
-    // Called from filenames. filename can be
-    //  o) a true filename (but never '+REPL')
-    //  o) 'stdout', 'stderr', 'status'
+    // Called from filenames. Always a true filename.
     cd.kata.repl.close();
-    const id = cd.isOutputFile(filename) ? `radio_${filename}` : 'current_filename';
-    const $tab = $(`#${id}`, $tabs);
+    const $tab = $('.tab.filename', $tabs);
     $tab.text(filename).click();
   };
 
@@ -62,7 +59,7 @@ $(() => {
 
   const setupCurrentFilenameTab = (filename) => {
     const $tab = $('<div>', {
-      class:'tab',
+      class:'tab filename',
          id:'current_filename',
        text:filename
     });
