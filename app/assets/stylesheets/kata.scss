@@ -95,9 +95,12 @@
   .filenames-box
   {
     @include rounded-corner(3px);
+    border-bottom-left-radius:0px;
+    border-bottom-right-radius:0px;
+    border: 1px solid lighten(black,25%);
+    border-bottom: none;
     width: 295px;
     height: 575px;
-    border: 1px solid lighten(black,25%);
     padding: 0px;
   }
 
@@ -130,14 +133,14 @@
   .tab
   {
     @include selectable();
-    display: inline-block;
-    margin-right: 3px;
-    padding-right:7px;
-    background: lighten($darker-color, 15%);
     border: 1px solid lighten($darker-color, 15%);
     border-bottom-left-radius:0px;
     border-bottom-right-radius:0px;
     border-bottom: none;
+    display: inline-block;
+    margin-right: 3px;
+    padding-right:7px;
+    background: lighten($darker-color, 15%);
     &:hover
     {
       cursor:pointer;
