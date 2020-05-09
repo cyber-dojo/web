@@ -154,8 +154,7 @@
     }
   }
 
-  .tab.stdout, .tab.stderr, .tab.status, .tab.REPL { float: right; }
-  .tab.REPL { margin-right: 0px; }
+  .tab.stdout, .tab.stderr, .tab.status { float: right; }
 
   #traffic-lights-count-total-box
   {
