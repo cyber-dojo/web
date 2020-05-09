@@ -131,7 +131,7 @@
   {
     @include selectable();
     display: inline-block;
-    margin-right: 2px;
+    margin-right: 3px;
     padding-right:7px;
     background: lighten($darker-color, 15%);
     border: 1px solid lighten($darker-color, 15%);
@@ -154,7 +154,8 @@
     }
   }
 
-  #radio_stdout, #radio_stderr, #radio_status { float: right; }
+  #radio_stdout, #radio_stderr, #radio_status, #radio_REPL { float: right; }
+  #radio_REPL.tab-filename { margin-right: 0px; }
 
   #traffic-lights-count-total-box
   {

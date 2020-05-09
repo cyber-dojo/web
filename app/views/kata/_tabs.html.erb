@@ -40,11 +40,12 @@ $(() => {
     }
   };
 
-  tabs.repl     = () => $('#radio_repl'      , $tabs);
   tabs.filename = () => $('#current_filename', $tabs);
   tabs.stdout   = () => $('#radio_stdout' , $tabs);
   tabs.stderr   = () => $('#radio_stderr' , $tabs);
   tabs.status   = () => $('#radio_status' , $tabs); // selected when traffic-light times-out or is faulty
+  tabs.repl     = () => $('#radio_REPL'      , $tabs);
+
   tabs.selected = () => $('.selected', $tabs);
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -62,7 +63,7 @@ $(() => {
   const setupReplTab = (text) => {
     const $tab = $('<div>', {
         class: 'tab-filename',
-           id: 'radio_repl',
+           id: 'radio_REPL',
          text: text
     });
     $tabs.append($tab);
@@ -112,8 +113,8 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  setupReplTab('+REPL')
   setupCurrentFilenameTab('cyber-dojo.sh');
+  setupReplTab('REPL')
   setupOutputTab('status')
   setupOutputTab('stderr')
   setupOutputTab('stdout')
