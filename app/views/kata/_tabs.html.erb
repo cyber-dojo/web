@@ -2,7 +2,6 @@
 <div class="tab-filenames">
   <div class="tab filename">cyber-dojo.sh</div>
   <div class="tab REPL">+REPL</div>
-  <div class="tab status">status</div>
   <div class="tab stderr">stderr</div>
   <div class="tab stdout">stdout</div>
 </div>
@@ -24,7 +23,6 @@ $(() => {
   tabs.filename = () => $('.tab.filename', $tabs);
   tabs.stdout   = () => $('.tab.stdout'  , $tabs);
   tabs.stderr   = () => $('.tab.stderr'  , $tabs);
-  tabs.status   = () => $('.tab.status'  , $tabs);
   tabs.repl     = () => $('.tab.REPL'    , $tabs);
 
   tabs.selected = () => $('.tab.selected', $tabs);
@@ -51,15 +49,11 @@ $(() => {
     switch (tabs.selected().text()) {
     default                : tabs.stdout().click(); break;
     case 'stdout'          : tabs.stderr().click(); break;
-    case 'stderr'          : tabs.status().click(); break;
-    case 'status'          : tabs.filename().click(); break;
+    case 'stderr'          : tabs.filename().click(); break;
     }
   };
 
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // [filename]                 [stdout] [stderr] [status][REPL]
-
-  const setupFilenameTabClickHandler = ($tab) => {
+  const setupFileTabClickHandler = ($tab) => {
     $tab.click(() => {
       select($tab);
       const filename = $tab.text();
@@ -78,12 +72,9 @@ $(() => {
     });
   };
 
-  //- - - - - - - - - - - - - - - - - - - - - - - - -
-
-  setupFilenameTabClickHandler(tabs.filename());
-  setupFilenameTabClickHandler(tabs.stdout());
-  setupFilenameTabClickHandler(tabs.stderr());
-  setupFilenameTabClickHandler(tabs.status());
+  setupFileTabClickHandler(tabs.filename());
+  setupFileTabClickHandler(tabs.stdout());
+  setupFileTabClickHandler(tabs.stderr());
   setupReplTabClickHandler(tabs.repl());
 
 });
