@@ -21,7 +21,9 @@ $(() => {
     // Called from filenames. Always a true filename.
     cd.kata.repl.close();
     const $tab = $('.tab.filename', $tabs);
-    $tab.text(filename).click();
+    tabs.all().show();
+    tabs.repl().hide();
+    $tab.text(filename).show().click();
   };
 
   tabs.toggle = () => {
@@ -45,6 +47,8 @@ $(() => {
 
   tabs.selected = () => $('.tab.selected', $tabs);
 
+  tabs.all = () => $('.tab', $tabs);
+
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const $tabs = $('.tab-filenames');
@@ -55,7 +59,27 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // [filename]               [stdout] [stderr] [status] [REPL]
+  // [REPL|filename]                 [stdout] [stderr] [status]
+
+  const setupReplTab = (text) => {
+    const $tab = $('<div>', {
+        class: `tab ${text}`,
+         text: text
+    });
+    $tabs.append($tab);
+    setupReplTabClickHandler($tab);
+  };
+
+  const setupReplTabClickHandler = ($tab) => {
+    $tab.click(() => {
+      if (alreadySelected($tab)) { return; }
+      tabs.all().hide();
+      tabs.repl().show();
+      cd.kata.editor.hideCurrentFile();
+      cd.kata.repl.open();
+      select($tab);
+    });
+  };
 
   const setupCurrentFilenameTab = (filename) => {
     const $tab = $('<div>', {
@@ -80,24 +104,6 @@ $(() => {
       const filename = $tab.text();
       cd.kata.repl.close();
       cd.kata.editor.showFile(filename);
-      select($tab);
-    });
-  };
-
-  const setupReplTab = (text) => {
-    const $tab = $('<div>', {
-        class: `tab ${text}`,
-         text: text
-    });
-    $tabs.append($tab);
-    setupReplTabClickHandler($tab);
-  };
-
-  const setupReplTabClickHandler = ($tab) => {
-    $tab.click(() => {
-      if (alreadySelected($tab)) { return; }
-      cd.kata.editor.hideCurrentFile();
-      cd.kata.repl.open();
       select($tab);
     });
   };

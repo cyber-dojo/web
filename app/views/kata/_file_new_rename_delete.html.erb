@@ -3,6 +3,7 @@
   <button type="button" class="new-file">+</button>
   <button type="button" class="rename-file">rename</button>
   <button type="button" class="delete-file">delete</button>
+  <button type="button" class="repl">REPL</button>
 </div>
 
 <script type="text/javascript">
@@ -12,8 +13,11 @@ $(() => {
   cd.newFileButton     = () => $('.new-file');
   cd.renameFileButton  = () => $('.rename-file');
   cd.deleteFileButton  = () => $('.delete-file');
+  cd.replButton        = () => $('.repl');
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.replButton().click(() => cd.kata.tabs.repl().show().click());
 
   cd.newFileButton().click(() => {
     const initialFilename = `filename${cd.extensionFilenames()[0]}`;
