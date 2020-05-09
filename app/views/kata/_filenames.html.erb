@@ -5,11 +5,13 @@
 'use strict';
 $(() => {
 
+  const $filenames = $('#filename-list');
+
   const filenames = cd.kata.filenames;
 
   filenames.sorted = () => cd.sortedFilenames();
   filenames.length = () => filenames.sorted().length;
-  filenames.selected = () => $('.filename.selected').text().trim();
+  filenames.selected = () => $('.filename.selected', $filenames).text().trim();
   filenames.top = () => filenames.sorted()[0];
   filenames.refresh = () => rebuildFilenameList();
 
@@ -52,9 +54,9 @@ $(() => {
     // Can't do $('radio_' + filename) because filename
     // could contain characters that aren't strictly legal
     // characters in a dom node id so I do this instead...
-    $('.filename').removeClass('selected');
-    const $node = $(`[id="radio_${filename}"]`); // TODO: should be specific to filenames
-    $node.addClass('selected');
+    $('.filename', $filenames).removeClass('selected');
+    const $filename = $(`[id="radio_${filename}"]`, $filenames);
+    $filename.addClass('selected');
     setRenameAndDeleteButtons(filename);
     cd.kata.tabs.setFilename(filename);
   };
