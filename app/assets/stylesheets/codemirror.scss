@@ -3,7 +3,9 @@
 .CodeMirror {
   /* Set height, width, borders, and global font properties here */
   @include code-font;
-  font-size: 11.5pt;
+  // 11.4pt is just enough for 80 characters at 770px width (including line-numbers).
+  // Some test frameworks print to 80 columns, eg pytest.
+  font-size: 11.4pt;
   color: black;
   height: 550px;
   width: 770px;

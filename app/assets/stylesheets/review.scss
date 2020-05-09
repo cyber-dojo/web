@@ -14,11 +14,13 @@
   background: $darker-color;
        color: $lighter-color;
 
-  #review-top-row {
+  #review-top-row
+  {
     max-width: 1070px;
     display: flex;
   }
-  .left-column {
+  .left-column
+  {
     padding-top: 10px;
     width: 295px;
   }
@@ -26,7 +28,8 @@
   #avatar-navigator, #traffic-light-navigator { max-height: 25px; }
   #avatar-box
   {
-      img {
+      img
+      {
         min-width: 32px; // prevet flex shrinkage
        min-height: 32px; // prevet flex shrinkage
             width: 32px;
@@ -235,7 +238,7 @@
   {
     background: $projector-background;
     @include code-font();
-     font-size: 11.5pt;
+     font-size: 11.4pt; // Matches font used in CodeMirror
         height: 575px;
         margin: 0px;
        padding: 0px;
@@ -267,7 +270,7 @@
 
   .diff-sheet
   {
-         width: 730px;
+         width: 735px; // Just enough for 80 characters at 11.4pt font.
     text-align: left;
     overflow-x: auto;
     overflow-y: auto;
