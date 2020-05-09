@@ -5,11 +5,23 @@
 'use strict';
 $(() => {
 
+  cd.sortedFilenames = (filenames) => {
+    // Controls how the filenames appear in the filename list.
+    // Also used in _review.html.erb
+    const sliced = filenames.slice();
+    sliced.sort(orderer);
+    return sliced;
+  };
+
+  cd.kataFilenames = () => {
+    return cd.kata.editor.filenames().filter(filename => !cd.isOutputFile(filename));
+  }
+
   const $filenames = $('#filename-list');
 
   const filenames = cd.kata.filenames;
 
-  filenames.sorted = () => cd.sortedFilenames();
+  filenames.sorted = () => cd.sortedFilenames(cd.kataFilenames());
   filenames.length = () => filenames.sorted().length;
   filenames.selected = () => $('.filename.selected', $filenames).text().trim();
   filenames.top = () => filenames.sorted()[0];
@@ -62,23 +74,6 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // cd.sortedFilenames()
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // Returns how the filenames appear in the filename list.
-  // Used in two places
-  // 1. kata/edit page to help show filename-list
-  // 2. review/show page/dialog to help show filename-list
-
-  cd.filenames = () => cd.kata.editor.filenames();
-
-  cd.sortedFilenames = (filenames) => {
-    if (filenames === undefined) {
-      filenames = cd.filenames(); // default arg
-    }
-    const trueFilenames = filenames.slice().filter(filename => !cd.isOutputFile(filename));
-    trueFilenames.sort(orderer);
-    return trueFilenames;
-  };
 
   const orderer = (lhs,rhs) => {
     const lhsFileCat = fileCategory(lhs);
@@ -133,7 +128,7 @@ $(() => {
 
   const rebuildFilenameList = () => {
     const selected = filenames.selected(); // Try to keep selected
-    const sorted = cd.sortedFilenames();
+    const sorted = filenames.sorted();
     const filenameList = $('#filename-list');
     filenameList.empty();
     sorted.forEach(filename => filenameList.append(makeFilename(filename)));

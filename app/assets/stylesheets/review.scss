@@ -214,8 +214,8 @@
            width: 230px;
        max-width: 230px;
 
-      &[data-filename='stdout'] { margin-top: 20px; }
-      &[data-filename='status'] { margin-bottom: 20px; }
+      &[data-filename='status'] { margin-top: 20px; }
+      &[data-filename='stdout'] { margin-bottom: 20px; }
     }
   }
 
@@ -297,8 +297,8 @@
       cursor: default;
     }
 
-    &[data-filename='stdout'] { margin: {    top: 20px;  } }
-    &[data-filename='status'] { margin: { bottom: 20px;  } }
+    &[data-filename='status'] { margin-top: 20px; }
+    &[data-filename='stdout'] { margin-bottom: 20px; }
   }
 
   .diff-deleted-line-count

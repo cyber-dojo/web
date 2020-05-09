@@ -581,10 +581,8 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const deleteAllNonOutputFiles = () => {
-    cd.filenames().forEach(filename => {
-      if (!cd.isOutputFile(filename)) {
-        cd.fileDelete(filename);
-      }
+    cd.kataFilenames().forEach(filename => {
+      cd.kata.editor.deleteFile(filename);
     });
   };
 
@@ -592,7 +590,8 @@ $(() => {
 
   const insertNewFiles = (files) => {
     for (const filename in files) {
-      cd.fileCreate(filename, { content:files[filename] });
+      cd.kata.editor.createFile(filename, { content:files[filename] });
+      cd.kata.editor.showFile(filename);
     }
   };
 
