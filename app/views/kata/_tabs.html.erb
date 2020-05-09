@@ -2,6 +2,8 @@
 <div class="tab-filenames">
   <div class="tab filename">cyber-dojo.sh</div>
   <div class="tab REPL">+REPL</div>
+  <%# These three float:right so are in reverse order of appearance %>  
+  <div class="tab status">status</div>
   <div class="tab stderr">stderr</div>
   <div class="tab stdout">stdout</div>
 </div>
@@ -31,6 +33,7 @@ $(() => {
   tabs.filename = () => $('.tab.filename', $tabs);
   tabs.stdout   = () => $('.tab.stdout'  , $tabs);
   tabs.stderr   = () => $('.tab.stderr'  , $tabs);
+  tabs.status   = () => $('.tab.status'  , $tabs);
   tabs.repl     = () => $('.tab.REPL'    , $tabs);
 
   tabs.selected = () => $('.tab.selected', $tabs);
@@ -39,6 +42,7 @@ $(() => {
     const tabNames = [];
     tabNames.push(tabs.stdout().text());
     tabNames.push(tabs.stderr().text());
+    tabNames.push(tabs.status().text());
     tabNames.push('status');
     tabNames.push(tabs.repl().text());
     return tabNames.includes(filename);
@@ -52,7 +56,7 @@ $(() => {
   };
 
   tabs.toggle = () => {
-    // Alt-O tabs hot-key navigation
+    // Alt-O tabs hot-key navigation (skip [status] and [REPL])
     // See app/assets/javascripts/cyber-dojo_codemirror.js
     // See app/views/shared/_hotkeys.html.erb
     switch (tabs.selected().text()) {
@@ -84,6 +88,7 @@ $(() => {
   setupFileTabClickHandler(tabs.filename());
   setupFileTabClickHandler(tabs.stdout());
   setupFileTabClickHandler(tabs.stderr());
+  setupFileTabClickHandler(tabs.status());
   setupReplTabClickHandler(tabs.repl());
 
 });
