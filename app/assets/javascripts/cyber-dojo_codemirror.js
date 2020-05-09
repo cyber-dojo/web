@@ -160,7 +160,7 @@ var cyberDojo = ((cd, $) => {
   const editorOptions = (filename) => {
     return {
           indentUnit: cd.kata.editor.tabSize(),
-            readOnly: cd.isOutputFile(filename),
+            readOnly: cd.kata.tabs.reserves(filename),
              tabSize: cd.kata.editor.tabSize(),
          lineNumbers: true,
        matchBrackets: true,
