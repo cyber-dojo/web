@@ -37,7 +37,7 @@ $(() => {
     }
   };
 
-  tabs.filename = () => $('#current_filename', $tabs);
+  tabs.filename = () => $('.tab.filename', $tabs);
   tabs.stdout   = () => $('#radio_stdout' , $tabs);
   tabs.stderr   = () => $('#radio_stderr' , $tabs);
   tabs.status   = () => $('#radio_status' , $tabs);
@@ -54,13 +54,12 @@ $(() => {
     $tab.addClass('selected');
   };
 
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // [current-filename]                     [stdout] [stderr] [status] [REPL]
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // [filename]               [stdout] [stderr] [status] [REPL]
 
   const setupCurrentFilenameTab = (filename) => {
     const $tab = $('<div>', {
       class:'tab filename',
-         id:'current_filename',
        text:filename
     });
     $tabs.append($tab);
