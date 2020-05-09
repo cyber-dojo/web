@@ -58,6 +58,8 @@
   }
 }
 
+//---------------------------------------------------
+
 #kata-page
 {
   margin: { top: 40px; left: 35px; }
@@ -73,14 +75,12 @@
     @include rounded-corner(3px);
     display: block;
      cursor: default;
-      min-width: 29px; // prevet flex shrinkage
-     min-height: 29px; // prevet flex shrinkage
-      width: 29px;
-     height: 29px;
-     margin: { left:0px; right:4px; }
+      min-width: 33px; // prevet flex shrinkage
+     min-height: 33px; // prevet flex shrinkage
+      width: 33px;
+     height: 33px;
+     margin: { left:0px; right:5px; }
     padding: 0px;
-   position: relative;
-        top: -2px;
   }
 
   #test-button
