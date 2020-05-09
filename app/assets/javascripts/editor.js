@@ -14,6 +14,10 @@ var cyberDojo = ((cd, $) => {
     });
   };
 
+  Editor.prototype.deleteFiles = function() {
+    this.filenames().forEach(filename => this.deleteFile(filename));
+  };
+
   Editor.prototype.createFile = function(filename, file) {
     const $newFile = $makeNewFile(filename, file);
     $('#visible-files-box').append($newFile);

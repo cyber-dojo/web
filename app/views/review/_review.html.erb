@@ -572,7 +572,7 @@ $(() => {
     $.getJSON('/reverter/revert', checkoutParams, (data) => {
       $('#review-page').hide();
       $('#kata-page').show();
-      deleteAllNonOutputFiles();
+      deleteAllFiles();
       insertNewFiles(data.visibleFiles);
       $('#test-button').click();
     });
@@ -580,13 +580,7 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const deleteAllNonOutputFiles = () => {
-    cd.kataFilenames().forEach(filename => {
-      cd.kata.editor.deleteFile(filename);
-    });
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
+  const deleteAllFiles = () => cd.kata.editor.deleteFiles();
 
   const insertNewFiles = (files) => {
     for (const filename in files) {
