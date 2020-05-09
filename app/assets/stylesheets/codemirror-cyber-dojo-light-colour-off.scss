@@ -20,8 +20,6 @@ $syntax-background-color: white;
 $syntax-comment-color: darken($green, 30%);
 
 .cm-s-cyber-dojo-light-colour-off.CodeMirror {
-  @include code-font;
-  font-size: 10.5pt;
   background: $syntax-background-color;
   color: $syntax-text-color;
 }
@@ -33,7 +31,6 @@ $syntax-comment-color: darken($green, 30%);
 .cm-s-cyber-dojo-light-colour-off .CodeMirror-linenumber,
 .cm-s-cyber-dojo-light-colour-off .CodeMirror-linenumbers,
 .cm-s-cyber-dojo-light-colour-off .CodeMirror-gutters {
-  @include code-font;
   background: darken($syntax-background-color, 10%);
   color: lighten($syntax-text-color, 60%);
 }
