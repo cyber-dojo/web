@@ -69,8 +69,6 @@ var cyberDojo = ((cd, $) => {
   };
 
   Editor.prototype.filenames = function() {
-    // Gets the kata/edit page filenames, including stdout,stderr,status
-    // page/dialog collects filenames in its own way.
     const filenames = [];
     const prefix = 'file_content_for_';
     $(`textarea[id^=${prefix}]`).each(function(_) {
