@@ -152,7 +152,7 @@
       border: 1px solid $lighter-color;
       border-bottom: none;
     }
-    &.stdout,&.stderr,&.status,&.REPL { float: right; }
+    &.stdout, &.stderr, &.status, &.REPL { float: right; }
   }
 
   #traffic-lights-count-total-box
