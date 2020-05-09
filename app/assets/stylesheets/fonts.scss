@@ -19,18 +19,15 @@
   {
       size: 11.5pt;
     family: Consolas, "Liberation Mono", Courier, monospace;
-    letter-spacing: 0.02em;
   }
 }
 
 @mixin non-code-font
 {
   font-family: Impact, Trebuchet MS, Tahoma, Arial, sans-serif;
-  letter-spacing: 0.02em;
-}
+
 
 @mixin plaintext-font
 {
   font-family: Trebuchet MS, Tahoma, Arial, sans-serif;
-  letter-spacing: 0.02em;
 }
