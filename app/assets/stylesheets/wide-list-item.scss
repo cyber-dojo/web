@@ -16,7 +16,7 @@
   &:hover { background: lighten($darker-color, 5%); }
 
   // no up/down scrolling, #filename-list has its own
-  overflow-y: none;
+  overflow-y: hidden;
   &::-webkit-scrollbar:vertical { width: 0px; }
 
   // individual left/right scrolling for looooooong filenames

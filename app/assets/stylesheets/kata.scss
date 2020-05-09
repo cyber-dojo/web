@@ -118,7 +118,7 @@
          width: 295px;
         height: 410px;
     overflow-y: scroll;
-    overflow-x: none; // up/down hidden scrollbar
+    overflow-x: hidden;
     &::-webkit-scrollbar:vertical { width: 0px; }
   }
 
