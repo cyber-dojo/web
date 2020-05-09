@@ -463,7 +463,8 @@ $(() => {
         $(`.diff-deleted-line-count[data-filename="${filename}"]`).attr('disabled', false);
         $(`.diff-added-line-count[data-filename="${filename}"]`).attr('disabled', false);
 
-        radioEntrySwitch(previousFilenameNode, filenameNode);
+        $('.filename', $reviewPage).removeClass('selected');
+        filenameNode.addClass('selected');
 
         if (previousFilenameNode !== undefined) {
           diffFileDiv(getFilename(previousFilenameNode)).hide();
@@ -491,17 +492,6 @@ $(() => {
       filename.click(loadFrom(diff));
     });
   }; // buildDiffFilenameHandlers()
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const radioEntrySwitch = (previous, current) => {
-    // See app/assets/stylesheets/wide-list-item.scss
-    if (previous !== undefined) {
-      previous.removeClass('selected');
-    }
-    $('.filename', $reviewPage).removeClass('selected');
-    current.addClass('selected');
-  };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -573,8 +563,8 @@ $(() => {
        index: param.nowIndex
     };
     $.getJSON('/reverter/revert', checkoutParams, (data) => {
-      $('#review-page').hide();
-      $('#kata-page').show();
+      $reviewPage.hide();
+      $kataPage.show();
       deleteAllFiles();
       insertNewFiles(data.visibleFiles);
       $('#test-button').click();
@@ -613,7 +603,7 @@ $(() => {
   setupButton('fork', () => cd.forkDialog(param.id, param.nowIndex));
   setForkButtonTip();
   if (!inTestPage) {
-    $('#review-page').show();
+    $reviewPage.show();
     refresh();
   }
 
