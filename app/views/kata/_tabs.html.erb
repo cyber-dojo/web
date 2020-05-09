@@ -36,55 +36,33 @@ $(() => {
     case 'stdout'          : tabs.stderr().click(); break;
     case 'stderr'          : tabs.status().click(); break;
     case 'status'          : tabs.filename().click(); break;
-    case tabs.repl().text(): tabs.filename().click(); break;
+    //case tabs.repl().text(): tabs.filename().click(); break;
     }
   };
 
   tabs.filename = () => $('#current_filename', $tabs);
   tabs.stdout   = () => $('#radio_stdout' , $tabs);
   tabs.stderr   = () => $('#radio_stderr' , $tabs);
-  tabs.status   = () => $('#radio_status' , $tabs); // selected when traffic-light times-out or is faulty
+  tabs.status   = () => $('#radio_status' , $tabs);
   tabs.repl     = () => $('#radio_REPL'      , $tabs);
 
-  tabs.selected = () => $('.selected', $tabs);
+  tabs.selected = () => $('.tab.selected', $tabs);
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const $tabs = $('.tab-filenames');
   const alreadySelected = $tab => $tab.hasClass('selected');
   const select = $tab => {
-    $('.tab-filename').removeClass('selected');
+    $('.tab', $tabs).removeClass('selected');
     $tab.addClass('selected');
   };
 
-  //- - - - - - - - - - - - - - - - - - - - - - - - -
-  // [+REPL]
-
-  const setupReplTab = (text) => {
-    const $tab = $('<div>', {
-        class: 'tab-filename',
-           id: 'radio_REPL',
-         text: text
-    });
-    $tabs.append($tab);
-    setupReplTabClickHandler($tab);
-  };
-
-  const setupReplTabClickHandler = ($tab) => {
-    $tab.click(() => {
-      if (alreadySelected($tab)) { return; }
-      cd.kata.editor.hideCurrentFile();
-      cd.kata.repl.open();
-      select($tab);
-    });
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // [current-filename]                     [stdout]  [stderr] [status]
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // [current-filename]                     [stdout] [stderr] [status] [REPL]
 
   const setupCurrentFilenameTab = (filename) => {
     const $tab = $('<div>', {
-      class:'tab-filename',
+      class:'tab',
          id:'current_filename',
        text:filename
     });
@@ -94,7 +72,7 @@ $(() => {
 
   const setupOutputTab = (text) => {
     const $tab = $('<div>', {
-        class: 'tab-filename',
+        class: 'tab',
            id: `radio_${text}`,
          text: text
     });
@@ -107,6 +85,25 @@ $(() => {
       const filename = $tab.text();
       cd.kata.repl.close();
       cd.kata.editor.showFile(filename);
+      select($tab);
+    });
+  };
+
+  const setupReplTab = (text) => {
+    const $tab = $('<div>', {
+        class: 'tab',
+           id: 'radio_REPL',
+         text: text
+    });
+    $tabs.append($tab);
+    setupReplTabClickHandler($tab);
+  };
+
+  const setupReplTabClickHandler = ($tab) => {
+    $tab.click(() => {
+      if (alreadySelected($tab)) { return; }
+      cd.kata.editor.hideCurrentFile();
+      cd.kata.repl.open();
       select($tab);
     });
   };

@@ -127,7 +127,7 @@
 
   .tab-filenames { position:relative; top:-1px; }
 
-  .tab-filename
+  .tab
   {
     @include selectable();
     display: inline-block;
