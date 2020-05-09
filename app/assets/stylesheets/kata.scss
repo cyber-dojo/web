@@ -154,8 +154,8 @@
     }
   }
 
-  #radio_stdout, #radio_stderr, #radio_status, #radio_REPL { float: right; }
-  #radio_REPL.tab-filename { margin-right: 0px; }
+  .tab.stdout, .tab.stderr, .tab.status, .tab.REPL { float: right; }
+  .tab.REPL { margin-right: 0px; }
 
   #traffic-lights-count-total-box
   {

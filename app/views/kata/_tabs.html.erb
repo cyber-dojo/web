@@ -38,10 +38,10 @@ $(() => {
   };
 
   tabs.filename = () => $('.tab.filename', $tabs);
-  tabs.stdout   = () => $('#radio_stdout' , $tabs);
-  tabs.stderr   = () => $('#radio_stderr' , $tabs);
-  tabs.status   = () => $('#radio_status' , $tabs);
-  tabs.repl     = () => $('#radio_REPL'      , $tabs);
+  tabs.stdout   = () => $('.tab.stdout'  , $tabs);
+  tabs.stderr   = () => $('.tab.stderr'  , $tabs);
+  tabs.status   = () => $('.tab.status'  , $tabs);
+  tabs.repl     = () => $('.tab.REPL'    , $tabs);
 
   tabs.selected = () => $('.tab.selected', $tabs);
 
@@ -68,8 +68,7 @@ $(() => {
 
   const setupOutputTab = (text) => {
     const $tab = $('<div>', {
-        class: 'tab',
-           id: `radio_${text}`,
+        class: `tab ${text}`,
          text: text
     });
     $tabs.append($tab);
@@ -87,8 +86,7 @@ $(() => {
 
   const setupReplTab = (text) => {
     const $tab = $('<div>', {
-        class: 'tab',
-           id: 'radio_REPL',
+        class: `tab ${text}`,
          text: text
     });
     $tabs.append($tab);
