@@ -21,8 +21,6 @@ $(() => {
     // Called from filenames. Always a true filename.
     cd.kata.repl.close();
     const $tab = $('.tab.filename', $tabs);
-    tabs.all().show();
-    tabs.repl().hide();
     $tab.text(filename).show().click();
   };
 
@@ -35,7 +33,6 @@ $(() => {
     case 'stdout'          : tabs.stderr().click(); break;
     case 'stderr'          : tabs.status().click(); break;
     case 'status'          : tabs.filename().click(); break;
-    //case tabs.repl().text(): tabs.filename().click(); break;
     }
   };
 
@@ -59,33 +56,14 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // [REPL|filename]                 [stdout] [stderr] [status]
-
-  const setupReplTab = (text) => {
-    const $tab = $('<div>', {
-        class: `tab ${text}`,
-         text: text
-    });
-    $tabs.append($tab);
-    setupReplTabClickHandler($tab);
-  };
-
-  const setupReplTabClickHandler = ($tab) => {
-    $tab.click(() => {
-      if (alreadySelected($tab)) { return; }
-      tabs.all().hide();
-      tabs.repl().show();
-      cd.kata.editor.hideCurrentFile();
-      cd.kata.repl.open();
-      select($tab);
-    });
-  };
+  // [filename]                 [stdout] [stderr] [status][REPL]
 
   const setupCurrentFilenameTab = (filename) => {
-    const $tab = $('<div>', {
-      class:'tab filename',
-       text:filename
-    });
+    const $tab = $([
+      '<div class="tab filename">',
+       filename,
+       '</div>',
+   ].join(''));
     $tabs.append($tab);
     setupFilenameTabClickHandler($tab);
   };
@@ -101,6 +79,7 @@ $(() => {
 
   const setupFilenameTabClickHandler = ($tab) => {
     $tab.click(() => {
+      //cd.replButton().prop('disabled', false);
       const filename = $tab.text();
       cd.kata.repl.close();
       cd.kata.editor.showFile(filename);
@@ -108,10 +87,29 @@ $(() => {
     });
   };
 
+  const setupReplTab = (text) => {
+    const $tab = $('<div>', {
+        class: `tab ${text}`,
+         text: text
+    });
+    $tabs.append($tab);
+    setupReplTabClickHandler($tab);
+  };
+
+  const setupReplTabClickHandler = ($tab) => {
+    $tab.click(() => {
+      if (alreadySelected($tab)) { return; }
+      tabs.repl().show();
+      cd.kata.editor.hideCurrentFile();
+      cd.kata.repl.open();
+      select($tab);
+    });
+  };
+
   //- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  setupReplTab('REPL')
   setupCurrentFilenameTab('cyber-dojo.sh');
+  setupReplTab('REPL')
   setupOutputTab('status')
   setupOutputTab('stderr')
   setupOutputTab('stdout')
