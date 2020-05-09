@@ -108,6 +108,7 @@
     @include rounded-corner(3px);
     margin: { top:8px; right:0px; bottom:8px; left:8px; }
   }
+  .rename-file, .delete-file { font-size: 8px; float: right; }
 
   #filename-list
   {
