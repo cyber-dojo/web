@@ -47,9 +47,9 @@ $(() => {
     // See app/assets/javascripts/cyber-dojo_codemirror.js
     // See app/views/shared/_hotkeys.html.erb
     switch (tabs.selected().text()) {
-    default                : tabs.stdout().click(); break;
-    case 'stdout'          : tabs.stderr().click(); break;
-    case 'stderr'          : tabs.filename().click(); break;
+    default                  : tabs.stdout().click(); break;
+    case tabs.stdout().text(): tabs.stderr().click(); break;
+    case tabs.stderr().text(): tabs.filename().click(); break;
     }
   };
 
