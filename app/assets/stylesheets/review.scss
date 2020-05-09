@@ -206,6 +206,9 @@
     .filename
     {
       @include wide-list-item();
+      @include rounded-corner(3px);
+      letter-spacing: 0.03em;
+
        height: 16px;
       padding: { left: 4px; top: 0px; bottom: 4px; }
        border: 1px solid $darker-color;
@@ -216,15 +219,24 @@
 
       &[data-filename='status'] { margin-top: 20px; }
       &[data-filename='stdout'] { margin-bottom: 20px; }
+
+      &.selected
+      {
+        background: $lighter-color;
+        color: $darker-color;
+      }
     }
   }
+
+  #diff-content { position:relative; top:10px; }
 
   .diff-line-numbers,
   .diff-sheet
   {
     background: $projector-background;
     @include code-font();
-        height: 572px;
+     font-size: 10.5pt;
+        height: 575px;
         margin: 0px;
        padding: 0px;
         cursor: default;
