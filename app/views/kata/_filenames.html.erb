@@ -5,6 +5,16 @@
 'use strict';
 $(() => {
 
+  cd.isOutputFile = filename => cd.kata.tabs.reserves(filename);
+
+  const cantBeRenamedOrDeleted = (filename) => {
+    return cd.isOutputFile(filename) || filename === 'cyber-dojo.sh';
+  };
+
+  cd.kataFilenames = () => {
+    return cd.kata.editor.filenames().filter(filename => !cd.isOutputFile(filename));
+  }
+
   cd.sortedFilenames = (filenames) => {
     // Controls how the filenames appear in the filename list.
     // Also used in _review.html.erb
@@ -12,10 +22,6 @@ $(() => {
     sliced.sort(orderer);
     return sliced;
   };
-
-  cd.kataFilenames = () => {
-    return cd.kata.editor.filenames().filter(filename => !cd.isOutputFile(filename));
-  }
 
   const $filenames = $('#filename-list');
 
@@ -118,10 +124,6 @@ $(() => {
       enable(cd.renameFileButton());
       enable(cd.deleteFileButton());
     }
-  };
-
-  const cantBeRenamedOrDeleted = (filename) => {
-    return cd.isOutputFile(filename) || filename === 'cyber-dojo.sh';
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

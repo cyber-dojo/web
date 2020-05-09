@@ -10,8 +10,6 @@
 'use strict';
 $(() => {
 
-  cd.isOutputFile = filename => ['stdout','stderr','status',tabs.repl().text()].includes(filename);
-
   const tabs = cd.kata.tabs;
   const $tabs = $('.tab-filenames');
   const alreadySelected = $tab => $tab.hasClass('selected');
@@ -26,6 +24,15 @@ $(() => {
   tabs.repl     = () => $('.tab.REPL'    , $tabs);
 
   tabs.selected = () => $('.tab.selected', $tabs);
+
+  tabs.reserves = filename => {
+    const tabNames = [];
+    tabNames.push(tabs.stdout().text());
+    tabNames.push(tabs.stderr().text());
+    tabNames.push('status');
+    tabNames.push(tabs.repl().text());
+    return tabNames.includes(filename);
+  };
 
   tabs.setup = (options) => {
     tabs.repl().hide(); // By default the [repl] tab is hidden.
