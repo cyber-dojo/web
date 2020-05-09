@@ -93,14 +93,15 @@ $(() => {
 
   const fileCategory = (filename) => {
     let category = undefined;
-    if (isHighlightFile(filename))    { category = 1; }
-    else if (isSourceFile(filename))  { category = 2; }
-    else                              { category = 3; }
+    if (isHighlightFile(filename))      { category = 1; }
+    else if (isSourceFile(filename))    { category = 2; }
+    else if (cd.isOutputFile(filename)) { category = 4; }
+    else                                { category = 3; }
     // Special cases
-    if (filename === 'readme.txt')    { category = 0; }
+    if (filename === 'readme.txt')      { category = 0; }
     // Shell test frameworks (eg shunit2) use .sh as their
     // extension but cyber-dojo.sh is always lowest category
-    if (filename === 'cyber-dojo.sh') { category = 3; }
+    if (filename === 'cyber-dojo.sh')   { category = 3; }
     return category;
   };
 
