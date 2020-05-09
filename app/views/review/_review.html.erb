@@ -30,6 +30,9 @@ $(() => {
   // The [resume] & [checkout] buttons are only on kata/edit.
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  const $kataPage = $('#kata-page');
+  const $reviewPage = $('#review-page');
+
   cd.setReviewData = (version, id, groupId, avatarName, avatarIndex, wasIndex, nowIndex, filename) => {
     param = {
           version:version,
@@ -41,13 +44,13 @@ $(() => {
          nowIndex:nowIndex,
          filename:filename
     };
-    $('#kata-page').fadeOut('slow', () => {
-      $('#review-page').fadeIn('slow');
+    $kataPage.fadeOut('slow', () => {
+      $reviewPage.fadeIn('slow');
     });
     setupAvatar(avatarName, avatarIndex);
     setupButton('resume', () => {
-      $('#review-page').fadeOut('fast', () => {
-        $('#kata-page').fadeIn('fast', () => {
+      $reviewPage.fadeOut('fast', () => {
+        $kataPage.fadeIn('fast', () => {
           cd.kata.editor.refocus();
         });
       });
@@ -69,7 +72,7 @@ $(() => {
     }
   };
 
-  const inTestPage = $('#kata-page').length !== 0;
+  const inTestPage = $kataPage.length !== 0;
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -496,7 +499,7 @@ $(() => {
     if (previous !== undefined) {
       previous.removeClass('selected');
     }
-    $('.filename').removeClass('selected');
+    $('.filename', $reviewPage).removeClass('selected');
     current.addClass('selected');
   };
 
@@ -618,8 +621,9 @@ $(() => {
 
 //--></script>
 
-<%= render(:partial => 'review/extension_filenames') %>
-<%= render(:partial => 'review/highlight_filenames') %>
+<%= render(:partial => 'review/filenames_extension') %>
+<%= render(:partial => 'review/filenames_highlight') %>
+<%= render(:partial => 'review/filenames_sorted') %>
 
 <div id="review-top-row">
   <div id="avatar-box"></div>
