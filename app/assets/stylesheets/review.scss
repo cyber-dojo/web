@@ -223,6 +223,8 @@
       &[data-filename='status'] { margin-top: 20px; }
       &[data-filename='stdout'] { margin-bottom: 20px; }
 
+      color: lighten($darker-color,50%);
+
       &.selected
       {
         background: $lighter-color;
