@@ -25,16 +25,16 @@ $(() => {
     let category = undefined;
     if (isHighlight(filename))    { category = 1; }
     else if (isSource(filename))  { category = 2; }
-    else                              { category = 3; }
+    else                          { category = 3; }
     // Special cases
     if (filename === 'readme.txt')    { category = 0; } // [A]
     if (filename === 'cyber-dojo.sh') { category = 3; } // [B]
-    if (isOutput(filename))       { category = 4; } // [C]
+    if (isOutput(filename))           { category = 4; } // [C]
     return category;
     // [A] Always at the top
     // [B] Shell test frameworks (eg shunit2) use .sh extension
     //     but cyber-dojo.sh is not a user source file.
-    // [C] Tab names on the main edit page.
+    // [C] Tab names.
   };
 
   const isHighlight = (filename) => {
