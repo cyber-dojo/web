@@ -76,12 +76,18 @@ $(() => {
     setupRagClick(input, node, handler, 'red');
     setupRagClick(input, node, handler, 'amber');
     setupRagClick(input, node, handler, 'green');
+
+    const originator = cd.testButton;
+    const xPos = originator.offset().left + originator.width() + 21;
+    const yPos = originator.offset().top;
+
     node.dialog({
               width: 300,
+           position: [xPos,yPos],
            autoOpen: true,
       closeOnEscape: true,
               modal: true,
-              title: cd.dialogTitle('predict!'),
+              title: cd.dialogTitle('predict'),
             buttons: { close: () => {
                 node.remove();
               }
