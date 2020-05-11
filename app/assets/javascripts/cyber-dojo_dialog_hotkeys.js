@@ -12,7 +12,7 @@ var cyberDojo = ((cd, $) => {
 
   const hotkeysDialog = () => {
     let html = '';
-    html += '<div>';
+    html += '<div id="hotkeys-dialog">';
     html += '<table class="info">';
     html += tr2('Alt-J', 'cycles&darr; through the filenames');
     html += tr2('Alt-K', 'cycles&uarr; through the filenames');
@@ -27,7 +27,8 @@ var cyberDojo = ((cd, $) => {
     html += tr3('replace all',     'Shift-Ctrl-R', `${cmd}${option}${shift}&thinsp;F`);
     html += tr3('jump to line',    'Alt-G',        `${option}&thinsp;G`);
     html += '</table>';
-    //html += 'Other <a href="https://defkey.com/codemirror-shortcuts">CodeMirror hotkeys</a> are also supported';
+    html += '<br/>';
+    html += 'Open a page of <a href="https://defkey.com/codemirror-shortcuts" target="_blank">CodeMirror hotkeys</a>';
     html += '</div>';
 
     const node = $(html);

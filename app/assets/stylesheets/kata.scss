@@ -126,7 +126,7 @@
   {
     @include selectable();
     &[class~='highlight'] { &:before { content: "> "; } }
-    color: lighten($darker-color, 50%); 
+    color: lighten($darker-color, 50%);
   }
 
   .tab-filenames { position:relative; top:-1px; }
