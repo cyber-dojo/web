@@ -55,8 +55,10 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const openDialog = function(originator, initialFilename, okInitiallyDisabled, okClicked) {
+    // position the dialog next to the button that launched it.
+    const xPos = originator.offset().left + originator.width() + 18;
+    const yPos = originator.offset().top;
     const name = originator.text();
-    const title = name + '&nbsp;file';
     const input = makeInput(name, initialFilename);
     // dialog has an [ok] button
     const ok = {
@@ -82,9 +84,10 @@ $(() => {
     div.append(input);
     const fileOperationDialog = div.dialog({
       closeOnEscape: true,
-  	  title: cd.dialogTitle(title),
+  	  title: cd.dialogTitle(name),
     	autoOpen: false,
       width: 250,
+      position: [xPos,yPos],
   	  modal: true,
       buttons: [ ok, cancel ],
       beforeClose: function(event) {
