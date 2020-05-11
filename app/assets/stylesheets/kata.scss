@@ -177,6 +177,7 @@
 
   #traffic-lights-count-predict-box
   {
+    display: inline-flex;
      #miss-box,#hit-box
      {
        @include edged-panel();
