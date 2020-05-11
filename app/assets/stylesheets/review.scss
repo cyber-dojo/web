@@ -264,7 +264,7 @@
       overflow: hidden;
         border: none;
     border-top-left-radius: 1px;
-    added, deleted, same { color: lighten($darker-color, 50%); }
+    added, deleted, same { color: lighten($darker-color, 30%); }
       added:after { content: '+'; }
     deleted:after { content: '-'; }
        same:after { content: ' '; }
