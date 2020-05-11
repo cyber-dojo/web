@@ -76,11 +76,12 @@ $(() => {
     setupRagClick(input, node, handler, 'red');
     setupRagClick(input, node, handler, 'amber');
     setupRagClick(input, node, handler, 'green');
-
+    setupBlurbClick(input, node, handler, 'red');
+    setupBlurbClick(input, node, handler, 'amber');
+    setupBlurbClick(input, node, handler, 'green');
     const originator = cd.testButton;
     const xPos = originator.offset().left + originator.width() + 21;
     const yPos = originator.offset().top;
-
     node.dialog({
               width: 300,
            position: [xPos,yPos],
@@ -101,8 +102,16 @@ $(() => {
     });
   };
 
-  const setupRagClick = (input,node,handler,colour) => {
-    $(`div#predict-${colour}`,node).click(() => {
+  const setupRagClick = (input, node, handler, colour) => {
+    $(`div#predict-${colour}`, node).click(() => {
+      input.val(colour);
+      node.remove();
+      handler();
+    });
+  };
+
+  const setupBlurbClick = (input, node, handler, colour) => {
+    $(`.predict-blurb.${colour}`, node).click(() => {
       input.val(colour);
       node.remove();
       handler();
@@ -110,10 +119,11 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const redBlurb = () => blurb('some tests will fail');
-  const amberBlurb = () => blurb('the tests wont run yet');
-  const greenBlurb = () => blurb('all the tests will pass');
-  const blurb = (s) => `<div class="predict-blurb">${s}</div>`;
+  const redBlurb   = () => blurb('red',   'some tests will fail');
+  const amberBlurb = () => blurb('amber', 'the tests wont run yet');
+  const greenBlurb = () => blurb('green', 'all the tests will pass');
+
+  const blurb = (colour, text) => `<div class="predict-blurb ${colour}">${text}</div>`;
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const tr2 = (rag, s) => `<tr><td>${lightImg(rag)}</td><td>${s}</td></tr>`;

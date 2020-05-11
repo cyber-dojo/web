@@ -261,7 +261,11 @@ div#predict-amber:hover { background: url("/traffic-light/image/amber_predicted_
 div#predict-green       { background: url("/traffic-light/image/green_predicted_none.png")  no-repeat; }
 div#predict-green:hover { background: url("/traffic-light/image/green_predicted_green.png") no-repeat; }
 
-.predict-blurb { padding-left:10px; }
+.predict-blurb
+{
+  padding-left:10px;
+  cursor:pointer;
+}
 
 #error
 {
