@@ -38,11 +38,11 @@
 
   //------------------------------------------
 
-  #license, #pies, #foundation, #technology
+  #license, #pies, #sponsors, #money, #foundation, #technology
   {
     @include plaintext-font();
     font-size: 1.2em;
-      padding: { top: 25px; bottom: 25px; }
+      margin: { top: 25px; bottom: 25px; }
   }
 
   //------------------------------------------
@@ -50,7 +50,8 @@
   #license
   {
     background: lighten($darker-color, 6%);
-    margin-top: 280px;
+    margin: { top:280px; bottom:15px; }
+    padding: { top:25px; bottom:25px; }
   }
 
   //------------------------------------------
@@ -60,7 +61,6 @@
     img
     {
       @include rounded-corner();
-      margin: { top: 15px; bottom: 0px; left: 6px; right: 5px; }
        width: 560px;
       height: 330px;
       filter: grayscale(100%);
@@ -72,13 +72,13 @@
   #foundation
   {
     background: lighten($darker-color, 6%);
+    padding: { top:25px; bottom:25px; }
     img.trustee
     {
       @include rounded-corner(10px);
         width: 133px;
        height: 133px;
-       margin: { top: 10px; bottom: 0px; left: 4px; right: 3px; }
-      padding: 0px;
+       margin: { top: 15px; left: 2px; right: 2px; }
        filter: grayscale(100%);
     }
     .bio
