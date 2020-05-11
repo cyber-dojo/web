@@ -19,35 +19,42 @@ $syntax-text-color: $very-dark-gray;
 $syntax-background-color: white;
 $syntax-comment-color: darken($green, 30%);
 
-.cm-s-cyber-dojo-light-colour-off.CodeMirror {
+.cm-s-cyber-dojo-light-colour-off.CodeMirror
+{
   background: $syntax-background-color;
   color: $syntax-text-color;
 }
 
-.cm-s-cyber-dojo-light-colour-off .CodeMirror-lines {
+.cm-s-cyber-dojo-light-colour-off .CodeMirror-lines
+{
   min-height: 1px; /* prevents collapsing before first draw */
 }
 
 .cm-s-cyber-dojo-light-colour-off .CodeMirror-linenumber,
 .cm-s-cyber-dojo-light-colour-off .CodeMirror-linenumbers,
-.cm-s-cyber-dojo-light-colour-off .CodeMirror-gutters {
+.cm-s-cyber-dojo-light-colour-off .CodeMirror-gutters
+{
   background: darken($syntax-background-color, 10%);
-  color: lighten($syntax-text-color, 60%);
+  color: lighten($syntax-text-color, 30%);
 }
 
-.cm-s-cyber-dojo-light-colour-off .CodeMirror-gutters {
+.cm-s-cyber-dojo-light-colour-off .CodeMirror-gutters
+{
   border-right: 0px;
 }
 
-.cm-s-cyber-dojo-light-colour-off div.CodeMirror-selected {
+.cm-s-cyber-dojo-light-colour-off div.CodeMirror-selected
+{
   background: darken($syntax-background-color, 10%);
 }
 
-.cm-s-cyber-dojo-light-colour-off .CodeMirror-cursor {
+.cm-s-cyber-dojo-light-colour-off .CodeMirror-cursor
+{
   border-left: 1px solid $syntax-text-color;
 }
 
-.cm-s-cyber-dojo-light-colour-off .cm-tab {
+.cm-s-cyber-dojo-light-colour-off .cm-tab
+{
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAMCAYAAAAkuj5RAAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4QceFzkFdK1S+wAAACR0RVh0Q29tbWVudABUYWIgY2hhcmFjdGVyIGZvciBjeWJlci1kb2pvbQcIaAAAAE5JREFUSMftkjEOACAMAltfyFP5YZ1cHGoXk2K8kYkLmH3uACAq2VCTkBKoSAzVOy28MlMnSLrcAhmuchuSDiAkF9hLSwlk5dsLnMo/wQQwlBvvo1+QQQAAAABJRU5ErkJggg==);
   background-position: right;
   background-repeat: no-repeat;

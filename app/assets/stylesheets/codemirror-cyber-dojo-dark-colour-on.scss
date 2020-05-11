@@ -17,32 +17,38 @@ $syntax-text-color: $very-light-gray;
 $syntax-background-color: $very-dark-gray;
 $syntax-comment-color: lighten($very-dark-gray, 40%);
 
-.cm-s-cyber-dojo-dark-colour-on.CodeMirror {
+.cm-s-cyber-dojo-dark-colour-on.CodeMirror
+{
   background: $syntax-background-color;
   color: $syntax-text-color;
 }
 
-.cm-s-cyber-dojo-dark-colour-on .CodeMirror-lines {
+.cm-s-cyber-dojo-dark-colour-on .CodeMirror-lines
+{
   cursor: url(images/white-text-cursor.png), text;
   min-height: 1px; /* prevents collapsing before first draw */
 }
 
 .cm-s-cyber-dojo-dark-colour-on .CodeMirror-linenumber,
 .cm-s-cyber-dojo-dark-colour-on .CodeMirror-linenumbers,
-.cm-s-cyber-dojo-dark-colour-on .CodeMirror-gutters {
+.cm-s-cyber-dojo-dark-colour-on .CodeMirror-gutters
+{
   background: lighten($syntax-background-color,3%);
-  color: darken($syntax-text-color, 60%);
+  color: darken($syntax-text-color, 30%);
 }
 
-.cm-s-cyber-dojo-dark-colour-on .CodeMirror-gutters {
+.cm-s-cyber-dojo-dark-colour-on .CodeMirror-gutters
+{
   border-right: 0px;
 }
 
-.cm-s-cyber-dojo-dark-colour-on div.CodeMirror-selected {
+.cm-s-cyber-dojo-dark-colour-on div.CodeMirror-selected
+{
   background: #515151;
 }
 
-.cm-s-cyber-dojo-dark-colour-on .CodeMirror-cursor {
+.cm-s-cyber-dojo-dark-colour-on .CodeMirror-cursor
+{
   border-left: 1px solid $syntax-text-color;
 }
 
@@ -80,7 +86,8 @@ $default: $syntax-text-color;
 .cm-s-cyber-dojo-dark-colour-on .cm-hr {color: $default;}
 .cm-s-cyber-dojo-dark-colour-on .cm-link {color: $default;}
 
-.cm-s-cyber-dojo-dark-colour-on .cm-tab {
+.cm-s-cyber-dojo-dark-colour-on .cm-tab
+{
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAMCAYAAAAkuj5RAAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4QceFzkFdK1S+wAAACR0RVh0Q29tbWVudABUYWIgY2hhcmFjdGVyIGZvciBjeWJlci1kb2pvbQcIaAAAAE5JREFUSMftkjEOACAMAltfyFP5YZ1cHGoXk2K8kYkLmH3uACAq2VCTkBKoSAzVOy28MlMnSLrcAhmuchuSDiAkF9hLSwlk5dsLnMo/wQQwlBvvo1+QQQAAAABJRU5ErkJggg==);
   background-position: right;
   background-repeat: no-repeat;
