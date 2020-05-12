@@ -33,7 +33,7 @@ class RunnerServiceTest < AppServicesTestBase
   test '812',
   'run() tests expecting 42 actual 6*9' do
     in_new_kata { |kata|
-      json = runner.run_cyber_dojo_sh(*run_args(kata))
+      json = runner.run_cyber_dojo_sh(run_args(kata))
       key = 'run_cyber_dojo_sh'
       stdout = json[key]['stdout']['content']
       assert stdout.include?('Expected: 42'), json
@@ -49,15 +49,8 @@ class RunnerServiceTest < AppServicesTestBase
   'deleting a file' do
     in_new_kata { |kata|
       args = run_args(kata)
-      files = args[2]
-      files['cyber-dojo.sh'] = 'rm readme.txt'
-      args = [
-        kata.manifest.image_name,
-        kata.id,
-        files,
-        kata.manifest.max_seconds
-      ]
-      json = runner.run_cyber_dojo_sh(*args)
+      args[:files]['cyber-dojo.sh'] = 'rm readme.txt'
+      json = runner.run_cyber_dojo_sh(args)
       result = json['run_cyber_dojo_sh']
       assert_equal ['readme.txt'], result['deleted']
     }
@@ -66,11 +59,14 @@ class RunnerServiceTest < AppServicesTestBase
   private
 
   def run_args(kata)
-    [ kata.manifest.image_name,
-      kata.id,
-      plain(kata.files),
-      kata.manifest.max_seconds
-    ]
+    {
+      id: kata.id,
+      files: plain(kata.files),
+      manifest: {
+        image_name: kata.manifest.image_name,
+        max_seconds: kata.manifest.max_seconds
+      }
+    }
   end
 
 end

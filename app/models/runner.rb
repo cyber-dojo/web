@@ -12,12 +12,17 @@ class Runner
   # - - - - - - - - - - - - - - -
 
   def run(params)
-    image_name = params[:image_name]
-    id = params[:id]
     files = files_from(params)
-    max_seconds = params[:max_seconds].to_i
+    args = {
+      id: params[:id],
+      files: plain(files),
+      manifest: {
+        image_name: params[:image_name],
+        max_seconds: params[:max_seconds].to_i
+      }
+    }
 
-    json = runner.run_cyber_dojo_sh(image_name, id, plain(files), max_seconds)
+    json = runner.run_cyber_dojo_sh(args)
 
     result = json.delete('run_cyber_dojo_sh')
     colour = json.delete('colour')
@@ -36,7 +41,7 @@ class Runner
       created.delete(output_filename)
     end
 
-    # TODO: this has not been checked since {'content'=>content}
+    # TODO: WIP
     hidden_filenames = JSON.parse(params[:hidden_filenames])
     remove_hidden_files(created, hidden_filenames)
 

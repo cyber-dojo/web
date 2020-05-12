@@ -19,15 +19,7 @@ class RunnerService
     @http.get(__method__, {})
   end
 
-  def run_cyber_dojo_sh(image_name, id, files, max_seconds)
-    args = {
-      id:id,
-      files:files,
-      manifest: {
-        image_name:image_name,
-        max_seconds:max_seconds
-      }
-    }
+  def run_cyber_dojo_sh(args)
     @http.get(__method__, args)
   end
 

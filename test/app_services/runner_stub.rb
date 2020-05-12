@@ -35,7 +35,7 @@ class RunnerStub
 
   # - - - - - - - - - - - - - - - - -
 
-  def run_cyber_dojo_sh(_image_name, _kata_id, _files, _max_seconds)
+  def run_cyber_dojo_sh(_args)
     if dir.exists?
       JSON.parse(dir.read(filename))
     else
