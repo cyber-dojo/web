@@ -10,11 +10,12 @@
   @include rounded-corner(6px);
   background: lighten($darker-color, 5%);
      padding: 10px;
+    margin: { left:0px; right:0px; top:10px; bottom:10px }
   text-align: left;
   img { width:20px; height:20px; margin-right:5px; }
   ul { margin: { top:5px; bottom:5px; } }
 }
-.info + .info { margin-top: 10px; }
+.info + .info { margin-top: 15px; }
 .nobull
 {
   list-style-type: none;

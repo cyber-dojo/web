@@ -25,13 +25,6 @@ $(() => {
         closeDialog();
       }
     });
-    const cancelButton = {
-      text: 'cancel',
-      click: () => {
-        closeDialog();
-        cd.kata.editor.refocus();
-      }
-    };
     const closeDialog = () => createButton.closest('.ui-dialog').remove();
     // position the dialog next to the button that launched it.
     const originator = cd.newFileButton();
@@ -67,7 +60,6 @@ $(() => {
       width: 450,
       position: [xPos,yPos],
   	  modal: true,
-      buttons: [ cancelButton ],
       beforeClose: onDialogClose,
       closeOnEscape: true,
     });
@@ -102,13 +94,6 @@ $(() => {
       }
     });
     const closeDialog = () => deleteButton.closest('.ui-dialog').remove();
-    const cancelButton = {
-      text: 'cancel',
-      click: () => {
-        closeDialog();
-        cd.kata.editor.refocus();
-      }
-    };
 
     renameInput.keyup((event) => {
       const newFilename = $.trim(renameInput.val());
@@ -147,7 +132,6 @@ $(() => {
         width: 450,
         position: [xPos,yPos],
     	  modal: true,
-        buttons: [ cancelButton ],
         beforeClose: onDialogClose,
         closeOnEscape: true,
       });

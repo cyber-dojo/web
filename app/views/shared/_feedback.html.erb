@@ -42,12 +42,6 @@ $(() => {
         closeOnEscape: true,
                 modal: true,
                 title: cd.dialogTitle('feedback'),
-              buttons: {
-                close: () => {
-                  div.remove();
-                  cd.kata.editor.refocus();
-                }
-              },
           beforeClose: event => {
             if (event.keyCode === $.ui.keyCode.ESCAPE) {
               div.remove();

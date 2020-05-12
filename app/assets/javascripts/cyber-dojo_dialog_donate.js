@@ -36,32 +36,45 @@ var cyberDojo = (function(cd, $) {
     };
 
     const html = '' +
-      '<div data-width="620">' +
+      '<div>' +
+        'if you need an invoice, please email <em>license@cyber-dojo.org</em>' +
+        '<br><br>' +
         '<table>' +
           '<tr>' +
             '<td>' + donateButton() + '</td>' +
             '<td>' +
-              "&nbsp;&nbsp;for an individual, we suggest donating $10+" +
+              "for an individual, we suggest donating $10+" +
             '</td>' +
           '</tr>' +
           '<tr>' +
             '<td>' + donateButton() + '</td>' +
             '<td>' +
-              "&nbsp;&nbsp;for a non-profit meetup, we suggest donating $25+" +
+              "for a non-profit meetup, we suggest donating $25+" +
             '</td>' +
           '</tr>' +
           '<tr>' +
             '<td>' + donateButton() + '</td>' +
             '<td>' +
-              "&nbsp;&nbsp;for a commercial organization, we suggest donating $1000+" +
+              "for a commercial organization, we suggest donating $1000+" +
             '</td>' +
           '</tr>' +
          '</table>' +
-         '<br>' +
-         'if you need an invoice, please email <em>license@cyber-dojo.org</em>' +
       '<div>';
 
-    return cd.dialog(html, title, 'close');
+    const div = $(html).dialog({
+                width: 630,
+             autoOpen: true,
+        closeOnEscape: true,
+                modal: true,
+                title: cd.dialogTitle('please donate'),
+          beforeClose: event => {
+            if (event.keyCode === $.ui.keyCode.ESCAPE) {
+              div.remove();
+              return true;
+            }
+          }
+    });
+
   };
 
   return cd;
