@@ -2,12 +2,6 @@
 'use strict';
 var cyberDojo = (function(cd, $) {
 
-  cd.invoiceMe = () => {
-    const url = "mailto:pies@cyber-dojo.org?subject=cyber-dojo donation - please invoice me";
-    window.open(url, '_blank');
-    return false;
-  };
-
   cd.dialog_donate = () => {
     const title = 'please donate';
     const donateButton = () => {
@@ -37,32 +31,33 @@ var cyberDojo = (function(cd, $) {
 
     const html = '' +
       '<div>' +
+        '<div class="info">' +
+          '<table>' +
+            '<tr>' +
+              '<td>' + donateButton() + '</td>' +
+              '<td>' +
+                "for an individual, we suggest donating $10+" +
+              '</td>' +
+            '</tr>' +
+            '<tr>' +
+              '<td>' + donateButton() + '</td>' +
+              '<td>' +
+                "for a non-profit meetup, we suggest donating $25+" +
+              '</td>' +
+            '</tr>' +
+            '<tr>' +
+              '<td>' + donateButton() + '</td>' +
+              '<td>' +
+                "for a commercial organization, we suggest donating $1000+" +
+              '</td>' +
+            '</tr>' +
+           '</table>' +
+        '</div>' +
         'if you need an invoice, please email <em>license@cyber-dojo.org</em>' +
-        '<br><br>' +
-        '<table>' +
-          '<tr>' +
-            '<td>' + donateButton() + '</td>' +
-            '<td>' +
-              "for an individual, we suggest donating $10+" +
-            '</td>' +
-          '</tr>' +
-          '<tr>' +
-            '<td>' + donateButton() + '</td>' +
-            '<td>' +
-              "for a non-profit meetup, we suggest donating $25+" +
-            '</td>' +
-          '</tr>' +
-          '<tr>' +
-            '<td>' + donateButton() + '</td>' +
-            '<td>' +
-              "for a commercial organization, we suggest donating $1000+" +
-            '</td>' +
-          '</tr>' +
-         '</table>' +
-      '<div>';
+      '</div>';
 
     const div = $(html).dialog({
-                width: 630,
+                width: 650,
              autoOpen: true,
         closeOnEscape: true,
                 modal: true,
