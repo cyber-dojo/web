@@ -3,11 +3,9 @@
 var cyberDojo = ((cd, $) => {
 
   cd.forkDialog = (kata_id, index) => {
-    const html = $('<div>', {
-        id: 'fork-dialog',
-      text: "create a new exercise\r\nfrom this traffic-light's files"
-    });
-    html.append($('<button>', {
+    const $html = $('<div>', { class:'info' });
+    $html.append($("<div>create a new exercise\r\nfrom this traffic-light's files</div>"));
+    $html.append($('<button>', {
          id: 'individual',
        type: 'button',
        text: 'individual exercise'
@@ -15,7 +13,7 @@ var cyberDojo = ((cd, $) => {
       fork(kata_id, index, 'individual', 'edit');
       $('#fork-dialog').remove();
     }));
-    html.append($('<button>', {
+    $html.append($('<button>', {
          id: 'group',
        type: 'button',
        text: 'group exercise'
@@ -24,17 +22,12 @@ var cyberDojo = ((cd, $) => {
       $('#fork-dialog').remove();
     }));
 
-    $(html).dialog({
+    $('<div id="fork-dialog">').append($html).dialog({
       title: cd.dialogTitle('fork'),
       autoOpen: true,
       modal: true,
-      width: 350,
+      width: 300,
       closeOnEscape: true,
-      buttons: {
-        'close': function() {
-          $(this).remove();
-        }
-      }
     });
   };
 
