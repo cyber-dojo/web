@@ -92,6 +92,9 @@
         text-align: center;
   }
 
+  //--------------------------------------------------------------
+  // filenames
+
   .filenames-box
   {
     @include rounded-corner(3px);
@@ -104,17 +107,16 @@
     padding: 0px;
   }
 
-  .file-operations { button + button { margin-left: 5px; } }
-
-  .new-file, .rename-file, .delete-file
+  .new-file
   {
     @include rounded-corner(3px);
     margin: { top:8px; right:0px; bottom:8px; left:8px; }
+    padding: { left:2px; right:2px; }
   }
 
   #filename-list
   {
-        margin: { top: 2px; right: 0px; }
+        margin: { top: 0px; right: 0px; }
          width: 295px;
         height: 410px;
     overflow-y: scroll;
@@ -128,6 +130,9 @@
     &[class~='highlight'] { &:before { content: "> "; } }
     color: lighten($darker-color, 50%);
   }
+
+  //--------------------------------------------------------------
+  // tabs
 
   .tab-filenames { position:relative; top:-1px; }
 
@@ -150,7 +155,7 @@
     }
     &.selected
     {
-      cursor: default;
+      cursor:pointer;
       color: $darker-color;
       background: $lighter-color;
       border: 1px solid $lighter-color;
@@ -160,6 +165,14 @@
     &.stdout, &.stderr, &.status, &.REPL { float:right; }
     &.REPL { display:none; }
   }
+  .tab.filename.selected.vellipsis::after
+  {
+    content:' \22EE';
+    cursor: pointer;
+  }
+  :not(.vellipsis).tab.filename.selected { cursor:default; }
+
+  //--------------------------------------------------------------
 
   #traffic-lights-count-total-box
   {
@@ -222,6 +235,9 @@
     }
   }
 
+  //--------------------------------------------------------------
+  // editor
+
   #visible-files-box
   {
     position: relative;
@@ -237,16 +253,16 @@
   }
 }
 
+button#file-create { margin-left: 10px; }
+
 input#new-filename, input#rename-filename, input#delete-filename
 {
    font-size: 1em;
    @include rounded-corner(4px);
    padding: { top:2px; bottom:3px; left:7px;}
    border: none;
-  background: $lighter-color;
-  color: $darker-color;
   text-align: left;
-       width: 200px;
+       width: 300px;
 }
 
 div.predict

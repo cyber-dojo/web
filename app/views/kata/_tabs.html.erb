@@ -2,7 +2,7 @@
 <div class="tab-filenames">
   <div class="tab filename">cyber-dojo.sh</div>
   <div class="tab REPL">+REPL</div>
-  <%# These three float:right so are in reverse order of appearance %>  
+  <%# These three float:right so are in reverse order of appearance %>
   <div class="tab status">status</div>
   <div class="tab stderr">stderr</div>
   <div class="tab stdout">stdout</div>
@@ -50,8 +50,13 @@ $(() => {
 
   tabs.setFilename = (filename) => {
     // Called from filenames. Always a true filename.
-    cd.kata.repl.close();
     const $tab = $('.tab.filename', $tabs);
+    if (filename === 'cyber-dojo.sh') {
+      $tab.removeClass('vellipsis');
+    } else {
+      $tab.addClass('vellipsis');
+    }
+    $tab.removeClass('selected');
     $tab.text(filename).show().click();
   };
 
@@ -68,10 +73,13 @@ $(() => {
 
   const setupFileTabClickHandler = ($tab) => {
     $tab.click(() => {
-      select($tab);
       const filename = $tab.text();
       cd.kata.editor.showFile(filename);
       cd.kata.repl.close();
+      if ($tab.is('.selected.filename.vellipsis')) {
+        cd.openRenameDeleteFileDialog($tab, filename);
+      }
+      select($tab);
     });
   };
 

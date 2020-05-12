@@ -61,22 +61,7 @@ $(() => {
     $('.filename', $filenames).removeClass('selected');
     const $filename = $(`[id="radio_${filename}"]`, $filenames);
     $filename.addClass('selected');
-    setRenameAndDeleteButtons(filename);
     cd.kata.tabs.setFilename(filename);
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const setRenameAndDeleteButtons = (filename) => {
-    const disable = (node) => node.prop('disabled', true);
-    const enable  = (node) => node.prop('disabled', false);
-    if (filename === 'cyber-dojo.sh') {
-      disable(cd.renameFileButton());
-      disable(cd.deleteFileButton());
-    } else {
-      enable(cd.renameFileButton());
-      enable(cd.deleteFileButton());
-    }
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
