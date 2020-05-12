@@ -89,10 +89,6 @@ $(() => {
       closeOnEscape: true,
               modal: true,
               title: cd.dialogTitle('predict'),
-            buttons: { close: () => {
-                node.remove();
-              }
-            },
         beforeClose: event => {
           if (event.keyCode === $.ui.keyCode.ESCAPE) {
             node.remove();
