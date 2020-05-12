@@ -253,9 +253,18 @@
   }
 }
 
-button#file-create { margin-left: 10px; }
+button#file-create,
+button#file-delete,
+button#file-rename
+{
+  width: 80px;
+  margin-right: 10px;
+}
+button#file-delete { margin-bottom:10px; }
 
-input#new-filename, input#rename-filename, input#delete-filename
+input#new-filename,
+input#rename-filename,
+input#delete-filename
 {
    font-size: 1em;
    @include rounded-corner(4px);

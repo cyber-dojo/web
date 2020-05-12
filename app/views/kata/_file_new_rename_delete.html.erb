@@ -22,15 +22,33 @@ $(() => {
         cd.kata.editor.createFile(newFilename, {content:''});
         cd.kata.filenames.refresh();
         cd.kata.filenames.select(newFilename);
-        closeNewFileDialog();
+        closeDialog();
       }
     });
-    const closeNewFileDialog = () => createButton.closest('.ui-dialog').remove();
     const cancelButton = {
       text: 'cancel',
       click: () => {
-        closeNewFileDialog();
+        closeDialog();
         cd.kata.editor.refocus();
+      }
+    };
+    const closeDialog = () => createButton.closest('.ui-dialog').remove();
+    // position the dialog next to the button that launched it.
+    const originator = cd.newFileButton();
+    const xPos = originator.offset().left + originator.width() + 18;
+    const yPos = originator.offset().top;
+
+    const onDialogOpen = () => {
+      const lastDot = initialFilename.lastIndexOf('.');
+      const end = (lastDot !== -1) ? lastDot : initialFilename.length;
+      input.focus();
+      input[0].setSelectionRange(0, end);
+    };
+    const onDialogClose = (event) => {
+      if (event.keyCode === $.ui.keyCode.ESCAPE) {
+        closeDialog();
+        cd.kata.editor.refocus();
+        return true;
       }
     };
 
@@ -42,43 +60,97 @@ $(() => {
       }
     });
 
-    const div = $('<div>');
-    div.append(input);
-    div.append(createButton);
-
-    // position the dialog next to the button that launched it.
-    const originator = cd.newFileButton();
-    const xPos = originator.offset().left + originator.width() + 18;
-    const yPos = originator.offset().top;
-
-    const fileOperationDialog = div.dialog({
-      closeOnEscape: true,
+    $('<div>').append(createButton).append(input).dialog({
+      open: onDialogOpen,
   	  title: cd.dialogTitle('file'),
-    	autoOpen: false,
+    	autoOpen: true,
       width: 450,
       position: [xPos,yPos],
   	  modal: true,
       buttons: [ cancelButton ],
-      beforeClose: (event) => {
-        if (event.keyCode === $.ui.keyCode.ESCAPE) {
-          closeNewFileDialog();
-          cd.kata.editor.refocus();
-          return true;
-        }
-      }
+      beforeClose: onDialogClose,
+      closeOnEscape: true,
     });
-
-    const lastDot = initialFilename.lastIndexOf('.');
-    const end = (lastDot !== -1) ? lastDot : initialFilename.length;
-    input[0].setSelectionRange(0, end);
-
-    fileOperationDialog.dialog('open');
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.openRenameDeleteFileDialog = (originator, initialFilename) => {
-    alert('TODO: rename|delete');
+  cd.openRenameDeleteFileDialog = (originator, filename) => {
+    const deleteInput = makeInput('delete', filename);
+    const renameInput = makeInput('rename', filename);
+    const deleteButton = $('<button>', {
+      text: 'delete',
+      id: 'file-delete',
+      disabled: false,
+      click: () => {
+        cd.kata.editor.deleteFile(filename);
+        cd.kata.filenames.refresh();
+        cd.kata.filenames.select(cd.kata.filenames.top());
+        closeDialog();
+      }
+    });
+    const renameButton = $('<button>', {
+      text: 'rename',
+      id: 'file-rename',
+      disabled: true,
+      click: () => {
+        const newFilename = $.trim(renameInput.val());
+        cd.kata.editor.renameFile(filename, newFilename);
+        cd.kata.filenames.refresh();
+        cd.kata.filenames.select(newFilename);
+        closeDialog();
+      }
+    });
+    const closeDialog = () => deleteButton.closest('.ui-dialog').remove();
+    const cancelButton = {
+      text: 'cancel',
+      click: () => {
+        closeDialog();
+        cd.kata.editor.refocus();
+      }
+    };
+
+    renameInput.keyup((event) => {
+      const newFilename = $.trim(renameInput.val());
+      renameButton.prop('disabled', !isValidFilename(newFilename));
+      if (!renameButton.prop('disabled') && event.keyCode === $.ui.keyCode.ENTER) {
+        renameButton.click();
+      }
+    });
+
+    // position the dialog next to the button that launched it.
+    const xPos = originator.offset().left + originator.width() + 18;
+    const yPos = originator.offset().top;
+
+    const onDialogOpen = () => {
+      const lastDot = filename.lastIndexOf('.');
+      const end = (lastDot !== -1) ? lastDot : filename.length;
+      renameInput.focus();
+      renameInput[0].setSelectionRange(0, end);
+    };
+    const onDialogClose = (event) => {
+      if (event.keyCode === $.ui.keyCode.ESCAPE) {
+        closeDialog();
+        cd.kata.editor.refocus();
+        return true;
+      }
+    };
+
+    $('<div>')
+      .append(deleteButton).append(deleteInput)
+      .append(renameButton).append(renameInput)
+      .dialog({
+        open: onDialogOpen,
+        closeOnEscape: true,
+    	  title: cd.dialogTitle('file'),
+      	autoOpen: true,
+        width: 450,
+        position: [xPos,yPos],
+    	  modal: true,
+        buttons: [ cancelButton ],
+        beforeClose: onDialogClose,
+        closeOnEscape: true,
+      });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -111,7 +183,7 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const alreadyExists = filename => cd.kata.editor.filenames().includes(filename);
+  const alreadyExists = (filename) => cd.kata.editor.filenames().includes(filename);
 
 });
 </script>
