@@ -290,8 +290,11 @@ div#predict-green:hover { background: url("/traffic-light/image/green_predicted_
 
 .predict-blurb
 {
-  padding-left:10px;
+  @include rounded-corner(3px);
+  padding: 5px;
+  border: 1px solid $darker-color;
   cursor:pointer;
+  &:hover { border: 1px dotted lighten($darker-color, 30%); }
 }
 
 #error
