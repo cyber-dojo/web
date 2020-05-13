@@ -7,7 +7,7 @@ export $(versioner_env_vars)
 "${SH_DIR}/containers_down.sh"
 "${SH_DIR}/build_images.sh"
 "${SH_DIR}/tag_image.sh"
-if [ "${1:-}" == '--no-test' ]; then
+if [ "${1:-}" == '--build-only' ]; then
   exit 0
 fi
 "${SH_DIR}/containers_up.sh"
