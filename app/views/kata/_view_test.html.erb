@@ -13,7 +13,7 @@
 <%= form_tag( { action: 'run_tests', id: @id } ) do %>
   <table>
     <tr class="valign-top">
-      <td class="filenames-box">
+      <td>
         <%= render partial: 'file_new_rename_delete' %>
         <%= render partial: 'filenames' %>
       </td>
