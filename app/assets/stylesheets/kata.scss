@@ -111,8 +111,10 @@
   .new-file
   {
     @include rounded-corner(3px);
+    cursor:context-menu;
     margin:8px;
     padding:{ left:2px; right:2px; top:0px; bottom:0px; }
+    font-weight:bolder;
   }
 
   #filename-list
@@ -166,10 +168,12 @@
     &.stdout, &.stderr, &.status, &.REPL { float:right; }
     &.status, &.REPL { display:none; }
   }
+  .tab.filename.selected { cursor:context-menu; }
   .tab.filename.selected.vellipsis::after
   {
     content:' \22EE';
-    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: bold;
   }
   :not(.vellipsis).tab.filename.selected { cursor:default; }
 
