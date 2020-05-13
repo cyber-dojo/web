@@ -2,7 +2,7 @@
 <%= render partial: 'editor_tab_size' %>
 <%= render partial: 'traffic_lights_scroller' %>
 
-<div id="edit-top-row">
+<div class="practice-top-row">
   <%= render partial: 'avatar_image' %>
   <%= render partial: 'test_button' %>
   <%= render partial: 'traffic_lights_count_total' %>
@@ -11,19 +11,15 @@
 </div>
 
 <%= form_tag( { action: 'run_tests', id: @id } ) do %>
-  <table>
-    <tr class="valign-top">
-      <td>
-        <%= render partial: 'file_new_rename_delete' %>
-        <%= render partial: 'filenames' %>
-        <%= render partial: 'sponsors' %>
-      </td>
-      <td>
-        <%= render partial: 'tabs' %>
-        <%= render partial: 'repl' %>
-        <%= render partial: 'editor' %>
-        <%= render partial: 'hidden_inputs' %>
-      </td>
-    </tr>
-  </table>
+  <div class="lhs-column">
+    <%= render partial: 'file_new_rename_delete' %>
+    <%= render partial: 'filenames' %>
+    <%= render partial: 'sponsors' %>
+  </div>
+  <div class="rhs-column">
+    <%= render partial: 'tabs' %>
+    <%= render partial: 'repl' %>
+    <%= render partial: 'editor' %>
+    <%= render partial: 'hidden_inputs' %>
+  </div>
 <% end %>

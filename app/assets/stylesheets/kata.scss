@@ -66,7 +66,7 @@
 {
   margin: { top: 36px; left: 0px; }
 
-  #edit-top-row
+  .practice-top-row
   {
     max-width:1070px;
     margin-left:35px;
@@ -93,6 +93,86 @@
             margin: { left: 0px; right: 2px; }
            padding: { top: 0px; bottom: 2px; left: 7px; right: 7px; }
         text-align: center;
+  }
+
+  //--------------------------------------------------------------
+  // traffic-lights totals
+
+  #traffic-lights-count-total-box
+  {
+    @include edged-panel();
+    display: inline-flex;
+    margin: { left:4px; right:4px; }
+    max-height:23px;
+    .traffic-light-count
+    {
+      font-size: 23px;
+      padding: { left:3px; right:3px; }
+      position:relative; top:-3px;
+    }
+  }
+
+  #traffic-lights-count-predict-box
+  {
+    display: inline-flex;
+     #miss-box,#hit-box
+     {
+       @include edged-panel();
+       display: inline-flex;
+       max-height:23px;
+     }
+     #miss-box { margin: { left:0px; right:0px; } }
+     #hit-box { margin: { left:0px; right:4px; } }
+
+     #miss-img,#hit-img
+     {
+       width:15px;
+       height:15px;
+       padding: { left:3px; right:3px; }
+       position:relative; top:3px;
+     }
+     #miss-count,#hit-count
+     {
+       font-size: 23px;
+       padding: { left:3px; right:3px; }
+       position:relative; top:-3px;
+     }
+  }
+
+  //--------------------------------------------------------------
+  // traffic-lights
+
+  #traffic-lights
+  {
+       display:inline-flex;
+        margin:0px;
+    overflow-x:auto;
+    overflow-y:hidden;
+    &::-webkit-scrollbar:horizontal { height:0px; }
+    .diff-traffic-light
+    {
+      padding:0px;
+       margin:0px;
+      img
+      {
+        width:22px;
+        height:22px;
+        position:relative; top:5px;
+      }
+    }
+  }
+
+  //--------------------------------------------------------------
+
+  .lhs-column
+  {
+    width:312px;
+    display:inline-block;
+  }
+  .rhs-column
+  {
+    width:770px;
+    display:inline-block;
   }
 
   //--------------------------------------------------------------
@@ -197,79 +277,12 @@
   :not(.vellipsis).tab.filename.selected { cursor:default; }
 
   //--------------------------------------------------------------
-  // traffic-lights totals
-
-  #traffic-lights-count-total-box
-  {
-    @include edged-panel();
-    display: inline-flex;
-    margin: { left:4px; right:4px; }
-    max-height:23px;
-    .traffic-light-count
-    {
-      font-size: 23px;
-      padding: { left:3px; right:3px; }
-      position:relative; top:-3px;
-    }
-  }
-
-  #traffic-lights-count-predict-box
-  {
-    display: inline-flex;
-     #miss-box,#hit-box
-     {
-       @include edged-panel();
-       display: inline-flex;
-       max-height:23px;
-     }
-     #miss-box { margin: { left:0px; right:0px; } }
-     #hit-box { margin: { left:0px; right:4px; } }
-
-     #miss-img,#hit-img
-     {
-       width:15px;
-       height:15px;
-       padding: { left:3px; right:3px; }
-       position:relative; top:3px;
-     }
-     #miss-count,#hit-count
-     {
-       font-size: 23px;
-       padding: { left:3px; right:3px; }
-       position:relative; top:-3px;
-     }
-  }
-
-  //--------------------------------------------------------------
-  // traffic-lights
-
-  #traffic-lights
-  {
-       display:inline-flex;
-        margin:0px;
-    overflow-x:auto;
-    overflow-y:hidden;
-    &::-webkit-scrollbar:horizontal { height:0px; }
-    .diff-traffic-light
-    {
-      padding:0px;
-       margin:0px;
-      img
-      {
-        width:22px;
-        height:22px;
-        position:relative; top:5px;
-      }
-    }
-  }
-
-  //--------------------------------------------------------------
   // editor
 
   #visible-files-box
   {
     position: relative;
-    top: -3px;
+    top: -4px;
   }
 
   .file_content
