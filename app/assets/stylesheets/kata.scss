@@ -68,7 +68,7 @@
 
   .practice-top-row
   {
-    max-width:1070px;
+    max-width:1050px;
     margin-left:35px;
     margin-bottom:4px;
     display:flex;
@@ -167,12 +167,18 @@
   .lhs-column
   {
     width:312px;
+    height: 575px;
+    max-height: 575px;
     display:inline-block;
+    vertical-align:top;
   }
   .rhs-column
   {
     width:770px;
+    height: 575px;
+    max-height: 575px;
     display:inline-block;
+    vertical-align:top;
   }
 
   //--------------------------------------------------------------
@@ -182,8 +188,8 @@
   {
     @include rounded-corner(3px);
     cursor:context-menu;
-    margin-left:34px;
-    margin-bottom:4px;
+    margin-left:35px;
+    margin-bottom:2px;
     padding:{ left:2px; right:2px; top:0px; bottom:0px; }
     font-weight:bolder;
   }
@@ -204,7 +210,7 @@
     @include selectable();
     &[class~='highlight'] { &:before { content: "> "; } }
     color: lighten($darker-color, 50%);
-    padding-left:31px;
+    padding-left:34px;
     padding-right:0px;
   }
 
