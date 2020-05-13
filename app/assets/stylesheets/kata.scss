@@ -164,7 +164,7 @@
     }
     &.filename { margin-left:0px; }
     &.stdout, &.stderr, &.status, &.REPL { float:right; }
-    &.REPL { display:none; }
+    &.status, &.REPL { display:none; }
   }
   .tab.filename.selected.vellipsis::after
   {
