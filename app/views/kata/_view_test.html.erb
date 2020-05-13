@@ -10,16 +10,17 @@
   <%= render partial: 'traffic_lights' %>
 </div>
 
-<div class="lhs-column">
-  <%= render partial: 'file_new_rename_delete' %>
-  <%= render partial: 'filenames' %>
-  <%= render partial: 'sponsors' %>
-</div>
-<div class="rhs-column">
-  <%= render partial: 'tabs' %>
-  <%= render partial: 'repl' %>
-  <%= form_tag( { action: 'run_tests', id: @id } ) do %>
+<%= form_tag( { action: 'run_tests', id: @id } ) do %>
+  <div class="lhs-column">
+    <%= render partial: 'file_new_rename_delete' %>
+    <%= render partial: 'filenames' %>
+    <%= render partial: 'sponsors' %>
+  </div>
+
+  <div class="rhs-column">
+    <%= render partial: 'tabs' %>
+    <%= render partial: 'repl' %>
     <%= render partial: 'editor' %>
     <%= render partial: 'hidden_inputs' %>
-  <% end %>
-</div>
+  </div>
+<% end %>
