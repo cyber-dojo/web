@@ -18,7 +18,8 @@ class Runner
       files: plain(files),
       manifest: {
         image_name: params[:image_name],
-        max_seconds: params[:max_seconds].to_i
+        max_seconds: params[:max_seconds].to_i,
+        hidden_filenames: params[:hidden_filenames]
       }
     }
 
