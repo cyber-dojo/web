@@ -10,7 +10,6 @@
 
       border: 1px solid $darker-color;
       margin: 0px;
-     padding: { left: 4px; right: 0px; }
       cursor: pointer;
 
   &:hover { background: lighten($darker-color, 5%); }
@@ -21,6 +20,5 @@
 
   // individual left/right scrolling for looooooong filenames
   &::-webkit-scrollbar:horizontal { height: 0px; }
-    max-width: 295px;
    overflow-x: auto;
 }

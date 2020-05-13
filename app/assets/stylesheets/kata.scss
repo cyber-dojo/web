@@ -166,17 +166,17 @@
 
   .lhs-column
   {
-    width:312px;
-    height: 575px;
-    max-height: 575px;
+    width:335px;
+    height:570px;
+    max-height:575px;
     display:inline-block;
     vertical-align:top;
   }
   .rhs-column
   {
     width:770px;
-    height: 575px;
-    max-height: 575px;
+    height:575px;
+    max-height:575px;
     display:inline-block;
     vertical-align:top;
   }
@@ -197,7 +197,6 @@
   #filename-list
   {
         margin: { top: 0px; right: 0px; }
-         width: 312px;
         height: 500px;
         max-height: 500px;
     overflow-y: scroll;
