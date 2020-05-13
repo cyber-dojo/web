@@ -4,6 +4,7 @@
   display: none;
   text-align: left;
 }
+
 .info
 {
   @include plaintext-font();
@@ -111,7 +112,8 @@
   {
         margin: { top: 0px; right: 0px; }
          width: 312px;
-        height: 410px;
+        height: 500px;
+        max-height: 500px;
     overflow-y: scroll;
     overflow-x: hidden;
     &::-webkit-scrollbar:vertical { width: 0px; }
@@ -124,6 +126,31 @@
     color: lighten($darker-color, 50%);
     padding-left:31px;
     padding-right:0px;
+  }
+
+  //--------------------------------------------------------------
+  // sponsors
+
+  .sponsor
+  {
+    padding-left:35px;
+    float:bottom;
+  }
+
+  #praqma-image
+  {
+    @include rounded-corner(2px);
+     height: 20px;
+  }
+  #cucumber-image
+  {
+     height: 23px;
+  }
+  #accu-image
+  {
+    @include rounded-corner(3px);
+    background: CornSilk;
+         height: 20px;
   }
 
   //--------------------------------------------------------------
@@ -170,6 +197,7 @@
   :not(.vellipsis).tab.filename.selected { cursor:default; }
 
   //--------------------------------------------------------------
+  // traffic-lights totals
 
   #traffic-lights-count-total-box
   {
@@ -212,6 +240,9 @@
      }
   }
 
+  //--------------------------------------------------------------
+  // traffic-lights
+
   #traffic-lights
   {
        display:inline-flex;
@@ -248,7 +279,10 @@
     &::-webkit-scrollbar:vertical   {  width:7px; }
     &::-webkit-scrollbar:horizontal { height:0px; }
   }
+
 }
+
+//--------------------------------------------------------------
 
 button#file-create,
 button#file-delete,
@@ -271,11 +305,13 @@ input#delete-filename
        width: 300px;
 }
 
+//--------------------------------------------------------------
+
 div.predict
 {
   width:42px;
   height:42px;
-  cursor: pointer;
+  cursor:pointer;
 }
 div#predict-red         { background: url("/traffic-light/image/red_predicted_none.png")    no-repeat; }
 div#predict-red:hover   { background: url("/traffic-light/image/red_predicted_red.png")     no-repeat; }
@@ -292,6 +328,8 @@ div#predict-green:hover { background: url("/traffic-light/image/green_predicted_
   cursor:pointer;
   &:hover { border: 1px dotted lighten($darker-color, 30%); }
 }
+
+//--------------------------------------------------------------
 
 #error
 {
