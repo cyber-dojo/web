@@ -23,6 +23,8 @@
     display: inline-table;
     margin: { left:3px; right:3px; }
     white-space: nowrap;
+    position: relative;
+    top: 1px;
   }
 
   #theme-button, #colour-button,
@@ -46,7 +48,7 @@
 
 }
 
-#charity-dialog, #feedback-dialog, #hotkeys-dialog
+#charity-dialog, #feedback-dialog, #traffic-lights-dialog, #hotkeys-dialog
 {
   a { color: khaki !important; }
 }
