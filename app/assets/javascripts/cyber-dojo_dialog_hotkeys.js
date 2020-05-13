@@ -15,18 +15,18 @@ var cyberDojo = ((cd, $) => {
     html += '<div id="hotkeys-dialog">';
     html += 'Open a page of all <a href="https://defkey.com/codemirror-shortcuts" target="_blank">CodeMirror hotkeys</a>.';
     html += '<table class="info" style="width:400px;">';
-    html += tr2('Alt-J', 'cycles&darr; through the filenames');
-    html += tr2('Alt-K', 'cycles&uarr; through the filenames');
-    html += tr2('Alt-O', 'cycles through the <u>o</u>utput tabs');
-    html += tr2('Alt-T', 'runs the <u>t</u>ests');
-    html += '</table>';
-    html += '<table class="info" style="width:400px;">';
     html += tr3('start searching', 'Ctrl-F',       `${cmd}&thinsp;F`, );
     html += tr3('find next',       'Ctrl-G',       `${cmd}&thinsp;G`);
     html += tr3('find previous',   'Shift-Ctrl-G', `${cmd}${shift}&thinsp;G`);
     html += tr3('replace',         'Shift-Ctrl-F', `${cmd}${option}&thinsp;F`);
     html += tr3('replace all',     'Shift-Ctrl-R', `${cmd}${option}${shift}&thinsp;F`);
     html += tr3('jump to line',    'Alt-G',        `${option}&thinsp;G`);
+    html += '</table>';
+    html += '<table class="info" style="width:400px;">';
+    html += tr2('Alt-J', 'cycles&darr; through the filenames');
+    html += tr2('Alt-K', 'cycles&uarr; through the filenames');
+    html += tr2('Alt-O', 'cycles&rarr; through the editor tabs');
+    html += tr2('Alt-T', 'runs the tests');
     html += '</table>';
     html += '</div>';
 
