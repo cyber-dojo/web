@@ -2,15 +2,15 @@
 <div id="app-bar">
   <%= render partial: 'shared/yin_yang_logo' %>
 
-  <%# text info %>
-  <%= render partial: 'shared/display_name' %>
-  <%= render partial: 'shared/exercise_name' %>
-  <%= render partial: 'shared/id' %>
-
   <%# mode toggles %>
   <%= render partial: 'shared/theme' %>
   <%= render partial: 'shared/colour' %>
   <%= render partial: 'shared/predict' %>
+
+  <%# text info %>
+  <%= render partial: 'shared/display_name' %>
+  <%= render partial: 'shared/exercise_name' %>
+  <%= render partial: 'shared/id' %>
 
   <%# dialogs %>
   <%= render partial: 'shared/charity' %>
@@ -20,7 +20,6 @@
 
   <%# pages %>
   <%= render partial: 'shared/dashboard' %>
-  <%= render partial: 'shared/shas' %>
 
   <%# sponsors %>
   <%= render partial: 'shared/praqma' %>
@@ -28,6 +27,7 @@
   <%= render partial: 'shared/accu' %>
 
   <%= render partial: 'shared/help' %>
+  <%= render partial: 'shared/shas' %>
 </div>
 
 <%= render partial: 'shared/hover_tip_container' %>
