@@ -27,7 +27,8 @@
     top: 1px;
   }
 
-  #praqma-box #praqma-image
+  #praqma-box #praqma-image,
+  #curbralan-box #curbralan-image
   {
     @include rounded-corner(2px);
     padding: 0px;

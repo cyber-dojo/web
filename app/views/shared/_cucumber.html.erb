@@ -1,18 +1,19 @@
 <script type="text/javascript">
 'use strict';
 $(() => {
-  cd.createTip($('#cucumber-box'),
-    'cyber-dojo operations are generously<br/>' +
-    'supported by Praqma, Cucumber Limited,<br/>' +
-    'and CodeEntropy'
-  );
+
+  cd.createTip($('.sponsor'),
+    '100% of donations and license fees go to<br/>' +
+    "the cyber-dojo Foundation's charitable aims.<br/>" +
+    'A big thank you to all our sponsors.');
+
 });
 </script>
 
-<span id="cucumber-box">
-  <a href="http://cucumber.io"
+<span id="cucumber-box" class="sponsor">
+  <a href="https://cucumber.io"
     target="_blank">
     <img id="cucumber-image"
-        src="/images/cucumber-white-128.png" />
+        src="/images/sponsors/cucumber-white-128.png" />
   </a>
 </span>
