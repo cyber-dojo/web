@@ -68,7 +68,7 @@
 
   .top-row
   {
-    max-width:1073px;
+    max-width:1070px;
     margin-left:35px;
     margin-bottom:4px;
     display:flex;
@@ -166,6 +166,7 @@
 
   .lhs-column
   {
+    display:flexbox;
     width:335px;
     height:570px;
     max-height:575px;
@@ -174,6 +175,7 @@
   }
   .rhs-column
   {
+    display:flexbox;
     width:770px;
     height:575px;
     max-height:575px;

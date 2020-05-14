@@ -46,6 +46,12 @@
   // These buttons are switched in the kata/edit page.
   #theme-button, #colour-button, #hotkeys-button, #predict-button { display:none; }
 
+  .info-button
+  {
+    position:relative;
+    top:2px;
+    cursor:pointer;
+  }
 }
 
 #charity-dialog, #feedback-dialog, #traffic-lights-dialog, #hotkeys-dialog
