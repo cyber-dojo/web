@@ -1,0 +1,18 @@
+
+<button type="button" id="help-button">help</button>
+
+<script type="text/javascript">
+'use strict';
+$(() => {
+
+  const helpButton = $('#help-button');
+
+  helpButton.click(() => {
+    const url = "https://blog.cyber-dojo.org/p/learn-more.html";
+    window.open(url);
+  });
+
+  cd.createTip(helpButton, 'open help page');
+
+});
+</script>

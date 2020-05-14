@@ -27,6 +27,34 @@
     top: 1px;
   }
 
+  #praqma-box #praqma-image
+  {
+    @include rounded-corner(2px);
+    padding: 0px;
+     height: 15px;
+     margin: { top:0px; left:3px; right:3px; }
+     position: relative;
+     top: 3px;
+  }
+
+  #cucumber-box #cucumber-image
+  {
+    padding: 0px;
+     height: 19px;
+     margin: { left:3px; right:3px; }
+  }
+
+  #accu-box #accu-image
+  {
+    @include rounded-corner(3px);
+    background: CornSilk;
+       padding: 5px;
+         width: 50px;
+        margin: { top:0px; left:3px; right:3px; }
+        position: relative;
+        top: 2px;
+  }
+
   #theme-button, #colour-button,
   #charity-button, #feedback-button,
   #traffic-lights-button, #dashboard-button, #help-button, #hotkeys-button, #shas-button,
@@ -46,12 +74,6 @@
   // These buttons are switched in the kata/edit page.
   #theme-button, #colour-button, #hotkeys-button, #predict-button { display:none; }
 
-  .info-button
-  {
-    position:relative;
-    top:2px;
-    cursor:pointer;
-  }
 }
 
 #charity-dialog, #feedback-dialog, #traffic-lights-dialog, #hotkeys-dialog
