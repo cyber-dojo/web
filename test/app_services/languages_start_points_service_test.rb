@@ -87,18 +87,20 @@ class LanguagesStartPointsServiceTest < AppServicesTestBase
 
   def assert_is_CSharp_NUnit_manifest(manifest)
     expected_keys = %w( display_name filename_extension
-      hidden_filenames image_name visible_files )
+      hidden_filenames image_name max_seconds tab_size visible_files )
     assert_equal expected_keys.sort, manifest.keys.sort
 
-    assert_equal 'C#, NUnit', manifest['display_name']
-    assert_equal ['.cs'], manifest['filename_extension']
-    assert_equal 'cyberdojofoundation/csharp_nunit', manifest['image_name']
+    assert_equal 'C#, NUnit', manifest['display_name'], :display_name
+    assert_equal ['.cs'], manifest['filename_extension'], :filename_extension
+    assert_equal 'cyberdojofoundation/csharp_nunit', manifest['image_name'], :image_name
     expected_filenames = %w( Hiker.cs HikerTest.cs cyber-dojo.sh )
     visible_files = manifest['visible_files']
-    assert_equal expected_filenames, visible_files.keys.sort
+    assert_equal expected_filenames, visible_files.keys.sort, :visible_files
     assert_starts_with(visible_files, 'Hiker.cs', 'public class Hiker')
     assert_starts_with(visible_files, 'HikerTest.cs', 'using NUnit.Framework;')
     assert_starts_with(visible_files, 'cyber-dojo.sh', 'NUNIT_PATH=/nunit/lib/net45')
+    assert_equal 10, manifest['max_seconds'], :max_seconds
+    assert_equal 4, manifest['tab_size'], :tab_size
   end
 
 end
