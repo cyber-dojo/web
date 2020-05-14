@@ -189,7 +189,7 @@
   .new-file
   {
     @include rounded-corner(3px);
-    cursor:context-menu;
+    cursor:pointer;
     margin-left:35px;
     margin-bottom:2px;
     padding:{ left:2px; right:2px; top:0px; bottom:0px; }
