@@ -162,7 +162,7 @@ var cyberDojo = ((cd, $) => {
           indentUnit: cd.kata.editor.tabSize(),
             readOnly: cd.kata.tabs.reserves(filename),
              tabSize: cd.kata.editor.tabSize(),
-         lineNumbers: filename !== 'status',
+         lineNumbers: true,
        matchBrackets: true,
          smartIndent: true,
       indentWithTabs: codeMirrorIndentWithTabs(filename),

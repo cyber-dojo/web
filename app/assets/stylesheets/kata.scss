@@ -271,8 +271,8 @@
       border-bottom: none;
     }
     &.filename { margin-left:0px; }
-    &.stdout, &.stderr, &.status, &.REPL { float:right; }
-    &.status, &.REPL { display:none; }
+    &.stdout, &.stderr, &.REPL { float:right; }
+    &.REPL { display:none; }
   }
   .tab.filename.selected { cursor:context-menu; }
   .tab.filename.selected.vellipsis:after
