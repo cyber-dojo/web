@@ -41,10 +41,6 @@
     const tabs = cd.kata.tabs;
     const empty = (s) => s.length === 0;
     switch ("<%= @light['colour'] %>") {
-      case 'timed_out':
-      case 'faulty':
-        tabs.status().click();
-        break;
       case 'red':
       case 'green':
         if (!empty(stdout) || empty(stderr)) {
@@ -54,6 +50,8 @@
         }
         break;
       case 'amber':
+      case 'timed_out':
+      case 'faulty':
         if (stdout.length > stderr.length) {
           tabs.stdout().click();
         } else {
