@@ -66,16 +66,13 @@ class KataController < ApplicationController
     @stderr = result['stderr']
     @status = result['status']
     @log = result['log']
-    
-    if result['timed_out']
-      colour = 'timed_out'
-    else
-      colour = result['colour']
-    end
+    @timed_out = result['timed_out']
+    @colour = result['colour']
 
-    if colour === 'faulty'
-      @diagnostic = JSON.pretty_generate(result['diagnostic'])
-    end
+    colour_to_save_and_show =
+      @colour === 'faulty' ? 'faulty' :
+        @timed_out ? 'timed_out' :
+          @colour
 
     predicted = params['predicted']
 
@@ -85,7 +82,7 @@ class KataController < ApplicationController
     args << files                       # includes @created,@deleted,@changed
     args += [t1,duration]               # how long runner took
     args += [@stdout, @stderr, @status] # output of [test] kata.run_tests()
-    args << colour
+    args << colour_to_save_and_show
     args << predicted
     begin
       kata.ran_tests(*args)
@@ -98,7 +95,7 @@ class KataController < ApplicationController
     @light = {
       'time' => t1,
       'index' => index,
-      'colour' => colour,
+      'colour' => colour_to_save_and_show,
       'predicted' => predicted,
     }
     @id = kata.id
