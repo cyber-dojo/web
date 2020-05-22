@@ -1,0 +1,18 @@
+
+Editor.prototype.outputFile = function(stdout, stderr, status) {
+  const filename = 'output'
+  const file = { content: stdout + stderr };
+  this.deleteFile(filename);
+  this.createFile(filename, file);
+  // TODO: add CSS for stderr files
+  // https://our.umbraco.com/forum/developers/extending-umbraco/42232-CodeMirror-Trying-to-highlight-a-line
+  const syntaxHighlightFileContentForId = (filename) => {
+    return `syntax_highlight_file_content_for_${filename}`;
+  };
+  const editorDiv = document.getElementById(syntaxHighlightFileContentForId(filename));
+  editorDiv.CodeMirror.setLineClass(10, 'background', 'stderr');
+  //GIVES setLineClass is not a function
+};
+
+1st step is to slime background colour on one line.
+Eg line 1 on stdout.
