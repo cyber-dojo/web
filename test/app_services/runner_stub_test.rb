@@ -28,7 +28,7 @@ class RunnerStubTest < AppServicesTestBase
     assert_equal '', run['stderr']['content']
     assert_equal 0, run['status']
     assert_equal false, run['timed_out']
-    assert_equal 'red', json['colour']
+    assert_equal 'red', run['colour']
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -49,7 +49,7 @@ class RunnerStubTest < AppServicesTestBase
     assert_equal stub[:stderr], run['stderr']['content']
     assert_equal stub[:status], run['status']
     assert_equal stub[:timed_out], run['timed_out']
-    assert_equal stub[:colour], json['colour']
+    assert_equal stub[:colour], run['colour']
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -62,7 +62,7 @@ class RunnerStubTest < AppServicesTestBase
     assert_equal 'se', run['stderr']['content']
     assert_equal 0, run['status']
     assert_equal false, run['timed_out']
-    assert_equal 'red', json['colour']
+    assert_equal 'red', run['colour']
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -24,12 +24,12 @@ class RunnerStub
         'stdout' => file(stub[:stdout]),
         'stderr' => file(stub[:stderr]),
         'status' => stub[:status],
+        'colour' => stub[:colour],
         'created' => {},
         'deleted' => [],
         'changed' => {},
         'timed_out' => stub[:timed_out]
-      },
-      'colour' => stub[:colour]
+      }
     }))
   end
 
@@ -43,12 +43,12 @@ class RunnerStub
           'stdout' => file('so'),
           'stderr' => file('se'),
           'status' => 0,
+          'colour' => 'red',
           'created' => {},
           'deleted' => [],
           'changed' => {},
           'timed_out' => false
-        },
-        'colour' => 'red'
+        }
       }
     end
   end

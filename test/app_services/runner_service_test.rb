@@ -39,7 +39,7 @@ class RunnerServiceTest < AppServicesTestBase
       assert stdout.include?('Expected: 42'), json
       assert stdout.include?('  Actual: 54'), json
       assert_equal false, json[key]['timed_out'], json
-      assert_equal 'red', json['colour'], json
+      assert_equal 'red', json[key]['colour'], json
     }
   end
 
