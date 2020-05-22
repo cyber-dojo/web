@@ -60,19 +60,17 @@ class Runner
     output_filenames.each do |output_filename|
       files.delete(output_filename)
     end
-    files.map do |filename,content|
-      [filename, {
-        'content' => sanitized(content)
-      }]
-    end.to_h
+    files.each.with_object({}) do |(filename,content),memo|
+      memo[filename] = { 'content' => sanitized(content) }
+    end
   end
 
   # - - - - - - - - - - - - - - -
 
   def plain(files)
-    files.map do |filename,file|
-      [filename, file['content']]
-    end.to_h
+    files.each.with_object({}) do |(filename,file),memo|
+      memo[filename] = file['content']
+    end
   end
 
   # - - - - - - - - - - - - - - -
