@@ -26,11 +26,6 @@ class Runner
     json = runner.run_cyber_dojo_sh(args)
 
     result = json.delete('run_cyber_dojo_sh')
-    colour = json.delete('colour')
-    result['colour'] = colour
-    if colour === 'faulty'
-      result['diagnostic'] = json.delete('diagnostic')
-    end
 
     created = result.delete('created')
     deleted = result.delete('deleted')
