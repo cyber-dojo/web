@@ -65,7 +65,8 @@ class KataController < ApplicationController
     @stdout = result['stdout']
     @stderr = result['stderr']
     @status = result['status']
-
+    @log = result['log']
+    
     if result['timed_out']
       colour = 'timed_out'
     else

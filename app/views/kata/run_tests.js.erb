@@ -2,6 +2,11 @@
 
 (() => {
 
+  const stdout = "<%= j raw(@stdout['content']) %>";
+  const stderr = "<%= j raw(@stderr['content']) %>";
+  const status = "<%= j raw(@status.to_s) %>";
+  const    log = "<%= j raw(@log) %>";
+
   const editor = cd.kata.editor;
 
   const insertCreatedFiles = () => {
@@ -32,9 +37,6 @@
   };
 
   const updateOutput = () => {
-    const stdout = "<%= j raw(@stdout['content']) %>";
-    const stderr = "<%= j raw(@stderr['content']) %>";
-    const status = "<%= j raw(@status.to_s) %>";
     editor.changeFile('stdout', { content: stdout });
     editor.changeFile('stderr', { content: stderr });
     editor.changeFile('status', { content: status });
@@ -65,9 +67,18 @@
   const warnIfTestsTimedOut = () => {
     if ("<%= @light['colour'] %>" === 'timed_out') {
       const maxSeconds = $('input[name="max_seconds"]').val();
+      const stdoutMessage = `stdout is ${stdout.length === 0 ? '' : 'NOT '}empty.`;
+      const stderrMessage = `stderr is ${stderr.length === 0 ? '' : 'NOT '}empty.`;
       const info = [
         `Unable to complete the tests in ${maxSeconds} seconds.`,
-        'Is there an accidental infinite loop?'
+        'Is there an accidental infinite loop?',
+        stdoutMessage,
+        stderrMessage,
+        `-------------------------------------------`,
+        `https://cyber-dojo.org is  experiencing more timeouts than` +
+        `usual at the moment :-( We are looking into it...`,
+        `-------------------------------------------`,
+        "<%= j raw(@log) %>"
       ].join("\n");
       const html = $('<textarea>', {
         'data-width':345,
