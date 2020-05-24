@@ -69,10 +69,7 @@ class KataController < ApplicationController
     @timed_out = result['timed_out']
     @colour = result['colour']
 
-    colour_to_save_and_show =
-      @colour === 'faulty' ? 'faulty' :
-        @timed_out ? 'timed_out' :
-          @colour
+    colour_to_save_and_show = @timed_out ? 'timed_out' : @colour
 
     predicted = params['predicted']
 
