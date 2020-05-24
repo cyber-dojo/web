@@ -76,8 +76,8 @@
         `-------------------------------------------`,
         `We are experiencing more timeouts than usual and apologise. ` +
         `If you are getting repeated timeouts consider switching to an ` +
-        `interpreted languages (eg Javascript, Python, Ruby) as these ` +
-        `are less affected.`,
+        `interpreted languages such as Javascript, Python, Ruby (as these ` +
+        `are less affected) while we investigate.`,
         `-------------------------------------------`,
         stdoutMessage,
         stderrMessage,
@@ -85,7 +85,7 @@
         log
       ].join("\n");
       const html = $('<textarea>', {
-        'data-width':345,
+        'data-width':500,
                 'id':'timed-out',
           'readonly':'readonly'
       }).val(info);
@@ -97,11 +97,29 @@
   const warnIfTrafficLightFaulty = () => {
     if (colour === 'faulty') {
       const html = $('<textarea>', {
-         'data-width':600,
+         'data-width':500,
                  'id':'faulty',
            'readonly':'readonly'
       }).val(log);
       cd.dialog(html, 'faulty traffic-light', 'close').dialog('open');
+    }
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - -
+  const warnIfAvatarsOutOfSync = () => {
+    const outOfSync = "<%= j raw(@out_of_sync) %>";
+    if (outOfSync === 'true') {
+      const message = [
+        `Failed to save the traffic-light.`,
+        `Are you mobbing in a practice session?`,
+        `If so, please refresh your browser to resync.`,
+      ].join("\n");
+      const html = $('<textarea>', {
+        'data-width':500,
+                'id':'out-of-sync',
+          'readonly':'readonly'
+      }).val(message);
+      cd.dialog(html, 'mobbing?', 'close').dialog('open');
     }
   };
 
@@ -118,6 +136,7 @@
 
   //- - - - - - - - - - - - - - - - - - - - - -
   const showWarnings = () => {
+    warnIfAvatarsOutOfSync();
     warnIfTestsTimedOut();
     warnIfTrafficLightFaulty();
     //warnIfTruncatedFiles();

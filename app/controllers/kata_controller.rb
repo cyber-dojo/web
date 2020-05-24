@@ -81,10 +81,12 @@ class KataController < ApplicationController
     args += [@stdout, @stderr, @status] # output of [test] kata.run_tests()
     args << colour_to_save_and_show
     args << predicted
+
+    @out_of_sync = false
     begin
       kata.ran_tests(*args)
     rescue SaverService::Error => error
-      #TODO: @message on app-bar?...
+      @out_of_sync = true
       STDOUT.puts(error.message);
       STDOUT.flush
     end
