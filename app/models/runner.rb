@@ -37,7 +37,10 @@ class Runner
       created.delete(output_filename)
     end
 
-    # TODO: WIP
+    # TODO: Remove this lines once a few weeks have passed
+    # once all start-point's cyber-dojo.sh files have
+    # been updated with enter/exit code (now that hidden_filenames
+    # is no longer processed in the runner). Say ~June 7th. 
     hidden_filenames = JSON.parse(params[:hidden_filenames])
     remove_hidden_files(created, hidden_filenames)
 
