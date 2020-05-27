@@ -1,7 +1,7 @@
 
 fullnameOverride: "web"
 
-replicaCount: 3
+replicaCount: 1
 
 service:
   port: 3000
@@ -18,7 +18,7 @@ containers:
         cpu: 100m
         memory: 128Mi
       limits:
-        cpu: 200m
+        cpu: 400m
         memory: 512Mi
     #livenessProbe:
     #  path: /alive?
