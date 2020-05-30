@@ -71,5 +71,9 @@ module CyberDojo
     # Show full error reports
     config.consider_all_requests_local = true
 
+    #config.exceptions_app = lambda do |env|
+    #  ErrorController.action(:render_error).call(env)
+    #end
+
   end
 end

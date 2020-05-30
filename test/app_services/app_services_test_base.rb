@@ -43,6 +43,17 @@ class AppServicesTestBase < TestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  def assert_includes(visible_files, filename, content)
+    actual = visible_files[filename]['content']
+    diagnostic = [
+      "filename:#{filename}",
+      "!include:#{content}:"
+    ].join("\n")
+    assert actual.include?(content), diagnostic
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
   def set_http(klass)
     @http = klass
   end
