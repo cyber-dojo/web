@@ -67,13 +67,13 @@ module CyberDojo
 
 
     # Show raw exceptions
-    #config.action_dispatch.show_exceptions = true
+    config.action_dispatch.show_exceptions = true
     # Show full error reports
-    #config.consider_all_requests_local = true
+    config.consider_all_requests_local = true
 
-    config.exceptions_app = lambda do |env|
-      ErrorController.action(:render_error).call(env)
-    end
+    #config.exceptions_app = lambda do |env|
+    #  ErrorController.action(:render_error).call(env)
+    #end
 
   end
 end

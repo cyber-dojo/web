@@ -178,10 +178,6 @@ class GroupTest < AppModelsTestBase
       assert_equal m['tab_size'], am.tab_size
       assert_equal m['created'], am.created
 
-      hf = %w( coverage/\\.last_run\\.json coverage/\\.resultset\\.json ) # regex
-      assert_equal hf, m['hidden_filenames']
-      assert_equal hf, am.hidden_filenames
-
       fe = ['.rb']
       assert_equal fe, m['filename_extension']
       assert_equal fe, am.filename_extension

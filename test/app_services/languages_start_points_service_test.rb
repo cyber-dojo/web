@@ -78,6 +78,7 @@ class LanguagesStartPointsServiceTest < AppServicesTestBase
       "Javascript, assert", "Javascript, assert+jQuery", "Javascript, jasmine",
       "Javascript, qunit+sinon", "Kotlin, Kotlintest", "PHP, PHPUnit",
       "Pascal (FreePascal), assert", "Perl, Test::Simple", "Prolog, plunit",
+      "Python, approval-pytest", "Python, approval-unittest",
       "Python, assert", "Python, behave", "Python, pytest", "Python, unittest",
       "R, RUnit", "Ruby, Approval", "Ruby, Cucumber", "Ruby, MiniTest", "Ruby, RSpec",
       "Ruby, Test::Unit", "Rust, test", "Swift, Swordfish", "Swift, XCTest",
@@ -87,7 +88,7 @@ class LanguagesStartPointsServiceTest < AppServicesTestBase
 
   def assert_is_CSharp_NUnit_manifest(manifest)
     expected_keys = %w( display_name filename_extension
-      hidden_filenames image_name max_seconds tab_size visible_files )
+      image_name max_seconds tab_size visible_files )
     assert_equal expected_keys.sort, manifest.keys.sort
 
     assert_equal 'C#, NUnit', manifest['display_name'], :display_name
@@ -98,7 +99,7 @@ class LanguagesStartPointsServiceTest < AppServicesTestBase
     assert_equal expected_filenames, visible_files.keys.sort, :visible_files
     assert_starts_with(visible_files, 'Hiker.cs', 'public class Hiker')
     assert_starts_with(visible_files, 'HikerTest.cs', 'using NUnit.Framework;')
-    assert_starts_with(visible_files, 'cyber-dojo.sh', 'NUNIT_PATH=/nunit/lib/net45')
+    assert_includes(visible_files, 'cyber-dojo.sh', 'NUNIT_PATH=/nunit/lib/net45')
     assert_equal 10, manifest['max_seconds'], :max_seconds
     assert_equal 4, manifest['tab_size'], :tab_size
   end

@@ -234,57 +234,24 @@ class KataControllerTest  < AppControllerTestBase
     kata = katas[id]
     filenames = kata.files.keys.sort
     refute filenames.include?(filename), filenames
-    assert_equal 0, kata.lights[-1].status
+    assert_equal '0', kata.lights[-1].status
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'A28',
-  %w( generated files that match hidden files are stripped away ) do
-    filenames = %w(
-      coverage.rb
-      cyber-dojo.sh
-      hiker.rb
-      readme.txt
-      test_hiker.rb
-    )
+  test 'A28', %w(
+  generated files are returned from runner
+  unless cyber-dojo.sh explicitly deletes them ) do
+    generated_filename = 'xxxx.txt'
     id = in_kata do |kata|
-      # Relies on kata being Ruby,MiniTest which has
-      #   "hidden_filenames": [
-      #    "coverage/\\.last_run\\.json",
-      #    "coverage/\\.resultset\\.json"
-      #  ],
-      assert_equal filenames.sort, kata.files.keys.sort
-      script = [
-        'mkdir coverage',
-        'cat xxxx > coverage/.resultset.json',
-        'ls -al coverage'
-      ].join("\n")
-      change_file('cyber-dojo.sh', script)
+      change_file('cyber-dojo.sh', "cat xxxx > #{generated_filename}")
       post_run_tests
       kata.id
     end
     kata = katas[id]
     light = kata.lights[-1]
-    stdout = light.stdout['content']
-    assert stdout.include?('.resultset.json'), stdout
-    assert_equal filenames.sort, light.files.keys.sort
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'A29',
-  %w( prediction is not saved (yet) ) do
-    id = in_kata do |kata|
-      post_run_tests
-      kata.id
-    end
-    args = ['', 'katas', id[0..1], id[2..3], id[4..5], 'manifest.json']
-    filename = File.join(*args)
-    manifest = JSON.parse(saver.run(saver.file_read_command(filename)))
-    refute manifest.has_key?('predicted')
-    # See app/models/kata_v0.ran_tests()
-    # See app/models/kata_v1.ran_tests()
+    filenames = light.files.keys
+    assert filenames.include?(generated_filename), filenames
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
