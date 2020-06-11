@@ -22,9 +22,6 @@ helm_upgrade()
     --set-string containers[0].image=${image} \
     --set-string containers[0].tag=${tag} \
     --set service.port=${port} \
-    --set containers[0].livenessProbe.port=${port} \
-    --set containers[0].readinessProbe.port=${port} \
-    --set-string service.annotations."prometheus\.io/port"=${port} \
     --values ${general_values} \
     ${specific_values} \
     ${namespace}-${repo} \
