@@ -3,6 +3,9 @@ fullnameOverride: "web"
 
 replicaCount: 1
 
+podSecurityContext:
+  fsGroup: 65534 # nobody
+
 service:
   port: 3000
 
@@ -10,7 +13,6 @@ containers:
   - name: web
     securityContext:
       runAsUser: 65534 # nobody
-      fsGroup: 65534 # nobody
       allowPrivilegeEscalation: false
     resources:
       requests:
