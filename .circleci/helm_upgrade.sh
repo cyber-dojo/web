@@ -4,13 +4,17 @@
 helm_upgrade()
 {
   local -r namespace="${1}"
-  local -r image="${2}"
-  local -r tag="${3}"
-  local -r port="${4}"
-  local -r general_values="${5}"
-  local -r specific_values="${6}"
-  local -r repo="${7}"
-  local -r helm_repo="${8}"
+  local -r repo="${2}"
+  local -r helm_repo="${3}"
+  local -r image="${4}"
+  local -r tag="${5}"
+  local -r port="${6}"
+  local -r general_values="${7}"
+  if [ -z "${8:-}" ]; then
+    local -r specific_values=""
+  else
+    local -r specific_values="--values ${8}"
+  fi
 
   helm upgrade \
     --install \
@@ -18,8 +22,11 @@ helm_upgrade()
     --set-string containers[0].image=${image} \
     --set-string containers[0].tag=${tag} \
     --set service.port=${port} \
+    --set containers[0].livenessProbe.port=${port} \
+    --set containers[0].readinessProbe.port=${port} \
+    --set-string service.annotations."prometheus\.io/port"=${port} \
     --values ${general_values} \
-    --values ${specific_values} \
+    ${specific_values} \
     ${namespace}-${repo} \
     ${helm_repo}
 }
