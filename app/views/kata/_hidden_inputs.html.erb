@@ -1,14 +1,4 @@
 
-<%# Note %>
-<%# 1) The value attribute uses single quotes               %>
-<%# 2) The json contains double quotes                      %>
-<%# 3) The @hidden_filenames must not contain single quotes %>
-
-<input name="hidden_filenames"
-       id="hidden_filenames"
-       type="hidden"
-       value='<%= raw JSON.generate(@hidden_filenames) %>'>
-
 <%# The inputs below are a manifest cache. They ensure that  %>
 <%# when [test] is clicked the web service does not not need %>
 <%# to retrieve any information from the saver service.      %>

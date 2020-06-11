@@ -11,7 +11,6 @@ service:
 
 containers:
   - name: web
-    image: cyberdojo/web
     securityContext:
       runAsUser: 65534 # nobody
       allowPrivilegeEscalation: false
@@ -20,7 +19,6 @@ containers:
         cpu: 100m
         memory: 128Mi
       limits:
-        cpu: 500m
         memory: 768Mi
     #livenessProbe:
     #  path: /alive?

@@ -29,7 +29,6 @@ class KataController < ApplicationController
     # parameters
     @image_name = manifest.image_name
     @filename_extension = manifest.filename_extension
-    @hidden_filenames = manifest.hidden_filenames
     @highlight_filenames = manifest.highlight_filenames
     @max_seconds = manifest.max_seconds
     @tab_size = manifest.tab_size
