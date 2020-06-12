@@ -1,6 +1,6 @@
 #!/bin/bash -Eeu
 
-source ./.circleci/helm_upgrade.sh
+source <(curl https://raw.githubusercontent.com/cyber-dojo/k8s-install/master/sh/helm_upgrade_probe_no_prometheus_no.sh)
 
 # misc env-vars are in ci context
 
@@ -30,8 +30,8 @@ export $(curl https://raw.githubusercontent.com/cyber-dojo/versioner/master/app/
 readonly NAMESPACE="${1}" # beta|prod
 readonly CYBER_DOJO_WEB_TAG="${CIRCLE_SHA1:0:7}"
 
-helm_upgrade \
-   "${NAMESPACE}" "web" "praqma/cyber-dojo-service --version 0.2.5" \
+helm_upgrade_probe_no_prometheus_no \
+   "${NAMESPACE}" "web" \
    "${CYBER_DOJO_WEB_IMAGE}" \
    "${CYBER_DOJO_WEB_TAG}" \
    "${CYBER_DOJO_WEB_PORT}" \
