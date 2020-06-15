@@ -93,7 +93,7 @@ class LanguagesStartPointsServiceTest < AppServicesTestBase
 
     assert_equal 'C#, NUnit', manifest['display_name'], :display_name
     assert_equal ['.cs'], manifest['filename_extension'], :filename_extension
-    assert_equal 'cyberdojofoundation/csharp_nunit', manifest['image_name'], :image_name
+    assert_equal 'cyberdojofoundation/csharp_nunit:3a84849', manifest['image_name'], :image_name
     expected_filenames = %w( Hiker.cs HikerTest.cs cyber-dojo.sh )
     visible_files = manifest['visible_files']
     assert_equal expected_filenames, visible_files.keys.sort, :visible_files
