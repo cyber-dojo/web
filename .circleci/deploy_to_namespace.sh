@@ -30,9 +30,7 @@ export $(curl https://raw.githubusercontent.com/cyber-dojo/versioner/master/app/
 readonly NAMESPACE="${1}" # beta|prod
 readonly CYBER_DOJO_WEB_TAG="${CIRCLE_SHA1:0:7}"
 
-K8S_SET_PROMETHEUS=false \
-K8S_SET_PROBES=false \
-helm_upgrade \
+helm_upgrade_probe_no_prometheus_no \
    "${NAMESPACE}" \
    "web" \
    "${CYBER_DOJO_WEB_IMAGE}" \
