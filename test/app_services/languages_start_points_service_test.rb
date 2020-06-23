@@ -58,7 +58,8 @@ class LanguagesStartPointsServiceTest < AppServicesTestBase
 
   def expected_names
     [
-      "Asm, assert", "BCPL, all_tests_passed",
+      "Asm, assert",
+      "BCPL, all_tests_passed",
       "Bash, bash_unit", "Bash, bats", "Bash, shunit2",
       "C (clang), Cgreen", "C (clang), assert", "C (gcc), Cgreen",
       "C (gcc), CppUTest", "C (gcc), GoogleTest", "C (gcc), assert",
@@ -66,23 +67,39 @@ class LanguagesStartPointsServiceTest < AppServicesTestBase
       "C++ (clang++), Catch", "C++ (clang++), GoogleMock", "C++ (clang++), GoogleTest",
       "C++ (clang++), Igloo", "C++ (clang++), assert", "C++ (g++), Boost.Test",
       "C++ (g++), Catch", "C++ (g++), Cgreen", "C++ (g++), CppUTest",
+      "C++ (g++), Cucumber-cpp",
       "C++ (g++), GoogleMock", "C++ (g++), GoogleTest",
-      "C++ (g++), Igloo", "C++ (g++), assert", "Chapel, assert", "Clojure, Midje",
-      "Clojure, clojure.test", "CoffeeScript, jasmine", "D, unittest",
-      "Elixir, ExUnit", "Erlang, eunit", "F#, NUnit", "Fortran, FUnit",
+      "C++ (g++), Igloo", "C++ (g++), assert",
+      "Chapel, assert",
+      "Clojure, Midje", "Clojure, clojure.test",
+      "CoffeeScript, jasmine",
+      "D, unittest",
+      "Elixir, ExUnit",
+      "Erlang, eunit",
+      "F#, NUnit",
+      "Fortran, FUnit",
       "Go, convey", "Go, testify", "Go, testing",
+      "Groovy, JUnit", "Groovy, Spock",
       "Haskell, hunit",
       "Java, Approval", "Java, Cucumber", "Java, Cucumber-Spring", "Java, Cucumber3-Spring",
       "Java, JMock", "Java, JUnit", "Java, JUnit-Sqlite", "Java, Mockito",
-      "Java, PowerMockito", "Javascript, Cucumber", "Javascript, Mocha+chai+sinon",
-      "Javascript, assert", "Javascript, assert+jQuery", "Javascript, jasmine",
-      "Javascript, qunit+sinon", "Kotlin, Kotlintest", "PHP, PHPUnit",
-      "Pascal (FreePascal), assert", "Perl, Test::Simple", "Prolog, plunit",
+      "Java, PowerMockito",
+      "Javascript, Cucumber", "Javascript, Mocha+chai+sinon", "Javascript, assert",
+      "Javascript, assert+jQuery", "Javascript, jasmine", "Javascript, qunit+sinon",
+      "Kotlin, Kotlintest",
+      "PHP, PHPUnit",
+      "Pascal (FreePascal), assert",
+      "Perl, Test::Simple",
+      "Prolog, plunit",
       "Python, approval-pytest", "Python, approval-unittest",
       "Python, assert", "Python, behave", "Python, pytest", "Python, unittest",
-      "R, RUnit", "Ruby, Approval", "Ruby, Cucumber", "Ruby, MiniTest", "Ruby, RSpec",
-      "Ruby, Test::Unit", "Rust, test", "Swift, Swordfish", "Swift, XCTest",
-      "VHDL, assert", "VisualBasic, NUnit", "Zig, test"
+      "R, RUnit",
+      "Ruby, Approval", "Ruby, Cucumber", "Ruby, MiniTest", "Ruby, RSpec", "Ruby, Test::Unit",
+      "Rust, test",
+      "Swift, Swordfish", "Swift, XCTest",
+      "VHDL, assert",
+      "VisualBasic, NUnit",
+      "Zig, test"
     ]
   end
 
@@ -93,7 +110,7 @@ class LanguagesStartPointsServiceTest < AppServicesTestBase
 
     assert_equal 'C#, NUnit', manifest['display_name'], :display_name
     assert_equal ['.cs'], manifest['filename_extension'], :filename_extension
-    assert_equal 'cyberdojofoundation/csharp_nunit:3a84849', manifest['image_name'], :image_name
+    assert manifest['image_name'].start_with?('cyberdojofoundation/csharp_nunit'), :image_name
     expected_filenames = %w( Hiker.cs HikerTest.cs cyber-dojo.sh )
     visible_files = manifest['visible_files']
     assert_equal expected_filenames, visible_files.keys.sort, :visible_files
