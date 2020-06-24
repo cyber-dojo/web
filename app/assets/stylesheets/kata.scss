@@ -187,14 +187,17 @@
   //--------------------------------------------------------------
   // filenames
 
-  .new-file
-  {
-    @include rounded-corner(3px);
-    cursor:pointer;
+  .file-operations {
     margin-left:35px;
-    margin-bottom:2px;
-    padding:{ left:2px; right:2px; top:0px; bottom:0px; }
-    font-weight:bolder;
+    .new-file, .delete-file
+    {
+      display:inline-block;
+      @include rounded-corner(3px);
+      cursor:pointer;
+      margin: { bottom:2px; right:2px }
+      padding:{ left:2px; right:2px; top:0px; bottom:0px; }
+      font-weight:bolder;
+    }
   }
 
   #filename-list
@@ -305,25 +308,18 @@
 
 //--------------------------------------------------------------
 
-button#file-create,
-button#file-delete,
-button#file-rename
-{
-  width: 80px;
-  margin-right: 5px;
-}
-button#file-delete { margin-bottom:15px; }
-
 input#new-filename,
 input#rename-filename,
 input#delete-filename
 {
+  @include rounded-corner(4px);
    font-size: 1em;
-   @include rounded-corner(4px);
-   padding: { top:2px; bottom:3px; left:7px;}
-   border: none;
+     padding: { top:2px; bottom:3px; left:7px;}
+      margin: { bottom: 5px; }
+      border: none;
   text-align: left;
-       width: 300px;
+       width: 380px;
+     display: block;
 }
 
 //--------------------------------------------------------------

@@ -62,6 +62,7 @@ $(() => {
     const $filename = $(`[id="radio_${filename}"]`, $filenames);
     $filename.addClass('selected');
     cd.kata.tabs.setFilename(filename);
+    cd.deleteFileButton().attr('disabled', filename === 'cyber-dojo.sh');
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
