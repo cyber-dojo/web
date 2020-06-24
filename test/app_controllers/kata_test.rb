@@ -43,7 +43,7 @@ class KataControllerTest  < AppControllerTestBase
     in_kata do |kata|
       change_file('hiker.rb',
         <<~RUBY_CODE
-        def answer
+        def global_answer
           while true
           end
         end
@@ -188,9 +188,14 @@ class KataControllerTest  < AppControllerTestBase
     refute filenames.include?(filename), filenames
     expected = [
       '  1) Failure:',
-      'TestHiker#test_life_the_universe_and_everything [test_hiker.rb:8]:',
+      'TestHiker#test_global_function [test_hiker.rb:8]:',
       'Expected: 42',
-      '  Actual: 54'
+      '  Actual: 54',
+      '',
+      '  2) Failure:',
+      'TestHiker#test_instance_method [test_hiker.rb:12]:',
+      'Expected: 42',
+      '  Actual: 54',      
     ].join("\n")
     actual = kata.lights[-1].stdout['content']
     assert actual.include?(expected), actual
