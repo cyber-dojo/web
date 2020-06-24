@@ -185,9 +185,6 @@ class GroupTest < AppModelsTestBase
       refute m.has_key?('highlight_filenames')
       assert_equal [], am.highlight_filenames, 'default highlight_filenames'
 
-      assert m.has_key?('max_seconds')
-      assert_equal 10, am.max_seconds, 'default max_seconds'
-
       refute m.has_key?('progress_regexs')
       assert_equal [], am.progress_regexs, 'default progress_regexs'
     end
