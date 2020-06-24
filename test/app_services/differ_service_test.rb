@@ -46,12 +46,9 @@ class DifferServiceTest < AppServicesTestBase
 
       filename = 'hiker.rb'
       refute_nil actual[filename]
-      expected = [
-        { "line"=>"",           "type"=>"same", "number"=>1 },
-        { "line"=>"def answer", "type"=>"same", "number"=>2 },
-        { "line"=>"  6 * 9",    "type"=>"same", "number"=>3 },
-        { "line"=>"end",        "type"=>"same", "number"=>4 }
-      ]
+      expected = kata.files[filename]['content'].split("\n").map.with_index(1) do |line,n|
+        { "line" => line, "type" => "same", "number" => n }
+      end
       assert_equal(expected, actual[filename])
     end
   end
