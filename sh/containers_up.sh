@@ -85,8 +85,16 @@ on_ci_pull_dependent_language_start_point_image()
 {
   # Pull images to avoid potential timeouts when using the real runner.
   if on_ci; then
-    # TODO: Un hard-wire this image-name
-    docker pull cyberdojofoundation/ruby_mini_test:0641114
+    # Get ruby_mini_test image-name from languages_start_points service
+    # Output after the grep is
+    #      "cyberdojofoundation/ruby_mini_test:0641114",
+    # o) xargs strips leading whitespace and double quotes
+    #      cyberdojofoundation/ruby_mini_test:0641114,
+    # o) ${X%?} strips trailing comma
+    #      cyberdojofoundation/ruby_mini_test:0641114
+    local -r raw=$(curl --silent ${IP_ADDRESS}:4524/image_names | jq | grep ruby_mini_test | xargs)
+    local -r image_name="${raw%?}"
+    docker pull "${image_name}"
   fi
 }
 
