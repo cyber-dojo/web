@@ -92,7 +92,7 @@ on_ci_pull_dependent_language_start_point_image()
     #      cyberdojofoundation/ruby_mini_test:0641114,
     # o) ${X%?} strips trailing comma
     #      cyberdojofoundation/ruby_mini_test:0641114
-    local -r raw=$(curl --silent ${IP_ADDRESS}:4524/image_names | jq | grep ruby_mini_test | xargs)
+    local -r raw=$(curl --silent ${IP_ADDRESS}:4524/image_names | jq '.' | grep ruby_mini_test | xargs)
     local -r image_name="${raw%?}"
     docker pull "${image_name}"
   fi
