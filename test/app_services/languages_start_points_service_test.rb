@@ -81,7 +81,7 @@ class LanguagesStartPointsServiceTest < AppServicesTestBase
       "Go, convey", "Go, testify", "Go, testing",
       "Groovy, JUnit", "Groovy, Spock",
       "Haskell, hunit",
-      "Java, Approval", "Java, Cucumber", "Java, Cucumber-Spring", "Java, Cucumber3-Spring",
+      "Java, Approval", "Java, Cucumber", "Java, Cucumber-Spring",
       "Java, JMock", "Java, JUnit", "Java, JUnit-Sqlite", "Java, Mockito",
       "Java, PowerMockito",
       "Javascript, Jasmine and Cucumber", "Javascript, Cucumber", "Javascript, Mocha+chai+sinon",
