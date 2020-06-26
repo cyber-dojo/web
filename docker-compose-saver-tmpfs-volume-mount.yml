@@ -1,7 +1,0 @@
-
-version: '3.7'
-
-services:
-
-  saver:
-    tmpfs: [ "/cyber-dojo:uid=19663,gid=65533", "/tmp:uid=19663,gid=65533" ]

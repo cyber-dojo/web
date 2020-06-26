@@ -7,10 +7,33 @@ networks:
     name: cyber-dojo
 
 services:
+
+  nginx:
+    image: ${CYBER_DOJO_NGINX_IMAGE}:${CYBER_DOJO_NGINX_TAG}
+    depends_on:
+      - web
+    user: root
+    init: true
+    container_name: test_web_nginx
+    ports: [ "${CYBER_DOJO_NGINX_PORT}:80" ]
+    restart: "no"
+
+  # - - - - - - - - - - - - - - - -
   web:
     build:
       context: .
       args: [ COMMIT_SHA ]
+    depends_on:
+      - avatars
+      - creator
+      - differ
+      - repler
+      - runner
+      - saver
+      - shas
+      - custom-chooser
+      - exercises-chooser
+      - languages-chooser
     user: nobody
     image: ${CYBER_DOJO_WEB_IMAGE}
     init: true
@@ -20,6 +43,9 @@ services:
 
   # - - - - - - - - - - - - - - - -
   creator:
+  creator:
+    depends_on:
+      - saver
     user: nobody
     image: ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}
     init: true
@@ -29,6 +55,48 @@ services:
     ports: [ "${CYBER_DOJO_CREATOR_PORT}:${CYBER_DOJO_CREATOR_PORT}" ]
     tmpfs: /tmp
     restart: 'no'
+
+  # - - - - - - - - - - - - - - - -
+  custom-chooser:
+    depends_on:
+      - custom-start-points
+      - creator
+    environment: [ NO_PROMETHEUS ]
+    image: ${CYBER_DOJO_CUSTOM_CHOOSER_IMAGE}:${CYBER_DOJO_CUSTOM_CHOOSER_TAG}
+    init: true
+    container_name: test_web_custom_chooser
+    ports: [ "${CYBER_DOJO_CUSTOM_CHOOSER_PORT}:${CYBER_DOJO_CUSTOM_CHOOSER_PORT}" ]
+    read_only: true
+    restart: "no"
+    tmpfs: /tmp
+    user: nobody
+
+  exercises-chooser:
+    depends_on:
+      - exercises-start-points
+    environment: [ NO_PROMETHEUS ]
+    image: ${CYBER_DOJO_EXERCISES_CHOOSER_IMAGE}:${CYBER_DOJO_EXERCISES_CHOOSER_TAG}
+    init: true
+    container_name: test_web_exercises_chooser
+    ports: [ "${CYBER_DOJO_EXERCISES_CHOOSER_PORT}:${CYBER_DOJO_EXERCISES_CHOOSER_PORT}" ]
+    read_only: true
+    restart: "no"
+    tmpfs: /tmp
+    user: nobody
+
+  languages-chooser:
+    depends_on:
+      - languages-start-points
+      - creator
+    environment: [ NO_PROMETHEUS ]
+    image: ${CYBER_DOJO_LANGUAGES_CHOOSER_IMAGE}:${CYBER_DOJO_LANGUAGES_CHOOSER_TAG}
+    init: true
+    container_name: test_web_languages_chooser
+    ports: [ "${CYBER_DOJO_LANGUAGES_CHOOSER_PORT}:${CYBER_DOJO_LANGUAGES_CHOOSER_PORT}" ]
+    read_only: true
+    restart: "no"
+    tmpfs: /tmp
+    user: nobody
 
   # - - - - - - - - - - - - - - - -
   custom-start-points:
@@ -118,6 +186,8 @@ services:
     read_only: true
     ports: [ "${CYBER_DOJO_SAVER_PORT}:${CYBER_DOJO_SAVER_PORT}" ]
     restart: 'no'
+    tmpfs: /tmp
+    volumes: [ "/cyber-dojo:/cyber-dojo" ]    
 
   # - - - - - - - - - - - - - - - -
   shas:
