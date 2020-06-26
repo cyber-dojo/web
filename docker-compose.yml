@@ -32,7 +32,7 @@ services:
 
   # - - - - - - - - - - - - - - - -
   custom-start-points:
-    user: nobody
+    user: root
     image: ${CYBER_DOJO_CUSTOM_START_POINTS_IMAGE}:${CYBER_DOJO_CUSTOM_START_POINTS_TAG}
     init: true
     container_name: test_web_custom_start_points
@@ -41,9 +41,10 @@ services:
     ports: [ "${CYBER_DOJO_CUSTOM_START_POINTS_PORT}:${CYBER_DOJO_CUSTOM_START_POINTS_PORT}" ]
     tmpfs: /tmp
     restart: 'no'
+    volumes: [ "/var/run/docker.sock:/var/run/docker.sock" ]
 
   exercises-start-points:
-    user: nobody
+    user: root
     image: ${CYBER_DOJO_EXERCISES_START_POINTS_IMAGE}:${CYBER_DOJO_EXERCISES_START_POINTS_TAG}
     init: true
     container_name: test_web_exercises_start_points
@@ -52,9 +53,10 @@ services:
     ports: [ "${CYBER_DOJO_EXERCISES_START_POINTS_PORT}:${CYBER_DOJO_EXERCISES_START_POINTS_PORT}" ]
     tmpfs: /tmp
     restart: 'no'
+    volumes: [ "/var/run/docker.sock:/var/run/docker.sock" ]
 
   languages-start-points:
-    user: nobody
+    user: root
     image: cyberdojo/languages-start-points-all:${CYBER_DOJO_LANGUAGES_START_POINTS_TAG} # tests need -all
     init: true
     container_name: test_web_languages_start_points
@@ -63,6 +65,7 @@ services:
     ports: [ "${CYBER_DOJO_LANGUAGES_START_POINTS_PORT}:${CYBER_DOJO_LANGUAGES_START_POINTS_PORT}" ]
     tmpfs: /tmp
     restart: 'no'
+    volumes: [ "/var/run/docker.sock:/var/run/docker.sock" ]
 
   # - - - - - - - - - - - - - - - -
   avatars:
