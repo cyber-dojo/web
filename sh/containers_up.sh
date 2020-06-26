@@ -75,6 +75,25 @@ wait_until_running()
 }
 
 # - - - - - - - - - - - - - - - - - - - - -
+on_ci()
+{
+  [ -n "${CIRCLECI}" ]
+}
+
+# - - - - - - - - - - - - - - - - - - - - -
+on_ci_pull_dependent_language_start_point_image()
+{
+  # languages-start-points images now pull images (backgrounded)
+  # listed in their manifest.json files that are not already on
+  # the node. Don't rely on this in tests; instead pre-pull images
+  # used in web tests to ensure they are present.
+  if on_ci; then
+    # TODO: Un hard-wire this image-name
+    docker pull cyberdojofoundation/ruby_mini_test:0641114
+  fi
+}
+
+# - - - - - - - - - - - - - - - - - - - - -
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 export NO_PROMETHEUS=true
 
@@ -96,3 +115,5 @@ wait_until_ready saver     4537
 #wait_until_ready zipper    4587
 
 wait_until_running test_web
+
+on_ci_pull_dependent_language_start_point_image
