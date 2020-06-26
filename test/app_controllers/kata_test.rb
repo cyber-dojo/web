@@ -186,19 +186,19 @@ class KataControllerTest  < AppControllerTestBase
     files = kata.files
     filenames = files.keys.sort
     refute filenames.include?(filename), filenames
-    expected = [
-      '  1) Failure:',
+    expected_1 = [
       'TestHiker#test_global_function [test_hiker.rb:8]:',
       'Expected: 42',
-      '  Actual: 54',
-      '',
-      '  2) Failure:',
+      '  Actual: 54'
+    ].join("\n")
+    expected_2 = [
       'TestHiker#test_instance_method [test_hiker.rb:12]:',
       'Expected: 42',
-      '  Actual: 54',      
+      '  Actual: 54',
     ].join("\n")
     actual = kata.lights[-1].stdout['content']
-    assert actual.include?(expected), actual
+    assert actual.include?(expected_1), actual
+    assert actual.include?(expected_2), actual
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
