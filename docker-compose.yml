@@ -110,7 +110,7 @@ services:
 
   # - - - - - - - - - - - - - - - -
   saver:
-    user: saver
+    user: root
     image: ${CYBER_DOJO_SAVER_IMAGE}:${CYBER_DOJO_SAVER_TAG}
     init: true
     container_name: test_web_saver
