@@ -98,7 +98,6 @@ export NO_IMAGE_PULLS=true
 echo
 docker-compose \
   --file "${ROOT_DIR}/docker-compose.yml" \
-  --file "${ROOT_DIR}/docker-compose-saver-tmpfs-volume-mount.yml" \
   up \
   -d \
   --force-recreate

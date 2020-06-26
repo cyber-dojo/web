@@ -10,8 +10,6 @@ build_web_image()
   echo
   docker-compose \
     --file "${ROOT_DIR}/docker-compose.yml" \
-    --file "${ROOT_DIR}/docker-compose-choosers.yml" \
-    --file "${ROOT_DIR}/docker-compose-depends.yml" \
     build \
     --build-arg BUILD_ENV=copy
 }
