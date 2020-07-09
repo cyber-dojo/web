@@ -43,7 +43,6 @@ services:
 
   # - - - - - - - - - - - - - - - -
   creator:
-  creator:
     depends_on:
       - saver
     user: nobody
@@ -104,7 +103,7 @@ services:
     image: ${CYBER_DOJO_CUSTOM_START_POINTS_IMAGE}:${CYBER_DOJO_CUSTOM_START_POINTS_TAG}
     init: true
     container_name: test_web_custom_start_points
-    environment: [ NO_PROMETHEUS, NO_IMAGE_PULLS ]
+    environment: [ NO_PROMETHEUS ]
     read_only: true
     ports: [ "${CYBER_DOJO_CUSTOM_START_POINTS_PORT}:${CYBER_DOJO_CUSTOM_START_POINTS_PORT}" ]
     tmpfs: /tmp
@@ -116,7 +115,7 @@ services:
     image: ${CYBER_DOJO_EXERCISES_START_POINTS_IMAGE}:${CYBER_DOJO_EXERCISES_START_POINTS_TAG}
     init: true
     container_name: test_web_exercises_start_points
-    environment: [ NO_PROMETHEUS, NO_IMAGE_PULLS ]
+    environment: [ NO_PROMETHEUS ]
     read_only: true
     ports: [ "${CYBER_DOJO_EXERCISES_START_POINTS_PORT}:${CYBER_DOJO_EXERCISES_START_POINTS_PORT}" ]
     tmpfs: /tmp
@@ -128,7 +127,7 @@ services:
     image: cyberdojo/languages-start-points-all:${CYBER_DOJO_LANGUAGES_START_POINTS_TAG} # tests need -all
     init: true
     container_name: test_web_languages_start_points
-    environment: [ NO_PROMETHEUS, NO_IMAGE_PULLS ]
+    environment: [ NO_PROMETHEUS ]
     read_only: true
     ports: [ "${CYBER_DOJO_LANGUAGES_START_POINTS_PORT}:${CYBER_DOJO_LANGUAGES_START_POINTS_PORT}" ]
     tmpfs: /tmp
