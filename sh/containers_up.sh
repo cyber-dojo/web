@@ -100,7 +100,6 @@ on_ci_pull_dependent_language_start_point_image()
 
 # - - - - - - - - - - - - - - - - - - - - -
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
-export NO_PROMETHEUS=true
 
 echo
 docker-compose \
