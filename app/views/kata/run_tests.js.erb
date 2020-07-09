@@ -66,7 +66,7 @@
   };
 
   //- - - - - - - - - - - - - - - - - - - - - -
-  const warnIfTestsTimedOut = () => {
+  const showInfoIfTestsTimedOut = () => {
     if (timedOut === 'true') {
       const maxSeconds = $('input[name="max_seconds"]').val();
       const stdoutMessage = `stdout is ${stdout.length === 0 ? '' : 'NOT '}empty.`;
@@ -89,7 +89,7 @@
   };
 
   //- - - - - - - - - - - - - - - - - - - - - -
-  const warnIfTrafficLightFaulty = () => {
+  const showInfoIfTrafficLightFaulty = () => {
     if (colour === 'faulty') {
       const html = $('<textarea>', {
          'data-width':500,
@@ -101,7 +101,7 @@
   };
 
   //- - - - - - - - - - - - - - - - - - - - - -
-  const warnIfAvatarsOutOfSync = () => {
+  const showInfoIfAvatarsOutOfSync = () => {
     const outOfSync = "<%= j raw(@out_of_sync) %>";
     if (outOfSync === 'true') {
       const message = [
@@ -119,6 +119,22 @@
   };
 
   //- - - - - - - - - - - - - - - - - - - - - -
+  const showInfoIfImagePulling = () => {
+    if (colour === 'pulling') {
+      const message = [
+        `The Docker image is not quite ready yet.`,
+        `It should be ready in at most ~30 seconds.`,
+      ].join("\n");
+      const html = $('<textarea>', {
+        'data-width':500,
+                'id':'pulling',
+          'readonly':'readonly'
+      }).val(message);
+      cd.dialog(html, 'still preparing', 'close').dialog('open');
+    }
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - -
   const updateTrafficLights = () => {
     cd.appendTrafficLight(<%= raw @light.to_json %>);
     cd.updateTrafficLightsCount();
@@ -130,11 +146,12 @@
   };
 
   //- - - - - - - - - - - - - - - - - - - - - -
-  const showWarnings = () => {
-    warnIfAvatarsOutOfSync();
-    warnIfTestsTimedOut();
-    warnIfTrafficLightFaulty();
-    //warnIfTruncatedFiles();
+  const showInfoDialogs = () => {
+    showInfoIfAvatarsOutOfSync();
+    showInfoIfTestsTimedOut();
+    showInfoIfTrafficLightFaulty();
+    showInfoIfImagePulling();
+    //showInfoIfTruncatedFiles();
   };
 
   //- - - - - - - - - - - - - - - - - - - - - -
@@ -144,7 +161,7 @@
   updateChangedFiles();
   updateFilenames(); // must come after insert/remove/update
   updateOutput();
-  showWarnings();
+  showInfoDialogs();
   cd.scrollLastTrafficLightIntoView();
 
 })();
