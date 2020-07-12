@@ -124,7 +124,7 @@ services:
 
   languages-start-points:
     user: root
-    image: cyberdojo/languages-start-points-all:${CYBER_DOJO_LANGUAGES_START_POINTS_TAG} # tests need -all
+    image: ${CYBER_DOJO_LANGUAGES_START_POINTS_IMAGE}:${CYBER_DOJO_LANGUAGES_START_POINTS_TAG}
     init: true
     container_name: test_web_languages_start_points
     environment: [ NO_PROMETHEUS=true ]
