@@ -73,12 +73,16 @@ module TestDomainHelpers # mix-in
 
   # - - - - - - - - - - - - - - - -
 
+  DEFAULT_DISPLAY_NAME = 'Ruby, MiniTest'
+
   def default_display_name
-    'Ruby, MiniTest'
+    DEFAULT_DISPLAY_NAME
   end
 
+  DEFAULT_EXERCISE_NAME = 'Fizz Buzz'
+
   def default_exercise_name
-    'Fizz Buzz'
+    DEFAULT_EXERCISE_NAME
   end
 
   # - - - - - - - - - - - - - - - -

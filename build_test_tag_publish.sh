@@ -10,6 +10,7 @@ export $(versioner_env_vars)
 if [ "${1:-}" == '--build-only' ] || [ "${1:-}" == '-b' ] ; then
   exit 0
 fi
+"${SH_DIR}/setup_dependent_images.sh"
 "${SH_DIR}/containers_up.sh"
 "${SH_DIR}/run_tests_in_container.sh" "$@"
 "${SH_DIR}/containers_down.sh"
