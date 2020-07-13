@@ -55,9 +55,9 @@ module TestDomainHelpers # mix-in
 
   # - - - - - - - - - - - - - - - -
 
-  def starter_manifest(display_name = default_display_name)
+  def starter_manifest(display_name = DEFAULT_DISPLAY_NAME)
     manifest = languages_start_points.manifest(display_name)
-    exercise_name = default_exercise_name
+    exercise_name = DEFAULT_EXERCISE_NAME
     em = exercises_start_points.manifest(exercise_name)
     manifest['visible_files'].merge!(em['visible_files'])
     manifest['exercise'] = em['display_name']
@@ -75,15 +75,7 @@ module TestDomainHelpers # mix-in
 
   DEFAULT_DISPLAY_NAME = 'Ruby, MiniTest'
 
-  def default_display_name
-    DEFAULT_DISPLAY_NAME
-  end
-
   DEFAULT_EXERCISE_NAME = 'Fizz Buzz'
-
-  def default_exercise_name
-    DEFAULT_EXERCISE_NAME
-  end
 
   # - - - - - - - - - - - - - - - -
 
