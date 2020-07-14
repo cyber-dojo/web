@@ -10,11 +10,10 @@ class RunnerTest < AppModelsTestBase
 
   test '151',
   'green: expected=42, actual=6*7' do
-    runner.stub_run(colour:'green')
+    runner.stub_run(outcome:'green')
     in_new_kata(kata_params) do |kata|
       result = kata.run_tests
-      assert_equal false, result[0]['timed_out'], :timed_out
-      assert_equal 'green', result[0]['colour'], :colour
+      assert_equal 'green', result[0]['outcome'], :green
     end
   end
 
@@ -22,10 +21,10 @@ class RunnerTest < AppModelsTestBase
 
   test '152',
   'timed_out: infinite loop' do
-    runner.stub_run(timed_out:true)
+    runner.stub_run(outcome:'timed_out')
     in_new_kata(kata_params) do |kata|
       result = kata.run_tests
-      assert_equal true, result[0]['timed_out'], :timed_out
+      assert_equal 'timed_out', result[0]['outcome'], :timed_out
     end
   end
 

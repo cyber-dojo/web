@@ -2,12 +2,11 @@
 
 (() => {
 
-  const   colour = "<%= j raw(@colour) %>";
-  const timedOut = "<%= j raw(@timed_out) %>";
-  const   stdout = "<%= j raw(@stdout['content']) %>";
-  const   stderr = "<%= j raw(@stderr['content']) %>";
-  const   status = "<%= j raw(@status.to_s) %>";
-  const      log = "<%= j raw(@log) %>";
+  const outcome = "<%= j raw(@outcome) %>";
+  const  stdout = "<%= j raw(@stdout['content']) %>";
+  const  stderr = "<%= j raw(@stderr['content']) %>";
+  const  status = "<%= j raw(@status.to_s) %>";
+  const     log = "<%= j raw(@log) %>";
 
   const editor = cd.kata.editor;
 
@@ -44,7 +43,7 @@
     editor.changeFile('status', { content: status });
     const tabs = cd.kata.tabs;
     const empty = (s) => s.length === 0;
-    switch (colour) {
+    switch (outcome) {
       case 'red':
       case 'green':
         if (!empty(stdout) || empty(stderr)) {
@@ -67,7 +66,7 @@
 
   //- - - - - - - - - - - - - - - - - - - - - -
   const showInfoIfTestsTimedOut = () => {
-    if (timedOut === 'true') {
+    if (outcome === 'timed_out') {
       const maxSeconds = $('input[name="max_seconds"]').val();
       const stdoutMessage = `stdout is ${stdout.length === 0 ? '' : 'NOT '}empty.`;
       const stderrMessage = `stderr is ${stderr.length === 0 ? '' : 'NOT '}empty.`;
@@ -90,7 +89,7 @@
 
   //- - - - - - - - - - - - - - - - - - - - - -
   const showInfoIfTrafficLightFaulty = () => {
-    if (colour === 'faulty') {
+    if (outcome === 'faulty') {
       const html = $('<textarea>', {
          'data-width':500,
                  'id':'faulty',
@@ -120,7 +119,7 @@
 
   //- - - - - - - - - - - - - - - - - - - - - -
   const showInfoIfImagePulling = () => {
-    if (colour === 'pulling') {
+    if (outcome === 'pulling') {
       const message = [
         `The Docker image is not quite ready yet.`,
         `Please wait 30 seconds and try again.`,

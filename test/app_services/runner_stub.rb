@@ -16,19 +16,17 @@ class RunnerStub
     stub[:stdout] ||= ''
     stub[:stderr] ||= ''
     stub[:status] ||= 0
-    stub[:timed_out] ||= false
-    stub[:colour] ||= 'red'
+    stub[:outcome] ||= 'red'
     dir.make
     dir.write(filename, JSON.generate({
       'run_cyber_dojo_sh' => {
         'stdout' => file(stub[:stdout]),
         'stderr' => file(stub[:stderr]),
         'status' => stub[:status],
-        'colour' => stub[:colour],
+        'outcome' => stub[:outcome],
         'created' => {},
         'deleted' => [],
-        'changed' => {},
-        'timed_out' => stub[:timed_out]
+        'changed' => {}
       }
     }))
   end
@@ -43,11 +41,10 @@ class RunnerStub
           'stdout' => file('so'),
           'stderr' => file('se'),
           'status' => 0,
-          'colour' => 'red',
+          'outcome' => 'red',
           'created' => {},
           'deleted' => [],
-          'changed' => {},
-          'timed_out' => false
+          'changed' => {}
         }
       }
     end

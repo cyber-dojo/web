@@ -14,11 +14,10 @@ class RunnerStubTest < AppServicesTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '2C0', %w(
-  stub_run can stub stdout and leave,
+  stub_run can stub stdout and leave
   stderr defaulted to stub empty-string and,
   status defaulted to stub zero and,
-  timed_out defaulted to false,
-  colour defaulted to red
+  outcome defaulted to red
   ) do
     stdout = 'syntax error line 1'
     runner.stub_run({stdout:stdout})
@@ -27,20 +26,18 @@ class RunnerStubTest < AppServicesTestBase
     assert_equal stdout, run['stdout']['content']
     assert_equal '', run['stderr']['content']
     assert_equal 0, run['status']
-    assert_equal false, run['timed_out']
-    assert_equal 'red', run['colour']
+    assert_equal 'red', run['outcome']
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '09C',
-  'stdout,stderr,status,timed_out,colour can all be stubbed explicitly' do
+  'stdout,stderr,status,outcome can all be stubbed explicitly' do
     stub = {
       stdout: 'Assertion failed',
       stderr: 'makefile...',
       status: 2,
-      timed_out: true,
-      colour: 'amber'
+      outcome: 'amber'
     }
     runner.stub_run(stub)
     json = runner.run_cyber_dojo_sh(unused_args)
@@ -48,8 +45,7 @@ class RunnerStubTest < AppServicesTestBase
     assert_equal stub[:stdout], run['stdout']['content']
     assert_equal stub[:stderr], run['stderr']['content']
     assert_equal stub[:status], run['status']
-    assert_equal stub[:timed_out], run['timed_out']
-    assert_equal stub[:colour], run['colour']
+    assert_equal stub[:outcome], run['outcome']
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -61,8 +57,7 @@ class RunnerStubTest < AppServicesTestBase
     assert_equal 'so', run['stdout']['content']
     assert_equal 'se', run['stderr']['content']
     assert_equal 0, run['status']
-    assert_equal false, run['timed_out']
-    assert_equal 'red', run['colour']
+    assert_equal 'red', run['outcome']
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - -

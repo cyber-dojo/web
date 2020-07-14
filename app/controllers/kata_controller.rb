@@ -65,10 +65,7 @@ class KataController < ApplicationController
     @stderr = result['stderr']
     @status = result['status']
     @log = result['log']
-    @timed_out = result['timed_out']
-    @colour = result['colour']
-
-    colour_to_save_and_show = @timed_out ? 'timed_out' : @colour
+    @outcome = result['outcome']
 
     predicted = params['predicted']
 
@@ -78,7 +75,7 @@ class KataController < ApplicationController
     args << files                       # includes @created,@deleted,@changed
     args += [t1,duration]               # how long runner took
     args += [@stdout, @stderr, @status] # output of [test] kata.run_tests()
-    args << colour_to_save_and_show
+    args << @outcome
     args << predicted
 
     @out_of_sync = false
@@ -93,7 +90,7 @@ class KataController < ApplicationController
     @light = {
       'time' => t1,
       'index' => index,
-      'colour' => colour_to_save_and_show,
+      'colour' => @outcome,
       'predicted' => predicted,
     }
     @id = kata.id
