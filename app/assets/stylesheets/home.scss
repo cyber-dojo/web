@@ -49,6 +49,7 @@
 
   #license
   {
+    max-width:569px;
     background: lighten($darker-color, 6%);
     margin: { top:280px; bottom:15px; }
     padding: { top:25px; bottom:25px; }
@@ -71,13 +72,14 @@
 
   #foundation
   {
+    max-width:569px;
     background: lighten($darker-color, 6%);
     padding: { top:25px; bottom:25px; }
     img.trustee
     {
       @include rounded-corner(10px);
-        width: 133px;
-       height: 133px;
+        width: 100px;
+       height: 100px;
        margin: { top: 15px; left: 2px; right: 2px; }
        filter: grayscale(100%);
     }
