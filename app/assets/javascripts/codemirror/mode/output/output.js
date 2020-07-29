@@ -12,16 +12,16 @@
 "use strict";
 
 CodeMirror.defineMode("output", function(config) {
-
+  var sss = '';
   return {
     token: function(stream, state) {
       if (stream.sol()) {
-        if (stream.match(':stdout:')) { return 'variable'; }
-        if (stream.match(':stderr:')) { return 'number'; }
-        if (stream.match(':status:')) { return 'comment'; }
+        if (stream.match(':stdout:')) { return sss = 'variable'; } // blue
+        if (stream.match(':stderr:')) { return sss = 'number'; }   // red
+        if (stream.match(':status:')) { return sss = 'comment'; }  // grey
       }
       stream.skipToEnd();
-      return 'null';
+      return sss;
     }
   };
 
