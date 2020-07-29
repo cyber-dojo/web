@@ -18,6 +18,14 @@ var cyberDojo = ((cd, $) => {
     this.filenames().forEach(filename => this.deleteFile(filename));
   };
 
+  Editor.prototype.output = function(stdout, stderr, status) {
+    this.changeFile('output', { content:
+      ":stdout:\n" + stdout + "\n" +
+      ":stderr:\n" + stderr + "\n" +
+      ":status:\n" + status + "\n"
+    });
+  };
+
   Editor.prototype.createFile = function(filename, file) {
     const $newFile = $makeNewFile(filename, file);
     $('#visible-files-box').append($newFile);

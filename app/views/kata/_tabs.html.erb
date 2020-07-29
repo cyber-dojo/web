@@ -3,8 +3,7 @@
   <div class="tab filename">cyber-dojo.sh</div>
   <div class="tab REPL">+REPL</div>
   <%# These three float:right so are in reverse order of appearance %>
-  <div class="tab stderr">stderr</div>
-  <div class="tab stdout">stdout</div>
+  <div class="tab output">output</div>
 </div>
 
 <script type="text/javascript">
@@ -30,16 +29,14 @@ $(() => {
   };
 
   tabs.filename = () => $('.tab.filename', $tabs);
-  tabs.stdout   = () => $('.tab.stdout'  , $tabs);
-  tabs.stderr   = () => $('.tab.stderr'  , $tabs);
+  tabs.output   = () => $('.tab.output'  , $tabs);
   tabs.repl     = () => $('.tab.REPL'    , $tabs);
 
   tabs.selected = () => $('.tab.selected', $tabs);
 
   tabs.reserves = filename => {
     const tabNames = [];
-    tabNames.push(tabs.stdout().text());
-    tabNames.push(tabs.stderr().text());
+    tabNames.push(tabs.output().text());
     tabNames.push('status');
     tabNames.push(tabs.repl().text());
     return tabNames.includes(filename);
@@ -62,9 +59,8 @@ $(() => {
     // See app/assets/javascripts/cyber-dojo_codemirror.js
     // See app/views/shared/_hotkeys.html.erb
     switch (tabs.selected().text()) {
-    default                  : tabs.stdout().click(); break;
-    case tabs.stdout().text(): tabs.stderr().click(); break;
-    case tabs.stderr().text(): tabs.filename().click(); break;
+    default                  : tabs.output().click(); break;
+    case tabs.output().text(): tabs.filename().click(); break;
     }
   };
 
@@ -91,8 +87,7 @@ $(() => {
   };
 
   setupFileTabClickHandler(tabs.filename());
-  setupFileTabClickHandler(tabs.stdout());
-  setupFileTabClickHandler(tabs.stderr());
+  setupFileTabClickHandler(tabs.output());
   setupReplTabClickHandler(tabs.repl());
 
 });

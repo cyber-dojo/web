@@ -127,6 +127,7 @@ $(() => {
   const isValidFilename = filename => {
     const contains = illegal => filename.indexOf(illegal) !== -1;
     if (alreadyExists(filename)) { return false; }
+    if (sss(filename)) { return false; }
     if (contains('..')) { return false; }
     if (contains('\\')) { return false; }
     if (contains(' '))  { return false; }
@@ -138,6 +139,10 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const alreadyExists = (filename) => cd.kata.editor.filenames().includes(filename);
+
+  const sss = (filename) => {
+    return filename === 'stdout' || filename === 'stderr' || filename === 'status';
+  };
 
 });
 </script>

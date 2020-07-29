@@ -173,7 +173,7 @@ var cyberDojo = ((cd, $) => {
   };
 
   const codeMirrorLineWrapping = (filename) => {
-    return ['readme.txt','stdout', 'stderr'].includes(filename);
+    return ['readme.txt', 'output'].includes(filename);
   };
 
   const codeMirrorIndentWithTabs = (filename) => {
@@ -184,6 +184,9 @@ var cyberDojo = ((cd, $) => {
     filename = filename.toLowerCase();
     if (filename === 'makefile') {
       return 'text/x-makefile';
+    }
+    if (filename === 'output') {
+      return 'text/x-output';
     }
     switch (fileExtension(filename)) {
       // C/C++ have split source

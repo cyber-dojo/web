@@ -38,30 +38,9 @@
   };
 
   const updateOutput = () => {
-    editor.changeFile('stdout', { content: stdout });
-    editor.changeFile('stderr', { content: stderr });
-    editor.changeFile('status', { content: status });
     const tabs = cd.kata.tabs;
-    const empty = (s) => s.length === 0;
-    switch (outcome) {
-      case 'red':
-      case 'green':
-        if (!empty(stdout) || empty(stderr)) {
-          tabs.stdout().click();
-        } else {
-          tabs.stderr().click();
-        }
-        break;
-      case 'amber':
-      case 'timed_out':
-      case 'faulty':
-        if (stdout.length > stderr.length) {
-          tabs.stdout().click();
-        } else {
-          tabs.stderr().click();
-        }
-        break;
-    }
+    editor.output(stdout, stderr, status);
+    tabs.output().click();
   };
 
   //- - - - - - - - - - - - - - - - - - - - - -

@@ -275,7 +275,7 @@
       border-bottom: none;
     }
     &.filename { margin-left:0px; }
-    &.stdout, &.stderr, &.REPL { float:right; }
+    &.output, &.stdout, &.stderr, &.REPL { float:right; }
     &.REPL { display:none; }
   }
   .tab.filename.selected { cursor:context-menu; }
