@@ -274,9 +274,8 @@
       border: 1px solid $lighter-color;
       border-bottom: none;
     }
-    &.filename { margin-left:0px; }
-    &.output, &.stdout, &.stderr, &.REPL { float:right; }
-    &.REPL { display:none; }
+    &.output { margin-left:0px; }
+    &.REPL { float:right; display:none; }
   }
   .tab.filename.selected { cursor:context-menu; }
   .tab.filename.selected.vellipsis:after
