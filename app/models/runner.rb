@@ -70,7 +70,7 @@ class Runner
   # - - - - - - - - - - - - - - -
 
   def output_filenames
-    %w( stdout stderr status )
+    %w( output stdout stderr status )
   end
 
   # - - - - - - - - - - - - - - -
