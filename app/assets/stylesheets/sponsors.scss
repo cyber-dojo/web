@@ -11,7 +11,8 @@
 }
 
 #praqma-box #praqma-image,
-#curbralan-box #curbralan-image
+#curbralan-box #curbralan-image,
+#wingman-box #wingman-image
 {
   @include rounded-corner(2px);
   padding: 0px;
@@ -35,7 +36,7 @@
      padding: 2px;
        width: 43px;
       height: 11px;
-      margin: { top:0px; left:8px;  }
+      margin: { top:3px; left:9px;  }
       position: relative;
       top: 2px;
 }

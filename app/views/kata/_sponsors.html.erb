@@ -1,7 +1,19 @@
+<script type="text/javascript">
+'use strict';
+$(() => {
+
+  cd.createTip($('.sponsor'),
+    '100% of donations and license fees go to ' +
+    "the cyber-dojo Foundation's charitable aims. " +
+    'A big thank you to all our sponsors.');
+
+});
+</script>
 
 <table id="sponsors">
   <tr><td><%= render partial: 'shared/praqma' %></td></tr>
   <tr><td><%= render partial: 'shared/cucumber' %></td></tr>
   <tr><td><%= render partial: 'shared/curbralan' %></td></tr>
+  <tr><td><%= render partial: 'shared/wingman' %></td></tr>
   <tr><td><%= render partial: 'shared/accu' %></td></tr>
 </table>
