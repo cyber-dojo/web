@@ -40,6 +40,7 @@
  *= depend_on wait-spinner.scss
  *= depend_on yin-yang-logo.scss
  *= depend_on hotkeys.scss
+ *= depend_on sponsors.scss
  *= depend_on xterm.css
  *= depend_on jquery-ui-1.8.16.custom.scss
  *= depend_on codemirror.scss
@@ -81,6 +82,7 @@
 @import "wait-spinner.scss";
 @import "yin-yang-logo.scss";
 @import "hotkeys.scss";
+@import "sponsors.scss";
 @import "xterm.css";
 @import "jquery-ui-1.8.16.custom.scss";
 @import "codemirror.scss";

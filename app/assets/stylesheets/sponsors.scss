@@ -1,0 +1,41 @@
+
+#sponsors
+{
+  margin-top: 18px;
+}
+
+.sponsor
+{
+  padding-left:5px;
+  float:left;
+}
+
+#praqma-box #praqma-image,
+#curbralan-box #curbralan-image
+{
+  @include rounded-corner(2px);
+  padding: 0px;
+   height: 15px;
+   margin: { top:0px; left:3px; }
+   position: relative;
+   top: 3px;
+}
+
+#cucumber-box #cucumber-image
+{
+  padding: 0px;
+   height: 19px;
+   margin: { left:3px; }
+}
+
+#accu-box #accu-image
+{
+  @include rounded-corner(3px);
+  background: CornSilk;
+     padding: 2px;
+       width: 43px;
+      height: 11px;
+      margin: { top:0px; left:8px;  }
+      position: relative;
+      top: 2px;
+}
