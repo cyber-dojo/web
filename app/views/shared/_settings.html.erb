@@ -3,22 +3,25 @@
 
 <div id="settings-dialog" style="display:none;">
   <div class="info">
-    theme<br/>
+    <div class="info-title">theme</div>
     <input type="radio" id="light" name="theme" value="light">
     <label for="light">light</label><br/>
     <input type="radio" id="dark" name="theme" value="dark">
     <label for="dark">dark</label>
   </div>
   <div class="info">
-    colour syntax</br>
-    <input type="radio" id="off" name="colour" value="off">
-    <label for="off">off</label><br/>
-    <input type="radio" id="on" name="colour" value="on">
-    <label for="on">on</label><br/>
+    <div class="info-title">colour syntax</div>
+    <input type="radio" id="colour-off" name="colour" value="off">
+    <label for="colour-off">off</label><br/>
+    <input type="radio" id="colour-on" name="colour" value="on">
+    <label for="colour-on">on</label><br/>
   </div>
   <div class="info">
-    prediction</br>
-    ...
+    <div class="info-title">prediction</div>
+    <input type="radio" id="prediction-off" name="predict" value="off">
+    <label for="prediction-off">off</label><br/>
+    <input type="radio" id="prediction-on" name="predict" value="on">
+    <label for="prediction-on">on</label><br/>
   </div>
 </div>
 
@@ -28,13 +31,15 @@
 $(() => {
 
   const data = {
-    colour:"<%= @colour %>",  // 'on' || 'off'
-     theme:"<%= @theme %>"    // 'light' || 'dark' (different to CodeMirror theme)
+     colour:"<%= @colour %>",  // 'off' || 'on'
+      theme:"<%= @theme %>",   // 'light' || 'dark' (different to CodeMirror theme)
+    predict:"<%= @predict %>"  // 'off' || 'on'
   };
 
   cd.settings = {
-    colour: () => data.colour,
-    theme: () => data.theme
+     colour:() => data.colour,
+      theme:() => data.theme,
+    predict:() => data.predict
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -60,13 +65,17 @@ $(() => {
     cd.codeMirror.resetTheme();
   });
 
+  $('input[type=radio][name=predict]', $settings).change(function() {
+    data.predict = this.value;
+  });
+
   $button.click(() => openSettingsDialog());
 
   cd.createTip($button, 'settings');
 
   const openSettingsDialog = () => {
     $settings.dialog({
-              width: 350,
+              width: 250,
            autoOpen: true,
       closeOnEscape: true,
               modal: true,

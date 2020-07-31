@@ -11,7 +11,6 @@ $(() => {
 
   cd.kataId = () => "<%= @id %>";
   cd.turnOnSettingsButton();
-  cd.setupPredictButton("<%= @predict %>");
   cd.codeMirror.resetTheme();
   cd.kata.tabs.setup({repl:"<%= @env['REPL'] %>"});
   cd.setupHotkeysButton();
