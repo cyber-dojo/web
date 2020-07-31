@@ -27,6 +27,16 @@
     top: 1px;
   }
 
+  #settings-button
+  {
+    font-size: 27px;
+    padding: { left:3px; right:3px; top:0px; bottom:1px; }
+    margin: { top:0px; bottom:0px; left:2px; right:2px; }
+    position: relative;
+    top: -7px;
+    cursor: pointer;
+  }
+
   #theme-button, #colour-button,
   #charity-button, #feedback-button,
   #traffic-lights-button, #dashboard-button, #help-button, #hotkeys-button, #shas-button,
