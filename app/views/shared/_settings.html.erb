@@ -3,13 +3,22 @@
 
 <div id="settings-dialog" style="display:none;">
   <div class="info">
-    theme
+    theme<br/>
+    <input type="radio" id="light" name="theme" value="light">
+    <label for="light">light</label><br/>
+    <input type="radio" id="dark" name="theme" value="dark">
+    <label for="dark">dark</label>
   </div>
   <div class="info">
-    colour syntax
+    colour syntax</br>
+    <input type="radio" id="off" name="colour" value="off">
+    <label for="off">off</label><br/>
+    <input type="radio" id="on" name="colour" value="on">
+    <label for="on">on</label><br/>
   </div>
   <div class="info">
-    prediction
+    prediction</br>
+    ...
   </div>
 </div>
 
@@ -19,25 +28,13 @@
 $(() => {
 
   const data = {
-    colour:'on',  // 'on' || 'off'
-    theme:'light' // 'light' || 'dark' (different to CodeMirror theme)
+    colour:"<%= @colour %>",  // 'on' || 'off'
+     theme:"<%= @theme %>"    // 'light' || 'dark' (different to CodeMirror theme)
   };
 
   cd.settings = {
-    colour: (value) => {
-      if (value === undefined) {
-        return data.colour;
-      } else {
-        data.colour = value;
-      }
-    },
-    theme: (value) => {
-      if (value === undefined) {
-        return data.theme;
-      } else {
-        data.theme = value;
-      }
-    }
+    colour: () => data.colour,
+    theme: () => data.theme
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -51,24 +48,35 @@ $(() => {
   const $button = $('#settings-button');
   const $settings = $('#settings-dialog');
 
+  $('input[type=radio][name=theme]', $settings).change(function() {
+    $.post('/kata/set_theme', { id:cd.kataId(), value:this.value });
+    data.theme = this.value;
+    cd.codeMirror.resetTheme();
+  });
+
+  $('input[type=radio][name=colour]', $settings).change(function() {
+    $.post('/kata/set_colour', { id:cd.kataId(), value:this.value });
+    data.colour = this.value;
+    cd.codeMirror.resetTheme();
+  });
+
   $button.click(() => openSettingsDialog());
 
   cd.createTip($button, 'settings');
 
   const openSettingsDialog = () => {
-    const div = $settings.dialog({
-                width: 350,
-             autoOpen: true,
-        closeOnEscape: true,
-                modal: true,
-                title: cd.dialogTitle('settings'),
-          beforeClose: event => {
-            if (event.keyCode === $.ui.keyCode.ESCAPE) {
-              div.remove();
-              cd.kata.editor.refocus();
-              return true;
-            }
+    $settings.dialog({
+              width: 350,
+           autoOpen: true,
+      closeOnEscape: true,
+              modal: true,
+              title: cd.dialogTitle('settings'),
+        beforeClose: event => {
+          if (event.keyCode === $.ui.keyCode.ESCAPE) {
+            cd.kata.editor.refocus();
+            return true;
           }
+        }
     });
   };
 
