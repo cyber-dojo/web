@@ -53,6 +53,10 @@ $(() => {
   const $button = $('#settings-button');
   const $settings = $('#settings-dialog');
 
+  $(`input[type=radio][name=theme][value=${data.theme}]`, $settings).prop('checked', true);
+  $(`input[type=radio][name=colour][value=${data.colour}]`, $settings).prop('checked', true);
+  $(`input[type=radio][name=predict][value=${data.predict}]`, $settings).prop('checked', true);
+
   $('input[type=radio][name=theme]', $settings).change(function() {
     $.post('/kata/set_theme', { id:cd.kataId(), value:this.value });
     data.theme = this.value;
