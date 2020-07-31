@@ -2,60 +2,23 @@
 'use strict';
 $(() => {
 
-  let predict = undefined; // 'on'|'off'
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - -
-  cd.predictIsOn = () => predict === 'on';
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - -
-  cd.setupPredictButton = (value) => {
-    // Called from kata/edit to make the button visible.
-    cd.predictButton().show();
-    // Restore the default|previous state
-    predict = value;
-    switch (predict) {
-      case 'on' :
-        setPredictOn();
-        cd.predictButton().clickToggle(setPredictOff, setPredictOn);
-        break;
-      case 'off':
-        setPredictOff();
-        cd.predictButton().clickToggle(setPredictOn, setPredictOff);
-        break;
+  cd.predict = {
+    reset:() => {
+      const predict = cd.settings.predict();
+      if (predict === 'on') {
+        cd.updateTrafficLightsCount();
+        cd.countPredictBox().show();
+      }
+      if (predict === 'off') {
+        cd.countPredictBox().hide();
+      }
     }
-  };
-
-  const setPredictOn = () => {
-    // [1] Must be first because cd.updateTrafficLightsCount()
-    // checks if predict is on.
-    // [2] Consider of the following scenario:
-    //   o) predict? is on and you predict green (say) correctly
-    //   o) you turn predict? off
-    //   o) you [test] and get a red (say) traffic-light
-    //   o) you turn predict? on
-    // In this case there was no prediction on the
-    // most recent traffic-light.
-    setPredict('on'); // [1]
-    cd.updateTrafficLightsCount(); // [2]
-    cd.countPredictBox().show();
-  };
-
-  const setPredictOff = () => {
-    setPredict('off');
-    cd.countPredictBox().hide();
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const setPredict = (value) => {
-    // Called from the predict-option dialog before [test] as POSTed.
-    predict = value;
-    $.post('/kata/set_predict', { id:cd.kataId(), value:predict });
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   cd.predictTrafficLight = (input, handler) => {
     // Called from the test-button handler
-    if (cd.predictIsOn()) {
+    if (cd.settings.predict() === 'on') {
       openPredictionDialog(input, handler);
     } else {
       handler();
