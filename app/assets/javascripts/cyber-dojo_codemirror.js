@@ -2,14 +2,13 @@
 'use strict';
 var cyberDojo = ((cd, $) => {
 
-  // This is controlled by the [theme?] button.
-  // Has two values: 'dark' || 'light'
-  // It is different to the four CodeMirror themes below.
-  let theme = undefined;
+  cd.setupThemeColourButtonsClickHandlers = (theme, colour) => {
+    // Called from kata/edit when page first loads.
+    setupThemeButton(theme);
+    setupColourButton(colour);
+  };
 
-  // This is controlled by the [colour?] button.
-  // Has two values: 'on' || 'off'
-  let colour = undefined;
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const codeMirrorTheme = () => {
     // There are four CodeMirror css themes. Their names are the formed
@@ -18,13 +17,7 @@ var cyberDojo = ((cd, $) => {
     //   dark-colour-off
     //   light-colour-on
     //   light-colour-off
-    return ['cyber-dojo',theme,'colour',colour].join('-');
-  };
-
-  cd.setupThemeColourButtonsClickHandlers = (theme, colour) => {
-    // Called from kata/edit when page first loads.
-    setupThemeButton(theme);
-    setupColourButton(colour);
+    return ['cyber-dojo',cd.settings.theme(),'colour',cd.settings.colour()].join('-');
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -54,7 +47,7 @@ var cyberDojo = ((cd, $) => {
   };
 
   const setThemeTo = (newTheme) => {
-    theme = newTheme;
+    cd.settings.theme(newTheme);
     runActionOnAllCodeMirrorEditors(setTheme);
   };
 
@@ -89,7 +82,7 @@ var cyberDojo = ((cd, $) => {
   };
 
   const setColourTo = (newColour) => {
-    colour = newColour;
+    cd.settings.colour(newColour);
     runActionOnAllCodeMirrorEditors(setTheme);
   };
 
