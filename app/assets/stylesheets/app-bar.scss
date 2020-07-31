@@ -14,6 +14,16 @@
          top: 0px;
      z-index: 1000;
 
+  #settings-button
+  {
+    font-size: 27px;
+    padding: { left:3px; right:3px; top:0px; bottom:1px; }
+    margin: { top:0px; bottom:0px; left:2px; right:2px; }
+    position: relative;
+    top: -7px;
+    cursor: pointer;
+  }
+
   #display-name-box, #exercise-name-box, #id-box
   {
     @include edged-panel();
@@ -27,17 +37,6 @@
     top: 1px;
   }
 
-  #settings-button
-  {
-    font-size: 27px;
-    padding: { left:3px; right:3px; top:0px; bottom:1px; }
-    margin: { top:0px; bottom:0px; left:2px; right:2px; }
-    position: relative;
-    top: -7px;
-    cursor: pointer;
-  }
-
-  #theme-button, #colour-button,
   #charity-button, #feedback-button,
   #traffic-lights-button, #dashboard-button, #help-button, #hotkeys-button, #shas-button,
   #predict-button
@@ -54,7 +53,7 @@
   }
 
   // These buttons are switched on in the kata/edit page.
-  #settings-button, #theme-button, #colour-button, #predict-button, #hotkeys-button  { display:none; }
+  #settings-button, #predict-button, #hotkeys-button  { display:none; }
 
 }
 
