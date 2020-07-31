@@ -241,7 +241,7 @@
     border-bottom-right-radius:0px;
     border-bottom: none;
     display: inline-block;
-    margin: { left: 2px; right: 0px; }
+    margin: { left: 0px; right: 0px; }
     padding-right:7px;
     background: lighten($darker-color, 15%);
     &:hover
@@ -258,8 +258,8 @@
       border: 1px solid $lighter-color;
       border-bottom: none;
     }
-    &.output { margin-left:0px; }
-    &.REPL { float:right; display:none; }
+    &.output, &.REPL { float:right; margin-left:0px; }
+    &.REPL { display:none; }
   }
   .tab.filename.selected { cursor:context-menu; }
   .tab.filename.selected.vellipsis:after
