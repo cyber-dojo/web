@@ -258,13 +258,29 @@ $(() => {
 
   const makeTrafficLightsHtml = () => {
     let html = '';
-    $.each(param.events, (number, event) => {
-      // Controls which events have a visible html element.
-      if (event.colour !== '') { // 0 == creation
+    let number = 1;
+    $.each(param.events, (_index, event) => {
+      if (visible(event)) { 
         html += makeTrafficLightHtml(event, number);
+        number += 1;
       }
     });
     return html;
+  };
+
+  const visible = (event) => {
+    // eg don't show event[0] == creation
+    switch (event.colour) {
+    case 'pulling':
+    case 'red':
+    case 'amber':
+    case 'green':
+    case 'timed_out':
+    case 'faulty':
+      return true;
+    default:
+      return false;
+    }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
