@@ -29,11 +29,12 @@ class TipTest < AppHelpersTestBase
       was_files = files_for(events, 1)
       now_files = files_for(events, now_index=2)
       diff = differ.diff(kata.id, was_files, now_files)
+      number = 2
 
       expected =
         '<table>' +
           '<tr>' +
-            "<td><span class='traffic-light-count green'>#{now_index}</span></td>" +
+            "<td><span class='traffic-light-count green'>#{number}</span></td>" +
             "<td><img src='/traffic-light/image/green_predicted_none.png' class='traffic-light-diff-tip-traffic-light-image'></td>" +
           '</tr>' +
         '</table>' +
@@ -45,7 +46,7 @@ class TipTest < AppHelpersTestBase
           '</tr>' +
         '</table>'
 
-      actual = traffic_light_tip_html(diff, kata.avatar_index, events, now_index)
+      actual = traffic_light_tip_html(diff, kata.avatar_index, events, now_index, number)
       assert_equal expected, actual
     end
   end
@@ -74,12 +75,13 @@ class TipTest < AppHelpersTestBase
       was_files = files_for(events, 1)
       now_files = files_for(events, now_index=2)
       diff = differ.diff(kata.id, was_files, now_files)
+      number = 2
 
       expected =
         '<table>' +
           '<tr>' +
             "<td><img src='/avatar/image/#{kata.avatar_index}' class='traffic-light-diff-tip-avatar-image'></td>" +
-            "<td><span class='traffic-light-count green'>#{now_index}</span></td>" +
+            "<td><span class='traffic-light-count green'>#{number}</span></td>" +
             "<td><img src='/traffic-light/image/green_predicted_none.png' class='traffic-light-diff-tip-traffic-light-image'></td>" +
           '</tr>' +
         '</table>' +
@@ -91,7 +93,7 @@ class TipTest < AppHelpersTestBase
           '</tr>' +
         '</table>'
 
-      actual = traffic_light_tip_html(diff, kata.avatar_index, kata.events, now_index)
+      actual = traffic_light_tip_html(diff, kata.avatar_index, kata.events, now_index, number)
       assert_equal expected, actual
     end
   end
@@ -111,7 +113,8 @@ class TipTest < AppHelpersTestBase
       was_files = files_for(events, was_index=0)
       now_files = files_for(events, now_index=0)
       diff = differ.diff(kata.id, was_files, now_files)
-      actual = traffic_light_tip_html(diff, kata.avatar_index, kata.events, now_index)
+      number = 2
+      actual = traffic_light_tip_html(diff, kata.avatar_index, kata.events, now_index, number)
       assert actual.include?("src='/avatar/image/"), actual+':'+actual.class.name+':'
     end
   end
