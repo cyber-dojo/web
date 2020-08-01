@@ -260,13 +260,15 @@ $(() => {
     let html = '';
     let number = 1;
     $.each(param.events, (_index, event) => {
-      if (visible(event)) { 
+      if (visible(event)) {
         html += makeTrafficLightHtml(event, number);
         number += 1;
       }
     });
     return html;
   };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const visible = (event) => {
     // eg don't show event[0] == creation

@@ -5,11 +5,11 @@ module TrafficLightTipHelper # mix-in
   def traffic_light_tip_html(diffs, avatar_index, events, now_index, number)
     tip = '<table><tr>'
     unless avatar_index.nil? || avatar_index === ''
-      tip += td(avatar_img(avatar_index)) # panda
+      tip += td(avatar_img(avatar_index))     # eg panda
     end
     event = events[now_index]
-    tip += td(tag_html(event.colour, number))            # 14
-    tip += td(traffic_light_img(event))   # red/amber/green
+    tip += td(tag_html(event.colour, number)) # eg 14
+    tip += td(traffic_light_img(event))       # eg red-traffic-light
     tip += '</tr></table>'
     tip += '<table>'
     diffs.each do |filename, diff|
