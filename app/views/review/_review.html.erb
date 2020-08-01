@@ -107,8 +107,8 @@ $(() => {
         cd.waitSpinner.fadeOut('fast', () => {
           param = data;
           refreshAvatarNavigator();
-          refreshIndexNavigator();
-          refreshTrafficLights();
+          refreshTrafficLights();  // this first
+          refreshIndexNavigator(); // this second
           refreshFiles();
           refreshDiffCheckBox();
           scrollCurrentTrafficLightIntoView();
@@ -232,6 +232,7 @@ $(() => {
   const makeIndexHtml = () => {
     const index = param.nowIndex;
     const colour = param.events[index].colour;
+    const number = $(`.diff-traffic-light[data-index=${index}]`).data('number');
     return `<div id="index-number" class="${colour}">${index}</div>`;
   };
 
@@ -246,8 +247,9 @@ $(() => {
     $.each($('.diff-traffic-light', trafficLights), (_, light) => {
       const $light = $(light);
       const nowIndex = $light.data('index');
+      const number = $light.data('number');
       $light.click(() => moveToTrafficLight(nowIndex));
-      cd.setupTrafficLightTip($light, param.version, param.id, param.avatarIndex, wasIndex, nowIndex);
+      cd.setupTrafficLightTip($light, param.version, param.id, param.avatarIndex, wasIndex, nowIndex, number);
       wasIndex = nowIndex;
     });
   };
@@ -256,9 +258,10 @@ $(() => {
 
   const makeTrafficLightsHtml = () => {
     let html = '';
-    $.each(param.events, (_n, event) => {
+    $.each(param.events, (number, event) => {
+      // Controls which events have a visible html element.
       if (event.colour !== '') { // 0 == creation
-        html += makeTrafficLightHtml(event);
+        html += makeTrafficLightHtml(event, number);
       }
     });
     return html;
@@ -266,13 +269,14 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const makeTrafficLightHtml = (light) => {
+  const makeTrafficLightHtml = (light, number) => {
     const colour = light.colour;
     const isRag = (colour === 'red' || colour === 'amber' || colour === 'green');
     const prediction = isRag ? `_predicted_${light.predicted||'none'}` : '';
     return [
       "<div class='diff-traffic-light'",
         ` data-id='${param.id}'`,
+        ` data-number='${number}'`,
         ` data-colour='${colour}'`,
         ` data-index='${light.index}'>`,
         `<img src='/traffic-light/image/${colour}${prediction}.png'/>`,

@@ -21,6 +21,7 @@ $(() => {
   const avatarIndex = '<%= @avatar_index %>';
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // index is the 'tag' number as held in the back end commits.
 
   const wasIndex = (value) => {
     const inputIndex = $("input[name='index']");
@@ -45,6 +46,8 @@ $(() => {
 
   const $lights = $('#traffic-lights');
 
+  var number = 1; // of next displayed traffic-light
+
   cd.appendTrafficLight = (event) => {
     const colour = event.colour;
     const index = event.index;
@@ -52,6 +55,7 @@ $(() => {
       const $div = $('<div>', {
         'class':'diff-traffic-light',
         'data-id':id,
+        'data-number': number,
         'data-index':index,
         'data-avatar-index':avatarIndex,
         'data-colour':colour
@@ -65,8 +69,9 @@ $(() => {
       const $light = $div.append($img);
       $lights.append($light);
       $light.click(() => cd.setReviewData(version, id, groupId, avatarName, avatarIndex, index-1, index));
-      cd.setupTrafficLightTip($light, version, id, avatarIndex, index-1, index);
+      cd.setupTrafficLightTip($light, version, id, avatarIndex, index-1, index, number);
       updateCountData(event);
+      number += 1;
       counts.lastLight = event;
     }
     wasIndex(index);
@@ -83,7 +88,15 @@ $(() => {
     }
   };
 
-  const counts = { red:0, amber:0, green:0, timed_out:0, faulty:0, hit:0, miss:0 };
+  const counts = {
+    pulling: 0,
+    red:0,
+    amber:0,
+    green:0,
+    timed_out:0,
+    faulty:0,
+    hit:0, miss:0
+  };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // cd.updateTrafficLightsCount() updates the total and predicted counts.
@@ -117,7 +130,11 @@ $(() => {
     }).text(cd.trafficLightsCount());
   };
 
-  cd.trafficLightsCount = () => counts.red + counts.amber + counts.green + counts.timed_out + counts.faulty;
+  cd.trafficLightsCount = () =>
+    counts.pulling +
+    counts.red + counts.amber + counts.green +
+    counts.timed_out +
+    counts.faulty;
 
   const trafficLightsTotalCountHoverTip = () => {
     let html = '';
@@ -130,6 +147,9 @@ $(() => {
     }
     if (counts.faulty > 0) {
       html += lightTr('faulty', counts.faulty);
+    }
+    if (counts.pulling > 0) {
+      html += lightTr('pulling', counts.pulling);
     }
     html += '</table>';
     return html;

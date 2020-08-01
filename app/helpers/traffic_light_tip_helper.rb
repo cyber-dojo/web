@@ -2,13 +2,13 @@
 
 module TrafficLightTipHelper # mix-in
 
-  def traffic_light_tip_html(diffs, avatar_index, events, now_index)
+  def traffic_light_tip_html(diffs, avatar_index, events, now_index, number)
     tip = '<table><tr>'
     unless avatar_index.nil? || avatar_index === ''
       tip += td(avatar_img(avatar_index)) # panda
     end
     event = events[now_index]
-    tip += td(tag_html(event))            # 14
+    tip += td(tag_html(event.colour, number))            # 14
     tip += td(traffic_light_img(event))   # red/amber/green
     tip += '</tr></table>'
     tip += '<table>'
@@ -32,8 +32,8 @@ module TrafficLightTipHelper # mix-in
     %w( stdout stderr status ).include?(filename)
   end
 
-  def tag_html(light)
-    "<span class='traffic-light-count #{light.colour}'>#{light.index}</span>"
+  def tag_html(colour, number)
+    "<span class='traffic-light-count #{colour}'>#{number}</span>"
   end
 
   def traffic_light_img(light)
