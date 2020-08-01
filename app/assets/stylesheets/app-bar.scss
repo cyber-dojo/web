@@ -16,12 +16,21 @@
 
   #settings-button, #info-button
   {
-    font-size: 25px;
     padding: { left:2px; right:2px; top:0px; bottom:1px; }
     margin: { top:0px; bottom:0px; left:2px; right:2px; }
+    cursor: pointer;
+  }
+  #settings-button
+  {
+    font-size: 25px;
     position: relative;
     top: -5px;
-    cursor: pointer;
+  }
+  #info-button
+  {
+    font-size: 15px;
+    position: relative;
+    top: 3px;
   }
 
   #display-name-box, #exercise-name-box, #id-box
