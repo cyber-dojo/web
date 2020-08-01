@@ -14,13 +14,13 @@
          top: 0px;
      z-index: 1000;
 
-  #settings-button
+  #settings-button, #info-button
   {
-    font-size: 27px;
-    padding: { left:3px; right:3px; top:0px; bottom:1px; }
+    font-size: 25px;
+    padding: { left:2px; right:2px; top:0px; bottom:1px; }
     margin: { top:0px; bottom:0px; left:2px; right:2px; }
     position: relative;
-    top: -7px;
+    top: -5px;
     cursor: pointer;
   }
 
@@ -53,6 +53,7 @@
 
   // These buttons are switched on in the kata/edit page.
   #settings-button, #hotkeys-button  { display:none; }
+  .info-button { display:none; }
 
 }
 

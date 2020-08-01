@@ -1,0 +1,23 @@
+
+<div id="info-button">&#8505;</div>
+
+<%= render partial: 'shared/charity' %>
+<%= render partial: 'shared/feedback' %>
+<%= render partial: 'shared/hotkeys' %>
+<%= render partial: 'shared/traffic_lights' %>
+<%= render partial: 'shared/dashboard' %>
+<%= render partial: 'shared/help' %>
+<%= render partial: 'shared/shas' %>
+
+<script type="text/javascript">
+'use strict';
+$(() => {
+
+  const $button = $('#info-button');
+  const $buttons = $('.info-button');
+  cd.createTip($button, 'info');
+  $buttons.hide();
+  $button.clickToggle(() => $buttons.fadeIn(), () => $buttons.fadeOut());
+
+});
+</script>
