@@ -79,8 +79,8 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const redBlurb   = () => blurb('red',   'some tests will fail');
-  const amberBlurb = () => blurb('amber', 'the tests wont run yet');
-  const greenBlurb = () => blurb('green', 'all the tests will pass');
+  const amberBlurb = () => blurb('amber', 'tests wont run yet');
+  const greenBlurb = () => blurb('green', 'all tests will pass');
 
   const blurb = (colour, text) => `<div class="predict-blurb ${colour}">${text}</div>`;
 
@@ -90,9 +90,6 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   // kata.scss provides background image with custom :hover
   const lightImg = (rag) => `<div class="predict" id="predict-${rag}"></div>`;
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - -
-  return cd;
 
 });
 </script>

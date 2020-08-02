@@ -10,9 +10,9 @@
 $(() => {
 
   cd.kataId = () => "<%= @id %>";
-  cd.turnOnSettingsButton();
   cd.codeMirror.resetTheme();
   cd.kata.tabs.setup({repl:"<%= @env['REPL'] %>"});
+  cd.turnOnSettingsButton();
   cd.loadInitialTrafficLights();
   cd.updateTrafficLightsCount();
   cd.scrollLastTrafficLightIntoView();
