@@ -233,7 +233,7 @@ $(() => {
     const index = param.nowIndex;
     const colour = param.events[index].colour;
     const number = $(`.diff-traffic-light[data-index=${index}]`).data('number');
-    return `<div id="index-number" class="${colour}">${index}</div>`;
+    return `<div id="index-number" class="${colour}">${number}</div>`;
   };
 
   //-----------------------------------------
