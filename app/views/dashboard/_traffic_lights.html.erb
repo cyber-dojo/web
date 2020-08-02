@@ -12,10 +12,11 @@ $(() => {
       const avatarIndex = $light.data('avatar-index');
       const wasIndex = index;
       const nowIndex = $light.data('index');
+      const number = $light.data('number');
       $light.click(() => {
         window.open(cd.showReviewUrl(id, wasIndex, nowIndex));
       });
-      cd.setupTrafficLightTip($light, version, id, avatarIndex, wasIndex, nowIndex);
+      cd.setupTrafficLightTip($light, version, id, avatarIndex, wasIndex, nowIndex, number);
       index = nowIndex;
     });
   });
@@ -71,6 +72,7 @@ $(() => {
         </div>
       </th>
 
+  	  <% number = 1 %>
   	  <% td_map = @gapped[kata_id] %>
   	  <% td_map.keys.sort.each_with_index do |td_no,index| %>
   		  <% lights = td_map[td_no] %>
@@ -81,7 +83,8 @@ $(() => {
       		  <% end %>
       		  <% if lights.is_a?(Array) %>
       		    <% lights.each do |light| %>
-                <%= raw diff_traffic_light(light, avatar_index) %>
+                <%= raw diff_traffic_light(light, avatar_index, number) %>
+                <% number += 1 %>
               <% end %>
       		  <% end %>
   		    </div>

@@ -75,17 +75,19 @@ class TrafficLightTest < AppHelpersTestBase
     id = 'a4r9YN'
     kata = OpenStruct.new(id:id)
     light = event(index=14, colour='green', predicted='none', kata)
+    number = 15
     avatar_index = 37
     expected = '' +
       "<div class='diff-traffic-light'" +
         " data-id='#{id}'" +
         " data-index='#{index}'" +
+        " data-number='#{number}'" +
         " data-avatar-index='#{avatar_index}'" +
         " data-colour='#{colour}'>" +
         "<img src='/traffic-light/image/green_predicted_none.png'" +
            " alt='green traffic-light'/>" +
       '</div>'
-    actual = diff_traffic_light(light, avatar_index)
+    actual = diff_traffic_light(light, avatar_index, number)
     assert_equal expected, actual
   end
 
