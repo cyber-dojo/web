@@ -23,6 +23,7 @@ class KataController < ApplicationController
     @exercise = manifest.exercise
     # previous traffic-light-lights
     @events_json = kata.events_json
+    @index = kata.events.last.index
     @lights = kata.lights
     # most recent files
     @files = kata.files(:with_output)
@@ -59,19 +60,26 @@ class KataController < ApplicationController
     t1 = time.now
     result,files,@created,@deleted,@changed = kata.run_tests
     t2 = time.now
-    duration = Time.mktime(*t2) - Time.mktime(*t1)
 
+    duration = Time.mktime(*t2) - Time.mktime(*t1)
+    predicted = params['predicted']
+    @id = kata.id
+    @index = params[:index].to_i + 1
+    @avatar_index = params[:avatar_index]
     @stdout = result['stdout']
     @stderr = result['stderr']
     @status = result['status']
     @log = result['log']
     @outcome = result['outcome']
+    @light = {
+      'time' => t1,
+      'index' => @index,
+      'colour' => @outcome,
+      'predicted' => predicted,
+    }
 
-    predicted = params['predicted']
-
-    index = params[:index].to_i + 1
     args = []
-    args << index                       # index of traffic-light event
+    args << @index                      # index of traffic-light event
     args << files                       # includes @created,@deleted,@changed
     args += [t1,duration]               # how long runner took
     args += [@stdout, @stderr, @status] # output of [test] kata.run_tests()
@@ -86,14 +94,6 @@ class KataController < ApplicationController
       STDOUT.puts(error.message);
       STDOUT.flush
     end
-    @avatar_index = params[:avatar_index]
-    @light = {
-      'time' => t1,
-      'index' => index,
-      'colour' => @outcome,
-      'predicted' => predicted,
-    }
-    @id = kata.id
 
     respond_to do |format|
       format.js   { render layout:false }

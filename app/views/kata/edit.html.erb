@@ -13,9 +13,11 @@ $(() => {
   cd.turnOnSettingsButton();
   cd.codeMirror.resetTheme();
   cd.kata.tabs.setup({repl:"<%= @env['REPL'] %>"});
+  cd.loadInitialTrafficLights();
   cd.updateTrafficLightsCount();
-  cd.loadInitialFiles();
   cd.scrollLastTrafficLightIntoView();
+  cd.updateIndex("<%= @index %>");
+  cd.loadInitialFiles();
   cd.showStartingInfoDialog("<%= @env['STARTING_INFO_DIALOG'] %>");
 
 });

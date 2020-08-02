@@ -2,14 +2,15 @@
 
 (() => {
 
+  const editor = cd.kata.editor;
+
   const outcome = "<%= j raw(@outcome) %>";
   const  stdout = "<%= j raw(@stdout['content']) %>";
   const  stderr = "<%= j raw(@stderr['content']) %>";
   const  status = "<%= j raw(@status.to_s) %>";
   const     log = "<%= j raw(@log) %>";
 
-  const editor = cd.kata.editor;
-
+  //- - - - - - - - - - - - - - - - - - - - - -
   const insertCreatedFiles = () => {
     <% @created.each do |filename,file| %>
       editor.createFile("<%= j raw(filename) %>", {
@@ -133,13 +134,14 @@
   };
 
   //- - - - - - - - - - - - - - - - - - - - - -
-  updateTrafficLights();
   insertCreatedFiles();
   removeDeletedFiles();
   updateChangedFiles();
   updateFilenames(); // must come after insert/remove/update
   updateOutput();
-  showInfoDialogs();
+  updateTrafficLights();  
+  cd.updateIndex(<%= @index %>);
   cd.scrollLastTrafficLightIntoView();
+  showInfoDialogs();
 
 })();

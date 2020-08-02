@@ -52,7 +52,7 @@ class ApplicationController < ActionController::Base
     @now_index ||= value_of(:now_index)
     # Avoid extra saver-call for diff(-1,-1)
     @was_index = @now_index if params[:now_index].to_i === -1
-    @now_index    
+    @now_index
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - -

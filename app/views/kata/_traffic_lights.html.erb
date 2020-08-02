@@ -14,22 +14,23 @@ $(() => {
   // The first of these are controlled here.
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const version = '<%= @version %>';
   const id = '<%= @id %>';
   const groupId = '<%= @group_id %>';
   const avatarName = '<%= @avatar_name %>';
+
   const avatarIndex = '<%= @avatar_index %>';
+  const version = '<%= @version %>';
 
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // index is the 'tag' number as held in the back end commits.
+  const $lights = $('#traffic-lights');
 
-  const wasIndex = (value) => {
-    const inputIndex = $("input[name='index']");
-    if (value === undefined) {
-      return parseInt(inputIndex.val());
-    } else {
-      inputIndex.val(value);
-    }
+  var number = 1; // of next displayed traffic-light
+
+  cd.loadInitialTrafficLights = () => {
+    const events = <%= raw @events_json.gsub("\n",'') %>;
+    events.forEach((event,index) => {
+      event.index = index; // version 0 events don't store their index
+      cd.appendTrafficLight(event);
+    });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -44,10 +45,6 @@ $(() => {
   //      - It sets up the new traffic-light.
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const $lights = $('#traffic-lights');
-
-  var number = 1; // of next displayed traffic-light
-
   cd.appendTrafficLight = (event) => {
     const colour = event.colour;
     const index = event.index;
@@ -55,7 +52,7 @@ $(() => {
       const $div = $('<div>', {
         'class':'diff-traffic-light',
         'data-id':id,
-        'data-number': number,
+        'data-number':number,
         'data-index':index,
         'data-avatar-index':avatarIndex,
         'data-colour':colour
@@ -70,12 +67,39 @@ $(() => {
       $lights.append($light);
       $light.click(() => cd.setReviewData(version, id, groupId, avatarName, avatarIndex, index-1, index));
       cd.setupTrafficLightTip($light, version, id, avatarIndex, index-1, index, number);
-      updateCountData(event);
       number += 1;
+      updateCountData(event);
       counts.lastLight = event;
     }
-    wasIndex(index);
   };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // cd.updateTrafficLightsCount() updates the total and predicted counts.
+  // It is called from two places:
+  //   1) _edit.html.erb when page loads/refreshes.
+  //   2) run_tests.js.erb when [test] is clicked.
+
+  cd.updateTrafficLightsCount = () => {
+    updateTrafficLightsTotalCount();
+    if (cd.settings.predict() === 'on') {
+      updateTrafficLightsPredictCount();
+    }
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // Visibility of the predict-box is controlled from settings
+
+  cd.countPredictBox = () => $('#traffic-lights-count-predict-box');
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.trafficLightsCount = () =>
+    counts.pulling +
+    counts.red + counts.amber + counts.green +
+    counts.timed_out +
+    counts.faulty;
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const updateCountData = (light) => {
     counts[light.colour] += 1;
@@ -99,19 +123,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // cd.updateTrafficLightsCount() updates the total and predicted counts.
-  // It is called from two places:
-  //   1) _edit.html.erb when page loads/refreshes.
-  //   2) run_tests.js.erb when [test] is clicked.
-
-  cd.updateTrafficLightsCount = () => {
-    updateTrafficLightsTotalCount();
-    if (cd.settings.predict() === 'on') {
-      updateTrafficLightsPredictCount();
-    }
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const $countTotalBox = $('#traffic-lights-count-total-box');
 
   const updateTrafficLightsTotalCount = () => {
@@ -129,12 +140,6 @@ $(() => {
       'class': `${lastLight().colour} traffic-light-count`,
     }).text(cd.trafficLightsCount());
   };
-
-  cd.trafficLightsCount = () =>
-    counts.pulling +
-    counts.red + counts.amber + counts.green +
-    counts.timed_out +
-    counts.faulty;
 
   const trafficLightsTotalCountHoverTip = () => {
     let html = '';
@@ -168,10 +173,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // Visibility of the predict-box is controlled from the
-  // [predict?] button handler.
-
-  cd.countPredictBox = () => $('#traffic-lights-count-predict-box');
 
   const updateTrafficLightsPredictCount = () => {
     const $box = cd.countPredictBox();
@@ -223,14 +224,6 @@ $(() => {
   const prediction = (light) => light.predicted && light.predicted != 'none' && isRag(light.colour);
 
   const isRag = (s) => ['red','amber','green'].includes(s);
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const events = <%= raw @events_json.gsub("\n",'') %>;
-  events.forEach((event,index) => {
-    event.index = index; // version 0 events don't store their index
-    cd.appendTrafficLight(event);
-  });
 
 });
 </script>
