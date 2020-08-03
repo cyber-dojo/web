@@ -93,11 +93,14 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.trafficLightsCount = () =>
-    counts.pulling +
-    counts.red + counts.amber + counts.green +
-    counts.timed_out +
-    counts.faulty;
+  cd.trafficLightsCount = (filter) => {
+    let count = 0;
+    if (filter === undefined) {
+      filter = ['pulling','red','amber','green','timed_out','faulty'];
+    }
+    filter.forEach((key) => count += counts[key]);
+    return count;
+  };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

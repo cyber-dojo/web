@@ -4,7 +4,7 @@
     <tr>
       <td><div class="predict" id="predict-red"></div></td>
       <td><div class="predict-blurb red">some tests will fail</div></td>
-      <td>
+      <td class="tcr">
         <input type="checkbox" class="regular-checkbox" id="red-revert-checkbox"/>
         <label for="red-revert-checkbox"></label>
       </td>
@@ -12,7 +12,7 @@
     <tr>
       <td><div class="predict" id="predict-amber"></div></td>
       <td><div class="predict-blurb amber">the tests wont run yet</div></td>
-      <td>
+      <td class="tcr">
         <input type="checkbox" class="regular-checkbox" id="amber-revert-checkbox"/>
         <label for="amber-revert-checkbox"></label>
       </td>
@@ -20,13 +20,13 @@
     <tr>
       <td><div class="predict" id="predict-green"></div></td>
       <td><div class="predict-blurb green">all the tests will pass</div></td>
-      <td>
+      <td class="tcr">
         <input type="checkbox" class="regular-checkbox" id="green-revert-checkbox"/>
         <label for="green-revert-checkbox"></label>
       </td>
     </tr>
   </table>
-  <div id="tcr" class="info">
+  <div id="tcr" class="tcr info">
     The checkboxes implement a form of
     <a href="https://medium.com/@kentbeck_7670/test-commit-revert-870bbd756864" target="_blank">
     Test &amp;&amp; Commit || Revert</a>.
@@ -64,6 +64,9 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const openPredictionDialog = (input, handler) => {
     const node = $('#predict-dialog');
+    if (cd.trafficLightsCount(['red','amber','green']) > 0) {
+      $('.tcr', node).show();
+    }
     setupRagClick(input, node, handler, 'red');
     setupRagClick(input, node, handler, 'amber');
     setupRagClick(input, node, handler, 'green');
