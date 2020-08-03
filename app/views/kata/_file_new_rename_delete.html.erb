@@ -70,8 +70,8 @@ $(() => {
     });
     const closeDialog = () => okButton.closest('.ui-dialog').remove();
     // position the dialog next to the button that launched it.
-    const xPos = originator.offset().left + originator.width() + 58;
-    const yPos = originator.offset().top;
+    const xPos = originator.offset().left;
+    const yPos = originator.offset().top + 24;
 
     const onDialogOpen = () => {
       const lastDot = initialFilename.lastIndexOf('.');

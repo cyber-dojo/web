@@ -43,10 +43,10 @@ $(() => {
     setupBlurbClick(input, node, handler, 'amber');
     setupBlurbClick(input, node, handler, 'green');
     const originator = cd.testButton;
-    const xPos = originator.offset().left + originator.width() + 21;
-    const yPos = originator.offset().top;
+    const xPos = originator.offset().left;
+    const yPos = originator.offset().top + 37;
     node.dialog({
-              width: 300,
+              width: 350,
            position: [xPos,yPos],
            autoOpen: true,
       closeOnEscape: true,
