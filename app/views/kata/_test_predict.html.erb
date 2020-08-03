@@ -1,0 +1,109 @@
+
+<div id="predict-dialog">
+  <table>
+    <tr>
+      <td><div class="predict" id="predict-red"></div></td>
+      <td><div class="predict-blurb red">some tests will fail</div></td>
+      <td>
+        <input type="checkbox" class="regular-checkbox" id="red-revert-checkbox"/>
+        <label for="red-revert-checkbox"></label>
+      </td>
+    </tr>
+    <tr>
+      <td><div class="predict" id="predict-amber"></div></td>
+      <td><div class="predict-blurb amber">the tests wont run yet</div></td>
+      <td>
+        <input type="checkbox" class="regular-checkbox" id="amber-revert-checkbox"/>
+        <label for="amber-revert-checkbox"></label>
+      </td>
+    </tr>
+    <tr>
+      <td><div class="predict" id="predict-green"></div></td>
+      <td><div class="predict-blurb green">all the tests will pass</div></td>
+      <td>
+        <input type="checkbox" class="regular-checkbox" id="green-revert-checkbox"/>
+        <label for="green-revert-checkbox"></label>
+      </td>
+    </tr>
+  </table>
+  <div id="tcr" class="info">
+    The checkboxes implement a form of
+    <a href="https://medium.com/@kentbeck_7670/test-commit-revert-870bbd756864" target="_blank">
+    Test &amp;&amp; Commit || Revert</a>.
+    When checked, an incorrect prediction will be reverted!
+  </div>
+</div>
+
+<script type="text/javascript">
+'use strict';
+$(() => {
+
+  cd.predict = {
+    reset:() => {
+      const predict = cd.settings.predict();
+      if (predict === 'on') {
+        cd.updateTrafficLightsCount();
+        cd.countPredictBox().show();
+      }
+      if (predict === 'off') {
+        cd.countPredictBox().hide();
+      }
+    }
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  cd.predictTrafficLight = (input, handler) => {
+    // Called from the test-button handler
+    if (cd.settings.predict() === 'on') {
+      openPredictionDialog(input, handler);
+    } else {
+      handler();
+    }
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  const openPredictionDialog = (input, handler) => {
+    const node = $('#predict-dialog');
+    setupRagClick(input, node, handler, 'red');
+    setupRagClick(input, node, handler, 'amber');
+    setupRagClick(input, node, handler, 'green');
+    setupBlurbClick(input, node, handler, 'red');
+    setupBlurbClick(input, node, handler, 'amber');
+    setupBlurbClick(input, node, handler, 'green');
+    const originator = cd.testButton;
+    const xPos = originator.offset().left;
+    const yPos = originator.offset().top + 37;
+    node.dialog({
+              width: 305,
+           position: [xPos,yPos],
+           autoOpen: true,
+      closeOnEscape: true,
+              modal: true,
+              title: cd.dialogTitle('predict'),
+        beforeClose: event => {
+          if (event.keyCode === $.ui.keyCode.ESCAPE) {
+            node.remove();
+            return true;
+          }
+        }
+    });
+  };
+
+  const setupRagClick = (input, node, handler, colour) => {
+    $(`div#predict-${colour}`, node).click(() => {
+      input.val(colour);
+      node.remove();
+      handler();
+    });
+  };
+
+  const setupBlurbClick = (input, node, handler, colour) => {
+    $(`.predict-blurb.${colour}`, node).click(() => {
+      input.val(colour);
+      node.remove();
+      handler();
+    });
+  };
+
+});
+</script>

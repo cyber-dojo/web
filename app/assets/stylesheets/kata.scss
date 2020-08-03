@@ -323,10 +323,19 @@ div#predict-green:hover { background: url("/traffic-light/image/green_predicted_
 .predict-blurb
 {
   @include rounded-corner(3px);
+  width: 190px;
   padding: 5px;
   border: 1px solid $darker-color;
   cursor:pointer;
   &:hover { border: 1px dotted lighten($darker-color, 30%); }
+}
+
+#predict-dialog { display:none; }
+
+#tcr
+{
+  font-size: 15px;
+  a { color: khaki !important; }
 }
 
 //--------------------------------------------------------------
