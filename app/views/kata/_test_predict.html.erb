@@ -37,32 +37,33 @@ $(() => {
     html += '</table>';
     html += tcrInfo();
     html += '</div>';
-    const node = $(html);
+    const $node = $(html);
     if (cd.trafficLightsCount(['red','amber','green']) > 0) {
-      $('.tcr', node).show();
+      $('.tcr', $node).show();
     }
-    setupRagClick(input, node, handler, 'red');
-    setupRagClick(input, node, handler, 'amber');
-    setupRagClick(input, node, handler, 'green');
-    setupBlurbClick(input, node, handler, 'red');
-    setupBlurbClick(input, node, handler, 'amber');
-    setupBlurbClick(input, node, handler, 'green');
-    setupTcrCheckBox(node, 'red');
-    setupTcrCheckBox(node, 'amber');
-    setupTcrCheckBox(node, 'green');
+    setupRagClick(input, handler, $node, 'red');
+    setupRagClick(input, handler, $node, 'amber');
+    setupRagClick(input, handler, $node, 'green');
+    setupBlurbClick(input, handler, $node, 'red');
+    setupBlurbClick(input, handler, $node, 'amber');
+    setupBlurbClick(input, handler, $node, 'green');
+    setupTcrCheckBox($node, 'red');
+    setupTcrCheckBox($node, 'amber');
+    setupTcrCheckBox($node, 'green');
+
     const originator = cd.testButton;
     const xPos = originator.offset().left;
     const yPos = originator.offset().top + 37;
-    node.dialog({
+    $node.dialog({
               width: 305,
            position: [xPos,yPos],
            autoOpen: true,
       closeOnEscape: true,
               modal: true,
               title: cd.dialogTitle('predict'),
+              close: () => $node.dialog('destroy'),
         beforeClose: event => {
           if (event.keyCode === $.ui.keyCode.ESCAPE) {
-            node.dialog('destroy');
             return true;
           }
         }
@@ -70,28 +71,29 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const setupRagClick = (input, node, handler, colour) => {
-    $(`div#predict-${colour}`, node).click(() => {
+  const setupRagClick = (input, handler, $node, colour) => {
+    $(`div#predict-${colour}`, $node).click(() => {
       input.val(colour);
-      node.remove();
+      $node.remove();
       handler();
     });
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const setupBlurbClick = (input, node, handler, colour) => {
-    $(`.predict-blurb.${colour}`, node).click(() => {
+  const setupBlurbClick = (input, handler, $node, colour) => {
+    $(`.predict-blurb.${colour}`, $node).click(() => {
       input.val(colour);
-      node.remove();
+      $node.remove();
       handler();
     });
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const setupTcrCheckBox = (node, rag) => {
-    const $checkbox = $(`#${rag}-tcr-checkbox`, node);
-    $checkbox.prop('checked', tcr[rag])
-             .change(() => tcr[rag] = $checkbox.prop('checked'));
+  const setupTcrCheckBox = ($node, colour) => {
+    const $checkbox = $(`#${colour}-tcr-checkbox`, $node);
+    $checkbox
+      .prop('checked', tcr[colour])
+      .change(() => tcr[colour] = $checkbox.prop('checked'));
   };
 
   const tcr = {
@@ -122,7 +124,7 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const tcrCheckbox = (rag) => {
     return '' +
-      `<input type="checkbox" class="regular-checkbox" id="${rag}-tcr-checkbox"/>` +
+      `<input type="checkbox" id="${rag}-tcr-checkbox"/>` +
       `<label for="${rag}-tcr-checkbox"></label>`;
   };
 

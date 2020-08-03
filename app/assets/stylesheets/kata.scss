@@ -323,7 +323,7 @@ div#predict-green:hover { background: url("/traffic-light/image/green_predicted_
 .predict-blurb
 {
   @include rounded-corner(3px);
-  width: 190px;
+  width: 187px;
   padding: 5px;
   border: 1px solid $darker-color;
   cursor:pointer;
@@ -331,6 +331,14 @@ div#predict-green:hover { background: url("/traffic-light/image/green_predicted_
 }
 
 #predict-dialog, .tcr { display:none; }
+
+input#red-tcr-checkbox, input#amber-tcr-checkbox, input#green-tcr-checkbox
+{
+  width: 20px !important;
+  height: 20px !important;
+  zoom: 1.3;
+  -moz-transform: scale(1.3);
+}
 
 #tcr
 {
