@@ -82,7 +82,6 @@ $(() => {
               title: cd.dialogTitle('predict'),
         beforeClose: event => {
           if (event.keyCode === $.ui.keyCode.ESCAPE) {
-            node.remove();
             return true;
           }
         }
