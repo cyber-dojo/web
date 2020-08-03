@@ -1,39 +1,4 @@
 
-<div id="predict-dialog">
-  <table>
-    <tr>
-      <td><div class="predict" id="predict-red"></div></td>
-      <td><div class="predict-blurb red">some tests will fail</div></td>
-      <td class="tcr">
-        <input type="checkbox" class="regular-checkbox" id="red-revert-checkbox"/>
-        <label for="red-revert-checkbox"></label>
-      </td>
-    </tr>
-    <tr>
-      <td><div class="predict" id="predict-amber"></div></td>
-      <td><div class="predict-blurb amber">the tests wont run yet</div></td>
-      <td class="tcr">
-        <input type="checkbox" class="regular-checkbox" id="amber-revert-checkbox"/>
-        <label for="amber-revert-checkbox"></label>
-      </td>
-    </tr>
-    <tr>
-      <td><div class="predict" id="predict-green"></div></td>
-      <td><div class="predict-blurb green">all the tests will pass</div></td>
-      <td class="tcr">
-        <input type="checkbox" class="regular-checkbox" id="green-revert-checkbox"/>
-        <label for="green-revert-checkbox"></label>
-      </td>
-    </tr>
-  </table>
-  <div id="tcr" class="tcr info">
-    The checkboxes implement a form of
-    <a href="https://medium.com/@kentbeck_7670/test-commit-revert-870bbd756864" target="_blank">
-    Test &amp;&amp; Commit || Revert</a>.
-    When checked, an incorrect prediction will be reverted!
-  </div>
-</div>
-
 <script type="text/javascript">
 'use strict';
 $(() => {
@@ -53,7 +18,6 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   cd.predictTrafficLight = (input, handler) => {
-    alert(1);
     // Called from the test-button handler
     if (cd.settings.predict() === 'on') {
       openPredictionDialog(input, handler);
@@ -64,11 +28,19 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const openPredictionDialog = (input, handler) => {
-    alert(2);
-    const node = $('#predict-dialog');
-    /*if (cd.trafficLightsCount(['red','amber','green']) > 0) {
+    let html = '';
+    html += '<div>'
+    html += '<table>';
+    html += tr('red',     redBlurb());
+    html += tr('amber', amberBlurb());
+    html += tr('green', greenBlurb());
+    html += '</table>';
+    html += tcrInfo();
+    html += '</div>';
+    const node = $(html);
+    if (cd.trafficLightsCount(['red','amber','green']) > 0) {
       $('.tcr', node).show();
-    }*/
+    }
     setupRagClick(input, node, handler, 'red');
     setupRagClick(input, node, handler, 'amber');
     setupRagClick(input, node, handler, 'green');
@@ -78,8 +50,6 @@ $(() => {
     const originator = cd.testButton;
     const xPos = originator.offset().left;
     const yPos = originator.offset().top + 37;
-    alert(3+`[${xPos},${yPos}]`);
-    alert(4+node.html());
     node.dialog({
               width: 305,
            position: [xPos,yPos],
@@ -89,6 +59,7 @@ $(() => {
               title: cd.dialogTitle('predict'),
         beforeClose: event => {
           if (event.keyCode === $.ui.keyCode.ESCAPE) {
+            node.dialog('destroy');
             return true;
           }
         }
@@ -110,6 +81,43 @@ $(() => {
       handler();
     });
   };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  const redBlurb   = () => blurb('red',   'some tests will fail');
+  const amberBlurb = () => blurb('amber', 'the tests wont run yet');
+  const greenBlurb = () => blurb('green', 'all the tests will pass');
+
+  const blurb = (colour, text) => `<div class="predict-blurb ${colour}">${text}</div>`;
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  const tr = (rag, blurb) =>
+    '<tr>' +
+      `<td>${lightImg(rag)}</td>` +
+      `<td>${blurb}</td>` +
+      `<td class="tcr">${checkbox(rag)}</td>` +
+    '</tr>';
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  // kata.scss provides background image with custom :hover
+  const lightImg = (rag) => `<div class="predict" id="predict-${rag}"></div>`;
+
+  const checkbox = (rag) => {
+    return '' +
+      `<input type="checkbox" class="regular-checkbox" id="{rag}-revert-checkbox"/>` +
+      `<label for="${rag}-revert-checkbox"></label>`;
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  const tcrInfo = () => {
+    return '' +
+      '<div id="tcr" class="tcr info">' +
+        'The checkboxes implement a form of ' +
+        '<a href="https://medium.com/@kentbeck_7670/test-commit-revert-870bbd756864" target="_blank">' +
+        'Test &amp;&amp; Commit || Revert</a>. ' +
+        'When checked, an incorrect prediction will be reverted!' +
+      '</div>';
+  };
+
 
 });
 </script>
