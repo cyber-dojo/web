@@ -47,6 +47,9 @@ $(() => {
     setupBlurbClick(input, node, handler, 'red');
     setupBlurbClick(input, node, handler, 'amber');
     setupBlurbClick(input, node, handler, 'green');
+    setupTcrCheckBox(node, 'red');
+    setupTcrCheckBox(node, 'amber');
+    setupTcrCheckBox(node, 'green');
     const originator = cd.testButton;
     const xPos = originator.offset().left;
     const yPos = originator.offset().top + 37;
@@ -66,6 +69,7 @@ $(() => {
     });
   };
 
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
   const setupRagClick = (input, node, handler, colour) => {
     $(`div#predict-${colour}`, node).click(() => {
       input.val(colour);
@@ -74,12 +78,26 @@ $(() => {
     });
   };
 
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
   const setupBlurbClick = (input, node, handler, colour) => {
     $(`.predict-blurb.${colour}`, node).click(() => {
       input.val(colour);
       node.remove();
       handler();
     });
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  const setupTcrCheckBox = (node, rag) => {
+    const $checkbox = $(`#${rag}-tcr-checkbox`, node);
+    $checkbox.prop('checked', tcr[rag])
+             .change(() => tcr[rag] = $checkbox.prop('checked'));
+  };
+
+  const tcr = {
+    red:false,
+    amber:false,
+    green:false
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -94,17 +112,18 @@ $(() => {
     '<tr>' +
       `<td>${lightImg(rag)}</td>` +
       `<td>${blurb}</td>` +
-      `<td class="tcr">${checkbox(rag)}</td>` +
+      `<td class="tcr">${tcrCheckbox(rag)}</td>` +
     '</tr>';
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   // kata.scss provides background image with custom :hover
   const lightImg = (rag) => `<div class="predict" id="predict-${rag}"></div>`;
 
-  const checkbox = (rag) => {
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  const tcrCheckbox = (rag) => {
     return '' +
-      `<input type="checkbox" class="regular-checkbox" id="${rag}-revert-checkbox"/>` +
-      `<label for="${rag}-revert-checkbox"></label>`;
+      `<input type="checkbox" class="regular-checkbox" id="${rag}-tcr-checkbox"/>` +
+      `<label for="${rag}-tcr-checkbox"></label>`;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
