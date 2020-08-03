@@ -80,8 +80,11 @@ $(() => {
   cd.createTip($button, 'settings');
 
   const openSettingsDialog = () => {
+    const xPos = $button.offset().left;
+    const yPos = $button.offset().top + 30;
     $settings.dialog({
               width: 250,
+           position: [xPos,yPos],
            autoOpen: true,
       closeOnEscape: true,
               modal: true,
