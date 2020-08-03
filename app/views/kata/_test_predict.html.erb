@@ -53,6 +53,7 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   cd.predictTrafficLight = (input, handler) => {
+    alert(1);
     // Called from the test-button handler
     if (cd.settings.predict() === 'on') {
       openPredictionDialog(input, handler);
@@ -63,10 +64,11 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const openPredictionDialog = (input, handler) => {
+    alert(2);
     const node = $('#predict-dialog');
-    if (cd.trafficLightsCount(['red','amber','green']) > 0) {
+    /*if (cd.trafficLightsCount(['red','amber','green']) > 0) {
       $('.tcr', node).show();
-    }
+    }*/
     setupRagClick(input, node, handler, 'red');
     setupRagClick(input, node, handler, 'amber');
     setupRagClick(input, node, handler, 'green');
@@ -76,6 +78,8 @@ $(() => {
     const originator = cd.testButton;
     const xPos = originator.offset().left;
     const yPos = originator.offset().top + 37;
+    alert(3+`[${xPos},${yPos}]`);
+    alert(4+node.html());
     node.dialog({
               width: 305,
            position: [xPos,yPos],

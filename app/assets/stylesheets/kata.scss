@@ -330,7 +330,8 @@ div#predict-green:hover { background: url("/traffic-light/image/green_predicted_
   &:hover { border: 1px dotted lighten($darker-color, 30%); }
 }
 
-#predict-dialog, .tcr { display:none; }
+//.tcr { display:none; }
+#predict-dialog { display:none; }
 
 #tcr
 {
