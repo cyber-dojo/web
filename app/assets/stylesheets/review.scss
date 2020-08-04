@@ -87,6 +87,16 @@
     margin: 0px;
   }
 
+  #diff-checkbox
+  {
+    width: 15px;
+    height: 15px;
+    zoom: 1.1; // Safari
+    -moz-transform: scale(1.1);
+    position: relative;
+    top: -3px;
+  }
+
   #fork-button, #checkout-button
   {
     @include rounded-corner(4px);

@@ -3,12 +3,6 @@
 {
   margin: { left: 35px; top: 40px; }
 
-  #age
-  {
-    text-align: center;
-    font-size: 13px;
-  }
-
   #age-box, #auto-refresh-box, #minute-columns-box
   {
     @include edged-panel();
@@ -27,13 +21,26 @@
     position: relative;
     top: -1px;
   }
+  #age
+  {
+    text-align: center;
+    font-size: 13px;
+  }
 
-  #progress-button-box, #download-button-box
+  #auto-refresh-checkbox, #minute-columns-checkbox
+  {
+    width: 15px;
+    height: 15px;
+    zoom: 1.2; // Safari
+    -moz-transform: scale(1.2);
+  }
+
+  #progress-button-box
   {
     @include right-align(15px);
     text-align: right;
     margin-left: 10px;
-    #progress-button, #download-button
+    #progress-button
     {
       @include plaintext-font();
       @include font-size-tiny();

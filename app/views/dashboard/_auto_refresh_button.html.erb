@@ -10,7 +10,7 @@ $(() => {
 
   $('#auto-refresh-text').click(() => {
     checkBox.attr('checked', !checkBox.is(':checked'));
-    cd.refreshDashboard();    
+    cd.refreshDashboard();
   });
 
 });
@@ -24,10 +24,8 @@ $(() => {
       </div>
     </td>
     <td>
-      <input type="checkbox"
-             class="regular-checkbox"
-             id="auto-refresh-checkbox"/>
-        <label for="auto-refresh-checkbox"></label>
+      <input type="checkbox" id="auto-refresh-checkbox"/>
+      <label for="auto-refresh-checkbox"></label>
     </td>
   </tr>
 </table>

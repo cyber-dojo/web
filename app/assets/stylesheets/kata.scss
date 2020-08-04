@@ -334,9 +334,9 @@ div#predict-green:hover { background: url("/traffic-light/image/green_predicted_
 
 input#red-tcr-checkbox, input#amber-tcr-checkbox, input#green-tcr-checkbox
 {
-  width: 20px !important;
-  height: 20px !important;
-  zoom: 1.3;
+  width: 20px;
+  height: 20px;
+  zoom: 1.3; // Safari
   -moz-transform: scale(1.3);
 }
 
