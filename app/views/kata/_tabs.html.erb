@@ -1,7 +1,7 @@
 
 <div class="tab-filenames">
   <div class="tab output">output</div>
-  <div class="tab filename">cyber-dojo.sh</div>
+  <div class="tab filename"></div>
   <div class="tab REPL">+REPL</div>
 </div>
 
@@ -36,7 +36,6 @@ $(() => {
   tabs.reserves = filename => {
     const tabNames = [];
     tabNames.push(tabs.output().text());
-    tabNames.push('status');
     tabNames.push(tabs.repl().text());
     return tabNames.includes(filename);
   };
@@ -57,9 +56,11 @@ $(() => {
     // Alt-O tabs hot-key navigation
     // See app/assets/javascripts/cyber-dojo_codemirror.js
     // See app/views/shared/_hotkeys.html.erb
-    switch (tabs.selected().text()) {
-    default                  : tabs.output().click(); break;
-    case tabs.output().text(): tabs.filename().click(); break;
+    const text = tabs.selected().text();
+    if (text === 'output') {
+      tabs.filename().click();
+    } else {
+      tabs.output().click();
     }
   };
 
