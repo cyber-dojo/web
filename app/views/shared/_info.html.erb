@@ -15,7 +15,7 @@ $(() => {
 
   const $button = $('#info-button');
   const $buttons = $('.info-button');
-  cd.createTip($button, 'info');
+  cd.createTip($button, 'toggle info buttons on/off');
   $buttons.hide();
   $button.clickToggle(() => $buttons.fadeIn(), () => $buttons.fadeOut());
 
