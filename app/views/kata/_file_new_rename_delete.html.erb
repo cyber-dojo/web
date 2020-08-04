@@ -19,7 +19,7 @@ $(() => {
   const openNewFileDialog = () => {
     const initialFilename = `filename${cd.extensionFilenames()[0]}`;
     const okInitiallyDisabled = !isValidFilename(initialFilename);
-    const okClicked = newFilename => {
+    const okClicked = (newFilename) => {
       cd.kata.editor.createFile(newFilename, {content:''});
       cd.kata.filenames.refresh();
       cd.kata.filenames.select(newFilename);
@@ -33,7 +33,7 @@ $(() => {
     const $filenames = $('#filename-list');
     const initialFilename = $('.filename.selected', $filenames).text().trim();
     const okInitiallyDisabled = false;
-    const okClicked = filename => {
+    const okClicked = (filename) => {
       cd.kata.editor.deleteFile(filename);
       cd.kata.filenames.refresh();
       cd.kata.filenames.select(cd.kata.filenames.top());
@@ -45,7 +45,7 @@ $(() => {
 
   cd.openRenameFileDialog = (originator, filename) => {
     const okInitiallyDisabled = true;
-    const okClicked = newFilename => {
+    const okClicked = (newFilename) => {
       cd.kata.editor.renameFile(filename, newFilename);
       cd.kata.filenames.refresh();
       cd.kata.filenames.select(newFilename);
@@ -124,7 +124,7 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const isValidFilename = filename => {
+  const isValidFilename = (filename) => {
     const contains = illegal => filename.indexOf(illegal) !== -1;
     if (alreadyExists(filename)) { return false; }
     if (sss(filename)) { return false; }
