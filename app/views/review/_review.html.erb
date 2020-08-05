@@ -588,6 +588,9 @@ $(() => {
       $reviewPage.hide();
       $kataPage.show();
       deleteAllFiles();
+      const stdout = removeProperty(data.visibleFiles, 'stdout');
+      const stderr = removeProperty(data.visibleFiles, 'stderr');
+      const status = removeProperty(data.visibleFiles, 'status');
       insertNewFiles(data.visibleFiles);
       $('#test-button').click();
     });
@@ -595,18 +598,20 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
+  const removeProperty = (object, name) => {
+    const value = object[name];
+    delete object[name];
+    return value;
+  };
+
   const deleteAllFiles = () => cd.kata.editor.deleteFiles();
 
   const insertNewFiles = (files) => {
     for (const filename in files) {
-      if (!sss(filename)) {
-        cd.kata.editor.createFile(filename, { content:files[filename] });
-        cd.kata.editor.showFile(filename);
-      }
+      cd.kata.editor.createFile(filename, { content:files[filename] });
+      cd.kata.editor.showFile(filename);
     }
   };
-
-  const sss = (filename) => ['stdout','stderr','status'].includes(filename);
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
