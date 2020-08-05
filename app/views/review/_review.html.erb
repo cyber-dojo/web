@@ -27,7 +27,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   // There is only one call to cd.setReviewData() and its
   // in app/views/kata/_traffic_lights.html.erb
-  // The [resume] & [checkout] buttons are only on kata/edit.
+  // The [resume] & [revert] buttons are only on kata/edit.
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const $kataPage = $('#kata-page');
@@ -55,8 +55,8 @@ $(() => {
         });
       });
     });
-    setupButton('checkout', () => doCheckout());
-    setCheckoutButtonTip();
+    setupButton('revert', () => doRevert());
+    setRevertButtonTip();
     refresh();
   };
 
@@ -569,22 +569,22 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const setCheckoutButtonTip = () => {
-    const button = $('#checkout-button');
+  const setRevertButtonTip = () => {
+    const button = $('#revert-button');
     cd.setTip(button, () => {
-      const tip = `checkout this<br/>traffic-light's files`;
+      const tip = `revert back to this<br/>traffic-light's files`;
       cd.showHoverTip(button, tip);
     });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const doCheckout = () => {
-    const checkoutParams = {
+  const doRevert = () => {
+    const revertParams = {
           id: param.id,
        index: param.nowIndex
     };
-    $.getJSON('/reverter/revert', checkoutParams, (data) => {
+    $.getJSON('/reverter/revert', revertParams, (data) => {
       $reviewPage.hide();
       $kataPage.show();
       deleteAllFiles();
@@ -654,7 +654,7 @@ $(() => {
     <td class="left-column">
       <%= render(:partial => 'review/diff_checkbox') %>
       <div id="fork-button-box"></div>
-      <div id="checkout-button-box"></div>
+      <div id="revert-button-box"></div>
       <div id="diff-filenames"></div>
     </td>
     <td>

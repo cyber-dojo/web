@@ -81,7 +81,7 @@
   #resume-button-box,
   #diff-checkbox-container,
   #fork-button-box,
-  #checkout-button-box
+  #revert-button-box
   {
     display: inline;
     margin: 0px;
@@ -98,7 +98,7 @@
     top: -3px;
   }
 
-  #fork-button, #checkout-button
+  #fork-button, #revert-button
   {
     @include rounded-corner(4px);
     text-align: left;
