@@ -23,31 +23,33 @@ $(() => {
 
   const $lights = $('#traffic-lights');
 
-  var number = 1; // of next displayed traffic-light
-
-  cd.loadInitialTrafficLights = () => {
-    const events = <%= raw @events_json.gsub("\n",'') %>;
-    events.forEach((event,index) => {
-      event.index = index; // version 0 events don't store their index
-      cd.appendTrafficLight(event);
-    });
-  };
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // Every event has a unique index property.
+  // Not every event is necessarily visible though.
+  // Number is the number of next visible event.
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  var number = 1;
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // cd.appendTrafficLight() sets up the tip/click handlers
   // for the kata-page (but not review-page) traffic-lights.
-  // It is called in two places:
+  // It is called in these places:
   //   1) From this file
   //      - This happens when a page loads.
   //      - It sets up the existing traffic-lights.
-  //   2) From run_tests.js.erb
+  //   2) From views/kata/run_tests.js.erb
   //      - This happens when you run the [test]s
   //      - It sets up the new traffic-light.
+  //   3) From views/review/_review.html.erb
+  //      - When you click the [revert] button.
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.appendTrafficLight = (event) => {
     const colour = event.colour;
     const index = event.index;
+    // There are events that do not directly correspond
+    // to a traffic-light. For example, the kata creation event.
+    // In the future there may be more, eg file new|delete|rename events.
     if (colour) {
       const $div = $('<div>', {
         'class':'diff-traffic-light',
@@ -57,7 +59,7 @@ $(() => {
         'data-avatar-index':avatarIndex,
         'data-colour':colour
       });
-      const $light = $div.append(img(event));
+      const $light = $div.append($img(event));
       $lights.append($light);
       $light.click(() => cd.setReviewData(version, id, groupId, avatarName, avatarIndex, index-1, index));
       cd.setupTrafficLightTip($light, version, id, avatarIndex, index-1, index, number);
@@ -67,7 +69,7 @@ $(() => {
     }
   };
 
-  const img = (event) => {
+  const $img = (event) => {
     const colour = event.colour;
     return $('<img>', {
       'src':`/traffic-light/image/${colour}${imgSuffix(event)}.png`,
@@ -88,10 +90,11 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // cd.updateTrafficLightsCount() updates the total and predicted counts.
-  // It is called from two places:
-  //   1) _edit.html.erb when page loads/refreshes.
-  //   2) run_tests.js.erb when [test] is clicked.
+  // cd.updateTrafficLightsCount() updates the total-count and
+  // the predicted-counts. It is called from these places:
+  //   1) views/kata/_edit.html.erb when page loads/refreshes.
+  //   2) views/kata/run_tests.js.erb when [test] is clicked.
+  //   3) views/review/_review.html.erb when [revert] is clicked.
 
   cd.updateTrafficLightsCount = () => {
     updateTrafficLightsTotalCount();
@@ -199,6 +202,8 @@ $(() => {
     });
   };
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   const missBox = () => {
     const light = lastLight();
     const colour = predictedIncorrectly(light) ? light.predicted : 'black';
@@ -215,6 +220,8 @@ $(() => {
     return $('<div>', {id:'miss-box'}).append($missImg).append($missCount);
   };
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   const hitBox = () => {
     const light = lastLight();
     const colour = predictedCorrectly(light) ? light.predicted : 'black';
@@ -230,6 +237,8 @@ $(() => {
     cd.setTip($hitCount, () => cd.showHoverTip($hitCount, hoverTip));
     return $('<div>', {id:'hit-box'}).append($hitImg).append($hitCount);
   };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const lastLight = () => counts.lastLight ? counts.lastLight : { predicted:'none' };
 
