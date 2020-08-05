@@ -65,13 +65,4 @@ class ApplicationController < ActionController::Base
     value
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def files_for(index)
-    kata.events[index]
-        .files(:with_output)
-        .map{ |filename,file| [filename, file['content']] }
-        .to_h
-  end
-
 end
