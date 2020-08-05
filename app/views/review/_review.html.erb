@@ -590,15 +590,12 @@ $(() => {
       $kataPage.show();
       deleteAllFiles();
       insertNewFiles(data.visibleFiles);
-
-      //$('#test-button').click(); // TODO: DROP!
-
       cd.kata.filenames.refresh();
       cd.kata.editor.output(data.stdout, data.stderr, data.status);
       cd.kata.tabs.output().click();
       cd.appendTrafficLight(data.light);
       cd.updateTrafficLightsCount();
-      cd.updateIndex(data.index);
+      cd.updateIndex(data.light.index);
       cd.scrollLastTrafficLightIntoView();
     });
   };
