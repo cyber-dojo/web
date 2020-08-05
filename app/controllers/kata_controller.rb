@@ -26,7 +26,10 @@ class KataController < ApplicationController
     @index = kata.events.last.index
     @lights = kata.lights
     # most recent files
-    @files = kata.files(:with_output)
+    @files = kata.files
+    @stdout = kata.stdout['content']
+    @stderr = kata.stderr['content']
+    @status = kata.status
     # parameters
     @image_name = manifest.image_name
     @filename_extension = manifest.filename_extension

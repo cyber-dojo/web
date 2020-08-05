@@ -13,14 +13,8 @@ class Event
     @hash['index']
   end
 
-  def files(sym = nil)
-    all = event['files']
-    if sym === :with_output
-      all['stdout'] = stdout || content('')
-      all['stderr'] = stderr || content('')
-      all['status'] = content((status || '').to_s)
-    end
-    all
+  def files
+    event['files']
   end
 
   def stdout

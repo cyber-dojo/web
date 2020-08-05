@@ -12,12 +12,17 @@ $(() => {
   cd.kataId = () => "<%= @id %>";
   cd.codeMirror.resetTheme();
   cd.kata.tabs.setup({repl:"<%= @env['REPL'] %>"});
+
+  cd.loadInitialFiles(); // TODO. Pass @files here
+  cd.kata.editor.output("<%= j raw(@stdout) %>", "<%= j raw(@stderr) %>", "<%= j raw(@status) %>");
+  cd.kata.filenames.refresh();
+
   cd.turnOnSettingsButton();
   cd.loadInitialTrafficLights();
   cd.updateTrafficLightsCount();
   cd.scrollLastTrafficLightIntoView();
   cd.updateIndex("<%= @index %>");
-  cd.loadInitialFiles();
+
   cd.showStartingInfoDialog("<%= @env['STARTING_INFO_DIALOG'] %>");
 
 });

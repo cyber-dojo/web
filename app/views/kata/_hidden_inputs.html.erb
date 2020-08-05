@@ -3,10 +3,16 @@
 'use strict';
 $(() => {
 
+  const $index = $("input[name='index']");
+
   cd.updateIndex = (value) => {
     // Each event has an incrementing index,
     // as held in the back end commits.
-    $("input[name='index']").val(value);
+    $index.val(value);
+  };
+
+  cd.getIndex = () => {
+    return $index.val();
   };
 
 });

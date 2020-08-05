@@ -38,12 +38,6 @@
     <% end %>
   };
 
-  cd.updateOutput = (stdout, stderr, status) => {
-    const tabs = cd.kata.tabs;
-    editor.output(stdout, stderr, status);
-    tabs.output().click();
-  };
-
   //- - - - - - - - - - - - - - - - - - - - - -
   const showInfoIfTestsTimedOut = () => {
     if (outcome === 'timed_out') {
@@ -128,11 +122,14 @@
   updateChangedFiles();
 
   cd.kata.filenames.refresh(); // must come after insert/remove/update
-  cd.updateOutput(stdout, stderr, status);
+  cd.kata.editor.output(stdout, stderr, status);
+  cd.kata.tabs.output().click();
+
   cd.appendTrafficLight(<%= raw @light.to_json %>);
   cd.updateTrafficLightsCount();
-  cd.updateIndex(<%= @index %>);
   cd.scrollLastTrafficLightIntoView();
+  cd.updateIndex(<%= @index %>);
+  
   showInfoDialogs();
 
 })();

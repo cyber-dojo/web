@@ -4,23 +4,13 @@
 $(() => {
 
   cd.loadInitialFiles = () => {
-    var stdout = '';
-    var stderr = '';
-    var status = '';
     const files = [];
     <% @files.each do |filename,file| %>
       var filename = "<%= j raw(filename) %>";
       var content = "<%= j raw(file['content']) %>";
-      switch (filename) {
-        case 'stdout': stdout = content; break;
-        case 'stderr': stderr = content; break;
-        case 'status': status = content; break;
-        default: files.push({ name:filename, content:content }); break;
-      }
+      files.push({ name:filename, content:content });
     <% end %>
     cd.kata.editor.createFiles(files);
-    cd.kata.editor.output(stdout, stderr, status);
-    cd.kata.filenames.refresh();
   };
 
 });
