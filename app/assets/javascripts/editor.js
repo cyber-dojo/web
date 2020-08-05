@@ -14,18 +14,6 @@ var cyberDojo = ((cd, $) => {
     });
   };
 
-  Editor.prototype.deleteFiles = function() {
-    this.filenames().forEach(filename => this.deleteFile(filename));
-  };
-
-  Editor.prototype.output = function(stdout, stderr, status) {
-    this.changeFile('output', { content:
-      ":stdout:\n" + stdout + "\n" +
-      ":stderr:\n" + stderr + "\n" +
-      ":status:\n" + status + "\n"
-    });
-  };
-
   Editor.prototype.createFile = function(filename, file) {
     const $newFile = $makeNewFile(filename, file);
     $('#visible-files-box').append($newFile);
@@ -43,6 +31,10 @@ var cyberDojo = ((cd, $) => {
     const content = fileContent(oldFilename);
     this.deleteFile(oldFilename);
     this.createFile(newFilename, { content:content });
+  };
+
+  Editor.prototype.deleteFiles = function() {
+    this.filenames().forEach(filename => this.deleteFile(filename));
   };
 
   Editor.prototype.hideFile = function(filename) {
@@ -70,6 +62,14 @@ var cyberDojo = ((cd, $) => {
   Editor.prototype.changeFile = function(filename, file) {
     this.deleteFile(filename);
     this.createFile(filename, file);
+  };
+
+  Editor.prototype.output = function(stdout, stderr, status) {
+    this.changeFile('output', { content:
+      ":stdout:\n" + stdout + "\n" +
+      ":stderr:\n" + stderr + "\n" +
+      ":status:\n" + status + "\n"
+    });
   };
 
   Editor.prototype.refocus = function() {

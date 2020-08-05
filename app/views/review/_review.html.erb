@@ -599,10 +599,14 @@ $(() => {
 
   const insertNewFiles = (files) => {
     for (const filename in files) {
-      cd.kata.editor.createFile(filename, { content:files[filename] });
-      cd.kata.editor.showFile(filename);
+      if (!sss(filename)) {
+        cd.kata.editor.createFile(filename, { content:files[filename] });
+        cd.kata.editor.showFile(filename);
+      }
     }
   };
+
+  const sss = (filename) => ['stdout','stderr','status'].includes(filename);
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
