@@ -338,6 +338,7 @@ input#red-tcr-checkbox, input#amber-tcr-checkbox, input#green-tcr-checkbox
   height: 20px;
   zoom: 1.3; // Safari
   -moz-transform: scale(1.3);
+  cursor: pointer;
 }
 
 #tcr

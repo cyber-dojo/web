@@ -38,9 +38,9 @@ $(() => {
     html += tcrInfo();
     html += '</div>';
     const $node = $(html);
-    /*if (cd.trafficLightsCount(['red','amber','green']) > 0) {
+    if (cd.trafficLightsCount(['red','amber','green']) > 0) {
       $('.tcr', $node).show();
-    }*/
+    }
     setupRagClick(input, handler, $node, 'red');
     setupRagClick(input, handler, $node, 'amber');
     setupRagClick(input, handler, $node, 'green');
@@ -132,10 +132,10 @@ $(() => {
   const tcrInfo = () => {
     return '' +
       '<div id="tcr" class="tcr info">' +
-        'The checkboxes implement a form of ' +
+        'The checkboxes are a form of<br/>' +
         '<a href="https://medium.com/@kentbeck_7670/test-commit-revert-870bbd756864" target="_blank">' +
-        'Test &amp;&amp; Commit || Revert</a>. ' +
-        'When checked, an incorrect prediction will be reverted!' +
+        'Test &amp;&amp; Commit || Revert</a>.<br/>' +
+        'When checked, an incorrect prediction will be automatically reverted!' +
       '</div>';
   };
 
