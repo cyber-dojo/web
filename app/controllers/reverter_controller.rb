@@ -39,7 +39,8 @@ class ReverterController < ApplicationController
       visibleFiles: visible_files,
       light: {
         colour: colour,
-        index: index
+        index: index,
+        revert: now_index
       }
     }
   end
@@ -60,7 +61,7 @@ class ReverterController < ApplicationController
   def events_filename(id)
     kata_id_path(id, 'events.json')
   end
-  
+
   def event_filename(id, index)
     kata_id_path(id, "#{index}.event.json")
   end

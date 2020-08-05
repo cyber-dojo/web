@@ -57,19 +57,33 @@ $(() => {
         'data-avatar-index':avatarIndex,
         'data-colour':colour
       });
-      const predicted = event.predicted || 'none';
-      const imgSuffix = isRag(colour) ? `_predicted_${predicted}` : '';
-      const $img = $('<img>', {
-        'src':`/traffic-light/image/${colour}${imgSuffix}.png`,
-        'alt':`${colour} traffic-light`
-      });
-      const $light = $div.append($img);
+      const $light = $div.append(img(event));
       $lights.append($light);
       $light.click(() => cd.setReviewData(version, id, groupId, avatarName, avatarIndex, index-1, index));
       cd.setupTrafficLightTip($light, version, id, avatarIndex, index-1, index, number);
       number += 1;
       updateCountData(event);
       counts.lastLight = event;
+    }
+  };
+
+  const img = (event) => {
+    const colour = event.colour;
+    return $('<img>', {
+      'src':`/traffic-light/image/${colour}${imgSuffix(event)}.png`,
+      'alt':`${colour} traffic-light`
+    });
+  };
+
+  const imgSuffix = (event) => {
+    const colour = event.colour;
+    const predicted = event.predicted || 'none';
+    if (!isRag(colour)) {
+      return '';
+    } else if (event.revert) {
+      return '_revert';
+    } else {
+      return `_predicted_${predicted}`;
     }
   };
 
