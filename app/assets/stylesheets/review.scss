@@ -100,7 +100,7 @@
 
   #fork-button, #revert-button
   {
-    @include rounded-corner(4px);
+    @include rounded-corner(3px);
     text-align: left;
     font-size: 10px;
     margin-left: 5px;
