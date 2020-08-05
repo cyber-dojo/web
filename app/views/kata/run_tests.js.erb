@@ -38,7 +38,7 @@
     <% end %>
   };
 
-  const updateOutput = () => {
+  cd.updateOutput = (stdout, stderr, status) => {
     const tabs = cd.kata.tabs;
     editor.output(stdout, stderr, status);
     tabs.output().click();
@@ -114,17 +114,6 @@
   };
 
   //- - - - - - - - - - - - - - - - - - - - - -
-  const updateTrafficLights = () => {
-    cd.appendTrafficLight(<%= raw @light.to_json %>);
-    cd.updateTrafficLightsCount();
-  }
-
-  //- - - - - - - - - - - - - - - - - - - - - -
-  const updateFilenames = () => {
-    cd.kata.filenames.refresh();
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - -
   const showInfoDialogs = () => {
     showInfoIfAvatarsOutOfSync();
     showInfoIfTestsTimedOut();
@@ -137,9 +126,11 @@
   insertCreatedFiles();
   removeDeletedFiles();
   updateChangedFiles();
-  updateFilenames(); // must come after insert/remove/update
-  updateOutput();
-  updateTrafficLights();  
+
+  cd.kata.filenames.refresh(); // must come after insert/remove/update
+  cd.updateOutput(stdout, stderr, status);
+  cd.appendTrafficLight(<%= raw @light.to_json %>);
+  cd.updateTrafficLightsCount();
   cd.updateIndex(<%= @index %>);
   cd.scrollLastTrafficLightIntoView();
   showInfoDialogs();

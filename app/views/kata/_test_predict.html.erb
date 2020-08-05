@@ -38,9 +38,9 @@ $(() => {
     html += tcrInfo();
     html += '</div>';
     const $node = $(html);
-    /*if (cd.trafficLightsCount(['red','amber','green']) > 0) {
+    if (cd.trafficLightsCount(['red','amber','green']) > 0) {
       $('.tcr', $node).show();
-    }*/
+    }
     setupRagClick(input, handler, $node, 'red');
     setupRagClick(input, handler, $node, 'amber');
     setupRagClick(input, handler, $node, 'green');

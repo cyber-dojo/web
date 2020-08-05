@@ -18,7 +18,7 @@ $(() => {
     // Called from 3 places
     // 1. when you click [test]
     // 2. when you hot-key Alt-T
-    // 3. when you checkout from a diff-review
+    // 3. when you revert from a diff-review
     cd.testButton.disable();
     cd.saveCodeFromSyntaxHighlightEditors();
     cd.waitSpinner.fadeIn('slow', () => {
@@ -33,12 +33,6 @@ $(() => {
     });
     // [1] This 30s timeout is different to max_seconds
     // from the start-point's manifest.json file.
-    // The main reason this timeout will fire is if
-    // the runner service receives a run_cyber_dojo_sh()
-    // call with an image_name not (yet) on the receiving
-    // node, causing it to do a [docker pull]. Only when
-    // the [docker pull] finishes does the [docker run]
-    // begin and the max_seconds sleep timer start.
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - -

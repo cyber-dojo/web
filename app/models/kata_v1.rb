@@ -76,7 +76,7 @@ class Kata_v1
     }
     saver.assert_all([
       # The order of these commands matters.
-      # A failing write_command() ensure the append_command() is not run.
+      # A failing create_command() ensures the append_command() is not run.
       event_file_create_command(id, index, json_plain(event_n.merge(event_summary))),
       events_file_append_command(id, ",\n" + json_plain(event_summary))
     ])
