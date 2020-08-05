@@ -591,7 +591,7 @@ $(() => {
       deleteAllFiles();
       insertNewFiles(data.visibleFiles);
       cd.kata.filenames.refresh();
-      cd.kata.editor.output(data.stdout, data.stderr, data.status);
+      cd.kata.editor.output(data.stdout.content, data.stderr.content, data.status);
       cd.kata.tabs.output().click();
       cd.appendTrafficLight(data.light);
       cd.updateTrafficLightsCount();

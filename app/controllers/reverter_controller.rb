@@ -5,8 +5,8 @@ class ReverterController < ApplicationController
     event = kata.events[now_index]
     files = event.files
     colour = event.colour
-    stdout = event.stdout['content']
-    stderr = event.stderr['content']
+    stdout = event.stdout
+    stderr = event.stderr
     status = event.status
     visible_files = files.map{ |filename,file| [filename, file['content']] }
                          .to_h
