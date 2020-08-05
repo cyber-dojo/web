@@ -13,9 +13,10 @@
   //- - - - - - - - - - - - - - - - - - - - - -
   const insertCreatedFiles = () => {
     <% @created.each do |filename,file| %>
-      editor.createFile("<%= j raw(filename) %>", {
-        content: "<%= j raw(file['content']) %>"
-      });
+      editor.createFile(
+        "<%= j raw(filename) %>",
+        { content: "<%= j raw(file['content']) %>" }
+      );
     <% end %>
   };
 
@@ -32,9 +33,10 @@
 
   const updateChangedFiles = () => {
     <% @changed.each do |filename,file| %>
-      editor.changeFile("<%= j raw(filename) %>", {
-        content: "<%= j raw(file['content']) %>"
-      });
+      editor.changeFile(
+        "<%= j raw(filename) %>",
+        { content: "<%= j raw(file['content']) %>" }
+      );
     <% end %>
   };
 
@@ -121,7 +123,7 @@
   removeDeletedFiles();
   updateChangedFiles();
 
-  cd.kata.filenames.refresh(); // must come after insert/remove/update
+  cd.kata.filenames.refresh(); // NB: After insert/remove/update
   cd.kata.editor.output(stdout, stderr, status);
   cd.kata.tabs.output().click();
 
@@ -129,7 +131,7 @@
   cd.updateTrafficLightsCount();
   cd.scrollLastTrafficLightIntoView();
   cd.updateIndex(<%= @index %>);
-  
+
   showInfoDialogs();
 
 })();

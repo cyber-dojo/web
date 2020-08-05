@@ -8,12 +8,6 @@ var cyberDojo = ((cd, $) => {
     this.currentFilename = undefined;
   };
 
-  Editor.prototype.createFiles = function(files) {
-    files.forEach(file => {
-      this.createFile(file.name, file);
-    });
-  };
-
   Editor.prototype.createFile = function(filename, file) {
     const $newFile = $makeNewFile(filename, file);
     $('#visible-files-box').append($newFile);
@@ -34,7 +28,7 @@ var cyberDojo = ((cd, $) => {
   };
 
   Editor.prototype.deleteFiles = function() {
-    this.filenames().forEach(filename => this.deleteFile(filename));
+    this.filenames().forEach((filename) => this.deleteFile(filename));
   };
 
   Editor.prototype.hideFile = function(filename) {

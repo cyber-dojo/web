@@ -36,7 +36,7 @@ class KataController < ApplicationController
     @highlight_filenames = manifest.highlight_filenames
     @max_seconds = manifest.max_seconds
     @tab_size = manifest.tab_size
-    # colour-syntax
+    # settings
     @theme = kata.theme
     @colour = kata.colour
     @predict = kata.predict

@@ -13,8 +13,18 @@ $(() => {
   cd.codeMirror.resetTheme();
   cd.kata.tabs.setup({repl:"<%= @env['REPL'] %>"});
 
-  cd.loadInitialFiles(); // TODO. Pass @files here
-  cd.kata.editor.output("<%= j raw(@stdout) %>", "<%= j raw(@stderr) %>", "<%= j raw(@status) %>");
+  <% @files.each do |filename,file| %>
+    cd.kata.editor.createFile(
+      "<%= j raw(filename) %>",
+      { content:"<%= j raw(file['content']) %>" }
+    );
+  <% end %>
+
+  cd.kata.editor.output(
+    "<%= j raw(@stdout) %>",
+    "<%= j raw(@stderr) %>",
+    "<%= j raw(@status) %>"
+  );
   cd.kata.filenames.refresh();
 
   cd.turnOnSettingsButton();
