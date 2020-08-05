@@ -18,11 +18,11 @@ class Event
   end
 
   def stdout
-    event['stdout']
+    event['stdout'] || content('')
   end
 
   def stderr
-    event['stderr']
+    event['stderr'] || content('')
   end
 
   def status
