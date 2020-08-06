@@ -3,24 +3,29 @@
 module TrafficLightTipHelper # mix-in
 
   def traffic_light_tip_html(diffs, avatar_index, events, now_index, number)
-    tip = '<table><tr>'
+    tip = '<table>'
+    tip += '<tr>'
     unless avatar_index.nil? || avatar_index === ''
       tip += td(avatar_img(avatar_index))     # eg panda
     end
     event = events[now_index]
     tip += td(tag_html(event.colour, number)) # eg 14
     tip += td(traffic_light_img(event))       # eg red-traffic-light
-    tip += '</tr></table>'
+    tip += '</tr>'
+    tip += '</table>'
+    #
     tip += '<table>'
     diffs.each do |filename, diff|
-      added   = diff.count { |line| line['type'] == 'added'   }
-      deleted = diff.count { |line| line['type'] == 'deleted' }
-      if !output?(filename) && (added + deleted != 0)
-        tip += '<tr>'
-        tip += td(diff_count('deleted', deleted))
-        tip += td(diff_count('added', added))
-        tip += td('&nbsp;' + filename)
-        tip += '</tr>'
+      unless output?(filename)
+        added   = diff.count { |line| line['type'] == 'added'   }
+        deleted = diff.count { |line| line['type'] == 'deleted' }
+        if added + deleted != 0
+          tip += '<tr>'
+          tip += td(diff_count('deleted', deleted))
+          tip += td(diff_count('added', added))
+          tip += td('&nbsp;' + filename)
+          tip += '</tr>'
+        end
       end
     end
     tip += '</table>'
