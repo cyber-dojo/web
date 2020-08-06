@@ -58,8 +58,32 @@ class Kata_v0
       'status' => status
     }
     saver.assert_all([
-      # The order of these commands matters.
-      # A failing write_command() ensure the append_command() is not run.
+      # A failing create_command() ensure the append_command() is not run.
+      dir_exists_command(id),
+      dir_make_command(id, index),
+      event_file_create_command(id, index, json_plain(lined(event_n))),
+      events_file_append_command(id, json_plain(event_summary) + "\n")
+    ])
+  end
+
+  # - - - - - - - - - - - - - - - - - - -
+
+  def revert(id, now_index, index, files, now, stdout, stderr, status, colour)
+    event_summary = {
+      'index' => index,
+      'time' => now,
+      'colour' => colour,
+      'duration' => 0.0,
+      'revert' => now_index
+    }
+    event_n = {
+      'files' => files,
+      'stdout' => stdout,
+      'stderr' => stderr,
+      'status' => status
+    }
+    saver.assert_all([
+      # A failing create_command() ensure the append_command() is not run.
       dir_exists_command(id),
       dir_make_command(id, index),
       event_file_create_command(id, index, json_plain(lined(event_n))),
