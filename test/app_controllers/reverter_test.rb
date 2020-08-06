@@ -19,7 +19,7 @@ class ReverterControllerTest  < AppControllerTestBase
       post_run_tests # 2
       assert_equal new_content, kata.files[filename]['content']
 
-      get '/reverter/revert', params: { # 3
+      post '/reverter/revert', params: { # 3
         'format' => 'json',
         'id'     => kata.id,
         'now_index' => 1,

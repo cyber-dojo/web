@@ -74,7 +74,7 @@ CyberDojo::Application.routes.draw do
 
   get '/differ/diff' => 'differ#diff', :constraints => { :format => :json }
 
-  get '/reverter/revert' => 'reverter#revert', :constraints => { :format => :json }
+  post '/reverter/revert' => 'reverter#revert', :constraints => { :format => :json }
 
   get '/download(/:id)' => 'downloader#download'
   get '/download_tag(/:id/:avatar/:tag)' => 'downloader#download_tag'

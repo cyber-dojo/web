@@ -585,7 +585,7 @@ $(() => {
        now_index: param.nowIndex,
            index: cd.getIndex()
     };
-    $.getJSON('/reverter/revert', revertParams, (data) => {
+    $.post('/reverter/revert', revertParams, (data) => {
       $reviewPage.hide();
       $kataPage.show();
       deleteAllFiles();
@@ -597,7 +597,7 @@ $(() => {
       cd.updateTrafficLightsCount();
       cd.updateIndex(data.light.index);
       cd.scrollLastTrafficLightIntoView();
-    });
+    }, 'json');
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
