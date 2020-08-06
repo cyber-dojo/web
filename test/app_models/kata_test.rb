@@ -97,9 +97,9 @@ class KataTest < AppModelsTestBase
       assert_schema_version(kata)
       assert_equal 0, kata.age
 
-      assert_nil kata.stdout
-      assert_nil kata.stderr
-      assert_nil kata.status
+      #assert_nil kata.stdout
+      #assert_nil kata.stderr
+      #assert_nil kata.status
 
       refute kata.active?
       assert_equal [], kata.lights
@@ -129,9 +129,9 @@ class KataTest < AppModelsTestBase
 
       assert_equal 0, kata.age
 
-      assert_nil kata.stdout
-      assert_nil kata.stderr
-      assert_nil kata.status
+      #assert_nil kata.stdout
+      #assert_nil kata.stderr
+      #assert_nil kata.status
 
       refute kata.active?
       assert_equal [], kata.lights
@@ -177,14 +177,23 @@ class KataTest < AppModelsTestBase
       assert_equal stderr, kata.stderr
       assert_equal status, kata.status
       # event files can include pseudo output-files to help differ
-      expected = kata.files.merge({
-          'stdout' => light.stdout,
-          'stderr' => light.stderr,
-          'status' => { 'content' => light.status.to_s }
-      })
-      assert_equal expected, light.files(:with_output)
+      expected = kata.files
+      assert_equal expected, light.files
     end
   end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - -
+
+=begin
+  v_tests [0,1], '860', %w(
+  after revert,
+  the kata is a bit older,
+  there is a new traffic-light event,
+  which is now the most recent event
+  ) do
+
+  end
+=end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -314,25 +323,6 @@ class KataTest < AppModelsTestBase
     end
   end
 
-  v_tests [0,1], '827', %w(
-  the default for colour-syntax is on
-  ) do
-    in_new_kata do |kata|
-      assert_equal  'on', kata.colour
-    end
-  end
-
-
-  v_tests [0,1], '828', %w(
-  the default for prediction is off
-  ) do
-    in_new_kata do |kata|
-      assert_equal  'off', kata.predict
-    end
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - -
-
   v_tests [0,1], '926', %w(
   setting the colour-theme is persistent
   ) do
@@ -344,6 +334,16 @@ class KataTest < AppModelsTestBase
     end
   end
 
+  #- - - - - - - - - - - - - - - - - - - - - - - - -
+
+  v_tests [0,1], '827', %w(
+  the default for colour-syntax is on
+  ) do
+    in_new_kata do |kata|
+      assert_equal  'on', kata.colour
+    end
+  end
+
   v_tests [0,1], '927', %w(
   setting the colour-syntax is persistent
   ) do
@@ -352,6 +352,16 @@ class KataTest < AppModelsTestBase
       assert_equal  'off', kata.colour
       kata.colour = 'on'
       assert_equal  'on', kata.colour
+    end
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - -
+
+  v_tests [0,1], '828', %w(
+  the default for prediction is off
+  ) do
+    in_new_kata do |kata|
+      assert_equal  'off', kata.predict
     end
   end
 
