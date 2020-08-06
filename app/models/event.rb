@@ -30,7 +30,7 @@ class Event
 
   # - - - - - - - - - - - - - - - - - - - -
   # summary properties
-  
+
   def index
     @summary['index']
   end

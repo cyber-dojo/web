@@ -19,7 +19,7 @@ class TipTest < AppHelpersTestBase
 
       filename = 'hiker.rb'
       hiker_rb = kata.files[filename]['content']
-      files[filename] = file(hiker_rb.sub('9','7'))
+      files[filename] = file(hiker_rb.sub('6 * 9','6 * 7'))
       stdout = file('All tests passed')
       stderr = file('')
       status = 0
@@ -65,7 +65,7 @@ class TipTest < AppHelpersTestBase
 
       filename = 'hiker.rb'
       hiker_rb = kata.files[filename]['content']
-      files[filename] = file(hiker_rb.sub('9','7'))
+      files[filename] = file(hiker_rb.sub('6 * 9','6 * 7'))
       stdout = file('All tests passed')
       stderr = file('')
       status = 0
@@ -132,7 +132,7 @@ class TipTest < AppHelpersTestBase
 
       filename = 'hiker.rb'
       hiker_rb = kata.files[filename]['content']
-      files[filename] = file(hiker_rb.sub('9','7'))
+      files[filename] = file(hiker_rb.sub('6 * 9','6 * 7'))
       stdout = file('All tests passed')
       stderr = file('')
       status = 0
@@ -178,7 +178,7 @@ class TipTest < AppHelpersTestBase
 
       filename = 'hiker.rb'
       hiker_rb = kata.files[filename]['content']
-      files[filename] = file(hiker_rb.sub('9','7'))
+      files[filename] = file(hiker_rb.sub('6 * 9','6 * 7'))
       stdout = file('All tests passed')
       stderr = file('')
       status = 0

@@ -97,10 +97,6 @@ class KataTest < AppModelsTestBase
       assert_schema_version(kata)
       assert_equal 0, kata.age
 
-      #assert_nil kata.stdout
-      #assert_nil kata.stderr
-      #assert_nil kata.status
-
       refute kata.active?
       assert_equal [], kata.lights
 
@@ -122,16 +118,9 @@ class KataTest < AppModelsTestBase
     indexes = (0..63).to_a.shuffle
     in_new_group do |group|
       kata = group.join(indexes)
-
       assert_schema_version(kata)
-
       assert kata.exists?
-
       assert_equal 0, kata.age
-
-      #assert_nil kata.stdout
-      #assert_nil kata.stderr
-      #assert_nil kata.status
 
       refute kata.active?
       assert_equal [], kata.lights
@@ -158,12 +147,13 @@ class KataTest < AppModelsTestBase
     @time = TimeStub.new([2018,11,1, 9,13,56,6574])
     in_new_kata do |kata|
       assert_schema_version(kata)
+      files = kata.files
       stdout = content('dfg')
       stderr = content('uystd')
       status = 3
       colour = 'red'
       now = [2018,11,1, 9,14,9,9154]
-      kata.ran_tests(1, kata.files, now, duration, stdout, stderr, status, colour)
+      kata.ran_tests(1, files, now, duration, stdout, stderr, status, colour)
 
       assert_equal 13, kata.age
       assert kata.active?
@@ -173,27 +163,60 @@ class KataTest < AppModelsTestBase
       assert_equal stdout, light.stdout
       assert_equal stderr, light.stderr
       assert_equal status, light.status
+      assert_equal files, light.files
       assert_equal stdout, kata.stdout
       assert_equal stderr, kata.stderr
       assert_equal status, kata.status
-      # event files can include pseudo output-files to help differ
-      expected = kata.files
-      assert_equal expected, light.files
+      assert_equal files, kata.files
     end
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-=begin
   v_tests [0,1], '860', %w(
   after revert,
-  the kata is a bit older,
   there is a new traffic-light event,
   which is now the most recent event
   ) do
+    in_new_kata do |kata|
+      assert_schema_version(kata)
+      files = kata.files
+      stdout_1 = content("Expected: 42\nActual: 54")
+      stderr_1 = content('assert failed')
+      status_1 = 4
+      now_1 = [2018,11,1, 9,14,9,9154]
+      kata.ran_tests(1, kata.files, now_1, duration, stdout_1, stderr_1, status_1, 'red')
 
+      filename = 'hiker.rb'
+      hiker_rb = kata.files[filename]['content']
+      files[filename] = content(hiker_rb.sub('6 * 9','6 * 7'))
+      stdout_2 = content('All tests passed')
+      stderr_2 = content('')
+      status_2 = 0
+      now_2 = [2018,11,1, 9,15,19,1394]
+      kata.ran_tests(2, files, now_2, duration, stdout_2, stderr_2, status_2, 'green')
+
+      now_3 = [2018,11,1, 9,16,28,46]
+      kata.revert(3, kata.events[1].files, now_3, stdout_1, stderr_1, status_1, 'red', 1)
+
+      assert_equal 4, kata.events.size
+      assert_equal 3, kata.lights.size
+
+      light = kata.events[-1]
+      assert_equal 1, light.revert
+      assert_equal :red, light.colour
+
+      assert_equal stdout_1, light.stdout
+      assert_equal stderr_1, light.stderr
+      assert_equal status_1, light.status
+      assert_equal kata.events[1].files, light.files
+
+      assert_equal stdout_1, kata.stdout
+      assert_equal stderr_1, kata.stderr
+      assert_equal status_1, kata.status
+      assert_equal kata.events[1].files, kata.files
+    end
   end
-=end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
