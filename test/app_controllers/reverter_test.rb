@@ -19,20 +19,23 @@ class ReverterControllerTest  < AppControllerTestBase
       post_run_tests # 2
       assert_equal new_content, kata.files[filename]['content']
 
-      get '/reverter/revert', params: {
+      get '/reverter/revert', params: { # 3
         'format' => 'json',
         'id'     => kata.id,
-        'index'  => 1
+        'now_index' => 1,
+        'index'  => 3,
       }
       assert_response :success
 
       visible_files = json['visibleFiles']
       refute_nil visible_files
-
-      refute_nil visible_files['stdout']
-      refute_nil visible_files['stderr']
       refute_nil visible_files[filename]
       assert_equal old_content, visible_files[filename]
+
+      assert_equal 4, kata.events.size
+      event = kata.events[3]
+      assert_equal old_content, event.files[filename]['content']
+      assert_equal 1, event.revert
     }
   end
 
