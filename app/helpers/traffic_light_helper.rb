@@ -49,9 +49,19 @@ module TrafficLightHelper # mix-in
 
   def traffic_light_image(light)
     colour = light.colour
-    predicted = rag?(colour) ? "_predicted_#{light.predicted}" : ''
-    "<img src='/traffic-light/image/#{colour}#{predicted}.png'" +
-       " alt='#{light.colour} traffic-light'/>"
+    "<img src='/traffic-light/image/#{colour}#{imgSuffix(light)}.png'" +
+       " alt='#{colour} traffic-light'/>"
+  end
+
+  def imgSuffix(light)
+    if !rag?(light.colour)
+      ''
+    elsif light.revert
+      '_revert'
+    else
+      predicted = light.predicted || 'none'
+      "_predicted_#{predicted}"
+    end
   end
 
   def rag?(colour)
