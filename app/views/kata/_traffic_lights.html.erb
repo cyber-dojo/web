@@ -78,9 +78,8 @@ $(() => {
   };
 
   const imgSuffix = (event) => {
-    const colour = event.colour;
     const predicted = event.predicted || 'none';
-    if (!isRag(colour)) {
+    if (!isRag(event.colour)) {
       return '';
     } else if (event.revert) {
       return '_revert';

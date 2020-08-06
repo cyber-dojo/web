@@ -29,6 +29,10 @@ class Event
     event['status']
   end
 
+  def revert
+    event['revert']
+  end
+
   def time
     Time.mktime(*@hash['time'])
   end
