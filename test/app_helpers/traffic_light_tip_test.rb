@@ -8,7 +8,7 @@ class TipTest < AppHelpersTestBase
 
   include TrafficLightTipHelper
 
-  test 'D52',
+  v_tests [0,1], 'D52',
   'traffic-light tip for individual kata does not have avatar-image' do
     in_new_kata do |kata|
       files = kata.files
@@ -53,7 +53,7 @@ class TipTest < AppHelpersTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'D53',
+  v_tests [0,1], 'D53',
   'traffic-light tip for kata in a group has an avatar-image' do
     in_new_group do |group|
       kata = group.join
@@ -100,7 +100,7 @@ class TipTest < AppHelpersTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'D54',
+  v_tests [0,1], 'D54',
   'traffic-light tip for creation event (index==0)' do
     in_new_group do |group|
       kata = group.join
@@ -121,7 +121,7 @@ class TipTest < AppHelpersTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'D55',
+  v_tests [0,1], 'D55',
   'traffic-light tip for faulty event' do
     in_new_kata do |kata|
       files = kata.files
@@ -166,7 +166,7 @@ class TipTest < AppHelpersTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'D56', %w(
+  v_tests [0,1], 'D56', %w(
   traffic-light tip for incorrect prediction
   ) do
     in_new_kata do |kata|
@@ -213,7 +213,7 @@ class TipTest < AppHelpersTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'D57', %w(
+  v_tests [0,1], 'D57', %w(
   traffic-light tip for revert
   ) do
     in_new_kata do |kata|
