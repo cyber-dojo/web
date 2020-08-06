@@ -153,6 +153,14 @@ class Kata
     kata.ran_tests(id, index, files, at, duration, stdout, stderr, status, colour, predicted)
   end
 
+  # - - - - - - - - - - - - - - - - -
+
+  def revert(now_index, index, files, at, stdout, stderr, status, colour)
+    kata.revert(id, now_index, index, files, at, stdout, stderr, status, colour)
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
   def events
     kata.events(id).map.with_index do |h,index|
       h['index'] ||= index
