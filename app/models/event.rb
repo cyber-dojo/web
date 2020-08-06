@@ -2,16 +2,15 @@
 
 class Event
 
-  def initialize(kata, hash)
+  def initialize(kata, summary)
     @kata = kata
-    @hash = hash
+    @summary = summary
   end
 
   attr_reader :kata
 
-  def index
-    @hash['index']
-  end
+  # - - - - - - - - - - - - - - - - - - - -
+  # four core properties
 
   def files
     event['files']
@@ -29,26 +28,39 @@ class Event
     event['status']
   end
 
-  def revert
-    event['revert']
+  # - - - - - - - - - - - - - - - - - - - -
+  # summary properties
+  
+  def index
+    @summary['index']
+  end
+
+  def time_a
+    @summary['time']
   end
 
   def time
-    Time.mktime(*@hash['time'])
+    Time.mktime(*@summary['time'])
   end
 
   def predicted
-    @hash['predicted'] || 'none'
+    @summary['predicted'] || 'none'
   end
 
   def colour
     # '' unless light?
-    (@hash['colour'] || '').to_sym
+    (@summary['colour'] || '').to_sym
+  end
+
+  def revert
+    @summary['revert']
   end
 
   def light?
     colour.to_s != ''
   end
+
+  # - - - - - - - - - - - - - - - - - - - -
 
   def manifest
     kata.manifest.to_json.merge({'visible_files' => files})

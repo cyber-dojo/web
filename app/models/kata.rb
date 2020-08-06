@@ -55,6 +55,92 @@ class Kata
 
   # - - - - - - - - - - - - - - - - -
 
+  def run_tests
+    Runner.new(@externals).run(@params)
+  end
+
+  def ran_tests(index, files, at, duration, stdout, stderr, status, colour, predicted='none')
+    kata.ran_tests(id, index, files, at, duration, stdout, stderr, status, colour, predicted)
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
+  def revert(index, files, at, stdout, stderr, status, colour, now_index)
+    kata.revert(id, index, files, at, stdout, stderr, status, colour, now_index)
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
+  def events
+    kata.events(id).map.with_index do |h,index|
+      h['index'] ||= index
+      Event.new(self, h)
+    end
+  end
+
+  def events_json
+    kata.events_json(id)
+  end
+
+  def event(index)
+    kata.event(id, index)
+  end
+
+  def lights
+    events.select(&:light?)
+  end
+
+  def active?
+    lights != []
+  end
+
+  def age
+    created = Time.mktime(*manifest.created)
+    (most_recent_event.time - created).to_i # in seconds
+  end
+
+  def files
+    most_recent_event.files
+  end
+
+  def stdout
+    most_recent_event.stdout
+  end
+
+  def stderr
+    most_recent_event.stderr
+  end
+
+  def status
+    most_recent_event.status
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
+  def diff_info(was_index, now_index)
+    m,e,was,now = kata.diff_info(id, was_index, now_index)
+    was_files = diff_files(was)
+    now_files = diff_files(now)
+    events = e.map.with_index do |h,index|
+      h['index'] ||= index
+      Event.new(self, h)
+    end
+    [m,events,was_files,now_files]
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
+  def tipper_info(was_index, now_index)
+    e,was_files,now_files = kata.tipper_info(id, was_index, now_index)
+    events = e.map.with_index do |h,index|
+      h['index'] ||= index
+      Event.new(self, h)
+    end
+    [events,plain(was_files),plain(now_files)]
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
   def theme=(value)
     # value == 'dark'|'light'
     filename = kata_id_path(id, 'theme')
@@ -120,90 +206,6 @@ class Kata
   end
 
   # - - - - - - - - - - - - - - - - -
-
-  def diff_info(was_index, now_index)
-    m,e,was,now = kata.diff_info(id, was_index, now_index)
-    was_files = diff_files(was)
-    now_files = diff_files(now)
-    events = e.map.with_index do |h,index|
-      h['index'] ||= index
-      Event.new(self, h)
-    end
-    [m,events,was_files,now_files]
-  end
-
-  # - - - - - - - - - - - - - - - - -
-
-  def tipper_info(was_index, now_index)
-    e,was_files,now_files = kata.tipper_info(id, was_index, now_index)
-    events = e.map.with_index do |h,index|
-      h['index'] ||= index
-      Event.new(self, h)
-    end
-    [events,plain(was_files),plain(now_files)]
-  end
-
-  # - - - - - - - - - - - - - - - - -
-
-  def run_tests
-    Runner.new(@externals).run(@params)
-  end
-
-  def ran_tests(index, files, at, duration, stdout, stderr, status, colour, predicted='none')
-    kata.ran_tests(id, index, files, at, duration, stdout, stderr, status, colour, predicted)
-  end
-
-  # - - - - - - - - - - - - - - - - -
-
-  def revert(now_index, index, files, at, stdout, stderr, status, colour)
-    kata.revert(id, now_index, index, files, at, stdout, stderr, status, colour)
-  end
-
-  # - - - - - - - - - - - - - - - - -
-
-  def events
-    kata.events(id).map.with_index do |h,index|
-      h['index'] ||= index
-      Event.new(self, h)
-    end
-  end
-
-  def events_json
-    kata.events_json(id)
-  end
-
-  def event(index)
-    kata.event(id, index)
-  end
-
-  def lights
-    events.select(&:light?)
-  end
-
-  def active?
-    lights != []
-  end
-
-  def age
-    created = Time.mktime(*manifest.created)
-    (most_recent_event.time - created).to_i # in seconds
-  end
-
-  def files
-    most_recent_event.files
-  end
-
-  def stdout
-    most_recent_event.stdout
-  end
-
-  def stderr
-    most_recent_event.stderr
-  end
-
-  def status
-    most_recent_event.status
-  end
 
   def manifest
     @manifest ||= Manifest.new(kata.manifest(id))

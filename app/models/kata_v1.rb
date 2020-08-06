@@ -10,10 +10,11 @@ require_relative '../../lib/oj_adapter'
 # 4. No longer stores file contents in lined format.
 # 5. Uses Oj as its JSON gem.
 # 6. Stores explicit index in events.json summary file.
-#    This makes using index==-1 robust when traffic-lights
-#    are lost due to Saver outages.
+#    This improves robustness when there are Saver outages.
+#    For example index==-1.
 #    was    { ... } # 0
-#           { ... } # 1      then 2-23 outage
+#           { ... } # 1
+#    then 2-23 outage
 #           { ... } # 24
 #    now    { ..., "index" => 0 }
 #           { ..., "index" => 1 }
@@ -83,7 +84,7 @@ class Kata_v1
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def revert(id, now_index, index, files, now, stdout, stderr, status, colour)
+  def revert(id, index, files, now, stdout, stderr, status, colour, now_index)
     event_summary = {
       'index' => index,
       'time' => now,

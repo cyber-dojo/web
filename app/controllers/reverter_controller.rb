@@ -10,7 +10,7 @@ class ReverterController < ApplicationController
     colour = event.colour
     index = params[:index].to_i + 1
 
-    kata.revert(now_index, index, files, time.now, stdout, stderr, status, colour)
+    kata.revert(index, files, time.now, stdout, stderr, status, colour, now_index)
 
     visible_files = files.map{ |filename,file| [filename, file['content']] }.to_h
 
