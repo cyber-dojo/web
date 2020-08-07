@@ -589,11 +589,11 @@ $(() => {
       $reviewPage.hide();
       $kataPage.show();
       cd.kata.editor.deleteFiles();
-      cd.kata.editor.output(data.stdout.content, data.stderr.content, data.status);
-      for (const filename in data.visibleFiles) {
-        cd.kata.editor.createFile(filename, { content:data.visibleFiles[filename] });
+      for (const filename in data.files) {
+        cd.kata.editor.createFile(filename, { content:data.files[filename] });
         cd.kata.editor.showFile(filename);
       }
+      cd.kata.editor.output(data.stdout.content, data.stderr.content, data.status);
       cd.kata.tabs.output().click();
       cd.kata.filenames.refresh();
       cd.appendTrafficLight(data.light);
