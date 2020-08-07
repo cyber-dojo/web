@@ -31,7 +31,8 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   cd.revert = (args) => {
-    // eg args = { id:'Xd4f2P', now_index:42 };
+    // eg args = { src_id:'Xd4f2P', src_index:17 };
+    args.id = cd.kataId();
     args.index = cd.getIndex();
     $.post('/reverter/revert', args, (data) => {
       cd.kata.editor.deleteFiles();
@@ -61,9 +62,9 @@ $(() => {
     html += tcrInfo();
     html += '</div>';
     const $node = $(html);
-    if (cd.trafficLightsCount(['red','amber','green']) > 0) {
+    /*if (cd.trafficLightsCount(['red','amber','green']) > 0) {
       $('.tcr', $node).show();
-    }
+    }*/
     setupRagClick(handler, $node, 'red');
     setupRagClick(handler, $node, 'amber');
     setupRagClick(handler, $node, 'green');

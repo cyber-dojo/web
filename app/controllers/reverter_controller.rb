@@ -2,15 +2,18 @@
 class ReverterController < ApplicationController
 
   def revert
-    event = kata.events[now_index]
+    src_id = params[:src_id]
+    src_index = params[:src_index].to_i
+    event = katas[src_id].events[src_index]
     files = event.files
     stdout = event.stdout
     stderr = event.stderr
     status = event.status
     colour = event.colour
+
     index = params[:index].to_i + 1
 
-    kata.revert(index, files, time.now, stdout, stderr, status, colour, now_index)
+    kata.revert(index, files, time.now, stdout, stderr, status, colour, src_index)
 
     render json: {
       stdout: stdout,
@@ -20,7 +23,7 @@ class ReverterController < ApplicationController
       light: {
         colour: colour,
         index: index,
-        revert: now_index
+        revert: src_index
       }
     }
   end

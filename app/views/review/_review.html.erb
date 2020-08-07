@@ -45,12 +45,12 @@ $(() => {
          filename:filename
     };
     fadeIntoReviewPage();
-    setupAvatar(avatarName, avatarIndex);
+    setupAvatar(); // avatarName, avatarIndex);
     setupButton('resume', () => fadeIntoKataPage(() => { // [1]
       cd.kata.editor.refocus();
     }));
     setupButton('revert', () => fadeIntoKataPage(() => { // [1]
-      cd.revert({ id:param.id, now_index:param.nowIndex });
+      cd.revert({ src_id:param.id, src_index:param.nowIndex });
     }));
     setRevertButtonTip();
     refresh();
@@ -74,17 +74,18 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const setupAvatar = (avatarName, avatarIndex) => {
-    if (avatarName != '') {
-      // We are in a group-exercise. Display the active avatar
-      // to the left of the [resume] button.
+  const setupAvatar = () => {
+    if (groupExercise()) { //param.avatarName != '') {
+      // A group-exercise.
       $('#avatar-box').empty().append($('<img>', {
-        src:`/avatar/image/${avatarIndex}`,
-        alt:`${avatarName}`,
+        src:`/avatar/image/${param.avatarIndex}`,
+        alt:param.avatarName,
         class:'avatar-image'
       }));
     }
   };
+
+  const groupExercise = () => param.avatarName != '';
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 

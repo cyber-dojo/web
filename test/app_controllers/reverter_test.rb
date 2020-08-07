@@ -9,7 +9,7 @@ class ReverterControllerTest  < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '276',
-  'revert' do
+  'in individual kata, revert back to our own previous traffic-light' do
     in_kata {
       filename = 'hiker.rb'
       change_file(filename, old_content='the_answer')
@@ -21,16 +21,17 @@ class ReverterControllerTest  < AppControllerTestBase
 
       post '/reverter/revert', params: { # 3
         'format' => 'json',
+        'src_id' => kata.id,
+        'src_index' => 1,
         'id'     => kata.id,
-        'now_index' => 1,
         'index'  => 3,
       }
       assert_response :success
 
-      visible_files = json['visibleFiles']
-      refute_nil visible_files
-      refute_nil visible_files[filename]
-      assert_equal old_content, visible_files[filename]
+      files = json['files']
+      refute_nil files
+      refute_nil files[filename]
+      assert_equal old_content, files[filename]
 
       assert_equal 4, kata.events.size
       event = kata.events[3]
