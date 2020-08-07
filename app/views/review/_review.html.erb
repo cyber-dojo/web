@@ -588,27 +588,19 @@ $(() => {
     $.post('/reverter/revert', revertParams, (data) => {
       $reviewPage.hide();
       $kataPage.show();
-      deleteAllFiles();
-      insertNewFiles(data.visibleFiles);
-      cd.kata.filenames.refresh();
+      cd.kata.editor.deleteFiles();
       cd.kata.editor.output(data.stdout.content, data.stderr.content, data.status);
+      for (const filename in data.visibleFiles) {
+        cd.kata.editor.createFile(filename, { content:data.visibleFiles[filename] });
+        cd.kata.editor.showFile(filename);
+      }
       cd.kata.tabs.output().click();
+      cd.kata.filenames.refresh();
       cd.appendTrafficLight(data.light);
       cd.updateTrafficLightsCount();
       cd.updateIndex(data.light.index);
       cd.scrollLastTrafficLightIntoView();
     }, 'json');
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const deleteAllFiles = () => cd.kata.editor.deleteFiles();
-
-  const insertNewFiles = (files) => {
-    for (const filename in files) {
-      cd.kata.editor.createFile(filename, { content:files[filename] });
-      cd.kata.editor.showFile(filename);
-    }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
