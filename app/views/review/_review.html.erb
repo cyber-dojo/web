@@ -25,15 +25,13 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  // There is only one call to cd.setReviewData() and its
-  // in app/views/kata/_traffic_lights.html.erb
-  // The [resume] & [revert] buttons are only on kata/edit.
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const $kataPage = $('#kata-page');
   const $reviewPage = $('#review-page');
 
   cd.setReviewData = (version, id, groupId, avatarName, avatarIndex, wasIndex, nowIndex, filename) => {
+    // Called only from app/views/kata/_traffic_lights.html.erb
+    // The [resume] & [revert] buttons are only shown on kata/edit. [1]
     param = {
           version:version,
                id:id,
@@ -48,17 +46,23 @@ $(() => {
       $reviewPage.fadeIn('slow');
     });
     setupAvatar(avatarName, avatarIndex);
-    setupButton('resume', () => {
+    setupButton('resume', () => { // [1]
       $reviewPage.fadeOut('fast', () => {
         $kataPage.fadeIn('fast', () => {
           cd.kata.editor.refocus();
         });
       });
     });
-    setupButton('revert', () => doRevert());
+    setupButton('revert', () => { // [1]
+      $reviewPage.hide();
+      $kataPage.show();
+      cd.revert({ id:param.id, now_index:param.nowIndex });
+    });
     setRevertButtonTip();
     refresh();
   };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const setupAvatar = (avatarName, avatarIndex) => {
     if (avatarName != '') {
@@ -121,8 +125,7 @@ $(() => {
 
   const scrollCurrentTrafficLightIntoView = () => {
     // refreshTrafficLights() has updated the dom with a $('#traffic-light-marker')
-    // I cannot find a nice way to access it once the dom is ready.
-    // So this :-(
+    // I cannot find a nice way to access it once the dom is ready. So this :-(
     const quarterSecond = 250;
     const scroller = () => {
       $('#traffic-light-marker').scrollIntoView({
@@ -575,32 +578,6 @@ $(() => {
       const tip = `revert back to this<br/>traffic-light's files`;
       cd.showHoverTip(button, tip);
     });
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const doRevert = () => {
-    const revertParams = {
-              id: param.id,
-       now_index: param.nowIndex,
-           index: cd.getIndex()
-    };
-    $.post('/reverter/revert', revertParams, (data) => {
-      $reviewPage.hide();
-      $kataPage.show();
-      cd.kata.editor.deleteFiles();
-      for (const filename in data.files) {
-        cd.kata.editor.createFile(filename, { content:data.files[filename] });
-        cd.kata.editor.showFile(filename);
-      }
-      cd.kata.editor.output(data.stdout.content, data.stderr.content, data.status);
-      cd.kata.tabs.output().click();
-      cd.kata.filenames.refresh();
-      cd.appendTrafficLight(data.light);
-      cd.updateTrafficLightsCount();
-      cd.updateIndex(data.light.index);
-      cd.scrollLastTrafficLightIntoView();
-    }, 'json');
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
