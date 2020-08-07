@@ -29,6 +29,8 @@ $(() => {
   const $kataPage = $('#kata-page');
   const $reviewPage = $('#review-page');
 
+  const inTestPage = $kataPage.length !== 0;
+
   cd.setReviewData = (version, id, groupId, avatarName, avatarIndex, wasIndex, nowIndex, filename) => {
     // Called only from app/views/kata/_traffic_lights.html.erb
     // The [resume] & [revert] buttons are only shown on kata/edit. [1]
@@ -42,24 +44,32 @@ $(() => {
          nowIndex:nowIndex,
          filename:filename
     };
-    $kataPage.fadeOut('slow', () => {
-      $reviewPage.fadeIn('slow');
-    });
+    fadeIntoReviewPage();
     setupAvatar(avatarName, avatarIndex);
-    setupButton('resume', () => { // [1]
-      $reviewPage.fadeOut('fast', () => {
-        $kataPage.fadeIn('fast', () => {
-          cd.kata.editor.refocus();
-        });
-      });
-    });
-    setupButton('revert', () => { // [1]
-      $reviewPage.hide();
-      $kataPage.show();
+    setupButton('resume', () => fadeIntoKataPage(() => { // [1]
+      cd.kata.editor.refocus();
+    }));
+    setupButton('revert', () => fadeIntoKataPage(() => { // [1]
       cd.revert({ id:param.id, now_index:param.nowIndex });
-    });
+    }));
     setRevertButtonTip();
     refresh();
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const fadeIntoReviewPage = () => {
+    $kataPage.fadeOut('fast', () => {
+      $reviewPage.fadeIn('fast');
+    });
+  };
+
+  const fadeIntoKataPage = (onComplete) => {
+    $reviewPage.fadeOut('fast', () => {
+      $kataPage.fadeIn('fast', () => {
+        onComplete();
+      });
+    });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -75,8 +85,6 @@ $(() => {
       }));
     }
   };
-
-  const inTestPage = $kataPage.length !== 0;
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
