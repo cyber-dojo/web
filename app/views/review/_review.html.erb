@@ -33,7 +33,7 @@ $(() => {
 
   cd.setReviewData = (version, id, groupId, avatarName, avatarIndex, wasIndex, nowIndex, filename) => {
     // Called only from app/views/kata/_traffic_lights.html.erb
-    // The [resume] & [revert] buttons are only shown on kata/edit. [1]
+    // The [resume] & [checkout] buttons are only shown on kata/edit. [1]
     param = {
           version:version,
                id:id,
@@ -45,14 +45,14 @@ $(() => {
          filename:filename
     };
     fadeIntoReviewPage();
-    setupAvatar(); // avatarName, avatarIndex);
+    setupAvatar();
     setupButton('resume', () => fadeIntoKataPage(() => { // [1]
       cd.kata.editor.refocus();
     }));
-    setupButton('revert', () => fadeIntoKataPage(() => { // [1]
-      cd.revert({ src_id:param.id, src_index:param.nowIndex });
+    setupButton('checkout', () => fadeIntoKataPage(() => { // [1]
+      cd.checkout({ src_id:param.id, src_index:param.nowIndex });
     }));
-    setRevertButtonTip();
+    setCheckoutButtonTip();
     refresh();
   };
 
@@ -574,17 +574,19 @@ $(() => {
   const setForkButtonTip = () => {
     const button = $('#fork-button');
     cd.setTip(button, () => {
-      const tip = `create a new exercise<br/>from this traffic-light's files`;
+      const tip = `create a new<br/>exercise from this<br/>traffic-light's files`;
       cd.showHoverTip(button, tip);
     });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const setRevertButtonTip = () => {
-    const button = $('#revert-button');
+  const setCheckoutButtonTip = () => {
+    // Prefer 'checkout' to 'revert' since in a group exercises
+    // you can revert to other avatar's traffic-lights.
+    const button = $('#checkout-button');
     cd.setTip(button, () => {
-      const tip = `revert back to this<br/>traffic-light's files`;
+      const tip = `make this traffic-light's<br/>files your curent files`;
       cd.showHoverTip(button, tip);
     });
   };
@@ -635,7 +637,7 @@ $(() => {
     <td class="left-column">
       <%= render(:partial => 'review/diff_checkbox') %>
       <div id="fork-button-box"></div>
-      <div id="revert-button-box"></div>
+      <div id="checkout-button-box"></div>
       <div id="diff-filenames"></div>
     </td>
     <td>
