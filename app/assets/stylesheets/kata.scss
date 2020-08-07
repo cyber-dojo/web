@@ -202,8 +202,8 @@
     {
       display:inline-block;
       @include rounded-corner(3px);
-      cursor:pointer;
-      margin: { bottom:2px; right:2px }
+      cursor:context-menu;
+      margin:{ bottom:2px; right:2px }
       padding:{ left:2px; right:2px; top:0px; bottom:0px; }
       font-weight:bolder;
     }
