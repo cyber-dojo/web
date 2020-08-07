@@ -144,6 +144,7 @@
     margin-right: 6px;
     #review-index-box
     {
+      min-width: 30px;
       #index-number
       {
         @include rounded-corner(4px);
