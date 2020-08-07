@@ -3,6 +3,8 @@
 'use strict';
 $(() => {
 
+  const predicted = $('input[name=predicted]');
+
   cd.predict = {
     reset:() => {
       const predict = cd.settings.predict();
@@ -17,17 +19,18 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  cd.predictTrafficLight = (input, handler) => {
+  cd.predictTrafficLight = (handler) => {
     // Called from the test-button handler
     if (cd.settings.predict() === 'on') {
-      openPredictionDialog(input, handler);
+      predicted.val('none');
+      openPredictionDialog(handler);
     } else {
       handler();
     }
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const openPredictionDialog = (input, handler) => {
+  const openPredictionDialog = (handler) => {
     let html = '';
     html += '<div>'
     html += '<table>';
@@ -38,15 +41,15 @@ $(() => {
     html += tcrInfo();
     html += '</div>';
     const $node = $(html);
-    /*if (cd.trafficLightsCount(['red','amber','green']) > 0) {
+    if (cd.trafficLightsCount(['red','amber','green']) > 0) {
       $('.tcr', $node).show();
-    }*/
-    setupRagClick(input, handler, $node, 'red');
-    setupRagClick(input, handler, $node, 'amber');
-    setupRagClick(input, handler, $node, 'green');
-    setupBlurbClick(input, handler, $node, 'red');
-    setupBlurbClick(input, handler, $node, 'amber');
-    setupBlurbClick(input, handler, $node, 'green');
+    }
+    setupRagClick(handler, $node, 'red');
+    setupRagClick(handler, $node, 'amber');
+    setupRagClick(handler, $node, 'green');
+    setupBlurbClick(handler, $node, 'red');
+    setupBlurbClick(handler, $node, 'amber');
+    setupBlurbClick(handler, $node, 'green');
     setupTcrCheckBox($node, 'red');
     setupTcrCheckBox($node, 'amber');
     setupTcrCheckBox($node, 'green');
@@ -71,19 +74,19 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const setupRagClick = (input, handler, $node, colour) => {
+  const setupRagClick = (handler, $node, colour) => {
     $(`div#predict-${colour}`, $node).click(() => {
-      input.val(colour);
       $node.remove();
+      predicted.val(colour);
       handler();
     });
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const setupBlurbClick = (input, handler, $node, colour) => {
+  const setupBlurbClick = (handler, $node, colour) => {
     $(`.predict-blurb.${colour}`, $node).click(() => {
-      input.val(colour);
       $node.remove();
+      predicted.val(colour);
       handler();
     });
   };

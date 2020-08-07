@@ -6,13 +6,12 @@
 $(() => {
 
   const form = $('form');
-  const predicted = $('input[name=predicted]');
 
   cd.testButton = $('#test-button');
   cd.testButton.enable  = () => cd.testButton.attr('disabled', false);
   cd.testButton.disable = () => cd.testButton.attr('disabled', true);
 
-  cd.testButton.click(() => cd.predictTrafficLight(predicted, testButtonClick));
+  cd.testButton.click(() => cd.predictTrafficLight(testButtonClick));
 
   const testButtonClick = () => {
     // Called from 3 places
@@ -38,9 +37,7 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - - - - -
   const complete = (_xhr, _status) => {
     cd.testButton.enable();
-    cd.waitSpinner.fadeOut('slow', () => {
-      predicted.val('none');
-    });
+    cd.waitSpinner.fadeOut('slow');
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - -
