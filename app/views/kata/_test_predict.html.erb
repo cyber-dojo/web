@@ -106,7 +106,8 @@ $(() => {
     $(`div#predict-${colour}`, $node).click(() => {
       $node.remove();
       predicted.val(colour);
-      handler(() => complete(colour));
+      const srcIndex = $lastTrafficLight().data('index');
+      handler(() => complete(colour, srcIndex));
     });
   };
 
@@ -115,18 +116,22 @@ $(() => {
     $(`.predict-blurb.${colour}`, $node).click(() => {
       $node.remove();
       predicted.val(colour);
-      handler(() => complete(colour));
+      const srcIndex = $lastTrafficLight().data('index');
+      handler(() => complete(colour, srcIndex));
     });
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const complete = (colour) => {
-    if (tcr[colour]) {
-      // TODO:
-      // o) get colour of last traffic-light
-      // o) compare to colour arg
-      // o) if different then revert
+  const complete = (predictedColour, srcIndex) => {
+    const actualColour = $lastTrafficLight().data('colour');
+    if (tcr[predictedColour] && actualColour != predictedColour) {
+      cd.checkout({ src_id:cd.kataId(), src_index:srcIndex });
     }
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  const $lastTrafficLight = () => {
+    return $('#traffic-lights .diff-traffic-light').last();
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
