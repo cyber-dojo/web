@@ -13,7 +13,7 @@ $(() => {
 
   cd.testButton.click(() => cd.predictTrafficLight(testButtonClick));
 
-  const testButtonClick = () => {
+  const testButtonClick = (onComplete) => {
     // Called from 3 places
     // 1. when you click [test]
     // 2. when you hot-key Alt-T
@@ -22,22 +22,22 @@ $(() => {
     cd.saveCodeFromSyntaxHighlightEditors();
     cd.waitSpinner.fadeIn('slow', () => {
       $.ajax({
-           timeout: 30000, // [1]
+           timeout: 30000, // [X]
               type: 'POST',
                url: form.attr('action'),
               data: form.serialize(),
-          complete: complete,
-             error: error
+              error: error,
+          complete: (_xhr, _status) => {
+            cd.testButton.enable();
+            cd.waitSpinner.fadeOut('slow');
+            if (onComplete != undefined) {
+              onComplete();
+            }
+          }
       });
     });
-    // [1] This 30s timeout is different to max_seconds
+    // [X] This 30s timeout is different to max_seconds
     // from the start-point's manifest.json file.
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - -
-  const complete = (_xhr, _status) => {
-    cd.testButton.enable();
-    cd.waitSpinner.fadeOut('slow');
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - -

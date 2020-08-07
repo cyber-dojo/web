@@ -62,9 +62,9 @@ $(() => {
     html += tcrInfo();
     html += '</div>';
     const $node = $(html);
-    /*if (cd.trafficLightsCount(['red','amber','green']) > 0) {
+    if (cd.trafficLightsCount(['red','amber','green']) > 0) {
       $('.tcr', $node).show();
-    }*/
+    }
     setupRagClick(handler, $node, 'red');
     setupRagClick(handler, $node, 'amber');
     setupRagClick(handler, $node, 'green');
@@ -99,7 +99,7 @@ $(() => {
     $(`div#predict-${colour}`, $node).click(() => {
       $node.remove();
       predicted.val(colour);
-      handler();
+      handler(onComplete);
     });
   };
 
@@ -108,7 +108,7 @@ $(() => {
     $(`.predict-blurb.${colour}`, $node).click(() => {
       $node.remove();
       predicted.val(colour);
-      handler();
+      handler(onComplete);
     });
   };
 
@@ -120,6 +120,12 @@ $(() => {
       .change(() => tcr[colour] = $checkbox.prop('checked'));
   };
 
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  const onComplete = () => {
+    //alert('complete');
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
   const tcr = {
     red:false,
     amber:false,
