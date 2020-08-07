@@ -602,12 +602,6 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const removeProperty = (object, name) => {
-    const value = object[name];
-    delete object[name];
-    return value;
-  };
-
   const deleteAllFiles = () => cd.kata.editor.deleteFiles();
 
   const insertNewFiles = (files) => {
