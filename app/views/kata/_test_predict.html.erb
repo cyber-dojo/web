@@ -8,12 +8,11 @@ $(() => {
   cd.predict = {
     reset:() => {
       const predict = cd.settings.predict();
-      if (predict === 'on') {
-        cd.updateTrafficLightsCount();
-        cd.countPredictBox().show();
-      }
       if (predict === 'off') {
         cd.countPredictBox().hide();
+      } else {
+        cd.updateTrafficLightsCount();
+        cd.countPredictBox().show();
       }
     }
   };
