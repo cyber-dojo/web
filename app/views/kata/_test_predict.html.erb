@@ -99,7 +99,7 @@ $(() => {
     $(`div#predict-${colour}`, $node).click(() => {
       $node.remove();
       predicted.val(colour);
-      handler(onComplete);
+      handler(() => complete(colour));
     });
   };
 
@@ -108,7 +108,7 @@ $(() => {
     $(`.predict-blurb.${colour}`, $node).click(() => {
       $node.remove();
       predicted.val(colour);
-      handler(onComplete);
+      handler(() => complete(colour));
     });
   };
 
@@ -121,8 +121,10 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const onComplete = () => {
-    //alert('complete');
+  const complete = (colour) => {
+    if (tcr[colour]) {
+      //alert('revert???');
+    }
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
