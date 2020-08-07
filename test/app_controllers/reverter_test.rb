@@ -36,7 +36,7 @@ class ReverterControllerTest  < AppControllerTestBase
       assert_equal 4, kata.events.size
       event = kata.events[3]
       assert_equal old_content, event.files[filename]['content']
-      assert_equal 1, event.revert
+      assert_equal [kata.id,1], event.revert
     }
   end
 

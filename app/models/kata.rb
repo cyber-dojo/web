@@ -65,8 +65,8 @@ class Kata
 
   # - - - - - - - - - - - - - - - - -
 
-  def revert(index, files, at, stdout, stderr, status, colour, now_index)
-    kata.revert(id, index, files, at, stdout, stderr, status, colour, now_index)
+  def revert(index, files, at, stdout, stderr, status, colour, from)
+    kata.revert(id, index, files, at, stdout, stderr, status, colour, from)
   end
 
   # - - - - - - - - - - - - - - - - -

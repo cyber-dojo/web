@@ -68,13 +68,13 @@ class Kata_v0
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def revert(id, index, files, now, stdout, stderr, status, colour, now_index)
+  def revert(id, index, files, now, stdout, stderr, status, colour, from)
     event_summary = {
       'index' => index,
       'time' => now,
       'colour' => colour,
       'duration' => 0.0,
-      'revert' => now_index
+      'revert' => from
     }
     event_n = {
       'files' => files,
