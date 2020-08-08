@@ -29,16 +29,15 @@ class DifferServiceTest < AppServicesTestBase
   test '3AC',
   'smoke test differ.diff(..., was_index=0, now_index=1)' do
     in_new_kata do |kata|
-      args = []
-      args << (index = 1)
-      args << kata.files
-      args << (now = [2016,12,8, 8,3,23,654])
-      args << (duration = 1.6754)
-      args << (stdout = file("Expected: 42\nActual: 54"))
-      args << (stderr = file('assertion failed'))
-      args << (status = 0)
-      args << (colour = 'red')
-      kata.ran_tests(*args)
+      stdout = file("Expected: 42\nActual: 54")
+      stderr = file('assertion failed')
+      status = 0
+      kata.ran_tests(kata.id, 1, kata.files, stdout, stderr, status, {
+        'time' => [2016,12,8, 8,3,23,654],
+        'duration' => 1.6754,
+        'colour' => 'red',
+        'predicted' => 'none'
+      })
 
       was_files = flattened(kata.events[0].files)
       now_files = flattened(kata.events[1].files)
@@ -62,8 +61,7 @@ class DifferServiceTest < AppServicesTestBase
   end
 
   def flattened(files)
-    files.map{ |filename,file| [filename, file['content']] }
-         .to_h
+    files.map{ |filename,file| [filename, file['content']] }.to_h
   end
 
 end

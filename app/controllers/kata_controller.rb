@@ -75,23 +75,20 @@ class KataController < ApplicationController
     @log = result['log']
     @outcome = result['outcome']
     @light = {
-      'time' => t1,
       'index' => @index,
+      'time' => t1,
       'colour' => @outcome,
       'predicted' => predicted,
     }
 
-    args = []
-    args << @index                      # index of traffic-light event
-    args << files                       # includes @created,@deleted,@changed
-    args += [t1,duration]               # how long runner took
-    args += [@stdout, @stderr, @status] # output of [test] kata.run_tests()
-    args << @outcome
-    args << predicted
-
     @out_of_sync = false
     begin
-      kata.ran_tests(*args)
+      kata.ran_tests(@id, @index, files, @stdout, @stderr, @status, {
+        'time' => t1,
+        'duration' => duration,
+        'colour' => @outcome,
+        'predicted' => predicted
+      })
     rescue SaverService::Error => error
       @out_of_sync = true
       STDOUT.puts(error.message);

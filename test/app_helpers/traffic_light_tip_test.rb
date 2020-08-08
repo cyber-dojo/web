@@ -15,7 +15,7 @@ class TipTest < AppHelpersTestBase
       stdout = file("Expected: 42\nActual: 54")
       stderr = file('assert failed')
       status = 4
-      kata.ran_tests(1, files, time.now, duration, stdout, stderr, status, 'red')
+      kata.ran_tests(kata.id, 1, files, stdout, stderr, status, summary(time.now, 'red'))
 
       filename = 'hiker.rb'
       hiker_rb = kata.files[filename]['content']
@@ -23,7 +23,7 @@ class TipTest < AppHelpersTestBase
       stdout = file('All tests passed')
       stderr = file('')
       status = 0
-      kata.ran_tests(2, files, time.now, duration, stdout, stderr, status, 'green')
+      kata.ran_tests(kata.id, 2, files, stdout, stderr, status, summary(time.now, 'green'))
 
       events = kata.events
       was_files = files_for(events, 1)
@@ -61,7 +61,7 @@ class TipTest < AppHelpersTestBase
       stdout = file("Expected: 42\nActual: 54")
       stderr = file('assert failed')
       status = 4
-      kata.ran_tests(1, files, time.now, duration, stdout, stderr, status, 'red')
+      kata.ran_tests(kata.id, 1, files, stdout, stderr, status, summary(time.now, 'red'))
 
       filename = 'hiker.rb'
       hiker_rb = kata.files[filename]['content']
@@ -69,7 +69,7 @@ class TipTest < AppHelpersTestBase
       stdout = file('All tests passed')
       stderr = file('')
       status = 0
-      kata.ran_tests(2, files, time.now, duration, stdout, stderr, status, 'green')
+      kata.ran_tests(kata.id, 2, files, stdout, stderr, status, summary(time.now, 'green'))
 
       events = kata.events
       was_files = files_for(events, 1)
@@ -108,7 +108,7 @@ class TipTest < AppHelpersTestBase
       stdout = file("Expected: 42\nActual: 54")
       stderr = file('assert failed')
       status = 4
-      kata.ran_tests(1, files, time.now, duration, stdout, stderr, status, 'red')
+      kata.ran_tests(kata.id, 1, files, stdout, stderr, status, summary(time.now, 'red'))
       events = kata.events
       was_files = files_for(events, was_index=0)
       now_files = files_for(events, now_index=0)
@@ -128,7 +128,7 @@ class TipTest < AppHelpersTestBase
       stdout = file("Expected: 42\nActual: 54")
       stderr = file('assert failed')
       status = 4
-      kata.ran_tests(was_index=1, files, time.now, duration, stdout, stderr, status, 'red')
+      kata.ran_tests(kata.id, was_index=1, files, stdout, stderr, status, summary(time.now, 'red'))
 
       filename = 'hiker.rb'
       hiker_rb = kata.files[filename]['content']
@@ -136,7 +136,7 @@ class TipTest < AppHelpersTestBase
       stdout = file('All tests passed')
       stderr = file('')
       status = 0
-      kata.ran_tests(now_index=2, files, time.now, duration, stdout, stderr, status, 'faulty')
+      kata.ran_tests(kata.id, now_index=2, files, stdout, stderr, status, summary(time.now, 'faulty'))
 
       events = kata.events
       was_files = files_for(events, was_index)
@@ -174,7 +174,7 @@ class TipTest < AppHelpersTestBase
       stdout = file("Expected: 42\nActual: 54")
       stderr = file('assert failed')
       status = 4
-      kata.ran_tests(1, files, time.now, duration, stdout, stderr, status, 'red')
+      kata.ran_tests(kata.id, 1, files, stdout, stderr, status, summary(time.now, 'red'))
 
       filename = 'hiker.rb'
       hiker_rb = kata.files[filename]['content']
@@ -183,7 +183,12 @@ class TipTest < AppHelpersTestBase
       stderr = file('')
       status = 0
       predicted = 'red'
-      kata.ran_tests(2, files, time.now, duration, stdout, stderr, status, 'green', predicted)
+      kata.ran_tests(kata.id, 2, files, stdout, stderr, status, {
+        'time' => time.now,
+        'duration' => duration,
+        'colour' => 'green',
+        'predicted' => 'red'
+      })
 
       events = kata.events
       was_files = files_for(events, 1)
@@ -221,7 +226,7 @@ class TipTest < AppHelpersTestBase
       stdout_1 = file("Expected: 42\nActual: 54")
       stderr_1 = file('assert failed')
       status_1 = 4
-      kata.ran_tests(1, files, time.now, duration, stdout_1, stderr_1, status_1, 'red')
+      kata.ran_tests(kata.id, 1, files, stdout_1, stderr_1, status_1, summary(time.now, 'red'))
 
       filename = 'hiker.rb'
       hiker_rb = kata.files[filename]['content']
@@ -229,10 +234,9 @@ class TipTest < AppHelpersTestBase
       stdout_2 = file('All tests passed')
       stderr_2 = file('')
       status_2 = 0
-      kata.ran_tests(2, files, time.now, duration, stdout_2, stderr_2, status_2, 'green')
+      kata.ran_tests(kata.id, 2, files, stdout_2, stderr_2, status_2, summary(time.now, 'green'))
 
-      kata.revert(kata.events[1].files, stdout_1, stderr_1, status_1, {
-         'index' => 3,
+      kata.revert(kata.id, 3, kata.events[1].files, stdout_1, stderr_1, status_1, {
           'time' => time.now,
         'colour' => 'red',
         'revert' => [ kata.id, 1 ]
@@ -275,6 +279,16 @@ class TipTest < AppHelpersTestBase
   def file(content)
     { 'content' => content,
       'truncated' => false
+    }
+  end
+
+  private
+
+  def summary(now, colour)
+    { 'time' => now,
+      'duration' => duration,
+      'colour' => colour,
+      'predicted' => 'none'
     }
   end
 

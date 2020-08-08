@@ -151,9 +151,7 @@ class KataTest < AppModelsTestBase
       stdout = content('dfg')
       stderr = content('uystd')
       status = 3
-      colour = 'red'
-      now = [2018,11,1, 9,14,9,9154]
-      kata.ran_tests(1, files, now, duration, stdout, stderr, status, colour)
+      kata.ran_tests(kata.id, 1, files, stdout, stderr, status, summary([2018,11,1, 9,14,9,9154], 'red'))
 
       assert_equal 13, kata.age
       assert kata.active?
@@ -184,8 +182,7 @@ class KataTest < AppModelsTestBase
       stdout_1 = content("Expected: 42\nActual: 54")
       stderr_1 = content('assert failed')
       status_1 = 4
-      now_1 = [2018,11,1, 9,14,9,9154]
-      kata.ran_tests(1, kata.files, now_1, duration, stdout_1, stderr_1, status_1, 'red')
+      kata.ran_tests(kata.id, 1, kata.files, stdout_1, stdout_1, stderr_1, summary(time.now, 'red'))
 
       filename = 'hiker.rb'
       hiker_rb = kata.files[filename]['content']
@@ -193,16 +190,13 @@ class KataTest < AppModelsTestBase
       stdout_2 = content('All tests passed')
       stderr_2 = content('')
       status_2 = 0
-      now_2 = [2018,11,1, 9,15,19,1394]
-      kata.ran_tests(2, files, now_2, duration, stdout_2, stderr_2, status_2, 'green')
+      kata.ran_tests(kata.id, 2, files, stdout_2, stderr_2, status_2, summary(time.now, 'green'))
 
-      kata.revert(kata.events[1].files, stdout_1, stderr_1, status_1, {
-         'index' => 3,
-          'time' => [2018,11,1, 9,16,28,46],
+      kata.revert(kata.id, 3, kata.events[1].files, stdout_1, stderr_1, status_1, {
+          'time' => time.now,
         'colour' => 'red',
         'revert' => [ kata.id, 1 ]
       });
-
 
       assert_equal 4, kata.events.size
       assert_equal 3, kata.lights.size
@@ -233,8 +227,7 @@ class KataTest < AppModelsTestBase
       stdout = content('dfsdf')
       stderr = content('76546')
       status = 3
-      colour = 'red'
-      kata.ran_tests(1, kata.files, time.now, duration, stdout, stderr, status, colour)
+      kata.ran_tests(kata.id, 1, kata.files, stdout, stderr, status, summary(time.now, 'red'))
 
       emanifest = kata.events[1].manifest
       refute_nil emanifest
@@ -257,14 +250,15 @@ class KataTest < AppModelsTestBase
       stdout = content('xxxx')
       stderr = content('')
       status = 0
-      colour = 'green'
-      kata.ran_tests(1, kata.files, time.now, duration, stdout, stderr, status, colour)
+      kata.ran_tests(kata.id, 1, kata.files, stdout, stderr, status, summary(time.now, 'green'))
+
       assert_equal 'xxxx', kata.event(-1)['stdout']['content']
       assert_equal kata.event(1), kata.event(-1)
       stdout = content('')
       stderr = content('syntax-error')
       status = 1
-      kata.ran_tests(2, kata.files, time.now, duration, stdout, stderr, status, colour)
+      kata.ran_tests(kata.id, 2, kata.files, stdout, stderr, status, summary(time.now, 'green'))
+
       assert_equal 'syntax-error', kata.event(-1)['stderr']['content']
       assert_equal kata.event(2), kata.event(-1)
     end
@@ -283,11 +277,12 @@ class KataTest < AppModelsTestBase
       stdout = content('aaaa')
       stderr = content('bbbb')
       status = 1
-      colour = 'red'
-      kata.ran_tests(index=1, kata.files, time.now, duration, stdout, stderr, status, colour)
+      kata.ran_tests(kata.id, 1, kata.files, stdout, stderr, status, summary(time.now, 'red'))
+
       # saver-outage for index=2,3,4,5
       stdout['content'] = 'x1x2x3'
-      kata.ran_tests(index=6, kata.files, time.now, duration, stdout, stderr, status, colour)
+      kata.ran_tests(kata.id, 6, kata.files, stdout, stderr, status, summary(time.now, 'red'))
+
       if v_test?(0)
         assert_raises { kata.event(-1) }
       else
@@ -311,9 +306,9 @@ class KataTest < AppModelsTestBase
       stderr = content('bbbb')
       status = 1
       # 1st avatar
-      kata.ran_tests(index=1, kata.files, time.now, duration, stdout, stderr, status, 'red')
-      kata.ran_tests(index=2, kata.files, time.now, duration, stdout, stderr, status, 'amber')
-      kata.ran_tests(index=3, kata.files, time.now, duration, stdout, stderr, status, 'green')
+      kata.ran_tests(kata.id, 1, kata.files, stdout, stderr, status, summary(time.now, 'red'))
+      kata.ran_tests(kata.id, 2, kata.files, stdout, stderr, status, summary(time.now, 'amber'))
+      kata.ran_tests(kata.id, 3, kata.files, stdout, stderr, status, summary(time.now, 'green'))
 
       events = kata.events
       assert_equal 4, events.size, :event_not_appended_to_events_json
@@ -323,7 +318,7 @@ class KataTest < AppModelsTestBase
 
       # 2nd avatar - no refresh, so index not advanced to 2
       error = assert_raises(SaverService::Error) {
-        kata.ran_tests(index=1, kata.files, time.now, duration, stdout, stderr, status, 'green')
+        kata.ran_tests(kata.id, 1, kata.files, stdout, stderr, status, summary(time.now, 'green'))
       }
 
       events = kata.events
@@ -402,6 +397,16 @@ class KataTest < AppModelsTestBase
       kata.predict = 'off'
       assert_equal  'off', kata.predict
     end
+  end
+
+  private
+
+  def summary(now, colour)
+    { 'time' => now,
+      'duration' => duration,
+      'colour' => colour,
+      'predicted' => 'none'
+    }
   end
 
 end

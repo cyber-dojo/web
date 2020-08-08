@@ -13,8 +13,7 @@ class ReverterController < ApplicationController
 
     index = params[:index].to_i + 1
 
-    kata.revert(files, stdout, stderr, status, {
-       'index' => index,
+    kata.revert(id, index, files, stdout, stderr, status, {
         'time' => time.now,
       'colour' => colour,
       'revert' => [src_id, src_index]

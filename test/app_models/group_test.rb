@@ -153,7 +153,12 @@ class GroupTest < AppModelsTestBase
       stdout = content('')
       stderr = content('')
       status = 0
-      kata.ran_tests(1, kata.files, [2018,11,30, 9,35,8,7564], duration, stdout, stderr, status, 'green')
+      kata.ran_tests(kata.id, 1, kata.files, stdout, stderr, status, {
+        'time' => [2018,11,30, 9,35,8,7564],
+        'duration' => duration,
+        'colour' => 'green',
+        'predicted' => 'none'
+      })
       assert_equal 12, group.age
     end
   end

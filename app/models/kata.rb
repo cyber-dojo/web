@@ -59,15 +59,14 @@ class Kata
     Runner.new(@externals).run(@params)
   end
 
-  def ran_tests(index, files, at, duration, stdout, stderr, status, colour, predicted='none')
-    kata.ran_tests(id, index, files, at, duration, stdout, stderr, status, colour, predicted)
+  def ran_tests(id, index, files, stdout, stderr, status, summary)
+    kata.ran_tests(id, index, files, stdout, stderr, status, summary)
   end
 
   # - - - - - - - - - - - - - - - - -
 
-  def revert(files, stdout, stderr, status, summary)
-    summary['id'] = id
-    kata.revert(files, stdout, stderr, status, summary)
+  def revert(id, index, files, stdout, stderr, status, summary)
+    kata.revert(id, index, files, stdout, stderr, status, summary)
   end
 
   # - - - - - - - - - - - - - - - - -

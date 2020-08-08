@@ -61,32 +61,25 @@ class Kata_v1
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def ran_tests(id, index, files, now, duration, stdout, stderr, status, colour, predicted='none')
-    event_summary = {
-      'index' => index,
-      'time' => now,
-      'colour' => colour,
-      'duration' => duration,
-      'predicted' => predicted,
-    }
+  def ran_tests(id, index, files, stdout, stderr, status, summary)
+    summary['index'] = index # See point 6 at top of file
     event_n = {
-      'files' => files,
+       'files' => files,
       'stdout' => stdout,
       'stderr' => stderr,
       'status' => status
     }
     saver.assert_all([
       # A failing create_command() ensures the append_command() is not run.
-      event_file_create_command(id, index, json_plain(event_n.merge(event_summary))),
-      events_file_append_command(id, ",\n" + json_plain(event_summary))
+      event_file_create_command(id, index, json_plain(event_n.merge(summary))),
+      events_file_append_command(id, ",\n" + json_plain(summary))
     ])
   end
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def revert(files, stdout, stderr, status, summary)
-    id = summary['id']
-    index = summary['index']
+  def revert(id, index, files, stdout, stderr, status, summary)
+    summary['index'] = index # See point 6 at top of file
     event_n = {
        'files' => files,
       'stdout' => stdout,

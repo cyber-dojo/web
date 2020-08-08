@@ -44,13 +44,7 @@ class Kata_v0
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def ran_tests(id, index, files, now, duration, stdout, stderr, status, colour, predicted='none')
-    event_summary = {
-      'time' => now,
-      'colour' => colour,
-      'duration' => duration,
-      'predicted' => predicted,
-    }
+  def ran_tests(id, index, files, stdout, stderr, status, summary)
     event_n = {
       'files' => files,
       'stdout' => stdout,
@@ -62,15 +56,13 @@ class Kata_v0
       dir_exists_command(id),
       dir_make_command(id, index),
       event_file_create_command(id, index, json_plain(lined(event_n))),
-      events_file_append_command(id, json_plain(event_summary) + "\n")
+      events_file_append_command(id, json_plain(summary) + "\n")
     ])
   end
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def revert(files, stdout, stderr, status, summary)
-    id = summary['id']
-    index = summary['index']
+  def revert(id, index, files, stdout, stderr, status, summary)
     event_n = {
        'files' => files,
       'stdout' => stdout,
