@@ -92,24 +92,6 @@ class KataController < ApplicationController
     @out_of_sync = false
     begin
       kata.ran_tests(*args)
-
-      #if kata.predict === 'on_plus_revert' && @outcome == predicted
-      #  ???? create a new traffic-light ?????   red/amber/green (R)
-      #  I think I will have to. Otherwise the stderr (eg) will show
-      #  information on a file that is not visible.
-      #  But what I want is the stderr of the original incorrect prediction...
-      #  Perhaps add 2 traffic-lights but immediately fake a click on the
-      #  Hmmmm. How does [revert] work for prediction at the moment...????
-      #  Answer. you have to make a prediction!
-      #  Need to selectively turn off [revert] when predict==on
-      #  if so how to count hits/misses?  colour=green
-      #  kata.event(@index - 2).files
-      #  TODO: What about if current traffic-light===pulling/faulty/timed_out
-      #        What is index-2 then???
-      #        I suppose in this case there is no revert?
-      #        Or do you go back to MOST-RECENT red/amber/green ????
-      #end
-
     rescue SaverService::Error => error
       @out_of_sync = true
       STDOUT.puts(error.message);
