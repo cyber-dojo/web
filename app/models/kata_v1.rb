@@ -84,24 +84,19 @@ class Kata_v1
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def revert(id, index, files, now, stdout, stderr, status, colour, from)
-    event_summary = {
-      'index' => index,
-      'time' => now,
-      'colour' => colour,
-      'duration' => 0.0,
-      'revert' => from
-    }
+  def revert(files, stdout, stderr, status, summary)
+    id = summary['id']
+    index = summary['index']
     event_n = {
-      'files' => files,
+       'files' => files,
       'stdout' => stdout,
       'stderr' => stderr,
       'status' => status
     }
     saver.assert_all([
       # A failing create_command() ensures the append_command() is not run.
-      event_file_create_command(id, index, json_plain(event_n.merge(event_summary))),
-      events_file_append_command(id, ",\n" + json_plain(event_summary))
+      event_file_create_command(id, index, json_plain(event_n.merge(summary))),
+      events_file_append_command(id, ",\n" + json_plain(summary))
     ])
   end
 
@@ -116,7 +111,7 @@ class Kata_v1
     events = json_parse('[' + results[0] + ']')
     was_files = json_parse(results[1])['files']
     now_files = json_parse(results[2])['files']
-    [events,was_files,now_files]
+    [ events, was_files, now_files ]
   end
 
   # - - - - - - - - - - - - - - - - - - -
@@ -132,7 +127,7 @@ class Kata_v1
     events = json_parse('[' + results[1] + ']')
     was = json_parse(results[2])
     now = json_parse(results[3])
-    [manifest,events,was,now]
+    [ manifest, events, was,now ]
   end
 
   # - - - - - - - - - - - - - - - - - - -

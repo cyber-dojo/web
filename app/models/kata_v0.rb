@@ -68,16 +68,11 @@ class Kata_v0
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def revert(id, index, files, now, stdout, stderr, status, colour, from)
-    event_summary = {
-      'index' => index,
-      'time' => now,
-      'colour' => colour,
-      'duration' => 0.0,
-      'revert' => from
-    }
+  def revert(files, stdout, stderr, status, summary)
+    id = summary['id']
+    index = summary['index']
     event_n = {
-      'files' => files,
+       'files' => files,
       'stdout' => stdout,
       'stderr' => stderr,
       'status' => status
@@ -87,7 +82,7 @@ class Kata_v0
       dir_exists_command(id),
       dir_make_command(id, index),
       event_file_create_command(id, index, json_plain(lined(event_n))),
-      events_file_append_command(id, json_plain(event_summary) + "\n")
+      events_file_append_command(id, json_plain(summary) + "\n")
     ])
   end
 

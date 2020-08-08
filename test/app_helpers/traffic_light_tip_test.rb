@@ -231,7 +231,12 @@ class TipTest < AppHelpersTestBase
       status_2 = 0
       kata.ran_tests(2, files, time.now, duration, stdout_2, stderr_2, status_2, 'green')
 
-      kata.revert(3, kata.events[1].files, time.now, stdout_1, stderr_1, status_1, 'red', 1)
+      kata.revert(kata.events[1].files, stdout_1, stderr_1, status_1, {
+         'index' => 3,
+          'time' => time.now,
+        'colour' => 'red',
+        'revert' => [ kata.id, 1 ]
+      });
 
       events = kata.events
       was_files = files_for(events, 2)

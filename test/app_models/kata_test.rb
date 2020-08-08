@@ -196,14 +196,19 @@ class KataTest < AppModelsTestBase
       now_2 = [2018,11,1, 9,15,19,1394]
       kata.ran_tests(2, files, now_2, duration, stdout_2, stderr_2, status_2, 'green')
 
-      now_3 = [2018,11,1, 9,16,28,46]
-      kata.revert(3, kata.events[1].files, now_3, stdout_1, stderr_1, status_1, 'red', 1)
+      kata.revert(kata.events[1].files, stdout_1, stderr_1, status_1, {
+         'index' => 3,
+          'time' => [2018,11,1, 9,16,28,46],
+        'colour' => 'red',
+        'revert' => [ kata.id, 1 ]
+      });
+
 
       assert_equal 4, kata.events.size
       assert_equal 3, kata.lights.size
 
       light = kata.events[-1]
-      assert_equal 1, light.revert
+      assert_equal [ kata.id, 1 ], light.revert
       assert_equal :red, light.colour
 
       assert_equal stdout_1, light.stdout
