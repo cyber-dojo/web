@@ -98,4 +98,12 @@ module TestDomainHelpers # mix-in
     1.6543
   end
 
+  def ran_summary(now, colour)
+    { 'time' => now,
+      'duration' => duration,
+      'colour' => colour,
+      'predicted' => 'none'
+    }
+  end
+
 end

@@ -32,12 +32,7 @@ class DifferServiceTest < AppServicesTestBase
       stdout = file("Expected: 42\nActual: 54")
       stderr = file('assertion failed')
       status = 0
-      kata.ran_tests(kata.id, 1, kata.files, stdout, stderr, status, {
-        'time' => [2016,12,8, 8,3,23,654],
-        'duration' => 1.6754,
-        'colour' => 'red',
-        'predicted' => 'none'
-      })
+      kata.ran_tests(kata.id, 1, kata.files, stdout, stderr, status, ran_summary(time.now, 'red'))
 
       was_files = flattened(kata.events[0].files)
       now_files = flattened(kata.events[1].files)
