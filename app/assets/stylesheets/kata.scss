@@ -75,14 +75,14 @@
   }
 
   img.avatar-image {
-    @include rounded-corner(3px);
+    @include rounded-corner(6px);
     display: block;
      cursor: default;
       min-width: 33px; // prevet flex shrinkage
      min-height: 33px; // prevet flex shrinkage
       width: 33px;
      height: 33px;
-     margin: { left:0px; right:5px; }
+     margin: { left:4px; right:1px; }
     padding: 0px;
   }
 

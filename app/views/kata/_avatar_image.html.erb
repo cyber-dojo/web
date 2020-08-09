@@ -5,3 +5,12 @@
        class="avatar-image"
        id="edit-avatar-image"/>
 <% end %>
+
+<script type="text/javascript">
+'use strict';
+$(() => {
+
+  cd.createTip($('#edit-avatar-image'), "<%= @avatar_name %>");
+
+});
+</script>

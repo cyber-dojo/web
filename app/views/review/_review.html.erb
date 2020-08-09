@@ -45,7 +45,6 @@ $(() => {
          filename:filename
     };
     fadeIntoReviewPage();
-    setupAvatar();
     setupButton('resume', () => fadeIntoKataPage(() => { // [1]
       cd.kata.editor.refocus();
     }));
@@ -71,21 +70,6 @@ $(() => {
       });
     });
   };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const setupAvatar = () => {
-    if (groupExercise()) { //param.avatarName != '') {
-      // A group-exercise.
-      $('#avatar-box').empty().append($('<img>', {
-        src:`/avatar/image/${param.avatarIndex}`,
-        alt:param.avatarName,
-        class:'avatar-image'
-      }));
-    }
-  };
-
-  const groupExercise = () => param.avatarName != '';
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -625,7 +609,6 @@ $(() => {
 <%= render(:partial => 'review/filenames_sorted') %>
 
 <div id="review-top-row">
-  <div id="avatar-box"></div>
   <div id="resume-button-box"></div>
   <%= render(:partial => 'review/avatar_navigator') %>
   <%= render(:partial => 'review/traffic_light_navigator') %>
