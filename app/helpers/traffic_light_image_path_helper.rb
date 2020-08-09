@@ -3,7 +3,7 @@
 module TrafficLightImagePathHelper # mix-in
 
   def traffic_light_image_path(light)
-    "/traffic-light/image/#{light.colour}#{imgSuffix(light)}.png'"
+    "/traffic-light/image/#{light.colour}#{imgSuffix(light)}.png"
   end
 
   module_function
