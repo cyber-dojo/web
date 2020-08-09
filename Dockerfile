@@ -1,21 +1,11 @@
-ARG TRUE_BASE=cyberdojo/web-base:fd4385f
-ARG BUILD_ENV
-# copy|no_copy
+FROM cyberdojo/web-base:fd4385f
+LABEL maintainer=jon@jaggersoft.com
 
-FROM ${TRUE_BASE} as build_copy
-ONBUILD COPY . /cyber-dojo
-ONBUILD RUN chown -R nobody:nogroup /cyber-dojo
-# NB: combining the above 2 lines into
-# ONBUILD COPY --chown=nobody:nogroup . /cyber-dojo
+COPY . /cyber-dojo
+RUN chown -R nobody:nogroup /cyber-dojo
+# COPY --chown=nobody:nogroup . /cyber-dojo
 # causes a run (docker exec cyber-dojo-web) failure...
 # /usr/lib/ruby/2.5.0/fileutils.rb:232:in `mkdir': Permission denied @ dir_s_mkdir - /cyber-dojo/tmp (Errno::EACCES)
-
-FROM ${TRUE_BASE} as build_no_copy
-ONBUILD RUN echo "I need a volume-mount"
-
-# - - - - - - - - - - - - - - - - - - - -
-FROM build_${BUILD_ENV}
-LABEL maintainer=jon@jaggersoft.com
 
 WORKDIR /cyber-dojo
 

@@ -24,8 +24,7 @@ web_build()
   docker-compose \
     --file "${ROOT_DIR}/docker-compose.yml" \
     build \
-    --build-arg COMMIT_SHA=${commit_sha} \
-    --build-arg BUILD_ENV=copy
+    --build-arg COMMIT_SHA=${commit_sha}
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - -
