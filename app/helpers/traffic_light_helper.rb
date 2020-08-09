@@ -1,6 +1,9 @@
 # frozen_string_literal: true
+require_relative 'traffic_light_image_path_helper'
 
 module TrafficLightHelper # mix-in
+
+  include TrafficLightImagePathHelper
 
   module_function
 
@@ -43,29 +46,16 @@ module TrafficLightHelper # mix-in
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def colour_count(traffic_lights, colour)
-     traffic_lights.count { |light| light.colour == colour }
-  end
-
   def traffic_light_image(light)
     colour = light.colour
-    "<img src='/traffic-light/image/#{colour}#{imgSuffix(light)}.png'" +
+    "<img src='#{traffic_light_image_path(light)}'" +
        " alt='#{colour} traffic-light'/>"
   end
 
-  def imgSuffix(light)
-    if !rag?(light.colour)
-      ''
-    elsif light.revert
-      '_revert'
-    else
-      predicted = light.predicted || 'none'
-      "_predicted_#{predicted}"
-    end
-  end
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def rag?(colour)
-    %w( red amber green ).include?(colour.to_s)
+  def colour_count(traffic_lights, colour)
+     traffic_lights.count { |light| light.colour == colour }
   end
 
 end

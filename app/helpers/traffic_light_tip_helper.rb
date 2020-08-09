@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require_relative 'traffic_light_image_path_helper'
 
 module TrafficLightTipHelper # mix-in
 
@@ -33,6 +34,8 @@ module TrafficLightTipHelper # mix-in
 
   module_function
 
+  include TrafficLightImagePathHelper
+  
   def output?(filename)
     %w( stdout stderr status ).include?(filename)
   end
@@ -46,24 +49,9 @@ module TrafficLightTipHelper # mix-in
     if colour.to_s === ''
       ''
     else
-      "<img src='/traffic-light/image/#{light.colour}#{imgSuffix(light)}.png'" +
+      "<img src='#{traffic_light_image_path(light)}'" +
         " class='traffic-light-diff-tip-traffic-light-image'>"
     end
-  end
-
-  def imgSuffix(light)
-    if !rag?(light.colour)
-      ''
-    elsif light.revert
-      '_revert'
-    else
-      predicted = light.predicted || 'none'
-      "_predicted_#{predicted}"
-    end
-  end
-
-  def rag?(colour)
-    %w( red amber green ).include?(colour.to_s)
   end
 
   def avatar_img(index)
