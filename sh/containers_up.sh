@@ -28,7 +28,8 @@ docker-compose \
   --file "${ROOT_DIR}/docker-compose.yml" \
   up \
   -d \
-  --force-recreate
+  --force-recreate \
+  web
 
 wait_until_ready custom_start_points    4526
 wait_until_ready exercises_start_points 4525
