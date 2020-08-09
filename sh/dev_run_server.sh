@@ -32,6 +32,7 @@ up_nginx()
 {
   remove 80 # web
   docker-compose \
+    --file "${ROOT_DIR}/docker-compose-depends.yml" \
     --file "${ROOT_DIR}/docker-compose-nginx.yml" \
     --file "${ROOT_DIR}/docker-compose.yml" \
     run \

@@ -25,6 +25,7 @@ wait_until_running()
 
 echo
 docker-compose \
+  --file "${ROOT_DIR}/docker-compose-depends.yml" \
   --file "${ROOT_DIR}/docker-compose.yml" \
   up \
   -d \
