@@ -51,15 +51,7 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const openPredictionDialog = (handler) => {
-    let html = '';
-    html += '<div>'
-    html += '<table>';
-    html += tcrRow('red',   blurb('red',   'some tests will fail'   ));
-    html += tcrRow('amber', blurb('amber', 'the tests wont run yet' ));
-    html += tcrRow('green', blurb('green', 'all the tests will pass'));
-    html += '</table>';
-    html += tcrInfo();
-    html += '</div>';
+    const html = '<div>' + tcrInput() + tcrInfo() + '</div>';
     const $node = $(html);
     if (cd.trafficLightsCount(['red','amber','green']) > 0) {
       $('.tcr', $node).show();
@@ -83,7 +75,7 @@ $(() => {
            autoOpen: true,
       closeOnEscape: true,
               modal: true,
-              title: cd.dialogTitle('predict'),
+              title: cd.dialogTitle('prediction'),
               close: () => $node.dialog('destroy'),
         beforeClose: event => {
           if (event.keyCode === $.ui.keyCode.ESCAPE) {
@@ -142,7 +134,15 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const blurb = (colour, text) => `<div class="predict-blurb ${colour}">${text}</div>`;
+  const tcrInput = () => {
+    let html = '';
+    html += '<table>';
+    html += tcrRow('red',   blurb('red',   'some tests will fail'   ));
+    html += tcrRow('amber', blurb('amber', 'the tests wont run yet' ));
+    html += tcrRow('green', blurb('green', 'all the tests will pass'));
+    html += '</table>';
+    return html;
+  };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const tcrRow = (rag, blurb) =>
@@ -151,6 +151,9 @@ $(() => {
       `<td>${blurb}</td>` +
       `<td class="tcr">${tcrCheckbox(rag)}</td>` +
     '</tr>';
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  const blurb = (colour, text) => `<div class="predict-blurb ${colour}">${text}</div>`;
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   // kata.scss provides background image with custom :hover
@@ -170,10 +173,10 @@ $(() => {
         'The checkboxes are a form of<br/>' +
         '<a href="https://medium.com/@kentbeck_7670/test-commit-revert-870bbd756864" target="_blank">' +
         'Test &amp;&amp; Commit || Revert</a>.<br/>' +
-        'When checked, an incorrect prediction will be automatically reverted!' +
+        'When checked, an incorrect prediction will be automatically reverted ' +
+        "and you will get an <em>extra</em> 'revert' traffic-light." +
       '</div>';
   };
-
 
 });
 </script>
