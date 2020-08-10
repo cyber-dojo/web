@@ -53,9 +53,7 @@ $(() => {
   const openPredictionDialog = (handler) => {
     const html = '<div>' + tcrInput() + tcrInfo() + '</div>';
     const $node = $(html);
-    if (cd.trafficLightsCount(['red','amber','green']) > 0) {
-      $('.tcr', $node).show();
-    }
+    $('.tcr', $node).show();
     setupRagClick(handler, $node, 'red');
     setupRagClick(handler, $node, 'amber');
     setupRagClick(handler, $node, 'green');
@@ -98,8 +96,8 @@ $(() => {
     $(`div#predict-${colour}`, $node).click(() => {
       $node.remove();
       predicted.val(colour);
-      const srcIndex = $lastTrafficLight().data('index');
-      handler(() => complete(colour, srcIndex));
+      const $oldLast = $lastTrafficLight();
+      handler(() => complete(colour, $oldLast));
     });
   };
 
@@ -108,15 +106,20 @@ $(() => {
     $(`.predict-blurb.${colour}`, $node).click(() => {
       $node.remove();
       predicted.val(colour);
-      const srcIndex = $lastTrafficLight().data('index');
-      handler(() => complete(colour, srcIndex));
+      const $oldLast = $lastTrafficLight();
+      handler(() => complete(colour, $oldLast));
     });
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const complete = (predictedColour, srcIndex) => {
-    const actualColour = $lastTrafficLight().data('colour');
-    if (tcr[predictedColour] && actualColour != predictedColour) {
+  const complete = (predictedColour, $oldLast) => {
+    const $newLast = $lastTrafficLight();
+    const actualColour = $newLast.data('colour');
+    const predictedWrong = (actualColour != predictedColour);
+    const revertOn = tcr[predictedColour];
+    const lightToRevertTo = ($oldLast != undefined);
+    if (predictedWrong && revertOn && lightToRevertTo) {
+      const srcIndex = $oldLast.data('index');
       cd.checkout({ src_id:cd.kataId(), src_index:srcIndex });
     }
   };
