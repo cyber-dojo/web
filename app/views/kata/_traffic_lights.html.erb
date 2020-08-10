@@ -208,7 +208,7 @@ $(() => {
     const colour = predictedIncorrectly(light) ? light.predicted : 'black';
     const $missImg = $('<img>', {
       id:'miss-img',
-      src:`/traffic-light/image/circle-miss-${colour}.png`
+      src:`/traffic-light/image/circle-cross.png`
     });
     const $missCount = $('<div>', {
       id:'miss-count',
@@ -226,7 +226,7 @@ $(() => {
     const colour = predictedCorrectly(light) ? light.predicted : 'black';
     const $hitImg = $('<img>', {
       id:'hit-img',
-      src:`/traffic-light/image/circle-hit-${colour}.png`
+      src:`/traffic-light/image/circle-tick.png`
     });
     const $hitCount = $('<div>', {
       id:'hit-count',
