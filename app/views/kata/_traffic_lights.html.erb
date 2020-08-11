@@ -72,12 +72,12 @@ $(() => {
   const $img = (event) => {
     const colour = event.colour;
     return $('<img>', {
-      'src':`/traffic-light/image/${colour}${imgSuffix(event)}.png`,
+      'src':`/traffic-light/image/${colour}.png`,
       'alt':`${colour} traffic-light`
     });
   };
 
-  const imgSuffix = (event) => {
+  /*const imgSuffix = (event) => {
     const predicted = event.predicted || 'none';
     if (!isRag(event.colour)) {
       return '';
@@ -86,7 +86,7 @@ $(() => {
     } else {
       return `_predicted_${predicted}`;
     }
-  };
+  };*/
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // cd.updateTrafficLightsCount() updates the total-count and

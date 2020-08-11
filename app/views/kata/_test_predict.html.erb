@@ -98,7 +98,7 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const setupRagClick = (handler, $node, colour) => {
-    $(`div#predict-${colour}`, $node).click(() => {
+    $(`#predict-${colour}`, $node).click(() => {
       $node.remove();
       predicted.val(colour);
       const $oldLast = $lastTrafficLight();
@@ -154,64 +154,67 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const tcrRow = (rag, blurb) =>
-    '<tr>' +
-      `<td>${lightImg(rag)}</td>` +
-      `<td>${blurb}</td>` +
-      `<td class="tcr">${tcrCheckbox(rag)}</td>` +
-    '</tr>';
+    `<tr>
+      <td>${lightImg(rag)}</td>
+      <td>${blurb}</td>
+      <td class="tcr">${tcrCheckbox(rag)}</td>
+    </tr>`;
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const blurb = (colour, text) => `<div class="predict-blurb ${colour}">${text}</div>`;
+  const blurb = (colour, text) =>
+    `<div class="predict-blurb ${colour}">
+      ${text}
+     </div>`;
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  // kata.scss provides background image with custom :hover
-  const lightImg = (rag) => `<div class="predict" id="predict-${rag}"></div>`;
+  const lightImg = (rag) =>
+    `<div id="predict-${rag}">
+      <img src="/traffic-light/image/${rag}.png">
+     </div>`;
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const tcrCheckbox = (rag) => {
-    return '' +
-      `<input type="checkbox" id="${rag}-tcr-checkbox"/>` +
-      `<label for="${rag}-tcr-checkbox"></label>`;
-  };
+  const tcrCheckbox = (rag) =>
+    `<input type="checkbox" id="${rag}-tcr-checkbox"/>
+     <label for="${rag}-tcr-checkbox"></label>`;
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const tcrInfo = () => {
     return '' +
-      '<div id="tcr" class="tcr info">' +
-        'When a checkbox is ticked, an incorrect prediction will be automatically reverted!' +
-      '</div>' +
-      '<div id="tcr" class="tcr info">' +
-        'Traffic-lights will look like this:' +
-        '<table>' +
-          '<tr>' +
-            '<td>' +
-              '<img src="/traffic-light/image/circle-cross.png">' +
-              '<img src="/traffic-light/image/amber_predicted_none.png">' +
-            '</td>' +
-            '<td>' +
-              'incorrectly predicted <span class="red">red</span> or <span class="green">green</span>' +
-            '</td>' +
-          '</tr>' +
-          '<tr>' +
-            '<td class="text-align:right;">' +
-              '<img src="/traffic-light/image/circle-tick.png">' +
-              '<img src="/traffic-light/image/green_predicted_none.png">' +
-            '</td>' +
-            '<td>' +
-              'correctly predicted <span class="green">green</span>' +
-            '</td>' +
-          '</tr>' +
-          '<tr>' +
-            '<td>' +
-              '<img src="/traffic-light/image/circle-revert.png">' +
-              '<img src="/traffic-light/image/red_predicted_none.png">' +
-            '</td>' +
-            '<td>' +
-              'auto-reverted back to <span class="red">red</span>' +
-            '</td>' +
-          '</tr>' +
-        '</table>' +
-      '</div>';
+      `<div id="tcr" class="tcr info">
+        When a checkbox is ticked, an incorrect prediction will be automatically reverted!
+       </div>
+       <div id="tcr" class="tcr info">
+         Traffic-lights will look like this:
+         <table>
+           <tr>
+             <td>
+               <img src="/traffic-light/image/circle-cross.png">
+               <img src="/traffic-light/image/amber_predicted_none.png">
+             </td>
+             <td>
+               incorrectly predicted <span class="red">red</span> or <span class="green">green</span>
+             </td>
+           </tr>
+           <tr>
+             <td class="text-align:right;">
+               <img src="/traffic-light/image/circle-tick.png">
+               <img src="/traffic-light/image/green_predicted_none.png">
+             </td>
+             <td>
+               correctly predicted <span class="green">green</span>
+             </td>
+           </tr>
+           <tr>
+             <td>
+               <img src="/traffic-light/image/circle-revert.png">
+               <img src="/traffic-light/image/red_predicted_none.png">
+             </td>
+             <td>
+               auto-reverted back to <span class="red">red</span>
+             </td>
+           </tr>
+         </table>
+       </div>`;
   };
 
 });

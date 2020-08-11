@@ -301,23 +301,20 @@ input#delete-filename
 //--------------------------------------------------------------
 // traffic-light prediction
 
-div.predict
+#predict-red, #predict-amber, #predict-green
 {
-  width:42px;
-  height:42px;
   cursor:pointer;
+  img
+  {
+    width:25px;
+    height:25px;
+  }
 }
-div#predict-red         { background: url("/traffic-light/image/red_predicted_none.png")    no-repeat; }
-div#predict-red:hover   { background: url("/traffic-light/image/red_predicted_red.png")     no-repeat; }
-div#predict-amber       { background: url("/traffic-light/image/amber_predicted_none.png")  no-repeat; }
-div#predict-amber:hover { background: url("/traffic-light/image/amber_predicted_amber.png") no-repeat; }
-div#predict-green       { background: url("/traffic-light/image/green_predicted_none.png")  no-repeat; }
-div#predict-green:hover { background: url("/traffic-light/image/green_predicted_green.png") no-repeat; }
 
 .predict-blurb
 {
   @include rounded-corner(3px);
-  width: 252px;
+  width: 268px;
   padding: 5px;
   border: 1px solid $darker-color;
   cursor:pointer;
