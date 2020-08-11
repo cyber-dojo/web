@@ -51,6 +51,8 @@ $(() => {
     // to a traffic-light. For example, the kata creation event.
     // In the future there may be more, eg file new|delete|rename events.
     if (colour) {
+      appendRevertCircle($lights, event);
+      appendPredictCircle($lights, event);
       const $div = $('<div>', {
         'class':'diff-traffic-light',
         'data-id':id,
@@ -69,24 +71,35 @@ $(() => {
     }
   };
 
+  // TODO: when settings changes prediction, then ALL traffic-lights need to be redrawn...
+  
+  const appendRevertCircle = ($lights, event) => {
+    if (cd.settings.predict() === 'off') { return; }
+    if (event.revert === undefined) { return; }
+    $lights.append($('<img>', {
+      class: 'revert',
+        src: '/traffic-light/image/circle-revert.png'
+    }));
+  };
+
+  const appendPredictCircle = ($lights, event) => {
+    if (cd.settings.predict() === 'off') { return; }
+    if (event.predicted === undefined) { return; }
+    const correct = event.predicted === event.colour;
+    const icon = correct ? 'tick' : 'cross';
+    $lights.append($('<img>', {
+      class: icon,
+        src: `/traffic-light/image/circle-${icon}.png`
+    }));
+  };
+
   const $img = (event) => {
     const colour = event.colour;
     return $('<img>', {
-      'src':`/traffic-light/image/${colour}.png`,
-      'alt':`${colour} traffic-light`
+      src: `/traffic-light/image/${colour}.png`,
+      alt: `${colour} traffic-light`
     });
   };
-
-  /*const imgSuffix = (event) => {
-    const predicted = event.predicted || 'none';
-    if (!isRag(event.colour)) {
-      return '';
-    } else if (event.revert) {
-      return '_revert';
-    } else {
-      return `_predicted_${predicted}`;
-    }
-  };*/
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // cd.updateTrafficLightsCount() updates the total-count and
@@ -192,12 +205,12 @@ $(() => {
     const tr = (s) => `<tr>${s}</tr>`;
     const td = (s) => `<td>${s}</td>`;
     return '' +
-      tr(td('<img' +
-            " class='traffic-light-diff-tip-traffic-light-image'" +
-            ` src='/traffic-light/image/${colour}.png'>`) +
-         td(`<div class='traffic-light-diff-tip-tag ${colour}'>` +
-            count +
-            '</div>'));
+      tr(td(`<img
+              class="traffic-light-diff-tip-traffic-light-image"
+              src="/traffic-light/image/${colour}.png">`) +
+         td(`<div class='traffic-light-diff-tip-tag ${colour}'>
+              ${count} +
+             </div>`));
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -

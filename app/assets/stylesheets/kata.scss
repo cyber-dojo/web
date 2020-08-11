@@ -156,6 +156,13 @@
     }
   }
 
+  img.revert, img.tick, img.cross
+  {
+    width:22px;
+    height:22px;
+    padding-top:5px;
+  }
+
   //--------------------------------------------------------------
 
   .lhs-column
