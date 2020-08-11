@@ -285,16 +285,15 @@ $(() => {
 
   const makeTrafficLightHtml = (light, number) => {
     const colour = light.colour;
-    return [
-      "<div class='diff-traffic-light'",
-        ` data-id='${param.id}'`,
-        ` data-number='${number}'`,
-        ` data-colour='${colour}'`,
-        ` data-index='${light.index}'>`,
-        `<img src='/traffic-light/image/${colour}.png'/>`,
-        makeTrafficLightMarkerHtml(light),
-      '</div>',
-    ].join('');
+    return '' +
+      `<div class="diff-traffic-light"
+         data-id="${param.id}"
+         data-number="${number}"
+         data-colour="${colour}"
+         data-index="${light.index}">
+         <img src="/traffic-light/image/${colour}.png"/>
+        ${makeTrafficLightMarkerHtml(light)}
+      </div>`;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -302,7 +301,8 @@ $(() => {
   const makeTrafficLightMarkerHtml = (light) => {
     const currentIndex = (param.nowIndex === light.index);
     if (currentIndex) {
-      return `<img id='traffic-light-marker' src='/traffic-light/image/marker_${light.colour}.png'/>`;
+      return `<img id='traffic-light-marker'
+                   src='/traffic-light/image/marker_${light.colour}.png'/>`;
     } else {
       return '';
     }
