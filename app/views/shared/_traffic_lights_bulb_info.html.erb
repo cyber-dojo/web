@@ -1,26 +1,32 @@
 <div class="info">
   Each test run creates a new traffic-light:
-  <ul class="nobull">
-    <li>
-      <img src='/traffic-light/image/red_predicted_none.png'
-           alt='red traffic-light'
-           class='traffic-light' />
-      <span class="red">red</span>
-      one or more tests failed
-    </li>
-    <li>
-      <img src='/traffic-light/image/amber_predicted_none.png'
-           alt='amber traffic-light'
-           class='traffic-light' />
-      <span class="amber">amber</span>
-      something broke, e.g. syntax/linker error
-    </li>
-    <li>
-      <img src='/traffic-light/image/green_predicted_none.png'
-           alt='green traffic-light'
-           class='traffic-light' />
-      <span class="green">green</span>
-      all the tests passed
-    </li>
-  </ul>
+  <table>
+    <tr>
+      <td>
+        <img src='/traffic-light/image/red_predicted_none.png'
+             alt='red traffic-light'
+             class='traffic-light' />
+      </td>
+      <td><span class="red">red</span></td>
+      <td>&nbsp;some of the tests failed</td>
+    </tr>
+    <tr>
+      <td>
+        <img src='/traffic-light/image/amber_predicted_none.png'
+             alt='amber traffic-light'
+             class='traffic-light' />
+      </td>
+      <td><span class="amber">amber</span></td>
+      <td>&nbsp;the tests didn't run</td>
+    </tr>
+    <tr>
+      <td>
+        <img src='/traffic-light/image/green_predicted_none.png'
+             alt='green traffic-light'
+             class='traffic-light' />
+      </td>
+      <td><span class="green">green</span></td>
+      <td>&nbsp;all of the tests passed</td>
+    </tr>
+  </table>
 </div>

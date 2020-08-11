@@ -17,13 +17,6 @@
   ul { margin: { top:5px; bottom:5px; } }
 }
 .info + .info { margin-top: 15px; }
-.nobull
-{
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  margin-left: 22px;
-}
 
 //---------------------------------------------------
 
@@ -324,14 +317,12 @@ div#predict-green:hover { background: url("/traffic-light/image/green_predicted_
 .predict-blurb
 {
   @include rounded-corner(3px);
-  width: 187px;
+  width: 252px;
   padding: 5px;
   border: 1px solid $darker-color;
   cursor:pointer;
   &:hover { border: 1px dotted lighten($darker-color, 30%); }
 }
-
-#predict-dialog, .tcr { display:none; }
 
 input#red-tcr-checkbox, input#amber-tcr-checkbox, input#green-tcr-checkbox
 {

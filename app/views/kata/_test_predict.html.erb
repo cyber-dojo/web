@@ -68,7 +68,7 @@ $(() => {
     const xPos = originator.offset().left;
     const yPos = originator.offset().top + 37;
     $node.dialog({
-              width: 305,
+              width: 370,
            position: [xPos,yPos],
            autoOpen: true,
       closeOnEscape: true,
@@ -89,6 +89,11 @@ $(() => {
     $checkbox
       .prop('checked', tcr[colour])
       .change(() => tcr[colour] = $checkbox.prop('checked'));
+    cd.createTip($checkbox,
+      `auto-revert when<br/>
+       prediction == <span class="${colour}">${colour}</span><br/>
+       actual != <span class="${colour}">${colour}</span>`
+    );
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -140,9 +145,9 @@ $(() => {
   const tcrInput = () => {
     let html = '';
     html += '<table>';
-    html += tcrRow('red',   blurb('red',   'some tests will fail'   ));
-    html += tcrRow('amber', blurb('amber', 'the tests wont run yet' ));
-    html += tcrRow('green', blurb('green', 'all the tests will pass'));
+    html += tcrRow('red',   blurb('red',   'some of the tests will fail'));
+    html += tcrRow('amber', blurb('amber', 'the tests wont run'));
+    html += tcrRow('green', blurb('green', 'all of the tests will pass'));
     html += '</table>';
     return html;
   };
@@ -173,11 +178,39 @@ $(() => {
   const tcrInfo = () => {
     return '' +
       '<div id="tcr" class="tcr info">' +
-        'The checkboxes are a form of<br/>' +
-        '<a href="https://medium.com/@kentbeck_7670/test-commit-revert-870bbd756864" target="_blank">' +
-        'Test &amp;&amp; Commit || Revert</a>.<br/>' +
-        'When checked, an incorrect prediction will be automatically reverted ' +
-        "and you will get an <em>extra</em> 'revert' traffic-light." +
+        'When a checkbox is ticked, an incorrect prediction will be automatically reverted!' +
+      '</div>' +
+      '<div id="tcr" class="tcr info">' +
+        'Traffic-lights will look like this:' +
+        '<table>' +
+          '<tr>' +
+            '<td>' +
+              '<img src="/traffic-light/image/circle-cross.png">' +
+              '<img src="/traffic-light/image/amber_predicted_none.png">' +
+            '</td>' +
+            '<td>' +
+              'incorrectly predicted <span class="red">red</span> or <span class="green">green</span>' +
+            '</td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td class="text-align:right;">' +
+              '<img src="/traffic-light/image/circle-tick.png">' +
+              '<img src="/traffic-light/image/green_predicted_none.png">' +
+            '</td>' +
+            '<td>' +
+              'correctly predicted <span class="green">green</span>' +
+            '</td>' +
+          '</tr>' +
+          '<tr>' +
+            '<td>' +
+              '<img src="/traffic-light/image/circle-revert.png">' +
+              '<img src="/traffic-light/image/red_predicted_none.png">' +
+            '</td>' +
+            '<td>' +
+              'auto-reverted back to <span class="red">red</span>' +
+            '</td>' +
+          '</tr>' +
+        '</table>' +
       '</div>';
   };
 
