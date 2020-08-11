@@ -61,7 +61,7 @@ $(() => {
         'data-avatar-index':avatarIndex,
         'data-colour':colour
       });
-      const $light = $div.append($img(event));
+      const $light = $div.append($ragImage(event));
       $lights.append($light);
       $light.click(() => cd.setReviewData(version, id, groupId, avatarName, avatarIndex, index-1, index));
       cd.setupTrafficLightTip($light, version, id, avatarIndex, index-1, index, number);
@@ -81,7 +81,7 @@ $(() => {
   };
 
   const appendPredictCircle = ($lights, event) => {
-    if (event.predicted != undefined) {
+    if (prediction(event)) {
       const correct = event.predicted === event.colour;
       const icon = correct ? 'tick' : 'cross';
       $lights.append($('<img>', {
@@ -91,7 +91,7 @@ $(() => {
     }
   };
 
-  const $img = (event) => {
+  const $ragImage = (event) => {
     const colour = event.colour;
     return $('<img>', {
       src: `/traffic-light/image/${colour}.png`,
@@ -143,10 +143,8 @@ $(() => {
   };
 
   const prediction = (light) => {
-    // Don't count pulling/timed_out/faulty as incorrect predictions.
     return light.predicted != undefined &&
-             light.predicted != 'none' &&
-               isRag(light.colour);
+             light.predicted != 'none';
   };
 
   const isRag = (s) => ['red','amber','green'].includes(s);
@@ -207,7 +205,7 @@ $(() => {
               class="traffic-light-diff-tip-traffic-light-image"
               src="/traffic-light/image/${colour}.png">`) +
          td(`<div class='traffic-light-diff-tip-tag ${colour}'>
-              ${count} +
+              ${count}
              </div>`));
   };
 
@@ -233,7 +231,7 @@ $(() => {
       id:'miss-count',
       class:'traffic-light-count'
     }).text(counts.miss);
-    const hoverTip = 'incorrect predictions';
+    const hoverTip = 'count of incorrect predictions';
     cd.setTip($missCount, () => cd.showHoverTip($missCount, hoverTip));
     return $('<div>', {id:'miss-box'}).append($missImg).append($missCount);
   };
@@ -250,7 +248,7 @@ $(() => {
       id:'hit-count',
       class:'traffic-light-count'
     }).text(counts.hit);
-    const hoverTip = 'correct predictions';
+    const hoverTip = 'count of correct predictions';
     cd.setTip($hitCount, () => cd.showHoverTip($hitCount, hoverTip));
     return $('<div>', {id:'hit-box'}).append($hitImg).append($hitCount);
   };
