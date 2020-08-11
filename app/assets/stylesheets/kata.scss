@@ -339,10 +339,17 @@ input#red-tcr-checkbox, input#amber-tcr-checkbox, input#green-tcr-checkbox
   cursor: pointer;
 }
 
-#tcr
+.tcr.info
 {
   font-size: 15px;
-  a { color: khaki !important; }
+  img.revert, img.tick, img.cross
+  {
+    width:13px;
+    height:13px;
+    padding-top:14px;
+    position:relative;
+    left:10px;
+  }
 }
 
 //--------------------------------------------------------------

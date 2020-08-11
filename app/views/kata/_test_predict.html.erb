@@ -192,16 +192,16 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const tcrInfo = () => {
     return '' +
-      `<div id="tcr" class="tcr info">
+      `<div class="tcr info">
         When a checkbox is ticked, an incorrect prediction will be automatically reverted!
        </div>
-       <div id="tcr" class="tcr info">
+       <div class="tcr info">
          Traffic-lights will look like this:
          <table>
            <tr>
              <td>
-               <img src="/traffic-light/image/circle-cross.png">
-               <img src="/traffic-light/image/amber_predicted_none.png">
+               <img class="cross" src="/traffic-light/image/circle-cross.png">
+               <img src="/traffic-light/image/amber.png">
              </td>
              <td>
                incorrectly predicted <span class="red">red</span> or <span class="green">green</span>
@@ -209,8 +209,8 @@ $(() => {
            </tr>
            <tr>
              <td class="text-align:right;">
-               <img src="/traffic-light/image/circle-tick.png">
-               <img src="/traffic-light/image/green_predicted_none.png">
+               <img class="tick" src="/traffic-light/image/circle-tick.png">
+               <img src="/traffic-light/image/green.png">
              </td>
              <td>
                correctly predicted <span class="green">green</span>
@@ -218,8 +218,8 @@ $(() => {
            </tr>
            <tr>
              <td>
-               <img src="/traffic-light/image/circle-revert.png">
-               <img src="/traffic-light/image/red_predicted_none.png">
+               <img class="revert" src="/traffic-light/image/circle-revert.png">
+               <img src="/traffic-light/image/red.png">
              </td>
              <td>
                auto-reverted back to <span class="red">red</span>
