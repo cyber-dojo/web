@@ -71,26 +71,24 @@ $(() => {
     }
   };
 
-  // TODO: when settings changes prediction, then ALL traffic-lights need to be redrawn...
-  
   const appendRevertCircle = ($lights, event) => {
-    if (cd.settings.predict() === 'off') { return; }
-    if (event.revert === undefined) { return; }
-    $lights.append($('<img>', {
-      class: 'revert',
-        src: '/traffic-light/image/circle-revert.png'
-    }));
+    if (event.revert != undefined) {
+      $lights.append($('<img>', {
+        class: 'revert',
+          src: '/traffic-light/image/circle-revert.png'
+      }));
+    }
   };
 
   const appendPredictCircle = ($lights, event) => {
-    if (cd.settings.predict() === 'off') { return; }
-    if (event.predicted === undefined) { return; }
-    const correct = event.predicted === event.colour;
-    const icon = correct ? 'tick' : 'cross';
-    $lights.append($('<img>', {
-      class: icon,
-        src: `/traffic-light/image/circle-${icon}.png`
-    }));
+    if (event.predicted != undefined) {
+      const correct = event.predicted === event.colour;
+      const icon = correct ? 'tick' : 'cross';
+      $lights.append($('<img>', {
+        class: icon,
+          src: `/traffic-light/image/circle-${icon}.png`
+      }));
+    }
   };
 
   const $img = (event) => {

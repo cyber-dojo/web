@@ -10,21 +10,23 @@ $(() => {
       const predict = cd.settings.predict();
       if (predict === 'off') {
         cd.countPredictBox().hide();
+        circleImages().hide();
       } else {
         cd.updateTrafficLightsCount();
         cd.countPredictBox().show();
+        circleImages().show();
       }
     }
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  cd.predictTrafficLight = (handler) => {
+  cd.predictTrafficLight = (runTests) => {
     // Called from the test-button handler
+    predicted.val('none');
     if (cd.settings.predict() === 'on') {
-      predicted.val('none');
-      openPredictionDialog(handler);
+      openPredictionDialog(runTests);
     } else {
-      handler();
+      runTests();
     }
   };
 
@@ -50,16 +52,26 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const openPredictionDialog = (handler) => {
+  const circleImages = () => {
+    const cssSelector = [
+      '#traffic-lights img.revert',
+      '#traffic-lights img.tick',
+      '#traffic-lights img.cross',
+    ].join(',');
+    return $(cssSelector);
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  const openPredictionDialog = (runTests) => {
     const html = '<div>' + tcrInput() + tcrInfo() + '</div>';
     const $node = $(html);
     $('.tcr', $node).show();
-    setupRagClick(handler, $node, 'red');
-    setupRagClick(handler, $node, 'amber');
-    setupRagClick(handler, $node, 'green');
-    setupBlurbClick(handler, $node, 'red');
-    setupBlurbClick(handler, $node, 'amber');
-    setupBlurbClick(handler, $node, 'green');
+    setupRagClick(runTests, $node, 'red');
+    setupRagClick(runTests, $node, 'amber');
+    setupRagClick(runTests, $node, 'green');
+    setupBlurbClick(runTests, $node, 'red');
+    setupBlurbClick(runTests, $node, 'amber');
+    setupBlurbClick(runTests, $node, 'green');
     setupTcrCheckBox($node, 'red');
     setupTcrCheckBox($node, 'amber');
     setupTcrCheckBox($node, 'green');
@@ -97,27 +109,27 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const setupRagClick = (handler, $node, colour) => {
+  const setupRagClick = (runTests, $node, colour) => {
     $(`#predict-${colour}`, $node).click(() => {
       $node.remove();
       predicted.val(colour);
       const $oldLast = $lastTrafficLight();
-      handler(() => complete(colour, $oldLast));
+      runTests(() => testRunComplete(colour, $oldLast));
     });
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const setupBlurbClick = (handler, $node, colour) => {
+  const setupBlurbClick = (runTests, $node, colour) => {
     $(`.predict-blurb.${colour}`, $node).click(() => {
       $node.remove();
       predicted.val(colour);
       const $oldLast = $lastTrafficLight();
-      handler(() => complete(colour, $oldLast));
+      runTests(() => testRunComplete(colour, $oldLast));
     });
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const complete = (predictedColour, $oldLast) => {
+  const testRunComplete = (predictedColour, $oldLast) => {
     const $newLast = $lastTrafficLight();
     const actualColour = $newLast.data('colour');
     const predictedWrong = (actualColour != predictedColour);
