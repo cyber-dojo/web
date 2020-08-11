@@ -285,15 +285,13 @@ $(() => {
 
   const makeTrafficLightHtml = (light, number) => {
     const colour = light.colour;
-    const isRag = (colour === 'red' || colour === 'amber' || colour === 'green');
-    const prediction = isRag ? `_predicted_${light.predicted||'none'}` : '';
     return [
       "<div class='diff-traffic-light'",
         ` data-id='${param.id}'`,
         ` data-number='${number}'`,
         ` data-colour='${colour}'`,
         ` data-index='${light.index}'>`,
-        `<img src='/traffic-light/image/${colour}${prediction}.png'/>`,
+        `<img src='/traffic-light/image/${colour}.png'/>`,
         makeTrafficLightMarkerHtml(light),
       '</div>',
     ].join('');
