@@ -214,26 +214,9 @@ $(() => {
   const updateTrafficLightsPredictCount = () => {
     const $box = cd.countPredictBox();
     $box.fadeOut('fast', () => {
-      $box.empty().append(missBox()).append(hitBox());
+      $box.empty().append(hitBox()).append(missBox());
       $box.fadeIn('fast');
     });
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const missBox = () => {
-    const light = lastLight();
-    const $missImg = $('<img>', {
-      id:'miss-img',
-      src:`/traffic-light/image/circle-cross.png`
-    });
-    const $missCount = $('<div>', {
-      id:'miss-count',
-      class:'traffic-light-count'
-    }).text(counts.miss);
-    const hoverTip = 'count of incorrect predictions';
-    cd.setTip($missCount, () => cd.showHoverTip($missCount, hoverTip));
-    return $('<div>', {id:'miss-box'}).append($missImg).append($missCount);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -248,9 +231,26 @@ $(() => {
       id:'hit-count',
       class:'traffic-light-count'
     }).text(counts.hit);
-    const hoverTip = 'count of correct predictions';
+    const hoverTip = 'correct predictions';
     cd.setTip($hitCount, () => cd.showHoverTip($hitCount, hoverTip));
     return $('<div>', {id:'hit-box'}).append($hitImg).append($hitCount);
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const missBox = () => {
+    const light = lastLight();
+    const $missImg = $('<img>', {
+      id:'miss-img',
+      src:`/traffic-light/image/circle-cross.png`
+    });
+    const $missCount = $('<div>', {
+      id:'miss-count',
+      class:'traffic-light-count'
+    }).text(counts.miss);
+    const hoverTip = 'incorrect predictions';
+    cd.setTip($missCount, () => cd.showHoverTip($missCount, hoverTip));
+    return $('<div>', {id:'miss-box'}).append($missImg).append($missCount);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
