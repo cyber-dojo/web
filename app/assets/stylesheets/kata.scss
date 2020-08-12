@@ -330,7 +330,7 @@ input#delete-filename
   &:hover { border: 1px dotted lighten($darker-color, 30%); }
 }
 
-input#red-tcr-checkbox, input#amber-tcr-checkbox, input#green-tcr-checkbox
+input#red-revert-checkbox, input#amber-revert-checkbox, input#green-revert-checkbox
 {
   width: 20px;
   height: 20px;
@@ -339,7 +339,7 @@ input#red-tcr-checkbox, input#amber-tcr-checkbox, input#green-tcr-checkbox
   cursor: pointer;
 }
 
-.tcr.info
+.predict.info
 {
   font-size: 15px;
   img.revert, img.tick, img.cross

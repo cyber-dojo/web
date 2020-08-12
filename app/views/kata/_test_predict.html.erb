@@ -65,7 +65,6 @@ $(() => {
   const openPredictionDialog = (runTests) => {
     const html = '<div>' + predictButtons() + predictInfo() + '</div>';
     const $node = $(html);
-    $('.tcr', $node).show();
     setupRagClick(runTests, $node, 'red');
     setupRagClick(runTests, $node, 'amber');
     setupRagClick(runTests, $node, 'green');
@@ -97,7 +96,7 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const setupAutoRevertCheckBox = ($node, colour) => {
-    const $checkbox = $(`#${colour}-tcr-checkbox`, $node);
+    const $checkbox = $(`#${colour}-revert-checkbox`, $node);
     $checkbox
       .prop('checked', autoRevert[colour])
       .change(() => autoRevert[colour] = $checkbox.prop('checked'));
@@ -169,7 +168,7 @@ $(() => {
     `<tr>
       <td>${lightImg(rag)}</td>
       <td>${blurb}</td>
-      <td class="tcr">${tcrCheckbox(rag)}</td>
+      <td class="predict">${predictCheckbox(rag)}</td>
     </tr>`;
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -185,17 +184,17 @@ $(() => {
      </div>`;
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const tcrCheckbox = (rag) =>
-    `<input type="checkbox" id="${rag}-tcr-checkbox"/>
-     <label for="${rag}-tcr-checkbox"></label>`;
+  const predictCheckbox = (rag) =>
+    `<input type="checkbox" id="${rag}-revert-checkbox"/>
+     <label for="${rag}-revert-checkbox"></label>`;
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const predictInfo = () => {
     return '' +
-      `<div class="tcr info">
+      `<div class="predict info">
         When a checkbox is ticked, an incorrect prediction will be automatically reverted!
        </div>
-       <div class="tcr info">
+       <div class="predict info">
          Traffic-lights will be prefixed by a small icon.<br/>
          For example:
          <table>
