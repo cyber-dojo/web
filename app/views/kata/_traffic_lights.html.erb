@@ -80,9 +80,7 @@ $(() => {
     }
   };
 
-  const isRevert = (event) => {
-    return event.revert != undefined;
-  };
+  const isRevert = (event) => event.revert != undefined;
 
   const appendPredictCircle = ($lights, event) => {
     if (isPrediction(event)) {
@@ -94,6 +92,8 @@ $(() => {
       }));
     }
   };
+
+  const isPrediction = (light) => light.predicted != undefined && light.predicted != 'none';
 
   const $ragImage = (event) => {
     const colour = event.colour;
@@ -145,13 +145,6 @@ $(() => {
       }
     }
   };
-
-  const isPrediction = (light) => {
-    return light.predicted != undefined &&
-             light.predicted != 'none';
-  };
-
-  const isRag = (s) => ['red','amber','green'].includes(s);
 
   const counts = {
     pulling: 0,
