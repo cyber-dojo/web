@@ -33,7 +33,8 @@ $(() => {
     event.index = index; // version 0 events don't store their index
     cd.appendTrafficLight(event);
   });
-
+  cd.predict.reset();
+  
   cd.turnOnSettingsButton();
   cd.updateTrafficLightsCount();
   cd.scrollLastTrafficLightIntoView();
