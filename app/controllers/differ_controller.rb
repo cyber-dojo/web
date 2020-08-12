@@ -70,6 +70,7 @@ class DifferController < ApplicationController
       'time'      => light.time,
       'predicted' => light.predicted,
       'colour'    => light.colour,
+      'revert'    => light.revert
     }
   end
 

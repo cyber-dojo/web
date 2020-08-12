@@ -325,15 +325,6 @@ button.predict
   &.red { color: lighten(black,10%); }
 }
 
-input#auto-revert-checkbox
-{
-  width: 20px;
-  height: 20px;
-  zoom: 1.3; // Safari
-  -moz-transform: scale(1.3);
-  cursor: pointer;
-}
-
 .predict.info
 {
   font-size: 15px;
@@ -345,6 +336,15 @@ input#auto-revert-checkbox
     position:relative;
     left:10px;
   }
+}
+
+input#auto-revert-checkbox
+{
+  width: 20px;
+  height: 20px;
+  zoom: 1.3; // Safari
+  -moz-transform: scale(1.3);
+  cursor: pointer;
 }
 
 //--------------------------------------------------------------

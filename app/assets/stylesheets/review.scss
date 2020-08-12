@@ -121,6 +121,15 @@
       height: 3px;
       vertical-align: top;
     }
+
+    img.revert, img.tick, img.cross
+    {
+      width:13px;
+      height:13px;
+      padding-top:11px;
+      position:relative;
+      left:2px;
+    }
   }
 
   #traffic-light-navigator, #avatar-navigator

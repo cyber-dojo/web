@@ -286,7 +286,9 @@ $(() => {
   const makeTrafficLightHtml = (light, number) => {
     const colour = light.colour;
     return '' +
-      `<div class="diff-traffic-light"
+      `${makeRevertCircle(light)}
+       ${makePredictCircle(light)}
+       <div class="diff-traffic-light"
          data-id="${param.id}"
          data-number="${number}"
          data-colour="${colour}"
@@ -297,6 +299,26 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const makeRevertCircle = (light) => {
+    if (isRevert(light)) {
+      return '<img class="revert" src="/traffic-light/image/circle-revert.png">';
+    } else {
+      return '';
+    }
+  };
+  const isRevert = (light) => light.revert != undefined;
+
+  const makePredictCircle = (light) => {
+    if (isPredict(light)) {
+      const correct = light.predicted === light.colour;
+      const icon = correct ? 'tick' : 'cross';
+      return `<img class="${icon}" src="/traffic-light/image/circle-${icon}.png">`;
+    } else {
+      return '';
+    }
+  };
+  const isPredict = (light) => light.predicted != undefined && light.predicted != 'none';
 
   const makeTrafficLightMarkerHtml = (light) => {
     const currentIndex = (param.nowIndex === light.index);
