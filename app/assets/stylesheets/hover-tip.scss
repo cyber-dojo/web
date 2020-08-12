@@ -3,7 +3,7 @@
   @include plaintext-font();
   @include rounded-corner(5px);
   background: lighten($darker-color, 6%);
-     z-index: 1003;
+     z-index: 2000;
     position: absolute;
        color: darken($lighter-color, 6%);
       border: 1px dotted darken($lighter-color, 6%);
