@@ -63,7 +63,7 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const openPredictionDialog = (runTests) => {
-    const html = '<div>' + tcrInput() + tcrInfo() + '</div>';
+    const html = '<div>' + predictButtons() + predictInfo() + '</div>';
     const $node = $(html);
     $('.tcr', $node).show();
     setupRagClick(runTests, $node, 'red');
@@ -72,9 +72,9 @@ $(() => {
     setupBlurbClick(runTests, $node, 'red');
     setupBlurbClick(runTests, $node, 'amber');
     setupBlurbClick(runTests, $node, 'green');
-    setupTcrCheckBox($node, 'red');
-    setupTcrCheckBox($node, 'amber');
-    setupTcrCheckBox($node, 'green');
+    setupAutoRevertCheckBox($node, 'red');
+    setupAutoRevertCheckBox($node, 'amber');
+    setupAutoRevertCheckBox($node, 'green');
 
     const originator = cd.testButton;
     const xPos = originator.offset().left;
@@ -96,11 +96,11 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const setupTcrCheckBox = ($node, colour) => {
+  const setupAutoRevertCheckBox = ($node, colour) => {
     const $checkbox = $(`#${colour}-tcr-checkbox`, $node);
     $checkbox
-      .prop('checked', tcr[colour])
-      .change(() => tcr[colour] = $checkbox.prop('checked'));
+      .prop('checked', autoRevert[colour])
+      .change(() => autoRevert[colour] = $checkbox.prop('checked'));
     cd.createTip($checkbox,
       `auto-revert when<br/>
        prediction == <span class="${colour}">${colour}</span><br/>
@@ -133,9 +133,9 @@ $(() => {
     const $newLast = $lastTrafficLight();
     const actualColour = $newLast.data('colour');
     const predictedWrong = (actualColour != predictedColour);
-    const revertOn = tcr[predictedColour];
+    const autoRevertOn = autoRevert[predictedColour];
     const lightToRevertTo = ($oldLast != undefined);
-    if (predictedWrong && revertOn && lightToRevertTo) {
+    if (predictedWrong && autoRevertOn && lightToRevertTo) {
       const srcIndex = $oldLast.data('index');
       cd.checkout({ src_id:cd.kataId(), src_index:srcIndex });
     }
@@ -147,25 +147,25 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const tcr = {
+  const autoRevert = {
       red:false,
     amber:false,
     green:false
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const tcrInput = () => {
+  const predictButtons = () => {
     let html = '';
     html += '<table>';
-    html += tcrRow('red',   blurb('red',   'some of the tests will fail'));
-    html += tcrRow('amber', blurb('amber', 'the tests wont run'));
-    html += tcrRow('green', blurb('green', 'all of the tests will pass'));
+    html += predictRow('red',   blurb('red',   'some of the tests will fail'));
+    html += predictRow('amber', blurb('amber', 'the tests wont run'));
+    html += predictRow('green', blurb('green', 'all of the tests will pass'));
     html += '</table>';
     return html;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const tcrRow = (rag, blurb) =>
+  const predictRow = (rag, blurb) =>
     `<tr>
       <td>${lightImg(rag)}</td>
       <td>${blurb}</td>
@@ -190,13 +190,14 @@ $(() => {
      <label for="${rag}-tcr-checkbox"></label>`;
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const tcrInfo = () => {
+  const predictInfo = () => {
     return '' +
       `<div class="tcr info">
         When a checkbox is ticked, an incorrect prediction will be automatically reverted!
        </div>
        <div class="tcr info">
-         Traffic-lights will look like this:
+         Traffic-lights will be prefixed by a small icon.<br/>
+         For example:
          <table>
            <tr>
              <td>

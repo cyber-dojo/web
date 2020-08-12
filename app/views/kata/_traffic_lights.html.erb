@@ -72,7 +72,7 @@ $(() => {
   };
 
   const appendRevertCircle = ($lights, event) => {
-    if (event.revert != undefined) {
+    if (isRevert(event)) {
       $lights.append($('<img>', {
         class: 'revert',
           src: '/traffic-light/image/circle-revert.png'
@@ -80,8 +80,12 @@ $(() => {
     }
   };
 
+  const isRevert = (event) => {
+    return event.revert != undefined;
+  };
+
   const appendPredictCircle = ($lights, event) => {
-    if (prediction(event)) {
+    if (isPrediction(event)) {
       const correct = event.predicted === event.colour;
       const icon = correct ? 'tick' : 'cross';
       $lights.append($('<img>', {
@@ -133,7 +137,7 @@ $(() => {
 
   const updateCountData = (light) => {
     counts[light.colour] += 1;
-    if (prediction(light)) {
+    if (isPrediction(light)) {
       if (light.colour === light.predicted) {
         counts.hit += 1;
       } else {
@@ -142,7 +146,7 @@ $(() => {
     }
   };
 
-  const prediction = (light) => {
+  const isPrediction = (light) => {
     return light.predicted != undefined &&
              light.predicted != 'none';
   };
