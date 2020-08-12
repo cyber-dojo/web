@@ -312,7 +312,7 @@ input#delete-filename
 
 button.predict
 {
-  width: 288px;
+  width: 314px;
   margin-bottom: 2px;
   font-size: 1.15em !important;
   color: lighten(black, 20%);
@@ -325,7 +325,7 @@ button.predict
   &.red { color: lighten(black,10%); }
 }
 
-input#red-revert-checkbox, input#amber-revert-checkbox, input#green-revert-checkbox
+input#auto-revert-checkbox
 {
   width: 20px;
   height: 20px;
