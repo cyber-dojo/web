@@ -73,7 +73,7 @@ $(() => {
     const xPos = originator.offset().left;
     const yPos = originator.offset().top + 37;
     $node.dialog({
-              width: 350,
+              width: 300,
            position: [xPos,yPos],
            autoOpen: true,
       closeOnEscape: true,
@@ -95,8 +95,8 @@ $(() => {
     let html = '';
     html += '<table>';
     html += predictRow(predictButton('red',   'some tests will fail'));
-    html += predictRow(predictButton('amber', 'the tests wont run yet'));
-    html += predictRow(predictButton('green', 'all the tests will pass'));
+    html += predictRow(predictButton('amber', 'tests wont run yet'));
+    html += predictRow(predictButton('green', 'all tests will pass'));
     html += '</table>';
     return html;
   };
@@ -147,7 +147,7 @@ $(() => {
     `<div class="info">
       <input type="checkbox" id="auto-revert-checkbox"/>
       <label for="auto-revert-checkbox">
-        auto-revert when incorrect!
+        auto-revert when wrong!
       </label>
     </div>`;
 
