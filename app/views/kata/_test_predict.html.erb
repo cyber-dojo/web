@@ -65,12 +65,9 @@ $(() => {
   const openPredictionDialog = (runTests) => {
     const html = '<div>' + predictButtons() + predictInfo() + '</div>';
     const $node = $(html);
-    setupRagClick(runTests, $node, 'red');
-    setupRagClick(runTests, $node, 'amber');
-    setupRagClick(runTests, $node, 'green');
-    setupBlurbClick(runTests, $node, 'red');
-    setupBlurbClick(runTests, $node, 'amber');
-    setupBlurbClick(runTests, $node, 'green');
+    setupButtonClick(runTests, $node, 'red');
+    setupButtonClick(runTests, $node, 'amber');
+    setupButtonClick(runTests, $node, 'green');
     setupAutoRevertCheckBox($node, 'red');
     setupAutoRevertCheckBox($node, 'amber');
     setupAutoRevertCheckBox($node, 'green');
@@ -79,7 +76,7 @@ $(() => {
     const xPos = originator.offset().left;
     const yPos = originator.offset().top + 37;
     $node.dialog({
-              width: 370,
+              width: 350,
            position: [xPos,yPos],
            autoOpen: true,
       closeOnEscape: true,
@@ -108,18 +105,8 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const setupRagClick = (runTests, $node, colour) => {
-    $(`#predict-${colour}`, $node).click(() => {
-      $node.remove();
-      predicted.val(colour);
-      const $oldLast = $lastTrafficLight();
-      runTests(() => testRunComplete(colour, $oldLast));
-    });
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const setupBlurbClick = (runTests, $node, colour) => {
-    $(`.predict-blurb.${colour}`, $node).click(() => {
+  const setupButtonClick = (runTests, $node, colour) => {
+    $(`button.predict.${colour}`, $node).click(() => {
       $node.remove();
       predicted.val(colour);
       const $oldLast = $lastTrafficLight();
@@ -156,32 +143,25 @@ $(() => {
   const predictButtons = () => {
     let html = '';
     html += '<table>';
-    html += predictRow('red',   blurb('red',   'some of the tests will fail'));
-    html += predictRow('amber', blurb('amber', 'the tests wont run'));
-    html += predictRow('green', blurb('green', 'all of the tests will pass'));
+    html += predictRow('red',   predictButton('red',   'some tests will fail'));
+    html += predictRow('amber', predictButton('amber', 'the tests wont run yet'));
+    html += predictRow('green', predictButton('green', 'all the tests will pass'));
     html += '</table>';
     return html;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const predictRow = (rag, blurb) =>
+  const predictRow = (colour, button) =>
     `<tr>
-      <td>${lightImg(rag)}</td>
-      <td>${blurb}</td>
-      <td class="predict">${predictCheckbox(rag)}</td>
+      <td>${button}</td>
+      <td class="predict">${predictCheckbox(colour)}</td>
     </tr>`;
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const blurb = (colour, text) =>
-    `<div class="predict-blurb ${colour}">
+  const predictButton = (colour, text) =>
+    `<button class="predict ${colour}">
       ${text}
-     </div>`;
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const lightImg = (rag) =>
-    `<div id="predict-${rag}">
-      <img src="/traffic-light/image/${rag}.png">
-     </div>`;
+     </button>`;
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const predictCheckbox = (rag) =>
@@ -195,8 +175,7 @@ $(() => {
         When a checkbox is ticked, an incorrect prediction will be automatically reverted!
        </div>
        <div class="predict info">
-         Traffic-lights will be prefixed by a small icon.<br/>
-         For example:
+         Examples:
          <table>
            <tr>
              <td>

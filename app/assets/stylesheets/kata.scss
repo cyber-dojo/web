@@ -310,24 +310,19 @@ input#delete-filename
 //--------------------------------------------------------------
 // traffic-light prediction
 
-#predict-red, #predict-amber, #predict-green
+button.predict
 {
-  cursor:pointer;
-  img
-  {
-    width:25px;
-    height:25px;
-  }
-}
+  width: 288px;
+  margin-bottom: 2px;
+  font-size: 1.15em !important;
+  color: lighten(black, 20%);
+  font-weight: bold;
+  &.red   { background: $red;   border-color: $red;   }
+  &.amber { background: $amber; border-color: $amber; }
+  &.green { background: $green; border-color: $green; }
+  &.red, &.amber, &.green { &:hover { border-style: dotted; border-color: lighten(black,20%); } }
 
-.predict-blurb
-{
-  @include rounded-corner(3px);
-  width: 268px;
-  padding: 5px;
-  border: 1px solid $darker-color;
-  cursor:pointer;
-  &:hover { border: 1px dotted lighten($darker-color, 30%); }
+  &.red { color: lighten(black,10%); }
 }
 
 input#red-revert-checkbox, input#amber-revert-checkbox, input#green-revert-checkbox
