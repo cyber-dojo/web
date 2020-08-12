@@ -133,7 +133,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   const updateCountData = (light) => {
     counts[light.colour] += 1;
     if (isPredict(light)) {
@@ -206,7 +205,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   const updateTrafficLightsPredictCount = () => {
     const $box = cd.countPredictBox();
     $box.fadeOut('fast', () => {
@@ -216,7 +214,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   const hitBox = () => {
     const light = lastLight();
     const $hitImg = $('<img>', {
@@ -233,7 +230,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   const missBox = () => {
     const light = lastLight();
     const $missImg = $('<img>', {
@@ -250,7 +246,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   const lastLight = () => counts.lastLight ? counts.lastLight : { predicted:'none' };
 
 });
