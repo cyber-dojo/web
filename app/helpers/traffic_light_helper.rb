@@ -18,7 +18,9 @@ module TrafficLightHelper # mix-in
   def diff_traffic_light(light, avatar_index, number)
     # [1] needed in app/views/kata/edit to count
     # the number of red/amber/green traffic-lights
-    [ "<div class='diff-traffic-light'",
+    [ revert_img_html(light),
+      predict_img_html(light),
+      "<div class='diff-traffic-light'",
         " data-id='#{light.kata.id}'",
         " data-index='#{light.index}'",
         " data-number='#{number}'",
@@ -27,6 +29,31 @@ module TrafficLightHelper # mix-in
         traffic_light_image(light),
       '</div>'
     ].join
+  end
+
+  def revert_img_html(light)
+    if revert?(light)
+      '<img class="revert" src="/traffic-light/image/circle-revert.png">'
+    else
+      ''
+    end
+  end
+
+  def revert?(light)
+    light.revert
+  end
+
+  def predict_img_html(light)
+    if predict?(light)
+      icon = (light.predicted === light.colour.to_s) ? 'tick' : 'cross'
+      "<img class=\"#{icon}\" src=\"/traffic-light/image/circle-#{icon}.png\">"
+    else
+      ''
+    end
+  end
+
+  def predict?(light)
+    light.predicted != 'none'
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

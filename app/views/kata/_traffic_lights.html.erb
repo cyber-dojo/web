@@ -44,15 +44,15 @@ $(() => {
   //      - When you click the [revert] button.
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.appendTrafficLight = (event) => {
-    const colour = event.colour;
-    const index = event.index;
+  cd.appendTrafficLight = (light) => {
+    const index = light.index;
+    const colour = light.colour;
     // There are events that do not directly correspond
     // to a traffic-light. For example, the kata creation event.
     // In the future there may be more, eg file new|delete|rename events.
     if (colour) {
-      appendRevertCircle($lights, event);
-      appendPredictCircle($lights, event);
+      appendRevertImage($lights, light);
+      appendPredictImage($lights, light);
       const $div = $('<div>', {
         'class':'diff-traffic-light',
         'data-id':id,
@@ -61,18 +61,19 @@ $(() => {
         'data-avatar-index':avatarIndex,
         'data-colour':colour
       });
-      const $light = $div.append($ragImage(event));
+      const $light = $div.append($trafficLightImage(light));
       $lights.append($light);
       $light.click(() => cd.setReviewData(version, id, groupId, avatarName, avatarIndex, index-1, index));
       cd.setupTrafficLightTip($light, version, id, avatarIndex, index-1, index, number);
       number += 1;
-      updateCountData(event);
-      counts.lastLight = event;
+      updateCountData(light);
+      counts.lastLight = light;
     }
   };
 
-  const appendRevertCircle = ($lights, event) => {
-    if (isRevert(event)) {
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  const appendRevertImage = ($lights, light) => {
+    if (isRevert(light)) {
       $lights.append($('<img>', {
         class: 'revert',
           src: '/traffic-light/image/circle-revert.png'
@@ -80,11 +81,12 @@ $(() => {
     }
   };
 
-  const isRevert = (event) => event.revert != undefined;
+  const isRevert = (light) => light.revert != undefined;
 
-  const appendPredictCircle = ($lights, event) => {
-    if (isPrediction(event)) {
-      const correct = event.predicted === event.colour;
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  const appendPredictImage = ($lights, light) => {
+    if (isPredict(light)) {
+      const correct = (light.predicted === light.colour);
       const icon = correct ? 'tick' : 'cross';
       $lights.append($('<img>', {
         class: icon,
@@ -93,15 +95,14 @@ $(() => {
     }
   };
 
-  const isPrediction = (light) => light.predicted != undefined && light.predicted != 'none';
+  const isPredict = (light) => light.predicted != undefined && light.predicted != 'none';
 
-  const $ragImage = (event) => {
-    const colour = event.colour;
-    return $('<img>', {
-      src: `/traffic-light/image/${colour}.png`,
-      alt: `${colour} traffic-light`
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  const $trafficLightImage = (light) =>
+    $('<img>', {
+      src: `/traffic-light/image/${light.colour}.png`,
+      alt: `${light.colour} traffic-light`
     });
-  };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // cd.updateTrafficLightsCount() updates the total-count and
@@ -119,11 +120,9 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // Visibility of the predict-box is controlled from settings
-
   cd.countPredictBox = () => $('#traffic-lights-count-predict-box');
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   cd.trafficLightsCount = (filter) => {
     let count = 0;
     if (filter === undefined) {
@@ -137,7 +136,7 @@ $(() => {
 
   const updateCountData = (light) => {
     counts[light.colour] += 1;
-    if (isPrediction(light)) {
+    if (isPredict(light)) {
       if (light.colour === light.predicted) {
         counts.hit += 1;
       } else {

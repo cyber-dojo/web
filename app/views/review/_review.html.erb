@@ -311,7 +311,7 @@ $(() => {
 
   const makePredictCircle = (light) => {
     if (isPredict(light)) {
-      const correct = light.predicted === light.colour;
+      const correct = (light.predicted === light.colour);
       const icon = correct ? 'tick' : 'cross';
       return `<img class="${icon}" src="/traffic-light/image/circle-${icon}.png">`;
     } else {

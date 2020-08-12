@@ -93,6 +93,15 @@
 
   #traffic-lights
   {
+    img.revert, img.tick, img.cross
+    {
+      width:11px;
+      height:11px;
+      padding-top:11px;
+      position:relative;
+      left:2px;
+    }
+
     .time-tick
     {
       @include non-code-font();
