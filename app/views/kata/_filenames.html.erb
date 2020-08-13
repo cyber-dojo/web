@@ -27,8 +27,15 @@ $(() => {
   // Alt-J ==> selectNext()
   // Alt-K ==> selectPrevious()
 
-  filenames.selectNext = () => filenames.select(nextFilename());
-  filenames.selectPrevious = () => filenames.select(previousFilename());
+  filenames.selectNext = () => {
+    cd.kata.tabs.filename().click();
+    filenames.select(nextFilename());
+  };
+
+  filenames.selectPrevious = () => {
+    cd.kata.tabs.filename().click();
+    filenames.select(previousFilename());
+  };
 
   const indexOfSelected = () => filenames.sorted().indexOf(filenames.selected());
   const nextFilename = () => filenames.sorted()[indexOfNext()];
@@ -58,12 +65,16 @@ $(() => {
     // Can't do $('radio_' + filename) because filename
     // could contain characters that aren't strictly legal
     // characters in a dom node id so I do this instead...
-    $('.filename', $filenames).removeClass('selected');
     const $filename = $(`[id="radio_${filename}"]`, $filenames);
+    filenames.unselectAll();
     $filename.addClass('selected');
     cd.kata.tabs.setFilename(filename);
     cd.deleteFileButton().attr('disabled', filename === 'cyber-dojo.sh');
     cd.renameFileButton().attr('disabled', filename === 'cyber-dojo.sh');
+  };
+
+  filenames.unselectAll = () => {
+    $('.filename', $filenames).removeClass('selected');
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

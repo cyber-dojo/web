@@ -10,6 +10,7 @@
 $(() => {
 
   const tabs = cd.kata.tabs;
+  
   const $tabs = () => $('.tab');
 
   tabs.setup = (options) => {
@@ -23,6 +24,7 @@ $(() => {
   };
 
   const alreadySelected = ($tab) => $tab.is('selected');
+
   const select = ($tab) => {
     $tabs().removeClass('selected');
     $tab.addClass('selected');
@@ -44,8 +46,10 @@ $(() => {
   tabs.setFilename = (filename) => {
     // Called from filenames. Always a true filename.
     const $tab = tabs.filename();
-    $tab.removeClass('selected');
-    $tab.text(filename).show().click();
+    $tab.text(filename).show();
+    cd.kata.editor.showFile(filename);
+    cd.kata.repl.close();
+    select($tab);
   };
 
   tabs.toggle = () => {
@@ -65,6 +69,11 @@ $(() => {
       cd.kata.editor.showFile(filename);
       cd.kata.repl.close();
       select($tab);
+      if (filename === 'output') {
+        cd.kata.filenames.unselectAll();
+      } else {
+        cd.kata.filenames.select(filename);
+      }
     });
   };
 

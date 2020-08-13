@@ -23,38 +23,38 @@ $(() => {
       cd.kata.filenames.refresh();
       cd.kata.filenames.select(newFilename);
     };
-    openDialog('new', cd.newFileButton(), initialFilename, okInitiallyDisabled, okClicked);
+    openDialog('new', initialFilename, okInitiallyDisabled, okClicked);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const openDeleteFileDialog = () => {
-    const $filenames = $('#filename-list');
-    const initialFilename = $('.filename.selected', $filenames).text().trim();
+    const filename = cd.kata.tabs.filename().text();
     const okInitiallyDisabled = false;
-    const okClicked = (filename) => {
+    const okClicked = () => {
       cd.kata.editor.deleteFile(filename);
       cd.kata.filenames.refresh();
       cd.kata.filenames.select(cd.kata.filenames.top());
     };
-    openDialog('delete', cd.deleteFileButton(), initialFilename, okInitiallyDisabled, okClicked);
+    openDialog('delete', filename, okInitiallyDisabled, okClicked);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const openRenameFileDialog = (originator, filename) => {
+  const openRenameFileDialog = () => {
+    const oldFilename = cd.kata.tabs.filename().text();
     const okInitiallyDisabled = true;
     const okClicked = (newFilename) => {
-      cd.kata.editor.renameFile(filename, newFilename);
+      cd.kata.editor.renameFile(oldFilename, newFilename);
       cd.kata.filenames.refresh();
       cd.kata.filenames.select(newFilename);
     };
-    openDialog('rename', cd.renameFileButton(), filename, okInitiallyDisabled, okClicked);
+    openDialog('rename', oldFilename, okInitiallyDisabled, okClicked);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const openDialog = (title, originator, initialFilename, okInitiallyDisabled, okClicked) => {
+  const openDialog = (title, initialFilename, okInitiallyDisabled, okClicked) => {
 
     const input = makeInput(title, initialFilename);
     const okButton = $('<button>', {
@@ -68,9 +68,12 @@ $(() => {
       }
     });
     const closeDialog = () => okButton.closest('.ui-dialog').remove();
-    // position the dialog next to the button that launched it.
-    const xPos = originator.offset().left;
-    const yPos = originator.offset().top + 24;
+
+    // Position dialog near to tab.filename because if tab.output is
+    // selected then filename will not be selected in filename list.
+    const pos = cd.kata.tabs.filename().offset();
+    const xPos = pos.left;
+    const yPos = pos.top + 25;
 
     const onDialogOpen = () => {
       const lastDot = initialFilename.lastIndexOf('.');
