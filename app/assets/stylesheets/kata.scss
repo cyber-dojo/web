@@ -269,7 +269,8 @@
     font-weight: bold;
   }
   :not(.renameable).tab.filename.selected { cursor:default; }
-
+  .tab.output.selected { cursor:default; }
+  
   //--------------------------------------------------------------
   // editor
 
