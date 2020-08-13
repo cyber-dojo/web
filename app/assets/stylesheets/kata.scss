@@ -262,13 +262,13 @@
     &.output, &.REPL { float:right; margin-left:0px; }
     &.REPL { display:none; }
   }
-  .tab.filename.selected.vellipsis:after
+  .tab.filename.selected.renameable:after
   {
-    content:' \22EE';
+    content:' \22EE'; // vellipsis
     font-size: 0.9em;
     font-weight: bold;
   }
-  :not(.vellipsis).tab.filename.selected { cursor:default; }
+  :not(.renameable).tab.filename.selected { cursor:default; }
 
   //--------------------------------------------------------------
   // editor
