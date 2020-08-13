@@ -29,7 +29,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const openDeleteFileDialog = () => {
-    const filename = cd.kata.tabs.filename().text();
+    const filename = cd.kata.tabs.filename().click().text();
     const okInitiallyDisabled = false;
     const okClicked = () => {
       cd.kata.editor.deleteFile(filename);
@@ -42,7 +42,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const openRenameFileDialog = () => {
-    const oldFilename = cd.kata.tabs.filename().text();
+    const oldFilename = cd.kata.tabs.filename().click().text();
     const okInitiallyDisabled = true;
     const okClicked = (newFilename) => {
       cd.kata.editor.renameFile(oldFilename, newFilename);
