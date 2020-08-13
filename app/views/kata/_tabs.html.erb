@@ -10,7 +10,7 @@
 $(() => {
 
   const tabs = cd.kata.tabs;
-  const $tabs = $('.tab-filenames');
+  const $tabs = () => $('.tab');
 
   tabs.setup = (options) => {
     const inDev = false;
@@ -19,22 +19,22 @@ $(() => {
     } else if (inDev) {
       tabs.repl().show();
     }
-    //...
+    $tabs().addClass(cd.settings.theme());
   };
 
-  const alreadySelected = $tab => $tab.hasClass('selected');
-  const select = $tab => {
-    $('.tab', $tabs).removeClass('selected');
+  const alreadySelected = ($tab) => $tab.is('selected');
+  const select = ($tab) => {
+    $tabs().removeClass('selected');
     $tab.addClass('selected');
   };
 
-  tabs.filename = () => $('.tab.filename', $tabs);
-  tabs.output   = () => $('.tab.output'  , $tabs);
-  tabs.repl     = () => $('.tab.REPL'    , $tabs);
+  tabs.filename = () => $('.tab.filename');
+  tabs.output   = () => $('.tab.output');
+  tabs.repl     = () => $('.tab.REPL');
 
-  tabs.selected = () => $('.tab.selected', $tabs);
+  tabs.selected = () => $('.tab.selected');
 
-  tabs.reserves = filename => {
+  tabs.reserves = (filename) => {
     const tabNames = [];
     tabNames.push(tabs.output().text());
     tabNames.push(tabs.repl().text());
@@ -59,8 +59,7 @@ $(() => {
     // Alt-O tabs hot-key navigation
     // See app/assets/javascripts/cyber-dojo_codemirror.js
     // See app/views/shared/_hotkeys.html.erb
-    const text = tabs.selected().text();
-    if (text === 'output') {
+    if (tabs.selected().text() === 'output') {
       tabs.filename().click();
     } else {
       tabs.output().click();

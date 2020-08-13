@@ -237,33 +237,40 @@
   .tab
   {
     @include selectable();
-    border: 1px solid lighten($darker-color, 15%);
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
     border-bottom: none;
     display: inline-block;
     margin: { left: 0px; right: 0px; }
     padding-right: 7px;
-    background: lighten($darker-color, 20%);
+    &.output, &.REPL { float: right; margin-left: 0px; }
+    &.REPL { display: none; }
+
+    &.light
+    {
+      color: lighten($darker-color, 10%);
+      background: white;
+      border: 1px solid white;
+    }
+    &.dark
+    {
+      color: lighten($darker-color, 50%);
+      background: black;
+      border: 1px solid black;
+    }
+
     &:not(.selected)
     {
-      color: lighten($darker-color, 25%);
-    }
-    &:not(.selected):hover
-    {
       cursor: pointer;
-      border: 1px dotted $lighter-color;
-      border-bottom: none;
+      color: lighten($darker-color, 50%);
+      background: lighten($darker-color, 10%);
+      border: 1px solid lighten($darker-color, 10%);
+      &:hover { border: 1px dotted lighten($darker-color, 50%); }
     }
     &.selected
     {
       cursor: pointer;
-      color: $lighter-color;
-      border: 1px solid lighten($darker-color,25%);
-      border-bottom: none;
     }
-    &.output, &.REPL { float: right; margin-left: 0px; }
-    &.REPL { display: none; }
   }
   .tab.filename.selected.renameable:after
   {
@@ -272,8 +279,8 @@
     font-weight: bold;
   }
   :not(.renameable).tab.filename.selected { cursor:default; }
+
   .tab.output.selected { cursor:default; }
-  :not(.selected).tab { color: lighten($darker-color, 50%); }
 
   //--------------------------------------------------------------
   // editor
