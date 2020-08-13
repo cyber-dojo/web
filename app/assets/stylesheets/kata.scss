@@ -265,7 +265,12 @@
       color: lighten($darker-color, 50%);
       background: lighten($darker-color, 10%);
       border: 1px solid lighten($darker-color, 10%);
-      &:hover { border: 1px dotted lighten($darker-color, 50%); }
+      &:hover
+      {
+        border-left: 1px dotted lighten($darker-color, 50%);
+        border-top: 1px dotted lighten($darker-color, 50%);
+        border-right: 1px dotted lighten($darker-color, 50%);         
+      }
     }
     &.selected
     {

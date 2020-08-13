@@ -34,7 +34,7 @@ $syntax-comment-color: $light-gray;
 .cm-s-cyber-dojo-light-colour-on .CodeMirror-linenumbers,
 .cm-s-cyber-dojo-light-colour-on .CodeMirror-gutters
 {
-  background: darken($syntax-background-color, 10%);
+  background: darken($syntax-background-color, 2%);
   color: lighten($syntax-text-color, 30%);
 }
 

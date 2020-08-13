@@ -14,7 +14,7 @@ $orange:            #FFCB6B;
 $light-orange:      #FFE082;
 
 $syntax-text-color: $very-light-gray;
-$syntax-background-color: $very-dark-gray;
+$syntax-background-color: black;
 $syntax-comment-color: lighten($very-dark-gray, 40%);
 
 .cm-s-cyber-dojo-dark-colour-on.CodeMirror
@@ -33,8 +33,8 @@ $syntax-comment-color: lighten($very-dark-gray, 40%);
 .cm-s-cyber-dojo-dark-colour-on .CodeMirror-linenumbers,
 .cm-s-cyber-dojo-dark-colour-on .CodeMirror-gutters
 {
-  background: lighten($syntax-background-color,3%);
-  color: darken($syntax-text-color, 30%);
+  background: lighten($syntax-background-color,4%);
+  color: darken($syntax-text-color, 50%);
 }
 
 .cm-s-cyber-dojo-dark-colour-on .CodeMirror-gutters

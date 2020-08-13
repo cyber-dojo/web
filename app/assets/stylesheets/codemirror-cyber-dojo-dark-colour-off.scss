@@ -1,6 +1,6 @@
 
 $syntax-text-color: $very-light-gray;
-$syntax-background-color: $very-dark-gray;
+$syntax-background-color: black;
 
 .cm-s-cyber-dojo-dark-colour-off.CodeMirror
 {
@@ -18,8 +18,8 @@ $syntax-background-color: $very-dark-gray;
 .cm-s-cyber-dojo-dark-colour-off .CodeMirror-linenumbers,
 .cm-s-cyber-dojo-dark-colour-off .CodeMirror-gutters
 {
-  background: lighten($syntax-background-color,3%);
-  color: darken($syntax-text-color, 30%);
+  background: lighten($syntax-background-color,4%);
+  color: darken($syntax-text-color, 50%);
 }
 
 .cm-s-cyber-dojo-dark-colour-off .CodeMirror-gutters
