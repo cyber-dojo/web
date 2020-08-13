@@ -204,7 +204,6 @@
     {
       display:inline-block;
       @include rounded-corner(3px);
-      cursor:context-menu;
       margin:{ bottom:2px; right:2px }
       padding:{ left:2px; right:2px; top:0px; bottom:0px; }
       font-weight:bolder;
@@ -263,7 +262,6 @@
     &.output, &.REPL { float:right; margin-left:0px; }
     &.REPL { display:none; }
   }
-  .tab.filename.selected { cursor:context-menu; }
   .tab.filename.selected.vellipsis:after
   {
     content:' \22EE';

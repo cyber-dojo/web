@@ -77,7 +77,7 @@ var cyberDojo = (function(cd, $) {
     // The mouse-has-left attribute caters for this.
     node.mouseenter(() => {
       node.removeClass('mouse-has-left');
-      setTipCallBack();
+      setTipCallBack(node);
     });
     node.mouseleave(() => {
       node.addClass('mouse-has-left');

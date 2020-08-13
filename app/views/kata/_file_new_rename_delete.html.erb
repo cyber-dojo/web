@@ -11,6 +11,9 @@ $(() => {
   cd.newFileButton = () => $('.new-file');
   cd.deleteFileButton = () => $('.delete-file');
 
+  cd.createTip(cd.newFileButton(), 'new file');
+  cd.createTip(cd.deleteFileButton(), 'delete file');
+  
   cd.newFileButton().click(() => openNewFileDialog());
   cd.deleteFileButton().click(() => openDeleteFileDialog());
 
