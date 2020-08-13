@@ -83,7 +83,7 @@
   {
     @include font-size-medium();
            display: inline;
-            margin: { left: 35px; right: 2px; bottom: 4px; }
+            margin: { left: 35px; top:2px; right: 2px; bottom: 4px; }
            padding: { top: 0px; bottom: 2px; left: 7px; right: 7px; }
         text-align: center;
        font-weight: bold;
@@ -139,7 +139,7 @@
   #traffic-lights
   {
        display:inline-flex;
-        margin:0px;
+        margin:{ left:3px; top:0px; right:0px; bottom:0px; }
     overflow-x:auto;
     overflow-y:hidden;
     &::-webkit-scrollbar:horizontal { height:0px; }
