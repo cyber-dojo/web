@@ -10,6 +10,7 @@
 $(() => {
 
   const tabs = cd.kata.tabs;
+  const $tabs = $('.tab-filenames');
 
   tabs.setup = (options) => {
     const inDev = false;
@@ -18,9 +19,9 @@ $(() => {
     } else if (inDev) {
       tabs.repl().show();
     }
+    //...
   };
 
-  const $tabs = $('.tab-filenames');
   const alreadySelected = $tab => $tab.hasClass('selected');
   const select = $tab => {
     $('.tab', $tabs).removeClass('selected');
@@ -42,7 +43,7 @@ $(() => {
 
   tabs.setFilename = (filename) => {
     // Called from filenames. Always a true filename.
-    const $tab = tabs.filename(); //$('.tab.filename', $tabs);
+    const $tab = tabs.filename();
     if (isRenameable(filename)) {
       $tab.addClass('renameable');
     } else {
@@ -87,6 +88,8 @@ $(() => {
       cd.kata.repl.open();
     });
   };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.setTip(tabs.filename(), (node) => {
     if (node.is('.selected.renameable')) {
