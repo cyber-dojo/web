@@ -262,6 +262,7 @@
     &.output, &.REPL { float:right; margin-left:0px; }
     &.REPL { display:none; }
   }
+  //:not(.selected).tab.filename { color:black; }
   .tab.filename.selected.renameable:after
   {
     content:' \22EE'; // vellipsis
@@ -270,7 +271,7 @@
   }
   :not(.renameable).tab.filename.selected { cursor:default; }
   .tab.output.selected { cursor:default; }
-  
+
   //--------------------------------------------------------------
   // editor
 

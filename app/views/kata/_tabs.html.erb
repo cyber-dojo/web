@@ -89,7 +89,7 @@ $(() => {
   };
 
   cd.setTip(tabs.filename(), (node) => {
-    if (node.is('.renameable')) {
+    if (node.is('.selected.renameable')) {
       cd.showHoverTip(node, 'rename file');
     }
   });
