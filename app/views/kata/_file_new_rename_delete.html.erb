@@ -1,7 +1,8 @@
 
 <div class="file-operations">
-  <button type="button" class="new-file">&#65291;</button>
-  <button type="button" class="delete-file">&#65293;</button>
+  <button type="button" class="new-file">+</button>
+  <button type="button" class="delete-file">-</button>
+  <button type="button" class="rename-file">~</button>
 </div>
 
 <script type="text/javascript">
@@ -10,12 +11,15 @@ $(() => {
 
   cd.newFileButton = () => $('.new-file');
   cd.deleteFileButton = () => $('.delete-file');
+  cd.renameFileButton = () => $('.rename-file');
 
   cd.createTip(cd.newFileButton(), 'new file');
   cd.createTip(cd.deleteFileButton(), 'delete file');
-  
+  cd.createTip(cd.renameFileButton(), 'rename file');
+
   cd.newFileButton().click(() => openNewFileDialog());
   cd.deleteFileButton().click(() => openDeleteFileDialog());
+  cd.renameFileButton().click(() => openRenameFileDialog());
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -46,14 +50,14 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.openRenameFileDialog = (originator, filename) => {
+  const openRenameFileDialog = (originator, filename) => {
     const okInitiallyDisabled = true;
     const okClicked = (newFilename) => {
       cd.kata.editor.renameFile(filename, newFilename);
       cd.kata.filenames.refresh();
       cd.kata.filenames.select(newFilename);
     };
-    openDialog('rename', originator, filename, okInitiallyDisabled, okClicked);
+    openDialog('rename', cd.renameFileButton(), filename, okInitiallyDisabled, okClicked);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -82,6 +86,7 @@ $(() => {
       input.focus();
       input[0].setSelectionRange(0, end);
     };
+
     const onDialogClose = (event) => {
       if (event.keyCode === $.ui.keyCode.ESCAPE) {
         closeDialog();
@@ -100,7 +105,7 @@ $(() => {
 
     $('<div>').append(input).append(okButton).dialog({
       open: onDialogOpen,
-  	  title: cd.dialogTitle(title+' file'),
+  	  title: cd.dialogTitle(`${title} file`),
     	autoOpen: true,
       width: 450,
       position: [xPos,yPos],
@@ -128,7 +133,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const isValidFilename = (filename) => {
-    const contains = illegal => filename.indexOf(illegal) !== -1;
+    const contains = (illegal) => filename.indexOf(illegal) !== -1;
     if (alreadyExists(filename)) { return false; }
     if (sss(filename)) { return false; }
     if (contains('..')) { return false; }

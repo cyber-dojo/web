@@ -63,6 +63,7 @@ $(() => {
     $filename.addClass('selected');
     cd.kata.tabs.setFilename(filename);
     cd.deleteFileButton().attr('disabled', filename === 'cyber-dojo.sh');
+    cd.renameFileButton().attr('disabled', filename === 'cyber-dojo.sh');
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

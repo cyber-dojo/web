@@ -1,7 +1,7 @@
 
 <div class="tab-filenames">
-  <div class="tab output">output</div>
   <div class="tab filename"></div>
+  <div class="tab output">output</div>
   <div class="tab REPL">+REPL</div>
 </div>
 
@@ -44,16 +44,9 @@ $(() => {
   tabs.setFilename = (filename) => {
     // Called from filenames. Always a true filename.
     const $tab = tabs.filename();
-    if (isRenameable(filename)) {
-      $tab.addClass('renameable');
-    } else {
-      $tab.removeClass('renameable');
-    }
     $tab.removeClass('selected');
     $tab.text(filename).show().click();
   };
-
-  const isRenameable = (filename) => filename != 'cyber-dojo.sh';
 
   tabs.toggle = () => {
     // Alt-O tabs hot-key navigation
@@ -71,9 +64,6 @@ $(() => {
       const filename = $tab.text();
       cd.kata.editor.showFile(filename);
       cd.kata.repl.close();
-      if ($tab.is('.selected.filename.renameable')) {
-        cd.openRenameFileDialog($tab, filename);
-      }
       select($tab);
     });
   };
@@ -89,12 +79,6 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.setTip(tabs.filename(), (node) => {
-    if (node.is('.selected.renameable')) {
-      cd.showHoverTip(node, 'rename file');
-    }
-  });
 
   setupFileTabClickHandler(tabs.filename());
   setupFileTabClickHandler(tabs.output());

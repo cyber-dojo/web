@@ -198,15 +198,15 @@
   //--------------------------------------------------------------
   // filenames
 
-  .file-operations {
+  .file-operations
+  {
     margin-left:35px;
-    .new-file, .delete-file
+    .new-file, .delete-file, .rename-file
     {
       display:inline-block;
       @include rounded-corner(3px);
       margin:{ bottom:2px; right:2px }
-      padding:{ left:2px; right:2px; top:0px; bottom:0px; }
-      font-weight:bolder;
+      padding:{ left:4px; right:4px; top:0px; bottom:1px; }
     }
   }
 
@@ -258,7 +258,6 @@
       background: black;
       border: 1px solid black;
     }
-
     &:not(.selected)
     {
       cursor: pointer;
@@ -269,22 +268,10 @@
       {
         border-left: 1px dotted lighten($darker-color, 50%);
         border-top: 1px dotted lighten($darker-color, 50%);
-        border-right: 1px dotted lighten($darker-color, 50%);         
+        border-right: 1px dotted lighten($darker-color, 50%);
       }
     }
-    &.selected
-    {
-      cursor: pointer;
-    }
   }
-  .tab.filename.selected.renameable:after
-  {
-    content:' \22EE'; // vellipsis
-    font-size: 0.9em;
-    font-weight: bold;
-  }
-  :not(.renameable).tab.filename.selected { cursor:default; }
-
   .tab.output.selected { cursor:default; }
 
   //--------------------------------------------------------------

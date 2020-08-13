@@ -61,7 +61,7 @@ $(() => {
     $.post('/kata/set_theme', { id:cd.kataId(), value:this.value });
     data.theme = this.value;
     cd.codeMirror.resetTheme();
-    $('.tab').removeClass('light').removeClass('dark').addClass(this.value);
+    $('.tab').removeClass('light').removeClass('dark').addClass(this.value); // TODO: refactor
   });
 
   $('input[type=radio][name=colour]', $settings).change(function() {
