@@ -247,12 +247,9 @@
     @include selectable();
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
-    border-bottom: none;
     display: inline-block;
     margin: { left: 0px; right: 0px; }
     padding-right: 7px;
-    &.output, &.REPL { float: right; margin-left: 2px; }
-    &.REPL { display: none; }
 
     &.light
     {
@@ -279,8 +276,12 @@
         border-right: 1px dotted lighten($darker-color, 50%);
       }
     }
+    &.output, &.REPL { float: right; margin-left: 2px; }
+
+    &.REPL.light { border-bottom: 2px solid white; }
+    &.REPL.dark  { border-bottom: 2px solid black; }
+    &:not(.selected).REPL { border-bottom: 2px solid lighten($darker-color, 10%); }
   }
-  .tab.output.selected { cursor:default; }
 
   //--------------------------------------------------------------
   // editor

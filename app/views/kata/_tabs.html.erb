@@ -10,20 +10,17 @@
 $(() => {
 
   const tabs = cd.kata.tabs;
-  
+
   const $tabs = () => $('.tab');
 
   tabs.setup = (options) => {
-    const inDev = false;
     if (options.repl === 'on' && "<%= raw @image_name %>".includes('python')) {
       tabs.repl().show();
-    } else if (inDev) {
-      tabs.repl().show();
+    } else {
+      tabs.repl().hide();
     }
     $tabs().addClass(cd.settings.theme());
   };
-
-  const alreadySelected = ($tab) => $tab.is('.selected');
 
   const select = ($tab) => {
     $tabs().removeClass('selected');
@@ -79,7 +76,7 @@ $(() => {
 
   const setupReplTabClickHandler = ($tab) => {
     $tab.click(() => {
-      if (alreadySelected($tab)) { return; }
+      if ($tab.is('.selected')) { return; }
       select($tab);
       tabs.repl().show();
       cd.kata.editor.hideCurrentFile();
