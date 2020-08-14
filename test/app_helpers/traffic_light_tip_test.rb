@@ -35,7 +35,7 @@ class TipTest < AppHelpersTestBase
         '<table>' +
           '<tr>' +
             "<td><span class='traffic-light-count green'>#{number}</span></td>" +
-            "<td><img src='/traffic-light/image/green.png' class='traffic-light-diff-tip-traffic-light-image'></td>" +
+            "<td><img src='/images/traffic-light/green.png' class='traffic-light-diff-tip-traffic-light-image'></td>" +
           '</tr>' +
         '</table>' +
         '<table>' +
@@ -82,7 +82,7 @@ class TipTest < AppHelpersTestBase
           '<tr>' +
             "<td><img src='/avatar/image/#{kata.avatar_index}' class='traffic-light-diff-tip-avatar-image'></td>" +
             "<td><span class='traffic-light-count green'>#{number}</span></td>" +
-            "<td><img src='/traffic-light/image/green.png' class='traffic-light-diff-tip-traffic-light-image'></td>" +
+            "<td><img src='/images/traffic-light/green.png' class='traffic-light-diff-tip-traffic-light-image'></td>" +
           '</tr>' +
         '</table>' +
         '<table>' +
@@ -148,7 +148,7 @@ class TipTest < AppHelpersTestBase
         '<table>' +
           '<tr>' +
             "<td><span class='traffic-light-count faulty'>#{number}</span></td>" +
-            "<td><img src='/traffic-light/image/faulty.png' class='traffic-light-diff-tip-traffic-light-image'></td>" +
+            "<td><img src='/images/traffic-light/faulty.png' class='traffic-light-diff-tip-traffic-light-image'></td>" +
           '</tr>' +
         '</table>' +
         '<table>' +
@@ -200,7 +200,7 @@ class TipTest < AppHelpersTestBase
         '<table>' +
           '<tr>' +
             "<td><span class='traffic-light-count green'>#{number}</span></td>" +
-            "<td><img src='/traffic-light/image/green.png' class='traffic-light-diff-tip-traffic-light-image'></td>" +
+            "<td><img src='/images/traffic-light/green.png' class='traffic-light-diff-tip-traffic-light-image'></td>" +
           '</tr>' +
         '</table>' +
         '<table>' +
@@ -252,7 +252,7 @@ class TipTest < AppHelpersTestBase
         '<table>' +
           '<tr>' +
             "<td><span class='traffic-light-count red'>#{number}</span></td>" +
-            "<td><img src='/traffic-light/image/red.png' class='traffic-light-diff-tip-traffic-light-image'></td>" +
+            "<td><img src='/images/traffic-light/red.png' class='traffic-light-diff-tip-traffic-light-image'></td>" +
           '</tr>' +
         '</table>' +
         '<table>' +

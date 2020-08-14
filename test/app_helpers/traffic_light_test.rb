@@ -51,7 +51,7 @@ class TrafficLightTest < AppHelpersTestBase
         " data-number='#{number}'" +
         " data-avatar-index='#{avatar_index}'" +
         " data-colour='green'>" +
-        "<img src='/traffic-light/image/green.png'" +
+        "<img src='/images/traffic-light/green.png'" +
            " alt='green traffic-light'/>" +
       '</div>'
     actual = diff_traffic_light(light, avatar_index, number)
@@ -101,14 +101,14 @@ class TrafficLightTest < AppHelpersTestBase
     number = 15
     avatar_index = 37
     expected = '' +
-      '<img class="tick" src="/traffic-light/image/circle-tick.png">' +
+      '<img class="tick" src="/images/traffic-light/circle-tick.png">' +
       "<div class='diff-traffic-light'" +
         " data-id='#{id}'" +
         " data-index='#{index}'" +
         " data-number='#{number}'" +
         " data-avatar-index='#{avatar_index}'" +
         " data-colour='green'>" +
-        "<img src='/traffic-light/image/green.png'" +
+        "<img src='/images/traffic-light/green.png'" +
            " alt='green traffic-light'/>" +
       '</div>'
     actual = diff_traffic_light(light, avatar_index, number)
@@ -125,14 +125,14 @@ class TrafficLightTest < AppHelpersTestBase
     number = 16
     avatar_index = 38
     expected = '' +
-      '<img class="cross" src="/traffic-light/image/circle-cross.png">' +
+      '<img class="cross" src="/images/traffic-light/circle-cross.png">' +
       "<div class='diff-traffic-light'" +
         " data-id='#{id}'" +
         " data-index='#{index}'" +
         " data-number='#{number}'" +
         " data-avatar-index='#{avatar_index}'" +
         " data-colour='red'>" +
-        "<img src='/traffic-light/image/red.png'" +
+        "<img src='/images/traffic-light/red.png'" +
            " alt='red traffic-light'/>" +
       '</div>'
     actual = diff_traffic_light(light, avatar_index, number)
@@ -149,14 +149,14 @@ class TrafficLightTest < AppHelpersTestBase
     number = 19
     avatar_index = 41
     expected = '' +
-      '<img class="revert" src="/traffic-light/image/circle-revert.png">' +
+      '<img class="revert" src="/images/traffic-light/circle-revert.png">' +
       "<div class='diff-traffic-light'" +
         " data-id='#{id}'" +
         " data-index='#{index}'" +
         " data-number='#{number}'" +
         " data-avatar-index='#{avatar_index}'" +
         " data-colour='red'>" +
-        "<img src='/traffic-light/image/red.png'" +
+        "<img src='/images/traffic-light/red.png'" +
            " alt='red traffic-light'/>" +
       '</div>'
     actual = diff_traffic_light(light, avatar_index, number)
