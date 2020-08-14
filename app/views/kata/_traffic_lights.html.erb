@@ -198,7 +198,7 @@ $(() => {
     return '' +
       tr(td(`<img
               class="traffic-light-diff-tip-traffic-light-image"
-              src="/traffic-light/image/${colour}.png">`) +
+              src="/images/traffic-light/${colour}.png">`) +
          td(`<div class='traffic-light-diff-tip-tag ${colour}'>
               ${count}
              </div>`));
@@ -218,7 +218,7 @@ $(() => {
     const light = lastLight();
     const $hitImg = $('<img>', {
       id:'hit-img',
-      src:`/traffic-light/image/circle-tick.png`
+      src:`/images/traffic-light/circle-tick.png`
     });
     const $hitCount = $('<div>', {
       id:'hit-count',
@@ -234,7 +234,7 @@ $(() => {
     const light = lastLight();
     const $missImg = $('<img>', {
       id:'miss-img',
-      src:`/traffic-light/image/circle-cross.png`
+      src:`/images/traffic-light/circle-cross.png`
     });
     const $missCount = $('<div>', {
       id:'miss-count',

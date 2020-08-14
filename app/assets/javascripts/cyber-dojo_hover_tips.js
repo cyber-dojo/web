@@ -48,7 +48,7 @@ var cyberDojo = (function(cd, $) {
     const trLight = (colour, count) => {
       return tr(td('<img' +
                    " class='traffic-light-diff-tip-traffic-light-image'" +
-                   ` src='/traffic-light/image/${colour}.png'>`) +
+                   ` src='/images/traffic-light/${colour}.png'>`) +
                 td(`<div class='traffic-light-diff-tip-tag ${colour}'>` +
                    count +
                    '</div>'));
