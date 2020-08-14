@@ -33,7 +33,7 @@ module TrafficLightHelper # mix-in
 
   def revert_img_html(light)
     if revert?(light)
-      '<img class="revert" src="/traffic-light/image/circle-revert.png">'
+      '<img class="revert" src="/images/traffic-light/circle-revert.png">'
     else
       ''
     end
@@ -45,8 +45,9 @@ module TrafficLightHelper # mix-in
 
   def predict_img_html(light)
     if predict?(light)
-      icon = (light.predicted === light.colour.to_s) ? 'tick' : 'cross'
-      "<img class=\"#{icon}\" src=\"/traffic-light/image/circle-#{icon}.png\">"
+      correct = (light.predicted === light.colour.to_s)
+      icon = correct ? 'tick' : 'cross'
+      "<img class=\"#{icon}\" src=\"/images/traffic-light/circle-#{icon}.png\">"
     else
       ''
     end

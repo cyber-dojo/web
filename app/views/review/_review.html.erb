@@ -293,7 +293,7 @@ $(() => {
          data-number="${number}"
          data-colour="${colour}"
          data-index="${light.index}">
-         <img src="/traffic-light/image/${colour}.png"/>
+         <img src="/images/traffic-light/${colour}.png"/>
         ${makeTrafficLightMarkerHtml(light)}
       </div>`;
   };
@@ -302,7 +302,7 @@ $(() => {
 
   const makeRevertCircle = (light) => {
     if (isRevert(light)) {
-      return '<img class="revert" src="/traffic-light/image/circle-revert.png">';
+      return '<img class="revert" src="/images/traffic-light/circle-revert.png">';
     } else {
       return '';
     }
@@ -313,7 +313,7 @@ $(() => {
     if (isPredict(light)) {
       const correct = (light.predicted === light.colour);
       const icon = correct ? 'tick' : 'cross';
-      return `<img class="${icon}" src="/traffic-light/image/circle-${icon}.png">`;
+      return `<img class="${icon}" src="/images/traffic-light/circle-${icon}.png">`;
     } else {
       return '';
     }
@@ -324,7 +324,7 @@ $(() => {
     const currentIndex = (param.nowIndex === light.index);
     if (currentIndex) {
       return `<img id='traffic-light-marker'
-                   src='/traffic-light/image/marker_${light.colour}.png'/>`;
+                   src='/images/traffic-light/marker_${light.colour}.png'/>`;
     } else {
       return '';
     }

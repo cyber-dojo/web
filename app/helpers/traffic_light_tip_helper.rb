@@ -35,7 +35,7 @@ module TrafficLightTipHelper # mix-in
   module_function
 
   include TrafficLightImagePathHelper
-  
+
   def output?(filename)
     %w( stdout stderr status ).include?(filename)
   end

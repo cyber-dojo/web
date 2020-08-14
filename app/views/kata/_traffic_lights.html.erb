@@ -76,7 +76,7 @@ $(() => {
     if (isRevert(light)) {
       $lights.append($('<img>', {
         class: 'revert',
-          src: '/traffic-light/image/circle-revert.png'
+          src: '/images/traffic-light/circle-revert.png'
       }));
     }
   };
@@ -90,7 +90,7 @@ $(() => {
       const icon = correct ? 'tick' : 'cross';
       $lights.append($('<img>', {
         class: icon,
-          src: `/traffic-light/image/circle-${icon}.png`
+          src: `/images/traffic-light/circle-${icon}.png`
       }));
     }
   };
@@ -100,7 +100,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const $trafficLightImage = (light) =>
     $('<img>', {
-      src: `/traffic-light/image/${light.colour}.png`,
+      src: `/images/traffic-light/${light.colour}.png`,
       alt: `${light.colour} traffic-light`
     });
 
