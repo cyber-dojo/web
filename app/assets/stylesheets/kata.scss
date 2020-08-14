@@ -251,7 +251,7 @@
     display: inline-block;
     margin: { left: 0px; right: 0px; }
     padding-right: 7px;
-    &.output, &.REPL { float: right; margin-left: 0px; }
+    &.output, &.REPL { float: right; margin-left: 2px; }
     &.REPL { display: none; }
 
     &.light
