@@ -137,9 +137,9 @@ $(() => {
     counts[light.colour] += 1;
     if (isPredict(light)) {
       if (light.colour === light.predicted) {
-        counts.hit += 1;
+        counts.tick += 1;
       } else {
-        counts.miss += 1;
+        counts.cross += 1;
       }
     }
   };
@@ -151,7 +151,8 @@ $(() => {
     green:0,
     timed_out:0,
     faulty:0,
-    hit:0, miss:0
+    tick:0,
+    cross:0
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -208,41 +209,41 @@ $(() => {
   const updateTrafficLightsPredictCount = () => {
     const $box = cd.countPredictBox();
     $box.fadeOut('fast', () => {
-      $box.empty().append(hitBox()).append(missBox());
+      $box.empty().append(tickBox()).append(crossBox());
       $box.fadeIn('fast');
     });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const hitBox = () => {
+  const tickBox = () => {
     const light = lastLight();
-    const $hitImg = $('<img>', {
-      id:'hit-img',
+    const $tickImg = $('<img>', {
+      id:'tick-img',
       src:`/images/traffic-light/circle-tick.png`
     });
-    const $hitCount = $('<div>', {
-      id:'hit-count',
+    const $tickCount = $('<div>', {
+      id:'tick-count',
       class:'traffic-light-count'
-    }).text(counts.hit);
+    }).text(counts.tick);
     const hoverTip = 'correct predictions';
-    cd.setTip($hitCount, () => cd.showHoverTip($hitCount, hoverTip));
-    return $('<div>', {id:'hit-box'}).append($hitImg).append($hitCount);
+    cd.setTip($tickCount, () => cd.showHoverTip($tickCount, hoverTip));
+    return $('<div>', {id:'tick-box'}).append($tickImg).append($tickCount);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const missBox = () => {
+  const crossBox = () => {
     const light = lastLight();
-    const $missImg = $('<img>', {
-      id:'miss-img',
+    const $crossImg = $('<img>', {
+      id:'cross-img',
       src:`/images/traffic-light/circle-cross.png`
     });
-    const $missCount = $('<div>', {
-      id:'miss-count',
+    const $crossCount = $('<div>', {
+      id:'cross-count',
       class:'traffic-light-count'
-    }).text(counts.miss);
+    }).text(counts.cross);
     const hoverTip = 'incorrect predictions';
-    cd.setTip($missCount, () => cd.showHoverTip($missCount, hoverTip));
-    return $('<div>', {id:'miss-box'}).append($missImg).append($missCount);
+    cd.setTip($crossCount, () => cd.showHoverTip($crossCount, hoverTip));
+    return $('<div>', {id:'cross-box'}).append($crossImg).append($crossCount);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
