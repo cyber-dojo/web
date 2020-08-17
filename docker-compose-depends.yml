@@ -24,6 +24,7 @@ services:
   creator:
     depends_on:
       - saver
+      - puller
 
   # - - - - - - - - - - - - - - - -
   custom-chooser:

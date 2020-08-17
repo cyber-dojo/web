@@ -14,7 +14,6 @@ services:
       args: [ COMMIT_SHA ]
     user: nobody
     image: ${CYBER_DOJO_WEB_IMAGE}
-    init: true
     container_name: test_web
     ports: [ "${CYBER_DOJO_WEB_PORT}:${CYBER_DOJO_WEB_PORT}" ]
     restart: 'no'
@@ -23,7 +22,6 @@ services:
   creator:
     user: nobody
     image: ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}
-    init: true
     container_name: test_web_creator
     environment: [ NO_PROMETHEUS=true ]
     read_only: true
@@ -35,7 +33,6 @@ services:
   custom-chooser:
     environment: [ NO_PROMETHEUS=true ]
     image: ${CYBER_DOJO_CUSTOM_CHOOSER_IMAGE}:${CYBER_DOJO_CUSTOM_CHOOSER_TAG}
-    init: true
     container_name: test_web_custom_chooser
     ports: [ "${CYBER_DOJO_CUSTOM_CHOOSER_PORT}:${CYBER_DOJO_CUSTOM_CHOOSER_PORT}" ]
     read_only: true
@@ -46,7 +43,6 @@ services:
   exercises-chooser:
     environment: [ NO_PROMETHEUS=true ]
     image: ${CYBER_DOJO_EXERCISES_CHOOSER_IMAGE}:${CYBER_DOJO_EXERCISES_CHOOSER_TAG}
-    init: true
     container_name: test_web_exercises_chooser
     ports: [ "${CYBER_DOJO_EXERCISES_CHOOSER_PORT}:${CYBER_DOJO_EXERCISES_CHOOSER_PORT}" ]
     read_only: true
@@ -57,7 +53,6 @@ services:
   languages-chooser:
     environment: [ NO_PROMETHEUS=true ]
     image: ${CYBER_DOJO_LANGUAGES_CHOOSER_IMAGE}:${CYBER_DOJO_LANGUAGES_CHOOSER_TAG}
-    init: true
     container_name: test_web_languages_chooser
     ports: [ "${CYBER_DOJO_LANGUAGES_CHOOSER_PORT}:${CYBER_DOJO_LANGUAGES_CHOOSER_PORT}" ]
     read_only: true
@@ -69,7 +64,6 @@ services:
   custom-start-points:
     user: root
     image: ${CYBER_DOJO_CUSTOM_START_POINTS_IMAGE}:${CYBER_DOJO_CUSTOM_START_POINTS_TAG}
-    init: true
     container_name: test_web_custom_start_points
     environment: [ NO_PROMETHEUS=true ]
     read_only: true
@@ -81,7 +75,6 @@ services:
   exercises-start-points:
     user: root
     image: ${CYBER_DOJO_EXERCISES_START_POINTS_IMAGE}:${CYBER_DOJO_EXERCISES_START_POINTS_TAG}
-    init: true
     container_name: test_web_exercises_start_points
     environment: [ NO_PROMETHEUS=true ]
     read_only: true
@@ -93,7 +86,6 @@ services:
   languages-start-points:
     user: root
     image: ${CYBER_DOJO_LANGUAGES_START_POINTS_IMAGE}:${CYBER_DOJO_LANGUAGES_START_POINTS_TAG}
-    init: true
     container_name: test_web_languages_start_points
     environment: [ NO_PROMETHEUS=true ]
     read_only: true
@@ -106,7 +98,6 @@ services:
   avatars:
     user: nobody
     image: ${CYBER_DOJO_AVATARS_IMAGE}:${CYBER_DOJO_AVATARS_TAG}
-    init: true
     container_name: test_web_avatars
     environment: [ NO_PROMETHEUS=true ]
     read_only: true
@@ -118,7 +109,6 @@ services:
   repler:
     user: root
     image: ${CYBER_DOJO_REPLER_IMAGE}:${CYBER_DOJO_REPLER_TAG}
-    init: true
     container_name: test_web_repler
     environment: [ NO_PROMETHEUS=true ]
     read_only: true
@@ -134,7 +124,6 @@ services:
   runner:
     user: root
     image: ${CYBER_DOJO_RUNNER_IMAGE}:${CYBER_DOJO_RUNNER_TAG}
-    init: true
     container_name: test_web_runner
     environment: [ NO_PROMETHEUS=true ]
     read_only: true
@@ -144,10 +133,21 @@ services:
     volumes: [ "/var/run/docker.sock:/var/run/docker.sock" ]
 
   # - - - - - - - - - - - - - - - -
+  puller:
+    user: root
+    image: ${CYBER_DOJO_PULLER_IMAGE}:${CYBER_DOJO_PULLER_TAG}
+    container_name: test_web_puller
+    environment: [ NO_PROMETHEUS=true ]
+    read_only: true
+    ports: [ "${CYBER_DOJO_PULLER_PORT}:${CYBER_DOJO_PULLER_PORT}" ]
+    tmpfs: /tmp
+    restart: 'no'
+    volumes: [ "/var/run/docker.sock:/var/run/docker.sock" ]
+
+  # - - - - - - - - - - - - - - - -
   saver:
     user: root
     image: ${CYBER_DOJO_SAVER_IMAGE}:${CYBER_DOJO_SAVER_TAG}
-    init: true
     container_name: test_web_saver
     environment: [ NO_PROMETHEUS=true ]
     read_only: true
@@ -159,7 +159,6 @@ services:
   shas:
     user: nobody
     image: ${CYBER_DOJO_SHAS_IMAGE}:${CYBER_DOJO_SHAS_TAG}
-    init: true
     container_name: test_web_shas
     environment: [ NO_PROMETHEUS=true ]
     read_only: true
@@ -170,7 +169,6 @@ services:
   differ:
     user: nobody
     image: ${CYBER_DOJO_DIFFER_IMAGE}:${CYBER_DOJO_DIFFER_TAG}
-    init: true
     container_name: test_web_differ
     environment: [ NO_PROMETHEUS=true ]
     read_only: true
