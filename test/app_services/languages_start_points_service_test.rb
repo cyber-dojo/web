@@ -86,6 +86,7 @@ class LanguagesStartPointsServiceTest < AppServicesTestBase
       "Java, PowerMockito",
       "Javascript, Cucumber", "Javascript, Mocha+chai+sinon", "Javascript, assert",
       "Javascript, assert+jQuery", "Javascript, jasmine", "Javascript, jest", "Javascript, qunit+sinon",
+      "Julia, test",
       "Kotlin, Kotlintest",
       "PHP, PHPUnit",
       "Pascal (FreePascal), assert",
