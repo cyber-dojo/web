@@ -16,6 +16,7 @@ services:
       - runner
       - saver
       - shas
+      - custom-start-points
       - exercises-chooser
       - languages-chooser
 
