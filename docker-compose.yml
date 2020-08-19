@@ -54,35 +54,32 @@ services:
   custom-start-points:
     environment: [ NO_PROMETHEUS=true ]
     image: ${CYBER_DOJO_CUSTOM_START_POINTS_IMAGE}:${CYBER_DOJO_CUSTOM_START_POINTS_TAG}
-    user: root
+    user: nobody
     container_name: test_web_custom_start_points
     read_only: true
     ports: [ "${CYBER_DOJO_CUSTOM_START_POINTS_PORT}:${CYBER_DOJO_CUSTOM_START_POINTS_PORT}" ]
     tmpfs: /tmp
     restart: 'no'
-    volumes: [ "/var/run/docker.sock:/var/run/docker.sock" ]
 
   exercises-start-points:
     environment: [ NO_PROMETHEUS=true ]
     image: ${CYBER_DOJO_EXERCISES_START_POINTS_IMAGE}:${CYBER_DOJO_EXERCISES_START_POINTS_TAG}
-    user: root
+    user: nobody
     container_name: test_web_exercises_start_points
     read_only: true
     ports: [ "${CYBER_DOJO_EXERCISES_START_POINTS_PORT}:${CYBER_DOJO_EXERCISES_START_POINTS_PORT}" ]
     tmpfs: /tmp
     restart: 'no'
-    volumes: [ "/var/run/docker.sock:/var/run/docker.sock" ]
 
   languages-start-points:
     environment: [ NO_PROMETHEUS=true ]
     image: ${CYBER_DOJO_LANGUAGES_START_POINTS_IMAGE}:${CYBER_DOJO_LANGUAGES_START_POINTS_TAG}
-    user: root
+    user: nobody
     container_name: test_web_languages_start_points
     read_only: true
     ports: [ "${CYBER_DOJO_LANGUAGES_START_POINTS_PORT}:${CYBER_DOJO_LANGUAGES_START_POINTS_PORT}" ]
     tmpfs: /tmp
     restart: 'no'
-    volumes: [ "/var/run/docker.sock:/var/run/docker.sock" ]
 
   # - - - - - - - - - - - - - - - -
   avatars:
