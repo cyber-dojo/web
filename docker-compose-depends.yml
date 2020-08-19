@@ -16,7 +16,6 @@ services:
       - runner
       - saver
       - shas
-      - custom-chooser
       - exercises-chooser
       - languages-chooser
 
@@ -27,11 +26,6 @@ services:
       - puller
 
   # - - - - - - - - - - - - - - - -
-  custom-chooser:
-    depends_on:
-      - custom-start-points
-      - creator
-
   exercises-chooser:
     depends_on:
       - exercises-start-points

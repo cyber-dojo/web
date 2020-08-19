@@ -30,16 +30,6 @@ services:
     restart: 'no'
 
   # - - - - - - - - - - - - - - - -
-  custom-chooser:
-    environment: [ NO_PROMETHEUS=true ]
-    image: ${CYBER_DOJO_CUSTOM_CHOOSER_IMAGE}:${CYBER_DOJO_CUSTOM_CHOOSER_TAG}
-    container_name: test_web_custom_chooser
-    ports: [ "${CYBER_DOJO_CUSTOM_CHOOSER_PORT}:${CYBER_DOJO_CUSTOM_CHOOSER_PORT}" ]
-    read_only: true
-    restart: "no"
-    tmpfs: /tmp
-    user: nobody
-
   exercises-chooser:
     environment: [ NO_PROMETHEUS=true ]
     image: ${CYBER_DOJO_EXERCISES_CHOOSER_IMAGE}:${CYBER_DOJO_EXERCISES_CHOOSER_TAG}
