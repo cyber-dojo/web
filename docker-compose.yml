@@ -30,27 +30,6 @@ services:
     restart: 'no'
 
   # - - - - - - - - - - - - - - - -
-  exercises-chooser:
-    environment: [ NO_PROMETHEUS=true ]
-    image: ${CYBER_DOJO_EXERCISES_CHOOSER_IMAGE}:${CYBER_DOJO_EXERCISES_CHOOSER_TAG}
-    user: nobody
-    container_name: test_web_exercises_chooser
-    ports: [ "${CYBER_DOJO_EXERCISES_CHOOSER_PORT}:${CYBER_DOJO_EXERCISES_CHOOSER_PORT}" ]
-    read_only: true
-    restart: "no"
-    tmpfs: /tmp
-
-  languages-chooser:
-    environment: [ NO_PROMETHEUS=true ]
-    image: ${CYBER_DOJO_LANGUAGES_CHOOSER_IMAGE}:${CYBER_DOJO_LANGUAGES_CHOOSER_TAG}
-    user: nobody
-    container_name: test_web_languages_chooser
-    ports: [ "${CYBER_DOJO_LANGUAGES_CHOOSER_PORT}:${CYBER_DOJO_LANGUAGES_CHOOSER_PORT}" ]
-    read_only: true
-    restart: "no"
-    tmpfs: /tmp
-
-  # - - - - - - - - - - - - - - - -
   custom-start-points:
     environment: [ NO_PROMETHEUS=true ]
     image: ${CYBER_DOJO_CUSTOM_START_POINTS_IMAGE}:${CYBER_DOJO_CUSTOM_START_POINTS_TAG}

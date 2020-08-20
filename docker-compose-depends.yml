@@ -16,22 +16,13 @@ services:
       - runner
       - saver
       - shas
-      - custom-start-points
-      - exercises-chooser
-      - languages-chooser
+      - creator
 
   # - - - - - - - - - - - - - - - -
   creator:
     depends_on:
+      - custom-start-points
+      - exercises-start-points
+      - languages-start-points
       - saver
       - puller
-
-  # - - - - - - - - - - - - - - - -
-  exercises-chooser:
-    depends_on:
-      - exercises-start-points
-
-  languages-chooser:
-    depends_on:
-      - languages-start-points
-      - creator
