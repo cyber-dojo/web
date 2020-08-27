@@ -10,9 +10,10 @@ module DashboardWorker # mixin
     @all_indexes = {}
     e = group.events
     e.each do |kata_id,o|
-      lights = o['events'].each_with_index.map{ |event,index|
-        event['index'] ||= index
-        Event.new(katas[kata_id], event)
+      kata = katas[kata_id]
+      lights = o['events'].each.with_index.map{ |event,index|
+        event['index'] = index
+        Event.new(kata, event)
       }.select(&:light?)
       unless lights === []
         @all_lights[kata_id] = lights
@@ -89,7 +90,7 @@ module DashboardWorker # mixin
 
     regexs = kata.manifest.progress_regexs
     matches = regexs.map { |regex| Regexp.new(regex).match(output) }
-    
+
     {
         text: matches.join,
       colour: (matches[0] != nil ? 'red' : 'green')
