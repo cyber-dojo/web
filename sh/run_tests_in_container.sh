@@ -3,8 +3,7 @@ set -e
 
 #- - - - - - - - - - - - - - - - - - - -
 # Copy saver-test-data into saver container
-# Done here to ensure it always happens before tests are run
-# eg after a sh/dev_server_web_restart.sh
+# Done here to ensure it always happens before tests are run.
 
 readonly ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 readonly CONTAINER=test_web_saver
