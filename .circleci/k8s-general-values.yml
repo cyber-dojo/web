@@ -3,6 +3,11 @@ fullnameOverride: "web"
 
 replicaCount: 1
 
+envFromSecret: {}
+nodeSelector: {}
+affinity: {}
+tolerations: []
+
 podSecurityContext:
   fsGroup: 65534 # nobody
 
@@ -26,11 +31,3 @@ containers:
     #readinessProbe:
     #  path: /ready?
     #  port: 3000
-
-envFromSecret: {}
-
-nodeSelector: {}
-
-affinity: {}
-
-tolerations: []
