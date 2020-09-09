@@ -15,15 +15,18 @@ services:
     image: ${CYBER_DOJO_WEB_IMAGE}
     user: nobody
     container_name: test_web
+    env_file:
+      - .env
     ports: [ "${CYBER_DOJO_WEB_PORT}:${CYBER_DOJO_WEB_PORT}" ]
     restart: 'no'
 
   # - - - - - - - - - - - - - - - -
   creator:
-    environment: [ NO_PROMETHEUS=true ]
     image: ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}
     user: nobody
     container_name: test_web_creator
+    env_file:
+      - .env
     read_only: true
     ports: [ "${CYBER_DOJO_CREATOR_PORT}:${CYBER_DOJO_CREATOR_PORT}" ]
     tmpfs: /tmp
@@ -31,30 +34,33 @@ services:
 
   # - - - - - - - - - - - - - - - -
   custom-start-points:
-    environment: [ NO_PROMETHEUS=true ]
     image: ${CYBER_DOJO_CUSTOM_START_POINTS_IMAGE}:${CYBER_DOJO_CUSTOM_START_POINTS_TAG}
     user: nobody
     container_name: test_web_custom_start_points
+    env_file:
+      - .env
     read_only: true
     ports: [ "${CYBER_DOJO_CUSTOM_START_POINTS_PORT}:${CYBER_DOJO_CUSTOM_START_POINTS_PORT}" ]
     tmpfs: /tmp
     restart: 'no'
 
   exercises-start-points:
-    environment: [ NO_PROMETHEUS=true ]
     image: ${CYBER_DOJO_EXERCISES_START_POINTS_IMAGE}:${CYBER_DOJO_EXERCISES_START_POINTS_TAG}
     user: nobody
     container_name: test_web_exercises_start_points
+    env_file:
+      - .env
     read_only: true
     ports: [ "${CYBER_DOJO_EXERCISES_START_POINTS_PORT}:${CYBER_DOJO_EXERCISES_START_POINTS_PORT}" ]
     tmpfs: /tmp
     restart: 'no'
 
   languages-start-points:
-    environment: [ NO_PROMETHEUS=true ]
     image: ${CYBER_DOJO_LANGUAGES_START_POINTS_IMAGE}:${CYBER_DOJO_LANGUAGES_START_POINTS_TAG}
     user: nobody
     container_name: test_web_languages_start_points
+    env_file:
+      - .env
     read_only: true
     ports: [ "${CYBER_DOJO_LANGUAGES_START_POINTS_PORT}:${CYBER_DOJO_LANGUAGES_START_POINTS_PORT}" ]
     tmpfs: /tmp
@@ -62,10 +68,11 @@ services:
 
   # - - - - - - - - - - - - - - - -
   avatars:
-    environment: [ NO_PROMETHEUS=true ]
     image: ${CYBER_DOJO_AVATARS_IMAGE}:${CYBER_DOJO_AVATARS_TAG}
     user: nobody
     container_name: test_web_avatars
+    env_file:
+      - .env
     read_only: true
     ports: [ "${CYBER_DOJO_AVATARS_PORT}:${CYBER_DOJO_AVATARS_PORT}" ]
     restart: 'no'
@@ -73,10 +80,11 @@ services:
 
   # - - - - - - - - - - - - - - - -
   repler:
-    environment: [ NO_PROMETHEUS=true ]
     image: ${CYBER_DOJO_REPLER_IMAGE}:${CYBER_DOJO_REPLER_TAG}
     user: root
     container_name: test_web_repler
+    env_file:
+      - .env
     read_only: true
     ports: [ "${CYBER_DOJO_REPLER_PORT}:${CYBER_DOJO_REPLER_PORT}" ]
     tmpfs: /tmp
@@ -88,10 +96,11 @@ services:
 
   # - - - - - - - - - - - - - - - -
   runner:
-    environment: [ NO_PROMETHEUS=true ]
     image: ${CYBER_DOJO_RUNNER_IMAGE}:${CYBER_DOJO_RUNNER_TAG}
     user: root
     container_name: test_web_runner
+    env_file:
+      - .env
     read_only: true
     ports: [ "${CYBER_DOJO_RUNNER_PORT}:${CYBER_DOJO_RUNNER_PORT}" ]
     tmpfs: /tmp
@@ -99,23 +108,12 @@ services:
     volumes: [ "/var/run/docker.sock:/var/run/docker.sock" ]
 
   # - - - - - - - - - - - - - - - -
-  puller:
-    environment: [ NO_PROMETHEUS=true ]
-    image: ${CYBER_DOJO_PULLER_IMAGE}:${CYBER_DOJO_PULLER_TAG}
-    user: root
-    container_name: test_web_puller
-    read_only: true
-    ports: [ "${CYBER_DOJO_PULLER_PORT}:${CYBER_DOJO_PULLER_PORT}" ]
-    tmpfs: /tmp
-    restart: 'no'
-    volumes: [ "/var/run/docker.sock:/var/run/docker.sock" ]
-
-  # - - - - - - - - - - - - - - - -
   saver:
-    environment: [ NO_PROMETHEUS=true ]
     image: ${CYBER_DOJO_SAVER_IMAGE}:${CYBER_DOJO_SAVER_TAG}
     user: root
     container_name: test_web_saver
+    env_file:
+      - .env
     read_only: true
     ports: [ "${CYBER_DOJO_SAVER_PORT}:${CYBER_DOJO_SAVER_PORT}" ]
     restart: 'no'
@@ -123,20 +121,22 @@ services:
 
   # - - - - - - - - - - - - - - - -
   shas:
-    environment: [ NO_PROMETHEUS=true ]
     image: ${CYBER_DOJO_SHAS_IMAGE}:${CYBER_DOJO_SHAS_TAG}
     user: nobody
     container_name: test_web_shas
+    env_file:
+      - .env
     read_only: true
     ports: [ "${CYBER_DOJO_SHAS_PORT}:${CYBER_DOJO_SHAS_PORT}" ]
     restart: 'no'
 
   # - - - - - - - - - - - - - - - -
   differ:
-    environment: [ NO_PROMETHEUS=true ]
     image: ${CYBER_DOJO_DIFFER_IMAGE}:${CYBER_DOJO_DIFFER_TAG}
     user: nobody
     container_name: test_web_differ
+    env_file:
+      - .env
     read_only: true
     ports: [ "${CYBER_DOJO_DIFFER_PORT}:${CYBER_DOJO_DIFFER_PORT}" ]
     tmpfs: /tmp

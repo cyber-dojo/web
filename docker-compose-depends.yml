@@ -11,12 +11,12 @@ services:
   web:
     depends_on:
       - avatars
+      - creator
       - differ
       - repler
       - runner
       - saver
       - shas
-      - creator
 
   # - - - - - - - - - - - - - - - -
   creator:
@@ -24,5 +24,5 @@ services:
       - custom-start-points
       - exercises-start-points
       - languages-start-points
+      - runner
       - saver
-      - puller
