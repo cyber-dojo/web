@@ -11,7 +11,9 @@ class CustomStartPointsService
   end
 
   def initialize(externals)
-    requester = HttpJson::Requester.new(externals.http, 'custom-start-points', 4526)
+    name = 'custom-start-points'
+    port = ENV['CYBER_DOJO_CUSTOM_START_POINTS_PORT'].to_i
+    requester = HttpJson::Requester.new(externals.http, name, port)
     @http = HttpJson::Responder.new(requester, Error, {keyed:true})
   end
 

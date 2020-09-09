@@ -11,7 +11,9 @@ class LanguagesStartPointsService
   end
 
   def initialize(externals)
-    requester = HttpJson::Requester.new(externals.http, 'languages-start-points', 4524)
+    name = 'languages-start-points'
+    port = ENV['CYBER_DOJO_LANGUAGES_START_POINTS_PORT'].to_i
+    requester = HttpJson::Requester.new(externals.http, name, port)
     @http = HttpJson::Responder.new(requester, Error, {keyed:true})
   end
 

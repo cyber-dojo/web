@@ -11,7 +11,9 @@ class DifferService
   end
 
   def initialize(externals)
-    requester = HttpJson::Requester.new(externals.http, 'differ', 4567)
+    name = 'differ'
+    port = ENV['CYBER_DOJO_DIFFER_PORT'].to_i
+    requester = HttpJson::Requester.new(externals.http, name, port)
     @http = HttpJson::Responder.new(requester, Error, {keyed:true})
   end
 

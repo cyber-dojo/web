@@ -11,7 +11,9 @@ class AvatarsService
   end
 
   def initialize(externals)
-    requester = HttpJson::Requester.new(externals.http, 'avatars', 5027)
+    name = 'avatars'
+    port = ENV['CYBER_DOJO_AVATARS_PORT'].to_i
+    requester = HttpJson::Requester.new(externals.http, name, port)
     @http = HttpJson::Responder.new(requester, Error, {keyed:true})
   end
 
