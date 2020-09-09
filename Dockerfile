@@ -10,9 +10,12 @@ RUN chown -R nobody:nogroup /cyber-dojo
 # ./build_test_tag_publish.sh
 # /usr/lib/ruby/2.6.0/fileutils.rb:239:in `mkdir': Permission denied @ dir_s_mkdir - /cyber-dojo/tmp (Errno::EACCES)
 
+RUN apk --update --upgrade --no-cache add tini
+
 ARG COMMIT_SHA
 ENV SHA=${COMMIT_SHA}
 
 EXPOSE  3000
 USER nobody
+ENTRYPOINT ["/sbin/tini", "-g", "--"]
 CMD [ "./up.sh" ]
