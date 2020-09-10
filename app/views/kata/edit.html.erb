@@ -33,13 +33,13 @@ $(() => {
     event.index = index; // version 0 events don't store their index
     cd.appendTrafficLight(event);
   });
-  cd.predict.reset();
 
+  cd.predict.reset();
   cd.turnOnSettingsButton();
   cd.updateTrafficLightsCount();
   cd.scrollLastTrafficLightIntoView();
   cd.updateIndex("<%= @index %>");
-
+  cd.setupHotkeys();
   cd.showStartingInfoDialog("<%= @env['STARTING_INFO_DIALOG'] %>");
 
 });

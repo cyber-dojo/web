@@ -173,13 +173,41 @@ var cyberDojo = ((cd, $) => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  const runTests = () => {
+    $('#test-button').click();
+    return false;
+  };
+
+  const selectNext = () => {
+    cd.kata.filenames.selectNext();
+    return false;
+  };
+
+  const selectPrevious = () => {
+    cd.kata.filenames.selectPrevious();
+    return false;
+  };
+
+  const toggleOutput = () => {
+    cd.kata.tabs.toggle();
+    return false;
+  };
+
   const bindHotKeys = (editor) => {
     editor.setOption('extraKeys', {
-      'Alt-T': () => $('#test-button').click(),
-      'Alt-J': () => cd.kata.filenames.selectNext(),
-      'Alt-K': () => cd.kata.filenames.selectPrevious(),
-      'Alt-O': () => cd.kata.tabs.toggle()
+      'Alt-T': runTests,
+      'Alt-J': selectNext,
+      'Alt-K': selectPrevious,
+      'Alt-O': toggleOutput
     });
+  };
+
+  cd.setupHotkeys = () => {
+    // Called from app/views/kata/edit.html.erb
+    $(document).bind('keyup', 'alt+t', runTests);
+    $(document).bind('keyup', 'alt+j', selectNext);
+    $(document).bind('keyup', 'alt+k', selectPrevious);
+    $(document).bind('keyup', 'alt+o', toggleOutput);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
