@@ -209,12 +209,14 @@
     @include rounded-corner(6px);
     background: lighten($darker-color, 5%);
 
-    .new-file, .delete-file, .rename-file
+    .create-file, .delete-file, .rename-file
     {
       display:inline-block;
       @include rounded-corner(3px);
       margin:{ bottom:2px; right:2px }
       padding:{ left:4px; right:4px; top:0px; bottom:1px; }
+      width:19px;
+      height:19px;
     }
   }
 
@@ -304,7 +306,7 @@
 
 //--------------------------------------------------------------
 
-input#new-filename,
+input#create-filename,
 input#rename-filename,
 input#delete-filename
 {

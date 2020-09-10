@@ -1,6 +1,6 @@
 
 <div class="file-operations">
-  <button type="button" class="new-file">+</button>
+  <button type="button" class="create-file">+</button>
   <button type="button" class="delete-file">-</button>
   <button type="button" class="rename-file">~</button>
 </div>
@@ -9,13 +9,13 @@
 'use strict';
 $(() => {
 
-  cd.newFileButton = () => $('.new-file');
+  cd.createFileButton = () => $('.create-file');
   cd.deleteFileButton = () => $('.delete-file');
   cd.renameFileButton = () => $('.rename-file');
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const openNewFileDialog = () => {
+  const openCreateFileDialog = () => {
     const initialFilename = `filename${cd.extensionFilenames()[0]}`;
     const okInitiallyDisabled = !isValidFilename(initialFilename);
     const okClicked = (newFilename) => {
@@ -23,7 +23,7 @@ $(() => {
       cd.kata.filenames.refresh();
       cd.kata.filenames.select(newFilename);
     };
-    openDialog('new', initialFilename, okInitiallyDisabled, okClicked);
+    openDialog('create', initialFilename, okInitiallyDisabled, okClicked);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -147,11 +147,11 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.createTip(cd.newFileButton(), 'new file');
+  cd.createTip(cd.createFileButton(), 'create file');
   cd.createTip(cd.deleteFileButton(), 'delete file');
   cd.createTip(cd.renameFileButton(), 'rename file');
 
-  cd.newFileButton().click(() => openNewFileDialog());
+  cd.createFileButton().click(() => openCreateFileDialog());
   cd.deleteFileButton().click(() => openDeleteFileDialog());
   cd.renameFileButton().click(() => openRenameFileDialog());
 
