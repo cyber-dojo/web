@@ -25,4 +25,4 @@ services:
       - exercises-start-points
       - languages-start-points
       - runner
-      - saver
+      - model

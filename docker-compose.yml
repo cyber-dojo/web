@@ -79,6 +79,18 @@ services:
     tmpfs: /tmp
 
   # - - - - - - - - - - - - - - - -
+  model:
+    image: ${CYBER_DOJO_MODEL_IMAGE}:${CYBER_DOJO_MODEL_TAG}
+    user: nobody
+    container_name: test_web_model
+    env_file:
+      - .env
+    read_only: true
+    ports: [ "${CYBER_DOJO_MODEL_PORT}:${CYBER_DOJO_MODEL_PORT}" ]
+    restart: 'no'
+    tmpfs: /tmp
+
+  # - - - - - - - - - - - - - - - -
   repler:
     image: ${CYBER_DOJO_REPLER_IMAGE}:${CYBER_DOJO_REPLER_TAG}
     user: root
