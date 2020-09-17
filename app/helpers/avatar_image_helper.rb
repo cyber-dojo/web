@@ -6,7 +6,7 @@ module AvatarImageHelper # mix-in
 
   def avatar_image(name, size, title = name)
     avatar_index = Avatars.index(name.downcase)
-    "<img src='/avatar/image/#{avatar_index}'" +
+    "<img src='/avatars/image/#{avatar_index}'" +
       " title='#{title.downcase}'" +
       " width='#{size}'" +
       " height='#{size}'" +
@@ -22,7 +22,7 @@ module AvatarImageHelper # mix-in
         " data-tip='review #{avatar_name}#{apostrophe}s<br/>current code'" +
         " data-id='#{kata_id}'" +
         " data-index='#{index}'>" +
-        "<img src='/avatar/image/#{avatar_index}'" +
+        "<img src='/avatars/image/#{avatar_index}'" +
             " alt='#{avatar_name}'/>" +
      '</div>'
   end

@@ -14,7 +14,7 @@ class AvatarImageTest < AppHelpersTestBase
     assert html.start_with?('<img '), '<img : ' + html
     assert html.match("height='#{size}'"), 'height: ' + html
     assert html.match("width='#{size}'"), 'width: ' + html
-    assert html.match("src='/avatar/image/20'"), 'src: ' + html
+    assert html.match("src='/avatars/image/20'"), 'src: ' + html
     assert html.match("title='wibble'"), 'title: ' + html
     assert html.match("class='avatar-image'"), 'class: ' + html
   end
@@ -32,7 +32,7 @@ class AvatarImageTest < AppHelpersTestBase
       " data-tip='review #{avatar_name}&#39;s<br/>current code'" +
       " data-id='#{kata_id}'" +
       " data-index='#{index}'>" +
-      "<img src='/avatar/image/49'" +
+      "<img src='/avatars/image/49'" +
           " alt='#{avatar_name}'/>" +
       '</div>'
     actual = diff_avatar_image(kata_id, 49, index)

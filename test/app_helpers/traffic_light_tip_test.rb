@@ -80,7 +80,7 @@ class TipTest < AppHelpersTestBase
       expected =
         '<table>' +
           '<tr>' +
-            "<td><img src='/avatar/image/#{kata.avatar_index}' class='traffic-light-diff-tip-avatar-image'></td>" +
+            "<td><img src='/avatars/image/#{kata.avatar_index}' class='traffic-light-diff-tip-avatar-image'></td>" +
             "<td><span class='traffic-light-count green'>#{number}</span></td>" +
             "<td><img src='/images/traffic-light/green.png' class='traffic-light-diff-tip-traffic-light-image'></td>" +
           '</tr>' +
@@ -115,7 +115,7 @@ class TipTest < AppHelpersTestBase
       diff = differ.diff(kata.id, was_files, now_files)
       number = 2
       actual = traffic_light_tip_html(diff, kata.avatar_index, events, now_index, number)
-      assert actual.include?("src='/avatar/image/"), actual+':'+actual.class.name+':'
+      assert actual.include?("src='/avatars/image/"), actual+':'+actual.class.name+':'
     end
   end
 
