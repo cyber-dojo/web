@@ -14,19 +14,15 @@ module TrafficLightTipHelper # mix-in
     tip += td(traffic_light_img(event))       # eg red-traffic-light
     tip += '</tr>'
     tip += '</table>'
-    #
+
     tip += '<table>'
-    diffs.each do |filename, diff|
+    changed_files(diffs).each do |filename,count|
       unless output?(filename)
-        added   = diff.count { |line| line['type'] == 'added'   }
-        deleted = diff.count { |line| line['type'] == 'deleted' }
-        if added + deleted != 0
-          tip += '<tr>'
-          tip += td(diff_count('deleted', deleted))
-          tip += td(diff_count('added', added))
-          tip += td('&nbsp;' + filename)
-          tip += '</tr>'
-        end
+        tip += '<tr>'
+        tip += td(diff_count('deleted', count['deleted']))
+        tip += td(diff_count('added', count['added']))
+        tip += td('&nbsp;' + filename)
+        tip += '</tr>'
       end
     end
     tip += '</table>'
@@ -35,6 +31,21 @@ module TrafficLightTipHelper # mix-in
   module_function
 
   include TrafficLightImagePathHelper
+
+  def changed_files(diffs)
+    result = {}
+    diffs.each do |filename, diff|
+      added   = diff.count { |line| line['type'] == 'added'   }
+      deleted = diff.count { |line| line['type'] == 'deleted' }
+      unless added + deleted === 0
+        result[filename] = {
+          'deleted' => deleted,
+          'added' => added
+        }
+      end
+    end
+    result
+  end
 
   def output?(filename)
     %w( stdout stderr status ).include?(filename)
