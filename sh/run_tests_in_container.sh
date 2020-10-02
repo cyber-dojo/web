@@ -27,5 +27,5 @@ run_tests_in_container()
   readonly STATUS=$?
   mkdir -p "${DST}"
   docker cp "${SRC}/." "${DST}"
-  exit ${STATUS}
+  return ${STATUS}
 }

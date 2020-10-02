@@ -24,18 +24,12 @@ git_commit_sha()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-images_sha_env_var()
-{
-  docker run --rm "$(image_name):latest" sh -c 'echo -n ${SHA}'
-}
-
-# - - - - - - - - - - - - - - - - - - - - - - - -
 assert_web_image_has_sha_env_var()
 {
-  if [ "$(git_commit_sha)" != $(images_sha_env_var) ]; then
+  if [ "$(git_commit_sha)" != $(image_sha) ]; then
     echo "unexpected env-var inside image $(image_name):latest"
     echo "expected: 'SHA=$(git_commit_sha)'"
-    echo "  actual: '$(images_sha_env_var)'"
+    echo "  actual: '$(image_sha)'"
     exit 42
   fi
 }

@@ -26,15 +26,3 @@ on_ci()
 {
   [ -n "${CIRCLECI:-}" ]
 }
-
-#- - - - - - - - - - - - - - - - - - - - - - - -
-image_name()
-{
-  echo cyberdojo/web
-}
-
-#- - - - - - - - - - - - - - - - - - - - - - - -
-image_sha()
-{
-  docker run --rm "$(image_name):latest" sh -c 'echo ${SHA}'
-}
