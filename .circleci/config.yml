@@ -6,8 +6,8 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Build, test, tag, publish docker image
-          command: ./build_test_tag_publish.sh
+          name: Build, test, tag, publish docker image on Dockerhub
+          command: ./build_test_publish.sh
 
   deploy-to-beta:
     docker:

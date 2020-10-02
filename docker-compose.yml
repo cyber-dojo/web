@@ -9,10 +9,10 @@ networks:
 services:
 
   web:
+    image: ${CYBER_DOJO_WEB_IMAGE}
     build:
       context: .
       args: [ COMMIT_SHA ]
-    image: ${CYBER_DOJO_WEB_IMAGE}
     user: nobody
     container_name: test_web
     env_file:

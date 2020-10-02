@@ -20,11 +20,16 @@ remove()
 # - - - - - - - - - - - - - - - - - - - - - - -
 web_build()
 {
-  local commit_sha=$(cd "${ROOT_DIR}" && git rev-parse HEAD)
   docker-compose \
     --file "${ROOT_DIR}/docker-compose.yml" \
     build \
-    --build-arg COMMIT_SHA=${commit_sha}
+    --build-arg COMMIT_SHA="$(git_commit_sha)"
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - -
+git_commit_sha()
+{
+  cd "${ROOT_DIR}" && git rev-parse HEAD
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - -
