@@ -1,11 +1,23 @@
 #!/bin/bash -Eeu
 
-readonly ROOT_DIR="$( cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd )"
 readonly lsp_service_name=languages-start-points
 readonly lsp_container_name=test_web_languages_start_points
-readonly lsp_port="${CYBER_DOJO_LANGUAGES_START_POINTS_PORT}"
 
 source "${ROOT_DIR}/sh/wait_until_ready.sh"
+
+# - - - - - - - - - - - - - - - - - - - - - - - -
+setup_dependent_images()
+{
+  start_lsp
+  wait_until_ready "${lsp_container_name}" "$(lsp_port)"
+  pull_dependent_images
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - -
+lsp_port()
+{
+  echo "${CYBER_DOJO_LANGUAGES_START_POINTS_PORT}"
+}
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
 json_data()
@@ -17,7 +29,7 @@ EOF
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-setup_dependent_images()
+pull_dependent_images()
 {
   echo
   echo Images used in web tests must be pulled onto the node before runner is started.
@@ -38,7 +50,7 @@ setup_dependent_images()
           --data "${json}" \
           --silent \
           -X GET \
-          "http://$(ip_address):${lsp_port}/manifest")"
+          "http://$(ip_address):$(lsp_port)/manifest")"
 
         local image_name=$(echo "${manifest}" | jq --raw-output '.manifest.image_name')
 
@@ -58,8 +70,3 @@ start_lsp()
     --force-recreate \
     "${lsp_service_name}"
 }
-
-# - - - - - - - - - - - - - - - - - - - - - - - -
-start_lsp
-wait_until_ready "${lsp_container_name}" "${lsp_port}"
-setup_dependent_images

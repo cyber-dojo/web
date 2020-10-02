@@ -1,4 +1,4 @@
-#!/bin/bash -Ee
+#!/bin/bash -Eeu
 
 #- - - - - - - - - - - - - - - - - - - - - - - -
 tag_image()
@@ -23,6 +23,3 @@ image_sha()
 {
   docker run --rm "$(image_name):latest" sh -c 'echo ${SHA}'
 }
-
-#- - - - - - - - - - - - - - - - - - - - - - - -
-tag_image

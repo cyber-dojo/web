@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -Eeu
 
 ip_address()
 {
@@ -9,20 +9,19 @@ ip_address()
   fi
 }
 
-readonly IP_ADDRESS=$(ip_address)
-
 # - - - - - - - - - - - - - - - - - - - - -
 
 wait_until_ready()
 {
   local -r name="test_web_${1}"
+  local -r IP_ADDRESS="$(ip_address)"
   local -r port="${2}"
   local -r max_tries=60
   echo -n "Waiting until ${name} is ready"
   for _ in $(seq ${max_tries})
   do
     echo -n '.'
-    if ready ${port} ; then
+    if ready "${IP_ADDRESS}" "${port}" ; then
       echo 'OK'
       return
     else
@@ -42,9 +41,10 @@ wait_until_ready()
 
 ready()
 {
-  local -r port="${1}"
+  local -r ip_address="${1}"
+  local -r port="${2}"
   local -r path=ready?
-  local -r curl_cmd="curl --output $(ready_filename) --silent --fail --data {} -X GET http://${IP_ADDRESS}:${port}/${path}"
+  local -r curl_cmd="curl --output $(ready_filename) --silent --fail --data {} -X GET http://${ip_address}:${port}/${path}"
   rm -f "$(ready_filename)"
   if ${curl_cmd} && [ "$(cat "$(ready_filename)")" = '{"ready?":true}' ]; then
     true

@@ -1,7 +1,5 @@
-#!/bin/bash
-set -e
+#!/bin/bash -Eeu
 
-readonly ROOT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 source "${ROOT_DIR}/sh/wait_until_ready.sh"
 
 # - - - - - - - - - - - - - - - - - - - - -
@@ -23,21 +21,24 @@ wait_until_running()
 
 # - - - - - - - - - - - - - - - - - - - - -
 
-echo
-docker-compose \
-  --file "${ROOT_DIR}/docker-compose-depends.yml" \
-  --file "${ROOT_DIR}/docker-compose.yml" \
-  up \
-  -d \
-  --force-recreate \
-  web
+containers_up()
+{
+  echo
+  docker-compose \
+    --file "${ROOT_DIR}/docker-compose-depends.yml" \
+    --file "${ROOT_DIR}/docker-compose.yml" \
+    up \
+    -d \
+    --force-recreate \
+    web
 
-wait_until_ready custom_start_points    4526
-wait_until_ready exercises_start_points 4525
-wait_until_ready languages_start_points 4524
+  wait_until_ready custom_start_points    4526
+  wait_until_ready exercises_start_points 4525
+  wait_until_ready languages_start_points 4524
 
-wait_until_ready runner    4597
-wait_until_ready differ    4567
-wait_until_ready saver     4537
+  wait_until_ready runner    4597
+  wait_until_ready differ    4567
+  wait_until_ready saver     4537
 
-wait_until_running test_web
+  wait_until_running test_web
+}
