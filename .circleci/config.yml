@@ -7,7 +7,10 @@ jobs:
       - checkout
       - run:
           name: Build, test, tag, publish docker image on Dockerhub
-          command: ./build_test_publish.sh
+          command: |
+            pwd
+            ls -al
+            ./build_test_publish.sh
 
   deploy-to-beta:
     docker:
