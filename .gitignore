@@ -27,7 +27,7 @@
 !/docker-compose-saver-tmpfs-volume-mount.yml
 !/docker-compose-web-volume-mount.yml
 !/Dockerfile
-!/build_test_tag_publish.sh
+!/build_test_publish.sh
 !/up.sh
 !/LICENSE.md
 !/README.md
