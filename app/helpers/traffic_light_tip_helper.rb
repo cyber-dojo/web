@@ -17,13 +17,11 @@ module TrafficLightTipHelper # mix-in
 
     tip += '<table>'
     changed_files(diffs).each do |filename,count|
-      unless output?(filename)
-        tip += '<tr>'
-        tip += td(diff_count('deleted', count['deleted']))
-        tip += td(diff_count('added', count['added']))
-        tip += td('&nbsp;' + filename)
-        tip += '</tr>'
-      end
+      tip += '<tr>'
+      tip += td(diff_count('deleted', count['deleted']))
+      tip += td(diff_count('added', count['added']))
+      tip += td('&nbsp;' + filename)
+      tip += '</tr>'
     end
     tip += '</table>'
   end
@@ -45,10 +43,6 @@ module TrafficLightTipHelper # mix-in
       end
     end
     result
-  end
-
-  def output?(filename)
-    %w( stdout stderr status ).include?(filename)
   end
 
   def tag_html(colour, number)
