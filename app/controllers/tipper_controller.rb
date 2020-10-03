@@ -9,8 +9,8 @@ class TipperController < ApplicationController
     now_index = params[:now_index].to_i
     number = params[:number].to_i
     events,was_files,now_files = kata.tipper_info(was_index, now_index)
-    diff = differ.diff(id, was_files, now_files)
-    html = traffic_light_tip_html(diff, avatar_index, events, now_index, number)
+    tip_data = differ.diff_tip_data(id, was_files, now_files)
+    html = traffic_light_tip_html(tip_data, avatar_index, events, now_index, number)
     render json: { html:html }
   end
 

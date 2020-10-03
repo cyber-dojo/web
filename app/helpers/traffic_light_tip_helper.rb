@@ -3,7 +3,7 @@ require_relative 'traffic_light_image_path_helper'
 
 module TrafficLightTipHelper # mix-in
 
-  def traffic_light_tip_html(diffs, avatar_index, events, now_index, number)
+  def traffic_light_tip_html(tip_data, avatar_index, events, now_index, number)
     tip = '<table>'
     tip += '<tr>'
     unless avatar_index.nil? || avatar_index === ''
@@ -16,7 +16,7 @@ module TrafficLightTipHelper # mix-in
     tip += '</table>'
 
     tip += '<table>'
-    changed_files(diffs).each do |filename,count|
+    tip_data.each do |filename,count|
       tip += '<tr>'
       tip += td(diff_count('deleted', count['deleted']))
       tip += td(diff_count('added', count['added']))
@@ -29,21 +29,6 @@ module TrafficLightTipHelper # mix-in
   module_function
 
   include TrafficLightImagePathHelper
-
-  def changed_files(diffs)
-    result = {}
-    diffs.each do |filename, diff|
-      added   = diff.count { |line| line['type'] == 'added'   }
-      deleted = diff.count { |line| line['type'] == 'deleted' }
-      unless added + deleted === 0
-        result[filename] = {
-          'deleted' => deleted,
-          'added' => added
-        }
-      end
-    end
-    result
-  end
 
   def tag_html(colour, number)
     "<span class='traffic-light-count #{colour}'>#{number}</span>"
