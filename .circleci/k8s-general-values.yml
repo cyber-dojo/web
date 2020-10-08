@@ -11,9 +11,6 @@ tolerations: []
 podSecurityContext:
   fsGroup: 65534 # nobody
 
-service:
-  port: 3000
-
 containers:
   - name: web
     securityContext:
@@ -27,7 +24,5 @@ containers:
         memory: 768Mi
     #livenessProbe:
     #  path: /alive?
-    #  port: 3000
     #readinessProbe:
     #  path: /ready?
-    #  port: 3000
