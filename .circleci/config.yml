@@ -7,7 +7,11 @@ jobs:
       - checkout
       - run:
           name: Build, test, tag, publish docker image on Dockerhub
-          command: ./build_test_publish.sh
+          command: |
+            # DOCKER_USER, DOCKER_PASS are in the context
+            echo "${DOCKER_PASS}" | docker login --username "${DOCKER_USER}" --password-stdin
+            ./build_test_publish.sh
+            docker logout            
 
   deploy-to-beta:
     docker:
