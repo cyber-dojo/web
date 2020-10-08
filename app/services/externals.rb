@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 require_relative '../../test/app_services/service_doubles'
 require_relative '../../lib/random_adapter'
 require_relative '../../lib/time_adapter'
@@ -74,8 +73,8 @@ end
 # External class-names are set using environment variables.
 # This gives tests a way to do Parameterize-From-Above that
 # can tunnel through a *deep* stack. In particular, you can set
-# an environment variable and then run a controller test which
+# an environment variable and then run a controller-test which
 # issue GETs/POSTs, which work their way through the rails stack,
 # -In-A-Different-Thread-, reaching externals.rb, where the
-# specificied Substitute class takes effect.
+# specified Substitute class takes effect.
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
