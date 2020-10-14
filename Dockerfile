@@ -1,4 +1,4 @@
-FROM cyberdojo/web-base:fd4385f
+FROM cyberdojo/web-base:804f92d
 LABEL maintainer=jon@jaggersoft.com
 
 WORKDIR /cyber-dojo
