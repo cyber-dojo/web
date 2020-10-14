@@ -11,6 +11,12 @@ tolerations: []
 podSecurityContext:
   fsGroup: 65534 # nobody
 
+# Probes
+#- - - - - -
+# If you append this to yml below make sure to edit
+# deploy_to_namespace.sh so it calls
+# helm_upgrade_probe_yes_prometheus_no()
+#
 #containers:
 #  - name: web
 #    livenessProbe:
