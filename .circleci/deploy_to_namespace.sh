@@ -11,36 +11,6 @@ readonly CYBER_DOJO_WEB_TAG="${CIRCLE_SHA1:0:7}"
 readonly YAML_VALUES_FILE="${MY_DIR}/k8s-general-values.yml"
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-modified_helm_upgrade_probe_yes_prometheus_no()
-{
-  local -r namespace="${1}"
-  local -r repo="${2}"
-  local -r image="${3}"
-  local -r tag="${4}"
-  local -r port="${5}"
-  local -r general_values="${6}"
-  if [ -z "${7:-}" ]; then
-    local -r specific_values=""
-  else
-    local -r specific_values="--values ${7}"
-  fi
-
-  helm upgrade \
-    --install \
-    --namespace=${namespace} \
-    --set-string containers[0].image=${image} \
-    --set-string containers[0].tag=${tag} \
-    --set service.port=${port} \
-    --set containers[0].livenessProbe.httpGet.port=${port} \
-    --set containers[0].readinessProbe.httpGet.port=${port} \
-    --values ${general_values} \
-    ${specific_values} \
-    ${namespace}-${repo} \
-    ${HELM_CHART_REPO} \
-    --version ${HELM_CHART_VERSION}
-}
-
-#- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 gcloud_init
 helm_init
 
@@ -49,7 +19,7 @@ echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
 cat "${YAML_VALUES_FILE}"
 echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
 
-modified_helm_upgrade_probe_yes_prometheus_no \
+helm_upgrade_probe_no_prometheus_no \
    "${NAMESPACE}" \
    "web" \
    "${CYBER_DOJO_WEB_IMAGE}" \
