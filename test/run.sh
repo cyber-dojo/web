@@ -1,11 +1,6 @@
 #!/bin/bash
 set -e
 
-if [ ! -f /.dockerenv ]; then
-  echo 'FAILED: test_wrapper.sh is being executed outside of docker-container.'
-  exit 1
-fi
-
 # Fakes/Mocks saver writes to Dir.tmpdir
 rm -rf /tmp/cyber-dojo
 
@@ -65,6 +60,7 @@ do
 
     ruby ../print_coverage_percent.rb "${module}" \
       | tee -a "${test_log}"
+
     cd ..
 done
 

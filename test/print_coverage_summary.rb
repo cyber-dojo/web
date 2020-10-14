@@ -4,7 +4,6 @@ def modules
 end
 
 def test_log(module_name)
-  # must match test_log setting in test/test_wrapper.sh
   "/tmp/cyber-dojo/coverage/#{module_name}/test.log"
 end
 

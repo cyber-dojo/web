@@ -10,6 +10,7 @@ RUN chown -R nobody:nogroup /cyber-dojo
 # causes a failure when you run
 # ./build_test_publish.sh
 # /usr/lib/ruby/2.6.0/fileutils.rb:239:in `mkdir': Permission denied @ dir_s_mkdir - /cyber-dojo/tmp (Errno::EACCES)
+# This error comes from the very first script/rails call!
 
 RUN apk --update --upgrade --no-cache add tini
 
