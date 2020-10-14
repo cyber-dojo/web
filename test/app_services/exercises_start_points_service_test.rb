@@ -32,7 +32,10 @@ class ExercisesStartPointsServiceTest < AppServicesTestBase
 
   test '3AC',
   'smoke test names' do
-    assert_equal expected_names.sort, exercises_start_points.names
+    actual_names = exercises_start_points.names
+    expected_names.sort.each do |name|
+      assert actual_names.include?(name), name
+    end
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -41,9 +44,7 @@ class ExercisesStartPointsServiceTest < AppServicesTestBase
   'smoke test manifests' do
     manifests = exercises_start_points.manifests
     assert manifests.is_a?(Hash)
-    assert_equal expected_names.sort, manifests.keys.sort
-    manifest = manifests['Gray Code']
-    assert_is_Gray_Code_manifest(manifest)
+    assert_is_Gray_Code_manifest(manifests['Gray Code'])
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -64,7 +65,7 @@ class ExercisesStartPointsServiceTest < AppServicesTestBase
       "Fizz Buzz", "Fizz Buzz Plus", "Friday 13th", "Game of Life", "Gray Code",
       "Haiku Review", "Harry Potter", "ISBN", "LCD Digits", "Leap Years",
       "Magic Square", "Mars Rover", "Mine Field", "Mine Sweeper", "Monty Hall",
-      "Number Chains", "Number Names", "Phone Numbers", "Poker Hands", "Prime Factors", 
+      "Number Chains", "Number Names", "Phone Numbers", "Poker Hands", "Prime Factors",
       "Print Diamond", "Recently Used List", "Remove Duplicates", "Reordering",
       "Reverse Roman", "Reversi", "Roman Numerals", "Saddle Points",
       "Tennis", "Tiny Maze", "Unsplice", "Wonderland Number", "Word Wrap",
