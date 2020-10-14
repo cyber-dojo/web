@@ -11,6 +11,13 @@ tolerations: []
 podSecurityContext:
   fsGroup: 65534 # nobody
 
+#containers:
+#  - name: web
+#    livenessProbe:
+#      path: /alive?
+#    readinessProbe:
+#      path: /ready?
+
 containers:
   - name: web
     securityContext:
@@ -22,7 +29,3 @@ containers:
         memory: 128Mi
       limits:
         memory: 768Mi
-    livenessProbe:
-      path: /alive?
-    readinessProbe:
-      path: /ready?
