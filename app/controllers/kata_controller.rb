@@ -9,7 +9,7 @@ class KataController < ApplicationController
     # who
     @id = kata.id
     @group_id = kata.group.id
-    @avatar_name = kata.avatar_name
+    @avatar_name = kata.avatar_name # TODO: drop
     @avatar_index = kata.avatar_index
     @version = kata.schema.version
     if @group_id.nil?

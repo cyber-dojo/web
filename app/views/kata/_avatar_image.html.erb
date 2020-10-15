@@ -2,14 +2,25 @@
 'use strict';
 $(() => {
 
-  cd.createTip($('#edit-avatar-image'), "<%= @avatar_name %>");
+  $('.avatar-image-box').each(function() {
+    const $div = $(this);
+    const avatarIndex = parseInt("<%= @avatar_index %>");
+    $.getJSON('/images/avatars/names.json', {}, (avatarNames) => {
+      const avatarName = avatarNames[avatarIndex];
+      const $image = $('<img>', {
+        'src':`/images/avatars/${avatarIndex}.jpg`,
+        'alt':avatarName,
+        'class':'avatar-image'
+      });
+      $div.append($image);
+      cd.createTip($image, avatarName);
+    });
+  });
 
 });
 </script>
 
-<% if @avatar_name != '' %>
-  <img src="/images/avatars/<%= @avatar_index %>.jpg"
-       alt="<%= @avatar_name %>"
-       class="avatar-image"
-       id="edit-avatar-image"/>
+<% if @avatar_index %>
+  <div class='avatar-image-box'>
+  </div>
 <% end %>
