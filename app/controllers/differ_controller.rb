@@ -15,7 +15,6 @@ class DifferController < ApplicationController
     m = Manifest.new(manifest)
     exts = m.filename_extension
     avatar_index = m.group_index
-    avatar_name = avatar_index ? Avatars.names[avatar_index] : ''
 
     group_id = params[:group_id]
     if group_id != ''
@@ -31,8 +30,7 @@ class DifferController < ApplicationController
                prevAvatarId: prev_avatar_id,
                nextAvatarId: next_avatar_id,
                     groupId: group_id,
-                avatarIndex: avatar_index,
-                 avatarName: avatar_name,
+                avatarIndex: avatar_index.to_s, # nil -> ""
                    wasIndex: was_index,
                    nowIndex: now_index,
                      events: events.map{ |event| to_json(event) },

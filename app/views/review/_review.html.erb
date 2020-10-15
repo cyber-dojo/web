@@ -18,7 +18,6 @@ $(() => {
              id: "<%= @id %>",
         groupId: "<%= @group_id %>",
     avatarIndex: "<%= @avatar_index %>",
-     avatarName: "<%= @avatar_name %>",
        wasIndex: "<%= @was_index %>",
        nowIndex: "<%= @now_index %>",
        filename: "<%= @filename %>"
@@ -31,14 +30,13 @@ $(() => {
 
   const inTestPage = $kataPage.length !== 0;
 
-  cd.setReviewData = (version, id, groupId, avatarName, avatarIndex, wasIndex, nowIndex, filename) => {
+  cd.setReviewData = (version, id, groupId, avatarIndex, wasIndex, nowIndex, filename) => {
     // Called only from app/views/kata/_traffic_lights.html.erb
     // The [resume] & [checkout] buttons are only shown on kata/edit. [1]
     param = {
           version:version,
                id:id,
           groupId:groupId,
-       avatarName:avatarName,
       avatarIndex:avatarIndex,
          wasIndex:wasIndex,
          nowIndex:nowIndex,
@@ -157,12 +155,15 @@ $(() => {
   //-----------------------------------------
 
   const refreshAvatarNavigator = () => {
-    if (param.avatarName === '') {
-      $('#avatar-navigator').hide();
-    } else {
+    if (param.avatarIndex != '') {
+      $('#avatar-navigator').show();
       refreshAvatar($('#prev-avatar'), param.prevAvatarId);
       const $box = $('#review-avatar-image-box').html(makeAvatarImageHtml());
-      cd.setTip($box, () => cd.showHoverTip($box, param.avatarName));
+      cd.setTip($box, () => {
+        $.getJSON('/images/avatars/names.json', {}, (avatarsNames) => {
+          cd.showHoverTip($box, avatarsNames[parseInt(param.avatarIndex)]);
+        });
+      });
       refreshAvatar($('#next-avatar'), param.nextAvatarId);
     }
   };

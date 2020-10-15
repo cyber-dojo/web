@@ -12,7 +12,6 @@ class ReviewController < ApplicationController
     else
       @title = "review:#{kata.group.id}"
     end
-    @avatar_name = kata.avatar_name
     @avatar_index = kata.avatar_index
     @was_index = was_index
     @now_index = now_index

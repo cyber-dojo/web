@@ -5,8 +5,8 @@ $(() => {
   $('.avatar-image-box').each(function() {
     const $div = $(this);
     const avatarIndex = parseInt("<%= @avatar_index %>");
-    $.getJSON('/images/avatars/names.json', {}, (avatarNames) => {
-      const avatarName = avatarNames[avatarIndex];
+    $.getJSON('/images/avatars/names.json', {}, (avatarsNames) => {
+      const avatarName = avatarsNames[avatarIndex];
       const $image = $('<img>', {
         'src':`/images/avatars/${avatarIndex}.jpg`,
         'alt':avatarName,

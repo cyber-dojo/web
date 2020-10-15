@@ -9,13 +9,12 @@ class KataController < ApplicationController
     # who
     @id = kata.id
     @group_id = kata.group.id
-    @avatar_name = kata.avatar_name # TODO: drop
     @avatar_index = kata.avatar_index
     @version = kata.schema.version
     if @group_id.nil?
       @title = @id
     else
-      @title = "#{@avatar_name}:#{@group_id}"
+      @title = "#{@group_id}"
     end
     # what
     manifest = kata.manifest
@@ -107,7 +106,6 @@ class KataController < ApplicationController
     # https://atom.io/packages/cyber-dojo
     render :json => {
       'visible_files' => kata.files,
-             'avatar' => kata.avatar_name,
          'csrf_token' => form_authenticity_token,
              'lights' => kata.lights.map { |light| to_json(light) }
     }
@@ -124,43 +122,3 @@ class KataController < ApplicationController
   end
 
 end
-
-=begin
-  def edit_offline
-    manifest = starter_manifest
-    @id = '999999'
-    @title = "kata: #{@id}"
-    # who
-    @avatar_name = ''
-    @avatar_index = nil
-    @group_id = nil
-    # no previous lights
-    @lights = []
-    # no previous files
-    @files = manifest['visible_files']
-    # required parameters
-    @image_name = manifest['image_name']
-    @filename_extension = manifest['filename_extension']
-    # optional parameters
-    @hidden_filenames = manifest['hidden_filenames'] || []
-    @highlight_filenames = manifest['highlight_filenames'] || []
-    @max_seconds = manifest['max_seconds'] || 10
-    @tab_size = manifest['tab_size'] || 4
-    # footer info
-    @display_name = manifest['display_name']
-    @exercise = manifest['exercise']
-    # TODO: Turn off traffic-light click opens diff review
-    # TODO: Turn off traffic-lights tool-tip
-  end
-
-  def starter_manifest
-    exercise_name = params['exercise']
-    em = exercises.manifest(exercise_name)
-    language_name = params['language']
-    manifest = languages.manifest(language_name)
-    manifest['visible_files'].merge!(em['visible_files'])
-    manifest['exercise'] = em['display_name']
-    manifest['created'] = time.now
-    manifest
-  end
-=end

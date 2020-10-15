@@ -16,8 +16,6 @@ $(() => {
 
   const id = '<%= @id %>';
   const groupId = '<%= @group_id %>';
-  const avatarName = '<%= @avatar_name %>';
-
   const avatarIndex = '<%= @avatar_index %>';
   const version = '<%= @version %>';
 
@@ -63,7 +61,7 @@ $(() => {
       });
       const $light = $div.append($trafficLightImage(light));
       $lights.append($light);
-      $light.click(() => cd.setReviewData(version, id, groupId, avatarName, avatarIndex, index-1, index));
+      $light.click(() => cd.setReviewData(version, id, groupId, avatarIndex, index-1, index));
       cd.setupTrafficLightTip($light, version, id, avatarIndex, index-1, index, number);
       number += 1;
       updateCountData(light);
