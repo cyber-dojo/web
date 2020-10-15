@@ -6,7 +6,7 @@ module AvatarImageHelper # mix-in
 
   def avatar_image(name, size, title = name)
     avatar_index = Avatars.index(name.downcase)
-    "<img src='/avatars/image/#{avatar_index}'" +
+    "<img src='/images/avatars/#{avatar_index}.jpg'" +
       " title='#{title.downcase}'" +
       " width='#{size}'" +
       " height='#{size}'" +
