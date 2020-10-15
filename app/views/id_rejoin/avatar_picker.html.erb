@@ -10,12 +10,12 @@
         <% if id %>
           <div data-tip="<%= avatar_name %>">
             <img onclick='cd.rejoin("<%= id %>");'
-                 src="/avatars/image/<%= index %>"
+                 src="/images/avatars/<%= index %>.jpg"
                  class="avatar small"
                  data-cursor="pointer"/>
           </div>
         <% else %>
-          <img src="/avatars/image/<%= index %>"
+          <img src="/images/avatars/<%= index %>.jpg"
                class="avatar small grey"/>
         <% end %>
       </td>

@@ -45,7 +45,7 @@ module TrafficLightTipHelper # mix-in
   end
 
   def avatar_img(index)
-    "<img src='/avatars/image/#{index}'" +
+    "<img src='/images/avatars/#{index}.jpg'" +
       " class='traffic-light-diff-tip-avatar-image'>"
   end
 
