@@ -1,11 +1,3 @@
-
-<% if @avatar_name != '' %>
-  <img src="/avatars/image/<%= @avatar_index %>"
-       alt="<%= @avatar_name %>"
-       class="avatar-image"
-       id="edit-avatar-image"/>
-<% end %>
-
 <script type="text/javascript">
 'use strict';
 $(() => {
@@ -14,3 +6,10 @@ $(() => {
 
 });
 </script>
+
+<% if @avatar_name != '' %>
+  <img src="/images/avatars/<%= @avatar_index %>.jpg"
+       alt="<%= @avatar_name %>"
+       class="avatar-image"
+       id="edit-avatar-image"/>
+<% end %>
