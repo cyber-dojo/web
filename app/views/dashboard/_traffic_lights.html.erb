@@ -31,6 +31,19 @@ $(() => {
   cd.pieChart($('#traffic-lights .pie'));
   cd.setupHoverTips($('[data-tip]'));
 
+  $('.avatar-image').each(function() {
+    const $div = $(this);
+    cd.setTip($div, () => {
+      const apostrophe = '&#39;'
+      const avatarIndex = $div.attr('data-avatar-index');
+      $.getJSON('/images/avatars/names.json', {}, (avatarsNames) => {
+        const avatarName = avatarsNames[parseInt(avatarIndex)];
+        const tip = `review ${avatarName}${apostrophe}s<br/>current code`;
+        cd.showHoverTip($div, tip);
+      });
+    });
+  });
+
   $('.scroll-handle').scrollIntoView();
 
 });

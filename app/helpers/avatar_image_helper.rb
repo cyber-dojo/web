@@ -15,15 +15,13 @@ module AvatarImageHelper # mix-in
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def diff_avatar_image(kata_id, avatar_index, index)
+  def diff_avatar_image(kata_id, avatar_index, last_light_index)
     apostrophe = '&#39;'
-    avatar_name = Avatars.names[avatar_index]
     "<div class='avatar-image'" +
-        " data-tip='review #{avatar_name}#{apostrophe}s<br/>current code'" +
         " data-id='#{kata_id}'" +
-        " data-index='#{index}'>" +
-        "<img src='/images/avatars/#{avatar_index}.jpg'" +
-            " alt='#{avatar_name}'/>" +
+        " data-avatar-index='#{avatar_index}'" +
+        " data-index='#{last_light_index}'>" +
+        "<img src='/images/avatars/#{avatar_index}.jpg'/>" +
      '</div>'
   end
 
