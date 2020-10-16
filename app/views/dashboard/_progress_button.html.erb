@@ -9,7 +9,7 @@ $(() => {
       let index = 0;
       html += '<div id="progress-dialog">';
       html += '<table>';
-      $.each(data.animals, (name, animal) => {
+      data.animals.forEach((animal) => {
         const parity = (index % 2 === 0) ? 'even' : 'odd';
         index += 1;
         html +=
@@ -31,7 +31,7 @@ $(() => {
               animal.progress.text +
             '</td>' +
           '</tr>';
-      }); // each
+      }); // forEach
       html += '</table>';
       html += '</div>';
 

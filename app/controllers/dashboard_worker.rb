@@ -64,16 +64,14 @@ module DashboardWorker # mixin
     group.katas
          .select(&:active?)
          .map { |kata| animal_progress(kata) }
-         .to_h
   end
 
   def animal_progress(kata)
-    [kata.avatar_name, {
-        colour: kata.lights[-1].colour,
+    {   colour: kata.lights[-1].colour,
       progress: most_recent_progress(kata),
-         index: Avatars.index(kata.avatar_name),
+         index: kata.avatar_index,
             id: kata.id
-    }]
+    }
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
