@@ -19,7 +19,7 @@ main()
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 curl_200()
 {
-  local -r log=/tmp/repler.log
+  local -r log=/tmp/web_probe.log
   local -r type="${1}"   # eg GET|POST
   local -r route="${2}"  # eg repler/ready
   curl  \

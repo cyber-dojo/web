@@ -9,7 +9,7 @@ networks:
 services:
 
   web:
-    image: ${CYBER_DOJO_WEB_IMAGE}
+    image: ${CYBER_DOJO_WEB_IMAGE}:${CYBER_DOJO_WEB_TAG}
     build:
       context: .
       args: [ COMMIT_SHA ]
