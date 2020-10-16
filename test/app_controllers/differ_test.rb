@@ -14,8 +14,7 @@ class DifferControllerTest < AppControllerTestBase
     differ('5rTJv5', 'FxWwrr', 0, 1, version=0)
     assert_equal '5rTJv5', json['id']
     assert_equal 'FxWwrr', json['groupId']
-    assert_equal 32, json['avatarIndex']
-    assert_equal 'mouse', json['avatarName']
+    assert_equal '32', json['avatarIndex']
     assert_equal 0, json['wasIndex']
     assert_equal 1, json['nowIndex']
   end
