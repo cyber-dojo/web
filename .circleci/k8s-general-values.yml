@@ -28,7 +28,7 @@ containers:
         memory: 128Mi
       limits:
         memory: 1Gi
-    #livenessProbe:
-    #  path: /alive?
-    #readinessProbe:
-    #  path: /ready?
+    livenessProbe:
+      path: /alive?
+    readinessProbe:
+      path: /ready?
