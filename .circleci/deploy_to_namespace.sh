@@ -19,7 +19,7 @@ echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
 cat "${YAML_VALUES_FILE}"
 echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
 
-helm_upgrade_probe_yes_prometheus_no \
+helm_upgrade_probe_no_prometheus_no \
    "${NAMESPACE}" \
    "web" \
    "${CYBER_DOJO_WEB_IMAGE}" \
