@@ -147,9 +147,17 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.createTip(cd.createFileButton(), 'create file');
-  cd.createTip(cd.deleteFileButton(), 'delete file');
-  cd.createTip(cd.renameFileButton(), 'rename file');
+  cd.createTip(cd.createFileButton(), 'create a new file');
+
+  cd.setTip(cd.deleteFileButton(), () => {
+    const currentFilename = cd.kata.tabs.filename().text();
+    cd.showHoverTip(cd.deleteFileButton(), `delete ${currentFilename}`);
+  });
+
+  cd.setTip(cd.renameFileButton(), () => {
+    const currentFilename = cd.kata.tabs.filename().text();
+    cd.showHoverTip(cd.renameFileButton(), `rename ${currentFilename}`);
+  });
 
   cd.createFileButton().click(() => openCreateFileDialog());
   cd.deleteFileButton().click(() => openDeleteFileDialog());
