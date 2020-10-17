@@ -14,7 +14,7 @@ $(() => {
   // The first of these are controlled here.
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const id = '<%= @id %>';
+  const kataId = '<%= @id %>';
   const groupId = '<%= @group_id %>';
   const avatarIndex = '<%= @avatar_index %>';
   const version = '<%= @version %>';
@@ -22,9 +22,11 @@ $(() => {
   const $lights = $('#traffic-lights');
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // Every event has a unique index property.
-  // Not every event is necessarily visible though.
-  // Number is the number of next visible event.
+  // Every event has a unique index property, but there
+  // are events that do not correspond to a visible event.
+  // For example, the kata creation event.
+  // In the future there may be more, eg file new|delete|rename events.
+  // Number is the number of what will be the next visible event.
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   var number = 1;
 
@@ -45,24 +47,21 @@ $(() => {
   cd.appendTrafficLight = (light) => {
     const index = light.index;
     const colour = light.colour;
-    // There are events that do not directly correspond
-    // to a traffic-light. For example, the kata creation event.
-    // In the future there may be more, eg file new|delete|rename events.
     if (colour) {
       appendRevertImage($lights, light);
       appendPredictImage($lights, light);
       const $div = $('<div>', {
         'class':'diff-traffic-light',
-        'data-id':id,
+        'data-id':kataId,
+        'data-avatar-index':avatarIndex,
         'data-number':number,
         'data-index':index,
-        'data-avatar-index':avatarIndex,
         'data-colour':colour
       });
       const $light = $div.append($trafficLightImage(light));
       $lights.append($light);
-      $light.click(() => cd.setReviewData(version, id, groupId, avatarIndex, index-1, index));
-      cd.setupTrafficLightTip($light, version, id, avatarIndex, index-1, index, number);
+      $light.click(() => cd.setReviewData(version, kataId, groupId, avatarIndex, index-1, index));
+      cd.setupTrafficLightTip($light, version, kataId, avatarIndex, index-1, index, number);
       number += 1;
       updateCountData(light);
       counts.lastLight = light;
