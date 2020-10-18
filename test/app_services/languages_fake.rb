@@ -5,10 +5,6 @@ class LanguagesFake
   def initialize(_externals)
   end
 
-  def ready?
-    true
-  end
-
   def names
     NAMES
   end

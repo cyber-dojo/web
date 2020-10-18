@@ -12,10 +12,6 @@ class SaverWithLogging
     @@log
   end
 
-  def ready?
-    saver.ready?
-  end
-
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def dir_make_command(dirname)
