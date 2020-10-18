@@ -104,7 +104,6 @@ class KataTest < AppModelsTestBase
       refute_nil kata.group # NullObject pattern
       refute kata.group.exists?
       assert_nil kata.group.id
-      assert_equal '', kata.avatar_name
     end
   end
 
@@ -129,7 +128,6 @@ class KataTest < AppModelsTestBase
       assert kata.group.exists?
       refute_nil kata.group
       assert_equal group.id, kata.group.id
-      assert_equal Avatars.names[indexes[0]], kata.avatar_name
 
       assert_equal 'Ruby, MiniTest', kata.manifest.display_name
     end

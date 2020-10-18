@@ -1,6 +1,4 @@
 # frozen_string_literal: true
-
-require_relative 'avatars'
 require_relative 'group'
 require_relative 'id_pather'
 require_relative 'manifest'
@@ -43,14 +41,6 @@ class Kata
     # if this kata is inside a group, the kata's index in the group
     # (which is used to determine its avatar), else nil
     manifest.group_index
-  end
-
-  def avatar_name
-    if group?
-      Avatars.names[avatar_index]
-    else
-      ''
-    end
   end
 
   # - - - - - - - - - - - - - - - - -

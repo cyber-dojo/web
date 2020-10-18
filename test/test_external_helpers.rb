@@ -7,13 +7,11 @@ module TestExternalHelpers # mix-in
 
   def setup
     @config = {
-      'AVATARS'   => ENV['CYBER_DOJO_AVATARS_CLASS'],
       'EXERCISES' => ENV['CYBER_DOJO_EXERCISES_CLASS'],
       'LANGUAGES' => ENV['CYBER_DOJO_LANGUAGES_CLASS'],
       'DIFFER'    => ENV['CYBER_DOJO_DIFFER_CLASS'],
       'RUNNER'    => ENV['CYBER_DOJO_RUNNER_CLASS'],
       'SAVER'     => ENV['CYBER_DOJO_SAVER_CLASS'],
-      'ZIPPER'    => ENV['CYBER_DOJO_ZIPPER_CLASS'],
       'HTTP'      => ENV['CYBER_DOJO_HTTP_CLASS'],
 
       'CUSTOM_START_POINTS'    => ENV['CYBER_DOJO_CUSTOM_START_POINTS_CLASS'],
@@ -23,13 +21,11 @@ module TestExternalHelpers # mix-in
   end
 
   def teardown
-    ENV['CYBER_DOJO_AVATARS_CLASS']   = @config['AVATARS']
     ENV['CYBER_DOJO_EXERCISES_CLASS'] = @config['EXERCISES']
     ENV['CYBER_DOJO_LANGUAGES_CLASS'] = @config['LANGUAGES']
     ENV['CYBER_DOJO_DIFFER_CLASS']    = @config['DIFFER']
     ENV['CYBER_DOJO_RUNNER_CLASS']    = @config['RUNNER']
     ENV['CYBER_DOJO_SAVER_CLASS']     = @config['SAVER']
-    ENV['CYBER_DOJO_ZIPPER_CLASS']    = @config['ZIPPER']
     ENV['CYBER_DOJO_HTTP_CLASS']      = @config['HTTP']
 
     ENV['CYBER_DOJO_CUSTOM_START_POINTS_CLASS']    = @config['CUSTOM_START_POINTS']
@@ -38,10 +34,6 @@ module TestExternalHelpers # mix-in
   end
 
   # - - - - - - - - - - - - - - - - - - -
-
-  def set_avatars_class(name)
-    set_class('avatars', name)
-  end
 
   def set_custom_start_points_class(name)
     set_class('custom_start_points', name)

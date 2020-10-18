@@ -33,10 +33,6 @@ module Externals # mix-in
 
   # - - - - - - - - - - - - - - -
 
-  def avatars
-    @avatars ||= external
-  end
-
   def differ
     @differ ||= external
   end
