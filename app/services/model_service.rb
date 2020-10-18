@@ -21,16 +21,36 @@ class ModelService
     @http.get(__method__, {})
   end
 
+  # - - - - - - - - - - - - - - - - - -
+
   def group_create(manifest)
     @http.post(__method__, {manifests:[manifest], options:{}})
+  end
+
+  def group_exists?(id)
+    @http.get(__method__, {id:id})
+  end
+
+  def group_manifest(id)
+    @http.get(__method__, {id:id})
   end
 
   def group_join(id)
     @http.post(__method__, {id:id})
   end
 
+  # - - - - - - - - - - - - - - - - - -
+
   def kata_create(manifest)
     @http.post(__method__, {manifest:manifest, options:{}})
+  end
+
+  def kata_exists?(id)
+    @http.get(__method__, {id:id})
+  end
+
+  def kata_manifest(id)
+    @http.get(__method__, {id:id})
   end
 
 end
