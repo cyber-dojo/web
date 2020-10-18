@@ -41,6 +41,10 @@ module Externals # mix-in
     @differ ||= external
   end
 
+  def model
+    @model ||= external
+  end
+
   def runner
     @runner ||= external
   end
@@ -48,10 +52,6 @@ module Externals # mix-in
   def saver
     @saver ||= external
   end
-
-  #def zipper
-  #  @zipper ||= external
-  #end
 
   private # = = = = = = = = =
 

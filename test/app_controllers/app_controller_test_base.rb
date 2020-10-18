@@ -19,8 +19,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     display_name = options[:display_name] || DEFAULT_DISPLAY_NAME
     manifest = starter_manifest(display_name)
     manifest['version'] = (options[:version] || 1)
-    group = groups.new_group(manifest)
-    @id = group.id
+    @id = model.group_create(manifest)
     nil
   end
 
@@ -40,8 +39,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   def create_language_kata(options = {})
     manifest = starter_manifest
     manifest['version'] = (options[:version] || 1)
-    kata = katas.new_kata(manifest)
-    @id = kata.id
+    @id = model.kata_create(manifest)
     nil
   end
 
@@ -94,17 +92,12 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   # - - - - - - - - - - - - - - - -
 
   def assert_join(gid)
-    kid = join(gid)
-    assert json['exists']
-    refute_nil kid
-    katas[kid]
+    kata_id = join(gid)
+    katas[kata_id]
   end
 
   def join(gid)
-    params = { id:gid }
-    post '/id_join/join', params:params, as: :json
-    assert_response :success
-    json['id']
+    model.group_join(gid)
   end
 
   def url_encoded(s)

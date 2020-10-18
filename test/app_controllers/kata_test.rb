@@ -12,15 +12,6 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '9B8', %w( group landing page ) do
-    in_group do |group|
-      get "/kata/group/#{group.id}"
-      assert_response :success
-    end
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test '9B9', %w( edit landing page ) do
     in_kata do |kata|
       get "/kata/edit/#{kata.id}"

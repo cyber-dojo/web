@@ -42,9 +42,9 @@ do
 
     export CYBER_DOJO_AVATARS_CLASS=AvatarsFake
     export CYBER_DOJO_DIFFER_CLASS=DifferService
+    export CYBER_DOJO_MODEL_CLASS=ModelService
     export CYBER_DOJO_RUNNER_CLASS=RunnerStub
-    export CYBER_DOJO_SAVER_CLASS=SaverFake
-    export CYBER_DOJO_ZIPPER_CLASS=ZipperService
+    export CYBER_DOJO_SAVER_CLASS=SaverWithLogging
 
     # run-the-tests!
     cd "${module}"

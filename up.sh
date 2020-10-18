@@ -12,9 +12,9 @@ export CYBER_DOJO_LANGUAGES_START_POINTS_CLASS=LanguagesStartPointsService
 
 export CYBER_DOJO_AVATARS_CLASS=AvatarsService
 export CYBER_DOJO_DIFFER_CLASS=DifferService
+export CYBER_DOJO_MODEL_CLASS=ModelService
 export CYBER_DOJO_RUNNER_CLASS=RunnerService
 export CYBER_DOJO_SAVER_CLASS=SaverService
-export CYBER_DOJO_ZIPPER_CLASS=ZipperService
 
 rails server \
   --environment=production
