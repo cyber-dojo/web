@@ -23,33 +23,14 @@ class CustomFake
 
   private
 
-  NAMES = [
-    'C++ Countdown, Practice Round',
-    'C++ Countdown, Round 1',
-    'C++ Countdown, Round 2',
-    'C++ Countdown, Round 3',
-    'C++ Countdown, Round 4',
-    'C++ Countdown, Round 5',
-    'C++ Countdown, Round 6',
-    'Java Countdown, Practice Round',
-    'Java Countdown, Round 1',
-    'Java Countdown, Round 2',
-    'Java Countdown, Round 3',
-    'Java Countdown, Round 4',
-    'Tennis refactoring, C# NUnit',
-    'Tennis refactoring, C++ (g++) assert',
-    'Tennis refactoring, Java JUnit',
-    'Tennis refactoring, Python unitttest',
-    'Tennis refactoring, Ruby Test::Unit',
-    'Yahtzee refactoring, C (gcc) assert',
-    'Yahtzee refactoring, C# NUnit',
-    'Yahtzee refactoring, C++ (g++) assert',
-    'Yahtzee refactoring, Java JUnit',
-    'Yahtzee refactoring, Python unitttest'
-  ]
+  C_PLUS_PLUS_NAME = 'C++ Countdown, Practice Round'
+  PYTHON_NAME = 'Yahtzee refactoring, Python unitttest'
+  C_SHARP_NAME = 'Yahtzee refactoring, C# NUnit'
+
+  NAMES = [ C_PLUS_PLUS_NAME, PYTHON_NAME, C_SHARP_NAME ]
 
   CPP_COUNTDOWN_PRACTICE_ROUND_MANIFEST = {
-    "display_name" => "C++ Countdown, Practice Round",
+    "display_name" => C_PLUS_PLUS_NAME,
     "highlight_filenames" => [
       "countdown.cpp"
     ],
@@ -77,7 +58,7 @@ class CustomFake
 
   YAHZTEE_PYTHON_MANIFEST = {
     "filename_extension" => [ ".py" ],
-     "display_name" => "Yahtzee refactoring, Python unitttest",
+     "display_name" => PYTHON_NAME,
      "image_name" => "cyberdojofoundation/python_unittest",
      "visible_files" => {
        "test_yahtzee.py" => {
@@ -97,7 +78,7 @@ class CustomFake
 
   YAHTZEE_CSHARP_MANIFEST = {
     "filename_extension" => [ ".cs" ],
-    "display_name" => "Yahtzee refactoring, C# NUnit",
+    "display_name" => C_SHARP_NAME,
     "image_name" => "cyberdojofoundation/csharp_nunit",
     "visible_files" => {
       "YahtzeeTest.cs" => {

@@ -1,11 +1,15 @@
 require_relative 'app_services_test_base'
-require_relative '../../app/services/exercises_start_points_service'
 
 class ModelServiceTest < AppServicesTestBase
 
   def self.hex_prefix
     'D1E'
   end
+
+  def hex_setup
+    set_custom_start_points_class('CustomFake')
+  end
+
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
