@@ -75,34 +75,6 @@ class IdGeneratorTest < AppModelsTestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  test '066', %w(
-  no kata-id duplicates in 5000 repeats
-  ) do
-    id_generator = IdGenerator.new(self)
-    ids = {}
-    repeats = 5000
-    repeats.times do
-      ids[id_generator.kata_id] = true
-    end
-    assert_equal repeats, ids.keys.size
-  end
-
-  # - - - - - - - - - - - - - - - - - - -
-
-  test '067', %w(
-  no group-id duplicates in 5000 repeats
-  ) do
-    id_generator = IdGenerator.new(self)
-    ids = {}
-    repeats = 5000
-    repeats.times do
-      ids[id_generator.group_id] = true
-    end
-    assert_equal repeats, ids.keys.size
-  end
-
-  # - - - - - - - - - - - - - - - - - - -
-
   test '13b', %w(
   group-id does not exist before generation, does after
   ) do
