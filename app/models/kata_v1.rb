@@ -95,20 +95,6 @@ class Kata_v1
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def tipper_info(id, was_index, now_index)
-    results = saver.assert_all([
-      events_file_read_command(id),
-      event_file_read_command(id, was_index),
-      event_file_read_command(id, now_index)
-    ])
-    events = json_parse('[' + results[0] + ']')
-    was_files = json_parse(results[1])['files']
-    now_files = json_parse(results[2])['files']
-    [ events, was_files, now_files ]
-  end
-
-  # - - - - - - - - - - - - - - - - - - -
-
   def diff_info(id, was_index, now_index)
     results = saver.assert_all([
       manifest_file_read_command(id),

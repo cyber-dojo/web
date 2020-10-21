@@ -120,17 +120,6 @@ class Kata
 
   # - - - - - - - - - - - - - - - - -
 
-  def tipper_info(was_index, now_index)
-    e,was_files,now_files = kata.tipper_info(id, was_index, now_index)
-    events = e.map.with_index do |h,index|
-      h['index'] ||= index
-      Event.new(self, h)
-    end
-    [events,plain(was_files),plain(now_files)]
-  end
-
-  # - - - - - - - - - - - - - - - - -
-
   def theme=(value)
     # value == 'dark'|'light'
     filename = kata_id_path(id, 'theme')

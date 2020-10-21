@@ -25,7 +25,7 @@ var cyberDojo = (function(cd, $) {
                       class="traffic-light-diff-tip-traffic-light-image"></td>
              </tr>
            </table>
-           ${diffLinesHtmlTable(diffSummary)}`;    
+           ${diffLinesHtmlTable(diffSummary)}`;
   };
 
   // - - - - - - - - - - - - - - - - - - - -
@@ -61,24 +61,6 @@ var cyberDojo = (function(cd, $) {
       ); //append
     }); // forEach
     return chunks.get(0).outerHTML;
-  };
-
-  // - - - - - - - - - - - - - - - - - - - -
-
-  cd.OLD_setupTrafficLightTip = ($light, version, id, avatarIndex, wasIndex, nowIndex, number) => {
-    const args = {
-           version:version,
-                id:id,
-      avatar_index:avatarIndex,
-         was_index:wasIndex,
-         now_index:nowIndex,
-            number:number
-    };
-    cd.setTip($light, () => {
-      $.getJSON('/tipper/traffic_light_tip', args, (response) => {
-        cd.showHoverTip($light, response.html);
-      });
-    });
   };
 
   // - - - - - - - - - - - - - - - - - - - -
