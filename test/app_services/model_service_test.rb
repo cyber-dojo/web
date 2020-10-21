@@ -6,10 +6,14 @@ class ModelServiceTest < AppServicesTestBase
     'D1E'
   end
 
-  def hex_setup
-    set_custom_start_points_class('CustomFake')
-  end
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  test 'eJX',
+  'response.body failure is mapped to exception' do
+    set_http(HttpJsonRequesterNotJsonStub)
+    error = assert_raises(ModelService::Error) { model.ready? }
+    assert error.message.start_with?('http response.body is not JSON'), error.message
+  end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
