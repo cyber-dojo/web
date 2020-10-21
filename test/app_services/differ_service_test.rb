@@ -47,29 +47,6 @@ class DifferServiceTest < AppServicesTestBase
     end
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '3AD',
-  'smoke test differ.diff_tip_data(..., was_index=0, now_index=1)' do
-    in_new_kata do |kata|
-      stdout = file("Expected: 42\nActual: 54")
-      stderr = file('assertion failed')
-      status = 0
-      kata.ran_tests(kata.id, 1, kata.files, stdout, stderr, status, ran_summary(time.now, 'red'))
-
-      was_files = flattened(kata.events[0].files)
-      now_files = flattened(kata.events[1].files)
-
-      cyber_dojo_sh = now_files['cyber-dojo.sh']
-      length = cyber_dojo_sh.length
-      now_files['cyber_dojo_sh'] = cyber_dojo_sh[0..length/2]
-
-      actual = differ.diff_tip_data(kata.id, was_files, now_files)
-      expected = { 'cyber_dojo_sh' => { 'added' => 0, 'deleted' => 16} }
-      assert_equal(expected, actual)
-    end
-  end
-
   private
 
   def file(content)
