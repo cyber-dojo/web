@@ -1,7 +1,7 @@
 
 fullnameOverride: "web"
 
-replicaCount: 2
+daemonSet: true
 
 envFromSecret: {}
 nodeSelector: {}
