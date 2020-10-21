@@ -50,37 +50,6 @@ class ForkerControllerTest < AppControllerTestBase
   # format: html
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '7D4', 'forker/fork forks a group session (html)' do
-    # See https://blog.cyber-dojo.org/2014/08/custom-starting-point.html
-    in_kata { |kata|
-      post_run_tests # 1
-      params = { index:1 }
-      get "/forker/fork/#{kata.id}", params:params, as: :html
-      assert_response :redirect
-      regex = /^(.*)\/kata\/group\/([0-9A-Za-z]*)$/
-      assert m = regex.match(@response.redirect_url)
-      gid = m[2]
-      assert_equal 6, gid.size
-      group = groups[gid]
-      assert group.exists?
-    }
-  end
-
-  test '7D5', 'forker/fork with tag=-1 (html)' do
-    in_kata { |kata|
-      post_run_tests # 1
-      params = { index:-1 }
-      get "/forker/fork/#{kata.id}", params:params, as: :html
-      assert_response :redirect
-      regex = /^(.*)\/kata\/group\/([0-9A-Za-z]*)$/
-      assert m = regex.match(@response.redirect_url)
-      gid = m[2]
-      assert_equal 6, gid.size
-      group = groups[gid]
-      assert group.exists?
-    }
-  end
-
   test '7D6', 'forker/fork_group (html)' do
     in_kata { |kata|
       post_run_tests # 1

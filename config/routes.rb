@@ -21,7 +21,6 @@ CyberDojo::Application.routes.draw do
   scope path: '/forker', controller: :forker do
     get 'fork_individual(/:id)' => :fork_individual
     get 'fork_group(/:id)'      => :fork_group
-    get 'fork(/:id)' => :fork
   end
 
   scope path: '/dashboard', controller: :dashboard do
