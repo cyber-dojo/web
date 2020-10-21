@@ -59,7 +59,7 @@ class ExercisesStartPointsServiceTest < AppServicesTestBase
 
   def expected_names
     [
-      "(Verbal)", "100 doors", "Anagrams", "Array Shuffle",
+      "100 doors", "Anagrams", "Array Shuffle",
       "Balanced Parentheses", "Bowling Game", "Calc Stats", "Closest To Zero",
       "Combined Number", "Count Coins", "Diversion", "Eight Queens",
       "Fizz Buzz", "Fizz Buzz Plus", "Friday 13th", "Game of Life", "Gray Code",
