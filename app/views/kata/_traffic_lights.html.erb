@@ -62,64 +62,11 @@ $(() => {
       const $light = $div.append($trafficLightImage(light));
       $lights.append($light);
       $light.click(() => cd.setReviewData(version, kataId, groupId, avatarIndex, index-1, index));
-      //cd.setupTrafficLightTip($light, version, kataId, avatarIndex, index-1, index, number);
-      cd.setupNewTrafficLightTip($light, kataId, index-1, index);
+      cd.setupTrafficLightTip($light, kataId, index-1, index);
       number += 1;
       updateCountData(light);
       counts.lastLight = light;
     }
-  };
-
-  cd.setupNewTrafficLightTip = ($light, kataId, wasIndex, nowIndex) => {
-    cd.setTip($light, () => {
-      const args = { id:kataId, was_index:wasIndex, now_index:nowIndex };
-      $.post('/differ/diff_summary', JSON.stringify(args), (data) => {
-        const avatarIndex = $light.data('avatar-index');
-        const colour = $light.data('colour');
-        const number = $light.data('number');
-        const html =
-          `<table>
-            <tr>
-              <td>${avatarImage(avatarIndex)}</td>
-              <td><span class="traffic-light-count ${colour}">${number}</span></td>
-              <td><img src="/images/traffic-light/${colour}.png" class="traffic-light-diff-tip-traffic-light-image"></td>
-            </tr>
-          </table>
-          ${diffLinesHtmlTable(data.diff_summary)}`;
-        cd.showHoverTip($light, html);
-      });
-    });
-  };
-
-  const avatarImage = (avatarIndex) => {
-    if (avatarIndex === '') {
-      return '';
-    } else {
-      return `<img src="/images/avatars/${avatarIndex}.jpg"
-                 class="traffic-light-diff-tip-avatar-image">`;
-    }
-  };
-
-  const diffLinesHtmlTable = (files) => {
-    const chunks = $('<table>');
-    Object.keys(files).forEach(function(filename) {
-      chunks.append(
-        `<tr>
-          <td>
-            <div class="traffic-light-diff-tip-line-count-deleted some button">
-              ${files[filename].deleted}
-            </div>
-          </td>
-          <td>
-            <div class="traffic-light-diff-tip-line-count-added some button">
-              ${files[filename].added}
-            </div>
-          </td>
-          <td>&nbsp;${filename}</td>
-        </tr>`
-      ); //append
-    }); // forEach
-    return chunks.get(0).outerHTML;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -

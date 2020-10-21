@@ -9,14 +9,10 @@ $(() => {
     $.each($('.diff-traffic-light', $(row)), (_,light) => {
       const $light = $(light);
       const id = $light.data('id');
-      const avatarIndex = $light.data('avatar-index');
       const wasIndex = index;
       const nowIndex = $light.data('index');
-      const number = $light.data('number');
-      $light.click(() => {
-        window.open(cd.showReviewUrl(id, wasIndex, nowIndex));
-      });
-      cd.setupTrafficLightTip($light, version, id, avatarIndex, wasIndex, nowIndex, number);
+      $light.click(() => window.open(cd.showReviewUrl(id, wasIndex, nowIndex)));
+      cd.setupTrafficLightTip($light, id, wasIndex, nowIndex);
       index = nowIndex;
     });
   });

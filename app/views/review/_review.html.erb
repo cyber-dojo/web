@@ -244,9 +244,8 @@ $(() => {
     $.each($('.diff-traffic-light', trafficLights), (_, light) => {
       const $light = $(light);
       const nowIndex = $light.data('index');
-      const number = $light.data('number');
       $light.click(() => moveToTrafficLight(nowIndex));
-      cd.setupTrafficLightTip($light, param.version, param.id, param.avatarIndex, wasIndex, nowIndex, number);
+      cd.setupTrafficLightTip($light, param.id, wasIndex, nowIndex);
       wasIndex = nowIndex;
     });
   };
@@ -291,6 +290,7 @@ $(() => {
        ${makePredictCircle(light)}
        <div class="diff-traffic-light"
          data-id="${param.id}"
+         data-avatar-index="${param.avatarIndex}"
          data-number="${number}"
          data-colour="${colour}"
          data-index="${light.index}">
