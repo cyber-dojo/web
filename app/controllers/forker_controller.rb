@@ -2,23 +2,19 @@
 class ForkerController < ApplicationController
 
   def fork_individual
-    json = do_fork { |manifest|
-      model.kata_create(manifest)
-    }
-    respond_to do |format|
-      format.html { redirect_to "/kata/edit/#{json[:id]}" } # TODO change URL
+    json = fork { |manifest| model.kata_create(manifest) }
+    respond_to { |format|
+      format.html { redirect_to "/creator/enter?id=#{json[:id]}" }
       format.json { render json:json }
-    end
+    }
   end
 
   def fork_group
-    json = do_fork { |manifest|
-      model.group_create(manifest)
-    }
-    respond_to do |format|
-      format.html { redirect_to "/kata/group/#{json[:id]}" } # TODO: change URL
+    json = fork { |manifest| model.group_create(manifest) }
+    respond_to { |format|
+      format.html { redirect_to "/creator/enter?id=#{json[:id]}" }
       format.json { render json:json }
-    end
+    }
   end
 
   private
@@ -31,16 +27,14 @@ class ForkerController < ApplicationController
     manifest.merge({ 'visible_files' => files })
   end
 
-  def do_fork
-    begin
-      { forked: true,
-            id: yield(manifest_at_index)
-      }
-    rescue => caught
-      {  forked: false,
-        message: caught.message
-      }
-    end
+  def fork
+    { forked: true,
+          id: yield(manifest_at_index)
+    }
+  rescue => caught
+    {  forked: false,
+      message: caught.message
+    }
   end
 
 end

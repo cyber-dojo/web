@@ -39,7 +39,7 @@ var cyberDojo = ((cd, $) => {
            async: false,
          success: (response) => {
           if (response.forked) {
-            window.open(`/kata/${routeTo}/${response.id}`);
+            window.open(`/creator/enter?id=${response.id}`);
           } else {
             cd.dialogError(response.message);
           }
