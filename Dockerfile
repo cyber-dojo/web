@@ -1,4 +1,4 @@
-FROM cyberdojo/web-base:804f92d
+FROM cyberdojo/web-base:f1ae4be
 LABEL maintainer=jon@jaggersoft.com
 
 WORKDIR /cyber-dojo
@@ -11,8 +11,6 @@ RUN chown -R nobody:nogroup /cyber-dojo
 # ./build_test_publish.sh
 # /usr/lib/ruby/2.6.0/fileutils.rb:239:in `mkdir': Permission denied @ dir_s_mkdir - /cyber-dojo/tmp (Errno::EACCES)
 # This error comes from the very first script/rails call!
-
-RUN apk --update --upgrade --no-cache add tini
 
 ARG COMMIT_SHA
 ENV SHA=${COMMIT_SHA}
