@@ -2,7 +2,7 @@
 'use strict';
 var cyberDojo = ((cd, $) => {
 
-  cd.forkDialog = (kata_id, index) => {
+  cd.forkDialog = (kataId, index) => {
     const $html = $('<div>', { class:'info' });
     $html.append($("<div>create a new exercise\r\nfrom this traffic-light's files</div>"));
     $html.append($('<button>', {
@@ -10,7 +10,7 @@ var cyberDojo = ((cd, $) => {
        type: 'button',
        text: 'individual exercise'
     }).click(() => {
-      fork(kata_id, index, 'individual');
+      fork(kataId, index, 'individual');
       $('#fork-dialog').remove();
     }));
     $html.append($('<button>', {
@@ -18,7 +18,7 @@ var cyberDojo = ((cd, $) => {
        type: 'button',
        text: 'group exercise'
     }).click(() => {
-      fork(kata_id, index, 'group');
+      fork(kataId, index, 'group');
       $('#fork-dialog').remove();
     }));
 
@@ -31,18 +31,18 @@ var cyberDojo = ((cd, $) => {
     });
   };
 
-  const fork = (kata_id, index, routeFrom) => {
+  const fork = (kataId, index, type) => {
     $.ajax({
-             url: `/forker/fork_${routeFrom}`,
-            data: { id:kata_id, index:index },
+             url: `/forker/fork_${type}`,
+            data: { id:kataId, index:index },
         dataType: 'json',
            async: false,
          success: (response) => {
-          if (response.forked) {
-            window.open(`/creator/enter?id=${response.id}`);
-          } else {
-            cd.dialogError(response.message);
-          }
+           if (response.forked) {
+             window.open(`/creator/enter?id=${response.id}`);
+           } else {
+             cd.dialogError(response.message);
+           }
         }
     });
   };
