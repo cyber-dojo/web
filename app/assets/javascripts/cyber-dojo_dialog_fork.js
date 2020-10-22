@@ -10,7 +10,7 @@ var cyberDojo = ((cd, $) => {
        type: 'button',
        text: 'individual exercise'
     }).click(() => {
-      fork(kata_id, index, 'individual', 'edit');
+      fork(kata_id, index, 'individual');
       $('#fork-dialog').remove();
     }));
     $html.append($('<button>', {
@@ -18,7 +18,7 @@ var cyberDojo = ((cd, $) => {
        type: 'button',
        text: 'group exercise'
     }).click(() => {
-      fork(kata_id, index, 'group', 'group');
+      fork(kata_id, index, 'group');
       $('#fork-dialog').remove();
     }));
 
@@ -31,7 +31,7 @@ var cyberDojo = ((cd, $) => {
     });
   };
 
-  const fork = (kata_id, index, routeFrom, routeTo) => {
+  const fork = (kata_id, index, routeFrom) => {
     $.ajax({
              url: `/forker/fork_${routeFrom}`,
             data: { id:kata_id, index:index },
