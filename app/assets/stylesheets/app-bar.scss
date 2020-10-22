@@ -52,7 +52,6 @@
   #traffic-lights-button, #dashboard-button, #help-button, #hotkeys-button, #shas-button
   {
     @include rounded-corner(3px);
-       display: block;
        padding: { left:7px; right:7px; top:0px; bottom:1px; }
         margin: { top:0px; bottom:0px; left:3px; right:3px; }
          color: darken($darker-color, 10%);
@@ -64,8 +63,8 @@
 
   // These buttons are switched on in the kata/edit page.
   #settings-button, #hotkeys-button  { display:none; }
+  // Initally not displayed to avoid 'browser flash'.
   .info-button { display:none; }
-
 }
 
 #charity-dialog, #feedback-dialog, #traffic-lights-dialog, #hotkeys-dialog
