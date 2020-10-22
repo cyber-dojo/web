@@ -6,6 +6,8 @@ class ForkerControllerTest < AppControllerTestBase
     '3E9'
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   test 'Kw3', %w(
   forking_individual from a kata that is in a group
   results in a new kata that is NOT in a group
@@ -15,12 +17,12 @@ class ForkerControllerTest < AppControllerTestBase
       @id = kata.id
       @files = plain(kata.files)
       @index = 0
-      post_run_tests
-      fork_individual(kata.id, index=1)
+      post_run_tests # 1
+      fork_individual(:json, kata.id, index=1)
       assert forked?
       forked_kata = katas[json['id']]
       assert forked_kata.exists?
-      refute forked_kata.group? # <<<<<
+      refute forked_kata.group?
       m = model.kata_manifest(forked_kata.id)
       refute m.has_key?('group_id')
       refute m.has_key?('group_index')
@@ -38,7 +40,7 @@ class ForkerControllerTest < AppControllerTestBase
   and designates a kata at schema.version==1) do
     in_kata { |kata|
       post_run_tests # 1
-      fork_individual(kata.id, index=1)
+      fork_individual(:json, kata.id, index=1)
       assert forked?
       forked_kata = katas[json['id']]
       assert forked_kata.exists?
@@ -58,7 +60,7 @@ class ForkerControllerTest < AppControllerTestBase
   and designates a group at schema.version==1) do
     in_kata { |kata|
       post_run_tests # 1
-      fork_group(kata.id, index=1)
+      fork_group(:json, kata.id, index=1)
       assert forked?
       forked_group = groups[json['id']]
       assert forked_group.exists?
@@ -74,8 +76,7 @@ class ForkerControllerTest < AppControllerTestBase
   test '7D6', 'forker/fork_group (html)' do
     in_kata { |kata|
       post_run_tests # 1
-      params = { index:1 }
-      get "/forker/fork_group/#{kata.id}", params:params, as: :html
+      fork_group(:html, kata.id, index=1)
       assert_response :redirect
       regex = /^(.*)\/creator\/enter\?id=([0-9A-Za-z]*)$/
       assert m = regex.match(@response.redirect_url)
@@ -89,8 +90,7 @@ class ForkerControllerTest < AppControllerTestBase
   test '7D7', 'forker/fork_individual (html)' do
     in_kata { |kata|
       post_run_tests # 1
-      params = { index:1 }
-      get "/forker/fork_individual/#{kata.id}", params:params, as: :html
+      fork_individual(:html, kata.id, index=1)
       assert_response :redirect
       regex = /^(.*)\/creator\/enter\?id=([0-9A-Za-z]*)$/
       assert m = regex.match(@response.redirect_url)
@@ -104,42 +104,34 @@ class ForkerControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'AF2', %w( when id is malformed the fork fails ) do
-    fork_individual(malformed_id = 'bad-id', index=1)
+    fork_individual(:json, malformed_id = 'bad-id', index=1)
     refute forked?
   end
 
   test 'AF3', %w( when id does not exist the fork fails ) do
-    fork_individual(id = '112233', index=1)
+    fork_individual(:json, id = '112233', index=1)
     refute forked?
   end
 
   test 'AF4', %w( when tag is bad the fork fails ) do
     in_kata { |kata|
-      fork_individual(kata.id, index=1)
+      fork_individual(:json, kata.id, index=1)
       refute forked?
-      fork_individual(kata.id, index=-34)
+      fork_individual(:json, kata.id, index=-34)
       refute forked?
-      fork_individual(kata.id, index=27)
+      fork_individual(:json, kata.id, index=27)
       refute forked?
     }
   end
 
   private # = = = = = = = = = = = = = = = = = = =
 
-  def fork_individual(id, index, format = :json)
-    get '/forker/fork_individual', params: {
-      format:format,
-      id:id,
-      index:index
-    }
+  def fork_individual(format, id, index)
+    post "/forker/fork_individual?id=#{id}&index=#{index}", params: { format:format }
   end
 
-  def fork_group(id, index, format = :json)
-    get '/forker/fork_group', params: {
-      format:format,
-      id:id,
-      index:index
-    }
+  def fork_group(format, id, index)
+    post "/forker/fork_group?id=#{id}&index=#{index}", params: { format:format }
   end
 
   def forked?

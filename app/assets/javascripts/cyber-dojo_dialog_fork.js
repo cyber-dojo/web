@@ -33,8 +33,9 @@ var cyberDojo = ((cd, $) => {
 
   const fork = (kataId, index, type) => {
     $.ajax({
+            type: 'POST',
              url: `/forker/fork_${type}?id=${kataId}&index=${index}`,
-        dataType: 'json',
+        dataType: 'json', // format we want response in
            async: false,
          success: (response) => {
            if (response.forked) {
