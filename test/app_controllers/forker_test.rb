@@ -6,6 +6,27 @@ class ForkerControllerTest < AppControllerTestBase
     '3E9'
   end
 
+  test 'Kw3', %w(
+  forking_individual from a kata that is in a group
+  results in a new kata that is NOT in a group
+  ) do
+    in_group { |group|
+      kata = assert_join(group.id)
+      @id = kata.id
+      @files = plain(kata.files)
+      @index = 0
+      post_run_tests
+      fork_individual(kata.id, index=1)
+      assert forked?
+      forked_kata = katas[json['id']]
+      assert forked_kata.exists?
+      refute forked_kata.group? # <<<<<
+      m = model.kata_manifest(forked_kata.id)
+      refute m.has_key?('group_id')
+      refute m.has_key?('group_index')
+    }
+  end
+
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # format: json
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -

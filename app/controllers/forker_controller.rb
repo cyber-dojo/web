@@ -16,7 +16,10 @@ class ForkerController < ApplicationController
   def manifest_at_index
     manifest = model.kata_manifest(id)
     files = model.kata_event(id, index)['files']
-    manifest.merge({ 'visible_files' => files })
+    manifest.merge!({ 'visible_files' => files })
+    manifest.delete('group_id')
+    manifest.delete('group_index')
+    manifest
   end
 
   def fork
@@ -25,7 +28,7 @@ class ForkerController < ApplicationController
     }
   rescue => caught
     { message: caught.message,
-       forked: false,      
+       forked: false,
     }
   end
 
