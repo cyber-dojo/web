@@ -96,25 +96,4 @@ class KataController < ApplicationController
     end
   end
 
-  # - - - - - - - - - - - - - - - - - -
-
-  def show_json
-    # https://atom.io/packages/cyber-dojo
-    render :json => {
-      'visible_files' => kata.files,
-         'csrf_token' => form_authenticity_token,
-             'lights' => kata.lights.map { |light| to_json(light) }
-    }
-  end
-
-  private
-
-  def to_json(light)
-    {
-      'colour' => light.colour,
-      'time'   => light.time,
-      'index'  => light.index
-    }
-  end
-
 end

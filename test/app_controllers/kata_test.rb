@@ -252,17 +252,6 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'B75',
-  %w( show-json which is used in an Atom plugin ) do
-    in_kata do |kata|
-      post_run_tests
-      get '/kata/show_json', params:{ :format => :json, :id => kata.id }
-      assert_response :success
-    end
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test 'B77',
   %w( set_colour() persists the colour option ) do
     in_kata do |kata|
