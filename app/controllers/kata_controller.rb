@@ -1,10 +1,6 @@
 
 class KataController < ApplicationController
 
-  def group
-    @id = id
-  end
-
   def edit
     # who
     @id = kata.id

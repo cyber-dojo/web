@@ -56,7 +56,7 @@ class ForkerControllerTest < AppControllerTestBase
       params = { index:1 }
       get "/forker/fork_group/#{kata.id}", params:params, as: :html
       assert_response :redirect
-      regex = /^(.*)\/kata\/group\/([0-9A-Za-z]*)$/
+      regex = /^(.*)\/creator\/enter\?id=([0-9A-Za-z]*)$/
       assert m = regex.match(@response.redirect_url)
       gid = m[2]
       assert_equal 6, gid.size
@@ -71,7 +71,7 @@ class ForkerControllerTest < AppControllerTestBase
       params = { index:1 }
       get "/forker/fork_individual/#{kata.id}", params:params, as: :html
       assert_response :redirect
-      regex = /^(.*)\/kata\/edit\/([0-9A-Za-z]*)$/
+      regex = /^(.*)\/creator\/enter\?id=([0-9A-Za-z]*)$/
       assert m = regex.match(@response.redirect_url)
       kid = m[2]
       assert_equal 6, kid.size
