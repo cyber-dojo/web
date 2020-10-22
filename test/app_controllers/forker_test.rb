@@ -9,7 +9,7 @@ class ForkerControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'Kw3', %w(
-  forking_individual from a kata that is in a group
+  forking_individual from a kata that IS in a group
   results in a new kata that is NOT in a group
   ) do
     in_group { |group|
@@ -99,6 +99,38 @@ class ForkerControllerTest < AppControllerTestBase
       kata = katas[kid]
       assert kata.exists?
     }
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'P8w', %w( fork_individual() can use index=-1 to get latest index ) do
+    id = '5rTJv5'
+    kata = katas[id]
+    assert kata.exists?
+    assert_equal 0, kata.schema.version
+
+    fork_individual(:json, id , -1)
+
+    assert forked?
+    forked_kata = katas[json['id']]
+    assert forked_kata.exists?
+    assert_equal 1, forked_kata.schema.version, :latest_version
+    assert_equal kata.manifest.image_name, forked_kata.manifest.image_name
+  end
+
+  test 'P9w', %w( fork_group() can use index=-1 to get latest index ) do
+    id = '5rTJv5'
+    kata = katas[id]
+    assert kata.exists?
+    assert_equal 0, kata.schema.version
+
+    fork_group(:json, id , -1)
+
+    assert forked?
+    forked_group = groups[json['id']]
+    assert forked_group.exists?
+    assert_equal 1, forked_group.schema.version, :latest_version
+    assert_equal kata.manifest.image_name, forked_group.manifest.image_name
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
