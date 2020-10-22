@@ -102,8 +102,9 @@ class ForkerControllerTest < AppControllerTestBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # fork_....(id, index=-1)
 
-  test 'P8w', %w( fork_individual() can use index=-1 to get latest index ) do
+  test 'P8w', %w( JSON: fork_individual(id,index=-1) forks from latest index ) do
     id = '5rTJv5'
     kata = katas[id]
     assert kata.exists?
@@ -118,7 +119,30 @@ class ForkerControllerTest < AppControllerTestBase
     assert_equal kata.manifest.image_name, forked_kata.manifest.image_name
   end
 
-  test 'P9w', %w( fork_group() can use index=-1 to get latest index ) do
+  # . . . . . . . . . . . . .
+
+  test 'P8x', %w( HTML: fork_individual(id,index=-1) forks from latest index ) do
+    id = '5rTJv5'
+    kata = katas[id]
+    assert kata.exists?
+    assert_equal 0, kata.schema.version
+
+    fork_individual(:html, id , -1)
+
+    assert_response :redirect
+    regex = /^(.*)\/creator\/enter\?id=([0-9A-Za-z]*)$/
+    assert m = regex.match(@response.redirect_url)
+    kid = m[2]
+    assert_equal 6, kid.size
+    forked_kata = katas[kid]
+    assert forked_kata.exists?
+    assert_equal 1, forked_kata.schema.version, :latest_version
+    assert_equal kata.manifest.image_name, forked_kata.manifest.image_name
+  end
+
+  # . . . . . . . . . . . . .
+
+  test 'P9w', %w( JSON: fork_group(id,index=-1) forks from latest index ) do
     id = '5rTJv5'
     kata = katas[id]
     assert kata.exists?
@@ -133,7 +157,29 @@ class ForkerControllerTest < AppControllerTestBase
     assert_equal kata.manifest.image_name, forked_group.manifest.image_name
   end
 
+  # . . . . . . . . . . . . .
+
+  test 'P9x', %w( HTML: fork_group(id,index=-1) forks from latest index ) do
+    id = '5rTJv5'
+    kata = katas[id]
+    assert kata.exists?
+    assert_equal 0, kata.schema.version
+
+    fork_group(:html, id , -1)
+
+    assert_response :redirect
+    regex = /^(.*)\/creator\/enter\?id=([0-9A-Za-z]*)$/
+    assert m = regex.match(@response.redirect_url)
+    gid = m[2]
+    assert_equal 6, gid.size
+    forked_group = groups[gid]
+    assert forked_group.exists?
+    assert_equal 1, forked_group.schema.version, :latest_version
+    assert_equal kata.manifest.image_name, forked_group.manifest.image_name
+  end
+
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # Behaviour on bad arguments...
 
   test 'AF2', %w( when id is malformed the fork fails ) do
     fork_individual(:json, malformed_id = 'bad-id', index=1)
@@ -156,7 +202,7 @@ class ForkerControllerTest < AppControllerTestBase
     }
   end
 
-  private # = = = = = = = = = = = = = = = = = = =
+  private
 
   def fork_individual(format, id, index)
     post "/forker/fork_individual?id=#{id}&index=#{index}", params: { format:format }
