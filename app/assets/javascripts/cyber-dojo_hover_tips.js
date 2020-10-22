@@ -5,9 +5,8 @@ var cyberDojo = (function(cd, $) {
   cd.setupTrafficLightTip = ($light, kataId, wasIndex, nowIndex) => {
     cd.setTip($light, () => {
       const args = { id:kataId, was_index:wasIndex, now_index:nowIndex };
-      // This should be $.getJSON but the receiving Rack server
-      // currently reads JSJON args from the body (rather than
-      // query strings in a GET).
+      // This should be $.getJSON but the receiving Rack
+      // server currently reads JSON args from the request body.
       $.post('/differ/diff_summary', JSON.stringify(args), (data) => {
         cd.showHoverTip($light, tipHtml($light, data.diff_summary));
       });
