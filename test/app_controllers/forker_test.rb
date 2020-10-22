@@ -9,7 +9,7 @@ class ForkerControllerTest < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'Kw3', %w(
-  forking_individual from a kata that IS in a group
+  fork_individual() from a kata that IS in a group
   results in a new kata that is NOT in a group
   ) do
     in_group { |group|
@@ -35,9 +35,9 @@ class ForkerControllerTest < AppControllerTestBase
 
   test '32E', %w(
   when id,index are all ok
-  format=json fork_individual works
-  and the new individual session's id is returned
-  and designates a kata at schema.version==1) do
+  format=json fork_individual() returns
+  the new individual session's id
+  which designates a kata at the latest version) do
     in_kata { |kata|
       post_run_tests # 1
       fork_individual(:json, kata.id, index=1)
@@ -55,9 +55,9 @@ class ForkerControllerTest < AppControllerTestBase
 
   test '32F', %w(
   when id,index are all ok
-  format=json fork_group works
-  and the new group session's id is returned
-  and designates a group at schema.version==1) do
+  format=json fork_group() returns
+  new group session's id is
+  which designates a group at the latest version) do
     in_kata { |kata|
       post_run_tests # 1
       fork_group(:json, kata.id, index=1)
@@ -103,6 +103,7 @@ class ForkerControllerTest < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # fork_....(id, index=-1)
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'P8w', %w( JSON: fork_individual(id,index=-1) forks from latest index ) do
     id = '5rTJv5'
