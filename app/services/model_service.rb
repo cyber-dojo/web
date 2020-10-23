@@ -53,8 +53,4 @@ class ModelService
     @http.get(__method__, {id:id})
   end
 
-  def kata_event(id, index)
-    @http.get(__method__, {id:id, index:index})
-  end
-
 end

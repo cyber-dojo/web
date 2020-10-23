@@ -17,11 +17,6 @@ CyberDojo::Application.routes.draw do
     post 'set_predict'      => :set_predict
   end
 
-  scope path: '/forker', controller: :forker do
-    post 'fork_individual(/:id)' => :fork_individual
-    post 'fork_group(/:id)'      => :fork_group
-  end
-
   scope path: '/dashboard', controller: :dashboard do
     get 'show(/:id)' => :show
     get 'progress'   => :progress,  :constraints => { :format => :json }
