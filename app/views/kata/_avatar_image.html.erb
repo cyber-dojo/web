@@ -2,20 +2,14 @@
 'use strict';
 $(() => {
 
-  $('.avatar-image-box').each(function() {
-    const $div = $(this);
-    const avatarIndex = parseInt("<%= @avatar_index %>");
-    $.getJSON('/images/avatars/names.json', {}, (avatarsNames) => {
-      const avatarName = avatarsNames[avatarIndex];
-      const $image = $('<img>', {
-        'src':`/images/avatars/${avatarIndex}.jpg`,
-        'alt':avatarName,
-        'class':'avatar-image'
-      });
-      $div.append($image);
-      cd.createTip($image, avatarName);
-    });
-  });
+  const avatarIndex = parseInt("<%= @avatar_index %>");
+  const $box = $('.avatar-image-box');
+  $box.append($('<img>', {
+      src:`/images/avatars/${avatarIndex}.jpg`,
+      alt:'avatar image',
+    class:'avatar-image'
+  }));
+  cd.setupAvatarNameHoverTip($box, '', avatarIndex, '');
 
 });
 </script>

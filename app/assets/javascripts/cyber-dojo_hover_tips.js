@@ -2,11 +2,23 @@
 'use strict';
 var cyberDojo = (function(cd, $) {
 
+  cd.setupAvatarNameHoverTip = ($element, textBefore, avatarIndex, textAfter) => {
+    cd.setTip($element, () => {
+      $.getJSON('/images/avatars/names.json', {}, (avatarsNames) => {
+        const avatarName = avatarsNames[avatarIndex];
+        const tip = `${textBefore}${avatarName}${textAfter}`;
+        cd.showHoverTip($element, tip);
+      });
+    });
+  };
+
+  // - - - - - - - - - - - - - - - - - - - -
+
   cd.setupTrafficLightTip = ($light, kataId, wasIndex, nowIndex) => {
     cd.setTip($light, () => {
       const args = { id:kataId, was_index:wasIndex, now_index:nowIndex };
       // This should be $.getJSON but the receiving Rack
-      // server currently reads JSON args from the request body.
+      // server currently reads JSON args from the request _body_.
       $.post('/differ/diff_summary', JSON.stringify(args), (data) => {
         cd.showHoverTip($light, tipHtml($light, data.diff_summary));
       });

@@ -157,13 +157,9 @@ $(() => {
   const refreshAvatarNavigator = () => {
     if (param.avatarIndex != '') {
       $('#avatar-navigator').show();
-      refreshAvatar($('#prev-avatar'), param.prevAvatarId);
       const $box = $('#review-avatar-image-box').html(makeAvatarImageHtml());
-      cd.setTip($box, () => {
-        $.getJSON('/images/avatars/names.json', {}, (avatarsNames) => {
-          cd.showHoverTip($box, avatarsNames[parseInt(param.avatarIndex)]);
-        });
-      });
+      refreshAvatar($('#prev-avatar'), param.prevAvatarId);
+      cd.setupAvatarNameHoverTip($box, '', param.avatarIndex, '');
       refreshAvatar($('#next-avatar'), param.nextAvatarId);
     }
   };
