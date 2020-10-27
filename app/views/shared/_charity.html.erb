@@ -8,7 +8,7 @@
     Scottish Charitable Incorporated Organisation<br/>
     <ul>
       <li>
-        100% of license fees and donations helps
+        100% of license fees helps
         <a href="https://blog.cyber-dojo.org/2016/10/cyber-dojo-raspberry-pies-in-action.html"
            target="_blank">children learn about software</a>
       </li>
@@ -18,7 +18,12 @@
            target="_blank">buy a licence</a>
       </li>
       <li>
-        if you're not, please consider
+        100% of donations helps
+        <a href="https://blog.cyber-dojo.org/2016/10/cyber-dojo-raspberry-pies-in-action.html"
+           target="_blank">children learn about software</a>
+      </li>
+      <li>
+        please consider
         <a href="javascript:;" onClick="cd.dialog_donate().dialog('open');">making a donation</a>
       </li>
       <li>
@@ -37,7 +42,7 @@ $(() => {
 
   charityButton.click(() => openCharityInfoDialog());
 
-  cd.createTip(charityButton, 'cyber-dojo is a registered charity');
+  cd.createTip(charityButton, 'show cyber-dojo charity information');
 
   const openCharityInfoDialog = () => {
     const div = charity.dialog({

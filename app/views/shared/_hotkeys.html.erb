@@ -12,7 +12,7 @@ $(() => {
   const openHotkeysInfoDialog = () => {
     let html = '';
     html += '<div id="hotkeys-dialog">';
-    html += 'Open a page of all <a href="https://defkey.com/codemirror-shortcuts" target="_blank">CodeMirror hotkeys</a>.';
+    html += '<div class="info">Open a page of all <a href="https://defkey.com/codemirror-shortcuts" target="_blank">CodeMirror hotkeys</a>.</div>';
     html += '<table class="info" style="width:400px;">';
     html += tr3('start searching', 'Ctrl-F',       `${cmd}&thinsp;F`, );
     html += tr3('find next',       'Ctrl-G',       `${cmd}&thinsp;G`);
@@ -22,9 +22,9 @@ $(() => {
     html += tr3('jump to line',    'Alt-G',        `${option}&thinsp;G`);
     html += '</table>';
     html += '<table class="info" style="width:400px;">';
-    html += tr2('Alt-J', 'cycles&darr; through the filenames');
-    html += tr2('Alt-K', 'cycles&uarr; through the filenames');
-    html += tr2('Alt-O', 'toggle the output tab');
+    html += tr2('Alt-J', 'cycle&darr; through the filenames');
+    html += tr2('Alt-K', 'cycle&uarr; through the filenames');
+    html += tr2('Alt-O', 'toggle to/from the output tab');
     html += tr2('Alt-T', 'run the tests');
     html += '</table>';
     html += '</div>';
