@@ -2,10 +2,18 @@
 'use strict';
 $(() => {
 
+  const where = { of:$('#info-button') };
+
   cd.createTip($('.sponsor'),
-    '100% of donations and license fees go to ' +
-    "the cyber-dojo Foundation's charitable aims. " +
-    'A big thank you to all our sponsors.');
+    '100% of donations and license fees go to<br/>' +
+    "the cyber-dojo Foundation's charitable aims.<br/>" +
+    'A big thank you to all our sponsors who help<br/>' +
+    'to cover https://cyber-dojo.org hosting costs.<br/>' +
+    "Please email sponsor@cyber-dojo.org if you'd<br/>" +
+    'like to become a sponsor.'
+    ,
+    where
+  );
 
 });
 </script>
@@ -15,5 +23,4 @@ $(() => {
   <tr><td><%= render partial: 'shared/sponsors/cucumber' %></td></tr>
   <tr><td><%= render partial: 'shared/sponsors/curbralan' %></td></tr>
   <tr><td><%= render partial: 'shared/sponsors/wingman' %></td></tr>
-  <tr><td><%= render partial: 'shared/sponsors/accu' %></td></tr>
 </table>

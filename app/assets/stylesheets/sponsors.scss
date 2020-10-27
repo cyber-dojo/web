@@ -28,15 +28,3 @@
    height: 19px;
    margin: { left:3px; }
 }
-
-#accu-box #accu-image
-{
-  @include rounded-corner(3px);
-  background: CornSilk;
-     padding: 2px;
-       width: 43px;
-      height: 11px;
-      margin: { top:3px; left:9px;  }
-      position: relative;
-      top: 2px;
-}

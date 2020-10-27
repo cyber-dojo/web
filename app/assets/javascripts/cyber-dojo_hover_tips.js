@@ -146,15 +146,22 @@ var cyberDojo = (function(cd, $) {
 
   // - - - - - - - - - - - - - - - - - - - -
 
-  cd.createTip = (element, tip) => {
+  cd.createTip = (element, tip, where) => {
     cd.setTip(element, () => {
-      cd.showHoverTip(element, tip);
+      cd.showHoverTip(element, tip, where);
     });
   };
 
   // - - - - - - - - - - - - - - - - - - - -
 
-  cd.showHoverTip = (node, tip) => {
+  cd.showHoverTip = (node, tip, where) => {
+    if (where === undefined) {
+      where = {};
+    }
+    if (where.my === undefined) { where.my = 'top'; }
+    if (where.at === undefined) { where.at = 'bottom'; }
+    if (where.of === undefined) { where.of = node; }
+
     if (!node.attr('disabled')) {
       if (!node.hasClass('mouse-has-left')) {
         // position() is the jQuery UI plug-in
@@ -162,10 +169,10 @@ var cyberDojo = (function(cd, $) {
         const hoverTip = $('<div>', {
           'class': 'hover-tip'
         }).html(tip).position({
-          my: 'top',
-          at: 'bottom',
-          of: node,
-          collision: 'fit'
+          my: where.my,
+          at: where.at,
+          of: where.of,
+          collision: 'flip'
         });
         hoverTipContainer().html(hoverTip);
       }
