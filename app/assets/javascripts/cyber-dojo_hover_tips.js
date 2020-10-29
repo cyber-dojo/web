@@ -66,12 +66,12 @@ var cyberDojo = (function(cd, $) {
         `<tr>
           <td>
             <div class="diff-deleted-line-count" disabled="disabled">
-              ${file.line_counts.deleted}
+              ${nonZero(file.line_counts.deleted)}
             </div>
           </td>
           <td>
             <div class="diff-added-line-count" disabled="disabled">
-              ${file.line_counts.added}
+              ${nonZero(file.line_counts.added)}
             </div>
           </td>
           <td>
@@ -83,6 +83,10 @@ var cyberDojo = (function(cd, $) {
       ); //append
     }); // forEach
     return $table.get(0).outerHTML;
+  };
+
+  const nonZero = (n) => {
+    return n > 0 ? n : '&nbsp;';
   };
 
   const $linesDeletedCountIcon = () => {
