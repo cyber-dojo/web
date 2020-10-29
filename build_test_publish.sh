@@ -10,8 +10,8 @@ source "${SH_DIR}/setup_dependent_images.sh"
 source "${SH_DIR}/containers_up.sh"
 source "${SH_DIR}/run_tests_in_container.sh"
 source "${SH_DIR}/on_ci_publish_tagged_images.sh"
-source "${SH_DIR}/versioner_env_vars.sh"
-export $(versioner_env_vars)
+source "${SH_DIR}/echo_versioner_env_vars.sh"
+export $(echo_versioner_env_vars)
 
 containers_down
 build_tagged_images

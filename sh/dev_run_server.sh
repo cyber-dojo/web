@@ -6,9 +6,9 @@
 # for a very fast feedback loop.
 
 readonly ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-source "${ROOT_DIR}/sh/versioner_env_vars.sh"
+source "${ROOT_DIR}/sh/echo_versioner_env_vars.sh"
 source "${ROOT_DIR}/sh/container_info.sh"
-export $(versioner_env_vars)
+export $(echo_versioner_env_vars)
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 remove()
