@@ -357,11 +357,10 @@ $(() => {
     html += '</div>';
     $.each(sortedDiffs(diffs), (_, diff) => {
       html += '<div class="diff-filename-box">';
-      const deletedLineCount = diff['delete_line_count'];
+      const deletedLineCount = diff['deleted_line_count'];
       const addedLineCount = diff['added_line_count'];
-      const showCounts = (deletedLineCount > 0 || addedLineCount > 0);
-      html += makeDiffDeletedCount(showCounts, diff);
-      html += makeDiffAddedCount(showCounts, diff);
+      html += makeDiffDeletedCount(deletedLineCount, diff);
+      html += makeDiffAddedCount(addedLineCount, diff);
       html += makeDiffFilename(diff);
       html += '</div>';
     });
@@ -381,15 +380,15 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const makeDiffDeletedCount = (showCounts, diff) => {
-    return makeDiffCount(showCounts, diff, 'deleted_line_count', 'deleted');
+  const makeDiffDeletedCount = (lineCount, diff) => {
+    return makeDiffCount(lineCount, diff, 'deleted');
   };
 
-  const makeDiffAddedCount = (showCounts, diff) => {
-    return makeDiffCount(showCounts, diff, 'added_line_count', 'added');
+  const makeDiffAddedCount = (lineCount, diff) => {
+    return makeDiffCount(lineCount, diff, 'added');
   };
 
-  const makeDiffCount = (showCounts, diff, propertyName, cssName) => {
+  const makeDiffCount = (lineCount, diff, cssName) => {
     if (!inDiffMode()) {
       return '';
     }
@@ -397,8 +396,8 @@ $(() => {
       'class': `diff-${cssName}-line-count`,
       'data-filename': diff.filename
     });
-    if (showCounts) {
-      div.append(diff[propertyName]);
+    if (lineCount > 0) {
+      div.append(lineCount);
     }
     return outerHTML(div);
   };
@@ -499,8 +498,16 @@ $(() => {
             getFilename(previousFilenameNode) === filename;
 
         $('.diff-deleted-line-count, .diff-added-line-count').attr('disabled', true);
-        $(`.diff-deleted-line-count[data-filename="${filename}"]`).attr('disabled', false);
-        $(`.diff-added-line-count[data-filename="${filename}"]`).attr('disabled', false);
+
+        const $diffDeletedLineCount = $(`.diff-deleted-line-count[data-filename="${filename}"]`);
+        if ($diffDeletedLineCount.text() != '') {
+          $diffDeletedLineCount.attr('disabled', false);
+        }
+
+        const $diffAddedLineCount = $(`.diff-added-line-count[data-filename="${filename}"]`);
+        if ($diffAddedLineCount.text() != '') {
+          $diffAddedLineCount.attr('disabled', false);
+        }
 
         $('.filename', $reviewPage).removeClass('selected');
         filenameNode.addClass('selected');
