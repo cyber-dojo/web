@@ -83,11 +83,34 @@
   #test-button
   {
     @include font-size-medium();
-           display: inline;
-            margin: { left: 35px; top:5px; right: 2px; bottom: 8px; }
-           padding: { top: 0px; bottom: 2px; left: 7px; right: 7px; }
-        text-align: center;
-       font-weight: bold;
+    @include rounded-corner(5px);
+       display: inline;
+        margin: { left: 35px; top:5px; right: 2px; bottom: 8px; }
+       padding: { top: 0px; bottom: 1px; left: 7px; right: 7px; }
+    text-align: center;
+    font-weight: bold;
+  }
+
+  .file-operations
+  {
+    display:inline-block;
+    padding:{left:6px; top:5px; right:3px; bottom:4px; }
+    margin-left:2px;
+    position:relative;
+    top:-2px;
+    @include rounded-corner(6px);
+    background: lighten($darker-color, 10%);
+
+    .create-file, .delete-file, .rename-file
+    {
+      display:inline-block;
+      @include rounded-corner(3px);
+      margin:{ bottom:1px; right:3px }
+      padding:{ left:3px; right:3px; top:0px; bottom:2px; }
+      width:21px;
+      height:21px;
+      font-size:14px;
+    }
   }
 
   //--------------------------------------------------------------
@@ -198,27 +221,6 @@
 
   //--------------------------------------------------------------
   // filenames
-
-  .file-operations
-  {
-    display:inline-block;
-    padding:{left:5px; top:4px; right:4px; bottom:4px; }
-    margin-left:2px;
-    position:relative;
-    top:-3px;
-    @include rounded-corner(6px);
-    background: lighten($darker-color, 5%);
-
-    .create-file, .delete-file, .rename-file
-    {
-      display:inline-block;
-      @include rounded-corner(3px);
-      margin:{ bottom:2px; right:2px }
-      padding:{ left:4px; right:4px; top:0px; bottom:1px; }
-      width:19px;
-      height:19px;
-    }
-  }
 
   #filename-list
   {
