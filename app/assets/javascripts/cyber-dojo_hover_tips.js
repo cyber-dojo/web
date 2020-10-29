@@ -76,7 +76,7 @@ var cyberDojo = (function(cd, $) {
           </td>
           <td>
             <div class="hover-filename">
-              ${file.new_filename}
+              ${diffFilename(file)}
             </div>
           </td>
         </tr>`
@@ -87,6 +87,24 @@ var cyberDojo = (function(cd, $) {
 
   const nonZero = (n) => {
     return n > 0 ? n : '&nbsp;';
+  };
+
+  const diffFilename = (file) => {
+    if (deletedFile(file)) {
+      return file.old_filename;
+    } else {
+      return file.new_filename;
+    }
+  };
+
+  const deletedFile = (file) => {
+    return file.new_filename === null;
+  };
+  const createdFile = (file) => {
+    return file.old_filename === null;
+  };
+  const renamedFile = (file) => {
+    return file.old_filename != file.new_filename; // && !deleled && !created
   };
 
   const $linesDeletedCountIcon = () => {
