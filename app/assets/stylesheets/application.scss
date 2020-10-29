@@ -17,6 +17,7 @@
  *= depend_on fonts.scss
  *= depend_on force-scrollbars.scss
  *= depend_on wide-list-item.scss
+ *= depend_on selectable.scss
  *= depend_on shared.scss
  *= depend_on hover-tip.scss
  *= depend_on cyber-dojo.scss
@@ -24,6 +25,7 @@
  *= depend_on dialog.scss
  *= depend_on filename.scss
  *= depend_on fork-dialog.scss
+ *= depend_on diff-line-count.scss
  *= depend_on kata.scss
  *= depend_on dashboard.scss
  *= depend_on pie-chart.scss
@@ -51,6 +53,7 @@
 @import "fonts.scss";
 @import "force-scrollbars.scss";
 @import "wide-list-item.scss";
+@import "selectable.scss";
 @import "shared.scss";
 @import "hover-tip.scss";
 @import "cyber-dojo.scss";
@@ -58,6 +61,7 @@
 @import "dialog.scss";
 @import "filename.scss";
 @import "fork-dialog.scss";
+@import "diff-line-count.scss";
 @import "kata.scss";
 @import "dashboard.scss";
 @import "pie-chart.scss";

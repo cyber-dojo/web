@@ -17,8 +17,8 @@ var cyberDojo = (function(cd, $) {
   cd.setupTrafficLightTip = ($light, kataId, wasIndex, nowIndex) => {
     cd.setTip($light, () => {
       const args = `id=${kataId}&was_index=${wasIndex}&now_index=${nowIndex}`;
-      $.getJSON(`/differ/diff_summary?${args}`, '', (data) => {
-        cd.showHoverTip($light, tipHtml($light, data.diff_summary));
+      $.getJSON(`/differ/diff_summary2?${args}`, '', (data) => {
+        cd.showHoverTip($light, tipHtml($light, data.diff_summary2));
       });
     });
   };
@@ -54,25 +54,45 @@ var cyberDojo = (function(cd, $) {
   // - - - - - - - - - - - - - - - - - - - -
 
   const diffLinesHtmlTable = (files) => {
-    const chunks = $('<table>');
-    Object.keys(files).forEach(function(filename) {
-      chunks.append(
+    const $table = $('<table>');
+    if (files.length > 0) {
+      const $tr = $('<tr>');
+      $tr.append($linesDeletedCountIcon());
+      $tr.append($linesAddedCountIcon())
+      $table.append($tr);
+    }
+    files.forEach(function(file) {
+      $table.append(
         `<tr>
           <td>
-            <div class="traffic-light-diff-tip-line-count-deleted some button">
-              ${files[filename].deleted}
+            <div class="diff-deleted-line-count" disabled="disabled">
+              ${file.line_counts.deleted}
             </div>
           </td>
           <td>
-            <div class="traffic-light-diff-tip-line-count-added some button">
-              ${files[filename].added}
+            <div class="diff-added-line-count" disabled="disabled">
+              ${file.line_counts.added}
             </div>
           </td>
-          <td>&nbsp;${filename}</td>
+          <td>
+            <div class="hover-filename">
+              ${file.new_filename}
+            </div>
+          </td>
         </tr>`
       ); //append
     }); // forEach
-    return chunks.get(0).outerHTML;
+    return $table.get(0).outerHTML;
+  };
+
+  const $linesDeletedCountIcon = () => {
+    const $icon = $('<div>', { class:'diff-deleted-line-count-icon' }).html('&mdash;');
+    return $('<td>').append($icon);
+  };
+
+  const $linesAddedCountIcon = () => {
+    const $icon = $('<div>', { class:'diff-added-line-count-icon' }).text('+');
+    return $('<td>').append($icon);
   };
 
   // - - - - - - - - - - - - - - - - - - - -

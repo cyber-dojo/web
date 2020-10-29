@@ -1,0 +1,20 @@
+
+@mixin selectable
+{
+  @include wide-list-item();
+  @include rounded-corner(3px);
+  letter-spacing: 0.03em;
+  padding: { top:2px; bottom:3px; left:7px;}
+  &:hover
+  {
+    background: lighten($darker-color, 5%);
+    border-left: 1px solid lighten($darker-color, 5%);
+    border-right: 1px solid lighten($darker-color, 5%);
+  }
+  &.selected
+  {
+    cursor: default;
+    background: lighten($darker-color, 10%);
+    border: 1px solid lighten($darker-color, 10%);
+  }
+}

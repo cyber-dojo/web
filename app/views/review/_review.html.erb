@@ -351,6 +351,10 @@ $(() => {
 
   const makeDiffFilenames = (diffs) => {
     let html = '';
+    html += '<div class="diff-filename-box">';
+    html += '<div class="diff-deleted-line-count-icon">&mdash;</div>';
+    html += '<div class="diff-added-line-count-icon">+</div>';
+    html += '</div>';
     $.each(sortedDiffs(diffs), (_, diff) => {
       html += '<div class="diff-filename-box">';
       const deletedLineCount = diff['delete_line_count'];
@@ -390,7 +394,7 @@ $(() => {
       return '';
     }
     const div = $('<div>', {
-      'class': `diff-${cssName}-line-count button`,
+      'class': `diff-${cssName}-line-count`,
       'data-filename': diff.filename
     });
     if (showCounts) {

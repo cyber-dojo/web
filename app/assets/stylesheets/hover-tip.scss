@@ -1,8 +1,9 @@
 
-.hover-tip {
+.hover-tip
+{
   @include plaintext-font();
   @include rounded-corner(5px);
-  background: lighten($darker-color, 6%);
+  background: $darker-color;
      z-index: 2000;
     position: absolute;
        color: darken($lighter-color, 6%);

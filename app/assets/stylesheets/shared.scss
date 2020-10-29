@@ -11,16 +11,6 @@
      padding: 4px;
 }
 
-@mixin diff-line-count
-{
-  text-align: right;
-      margin: 0px;
-      margin: { bottom: 2px; }
-     padding: 2px;
-   font-size: 13px;
-       width: 20px;
-}
-
 //----------------------------------------------
 
 .align-left    { text-align: left; }
@@ -45,7 +35,8 @@ a:link, a:visited { color: $text-color; }
 
 //----------------------------------------------
 
-.traffic-light-count {
+.traffic-light-count
+{
   @include non-code-font();
   cursor: default;
   margin: 0px;
