@@ -58,7 +58,10 @@ var cyberDojo = (function(cd, $) {
     if (files.length > 0) {
       const $tr = $('<tr>');
       $tr.append($linesDeletedCountIcon());
-      $tr.append($linesAddedCountIcon())
+      $tr.append($linesAddedCountIcon());
+      $tr.append($linesSameCountIcon());
+      $tr.append($('<td>'));
+      $tr.append($('<td>'));
       $table.append($tr);
     }
     files.forEach(function(file) {
@@ -72,6 +75,16 @@ var cyberDojo = (function(cd, $) {
           <td>
             <div class="diff-added-line-count" disabled="disabled">
               ${nonZero(file.line_counts.added)}
+            </div>
+          </td>
+          <td>
+            <div class="diff-same-line-count" disabled="disabled">
+              ${nonZero(file.line_counts.same)}
+            </div>
+          </td>
+          <td>
+            <div class="diff-type-marker">
+              ${diffTypeMarker(file)}
             </div>
           </td>
           <td>
@@ -89,6 +102,20 @@ var cyberDojo = (function(cd, $) {
     return n > 0 ? n : '&nbsp;';
   };
 
+  const diffTypeMarker = (diff) => {
+    if (diff.type === 'created') {
+      return '+';
+    } else if (diff.type === 'deleted') {
+      return '&mdash;';
+    } else if (diff.type === 'renamed') {
+      return '&curarr;';
+    } else if (diff.type === 'changed') {
+      return '!';
+    } else {
+      return '&nbsp;';
+    }
+  };
+
   const diffFilename = (diff) => {
     if (diff.type === 'deleted') {
       return diff.old_filename;
@@ -104,6 +131,11 @@ var cyberDojo = (function(cd, $) {
 
   const $linesAddedCountIcon = () => {
     const $icon = $('<div>', { class:'diff-added-line-count-icon' }).text('+');
+    return $('<td>').append($icon);
+  };
+
+  const $linesSameCountIcon = () => {
+    const $icon = $('<div>', { class:'diff-same-line-count-icon' }).text('=');
     return $('<td>').append($icon);
   };
 

@@ -11,8 +11,10 @@
 
 .diff-deleted-line-count,
 .diff-added-line-count,
+.diff-same-line-count,
 .diff-deleted-line-count-icon,
-.diff-added-line-count-icon
+.diff-added-line-count-icon,
+.diff-same-line-count-icon
 {
   @include plaintext-font();
   @include rounded-corner(3px);
@@ -36,6 +38,8 @@
   &[data-filename='stdout'] { margin-bottom: 20px; }
 }
 
+//- - - - - - - - - - - - - - - -
+
 .diff-deleted-line-count,
 .diff-deleted-line-count-icon
 {
@@ -58,6 +62,19 @@
   }
 }
 
+.diff-same-line-count,
+.diff-same-line-count-icon
+{
+  background: $diff-same-count-color;
+  border: 1px solid $diff-same-count-color;
+  &[disabled]
+  {
+    color: lighten($diff-same-count-color,5%);
+  }
+}
+
+//- - - - - - - - - - - - - - - -
+
 .diff-added-line-count-icon
 {
   cursor: default;
@@ -69,6 +86,17 @@
   cursor: default;
   &:hover { border: 1px solid $diff-deleted-count-color; }
 }
+
+//- - - - - - - - - - - - - - - -
+
+.diff-type-marker
+{
+  font-size:11px;
+  text-align:center;
+  //border: DarkGray 1px solid;
+}
+
+//- - - - - - - - - - - - - - - -
 
 .diff-added-line-count, .diff-deleted-line-count
 {

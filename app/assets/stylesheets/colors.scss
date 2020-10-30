@@ -4,9 +4,10 @@ $darker-color: darken(#666, 25%);
 $lighter-color: lighten(Khaki, 5%);
 $text-color: darken($lighter-color, 10%);
 
-$red: #F00;
+$red:   #F00;
 $amber: #FF0;
 $green: #0F0;
+$blue:  #00F;
 
 .red       { color: lighten($red, 10%); }
 .amber     { color: $amber; }
@@ -17,6 +18,7 @@ $green: #0F0;
 
 $diff-added-count-color: lighten($green, 35%);
 $diff-deleted-count-color: lighten($red, 35%);
+$diff-same-count-color: Gray;
 
 $projector-background: white;
 

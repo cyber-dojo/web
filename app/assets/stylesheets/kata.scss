@@ -89,6 +89,9 @@
       height:21px;
       font-size:14px;
     }
+    .create-file { color: darken($green,20%); }
+    .delete-file { color: darken($red, 20%); }
+    .rename-file { color: darken(blue, 20%); }
   }
 
   //--------------------------------------------------------------
