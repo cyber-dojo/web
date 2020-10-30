@@ -14,18 +14,18 @@ var cyberDojo = (function(cd, $) {
 
   // - - - - - - - - - - - - - - - - - - - -
 
-  cd.setupTrafficLightTip = ($light, kataId, wasIndex, nowIndex) => {
+  cd.setupTrafficLightTip = ($light, kataId, wasIndex, nowIndex, options) => {
     cd.setTip($light, () => {
       const args = `id=${kataId}&was_index=${wasIndex}&now_index=${nowIndex}`;
       $.getJSON(`/differ/diff_summary2?${args}`, '', (data) => {
-        cd.showHoverTip($light, tipHtml($light, data.diff_summary2));
+        cd.showHoverTip($light, tipHtml($light, data.diff_summary2, options));
       });
     });
   };
 
   // - - - - - - - - - - - - - - - - - - - -
 
-  const tipHtml = ($light, diffSummary) => {
+  const tipHtml = ($light, diffSummary, options) => {
     const avatarIndex = $light.data('avatar-index');
     const colour = $light.data('colour');
     const number = $light.data('number');
@@ -37,7 +37,7 @@ var cyberDojo = (function(cd, $) {
                       class="traffic-light-diff-tip-traffic-light-image"></td>
              </tr>
            </table>
-           ${diffLinesHtmlTable(diffSummary)}`;
+           ${diffLinesHtmlTable(diffSummary, options)}`;
   };
 
   // - - - - - - - - - - - - - - - - - - - -
@@ -53,10 +53,13 @@ var cyberDojo = (function(cd, $) {
 
   // - - - - - - - - - - - - - - - - - - - -
 
-  const diffLinesHtmlTable = (files) => {
-    const showUnchangedFiles = true;
-    const showSameLineCounts = true;
+  const diffLinesHtmlTable = (files, options) => {
     const $table = $('<table>');
+
+    options ||= {};
+    showUnchangedFiles = options['showUnchangedFiles']; // default == false
+    showSameLineCounts = options['showSameLineCounts']; // default == false
+
     if (files.length > 0) {
       const $tr = $('<tr>');
       $tr.append($linesDeletedCountIcon());
