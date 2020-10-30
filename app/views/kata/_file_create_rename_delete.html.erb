@@ -23,7 +23,7 @@ $(() => {
       cd.kata.filenames.refresh();
       cd.kata.filenames.select(newFilename);
     };
-    openDialog('create', initialFilename, okInitiallyDisabled, okClicked);
+    openDialog('+ create', initialFilename, okInitiallyDisabled, okClicked);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -36,7 +36,7 @@ $(() => {
       cd.kata.filenames.refresh();
       cd.kata.filenames.select(cd.kata.filenames.top());
     };
-    openDialog('delete', filename, okInitiallyDisabled, okClicked);
+    openDialog('&ndash; delete', filename, okInitiallyDisabled, okClicked);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -49,7 +49,7 @@ $(() => {
       cd.kata.filenames.refresh();
       cd.kata.filenames.select(newFilename);
     };
-    openDialog('rename', oldFilename, okInitiallyDisabled, okClicked);
+    openDialog('&curarr; rename', oldFilename, okInitiallyDisabled, okClicked);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
