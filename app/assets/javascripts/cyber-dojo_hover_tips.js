@@ -54,25 +54,41 @@ var cyberDojo = (function(cd, $) {
   // - - - - - - - - - - - - - - - - - - - -
 
   const diffLinesHtmlTable = (files) => {
+    const showUnchangedFiles = true;
+    const showSameLineCounts = true;
     const $table = $('<table>');
     if (files.length > 0) {
       const $tr = $('<tr>');
       $tr.append($linesDeletedCountIcon());
       $tr.append($linesAddedCountIcon());
-      $tr.append($linesSameCountIcon());
+      if (showSameLineCounts) {
+        $tr.append($linesSameCountIcon());
+      }
       $tr.append($('<td>'));
       $tr.append($('<td>'));
       $table.append($tr);
     }
-    // TODO: show in following order
-    // changed,added,deleted,renamed,unchanged
+
+    files.sort(function(lhs,rhs) {
+      const lhsRank = diffRank(lhs);
+      const rhsRank = diffRank(rhs);
+      if (lhsRank < rhsRank) {
+        return -1;
+      } else if (lhsRank > rhsRank) {
+        return +1;
+      } else {
+        return diffFilename(lhs).localeCompare(diffFilename(rhs));
+      }
+    });
+
     files.forEach(function(file) {
       const $tr = $('<tr>');
-      const showUnchanged = true;//false;
-      if (file.type != 'unchanged' || showUnchanged) {
+      if (file.type != 'unchanged' || showUnchangedFiles) {
         $tr.append($lineCount('deleted', file));
         $tr.append($lineCount('added', file));
-        $tr.append($lineCount('same', file));
+        if (showSameLineCounts) {
+          $tr.append($lineCount('same', file));
+        }
         $tr.append($diffType(file));
         $tr.append($diffFilename(file));
       }
@@ -93,6 +109,7 @@ var cyberDojo = (function(cd, $) {
   };
 
   const nonZero = (n) => {
+    // Don't show zeros to make the tip less busy
     return n > 0 ? n : '&nbsp;';
   };
 
@@ -105,16 +122,22 @@ var cyberDojo = (function(cd, $) {
   };
 
   const diffTypeGlyph = (diff) => {
-    if (diff.type === 'created') {
-      return '+';
-    } else if (diff.type === 'deleted') {
-      return '&mdash;';
-    } else if (diff.type === 'renamed') {
-      return '&curarr;';
-    } else if (diff.type === 'changed') {
-      return '!';
-    } else { // unchanged
-      return '='; //'&nbsp;';
+    switch (diff.type) {
+      case 'changed': return '!';
+      case 'created': return '+';
+      case 'deleted': return '&mdash;';
+      case 'renamed': return '&curarr;';
+      default       : return '='; // unchanged
+    }
+  };
+
+  const diffRank = (diff) => {
+    switch (diff.type) {
+      case 'changed': return 0;
+      case 'created': return 1;
+      case 'deleted': return 2;
+      case 'renamed': return 3;
+      default       : return 4;
     }
   };
 

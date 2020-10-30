@@ -105,9 +105,9 @@
 
 .diff-type-marker, .diff-hover-filename
 {
-  &.created { color: darken($green,20%); }
-  &.deleted { color: $red; }
-  &.renamed { color: lighten($blue, 20%); }
+  &.created { color: lighten($green,30%); }
+  &.deleted { color: lighten($red,  30%); }
+  &.renamed { color: lighten($blue, 30%); }
   &.changed { color: white; }
   &.unchanged { color: darken(DarkGray,20%); }
 }
