@@ -60,7 +60,9 @@ var cyberDojo = (function(cd, $) {
     showUnchangedFiles = options['showUnchangedFiles']; // default == false
     showSameLineCounts = options['showSameLineCounts']; // default == false
 
-    if (files.length > 0) {
+    const somethingChanged = files.filter(file => file.type != 'unchanged').length > 0;
+    //cyber-dojo.sh can never be deleted so there is always one file
+    if (somethingChanged || showUnchangedFiles) {
       const $tr = $('<tr>');
       $tr.append($linesDeletedCountIcon());
       $tr.append($linesAddedCountIcon());
@@ -126,21 +128,21 @@ var cyberDojo = (function(cd, $) {
 
   const diffTypeGlyph = (diff) => {
     switch (diff.type) {
-      case 'changed': return '!';
-      case 'created': return '+';
-      case 'deleted': return '&mdash;';
-      case 'renamed': return '&curarr;';
-      default       : return '='; // unchanged
+      case 'changed'  : return '!';
+      case 'created'  : return '+';
+      case 'deleted'  : return '&mdash;';
+      case 'renamed'  : return '&curarr;';
+      case 'unchanged': return '=';
     }
   };
 
   const diffRank = (diff) => {
     switch (diff.type) {
-      case 'changed': return 0;
-      case 'created': return 1;
-      case 'deleted': return 2;
-      case 'renamed': return 3;
-      default       : return 4;
+      case 'changed'  : return 0;
+      case 'created'  : return 1;
+      case 'deleted'  : return 2;
+      case 'renamed'  : return 3;
+      case 'unchanged': return 4;
     }
   };
 
