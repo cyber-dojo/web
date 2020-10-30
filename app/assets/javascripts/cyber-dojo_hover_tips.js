@@ -65,41 +65,40 @@ var cyberDojo = (function(cd, $) {
       $table.append($tr);
     }
     files.forEach(function(file) {
-      $table.append(
-        `<tr>
-          <td>
-            <div class="diff-deleted-line-count" disabled="disabled">
-              ${nonZero(file.line_counts.deleted)}
-            </div>
-          </td>
-          <td>
-            <div class="diff-added-line-count" disabled="disabled">
-              ${nonZero(file.line_counts.added)}
-            </div>
-          </td>
-          <td>
-            <div class="diff-same-line-count" disabled="disabled">
-              ${nonZero(file.line_counts.same)}
-            </div>
-          </td>
-          <td>
-            <div class="diff-type-marker">
-              ${diffTypeMarker(file)}
-            </div>
-          </td>
-          <td>
-            <div class="hover-filename">
-              ${diffFilename(file)}
-            </div>
-          </td>
-        </tr>`
-      ); //append
-    }); // forEach
+      const $tr = $('<tr>');
+      $tr.append($lineCount('deleted', file));
+      $tr.append($lineCount('added', file));
+      $tr.append($lineCount('same', file));
+      $tr.append($diffType(file));
+      $tr.append($diffFilename(file));
+      $table.append($tr);
+    });
     return $table.get(0).outerHTML;
+  };
+
+  const $lineCount = (type, file) => {
+    const $count = $('<div>', {
+      class:`diff-${type}-line-count`,
+      disabled:"disabled"
+    });
+    $count.html(nonZero(file.line_counts[type]));
+    return $('<td>').append($count);
   };
 
   const nonZero = (n) => {
     return n > 0 ? n : '&nbsp;';
+  };
+
+  const $diffType = (diff) => {
+    const $type = $('<div>', { class:'diff-type-marker' });
+    $type.html(diffTypeMarker(diff));
+    return $('<td>').append($type);
+  };
+
+  const $diffFilename = (diff) => {
+    const $filename = $('<div>', { class:'hover-filename' });
+    $filename.text(diffFilename(diff));
+    return $('<td>').append($filename);
   };
 
   const diffTypeMarker = (diff) => {
