@@ -23,7 +23,7 @@ $(() => {
       cd.kata.filenames.refresh();
       cd.kata.filenames.select(newFilename);
     };
-    openDialog('+ create', initialFilename, okInitiallyDisabled, okClicked);
+    openDialog('+', 'create', initialFilename, okInitiallyDisabled, okClicked);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -36,7 +36,7 @@ $(() => {
       cd.kata.filenames.refresh();
       cd.kata.filenames.select(cd.kata.filenames.top());
     };
-    openDialog('&ndash; delete', filename, okInitiallyDisabled, okClicked);
+    openDialog('&mdash;', 'delete', filename, okInitiallyDisabled, okClicked);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -49,12 +49,12 @@ $(() => {
       cd.kata.filenames.refresh();
       cd.kata.filenames.select(newFilename);
     };
-    openDialog('&curarr; rename', oldFilename, okInitiallyDisabled, okClicked);
+    openDialog('&curarr;', 'rename', oldFilename, okInitiallyDisabled, okClicked);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const openDialog = (title, initialFilename, okInitiallyDisabled, okClicked) => {
+  const openDialog = (glyph, title, initialFilename, okInitiallyDisabled, okClicked) => {
 
     const input = makeInput(title, initialFilename);
     const okButton = $('<button>', {
@@ -100,7 +100,7 @@ $(() => {
 
     $('<div>').append(input).append(okButton).dialog({
       open: onDialogOpen,
-  	  title: cd.dialogTitle(`${title} file`),
+  	  title: cd.dialogTitle(`${glyph} ${title} file`),
     	autoOpen: true,
       width: 450,
       position: [xPos,yPos],
