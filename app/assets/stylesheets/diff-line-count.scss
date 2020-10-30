@@ -93,7 +93,10 @@
 {
   font-size:11px;
   text-align:center;
-  //border: DarkGray 1px solid;
+  &.created { color: darken($green,20%); }
+  &.deleted { color: $red; }
+  &.renamed { color: lighten($blue, 20%); }
+  &.changed { color: white; }
 }
 
 //- - - - - - - - - - - - - - - -

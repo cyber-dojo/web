@@ -76,6 +76,8 @@ var cyberDojo = (function(cd, $) {
     return $table.get(0).outerHTML;
   };
 
+  // - - - - - - - -
+
   const $lineCount = (type, file) => {
     const $count = $('<div>', {
       class:`diff-${type}-line-count`,
@@ -89,19 +91,15 @@ var cyberDojo = (function(cd, $) {
     return n > 0 ? n : '&nbsp;';
   };
 
+  // - - - - - - - -
+
   const $diffType = (diff) => {
-    const $type = $('<div>', { class:'diff-type-marker' });
-    $type.html(diffTypeMarker(diff));
+    const $type = $('<div>', { class:`diff-type-marker ${diff.type}` });
+    $type.html(diffTypeGlyph(diff));
     return $('<td>').append($type);
   };
 
-  const $diffFilename = (diff) => {
-    const $filename = $('<div>', { class:'hover-filename' });
-    $filename.text(diffFilename(diff));
-    return $('<td>').append($filename);
-  };
-
-  const diffTypeMarker = (diff) => {
+  const diffTypeGlyph = (diff) => {
     if (diff.type === 'created') {
       return '+';
     } else if (diff.type === 'deleted') {
@@ -113,6 +111,14 @@ var cyberDojo = (function(cd, $) {
     } else {
       return '&nbsp;';
     }
+  };
+
+  // - - - - - - - -
+
+  const $diffFilename = (diff) => {
+    const $filename = $('<div>', { class:'hover-filename' });
+    $filename.text(diffFilename(diff));
+    return $('<td>').append($filename);
   };
 
   const diffFilename = (diff) => {
