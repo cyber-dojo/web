@@ -64,13 +64,18 @@ var cyberDojo = (function(cd, $) {
       $tr.append($('<td>'));
       $table.append($tr);
     }
+    // TODO: show in following order
+    // changed,added,deleted,renamed,unchanged
     files.forEach(function(file) {
       const $tr = $('<tr>');
-      $tr.append($lineCount('deleted', file));
-      $tr.append($lineCount('added', file));
-      $tr.append($lineCount('same', file));
-      $tr.append($diffType(file));
-      $tr.append($diffFilename(file));
+      const showUnchanged = true;//false;
+      if (file.type != 'unchanged' || showUnchanged) {
+        $tr.append($lineCount('deleted', file));
+        $tr.append($lineCount('added', file));
+        $tr.append($lineCount('same', file));
+        $tr.append($diffType(file));
+        $tr.append($diffFilename(file));
+      }
       $table.append($tr);
     });
     return $table.get(0).outerHTML;
@@ -108,7 +113,7 @@ var cyberDojo = (function(cd, $) {
       return '&curarr;';
     } else if (diff.type === 'changed') {
       return '!';
-    } else {
+    } else { // unchanged
       return '&nbsp;';
     }
   };
@@ -128,6 +133,8 @@ var cyberDojo = (function(cd, $) {
       return diff.new_filename;
     }
   };
+
+  // - - - - - - - -
 
   const $linesDeletedCountIcon = () => {
     const $icon = $('<div>', { class:'diff-deleted-line-count-icon' }).html('&mdash;');
