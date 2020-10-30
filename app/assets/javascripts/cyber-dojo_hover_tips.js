@@ -89,35 +89,12 @@ var cyberDojo = (function(cd, $) {
     return n > 0 ? n : '&nbsp;';
   };
 
-  const diffFilename = (file) => {
-    if (diffType(file) === 'deleted') {
-      return file.old_filename;
+  const diffFilename = (diff) => {
+    if (diff.type === 'deleted') {
+      return diff.old_filename;
     } else {
-      return file.new_filename;
+      return diff.new_filename;
     }
-  };
-
-  const diffType = (file) => {
-    // currently diff_summary() does not send info on unchanged files.
-    if (deletedFile(file)) {
-      return 'deleted';
-    } else if (createdFile(file)) {
-      return 'created';
-    } else if (renamedFile(file)) {
-      return 'renamed';
-    } else {
-      return 'changed';
-    }
-  };
-
-  const deletedFile = (file) => {
-    return file.new_filename === null;
-  };
-  const createdFile = (file) => {
-    return file.old_filename === null;
-  };
-  const renamedFile = (file) => {
-    return file.old_filename != file.new_filename; // and neither are null
   };
 
   const $linesDeletedCountIcon = () => {
