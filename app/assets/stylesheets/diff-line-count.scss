@@ -77,14 +77,21 @@
 
 .diff-added-line-count-icon
 {
-  cursor: default;
   &:hover { border: 1px solid $diff-added-count-color; }
 }
 
 .diff-deleted-line-count-icon
 {
-  cursor: default;
   &:hover { border: 1px solid $diff-deleted-count-color; }
+}
+
+.diff-added-line-count-icon,
+.diff-deleted-line-count-icon,
+.diff-same-line-count-icon
+{
+  cursor:default;
+  text-align:center;
+  margin-bottom:6px;
 }
 
 //- - - - - - - - - - - - - - - -
