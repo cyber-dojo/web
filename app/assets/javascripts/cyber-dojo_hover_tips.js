@@ -128,7 +128,7 @@ var cyberDojo = (function(cd, $) {
 
   const diffTypeGlyph = (diff) => {
     switch (diff.type) {
-      case 'changed'  : return '!';
+      case 'changed'  : return '&nbsp;';
       case 'created'  : return '+';
       case 'deleted'  : return '&mdash;';
       case 'renamed'  : return '&curarr;';
