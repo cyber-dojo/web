@@ -114,14 +114,14 @@ var cyberDojo = (function(cd, $) {
     } else if (diff.type === 'changed') {
       return '!';
     } else { // unchanged
-      return '&nbsp;';
+      return '='; //'&nbsp;';
     }
   };
 
   // - - - - - - - -
 
   const $diffFilename = (diff) => {
-    const $filename = $('<div>', { class:'hover-filename' });
+    const $filename = $('<div>', { class:`diff-hover-filename ${diff.type}` });
     $filename.text(diffFilename(diff));
     return $('<td>').append($filename);
   };

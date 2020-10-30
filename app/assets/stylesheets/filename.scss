@@ -9,14 +9,6 @@
   padding-right:0px;
 }
 
-.hover-filename
-{
-  color: lighten($darker-color, 50%);
-  position:relative;
-  top:-1px;
-  margin-left:3px;
-}
-
 .file_content
 {
    // height and width are set in codemirror.scss

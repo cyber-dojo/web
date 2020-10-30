@@ -93,10 +93,23 @@
 {
   font-size:11px;
   text-align:center;
+}
+
+.diff-hover-filename
+{
+  color: lighten($darker-color, 50%);
+  position:relative;
+  top:-1px;
+  margin-left:3px;
+}
+
+.diff-type-marker, .diff-hover-filename
+{
   &.created { color: darken($green,20%); }
   &.deleted { color: $red; }
   &.renamed { color: lighten($blue, 20%); }
   &.changed { color: white; }
+  &.unchanged { color: darken(DarkGray,20%); }
 }
 
 //- - - - - - - - - - - - - - - -
