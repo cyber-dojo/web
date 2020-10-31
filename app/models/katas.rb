@@ -16,6 +16,7 @@ class Katas
   end
 
   def new_kata(manifest)
+    # Still used in Schema tests
     version = manifest_version(manifest)
     id = Schema.new(@externals, version).kata.create(manifest)
     Kata.new(@externals, @params.merge({id:id,version:version}))
