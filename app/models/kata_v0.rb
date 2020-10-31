@@ -44,42 +44,6 @@ class Kata_v0
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def ran_tests(id, index, files, stdout, stderr, status, summary)
-    event_n = {
-      'files' => files,
-      'stdout' => stdout,
-      'stderr' => stderr,
-      'status' => status
-    }
-    saver.assert_all([
-      # A failing create_command() ensure the append_command() is not run.
-      dir_exists_command(id),
-      dir_make_command(id, index),
-      event_file_create_command(id, index, json_plain(lined(event_n))),
-      events_file_append_command(id, json_plain(summary) + "\n")
-    ])
-  end
-
-  # - - - - - - - - - - - - - - - - - - -
-
-  def revert(id, index, files, stdout, stderr, status, summary)
-    event_n = {
-       'files' => files,
-      'stdout' => stdout,
-      'stderr' => stderr,
-      'status' => status
-    }
-    saver.assert_all([
-      # A failing create_command() ensure the append_command() is not run.
-      dir_exists_command(id),
-      dir_make_command(id, index),
-      event_file_create_command(id, index, json_plain(lined(event_n))),
-      events_file_append_command(id, json_plain(summary) + "\n")
-    ])
-  end
-
-  # - - - - - - - - - - - - - - - - - - -
-
   def diff_info(id, was_index, now_index)
     results = saver.assert_all([
       manifest_file_read_command(id),

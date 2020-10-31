@@ -61,40 +61,6 @@ class Kata_v1
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def ran_tests(id, index, files, stdout, stderr, status, summary)
-    summary['index'] = index # See point 6 at top of file
-    event_n = {
-       'files' => files,
-      'stdout' => stdout,
-      'stderr' => stderr,
-      'status' => status
-    }
-    saver.assert_all([
-      # A failing create_command() ensures the append_command() is not run.
-      event_file_create_command(id, index, json_plain(event_n.merge(summary))),
-      events_file_append_command(id, ",\n" + json_plain(summary))
-    ])
-  end
-
-  # - - - - - - - - - - - - - - - - - - -
-
-  def revert(id, index, files, stdout, stderr, status, summary)
-    summary['index'] = index # See point 6 at top of file
-    event_n = {
-       'files' => files,
-      'stdout' => stdout,
-      'stderr' => stderr,
-      'status' => status
-    }
-    saver.assert_all([
-      # A failing create_command() ensures the append_command() is not run.
-      event_file_create_command(id, index, json_plain(event_n.merge(summary))),
-      events_file_append_command(id, ",\n" + json_plain(summary))
-    ])
-  end
-
-  # - - - - - - - - - - - - - - - - - - -
-
   def diff_info(id, was_index, now_index)
     results = saver.assert_all([
       manifest_file_read_command(id),

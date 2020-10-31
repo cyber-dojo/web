@@ -91,18 +91,6 @@ class GroupTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '6A4', %w(
-  a group's creation time is set in the manifest used to create it
-  ) do
-    now = [2018,11,30, 9,34,56,6453]
-    @time = TimeStub.new(now)
-    in_new_group do |group|
-      assert_equal Time.mktime(*now), group.created
-    end
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - -
-
   v_tests [0,1], '6A5', %w(
   when you join a group you increase its size by one,
   and are a member of the group
@@ -142,10 +130,10 @@ class GroupTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '6A7', %w(
-  the age (seconds) of a group is zero until one member becomes active
-  and then it is age of the most recent event
+  the age of a group is zero until one avatar becomes active
+  and then its age is greater than zero
+  and will equal the age of the most recent event across all avatars
   ) do
-    @time = TimeStub.new([2018,11,30, 9,34,56,6543])
     in_new_group do |group|
       assert_equal 0, group.age
       kata = group.join
@@ -154,12 +142,11 @@ class GroupTest < AppModelsTestBase
       stderr = content('')
       status = 0
       kata.ran_tests(kata.id, 1, kata.files, stdout, stderr, status, {
-        'time' => [2018,11,30, 9,35,8,7564],
         'duration' => duration,
         'colour' => 'green',
         'predicted' => 'none'
       })
-      assert_equal 12, group.age
+      assert group.age_f > 0.0
     end
   end
 
@@ -169,7 +156,6 @@ class GroupTest < AppModelsTestBase
   a group's manifest is identical to the starter-manifest it was created with
   and does not have group_id nor group_index properties
   ) do
-    @time = TimeStub.new([2019,9,24, 12,35,46,214204])
     m = starter_manifest
     in_new_group do |group|
       am = group.manifest
@@ -181,7 +167,6 @@ class GroupTest < AppModelsTestBase
       assert_equal m['image_name'], am.image_name
       assert_equal m['exercise'], am.exercise
       assert_equal m['tab_size'], am.tab_size
-      assert_equal m['created'], am.created
 
       fe = ['.rb']
       assert_equal fe, m['filename_extension']

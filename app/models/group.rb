@@ -55,8 +55,12 @@ class Group
     group.joined(id).map{ |kid| kata(kid) }
   end
 
+  def age_f(e = events)
+    e.map{|kata_id,o| age_of(o['events']) }.max || 0.0
+  end
+
   def age(e = events)
-    e.map{|kata_id,o| age_of(o['events']) }.max || 0
+    e.map{|kata_id,o| age_of(o['events']) }.max.to_i || 0
   end
 
   def manifest
@@ -82,7 +86,7 @@ class Group
   end
 
   def seconds_diff(from, to)
-    (Time.mktime(*to) - Time.mktime(*from)).to_i
+    (Time.mktime(*to).to_f - Time.mktime(*from).to_f)
   end
 
   def group
