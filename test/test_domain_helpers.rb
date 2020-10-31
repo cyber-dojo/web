@@ -48,22 +48,12 @@ module TestDomainHelpers # mix-in
     id = creator.group_create(DEFAULT_LANGUAGE_NAME, DEFAULT_EXERCISE_NAME)
     block.call(groups[id])
   end
-  def XXX_in_new_group(params = {}, &block)
-    groups = Groups.new(self, params)
-    group = groups.new_group(starter_manifest)
-    block.call(group)
-  end
 
   # - - - - - - - - - - - - - - - -
 
   def in_new_kata(params = {}, &block)
     id = creator.kata_create(DEFAULT_LANGUAGE_NAME, DEFAULT_EXERCISE_NAME)
     block.call(katas[id])
-  end
-  def XXX_in_new_kata(params = {}, &block)
-    katas = Katas.new(self, params)
-    kata = katas.new_kata(starter_manifest)
-    block.call(kata)
   end
 
   # - - - - - - - - - - - - - - - -
