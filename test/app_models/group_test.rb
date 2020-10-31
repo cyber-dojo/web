@@ -91,7 +91,7 @@ class GroupTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  v_tests [0,1], '6A4', %w(
+  test '6A4', %w(
   a group's creation time is set in the manifest used to create it
   ) do
     now = [2018,11,30, 9,34,56,6453]
@@ -141,7 +141,7 @@ class GroupTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  v_tests [0,1], '6A7', %w(
+  test '6A7', %w(
   the age (seconds) of a group is zero until one member becomes active
   and then it is age of the most recent event
   ) do
