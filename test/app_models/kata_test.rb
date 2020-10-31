@@ -91,6 +91,7 @@ class KataTest < AppModelsTestBase
   an individual kata is created from a well-formed manifest,
   is empty,
   and is not a member of a group,
+  and has age 0
   ) do
     in_new_kata do |kata|
       assert kata.exists?
@@ -138,7 +139,7 @@ class KataTest < AppModelsTestBase
   test '864', %w(
   after run_tests()/ran_tests(),
   the kata is active,
-  the kata is a bit older,
+  the kata is an age greater than zero,
   there is a new traffic-light event,
   which is now the most recent event
   ) do
