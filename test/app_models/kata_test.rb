@@ -23,7 +23,7 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - -
   # exists?
 
-  v_tests [0,1], '760', %w(
+  test '760', %w(
   exists? is true,
   for a well-formed kata-id that exists,
   when saver is online
@@ -87,7 +87,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  v_tests [0,1], '862', %w(
+  test '862', %w(
   an individual kata is created from a well-formed manifest,
   is empty,
   and is not a member of a group,
@@ -109,7 +109,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  v_tests [0,1], '863', %w(
+  test '863', %w(
   a new group-kata can be created by joining a group,
   is empty,
   and is a member of the group
@@ -135,7 +135,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  v_tests [0,1], '864', %w(
+  test '864', %w(
   after run_tests()/ran_tests(),
   the kata is active,
   the kata is a bit older,
@@ -169,7 +169,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  v_tests [0,1], '860', %w(
+  test '860', %w(
   after revert,
   there is a new traffic-light event,
   which is now the most recent event
@@ -217,7 +217,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  v_tests [0,1], '865', %w(
+  test '865', %w(
   an event's manifest is ready to create a new kata from
   ) do
     in_new_kata do |kata|
@@ -239,7 +239,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  v_tests [0,1], '866', %w(
+  test '866', %w(
   kata.event(-1) returns the most recent event
   ) do
     in_new_kata do |kata|
@@ -264,7 +264,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  v_tests [0,1], '824', %w(
+  test '824', %w(
   given a saver outage during a session
   when kata.event(-1) is called
   then v0 raises

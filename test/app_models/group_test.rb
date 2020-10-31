@@ -75,7 +75,7 @@ class GroupTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - -
   # ...
 
-  v_tests [0,1], '6A3', %w(
+  test '6A3', %w(
   a group can be created from a well-formed manifest,
   and is initially empty
   ) do
@@ -165,7 +165,7 @@ class GroupTest < AppModelsTestBase
 
 #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  v_tests [0,1], '6A8', %w(
+  test '6A8', %w(
   a group's manifest is identical to the starter-manifest it was created with
   and does not have group_id nor group_index properties
   ) do
