@@ -11,8 +11,8 @@ class RunnerTest < AppModelsTestBase
   test '151',
   'green: expected=42, actual=6*7' do
     runner.stub_run(outcome:'green')
-    in_new_kata(kata_params) do |kata|
-      result = kata.run_tests
+    in_new_kata do |kata|
+      result = kata.run_tests(kata_params(kata))
       assert_equal 'green', result[0]['outcome'], :green
     end
   end
@@ -22,8 +22,8 @@ class RunnerTest < AppModelsTestBase
   test '152',
   'timed_out: infinite loop' do
     runner.stub_run(outcome:'timed_out')
-    in_new_kata(kata_params) do |kata|
-      result = kata.run_tests
+    in_new_kata do |kata|
+      result = kata.run_tests(kata_params(kata))
       assert_equal 'timed_out', result[0]['outcome'], :timed_out
     end
   end
@@ -36,7 +36,7 @@ class RunnerTest < AppModelsTestBase
 
   private
 
-  def kata_params(kata = katas.new_kata(starter_manifest))
+  def kata_params(kata)
     {
       id:kata.id,
       image_name:kata.manifest.image_name,

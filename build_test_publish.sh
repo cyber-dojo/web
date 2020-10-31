@@ -16,7 +16,7 @@ export $(echo_versioner_env_vars)
 containers_down
 build_tagged_images
 exit_zero_if_build_only
-setup_dependent_images
+#setup_dependent_images
 containers_up
 run_tests_in_container "$@"
 on_ci_publish_tagged_images

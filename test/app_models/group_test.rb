@@ -75,7 +75,7 @@ class GroupTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - -
   # ...
 
-  v_tests [0,1], '6A3', %w(
+  test '6A3', %w(
   a group can be created from a well-formed manifest,
   and is initially empty
   ) do
@@ -86,18 +86,6 @@ class GroupTest < AppModelsTestBase
       assert group.empty?
       assert_equal 0, group.size
       assert_equal [], group.katas
-    end
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - -
-
-  v_tests [0,1], '6A4', %w(
-  a group's creation time is set in the manifest used to create it
-  ) do
-    now = [2018,11,30, 9,34,56,6453]
-    @time = TimeStub.new(now)
-    in_new_group do |group|
-      assert_equal Time.mktime(*now), group.created
     end
   end
 
@@ -141,11 +129,11 @@ class GroupTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  v_tests [0,1], '6A7', %w(
-  the age (seconds) of a group is zero until one member becomes active
-  and then it is age of the most recent event
+  test '6A7', %w(
+  the age of a group is zero until one avatar becomes active
+  and then its age is greater than zero
+  and will equal the age of the most recent event across all avatars
   ) do
-    @time = TimeStub.new([2018,11,30, 9,34,56,6543])
     in_new_group do |group|
       assert_equal 0, group.age
       kata = group.join
@@ -154,22 +142,20 @@ class GroupTest < AppModelsTestBase
       stderr = content('')
       status = 0
       kata.ran_tests(kata.id, 1, kata.files, stdout, stderr, status, {
-        'time' => [2018,11,30, 9,35,8,7564],
         'duration' => duration,
         'colour' => 'green',
         'predicted' => 'none'
       })
-      assert_equal 12, group.age
+      assert group.age_f > 0.0
     end
   end
 
 #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  v_tests [0,1], '6A8', %w(
+  test '6A8', %w(
   a group's manifest is identical to the starter-manifest it was created with
   and does not have group_id nor group_index properties
   ) do
-    @time = TimeStub.new([2019,9,24, 12,35,46,214204])
     m = starter_manifest
     in_new_group do |group|
       am = group.manifest
@@ -181,7 +167,6 @@ class GroupTest < AppModelsTestBase
       assert_equal m['image_name'], am.image_name
       assert_equal m['exercise'], am.exercise
       assert_equal m['tab_size'], am.tab_size
-      assert_equal m['created'], am.created
 
       fe = ['.rb']
       assert_equal fe, m['filename_extension']
@@ -211,42 +196,37 @@ class GroupTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  v_tests [0,1], '45E', %w(
-  In Version-0 events is hash of each avatars events when id does exist
+  test '45E', %w(
+  events is hash of each avatars events
   ) do
-    manifest = starter_manifest
-    manifest['version'] = schema_version
-    group = groups.new_group(manifest)
-    assert_equal({}, group.events)
-    k1 = group.join
-    k1_events = {
-      'index' => k1.avatar_index,
-      'events' => [
-        { 'event' => 'created',
-          'time' => k1.manifest.created
-        }
-      ]
-    }
-    if v_test?(1)
-      k1_events['events'][0]['index'] = 0
+    in_new_group do |group|
+      assert_equal({}, group.events)
+      k1 = group.join
+      k1_events = {
+        'index' => k1.avatar_index,
+        'events' => [
+          { 'event' => 'created',
+            'time' => k1.manifest.created,
+            'index' => 0
+          }
+        ]
+      }
+      assert_equal({k1.id=>k1_events}, group.events)
+      k2 = group.join
+      k2_events = {
+        'index' => k2.avatar_index,
+        'events' => [
+          { 'event' => 'created',
+            'time' => k2.manifest.created,
+            'index' => 0
+          }
+        ]
+      }
+      assert_equal({
+        k1.id => k1_events,
+        k2.id => k2_events
+      }, group.events)
     end
-    assert_equal({k1.id=>k1_events}, group.events)
-    k2 = group.join
-    k2_events = {
-      'index' => k2.avatar_index,
-      'events' => [
-        { 'event' => 'created',
-          'time' => k2.manifest.created
-        }
-      ]
-    }
-    if v_test?(1)
-      k2_events['events'][0]['index'] = 0
-    end
-    assert_equal({
-      k1.id => k1_events,
-      k2.id => k2_events
-    }, group.events)
   end
 
 end

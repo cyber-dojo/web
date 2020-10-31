@@ -78,8 +78,7 @@ class KataController < ApplicationController
 
     @out_of_sync = false
     begin
-      kata.ran_tests(@id, @index, files, @stdout, @stderr, @status, {
-        'time' => t1,
+      model.kata_ran_tests(@id, @index, files, @stdout, @stderr, @status, {
         'duration' => duration,
         'colour' => @outcome,
         'predicted' => predicted

@@ -49,7 +49,7 @@ module Externals # mix-in
     @saver ||= external
   end
 
-  private # = = = = = = = = =
+  private
 
   def external
     # See comment below

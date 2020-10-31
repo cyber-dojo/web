@@ -36,10 +36,10 @@ module HttpJson
       if json.has_key?('exception')
         throw JSON.pretty_generate(json['exception'])
       end
-      unless json.has_key?(path)
-        throw error_msg(body, "has no key for '#{path}'")
-      end
       if @options[:keyed]
+        unless json.has_key?(path)
+          throw error_msg(body, "has no key for '#{path}'")
+        end
         json[path]
       else
         json

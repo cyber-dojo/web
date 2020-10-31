@@ -45,18 +45,16 @@ class Kata
 
   # - - - - - - - - - - - - - - - - -
 
-  def run_tests
-    Runner.new(@externals).run(@params)
-  end
-
   def ran_tests(id, index, files, stdout, stderr, status, summary)
-    kata.ran_tests(id, index, files, stdout, stderr, status, summary)
+    model.kata_ran_tests(id, index, files, stdout, stderr, status, summary)
   end
 
-  # - - - - - - - - - - - - - - - - -
+  def run_tests(params = @params)
+    Runner.new(@externals).run(params)
+  end
 
   def revert(id, index, files, stdout, stderr, status, summary)
-    kata.revert(id, index, files, stdout, stderr, status, summary)
+    model.kata_ran_tests(id, index, files, stdout, stderr, status, summary)
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -84,9 +82,13 @@ class Kata
     lights != []
   end
 
-  def age
+  def age_f
     created = Time.mktime(*manifest.created)
-    (most_recent_event.time - created).to_i # in seconds
+    (most_recent_event.time.to_f - created.to_f)
+  end
+
+  def age
+    age_f.to_i # seconds
   end
 
   def files
@@ -228,6 +230,10 @@ class Kata
   def most_recent_event
     # This should be quicker than event(-1)
     events.last
+  end
+
+  def model
+    @externals.model
   end
 
   def saver
