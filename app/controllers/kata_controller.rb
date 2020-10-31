@@ -83,10 +83,14 @@ class KataController < ApplicationController
         'colour' => @outcome,
         'predicted' => predicted
       })
-    rescue SaverService::Error => error
-      @out_of_sync = true
-      STDOUT.puts(error.message);
-      STDOUT.flush
+    rescue ModelService::Error => error
+      if model.kata_exists?(@id)
+        @out_of_sync = true
+        $stdout.puts(error.message);
+        $stdout.flush
+      else
+        raise
+      end
     end
 
     respond_to do |format|

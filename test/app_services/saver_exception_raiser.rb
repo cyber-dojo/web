@@ -6,7 +6,7 @@ class SaverExceptionRaiser
   end
 
   def method_missing(_m, *_args, &_block)
-    raise SaverService::Error.new('stub-raiser')
+    raise SaverService::Error.new('saver-exception-raiser')
   end
 
 end

@@ -4,14 +4,20 @@ class ReverterController < ApplicationController
   def revert
     src_id = params[:src_id]
     src_index = params[:src_index].to_i
+    index = params[:index].to_i + 1
+
     event = katas[src_id].events[src_index]
     files = event.files
     stdout = event.stdout
     stderr = event.stderr
     status = event.status
     colour = event.colour
-
-    index = params[:index].to_i + 1
+    #event = model.kata_event(src_id, src_index) # not there yet...
+    #files = event['files']
+    #stdout = event['stdout']
+    #stderr = event['stderr']
+    #status = event['status']
+    #colour = event['colour']
 
     model.kata_ran_tests(id, index, files, stdout, stderr, status, {
         'time' => time.now,

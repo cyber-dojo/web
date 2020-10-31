@@ -1,6 +1,9 @@
 require_relative 'app_controller_test_base'
+require_relative 'capture_stdout_stderr'
 
 class KataControllerTest  < AppControllerTestBase
+
+  include CaptureStdoutStderr
 
   def self.hex_prefix
     'BE8'
@@ -16,15 +19,6 @@ class KataControllerTest  < AppControllerTestBase
     in_kata do |kata|
       get "/kata/edit/#{kata.id}"
       assert_response :success
-    end
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '76E', %w( run_tests with bad ID is 500 ) do
-    in_kata do |kata|
-      post '/kata/run_tests', params:run_test_params({ 'id' => 'bad' })
-      assert_response 500
     end
   end
 
@@ -62,24 +56,10 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'c25', %w(
-  SaverService::Error on already existing session
-  gracefully degrades [test] to offline functionality
-  ) do
-    set_runner_class('RunnerStub')
-    in_kata do
-      set_saver_class('SaverExceptionRaiser')
-      post_run_tests
-      assert_response :success
-    end
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test 'B29', %w(
   the browser caches all the run_test parameters
-  to ensure run_tests() only issues a
-  single command to the model service (to save the run_test() result)
+  to ensure run_tests() issues a single command
+  to the model service (to save the run_test() result)
   ) do
     in_kata do |kata|
       params = {
@@ -100,6 +80,72 @@ class KataControllerTest  < AppControllerTestBase
       model_count_after = model.log.size
       assert_equal 1, (model_count_after - model_count_before), model.log
       assert_equal 0, (saver_count_after - saver_count_before), saver.log
+    end
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'c25', %w(
+  when [test] button is pressed
+  the model-http-service is now used and not the saver-http-service
+  ) do
+    set_runner_class('RunnerStub')
+    in_kata do
+      set_saver_class('SaverExceptionRaiser')
+      post_run_tests
+      assert_response :success
+    end
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '76E', %w( run_tests with bad ID is a 500 ) do
+    in_kata do |kata|
+      post '/kata/run_tests', params:run_test_params({ 'id' => 'bad' })
+      assert_response 500
+    end
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'B30', %w(
+  given two (or more) laptops as the same avatar
+  and one has not synced (by hitting refresh in their browser)
+  and so their current traffic-light-index lags behind
+  when they run their tests
+  then it is a 200 (and not a 500)
+  and information is logged to stdout.
+  ) do
+    set_runner_class('RunnerStub')
+    in_kata do |kata|
+      params = {
+        'format' => 'js',
+        'version' => kata.schema.version,
+        'id' => kata.id,
+        'image_name' => kata.manifest.image_name,
+        'file_content' => plain(kata.files),
+        'max_seconds' => kata.manifest.max_seconds,
+        'hidden_filenames' => JSON.unparse(kata.manifest.hidden_filenames),
+      }
+      params['index'] = 1
+      post '/kata/run_tests', params:params
+      assert_response :success
+
+      params['index'] = 2
+      post '/kata/run_tests', params:params
+      assert_response :success
+
+      params['index'] = 3
+      post '/kata/run_tests', params:params
+      assert_response :success
+
+      params['index'] = 1 # lagging
+      stdout,stderr = capture_stdout_stderr {
+        post '/kata/run_tests', params:params
+      }
+      assert_equal '', stderr
+      refute_equal '', stdout
+      assert_response :success
     end
   end
 
