@@ -211,42 +211,37 @@ class GroupTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  v_tests [0,1], '45E', %w(
-  In Version-0 events is hash of each avatars events when id does exist
+  test '45E', %w(
+  events is hash of each avatars events
   ) do
-    manifest = starter_manifest
-    manifest['version'] = schema_version
-    group = groups.new_group(manifest)
-    assert_equal({}, group.events)
-    k1 = group.join
-    k1_events = {
-      'index' => k1.avatar_index,
-      'events' => [
-        { 'event' => 'created',
-          'time' => k1.manifest.created
-        }
-      ]
-    }
-    if v_test?(1)
-      k1_events['events'][0]['index'] = 0
+    in_new_group do |group|
+      assert_equal({}, group.events)
+      k1 = group.join
+      k1_events = {
+        'index' => k1.avatar_index,
+        'events' => [
+          { 'event' => 'created',
+            'time' => k1.manifest.created,
+            'index' => 0
+          }
+        ]
+      }
+      assert_equal({k1.id=>k1_events}, group.events)
+      k2 = group.join
+      k2_events = {
+        'index' => k2.avatar_index,
+        'events' => [
+          { 'event' => 'created',
+            'time' => k2.manifest.created,
+            'index' => 0
+          }
+        ]
+      }
+      assert_equal({
+        k1.id => k1_events,
+        k2.id => k2_events
+      }, group.events)
     end
-    assert_equal({k1.id=>k1_events}, group.events)
-    k2 = group.join
-    k2_events = {
-      'index' => k2.avatar_index,
-      'events' => [
-        { 'event' => 'created',
-          'time' => k2.manifest.created
-        }
-      ]
-    }
-    if v_test?(1)
-      k2_events['events'][0]['index'] = 0
-    end
-    assert_equal({
-      k1.id => k1_events,
-      k2.id => k2_events
-    }, group.events)
   end
 
 end
