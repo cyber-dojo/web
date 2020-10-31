@@ -1,3 +1,4 @@
+require_relative 'app_services/creator_service'
 
 module TestDomainHelpers # mix-in
 
@@ -39,7 +40,15 @@ module TestDomainHelpers # mix-in
 
   # - - - - - - - - - - - - - - - -
 
+  def creator
+    CreatorService.new(self)
+  end
+
   def in_new_group(params = {}, &block)
+    id = creator.group_create(DEFAULT_LANGUAGE_NAME, DEFAULT_EXERCISE_NAME)
+    block.call(groups[id])
+  end
+  def XXX_in_new_group(params = {}, &block)
     groups = Groups.new(self, params)
     group = groups.new_group(starter_manifest)
     block.call(group)
@@ -48,6 +57,10 @@ module TestDomainHelpers # mix-in
   # - - - - - - - - - - - - - - - -
 
   def in_new_kata(params = {}, &block)
+    id = creator.kata_create(DEFAULT_LANGUAGE_NAME, DEFAULT_EXERCISE_NAME)
+    block.call(katas[id])
+  end
+  def XXX_in_new_kata(params = {}, &block)
     katas = Katas.new(self, params)
     kata = katas.new_kata(starter_manifest)
     block.call(kata)
@@ -72,6 +85,8 @@ module TestDomainHelpers # mix-in
   end
 
   # - - - - - - - - - - - - - - - -
+
+  DEFAULT_LANGUAGE_NAME = 'Ruby, MiniTest'
 
   DEFAULT_DISPLAY_NAME = 'Ruby, MiniTest'
 

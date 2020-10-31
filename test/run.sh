@@ -40,6 +40,7 @@ do
     export CYBER_DOJO_EXERCISES_START_POINTS_CLASS=ExercisesStartPointsService
     export CYBER_DOJO_LANGUAGES_START_POINTS_CLASS=LanguagesStartPointsService
 
+    export CYBER_DOJO_CREATOR_CLASS=CreatorService
     export CYBER_DOJO_DIFFER_CLASS=DifferService
     export CYBER_DOJO_MODEL_CLASS=ModelService
     export CYBER_DOJO_RUNNER_CLASS=RunnerStub
