@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 require_relative 'app_services_test_base'
-require_relative '../../lib/random_adapter'
 
 class RandomAdapterTest < AppServicesTestBase
 

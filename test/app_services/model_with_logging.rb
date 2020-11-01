@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require_relative '../../app/services/model_service'
 
 class ModelWithLogging
 

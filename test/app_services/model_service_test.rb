@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative 'app_services_test_base'
 
 class ModelServiceTest < AppServicesTestBase
@@ -67,7 +68,7 @@ class ModelServiceTest < AppServicesTestBase
     manifest = custom_start_points.manifest(name)
     kid = model.kata_create(manifest)
     actual = model.kata_event(kid, -1)
-    assert_equal manifest['visible_files'], actual['files']    
+    assert_equal manifest['visible_files'], actual['files']
   end
 
 end
