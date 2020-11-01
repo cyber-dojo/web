@@ -11,6 +11,7 @@ class ReverterControllerTest  < AppControllerTestBase
   test '276', %w(
   in individual kata, revert back to our own previous traffic-light
   ) do
+    set_saver_class('SaverService')
     in_kata {
       filename = 'hiker.rb'
       change_file(filename, old_content='the_answer')
@@ -46,8 +47,8 @@ class ReverterControllerTest  < AppControllerTestBase
   test '277', %w(
   in group kata, revert back to a different avatar's traffic-light
   ) do
+    set_saver_class('SaverService')
     new_content = 'and now for something_different'
-
     in_kata do |lion|
       filename = 'hiker.rb'
       change_file(filename, new_content)
