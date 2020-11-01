@@ -2,14 +2,16 @@
 'use strict';
 $(() => {
 
-  const avatarIndex = parseInt("<%= @avatar_index %>");
   const $box = $('.avatar-image-box');
-  $box.append($('<img>', {
-      src:`/images/avatars/${avatarIndex}.jpg`,
-      alt:'avatar image',
-    class:'avatar-image'
-  }));
-  cd.setupAvatarNameHoverTip($box, '', avatarIndex, '');
+  if ($box.length > 0) {
+    const avatarIndex = parseInt("<%= @avatar_index %>");
+    $box.append($('<img>', {
+        src:`/images/avatars/${avatarIndex}.jpg`,
+        alt:'avatar image',
+      class:'avatar-image'
+    }));
+    cd.setupAvatarNameHoverTip($box, '', avatarIndex, '');
+  }
 
 });
 </script>
