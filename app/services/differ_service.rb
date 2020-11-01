@@ -29,4 +29,12 @@ class DifferService
     })
   end
 
+  def diff_lines2(id, old_files, new_files)
+    @http.get(__method__, {
+      id:id,
+      old_files:old_files,
+      new_files:new_files
+    })
+  end
+
 end

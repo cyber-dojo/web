@@ -10,8 +10,13 @@ class DifferController < ApplicationController
     old_files['stdout'] = new_files['stdout']
     old_files['stderr'] = new_files['stderr']
     old_files['status'] = new_files['status']
-    diff = differ.diff(id, old_files, new_files)
-    view = diff_view(diff)
+
+    diff1 = differ.diff(id, old_files, new_files)
+    view1 = diff_view1(diff1)
+
+    diff2 = differ.diff_lines2(id, old_files, new_files)
+    view2 = diff_view2(diff2)
+
     m = Manifest.new(manifest)
     exts = m.filename_extension
     avatar_index = m.group_index
@@ -34,9 +39,9 @@ class DifferController < ApplicationController
                    wasIndex: was_index,
                    nowIndex: now_index,
                      events: events.map{ |event| to_json(event) },
-                      diffs: view,
-	      idsAndSectionCounts: pruned(view),
-          currentFilenameId: pick_file_id(view, current_filename, exts)
+                      diffs: view2,
+	      idsAndSectionCounts: pruned(view1),
+          currentFilenameId: pick_file_id(view1, current_filename, exts)
 	  }
     render json:result
   end
