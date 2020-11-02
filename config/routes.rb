@@ -16,6 +16,7 @@ CyberDojo::Application.routes.draw do
     post 'set_colour'       => :set_colour
     post 'set_predict'      => :set_predict
   end
+  post '/reverter/revert' => 'kata#revert', :constraints => { :format => :json }
 
   scope path: '/dashboard', controller: :dashboard do
     get 'show(/:id)' => :show
@@ -29,6 +30,5 @@ CyberDojo::Application.routes.draw do
 
   get '/differ/diff' => 'differ#diff', :constraints => { :format => :json }
 
-  post '/reverter/revert' => 'reverter#revert', :constraints => { :format => :json }
 
 end

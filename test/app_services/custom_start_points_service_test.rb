@@ -1,6 +1,6 @@
+# frozen_string_literal: true
 require_relative 'app_services_test_base'
 require_relative 'http_json_requester_not_json_stub'
-require_relative '../../app/services/custom_start_points_service'
 
 class CustomStartPointsServiceTest < AppServicesTestBase
 

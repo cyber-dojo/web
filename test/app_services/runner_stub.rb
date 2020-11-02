@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative 'disk_fake'
 require 'json'
 

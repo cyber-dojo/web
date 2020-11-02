@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative 'app_services_test_base'
 
 class ModelServiceTest < AppServicesTestBase
@@ -18,14 +19,14 @@ class ModelServiceTest < AppServicesTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'eJ0',
-  'ready?' do
+  'ready?() smoke test' do
     assert model.ready?
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'eJ1',
-  'group_create' do
+  'group_create() smoke test' do
     name = custom_start_points.names.sample
     manifest = custom_start_points.manifest(name)
     gid = model.group_create(manifest)
@@ -37,7 +38,7 @@ class ModelServiceTest < AppServicesTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'eJ2',
-  'kata_create' do
+  'kata_create() smoke test' do
     name = custom_start_points.names.sample
     manifest = custom_start_points.manifest(name)
     kid = model.kata_create(manifest)
@@ -49,7 +50,7 @@ class ModelServiceTest < AppServicesTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'eJ3',
-  'group_join' do
+  'group_join() smoke test' do
     name = custom_start_points.names.sample
     manifest = custom_start_points.manifest(name)
     gid = model.group_create(manifest)
@@ -57,6 +58,17 @@ class ModelServiceTest < AppServicesTestBase
     assert model.kata_exists?(kid), "model.kata_exists?(#{kid})"
     actual = model.kata_manifest(kid)
     assert_equal manifest['image_name'], actual['image_name']
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'eJ4',
+  'kata_event() smoke test' do
+    name = custom_start_points.names.sample
+    manifest = custom_start_points.manifest(name)
+    kid = model.kata_create(manifest)
+    actual = model.kata_event(kid, -1)
+    assert_equal manifest['visible_files'], actual['files']
   end
 
 end

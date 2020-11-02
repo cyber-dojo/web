@@ -37,4 +37,7 @@ class DifferService
     })
   end
 
+  # diff_summary() is called directly from .js in a $.getJSON() request
+  # which nginx reroutes to the differ-service.
+
 end

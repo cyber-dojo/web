@@ -1,4 +1,4 @@
-require_relative '../../app/services/saver_service'
+# frozen_string_literal: true
 
 class SaverExceptionRaiser
 
