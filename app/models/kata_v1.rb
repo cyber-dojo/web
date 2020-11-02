@@ -72,7 +72,7 @@ class Kata_v1
     events = json_parse('[' + results[1] + ']')
     was = json_parse(results[2])
     now = json_parse(results[3])
-    [ manifest, events, was,now ]
+    [ manifest, events, was, now ]
   end
 
   # - - - - - - - - - - - - - - - - - - -
