@@ -7,21 +7,13 @@ class DifferController < ApplicationController
     id = params[:id]
     manifest,events,old_files,new_files = kata.diff_info(was_index, now_index)
     # ensure stdout/stderr/status show no diff
+    # TODO: Do this inside differ when INDEXes are passed to differ
     old_files['stdout'] = new_files['stdout']
     old_files['stderr'] = new_files['stderr']
     old_files['status'] = new_files['status']
 
-    diff1 = differ.diff(id, old_files, new_files)
-    view1 = diff_view1(diff1)
-
-    diff2 = differ.diff_lines2(id, old_files, new_files)
-    view2 = diff_view2(diff2)
-
-    #p "view1"
-    #print JSON.pretty_generate(view1)
-    #p '~'*60
-    #p "view2"
-    #print JSON.pretty_generate(view2)
+    diff = differ.diff_lines2(id, old_files, new_files)
+    view = diff_view2(diff)
 
     m = Manifest.new(manifest)
     exts = m.filename_extension
@@ -35,6 +27,9 @@ class DifferController < ApplicationController
       prev_avatar_id,next_avatar_id = '',''
     end
 
+    ids_and_section_counts = pruned(view)
+    current_filename_id = pick_file_id(view, current_filename, exts)
+
     result = {
                     version: version,
                          id: id,
@@ -45,9 +40,9 @@ class DifferController < ApplicationController
                    wasIndex: was_index,
                    nowIndex: now_index,
                      events: events.map{ |event| to_json(event) },
-                      diffs: view2,
-	      idsAndSectionCounts: pruned(view2),
-          currentFilenameId: pick_file_id(view2, current_filename, exts)
+                      diffs: view,
+	      idsAndSectionCounts: ids_and_section_counts,
+          currentFilenameId: current_filename_id
 	  }
     render json:result
   end

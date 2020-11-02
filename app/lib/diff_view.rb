@@ -39,6 +39,7 @@ module DiffView # mix-in
       end
 
       lines = diff['lines']
+      line_counts = diff['line_counts']
 
       diffs << {
                         id: id,
@@ -47,9 +48,9 @@ module DiffView # mix-in
               old_filename: diff['old_filename'],
               new_filename: diff['new_filename'],
              section_count: lines.count { |line| line['type'] === 'section' },
-        deleted_line_count: lines.count { |line| line['type'] === 'deleted' },
-          added_line_count: lines.count { |line| line['type'] === 'added' },
-           same_line_count: lines.count { |line| line['type'] === 'same' },
+        deleted_line_count: line_counts['deleted'],
+          added_line_count: line_counts['added'],
+           same_line_count: line_counts['same'],
                    content: diff_html_file(id, lines),
               line_numbers: diff_html_line_numbers(lines)
       }
