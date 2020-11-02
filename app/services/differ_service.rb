@@ -29,4 +29,7 @@ class DifferService
     })
   end
 
+  # diff_dummary() is called directly from .js in a $.getJSON() request
+  # which nginx reroutes to the differ-service.
+  
 end
