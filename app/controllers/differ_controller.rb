@@ -17,6 +17,12 @@ class DifferController < ApplicationController
     diff2 = differ.diff_lines2(id, old_files, new_files)
     view2 = diff_view2(diff2)
 
+    #p "view1"
+    #print JSON.pretty_generate(view1)
+    #p '~'*60
+    #p "view2"
+    #print JSON.pretty_generate(view2)
+
     m = Manifest.new(manifest)
     exts = m.filename_extension
     avatar_index = m.group_index
@@ -40,8 +46,8 @@ class DifferController < ApplicationController
                    nowIndex: now_index,
                      events: events.map{ |event| to_json(event) },
                       diffs: view2,
-	      idsAndSectionCounts: pruned(view1),
-          currentFilenameId: pick_file_id(view1, current_filename, exts)
+	      idsAndSectionCounts: pruned(view2),
+          currentFilenameId: pick_file_id(view2, current_filename, exts)
 	  }
     render json:result
   end

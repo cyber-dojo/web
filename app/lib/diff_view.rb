@@ -29,14 +29,10 @@ module DiffView # mix-in
     diffs = []
     diffed_files.each do |diff|
 
-      p '~'*60
-      p diff
-      p '~'*60
-
       id = 'id_' + n.to_s
       n += 1
 
-      if diff['type'] === :deleted
+      if diff['type'] === "deleted"
         filename = diff['old_filename']
       else
         filename = diff['new_filename']

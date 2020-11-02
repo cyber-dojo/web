@@ -7,9 +7,9 @@ echo_versioner_env_vars()
   echo CYBER_DOJO_WEB_SHA="$(image_sha)"
   echo CYBER_DOJO_WEB_TAG="$(image_tag)"
 
-  echo CYBER_DOJO_DIFFER_SHA=394f2b0c166f5f7e196fd5cd84222aa5a0ed7026
-  echo CYBER_DOJO_DIFFER_TAG=394f2b0
-
+  echo CYBER_DOJO_DIFFER_SHA=52a2cab52bbbe5f418d066aa6e7c32ced1cf65e2
+  echo CYBER_DOJO_DIFFER_TAG=52a2cab
+    
   echo CYBER_DOJO_NGINX_SHA=a3aa9ac5bef66c71f6b94a168097f21a7ae5d038
   echo CYBER_DOJO_NGINX_TAG=a3aa9ac
 }
