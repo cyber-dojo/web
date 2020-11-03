@@ -5,9 +5,9 @@ module ReviewFilePicker # mix-in
   module_function
 
   def pick_file_id(diffs, current_filename, filenameExtensions)
-    # TODO: Once the review page shows if files are deleted|created|renamed
-    # this function could do with updating. For example, if the diff
-    # is for a lone rename, then that should be selected.
+    # TODO: [X] Once the review page shows if files are deleted|created|renamed
+    # this function should be updated. For example, if the diff is for a
+    # lone new-file/deleted-file/renamed-file, then that should be selected.
 
     # Rule 1
     # If the current-filename exists and has a diff, pick it.
@@ -45,7 +45,7 @@ module ReviewFilePicker # mix-in
       return largest[:id]
     end
 
-    # There are no diffs!
+    # There are no diffs! [X]
 
     # else Rule 4
     # If current_filename exists (with no diff), pick it
@@ -77,6 +77,8 @@ module ReviewFilePicker # mix-in
     cyber_dojo_sh[:id]
   end
 
+  private
+  
   def anyExtensionMatch?(diff, filenameExtensions)
     filenameExtensions.any? { |ext|
       diff[:filename].end_with?(ext)
