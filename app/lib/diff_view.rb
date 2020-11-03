@@ -2,29 +2,7 @@
 
 module DiffView # mix-in
 
-  def diff_view1(diffed_files)
-    n = 0
-    diffs = []
-    diffed_files.sort.each do |filename, diff|
-      id = 'id_' + n.to_s
-      n += 1
-
-      diffs << {
-                        id: id,
-                  filename: filename,
-             section_count: diff.count { |line| line['type'] === 'section' },
-        deleted_line_count: diff.count { |line| line['type'] === 'deleted' },
-          added_line_count: diff.count { |line| line['type'] === 'added'   },
-                   content: diff_html_file(id, diff),
-              line_numbers: diff_html_line_numbers(diff)
-      }
-    end
-    diffs
-  end
-
-  # - - - - - - - - - - - - - - - - - -
-
-  def diff_view2(diffed_files)
+  def diff_view(diffed_files)
     n = 0
     diffs = []
     diffed_files.each do |diff|

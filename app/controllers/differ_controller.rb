@@ -13,7 +13,7 @@ class DifferController < ApplicationController
     old_files['status'] = new_files['status']
 
     diff = differ.diff_lines2(id, old_files, new_files)
-    view = diff_view2(diff)
+    view = diff_view(diff)
 
     m = Manifest.new(manifest)
     exts = m.filename_extension
