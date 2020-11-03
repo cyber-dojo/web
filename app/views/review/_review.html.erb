@@ -230,7 +230,7 @@ $(() => {
   };
 
   //-----------------------------------------
-  // traffic-lights
+  // traffic-lights...
   //-----------------------------------------
 
   const refreshTrafficLights = () => {
@@ -252,7 +252,7 @@ $(() => {
     let html = '';
     let number = 1;
     $.each(param.events, (_index, event) => {
-      if (visible(event)) {
+      if (isVisible(event)) {
         html += makeTrafficLightHtml(event, number);
         number += 1;
       }
@@ -262,7 +262,7 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const visible = (event) => {
+  const isVisible = (event) => {
     // eg don't show event[0] == creation
     switch (event.colour) {
     case 'pulling':
