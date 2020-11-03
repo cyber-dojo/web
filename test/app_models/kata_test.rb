@@ -151,7 +151,7 @@ class KataTest < AppModelsTestBase
       status = 3
       kata.ran_tests(kata.id, 1, files, stdout, stderr, status, ran_summary('red'))
 
-      assert kata.age_f > 0.0         
+      assert kata.age_f > 0.0
       assert kata.active?
       assert_equal 2, kata.events.size
       assert_equal 1, kata.lights.size

@@ -40,7 +40,7 @@ module TestHexIdHelpers # mix-in
       raise "bad test-ID: #{diagnostic}" unless is_base58?(id)
       # if no hex-id supplied, or test method matches any supplied hex-id
       # then define a mini_test method using the hex-id
-      no_args = @@args == []
+      no_args = @@args === []
       any_arg_is_part_of_id = @@args.any?{ |arg| id.include?(arg) }
       if no_args || any_arg_is_part_of_id
         raise "duplicate test-ID: #{diagnostic}" if @@seen_ids.include?(id)

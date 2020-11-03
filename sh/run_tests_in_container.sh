@@ -23,7 +23,7 @@ run_tests_in_container()
 
   # Drop set -e because we want to get coverage stats out
   set +e
-  docker exec --user nobody "${WEB_CID}" sh -c "cd /cyber-dojo/test && ./run.sh ${@:-}"
+  docker exec --user nobody "${WEB_CID}" sh -c "cd /cyber-dojo/test && ./run.sh ${*:-}"
   readonly STATUS=$?
   mkdir -p "${DST}"
   docker cp "${SRC}/." "${DST}"
