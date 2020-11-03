@@ -62,16 +62,6 @@ class CreatorService
     id_from_route(json)
   end
 
-  # - - - - - - - - - - - - - - - -
-
-  def create(id, old_files, new_files) # USED?
-    @http.post(__method__, {
-      id:id,
-      old_files:old_files,
-      new_files:new_files
-    })
-  end
-
   private
 
   def id_from_route(json)
