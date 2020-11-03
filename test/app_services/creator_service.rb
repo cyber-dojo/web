@@ -31,7 +31,7 @@ class CreatorService
       language_name:language_name,
       exercise_name:exercise_name
     })
-    json['id']
+    id_from_route(json)
   end
 
   def kata_create(language_name, exercise_name)
@@ -40,7 +40,7 @@ class CreatorService
       language_name:language_name,
       exercise_name:exercise_name
     })
-    json['id']
+    id_from_route(json)
   end
 
   # - - - - - - - - - - - - - - - -
@@ -51,7 +51,7 @@ class CreatorService
       type:'group',
       display_name:display_name
     })
-    json['id']
+    id_from_route(json)
   end
 
   def kata_create_custom(display_name)
@@ -59,17 +59,24 @@ class CreatorService
       type:'kata',
       display_name:display_name
     })
-    json['id']
+    id_from_route(json)
   end
 
   # - - - - - - - - - - - - - - - -
 
-  def create(id, old_files, new_files)
+  def create(id, old_files, new_files) # USED?
     @http.post(__method__, {
       id:id,
       old_files:old_files,
       new_files:new_files
     })
+  end
+
+  private
+
+  def id_from_route(json)
+    # eg json['route'] = '/creator/enter?id=ID'
+    json['route'][-6..-1]
   end
 
 end
