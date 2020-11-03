@@ -368,11 +368,8 @@ $(() => {
   };
 
   const makeDiffLineCountIcon = (cssName, icon) => {
-    if (!inDiffMode()) {
-      return '';
-    } else {
-      return `<div class="diff-${cssName}-line-count-icon">${icon}</div>`;
-    }
+    if (!inDiffMode()) { return ''; }
+    return `<div class="diff-${cssName}-line-count-icon">${icon}</div>`;
   };
 
   const makeDiffDeletedCount = (lineCount, diff) => {
@@ -384,9 +381,7 @@ $(() => {
   };
 
   const makeDiffCount = (lineCount, diff, cssName) => {
-    if (!inDiffMode()) {
-      return '';
-    }
+    if (!inDiffMode()) { return ''; }
     const div = $('<div>', {
       'class': `diff-${cssName}-line-count`,
       'data-filename': diff.filename
@@ -474,7 +469,7 @@ $(() => {
     // Builds click handlers for all filenames for a given
     // [ kata-id, was-index, now-index] tuple.
     // When you open a new filename it auto-scrolls its first diff-chunk.
-    // When you reclick a filename it auto-scrolls to its *next* diff-chunk.
+    // When you reclick a filename it auto-scrolls to its next diff-chunk.
     const getFilename = (node) => $.trim(node.text());
     const id = (name) => $(`[id="${name}"]`);
     const diffFileContentFor = (filename) => id(`diff_file_content_for_${filename}`);
