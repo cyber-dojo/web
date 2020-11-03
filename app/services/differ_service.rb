@@ -21,14 +21,6 @@ class DifferService
     @http.get(__method__, {})
   end
 
-  def diff(id, old_files, new_files) # TODO: Delete
-    @http.get(__method__, {
-      id:id,
-      old_files:old_files,
-      new_files:new_files
-    })
-  end
-
   def diff_lines2(id, old_files, new_files) # temporary
     @http.get(__method__, {
       id:id,

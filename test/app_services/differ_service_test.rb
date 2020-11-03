@@ -26,29 +26,6 @@ class DifferServiceTest < AppServicesTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '3AC',
-  'smoke test differ.diff(id, was_index=0, now_index=1)' do
-    in_new_kata do |kata|
-      stdout = file("Expected: 42\nActual: 54")
-      stderr = file('assertion failed')
-      status = 0
-      kata.ran_tests(kata.id, 1, kata.files, stdout, stderr, status, ran_summary('red'))
-
-      was_files = flattened(kata.events[0].files)
-      now_files = flattened(kata.events[1].files)
-      actual = differ.diff(kata.id, was_files, now_files)
-
-      filename = 'hiker.rb'
-      refute_nil actual[filename]
-      expected = kata.files[filename]['content'].split("\n").map.with_index(1) do |line,n|
-        { "line" => line, "type" => "same", "number" => n }
-      end
-      assert_equal(expected, actual[filename])
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test '3AD',
   'smoke test differ.diff_lines2(id, old_files, new_files)' do
     in_new_kata do |kata|
