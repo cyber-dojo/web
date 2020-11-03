@@ -5,6 +5,10 @@ module ReviewFilePicker # mix-in
   module_function
 
   def pick_file_id(diffs, current_filename, filenameExtensions)
+    # TODO: Once the review page shows if files are deleted|created|renamed
+    # this function could do with updating. For example, if the diff
+    # is for a lone rename, then that should be selected.
+
     # Rule 1
     # If the current-filename exists and has a diff, pick it.
     current_filename_diff = diffs.find { |diff|
