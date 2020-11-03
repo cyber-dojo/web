@@ -367,19 +367,6 @@ $(() => {
     return html;
   };
 
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const makeDiffFilename = (diff) => {
-    return outerHTML($('<div>', {
-      'class': 'filename',
-      'data-filename': diff.filename,
-      'id': `radio_${diff.id}`,
-      'text': diff.filename
-    }));
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
   const makeDiffLineCountIcon = (cssName, icon) => {
     if (!inDiffMode()) {
       return '';
@@ -408,6 +395,15 @@ $(() => {
       div.append(lineCount);
     }
     return outerHTML(div);
+  };
+
+  const makeDiffFilename = (diff) => {
+    return outerHTML($('<div>', {
+      'class': 'filename',
+      'data-filename': diff.filename,
+      'id': `radio_${diff.id}`,
+      'text': diff.filename
+    }));
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
