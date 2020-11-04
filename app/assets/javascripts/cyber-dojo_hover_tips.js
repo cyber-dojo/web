@@ -74,18 +74,7 @@ var cyberDojo = (function(cd, $) {
       $table.append($tr);
     }
 
-    files.sort(function(lhs,rhs) {
-      const lhsRank = diffRank(lhs);
-      const rhsRank = diffRank(rhs);
-      if (lhsRank < rhsRank) {
-        return -1;
-      } else if (lhsRank > rhsRank) {
-        return +1;
-      } else {
-        return diffFilename(lhs).localeCompare(diffFilename(rhs));
-      }
-    });
-
+    files.sort(diffFunctionSortFn);
     files.forEach(function(file) {
       const $tr = $('<tr>');
       if (file.type != 'unchanged' || showUnchangedFiles) {
@@ -104,35 +93,15 @@ var cyberDojo = (function(cd, $) {
 
   // - - - - - - - -
 
-  const $lineCount = (type, file) => {
-    const $count = $('<div>', {
-      class:`diff-${type}-line-count`,
-      disabled:"disabled"
-    });
-    $count.html(nonZero(file.line_counts[type]));
-    return $('<td>').append($count);
-  };
-
-  const nonZero = (n) => {
-    // Don't show zeros to make the tip less busy
-    return n > 0 ? n : '&nbsp;';
-  };
-
-  // - - - - - - - -
-
-  const $diffType = (diff) => {
-    const $type = $('<div>', { class:`diff-type-marker ${diff.type}` });
-    $type.html(diffTypeGlyph(diff));
-    return $('<td>').append($type);
-  };
-
-  const diffTypeGlyph = (diff) => {
-    switch (diff.type) {
-      case 'changed'  : return '&nbsp;';
-      case 'created'  : return '+';
-      case 'deleted'  : return '&mdash;';
-      case 'renamed'  : return '&curarr;';
-      case 'unchanged': return '=';
+  const diffFunctionSortFn = (lhs, rhs) => {
+    const lhsRank = diffRank(lhs);
+    const rhsRank = diffRank(rhs);
+    if (lhsRank < rhsRank) {
+      return -1;
+    } else if (lhsRank > rhsRank) {
+      return +1;
+    } else {
+      return diffFilename(lhs).localeCompare(diffFilename(rhs));
     }
   };
 
@@ -144,6 +113,29 @@ var cyberDojo = (function(cd, $) {
       case 'renamed'  : return 3;
       case 'unchanged': return 4;
     }
+  };
+
+  // - - - - - - - -
+
+  const $lineCount = (type, file) => {
+    const $count = $('<div>', {
+      class:`diff-${type}-line-count`,
+      disabled:"disabled"
+    });
+    $count.html(nonZero(file.line_counts[type]));
+    return $('<td>').append($count);
+  };
+
+  const nonZero = (n) => { // Don't show zeros to make the tip less busy
+    return n > 0 ? n : '&nbsp;';
+  };
+
+  // - - - - - - - -
+
+  const $diffType = (diff) => {
+    return $('<td>').append($('<div>', {
+      class:`diff-type-marker ${diff.type}`
+    }));
   };
 
   // - - - - - - - -
