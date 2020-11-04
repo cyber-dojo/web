@@ -64,10 +64,10 @@ var cyberDojo = (function(cd, $) {
     //cyber-dojo.sh can never be deleted so there is always one file
     if (somethingChanged || showUnchangedFiles) {
       const $tr = $('<tr>');
-      $tr.append($linesDeletedCountIcon());
-      $tr.append($linesAddedCountIcon());
+      $tr.append($linesCountIcon('deleted', '&mdash;'));
+      $tr.append($linesCountIcon('added', '+'));
       if (showSameLineCounts) {
-        $tr.append($linesSameCountIcon());
+        $tr.append($linesCountIcon('same', '='));
       }
       $tr.append($('<td>'));
       $tr.append($('<td>'));
@@ -156,18 +156,8 @@ var cyberDojo = (function(cd, $) {
 
   // - - - - - - - -
 
-  const $linesDeletedCountIcon = () => {
-    const $icon = $('<div>', { class:'diff-deleted-line-count-icon' }).html('&mdash;');
-    return $('<td>').append($icon);
-  };
-
-  const $linesAddedCountIcon = () => {
-    const $icon = $('<div>', { class:'diff-added-line-count-icon' }).text('+');
-    return $('<td>').append($icon);
-  };
-
-  const $linesSameCountIcon = () => {
-    const $icon = $('<div>', { class:'diff-same-line-count-icon' }).text('=');
+  const $linesCountIcon = (type, glyph) => {
+    const $icon = $('<div>', { class:`diff-line-count-icon ${type}` }).html(glyph);
     return $('<td>').append($icon);
   };
 

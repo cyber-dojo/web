@@ -12,9 +12,7 @@
 .diff-deleted-line-count,
 .diff-added-line-count,
 .diff-same-line-count,
-.diff-deleted-line-count-icon,
-.diff-added-line-count-icon,
-.diff-same-line-count-icon
+.diff-line-count-icon
 {
   @include plaintext-font();
   @include rounded-corner(3px);
@@ -41,7 +39,7 @@
 //- - - - - - - - - - - - - - - -
 
 .diff-deleted-line-count,
-.diff-deleted-line-count-icon
+.diff-line-count-icon.deleted
 {
   background: $diff-deleted-count-color;
   border: 1px solid $diff-deleted-count-color;
@@ -52,7 +50,7 @@
 }
 
 .diff-added-line-count,
-.diff-added-line-count-icon
+.diff-line-count-icon.added
 {
   background: $diff-added-count-color;
   border: 1px solid $diff-added-count-color;
@@ -63,7 +61,7 @@
 }
 
 .diff-same-line-count,
-.diff-same-line-count-icon
+.diff-line-count-icon.same
 {
   background: $diff-same-count-color;
   border: 1px solid $diff-same-count-color;
@@ -75,19 +73,17 @@
 
 //- - - - - - - - - - - - - - - -
 
-.diff-added-line-count-icon
+.diff-line-count-icon.added
 {
   &:hover { border: 1px solid $diff-added-count-color; }
 }
 
-.diff-deleted-line-count-icon
+.diff-line-count-icon.deleted
 {
   &:hover { border: 1px solid $diff-deleted-count-color; }
 }
 
-.diff-added-line-count-icon,
-.diff-deleted-line-count-icon,
-.diff-same-line-count-icon
+.diff-line-count-icon
 {
   cursor:default;
   text-align:center;
