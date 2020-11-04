@@ -369,7 +369,7 @@ $(() => {
 
   const makeDiffLineCountIcon = (cssName, icon) => {
     if (!inDiffMode()) { return ''; }
-    return `<div class="diff-${cssName}-line-count-icon">${icon}</div>`;
+    return `<div class="diff-line-count-icon ${cssName}">${icon}</div>`;
   };
 
   const makeDiffDeletedCount = (lineCount, diff) => {
