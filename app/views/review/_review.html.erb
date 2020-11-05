@@ -360,9 +360,9 @@ $(() => {
     });
     html += '</table>';
     html += '<table class="sss filenames">';
-    html += makeDiffTr(diffs.find(diff => diff.filename === 'stdout'), '&nbsp;');
-    html += makeDiffTr(diffs.find(diff => diff.filename === 'stderr'), '&nbsp;');
-    html += makeDiffTr(diffs.find(diff => diff.filename === 'status'), '&nbsp;');
+    html += makeDiffTr(diffs.find(diff => diffFilename(diff) === 'stdout'), '&nbsp;');
+    html += makeDiffTr(diffs.find(diff => diffFilename(diff) === 'stderr'), '&nbsp;');
+    html += makeDiffTr(diffs.find(diff => diffFilename(diff) === 'status'), '&nbsp;');
     html += '</table>';
     return html;
   };
@@ -384,7 +384,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const isTrueFile = (diff) => {
-    const filename = diff.filename;
+    const filename = diffFilename(diff);
     return !['stdout','stderr','status'].includes(filename);
   };
 
@@ -416,7 +416,7 @@ $(() => {
     if (!inDiffMode()) { return '&nbsp;'; }
     const div = $('<div>', {
       'class': `diff-${cssName}-line-count`,
-      'data-filename': diff.filename
+      'data-filename': diffFilename(diff)
     });
     const lineCount = diff[`${cssName}_line_count`];
     div.append(nonZero(lineCount));
@@ -450,10 +450,18 @@ $(() => {
   const makeDiffFilename = (diff) => {
     return outerHTML($('<div>', {
       'class': `diff-filename ${diff.type}`,
-      'data-filename': diff.filename,
+      'data-filename': diffFilename(diff),
       'id': `radio_${diff.id}`,
-      'text': diff.filename
+      'text': diffFilename(diff)
     }));
+  };
+
+  const diffFilename = (diff) => {
+    if (diff.new_filename) {
+      return diff.new_filename;
+    } else {
+      return diff.old_filename;
+    }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -467,13 +475,13 @@ $(() => {
   const sortedDiffs = (diffs) => {
     let filenames = [];
     $.each(diffs, (_, diff) => {
-      filenames.push(diff.filename);
+      filenames.push(diffFilename(diff));
     });
     // ensure filenames appear in the same order as kata/edit page
     const sorted = cd.sortedFilenames(filenames);
     const diffFor = (filename) => {
       for (let i = 0; i !== diffs.length; i++) {
-        if (diffs[i].filename === filename) {
+        if (diffFilename(diffs[i]) === filename) {
           return diffs[i];
         }
       }
@@ -608,11 +616,11 @@ $(() => {
     const holder = $('<span>');
     $.each(diffs, (_, diff) => {
       const table = $('' +
-        `<div id="${diff.filename}_diff_div" class="filename_div">` +
+        `<div id="${diffFilename(diff)}_diff_div" class="filename_div">` +
         '<table>' +
           '<tr class="valign-top">' +
             makeTd('<div class="diff-line-numbers"></div>') +
-            makeTd(`<div id="diff_file_content_for_${diff.filename}"` +
+            makeTd(`<div id="diff_file_content_for_${diffFilename(diff)}"` +
                    ' class="diff-sheet"></div>') +
           '</tr>' +
         '</table>' +
