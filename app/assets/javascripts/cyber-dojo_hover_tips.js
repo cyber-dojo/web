@@ -53,15 +53,15 @@ var cyberDojo = (function(cd, $) {
 
   // - - - - - - - - - - - - - - - - - - - -
 
-  const diffLinesHtmlTable = (files, options) => {
+  const diffLinesHtmlTable = (diffs, options) => {
     const $table = $('<table>', { class:'filenames' });
 
     options ||= {};
     showUnchangedFiles = options.showUnchangedFiles; // default == false
     showSameLineCounts = options.showSameLineCounts; // default == false
 
-    const somethingChanged = files.filter(file => file.type != 'unchanged').length > 0;
-    //cyber-dojo.sh can never be deleted so there is always one file
+    const somethingChanged = diffs.filter(diff => diff.type != 'unchanged').length > 0;
+    //cyber-dojo.sh cannot be deleted so there is always one file
     if (somethingChanged || showUnchangedFiles) {
       const $tr = $('<tr>');
       $tr.append($linesCountIcon('deleted', '&mdash;'));
@@ -74,8 +74,9 @@ var cyberDojo = (function(cd, $) {
       $table.append($tr);
     }
 
-    files.sort(diffFunctionSortFn);
-    files.forEach(function(file) {
+    const filenames = diffs.map(diff => diffFilename(diff));
+    cd.sortedFilenames(filenames).forEach(filename => {
+      const file = diffs.find(diff => diffFilename(diff) === filename);
       const $tr = $('<tr>');
       if (file.type != 'unchanged' || showUnchangedFiles) {
         $tr.append($lineCount('deleted', file));
@@ -93,26 +94,9 @@ var cyberDojo = (function(cd, $) {
 
   // - - - - - - - -
 
-  const diffFunctionSortFn = (lhs, rhs) => {
-    const lhsRank = diffRank(lhs);
-    const rhsRank = diffRank(rhs);
-    if (lhsRank < rhsRank) {
-      return -1;
-    } else if (lhsRank > rhsRank) {
-      return +1;
-    } else {
-      return diffFilename(lhs).localeCompare(diffFilename(rhs));
-    }
-  };
-
-  const diffRank = (diff) => {
-    switch (diff.type) {
-      case 'changed'  : return 0;
-      case 'created'  : return 1;
-      case 'deleted'  : return 2;
-      case 'renamed'  : return 3;
-      case 'unchanged': return 4;
-    }
+  const $linesCountIcon = (type, glyph) => {
+    const $icon = $('<div>', { class:`diff-line-count-icon ${type}` }).html(glyph);
+    return $('<td>').append($icon);
   };
 
   // - - - - - - - -
@@ -126,7 +110,7 @@ var cyberDojo = (function(cd, $) {
     return $('<td>').append($count);
   };
 
-  const nonZero = (n) => { // Don't show zeros to make the tip less busy
+  const nonZero = (n) => {
     return n > 0 ? n : '&nbsp;';
   };
 
@@ -152,13 +136,6 @@ var cyberDojo = (function(cd, $) {
     } else {
       return diff.new_filename;
     }
-  };
-
-  // - - - - - - - -
-
-  const $linesCountIcon = (type, glyph) => {
-    const $icon = $('<div>', { class:`diff-line-count-icon ${type}` }).html(glyph);
-    return $('<td>').append($icon);
   };
 
   // - - - - - - - - - - - - - - - - - - - -
