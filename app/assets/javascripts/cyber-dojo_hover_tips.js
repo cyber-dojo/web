@@ -55,7 +55,7 @@ var cyberDojo = (function(cd, $) {
 
   const diffLinesHtmlTable = (diffs) => {
     const $table = $('<table>', { class:'filenames' });
-    //cyber-dojo.sh cannot be deleted so there is always one file
+    // cyber-dojo.sh cannot be deleted so there is always one file
     const $tr = $('<tr>');
     $tr.append($linesCountIcon('deleted', '&mdash;'));
     $tr.append($linesCountIcon('added', '+'));

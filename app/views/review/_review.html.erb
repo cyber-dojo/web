@@ -360,35 +360,30 @@ $(() => {
     html += makeTd(''); // filename
     html += '</tr>';
     $.each(sortedDiffs(diffs), (_, diff) => {
-      if (!isStdoutStderrStatus(diff.filename)) {
-        html += '<tr>';
-        html += makeTd(makeDiffCount(diff, 'deleted'));
-        html += makeTd(makeDiffCount(diff, 'added'));
-        html += makeTd(makeDiffCount(diff, 'same'));
-        html += makeTd(makeDiffType(diff));
-        html += makeTd(makeDiffFilename(diff));
-        html += '</tr>';
+      if (!['stdout','stderr','status'].includes(diff.filename)) {
+        html += makeDiffTr(diff);
       }
     });
     html += '</table>';
     html += '<table class="sss filenames">';
-    $.each(sortedDiffs(diffs), (_, diff) => {
-      if (isStdoutStderrStatus(diff.filename)) {
-        html += '<tr>';
-        html += makeTd(makeDiffCount(diff, 'deleted'));
-        html += makeTd(makeDiffCount(diff, 'added'));
-        html += makeTd(makeDiffCount(diff, 'same'));
-        html += makeTd('&nbsp;');
-        html += makeTd(makeDiffFilename(diff));
-        html += '</tr>';
-      }
-    });
+    html += makeDiffTr(diffs.find(diff => diff.filename === 'stdout'), '&nbsp;');
+    html += makeDiffTr(diffs.find(diff => diff.filename === 'stderr'), '&nbsp;');
+    html += makeDiffTr(diffs.find(diff => diff.filename === 'status'), '&nbsp;');
     html += '</table>';
     return html;
   };
 
-  const isStdoutStderrStatus = (filename) => {
-    return ['stdout','stderr','status'].includes(filename);
+  const makeDiffTr = (diff, glyph) => {
+    if (glyph === undefined) { glyph = diff; }
+    let html = '';
+    html += '<tr>';
+    html += makeTd(makeDiffCount(diff, 'deleted'));
+    html += makeTd(makeDiffCount(diff, 'added'));
+    html += makeTd(makeDiffCount(diff, 'same'));
+    html += makeTd(makeDiffType(glyph));
+    html += makeTd(makeDiffFilename(diff));
+    html += '</tr>';
+    return html;
   };
 
   const makeDiffLineCountIcon = (cssName, icon) => {
@@ -412,6 +407,7 @@ $(() => {
   };
 
   const makeDiffType = (diff) => {
+    if (diff === '&nbsp;') { return diff; }
     let tip = '';
     switch (diff.type) {
       case 'unchanged': tip = 'an unchanged file'; break;
