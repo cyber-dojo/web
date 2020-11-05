@@ -14,11 +14,11 @@ var cyberDojo = (function(cd, $) {
 
   // - - - - - - - - - - - - - - - - - - - -
 
-  cd.setupTrafficLightTip = ($light, kataId, wasIndex, nowIndex, options) => {
+  cd.setupTrafficLightTip = ($light, kataId, wasIndex, nowIndex) => {
     cd.setTip($light, () => {
       const args = `id=${kataId}&was_index=${wasIndex}&now_index=${nowIndex}`;
       $.getJSON(`/differ/diff_summary?${args}`, '', (summary) => {
-        cd.showHoverTip($light, tipHtml($light, summary, options));
+        cd.showHoverTip($light, tipHtml($light, summary));
       });
     });
   };
@@ -37,7 +37,7 @@ var cyberDojo = (function(cd, $) {
                       class="traffic-light-diff-tip-traffic-light-image"></td>
              </tr>
            </table>
-           ${diffLinesHtmlTable(diffSummary, options)}`;
+           ${diffLinesHtmlTable(diffSummary)}`;
   };
 
   // - - - - - - - - - - - - - - - - - - - -
@@ -53,40 +53,26 @@ var cyberDojo = (function(cd, $) {
 
   // - - - - - - - - - - - - - - - - - - - -
 
-  const diffLinesHtmlTable = (diffs, options) => {
+  const diffLinesHtmlTable = (diffs) => {
     const $table = $('<table>', { class:'filenames' });
-
-    options ||= {};
-    showUnchangedFiles = options.showUnchangedFiles; // default == false
-    showSameLineCounts = options.showSameLineCounts; // default == false
-
-    const somethingChanged = diffs.filter(diff => diff.type != 'unchanged').length > 0;
     //cyber-dojo.sh cannot be deleted so there is always one file
-    if (somethingChanged || showUnchangedFiles) {
-      const $tr = $('<tr>');
-      $tr.append($linesCountIcon('deleted', '&mdash;'));
-      $tr.append($linesCountIcon('added', '+'));
-      if (showSameLineCounts) {
-        $tr.append($linesCountIcon('same', '='));
-      }
-      $tr.append($('<td>'));
-      $tr.append($('<td>'));
-      $table.append($tr);
-    }
+    const $tr = $('<tr>');
+    $tr.append($linesCountIcon('deleted', '&mdash;'));
+    $tr.append($linesCountIcon('added', '+'));
+    $tr.append($linesCountIcon('same', '='));
+    $tr.append($('<td>'));
+    $tr.append($('<td>'));
+    $table.append($tr);
 
     const filenames = diffs.map(diff => diffFilename(diff));
     cd.sortedFilenames(filenames).forEach(filename => {
       const file = diffs.find(diff => diffFilename(diff) === filename);
       const $tr = $('<tr>');
-      if (file.type != 'unchanged' || showUnchangedFiles) {
-        $tr.append($lineCount('deleted', file));
-        $tr.append($lineCount('added', file));
-        if (showSameLineCounts) {
-          $tr.append($lineCount('same', file));
-        }
-        $tr.append($diffType(file));
-        $tr.append($diffFilename(file));
-      }
+      $tr.append($lineCount('deleted', file));
+      $tr.append($lineCount('added', file));
+      $tr.append($lineCount('same', file));
+      $tr.append($diffType(file));
+      $tr.append($diffFilename(file));
       $table.append($tr);
     });
     return $table.get(0).outerHTML;

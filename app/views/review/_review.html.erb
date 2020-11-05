@@ -242,8 +242,7 @@ $(() => {
       const $light = $(light);
       const nowIndex = $light.data('index');
       $light.click(() => moveToTrafficLight(nowIndex));
-      const options = { showUnchangedFiles:true, showSameLineCounts:true };
-      cd.setupTrafficLightTip($light, param.id, wasIndex, nowIndex, options);
+      cd.setupTrafficLightTip($light, param.id, wasIndex, nowIndex);
       wasIndex = nowIndex;
     });
   };
