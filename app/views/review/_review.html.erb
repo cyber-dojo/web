@@ -433,11 +433,13 @@ $(() => {
 
   const makeDiffType = (diff) => {
     if (diff === '&nbsp;') { return diff; }
-    let tip = '';
+    let tip = diffFilename(diff);
     switch (diff.type) {
-      case 'unchanged': tip = 'an unchanged file'; break;
-      case 'renamed': tip = `a renamed file\n(was ${diff.old_filename})`; break;
-      default: tip = `a ${diff.type} file`; break;
+      case 'created'  : tip += ' was newly created'; break;
+      case 'deleted'  : tip += ' was deleted'; break;
+      case 'unchanged': tip += ' was unchanged'; break;
+      case 'renamed'  : tip += ` was renamed from ${diff.old_filename}`; break;
+      case 'changed'  : tip += ` was edited`; break;
     }
     return outerHTML($('<div>', {
       class:`diff-type-marker ${diff.type}`,
