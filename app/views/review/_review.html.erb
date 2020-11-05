@@ -352,15 +352,9 @@ $(() => {
 
   const makeDiffFilenames = (diffs) => {
     let html = '<table class="filenames">';
-    html += '<tr>';
-    html += makeTd(makeDiffLineCountIcon('deleted', '&mdash;'));
-    html += makeTd(makeDiffLineCountIcon('added', '+'));
-    html += makeTd(makeDiffLineCountIcon('same', '='));
-    html += makeTd(''); // type
-    html += makeTd(''); // filename
-    html += '</tr>';
+    html += makeIconHeadings();
     $.each(sortedDiffs(diffs), (_, diff) => {
-      if (!['stdout','stderr','status'].includes(diff.filename)) {
+      if (isTrueFile(diff)) {
         html += makeDiffTr(diff);
       }
     });
@@ -373,8 +367,31 @@ $(() => {
     return html;
   };
 
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const makeIconHeadings = () => {
+    let html = '';
+    html += '<tr>';
+    html += makeTd(makeDiffLineCountIcon('deleted', '&mdash;'));
+    html += makeTd(makeDiffLineCountIcon('added', '+'));
+    html += makeTd(makeDiffLineCountIcon('same', '='));
+    html += makeTd(''); // type
+    html += makeTd(''); // filename
+    html += '</tr>';
+    return html;
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const isTrueFile = (diff) => {
+    const filename = diff.filename;
+    return !['stdout','stderr','status'].includes(filename);
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
   const makeDiffTr = (diff, glyph) => {
-    if (glyph === undefined) { glyph = diff; }
+    glyph ||= diff;
     let html = '';
     html += '<tr>';
     html += makeTd(makeDiffCount(diff, 'deleted'));
@@ -386,10 +403,14 @@ $(() => {
     return html;
   };
 
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
   const makeDiffLineCountIcon = (cssName, icon) => {
     if (!inDiffMode()) { return ''; }
     return `<div class="diff-line-count-icon ${cssName}">${icon}</div>`;
   };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const makeDiffCount = (diff, cssName) => {
     if (!inDiffMode()) { return '&nbsp;'; }
@@ -402,9 +423,13 @@ $(() => {
     return outerHTML(div);
   };
 
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
   const nonZero = (n) => {
     return n > 0 ? n : '&nbsp;';
   };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const makeDiffType = (diff) => {
     if (diff === '&nbsp;') { return diff; }
@@ -419,6 +444,8 @@ $(() => {
       'data-tip':tip
     }));
   };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const makeDiffFilename = (diff) => {
     return outerHTML($('<div>', {
@@ -463,7 +490,7 @@ $(() => {
   const resetFilenameAddedDeletedLineCountHandlers = () => {
 
     const display = (node, name, value) => {
-      // only [+][-] counts for current filename are live
+      // only [+][-][=] counts for current filename are live
       if ($(node).attr('disabled') !== 'disabled') {
         const filename = $(node).data('filename');
         const selector = `[id="${filename}_diff_div"] ${name}`;
@@ -493,7 +520,6 @@ $(() => {
         function() { display(this, 'added', 'none' ); },
         function() { display(this, 'added', 'block'); }
       );
-
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
