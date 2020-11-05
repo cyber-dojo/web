@@ -114,21 +114,6 @@ table.sss
   &.unchanged { &:before { content: '='; } }
 }
 
-.diff-filename
-{
-  font-size:12pt;
-  color: lighten($darker-color, 50%);
-  width:250px;
-  padding-left:3px;
-  margin-left:3px;
-  cursor:pointer;
-  &:hover
-  {
-    background: lighten($darker-color, 10%);
-    border: 1px solid lighten($darker-color, 10%);
-  }
-}
-
 .diff-type-marker, .diff-filename
 {
   @include plaintext-font();
@@ -137,6 +122,27 @@ table.sss
   &.renamed   { color: lighten($blue, 30%); }
   &.changed   { color: white; }
   &.unchanged { color: darken(DarkGray,20%); }
+}
+
+.diff-filename
+{
+  font-size:12pt;
+  color: lighten($darker-color, 50%);
+  border: 1px solid $darker-color;
+  width:250px;
+  padding-left:3px;
+  margin-left:3px;
+  cursor:pointer;
+  &:hover
+  {
+    background: lighten($darker-color, 5%);
+    border: 1px solid lighten($darker-color, 5%);
+  }
+  &.selected
+  {
+    background: lighten($darker-color, 10%);
+    border: 1px solid lighten($darker-color, 10%);
+  }
 }
 
 //- - - - - - - - - - - - - - - -
