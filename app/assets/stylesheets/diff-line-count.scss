@@ -31,9 +31,6 @@
     border: 1px solid lighten($darker-color,10%);
     cursor: default;
   }
-
-  &[data-filename='status'] { margin-top: 20px; }
-  &[data-filename='stdout'] { margin-bottom: 20px; }
 }
 
 //- - - - - - - - - - - - - - - -

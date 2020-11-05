@@ -226,9 +226,6 @@
            width: 230px;
        max-width: 230px;
 
-      &[data-filename='status'] { margin-top: 20px; }
-      &[data-filename='stdout'] { margin-bottom: 20px; }
-
       color: lighten($darker-color,50%);
 
       &.selected
