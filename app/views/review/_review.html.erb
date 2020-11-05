@@ -520,6 +520,7 @@ $(() => {
 
     const display = (node, name, value) => {
       // only [+][-][=] counts for current filename are live
+      if ($(node).html() === '&nbsp;') { return; }
       if ($(node).attr('disabled') !== 'disabled') {
         const filename = $(node).data('filename');
         const selector = `[id="${filename}_diff_div"] ${name}`;
