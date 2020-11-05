@@ -212,12 +212,6 @@
 
     font-size: 11pt;
 
-    .diff-filename-box
-    {
-      display: flex;
-      flex-direction: row;
-    }
-
     .filename
     {
       @include wide-list-item();

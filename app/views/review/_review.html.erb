@@ -351,21 +351,24 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const makeDiffFilenames = (diffs) => {
-    let html = '';
-    html += '<div class="diff-filename-box">';
-    html += makeDiffLineCountIcon('deleted', '&mdash;');
-    html += makeDiffLineCountIcon('added', '+');
-    html += makeDiffLineCountIcon('same', '=');
-    html += '</div>';
+    let html = '<table>';
+    html += '<tr>';
+    html += makeTd(makeDiffLineCountIcon('deleted', '&mdash;'));
+    html += makeTd(makeDiffLineCountIcon('added', '+'));
+    html += makeTd(makeDiffLineCountIcon('same', '='));
+    html += makeTd(''); // type
+    html += makeTd(''); // filename
+    html += '</tr>';
     $.each(sortedDiffs(diffs), (_, diff) => {
-      html += '<div class="diff-filename-box">';
-      html += makeDiffCount(diff, 'deleted');
-      html += makeDiffCount(diff, 'added');
-      html += makeDiffCount(diff, 'same');
-      html += makeDiffType(diff);
-      html += makeDiffFilename(diff);
-      html += '</div>';
+      html += '<tr>';
+      html += makeTd(makeDiffCount(diff, 'deleted'));
+      html += makeTd(makeDiffCount(diff, 'added'));
+      html += makeTd(makeDiffCount(diff, 'same'));
+      html += makeTd(makeDiffType(diff));
+      html += makeTd(makeDiffFilename(diff));
+      html += '</tr>';
     });
+    html += '</table>';
     return html;
   };
 
@@ -375,16 +378,18 @@ $(() => {
   };
 
   const makeDiffCount = (diff, cssName) => {
-    if (!inDiffMode()) { return ''; }
+    if (!inDiffMode()) { return '&nbsp;'; }
     const div = $('<div>', {
       'class': `diff-${cssName}-line-count`,
       'data-filename': diff.filename
     });
     const lineCount = diff[`${cssName}_line_count`];
-    if (lineCount > 0) {
-      div.append(lineCount);
-    }
+    div.append(nonZero(lineCount));
     return outerHTML(div);
+  };
+
+  const nonZero = (n) => {
+    return n > 0 ? n : '&nbsp;';
   };
 
   const makeDiffType = (diff) => {
