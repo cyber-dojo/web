@@ -362,6 +362,7 @@ $(() => {
       html += makeDiffCount(diff, 'deleted');
       html += makeDiffCount(diff, 'added');
       html += makeDiffCount(diff, 'same');
+      html += makeDiffType(diff);
       html += makeDiffFilename(diff);
       html += '</div>';
     });
@@ -386,9 +387,15 @@ $(() => {
     return outerHTML(div);
   };
 
+  const makeDiffType = (diff) => {
+    return outerHTML($('<div>', {
+      class:`diff-type-marker ${diff.type}`
+    }));
+  };
+
   const makeDiffFilename = (diff) => {
     return outerHTML($('<div>', {
-      'class': 'filename',
+      'class': `diff-filename ${diff.type}`,
       'data-filename': diff.filename,
       'id': `radio_${diff.id}`,
       'text': diff.filename

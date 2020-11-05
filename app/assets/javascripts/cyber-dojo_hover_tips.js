@@ -141,7 +141,7 @@ var cyberDojo = (function(cd, $) {
   // - - - - - - - -
 
   const $diffFilename = (diff) => {
-    const $filename = $('<div>', { class:`diff-hover-filename ${diff.type}` });
+    const $filename = $('<div>', { class:`diff-filename ${diff.type}` });
     $filename.text(diffFilename(diff));
     return $('<td>').append($filename);
   };

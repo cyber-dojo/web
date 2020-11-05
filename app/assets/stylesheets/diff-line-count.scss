@@ -106,7 +106,7 @@
   &.unchanged { &:before { content: '='; } }
 }
 
-.diff-hover-filename
+.diff-filename
 {
   color: lighten($darker-color, 50%);
   position:relative;
@@ -114,8 +114,9 @@
   margin-left:3px;
 }
 
-.diff-type-marker, .diff-hover-filename
+.diff-type-marker, .diff-filename
 {
+  @include plaintext-font();
   &.created   { color: lighten($green,30%); }
   &.deleted   { color: lighten($red,  30%); }
   &.renamed   { color: lighten($blue, 30%); }
