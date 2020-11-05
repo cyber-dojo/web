@@ -372,10 +372,12 @@ $(() => {
   const makeIconHeadings = () => {
     let html = '';
     html += '<tr>';
-    html += makeTd(makeDiffLineCountIcon('deleted', '&mdash;'));
-    html += makeTd(makeDiffLineCountIcon('added', '+'));
-    html += makeTd(makeDiffLineCountIcon('same', '='));
-    html += makeTd(makeDiffHelpIcon()); // aligns withs glyph-id
+    if (inDiffMode()) {
+      html += makeTd(makeDiffLineCountIcon('deleted', '&mdash;'));
+      html += makeTd(makeDiffLineCountIcon('added', '+'));
+      html += makeTd(makeDiffLineCountIcon('same', '='));
+      html += makeTd(makeDiffHelpIcon()); // aligns withs glyph-id
+    }
     html += makeTd(''); // aligns with filename-td
     html += '</tr>';
     return html;
@@ -394,10 +396,12 @@ $(() => {
     glyph ||= diff;
     let html = '';
     html += '<tr>';
-    html += makeTd(makeDiffCount(diff, 'deleted'));
-    html += makeTd(makeDiffCount(diff, 'added'));
-    html += makeTd(makeDiffCount(diff, 'same'));
-    html += makeTd(makeDiffType(glyph));
+    if (inDiffMode()) {
+      html += makeTd(makeDiffCount(diff, 'deleted'));
+      html += makeTd(makeDiffCount(diff, 'added'));
+      html += makeTd(makeDiffCount(diff, 'same'));
+      html += makeTd(makeDiffType(glyph));
+    }
     html += makeTd(makeDiffFilename(diff));
     html += '</tr>';
     return html;
@@ -406,14 +410,12 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const makeDiffLineCountIcon = (cssName, icon) => {
-    if (!inDiffMode()) { return ''; }
     return `<div class="diff-line-count-icon ${cssName}">${icon}</div>`;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const makeDiffHelpIcon = () => {
-    if (!inDiffMode()) { return ''; }
     let tip = '';
     tip += '<span class="diff-line-count-icon deleted">-</span> ';
     tip += '<span class="diff-line-count-icon added">+</span> ';
@@ -438,7 +440,6 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const makeDiffCount = (diff, cssName) => {
-    if (!inDiffMode()) { return '&nbsp;'; }
     const div = $('<div>', {
       'class': `diff-${cssName}-line-count`,
       'data-filename': diffFilename(diff)
@@ -457,7 +458,6 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const makeDiffType = (diff) => {
-    if (!inDiffMode()) { return '&nbsp;'; }    
     if (diff === '&nbsp;') { return diff; }
     const $div = $('<div>', { class:`diff-type-marker ${diff.type}` });
     if (diff.type === 'renamed') {
