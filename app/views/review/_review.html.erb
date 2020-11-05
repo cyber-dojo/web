@@ -360,16 +360,35 @@ $(() => {
     html += makeTd(''); // filename
     html += '</tr>';
     $.each(sortedDiffs(diffs), (_, diff) => {
-      html += '<tr>';
-      html += makeTd(makeDiffCount(diff, 'deleted'));
-      html += makeTd(makeDiffCount(diff, 'added'));
-      html += makeTd(makeDiffCount(diff, 'same'));
-      html += makeTd(makeDiffType(diff));
-      html += makeTd(makeDiffFilename(diff));
-      html += '</tr>';
+      if (!isStdoutStderrStatus(diff.filename)) {
+        html += '<tr>';
+        html += makeTd(makeDiffCount(diff, 'deleted'));
+        html += makeTd(makeDiffCount(diff, 'added'));
+        html += makeTd(makeDiffCount(diff, 'same'));
+        html += makeTd(makeDiffType(diff));
+        html += makeTd(makeDiffFilename(diff));
+        html += '</tr>';
+      }
     });
     html += '</table>';
+    html += '<table class="sss filenames">';
+      $.each(sortedDiffs(diffs), (_, diff) => {
+        if (isStdoutStderrStatus(diff.filename)) {
+          html += '<tr>';
+          html += makeTd(makeDiffCount(diff, 'deleted'));
+          html += makeTd(makeDiffCount(diff, 'added'));
+          html += makeTd(makeDiffCount(diff, 'same'));
+          html += makeTd('&nbsp;');
+          html += makeTd(makeDiffFilename(diff));
+          html += '</tr>';
+        }
+      });
+    html += '</table>';
     return html;
+  };
+
+  const isStdoutStderrStatus = (filename) => {
+    return ['stdout','stderr','status'].includes(filename);
   };
 
   const makeDiffLineCountIcon = (cssName, icon) => {
