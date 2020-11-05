@@ -9,6 +9,12 @@
        width: 20px;
 }
 
+table.filenames
+{
+  border-collapse: collapse;
+  th, td { padding: 0px; }
+}
+
 .diff-deleted-line-count,
 .diff-added-line-count,
 .diff-same-line-count,

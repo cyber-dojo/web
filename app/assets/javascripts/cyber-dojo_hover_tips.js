@@ -54,7 +54,7 @@ var cyberDojo = (function(cd, $) {
   // - - - - - - - - - - - - - - - - - - - -
 
   const diffLinesHtmlTable = (files, options) => {
-    const $table = $('<table>');
+    const $table = $('<table>', { class:'filenames' });
 
     options ||= {};
     showUnchangedFiles = options.showUnchangedFiles; // default == false
