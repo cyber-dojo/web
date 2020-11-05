@@ -107,6 +107,7 @@ $(() => {
           refreshFiles();
           refreshDiffCheckBox();
           scrollCurrentTrafficLightIntoView();
+          cd.setupHoverTips($('.diff-type-marker'));
         });
       });
     });
@@ -412,8 +413,15 @@ $(() => {
   };
 
   const makeDiffType = (diff) => {
+    let tip = '';
+    switch (diff.type) {
+      case 'unchanged': tip = 'an unchanged file'; break;
+      case 'renamed': tip = `a renamed file\n(was ${diff.old_filename})`; break;
+      default: tip = `a ${diff.type} file`; break;
+    }
     return outerHTML($('<div>', {
-      class:`diff-type-marker ${diff.type}`
+      class:`diff-type-marker ${diff.type}`,
+      'data-tip':tip
     }));
   };
 
