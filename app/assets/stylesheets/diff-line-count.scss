@@ -162,7 +162,7 @@ table.sss
 
 //- - - - - - - - - - - - - - - -
 
-.diff-added-line-count, .diff-deleted-line-count
+.diff-added-line-count, .diff-deleted-line-count, .diff-same-line-count
 {
   &.on  { &:before { content: ' '; } }
   &.off { &:before { content: '*'; } }
