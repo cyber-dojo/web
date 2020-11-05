@@ -241,7 +241,8 @@ $(() => {
       const $light = $(light);
       const nowIndex = $light.data('index');
       $light.click(() => moveToTrafficLight(nowIndex));
-      cd.setupTrafficLightTip($light, param.id, wasIndex, nowIndex);
+      const options = { showUnchangedFiles:true, showSameLineCounts:true };
+      cd.setupTrafficLightTip($light, param.id, wasIndex, nowIndex, options);
       wasIndex = nowIndex;
     });
   };
@@ -354,13 +355,13 @@ $(() => {
     html += '<div class="diff-filename-box">';
     html += makeDiffLineCountIcon('deleted', '&mdash;');
     html += makeDiffLineCountIcon('added', '+');
+    html += makeDiffLineCountIcon('same', '=');
     html += '</div>';
     $.each(sortedDiffs(diffs), (_, diff) => {
       html += '<div class="diff-filename-box">';
-      const deletedLineCount = diff['deleted_line_count'];
-      const addedLineCount = diff['added_line_count'];
-      html += makeDiffDeletedCount(deletedLineCount, diff);
-      html += makeDiffAddedCount(addedLineCount, diff);
+      html += makeDiffCount(diff, 'deleted');
+      html += makeDiffCount(diff, 'added');
+      html += makeDiffCount(diff, 'same');
       html += makeDiffFilename(diff);
       html += '</div>';
     });
@@ -372,20 +373,13 @@ $(() => {
     return `<div class="diff-line-count-icon ${cssName}">${icon}</div>`;
   };
 
-  const makeDiffDeletedCount = (lineCount, diff) => {
-    return makeDiffCount(lineCount, diff, 'deleted');
-  };
-
-  const makeDiffAddedCount = (lineCount, diff) => {
-    return makeDiffCount(lineCount, diff, 'added');
-  };
-
-  const makeDiffCount = (lineCount, diff, cssName) => {
+  const makeDiffCount = (diff, cssName) => {
     if (!inDiffMode()) { return ''; }
     const div = $('<div>', {
       'class': `diff-${cssName}-line-count`,
       'data-filename': diff.filename
     });
+    const lineCount = diff[`${cssName}_line_count`];
     if (lineCount > 0) {
       div.append(lineCount);
     }
@@ -455,12 +449,17 @@ $(() => {
         function() { display(this, 'deleted', 'none' ); },
         function() { display(this, 'deleted', 'block'); }
       );
-
     $('.diff-added-line-count')
       .clickToggle(
         function() { display(this, 'added', 'none' ); },
         function() { display(this, 'added', 'block'); }
       );
+    $('.diff-same-line-count')
+      .clickToggle(
+        function() { display(this, 'added', 'none' ); },
+        function() { display(this, 'added', 'block'); }
+      );
+
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -496,7 +495,7 @@ $(() => {
           previousFilenameNode !== undefined &&
             getFilename(previousFilenameNode) === filename;
 
-        $('.diff-deleted-line-count, .diff-added-line-count').attr('disabled', true);
+        $('.diff-deleted-line-count, .diff-added-line-count, .diff-same-line-count').attr('disabled', true);
 
         const $diffDeletedLineCount = $(`.diff-deleted-line-count[data-filename="${filename}"]`);
         if ($diffDeletedLineCount.text() != '') {
@@ -506,6 +505,11 @@ $(() => {
         const $diffAddedLineCount = $(`.diff-added-line-count[data-filename="${filename}"]`);
         if ($diffAddedLineCount.text() != '') {
           $diffAddedLineCount.attr('disabled', false);
+        }
+
+        const $diffSameLineCount = $(`.diff-same-line-count[data-filename="${filename}"]`);
+        if ($diffSameLineCount.text() != '') {
+          $diffSameLineCount.attr('disabled', false);
         }
 
         $('.filename', $reviewPage).removeClass('selected');

@@ -62,7 +62,8 @@ $(() => {
       const $light = $div.append($trafficLightImage(light));
       $lights.append($light);
       $light.click(() => cd.setReviewData(version, kataId, groupId, avatarIndex, index-1, index));
-      cd.setupTrafficLightTip($light, kataId, index-1, index);
+      const options = { showUnchangedFiles:true, showSameLineCounts:true };
+      cd.setupTrafficLightTip($light, kataId, index-1, index, options);
       number += 1;
       updateCountData(light);
       counts.lastLight = light;

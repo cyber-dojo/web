@@ -57,8 +57,8 @@ var cyberDojo = (function(cd, $) {
     const $table = $('<table>');
 
     options ||= {};
-    showUnchangedFiles = options['showUnchangedFiles']; // default == false
-    showSameLineCounts = options['showSameLineCounts']; // default == false
+    showUnchangedFiles = options.showUnchangedFiles; // default == false
+    showSameLineCounts = options.showSameLineCounts; // default == false
 
     const somethingChanged = files.filter(file => file.type != 'unchanged').length > 0;
     //cyber-dojo.sh can never be deleted so there is always one file
