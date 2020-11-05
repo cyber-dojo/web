@@ -457,6 +457,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const makeDiffType = (diff) => {
+    if (!inDiffMode()) { return '&nbsp;'; }    
     if (diff === '&nbsp;') { return diff; }
     const $div = $('<div>', { class:`diff-type-marker ${diff.type}` });
     if (diff.type === 'renamed') {
