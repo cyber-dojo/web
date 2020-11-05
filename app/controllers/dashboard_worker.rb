@@ -26,16 +26,13 @@ module DashboardWorker # mixin
     @time_ticks = gapper.time_ticks(@gapped)
     @age = group.age(e)
     @version = group.schema.version
-    set_footer_info
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  def set_footer_info
     @group_id = group.id
     @avatar_name = ''
-    @display_name = group.manifest.display_name
-    @exercise = group.manifest.exercise
+    manifest = group.manifest
+    @display_name = manifest.display_name
+    @exercise = manifest.exercise
+    @filename_extension = manifest.filename_extension
+    @highlight_filenames = manifest.highlight_filenames
   end
 
   def bool(attribute)

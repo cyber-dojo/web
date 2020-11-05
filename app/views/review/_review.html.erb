@@ -674,13 +674,11 @@ $(() => {
 
 //--></script>
 
-<%= render(:partial => 'review/filenames_extension') %>
-<%= render(:partial => 'review/filenames_highlight') %>
-<%= render(:partial => 'review/filenames_sorted') %>
+<%= render partial: 'shared/filenames_sorted' %>
 
 <div id="review-top-row">
-  <%= render(:partial => 'review/avatar_navigator') %>
-  <%= render(:partial => 'review/traffic_light_navigator') %>
+  <%= render partial: 'review/avatar_navigator' %>
+  <%= render partial: 'review/traffic_light_navigator' %>
   <div id="review-traffic-lights"></div>
 </div>
 
@@ -690,7 +688,7 @@ $(() => {
       <table class="controls">
         <tr>
           <td><div id="resume-button-box"></div></td>
-          <td><%= render(:partial => 'review/diff_checkbox') %></td>
+          <td><%= render partial: 'review/diff_checkbox' %></td>
           <td><div id="fork-button-box"></div></td>
           <td><div id="checkout-button-box"></div></td>
         </tr>

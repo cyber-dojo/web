@@ -4,8 +4,8 @@
 $(() => {
 
   cd.sortedFilenames = (filenames) => {
-    // Controls how the filenames appear in the filename list.
-    // Used here and in kata/_filenames.html.erb
+    // Controls how the filenames appear in filename lists
+    // in kata/edit, review/show, and traffic-light hover-tip.
     const sliced = filenames.slice();
     sliced.sort(orderer);
     return sliced;
@@ -29,12 +29,10 @@ $(() => {
     // Special cases
     if (filename === 'readme.txt')    { category = 0; } // [A]
     if (filename === 'cyber-dojo.sh') { category = 3; } // [B]
-    if (isOutput(filename))           { category = 4; } // [C]
     return category;
     // [A] Always at the top
     // [B] Shell test frameworks (eg shunit2) use .sh extension
     //     but cyber-dojo.sh is not a user source file.
-    // [C] Tab names.
   };
 
   const isHighlight = (filename) => {
@@ -45,8 +43,12 @@ $(() => {
     return cd.extensionFilenames().find(ext => filename.endsWith(ext));
   };
 
-  const isOutput = (filename) => {
-    return ['stdout','stderr','status','+REPL'].includes(filename);
+  cd.highlightFilenames = () => {
+    return $.parseJSON('<%= raw @highlight_filenames %>');
+  };
+
+  cd.extensionFilenames = () => {
+    return $.parseJSON('<%= @filename_extension.inspect.html_safe %>');
   };
 
 });
