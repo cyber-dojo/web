@@ -460,7 +460,7 @@ $(() => {
     if (diff === '&nbsp;') { return diff; }
     const $div = $('<div>', { class:`diff-type-marker ${diff.type}` });
     if (diff.type === 'renamed') {
-      const tip = `was ${diff.old_filename}`;
+      const tip = `was<span class="diff-filename unchanged">${diff.old_filename}</span>`;
       $div.attr('data-tip', tip);
     }
     return outerHTML($div);
