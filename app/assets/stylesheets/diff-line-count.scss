@@ -9,14 +9,14 @@
        width: 20px;
 }
 
-table.filenames
+table.controls, table.filenames
 {
   border-collapse: collapse;
   th, td { padding: 0px; }
 }
 table.sss
 {
-  margin-top:20px;
+  margin-top:15px;
 }
 
 .diff-deleted-line-count,
@@ -94,7 +94,7 @@ table.sss
 {
   cursor:default;
   text-align:center;
-  margin-bottom:6px;
+  margin: { top:2px; bottom:4px; }
 }
 
 //- - - - - - - - - - - - - - - -

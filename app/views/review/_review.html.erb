@@ -679,10 +679,14 @@ $(() => {
 <table>
   <tr valign="top">
     <td class="left-column">
-      <div id="resume-button-box"></div>
-      <%= render(:partial => 'review/diff_checkbox') %>
-      <div id="fork-button-box"></div>
-      <div id="checkout-button-box"></div>
+      <table class="controls">
+        <tr>
+          <td><div id="resume-button-box"></div></td>
+          <td><%= render(:partial => 'review/diff_checkbox') %></td>
+          <td><div id="fork-button-box"></div></td>
+          <td><div id="checkout-button-box"></div></td>
+        </tr>
+      </table>
       <div id="diff-filenames"></div>
     </td>
     <td>

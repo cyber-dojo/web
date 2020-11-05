@@ -42,7 +42,7 @@
   #resume-button
   {
     @include font-size-medium();
-    margin: { left:1px; right: 5px; }
+    margin: { left:0px; right: 5px; }
          padding: { top:0px; bottom:2px; left:8px; right:8px; }
       text-align: center;
      font-weight: bold;
@@ -139,7 +139,7 @@
     background: lighten($darker-color,10%);
     padding-bottom: 0px;
     display: flex;
-    margin-left: 2px;
+    margin-left: 1px;
     margin-right: 6px;
     #review-index-box
     {
