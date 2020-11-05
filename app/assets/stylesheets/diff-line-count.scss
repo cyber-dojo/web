@@ -99,6 +99,20 @@ table.sss
 
 //- - - - - - - - - - - - - - - -
 
+.diff-help-icon
+{
+  @include plaintext-font();
+  margin-left:5px;
+  border-radius:14px;
+  border:1px solid lighten($darker-color, 15%);
+  color:lighten($darker-color, 15%);
+  background:$darker-color;
+  padding:{ left:6px; right:6px; }
+  cursor:pointer;
+}
+
+//- - - - - - - - - - - - - - - -
+
 .diff-type-marker
 {
   font-size:18px;
@@ -106,6 +120,7 @@ table.sss
   text-align:center;
   $non_breaking_space:  '\00a0';
   $n_dash: '\2013';
+  $m_dash: '\2014';
   $curved_right_arrow: '\21B7';
   &.created   { &:before { content: '+'; } }
   &.deleted   { &:before { content: $n_dash; } }

@@ -107,7 +107,7 @@ $(() => {
           refreshFiles();
           refreshDiffCheckBox();
           scrollCurrentTrafficLightIntoView();
-          cd.setupHoverTips($('.diff-type-marker'));
+          cd.setupHoverTips($('[data-tip]'));
         });
       });
     });
@@ -375,8 +375,8 @@ $(() => {
     html += makeTd(makeDiffLineCountIcon('deleted', '&mdash;'));
     html += makeTd(makeDiffLineCountIcon('added', '+'));
     html += makeTd(makeDiffLineCountIcon('same', '='));
-    html += makeTd(''); // type
-    html += makeTd(''); // filename
+    html += makeTd(makeDiffHelpIcon()); // aligns withs glyph-id
+    html += makeTd(''); // aligns with filename-td
     html += '</tr>';
     return html;
   };
@@ -412,6 +412,31 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
+  const makeDiffHelpIcon = () => {
+    if (!inDiffMode()) { return ''; }
+    let tip = '';
+    tip += '<span class="diff-line-count-icon deleted">-</span> ';
+    tip += '<span class="diff-line-count-icon added">+</span> ';
+    tip += '<span class="diff-line-count-icon same">=</span> number of deleted,added,unchanged lines.<br/>';
+    tip += '<hr/>';
+    tip += 'click a filename to review it.<br/>';
+    tip += 'reclick a filename to scroll to its next diff.<br/>';
+    tip += '<hr/>';
+    tip += '<span class="diff-type-marker created"></span><span class="diff-filename created">created-file</span><br/>';
+    tip += '<span class="diff-type-marker deleted"></span><span class="diff-filename deleted">deleted-file</span><br/>';
+    tip += '<span class="diff-type-marker unchanged"></span><span class="diff-filename unchanged">unchanged-file</span><br/>';
+    tip += '<span class="diff-type-marker renamed"></span><span class="diff-filename renamed">renamed-file</span>';
+    tip += ' for old filename, hover over the <span class="diff-type-marker renamed"></span>';
+    const $div = $('<div>', {
+      class: 'diff-help-icon',
+      'data-tip': tip
+    });
+    $div.text('?');
+    return outerHTML($div);
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+
   const makeDiffCount = (diff, cssName) => {
     if (!inDiffMode()) { return '&nbsp;'; }
     const div = $('<div>', {
@@ -433,18 +458,12 @@ $(() => {
 
   const makeDiffType = (diff) => {
     if (diff === '&nbsp;') { return diff; }
-    let tip = diffFilename(diff);
-    switch (diff.type) {
-      case 'created'  : tip += ' was newly created'; break;
-      case 'deleted'  : tip += ' was deleted'; break;
-      case 'unchanged': tip += ' was unchanged'; break;
-      case 'renamed'  : tip += ` was renamed from ${diff.old_filename}`; break;
-      case 'changed'  : tip += ` was edited`; break;
+    const $div = $('<div>', { class:`diff-type-marker ${diff.type}` });
+    if (diff.type === 'renamed') {
+      const tip = `was ${diff.old_filename}`;
+      $div.attr('data-tip', tip);
     }
-    return outerHTML($('<div>', {
-      class:`diff-type-marker ${diff.type}`,
-      'data-tip':tip
-    }));
+    return outerHTML($div);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -554,10 +573,6 @@ $(() => {
       const sectionCount = diff.section_count;
       const diffSheet = diffFileContentFor(filename);
       let sectionIndex = 0;
-
-      if (sectionCount > 0) {
-        filenameNode.attr('title', 'Auto-scroll through diffs');
-      }
 
       return () => {
 
