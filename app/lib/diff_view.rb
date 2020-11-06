@@ -10,19 +10,12 @@ module DiffView # mix-in
       id = 'id_' + n.to_s
       n += 1
 
-      if diff['type'] === "deleted"
-        filename = diff['old_filename']
-      else
-        filename = diff['new_filename']
-      end
-
       lines = diff['lines']
       line_counts = diff['line_counts']
 
       diffs << {
                         id: id,
                       type: diff['type'],
-                  filename: filename,
               old_filename: diff['old_filename'],
               new_filename: diff['new_filename'],
              section_count: lines.count { |line| line['type'] === 'section' },
