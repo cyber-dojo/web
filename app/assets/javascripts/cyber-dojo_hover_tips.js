@@ -18,76 +18,105 @@ var cyberDojo = (function(cd, $) {
     cd.setTip($light, () => {
       const args = `id=${kataId}&was_index=${wasIndex}&now_index=${nowIndex}`;
       $.getJSON(`/differ/diff_summary?${args}`, '', (summary) => {
-        cd.showHoverTip($light, tipHtml($light, summary));
+        cd.showHoverTip($light, $trafficLightTip($light, summary));
       });
     });
   };
 
   // - - - - - - - - - - - - - - - - - - - -
 
-  const tipHtml = ($light, diffSummary, options) => {
+  const $trafficLightTip = ($light, diff) => {
+    const $holder = $(document.createDocumentFragment());
+    $holder.append($trafficLightSummary($light));
+    $holder.append($diffLinesTable(diff));
+    return $holder;
+  };
+
+  // - - - - - - - - - - - - - - - - - - - -
+
+  const $trafficLightSummary = ($light) => {
     const avatarIndex = $light.data('avatar-index');
     const colour = $light.data('colour');
     const number = $light.data('number');
-    return `<table>
-             <tr>
-               <td>${avatarImage(avatarIndex)}</td>
-               <td><span class="traffic-light-count ${colour}">${number}</span></td>
-               <td><img src="/images/traffic-light/${colour}.png"
-                      class="traffic-light-diff-tip-traffic-light-image"></td>
-             </tr>
-           </table>
-           ${diffLinesHtmlTable(diffSummary)}`;
-  };
-
-  // - - - - - - - - - - - - - - - - - - - -
-
-  const avatarImage = (avatarIndex) => {
-    if (avatarIndex === '') {
-      return '';
-    } else {
-      return `<img src="/images/avatars/${avatarIndex}.jpg"
-                 class="traffic-light-diff-tip-avatar-image">`;
-    }
-  };
-
-  // - - - - - - - - - - - - - - - - - - - -
-
-  const diffLinesHtmlTable = (diffs) => {
-    const $table = $('<table>', { class:'filenames' });
-    // cyber-dojo.sh cannot be deleted so there is always one file
     const $tr = $('<tr>');
-    $tr.append($linesCountIcon('deleted', '&mdash;'));
-    $tr.append($linesCountIcon('added', '+'));
-    $tr.append($linesCountIcon('same', '='));
+    $tr.append($avatarImageTd(avatarIndex));
+    $tr.append($trafficLightCountTd(colour, number));
+    $tr.append($trafficLightImageTd(colour));
+    return $('<table>').append($tr);
+  };
+
+  // - - - - - - - - - - - - - - - - - - - -
+
+  const $avatarImageTd = (avatarIndex) => {
+    const $td = $('<td>');
+    if (avatarIndex != '') {
+      const $img = $('<img>', {
+          src:`/images/avatars/${avatarIndex}.jpg`,
+        class:'traffic-light-diff-tip-avatar-image'
+      });
+      $td.append($img);
+    }
+    return $td;
+  };
+
+  // - - - - - - - - - - - - - - - - - - - -
+
+  const $trafficLightCountTd = (colour, number) => {
+    const $count = $('<span>', {
+      class:`traffic-light-count ${colour}`
+    }).text(number);
+    return $('<td>').append($count);
+  };
+
+  // - - - - - - - - - - - - - - - - - - - -
+
+  const $trafficLightImageTd = (colour) => {
+    const $img = $('<img>', {
+        src:`/images/traffic-light/${colour}.png`,
+      class:'traffic-light-diff-tip-traffic-light-image'
+    });
+    return $('<td>').append($img);
+  };
+
+  // - - - - - - - - - - - - - - - - - - - -
+
+  const $diffLinesTable = (diffs) => {
+    const $table = $('<table>', { class:'filenames' });
+    const $tr = $('<tr>');
+    // column icons
+    $tr.append($linesCountIconTd('deleted', '&mdash;'));
+    $tr.append($linesCountIconTd('added', '+'));
+    $tr.append($linesCountIconTd('same', '='));
     $tr.append($('<td>'));
     $tr.append($('<td>'));
     $table.append($tr);
-
+    // cyber-dojo.sh cannot be deleted so there is always one file
     const filenames = diffs.map(diff => diffFilename(diff));
     cd.sortedFilenames(filenames).forEach(filename => {
       const file = diffs.find(diff => diffFilename(diff) === filename);
       const $tr = $('<tr>');
-      $tr.append($lineCount('deleted', file));
-      $tr.append($lineCount('added', file));
-      $tr.append($lineCount('same', file));
-      $tr.append($diffType(file));
-      $tr.append($diffFilename(file));
+      $tr.append($lineCountTd('deleted', file));
+      $tr.append($lineCountTd('added', file));
+      $tr.append($lineCountTd('same', file));
+      $tr.append($diffTypeTd(file));
+      $tr.append($diffFilenameTd(file));
       $table.append($tr);
     });
-    return $table.get(0).outerHTML;
+    return $table;
   };
 
   // - - - - - - - -
 
-  const $linesCountIcon = (type, glyph) => {
-    const $icon = $('<div>', { class:`diff-line-count-icon ${type}` }).html(glyph);
+  const $linesCountIconTd = (type, glyph) => {
+    const $icon = $('<div>', {
+      class:`diff-line-count-icon ${type}`
+    }).html(glyph);
     return $('<td>').append($icon);
   };
 
   // - - - - - - - -
 
-  const $lineCount = (type, file) => {
+  const $lineCountTd = (type, file) => {
     const $count = $('<div>', {
       class:`diff-${type}-line-count`,
       disabled:"disabled"
@@ -96,21 +125,24 @@ var cyberDojo = (function(cd, $) {
     return $('<td>').append($count);
   };
 
+  // - - - - - - - -
+
   const nonZero = (n) => {
     return n > 0 ? n : '&nbsp;';
   };
 
   // - - - - - - - -
 
-  const $diffType = (diff) => {
-    return $('<td>').append($('<div>', {
+  const $diffTypeTd = (diff) => {
+    const $type = $('<div>', {
       class:`diff-type-marker ${diff.type}`
-    }));
+    });
+    return $('<td>').append($type);
   };
 
   // - - - - - - - -
 
-  const $diffFilename = (diff) => {
+  const $diffFilenameTd = (diff) => {
     const $filename = $('<div>', { class:`diff-filename ${diff.type}` });
     $filename.text(diffFilename(diff));
     return $('<td>').append($filename);
