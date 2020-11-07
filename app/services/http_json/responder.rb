@@ -30,10 +30,10 @@ module HttpJson
 
     def unpacked(body, path)
       json = json_parse(body)
-      unless json.is_a?(Hash)
-        throw error_msg(body, 'is not JSON Hash')
+      unless json.is_a?(Hash) || json.is_a?(Array)
+        throw error_msg(body, 'is not JSON Hash|Array')
       end
-      if json.has_key?('exception')
+      if json.is_a?(Hash) && json.has_key?('exception')
         throw JSON.pretty_generate(json['exception'])
       end
       if @options[:keyed]

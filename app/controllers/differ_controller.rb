@@ -5,14 +5,9 @@ class DifferController < ApplicationController
   def diff
     version = params[:version].to_i
     id = params[:id]
-    manifest,events,old_files,new_files = kata.diff_info(was_index, now_index)
-    # ensure stdout/stderr/status show no diff
-    # TODO: Do this inside differ-service when INDEXes are passed to differ
-    old_files['stdout'] = new_files['stdout']
-    old_files['stderr'] = new_files['stderr']
-    old_files['status'] = new_files['status']
+    manifest,events = kata.diff_info
 
-    diff = differ.diff_lines2(id, old_files, new_files)
+    diff = differ.diff_lines(id, was_index, now_index)
     view = diff_view(diff)
 
     m = Manifest.new(manifest)

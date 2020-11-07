@@ -109,15 +109,13 @@ class Kata
 
   # - - - - - - - - - - - - - - - - -
 
-  def diff_info(was_index, now_index)
-    m,e,was,now = kata.diff_info(id, was_index, now_index)
-    was_files = diff_files(was)
-    now_files = diff_files(now)
+  def diff_info
+    m,e = kata.diff_info(id)
     events = e.map.with_index do |h,index|
       h['index'] ||= index
       Event.new(self, h)
     end
-    [m,events,was_files,now_files]
+    [ m, events ]
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -199,22 +197,6 @@ class Kata
 
   def plain(files)
     files.map{ |filename,file| [filename, file['content']] }.to_h
-  end
-
-  def diff_files(h)
-    files = plain(h['files'])
-    files['stdout'] = content(h, 'stdout')
-    files['stderr'] = content(h, 'stderr')
-    files['status'] = (h['status'] || '').to_s
-    files
-  end
-
-  def content(h,k)
-    if h.has_key?(k)
-      h[k]['content']
-    else
-      ''
-    end
   end
 
   # - - - - - - - - - - - - - - - - -

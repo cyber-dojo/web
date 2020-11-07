@@ -61,18 +61,14 @@ class Kata_v1
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def diff_info(id, was_index, now_index)
+  def diff_info(id)
     results = saver.assert_all([
       manifest_file_read_command(id),
-      events_file_read_command(id),
-      event_file_read_command(id, was_index),
-      event_file_read_command(id, now_index)
+      events_file_read_command(id)
     ])
     manifest = json_parse(results[0])
     events = json_parse('[' + results[1] + ']')
-    was = json_parse(results[2])
-    now = json_parse(results[3])
-    [ manifest, events, was, now ]
+    [ manifest, events ]
   end
 
   # - - - - - - - - - - - - - - - - - - -
