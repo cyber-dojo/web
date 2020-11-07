@@ -93,13 +93,13 @@ var cyberDojo = (function(cd, $) {
     // cyber-dojo.sh cannot be deleted so there is always one file
     const filenames = diffs.map(diff => diffFilename(diff));
     cd.sortedFilenames(filenames).forEach(filename => {
-      const file = diffs.find(diff => diffFilename(diff) === filename);
+      const fileDiff = diffs.find(diff => diffFilename(diff) === filename);
       const $tr = $('<tr>');
-      $tr.append($lineCountTd('deleted', file));
-      $tr.append($lineCountTd('added', file));
-      $tr.append($lineCountTd('same', file));
-      $tr.append($diffTypeTd(file));
-      $tr.append($diffFilenameTd(file));
+      $tr.append($lineCountTd('deleted', fileDiff));
+      $tr.append($lineCountTd('added', fileDiff));
+      $tr.append($lineCountTd('same', fileDiff));
+      $tr.append($diffTypeTd(fileDiff));
+      $tr.append($diffFilenameTd(fileDiff));
       $table.append($tr);
     });
     return $table;
