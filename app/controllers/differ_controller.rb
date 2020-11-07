@@ -7,7 +7,7 @@ class DifferController < ApplicationController
     id = params[:id]
     manifest,events,old_files,new_files = kata.diff_info(was_index, now_index)
     # ensure stdout/stderr/status show no diff
-    # TODO: Do this inside differ when INDEXes are passed to differ
+    # TODO: Do this inside differ-service when INDEXes are passed to differ
     old_files['stdout'] = new_files['stdout']
     old_files['stderr'] = new_files['stderr']
     old_files['status'] = new_files['status']

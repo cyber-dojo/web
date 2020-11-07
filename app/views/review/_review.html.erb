@@ -54,13 +54,11 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
   const fadeIntoReviewPage = () => {
     $kataPage.fadeOut('fast', () => {
       $reviewPage.fadeIn('fast');
     });
   };
-
   const fadeIntoKataPage = (onComplete) => {
     $reviewPage.fadeOut('fast', () => {
       $kataPage.fadeIn('fast', () => {
@@ -70,7 +68,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
   const moveToAvatar = (id) => {
     param.id = id;
     const index = inDiffMode() ? 1 : -1;
@@ -78,7 +75,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
   const moveToTrafficLight = (index) => {
     const delta = inDiffMode() ? 1 : 0;
     param.nowIndex = index;
@@ -87,7 +83,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
   const refresh = () => {
     const reviewParams = {
            version: param.version,
@@ -114,7 +109,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
   const scrollCurrentTrafficLightIntoView = () => {
     // refreshTrafficLights() has updated the dom with a $('#traffic-light-marker')
     // I cannot find a nice way to access it once the dom is ready. So this :-(
@@ -166,13 +160,11 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
   const makeAvatarImageHtml = () => {
     return `<img class="avatar-image" src="/images/avatars/${param.avatarIndex}.jpg"/>`;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
   const refreshAvatar = (button, id) => {
     button
       .attr('disabled', id === '')
@@ -193,7 +185,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
   const refreshIndex = (button, index) => {
     button
       .attr('disabled', index === null)
@@ -202,7 +193,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
   const prevEventIndex = (n) => {
     if (param.nowIndex === 1) { // 0 is creation event
       return null; // disable
@@ -212,7 +202,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
   const nextEventIndex = (n) => {
     if (param.nowIndex === param.events.length-1) {
       return null; // disable
@@ -222,7 +211,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
   const makeIndexHtml = () => {
     const index = param.nowIndex;
     const colour = param.events[index].colour;
@@ -248,7 +236,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
   const makeTrafficLightsHtml = () => {
     let html = '';
     let number = 1;
@@ -262,7 +249,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
   const isVisible = (event) => {
     // eg don't show event[0] == creation
     switch (event.colour) {
@@ -279,7 +265,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
   const makeTrafficLightHtml = (light, number) => {
     const colour = light.colour;
     return '' +
@@ -297,7 +282,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
   const makeRevertCircle = (light) => {
     if (isRevert(light)) {
       return '<img class="revert" src="/images/traffic-light/circle-revert.png">';
@@ -349,7 +333,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
   const makeDiffFilenames = (diffs) => {
     let html = '<table class="filenames">';
     html += makeIconHeadings();
@@ -368,7 +351,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
   const makeIconHeadings = () => {
     let html = '';
     html += '<tr>';
@@ -384,14 +366,12 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
   const isTrueFile = (diff) => {
     const filename = diffFilename(diff);
     return !['stdout','stderr','status'].includes(filename);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
   const makeDiffTr = (diff, glyph) => {
     glyph ||= diff;
     let html = '';
@@ -408,13 +388,11 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
   const makeDiffLineCountIcon = (cssName, icon) => {
     return `<div class="diff-line-count-icon ${cssName}">${icon}</div>`;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
   const makeDiffHelpIcon = () => {
     let tip = '';
     tip += '<span class="diff-line-count-icon deleted">-</span> ';
@@ -438,7 +416,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
   const makeDiffCount = (diff, cssName) => {
     const div = $('<div>', {
       'class': `diff-${cssName}-line-count`,
@@ -450,13 +427,9 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const nonZero = (n) => {
-    return n > 0 ? n : '&nbsp;';
-  };
+  const nonZero = (n) => n > 0 ? n : '&nbsp;';
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
   const makeDiffType = (diff) => {
     if (diff === '&nbsp;') { return diff; }
     const $div = $('<div>', { class:`diff-type-marker ${diff.type}` });
@@ -468,7 +441,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
   const makeDiffFilename = (diff) => {
     return outerHTML($('<div>', {
       'class': `diff-filename ${diff.type}`,
@@ -487,13 +459,9 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const outerHTML = (element) => {
-    return element.get(0).outerHTML;
-  };
+  const outerHTML = (element) => element.get(0).outerHTML;
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
   const sortedDiffs = (diffs) => {
     let filenames = [];
     $.each(diffs, (_, diff) => {
@@ -516,7 +484,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
   const resetFilenameAddedDeletedLineCountHandlers = () => {
 
     const display = (node, name, value) => {
@@ -554,7 +521,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
   const buildDiffFilenameHandlers = (diffs) => {
     // Builds click handlers for all filenames for a given
     // [ kata-id, was-index, now-index] tuple.
@@ -630,7 +596,6 @@ $(() => {
   }; // buildDiffFilenameHandlers()
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
   const makeDiffContent = (diffs) => {
     const holder = $('<span>');
     $.each(diffs, (_, diff) => {
@@ -656,7 +621,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
   const bindLineNumberScrolling = ($content, $numbers) => {
     const synchScroll = () => {
       $numbers.scrollTop($content.scrollTop());
@@ -672,7 +636,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
   const setForkButtonTip = () => {
     const button = $('#fork-button');
     cd.setTip(button, () => {
@@ -682,7 +645,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
   const setCheckoutButtonTip = () => {
     // Prefer 'checkout' to 'revert' since in a group exercises
     // you can revert to other avatar's traffic-lights.
@@ -694,7 +656,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
   const setupButton = (name, handler) => {
     const button = `<button id="${name}-button" type="button"></button>`;
     $(`#${name}-button-box`).html(button);
@@ -705,7 +666,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
   const makeTr = (html) => `<tr>${html}</tr>`;
   const makeTd = (html) => `<td>${html}</td>`;
 
