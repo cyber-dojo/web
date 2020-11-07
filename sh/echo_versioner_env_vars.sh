@@ -7,8 +7,8 @@ echo_versioner_env_vars()
   echo CYBER_DOJO_WEB_SHA="$(image_sha)"
   echo CYBER_DOJO_WEB_TAG="$(image_tag)"
 
-  echo CYBER_DOJO_DIFFER_SHA=34f0ab987002b94e5b7be26352e96293ccd229f2
-  echo CYBER_DOJO_DIFFER_TAG=34f0ab9
+  echo CYBER_DOJO_DIFFER_SHA=66df74ba1d9a0684de5caea523b2e8a6295bd027
+  echo CYBER_DOJO_DIFFER_TAG=66df74b
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
