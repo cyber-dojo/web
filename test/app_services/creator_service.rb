@@ -44,7 +44,6 @@ class CreatorService
   end
 
   # - - - - - - - - - - - - - - - -
-  # deprecated
 
   def group_create_custom(display_name)
     json = @http.post('create.json', {

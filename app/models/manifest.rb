@@ -28,20 +28,20 @@ class Manifest
 
   required :group_id,           # eg '8bvlJk',    nil if !group-session
            :group_index,        # eg 45 (salmon), nil if !group-session
-           :created,            # eg [2018,10,14, 9,50,23]
+           :created,            # eg [2018,10,14, 9,50,23,800239]
            :display_name,       # eg 'Java, JUnit'
            :filename_extension, # eg [ '.java' ]
            :id,                 # eg '260za8'
-           :image_name          # eg 'cyberdojofoundation/java_junit'
+           :image_name          # eg 'cyberdojofoundation/java_junit:956b0c2'
 
   # - - - - - - - - - -
 
   optional({
                exercise:'',
     highlight_filenames:[],
-       hidden_filenames:[],
+       hidden_filenames:[], # No longer used
                tab_size:4,
-            max_seconds:10,
+            max_seconds:10, # deprecated
         progress_regexs:[]
   })
 
