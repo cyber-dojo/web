@@ -8,6 +8,7 @@
 readonly ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source "${ROOT_DIR}/sh/echo_versioner_env_vars.sh"
 source "${ROOT_DIR}/sh/container_info.sh"
+source "${ROOT_DIR}/sh/copy_in_saver_test_data.sh"
 export $(echo_versioner_env_vars)
 
 # - - - - - - - - - - - - - - - - - - - - - - -
@@ -50,4 +51,5 @@ up_nginx()
 # - - - - - - - - - - - - - - - - - - - - - - -
 remove 3000 #web
 web_build
+copy_in_saver_test_data
 up_nginx
