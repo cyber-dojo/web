@@ -51,5 +51,5 @@ up_nginx()
 # - - - - - - - - - - - - - - - - - - - - - - -
 remove 3000 #web
 web_build
-copy_in_saver_test_data
 up_nginx
+copy_in_saver_test_data
