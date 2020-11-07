@@ -16,7 +16,7 @@ class Groups
   end
 
   def new_group(manifest)
-    # Still used in Schema tests    
+    # Still used in Schema tests
     version = manifest_version(manifest)
     id = Schema.new(@externals, version).group.create(manifest)
     Group.new(@externals, @params.merge({id:id,version:version}))

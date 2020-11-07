@@ -8,6 +8,8 @@ method in its API. Most requests coming into a controller
 no longer use the models/ abstractions; instead they use
 saver's batch() method and forward data directly to the views.
 Most but not all. So currently some of the models/ code is
-only used in tests. The plan is to move all the model code
-into a model microservice, layer an API on top of it, and then
-embed that API inside saver to create a proper abtraction. 
+only used in tests. The plan is to
+- move all the model/ code into the model microservice
+- layer the saver API underneath the model microservice
+- drop all other use of the saver microservice
+- put the model microservice into the saver microservice

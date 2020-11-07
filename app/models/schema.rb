@@ -21,6 +21,3 @@ class Schema
   KATAS = [ Kata_v0, Kata_v1 ]
 
 end
-
-# TODO: Kata.event(index) is returning a Hash and not an
-# Event object. Does schema need [group,kata,event] triple?
