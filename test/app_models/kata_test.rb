@@ -182,7 +182,7 @@ class KataTest < AppModelsTestBase
       status_1 = 4
       kata_ran_tests(kata.id, 1, kata.files, stdout_1, stdout_1, stderr_1, ran_summary('red'))
 
-      filename = 'hiker.rb'
+      filename = 'hiker.sh'
       hiker_rb = kata.files[filename]['content']
       files[filename] = content(hiker_rb.sub('6 * 9','6 * 7'))
       stdout_2 = content('All tests passed')
