@@ -26,7 +26,7 @@ class DifferControllerTest < AppControllerTestBase
     set_saver_class('SaverService')
     differ('5rTJv5', 'FxWwrr', 0, 0, version=0)
     json['diffs'].each do |diff|
-      filename = diff['filename']
+      filename = diff['new_filename']
       assert_equal 0, diff['section_count'], filename
       assert_equal 0, diff['deleted_line_count'], filename
       assert_equal 0, diff['added_line_count'], filename
@@ -40,7 +40,7 @@ class DifferControllerTest < AppControllerTestBase
     set_saver_class('SaverService')
     differ('5rTJv5', 'FxWwrr', 0, 1, version=0)
     json['diffs'].each do |diff|
-      filename = diff['filename']
+      filename = diff['new_filename']
       n = (filename === 'hiker.rb') ? 1 : 0
       assert_equal n, diff['section_count'], filename
       assert_equal n, diff['deleted_line_count'], filename
