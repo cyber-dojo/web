@@ -141,7 +141,7 @@ class GroupTest < AppModelsTestBase
       stdout = content('')
       stderr = content('')
       status = 0
-      kata.ran_tests(kata.id, 1, kata.files, stdout, stderr, status, {
+      kata_ran_tests(kata.id, 1, kata.files, stdout, stderr, status, {
         'duration' => duration,
         'colour' => 'green',
         'predicted' => 'none'

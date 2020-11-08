@@ -43,21 +43,9 @@ class Kata
     manifest.group_index
   end
 
-  # - - - - - - - - - - - - - - - - -
-
-  def ran_tests(id, index, files, stdout, stderr, status, summary)
-    model.kata_ran_tests(id, index, files, stdout, stderr, status, summary)
-  end
-
   def run_tests(params = @params)
     Runner.new(@externals).run(params)
   end
-
-  def revert(id, index, files, stdout, stderr, status, summary)
-    model.kata_ran_tests(id, index, files, stdout, stderr, status, summary)
-  end
-
-  # - - - - - - - - - - - - - - - - -
 
   def events
     kata.events(id).map.with_index do |h,index|
@@ -158,7 +146,7 @@ class Kata
     if result
       result.lines.last
     else
-      'on' # default (other options is 'off')
+      'on' # default (other option is 'off')
     end
   end
 
@@ -210,7 +198,6 @@ class Kata
   end
 
   def most_recent_event
-    # This should be quicker than event(-1)
     events.last
   end
 
