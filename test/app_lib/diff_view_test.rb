@@ -24,7 +24,6 @@ class DiffViewTest < AppLibTestBase
     [
       {
         'type' => 'changed',
-        'filename' => 'hiker.rb',
         'old_filename' => 'hiker.rb',
         'new_filename' => 'hiker.rb',
         'line_counts' => {
@@ -49,7 +48,6 @@ class DiffViewTest < AppLibTestBase
       {
         :id => "id_0",
         :type => "changed",
-        :filename => "hiker.rb",
         :old_filename => "hiker.rb",
         :new_filename => "hiker.rb",
         :section_count => 1,
@@ -83,7 +81,6 @@ class DiffViewTest < AppLibTestBase
     [
       {
         'type' => 'deleted',
-        'filename' => 'hiker.rb',
         'old_filename' => 'hiker.rb',
         'new_filename' => nil,
         'line_counts' => {
@@ -106,7 +103,6 @@ class DiffViewTest < AppLibTestBase
       {
         :id => "id_0",
         :type => "deleted",
-        :filename => "hiker.rb",
         :old_filename => "hiker.rb",
         :new_filename => nil,
         :section_count => 1,

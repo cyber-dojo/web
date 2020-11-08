@@ -124,7 +124,7 @@ class ReviewFilePickerTest < AppLibTestBase
   def fdiff(filename, dc, ac, content = '')
     @n += 1
     {
-      :filename => filename,
+      :new_filename => filename,
       :deleted_line_count => dc,
       :added_line_count => ac,
       :id => 'id_' + @n.to_s,
