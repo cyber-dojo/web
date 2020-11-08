@@ -27,12 +27,13 @@ class KataControllerTest  < AppControllerTestBase
   test '221', %w( timed_out ) do
     in_kata do |kata|
       change_file('hiker.rb',
-        <<~RUBY_CODE
+        <<~BASH_CODE
         def global_answer
-          while true
-          end
+          while true; do
+            :
+          done
         end
-        RUBY_CODE
+        BASH_CODE
       )
       post_run_tests({ 'max_seconds' => 3 })
       assert_equal :timed_out, kata.lights[-1].colour
@@ -45,10 +46,10 @@ class KataControllerTest  < AppControllerTestBase
     in_kata do |kata|
       post_run_tests
       assert_equal :red, kata.lights[-1].colour
-      sub_file('hiker.rb', '6 * 9', '6 * 7')
+      sub_file('hiker.sh', '6 * 9', '6 * 7')
       post_run_tests
       assert_equal :green, kata.lights[-1].colour
-      change_file('hiker.rb', 'syntax-error')
+      change_file('hiker.sh', 'syntax-error')
       post_run_tests
       assert_equal :amber, kata.lights[-1].colour
     end

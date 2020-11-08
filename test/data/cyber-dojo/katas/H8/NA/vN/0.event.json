@@ -1,0 +1,30 @@
+{
+  "files": {
+    "test_hiker.sh": {
+      "content": "#!/usr/bin/env bats\n\nsource ./hiker.sh\n\n@test \"life the universe and everything\" {\n  local actual=$(answer)\n  [ \"$actual\" == \"42\" ]\n}\n"
+    },
+    "bats_help.txt": {
+      "content": "\nbats help is online at\nhttps://github.com/bats-core/bats-core#usage\n"
+    },
+    "hiker.sh": {
+      "content": "#!/bin/bash\n\nanswer()\n{\n  echo $((6 * 9))\n}\n"
+    },
+    "cyber-dojo.sh": {
+      "content": "chmod 700 *.sh\n./test_*.sh\n"
+    },
+    "readme.txt": {
+      "content": "\nWrite a program to show that the 13th day of the month falls more often on a Friday than any other day of the week. The 1st of January 1973 was a Monday. You should aim at producing the clearest possible program, not the fastest.\n\n[source: BCPL the language and its compiler by Martin Richards and Colin Whitby-Strevens]\n"
+    }
+  },
+  "index": 0,
+  "time": [
+    2020,
+    10,
+    19,
+    12,
+    15,
+    38,
+    644198
+  ],
+  "event": "created"
+}

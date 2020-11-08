@@ -130,7 +130,7 @@ class KataTest < AppModelsTestBase
       refute_nil kata.group
       assert_equal group.id, kata.group.id
 
-      assert_equal 'Ruby, MiniTest', kata.manifest.display_name
+      assert_equal 'Bash, bats', kata.manifest.display_name
     end
   end
 

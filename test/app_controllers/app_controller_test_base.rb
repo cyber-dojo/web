@@ -16,8 +16,9 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   end
 
   def create_custom_group(options={})
+    manifest = starter_manifest
     display_name = options[:display_name] || DEFAULT_DISPLAY_NAME
-    manifest = starter_manifest(display_name)
+    manifest['display_name'] = display_name
     manifest['version'] = (options[:version] || 1)
     @id = model.group_create(manifest)
     nil

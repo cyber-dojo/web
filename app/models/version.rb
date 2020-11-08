@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 require_relative 'id_pather'
 require_relative '../../lib/oj_adapter'
 

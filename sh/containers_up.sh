@@ -32,10 +32,11 @@ containers_up()
     --force-recreate \
     web
 
-  wait_until_ready custom_start_points    4526
-  wait_until_ready exercises_start_points 4525
-  wait_until_ready languages_start_points 4524
+  #wait_until_ready custom_start_points    4526
+  #wait_until_ready exercises_start_points 4525
+  #wait_until_ready languages_start_points 4524
 
+  wait_until_ready model     4528
   wait_until_ready runner    4597
   wait_until_ready differ    4567
   wait_until_ready saver     4537

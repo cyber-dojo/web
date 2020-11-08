@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 require_relative 'group_v0'
 require_relative 'group_v1'
 require_relative 'kata_v0'

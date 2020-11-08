@@ -10,9 +10,8 @@ services:
 
   web:
     depends_on:
-      - creator
+      - model
       - differ
-      - repler
       - runner
       - saver
       - shas

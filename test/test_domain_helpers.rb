@@ -1,4 +1,3 @@
-require_relative 'app_services/creator_service'
 
 module TestDomainHelpers # mix-in
 
@@ -28,10 +27,22 @@ module TestDomainHelpers # mix-in
     hex_test_name.start_with?("<version=#{n}>")
   end
 
-  # - - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - -
+
+  def in_new_group(&block)
+    id = model.group_create(starter_manifest)
+    block.call(groups[id])
+  end
 
   def groups(params = {})
     Groups.new(self, params)
+  end
+
+  # - - - - - - - - - - - - - - - -
+
+  def in_new_kata(&block)
+    id = model.kata_create(starter_manifest)
+    block.call(katas[id])
   end
 
   def katas(params = {})
@@ -40,30 +51,11 @@ module TestDomainHelpers # mix-in
 
   # - - - - - - - - - - - - - - - -
 
-  def creator
-    CreatorService.new(self)
-  end
-
-  def in_new_group(params = {}, &block)
-    id = creator.group_create(DEFAULT_LANGUAGE_NAME, DEFAULT_EXERCISE_NAME)
-    block.call(groups[id])
-  end
-
-  # - - - - - - - - - - - - - - - -
-
-  def in_new_kata(params = {}, &block)
-    id = creator.kata_create(DEFAULT_LANGUAGE_NAME, DEFAULT_EXERCISE_NAME)
-    block.call(katas[id])
-  end
-
-  # - - - - - - - - - - - - - - - -
-
-  def starter_manifest(display_name = DEFAULT_DISPLAY_NAME)
-    manifest = languages_start_points.manifest(display_name)
-    exercise_name = DEFAULT_EXERCISE_NAME
-    em = exercises_start_points.manifest(exercise_name)
-    manifest['visible_files'].merge!(em['visible_files'])
-    manifest['exercise'] = em['display_name']
+  def starter_manifest
+    v1_id = '5U2J18' # "Bash, bats"
+    manifest = model.kata_manifest(v1_id)
+    %w( id created group_id group_index ).each {|key| manifest.delete(key) }
+    manifest['exercise'] = DEFAULT_EXERCISE_NAME
     manifest['created'] = time.now
     if v_test?(0)
       manifest['version'] = 0

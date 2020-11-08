@@ -16,7 +16,7 @@ class SchemaTest < AppModelsTestBase
   end
 
   test 'C54',
-  'existing pre-schema kata default to version=0' do
+  'existing pre-schema kata defaults to version=0' do
     set_saver_class('SaverService')
     assert_equal 0, katas['k5ZTk0'].schema.version
   end
@@ -24,10 +24,11 @@ class SchemaTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'BAB', %w(
-  when you join an existing pre-schema group your kata is at version=0
+  when you join a version=0 group your kata is at version=0
   ) do
     set_saver_class('SaverService')
-    group = groups['chy6BJ']
+    v0_gid = 'FxWwrr'
+    group = groups[v0_gid]
     kata = group.join
     assert_equal 0, kata.schema.version
   end
@@ -35,10 +36,9 @@ class SchemaTest < AppModelsTestBase
   test 'BAC', %w(
   when you join a version=1 group your kata is at version=1
   ) do
-    manifest = starter_manifest
-    manifest['version'] = 1
-    group = groups.new_group(manifest)
-    assert_equal 1, group.schema.version
+    set_saver_class('SaverService')
+    v1_gid = 'REf1t8'
+    group = groups[v1_gid]
     kata = group.join
     assert_equal 1, kata.schema.version
   end
@@ -46,32 +46,56 @@ class SchemaTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '426',
-  'new_group version=0' do
-    group = groups.new_group(starter_manifest)
+  'new group with version explicitly set to 0 is honoured' do
+    manifest = starter_manifest
+    manifest['version'] = 0
+    id = model.group_create(manifest)
+    group = groups[id]
     assert_equal 0, group.schema.version
   end
 
-  test '526',
-  'new_group version=1' do
+  test '427',
+  'new group with version explicitly set to 1 is honoured' do
     manifest = starter_manifest
     manifest['version'] = 1
-    group = groups.new_group(manifest)
+    id = model.group_create(manifest)
+    group = groups[id]
+    assert_equal 1, group.schema.version
+  end
+
+  test '428',
+  'new group defaults to current version which is 1' do
+    manifest = starter_manifest
+    id = model.group_create(manifest)
+    group = groups[id]
     assert_equal 1, group.schema.version
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '427',
-  'new_kata version=0' do
-    kata = katas.new_kata(starter_manifest)
+  test '526',
+  'new kata with version explicitly set to 0 is honoured' do
+    manifest = starter_manifest
+    manifest['version'] = 0
+    id = model.kata_create(manifest)
+    kata = katas[id]
     assert_equal 0, kata.schema.version
   end
 
   test '527',
-  'new_kata version=1' do
+  'new kata with version explicitly set to 1 is honoured' do
     manifest = starter_manifest
     manifest['version'] = 1
-    kata = katas.new_kata(manifest)
+    id = model.kata_create(manifest)
+    kata = katas[id]
+    assert_equal 1, kata.schema.version
+  end
+
+  test '528',
+  'new kata defaults to current version which is 1' do
+    manifest = starter_manifest
+    id = model.kata_create(manifest)
+    kata = katas[id]
     assert_equal 1, kata.schema.version
   end
 

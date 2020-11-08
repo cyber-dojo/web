@@ -168,7 +168,7 @@ class GroupTest < AppModelsTestBase
       assert_equal m['exercise'], am.exercise
       assert_equal m['tab_size'], am.tab_size
 
-      fe = ['.rb']
+      fe = ['.sh']
       assert_equal fe, m['filename_extension']
       assert_equal fe, am.filename_extension
 

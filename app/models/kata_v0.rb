@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 require_relative 'id_generator'
 require_relative 'id_pather'
 require_relative 'liner'

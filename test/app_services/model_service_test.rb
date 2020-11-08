@@ -27,8 +27,7 @@ class ModelServiceTest < AppServicesTestBase
 
   test 'eJ1',
   'group_create() smoke test' do
-    name = custom_start_points.names.sample
-    manifest = custom_start_points.manifest(name)
+    manifest = starter_manifest
     gid = model.group_create(manifest)
     assert model.group_exists?(gid), "model.group_exists?(#{gid})"
     actual = model.group_manifest(gid)
@@ -39,8 +38,7 @@ class ModelServiceTest < AppServicesTestBase
 
   test 'eJ2',
   'kata_create() smoke test' do
-    name = custom_start_points.names.sample
-    manifest = custom_start_points.manifest(name)
+    manifest = starter_manifest
     kid = model.kata_create(manifest)
     assert model.kata_exists?(kid), "model.kata_exists?(#{kid})"
     actual = model.kata_manifest(kid)
@@ -51,8 +49,7 @@ class ModelServiceTest < AppServicesTestBase
 
   test 'eJ3',
   'group_join() smoke test' do
-    name = custom_start_points.names.sample
-    manifest = custom_start_points.manifest(name)
+    manifest = starter_manifest
     gid = model.group_create(manifest)
     kid = model.group_join(gid)
     assert model.kata_exists?(kid), "model.kata_exists?(#{kid})"
@@ -64,8 +61,7 @@ class ModelServiceTest < AppServicesTestBase
 
   test 'eJ4',
   'kata_event() smoke test' do
-    name = custom_start_points.names.sample
-    manifest = custom_start_points.manifest(name)
+    manifest = starter_manifest
     kid = model.kata_create(manifest)
     actual = model.kata_event(kid, -1)
     assert_equal manifest['visible_files'], actual['files']

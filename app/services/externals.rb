@@ -19,20 +19,6 @@ module Externals # mix-in
 
   # - - - - - - - - - - - - - - -
 
-  def custom_start_points
-    @custom_start_points ||= external
-  end
-
-  def exercises_start_points
-    @exercises_start_points ||= external
-  end
-
-  def languages_start_points
-    @languages_start_points ||= external
-  end
-
-  # - - - - - - - - - - - - - - -
-
   def differ
     @differ ||= external
   end
