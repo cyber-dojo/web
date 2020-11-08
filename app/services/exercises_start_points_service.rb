@@ -11,9 +11,9 @@ class ExercisesStartPointsService
   end
 
   def initialize(externals)
-    name = 'exercises-start-points'
+    hostname = 'exercises-start-points'
     port = ENV['CYBER_DOJO_EXERCISES_START_POINTS_PORT'].to_i
-    requester = HttpJson::Requester.new(externals.http, name, port)
+    requester = HttpJson::Requester.new(externals.http, hostname, port)
     @http = HttpJson::Responder.new(requester, Error, {keyed:true})
   end
 

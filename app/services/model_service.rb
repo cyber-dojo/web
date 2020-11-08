@@ -11,9 +11,9 @@ class ModelService
   end
 
   def initialize(externals)
-    name = 'model'
+    hostname = 'model'
     port = ENV['CYBER_DOJO_MODEL_PORT'].to_i
-    requester = HttpJson::Requester.new(externals.http, name, port)
+    requester = HttpJson::Requester.new(externals.http, hostname, port)
     @http = HttpJson::Responder.new(requester, Error, {keyed:true})
   end
 
