@@ -95,6 +95,7 @@ class LanguagesStartPointsServiceTest < AppServicesTestBase
       "Python, approval-pytest", "Python, approval-unittest",
       "Python, assert", "Python, behave", "Python, pytest", "Python, unittest",
       "R, RUnit",
+      "ReScript, jest",
       "Ruby, Approval", "Ruby, Cucumber", "Ruby, MiniTest", "Ruby, RSpec", "Ruby, Test::Unit",
       "Rust, test",
       "Swift, Swordfish", "Swift, XCTest",
