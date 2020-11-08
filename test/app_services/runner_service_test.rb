@@ -36,8 +36,9 @@ class RunnerServiceTest < AppServicesTestBase
       json = runner.run_cyber_dojo_sh(run_args(kata))
       key = 'run_cyber_dojo_sh'
       stdout = json[key]['stdout']['content']
-      assert stdout.include?('Expected: 42'), json
-      assert stdout.include?('  Actual: 54'), json
+      assert stdout.include?('not ok 1 life the universe and everything'), json
+      assert stdout.include?('in test file test_hiker.sh'), json
+      assert stdout.include?('[ "$actual" == "42" ]'), json
       assert_equal 'red', json[key]['outcome'], json
     }
   end
