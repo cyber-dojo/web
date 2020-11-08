@@ -20,37 +20,19 @@ class HttpJsonTest < AppServicesTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  class HttpJsonRequesterNotJsonHashStub
+  class HttpJsonRequesterNotJsonHashOrArrayStub
     def initialize(_hostname, _port)
     end
     def request(_req)
-      OpenStruct.new(body:'[]')
+      OpenStruct.new(body:'42')
     end
   end
 
   test '2C7',
   'response.body is not JSON Hash raises' do
-    set_http(HttpJsonRequesterNotJsonHashStub)
+    set_http(HttpJsonRequesterNotJsonHashOrArrayStub)
     error = assert_raises(DifferService::Error) { differ.ready? }
-    assert_equal 'http response.body is not JSON Hash:[]', error.message
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  class HttpJsonRequesterNoPathKeyStub
-    def initialize(_hostname, _port)
-    end
-    def request(_req)
-      OpenStruct.new(body:'{"not_ready?":true}')
-    end
-  end
-
-  test '2C8',
-  'response.body is not JSON Hash raises' do
-    set_http(HttpJsonRequesterNoPathKeyStub)
-    error = assert_raises(DifferService::Error) { differ.ready? }
-    json = '{"not_ready?":true}'
-    assert_equal "http response.body has no key for 'ready?':#{json}", error.message
+    assert_equal 'http response.body is not JSON Hash|Array:42', error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -68,6 +50,23 @@ class HttpJsonTest < AppServicesTestBase
     set_http(HttpJsonRequesterExceptionKeyStub)
     error = assert_raises(DifferService::Error) { differ.ready? }
     assert_equal '"http-stub-threw"', error.message
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  class HttpJsonRequesterNoPathKeyStub
+    def initialize(_hostname, _port)
+    end
+    def request(_req)
+      OpenStruct.new(body:'{"different":true}')
+    end
+  end
+
+  test '2C8',
+  'differ-service sets keyed:false so json with no key to match path returns the json' do
+    set_http(HttpJsonRequesterNoPathKeyStub)
+    json = differ.ready?
+    assert_equal({"different" => true}, json)
   end
 
 end
