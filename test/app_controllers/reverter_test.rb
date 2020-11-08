@@ -13,7 +13,7 @@ class ReverterControllerTest  < AppControllerTestBase
   ) do
     set_saver_class('SaverService')
     in_kata {
-      filename = 'hiker.rb'
+      filename = 'hiker.sh'
       change_file(filename, old_content='the_answer')
       post_run_tests # 1
       assert_equal old_content, kata.files[filename]['content']
@@ -50,7 +50,7 @@ class ReverterControllerTest  < AppControllerTestBase
     set_saver_class('SaverService')
     new_content = 'and now for something_different'
     in_kata do |lion|
-      filename = 'hiker.rb'
+      filename = 'hiker.sh'
       change_file(filename, new_content)
       post_run_tests # 1
 

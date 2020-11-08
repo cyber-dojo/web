@@ -26,13 +26,14 @@ class KataControllerTest  < AppControllerTestBase
 
   test '221', %w( timed_out ) do
     in_kata do |kata|
-      change_file('hiker.rb',
+      change_file('hiker.sh',
         <<~BASH_CODE
-        def global_answer
+        answer()
+        {
           while true; do
             :
           done
-        end
+        }
         BASH_CODE
       )
       post_run_tests({ 'max_seconds' => 3 })
@@ -227,19 +228,14 @@ class KataControllerTest  < AppControllerTestBase
     files = kata.files
     filenames = files.keys.sort
     refute filenames.include?(filename), filenames
-    expected_1 = [
-      'TestHiker#test_global_function [test_hiker.rb:8]:',
-      'Expected: 42',
-      '  Actual: 54'
-    ].join("\n")
-    expected_2 = [
-      'TestHiker#test_instance_method [test_hiker.rb:12]:',
-      'Expected: 42',
-      '  Actual: 54',
+    expected = [
+      "1..1",
+      "not ok 1 life the universe and everything",
+      "# (in test file test_hiker.sh, line 7)",
+      "#   `[ \"$actual\" == \"42\" ]' failed"
     ].join("\n")
     actual = kata.lights[-1].stdout['content']
-    assert actual.include?(expected_1), actual
-    assert actual.include?(expected_2), actual
+    assert actual.include?(expected), actual
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

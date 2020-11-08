@@ -95,21 +95,15 @@ class DashboardControllerTest < AppControllerTestBase
     set_runner_class('RunnerService')
     [0,1].each do |version|
       @version = version
-      options = {
-             version:version,
-        display_name:'Python, unittest'
+      @gid = model.group_create(python_unittest_manifest(version))
+      2.times {
+        kata = assert_join(@gid)
+        @id = kata.id
+        @files = plain(ambered(kata.files))
+        @index = 0
+        post_run_tests
+        assert_equal 1, kata.lights.size
       }
-      in_group(options) do |group|
-        @gid = group.id
-        2.times {
-          kata = assert_join(@gid)
-          @id = kata.id
-          @files = plain(ambered(kata.files))
-          @index = 0
-          post_run_tests
-          assert_equal 1, kata.lights.size
-        }
-      end
       dashboard
       heartbeat
       progress
@@ -138,6 +132,62 @@ class DashboardControllerTest < AppControllerTestBase
   def ambered(files)
     files['hiker.py']['content'] = files['hiker.py']['content'].sub('6 * 9', '6 * 9ssss')
     files
+  end
+
+  # - - - - - - - - - - - - - - - - - - -
+
+  def python_unittest_manifest(version)
+    {
+      "version" => version,
+      "display_name" => "Python, unittest",
+      "image_name": "cyberdojofoundation/python_unittest:ccd2916",
+      "filename_extension": [ ".py" ],
+      "tab_size": 4,
+      "progress_regexs": [
+        "FAILED \\\\(failures=\\\\d+\\\\)",
+        "OK"
+      ],
+      "visible_files": {
+        "test_hiker.py" => {
+          "content": [
+            "from hiker import global_answer, Hiker",
+            "import unittest",
+            "",
+            "",
+            "class TestHiker(unittest.TestCase):",
+            "",
+            "    def test_global_function(self):",
+            "        self.assertEqual(42, global_answer())",
+            "",
+            "    def test_instance_method(self):",
+            "        self.assertEqual(42, Hiker().instance_answer())",
+            "",
+            "",
+            "if __name__ == '__main__':",
+            "    unittest.main()  # pragma: no cover",
+          ].join("\n")
+        },
+        "hiker.py" => {
+          "content": [
+            "def global_answer():",
+            "    return 6 * 9",
+            "",
+            "class Hiker:",
+            "",
+            "    def instance_answer(self):",
+            "        return global_answer()"
+          ].join("\n")
+        },
+        "cyber-dojo.sh" => {
+          "content": [
+            "coverage3 run \\",
+            "  --source=${CYBER_DOJO_SANDBOX} \\",
+            "  --module unittest \\",
+            "  *test*.py"
+          ].join("\n")
+        }
+      }
+    }
   end
 
 end
