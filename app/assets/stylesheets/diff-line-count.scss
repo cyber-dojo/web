@@ -47,10 +47,7 @@ table.sss
 {
   background: $diff-deleted-count-color;
   border: 1px solid $diff-deleted-count-color;
-  &[disabled]
-  {
-    color: lighten($diff-deleted-count-color,5%);
-  }
+  &[disabled] { color: lighten($diff-deleted-count-color,5%); }
 }
 
 .diff-line-count.added,
@@ -58,10 +55,7 @@ table.sss
 {
   background: $diff-added-count-color;
   border: 1px solid $diff-added-count-color;
-  &[disabled]
-  {
-    color: lighten($diff-added-count-color,5%);
-  }
+  &[disabled] { color: lighten($diff-added-count-color,5%); }
 }
 
 .diff-line-count.same,
@@ -69,10 +63,7 @@ table.sss
 {
   background: $diff-same-count-color;
   border: 1px solid $diff-same-count-color;
-  &[disabled]
-  {
-    color: lighten($diff-same-count-color,5%);
-  }
+  &[disabled] { color: lighten($diff-same-count-color,5%); }
 }
 
 //- - - - - - - - - - - - - - - -
