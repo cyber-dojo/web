@@ -56,7 +56,7 @@ class ReviewFilePickerTest < AppLibTestBase
       fdiff('hiker.h',0,0) <<
       fdiff('hiker.c',0,0) <<
       fdiff('cyber-dojo.sh',2,3) <<
-      (@picked=fdiff('makefile',4,4))
+      (@picked=deleted_file('makefile',4,4))
     assert_picked
   end
 
@@ -125,6 +125,19 @@ class ReviewFilePickerTest < AppLibTestBase
     @n += 1
     {
       :new_filename => filename,
+      :deleted_line_count => dc,
+      :added_line_count => ac,
+      :id => 'id_' + @n.to_s,
+      :content => content
+    }
+  end
+
+  def deleted_file(filename, dc, ac, content = '')
+    @n += 1
+    {
+      :type => 'deleted',
+      :old_filename => filename,
+      :new_filename => nil,
       :deleted_line_count => dc,
       :added_line_count => ac,
       :id => 'id_' + @n.to_s,
