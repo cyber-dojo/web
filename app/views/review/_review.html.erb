@@ -540,21 +540,7 @@ $(() => {
             getFilename(previousFilenameNode) === filename;
 
         $('.diff-line-count').attr('disabled', true);
-
-        const $diffDeletedLineCount = $(`.diff-line-count.deleted[data-filename="${filename}"]`);
-        if ($diffDeletedLineCount.text() != '') {
-          $diffDeletedLineCount.attr('disabled', false);
-        }
-
-        const $diffAddedLineCount = $(`.diff-line-count.added[data-filename="${filename}"]`);
-        if ($diffAddedLineCount.text() != '') {
-          $diffAddedLineCount.attr('disabled', false);
-        }
-
-        const $diffSameLineCount = $(`.diff-line-count.same[data-filename="${filename}"]`);
-        if ($diffSameLineCount.text() != '') {
-          $diffSameLineCount.attr('disabled', false);
-        }
+        $(`.diff-line-count[data-filename="${filename}"]`).attr('disabled', false);
 
         $('.diff-filename', $reviewPage).removeClass('selected');
         filenameNode.addClass('selected');
