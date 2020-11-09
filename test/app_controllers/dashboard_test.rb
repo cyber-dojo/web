@@ -92,8 +92,7 @@ class DashboardControllerTest < AppControllerTestBase
   progress with avatar's having only amber traffic-lights
   ) do
     set_saver_class('SaverService')
-    set_runner_class('RunnerService')
-    [0,1].each do |version|
+    [1].each do |version|
       @version = version
       @gid = model.group_create(python_unittest_manifest(version))
       2.times {
@@ -101,7 +100,10 @@ class DashboardControllerTest < AppControllerTestBase
         @id = kata.id
         @files = plain(ambered(kata.files))
         @index = 0
-        post_run_tests
+        stdout = content('')
+        stderr = content("return 6 * 9sss\n ^ \nSyntaxError: invalid syntax")
+        status = 1
+        model.kata_ran_tests(@id, 1, @files, stdout, stderr, status, ran_summary('amber'))
         assert_equal 1, kata.lights.size
       }
       dashboard

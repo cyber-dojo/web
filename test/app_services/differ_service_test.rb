@@ -29,8 +29,8 @@ class DifferServiceTest < AppServicesTestBase
   test '3AD',
   'smoke test differ.diff_lines(id, was_index, now_index)' do
     in_new_kata do |kata|
-      stdout = file("Expected: 42\nActual: 54")
-      stderr = file('assertion failed')
+      stdout = content("Expected: 42\nActual: 54")
+      stderr = content('assertion failed')
       status = 1
       model.kata_ran_tests(kata.id, 1, kata.files, stdout, stderr, status, ran_summary('red'))
 
@@ -45,12 +45,6 @@ class DifferServiceTest < AppServicesTestBase
   end
 
   private
-
-  def file(content)
-    { 'content' => content,
-      'truncated' => false
-    }
-  end
 
   def flattened(files)
     files.map{ |filename,file| [filename, file['content']] }.to_h
