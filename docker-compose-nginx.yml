@@ -12,6 +12,7 @@ services:
     image: ${CYBER_DOJO_NGINX_IMAGE}:${CYBER_DOJO_NGINX_TAG}
     depends_on:
       - web
+      - shas
     user: root
     init: true
     container_name: test_web_nginx

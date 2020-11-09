@@ -2,14 +2,11 @@
 If you are working on web-service there are 2 ways of
 getting feedback on your local work:
 
-1) /build_test_tag_publish.sh
-   This runs a local server, using commander, but substitutes the
-   locally build web image. The slowest option, but very close
-   to how it actually runs.
+1) /build_test_publish.sh
+   This runs the tests locally.
+   To use locally built dependent services you may need to add SHA/TAG
+   env-vars to the echo_versioner_env_vars.sh file.
 
-2) /sh/dev_run_server.sh
-   This runs a local server but does not use the commander service.
-   Instead it uses docker-compose, versioner, and its own docker-compose
-   yml files. The web image is rebuilt from source.
-   A lot quicker than using commander (1), but not how a local server
-   actually runs. A good (short) feedback loop for eg CSS tweaking.
+2) /demo.sh
+   This runs a local server
+   It uses docker-compose, versioner, and its own docker-compose yml files. 
