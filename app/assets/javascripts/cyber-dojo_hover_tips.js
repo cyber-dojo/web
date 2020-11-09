@@ -117,18 +117,14 @@ var cyberDojo = (function(cd, $) {
   // - - - - - - - -
 
   const $lineCountTd = (type, file) => {
+    const lineCount = file.line_counts[type];
+    const css = lineCount > 0 ? type : '';
     const $count = $('<div>', {
-      class:`diff-line-count ${type}`,
-      disabled:"disabled"
+      class:`diff-line-count ${css}`,
+      disabled:'disabled'
     });
-    $count.html(nonZero(file.line_counts[type]));
+    $count.html(lineCount > 0 ? lineCount : '&nbsp;');
     return $('<td>').append($count);
-  };
-
-  // - - - - - - - -
-
-  const nonZero = (n) => {
-    return n > 0 ? n : '&nbsp;';
   };
 
   // - - - - - - - -

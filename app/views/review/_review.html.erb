@@ -417,12 +417,13 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const makeDiffCount = (diff, cssName) => {
+    const lineCount = diff[`${cssName}_line_count`];
+    const css = lineCount > 0 ? cssName : '';
     const div = $('<div>', {
-      'class': `diff-line-count ${cssName}`,
+      'class': `diff-line-count ${css}`,
       'data-filename': diffFilename(diff)
     });
-    const lineCount = diff[`${cssName}_line_count`];
-    div.append(nonZero(lineCount));
+    div.html(lineCount > 0 ? lineCount : '&nbsp;');
     return outerHTML(div);
   };
 
