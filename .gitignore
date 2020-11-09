@@ -28,6 +28,7 @@
 !/docker-compose-web-volume-mount.yml
 !/Dockerfile
 !/build_test_publish.sh
+!/demo.sh
 !/up.sh
 !/LICENSE.md
 !/README.md
