@@ -58,35 +58,6 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'B29', %w(
-  the browser caches all the run_test parameters
-  to ensure run_tests() issues a single command
-  to the model service (to save the run_test() result)
-  ) do
-    in_kata do |kata|
-      params = {
-        'format' => 'js',
-        'version' => kata.schema.version,
-        'id' => kata.id,
-        'index' => 1,
-        'image_name' => kata.manifest.image_name,
-        'file_content' => plain(kata.files),
-        'max_seconds' => kata.manifest.max_seconds,
-        'hidden_filenames' => JSON.unparse(kata.manifest.hidden_filenames),
-      }
-      model_count_before = model.log.size
-      saver_count_before = saver.log.size
-      post '/kata/run_tests', params:params
-      assert_response :success
-      saver_count_after = saver.log.size
-      model_count_after = model.log.size
-      assert_equal 1, (model_count_after - model_count_before), model.log
-      assert_equal 0, (saver_count_after - saver_count_before), saver.log
-    end
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test 'c25', %w(
   when [test] button is pressed
   the model-http-service is now used and not the saver-http-service
