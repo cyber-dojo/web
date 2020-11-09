@@ -504,29 +504,19 @@ $(() => {
       }
     };
 
-    $('.diff-line-count.deleted')
-      .clickToggle(
-        function() { display(this, 'deleted', 'none' ); },
-        function() { display(this, 'deleted', 'block'); }
-      );
-    $('.diff-line-count.added')
-      .clickToggle(
-        function() { display(this, 'added', 'none' ); },
-        function() { display(this, 'added', 'block'); }
-      );
-    $('.diff-line-count.same')
-      .clickToggle(
-        function() { display(this, 'same', 'none' ); },
-        function() { display(this, 'same', 'block'); }
-      );
+    [ 'deleted', 'added', 'same' ].forEach(type => {
+      $(`.diff-line-count.${type}`)
+        .clickToggle(
+          function() { display(this, type, 'none' ); },
+          function() { display(this, type, 'block'); }
+        );
+    });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const buildDiffFilenameHandlers = (diffs) => {
     // Builds click handlers for all filenames for a given
     // [ kata-id, was-index, now-index] tuple.
-    // When you open a new filename it auto-scrolls its first diff-chunk.
-    // When you reclick a filename it auto-scrolls to its next diff-chunk.
     const getFilename = (node) => $.trim(node.text());
     const id = (name) => $(`[id="${name}"]`);
     const diffFileContentFor = (filename) => id(`diff_file_content_for_${filename}`);
