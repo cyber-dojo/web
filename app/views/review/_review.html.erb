@@ -418,7 +418,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const makeDiffCount = (diff, cssName) => {
     const div = $('<div>', {
-      'class': `diff-${cssName}-line-count`,
+      'class': `diff-line-count ${cssName}`,
       'data-filename': diffFilename(diff)
     });
     const lineCount = diff[`${cssName}_line_count`];
@@ -503,17 +503,17 @@ $(() => {
       }
     };
 
-    $('.diff-deleted-line-count')
+    $('.diff-line-count.deleted')
       .clickToggle(
         function() { display(this, 'deleted', 'none' ); },
         function() { display(this, 'deleted', 'block'); }
       );
-    $('.diff-added-line-count')
+    $('.diff-line-count.added')
       .clickToggle(
         function() { display(this, 'added', 'none' ); },
         function() { display(this, 'added', 'block'); }
       );
-    $('.diff-same-line-count')
+    $('.diff-line-count.same')
       .clickToggle(
         function() { display(this, 'same', 'none' ); },
         function() { display(this, 'same', 'block'); }
@@ -548,19 +548,19 @@ $(() => {
           previousFilenameNode !== undefined &&
             getFilename(previousFilenameNode) === filename;
 
-        $('.diff-deleted-line-count, .diff-added-line-count, .diff-same-line-count').attr('disabled', true);
+        $('.diff-line-count').attr('disabled', true);
 
-        const $diffDeletedLineCount = $(`.diff-deleted-line-count[data-filename="${filename}"]`);
+        const $diffDeletedLineCount = $(`.diff-line-count.deleted[data-filename="${filename}"]`);
         if ($diffDeletedLineCount.text() != '') {
           $diffDeletedLineCount.attr('disabled', false);
         }
 
-        const $diffAddedLineCount = $(`.diff-added-line-count[data-filename="${filename}"]`);
+        const $diffAddedLineCount = $(`.diff-line-count.added[data-filename="${filename}"]`);
         if ($diffAddedLineCount.text() != '') {
           $diffAddedLineCount.attr('disabled', false);
         }
 
-        const $diffSameLineCount = $(`.diff-same-line-count[data-filename="${filename}"]`);
+        const $diffSameLineCount = $(`.diff-line-count.same[data-filename="${filename}"]`);
         if ($diffSameLineCount.text() != '') {
           $diffSameLineCount.attr('disabled', false);
         }
@@ -612,8 +612,8 @@ $(() => {
         );
       const content = $('.diff-sheet', table);
       const numbers = $('.diff-line-numbers', table);
-      content.html(diff.content);
-      numbers.html(diff.line_numbers);
+      content.html(diff.content);      // <<<<<<
+      numbers.html(diff.line_numbers); // <<<<<<
       bindLineNumberScrolling(content, numbers);
       holder.append(table);
     });

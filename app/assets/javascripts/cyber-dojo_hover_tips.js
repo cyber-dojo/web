@@ -118,7 +118,7 @@ var cyberDojo = (function(cd, $) {
 
   const $lineCountTd = (type, file) => {
     const $count = $('<div>', {
-      class:`diff-${type}-line-count`,
+      class:`diff-line-count ${type}`,
       disabled:"disabled"
     });
     $count.html(nonZero(file.line_counts[type]));
