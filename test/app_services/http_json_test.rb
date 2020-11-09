@@ -63,10 +63,20 @@ class HttpJsonTest < AppServicesTestBase
   end
 
   test '2C8',
-  'differ-service sets keyed:false so json with no key to match path returns the json' do
+  'differ-service sets keyed:false, so json with no key to match path returns the json' do
     set_http(HttpJsonRequesterNoPathKeyStub)
     json = differ.ready?
     assert_equal({"different" => true}, json)
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test '2CA',
+  'model-service sets keyed:true, so json with no key to match path raises' do
+    set_http(HttpJsonRequesterNoPathKeyStub)
+    error = assert_raises(ModelService::Error) { model.ready? }
+    expected = "http response.body has no key for 'ready?':{\"different\":true}"
+    assert_equal expected, error.message
   end
 
 end
