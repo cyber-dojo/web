@@ -137,6 +137,7 @@ var cyberDojo = ((cd, $) => {
       case '.php'    : return 'text/x-php';
       case '.py'     : return 'text/x-python';
       case '.rb'     : return 'text/x-ruby';
+      case '.re'     : return 'text/x-rustsrc'; // reasonable fit
       case '.rs'     : return 'text/x-rustsrc';
       case '.scala'  : return 'text/x-scala';
       case '.sh'     : return 'text/x-sh';
