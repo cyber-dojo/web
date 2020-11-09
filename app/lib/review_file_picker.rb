@@ -5,9 +5,6 @@ module ReviewFilePicker # mix-in
   module_function
 
   def pick_file_id(diffs, current_filename, filenameExtensions)
-    # TODO: Revisit now the review page shows if files are deleted|created|renamed
-    # For example, the diff could be for a 100% identical renamed file.
-
     # Rule 1
     # If the current-filename exists and has a diff, pick it.
     current_filename_diff = diffs.find { |diff|
@@ -21,7 +18,7 @@ module ReviewFilePicker # mix-in
     # else Rule 2
     # If a filenameExtension file has a diff, pick the largest diff.
     matches = diffs.select { |diff|
-      anyExtensionMatch?(diff, filenameExtensions) &&
+      any_extension_match?(diff, filenameExtensions) &&
         change_count(diff) > 0
     }
     largest = matches.max { |lhs,rhs|
@@ -34,7 +31,7 @@ module ReviewFilePicker # mix-in
     # else Rule 3
     # If a non-filenameExtension file has a diff, pick the largest diff.
     matches = diffs.select { |diff|
-      noExtensionMatch?(diff, filenameExtensions) &&
+      no_extension_match?(diff, filenameExtensions) &&
         change_count(diff) > 0
     }
     largest = matches.max { |lhs,rhs|
@@ -44,9 +41,17 @@ module ReviewFilePicker # mix-in
       return largest[:id]
     end
 
-    # There are no diffs! [X]
-
     # else Rule 4
+    # If there are 100% identical file renames, pick the largest
+    matches = diffs.select { |diff| renamed_file?(diff) }
+    largest = matches.max { |lhs,rhs|
+      same_count(lhs) <=> same_count(rhs)
+    }
+    unless largest.nil?
+      return largest[:id]
+    end
+
+    # else Rule 5
     # If current_filename exists (with no diff), pick it
     current_filename_diff = diffs.find { |diff|
       diff_filename(diff) === current_filename
@@ -55,7 +60,7 @@ module ReviewFilePicker # mix-in
       return current_filename_diff[:id]
     end
 
-    # else Rule 5
+    # else Rule 6
     # Pick largest of stdout/stderr, if it has content
     stdout = diffs.find { |diff| diff_filename(diff) === 'stdout' }
     stderr = diffs.find { |diff| diff_filename(diff) === 'stderr' }
@@ -68,7 +73,7 @@ module ReviewFilePicker # mix-in
       return stderr[:id]
     end
 
-    # else Rule 6
+    # else Rule 7
     # pick cyber-dojo.sh
     cyber_dojo_sh = diffs.find { |diff|
       diff_filename(diff) === 'cyber-dojo.sh'
@@ -79,20 +84,28 @@ module ReviewFilePicker # mix-in
   private
 
   def diff_filename(diff)
-    if diff[:type] === "deleted"
+    if deleted_file?(diff)
       diff[:old_filename]
     else
       diff[:new_filename]
     end
   end
 
-  def anyExtensionMatch?(diff, filenameExtensions)
+  def deleted_file?(diff)
+    diff[:type] === 'deleted'
+  end
+
+  def renamed_file?(diff)
+    diff[:type] === 'renamed'
+  end
+
+  def any_extension_match?(diff, filenameExtensions)
     filenameExtensions.any? { |ext|
       diff_filename(diff).end_with?(ext)
     }
   end
 
-  def noExtensionMatch?(diff, filenameExtensions)
+  def no_extension_match?(diff, filenameExtensions)
     filenameExtensions.none? { |ext|
       diff_filename(diff).end_with?(ext)
     }
@@ -100,6 +113,10 @@ module ReviewFilePicker # mix-in
 
   def change_count(diff)
     diff[:deleted_line_count] + diff[:added_line_count]
+  end
+
+  def same_count(diff)
+    diff[:same_line_count]
   end
 
 end
