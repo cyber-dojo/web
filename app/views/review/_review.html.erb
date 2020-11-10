@@ -196,7 +196,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const prevEventIndex = (n) => {
     if (param.nowIndex === 1) { // 0 is creation event
-      return null; // disable
+      return null; // Disable
     } else {
       return n;
     }
@@ -205,7 +205,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const nextEventIndex = (n) => {
     if (param.nowIndex === param.events.length-1) {
-      return null; // disable
+      return null; // Disable
     } else {
       return n;
     }
@@ -251,7 +251,7 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const isVisible = (event) => {
-    // eg don't show event[0] == creation
+    // Eg don't show event[0] == creation
     switch (event.colour) {
     case 'pulling':
     case 'red':
@@ -387,9 +387,9 @@ $(() => {
       html += makeTd(makeDiffLineCountIcon('deleted', '&mdash;'));
       html += makeTd(makeDiffLineCountIcon('added', '+'));
       html += makeTd(makeDiffLineCountIcon('same', '='));
-      html += makeTd(makeDiffHelpIcon()); // aligns withs glyph-id
+      html += makeTd(makeDiffHelpIcon()); // Aligns withs glyph-id
     }
-    html += makeTd(''); // aligns with filename-td
+    html += makeTd(''); // Aligns with filename-td
     html += '</tr>';
     return html;
   };
@@ -490,7 +490,7 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const sortedDiffs = (diffs) => {
-    // ensure filenames appear in the same order as kata/edit page
+    // Ensure filenames appear in the same order as kata/edit page
     const filenames = diffs.map(diff => diffFilename(diff));
     const sorted = cd.sortedFilenames(filenames);
     const diffFor = (filename) => diffs.find(diff => diffFilename(diff) === filename);
@@ -501,7 +501,7 @@ $(() => {
   const resetFilenameAddedDeletedLineCountHandlers = () => {
 
     const display = (node, name, value) => {
-      // only [+][-] counts for current filename are live
+      // Only [+][-] counts for current filename are live
       if ($(node).html() === '&nbsp;') { return; }
       if ($(node).attr('disabled') !== 'disabled') {
         const filename = $(node).data('filename');
