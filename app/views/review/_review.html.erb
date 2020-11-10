@@ -535,16 +535,9 @@ $(() => {
       let sectionIndex = 0;
       return () => {
         const filename = diffFilename(diff);
-        // select line-counts
-        $('.diff-line-count').attr('disabled', true);
-        $(`.diff-line-count[data-filename="${filename}"]`).attr('disabled', false);
-        // select filename
-        $('.diff-filename', $reviewPage).removeClass('selected');
-        $(`#radio_${diff.id}`, $reviewPage).addClass('selected');
-        // show selected file
-        $('.filename_div', $reviewPage).hide();
-        $(`[id="${filename}_diff_div"]`).show();
-
+        selectLineCounts(filename);
+        selectFilename(diff.id);
+        selectFile(filename);
         if (diff.section_count > 0 && (firstClick(filename) || reClicked(filename))) {
           const $diffSheet = $(`[id="diff_file_content_for_${filename}"]`);
           const section = $(`#${diff.id}_section_${sectionIndex}`);
@@ -565,6 +558,20 @@ $(() => {
       filename.click(loadFrom(diff));
     });
   }; // buildDiffFilenameHandlers()
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  const selectLineCounts = (filename) => {
+    $('.diff-line-count').attr('disabled', true);
+    $(`.diff-line-count[data-filename="${filename}"]`).attr('disabled', false);
+  };
+  const selectFilename = (id) => {
+    $('.diff-filename', $reviewPage).removeClass('selected');
+    $(`#radio_${id}`, $reviewPage).addClass('selected');
+  };
+  const selectFile = (filename) => {
+    $('.filename_div', $reviewPage).hide();
+    $(`[id="${filename}_diff_div"]`).show();
+  };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const makeDiffContent = (diffs) => {
