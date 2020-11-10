@@ -247,7 +247,7 @@ $(() => {
   const makeTrafficLightsHtml = () => {
     let html = '';
     let number = 1;
-    $.each(param.events, (_index, event) => {
+    param.events.forEach(event => {
       if (isVisible(event)) {
         html += makeTrafficLightHtml(event, number);
         number += 1;
@@ -344,7 +344,7 @@ $(() => {
   const makeDiffFilenames = (diffs) => {
     let html = '<table class="filenames">';
     html += makeIconHeadings();
-    $.each(sortedDiffs(diffs), (_, diff) => {
+    sortedDiffs(diffs).forEach(diff => {
       if (isTrueFile(diff)) {
         html += makeDiffTr(diff);
       }
@@ -470,9 +470,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const sortedDiffs = (diffs) => {
     let filenames = [];
-    $.each(diffs, (_, diff) => {
-      filenames.push(diffFilename(diff));
-    });
+    diffs.forEach(diff => filenames.push(diffFilename(diff)));
     // ensure filenames appear in the same order as kata/edit page
     const sorted = cd.sortedFilenames(filenames);
     const diffFor = (filename) => {
@@ -483,9 +481,7 @@ $(() => {
       }
     };
     let result = [];
-    $.each(sorted, (_, filename) => {
-      result.push(diffFor(filename));
-    });
+    sorted.forEach(filename => result.push(diffFor(filename)));
     return result;
   };
 
