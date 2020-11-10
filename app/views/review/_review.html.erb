@@ -469,20 +469,11 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const sortedDiffs = (diffs) => {
-    let filenames = [];
-    diffs.forEach(diff => filenames.push(diffFilename(diff)));
     // ensure filenames appear in the same order as kata/edit page
+    const filenames = diffs.map(diff => diffFilename(diff));
     const sorted = cd.sortedFilenames(filenames);
-    const diffFor = (filename) => {
-      for (let i = 0; i !== diffs.length; i++) {
-        if (diffFilename(diffs[i]) === filename) {
-          return diffs[i];
-        }
-      }
-    };
-    let result = [];
-    sorted.forEach(filename => result.push(diffFor(filename)));
-    return result;
+    const diffFor = (filename) => diffs.find(diff => diffFilename(diff) === filename);
+    return sorted.map(filename => diffFor(filename));
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
