@@ -436,9 +436,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const nonZero = (n) => n > 0 ? n : '&nbsp;';
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
   const makeDiffType = (diff) => {
     if (diff === '&nbsp;') { return diff; }
     const $div = $('<div>', { class:`diff-type-marker ${diff.type}` });
