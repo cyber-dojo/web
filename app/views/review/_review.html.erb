@@ -526,16 +526,13 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const buildDiffFilenameHandlers = (diffs) => {
-    // Builds click handlers for all filenames for a given
-    // [ kata-id, was-index, now-index] tuple.
+    // Builds filename click handlersfor a [ kata-id, was-index, now-index] tuple.
     const reClicked = (filename) => param.filename === filename;
     const alreadyOpened = [];
 
     const loadFrom = (diff) => {
       const filename = diffFilename(diff);
-      const sectionCount = diff.section_count;
       let sectionIndex = 0;
-
       return () => {
         // select line-counts
         $('.diff-line-count').attr('disabled', true);
@@ -549,7 +546,7 @@ $(() => {
 
         // when reclicking a filename then scroll to next diff-chunk.
         // But not when returning to a previously scrolled file.
-        if (sectionCount > 0 && (reClicked(filename) || !alreadyOpened.includes(filename))) {
+        if (diff.section_count > 0 && (reClicked(filename) || !alreadyOpened.includes(filename))) {
           const $diffSheet = $(`[id="diff_file_content_for_${filename}"]`);
           const section = $(`#${diff.id}_section_${sectionIndex}`);
           const halfSecond = 500;
@@ -557,7 +554,7 @@ $(() => {
             scrollTop: '+=' + (section.offset().top - 250) + 'px'
           }, halfSecond);
           sectionIndex += 1;
-          sectionIndex %= sectionCount;
+          sectionIndex %= diff.section_count;
         }
         param.filename = filename;
         alreadyOpened.push(filename);
