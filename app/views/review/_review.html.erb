@@ -530,32 +530,35 @@ $(() => {
     const clicked = [];
     const firstClick = (filename) => !clicked.includes(filename);
     const reClicked = (filename) => param.filename === filename;
+    const whenReClickedScrollToNextDiffChunk = (diff, filename) => {
+      if (diff.section_count > 0 && (firstClick(filename) || reClicked(filename))) {
+        const $diffSheet = $(`[id="diff_file_content_for_${filename}"]`);
+        const section = $(`#${diff.id}_section_${diff.section_index}`);
+        const halfSecond = 500;
+        $diffSheet.animate({
+          scrollTop: '+=' + (section.offset().top - 250) + 'px'
+        }, halfSecond);
+        diff.section_index += 1;
+        diff.section_index %= diff.section_count;
+      }
+    };
 
     const loadFrom = (diff) => {
-      let sectionIndex = 0;
+      diff.section_index = 0;
       return () => {
         const filename = diffFilename(diff);
         selectLineCounts(filename);
         selectFilename(diff.id);
         selectFile(filename);
-        if (diff.section_count > 0 && (firstClick(filename) || reClicked(filename))) {
-          const $diffSheet = $(`[id="diff_file_content_for_${filename}"]`);
-          const section = $(`#${diff.id}_section_${sectionIndex}`);
-          const halfSecond = 500;
-          $diffSheet.animate({
-            scrollTop: '+=' + (section.offset().top - 250) + 'px'
-          }, halfSecond);
-          sectionIndex += 1;
-          sectionIndex %= diff.section_count;
-        }
+        whenReClickedScrollToNextDiffChunk(diff, filename);
         param.filename = filename;
         clicked.push(filename);
       };
     }; // loadFrom()
 
     diffs.forEach(diff => {
-      const filename = $(`#radio_${diff.id}`);
-      filename.click(loadFrom(diff));
+      const $filename = $(`#radio_${diff.id}`);
+      $filename.click(loadFrom(diff));
     });
   }; // buildDiffFilenameHandlers()
 
