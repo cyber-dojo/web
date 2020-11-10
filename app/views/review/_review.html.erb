@@ -528,13 +528,10 @@ $(() => {
   const buildDiffFilenameHandlers = (diffs) => {
     // Builds click handlers for all filenames for a given
     // [ kata-id, was-index, now-index] tuple.
-    const $id = (name) => $(`[id="${name}"]`);
     const reClicked = (filename) => param.filename === filename;
-
     const alreadyOpened = [];
 
     const loadFrom = (diff) => {
-      const id = diff.id;
       const filename = diffFilename(diff);
       const sectionCount = diff.section_count;
       let sectionIndex = 0;
@@ -545,15 +542,16 @@ $(() => {
         $(`.diff-line-count[data-filename="${filename}"]`).attr('disabled', false);
         // select filename
         $('.diff-filename', $reviewPage).removeClass('selected');
-        $(`#radio_${id}`, $reviewPage).addClass('selected');
+        $(`#radio_${diff.id}`, $reviewPage).addClass('selected');
         // show selected file
         $('.filename_div', $reviewPage).hide();
-        $id(`${filename}_diff_div`).show();
+        $(`[id="${filename}_diff_div"]`).show();
+
         // when reclicking a filename then scroll to next diff-chunk.
         // But not when returning to a previously scrolled file.
         if (sectionCount > 0 && (reClicked(filename) || !alreadyOpened.includes(filename))) {
-          const $diffSheet = $id(`diff_file_content_for_${filename}`);
-          const section = $(`#${id}_section_${sectionIndex}`);
+          const $diffSheet = $(`[id="diff_file_content_for_${filename}"]`);
+          const section = $(`#${diff.id}_section_${sectionIndex}`);
           const halfSecond = 500;
           $diffSheet.animate({
             scrollTop: '+=' + (section.offset().top - 250) + 'px'
