@@ -103,7 +103,15 @@ $(() => {
           refreshFiles();
           scrollCurrentTrafficLightIntoView();
           cd.setupHoverTips($('[data-tip]'));
-        });
+        }); // waitSpinner
+      }); // getJSON
+      const eventParams = { id: param.id, index: param.nowIndex };
+      $.getJSON('/model/kata_event', eventParams, (data) => {
+        const event = data.kata_event;
+        const stdout = event.stdout.content;
+        const stderr = event.stderr.content;
+        const status = event.status;
+        //...
       });
     });
   };
@@ -566,7 +574,7 @@ $(() => {
       };
     }; // loadFrom()
 
-    $.each(diffs, (_n, diff) => {
+    diffs.forEach(diff => {
       const filename = $(`#radio_${diff.id}`);
       filename.click(loadFrom(diff));
     });
