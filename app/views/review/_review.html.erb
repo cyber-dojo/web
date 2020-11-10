@@ -575,26 +575,34 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const makeDiffContent = (diffs) => {
     const holder = $('<span>');
-    $.each(diffs, (_, diff) => {
-      const table = $('' +
-        `<div id="${diffFilename(diff)}_diff_div" class="filename_div">` +
-        '<table>' +
-          '<tr class="valign-top">' +
-            makeTd('<div class="diff-line-numbers"></div>') +
-            makeTd(`<div id="diff_file_content_for_${diffFilename(diff)}"` +
-                   ' class="diff-sheet"></div>') +
-          '</tr>' +
-        '</table>' +
-        '</div>'
-        );
-      const content = $('.diff-sheet', table);
-      const numbers = $('.diff-line-numbers', table);
-      content.html(diff.content);      // <<<<<<
-      numbers.html(diff.line_numbers); // <<<<<<
-      bindLineNumberScrolling(content, numbers);
-      holder.append(table);
+    diffs.forEach(diff => {
+      const filename = diffFilename(diff);
+      const numbers = diff.line_numbers;
+      const content = diff.content;
+      holder.append(makeDiffFileContent(filename, numbers, content));
     });
     return holder;
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  const makeDiffFileContent = (filename, lineNumbers, fileContent) => {
+    const file = $('' +
+      `<div id="${filename}_diff_div" class="filename_div">` +
+      '<table>' +
+        '<tr class="valign-top">' +
+          makeTd('<div class="diff-line-numbers"></div>') +
+          makeTd(`<div id="diff_file_content_for_${filename}"` +
+                 ' class="diff-sheet"></div>') +
+        '</tr>' +
+      '</table>' +
+      '</div>'
+      );
+    const numbers = $('.diff-line-numbers', file);
+    const content = $('.diff-sheet', file);
+    numbers.html(lineNumbers);
+    content.html(fileContent);
+    bindLineNumberScrolling(content, numbers);
+    return file;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
