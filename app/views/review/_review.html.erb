@@ -526,23 +526,7 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const buildDiffFilenameHandlers = (diffs) => {
-    // Builds filename click handlersfor a [ kata-id, was-index, now-index] tuple.
     const clicked = [];
-    const whenReClickedScrollToNextDiffChunk = (diff, filename) => {
-      const firstClick = (filename) => !clicked.includes(filename);
-      const reClicked = (filename) => param.filename === filename;
-      if (diff.section_count > 0 && (firstClick(filename) || reClicked(filename))) {
-        const $diffSheet = $(`[id="diff_file_content_for_${filename}"]`);
-        const section = $(`#${diff.id}_section_${diff.section_index}`);
-        const halfSecond = 500;
-        $diffSheet.animate({
-          scrollTop: '+=' + (section.offset().top - 250) + 'px'
-        }, halfSecond);
-        diff.section_index += 1;
-        diff.section_index %= diff.section_count;
-      }
-    };
-
     diffs.forEach(diff => {
       const filename = diffFilename(diff);
       diff.section_index = 0;
@@ -550,7 +534,7 @@ $(() => {
         selectLineCounts(filename);
         selectFilename(diff.id);
         selectFile(filename);
-        whenReClickedScrollToNextDiffChunk(diff, filename);
+        whenReClickedScrollToNextDiffChunk(clicked, diff, filename);
         param.filename = filename;
         clicked.push(filename);
       });
@@ -562,13 +546,30 @@ $(() => {
     $('.diff-line-count').attr('disabled', true);
     $(`.diff-line-count[data-filename="${filename}"]`).attr('disabled', false);
   };
+
   const selectFilename = (id) => {
     $('.diff-filename', $reviewPage).removeClass('selected');
     $(`#radio_${id}`, $reviewPage).addClass('selected');
   };
+
   const selectFile = (filename) => {
     $('.filename_div', $reviewPage).hide();
     $(`[id="${filename}_diff_div"]`).show();
+  };
+
+  const whenReClickedScrollToNextDiffChunk = (clicked, diff, filename) => {
+    const firstClick = (filename) => !clicked.includes(filename);
+    const reClicked = (filename) => param.filename === filename;
+    if (diff.section_count > 0 && (firstClick(filename) || reClicked(filename))) {
+      const $diffSheet = $(`[id="diff_file_content_for_${filename}"]`);
+      const section = $(`#${diff.id}_section_${diff.section_index}`);
+      const halfSecond = 500;
+      $diffSheet.animate({
+        scrollTop: '+=' + (section.offset().top - 250) + 'px'
+      }, halfSecond);
+      diff.section_index += 1;
+      diff.section_index %= diff.section_count;
+    }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
