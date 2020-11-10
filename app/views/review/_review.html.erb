@@ -101,18 +101,11 @@ $(() => {
           refreshIndexNavigator(); // this second
           refreshDiffCheckBox();
           refreshFiles();
+          refreshOutput();
           scrollCurrentTrafficLightIntoView();
           cd.setupHoverTips($('[data-tip]'));
         }); // waitSpinner
       }); // getJSON
-      const eventParams = { id: param.id, index: param.nowIndex };
-      $.getJSON('/model/kata_event', eventParams, (data) => {
-        const event = data.kata_event;
-        const stdout = event.stdout.content;
-        const stderr = event.stderr.content;
-        const status = event.status;
-        //...
-      });
     });
   };
 
@@ -321,6 +314,39 @@ $(() => {
   };
 
   //-----------------------------------------
+  // output
+  //-----------------------------------------
+
+  const refreshOutput = () => {
+    const args = { id: param.id, index: param.nowIndex };
+    $.getJSON('/model/kata_event', args, (data) => {
+      const event = data.kata_event;
+      const stdout = event.stdout.content;
+      const stderr = event.stderr.content;
+      const status = event.status;
+      //...
+      const diffOutputFilenames = $('#diff-output-filenames');
+      diffOutputFilenames.html(makeDiffOutputFilenames(stdout,stderr,status));
+
+      const diffContent = $('#diff-content');
+      diffContent.append(makeDiffFileContent('stdout',
+        'line-numbers', stdout
+      ));
+
+    });
+  };
+
+  const makeDiffOutputFilenames = (stdout,stderr,status) => {
+    let html = '';
+    html += '<table class="sss filenames">';
+    html += `<tr><td class="diff-filename">stdout</td></tr>`;
+    html += `<tr><td class="diff-filename">stderr</td></tr>`;
+    html += `<tr><td class="diff-filename">status</td></tr>`;
+    html += '</table>';
+    return html;
+  };
+
+  //-----------------------------------------
   // files
   //-----------------------------------------
 
@@ -349,11 +375,6 @@ $(() => {
         html += makeDiffTr(diff);
       }
     });
-    html += '</table>';
-    html += '<table class="sss filenames">';
-    html += makeDiffTr(diffs.find(diff => diffFilename(diff) === 'stdout'), '&nbsp;');
-    html += makeDiffTr(diffs.find(diff => diffFilename(diff) === 'stderr'), '&nbsp;');
-    html += makeDiffTr(diffs.find(diff => diffFilename(diff) === 'status'), '&nbsp;');
     html += '</table>';
     return html;
   };
@@ -480,23 +501,21 @@ $(() => {
   const resetFilenameAddedDeletedLineCountHandlers = () => {
 
     const display = (node, name, value) => {
-      // only [+][-][=] counts for current filename are live
+      // only [+][-] counts for current filename are live
       if ($(node).html() === '&nbsp;') { return; }
       if ($(node).attr('disabled') !== 'disabled') {
         const filename = $(node).data('filename');
         const selector = `[id="${filename}_diff_div"] ${name}`;
         $(selector).css('display', value);
         if (value === 'none') {
-          $(node).removeClass('on');
-          $(node).addClass('off');
+          $(node).removeClass('on').addClass('off');
         } else {
-          $(node).removeClass('off');
-          $(node).addClass('on');
+          $(node).removeClass('off').addClass('on');
         }
       }
     };
 
-    [ 'deleted', 'added', 'same' ].forEach(type => {
+    [ 'deleted', 'added' ].forEach(type => {
       $(`.diff-line-count.${type}`)
         .clickToggle(
           function() { display(this, type, 'none' ); },
@@ -510,50 +529,42 @@ $(() => {
     // Builds click handlers for all filenames for a given
     // [ kata-id, was-index, now-index] tuple.
     const getFilename = (node) => $.trim(node.text());
-    const id = (name) => $(`[id="${name}"]`);
-    const diffFileContentFor = (filename) => id(`diff_file_content_for_${filename}`);
-    const diffFileDiv = (filename) => id(`${filename}_diff_div`);
+    const $id = (name) => $(`[id="${name}"]`);
+    const diffFileDiv = (filename) => $id(`${filename}_diff_div`);
+    const reClicked = (filename) => param.filename === filename;
 
-    let previousFilenameNode;
-    let alreadyOpened = [];
+    const alreadyOpened = [];
 
     const loadFrom = (diff) => {
       const id = diff.id;
       const filenameNode = $(`#radio_${id}`);
       const filename = getFilename(filenameNode);
       const sectionCount = diff.section_count;
-      const diffSheet = diffFileContentFor(filename);
       let sectionIndex = 0;
 
       return () => {
-
-        const reselected =
-          previousFilenameNode !== undefined &&
-            getFilename(previousFilenameNode) === filename;
-
+        // select line-counts
         $('.diff-line-count').attr('disabled', true);
         $(`.diff-line-count[data-filename="${filename}"]`).attr('disabled', false);
-
+        // select filename
         $('.diff-filename', $reviewPage).removeClass('selected');
         filenameNode.addClass('selected');
-
-        if (previousFilenameNode !== undefined) {
-          diffFileDiv(getFilename(previousFilenameNode)).hide();
-        }
-        diffFileDiv(getFilename(filenameNode)).show();
-        previousFilenameNode = filenameNode;
-        param.filename = filename;
-
-        if (sectionCount > 0 && (reselected || !alreadyOpened.includes(filename))) {
+        // show selected file
+        $('.filename_div', $reviewPage).hide();
+        diffFileDiv(filename).show();
+        // if file has diff-chunks and we reclick its filename then scroll to
+        // next diff-chunk. But not when returning to a previously scrolled file.
+        if (sectionCount > 0 && (reClicked(filename) || !alreadyOpened.includes(filename))) {
+          const $diffSheet = $id(`diff_file_content_for_${filename}`);
           const section = $(`#${id}_section_${sectionIndex}`);
-          const downFromTop = 250;
           const halfSecond = 500;
-          diffSheet.animate({
-            scrollTop: '+=' + (section.offset().top - downFromTop) + 'px'
+          $diffSheet.animate({
+            scrollTop: '+=' + (section.offset().top - 250) + 'px'
           }, halfSecond);
           sectionIndex += 1;
           sectionIndex %= sectionCount;
         }
+        param.filename = filename;
         alreadyOpened.push(filename);
       };
     }; // loadFrom()
@@ -674,7 +685,10 @@ $(() => {
           <td><div id="checkout-button-box"></div></td>
         </tr>
       </table>
-      <div id="diff-filenames"></div>
+      <table>
+        <tr><td><div id="diff-filenames"></div></td></tr>
+        <tr><td><div id="diff-output-filenames"></div></td></tr>
+      </table>
     </td>
     <td>
       <div id="diff-content"></div>

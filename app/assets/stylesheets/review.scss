@@ -198,12 +198,13 @@
   }
 
   .diff-traffic-light img { position:relative; top:2px; }
+
   #diff-filenames
   {
     display: flex;
     flex-direction: column;
     float: left;
-    height: 490px;
+    max-height: 490px;
     margin: { top: 8px; }
     overflow-x: auto;
     overflow-y: auto;
