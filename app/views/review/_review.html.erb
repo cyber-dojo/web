@@ -531,9 +531,9 @@ $(() => {
     const alreadyOpened = [];
 
     const loadFrom = (diff) => {
-      const filename = diffFilename(diff);
       let sectionIndex = 0;
       return () => {
+        const filename = diffFilename(diff);
         // select line-counts
         $('.diff-line-count').attr('disabled', true);
         $(`.diff-line-count[data-filename="${filename}"]`).attr('disabled', false);
