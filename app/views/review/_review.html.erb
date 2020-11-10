@@ -530,15 +530,13 @@ $(() => {
     // [ kata-id, was-index, now-index] tuple.
     const getFilename = (node) => $.trim(node.text());
     const $id = (name) => $(`[id="${name}"]`);
-    const diffFileDiv = (filename) => $id(`${filename}_diff_div`);
     const reClicked = (filename) => param.filename === filename;
 
     const alreadyOpened = [];
 
     const loadFrom = (diff) => {
       const id = diff.id;
-      const filenameNode = $(`#radio_${id}`);
-      const filename = getFilename(filenameNode);
+      const filename = diffFilename(diff);
       const sectionCount = diff.section_count;
       let sectionIndex = 0;
 
@@ -548,10 +546,11 @@ $(() => {
         $(`.diff-line-count[data-filename="${filename}"]`).attr('disabled', false);
         // select filename
         $('.diff-filename', $reviewPage).removeClass('selected');
-        filenameNode.addClass('selected');
+        $(`#radio_${id}`, $reviewPage).addClass('selected');
         // show selected file
         $('.filename_div', $reviewPage).hide();
-        diffFileDiv(filename).show();
+        $id(`${filename}_diff_div`).show();
+
         // if file has diff-chunks and we reclick its filename then scroll to
         // next diff-chunk. But not when returning to a previously scrolled file.
         if (sectionCount > 0 && (reClicked(filename) || !alreadyOpened.includes(filename))) {
