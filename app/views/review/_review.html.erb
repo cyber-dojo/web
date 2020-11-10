@@ -96,6 +96,8 @@ $(() => {
       $.getJSON('/differ/diff', reviewParams, (data) => {
         cd.waitSpinner.fadeOut('fast', () => {
           param = data;
+          // temporary - to simulate differ.diff_lines() not returning sss.
+          param.diffs = param.diffs.filter(diff => isTrueFile(diff));
           refreshAvatarNavigator();
           refreshTrafficLights();  // this first
           refreshIndexNavigator(); // this second
@@ -318,32 +320,64 @@ $(() => {
   //-----------------------------------------
 
   const refreshOutput = () => {
-    const args = { id: param.id, index: param.nowIndex };
+    const args = { id:param.id, index:param.nowIndex };
     $.getJSON('/model/kata_event', args, (data) => {
       const event = data.kata_event;
       const stdout = event.stdout.content;
       const stderr = event.stderr.content;
       const status = event.status;
-      //...
+
+      const diffContent = $('#diff-content');
+      const $stdout = makeDiffFileContent('stdout', sameLineNumbers(stdout), sameLines(stdout));
+      const $stderr = makeDiffFileContent('stderr', sameLineNumbers(stderr), sameLines(stderr));
+      const $status = makeDiffFileContent('status', '', sameLines(status));
+
+      diffContent.append($stdout);
+      diffContent.append($stderr);
+      diffContent.append($status);
+
       const diffOutputFilenames = $('#diff-output-filenames');
       diffOutputFilenames.html(makeDiffOutputFilenames(stdout,stderr,status));
 
-      const diffContent = $('#diff-content');
-      diffContent.append(makeDiffFileContent('stdout',
-        'line-numbers', stdout
-      ));
-
+      $('#stdout').click(() => selectFile('stdout'));
+      $('#stderr').click(() => selectFile('stderr'));
+      $('#status').click(() => selectFile('status'));
     });
   };
 
   const makeDiffOutputFilenames = (stdout,stderr,status) => {
     let html = '';
     html += '<table class="sss filenames">';
-    html += `<tr><td class="diff-filename">stdout</td></tr>`;
-    html += `<tr><td class="diff-filename">stderr</td></tr>`;
-    html += `<tr><td class="diff-filename">status</td></tr>`;
+    html += `<tr><td class="diff-filename" id="stdout">stdout</td></tr>`;
+    html += `<tr><td class="diff-filename" id="stderr">stderr</td></tr>`;
+    html += `<tr><td class="diff-filename" id="status">status</td></tr>`;
     html += '</table>';
     return html;
+  };
+
+  const sameLines = (str) => {
+    return lines(htmlEscape(str)).map(line => `<same>${line}</same>`);
+  };
+
+  const sameLineNumbers = (str) => {
+    if (str === '') {
+      return '';
+    } else {
+      let number = 0;
+      return lines(str).map(_line => `<same><ln>${number += 1}</ln></same>`);
+    }
+  };
+
+  const htmlEscape = (str) => {
+    const div = document.createElement('div');
+    const text = document.createTextNode(str);
+    div.appendChild(text);
+    return div.innerHTML;
+  };
+
+  const lines = (str) => {
+    return str.replace(/\n$/, '')
+              .split(/\r?\n/);
   };
 
   //-----------------------------------------
@@ -351,6 +385,7 @@ $(() => {
   //-----------------------------------------
 
   const refreshFiles = () => {
+
     const diffContent = $('#diff-content');
     const diffFilenames = $('#diff-filenames');
     diffFilenames.html(makeDiffFilenames(param.diffs));
