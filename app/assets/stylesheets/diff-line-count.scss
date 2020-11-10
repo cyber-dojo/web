@@ -106,14 +106,12 @@ table.sss
   font-size:18px;
   padding:2px;
   text-align:center;
-  $non_breaking_space:  '\00a0';
   $n_dash: '\2013';
-  $m_dash: '\2014';
   $curved_right_arrow: '\21B7';
   &.created   { &:before { content: '+'; } }
   &.deleted   { &:before { content: $n_dash; } }
   &.renamed   { &:before { content: $curved_right_arrow; } }
-  &.changed   { &:before { content: $non_breaking_space; } }
+  &.changed   { &:before { content: '!'; } }
   &.unchanged { &:before { content: '='; } }
 }
 
