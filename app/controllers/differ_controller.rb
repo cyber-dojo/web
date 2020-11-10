@@ -22,7 +22,6 @@ class DifferController < ApplicationController
       prev_avatar_id,next_avatar_id = '',''
     end
 
-    ids_and_section_counts = pruned(view)
     current_filename_id = pick_file_id(view, current_filename, exts)
 
     result = {
@@ -36,7 +35,6 @@ class DifferController < ApplicationController
                    nowIndex: now_index,
                      events: events.map{ |event| to_json(event) },
                       diffs: view,
-	      idsAndSectionCounts: ids_and_section_counts,
           currentFilenameId: current_filename_id
 	  }
     render json:result
@@ -50,15 +48,6 @@ class DifferController < ApplicationController
 
   def current_filename
     params[:filename]
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
-  def pruned(array)
-    array.map { |hash| {
-      :id            => hash[:id],
-      :section_count => hash[:section_count]
-    }}
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -

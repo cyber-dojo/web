@@ -356,7 +356,7 @@ $(() => {
     diffFilenames.html(makeDiffFilenames(param.diffs));
     resetFilenameAddedDeletedLineCountHandlers();
     diffContent.html(makeDiffContent(param.diffs));
-    buildDiffFilenameHandlers(param.idsAndSectionCounts);
+    buildDiffFilenameHandlers(param.diffs);
     showFile(param.currentFilenameId);
   };
 
