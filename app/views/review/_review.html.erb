@@ -608,9 +608,7 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const bindLineNumberScrolling = ($content, $numbers) => {
-    const synchScroll = () => {
-      $numbers.scrollTop($content.scrollTop());
-    };
+    const synchScroll = () => $numbers.scrollTop($content.scrollTop());
     $content.bind({
       keydown   : synchScroll,
       scroll    : synchScroll,
