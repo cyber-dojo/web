@@ -535,7 +535,7 @@ $(() => {
         selectLineCounts(filename);
         selectFilename($filename);
         selectFile(filename);
-        whenReClickedScrollToNextDiffChunk(diff, filename);
+        scrollToNextDiffChunkOnReclick(diff, filename);
       });
     });
   };
@@ -556,16 +556,16 @@ $(() => {
     $(`[id="${filename}_diff_div"]`).show();
   };
 
-  const whenReClickedScrollToNextDiffChunk = (diff, filename) => {
-    const firstClick = (filename) => !diff.clicked;
-    const reClicked = (filename) => param.filename === filename;
-    if (diff.section_count > 0 && (firstClick(filename) || reClicked(filename))) {
+  const scrollToNextDiffChunkOnReclick = (diff, filename) => {
+    const hasDiffChunks = () => diff.section_count > 0;
+    const isFirstClick = () => !diff.clicked;
+    const isReClick = () => param.filename === filename;
+    if (hasDiffChunks() && (isFirstClick() || isReClick())) {
       const $diffSheet = $(`[id="diff_file_content_for_${filename}"]`);
-      const section = $(`#${diff.id}_section_${diff.section_index}`);
+      const $section = $(`#${diff.id}_section_${diff.section_index}`);
+      const position = { scrollTop: '+=' + ($section.offset().top - 250) + 'px' };
       const halfSecond = 500;
-      $diffSheet.animate({
-        scrollTop: '+=' + (section.offset().top - 250) + 'px'
-      }, halfSecond);
+      $diffSheet.animate(position, halfSecond);
       diff.section_index += 1;
       diff.section_index %= diff.section_count;
     }
