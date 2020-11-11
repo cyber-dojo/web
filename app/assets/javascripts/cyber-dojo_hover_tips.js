@@ -18,10 +18,7 @@ var cyberDojo = (function(cd, $) {
     cd.setTip($light, () => {
       const args = `id=${kataId}&was_index=${wasIndex}&now_index=${nowIndex}`;
       $.getJSON(`/differ/diff_summary?${args}`, '', (data) => {
-        if (Object.keys(data).includes('diff_summary')) {
-          data = data.diff_summary;
-        }
-        cd.showHoverTip($light, $trafficLightTip($light, data));
+        cd.showHoverTip($light, $trafficLightTip($light, data.diff_summary));
       });
     });
   };
