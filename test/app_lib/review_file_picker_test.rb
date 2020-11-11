@@ -94,32 +94,6 @@ class ReviewFilePickerTest < AppLibTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'D93', %w(
-  else
-  pick largest of stdout/stderr, when it is not empty
-  ) do
-    @current_filename = 'hiker.h'
-    @diffs = [] <<
-      fdiff('hiker.test.c',0,0) <<
-      fdiff('hiker.c',0,0) <<
-      fdiff('cyber-dojo.sh',0,0) <<
-      fdiff('makefile',0,0) <<
-      fdiff('stdout',0,0,'xxx') <<
-      (@picked=fdiff('stderr',0,0,'xxxx'))
-    assert_picked
-
-    @diffs = [] <<
-      fdiff('hiker.test.c',0,0) <<
-      fdiff('hiker.c',0,0) <<
-      fdiff('cyber-dojo.sh',0,0) <<
-      fdiff('makefile',0,0) <<
-      fdiff('stderr',0,0,'xxx') <<
-      (@picked=fdiff('stdout',0,0,'xxxx'))
-    assert_picked
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test 'D94', %w(
   else
   pick cyber-dojo.sh

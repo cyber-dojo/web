@@ -61,19 +61,6 @@ module ReviewFilePicker # mix-in
     end
 
     # else Rule 6
-    # Pick largest of stdout/stderr, if it has content
-    stdout = diffs.find { |diff| diff_filename(diff) === 'stdout' }
-    stderr = diffs.find { |diff| diff_filename(diff) === 'stderr' }
-    stdout_size = stdout[:content].size
-    stderr_size = stderr[:content].size
-    if (stdout_size > 0 && stdout_size >= stderr_size)
-      return stdout[:id]
-    end
-    if (stderr_size > 0 && stderr_size >= stdout_size)
-      return stderr[:id]
-    end
-
-    # else Rule 7
     # pick cyber-dojo.sh
     cyber_dojo_sh = diffs.find { |diff|
       diff_filename(diff) === 'cyber-dojo.sh'

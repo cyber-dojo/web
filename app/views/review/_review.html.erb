@@ -96,8 +96,6 @@ $(() => {
       $.getJSON('/differ/diff', reviewParams, (data) => {
         cd.waitSpinner.fadeOut('fast', () => {
           param = data;
-          // temporary - to simulate differ.diff_lines() not returning sss.
-          param.diffs = param.diffs.filter(diff => isTrueFile(diff));
           refreshAvatarNavigator();
           refreshTrafficLights();  // this first
           refreshIndexNavigator(); // this second
@@ -405,11 +403,7 @@ $(() => {
   const makeDiffFilenames = (diffs) => {
     let html = '<table class="filenames">';
     html += makeIconHeadings();
-    sortedDiffs(diffs).forEach(diff => {
-      if (isTrueFile(diff)) {
-        html += makeDiffTr(diff);
-      }
-    });
+    sortedDiffs(diffs).forEach(diff => html += makeDiffTr(diff));
     html += '</table>';
     return html;
   };
@@ -427,12 +421,6 @@ $(() => {
     html += makeTd(''); // Aligns with filename-td
     html += '</tr>';
     return html;
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  const isTrueFile = (diff) => {
-    const filename = diffFilename(diff);
-    return !['stdout','stderr','status'].includes(filename);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
