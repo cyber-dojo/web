@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 require 'json'
 
 module HttpJson
@@ -15,48 +14,42 @@ module HttpJson
 
     def get(path, args)
       response = @requester.get(path, args)
-      unpacked(response.body, path.to_s)
+      unpacked(response.body, path.to_s, args)
     end
 
     # - - - - - - - - - - - - - - - - - - - - -
 
     def post(path, args)
       response = @requester.post(path, args)
-      unpacked(response.body, path.to_s)
+      unpacked(response.body, path.to_s, args)
     end
 
     private
 
-    def unpacked(body, path)
-      json = json_parse(body)
-      if json.is_a?(Hash) && json.has_key?('exception')
-        throw JSON.pretty_generate(json['exception'])
+    def unpacked(body, path, args)
+      json = JSON.parse!(body)
+      unless json.is_a?(Hash)
+        fail service_error(path, args, body, 'body is not JSON Hash')
       end
-      if json.is_a?(Hash) && json.has_key?(path)
-        json[path]
-      else
-        json
+      if json.has_key?('exception')
+        fail service_error(path, args, body, 'body has embedded exception')
       end
-    end
-
-    # - - - - - - - - - - - - - - - - - - - - -
-
-    def json_parse(body)
-      JSON.parse(body)
+      unless json.has_key?(path)
+        fail service_error(path, args, body, 'body is missing :path key')
+      end
+      json[path]
     rescue JSON::ParserError
-      throw error_msg(body, 'is not JSON')
+      fail service_error(path, args, body, 'body is not JSON')
     end
 
-    # - - - - - - - - - - - - - - - - - - - - -
-
-    def error_msg(body, text)
-      "http response.body #{text}:#{body}"
-    end
-
-    # - - - - - - - - - - - - - - - - - - - - -
-
-    def throw(message)
-      fail @exception_class, message
+    def service_error(path, args, body, message)
+      msg = JSON.pretty_generate({
+        path:path,
+        args:args,
+        body:body,
+        message:message
+      })
+      @exception_class.new(msg)
     end
 
   end

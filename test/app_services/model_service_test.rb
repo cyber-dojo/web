@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 require_relative 'app_services_test_base'
+require_relative 'http_json_requester_not_json_stub'
+require 'json'
 
 class ModelServiceTest < AppServicesTestBase
 
@@ -13,7 +15,8 @@ class ModelServiceTest < AppServicesTestBase
   'response.body failure is mapped to exception' do
     set_http(HttpJsonRequesterNotJsonStub)
     error = assert_raises(ModelService::Error) { model.ready? }
-    assert error.message.start_with?('http response.body is not JSON'), error.message
+    json = JSON.parse(error.message)
+    assert_equal 'body is not JSON', json['message'], error.message
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -

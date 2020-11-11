@@ -14,7 +14,8 @@ class DifferServiceTest < AppServicesTestBase
   'response.body failure is mapped to exception' do
     set_http(HttpJsonRequesterNotJsonStub)
     error = assert_raises(DifferService::Error) { differ.ready? }
-    assert error.message.start_with?('http response.body is not JSON'), error.message
+    json = JSON.parse(error.message)
+    assert_equal 'body is not JSON', json['message'], error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -

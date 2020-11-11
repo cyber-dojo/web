@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 require_relative 'app_services_test_base'
-require_relative 'http_json_requester_not_json_stub'
 require 'ostruct'
 
 class HttpJsonTest < AppServicesTestBase
@@ -11,19 +10,20 @@ class HttpJsonTest < AppServicesTestBase
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  class HttpJsonRequesterNotJson
+  class HttpJsonRequesterNotJsonHashStub
     def initialize(_hostname, _port)
     end
     def request(_req)
-      OpenStruct.new(body:'xxxxx')
+      OpenStruct.new(body:'[42]')
     end
   end
 
   test '2C7',
   'response.body is not JSON Hash raises' do
-    set_http(HttpJsonRequesterNotJson)
+    set_http(HttpJsonRequesterNotJsonHashStub)
     error = assert_raises(DifferService::Error) { differ.ready? }
-    assert_equal 'http response.body is not JSON:xxxxx', error.message
+    json = JSON.parse(error.message)
+    assert_equal 'body is not JSON Hash', json['message'], error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -40,7 +40,8 @@ class HttpJsonTest < AppServicesTestBase
   'response.body has exception key raises' do
     set_http(HttpJsonRequesterExceptionKeyStub)
     error = assert_raises(DifferService::Error) { differ.ready? }
-    assert_equal '"http-stub-threw"', error.message
+    json = JSON.parse(error.message)
+    assert_equal 'body has embedded exception', json['message'], error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -54,10 +55,11 @@ class HttpJsonTest < AppServicesTestBase
   end
 
   test '2C8',
-  'JSON Hash with no key to match path returns the json' do
+  'JSON Hash with no key to match path raises' do
     set_http(HttpJsonRequesterNoPathKeyStub)
-    json = differ.ready?
-    assert_equal({"different" => true}, json)
+    error = assert_raises(DifferService::Error) { json = differ.ready? }
+    json = JSON.parse(error.message)
+    assert_equal 'body is missing :path key', json['message'], error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
