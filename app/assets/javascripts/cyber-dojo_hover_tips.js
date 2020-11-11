@@ -17,8 +17,11 @@ var cyberDojo = (function(cd, $) {
   cd.setupTrafficLightTip = ($light, kataId, wasIndex, nowIndex) => {
     cd.setTip($light, () => {
       const args = `id=${kataId}&was_index=${wasIndex}&now_index=${nowIndex}`;
-      $.getJSON(`/differ/diff_summary?${args}`, '', (summary) => {
-        cd.showHoverTip($light, $trafficLightTip($light, summary));
+      $.getJSON(`/differ/diff_summary?${args}`, '', (data) => {
+        if (Object.keys(data).includes('diff_summary')) {
+          data = data.diff_summary;
+        }
+        cd.showHoverTip($light, $trafficLightTip($light, data));
       });
     });
   };
