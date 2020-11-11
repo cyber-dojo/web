@@ -21,9 +21,7 @@ class Runner
       }
     }
 
-    json = runner.run_cyber_dojo_sh(args)
-
-    result = json.delete('run_cyber_dojo_sh')
+    result = runner.run_cyber_dojo_sh(args)
 
     created = result.delete('created')
     deleted = result.delete('deleted')

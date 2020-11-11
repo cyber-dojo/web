@@ -20,15 +20,13 @@ class RunnerStub
     stub[:outcome] ||= 'red'
     dir.make
     dir.write(filename, JSON.generate({
-      'run_cyber_dojo_sh' => {
-        'stdout' => file(stub[:stdout]),
-        'stderr' => file(stub[:stderr]),
-        'status' => stub[:status],
-        'outcome' => stub[:outcome],
-        'created' => {},
-        'deleted' => [],
-        'changed' => {}
-      }
+      'stdout' => file(stub[:stdout]),
+      'stderr' => file(stub[:stderr]),
+      'status' => stub[:status],
+      'outcome' => stub[:outcome],
+      'created' => {},
+      'deleted' => [],
+      'changed' => {}
     }))
   end
 
@@ -38,15 +36,14 @@ class RunnerStub
     if dir.exists?
       JSON.parse(dir.read(filename))
     else
-      { 'run_cyber_dojo_sh' => {
-          'stdout' => file('so'),
-          'stderr' => file('se'),
-          'status' => 0,
-          'outcome' => 'red',
-          'created' => {},
-          'deleted' => [],
-          'changed' => {}
-        }
+      {
+        'stdout' => file('so'),
+        'stderr' => file('se'),
+        'status' => 0,
+        'outcome' => 'red',
+        'created' => {},
+        'deleted' => [],
+        'changed' => {}
       }
     end
   end

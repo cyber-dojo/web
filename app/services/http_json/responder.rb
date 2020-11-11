@@ -6,10 +6,9 @@ module HttpJson
 
   class Responder
 
-    def initialize(requester, exception_class, options = {})
+    def initialize(requester, exception_class)
       @requester = requester
       @exception_class = exception_class
-      @options = options
     end
 
     # - - - - - - - - - - - - - - - - - - - - -
@@ -30,16 +29,10 @@ module HttpJson
 
     def unpacked(body, path)
       json = json_parse(body)
-      unless json.is_a?(Hash) || json.is_a?(Array)
-        throw error_msg(body, 'is not JSON Hash|Array')
-      end
       if json.is_a?(Hash) && json.has_key?('exception')
         throw JSON.pretty_generate(json['exception'])
       end
-      if @options[:keyed]
-        unless json.has_key?(path)
-          throw error_msg(body, "has no key for '#{path}'")
-        end
+      if json.is_a?(Hash) && json.has_key?(path)
         json[path]
       else
         json

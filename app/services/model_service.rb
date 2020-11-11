@@ -14,7 +14,7 @@ class ModelService
     hostname = 'model'
     port = ENV['CYBER_DOJO_MODEL_PORT'].to_i
     requester = HttpJson::Requester.new(externals.http, hostname, port)
-    @http = HttpJson::Responder.new(requester, Error, {keyed:true})
+    @http = HttpJson::Responder.new(requester, Error)
   end
 
   def ready?

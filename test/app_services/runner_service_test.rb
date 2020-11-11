@@ -25,7 +25,7 @@ class RunnerServiceTest < AppServicesTestBase
 
   test '3A8',
   'smoke test ready?' do
-    assert runner.ready?['ready?']
+    assert runner.ready?
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -34,12 +34,11 @@ class RunnerServiceTest < AppServicesTestBase
   'run() tests expecting 42 actual 6*9' do
     in_new_kata { |kata|
       json = runner.run_cyber_dojo_sh(run_args(kata))
-      key = 'run_cyber_dojo_sh'
-      stdout = json[key]['stdout']['content']
+      stdout = json['stdout']['content']
       assert stdout.include?('not ok 1 life the universe and everything'), json
       assert stdout.include?('in test file test_hiker.sh'), json
       assert stdout.include?('[ "$actual" == "42" ]'), json
-      assert_equal 'red', json[key]['outcome'], json
+      assert_equal 'red', json['outcome'], json
     }
   end
 
@@ -51,8 +50,7 @@ class RunnerServiceTest < AppServicesTestBase
       args = run_args(kata)
       args[:files]['cyber-dojo.sh'] = 'rm readme.txt'
       json = runner.run_cyber_dojo_sh(args)
-      result = json['run_cyber_dojo_sh']
-      assert_equal ['readme.txt'], result['deleted']
+      assert_equal ['readme.txt'], json['deleted']
     }
   end
 

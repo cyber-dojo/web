@@ -22,8 +22,7 @@ class RunnerStubTest < AppServicesTestBase
   ) do
     stdout = 'syntax error line 1'
     runner.stub_run({stdout:stdout})
-    json = runner.run_cyber_dojo_sh(unused_args)
-    run = json['run_cyber_dojo_sh']
+    run = runner.run_cyber_dojo_sh(unused_args)
     assert_equal stdout, run['stdout']['content']
     assert_equal '', run['stderr']['content']
     assert_equal 0, run['status']
@@ -41,8 +40,7 @@ class RunnerStubTest < AppServicesTestBase
       outcome: 'amber'
     }
     runner.stub_run(stub)
-    json = runner.run_cyber_dojo_sh(unused_args)
-    run = json['run_cyber_dojo_sh']
+    run = runner.run_cyber_dojo_sh(unused_args)
     assert_equal stub[:stdout], run['stdout']['content']
     assert_equal stub[:stderr], run['stderr']['content']
     assert_equal stub[:status], run['status']
@@ -53,8 +51,7 @@ class RunnerStubTest < AppServicesTestBase
 
   test '97A',
   'run without preceeding stub returns so/se/0/false/red' do
-    json = runner.run_cyber_dojo_sh(unused_args)
-    run = json['run_cyber_dojo_sh']
+    run = runner.run_cyber_dojo_sh(unused_args)
     assert_equal 'so', run['stdout']['content']
     assert_equal 'se', run['stderr']['content']
     assert_equal 0, run['status']
@@ -68,12 +65,11 @@ class RunnerStubTest < AppServicesTestBase
   'because app_controller methods are routed into a new thread' do
     stdout = 'syntax error line 1'
     runner.stub_run(stdout:stdout)
-    json = nil
+    run = nil
     tid = Thread.new {
-      json = runner.run_cyber_dojo_sh(unused_args)
+      run = runner.run_cyber_dojo_sh(unused_args)
     }
     tid.join
-    run = json['run_cyber_dojo_sh']
     assert_equal stdout, run['stdout']['content']
   end
 

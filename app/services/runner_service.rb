@@ -14,7 +14,7 @@ class RunnerService
     hostname = 'runner'
     port = ENV['CYBER_DOJO_RUNNER_PORT'].to_i
     requester = HttpJson::Requester.new(externals.http, hostname, port)
-    @http = HttpJson::Responder.new(requester, Error, {keyed:false})
+    @http = HttpJson::Responder.new(requester, Error)
   end
 
   def ready?
