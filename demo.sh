@@ -1,14 +1,12 @@
 #!/bin/bash -Eeu
 
 # Brings up a local server (without using commander).
-# COPYies the web source into the web image.
-# Execute sh/run_tests_in_container.sh
-# for a very fast feedback loop.
 
 readonly ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "${ROOT_DIR}/sh/echo_versioner_env_vars.sh"
 source "${ROOT_DIR}/sh/container_info.sh"
 source "${ROOT_DIR}/sh/copy_in_saver_test_data.sh"
+source "${ROOT_DIR}/sh/ip_address.sh"
 export $(echo_versioner_env_vars)
 
 # - - - - - - - - - - - - - - - - - - - - - - -
@@ -36,7 +34,6 @@ git_commit_sha()
 # - - - - - - - - - - - - - - - - - - - - - - -
 up_nginx()
 {
-  remove 80 # web
   docker-compose \
     --file "${ROOT_DIR}/docker-compose-depends.yml" \
     --file "${ROOT_DIR}/docker-compose-nginx.yml" \
@@ -51,5 +48,8 @@ up_nginx()
 # - - - - - - - - - - - - - - - - - - - - - - -
 remove 3000 #web
 web_build
+remove 80 # nginx
 up_nginx
 copy_in_saver_test_data
+sleep 2
+open "http://$(ip_address):80/kata/edit/5U2J18"
