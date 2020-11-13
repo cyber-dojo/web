@@ -72,5 +72,7 @@ web_build
 remove 80 # nginx
 up_nginx
 copy_in_saver_test_data # eg 5U2J18
-sleep 2
-open "http://$(ip_address):80/kata/edit/5U2J18"
+if [ "$(uname)" == "Darwin" ]; then
+  sleep 2
+  open "http://$(ip_address):80/kata/edit/5U2J18"
+fi
