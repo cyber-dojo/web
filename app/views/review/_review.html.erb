@@ -2,6 +2,8 @@
 'use strict';
 $(() => {
 
+  const review = cd.review = {};
+
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // After refresh() has been called param also contains
   // param.events
@@ -101,7 +103,7 @@ $(() => {
           refreshIndexNavigator(); // this second
           refreshDiffCheckBox();
           refreshFiles();
-          refreshOutput();
+          review.refreshOutput(param);
           scrollCurrentTrafficLightIntoView();
           cd.setupHoverTips($('[data-tip]'));
         }); // waitSpinner
@@ -314,71 +316,6 @@ $(() => {
   };
 
   //-----------------------------------------
-  // output
-  //-----------------------------------------
-
-  const refreshOutput = () => {
-    const args = { id:param.id, index:param.nowIndex };
-    $.getJSON('/model/kata_event', args, (data) => {
-      const event = data.kata_event;
-      const stdout = event.stdout.content;
-      const stderr = event.stderr.content;
-      const status = event.status;
-
-      const diffContent = $('#diff-content');
-      const $stdout = makeDiffFileContent('stdout', sameLineNumbers(stdout), sameLines(stdout));
-      const $stderr = makeDiffFileContent('stderr', sameLineNumbers(stderr), sameLines(stderr));
-      const $status = makeDiffFileContent('status', '', sameLines(status));
-
-      diffContent.append($stdout);
-      diffContent.append($stderr);
-      diffContent.append($status);
-
-      const diffOutputFilenames = $('#diff-output-filenames');
-      diffOutputFilenames.html(makeDiffOutputFilenames(stdout,stderr,status));
-
-      $('#stdout').click(() => selectFile('stdout'));
-      $('#stderr').click(() => selectFile('stderr'));
-      $('#status').click(() => selectFile('status'));
-    });
-  };
-
-  const makeDiffOutputFilenames = (stdout,stderr,status) => {
-    let html = '';
-    html += '<table class="sss filenames">';
-    html += `<tr><td class="diff-filename" id="stdout">stdout</td></tr>`;
-    html += `<tr><td class="diff-filename" id="stderr">stderr</td></tr>`;
-    html += `<tr><td class="diff-filename" id="status">status</td></tr>`;
-    html += '</table>';
-    return html;
-  };
-
-  const sameLines = (str) => {
-    return lines(htmlEscape(str)).map(line => `<same>${line}</same>`);
-  };
-
-  const sameLineNumbers = (str) => {
-    if (str === '') {
-      return '';
-    } else {
-      let number = 0;
-      return lines(str).map(_line => `<same><ln>${number += 1}</ln></same>`);
-    }
-  };
-
-  const htmlEscape = (str) => {
-    const div = document.createElement('div');
-    const text = document.createTextNode(str);
-    div.appendChild(text);
-    return div.innerHTML;
-  };
-
-  const lines = (str) => {
-    return str.replace(/\n$/, '')
-              .split(/\r?\n/);
-  };
-
-  //-----------------------------------------
   // files
   //-----------------------------------------
 
@@ -557,7 +494,7 @@ $(() => {
       $filename.click(() => {
         selectLineCounts(filename);
         selectFilename($filename);
-        selectFile(filename);
+        review.selectFile(filename);
         scrollToNextDiffChunkOnReclick(diff, filename);
       });
     });
@@ -574,7 +511,7 @@ $(() => {
     $filename.addClass('selected');
   };
 
-  const selectFile = (filename) => {
+  review.selectFile = (filename) => {
     $('.filename_div', $reviewPage).hide();
     $(`[id="${filename}_diff_div"]`).show();
   };
@@ -603,13 +540,13 @@ $(() => {
       const filename = diffFilename(diff);
       const numbers = diff.line_numbers;
       const content = diff.content;
-      holder.append(makeDiffFileContent(filename, numbers, content));
+      holder.append(review.makeDiffFileContent(filename, numbers, content));
     });
     return holder;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const makeDiffFileContent = (filename, lineNumbers, fileContent) => {
+  review.makeDiffFileContent = (filename, lineNumbers, fileContent) => {
     const file = $('' +
       `<div id="${filename}_diff_div" class="filename_div">` +
       '<table>' +
@@ -707,6 +644,7 @@ $(() => {
       <table>
         <tr><td><div id="diff-filenames"></div></td></tr>
         <tr><td><div id="diff-output-filenames"></div></td></tr>
+        <%= render partial: 'review/refresh_output' %>
       </table>
     </td>
     <td>
