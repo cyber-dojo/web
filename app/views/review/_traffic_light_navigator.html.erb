@@ -1,3 +1,53 @@
+<script type="text/javascript"><!--
+'use strict';
+$(() => {
+
+  const review = cd.review;
+
+  review.refreshTrafficLightsNavigator = () => {
+    refreshIndex($('#first-index'),prevEventIndex(1));
+    refreshIndex($('#prev-index'), prevEventIndex(review.params.nowIndex-1));
+    $('#review-index-box').html(makeIndexHtml());
+    refreshIndex($('#next-index'), nextEventIndex(review.params.nowIndex+1));
+    refreshIndex($('#last-index'), nextEventIndex(review.params.events.length-1));
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  const refreshIndex = (button, index) => {
+    button
+      .attr('disabled', index === null)
+      .unbind('click')
+      .bind('click', () => review.moveToTrafficLight(index));
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  const prevEventIndex = (n) => {
+    if (review.params.nowIndex === 1) { // 0 is creation event
+      return null; // Disable
+    } else {
+      return n;
+    }
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  const nextEventIndex = (n) => {
+    if (review.params.nowIndex === review.params.events.length-1) {
+      return null; // Disable
+    } else {
+      return n;
+    }
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  const makeIndexHtml = () => {
+    const index = review.params.nowIndex;
+    const colour = review.params.events[index].colour;
+    const number = $(`.diff-traffic-light[data-index=${index}]`).data('number');
+    return `<div id="index-number" class="${colour}">${number}</div>`;
+  };
+
+});
+//--></script>
 
 <div id="traffic-light-navigator">
   <button id="first-index" class="triangle button">
