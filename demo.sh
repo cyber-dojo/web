@@ -64,6 +64,18 @@ up_nginx()
       nginx
 }
 
+# - - - - - - - - - - - - - - - - - - - - - - - -
+on_Mac()
+{
+  [ "$(uname)" == "Darwin" ]
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - -
+demo_URL()
+{
+  echo "http://$(ip_address):80/kata/edit/5U2J18"
+}
+
 # - - - - - - - - - - - - - - - - - - - - - - -
 exit_non_zero_unless_installed docker
 exit_non_zero_unless_installed docker-compose
@@ -72,7 +84,8 @@ web_build
 remove 80 # nginx
 up_nginx
 copy_in_saver_test_data # eg 5U2J18
-if [ "$(uname)" == "Darwin" ]; then
-  sleep 2
-  open "http://$(ip_address):80/kata/edit/5U2J18"
+if on_Mac; then
+  open "$(demo_URL)"
+else
+  echo "Demo URL is $(demo_URL)"
 fi
