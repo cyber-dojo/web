@@ -72,13 +72,13 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const moveToAvatar = (id) => {
     param.id = id;
-    const index = inDiffMode() ? 1 : -1;
-    moveToTrafficLight(index);
+    const index = review.inDiffMode() ? 1 : -1;
+    review.moveToTrafficLight(index);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const moveToTrafficLight = (index) => {
-    const delta = inDiffMode() ? 1 : 0;
+  review.moveToTrafficLight = (index) => {
+    const delta = review.inDiffMode() ? 1 : 0;
     param.nowIndex = index;
     param.wasIndex = index - delta;
     refresh();
@@ -101,7 +101,7 @@ $(() => {
           refreshAvatarNavigator();
           refreshTrafficLights();  // this first
           refreshIndexNavigator(); // this second
-          refreshDiffCheckBox();
+          review.refreshDiffCheckBox(param);
           refreshFiles();
           review.refreshOutput(param);
           scrollCurrentTrafficLightIntoView();
@@ -123,29 +123,6 @@ $(() => {
       });
     };
     setTimeout(scroller, quarterSecond);
-  };
-
-  //-----------------------------------------
-  // diff? [x]
-  //-----------------------------------------
-
-  const inDiffMode = () => diffCheckBox().is(':checked');
-
-  const diffCheckBox = () => $('#diff-checkbox');
-
-  const refreshDiffCheckBox = () => {
-    const checked = param.wasIndex !== param.nowIndex;
-    diffCheckBox()
-      .prop('checked', checked) // must be from params
-      .unbind('click')
-      .bind('click', () => moveToTrafficLight(param.nowIndex));
-
-    $('#diff-checkbox-title')
-      .unbind('click')
-      .bind('click', () => {
-        diffCheckBox().attr('checked', !inDiffMode());
-        moveToTrafficLight(param.nowIndex);
-      });
   };
 
   //-----------------------------------------
@@ -192,7 +169,7 @@ $(() => {
     button
       .attr('disabled', index === null)
       .unbind('click')
-      .bind('click', () => moveToTrafficLight(index));
+      .bind('click', () => review.moveToTrafficLight(index));
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -232,7 +209,7 @@ $(() => {
     $.each($('.diff-traffic-light', trafficLights), (_, light) => {
       const $light = $(light);
       const nowIndex = $light.data('index');
-      $light.click(() => moveToTrafficLight(nowIndex));
+      $light.click(() => review.moveToTrafficLight(nowIndex));
       cd.setupTrafficLightTip($light, param.id, wasIndex, nowIndex);
       wasIndex = nowIndex;
     });
@@ -349,7 +326,7 @@ $(() => {
   const makeIconHeadings = () => {
     let html = '';
     html += '<tr>';
-    if (inDiffMode()) {
+    if (review.inDiffMode()) {
       html += makeTd(makeDiffLineCountIcon('deleted', '&mdash;'));
       html += makeTd(makeDiffLineCountIcon('added', '+'));
       html += makeTd(makeDiffLineCountIcon('same', '='));
@@ -365,7 +342,7 @@ $(() => {
     glyph ||= diff;
     let html = '';
     html += '<tr>';
-    if (inDiffMode()) {
+    if (review.inDiffMode()) {
       html += makeTd(makeDiffCount(diff, 'deleted'));
       html += makeTd(makeDiffCount(diff, 'added'));
       html += makeTd(makeDiffCount(diff, 'same'));
