@@ -101,9 +101,9 @@ $(() => {
           refreshAvatarNavigator();
           refreshTrafficLights();  // this first
           refreshIndexNavigator(); // this second
-          review.refreshDiffCheckBox(review.params);
+          review.refreshDiffCheckBox();
           refreshFiles();
-          review.refreshOutput(review.params);
+          review.refreshOutput();
           scrollCurrentTrafficLightIntoView();
           cd.setupHoverTips($('[data-tip]'));
         }); // waitSpinner

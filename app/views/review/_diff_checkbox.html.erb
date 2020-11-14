@@ -8,18 +8,18 @@ $(() => {
 
   review.inDiffMode = () => diffCheckBox().is(':checked');
 
-  review.refreshDiffCheckBox = (param) => {
-    const checked = param.wasIndex !== param.nowIndex;
+  review.refreshDiffCheckBox = () => {
+    const checked = review.params.wasIndex !== review.params.nowIndex;
     diffCheckBox()
       .prop('checked', checked) // must be from params
       .unbind('click')
-      .bind('click', () => review.moveToTrafficLight(param.nowIndex));
+      .bind('click', () => review.moveToTrafficLight(review.params.nowIndex));
 
     $('#diff-checkbox-title')
       .unbind('click')
       .bind('click', () => {
         diffCheckBox().attr('checked', !review.inDiffMode());
-        review.moveToTrafficLight(param.nowIndex);
+        review.moveToTrafficLight(review.params.nowIndex);
       });
   };
 
