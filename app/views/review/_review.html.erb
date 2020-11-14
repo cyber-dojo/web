@@ -5,17 +5,17 @@ $(() => {
   const review = cd.review = {};
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // After refresh() has been called param also contains
-  // param.events
+  // After refresh() has been called review.params also contains...
+  // events
   //   holds the traffic-lights and is used to program
   //   the traffic-light [<][<][>][>] navigator buttons.
-  // param.prevAvatarId
-  // param.nextAvatarId
+  // prevAvatarId
+  // nextAvatarId
   //   hold the kata-ids and used is used to program
   //   the avatar [<][>] navigator buttons.
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  let param = {
+  review.params = {
         version: "<%= @version %>",
              id: "<%= @id %>",
         groupId: "<%= @group_id %>",
@@ -35,7 +35,7 @@ $(() => {
   cd.setReviewData = (version, id, groupId, avatarIndex, wasIndex, nowIndex, filename) => {
     // Called only from app/views/kata/_traffic_lights.html.erb
     // The [resume] & [checkout] buttons are only shown on kata/edit. [1]
-    param = {
+    review.params = {
           version:version,
                id:id,
           groupId:groupId,
@@ -49,7 +49,7 @@ $(() => {
       cd.kata.editor.refocus();
     }));
     setupButton('checkout', () => fadeIntoKataPage(() => { // [1]
-      cd.checkout({ src_id:param.id, src_index:param.nowIndex });
+      cd.checkout({ src_id:review.params.id, src_index:review.params.nowIndex });
     }));
     setCheckoutButtonTip();
     refresh();
@@ -71,7 +71,7 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const moveToAvatar = (id) => {
-    param.id = id;
+    review.params.id = id;
     const index = review.inDiffMode() ? 1 : -1;
     review.moveToTrafficLight(index);
   };
@@ -79,31 +79,31 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   review.moveToTrafficLight = (index) => {
     const delta = review.inDiffMode() ? 1 : 0;
-    param.nowIndex = index;
-    param.wasIndex = index - delta;
+    review.params.nowIndex = index;
+    review.params.wasIndex = index - delta;
     refresh();
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const refresh = () => {
     const reviewParams = {
-           version: param.version,
-                id: param.id,
-          group_id: param.groupId,
-         was_index: param.wasIndex,
-         now_index: param.nowIndex,
-          filename: param.filename
+           version: review.params.version,
+                id: review.params.id,
+          group_id: review.params.groupId,
+         was_index: review.params.wasIndex,
+         now_index: review.params.nowIndex,
+          filename: review.params.filename
     };
     cd.waitSpinner.fadeIn('fast', () => {
       $.getJSON('/differ/diff', reviewParams, (data) => {
         cd.waitSpinner.fadeOut('fast', () => {
-          param = data;
+          review.params = data;
           refreshAvatarNavigator();
           refreshTrafficLights();  // this first
           refreshIndexNavigator(); // this second
-          review.refreshDiffCheckBox(param);
+          review.refreshDiffCheckBox(review.params);
           refreshFiles();
-          review.refreshOutput(param);
+          review.refreshOutput(review.params);
           scrollCurrentTrafficLightIntoView();
           cd.setupHoverTips($('[data-tip]'));
         }); // waitSpinner
@@ -130,18 +130,18 @@ $(() => {
   //-----------------------------------------
 
   const refreshAvatarNavigator = () => {
-    if (param.avatarIndex != '') {
+    if (review.params.avatarIndex != '') {
       $('#avatar-navigator').show();
       const $box = $('#review-avatar-image-box').html(makeAvatarImageHtml());
-      refreshAvatar($('#prev-avatar'), param.prevAvatarId);
-      cd.setupAvatarNameHoverTip($box, '', param.avatarIndex, '');
-      refreshAvatar($('#next-avatar'), param.nextAvatarId);
+      refreshAvatar($('#prev-avatar'), review.params.prevAvatarId);
+      cd.setupAvatarNameHoverTip($box, '', review.params.avatarIndex, '');
+      refreshAvatar($('#next-avatar'), review.params.nextAvatarId);
     }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const makeAvatarImageHtml = () => {
-    return `<img class="avatar-image" src="/images/avatars/${param.avatarIndex}.jpg"/>`;
+    return `<img class="avatar-image" src="/images/avatars/${review.params.avatarIndex}.jpg"/>`;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -158,10 +158,10 @@ $(() => {
 
   const refreshIndexNavigator = () => {
     refreshIndex($('#first-index'),prevEventIndex(1));
-    refreshIndex($('#prev-index'), prevEventIndex(param.nowIndex-1));
+    refreshIndex($('#prev-index'), prevEventIndex(review.params.nowIndex-1));
     $('#review-index-box').html(makeIndexHtml());
-    refreshIndex($('#next-index'), nextEventIndex(param.nowIndex+1));
-    refreshIndex($('#last-index'), nextEventIndex(param.events.length-1));
+    refreshIndex($('#next-index'), nextEventIndex(review.params.nowIndex+1));
+    refreshIndex($('#last-index'), nextEventIndex(review.params.events.length-1));
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -174,7 +174,7 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const prevEventIndex = (n) => {
-    if (param.nowIndex === 1) { // 0 is creation event
+    if (review.params.nowIndex === 1) { // 0 is creation event
       return null; // Disable
     } else {
       return n;
@@ -183,7 +183,7 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const nextEventIndex = (n) => {
-    if (param.nowIndex === param.events.length-1) {
+    if (review.params.nowIndex === review.params.events.length-1) {
       return null; // Disable
     } else {
       return n;
@@ -192,8 +192,8 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const makeIndexHtml = () => {
-    const index = param.nowIndex;
-    const colour = param.events[index].colour;
+    const index = review.params.nowIndex;
+    const colour = review.params.events[index].colour;
     const number = $(`.diff-traffic-light[data-index=${index}]`).data('number');
     return `<div id="index-number" class="${colour}">${number}</div>`;
   };
@@ -210,7 +210,7 @@ $(() => {
       const $light = $(light);
       const nowIndex = $light.data('index');
       $light.click(() => review.moveToTrafficLight(nowIndex));
-      cd.setupTrafficLightTip($light, param.id, wasIndex, nowIndex);
+      cd.setupTrafficLightTip($light, review.params.id, wasIndex, nowIndex);
       wasIndex = nowIndex;
     });
   };
@@ -219,7 +219,7 @@ $(() => {
   const makeTrafficLightsHtml = () => {
     let html = '';
     let number = 1;
-    param.events.forEach(event => {
+    review.params.events.forEach(event => {
       if (isVisible(event)) {
         html += makeTrafficLightHtml(event, number);
         number += 1;
@@ -251,8 +251,8 @@ $(() => {
       `${makeRevertCircle(light)}
        ${makePredictCircle(light)}
        <div class="diff-traffic-light"
-         data-id="${param.id}"
-         data-avatar-index="${param.avatarIndex}"
+         data-id="${review.params.id}"
+         data-avatar-index="${review.params.avatarIndex}"
          data-number="${number}"
          data-colour="${colour}"
          data-index="${light.index}">
@@ -283,7 +283,7 @@ $(() => {
   const isPredict = (light) => light.predicted != undefined && light.predicted != 'none';
 
   const makeTrafficLightMarkerHtml = (light) => {
-    const currentIndex = (param.nowIndex === light.index);
+    const currentIndex = (review.params.nowIndex === light.index);
     if (currentIndex) {
       return `<img id='traffic-light-marker'
                    src='/images/traffic-light/marker_${light.colour}.png'/>`;
@@ -300,11 +300,11 @@ $(() => {
 
     const diffContent = $('#diff-content');
     const diffFilenames = $('#diff-filenames');
-    diffFilenames.html(makeDiffFilenames(param.diffs));
+    diffFilenames.html(makeDiffFilenames(review.params.diffs));
     resetFilenameAddedDeletedLineCountHandlers();
-    diffContent.html(makeDiffContent(param.diffs));
-    buildDiffFilenameHandlers(param.diffs);
-    showFile(param.currentFilenameId);
+    diffContent.html(makeDiffContent(review.params.diffs));
+    buildDiffFilenameHandlers(review.params.diffs);
+    showFile(review.params.currentFilenameId);
   };
 
   const showFile = (filenameId) => {
@@ -496,7 +496,7 @@ $(() => {
   const scrollToNextDiffChunkOnReclick = (diff, filename) => {
     const hasDiffChunks = () => diff.section_count > 0;
     const isFirstClick = () => !diff.clicked;
-    const isReClick = () => param.filename === filename;
+    const isReClick = () => review.params.filename === filename;
     if (hasDiffChunks() && (isFirstClick() || isReClick())) {
       const $diffSheet = $(`[id="diff_file_content_for_${filename}"]`);
       const $section = $(`#${diff.id}_section_${diff.section_index}`);
@@ -506,7 +506,7 @@ $(() => {
       diff.section_index += 1;
       diff.section_index %= diff.section_count;
     }
-    param.filename = filename;
+    review.params.filename = filename;
     diff.clicked = true;
   };
 
@@ -588,7 +588,7 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  setupButton('fork', () => cd.forkDialog(param.id, param.nowIndex));
+  setupButton('fork', () => cd.forkDialog(review.params.id, review.params.nowIndex));
   setForkButtonTip();
   if (!inTestPage) {
     $reviewPage.show();
