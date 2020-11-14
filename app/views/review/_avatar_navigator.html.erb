@@ -1,3 +1,44 @@
+<script type="text/javascript"><!--
+'use strict';
+$(() => {
+
+  const review = cd.review;
+
+  review.refreshAvatarNavigator = () => {
+    if (review.params.avatarIndex != '') {
+      $('#avatar-navigator').show();
+      const $box = $('#review-avatar-image-box').html(makeAvatarImageHtml());
+      refreshAvatar($('#prev-avatar'), review.params.prevAvatarId);
+      cd.setupAvatarNameHoverTip($box, '', review.params.avatarIndex, '');
+      refreshAvatar($('#next-avatar'), review.params.nextAvatarId);
+    }
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  const makeAvatarImageHtml = () => {
+    return `<img class="avatar-image" src="/images/avatars/${review.params.avatarIndex}.jpg"/>`;
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  const refreshAvatar = (button, id) => {
+    button
+      .attr('disabled', id === '')
+      .unbind('click')
+      .bind('click', () => moveToAvatar(id));
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  const moveToAvatar = (id) => {
+    review.params.id = id;
+    const first = 1;
+    const last = -1;
+    const index = review.inDiffMode() ? first : last;
+    review.moveToTrafficLight(index);
+  };
+
+});
+
+//--></script>
 
 <span id="avatar-navigator" style="display:none;">
   <button id="prev-avatar" class="triangle button">
