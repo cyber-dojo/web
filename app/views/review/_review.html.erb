@@ -92,8 +92,8 @@ $(() => {
         cd.waitSpinner.fadeOut('fast', () => {
           review.params = data;
           review.refreshAvatarNavigator();
-          refreshTrafficLights();  // this first
-          refreshIndexNavigator(); // this second
+          review.refreshTrafficLights();  // this first
+          refreshTrafficLightsNavigator(); // this second
           review.refreshDiffCheckBox();
           refreshFiles();
           review.refreshOutput();
@@ -122,7 +122,7 @@ $(() => {
   // [<][<]traffic-light-index[>][>]
   //-----------------------------------------
 
-  const refreshIndexNavigator = () => {
+  const refreshTrafficLightsNavigator = () => {
     refreshIndex($('#first-index'),prevEventIndex(1));
     refreshIndex($('#prev-index'), prevEventIndex(review.params.nowIndex-1));
     $('#review-index-box').html(makeIndexHtml());
@@ -162,100 +162,6 @@ $(() => {
     const colour = review.params.events[index].colour;
     const number = $(`.diff-traffic-light[data-index=${index}]`).data('number');
     return `<div id="index-number" class="${colour}">${number}</div>`;
-  };
-
-  //-----------------------------------------
-  // traffic-lights...
-  //-----------------------------------------
-
-  const refreshTrafficLights = () => {
-    const trafficLights = $('#review-traffic-lights');
-    trafficLights.html(makeTrafficLightsHtml());
-    let wasIndex = 0;
-    $.each($('.diff-traffic-light', trafficLights), (_, light) => {
-      const $light = $(light);
-      const nowIndex = $light.data('index');
-      $light.click(() => review.moveToTrafficLight(nowIndex));
-      cd.setupTrafficLightTip($light, review.params.id, wasIndex, nowIndex);
-      wasIndex = nowIndex;
-    });
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  const makeTrafficLightsHtml = () => {
-    let html = '';
-    let number = 1;
-    review.params.events.forEach(event => {
-      if (isVisible(event)) {
-        html += makeTrafficLightHtml(event, number);
-        number += 1;
-      }
-    });
-    return html;
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  const isVisible = (event) => {
-    // Eg don't show event[0] == creation
-    switch (event.colour) {
-    case 'pulling':
-    case 'red':
-    case 'amber':
-    case 'green':
-    case 'timed_out':
-    case 'faulty':
-      return true;
-    default:
-      return false;
-    }
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  const makeTrafficLightHtml = (light, number) => {
-    const colour = light.colour;
-    return '' +
-      `${makeRevertCircle(light)}
-       ${makePredictCircle(light)}
-       <div class="diff-traffic-light"
-         data-id="${review.params.id}"
-         data-avatar-index="${review.params.avatarIndex}"
-         data-number="${number}"
-         data-colour="${colour}"
-         data-index="${light.index}">
-         <img src="/images/traffic-light/${colour}.png"/>
-        ${makeTrafficLightMarkerHtml(light)}
-      </div>`;
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  const makeRevertCircle = (light) => {
-    if (isRevert(light)) {
-      return '<img class="revert" src="/images/traffic-light/circle-revert.png">';
-    } else {
-      return '';
-    }
-  };
-  const isRevert = (light) => light.revert != undefined;
-
-  const makePredictCircle = (light) => {
-    if (isPredict(light)) {
-      const correct = (light.predicted === light.colour);
-      const icon = correct ? 'tick' : 'cross';
-      return `<img class="${icon}" src="/images/traffic-light/circle-${icon}.png">`;
-    } else {
-      return '';
-    }
-  };
-  const isPredict = (light) => light.predicted != undefined && light.predicted != 'none';
-
-  const makeTrafficLightMarkerHtml = (light) => {
-    const currentIndex = (review.params.nowIndex === light.index);
-    if (currentIndex) {
-      return `<img id='traffic-light-marker'
-                   src='/images/traffic-light/marker_${light.colour}.png'/>`;
-    } else {
-      return '';
-    }
   };
 
   //-----------------------------------------
@@ -570,7 +476,7 @@ $(() => {
 <div id="review-top-row">
   <%= render partial: 'review/avatar_navigator' %>
   <%= render partial: 'review/traffic_light_navigator' %>
-  <div id="review-traffic-lights"></div>
+  <%= render partial: 'review/traffic_lights' %>
 </div>
 
 <table>
