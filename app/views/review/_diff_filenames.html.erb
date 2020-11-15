@@ -223,22 +223,43 @@ $(() => {
     const holder = $('<span>');
     diffs.forEach(diff => {
       const filename = diffFilename(diff);
-      //const numbers = diff.line_numbers;
       const numbers = makeLineNumbers(diff.lines);
-      const content = diff.content;
+      const content = makeContent(diff.id, diff.lines);
       holder.append(review.makeDiffFileContent(filename, numbers, content));
     });
     return holder;
   };
 
   const makeLineNumbers = (lines) => {
-    let numbers = [];
+    let html = [];
     lines.forEach(line => {
       if (line.type != 'section') {
-        numbers.push(`<${line.type}><ln>${line.number}</ln></${line.type}>`);
+        html.push(`<${line.type}><ln>${line.number}</ln></${line.type}>`);
       }
     });
-    return numbers;
+    return html;
+  };
+
+  const makeContent = (id, diff_lines) => {
+    let html = [];
+    diff_lines.forEach(diff_line => {
+      if (diff_line.type === 'section') {
+        html.push(`<span id='${id}_section_${diff_line.index}'></span>`);
+      } else {
+        let line = htmlEscape(diff_line.line);
+        if (line === '') { line = '&nbsp'; }
+        html.push(`<${diff_line.type}>${line}</${diff_line.type}>`);
+      }
+    });
+    return html;
+  };
+
+  const htmlEscape = (str) => {
+    // TODO: duplicated in _refresh_output.html.erb
+    const div = document.createElement('div');
+    const text = document.createTextNode(str);
+    div.appendChild(text);
+    return div.innerHTML;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -

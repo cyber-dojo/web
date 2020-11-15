@@ -51,26 +51,13 @@ class DiffViewTest < AppLibTestBase
         :old_filename => "hiker.rb",
         :new_filename => "hiker.rb",
         :line_counts => { deleted:1, added:1, same:3 },
-        :content =>
-          "<same>&nbsp;</same>" +
-          "<same>def answer</same>" +
-          "<span id='id_0_section_0'></span>" +
-          "<deleted>  6 * 9</deleted>" +
-          "<added>  6 * 7</added>" +
-          "<same>end</same>",
-        :line_numbers =>
-          "<same><ln>1</ln></same>" +
-          "<same><ln>2</ln></same>" +
-          "<deleted><ln>3</ln></deleted>" +
-          "<added><ln>3</ln></added>" +
-          "<same><ln>4</ln></same>",
         :lines => [
           { 'line' => '',           'type' => 'same',    'number' => 1 },
           { 'line' => 'def answer', 'type' => 'same',    'number' => 2 },
           { 'type' => 'section', 'index' => 0 },
           { 'line' => '  6 * 9',    'type' => 'deleted', 'number' => 3 },
           { 'line' => '  6 * 7',    'type' => 'added',   'number' => 3 },
-          { 'line' => 'end',        'type' => 'same',    'number' => 4 },          
+          { 'line' => 'end',        'type' => 'same',    'number' => 4 },
         ]
       }
     ]
@@ -111,15 +98,6 @@ class DiffViewTest < AppLibTestBase
         :old_filename => "hiker.rb",
         :new_filename => nil,
         :line_counts => { deleted:3, added:0, same:0 },
-        :content =>
-          "<span id='id_0_section_0'></span>" +
-          "<deleted>def answer</deleted>" +
-          "<deleted>  6 * 7</deleted>" +
-          "<deleted>end</deleted>",
-        :line_numbers =>
-          "<deleted><ln>1</ln></deleted>" +
-          "<deleted><ln>2</ln></deleted>" +
-          "<deleted><ln>3</ln></deleted>",
         :lines => [
           { 'type' => 'section', 'index' => 0 },
           { 'line' => 'def answer', 'type' => 'deleted', 'number' => 1 },
