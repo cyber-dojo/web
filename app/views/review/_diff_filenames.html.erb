@@ -220,42 +220,18 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const makeDiffContent = (diffs) => {
-    const holder = $('<span>');
+    const $holder = $('<span>');
     diffs.forEach(diff => {
-      const filename = diffFilename(diff);
-      const numbers = makeLineNumbers(diff.lines);
-      const content = makeContent(diff.id, diff.lines);
-      holder.append(review.makeDiffFileContent(filename, numbers, content));
+      $holder.append(review.makeDiffFileContent(diff));
     });
-    return holder;
-  };
-
-  const makeLineNumbers = (lines) => {
-    let html = [];
-    lines.forEach(line => {
-      if (line.type != 'section') {
-        html.push(`<${line.type}><ln>${line.number}</ln></${line.type}>`);
-      }
-    });
-    return html;
-  };
-
-  const makeContent = (id, diff_lines) => {
-    let html = [];
-    diff_lines.forEach(diff_line => {
-      if (diff_line.type === 'section') {
-        html.push(`<span id='${id}_section_${diff_line.index}'></span>`);
-      } else {
-        let line = cd.htmlEscape(diff_line.line);
-        if (line === '') { line = '&nbsp'; }
-        html.push(`<${diff_line.type}>${line}</${diff_line.type}>`);
-      }
-    });
-    return html;
+    return $holder;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  review.makeDiffFileContent = (filename, lineNumbers, fileContent) => {
+  review.makeDiffFileContent = (diff) => {
+    const filename = diffFilename(diff);
+    const lineNumbers = makeLineNumbers(diff.lines);
+    const fileContent = makeContent(diff.id, diff.lines);
     const $file = $('' +
       `<div id="${filename}_diff_div" class="filename_div">` +
       '<table>' +
@@ -268,13 +244,39 @@ $(() => {
       '</div>'
       );
     const $numbers = $('.diff-line-numbers', $file);
-    $numbers.html(lineNumbers); // TODO: place into html above directly?
+    $numbers.html(lineNumbers);
 
     const $content = $('.diff-sheet', $file);
-    $content.html(fileContent); // TODO: place into html above directly?
+    $content.html(fileContent);
 
     bindLineNumberScrolling($content, $numbers);
     return $file;
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  const makeLineNumbers = (lines) => {
+    let html = [];
+    lines.forEach(line => {
+      if (line.type != 'section') {
+        html.push(`<${line.type}><ln>${line.number}</ln></${line.type}>`);
+      }
+    });
+    return html;
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  const makeContent = (id, diff_lines) => {
+    let html = [];
+    diff_lines.forEach(diff_line => {
+      if (diff_line.type === 'section') {
+        html.push(`<span id='${id}_section_${diff_line.index}'></span>`);
+      } else {
+        let line = cd.htmlEscape(diff_line.line);
+        if (line === '') { line = '&nbsp'; }
+        html.push(`<${diff_line.type}>${line}</${diff_line.type}>`);
+      }
+    });
+    return html;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
