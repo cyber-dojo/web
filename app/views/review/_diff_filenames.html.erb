@@ -223,16 +223,27 @@ $(() => {
     const holder = $('<span>');
     diffs.forEach(diff => {
       const filename = diffFilename(diff);
-      const numbers = diff.line_numbers;
+      //const numbers = diff.line_numbers;
+      const numbers = makeLineNumbers(diff.lines);
       const content = diff.content;
       holder.append(review.makeDiffFileContent(filename, numbers, content));
     });
     return holder;
   };
 
+  const makeLineNumbers = (lines) => {
+    let numbers = [];
+    lines.forEach(line => {
+      if (line.type != 'section') {
+        numbers.push(`<${line.type}><ln>${line.number}</ln></${line.type}>`);
+      }
+    });
+    return numbers;
+  };
+
   // - - - - - - - - - - - - - - - - - - - - - - - -
   review.makeDiffFileContent = (filename, lineNumbers, fileContent) => {
-    const file = $('' +
+    const $file = $('' +
       `<div id="${filename}_diff_div" class="filename_div">` +
       '<table>' +
         '<tr class="valign-top">' +
@@ -243,12 +254,14 @@ $(() => {
       '</table>' +
       '</div>'
       );
-    const numbers = $('.diff-line-numbers', file);
-    const content = $('.diff-sheet', file);
-    numbers.html(lineNumbers);
-    content.html(fileContent);
-    bindLineNumberScrolling(content, numbers);
-    return file;
+    const $numbers = $('.diff-line-numbers', $file);
+    $numbers.html(lineNumbers); // TODO: place into html above directly?
+
+    const $content = $('.diff-sheet', $file);
+    $content.html(fileContent); // TODO: place into html above directly?
+
+    bindLineNumberScrolling($content, $numbers);
+    return $file;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -

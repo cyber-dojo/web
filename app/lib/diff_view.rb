@@ -24,8 +24,8 @@ module DiffView # mix-in
                                 added: line_counts['added'],
                                  same: line_counts['same']
                             },
-                   content: diff_html_file(id, lines),
-              line_numbers: diff_html_line_numbers(lines)
+                   content: diff_html_file(id, lines)
+              #line_numbers: diff_html_line_numbers(lines)
       }
     end
     diffs
@@ -52,6 +52,7 @@ module DiffView # mix-in
     result
   end
 
+=begin
   def diff_html_line_numbers(diff)
     diff.map { |n| diff_htmlify_line_numbers(n) }.join('')
   end
@@ -66,5 +67,6 @@ module DiffView # mix-in
     end
     result
   end
+=end
 
 end

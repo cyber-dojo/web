@@ -13,9 +13,9 @@ $(() => {
       const status = event.status;
 
       const diffContent = $('#diff-content');
-      const $stdout = review.makeDiffFileContent('stdout', sameLineNumbers(stdout), sameLines(stdout));
-      const $stderr = review.makeDiffFileContent('stderr', sameLineNumbers(stderr), sameLines(stderr));
-      const $status = review.makeDiffFileContent('status', '', sameLines(status));
+      const $stdout = review.makeDiffFileContent('stdout', makeLineNumbers(makeSameLines(stdout)), sameLines(stdout));
+      const $stderr = review.makeDiffFileContent('stderr', makeLineNumbers(makeSameLines(stderr)), sameLines(stderr));
+      const $status = review.makeDiffFileContent('status', [], sameLines(status));
 
       diffContent.append($stdout);
       diffContent.append($stderr);
@@ -40,17 +40,9 @@ $(() => {
     return html;
   };
 
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
   const sameLines = (str) => {
     return lines(htmlEscape(str)).map(line => `<same>${line}</same>`);
-  };
-
-  const sameLineNumbers = (str) => {
-    if (str === '') {
-      return '';
-    } else {
-      let number = 0;
-      return lines(str).map(_line => `<same><ln>${number += 1}</ln></same>`);
-    }
   };
 
   const htmlEscape = (str) => {
@@ -60,9 +52,23 @@ $(() => {
     return div.innerHTML;
   };
 
-  const lines = (str) => {
-    return str.replace(/\n$/, '')
-              .split(/\r?\n/);
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  const makeSameLines = (str) => {
+    let n = 0;
+    return lines(str).map(line => {
+      return { type:'same', line:line, number:n += 1 };
+    });
+  };
+  const lines = (str) => str.replace(/\n$/, '').split(/\r?\n/);
+
+  const makeLineNumbers = (lines) => {
+    let numbers = [];
+    lines.forEach(line => {
+      if (line.type != 'section') {
+        numbers.push(`<${line.type}><ln>${line.number}</ln></${line.type}>`);
+      }
+    });
+    return numbers;
   };
 
 });
