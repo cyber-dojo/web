@@ -5,6 +5,8 @@ $(() => {
   const review = cd.review;
 
   review.refreshFiles = () => {
+    review.params.diffs.forEach((diff,index) => diff.id = `id_${index}`);
+
     const diffContent = $('#diff-content');
     diffContent.html(makeDiffContent(review.params.diffs));
 
