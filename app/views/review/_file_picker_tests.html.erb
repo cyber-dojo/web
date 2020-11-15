@@ -78,9 +78,8 @@ $(() => {
       const diffs = [];
       diffs.push(cyber_dojo_sh(0));
       diffs.push(unchanged(1, 'hiker.c' ));
-      diffs.push(  deleted(2, 'hiker.h', 45));
-      diffs.push(unchanged(3, 'makefile'));
-      diffs.push(unchanged(4, 'hiker.tests.c'));
+      diffs.push(unchanged(2, 'makefile'));
+      diffs.push(unchanged(3, 'hiker.tests.c'));
       const picked = pick_file(diffs, currentFilename, filenameExtensions);
       expect(picked.id).toEqual(0);
     });

@@ -2,14 +2,8 @@
 'use strict';
 $(() => {
 
-  const review = cd.review;
-
-  review.pick_file = (all_diffs, currentFilename, exts) => {
+  cd.review.pick_file = (diffs, currentFilename, exts) => {
     const currentFile = (diff) => diff.new_filename === currentFilename;
-    // Rule 0
-    // Never select a deleted file
-    const diffs = all_diffs.filter(diff => diff.type != 'deleted');
-
     // Rule 1
     // If the current-filename exists and has a diff, pick it.
     const r1 = diffs.find(diff => currentFile(diff) && changed(diff));

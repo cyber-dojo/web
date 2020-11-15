@@ -30,14 +30,17 @@ class DifferController < ApplicationController
                          id: id,
                    wasIndex: was_index,
                    nowIndex: now_index,
-                     events: events.map{ |event| to_json(event) },
+
                       diffs: view,
+
+                     events: events.map{ |event| to_json(event) },
 
                     groupId: group_id,
                 avatarIndex: avatar_index.to_s, # nil -> ""
                prevAvatarId: prev_avatar_id,
                nextAvatarId: next_avatar_id,
 
+          filenameExtension: m.filename_extension,
           currentFilenameId: current_filename_id
 	  }
     render json:result
