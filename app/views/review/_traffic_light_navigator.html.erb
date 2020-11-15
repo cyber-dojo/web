@@ -7,7 +7,7 @@ $(() => {
   review.refreshTrafficLightsNavigator = () => {
     refreshIndex($('#first-index'),prevEventIndex(1));
     refreshIndex($('#prev-index'), prevEventIndex(review.params.nowIndex-1));
-    $('#review-index-box').html(makeIndexHtml());
+    $('#review-index-box').html($makeIndex());
     refreshIndex($('#next-index'), nextEventIndex(review.params.nowIndex+1));
     refreshIndex($('#last-index'), nextEventIndex(review.params.events.length-1));
   };
@@ -39,11 +39,14 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const makeIndexHtml = () => {
+  const $makeIndex = () => {
     const index = review.params.nowIndex;
     const colour = review.params.events[index].colour;
     const number = $(`.diff-traffic-light[data-index=${index}]`).data('number');
-    return `<div id="index-number" class="${colour}">${number}</div>`;
+    return $('<div>', {
+      id:'index-number',
+      class:colour
+    }).html(number);
   };
 
 });
@@ -51,16 +54,20 @@ $(() => {
 
 <div id="traffic-light-navigator">
   <button id="first-index" class="triangle button">
-    <img src="/images/triangle_prev.gif" alt="move to first traffic-light"/>
+    <img src="/images/triangle_prev.gif"
+         alt="move to first traffic-light"/>
   </button>
   <button id="prev-index" class="triangle button">
-    <img src="/images/triangle_prev.gif" alt="move to previous traffic-light"/>
+    <img src="/images/triangle_prev.gif"
+         alt="move to previous traffic-light"/>
   </button>
   <div id="review-index-box"></div>
   <button id="next-index" class="triangle button">
-    <img src="/images/triangle_next.gif" alt="move to next traffic-light"/>
+    <img src="/images/triangle_next.gif"
+         alt="move to next traffic-light"/>
   </button>
   <button id="last-index" class="triangle button">
-    <img src="/images/triangle_next.gif" alt="move to last traffic-light"/>
+    <img src="/images/triangle_next.gif"
+         alt="move to last traffic-light"/>
   </button>
 </div>

@@ -7,7 +7,7 @@ $(() => {
   review.refreshAvatarNavigator = () => {
     if (review.params.avatarIndex != '') {
       $('#avatar-navigator').show();
-      const $box = $('#review-avatar-image-box').html(makeAvatarImageHtml());
+      const $box = $('#review-avatar-image-box').html($makeAvatarImage());
       refreshAvatar($('#prev-avatar'), review.params.prevAvatarId);
       cd.setupAvatarNameHoverTip($box, '', review.params.avatarIndex, '');
       refreshAvatar($('#next-avatar'), review.params.nextAvatarId);
@@ -15,8 +15,11 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const makeAvatarImageHtml = () => {
-    return `<img class="avatar-image" src="/images/avatars/${review.params.avatarIndex}.jpg"/>`;
+  const $makeAvatarImage = () => {
+    return $('<img>', {
+      class:'avatar-image',
+        src:`/images/avatars/${review.params.avatarIndex}.jpg`
+    });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -41,10 +44,12 @@ $(() => {
 
 <span id="avatar-navigator" style="display:none;">
   <button id="prev-avatar" class="triangle button">
-    <img src="/images/triangle_prev.gif" alt="move to previous avatar"/>
+    <img src="/images/triangle_prev.gif"
+         alt="move to previous avatar"/>
   </button>
   <div id="review-avatar-image-box"></div>
   <button id="next-avatar" class="triangle button">
-    <img src="/images/triangle_next.gif" alt="move to next avatar"/>
+    <img src="/images/triangle_next.gif"
+         alt="move to next avatar"/>
   </button>
 </span>

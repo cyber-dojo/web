@@ -11,7 +11,7 @@ $(() => {
   review.refreshDiffCheckBox = () => {
     const checked = review.params.wasIndex !== review.params.nowIndex;
     diffCheckBox()
-      .prop('checked', checked) // must be from params
+      .prop('checked', checked) // must be from review.params
       .unbind('click')
       .bind('click', () => review.moveToTrafficLight(review.params.nowIndex));
 
