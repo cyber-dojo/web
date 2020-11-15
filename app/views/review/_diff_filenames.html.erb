@@ -173,13 +173,16 @@ $(() => {
     diffs.forEach(diff => {
       const filename = diffFilename(diff);
       const $filename = $(`#radio_${diff.id}`, review.page);
-      diff.section_index = 0;
-      diff.clicked = false;
+      diff.chunkIndex = 0
+      diff.chunkCount = diff.lines.reduce((n,line) => n + (line.type === 'section'), 0);
+      diff.hasBeenClicked = false;
       $filename.click(() => {
         selectLineCounts(filename);
         selectFilename($filename);
+        review.params.filename = filename;
         review.selectFile(filename);
         scrollToNextDiffChunkOnReclick(diff, filename);
+        diff.hasBeenClicked = true;
       });
     });
   };
@@ -201,20 +204,18 @@ $(() => {
   };
 
   const scrollToNextDiffChunkOnReclick = (diff, filename) => {
-    const hasDiffChunks = () => diff.section_count > 0;
-    const isFirstClick = () => !diff.clicked;
+    const hasDiffChunks = () => diff.chunkCount > 0;
+    const isFirstClick = () => !diff.hasBeenClicked;
     const isReClick = () => review.params.filename === filename;
     if (hasDiffChunks() && (isFirstClick() || isReClick())) {
       const $diffSheet = $(`[id="diff_file_content_for_${filename}"]`);
-      const $section = $(`#${diff.id}_section_${diff.section_index}`);
+      const $section = $(`#${diff.id}_section_${diff.chunkIndex}`);
       const position = { scrollTop: '+=' + ($section.offset().top - 250) + 'px' };
       const halfSecond = 500;
       $diffSheet.animate(position, halfSecond);
-      diff.section_index += 1;
-      diff.section_index %= diff.section_count;
+      diff.chunkIndex += 1;
+      diff.chunkIndex %= diff.chunkCount;
     }
-    review.params.filename = filename;
-    diff.clicked = true;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -

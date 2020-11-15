@@ -50,7 +50,6 @@ class DiffViewTest < AppLibTestBase
         :type => "changed",
         :old_filename => "hiker.rb",
         :new_filename => "hiker.rb",
-        :section_count => 1,
         :line_counts => { deleted:1, added:1, same:3 },
         :content =>
           "<same>&nbsp;</same>" +
@@ -64,7 +63,15 @@ class DiffViewTest < AppLibTestBase
           "<same><ln>2</ln></same>" +
           "<deleted><ln>3</ln></deleted>" +
           "<added><ln>3</ln></added>" +
-          "<same><ln>4</ln></same>"
+          "<same><ln>4</ln></same>",
+        :lines => [
+          { 'line' => '',           'type' => 'same',    'number' => 1 },
+          { 'line' => 'def answer', 'type' => 'same',    'number' => 2 },
+          { 'type' => 'section', 'index' => 0 },
+          { 'line' => '  6 * 9',    'type' => 'deleted', 'number' => 3 },
+          { 'line' => '  6 * 7',    'type' => 'added',   'number' => 3 },
+          { 'line' => 'end',        'type' => 'same',    'number' => 4 },          
+        ]
       }
     ]
     assert_equal expected_view, view
@@ -103,7 +110,6 @@ class DiffViewTest < AppLibTestBase
         :type => "deleted",
         :old_filename => "hiker.rb",
         :new_filename => nil,
-        :section_count => 1,
         :line_counts => { deleted:3, added:0, same:0 },
         :content =>
           "<span id='id_0_section_0'></span>" +
@@ -113,7 +119,13 @@ class DiffViewTest < AppLibTestBase
         :line_numbers =>
           "<deleted><ln>1</ln></deleted>" +
           "<deleted><ln>2</ln></deleted>" +
-          "<deleted><ln>3</ln></deleted>"
+          "<deleted><ln>3</ln></deleted>",
+        :lines => [
+          { 'type' => 'section', 'index' => 0 },
+          { 'line' => 'def answer', 'type' => 'deleted', 'number' => 1 },
+          { 'line' => '  6 * 7',    'type' => 'deleted', 'number' => 2 },
+          { 'line' => 'end',        'type' => 'deleted', 'number' => 3 },
+        ]
       }
     ]
     assert_equal expected_view, view

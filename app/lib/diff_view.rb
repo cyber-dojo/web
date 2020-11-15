@@ -18,7 +18,7 @@ module DiffView # mix-in
                       type: diff['type'],
               old_filename: diff['old_filename'],
               new_filename: diff['new_filename'],
-             section_count: lines.count { |line| line['type'] === 'section' },
+                     lines: lines,
                line_counts: {
                               deleted: line_counts['deleted'],
                                 added: line_counts['added'],

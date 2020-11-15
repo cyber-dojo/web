@@ -27,7 +27,6 @@ class DifferControllerTest < AppControllerTestBase
     differ('5rTJv5', 'FxWwrr', 0, 0, version=0)
     json['diffs'].each do |diff|
       filename = diff['new_filename']
-      assert_equal 0, diff['section_count'], filename
       assert_equal 0, diff['line_counts']['deleted'], filename
       assert_equal 0, diff['line_counts']['added'], filename
     end
@@ -42,7 +41,6 @@ class DifferControllerTest < AppControllerTestBase
     json['diffs'].each do |diff|
       filename = diff['new_filename']
       n = (filename === 'hiker.rb') ? 1 : 0
-      assert_equal n, diff['section_count'], filename
       assert_equal n, diff['line_counts']['deleted'], filename
       assert_equal n, diff['line_counts']['added'], filename
     end
