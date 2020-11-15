@@ -99,11 +99,12 @@ module ReviewFilePicker # mix-in
   end
 
   def change_count(diff)
-    diff[:deleted_line_count] + diff[:added_line_count]
+    line_counts = diff[:line_counts]
+    line_counts[:deleted] + line_counts[:added]
   end
 
   def same_count(diff)
-    diff[:same_line_count]
+    diff[:line_counts][:same]
   end
 
 end

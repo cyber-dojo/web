@@ -51,9 +51,7 @@ class DiffViewTest < AppLibTestBase
         :old_filename => "hiker.rb",
         :new_filename => "hiker.rb",
         :section_count => 1,
-        :deleted_line_count => 1,
-        :added_line_count => 1,
-        :same_line_count => 3,
+        :line_counts => { deleted:1, added:1, same:3 },
         :content =>
           "<same>&nbsp;</same>" +
           "<same>def answer</same>" +
@@ -106,9 +104,7 @@ class DiffViewTest < AppLibTestBase
         :old_filename => "hiker.rb",
         :new_filename => nil,
         :section_count => 1,
-        :deleted_line_count => 3,
-        :added_line_count => 0,
-        :same_line_count => 0,
+        :line_counts => { deleted:3, added:0, same:0 },
         :content =>
           "<span id='id_0_section_0'></span>" +
           "<deleted>def answer</deleted>" +

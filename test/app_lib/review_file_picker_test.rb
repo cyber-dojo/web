@@ -104,50 +104,34 @@ class ReviewFilePickerTest < AppLibTestBase
       fdiff('hiker.c',0,0) <<
       fdiff('hiker.test.c',0,0) <<
       fdiff('makefile',0,0) <<
-      fdiff('stdout',0,0,'') <<
-      fdiff('stderr',0,0,'') <<
+      fdiff('stdout',0,0) <<
+      fdiff('stderr',0,0) <<
       (@picked=fdiff('cyber-dojo.sh',0,0))
     assert_picked
   end
 
   private
 
-  def fdiff(filename, dc, ac, content = '')
-    @n += 1
-    {
-      :new_filename => filename,
-      :deleted_line_count => dc,
-      :added_line_count => ac,
-      :id => 'id_' + @n.to_s,
-      :content => content
-    }
+  def fdiff(filename, dc, ac)
+    a_diff('changed', filename, filename, dc, ac, 0)
   end
 
   def deleted_file(filename, dc, ac)
-    @n += 1
-    {
-      :type => 'deleted',
-      :old_filename => filename,
-      :new_filename => nil,
-      :deleted_line_count => dc,
-      :added_line_count => ac,
-      :same_line_count => 4,
-      :id => 'id_' + @n.to_s,
-      :content => ''
-    }
+    a_diff('deleted', filename, nil, dc, ac, 4)
   end
 
   def renamed_file(old_filename, new_filename, dc, ac, sc)
+    a_diff('renamed',  old_filename, new_filename, dc, ac, sc)
+  end
+
+  def a_diff(type, old_filename, new_filename, dc, ac, sc)
     @n += 1
     {
-      :type => 'renamed',
+      :type => type,
       :old_filename => old_filename,
       :new_filename => new_filename,
-      :deleted_line_count => dc,
-      :added_line_count => ac,
-      :same_line_count => sc,
-      :id => 'id_' + @n.to_s,
-      :content => ''
+      :line_counts => { deleted:dc, added:ac, same:sc },
+      :id => 'id_' + @n.to_s
     }
   end
 

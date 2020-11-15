@@ -26,15 +26,18 @@ class DifferController < ApplicationController
 
     result = {
                     version: version,
+
                          id: id,
-               prevAvatarId: prev_avatar_id,
-               nextAvatarId: next_avatar_id,
-                    groupId: group_id,
-                avatarIndex: avatar_index.to_s, # nil -> ""
                    wasIndex: was_index,
                    nowIndex: now_index,
                      events: events.map{ |event| to_json(event) },
                       diffs: view,
+
+                    groupId: group_id,
+                avatarIndex: avatar_index.to_s, # nil -> ""
+               prevAvatarId: prev_avatar_id,
+               nextAvatarId: next_avatar_id,
+
           currentFilenameId: current_filename_id
 	  }
     render json:result

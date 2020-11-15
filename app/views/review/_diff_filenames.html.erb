@@ -90,7 +90,7 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const makeDiffCount = (diff, cssName) => {
-    const lineCount = diff[`${cssName}_line_count`];
+    const lineCount = diff['line_counts'][cssName];
     const css = lineCount > 0 ? cssName : '';
     const div = $('<div>', {
       'class': `diff-line-count ${css}`,
