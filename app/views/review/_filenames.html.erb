@@ -5,13 +5,17 @@ $(() => {
   const review = cd.review;
 
   review.refreshFiles = () => {
-    const diffFilenames = $('#diff-filenames');
     const diffContent = $('#diff-content');
+    diffContent.html(makeDiffContent(review.params.diffs));
+
+    const diffFilenames = $('#diff-filenames');
     diffFilenames.html(makeDiffFilenames(review.params.diffs));
     resetFilenameAddedDeletedLineCountHandlers();
-    diffContent.html(makeDiffContent(review.params.diffs));
     buildDiffFilenameHandlers(review.params.diffs);
-    showFile(review.params.currentFilenameId);
+
+    const picked = review.pick_file(review.params.diffs, review.filename, review.params.filenameExtension);
+    review.filename = diffFilename(picked);
+    showFile(picked.id);
   };
 
   const showFile = (filenameId) => {
@@ -179,7 +183,6 @@ $(() => {
       $filename.click(() => {
         selectLineCounts(filename);
         selectFilename($filename);
-        review.params.filename = filename;
         review.selectFile(filename);
         scrollToNextDiffChunkOnReclick(diff, filename);
         diff.hasBeenClicked = true;
@@ -201,12 +204,13 @@ $(() => {
   review.selectFile = (filename) => {
     $('.filename_div', review.page).hide();
     $(`[id="${filename}_diff_div"]`).show();
+    review.filename = filename;
   };
 
   const scrollToNextDiffChunkOnReclick = (diff, filename) => {
     const hasDiffChunks = () => diff.chunkCount > 0;
     const isFirstClick = () => !diff.hasBeenClicked;
-    const isReClick = () => review.params.filename === filename;
+    const isReClick = () => review.filename === filename;
     if (hasDiffChunks() && (isFirstClick() || isReClick())) {
       const $diffSheet = $(`[id="diff_file_content_for_${filename}"]`);
       const $section = $(`#${diff.id}_section_${diff.chunkIndex}`);

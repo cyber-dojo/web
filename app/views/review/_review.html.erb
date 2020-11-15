@@ -85,8 +85,7 @@ $(() => {
                 id: review.params.id,
           group_id: review.params.groupId,
          was_index: review.params.wasIndex,
-         now_index: review.params.nowIndex,
-          filename: review.params.filename
+         now_index: review.params.nowIndex
     };
     cd.waitSpinner.fadeIn('fast', () => {
       $.getJSON('/differ/diff', reviewParams, (data) => {
@@ -172,13 +171,13 @@ $(() => {
       <table class="controls">
         <tr>
           <td><div id="resume-button-box"></div></td>
-          <td><%= render partial: 'review/diff_checkbox' %></td>
+          <td><%= render partial: 'review/checkbox' %></td>
           <td><div id="fork-button-box"></div></td>
           <td><div id="checkout-button-box"></div></td>
         </tr>
       </table>
       <table>
-        <tr><td><%= render partial: 'review/diff_filenames' %></td></tr>
+        <tr><td><%= render partial: 'review/filenames' %></td></tr>
         <tr><td><%= render partial: 'review/refresh_output' %></td></tr>
       </table>
     </td>

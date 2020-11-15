@@ -22,8 +22,6 @@ class DifferController < ApplicationController
       prev_avatar_id,next_avatar_id = '',''
     end
 
-    current_filename_id = pick_file_id(view, current_filename, exts)
-
     result = {
                     version: version,
 
@@ -40,8 +38,7 @@ class DifferController < ApplicationController
                prevAvatarId: prev_avatar_id,
                nextAvatarId: next_avatar_id,
 
-          filenameExtension: m.filename_extension,
-          currentFilenameId: current_filename_id
+          filenameExtension: m.filename_extension
 	  }
     render json:result
   end
@@ -50,7 +47,6 @@ class DifferController < ApplicationController
 
   include DiffView
   include PrevNextAvatarIdsHelper
-  include ReviewFilePicker
 
   def current_filename
     params[:filename]
