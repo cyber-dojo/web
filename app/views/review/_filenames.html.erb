@@ -91,19 +91,26 @@ $(() => {
     tip += 'click a filename to review it.<br/>';
     tip += 'reclick the filename to cycle through its diff-chunks.<br/>';
     tip += '<hr/>';
-    tip += '<span class="diff-type-marker unchanged"></span><span class="diff-filename unchanged">unchanged-file</span><br/>';
-    tip += '<span class="diff-type-marker created"></span><span class="diff-filename created">created-file</span><br/>';
-    tip += '<span class="diff-type-marker deleted"></span><span class="diff-filename deleted">deleted-file</span><br/>';
-    tip += '<span class="diff-type-marker changed"></span><span class="diff-filename changed">changed-file</span>';
-    tip += ' hover over <span class="diff-type-marker changed"></span> for diff chunk count<br/>';
-    tip += '<span class="diff-type-marker renamed"></span><span class="diff-filename renamed">renamed-file</span>';
-    tip += ' hover over <span class="diff-type-marker renamed"></span> for old filename';
+    tip += '<table>';
+    tip += tr3('changed', 'hover over <span class="diff-type-marker changed"></span> for diff chunk count');
+    tip += tr3('renamed', 'hover over <span class="diff-type-marker renamed"></span> for old filename');
+    tip += tr3('created', '');
+    tip += tr3('deleted', '');
+    tip += tr3('unchanged', '');
+    tip += '</table>';
     const $div = $('<div>', {
       class: 'diff-help-icon',
       'data-tip': tip
     });
     $div.text('?');
     return outerHTML($div);
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  const tr3 = (type, info) => {
+    return `<tr><td><span class="diff-type-marker ${type}"></span></td>` +
+               `<td><span class="diff-filename ${type}">${type}-file</span></td>` +
+               `<td>${info}</td>`;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
