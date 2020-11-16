@@ -23,8 +23,7 @@ $(() => {
         groupId: "<%= @group_id %>",
     avatarIndex: "<%= @avatar_index %>",
        wasIndex: "<%= @was_index %>",
-       nowIndex: "<%= @now_index %>",
-       filename: "<%= @filename %>"
+       nowIndex: "<%= @now_index %>"
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -33,7 +32,7 @@ $(() => {
 
   const inTestPage = $kataPage.length !== 0;
 
-  cd.setReviewData = (version, id, groupId, avatarIndex, wasIndex, nowIndex, filename) => {
+  cd.setReviewData = (version, id, groupId, avatarIndex, wasIndex, nowIndex) => {
     // Called only from app/views/kata/_traffic_lights.html.erb
     // The [resume] & [checkout] buttons are only shown on kata/edit. [1]
     review.params = {
@@ -42,8 +41,7 @@ $(() => {
           groupId:groupId,
       avatarIndex:avatarIndex,
          wasIndex:wasIndex,
-         nowIndex:nowIndex,
-         filename:filename
+         nowIndex:nowIndex
     };
     fadeIntoReviewPage();
     setupButton('resume', () => fadeIntoKataPage(() => { // [1]
