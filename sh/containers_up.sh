@@ -34,7 +34,6 @@ containers_up()
 
   wait_until_ready model     4528
   wait_until_ready runner    4597
-  wait_until_ready differ    4567
   wait_until_ready saver     4537
 
   wait_until_running test_web
