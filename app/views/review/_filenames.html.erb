@@ -229,13 +229,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  review.selectFile = (filename) => {
-    $('.filename_div', review.page).hide();
-    $(`[id="${filename}_diff_div"]`).show();
-    review.filename = filename;
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
   const scrollToNextDiffChunkOnReclick = (diff, filename) => {
     const hasDiffChunks = () => diff.chunkCount > 0;
     const isFirstClick = () => !diff.hasBeenClicked;
@@ -259,6 +252,13 @@ $(() => {
       $holder.append(review.makeDiffFileContent(diff));
     });
     return $holder;
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  review.selectFile = (filename) => {
+    $('.filename_div', review.page).hide();
+    $(`[id="${filename}_diff_div"]`).show();
+    review.filename = filename;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -

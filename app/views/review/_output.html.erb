@@ -4,6 +4,8 @@ $(() => {
 
   const review = cd.review;
 
+  cd.plog = (n,o) => console.log(`${n}:${JSON.stringify(o)}`);
+
   review.refreshOutput = () => {
     const args = { id:review.params.id, index:review.params.nowIndex };
     $.getJSON('/model/kata_event', args, (data) => {
@@ -11,17 +13,18 @@ $(() => {
       const stdout = event.stdout.content;
       const stderr = event.stderr.content;
       const status = event.status;
-
-      const diffContent = $('#diff-content');
+      //cd.plog('stdout', stdout);
       const $stdout = review.makeDiffFileContent(makeSameDiff('stdout', stdout));
       const $stderr = review.makeDiffFileContent(makeSameDiff('stderr', stderr));
       const $status = review.makeDiffFileContent(makeSameDiff('status', status));
-      diffContent.append($stdout);
-      diffContent.append($stderr);
-      diffContent.append($status);
+      //cd.plog('$stdout', $stdout);
+      const $diffContentOuput = $('#diff-content-output');
+      $diffContentOuput.append($stdout);
+      $diffContentOuput.append($stderr);
+      $diffContentOuput.append($status);
 
-      const diffOutputFilenames = $('#diff-output-filenames');
-      diffOutputFilenames.html(makeDiffOutputFilenames(stdout,stderr,status));
+      const $diffOutputFilenames = $('#diff-output-filenames');
+      $diffOutputFilenames.html(makeDiffOutputFilenames(stdout,stderr,status));
 
       $('#stdout').click(() => review.selectFile('stdout'));
       $('#stderr').click(() => review.selectFile('stderr'));
@@ -31,19 +34,23 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const makeSameDiff = (filename, str) => {
-    return {
-              type: 'unchanged',
-          filename: filename,
-             lines: makeSameLines(str)
+    const r = {
+                  id: filename,
+                type: 'unchanged',
+            filename: filename,
+               lines: makeSameLines(str)
     };
+    //if (filename==='stdout') { cd.plog(`makeSameDiff(${filename},${str})`, r); }
+    return r;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const makeSameLines = (str) => {
     let n = 0;
-    return lines(str).map(line => {
+    const r = lines(str).map(line => {
       return { type:'same', line:line, number:n += 1 };
     });
+    return r;
   };
   const lines = (str) => str.replace(/\n$/, '').split(/\r?\n/);
 
