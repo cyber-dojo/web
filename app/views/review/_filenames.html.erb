@@ -62,15 +62,14 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const makeDiffTr = (diff, glyph) => {
-    glyph ||= diff;
+  const makeDiffTr = (diff) => {
     let html = '';
     html += '<tr>';
     if (review.inDiffMode()) {
       html += makeTd(makeDiffCount(diff, 'deleted'));
       html += makeTd(makeDiffCount(diff, 'added'));
       html += makeTd(makeDiffCount(diff, 'same'));
-      html += makeTd(makeDiffType(glyph));
+      html += makeTd(makeDiffType(diff));
     }
     html += makeTd(makeDiffFilename(diff));
     html += '</tr>';
