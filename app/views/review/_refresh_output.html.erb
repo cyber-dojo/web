@@ -33,9 +33,7 @@ $(() => {
   const makeSameDiff = (filename, str) => {
     return {
               type: 'unchanged',
-      old_filename: filename,
-      new_filename: filename,
-          filename: filename,      
+          filename: filename,
              lines: makeSameLines(str)
     };
   };
