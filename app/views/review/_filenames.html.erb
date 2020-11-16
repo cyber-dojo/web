@@ -5,13 +5,7 @@ $(() => {
   const review = cd.review;
 
   review.refreshFiles = () => {
-    review.params.diffs.forEach((diff,index) => {
-      diff.id = `id_${index}`;
-      diff.chunkIndex = 0
-      diff.chunkCount = diff.lines.reduce((n,line) => n + (line.type === 'section'), 0);
-      diff.hasBeenClicked = false;
-    });
-
+    augmentDiffData();
     const diffContent = $('#diff-content');
     diffContent.html(makeDiffContent(review.params.diffs));
 
@@ -21,10 +15,22 @@ $(() => {
     buildDiffFilenameHandlers(review.params.diffs);
 
     const picked = review.pick_file(review.params.diffs, review.filename, review.params.filenameExtension);
-    review.filename = diffFilename(picked);
+    review.filename = picked.filename;
     showFile(picked.id);
   };
 
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  const augmentDiffData = () => {
+    review.params.diffs.forEach((diff,index) => {
+      diff.id = `id_${index}`;
+      diff.chunkIndex = 0
+      diff.chunkCount = diff.lines.reduce((n,line) => n + (line.type === 'section'), 0);
+      diff.hasBeenClicked = false;
+      diff.filename = (diff.type === 'deleted') ? diff.old_filename : diff.new_filename;
+    });
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
   const showFile = (filenameId) => {
     $(`#radio_${filenameId}`)
       .click()
@@ -107,7 +113,7 @@ $(() => {
     const css = lineCount > 0 ? cssName : '';
     const div = $('<div>', {
       'class': `diff-line-count ${css}`,
-      'data-filename': diffFilename(diff)
+      'data-filename': diff.filename
     });
     div.html(lineCount > 0 ? lineCount : '&nbsp;');
     return outerHTML(div);
@@ -143,18 +149,10 @@ $(() => {
   const makeDiffFilename = (diff) => {
     return outerHTML($('<div>', {
       'class': `diff-filename ${diff.type}`,
-      'data-filename': diffFilename(diff),
+      'data-filename': diff.filename,
       'id': `radio_${diff.id}`,
-      'text': diffFilename(diff)
+      'text': diff.filename
     }));
-  };
-
-  const diffFilename = (diff) => {
-    if (diff.new_filename) {
-      return diff.new_filename;
-    } else {
-      return diff.old_filename;
-    }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -163,9 +161,9 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const sortedDiffs = (diffs) => {
     // Ensure filenames appear in the same order as kata/edit page
-    const filenames = diffs.map(diff => diffFilename(diff));
+    const filenames = diffs.map(diff => diff.filename);
     const sorted = cd.sortedFilenames(filenames);
-    const diffFor = (filename) => diffs.find(diff => diffFilename(diff) === filename);
+    const diffFor = (filename) => diffs.find(diff => diff.filename === filename);
     return sorted.map(filename => diffFor(filename));
   };
 
@@ -199,13 +197,12 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const buildDiffFilenameHandlers = (diffs) => {
     diffs.forEach(diff => {
-      const filename = diffFilename(diff);
       const $filename = $(`#radio_${diff.id}`, review.page);
       $filename.click(() => {
-        selectLineCounts(filename);
+        selectLineCounts(diff.filename);
         selectFilename($filename);
-        review.selectFile(filename);
-        scrollToNextDiffChunkOnReclick(diff, filename);
+        review.selectFile(diff.filename);
+        scrollToNextDiffChunkOnReclick(diff, diff.filename);
         diff.hasBeenClicked = true;
       });
     });
@@ -254,15 +251,14 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   review.makeDiffFileContent = (diff) => {
-    const filename = diffFilename(diff);
     const lineNumbers = makeLineNumbers(diff.lines);
     const fileContent = makeContent(diff.id, diff.lines);
     const $file = $('' +
-      `<div id="${filename}_diff_div" class="filename_div">` +
+      `<div id="${diff.filename}_diff_div" class="filename_div">` +
       '<table>' +
         '<tr class="valign-top">' +
           makeTd('<div class="diff-line-numbers"></div>') +
-          makeTd(`<div id="diff_file_content_for_${filename}"` +
+          makeTd(`<div id="diff_file_content_for_${diff.filename}"` +
                  ' class="diff-sheet"></div>') +
         '</tr>' +
       '</table>' +
