@@ -5,7 +5,12 @@ $(() => {
   const review = cd.review;
 
   review.refreshFiles = () => {
-    review.params.diffs.forEach((diff,index) => diff.id = `id_${index}`);
+    review.params.diffs.forEach((diff,index) => {
+      diff.id = `id_${index}`;
+      diff.chunkIndex = 0
+      diff.chunkCount = diff.lines.reduce((n,line) => n + (line.type === 'section'), 0);
+      diff.hasBeenClicked = false;
+    });
 
     const diffContent = $('#diff-content');
     diffContent.html(makeDiffContent(review.params.diffs));
