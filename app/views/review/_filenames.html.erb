@@ -157,7 +157,7 @@ $(() => {
       'class': `diff-filename ${diff.type}`,
       'data-filename': diff.filename,
       'id': `radio_${diff.id}`,
-      'text': diff.filename
+      'text': cd.htmlEscape(diff.filename)
     }));
   };
 
