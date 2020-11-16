@@ -25,11 +25,6 @@ class DifferControllerTest < AppControllerTestBase
   'was_index==now_index diff of existing version=0 kata has no differences' do
     set_saver_class('SaverService')
     differ('5rTJv5', 'FxWwrr', 0, 0, version=0)
-    json['diffs'].each do |diff|
-      filename = diff['new_filename']
-      assert_equal 0, diff['line_counts']['deleted'], filename
-      assert_equal 0, diff['line_counts']['added'], filename
-    end
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -38,12 +33,6 @@ class DifferControllerTest < AppControllerTestBase
   'was_index!=now_index diff of existing version=0 kata with a difference' do
     set_saver_class('SaverService')
     differ('5rTJv5', 'FxWwrr', 0, 1, version=0)
-    json['diffs'].each do |diff|
-      filename = diff['new_filename']
-      n = (filename === 'hiker.rb') ? 1 : 0
-      assert_equal n, diff['line_counts']['deleted'], filename
-      assert_equal n, diff['line_counts']['added'], filename
-    end
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

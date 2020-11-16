@@ -70,4 +70,13 @@ class ModelServiceTest < AppServicesTestBase
     assert_equal manifest['visible_files'], actual['files']
   end
 
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'eJ5',
+  'kata_ran_tests() smoke test' do
+    manifest = starter_manifest
+    kid = model.kata_create(manifest)
+    model.kata_ran_tests(kid, 1, manifest['visible_files'], 'stdout', 'stderr', 0, ran_summary('amber'))
+  end
+
 end

@@ -7,7 +7,6 @@ module TestExternalHelpers # mix-in
 
   def setup
     @config = {
-      'DIFFER'    => ENV['CYBER_DOJO_DIFFER_CLASS'],
       'RUNNER'    => ENV['CYBER_DOJO_RUNNER_CLASS'],
       'SAVER'     => ENV['CYBER_DOJO_SAVER_CLASS'],
       'HTTP'      => ENV['CYBER_DOJO_HTTP_CLASS'],
@@ -15,17 +14,12 @@ module TestExternalHelpers # mix-in
   end
 
   def teardown
-    ENV['CYBER_DOJO_DIFFER_CLASS']    = @config['DIFFER']
     ENV['CYBER_DOJO_RUNNER_CLASS']    = @config['RUNNER']
     ENV['CYBER_DOJO_SAVER_CLASS']     = @config['SAVER']
     ENV['CYBER_DOJO_HTTP_CLASS']      = @config['HTTP']
   end
 
   # - - - - - - - - - - - - - - - - - - -
-
-  def set_differ_class(name)
-    set_class('differ', name)
-  end
 
   def set_runner_class(name)
     set_class('runner', name)

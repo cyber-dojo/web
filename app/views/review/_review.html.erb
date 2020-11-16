@@ -6,11 +6,11 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // After refresh() has been called review.params also contains...
-  // events
+  // .events
   //   holds the traffic-lights and is used to program
   //   the traffic-light [<][<][>][>] navigator buttons.
-  // prevAvatarId
-  // nextAvatarId
+  // .prevAvatarId
+  // .nextAvatarId
   //   hold the kata-ids and used is used to program
   //   the avatar [<][>] navigator buttons.
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -60,6 +60,8 @@ $(() => {
       review.page.fadeIn('fast');
     });
   };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
   const fadeIntoKataPage = (onComplete) => {
     review.page.fadeOut('fast', () => {
       $kataPage.fadeIn('fast', () => {

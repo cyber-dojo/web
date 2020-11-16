@@ -19,10 +19,6 @@ module Externals # mix-in
 
   # - - - - - - - - - - - - - - -
 
-  def differ
-    @differ ||= external
-  end
-
   def model
     @model ||= external
   end

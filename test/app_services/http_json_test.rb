@@ -8,6 +8,10 @@ class HttpJsonTest < AppServicesTestBase
     '12D'
   end
 
+  def hex_setup
+    set_runner_class('RunnerService')
+  end
+
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   class HttpJsonRequesterNotJsonHashStub
@@ -21,7 +25,7 @@ class HttpJsonTest < AppServicesTestBase
   test '2C7',
   'response.body is not JSON Hash raises' do
     set_http(HttpJsonRequesterNotJsonHashStub)
-    error = assert_raises(DifferService::Error) { differ.ready? }
+    error = assert_raises(RunnerService::Error) { runner.ready? }
     json = JSON.parse(error.message)
     assert_equal 'body is not JSON Hash', json['message'], error.message
   end
@@ -39,7 +43,7 @@ class HttpJsonTest < AppServicesTestBase
   test '2C9',
   'response.body has exception key raises' do
     set_http(HttpJsonRequesterExceptionKeyStub)
-    error = assert_raises(DifferService::Error) { differ.ready? }
+    error = assert_raises(RunnerService::Error) { runner.ready? }
     json = JSON.parse(error.message)
     assert_equal 'body has embedded exception', json['message'], error.message
   end
@@ -57,7 +61,7 @@ class HttpJsonTest < AppServicesTestBase
   test '2C8',
   'JSON Hash with no key to match path raises' do
     set_http(HttpJsonRequesterNoPathKeyStub)
-    error = assert_raises(DifferService::Error) { json = differ.ready? }
+    error = assert_raises(RunnerService::Error) { json = runner.ready? }
     json = JSON.parse(error.message)
     assert_equal 'body is missing :path key', json['message'], error.message
   end
@@ -75,7 +79,7 @@ class HttpJsonTest < AppServicesTestBase
   test '2CA',
   'JSON Hash with key to match path returns the value for the key' do
     set_http(HttpJsonRequesterHasPathKeyStub)
-    json = differ.ready?
+    json = runner.ready?
     assert_equal([493], json)
   end
 

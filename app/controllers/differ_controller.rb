@@ -7,8 +7,6 @@ class DifferController < ApplicationController
     id = params[:id]
     manifest,events = kata.diff_info
 
-    diffs = differ.diff_lines(id, was_index, now_index)
-
     m = Manifest.new(manifest)
     exts = m.filename_extension
     avatar_index = m.group_index
@@ -28,8 +26,6 @@ class DifferController < ApplicationController
                    wasIndex: was_index,
                    nowIndex: now_index,
 
-                      diffs: diffs,
-
                      events: events.map{ |event| to_json(event) },
 
                     groupId: group_id,
@@ -45,12 +41,6 @@ class DifferController < ApplicationController
   private
 
   include PrevNextAvatarIdsHelper
-
-  def current_filename
-    params[:filename]
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
 
   def to_json(light)
     {

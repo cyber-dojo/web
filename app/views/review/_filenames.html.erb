@@ -5,18 +5,23 @@ $(() => {
   const review = cd.review;
 
   review.refreshFiles = () => {
-    augmentDiffData();
-    const diffContent = $('#diff-content');
-    diffContent.html(makeDiffContent(review.params.diffs));
+    const params = review.params;
+    const args = { id:params.id, was_index:params.wasIndex, now_index:params.nowIndex };
+    $.getJSON('/differ/diff_lines', args, (data) => {
+      review.params.diffs = data.diff_lines;
+      augmentDiffData();
+      const $diffContent = $('#diff-content');
+      $diffContent.html(makeDiffContent(review.params.diffs));
 
-    const diffFilenames = $('#diff-filenames');
-    diffFilenames.html(makeDiffFilenames(review.params.diffs));
-    resetFilenameAddedDeletedLineCountHandlers();
-    buildDiffFilenameHandlers(review.params.diffs);
+      const $diffFilenames = $('#diff-filenames');
+      $diffFilenames.html($makeDiffFilenames(review.params.diffs));
+      resetFilenameAddedDeletedLineCountHandlers();
+      buildDiffFilenameHandlers(review.params.diffs);
 
-    const picked = review.pick_file(review.params.diffs, review.filename, review.params.filenameExtension);
-    review.filename = picked.filename;
-    showFile(picked.id);
+      const picked = review.pick_file(review.params.diffs, review.filename, review.params.filenameExtension);
+      review.filename = picked.filename;
+      showFile(picked.id);
+    });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -38,51 +43,50 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const makeDiffFilenames = (diffs) => {
-    let html = '<table class="filenames">';
-    html += makeIconHeadings();
-    sortedDiffs(diffs).forEach(diff => html += makeDiffTr(diff));
-    html += '</table>';
-    return html;
+  const $makeDiffFilenames = (diffs) => {
+    const $table = $('<table>', { class:'filenames' });
+    $table.append($makeIconHeadings());
+    sortedDiffs(diffs).forEach(diff => $table.append($makeDiffTr(diff)));
+    return $table;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const makeIconHeadings = () => {
-    let html = '';
-    html += '<tr>';
+  const $makeIconHeadings = () => {
+    const $tr = $('<tr>');
     if (review.inDiffMode()) {
-      html += makeTd(makeDiffLineCountIcon('deleted', '&mdash;'));
-      html += makeTd(makeDiffLineCountIcon('added', '+'));
-      html += makeTd(makeDiffLineCountIcon('same', '='));
-      html += makeTd(makeDiffHelpIcon()); // Aligns withs glyph-id
+      $tr.append($makeTd($makeDiffLineCountIcon('deleted', '&mdash;')));
+      $tr.append($makeTd($makeDiffLineCountIcon('added', '+')));
+      $tr.append($makeTd($makeDiffLineCountIcon('same', '=')));
+      $tr.append($makeTd($makeDiffHelpIcon())); // Aligns withs glyph-id
     }
-    html += makeTd(''); // Aligns with filename-td
-    html += '</tr>';
-    return html;
+    $tr.append($makeTd('')); // Aligns with filename-td
+    return $tr;
   };
 
+  const $makeTd = ($node) => $('<td>').html($node);
+
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const makeDiffTr = (diff) => {
-    let html = '';
-    html += '<tr>';
+  const $makeDiffTr = (diff) => {
+    const $tr = $('<tr>');
     if (review.inDiffMode()) {
-      html += makeTd(makeDiffCount(diff, 'deleted'));
-      html += makeTd(makeDiffCount(diff, 'added'));
-      html += makeTd(makeDiffCount(diff, 'same'));
-      html += makeTd(makeDiffType(diff));
+      $tr.append($makeTd($makeDiffCount(diff, 'deleted')));
+      $tr.append($makeTd($makeDiffCount(diff, 'added')));
+      $tr.append($makeTd($makeDiffCount(diff, 'same')));
+      $tr.append($makeTd($makeDiffType(diff)));
     }
-    html += makeTd(makeDiffFilename(diff));
-    html += '</tr>';
-    return html;
+    $tr.append($makeTd($makeDiffFilename(diff)));
+    return $tr;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const makeDiffLineCountIcon = (cssName, icon) => {
-    return `<div class="diff-line-count-icon ${cssName}">${icon}</div>`;
+  const $makeDiffLineCountIcon = (cssName, icon) => {
+    return $('<div>', {
+      class:`diff-line-count-icon ${cssName}`
+    }).html(icon);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const makeDiffHelpIcon = () => {
+  const $makeDiffHelpIcon = () => {
     let tip = '';
     tip += '<span class="diff-line-count-icon deleted">-</span> ';
     tip += '<span class="diff-line-count-icon added">+</span> ';
@@ -103,7 +107,8 @@ $(() => {
       'data-tip': tip
     });
     $div.text('?');
-    return outerHTML($div);
+    cd.setupHoverTips($div);
+    return $div;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -114,19 +119,19 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const makeDiffCount = (diff, cssName) => {
+  const $makeDiffCount = (diff, cssName) => {
     const lineCount = diff['line_counts'][cssName];
     const css = lineCount > 0 ? cssName : '';
-    const div = $('<div>', {
+    const $div = $('<div>', {
       'class': `diff-line-count ${css}`,
       'data-filename': diff.filename
     });
-    div.html(lineCount > 0 ? lineCount : '&nbsp;');
-    return outerHTML(div);
+    $div.html(lineCount > 0 ? lineCount : '&nbsp;');
+    return $div;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const makeDiffType = (diff) => {
+  const $makeDiffType = (diff) => {
     if (diff === '&nbsp;') { return diff; }
     const $div = $('<div>', { class:`diff-type-marker ${diff.type}` });
     let hoverTip = '';
@@ -140,7 +145,8 @@ $(() => {
     if (hoverTip != '') {
       $div.attr('data-tip', hoverTip);
     }
-    return outerHTML($div);
+    cd.setupHoverTips($div);
+    return $div;
   };
 
   const oldFilenameTip = (diff) => {
@@ -152,17 +158,14 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const makeDiffFilename = (diff) => {
-    return outerHTML($('<div>', {
+  const $makeDiffFilename = (diff) => {
+    return $('<div>', {
       'class': `diff-filename ${diff.type}`,
       'data-filename': diff.filename,
       'id': `radio_${diff.id}`,
       'text': cd.htmlEscape(diff.filename)
-    }));
+    });
   };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  const outerHTML = (element) => element.get(0).outerHTML;
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const sortedDiffs = (diffs) => {
@@ -209,7 +212,6 @@ $(() => {
         selectFilename($filename);
         review.selectFile(diff.filename);
         scrollToNextDiffChunkOnReclick(diff, diff.filename);
-        diff.hasBeenClicked = true;
       });
     });
   };
@@ -220,17 +222,20 @@ $(() => {
     $(`.diff-line-count[data-filename="${filename}"]`).attr('disabled', false);
   };
 
+  // - - - - - - - - - - - - - - - - - - - - - - - -
   const selectFilename = ($filename) => {
     $('.diff-filename', review.page).removeClass('selected');
     $filename.addClass('selected');
   };
 
+  // - - - - - - - - - - - - - - - - - - - - - - - -
   review.selectFile = (filename) => {
     $('.filename_div', review.page).hide();
     $(`[id="${filename}_diff_div"]`).show();
     review.filename = filename;
   };
 
+  // - - - - - - - - - - - - - - - - - - - - - - - -
   const scrollToNextDiffChunkOnReclick = (diff, filename) => {
     const hasDiffChunks = () => diff.chunkCount > 0;
     const isFirstClick = () => !diff.hasBeenClicked;
@@ -244,6 +249,7 @@ $(() => {
       diff.chunkIndex += 1;
       diff.chunkIndex %= diff.chunkCount;
     }
+    diff.hasBeenClicked = true;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
