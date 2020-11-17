@@ -2,61 +2,48 @@
 'use strict';
 $(() => {
 
-  cd.review.pick_file = (diffs, currentFilename, exts) => {
+  cd.review.pick_file = (diffs, currentFilename) => {
     const isCurrentFile = (diff) => diffFilename(diff) === currentFilename;
-    // Rule 1
-    // If the current-filename has a diff, pick it.
+    // Rule 1: If the current-filename has a diff, pick it.
     const r1 = diffs.find(diff => isCurrentFile(diff) && hasChanged(diff));
     if (r1 != undefined) {
       return r1;
     }
-    // Rule 2
-    // If there are diffs, pick the largest
-    const r2 = diffs.filter(diff => hasChanged(diff));
-    const r2Sorted = r2.sort(changeCountCmp);
-    if (r2Sorted.length > 0) {
-      return r2Sorted[0];
+    // Rule 2: If there are diffs, pick the largest
+    const r2 = diffs.filter(diff => hasChanged(diff))
+                    .sort(changeCountCompare);
+    if (r2.length > 0) {
+      return r2[0];
     }
-    // Rule 3
-    // If there are 100% identical file renames, pick the largest
-    const r3 = diffs.filter(diff => isIdenticalRename(diff));
-    const r3Sorted = r3.sort(sameCountCmp);
-    if (r3Sorted.length > 0) {
-      return r3Sorted[0];
+    // Rule 3: If there are 100% identical file renames, pick the largest
+    const r3 = diffs.filter(diff => isIdenticalRename(diff))
+                    .sort(sameCountCompare);
+    if (r3.length > 0) {
+      return r3[0];
     }
-    // Rule 4
-    // If the current-filename exists, pick it
+    // Rule 4: If the current-filename exists, pick it
     const r4 = diffs.find(diff => isCurrentFile(diff));
     if (r4 != undefined) {
       return r4;
     }
-    // Rule 5
-    // Pick cyber-dojo.sh (which cannot be deleted)
+    // Rule 5: Pick cyber-dojo.sh (which cannot be deleted)
     const r5 = diffs.find(diff => diffFilename(diff) === 'cyber-dojo.sh');
     return r5;
   };
 
-  const diffFilename = (diff) => {
-    return (diff.type === 'deleted')
-      ? diff.old_filename
-      : diff.new_filename;
-  };
-
   const hasChanged = (diff) => changeCount(diff) > 0;
 
-  const changeCountCmp = (lhs,rhs) => changeCount(rhs) - changeCount(lhs);
+  const changeCountCompare = (lhs,rhs) => changeCount(rhs) - changeCount(lhs);
+  const sameCountCompare = (lhs,rhs) => sameCount(rhs) - sameCount(lhs);
 
-  const sameCountCmp = (lhs,rhs) => rhs.line_counts.same - lhs.line_counts.same;
+  const changeCount = (diff) => diff.line_counts.added + diff.line_counts.deleted;
+  const sameCount = (diff) => diff.line_counts.same;
 
-  const changeCount = (diff) => {
-    return diff.line_counts.added + diff.line_counts.deleted;
-  };
+  const diffFilename = (diff) =>
+    (diff.type === 'deleted') ? diff.old_filename : diff.new_filename;
 
-  const isIdenticalRename = (diff) => {
-    return diff.type === 'renamed' &&
-      diff.line_counts.added === 0 &&
-        diff.line_counts.deleted === 0;
-  };
+  const isIdenticalRename = (diff) =>
+    diff.type === 'renamed' && changeCount(diff) === 0;
 
 });
 //--></script>
