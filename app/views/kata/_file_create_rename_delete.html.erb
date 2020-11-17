@@ -76,10 +76,8 @@ $(() => {
     const yPos = pos.top + 25;
 
     const onDialogOpen = () => {
-      const lastDot = initialFilename.lastIndexOf('.');
-      const end = (lastDot !== -1) ? lastDot : initialFilename.length;
       input.focus();
-      input[0].setSelectionRange(0, end);
+      input[0].setSelectionRange(...filenameRange(initialFilename));
     };
 
     const onDialogClose = (event) => {
@@ -111,7 +109,39 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  const filenameRange = (f) => {
+    let lo = 0;
+    // remove trailing .extension
+    const ext = f.lastIndexOf('.');
+    let hi = (ext != -1) ? ext : f.length;
+    const filename = () => f.substring(lo, hi).toLowerCase();
+    // remove leading d/i/r/s/
+    const dirPos = filename().lastIndexOf('/');
+    if (dirPos != -1) {
+      lo += dirPos + 1;
+    }
+    const testWords = [ 'tests', 'test', 'spec', 'steps' ];
+    const separators = [ '.', '_', '-', '' ];
+    testWords.forEach(word => {
+      separators.forEach(sep => {
+        // leading remove
+        if (filename().startsWith(word.concat(sep)) ||
+            filename().startsWith(sep.concat(word))) {
+          lo += word.length;
+          lo += sep.length;
+        }
+        // trailing remove
+        if (filename().endsWith(word.concat(sep)) ||
+            filename().endsWith(sep.concat(word))) {
+          hi -= word.length;
+          hi -= sep.length;
+        }
+      });
+    });
+    return [lo,hi];
+  };
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const makeInput = (name, filename) => {
     const input = $('<input>', {
         type: 'text',
@@ -126,7 +156,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   const isValidFilename = (filename) => {
     const alreadyExists = (filename) => cd.kata.editor.filenames().includes(filename);
     const contains = (illegal) => filename.indexOf(illegal) !== -1;
