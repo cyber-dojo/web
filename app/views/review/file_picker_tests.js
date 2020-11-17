@@ -3,7 +3,7 @@
 const pick_file = require('./pick_file');
 
 describe('pick_file', () => {
-  it('picks the current-filename when it has at least one diff', () =>
+  it('picks the current filename when it has at least one diff', () => 
   {
     const currentFilename = 'readme.txt';
     const filenameExtensions = [ '.h', '.c' ];
@@ -15,7 +15,7 @@ describe('pick_file', () => {
     expect(picked.id).toEqual(1);
   });
   // otherwise
-  it('picks the filenameExtension file with the largest diff', () =>
+  it('else picks the largest filenameExtension diff', () =>
   {
     const currentFilename = 'hiker.h';
     const filenameExtensions = [ '.h', '.c' ];
@@ -28,7 +28,7 @@ describe('pick_file', () => {
     expect(picked.id).toEqual(2);
   });
   // otherwise
-  it('picks the non-filenameExtension file with the largest diff', () =>
+  it('else picks the largest non-filenameExtension diff', () =>
   {
     const currentFilename = 'hiker.h';
     const filenameExtensions = [ '.h', '.c' ];
@@ -41,7 +41,7 @@ describe('pick_file', () => {
     expect(picked.id).toEqual(2);
   });
   // otherwise
-  it('picks the largest 100% identical rename', () =>
+  it('else picks the largest 100% identical rename', () =>
   {
     const currentFilename = 'hiker.h';
     const filenameExtensions = [ '.h', '.c' ];
@@ -55,33 +55,7 @@ describe('pick_file', () => {
     expect(picked.id).toEqual(4);
   });
   // otherwise
-  it('picks the largest created file', () => {
-    const currentFilename = 'hiker.h';
-    const filenameExtensions = [ '.h', '.c' ];
-    const diffs = [];
-    diffs.push(cyber_dojo_sh(0));
-    diffs.push(unchanged(1, 'hiker.h', 45));
-    diffs.push(  created(2, 'makefile', 19));
-    diffs.push(  created(3, 'data.json', 44));
-    diffs.push(unchanged(4, 'hiker.c', 33));
-    const picked = pick_file(diffs, currentFilename, filenameExtensions);
-    expect(picked.id).toEqual(3);
-  });
-  // otherwise
-  it('picks the largest deleted file', () => {
-    const currentFilename = 'hiker.h';
-    const filenameExtensions = [ '.h', '.c' ];
-    const diffs = [];
-    diffs.push(cyber_dojo_sh(0));
-    diffs.push(unchanged(1, 'hiker.h', 45));
-    diffs.push(  deleted(2, 'makefile', 19));
-    diffs.push(  deleted(3, 'data.json', 20));
-    diffs.push(unchanged(4, 'hiker.c', 33));
-    const picked = pick_file(diffs, currentFilename, filenameExtensions);
-    expect(picked.id).toEqual(3);
-  });
-  // otherwise
-  it('picks the current_filename', () =>
+  it('else picks the current filename', () =>
   {
     const currentFilename = 'hiker.h';
     const filenameExtensions = [ '.h', '.c' ];
@@ -95,7 +69,7 @@ describe('pick_file', () => {
     expect(picked.id).toEqual(2);
   });
   // otherwise
-  it('picks cyber-dojo.sh (which can never be deleted)', () =>
+  it('else picks cyber-dojo.sh (which can never be deleted)', () =>
   {
     const currentFilename = 'hiker.h';
     const filenameExtensions = [ '.h', '.c' ];
