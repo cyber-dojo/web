@@ -18,10 +18,11 @@ $(() => {
       const $stderr = review.makeDiffFileContent(makeSameDiff('stderr', stderr));
       const $status = review.makeDiffFileContent(makeSameDiff('status', status));
 
-      const $diffContentOuput = $('#diff-content-output');
-      $diffContentOuput.append($stdout);
-      $diffContentOuput.append($stderr);
-      $diffContentOuput.append($status);
+      const $diffContentOutput = $('#diff-content-output');
+      $diffContentOutput.empty();
+      $diffContentOutput.append($stdout);
+      $diffContentOutput.append($stderr);
+      $diffContentOutput.append($status);
 
       const $diffOutputFilenames = $('#diff-output-filenames');
       $diffOutputFilenames.html(makeDiffOutputFilenames(stdout,stderr,status));
