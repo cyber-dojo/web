@@ -3,79 +3,60 @@
 $(() => {
 
   cd.review.pick_file = (diffs, currentFilename, exts) => {
-      const isCurrentFile = (diff) => diffFilename(diff) === currentFilename;
-      // Rule 1
-      // If the current-filename exists and has a diff, pick it.
-      const r1 = diffs.find(diff => isCurrentFile(diff) && hasChanged(diff));
-      if (r1 != undefined) {
-        return r1;
-      }
-      // Rule 2
-      // If a filenameExtension file has a diff, pick the largest diff
-      const r2 = diffs.filter(diff => anyExtMatches(diff, exts) && hasChanged(diff));
-      const r2Sorted = r2.sort(changeCountCmp);
-      if (r2Sorted.length > 0) {
-        return r2Sorted[0];
-      }
-      // Rule 3
-      // If a non-filenameExtension has a diff, pick the largest diff
-      const r3 = diffs.filter(diff => noExtMatches(diff, exts) && hasChanged(diff));
-      const r3Sorted = r3.sort(changeCountCmp);
-      if (r3Sorted.length > 0) {
-        return r3Sorted[0];
-      }
-      // Rule 4
-      // If there are 100% identical file renames, pick the largest
-      const r4 = diffs.filter(diff => isIdenticalRename(diff));
-      const r4Sorted = r4.sort(sameCountCmp);
-      if (r4Sorted.length > 0) {
-        return r4Sorted[0];
-      }
-      // Rule 5
-      // If the current-filename exists, pick it
-      const r5 = diffs.find(diff => isCurrentFile(diff));
-      if (r5 != undefined) {
-        return r5;
-      }
-      // Rule 6
-      // Pick cyber-dojo.sh (which cannot be deleted)
-      const r6 = diffs.find(diff => diffFilename(diff) === 'cyber-dojo.sh');
-      return r6;
-    };
+    const isCurrentFile = (diff) => diffFilename(diff) === currentFilename;
+    // Rule 1
+    // If the current-filename has a diff, pick it.
+    const r1 = diffs.find(diff => isCurrentFile(diff) && hasChanged(diff));
+    if (r1 != undefined) {
+      return r1;
+    }
+    // Rule 2
+    // If there are diffs, pick the largest
+    const r2 = diffs.filter(diff => hasChanged(diff));
+    const r2Sorted = r2.sort(changeCountCmp);
+    if (r2Sorted.length > 0) {
+      return r2Sorted[0];
+    }
+    // Rule 3
+    // If there are 100% identical file renames, pick the largest
+    const r3 = diffs.filter(diff => isIdenticalRename(diff));
+    const r3Sorted = r3.sort(sameCountCmp);
+    if (r3Sorted.length > 0) {
+      return r3Sorted[0];
+    }
+    // Rule 4
+    // If the current-filename exists, pick it
+    const r4 = diffs.find(diff => isCurrentFile(diff));
+    if (r4 != undefined) {
+      return r4;
+    }
+    // Rule 5
+    // Pick cyber-dojo.sh (which cannot be deleted)
+    const r5 = diffs.find(diff => diffFilename(diff) === 'cyber-dojo.sh');
+    return r5;
+  };
 
-    const diffFilename = (diff) => {
-      return (diff.type === 'deleted')
-        ? diff.old_filename
-        : diff.new_filename;
-    };
+  const diffFilename = (diff) => {
+    return (diff.type === 'deleted')
+      ? diff.old_filename
+      : diff.new_filename;
+  };
 
-    const anyExtMatches = (diff, exts) => {
-      return extMatches(diff, exts) != undefined;
-    };
+  const hasChanged = (diff) => changeCount(diff) > 0;
 
-    const noExtMatches = (diff, exts) => {
-      return extMatches(diff, exts) === undefined;
-    };
+  const changeCountCmp = (lhs,rhs) => changeCount(rhs) - changeCount(lhs);
 
-    const extMatches = (diff, exts) => {
-      return exts.find(ext => diffFilename(diff).endsWith(ext));
-    };
+  const sameCountCmp = (lhs,rhs) => rhs.line_counts.same - lhs.line_counts.same;
 
-    const hasChanged = (diff) => changeCount(diff) > 0;
+  const changeCount = (diff) => {
+    return diff.line_counts.added + diff.line_counts.deleted;
+  };
 
-    const changeCountCmp = (lhs,rhs) => changeCount(rhs) - changeCount(lhs);
-
-    const sameCountCmp = (lhs,rhs) => rhs.line_counts.same - lhs.line_counts.same;
-
-    const changeCount = (diff) => {
-      return diff.line_counts.added + diff.line_counts.deleted;
-    };
-
-    const isIdenticalRename = (diff) => {
-      return diff.type === 'renamed' &&
-        diff.line_counts.added === 0 &&
-          diff.line_counts.deleted === 0;
-    };
+  const isIdenticalRename = (diff) => {
+    return diff.type === 'renamed' &&
+      diff.line_counts.added === 0 &&
+        diff.line_counts.deleted === 0;
+  };
 
 });
 //--></script>

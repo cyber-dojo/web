@@ -18,7 +18,7 @@ $(() => {
       resetFilenameAddedDeletedLineCountHandlers();
       buildDiffFilenameHandlers(review.params.diffs);
 
-      const picked = review.pick_file(review.params.diffs, review.filename, review.params.filenameExtension);
+      const picked = review.pick_file(review.params.diffs, review.filename);
       review.filename = picked.filename;
       showFile(picked.id);
     });
