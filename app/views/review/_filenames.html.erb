@@ -234,7 +234,7 @@ $(() => {
     const isFirstClick = () => !diff.hasBeenClicked;
     const isReClick = () => review.filename === filename;
     if (hasDiffChunks() && (isFirstClick() || isReClick())) {
-      const $diffSheet = $(`[id="diff_file_content_for_${filename}"]`);
+      const $diffSheet = $(`#${diff.id}_diff_sheet`);
       const $section = $(`#${diff.id}_section_${diff.chunkIndex}`);
       const position = { scrollTop: '+=' + ($section.offset().top - 250) + 'px' };
       const halfSecond = 500;
@@ -263,7 +263,7 @@ $(() => {
       '<table>' +
         '<tr class="valign-top">' +
           makeTd('<div class="diff-line-numbers"></div>') +
-          makeTd(`<div id="diff_file_content_for_${diff.filename}"` +
+          makeTd(`<div id="${diff.id}_diff_sheet"` +
                  ' class="diff-sheet"></div>') +
         '</tr>' +
       '</table>' +
