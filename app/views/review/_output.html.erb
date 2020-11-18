@@ -14,9 +14,9 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const refreshOutputCallback = (event) => {
-    const stdout = makeDiffOutput('stdout', event.stdout.content);
-    const stderr = makeDiffOutput('stderr', event.stderr.content);
-    const status = makeDiffOutput('status', event.status);
+    const stdout = makeNoDiffOutput('stdout', event.stdout.content);
+    const stderr = makeNoDiffOutput('stderr', event.stderr.content);
+    const status = makeNoDiffOutput('status', event.status);
 
     const $diffContentOutput = $('#diff-content-output');
     const $stdout = review.makeDiffFileContent(stdout);
@@ -25,7 +25,7 @@ $(() => {
     $diffContentOutput.empty().append($stdout, $stderr, $status);
 
     const $diffOutputFilenames = $('#diff-output-filenames');
-    $diffOutputFilenames.html(makeOutputFilenames(stdout,stderr,status));
+    $diffOutputFilenames.html($makeOutputFilenames(stdout, stderr, status));
 
     $(`#radio_${stdout.id}`).click(() => review.selectFilename(stdout));
     $(`#radio_${stderr.id}`).click(() => review.selectFilename(stderr));
@@ -33,9 +33,9 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const makeDiffOutput = (name, content) => {
+  const makeNoDiffOutput = (name, content) => {
     return {
-            id: name,
+            id: name, // real file diffs have a numeric diff.id
           type: 'unchanged',
       filename: name,
          lines: makeSameLines(content)
@@ -51,18 +51,21 @@ $(() => {
   const lines = (str) => str.replace(/\n$/, '').split(/\r?\n/);
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const makeOutputFilenames = (stdout, stderr, status) => {
-    let html = '';
-    html += '<table class="sss filenames">';
-    html += makeOutputFilename(stdout);
-    html += makeOutputFilename(stderr);
-    html += makeOutputFilename(status);
-    html += '</table>';
-    return html;
+  const $makeOutputFilenames = (stdout, stderr, status) => {
+    const $table = $('<table>', { class:'sss filenames' });
+    $table.append($makeOutputFilenameTr(stdout));
+    $table.append($makeOutputFilenameTr(stderr));
+    $table.append($makeOutputFilenameTr(status));
+    return $table;
   };
 
-  const makeOutputFilename = (diff) => {
-    return `<tr><td class="diff-filename" data-filename="${diff.filename}" id="radio_${diff.id}">${diff.filename}</td></tr>`;
+  const $makeOutputFilenameTr = (diff) => {
+    const $td = $('<td>', {
+      class: 'diff-filename',
+      'data-filename': diff.filename,
+      id: `radio_${diff.id}`
+    }).text(diff.filename);
+    return $('<tr>').append($td);
   };
 
 });
