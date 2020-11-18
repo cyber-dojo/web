@@ -24,8 +24,7 @@ $(() => {
     buildDiffFilenameHandlers(diffs);
 
     const picked = review.pick_file(diffs, review.filename);
-    review.filename = picked.filename;
-    showFile(picked.id);
+    review.selectFilename(picked);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -41,13 +40,6 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const chunkCount = (lines) => lines.reduce((n,line) => n + (line.type === 'section'), 0);
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  const showFile = (filenameId) => {
-    $(`#radio_${filenameId}`)
-      .click()
-      .scrollIntoView({ direction: 'vertical' });
-  };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const $makeDiffFilenames = (diffs) => {
@@ -214,25 +206,25 @@ $(() => {
   const buildDiffFilenameHandlers = (diffs) => {
     diffs.forEach(diff => {
       const $filename = $(`#radio_${diff.id}`, review.page);
-      $filename.click(() => {
-        selectLineCounts(diff.filename);
-        selectFilename($filename);
-        scrollToNextDiffChunkOnReclick(diff, diff.filename);
-        review.selectFile(diff.filename); // after OnReclick
-      });
+      $filename.click(() => review.selectFilename(diff));
     });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const selectLineCounts = (filename) => {
-    $('.diff-line-count').attr('disabled', true);
-    $(`.diff-line-count[data-filename="${filename}"]`).attr('disabled', false);
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  const selectFilename = ($filename) => {
+  review.selectFilename = (diff) => {
+    // show filename
+    const $filename = $(`#radio_${diff.id}`, review.page);
     $('.diff-filename', review.page).removeClass('selected');
     $filename.addClass('selected');
+    // show diff line-counts
+    $('.diff-line-count').attr('disabled', true);
+    $(`.diff-line-count[data-filename="${diff.filename}"]`).attr('disabled', false);
+    // show file content
+    $('.filename_div', review.page).hide();
+    $(`[id="${diff.filename}_diff_div"]`).show();
+
+    scrollToNextDiffChunkOnReclick(diff, diff.filename);
+    review.filename = diff.filename;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -259,13 +251,6 @@ $(() => {
       $holder.append(review.makeDiffFileContent(diff));
     });
     return $holder;
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  review.selectFile = (filename) => {
-    $('.filename_div', review.page).hide();
-    $(`[id="${filename}_diff_div"]`).show();
-    review.filename = filename;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -

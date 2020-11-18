@@ -14,28 +14,32 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const refreshOutputCallback = (event) => {
+    const stdout = makeDiffOutput('stdout', event.stdout.content);
+    const stderr = makeDiffOutput('stderr', event.stderr.content);
+    const status = makeDiffOutput('status', event.status);
+
     const $diffContentOutput = $('#diff-content-output');
-    const $stdout = makeOutput('stdout', event.stdout.content);
-    const $stderr = makeOutput('stderr', event.stderr.content);
-    const $status = makeOutput('status', event.status);
+    const $stdout = review.makeDiffFileContent(stdout);
+    const $stderr = review.makeDiffFileContent(stderr);
+    const $status = review.makeDiffFileContent(status);
     $diffContentOutput.empty().append($stdout, $stderr, $status);
 
     const $diffOutputFilenames = $('#diff-output-filenames');
-    $diffOutputFilenames.html(makeOutputFilenames());
+    $diffOutputFilenames.html(makeOutputFilenames(stdout,stderr,status));
 
-    $('#stdout').click(() => review.selectFile('stdout'));
-    $('#stderr').click(() => review.selectFile('stderr'));
-    $('#status').click(() => review.selectFile('status'));
+    $(`#radio_${stdout.id}`).click(() => review.selectFilename(stdout));
+    $(`#radio_${stderr.id}`).click(() => review.selectFilename(stderr));
+    $(`#radio_${status.id}`).click(() => review.selectFilename(status));
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const makeOutput = (name, content) => {
-    return review.makeDiffFileContent({
+  const makeDiffOutput = (name, content) => {
+    return {
             id: name,
           type: 'unchanged',
       filename: name,
          lines: makeSameLines(content)
-    });
+    }
   };
 
   const makeSameLines = (str) => {
@@ -47,18 +51,18 @@ $(() => {
   const lines = (str) => str.replace(/\n$/, '').split(/\r?\n/);
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const makeOutputFilenames = () => {
+  const makeOutputFilenames = (stdout, stderr, status) => {
     let html = '';
     html += '<table class="sss filenames">';
-    html += makeOutputFilename('stdout');
-    html += makeOutputFilename('stderr');
-    html += makeOutputFilename('status');
+    html += makeOutputFilename(stdout);
+    html += makeOutputFilename(stderr);
+    html += makeOutputFilename(status);
     html += '</table>';
     return html;
   };
 
-  const makeOutputFilename = (name) => {
-    return `<tr><td class="diff-filename" id="${name}">${name}</td></tr>`;
+  const makeOutputFilename = (diff) => {
+    return `<tr><td class="diff-filename" data-filename="${diff.filename}" id="radio_${diff.id}">${diff.filename}</td></tr>`;
   };
 
 });
