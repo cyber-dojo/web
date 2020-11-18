@@ -7,22 +7,26 @@ $(() => {
   review.refreshOutput = () => {
     const params = review.params;
     const args = { id:params.id, index:params.nowIndex };
-    $.getJSON('/model/kata_event', args, (data) => {
-      const event = data.kata_event;
-      const $stdout = makeOutput('stdout', event.stdout.content);
-      const $stderr = makeOutput('stderr', event.stderr.content);
-      const $status = makeOutput('status', event.status);
-
-      const $diffContentOutput = $('#diff-content-output');
-      $diffContentOutput.empty().append($stdout, $stderr, $status);
-
-      const $diffOutputFilenames = $('#diff-output-filenames');
-      $diffOutputFilenames.html(makeOutputFilenames());
-
-      $('#stdout').click(() => review.selectFile('stdout'));
-      $('#stderr').click(() => review.selectFile('stderr'));
-      $('#status').click(() => review.selectFile('status'));
+    review.waitSpinnerGetJSON('/model/kata_event', args, (data) => {
+      refreshOutputCallback(data.kata_event);
     });
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  const refreshOutputCallback = (event) => {
+    const $stdout = makeOutput('stdout', event.stdout.content);
+    const $stderr = makeOutput('stderr', event.stderr.content);
+    const $status = makeOutput('status', event.status);
+
+    const $diffContentOutput = $('#diff-content-output');
+    $diffContentOutput.empty().append($stdout, $stderr, $status);
+
+    const $diffOutputFilenames = $('#diff-output-filenames');
+    $diffOutputFilenames.html(makeOutputFilenames());
+
+    $('#stdout').click(() => review.selectFile('stdout'));
+    $('#stderr').click(() => review.selectFile('stderr'));
+    $('#status').click(() => review.selectFile('status'));
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -

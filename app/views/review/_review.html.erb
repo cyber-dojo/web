@@ -80,25 +80,34 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const refresh = () => {
-    const reviewParams = {
-           version: review.params.version,
-                id: review.params.id,
-          group_id: review.params.groupId,
-         was_index: review.params.wasIndex,
-         now_index: review.params.nowIndex
+    const params = review.params;
+    const args = {
+           version: params.version,
+                id: params.id,
+          group_id: params.groupId,
+         was_index: params.wasIndex,
+         now_index: params.nowIndex
     };
+
+    review.waitSpinnerGetJSON('/differ/diff', args, (data) => {
+      review.params = data;
+      review.refreshAvatarNavigator();
+      review.refreshTrafficLights();          // this first
+      review.refreshTrafficLightsNavigator(); // this second
+      review.refreshDiffCheckBox();
+      scrollCurrentTrafficLightIntoView();
+      cd.setupHoverTips($('[data-tip]'));
+    });
+    review.refreshFiles();
+    review.refreshOutput();
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  review.waitSpinnerGetJSON = (path, params, callBack) => {
     cd.waitSpinner.fadeIn('fast', () => {
-      $.getJSON('/differ/diff', reviewParams, (data) => {
-        review.params = data;
+      $.getJSON(path, params, (data) => {
         cd.waitSpinner.fadeOut('fast', () => {
-          review.refreshAvatarNavigator();
-          review.refreshTrafficLights();          // this first
-          review.refreshTrafficLightsNavigator(); // this second
-          review.refreshDiffCheckBox();
-          review.refreshFiles();
-          review.refreshOutput();
-          scrollCurrentTrafficLightIntoView();
-          cd.setupHoverTips($('[data-tip]'));
+          callBack(data);
         });
       });
     });

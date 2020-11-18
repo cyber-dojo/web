@@ -7,21 +7,26 @@ $(() => {
   review.refreshFiles = () => {
     const params = review.params;
     const args = { id:params.id, was_index:params.wasIndex, now_index:params.nowIndex };
-    $.getJSON('/differ/diff_lines', args, (data) => {
-      review.params.diffs = data.diff_lines;
-      augmentDiffData();
-      const $diffContent = $('#diff-content');
-      $diffContent.html(makeDiffContent(review.params.diffs));
-
-      const $diffFilenames = $('#diff-filenames');
-      $diffFilenames.html($makeDiffFilenames(review.params.diffs));
-      resetFilenameAddedDeletedLineCountHandlers();
-      buildDiffFilenameHandlers(review.params.diffs);
-
-      const picked = review.pick_file(review.params.diffs, review.filename);
-      review.filename = picked.filename;
-      showFile(picked.id);
+    review.waitSpinnerGetJSON('/differ/diff_lines', args, (data) => {
+      refreshFilesCallback(data.diff_lines);
     });
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  const refreshFilesCallback = (diff_lines) => {
+    review.params.diffs = diff_lines;
+    augmentDiffData();
+    const $diffContent = $('#diff-content');
+    $diffContent.html(makeDiffContent(review.params.diffs));
+
+    const $diffFilenames = $('#diff-filenames');
+    $diffFilenames.html($makeDiffFilenames(review.params.diffs));
+    resetFilenameAddedDeletedLineCountHandlers();
+    buildDiffFilenameHandlers(review.params.diffs);
+
+    const picked = review.pick_file(review.params.diffs, review.filename);
+    review.filename = picked.filename;
+    showFile(picked.id);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
