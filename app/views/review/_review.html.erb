@@ -2,7 +2,7 @@
 'use strict';
 $(() => {
 
-  const review = cd.review = {};
+  const review = cd.review;
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // After refresh() has been called review.params also contains...
@@ -15,7 +15,11 @@ $(() => {
   //   the avatar [<][>] navigator buttons.
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  const $kataPage = $('#kata-page');
+
   review.page = $('#review-page');
+
+  review.inTestPage = $kataPage.length !== 0;
 
   review.params = {
         version: "<%= @version %>",
@@ -27,11 +31,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const $kataPage = $('#kata-page');
-
-  const inTestPage = $kataPage.length !== 0;
-
   cd.setReviewData = (version, id, groupId, avatarIndex, wasIndex, nowIndex) => {
     // Called only from app/views/kata/_traffic_lights.html.erb
     // The [resume] & [checkout] buttons are only shown on kata/edit. [1]
@@ -51,7 +50,7 @@ $(() => {
       cd.checkout({ src_id:review.params.id, src_index:review.params.nowIndex });
     }));
     setCheckoutButtonTip();
-    refresh();
+    review.refresh();
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -79,7 +78,7 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const refresh = () => {
+  review.refresh = () => {
     const params = review.params;
     const args = {
            version: params.version,
@@ -88,7 +87,6 @@ $(() => {
          was_index: params.wasIndex,
          now_index: params.nowIndex
     };
-
     review.waitSpinnerGetJSON('/differ/diff', args, (data) => {
       review.params = data;
       review.refreshAvatarNavigator();
@@ -146,13 +144,6 @@ $(() => {
       .bind('click', handler);
   };
 
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  if (!inTestPage) {
-    review.page.show();
-    refresh();
-  }
-
 });
 //--></script>
 
@@ -187,3 +178,14 @@ $(() => {
     </td>
   </tr>
 </table>
+
+<script type="text/javascript"><!--
+'use strict';
+$(() => {
+  const review = cd.review;
+  if (!review.inTestPage) {
+    review.page.show();
+    review.refresh();
+  }
+});
+//--></script>
