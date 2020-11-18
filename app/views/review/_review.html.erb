@@ -128,13 +128,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const setForkButtonTip = () => {
-    const $button = $('#fork-button');
-    const tip = `create a new<br/>exercise from this<br/>traffic-light's files`;
-    cd.createTip($button, tip);
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
   const setCheckoutButtonTip = () => {
     // Prefer 'checkout' to 'revert' since in a group exercises
     // you can revert to other avatar's traffic-lights.
@@ -155,8 +148,6 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  review.setupButton('fork', () => cd.forkDialog(review.params.id, review.params.nowIndex));
-  setForkButtonTip();
   if (!inTestPage) {
     review.page.show();
     refresh();
