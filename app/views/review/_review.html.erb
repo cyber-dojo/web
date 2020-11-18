@@ -44,10 +44,10 @@ $(() => {
          nowIndex:nowIndex
     };
     fadeIntoReviewPage();
-    setupButton('resume', () => fadeIntoKataPage(() => { // [1]
+    review.setupButton('resume', () => fadeIntoKataPage(() => { // [1]
       cd.kata.editor.refocus();
     }));
-    setupButton('checkout', () => fadeIntoKataPage(() => { // [1]
+    review.setupButton('checkout', () => fadeIntoKataPage(() => { // [1]
       cd.checkout({ src_id:review.params.id, src_index:review.params.nowIndex });
     }));
     setCheckoutButtonTip();
@@ -144,7 +144,7 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const setupButton = (name, handler) => {
+  review.setupButton = (name, handler) => {
     const button = `<button id="${name}-button" type="button"></button>`;
     $(`#${name}-button-box`).html(button);
     $(`#${name}-button`)
@@ -155,7 +155,7 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  setupButton('fork', () => cd.forkDialog(review.params.id, review.params.nowIndex));
+  review.setupButton('fork', () => cd.forkDialog(review.params.id, review.params.nowIndex));
   setForkButtonTip();
   if (!inTestPage) {
     review.page.show();
@@ -181,7 +181,7 @@ $(() => {
         <tr>
           <td><div id="resume-button-box"></div></td>
           <td><%= render partial: 'review/checkbox' %></td>
-          <td><div id="fork-button-box"></div></td>
+          <td><%= render partial: 'review/fork_button' %></td>
           <td><div id="checkout-button-box"></div></td>
         </tr>
       </table>
