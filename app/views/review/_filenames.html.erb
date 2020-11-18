@@ -149,7 +149,8 @@ $(() => {
   };
 
   const oldFilenameTip = (diff) => {
-    return `was<span class="diff-filename renamed">${diff.old_filename}</span>`;
+    const filename = cd.htmlEscape(diff.old_filename);
+    return `was<span class="diff-filename renamed">${filename}</span>`;
   };
 
   const chunkCountTip = (diff) => {
