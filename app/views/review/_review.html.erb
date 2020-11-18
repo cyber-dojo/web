@@ -33,7 +33,6 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   cd.setReviewData = (version, id, groupId, avatarIndex, wasIndex, nowIndex) => {
     // Called only from app/views/kata/_traffic_lights.html.erb
-    // The [resume] & [checkout] buttons are only shown on kata/edit. [1]
     review.params = {
           version:version,
                id:id,
@@ -42,16 +41,12 @@ $(() => {
          wasIndex:wasIndex,
          nowIndex:nowIndex
     };
-    fadeIntoReviewPage();
-    review.setupButton('checkout', () => review.fadeIntoKataPage(() => { // [1]
-      cd.checkout({ src_id:review.params.id, src_index:review.params.nowIndex });
-    }));
-    setCheckoutButtonTip();
+    review.fadeIntoReviewPage();
     review.refresh();
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const fadeIntoReviewPage = () => {
+  review.fadeIntoReviewPage = () => {
     $kataPage.fadeOut('fast', () => {
       review.page.fadeIn('fast');
     });
@@ -123,15 +118,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const setCheckoutButtonTip = () => {
-    // Prefer 'checkout' to 'revert' since in a group exercises
-    // you can revert to other avatar's traffic-lights.
-    const $button = $('#checkout-button');
-    const tip = `make this traffic-light's<br/>files your current files`;
-    cd.createTip($button, tip);
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
   review.setupButton = (name, handler) => {
     const button = `<button id="${name}-button" type="button"></button>`;
     $(`#${name}-button-box`).html(button);
@@ -159,9 +145,9 @@ $(() => {
       <table class="controls">
         <tr>
           <td><%= render partial: 'review/resume_button' %></td>
-          <td><%= render partial: 'review/checkbox' %></td>
+          <td><%= render partial: 'review/diff_checkbox' %></td>
           <td><%= render partial: 'review/fork_button' %></td>
-          <td><div id="checkout-button-box"></div></td>
+          <td><%= render partial: 'review/checkout_button' %></td>
         </tr>
       </table>
       <table>
