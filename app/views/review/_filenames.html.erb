@@ -217,8 +217,8 @@ $(() => {
       $filename.click(() => {
         selectLineCounts(diff.filename);
         selectFilename($filename);
-        review.selectFile(diff.filename);
         scrollToNextDiffChunkOnReclick(diff, diff.filename);
+        review.selectFile(diff.filename); // after OnReclick
       });
     });
   };
