@@ -14,11 +14,10 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const refreshOutputCallback = (event) => {
+    const $diffContentOutput = $('#diff-content-output');
     const $stdout = makeOutput('stdout', event.stdout.content);
     const $stderr = makeOutput('stderr', event.stderr.content);
     const $status = makeOutput('status', event.status);
-
-    const $diffContentOutput = $('#diff-content-output');
     $diffContentOutput.empty().append($stdout, $stderr, $status);
 
     const $diffOutputFilenames = $('#diff-output-filenames');
