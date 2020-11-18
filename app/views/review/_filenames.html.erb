@@ -13,32 +13,34 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const refreshFilesCallback = (diff_lines) => {
-    review.params.diffs = diff_lines;
-    augmentDiffData();
+  const refreshFilesCallback = (diffs) => {
+    augmentDiffs(diffs);
     const $diffContent = $('#diff-content');
-    $diffContent.html(makeDiffContent(review.params.diffs));
+    $diffContent.html(makeDiffContent(diffs));
 
     const $diffFilenames = $('#diff-filenames');
-    $diffFilenames.html($makeDiffFilenames(review.params.diffs));
+    $diffFilenames.html($makeDiffFilenames(diffs));
     resetFilenameAddedDeletedLineCountHandlers();
-    buildDiffFilenameHandlers(review.params.diffs);
+    buildDiffFilenameHandlers(diffs);
 
-    const picked = review.pick_file(review.params.diffs, review.filename);
+    const picked = review.pick_file(diffs, review.filename);
     review.filename = picked.filename;
     showFile(picked.id);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const augmentDiffData = () => {
-    review.params.diffs.forEach((diff,index) => {
+  const augmentDiffs = (diffs) => {
+    diffs.forEach((diff,index) => {
       diff.id = `id_${index}`;
       diff.chunkIndex = 0
-      diff.chunkCount = diff.lines.reduce((n,line) => n + (line.type === 'section'), 0);
+      diff.chunkCount = chunkCount(diff.lines);
       diff.hasBeenClicked = false;
       diff.filename = (diff.type === 'deleted') ? diff.old_filename : diff.new_filename;
     });
   };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  const chunkCount = (lines) => lines.reduce((n,line) => n + (line.type === 'section'), 0);
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const showFile = (filenameId) => {
