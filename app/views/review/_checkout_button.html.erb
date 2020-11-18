@@ -1,0 +1,21 @@
+<script type="text/javascript"><!--
+'use strict';
+$(() => {
+
+  const review = cd.review;
+
+  if (review.inTestPage) {
+    review.setupButton('checkout', () => review.fadeIntoKataPage(() => {
+      cd.checkout({ src_id:review.params.id, src_index:review.params.nowIndex });
+    }));
+    // Prefer 'checkout' to 'revert' since in a group exercises
+    // you can revert to other avatar's traffic-lights.
+    const $button = $('#checkout-button');
+    const tip = `make this traffic-light's<br/>files your current files`;
+    cd.createTip($button, tip);
+  }
+
+});
+//--></script>
+
+<div id="checkout-button-box"></div>
