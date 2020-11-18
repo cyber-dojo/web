@@ -187,9 +187,9 @@ $(() => {
         const selector = `[id="${id}_diff_div"] ${type}`;
         $(selector).css('display', value);
         if (value === 'none') {
-          $(node).removeClass('on').addClass('off');
+          $node.removeClass('on').addClass('off');
         } else {
-          $(node).removeClass('off').addClass('on');
+          $node.removeClass('off').addClass('on');
         }
       }
     };
@@ -222,7 +222,7 @@ $(() => {
     $(`.diff-line-count[data-diff-id="${diff.id}"]`).attr('disabled', false);
     // show file content
     $('.filename_div', review.page).hide();
-    $(`[id="${diff.id}_diff_div"]`).show();
+    $(`#${diff.id}_diff_div`).show();
 
     scrollToNextDiffChunkOnReclick(diff, diff.filename);
     review.filename = diff.filename;
