@@ -27,9 +27,9 @@ $(() => {
     const $diffOutputFilenames = $('#diff-output-filenames');
     $diffOutputFilenames.html($makeOutputFilenames(stdout, stderr, status));
 
-    $(`#filename-${stdout.id}`).click(() => review.selectFilename(stdout));
-    $(`#filename-${stderr.id}`).click(() => review.selectFilename(stderr));
-    $(`#filename-${status.id}`).click(() => review.selectFilename(status));
+    $(`#diff-filename-${stdout.id}`).click(() => review.selectFilename(stdout));
+    $(`#diff-filename-${stderr.id}`).click(() => review.selectFilename(stderr));
+    $(`#diff-filename-${status.id}`).click(() => review.selectFilename(status));
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -62,8 +62,8 @@ $(() => {
   const $makeOutputFilenameTr = (diff) => {
     const $td = $('<td>', {
       class: 'diff-filename',
-      'data-diff-id': diff.id,
-      id: `filename-${diff.id}`
+         id: `diff-filename-${diff.id}`,
+      'data-diff-id': diff.id
     }).text(diff.filename);
     return $('<tr>').append($td);
   };

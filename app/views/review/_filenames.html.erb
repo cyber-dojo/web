@@ -160,11 +160,10 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const $makeDiffFilename = (diff) => {
     return $('<div>', {
-      'class': `diff-filename ${diff.type}`,
-      'data-diff-id': diff.id,
-      'id': `filename-${diff.id}`,
-      'text': cd.htmlEscape(diff.filename)
-    });
+      class: `diff-filename ${diff.type}`,
+         id: `diff-filename-${diff.id}`,
+      'data-diff-id': diff.id
+    }).text(cd.htmlEscape(diff.filename));
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -207,7 +206,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const buildDiffFilenameHandlers = (diffs) => {
     diffs.forEach(diff => {
-      const $filename = $(`#filename-${diff.id}`, review.page);
+      const $filename = $(`#diff-filename-${diff.id}`, review.page);
       $filename.click(() => review.selectFilename(diff));
     });
   };
@@ -216,14 +215,13 @@ $(() => {
   review.selectFilename = (diff) => {
     // show filename
     $('.diff-filename', review.page).removeClass('selected');
-    const $filename = $(`#filename-${diff.id}`, review.page);
-    $filename.addClass('selected');
+    $(`#diff-filename-${diff.id}`, review.page).addClass('selected');
     // show diff line-counts
     $('.diff-line-count').attr('disabled', true);
     $(`.diff-line-count[data-diff-id="${diff.id}"]`).attr('disabled', false);
     // show file content
     $('.file-content', review.page).hide();
-    $(`#file-content-${diff.id}`).show();
+    $(`#file-content-${diff.id}`, review.page).show();
 
     scrollToNextDiffChunkOnReclick(diff, diff.filename);
     review.filename = diff.filename;
