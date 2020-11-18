@@ -1,0 +1,14 @@
+<script type="text/javascript"><!--
+'use strict';
+$(() => {
+
+  const review = cd.review;
+
+  if (review.inTestPage) {
+    review.setupButton('resume', () => review.fadeIntoKataPage(cd.kata.editor.refocus));
+  }
+
+});
+//--></script>
+
+<div id="resume-button-box"></div>

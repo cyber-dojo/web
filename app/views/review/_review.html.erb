@@ -43,10 +43,7 @@ $(() => {
          nowIndex:nowIndex
     };
     fadeIntoReviewPage();
-    review.setupButton('resume', () => fadeIntoKataPage(() => { // [1]
-      cd.kata.editor.refocus();
-    }));
-    review.setupButton('checkout', () => fadeIntoKataPage(() => { // [1]
+    review.setupButton('checkout', () => review.fadeIntoKataPage(() => { // [1]
       cd.checkout({ src_id:review.params.id, src_index:review.params.nowIndex });
     }));
     setCheckoutButtonTip();
@@ -61,7 +58,7 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const fadeIntoKataPage = (onComplete) => {
+  review.fadeIntoKataPage = (onComplete) => {
     review.page.fadeOut('fast', () => {
       $kataPage.fadeIn('fast', () => {
         onComplete();
@@ -161,7 +158,7 @@ $(() => {
     <td class="left-column">
       <table class="controls">
         <tr>
-          <td><div id="resume-button-box"></div></td>
+          <td><%= render partial: 'review/resume_button' %></td>
           <td><%= render partial: 'review/checkbox' %></td>
           <td><%= render partial: 'review/fork_button' %></td>
           <td><div id="checkout-button-box"></div></td>
