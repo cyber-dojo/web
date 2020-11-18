@@ -236,8 +236,8 @@ $(() => {
     const isReClick = () => review.filename === filename;
     if (hasDiffChunks() && (isFirstClick() || isReClick())) {
       const $diffSheet = $(`#diff-sheet-${diff.id}`);
-      const $section = $(`#section-${diff.id}-${diff.chunkIndex}`);
-      const position = { scrollTop: '+=' + ($section.offset().top - 250) + 'px' };
+      const $diffChunk = $(`#diff-chunk-${diff.id}-${diff.chunkIndex}`);
+      const position = { scrollTop: '+=' + ($diffChunk.offset().top - 250) + 'px' };
       const halfSecond = 500;
       $diffSheet.animate(position, halfSecond);
       diff.chunkIndex += 1;
@@ -296,7 +296,7 @@ $(() => {
     let html = [];
     diff_lines.forEach(diff_line => {
       if (diff_line.type === 'section') {
-        html.push(`<span id='section-${id}-${diff_line.index}'></span>`);
+        html.push(`<span id='diff-chunk-${id}-${diff_line.index}'></span>`);
       } else {
         let line = cd.htmlEscape(diff_line.line);
         if (line === '') { line = '&nbsp'; }
