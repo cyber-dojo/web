@@ -18,6 +18,14 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
+  review.moveToTrafficLight = (index) => {
+    const delta = review.inDiffMode() ? 1 : 0;
+    review.params.nowIndex = index;
+    review.params.wasIndex = index - delta;
+    review.refresh();
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
   const makeTrafficLightsHtml = () => {
     let html = '';
     let number = 1;
