@@ -184,7 +184,7 @@ $(() => {
       if ($node.html() === '&nbsp;') { return; }
       if ($node.attr('disabled') !== 'disabled') {
         const id = $node.data('diff-id');
-        const selector = `[id="${id}_diff_div"] ${type}`;
+        const selector = `[id="${id}_file_content_div"] ${type}`;
         $(selector).css('display', value);
         if (value === 'none') {
           $node.removeClass('on').addClass('off');
@@ -221,8 +221,8 @@ $(() => {
     $('.diff-line-count').attr('disabled', true);
     $(`.diff-line-count[data-diff-id="${diff.id}"]`).attr('disabled', false);
     // show file content
-    $('.filename_div', review.page).hide();
-    $(`#${diff.id}_diff_div`).show();
+    $('.file_content_div', review.page).hide();
+    $(`#${diff.id}_file_content_div`).show();
 
     scrollToNextDiffChunkOnReclick(diff, diff.filename);
     review.filename = diff.filename;
@@ -259,7 +259,7 @@ $(() => {
     const lineNumbers = makeLineNumbers(diff.lines);
     const fileContent = makeContent(diff.id, diff.lines);
     const $file = $('' +
-      `<div id="${diff.id}_diff_div" class="filename_div">` +
+      `<div id="${diff.id}_file_content_div" class="file_content_div">` +
       '<table>' +
         '<tr class="valign-top">' +
           makeTd('<div class="diff-line-numbers"></div>') +
