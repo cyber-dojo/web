@@ -62,7 +62,7 @@ $(() => {
   const $makeOutputFilenameTr = (diff) => {
     const $td = $('<td>', {
       class: 'diff-filename',
-      'data-filename': diff.filename,
+      'data-diff-id': diff.id,
       id: `radio_${diff.id}`
     }).text(diff.filename);
     return $('<tr>').append($td);

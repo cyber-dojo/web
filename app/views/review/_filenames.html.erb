@@ -119,11 +119,11 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const $makeDiffCount = (diff, cssName) => {
-    const lineCount = diff['line_counts'][cssName];
+    const lineCount = diff.line_counts[cssName];
     const css = lineCount > 0 ? cssName : '';
     const $div = $('<div>', {
-      'class': `diff-line-count ${css}`,
-      'data-filename': diff.filename
+      class: `diff-line-count ${css}`,
+      'data-diff-id': diff.id
     });
     $div.html(lineCount > 0 ? lineCount : '&nbsp;');
     return $div;
@@ -160,7 +160,7 @@ $(() => {
   const $makeDiffFilename = (diff) => {
     return $('<div>', {
       'class': `diff-filename ${diff.type}`,
-      'data-filename': diff.filename,
+      'data-diff-id': diff.id,
       'id': `radio_${diff.id}`,
       'text': cd.htmlEscape(diff.filename)
     });
@@ -178,12 +178,13 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const resetFilenameAddedDeletedLineCountHandlers = () => {
 
-    const display = (node, name, value) => {
+    const display = (node, type, value) => {
+      const $node = $(node);
       // Only [+][-] counts for current filename are live
-      if ($(node).html() === '&nbsp;') { return; }
-      if ($(node).attr('disabled') !== 'disabled') {
-        const filename = $(node).data('filename');
-        const selector = `[id="${filename}_diff_div"] ${name}`;
+      if ($node.html() === '&nbsp;') { return; }
+      if ($node.attr('disabled') !== 'disabled') {
+        const id = $node.data('diff-id');
+        const selector = `[id="${id}_diff_div"] ${type}`;
         $(selector).css('display', value);
         if (value === 'none') {
           $(node).removeClass('on').addClass('off');
@@ -193,7 +194,7 @@ $(() => {
       }
     };
 
-    [ 'deleted', 'added' ].forEach(type => {
+    [ 'deleted', 'added' ].forEach(type => { // not 'same'
       $(`.diff-line-count.${type}`)
         .clickToggle(
           function() { display(this, type, 'none' ); },
@@ -213,15 +214,15 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   review.selectFilename = (diff) => {
     // show filename
-    const $filename = $(`#radio_${diff.id}`, review.page);
     $('.diff-filename', review.page).removeClass('selected');
+    const $filename = $(`#radio_${diff.id}`, review.page);
     $filename.addClass('selected');
     // show diff line-counts
     $('.diff-line-count').attr('disabled', true);
-    $(`.diff-line-count[data-filename="${diff.filename}"]`).attr('disabled', false);
+    $(`.diff-line-count[data-diff-id="${diff.id}"]`).attr('disabled', false);
     // show file content
     $('.filename_div', review.page).hide();
-    $(`[id="${diff.filename}_diff_div"]`).show();
+    $(`[id="${diff.id}_diff_div"]`).show();
 
     scrollToNextDiffChunkOnReclick(diff, diff.filename);
     review.filename = diff.filename;
@@ -258,7 +259,7 @@ $(() => {
     const lineNumbers = makeLineNumbers(diff.lines);
     const fileContent = makeContent(diff.id, diff.lines);
     const $file = $('' +
-      `<div id="${diff.filename}_diff_div" class="filename_div">` +
+      `<div id="${diff.id}_diff_div" class="filename_div">` +
       '<table>' +
         '<tr class="valign-top">' +
           makeTd('<div class="diff-line-numbers"></div>') +
