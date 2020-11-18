@@ -161,7 +161,7 @@ $(() => {
     return $('<div>', {
       'class': `diff-filename ${diff.type}`,
       'data-diff-id': diff.id,
-      'id': `filename_${diff.id}`,
+      'id': `filename-${diff.id}`,
       'text': cd.htmlEscape(diff.filename)
     });
   };
@@ -184,7 +184,7 @@ $(() => {
       if ($node.html() === '&nbsp;') { return; }
       if ($node.attr('disabled') !== 'disabled') {
         const id = $node.data('diff-id');
-        const selector = `[id="${id}_file_content_div"] ${type}`;
+        const selector = `#file-content-${id} ${type}`;
         $(selector).css('display', value);
         if (value === 'none') {
           $node.removeClass('on').addClass('off');
@@ -206,7 +206,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const buildDiffFilenameHandlers = (diffs) => {
     diffs.forEach(diff => {
-      const $filename = $(`#filename_${diff.id}`, review.page);
+      const $filename = $(`#filename-${diff.id}`, review.page);
       $filename.click(() => review.selectFilename(diff));
     });
   };
@@ -215,14 +215,14 @@ $(() => {
   review.selectFilename = (diff) => {
     // show filename
     $('.diff-filename', review.page).removeClass('selected');
-    const $filename = $(`#filename_${diff.id}`, review.page);
+    const $filename = $(`#filename-${diff.id}`, review.page);
     $filename.addClass('selected');
     // show diff line-counts
     $('.diff-line-count').attr('disabled', true);
     $(`.diff-line-count[data-diff-id="${diff.id}"]`).attr('disabled', false);
     // show file content
-    $('.file_content_div', review.page).hide();
-    $(`#${diff.id}_file_content_div`).show();
+    $('.file-content', review.page).hide();
+    $(`#file-content-${diff.id}`).show();
 
     scrollToNextDiffChunkOnReclick(diff, diff.filename);
     review.filename = diff.filename;
@@ -234,8 +234,8 @@ $(() => {
     const isFirstClick = () => !diff.hasBeenClicked;
     const isReClick = () => review.filename === filename;
     if (hasDiffChunks() && (isFirstClick() || isReClick())) {
-      const $diffSheet = $(`#${diff.id}_diff_sheet`);
-      const $section = $(`#${diff.id}_section_${diff.chunkIndex}`);
+      const $diffSheet = $(`#diff-sheet-${diff.id}`);
+      const $section = $(`#section-${diff.id}-${diff.chunkIndex}`);
       const position = { scrollTop: '+=' + ($section.offset().top - 250) + 'px' };
       const halfSecond = 500;
       $diffSheet.animate(position, halfSecond);
@@ -259,11 +259,11 @@ $(() => {
     const lineNumbers = makeLineNumbers(diff.lines);
     const fileContent = makeContent(diff.id, diff.lines);
     const $file = $('' +
-      `<div id="${diff.id}_file_content_div" class="file_content_div">` +
+      `<div id="file-content-${diff.id}" class="file-content">` +
       '<table>' +
         '<tr class="valign-top">' +
           makeTd('<div class="diff-line-numbers"></div>') +
-          makeTd(`<div id="${diff.id}_diff_sheet"` +
+          makeTd(`<div id="diff-sheet-${diff.id}"` +
                  ' class="diff-sheet"></div>') +
         '</tr>' +
       '</table>' +
@@ -295,7 +295,7 @@ $(() => {
     let html = [];
     diff_lines.forEach(diff_line => {
       if (diff_line.type === 'section') {
-        html.push(`<span id='${id}_section_${diff_line.index}'></span>`);
+        html.push(`<span id='section-${id}-${diff_line.index}'></span>`);
       } else {
         let line = cd.htmlEscape(diff_line.line);
         if (line === '') { line = '&nbsp'; }
