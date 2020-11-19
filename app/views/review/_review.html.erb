@@ -25,8 +25,8 @@ $(() => {
              id: "<%= @id %>",
         groupId: "<%= @group_id %>",
     avatarIndex: "<%= @avatar_index %>",
-       wasIndex: "<%= @was_index %>",
-       nowIndex: "<%= @now_index %>"
+       wasIndex: <%= @was_index %>,
+       nowIndex: <%= @now_index %>
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -71,14 +71,14 @@ $(() => {
     review.waitSpinnerGetJSON('/differ/diff', args, (data) => {
       review.params = data;
       review.refreshAvatarNavigator(data);
-      review.refreshTrafficLights(data);          // this first
-      review.refreshTrafficLightsNavigator(data); // this second
       review.refreshDiffCheckBox(data);
       scrollCurrentTrafficLightIntoView();
       cd.setupHoverTips($('[data-tip]'));
     });
+    review.refreshTrafficLights(params);
     review.refreshFiles(params);
     review.refreshOutput(params);
+
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -

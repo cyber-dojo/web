@@ -5,8 +5,15 @@ $(() => {
   const review = cd.review;
 
   review.refreshTrafficLights = (params) => {
+    const args = { id:params.id };
+    review.waitSpinnerGetJSON('/model/kata_events', args, (data) => {
+      refreshTrafficLightsCallback(data.kata_events);
+    });
+  };
+
+  const refreshTrafficLightsCallback = (events) => {
     const trafficLights = $('#review-traffic-lights');
-    trafficLights.html(makeTrafficLightsHtml(params));
+    trafficLights.html(makeTrafficLightsHtml(events));
     let wasIndex = 0;
     $.each($('.diff-traffic-light', trafficLights), (_, light) => {
       const $light = $(light);
@@ -15,6 +22,7 @@ $(() => {
       cd.setupTrafficLightTip2($light, review.params.id, wasIndex, nowIndex, review.params.avatarIndex);
       wasIndex = nowIndex;
     });
+    review.refreshTrafficLightsNavigator(events);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -26,9 +34,9 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const makeTrafficLightsHtml = (params) => {
+  const makeTrafficLightsHtml = (events) => {
     let html = '';
-    params.events.forEach((event,number) => {
+    events.forEach((event,number) => {
       if (isVisible(event)) {
         html += makeTrafficLightHtml(event, number);
       }
@@ -63,7 +71,7 @@ $(() => {
          data-colour="${light.colour}"
          data-index="${light.index}">
          <img src="/images/traffic-light/${light.colour}.png"/>
-        ${makeTrafficLightMarkerHtml(review.params.nowIndex, light)}
+        ${makeTrafficLightMarkerHtml(light)}
       </div>`;
   };
 
@@ -90,8 +98,8 @@ $(() => {
   const isPredict = (light) => light.predicted != undefined && light.predicted != 'none';
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const makeTrafficLightMarkerHtml = (nowIndex, light) => {
-    const currentIndex = (nowIndex === light.index);
+  const makeTrafficLightMarkerHtml = (light) => {
+    const currentIndex = (review.params.nowIndex == light.index);
     if (currentIndex) {
       return `<img id='traffic-light-marker'
                    src='/images/traffic-light/marker_${light.colour}.png'/>`;

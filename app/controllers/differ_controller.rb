@@ -4,7 +4,7 @@ class DifferController < ApplicationController
 
   def diff
     id = params[:id]
-    manifest,events = kata.diff_info
+    manifest,_events = kata.diff_info
 
     m = Manifest.new(manifest)
     avatar_index = m.group_index
@@ -18,15 +18,14 @@ class DifferController < ApplicationController
 
     result = {
                          id: id,
-                   wasIndex: was_index,
-                   nowIndex: now_index,
+                   wasIndex: was_index.to_i,
+                   nowIndex: now_index.to_i,
 
                     groupId: group_id,
                prevAvatarId: prev_avatar_id,
                nextAvatarId: next_avatar_id,
 
-                avatarIndex: avatar_index.to_s, # nil -> ""
-                     events: events.map{ |event| to_json(event) }
+                avatarIndex: avatar_index.to_s # nil -> ""
 
 	  }
     render json:result
@@ -36,6 +35,7 @@ class DifferController < ApplicationController
 
   include PrevNextAvatarIdsHelper
 
+=begin
   def to_json(light)
     {
       'index'     => light.index,
@@ -45,5 +45,6 @@ class DifferController < ApplicationController
       'revert'    => light.revert
     }
   end
+=end
 
 end
