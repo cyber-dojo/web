@@ -21,12 +21,13 @@ class DifferController < ApplicationController
                    wasIndex: was_index,
                    nowIndex: now_index,
 
-                     events: events.map{ |event| to_json(event) },
-
                     groupId: group_id,
-                avatarIndex: avatar_index.to_s, # nil -> ""
                prevAvatarId: prev_avatar_id,
-               nextAvatarId: next_avatar_id
+               nextAvatarId: next_avatar_id,
+
+                avatarIndex: avatar_index.to_s, # nil -> ""
+                     events: events.map{ |event| to_json(event) }
+
 	  }
     render json:result
   end

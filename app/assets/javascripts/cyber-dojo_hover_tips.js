@@ -15,27 +15,30 @@ var cyberDojo = (function(cd, $) {
   // - - - - - - - - - - - - - - - - - - - -
 
   cd.setupTrafficLightTip = ($light, kataId, wasIndex, nowIndex) => {
+    cd.setupTrafficLightTip2($light, kataId, wasIndex, nowIndex, $light.data('avatar-index'));
+  };
+
+  cd.setupTrafficLightTip2 = ($light, kataId, wasIndex, nowIndex, avatarIndex) => {
     cd.setTip($light, () => {
       const args = { id:kataId, was_index:wasIndex, now_index:nowIndex };
       $.getJSON('/differ/diff_summary', args, (data) => {
-        cd.showHoverTip($light, $trafficLightTip($light, data.diff_summary));
+        cd.showHoverTip($light, $trafficLightTip($light, avatarIndex, data.diff_summary));
       });
     });
   };
 
   // - - - - - - - - - - - - - - - - - - - -
 
-  const $trafficLightTip = ($light, diff) => {
+  const $trafficLightTip = ($light, avatarIndex, diff) => {
     const $holder = $(document.createDocumentFragment());
-    $holder.append($trafficLightSummary($light));
+    $holder.append($trafficLightSummary($light, avatarIndex));
     $holder.append($diffLinesTable(diff));
     return $holder;
   };
 
   // - - - - - - - - - - - - - - - - - - - -
 
-  const $trafficLightSummary = ($light) => {
-    const avatarIndex = $light.data('avatar-index');
+  const $trafficLightSummary = ($light, avatarIndex) => {
     const colour = $light.data('colour');
     const number = $light.data('number');
     const $tr = $('<tr>');

@@ -12,7 +12,7 @@ $(() => {
       const $light = $(light);
       const nowIndex = $light.data('index');
       $light.click(() => review.moveToTrafficLight(nowIndex));
-      cd.setupTrafficLightTip($light, params.id, wasIndex, nowIndex);
+      cd.setupTrafficLightTip2($light, review.params.id, wasIndex, nowIndex, review.params.avatarIndex);
       wasIndex = nowIndex;
     });
   };
@@ -30,7 +30,7 @@ $(() => {
     let html = '';
     params.events.forEach((event,number) => {
       if (isVisible(event)) {
-        html += makeTrafficLightHtml(params, event, number);
+        html += makeTrafficLightHtml(event, number);
       }
     });
     return html;
@@ -53,19 +53,17 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const makeTrafficLightHtml = (params, light, number) => {
-    const colour = light.colour;
+  const makeTrafficLightHtml = (light, number) => {
     return '' +
       `${makeRevertCircle(light)}
        ${makePredictCircle(light)}
        <div class="diff-traffic-light"
-         data-id="${params.id}"
-         data-avatar-index="${params.avatarIndex}"
+         data-id="${review.params.id}"
          data-number="${number}"
-         data-colour="${colour}"
+         data-colour="${light.colour}"
          data-index="${light.index}">
-         <img src="/images/traffic-light/${colour}.png"/>
-        ${makeTrafficLightMarkerHtml(params.nowIndex, light)}
+         <img src="/images/traffic-light/${light.colour}.png"/>
+        ${makeTrafficLightMarkerHtml(review.params.nowIndex, light)}
       </div>`;
   };
 
