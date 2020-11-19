@@ -71,7 +71,7 @@ $(() => {
     setupAutoRevertCheckBox($node);
     const originator = cd.testButton;
     const xPos = originator.offset().left;
-    const yPos = originator.offset().top + 37;
+    const yPos = originator.offset().top + 40;
     $node.dialog({
               width: 300,
            position: [xPos,yPos],
@@ -89,8 +89,6 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  // Predict Buttons
-
   const predictButtons = () => {
     let html = '';
     html += '<table>';
@@ -141,8 +139,6 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  // Auto Revert
-
   const autoRevertCheckbox = () =>
     `<div class="info">
       <input type="checkbox" id="auto-revert-checkbox"/>

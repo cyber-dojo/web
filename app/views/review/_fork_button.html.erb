@@ -5,10 +5,9 @@ $(() => {
   const review = cd.review;
 
   review.setupButton('fork', () => openForkDialog(review.params.id, review.params.nowIndex));
-
-  const $button = $('#fork-button');
-  const tip = `create a new<br/>exercise from this<br/>traffic-light's files`;
-  cd.createTip($button, tip);
+  const $forkButton = $('#fork-button');
+  const forkTip = `create a new<br/>exercise from this<br/>traffic-light's files`;
+  cd.createTip($forkButton, forkTip);
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const openForkDialog = (kataId, index) => {
@@ -17,11 +16,14 @@ $(() => {
       $makeButton(kataId, index, 'individual'),
       $makeButton(kataId, index, 'group')
     );
+    const xPos = $forkButton.offset().left;
+    const yPos = $forkButton.offset().top + 30;
     $('<div id="fork-dialog">').append($div).dialog({
-      title: cd.dialogTitle('fork'),
-      autoOpen: true,
-      modal: true,
-      width: 300,
+              title: cd.dialogTitle('fork'),
+              modal: true,
+              width: 300,
+           autoOpen: true,
+           position: [xPos,yPos],
       closeOnEscape: true,
     });
   };
