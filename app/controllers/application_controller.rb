@@ -56,7 +56,7 @@ class ApplicationController < ActionController::Base
   # - - - - - - - - - - - - - - - - - - - - - - - -
 
   def value_of(sym)
-    value = params[sym].to_i
+    value = (params[sym] || -1).to_i
     if value === -1
       value = kata.events[-1].index
     end

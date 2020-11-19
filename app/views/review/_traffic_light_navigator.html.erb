@@ -42,11 +42,10 @@ $(() => {
   const $makeIndex = (events) => {
     const index = review.params.nowIndex;
     const colour = events[index].colour;
-    const number = $(`.diff-traffic-light[data-index=${index}]`).data('number');
     return $('<div>', {
       id:'index-number',
       class:colour
-    }).html(number);
+    }).html(index);
   };
 
 });

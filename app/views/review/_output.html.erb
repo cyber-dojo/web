@@ -33,8 +33,10 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const makeNoDiffOutput = (name, content) => {
+    // Real file diffs have a numeric diff.id so using
+    // id = stdout|stderr|status will never clash.
     return {
-            id: name, // real file diffs have a numeric diff.id
+            id: name,
           type: 'unchanged',
       filename: name,
          lines: makeSameLines(content)
