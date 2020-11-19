@@ -43,18 +43,6 @@ class Kata_v0
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def diff_info(id)
-    results = saver.assert_all([
-      manifest_file_read_command(id),
-      events_file_read_command(id)
-    ])
-    manifest = json_parse(results[0])
-    events = json_parse('[' + results[1].lines.join(',') + ']')
-    [ manifest, events ]
-  end
-
-  # - - - - - - - - - - - - - - - - - - -
-
   def events(id)
     json_parse(events_json(id))
     # Alternative implementation, which profiling shows is slower.

@@ -97,17 +97,6 @@ class Kata
 
   # - - - - - - - - - - - - - - - - -
 
-  def diff_info
-    m,e = kata.diff_info(id)
-    events = e.map.with_index do |h,index|
-      h['index'] ||= index
-      Event.new(self, h)
-    end
-    [ m, events ]
-  end
-
-  # - - - - - - - - - - - - - - - - -
-
   def theme=(value)
     # value == 'dark'|'light'
     filename = kata_id_path(id, 'theme')

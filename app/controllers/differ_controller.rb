@@ -4,10 +4,9 @@ class DifferController < ApplicationController
 
   def diff
     id = params[:id]
-    manifest,_events = kata.diff_info
+    manifest = kata.manifest
 
-    m = Manifest.new(manifest)
-    avatar_index = m.group_index
+    avatar_index = manifest.group_index
     group_id = params[:group_id]
     if group_id != ''
       group_events = groups[group_id].events
@@ -26,7 +25,6 @@ class DifferController < ApplicationController
                nextAvatarId: next_avatar_id,
 
                 avatarIndex: avatar_index.to_s # nil -> ""
-
 	  }
     render json:result
   end

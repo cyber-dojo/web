@@ -12,6 +12,8 @@ class KataController < ApplicationController
     else
       @title = "#{@group_id}"
     end
+    @was_index = -1
+    @now_index = -1
     # what
     manifest = kata.manifest
     @display_name = manifest.display_name
