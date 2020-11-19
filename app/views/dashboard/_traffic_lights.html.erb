@@ -8,20 +8,19 @@ $(() => {
     let index = 0; // each avatar-row must reset traffic-light index to zero
     $.each($('.diff-traffic-light', $(row)), (_,light) => {
       const $light = $(light);
-      const id = $light.data('id');
+      const kataId = $light.data('id');
       const wasIndex = index;
       const nowIndex = $light.data('index');
-      $light.click(() => window.open(cd.showReviewUrl(id, wasIndex, nowIndex)));
-      cd.setupTrafficLightTip($light, id, wasIndex, nowIndex);
+      $light.click(() => window.open(cd.showReviewUrl(kataId, wasIndex, nowIndex)));
+      cd.setupTrafficLightTip($light, kataId, wasIndex, nowIndex);
       index = nowIndex;
     });
   });
 
   $('.kata-row .avatar-image').click(element => {
     const e = $(element.currentTarget);
-    const id = e.data('id');
-    const index = e.data('index');
-    window.open(cd.showReviewUrl(id, index, index));
+    const kataId = e.data('id');
+    window.open(cd.showReviewUrl(kataId, -1, -1));
   });
 
   cd.pieChart($('#traffic-lights .pie'));
@@ -69,7 +68,7 @@ $(() => {
 
       <th>
         <div class="fixed-column">
-          <%= raw diff_avatar_image(kata_id, avatar_index, lights.last.index) %>
+          <%= raw diff_avatar_image(kata_id, avatar_index) %>
           <%= raw pie_chart(kata_id, lights) %>
           <%= raw traffic_light_count(lights) %>
         </div>

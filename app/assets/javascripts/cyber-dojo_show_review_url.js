@@ -2,11 +2,10 @@
 'use strict';
 var cyberDojo = ((cd, $) => {
 
-  cd.showReviewUrl = (id, wasIndex, nowIndex, filename) => {
-    return `/review/show/${id}` +
+  cd.showReviewUrl = (kataId, wasIndex, nowIndex) => {
+    return `/review/show/${kataId}` +
       `?was_index=${wasIndex}` +
-      `&now_index=${nowIndex}` +
-      `&filename=${filename}`;
+      `&now_index=${nowIndex}`;
   };
 
   return cd;
