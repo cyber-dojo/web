@@ -23,6 +23,7 @@ $(() => {
       wasIndex = nowIndex;
     });
     review.refreshTrafficLightsNavigator(events);
+    scrollCurrentTrafficLightIntoView();
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -106,6 +107,20 @@ $(() => {
     } else {
       return '';
     }
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  const scrollCurrentTrafficLightIntoView = () => {
+    // refreshTrafficLights() has updated the dom with a $('#traffic-light-marker')
+    // I cannot find a nice way to access it once the dom is ready. So this :-(
+    const quarterSecond = 250;
+    const scroller = () => {
+      $('#traffic-light-marker').scrollIntoView({
+        direction:'horizontal',
+        duration:'slow'
+      });
+    };
+    setTimeout(scroller, quarterSecond);
   };
 
 });
