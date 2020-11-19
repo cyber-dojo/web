@@ -3,7 +3,6 @@ require_relative '../helpers/prev_next_avatar_ids_helper'
 class DifferController < ApplicationController
 
   def diff
-    version = params[:version].to_i
     id = params[:id]
     manifest,events = kata.diff_info
 
@@ -18,8 +17,6 @@ class DifferController < ApplicationController
     end
 
     result = {
-                    version: version,
-
                          id: id,
                    wasIndex: was_index,
                    nowIndex: now_index,

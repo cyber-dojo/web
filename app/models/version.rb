@@ -1,15 +1,13 @@
 # frozen_string_literal: true
-require_relative 'id_pather'
-require_relative '../../lib/oj_adapter'
 
 module Version
 
   def group_version
-    version(:group_id_path)
+    version(:group)
   end
 
   def kata_version
-    version(:kata_id_path)
+    version(:kata)
   end
 
   def manifest_version(manifest)
@@ -21,19 +19,16 @@ module Version
 
   private
 
-  def version(pather)
+  def version(who)
     @version ||= begin
       if @params.has_key?(:version)
         @params[:version].to_i
-      else
-        path = method(pather).call(id, 'manifest.json')
-        manifest_src = saver.assert(saver.file_read_command(path))
-        manifest_version(json_parse(manifest_src))
+      elsif who === :group
+        manifest_version(model.group_manifest(id))
+      elsif who === :kata
+        manifest_version(model.kata_manifest(id))
       end
     end
   end
-
-  include IdPather
-  include OjAdapter
 
 end

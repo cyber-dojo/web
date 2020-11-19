@@ -209,4 +209,8 @@ class Kata
     @externals.saver
   end
 
+  def model
+    @externals.model
+  end
+
 end

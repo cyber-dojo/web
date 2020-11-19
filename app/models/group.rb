@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require_relative 'id_pather'
 require_relative 'manifest'
 require_relative 'schema'
 require_relative 'version'
@@ -68,6 +69,7 @@ class Group
 
   private
 
+  include IdPather
   include Version
 
   AVATAR_INDEXES = (0..63).to_a
@@ -94,6 +96,10 @@ class Group
 
   def saver
     @externals.saver
+  end
+
+  def model
+    @externals.model
   end
 
 end

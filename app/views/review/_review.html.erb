@@ -22,7 +22,6 @@ $(() => {
   review.inTestPage = $kataPage.length !== 0;
 
   review.params = {
-        version: "<%= @version %>",
              id: "<%= @id %>",
         groupId: "<%= @group_id %>",
     avatarIndex: "<%= @avatar_index %>",
@@ -31,10 +30,9 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  cd.review.fromTestPage = (version, id, groupId, avatarIndex, wasIndex, nowIndex) => {
+  cd.review.fromTestPage = (id, groupId, avatarIndex, wasIndex, nowIndex) => {
     // Called only from app/views/kata/_traffic_lights.html.erb
     review.params = {
-          version:version,
                id:id,
           groupId:groupId,
       avatarIndex:avatarIndex,
@@ -65,7 +63,6 @@ $(() => {
   review.refresh = () => {
     const params = review.params;
     const args = {
-           version: params.version,
                 id: params.id,
           group_id: params.groupId,
          was_index: params.wasIndex,

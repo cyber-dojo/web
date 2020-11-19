@@ -9,7 +9,9 @@ class ReviewControllerTest < AppControllerTestBase
   #- - - - - - - - - - - - - - - -
 
   test '440', %w(
-  was_index!=now_index,makes 2 saver-service calls ) do
+  was_index!=now_index,makes 1 saver-service calls
+  and once migration to model is complete it will be zero
+  ) do
     [0,1].each do |version|
       in_kata(version:version) do |kata|
         post_run_tests # 1
@@ -17,14 +19,16 @@ class ReviewControllerTest < AppControllerTestBase
         assert_review_show(kata.id, 0, 1)
         count_after = saver.log.size
         diagnostic = [version,count_before,count_after]
-        assert_equal 2, (count_after-count_before), diagnostic
+        assert_equal 1, (count_after-count_before), diagnostic
         assert_equal version, kata.schema.version
       end
     end
   end
 
   test '441', %w(
-  (was_index,now_index)=(-1,-1),makes 3 saver-service calls ) do
+  (was_index,now_index)=(-1,-1),makes 2 saver-service calls
+  and once migration to model is complete it will be zero  
+  ) do
     [0,1].each do |version|
       in_kata(version:version) do |kata|
         post_run_tests # 1
@@ -32,7 +36,7 @@ class ReviewControllerTest < AppControllerTestBase
         assert_review_show(kata.id, -1, -1)
         count_after = saver.log.size
         diagnostic = [version,count_before,count_after]
-        assert_equal 3, (count_after-count_before), diagnostic
+        assert_equal 2, (count_after-count_before), diagnostic
         assert_equal version, kata.schema.version
       end
     end
