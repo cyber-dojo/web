@@ -9,23 +9,11 @@ $(() => {
   review.refreshTrafficLights = (params) => {
     const args = { id:params.id };
     review.waitSpinnerGetJSON('/model/kata_events', args, (data) => {
-      refreshTrafficLightsCallback(data.kata_events);
+      $trafficLights.empty();
+      appendTrafficLights(data.kata_events);
+      review.refreshTrafficLightsNavigator(data.kata_events);
+      scrollCurrentTrafficLightIntoView();
     });
-  };
-
-  const refreshTrafficLightsCallback = (events) => {
-    $trafficLights.empty();
-    appendTrafficLights(events);
-    let wasIndex = 0;
-    $.each($('.diff-traffic-light', $trafficLights), (_, light) => {
-      const $light = $(light);
-      const nowIndex = $light.data('index');
-      $light.click(() => review.moveToTrafficLight(nowIndex));
-      cd.setupTrafficLightTip2($light, review.params.id, wasIndex, nowIndex, review.params.avatarIndex);
-      wasIndex = nowIndex;
-    });
-    review.refreshTrafficLightsNavigator(events);
-    scrollCurrentTrafficLightIntoView();
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -38,6 +26,7 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const appendTrafficLights = (events) => {
+    let wasIndex = 0;
     events.forEach((event,number) => {
       if (isVisible(event)) {
         if (wasPredicted(event)) {
@@ -46,7 +35,7 @@ $(() => {
         if (wasReverted(event)) {
           appendRevertedMarker(event);
         }
-        appendTrafficLight(event, number);
+        wasIndex = appendTrafficLight(event, wasIndex, number);
       }
     });
   };
@@ -91,18 +80,19 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const appendTrafficLight = (light, number) => {
-    const $light = $('<div>', {
-         id: review.params.id,
-      class: 'diff-traffic-light',
-      'data-number': number,
-      'data-colour': light.colour,
-      'data-index': light.index
-    });
+  const appendTrafficLight = (light, wasIndex, number) => {
+    const $light = $('<div>', { class: 'diff-traffic-light' });
     const $img = $('<img>', { src: `/images/traffic-light/${light.colour}.png` });
+    $img.click(() => review.moveToTrafficLight(light.index));
+    cd.setupTrafficLightTip2(
+      $img, // on this
+      light.colour, number, review.params.avatarIndex, // UX appearance
+      review.params.id, wasIndex, light.index // diff params
+    );
     $light.append($img);
     $light.append(makeTrafficLightMarkerHtml(light));
     $trafficLights.append($light);
+    return light.index;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
