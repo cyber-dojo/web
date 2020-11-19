@@ -4,11 +4,56 @@ $(() => {
 
   const review = cd.review;
 
-  review.setupButton('fork', () => cd.forkDialog(review.params.id, review.params.nowIndex));
+  review.setupButton('fork', () => openForkDialog(review.params.id, review.params.nowIndex));
 
   const $button = $('#fork-button');
   const tip = `create a new<br/>exercise from this<br/>traffic-light's files`;
   cd.createTip($button, tip);
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  const openForkDialog = (kataId, index) => {
+    const $div = $('<div>', { class:'info' }).append(
+      $("<div>create a new exercise<br/>from this traffic-light's files</div>"),
+      $makeButton(kataId, index, 'individual'),
+      $makeButton(kataId, index, 'group')
+    );
+    $('<div id="fork-dialog">').append($div).dialog({
+      title: cd.dialogTitle('fork'),
+      autoOpen: true,
+      modal: true,
+      width: 300,
+      closeOnEscape: true,
+    });
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  const $makeButton = (kataId, index, type) => {
+    return $('<button>', {
+         id: type,
+       type: 'button',
+       text: `${type} exercise`
+    }).click(() => {
+      fork(kataId, index, type);
+      $('#fork-dialog').remove();
+    });
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  const fork = (kataId, index, type) => {
+    $.ajax({
+            type: 'POST',
+             url: `/forker/fork_${type}?id=${kataId}&index=${index}`,
+        dataType: 'json', // format we want response in
+           async: false,
+         success: (response) => {
+           if (response.forked) {
+             window.open(`/creator/enter?id=${response.id}`);
+           } else {
+             cd.dialogError(response.message);
+           }
+        }
+    });
+  };
 
 });
 //--></script>
