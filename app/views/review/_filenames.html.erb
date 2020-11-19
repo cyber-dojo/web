@@ -4,8 +4,7 @@ $(() => {
 
   const review = cd.review;
 
-  review.refreshFiles = () => {
-    const params = review.params;
+  review.refreshFiles = (params) => {
     const args = { id:params.id, was_index:params.wasIndex, now_index:params.nowIndex };
     review.waitSpinnerGetJSON('/differ/diff_lines', args, (data) => {
       refreshFilesCallback(data.diff_lines);

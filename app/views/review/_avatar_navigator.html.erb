@@ -4,21 +4,30 @@ $(() => {
 
   const review = cd.review;
 
-  review.refreshAvatarNavigator = () => {
-    if (review.params.avatarIndex != '') {
+  review.refreshAvatarNavigator = (params) => {
+    if (params.avatarIndex != '') {
       $('#avatar-navigator').show();
-      const $box = $('#review-avatar-image-box').html($makeAvatarImage());
-      refreshAvatar($('#prev-avatar'), review.params.prevAvatarId);
-      cd.setupAvatarNameHoverTip($box, '', review.params.avatarIndex, '');
-      refreshAvatar($('#next-avatar'), review.params.nextAvatarId);
+      const $box = $('#review-avatar-image-box').html($makeAvatarImage(params.avatarIndex));
+      refreshAvatar($('#prev-avatar'), params.prevAvatarId);
+      cd.setupAvatarNameHoverTip($box, '', params.avatarIndex, '');
+      refreshAvatar($('#next-avatar'), params.nextAvatarId);
     }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const $makeAvatarImage = () => {
+  const moveToAvatar = (id) => {
+    review.params.id = id;
+    const index = review.inDiffMode() ? FirstIndex : LastIndex;
+    review.moveToTrafficLight(index);
+  };
+  const FirstIndex = 1;
+  const LastIndex = -1;
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  const $makeAvatarImage = (avatarIndex) => {
     return $('<img>', {
       class:'avatar-image',
-        src:`/images/avatars/${review.params.avatarIndex}.jpg`
+        src:`/images/avatars/${avatarIndex}.jpg`
     });
   };
 
@@ -28,15 +37,6 @@ $(() => {
       .attr('disabled', id === '')
       .unbind('click')
       .bind('click', () => moveToAvatar(id));
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  const moveToAvatar = (id) => {
-    review.params.id = id;
-    const first = 1;
-    const last = -1;
-    const index = review.inDiffMode() ? first : last;
-    review.moveToTrafficLight(index);
   };
 
 });

@@ -4,15 +4,15 @@ $(() => {
 
   const review = cd.review;
 
-  review.refreshTrafficLights = () => {
+  review.refreshTrafficLights = (params) => {
     const trafficLights = $('#review-traffic-lights');
-    trafficLights.html(makeTrafficLightsHtml());
+    trafficLights.html(makeTrafficLightsHtml(params));
     let wasIndex = 0;
     $.each($('.diff-traffic-light', trafficLights), (_, light) => {
       const $light = $(light);
       const nowIndex = $light.data('index');
       $light.click(() => review.moveToTrafficLight(nowIndex));
-      cd.setupTrafficLightTip($light, review.params.id, wasIndex, nowIndex);
+      cd.setupTrafficLightTip($light, params.id, wasIndex, nowIndex);
       wasIndex = nowIndex;
     });
   };
@@ -26,13 +26,11 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const makeTrafficLightsHtml = () => {
+  const makeTrafficLightsHtml = (params) => {
     let html = '';
-    let number = 1;
-    review.params.events.forEach(event => {
+    params.events.forEach((event,number) => {
       if (isVisible(event)) {
-        html += makeTrafficLightHtml(event, number);
-        number += 1;
+        html += makeTrafficLightHtml(params, event, number);
       }
     });
     return html;
@@ -55,19 +53,19 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const makeTrafficLightHtml = (light, number) => {
+  const makeTrafficLightHtml = (params, light, number) => {
     const colour = light.colour;
     return '' +
       `${makeRevertCircle(light)}
        ${makePredictCircle(light)}
        <div class="diff-traffic-light"
-         data-id="${review.params.id}"
-         data-avatar-index="${review.params.avatarIndex}"
+         data-id="${params.id}"
+         data-avatar-index="${params.avatarIndex}"
          data-number="${number}"
          data-colour="${colour}"
          data-index="${light.index}">
          <img src="/images/traffic-light/${colour}.png"/>
-        ${makeTrafficLightMarkerHtml(light)}
+        ${makeTrafficLightMarkerHtml(params.nowIndex, light)}
       </div>`;
   };
 
@@ -94,8 +92,8 @@ $(() => {
   const isPredict = (light) => light.predicted != undefined && light.predicted != 'none';
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const makeTrafficLightMarkerHtml = (light) => {
-    const currentIndex = (review.params.nowIndex === light.index);
+  const makeTrafficLightMarkerHtml = (nowIndex, light) => {
+    const currentIndex = (nowIndex === light.index);
     if (currentIndex) {
       return `<img id='traffic-light-marker'
                    src='/images/traffic-light/marker_${light.colour}.png'/>`;

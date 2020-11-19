@@ -4,8 +4,7 @@ $(() => {
 
   const review = cd.review;
 
-  review.refreshOutput = () => {
-    const params = review.params;
+  review.refreshOutput = (params) => {
     const args = { id:params.id, index:params.nowIndex };
     review.waitSpinnerGetJSON('/model/kata_event', args, (data) => {
       refreshOutputCallback(data.kata_event);

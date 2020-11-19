@@ -4,12 +4,12 @@ $(() => {
 
   const review = cd.review;
 
-  review.refreshTrafficLightsNavigator = () => {
-    refreshIndex($('#first-index'),prevEventIndex(1));
-    refreshIndex($('#prev-index'), prevEventIndex(review.params.nowIndex-1));
-    $('#review-index-box').html($makeIndex());
-    refreshIndex($('#next-index'), nextEventIndex(review.params.nowIndex+1));
-    refreshIndex($('#last-index'), nextEventIndex(review.params.events.length-1));
+  review.refreshTrafficLightsNavigator = (params) => {
+    refreshIndex($('#first-index'),prevEventIndex(params, 1));
+    refreshIndex($('#prev-index'), prevEventIndex(params, params.nowIndex-1));
+    $('#review-index-box').html($makeIndex(params));
+    refreshIndex($('#next-index'), nextEventIndex(params, params.nowIndex+1));
+    refreshIndex($('#last-index'), nextEventIndex(params, params.events.length-1));
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -21,8 +21,8 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const prevEventIndex = (n) => {
-    if (review.params.nowIndex === 1) { // 0 is creation event
+  const prevEventIndex = (params, n) => {
+    if (params.nowIndex === 1) { // 0 is creation event
       return null; // Disable
     } else {
       return n;
@@ -30,8 +30,8 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const nextEventIndex = (n) => {
-    if (review.params.nowIndex === review.params.events.length-1) {
+  const nextEventIndex = (params, n) => {
+    if (params.nowIndex === params.events.length-1) {
       return null; // Disable
     } else {
       return n;
@@ -39,9 +39,9 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const $makeIndex = () => {
-    const index = review.params.nowIndex;
-    const colour = review.params.events[index].colour;
+  const $makeIndex = (params) => {
+    const index = params.nowIndex;
+    const colour = params.events[index].colour;
     const number = $(`.diff-traffic-light[data-index=${index}]`).data('number');
     return $('<div>', {
       id:'index-number',

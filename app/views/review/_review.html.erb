@@ -73,15 +73,15 @@ $(() => {
     };
     review.waitSpinnerGetJSON('/differ/diff', args, (data) => {
       review.params = data;
-      review.refreshAvatarNavigator();
-      review.refreshTrafficLights();          // this first
-      review.refreshTrafficLightsNavigator(); // this second
-      review.refreshDiffCheckBox();
+      review.refreshAvatarNavigator(data);
+      review.refreshTrafficLights(data);          // this first
+      review.refreshTrafficLightsNavigator(data); // this second
+      review.refreshDiffCheckBox(data);
       scrollCurrentTrafficLightIntoView();
       cd.setupHoverTips($('[data-tip]'));
     });
-    review.refreshFiles();
-    review.refreshOutput();
+    review.refreshFiles(params);
+    review.refreshOutput(params);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
