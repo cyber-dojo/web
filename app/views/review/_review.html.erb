@@ -4,17 +4,6 @@ $(() => {
 
   const review = cd.review;
 
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // After refresh() has been called review.params also contains...
-  // .events
-  //   holds the traffic-lights and is used to program
-  //   the traffic-light [<][<][>][>] navigator buttons.
-  // .prevAvatarId
-  // .nextAvatarId
-  //   hold the kata-ids and used is used to program
-  //   the avatar [<][>] navigator buttons.
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   const $kataPage = $('#kata-page');
 
   review.page = $('#review-page');
@@ -31,7 +20,6 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   cd.review.fromTestPage = (id, groupId, avatarIndex, wasIndex, nowIndex) => {
-    // Called only from app/views/kata/_traffic_lights.html.erb
     review.params = {
                id:id,
           groupId:groupId,
