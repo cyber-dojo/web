@@ -92,6 +92,17 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
+  review.getJSON = (serviceName, path, args, responder) => {
+    cd.waitSpinner.fadeIn('fast', () => {
+      $.getJSON(`/${serviceName}/${path}`, args, (json) => {
+        cd.waitSpinner.fadeOut('fast', () => {
+          responder(json[path]);
+        });
+      });
+    });
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
   review.setupButton = (name, handler) => {
     const button = `<button id="${name}-button" type="button"></button>`;
     $(`#${name}-button-box`).html(button);

@@ -6,13 +6,13 @@ $(() => {
 
   review.refreshFiles = (params) => {
     const args = { id:params.id, was_index:params.wasIndex, now_index:params.nowIndex };
-    review.waitSpinnerGetJSON('/differ/diff_lines', args, (data) => {
-      refreshFilesCallback(data.diff_lines);
+    review.getJSON('differ', 'diff_lines', args, (diff_lines) => {
+      refreshFilesResponder(diff_lines);
     });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const refreshFilesCallback = (diffs) => {
+  const refreshFilesResponder = (diffs) => {
     augmentDiffs(diffs);
     const $diffContent = $('#diff-content');
     $diffContent.html(makeDiffContent(diffs));

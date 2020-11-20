@@ -8,12 +8,17 @@ $(() => {
 
   review.refreshTrafficLights = (params) => {
     const args = { id:params.id };
-    review.waitSpinnerGetJSON('/model/kata_events', args, (data) => {
-      $trafficLights.empty();
-      appendTrafficLights(data.kata_events);
-      review.refreshTrafficLightsNavigator(data.kata_events);
-      scrollCurrentTrafficLightIntoView();
+    review.getJSON('model', 'kata_events', args, (kata_events) => {
+      refreshTrafficLightsResponder(kata_events);
     });
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  const refreshTrafficLightsResponder = (kata_events) => {
+    $trafficLights.empty();
+    appendTrafficLights(kata_events);
+    review.refreshTrafficLightsNavigator(kata_events);
+    scrollCurrentTrafficLightIntoView();
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -

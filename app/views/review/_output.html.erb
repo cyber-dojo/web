@@ -6,13 +6,13 @@ $(() => {
 
   review.refreshOutput = (params) => {
     const args = { id:params.id, index:params.nowIndex };
-    review.waitSpinnerGetJSON('/model/kata_event', args, (data) => {
-      refreshOutputCallback(data.kata_event);
+    review.getJSON('model', 'kata_event', args, (kata_event) => {
+      refreshOutputResponder(kata_event);
     });
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const refreshOutputCallback = (event) => {
+  const refreshOutputResponder = (event) => {
     const stdout = makeNoDiffOutput('stdout', event.stdout.content);
     const stderr = makeNoDiffOutput('stderr', event.stderr.content);
     const status = makeNoDiffOutput('status', event.status);
