@@ -52,10 +52,10 @@ $(() => {
     const $tr = $('<tr>');
     if (review.inDiffMode()) {
       $tr.append(
-        $makeTd($makeDiffLineCountIcon('deleted', '&mdash;')),
-        $makeTd($makeDiffLineCountIcon('added', '+')),
-        $makeTd($makeDiffLineCountIcon('same', '=')),
-        $makeTd($makeDiffHelpIcon()) // Aligns withs glyph-id
+        $makeDiffLineCountIconTd('deleted', '&mdash;'),
+        $makeDiffLineCountIconTd('added', '+'),
+        $makeDiffLineCountIconTd('same', '='),
+        $makeDiffHelpIconTd() // Aligns withs glyph-id
       )
     }
     $tr.append($makeTd('')); // Aligns with filename-td
@@ -69,10 +69,10 @@ $(() => {
     const $tr = $('<tr>');
     if (review.inDiffMode()) {
       $tr.append(
-        $makeTd($makeDiffCount(diff, 'deleted')),
-        $makeTd($makeDiffCount(diff, 'added')),
-        $makeTd($makeDiffCount(diff, 'same')),
-        $makeTd($makeDiffType(diff))
+        $makeDiffCountTd(diff, 'deleted'),
+        $makeDiffCountTd(diff, 'added'),
+        $makeDiffCountTd(diff, 'same'),
+        $makeDiffTypeTd(diff)
       );
     }
     $tr.append($makeTd(review.makeDiffFilename(diff)));
@@ -80,14 +80,15 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const $makeDiffLineCountIcon = (cssName, icon) => {
-    return $('<div>', {
+  const $makeDiffLineCountIconTd = (cssName, icon) => {
+    const $icon = $('<div>', {
       class:`diff-line-count-icon ${cssName}`
     }).html(icon);
+    return $('<td>').append($icon);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const $makeDiffHelpIcon = () => {
+  const $makeDiffHelpIconTd = () => {
     let tip = '';
     tip += '<span class="diff-line-count-icon deleted">-</span> ';
     tip += '<span class="diff-line-count-icon added">+</span> ';
@@ -109,7 +110,7 @@ $(() => {
     });
     $div.text('?');
     cd.setupHoverTips($div);
-    return $div;
+    return $('<td>').append($div);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -120,7 +121,7 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const $makeDiffCount = (diff, cssName) => {
+  const $makeDiffCountTd = (diff, cssName) => {
     const lineCount = diff.line_counts[cssName];
     const css = lineCount > 0 ? cssName : '';
     const $div = $('<div>', {
@@ -128,11 +129,11 @@ $(() => {
       'data-diff-id': diff.id
     });
     $div.html(lineCount > 0 ? lineCount : '&nbsp;');
-    return $div;
+    return $('<td>').append($div);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const $makeDiffType = (diff) => {
+  const $makeDiffTypeTd = (diff) => {
     if (diff === '&nbsp;') { return diff; }
     const $div = $('<div>', { class:`diff-type-marker ${diff.type}` });
     let hoverTip = '';
@@ -147,7 +148,7 @@ $(() => {
       $div.attr('data-tip', hoverTip);
       cd.setupHoverTips($div);
     }
-    return $div;
+    return $('<td>').append($div);
   };
 
   const oldFilenameTip = (diff) => {
