@@ -62,8 +62,6 @@ $(() => {
     return $tr;
   };
 
-  const $makeTd = ($node) => $('<td>').html($node);
-
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const $makeDiffTr = (diff) => {
     const $tr = $('<tr>');
@@ -315,6 +313,7 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const makeTd = (html) => `<td>${html}</td>`;
+  const $makeTd = ($node) => $('<td>').html($node);
 
 });
 //--></script>
