@@ -51,10 +51,12 @@ $(() => {
   const $makeIconHeadings = () => {
     const $tr = $('<tr>');
     if (review.inDiffMode()) {
-      $tr.append($makeTd($makeDiffLineCountIcon('deleted', '&mdash;')));
-      $tr.append($makeTd($makeDiffLineCountIcon('added', '+')));
-      $tr.append($makeTd($makeDiffLineCountIcon('same', '=')));
-      $tr.append($makeTd($makeDiffHelpIcon())); // Aligns withs glyph-id
+      $tr.append(
+        $makeTd($makeDiffLineCountIcon('deleted', '&mdash;')),
+        $makeTd($makeDiffLineCountIcon('added', '+')),
+        $makeTd($makeDiffLineCountIcon('same', '=')),
+        $makeTd($makeDiffHelpIcon()) // Aligns withs glyph-id
+      )
     }
     $tr.append($makeTd('')); // Aligns with filename-td
     return $tr;
@@ -66,10 +68,12 @@ $(() => {
   const $makeDiffTr = (diff) => {
     const $tr = $('<tr>');
     if (review.inDiffMode()) {
-      $tr.append($makeTd($makeDiffCount(diff, 'deleted')));
-      $tr.append($makeTd($makeDiffCount(diff, 'added')));
-      $tr.append($makeTd($makeDiffCount(diff, 'same')));
-      $tr.append($makeTd($makeDiffType(diff)));
+      $tr.append(
+        $makeTd($makeDiffCount(diff, 'deleted')),
+        $makeTd($makeDiffCount(diff, 'added')),
+        $makeTd($makeDiffCount(diff, 'same')),
+        $makeTd($makeDiffType(diff))
+      );
     }
     $tr.append($makeTd(review.makeDiffFilename(diff)));
     return $tr;
