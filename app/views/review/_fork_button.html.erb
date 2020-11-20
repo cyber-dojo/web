@@ -4,7 +4,7 @@ $(() => {
 
   const review = cd.review;
 
-  review.setupButton('fork', () => openForkDialog(review.params.id, review.params.nowIndex));
+  review.createButton('fork', () => openForkDialog(review.params.id, review.params.nowIndex));
   const $forkButton = $('#fork-button');
   const forkTip = `create a new<br/>exercise from this<br/>traffic-light's files`;
   cd.createTip($forkButton, forkTip);

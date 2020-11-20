@@ -102,19 +102,10 @@ $(() => {
     });
   };
 
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  review.setupButton = (name, handler) => {
-    const button = `<button id="${name}-button" type="button"></button>`;
-    $(`#${name}-button-box`).html(button);
-    $(`#${name}-button`)
-      .text(name)
-      .unbind('click')
-      .bind('click', handler);
-  };
-
 });
 //--></script>
 
+<%= render partial: 'review/create_button' %>
 <%= render partial: 'shared/filenames_sorted' %>
 <%= render partial: 'review/file_picker' %>
 

@@ -5,7 +5,7 @@ $(() => {
   const review = cd.review;
 
   if (review.inTestPage) {
-    review.setupButton('checkout', () => review.fadeIntoKataPage(() => {
+    review.createButton('checkout', () => review.fadeIntoKataPage(() => {
       const params = review.params;
       cd.checkout({ src_id:params.id, src_index:params.nowIndex });
     }));
