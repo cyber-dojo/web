@@ -55,7 +55,7 @@ $(() => {
         $makeDiffLineCountIconTd('deleted', '&mdash;'),
         $makeDiffLineCountIconTd('added', '+'),
         $makeDiffLineCountIconTd('same', '='),
-        $makeDiffHelpIconTd() // Aligns withs glyph-id
+        $makeDiffHelpIconTd() // Aligns withs glyph-td
       )
     }
     $tr.append($makeTd('')); // Aligns with filename-td
@@ -241,9 +241,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const makeDiffContent = (diffs) => {
     const $holder = $('<span>');
-    diffs.forEach(diff => {
-      $holder.append(review.makeDiffFileContent(diff));
-    });
+    diffs.forEach(diff => $holder.append(review.makeDiffFileContent(diff)));
     return $holder;
   };
 
