@@ -59,9 +59,9 @@ $(() => {
     review.waitSpinnerGetJSON('/differ/diff', args, (data) => {
       review.params = data;
       review.refreshAvatarNavigator(data);
-      review.refreshDiffCheckBox(data);
       cd.setupHoverTips($('[data-tip]'));
     });
+    review.refreshDiffCheckBox();
     review.refreshTrafficLights(params);
     review.refreshFiles(params);
     review.refreshOutput(params);

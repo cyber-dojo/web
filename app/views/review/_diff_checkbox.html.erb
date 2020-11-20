@@ -8,7 +8,8 @@ $(() => {
 
   review.inDiffMode = () => diffCheckBox().is(':checked');
 
-  review.refreshDiffCheckBox = (params) => {
+  review.refreshDiffCheckBox = () => {
+    const params = review.params;
     const checked = params.wasIndex !== params.nowIndex;
     diffCheckBox()
       .prop('checked', checked) // must be from review.params
