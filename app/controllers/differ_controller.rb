@@ -33,16 +33,4 @@ class DifferController < ApplicationController
 
   include PrevNextAvatarIdsHelper
 
-=begin
-  def to_json(light)
-    {
-      'index'     => light.index,
-      'time'      => light.time,
-      'predicted' => light.predicted,
-      'colour'    => light.colour,
-      'revert'    => light.revert
-    }
-  end
-=end
-
 end
