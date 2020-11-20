@@ -72,7 +72,7 @@ $(() => {
       $tr.append($makeTd($makeDiffCount(diff, 'same')));
       $tr.append($makeTd($makeDiffType(diff)));
     }
-    $tr.append($makeTd($makeDiffFilename(diff)));
+    $tr.append($makeTd(review.makeDiffFilename(diff)));
     return $tr;
   };
 
@@ -157,7 +157,7 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const $makeDiffFilename = (diff) => {
+  review.makeDiffFilename = (diff) => {
     return $('<div>', {
       class: `diff-filename ${diff.type}`,
          id: `diff-filename-${diff.id}`,

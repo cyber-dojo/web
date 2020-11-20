@@ -37,7 +37,7 @@ $(() => {
     // id = stdout|stderr|status will never clash.
     return {
             id: name,
-          type: 'unchanged',
+          type: '',
       filename: name,
          lines: makeSameLines(content)
     }
@@ -61,11 +61,7 @@ $(() => {
   };
 
   const $makeOutputFilenameTr = (diff) => {
-    const $td = $('<td>', {
-      class: 'diff-filename',
-         id: `diff-filename-${diff.id}`,
-      'data-diff-id': diff.id
-    }).text(diff.filename);
+    const $td = $('<td>').append(review.makeDiffFilename(diff));
     return $('<tr>').append($td);
   };
 
