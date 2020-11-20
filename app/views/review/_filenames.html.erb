@@ -217,15 +217,15 @@ $(() => {
     $('.file-content', review.page).hide();
     $(`#file-content-${diff.id}`, review.page).show();
 
-    scrollToNextDiffChunkOnReclick(diff, diff.filename);
+    scrollToNextDiffChunkOnReclick(diff);
     review.filename = diff.filename;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const scrollToNextDiffChunkOnReclick = (diff, filename) => {
+  const scrollToNextDiffChunkOnReclick = (diff) => {
     const hasDiffChunks = () => diff.chunkCount > 0;
     const isFirstClick = () => !diff.hasBeenClicked;
-    const isReClick = () => review.filename === filename;
+    const isReClick = () => review.filename === diff.filename;
     if (hasDiffChunks() && (isFirstClick() || isReClick())) {
       const $diffSheet = $(`#diff-sheet-${diff.id}`);
       const $diffChunk = $(`#diff-chunk-${diff.id}-${diff.chunkIndex}`);
