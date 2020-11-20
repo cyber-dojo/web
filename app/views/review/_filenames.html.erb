@@ -20,7 +20,6 @@ $(() => {
     const $diffFilenames = $('#diff-filenames');
     $diffFilenames.html($makeDiffFilenames(diffs));
     resetFilenameAddedDeletedLineCountHandlers();
-    buildDiffFilenameHandlers(diffs);
 
     const picked = review.pick_file(diffs, review.filename);
     review.selectFilename(picked);
@@ -162,7 +161,8 @@ $(() => {
       class: `diff-filename ${diff.type}`,
          id: `diff-filename-${diff.id}`,
       'data-diff-id': diff.id
-    }).text(cd.htmlEscape(diff.filename));
+    }).text(cd.htmlEscape(diff.filename))
+      .click(() => review.selectFilename(diff));
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -199,14 +199,6 @@ $(() => {
           function() { display(this, type, 'none' ); },
           function() { display(this, type, 'block'); }
         );
-    });
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  const buildDiffFilenameHandlers = (diffs) => {
-    diffs.forEach(diff => {
-      const $filename = $(`#diff-filename-${diff.id}`, review.page);
-      $filename.click(() => review.selectFilename(diff));
     });
   };
 

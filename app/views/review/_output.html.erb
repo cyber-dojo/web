@@ -25,10 +25,6 @@ $(() => {
 
     const $diffOutputFilenames = $('#diff-output-filenames');
     $diffOutputFilenames.html($makeOutputFilenames(stdout, stderr, status));
-
-    $(`#diff-filename-${stdout.id}`).click(() => review.selectFilename(stdout));
-    $(`#diff-filename-${stderr.id}`).click(() => review.selectFilename(stderr));
-    $(`#diff-filename-${status.id}`).click(() => review.selectFilename(status));
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
