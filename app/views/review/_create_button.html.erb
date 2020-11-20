@@ -1,0 +1,17 @@
+<script type="text/javascript"><!--
+'use strict';
+$(() => {
+
+  const review = cd.review;
+
+  review.createButton = (name, handler) => {
+    const button = `<button id="${name}-button" type="button"></button>`;
+    $(`#${name}-button-box`).html(button);
+    $(`#${name}-button`)
+      .text(name)
+      .unbind('click')
+      .bind('click', handler);
+  };
+
+});
+//--></script>
