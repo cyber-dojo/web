@@ -95,7 +95,7 @@ $(() => {
     const nowIndex = light.index;
     $img.click(() => review.moveToTrafficLight(nowIndex));
     const colour = light.colour;
-    const avatarIndex = review.params.avatarIndex;
+    const avatarIndex = () => review.params.avatarIndex;
     const kataId = review.params.id;
     cd.setupTrafficLightTip2($img, colour, avatarIndex, kataId, wasIndex, nowIndex);
     $light.append($img);
