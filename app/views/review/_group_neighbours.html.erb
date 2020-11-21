@@ -3,10 +3,10 @@
 $(() => {
 
   // Ready to take place of last data coming back from /differ/diff call
-  
+
   cd.review.groupNeghbours = (id, joined) => {
     if (isEmpty(joined)) {
-      return ['',null,''];
+      return [ '', null, '' ];
     }
     // eg id = "Q55b8b"
     // eg joined = {
@@ -15,23 +15,24 @@ $(() => {
     //       "2" => { "id" => "w34rd5", "events"=>[0]       }, #  2 == bat
     //      ...
     //   }
-    const sorted =
-      Object.keys(joined)
-            .map((key) => [ joined[key].id, parseInt(key), joined[key].events ])
-            .sort((lhs,rhs) => rhs - lhs)
-            .filter((e) => e[2].length > 1);
 
-    // eg sorted = [
-    //      [ "EEJSkR", 15, [0,1,2]   ], # 15 == fox
-    //      [ "Q55b8b", 23, [0,1,2,3] ], # 23 == jellyfish
+    const active = 
+        Object.keys(joined)
+              .filter((key) => joined[key].events.length > 1)
+              .map((key) => [ parseInt(key), joined[key].id ])
+              .sort((lhs,rhs) => lhs[0] - rhs[0]);
+
+    // eg active = [
+    //      [ 15, "EEJSkR" ],
+    //      [ 23, "Q55b8b" ], // 1 <<<<<< index
     //      ...
     //  ]
 
-    const index = sorted.findIndex((e) => e[0] === id); // eg 1 -> 'Q55b8b'
-    const prevId = (index-1 >= 0) ? sorted[index-1][0] : '';
-    const nextId = (index+1 < sorted.length) ? sorted[index+1][0] : '';
+    const index = active.findIndex((e) => e[1] === id);
+    const prevId = (index-1 >= 0) ? active[index-1][1] : '';
+    const nextId = (index+1 < active.length) ? active[index+1][1] : '';
 
-    return [prevId, sorted[index][1], nextId ];
+    return [ prevId, active[index][0], nextId ];
   };
 
   const isEmpty = (o) => Object.keys(o).length === 0;
