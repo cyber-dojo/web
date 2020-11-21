@@ -2,7 +2,7 @@
 'use strict';
 $(() => {
 
-  cd.review.pick_file = (diffs, currentFilename) => {
+  cd.review.pickFile = (diffs, currentFilename) => {
     const isCurrentFile = (diff) => diffFilename(diff) === currentFilename;
     // Rule 1: If the current-filename has a diff, pick it.
     const r1 = diffs.find(diff => isCurrentFile(diff) && hasChanged(diff));

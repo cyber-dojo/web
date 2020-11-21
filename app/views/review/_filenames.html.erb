@@ -21,7 +21,7 @@ $(() => {
     $diffFilenames.html($makeDiffFilenames(diffs));
     resetFilenameAddedDeletedLineCountHandlers();
 
-    const picked = review.pick_file(diffs, review.filename);
+    const picked = review.pickFile(diffs, review.filename);
     review.selectFilename(picked);
   };
 
