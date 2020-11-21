@@ -2,15 +2,15 @@
 
 const groupNeighbours = require('./group_neighbours');
 
-describe('group_neighbours', () => {
+describe('groupNeighbours', () => {
 
-  it('returns {} when kata-is is not in a group', () => {
+  it('returns empty-strings when kata-id is not in a group', () => {
     const id = 'RNCzUr';
     const actual = groupNeighbours(id, {});
     expect(actual).toEqual(['',null,'']);
   });
 
-  it('returns empty strings when kata-id is only member of group', () => {
+  it('returns empty strings when kata-id is the only member of group', () => {
     const id = 'w34rd5';
     expect(groupNeighbours(id, {
       '2': { 'id':id, 'events':[0,1,2] },

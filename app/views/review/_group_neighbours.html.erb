@@ -2,6 +2,8 @@
 'use strict';
 $(() => {
 
+  // Ready to take place of last data coming back from /differ/diff call
+  
   cd.review.groupNeghbours = (id, joined) => {
     if (isEmpty(joined)) {
       return ['',null,''];

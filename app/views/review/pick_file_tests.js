@@ -90,12 +90,12 @@ const renamed = (id, filename, ac, dc, sc) => {
   return diff('renamed', id, filename+'.old', filename, ac, dc, sc);
 };
 
-const diff = (type, id, old_filename, new_filename, ac, dc, sc) => {
+const diff = (type, id, oldFilename, newFilename, ac, dc, sc) => {
   return {
     id: id,
     type: type,
-    old_filename: old_filename,
-    new_filename: new_filename,
+    old_filename: oldFilename,
+    new_filename: newFilename,
     line_counts: { added:ac, deleted:dc, same:sc }
   };
 };
