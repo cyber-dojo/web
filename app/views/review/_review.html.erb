@@ -42,10 +42,10 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   review.refresh = () => {
     const params = review.params;
-    const args = {
-                id: params.id,
-         was_index: params.wasIndex,
-         now_index: params.nowIndex
+    const args = { 
+             id: params.id,
+      was_index: params.wasIndex,
+      now_index: params.nowIndex
     };
     review.waitSpinnerGetJSON('/differ/diff', args, (data) => {
       review.params = data;
