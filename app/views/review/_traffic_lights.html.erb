@@ -7,13 +7,10 @@ $(() => {
   const $trafficLights = $('#review-traffic-lights');
 
   review.refreshTrafficLights = (params) => {
-    const args = { id:params.id };
-    review.getJSON('model', 'kata_events', args, (kata_events) => {
-      const lastEvent = kata_events[kata_events.length - 1];
-      if (review.params.nowIndex === -1) {
+    review.getJSON('model', 'kata_events', {id:params.id}, (kata_events) => {
+      if (params.nowIndex === -1) {
+        const lastEvent = kata_events[kata_events.length - 1];
         review.params.nowIndex = lastEvent.index;
-      }
-      if (review.params.wasIndex === -1) {
         review.params.wasIndex = lastEvent.index;
       }
       refreshTrafficLightsResponder(kata_events);
