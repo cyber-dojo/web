@@ -42,7 +42,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   review.refresh = () => {
     const params = review.params;
-    const args = { 
+    const args = {
              id: params.id,
       was_index: params.wasIndex,
       now_index: params.nowIndex
@@ -52,7 +52,7 @@ $(() => {
       review.refreshAvatarNavigator(data);
       cd.setupHoverTips($('[data-tip]'));
     });
-    review.refreshDiffCheckBox();
+    review.refreshDiffCheckBox(params);
     review.refreshTrafficLights(params);
     review.refreshFiles(params);
     review.refreshOutput(params);

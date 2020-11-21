@@ -18,8 +18,7 @@ $(() => {
 
   review.inDiffMode = () => diffCheckBox().is(':checked');
 
-  review.refreshDiffCheckBox = () => {
-    const params = review.params;
+  review.refreshDiffCheckBox = (params) => {
     const checked = params.wasIndex !== params.nowIndex;
     diffCheckBox()
       .prop('checked', checked) // don't use inDiffMode()
