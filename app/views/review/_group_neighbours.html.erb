@@ -1,0 +1,38 @@
+<script type="text/javascript"><!--
+'use strict';
+$(() => {
+
+  cd.review.groupNeghbours = (id, joined) => {
+    if (isEmpty(joined)) {
+      return ['',null,''];
+    }
+    // eg id = "Q55b8b"
+    // eg joined = {
+    //      "15" => { "id" => "EEJSkR", "events"=>[0,1,2]   }, # 15 == fox
+    //      "23" => { "id" => "Q55b8b", "events"=>[0,1,2,3] }, # 23 == jellyfish
+    //       "2" => { "id" => "w34rd5", "events"=>[0]       }, #  2 == bat
+    //      ...
+    //   }
+    const sorted =
+      Object.keys(joined)
+            .map((key) => [ joined[key].id, parseInt(key), joined[key].events ])
+            .sort((lhs,rhs) => rhs - lhs)
+            .filter((e) => e[2].length > 1);
+
+    // eg sorted = [
+    //      [ "EEJSkR", 15, [0,1,2]   ], # 15 == fox
+    //      [ "Q55b8b", 23, [0,1,2,3] ], # 23 == jellyfish
+    //      ...
+    //  ]
+
+    const index = sorted.findIndex((e) => e[0] === id); // eg 1 -> 'Q55b8b'
+    const prevId = (index-1 >= 0) ? sorted[index-1][0] : '';
+    const nextId = (index+1 < sorted.length) ? sorted[index+1][0] : '';
+
+    return [prevId, sorted[index][1], nextId ];
+  };
+
+  const isEmpty = (o) => Object.keys(o).length === 0;
+
+});
+//--></script>
