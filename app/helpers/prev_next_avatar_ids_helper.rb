@@ -6,8 +6,9 @@ module PrevNextAvatarIdsHelper # mix-in
 
   def prev_next_avatar_ids(id, joined)
     if joined === {}
-      return [ '', '' ]
+      return [ '', nil, '' ]
     end
+
     # eg id = "Q55b8b"
     # eg joined = {
     #      "15" => { "id" => "EEJSkR", "events"=>[0,1,2]   }, # 15 == fox
@@ -30,18 +31,18 @@ module PrevNextAvatarIdsHelper # mix-in
     index = sorted.find_index { |a| a[0] === id } # eg 1
 
     if index-1 >= 0
-      prev_avatar_id = sorted[index-1][0]
+      prev_id = sorted[index-1][0]
     else
-      prev_avatar_id = ''
+      prev_id = ''
     end
 
     if index+1 < sorted.size
-      next_avatar_id = sorted[index+1][0]
+      next_id = sorted[index+1][0]
     else
-      next_avatar_id = ''
+      next_id = ''
     end
 
-    [ prev_avatar_id, next_avatar_id ]
+    [ prev_id, sorted[index][1], next_id ]
   end
 
 end

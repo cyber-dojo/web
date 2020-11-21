@@ -38,7 +38,7 @@ class DifferControllerTest < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '215', %w(
-  diff of (was,now) which is not (-1,-1) makes a single saver-service call
+  diff of (was,now) which is not (-1,-1) makes no saver-service calls
   ) do
     [0,1].each do |version|
       in_kata(version:version) { post_run_tests }
@@ -46,7 +46,7 @@ class DifferControllerTest < AppControllerTestBase
       differ(@id, '', 0, 1, version)
       count_after = saver.log.size
       diagnostic = [version,count_before,count_after]
-      assert_equal 1, (count_after-count_before), diagnostic
+      assert_equal 0, (count_after-count_before), diagnostic
       assert_equal version, kata.schema.version
     end
   end
@@ -54,7 +54,7 @@ class DifferControllerTest < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '217', %w(
-  diff of (-1,-1) makes more than one saver-service call
+  diff of (-1,-1) makes one saver-service call
   ) do
     [0,1].each do |version|
       in_kata(version:version) { post_run_tests }
@@ -62,7 +62,7 @@ class DifferControllerTest < AppControllerTestBase
       differ(@id, '', -1, -1, version)
       count_after = saver.log.size
       diagnostic = [version,count_before,count_after]
-      assert_equal 2, (count_after-count_before), diagnostic
+      assert_equal 1, (count_after-count_before), diagnostic
       assert_equal version, kata.schema.version
     end
   end
