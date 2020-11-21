@@ -4,16 +4,12 @@ class DifferController < ApplicationController
 
   def diff
     id = params[:id]
-    manifest = kata.manifest
-
-    avatar_index = manifest.group_index
     group_id = params[:group_id]
-    if group_id != ''
-      group_events = groups[group_id].events
-      prev_avatar_id,next_avatar_id = prev_next_avatar_ids(id, group_events)
-    else
-      prev_avatar_id,next_avatar_id = '',''
-    end
+    manifest = kata.manifest
+    avatar_index = manifest.group_index
+
+    joined = model.group_joined(id)
+    prev_avatar_id,next_avatar_id = prev_next_avatar_ids(id, joined)
 
     result = {
                          id: id,

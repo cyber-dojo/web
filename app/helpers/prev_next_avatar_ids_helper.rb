@@ -4,23 +4,29 @@ module PrevNextAvatarIdsHelper # mix-in
 
   module_function
 
-  def prev_next_avatar_ids(id, group_events)
+  def prev_next_avatar_ids(id, joined)
+    if joined === {}
+      return [ '', '' ]
+    end
     # eg id = "Q55b8b"
-    # eg group_events = {
-    #      "EEJSkR" => { "index"=>15, "events"=>[0,1,2]   }, # 15 == fox
-    #      "Q55b8b" => { "index"=>23, "events"=>[0,1,2,3] }, # 23 == jellyfish
-    #      "w34rd5" => { "index"=> 2, "events"=>[0]       }, #  2 == bat
+    # eg joined = {
+    #      "15" => { "id" => "EEJSkR", "events"=>[0,1,2]   }, # 15 == fox
+    #      "23" => { "id" => "Q55b8b", "events"=>[0,1,2,3] }, # 23 == jellyfish
+    #       "2" => { "id" => "w34rd5", "events"=>[0]       }, #  2 == bat
     #      ...
     #   }
-    sorted = group_events
-      .map { |k,v| [k, v['index'], v['events']] }
+
+    sorted = joined
+      .map { |avatar_index,v| [v['id'], avatar_index.to_i, v['events']] }
       .sort { |lhs,rhs| lhs[1] <=> rhs[1] }
       .select { |a| a[2].size > 1 }
+
     # eg sorted = [
     #      [ "EEJSkR", 15, [0,1,2]   ], # 15 == fox
     #      [ "Q55b8b", 23, [0,1,2,3] ], # 23 == jellyfish
     #      ...
     #   ]
+
     index = sorted.find_index { |a| a[0] === id } # eg 1
 
     if index-1 >= 0

@@ -51,13 +51,18 @@ class ModelServiceTest < AppServicesTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'eJ3',
-  'group_join() smoke test' do
+  'group_join() - group_joined() smoke test' do
     manifest = starter_manifest
     gid = model.group_create(manifest)
     kid = model.group_join(gid)
     assert model.kata_exists?(kid), "model.kata_exists?(#{kid})"
     actual = model.kata_manifest(kid)
     assert_equal manifest['image_name'], actual['image_name']
+    joined = model.group_joined(gid)
+    assert_equal 1, joined.size
+    avatar_index = joined.keys[0]
+    assert_equal kid, joined[avatar_index]["id"]
+    assert_equal 1, joined[avatar_index]["events"].size
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
