@@ -12,21 +12,13 @@ $(() => {
 
   review.params = {
              id: "<%= @id %>",
-        groupId: "<%= @group_id %>",
-    avatarIndex: "<%= @avatar_index %>",
        wasIndex: <%= @was_index %>,
        nowIndex: <%= @now_index %>
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  cd.review.fromTestPage = (id, groupId, avatarIndex, wasIndex, nowIndex) => {
-    review.params = {
-               id:id,
-          groupId:groupId,
-      avatarIndex:avatarIndex,
-         wasIndex:wasIndex,
-         nowIndex:nowIndex
-    };
+  cd.review.fromTestPage = (kataId, wasIndex, nowIndex) => {
+    review.params = { id:kataId, wasIndex:wasIndex, nowIndex:nowIndex };
     review.fadeIntoReviewPage();
     review.refresh();
   };
@@ -52,7 +44,6 @@ $(() => {
     const params = review.params;
     const args = {
                 id: params.id,
-          group_id: params.groupId,
          was_index: params.wasIndex,
          now_index: params.nowIndex
     };

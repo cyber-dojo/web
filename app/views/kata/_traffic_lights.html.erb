@@ -15,10 +15,9 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const kataId = '<%= @id %>';
-  const groupId = '<%= @group_id %>';
   const avatarIndex = '<%= @avatar_index %>';
   const version = '<%= @version %>';
-
+  
   const $lights = $('#traffic-lights');
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -61,7 +60,7 @@ $(() => {
       });
       const $light = $div.append($trafficLightImage(light));
       $lights.append($light);
-      $light.click(() => cd.review.fromTestPage(kataId, groupId, avatarIndex, index-1, index));
+      $light.click(() => cd.review.fromTestPage(kataId, index-1, index));
       cd.setupTrafficLightTip($light, kataId, index-1, index);
       number += 1;
       updateCountData(light);
