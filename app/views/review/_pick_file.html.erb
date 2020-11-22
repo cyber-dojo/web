@@ -2,39 +2,55 @@
 'use strict';
 $(() => {
 
-  cd.review.pickFile = (diffs, currentFilename) => {
-    const isCurrentFile = (diff) => diffFilename(diff) === currentFilename;
-    // Rule 1: If the current-filename has a diff, pick it.
-    const r1 = diffs.find(diff => hasChanged(diff) && isCurrentFile(diff));
+  cd.review.pickFile = (diffs, previousFilename) => {
+    const isPreviousFile = (diff) => diffFilename(diff) === previousFilename;
+    // Rule 1: Pick previous-filename with diff.
+    const r1 = diffs.find(diff => hasChanged(diff) && isPreviousFile(diff));
     if (r1 != undefined) {
       return r1;
     }
-    // Rule 2: If there are diffs, for non .txt, pick the largest
-    const r2 = diffs.filter(diff => hasChanged(diff) && !isTxtFilename(diff))
+    // Rule 2: Pick largest non .txt file with diff.
+    const r2 = diffs.filter(diff => hasChanged(diff) && !isTxtFile(diff))
                     .sort(changeCountCompare);
     if (r2.length > 0) {
       return r2[0];
     }
-    // Rule 3: If there are diffs, for .txt, pick the largest
-    const r3 = diffs.filter(diff => hasChanged(diff) && isTxtFilename(diff))
-                    .sort(changeCountCompare);
+    // Rule 3: Pick largest non .txt identical rename.
+    const r3 = diffs.filter(diff => isIdenticalRename(diff) && !isTxtFile(diff))
+                    .sort(sameCountCompare);
     if (r3.length > 0) {
       return r3[0];
     }
-    // Rule 4: If there are 100% identical file renames, pick the largest
-    const r4 = diffs.filter(diff => isIdenticalRename(diff))
-                    .sort(sameCountCompare);
+    // Rule 4: Pick any non .txt, created, empty file.
+    const r4 = diffs.filter(diff => isEmptyCreated(diff) && !isTxtFile(diff));
     if (r4.length > 0) {
       return r4[0];
     }
-    // Rule 5: If the current-filename exists, pick it
-    const r5 = diffs.find(diff => isCurrentFile(diff));
-    if (r5 != undefined) {
-      return r5;
+    // Rule 5: Pick any non .txt, deleted, empty file.
+    const r5 = diffs.filter(diff => isEmptyDeleted(diff) && !isTxtFile(diff));
+    if (r5.length > 0) {
+      return r5[0];
     }
-    // Rule 6: Pick cyber-dojo.sh (which cannot be deleted)
-    const r6 = diffs.find(diff => diffFilename(diff) === 'cyber-dojo.sh');
-    return r6;
+    // Rule 6: Pick largest .txt diff.
+    const r6 = diffs.filter(diff => hasChanged(diff) && isTxtFile(diff))
+                    .sort(changeCountCompare);
+    if (r6.length > 0) {
+      return r6[0];
+    }
+    // Rule 7: Pick largest .txt, 100% identical rename.
+    const r7 = diffs.filter(diff => isIdenticalRename(diff) && isTxtFile(diff))
+                    .sort(sameCountCompare);
+    if (r7.length > 0) {
+      return r7[0];
+    }
+    // Rule 8: Pick previous-filename (with no diff)
+    const r8 = diffs.find(diff => isPreviousFile(diff));
+    if (r8 != undefined) {
+      return r8;
+    }
+    // Rule 9: Pick cyber-dojo.sh (which cannot be deleted)
+    const r9 = diffs.find(diff => diffFilename(diff) === 'cyber-dojo.sh');
+    return r9;
   };
 
   const hasChanged = (diff) => changeCount(diff) > 0;
@@ -45,10 +61,16 @@ $(() => {
   const changeCount = (diff) => diff.line_counts.added + diff.line_counts.deleted;
   const sameCount = (diff) => diff.line_counts.same;
 
-  const isTxtFilename = (diff) => diffFilename(diff).endsWith('.txt');
+  const isTxtFile = (diff) => diffFilename(diff).endsWith('.txt');
 
   const diffFilename = (diff) =>
     (diff.type === 'deleted') ? diff.old_filename : diff.new_filename;
+
+  const isEmptyCreated = (diff) =>
+    diff.type === 'created' && sameCount(diff) === 0;
+
+  const isEmptyDeleted = (diff) =>
+    diff.type === 'deleted' && sameCount(diff) === 0;
 
   const isIdenticalRename = (diff) =>
     diff.type === 'renamed' && changeCount(diff) === 0;
