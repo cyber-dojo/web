@@ -4,12 +4,14 @@ $(() => {
 
   const review = cd.review;
 
-  if (review.inTestPage) {
-    review.createButton('resume', () => {
-      review.fadeIntoKataPage(cd.kata.editor.refocus);
-    });
+  review.refreshResumeButton = () => {
+    if (review.inTestPage) {
+      review.createButton('resume', () => {
+        review.fadeIntoKataPage(cd.kata.editor.refocus);
+      });
+    }
   }
-
+  
 });
 //--></script>
 

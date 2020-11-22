@@ -4,15 +4,16 @@ $(() => {
 
   const review = cd.review;
 
-  if (review.inTestPage) {
-    review.createButton('checkout', () => review.fadeIntoKataPage(() => {
-      const params = review.params;
-      cd.checkout({ src_id:params.id, src_index:params.nowIndex });
-    }));
-    const $button = $('#checkout-button');
-    const tip = `make this traffic-light's<br/>files your current files`;
-    cd.createTip($button, tip);
-  }
+  review.refreshCheckoutButton = (kataId, index) => {
+    if (review.inTestPage) {
+      review.createButton('checkout', () => review.fadeIntoKataPage(() => {
+        cd.checkout({ src_id:kataId, src_index:index });
+      }));
+      const $button = $('#checkout-button');
+      const tip = `make this traffic-light's<br/>files your current files`;
+      cd.createTip($button, tip);
+    }
+  };
 
 });
 //--></script>

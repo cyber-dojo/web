@@ -6,6 +6,8 @@ $(() => {
 
   const diffCheckBox = () => $('#diff-checkbox');
 
+  review.inDiffMode = () => diffCheckBox().is(':checked');
+
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // When arriving from test-page traffic-light, wasIndex != nowIndex and we show a diff.
   // When from a dashboard avatar, wasIndex == nowIndex and we are not showing a diff.
@@ -18,8 +20,6 @@ $(() => {
   //    -   checked ==> diff is shown (wasIndex != nowIndex)
   //    - unchecked ==> diff is not shown (wasIndex == nowIndex)
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  review.inDiffMode = () => diffCheckBox().is(':checked');
 
   review.refreshDiffCheckBox = (kataId, checked, index) => {
     diffCheckBox()

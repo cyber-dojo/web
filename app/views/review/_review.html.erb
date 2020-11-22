@@ -1,34 +1,3 @@
-<script type="text/javascript"><!--
-'use strict';
-$(() => {
-
-  const review = cd.review;
-
-  review.page = $('#review-page');
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  cd.review.fromTestPage = (kataId, index) => {
-    review.fadeIntoReviewPage();
-    const delta = review.inDiffMode() ? 1 : 0;
-    const wasIndex = index - delta;
-    const nowIndex = index;
-    review.refresh(kataId, wasIndex, nowIndex);
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  review.refresh = (kataId, wasIndex, nowIndex) => {
-    review.refreshDiffCheckBox(kataId, (wasIndex != nowIndex), nowIndex);
-    review.refreshAvatarNavigator(kataId);
-    review.refreshTrafficLights(kataId, nowIndex);
-    review.refreshFiles(kataId, nowIndex);
-    review.refreshOutput(kataId, nowIndex);
-    //review.refreshCheckoutButton()
-    //review.refreshForkButton()
-  };
-
-});
-//--></script>
-
 <%= render partial: 'review/create_button' %>
 <%= render partial: 'review/group_neighbours' %>
 <%= render partial: 'review/faders' %>
@@ -68,10 +37,37 @@ $(() => {
 <script type="text/javascript"><!--
 'use strict';
 $(() => {
+
   const review = cd.review;
+
+  review.page = $('#review-page');
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  review.fromTestPage = (kataId, index) => {
+    review.fadeIntoReviewPage();
+    const delta = review.inDiffMode() ? 1 : 0;
+    const wasIndex = index - delta;
+    const nowIndex = index;
+    review.refresh(kataId, wasIndex, nowIndex);
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  review.refresh = (kataId, wasIndex, nowIndex) => {
+    review.refreshDiffCheckBox(kataId, (wasIndex != nowIndex), nowIndex);
+    review.refreshAvatarNavigator(kataId);
+    review.refreshTrafficLights(kataId, nowIndex);
+    review.refreshFiles(kataId, nowIndex);
+    review.refreshOutput(kataId, nowIndex);
+    review.refreshCheckoutButton(kataId, nowIndex)
+    review.refreshForkButton(kataId, nowIndex)
+    review.refreshResumeButton()
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
   if (!review.inTestPage) {
     review.page.show();
     review.refresh("<%= @id %>", <%= @was_index %>, <%= @now_index %>);
   }
+
 });
 //--></script>
