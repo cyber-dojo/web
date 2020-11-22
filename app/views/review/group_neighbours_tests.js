@@ -7,7 +7,7 @@ describe('groupNeighbours', () => {
   it('returns empty-strings when kata-id is not in a group', () => {
     const id = 'RNCzUr';
     const actual = groupNeighbours(id, {});
-    expect(actual).toEqual(['',null,'']);
+    expect(actual).toEqual(['','','']);
   });
 
   it('returns empty strings when kata-id is the only member of group', () => {

@@ -2,11 +2,9 @@
 'use strict';
 $(() => {
 
-  // Ready to take place of last data coming back from /differ/diff call
-
-  cd.review.groupNeghbours = (id, joined) => {
+  cd.review.groupNeighbours = (id, joined) => {
     if (isEmpty(joined)) {
-      return [ '', null, '' ];
+      return [ '', '', '' ];
     }
     // eg id = "Q55b8b"
     // eg joined = {
@@ -16,7 +14,7 @@ $(() => {
     //      ...
     //   }
 
-    const active = 
+    const active =
         Object.keys(joined)
               .filter((key) => joined[key].events.length > 1)
               .map((key) => [ parseInt(key), joined[key].id ])

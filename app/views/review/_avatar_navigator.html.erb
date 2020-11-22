@@ -4,13 +4,21 @@ $(() => {
 
   const review = cd.review;
 
-  review.refreshAvatarNavigator = (params) => {
-    if (params.avatarIndex != '') {
+  review.refreshAvatarNavigator = (args) => {
+    review.getJSON('model', 'group_joined', {id:args.id}, (joined) => {
+      avatarNavigatorRefresher(args.id, joined);
+    });
+  };
+
+  const avatarNavigatorRefresher = (kataId, joined) => {
+    const [prevId,avatarIndex,nextId] = review.groupNeighbours(kataId,joined);
+    review.avatarIndex = () => avatarIndex;
+    if (avatarIndex != '') {
       $('#avatar-navigator').show();
-      const $box = $('#review-avatar-image-box').html($makeAvatarImage(params.avatarIndex));
-      refreshAvatar($('#prev-avatar'), params.prevAvatarId);
-      cd.setupAvatarNameHoverTip($box, '', params.avatarIndex, '');
-      refreshAvatar($('#next-avatar'), params.nextAvatarId);
+      const $box = $('#review-avatar-image-box').html($makeAvatarImage(avatarIndex));
+      refreshAvatar($('#prev-avatar'), prevId);
+      cd.setupAvatarNameHoverTip($box, '', avatarIndex, '');
+      refreshAvatar($('#next-avatar'), nextId);
     }
   };
 

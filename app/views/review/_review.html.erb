@@ -27,26 +27,11 @@ $(() => {
       was_index: params.wasIndex,
       now_index: params.nowIndex
     };
-    review.waitSpinnerGetJSON('/differ/diff', args, (data) => {
-      review.params = data;
-      review.refreshAvatarNavigator(data);
-      cd.setupHoverTips($('[data-tip]'));
-    });
+    review.refreshAvatarNavigator(params);
     review.refreshDiffCheckBox(params);
     review.refreshTrafficLights(params);
     review.refreshFiles(params);
     review.refreshOutput(params);
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  review.waitSpinnerGetJSON = (path, params, callBack) => {
-    cd.waitSpinner.fadeIn('fast', () => {
-      $.getJSON(path, params, (data) => {
-        cd.waitSpinner.fadeOut('fast', () => {
-          callBack(data);
-        });
-      });
-    });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
