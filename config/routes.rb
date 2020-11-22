@@ -28,7 +28,4 @@ CyberDojo::Application.routes.draw do
     get 'show(/:id)' => :show
   end
 
-  get '/differ/diff' => 'differ#diff', :constraints => { :format => :json }
-
-
 end
