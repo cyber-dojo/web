@@ -7,29 +7,31 @@ $(() => {
   const diffCheckBox = () => $('#diff-checkbox');
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // When arriving from test-page traffic-light, wasIndex != nowIndex and we show a diff.
+  // When from a dashboard avatar, wasIndex == nowIndex and we are not showing a diff.
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // inDiffMode() effects other controls in the following ways
   // o) when moving to a new avatar...
   //    -   checked ==> move to its _first_ traffic-light
   //    - unchecked ==> move to its _last_  traffic-light
   // o) when moving to a new traffic-light
-  //    -   checked ==> diff is shown (wasIndex !- nowIndex)
+  //    -   checked ==> diff is shown (wasIndex != nowIndex)
   //    - unchecked ==> diff is not shown (wasIndex == nowIndex)
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   review.inDiffMode = () => diffCheckBox().is(':checked');
 
-  review.refreshDiffCheckBox = (params) => {
-    const checked = params.wasIndex !== params.nowIndex;
+  review.refreshDiffCheckBox = (kataId, checked, index) => {
     diffCheckBox()
-      .prop('checked', checked) // don't use inDiffMode()
+      .prop('checked', checked)
       .unbind('click')
-      .bind('click', () => review.moveToTrafficLight(params.nowIndex));
+      .bind('click', () => review.moveToTrafficLight(kataId, index));
 
     $('#diff-checkbox-title')
       .unbind('click')
       .bind('click', () => {
         diffCheckBox().attr('checked', !review.inDiffMode());
-        review.moveToTrafficLight(params.nowIndex);
+        review.moveToTrafficLight(kataId, index);
       });
   };
 

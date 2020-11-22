@@ -6,32 +6,24 @@ $(() => {
 
   review.page = $('#review-page');
 
-  review.params = {
-             id: "<%= @id %>",
-       wasIndex: <%= @was_index %>,
-       nowIndex: <%= @now_index %>
-  };
-
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  cd.review.fromTestPage = (kataId, wasIndex, nowIndex) => {
-    review.params = { id:kataId, wasIndex:wasIndex, nowIndex:nowIndex };
+  cd.review.fromTestPage = (kataId, index) => {
     review.fadeIntoReviewPage();
-    review.refresh();
+    const delta = review.inDiffMode() ? 1 : 0;
+    const wasIndex = index - delta;
+    const nowIndex = index;
+    review.refresh(kataId, wasIndex, nowIndex);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  review.refresh = () => {
-    const params = review.params;
-    const args = {
-             id: params.id,
-      was_index: params.wasIndex,
-      now_index: params.nowIndex
-    };
-    review.refreshAvatarNavigator(params);
-    review.refreshDiffCheckBox(params);
-    review.refreshTrafficLights(params);
-    review.refreshFiles(params);
-    review.refreshOutput(params);
+  review.refresh = (kataId, wasIndex, nowIndex) => {
+    review.refreshDiffCheckBox(kataId, (wasIndex != nowIndex), nowIndex);
+    review.refreshAvatarNavigator(kataId);
+    review.refreshTrafficLights(kataId, nowIndex);
+    review.refreshFiles(kataId, nowIndex);
+    review.refreshOutput(kataId, nowIndex);
+    //review.refreshCheckoutButton()
+    //review.refreshForkButton()
   };
 
 });
@@ -79,7 +71,7 @@ $(() => {
   const review = cd.review;
   if (!review.inTestPage) {
     review.page.show();
-    review.refresh();
+    review.refresh("<%= @id %>", <%= @was_index %>, <%= @now_index %>);
   }
 });
 //--></script>

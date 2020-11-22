@@ -4,8 +4,11 @@ $(() => {
 
   const review = cd.review;
 
-  review.refreshFiles = (params) => {
-    const args = { id:params.id, was_index:params.wasIndex, now_index:params.nowIndex };
+  review.refreshFiles = (kataId, index) => {
+    const delta = review.inDiffMode() ? 1 : 0;
+    const wasIndex = index - delta;
+    const nowIndex = index;
+    const args = { id:kataId, was_index:wasIndex, now_index:nowIndex };
     review.getJSON('differ', 'diff_lines', args, (diffs) => {
       refreshFilesResponder(diffs);
     });

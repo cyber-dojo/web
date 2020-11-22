@@ -4,25 +4,25 @@ $(() => {
 
   const review = cd.review;
 
-  review.refreshTrafficLightsNavigator = (events) => {
-    refreshIndex($('#first-index'),prevEventIndex(1));
-    refreshIndex($('#prev-index'), prevEventIndex(review.params.nowIndex-1));
-    $('#review-index-box').html($makeIndex(events));
-    refreshIndex($('#next-index'), nextEventIndex(events, review.params.nowIndex+1));
-    refreshIndex($('#last-index'), nextEventIndex(events, events.length-1));
+  review.refreshTrafficLightsNavigator = (kataId, index, events) => {
+    refreshMoveTo($('#first-index'), kataId, prevEventIndex(index, 1));
+    refreshMoveTo($('#prev-index'),  kataId, prevEventIndex(index, index-1));
+    $('#review-index-box').html($makeIndexNumber(index, events));
+    refreshMoveTo($('#next-index'),  kataId, nextEventIndex(events, index, index+1));
+    refreshMoveTo($('#last-index'),  kataId, nextEventIndex(events, index, events.length-1));
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const refreshIndex = (button, index) => {
+  const refreshMoveTo = (button, kataId, index) => {
     button
       .attr('disabled', index === null)
       .unbind('click')
-      .bind('click', () => review.moveToTrafficLight(index));
+      .bind('click', () => review.moveToTrafficLight(kataId, index));
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const prevEventIndex = (n) => {
-    if (review.params.nowIndex === 1) { // 0 is creation event
+  const prevEventIndex = (index, n) => {
+    if (index === 1) { // 0 is creation event
       return null; // Disable
     } else {
       return n;
@@ -30,8 +30,8 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const nextEventIndex = (events, n) => {
-    if (review.params.nowIndex === events.length-1) {
+  const nextEventIndex = (events, index, n) => {
+    if (index === events.length-1) {
       return null; // Disable
     } else {
       return n;
@@ -39,12 +39,10 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const $makeIndex = (events) => {
-    const index = review.params.nowIndex;
-    const colour = events[index].colour;
+  const $makeIndexNumber = (index, events) => {
     return $('<div>', {
       id:'index-number',
-      class:colour
+      class:events[index].colour
     }).html(index);
   };
 

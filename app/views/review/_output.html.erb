@@ -4,9 +4,8 @@ $(() => {
 
   const review = cd.review;
 
-  review.refreshOutput = (params) => {
-    const args = { id:params.id, index:params.nowIndex };
-    review.getJSON('model', 'kata_event', args, (event) => {
+  review.refreshOutput = (kataId, index) => {
+    review.getJSON('model', 'kata_event', { id:kataId, index:index }, (event) => {
       refreshOutputResponder(event);
     });
   };

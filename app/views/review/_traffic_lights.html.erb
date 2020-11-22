@@ -6,36 +6,31 @@ $(() => {
 
   const $trafficLights = $('#review-traffic-lights');
 
-  review.refreshTrafficLights = (params) => {
-    review.getJSON('model', 'kata_events', {id:params.id}, (events) => {
-      if (params.nowIndex === -1) {
-        const lastEvent = events[events.length - 1];
-        review.params.nowIndex = lastEvent.index;
-        review.params.wasIndex = lastEvent.index;
+  review.refreshTrafficLights = (kataId, index) => {
+    review.getJSON('model', 'kata_events', {id:kataId}, (events) => {
+      if (index === -1) {
+        index = events.length - 1;
       }
-      refreshTrafficLightsResponder(events);
+      refreshTrafficLightsResponder(kataId, index, events);
     });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const refreshTrafficLightsResponder = (events) => {
+  const refreshTrafficLightsResponder = (kataId, index, events) => {
     $trafficLights.empty();
-    appendTrafficLights(events);
-    review.refreshTrafficLightsNavigator(events);
+    appendTrafficLights(kataId, index, events);
+    review.refreshTrafficLightsNavigator(kataId, index, events);
     scrollCurrentTrafficLightIntoView();
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  review.moveToTrafficLight = (index) => {
+  review.moveToTrafficLight = (kataId, nowIndex) => {
     const delta = review.inDiffMode() ? 1 : 0;
-    review.params.nowIndex = index;
-    review.params.wasIndex = index - delta;
-    review.refresh();
+    review.refresh(kataId, nowIndex - delta, nowIndex);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const appendTrafficLights = (events) => {
-    let wasIndex = 0;
+  const appendTrafficLights = (kataId, index, events) => {
     events.forEach(event => {
       if (isVisible(event)) {
         if (wasPredicted(event)) {
@@ -44,7 +39,7 @@ $(() => {
         if (wasReverted(event)) {
           appendRevertedMarker(event);
         }
-        wasIndex = appendTrafficLight(event, wasIndex);
+        appendTrafficLight(kataId, index, event);
       }
     });
   };
@@ -89,24 +84,23 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const appendTrafficLight = (light, wasIndex) => {
+  const appendTrafficLight = (kataId, index, light) => {
     const $light = $('<div>', { class: 'diff-traffic-light' });
     const $img = $('<img>', { src: `/images/traffic-light/${light.colour}.png` });
-    const nowIndex = light.index;
-    $img.click(() => review.moveToTrafficLight(nowIndex));
-    const colour = light.colour;
+    $img.click(() => review.moveToTrafficLight(kataId, index));
     const avatarIndex = () => review.avatarIndex();
-    const kataId = review.params.id;
-    cd.setupTrafficLightTip2($img, colour, avatarIndex, kataId, wasIndex, nowIndex);
+    const wasIndex = index - 1;
+    const nowIndex = index;
+    cd.setupTrafficLightTip2($img, light.colour, avatarIndex, kataId, wasIndex, nowIndex);
     $light.append($img);
-    $light.append(makeTrafficLightMarkerHtml(light));
+    $light.append(makeTrafficLightMarkerHtml(index, light));
     $trafficLights.append($light);
     return nowIndex;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const makeTrafficLightMarkerHtml = (light) => {
-    const isCurrentIndex = (review.params.nowIndex === light.index);
+  const makeTrafficLightMarkerHtml = (index, light) => {
+    const isCurrentIndex = (index === light.index);
     if (isCurrentIndex) {
       return `<img id='traffic-light-marker'
                    src='/images/traffic-light/marker_${light.colour}.png'/>`;
