@@ -34,23 +34,13 @@ $(() => {
     review.refreshOutput(params);
   };
 
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  review.getJSON = (serviceName, path, args, responder) => {
-    cd.waitSpinner.fadeIn('fast', () => {
-      $.getJSON(`/${serviceName}/${path}`, args, (json) => {
-        cd.waitSpinner.fadeOut('fast', () => {
-          responder(json[path]);
-        });
-      });
-    });
-  };
-
 });
 //--></script>
 
 <%= render partial: 'review/create_button' %>
 <%= render partial: 'review/group_neighbours' %>
 <%= render partial: 'review/faders' %>
+<%= render partial: 'review/get_json' %>
 <%= render partial: 'review/pick_file' %>
 <%= render partial: 'shared/filenames_sorted' %>
 

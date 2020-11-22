@@ -1,0 +1,18 @@
+<script type="text/javascript"><!--
+'use strict';
+$(() => {
+
+  const review = cd.review;
+
+  review.getJSON = (serviceName, path, args, responder) => {
+    cd.waitSpinner.fadeIn('fast', () => {
+      $.getJSON(`/${serviceName}/${path}`, args, (json) => {
+        cd.waitSpinner.fadeOut('fast', () => {
+          responder(json[path]);
+        });
+      });
+    });
+  };
+
+});
+//--></script>
