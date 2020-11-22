@@ -125,6 +125,13 @@ table.sss
   &.unchanged { color: darken(DarkGray,20%); }
 }
 
+#diff-filename-stdout,
+#diff-filename-stderr,
+#diff-filename-status
+{
+  color: darken(DarkGray,20%);
+}
+
 .diff-filename
 {
   font-size:12pt;
