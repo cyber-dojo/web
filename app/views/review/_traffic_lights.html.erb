@@ -26,7 +26,8 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   review.moveToTrafficLight = (kataId, nowIndex) => {
     const delta = review.inDiffMode() ? 1 : 0;
-    review.refresh(kataId, nowIndex - delta, nowIndex);
+    const wasIndex = nowIndex - delta;
+    review.refresh(kataId, wasIndex, nowIndex);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
