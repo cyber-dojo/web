@@ -15,7 +15,7 @@ $blue:  #00F;
 
 .timed_out { color: gray; }
 .faulty    { color: darkGray; }
-.pulling   { color: lightBlue; }
+.pulling   { color: #2CDFF0; }
 
 $diff-added-count-color: lighten($green, 35%);
 $diff-deleted-count-color: lighten($red, 35%);
