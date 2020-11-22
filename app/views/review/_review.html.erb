@@ -4,11 +4,7 @@ $(() => {
 
   const review = cd.review;
 
-  const $kataPage = $('#kata-page');
-
   review.page = $('#review-page');
-
-  review.inTestPage = $kataPage.length !== 0;
 
   review.params = {
              id: "<%= @id %>",
@@ -21,22 +17,6 @@ $(() => {
     review.params = { id:kataId, wasIndex:wasIndex, nowIndex:nowIndex };
     review.fadeIntoReviewPage();
     review.refresh();
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  review.fadeIntoReviewPage = () => {
-    $kataPage.fadeOut('fast', () => {
-      review.page.fadeIn('fast');
-    });
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  review.fadeIntoKataPage = (onComplete) => {
-    review.page.fadeOut('fast', () => {
-      $kataPage.fadeIn('fast', () => {
-        onComplete();
-      });
-    });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -85,6 +65,7 @@ $(() => {
 
 <%= render partial: 'review/create_button' %>
 <%= render partial: 'review/group_neighbours' %>
+<%= render partial: 'review/faders' %>
 <%= render partial: 'review/pick_file' %>
 <%= render partial: 'shared/filenames_sorted' %>
 

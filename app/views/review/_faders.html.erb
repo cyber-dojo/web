@@ -1,0 +1,28 @@
+<script type="text/javascript"><!--
+'use strict';
+$(() => {
+
+  const review = cd.review;
+
+  const $kataPage = $('#kata-page');
+
+  review.inTestPage = $kataPage.length !== 0;
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  review.fadeIntoReviewPage = () => {
+    $kataPage.fadeOut('fast', () => {
+      review.page.fadeIn('fast');
+    });
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  review.fadeIntoKataPage = (onComplete) => {
+    review.page.fadeOut('fast', () => {
+      $kataPage.fadeIn('fast', () => {
+        onComplete();
+      });
+    });
+  };
+
+});
+//--></script>
