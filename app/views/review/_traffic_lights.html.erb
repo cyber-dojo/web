@@ -7,21 +7,21 @@ $(() => {
   const $trafficLights = $('#review-traffic-lights');
 
   review.refreshTrafficLights = (params) => {
-    review.getJSON('model', 'kata_events', {id:params.id}, (kata_events) => {
+    review.getJSON('model', 'kata_events', {id:params.id}, (events) => {
       if (params.nowIndex === -1) {
-        const lastEvent = kata_events[kata_events.length - 1];
+        const lastEvent = events[events.length - 1];
         review.params.nowIndex = lastEvent.index;
         review.params.wasIndex = lastEvent.index;
       }
-      refreshTrafficLightsResponder(kata_events);
+      refreshTrafficLightsResponder(events);
     });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const refreshTrafficLightsResponder = (kata_events) => {
+  const refreshTrafficLightsResponder = (events) => {
     $trafficLights.empty();
-    appendTrafficLights(kata_events);
-    review.refreshTrafficLightsNavigator(kata_events);
+    appendTrafficLights(events);
+    review.refreshTrafficLightsNavigator(events);
     scrollCurrentTrafficLightIntoView();
   };
 

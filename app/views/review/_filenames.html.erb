@@ -6,8 +6,8 @@ $(() => {
 
   review.refreshFiles = (params) => {
     const args = { id:params.id, was_index:params.wasIndex, now_index:params.nowIndex };
-    review.getJSON('differ', 'diff_lines', args, (diff_lines) => {
-      refreshFilesResponder(diff_lines);
+    review.getJSON('differ', 'diff_lines', args, (diffs) => {
+      refreshFilesResponder(diffs);
     });
   };
 
