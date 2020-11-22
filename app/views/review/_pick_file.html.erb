@@ -5,30 +5,36 @@ $(() => {
   cd.review.pickFile = (diffs, currentFilename) => {
     const isCurrentFile = (diff) => diffFilename(diff) === currentFilename;
     // Rule 1: If the current-filename has a diff, pick it.
-    const r1 = diffs.find(diff => isCurrentFile(diff) && hasChanged(diff));
+    const r1 = diffs.find(diff => hasChanged(diff) && isCurrentFile(diff));
     if (r1 != undefined) {
       return r1;
     }
-    // Rule 2: If there are diffs, pick the largest
-    const r2 = diffs.filter(diff => hasChanged(diff))
+    // Rule 2: If there are diffs, for non .txt, pick the largest
+    const r2 = diffs.filter(diff => hasChanged(diff) && !isTxtFilename(diff))
                     .sort(changeCountCompare);
     if (r2.length > 0) {
       return r2[0];
     }
-    // Rule 3: If there are 100% identical file renames, pick the largest
-    const r3 = diffs.filter(diff => isIdenticalRename(diff))
-                    .sort(sameCountCompare);
+    // Rule 3: If there are diffs, for .txt, pick the largest
+    const r3 = diffs.filter(diff => hasChanged(diff) && isTxtFilename(diff))
+                    .sort(changeCountCompare);
     if (r3.length > 0) {
       return r3[0];
     }
-    // Rule 4: If the current-filename exists, pick it
-    const r4 = diffs.find(diff => isCurrentFile(diff));
-    if (r4 != undefined) {
-      return r4;
+    // Rule 4: If there are 100% identical file renames, pick the largest
+    const r4 = diffs.filter(diff => isIdenticalRename(diff))
+                    .sort(sameCountCompare);
+    if (r4.length > 0) {
+      return r4[0];
     }
-    // Rule 5: Pick cyber-dojo.sh (which cannot be deleted)
-    const r5 = diffs.find(diff => diffFilename(diff) === 'cyber-dojo.sh');
-    return r5;
+    // Rule 5: If the current-filename exists, pick it
+    const r5 = diffs.find(diff => isCurrentFile(diff));
+    if (r5 != undefined) {
+      return r5;
+    }
+    // Rule 6: Pick cyber-dojo.sh (which cannot be deleted)
+    const r6 = diffs.find(diff => diffFilename(diff) === 'cyber-dojo.sh');
+    return r6;
   };
 
   const hasChanged = (diff) => changeCount(diff) > 0;
@@ -38,6 +44,8 @@ $(() => {
 
   const changeCount = (diff) => diff.line_counts.added + diff.line_counts.deleted;
   const sameCount = (diff) => diff.line_counts.same;
+
+  const isTxtFilename = (diff) => diffFilename(diff).endsWith('.txt');
 
   const diffFilename = (diff) =>
     (diff.type === 'deleted') ? diff.old_filename : diff.new_filename;

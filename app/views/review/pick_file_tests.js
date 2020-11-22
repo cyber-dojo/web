@@ -2,8 +2,8 @@
 
 const pickFile = require('./pick_file');
 
-describe('pickFile', () => {
-  it('picks the current filename when it has at least one diff', () =>
+describe('pickFile cascading rules...', () => {
+  it('Rule 1: pick the current filename when it has at least one diff', () =>
   {
     const currentFilename = 'readme.txt';
     const diffs = [];
@@ -14,20 +14,35 @@ describe('pickFile', () => {
     expect(picked.id).toEqual(1);
   });
   // otherwise
-  it('else picks the largest diff', () =>
+  it('Rule 2: pick the largest diff of non .txt file', () =>
   {
     const currentFilename = 'hiker.h';
     const diffs = [];
     diffs.push(cyber_dojo_sh(0));
     diffs.push(unchanged(1, 'hiker.h', 321));
-    diffs.push(  changed(2, 'hiker.c', 4, 8));
+    diffs.push(  changed(2, 'readme.txt', 34, 18));
     diffs.push(  changed(3, 'data.json',  4, 9));
     diffs.push(  changed(4, 'hiker.test.c',  3, 9));
     const picked = pickFile(diffs, currentFilename);
     expect(picked.id).toEqual(3);
   });
+
   // otherwise
-  it('else picks the largest 100% identical rename', () =>
+  it('Rule 3: pick the largest diff of .txt file', () =>
+  {
+    const currentFilename = 'hiker.h';
+    const diffs = [];
+    diffs.push(cyber_dojo_sh(0));
+    diffs.push(unchanged(1, 'hiker.h', 321));
+    diffs.push(  changed(2, 'readme.txt', 4, 8));
+    diffs.push(unchanged(3, 'data.json',  21));
+    diffs.push(unchanged(4, 'hiker.test.c', 56));
+    const picked = pickFile(diffs, currentFilename);
+    expect(picked.id).toEqual(2);
+  });
+
+  // otherwise
+  it('Rule 4: pick the largest 100% identical rename', () =>
   {
     const currentFilename = 'hiker.h';
     const diffs = [];
@@ -40,7 +55,7 @@ describe('pickFile', () => {
     expect(picked.id).toEqual(4);
   });
   // otherwise
-  it('else picks the current filename', () =>
+  it('Rule 5: pick the current filename', () =>
   {
     const currentFilename = 'hiker.h';
     const diffs = [];
@@ -53,7 +68,7 @@ describe('pickFile', () => {
     expect(picked.id).toEqual(2);
   });
   // otherwise
-  it('else picks cyber-dojo.sh (which can never be deleted)', () =>
+  it('Rule 6: pick cyber-dojo.sh (which can never be deleted)', () =>
   {
     const currentFilename = 'hiker.h';
     const diffs = [];
