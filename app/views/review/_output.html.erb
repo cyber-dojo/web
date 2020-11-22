@@ -6,12 +6,12 @@ $(() => {
 
   review.refreshOutput = (kataId, index) => {
     review.getJSON('model', 'kata_event', { id:kataId, index:index }, (event) => {
-      refreshOutputResponder(event);
+      outputRefresher(event);
     });
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const refreshOutputResponder = (event) => {
+  const outputRefresher = (event) => {
     const stdout = makeNoDiffOutput('stdout', event.stdout.content);
     const stderr = makeNoDiffOutput('stderr', event.stderr.content);
     const status = makeNoDiffOutput('status', event.status);

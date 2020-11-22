@@ -10,12 +10,12 @@ $(() => {
     const nowIndex = index;
     const args = { id:kataId, was_index:wasIndex, now_index:nowIndex };
     review.getJSON('differ', 'diff_lines', args, (diffs) => {
-      refreshFilesResponder(diffs);
+      filesRefresher(diffs);
     });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const refreshFilesResponder = (diffs) => {
+  const filesRefresher = (diffs) => {
     augmentDiffs(diffs);
     const $diffContent = $('#diff-content');
     $diffContent.html(makeDiffContent(diffs));

@@ -11,15 +11,15 @@ $(() => {
       if (index === -1) {
         index = events.length - 1;
       }
-      refreshTrafficLightsResponder(kataId, index, events);
+      trafficLightsRefresher(kataId, index, events);
+      review.refreshTrafficLightsNavigator(kataId, index, events);
     });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const refreshTrafficLightsResponder = (kataId, index, events) => {
+  const trafficLightsRefresher = (kataId, index, events) => {
     $trafficLights.empty();
     appendTrafficLights(kataId, index, events);
-    review.refreshTrafficLightsNavigator(kataId, index, events);
     scrollCurrentTrafficLightIntoView();
   };
 
