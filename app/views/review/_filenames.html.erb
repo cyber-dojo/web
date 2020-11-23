@@ -4,40 +4,11 @@ $(() => {
 
   const review = cd.review;
 
-  review.refreshFiles = (kataId, wasIndex, nowIndex) => {
-    const args = { id:kataId, was_index:wasIndex, now_index:nowIndex };
-    review.getJSON('differ', 'diff_lines', args, (diffs) => {
-      filesRefresher(diffs);
-    });
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  const filesRefresher = (diffs) => {
-    augmentDiffs(diffs);
-    const $diffContent = $('#diff-content');
-    $diffContent.html(makeDiffContent(diffs));
-
+  review.refreshFilenames = (diffs) => {
     const $diffFilenames = $('#diff-filenames');
     $diffFilenames.html($makeDiffFilenames(diffs));
     resetFilenameAddedDeletedLineCountHandlers();
-
-    const picked = review.pickFile(diffs, review.filename);
-    review.selectFilename(picked);
   };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  const augmentDiffs = (diffs) => {
-    diffs.forEach((diff,index) => {
-      diff.id = `id_${index}`;
-      diff.chunkIndex = 0
-      diff.chunkCount = chunkCount(diff.lines);
-      diff.hasBeenClicked = false;
-      diff.filename = (diff.type === 'deleted') ? diff.old_filename : diff.new_filename;
-    });
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  const chunkCount = (lines) => lines.reduce((n,line) => n + (line.type === 'section'), 0);
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const $makeDiffFilenames = (diffs) => {
@@ -55,7 +26,7 @@ $(() => {
         $makeDiffLineCountIconTd('deleted', '&mdash;'),
         $makeDiffLineCountIconTd('added', '+'),
         $makeDiffLineCountIconTd('same', '='),
-        $makeDiffHelpIconTd() // Aligns withs glyph-td
+        $makeDiffHelpIconTd() // Aligns withs type-td
       )
     }
     $tr.append($makeTd('')); // Aligns with filename-td
@@ -135,7 +106,7 @@ $(() => {
       tip += oldFilenameTip(diff);
     }
     if (diff.chunkCount > 0) {
-      if (tip != '') { hoverTip += '<br/>'; }
+      if (tip != '') { tip += '<br/>'; }
       tip += chunkCountTip(diff);
     }
     if (tip != '') {
@@ -234,78 +205,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const makeDiffContent = (diffs) => {
-    const $holder = $('<span>');
-    diffs.forEach(diff => $holder.append(review.makeDiffFileContent(diff)));
-    return $holder;
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  review.makeDiffFileContent = (diff) => {
-    const lineNumbers = makeLineNumbers(diff.lines);
-    const fileContent = makeContent(diff.id, diff.lines);
-    const $file = $('' +
-      `<div id="file-content-${diff.id}" class="file-content">` +
-      '<table>' +
-        '<tr class="valign-top">' +
-          makeTd('<div class="diff-line-numbers"></div>') +
-          makeTd(`<div id="diff-sheet-${diff.id}"` +
-                 ' class="diff-sheet"></div>') +
-        '</tr>' +
-      '</table>' +
-      '</div>'
-      );
-    const $numbers = $('.diff-line-numbers', $file);
-    $numbers.html(lineNumbers);
-
-    const $content = $('.diff-sheet', $file);
-    $content.html(fileContent);
-
-    bindLineNumberScrolling($content, $numbers);
-    return $file;
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  const makeLineNumbers = (lines) => {
-    let html = [];
-    lines.forEach(line => {
-      if (line.type != 'section') {
-        html.push(`<${line.type}><ln>${line.number}</ln></${line.type}>`);
-      }
-    });
-    return html;
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  const makeContent = (id, diff_lines) => {
-    let html = [];
-    diff_lines.forEach(diff_line => {
-      if (diff_line.type === 'section') {
-        html.push(`<span id='diff-chunk-${id}-${diff_line.index}'></span>`);
-      } else {
-        let line = cd.htmlEscape(diff_line.line);
-        if (line === '') { line = '&nbsp'; }
-        html.push(`<${diff_line.type}>${line}</${diff_line.type}>`);
-      }
-    });
-    return html;
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  const bindLineNumberScrolling = ($content, $numbers) => {
-    const synchScroll = () => $numbers.scrollTop($content.scrollTop());
-    $content.bind({
-      keydown   : synchScroll,
-      scroll    : synchScroll,
-      mousewheel: synchScroll,
-      mousemove : synchScroll,
-      mousedown : synchScroll,
-      mouseup   : synchScroll
-    });
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  const makeTd = (html) => `<td>${html}</td>`;
   const $makeTd = ($node) => $('<td>').html($node);
 
 });

@@ -24,6 +24,7 @@
       </table>
       <table>
         <tr><td><%= render partial: 'review/filenames' %></td></tr>
+        <tr><td><%= render partial: 'review/files' %></td></tr>
         <tr><td><%= render partial: 'review/output' %></td></tr>
       </table>
     </td>
@@ -55,7 +56,7 @@ $(() => {
     review.refreshFiles(kataId, wasIndex, nowIndex);
     review.refreshOutput(kataId, nowIndex);
     review.refreshTrafficLights(kataId, nowIndex);
-    
+
     review.refreshCheckoutButton(kataId, nowIndex)
     review.refreshForkButton(kataId, nowIndex)
     review.refreshResumeButton()
