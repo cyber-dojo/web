@@ -102,12 +102,8 @@ $(() => {
     tip += tr3('deleted', '');
     tip += tr3('unchanged', '');
     tip += '</table>';
-    const $div = $('<div>', {
-      class: 'diff-help-icon',
-      'data-tip': tip
-    });
-    $div.text('?');
-    cd.setupHoverTips($div);
+    const $div = $('<div>', { class: 'diff-help-icon' }).text('?');
+    cd.createTip($div, tip);
     return $('<td>').append($div);
   };
 
@@ -134,17 +130,16 @@ $(() => {
   const $makeDiffTypeTd = (diff) => {
     if (diff === '&nbsp;') { return diff; }
     const $div = $('<div>', { class:`diff-type-marker ${diff.type}` });
-    let hoverTip = '';
+    let tip = '';
     if (diff.type === 'renamed') {
-      hoverTip += oldFilenameTip(diff);
+      tip += oldFilenameTip(diff);
     }
     if (diff.chunkCount > 0) {
-      if (hoverTip != '') { hoverTip += '<br/>'; }
-      hoverTip += chunkCountTip(diff);
+      if (tip != '') { hoverTip += '<br/>'; }
+      tip += chunkCountTip(diff);
     }
-    if (hoverTip != '') {
-      $div.attr('data-tip', hoverTip);
-      cd.setupHoverTips($div);
+    if (tip != '') {
+      cd.createTip($div, tip);
     }
     return $('<td>').append($div);
   };
