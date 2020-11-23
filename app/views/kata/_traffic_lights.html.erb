@@ -106,7 +106,7 @@ $(() => {
   // the predicted-counts. It is called from these places:
   //   1) views/kata/_edit.html.erb when page loads/refreshes.
   //   2) views/kata/run_tests.js.erb when [test] is clicked.
-  //   3) views/review/_review.html.erb when [revert] is clicked.
+  //   3) views/review/_review.html.erb when [checkout] is clicked.
 
   cd.updateTrafficLightsCount = () => {
     updateTrafficLightsTotalCount();
@@ -206,41 +206,25 @@ $(() => {
   const updateTrafficLightsPredictCount = () => {
     const $box = cd.countPredictBox();
     $box.fadeOut('fast', () => {
-      $box.empty().append(tickBox()).append(crossBox());
-      $box.fadeIn('fast');
+      $box.empty()
+          .append($countBox('tick',  'correct predictions'))
+          .append($countBox('cross', 'incorrect predictions'))
+          .fadeIn('fast');
     });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const tickBox = () => {
-    const light = lastLight();
-    const $tickImg = $('<img>', {
-      id:'tick-img',
-      src:`/images/traffic-light/circle-tick.png`
+  const $countBox = (type, tip) => {
+    const $img = $('<img>', {
+       id:`${type}-img`,
+      src:`/images/traffic-light/circle-${type}.png`
     });
-    const $tickCount = $('<div>', {
-      id:'tick-count',
+    const $count = $('<div>', {
+         id:`${type}-count`,
       class:'traffic-light-count'
-    }).text(counts.tick);
-    const hoverTip = 'correct predictions';
-    cd.setTip($tickCount, () => cd.showHoverTip($tickCount, hoverTip));
-    return $('<div>', {id:'tick-box'}).append($tickImg).append($tickCount);
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const crossBox = () => {
-    const light = lastLight();
-    const $crossImg = $('<img>', {
-      id:'cross-img',
-      src:`/images/traffic-light/circle-cross.png`
-    });
-    const $crossCount = $('<div>', {
-      id:'cross-count',
-      class:'traffic-light-count'
-    }).text(counts.cross);
-    const hoverTip = 'incorrect predictions';
-    cd.setTip($crossCount, () => cd.showHoverTip($crossCount, hoverTip));
-    return $('<div>', {id:'cross-box'}).append($crossImg).append($crossCount);
+    }).text(counts[type]);
+    cd.createTip($count, tip);
+    return $('<div>', {id:`${type}-box`}).append($img).append($count);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
