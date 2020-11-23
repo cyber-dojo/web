@@ -133,6 +133,7 @@ var cyberDojo = ((cd, $) => {
       case '.hs'     : return 'text/x-haskell';
       case '.java'   : return 'text/x-java';
       case '.js'     : return 'text/javascript';
+      case '.kt'     : return 'text/x-kotlin';
       case '.md'     : return 'text/x-markdown';
       case '.php'    : return 'text/x-php';
       case '.py'     : return 'text/x-python';
