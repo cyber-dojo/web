@@ -24,12 +24,12 @@ $(() => {
   review.refreshDiffCheckBox = (kataId, checked, index) => {
     diffCheckBox()
       .prop('checked', checked)
-      .unbind('click')
-      .bind('click', () => review.moveToTrafficLight(kataId, index));
+      .off('click')
+      .on('click', () => review.moveToTrafficLight(kataId, index));
 
     $('#diff-checkbox-title')
-      .unbind('click')
-      .bind('click', () => {
+      .off('click')
+      .on('click', () => {
         diffCheckBox().attr('checked', !review.inDiffMode());
         review.moveToTrafficLight(kataId, index);
       });

@@ -36,8 +36,8 @@ $(() => {
   const refreshAvatar = (button, kataId) => {
     button
       .attr('disabled', kataId === '')
-      .unbind('click')
-      .bind('click', () => moveToAvatar(kataId));
+      .off('click')
+      .on('click', () => moveToAvatar(kataId));
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -

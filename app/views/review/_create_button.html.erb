@@ -9,8 +9,8 @@ $(() => {
     $(`#${name}-button-box`).html(button);
     $(`#${name}-button`)
       .text(name)
-      .unbind('click')
-      .bind('click', handler);
+      .off('click')
+      .on('click', handler);
   };
 
 });

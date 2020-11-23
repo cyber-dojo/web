@@ -16,8 +16,8 @@ $(() => {
   const refreshMoveTo = (button, kataId, index) => {
     button
       .attr('disabled', index === null)
-      .unbind('click')
-      .bind('click', () => review.moveToTrafficLight(kataId, index));
+      .off('click')
+      .on('click', () => review.moveToTrafficLight(kataId, index));
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
