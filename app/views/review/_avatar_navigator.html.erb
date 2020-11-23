@@ -16,19 +16,20 @@ $(() => {
     review.avatarIndex = () => avatarIndex;
     if (avatarIndex != '') {
       $('#avatar-navigator').show();
-      const $box = $('#review-avatar-image-box').html($makeAvatarImage(avatarIndex));
       refreshAvatar($('#prev-avatar'), prevId);
-      cd.setupAvatarNameHoverTip($box, '', avatarIndex, '');
+      $('#review-avatar-image-box').html($makeAvatarImage(avatarIndex));
       refreshAvatar($('#next-avatar'), nextId);
     }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const $makeAvatarImage = (avatarIndex) => {
-    return $('<img>', {
+    const $img = $('<img>', {
       class:'avatar-image',
         src:`/images/avatars/${avatarIndex}.jpg`
     });
+    cd.setupAvatarNameHoverTip($img, '', avatarIndex, '');
+    return $img;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
