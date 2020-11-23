@@ -4,33 +4,40 @@ $(() => {
 
   cd.review.groupNeighbours = (id, joined) => {
     if (isEmpty(joined)) {
-      return [ '', '', '' ];
+      return ['','',''];
     }
+
     // eg id = "Q55b8b"
     // eg joined = {
-    //      "15" => { "id" => "EEJSkR", "events"=>[0,1,2]   }, # 15 == fox
-    //      "23" => { "id" => "Q55b8b", "events"=>[0,1,2,3] }, # 23 == jellyfish
-    //       "2" => { "id" => "w34rd5", "events"=>[0]       }, #  2 == bat
+    //      ...
+    //      "23": { id:"Q55b8b", events:[0,1,2,3]     }, // 23 == jellyfish (==id)
+    //      "15": { id:"EEJSkR", events:[0,1,2]       }, // 15 == fox
+    //       "2": { id:"w34rd5", events:[0]           }, //  2 == bat
+    //      "44": { id:"REf1t7", events:[0,1,2,3,4,5] }, // 44 == rhino
     //      ...
     //   }
 
     const active =
-        Object.keys(joined)
-              .filter((key) => joined[key].events.length > 1)
-              .map((key) => [ parseInt(key), joined[key].id ])
-              .sort((lhs,rhs) => lhs[0] - rhs[0]);
+      Object.keys(joined)
+            .filter((key) => joined[key].events.length > 1)
+            .map((key) => ({ avatar:parseInt(key), id:joined[key].id }))
+            .sort((lhs,rhs) => lhs.avatar - rhs.avatar);
 
     // eg active = [
-    //      [ 15, "EEJSkR" ],
-    //      [ 23, "Q55b8b" ], // 1 <<<<<< index
+    //      ...
+    //      { avatar:15, id:"EEJSkR" }, // prevId == "EEJSkR"
+    //      { avatar:23, id:"Q55b8b" }, // index == 5
+    //      { avatar:44, id:"REf1t7" }, // nextId == "REf1t7"
     //      ...
     //  ]
 
-    const index = active.findIndex((e) => e[1] === id);
-    const prevId = (index-1 >= 0) ? active[index-1][1] : '';
-    const nextId = (index+1 < active.length) ? active[index+1][1] : '';
+    const index = active.findIndex((e) => e.id === id);
 
-    return [ prevId, active[index][0], nextId ];
+    const prevId = (index-1 >= 0) ? active[index-1].id : '';
+    const avatar = active[index].avatar; // eg 23
+    const nextId = (index+1 < active.length) ? active[index+1].id : '';
+
+    return [ prevId, avatar, nextId ];
   };
 
   const isEmpty = (o) => Object.keys(o).length === 0;
