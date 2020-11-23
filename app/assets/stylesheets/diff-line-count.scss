@@ -90,7 +90,9 @@ table.sss
 .diff-help-icon
 {
   @include plaintext-font();
-  margin-left:5px;
+  margin: { top:6px; right:6px; }
+  width:5px;
+  height:17px;
   border-radius:14px;
   border:1px solid lighten($darker-color, 15%);
   color:lighten($darker-color, 15%);

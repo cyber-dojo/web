@@ -26,7 +26,7 @@ $(() => {
         $makeDiffLineCountIconTd('deleted', '&mdash;'),
         $makeDiffLineCountIconTd('added', '+'),
         $makeDiffLineCountIconTd('same', '='),
-        $makeDiffHelpIconTd() // Aligns withs type-td
+        $makeTd('') // Aligns withs type-td
       )
     }
     $tr.append($makeTd('')); // Aligns with filename-td
@@ -54,35 +54,6 @@ $(() => {
       class:`diff-line-count-icon ${cssName}`
     }).html(icon);
     return $('<td>').append($icon);
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  const $makeDiffHelpIconTd = () => {
-    let tip = '';
-    tip += '<span class="diff-line-count-icon deleted">-</span> ';
-    tip += '<span class="diff-line-count-icon added">+</span> ';
-    tip += '<span class="diff-line-count-icon same">=</span> number of deleted,added,unchanged lines.<br/>';
-    tip += '<hr/>';
-    tip += 'click a filename to review it.<br/>';
-    tip += 'reclick the filename to cycle through its diff-chunks.<br/>';
-    tip += '<hr/>';
-    tip += '<table>';
-    tip += tr3('changed', 'hover over <span class="diff-type-marker changed"></span> for diff-chunk count');
-    tip += tr3('renamed', 'hover over <span class="diff-type-marker renamed"></span> for old filename');
-    tip += tr3('created', '');
-    tip += tr3('deleted', '');
-    tip += tr3('unchanged', '');
-    tip += '</table>';
-    const $div = $('<div>', { class: 'diff-help-icon' }).text('?');
-    cd.createTip($div, tip);
-    return $('<td>').append($div);
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  const tr3 = (type, info) => {
-    return `<tr><td><span class="diff-type-marker ${type}"></span></td>` +
-               `<td><span class="diff-filename ${type}">${type}-file</span></td>` +
-               `<td>${info}</td>`;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
