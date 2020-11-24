@@ -31,27 +31,6 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  cd.checkout = (args) => {
-    // eg args = { src_id:'Xd4f2P', src_index:17 };
-    args.id = cd.kataId();
-    args.index = cd.getIndex();
-    $.post('/kata/revert', args, (data) => {
-      cd.kata.editor.deleteFiles();
-      for (const filename in data.files) {
-        cd.kata.editor.createFile(filename, { content:data.files[filename] });
-        cd.kata.editor.showFile(filename);
-      }
-      cd.kata.editor.output(data.stdout.content, data.stderr.content, data.status);
-      cd.kata.tabs.output().click();
-      cd.kata.filenames.refresh();
-      cd.appendTrafficLight(data.light);
-      cd.updateTrafficLightsCount();
-      cd.updateIndex(data.light.index);
-      cd.scrollLastTrafficLightIntoView();
-    }, 'json');
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - -
   const circleImages = () => {
     const cssSelectors = [
       '#traffic-lights img.revert',
@@ -127,10 +106,31 @@ $(() => {
     const actualColour = $newLast.data('colour');
     const predictedWrong = (actualColour != predictedColour);
     const isLightToRevertTo = ($oldLast != undefined);
-    if (predictedWrong && autoRevert && isLightToRevertTo) {
+    if (predictedWrong && autoRevertIsOn && isLightToRevertTo) {
       const srcIndex = $oldLast.data('index');
-      cd.checkout({ src_id:cd.kataId(), src_index:srcIndex });
+      autoRevert({ src_id:cd.kataId(), src_index:srcIndex });
     }
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  const autoRevert = (args) => {
+    // eg args = { src_id:'Xd4f2P', src_index:17 };
+    args.id = cd.kataId();
+    args.index = cd.getIndex();
+    $.post('/kata/revert', args, (data) => {
+      cd.kata.editor.deleteFiles();
+      for (const filename in data.files) {
+        cd.kata.editor.createFile(filename, { content:data.files[filename] });
+        cd.kata.editor.showFile(filename);
+      }
+      cd.kata.editor.output(data.stdout.content, data.stderr.content, data.status);
+      cd.kata.tabs.output().click();
+      cd.kata.filenames.refresh();
+      cd.appendTrafficLight(data.light);
+      cd.updateTrafficLightsCount();
+      cd.updateIndex(data.light.index);
+      cd.scrollLastTrafficLightIntoView();
+    }, 'json');
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -147,15 +147,15 @@ $(() => {
       </label>
     </div>`;
 
-  let autoRevert = false;
-
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const setupAutoRevertCheckBox = ($node) => {
     const $checkbox = $(`#auto-revert-checkbox`, $node);
     $checkbox
-      .prop('checked', autoRevert)
-      .change(() => autoRevert = $checkbox.prop('checked'));
+      .prop('checked', autoRevertIsOn)
+      .change(() => autoRevertIsOn = $checkbox.prop('checked'));
  };
+
+ let autoRevertIsOn = false;
 
 });
 </script>

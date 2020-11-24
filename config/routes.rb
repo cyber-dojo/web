@@ -12,6 +12,7 @@ CyberDojo::Application.routes.draw do
   scope path: '/kata', controller: :kata do
     get  'edit(/:id)'       => :edit
     post 'run_tests(/:id)'  => :run_tests, :constraints => { :format => :json }
+    post 'checkout'         => :checkout,  :constraints => { :format => :json }
     post 'revert'           => :revert,    :constraints => { :format => :json }
     post 'set_theme'        => :set_theme
     post 'set_colour'       => :set_colour
