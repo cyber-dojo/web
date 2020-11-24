@@ -21,7 +21,7 @@ class ReverterControllerTest  < AppControllerTestBase
       post_run_tests # 2
       assert_equal new_content, kata.files[filename]['content']
 
-      post '/reverter/revert', params: { # 3
+      post '/kata/revert', params: { # 3
         'src_id' => kata.id,
         'src_index' => 1,
         'id'     => kata.id,
@@ -55,7 +55,7 @@ class ReverterControllerTest  < AppControllerTestBase
       post_run_tests # 1
 
       in_kata do |hippo|
-        post '/reverter/revert', params: { # 1
+        post '/kata/revert', params: { # 1
           'src_id' => lion.id,
           'src_index' => 1,
           'id'     => hippo.id,
