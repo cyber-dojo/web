@@ -151,7 +151,7 @@ class KataController < ApplicationController
     model.kata_ran_tests(id, index, files, stdout, stderr, status, {
         'time' => time.now,
       'colour' => colour.to_s,
-      'revert' => [src_id, src_index] # <----------
+      'checkout' => [src_id, src_index]
     });
 
     render json: {
@@ -162,7 +162,7 @@ class KataController < ApplicationController
        light: {
         colour: colour,
          index: index,
-        revert: [src_id,src_index]
+        checkout: [src_id,src_index]
       }
     }
   end

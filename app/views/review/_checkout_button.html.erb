@@ -18,7 +18,7 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const checkout = (args) => {
     // eg args = { src_id:'Xd4f2P', src_index:17 };
-    args.id = cd.kataId();
+    args.id = cd.kata.id();
     args.index = cd.getIndex();
     $.post('/kata/checkout', args, (data) => {
       cd.kata.editor.deleteFiles();

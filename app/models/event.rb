@@ -56,6 +56,10 @@ class Event
     @summary['revert']
   end
 
+  def checkout
+    @summary['checkout']
+  end
+
   def light?
     colour.to_s != ''
   end

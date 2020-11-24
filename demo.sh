@@ -83,7 +83,7 @@ remove 3000 # web
 web_build
 remove 80 # nginx
 up_nginx
-copy_in_saver_test_data # eg 5U2J18 (v1)  5rTJv5 (v0)
+#copy_in_saver_test_data # eg 5U2J18 (v1)  5rTJv5 (v0)
 if on_Mac; then
   open "$(demo_URL)"
 else

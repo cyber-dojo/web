@@ -106,16 +106,16 @@ $(() => {
     const actualColour = $newLast.data('colour');
     const predictedWrong = (actualColour != predictedColour);
     const isLightToRevertTo = ($oldLast != undefined);
-    if (predictedWrong && autoRevertIsOn && isLightToRevertTo) {
+    if (autoRevertIsOn && predictedWrong && isLightToRevertTo) {
       const srcIndex = $oldLast.data('index');
-      autoRevert({ src_id:cd.kataId(), src_index:srcIndex });
+      autoRevert({ src_id:cd.kata.id(), src_index:srcIndex });
     }
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const autoRevert = (args) => {
     // eg args = { src_id:'Xd4f2P', src_index:17 };
-    args.id = cd.kataId();
+    args.id = cd.kata.id();
     args.index = cd.getIndex();
     $.post('/kata/revert', args, (data) => {
       cd.kata.editor.deleteFiles();

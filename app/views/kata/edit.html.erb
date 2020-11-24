@@ -9,7 +9,7 @@
 'use strict';
 $(() => {
 
-  cd.kataId = () => "<%= @id %>";
+  cd.kata.id = () => "<%= @id %>";
   cd.codeMirror.resetTheme();
   cd.kata.tabs.setup({repl:"<%= @env['REPL'] %>"});
 
@@ -28,8 +28,8 @@ $(() => {
   cd.kata.filenames.refresh();
 
   // load initial traffic-lights
-  const events = <%= raw @events_json.gsub("\n",'') %>;
-  events.forEach((event,index) => {
+  cd.kata.events = <%= raw @events_json.gsub("\n",'') %>;
+  cd.kata.events.forEach((event,index) => {
     event.index = index; // version 0 events don't store their index
     cd.appendTrafficLight(event);
   });
