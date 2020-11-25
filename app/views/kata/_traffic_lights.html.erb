@@ -44,9 +44,8 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.appendTrafficLight = (light) => {
-    const index = light.index;
-    const colour = light.colour;
-    if (colour) {
+    if (cd.kata.isVisible(light)) {
+      const index = light.index;
       cd.kata.appendLightQualifierImg($lights, light);
       const $div = $('<div>', {
         'class':'diff-traffic-light',
@@ -54,7 +53,7 @@ $(() => {
         'data-avatar-index':avatarIndex,
         'data-number':number,
         'data-index':index,
-        'data-colour':colour
+        'data-colour':light.colour
       });
       const $light = $div.append($trafficLightImage(light));
       $lights.append($light);
@@ -63,6 +62,22 @@ $(() => {
       number += 1;
       updateCountData(light);
       counts.lastLight = light;
+    }
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  cd.kata.isVisible = (event) => {
+    // Eg don't show event[0] == creation
+    switch (event.colour) {
+    case 'pulling':
+    case 'red':
+    case 'amber':
+    case 'green':
+    case 'timed_out':
+    case 'faulty':
+      return true;
+    default:
+      return false;
     }
   };
 

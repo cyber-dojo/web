@@ -33,27 +33,11 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const appendTrafficLights = (kataId, index, events) => {
     events.forEach(event => {
-      if (isVisible(event)) {
+      if (cd.kata.isVisible(event)) {
         cd.kata.appendLightQualifierImg($trafficLights, event);
         appendTrafficLight(kataId, index, event);
       }
     });
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  const isVisible = (event) => {
-    // Eg don't show event[0] == creation
-    switch (event.colour) {
-    case 'pulling':
-    case 'red':
-    case 'amber':
-    case 'green':
-    case 'timed_out':
-    case 'faulty':
-      return true;
-    default:
-      return false;
-    }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
