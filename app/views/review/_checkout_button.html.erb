@@ -19,7 +19,7 @@ $(() => {
   const checkout = (args) => {
     // eg args = { src_id:'Xd4f2P', src_avatar_index:31, src_index:17 };
     args.id = cd.kata.id();
-    args.index = cd.getIndex();
+    args.index = cd.kata.index();
     $.post('/kata/checkout', args, (data) => {
       cd.kata.editor.deleteFiles();
       for (const filename in data.files) {
@@ -29,9 +29,9 @@ $(() => {
       cd.kata.editor.output(data.stdout.content, data.stderr.content, data.status);
       cd.kata.tabs.output().click();
       cd.kata.filenames.refresh();
+      cd.kata.index(data.light.index);
       cd.appendTrafficLight(data.light);
       cd.updateTrafficLightsCount();
-      cd.updateIndex(data.light.index);
       cd.scrollLastTrafficLightIntoView();
     }, 'json');
   };

@@ -130,7 +130,7 @@
   cd.appendTrafficLight(<%= raw @light.to_json %>);
   cd.updateTrafficLightsCount();
   cd.scrollLastTrafficLightIntoView();
-  cd.updateIndex(<%= @index %>);
+  cd.kata.index(<%= @index %>);
 
   showInfoDialogs();
 

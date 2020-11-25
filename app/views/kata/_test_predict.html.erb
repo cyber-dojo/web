@@ -116,7 +116,7 @@ $(() => {
   const autoRevert = (args) => {
     // eg args = { src_id:'Xd4f2P', src_index:17 };
     args.id = cd.kata.id();
-    args.index = cd.getIndex();
+    args.index = cd.kata.index();
     $.post('/kata/revert', args, (data) => {
       cd.kata.editor.deleteFiles();
       for (const filename in data.files) {
@@ -128,7 +128,7 @@ $(() => {
       cd.kata.filenames.refresh();
       cd.appendTrafficLight(data.light);
       cd.updateTrafficLightsCount();
-      cd.updateIndex(data.light.index);
+      cd.kata.index(data.light.index);
       cd.scrollLastTrafficLightIntoView();
     }, 'json');
   };

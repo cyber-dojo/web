@@ -5,18 +5,19 @@ $(() => {
 
   const $index = $("input[name='index']");
 
-  cd.updateIndex = (value) => {
-    // Each event has an incrementing index,
-    // as held in the back end commits.
-    $index.val(value);
-  };
-
-  cd.getIndex = () => {
-    return $index.val();
+  cd.kata.index = (newValue) => {
+    if (newValue === undefined) {
+      return $index.val();
+    } else {
+      $index.val(newValue);
+    }
   };
 
 });
 </script>
+
+<%# Each event has an incrementing index which is cached in  %>
+<%# the browser to allow out-of-sync mobbing detection.      %>
 
 <input name="index"        type="hidden" value="<%= @index %>">
 <input name="predicted"    type="hidden" value="none">
