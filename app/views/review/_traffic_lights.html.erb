@@ -34,12 +34,7 @@ $(() => {
   const appendTrafficLights = (kataId, index, events) => {
     events.forEach(event => {
       if (isVisible(event)) {
-        if (wasPredicted(event)) {
-          appendPredictedMarker(event);
-        }
-        if (wasReverted(event)) {
-          appendRevertedMarker(event);
-        }
+        cd.kata.appendLightQualifierImg($trafficLights, event);
         appendTrafficLight(kataId, index, event);
       }
     });
@@ -59,29 +54,6 @@ $(() => {
     default:
       return false;
     }
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  const wasPredicted = (light) => light.predicted != undefined && light.predicted != 'none';
-  const wasReverted = (light) => light.revert != undefined;
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  const appendPredictedMarker = (light) => {
-    const correct = (light.predicted === light.colour);
-    const icon = correct ? 'tick' : 'cross';
-    const $predicted = $('<img>', {
-      class: icon,
-        src: `/images/traffic-light/circle-${icon}.png`
-    });
-    $trafficLights.append($predicted);
-  };
-
-  const appendRevertedMarker = (light) => {
-    const $revert = $('<img>', {
-      class: 'revert',
-        src: '/images/traffic-light/circle-revert.png'
-    });
-    $trafficLights.append($revert);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
