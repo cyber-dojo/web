@@ -28,15 +28,18 @@
 
   #avatar-navigator, #traffic-light-navigator { max-height: 25px; }
 
-  img.avatar-image
+  #review-avatar-image-box
   {
-    @include rounded-corner(6px);
-     cursor: default;
-      width: 21px;
-     height: 21px;
-     margin: 0px;
-    padding: 0px;
-     margin: 0px;
+    img.avatar-image
+    {
+      @include rounded-corner(6px);
+       cursor: default;
+        width: 25px;
+       height: 25px;
+       margin: 0px;
+      padding: 0px;
+       margin: 0px;
+    }
   }
 
   #resume-button
@@ -122,12 +125,19 @@
       height: 3px;
       vertical-align: top;
     }
-
     img.revert, img.tick, img.cross
     {
       width:11px;
       height:11px;
       padding-top:13px;
+      position:relative;
+      left:2px;
+    }
+    img.checkout
+    {
+      width:25px;
+      height:25px;
+      border-radius:15px;
       position:relative;
       left:2px;
     }
