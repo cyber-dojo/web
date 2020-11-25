@@ -139,6 +139,7 @@ class KataController < ApplicationController
   def checkout
     src_id = params[:src_id]
     src_index = params[:src_index].to_i
+
     index = params[:index].to_i + 1
 
     event = model.kata_event(src_id, src_index)
@@ -151,7 +152,7 @@ class KataController < ApplicationController
     model.kata_ran_tests(id, index, files, stdout, stderr, status, {
         'time' => time.now,
       'colour' => colour.to_s,
-      'checkout' => [src_id, src_index]
+      'checkout' => checkout_hash
     });
 
     render json: {
@@ -162,9 +163,26 @@ class KataController < ApplicationController
        light: {
         colour: colour,
          index: index,
-        checkout: [src_id,src_index]
+        checkout: checkout_hash
       }
     }
+  end
+
+  def checkout_hash
+    { id:src_id, avatarIndex:src_avatar_index, index:src_index }
+  end
+
+  def src_id
+    params[:src_id]
+  end
+
+  def src_index
+    params[:src_index].to_i
+  end
+
+  def src_avatar_index
+    param = params[:src_avatar_index]
+    (param != '') ? param.to_i : ''
   end
 
 end

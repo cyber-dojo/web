@@ -13,7 +13,7 @@ $(() => {
   const avatarNavigatorRefresher = (kataId, joined) => {
     const [prevId,avatarIndex,nextId] = review.groupNeighbours(kataId,joined);
     // Make avatarIndex available for traffic-light hover-tip.
-    review.avatarIndex = () => avatarIndex;
+    review.avatarIndex = () => avatarIndex; // eg 23 eg ''
     if (avatarIndex != '') {
       $('#avatar-navigator').show();
       refreshAvatar($('#prev-avatar'), prevId);

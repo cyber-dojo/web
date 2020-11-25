@@ -67,6 +67,8 @@ a:link, a:visited { color: $text-color; }
   padding: 0px;
 }
 
+
+
 .avatar_name, #id {
   @include font-size-tiny();
   text-align: right;

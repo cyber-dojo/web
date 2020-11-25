@@ -72,14 +72,18 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const lightQualifier = (light) => {
+    // Older katas did not distinguish between
+    //   - an auto-revert, from an incorrect test prediction
+    //   - a [checkout], from the review page.
+    // Both were light.revert == [id,index]
     if (isPredict(light)) {
       return 'predict';
     }
-    else if (isCheckout(light) || isOldRevertButDefinitelyACheckout(light)) {
+    else if (isCheckout(light)) {
       return 'checkout';
     }
     else if (isRevert(light)) {
-      return 'revert'; // probably
+      return 'revert';
     }
     else {
       return '';
@@ -89,32 +93,6 @@ $(() => {
   const isPredict = (light) => light.predicted != undefined && light.predicted != 'none';
   const isRevert = (light) => light.revert != undefined;
   const isCheckout = (light) => light.checkout != undefined;
-
-  const isOldRevertButDefinitelyACheckout = (light) => {
-    // Older katas did not distinguish between
-    //   - an auto-revert, from an incorrect test prediction
-    //   - a [checkout], from the review page.
-    // Both were light.revert == [id,index]
-    const isForDifferentAvatar = () => {
-      return light.revert[0] != cd.kata.id();
-    };
-    const isPredictRevertPattern = () => {
-      //console.log(`1: ${light.revert[0]}, ${cd.kata.id()}`);
-      //console.log(`2: ${light.revert[1]}, ${light.index-2}`);
-      //console.log(`3: ${JSON.stringify(cd.kata.events[light.index-1])}`);
-      return isPredict(cd.kata.events[light.index-1]) &&
-               light.revert[0] === cd.kata.id() &&
-                 light.revert[1] === light.index-2;
-    };
-    //console.log('--------------------------------------');
-    //console.log(`isOldRevertButDefinitelyACheckout(light==${JSON.stringify(light)})`);
-    //console.log(`isRevert(light)==${isRevert(light)}`);
-    if (isRevert(light)) {
-      //console.log(`isForDifferentAvatar()==${isForDifferentAvatar()}`);
-      //console.log(`isPredictRevertPattern()==${isPredictRevertPattern()}`);
-    }
-    return isRevert(light) && (isForDifferentAvatar() || !isPredictRevertPattern());
-  };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const $imgForPredict = (light) => {
@@ -136,11 +114,10 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const $imgForCheckout = (light) => {
-    const key = isCheckout(light) ? 'checkout' : 'revert';
-    const index = light[key][1];
-    return $('<div>', {
-      class: `checkout ${light.colour}`
-    }).text(index);
+    return $('<img>', {
+      class:'avatar-image checkout',
+        src:`/images/avatars/${light.checkout.avatarIndex}.jpg`
+    });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -

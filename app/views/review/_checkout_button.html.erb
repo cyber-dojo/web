@@ -7,7 +7,7 @@ $(() => {
   review.refreshCheckoutButton = (kataId, index) => {
     if (review.inTestPage) {
       review.createButton('checkout', () => review.fadeIntoKataPage(() => {
-        checkout({ src_id:kataId, src_index:index });
+        checkout({ src_id:kataId, src_avatar_index:review.avatarIndex(), src_index:index });
       }));
       const $button = $('#checkout-button');
       const tip = `make this traffic-light's<br/>files your current files`;
@@ -17,7 +17,7 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const checkout = (args) => {
-    // eg args = { src_id:'Xd4f2P', src_index:17 };
+    // eg args = { src_id:'Xd4f2P', src_avatar_index:31, src_index:17 };
     args.id = cd.kata.id();
     args.index = cd.getIndex();
     $.post('/kata/checkout', args, (data) => {
