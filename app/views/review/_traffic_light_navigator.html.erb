@@ -1,4 +1,24 @@
-<script type="text/javascript"><!--
+<div id="traffic-light-navigator">
+  <button id="first-index" class="triangle button">
+    <img src="/images/triangle_prev.gif"
+         alt="move to first traffic-light"/>
+  </button>
+  <button id="prev-index" class="triangle button">
+    <img src="/images/triangle_prev.gif"
+         alt="move to previous traffic-light"/>
+  </button>
+  <div id="review-index-box"></div>
+  <button id="next-index" class="triangle button">
+    <img src="/images/triangle_next.gif"
+         alt="move to next traffic-light"/>
+  </button>
+  <button id="last-index" class="triangle button">
+    <img src="/images/triangle_next.gif"
+         alt="move to last traffic-light"/>
+  </button>
+</div>
+
+<script>
 'use strict';
 $(() => {
 
@@ -47,24 +67,4 @@ $(() => {
   };
 
 });
-//--></script>
-
-<div id="traffic-light-navigator">
-  <button id="first-index" class="triangle button">
-    <img src="/images/triangle_prev.gif"
-         alt="move to first traffic-light"/>
-  </button>
-  <button id="prev-index" class="triangle button">
-    <img src="/images/triangle_prev.gif"
-         alt="move to previous traffic-light"/>
-  </button>
-  <div id="review-index-box"></div>
-  <button id="next-index" class="triangle button">
-    <img src="/images/triangle_next.gif"
-         alt="move to next traffic-light"/>
-  </button>
-  <button id="last-index" class="triangle button">
-    <img src="/images/triangle_next.gif"
-         alt="move to last traffic-light"/>
-  </button>
-</div>
+</script>

@@ -1,12 +1,18 @@
-<script type="text/javascript"><!--
+<div id="diff-checkbox-container">
+  <div id="diff-checkbox-title">diff</div>
+  <input type="checkbox" id="diff-checkbox" checked=""/>
+  <label for="diff-checkbox"></label>
+</div>
+
+<script>
 'use strict';
 $(() => {
 
   const review = cd.review;
 
-  const diffCheckBox = () => $('#diff-checkbox');
+  const $diffCheckBox = $('#diff-checkbox');
 
-  review.inDiffMode = () => diffCheckBox().is(':checked');
+  review.inDiffMode = () => $diffCheckBox.is(':checked');
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // inDiffMode() affects other controls in the following ways
@@ -19,7 +25,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   review.refreshDiffCheckBox = (kataId, checked, index) => {
-    diffCheckBox()
+    $diffCheckBox
       .prop('checked', checked)
       .off('click')
       .on('click', () => review.moveToTrafficLight(kataId, index));
@@ -27,16 +33,10 @@ $(() => {
     $('#diff-checkbox-title')
       .off('click')
       .on('click', () => {
-        diffCheckBox().attr('checked', !review.inDiffMode());
+        $diffCheckBox.attr('checked', !review.inDiffMode());
         review.moveToTrafficLight(kataId, index);
       });
   };
 
 });
-//--></script>
-
-<div id="diff-checkbox-container">
-  <div id="diff-checkbox-title">diff</div>
-  <input type="checkbox" id="diff-checkbox" checked=""/>
-  <label for="diff-checkbox"></label>
-</div>
+</script>

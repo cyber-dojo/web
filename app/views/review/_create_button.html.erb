@@ -1,10 +1,8 @@
-<script type="text/javascript"><!--
+<script>
 'use strict';
 $(() => {
 
-  const review = cd.review;
-
-  review.createButton = (name, handler) => {
+  cd.review.createButton = (name, handler) => {
     const button = `<button id="${name}-button" type="button"></button>`;
     $(`#${name}-button-box`).html(button);
     $(`#${name}-button`)
@@ -14,4 +12,4 @@ $(() => {
   };
 
 });
-//--></script>
+</script>
