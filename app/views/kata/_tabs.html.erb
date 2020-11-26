@@ -1,11 +1,10 @@
-
 <div class="tab-filenames">
   <div class="tab filename"></div>
   <div class="tab output">output</div>
   <div class="tab REPL">REPL</div>
 </div>
 
-<script type="text/javascript">
+<script>
 'use strict';
 $(() => {
 
@@ -85,7 +84,6 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - -
-
   setupFileTabClickHandler(tabs.filename());
   setupFileTabClickHandler(tabs.output());
   setupReplTabClickHandler(tabs.repl());

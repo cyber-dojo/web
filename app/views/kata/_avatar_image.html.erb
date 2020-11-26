@@ -1,4 +1,9 @@
-<script type="text/javascript">
+<% if @avatar_index %>
+  <div class='avatar-image-box'>
+  </div>
+<% end %>
+
+<script>
 'use strict';
 $(() => {
 
@@ -15,8 +20,3 @@ $(() => {
 
 });
 </script>
-
-<% if @avatar_index %>
-  <div class='avatar-image-box'>
-  </div>
-<% end %>

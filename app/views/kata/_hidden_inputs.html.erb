@@ -1,5 +1,17 @@
+<%# Each event has an incrementing index which is cached in  %>
+<%# the browser to allow out-of-sync mobbing detection.      %>
+<input name="index"        type="hidden" value="<%= @index %>">
+<input name="predicted"    type="hidden" value="none">
 
-<script type="text/javascript">
+<%# The inputs below are a manifest cache. They ensure that  %>
+<%# when [test] is clicked the web service does not not need %>
+<%# to retrieve any information from the saver service.      %>
+<input name="image_name"   type="hidden" value="<%= raw @image_name %>">
+<input name="max_seconds"  type="hidden" value="<%= @max_seconds %>">
+<input name="avatar_index" type="hidden" value="<%= @avatar_index %>">
+<input name="version"      type="hidden" value="<%= @version %>">
+
+<script>
 'use strict';
 $(() => {
 
@@ -15,18 +27,3 @@ $(() => {
 
 });
 </script>
-
-<%# Each event has an incrementing index which is cached in  %>
-<%# the browser to allow out-of-sync mobbing detection.      %>
-
-<input name="index"        type="hidden" value="<%= @index %>">
-<input name="predicted"    type="hidden" value="none">
-
-<%# The inputs below are a manifest cache. They ensure that  %>
-<%# when [test] is clicked the web service does not not need %>
-<%# to retrieve any information from the saver service.      %>
-
-<input name="image_name"   type="hidden" value="<%= raw @image_name %>">
-<input name="max_seconds"  type="hidden" value="<%= @max_seconds %>">
-<input name="avatar_index" type="hidden" value="<%= @avatar_index %>">
-<input name="version"      type="hidden" value="<%= @version %>">
