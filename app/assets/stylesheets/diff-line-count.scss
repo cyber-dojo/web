@@ -87,22 +87,6 @@ table.sss
 
 //- - - - - - - - - - - - - - - -
 
-.diff-help-icon
-{
-  @include plaintext-font();
-  margin: { top:6px; right:6px; }
-  width:5px;
-  height:17px;
-  border-radius:14px;
-  border:1px solid lighten($darker-color, 15%);
-  color:lighten($darker-color, 15%);
-  background:$darker-color;
-  padding:{ left:6px; right:6px; }
-  cursor:pointer;
-}
-
-//- - - - - - - - - - - - - - - -
-
 .diff-type-marker
 {
   font-size:18px;
@@ -160,4 +144,20 @@ table.sss
 {
   &.on  { &:before { content: ' '; } }
   &.off { &:before { content: '*'; } }
+}
+
+//- - - - - - - - - - - - - - - -
+
+.diff-help-icon
+{
+  @include plaintext-font();
+  margin: { top:6px; right:6px; }
+  width:5px;
+  height:17px;
+  border-radius:14px;
+  border:1px solid lighten($darker-color, 15%);
+  color:lighten($darker-color, 15%);
+  background:$darker-color;
+  padding:{ left:6px; right:6px; }
+  cursor:pointer;
 }
