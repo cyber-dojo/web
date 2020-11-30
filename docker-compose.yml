@@ -133,11 +133,22 @@ services:
   # - - - - - - - - - - - - - - - -
   differ:
     image: ${CYBER_DOJO_DIFFER_IMAGE}:${CYBER_DOJO_DIFFER_TAG}
+    ports: [ "${CYBER_DOJO_DIFFER_PORT}:${CYBER_DOJO_DIFFER_PORT}" ]
     user: nobody
     container_name: test_web_differ
     env_file:
       - .env
     read_only: true
-    ports: [ "${CYBER_DOJO_DIFFER_PORT}:${CYBER_DOJO_DIFFER_PORT}" ]
     tmpfs: /tmp
     restart: 'no'
+
+# - - - - - - - - - - - - - - - -
+  dashboard:
+    image: ${CYBER_DOJO_DASHBOARD_IMAGE}:${CYBER_DOJO_DASHBOARD_TAG}
+    ports: [ "${CYBER_DOJO_DASHBOARD_PORT}:${CYBER_DOJO_DASHBOARD_PORT}" ]
+    user: nobody
+    env_file:
+      - .env
+    read_only: true
+    restart: "no"
+    tmpfs: /tmp

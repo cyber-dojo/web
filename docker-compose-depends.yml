@@ -10,6 +10,7 @@ services:
 
   web:
     depends_on:
+      - dashboard
       - differ
       - model
       - runner
@@ -23,3 +24,18 @@ services:
       - languages-start-points
       - runner
       - model
+
+  # - - - - - - - - - - - - - - - -
+  dashboard:
+    depends_on:
+      - model
+
+  # - - - - - - - - - - - - - - - -
+  differ:
+    depends_on:
+      - model
+
+  # - - - - - - - - - - - - - - - -
+  model:
+    depends_on:
+      - saver
