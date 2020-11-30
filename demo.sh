@@ -3,36 +3,19 @@
 # Brings up a local server (without using commander).
 
 readonly ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "${ROOT_DIR}/sh/echo_versioner_env_vars.sh"
-source "${ROOT_DIR}/sh/container_info.sh"
-source "${ROOT_DIR}/sh/copy_in_saver_test_data.sh"
-source "${ROOT_DIR}/sh/ip_address.sh"
+readonly SH_DIR="${ROOT_DIR}/sh"
+
+source "${SH_DIR}/echo_versioner_env_vars.sh"
+source "${SH_DIR}/exit_non_zero_unless_installed.sh"
+source "${SH_DIR}/copy_in_saver_test_data.sh"
+source "${SH_DIR}/ip_address.sh"
+
 export $(echo_versioner_env_vars)
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-exit_non_zero_unless_installed()
-{
-  if ! installed "${1}" ; then
-    stderr 'ERROR: ${1} is not installed!'
-    exit 42
-  fi
-}
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-installed()
-{
-  if hash "${1}" 2> /dev/null; then
-    true
-  else
-    false
-  fi
-}
-
 # - - - - - - - - - - - - - - - - - - - - - - -
-remove()
+docker_rm()
 {
-  local -r port="${1}"
-  docker rm --force $(container_on_port "${port}") 2> /dev/null || true
+  docker rm --force "${1}" 2> /dev/null || true
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - -
@@ -79,9 +62,9 @@ demo_URL()
 # - - - - - - - - - - - - - - - - - - - - - - -
 exit_non_zero_unless_installed docker
 exit_non_zero_unless_installed docker-compose
-remove 3000 # web
+docker_rm test_web
 web_build
-remove 80 # nginx
+docker_rm test_web_nginx
 up_nginx
 copy_in_saver_test_data # eg 5U2J18 (v1)  5rTJv5 (v0)
 if on_Mac; then
