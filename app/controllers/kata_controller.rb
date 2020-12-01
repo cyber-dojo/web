@@ -2,18 +2,13 @@
 class KataController < ApplicationController
 
   def edit
-    # who
+    # who/what
     @id = kata.id
-    @group_id = kata.group_id # needed for app-bar [dashboard] button    
-    @avatar_index = kata.avatar_index
     @version = kata.schema.version
     @title = @id
     @was_index = -1
     @now_index = -1
-    # what
-    manifest = kata.manifest
-    @display_name = manifest.display_name
-    @exercise = manifest.exercise
+    @manifest = kata.manifest
     # previous traffic-light-lights
     @events_json = kata.events_json
     @index = kata.events.last.index
@@ -23,12 +18,6 @@ class KataController < ApplicationController
     @stdout = kata.stdout['content']
     @stderr = kata.stderr['content']
     @status = kata.status
-    # parameters
-    @image_name = manifest.image_name
-    @filename_extension = manifest.filename_extension
-    @highlight_filenames = manifest.highlight_filenames
-    @max_seconds = manifest.max_seconds
-    @tab_size = manifest.tab_size
     # settings
     @theme = kata.theme
     @colour = kata.colour
@@ -61,7 +50,6 @@ class KataController < ApplicationController
     predicted = params['predicted']
     @id = kata.id
     @index = params[:index].to_i + 1
-    @avatar_index = params[:avatar_index]
     @stdout = result['stdout']
     @stderr = result['stderr']
     @status = result['status']

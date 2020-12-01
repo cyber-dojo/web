@@ -1,4 +1,4 @@
-<% if @avatar_index %>
+<% if @manifest.group_index %>
   <div class='avatar-image-box'>
   </div>
 <% end %>
@@ -9,7 +9,7 @@ $(() => {
 
   const $box = $('.avatar-image-box');
   if ($box.length > 0) {
-    const avatarIndex = parseInt("<%= @avatar_index %>");
+    const avatarIndex = parseInt("<%= @manifest.group_index %>");
     $box.append($('<img>', {
         src:`/images/avatars/${avatarIndex}.jpg`,
         alt:'avatar image',

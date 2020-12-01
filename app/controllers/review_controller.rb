@@ -15,9 +15,7 @@ class ReviewController < ApplicationController
 
   def set_bar_info
     @id = kata.id
-    @group_id = kata.group_id # needed for app-bar [dashboard] button
-    @display_name = kata.manifest.display_name
-    @exercise = kata.manifest.exercise
+    @manifest = kata.manifest
   end
 
 end

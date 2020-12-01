@@ -6,9 +6,8 @@
 <%# The inputs below are a manifest cache. They ensure that  %>
 <%# when [test] is clicked the web service does not not need %>
 <%# to retrieve any information from the saver service.      %>
-<input name="image_name"   type="hidden" value="<%= raw @image_name %>">
-<input name="max_seconds"  type="hidden" value="<%= @max_seconds %>">
-<input name="avatar_index" type="hidden" value="<%= @avatar_index %>">
+<input name="image_name"   type="hidden" value="<%= raw @manifest.image_name %>">
+<input name="max_seconds"  type="hidden" value="<%= @manifest.max_seconds %>">
 <input name="version"      type="hidden" value="<%= @version %>">
 
 <script>

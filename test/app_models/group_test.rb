@@ -203,7 +203,7 @@ class GroupTest < AppModelsTestBase
       assert_equal({}, group.events)
       k1 = group.join
       k1_events = {
-        'index' => k1.avatar_index,
+        'index' => k1.manifest.group_index,
         'events' => [
           { 'event' => 'created',
             'time' => k1.manifest.created,
@@ -214,7 +214,7 @@ class GroupTest < AppModelsTestBase
       assert_equal({k1.id=>k1_events}, group.events)
       k2 = group.join
       k2_events = {
-        'index' => k2.avatar_index,
+        'index' => k2.manifest.group_index,
         'events' => [
           { 'event' => 'created',
             'time' => k2.manifest.created,

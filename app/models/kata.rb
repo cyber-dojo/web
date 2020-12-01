@@ -32,19 +32,9 @@ class Kata
     group_id
   end
 
-  def group_id
-    manifest.group_id # nil if not in a group
-  end
-
   def group
     # NullObject pattern if group_id.nil?
     Group.new(@externals, @params.merge({id:group_id}))
-  end
-
-  def avatar_index
-    # if this kata is inside a group, the kata's index in the group
-    # (which is used to determine its avatar), else nil
-    manifest.group_index
   end
 
   def run_tests(params = @params)
@@ -178,6 +168,10 @@ class Kata
 
   def plain(files)
     files.map{ |filename,file| [filename, file['content']] }.to_h
+  end
+
+  def group_id
+    manifest.group_id # nil if not in a group
   end
 
   # - - - - - - - - - - - - - - - - -
