@@ -23,10 +23,6 @@ class Kata
 
   # - - - - - - - - - - - - - - - - -
 
-  def schema
-    @schema ||= Schema.new(@externals, kata_version)
-  end
-
   def run_tests(params = @params)
     Runner.new(@externals).run(params)
   end
@@ -164,6 +160,10 @@ class Kata
 
   def kata
     schema.kata
+  end
+
+  def schema
+    @schema ||= Schema.new(@externals, kata_version)
   end
 
   def most_recent_event

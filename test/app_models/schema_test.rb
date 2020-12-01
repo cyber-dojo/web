@@ -15,7 +15,7 @@ class SchemaTest < AppModelsTestBase
     manifest['version'] = 0
     id = model.kata_create(manifest)
     kata = katas[id]
-    assert_equal 0, kata.schema.version
+    assert_equal 0, model.kata_manifest(id)['version']
   end
 
   test '527',
@@ -24,7 +24,7 @@ class SchemaTest < AppModelsTestBase
     manifest['version'] = 1
     id = model.kata_create(manifest)
     kata = katas[id]
-    assert_equal 1, kata.schema.version
+    assert_equal 1, model.kata_manifest(id)['version']
   end
 
   test '528',
@@ -32,7 +32,7 @@ class SchemaTest < AppModelsTestBase
     manifest = starter_manifest
     id = model.kata_create(manifest)
     kata = katas[id]
-    assert_equal 1, kata.schema.version
+    assert_equal 1, model.kata_manifest(id)['version']
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -20,7 +20,7 @@ class ReviewTest < AppControllerTestBase
         count_after = saver.log.size
         diagnostic = [version,count_before,count_after]
         assert_equal 1, (count_after-count_before), diagnostic
-        assert_equal version, kata.schema.version
+        assert_equal version, model.kata_manifest(kata.id)['version']
       end
     end
   end
@@ -39,7 +39,7 @@ class ReviewTest < AppControllerTestBase
         count_after = saver.log.size
         diagnostic = [version,count_before,count_after]
         assert_equal 1, (count_after-count_before), diagnostic
-        assert_equal version, kata.schema.version
+        assert_equal version, model.kata_manifest(kata.id)['version']        
       end
     end
   end

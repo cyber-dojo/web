@@ -93,7 +93,6 @@ class KataControllerTest  < AppControllerTestBase
     in_kata do |kata|
       params = {
         'format' => 'js',
-        'version' => kata.schema.version,
         'id' => kata.id,
         'image_name' => kata.manifest.image_name,
         'file_content' => plain(kata.files),
