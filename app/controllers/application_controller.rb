@@ -11,8 +11,4 @@ class ApplicationController < ActionController::Base
     @kata ||= Kata.new(self, params)
   end
 
-  def id
-    params[:id]
-  end
-
 end

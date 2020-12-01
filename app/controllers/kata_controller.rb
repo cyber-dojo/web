@@ -87,10 +87,6 @@ class KataController < ApplicationController
   # - - - - - - - - - - - - - - - - - -
 
   def revert
-    src_id = params[:src_id]
-    src_index = params[:src_index].to_i
-    index = params[:index].to_i + 1
-
     event = model.kata_event(src_id, src_index)
     files = event['files']
     stdout = event['stdout']
@@ -120,11 +116,6 @@ class KataController < ApplicationController
   # - - - - - - - - - - - - - - - - - -
 
   def checkout
-    src_id = params[:src_id]
-    src_index = params[:src_index].to_i
-
-    index = params[:index].to_i + 1
-
     event = model.kata_event(src_id, src_index)
     files = event['files']
     stdout = event['stdout']
@@ -149,6 +140,16 @@ class KataController < ApplicationController
         checkout: checkout_hash
       }
     }
+  end
+
+  private
+
+  def id
+    params[:id]
+  end
+
+  def index
+    params[:index].to_i + 1
   end
 
   def checkout_hash
