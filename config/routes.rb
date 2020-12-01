@@ -23,10 +23,4 @@ CyberDojo::Application.routes.draw do
     get 'show(/:id)' => :show
   end
 
-  scope path: '/dashboard', controller: :dashboard do
-    get 'show(/:id)' => :show
-    get 'progress'   => :progress,  :constraints => { :format => :json }
-    get 'heartbeat'  => :heartbeat, :constraints => { :format => :json }
-  end
-
 end

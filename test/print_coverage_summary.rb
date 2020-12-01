@@ -188,7 +188,6 @@ def gather_done(stats, totals)
   ]
   module_names = %w(
     app_helpers
-    app_lib
     app_models
     app_services
     lib

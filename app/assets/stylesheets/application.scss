@@ -27,8 +27,6 @@
  *= depend_on fork-dialog.scss
  *= depend_on diff-line-count.scss
  *= depend_on kata.scss
- *= depend_on dashboard.scss
- *= depend_on pie-chart.scss
  *= depend_on review.scss
  *= depend_on app-bar.scss
  *= depend_on wait-spinner.scss
@@ -63,8 +61,6 @@
 @import "fork-dialog.scss";
 @import "diff-line-count.scss";
 @import "kata.scss";
-@import "dashboard.scss";
-@import "pie-chart.scss";
 @import "review.scss";
 @import "app-bar.scss";
 @import "wait-spinner.scss";

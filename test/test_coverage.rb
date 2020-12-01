@@ -3,8 +3,8 @@ require 'simplecov'
 SimpleCov.start do
 
   web_home = '/cyber-dojo'
-  modyule = ARGV[0]                      # eg 'app_lib'
-  slashed_modyule = modyule.sub('_','/') # eg 'app/lib'
+  modyule = ARGV[0]                      # eg 'app_helpers'
+  slashed_modyule = modyule.sub('_','/') # eg 'app/helpers'
 
   add_group('test/'+modyule) { |src|
     src.filename.start_with?("#{web_home}/test/#{modyule}/")

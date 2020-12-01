@@ -1,8 +1,8 @@
 
 filename = ENV['COVERAGE_DIR'] + '/index.html'
-cwd = ARGV[0]                 # eg app_lib
-filter = cwd.sub('_','/')     # eg app/lib
-flat = filter.sub('/','')     # eg applib
+cwd = ARGV[0]                 # eg app_helpers
+filter = cwd.sub('_','/')     # eg app/helpers
+flat = filter.sub('/','')     # eg apphelpers
 
 
 html = IO.popen("cat #{filename}").read
