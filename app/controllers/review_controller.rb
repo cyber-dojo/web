@@ -10,6 +10,9 @@ class ReviewController < ApplicationController
     end
     @was_index = was_index
     @now_index = now_index
+
+    @filename_extension = kata.manifest.filename_extension
+    @highlight_filenames = kata.manifest.highlight_filenames
   end
 
   private
