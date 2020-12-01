@@ -25,9 +25,11 @@ class ReviewControllerTest < AppControllerTestBase
     end
   end
 
+  #- - - - - - - - - - - - - - - -
+
   test '441', %w(
   (was_index,now_index)=(-1,-1),makes 2 saver-service calls
-  and once migration to model is complete it will be zero  
+  and once migration to model is complete it will be zero
   ) do
     [0,1].each do |version|
       in_kata(version:version) do |kata|
@@ -73,8 +75,6 @@ class ReviewControllerTest < AppControllerTestBase
       assert_review_show(kata.id, -1, -1)
     }
   end
-
-  #- - - - - - - - - - - - - - - -
 
   private
 

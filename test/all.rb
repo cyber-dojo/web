@@ -7,7 +7,6 @@ web_home = '/cyber-dojo'
 %w(
   lib
   app/helpers
-  app/lib
   app/models
   app/services
 ).each do |dir|
