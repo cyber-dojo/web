@@ -3,11 +3,7 @@ class ReviewController < ApplicationController
 
   def show
     set_bar_info
-    if kata.group.id.nil?
-      @title = "review:#{kata.id}"
-    else
-      @title = "review:#{kata.group.id}"
-    end
+    @title = "review:#{kata.id}"
     @was_index = was_index
     @now_index = now_index
 
@@ -19,7 +15,7 @@ class ReviewController < ApplicationController
 
   def set_bar_info
     @id = kata.id
-    @group_id = kata.group.id
+    @group_id = kata.group_id # needed for app-bar [dashboard] button
     @display_name = kata.manifest.display_name
     @exercise = kata.manifest.exercise
   end

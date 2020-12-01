@@ -32,6 +32,10 @@ class Kata
     group_id
   end
 
+  def group_id
+    manifest.group_id # nil if not in a group
+  end
+
   def group
     # NullObject pattern if group_id.nil?
     Group.new(@externals, @params.merge({id:group_id}))
@@ -177,10 +181,6 @@ class Kata
   end
 
   # - - - - - - - - - - - - - - - - -
-
-  def group_id
-    manifest.group_id # nil if not in a group
-  end
 
   def kata
     schema.kata

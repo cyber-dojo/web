@@ -4,6 +4,7 @@ class KataController < ApplicationController
   def edit
     # who
     @id = kata.id
+    @group_id = kata.group_id # needed for app-bar [dashboard] button    
     @avatar_index = kata.avatar_index
     @version = kata.schema.version
     @title = @id
