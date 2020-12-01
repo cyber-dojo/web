@@ -137,6 +137,7 @@ services:
     image: ${CYBER_DOJO_DASHBOARD_IMAGE}:${CYBER_DOJO_DASHBOARD_TAG}
     ports: [ "${CYBER_DOJO_DASHBOARD_PORT}:${CYBER_DOJO_DASHBOARD_PORT}" ]
     user: nobody
+    container_name: test_web_dashboard    
     env_file: [ .env ]
     read_only: true
     restart: "no"

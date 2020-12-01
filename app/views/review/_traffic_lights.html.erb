@@ -35,10 +35,84 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const appendTrafficLights = (kataId, index, events) => {
     events.forEach(event => {
-      if (cd.kata.isVisible(event)) {
-        cd.kata.appendLightQualifierImg($trafficLights, event);
+      if (isVisible(event)) {
+        appendLightQualifierImg($trafficLights, event);
         appendTrafficLight(kataId, index, event);
       }
+    });
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  // TODO: Duplicated in /views/kata/_traffic_lights.html.erb
+
+  const isVisible = (event) => {
+    // Eg don't show event[0] == creation
+    switch (event.colour) {
+    case 'pulling':
+    case 'red':
+    case 'amber':
+    case 'green':
+    case 'timed_out':
+    case 'faulty':
+      return true;
+    default:
+      return false;
+    }
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // TODO: Duplicated in /views/kata/_traffic_lights.html.erb
+
+  const appendLightQualifierImg = ($lights, light) => {
+    // Older katas did not distinguish between
+    //   - an auto-revert, from an incorrect test prediction
+    //   - a [checkout], from the review page.
+    // Both were light.revert == [id,index]
+    if (isPredict(light)) {
+      $lights.append($imgForPredict(light));
+    }
+    else if (isCheckout(light)) {
+      $lights.append($imgForCheckout(light));
+    }
+    else if (isRevert(light)) {
+      $lights.append($imgForRevert(light));
+    }
+  };
+
+  // TODO: Duplicated in /views/kata/_traffic_lights.html.erb
+  const isPredict = (light) => light.predicted != undefined && light.predicted != 'none';
+  const isRevert = (light) => light.revert != undefined;
+  const isCheckout = (light) => light.checkout != undefined;
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // TODO: Duplicated in /views/kata/_traffic_lights.html.erb
+
+  const $imgForPredict = (light) => {
+    const correct = (light.predicted === light.colour);
+    const icon = correct ? 'tick' : 'cross';
+    return $('<img>', {
+      class: icon,
+        src: `/images/traffic-light/circle-${icon}.png`
+    });
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // TODO: Duplicated in /views/kata/_traffic_lights.html.erb
+
+  const $imgForRevert = (light) => {
+    return $('<img>', {
+      class: 'revert',
+        src: '/images/traffic-light/circle-revert.png'
+    });
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // TODO: Duplicated in /views/kata/_traffic_lights.html.erb
+  
+  const $imgForCheckout = (light) => {
+    return $('<img>', {
+      class:'avatar-image checkout',
+        src:`/images/avatars/${light.checkout.avatarIndex}.jpg`
     });
   };
 
