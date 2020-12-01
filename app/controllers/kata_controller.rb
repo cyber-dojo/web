@@ -4,7 +4,6 @@ class KataController < ApplicationController
   def edit
     # who/what
     @id = kata.id
-    @version = kata.schema.version
     @title = @id
     @was_index = -1
     @now_index = -1
