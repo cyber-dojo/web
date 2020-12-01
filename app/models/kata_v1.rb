@@ -32,27 +32,6 @@ class Kata_v1
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def create(manifest)
-    id = manifest['id'] = IdGenerator.new(@externals).kata_id
-    manifest['version'] = 1
-    event_summary = {
-      'index' => 0,
-      'time' => manifest['created'],
-      'event' => 'created'
-    }
-    event0 = {
-      'files' => manifest['visible_files']
-    }
-    saver.assert_all([
-      manifest_file_create_command(id, json_plain(manifest)),
-      events_file_create_command(id, json_plain(event_summary)),
-      event_file_create_command(id, 0, json_plain(event0.merge(event_summary)))
-    ])
-    id
-  end
-
-  # - - - - - - - - - - - - - - - - - - -
-
   def manifest(id)
     manifest_src = saver.assert(manifest_file_read_command(id))
     json_parse(manifest_src)
@@ -93,10 +72,6 @@ class Kata_v1
   # start-point services. In practice it creates coupling, and it
   # doesn't work anyway, since start-point services change over time.
 
-  def manifest_file_create_command(id, manifest_src)
-    saver.file_create_command(manifest_filename(id), manifest_src)
-  end
-
   def manifest_file_read_command(id)
     saver.file_read_command(manifest_filename(id))
   end
@@ -104,24 +79,12 @@ class Kata_v1
   # - - - - - - - - - - - - - - - - - - - - - -
   # events
 
-  def events_file_create_command(id, event0_src)
-    saver.file_create_command(events_filename(id), event0_src)
-  end
-
-  def events_file_append_command(id, eventN_src)
-    saver.file_append_command(events_filename(id), eventN_src)
-  end
-
   def events_file_read_command(id)
     saver.file_read_command(events_filename(id))
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
   # event
-
-  def event_file_create_command(id, index, event_src)
-    saver.file_create_command(event_filename(id,index), event_src)
-  end
 
   def event_file_read_command(id, index)
     saver.file_read_command(event_filename(id,index))

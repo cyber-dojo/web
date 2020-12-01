@@ -35,10 +35,6 @@ class Event
     @summary['index']
   end
 
-  def time_a
-    @summary['time']
-  end
-
   def time
     Time.mktime(*@summary['time'])
   end
@@ -52,12 +48,12 @@ class Event
     (@summary['colour'] || '').to_sym
   end
 
-  def revert
-    @summary['revert']
-  end
-
   def checkout
     @summary['checkout']
+  end
+
+  def revert
+    @summary['revert']
   end
 
   def light?

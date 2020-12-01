@@ -12,24 +12,6 @@ class Kata_v0
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def create(manifest)
-    files = manifest.delete('visible_files')
-    id = manifest['id'] = IdGenerator.new(@externals).kata_id
-    event0 = {
-      'event' => 'created',
-      'time' => manifest['created']
-    }
-    saver.assert_all([
-      dir_make_command(id, 0),
-      manifest_file_create_command(id, json_plain(manifest)),
-      event_file_create_command(id, 0, json_plain(lined({ 'files' => files }))),
-      events_file_create_command(id, json_plain(event0) + "\n")
-    ])
-    id
-  end
-
-  # - - - - - - - - - - - - - - - - - - -
-
   def manifest(id)
      manifest_src,event0_src = saver.assert_all([
       manifest_file_read_command(id),
@@ -71,16 +53,6 @@ class Kata_v0
   include OjAdapter
 
   # - - - - - - - - - - - - - - - - - - - - - -
-
-  def dir_make_command(id, *parts)
-    saver.dir_make_command(dirname(id, *parts))
-  end
-
-  def dir_exists_command(id, *parts)
-    saver.dir_exists_command(dirname(id, *parts))
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
   # manifest
   #
   # Extracts the visible_files from the manifest and
@@ -90,10 +62,6 @@ class Kata_v0
   # and exercise_name and be recreated, on-demand, from the relevant
   # start-point services. In practice, it doesn't work because the
   # start-point services can change over time.
-
-  def manifest_file_create_command(id, manifest_src)
-    saver.file_create_command(manifest_filename(id), manifest_src)
-  end
 
   def manifest_file_read_command(id)
     saver.file_read_command(manifest_filename(id))
@@ -108,14 +76,6 @@ class Kata_v0
   # This is an optimization for ran_tests() which need only
   # append to the end of the file.
 
-  def events_file_create_command(id, event0_src)
-    saver.file_create_command(events_filename(id), event0_src)
-  end
-
-  def events_file_append_command(id, eventN_src)
-    saver.file_append_command(events_filename(id), eventN_src)
-  end
-
   def events_file_read_command(id)
     saver.file_read_command(events_filename(id))
   end
@@ -126,22 +86,12 @@ class Kata_v0
   # The visible-files are stored in a lined-format so they be easily
   # inspected on disk. Have to be unlined when read back.
 
-  def event_file_create_command(id, index, event_src)
-    saver.file_create_command(event_filename(id, index), event_src)
-  end
-
   def event_file_read_command(id, index)
     saver.file_read_command(event_filename(id, index))
   end
 
   # - - - - - - - - - - - - - -
   # names of dirs/files
-
-  def dirname(id, *parts)
-    kata_id_path(id, *parts)
-    # eg id == 'k5ZTk0', parts = [] ==> '/cyber-dojo/katas/k5/ZT/k0'
-    # eg id == 'k5ZTk0', parts = [31] ==> '/cyber-dojo/katas/k5/ZT/k0/31'
-  end
 
   def manifest_filename(id)
     kata_id_path(id, 'manifest.json')
