@@ -1,6 +1,6 @@
 require_relative 'app_controller_test_base'
 
-class ReverterControllerTest  < AppControllerTestBase
+class ReverterTest  < AppControllerTestBase
 
   def self.hex_prefix
     '81F'
@@ -40,41 +40,6 @@ class ReverterControllerTest  < AppControllerTestBase
       assert_equal old_content, event.files[filename]['content']
       assert_equal [kata.id,1], event.revert
     }
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '277', %w(
-  in group kata, revert back to a different avatar's traffic-light
-  ) do
-    set_saver_class('SaverService')
-    new_content = 'and now for something_different'
-    in_kata do |lion|
-      filename = 'hiker.sh'
-      change_file(filename, new_content)
-      post_run_tests # 1
-
-      in_kata do |hippo|
-        post '/kata/revert', params: { # 1
-          'src_id' => lion.id,
-          'src_index' => 1,
-          'id'     => hippo.id,
-          'index'  => 1,
-          'format' => 'json'
-        }
-        assert_response :success
-
-        files = json['files']
-        refute_nil files
-        refute_nil files[filename]
-        assert_equal new_content, files[filename]
-
-        assert_equal 2, hippo.events.size
-        revert_event = hippo.events.last
-        assert_equal new_content, revert_event.files[filename]['content']
-        assert_equal [lion.id,1], revert_event.revert
-      end
-    end
   end
 
 end

@@ -10,26 +10,6 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   # - - - - - - - - - - - - - - - -
 
-  def in_group(options={}, &block)
-    create_custom_group(options)
-    block.call(group)
-  end
-
-  def create_custom_group(options={})
-    manifest = starter_manifest
-    display_name = options[:display_name] || DEFAULT_DISPLAY_NAME
-    manifest['display_name'] = display_name
-    manifest['version'] = (options[:version] || 1)
-    @id = model.group_create(manifest)
-    nil
-  end
-
-  def group
-    groups[@id]
-  end
-
-  # - - - - - - - - - - - - - - - -
-
   def in_kata(options={}, &block)
     create_language_kata(options)
     @files = plain(kata.files)
@@ -88,21 +68,6 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
       'index'            => @index,
       'file_content'     => @files
     }
-  end
-
-  # - - - - - - - - - - - - - - - -
-
-  def assert_join(gid)
-    kata_id = join(gid)
-    katas[kata_id]
-  end
-
-  def join(gid)
-    model.group_join(gid)
-  end
-
-  def url_encoded(s)
-    ERB::Util.url_encode(s)
   end
 
   # - - - - - - - - - - - - - - - -

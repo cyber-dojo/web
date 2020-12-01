@@ -1,6 +1,6 @@
 require_relative 'app_controller_test_base'
 
-class ReviewControllerTest < AppControllerTestBase
+class ReviewTest < AppControllerTestBase
 
   def self.hex_prefix
     '1CB'
