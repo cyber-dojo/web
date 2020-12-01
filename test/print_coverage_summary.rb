@@ -169,7 +169,6 @@ end
 def coverage(stats, name)
   min = case name
   when 'app_models' then 95
-  when 'app_controllers' then 98
   else 100
   end
   percent = stats[name][:coverage]

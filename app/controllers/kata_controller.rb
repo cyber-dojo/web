@@ -4,14 +4,9 @@ class KataController < ApplicationController
   def edit
     # who
     @id = kata.id
-    @group_id = kata.group.id
     @avatar_index = kata.avatar_index
     @version = kata.schema.version
-    if @group_id.nil?
-      @title = @id
-    else
-      @title = "#{@group_id}"
-    end
+    @title = @id
     @was_index = -1
     @now_index = -1
     # what
