@@ -23,14 +23,12 @@ class ApplicationController < ActionController::Base
 
   def was_index
     @was_index ||= value_of(:was_index)
-    # Avoid extra saver-call for diff(-1,-1)
     @now_index = @was_index if params[:was_index].to_i === -1
     @was_index
   end
 
   def now_index
     @now_index ||= value_of(:now_index)
-    # Avoid extra saver-call for diff(-1,-1)
     @was_index = @now_index if params[:now_index].to_i === -1
     @now_index
   end

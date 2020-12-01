@@ -23,10 +23,6 @@ class IdGenerator
     @externals = externals
   end
 
-  def group_id
-    generate_id(:group_id_path)
-  end
-
   def kata_id
     generate_id(:kata_id_path)
   end

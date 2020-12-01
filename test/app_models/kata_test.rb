@@ -76,17 +76,6 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  v_tests [0,1], '861', %w(
-  group-version propagates to joined kata-version
-  ) do
-    in_new_group do |group|
-      kata = group.join
-      assert_equal kata.schema.version, group.schema.version
-    end
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - -
-
   test '862', %w(
   an individual kata is created from a well-formed manifest,
   is empty,
@@ -101,36 +90,7 @@ class KataTest < AppModelsTestBase
       refute kata.active?
       assert_equal [], kata.lights
 
-      refute kata.group?
-      refute_nil kata.group # NullObject pattern
-      refute kata.group.exists?
-      assert_nil kata.group.id
-    end
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '863', %w(
-  a new group-kata can be created by joining a group,
-  is empty,
-  and is a member of the group
-  ) do
-    indexes = (0..63).to_a.shuffle
-    in_new_group do |group|
-      kata = group.join(indexes)
-      assert_schema_version(kata)
-      assert kata.exists?
-      assert_equal 0, kata.age
-
-      refute kata.active?
-      assert_equal [], kata.lights
-
-      assert kata.group?
-      assert kata.group.exists?
-      refute_nil kata.group
-      assert_equal group.id, kata.group.id
-
-      assert_equal 'Bash, bats', kata.manifest.display_name
+      assert_nil kata.manifest.group_id
     end
   end
 

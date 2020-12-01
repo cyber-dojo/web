@@ -2,10 +2,6 @@
 
 module Version
 
-  def group_version
-    version(:group)
-  end
-
   def kata_version
     version(:kata)
   end
@@ -23,8 +19,6 @@ module Version
     @version ||= begin
       if @params.has_key?(:version)
         @params[:version].to_i
-      elsif who === :group
-        manifest_version(model.group_manifest(id))
       elsif who === :kata
         manifest_version(model.kata_manifest(id))
       end

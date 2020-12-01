@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require_relative 'group'
 require_relative 'id_pather'
 require_relative 'manifest'
 require_relative 'runner'
@@ -26,15 +25,6 @@ class Kata
 
   def schema
     @schema ||= Schema.new(@externals, kata_version)
-  end
-
-  def group?
-    group_id
-  end
-
-  def group
-    # NullObject pattern if group_id.nil?
-    Group.new(@externals, @params.merge({id:group_id}))
   end
 
   def run_tests(params = @params)
@@ -168,10 +158,6 @@ class Kata
 
   def plain(files)
     files.map{ |filename,file| [filename, file['content']] }.to_h
-  end
-
-  def group_id
-    manifest.group_id # nil if not in a group
   end
 
   # - - - - - - - - - - - - - - - - -

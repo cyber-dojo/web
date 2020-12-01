@@ -27,21 +27,6 @@ class IdGeneratorTest < AppModelsTestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  test '063', %w(
-  entire alphabet is used in group ids
-  ) do
-    id_generator = IdGenerator.new(self)
-    counts = {}
-    until counts.size === 58 do
-      id_generator.group_id.each_char do |ch|
-        counts[ch] = true
-      end
-    end
-    assert_equal alphabet.chars.sort, counts.keys.sort
-  end
-
-  # - - - - - - - - - - - - - - - - - - -
-
   test '064', %w(
   entire alphabet is used in kata ids
   ) do
@@ -75,18 +60,6 @@ class IdGeneratorTest < AppModelsTestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  test '13b', %w(
-  group-id does not exist before generation, does after
-  ) do
-    id =  'sD92wM'
-    id_generator = stubbed_id_generator(id)
-    refute groups[id].exists?
-    assert_equal id, id_generator.group_id
-    assert groups[id].exists?
-  end
-
-  # - - - - - - - - - - - - - - - - - - -
-
   test '13c', %w(
   kata-id does not exist before generation, does after
   ) do
@@ -116,17 +89,6 @@ class IdGeneratorTest < AppModelsTestBase
   ) do
     id_generator = stubbed_id_generator(saver_offline_id*4)
     assert_nil id_generator.kata_id
-  end
-
-  # - - - - - - - - - - - - - - - - - - -
-
-  test '13f', %w(
-  group-id generation tries 4 times and then gives up and returns nil
-  and you either have the worst random-number generator ever
-  or you are the unluckiest person ever
-  ) do
-    id_generator = stubbed_id_generator(saver_offline_id*4)
-    assert_nil id_generator.group_id
   end
 
   # - - - - - - - - - - - - - - - - - - -

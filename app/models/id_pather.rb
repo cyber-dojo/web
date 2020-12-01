@@ -6,10 +6,6 @@ module IdPather
     id_path3('katas', id, *parts)
   end
 
-  def group_id_path(id, *parts)
-    id_path3('groups', id, *parts)
-  end
-
   def id_path3(type, id, *parts)
     # Using 2/2/2 split.
     # See https://github.com/cyber-dojo/id-split-timer
