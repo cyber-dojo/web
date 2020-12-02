@@ -2,7 +2,7 @@
 
 <div id="traffic-lights-dialog" style="display:none;">
   <%= render partial: 'shared/traffic_lights_bulb_info' %>
-  <div class="info">Tests must complete in <%= @manifest.max_seconds %> seconds</div>
+  <div class="info">Tests must complete in <%= @manifest['max_seconds'] %> seconds</div>
   <%= render partial: 'shared/traffic_lights_click_info' %>
 </div>
 

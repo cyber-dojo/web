@@ -1,4 +1,4 @@
-<% unless @manifest.group_id.nil? %>
+<% unless @manifest['group_id'].nil? %>
   <button type="button" id="dashboard-button" class="info-button">dashboard</button>
 <% end %>
 
@@ -9,7 +9,7 @@ $(() => {
   const dashboardButton = $('#dashboard-button');
 
   dashboardButton.click(() => {
-    const url = `/dashboard/show/<%= @manifest.group_id %>`;
+    const url = `/dashboard/show/<%= @manifest['group_id'] %>`;
     window.open(url);
   });
 

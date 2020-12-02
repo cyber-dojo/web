@@ -21,6 +21,10 @@ class Kata
       saver.run(saver.dir_exists_command(kata_id_path(id)))
   end
 
+  def manifest
+    @manifest ||= Manifest.new(kata.manifest(id))
+  end
+
   # - - - - - - - - - - - - - - - - -
 
   def run_tests(params = @params)
@@ -136,12 +140,6 @@ class Kata
       saver.file_create_command(filename, "\n"+value),
       saver.file_append_command(filename, "\n"+value)
     ])
-  end
-
-  # - - - - - - - - - - - - - - - - -
-
-  def manifest
-    @manifest ||= Manifest.new(kata.manifest(id))
   end
 
   private

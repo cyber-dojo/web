@@ -43,11 +43,11 @@ $(() => {
   };
 
   cd.highlightFilenames = () => {
-    return $.parseJSON('<%= raw @manifest.highlight_filenames %>');
+    return $.parseJSON('<%= raw @manifest['highlight_filenames'] %>');
   };
 
   cd.extensionFilenames = () => {
-    return $.parseJSON('<%= @manifest.filename_extension.inspect.html_safe %>');
+    return $.parseJSON('<%= raw @manifest['filename_extension'] %>');
   };
 
 });

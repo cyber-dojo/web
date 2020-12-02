@@ -7,7 +7,7 @@ class KataController < ApplicationController
     @title = @id
     @was_index = -1
     @now_index = -1
-    @manifest = kata.manifest
+    @manifest = model.kata_manifest(@id)    
     # previous traffic-light-lights
     @events_json = kata.events_json
     @index = kata.events.last.index

@@ -13,7 +13,7 @@ $(() => {
   const $tabs = () => $('.tab');
 
   tabs.setup = (options) => {
-    if (options.repl === 'on' && "<%= raw @manifest.image_name %>".includes('python')) {
+    if (options.repl === 'on' && "<%= raw @manifest['image_name'] %>".includes('python')) {
       tabs.repl().show();
     } else {
       tabs.repl().hide();
