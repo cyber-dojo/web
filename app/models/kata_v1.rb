@@ -32,13 +32,6 @@ class Kata_v1
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def manifest(id)
-    manifest_src = saver.assert(manifest_file_read_command(id))
-    json_parse(manifest_src)
-  end
-
-  # - - - - - - - - - - - - - - - - - - -
-
   def events(id)
     json_parse(events_json(id))
   end
@@ -63,18 +56,6 @@ class Kata_v1
   private
 
   include OjAdapter
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-  # manifest
-  #
-  # In theory the manifest could store only the display_name
-  # and exercise_name and be recreated, on-demand, from the relevant
-  # start-point services. In practice it creates coupling, and it
-  # doesn't work anyway, since start-point services change over time.
-
-  def manifest_file_read_command(id)
-    saver.file_read_command(manifest_filename(id))
-  end
 
   # - - - - - - - - - - - - - - - - - - - - - -
   # events

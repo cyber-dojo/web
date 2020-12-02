@@ -12,19 +12,6 @@ class Kata_v0
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def manifest(id)
-     manifest_src,event0_src = saver.assert_all([
-      manifest_file_read_command(id),
-      event_file_read_command(id, 0)
-    ])
-    manifest = json_parse(manifest_src)
-    event0 = unlined(json_parse(event0_src))
-    manifest['visible_files'] = event0['files']
-    manifest
-  end
-
-  # - - - - - - - - - - - - - - - - - - -
-
   def events(id)
     json_parse(events_json(id))
     # Alternative implementation, which profiling shows is slower.
@@ -51,21 +38,6 @@ class Kata_v0
 
   include Liner
   include OjAdapter
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-  # manifest
-  #
-  # Extracts the visible_files from the manifest and
-  # stores them as event-zero files. This allows a diff of the
-  # first traffic-light but means manifest() has to recombine two
-  # files. In theory the manifest could store only the display_name
-  # and exercise_name and be recreated, on-demand, from the relevant
-  # start-point services. In practice, it doesn't work because the
-  # start-point services can change over time.
-
-  def manifest_file_read_command(id)
-    saver.file_read_command(manifest_filename(id))
-  end
 
   # - - - - - - - - - - - - - - - - - - - - - -
   # events

@@ -16,10 +16,10 @@ class Manifest
 
   # - - - - - - - - - -
 
-  def self.optional(names)
-    names.each do |name,default|
+  def self.defaulted(*names)
+    names.each do |name|
       define_method name do
-        @manifest[name.to_s] || default
+        @manifest[name.to_s]
       end
     end
   end
@@ -34,15 +34,11 @@ class Manifest
            :id,                 # eg '260za8'
            :image_name          # eg 'cyberdojofoundation/java_junit:956b0c2'
 
-  # - - - - - - - - - -
-
-  optional({
-               exercise:'',
-    highlight_filenames:[],
-               tab_size:4,
-            max_seconds:10,
-        progress_regexs:[]
-  })
+  defaulted :exercise,
+            :highlight_filenames,
+            :tab_size,
+            :max_seconds,
+            :progress_regexs
 
   # - - - - - - - - - -
 

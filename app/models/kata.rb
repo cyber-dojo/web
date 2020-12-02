@@ -22,7 +22,7 @@ class Kata
   end
 
   def manifest
-    @manifest ||= Manifest.new(kata.manifest(id))
+    @manifest ||= Manifest.new(model.kata_manifest(id))
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -171,10 +171,6 @@ class Kata
 
   def saver
     @externals.saver
-  end
-
-  def model
-    @externals.model
   end
 
 end
