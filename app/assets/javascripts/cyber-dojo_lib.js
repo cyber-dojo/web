@@ -62,10 +62,14 @@ var cyberDojo = ((cd, $) => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const $imgForCheckout = (light) => {
-    return $('<img>', {
-      class:'avatar-image checkout',
-        src:`/images/avatars/${light.checkout.avatarIndex}.jpg`
-    });
+    if (light.checkout.avatarIndex != '') {
+      return $('<img>', {
+        class:'avatar-image checkout',
+          src:`/images/avatars/${light.checkout.avatarIndex}.jpg`
+      });
+    } else {
+      return $('<span>');
+    }
   };
 
   return cd;
