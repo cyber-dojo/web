@@ -29,7 +29,6 @@ class RunnerTest < AppModelsTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # TODO: hidden_filenames
   # TODO: created files
   # TODO: deleted files
   # TODO: changed files
@@ -41,8 +40,7 @@ class RunnerTest < AppModelsTestBase
       id:kata.id,
       image_name:kata.manifest.image_name,
       max_seconds:kata.manifest.max_seconds,
-      file_content:plain(kata.files),
-      hidden_filenames:'[]'
+      file_content:plain(kata.files)
     }
   end
 

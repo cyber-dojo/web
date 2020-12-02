@@ -39,9 +39,8 @@ class Manifest
   optional({
                exercise:'',
     highlight_filenames:[],
-       hidden_filenames:[], # No longer used
                tab_size:4,
-            max_seconds:10, # deprecated
+            max_seconds:10,
         progress_regexs:[]
   })
 
@@ -54,7 +53,6 @@ class Manifest
       'image_name' => image_name,
       'exercise' => exercise,
       'highlight_filenames' => highlight_filenames,
-      'hidden_filenames' => hidden_filenames,
       'tab_size' => tab_size,
       'max_seconds' => max_seconds,
       'progress_regexs' => progress_regexs

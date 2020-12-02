@@ -62,7 +62,6 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
       'id'               => (options['id'] || kata.id),
       'image_name'       => kata.manifest.image_name,
       'max_seconds'      => (options['max_seconds'] || kata.manifest.max_seconds),
-      'hidden_filenames' => JSON.unparse(kata.manifest.hidden_filenames),
       'index'            => @index,
       'file_content'     => @files
     }

@@ -97,7 +97,6 @@ class KataControllerTest  < AppControllerTestBase
         'image_name' => kata.manifest.image_name,
         'file_content' => plain(kata.files),
         'max_seconds' => kata.manifest.max_seconds,
-        'hidden_filenames' => JSON.unparse(kata.manifest.hidden_filenames),
       }
       params['index'] = 1
       post '/kata/run_tests', params:params
