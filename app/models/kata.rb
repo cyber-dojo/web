@@ -80,7 +80,6 @@ class Kata
   def theme=(value)
     # value == 'dark'|'light'
     filename = kata_id_path(id, 'theme')
-    # There is no file-write command (yet)
     saver.run_all([
       saver.file_create_command(filename, "\n"+value),
       saver.file_append_command(filename, "\n"+value)
@@ -102,7 +101,6 @@ class Kata
   def colour=(value)
     # value == 'on'|'off'
     filename = kata_id_path(id, 'colour')
-    # There is no file-write command (yet)
     saver.run_all([
       saver.file_create_command(filename, "\n"+value),
       saver.file_append_command(filename, "\n"+value)
@@ -134,7 +132,6 @@ class Kata
   def predict=(value)
     # value == 'on'|'off'
     filename = kata_id_path(id, 'predict')
-    # There is no file-write command (yet)
     saver.run_all([
       saver.file_create_command(filename, "\n"+value),
       saver.file_append_command(filename, "\n"+value)

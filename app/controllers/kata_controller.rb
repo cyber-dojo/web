@@ -26,27 +26,12 @@ class KataController < ApplicationController
 
   # - - - - - - - - - - - - - - - - - -
 
-  def set_colour
-    kata.colour = params['value']
-  end
-
-  def set_theme
-    kata.theme = params['value']
-  end
-
-  def set_predict
-    kata.predict = params['value']
-  end
-
-  # - - - - - - - - - - - - - - - - - -
-
   def run_tests
     t1 = time.now
     result,files,@created,@deleted,@changed = kata.run_tests
     t2 = time.now
 
     duration = Time.mktime(*t2) - Time.mktime(*t1)
-    predicted = params['predicted']
     @id = kata.id
     @index = params[:index].to_i + 1
     @stdout = result['stdout']
@@ -58,7 +43,7 @@ class KataController < ApplicationController
       'index' => @index,
       'time' => t1,
       'colour' => @outcome,
-      'predicted' => predicted,
+      'predicted' => params['predicted'],
     }
 
     @out_of_sync = false
@@ -66,7 +51,7 @@ class KataController < ApplicationController
       model.kata_ran_tests(@id, @index, files, @stdout, @stderr, @status, {
         'duration' => duration,
         'colour' => @outcome,
-        'predicted' => predicted
+        'predicted' => params['predicted']
       })
     rescue ModelService::Error => error
       if model.kata_exists?(@id)
@@ -79,8 +64,9 @@ class KataController < ApplicationController
     end
 
     respond_to do |format|
-      format.js   { render layout:false }
-      format.json { show_json }
+      format.js {
+        render layout:false
+      }
     end
   end
 
@@ -140,6 +126,20 @@ class KataController < ApplicationController
         checkout: checkout_hash
       }
     }
+  end
+
+  # - - - - - - - - - - - - - - - - - -
+
+  def set_colour
+    kata.colour = params['value']
+  end
+
+  def set_theme
+    kata.theme = params['value']
+  end
+
+  def set_predict
+    kata.predict = params['value']
   end
 
   private
