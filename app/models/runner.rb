@@ -26,12 +26,6 @@ class Runner
     deleted = result.delete('deleted')
     changed = result.delete('changed')
 
-    # If there are newly created 's/s/s' files remove them
-    # otherwise they interfere with the pseudo output-files.
-    output_filenames.each do |output_filename|
-      created.delete(output_filename)
-    end
-
     # Ensure files sent to saver.kata_ran_tests() reflect
     # changes; refreshing the browser should be a no-op.
     created.each { |filename,file| files[filename] = file }
@@ -47,9 +41,6 @@ class Runner
 
   def files_from(params)
     files = cleaned_files(params[:file_content])
-    output_filenames.each do |output_filename|
-      files.delete(output_filename)
-    end
     files.each.with_object({}) do |(filename,content),memo|
       memo[filename] = { 'content' => sanitized(content) }
     end
@@ -61,12 +52,6 @@ class Runner
     files.each.with_object({}) do |(filename,file),memo|
       memo[filename] = file['content']
     end
-  end
-
-  # - - - - - - - - - - - - - - -
-
-  def output_filenames
-    %w( output stdout stderr status )
   end
 
   # - - - - - - - - - - - - - - -

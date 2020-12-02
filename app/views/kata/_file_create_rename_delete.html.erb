@@ -159,9 +159,6 @@ $(() => {
     const alreadyExists = (filename) => cd.kata.editor.filenames().includes(filename);
     const contains = (illegal) => filename.indexOf(illegal) !== -1;
     if (alreadyExists(filename)) { return false; }
-    if (filename === 'stdout') { return false; }
-    if (filename === 'stderr') { return false; }
-    if (filename === 'status') { return false; }
     if (contains('..')) { return false; }
     if (contains('\\')) { return false; }
     if (contains(' '))  { return false; }
