@@ -54,15 +54,6 @@ class Kata
     lights != []
   end
 
-  def age_f
-    created = Time.mktime(*manifest.created)
-    (most_recent_event.time.to_f - created.to_f)
-  end
-
-  def age
-    age_f.to_i # seconds
-  end
-
   def files
     most_recent_event.files
   end

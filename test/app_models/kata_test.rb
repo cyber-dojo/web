@@ -79,13 +79,11 @@ class KataTest < AppModelsTestBase
   test '862', %w(
   an individual kata is created from a well-formed manifest,
   is empty,
-  and is not a member of a group,
-  and has age 0
+  and is not a member of a group
   ) do
     in_new_kata do |kata|
       assert kata.exists?
       assert_schema_version(kata)
-      assert_equal 0, kata.age
 
       refute kata.active?
       assert_equal [], kata.lights
@@ -99,7 +97,6 @@ class KataTest < AppModelsTestBase
   test '864', %w(
   after run_tests()/ran_tests(),
   the kata is active,
-  the kata is an age greater than zero,
   there is a new traffic-light event,
   which is now the most recent event
   ) do
@@ -111,7 +108,6 @@ class KataTest < AppModelsTestBase
       status = 3
       kata_ran_tests(kata.id, 1, files, stdout, stderr, status, ran_summary('red'))
 
-      assert kata.age_f > 0.0
       assert kata.active?
       assert_equal 2, kata.events.size
       assert_equal 1, kata.lights.size
