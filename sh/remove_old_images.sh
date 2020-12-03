@@ -16,7 +16,7 @@ remove_all_web_images_except_latest()
   do
     if [ "${image_name}" != "${name}:latest" ]; then
       if [ "${image_name}" != "${name}:<none>" ]; then
-        docker image rm "${image_name}"
+        docker image rm --force "${image_name}"
       fi
     fi
   done
