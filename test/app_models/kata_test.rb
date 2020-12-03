@@ -165,29 +165,6 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '865', %w(
-  an event's manifest is ready to create a new kata from
-  ) do
-    in_new_kata do |kata|
-      assert_schema_version(kata)
-      files = kata.events[-1].files
-      stdout = content('dfsdf')
-      stderr = content('76546')
-      status = 3
-      kata_ran_tests(kata.id, 1, files, stdout, stderr, status, ran_summary('red'))
-
-      emanifest = kata.events[1].manifest
-      refute_nil emanifest
-      assert_nil emanifest['id']
-      assert_nil emanifest['created']
-      assert_equal files, emanifest['visible_files']
-      assert_equal kata.manifest.display_name, emanifest['display_name']
-      assert_equal kata.manifest.image_name, emanifest['image_name']
-    end
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - -
-
   test '866', %w(
   kata.event(-1) returns the most recent event
   ) do

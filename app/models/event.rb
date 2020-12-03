@@ -10,7 +10,7 @@ class Event
   attr_reader :kata
 
   # - - - - - - - - - - - - - - - - - - - -
-  # four core properties
+  # core properties
 
   def files
     event['files']
@@ -58,12 +58,6 @@ class Event
 
   def light?
     colour.to_s != ''
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
-  def manifest
-    kata.manifest.to_json.merge({'visible_files' => files})
   end
 
   private
