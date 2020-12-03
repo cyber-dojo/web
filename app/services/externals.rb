@@ -1,13 +1,8 @@
 # frozen_string_literal: true
 require_relative '../../test/app_services/service_doubles'
-require_relative '../../lib/random_adapter'
 require_relative '../../lib/time_adapter'
 
 module Externals # mix-in
-
-  def random
-    @random ||= RandomAdapter.new
-  end
 
   def time
     @time ||= TimeAdapter.new
