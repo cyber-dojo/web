@@ -85,7 +85,6 @@ class KataTest < AppModelsTestBase
       assert kata.exists?
       assert_schema_version(kata)
 
-      refute kata.active?
       assert_equal [], kata.lights
 
       assert_nil kata.manifest.group_id
@@ -96,7 +95,6 @@ class KataTest < AppModelsTestBase
 
   test '864', %w(
   after run_tests()/ran_tests(),
-  the kata is active,
   there is a new traffic-light event,
   which is now the most recent event
   ) do
@@ -108,7 +106,6 @@ class KataTest < AppModelsTestBase
       status = 3
       kata_ran_tests(kata.id, 1, files, stdout, stderr, status, ran_summary('red'))
 
-      assert kata.active?
       assert_equal 2, kata.events.size
       assert_equal 1, kata.lights.size
       light = kata.lights[0]

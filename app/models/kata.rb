@@ -50,10 +50,6 @@ class Kata
     events.select(&:light?)
   end
 
-  def active?
-    lights != []
-  end
-
   def files
     most_recent_event.files
   end
