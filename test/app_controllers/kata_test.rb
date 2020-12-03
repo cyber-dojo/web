@@ -95,7 +95,7 @@ class KataControllerTest  < AppControllerTestBase
         'format' => 'js',
         'id' => kata.id,
         'image_name' => kata.manifest.image_name,
-        'file_content' => plain(kata.files),
+        'file_content' => plain(kata.events[-1].files),
         'max_seconds' => kata.manifest.max_seconds,
       }
       params['index'] = 1
@@ -129,13 +129,13 @@ class KataControllerTest  < AppControllerTestBase
     filename = 'readme.txt'
     id = in_kata do |kata|
       id = kata.id
-      assert kata.files.keys.include?(filename)
+      assert kata.events[-1].files.keys.include?(filename)
       change_file('cyber-dojo.sh', "rm #{filename}")
       post_run_tests
       kata.id
     end
     kata = katas[id]
-    files = kata.files
+    files = kata.events[-1].files
     filenames = files.keys.sort
     refute filenames.include?(filename), filenames
   end
@@ -153,7 +153,7 @@ class KataControllerTest  < AppControllerTestBase
       kata.id
     end
     kata = katas[id]
-    files = kata.files
+    files = kata.events[-1].files
     filenames = files.keys.sort
     assert filenames.include?(filename), filenames
     assert_equal 'Hello', files[filename]['content']
@@ -166,13 +166,13 @@ class KataControllerTest  < AppControllerTestBase
   then the saver records it ) do
     filename = 'readme.txt'
     id = in_kata do |kata|
-      assert kata.files.keys.include?(filename)
+      assert kata.events[-1].files.keys.include?(filename)
       change_file('cyber-dojo.sh', "echo -n Hello > #{filename}")
       post_run_tests
       kata.id
     end
     kata = katas[id]
-    files = kata.files
+    files = kata.events[-1].files
     filenames = files.keys.sort
     assert filenames.include?(filename), filenames
     assert_equal 'Hello', files[filename]['content']
@@ -192,10 +192,10 @@ class KataControllerTest  < AppControllerTestBase
       change_file('cyber-dojo.sh', script)
       post_run_tests
 
-      assert kata.files.keys.include?('stdout')
-      assert_equal 'Bonjour', kata.files['stdout']['content']
+      assert kata.events[-1].files.keys.include?('stdout')
+      assert_equal 'Bonjour', kata.events[-1].files['stdout']['content']
 
-      assert_equal 'Hello', kata.stdout['content']
+      assert_equal 'Hello', kata.events[-1].stdout['content']
     end
   end
 
@@ -213,10 +213,10 @@ class KataControllerTest  < AppControllerTestBase
       change_file('cyber-dojo.sh', script)
       post_run_tests
 
-      assert kata.files.keys.include?('stderr')
-      assert_equal 'Bonjour2', kata.files['stderr']['content']
+      assert kata.events[-1].files.keys.include?('stderr')
+      assert_equal 'Bonjour2', kata.events[-1].files['stderr']['content']
 
-      assert_equal 'Hello2', kata.stderr['content']
+      assert_equal 'Hello2', kata.events[-1].stderr['content']
     end
   end
 
@@ -235,10 +235,10 @@ class KataControllerTest  < AppControllerTestBase
       change_file('cyber-dojo.sh', script)
       post_run_tests
 
-      assert kata.files.keys.include?('status')
-      assert_equal 'Bonjour3', kata.files['status']['content']
+      assert kata.events[-1].files.keys.include?('status')
+      assert_equal 'Bonjour3', kata.events[-1].files['status']['content']
 
-      assert_equal '42', kata.status
+      assert_equal '42', kata.events[-1].status
     end
   end
 

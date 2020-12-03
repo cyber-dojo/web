@@ -100,7 +100,7 @@ class KataTest < AppModelsTestBase
   ) do
     in_new_kata do |kata|
       assert_schema_version(kata)
-      files = kata.files
+      files = kata.events[-1].files
       stdout = content('dfg')
       stderr = content('uystd')
       status = 3
@@ -113,10 +113,10 @@ class KataTest < AppModelsTestBase
       assert_equal stderr, light.stderr
       assert_equal status, light.status
       assert_equal files, light.files
-      assert_equal stdout, kata.stdout
-      assert_equal stderr, kata.stderr
-      assert_equal status, kata.status
-      assert_equal files, kata.files
+      assert_equal stdout, kata.events[-1].stdout
+      assert_equal stderr, kata.events[-1].stderr
+      assert_equal status, kata.events[-1].status
+      assert_equal files, kata.events[-1].files
     end
   end
 
@@ -129,14 +129,14 @@ class KataTest < AppModelsTestBase
   ) do
     in_new_kata do |kata|
       assert_schema_version(kata)
-      files = kata.files
+      files = kata.events[-1].files
       stdout_1 = content("Expected: 42\nActual: 54")
       stderr_1 = content('assert failed')
       status_1 = 4
-      kata_ran_tests(kata.id, 1, kata.files, stdout_1, stdout_1, stderr_1, ran_summary('red'))
+      kata_ran_tests(kata.id, 1, files, stdout_1, stdout_1, stderr_1, ran_summary('red'))
 
       filename = 'hiker.sh'
-      hiker_rb = kata.files[filename]['content']
+      hiker_rb = files[filename]['content']
       files[filename] = content(hiker_rb.sub('6 * 9','6 * 7'))
       stdout_2 = content('All tests passed')
       stderr_2 = content('')
@@ -160,11 +160,6 @@ class KataTest < AppModelsTestBase
       assert_equal stderr_1, light.stderr
       assert_equal status_1, light.status
       assert_equal kata.events[1].files, light.files
-
-      assert_equal stdout_1, kata.stdout
-      assert_equal stderr_1, kata.stderr
-      assert_equal status_1, kata.status
-      assert_equal kata.events[1].files, kata.files
     end
   end
 
@@ -175,16 +170,17 @@ class KataTest < AppModelsTestBase
   ) do
     in_new_kata do |kata|
       assert_schema_version(kata)
+      files = kata.events[-1].files
       stdout = content('dfsdf')
       stderr = content('76546')
       status = 3
-      kata_ran_tests(kata.id, 1, kata.files, stdout, stderr, status, ran_summary('red'))
+      kata_ran_tests(kata.id, 1, files, stdout, stderr, status, ran_summary('red'))
 
       emanifest = kata.events[1].manifest
       refute_nil emanifest
       assert_nil emanifest['id']
       assert_nil emanifest['created']
-      assert_equal kata.files, emanifest['visible_files']
+      assert_equal files, emanifest['visible_files']
       assert_equal kata.manifest.display_name, emanifest['display_name']
       assert_equal kata.manifest.image_name, emanifest['image_name']
     end
@@ -198,17 +194,18 @@ class KataTest < AppModelsTestBase
     in_new_kata do |kata|
       assert_schema_version(kata)
       assert_equal kata.event(0), kata.event(-1)
+      files = kata.events[-1].files
       stdout = content('xxxx')
       stderr = content('')
       status = 0
-      kata_ran_tests(kata.id, 1, kata.files, stdout, stderr, status, ran_summary('green'))
+      kata_ran_tests(kata.id, 1, files, stdout, stderr, status, ran_summary('green'))
 
       assert_equal 'xxxx', kata.event(-1)['stdout']['content']
       assert_equal kata.event(1), kata.event(-1)
       stdout = content('')
       stderr = content('syntax-error')
       status = 1
-      kata_ran_tests(kata.id, 2, kata.files, stdout, stderr, status, ran_summary('green'))
+      kata_ran_tests(kata.id, 2, files, stdout, stderr, status, ran_summary('green'))
 
       assert_equal 'syntax-error', kata.event(-1)['stderr']['content']
       assert_equal kata.event(2), kata.event(-1)
@@ -225,14 +222,15 @@ class KataTest < AppModelsTestBase
   ) do
     in_new_kata do |kata|
       assert_schema_version(kata)
+      files = kata.events[-1].files
       stdout = content('aaaa')
       stderr = content('bbbb')
       status = 1
-      kata_ran_tests(kata.id, 1, kata.files, stdout, stderr, status, ran_summary('red'))
+      kata_ran_tests(kata.id, 1, files, stdout, stderr, status, ran_summary('red'))
 
       # saver-outage for index=2,3,4,5
       stdout['content'] = 'x1x2x3'
-      kata_ran_tests(kata.id, 6, kata.files, stdout, stderr, status, ran_summary('red'))
+      kata_ran_tests(kata.id, 6, files, stdout, stderr, status, ran_summary('red'))
 
       if v_test?(0)
         assert_raises { kata.event(-1) }
@@ -253,13 +251,14 @@ class KataTest < AppModelsTestBase
   ) do
     set_saver_class('SaverService')
     in_new_kata do |kata|
+      files = kata.events[-1].files
       stdout = content('aaaa')
       stderr = content('bbbb')
       status = 1
       # 1st avatar
-      kata_ran_tests(kata.id, 1, kata.files, stdout, stderr, status, ran_summary('red'))
-      kata_ran_tests(kata.id, 2, kata.files, stdout, stderr, status, ran_summary('amber'))
-      kata_ran_tests(kata.id, 3, kata.files, stdout, stderr, status, ran_summary('green'))
+      kata_ran_tests(kata.id, 1, files, stdout, stderr, status, ran_summary('red'))
+      kata_ran_tests(kata.id, 2, files, stdout, stderr, status, ran_summary('amber'))
+      kata_ran_tests(kata.id, 3, files, stdout, stderr, status, ran_summary('green'))
 
       events = kata.events
       assert_equal 4, events.size, :event_not_appended_to_events_json
@@ -269,7 +268,7 @@ class KataTest < AppModelsTestBase
 
       # 2nd avatar - no refresh, so index not advanced to 2
       error = assert_raises(ModelService::Error) {
-        kata_ran_tests(kata.id, 1, kata.files, stdout, stderr, status, ran_summary('green'))
+        kata_ran_tests(kata.id, 1, files, stdout, stderr, status, ran_summary('green'))
       }
 
       events = kata.events
@@ -293,7 +292,7 @@ class KataTest < AppModelsTestBase
   the default colour-theme is light as its better for projection
   ) do
     in_new_kata do |kata|
-      assert_equal  'light', kata.theme
+      assert_equal 'light', kata.theme
     end
   end
 
@@ -302,9 +301,9 @@ class KataTest < AppModelsTestBase
   ) do
     in_new_kata do |kata|
       kata.theme = 'light'
-      assert_equal  'light', kata.theme
+      assert_equal 'light', kata.theme
       kata.theme = 'dark'
-      assert_equal  'dark', kata.theme
+      assert_equal 'dark', kata.theme
     end
   end
 
@@ -314,7 +313,7 @@ class KataTest < AppModelsTestBase
   the default for colour-syntax is on
   ) do
     in_new_kata do |kata|
-      assert_equal  'on', kata.colour
+      assert_equal 'on', kata.colour
     end
   end
 
@@ -323,9 +322,9 @@ class KataTest < AppModelsTestBase
   ) do
     in_new_kata do |kata|
       kata.colour = 'off'
-      assert_equal  'off', kata.colour
+      assert_equal 'off', kata.colour
       kata.colour = 'on'
-      assert_equal  'on', kata.colour
+      assert_equal 'on', kata.colour
     end
   end
 
@@ -335,7 +334,7 @@ class KataTest < AppModelsTestBase
   the default for prediction is off
   ) do
     in_new_kata do |kata|
-      assert_equal  'off', kata.predict
+      assert_equal 'off', kata.predict
     end
   end
 
@@ -344,9 +343,9 @@ class KataTest < AppModelsTestBase
   ) do
     in_new_kata do |kata|
       kata.predict = 'on'
-      assert_equal  'on', kata.predict
+      assert_equal 'on', kata.predict
       kata.predict = 'off'
-      assert_equal  'off', kata.predict
+      assert_equal 'off', kata.predict
     end
   end
 

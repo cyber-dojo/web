@@ -28,11 +28,6 @@ class RunnerTest < AppModelsTestBase
     end
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # TODO: created files
-  # TODO: deleted files
-  # TODO: changed files
-
   private
 
   def kata_params(kata)
@@ -40,7 +35,7 @@ class RunnerTest < AppModelsTestBase
       id:kata.id,
       image_name:kata.manifest.image_name,
       max_seconds:kata.manifest.max_seconds,
-      file_content:plain(kata.files)
+      file_content:plain(kata.events.last.files)
     }
   end
 

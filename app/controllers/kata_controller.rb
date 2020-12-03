@@ -5,18 +5,19 @@ class KataController < ApplicationController
     # who/what
     @id = kata.id
     @title = @id
+    # shared review code
     @was_index = -1
     @now_index = -1
-    @manifest = model.kata_manifest(@id)    
+    @manifest = model.kata_manifest(@id)
     # previous traffic-light-lights
     @events_json = kata.events_json
-    @index = kata.events.last.index
+    @index = kata.events[-1].index
     @lights = kata.lights
     # most recent files
-    @files = kata.files
-    @stdout = kata.stdout['content']
-    @stderr = kata.stderr['content']
-    @status = kata.status
+    @files = kata.events[-1].files
+    @stdout = kata.events[-1].stdout['content']
+    @stderr = kata.events[-1].stderr['content']
+    @status = kata.events[-1].status
     # settings
     @theme = kata.theme
     @colour = kata.colour

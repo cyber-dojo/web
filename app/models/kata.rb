@@ -50,22 +50,6 @@ class Kata
     events.select(&:light?)
   end
 
-  def files
-    most_recent_event.files
-  end
-
-  def stdout
-    most_recent_event.stdout
-  end
-
-  def stderr
-    most_recent_event.stderr
-  end
-
-  def status
-    most_recent_event.status
-  end
-
   # - - - - - - - - - - - - - - - - -
 
   def theme=(value)
@@ -134,10 +118,6 @@ class Kata
   include IdPather
   include Version
 
-  def plain(files)
-    files.map{ |filename,file| [filename, file['content']] }.to_h
-  end
-
   # - - - - - - - - - - - - - - - - -
 
   def kata
@@ -146,10 +126,6 @@ class Kata
 
   def schema
     @schema ||= Schema.new(@externals, kata_version)
-  end
-
-  def most_recent_event
-    events.last
   end
 
   def model

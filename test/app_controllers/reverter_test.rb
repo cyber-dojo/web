@@ -16,10 +16,10 @@ class ReverterTest  < AppControllerTestBase
       filename = 'hiker.sh'
       change_file(filename, old_content='the_answer')
       post_run_tests # 1
-      assert_equal old_content, kata.files[filename]['content']
+      assert_equal old_content, kata.events[-1].files[filename]['content']
       change_file(filename, new_content='something_different')
       post_run_tests # 2
-      assert_equal new_content, kata.files[filename]['content']
+      assert_equal new_content, kata.events[-1].files[filename]['content']
 
       post '/kata/revert', params: { # 3
         'src_id' => kata.id,
