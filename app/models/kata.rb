@@ -17,8 +17,7 @@ class Kata
   end
 
   def exists?
-    IdGenerator.id?(id) &&
-      saver.run(saver.dir_exists_command(kata_id_path(id)))
+    id?(id) && saver.run(saver.dir_exists_command(kata_id_path(id)))
   end
 
   def manifest
@@ -115,10 +114,20 @@ class Kata
 
   private
 
+  ALPHABET = %w{
+    0 1 2 3 4 5 6 7 8 9
+    A B C D E F G H   J K L M N   P Q R S T U V W X Y Z
+    a b c d e f g h   j k l m n   p q r s t u v w x y z
+  }.join.freeze
+
   include IdPather
   include Version
 
-  # - - - - - - - - - - - - - - - - -
+  def id?(s)
+    s.is_a?(String) &&
+      s.length === 6 &&
+        s.chars.all?{ |ch| ALPHABET.include?(ch) }
+  end
 
   def kata
     schema.kata

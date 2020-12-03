@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require_relative 'id_generator'
 require_relative 'id_pather'
 require_relative '../../lib/oj_adapter'
 
@@ -56,6 +55,7 @@ class Kata_v1
   private
 
   include OjAdapter
+  include IdPather # kata_id_path
 
   # - - - - - - - - - - - - - - - - - - - - - -
   # events
@@ -107,10 +107,6 @@ class Kata_v1
     #   "colour":"amber"
     # }
   end
-
-  include IdPather # kata_id_path
-
-  # - - - - - - - - - - - - - -
 
   def saver
     @externals.saver
