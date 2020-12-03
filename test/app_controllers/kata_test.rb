@@ -181,51 +181,43 @@ class KataControllerTest  < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '736', %w(
-  when a test-event creates a new text file called stdout
-  then the saver does _not_ record it because it already records
-  stdout,stderr,status as 'output' files
+  when cyber-dojo.sh creates a new text file called stdout
+  then the saver records it separately to the stdout 'output' file
   ) do
-    filename = 'stdout'
-    id = in_kata do |kata|
-      script = kata.files['cyber-dojo.sh']['content']
-      script += "\necho -n Hello > #{filename}"
+    in_kata do |kata|
+      script = [
+        "echo -n Hello",
+        "echo -n Bonjour > stdout"
+      ].join("\n")
       change_file('cyber-dojo.sh', script)
       post_run_tests
-      kata.id
+
+      assert kata.files.keys.include?('stdout')
+      assert_equal 'Bonjour', kata.files['stdout']['content']
+
+      assert_equal 'Hello', kata.stdout['content']
     end
-    kata = katas[id]
-    files = kata.files
-    filenames = files.keys.sort
-    refute filenames.include?(filename), filenames
-    expected = [
-      "1..1",
-      "not ok 1 life the universe and everything",
-      "# (in test file test_hiker.sh, line 7)",
-      "#   `[ \"$actual\" == \"42\" ]' failed"
-    ].join("\n")
-    actual = kata.lights[-1].stdout['content']
-    assert actual.include?(expected), actual
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '737', %w(
-  when a test-event creates a new text file called stderr
-  then the saver does _not_ record it because it already records
-  stdout,stderr,status as 'output' files
+  when cyber-dojo.sh creates a new text file called stderr
+  then the saver records it separately to the stderr 'output' file
   ) do
-    filename = 'stderr'
-    id = in_kata do |kata|
-      script = kata.files['cyber-dojo.sh']['content']
-      script += "\nprintf Hello > #{filename}"
+    in_kata do |kata|
+      script = [
+        ">&2 echo -n Hello2",
+        "echo -n Bonjour2 > stderr"
+      ].join("\n")
       change_file('cyber-dojo.sh', script)
       post_run_tests
-      kata.id
+
+      assert kata.files.keys.include?('stderr')
+      assert_equal 'Bonjour2', kata.files['stderr']['content']
+
+      assert_equal 'Hello2', kata.stderr['content']
     end
-    kata = katas[id]
-    filenames = kata.files.keys.sort
-    refute filenames.include?(filename), filenames
-    refute_equal 'Hello', kata.lights[-1].stderr['content']
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -235,17 +227,19 @@ class KataControllerTest  < AppControllerTestBase
   then the saver does _not_ record it because it already records
   stdout,stderr,status as 'output' files
   ) do
-    filename = 'status'
-    id = in_kata do |kata|
-      script = "echo -n Hello > #{filename}"
+    in_kata do |kata|
+      script = [
+        "echo -n Bonjour3 > status",
+        "exit 42"
+      ].join("\n")
       change_file('cyber-dojo.sh', script)
       post_run_tests
-      kata.id
+
+      assert kata.files.keys.include?('status')
+      assert_equal 'Bonjour3', kata.files['status']['content']
+
+      assert_equal '42', kata.status
     end
-    kata = katas[id]
-    filenames = kata.files.keys.sort
-    refute filenames.include?(filename), filenames
-    assert_equal '0', kata.lights[-1].status
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
