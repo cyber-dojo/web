@@ -27,9 +27,13 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   review.moveToTrafficLight = (kataId, nowIndex) => {
-    const delta = review.inDiffMode() ? 1 : 0;
-    const wasIndex = nowIndex - delta;
-    review.refresh(kataId, wasIndex, nowIndex);
+    if (nowIndex === -1 && review.inDiffMode()) {
+      review.refresh(kataId, 0, 1);
+    } else {
+      const delta = review.inDiffMode() ? 1 : 0;
+      const wasIndex = nowIndex - delta;
+      review.refresh(kataId, wasIndex, nowIndex);
+    }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
