@@ -103,7 +103,7 @@ $(() => {
       class: `diff-filename ${diff.type}`,
          id: `diff-filename-${diff.id}`,
       'data-diff-id': diff.id
-    }).text(cd.htmlEscape(diff.filename))
+    }).html(diff.filename)
       .click(() => review.selectFilename(diff));
   };
 
