@@ -15,11 +15,12 @@ class Kata
   end
 
   def exists?
-    id?(id) && saver.run(saver.dir_exists_command(kata_id_path(id)))
+    id?(id) && model.kata_exists?(id)
   end
 
   def manifest
     @manifest ||= Manifest.new(model.kata_manifest(id))
+    #@manifest ||= model.kata_manifest(id)
   end
 
   # - - - - - - - - - - - - - - - - -

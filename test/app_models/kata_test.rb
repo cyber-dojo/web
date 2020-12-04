@@ -63,19 +63,6 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  v_tests [0,1], '763', %w(
-  exists? raises,
-  when kata-id is well-formed,
-  and saver is offline
-  ) do
-    set_saver_class('SaverExceptionRaiser')
-    assert_raises(SaverService::Error) {
-      katas['123AbZ'].exists?
-    }
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - -
-
   test '862', %w(
   an individual kata is created from a well-formed manifest,
   is empty,
