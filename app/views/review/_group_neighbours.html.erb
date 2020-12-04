@@ -25,22 +25,30 @@ $(() => {
 
     // eg active = [
     //      ...
-    //      { avatar:15, id:"EEJSkR" }, // prevId == "EEJSkR"
+    //      { avatar:15, id:"EEJSkR" }, // prevIndex == 15
     //      { avatar:23, id:"Q55b8b" }, // index == 5
-    //      { avatar:44, id:"REf1t7" }, // nextId == "REf1t7"
+    //      { avatar:44, id:"REf1t7" }, // nextIndex == 44
     //      ...
     //  ]
 
     const index = active.findIndex((e) => e.id === id);
 
-    const prevId = (index-1 >= 0) ? active[index-1].id : '';
-    const avatar = active[index].avatar; // eg 23
-    const nextId = (index+1 < active.length) ? active[index+1].id : '';
+    const prevAvatar = inRange(active, index-1);  // eg 15
+    const     avatar = inRange(active, index);    // eg 23
+    const nextAvatar = inRange(active, index+1);  // eg 44
 
-    return [ prevId, avatar, nextId ];
+    return [ prevAvatar, avatar, nextAvatar ];
   };
 
   const isEmpty = (o) => Object.keys(o).length === 0;
+
+  const inRange = (active, index) => {
+    if (index >= 0 && index < active.length) {
+      return active[index].avatar;
+    } else {
+      return '';
+    }
+  };
 
 });
 </script>
