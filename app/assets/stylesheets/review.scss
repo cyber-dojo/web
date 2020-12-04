@@ -110,13 +110,6 @@
     overflow-y: auto;
     &::-webkit-scrollbar:horizontal { height: 0px; }
 
-    img#traffic-light-marker
-    {
-      padding-left: 1px;
-      width: 22px;
-      height: 3px;
-      vertical-align: top;
-    }
     img.revert, img.tick, img.cross
     {
       width:11px;
@@ -134,14 +127,23 @@
       left:2px;
     }
 
-    .diff-traffic-light
+    img.diff-traffic-light, img#traffic-light-marker
     {
-      display: grid;
-      img
-      {
-        position:relative;
-        top:2px;
-      }
+      padding-left:1px;
+      width: 22px;
+    }
+    img.diff-traffic-light
+    {
+      display:grid;
+      height:22px;
+      position:relative;
+      top:2px;
+    }
+    img#traffic-light-marker
+    {
+      height:3px;
+      vertical-align:top;
+      margin-top:4px;
     }
   }
 

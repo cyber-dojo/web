@@ -35,10 +35,10 @@ $(() => {
   cd.appendTrafficLight = (light) => {
     if (cd.lib.isVisible(light)) {
       cd.lib.appendLightQualifierImg($lights, light);
-      const colour = light.colour;
-      const $light = $trafficLightImage(colour);
-      $lights.append($light);
       const index = light.index;
+      const colour = light.colour;
+      const $light = $trafficLightImage(index, colour);
+      $lights.append($light);
       $light.click(() => cd.review.fromTestPage(kataId, index));
       cd.setupTrafficLightTip($light, colour, avatarIndex, kataId, index-1, index);
       updateCountData(light);
@@ -47,11 +47,14 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const $trafficLightImage = (colour) =>
+  const $trafficLightImage = (index, colour) =>
+    // colour+index are needed for auto-revert
     $('<img>', {
       class: 'diff-traffic-light',
         src: `/images/traffic-light/${colour}.png`,
-        alt: `${colour} traffic-light`
+        alt: `${colour} traffic-light`,
+      'data-colour': colour,
+      'data-index': index
     });
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
