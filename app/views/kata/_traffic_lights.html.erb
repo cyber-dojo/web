@@ -14,7 +14,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const kataId = '<%= @id %>';
-  const avatarIndex = '<%= @manifest['group_index'] %>';
+  const avatarIndex = () => '<%= @manifest['group_index'] %>';
 
   const $lights = $('#traffic-lights');
 
@@ -48,7 +48,6 @@ $(() => {
       const $div = $('<div>', {
         'class':'diff-traffic-light',
         'data-id':kataId,
-        'data-avatar-index':avatarIndex,
         'data-number':number,
         'data-index':index,
         'data-colour':light.colour
@@ -56,7 +55,7 @@ $(() => {
       const $light = $div.append($trafficLightImage(light));
       $lights.append($light);
       $light.click(() => cd.review.fromTestPage(kataId, index));
-      cd.setupTrafficLightTip($light, kataId, index-1, index);
+      cd.setupTrafficLightTip($light, light.colour, avatarIndex, kataId, index-1, index);
       number += 1;
       updateCountData(light);
       counts.lastLight = light;

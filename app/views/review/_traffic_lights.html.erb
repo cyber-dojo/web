@@ -54,7 +54,7 @@ $(() => {
     const avatarIndex = () => review.avatarIndex();
     const wasIndex = light.index - 1;
     const nowIndex = light.index;
-    cd.setupTrafficLightTip2($img, light.colour, avatarIndex, kataId, wasIndex, nowIndex);
+    cd.setupTrafficLightTip($img, light.colour, avatarIndex, kataId, wasIndex, nowIndex);
     $light.append($img);
     $light.append(makeTrafficLightMarkerHtml(index, light));
     $trafficLights.append($light);
