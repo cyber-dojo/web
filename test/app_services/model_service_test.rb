@@ -68,6 +68,15 @@ class ModelServiceTest < AppServicesTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'eJ4',
+  'kata_ran_tests() smoke test' do
+    manifest = starter_manifest
+    kid = model.kata_create(manifest)
+    model.kata_ran_tests(kid, 1, manifest['visible_files'], 'stdout', 'stderr', 0, ran_summary('amber'))
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'eJ5',
   'kata_event() smoke test' do
     manifest = starter_manifest
     kid = model.kata_create(manifest)
@@ -77,11 +86,12 @@ class ModelServiceTest < AppServicesTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'eJ5',
-  'kata_ran_tests() smoke test' do
+  test 'eJ6',
+  'kata_events() smoke test' do
     manifest = starter_manifest
     kid = model.kata_create(manifest)
-    model.kata_ran_tests(kid, 1, manifest['visible_files'], 'stdout', 'stderr', 0, ran_summary('amber'))
+    actual = model.kata_events(kid)
+    assert_equal 1, actual.size
   end
 
 end

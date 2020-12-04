@@ -167,10 +167,7 @@ end
 #- - - - - - - - - - - - - - - - - - - - -
 
 def coverage(stats, name)
-  min = case name
-  when 'app_services' then 99
-  else 100
-  end
+  min = 100
   percent = stats[name][:coverage]
   [ "#{name} coverage >= #{min}", percent.to_f >= min ]
 end
@@ -182,7 +179,7 @@ def gather_done(stats, totals)
      [ 'total failures == 0', totals[:failure_count] == 0 ],
      [ 'total errors == 0',   totals[:error_count] == 0 ],
      [ 'total skips == 0',    totals[:skip_count] == 0],
-     [ 'total secs < 130',    totals[:time].to_f < 130 ]
+     [ 'total secs < 50',    totals[:time].to_f < 50 ]
      #[ 'total assertions per sec > 20',  totals[:assertions_per_sec] > 20 ]
   ]
   module_names = %w(
