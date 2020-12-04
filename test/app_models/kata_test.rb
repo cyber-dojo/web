@@ -231,7 +231,7 @@ class KataTest < AppModelsTestBase
 
       events = kata.events
       assert_equal 4, events.size, :event_not_appended_to_events_json
-      assert_raises(SaverService::Error) {
+      assert_raises(ModelService::Error) {
         kata.event(4) # /4/event.json not created
       }
 
@@ -242,7 +242,7 @@ class KataTest < AppModelsTestBase
 
       events = kata.events
       assert_equal 4, events.size, :event_not_appended_to_events_json
-      assert_raises(SaverService::Error) {
+      assert_raises(ModelService::Error) {
         kata.event(4) # /4.event.json not created
       }
 

@@ -2,8 +2,6 @@
 require_relative 'id_pather'
 require_relative 'manifest'
 require_relative 'runner'
-require_relative 'schema'
-require_relative 'version'
 
 class Kata
 
@@ -31,11 +29,11 @@ class Kata
   end
 
   def events
-    kata.events(id)
+    model.kata_events(id)
   end
 
   def event(index)
-    kata.event(id, index)
+    model.kata_event(id, index)
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -110,20 +108,11 @@ class Kata
   }.join.freeze
 
   include IdPather
-  include Version
 
   def id?(s)
     s.is_a?(String) &&
       s.length === 6 &&
         s.chars.all?{ |ch| ALPHABET.include?(ch) }
-  end
-
-  def kata
-    schema.kata
-  end
-
-  def schema
-    @schema ||= Schema.new(@externals, kata_version)
   end
 
   def model

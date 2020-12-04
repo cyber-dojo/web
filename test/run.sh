@@ -7,7 +7,6 @@ rm -rf /tmp/cyber-dojo
 # Default is to run tests for all modules
 modules=(
   lib
-  app_helpers
   app_models
   app_services
   app_controllers

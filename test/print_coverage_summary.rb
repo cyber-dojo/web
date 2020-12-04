@@ -168,7 +168,9 @@ end
 
 def coverage(stats, name)
   min = case name
-  when 'app_models' then 93
+  when 'app_models' then 99
+  when 'app_services' then 99
+  when 'app_controllers' then 97
   else 100
   end
   percent = stats[name][:coverage]
@@ -186,7 +188,6 @@ def gather_done(stats, totals)
      #[ 'total assertions per sec > 20',  totals[:assertions_per_sec] > 20 ]
   ]
   module_names = %w(
-    app_helpers
     app_models
     app_services
     lib
