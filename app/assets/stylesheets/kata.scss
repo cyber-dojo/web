@@ -58,14 +58,14 @@
     padding: 0px;
     &.checkout
     {
-      min-width: 29px; // prevent flex shrinkage
-     min-height: 29px; // prevent flex shrinkage
-      width: 29px;
-     height: 29px;
+      min-width: 20px; // prevent flex shrinkage
+     min-height: 20px; // prevent flex shrinkage
+      width: 20px;
+     height: 20px;
       position:relative;
       border-radius:16px;
-      left:4px;
-      top:3px;
+      left:1px;
+      top:11px;
       margin:0px;
     }
   }
@@ -171,11 +171,11 @@
 
   img.revert, img.tick, img.cross
   {
-    width:12px;
-    height:12px;
-    padding-top:16px;
+    width:17px;
+    height:17px;
+    padding-top:11px;
     position:relative;
-    left:3px;
+    left:1px;
     top:2px;
   }
 
