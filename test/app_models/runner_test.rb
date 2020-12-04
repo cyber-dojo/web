@@ -35,7 +35,7 @@ class RunnerTest < AppModelsTestBase
       id:kata.id,
       image_name:kata.manifest.image_name,
       max_seconds:kata.manifest.max_seconds,
-      file_content:plain(kata.events.last.files)
+      file_content:plain(kata.event(-1)['files'])
     }
   end
 

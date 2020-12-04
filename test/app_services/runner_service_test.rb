@@ -61,7 +61,7 @@ class RunnerServiceTest < AppServicesTestBase
   def run_args(kata)
     {
       id: kata.id,
-      files: plain(kata.events[-1].files),
+      files: plain(kata.event(-1)['files']),
       manifest: {
         image_name: kata.manifest.image_name,
         max_seconds: kata.manifest.max_seconds

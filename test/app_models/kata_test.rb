@@ -84,9 +84,7 @@ class KataTest < AppModelsTestBase
     in_new_kata do |kata|
       assert kata.exists?
       assert_schema_version(kata)
-
-      assert_equal [], kata.lights
-
+      assert_equal 1, kata.events.size
       assert_nil kata.manifest.group_id
     end
   end
@@ -100,23 +98,18 @@ class KataTest < AppModelsTestBase
   ) do
     in_new_kata do |kata|
       assert_schema_version(kata)
-      files = kata.events[-1].files
+      files = kata.event(-1)['files']
       stdout = content('dfg')
       stderr = content('uystd')
       status = 3
       kata_ran_tests(kata.id, 1, files, stdout, stderr, status, ran_summary('red'))
 
       assert_equal 2, kata.events.size
-      assert_equal 1, kata.lights.size
-      light = kata.lights[0]
-      assert_equal stdout, light.stdout
-      assert_equal stderr, light.stderr
-      assert_equal status, light.status
-      assert_equal files, light.files
-      assert_equal stdout, kata.events[-1].stdout
-      assert_equal stderr, kata.events[-1].stderr
-      assert_equal status, kata.events[-1].status
-      assert_equal files, kata.events[-1].files
+      light = kata.event(-1)
+      assert_equal stdout, light['stdout']
+      assert_equal stderr, light['stderr']
+      assert_equal status, light['status']
+      assert_equal files, light['files']
     end
   end
 
@@ -129,7 +122,7 @@ class KataTest < AppModelsTestBase
   ) do
     in_new_kata do |kata|
       assert_schema_version(kata)
-      files = kata.events[-1].files
+      files = kata.event(-1)['files']
       stdout_1 = content("Expected: 42\nActual: 54")
       stderr_1 = content('assert failed')
       status_1 = 4
@@ -143,23 +136,22 @@ class KataTest < AppModelsTestBase
       status_2 = 0
       kata_ran_tests(kata.id, 2, files, stdout_2, stderr_2, status_2, ran_summary('green'))
 
-      kata_revert(kata.id, 3, kata.events[1].files, stdout_1, stderr_1, status_1, {
+      kata_revert(kata.id, 3, kata.event(1)['files'], stdout_1, stderr_1, status_1, {
           'time' => time.now,
         'colour' => 'red',
         'revert' => [ kata.id, 1 ]
       });
 
       assert_equal 4, kata.events.size
-      assert_equal 3, kata.lights.size
+      light = kata.event(-1)
+      assert_equal [ kata.id, 1 ], light['revert']
+      assert_equal 'red', light['colour']
 
-      light = kata.events[-1]
-      assert_equal [ kata.id, 1 ], light.revert
-      assert_equal :red, light.colour
+      assert_equal stdout_1, light['stdout']
+      assert_equal stderr_1, light['stderr']
+      assert_equal status_1, light['status']
 
-      assert_equal stdout_1, light.stdout
-      assert_equal stderr_1, light.stderr
-      assert_equal status_1, light.status
-      assert_equal kata.events[1].files, light.files
+      assert_equal kata.event(1)['files'], light['files']
     end
   end
 
@@ -171,7 +163,7 @@ class KataTest < AppModelsTestBase
     in_new_kata do |kata|
       assert_schema_version(kata)
       assert_equal kata.event(0), kata.event(-1)
-      files = kata.events[-1].files
+      files = kata.event(-1)['files']
       stdout = content('xxxx')
       stderr = content('')
       status = 0
@@ -199,7 +191,7 @@ class KataTest < AppModelsTestBase
   ) do
     in_new_kata do |kata|
       assert_schema_version(kata)
-      files = kata.events[-1].files
+      files = kata.event(-1)['files']
       stdout = content('aaaa')
       stderr = content('bbbb')
       status = 1
@@ -228,7 +220,7 @@ class KataTest < AppModelsTestBase
   ) do
     set_saver_class('SaverService')
     in_new_kata do |kata|
-      files = kata.events[-1].files
+      files = kata.event(-1)['files']
       stdout = content('aaaa')
       stderr = content('bbbb')
       status = 1
@@ -240,7 +232,7 @@ class KataTest < AppModelsTestBase
       events = kata.events
       assert_equal 4, events.size, :event_not_appended_to_events_json
       assert_raises(SaverService::Error) {
-        kata.event(4).files # /4/event.json not created
+        kata.event(4) # /4/event.json not created
       }
 
       # 2nd avatar - no refresh, so index not advanced to 2
@@ -251,15 +243,20 @@ class KataTest < AppModelsTestBase
       events = kata.events
       assert_equal 4, events.size, :event_not_appended_to_events_json
       assert_raises(SaverService::Error) {
-        kata.event(4).files # /4.event.json not created
+        kata.event(4) # /4.event.json not created
       }
-      assert_equal 0, events[0].index # creation
-      assert_equal 1, events[1].index
-      assert_equal :red, events[1].colour
-      assert_equal 2, events[2].index
-      assert_equal :amber, events[2].colour
-      assert_equal 3, events[3].index
-      assert_equal :green, events[3].colour
+
+      # Depends on version
+      # v1 had index, v0 does not...
+
+      #assert_equal 0, events[0]['index'] # creation
+      #assert_equal 1, events[1]['index']
+      #assert_equal 2, events[2]['index']
+      #assert_equal 3, events[3]['index']
+
+      assert_equal 'red', events[1]['colour']
+      assert_equal 'amber', events[2]['colour']
+      assert_equal 'green', events[3]['colour']
     end
   end
 

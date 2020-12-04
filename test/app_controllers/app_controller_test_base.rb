@@ -12,7 +12,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   def in_kata(options={}, &block)
     create_language_kata(options)
-    @files = plain(kata.events[-1].files)
+    @files = plain(model.kata_event(@id,-1)['files'])
     @index = 0
     block.call(kata)
   end

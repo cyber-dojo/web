@@ -31,22 +31,11 @@ class Kata
   end
 
   def events
-    kata.events(id).map.with_index do |h,index|
-      h['index'] ||= index
-      Event.new(self, h)
-    end
-  end
-
-  def events_json
-    kata.events_json(id)
+    kata.events(id)
   end
 
   def event(index)
     kata.event(id, index)
-  end
-
-  def lights
-    events.select(&:light?)
   end
 
   # - - - - - - - - - - - - - - - - -

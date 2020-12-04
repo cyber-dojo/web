@@ -35,11 +35,6 @@ class Kata_v1
     json_parse(events_json(id))
   end
 
-  def events_json(id)
-    events_src = saver.assert(events_file_read_command(id))
-    '[' + events_src + ']'
-  end
-
   # - - - - - - - - - - - - - - - - - - -
 
   def event(id, index)
@@ -59,6 +54,11 @@ class Kata_v1
 
   # - - - - - - - - - - - - - - - - - - - - - -
   # events
+
+  def events_json(id)
+    events_src = saver.assert(events_file_read_command(id))
+    '[' + events_src + ']'
+  end
 
   def events_file_read_command(id)
     saver.file_read_command(events_filename(id))

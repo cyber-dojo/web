@@ -17,11 +17,6 @@ class Kata_v0
     # events_src.lines.map { |line| json_parse(line) }
   end
 
-  def events_json(id)
-    events_src = saver.assert(events_file_read_command(id))
-    '[' + events_src.lines.join(',') + ']'
-  end
-
   # - - - - - - - - - - - - - - - - - - -
 
   def event(id, index)
@@ -47,6 +42,11 @@ class Kata_v0
   # Each event is stored as a single "\n" terminated line.
   # This is an optimization for ran_tests() which need only
   # append to the end of the file.
+
+  def events_json(id)
+    events_src = saver.assert(events_file_read_command(id))
+    '[' + events_src.lines.join(',') + ']'
+  end
 
   def events_file_read_command(id)
     saver.file_read_command(events_filename(id))

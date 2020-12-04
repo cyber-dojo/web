@@ -28,9 +28,8 @@ $(() => {
   cd.kata.filenames.refresh();
 
   // load initial traffic-lights
-  const events = <%= raw @events_json.gsub("\n",'') %>;
+  const events = <%= raw @events.to_json %>;
   events.forEach((event,index) => {
-    event.index = index; // version 0 events don't store their index
     cd.appendTrafficLight(event);
   });
 

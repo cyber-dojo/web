@@ -16,16 +16,16 @@ class ReverterTest  < AppControllerTestBase
       filename = 'hiker.sh'
       change_file(filename, old_content='the_answer')
       post_run_tests # 1
-      assert_equal old_content, kata.events[-1].files[filename]['content']
+      assert_equal old_content, kata.event(-1)['files'][filename]['content']
       change_file(filename, new_content='something_different')
       post_run_tests # 2
-      assert_equal new_content, kata.events[-1].files[filename]['content']
+      assert_equal new_content, kata.event(-1)['files'][filename]['content']
 
       post '/kata/revert', params: { # 3
         'src_id' => kata.id,
         'src_index' => 1,
         'id'     => kata.id,
-        'index'  => 3,
+        'index'  => 2,
         'format' => 'json'
       }
       assert_response :success
@@ -36,9 +36,10 @@ class ReverterTest  < AppControllerTestBase
       assert_equal old_content, files[filename]
 
       assert_equal 4, kata.events.size
-      event = kata.events[3]
-      assert_equal old_content, event.files[filename]['content']
-      assert_equal [kata.id,1], event.revert
+      event = kata.event(3)
+      assert_equal old_content, event['files'][filename]['content']
+      expected = [kata.id,1]
+      assert_equal expected, event['revert']
     }
   end
 

@@ -9,15 +9,15 @@ class KataController < ApplicationController
     @was_index = -1
     @now_index = -1
     @manifest = model.kata_manifest(@id)
-    # previous traffic-light-lights
-    @events_json = kata.events_json
-    @index = kata.events[-1].index
-    @lights = kata.lights
-    # most recent files
-    @files = kata.events[-1].files
-    @stdout = kata.events[-1].stdout['content']
-    @stderr = kata.events[-1].stderr['content']
-    @status = kata.events[-1].status
+    # all current events
+    @events = model.kata_events(@id)
+    # most recent event
+    last = model.kata_event(@id, -1)
+    @index = last['index']
+    @files = last['files']
+    @stdout = stdout(last)
+    @stderr = stderr(last)
+    @status = status(last)
     # settings
     @theme = kata.theme
     @colour = kata.colour
@@ -168,6 +168,32 @@ class KataController < ApplicationController
   def src_avatar_index
     param = params[:src_avatar_index]
     (param != '') ? param.to_i : ''
+  end
+
+  # - - - - - - - - - - - - - - - - - -
+
+  def stdout(event)
+    if event.has_key?('stdout')
+      event['stdout']['content']
+    else
+      ''
+    end
+  end
+
+  def stderr(event)
+    if event.has_key?('stderr')
+      event['stderr']['content']
+    else
+      ''
+    end
+  end
+
+  def status(event)
+    if event.has_key?('status')
+      event['status']
+    else
+      '0'
+    end
   end
 
 end
