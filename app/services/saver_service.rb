@@ -44,32 +44,12 @@ class SaverService
   end
 
   # - - - - - - - - - - - - - - - - - - -
-  # primitives
-
-  def assert(command)
-    @http.post(__method__, { command:command })
-  end
 
   def run(command)
     @http.post(__method__, { command:command })
   end
 
-  # - - - - - - - - - - - - - - - - - - -
-  # batches
-
-  def assert_all(commands)
-    @http.post(__method__, { commands:commands })
-  end
-
   def run_all(commands)
-    @http.post(__method__, { commands:commands })
-  end
-
-  def run_until_true(commands)
-    @http.post(__method__, { commands:commands })
-  end
-
-  def run_until_false(commands)
     @http.post(__method__, { commands:commands })
   end
 

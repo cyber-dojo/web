@@ -8,16 +8,16 @@ class KataController < ApplicationController
     # shared review code
     @was_index = -1
     @now_index = -1
-    @manifest = model.kata_manifest(@id)
+    @manifest = kata.manifest
     # all current events
-    @events = model.kata_events(@id)
+    @events = kata.events
     # most recent event
-    last = model.kata_event(@id, -1)
+    last = polyfilled(kata.event(-1))
     @index = last['index']
     @files = last['files']
-    @stdout = stdout(last)
-    @stderr = stderr(last)
-    @status = status(last)
+    @stdout = last['stdout']['content']
+    @stderr = last['stderr']['content']
+    @status = last['status']
     # settings
     @theme = kata.theme
     @colour = kata.colour
@@ -172,28 +172,15 @@ class KataController < ApplicationController
 
   # - - - - - - - - - - - - - - - - - -
 
-  def stdout(event)
-    if event.has_key?('stdout')
-      event['stdout']['content']
-    else
-      ''
-    end
+  def polyfilled(event)
+    event['stdout'] ||= content('')
+    event['stderr'] ||= content('')
+    event['status'] ||= '0'
+    event
   end
 
-  def stderr(event)
-    if event.has_key?('stderr')
-      event['stderr']['content']
-    else
-      ''
-    end
-  end
-
-  def status(event)
-    if event.has_key?('status')
-      event['status']
-    else
-      '0'
-    end
+  def content(s)
+    { 'content' => s, 'truncated' => false }
   end
 
 end
