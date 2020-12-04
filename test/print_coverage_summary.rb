@@ -168,7 +168,6 @@ end
 
 def coverage(stats, name)
   min = case name
-  when 'app_models' then 99
   when 'app_services' then 99
   when 'app_controllers' then 97
   else 100

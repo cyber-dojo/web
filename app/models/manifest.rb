@@ -40,19 +40,4 @@ class Manifest
             :max_seconds,
             :progress_regexs
 
-  # - - - - - - - - - -
-
-  def to_json
-    {
-      'display_name' => display_name,
-      'filename_extension' => filename_extension,
-      'image_name' => image_name,
-      'exercise' => exercise,
-      'highlight_filenames' => highlight_filenames,
-      'tab_size' => tab_size,
-      'max_seconds' => max_seconds,
-      'progress_regexs' => progress_regexs
-    }
-  end
-
 end

@@ -84,8 +84,8 @@ class KataTest < AppModelsTestBase
     in_new_kata do |kata|
       assert kata.exists?
       assert_schema_version(kata)
-      assert_equal 1, kata.events.size
-      assert_nil kata.manifest.group_id
+      assert_equal 1, model.kata_events(kata.id).size
+      assert_nil model.kata_manifest(kata.id)['group_id']
     end
   end
 
@@ -104,8 +104,8 @@ class KataTest < AppModelsTestBase
       status = 3
       kata_ran_tests(kata.id, 1, files, stdout, stderr, status, ran_summary('red'))
 
-      assert_equal 2, kata.events.size
-      light = kata.event(-1)
+      assert_equal 2, model.kata_events(kata.id).size
+      light = model.kata_event(kata.id,-1)
       assert_equal stdout, light['stdout']
       assert_equal stderr, light['stderr']
       assert_equal status, light['status']
@@ -142,8 +142,8 @@ class KataTest < AppModelsTestBase
         'revert' => [ kata.id, 1 ]
       });
 
-      assert_equal 4, kata.events.size
-      light = kata.event(-1)
+      assert_equal 4, model.kata_events(kata.id).size
+      light = model.kata_event(kata.id,-1)
       assert_equal [ kata.id, 1 ], light['revert']
       assert_equal 'red', light['colour']
 
@@ -151,7 +151,7 @@ class KataTest < AppModelsTestBase
       assert_equal stderr_1, light['stderr']
       assert_equal status_1, light['status']
 
-      assert_equal kata.event(1)['files'], light['files']
+      assert_equal model.kata_event(kata.id,1)['files'], light['files']
     end
   end
 
@@ -229,7 +229,7 @@ class KataTest < AppModelsTestBase
       kata_ran_tests(kata.id, 2, files, stdout, stderr, status, ran_summary('amber'))
       kata_ran_tests(kata.id, 3, files, stdout, stderr, status, ran_summary('green'))
 
-      events = kata.events
+      events = model.kata_events(kata.id)
       assert_equal 4, events.size, :event_not_appended_to_events_json
       assert_raises(ModelService::Error) {
         kata.event(4) # /4/event.json not created
@@ -240,7 +240,7 @@ class KataTest < AppModelsTestBase
         kata_ran_tests(kata.id, 1, files, stdout, stderr, status, ran_summary('green'))
       }
 
-      events = kata.events
+      events = model.kata_events(kata.id)
       assert_equal 4, events.size, :event_not_appended_to_events_json
       assert_raises(ModelService::Error) {
         kata.event(4) # /4.event.json not created
