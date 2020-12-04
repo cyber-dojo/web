@@ -24,17 +24,17 @@ $(() => {
   //    - unchecked ==> diff is not shown (wasIndex == nowIndex)
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  review.refreshDiffCheckBox = (kataId, checked, index) => {
+  review.refreshDiffCheckBox = (kataId, index, checked) => {
     $diffCheckBox
       .prop('checked', checked)
       .off('click')
-      .on('click', () => review.moveToTrafficLight(kataId, index));
+      .on('click', () => review.refresh(kataId, index));
 
     $('#diff-checkbox-title')
       .off('click')
       .on('click', () => {
-        $diffCheckBox.attr('checked', !review.inDiffMode());
-        review.moveToTrafficLight(kataId, index);
+        $diffCheckBox.prop('checked', !review.inDiffMode());
+        review.refresh(kataId, index);
       });
   };
 

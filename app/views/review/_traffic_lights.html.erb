@@ -26,17 +26,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  review.moveToTrafficLight = (kataId, nowIndex) => {
-    if (nowIndex === -1 && review.inDiffMode()) {
-      review.refresh(kataId, 0, 1);
-    } else {
-      const delta = review.inDiffMode() ? 1 : 0;
-      const wasIndex = nowIndex - delta;
-      review.refresh(kataId, wasIndex, nowIndex);
-    }
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
   const appendTrafficLights = (kataId, index, events) => {
     events.forEach(event => {
       if (cd.lib.isVisible(event)) {
@@ -53,9 +42,9 @@ $(() => {
     const $light = $('<img>', {
       class: 'diff-traffic-light',
         src: `/images/traffic-light/${colour}.png`,
-        alt: `${colour} traffic-light`        
+        alt: `${colour} traffic-light`
     });
-    $light.click(() => review.moveToTrafficLight(kataId, light.index));
+    $light.click(() => review.refresh(kataId, light.index));
     const avatarIndex = () => review.avatarIndex();
     const wasIndex = light.index - 1;
     const nowIndex = light.index;

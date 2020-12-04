@@ -46,15 +46,19 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   review.fromTestPage = (kataId, index) => {
+    const showDiff = true;
     review.fadeIntoReviewPage();
-    review.refresh(kataId, index-1, index);
+    review.refresh(kataId, index, showDiff);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  review.refresh = (kataId, wasIndex, nowIndex) => {
+  review.refresh = (kataId, nowIndex, showDiff) => {
+    if (showDiff === undefined) {
+      showDiff = review.inDiffMode();
+    }
+    review.refreshDiffCheckBox(kataId, nowIndex, showDiff);
     review.refreshAvatarNavigator(kataId);
-    review.refreshDiffCheckBox(kataId, (wasIndex != nowIndex), nowIndex);
-    review.refreshFiles(kataId, wasIndex, nowIndex);
+    review.refreshFiles(kataId, nowIndex);
     review.refreshOutput(kataId, nowIndex);
     review.refreshTrafficLights(kataId, nowIndex);
 
@@ -70,8 +74,9 @@ $(() => {
   //    o) wasIndex == nowIndex-1, we are showing a diff.
 
   if (!review.inTestPage) {
+    const showDiff = <%= @was_index %> != <%= @now_index %>;
     review.page.show();
-    review.refresh("<%= @id %>", <%= @was_index %>, <%= @now_index %>);
+    review.refresh("<%= @id %>", <%= @now_index %>, showDiff);
   }
 
 });

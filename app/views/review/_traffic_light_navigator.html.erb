@@ -37,7 +37,7 @@ $(() => {
     button
       .attr('disabled', index === null)
       .off('click')
-      .on('click', () => review.moveToTrafficLight(kataId, index));
+      .on('click', () => review.refresh(kataId, index));
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -

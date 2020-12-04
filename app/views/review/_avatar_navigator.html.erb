@@ -38,7 +38,8 @@ $(() => {
   const $makeAvatarImage = (avatarIndex) => {
     const $img = $('<img>', {
       class:'avatar-image',
-        src:`/images/avatars/${avatarIndex}.jpg`
+        src:`/images/avatars/${avatarIndex}.jpg`,
+        alt:`avatar number ${avatarIndex}`
     });
     cd.setupAvatarNameHoverTip($img, '', avatarIndex, '');
     return $img;
@@ -57,7 +58,7 @@ $(() => {
     const FirstIndex = 1;
     const LastIndex = -1;
     const index = review.inDiffMode() ? FirstIndex : LastIndex;
-    review.moveToTrafficLight(kataId, index);
+    review.refresh(kataId, index);
   };
 
 });
