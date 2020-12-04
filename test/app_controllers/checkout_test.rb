@@ -36,8 +36,8 @@ class CheckoutTest  < AppControllerTestBase
       refute_nil files[filename]
       assert_equal old_content, files[filename]
 
-      assert_equal 4, model.kata_events(kata.id).size
-      event = model.kata_event(kata.id,3)
+      assert_equal 4, kata.events.size
+      event = kata.event(3)
       assert_equal old_content, event['files'][filename]['content']
 
       expected = { "id" => kata.id, "avatarIndex" => "", "index" => 1 }
@@ -74,8 +74,8 @@ class CheckoutTest  < AppControllerTestBase
         refute_nil files[filename]
         assert_equal new_content, files[filename]
 
-        assert_equal 2, model.kata_events(hippo.id).size
-        checkout_event = model.kata_event(hippo.id,-1)
+        assert_equal 2, hippo.events.size
+        checkout_event = hippo.event(-1)
         assert_equal new_content, checkout_event['files'][filename]['content']
         expected = { "id" => lion.id, "avatarIndex" => lion_avatar_index, "index" => 1 }
         assert_equal expected, checkout_event['checkout']

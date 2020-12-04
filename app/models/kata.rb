@@ -28,6 +28,10 @@ class Kata
     Runner.new(@externals).run(params)
   end
 
+  def events
+    model.kata_events(id)
+  end
+
   def event(index)
     model.kata_event(id, index)
   end
