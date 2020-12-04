@@ -34,23 +34,24 @@ $(() => {
 
   cd.appendTrafficLight = (light) => {
     if (cd.lib.isVisible(light)) {
-      const index = light.index;
       cd.lib.appendLightQualifierImg($lights, light);
-      const $div = $('<div>', { class:'diff-traffic-light' });
-      const $light = $div.append($trafficLightImage(light));
+      const colour = light.colour;
+      const $light = $trafficLightImage(colour);
       $lights.append($light);
+      const index = light.index;
       $light.click(() => cd.review.fromTestPage(kataId, index));
-      cd.setupTrafficLightTip($light, light.colour, avatarIndex, kataId, index-1, index);
+      cd.setupTrafficLightTip($light, colour, avatarIndex, kataId, index-1, index);
       updateCountData(light);
       counts.lastLight = light;
     }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const $trafficLightImage = (light) =>
+  const $trafficLightImage = (colour) =>
     $('<img>', {
-      src: `/images/traffic-light/${light.colour}.png`,
-      alt: `${light.colour} traffic-light`
+      class: 'diff-traffic-light',
+        src: `/images/traffic-light/${colour}.png`,
+        alt: `${colour} traffic-light`
     });
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -110,14 +110,6 @@
     overflow-y: auto;
     &::-webkit-scrollbar:horizontal { height: 0px; }
 
-    .diff-traffic-light { display: grid; }
-
-    img.diff-traffic-light
-    {
-      cursor: pointer;
-      width: 22px;
-      height: 22px;
-    }
     img#traffic-light-marker
     {
       padding-left: 1px;
@@ -140,6 +132,16 @@
       border-radius:15px;
       position:relative;
       left:2px;
+    }
+
+    .diff-traffic-light
+    {
+      display: grid;
+      img
+      {
+        position:relative;
+        top:2px;
+      }
     }
   }
 
@@ -206,8 +208,6 @@
       }
     }
   }
-
-  .diff-traffic-light img { position:relative; top:2px; }
 
   #diff-filenames
   {

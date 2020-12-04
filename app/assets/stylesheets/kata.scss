@@ -160,17 +160,16 @@
     overflow-x:auto;
     overflow-y:hidden;
     &::-webkit-scrollbar:horizontal { height:0px; }
-    .diff-traffic-light
-    {
-      padding:0px;
-       margin:0px;
-      img
-      {
-        width:25px;
-        height:25px;
-        position:relative; top:5px;
-      }
-    }
+  }
+
+  img.diff-traffic-light
+  {
+    padding:0px;
+    margin-right:2px;
+    width:25px;
+    height:25px;
+    position:relative;
+    top:5px;
   }
 
   img.revert, img.tick, img.cross

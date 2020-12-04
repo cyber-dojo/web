@@ -48,13 +48,14 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const appendTrafficLight = (kataId, index, light) => {
+    const colour = light.colour;
     const $light = $('<div>', { class: 'diff-traffic-light' });
-    const $img = $('<img>', { src: `/images/traffic-light/${light.colour}.png` });
+    const $img = $('<img>', { src: `/images/traffic-light/${colour}.png` });
     $img.click(() => review.moveToTrafficLight(kataId, light.index));
     const avatarIndex = () => review.avatarIndex();
     const wasIndex = light.index - 1;
     const nowIndex = light.index;
-    cd.setupTrafficLightTip($img, light.colour, avatarIndex, kataId, wasIndex, nowIndex);
+    cd.setupTrafficLightTip($img, colour, avatarIndex, kataId, wasIndex, nowIndex);
     $light.append($img);
     $light.append(makeTrafficLightMarkerHtml(index, light));
     $trafficLights.append($light);
