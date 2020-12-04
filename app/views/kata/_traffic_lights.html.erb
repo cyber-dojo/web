@@ -36,12 +36,7 @@ $(() => {
     if (cd.lib.isVisible(light)) {
       const index = light.index;
       cd.lib.appendLightQualifierImg($lights, light);
-      const $div = $('<div>', {
-        'class':'diff-traffic-light',
-        'data-id':kataId,
-        'data-index':index,
-        'data-colour':light.colour
-      });
+      const $div = $('<div>', { class:'diff-traffic-light' });
       const $light = $div.append($trafficLightImage(light));
       $lights.append($light);
       $light.click(() => cd.review.fromTestPage(kataId, index));
