@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 require_relative 'id_pather'
-require_relative 'manifest'
 require_relative 'runner'
 
 class Kata
@@ -19,8 +18,7 @@ class Kata
   end
 
   def manifest
-    @manifest ||= Manifest.new(model.kata_manifest(id))
-    #@manifest ||= model.kata_manifest(id)
+    @manifest ||= model.kata_manifest(id)
   end
 
   # - - - - - - - - - - - - - - - - -

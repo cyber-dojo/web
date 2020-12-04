@@ -17,7 +17,7 @@ class KataTest < AppModelsTestBase
     set_saver_class('SaverService')
     katas = Katas.new(self, {})
     kata = katas['5rTJv5']
-    assert_equal 'Ruby, MiniTest', kata.manifest.display_name
+    assert_equal 'Ruby, MiniTest', kata.manifest['display_name']
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -72,7 +72,7 @@ class KataTest < AppModelsTestBase
       assert kata.exists?
       assert_schema_version(kata)
       assert_equal 1, kata.events.size
-      assert_nil model.kata_manifest(kata.id)['group_id']
+      assert_nil kata.manifest['group_id']
     end
   end
 

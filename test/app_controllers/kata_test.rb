@@ -94,9 +94,9 @@ class KataControllerTest  < AppControllerTestBase
       params = {
         'format' => 'js',
         'id' => kata.id,
-        'image_name' => kata.manifest.image_name,
+        'image_name' => kata.manifest['image_name'],
         'file_content' => plain(kata.event(-1)['files']),
-        'max_seconds' => kata.manifest.max_seconds,
+        'max_seconds' => kata.manifest['max_seconds'],
       }
       params['index'] = 1
       post '/kata/run_tests', params:params

@@ -33,8 +33,8 @@ class RunnerTest < AppModelsTestBase
   def kata_params(kata)
     {
       id:kata.id,
-      image_name:kata.manifest.image_name,
-      max_seconds:kata.manifest.max_seconds,
+      image_name:kata.manifest['image_name'],
+      max_seconds:kata.manifest['max_seconds'],
       file_content:plain(kata.event(-1)['files'])
     }
   end

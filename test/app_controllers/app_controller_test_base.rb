@@ -12,7 +12,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   def in_kata(options={}, &block)
     create_language_kata(options)
-    @files = plain(model.kata_event(@id,-1)['files'])
+    @files = plain(kata.event(-1)['files'])
     @index = 0
     block.call(kata)
   end
@@ -60,8 +60,8 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     {
       'format'           => 'js',
       'id'               => (options['id'] || kata.id),
-      'image_name'       => kata.manifest.image_name,
-      'max_seconds'      => (options['max_seconds'] || kata.manifest.max_seconds),
+      'image_name'       => kata.manifest['image_name'],
+      'max_seconds'      => (options['max_seconds'] || kata.manifest['max_seconds']),
       'index'            => @index,
       'file_content'     => @files
     }
