@@ -30,7 +30,6 @@ class KataTest < AppModelsTestBase
   ) do
     in_new_kata do |kata|
       assert kata.exists?
-      assert_schema_version(kata)
     end
   end
 
@@ -70,7 +69,6 @@ class KataTest < AppModelsTestBase
   ) do
     in_new_kata do |kata|
       assert kata.exists?
-      assert_schema_version(kata)
       assert_equal 1, kata.events.size
       assert_nil kata.manifest['group_id']
     end
@@ -84,7 +82,6 @@ class KataTest < AppModelsTestBase
   which is now the most recent event
   ) do
     in_new_kata do |kata|
-      assert_schema_version(kata)
       files = kata.event(-1)['files']
       stdout = content('dfg')
       stderr = content('uystd')
@@ -108,7 +105,6 @@ class KataTest < AppModelsTestBase
   which is now the most recent event
   ) do
     in_new_kata do |kata|
-      assert_schema_version(kata)
       files = kata.event(-1)['files']
       stdout_1 = content("Expected: 42\nActual: 54")
       stderr_1 = content('assert failed')
@@ -148,7 +144,6 @@ class KataTest < AppModelsTestBase
   kata.event(-1) returns the most recent event
   ) do
     in_new_kata do |kata|
-      assert_schema_version(kata)
       assert_equal kata.event(0), kata.event(-1)
       files = kata.event(-1)['files']
       stdout = content('xxxx')
@@ -177,7 +172,6 @@ class KataTest < AppModelsTestBase
   but v1 handles it
   ) do
     in_new_kata do |kata|
-      assert_schema_version(kata)
       files = kata.event(-1)['files']
       stdout = content('aaaa')
       stderr = content('bbbb')

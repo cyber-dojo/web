@@ -1,41 +1,8 @@
 
 module TestDomainHelpers # mix-in
 
-  def assert_schema_version(o)
-    if v_test?(0)
-      assert_equal 0, o.schema.version
-    end
-    if v_test?(1)
-      assert_equal 1, o.schema.version
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - - - -
-
-  def schema_version
-    if v_test?(0)
-      return 0
-    end
-    if v_test?(1)
-      return 1
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - - - -
-
   def v_test?(n)
     hex_test_name.start_with?("<version=#{n}>")
-  end
-
-  # - - - - - - - - - - - - - - - -
-
-  def in_new_group(&block)
-    id = model.group_create(starter_manifest)
-    block.call(groups[id])
-  end
-
-  def groups(params = {})
-    Groups.new(self, params)
   end
 
   # - - - - - - - - - - - - - - - -
