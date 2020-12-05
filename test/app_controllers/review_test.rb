@@ -13,15 +13,11 @@ class ReviewTest < AppControllerTestBase
   |makes ZERO saver-service calls
   |now review migration to model-service is complete
   ) do
+    set_saver_class('SaverRaiser')
     [0,1].each do |version|
       in_kata(version:version) do |kata|
         post_run_tests # 1
-        count_before = saver.log.size
         assert_review_show(kata.id, 0, 1)
-        count_after = saver.log.size
-        diagnostic = [version,count_before,count_after]
-        assert_equal 0, (count_after-count_before), diagnostic
-        assert_equal version, kata.manifest['version']
       end
     end
   end
@@ -33,15 +29,11 @@ class ReviewTest < AppControllerTestBase
   |makes ZERO saver-service calls
   |now review migration to model-service is complete
   ) do
+    set_saver_class('SaverRaiser')
     [0,1].each do |version|
       in_kata(version:version) do |kata|
         post_run_tests # 1
-        count_before = saver.log.size
         assert_review_show(kata.id, -1, -1)
-        count_after = saver.log.size
-        diagnostic = [version,count_before,count_after]
-        assert_equal 0, (count_after-count_before), diagnostic
-        assert_equal version, kata.manifest['version']
       end
     end
   end

@@ -36,7 +36,7 @@ do
     # set defaults for externals
     export CYBER_DOJO_MODEL_CLASS=ModelService
     export CYBER_DOJO_RUNNER_CLASS=RunnerStub
-    export CYBER_DOJO_SAVER_CLASS=SaverWithLogging
+    export CYBER_DOJO_SAVER_CLASS=SaverService
 
     # run-the-tests!
     cd "${module}"
