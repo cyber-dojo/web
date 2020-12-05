@@ -152,7 +152,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '824', %w(
+  v_tests [0,1], '824', %w(
   given a saver outage during a session
   when kata.event(-1) is called
   then v0 raises
