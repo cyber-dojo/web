@@ -175,7 +175,7 @@ class KataController < ApplicationController
   def polyfilled(event)
     event['stdout'] ||= content('')
     event['stderr'] ||= content('')
-    event['status'] ||= '0'
+    event['status'] ||= ''
     event
   end
 
