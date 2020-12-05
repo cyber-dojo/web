@@ -50,13 +50,11 @@ class ReviewTest < AppControllerTestBase
 
   test '442',
   'was_index!=now_index, review existing version=0 session' do
-    set_saver_class('SaverService')
     assert_review_show('5rTJv5', 1, 2)
   end
 
   test '443',
   '(was_index,now_index)=(-1,-1) review existing version=0 session' do
-    set_saver_class('SaverService')
     assert_review_show('5rTJv5', -1, -1)
   end
 

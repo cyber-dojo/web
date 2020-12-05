@@ -58,20 +58,6 @@ class KataControllerTest  < AppControllerTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'c25', %w(
-  when [test] button is pressed
-  the model-http-service is now used and not the saver-http-service
-  ) do
-    set_runner_class('RunnerStub')
-    in_kata do
-      set_saver_class('SaverExceptionRaiser')
-      post_run_tests
-      assert_response :success
-    end
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test '76E', %w( run_tests with bad ID is a 500 ) do
     in_kata do |kata|
       post '/kata/run_tests', params:run_test_params({ 'id' => 'bad' })

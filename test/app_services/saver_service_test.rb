@@ -9,10 +9,6 @@ class SaverServiceTest < AppServicesTestBase
     'D2w'
   end
 
-  def hex_setup
-    set_saver_class('SaverService')
-  end
-
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '3A7',
@@ -53,6 +49,12 @@ class SaverServiceTest < AppServicesTestBase
       saver.dir_exists_command(dirname),
       saver.file_read_command(filename)
     ])
+  end
+
+  private
+
+  def saver
+    SaverService.new(self)
   end
 
 end

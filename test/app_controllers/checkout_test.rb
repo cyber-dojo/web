@@ -11,7 +11,6 @@ class CheckoutTest  < AppControllerTestBase
   test '176', %w(
   in individual kata, checkout our own previous traffic-light
   ) do
-    set_saver_class('SaverService')
     in_kata {
       filename = 'hiker.sh'
       change_file(filename, old_content='the_answer')
@@ -50,7 +49,6 @@ class CheckoutTest  < AppControllerTestBase
   test '177', %w(
   in group kata, checkout a different avatar's traffic-light
   ) do
-    set_saver_class('SaverService')
     new_content = 'and now for something_different'
     in_kata do |lion|
       lion_avatar_index = 28

@@ -11,7 +11,6 @@ class ReverterTest  < AppControllerTestBase
   test '276', %w(
   in individual kata, revert back to our own previous traffic-light
   ) do
-    set_saver_class('SaverService')
     in_kata {
       filename = 'hiker.sh'
       change_file(filename, old_content='the_answer')

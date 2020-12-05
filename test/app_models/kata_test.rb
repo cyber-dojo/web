@@ -8,19 +8,6 @@ class KataTest < AppModelsTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'B7F', %w(
-  using existing kata.methods (except for exists?)
-  when params does not specify a version number
-  forces schema.version determination via the manifest
-  ) do
-    set_saver_class('SaverService')
-    katas = Katas.new(self, {})
-    kata = katas['5rTJv5']
-    assert_equal 'Ruby, MiniTest', kata.manifest['display_name']
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - -
   # exists?
 
   test '760', %w(
@@ -199,7 +186,6 @@ class KataTest < AppModelsTestBase
   a ModelService::Error is raised
   and a new event is not created in the saver
   ) do
-    set_saver_class('SaverService')
     in_new_kata do |kata|
       files = kata.event(-1)['files']
       stdout = content('aaaa')
