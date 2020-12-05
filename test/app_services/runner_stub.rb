@@ -1,14 +1,10 @@
 # frozen_string_literal: true
-require_relative 'disk_fake'
+require 'fileutils'
 require 'json'
 
 class RunnerStub
 
   def initialize(_externals)
-    # This is @@disk and not @disk so that it behaves as
-    # a real disk on tests that run across multiple threads
-    # (as some app-controller tests do).
-    @@disk ||= DiskFake.new(self)
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -18,8 +14,7 @@ class RunnerStub
     stub[:stderr] ||= ''
     stub[:status] ||= 0
     stub[:outcome] ||= 'red'
-    dir.make
-    dir.write(filename, JSON.generate({
+    dir_write(JSON.generate({
       'stdout' => file(stub[:stdout]),
       'stderr' => file(stub[:stderr]),
       'status' => stub[:status],
@@ -33,8 +28,8 @@ class RunnerStub
   # - - - - - - - - - - - - - - - - -
 
   def run_cyber_dojo_sh(_args)
-    if dir.exists?
-      JSON.parse(dir.read(filename))
+    if dir_exists?
+      JSON.parse(dir_read)
     else
       {
         'stdout' => file('so'),
@@ -50,16 +45,25 @@ class RunnerStub
 
   private
 
+  def dir_exists?
+    Dir.exists?(dirname)
+  end
+
+  def dir_write(content)
+    FileUtils.mkdir_p(dirname)
+    IO.write(filename, content)
+  end
+
+  def dir_read
+    IO.read(filename)
+  end
+
+  def dirname
+    "/tmp/runner-stub/#{test_id}"
+  end
+
   def filename
-    'stub_output'
-  end
-
-  def dir
-    disk[test_id]
-  end
-
-  def disk
-    @@disk
+    "#{dirname}/stub_output"
   end
 
   def test_id
