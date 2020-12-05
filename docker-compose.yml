@@ -17,7 +17,7 @@ services:
     user: nobody
     container_name: test_web
     env_file: [ .env ]
-    tmpfs: /tmp    
+    #tmpfs: /tmp   # Interferes with test-coverage extraction 
     restart: 'no'
 
   # - - - - - - - - - - - - - - - -
