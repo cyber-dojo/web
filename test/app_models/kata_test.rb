@@ -227,13 +227,10 @@ class KataTest < AppModelsTestBase
         kata.event(4) # /4.event.json not created
       }
 
-      # Depends on version
-      # v1 had index, v0 does not...
-
-      #assert_equal 0, events[0]['index'] # creation
-      #assert_equal 1, events[1]['index']
-      #assert_equal 2, events[2]['index']
-      #assert_equal 3, events[3]['index']
+      assert_equal 0, events[0]['index'] # creation
+      assert_equal 1, events[1]['index']
+      assert_equal 2, events[2]['index']
+      assert_equal 3, events[3]['index']
 
       assert_equal 'red', events[1]['colour']
       assert_equal 'amber', events[2]['colour']
