@@ -10,8 +10,6 @@ services:
 
   web:
     depends_on:
-      - dashboard
-      - differ
       - model
       - runner
       - saver
