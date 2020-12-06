@@ -10,13 +10,17 @@ class KataTest < AppModelsTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - -
   # exists?
 
-  test '760', %w(
+  v_tests [0,1], '760', %w(
   exists? is true,
   for a well-formed kata-id that exists,
-  when saver is online
+  when model is online
+  but false (no exception) when model is offline
   ) do
     in_new_kata do |kata|
       assert kata.exists?
+      @model = nil
+      set_model_class('ModelRaiser')
+      refute kata.exists?
     end
   end
 
@@ -25,7 +29,7 @@ class KataTest < AppModelsTestBase
   v_tests [0,1], '761', %w(
   exists? is false,
   for a well-formed kata-id that does not exist,
-  when saver is online
+  when model is online
   ) do
     refute katas['123AbZ'].exists?
   end
@@ -35,7 +39,7 @@ class KataTest < AppModelsTestBase
   v_tests [0,1], '762', %w(
   exists? is false,
   for a malformed kata-id,
-  when saver is online
+  when model is online
   ) do
     refute katas[42].exists?, 'Integer'
     refute katas[nil].exists?, 'nil'
@@ -51,7 +55,6 @@ class KataTest < AppModelsTestBase
 
   test '862', %w(
   an individual kata is created from a well-formed manifest,
-  is empty,
   and is not a member of a group
   ) do
     in_new_kata do |kata|

@@ -42,6 +42,7 @@ class KataController < ApplicationController
       'predicted' => params['predicted'],
     }
 
+    @saved = true
     @out_of_sync = false
     begin
       model.kata_ran_tests(@id, @index, files, @stdout, @stderr, @status, {
@@ -50,12 +51,14 @@ class KataController < ApplicationController
         'predicted' => params['predicted']
       })
     rescue ModelService::Error => error
+      @saved = false
+      $stdout.puts(error.message);
+      $stdout.flush
+      unless id?(@id)
+        raise
+      end
       if model.kata_exists?(@id)
         @out_of_sync = true
-        $stdout.puts(error.message);
-        $stdout.flush
-      else
-        raise
       end
     end
 
@@ -117,8 +120,8 @@ class KataController < ApplicationController
       stderr: stderr,
       status: status,
        light: {
-        colour: colour,
-         index: index,
+          colour: colour,
+           index: index,
         checkout: checkout_hash
       }
     }
@@ -177,5 +180,19 @@ class KataController < ApplicationController
   def content(s)
     { 'content' => s, 'truncated' => false }
   end
+
+  # - - - - - - - - - - - - - - - - - -
+
+  def id?(s)
+    s.is_a?(String) &&
+      s.length === 6 &&
+        s.chars.all?{ |ch| ALPHABET.include?(ch) }
+  end
+
+  ALPHABET = %w{
+    0 1 2 3 4 5 6 7 8 9
+    A B C D E F G H   J K L M N   P Q R S T U V W X Y Z
+    a b c d e f g h   j k l m n   p q r s t u v w x y z
+  }.join.freeze
 
 end
