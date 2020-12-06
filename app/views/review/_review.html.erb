@@ -45,13 +45,6 @@ $(() => {
   review.page = $('#review-page');
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  review.fromTestPage = (kataId, index) => {
-    const showDiff = true;
-    review.fadeIntoReviewPage();
-    review.refresh(kataId, index, showDiff);
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
   review.refresh = (kataId, nowIndex, showDiff) => {
     if (showDiff === undefined) {
       showDiff = review.inDiffMode();
@@ -73,10 +66,19 @@ $(() => {
   // When arriving from traffic-light (on test-page or dashboard-page)
   //    o) wasIndex == nowIndex-1, we are showing a diff.
 
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  review.fromTestPage = (kataId, index) => {
+    const showDiff = true;
+    review.fadeIntoReviewPage();
+    review.refresh(kataId, index, showDiff);
+  };
+
   if (!review.inTestPage) {
-    const showDiff = <%= @was_index %> != <%= @now_index %>;
+    const wasIndex = parseInt(cd.urlParam('was_index', -1));
+    const nowIndex = parseInt(cd.urlParam('now_index', -1));
+    const showDiff = (wasIndex != nowIndex);
     review.page.show();
-    review.refresh("<%= @id %>", <%= @now_index %>, showDiff);
+    review.refresh("<%= @id %>", nowIndex, showDiff);
   }
 
 });

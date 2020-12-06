@@ -2,14 +2,9 @@
 class KataController < ApplicationController
 
   def edit
-    # who/what
     @id = kata.id
     @title = @id
-    # shared review code
-    @was_index = -1
-    @now_index = -1
     @manifest = kata.manifest
-    # all current events
     @events = kata.events
     # most recent event
     last = polyfilled(kata.event(-1))

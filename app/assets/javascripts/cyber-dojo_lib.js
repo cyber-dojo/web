@@ -2,9 +2,13 @@
 'use strict';
 var cyberDojo = ((cd, $) => {
 
-  // Used by both app/views/kata and app/view/review
+  cd.urlParam = (name, fallBack) => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get(name) || fallBack;
+  };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
+  // Used by both app/views/kata and app/view/review
   cd.lib.isVisible = (event) => {
     // Eg don't show event[0] == creation
     switch (event.colour) {
