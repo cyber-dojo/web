@@ -30,5 +30,6 @@
 !/build_test_publish.sh
 !/demo.sh
 !/up.sh
+!/web.env
 !/LICENSE.md
 !/README.md
