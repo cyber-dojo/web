@@ -19,10 +19,9 @@ module TestDomainHelpers # mix-in
   # - - - - - - - - - - - - - - - -
 
   def starter_manifest
-    v1_id = '5U2J18' # "Bash, bats"
+    v1_id = '5U2J18' # "Bash, bats" v1
     manifest = model.kata_manifest(v1_id)
     %w( id created group_id group_index ).each {|key| manifest.delete(key) }
-    manifest['exercise'] = DEFAULT_EXERCISE_NAME
     manifest['created'] = time.now
     if v_test?(0)
       manifest['version'] = 0
@@ -32,14 +31,6 @@ module TestDomainHelpers # mix-in
     end
     manifest
   end
-
-  # - - - - - - - - - - - - - - - -
-
-  DEFAULT_LANGUAGE_NAME = 'Ruby, MiniTest'
-
-  DEFAULT_DISPLAY_NAME = 'Ruby, MiniTest'
-
-  DEFAULT_EXERCISE_NAME = 'Fizz Buzz'
 
   # - - - - - - - - - - - - - - - -
 
