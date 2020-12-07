@@ -29,20 +29,9 @@ $(() => {
     if (avatarIndex != '') {
       $('#avatar-navigator').show();
       refreshAvatar($('#prev-avatar'), joined, prevIndex);
-      $('#review-avatar-image-box').html($makeAvatarImage(avatarIndex));
+      $('#review-avatar-image-box').html(cd.lib.$makeAvatarImage(avatarIndex));
       refreshAvatar($('#next-avatar'), joined, nextIndex);
     }
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  const $makeAvatarImage = (avatarIndex) => {
-    const $img = $('<img>', {
-      class:'avatar-image',
-        src:`/images/avatars/${avatarIndex}.jpg`,
-        alt:`avatar number ${avatarIndex}`
-    });
-    cd.setupAvatarNameHoverTip($img, '', avatarIndex, '');
-    return $img;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -

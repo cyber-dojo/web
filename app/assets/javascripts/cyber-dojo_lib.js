@@ -25,6 +25,17 @@ var cyberDojo = ((cd, $) => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  cd.lib.$makeAvatarImage = (avatarIndex) => {
+    const $img = $('<img>', {
+      class:'avatar-image',
+        src:`/images/avatars/${avatarIndex}.jpg`,
+        alt:`avatar number ${avatarIndex}`
+    });
+    cd.setupAvatarNameHoverTip($img, '', avatarIndex, '');
+    return $img;
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   cd.lib.appendLightQualifierImg = ($lights, light) => {
     // Older katas did not distinguish between
     //   - an auto-revert, from an incorrect test prediction
