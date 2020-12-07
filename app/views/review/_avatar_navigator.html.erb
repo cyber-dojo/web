@@ -23,14 +23,14 @@ $(() => {
   };
 
   const avatarNavigatorRefresher = (kataId, joined) => {
-    const [prevIndex,avatarIndex,nextIndex] = review.groupNeighbours(kataId, joined);
+    const [prevIndex,avatarIndex,nextIndex] = review.avatarsNeighbours(kataId, joined);
     // Make avatarIndex available for traffic-light hover-tip.
-    review.avatarIndex = () => avatarIndex; // eg 23 eg ''
+    review.avatarIndex = () => avatarIndex; // eg 23/''
     if (avatarIndex != '') {
       $('#avatar-navigator').show();
-      refreshAvatar($('#prev-avatar'), prevIndex, joined);
+      refreshAvatar($('#prev-avatar'), joined, prevIndex);
       $('#review-avatar-image-box').html($makeAvatarImage(avatarIndex));
-      refreshAvatar($('#next-avatar'), nextIndex, joined);
+      refreshAvatar($('#next-avatar'), joined, nextIndex);
     }
   };
 
@@ -46,7 +46,7 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const refreshAvatar = (button, avatarIndex, joined) => {
+  const refreshAvatar = (button, joined, avatarIndex) => {
     button
       .attr('disabled', avatarIndex === '')
       .off('click')

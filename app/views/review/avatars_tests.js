@@ -1,20 +1,23 @@
 'use strict';
 
-const groupNeighbours = require('./group_neighbours');
+const { avatarsActive,avatarsNeighbours } = require('./avatars');
 
-describe('groupNeighbours', () => {
+describe('avatarsActive/avatarsNeighbours', () => {
 
   it('returns {} when kata-id is not in a group', () => {
     const id = 'RNCzUr';
-    const actual = groupNeighbours(id, {});
-    expect(actual).toEqual(['','','']);
+    const joined = {};
+    expectNeighbours(id, joined, '','','');
+    expectActive(joined);
   });
 
   it('returns empty strings when kata-id is only member of group', () => {
     const id = 'w34rd5';
-    expect(groupNeighbours(id, {
+    const joined = {
       '2': { 'id':id, 'events':[0,1,2] },
-    })).toEqual(['',2,'']);
+    };
+    expectNeighbours(id, joined, '',2,'');
+    expectActive(joined, 2);
   });
 
   it('returns prev-index when one avatar is before', () => {
@@ -24,9 +27,8 @@ describe('groupNeighbours', () => {
        '2':{ 'id':prevId, 'events':[0,1,2,3    ] },
       '12':{ 'id':id    , 'events':[0,1,2,3,4,5] },
     };
-    expect(groupNeighbours(id,joined)).toEqual([2,12,'']);
-    inactiveAvatarsAreIgnored(joined);
-    expect(groupNeighbours(id,joined)).toEqual([2,12,'']);
+    expectNeighbours(id, joined, 2,12,'');
+    expectActive(joined, 2,12);
   });
 
   it('returns next-index when one avatar is after', () => {
@@ -36,9 +38,8 @@ describe('groupNeighbours', () => {
        '2': { 'id':id    , 'events':[0,1,2,3,4] },
       '27': { 'id':nextId, 'events':[0,1      ] },
     };
-    expect(groupNeighbours(id,joined)).toEqual(['',2,27]);
-    inactiveAvatarsAreIgnored(joined);
-    expect(groupNeighbours(id,joined)).toEqual(['',2,27]);
+    expectNeighbours(id,joined, '',2,27);
+    expectActive(joined, 2,27);
   });
 
   it('returns prev-index and next-index for active groups', () => {
@@ -50,10 +51,24 @@ describe('groupNeighbours', () => {
       '13': { 'id':    id, 'events':[0,1        ] },
       '27': { 'id':nextId, 'events':[0,1,2,3,4,5] },
     };
-    expect(groupNeighbours(id,joined)).toEqual([9,13,27]);
-    inactiveAvatarsAreIgnored(joined);
-    expect(groupNeighbours(id,joined)).toEqual([9,13,27]);
+    expectNeighbours(id,joined, 9,13,27);
+    expectActive(joined, 9,13,27);
   });
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const expectNeighbours = (id,joined,prev,index,next) => {
+    const expected = [prev,index,next];
+    expect(avatarsNeighbours(id,joined)).toEqual(expected);
+    inactiveAvatarsAreIgnored(joined);
+    expect(avatarsNeighbours(id,joined)).toEqual(expected);
+  };
+
+  const expectActive = (joined,...indexes) => {
+    expect(avatarsActive(joined)).toEqual(false64(indexes));
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const inactiveAvatarsAreIgnored = (joined) => {
     joined[ '0'] = { 'id':'112233', 'events':[0] };
@@ -64,4 +79,9 @@ describe('groupNeighbours', () => {
     joined['61'] = { 'id':'9QwS39', 'events':[0] };
   };
 
+  const false64 = (indexes) => {
+    const active = Array(64).fill(false);
+    indexes.forEach(index => active[index] = true);
+    return active;
+  };
 });

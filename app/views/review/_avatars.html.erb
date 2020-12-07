@@ -1,0 +1,65 @@
+<script>
+'use strict';
+$(() => {
+
+  const review = cd.review;
+
+  review.avatarsActive = (joined) => {
+    const active = Array(64).fill(false);
+    activeNeighbours(joined).forEach(avatar => active[avatar.index] = true);
+    return active;
+  };
+
+  review.avatarsNeighbours = (id, joined) => {
+    // eg id = "Q55b8b"
+    // eg joined = {
+    //      ...
+    //      "23": { id:"Q55b8b", events:[0,1,2,3]     }, // 23 == jellyfish (==id)
+    //      "15": { id:"EEJSkR", events:[0,1,2]       }, // 15 == fox
+    //       "2": { id:"w34rd5", events:[0]           }, //  2 == bat
+    //      "44": { id:"REf1t7", events:[0,1,2,3,4,5] }, // 44 == rhino
+    //      ...
+    //   }
+
+    const avatars = activeNeighbours(joined);
+    // eg avatars = [
+    //      ...
+    //      { index:15, id:"EEJSkR" }, // prevAvatar == 15
+    //      { index:23, id:"Q55b8b" }, // avatar == 23
+    //      { index:44, id:"REf1t7" }, // nextAvatar == 44
+    //      ...
+    //  ]
+
+    const index = avatars.findIndex((avatar) => avatar.id === id);
+
+    return [
+      avatarIndex(avatars, index, -1),
+      avatarIndex(avatars, index,  0),
+      avatarIndex(avatars, index, +1)
+    ];
+  };
+
+  //- - - - - - - - - - - - - - - - - - - -
+  const activeNeighbours = (joined) => {
+    return Object
+             .keys(joined)
+             .filter((key) => joined[key].events.length > 1)
+             .map((key) => ({ index:parseInt(key), id:joined[key].id }))
+             .sort((lhs,rhs) => lhs.index - rhs.index);
+  };
+
+  //- - - - - - - - - - - - - - - - - - - -
+  const avatarIndex = (avatars, n, delta) => {
+    const i = n + delta;
+    if (n === -1) {
+      return '';
+    }
+    else if (i >= 0 && i < avatars.length) {
+      return avatars[i].index;
+    } else {
+      return '';
+    }
+  };
+
+});
+</script>
