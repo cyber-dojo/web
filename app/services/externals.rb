@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 require_relative '../../test/app_services/runner_stub'
-require_relative '../../test/app_services/saver_raiser'
 require_relative '../../lib/time_adapter'
 require_relative 'model_service'
 require_relative 'runner_service'
-require_relative 'saver_service'
 
 module Externals # mix-in
 
@@ -24,10 +22,6 @@ module Externals # mix-in
 
   def runner
     @runner ||= external
-  end
-
-  def saver
-    @saver ||= external
   end
 
   private

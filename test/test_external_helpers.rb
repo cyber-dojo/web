@@ -8,7 +8,6 @@ module TestExternalHelpers # mix-in
   def setup
     @config = {
       'RUNNER'    => ENV['CYBER_DOJO_RUNNER_CLASS'],
-      'SAVER'     => ENV['CYBER_DOJO_SAVER_CLASS'],
       'MODEL'     => ENV['CYBER_DOJO_MODEL_CLASS'],
       'HTTP'      => ENV['CYBER_DOJO_HTTP_CLASS'],
     }
@@ -16,7 +15,6 @@ module TestExternalHelpers # mix-in
 
   def teardown
     ENV['CYBER_DOJO_RUNNER_CLASS'] = @config['RUNNER']
-    ENV['CYBER_DOJO_SAVER_CLASS']  = @config['SAVER']
     ENV['CYBER_DOJO_MODEL_CLASS']  = @config['MODEL']
     ENV['CYBER_DOJO_HTTP_CLASS']   = @config['HTTP']
   end
@@ -29,10 +27,6 @@ module TestExternalHelpers # mix-in
 
   def set_runner_class(name)
     set_class('runner', name)
-  end
-
-  def set_saver_class(name)
-    set_class('saver', name)
   end
 
   # - - - - - - - - - - - - - - - - - - -

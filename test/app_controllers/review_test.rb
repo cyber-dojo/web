@@ -10,10 +10,7 @@ class ReviewTest < AppControllerTestBase
 
   test '440', %w(
   |was_index!=now_index
-  |makes ZERO saver-service calls
-  |now review migration to model-service is complete
   ) do
-    set_saver_class('SaverRaiser')
     [0,1].each do |version|
       in_kata(version:version) do |kata|
         post_run_tests # 1
@@ -26,10 +23,7 @@ class ReviewTest < AppControllerTestBase
 
   test '441', %w(
   |(was_index,now_index)=(-1,-1)
-  |makes ZERO saver-service calls
-  |now review migration to model-service is complete
   ) do
-    set_saver_class('SaverRaiser')
     [0,1].each do |version|
       in_kata(version:version) do |kata|
         post_run_tests # 1
@@ -41,19 +35,19 @@ class ReviewTest < AppControllerTestBase
   #- - - - - - - - - - - - - - - -
 
   test '442',
-  'was_index!=now_index, review existing version=0 session' do
+  'was_index!=now_index, review existing version=0 kata' do
     assert_review_show('5rTJv5', 1, 2)
   end
 
   test '443',
-  '(was_index,now_index)=(-1,-1) review existing version=0 session' do
+  '(was_index,now_index)=(-1,-1) review existing version=0 kata' do
     assert_review_show('5rTJv5', -1, -1)
   end
 
   #- - - - - - - - - - - - - - - -
 
   test '444',
-  'was_index!=now_index, review new version=1 session' do
+  'was_index!=now_index, review new version=1 kata' do
     in_kata { |kata|
       post_run_tests # 1
       assert_review_show(kata.id, 0, 1)
@@ -61,7 +55,7 @@ class ReviewTest < AppControllerTestBase
   end
 
   test '445',
-  '(was_index,now_index)=(-1,-1), review new version=1 session' do
+  '(was_index,now_index)=(-1,-1), review new version=1 kata' do
     in_kata { |kata|
       post_run_tests # 1
       assert_review_show(kata.id, -1, -1)

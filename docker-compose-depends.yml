@@ -12,7 +12,6 @@ services:
     depends_on:
       - model
       - runner
-      - saver
 
   # - - - - - - - - - - - - - - - -
   creator:
@@ -27,6 +26,7 @@ services:
   dashboard:
     depends_on:
       - model
+      - saver
 
   # - - - - - - - - - - - - - - - -
   differ:
