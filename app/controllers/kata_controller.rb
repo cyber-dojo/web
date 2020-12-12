@@ -6,7 +6,8 @@ class KataController < ApplicationController
     @manifest = model.kata_manifest(id)
     @events = model.kata_events(id)
     # most recent event
-    last = polyfilled(model.kata_event(id, -1))
+    last = model.kata_event(id, -1)
+    polyfill(last)
     @index = last['index']
     @files = last['files']
     @stdout = last['stdout']['content']
@@ -43,9 +44,9 @@ class KataController < ApplicationController
     @out_of_sync = false
     begin
       model.kata_ran_tests(@id, @index, files, @stdout, @stderr, @status, {
-        'duration' => duration,
-        'colour' => @outcome,
-        'predicted' => params['predicted']
+         duration: duration,
+           colour: @outcome,
+        predicted: params['predicted']
       })
     rescue ModelService::Error => error
       @saved = false
@@ -69,32 +70,30 @@ class KataController < ApplicationController
   # - - - - - - - - - - - - - - - - - -
 
   def revert
-    json = source_event
+    json = source_event(:revert, revert_args)
     model.kata_ran_tests(id, index, @files, @stdout, @stderr, @status, {
-        'time' => time.now,
-      'colour' => @colour.to_s,
-      'revert' => revert_args
+        time: time.now,
+      colour: @colour,
+      revert: revert_args
     });
-    json[:light][:revert] = revert_args
     render json: json
   end
 
   # - - - - - - - - - - - - - - - - - -
 
   def checkout
-    json = source_event
+    json = source_event(:checkout, checkout_args)
     model.kata_ran_tests(id, index, @files, @stdout, @stderr, @status, {
-        'time' => time.now,
-      'colour' => @colour,
-      'checkout' => checkout_args
+          time: time.now,
+        colour: @colour,
+      checkout: checkout_args
     });
-    json[:light][:checkout] = checkout_args
     render json: json
   end
 
   private
 
-  def source_event
+  def source_event(name, value)
     event = model.kata_event(source_id, source_index)
     @files = event['files']
     @stdout = event['stdout']
@@ -108,7 +107,8 @@ class KataController < ApplicationController
       status: @status,
        light: {
          colour: @colour,
-          index: index
+          index: index,
+          name => value
        }
     }
   end
@@ -144,11 +144,10 @@ class KataController < ApplicationController
 
   # - - - - - - - - - - - - - - - - - -
 
-  def polyfilled(event)
+  def polyfill(event)
     event['stdout'] ||= content('')
     event['stderr'] ||= content('')
     event['status'] ||= ''
-    event
   end
 
   def content(s)
