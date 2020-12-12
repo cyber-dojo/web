@@ -1,20 +1,23 @@
 
 class KataController < ApplicationController
 
+  def kata
+    Kata.new(self, params)
+  end
+
   def edit
-    @id = kata.id
-    @title = @id
-    @manifest = kata.manifest
-    @events = kata.events
+    @id = @title = id
+    @manifest = model.kata_manifest(id)
+    @events = model.kata_events(id)
     # most recent event
-    last = polyfilled(kata.event(-1))
+    last = polyfilled(model.kata_event(id, -1))
     @index = last['index']
     @files = last['files']
     @stdout = last['stdout']['content']
     @stderr = last['stderr']['content']
     @status = last['status']
     # settings
-    @env = ENV    
+    @env = ENV
   end
 
   # - - - - - - - - - - - - - - - - - -
@@ -25,8 +28,8 @@ class KataController < ApplicationController
     t2 = time.now
 
     duration = Time.mktime(*t2) - Time.mktime(*t1)
-    @id = kata.id
-    @index = params[:index].to_i + 1
+    @id = id
+    @index = index
     @stdout = result['stdout']
     @stderr = result['stderr']
     @status = result['status']
@@ -79,7 +82,7 @@ class KataController < ApplicationController
     model.kata_ran_tests(id, index, files, stdout, stderr, status, {
         'time' => time.now,
       'colour' => colour.to_s,
-      'revert' => [src_id, src_index]
+      'revert' => revert_args
     });
 
     render json: {
@@ -90,7 +93,7 @@ class KataController < ApplicationController
        light: {
         colour: colour,
          index: index,
-        revert: [src_id,src_index]
+        revert: revert_args
       }
     }
   end
@@ -108,7 +111,7 @@ class KataController < ApplicationController
     model.kata_ran_tests(id, index, files, stdout, stderr, status, {
         'time' => time.now,
       'colour' => colour.to_s,
-      'checkout' => checkout_hash
+      'checkout' => checkout_args
     });
 
     render json: {
@@ -119,23 +122,9 @@ class KataController < ApplicationController
        light: {
           colour: colour,
            index: index,
-        checkout: checkout_hash
+        checkout: checkout_args
       }
     }
-  end
-
-  # - - - - - - - - - - - - - - - - - -
-
-  def set_colour
-    kata.colour = params['value']
-  end
-
-  def set_theme
-    kata.theme = params['value']
-  end
-
-  def set_predict
-    kata.predict = params['value']
   end
 
   private
@@ -148,8 +137,12 @@ class KataController < ApplicationController
     params[:index].to_i + 1
   end
 
-  def checkout_hash
+  def checkout_args
     { id:src_id, avatarIndex:src_avatar_index, index:src_index }
+  end
+
+  def revert_args
+    [ src_id, src_index ]
   end
 
   def src_id

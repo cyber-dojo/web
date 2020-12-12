@@ -7,8 +7,4 @@ class ApplicationController < ActionController::Base
 
   include Externals
 
-  def kata
-    @kata ||= Kata.new(self, params)
-  end
-
 end

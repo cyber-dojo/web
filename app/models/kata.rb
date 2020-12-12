@@ -19,7 +19,7 @@ class Kata
   end
 
   def manifest
-    @manifest ||= model.kata_manifest(id)
+    model.kata_manifest(id)
   end
 
   # - - - - - - - - - - - - - - - - -
