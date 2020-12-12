@@ -29,22 +29,63 @@
 'use strict';
 $(() => {
 
-  const data = {
-     colour:"<%= @colour %>",  // 'off' || 'on'
-      theme:"<%= @theme %>",   // 'light' || 'dark' (different to CodeMirror theme)
-    predict:"<%= @predict %>"  // 'off' || 'on'
-  };
+  const data = { colour:undefined, theme:undefined, predict:undefined };
 
   cd.settings = {
-     colour:() => data.colour,
-      theme:() => data.theme,
-    predict:() => data.predict
+    colour:(value) => {
+      if (value === undefined) {
+        return getOption('colour');
+      } else {
+        setOption('colour', value);
+        cd.codeMirror.resetTheme();
+      }
+    },
+    theme:(value) => { // Note: theme is different to CodeMirror theme.
+      if (value === undefined) {
+        return getOption('theme');
+      } else {
+        setOption('theme', value);
+        cd.codeMirror.resetTheme();
+        $('.tab').removeClass('light dark').addClass(this.value);
+      }
+    },
+    predict:(value) => {
+      if (value === undefined) {
+        return getOption('predict');
+      } else {
+        setOption('predict', value);
+        cd.predict.reset();
+      }
+    }
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.turnOnSettingsButton = () => {
+  const getOption = (name) => {
+    if (data[name] === undefined) {
+      $.ajax({
+        dataType:'json',
+        url:'/model/kata_option_get',
+        data:{ id:cd.kata.id(), name:name },
+        async:false,
+        success: (response) => data[name] = response['kata_option_get']
+      });
+    }
+    return data[name];
+  };
+
+  const setOption = (name, value) => {
+    $.post('/model/kata_option_set', { id:cd.kata.id(), name:name, value:value });
+    data[name] = value;
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+
+  cd.showSettingsButton = () => {
+    // The setting button is off by default so that is is not
+    // visible on a review page arrived at from a dashboard.
     $button.show().click(() => openSettingsDialog())
+    cd.createTip($button, 'open settings dialog');
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -52,36 +93,24 @@ $(() => {
   const $button = $('#settings-button');
   const $settings = $('#settings-dialog');
 
-  $(`input[type=radio][name=theme][value=${data.theme}]`, $settings).prop('checked', true);
-  $(`input[type=radio][name=colour][value=${data.colour}]`, $settings).prop('checked', true);
-  $(`input[type=radio][name=predict][value=${data.predict}]`, $settings).prop('checked', true);
-
-  $('input[type=radio][name=theme]', $settings).change(function() {
-    $.post('/kata/set_theme', { id:cd.kata.id(), value:this.value });
-    data.theme = this.value;
-    cd.codeMirror.resetTheme();
-    $('.tab').removeClass('light').removeClass('dark').addClass(this.value); // TODO: refactor
+  $('input[type=radio][name=colour]', $settings).change(function() {
+    cd.settings.colour(this.value);
   });
 
-  $('input[type=radio][name=colour]', $settings).change(function() {
-    $.post('/kata/set_colour', { id:cd.kata.id(), value:this.value });
-    data.colour = this.value;
-    cd.codeMirror.resetTheme();
+  $('input[type=radio][name=theme]', $settings).change(function() {
+    cd.settings.theme(this.value);
   });
 
   $('input[type=radio][name=predict]', $settings).change(function() {
-    $.post('/kata/set_predict', { id:cd.kata.id(), value:this.value });
-    data.predict = this.value;
-    cd.predict.reset();
+    cd.settings.predict(this.value);
   });
-
-  $button.click(() => openSettingsDialog());
-
-  cd.createTip($button, 'open settings dialog');
 
   const openSettingsDialog = () => {
     const xPos = $button.offset().left;
     const yPos = $button.offset().top + 90;
+    $(`input[type=radio][name=colour ][value=${cd.settings.colour()} ]`, $settings).prop('checked', true);
+    $(`input[type=radio][name=theme  ][value=${cd.settings.theme()}  ]`, $settings).prop('checked', true);
+    $(`input[type=radio][name=predict][value=${cd.settings.predict()}]`, $settings).prop('checked', true);
     $settings.dialog({
               width: 250,
            position: [xPos,yPos],

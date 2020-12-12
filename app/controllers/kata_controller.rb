@@ -14,10 +14,7 @@ class KataController < ApplicationController
     @stderr = last['stderr']['content']
     @status = last['status']
     # settings
-    @theme = kata.theme
-    @colour = kata.colour
-    @predict = kata.predict
-    @env = ENV
+    @env = ENV    
   end
 
   # - - - - - - - - - - - - - - - - - -

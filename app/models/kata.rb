@@ -36,36 +36,6 @@ class Kata
     model.kata_event(id, index)
   end
 
-  # - - - - - - - - - - - - - - - - -
-
-  def theme
-    model.kata_option_get(id, 'theme')
-  end
-
-  def theme=(value)
-    model.kata_option_set(id, 'theme', value)
-  end
-
-  # - - - - - - - - - - - - - - - - -
-
-  def colour
-    model.kata_option_get(id, 'colour')
-  end
-
-  def colour=(value)
-    model.kata_option_set(id, 'colour', value)
-  end
-
-  # - - - - - - - - - - - - - - - - -
-
-  def predict
-    model.kata_option_get(id, 'predict')
-  end
-
-  def predict=(value)
-    model.kata_option_set(id, 'predict', value)
-  end
-
   private
 
   def model
