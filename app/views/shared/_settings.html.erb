@@ -94,26 +94,29 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  $('input[type=radio][name=colour]', $settings).change(function() {
-    cd.settings.colour(this.value);
-  });
+  const setupChangeHandler = (name) => {
+    const css = `input[type=radio][name=${name}]`;
+    $(css, $settings).change(function() {
+      cd.settings[name](this.value);
+    });
+  };
 
-  $('input[type=radio][name=theme]', $settings).change(function() {
-    cd.settings.theme(this.value);
-  });
+  const optionNames = [ 'colour', 'predict', 'theme' ];
 
-  $('input[type=radio][name=predict]', $settings).change(function() {
-    cd.settings.predict(this.value);
-  });
+  optionNames.forEach(name => setupChangeHandler(name));
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
 
   const openSettingsDialog = () => {
+    const setProperty = (name) => {
+      const css = `input[type=radio][name=${name}][value=${cd.settings[name]()}]`;
+      $(css, $settings).prop('checked', true);
+    };
+    optionNames.forEach(name => setProperty(name));
+
     const xPos = $button.offset().left;
     const yPos = $button.offset().top + 90;
-    $(`input[type=radio][name=colour ][value=${cd.settings.colour()} ]`, $settings).prop('checked', true);
-    $(`input[type=radio][name=theme  ][value=${cd.settings.theme()}  ]`, $settings).prop('checked', true);
-    $(`input[type=radio][name=predict][value=${cd.settings.predict()}]`, $settings).prop('checked', true);
+
     $settings.dialog({
               width: 250,
            position: [xPos,yPos],
