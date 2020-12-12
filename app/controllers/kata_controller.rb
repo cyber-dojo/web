@@ -72,7 +72,6 @@ class KataController < ApplicationController
   def revert
     json = source_event(:revert, revert_args)
     model.kata_ran_tests(id, index, @files, @stdout, @stderr, @status, {
-        time: time.now,
       colour: @colour,
       revert: revert_args
     });
@@ -84,7 +83,6 @@ class KataController < ApplicationController
   def checkout
     json = source_event(:checkout, checkout_args)
     model.kata_ran_tests(id, index, @files, @stdout, @stderr, @status, {
-          time: time.now,
         colour: @colour,
       checkout: checkout_args
     });
@@ -92,7 +90,7 @@ class KataController < ApplicationController
   end
 
   private
-
+  
   def source_event(name, value)
     event = model.kata_event(source_id, source_index)
     @files = event['files']
