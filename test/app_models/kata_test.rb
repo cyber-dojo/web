@@ -7,57 +7,12 @@ class KataTest < AppModelsTestBase
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
-  # exists?
-
-  v_tests [0,1], '760', %w(
-  exists? is true,
-  for a well-formed kata-id that exists,
-  when model is online
-  but false (no exception) when model is offline
-  ) do
-    in_new_kata do |kata|
-      assert kata.exists?
-      @model = nil
-      set_model_class('ModelRaiser')
-      refute kata.exists?
-    end
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - -
-
-  v_tests [0,1], '761', %w(
-  exists? is false,
-  for a well-formed kata-id that does not exist,
-  when model is online
-  ) do
-    refute katas['123AbZ'].exists?
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - -
-
-  v_tests [0,1], '762', %w(
-  exists? is false,
-  for a malformed kata-id,
-  when model is online
-  ) do
-    refute katas[42].exists?, 'Integer'
-    refute katas[nil].exists?, 'nil'
-    refute katas[[]].exists?, '[]'
-    refute katas[{}].exists?, '{}'
-    refute katas[true].exists?, 'true'
-    refute katas[''].exists?, 'length == 0'
-    refute katas['12345'].exists?, 'length == 5'
-    refute katas['12345i'].exists?, '!id?()'
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '862', %w(
   an individual kata is created from a well-formed manifest,
   and is not a member of a group
   ) do
     in_new_kata do |kata|
-      assert kata.exists?
       assert_equal 1, kata.events.size
       assert_nil kata.manifest['group_id']
     end

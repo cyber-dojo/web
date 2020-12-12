@@ -12,17 +12,9 @@ class Kata
     @params[:id]
   end
 
-  def exists?
-    model.kata_exists?(id)
-  rescue
-    false
-  end
-
   def manifest
     model.kata_manifest(id)
   end
-
-  # - - - - - - - - - - - - - - - - -
 
   def run_tests(params)
     Runner.new(@externals).run(params)
