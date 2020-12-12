@@ -69,62 +69,49 @@ class KataController < ApplicationController
   # - - - - - - - - - - - - - - - - - -
 
   def revert
-    event = model.kata_event(src_id, src_index)
-    files = event['files']
-    stdout = event['stdout']
-    stderr = event['stderr']
-    status = event['status']
-    colour = event['colour']
-
-    model.kata_ran_tests(id, index, files, stdout, stderr, status, {
+    json = source_event
+    model.kata_ran_tests(id, index, @files, @stdout, @stderr, @status, {
         'time' => time.now,
-      'colour' => colour.to_s,
+      'colour' => @colour.to_s,
       'revert' => revert_args
     });
-
-    render json: {
-       files: files.map{ |filename,file| [filename, file['content']] }.to_h,
-      stdout: stdout,
-      stderr: stderr,
-      status: status,
-       light: {
-        colour: colour,
-         index: index,
-        revert: revert_args
-      }
-    }
+    json[:light][:revert] = revert_args
+    render json: json
   end
 
   # - - - - - - - - - - - - - - - - - -
 
   def checkout
-    event = model.kata_event(src_id, src_index)
-    files = event['files']
-    stdout = event['stdout']
-    stderr = event['stderr']
-    status = event['status']
-    colour = event['colour']
-
-    model.kata_ran_tests(id, index, files, stdout, stderr, status, {
+    json = source_event
+    model.kata_ran_tests(id, index, @files, @stdout, @stderr, @status, {
         'time' => time.now,
-      'colour' => colour.to_s,
+      'colour' => @colour,
       'checkout' => checkout_args
     });
-
-    render json: {
-       files: files.map{ |filename,file| [filename, file['content']] }.to_h,
-      stdout: stdout,
-      stderr: stderr,
-      status: status,
-       light: {
-          colour: colour,
-           index: index,
-        checkout: checkout_args
-      }
-    }
+    json[:light][:checkout] = checkout_args
+    render json: json
   end
 
   private
+
+  def source_event
+    event = model.kata_event(source_id, source_index)
+    @files = event['files']
+    @stdout = event['stdout']
+    @stderr = event['stderr']
+    @status = event['status']
+    @colour = event['colour']
+    {
+       files: @files.map{ |filename,file| [filename, file['content']] }.to_h,
+      stdout: @stdout,
+      stderr: @stderr,
+      status: @status,
+       light: {
+         colour: @colour,
+          index: index
+       }
+    }
+  end
 
   def id
     params[:id]
@@ -135,22 +122,22 @@ class KataController < ApplicationController
   end
 
   def checkout_args
-    { id:src_id, avatarIndex:src_avatar_index, index:src_index }
+    { id:source_id, avatarIndex:source_avatar_index, index:source_index }
   end
 
   def revert_args
-    [ src_id, src_index ]
+    [ source_id, source_index ]
   end
 
-  def src_id
+  def source_id
     params[:src_id]
   end
 
-  def src_index
+  def source_index
     params[:src_index].to_i
   end
 
-  def src_avatar_index
+  def source_avatar_index
     param = params[:src_avatar_index]
     (param != '') ? param.to_i : ''
   end
