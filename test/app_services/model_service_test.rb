@@ -94,15 +94,4 @@ class ModelServiceTest < AppServicesTestBase
     assert_equal 1, actual.size
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'eJ7',
-  'kata_option_get(), kata_option_set() smoke test' do
-    manifest = starter_manifest
-    kid = model.kata_create(manifest)
-    assert_equal 'light', model.kata_option_get(kid, 'theme')
-    model.kata_option_set(kid, 'theme', 'dark')
-    assert_equal 'dark', model.kata_option_get(kid, 'theme')
-  end
-
 end
