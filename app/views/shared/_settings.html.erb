@@ -29,7 +29,7 @@
 'use strict';
 $(() => {
 
-  const data = { colour:undefined, theme:undefined, predict:undefined };
+  const cache = { colour:undefined, theme:undefined, predict:undefined };
 
   cd.settings = {
     colour:(value) => {
@@ -62,24 +62,27 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - - - - - - -
 
   const getOption = (name) => {
-    if (data[name] === undefined) {
+    if (cache[name] === undefined) {
       $.ajax({
-        dataType:'json',
-        url:'/model/kata_option_get',
-        data:{ id:cd.kata.id(), name:name },
-        async:false,
-        success: (response) => data[name] = response['kata_option_get']
+        dataType: 'json',
+             url: '/model/kata_option_get',
+            data: { id:cd.kata.id(), name:name },
+           async: false,
+         success: (data) => cache[name] = data['kata_option_get']
       });
     }
-    return data[name];
+    return cache[name];
   };
 
   const setOption = (name, value) => {
     $.post('/model/kata_option_set', { id:cd.kata.id(), name:name, value:value });
-    data[name] = value;
+    cache[name] = value;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const $button = $('#settings-button');
+  const $settings = $('#settings-dialog');
 
   cd.showSettingsButton = () => {
     // The setting button is off by default so that is is not
@@ -89,9 +92,6 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const $button = $('#settings-button');
-  const $settings = $('#settings-dialog');
 
   $('input[type=radio][name=colour]', $settings).change(function() {
     cd.settings.colour(this.value);
@@ -104,6 +104,8 @@ $(() => {
   $('input[type=radio][name=predict]', $settings).change(function() {
     cd.settings.predict(this.value);
   });
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
 
   const openSettingsDialog = () => {
     const xPos = $button.offset().left;
