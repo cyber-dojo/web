@@ -24,7 +24,7 @@ class Kata
 
   # - - - - - - - - - - - - - - - - -
 
-  def run_tests(params = @params)
+  def run_tests(params)
     Runner.new(@externals).run(params)
   end
 
