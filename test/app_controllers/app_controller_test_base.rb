@@ -25,7 +25,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   end
 
   def kata
-    katas[@id]
+    Kata.new(self, @id)
   end
 
   # - - - - - - - - - - - - - - - -

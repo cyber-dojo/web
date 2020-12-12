@@ -1,15 +1,15 @@
 
-Originally all requests coming into a controller would
-use the models/ abstractions. However, this slowed down
-response times since it would result in numerous non-batched
-requests to dependent services, particularly saver.
-Consequently, saver has been reworked to include a batch()
-method in its API. Most requests coming into a controller
-no longer use the models/ abstractions; instead they use
-saver's batch() method and forward data directly to the views.
-Most but not all. So currently some of the models/ code is
-only used in tests. The plan is to
-- move all the model/ code into the model microservice
-- layer the saver API underneath the model microservice
-- drop all other use of the saver microservice
-- put the model microservice into the saver microservice
+The plan is to
+
+- refactor app_models/ to use model-service DONE
+- use model-service instead of saver-service in web DONE
+- use model-service instead of saver-service in dashboard ONGOING
+
+- use model-service in kata-controller DONE
+- use model-service in review-controller DONE (except for run_tests())
+
+- use model-service in kata JS and make clean separation from UX
+- use model-service in review JS
+
+- pull the saver microservice into the model microservice
+- drop the saver microservice

@@ -9,11 +9,8 @@ module TestDomainHelpers # mix-in
 
   def in_new_kata(&block)
     id = model.kata_create(starter_manifest)
-    block.call(katas[id])
-  end
-
-  def katas(params = {})
-    Katas.new(self, params)
+    kata = Kata.new(self, id)
+    block.call(kata)
   end
 
   # - - - - - - - - - - - - - - - -

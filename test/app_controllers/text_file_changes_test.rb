@@ -17,17 +17,14 @@ class TextFileChangesTest  < AppControllerTestBase
   then the model records it
   ) do
     filename = 'readme.txt'
-    id = in_kata do |kata|
-      id = kata.id
+    in_kata do |kata|
       assert kata.event(-1)['files'].keys.include?(filename)
       change_file('cyber-dojo.sh', "rm #{filename}")
       post_run_tests
-      kata.id
+      files = kata.event(-1)['files']
+      filenames = files.keys.sort
+      refute filenames.include?(filename), filenames
     end
-    kata = katas[id]
-    files = kata.event(-1)['files']
-    filenames = files.keys.sort
-    refute filenames.include?(filename), filenames
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -37,16 +34,14 @@ class TextFileChangesTest  < AppControllerTestBase
   then the model records it
   ) do
     filename = 'wibble.txt'
-    id = in_kata do |kata|
+    in_kata do |kata|
       change_file('cyber-dojo.sh', "echo -n Hello > #{filename}")
       post_run_tests
-      kata.id
+      files = kata.event(-1)['files']
+      filenames = files.keys.sort
+      assert filenames.include?(filename), filenames
+      assert_equal 'Hello', files[filename]['content']
     end
-    kata = katas[id]
-    files = kata.event(-1)['files']
-    filenames = files.keys.sort
-    assert filenames.include?(filename), filenames
-    assert_equal 'Hello', files[filename]['content']
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -55,17 +50,15 @@ class TextFileChangesTest  < AppControllerTestBase
   when a test-event changes a regular text-file
   then the model records it ) do
     filename = 'readme.txt'
-    id = in_kata do |kata|
+    in_kata do |kata|
       assert kata.event(-1)['files'].keys.include?(filename)
       change_file('cyber-dojo.sh', "echo -n Hello > #{filename}")
       post_run_tests
-      kata.id
+      files = kata.event(-1)['files']
+      filenames = files.keys.sort
+      assert filenames.include?(filename), filenames
+      assert_equal 'Hello', files[filename]['content']
     end
-    kata = katas[id]
-    files = kata.event(-1)['files']
-    filenames = files.keys.sort
-    assert filenames.include?(filename), filenames
-    assert_equal 'Hello', files[filename]['content']
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -138,14 +131,12 @@ class TextFileChangesTest  < AppControllerTestBase
   generated files are returned from runner
   unless cyber-dojo.sh explicitly deletes them ) do
     generated_filename = 'xxxx.txt'
-    id = in_kata do |kata|
+    in_kata do |kata|
       change_file('cyber-dojo.sh', "cat xxxx > #{generated_filename}")
       post_run_tests
-      kata.id
+      filenames = kata.event(-1)['files'].keys
+      assert filenames.include?(generated_filename), filenames
     end
-    kata = katas[id]
-    filenames = kata.event(-1)['files'].keys
-    assert filenames.include?(generated_filename), filenames
   end
 
 end

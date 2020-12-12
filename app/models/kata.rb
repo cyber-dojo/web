@@ -3,14 +3,12 @@ require_relative 'runner'
 
 class Kata
 
-  def initialize(externals, params)
+  def initialize(externals, id)
     @externals = externals
-    @params = params
+    @id = id
   end
 
-  def id
-    @params[:id]
-  end
+  attr_reader :id
 
   def manifest
     model.kata_manifest(id)

@@ -1,10 +1,6 @@
 
 class KataController < ApplicationController
 
-  def kata
-    Kata.new(self, params)
-  end
-
   def edit
     @id = @title = id
     @manifest = model.kata_manifest(id)
@@ -23,6 +19,7 @@ class KataController < ApplicationController
   # - - - - - - - - - - - - - - - - - -
 
   def run_tests
+    kata = Kata.new(self, id)
     t1 = time.now
     result,files,@created,@deleted,@changed = kata.run_tests(params)
     t2 = time.now
