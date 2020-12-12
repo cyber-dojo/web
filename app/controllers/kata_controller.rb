@@ -35,7 +35,6 @@ class KataController < ApplicationController
     @outcome = result['outcome']
     @light = {
       'index' => @index,
-      'time' => t1,
       'colour' => @outcome,
       'predicted' => params['predicted'],
     }
@@ -90,7 +89,7 @@ class KataController < ApplicationController
   end
 
   private
-  
+
   def source_event(name, value)
     event = model.kata_event(source_id, source_index)
     @files = event['files']
