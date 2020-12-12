@@ -47,7 +47,7 @@ $(() => {
       } else {
         setOption('theme', value);
         cd.codeMirror.resetTheme();
-        $('.tab').removeClass('light dark').addClass(this.value);
+        $('.tab').removeClass('light dark').addClass(value);
       }
     },
     predict:(value) => {
