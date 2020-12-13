@@ -137,10 +137,9 @@ $(() => {
   const openAvatarGridDialog = ($avatar, kataId) => {
     const xPos = $avatar.offset().left;
     const yPos = $avatar.offset().top + 40;
-    // Get fresh info in case new avatars have joined.
-    // TODO: Doesn't seem to be working...
     review.getJSON('model', 'group_joined', {id:kataId}, (joined) => {
-      const $grid = $makeAvatarGrid(joined);
+      const $grid = $('#avatar-grid');
+      setupActiveAvatarHandlers($grid, joined);
       $grid.dialog({
                 width: 387,
                height: 425,
@@ -148,7 +147,7 @@ $(() => {
         closeOnEscape: true,
                 modal: true,
              position: [xPos,yPos],
-                title: cd.dialogTitle('select avatar'),
+                title: cd.dialogTitle('select an avatar'),
           beforeClose: () => {
             console.log('Destroying the dialog');
             $grid.dialog('destroy');
@@ -158,19 +157,11 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const $makeAvatarGrid = (joined) => {
-    const $table = $('#avatar-grid');
-    setupActiveAvatarHandlers($table, joined);
-    return $table;
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
   const setupActiveAvatarHandlers = ($grid, joined) => {
     const active = cd.review.avatarsActive(joined);
     $('img', $grid).each(function(index, img) {
       const $img = $(img);
-      $img.off('click');
+      $img.off('click').removeClass('grey colour');
       if (active[index]) {
         const avatar = joined[index];
         const kataId = avatar.id;
