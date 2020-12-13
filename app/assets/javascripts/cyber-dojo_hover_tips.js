@@ -204,6 +204,19 @@ var cyberDojo = (function(cd, $) {
     return $('#hover-tip-container');
   };
 
+  // - - - - - - - - - - - - - - - - - - - -
+
+  cd.removeTip = ($node) => {
+    hoverTipContainer().empty();
+  };
+
+  cd.createTip = (node, tip, where) => {
+    node.off('mouseenter mouseleave');
+    cd.setTip(node, () => {
+      cd.showHoverTip(node, tip, where);
+    });
+  };
+
   cd.setTip = (node, setTipCallBack) => {
     // The speed of the mouse could easily exceed
     // the speed of the getJSON callback...
@@ -214,15 +227,7 @@ var cyberDojo = (function(cd, $) {
     });
     node.mouseleave(() => {
       node.addClass('mouse-has-left');
-      hoverTipContainer().empty();
-    });
-  };
-
-  // - - - - - - - - - - - - - - - - - - - -
-
-  cd.createTip = (element, tip, where) => {
-    cd.setTip(element, () => {
-      cd.showHoverTip(element, tip, where);
+      cd.removeTip();
     });
   };
 

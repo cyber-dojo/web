@@ -116,17 +116,11 @@ $(() => {
       const $avatar = $('#review-avatar-image-box');
       refreshAvatar($('#prev-avatar'), joined, prevIndex);
       refreshAvatar($('#next-avatar'), joined, nextIndex);
-      $avatar.html(cd.lib.$makeAvatarImage(avatarIndex));
-      /*
+      const $img = cd.lib.$makeAvatarImage(avatarIndex);
+      cd.createTip($img, 'open avatar selector');
+      $avatar.html($img)
              .off('click')
-             .on('click', () => openAvatarGridDialog($avatar));
-
-      // Turned off. There seems to be some unwanted behaviour;
-      // when you click a grid-avatar it usually works, but the more
-      // times you do it, the longer it seems to take. And watching
-      // the far right hand side of the review content pane, you can see
-      // a scrollbar flashing on/off an increasing number of times.
-      */
+             .on('click', () => openAvatarGridDialog($avatar, kataId));
     }
   };
 
@@ -139,21 +133,22 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  /*
-  const openAvatarGridDialog = ($avatar) => {
+
+  const openAvatarGridDialog = ($avatar, kataId) => {
     const xPos = $avatar.offset().left;
     const yPos = $avatar.offset().top + 40;
-    // get fresh info in case new avatars have joined
+    // Get fresh info in case new avatars have joined.
+    // TODO: Doesn't seem to be working...
     review.getJSON('model', 'group_joined', {id:kataId}, (joined) => {
       const $grid = $makeAvatarGrid(joined);
       $grid.dialog({
-                width: 390,
+                width: 387,
                height: 425,
              autoOpen: true,
         closeOnEscape: true,
                 modal: true,
              position: [xPos,yPos],
-                title: cd.dialogTitle('click to choose'),
+                title: cd.dialogTitle('select avatar'),
           beforeClose: () => {
             console.log('Destroying the dialog');
             $grid.dialog('destroy');
@@ -171,34 +166,17 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const $greyAvatar = (index) => {
-    return $('<img>', {
-        src:`/images/avatars/${index}.jpg`,
-      class:'small grey avatar'
-    });
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  const $colourAvatar = (index) => {
-    const $img = $('<img>', {
-        src:`/images/avatars/${index}.jpg`,
-      class:'small colour avatar',
-      'data-avatar-index':index
-    });
-    return $img;
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
   const setupActiveAvatarHandlers = ($grid, joined) => {
     const active = cd.review.avatarsActive(joined);
-    $('img', $grid).each(function(index,img) {
+    $('img', $grid).each(function(index, img) {
       const $img = $(img);
+      $img.off('click');
       if (active[index]) {
         const avatar = joined[index];
         const kataId = avatar.id;
         $img.addClass('colour');
         $img.click(() => {
+          cd.removeTip();
           $grid.dialog('close');
           moveToAvatar(avatar);
         });
@@ -210,18 +188,32 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
+  const moveToAvatar = (avatar) => {
+    const index = review.inDiffMode() ? 1 : avatar.events.length - 1;
+    review.refresh(avatar.id, index);
+  };
+
+  /*
   const times = (n, f) => {
     for (var i = 0; i < n; i++) {
       f(i);
     }
   };
-  */
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  const moveToAvatar = (avatar) => {
-    const index = review.inDiffMode() ? 1 : avatar.events.length - 1;
-    review.refresh(avatar.id, index);
+  const $greyAvatar = (index) => {
+    return $('<img>', {
+        src:`/images/avatars/${index}.jpg`,
+      class:'small grey avatar'
+    });
   };
+  const $colourAvatar = (index) => {
+    const $img = $('<img>', {
+        src:`/images/avatars/${index}.jpg`,
+      class:'small colour avatar',
+      'data-avatar-index':index
+    });
+    return $img;
+  };
+  */
 
 });
 </script>
