@@ -29,8 +29,6 @@
 'use strict';
 $(() => {
 
-  const cache = {};
-
   cd.settings = {
     // Note: the CodeMirror theme is a combination of colour+theme
     colour:(value) => {
@@ -62,6 +60,8 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
 
+  const cache = {};
+
   const getOption = (name) => {
     if (cache[name] === undefined) {
       $.ajax({
@@ -81,43 +81,32 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
+  // UI
 
   const $button = $('#settings-button');
-  const $settings = $('#settings-dialog');
+  const $dialog = $('#settings-dialog');
 
   cd.showSettingsButton = () => {
     // The setting button is off by default so that is is not
     // visible on a review page arrived at from a dashboard.
-    $button.show().click(() => openSettingsDialog())
     cd.createTip($button, 'open settings dialog');
+    $button.show().click(() => openDialog())
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const setupChangeHandler = (name) => {
-    const css = `input[type=radio][name=${name}]`;
-    $(css, $settings).change(function() {
-      cd.settings[name](this.value);
+  const openDialog = () => {
+    [ 'colour', 'predict', 'theme' ].forEach((name) => {
+      const css = `input[type=radio][name=${name}]`;
+      const cssValue = css + `[value=${cd.settings[name]()}]`;
+      $(css, $dialog).change(function() { cd.settings[name](this.value); });
+      $(cssValue, $dialog).prop('checked', true);
     });
-  };
-
-  const optionNames = [ 'colour', 'predict', 'theme' ];
-
-  optionNames.forEach(name => setupChangeHandler(name));
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const openSettingsDialog = () => {
-    const setProperty = (name) => {
-      const css = `input[type=radio][name=${name}][value=${cd.settings[name]()}]`;
-      $(css, $settings).prop('checked', true);
-    };
-    optionNames.forEach(name => setProperty(name));
 
     const xPos = $button.offset().left;
     const yPos = $button.offset().top + 90;
 
-    $settings.dialog({
+    $dialog.dialog({
               width: 250,
            position: [xPos,yPos],
            autoOpen: true,
