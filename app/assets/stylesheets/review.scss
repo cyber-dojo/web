@@ -50,7 +50,7 @@ img.avatar
     img.avatar-image
     {
       @include rounded-corner(6px);
-       cursor: default;
+       cursor: pointer;
         width: 25px;
        height: 25px;
        margin: 0px;

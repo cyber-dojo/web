@@ -10,101 +10,13 @@
   </button>
 </span>
 
-<div id="avatar-grid" style="display:none">
-  <table>
-    <tr>
-      <td><img src="/images/avatars/0.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/1.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/2.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/3.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/4.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/5.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/6.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/7.jpg" class="small avatar"/><td>
-    </tr>
-    <tr>
-      <td><img src="/images/avatars/8.jpg"  class="small avatar"/><td>
-      <td><img src="/images/avatars/9.jpg"  class="small avatar"/><td>
-      <td><img src="/images/avatars/10.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/11.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/12.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/13.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/14.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/15.jpg" class="small avatar"/><td>
-    </tr>
-    <tr>
-      <td><img src="/images/avatars/16.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/17.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/18.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/19.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/20.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/21.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/22.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/23.jpg" class="small avatar"/><td>
-    </tr>
-    <tr>
-      <td><img src="/images/avatars/24.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/25.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/26.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/27.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/28.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/29.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/30.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/31.jpg" class="small avatar"/><td>
-    </tr>
-    <tr>
-      <td><img src="/images/avatars/32.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/33.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/34.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/35.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/36.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/37.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/38.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/39.jpg" class="small avatar"/><td>
-    </tr>
-    <tr>
-      <td><img src="/images/avatars/40.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/41.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/42.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/43.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/44.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/45.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/46.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/47.jpg" class="small avatar"/><td>
-    </tr>
-    <tr>
-      <td><img src="/images/avatars/48.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/49.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/50.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/51.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/52.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/53.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/54.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/55.jpg" class="small avatar"/><td>
-    </tr>
-    <tr>
-      <td><img src="/images/avatars/56.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/57.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/58.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/59.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/60.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/61.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/62.jpg" class="small avatar"/><td>
-      <td><img src="/images/avatars/63.jpg" class="small avatar"/><td>
-    </tr>
-  </table>
-</div>
-
 <script>
 'use strict';
 $(() => {
 
   const review = cd.review;
 
-  const $navigator = $('#avatar-navigator');
-
   review.refreshAvatarNavigator = (kataId) => {
-    $navigator.hide();
     review.getJSON('model', 'group_joined', {id:kataId}, (joined) => {
       avatarNavigatorRefresher(kataId, joined);
     });
@@ -122,8 +34,8 @@ $(() => {
       cd.createTip($img, 'open avatar selector');
       $avatar.html($img)
              .off('click')
-             .on('click', () => openAvatarGridDialog($avatar, kataId));
-      $navigator.show();
+             .on('click', () => openAvatarSelectorDialog($avatar, kataId));
+      $('#avatar-navigator').show();
     }
   };
 
@@ -137,13 +49,13 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const openAvatarGridDialog = ($avatar, kataId) => {
+  const openAvatarSelectorDialog = ($avatar, kataId) => {
+    const $selector = $('<div>', { id:'avatar-grid' });
     const xPos = $avatar.offset().left;
     const yPos = $avatar.offset().top + 40;
     review.getJSON('model', 'group_joined', {id:kataId}, (joined) => {
-      const $grid = $('#avatar-grid');
-      setupActiveAvatarHandlers($grid, joined);
-      $grid.dialog({
+      $selector.html($makeAvatarSelectorHtml($selector, joined))
+               .dialog({
                 width: 387,
                height: 425,
              autoOpen: true,
@@ -153,32 +65,62 @@ $(() => {
                 title: cd.dialogTitle('select an avatar'),
           beforeClose: () => {
             console.log('Destroying the dialog');
-            $grid.dialog('destroy');
+            $selector.dialog('destroy');
           }
       });
     });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const setupActiveAvatarHandlers = ($grid, joined) => {
+  const $makeAvatarSelectorHtml = ($selector, joined) => {
     const active = cd.review.avatarsActive(joined);
-    $('img', $grid).each(function(index, img) {
-      const $img = $(img);
-      $img.off('click').removeClass('grey colour');
-      if (active[index]) {
-        const avatar = joined[index];
-        const kataId = avatar.id;
-        $img.addClass('colour');
-        $img.click(() => {
-          cd.removeTip();
-          $grid.dialog('close');
-          moveToAvatar(avatar);
-        });
-        cd.setupAvatarNameHoverTip($img, '', index, '');
-      } else {
-        $img.addClass('grey');
-      }
+    const $table = $('<table>');
+    times(8, (x) => {
+      const $tr = $('<tr>');
+      times(8, (y) => {
+        const $td = $('<td>');
+        const index = x*8 + y;
+        const $img = active[index]
+          ? $makeColourAvatar(index, joined[index], $selector)
+          : $makeGreyAvatar(index);
+        $td.append($img);
+        $tr.append($td);
+      });
+      $table.append($tr);
     });
+    return $table;
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  const $makeGreyAvatar = (index) => {
+    return $('<img>', {
+        src: `/images/avatars/${index}.jpg`,
+      class: 'small grey avatar',
+        alt: `small grey avatar ${index}`
+    });
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  const $makeColourAvatar = (index, avatar, $selector) => {
+    const $img = $('<img>', {
+        src: `/images/avatars/${index}.jpg`,
+      class: 'small colour avatar',
+        alt: `small colour avatar ${index}`
+    });
+    cd.setupAvatarNameHoverTip($img, '', index, '');
+    $img.click(() => {
+      cd.removeTip();
+      $selector.dialog('close');
+      moveToAvatar(avatar);
+    });
+    return $img;
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  const times = (n, f) => {
+    for (let i = 0; i < n; i++) {
+      f(i);
+    }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -186,28 +128,6 @@ $(() => {
     const index = review.inDiffMode() ? 1 : avatar.events.length - 1;
     review.refresh(avatar.id, index);
   };
-
-  /*
-  const times = (n, f) => {
-    for (var i = 0; i < n; i++) {
-      f(i);
-    }
-  };
-  const $greyAvatar = (index) => {
-    return $('<img>', {
-        src:`/images/avatars/${index}.jpg`,
-      class:'small grey avatar'
-    });
-  };
-  const $colourAvatar = (index) => {
-    const $img = $('<img>', {
-        src:`/images/avatars/${index}.jpg`,
-      class:'small colour avatar',
-      'data-avatar-index':index
-    });
-    return $img;
-  };
-  */
 
 });
 </script>
