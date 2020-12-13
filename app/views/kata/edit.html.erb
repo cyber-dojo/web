@@ -21,8 +21,8 @@ $(() => {
   <% end %>
 
   cd.kata.editor.output(
-    "<%= j raw(@stdout) %>",
-    "<%= j raw(@stderr) %>",
+    "<%= j raw(@stdout['content']) %>",
+    "<%= j raw(@stderr['content']) %>",
     "<%= j raw(@status) %>"
   );
   cd.kata.filenames.refresh();

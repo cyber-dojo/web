@@ -10,8 +10,8 @@ class KataController < ApplicationController
     polyfill(last)
     @index = last['index']
     @files = last['files']
-    @stdout = last['stdout']['content']
-    @stderr = last['stderr']['content']
+    @stdout = last['stdout']
+    @stderr = last['stderr']
     @status = last['status']
     # settings
     @env = ENV
