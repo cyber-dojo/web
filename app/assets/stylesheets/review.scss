@@ -5,6 +5,23 @@
       display: block;
 }
 
+img.avatar
+{
+  &.small
+  {
+    @include rounded-corner(2px);
+      width:40px;
+     height:40px;
+    display:block;
+  }
+  &.grey
+  {
+    filter:grayscale(100%);
+    opacity:0.5;
+  }
+  &.colour { cursor:pointer; }
+}
+
 #review-page
 {
   @include non-code-font();
