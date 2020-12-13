@@ -45,7 +45,7 @@ $(() => {
       } else {
         setOption('theme', value);
         cd.codeMirror.resetTheme();
-        $('.tab').removeClass('light dark').addClass(value);
+        cd.kata.tabs.theme(value);
       }
     },
     predict:(value) => {
@@ -67,16 +67,22 @@ $(() => {
       $.ajax({
         dataType: 'json',
              url: '/model/kata_option_get',
-            data: { id:cd.kata.id(), name:name },
+            data: { id: cd.kata.id(), name: name },
            async: false,
-         success: (data) => cache[name] = data['kata_option_get']
+         success: (data) => {
+           cache[name] = data['kata_option_get'];
+         }
       });
     }
     return cache[name];
   };
 
   const setOption = (name, value) => {
-    $.post('/model/kata_option_set', { id:cd.kata.id(), name:name, value:value });
+    $.post('/model/kata_option_set', {
+         id: cd.kata.id(),
+       name: name,
+      value: value
+    });
     cache[name] = value;
   };
 
@@ -90,12 +96,12 @@ $(() => {
     // The setting button is off by default so that is is not
     // visible on a review page arrived at from a dashboard.
     cd.createTip($button, 'open settings dialog');
-    $button.show().click(() => openDialog())
+    $button.show().click(() => openSettingsDialog())
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const openDialog = () => {
+  const openSettingsDialog = () => {
     [ 'colour', 'predict', 'theme' ].forEach((name) => {
       const css = `input[type=radio][name=${name}]`;
       const cssValue = css + `[value=${cd.settings[name]()}]`;

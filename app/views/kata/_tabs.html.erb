@@ -21,13 +21,12 @@ $(() => {
     $tabs().addClass(cd.settings.theme());
   };
 
-  const select = ($tab) => {
-    $tabs().removeClass('selected');
-    $tab.addClass('selected');
-  };
+  tabs.theme = (value) => $tabs().removeClass('light dark').addClass(value);
 
   tabs.filename = () => $('.tab.filename');
+
   tabs.output   = () => $('.tab.output');
+
   tabs.repl     = () => $('.tab.REPL');
 
   tabs.selected = () => $('.tab.selected');
@@ -59,6 +58,15 @@ $(() => {
     }
   };
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  const select = ($tab) => {
+    $tabs().removeClass('selected');
+    $tab.addClass('selected');
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - -
+
   const setupFileTabClickHandler = ($tab) => {
     $tab.click(() => {
       const filename = $tab.text();
@@ -72,6 +80,8 @@ $(() => {
       }
     });
   };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const setupReplTabClickHandler = ($tab) => {
     $tab.click(() => {
