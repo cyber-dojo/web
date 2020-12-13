@@ -63,10 +63,7 @@ $(() => {
                 modal: true,
              position: [xPos,yPos],
                 title: cd.dialogTitle('select an avatar'),
-          beforeClose: () => {
-            console.log('Destroying the dialog');
-            $selector.dialog('destroy');
-          }
+          beforeClose: () => $selector.dialog('destroy')
       });
     });
   };

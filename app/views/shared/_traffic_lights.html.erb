@@ -11,13 +11,13 @@
 $(() => {
 
   cd.trafficLightsButton = () => $('#traffic-lights-button');
-  const trafficLights = $('#traffic-lights-dialog');
 
   cd.trafficLightsButton().click(() => openTrafficLightsInfoDialog());
 
   cd.createTip(cd.trafficLightsButton(), 'show traffic-light information');
 
   const openTrafficLightsInfoDialog = () => {
+    const trafficLights = $('#traffic-lights-dialog');
     const div = trafficLights.dialog({
                 width: 400,
              autoOpen: true,
