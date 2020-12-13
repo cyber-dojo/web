@@ -101,7 +101,10 @@ $(() => {
 
   const review = cd.review;
 
+  const $navigator = $('#avatar-navigator');
+
   review.refreshAvatarNavigator = (kataId) => {
+    $navigator.hide();
     review.getJSON('model', 'group_joined', {id:kataId}, (joined) => {
       avatarNavigatorRefresher(kataId, joined);
     });
@@ -112,7 +115,6 @@ $(() => {
     // Make avatarIndex available for traffic-light hover-tip.
     review.avatarIndex = () => avatarIndex; // eg 23/''
     if (avatarIndex != '') {
-      $('#avatar-navigator').show();
       const $avatar = $('#review-avatar-image-box');
       refreshAvatar($('#prev-avatar'), joined, prevIndex);
       refreshAvatar($('#next-avatar'), joined, nextIndex);
@@ -121,6 +123,7 @@ $(() => {
       $avatar.html($img)
              .off('click')
              .on('click', () => openAvatarGridDialog($avatar, kataId));
+      $navigator.show();
     }
   };
 
