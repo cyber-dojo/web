@@ -50,7 +50,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const openAvatarSelectorDialog = ($avatar, kataId) => {
-    const $selector = $('<div>', { id:'avatar-grid' });
+    const $selector = $('<div>');
     const xPos = $avatar.offset().left;
     const yPos = $avatar.offset().top + 40;
     review.getJSON('model', 'group_joined', {id:kataId}, (joined) => {
@@ -60,12 +60,14 @@ $(() => {
                height: 420,
              autoOpen: true,
         closeOnEscape: true,
-                modal: true,
+                modal: true, // [X]
              position: [xPos,yPos],
                 title: cd.dialogTitle('select avatar'),
-          beforeClose: () => $selector.dialog('destroy')
+                close: () => $selector.dialog('destroy')
       });
     });
+    // [X] I tried modal:false but it doesn't work UX wise
+    // as 8x8 takes up too much space.
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
