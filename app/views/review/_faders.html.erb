@@ -9,9 +9,11 @@ $(() => {
   review.inTestPage = $kataPage.length !== 0;
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  review.fadeIn = () => {
+  review.fadeIn = (onComplete) => {
     $kataPage.fadeOut('fast', () => {
-      review.page.fadeIn('fast');
+      review.page.fadeIn('fast', () => {
+        onComplete();
+      });
     });
   };
 

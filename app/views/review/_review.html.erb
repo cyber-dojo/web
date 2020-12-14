@@ -1,4 +1,3 @@
-<%= render partial: 'review/create_button' %>
 <%= render partial: 'review/avatars' %>
 <%= render partial: 'review/faders' %>
 <%= render partial: 'review/get_json' %>
@@ -51,13 +50,11 @@ $(() => {
     }
     review.refreshDiffCheckBox(kataId, nowIndex, showDiff);
     review.avatarNavigator.refresh(kataId);
+    review.checkoutButton.refresh(kataId, nowIndex)
     review.files.refresh(kataId, nowIndex);
+    review.forkButton.refresh(kataId, nowIndex)
     review.output.refresh(kataId, nowIndex);
     review.trafficLights.refresh(kataId, nowIndex);
-
-    review.checkoutButton.refresh(kataId, nowIndex)
-    review.forkButton.refresh(kataId, nowIndex)
-    review.resumeButton.refresh()
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -68,8 +65,11 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   review.fromTestPage = (kataId, index) => {
+    review.fadeIn(() => {
+      review.checkoutButton.show();
+      review.resumeButton.show();
+    });
     const showDiff = true;
-    review.fadeIn();
     review.refresh(kataId, index, showDiff);
   };
 

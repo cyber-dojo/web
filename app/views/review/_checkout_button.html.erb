@@ -1,30 +1,36 @@
-<div id="checkout-button-box"></div>
+<button id="checkout-button" type="button" style="display:none;">checkout</button>
 
 <script>
 'use strict';
 $(() => {
 
   const $button = $('#checkout-button');
+  const tip = `make this traffic-light's<br/>files your current files`;
+  cd.createTip($button, tip);
 
   const review = cd.review;
 
   review.checkoutButton = {
+       show: () => $button.show(),
     refresh: (kataId, index) => {
-      if (review.inTestPage) {
-        review.createButton('checkout', () => review.fadeIntoKataPage(() => {
-          checkout({ src_id:kataId, src_avatar_index:review.avatarIndex(), src_index:index });
-        }));
-        const tip = `make this traffic-light's<br/>files your current files`;
-        cd.createTip($button, tip);
-      }
+      $button.off('click').on('click', () => {
+        review.fadeOut(() => checkout(kataId, index));
+      });
     }
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const checkout = (args) => {
-    // eg args = { src_id:'Xd4f2P', src_avatar_index:31, src_index:17 };
-    args.id = cd.kata.id();
-    args.index = cd.kata.index();
+  const checkout = (kataId, index) => {
+    const args = {
+      // where we are writing to
+      id: cd.kata.id(),       // eg 'Xd4f2P'
+      index: cd.kata.index(), // eg 17
+      // where we are reading from
+      src_id: kataId,
+      src_index: index,
+      src_avatar_index: review.avatarIndex()
+    };
+
     $.post('/kata/checkout', args, (data) => {
       cd.kata.editor.deleteFiles();
       for (const filename in data.files) {

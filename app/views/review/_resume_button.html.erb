@@ -1,24 +1,26 @@
-<div id="resume-button-box"></div>
+<button id="resume-button" type="button" style="display:none;">resume</button>
 
 <script>
 'use strict';
 $(() => {
 
+  const $button = $('#resume-button');
+
   const review = cd.review;
 
   review.resumeButton = {
-    refresh: () => {
-      if (review.inTestPage) {
-        review.createButton('resume', () => {
-          review.fadeOut(cd.kata.editor.refocus);
-          // Hide the avatar-navigator to avoid 'flash' when
-          // from kata/edit your go to the review which was
-          // previously looking at a different avatar.
-          review.avatarNavigator.hide();
-        });
-      }
-    }
+    show: () => $button.show()
   };
+
+  $button.click(() => {
+    review.fadeOut(() => {
+      cd.kata.editor.refocus();
+      // Hide the avatar-navigator to avoid 'flash' when
+      // from kata/edit your go to the review which was
+      // previously looking at a different avatar.
+      review.avatarNavigator.hide();
+    });
+  });
 
 });
 </script>
