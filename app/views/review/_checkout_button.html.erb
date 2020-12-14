@@ -19,7 +19,6 @@ $(() => {
     }
   };
 
-  //- - - - - - - - - - - - - - - - - - - - - - - - -
   const checkout = (kataId, index) => {
     const args = {
       // where we are writing to
@@ -30,7 +29,6 @@ $(() => {
       src_index: index,
       src_avatar_index: review.avatarIndex()
     };
-
     $.post('/kata/checkout', args, (data) => {
       cd.kata.editor.deleteFiles();
       for (const filename in data.files) {

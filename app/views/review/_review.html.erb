@@ -56,9 +56,9 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   // When arriving from a dashboard avatar
-  //    o) wasIndex == -1, nowIndex == -1, we are not showing a diff.
+  //    o) wasIndex == -1, nowIndex == -1, we are *not* showing a diff.
   // When arriving from traffic-light (on test-page or dashboard-page)
-  //    o) wasIndex == nowIndex-1, we are showing a diff.
+  //    o) wasIndex == nowIndex-1, we *are* showing a diff.
 
   review.fromTestPage = (kataId, index) => {
     review.fadeIn(() => {
