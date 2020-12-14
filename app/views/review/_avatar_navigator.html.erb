@@ -49,11 +49,11 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const openAvatarSelectorDialog = ($avatar, kataId) => {
-    const $selector = $('<div>');
-    const xPos = $avatar.offset().left;
-    const yPos = $avatar.offset().top + 40;
+  const openAvatarSelectorDialog = ($from, kataId) => {
+    const xPos = $from.offset().left;
+    const yPos = $from.offset().top + 40;
     review.getJSON('model', 'group_joined', {id:kataId}, (joined) => {
+      const $selector = $('<div>');
       $selector.html($makeAvatarSelectorHtml($selector, joined))
                .dialog({
                 width: 370,
@@ -61,7 +61,7 @@ $(() => {
              autoOpen: true,
         closeOnEscape: true,
                 modal: true, // [X]
-             position: [xPos,yPos],
+             position: [ xPos,yPos ],
                 title: cd.dialogTitle('select avatar'),
                 close: () => $selector.dialog('destroy')
       });
