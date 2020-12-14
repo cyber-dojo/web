@@ -73,7 +73,7 @@ $(() => {
     review.refresh(kataId, index, showDiff);
   };
 
-  if (!review.inTestPage) {
+  if ($('#kata-page').length === 0) {
     const wasIndex = parseInt(cd.urlParam('was_index', -1));
     const nowIndex = parseInt(cd.urlParam('now_index', -1));
     const showDiff = (wasIndex != nowIndex);

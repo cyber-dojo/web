@@ -9,6 +9,8 @@
 'use strict';
 $(() => {
 
+  cd.kata.page = $('#kata-page');
+
   cd.kata.id = () => "<%= @id %>";
   cd.codeMirror.resetTheme();
   cd.kata.tabs.setup({repl:"<%= @env['REPL'] %>"});

@@ -2,25 +2,17 @@
 'use strict';
 $(() => {
 
-  const review = cd.review;
-
-  const $kataPage = $('#kata-page');
-
-  review.inTestPage = $kataPage.length !== 0;
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  review.fadeIn = (onComplete) => {
-    $kataPage.fadeOut('fast', () => {
-      review.page.fadeIn('fast', () => {
+  cd.review.fadeIn = (onComplete) => {
+    cd.kata.page.fadeOut('fast', () => {
+      cd.review.page.fadeIn('fast', () => {
         onComplete();
       });
     });
   };
 
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  review.fadeOut = (onComplete) => {
-    review.page.fadeOut('fast', () => {
-      $kataPage.fadeIn('fast', () => {
+  cd.review.fadeOut = (onComplete) => {
+    cd.review.page.fadeOut('fast', () => {
+      cd.kata.page.fadeIn('fast', () => {
         onComplete();
       });
     });
