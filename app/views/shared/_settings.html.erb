@@ -5,12 +5,12 @@
     <div class="info-title">colour syntax</div>
     <input type="radio" id="colour-off" name="colour" value="off">
     <label for="colour-off">off</label><br/>
-    <input type="radio" id="colour-on"  name="colour" value="on">
+    <input type="radio" id="colour-on"  name="colour" value="on" >
     <label for="colour-on">on</label><br/>
   </div>
   <div class="info">
     <div class="info-title">theme</div>
-    <input type="radio" id="dark"  name="theme" value="dark">
+    <input type="radio" id="dark"  name="theme" value="dark" >
     <label for="dark">dark</label><br/>
     <input type="radio" id="light" name="theme" value="light">
     <label for="light">light</label><br/>
@@ -48,7 +48,7 @@ $(() => {
         return getOption(name);
       } else {
         setOption(name, value);
-        cd.predict.reset();
+        //cd.predict.reset(); // OFF
       }
     },
     autoRevert:(value) => {
@@ -72,9 +72,7 @@ $(() => {
              url: '/model/kata_option_get',
             data: { id: cd.kata.id(), name: name },
            async: false,
-         success: (data) => {
-           cache[name] = data['kata_option_get'];
-         }
+         success: (data) => cache[name] = data['kata_option_get']
       });
     }
     return cache[name];

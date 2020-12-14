@@ -8,35 +8,28 @@
 'use strict';
 $(() => {
 
-  // cd.settings.predict()      // get
-  // cd.settings.predict(value) // set
-
   const $checkBox = $('#predict-checkbox');
 
-  const isChecked = () => $checkBox.is(':checked');
-
-  $checkBox.click(() => {
-    //console.log(`checkbox clicked checked=${isChecked()}`);
-    const value = isChecked() ? 'on' : 'off';
-    cd.settings.predict(value);
-    //...
-  });
+  $checkBox.prop('checked', cd.settings.predict() === 'on')
+           .click(() => checkBoxChanged());
 
   $('#predict-checkbox-title').click(() => {
-    $checkBox.prop('checked', !isChecked());
-    //console.log(`checkbox-title clicked checked=${isChecked()}`);
-    const value = isChecked() ? 'on' : 'off';
-    cd.settings.predict(value);
-    //...
+    $checkBox.prop('checked', !$checkBox.is(':checked'));
+    checkBoxChanged();
   });
 
-  const predict = cd.settings.predict();
+  const checkBoxChanged = () => {
+    const value = $checkBox.prop('checked') ? 'on' : 'off';
+    if (value === 'on') {
+      cd.kata.predictButtons.show(cd.testButton.disable);
+    } else {
+      cd.kata.predictButtons.hide(cd.testButton.enable);
+    }
+    cd.settings.predict(value);
+    console.log(`checkbox-title clicked: now ${value}`);
+  };
 
-  // TODO: set initial value
-  //const css = `input[type=radio][name=predict]`;
-  //const cssValue = css + `[value=${cd.settings.predict()}]`;
-  //$(cssValue).prop('checked', true);
-
-
+  //TODO: show predictButtons if 'on'
+  
 });
 </script>

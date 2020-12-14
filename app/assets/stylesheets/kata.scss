@@ -306,11 +306,19 @@ input#delete-filename
 //--------------------------------------------------------------
 // traffic-light prediction
 
+#predict-buttons
+{
+  display:grid;
+  margin-left:35px;
+  position:relative;
+  top:-5px;
+}
+
 button.predict
 {
-  width: 265px;
-  margin-bottom: 2px;
-  font-size: 1.15em !important;
+  width: 132px;
+  margin-bottom: 3px;
+  font-size: 12px !important;
   color: lighten(black, 20%);
   font-weight: bold;
   &.red   { background: $red;   border-color: $red;   }

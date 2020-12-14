@@ -1,0 +1,28 @@
+
+<div id="predict-buttons" style="display:none;">
+  <button class="predict red">some tests will fail</button>
+  <button class="predict amber">tests will not run</button>
+  <button class="predict green">all tests will pass</button>
+  <input type="checkbox" id="auto-revert-checkbox"/>
+  <label for="auto-revert-checkbox">
+    auto-revert if wrong!
+  </label>
+</div>
+
+<script>
+'use strict';
+$(() => {
+
+  const $buttons = $('#predict-buttons');
+
+  cd.kata.predictButtons = {
+    show: (f) => $buttons.slideDown('slow', f),
+    hide: (f) => $buttons.slideUp('slow', f)
+  };
+
+  // TODO: drop CSS .predict.info from kata.scss if not used
+  // TODO: setup red/amber/green handlers
+  // TODO: setup checkbox handlers
+
+});
+</script>
