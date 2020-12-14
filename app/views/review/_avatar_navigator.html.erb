@@ -56,13 +56,13 @@ $(() => {
     review.getJSON('model', 'group_joined', {id:kataId}, (joined) => {
       $selector.html($makeAvatarSelectorHtml($selector, joined))
                .dialog({
-                width: 387,
-               height: 425,
+                width: 370,
+               height: 420,
              autoOpen: true,
         closeOnEscape: true,
                 modal: true,
              position: [xPos,yPos],
-                title: cd.dialogTitle('select an avatar'),
+                title: cd.dialogTitle('select avatar'),
           beforeClose: () => $selector.dialog('destroy')
       });
     });
