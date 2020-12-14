@@ -360,31 +360,3 @@ input#auto-revert-checkbox
   font-size: 14px;
   width: 450px;
 }
-
-//==================================================
-
-#group-landing-page
-{
-  margin: { top: 40px; }
-
-  #title { font-size: 36px; }
-
-  #kata-id { font-size: 155px; }
-
-  #phonetic-kata-id
-  {
-    font-size: 30px;
-    padding: { bottom: 10px; }
-  }
-
-  button#dashboard
-  {
-    @include non-code-font();
-    @include font-size-larger();
-         color: $darker-color;
-    text-align: right;
-   line-height: 95%;
-       padding: { top: 8px; bottom: 8px; left: 15px; right: 15px; }
-        margin: { top: 5px; }
-  }
-}
