@@ -27,27 +27,18 @@
 'use strict';
 $(() => {
 
-  const feedbackButton = $('#feedback-button');
-  const feedback = $('#feedback-dialog');
-
-  feedbackButton.click(() => openFeedbackInfoDialog());
-
-  cd.createTip(feedbackButton, 'give us your feedback');
+  const $button = $('#feedback-button');
+  cd.createTip($button, 'give us your feedback');
+  $button.click(() => openFeedbackInfoDialog());
 
   const openFeedbackInfoDialog = () => {
-    const div = feedback.dialog({
-                width: 430,
-             autoOpen: true,
-        closeOnEscape: true,
-                modal: true,
-                title: cd.dialogTitle('feedback'),
-          beforeClose: event => {
-            if (event.keyCode === $.ui.keyCode.ESCAPE) {
-              div.remove();
-              cd.kata.editor.refocus();
-              return true;
-            }
-          }
+    $('#feedback-dialog').dialog({
+              width: 430,
+           autoOpen: true,
+      closeOnEscape: true,
+              modal: true,
+              title: cd.dialogTitle('feedback'),
+        beforeClose: () => cd.kata.editor.refocus()
     });
   };
 

@@ -28,20 +28,15 @@ $(() => {
     html += '</table>';
     html += '</div>';
 
-    const node = $(html);
-    node.dialog({
+    const $div = $(html);
+    $div.dialog({
               width: 435,
            autoOpen: true,
       closeOnEscape: true,
               modal: true,
               title: cd.dialogTitle('hotkeys'),
-        beforeClose: event => {
-          if (event.keyCode === $.ui.keyCode.ESCAPE) {
-            node.remove();
-            cd.kata.editor.refocus();
-            return true;
-          }
-        }
+        beforeClose: () => cd.kata.editor.refocus(),
+              close: () => $div.remove()
     });
   };
 

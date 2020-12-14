@@ -36,27 +36,18 @@
 'use strict';
 $(() => {
 
-  const charityButton = $('#charity-button');
-  const charity = $('#charity-dialog');
-
-  charityButton.click(() => openCharityInfoDialog());
-
-  cd.createTip(charityButton, 'show cyber-dojo charity information');
+  const $button = $('#charity-button');
+  cd.createTip($button, 'show cyber-dojo charity information');
+  $button.click(() => openCharityInfoDialog());
 
   const openCharityInfoDialog = () => {
-    const div = charity.dialog({
-                width: 700,
-             autoOpen: true,
-        closeOnEscape: true,
-                modal: true,
-                title: cd.dialogTitle('charity'),
-          beforeClose: event => {
-            if (event.keyCode === $.ui.keyCode.ESCAPE) {
-              div.remove();
-              cd.kata.editor.refocus();
-              return true;
-            }
-          }
+    $('#charity-dialog').dialog({
+              width: 700,
+           autoOpen: true,
+      closeOnEscape: true,
+              modal: true,
+              title: cd.dialogTitle('charity'),
+        beforeClose: () => cd.kata.editor.refocus()
     });
   };
 
