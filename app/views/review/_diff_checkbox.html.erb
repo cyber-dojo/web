@@ -8,12 +8,6 @@
 'use strict';
 $(() => {
 
-  const review = cd.review;
-
-  const $diffCheckBox = $('#diff-checkbox');
-
-  review.inDiffMode = () => $diffCheckBox.is(':checked');
-
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // inDiffMode() affects other controls in the following ways
   // o) when moving to a new avatar...
@@ -24,18 +18,25 @@ $(() => {
   //    - unchecked ==> diff is not shown (wasIndex == nowIndex)
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  review.refreshDiffCheckBox = (kataId, index, checked) => {
-    $diffCheckBox
-      .prop('checked', checked)
-      .off('click')
-      .on('click', () => review.refresh(kataId, index));
+  const review = cd.review;
 
-    $('#diff-checkbox-title')
-      .off('click')
-      .on('click', () => {
-        $diffCheckBox.prop('checked', !review.inDiffMode());
-        review.refresh(kataId, index);
-      });
+  const $checkBox = $('#diff-checkbox');
+
+  review.diffCheckBox = {
+    isChecked: () => $checkBox.is(':checked'),
+    refresh: (kataId, index, checked) => {
+      $checkBox
+        .prop('checked', checked)
+        .off('click')
+        .on('click', () => review.refresh(kataId, index));
+
+      $('#diff-checkbox-title')
+        .off('click')
+        .on('click', () => {
+          $checkBox.prop('checked', !review.diffCheckBox.isChecked());
+          review.refresh(kataId, index);
+        });
+    }
   };
 
 });

@@ -129,7 +129,7 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const moveToAvatar = (avatar) => {
-    const index = review.inDiffMode() ? 1 : avatar.events.length - 1;
+    const index = review.diffCheckBox.isChecked() ? 1 : avatar.events.length - 1;
     review.refresh(avatar.id, index);
   };
 

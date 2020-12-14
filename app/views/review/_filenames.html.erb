@@ -23,7 +23,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const $makeIconHeadings = () => {
     const $tr = $('<tr>');
-    if (review.inDiffMode()) {
+    if (review.diffCheckBox.isChecked()) {
       $tr.append(
         $makeDiffLineCountIconTd('deleted', '&mdash;'),
         $makeDiffLineCountIconTd('added', '+'),
@@ -38,7 +38,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const $makeDiffTr = (diff) => {
     const $tr = $('<tr>');
-    if (review.inDiffMode()) {
+    if (review.diffCheckBox.isChecked()) {
       $tr.append(
         $makeDiffCountTd(diff, 'deleted'),
         $makeDiffCountTd(diff, 'added'),

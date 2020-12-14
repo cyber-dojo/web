@@ -22,7 +22,7 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const diffDelta = () => review.inDiffMode() ? 1 : 0;
+  const diffDelta = () => review.diffCheckBox.isChecked() ? 1 : 0;
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const filesRefresher = (diffs) => {
