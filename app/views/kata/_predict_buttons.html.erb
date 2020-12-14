@@ -1,3 +1,4 @@
+<input name="predicted"  type="hidden" value="none">
 
 <div id="predict-buttons" style="display:none;">
   <button class="predict red">some tests will fail</button>
@@ -13,16 +14,82 @@
 'use strict';
 $(() => {
 
+  const predicted = $('input[name=predicted]');
+
   const $buttons = $('#predict-buttons');
 
   cd.kata.predictButtons = {
-    show: (f) => $buttons.slideDown('slow', f),
-    hide: (f) => $buttons.slideUp('slow', f)
+    show: (f) => {
+      //reduceFileKnaveMaxHeight($buttons.height());
+      $buttons.slideDown('slow', f);
+    },
+    hide: (f) => {
+      $buttons.slideUp('slow', f);
+      //reduceFileKnaveMaxHeight(0);
+    }
   };
 
+  const reduceFileKnaveMaxHeight = (delta) => {
+    $('#kata-page #filename-list').css('max-height', `${500-delta}px`);
+  };
+
+  ['red','amber','green'].forEach((colour) => {
+    $(`button.predict.${colour}`).click(() => {
+      predicted.val(colour);
+      const $oldLast = $lastTrafficLight();
+      cd.testButton.predictClick(() => testRunComplete(colour, $oldLast));
+    });
+  });
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  const testRunComplete = (predictedColour, $oldLast) => {
+    const $newLast = $lastTrafficLight();
+    const actualColour = $newLast.data('colour');
+    const predictedWrong = (actualColour != predictedColour);
+    const isLightToRevertTo = ($oldLast != undefined);
+    if (autoRevertIsOn && predictedWrong && isLightToRevertTo) {
+      const srcIndex = $oldLast.data('index');
+      autoRevert({ src_id:cd.kata.id(), src_index:srcIndex });
+    }
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  const autoRevert = (args) => {
+    // eg args = { src_id:'Xd4f2P', src_index:17 };
+    args.id = cd.kata.id();
+    args.index = cd.kata.index();
+    $.post('/kata/revert', args, (data) => {
+      cd.kata.editor.deleteFiles();
+      for (const filename in data.files) {
+        cd.kata.editor.createFile(filename, { content:data.files[filename] });
+        cd.kata.editor.showFile(filename);
+      }
+      cd.kata.editor.output(data.stdout.content, data.stderr.content, data.status);
+      cd.kata.tabs.output().click();
+      cd.kata.filenames.refresh();
+      cd.appendTrafficLight(data.light);
+      cd.updateTrafficLightsCount();
+      cd.kata.index(data.light.index);
+      cd.scrollLastTrafficLightIntoView();
+    }, 'json');
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  const $lastTrafficLight = () => {
+    return $('#traffic-lights .diff-traffic-light').last();
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+
+  let autoRevertIsOn = false;
+
   // TODO: drop CSS .predict.info from kata.scss if not used
-  // TODO: setup red/amber/green handlers
+
   // TODO: setup checkbox handlers
+
+  if (cd.settings.predict() === 'on') {
+    cd.kata.predictButtons.show();
+  }
 
 });
 </script>

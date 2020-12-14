@@ -10,13 +10,13 @@ $(() => {
   cd.testButton.enable  = () => cd.testButton.attr('disabled', false);
   cd.testButton.disable = () => cd.testButton.attr('disabled', true);
 
-  cd.testButton.click(() => cd.predictTrafficLight(testButtonClick));
+  cd.testButton.click(() => testButtonClick(cd.testButton.enable));
+  cd.testButton.predictClick = (onComplete) => testButtonClick(onComplete);
 
   const testButtonClick = (onComplete) => {
-    // Called from 3 places
+    // Called from 2 places
     // 1. when you click [test]
     // 2. when you hot-key Alt-T
-    // 3. when you auto-revert from a diff-review
     cd.testButton.disable();
     cd.saveCodeFromSyntaxHighlightEditors();
     cd.waitSpinner.fadeIn('slow', () => {
@@ -25,13 +25,10 @@ $(() => {
               type: 'POST',
                url: form.attr('action'),
               data: form.serialize(),
-              error: error,
+             error: error,
           complete: (_xhr, _status) => {
-            cd.testButton.enable();
+            onComplete();
             cd.waitSpinner.fadeOut('slow');
-            if (onComplete != undefined) {
-              onComplete();
-            }
           }
       });
     });

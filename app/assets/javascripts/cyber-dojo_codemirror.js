@@ -176,7 +176,9 @@ var cyberDojo = ((cd, $) => {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const runTests = () => {
-    $('#test-button').click();
+    if (cd.settings.predict() === 'off') {
+      cd.testButton.click();
+    }
     return false;
   };
 
