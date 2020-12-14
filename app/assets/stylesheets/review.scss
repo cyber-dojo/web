@@ -68,44 +68,12 @@ img.avatar
      font-weight: bold;
   }
 
-  #diff-checkbox-container
-  {
-    @include edged-panel();
-    background: lighten($darker-color,10%);
-       width: 55px;
-      margin: { left: 0px; right: 5px; }
-     padding: { top:4px; bottom:0px; right:4px; }
-    position: relative;
-         top: 1px;
-    #diff-checkbox-title
-    {
-      @include plaintext-font();
-           cursor: pointer;
-        font-size: 12px;
-          display: inline;
-         position: relative;
-           bottom: 3px;
-    }
-  }
-
   #resume-button-box,
-  #diff-checkbox-container,
   #fork-button-box,
   #checkout-button-box
   {
     display: inline;
     margin: 0px;
-  }
-
-  #diff-checkbox
-  {
-    width: 15px;
-    height: 15px;
-    zoom: 1.1; // Safari
-    -moz-transform: scale(1.1);
-    cursor: pointer;
-    position: relative;
-    top: -3px;
   }
 
   #fork-button, #checkout-button

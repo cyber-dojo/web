@@ -1,0 +1,35 @@
+
+#predict-checkbox-container, #diff-checkbox-container
+{
+  @include edged-panel();
+  background: lighten($darker-color,10%);
+     width: 55px;
+    margin: 0px;
+   padding: { top:4px; bottom:0px; right:0px; }
+  position: relative;
+       top: 1px;
+   display: inline;
+}
+
+#predict-checkbox-container { margin: { left:2px; right:4px; } }
+
+#predict-checkbox-title, #diff-checkbox-title
+{
+  @include plaintext-font();
+       cursor: pointer;
+    font-size: 12px;
+      display: inline;
+     position: relative;
+       bottom: 3px;
+}
+
+#predict-checkbox, #diff-checkbox
+{
+  width: 15px;
+  height: 15px;
+  zoom: 1.1; // Safari
+  -moz-transform: scale(1.1);
+  cursor: pointer;
+  position: relative;
+  top: -3px;
+}

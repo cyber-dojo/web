@@ -2,28 +2,20 @@
 
 <div id="settings-dialog" style="display:none;">
   <div class="info">
-    <div class="info-title">theme</div>
-    <input type="radio" id="light" name="theme" value="light">
-    <label for="light">light</label><br/>
-    <input type="radio" id="dark"  name="theme" value="dark">
-    <label for="dark">dark</label>
-  </div>
-  <div class="info">
     <div class="info-title">colour syntax</div>
-    <input type="radio" id="colour-on"  name="colour" value="on">
-    <label for="colour-on">on</label><br/>
     <input type="radio" id="colour-off" name="colour" value="off">
     <label for="colour-off">off</label><br/>
+    <input type="radio" id="colour-on"  name="colour" value="on">
+    <label for="colour-on">on</label><br/>
   </div>
   <div class="info">
-    <div class="info-title">test prediction</div>
-    <input type="radio" id="prediction-on"  name="predict" value="on">
-    <label for="prediction-on">on</label><br/>
-    <input type="radio" id="prediction-off" name="predict" value="off">
-    <label for="prediction-off">off</label><br/>
+    <div class="info-title">theme</div>
+    <input type="radio" id="dark"  name="theme" value="dark">
+    <label for="dark">dark</label><br/>
+    <input type="radio" id="light" name="theme" value="light">
+    <label for="light">light</label><br/>
   </div>
 </div>
-
 
 <script>
 'use strict';
@@ -32,28 +24,39 @@ $(() => {
   cd.settings = {
     // Note: the CodeMirror theme is a combination of colour+theme
     colour:(value) => {
+      const name = 'colour';
       if (value === undefined) {
-        return getOption('colour');
+        return getOption(name);
       } else {
-        setOption('colour', value);
+        setOption(name, value);
         cd.codeMirror.resetTheme();
       }
     },
     theme:(value) => {
+      const name = 'theme';
       if (value === undefined) {
-        return getOption('theme');
+        return getOption(name);
       } else {
-        setOption('theme', value);
+        setOption(name, value);
         cd.codeMirror.resetTheme();
         cd.kata.tabs.theme(value);
       }
     },
     predict:(value) => {
+      const name = 'predict';
       if (value === undefined) {
-        return getOption('predict');
+        return getOption(name);
       } else {
-        setOption('predict', value);
+        setOption(name, value);
         cd.predict.reset();
+      }
+    },
+    autoRevert:(value) => {
+      const name = 'auto_revert';
+      if (value === undefined) {
+        return getOption(name);
+      } else {
+        setOption(name, value);
       }
     }
   };
@@ -90,7 +93,6 @@ $(() => {
   // UI
 
   const $button = $('#settings-button');
-  const $dialog = $('#settings-dialog');
 
   cd.showSettingsButton = () => {
     // The setting button is off by default so that is is not
@@ -102,29 +104,23 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - - - - - - -
 
   const openSettingsDialog = () => {
-    [ 'colour', 'predict', 'theme' ].forEach((name) => {
+    const $settings = $('#settings-dialog');
+    [ 'colour', 'theme' ].forEach((name) => {
       const css = `input[type=radio][name=${name}]`;
       const cssValue = css + `[value=${cd.settings[name]()}]`;
-      $(css, $dialog).change(function() { cd.settings[name](this.value); });
-      $(cssValue, $dialog).prop('checked', true);
+      $(css, $settings).change(function() { cd.settings[name](this.value); });
+      $(cssValue, $settings).prop('checked', true);
     });
-
     const xPos = $button.offset().left;
     const yPos = $button.offset().top + 90;
-
-    $dialog.dialog({
+    $settings.dialog({
               width: 250,
-           position: [xPos,yPos],
+           position: [ xPos, yPos ],
            autoOpen: true,
       closeOnEscape: true,
               modal: true,
               title: cd.dialogTitle('settings'),
-        beforeClose: event => {
-          if (event.keyCode === $.ui.keyCode.ESCAPE) {
-            cd.kata.editor.refocus();
-            return true;
-          }
-        }
+        beforeClose: () => cd.kata.editor.refocus()
     });
   };
 

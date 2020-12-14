@@ -1,0 +1,42 @@
+<div id="predict-checkbox-container">
+  <div id="predict-checkbox-title">predict</div>
+  <input type="checkbox" id="predict-checkbox" checked=""/>
+  <label for="predict-checkbox"></label>
+</div>
+
+<script>
+'use strict';
+$(() => {
+
+  // cd.settings.predict()      // get
+  // cd.settings.predict(value) // set
+
+  const $checkBox = $('#predict-checkbox');
+
+  const isChecked = () => $checkBox.is(':checked');
+
+  $checkBox.click(() => {
+    //console.log(`checkbox clicked checked=${isChecked()}`);
+    const value = isChecked() ? 'on' : 'off';
+    cd.settings.predict(value);
+    //...
+  });
+
+  $('#predict-checkbox-title').click(() => {
+    $checkBox.prop('checked', !isChecked());
+    //console.log(`checkbox-title clicked checked=${isChecked()}`);
+    const value = isChecked() ? 'on' : 'off';
+    cd.settings.predict(value);
+    //...
+  });
+
+  const predict = cd.settings.predict();
+
+  // TODO: set initial value
+  //const css = `input[type=radio][name=predict]`;
+  //const cssValue = css + `[value=${cd.settings.predict()}]`;
+  //$(cssValue).prop('checked', true);
+
+
+});
+</script>

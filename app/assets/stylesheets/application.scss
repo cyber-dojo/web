@@ -35,6 +35,7 @@
  *= depend_on sponsors.scss
  *= depend_on xterm.css
  *= depend_on jquery-ui-1.8.16.custom.scss
+ *= depend_on checkboxes.scss
  *= depend_on codemirror.scss
  *= depend_on codemirror-cyber-dojo-grays.scss
  *= depend_on codemirror-cyber-dojo-dark-colour-on.scss
@@ -69,6 +70,7 @@
 @import "sponsors.scss";
 @import "xterm.css";
 @import "jquery-ui-1.8.16.custom.scss";
+@import "checkboxes.scss";
 @import "codemirror.scss";
 @import "codemirror-cyber-dojo-grays.scss";
 @import "codemirror-cyber-dojo-dark-colour-on.scss";
