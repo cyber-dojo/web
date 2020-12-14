@@ -10,7 +10,7 @@ $(() => {
     refresh: () => {
       if (review.inTestPage) {
         review.createButton('resume', () => {
-          review.fadeIntoKataPage(cd.kata.editor.refocus);
+          review.fadeOut(cd.kata.editor.refocus);
           // Hide the avatar-navigator to avoid 'flash' when
           // from kata/edit your go to the review which was
           // previously looking at a different avatar.

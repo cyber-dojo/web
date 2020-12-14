@@ -9,14 +9,14 @@ $(() => {
   review.inTestPage = $kataPage.length !== 0;
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  review.fadeIntoReviewPage = () => {
+  review.fadeIn = () => {
     $kataPage.fadeOut('fast', () => {
       review.page.fadeIn('fast');
     });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  review.fadeIntoKataPage = (onComplete) => {
+  review.fadeOut = (onComplete) => {
     review.page.fadeOut('fast', () => {
       $kataPage.fadeIn('fast', () => {
         onComplete();
