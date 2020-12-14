@@ -6,10 +6,12 @@ $(() => {
 
   const review = cd.review;
 
-  review.refreshOutput = (kataId, index) => {
-    review.getJSON('model', 'kata_event', { id:kataId, index:index }, (event) => {
-      outputRefresher(event);
-    });
+  review.output = {
+    refresh: (kataId, index) => {
+      review.getJSON('model', 'kata_event', { id:kataId, index:index }, (event) => {
+        outputRefresher(event);
+      });
+    }
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -

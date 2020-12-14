@@ -16,10 +16,15 @@ $(() => {
 
   const review = cd.review;
 
-  review.refreshAvatarNavigator = (kataId) => {
-    review.getJSON('model', 'group_joined', {id:kataId}, (joined) => {
-      avatarNavigatorRefresher(kataId, joined);
-    });
+  const $avatarNavigator = $('#avatar-navigator');
+
+  review.avatarNavigator = {
+       hide: () => $avatarNavigator.hide(),
+    refresh: (kataId) => {
+      review.getJSON('model', 'group_joined', {id:kataId}, (joined) => {
+        avatarNavigatorRefresher(kataId, joined);
+      });
+    }
   };
 
   const avatarNavigatorRefresher = (kataId, joined) => {
@@ -35,7 +40,7 @@ $(() => {
       $avatar.html($img)
              .off('click')
              .on('click', () => openAvatarSelectorDialog($avatar, kataId));
-      $('#avatar-navigator').show();
+      $avatarNavigator.show();
     }
   };
 

@@ -4,16 +4,19 @@
 'use strict';
 $(() => {
 
+  const $button = $('#checkout-button');
+
   const review = cd.review;
 
-  review.refreshCheckoutButton = (kataId, index) => {
-    if (review.inTestPage) {
-      review.createButton('checkout', () => review.fadeIntoKataPage(() => {
-        checkout({ src_id:kataId, src_avatar_index:review.avatarIndex(), src_index:index });
-      }));
-      const $button = $('#checkout-button');
-      const tip = `make this traffic-light's<br/>files your current files`;
-      cd.createTip($button, tip);
+  review.checkoutButton = {
+    refresh: (kataId, index) => {
+      if (review.inTestPage) {
+        review.createButton('checkout', () => review.fadeIntoKataPage(() => {
+          checkout({ src_id:kataId, src_avatar_index:review.avatarIndex(), src_index:index });
+        }));
+        const tip = `make this traffic-light's<br/>files your current files`;
+        cd.createTip($button, tip);
+      }
     }
   };
 

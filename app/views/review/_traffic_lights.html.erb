@@ -4,18 +4,20 @@
 'use strict';
 $(() => {
 
-  const review = cd.review;
-
   const $trafficLights = $('#review-traffic-lights');
 
-  review.refreshTrafficLights = (kataId, index) => {
-    review.getJSON('model', 'kata_events', {id:kataId}, (events) => {
-      if (index === -1) {
-        index = events.length - 1;
-      }
-      trafficLightsRefresher(kataId, index, events);
-      review.refreshTrafficLightsNavigator(kataId, index, events);
-    });
+  const review = cd.review;
+
+  review.trafficLights = {
+    refresh: (kataId, index) => {
+      review.getJSON('model', 'kata_events', {id:kataId}, (events) => {
+        if (index === -1) {
+          index = events.length - 1;
+        }
+        trafficLightsRefresher(kataId, index, events);
+        review.refreshTrafficLightsNavigator(kataId, index, events);
+      });
+    }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -

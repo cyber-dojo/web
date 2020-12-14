@@ -4,14 +4,16 @@
 'use strict';
 $(() => {
 
+  const $button = () => $('#fork-button');
+
   const review = cd.review;
 
-  const $forkButton = () => $('#fork-button');
-
-  review.refreshForkButton = (kataId, index) => {
-    review.createButton('fork', () => openForkDialog(kataId, index));
-    const forkTip = `create a new<br/>exercise from this<br/>traffic-light's files`;
-    cd.createTip($forkButton(), forkTip);
+  review.forkButton = {
+    refresh: (kataId, index) => {
+      review.createButton('fork', () => openForkDialog(kataId, index));
+      const forkTip = `create a new<br/>exercise from this<br/>traffic-light's files`;
+      cd.createTip($button(), forkTip);
+    }
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -21,8 +23,8 @@ $(() => {
       $makeButton(kataId, index, 'individual'),
       $makeButton(kataId, index, 'group')
     );
-    const xPos = $forkButton().offset().left;
-    const yPos = $forkButton().offset().top + 30;
+    const xPos = $button().offset().left;
+    const yPos = $button().offset().top + 30;
     $('<div id="fork-dialog">').append($div).dialog({
               title: cd.dialogTitle('fork'),
               modal: true,

@@ -6,17 +6,19 @@ $(() => {
 
   const review = cd.review;
 
-  review.refreshFiles = (kataId, nowIndex) => {
-    const args = {
-      id:kataId,
-      was_index:nowIndex - diffDelta(), 
-      now_index:nowIndex
-    };
-    review.getJSON('differ', 'diff_lines', args, (diffs) => {
-      augmentDiffs(diffs);
-      review.refreshFilenames(diffs);
-      filesRefresher(diffs);
-    });
+  review.files = {
+    refresh: (kataId, nowIndex) => {
+      const args = {
+        id:kataId,
+        was_index:nowIndex - diffDelta(),
+        now_index:nowIndex
+      };
+      review.getJSON('differ', 'diff_lines', args, (diffs) => {
+        augmentDiffs(diffs);
+        review.refreshFilenames(diffs);
+        filesRefresher(diffs);
+      });
+    }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -

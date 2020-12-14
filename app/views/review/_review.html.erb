@@ -50,14 +50,14 @@ $(() => {
       showDiff = review.inDiffMode();
     }
     review.refreshDiffCheckBox(kataId, nowIndex, showDiff);
-    review.refreshAvatarNavigator(kataId);
-    review.refreshFiles(kataId, nowIndex);
-    review.refreshOutput(kataId, nowIndex);
-    review.refreshTrafficLights(kataId, nowIndex);
+    review.avatarNavigator.refresh(kataId);
+    review.files.refresh(kataId, nowIndex);
+    review.output.refresh(kataId, nowIndex);
+    review.trafficLights.refresh(kataId, nowIndex);
 
-    review.refreshCheckoutButton(kataId, nowIndex)
-    review.refreshForkButton(kataId, nowIndex)
-    review.refreshResumeButton()
+    review.checkoutButton.refresh(kataId, nowIndex)
+    review.forkButton.refresh(kataId, nowIndex)
+    review.resumeButton.refresh()
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
