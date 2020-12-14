@@ -69,9 +69,7 @@ $(() => {
              url: '/model/kata_option_get',
             data: { id: cd.kata.id(), name: name },
            async: false,
-         success: (data) => {
-           cache[name] = data['kata_option_get'];
-         }
+         success: (data) => cache[name] = data['kata_option_get']
       });
     }
     return cache[name];
@@ -90,7 +88,6 @@ $(() => {
   // UI
 
   const $button = $('#settings-button');
-  const $dialog = $('#settings-dialog');
 
   cd.showSettingsButton = () => {
     // The setting button is off by default so that is is not
@@ -102,29 +99,23 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - - - - - - -
 
   const openSettingsDialog = () => {
+    const $settings = $('#settings-dialog');
     [ 'colour', 'predict', 'theme' ].forEach((name) => {
       const css = `input[type=radio][name=${name}]`;
       const cssValue = css + `[value=${cd.settings[name]()}]`;
-      $(css, $dialog).change(function() { cd.settings[name](this.value); });
-      $(cssValue, $dialog).prop('checked', true);
+      $(css, $settings).change(function() { cd.settings[name](this.value); });
+      $(cssValue, $settings).prop('checked', true);
     });
-
     const xPos = $button.offset().left;
     const yPos = $button.offset().top + 90;
-
-    $dialog.dialog({
+    $settings.dialog({
               width: 250,
-           position: [xPos,yPos],
+           position: [ xPos, yPos ],
            autoOpen: true,
       closeOnEscape: true,
               modal: true,
               title: cd.dialogTitle('settings'),
-        beforeClose: event => {
-          if (event.keyCode === $.ui.keyCode.ESCAPE) {
-            cd.kata.editor.refocus();
-            return true;
-          }
-        }
+        beforeClose: () => cd.kata.editor.refocus()
     });
   };
 
