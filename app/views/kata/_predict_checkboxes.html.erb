@@ -26,15 +26,17 @@ $(() => {
   });
 
   const predictCheckBoxChanged = () => {
-    const value = $predict.prop('checked') ? 'on' : 'off';
-    if (value === 'on') {
+    if ($predict.prop('checked')) {
+      cd.settings.predict('on');
       $revertContainer.show();
-      cd.kata.predictPanel.show(cd.testButton.disable);
+      cd.testButton.disable();
+      cd.kata.showPredictButtons();
     } else {
+      cd.settings.predict('off');
       $revertContainer.hide();
-      cd.kata.predictPanel.hide(cd.testButton.enable);
+      cd.kata.hidePredictButtons();
+      cd.testButton.enable();
     }
-    cd.settings.predict(value);
   };
 
 });

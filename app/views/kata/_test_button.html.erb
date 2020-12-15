@@ -4,19 +4,16 @@
 'use strict';
 $(() => {
 
-  const form = $('form');
-
   cd.testButton = $('#test-button');
   cd.testButton.enable  = () => cd.testButton.attr('disabled', false);
   cd.testButton.disable = () => cd.testButton.attr('disabled', true);
 
-  cd.testButton.click(() => testButtonClick(cd.testButton.enable));
-  cd.testButton.predictClick = (onComplete) => testButtonClick(onComplete);
+  cd.testButton.click(() => {
 
-  const testButtonClick = (onComplete) => {
     // Called from 2 places
     // 1. when you click [test]
-    // 2. when you hot-key Alt-T
+    // 2. when you hot-key Alt-T (and predict === 'off')
+    const form = $('form');
     cd.testButton.disable();
     cd.saveCodeFromSyntaxHighlightEditors();
     cd.waitSpinner.fadeIn('slow', () => {
@@ -27,14 +24,14 @@ $(() => {
               data: form.serialize(),
              error: error,
           complete: (_xhr, _status) => {
-            onComplete();
+            // TODO: enable testButton if predict==='off'
             cd.waitSpinner.fadeOut('slow');
           }
       });
     });
     // [X] This 30s timeout is different to max_seconds
     // from the start-point's manifest.json file.
-  };
+  });
 
   //- - - - - - - - - - - - - - - - - - - - - - -
   const error = (request, status, thrown) => {

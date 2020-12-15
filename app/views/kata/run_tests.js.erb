@@ -132,6 +132,14 @@
   cd.scrollLastTrafficLightIntoView();
   cd.kata.index(<%= @index %>);
 
+  // TODO: Should revert happen here?
+  // That would allow all the above updates to be not done.
+  console.log('END:run_tests.js.erb');
+  console.log(`END predict=${cd.settings.predict()}`);
+  //console.log(`END revert==${cd.settings.revert()}`);
+  console.log(`END: predicted-colour=${cd.kata.predictedColour()}`);
+  console.log(`END outcome=${outcome}`);
+
   showInfoDialogs();
 
 })();

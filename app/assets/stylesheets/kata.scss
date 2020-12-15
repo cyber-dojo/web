@@ -197,6 +197,8 @@
     max-height:575px;
     display:inline-block;
     vertical-align:top;
+    position:relative;
+    top:7px;
   }
   .rhs-column
   {
@@ -305,7 +307,7 @@ input#delete-filename
 //--------------------------------------------------------------
 // traffic-light prediction
 
-#predict-panel
+#predict-buttons
 {
   display:grid;
   margin-left:35px;

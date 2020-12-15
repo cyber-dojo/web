@@ -1,0 +1,93 @@
+<input name="predicted" type="hidden" value="none">
+
+<div id="predict-buttons" style="display:none;">
+  <button class="predict red"   type="button">some tests will fail</button>
+  <button class="predict amber" type="button">tests will not run</button>
+  <button class="predict green" type="button">all tests will pass</button>
+</div>
+
+<script>
+'use strict';
+$(() => {
+
+  const $predicted = $('input[name=predicted]');
+  const $buttons = $('#predict-buttons');
+
+  const predictColour = (rag) => $predicted.val(rag);
+
+  cd.kata.predictedColour = () => $predicted.val();
+
+  cd.kata.showPredictButtons = () => {
+    //reduceFileKnaveMaxHeight($panel.height());
+    $buttons.slideDown('slow');
+  };
+
+  cd.kata.hidePredictButtons = () => {
+    $buttons.slideUp('slow');
+    cd.kata.predictedColour('none');
+    //reduceFileKnaveMaxHeight(0);
+  };
+
+  const reduceFileKnaveMaxHeight = (delta) => {
+    $('#kata-page #filename-list').css('max-height', `${500-delta}px`);
+  };
+
+  ['red','amber','green'].forEach((rag) => {
+    $(`button.predict.${rag}`).click(() => {
+      predictColour(rag);
+      cd.testButton.click();
+    });
+  });
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  // TODO: Move this into _run_tests.html.erb
+  const revertTestRunComplete = () => {
+    const predictedColour = predicted.val();
+    const $newLast = $lastTrafficLight();
+    const actualColour = $newLast.data('colour');
+    const predictedWrong = (actualColour != predictedColour);
+    const isLightToRevertTo = cd.kata.index() > 1;
+    if (revertIsOn && predictedWrong && isLightToRevertTo) {
+      revert();
+    }
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  const revert = () => {
+    const index = cd.kata.index();
+    const args = {
+      id: cd.kata.id(),  // eg 'Xd4f2P'
+      index: index,      // eg 18
+      src_index: index-2 // eg 16
+    };
+    $.post('/kata/revert', args, (data) => {
+      cd.kata.editor.deleteFiles();
+      for (const filename in data.files) {
+        cd.kata.editor.createFile(filename, { content:data.files[filename] });
+        cd.kata.editor.showFile(filename);
+      }
+      cd.kata.editor.output(data.stdout.content, data.stderr.content, data.status);
+      cd.kata.tabs.output().click();
+      cd.kata.filenames.refresh();
+      cd.appendTrafficLight(data.light);
+      cd.updateTrafficLightsCount();
+      cd.kata.index(data.light.index);
+      cd.scrollLastTrafficLightIntoView();
+    }, 'json');
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+
+  let revertIsOn = false;
+
+  // TODO: set the #kata-page #filename-list CSS max-height here ONLY (not in .scss file)
+  // TODO: setup checkbox handlers
+
+  if (cd.settings.predict() === 'on') {
+    cd.testButton.disable();
+    // TODO: set initial value of revert checkbox
+    cd.kata.showPredictButtons();
+  }
+
+});
+</script>

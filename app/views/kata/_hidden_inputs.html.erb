@@ -1,7 +1,6 @@
 <%# Each event has an incrementing index which is cached in  %>
 <%# the browser to allow out-of-sync mobbing detection.      %>
 <input name="index"        type="hidden" value="<%= @index %>">
-<input name="predicted"    type="hidden" value="none">
 <input name="image_name"   type="hidden" value="<%= raw @manifest['image_name'] %>">
 <input name="max_seconds"  type="hidden" value="<%= @manifest['max_seconds'] %>">
 
