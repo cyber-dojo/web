@@ -1,13 +1,7 @@
-<input name="predicted"  type="hidden" value="none">
-
-<div id="predict-buttons" style="display:none;">
+<div id="predict-panel" style="display:none;">
   <button class="predict red">some tests will fail</button>
   <button class="predict amber">tests will not run</button>
   <button class="predict green">all tests will pass</button>
-  <input type="checkbox" id="auto-revert-checkbox"/>
-  <label for="auto-revert-checkbox">
-    auto-revert if wrong!
-  </label>
 </div>
 
 <script>
@@ -16,15 +10,15 @@ $(() => {
 
   const predicted = $('input[name=predicted]');
 
-  const $buttons = $('#predict-buttons');
+  const $panel = $('#predict-panel');
 
-  cd.kata.predictButtons = {
+  cd.kata.predictPanel = {
     show: (f) => {
-      //reduceFileKnaveMaxHeight($buttons.height());
-      $buttons.slideDown('slow', f);
+      //reduceFileKnaveMaxHeight($panel.height());
+      $panel.slideDown('slow', f);
     },
     hide: (f) => {
-      $buttons.slideUp('slow', f);
+      $panel.slideUp('slow', f);
       //reduceFileKnaveMaxHeight(0);
     }
   };
@@ -83,12 +77,12 @@ $(() => {
 
   let autoRevertIsOn = false;
 
-  // TODO: drop CSS .predict.info from kata.scss if not used
-
+  // TODO: set the #kata-page #filename-list CSS max-height here ONLY (not in .scss file)
+  // TODO: test button needs to be disabled on first display if predict is on
   // TODO: setup checkbox handlers
 
   if (cd.settings.predict() === 'on') {
-    cd.kata.predictButtons.show();
+    cd.kata.predictPanel.show();
   }
 
 });

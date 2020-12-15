@@ -1,9 +1,10 @@
 
-#predict-checkbox-container, #diff-checkbox-container
+#predict-checkbox-container,
+#revert-checkbox-container,
+#diff-checkbox-container
 {
   @include edged-panel();
   background: lighten($darker-color,10%);
-     width: 55px;
     margin: 0px;
    padding: { top:4px; bottom:0px; right:0px; }
   position: relative;
@@ -11,9 +12,15 @@
    display: inline;
 }
 
+#predict-checkbox-container { width:55px; }
+#diff-checkbox-container    { width:55px; }
+#revert-checkbox-container  { width:120px; }
+
 #predict-checkbox-container { margin: { left:2px; right:4px; } }
 
-#predict-checkbox-title, #diff-checkbox-title
+#predict-checkbox-title,
+#revert-checkbox-title,
+#diff-checkbox-title
 {
   @include plaintext-font();
        cursor: pointer;
@@ -23,7 +30,9 @@
        bottom: 3px;
 }
 
-#predict-checkbox, #diff-checkbox
+#predict-checkbox,
+#revert-checkbox,
+#diff-checkbox
 {
   width: 15px;
   height: 15px;
