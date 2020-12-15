@@ -69,10 +69,12 @@ class KataController < ApplicationController
   # - - - - - - - - - - - - - - - - - -
 
   def revert
-    json = source_event(:revert, revert_args)
+    args = [ id, index ]
+    json = source_event(id, index-2, :revert, args)
+    # TODO: provide model.revert() method as alias for ran_tests()
     model.kata_ran_tests(id, index, @files, @stdout, @stderr, @status, {
       colour: @colour,
-      revert: revert_args
+      revert: args
     });
     render json: json
   end
@@ -80,18 +82,24 @@ class KataController < ApplicationController
   # - - - - - - - - - - - - - - - - - -
 
   def checkout
-    json = source_event(:checkout, checkout_args)
+    args = {
+      id:source_id,
+      index:source_index,
+      avatarIndex:source_avatar_index,
+    }
+    json = source_event(args[:id], args[:index], :checkout, args)
+    # TODO: provide model.checkout() method as alias for ran_tests()
     model.kata_ran_tests(id, index, @files, @stdout, @stderr, @status, {
         colour: @colour,
-      checkout: checkout_args
+      checkout: args
     });
     render json: json
   end
 
   private
 
-  def source_event(name, value)
-    event = model.kata_event(source_id, source_index)
+  def source_event(id, index, name, value)
+    event = model.kata_event(id, index)
     @files = event['files']
     @stdout = event['stdout']
     @stderr = event['stderr']
@@ -116,14 +124,6 @@ class KataController < ApplicationController
 
   def index
     params[:index].to_i + 1
-  end
-
-  def checkout_args
-    { id:source_id, avatarIndex:source_avatar_index, index:source_index }
-  end
-
-  def revert_args
-    [ source_id, source_index ]
   end
 
   def source_id

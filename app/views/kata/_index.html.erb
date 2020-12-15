@@ -1,8 +1,6 @@
 <%# Each event has an incrementing index which is cached in  %>
 <%# the browser to allow out-of-sync mobbing detection.      %>
-<input name="index"        type="hidden" value="<%= @index %>">
-<input name="image_name"   type="hidden" value="<%= raw @manifest['image_name'] %>">
-<input name="max_seconds"  type="hidden" value="<%= @manifest['max_seconds'] %>">
+<input name="index" type="hidden" value="<%= @index %>">
 
 <script>
 'use strict';
@@ -12,7 +10,7 @@ $(() => {
 
   cd.kata.index = (newValue) => {
     if (newValue === undefined) {
-      return $index.val();
+      return parseInt($index.val());
     } else {
       $index.val(newValue);
     }

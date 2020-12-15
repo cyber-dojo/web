@@ -41,11 +41,10 @@ $(() => {
     cd.appendTrafficLight(event);
   });
 
-  //cd.predict.reset();
   cd.showSettingsButton();
   cd.updateTrafficLightsCount();
   cd.scrollLastTrafficLightIntoView();
-  cd.kata.index("<%= @index %>");
+  cd.kata.index("<%= @index %>");  
   cd.setupHotkeys();
   cd.showStartingInfoDialog("<%= @env['STARTING_INFO_DIALOG'] %>");
 
