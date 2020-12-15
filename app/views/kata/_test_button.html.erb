@@ -24,7 +24,9 @@ $(() => {
               data: form.serialize(),
              error: error,
           complete: (_xhr, _status) => {
-            // TODO: enable testButton if predict==='off'
+            if (cd.settings.predict() === 'off') {
+              cd.testButton.enable();
+            }
             cd.waitSpinner.fadeOut('slow');
           }
       });

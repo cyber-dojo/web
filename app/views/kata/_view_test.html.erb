@@ -11,8 +11,7 @@
 <%= form_tag( action: 'run_tests', id: @id ) do %>
   <div class="lhs-column">
     <%= render partial: 'test_button' %>
-    <%= render partial: 'predict_checkboxes' %>
-    <%= render partial: 'predict_buttons' %>
+    <%= render partial: 'predict' %>
     <%= render partial: 'file_create_rename_delete' %>
     <%= render partial: 'filenames' %>
   </div><div class="middle-column">

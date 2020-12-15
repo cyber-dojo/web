@@ -1,0 +1,90 @@
+<input name="predicted" type="hidden" value="none">
+
+<div id="predict-checkbox-container">
+  <div id="predict-checkbox-title">predict</div>
+  <input type="checkbox" id="predict-checkbox" checked=""/>
+  <label for="predict-checkbox"></label>
+</div>
+<div id="revert-checkbox-container">
+  <div id="revert-checkbox-title">revert&nbsp;if&nbsp;wrong!</div>
+  <input type="checkbox" id="revert-checkbox"/>
+  <label for="revert-checkbox"></label>
+</div>
+
+<div id="predict-buttons" style="display:none;">
+  <button class="predict red"   type="button">some tests will fail</button>
+  <button class="predict amber" type="button">tests will not run</button>
+  <button class="predict green" type="button">all tests will pass</button>
+</div>
+
+<script>
+'use strict';
+$(() => {
+
+  const $predicted = $('input[name=predicted]');
+  const $predict = $('#predict-checkbox');
+  const $revert  = $('#revert-checkbox');
+  const $revertContainer = $('#revert-checkbox-container');
+  const $buttons = $('#predict-buttons');
+
+  $predict.prop('checked', cd.settings.predict() === 'on')
+          .click(() => predictCheckBoxChanged());
+
+  $('#predict-checkbox-title').click(() => {
+    $predict.prop('checked', !$predict.is(':checked'));
+    predictCheckBoxChanged();
+  });
+
+  const predictCheckBoxChanged = () => {
+    if ($predict.prop('checked')) {
+      cd.settings.predict('on');
+      $revertContainer.show();
+      cd.testButton.disable();
+      showPredictButtons();
+    } else {
+      cd.settings.predict('off');
+      $revertContainer.hide();
+      hidePredictButtons();
+      cd.testButton.enable();
+    }
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - -
+
+  const predictColour = (rag) => $predicted.val(rag);
+
+  cd.kata.predictedColour = () => $predicted.val();
+
+  const showPredictButtons = () => {
+    //reduceFileKnaveMaxHeight($panel.height());
+    $buttons.slideDown('slow');
+  };
+
+  const hidePredictButtons = () => {
+    $buttons.slideUp('slow');
+    cd.kata.predictedColour('none');
+    //reduceFileKnaveMaxHeight(0);
+  };
+
+  const reduceFileKnaveMaxHeight = (delta) => {
+    $('#kata-page #filename-list').css('max-height', `${500-delta}px`);
+  };
+
+  ['red','amber','green'].forEach((rag) => {
+    $(`button.predict.${rag}`).click(() => {
+      predictColour(rag);
+      cd.testButton.click();
+    });
+  });
+
+  // TODO: set the #kata-page #filename-list CSS max-height here ONLY (not in .scss file)
+  // TODO: setup revert-checkbox handler
+
+  if (cd.settings.predict() === 'on') {
+    cd.testButton.disable();
+    // TODO: set initial value of revert checkbox
+    cd.kata.showPredictButtons();
+  }
+
+});
+</script>
