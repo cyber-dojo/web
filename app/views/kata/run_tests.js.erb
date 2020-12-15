@@ -134,17 +134,23 @@
 
   showInfoDialogs();
 
+  const runNeedsToBeReverted = () => {
+    const predictIsOn = cd.settings.predict() === 'on';
+    const revertIsOn = cd.settings.revert() === 'on';
+    const predictedWrong = (cd.kata.predictedColour() != outcome);
+    const isLightToRevertTo = cd.kata.index() > 1;
+    console.log(`predictIsOn == ${predictIsOn}`);
+    console.log(`revertIsOn == ${revertIsOn}`);
+    console.log(`predictedWrong == ${predictedWrong}`);
+    console.log(`isLightToRevertTo == ${isLightToRevertTo}`);
+    return predictIsOn && revertIsOn && predictedWrong && isLightToRevertTo;
+  };
+
+  runNeedsToBeReverted();
+
   /*
   // TODO: revert here
   // This will allow all the above updates to be not done.
-
-  const runNeedsToBeReverted = () => {
-    const predictIsOn = cd.settings.predict() === 'on';
-    const revertIsOn = cd.settings.revert() === 'on'; // NOT available yet
-    const predictedWrong = (cd.kata.predictedColour() != outcome);
-    const isLightToRevertTo = cd.kata.index() > 1;
-    return predictIsOn && revertIsOn && predictedWrong && isLightToRevertTo;
-  };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const revert = () => {
@@ -170,5 +176,5 @@
     }, 'json');
   };
   */
-  
+
 })();

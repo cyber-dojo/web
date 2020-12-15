@@ -5,7 +5,7 @@
   <input type="checkbox" id="predict-checkbox" checked=""/>
   <label for="predict-checkbox"></label>
 </div>
-<div id="revert-checkbox-container">
+<div id="revert-checkbox-container" style="display:none;">
   <div id="revert-checkbox-title">revert&nbsp;if&nbsp;wrong!</div>
   <input type="checkbox" id="revert-checkbox"/>
   <label for="revert-checkbox"></label>
@@ -26,6 +26,8 @@ $(() => {
   const $revert  = $('#revert-checkbox');
   const $revertContainer = $('#revert-checkbox-container');
   const $buttons = $('#predict-buttons');
+
+  //- - - - - - - - - - - - - - - - - - - - - - -
 
   $predict.prop('checked', cd.settings.predict() === 'on')
           .click(() => predictCheckBoxChanged());
@@ -51,6 +53,24 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - -
 
+  $revert.prop('checked', cd.settings.revert() === 'on')
+         .click(() => revertCheckBoxChanged());
+
+  $('#revert-checkbox-title').click(() => {
+    $revert.prop('checked', !$revert.is(':checked'));
+    revertCheckBoxChanged();
+  });
+
+  const revertCheckBoxChanged = () => {
+    if ($revert.prop('checked')) {
+      cd.settings.revert('on');
+    } else {
+      cd.settings.revert('off');
+    }
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - -
+
   const predictColour = (rag) => $predicted.val(rag);
 
   cd.kata.predictedColour = () => $predicted.val();
@@ -66,6 +86,9 @@ $(() => {
     //reduceFileKnaveMaxHeight(0);
   };
 
+  // TODO: set the #kata-page #filename-list
+  // CSS max-height here ONLY (not in .scss file)
+
   const reduceFileKnaveMaxHeight = (delta) => {
     $('#kata-page #filename-list').css('max-height', `${500-delta}px`);
   };
@@ -77,13 +100,10 @@ $(() => {
     });
   });
 
-  // TODO: set the #kata-page #filename-list CSS max-height here ONLY (not in .scss file)
-  // TODO: setup revert-checkbox handler
-
   if (cd.settings.predict() === 'on') {
     cd.testButton.disable();
-    // TODO: set initial value of revert checkbox
-    cd.kata.showPredictButtons();
+    $revertContainer.show();
+    showPredictButtons();
   }
 
 });
