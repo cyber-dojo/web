@@ -322,6 +322,7 @@ button.predict
   font-size: 12px !important;
   color: lighten(black, 20%);
   font-weight: bold;
+  text-align: left;
   &.red   { background: $red;   border-color: $red;   }
   &.amber { background: $amber; border-color: $amber; }
   &.green { background: $green; border-color: $green; }
