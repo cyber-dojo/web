@@ -13,9 +13,10 @@ $(() => {
   review.checkoutButton = {
        show: () => $button.show(),
     refresh: (kataId, index) => {
-      $button.off('click').on('click', () => {
-        review.fadeOut(() => checkout(kataId, index));
-      });
+      $button.off('click')
+             .on('click', () => {
+               review.fadeOut(() => checkout(kataId, index));
+             });
     }
   };
 
@@ -38,7 +39,7 @@ $(() => {
       cd.kata.editor.output(data.stdout.content, data.stderr.content, data.status);
       cd.kata.tabs.output().click();
       cd.kata.filenames.refresh();
-      cd.kata.index(data.light.index);
+      //cd.kata.index(data.light.index);
       cd.appendTrafficLight(data.light);
       cd.updateTrafficLightsCount();
       cd.scrollLastTrafficLightIntoView();

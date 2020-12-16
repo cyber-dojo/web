@@ -43,14 +43,22 @@ $(() => {
 
   review.page = $('#review-page');
 
+  // TODO: review.trafficLights.refresh()
+  //  needs to set index of each traffic-light in simple
+  //  incrementing fashion.
+  //  Then traffic-light click handler, sets cd.review.index() value
+  //  Then checkout button gets the index value from this and not
+  //  from nowIndex below, which can be -1.
+
   review.refresh = (kataId, nowIndex, showDiff = review.diffCheckBox.isChecked()) => {
     review.avatarNavigator.refresh(kataId);
     review.diffCheckBox   .refresh(kataId, nowIndex, showDiff);
-    review.checkoutButton .refresh(kataId, nowIndex)
     review.files          .refresh(kataId, nowIndex);
-    review.forkButton     .refresh(kataId, nowIndex)
     review.output         .refresh(kataId, nowIndex);
     review.trafficLights  .refresh(kataId, nowIndex);
+
+    review.checkoutButton .refresh(kataId, nowIndex);
+    review.forkButton     .refresh(kataId, nowIndex);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
