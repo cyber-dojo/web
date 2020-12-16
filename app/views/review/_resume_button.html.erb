@@ -6,19 +6,17 @@ $(() => {
 
   const $button = $('#resume-button');
 
-  const review = cd.review;
-
-  review.resumeButton = {
+  cd.review.resumeButton = {
     show: () => $button.show()
   };
 
   $button.click(() => {
-    review.fadeOut(() => {
+    cd.review.fadeOut(() => {
       cd.kata.editor.refocus();
       // Hide the avatar-navigator to avoid 'flash' when
       // from kata/edit your go to the review which was
       // previously looking at a different avatar.
-      review.avatarNavigator.hide();
+      cd.review.avatarNavigator.hide();
     });
   });
 

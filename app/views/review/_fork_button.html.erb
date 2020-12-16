@@ -7,14 +7,7 @@ $(() => {
   const $button = $('#fork-button');
   const tip = `create a new<br/>exercise from this<br/>traffic-light's files`;
   cd.createTip($button, tip);
-
-  const review = cd.review;
-
-  review.forkButton = {
-    refresh: (kataId, index) => {
-      $button.off('click').on('click', () => openForkDialog(kataId, index));
-    }
-  };
+  $button.click(() => openForkDialog(cd.review.id(), cd.review.index()));
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const openForkDialog = (kataId, index) => {
@@ -30,7 +23,7 @@ $(() => {
               modal: true,
               width: 300,
            autoOpen: true,
-           position: [xPos,yPos],
+           position: [ xPos, yPos ],
       closeOnEscape: true,
     });
   };

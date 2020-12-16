@@ -32,7 +32,7 @@ class KataController < ApplicationController
     @log = result['log']
     @outcome = result['outcome']
     @light = {
-      'index' => index,
+      'index' => index + 1,
       'colour' => @outcome,
       'predicted' => params['predicted'],
     }
@@ -40,7 +40,7 @@ class KataController < ApplicationController
     @saved = true
     @out_of_sync = false
     begin
-      model.kata_ran_tests(@id, index, files, @stdout, @stderr, @status, {
+      model.kata_ran_tests(@id, index+1, files, @stdout, @stderr, @status, {
          duration: duration,
            colour: @outcome,
         predicted: params['predicted']
@@ -67,10 +67,10 @@ class KataController < ApplicationController
   # - - - - - - - - - - - - - - - - - -
 
   def revert
-    args = [ id, index ]
-    json = source_event(id, index-2, :revert, args)
+    args = [ id, index-1 ]
+    json = source_event(id, index-1, :revert, args)
     # TODO: provide model.revert() method as alias for ran_tests()
-    model.kata_ran_tests(id, index, @files, @stdout, @stderr, @status, {
+    model.kata_ran_tests(id, index+1, @files, @stdout, @stderr, @status, {
       colour: @colour,
       revert: args
     });
@@ -80,24 +80,24 @@ class KataController < ApplicationController
   # - - - - - - - - - - - - - - - - - -
 
   def checkout
-    args = {
+    from = {
       id:source_id,
       index:source_index,
       avatarIndex:source_avatar_index,
     }
-    json = source_event(args[:id], args[:index], :checkout, args)
+    json = source_event(from[:id], from[:index], :checkout, from)
     # TODO: provide model.checkout() method as alias for ran_tests()
-    model.kata_ran_tests(id, index, @files, @stdout, @stderr, @status, {
+    model.kata_ran_tests(id, index+1, @files, @stdout, @stderr, @status, {
         colour: @colour,
-      checkout: args
+      checkout: from
     });
     render json: json
   end
 
   private
 
-  def source_event(id, index, name, value)
-    event = model.kata_event(id, index)
+  def source_event(src_id, src_index, name, value)
+    event = model.kata_event(src_id, src_index)
     @files = event['files']
     @stdout = event['stdout']
     @stderr = event['stderr']
@@ -110,7 +110,7 @@ class KataController < ApplicationController
       status: @status,
        light: {
          colour: @colour,
-          index: index,
+          index: index + 1,
           name => value
        }
     }
@@ -121,7 +121,7 @@ class KataController < ApplicationController
   end
 
   def index
-    params[:index].to_i + 1
+    params[:index].to_i
   end
 
   def source_id

@@ -7,28 +7,21 @@ $(() => {
   const $button = $('#checkout-button');
   const tip = `make this traffic-light's<br/>files your current files`;
   cd.createTip($button, tip);
+  $button.click(() => cd.review.fadeOut(checkout));
 
-  const review = cd.review;
-
-  review.checkoutButton = {
-       show: () => $button.show(),
-    refresh: (kataId, index) => {
-      $button.off('click')
-             .on('click', () => {
-               review.fadeOut(() => checkout(kataId, index));
-             });
-    }
+  cd.review.checkoutButton = {
+    show: () => $button.show()
   };
 
-  const checkout = (kataId, index) => {
+  const checkout = () => {
     const args = {
       // where we are writing to
       id: cd.kata.id(),       // eg 'Xd4f2P'
       index: cd.kata.index(), // eg 17
       // where we are reading from
-      src_id: kataId,
-      src_index: index,
-      src_avatar_index: review.avatarIndex()
+      src_id: cd.review.id(),
+      src_index: cd.review.index(),
+      src_avatar_index: cd.review.avatarIndex()
     };
     $.post('/kata/checkout', args, (data) => {
       cd.kata.editor.deleteFiles();
@@ -39,7 +32,6 @@ $(() => {
       cd.kata.editor.output(data.stdout.content, data.stderr.content, data.status);
       cd.kata.tabs.output().click();
       cd.kata.filenames.refresh();
-      //cd.kata.index(data.light.index);
       cd.appendTrafficLight(data.light);
       cd.updateTrafficLightsCount();
       cd.scrollLastTrafficLightIntoView();

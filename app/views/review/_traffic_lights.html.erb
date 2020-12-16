@@ -8,12 +8,17 @@ $(() => {
 
   const review = cd.review;
 
+  let indexValue = undefined;
+
+  review.index = () => indexValue;
+
   review.trafficLights = {
     refresh: (kataId, index) => {
       review.getJSON('model', 'kata_events', {id:kataId}, (events) => {
         if (index === -1) {
           index = events.length - 1;
         }
+        indexValue = index;
         trafficLightsRefresher(kataId, index, events);
         review.refreshTrafficLightsNavigator(kataId, index, events);
       });
