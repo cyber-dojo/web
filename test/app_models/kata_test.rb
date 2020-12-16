@@ -160,7 +160,7 @@ class KataTest < AppModelsTestBase
       }
 
       # 2nd avatar - no refresh, so index not advanced to 2
-      error = assert_raises(ModelService::Error) {
+      assert_raises(ModelService::Error) {
         kata_ran_tests(kata.id, 1, files, stdout, stderr, status, ran_summary('green'))
       }
 

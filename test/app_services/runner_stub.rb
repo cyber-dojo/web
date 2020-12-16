@@ -46,7 +46,7 @@ class RunnerStub
   private
 
   def dir_exists?
-    Dir.exists?(dirname)
+    Dir.exist?(dirname)
   end
 
   def dir_write(content)

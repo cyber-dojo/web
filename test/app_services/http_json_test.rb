@@ -61,7 +61,7 @@ class HttpJsonTest < AppServicesTestBase
   test '2C8',
   'JSON Hash with no key to match path raises' do
     set_http(HttpJsonRequesterNoPathKeyStub)
-    error = assert_raises(RunnerService::Error) { json = runner.ready? }
+    error = assert_raises(RunnerService::Error) { runner.ready? }
     json = JSON.parse(error.message)
     assert_equal 'body is missing :path key', json['message'], error.message
   end
