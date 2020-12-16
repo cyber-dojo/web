@@ -5,7 +5,11 @@
 $(() => {
 
   const $button = $('#fork-button');
-  const tip = `create a new<br/>exercise from this<br/>traffic-light's files`;
+  const tip = [
+    'create a new',
+    'exercise from this',
+    "traffic-light's files"
+  ].join('<br/>');
   cd.createTip($button, tip);
   $button.click(() => openForkDialog());
 
@@ -41,7 +45,7 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const fork = (kataId, index, type) => {
+  const fork = (type) => {
     $.ajax({
             type: 'POST',
              url: `/forker/fork_${type}?id=${cd.review.id()}&index=${cd.review.index()}`,

@@ -10,7 +10,7 @@ $(() => {
 <%= render partial: 'shared/app_bar' %>
 
 <div id="review-page"><%= render partial: 'review/review' %></div>
-<div id="kata-page"><%= render partial: 'view_test' %></div>
+<div id="kata-page">  <%= render partial: 'view_test' %>    </div>
 
 <script>
 'use strict';
@@ -36,7 +36,6 @@ $(() => {
   );
   cd.kata.filenames.refresh();
 
-  // load initial traffic-lights
   const events = <%= raw @events.to_json %>;
   events.forEach((event,index) => {
     cd.appendTrafficLight(event);
