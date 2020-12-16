@@ -9,7 +9,7 @@ var cyberDojo = ((cd, $) => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   // Used by both app/views/kata and app/view/review
-  
+
   cd.lib.isVisible = (event) => {
     // Eg don't show event[0] == creation
     switch (event.colour) {
@@ -28,20 +28,20 @@ var cyberDojo = ((cd, $) => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   // Used by both app/views/kata and app/view/review
 
-  cd.lib.makeAvatarSelectorDialog = ($from, kataId, setupActiveAvatar) => {
+  cd.lib.openAvatarSelectorDialog = ($from, kataId, setupActiveAvatar) => {
     const xPos = $from.offset().left;
     const yPos = $from.offset().top + 40;
-    const $selector = $('<div>');
-    return $selector
+    const $selector = $('<div>', { id:'avatar-selector-dialog'} );
+    $selector
          .html($makeAvatarSelectorHtml($selector, kataId, setupActiveAvatar))
          .dialog({
-                    width: 370,
-                   height: 420,
+                    width: 410,
+                   height: 460,
                  autoOpen: true,
             closeOnEscape: true,
                     modal: true,
                  position: [ xPos,yPos ],
-                    title: cd.dialogTitle('select avatar'),
+                    title: cd.dialogTitle('select an avatar'),
                     close: () => $selector.dialog('destroy')
           });
   };

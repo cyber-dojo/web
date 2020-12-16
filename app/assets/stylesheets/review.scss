@@ -5,21 +5,24 @@
       display: block;
 }
 
-img.avatar
+#avatar-selector-dialog
 {
-  &.small
+  img.avatar
   {
-    @include rounded-corner(2px);
-      width:40px;
-     height:40px;
-    display:block;
+    &.small
+    {
+      @include rounded-corner(2px);
+        width:45px;
+       height:45px;
+      display:block;
+    }
+    &.grey
+    {
+      filter:grayscale(100%);
+      opacity:0.20;
+    }
+    &.colour { cursor:pointer; }
   }
-  &.grey
-  {
-    filter:grayscale(100%);
-    opacity:0.20;
-  }
-  &.colour { cursor:pointer; }
 }
 
 #review-page

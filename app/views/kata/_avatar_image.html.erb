@@ -8,10 +8,23 @@
 $(() => {
 
   const $box = $('.avatar-image-box');
+
   if ($box.length > 0) {
     const avatarIndex = parseInt("<%= @manifest['group_index'] %>");
-    $box.append(cd.lib.$makeAvatarImage(avatarIndex));
+    const $img = cd.lib.$makeAvatarImage(avatarIndex);
+    cd.createTip($img, 'review any avatar');
+    $img.click(() => cd.lib.openAvatarSelectorDialog($img, cd.kata.id(), setupActiveAvatar));
+    $box.append($img);
   }
+
+  const setupActiveAvatar = ($img, index, avatar, $selector) => {
+    cd.setupAvatarNameHoverTip($img, '', index, '');
+    $img.click(() => {
+      cd.removeTip();
+      $selector.dialog('close');
+      cd.review.fromTestPage(avatar.id, -1);
+    });
+  };
 
 });
 </script>

@@ -36,13 +36,10 @@ $(() => {
       refreshAvatar($('#prev-avatar'), joined, prevIndex);
       refreshAvatar($('#next-avatar'), joined, nextIndex);
       const $img = cd.lib.$makeAvatarImage(avatarIndex);
-      cd.createTip($img, 'open avatar selector');
+      cd.createTip($img, 'review any avatar');
       $avatar.html($img)
              .off('click')
-             .on('click', () => {
-               const $selector = cd.lib.makeAvatarSelectorDialog($avatar, kataId, setupActiveAvatar);
-               $selector.dialog('open');
-             });
+             .on('click', () => cd.lib.openAvatarSelectorDialog($avatar, kataId, setupActiveAvatar));
       $avatarNavigator.show();
     }
   };
