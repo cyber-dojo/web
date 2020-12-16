@@ -35,8 +35,8 @@ var cyberDojo = ((cd, $) => {
     $selector
          .html($makeAvatarSelectorHtml($selector, kataId, setupActiveAvatar))
          .dialog({
-                    width: 410,
-                   height: 460,
+                    width: 405,
+                   height: 450,
                  autoOpen: true,
             closeOnEscape: true,
                     modal: true,

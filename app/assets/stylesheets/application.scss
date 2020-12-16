@@ -21,6 +21,7 @@
  *= depend_on shared.scss
  *= depend_on hover-tip.scss
  *= depend_on cyber-dojo.scss
+ *= depend_on avatar-selector-dialog.scss
  *= depend_on button.scss
  *= depend_on dialog.scss
  *= depend_on filename.scss
@@ -55,6 +56,7 @@
 @import "shared.scss";
 @import "hover-tip.scss";
 @import "cyber-dojo.scss";
+@import "avatar-selector-dialog.scss";
 @import "button.scss";
 @import "dialog.scss";
 @import "filename.scss";

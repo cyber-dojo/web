@@ -5,26 +5,6 @@
       display: block;
 }
 
-#avatar-selector-dialog
-{
-  img.avatar
-  {
-    &.small
-    {
-      @include rounded-corner(2px);
-        width:45px;
-       height:45px;
-      display:block;
-    }
-    &.grey
-    {
-      filter:grayscale(100%);
-      opacity:0.20;
-    }
-    &.colour { cursor:pointer; }
-  }
-}
-
 #review-page
 {
   @include non-code-font();
