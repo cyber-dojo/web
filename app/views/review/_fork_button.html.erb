@@ -1,10 +1,21 @@
 <button id="fork-button" type="button"">fork</button>
 
+<div id="fork-dialog" style="display:none;">
+  <div class="info">
+    create a new exercise<br/>
+    from this traffic-light's files
+  </div>
+  <button class="individual" type="button">individual exercise</button>
+  <button class="group"      type="button">group exercise</button>
+</div>
+
 <script>
 'use strict';
 $(() => {
 
   const $button = $('#fork-button');
+  const $fork = $('#fork-dialog');
+
   const tip = [
     'create a new',
     'exercise from this',
@@ -13,19 +24,18 @@ $(() => {
   cd.createTip($button, tip);
   $button.click(() => openForkDialog());
 
+  $('.individual', $fork).click(() => fork('individual'));
+  $('.group',      $fork).click(() => fork('group'     ));
+
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const openForkDialog = () => {
     const xPos = $button.offset().left;
     const yPos = $button.offset().top + 30;
-    const $div = $('<div>', { class:'info' }).append(
-      $("<div>create a new exercise<br/>from this traffic-light's files</div>"),
-      $makeButton('individual'),
-      $makeButton('group')
-    );
-    $('<div id="fork-dialog">').append($div).dialog({
+    $fork.dialog({
               title: cd.dialogTitle('fork'),
+              width: 270,
+             height: 300,
               modal: true,
-              width: 300,
            autoOpen: true,
            position: [ xPos, yPos ],
       closeOnEscape: true,
@@ -33,19 +43,12 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const $makeButton = (type) => {
-    return $('<button>', {
-         id: type,
-       type: 'button',
-       text: `${type} exercise`
-    }).click(() => {
-      fork(type);
-      $('#fork-dialog').remove();
-    });
-  };
+  // NB: logically there is a 3rd possibility.
+  // In a group, you could fork a new avatar.
+  // At present, there is no support for this.
 
-  //- - - - - - - - - - - - - - - - - - - - - - - - -
   const fork = (type) => {
+    $fork.dialog('close');
     $.ajax({
             type: 'POST',
              url: `/forker/fork_${type}?id=${cd.review.id()}&index=${cd.review.index()}`,
