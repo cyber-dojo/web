@@ -1,20 +1,19 @@
-<%# Each event has an incrementing index which is cached in  %>
-<%# the browser to allow out-of-sync mobbing detection.      %>
-<input name="index" type="hidden" value="<%= @index %>">
+<%# An incrementing index is held in the browser. %>
+<%# This allow out-of-sync mobbing detection.     %>
+<input name="index" type="hidden" value="0">
 
 <script>
 'use strict';
-$(() => {
 
-  const $index = $("input[name='index']");
+const $index = $("input[name='index']");
 
-  cd.kata.index = (newValue) => {
-    if (newValue === undefined) {
-      return parseInt($index.val());
-    } else {
-      $index.val(newValue);
-    }
-  };
+cd.kata.index = () => parseInt($index.val());
 
-});
+cd.kata.index.reset = () => $index.val(0);
+
+cd.kata.index.increment = () => {
+  const index = parseInt($index.val());
+  $index.val(index + 1);
+};
+
 </script>

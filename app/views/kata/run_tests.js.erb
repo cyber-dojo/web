@@ -132,9 +132,10 @@
   //- - - - - - - - - - - - - - - - - - - - - -
   const runNeedsReverting = () => {
     const predictedWrong = (cd.kata.predictedColour() != outcome);
+    const predictIsOn = (cd.settings.predict() === 'on');
     const revertIsOn = (cd.settings.revert() === 'on');
     const isLightToRevertTo = (cd.kata.index() > 1);
-    return predictedWrong && revertIsOn && isLightToRevertTo;
+    return predictIsOn && predictedWrong && revertIsOn && isLightToRevertTo;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -154,12 +155,10 @@
       cd.kata.filenames.refresh();
       cd.appendTrafficLight(data.light);
       cd.updateTrafficLightsCount();
-      cd.kata.index(data.light.index);
     }, 'json');
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  cd.kata.index(<%= @index %>);
   cd.appendTrafficLight(<%= raw @light.to_json %>);
   cd.updateTrafficLightsCount();
   if (runNeedsReverting()) {

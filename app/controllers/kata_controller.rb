@@ -8,7 +8,6 @@ class KataController < ApplicationController
     # most recent event
     last = model.kata_event(id, -1)
     polyfill(last)
-    @index = last['index']
     @files = last['files']
     @stdout = last['stdout']
     @stderr = last['stderr']
@@ -27,14 +26,13 @@ class KataController < ApplicationController
 
     duration = Time.mktime(*t2) - Time.mktime(*t1)
     @id = id
-    @index = index
     @stdout = result['stdout']
     @stderr = result['stderr']
     @status = result['status']
     @log = result['log']
     @outcome = result['outcome']
     @light = {
-      'index' => @index,
+      'index' => index,
       'colour' => @outcome,
       'predicted' => params['predicted'],
     }
@@ -42,7 +40,7 @@ class KataController < ApplicationController
     @saved = true
     @out_of_sync = false
     begin
-      model.kata_ran_tests(@id, @index, files, @stdout, @stderr, @status, {
+      model.kata_ran_tests(@id, index, files, @stdout, @stderr, @status, {
          duration: duration,
            colour: @outcome,
         predicted: params['predicted']

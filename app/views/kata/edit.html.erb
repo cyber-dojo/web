@@ -18,6 +18,7 @@ $(() => {
 
   cd.kata.page = $('#kata-page');
 
+  cd.kata.index.reset();
   cd.codeMirror.resetTheme();
   cd.kata.tabs.setup({repl:"<%= @env['REPL'] %>"});
 
@@ -44,7 +45,6 @@ $(() => {
   cd.showSettingsButton();
   cd.updateTrafficLightsCount();
   cd.scrollLastTrafficLightIntoView();
-  cd.kata.index("<%= @index %>");  
   cd.setupHotkeys();
   cd.showStartingInfoDialog("<%= @env['STARTING_INFO_DIALOG'] %>");
 
