@@ -49,6 +49,7 @@ $(() => {
       hidePredictButtons();
       cd.testButton.enable();
     }
+    cd.kata.editor.refocus();
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - -
@@ -67,11 +68,10 @@ $(() => {
     } else {
       cd.settings.revert('off');
     }
+    cd.kata.editor.refocus();
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - -
-
-  const predictColour = (rag) => $predicted.val(rag);
 
   cd.kata.predictedColour = () => $predicted.val();
 
@@ -86,7 +86,6 @@ $(() => {
     //reduceFileKnaveMaxHeight(0);
   };
 
-  // TODO: restore editor focus after checkboxes are clicked
   // TODO: as soon as predict checkbox is on, show correct/incorrrect counts
   // TODO: Set the #kata-page #filename-list CSS max-height here ONLY (not in .scss file)
   // TODO: Update the counts() as per commented out code in _test_predict.html.erb.OFF
@@ -97,7 +96,7 @@ $(() => {
 
   ['red','amber','green'].forEach((rag) => {
     $(`button.predict.${rag}`).click(() => {
-      predictColour(rag);
+      $predicted.val(rag);
       cd.testButton.click();
     });
   });
