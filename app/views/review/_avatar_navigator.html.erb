@@ -39,7 +39,10 @@ $(() => {
       cd.createTip($img, 'open avatar selector');
       $avatar.html($img)
              .off('click')
-             .on('click', () => openAvatarSelectorDialog($avatar, kataId));
+             .on('click', () => {
+               const $selector = cd.lib.makeAvatarSelectorDialog($avatar, kataId, setupActiveAvatar);
+               $selector.dialog('open');
+             });
       $avatarNavigator.show();
     }
   };
@@ -54,77 +57,13 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const openAvatarSelectorDialog = ($from, kataId) => {
-    const xPos = $from.offset().left;
-    const yPos = $from.offset().top + 40;
-    review.getJSON('model', 'group_joined', {id:kataId}, (joined) => {
-      const $selector = $('<div>');
-      $selector.html($makeAvatarSelectorHtml($selector, joined))
-               .dialog({
-                width: 370,
-               height: 420,
-             autoOpen: true,
-        closeOnEscape: true,
-                modal: true, // [X]
-             position: [ xPos,yPos ],
-                title: cd.dialogTitle('select avatar'),
-                close: () => $selector.dialog('destroy')
-      });
-    });
-    // [X] I tried modal:false but it doesn't work UX wise
-    // as 8x8 takes up too much space.
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  const $makeAvatarSelectorHtml = ($selector, joined) => {
-    const active = cd.review.avatarsActive(joined);
-    const $table = $('<table>');
-    times(8, (x) => {
-      const $tr = $('<tr>');
-      times(8, (y) => {
-        const $td = $('<td>');
-        const index = x*8 + y;
-        const $img = active[index]
-          ? $makeColourAvatar(index, joined[index], $selector)
-          : $makeGreyAvatar(index);
-        $td.append($img);
-        $tr.append($td);
-      });
-      $table.append($tr);
-    });
-    return $table;
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  const $makeGreyAvatar = (index) => {
-    return $('<img>', {
-        src: `/images/avatars/${index}.jpg`,
-      class: 'small grey avatar',
-        alt: `small grey avatar ${index}`
-    });
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  const $makeColourAvatar = (index, avatar, $selector) => {
-    const $img = $('<img>', {
-        src: `/images/avatars/${index}.jpg`,
-      class: 'small colour avatar',
-        alt: `small colour avatar ${index}`
-    });
+  const setupActiveAvatar = ($img, index, avatar, $selector) => {
     cd.setupAvatarNameHoverTip($img, '', index, '');
     $img.click(() => {
       cd.removeTip();
       $selector.dialog('close');
       moveToAvatar(avatar);
     });
-    return $img;
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  const times = (n, f) => {
-    for (let i = 0; i < n; i++) {
-      f(i);
-    }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
