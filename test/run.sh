@@ -42,9 +42,7 @@ do
     testFiles=(*_test.rb)
 
     #export RUBYOPT='-W2'
-    #TODO: setting this reveals
-    # app_services    : 1 warning
-    # app_controllers : lots of warnings
+    #TODO: setting this reveals several app_controllers warnings
 
     ruby -e "(%w( ../test_coverage.rb ) + %w( ${testFiles[*]} ).shuffle).map{ |file| require './'+file }" \
       "${module}" "$@" 2>&1 | tee "${test_log}"
