@@ -1,0 +1,26 @@
+
+#avatar-selector-dialog
+{
+  td { padding:0px; }
+  img.avatar
+  {
+    &.small
+    {
+      @include rounded-corner(2px);
+        width:44px;
+       height:44px;
+      display:block;
+       border:1px solid $darker-color;
+    }
+    &.grey
+    {
+      filter:grayscale(100%);
+      opacity:0.20;
+    }
+    &.colour
+    {
+      cursor:pointer;
+      &:hover { border: 1px dotted DarkGray; }
+    }
+  }
+}

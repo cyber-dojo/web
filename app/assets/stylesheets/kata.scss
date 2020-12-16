@@ -49,7 +49,7 @@
   img.avatar-image {
     @include rounded-corner(6px);
     display: block;
-     cursor: default;
+     cursor: pointer;
       min-width: 33px; // prevent flex shrinkage
      min-height: 33px; // prevent flex shrinkage
       width: 33px;
