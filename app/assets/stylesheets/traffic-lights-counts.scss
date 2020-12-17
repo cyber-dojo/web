@@ -12,7 +12,7 @@
     padding: { left:4px; right:4px; top:2px; bottom:7px; }
     position:relative;
     top:0px;
-    color:Black;
+    color: lighten(Black, 20%);    
   }
   #red-count   { background: lighten($red  ,10%); }
   #amber-count { background: lighten($amber,10%); }

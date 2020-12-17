@@ -1,0 +1,42 @@
+#predict-buttons
+{
+  display:grid;
+  margin-left:35px;
+  position:relative;
+  top:-5px;
+}
+
+button.predict
+{
+  width: 132px;
+  margin-bottom: 1px;
+  font-size: 12px !important;
+  color: lighten(Black, 20%);
+  font-weight: bold;
+  text-align: left;
+
+  &.red
+  {
+    background: $red;
+    border-color: $red;
+    color: lighten(black,10%);
+  }
+  &.amber
+  {
+    background: $amber;
+    border-color: $amber;
+  }
+  &.green
+  {
+    background: $green;
+    border-color: $green;
+  }
+
+  &.red, &.amber, &.green
+  {
+    &:hover
+    {
+      border-style: dotted; border-color: lighten(black,20%);
+    }
+  }
+}
