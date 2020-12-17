@@ -33,8 +33,9 @@ $(() => {
       cd.kata.tabs.output().click();
       cd.kata.filenames.refresh();
       cd.kata.appendTrafficLight(data.light);
+      cd.kata.updateTrafficLightsCounts(data.light);
+      cd.kata.updatePredictCounts(data.light);
       cd.kata.scrollLastTrafficLightIntoView();
-      cd.kata.updateTrafficLightsCount();
     }, 'json');
   };
 

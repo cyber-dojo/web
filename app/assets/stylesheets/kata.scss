@@ -122,35 +122,7 @@
     }
   }
 
-  #traffic-lights-count-predict-box
-  {
-     display: inline-flex;
-     #tick-box, #cross-box
-     {
-       @include edged-panel();
-       display: inline-flex;
-       max-height:23px;
-     }
-     #tick-box { margin: { left:0px; right:4px; } }
-     #cross-box { margin: { left:0px; right:0px; } }
-
-     #tick-img, #cross-img
-     {
-       width:15px;
-       height:15px;
-       padding: { left:3px; right:3px; }
-       position:relative; top:3px;
-     }
-     #tick-count, #cross-count
-     {
-       font-size: 23px;
-       padding: { left:3px; right:3px; }
-       position:relative; top:-3px;
-     }
-  }
-
   //--------------------------------------------------------------
-  // traffic-lights
 
   #traffic-lights
   {

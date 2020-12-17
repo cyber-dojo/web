@@ -59,22 +59,23 @@ $(() => {
     });
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // cd.kata.updateTrafficLightsCount() updates the total-count and
-  // the predicted-counts. It is called from these places:
+  // cd.kata.updateTrafficLightsCounts() updates the total-counts
+  // It is called from these places:
   //   1) views/kata/_edit.html.erb when page loads/refreshes.
   //   2) views/kata/run_tests.js.erb when [test] is clicked.
   //   3) views/review/_review.html.erb when [checkout] is clicked.
 
-  cd.kata.updateTrafficLightsCount = () => {
-    updateTrafficLightsTotalCount();
-    if (cd.settings.predict() === 'on') {
-      updateTrafficLightsPredictCount();
-    }
-  };
+  const $countTotalBox = $('#traffic-lights-count-total-box');
 
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // Visibility of the predict-box is controlled from settings
-  cd.countPredictBox = () => $('#traffic-lights-count-predict-box');
+  cd.kata.updateTrafficLightsCounts = () => {
+    const $box = $countTotalBox;
+    $box.fadeOut('fast', () => {
+      const $count = $totalCount();
+      $box.empty().append($count);
+      cd.setTip($count, () => cd.showHoverTip($count, trafficLightsTotalCountHoverTip()));
+      $box.fadeIn('fast');
+    });
+  };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   cd.trafficLightsCount = (filter) => {
@@ -89,13 +90,6 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const updateCountData = (light) => {
     counts[light.colour] += 1;
-    if (cd.lib.isPredict(light)) {
-      if (light.colour === light.predicted) {
-        counts.tick += 1;
-      } else {
-        counts.cross += 1;
-      }
-    }
   };
 
   const counts = {
@@ -105,22 +99,9 @@ $(() => {
     green:0,
     timed_out:0,
     faulty:0,
-    tick:0,
-    cross:0
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const $countTotalBox = $('#traffic-lights-count-total-box');
-
-  const updateTrafficLightsTotalCount = () => {
-    const $box = $countTotalBox;
-    $box.fadeOut('fast', () => {
-      const $count = $totalCount();
-      $box.empty().append($count);
-      cd.setTip($count, () => cd.showHoverTip($count, trafficLightsTotalCountHoverTip()));
-      $box.fadeIn('fast');
-    });
-  };
 
   const $totalCount = () => {
     return $('<div>', {
@@ -157,31 +138,6 @@ $(() => {
          td(`<div class='traffic-light-diff-tip-tag ${colour}'>
               ${count}
              </div>`));
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const updateTrafficLightsPredictCount = () => {
-    const $box = cd.countPredictBox();
-    $box.fadeOut('fast', () => {
-      $box.empty()
-          .append($countBox('tick',  'correct predictions'))
-          .append($countBox('cross', 'incorrect predictions'))
-          .fadeIn('fast');
-    });
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const $countBox = (type, tip) => {
-    const $img = $('<img>', {
-       id:`${type}-img`,
-      src:`/images/traffic-light/circle-${type}.png`
-    });
-    const $count = $('<div>', {
-         id:`${type}-count`,
-      class:'traffic-light-count'
-    }).text(counts[type]);
-    cd.createTip($count, tip);
-    return $('<div>', {id:`${type}-box`}).append($img).append($count);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -

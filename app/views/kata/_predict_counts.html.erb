@@ -1,0 +1,67 @@
+<div id="predict-counts" style="display:none;">
+  <div id="tick-box">
+    <img id="tick-img" src="/images/traffic-light/circle-tick.png">
+    <div id="tick-count" class="traffic-light-count">0</div>
+  </div>
+  <div id="cross-box">
+    <img id="cross-img" src="/images/traffic-light/circle-cross.png">
+    <div id="cross-count" class="traffic-light-count">0</div>
+  </div>
+</div>
+
+<script>
+'use strict';
+$(() => {
+
+  const $predictCounts = $('#predict-counts');
+
+  cd.createTip($('#tick-box'), 'correct predictions');
+  cd.createTip($('#cross-box'), 'incorrect predictions');
+
+  cd.kata.predictCounts = {
+    show: () => $predictCounts.show(),
+    hide: () => $predictCounts.hide()
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  cd.kata.updatePredictCounts = (light) => {
+    if (cd.lib.isPredict(light)) {
+      if (light.colour === light.predicted) {
+        $('#tick-count').val(counts.tick += 1);
+      } else {
+        $('#cross-count').val(counts.cross += 1);
+      }
+    }
+  };
+
+  const counts = {
+    tick:0,
+    cross:0
+  };
+
+  /*
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  const $countBox = (type, tip) => {
+    const $img = $('<img>', {
+       id:`${type}-img`,
+      src:`/images/traffic-light/circle-${type}.png`
+    });
+    const $count = $('<div>', {
+         id:`${type}-count`,
+      class:'traffic-light-count'
+    }).text(counts[type]);
+    cd.createTip($count, tip);
+    return $('<div>', {id:`${type}-box`}).append($img).append($count);
+  };
+  const updatePredictCount = () => {
+    $box.fadeOut('fast', () => {
+      $box.empty()
+          .append($countBox('tick',  'correct predictions'))
+          .append($countBox('cross', 'incorrect predictions'))
+          .fadeIn('fast');
+    });
+  };
+  */
+
+});
+</script>
