@@ -41,8 +41,7 @@ $(() => {
   const trafficLightsTotalsCountHoverTip = () => {
     let html = '';
     html += 'tests';
-    html += '<hr/>';
-    html += '<table>';
+    html += '<table id="traffic-lights-counts-hover-table">';
     html += lightTr('red'  , 'red'  );
     html += lightTr('amber', 'amber');
     html += lightTr('green', 'green');
@@ -61,8 +60,6 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const lightTr = (name, text) => {
-    const tr = (s) => `<tr>${s}</tr>`;
-    const td = (s) => `<td>${s}</td>`;
     return '' +
       tr(td(`<div class='traffic-light-diff-tip-tag ${name}'>
            ${counts[name]}
@@ -72,6 +69,10 @@ $(() => {
               src="/images/traffic-light/${name}.png">`) +
          td(text));
   };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  const tr = (s) => `<tr>${s}</tr>`;
+  const td = (s) => `<td>${s}</td>`;
 
 });
 </script>

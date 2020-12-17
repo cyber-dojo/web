@@ -46,8 +46,7 @@ $(() => {
   const predictCountHoverTip = () => {
     let html = '';
     html += 'predictions';
-    html += '<hr/>';
-    html += '<table>';
+    html += '<table id="predict-counts-hover-table">';
     html += predictTr('tick'  , 'correct'  );
     html += predictTr('cross' , 'incorrect');
     html += predictTr('revert', 'reverted' );
@@ -56,15 +55,16 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const predictTr = (name, text) => {
-    const tr = (s) => `<tr>${s}</tr>`;
-    const td = (s) => `<td>${s}</td>`;
     return '' +
-      tr(td(counts[name]) +
-         td(`<img
+      tr(td(`<img
               class="traffic-light-diff-tip-traffic-light-image"
               src="/images/traffic-light/circle-${name}.png">`) +
-         td(text));
+         td(`${counts[name]} ${text}`));
   };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  const tr = (s) => `<tr>${s}</tr>`;
+  const td = (s) => `<td>${s}</td>`;
 
 });
 </script>
