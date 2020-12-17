@@ -1,14 +1,20 @@
-
-#traffic-lights-count-total-box
+#traffic-lights-counts
 {
-  @include edged-panel();
-  display: inline-flex;
-  margin: { left:0px; right:4px; }
-  max-height:23px;
-  .traffic-light-count
+  display:inline-block;
+
+  #red-count, #amber-count, #green-count
   {
-    font-size: 23px;
-    padding: { left:3px; right:3px; }
-    position:relative; top:-3px;
+    @include edged-panel();
+    max-height:23px;
+    min-width:14px;
+    font-size:23px;
+    margin: { left:0px; right:0px; }
+    padding: { left:4px; right:4px; top:2px; bottom:7px; }
+    position:relative;
+    top:0px;
+    color:Black;
   }
+  #red-count   { background: lighten($red  ,10%); }
+  #amber-count { background: lighten($amber,10%); }
+  #green-count { background: lighten($green,10%); }
 }

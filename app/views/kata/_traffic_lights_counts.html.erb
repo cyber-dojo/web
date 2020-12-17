@@ -1,4 +1,8 @@
-<div id="traffic-lights-count-total-box"></div>
+<div id="traffic-lights-counts">
+  <div id="red-count"   class="traffic-light-count">0</div>
+  <div id="amber-count" class="traffic-light-count">0</div>
+  <div id="green-count" class="traffic-light-count">0</div>
+</div>
 
 <script>
 'use strict';
@@ -11,28 +15,15 @@ $(() => {
   //   2) views/kata/run_tests.js.erb when [test] is clicked.
   //   3) views/review/_review.html.erb when [checkout] is clicked.
 
-  const $countTotalBox = $('#traffic-lights-count-total-box');
+  const $counts = $('#traffic-lights-counts');
+  cd.setTip($counts, () => cd.showHoverTip($counts, trafficLightsTotalCountHoverTip()));
 
   cd.kata.updateTrafficLightsCounts = (light) => {
-    counts[light.colour] += 1;
-    counts.lastLight = light;
-    const $box = $countTotalBox;
-    $box.fadeOut('fast', () => {
-      const $count = $totalCount();
-      $box.empty().append($count);
-      cd.setTip($count, () => cd.showHoverTip($count, trafficLightsTotalCountHoverTip()));
-      $box.fadeIn('fast');
-    });
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const trafficLightsCount = (filter) => {
-    let count = 0;
-    if (filter === undefined) {
-      filter = ['pulling','red','amber','green','timed_out','faulty'];
+    const colour = light.colour;
+    counts[colour] += 1;
+    if (['red','amber','green'].includes(colour)) {
+      $(`#${colour}-count`).text(counts[colour]);
     }
-    filter.forEach((key) => count += counts[key]);
-    return count;
   };
 
   const counts = {
@@ -45,12 +36,6 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const $totalCount = () => {
-    return $('<div>', {
-      'class': `${lastLight().colour} traffic-light-count`,
-    }).text(trafficLightsCount());
-  };
 
   const trafficLightsTotalCountHoverTip = () => {
     let html = '';
@@ -82,9 +67,6 @@ $(() => {
               ${count}
              </div>`));
   };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const lastLight = () => counts.lastLight ? counts.lastLight : { predicted:'none' };
 
 });
 </script>
