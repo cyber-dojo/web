@@ -1,20 +1,33 @@
 #traffic-lights-counts
 {
-  display:inline-block;
+  display:inline-flex;
 
   #red-count, #amber-count, #green-count
   {
     @include edged-panel();
-    max-height:23px;
+    max-height:22px;
     min-width:14px;
     font-size:23px;
-    margin: { left:0px; right:0px; }
-    padding: { left:4px; right:4px; top:2px; bottom:7px; }
+    text-align:center;
+    margin: { left:0px; right:1px; }
+    padding: { left:4px; right:4px; top:1px; bottom:8px; }
     position:relative;
     top:0px;
-    color: lighten(Black, 20%);    
+    color: lighten(Black, 20%);
   }
-  #red-count   { background: lighten($red  ,10%); }
-  #amber-count { background: lighten($amber,10%); }
-  #green-count { background: lighten($green,10%); }
+  #red-count
+  {
+    background: lighten($red  ,10%);
+    border: 1px solid lighten($red  ,10%);
+  }
+  #amber-count
+  {
+    background: lighten($amber,10%);
+    border: 1px solid lighten($amber,10%);
+  }
+  #green-count
+  {
+    background: lighten($green,10%);
+    border: 1px solid lighten($green,10%);
+  }
 }
