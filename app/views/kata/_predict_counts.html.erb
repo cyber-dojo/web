@@ -19,8 +19,8 @@ $(() => {
   cd.createTip($('#cross-box'), 'incorrect predictions');
 
   cd.kata.predictCounts = {
-    show: () => $predictCounts.show(),
-    hide: () => $predictCounts.hide()
+    show: () => $predictCounts.show('slide', {direction:'left'}, 1000),
+    hide: () => $predictCounts.hide('slide', {direction:'left'}, 1000)
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
