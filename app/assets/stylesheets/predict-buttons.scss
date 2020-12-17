@@ -15,8 +15,8 @@ button.predict
   font-weight: bold;
   text-align: left;
 
-  $fadePercent: 12%;
-  
+  $fadePercent: 15%;
+
   &.red
   {
     background: lighten($red,$fadePercent);
