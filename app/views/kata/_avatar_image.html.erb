@@ -12,7 +12,10 @@ $(() => {
   if ($box.length > 0) {
     const avatarIndex = parseInt("<%= @manifest['group_index'] %>");
     const $img = cd.lib.$makeAvatarImage(avatarIndex);
-    cd.createTip($img, 'review any avatar');
+    cd.createTip($img, [
+      'review/git-checkout',
+      "any avatar's files"
+    ].join('<br/>'));
     $img.click(() => cd.lib.openAvatarSelectorDialog($img, cd.kata.id(), setupActiveAvatar));
     $box.append($img);
   }
