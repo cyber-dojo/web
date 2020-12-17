@@ -153,53 +153,6 @@ var cyberDojo = (function(cd, $) {
 
   // - - - - - - - - - - - - - - - - - - - -
 
-  cd.setupHoverTips = function(nodes) {
-    nodes.each(function() {
-      const node = $(this);
-      const setTipCallBack = () => {
-        const tip = node.data('tip');
-        if (tip === 'traffic_light_count') {
-          cd.showHoverTip(node, trafficLightCountHoverTip(node));
-        } else {
-          cd.showHoverTip(node, tip);
-        }
-      };
-      cd.setTip(node, setTipCallBack);
-    });
-  };
-
-  // - - - - - - - - - - - - - - - - - - - -
-
-  const trafficLightCountHoverTip = (node) => {
-    // for dashboard avatar totalCount
-    const reds = node.data('red-count');
-    const ambers = node.data('amber-count');
-    const greens = node.data('green-count');
-    const timeOuts = node.data('timed-out-count');
-    const tr = (s) => `<tr>${s}</tr>`;
-    const td = (s) => `<td>${s}</td>`;
-    const trLight = (colour, count) => {
-      return tr(td('<img' +
-                   " class='traffic-light-diff-tip-traffic-light-image'" +
-                   ` src='/images/traffic-light/${colour}.png'>`) +
-                td(`<div class='traffic-light-diff-tip-tag ${colour}'>` +
-                   count +
-                   '</div>'));
-    };
-    let html = '';
-    html += '<table>';
-    html += trLight('red', reds);
-    html += trLight('amber', ambers);
-    html += trLight('green', greens);
-    if (timeOuts > 0) {
-      html += trLight('timed_out', timeOuts);
-    }
-    html += '</table>';
-    return html;
-  };
-
-  // - - - - - - - - - - - - - - - - - - - -
-
   const hoverTipContainer = () => {
     return $('#hover-tip-container');
   };
