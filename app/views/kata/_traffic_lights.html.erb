@@ -13,7 +13,6 @@ $(() => {
   // The first of these are controlled here.
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const kataId = '<%= @id %>';
   const avatarIndex = () => '<%= @manifest['group_index'] %>';
 
   const $lights = $('#traffic-lights');
@@ -25,25 +24,22 @@ $(() => {
   //   1) From views/kata/edit.html.erb
   //      - When the page loads.
   //   2) From views/kata/run_tests.js.erb
-  //      - When you run the [test]s
-  //   3) From views/kata/_test_predict.html.erb
-  //      - When an incorrect prediction is auto-reverted
-  //   4) From views/review/_checkout_button.html.erb
+  //      - When you run the [test]s (and when there is a revert)
+  //   3) From views/review/_checkout_button.html.erb
   //      - When you click [checkout].
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.kata.appendTrafficLight = (light) => {
     if (cd.lib.isVisible(light)) {
+      const id = cd.kata.id();
       cd.lib.appendLightQualifierImg($lights, light);
       const index = light.index;
       const colour = light.colour;
       const $light = $trafficLightImage(index, colour);
       $lights.append($light);
       cd.kata.index.increment();
-      $light.click(() => cd.review.fromTestPage(kataId, index));
-      cd.setupTrafficLightTip($light, colour, avatarIndex, kataId, index-1, index);
-      updateCountData(light);
-      counts.lastLight = light;
+      $light.click(() => cd.review.fromTestPage(id, index));
+      cd.setupTrafficLightTip($light, colour, avatarIndex, id, index-1, index);
     }
   };
 
@@ -57,91 +53,6 @@ $(() => {
       'data-colour': colour,
       'data-index': index
     });
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // cd.kata.updateTrafficLightsCounts() updates the total-counts
-  // It is called from these places:
-  //   1) views/kata/_edit.html.erb when page loads/refreshes.
-  //   2) views/kata/run_tests.js.erb when [test] is clicked.
-  //   3) views/review/_review.html.erb when [checkout] is clicked.
-
-  const $countTotalBox = $('#traffic-lights-count-total-box');
-
-  cd.kata.updateTrafficLightsCounts = () => {
-    const $box = $countTotalBox;
-    $box.fadeOut('fast', () => {
-      const $count = $totalCount();
-      $box.empty().append($count);
-      cd.setTip($count, () => cd.showHoverTip($count, trafficLightsTotalCountHoverTip()));
-      $box.fadeIn('fast');
-    });
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  cd.trafficLightsCount = (filter) => {
-    let count = 0;
-    if (filter === undefined) {
-      filter = ['pulling','red','amber','green','timed_out','faulty'];
-    }
-    filter.forEach((key) => count += counts[key]);
-    return count;
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const updateCountData = (light) => {
-    counts[light.colour] += 1;
-  };
-
-  const counts = {
-    pulling: 0,
-    red:0,
-    amber:0,
-    green:0,
-    timed_out:0,
-    faulty:0,
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const $totalCount = () => {
-    return $('<div>', {
-      'class': `${lastLight().colour} traffic-light-count`,
-    }).text(cd.trafficLightsCount());
-  };
-
-  const trafficLightsTotalCountHoverTip = () => {
-    let html = '';
-    html += '<table>';
-    html += lightTr('red', counts.red);
-    html += lightTr('amber', counts.amber);
-    html += lightTr('green', counts.green);
-    if (counts.timed_out > 0) {
-      html += lightTr('timed_out', counts.timed_out);
-    }
-    if (counts.faulty > 0) {
-      html += lightTr('faulty', counts.faulty);
-    }
-    if (counts.pulling > 0) {
-      html += lightTr('pulling', counts.pulling);
-    }
-    html += '</table>';
-    return html;
-  };
-
-  const lightTr = (colour, count) => {
-    const tr = (s) => `<tr>${s}</tr>`;
-    const td = (s) => `<td>${s}</td>`;
-    return '' +
-      tr(td(`<img
-              class="traffic-light-diff-tip-traffic-light-image"
-              src="/images/traffic-light/${colour}.png">`) +
-         td(`<div class='traffic-light-diff-tip-tag ${colour}'>
-              ${count}
-             </div>`));
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const lastLight = () => counts.lastLight ? counts.lastLight : { predicted:'none' };
 
 });
 </script>
