@@ -36,7 +36,7 @@ $(() => {
       refreshAvatar($('#prev-avatar'), joined, prevIndex);
       refreshAvatar($('#next-avatar'), joined, nextIndex);
       const $img = cd.lib.$makeAvatarImage(avatarIndex);
-      cd.createTip($img, 'review any avatar');
+      cd.createTip($img, "review any avatar's files");
       $avatar.html($img)
              .off('click')
              .on('click', () => cd.lib.openAvatarSelectorDialog($avatar, kataId, setupActiveAvatar));
