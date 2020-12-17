@@ -15,19 +15,21 @@
     top:0px;
     color: lighten(Black, 20%);
   }
+
+  $fadePercent: 12%;
   #red-count
   {
-    background: lighten($red  ,10%);
-    border: 1px solid lighten($red  ,10%);
+    background: lighten($red,$fadePercent);
+    border: 1px solid lighten($red,$fadePercent);
   }
   #amber-count
   {
-    background: lighten($amber,10%);
-    border: 1px solid lighten($amber,10%);
+    background: lighten($amber,$fadePercent);
+    border: 1px solid lighten($amber,$fadePercent);
   }
   #green-count
   {
-    background: lighten($green,10%);
-    border: 1px solid lighten($green,10%);
+    background: lighten($green,$fadePercent);
+    border: 1px solid lighten($green,$fadePercent);
   }
 }

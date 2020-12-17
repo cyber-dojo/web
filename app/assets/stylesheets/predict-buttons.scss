@@ -15,21 +15,22 @@ button.predict
   font-weight: bold;
   text-align: left;
 
+  $fadePercent: 12%;
   &.red
   {
-    background: lighten($red,10%);
-    border-color: lighten($red,10%);
+    background: lighten($red,$fadePercent);
+    border-color: lighten($red,$fadePercent);
     color: lighten(Black,10%);
   }
   &.amber
   {
-    background: lighten($amber,10%);
-    border-color: lighten($amber,10%);
+    background: lighten($amber,$fadePercent);
+    border-color: lighten($amber,$fadePercent);
   }
   &.green
   {
-    background: lighten($green,10%);
-    border-color: lighten($green,10%);
+    background: lighten($green,$fadePercent);
+    border-color: lighten($green,$fadePercent);
   }
 
   &.red, &.amber, &.green
