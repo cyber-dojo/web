@@ -4,17 +4,17 @@
 'use strict';
 $(() => {
 
-  cd.testButton = $('#test-button');
-  cd.testButton.enable  = () => cd.testButton.attr('disabled', false);
-  cd.testButton.disable = () => cd.testButton.attr('disabled', true);
+  cd.kata.testButton = $('#test-button');
+  cd.kata.testButton.enable  = () => cd.kata.testButton.attr('disabled', false);
+  cd.kata.testButton.disable = () => cd.kata.testButton.attr('disabled', true);
 
-  cd.testButton.click(() => {
+  cd.kata.testButton.click(() => {
 
     // Called from 2 places
     // 1. when you click [test]
     // 2. when you hot-key Alt-T (and predict === 'off')
     const form = $('form');
-    cd.testButton.disable();
+    cd.kata.testButton.disable();
     cd.saveCodeFromSyntaxHighlightEditors();
     cd.waitSpinner.fadeIn('slow', () => {
       $.ajax({
@@ -25,13 +25,13 @@ $(() => {
              error: error,
           complete: (_xhr, _status) => {
             if (cd.settings.predict() === 'off') {
-              cd.testButton.enable();
+              cd.kata.testButton.enable();
             }
             cd.waitSpinner.fadeOut('slow');
           }
       });
     });
-    // [X] This 30s timeout is different to max_seconds
+    // [X] This 30s timeout is different to runner's max_seconds
     // from the start-point's manifest.json file.
   });
 

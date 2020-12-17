@@ -41,14 +41,14 @@ $(() => {
     if ($predict.prop('checked')) {
       cd.settings.predict('on');
       $revertContainer.show();
-      cd.testButton.disable();
+      cd.kata.testButton.disable();
       showPredictButtons();
       cd.kata.predictCounts.show();
     } else {
       cd.settings.predict('off');
       $revertContainer.hide();
       hidePredictButtons();
-      cd.testButton.enable();
+      cd.kata.testButton.enable();
       cd.kata.predictCounts.hide();
       $predicted.val('none');
     }
@@ -98,12 +98,12 @@ $(() => {
   ['red','amber','green'].forEach((rag) => {
     $(`button.predict.${rag}`).click(() => {
       $predicted.val(rag);
-      cd.testButton.click();
+      cd.kata.testButton.click();
     });
   });
 
   if (cd.settings.predict() === 'on') {
-    cd.testButton.disable();
+    cd.kata.testButton.disable();
     $revertContainer.show();
     showPredictButtons();
     cd.kata.predictCounts.show();
