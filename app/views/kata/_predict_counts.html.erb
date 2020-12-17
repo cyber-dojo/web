@@ -27,9 +27,9 @@ $(() => {
   cd.kata.updatePredictCounts = (light) => {
     if (cd.lib.isPredict(light)) {
       if (light.colour === light.predicted) {
-        $('#tick-count').val(counts.tick += 1);
+        $('#tick-count').text(counts.tick += 1);
       } else {
-        $('#cross-count').val(counts.cross += 1);
+        $('#cross-count').text(counts.cross += 1);
       }
     }
   };
@@ -38,30 +38,6 @@ $(() => {
     tick:0,
     cross:0
   };
-
-  /*
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const $countBox = (type, tip) => {
-    const $img = $('<img>', {
-       id:`${type}-img`,
-      src:`/images/traffic-light/circle-${type}.png`
-    });
-    const $count = $('<div>', {
-         id:`${type}-count`,
-      class:'traffic-light-count'
-    }).text(counts[type]);
-    cd.createTip($count, tip);
-    return $('<div>', {id:`${type}-box`}).append($img).append($count);
-  };
-  const updatePredictCount = () => {
-    $box.fadeOut('fast', () => {
-      $box.empty()
-          .append($countBox('tick',  'correct predictions'))
-          .append($countBox('cross', 'incorrect predictions'))
-          .fadeIn('fast');
-    });
-  };
-  */
 
 });
 </script>
