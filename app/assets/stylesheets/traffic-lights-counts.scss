@@ -1,0 +1,14 @@
+
+#traffic-lights-count-total-box
+{
+  @include edged-panel();
+  display: inline-flex;
+  margin: { left:0px; right:4px; }
+  max-height:23px;
+  .traffic-light-count
+  {
+    font-size: 23px;
+    padding: { left:3px; right:3px; }
+    position:relative; top:-3px;
+  }
+}
