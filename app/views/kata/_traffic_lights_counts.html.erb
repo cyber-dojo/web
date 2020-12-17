@@ -1,7 +1,7 @@
 <div id="traffic-lights-counts">
-  <div id="red-count"   class="traffic-light-count">0</div>
-  <div id="amber-count" class="traffic-light-count">0</div>
-  <div id="green-count" class="traffic-light-count">0</div>
+  <div id="red-count"   class="count">0</div>
+  <div id="amber-count" class="count">0</div>
+  <div id="green-count" class="count">0</div>
 </div>
 
 <script>
@@ -21,17 +21,18 @@ $(() => {
   cd.kata.updateTrafficLightsCounts = (light) => {
     const colour = light.colour;
     counts[colour] += 1;
+    $('.count', $counts).removeClass('current');
     if (['red','amber','green'].includes(colour)) {
-      $(`#${colour}-count`).text(counts[colour]);
+      $(`#${colour}-count`).text(counts[colour]).addClass('current');
     }
   };
 
   const counts = {
-    pulling: 0,
     red:0,
     amber:0,
     green:0,
     timed_out:0,
+    pulling: 0,
     faulty:0,
   };
 
@@ -46,11 +47,11 @@ $(() => {
     if (counts.timed_out > 0) {
       html += lightTr('timed_out', counts.timed_out);
     }
-    if (counts.faulty > 0) {
-      html += lightTr('faulty', counts.faulty);
-    }
     if (counts.pulling > 0) {
       html += lightTr('pulling', counts.pulling);
+    }
+    if (counts.faulty > 0) {
+      html += lightTr('faulty', counts.faulty);
     }
     html += '</table>';
     return html;
