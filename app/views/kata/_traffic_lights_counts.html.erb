@@ -41,32 +41,33 @@ $(() => {
   const trafficLightsTotalCountHoverTip = () => {
     let html = '';
     html += '<table>';
-    html += lightTr('red', counts.red);
-    html += lightTr('amber', counts.amber);
-    html += lightTr('green', counts.green);
+    html += lightTr(counts, 'red'  , 'red'  );
+    html += lightTr(counts, 'amber', 'amber');
+    html += lightTr(counts, 'green', 'green');
     if (counts.timed_out > 0) {
-      html += lightTr('timed_out', counts.timed_out);
+      html += lightTr(counts, 'timed_out', 'timed-out');
     }
     if (counts.pulling > 0) {
-      html += lightTr('pulling', counts.pulling);
+      html += lightTr(counts, 'pulling', 'preparing');
     }
     if (counts.faulty > 0) {
-      html += lightTr('faulty', counts.faulty);
+      html += lightTr(counts, 'faulty', 'faulty');
     }
     html += '</table>';
     return html;
   };
 
-  const lightTr = (colour, count) => {
+  const lightTr = (counts, name, text) => {
     const tr = (s) => `<tr>${s}</tr>`;
     const td = (s) => `<td>${s}</td>`;
     return '' +
       tr(td(`<img
               class="traffic-light-diff-tip-traffic-light-image"
-              src="/images/traffic-light/${colour}.png">`) +
-         td(`<div class='traffic-light-diff-tip-tag ${colour}'>
-              ${count}
-             </div>`));
+              src="/images/traffic-light/${name}.png">`) +
+         td(`<div class='traffic-light-diff-tip-tag ${name}'>
+              ${counts[name]}
+             </div>`) +
+         td(text));
   };
 
 });
