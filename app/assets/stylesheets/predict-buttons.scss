@@ -16,6 +16,7 @@ button.predict
   text-align: left;
 
   $fadePercent: 12%;
+  
   &.red
   {
     background: lighten($red,$fadePercent);

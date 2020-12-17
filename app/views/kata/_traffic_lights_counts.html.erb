@@ -18,6 +18,8 @@ $(() => {
   const $counts = $('#traffic-lights-counts');
   cd.setTip($counts, () => cd.showHoverTip($counts, trafficLightsTotalCountHoverTip()));
 
+  // TODO: dont double-increment counts for a revert.
+  
   cd.kata.updateTrafficLightsCounts = (light) => {
     const colour = light.colour;
     counts[colour] += 1;
