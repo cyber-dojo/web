@@ -1,9 +1,11 @@
 
+$hoverFadePercent: 7%;
+
 .hover-tip
 {
   @include plaintext-font();
   @include rounded-corner(5px);
-  background: lighten($darker-color, 2%);
+  background: lighten($darker-color, $hoverFadePercent);
      z-index: 2000;
     position: absolute;
        color: darken($lighter-color, 6%);
@@ -16,19 +18,19 @@
 
 .hover-tip .diff-filename
 {
-  border: 1px solid lighten($darker-color, 2%);
+  border: 1px solid lighten($darker-color, $hoverFadePercent);
 }
 
 .traffic-light-diff-tip-traffic-light-image
 {
-  height:22px;
-   width:22px;
-   margin-right:4px;
+  height: 22px;
+   width: 22px;
+   margin-right: 4px;
 }
 
 .traffic-light-diff-tip-avatar-image
 {
   @include rounded-corner(4px);
-   width:26px;
-  height:26px;
+   width: 26px;
+  height: 26px;
 }
