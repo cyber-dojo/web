@@ -61,12 +61,11 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const lightTr = (name, text) => {
     return '' +
-      tr(td(`<div class='traffic-light-diff-tip-tag ${name}'>
-           ${counts[name]}
-          </div>`) +
-         td(`<img
-              class="traffic-light-diff-tip-traffic-light-image"
-              src="/images/traffic-light/${name}.png">`) +
+      tr(td(`<img class="traffic-light-diff-tip-traffic-light-image"
+                  src="/images/traffic-light/${name}.png">`) +
+         td(`<div class='traffic-light-diff-tip-tag ${name}'>
+              ${counts[name]}
+             </div>`) +
          td(text));
   };
 
