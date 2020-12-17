@@ -17,26 +17,26 @@ button.predict
 
   &.red
   {
-    background: $red;
-    border-color: $red;
-    color: lighten(black,10%);
+    background: lighten($red,10%);
+    border-color: lighten($red,10%);
+    color: lighten(Black,10%);
   }
   &.amber
   {
-    background: $amber;
-    border-color: $amber;
+    background: lighten($amber,10%);
+    border-color: lighten($amber,10%);
   }
   &.green
   {
-    background: $green;
-    border-color: $green;
+    background: lighten($green,10%);
+    border-color: lighten($green,10%);
   }
 
   &.red, &.amber, &.green
   {
     &:hover
     {
-      border-style: dotted; border-color: lighten(black,20%);
+      border-style: dotted; border-color: lighten(Black,20%);
     }
   }
 }
