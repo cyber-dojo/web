@@ -10,11 +10,11 @@
     font-size: 23px;
     text-align: center;
     margin: { left:0px; right:1px; }
-    padding: { left:4px; right:4px; top:1px; bottom:8px; }
+    padding: { left:4px; right:4px; top:0px; bottom:7px; }
     position: relative;
     top: 0px;
-    color: lighten(Black, 20%);
-    &.current { border: 1px dotted Black; }
+    color: lighten(Black,20%);
+    &.current { border: 2px dotted lighten(Black,20%); }
   }
 
   $fadePercent: 12%;
@@ -22,17 +22,17 @@
   #red-count
   {
     background: lighten($red, $fadePercent);
-    border: 1px solid lighten($red, $fadePercent);
+    border: 2px solid lighten($red, $fadePercent);
   }
   #amber-count
   {
     background: lighten($amber, $fadePercent);
-    border: 1px solid lighten($amber, $fadePercent);
+    border: 2px solid lighten($amber, $fadePercent);
   }
   #green-count
   {
     background: lighten($green, $fadePercent);
-    border: 1px solid lighten($green, $fadePercent);
+    border: 2px solid lighten($green, $fadePercent);
   }
 }
 
