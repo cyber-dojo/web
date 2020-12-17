@@ -2,57 +2,56 @@
 
 <script>
 'use strict';
-$(() => {
 
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // There are two sequences of traffic-lights:
-  // o) kata-page traffic-lights live under #traffic-lights.
-  //    Click any of these to open the diff-review
-  // o) review-page traffic-lights live under #review-traffic-lights.
-  //    Click any of these to move to it in the diff-review.
-  // The first of these are controlled here.
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// There are two sequences of traffic-lights:
+// o) kata-page traffic-lights live under #traffic-lights.
+//    Click any of these to open the diff-review
+// o) review-page traffic-lights live under #review-traffic-lights.
+//    Click any of these to move to it in the diff-review.
+// The first of these are controlled here.
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const avatarIndex = () => '<%= @manifest['group_index'] %>';
+const avatarIndex = () => '<%= @manifest['group_index'] %>';
 
-  const $lights = $('#traffic-lights');
+const $lights = $('#traffic-lights');
 
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // cd.kata.appendTrafficLight() sets up the tip/click handlers
-  // for the kata-page (but not review-page) traffic-lights.
-  // It is called in these places:
-  //   1) From views/kata/edit.html.erb
-  //      - When the page loads.
-  //   2) From views/kata/run_tests.js.erb
-  //      - When you run the [test]s (and when there is a revert)
-  //   3) From views/review/_checkout_button.html.erb
-  //      - When you click [checkout].
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// cd.kata.appendTrafficLight() sets up the tip/click handlers
+// for the kata-page (but not review-page) traffic-lights.
+// It is called in these places:
+//   1) From views/kata/edit.html.erb
+//      - When the page loads.
+//   2) From views/kata/run_tests.js.erb
+//      - When you run the [test]s (and when there is a revert)
+//   3) From views/review/_checkout_button.html.erb
+//      - When you click [checkout].
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.kata.appendTrafficLight = (light) => {
-    if (cd.lib.isVisible(light)) {
-      const id = cd.kata.id();
-      cd.lib.appendLightQualifierImg($lights, light);
-      const index = light.index;
-      const colour = light.colour;
-      const $light = $trafficLightImage(index, colour);
-      $lights.append($light);
-      cd.kata.index.increment();
-      $light.click(() => cd.review.fromTestPage(id, index));
-      cd.setupTrafficLightTip($light, colour, avatarIndex, id, index-1, index);
-    }
-  };
+cd.kata.appendTrafficLight = (light) => {
+  if (cd.lib.isVisible(light)) {
+    const id = cd.kata.id();
+    cd.lib.appendLightQualifierImg($lights, light);
+    const index = light.index;
+    const colour = light.colour;
+    const $light = $trafficLightImage(index, colour);
+    $lights.append($light);
+    cd.kata.index.increment();
+    $light.click(() => cd.review.fromTestPage(id, index));
+    cd.setupTrafficLightTip($light, colour, avatarIndex, id, index-1, index);
+  }
+};
 
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const $trafficLightImage = (index, colour) =>
-    // colour+index are needed for auto-revert
-    $('<img>', {
-      class: 'diff-traffic-light',
-        src: `/images/traffic-light/${colour}.png`,
-        alt: `${colour} traffic-light`,
-      'data-colour': colour,
-      'data-index': index
-    });
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+const $trafficLightImage = (index, colour) => {
+  // colour+index are needed for revert
+  return $('<img>', {
+    class: 'diff-traffic-light',
+      src: `/images/traffic-light/${colour}.png`,
+      alt: `${colour} traffic-light`,
+    'data-colour': colour,
+    'data-index': index
+  });
+};
 
-});
 </script>
