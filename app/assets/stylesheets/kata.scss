@@ -170,9 +170,7 @@
 
   #filename-list
   {
-        margin: { top: 0px; right: 0px; }
-        height: 500px;
-        max-height: 500px;
+    margin: { top: 0px; right: 0px; }
     overflow-y: scroll;
     overflow-x: hidden;
     &::-webkit-scrollbar:vertical { width: 0px; }

@@ -53,19 +53,35 @@ $(() => {
   const predictCheckBoxChanged = () => {
     if ($predict.prop('checked')) {
       cd.settings.predict('on');
-      $revertContainer.show();
-      cd.kata.testButton.disable();
-      showPredictButtons();
-      cd.kata.predictCounts.show();
+      predictOn();
     } else {
       cd.settings.predict('off');
-      $revertContainer.hide();
-      hidePredictButtons();
-      cd.kata.testButton.enable();
-      cd.kata.predictCounts.hide();
-      $predicted.val('none');
+      predictOff();
     }
+  };
+
+  const predictOn = () => {
+    $revertContainer.show();
+    cd.kata.testButton.disable();
+    $buttons.slideDown('slow');
+    cd.kata.predictCounts.show();
+    setFilenameListMaxHeight(450);
     cd.kata.editor.refocus();
+  };
+
+  const predictOff = () => {
+    cd.kata.predictedColour('none');
+    $revertContainer.hide();
+    $buttons.slideUp('slow');
+    cd.kata.testButton.enable();
+    cd.kata.predictCounts.hide();
+    $predicted.val('none');
+    setFilenameListMaxHeight(510);
+    cd.kata.editor.refocus();
+  };
+
+  const setFilenameListMaxHeight = (value) => {
+    $('#kata-page #filename-list').css('max-height', value);
   };
 
   ['red','amber','green'].forEach((rag) => {
@@ -74,23 +90,6 @@ $(() => {
       cd.kata.testButton.click();
     });
   });
-
-  const showPredictButtons = () => {
-    //reduceFileKnaveMaxHeight($panel.height());
-    $buttons.slideDown('slow');
-  };
-
-  const hidePredictButtons = () => {
-    $buttons.slideUp('slow');
-    cd.kata.predictedColour('none');
-    //reduceFileKnaveMaxHeight(0);
-  };
-
-  // TODO: Set the #kata-page #filename-list CSS max-height here ONLY (not in .scss file)
-
-  const reduceFileKnaveMaxHeight = (delta) => {
-    $('#kata-page #filename-list').css('max-height', `${500-delta}px`);
-  };
 
   //- - - - - - - - - - - - - - - - - - - - - - -
   // Revert
@@ -127,10 +126,9 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - - - - -
 
   if (cd.settings.predict() === 'on') {
-    cd.kata.testButton.disable();
-    $revertContainer.show();
-    showPredictButtons();
-    cd.kata.predictCounts.show();
+    predictOn();
+  } else {
+    predictOff();
   }
 
 });
