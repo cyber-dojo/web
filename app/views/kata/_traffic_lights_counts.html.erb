@@ -16,7 +16,7 @@ $(() => {
   //   3) views/review/_review.html.erb when [checkout] is clicked.
 
   const $counts = $('#traffic-lights-counts');
-  cd.setTip($counts, () => cd.showHoverTip($counts, trafficLightsTotalCountHoverTip()));
+  cd.setTip($counts, () => cd.showHoverTip($counts, trafficLightsTotalsCountHoverTip()));
 
   cd.kata.updateTrafficLightsCounts = (light) => {
     const colour = light.colour;
@@ -27,46 +27,49 @@ $(() => {
     }
   };
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const counts = {
-    red:0,
-    amber:0,
-    green:0,
-    timed_out:0,
+    red: 0,
+    amber: 0,
+    green: 0,
+    timed_out: 0,
     pulling: 0,
     faulty:0,
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  const trafficLightsTotalCountHoverTip = () => {
+  const trafficLightsTotalsCountHoverTip = () => {
     let html = '';
+    html += 'tests';
+    html += '<hr/>';
     html += '<table>';
-    html += lightTr(counts, 'red'  , 'red'  );
-    html += lightTr(counts, 'amber', 'amber');
-    html += lightTr(counts, 'green', 'green');
+    html += lightTr('red'  , 'red'  );
+    html += lightTr('amber', 'amber');
+    html += lightTr('green', 'green');
     if (counts.timed_out > 0) {
-      html += lightTr(counts, 'timed_out', 'timed-out');
+      html += lightTr('timed_out', 'timed-out');
     }
     if (counts.pulling > 0) {
-      html += lightTr(counts, 'pulling', 'preparing');
+      html += lightTr('pulling', 'preparing');
     }
     if (counts.faulty > 0) {
-      html += lightTr(counts, 'faulty', 'faulty');
+      html += lightTr('faulty', 'faulty');
     }
     html += '</table>';
     return html;
   };
 
-  const lightTr = (counts, name, text) => {
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  const lightTr = (name, text) => {
     const tr = (s) => `<tr>${s}</tr>`;
     const td = (s) => `<td>${s}</td>`;
     return '' +
-      tr(td(`<img
+      tr(td(`<div class='traffic-light-diff-tip-tag ${name}'>
+           ${counts[name]}
+          </div>`) +
+         td(`<img
               class="traffic-light-diff-tip-traffic-light-image"
               src="/images/traffic-light/${name}.png">`) +
-         td(`<div class='traffic-light-diff-tip-tag ${name}'>
-              ${counts[name]}
-             </div>`) +
          td(text));
   };
 
