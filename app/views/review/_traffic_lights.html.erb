@@ -6,21 +6,19 @@ $(() => {
 
   const $trafficLights = $('#review-traffic-lights');
 
-  const review = cd.review;
-
   let indexValue = undefined;
 
-  review.index = () => indexValue;
+  cd.review.index = () => indexValue;
 
-  review.trafficLights = {
+  cd.review.trafficLights = {
     refresh: (kataId, index) => {
-      review.getJSON('model', 'kata_events', {id:kataId}, (events) => {
+      cd.review.getJSON('model', 'kata_events', {id:kataId}, (events) => {
         if (index === -1) {
           index = events.length - 1;
         }
         indexValue = index;
         trafficLightsRefresher(kataId, index, events);
-        review.refreshTrafficLightsNavigator(kataId, index, events);
+        cd.review.refreshTrafficLightsNavigator(kataId, index, events);
       });
     }
   };
@@ -51,8 +49,8 @@ $(() => {
         src: `/images/traffic-light/${colour}.png`,
         alt: `${colour} traffic-light`
     });
-    $light.click(() => review.refresh(kataId, light.index));
-    const avatarIndex = () => review.avatarIndex();
+    $light.click(() => cd.review.refresh(kataId, light.index));
+    const avatarIndex = () => cd.review.avatarIndex();
     const wasIndex = light.index - 1;
     const nowIndex = light.index;
     cd.setupTrafficLightTip($light, colour, avatarIndex, kataId, wasIndex, nowIndex);
