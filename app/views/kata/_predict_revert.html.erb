@@ -1,12 +1,12 @@
 <input name="predicted" type="hidden" value="none">
 
 <div id="predict-checkbox-container">
-  <div id="predict-checkbox-title">predict!</div>
+  <div id="predict-checkbox-title">predict</div>
   <input type="checkbox" id="predict-checkbox" checked=""/>
   <label for="predict-checkbox"></label>
 </div>
 <div id="revert-checkbox-container" style="display:none;">
-  <div id="revert-checkbox-title">revert&nbsp;if&nbsp;wrong!</div>
+  <div id="revert-checkbox-title">auto-revert</div>
   <input type="checkbox" id="revert-checkbox"/>
   <label for="revert-checkbox"></label>
 </div>
@@ -21,21 +21,34 @@
 'use strict';
 $(() => {
 
+  //- - - - - - - - - - - - - - - - - - - - - - -
+  // Predict
+
   const $predicted = $('input[name=predicted]');
+
+  cd.kata.predictedColour = () => $predicted.val();
+
+  const $predictContainer = $('#predict-checkbox-container');
   const $predict = $('#predict-checkbox');
-  const $revert  = $('#revert-checkbox');
-  const $revertContainer = $('#revert-checkbox-container');
   const $buttons = $('#predict-buttons');
 
-  //- - - - - - - - - - - - - - - - - - - - - - -
+  cd.createTip($predictContainer, [
+    'when predict is checked',
+    'three test buttons appear:',
+    '&nbsp;&bull; one to predict a <span class="red">red</span>',
+    '&nbsp;&bull; one to predict an <span class="amber">amber</span>',
+    '&nbsp;&bull; one to predict a <span class="green">green</span>'
+  ].join('<br/>'));
 
-  $predict.prop('checked', cd.settings.predict() === 'on')
-          .click(() => predictCheckBoxChanged());
-
+  // handler for predict title/label
   $('#predict-checkbox-title').click(() => {
     $predict.prop('checked', !$predict.is(':checked'));
     predictCheckBoxChanged();
   });
+
+  // handler for predict checkbox
+  $predict.prop('checked', cd.settings.predict() === 'on')
+          .click(() => predictCheckBoxChanged());
 
   const predictCheckBoxChanged = () => {
     if ($predict.prop('checked')) {
@@ -55,28 +68,12 @@ $(() => {
     cd.kata.editor.refocus();
   };
 
-  //- - - - - - - - - - - - - - - - - - - - - - -
-
-  $revert.prop('checked', cd.settings.revert() === 'on')
-         .click(() => revertCheckBoxChanged());
-
-  $('#revert-checkbox-title').click(() => {
-    $revert.prop('checked', !$revert.is(':checked'));
-    revertCheckBoxChanged();
+  ['red','amber','green'].forEach((rag) => {
+    $(`button.predict.${rag}`).click(() => {
+      $predicted.val(rag);
+      cd.kata.testButton.click();
+    });
   });
-
-  const revertCheckBoxChanged = () => {
-    if ($revert.prop('checked')) {
-      cd.settings.revert('on');
-    } else {
-      cd.settings.revert('off');
-    }
-    cd.kata.editor.refocus();
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.kata.predictedColour = () => $predicted.val();
 
   const showPredictButtons = () => {
     //reduceFileKnaveMaxHeight($panel.height());
@@ -95,12 +92,39 @@ $(() => {
     $('#kata-page #filename-list').css('max-height', `${500-delta}px`);
   };
 
-  ['red','amber','green'].forEach((rag) => {
-    $(`button.predict.${rag}`).click(() => {
-      $predicted.val(rag);
-      cd.kata.testButton.click();
-    });
+  //- - - - - - - - - - - - - - - - - - - - - - -
+  // Revert
+
+  const $revertContainer = $('#revert-checkbox-container');
+  const $revert  = $('#revert-checkbox');
+
+  cd.createTip($revertContainer, [
+    'when auto-revert is checked',
+    'an incorrect prediction will',
+    'automatically revert to the',
+    'previous traffic-light!'
+  ].join('<br/>'));
+
+  // handler for revert title/label
+  $('#revert-checkbox-title').click(() => {
+    $revert.prop('checked', !$revert.is(':checked'));
+    revertCheckBoxChanged();
   });
+
+  // handler for revert checkbox
+  $revert.prop('checked', cd.settings.revert() === 'on')
+         .click(() => revertCheckBoxChanged());
+
+  const revertCheckBoxChanged = () => {
+    if ($revert.prop('checked')) {
+      cd.settings.revert('on');
+    } else {
+      cd.settings.revert('off');
+    }
+    cd.kata.editor.refocus();
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - -
 
   if (cd.settings.predict() === 'on') {
     cd.kata.testButton.disable();
