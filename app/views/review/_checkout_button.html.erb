@@ -32,9 +32,9 @@ $(() => {
       cd.kata.editor.output(data.stdout.content, data.stderr.content, data.status);
       cd.kata.tabs.output().click();
       cd.kata.filenames.refresh();
-      cd.appendTrafficLight(data.light);
-      cd.updateTrafficLightsCount();
-      cd.scrollLastTrafficLightIntoView();
+      cd.kata.appendTrafficLight(data.light);
+      cd.kata.scrollLastTrafficLightIntoView();
+      cd.kata.updateTrafficLightsCount();
     }, 'json');
   };
 

@@ -19,7 +19,7 @@ $(() => {
   const $lights = $('#traffic-lights');
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // cd.appendTrafficLight() sets up the tip/click handlers
+  // cd.kata.appendTrafficLight() sets up the tip/click handlers
   // for the kata-page (but not review-page) traffic-lights.
   // It is called in these places:
   //   1) From views/kata/edit.html.erb
@@ -32,7 +32,7 @@ $(() => {
   //      - When you click [checkout].
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.appendTrafficLight = (light) => {
+  cd.kata.appendTrafficLight = (light) => {
     if (cd.lib.isVisible(light)) {
       cd.lib.appendLightQualifierImg($lights, light);
       const index = light.index;
@@ -59,13 +59,13 @@ $(() => {
     });
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // cd.updateTrafficLightsCount() updates the total-count and
+  // cd.kata.updateTrafficLightsCount() updates the total-count and
   // the predicted-counts. It is called from these places:
   //   1) views/kata/_edit.html.erb when page loads/refreshes.
   //   2) views/kata/run_tests.js.erb when [test] is clicked.
   //   3) views/review/_review.html.erb when [checkout] is clicked.
 
-  cd.updateTrafficLightsCount = () => {
+  cd.kata.updateTrafficLightsCount = () => {
     updateTrafficLightsTotalCount();
     if (cd.settings.predict() === 'on') {
       updateTrafficLightsPredictCount();

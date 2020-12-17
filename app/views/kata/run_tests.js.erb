@@ -153,19 +153,19 @@
       cd.kata.editor.output(data.stdout.content, data.stderr.content, data.status);
       cd.kata.tabs.output().click();
       cd.kata.filenames.refresh();
-      cd.appendTrafficLight(data.light);
-      cd.updateTrafficLightsCount();
+      cd.kata.appendTrafficLight(data.light);
+      cd.kata.updateTrafficLightsCount();
     }, 'json');
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  cd.appendTrafficLight(<%= raw @light.to_json %>);
-  cd.updateTrafficLightsCount();
+  cd.kata.appendTrafficLight(<%= raw @light.to_json %>);
+  cd.kata.updateTrafficLightsCount();
   if (runNeedsReverting()) {
     revert();
   } else {
     refreshFromRun();
   }
-  cd.scrollLastTrafficLightIntoView();
+  cd.kata.scrollLastTrafficLightIntoView();
 
 })();

@@ -34,16 +34,18 @@ $(() => {
     "<%= j raw(@stderr['content']) %>",
     "<%= j raw(@status) %>"
   );
+
   cd.kata.filenames.refresh();
 
   const events = <%= raw @events.to_json %>;
   events.forEach((event,index) => {
-    cd.appendTrafficLight(event);
+    cd.kata.appendTrafficLight(event);
   });
 
+  cd.kata.scrollLastTrafficLightIntoView();
+  cd.kata.updateTrafficLightsCount();
+
   cd.showSettingsButton();
-  cd.updateTrafficLightsCount();
-  cd.scrollLastTrafficLightIntoView();
   cd.setupHotkeys();
   cd.showStartingInfoDialog("<%= @env['STARTING_INFO_DIALOG'] %>");
 

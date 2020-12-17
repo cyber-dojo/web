@@ -2,6 +2,7 @@
 class KataController < ApplicationController
 
   def edit
+    @env = ENV
     @id = @title = id
     @manifest = model.kata_manifest(id)
     @events = model.kata_events(id)
@@ -12,8 +13,6 @@ class KataController < ApplicationController
     @stdout = last['stdout']
     @stderr = last['stderr']
     @status = last['status']
-    # settings
-    @env = ENV
   end
 
   # - - - - - - - - - - - - - - - - - -
