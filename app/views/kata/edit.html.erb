@@ -1,5 +1,6 @@
 <script>
 'use strict';
+cd.kata.page = $('#kata-page');
 $(() => {
   cd.kata.id = () => "<%= @id %>";
 });
@@ -16,7 +17,6 @@ $(() => {
 'use strict';
 $(() => {
 
-  cd.kata.page = $('#kata-page');
 
   cd.kata.index.reset();
   cd.codeMirror.resetTheme();
