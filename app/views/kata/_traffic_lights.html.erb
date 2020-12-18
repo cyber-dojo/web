@@ -43,6 +43,11 @@ $(() => {
     }
   };
 
+  const $predictImages = () => $('img.revert, img.tick, img.cross');
+
+  cd.kata.hidePredictImages = () => $predictImages().hide();
+  cd.kata.showPredictImages = () => $predictImages().show();
+
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const $trafficLightImage = (index, colour) => {
     // colour+index are needed for revert
