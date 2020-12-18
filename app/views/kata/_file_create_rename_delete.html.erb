@@ -71,7 +71,7 @@ $(() => {
     // Position dialog near to tab.filename because if tab.output is
     // selected then filename will not be selected in filename list.
     const pos = cd.kata.tabs.filename().offset();
-    const xPos = pos.left;
+    const xPos = pos.left + 2;
     const yPos = pos.top + 25;
 
     const onDialogOpen = () => {
