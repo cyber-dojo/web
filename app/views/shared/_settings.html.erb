@@ -88,6 +88,10 @@ $(() => {
   };
 
   const getId = () => {
+    // I'd like this to be simpler, but can't see how
+    // when review has to work for both a stand-alone page
+    // (eg from a dashboard) and as a page with a [resume]
+    // button (from kata/edit).
     if (cd.kata.id) {
       return cd.kata.id();
     }
