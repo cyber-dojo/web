@@ -54,8 +54,8 @@ $(() => {
   };
 
   const predictOn = () => {
+    cd.kata.testButton.hide();
     $revertContainer.show();
-    cd.kata.testButton.disable();
     $buttonsContainer.slideDown('slow');
     cd.kata.predictCounts.show();
     setFilenameListMaxHeight(450);
@@ -64,7 +64,7 @@ $(() => {
 
   const predictOff = () => {
     $revertContainer.hide();
-    $buttonsContainer.slideUp('slow', cd.kata.testButton.enable);
+    $buttonsContainer.slideUp('slow', cd.kata.testButton.show);
     cd.kata.predictCounts.hide();
     setFilenameListMaxHeight(510);
     cd.kata.editor.refocus();

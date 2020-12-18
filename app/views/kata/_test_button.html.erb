@@ -7,8 +7,9 @@ $(() => {
   const $button = $('#test-button');
 
   cd.kata.testButton = {
-     enable: () => $button.attr('disabled', false),
-    disable: () => $button.attr('disabled', true )
+    // TODO: slide <-->
+    hide: () => $button.hide(),
+    show: () => $button.show()
   };
 
   $button.click(() => {
