@@ -6,17 +6,13 @@ $(() => {
 
   const $trafficLights = $('#review-traffic-lights');
 
-  let indexValue = undefined;
-
-  cd.review.index = () => indexValue;
-
   cd.review.trafficLights = {
     refresh: (kataId, index) => {
       cd.review.getJSON('model', 'kata_events', {id:kataId}, (events) => {
         if (index === -1) {
           index = events.length - 1;
         }
-        indexValue = index;
+        cd.review.index = () => index; // Need by [fork] and [checkout]
         trafficLightsRefresher(kataId, index, events);
         cd.review.refreshTrafficLightsNavigator(kataId, index, events);
       });
