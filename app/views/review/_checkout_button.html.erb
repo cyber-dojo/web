@@ -24,6 +24,7 @@ $(() => {
       src_avatar_index: cd.review.avatarIndex()
     };
     delete cd.review.id;
+    cd.settings.showButton();    
     $.post('/kata/checkout', args, (data) => {
       cd.kata.editor.deleteFiles();
       for (const filename in data.files) {

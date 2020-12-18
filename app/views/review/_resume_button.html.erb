@@ -12,6 +12,7 @@ $(() => {
 
   $button.click(() => {
     delete cd.review.id;
+    cd.settings.showButton();
     cd.review.fadeOut(() => {
       cd.kata.editor.refocus();
       // Hide the avatar-navigator to avoid 'flash' when

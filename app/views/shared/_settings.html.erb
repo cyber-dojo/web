@@ -21,10 +21,9 @@
 'use strict';
 $(() => {
 
-  // TODO: Don't show settings on app-bar when in review-mode
-  //       from kata/edit
-
   cd.settings = {
+    showButton: () => $button.show(),
+    hideButton: () => $button.hide(),
     // Note: the CodeMirror theme is a combination of colour+theme
     colour:(value) => {
       const name = 'colour';
@@ -81,8 +80,9 @@ $(() => {
   };
 
   const setOption = (name, value) => {
+    // Only available in edit mode.
     $.post('/model/kata_option_set', {
-         id: getId(),
+         id: cd.kata.id(),
        name: name,
       value: value
     });
@@ -90,10 +90,10 @@ $(() => {
   };
 
   const getId = () => {
-    // This is called when in test mode and when in review mode.
-    // In a review/show from a dashboard there is no kata.id
-    // If you are on kata/edit there is always a kata.id
-    // and, when in review mode, there is also a review.id
+    // This is called when in edit mode and when in review mode.
+    // In review/show from a dashboard there is no cd.kata.id
+    // In kata/edit there is always a kata.id
+    // and, when in review mode, there is also a cd.review.id
     if (cd.kata.id) {
       return cd.kata.id();
     }
