@@ -11,7 +11,7 @@
   <label for="revert-checkbox"></label>
 </div>
 
-<div id="predict-buttons" style="display:none;">
+<div id="predict-buttons-container" style="display:none;">
   <button class="predict red"   type="button">some tests will fail</button>
   <button class="predict amber" type="button">tests will not run</button>
   <button class="predict green" type="button">all tests will pass</button>
@@ -35,13 +35,11 @@ $(() => {
     '&nbsp;&bull; one to predict a <span class="green">green</span>'
   ].join('<br/>'));
 
-  // handler for predict title/label
   $('#predict-checkbox-title').click(() => {
     $predict.prop('checked', !$predict.is(':checked'));
     predictCheckBoxChanged();
   });
 
-  // handler for predict checkbox
   $predict.prop('checked', cd.settings.predict() === 'on')
           .click(() => predictCheckBoxChanged());
 
@@ -58,7 +56,7 @@ $(() => {
   const predictOn = () => {
     $revertContainer.show();
     cd.kata.testButton.disable();
-    $buttons.slideDown('slow');
+    $buttonsContainer.slideDown('slow');
     cd.kata.predictCounts.show();
     setFilenameListMaxHeight(450);
     cd.kata.editor.refocus();
@@ -66,7 +64,7 @@ $(() => {
 
   const predictOff = () => {
     $revertContainer.hide();
-    $buttons.slideUp('slow', cd.kata.testButton.enable);
+    $buttonsContainer.slideUp('slow', cd.kata.testButton.enable);
     cd.kata.predictCounts.hide();
     setFilenameListMaxHeight(510);
     cd.kata.editor.refocus();
@@ -83,21 +81,23 @@ $(() => {
 
   cd.kata.predictedColour = () => $predicted.val();
 
-  const $buttons = $('#predict-buttons');
+  const $buttonsContainer = $('#predict-buttons-container');
+  const $buttons = $('button.predict');
 
   ['red','amber','green'].forEach((rag) => {
     $(`button.predict.${rag}`).click(() => {
       $predicted.val(rag);
-      $buttons.disable();
+      disableButtons();
       cd.kata.runTests(() => {
-        $buttons.enable();
         $predicted.val('none');
+        // TODO: move revert() code to here
+        enableButtons();
       });
     });
   });
 
-  $buttons.disable = () => $('button.predict').attr('disabled', true );
-  $buttons.enable  = () => $('button.predict').attr('disabled', false);
+  const disableButtons = () => $buttons.attr('disabled', true );
+  const enableButtons  = () => $buttons.attr('disabled', false);
 
   //- - - - - - - - - - - - - - - - - - - - - - -
   // Revert checkbox
@@ -112,13 +112,11 @@ $(() => {
     'previous traffic-light!'
   ].join('<br/>'));
 
-  // handler for revert title/label
   $('#revert-checkbox-title').click(() => {
     $revert.prop('checked', !$revert.is(':checked'));
     revertCheckBoxChanged();
   });
 
-  // handler for revert checkbox
   $revert.prop('checked', cd.settings.revert() === 'on')
          .click(() => revertCheckBoxChanged());
 
