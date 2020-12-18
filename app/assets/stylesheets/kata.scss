@@ -83,18 +83,17 @@
 
   .file-operations
   {
-    display:block;
+    display:inline;
     padding:0px;
-    margin-left:35px;
     position:relative;
-    top:-3px;
+    top:-5px;
     @include rounded-corner(6px);
 
     .create-file, .delete-file, .rename-file
     {
       display:inline-block;
       @include rounded-corner(3px);
-      margin:{ bottom:1px; right:3px }
+      margin:{ bottom:1px; right:0px }
       padding:{ left:3px; right:3px; top:0px; bottom:2px; }
       width:21px;
       height:21px;
@@ -189,6 +188,8 @@
     display: inline-block;
     margin: { left: 0px; right: 0px; }
     padding-right: 7px;
+    position: relative;
+    top: 2px;
 
     &.light
     {
