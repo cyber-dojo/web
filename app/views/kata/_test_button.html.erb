@@ -6,13 +6,9 @@ $(() => {
 
   const $button = $('#test-button');
 
-  // TODO: slide testButton <-->
-
-  // TODO: ligher bottom-border on filename tab
-
   cd.kata.testButton = {
-    hide: () => $button.hide(),
-    show: () => $button.show()
+    hide: () => $button.hide('slide', {direction:'left'}, 500),
+    show: () => $button.show('slide', {direction:'left'}, 500)
   };
 
   $button.click(() => {
