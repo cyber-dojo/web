@@ -11,9 +11,12 @@ $(() => {
     show: () => $button.show('slide', {direction:'left'}, 500)
   };
 
+  const  enableTestButton = () => $button.attr('disabled', false);
+  const disableTestButton = () => $button.attr('disabled', true );
+
   $button.click(() => {
-    cd.kata.testButton.disable();
-    cd.kata.runTests(cd.kata.testButton.enable);
+    disableTestButton();
+    cd.kata.runTests(enableTestButton);
   });
 
 });
