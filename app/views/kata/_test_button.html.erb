@@ -6,18 +6,19 @@ $(() => {
 
   const $button = $('#test-button');
 
+  $button.click(() => cd.kata.testButton.click());
+
   cd.kata.testButton = {
     hide: () => $button.hide('slide', {direction:'left'}, 500),
-    show: () => $button.show('slide', {direction:'left'}, 500)
+    show: () => $button.show('slide', {direction:'left'}, 500),
+    click: () => {
+      disableTestButton();
+      cd.kata.runTests(enableTestButton);
+    }
   };
 
   const  enableTestButton = () => $button.attr('disabled', false);
   const disableTestButton = () => $button.attr('disabled', true );
-
-  $button.click(() => {
-    disableTestButton();
-    cd.kata.runTests(enableTestButton);
-  });
 
 });
 </script>
