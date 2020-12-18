@@ -1,13 +1,12 @@
 #predict-buttons-container
 {
   display: grid;
-  margin-top: 5px;
 }
 
 button.predict
 {
-  width: 166px;
-  margin-bottom: 1px;
+  width: 162px;
+  margin-bottom: 2px;
   font-size: 14px !important;
   color: lighten(Black, 20%);
   font-weight: bold;
