@@ -23,6 +23,7 @@ $(() => {
       src_index: cd.review.index(),
       src_avatar_index: cd.review.avatarIndex()
     };
+    delete cd.review.id;
     $.post('/kata/checkout', args, (data) => {
       cd.kata.editor.deleteFiles();
       for (const filename in data.files) {

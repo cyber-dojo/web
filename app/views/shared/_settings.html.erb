@@ -91,6 +91,21 @@ $(() => {
     // when review has to work for both a stand-alone page
     // (eg from a dashboard) and as a page with a [resume]
     // button (from kata/edit).
+    //
+    // If you are on review/show then there is no kata.id
+    // So you can do the checks in either order.
+    //
+    // If you are on kata/edit then there is a kata.id
+    // but when in review mode there is also review.id
+    //
+    // Options are set from kata/edit
+    // Options can also be set from review/show since
+    // the settings button is visible on the toolbar...
+    //
+    // QUESTION: Should the settings icon be hidden when in review mode?
+    //    Yes. Otherwise you could change its settings.
+    //    It is not visible on a review/show page from dashboard anyway!
+
     if (cd.kata.id) {
       return cd.kata.id();
     }
