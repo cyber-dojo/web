@@ -45,15 +45,14 @@ $(() => {
 
   const predictCheckBoxChanged = () => {
     if ($predict.prop('checked')) {
-      cd.settings.predict('on');
       predictOn();
     } else {
-      cd.settings.predict('off');
       predictOff();
     }
   };
 
   const predictOn = () => {
+    cd.settings.predict('on');
     cd.kata.testButton.hide(() => {
       $buttonsContainer.slideDown('slow');
       cd.kata.predictCounts.show();
@@ -64,6 +63,13 @@ $(() => {
   };
 
   const predictOff = () => {
+    cd.settings.predict('off');
+    if ($revert.is(':checked')) {
+      // predict just went to !checked,
+      // so ensure revert is !checked
+      $revert.prop('checked', false);
+      revertOff();
+    }
     $buttonsContainer.slideUp('slow', () => {
       cd.kata.testButton.show();
       cd.kata.predictCounts.hide();
@@ -103,10 +109,6 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - -
   // Revert checkbox
-  // Note: if you turn predict off then on, the revert-container
-  // gets slightly taller!! Perhaps it would be better to leave
-  // the revert-container visible. If clicked it would auto-set
-  // predict.
 
   const $revertContainer = $('#revert-checkbox-container');
   const $revert  = $('#revert-checkbox');
@@ -128,11 +130,25 @@ $(() => {
 
   const revertCheckBoxChanged = () => {
     if ($revert.prop('checked')) {
-      cd.settings.revert('on');
+      revertOn();
     } else {
-      cd.settings.revert('off');
+      revertOff();
     }
     cd.kata.editor.refocus();
+  };
+
+  const revertOn = () => {
+    cd.settings.revert('on');
+    if (!$predict.is(':checked')) {
+      // revert just went to to checked
+      // so ensure predict is checked
+      $predict.prop('checked', true);
+      predictOn();
+    }
+  };
+
+  const revertOff = () => {
+    cd.settings.revert('off');
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - -
