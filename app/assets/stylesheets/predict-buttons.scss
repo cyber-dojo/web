@@ -5,7 +5,7 @@
 
 button.predict
 {
-  width: 163px;
+  width: 172px;
   margin-bottom: 2px;
   font-size: 14px !important;
   color: lighten(Black, 20%);
@@ -16,33 +16,33 @@ button.predict
 
   &.red
   {
-    background: lighten($red,$fadePercent);
-    border-color: lighten($red,$fadePercent);
+    background: lighten($red, $fadePercent);
+    border-color: lighten($red, $fadePercent);
     color: lighten(Black,10%);
   }
   &.amber
   {
-    background: lighten($amber,$fadePercent);
-    border-color: lighten($amber,$fadePercent);
+    background: lighten($amber, $fadePercent);
+    border-color: lighten($amber, $fadePercent);
   }
   &.green
   {
-    background: lighten($green,$fadePercent);
-    border-color: lighten($green,$fadePercent);
+    background: lighten($green, $fadePercent);
+    border-color: lighten($green, $fadePercent);
   }
 
   &.red, &.amber, &.green
   {
     &:hover
     {
-      border-style: dotted; border-color: lighten(Black,20%);
+      border-style: dotted; border-color: lighten(Black, 20%);
     }
     &[disabled]
     {
       background: lighten($darker-color, 20%);
-      border-color: lighten($darker-color,20%);
+      border-color: lighten($darker-color, 20%);
       cursor: default;
-      &:hover { border-color: lighten($darker-color,20%); }
+      &:hover { border-color: lighten($darker-color, 20%); }
     }
   }
 }

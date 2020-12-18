@@ -5,8 +5,8 @@
   <input type="checkbox" id="predict-checkbox"/>
   <label for="predict-checkbox"></label>
 </div>
-<div id="revert-checkbox-container" style="display:none;">
-  <div id="revert-checkbox-title">auto-revert</div>
+<div id="revert-checkbox-container">
+  <div id="revert-checkbox-title">+&nbsp;auto&nbsp;revert</div>
   <input type="checkbox" id="revert-checkbox"/>
   <label for="revert-checkbox"></label>
 </div>
@@ -55,25 +55,21 @@ $(() => {
 
   const predictOn = () => {
     cd.kata.testButton.hide(() => {
-      $revertContainer.show('slow', () => {
-        $buttonsContainer.slideDown('slow');
-        cd.kata.predictCounts.show();
-        cd.kata.showPredictImages();
-        setFilenameListMaxHeight(470);
-        cd.kata.editor.refocus();
-      });
+      $buttonsContainer.slideDown('slow');
+      cd.kata.predictCounts.show();
+      cd.kata.showPredictImages();
+      setFilenameListMaxHeight(470);
+      cd.kata.editor.refocus();
     });
   };
 
   const predictOff = () => {
     $buttonsContainer.slideUp('slow', () => {
-      $revertContainer.hide('slow', () => {
-        cd.kata.testButton.show();
-        cd.kata.predictCounts.hide();
-        cd.kata.hidePredictImages();
-        setFilenameListMaxHeight(530);
-        cd.kata.editor.refocus();
-      });
+      cd.kata.testButton.show();
+      cd.kata.predictCounts.hide();
+      cd.kata.hidePredictImages();
+      setFilenameListMaxHeight(530);
+      cd.kata.editor.refocus();
     });
   };
 
@@ -102,8 +98,8 @@ $(() => {
     });
   });
 
-  const disableButtons = () => $buttons.attr('disabled', true );
-  const enableButtons  = () => $buttons.attr('disabled', false);
+  const disableButtons = () => $buttons.prop('disabled', true );
+  const enableButtons  = () => $buttons.prop('disabled', false);
 
   //- - - - - - - - - - - - - - - - - - - - - - -
   // Revert checkbox
@@ -116,7 +112,7 @@ $(() => {
   const $revert  = $('#revert-checkbox');
 
   cd.createTip($revertContainer, [
-    'when auto-revert is checked',
+    'when auto revert is checked,',
     'an incorrect prediction will',
     'automatically revert to the',
     'previous traffic-light!'
