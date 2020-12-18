@@ -1,0 +1,17 @@
+#test-control
+{
+  margin-left:35px;
+  margin: { top:4px; bottom:5px; }
+}
+
+#test-button
+{
+  @include font-size-medium();
+  @include rounded-corner(5px);
+     display: inline-block;
+      margin: { top:0px; bottom: 0px; right: 5px; }
+     padding: { top: 0px; bottom: 1px; left: 7px; right: 7px; }
+  text-align: center;
+  font-weight: bold;
+  max-height: 33px;
+}

@@ -1,17 +1,17 @@
 #predict-buttons-container
 {
-  display:grid;
-  margin-left:35px;
+  display: grid;
+  margin-top: 5px;
 }
 
 button.predict
 {
-  width: 167px;
+  width: 178px;
   margin-bottom: 1px;
   font-size: 14px !important;
   color: lighten(Black, 20%);
   font-weight: bold;
-  text-align: left;
+  text-align: center;
 
   $fadePercent: 15%;
 

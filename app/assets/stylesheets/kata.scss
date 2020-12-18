@@ -70,17 +70,6 @@
     }
   }
 
-  #test-button
-  {
-    @include font-size-medium();
-    @include rounded-corner(5px);
-       display: inline;
-        margin: { left: 35px; top:5px; right: 2px; bottom: 8px; }
-       padding: { top: 0px; bottom: 1px; left: 7px; right: 7px; }
-    text-align: center;
-    font-weight: bold;
-  }
-
   .file-operations
   {
     display:inline;

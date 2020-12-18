@@ -28,6 +28,7 @@
  *= depend_on fork-dialog.scss
  *= depend_on diff-line-count.scss
  *= depend_on kata.scss
+ *= depend_on test-button.scss
  *= depend_on predict-buttons.scss
  *= depend_on predict-counts.scss
  *= depend_on traffic-lights-counts.scss
@@ -67,6 +68,7 @@
 @import "fork-dialog.scss";
 @import "diff-line-count.scss";
 @import "kata.scss";
+@import "test-button.scss";
 @import "predict-buttons.scss";
 @import "predict-counts.scss";
 @import "traffic-lights-counts.scss";
