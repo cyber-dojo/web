@@ -1,0 +1,38 @@
+<script>
+'use strict';
+
+cd.kata.runTests = (onComplete) => {
+  // Called from 3 places
+  // 1. when you click the [test] button.
+  // 2. when you hot-key Alt-T (and predict === 'off')
+  // 3. when you click a [predict] button.
+  const form = $('form');
+  cd.saveCodeFromSyntaxHighlightEditors();
+  cd.waitSpinner.fadeIn('slow', () => {
+    $.ajax({
+         timeout: 30000, // [X]
+            type: 'POST',
+             url: form.attr('action'),
+            data: form.serialize(),
+           error: error,
+        complete: (_xhr, _status) => {
+          cd.waitSpinner.fadeOut('slow', onComplete);
+        }
+    });
+  });
+  // [X] This 30s timeout is different to runner's max_seconds
+  // from the start-point's manifest.json file.
+};
+
+//- - - - - - - - - - - - - - - - - - - - - - -
+const error = (request, status, thrown) => {
+  const message = [
+    request.responseText,
+    '----------------------------',
+    `Status=${status}`,
+    thrown
+  ].join("\n");
+  cd.dialogError(message);
+};
+
+</script>

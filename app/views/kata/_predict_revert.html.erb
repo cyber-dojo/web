@@ -22,15 +22,10 @@
 $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - -
-  // Predict
-
-  const $predicted = $('input[name=predicted]');
-
-  cd.kata.predictedColour = () => $predicted.val();
+  // Predict checkbox
 
   const $predictContainer = $('#predict-checkbox-container');
   const $predict = $('#predict-checkbox');
-  const $buttons = $('#predict-buttons');
 
   cd.createTip($predictContainer, [
     'when predict is checked',
@@ -70,12 +65,9 @@ $(() => {
   };
 
   const predictOff = () => {
-    cd.kata.predictedColour('none');
     $revertContainer.hide();
-    $buttons.slideUp('slow');
-    cd.kata.testButton.enable();
+    $buttons.slideUp('slow', cd.kata.testButton.enable);
     cd.kata.predictCounts.hide();
-    $predicted.val('none');
     setFilenameListMaxHeight(510);
     cd.kata.editor.refocus();
   };
@@ -84,15 +76,31 @@ $(() => {
     $('#kata-page #filename-list').css('max-height', value);
   };
 
+  //- - - - - - - - - - - - - - - - - - - - - - -
+  // Predict buttons
+
+  const $predicted = $('input[name=predicted]');
+
+  cd.kata.predictedColour = () => $predicted.val();
+
+  const $buttons = $('#predict-buttons');
+
   ['red','amber','green'].forEach((rag) => {
     $(`button.predict.${rag}`).click(() => {
       $predicted.val(rag);
-      cd.kata.testButton.click();
+      $buttons.disable();
+      cd.kata.runTests(() => {
+        $buttons.enable();
+        $predicted.val('none');
+      });
     });
   });
 
+  $buttons.disable = () => $('button.predict').attr('disabled', true );
+  $buttons.enable  = () => $('button.predict').attr('disabled', false);
+
   //- - - - - - - - - - - - - - - - - - - - - - -
-  // Revert
+  // Revert checkbox
 
   const $revertContainer = $('#revert-checkbox-container');
   const $revert  = $('#revert-checkbox');

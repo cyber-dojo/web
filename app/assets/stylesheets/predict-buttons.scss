@@ -40,5 +40,12 @@ button.predict
     {
       border-style: dotted; border-color: lighten(Black,20%);
     }
+    &[disabled]
+    {
+      background: lighten($darker-color, 20%);
+      border-color: lighten($darker-color,20%);
+      cursor: default;
+      &:hover { border-color: lighten($darker-color,20%); }
+    }
   }
 }
