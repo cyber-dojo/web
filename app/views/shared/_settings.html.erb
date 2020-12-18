@@ -70,7 +70,7 @@ $(() => {
       $.ajax({
         dataType: 'json',
              url: '/model/kata_option_get',
-            data: { id: cd.kata.id(), name: name },
+            data: { id: getId(), name: name },
            async: false,
          success: (data) => cache[name] = data['kata_option_get']
       });
@@ -80,11 +80,19 @@ $(() => {
 
   const setOption = (name, value) => {
     $.post('/model/kata_option_set', {
-         id: cd.kata.id(),
+         id: getId(),
        name: name,
       value: value
     });
     cache[name] = value;
+  };
+
+  const getId = () => {
+    if (cd.review.page) {
+      return cd.review.id();
+    } else {
+      return cd.kata.id();
+    }
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
