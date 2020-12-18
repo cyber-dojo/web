@@ -9,8 +9,8 @@ $(() => {
   $button.click(() => cd.kata.testButton.click());
 
   cd.kata.testButton = {
-    hide: () => $button.hide('slide', {direction:'left'}, 500),
-    show: () => $button.show('slide', {direction:'left'}, 500),
+    hide: (f) => $button.hide('slow', f),
+    show: () => $button.show('slow'),
     click: () => {
       disableTestButton();
       cd.kata.runTests(enableTestButton);

@@ -54,22 +54,27 @@ $(() => {
   };
 
   const predictOn = () => {
-    cd.kata.testButton.hide();
-    $revertContainer.show();
-    $buttonsContainer.slideDown('slow');
-    cd.kata.predictCounts.show();
-    cd.kata.showPredictImages();
-    setFilenameListMaxHeight(470);
-    cd.kata.editor.refocus();
+    cd.kata.testButton.hide(() => {
+      $revertContainer.show('slow', () => {
+        $buttonsContainer.slideDown('slow');
+        cd.kata.predictCounts.show();
+        cd.kata.showPredictImages();
+        setFilenameListMaxHeight(470);
+        cd.kata.editor.refocus();
+      });
+    });
   };
 
   const predictOff = () => {
-    $revertContainer.hide();
-    $buttonsContainer.slideUp('slow', cd.kata.testButton.show);
-    cd.kata.predictCounts.hide();
-    cd.kata.hidePredictImages();
-    setFilenameListMaxHeight(530);
-    cd.kata.editor.refocus();
+    $buttonsContainer.slideUp('slow', () => {
+      $revertContainer.hide('slow', () => {
+        cd.kata.testButton.show();
+        cd.kata.predictCounts.hide();
+        cd.kata.hidePredictImages();
+        setFilenameListMaxHeight(530);
+        cd.kata.editor.refocus();
+      });
+    });
   };
 
   const setFilenameListMaxHeight = (value) => {
