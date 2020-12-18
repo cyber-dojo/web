@@ -1,11 +1,11 @@
 <div id="predict-counts" style="display:none;">
-  <div id="tick-box">
+  <div id="tick-box" class="box">
     <img id="tick-img" src="/images/traffic-light/circle-tick.png">
-    <div id="tick-count" class="traffic-light-count">0</div>
+    <div id="tick-count" class="count">0</div>
   </div>
-  <div id="cross-box">
+  <div id="cross-box" class="box">
     <img id="cross-img" src="/images/traffic-light/circle-cross.png">
-    <div id="cross-count" class="traffic-light-count">0</div>
+    <div id="cross-count" class="count">0</div>
   </div>
 </div>
 
@@ -17,18 +17,18 @@ $(() => {
   cd.setTip($counts, () => cd.showHoverTip($counts, predictCountHoverTip()));
 
   cd.kata.predictCounts = {
-    show: () => $counts.show('slide', {direction:'left'}, 500),
-    hide: () => $counts.hide('slide', {direction:'left'}, 500)
+    show: () => $counts.show('slide', { direction:'left' }, 500),
+    hide: () => $counts.hide('slide', { direction:'left' }, 500)
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  cd.kata.updatePredictCounts = (light) => {
+  cd.kata.addToPredictCounts = (light) => {
+    $('.box', $counts).removeClass('current');
     if (cd.lib.isPredict(light)) {
-      if (light.colour === light.predicted) {
-        $('#tick-count').text(counts.tick += 1);
-      } else {
-        $('#cross-count').text(counts.cross += 1);
-      }
+      const predictedRight = (light.colour === light.predicted);
+      const name = predictedRight ? 'tick' : 'cross';
+      $(`#${name}-count`).text(counts[name] += 1);
+      $(`#${name}-box`).addClass('current');
     }
     if (light.revert) {
       counts.revert += 1;

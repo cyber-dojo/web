@@ -40,8 +40,8 @@ $(() => {
   const events = <%= raw @events.to_json %>;
   events.forEach((event,index) => {
     cd.kata.appendTrafficLight(event);
-    cd.kata.updateTrafficLightsCounts(event);
-    cd.kata.updatePredictCounts(event);
+    cd.kata.addToTrafficLightsCounts(event);
+    cd.kata.addToPredictCounts(event);
   });
   cd.kata.scrollLastTrafficLightIntoView();
 

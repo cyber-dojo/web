@@ -9,7 +9,7 @@
 $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // cd.kata.updateTrafficLightsCounts() updates the total-counts
+  // cd.kata.addToTrafficLightsCounts() updates the total-counts
   // It is called from these places:
   //   1) views/kata/_edit.html.erb when page loads/refreshes.
   //   2) views/kata/run_tests.js.erb when [test] is clicked.
@@ -18,7 +18,7 @@ $(() => {
   const $counts = $('#traffic-lights-counts');
   cd.setTip($counts, () => cd.showHoverTip($counts, trafficLightsTotalsCountHoverTip()));
 
-  cd.kata.updateTrafficLightsCounts = (light) => {
+  cd.kata.addToTrafficLightsCounts = (light) => {
     const colour = light.colour;
     counts[colour] += 1;
     $('.count', $counts).removeClass('current');

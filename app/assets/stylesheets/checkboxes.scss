@@ -4,7 +4,7 @@
 #diff-checkbox-container
 {
   @include edged-panel();
-  background: lighten($darker-color,10%);
+  background: lighten($darker-color,15%);
     margin: 0px;
    padding: { top:4px; bottom:0px; right:0px; }
   position: relative;

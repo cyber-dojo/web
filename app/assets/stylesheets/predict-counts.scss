@@ -6,10 +6,12 @@
    #tick-box, #cross-box
    {
      @include edged-panel();
-     border: 1px solid lighten(black,30%);
+     background: lighten($darker-color,15%);
+     border: 2px solid lighten($darker-color,15%);
      display: inline-flex;
-     max-height: 23px;
-     margin: { left:0px; right:0px; }
+     max-height: 21px;
+     margin: { left:0px; right:1px; }
+     &.current { border: 2px dotted Black; }
    }
    #tick-img, #cross-img
    {
