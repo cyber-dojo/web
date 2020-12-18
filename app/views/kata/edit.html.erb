@@ -1,3 +1,8 @@
+<script>
+'use strict';
+cd.kata.id = () => "<%= @id %>";
+</script>
+
 <%= render partial: 'starting_info' %>
 <%= render partial: 'shared/hover_tip_container' %>
 <%= render partial: 'shared/app_bar' %>
@@ -10,7 +15,6 @@
 $(() => {
 
   cd.kata.page = $('#kata-page');
-  cd.kata.id = () => "<%= @id %>";
 
   cd.kata.index.reset();
   cd.codeMirror.resetTheme();

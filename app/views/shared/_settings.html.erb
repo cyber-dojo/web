@@ -88,11 +88,15 @@ $(() => {
   };
 
   const getId = () => {
-    if (cd.kata.page) {
+    if (cd.kata.id) {
       return cd.kata.id();
-    } else {
+    }
+    if (cd.review.id) {
       return cd.review.id();
     }
+    const errorMessage = `kata.id and review.id are both undefined!!`
+    console.log(errorMessage);
+    throw errorMessage;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
