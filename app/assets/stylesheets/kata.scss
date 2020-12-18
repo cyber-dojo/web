@@ -72,21 +72,23 @@
 
   .file-operations
   {
-    display:inline;
-    padding:0px;
-    position:relative;
-    top:-5px;
+    display: inline;
+    padding: 0px;
+    position: relative;
+    top: -2px;
     @include rounded-corner(6px);
+    margin-left: 7px;
 
     .create-file, .delete-file, .rename-file
     {
-      display:inline-block;
+      display: inline-block;
       @include rounded-corner(3px);
       margin:{ bottom:1px; right:0px }
       padding:{ left:3px; right:3px; top:0px; bottom:2px; }
-      width:21px;
-      height:21px;
-      font-size:14px;
+      width: 23px;
+      height: 23px;
+      font-size: 14px;
+      font-weight: bold;
     }
     .create-file { color: darken($green,20%); }
     .delete-file { color: darken($red,  20%); }
@@ -97,18 +99,18 @@
 
   #traffic-lights
   {
-       display:inline-flex;
-        margin:{ left:3px; top:0px; right:0px; bottom:0px; }
-    overflow-x:auto;
-    overflow-y:hidden;
+       display: inline-flex;
+        margin: { left:3px; top:0px; right:0px; bottom:0px; }
+    overflow-x: auto;
+    overflow-y: hidden;
     &::-webkit-scrollbar:horizontal { height:0px; }
   }
 
   img.diff-traffic-light
   {
-    margin-right:2px;
-    position:relative;
-    top:5px;
+    margin-right: 2px;
+    position: relative;
+    top: 5px;
   }
 
   img.revert, img.tick, img.cross
