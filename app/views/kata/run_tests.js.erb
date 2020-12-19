@@ -154,15 +154,15 @@
       cd.kata.tabs.output().click();
       cd.kata.filenames.refresh();
       cd.kata.appendTrafficLight(data.light);
-      cd.kata.addToTrafficLightsCounts(data.light);
-      cd.kata.addToPredictCounts(data.light);
+      cd.kata.updateTrafficLightsCounts(data.light);
+      cd.kata.updatePredictCounts(data.light);
     }, 'json');
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   cd.kata.appendTrafficLight(<%= raw @light.to_json %>);
-  cd.kata.addToTrafficLightsCounts(<%= raw @light.to_json %>);
-  cd.kata.addToPredictCounts(<%= raw @light.to_json %>);
+  cd.kata.updateTrafficLightsCounts(<%= raw @light.to_json %>);
+  cd.kata.updatePredictCounts(<%= raw @light.to_json %>);
   if (runNeedsReverting()) {
     revert();
   } else {

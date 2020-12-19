@@ -22,7 +22,7 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  cd.kata.addToPredictCounts = (light) => {
+  cd.kata.updatePredictCounts = (light) => {
     $('.box', $counts).removeClass('current');
     if (cd.lib.isPredict(light)) {
       const predictedRight = (light.colour === light.predicted);

@@ -24,7 +24,7 @@ $(() => {
       src_avatar_index: cd.review.avatarIndex()
     };
     delete cd.review.id;
-    cd.settings.showButton();    
+    cd.settings.showButton();
     $.post('/kata/checkout', args, (data) => {
       cd.kata.editor.deleteFiles();
       for (const filename in data.files) {
@@ -35,8 +35,8 @@ $(() => {
       cd.kata.tabs.output().click();
       cd.kata.filenames.refresh();
       cd.kata.appendTrafficLight(data.light);
-      cd.kata.addToTrafficLightsCounts(data.light);
-      cd.kata.addToPredictCounts(data.light);
+      cd.kata.updateTrafficLightsCounts(data.light);
+      cd.kata.updatePredictCounts(data.light);
       cd.kata.scrollLastTrafficLightIntoView();
     }, 'json');
   };
