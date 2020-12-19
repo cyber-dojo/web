@@ -48,8 +48,8 @@ $(() => {
 
   const $predictImages = () => $('img.revert, img.tick, img.cross');
 
-  cd.kata.hidePredictImages = () => $predictImages().hide();
-  cd.kata.showPredictImages = () => $predictImages().show();
+  cd.kata.hidePredictImages = () => $predictImages().hide('slow');
+  cd.kata.showPredictImages = () => $predictImages().show('slow');
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const $trafficLightImage = (index, colour) => {
