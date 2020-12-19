@@ -12,10 +12,21 @@
 </div>
 
 <div id="predict-buttons-container" style="display:none;">
-  <button class="predict red"   type="button">some tests will fail</button>
-  <button class="predict amber" type="button">tests will not run</button>
-  <button class="predict green" type="button">all tests will pass</button>
+  <table>
+    <tr>
+      <td style="max-width:120px;">
+        <button class="predict red"   type="button">some tests will fail</button>
+        <button class="predict amber" type="button">tests will not run</button>
+        <button class="predict green" type="button">all tests will pass</button>
+      </td>
+      <td></td>
+      <td>
+        <%= render partial: 'predict_counts' %>
+      </td>
+    </tr>
+  </table>
 </div>
+
 
 <script>
 'use strict';

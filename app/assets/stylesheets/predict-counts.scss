@@ -1,12 +1,13 @@
 #predict-counts
 {
-   display: inline-flex;
+   display: grid;
    margin-right: 4px;
 
    #tick-box, #cross-box
    {
      @include edged-panel();
      max-height:26px;
+     max-width:55px;
      font-size: 23px;
      margin: 0px;
      padding: { left:4px; right:4px; top:5px; bottom:2px; }
@@ -22,16 +23,16 @@
    }
    #tick-img, #cross-img
    {
-     width: 20px;
-     height: 20px;
-     padding: { left:3px; right:3px; top:1px; bottom:0px; }
+     width: 16px;
+     height: 16px;
+     padding: { left:3px; right:3px; top:3px; bottom:0px; }
    }
    #tick-count, #cross-count
    {
-     font-size: 23px;
+     font-size: 19px;
      padding: { left:3px; right:3px; }
      color: lighten(Black, 20%);
      position: relative;
-     top: -3px;
+     top: -2px;
    }
 }
