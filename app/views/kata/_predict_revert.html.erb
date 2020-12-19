@@ -38,13 +38,18 @@ $(() => {
   const $predictContainer = $('#predict-checkbox-container');
   const $predict = $('#predict-checkbox');
 
-  cd.createTip($predictContainer, [
-    'when predict is checked',
-    'there are three test buttons:',
-    '&nbsp;&bull; one to predict a <span class="red">red</span>',
-    '&nbsp;&bull; one to predict an <span class="amber">amber</span>',
-    '&nbsp;&bull; one to predict a <span class="green">green</span>'
-  ].join('<br/>'));
+  cd.setTip($predictContainer, () => {
+    const tip = [
+    'when predict is on there',
+    'there are <u>three</u> test buttons:',
+    '&nbsp;&bull; predict <span class="red">red</span>',
+    '&nbsp;&bull; predict <span class="amber">amber</span>',
+    '&nbsp;&bull; predict <span class="green">green</span>'
+    ].join('<br/>');
+    if (cd.settings.predict() === 'off') {
+      cd.showHoverTip($predictContainer, tip);
+    }
+  });
 
   $('#predict-checkbox-title').click(() => {
     $predict.prop('checked', !$predict.is(':checked'));
