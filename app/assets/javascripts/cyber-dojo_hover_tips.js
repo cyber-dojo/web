@@ -51,7 +51,7 @@ var cyberDojo = (function(cd, $) {
     if (avatarIndex != '') {
       const $img = $('<img>', {
           src:`/images/avatars/${avatarIndex}.jpg`,
-        class:'traffic-light-diff-tip-avatar-image'
+        class:'diff-hover-tip'
       });
       $td.append($img);
     }
@@ -72,7 +72,7 @@ var cyberDojo = (function(cd, $) {
   const $trafficLightImageTd = (colour) => {
     const $img = $('<img>', {
         src:`/images/traffic-light/${colour}.png`,
-      class:'traffic-light-diff-tip-traffic-light-image'
+      class:'diff-hover-tip'
     });
     return $('<td>').append($img);
   };

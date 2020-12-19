@@ -21,21 +21,21 @@ $hoverFadePercent: 7%;
   border: 1px solid lighten($darker-color, $hoverFadePercent);
 }
 
-.traffic-light-diff-tip-traffic-light-image
+img.count-hover-tip
 {
-  height: 22px;
-   width: 22px;
-   margin-right: 4px;
-}
-
-.traffic-light-diff-tip-avatar-image
-{
-  @include rounded-corner(4px);
    width: 26px;
   height: 26px;
+  margin-right: 0px;
+}
+img.diff-hover-tip
+{
+  @include rounded-corner(3px);
+  width: 26px;
+ height: 26px;
+ margin-right: 0px;
 }
 
-.hover-tip-count
+.count-hover-tip
 {
   text-align: right;
   padding-right: 4px;
