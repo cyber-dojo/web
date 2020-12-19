@@ -5,33 +5,20 @@
   #red-count, #amber-count, #green-count
   {
     @include edged-panel();
-    max-height: 22px;
-    min-width: 14px;
+    max-height: 26px;
+    min-width: 15px;
     font-size: 23px;
     text-align: center;
     margin: { left:0px; right:1px; }
-    padding: { left:4px; right:4px; top:0px; bottom:7px; }
-    position: relative;
-    top: 0px;
-    color: lighten(Black,20%);
-    &.current { border: 2px dotted lighten(Black,20%); }
+    padding: { left:4px; right:4px; top:2px; bottom:5px; }
+    color: lighten(Black, 20%);
+    background: lighten($darker-color,30%);
+    border: none;
   }
 
   $fadePercent: 15%;
 
-  #red-count
-  {
-    background: lighten($red, $fadePercent);
-    border: 2px solid lighten($red, $fadePercent);
-  }
-  #amber-count
-  {
-    background: lighten($amber, $fadePercent);
-    border: 2px solid lighten($amber, $fadePercent);
-  }
-  #green-count
-  {
-    background: lighten($green, $fadePercent);
-    border: 2px solid lighten($green, $fadePercent);
-  }
+  #red-count.current   { background: lighten($red,   $fadePercent); }
+  #amber-count.current { background: lighten($amber, $fadePercent); }
+  #green-count.current { background: lighten($green, $fadePercent); }
 }
