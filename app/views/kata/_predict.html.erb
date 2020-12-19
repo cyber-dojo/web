@@ -17,11 +17,11 @@
     <tr>
       <td style="max-width:75px;">
         <button class="predict red"   data-colour="red"   type="button">some tests will fail</button>
-        <input type="checkbox" id="revert-red-checkbox"/>
+        <input type="checkbox" class="revert-checkbox" data-colour="red"  />
         <button class="predict amber" data-colour="amber" type="button">tests will not run</button>
-        <input type="checkbox" id="revert-amber-checkbox"/>
+        <input type="checkbox" class="revert-checkbox" data-colour="amber"/>
         <button class="predict green" data-colour="green" type="button">all tests will pass</button>
-        <input type="checkbox" id="revert-green-checkbox"/>
+        <input type="checkbox" class="revert-checkbox" data-colour="green"/>
       </td>
       <td>
         <%= render partial: 'predict_counts' %>
@@ -119,50 +119,23 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - - - - -
   // Revert checkboxs
 
-  $('#revert-red-checkbox').click((event) => {
-    if ($(event.target).is(':checked')) {
-      //revertOn('red');
-      alert(`revert red ON`);
-    } else {
-      //revertOff('red');
-      alert(`revert red OFF`);
-    }
-  });
-
-
   const $revertContainer = $('#revert-checkbox-container');
-  const $revert  = $('#revert-checkbox');
-
   cd.createTip($revertContainer, [
     'when checked an incorrect prediction will',
     'automatically revert to the previous',
     'traffic-light!'
   ].join('<br/>'));
 
-  $('#revert-checkbox-title').click(() => {
-    $revert.prop('checked', !$revert.is(':checked'));
-    revertCheckBoxChanged();
-  });
-
-  $revert.prop('checked', cd.settings.revert() === 'on')
-         .click(() => revertCheckBoxChanged());
-
-  const revertCheckBoxChanged = () => {
-    if ($revert.prop('checked')) {
-      revertOn();
+  $('.revert-checkbox').click((event) => {
+    const $box = $(event.target);
+    const colour = $box.data('colour');
+    if ($box.is(':checked')) {
+      cd.settings.revert(colour, 'on');
     } else {
-      revertOff();
+      cd.settings.revert(colour, 'off');
     }
     cd.kata.editor.refocus();
-  };
-
-  const revertOn = () => {
-    cd.settings.revert('on');
-  };
-
-  const revertOff = () => {
-    cd.settings.revert('off');
-  };
+  });
 
   //- - - - - - - - - - - - - - - - - - - - - - -
 
