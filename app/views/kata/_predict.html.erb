@@ -5,7 +5,8 @@
   <input type="checkbox" id="predict-checkbox"/>
   <label for="predict-checkbox"></label>
 </div>
-<div id="revert-checkbox-container" style="display:none;">
+
+<div id="XXXX_revert-checkbox-container" style="display:none;">
   <div id="revert-checkbox-title">+&nbsp;auto&nbsp;revert</div>
   <input type="checkbox" id="revert-checkbox"/>
   <label for="revert-checkbox"></label>
@@ -36,19 +37,18 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - - - - -
   // Predict checkbox
 
-  const $predictContainer = $('#predict-checkbox-container');
+  const $predictCheckboxContainer = $('#predict-checkbox-container');
   const $predict = $('#predict-checkbox');
 
-  cd.setTip($predictContainer, () => {
+  cd.setTip($predictCheckboxContainer, () => {
     const tip = [
-    'when predict is on there',
-    'there are <u>three</u> test buttons:',
+    'when checked there are <u>three</u> test buttons:',
     '&nbsp;&bull; predict <span class="red">red</span>',
     '&nbsp;&bull; predict <span class="amber">amber</span>',
     '&nbsp;&bull; predict <span class="green">green</span>'
     ].join('<br/>');
     if (cd.settings.predict() === 'off') {
-      cd.showHoverTip($predictContainer, tip);
+      cd.showHoverTip($predictCheckboxContainer, tip);
     }
   });
 
@@ -73,7 +73,6 @@ $(() => {
     cd.settings.predict('on');
     cd.kata.testButton.hide(() => {
       $buttonsContainer.slideDown('slow');
-      cd.kata.predictCounts.show();
       cd.kata.showPredictImages();
       setFilenameListMaxHeight(470);
       cd.kata.editor.refocus();
@@ -82,15 +81,8 @@ $(() => {
 
   const predictOff = () => {
     cd.settings.predict('off');
-    if ($revert.is(':checked')) {
-      // predict just went to !checked,
-      // so ensure revert is !checked
-      $revert.prop('checked', false);
-      revertOff();
-    }
     $buttonsContainer.slideUp('slow', () => {
       cd.kata.testButton.show();
-      cd.kata.predictCounts.hide();
       cd.kata.hidePredictImages();
       setFilenameListMaxHeight(530);
       cd.kata.editor.refocus();
@@ -125,16 +117,26 @@ $(() => {
   const enableButtons  = () => $buttons.prop('disabled', false);
 
   //- - - - - - - - - - - - - - - - - - - - - - -
-  // Revert checkbox
+  // Revert checkboxs
+
+  $('#revert-red-checkbox').click((event) => {
+    if ($(event.target).is(':checked')) {
+      //revertOn('red');
+      alert(`revert red ON`);
+    } else {
+      //revertOff('red');
+      alert(`revert red OFF`);
+    }
+  });
+
 
   const $revertContainer = $('#revert-checkbox-container');
   const $revert  = $('#revert-checkbox');
 
   cd.createTip($revertContainer, [
-    'when auto revert is checked,',
-    'an incorrect prediction will',
-    'automatically revert to the',
-    'previous traffic-light!'
+    'when checked an incorrect prediction will',
+    'automatically revert to the previous',
+    'traffic-light!'
   ].join('<br/>'));
 
   $('#revert-checkbox-title').click(() => {
@@ -156,12 +158,6 @@ $(() => {
 
   const revertOn = () => {
     cd.settings.revert('on');
-    if (!$predict.is(':checked')) {
-      // revert just went to to checked
-      // so ensure predict is checked
-      $predict.prop('checked', true);
-      predictOn();
-    }
   };
 
   const revertOff = () => {
