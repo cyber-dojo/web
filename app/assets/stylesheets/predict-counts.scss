@@ -7,7 +7,7 @@
    {
      @include edged-panel();
      max-height:26px;
-     max-width:55px;
+     max-width:45px;
      font-size: 23px;
      margin-bottom: 1px;
      padding: { left:4px; right:4px; top:5px; bottom:2px; }
@@ -25,11 +25,11 @@
    {
      width: 16px;
      height: 16px;
-     padding: { left:3px; right:3px; top:3px; bottom:0px; }
+     padding: { left:3px; right:3px; top:0px; bottom:0px; }
    }
    #tick-count, #cross-count
    {
-     font-size: 19px;
+     font-size: 15px;
      padding: { left:3px; right:3px; }
      color: lighten(Black, 20%);
      position: relative;
