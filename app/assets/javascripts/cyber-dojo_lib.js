@@ -112,10 +112,10 @@ var cyberDojo = ((cd, $) => {
     //   - an auto-revert, from an incorrect test prediction
     //   - a [checkout], from the review page.
     // Both were light.revert == [id,index]
-    if (cd.lib.isPredict(light) && cd.settings.predict() === 'on') {
+    if (cd.lib.isPredict(light)) {
       $lights.append($imgForPredict(light));
     }
-    else if (cd.lib.isRevert(light) && cd.settings.predict() === 'on') {
+    else if (cd.lib.isRevert(light)) {
       $lights.append($imgForRevert(light));
     }
     else if (cd.lib.isCheckout(light)) {

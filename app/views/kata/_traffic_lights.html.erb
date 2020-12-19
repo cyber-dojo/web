@@ -32,7 +32,9 @@ $(() => {
   cd.kata.appendTrafficLight = (light) => {
     if (cd.lib.isVisible(light)) {
       const id = cd.kata.id();
-      cd.lib.appendLightQualifierImg($lights, light);
+      if (cd.settings.predict() === 'on') {
+        cd.lib.appendLightQualifierImg($lights, light);
+      }
       const index = light.index;
       const colour = light.colour;
       const $light = $trafficLightImage(index, colour);
