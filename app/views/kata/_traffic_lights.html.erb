@@ -33,8 +33,9 @@ $(() => {
     if (cd.lib.isVisible(light)) {
       const id = cd.kata.id();
       if (cd.settings.predict() === 'on') {
-        cd.lib.appendLightQualifierImg($lights, light);
+        cd.lib.appendImageIfPrediction($lights, light);
       }
+      cd.lib.appendImageIfCheckout($lights, light);
       const index = light.index;
       const colour = light.colour;
       const $light = $trafficLightImage(index, colour);

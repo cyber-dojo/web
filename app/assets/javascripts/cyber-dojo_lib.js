@@ -107,10 +107,10 @@ var cyberDojo = ((cd, $) => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  cd.lib.appendLightQualifierImg = ($lights, light) => {
+  cd.lib.appendImageIfPrediction = ($lights, light) => {
     // Older katas did not distinguish between
-    //   - an auto-revert, from an incorrect test prediction
-    //   - a [checkout], from the review page.
+    //   - an auto-revert (from an incorrect test prediction)
+    //   - a [checkout]   (from the review page)
     // Both were light.revert == [id,index]
     if (cd.lib.isPredict(light)) {
       $lights.append($imgForPredict(light));
@@ -118,7 +118,11 @@ var cyberDojo = ((cd, $) => {
     else if (cd.lib.isRevert(light)) {
       $lights.append($imgForRevert(light));
     }
-    else if (cd.lib.isCheckout(light)) {
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  cd.lib.appendImageIfCheckout = ($lights, light) => {
+    if (cd.lib.isCheckout(light)) {
       $lights.append($imgForCheckout(light));
     }
   };

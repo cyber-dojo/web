@@ -30,7 +30,8 @@ $(() => {
   const appendTrafficLights = (kataId, index, events) => {
     events.forEach(event => {
       if (cd.lib.isVisible(event)) {
-        cd.lib.appendLightQualifierImg($trafficLights, event);
+        cd.lib.appendImageIfPrediction($trafficLights, event);
+        cd.lib.appendImageIfCheckout($trafficLights, event);
         appendTrafficLight(kataId, index, event);
       }
     });
