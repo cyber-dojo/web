@@ -1,11 +1,18 @@
 <div id="predict-counts">
   <div id="tick-box" class="box">
-    <img id="tick-img" src="/images/traffic-light/circle-tick.png">
     <div id="tick-count" class="count">0</div>
+    <img id="tick-img" src="/images/traffic-light/circle-tick.png">
+    <div class="count">right</div>
   </div>
   <div id="cross-box" class="box">
-    <img id="cross-img" src="/images/traffic-light/circle-cross.png">
     <div id="cross-count" class="count">0</div>
+    <img id="cross-img" src="/images/traffic-light/circle-cross.png">
+    <div class="count">wrong</div>
+  </div>
+  <div id="revert-box" class="box">
+    <div id="revert-count" class="count">0</div>
+    <img id="revert-img" src="/images/traffic-light/circle-revert.png">
+    <div class="count">reverted</div>
   </div>
 </div>
 
@@ -14,7 +21,6 @@
 $(() => {
 
   const $counts = $('#predict-counts');
-  cd.setTip($counts, () => cd.showHoverTip($counts, predictCountHoverTip()));
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   cd.kata.updatePredictCounts = (light) => {
@@ -36,31 +42,6 @@ $(() => {
     cross: 0,
     revert: 0
   };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const predictCountHoverTip = () => {
-    return '' +
-      '<table>' +
-      predictTr('tick'  , 'correct'  ) +
-      predictTr('cross' , 'incorrect') +
-      predictTr('revert', 'reverted' ) + // ??
-      // 24 predictions, with 2 reverts
-      '</table>';
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const predictTr = (name, text) => {
-    return '' +
-      tr(td(`<div class="count-hover-tip">${counts[name]}</div>`) +
-         td(`<img class="count-hover-tip"
-                  src="/images/traffic-light/circle-${name}.png">`) +
-         td(`<div>${text}</div>`)
-      );
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const tr = (s) => `<tr>${s}</tr>`;
-  const td = (s) => `<td>${s}</td>`;
 
 });
 </script>
