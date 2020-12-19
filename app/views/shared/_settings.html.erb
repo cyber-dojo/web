@@ -53,15 +53,16 @@ $(() => {
       }
     },
     revert:(colour, value) => {
+      // TODO: make model calls for persistence
       const name = 'revert';
       if (value === undefined) {
-        const value = getOption(name);
-        console.log(`GET cd.settings.revert[${colour}] == ${value}`);
+        const value = cache.revert[colour];
+        console.log(`GET cd.settings.revert(${colour}) == ${value}`);
         return value;
       } else {
         //setOption(name, value);
         cache.revert[colour] = value;
-        console.log(`SET cd.settings.revert[${colour}] = ${value}`);
+        console.log(`SET cd.settings.revert(${colour}, ${value})`);
       }
     }
   };

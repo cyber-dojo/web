@@ -131,9 +131,10 @@
 
   //- - - - - - - - - - - - - - - - - - - - - -
   const runNeedsReverting = () => {
-    const predictedWrong = (cd.kata.predictedColour() != outcome);
+    const predicted = cd.kata.predictedColour();
+    const predictedWrong = (predicted != outcome);
     const predictIsOn = (cd.settings.predict() === 'on');
-    const revertIsOn = (cd.settings.revert() === 'on');
+    const revertIsOn = (cd.settings.revert(predicted) === 'on');
     const isLightToRevertTo = (cd.kata.index() > 1);
     return predictIsOn && predictedWrong && revertIsOn && isLightToRevertTo;
   };
