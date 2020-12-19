@@ -70,7 +70,9 @@ $(() => {
     review.refresh(kataId, index, showDiff);
   };
 
-  if ($('#kata-page').length === 0) {
+  const independentReviewFromDashboard = () => $('#kata-page').length === 0;
+
+  if (independentReviewFromDashboard()) {
     const wasIndex = parseInt(cd.urlParam('was_index', -1));
     const nowIndex = parseInt(cd.urlParam('now_index', -1));
     const showDiff = (wasIndex != nowIndex);
