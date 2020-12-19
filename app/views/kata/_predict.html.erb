@@ -5,7 +5,7 @@
   <input type="checkbox" id="predict-checkbox"/>
   <label for="predict-checkbox"></label>
 </div>
-<div id="revert-checkbox-container">
+<div id="revert-checkbox-container" style="display:none;">
   <div id="revert-checkbox-title">+&nbsp;auto&nbsp;revert</div>
   <input type="checkbox" id="revert-checkbox"/>
   <label for="revert-checkbox"></label>
@@ -16,17 +16,18 @@
     <tr>
       <td style="max-width:120px;">
         <button class="predict red"   type="button">some tests will fail</button>
+        <input type="checkbox" id="revert-red-checkbox"/>
         <button class="predict amber" type="button">tests will not run</button>
+        <input type="checkbox" id="revert-amber-checkbox"/>
         <button class="predict green" type="button">all tests will pass</button>
+        <input type="checkbox" id="revert-green-checkbox"/>
       </td>
-      <td></td>
       <td>
         <%= render partial: 'predict_counts' %>
       </td>
     </tr>
   </table>
 </div>
-
 
 <script>
 'use strict';
