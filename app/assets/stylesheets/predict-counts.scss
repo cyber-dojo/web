@@ -8,7 +8,7 @@
      @include edged-panel();
      max-height:26px;
      max-width:90px;
-     font-size: 13px;
+     font-size: 12px;
      margin-bottom: 1px;
      padding: { left:4px; right:4px; top:5px; bottom:2px; }
      color: lighten(Black, 20%);
@@ -21,17 +21,33 @@
      &.amber { background: lighten($amber, $predictFadePercent); }
      &.green { background: lighten($green, $predictFadePercent); }
    }
-   #tick-img, #cross-img, #revert-img
-   {
-     width: 16px;
-     height: 16px;
-     padding: { left:3px; right:3px; top:0px; bottom:0px; }
-   }
    #tick-count, #cross-count, #revert-count
    {
+     display: inline-block;
+     width: 15px;
+     max-width: 15px;
      padding: { left:3px; right:3px; }
      color: lighten(Black, 20%);
      position: relative;
-     top: -2px;
+     top: -1px;
+     text-align: right;
+   }
+   #tick-img, #cross-img, #revert-img
+   {
+     width: 15px;
+     height: 15px;
+     padding: { left:3px; right:3px; top:0px; bottom:0px; }
+     position: relative;
+     top: -1px;
+   }
+   .count-text
+   {
+     display: inline-block;
+     width: 50px;
+     max-width: 50px;
+     position: relative;
+     top: -1px;
+     padding-left: 2px;
+     font-size: sans-serif;     
    }
 }
