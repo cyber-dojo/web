@@ -6,6 +6,7 @@
     border-spacing: 0;
     border-collapse: collapse;
   }
+  th, td { padding: 0; }  
 }
 
 button.predict
