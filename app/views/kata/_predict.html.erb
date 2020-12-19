@@ -15,11 +15,11 @@
   <table>
     <tr>
       <td style="max-width:120px;">
-        <button class="predict red"   type="button">some tests will fail</button>
+        <button class="predict red"   data-colour="red"   type="button">some tests will fail</button>
         <input type="checkbox" id="revert-red-checkbox"/>
-        <button class="predict amber" type="button">tests will not run</button>
+        <button class="predict amber" data-colour="amber" type="button">tests will not run</button>
         <input type="checkbox" id="revert-amber-checkbox"/>
-        <button class="predict green" type="button">all tests will pass</button>
+        <button class="predict green" data-colour="green" type="button">all tests will pass</button>
         <input type="checkbox" id="revert-green-checkbox"/>
       </td>
       <td>
@@ -110,14 +110,13 @@ $(() => {
   const $buttonsContainer = $('#predict-buttons-container');
   const $buttons = $('button.predict');
 
-  ['red','amber','green'].forEach((rag) => {
-    $(`button.predict.${rag}`).click(() => {
-      $predicted.val(rag);
-      disableButtons();
-      cd.kata.runTests(() => {
-        $predicted.val('none');
-        enableButtons();
-      });
+  $('button.predict').click((event) => {
+    disableButtons();
+    const rag = $(event.target).data('colour');
+    $predicted.val(rag);
+    cd.kata.runTests(() => {
+      $predicted.val('none');
+      enableButtons();
     });
   });
 
