@@ -45,8 +45,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const predictCountHoverTip = () => {
     let html = '';
-    html += 'predictions';
-    html += '<table style="margin-top:8px;">';
+    html += '<table>';
     html += predictTr('tick'  , 'correct'  );
     html += predictTr('cross' , 'incorrect');
     html += predictTr('revert', 'reverted' );

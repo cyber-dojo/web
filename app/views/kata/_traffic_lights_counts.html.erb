@@ -40,8 +40,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const trafficLightsTotalsCountHoverTip = () => {
     let html = '';
-    html += 'tests';
-    html += '<table style="margin-top:8px;">';
+    html += '<table>';
     html += lightTr('red'  , 'red'  );
     html += lightTr('amber', 'amber');
     html += lightTr('green', 'green');
@@ -54,6 +53,7 @@ $(() => {
     if (counts.faulty > 0) {
       html += lightTr('faulty', 'faulty');
     }
+    //html += 'tests';
     html += '</table>';
     return html;
   };
@@ -61,12 +61,12 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const lightTr = (name, text) => {
     return '' +
-      tr(td(`<img class="traffic-light-diff-tip-traffic-light-image"
-                  src="/images/traffic-light/${name}.png">`) +
-         td(`<div class='traffic-light-diff-tip-tag ${name}'>
+      tr(td(`<div class='${name} hover-tip-count'>
               ${counts[name]}
              </div>`) +
-         td(text));
+         td(`<img class="traffic-light-diff-tip-traffic-light-image"
+                  src="/images/traffic-light/${name}.png">`) +
+         td(`<span class="${name}">${text}</span>`));
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
