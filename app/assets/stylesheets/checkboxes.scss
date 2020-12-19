@@ -17,13 +17,12 @@
 #predict-checkbox-container,
 #revert-checkbox-container
 {
-  background: lighten($darker-color,40%);
+  background: lighten($darker-color,35%);
   margin: { left:0px; right:0px; }
 }
 
 #predict-checkbox-container
 {
-  background: $lighter-color;
   padding: { left:4px; right:11px; top:7px; bottom:4px; }
 }
 
