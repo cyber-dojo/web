@@ -1,11 +1,11 @@
 <div id="predict-counts" style="display:none;">
   <div id="tick-box" class="box">
-    <img id="tick-img" src="/images/traffic-light/circle-tick.png">
     <div id="tick-count" class="count">0</div>
+    <img id="tick-img" src="/images/traffic-light/circle-tick.png">
   </div>
   <div id="cross-box" class="box">
-    <img id="cross-img" src="/images/traffic-light/circle-cross.png">
     <div id="cross-count" class="count">0</div>
+    <img id="cross-img" src="/images/traffic-light/circle-cross.png">
   </div>
 </div>
 
@@ -23,12 +23,12 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   cd.kata.updatePredictCounts = (light) => {
-    $('.box', $counts).removeClass('current');
+    $('.box', $counts).removeClass('red amber green');
     if (cd.lib.isPredict(light)) {
-      const predictedRight = (light.colour === light.predicted);
-      const name = predictedRight ? 'tick' : 'cross';
+      const isRight = (light.colour === light.predicted);
+      const name = isRight ? 'tick' : 'cross';
       $(`#${name}-count`).text(counts[name] += 1);
-      $(`#${name}-box`).addClass('current');
+      $(`#${name}-box`).addClass(light.predicted);
     }
     if (light.revert) {
       counts.revert += 1;
