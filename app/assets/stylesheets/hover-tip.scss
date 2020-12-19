@@ -37,6 +37,8 @@ img.diff-hover-tip
 
 .count-hover-tip
 {
+  @include non-code-font();
   text-align: right;
   padding-right: 4px;
+  font-size: 17px;
 }
