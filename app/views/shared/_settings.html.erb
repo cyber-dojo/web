@@ -71,7 +71,7 @@ $(() => {
       $.ajax({
         dataType: 'json',
              url: '/model/kata_option_get',
-            data: { id: getId(), name: name },
+            data: { id: cd.kata.id(), name: name },
            async: false,
          success: (data) => cache[name] = data['kata_option_get']
       });
@@ -87,22 +87,6 @@ $(() => {
       value: value
     });
     cache[name] = value;
-  };
-
-  const getId = () => {
-    // This is called when in edit mode and when in review mode.
-    // In review/show from a dashboard there is no cd.kata.id
-    // In kata/edit there is always a kata.id
-    // and, when in review mode, there is also a cd.review.id
-    if (cd.kata.id) {
-      return cd.kata.id();
-    }
-    if (cd.review.id) {
-      return cd.review.id();
-    }
-    const errorMessage = `kata.id and review.id are both undefined!!`
-    console.log(errorMessage);
-    throw errorMessage;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
