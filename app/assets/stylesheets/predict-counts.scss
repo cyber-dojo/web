@@ -7,12 +7,12 @@
    {
      @include edged-panel();
      max-height:26px;
-     max-width:90px;
+     max-width:93px;
      font-size: 12px;
      margin-bottom: 1px;
-     padding: { left:4px; right:4px; top:5px; bottom:2px; }
+     padding: { left:4px; right:4px; top:3px; bottom:1px; }
      color: lighten(Black, 20%);
-     background: lighten($darker-color,25%);
+     background: lighten($darker-color, 30%);
      border: none;
      display: inline-flex;
      $predictFadePercent: 15%;
@@ -43,11 +43,11 @@
    .count-text
    {
      display: inline-block;
-     width: 50px;
-     max-width: 50px;
+     width: 59px;
+     max-width: 59px;
      position: relative;
-     top: -1px;
+     top: 1px;
      padding-left: 2px;
-     font-size: sans-serif;     
+     font-family: sans-serif;
    }
 }
