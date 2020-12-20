@@ -131,12 +131,13 @@
 
   //- - - - - - - - - - - - - - - - - - - - - -
   const runNeedsReverting = () => {
-    const predicted = cd.kata.predictedColour();
-    const predictedWrong = (predicted != outcome);
     const predictIsOn = (cd.settings.predict() === 'on');
+    const predicted = cd.kata.predictedColour();
+    const isRagOutcome = ['red','amber','green'].includes(outcome);
+    const predictedWrong = (predicted != outcome);
     const revertIsOn = (cd.settings.revert(predicted) === 'on');
     const isLightToRevertTo = (cd.kata.index() > 1);
-    return predictIsOn && predictedWrong && revertIsOn && isLightToRevertTo;
+    return predictIsOn && isRagOutcome && predictedWrong && revertIsOn && isLightToRevertTo;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
