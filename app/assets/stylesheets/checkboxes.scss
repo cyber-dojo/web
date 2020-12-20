@@ -1,6 +1,5 @@
 
 #predict-checkbox-container,
-.revert-checkbox-container,
 #diff-checkbox-container
 {
   @include edged-panel();
@@ -11,27 +10,19 @@
 }
 
 #predict-checkbox-container { max-width:50px; }
-.revert-checkbox-container  { max-width:96px; }
 #diff-checkbox-container    { max-width:55px; }
 
-#predict-checkbox-container,
-.revert-checkbox-container
+#predict-checkbox-container
 {
   display: inline;
   width: 125px;
   color: Black;
   background: lighten($darker-color,50%);
+  border: 1px solid lighten($darker-color,50%);
+  padding: { left:3px; right:0px; top:6px; bottom:3px; }
   margin: 0px;
-  padding: 0px;
 }
 
-#predict-checkbox-container
-{
-  padding: { left:3px; right:1px; top:1px; bottom:1px; }
-}
-
-#predict-checkbox-title,
-#revert-checkbox-title,
 #diff-checkbox-title
 {
        cursor: pointer;
@@ -44,30 +35,19 @@
 
 #predict-checkbox-title,
 {
-  font-size: 12px;
+  display: inline;
+  font-size: 18px;
   font-family: sans-serif;
+  font-weight: bold;
   color: Black;
   position: relative;
-    bottom: 2px;
-  padding-left: 0px;
+    bottom: 1px;
+  padding-left: 4px;
 }
 
-#revert-checkbox-title,
 #diff-checkbox-title
 {
   @include plaintext-font();
-}
-
-#revert-checkbox-title
-{
-  font-size: 12px;
-  font-family: sans-serif;
-  padding-left: 0px;
-  display: inline-block;
-  width: 90px;
-  position:relative;
-  top:-1px;
-  left:-1px;
 }
 
 #predict-checkbox,
@@ -81,13 +61,41 @@
   top: -3px;
 }
 
-#predict-checkbox
+//- - - - - - - - - - - - - - - - - - -
+
+#revert-checkbox-title
 {
-  position: relative;
-  top: -2px;
+  display: inline;
+  width: 90px;
+  border-radius: 3px;
+  background: lighten($darker-color,50%);
+  border: 1px solid lighten($darker-color,50%);
+  font-family: sans-serif;
+  font-size: 12px;
+  color: Black;
+  padding: { left:4px; top:4px; bottom:4px; right:6px; }
+  margin-left: 2px;
 }
+
+.revert-checkbox-container
+{
+  display: inline-block;
+  color: Black;
+  cursor: pointer;
+  background: lighten($darker-color,50%);
+  border: none;
+  margin-left: 2px;
+  padding-right: 1px;
+  border-radius:3px;
+  &:hover
+  {
+    border: 2px dotted Black;
+  }
+}
+
 .revert-checkbox
 {
-  position: relative;
-  top: -1px;
+  cursor: pointer;
+  width: 11px;
+  height: 13px;
 }

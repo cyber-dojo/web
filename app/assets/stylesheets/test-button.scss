@@ -6,7 +6,7 @@
 
 #test-button
 {
-  @include font-size-medium();
+  font-size: 20px;
   @include rounded-corner(5px);
      display: inline-block;
       margin: { top:0px; bottom: 0px; right: -2px; }
