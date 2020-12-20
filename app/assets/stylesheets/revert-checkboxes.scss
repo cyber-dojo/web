@@ -6,10 +6,8 @@
   border: 2px solid lighten($darker-color,50%);
   font: bold 12px sans-serif;
   color: Black;
-  padding: { left:4px; top:4px; bottom:3px; right:6px; }
-  margin-left: 2px;
-  position: relative;
-  top: -2px;
+  padding: { left:4px; top:2px; bottom:1px; right:6px; }
+  margin: 0px;
 }
 
 .revert-checkbox-container

@@ -1,11 +1,12 @@
 #predict-checkbox-container
 {
-  display: inline;
+  display: inline-block;
+  width: 85px;
   border-radius: 5px;
   color: Black;
   background: lighten($darker-color,50%);
   border: 2px solid lighten($darker-color,50%);
-  padding: { left:3px; right:1px; top:3px; bottom:2px; }
+  padding: { left:3px; right:1px; top:1px; bottom:0px; }
   margin: 0px;
   &:hover { border: 2px dotted Black; }
 }
