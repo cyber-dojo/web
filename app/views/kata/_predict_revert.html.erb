@@ -6,7 +6,7 @@
   <label for="predict-checkbox"></label>
 </div>
 
-<div id="revert-checkbox-title" Xstyle="display:none;">auto-revert when wrong!</div>
+<div id="revert-checkbox-title" style="display:none;">auto-revert when wrong!</div>
 
 <div id="predict-buttons-container" style="display:none;">
   <table>
@@ -46,10 +46,10 @@ $(() => {
 
   cd.setTip($predictCheckboxContainer, () => {
     const tip = [
-    'when checked there are <u>three</u> test buttons:',
-    '&nbsp;&bull; predict <span class="red">red</span> - some tests will fail',
-    '&nbsp;&bull; predict <span class="amber">amber</span> - tests will not run',
-    '&nbsp;&bull; predict <span class="green">green</span> - all tests will pass'
+    'when checked, you predict the test result;',
+    '&nbsp;&bull; <span class="red">red</span> - some tests will fail',
+    '&nbsp;&bull; <span class="amber">amber</span> - tests will not run',
+    '&nbsp;&bull; <span class="green">green</span> - all tests will pass'
     ].join('<br/>');
     if (cd.settings.predict() === 'off') {
       cd.showHoverTip($predictCheckboxContainer, tip);
@@ -76,6 +76,7 @@ $(() => {
   const predictOn = () => {
     cd.settings.predict('on');
     cd.kata.testButton.hide(() => {
+      $revertTitle.show('slow');
       $buttonsContainer.slideDown('slow');
       cd.kata.showPredictImages();
       cd.kata.showPredictCounts();
@@ -87,6 +88,7 @@ $(() => {
   const predictOff = () => {
     cd.settings.predict('off');
     $buttonsContainer.slideUp('slow', () => {
+      $revertTitle.hide('slow');
       cd.kata.testButton.show();
       cd.kata.hidePredictImages();
       cd.kata.hidePredictCounts();
@@ -110,26 +112,25 @@ $(() => {
   const $buttons = $('button.predict');
 
   $('button.predict').click((event) => {
-    disableButtons();
+    $buttons.prop('disabled', true );
     const rag = $(event.target).data('colour');
     $predicted.val(rag);
     cd.kata.runTests(() => {
       $predicted.val('none');
-      enableButtons();
+      $buttons.prop('disabled', false);
     });
   });
 
-  const disableButtons = () => $buttons.prop('disabled', true );
-  const enableButtons  = () => $buttons.prop('disabled', false);
-
   //- - - - - - - - - - - - - - - - - - - - - - -
-  // Revert checkboxs
+  // Revert title and checkboxes
 
-  const $revertContainer = $('#revert-checkbox-container');
-  cd.createTip($revertContainer, [
-    'when checked an incorrect prediction will',
-    'automatically revert to the previous',
-    'traffic-light!'
+  const $revertTitle = $('#revert-checkbox-title');
+
+  cd.createTip($revertTitle, [
+    'when checked, if your prediction is',
+    'wrong, your files will automatically',
+    'revert back to the most recent',
+    'traffic-light',
   ].join('<br/>'));
 
   $('.revert-checkbox').click((event) => {
