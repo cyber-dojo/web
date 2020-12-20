@@ -6,12 +6,6 @@
   <label for="predict-checkbox"></label>
 </div>
 
-<div id="XXXX_revert-checkbox-container" style="display:none;">
-  <div id="revert-checkbox-title">+&nbsp;auto&nbsp;revert</div>
-  <input type="checkbox" id="revert-checkbox"/>
-  <label for="revert-checkbox"></label>
-</div>
-
 <div id="predict-buttons-container" style="display:none;">
   <table>
     <tr>
@@ -19,9 +13,11 @@
         <button class="predict red"   data-colour="red"   type="button">red</button>
       </td>
       <td>
-        <input type="checkbox" class="revert-checkbox" data-colour="red"  />
-        <div id="revert-checkbox-title">revert if <span class="red">!red</span></div>
-        <label for="revert-red-checkbox"></label>
+        <div class="revert-checkbox-container">
+          <input type="checkbox" class="revert-checkbox" data-colour="red"  />
+          <div id="revert-checkbox-title">revert if <span class="red">!red</span></div>
+          <label for="revert-red-checkbox"></label>
+        </div>
       </td>
     </tr>
     <tr>
@@ -45,8 +41,6 @@
       </td>
     </tr>
   </table>
-
-  <%= render partial: 'predict_counts' %>
 </div>
 
 <script>

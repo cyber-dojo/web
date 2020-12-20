@@ -1,6 +1,6 @@
 
 #predict-checkbox-container,
-#revert-checkbox-container,
+.revert-checkbox-container,
 #diff-checkbox-container
 {
   @include edged-panel();
@@ -11,11 +11,11 @@
 }
 
 #predict-checkbox-container { max-width:50px; }
-#revert-checkbox-container  { max-width:96px; }
+.revert-checkbox-container  { max-width:96px; }
 #diff-checkbox-container    { max-width:55px; }
 
 #predict-checkbox-container,
-#revert-checkbox-container
+.revert-checkbox-container
 {
   background: lighten($darker-color,35%);
   margin: { left:0px; right:0px; }
@@ -40,9 +40,8 @@
 
 #predict-checkbox-title,
 {
-  font-size: 14px;
+  font-size: 12px;
   font-family: sans-serif;
-  font-weight: bold;
   color: Black;
   position: relative;
     bottom: 2px;
