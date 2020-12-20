@@ -15,7 +15,6 @@
      background: lighten($darker-color, 30%);
      border: none;
      display: inline-flex;
-     //$predictFadePercent: 15%;
 
      &.red   { border: 1px dotted $red  ; }
      &.amber { border: 1px dotted $amber; }

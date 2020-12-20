@@ -17,11 +17,15 @@
 #predict-checkbox-container,
 .revert-checkbox-container
 {
-  display: block;
+  display: inline;
   width: 125px;
-  background: lighten($darker-color,35%);
-  margin: { left:0px; right:0px; }
+  color: Black;
+  background: lighten($darker-color,40%);
+  margin: 0px;
   padding: 0px;
+  .red   { color: darken($red,   10%); }
+  .amber { color: darken($amber, 10%); }
+  .green { color: darken($green, 10%); }
 }
 
 #predict-checkbox-container
@@ -59,11 +63,14 @@
 
 #revert-checkbox-title
 {
-  font-size: 14px;
+  font-size: 12px;
   font-family: sans-serif;
   padding-left: 0px;
+  display: inline-block;
+  width: 90px;
   position:relative;
-  top:0px;
+  top:-1px;
+  left:-1px;
 }
 
 #predict-checkbox,
