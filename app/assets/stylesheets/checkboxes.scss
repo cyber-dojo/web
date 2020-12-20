@@ -37,13 +37,12 @@
 #predict-checkbox-title,
 {
   display: inline;
-  font-size: 18px;
-  font-family: sans-serif;
-  font-weight: bold;
+  font: bold 18px sans-serif;
   color: Black;
   position: relative;
     bottom: 1px;
   padding-left: 4px;
+  cursor: pointer;
 }
 
 #diff-checkbox-title
@@ -67,15 +66,15 @@
 #revert-checkbox-title
 {
   display: inline;
-  width: 90px;
-  border-radius: 3px;
+  border-radius: 5px;
   background: lighten($darker-color,50%);
-  border: 1px solid lighten($darker-color,50%);
-  font-family: sans-serif;
-  font-size: 12px;
+  border: 2px solid lighten($darker-color,50%);
+  font: bold 12px sans-serif;
   color: Black;
-  padding: { left:4px; top:4px; bottom:4px; right:6px; }
+  padding: { left:4px; top:4px; bottom:3px; right:6px; }
   margin-left: 2px;
+  position: relative;
+  top: -2px;
 }
 
 .revert-checkbox-container
