@@ -60,9 +60,9 @@ $(() => {
   cd.setTip($predictCheckboxContainer, () => {
     const tip = [
     'when checked there are <u>three</u> test buttons:',
-    '&nbsp;&bull; predict <span class="red">red</span>',
-    '&nbsp;&bull; predict <span class="amber">amber</span>',
-    '&nbsp;&bull; predict <span class="green">green</span>'
+    '&nbsp;&bull; predict <span class="red">red</span> - some tests will fail',
+    '&nbsp;&bull; predict <span class="amber">amber</span> - tests will not run',
+    '&nbsp;&bull; predict <span class="green">green</span> - all tests will pass'
     ].join('<br/>');
     if (cd.settings.predict() === 'off') {
       cd.showHoverTip($predictCheckboxContainer, tip);
