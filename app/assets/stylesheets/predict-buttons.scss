@@ -22,23 +22,21 @@ button.predict
   font-weight: bold;
   text-align: center;
 
-  $fadePercent: 15%;
-
   &.red
   {
-    background: lighten($red, $fadePercent);
-    border-color: lighten($red, $fadePercent);
+    background: $red;
+    border-color: $red;
     color: lighten(Black,10%);
   }
   &.amber
   {
-    background: lighten($amber, $fadePercent);
-    border-color: lighten($amber, $fadePercent);
+    background: $amber;
+    border-color: $amber;
   }
   &.green
   {
-    background: lighten($green, $fadePercent);
-    border-color: lighten($green, $fadePercent);
+    background: $green;
+    border-color: $green;
   }
 
   &.red, &.amber, &.green

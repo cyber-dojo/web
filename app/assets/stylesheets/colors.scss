@@ -4,12 +4,15 @@ $darker-color: darken(#666, 25%);
 $lighter-color: lighten(Khaki, 5%);
 $text-color: darken($lighter-color, 10%);
 
-$red:   #F00;
-$amber: #FF0;
-$green: #0F0;
+$fadePercent: 15%;
+
+$red:   lighten(#F00, $fadePercent);
+$amber: lighten(#FF0, $fadePercent);
+$green: lighten(#0F0, $fadePercent);
+
 $blue:  #00F;
 
-.red       { color: lighten($red, 10%); }
+.red       { color: $red;   }
 .amber     { color: $amber; }
 .green     { color: $green; }
 
@@ -17,11 +20,11 @@ $blue:  #00F;
 .faulty    { color: darkGray; }
 .pulling   { color: #2CDFF0; }
 
-$diff-added-count-color: lighten($green, 35%);
-$diff-deleted-count-color: lighten($red, 35%);
+$diff-added-count-color: lighten($green, 20%);
+$diff-deleted-count-color: lighten($red, 20%);
 $diff-same-count-color: Gray;
 
 $projector-background: white;
 
-$diff-added-line-background: lighten($green, 45%);
-$diff-deleted-line-background: lighten($red, 45%);
+$diff-added-line-background: lighten($green, 25%);
+$diff-deleted-line-background: lighten($red, 25%);

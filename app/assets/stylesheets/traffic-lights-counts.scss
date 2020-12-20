@@ -18,20 +18,18 @@
     border: none;
   }
 
-  $fadePercent: 15%;
-
   #red-count.current
   {
-    background: lighten($red, $fadePercent);
+    background: $red;
   }
 
   #amber-count.current
   {
-    background: lighten($amber, $fadePercent);
+    background: $amber;
   }
 
   #green-count.current
   {
-    background: lighten($green, $fadePercent);
+    background: $green;
   }
 }
