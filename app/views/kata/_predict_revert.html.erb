@@ -87,8 +87,8 @@ $(() => {
 
   const predictOff = () => {
     cd.settings.predict('off');
+    $revertTitle.hide('slow');
     $buttonsContainer.slideUp('slow', () => {
-      $revertTitle.hide('slow');
       cd.kata.testButton.show();
       cd.kata.hidePredictImages();
       cd.kata.hidePredictCounts();
