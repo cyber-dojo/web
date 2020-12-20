@@ -17,9 +17,9 @@
      display: inline-flex;
      $predictFadePercent: 15%;
 
-     &.red   { background: lighten($red,   $predictFadePercent); }
-     &.amber { background: lighten($amber, $predictFadePercent); }
-     &.green { background: lighten($green, $predictFadePercent); }
+     &.red   { border: 1px dotted lighten($red,   $predictFadePercent); }
+     &.amber { border: 1px dotted lighten($amber, $predictFadePercent); }
+     &.green { border: 1px dotted lighten($green, $predictFadePercent); }
    }
    #tick-count, #cross-count, #revert-count
    {

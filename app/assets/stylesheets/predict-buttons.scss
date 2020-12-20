@@ -1,6 +1,6 @@
 #predict-buttons-container
 {
-  display: grid;
+  //display: grid;
   margin-top: 3px;
   table
   {
@@ -8,13 +8,13 @@
     border-collapse: collapse;
   }
   th, td { padding: 0; }
-  td:nth-child(1) { width: 64px; }
-  //td:nth-child(2) { width:120px; }
+  td:nth-child(1) { width: 40px; } //width: 64px;
+  td:nth-child(2) { width:220px; } //width:120px;
 }
 
 button.predict
 {
-  width: 60px;
+  width: 65px;
   margin-bottom: 1px;
   padding-left: 7px;
   font-size: 15px !important;

@@ -20,7 +20,18 @@
 
   $fadePercent: 15%;
 
-  #red-count.current   { background: lighten($red,   $fadePercent); }
-  #amber-count.current { background: lighten($amber, $fadePercent); }
-  #green-count.current { background: lighten($green, $fadePercent); }
+  #red-count.current
+  {
+    background: lighten($red, $fadePercent);
+  }
+
+  #amber-count.current
+  {
+    background: lighten($amber, $fadePercent);
+  }
+
+  #green-count.current
+  {
+    background: lighten($green, $fadePercent);
+  }
 }
