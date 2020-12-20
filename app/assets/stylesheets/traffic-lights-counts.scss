@@ -19,18 +19,7 @@
     border: none;
   }
 
-  #red-count.current
-  {
-    background: $red;
-  }
-
-  #amber-count.current
-  {
-    background: $amber;
-  }
-
-  #green-count.current
-  {
-    background: $green;
-  }
+  #red-count.current   { background: $red  ; }
+  #amber-count.current { background: $amber; }
+  #green-count.current { background: $green; }
 }
