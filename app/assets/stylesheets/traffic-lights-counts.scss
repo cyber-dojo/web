@@ -1,6 +1,5 @@
 #traffic-lights-counts
 {
-  display:inline-flex;
   margin: { left:5px; right:5px; }
 
   #red-count, #amber-count, #green-count
@@ -8,6 +7,8 @@
     @include edged-panel();
     max-height: 26px;
     min-width: 15px;
+    width:35px;
+    max-width:45px;
     font-size: 23px;
     text-align: center;
     margin: 0px;
