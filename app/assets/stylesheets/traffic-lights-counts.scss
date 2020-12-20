@@ -1,18 +1,19 @@
 #traffic-lights-counts
 {
-  margin-left:5px; 
+  margin-left:5px;
 
   #red-count, #amber-count, #green-count
   {
-    @include edged-panel();
+    display: block;
+    border-radius: 5px;
     max-height: 26px;
     min-width: 15px;
-    width:35px;
-    max-width:45px;
-    font-size: 23px;
-    text-align: center;
+    width:25px;
+    max-width:35px;
+    font-size: 19px;
+    text-align: right;
     margin-bottom: 1px;
-    padding: { left:5px; right:5px; top:2px; bottom:5px; }
+    padding: { left:5px; right:5px; top:2px; bottom:3px; }
     color: lighten(Black, 20%);
     background: lighten($darker-color,35%);
     border: none;
