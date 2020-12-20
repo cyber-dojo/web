@@ -91,6 +91,7 @@ $(() => {
     cd.kata.testButton.hide(() => {
       $buttonsContainer.slideDown('slow');
       cd.kata.showPredictImages();
+      cd.kata.showPredictCounts();
       setFilenameListMaxHeight(470);
       cd.kata.editor.refocus();
     });
@@ -101,6 +102,7 @@ $(() => {
     $buttonsContainer.slideUp('slow', () => {
       cd.kata.testButton.show();
       cd.kata.hidePredictImages();
+      cd.kata.hidePredictCounts();
       setFilenameListMaxHeight(530);
       cd.kata.editor.refocus();
     });

@@ -18,13 +18,16 @@
 
 <script>
 'use strict';
+
+const $predictCounts = $('#predict-counts');
+
+cd.kata.showPredictCounts = () => $predictCounts.show();
+cd.kata.hidePredictCounts = () => $predictCounts.hide();
+
 $(() => {
 
-  const $counts = $('#predict-counts');
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   cd.kata.updatePredictCounts = (light) => {
-    $('.box', $counts).removeClass('red amber green');
+    $('.box', $predictCounts).removeClass('red amber green');
     if (cd.lib.isPredict(light)) {
       const isRight = (light.colour === light.predicted);
       const name = isRight ? 'tick' : 'cross';
