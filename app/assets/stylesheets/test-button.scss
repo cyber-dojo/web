@@ -13,5 +13,5 @@
      padding: { top: 0px; bottom: 1px; left: 7px; right: 7px; }
   text-align: center;
   font-weight: bold;
-  max-height: 33px;
+  &:hover { border: 2px dotted Black; }
 }

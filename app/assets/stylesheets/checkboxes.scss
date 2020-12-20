@@ -18,9 +18,10 @@
   width: 125px;
   color: Black;
   background: lighten($darker-color,50%);
-  border: 1px solid lighten($darker-color,50%);
-  padding: { left:3px; right:0px; top:6px; bottom:3px; }
+  border: 2px solid lighten($darker-color,50%);
+  padding: { left:3px; right:0px; top:5px; bottom:2px; }
   margin: 0px;
+  &:hover { border: 2px dotted Black; }
 }
 
 #diff-checkbox-title
