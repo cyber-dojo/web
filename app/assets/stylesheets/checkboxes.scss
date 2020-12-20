@@ -38,7 +38,7 @@
          left: 3px;
 }
 
-#predict-checkbox-title
+#predict-checkbox-title,
 {
   font-size: 14px;
   font-family: sans-serif;
@@ -53,6 +53,15 @@
 #diff-checkbox-title
 {
   @include plaintext-font();
+}
+
+#revert-checkbox-title
+{
+  font-size: 14px;
+  font-family: sans-serif;
+  padding-left: 0px;
+  position:relative;
+  top:0px;
 }
 
 #predict-checkbox,

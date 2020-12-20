@@ -8,6 +8,7 @@
     border-collapse: collapse;
   }
   th, td { padding: 0; }
+  td:first-child { width:64px; }
 }
 
 button.predict

@@ -15,19 +15,38 @@
 <div id="predict-buttons-container" style="display:none;">
   <table>
     <tr>
-      <td style="max-width:45px;">
+      <td>
         <button class="predict red"   data-colour="red"   type="button">red</button>
-        <input type="checkbox" class="revert-checkbox" data-colour="red"  />
-        <button class="predict amber" data-colour="amber" type="button">amber</button>
-        <input type="checkbox" class="revert-checkbox" data-colour="amber"/>
-        <button class="predict green" data-colour="green" type="button">green</button>
-        <input type="checkbox" class="revert-checkbox" data-colour="green"/>
       </td>
       <td>
-        <%= render partial: 'predict_counts' %>
+        <input type="checkbox" class="revert-checkbox" data-colour="red"  />
+        <div id="revert-checkbox-title">revert if <span class="red">!red</span></div>
+        <label for="revert-red-checkbox"></label>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <button class="predict amber" data-colour="amber" type="button">amber</button>
+      </td>
+      <td>
+        <input type="checkbox" class="revert-checkbox" data-colour="amber"/>
+        <div id="revert-checkbox-title">revert if <span class="amber">!amber</span></div>
+        <label for="revert-amber-checkbox"></label>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <button class="predict green" data-colour="green" type="button">green</button>
+      </td>
+      <td>
+        <input type="checkbox" class="revert-checkbox" data-colour="green"/>
+        <div id="revert-checkbox-title">revert if <span class="green">!green</span></div>
+        <label for="revert-green-checkbox"></label>
       </td>
     </tr>
   </table>
+
+  <%= render partial: 'predict_counts' %>
 </div>
 
 <script>
