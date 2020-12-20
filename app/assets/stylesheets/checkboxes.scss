@@ -20,10 +20,10 @@
   display: inline;
   width: 125px;
   color: Black;
-  background: lighten($darker-color,40%);
+  background: lighten($darker-color,50%);
   margin: 0px;
   padding: 0px;
-  .red   { color: darken($red,   10%); }
+  .red   { color: darken($red,   0%); }
   .amber { color: darken($amber, 10%); }
   .green { color: darken($green, 10%); }
 }
