@@ -1,0 +1,32 @@
+#predict-checkbox-container
+{
+  display: inline;
+  border-radius: 5px;
+  color: Black;
+  background: lighten($darker-color,50%);
+  border: 2px solid lighten($darker-color,50%);
+  padding: { left:3px; right:1px; top:3px; bottom:2px; }
+  margin: 0px;
+  &:hover { border: 2px dotted Black; }
+}
+
+#predict-checkbox-title,
+{
+  display: inline;
+  font: bold 16px sans-serif;
+  color: Black;
+  position: relative;
+    bottom: 1px;
+  padding-left: 4px;
+  cursor: pointer;
+}
+
+#predict-checkbox,
+{
+  width: 15px;
+  height: 15px;
+  -moz-transform: scale(1.1);
+  cursor: pointer;
+  position: relative;
+  top: -2px;
+}

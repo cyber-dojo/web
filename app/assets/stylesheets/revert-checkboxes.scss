@@ -1,0 +1,36 @@
+#revert-checkbox-title
+{
+  display: inline;
+  border-radius: 5px;
+  background: lighten($darker-color,50%);
+  border: 2px solid lighten($darker-color,50%);
+  font: bold 12px sans-serif;
+  color: Black;
+  padding: { left:4px; top:4px; bottom:3px; right:6px; }
+  margin-left: 2px;
+  position: relative;
+  top: -2px;
+}
+
+.revert-checkbox-container
+{
+  display: inline-block;
+  color: Black;
+  cursor: pointer;
+  background: lighten($darker-color,50%);
+  border: none;
+  margin-left: 2px;
+  padding-right: 1px;
+  border-radius:3px;
+  &:hover
+  {
+    border: 2px dotted Black;
+  }
+}
+
+.revert-checkbox
+{
+  cursor: pointer;
+  width: 11px;
+  height: 13px;
+}

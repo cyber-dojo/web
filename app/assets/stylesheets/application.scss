@@ -27,12 +27,15 @@
  *= depend_on filename.scss
  *= depend_on fork-dialog.scss
  *= depend_on diff-line-count.scss
+ *= depend_on diff-checkbox.scss
  *= depend_on kata.scss
  *= depend_on file_create_delete_rename.scss
  *= depend_on repl-terminal.scss
  *= depend_on test-button.scss
+ *= depend_on predict-checkbox.scss
  *= depend_on predict-buttons.scss
  *= depend_on predict-counts.scss
+ *= depend_on revert-checkboxes.scss 
  *= depend_on traffic-lights-counts.scss
  *= depend_on review.scss
  *= depend_on app-bar.scss
@@ -42,7 +45,6 @@
  *= depend_on sponsors.scss
  *= depend_on xterm.css
  *= depend_on jquery-ui-1.8.16.custom.scss
- *= depend_on checkboxes.scss
  *= depend_on codemirror.scss
  *= depend_on codemirror-cyber-dojo-grays.scss
  *= depend_on codemirror-cyber-dojo-dark-colour-on.scss
@@ -68,13 +70,16 @@
 @import "dialog.scss";
 @import "filename.scss";
 @import "fork-dialog.scss";
+@import "diff-checkbox.scss";
 @import "diff-line-count.scss";
 @import "kata.scss";
 @import "file_create_delete_rename.scss";
 @import "repl-terminal.scss";
 @import "test-button.scss";
+@import "predict-checkbox.scss";
 @import "predict-buttons.scss";
 @import "predict-counts.scss";
+@import "revert-checkboxes.scss";
 @import "traffic-lights-counts.scss";
 @import "review.scss";
 @import "app-bar.scss";
@@ -84,7 +89,6 @@
 @import "sponsors.scss";
 @import "xterm.css";
 @import "jquery-ui-1.8.16.custom.scss";
-@import "checkboxes.scss";
 @import "codemirror.scss";
 @import "codemirror-cyber-dojo-grays.scss";
 @import "codemirror-cyber-dojo-dark-colour-on.scss";
