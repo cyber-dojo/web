@@ -1,7 +1,8 @@
-
-#sponsors
+#sponsors-title
 {
-  margin-top: 20px;
+  margin: { top:20px; left:9px; bottom:4px; }
+  font-size: 12px;
+  @include plaintext-font()
 }
 
 .sponsor

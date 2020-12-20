@@ -1,3 +1,4 @@
+<div id="sponsors-title">sponsors</div>
 <table id="sponsors">
   <tr><td><%= render partial: 'shared/sponsors/praqma' %></td></tr>
   <tr><td><%= render partial: 'shared/sponsors/cucumber' %></td></tr>
@@ -9,17 +10,15 @@
 'use strict';
 $(() => {
 
-  const where = { of:$('#info-button') };
-
   cd.createTip($('.sponsor'),
     '100% of donations and license fees go to<br/>' +
-    "the cyber-dojo Foundation's charitable aims.<br/>" +
-    'A big thank you to all our sponsors who help<br/>' +
-    'to cover https://cyber-dojo.org hosting costs.<br/>' +
+    "the cyber-dojo Foundation charity.<br/>" +
+    'Thank you to all our sponsors who help to<br/>' +
+    'cover https://cyber-dojo.org hosting costs.<br/>' +
     "Please email sponsor@cyber-dojo.org if you'd<br/>" +
     'like to become a sponsor.'
     ,
-    where
+    { of: cd.kata.tabs.filename() }
   );
 
 });

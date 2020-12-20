@@ -166,7 +166,12 @@ var cyberDojo = (function(cd, $) {
   cd.createTip = (node, tip, where) => {
     node.off('mouseenter mouseleave');
     cd.setTip(node, () => {
-      cd.showHoverTip(node, tip, where);
+      if (typeof tip === 'string') {
+        cd.showHoverTip(node, tip, where);
+      }
+      if (typeof tip === 'function') {
+        cd.showHoverTip(node, tip(), where);
+      }
     });
   };
 
@@ -204,7 +209,7 @@ var cyberDojo = (function(cd, $) {
           my: where.my,
           at: where.at,
           of: where.of,
-          collision: 'flip'
+          collision: 'fit'
         });
         hoverTipContainer().html(hoverTip);
       }

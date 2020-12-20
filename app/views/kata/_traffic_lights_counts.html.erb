@@ -16,7 +16,12 @@ $(() => {
   //   3) views/review/_review.html.erb when [checkout] is clicked.
 
   const $counts = $('#traffic-lights-counts');
-  cd.setTip($counts, () => cd.showHoverTip($counts, trafficLightsTotalsCountHoverTip()));
+
+  cd.createTip($counts, () => trafficLightsTotalsCountHoverTip(), {
+    my: 'right top',
+    at: 'left top',
+    of: $('#sponsors-title')
+  });
 
   cd.kata.updateTrafficLightsCounts = (light) => {
     const colour = light.colour;
@@ -39,7 +44,7 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const trafficLightsTotalsCountHoverTip = () => {
-    let html = '';
+    let html = 'tests';
     html += '<table>';
     html += lightTr('red'  , 'red'  );
     html += lightTr('amber', 'amber');
