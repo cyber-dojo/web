@@ -7,11 +7,6 @@
   <%= render partial: 'traffic_lights' %>
 </div>
 
-<div class="rhs-column">
-  <%= render partial: 'counts' %>
-  <%= render partial: 'sponsors' %>
-</div>
-
 <%= form_tag( action: 'run_tests', id: @id ) do %>
   <%= render partial: 'image_name' %>
   <%= render partial: 'index' %>
@@ -26,3 +21,8 @@
     <%= render partial: 'files' %>
   </div>
 <% end %>
+
+<div class="rhs-column">
+  <%= render partial: 'counts' %>
+  <%= render partial: 'sponsors' %>
+</div>
