@@ -1,23 +1,22 @@
 
-Switched back to showing cross and revert lights for an
-incorrect prediction when its revert checkbox is ticked.
+On revert, switch to review-mode for the incorrect light so you
+can easily see its stdout/stderr/status (and files).
+Make the [checkout] button disabled though?
 
 Separate out the revert count from the predict counts?
 I think so. Especially when predict has a visible total.
 
-Maybe losr revert is happening but the scrollLastTrafficLightIntoView timeout hack
-    is obscuring things...
-
 make model calls for persistence in shared/settings
   remove console.log calls.
 
-add hover-tip for individual counts.
+add hover-tip for individual counts?
 
 maybe colour the bg of [revert if wrong!] text to something
    other than grey (to be distinct from predict text) and colour
    bg of 3 auto-revert checkboxes to match.
 
-on traffic-lights counts; how to show current light is non rag?, eg timed-out
+on traffic-lights counts; how to show current light is non rag?,
+  eg timed-out, what background colour?
 
 reduce width of kata #traffic-lights so
    gap at rhs to counts

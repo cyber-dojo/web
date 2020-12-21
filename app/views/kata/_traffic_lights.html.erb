@@ -29,14 +29,22 @@ $(() => {
   //      - When you click [checkout].
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.kata.appendTrafficLight = (light) => {
+  cd.kata.appendTrafficLight = (light, scrollIntoView=false) => {
     if (cd.lib.isVisible(light)) {
-      cd.lib.appendImageIfPrediction($lights, light); 
+      cd.lib.appendImageIfPrediction($lights, light);
       cd.lib.appendImageIfCheckout($lights, light);
       const index = light.index;
       const colour = light.colour;
       const $light = $trafficLightImage(index, colour);
       $lights.append($light);
+      if (scrollIntoView) {
+        $light.scrollIntoView({
+          direction: 'horizontal',
+           duration: 'slow'
+        });
+      }
+      cd.kata.updateTrafficLightsCounts(light);
+      cd.kata.updatePredictCounts(light);
       const id = cd.kata.id();
       $light.click(() => cd.review.fromTestPage(id, index));
       cd.setupTrafficLightTip($light, colour, avatarIndex, id, index-1, index);

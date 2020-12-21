@@ -26,6 +26,7 @@ $(() => {
     delete cd.review.id;
     cd.settings.showButton();
     $.post('/kata/checkout', args, (data) => {
+      cd.kata.index.increment();
       cd.kata.editor.deleteFiles();
       for (const filename in data.files) {
         cd.kata.editor.createFile(filename, { content:data.files[filename] });
@@ -34,11 +35,8 @@ $(() => {
       cd.kata.editor.output(data.stdout.content, data.stderr.content, data.status);
       cd.kata.tabs.output().click();
       cd.kata.filenames.refresh();
-      cd.kata.index.increment();      
-      cd.kata.appendTrafficLight(data.light);
-      cd.kata.updateTrafficLightsCounts(data.light);
-      cd.kata.updatePredictCounts(data.light);
-      cd.kata.scrollLastTrafficLightIntoView();
+      const scrollIntoView = true;
+      cd.kata.appendTrafficLight(data.light, scrollIntoView);
     }, 'json');
   };
 

@@ -146,6 +146,8 @@
 
   //- - - - - - - - - - - - - - - - - - - - - -
 
+  const scrollIntoView = true;
+
   const refreshFromTest = () => {
     insertCreatedFiles();
     removeDeletedFiles();
@@ -154,9 +156,7 @@
     cd.kata.filenames.refresh();
     cd.kata.editor.output(stdout, stderr, status);
     cd.kata.tabs.output().click();
-    cd.kata.appendTrafficLight(light);
-    cd.kata.updateTrafficLightsCounts(light);
-    cd.kata.updatePredictCounts(light);
+    cd.kata.appendTrafficLight(light, scrollIntoView);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -175,9 +175,7 @@
       cd.kata.filenames.refresh();
       cd.kata.editor.output(data.stdout.content, data.stderr.content, data.status);
       cd.kata.tabs.output().click();
-      cd.kata.appendTrafficLight(data.light);
-      cd.kata.updateTrafficLightsCounts(data.light);
-      cd.kata.updatePredictCounts(data.light);
+      cd.kata.appendTrafficLight(data.light, scrollIntoView);
     }, 'json');
   };
 
@@ -187,6 +185,5 @@
   if (runNeedsReverting()) {
     revert();
   }
-  cd.kata.scrollLastTrafficLightIntoView();
 
 })();
