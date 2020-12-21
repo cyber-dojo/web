@@ -31,8 +31,7 @@ $(() => {
 
   cd.kata.appendTrafficLight = (light) => {
     if (cd.lib.isVisible(light)) {
-      const isShown = (cd.settings.predict() === 'on');
-      cd.lib.appendImageIfPrediction($lights, light, isShown);
+      cd.lib.appendImageIfPrediction($lights, light); 
       cd.lib.appendImageIfCheckout($lights, light);
       const index = light.index;
       const colour = light.colour;
