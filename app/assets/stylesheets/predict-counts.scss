@@ -1,7 +1,10 @@
 #predict-counts
 {
    display: grid;
-   margin-left: 8px;
+   border-radius: 5px;
+   padding: { top:3px; bottom:2px; }
+   background: lighten($darker-color, 15%);
+   margin: 8px;
 
    .box
    {
