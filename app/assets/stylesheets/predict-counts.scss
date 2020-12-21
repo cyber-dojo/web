@@ -23,7 +23,8 @@
      font-size: 18px;
      text-align: right;
      display: inline-block;
-     width: 35px; max-width: 35px;
+     min-width: 17px;
+     max-width: 35px;
      padding: { left:3px; right:3px; }
      color: lighten(Black, 20%);
      position: relative;
