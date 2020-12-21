@@ -3,7 +3,7 @@
   display: grid;
   width: 61px;
   border-radius: 5px;
-  padding: { top:3px; bottom:2px; }
+  padding: 4px;
   background: lighten($darker-color, 15%);
   margin: 8px;
 
@@ -17,9 +17,9 @@
   }
   img
   {
-    width: 17px;
-    height: 17px;
-    padding: 4px;
+    width: 20px;
+    height: 20px;
+    padding: { left:3px; top:3px; right:3px; }
   }
   .count
   {
