@@ -1,7 +1,11 @@
 #traffic-lights-counts
 {
   display: grid;
-  margin-left:5px;
+  margin-left: 5px;
+  width: 61px;
+  border-radius: 5px;
+  padding: { top:3px; bottom:2px; }
+  background: lighten($darker-color, 15%);
 
   .box
   {
