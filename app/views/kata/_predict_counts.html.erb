@@ -15,26 +15,28 @@
 
 <script>
 'use strict';
-
 const $predictCounts = $('#predict-counts');
-
 cd.kata.showPredictCounts = () => $predictCounts.show('slow');
 cd.kata.hidePredictCounts = () => $predictCounts.hide('slow');
 
 $(() => {
 
-  cd.kata.updatePredictCounts = (light) => {
-    $('.count', $predictCounts).removeClass('red amber green');
+  cd.kata.updatePredictCounts = (light) => {    
     if (cd.lib.isPredict(light)) {
+      $('.count', $predictCounts).removeClass('red amber green');
       const isRight = (light.colour === light.predicted);
-      const name = isRight ? 'tick' : 'cross';
-      $(`.${name}.count`, $predictCounts)
-        .text(counts[name] += 1)
-        .addClass(light.predicted);
+      updatePredictCount(isRight ? 'tick' : 'cross', light.predicted);
     }
     if (light.revert) {
-      counts.revert += 1;
+      updatePredictCount('revert', light.colour);
     }
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  const updatePredictCount = (name, colour) => {
+    $(`.${name}.count`, $predictCounts)
+      .text(counts[name] += 1)
+      .addClass(colour);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -

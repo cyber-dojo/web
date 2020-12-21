@@ -39,11 +39,13 @@ $(() => {
   const $counts = $('#traffic-lights-counts');
 
   cd.kata.updateTrafficLightsCounts = (light) => {
-    $('.count', $counts).removeClass('actual');
     const colour = light.colour;
-    $(`.${colour}.count`, $counts)
-      .text(counts[colour] += 1)
-      .addClass('actual');
+    const $count = $(`.${colour}.count`, $counts);
+    $('.count', $counts).removeClass('actual');
+    $count.addClass('actual');
+    if (!light.reverted) {
+      $count.text(counts[colour] += 1)
+    }
     if (counts[colour] > 0) {
       $(`.${colour}.box`).show();
     }

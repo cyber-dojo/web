@@ -148,7 +148,13 @@
     insertCreatedFiles();
     removeDeletedFiles();
     updateChangedFiles();
-    updateEverythingElse(<%= raw @light.to_json %>, stdout, stderr, status);
+    cd.kata.index.increment();
+    cd.kata.filenames.refresh();
+    cd.kata.editor.output(stdout, stderr, status);
+    cd.kata.tabs.output().click();
+    cd.kata.appendTrafficLight(<%= raw @light.to_json %>);
+    cd.kata.updateTrafficLightsCounts(<%= raw @light.to_json %>);
+    cd.kata.updatePredictCounts(<%= raw @light.to_json %>);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -164,28 +170,21 @@
         cd.kata.editor.createFile(filename, { content:data.files[filename] });
         cd.kata.editor.showFile(filename);
       }
-      updateEverythingElse(data.light, data.stdout.content, data.stderr.content, data.status);
+      cd.kata.filenames.refresh();
+      cd.kata.editor.output(data.stdout.content, data.stderr.content, data.status);
+      cd.kata.tabs.output().click();
+      cd.kata.appendTrafficLight(data.light);
+      cd.kata.updateTrafficLightsCounts(data.light);
+      cd.kata.updatePredictCounts(data.light);
     }, 'json');
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  const updateEverythingElse = (light, stdout, stderr, status) => {
-    cd.kata.filenames.refresh();
-    cd.kata.editor.output(stdout, stderr, status);
-    cd.kata.tabs.output().click();
-    cd.kata.appendTrafficLight(light);
-    cd.kata.updateTrafficLightsCounts(light);
-    cd.kata.updatePredictCounts(light);
-    cd.kata.scrollLastTrafficLightIntoView();
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - -
-  cd.kata.index.increment();
+  refreshFromTest();
+  showInfoDialogs();
   if (runNeedsReverting()) {
     revert();
-  } else {
-    refreshFromTest();
-    showInfoDialogs();    
   }
+  cd.kata.scrollLastTrafficLightIntoView();
 
 })();
