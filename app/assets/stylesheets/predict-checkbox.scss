@@ -16,18 +16,17 @@
   display: inline;
   font: bold 16px sans-serif;
   color: Black;
-  position: relative;
-    bottom: 1px;
   padding-left: 4px;
   cursor: pointer;
 }
 
 #predict-checkbox,
 {
+  display: inline;
   width: 15px;
   height: 15px;
   -moz-transform: scale(1.1);
   cursor: pointer;
   position: relative;
-  top: -2px;
+  top: -1px;
 }

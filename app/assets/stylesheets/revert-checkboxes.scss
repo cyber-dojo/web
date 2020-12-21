@@ -1,13 +1,23 @@
-#revert-checkbox-title
+#revert-title-cell
 {
-  display: inline;
+  display: inline-block;
+  width: 130px;
   border-radius: 5px;
+  color: Black;
   background: lighten($darker-color,50%);
   border: 2px solid lighten($darker-color,50%);
-  font: bold 12px sans-serif;
-  color: Black;
-  padding: { left:4px; top:2px; bottom:1px; right:6px; }
+  padding: { left:3px; right:1px; top:2px; bottom:1px; }
   margin: 0px;
+  &:hover { border: 2px dotted Black; }
+}
+
+#revert-title
+{
+  display: inline;
+  font: bold 16px sans-serif;
+  color: Black;
+  padding-left: 4px;
+  cursor: pointer;
 }
 
 .revert-checkbox-cell
@@ -20,10 +30,7 @@
   margin-left: 2px;
   padding-right: 1px;
   border-radius:3px;
-  &:hover
-  {
-    border: 2px dotted Black;
-  }
+  &:hover { border: 2px dotted Black; }
 }
 
 .revert-checkbox

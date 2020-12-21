@@ -1,6 +1,6 @@
-#predict-buttons-container
+#predict-buttons-cell
 {
-  margin-top: 3px;
+  margin-top: 1px;
   table
   {
     border-spacing: 0;
@@ -18,7 +18,7 @@ button.predict
   font-size: 16px;
   color: lighten(Black, 20%);
   font-weight: bold;
-  text-align: center;
+  text-align: left;
 
   &.red
   {
@@ -41,7 +41,8 @@ button.predict
   {
     &:hover
     {
-      border-style: dotted; border-color: lighten(Black, 20%);
+      border-style: dotted;
+      border-color: lighten(Black, 20%);
     }
     &[disabled]
     {

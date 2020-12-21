@@ -6,7 +6,9 @@
   <label for="predict-checkbox"></label>
 </div>
 
-<div id="revert-checkbox-title" style="display:none;">auto-revert if wrong!</div>
+<div id="revert-title-cell" style="display:none;">
+  <div id="revert-title" >revert if wrong!</div>
+</div>
 
 <div id="predict-buttons-cell" style="display:none;">
   <table>
@@ -121,7 +123,7 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - - - - -
   // Revert title and checkboxes
 
-  const $revertTitle = $('#revert-checkbox-title');
+  const $revertTitle = $('#revert-title-cell');
 
   cd.createTip($revertTitle, [
     'when checked, if your prediction is',
