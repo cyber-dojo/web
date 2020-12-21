@@ -1,12 +1,13 @@
 
+Add console.log count of no of elements captured when
+turning predict img off/on
+
 sometimes the revert is not happening... :-(
   eg code is a red (6 * 89), predict=on, revert[green]=on, click green
   get red x traffic-light but no revert happens...
 
 make model calls for persistence in shared/settings
   remove console.log calls.
-
-after showPredictImages() I need to scroll to the last traffic-light...
 
 add hover-tip for individual counts.
 

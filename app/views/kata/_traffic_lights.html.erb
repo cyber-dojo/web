@@ -15,7 +15,7 @@ $(() => {
 
   const avatarIndex = () => '<%= @manifest['group_index'] %>';
 
-  const $lights = $('#traffic-lights');
+  const $lights = $('#kata-page #traffic-lights');
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // cd.kata.appendTrafficLight() sets up the tip/click handlers
@@ -45,10 +45,19 @@ $(() => {
     }
   };
 
-  const $predictImages = () => $('img.revert, img.tick, img.cross');
+  const $predictImages = () => $('img.revert, img.tick, img.cross', $lights);
 
-  cd.kata.hidePredictImages = () => $predictImages().hide('slow');
-  cd.kata.showPredictImages = () => $predictImages().show('slow');
+  cd.kata.hidePredictImages = () => {
+    const $images = $predictImages();
+    console.log(`kata.hidePredictImages() found ${$images.length} elements`);
+    $images.hide('slow', cd.kata.scrollLastTrafficLightIntoView);
+  };
+
+  cd.kata.showPredictImages = () => {
+    const $images = $predictImages();
+    console.log(`kata.showPredictImages() found ${$images.length} elements`);
+    $images.show('slow', cd.kata.scrollLastTrafficLightIntoView);
+  };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const $trafficLightImage = (index, colour) => {
