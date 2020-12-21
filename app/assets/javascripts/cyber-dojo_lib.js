@@ -107,16 +107,16 @@ var cyberDojo = ((cd, $) => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  cd.lib.appendImageIfPrediction = ($lights, light) => {
+  cd.lib.appendImageIfPrediction = ($lights, light, display=true) => {
     // Older katas did not distinguish between
     //   - an auto-revert (from an incorrect test prediction)
     //   - a [checkout]   (from the review page)
     // Both were light.revert == [id,index]
     if (cd.lib.isPredict(light)) {
-      $lights.append($imgForPredict(light));
+      $lights.append($imgForPredict(light, display));
     }
     else if (cd.lib.isRevert(light)) {
-      $lights.append($imgForRevert(light));
+      $lights.append($imgForRevert(light, display));
     }
   };
 
@@ -133,18 +133,22 @@ var cyberDojo = ((cd, $) => {
   cd.lib.isCheckout = (light) => light.checkout != undefined;
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const $imgForPredict = (light) => {
+  const $imgForPredict = (light, display) => {
     const correct = (light.predicted === light.colour);
     const icon = correct ? 'tick' : 'cross';
+    const style = display ? 'inline' : 'none';
     return $('<img>', {
+      style: `display:${style};`,
       class: icon,
         src: `/images/traffic-light/circle-${icon}.png`
     });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const $imgForRevert = (light) => {
+  const $imgForRevert = (light, display) => {
+    const style = display ? 'inline' : 'none';
     return $('<img>', {
+      style: `display:${style};`,
       class: 'revert',
         src: '/images/traffic-light/circle-revert.png'
     });

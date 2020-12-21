@@ -31,15 +31,14 @@ $(() => {
 
   cd.kata.appendTrafficLight = (light) => {
     if (cd.lib.isVisible(light)) {
-      const id = cd.kata.id();
-      if (cd.settings.predict() === 'on') {
-        cd.lib.appendImageIfPrediction($lights, light);
-      }
+      const isShown = (cd.settings.predict() === 'on');
+      cd.lib.appendImageIfPrediction($lights, light, isShown);
       cd.lib.appendImageIfCheckout($lights, light);
       const index = light.index;
       const colour = light.colour;
       const $light = $trafficLightImage(index, colour);
       $lights.append($light);
+      const id = cd.kata.id();
       $light.click(() => cd.review.fromTestPage(id, index));
       cd.setupTrafficLightTip($light, colour, avatarIndex, id, index-1, index);
     }
@@ -48,15 +47,11 @@ $(() => {
   const $predictImages = () => $('img.revert, img.tick, img.cross', $lights);
 
   cd.kata.hidePredictImages = () => {
-    const $images = $predictImages();
-    console.log(`kata.hidePredictImages() found ${$images.length} elements`);
-    $images.hide('slow', cd.kata.scrollLastTrafficLightIntoView);
+    $predictImages().hide('slow', cd.kata.scrollLastTrafficLightIntoView);
   };
 
   cd.kata.showPredictImages = () => {
-    const $images = $predictImages();
-    console.log(`kata.showPredictImages() found ${$images.length} elements`);
-    $images.show('slow', cd.kata.scrollLastTrafficLightIntoView);
+    $predictImages().show('slow', cd.kata.scrollLastTrafficLightIntoView);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
