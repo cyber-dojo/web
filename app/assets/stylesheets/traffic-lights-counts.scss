@@ -3,7 +3,7 @@
   display: grid;
   width: 61px;
   border-radius: 5px;
-  padding: 4px;
+  padding: { left:5px; right:4px; top:4px; bottom:4px; }
   background: lighten($darker-color, 15%);
   margin: 8px;
 
@@ -14,12 +14,6 @@
     width:45px; max-width:45px;
     margin-bottom: 1px;
     padding:0px;
-  }
-  img
-  {
-    width: 20px;
-    height: 20px;
-    padding: { left:3px; top:3px; right:3px; }
   }
   .count
   {
@@ -38,5 +32,11 @@
       &.amber { background: $amber; }
       &.green { background: $green; }
     }
+  }
+  img
+  {
+    width: 20px;
+    height: 20px;
+    padding: { left:5px; top:3px; right:3px; }
   }
 }

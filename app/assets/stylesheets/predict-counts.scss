@@ -1,43 +1,40 @@
 #predict-counts
 {
    display: grid;
+   width: 61px;
    border-radius: 5px;
-   padding: 3px;
+   padding: { left:5px; right:4px; top:4px; bottom:4px; }
    background: lighten($darker-color, 15%);
    margin: 8px;
 
    .box
    {
      display: inline-flex;
-     border-radius: 5px;
      max-height:28px;
      width:45px; max-width:45px;
      margin-bottom: 1px;
-     padding: { left:4px; right:4px; top:3px; bottom:1px; }
-     color: lighten(Black, 20%);
-     background: lighten($darker-color, 40%);
+     padding: 0px;
 
-     border: 1px solid lighten($darker-color, 40%);
-     &.red   { border: 1px dotted $red  ; }
-     &.amber { border: 1px dotted $amber; }
-     &.green { border: 1px dotted $green; }
+     //&.red   { border: 1px dotted $red  ; }
+     //&.amber { border: 1px dotted $amber; }
+     //&.green { border: 1px dotted $green; }
    }
    #tick-count, #cross-count, #revert-count
    {
+     display: inline-block;
+     border-radius: 5px;
      font-size: 18px;
      text-align: right;
-     display: inline-block;
-     min-width: 17px;
+     min-width: 25px;
      max-width: 35px;
-     padding: { left:3px; right:3px; }
      color: lighten(Black, 20%);
-     position: relative;
-     top: -1px;
+     padding: { left:4px; right:4px; top:3px; bottom:1px; }
+     background: lighten($darker-color, 40%);
    }
    img
    {
-     width: 19px;
-     height: 19px;
-     padding: { left:3px; right:3px; top:0px; bottom:0px; }
+     width: 20px;
+     height: 20px;
+     padding: { left:5px; top:3px; right:3px; }
    }
 }
