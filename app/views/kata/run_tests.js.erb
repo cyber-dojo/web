@@ -119,17 +119,6 @@
   };
 
   //- - - - - - - - - - - - - - - - - - - - - -
-  const refreshFromRun = () => {
-    insertCreatedFiles();
-    removeDeletedFiles();
-    updateChangedFiles();
-    cd.kata.filenames.refresh(); // NB: After insert/remove/update
-    cd.kata.editor.output(stdout, stderr, status);
-    cd.kata.tabs.output().click();
-    showInfoDialogs();
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - -
   const runNeedsReverting = () => {
     const predictIsOn = () => (cd.settings.predict() === 'on');
     const predicted = cd.kata.predictedColour();
@@ -154,6 +143,21 @@
     return result;
   };
 
+  //- - - - - - - - - - - - - - - - - - - - - -
+  const refreshFromRun = () => {
+    insertCreatedFiles();
+    removeDeletedFiles();
+    updateChangedFiles();
+    cd.kata.filenames.refresh(); // NB: After insert/remove/update
+    cd.kata.editor.output(stdout, stderr, status);
+    cd.kata.tabs.output().click();
+    cd.kata.appendTrafficLight(<%= raw @light.to_json %>);
+    cd.kata.updateTrafficLightsCounts(<%= raw @light.to_json %>);
+    cd.kata.updatePredictCounts(<%= raw @light.to_json %>);
+    cd.kata.scrollLastTrafficLightIntoView();
+    showInfoDialogs();
+  };
+
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const revert = () => {
     const args = {
@@ -161,31 +165,28 @@
       index: cd.kata.index() // eg 18 (reverting to 16)
     };
     $.post('/kata/revert', args, (data) => {
+      cd.kata.index.increment();
       cd.kata.editor.deleteFiles();
       for (const filename in data.files) {
         cd.kata.editor.createFile(filename, { content:data.files[filename] });
         cd.kata.editor.showFile(filename);
       }
+      cd.kata.filenames.refresh();
       cd.kata.editor.output(data.stdout.content, data.stderr.content, data.status);
       cd.kata.tabs.output().click();
-      cd.kata.filenames.refresh();
-      cd.kata.index.increment();
       cd.kata.appendTrafficLight(data.light);
       cd.kata.updateTrafficLightsCounts(data.light);
       cd.kata.updatePredictCounts(data.light);
+      cd.kata.scrollLastTrafficLightIntoView();
     }, 'json');
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   cd.kata.index.increment();
-  cd.kata.appendTrafficLight(<%= raw @light.to_json %>);
-  cd.kata.updateTrafficLightsCounts(<%= raw @light.to_json %>);
-  cd.kata.updatePredictCounts(<%= raw @light.to_json %>);
-  if (runNeedsReverting()) {
-    revert();
-  } else {
+  if (!runNeedsReverting()) {
     refreshFromRun();
+  } else {
+    revert();
   }
-  cd.kata.scrollLastTrafficLightIntoView();
 
 })();
