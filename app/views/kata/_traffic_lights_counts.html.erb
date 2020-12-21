@@ -45,7 +45,6 @@ $(() => {
       .text(counts[colour] += 1)
       .addClass('actual');
     if (counts[colour] > 0) {
-      console.log(`counts[${colour}] == ${counts[colour]} so showing '.${colour}.box'`);
       $(`.${colour}.box`).show();
     }
   };
