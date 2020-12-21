@@ -8,24 +8,16 @@ make model calls for persistence in shared/settings
 
 after showPredictImages() I need to scroll to the last traffic-light...
 
-formatting of predict counts is not right.
-  eg 3,12,0  for tick,cross,revert
-  shows the cross img further right because 12 has 2 digits
-  Maybe just show the tick,cross,revert image first (leftmost).
-
-add hover-tip for predict counts.
+add hover-tip for individual counts.
 
 only show revert traffic-light
   viz don't also show the incorrect-prediction traffic-light before it.
-
-show predicted colour as background on predict counts.
 
 maybe colour the bg of [auto-revert if wrong!] text to something
    other than grey (to be distinct from predict text) and colour
    bg of 3 auto-revert checkboxes to match.
 
-on traffic-lights counts; how to show current light is non rag, eg timed-out
+on traffic-lights counts; how to show current light is non rag?, eg timed-out
 
 reduce width of kata #traffic-lights so
    bigger gap to counts
-   more space for hover-tip
