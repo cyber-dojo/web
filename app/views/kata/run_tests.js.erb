@@ -40,7 +40,25 @@
   };
 
   //- - - - - - - - - - - - - - - - - - - - - -
-  const showInfoIfTestsTimedOut = () => {
+  const showInfoIfAvatarsOutOfSync = () => {
+    const outOfSync = "<%= j raw(@out_of_sync) %>";
+    if (outOfSync === 'true') {
+      const message = [
+        `Failed to save the traffic-light.`,
+        `Are you mobbing in a practice session?`,
+        `If so, please refresh your browser to resync.`,
+      ].join("\n");
+      const html = $('<textarea>', {
+        'data-width':500,
+                'id':'out-of-sync',
+          'readonly':'readonly'
+      }).val(message);
+      cd.dialog(html, 'mobbing?', 'close').dialog('open');
+    }
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - -
+  const showInfoIfTimedOut = () => {
     if (outcome === 'timed_out') {
       const maxSeconds = $('input[name="max_seconds"]').val();
       const stdoutMessage = `stdout is ${stdout.length === 0 ? '' : 'NOT '}empty.`;
@@ -63,7 +81,7 @@
   };
 
   //- - - - - - - - - - - - - - - - - - - - - -
-  const showInfoIfTrafficLightFaulty = () => {
+  const showInfoIfFaulty = () => {
     if (outcome === 'faulty') {
       const html = $('<textarea>', {
          'data-width':500,
@@ -71,24 +89,6 @@
            'readonly':'readonly'
       }).val(log);
       cd.dialog(html, 'faulty traffic-light', 'close').dialog('open');
-    }
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - -
-  const showInfoIfAvatarsOutOfSync = () => {
-    const outOfSync = "<%= j raw(@out_of_sync) %>";
-    if (outOfSync === 'true') {
-      const message = [
-        `Failed to save the traffic-light.`,
-        `Are you mobbing in a practice session?`,
-        `If so, please refresh your browser to resync.`,
-      ].join("\n");
-      const html = $('<textarea>', {
-        'data-width':500,
-                'id':'out-of-sync',
-          'readonly':'readonly'
-      }).val(message);
-      cd.dialog(html, 'mobbing?', 'close').dialog('open');
     }
   };
 
@@ -111,22 +111,11 @@
   //- - - - - - - - - - - - - - - - - - - - - -
   const showInfoDialogs = () => {
     showInfoIfAvatarsOutOfSync();
-    showInfoIfTestsTimedOut();
-    showInfoIfTrafficLightFaulty();
+    showInfoIfTimedOut();
+    showInfoIfFaulty();
     showInfoIfImagePulling();
     //showInfoIfTruncatedFiles();
     //showInfoIfSaveFailed()
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - -
-  const refreshFromRun = () => {
-    insertCreatedFiles();
-    removeDeletedFiles();
-    updateChangedFiles();
-    cd.kata.filenames.refresh(); // NB: After insert/remove/update
-    cd.kata.editor.output(stdout, stderr, status);
-    cd.kata.tabs.output().click();
-    showInfoDialogs();
   };
 
   //- - - - - - - - - - - - - - - - - - - - - -
@@ -154,6 +143,14 @@
     return result;
   };
 
+  //- - - - - - - - - - - - - - - - - - - - - -
+  const refreshFromTest = () => {
+    insertCreatedFiles();
+    removeDeletedFiles();
+    updateChangedFiles();
+    updateEverythingElse(<%= raw @light.to_json %>, stdout, stderr, status);
+  };
+
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const revert = () => {
     const args = {
@@ -161,31 +158,34 @@
       index: cd.kata.index() // eg 18 (reverting to 16)
     };
     $.post('/kata/revert', args, (data) => {
+      cd.kata.index.increment();
       cd.kata.editor.deleteFiles();
       for (const filename in data.files) {
         cd.kata.editor.createFile(filename, { content:data.files[filename] });
         cd.kata.editor.showFile(filename);
       }
-      cd.kata.editor.output(data.stdout.content, data.stderr.content, data.status);
-      cd.kata.tabs.output().click();
-      cd.kata.filenames.refresh();
-      cd.kata.index.increment();
-      cd.kata.appendTrafficLight(data.light);
-      cd.kata.updateTrafficLightsCounts(data.light);
-      cd.kata.updatePredictCounts(data.light);
+      updateEverythingElse(data.light, data.stdout.content, data.stderr.content, data.status);
     }, 'json');
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
+  const updateEverythingElse = (light, stdout, stderr, status) => {
+    cd.kata.filenames.refresh();
+    cd.kata.editor.output(stdout, stderr, status);
+    cd.kata.tabs.output().click();
+    cd.kata.appendTrafficLight(light);
+    cd.kata.updateTrafficLightsCounts(light);
+    cd.kata.updatePredictCounts(light);
+    cd.kata.scrollLastTrafficLightIntoView();
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
   cd.kata.index.increment();
-  cd.kata.appendTrafficLight(<%= raw @light.to_json %>);
-  cd.kata.updateTrafficLightsCounts(<%= raw @light.to_json %>);
-  cd.kata.updatePredictCounts(<%= raw @light.to_json %>);
   if (runNeedsReverting()) {
     revert();
   } else {
-    refreshFromRun();
+    refreshFromTest();
+    showInfoDialogs();    
   }
-  cd.kata.scrollLastTrafficLightIntoView();
 
 })();
