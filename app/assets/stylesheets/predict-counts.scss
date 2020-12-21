@@ -14,12 +14,8 @@
      width:45px; max-width:45px;
      margin-bottom: 1px;
      padding: 0px;
-
-     //&.red   { border: 1px dotted $red  ; }
-     //&.amber { border: 1px dotted $amber; }
-     //&.green { border: 1px dotted $green; }
    }
-   #tick-count, #cross-count, #revert-count
+   .count
    {
      display: inline-block;
      border-radius: 5px;
@@ -30,6 +26,9 @@
      color: lighten(Black, 20%);
      padding: { left:4px; right:4px; top:3px; bottom:1px; }
      background: lighten($darker-color, 40%);
+     &.red   { background: $red  ; }
+     &.amber { background: $amber; }
+     &.green { background: $green; }
    }
    img
    {
