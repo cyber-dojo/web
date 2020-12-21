@@ -1,6 +1,6 @@
 <input name="predicted" type="hidden" value="none">
 
-<div id="predict-checkbox-container">
+<div id="predict-checkbox-cell">
   <div id="predict-checkbox-title">predict</div>
   <input type="checkbox" id="predict-checkbox"/>
   <label for="predict-checkbox"></label>
@@ -8,25 +8,25 @@
 
 <div id="revert-checkbox-title" style="display:none;">auto-revert if wrong!</div>
 
-<div id="predict-buttons-container" style="display:none;">
+<div id="predict-buttons-cell" style="display:none;">
   <table>
     <tr>
       <td><button class="predict red" data-colour="red" type="button">red</button></td>
-      <td><div class="revert-checkbox-container">
+      <td><div class="revert-checkbox-cell">
             <input type="checkbox" class="revert-checkbox" data-colour="red"  />
           </div>
       </td>
     </tr>
     <tr>
       <td><button class="predict amber" data-colour="amber" type="button">amber</button></td>
-      <td><div class="revert-checkbox-container">
+      <td><div class="revert-checkbox-cell">
           <input type="checkbox" class="revert-checkbox" data-colour="amber"/>
         </div>
       </td>
     </tr>
     <tr>
       <td><button class="predict green" data-colour="green" type="button">green</button></td>
-      <td><div class="revert-checkbox-container">
+      <td><div class="revert-checkbox-cell">
           <input type="checkbox" class="revert-checkbox" data-colour="green"/>
         </div>
       </td>
@@ -41,10 +41,10 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - - - - -
   // Predict checkbox
 
-  const $predictCheckboxContainer = $('#predict-checkbox-container');
+  const $predictCheckboxCell = $('#predict-checkbox-cell');
   const $predict = $('#predict-checkbox');
 
-  cd.setTip($predictCheckboxContainer, () => {
+  cd.setTip($predictCheckboxCell, () => {
     const tip = [
     'when checked, you predict the test result;',
     '&nbsp;&bull; <span class="red">red</span> - some tests will fail',
@@ -52,7 +52,7 @@ $(() => {
     '&nbsp;&bull; <span class="green">green</span> - all tests will pass'
     ].join('<br/>');
     if (cd.settings.predict() === 'off') {
-      cd.showHoverTip($predictCheckboxContainer, tip);
+      cd.showHoverTip($predictCheckboxCell, tip);
     }
   });
 
@@ -76,7 +76,7 @@ $(() => {
     cd.settings.predict('on');
     cd.kata.testButton.hide(() => {
       $revertTitle.show('slow');
-      $buttonsContainer.slideDown('slow');
+      $buttonsCell.slideDown('slow');
       cd.kata.showPredictImages();
       cd.kata.showPredictCounts();
       setFilenameListMaxHeight(470);
@@ -87,7 +87,7 @@ $(() => {
   const predictOff = () => {
     cd.settings.predict('off');
     $revertTitle.hide('slow');
-    $buttonsContainer.slideUp('slow', () => {
+    $buttonsCell.slideUp('slow', () => {
       cd.kata.testButton.show();
       cd.kata.hidePredictImages();
       cd.kata.hidePredictCounts();
@@ -108,7 +108,7 @@ $(() => {
   cd.kata.predictedColour = () => $predicted.val();
   cd.kata.noPrediction = () => $predicted.val('none');
 
-  const $buttonsContainer = $('#predict-buttons-container');
+  const $buttonsCell = $('#predict-buttons-cell');
   const $buttons = $('button.predict');
 
   $('button.predict').click((event) => {
