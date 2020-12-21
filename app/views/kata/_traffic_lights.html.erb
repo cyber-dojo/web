@@ -40,7 +40,6 @@ $(() => {
       const colour = light.colour;
       const $light = $trafficLightImage(index, colour);
       $lights.append($light);
-      cd.kata.index.increment();
       $light.click(() => cd.review.fromTestPage(id, index));
       cd.setupTrafficLightTip($light, colour, avatarIndex, id, index-1, index);
     }

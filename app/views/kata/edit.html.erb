@@ -36,7 +36,8 @@ $(() => {
   cd.kata.filenames.refresh();
 
   const events = <%= raw @events.to_json %>;
-  events.forEach((event,index) => {
+  events.forEach((event) => {
+    cd.kata.index.increment();
     cd.kata.appendTrafficLight(event);
     cd.kata.updateTrafficLightsCounts(event);
     cd.kata.updatePredictCounts(event);
