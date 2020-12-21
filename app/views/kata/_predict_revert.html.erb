@@ -107,6 +107,7 @@ $(() => {
   const $predicted = $('input[name=predicted]');
 
   cd.kata.predictedColour = () => $predicted.val();
+  cd.kata.noPrediction = () => $predicted.val('none');
 
   const $buttonsContainer = $('#predict-buttons-container');
   const $buttons = $('button.predict');
@@ -115,10 +116,7 @@ $(() => {
     $buttons.prop('disabled', true );
     const rag = $(event.target).data('colour');
     $predicted.val(rag);
-    cd.kata.runTests(() => {
-      $predicted.val('none');
-      $buttons.prop('disabled', false);
-    });
+    cd.kata.runTests(() => $buttons.prop('disabled', false));
   });
 
   //- - - - - - - - - - - - - - - - - - - - - - -
