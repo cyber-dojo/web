@@ -1,14 +1,14 @@
 <div id="predict-counts">
-  <div id="tick-box" class="box">
-    <img id="tick-img" src="/images/traffic-light/circle-tick.png">
+  <div class="tick box">
+    <img src="/images/traffic-light/circle-tick.png">
     <div id="tick-count" class="count">0</div>
   </div>
-  <div id="cross-box" class="box">
-    <img id="cross-img" src="/images/traffic-light/circle-cross.png">
+  <div class="circle box">
+    <img src="/images/traffic-light/circle-cross.png">
     <div id="cross-count" class="count">0</div>
   </div>
-  <div id="revert-box" class="box">
-    <img id="revert-img" src="/images/traffic-light/circle-revert.png">
+  <div class="revert box">
+    <img src="/images/traffic-light/circle-revert.png">
     <div id="revert-count" class="count">0</div>
   </div>
 </div>
@@ -28,8 +28,8 @@ $(() => {
     if (cd.lib.isPredict(light)) {
       const isRight = (light.colour === light.predicted);
       const name = isRight ? 'tick' : 'cross';
-      $(`#${name}-count`).text(counts[name] += 1);
-      $(`#${name}-box`).addClass(light.predicted);
+      $(`#${name}-count`, $predictCounts).text(counts[name] += 1);
+      $(`#${name}-box`, $predictCounts).addClass(light.predicted);
     }
     if (light.revert) {
       counts.revert += 1;

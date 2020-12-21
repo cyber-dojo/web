@@ -1,25 +1,38 @@
 #traffic-lights-counts
 {
+  display: grid;
   margin-left:5px;
 
-  #red-count, #amber-count, #green-count
+  .box
   {
-    display: block;
-    border-radius: 5px;
-    max-height: 26px;
-    min-width: 15px;
-    width:25px;
-    max-width:35px;
-    font-size: 19px;
-    text-align: right;
+    display: inline-flex;
+    max-height:28px;
+    width:45px; max-width:45px;
     margin-bottom: 1px;
-    padding: { left:5px; right:5px; top:2px; bottom:3px; }
-    color: lighten(Black, 20%);
-    background: lighten($darker-color,35%);
-    border: none;
+    padding:0px;
   }
-
-  #red-count.current   { background: $red  ; }
-  #amber-count.current { background: $amber; }
-  #green-count.current { background: $green; }
+  img
+  {
+    width: 17px;
+    height: 17px;
+    padding: 4px;
+  }
+  .count
+  {
+    display: inline-block;
+    border-radius: 5px;
+    font-size: 18px;
+    text-align: right;
+    min-width: 25px;
+    max-width: 35px;
+    color: lighten(Black, 20%);
+    padding: { left:4px; right:4px; top:3px; bottom:1px; }
+    background: lighten($darker-color, 40%);
+    &.actual
+    {
+      &.red   { background: $red  ; }
+      &.amber { background: $amber; }
+      &.green { background: $green; }
+    }
+  }
 }

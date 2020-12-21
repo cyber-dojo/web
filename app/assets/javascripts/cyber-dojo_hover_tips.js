@@ -166,12 +166,7 @@ var cyberDojo = (function(cd, $) {
   cd.createTip = (node, tip, where) => {
     node.off('mouseenter mouseleave');
     cd.setTip(node, () => {
-      if (typeof tip === 'string') {
-        cd.showHoverTip(node, tip, where);
-      }
-      if (typeof tip === 'function') {
-        cd.showHoverTip(node, tip(), where);
-      }
+      cd.showHoverTip(node, tip, where);
     });
   };
 

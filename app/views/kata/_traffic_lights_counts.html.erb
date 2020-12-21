@@ -1,7 +1,28 @@
 <div id="traffic-lights-counts">
-  <div id="red-count"   class="count">0</div>
-  <div id="amber-count" class="count">0</div>
-  <div id="green-count" class="count">0</div>
+  <div class="box">
+    <img src="/images/traffic-light/red.png">
+    <div class="red count">0</div>
+  </div>
+  <div class="box">
+    <img src="/images/traffic-light/amber.png">
+    <div class="amber count">0</div>
+  </div>
+  <div class="box">
+    <img src="/images/traffic-light/green.png">
+    <div class="green count">0</div>
+  </div>
+  <div class="timed_out box" style="display:none;">
+    <img src="/images/traffic-light/timed_out.png">
+    <div class="timed_out count">0</div>
+  </div>
+  <div class="pulling box" style="display:none;">
+    <img src="/images/traffic-light/pulling.png">
+    <div class="pulling count">0</div>
+  </div>
+  <div class="faulty box" style="display:none;">
+    <img src="/images/traffic-light/faulty.png">
+    <div class="faulty count">0</div>
+  </div>
 </div>
 
 <script>
@@ -17,19 +38,14 @@ $(() => {
 
   const $counts = $('#traffic-lights-counts');
 
-  cd.createTip($counts, () => trafficLightsTotalsCountHoverTip(), {
-    my: 'right top',
-    at: 'left top',
-    of: $('#sponsors-title')
-  });
-
   cd.kata.updateTrafficLightsCounts = (light) => {
     const colour = light.colour;
     counts[colour] += 1;
-    $('.count', $counts).removeClass('current');
-    if (['red','amber','green'].includes(colour)) {
-      $(`#${colour}-count`).text(counts[colour]).addClass('current');
+    if (counts[colour] > 0) {
+      $(`.${colour}.box`).show();
     }
+    $('.count', $counts).removeClass('actual');
+    $(`.${colour}.count`, $counts).text(counts[colour]).addClass('actual');
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -41,42 +57,6 @@ $(() => {
     pulling: 0,
     faulty:0,
   };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const trafficLightsTotalsCountHoverTip = () => {
-    let html = 'tests';
-    html += '<table>';
-    html += lightTr('red'  , 'red'  );
-    html += lightTr('amber', 'amber');
-    html += lightTr('green', 'green');
-    if (counts.timed_out > 0) {
-      html += lightTr('timed_out', 'timed-out');
-    }
-    if (counts.pulling > 0) {
-      html += lightTr('pulling', 'preparing');
-    }
-    if (counts.faulty > 0) {
-      html += lightTr('faulty', 'faulty');
-    }
-    //html += '23 tests (+2 reverts)';
-    html += '</table>';
-    return html;
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const lightTr = (name, text) => {
-    return '' +
-      tr(td(`<div class='${name} count-hover-tip'>
-              ${counts[name]}
-             </div>`) +
-         td(`<img class="count-hover-tip"
-                  src="/images/traffic-light/${name}.png">`) +
-         td(`<div class="${name}">${text}</div>`));
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const tr = (s) => `<tr>${s}</tr>`;
-  const td = (s) => `<td>${s}</td>`;
 
 });
 </script>

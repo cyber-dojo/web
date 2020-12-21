@@ -23,3 +23,9 @@ show predicted colour as background on predict counts.
 maybe colour the bg of [auto-revert if wrong!] text to something
    other than grey (to be distinct from predict text) and colour
    bg of 3 auto-revert checkboxes to match.
+
+on traffic-lights counts; how to show current light is non rag, eg timed-out
+
+reduce width of kata #traffic-lights so
+   bigger gap to counts
+   more space for hover-tip
