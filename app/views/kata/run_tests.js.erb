@@ -3,6 +3,7 @@
 
   const editor = cd.kata.editor;
 
+  const   light = <%= raw @light.to_json %>;
   const outcome = "<%= j raw(@outcome) %>";
   const  stdout = "<%= j raw(@stdout['content']) %>";
   const  stderr = "<%= j raw(@stderr['content']) %>";
@@ -152,9 +153,9 @@
     cd.kata.filenames.refresh();
     cd.kata.editor.output(stdout, stderr, status);
     cd.kata.tabs.output().click();
-    cd.kata.appendTrafficLight(<%= raw @light.to_json %>);
-    cd.kata.updateTrafficLightsCounts(<%= raw @light.to_json %>);
-    cd.kata.updatePredictCounts(<%= raw @light.to_json %>);
+    cd.kata.appendTrafficLight(light);
+    cd.kata.updateTrafficLightsCounts(light);
+    cd.kata.updatePredictCounts(light);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
