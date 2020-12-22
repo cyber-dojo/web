@@ -1,15 +1,11 @@
 
-provide model.revert() method as alias for model.ran_tests() and use in kata-controller
-provide model.checkout() method as alias for model.ran_tests() and use in kata-controller
-
 On revert, switch to review-mode for the incorrect light so you
 can easily see its stdout/stderr/status (and files)?
-Make the [checkout] button disabled though?
+
+Either way, make the [checkout] button disabled to undo from a cross
+(followed by a revert) for the same kata.id
 
 add hover-tip for individual counts?
-
-make model calls for persistence in shared/settings
-  remove console.log calls.
 
 maybe recolour checkbox cell backgrounds to match diff[x] on review page?
 
@@ -21,3 +17,6 @@ on traffic-lights counts; how to show _current_ light is non rag?,
   eg timed-out, what background colour?
 
 reduce width of kata #traffic-lights so less cramped last light hover-tip?
+
+provide model.revert() method as alias for model.ran_tests() and use in kata-controller
+provide model.checkout() method as alias for model.ran_tests() and use in kata-controller

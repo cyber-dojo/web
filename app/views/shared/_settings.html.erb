@@ -57,20 +57,14 @@ $(() => {
       if (value === undefined) {
         return getOption(name);
       } else {
-        //TODO: setOption(name, value);
-        cache[name] = value;
-        console.log(`SET cd.settings[${name}] = ${value})`);
+        setOption(name, value);
       }
     }
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const cache = {
-    revert_red:'off',
-    revert_amber:'off',
-    revert_green:'off'
-  };
+  const cache = {};
 
   const getOption = (name) => {
     if (cache[name] === undefined) {
