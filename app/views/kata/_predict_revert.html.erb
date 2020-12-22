@@ -126,8 +126,9 @@ $(() => {
 
   cd.createTip($revertTitle, [
     'when checked, if your prediction is',
-    'wrong, your files will automatically',
-    'lose all current edits!',
+    "wrong you'll get <em>two</em> traffic-lights:",
+    '&nbsp;&bull;&nbsp;the 1<sup>st</sup> for the wrong prediction',
+    '&nbsp;&bull;&nbsp;the 2<sup>nd</sup> to revert the 1<sup>st</sup>!'
   ].join('<br/>'));
 
   $('.revert-checkbox').click((event) => {

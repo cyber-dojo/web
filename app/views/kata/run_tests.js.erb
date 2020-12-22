@@ -188,7 +188,8 @@
       cd.kata.index.increment();
       clog(`revert() index.increment(after )...   index=${cd.kata.index()}`);
       clog(`revert() about to call review.fromTestPage(id, ${cd.kata.index()-2})`);
-      cd.review.fromTestPage(cd.kata.id(), cd.kata.index() - 2);
+      //Switching directly to a review of the reverted light is possible here...
+      //cd.review.fromTestPage(cd.kata.id(), cd.kata.index() - 2);
     }, 'json');
   };
 
