@@ -61,7 +61,7 @@
 
   #traffic-lights
   {
-       display: inline-flex;
+       display: flex;
         margin: { left:3px; top:0px; right:0px; bottom:0px; }
     overflow-x: auto;
     overflow-y: hidden;
@@ -71,18 +71,13 @@
   img.diff-traffic-light
   {
     margin-right: 2px;
-    position: relative;
-    top: 5px;
   }
 
   img.revert, img.tick, img.cross
   {
     width:18px;
     height:18px;
-    padding-top:14px;
-    position:relative;
-    left:1px;
-    top:-2px;
+    padding-top:7px;
     &.hide { display:none; }
   }
 
