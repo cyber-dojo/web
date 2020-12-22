@@ -26,6 +26,9 @@ $(() => {
         .text(counts[name] += 1)
         .addClass(light.predicted);
     }
+    else if (!cd.lib.isRevert(light)) {
+      $('.count', $predictCounts).removeClass('red amber green');      
+    }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
