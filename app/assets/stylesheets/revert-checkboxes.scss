@@ -2,10 +2,10 @@
 {
   display: inline-block;
   width: 108px;
-  border-radius: 5px;
+  border-radius: 3px;
   color: Black;
   background: lighten($darker-color,50%);
-  padding: { left:3px; right:1px; top:0px; bottom:0px; }
+  padding: { left:3px; right:1px; top:0px; bottom:1px; }
   margin: 0px;
 }
 
@@ -15,7 +15,6 @@
   font: bold 10px sans-serif;
   color: Black;
   padding-left: 4px;
-  cursor: pointer;
   position: relative;
   top: -1px;
 }
