@@ -85,7 +85,7 @@ class KataController < ApplicationController
       avatarIndex:source_avatar_index,
     }
     json = source_event(from[:id], from[:index], :checkout, from)
-    model.kata_ran_tests(id, index+1, @files, @stdout, @stderr, @status, {
+    model.kata_ran_tests(id, index, @files, @stdout, @stderr, @status, {
         colour: @colour,
       checkout: from
     });
