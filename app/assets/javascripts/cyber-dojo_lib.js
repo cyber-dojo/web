@@ -111,18 +111,25 @@ var cyberDojo = ((cd, $) => {
   //   - an auto-revert (from an incorrect test prediction)
   //   - a [checkout]   (from the review page)
   // Both were light.revert == [id,index]
-  
+
+  const clog = (s) => {
+    if (true) {
+      console.log(s);
+    }
+  };
+
   cd.lib.appendImageIfPrediction = ($lights, light) => {
-    console.log(`lib.appendImageIfPrediction ${light.index}`);
+    clog(`lib.appendImageIfPrediction ${light.index}`);
     if (cd.lib.isPredict(light)) {
-      console.log(`  ${light.index} isPredict()`);
+      clog(`...${light.index} isPredict()`);
       $lights.append($imgForPredict(light));
     }
   };
 
   cd.lib.appendImageIfRevert = ($lights, light) => {
+    clog(`lib.appendImageIfRevert ${light.index}`);
     if (cd.lib.isRevert(light)) {
-      console.log(`  ${light.index} isRevert()`);
+      clog(`...${light.index} isRevert()`);
       $lights.append($imgForRevert(light));
     }
   };
