@@ -77,12 +77,12 @@
 
   img.revert, img.tick, img.cross
   {
-    width:14px;
-    height:14px;
+    width:18px;
+    height:18px;
     padding-top:14px;
     position:relative;
     left:1px;
-    top:2px;
+    top:-2px;
     &.hide { display:none; }
   }
 
