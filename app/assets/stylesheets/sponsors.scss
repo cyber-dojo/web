@@ -9,10 +9,10 @@
 
 #sponsors-title
 {
-  margin: { bottom:4px; }
+  margin: { left:1px; bottom:4px; }
   font-size: 12px;
   @include plaintext-font()
-  letter-spacing: 0.02em;
+  letter-spacing: 0.03em;
 }
 
 .sponsor { display: inline-flex; }
