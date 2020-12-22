@@ -1,23 +1,23 @@
 #predict-checkbox-cell
 {
   display: inline-block;
-  width: 85px;
+  width: 58px;
   border-radius: 5px;
   color: Black;
   background: lighten($darker-color,50%);
-  border: 2px solid lighten($darker-color,50%);
-  padding: { left:3px; right:1px; top:1px; bottom:0px; }
+  padding: { left:3px; right:1px; top:0px; bottom:0px; }
   margin: 0px;
-  &:hover { border: 2px dotted Black; }
 }
 
 #predict-checkbox-title,
 {
   display: inline;
-  font: bold 16px sans-serif;
+  font: bold 10px sans-serif;
   color: Black;
   padding-left: 4px;
   cursor: pointer;
+  position: relative;
+  top: -1px;
 }
 
 #predict-checkbox,
@@ -25,8 +25,6 @@
   display: inline;
   width: 15px;
   height: 15px;
-  -moz-transform: scale(1.1);
+  margin: 0px;
   cursor: pointer;
-  position: relative;
-  top: -1px;
 }
