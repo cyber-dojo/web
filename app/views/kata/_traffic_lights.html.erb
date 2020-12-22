@@ -29,7 +29,7 @@ $(() => {
   //      - When you click [checkout].
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.kata.appendTrafficLight = (light, scrollIntoView=false) => {
+  cd.kata.appendTrafficLight = (light, option={scrollIntoView:false}) => {
     if (cd.lib.isVisible(light)) {
       cd.lib.appendImageIfPrediction($lights, light);
       cd.lib.appendImageIfCheckout($lights, light);
@@ -37,7 +37,7 @@ $(() => {
       const colour = light.colour;
       const $light = $trafficLightImage(index, colour);
       $lights.append($light);
-      if (scrollIntoView) {
+      if (option.scrollIntoView) {
         $light.scrollIntoView({
           direction: 'horizontal',
            duration: 'slow'

@@ -35,8 +35,7 @@ $(() => {
       cd.kata.editor.output(data.stdout.content, data.stderr.content, data.status);
       cd.kata.tabs.output().click();
       cd.kata.filenames.refresh();
-      const scrollIntoView = true;
-      cd.kata.appendTrafficLight(data.light, scrollIntoView);
+      cd.kata.appendTrafficLight(data.light, {scrollIntoView:true});
     }, 'json');
   };
 

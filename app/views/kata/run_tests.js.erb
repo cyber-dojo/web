@@ -156,7 +156,7 @@
     cd.kata.filenames.refresh();
     cd.kata.editor.output(stdout, stderr, status);
     cd.kata.tabs.output().click();
-    cd.kata.appendTrafficLight(light, scrollIntoView);
+    cd.kata.appendTrafficLight(light, {scrollIntoView:true});
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -175,7 +175,7 @@
       cd.kata.filenames.refresh();
       cd.kata.editor.output(data.stdout.content, data.stderr.content, data.status);
       cd.kata.tabs.output().click();
-      cd.kata.appendTrafficLight(data.light, scrollIntoView);
+      cd.kata.appendTrafficLight(data.light, {scrollIntoView:true});
     }, 'json');
   };
 
