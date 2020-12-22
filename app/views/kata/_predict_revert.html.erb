@@ -142,12 +142,13 @@ $(() => {
   });
 
   //- - - - - - - - - - - - - - - - - - - - - - -
-
-  if (cd.settings.predict() === 'on') {
-    predictOn();
-  } else {
-    predictOff();
-  }
+  cd.kata.setupPrediction = () => {
+    if (cd.settings.predict() === 'on') {
+      predictOn();
+    } else {
+      predictOff();
+    }
+  };
 
 });
 </script>

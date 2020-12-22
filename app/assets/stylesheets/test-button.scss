@@ -6,11 +6,12 @@
 
 #test-button
 {
+  display: block;
+  border-radius: 5px;
   font-size: 18px;
-  @include rounded-corner(5px);
-     display: inline-block;
-      margin: { top:0px; bottom: 0px; right: -2px; }
-     padding: { top: 0px; bottom: 1px; left: 7px; right: 7px; }
+  width: 61px;
+      margin: { top:1px; bottom:0px; }
+     padding: { top:0px; bottom:1px; left:7px; right:7px; }
   text-align: center;
   font-weight: bold;
   &:hover { border: 2px dotted Black; }
