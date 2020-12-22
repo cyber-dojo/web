@@ -45,15 +45,12 @@
     padding: 0px;
     &.checkout
     {
-      min-width: 20px; // prevent flex shrinkage
-     min-height: 20px; // prevent flex shrinkage
-      width: 20px;
-     height: 20px;
-      position:relative;
-      border-radius:16px;
-      left:1px;
-      top:10px;
+      min-width: 18px; // prevent flex shrinkage
+      min-height: 18px; // prevent flex shrinkage
+      width: 18px;
+      height: 18px;
       margin:0px;
+      border-radius:9px; // half width
     }
   }
 
@@ -75,9 +72,8 @@
 
   img.revert, img.tick, img.cross
   {
-    width:18px;
-    height:18px;
-    padding-top:7px;
+    width:16px;
+    height:16px;
     &.hide { display:none; }
   }
 
