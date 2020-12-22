@@ -108,7 +108,7 @@ class KataController < ApplicationController
       status: @status,
        light: {
          colour: @colour,
-          index: index + 1,
+          index: index,
           name => value
        }
     }
