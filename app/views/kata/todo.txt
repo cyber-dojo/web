@@ -1,18 +1,19 @@
 
-If predict is off and you refresh a page you should not see
-the tick/cross/revert.
 
 On revert, switch to review-mode for the incorrect light so you
 can easily see its stdout/stderr/status (and files).
 Make the [checkout] button disabled though?
 
-Separate out the revert count from the predict counts?
-I think so. Especially when predict has a visible total.
+Separate out the revert count from the predict counts.
+Maybe put it below the RAG counts?
+
+add hover-tip for individual counts?
+
 
 make model calls for persistence in shared/settings
   remove console.log calls.
 
-add hover-tip for individual counts?
+maybe recolour checkbox cell backgrounds to match diff[x] on review page?
 
 maybe colour the bg of [revert if wrong!] text to something
    other than grey (to be distinct from predict text) and colour
@@ -21,8 +22,7 @@ maybe colour the bg of [revert if wrong!] text to something
 on traffic-lights counts; how to show current light is non rag?,
   eg timed-out, what background colour?
 
-reduce width of kata #traffic-lights so
-   gap at rhs to counts
+reduce width of kata #traffic-lights so less cramped last light hover-tip?
 
 revert counts logically has a 4th category... outcome not red/amber/green,
   eg timed_out

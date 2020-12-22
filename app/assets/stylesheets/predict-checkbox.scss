@@ -16,16 +16,14 @@
   color: Black;
   padding-left: 4px;
   cursor: pointer;
-  position: relative;
-  top: -1px;
+  vertical-align: middle;
 }
 
 #predict-checkbox,
 {
   display: inline;
-  width: 15px;
-  height: 15px;
   margin: 0px;
-  margin-bottom: 3px;
+  vertical-align: middle;
   cursor: pointer;
+  transform: scale(0.9);
 }

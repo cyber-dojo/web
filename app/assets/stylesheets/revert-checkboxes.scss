@@ -5,7 +5,7 @@
   border-radius: 3px;
   color: Black;
   background: lighten($darker-color,50%);
-  padding: { left:3px; right:1px; top:0px; bottom:1px; }
+  padding: { left:3px; right:1px; top:0px; bottom:0px; }
   margin: 0px;
 }
 
@@ -15,8 +15,7 @@
   font: bold 10px sans-serif;
   color: Black;
   padding-left: 4px;
-  position: relative;
-  top: -1px;
+  vertical-align: middle;
 }
 
 .revert-checkbox-cell
