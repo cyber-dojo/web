@@ -31,7 +31,7 @@ class KataController < ApplicationController
     @log = result['log']
     @outcome = result['outcome']
     @light = {
-      'index' => index + 1,
+      'index' => index,
       'colour' => @outcome,
       'predicted' => params['predicted'],
     }
@@ -39,7 +39,7 @@ class KataController < ApplicationController
     @saved = true
     @out_of_sync = false
     begin
-      model.kata_ran_tests(@id, index+1, files, @stdout, @stderr, @status, {
+      model.kata_ran_tests(@id, index, files, @stdout, @stderr, @status, {
          duration: duration,
            colour: @outcome,
         predicted: params['predicted']
@@ -66,10 +66,10 @@ class KataController < ApplicationController
   # - - - - - - - - - - - - - - - - - -
 
   def revert
-    args = [ id, index-1 ]
-    json = source_event(id, index-1, :revert, args)
-    # TODO: provide model.revert() method as alias for ran_tests()
-    model.kata_ran_tests(id, index+1, @files, @stdout, @stderr, @status, {
+    # Eg 14=green, 15=incorrect prediction, index==16 ==> revert to 14
+    args = [ id, index-2 ]
+    json = source_event(id, index-2, :revert, args)
+    model.kata_ran_tests(id, index, @files, @stdout, @stderr, @status, {
       colour: @colour,
       revert: args
     });
@@ -85,7 +85,6 @@ class KataController < ApplicationController
       avatarIndex:source_avatar_index,
     }
     json = source_event(from[:id], from[:index], :checkout, from)
-    # TODO: provide model.checkout() method as alias for ran_tests()
     model.kata_ran_tests(id, index+1, @files, @stdout, @stderr, @status, {
         colour: @colour,
       checkout: from

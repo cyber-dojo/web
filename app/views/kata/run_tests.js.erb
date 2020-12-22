@@ -120,6 +120,13 @@
   };
 
   //- - - - - - - - - - - - - - - - - - - - - -
+
+  const clog = (s) => {
+    if (true) {
+      console.log(s);
+    }
+  };
+
   const runNeedsReverting = () => {
     const predictIsOn = () => (cd.settings.predict() === 'on');
     const predicted = cd.kata.predictedColour();
@@ -144,12 +151,6 @@
     return result;
   };
 
-  const clog = (s) => {
-    if (false) {
-      console.log(s);
-    }
-  };
-
   //- - - - - - - - - - - - - - - - - - - - - -
 
   const scrollIntoView = true;
@@ -158,11 +159,13 @@
     insertCreatedFiles();
     removeDeletedFiles();
     updateChangedFiles();
-    cd.kata.index.increment();
     cd.kata.filenames.refresh();
     cd.kata.editor.output(stdout, stderr, status);
     cd.kata.tabs.output().click();
     cd.kata.appendTrafficLight(light, {scrollIntoView:true});
+    clog(`refreshFromTest() increment(before)... index=${cd.kata.index()}`);
+    cd.kata.index.increment();
+    clog(`refreshFromTest() increment(after )... index=${cd.kata.index()}`);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -172,7 +175,6 @@
       index: cd.kata.index() // eg 18 (reverting to 16)
     };
     $.post('/kata/revert', args, (data) => {
-      cd.kata.index.increment();
       cd.kata.editor.deleteFiles();
       for (const filename in data.files) {
         cd.kata.editor.createFile(filename, { content:data.files[filename] });
@@ -182,6 +184,11 @@
       cd.kata.editor.output(data.stdout.content, data.stderr.content, data.status);
       cd.kata.tabs.output().click();
       cd.kata.appendTrafficLight(data.light, {scrollIntoView:true});
+      clog(`revert() index.increment(before)...   index=${cd.kata.index()}`);
+      cd.kata.index.increment();
+      clog(`revert() index.increment(after )...   index=${cd.kata.index()}`);
+      clog(`revert() about to call review.fromTestPage(id, ${cd.kata.index()-2})`);
+      cd.review.fromTestPage(cd.kata.id(), cd.kata.index() - 2);
     }, 'json');
   };
 
