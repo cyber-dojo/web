@@ -31,6 +31,7 @@ $(() => {
     events.forEach(event => {
       if (cd.lib.isVisible(event)) {
         cd.lib.appendImageIfPrediction($trafficLights, event);
+        cd.lib.appendImageIfRevert($trafficLights, event);
         cd.lib.appendImageIfCheckout($trafficLights, event);
         appendTrafficLight(kataId, index, event);
       }
