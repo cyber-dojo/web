@@ -51,19 +51,26 @@ $(() => {
     }
   };
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // Don't use show() hide() here as the animation is far
+  // too slow (even on 'fast') when you have a reasonably
+  // large number of traffic-lights.
+
   const $predictImages = () => $('img.revert, img.tick, img.cross', $lights);
 
   cd.kata.hidePredictImages = () => {
-    $predictImages().hide('slow', cd.kata.scrollLastTrafficLightIntoView);
+    $predictImages().addClass('hide');
+    cd.kata.scrollLastTrafficLightIntoView();
   };
 
   cd.kata.showPredictImages = () => {
-    $predictImages().show('slow', cd.kata.scrollLastTrafficLightIntoView);
+    $predictImages().removeClass('hide');
+    cd.kata.scrollLastTrafficLightIntoView();
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const $trafficLightImage = (index, colour) => {
-    // colour+index are needed for revert
+    // Revert needs colour+index properties
     return $('<img>', {
       class: 'diff-traffic-light',
         src: `/images/traffic-light/${colour}.png`,
