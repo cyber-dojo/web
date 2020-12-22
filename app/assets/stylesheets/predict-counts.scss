@@ -2,10 +2,19 @@
 {
    display: grid;
    width: 61px;
-   border-radius: 5px;
-   padding: { left:5px; right:4px; top:4px; bottom:4px; }
+   border-radius: 3px;
+   padding: { left:5px; right:4px; top:4px; bottom:2px; }
    background: lighten($darker-color, 15%);
    margin: 8px;
+
+   .total
+   {
+     font-family: sans-serif;
+     font-size: 9px;
+     color: DarkGray;
+     margin-top: 4px;
+     letter-spacing: 0.06em;
+   }
 
    .box
    {
@@ -18,7 +27,7 @@
    .count
    {
      display: inline-block;
-     border-radius: 5px;
+     border-radius: 3px;
      font-size: 18px;
      text-align: right;
      min-width: 25px;

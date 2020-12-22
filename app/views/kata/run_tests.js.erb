@@ -132,16 +132,22 @@
       predictIsOn() && isRagOutcome && predictedWrong
         && revertIsOn() && isLightToRevertTo;
 
-    console.log(`runNeedsReverting()`);
-    console.log(`  predictIsOn == ${predictIsOn()}`);
-    console.log(`  predicted == ${predicted}`);
-    console.log(`  isRagOutcome == ${isRagOutcome}`);
-    console.log(`  predictedWrong == ${predictedWrong}`);
-    console.log(`  revertIsOn == ${revertIsOn()}`);
-    console.log(`  isLightToRevertTo == ${isLightToRevertTo}`);
-    console.log(`  result ===> ${result}`);
+    clog(`runNeedsReverting()`);
+    clog(`  predictIsOn == ${predictIsOn()}`);
+    clog(`  predicted == ${predicted}`);
+    clog(`  isRagOutcome == ${isRagOutcome}`);
+    clog(`  predictedWrong == ${predictedWrong}`);
+    clog(`  revertIsOn == ${revertIsOn()}`);
+    clog(`  isLightToRevertTo == ${isLightToRevertTo}`);
+    clog(`  result ===> ${result}`);
 
     return result;
+  };
+
+  const clog = (s) => {
+    if (false) {
+      console.log(s);
+    }
   };
 
   //- - - - - - - - - - - - - - - - - - - - - -

@@ -17,6 +17,7 @@
   padding-left: 4px;
   cursor: pointer;
   vertical-align: middle;
+  letter-spacing: 0.02em;
 }
 
 #predict-checkbox,
@@ -26,4 +27,6 @@
   vertical-align: middle;
   cursor: pointer;
   transform: scale(0.9);
+  position: relative;
+  top: -1px;
 }

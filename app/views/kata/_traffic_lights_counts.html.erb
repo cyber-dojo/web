@@ -23,6 +23,7 @@
     <div class="faulty count">0</div>
     <img src="/images/traffic-light/faulty.png">
   </div>
+  <div class="total">0&nbsp;tests</div>
 </div>
 
 <script>
@@ -44,12 +45,17 @@ $(() => {
     $('.count', $counts).removeClass('actual');
     $count.addClass('actual');
     if (!light.reverted) {
-      $count.text(counts[colour] += 1)
+      $count.text(counts[colour] += 1);
+      const total = counts.red + counts.amber + counts.green +
+                    counts.timed_out + counts.pulling + counts.faulty;
+      $('.total', $counts).html(`${total}&nbsp;test${plural(total)}`);
     }
     if (counts[colour] > 0) {
       $(`.${colour}.box`).show();
     }
   };
+
+  const plural = (n) => n == 1 ? '' : 's';
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const counts = {

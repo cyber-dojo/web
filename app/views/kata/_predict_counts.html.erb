@@ -7,6 +7,7 @@
     <div class="cross count">0</div>
     <img src="/images/traffic-light/circle-cross.png">
   </div>
+  <div class="total">0&nbsp;predictions</div>
 </div>
 
 <script>
@@ -25,17 +26,20 @@ $(() => {
       $(`.${name}.count`, $predictCounts)
         .text(counts[name] += 1)
         .addClass(light.predicted);
+      const total = counts.tick + counts.cross;
+      $('.total', $predictCounts).html(`${total}&nbsp;prediction${plural(total)}`);
     }
     else if (!cd.lib.isRevert(light)) {
-      $('.count', $predictCounts).removeClass('red amber green');      
+      $('.count', $predictCounts).removeClass('red amber green');
     }
   };
 
+  const plural = (n) => n == 1 ? '' : 's';
+  
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const counts = {
     tick: 0,
-    cross: 0,
-    revert: 0
+    cross: 0
   };
 
 });

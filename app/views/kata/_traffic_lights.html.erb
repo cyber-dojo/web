@@ -32,6 +32,7 @@ $(() => {
   cd.kata.appendTrafficLight = (light, option={scrollIntoView:false}) => {
     if (cd.lib.isVisible(light)) {
       cd.lib.appendImageIfPrediction($lights, light);
+      cd.lib.appendImageIfRevert($lights, light);
       cd.lib.appendImageIfCheckout($lights, light);
       const index = light.index;
       const colour = light.colour;

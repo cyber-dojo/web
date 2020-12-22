@@ -1,7 +1,7 @@
 #revert-title-cell
 {
   display: inline-block;
-  width: 108px;
+  width: 110px;
   border-radius: 3px;
   color: Black;
   background: lighten($darker-color,40%);
@@ -16,6 +16,7 @@
   color: Black;
   padding-left: 4px;
   vertical-align: middle;
+  letter-spacing: 0.02em;
 }
 
 .revert-checkbox-cell

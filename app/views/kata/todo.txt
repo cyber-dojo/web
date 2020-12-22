@@ -1,5 +1,4 @@
 
-
 On revert, switch to review-mode for the incorrect light so you
 can easily see its stdout/stderr/status (and files).
 Make the [checkout] button disabled though?
