@@ -44,7 +44,7 @@ $(() => {
     const $count = $(`.${colour}.count`, $counts);
     $('.count', $counts).removeClass('actual');
     $count.addClass('actual');
-    if (!light.reverted) {
+    if (!cd.lib.isRevert(light)) {
       $count.text(counts[colour] += 1);
       const total = counts.red + counts.amber + counts.green +
                     counts.timed_out + counts.pulling + counts.faulty;
