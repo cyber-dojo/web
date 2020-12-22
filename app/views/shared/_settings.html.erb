@@ -53,27 +53,23 @@ $(() => {
       }
     },
     revert:(colour, value) => {
-      const name = 'revert';
+      const name = `revert_${colour}`;
       if (value === undefined) {
-        const value = cache.revert[colour];
-        console.log(`GET cd.settings.revert(${colour}) == ${value}`);
-        return value;
+        return getOption(name);
       } else {
-        //setOption(name, value);
-        cache.revert[colour] = value;
-        console.log(`SET cd.settings.revert(${colour}, ${value})`);
+        //TODO: setOption(name, value);
+        cache[name] = value;
+        console.log(`SET cd.settings[${name}] = ${value})`);
       }
     }
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  const cache = {};
-
-  cache.revert = {
-      red:'off',
-    amber:'off',
-    green:'off'
+  const cache = {
+    revert_red:'off',
+    revert_amber:'off',
+    revert_green:'off'
   };
 
   const getOption = (name) => {

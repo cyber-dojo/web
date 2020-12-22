@@ -3,29 +3,21 @@ provide model.revert() method as alias for model.ran_tests() and use in kata-con
 provide model.checkout() method as alias for model.ran_tests() and use in kata-controller
 
 On revert, switch to review-mode for the incorrect light so you
-can easily see its stdout/stderr/status (and files).
+can easily see its stdout/stderr/status (and files)?
 Make the [checkout] button disabled though?
 
-Separate out the revert count from the predict counts.
-Maybe put it below the RAG counts?
-
 add hover-tip for individual counts?
-
 
 make model calls for persistence in shared/settings
   remove console.log calls.
 
 maybe recolour checkbox cell backgrounds to match diff[x] on review page?
 
-maybe colour the bg of [revert if wrong!] text to something
+maybe colour the bg of [revert if wrong!] title-text to something
    other than grey (to be distinct from predict text) and colour
    bg of 3 auto-revert checkboxes to match.
 
-on traffic-lights counts; how to show current light is non rag?,
+on traffic-lights counts; how to show _current_ light is non rag?,
   eg timed-out, what background colour?
 
 reduce width of kata #traffic-lights so less cramped last light hover-tip?
-
-revert counts logically has a 4th category... outcome not red/amber/green,
-  eg timed_out
-  show this?

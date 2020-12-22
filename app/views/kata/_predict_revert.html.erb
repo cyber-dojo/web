@@ -143,6 +143,10 @@ $(() => {
 
   //- - - - - - - - - - - - - - - - - - - - - - -
   cd.kata.setupPrediction = () => {
+    ['red','amber','green'].forEach((colour) => {
+      const $box = $(`.revert-checkbox[data-colour=${colour}]`);
+      $box.prop('checked', cd.settings.revert(colour) === 'on');
+    });
     if (cd.settings.predict() === 'on') {
       predictOn();
     } else {
