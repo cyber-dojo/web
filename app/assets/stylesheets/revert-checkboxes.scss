@@ -4,7 +4,7 @@
   width: 108px;
   border-radius: 3px;
   color: Black;
-  background: lighten($darker-color,50%);
+  background: lighten($darker-color,40%);
   padding: { left:3px; right:1px; top:0px; bottom:0px; }
   margin: 0px;
 }
@@ -23,7 +23,7 @@
   display: inline-block;
   color: Black;
   cursor: pointer;
-  background: lighten($darker-color,50%);
+  background: lighten($darker-color,40%);
   border: none;
   margin-left: 2px;
   padding-right: 1px;
