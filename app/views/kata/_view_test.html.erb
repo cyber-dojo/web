@@ -12,7 +12,10 @@
   <%= render partial: 'index' %>
   <%= render partial: 'max_seconds' %>
   <div class="lhs-column">
-    <%= render partial: 'test_control' %>
+    <div id="test-control">
+      <%= render partial: 'predict_revert' %>
+      <%= render partial: 'test_button' %>
+    </div>
     <%= render partial: 'file_create_rename_delete' %>
     <%= render partial: 'filenames' %>
   </div><div class="middle-column">
