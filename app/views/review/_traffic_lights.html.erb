@@ -41,7 +41,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const appendTrafficLight = (kataId, index, light) => {
     const colour = light.colour;
-    const $lightBox = $('<div>');
+    const $lightBox = $('<div class="light box">');
     const $light = $('<img>', {
       class: 'diff-traffic-light',
         src: `/images/traffic-light/${colour}.png`,
