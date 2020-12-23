@@ -48,10 +48,9 @@ $(() => {
         alt: `${colour} traffic-light`
     });
     $light.click(() => cd.review.refresh(kataId, light.index));
-    const avatarIndex = () => cd.review.avatarIndex();
     const wasIndex = light.index - 1;
     const nowIndex = light.index;
-    cd.setupTrafficLightTip($light, light, avatarIndex, kataId, wasIndex, nowIndex);
+    cd.setupTrafficLightTip($light, light, kataId, wasIndex, nowIndex);
     $lightBox.append($light);
     $lightBox.append(makeTrafficLightMarkerHtml(index, light));
     $trafficLights.append($lightBox);

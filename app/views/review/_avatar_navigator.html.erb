@@ -29,7 +29,7 @@ $(() => {
 
   const avatarNavigatorRefresher = (kataId, joined) => {
     const [prevIndex,avatarIndex,nextIndex] = review.avatarsNeighbours(kataId, joined);
-    // Make avatarIndex available for traffic-light hover-tip.
+    // Make avatarIndex available for checkout.
     review.avatarIndex = () => avatarIndex; // eg 23/''
     if (avatarIndex != '') {
       const $avatar = $('#review-avatar-image-box');

@@ -12,7 +12,7 @@ var cyberDojo = (function(cd, $) {
     });
   };
 
-  cd.setupTrafficLightTip = ($light, light, _avatarIndex, kataId, wasIndex, nowIndex) => {
+  cd.setupTrafficLightTip = ($light, light, kataId, wasIndex, nowIndex) => {
     cd.setTip($light, () => {
       const args = { id:kataId, was_index:wasIndex, now_index:nowIndex };
       $.getJSON('/differ/diff_summary', args, (data) => {
