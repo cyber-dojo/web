@@ -35,13 +35,14 @@
  *= depend_on predict-checkbox.scss
  *= depend_on predict-buttons.scss
  *= depend_on predict-counts.scss
- *= depend_on revert-checkboxes.scss 
+ *= depend_on revert-checkboxes.scss
  *= depend_on traffic-lights-counts.scss
  *= depend_on review.scss
  *= depend_on app-bar.scss
  *= depend_on wait-spinner.scss
  *= depend_on yin-yang-logo.scss
  *= depend_on hotkeys.scss
+ *= depend_on charity.scss 
  *= depend_on sponsors.scss
  *= depend_on xterm.css
  *= depend_on jquery-ui-1.8.16.custom.scss
@@ -86,6 +87,7 @@
 @import "wait-spinner.scss";
 @import "yin-yang-logo.scss";
 @import "hotkeys.scss";
+@import "charity.scss";
 @import "sponsors.scss";
 @import "xterm.css";
 @import "jquery-ui-1.8.16.custom.scss";

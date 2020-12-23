@@ -67,26 +67,12 @@
   .info-button { display:none; }
 }
 
-#charity-dialog, #feedback-dialog, #traffic-lights-dialog, #hotkeys-dialog
+#feedback-dialog, #traffic-lights-dialog, #hotkeys-dialog
 {
   a { color: khaki !important; }
 }
-#charity-dialog li { margin-top: 10px; }
 
 .info-title { font-size:15px; position:relative; top:-5px; }
 
 #settings-dialog { letter-spacing: 0.02em; }
 #settings-dialog label { font-size:13px; }
-
-#charity-button
-{
-  @include rounded-corner(3px);
-  padding: { left:7px; right:7px; top:0px; bottom:1px; }
-  margin: { top:0px; bottom:0px; left:8px; right:3px; }
-  color: darken($darker-color, 10%);
-  font-size: 10px;
-  font-weight: bold;
-  letter-spacing: 0.03em;
-  width: 84px;
-  text-align: center;
-}
