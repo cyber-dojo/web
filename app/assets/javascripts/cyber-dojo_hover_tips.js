@@ -79,7 +79,7 @@ var cyberDojo = (function(cd, $) {
         : `incorrect (<span class="${colour}">${colour}</span>)`;
     const info = [
        `predicted <span class="${predicted}">${predicted}</span>`,
-       `${actual}`
+       `&rarr; ${actual}`
      ].join('<br/>');
     return $('<td class="mini-text">').html(info);
   };
