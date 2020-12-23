@@ -3,7 +3,6 @@
 <%= render partial: 'run_tests' %>
 
 <div class="top-row">
-  <%= render partial: 'avatar_image' %>
   <%= render partial: 'traffic_lights' %>
 </div>
 
@@ -12,6 +11,7 @@
   <%= render partial: 'index' %>
   <%= render partial: 'max_seconds' %>
   <div class="lhs-column">
+    <%= render partial: 'avatar_image' %>
     <div id="test-control">
       <%= render partial: 'predict_revert' %>
       <%= render partial: 'test_button' %>
