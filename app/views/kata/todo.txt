@@ -17,8 +17,7 @@ Recolour diff[x] checkbox cell backgrounds to match checkboxes on edit page.
 On light hover-tip filename, use dedicated CSS style to reduce width
    (not one from file-knave)
 
-Reduce width of kata #traffic-lights so less cramped last light hover-tip?
-  - Reduce width of hovertip filename will help too. Does not need fixed-width.
+Reduce width of hovertip filename will help too. Does not need fixed-width.
   - Same for review page.
 
 Add hover-tip for individual counts?
