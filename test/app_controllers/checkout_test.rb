@@ -20,12 +20,12 @@ class CheckoutTest  < AppControllerTestBase
       post_run_tests # 2
       assert_equal new_content, model.kata_event(kata.id,-1)['files'][filename]['content']
 
-      post '/kata/checkout', params: { # 3
+      post '/kata/checkout', params: {
         'src_id' => kata.id,
         'src_avatar_index' => '',
         'src_index' => 1,
         'id'     => kata.id,
-        'index'  => 2,
+        'index'  => 3,
         'format' => 'json'
       }
       assert_response :success
@@ -57,12 +57,12 @@ class CheckoutTest  < AppControllerTestBase
       post_run_tests # 1
 
       in_kata do |hippo|
-        post '/kata/checkout', params: { # 1
+        post '/kata/checkout', params: {
           'src_id' => lion.id,
           'src_avatar_index' => lion_avatar_index,
           'src_index' => 1,
           'id'     => hippo.id,
-          'index'  => 1,
+          'index'  => 2,
           'format' => 'json'
         }
         assert_response :success

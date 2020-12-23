@@ -12,12 +12,10 @@ class KataControllerTest  < AppControllerTestBase
   test '76E', %w( run_tests with bad ID is a 500 ) do
     set_runner_class('RunnerService')
     in_kata do |kata|
-      stdout,stderr = capture_stdout_stderr {
+      capture_stdout_stderr {
         post '/kata/run_tests', params:run_test_params({ 'id' => 'bad' })
       }
       assert_response 500
-      refute_equal '', stdout
-      assert_equal '', stderr
     end
   end
 
