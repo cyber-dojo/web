@@ -121,12 +121,6 @@
 
   //- - - - - - - - - - - - - - - - - - - - - -
 
-  const clog = (s) => {
-    if (true) {
-      console.log(s);
-    }
-  };
-
   const runNeedsReverting = () => {
     const predictIsOn = () => (cd.settings.predict() === 'on');
     const predicted = cd.kata.predictedColour();
@@ -135,20 +129,11 @@
     const revertIsOn = () => (cd.settings.revert(predicted) === 'on');
     const isLightToRevertTo = (cd.kata.index() > 1);
 
-    const result =
-      predictIsOn() && isRagOutcome && predictedWrong
-        && revertIsOn() && isLightToRevertTo;
-
-    clog(`runNeedsReverting()`);
-    clog(`  predictIsOn == ${predictIsOn()}`);
-    clog(`  predicted == ${predicted}`);
-    clog(`  isRagOutcome == ${isRagOutcome}`);
-    clog(`  predictedWrong == ${predictedWrong}`);
-    clog(`  revertIsOn == ${revertIsOn()}`);
-    clog(`  isLightToRevertTo == ${isLightToRevertTo}`);
-    clog(`  result ===> ${result}`);
-
-    return result;
+    return predictIsOn()
+      && isRagOutcome
+        && predictedWrong
+          && revertIsOn()
+            && isLightToRevertTo;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - -
@@ -163,9 +148,7 @@
     cd.kata.editor.output(stdout, stderr, status);
     cd.kata.tabs.output().click();
     cd.kata.appendTrafficLight(light, {scrollIntoView:true});
-    clog(`refreshFromTest() increment(before)... index=${cd.kata.index()}`);
     cd.kata.index.increment();
-    clog(`refreshFromTest() increment(after )... index=${cd.kata.index()}`);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -184,10 +167,7 @@
       cd.kata.editor.output(data.stdout.content, data.stderr.content, data.status);
       cd.kata.tabs.output().click();
       cd.kata.appendTrafficLight(data.light, {scrollIntoView:true});
-      clog(`revert() index.increment(before)...   index=${cd.kata.index()}`);
       cd.kata.index.increment();
-      clog(`revert() index.increment(after )...   index=${cd.kata.index()}`);
-      clog(`revert() about to call review.fromTestPage(id, ${cd.kata.index()-2})`);
       //Switching directly to a review of the reverted light is possible here...
       //cd.review.fromTestPage(cd.kata.id(), cd.kata.index() - 2);
     }, 'json');
