@@ -89,7 +89,7 @@ var cyberDojo = (function(cd, $) {
     $tr.append($('<td>'));
     $tr.append($('<td>'));
     $table.append($tr);
-    // cyber-dojo.sh cannot be deleted so there is always one file
+    // cyber-dojo.sh cannot be deleted so there is always at least one file
     const filenames = diffs.map(diff => diffFilename(diff));
     cd.sortedFilenames(filenames).forEach(filename => {
       const fileDiff = diffs.find(diff => diffFilename(diff) === filename);

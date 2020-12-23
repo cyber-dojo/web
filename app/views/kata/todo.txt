@@ -1,4 +1,12 @@
 
+Add more traffic-light hover-tip info
+  - the predicted colour for an incorrect prediction <<<<<<<
+  - the qualifier image tick/cross/revert/avatar
+  - the avatar AND light-index for a checkout
+  - make filenames more visible (use same colour as on filename knave)
+      use dedicated CSS style (not one from file-knave) as this
+      will help reduce width too.
+
 Make the [checkout] button disabled for an incorrect prediction
 that had revert on for that colour (for the same kata.id)
 Best way is to add revert data to event summary for a failed prediction.
@@ -6,9 +14,10 @@ Best way is to add revert data to event summary for a failed prediction.
   - Look for this in review page to set checkout disabled state.
   - Maybe later, polyfill this on model so it works for old katas too?
 
-Add more traffic-light hover-tip info
-  the light-index for a checkout
-  the predicted colour if an incorrect prediction
+Add [our charity] button above sponsors.
+
+Reduce width of kata #traffic-lights so less cramped last light hover-tip?
+  - Same for review page.
 
 Add hover-tip for individual counts?
 
@@ -17,8 +26,6 @@ Add light-counts to review page.
 Add predict-counts to review page.
 
 Recolour diff[x] checkbox cell backgrounds to match checkboxes on edit page.
-
-Reduce width of kata #traffic-lights so less cramped last light hover-tip?
 
 Release to beta.
 

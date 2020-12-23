@@ -104,11 +104,11 @@ table.sss
 .diff-type-marker, .diff-filename
 {
   @include plaintext-font();
-  &.created   { color: lighten($green,30%); }
-  &.deleted   { color: lighten($red,  30%); }
-  &.renamed   { color: lighten($blue, 30%); }
+  &.created   { color: lighten($green,15%); }
+  &.deleted   { color: lighten($red,  15%); }
+  &.renamed   { color: lighten($blue, 20%); }
   &.changed   { color: white; }
-  &.unchanged { color: darken(DarkGray,20%); }
+  &.unchanged { color: darken(DarkGray,15%); }
 }
 
 #diff-filename-stdout,
