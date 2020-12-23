@@ -12,11 +12,13 @@ source "${SH_DIR}/on_ci_publish_tagged_images.sh"
 source "${SH_DIR}/remove_old_images.sh"
 source "${SH_DIR}/run_tests_in_container.sh"
 
+exit_non_zero_unless_installed docker
+
 source "${SH_DIR}/echo_versioner_env_vars.sh"
 export $(echo_versioner_env_vars)
 
-exit_non_zero_unless_installed docker
 exit_non_zero_unless_installed docker-compose
+
 containers_down
 remove_old_images
 build_tagged_images
