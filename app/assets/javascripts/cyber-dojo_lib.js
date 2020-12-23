@@ -120,7 +120,8 @@ var cyberDojo = ((cd, $) => {
 
   cd.lib.appendImageIfPrediction = ($lights, light) => {
     clog(`lib.appendImageIfPrediction ${light.index}`);
-    if (cd.lib.isPredict(light)) {
+    const colour = light.colour;
+    if (cd.lib.isPredict(light) && colour != 'pulling' && colour != 'faulty') {
       clog(`...${light.index} isPredict()`);
       $lights.append($imgForPredict(light));
     }

@@ -19,9 +19,10 @@ cd.kata.hidePredictCounts = () => $predictCounts.hide('slow');
 $(() => {
 
   cd.kata.updatePredictCounts = (light) => {
-    if (cd.lib.isPredict(light)) {
+    const colour = light.colour;
+    if (cd.lib.isPredict(light) && colour != 'pulling' && colour != 'faulty') {
       $('.count', $predictCounts).removeClass('red amber green');
-      const isRight = (light.colour === light.predicted);
+      const isRight = (colour === light.predicted);
       const name = isRight ? 'tick' : 'cross';
       $(`.${name}.count`, $predictCounts)
         .text(counts[name] += 1)
@@ -35,7 +36,7 @@ $(() => {
   };
 
   const plural = (n) => n == 1 ? '' : 's';
-  
+
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const counts = {
     tick: 0,

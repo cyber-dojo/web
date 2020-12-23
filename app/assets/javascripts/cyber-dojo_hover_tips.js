@@ -69,24 +69,19 @@ var cyberDojo = (function(cd, $) {
   };
 
   const $trafficLightPredictInfoTd = (light) => {
-    if (cd.lib.isPredict(light)) {
-      const predicted = light.predicted;
-      const actual = () => {
-        const colour = light.colour
-        if (predicted === colour) {
-          return 'correct';
-        } else {
-          return `incorrect (<span class="${colour}">${colour}</span>)`;
-        }
-      };
-      const info = [
-         `predicted <span class="${predicted}">${predicted}</span>`,
-         `${actual()}`
-       ].join('<br/>');
-      return $('<td class="mini-text">').html(info);
-    } else {
+    const colour = light.colour
+    if (!cd.lib.isPredict(light) || colour === 'pulling' || colour == 'faulty') {
       return '';
     }
+    const predicted = light.predicted;
+    const actual = (predicted === colour)
+        ? 'correct'
+        : `incorrect (<span class="${colour}">${colour}</span>)`;
+    const info = [
+       `predicted <span class="${predicted}">${predicted}</span>`,
+       `${actual}`
+     ].join('<br/>');
+    return $('<td class="mini-text">').html(info);
   };
 
   const $trafficLightRevertInfoTd = (light) => {
