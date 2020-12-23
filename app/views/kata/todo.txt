@@ -6,7 +6,15 @@ Best way is to add revert data to event summary for a failed prediction.
   - Look for this in review page to set checkout disabled state.
   - Maybe later, polyfill this on model so it works for old katas too?
 
+Add more traffic-light hover-tip info
+  the light-index for a checkout
+  the predicted colour if an incorrect prediction
+
 Add hover-tip for individual counts?
+
+Add light-counts to review page.
+
+Add predict-counts to review page.
 
 Recolour diff[x] checkbox cell backgrounds to match checkboxes on edit page.
 
