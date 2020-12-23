@@ -71,7 +71,7 @@ $(() => {
     const reviewingOwnLight = (cd.kata.id() === cd.review.id());
 
     return isCurrentIndex
-      && cd.lib.isPredict(light)
+      && cd.lib.hasPrediction(light)
         && predictedWrong
           && wasReverted
             && !cd.review.isIndependent()

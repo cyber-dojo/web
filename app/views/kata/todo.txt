@@ -1,8 +1,6 @@
 
 Add [our charity] button above sponsors.
 
-rename lib isPredicted() to hasPrediction()
-
 Make the [checkout] button disabled for an incorrect prediction
 that had revert on for that colour (for the same kata.id). DONE
 Best way is to add revert data to event summary for a failed prediction.

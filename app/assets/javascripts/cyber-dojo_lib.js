@@ -119,18 +119,14 @@ var cyberDojo = ((cd, $) => {
   };
 
   cd.lib.appendImageIfPrediction = ($lights, light) => {
-    clog(`lib.appendImageIfPrediction ${light.index}`);
     const colour = light.colour;
-    if (cd.lib.isPredict(light) && colour != 'pulling' && colour != 'faulty') {
-      clog(`...${light.index} isPredict()`);
+    if (cd.lib.hasPrediction(light) && colour != 'pulling' && colour != 'faulty') {
       $lights.append($imgForPredict(light));
     }
   };
 
   cd.lib.appendImageIfRevert = ($lights, light) => {
-    clog(`lib.appendImageIfRevert ${light.index}`);
     if (cd.lib.isRevert(light)) {
-      clog(`...${light.index} isRevert()`);
       $lights.append($imgForRevert(light));
     }
   };
@@ -143,7 +139,7 @@ var cyberDojo = ((cd, $) => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  cd.lib.isPredict = (light) => light.predicted != undefined && light.predicted != 'none';
+  cd.lib.hasPrediction = (light) => light.predicted != undefined && light.predicted != 'none';
   cd.lib.isRevert = (light) => light.revert != undefined;
   cd.lib.isCheckout = (light) => light.checkout != undefined;
 

@@ -57,7 +57,7 @@ var cyberDojo = (function(cd, $) {
 
   const $trafficLightPredictInfoTd = (light) => {
     const colour = light.colour
-    if (!cd.lib.isPredict(light) || colour === 'pulling' || colour == 'faulty') {
+    if (!cd.lib.hasPrediction(light) || colour === 'pulling' || colour == 'faulty') {
       return '';
     }
     const predicted = light.predicted;
