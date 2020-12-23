@@ -28,12 +28,16 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const appendTrafficLights = (kataId, index, events) => {
+    cd.review.checkoutButton.enable();
     events.forEach(event => {
       if (cd.lib.isVisible(event)) {
         cd.lib.appendImageIfPrediction($trafficLights, event);
         cd.lib.appendImageIfRevert($trafficLights, event);
         cd.lib.appendImageIfCheckout($trafficLights, event);
         appendTrafficLight(kataId, index, event);
+        if (isOwnRevertedIncorrectPredictionLight(event, index)) {
+          cd.review.checkoutButton.disable();
+        }
       }
     });
   };
@@ -52,30 +56,30 @@ $(() => {
     const nowIndex = light.index;
     cd.setupTrafficLightTip($light, light, kataId, wasIndex, nowIndex);
     $lightBox.append($light);
-    const isCurrentIndex = (index === light.index);
-    if (isCurrentIndex) {
-      $lightBox.append(makeTrafficLightMarkerHtml(index, light));
-      if (isOwnRevertedIncorrectPredictionLight(light)) {
-        cd.review.checkoutButton.disable();
-      } else {
-        cd.review.checkoutButton.enable();
-      }
+    if (index === light.index) {
+      $lightBox.append(makeTrafficLightMarkerHtml(light));
     }
     $trafficLights.append($lightBox);
     return nowIndex;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const isOwnRevertedIncorrectPredictionLight = (light) => {
-    return cd.lib.isPredict(light)
-      && (light.colour != light.predicted)
-        && light.revert_if_wrong
-          && !cd.review.isIndependent()
-            && (cd.kata.id() === cd.review.id());
+  const isOwnRevertedIncorrectPredictionLight = (light, index) => {
+    const isCurrentIndex = (light.index === index);
+    const predictedWrong = (light.colour != light.predicted);
+    const wasReverted = (light.revert_if_wrong === 'on');
+    const reviewingOwnLight = (cd.kata.id() === cd.review.id());
+
+    return isCurrentIndex
+      && cd.lib.isPredict(light)
+        && predictedWrong
+          && wasReverted
+            && !cd.review.isIndependent()
+              && reviewingOwnLight;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const makeTrafficLightMarkerHtml = (index, light) => {
+  const makeTrafficLightMarkerHtml = (light) => {
     return `<img id='traffic-light-marker'
                  src='/images/traffic-light/marker_${light.colour}.png'/>`;
   };
