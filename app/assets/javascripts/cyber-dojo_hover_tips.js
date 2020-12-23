@@ -74,7 +74,7 @@ var cyberDojo = (function(cd, $) {
   const $trafficLightRevertInfoTd = (light) => {
     if (cd.lib.isRevert(light)) {
       const info = [
-        'auto-reverted',
+        'auto-revert',
         `back to <span class="${light.colour}">${light.index - 2}</span>`
       ].join('<br/>')
       return $('<td class="mini-text">').html(info);
