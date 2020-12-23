@@ -1,20 +1,20 @@
 
-On revert, switch to review-mode for the incorrect light so you
-can easily see its stdout/stderr/status (and files)?
-
 Either way, make the [checkout] button disabled to undo from a cross
 (followed by a revert) for the same kata.id
+Best way is to add revert data to event summary for a failed prediction.
+Maybe polyfill this on model so it works for old katas too?
 
 add hover-tip for individual counts?
 
-maybe recolour checkbox cell backgrounds to match diff[x] on review page?
+On revert, switch to review-mode for the incorrect light so you
+can easily see its stdout/stderr/status (and files)?
+
+
+maybe recolour diff[x] checkbox cell backgrounds to match checkboxes on edit page?
 
 maybe colour the bg of [revert if wrong!] title-text to something
    other than grey (to be distinct from predict text) and colour
    bg of 3 auto-revert checkboxes to match.
-
-on traffic-lights counts; how to show _current_ light is non rag?,
-  eg timed-out, what background colour?
 
 reduce width of kata #traffic-lights so less cramped last light hover-tip?
 

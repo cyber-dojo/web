@@ -16,15 +16,15 @@ $blue:  #00F;
 .amber     { color: $amber; }
 .green     { color: $green; }
 
-.timed_out { color: gray; }
-.faulty    { color: darkGray; }
+.timed_out { color: Gray; }
+.faulty    { color: DarkGray; }
 .pulling   { color: #2CDFF0; }
 
 $diff-added-count-color: lighten($green, 20%);
 $diff-deleted-count-color: lighten($red, 20%);
 $diff-same-count-color: Gray;
 
-$projector-background: white;
+$projector-background: White;
 
 $diff-added-line-background: lighten($green, 25%);
 $diff-deleted-line-background: lighten($red, 25%);
