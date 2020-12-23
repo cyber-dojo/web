@@ -10,7 +10,9 @@ $(() => {
   $button.click(() => cd.review.fadeOut(checkout));
 
   cd.review.checkoutButton = {
-    show: () => $button.show()
+    show: () => $button.show(),
+    enable: () => $button.prop('disabled', false),
+    disable: () => $button.prop('disabled', true)
   };
 
   const checkout = () => {

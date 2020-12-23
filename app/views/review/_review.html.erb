@@ -43,6 +43,10 @@ $(() => {
 
   review.page = $('#review-page');
 
+  review.isIndependent = () => {
+    return $('#kata-page').length === 0;
+  };
+
   review.refresh = (kataId, nowIndex, showDiff = review.diffCheckBox.isChecked()) => {
     cd.settings.hideButton();
     review.id = () => kataId;
@@ -70,9 +74,7 @@ $(() => {
     review.refresh(kataId, index, showDiff);
   };
 
-  const independentReviewFromDashboard = () => $('#kata-page').length === 0;
-
-  if (independentReviewFromDashboard()) {
+  if (review.isIndependent()) {
     const wasIndex = parseInt(cd.urlParam('was_index', -1));
     const nowIndex = parseInt(cd.urlParam('now_index', -1));
     const showDiff = (wasIndex != nowIndex);

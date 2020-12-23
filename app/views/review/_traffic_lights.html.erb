@@ -52,20 +52,32 @@ $(() => {
     const nowIndex = light.index;
     cd.setupTrafficLightTip($light, light, kataId, wasIndex, nowIndex);
     $lightBox.append($light);
-    $lightBox.append(makeTrafficLightMarkerHtml(index, light));
+    const isCurrentIndex = (index === light.index);
+    if (isCurrentIndex) {
+      $lightBox.append(makeTrafficLightMarkerHtml(index, light));
+      if (isOwnRevertedIncorrectPredictionLight(light)) {
+        cd.review.checkoutButton.disable();
+      } else {
+        cd.review.checkoutButton.enable();
+      }
+    }
     $trafficLights.append($lightBox);
     return nowIndex;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
+  const isOwnRevertedIncorrectPredictionLight = (light) => {
+    return cd.lib.isPredict(light)
+      && (light.colour != light.predicted)
+        && light.revert_if_wrong
+          && !cd.review.isIndependent()
+            && (cd.kata.id() === cd.review.id());
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
   const makeTrafficLightMarkerHtml = (index, light) => {
-    const isCurrentIndex = (index === light.index);
-    if (isCurrentIndex) {
-      return `<img id='traffic-light-marker'
-                   src='/images/traffic-light/marker_${light.colour}.png'/>`;
-    } else {
-      return '';
-    }
+    return `<img id='traffic-light-marker'
+                 src='/images/traffic-light/marker_${light.colour}.png'/>`;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
