@@ -1,7 +1,7 @@
 
 Add more traffic-light hover-tip info
   - the predicted colour for an incorrect prediction <<<<<<<
-  - the qualifier image tick/cross/revert/avatar
+  - the qualifier image tick/cross/revert/avatar?
   - the avatar AND light-index for a checkout
   - make filenames more visible (use same colour as on filename knave)
       use dedicated CSS style (not one from file-knave) as this
@@ -17,7 +17,9 @@ Best way is to add revert data to event summary for a failed prediction.
 Add [our charity] button above sponsors.
 
 Reduce width of kata #traffic-lights so less cramped last light hover-tip?
+  - Reduce width of hovertip filename will help too. Does not need fixed-width.
   - Same for review page.
+
 
 Add hover-tip for individual counts?
 

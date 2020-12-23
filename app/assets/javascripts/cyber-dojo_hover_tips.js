@@ -14,12 +14,12 @@ var cyberDojo = (function(cd, $) {
 
   // - - - - - - - - - - - - - - - - - - - -
 
-  cd.setupTrafficLightTip = ($light, colour, avatarIndex, kataId, wasIndex, nowIndex) => {
+  cd.setupTrafficLightTip = ($light, light, avatarIndex, kataId, wasIndex, nowIndex) => {
     cd.setTip($light, () => {
       const args = { id:kataId, was_index:wasIndex, now_index:nowIndex };
       $.getJSON('/differ/diff_summary', args, (data) => {
         const diff = data.diff_summary;
-        const $tip = $trafficLightTip($light, colour, nowIndex, avatarIndex(), diff);
+        const $tip = $trafficLightTip(light, nowIndex, avatarIndex(), diff);
         cd.showHoverTip($light, $tip);
       });
     });
@@ -27,20 +27,20 @@ var cyberDojo = (function(cd, $) {
 
   // - - - - - - - - - - - - - - - - - - - -
 
-  const $trafficLightTip = ($light, colour, index, avatarIndex, diff) => {
+  const $trafficLightTip = (light, index, avatarIndex, diff) => {
     const $holder = $(document.createDocumentFragment());
-    $holder.append($trafficLightSummary($light, colour, index, avatarIndex));
+    $holder.append($trafficLightSummary(light, index, avatarIndex));
     $holder.append($diffLinesTable(diff));
     return $holder;
   };
 
   // - - - - - - - - - - - - - - - - - - - -
 
-  const $trafficLightSummary = ($light, colour, index, avatarIndex) => {
+  const $trafficLightSummary = (light, index, avatarIndex) => {
     const $tr = $('<tr>');
     $tr.append($avatarImageTd(avatarIndex));
-    $tr.append($trafficLightCountTd(colour, index));
-    $tr.append($trafficLightImageTd(colour));
+    $tr.append($trafficLightCountTd(light, index));
+    $tr.append($trafficLightImageTd(light));
     return $('<table>').append($tr);
   };
 
@@ -60,18 +60,18 @@ var cyberDojo = (function(cd, $) {
 
   // - - - - - - - - - - - - - - - - - - - -
 
-  const $trafficLightCountTd = (colour, index) => {
+  const $trafficLightCountTd = (light, index) => {
     const $count = $('<span>', {
-      class:`traffic-light-count ${colour}`
+      class:`traffic-light-count ${light.colour}`
     }).text(index);
     return $('<td>').append($count);
   };
 
   // - - - - - - - - - - - - - - - - - - - -
 
-  const $trafficLightImageTd = (colour) => {
+  const $trafficLightImageTd = (light) => {
     const $img = $('<img>', {
-        src:`/images/traffic-light/${colour}.png`,
+        src:`/images/traffic-light/${light.colour}.png`,
       class:'diff-hover-tip'
     });
     return $('<td>').append($img);

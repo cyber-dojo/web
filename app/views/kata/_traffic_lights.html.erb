@@ -48,7 +48,7 @@ $(() => {
       cd.kata.updatePredictCounts(light);
       const id = cd.kata.id();
       $light.click(() => cd.review.fromTestPage(id, index));
-      cd.setupTrafficLightTip($light, colour, avatarIndex, id, index-1, index);
+      cd.setupTrafficLightTip($light, light, avatarIndex, id, index-1, index);
     }
   };
 
