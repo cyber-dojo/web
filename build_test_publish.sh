@@ -13,11 +13,10 @@ source "${SH_DIR}/remove_old_images.sh"
 source "${SH_DIR}/run_tests_in_container.sh"
 
 exit_non_zero_unless_installed docker
+exit_non_zero_unless_installed docker-compose
 
 source "${SH_DIR}/echo_versioner_env_vars.sh"
 export $(echo_versioner_env_vars)
-
-exit_non_zero_unless_installed docker-compose
 
 containers_down
 remove_old_images
