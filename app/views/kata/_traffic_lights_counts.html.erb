@@ -31,8 +31,7 @@
 $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // cd.kata.updateTrafficLightsCounts() updates the total-counts
-  // It is called from these places:
+  // cd.kata.updateTrafficLightsCounts() is called from:
   //   1) views/kata/_edit.html.erb when page loads/refreshes.
   //   2) views/kata/run_tests.js.erb when [test] is clicked.
   //   3) views/review/_review.html.erb when [checkout] is clicked.
@@ -40,16 +39,16 @@ $(() => {
   const $counts = $('#traffic-lights-counts');
 
   cd.kata.updateTrafficLightsCounts = (light) => {
-    // An incorrect prediction with revert on for the predicted
+    // An incorrect prediction with revert-on for the predicted
     // colour results in two traffic-lights; a 1st for the
     // incorrect prediction, a 2nd to revert it.
-    // The revert light does contribute to the current colour-outcome.
+    // The 2nd revert light contributes to the current colour-outcome.
     const colour = light.colour;
     const $count = $(`.${colour}.count`, $counts);
     $('.count', $counts).removeClass('actual');
     $count.addClass('actual');
-    // The revert light does _not_ contribute to the overall
-    // total which is the number of times there has been
+    // The 2nd revert light does _not_ contribute to the count
+    // totals which is the number of times there has been
     // a test submission (with or without a prediction).
     if (!cd.lib.isRevert(light)) {
       $count.text(counts[colour] += 1);

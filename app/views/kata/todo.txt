@@ -1,22 +1,20 @@
 
-Either way, make the [checkout] button disabled to undo from a cross
-(followed by a revert) for the same kata.id
+Make the [checkout] button disabled for an incorrect prediction
+that had revert on for that colour (for the same kata.id)
 Best way is to add revert data to event summary for a failed prediction.
-Maybe polyfill this on model so it works for old katas too?
+  - Maybe later, polyfill this on model so it works for old katas too?
 
-add hover-tip for individual counts?
+Add hover-tip for individual counts?
 
-On revert, switch to review-mode for the incorrect light so you
-can easily see its stdout/stderr/status (and files)?
+Recolour diff[x] checkbox cell backgrounds to match checkboxes on edit page.
 
+Reduce width of kata #traffic-lights so less cramped last light hover-tip?
 
-maybe recolour diff[x] checkbox cell backgrounds to match checkboxes on edit page?
+Release to beta.
 
-maybe colour the bg of [revert if wrong!] title-text to something
+Maybe colour the bg of [revert if wrong!] title-text to something
    other than grey (to be distinct from predict text) and colour
    bg of 3 auto-revert checkboxes to match.
-
-reduce width of kata #traffic-lights so less cramped last light hover-tip?
 
 provide model.revert() method as alias for model.ran_tests() and use in kata-controller
 provide model.checkout() method as alias for model.ran_tests() and use in kata-controller
