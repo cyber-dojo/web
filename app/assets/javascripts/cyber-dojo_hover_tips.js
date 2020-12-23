@@ -12,45 +12,32 @@ var cyberDojo = (function(cd, $) {
     });
   };
 
-  cd.setupTrafficLightTip = ($light, light, avatarIndex, kataId, wasIndex, nowIndex) => {
+  cd.setupTrafficLightTip = ($light, light, _avatarIndex, kataId, wasIndex, nowIndex) => {
     cd.setTip($light, () => {
       const args = { id:kataId, was_index:wasIndex, now_index:nowIndex };
       $.getJSON('/differ/diff_summary', args, (data) => {
         const diff = data.diff_summary;
-        const $tip = $trafficLightTip(light, nowIndex, avatarIndex(), diff);
+        const $tip = $trafficLightTip(light, nowIndex, diff);
         cd.showHoverTip($light, $tip);
       });
     });
   };
 
-  const $trafficLightTip = (light, index, avatarIndex, diff) => {
+  const $trafficLightTip = (light, index, diff) => {
     const $holder = $(document.createDocumentFragment());
-    $holder.append($trafficLightSummary(light, index, avatarIndex));
+    $holder.append($trafficLightSummary(light, index));
     $holder.append($diffLinesTable(diff));
     return $holder;
   };
 
-  const $trafficLightSummary = (light, index, avatarIndex) => {
+  const $trafficLightSummary = (light, index) => {
     const $tr = $('<tr>');
-    $tr.append($avatarImageTd(avatarIndex));
     $tr.append($trafficLightIndexTd(light, index));
     $tr.append($trafficLightImageTd(light));
     $tr.append($trafficLightPredictInfoTd(light));
     $tr.append($trafficLightRevertInfoTd(light));
     $tr.append($trafficLightCheckoutInfoTd(light));
     return $('<table>').append($tr);
-  };
-
-  const $avatarImageTd = (avatarIndex) => {
-    const $td = $('<td>');
-    if (avatarIndex != '') {
-      const $img = $('<img>', {
-          src:`/images/avatars/${avatarIndex}.jpg`,
-        class:'diff-hover-tip'
-      });
-      $td.append($img);
-    }
-    return $td;
   };
 
   const $trafficLightIndexTd = (light, index) => {
