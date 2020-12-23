@@ -12,8 +12,6 @@ var cyberDojo = (function(cd, $) {
     });
   };
 
-  // - - - - - - - - - - - - - - - - - - - -
-
   cd.setupTrafficLightTip = ($light, light, avatarIndex, kataId, wasIndex, nowIndex) => {
     cd.setTip($light, () => {
       const args = { id:kataId, was_index:wasIndex, now_index:nowIndex };
@@ -25,8 +23,6 @@ var cyberDojo = (function(cd, $) {
     });
   };
 
-  // - - - - - - - - - - - - - - - - - - - -
-
   const $trafficLightTip = (light, index, avatarIndex, diff) => {
     const $holder = $(document.createDocumentFragment());
     $holder.append($trafficLightSummary(light, index, avatarIndex));
@@ -34,17 +30,16 @@ var cyberDojo = (function(cd, $) {
     return $holder;
   };
 
-  // - - - - - - - - - - - - - - - - - - - -
-
   const $trafficLightSummary = (light, index, avatarIndex) => {
     const $tr = $('<tr>');
     $tr.append($avatarImageTd(avatarIndex));
-    $tr.append($trafficLightCountTd(light, index));
+    $tr.append($trafficLightIndexTd(light, index));
     $tr.append($trafficLightImageTd(light));
+    $tr.append($trafficLightPredictInfoTd(light));
+    $tr.append($trafficLightRevertInfoTd(light));
+    $tr.append($trafficLightCheckoutInfoTd(light));
     return $('<table>').append($tr);
   };
-
-  // - - - - - - - - - - - - - - - - - - - -
 
   const $avatarImageTd = (avatarIndex) => {
     const $td = $('<td>');
@@ -58,16 +53,12 @@ var cyberDojo = (function(cd, $) {
     return $td;
   };
 
-  // - - - - - - - - - - - - - - - - - - - -
-
-  const $trafficLightCountTd = (light, index) => {
+  const $trafficLightIndexTd = (light, index) => {
     const $count = $('<span>', {
       class:`traffic-light-count ${light.colour}`
     }).text(index);
     return $('<td>').append($count);
   };
-
-  // - - - - - - - - - - - - - - - - - - - -
 
   const $trafficLightImageTd = (light) => {
     const $img = $('<img>', {
@@ -77,7 +68,47 @@ var cyberDojo = (function(cd, $) {
     return $('<td>').append($img);
   };
 
-  // - - - - - - - - - - - - - - - - - - - -
+  const $trafficLightPredictInfoTd = (light) => {
+    if (cd.lib.isPredict(light)) {
+      const predicted = light.predicted;
+      const actual = () => {
+        const colour = light.colour
+        if (predicted === colour) {
+          return 'correct';
+        } else {
+          return `incorrect (<span class="${colour}">${colour}</span>)`;
+        }
+      };
+      const info = [
+         `predicted <span class="${predicted}">${predicted}</span>`,
+         `${actual()}`
+       ].join('<br/>');
+      return $('<td class="mini-text">').html(info);
+    } else {
+      return '';
+    }
+  };
+
+  const $trafficLightRevertInfoTd = (light) => {
+    if (cd.lib.isRevert(light)) {
+      const info = [
+        'auto-reverted',
+        `back to <span class="${light.colour}">${light.index - 2}</span>`
+      ].join('<br/>')
+      return $('<td class="mini-text">').html(info);
+    } else {
+      return '';
+    }
+  };
+
+  const $trafficLightCheckoutInfoTd = (light) => {
+    if (cd.lib.isCheckout(light)) {
+      const info = 'checkout';
+      return $('<td class="mini-text">').html(info);
+    } else {
+      return '';
+    }
+  };
 
   const $diffLinesTable = (diffs) => {
     const $table = $('<table>', { class:'filenames' });
@@ -104,16 +135,12 @@ var cyberDojo = (function(cd, $) {
     return $table;
   };
 
-  // - - - - - - - -
-
   const $linesCountIconTd = (type, glyph) => {
     const $icon = $('<div>', {
       class:`diff-line-count-icon ${type}`
     }).html(glyph);
     return $('<td>').append($icon);
   };
-
-  // - - - - - - - -
 
   const $lineCountTd = (type, file) => {
     const lineCount = file.line_counts[type];
@@ -126,16 +153,12 @@ var cyberDojo = (function(cd, $) {
     return $('<td>').append($count);
   };
 
-  // - - - - - - - -
-
   const $diffTypeTd = (diff) => {
     const $type = $('<div>', {
       class:`diff-type-marker ${diff.type}`
     });
     return $('<td>').append($type);
   };
-
-  // - - - - - - - -
 
   const $diffFilenameTd = (diff) => {
     const $filename = $('<div>', { class:`diff-filename ${diff.type}` });
@@ -151,13 +174,9 @@ var cyberDojo = (function(cd, $) {
     }
   };
 
-  // - - - - - - - - - - - - - - - - - - - -
-
   const hoverTipContainer = () => {
     return $('#hover-tip-container');
   };
-
-  // - - - - - - - - - - - - - - - - - - - -
 
   cd.removeTip = ($node) => {
     hoverTipContainer().empty();
@@ -184,8 +203,6 @@ var cyberDojo = (function(cd, $) {
     });
   };
 
-  // - - - - - - - - - - - - - - - - - - - -
-
   cd.showHoverTip = (node, tip, where) => {
     if (where === undefined) {
       where = {};
@@ -210,8 +227,6 @@ var cyberDojo = (function(cd, $) {
       }
     }
   };
-
-  // - - - - - - - - - - - - - - - - - - - -
 
   return cd;
 

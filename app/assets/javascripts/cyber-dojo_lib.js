@@ -113,7 +113,7 @@ var cyberDojo = ((cd, $) => {
   // Both were light.revert == [id,index]
 
   const clog = (s) => {
-    if (true) {
+    if (false) {
       console.log(s);
     }
   };

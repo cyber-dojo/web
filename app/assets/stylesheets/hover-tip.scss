@@ -20,6 +20,11 @@ $hoverFadePercent: 5%;
 {
   border: 1px solid lighten($darker-color, $hoverFadePercent);
 }
+.hover-tip .mini-text
+{
+  padding-left: 6px;
+  font-size: 12px;
+}
 
 img.count-hover-tip
 {
