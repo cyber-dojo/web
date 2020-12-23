@@ -2,6 +2,8 @@
 Make the [checkout] button disabled for an incorrect prediction
 that had revert on for that colour (for the same kata.id)
 Best way is to add revert data to event summary for a failed prediction.
+  - Submit the prediction (for that colour) to the server. DONE
+  - Look for this in review page to set checkout disabled state.
   - Maybe later, polyfill this on model so it works for old katas too?
 
 Add hover-tip for individual counts?

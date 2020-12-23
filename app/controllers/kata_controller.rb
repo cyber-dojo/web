@@ -34,15 +34,17 @@ class KataController < ApplicationController
       'index' => index,
       'colour' => @outcome,
       'predicted' => params['predicted'],
+      'revert_if_wrong' => params['revert_if_wrong']
     }
 
     @saved = true
     @out_of_sync = false
     begin
       model.kata_ran_tests(@id, index, files, @stdout, @stderr, @status, {
-         duration: duration,
-           colour: @outcome,
-        predicted: params['predicted']
+        duration: duration,
+        colour: @outcome,
+        predicted: params['predicted'],
+        revert_if_wrong: params['revert_if_wrong']
       })
     rescue ModelService::Error => error
       @saved = false

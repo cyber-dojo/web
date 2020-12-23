@@ -1,4 +1,5 @@
-<input name="predicted" type="hidden" value="none">
+<input name="predicted"       type="hidden" value="none">
+<input name="revert_if_wrong" type="hidden" value="off">
 
 <div id="predict-checkbox-cell">
   <div id="predict-checkbox-title">predict</div>
@@ -57,8 +58,8 @@ $(() => {
   cd.createTip($predictCheckboxCell, [
     '<table>',
       colourTr(  'red', 'some tests will fail'),
-      colourTr('amber', 'tests will not run'),
-      colourTr('green', 'all tests will pass'),
+      colourTr('amber', 'tests will not run'  ),
+      colourTr('green', 'all tests will pass' ),
     '</table>'
     ].join(''));
 
@@ -110,6 +111,7 @@ $(() => {
   // Predict buttons
 
   const $predicted = $('input[name=predicted]');
+  const $revertIfWrong = $('input[name=revert_if_wrong]');
 
   cd.kata.predictedColour = () => $predicted.val();
   cd.kata.noPrediction = () => $predicted.val('none');
@@ -121,6 +123,7 @@ $(() => {
     $buttons.prop('disabled', true );
     const rag = $(event.target).data('colour');
     $predicted.val(rag);
+    $revertIfWrong.val(cd.settings.revert(rag));
     cd.kata.runTests(() => $buttons.prop('disabled', false));
   });
 
