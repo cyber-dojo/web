@@ -28,19 +28,19 @@
   {
     max-width:1000px;
     margin-left:35px;
-    margin-bottom:4px;
+    margin-bottom:6px;
     padding-top:2px;
     display:flex;
   }
 
   img.avatar-image {
-    @include rounded-corner(6px);
+    @include rounded-corner(3px);
     display: block;
      cursor: pointer;
-      min-width: 33px; // prevent flex shrinkage
-     min-height: 33px; // prevent flex shrinkage
-      width: 33px;
-     height: 33px;
+      min-width: 26px; // prevent flex shrinkage
+     min-height: 26px; // prevent flex shrinkage
+      width: 26px;
+     height: 26px;
      margin: { left:0px; right:4px; }
     padding: 0px;
     &.checkout
