@@ -1,3 +1,7 @@
+<%# Included *twice*             %>
+<%#  - from review/show.html.erb %>
+<%#  - from kata/edit.html.erb   %>
+
 <%= render partial: 'review/avatars_lib' %>
 <%= render partial: 'review/faders' %>
 <%= render partial: 'review/get_json' %>
@@ -41,7 +45,7 @@ $(() => {
 
   const review = cd.review;
 
-  review.page = $('#review-page');
+  review.page = $('#review-page'); // Used by faders
 
   review.isIndependent = () => $('#kata-page').length === 0;
 
