@@ -43,6 +43,9 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - - - - -
   // Predict checkbox
 
+  const settings = cd.settings;
+  const kata = cd.kata;
+
   const $predictCheckboxCell = $('#predict-checkbox-cell');
   const $predict = $('#predict-checkbox');
 
@@ -68,7 +71,7 @@ $(() => {
     predictCheckBoxChanged();
   });
 
-  $predict.prop('checked', cd.settings.predict() === 'on')
+  $predict.prop('checked', settings.predict() === 'on')
           .click(() => predictCheckBoxChanged());
 
   const predictCheckBoxChanged = () => {
@@ -80,26 +83,26 @@ $(() => {
   };
 
   const predictOn = () => {
-    cd.settings.predict('on');
-    cd.kata.testButton.hide(() => {
+    settings.predict('on');
+    kata.testButton.hide(() => {
       $revertTitle.show('slow');
       $buttonsCell.slideDown('slow');
-      cd.kata.showPredictImages();
-      cd.kata.showPredictCounts();
+      kata.showPredictImages();
+      kata.showPredictCounts();
       setFilenameListMaxHeight(470);
-      cd.kata.editor.refocus();
+      kata.editor.refocus();
     });
   };
 
   const predictOff = () => {
-    cd.settings.predict('off');
+    settings.predict('off');
     $revertTitle.hide('slow');
     $buttonsCell.slideUp('slow', () => {
-      cd.kata.testButton.show();
-      cd.kata.hidePredictImages();
-      cd.kata.hidePredictCounts();
+      kata.testButton.show();
+      kata.hidePredictImages();
+      kata.hidePredictCounts();
       setFilenameListMaxHeight(530);
-      cd.kata.editor.refocus();
+      kata.editor.refocus();
     });
   };
 
@@ -113,8 +116,8 @@ $(() => {
   const $predicted = $('input[name=predicted]');
   const $revertIfWrong = $('input[name=revert_if_wrong]');
 
-  cd.kata.predictedColour = () => $predicted.val();
-  cd.kata.noPrediction = () => $predicted.val('none');
+  kata.predictedColour = () => $predicted.val();
+  kata.noPrediction = () => $predicted.val('none');
 
   const $buttonsCell = $('#predict-buttons-cell');
   const $buttons = $('button.predict');
@@ -123,8 +126,8 @@ $(() => {
     $buttons.prop('disabled', true );
     const rag = $(event.target).data('colour');
     $predicted.val(rag);
-    $revertIfWrong.val(cd.settings.revert(rag));
-    cd.kata.runTests(() => $buttons.prop('disabled', false));
+    $revertIfWrong.val(settings.revert(rag));
+    kata.runTests(() => $buttons.prop('disabled', false));
   });
 
   //- - - - - - - - - - - - - - - - - - - - - - -
@@ -141,20 +144,19 @@ $(() => {
     const $box = $(event.target);
     const colour = $box.data('colour');
     if ($box.is(':checked')) {
-      cd.settings.revert(colour, 'on');
+      settings.revert(colour, 'on');
     } else {
-      cd.settings.revert(colour, 'off');
+      settings.revert(colour, 'off');
     }
-    cd.kata.editor.refocus();
+    kata.editor.refocus();
   });
 
-  //- - - - - - - - - - - - - - - - - - - - - - -
   cd.kata.setupPrediction = () => {
     ['red','amber','green'].forEach((colour) => {
       const $box = $(`.revert-checkbox[data-colour=${colour}]`);
-      $box.prop('checked', cd.settings.revert(colour) === 'on');
+      $box.prop('checked', settings.revert(colour) === 'on');
     });
-    if (cd.settings.predict() === 'on') {
+    if (settings.predict() === 'on') {
       predictOn();
     } else {
       predictOff();
