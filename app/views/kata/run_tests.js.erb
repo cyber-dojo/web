@@ -127,8 +127,7 @@
     const isRagOutcome = ['red','amber','green'].includes(outcome);
     const predictedWrong = (predicted != outcome);
     const revertIsOn = () => (cd.settings.revert(predicted) === 'on');
-    const isLightToRevertTo = (cd.kata.index() > 1);
-
+    const isLightToRevertTo = (cd.kata.index() > 2);
     return predictIsOn()
       && isRagOutcome
         && predictedWrong
