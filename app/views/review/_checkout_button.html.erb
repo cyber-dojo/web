@@ -4,12 +4,15 @@
 'use strict';
 $(() => {
 
+  const kata = cd.kata;
+  const review = cd.review;
+
   const $button = $('#checkout-button');
   const tip = `make this traffic-light's<br/>files your current files`;
   cd.createTip($button, tip);
-  $button.click(() => cd.review.fadeOut(checkout));
+  $button.click(() => review.fadeOut(checkout));
 
-  cd.review.checkoutButton = {
+  review.checkoutButton = {
     show: () => $button.show(),
     enable: () => $button.prop('disabled', false),
     disable: () => $button.prop('disabled', true)
@@ -18,26 +21,25 @@ $(() => {
   const checkout = () => {
     const args = {
       // where we are writing to
-      id: cd.kata.id(),       // eg 'Xd4f2P'
-      index: cd.kata.index(), // eg 17
+      id: kata.id(),       // eg 'Xd4f2P'
+      index: kata.index(), // eg 17
       // where we are reading from
-      src_id: cd.review.id,
-      src_index: cd.review.index,
-      src_avatar_index: cd.review.avatarIndex()
+      src_id: review.id,
+      src_index: review.index,
+      src_avatar_index: review.avatarIndex
     };
-    delete cd.review.id;
     cd.settings.showButton();
     $.post('/kata/checkout', args, (data) => {
-      cd.kata.index.increment();
-      cd.kata.editor.deleteFiles();
+      kata.index.increment();
+      kata.editor.deleteFiles();
       for (const filename in data.files) {
-        cd.kata.editor.createFile(filename, { content:data.files[filename] });
-        cd.kata.editor.showFile(filename);
+        kata.editor.createFile(filename, { content:data.files[filename] });
+        kata.editor.showFile(filename);
       }
-      cd.kata.editor.output(data.stdout.content, data.stderr.content, data.status);
-      cd.kata.tabs.output().click();
-      cd.kata.filenames.refresh();
-      cd.kata.appendTrafficLight(data.light, {scrollIntoView:true});
+      kata.editor.output(data.stdout.content, data.stderr.content, data.status);
+      kata.tabs.output().click();
+      kata.filenames.refresh();
+      kata.appendTrafficLight(data.light, {scrollIntoView:true});
     }, 'json');
   };
 

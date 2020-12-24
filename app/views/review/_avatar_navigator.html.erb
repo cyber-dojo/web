@@ -29,8 +29,7 @@ $(() => {
 
   const avatarNavigatorRefresher = (joined) => {
     const [prevIndex,avatarIndex,nextIndex] = review.avatarsNeighbours(review.id, joined);
-    // Make avatarIndex available for checkout.
-    review.avatarIndex = () => avatarIndex; // eg 23/''
+    review.avatarIndex = avatarIndex; // eg 23/''  for [checkout] button
     if (avatarIndex != '') {
       const $avatar = $('#review-avatar-image-box');
       refreshAvatar($('#prev-avatar'), joined, prevIndex);
