@@ -51,7 +51,7 @@ $(() => {
     $fork.dialog('close');
     $.ajax({
             type: 'POST',
-             url: `/forker/fork_${type}?id=${cd.review.id()}&index=${cd.review.index()}`,
+             url: `/forker/fork_${type}?id=${cd.review.id}&index=${cd.review.index}`,
         dataType: 'json', // format we want response in
            async: false,
          success: (response) => {

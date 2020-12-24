@@ -24,7 +24,8 @@ $(() => {
 
   const review = cd.review;
 
-  review.refreshTrafficLightsNavigator = (index, events) => {
+  review.refreshTrafficLightsNavigator = (events) => {
+    const index = review.index;
     refreshMoveTo($('#first-index'), prevEventIndex(index, 1));
     refreshMoveTo($('#prev-index'),  prevEventIndex(index, index-1));
     $('#review-index-box').html($makeIndexNumber(index, events));

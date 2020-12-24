@@ -7,8 +7,8 @@ $(() => {
   const review = cd.review;
 
   review.output = {
-    refresh: (index) => {
-      review.getJSON('model', 'kata_event', { id:review.id, index:index }, (event) => {
+    refresh: () => {
+      review.getJSON('model', 'kata_event', { id:review.id, index:review.index }, (event) => {
         outputRefresher(event);
       });
     }

@@ -23,17 +23,17 @@ $(() => {
 
   review.diffCheckBox = {
     isChecked: () => $checkBox.is(':checked'),
-    refresh: (index, checked) => {
+    refresh: (checked) => {
       $checkBox
         .prop('checked', checked)
         .off('click')
-        .on('click', () => review.refresh(review.id, index));
+        .on('click', () => review.refresh(review.id, review.index));
 
       $('#diff-checkbox-title')
         .off('click')
         .on('click', () => {
           $checkBox.prop('checked', !review.diffCheckBox.isChecked());
-          review.refresh(review.id, index);
+          review.refresh(review.id, review.index);
         });
     }
   };

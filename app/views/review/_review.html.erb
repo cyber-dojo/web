@@ -43,18 +43,17 @@ $(() => {
 
   review.page = $('#review-page');
 
-  review.isIndependent = () => {
-    return $('#kata-page').length === 0;
-  };
+  review.isIndependent = () => $('#kata-page').length === 0;
 
-  review.refresh = (id, nowIndex, showDiff = review.diffCheckBox.isChecked()) => {
+  review.refresh = (id, index, showDiff = review.diffCheckBox.isChecked()) => {
     cd.settings.hideButton();
     review.id = id;
+    review.index = index;
     review.avatarNavigator.refresh();
-    review.diffCheckBox   .refresh(nowIndex, showDiff);
-    review.files          .refresh(nowIndex);
-    review.output         .refresh(nowIndex);
-    review.trafficLights  .refresh(nowIndex);
+    review.diffCheckBox   .refresh(showDiff);
+    review.files          .refresh();
+    review.output         .refresh();
+    review.trafficLights  .refresh();
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -65,13 +64,13 @@ $(() => {
   //    o) wasIndex == nowIndex-1
   //    o) we *are* showing a diff.
 
-  review.fromTestPage = (kataId, index) => {
+  review.fromTestPage = (id, index) => {
     review.fadeIn(() => {
       review.checkoutButton.show();
       review.resumeButton.show();
     });
     const showDiff = true;
-    review.refresh(kataId, index, showDiff);
+    review.refresh(id, index, showDiff);
   };
 
   if (review.isIndependent()) {
