@@ -47,9 +47,9 @@ $(() => {
     return $('#kata-page').length === 0;
   };
 
-  review.refresh = (kataId, nowIndex, showDiff = review.diffCheckBox.isChecked()) => {
+  review.refresh = (id, nowIndex, showDiff = review.diffCheckBox.isChecked()) => {
     cd.settings.hideButton();
-    review.id = () => kataId;
+    review.id = id;
     review.avatarNavigator.refresh();
     review.diffCheckBox   .refresh(nowIndex, showDiff);
     review.files          .refresh(nowIndex);

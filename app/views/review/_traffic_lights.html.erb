@@ -10,7 +10,7 @@ $(() => {
 
   review.trafficLights = {
     refresh: (index) => {
-      review.getJSON('model', 'kata_events', {id:review.id()}, (events) => {
+      review.getJSON('model', 'kata_events', {id:review.id}, (events) => {
         if (index === -1) {
           index = events.length - 1;
         }
@@ -53,10 +53,10 @@ $(() => {
         src: `/images/traffic-light/${colour}.png`,
         alt: `${colour} traffic-light`
     });
-    $light.click(() => cd.review.refresh(review.id(), light.index));
+    $light.click(() => cd.review.refresh(review.id, light.index));
     const wasIndex = light.index - 1;
     const nowIndex = light.index;
-    cd.setupTrafficLightTip($light, light, review.id(), wasIndex, nowIndex);
+    cd.setupTrafficLightTip($light, light, review.id, wasIndex, nowIndex);
     $lightBox.append($light);
     if (index === light.index) {
       $lightBox.append(makeTrafficLightMarkerHtml(light));
@@ -70,7 +70,7 @@ $(() => {
     const isCurrentIndex = (light.index === index);
     const predictedWrong = (light.colour != light.predicted);
     const wasReverted = (light.revert_if_wrong === 'on');
-    const reviewingOwnLight = () => (cd.kata.id() === cd.review.id());
+    const reviewingOwnLight = () => (cd.kata.id() === cd.review.id);
 
     return isCurrentIndex
       && cd.lib.hasPrediction(light)

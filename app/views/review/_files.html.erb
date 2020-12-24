@@ -9,7 +9,7 @@ $(() => {
   review.files = {
     refresh: (nowIndex) => {
       const args = {
-        id:review.id(),
+        id:review.id,
         was_index:nowIndex - diffDelta(),
         now_index:nowIndex
       };
