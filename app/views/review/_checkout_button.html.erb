@@ -19,18 +19,16 @@ $(() => {
   };
 
   const checkout = () => {
-    const args = {
-      // where we are writing to
-      id: kata.id(),       // eg 'Xd4f2P'
-      index: kata.index(), // eg 17
-      // where we are reading from
-      src_id: review.id,
+    const args = {       // where we are writing to
+      id: kata.id,       // eg 'Xd4f2P'
+      index: kata.index, // eg 17
+      src_id: review.id, // where we are reading from
       src_index: review.index,
       src_avatar_index: review.avatarIndex
     };
     cd.settings.showButton();
     $.post('/kata/checkout', args, (data) => {
-      kata.index.increment();
+      kata.incrementIndex();
       kata.editor.deleteFiles();
       for (const filename in data.files) {
         kata.editor.createFile(filename, { content:data.files[filename] });

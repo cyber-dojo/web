@@ -20,9 +20,8 @@ $(() => {
   repl.open = () => {
     const element = document.getElementById('repl-terminal');
     const terminal = createTerminalIn(element);
-    const kataId = cd.kata.id();
     const sid = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0,6);
-    const route = `${location.hostname}/repler/${kataId}-${sid}`; // [1]
+    const route = `${location.hostname}/repler/${cd.kata.id}-${sid}`; // [1]
     const repler = new Repler(`http://${route}`, terminal);
     const socket = new WebSocketMonitor(`ws://${route}`, terminal);
     cd.saveCodeFromSyntaxHighlightEditors();

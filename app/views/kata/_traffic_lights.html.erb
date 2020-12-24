@@ -4,6 +4,8 @@
 'use strict';
 $(() => {
 
+  const kata = cd.kata;
+
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // There are two sequences of traffic-lights:
   // o) kata-page traffic-lights live under #traffic-lights.
@@ -27,14 +29,12 @@ $(() => {
   //      - When you click [checkout].
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  cd.kata.appendTrafficLight = (light, option={scrollIntoView:false}) => {
+  kata.appendTrafficLight = (light, option={scrollIntoView:false}) => {
     if (cd.lib.isVisible(light)) {
       cd.lib.appendImageIfPrediction($lights, light);
       cd.lib.appendImageIfRevert($lights, light);
       cd.lib.appendImageIfCheckout($lights, light);
-      const index = light.index;
-      const colour = light.colour;
-      const $light = $trafficLightImage(index, colour);
+      const $light = $trafficLightImage(light);
       $lights.append($light);
       if (option.scrollIntoView) {
         $light.scrollIntoView({
@@ -42,40 +42,38 @@ $(() => {
            duration: 'slow'
         });
       }
-      cd.kata.updateTrafficLightsCounts(light);
-      cd.kata.updatePredictCounts(light);
-      const id = cd.kata.id();
-      $light.click(() => cd.review.fromTestPage(id, index));
-      cd.setupTrafficLightTip($light, light, id, index-1, index);
+      kata.updateTrafficLightsCounts(light);
+      kata.updatePredictCounts(light);
+      $light.click(() => cd.review.fromTestPage(kata.id, light.index));
+      cd.setupTrafficLightTip($light, light, kata.id, light.index-1, light.index);
     }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // Don't use show() hide() here as the animation is far
+  // Don't use show() or hide() here as the animation is far
   // too slow (even on 'fast') when you have a reasonably
   // large number of traffic-lights.
 
   const $predictImages = () => $('img.revert, img.tick, img.cross', $lights);
 
-  cd.kata.hidePredictImages = () => {
+  kata.hidePredictImages = () => {
     $predictImages().addClass('hide');
     cd.kata.scrollLastTrafficLightIntoView();
   };
 
-  cd.kata.showPredictImages = () => {
+  kata.showPredictImages = () => {
     $predictImages().removeClass('hide');
     cd.kata.scrollLastTrafficLightIntoView();
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const $trafficLightImage = (index, colour) => {
-    // Revert needs colour+index properties
+  const $trafficLightImage = (light) => {
     return $('<img>', {
       class: 'diff-traffic-light',
-        src: `/images/traffic-light/${colour}.png`,
-        alt: `${colour} traffic-light`,
-      'data-colour': colour,
-      'data-index': index
+        src: `/images/traffic-light/${light.colour}.png`,
+        alt: `${light.colour} traffic-light`,
+      'data-colour': light.colour, // Revert needs colour+index 
+      'data-index': light.index
     });
   };
 

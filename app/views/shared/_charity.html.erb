@@ -37,7 +37,13 @@
 $(() => {
 
   const $button = $('#charity-button');
-  cd.createTip($button, 'show cyber-dojo charity information');
+
+  cd.createTip($button, [
+    'click to',
+    'see charity',
+    'information'
+  ].join('<br/>'));
+
   $button.click(() => openCharityInfoDialog());
 
   const openCharityInfoDialog = () => {

@@ -7,13 +7,10 @@
 
 const $index = $("input[name='index']");
 
-cd.kata.index = () => parseInt($index.val());
+cd.kata.index = 0;
 
-cd.kata.index.reset = () => $index.val(0);
-
-cd.kata.index.increment = () => {
-  const index = parseInt($index.val());
-  $index.val(index + 1);
+cd.kata.incrementIndex = () => {
+  $index.val(cd.kata.index += 1);
 };
 
 </script>

@@ -4,14 +4,14 @@ const { avatarsActive,avatarsNeighbours } = require('./avatars');
 
 describe('avatarsActive/avatarsNeighbours', () => {
 
-  it('returns {} when kata-id is not in a group', () => {
+  it('returns {} when kata.id is not in a group', () => {
     const id = 'RNCzUr';
     const joined = {};
     expectNeighbours(id, joined, '','','');
     expectActive(joined);
   });
 
-  it('returns empty strings when kata-id is only member of group', () => {
+  it('returns empty strings when kata.id is only member of group', () => {
     const id = 'w34rd5';
     const joined = {
       '2': { 'id':id, 'events':[0,1,2] },

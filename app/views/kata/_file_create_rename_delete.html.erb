@@ -8,6 +8,8 @@
 'use strict';
 $(() => {
 
+  const kata = cd.kata;
+
   cd.createFileButton = () => $('.create-file');
   cd.deleteFileButton = () => $('.delete-file');
   cd.renameFileButton = () => $('.rename-file');
@@ -18,9 +20,9 @@ $(() => {
     const initialFilename = `filename${cd.extensionFilenames()[0]}`;
     const okInitiallyDisabled = !isValidFilename(initialFilename);
     const okClicked = (newFilename) => {
-      cd.kata.editor.createFile(newFilename, {content:''});
-      cd.kata.filenames.refresh();
-      cd.kata.filenames.select(newFilename);
+      kata.editor.createFile(newFilename, {content:''});
+      kata.filenames.refresh();
+      kata.filenames.select(newFilename);
     };
     openDialog('+', 'create', initialFilename, okInitiallyDisabled, okClicked);
   };
@@ -28,12 +30,12 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const openDeleteFileDialog = () => {
-    const filename = cd.kata.tabs.filename().click().text();
+    const filename = kata.tabs.filename().click().text();
     const okInitiallyDisabled = false;
     const okClicked = () => {
-      cd.kata.editor.deleteFile(filename);
-      cd.kata.filenames.refresh();
-      cd.kata.filenames.select(cd.kata.filenames.top());
+      kata.editor.deleteFile(filename);
+      kata.filenames.refresh();
+      kata.filenames.select(kata.filenames.top());
     };
     openDialog('&mdash;', 'delete', filename, okInitiallyDisabled, okClicked);
   };
@@ -41,12 +43,12 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const openRenameFileDialog = () => {
-    const oldFilename = cd.kata.tabs.filename().click().text();
+    const oldFilename = kata.tabs.filename().click().text();
     const okInitiallyDisabled = true;
     const okClicked = (newFilename) => {
-      cd.kata.editor.renameFile(oldFilename, newFilename);
-      cd.kata.filenames.refresh();
-      cd.kata.filenames.select(newFilename);
+      kata.editor.renameFile(oldFilename, newFilename);
+      kata.filenames.refresh();
+      kata.filenames.select(newFilename);
     };
     openDialog('&curarr;', 'rename', oldFilename, okInitiallyDisabled, okClicked);
   };
@@ -70,7 +72,7 @@ $(() => {
 
     // Position dialog near to tab.filename because if tab.output is
     // selected then filename will not be selected in filename list.
-    const pos = cd.kata.tabs.filename().offset();
+    const pos = kata.tabs.filename().offset();
     const xPos = pos.left + 2;
     const yPos = pos.top + 25;
 
@@ -96,13 +98,13 @@ $(() => {
     });
 
     $('<div>').append(input).append(okButton).dialog({
-      open: onDialogOpen,
-  	  title: cd.dialogTitle(`${glyph} ${title} file`),
-    	autoOpen: true,
-      width: 450,
-      position: [xPos,yPos],
-  	  modal: true,
-      beforeClose: onDialogClose,
+               open: onDialogOpen,
+  	          title: cd.dialogTitle(`${glyph} ${title} file`),
+    	     autoOpen: true,
+              width: 450,
+           position: [xPos,yPos],
+  	          modal: true,
+        beforeClose: onDialogClose,
       closeOnEscape: true,
     });
   };
@@ -156,7 +158,7 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const isValidFilename = (filename) => {
-    const alreadyExists = (filename) => cd.kata.editor.filenames().includes(filename);
+    const alreadyExists = (filename) => kata.editor.filenames().includes(filename);
     const contains = (illegal) => filename.indexOf(illegal) !== -1;
     if (alreadyExists(filename)) { return false; }
     if (contains('..')) { return false; }
@@ -172,12 +174,12 @@ $(() => {
   cd.createTip(cd.createFileButton(), 'create a new file');
 
   cd.setTip(cd.deleteFileButton(), () => {
-    const currentFilename = cd.kata.tabs.filename().text();
+    const currentFilename = kata.tabs.filename().text();
     cd.showHoverTip(cd.deleteFileButton(), `delete ${currentFilename}`);
   });
 
   cd.setTip(cd.renameFileButton(), () => {
-    const currentFilename = cd.kata.tabs.filename().text();
+    const currentFilename = kata.tabs.filename().text();
     cd.showHoverTip(cd.renameFileButton(), `rename ${currentFilename}`);
   });
 

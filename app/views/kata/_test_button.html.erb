@@ -4,11 +4,13 @@
 'use strict';
 $(() => {
 
+  const kata = cd.kata;
+
   const $button = $('#test-button');
 
-  $button.click(() => cd.kata.testButton.click());
+  $button.click(() => kata.testButton.click());
 
-  cd.kata.testButton = {
+  kata.testButton = {
     hide: (f) => {
       disableTestButton();
       $button.hide('slow', f);
@@ -18,8 +20,8 @@ $(() => {
     },
     click: () => {
       disableTestButton();
-      cd.kata.noPrediction();      
-      cd.kata.runTests(enableTestButton);
+      kata.noPrediction();
+      kata.runTests(enableTestButton);
     }
   };
 

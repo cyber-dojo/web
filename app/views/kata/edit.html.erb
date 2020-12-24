@@ -1,6 +1,6 @@
 <script>
 'use strict';
-cd.kata.id = () => "<%= @id %>";
+cd.kata.id = "<%= @id %>";
 </script>
 
 <%= render partial: 'starting_info' %>
@@ -16,7 +16,6 @@ $(() => {
 
   cd.kata.page = $('#kata-page');
 
-  cd.kata.index.reset();
   cd.codeMirror.resetTheme();
   cd.kata.tabs.setup({repl:"<%= @env['REPL'] %>"});
 
@@ -38,7 +37,7 @@ $(() => {
   const events = <%= raw @events.to_json %>;
   events.forEach((event) => {
     cd.kata.appendTrafficLight(event);
-    cd.kata.index.increment();
+    cd.kata.incrementIndex();
   });
   cd.kata.scrollLastTrafficLightIntoView();
   cd.kata.setupPrediction();

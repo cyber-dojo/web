@@ -127,7 +127,7 @@
     const isRagOutcome = ['red','amber','green'].includes(outcome);
     const predictedWrong = (predicted != outcome);
     const revertIsOn = () => (cd.settings.revert(predicted) === 'on');
-    const isLightToRevertTo = (cd.kata.index() > 2);
+    const isLightToRevertTo = (cd.kata.index > 2);
     return predictIsOn()
       && isRagOutcome
         && predictedWrong
@@ -140,6 +140,7 @@
   const scrollIntoView = true;
 
   const refreshFromTest = () => {
+    cd.kata.incrementIndex();
     insertCreatedFiles();
     removeDeletedFiles();
     updateChangedFiles();
@@ -147,16 +148,16 @@
     cd.kata.editor.output(stdout, stderr, status);
     cd.kata.tabs.output().click();
     cd.kata.appendTrafficLight(light, {scrollIntoView:true});
-    cd.kata.index.increment();
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const revert = () => {
     const args = {
-      id: cd.kata.id(),      // eg 'Xd4f2P'
-      index: cd.kata.index() // eg 18 (reverting to 16)
+      id: cd.kata.id,      // eg 'Xd4f2P'
+      index: cd.kata.index // eg 18 (reverting to 16)
     };
     $.post('/kata/revert', args, (data) => {
+      cd.kata.incrementIndex();
       cd.kata.editor.deleteFiles();
       for (const filename in data.files) {
         cd.kata.editor.createFile(filename, { content:data.files[filename] });
@@ -166,9 +167,8 @@
       cd.kata.editor.output(data.stdout.content, data.stderr.content, data.status);
       cd.kata.tabs.output().click();
       cd.kata.appendTrafficLight(data.light, {scrollIntoView:true});
-      cd.kata.index.increment();
       //Switching directly to a review of the reverted light is possible here...
-      //cd.review.fromTestPage(cd.kata.id(), cd.kata.index() - 2);
+      //cd.review.fromTestPage(cd.kata.id, cd.kata.index - 2);
     }, 'json');
   };
 
