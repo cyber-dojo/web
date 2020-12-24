@@ -4,37 +4,39 @@
 'use strict';
 $(() => {
 
+  const review = cd.review;
+
   const $trafficLights = $('#review-traffic-lights');
 
-  cd.review.trafficLights = {
-    refresh: (kataId, index) => {
-      cd.review.getJSON('model', 'kata_events', {id:kataId}, (events) => {
+  review.trafficLights = {
+    refresh: (index) => {
+      review.getJSON('model', 'kata_events', {id:review.id()}, (events) => {
         if (index === -1) {
           index = events.length - 1;
         }
-        cd.review.index = () => index; // Need by [fork] and [checkout]
-        trafficLightsRefresher(kataId, index, events);
-        cd.review.refreshTrafficLightsNavigator(kataId, index, events);
+        review.index = () => index; // Need by [fork] and [checkout]
+        trafficLightsRefresher(index, events);
+        review.refreshTrafficLightsNavigator(index, events);
       });
     }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const trafficLightsRefresher = (kataId, index, events) => {
+  const trafficLightsRefresher = (index, events) => {
     $trafficLights.empty();
-    appendTrafficLights(kataId, index, events);
+    appendTrafficLights(index, events);
     scrollCurrentTrafficLightIntoView();
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const appendTrafficLights = (kataId, index, events) => {
+  const appendTrafficLights = (index, events) => {
     cd.review.checkoutButton.enable();
     events.forEach(event => {
       if (cd.lib.isVisible(event)) {
         cd.lib.appendImageIfPrediction($trafficLights, event);
         cd.lib.appendImageIfRevert($trafficLights, event);
         cd.lib.appendImageIfCheckout($trafficLights, event);
-        appendTrafficLight(kataId, index, event);
+        appendTrafficLight(index, event);
         if (isOwnRevertedIncorrectPredictionLight(event, index)) {
           cd.review.checkoutButton.disable();
         }
@@ -43,7 +45,7 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const appendTrafficLight = (kataId, index, light) => {
+  const appendTrafficLight = (index, light) => {
     const colour = light.colour;
     const $lightBox = $('<div class="light box">');
     const $light = $('<img>', {
@@ -51,10 +53,10 @@ $(() => {
         src: `/images/traffic-light/${colour}.png`,
         alt: `${colour} traffic-light`
     });
-    $light.click(() => cd.review.refresh(kataId, light.index));
+    $light.click(() => cd.review.refresh(review.id(), light.index));
     const wasIndex = light.index - 1;
     const nowIndex = light.index;
-    cd.setupTrafficLightTip($light, light, kataId, wasIndex, nowIndex);
+    cd.setupTrafficLightTip($light, light, review.id(), wasIndex, nowIndex);
     $lightBox.append($light);
     if (index === light.index) {
       $lightBox.append(makeTrafficLightMarkerHtml(light));

@@ -20,15 +20,15 @@ $(() => {
 
   review.avatarNavigator = {
        hide: () => $avatarNavigator.hide(),
-    refresh: (kataId) => {
-      review.getJSON('model', 'group_joined', {id:kataId}, (joined) => {
-        avatarNavigatorRefresher(kataId, joined);
+    refresh: () => {
+      review.getJSON('model', 'group_joined', {id:review.id()}, (joined) => {
+        avatarNavigatorRefresher(joined);
       });
     }
   };
 
-  const avatarNavigatorRefresher = (kataId, joined) => {
-    const [prevIndex,avatarIndex,nextIndex] = review.avatarsNeighbours(kataId, joined);
+  const avatarNavigatorRefresher = (joined) => {
+    const [prevIndex,avatarIndex,nextIndex] = review.avatarsNeighbours(review.id(), joined);
     // Make avatarIndex available for checkout.
     review.avatarIndex = () => avatarIndex; // eg 23/''
     if (avatarIndex != '') {
@@ -39,7 +39,7 @@ $(() => {
       cd.createTip($img, "review any avatar's files");
       $avatar.html($img)
              .off('click')
-             .on('click', () => cd.lib.openAvatarSelectorDialog($avatar, kataId, setupActiveAvatar));
+             .on('click', () => cd.lib.openAvatarSelectorDialog($avatar, review.id(), setupActiveAvatar));
       $avatarNavigator.show();
     }
   };

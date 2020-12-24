@@ -24,20 +24,20 @@ $(() => {
 
   const review = cd.review;
 
-  review.refreshTrafficLightsNavigator = (kataId, index, events) => {
-    refreshMoveTo($('#first-index'), kataId, prevEventIndex(index, 1));
-    refreshMoveTo($('#prev-index'),  kataId, prevEventIndex(index, index-1));
+  review.refreshTrafficLightsNavigator = (index, events) => {
+    refreshMoveTo($('#first-index'), prevEventIndex(index, 1));
+    refreshMoveTo($('#prev-index'),  prevEventIndex(index, index-1));
     $('#review-index-box').html($makeIndexNumber(index, events));
-    refreshMoveTo($('#next-index'),  kataId, nextEventIndex(events, index, index+1));
-    refreshMoveTo($('#last-index'),  kataId, nextEventIndex(events, index, events.length-1));
+    refreshMoveTo($('#next-index'),  nextEventIndex(events, index, index+1));
+    refreshMoveTo($('#last-index'),  nextEventIndex(events, index, events.length-1));
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const refreshMoveTo = (button, kataId, index) => {
+  const refreshMoveTo = (button, index) => {
     button
       .attr('disabled', index === null)
       .off('click')
-      .on('click', () => review.refresh(kataId, index));
+      .on('click', () => review.refresh(review.id(), index));
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -

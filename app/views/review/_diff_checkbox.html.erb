@@ -1,7 +1,6 @@
 <div id="diff-checkbox-cell">
   <div id="diff-checkbox-title">diff</div>
   <input type="checkbox" id="diff-checkbox" checked=""/>
-  <label for="diff-checkbox"></label>
 </div>
 
 <script>
@@ -24,17 +23,17 @@ $(() => {
 
   review.diffCheckBox = {
     isChecked: () => $checkBox.is(':checked'),
-    refresh: (kataId, index, checked) => {
+    refresh: (index, checked) => {
       $checkBox
         .prop('checked', checked)
         .off('click')
-        .on('click', () => review.refresh(kataId, index));
+        .on('click', () => review.refresh(review.id(), index));
 
       $('#diff-checkbox-title')
         .off('click')
         .on('click', () => {
           $checkBox.prop('checked', !review.diffCheckBox.isChecked());
-          review.refresh(kataId, index);
+          review.refresh(review.id(), index);
         });
     }
   };
