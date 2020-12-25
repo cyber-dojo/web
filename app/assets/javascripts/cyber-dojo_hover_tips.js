@@ -47,6 +47,9 @@ var cyberDojo = (function(cd, $) {
     if (light.colour === 'pulling') {
       return 'image being prepared';
     }
+    else if (light.colour === 'timed_out') {
+      return 'timed out';
+    }
     else if (light.colour === 'faulty') {
       return 'fault! not red, amber, or green';
     }
@@ -60,21 +63,22 @@ var cyberDojo = (function(cd, $) {
       return trafficLightCheckoutInfo(light);
     }
     else {
-      return `<span class="${light.colour}">${light.colour}</span>`;
+      return spanColour(light.colour);
     }
   };
 
   const trafficLightPredictInfo = (light) => {
     const colour = light.colour
     const predicted = light.predicted;
-    return [
-       `predicted <span class="${predicted}">${predicted}</span>`,
-       `was <span class="${colour}">${colour}</span>`
-     ].join(', ');
+    return `predicted ${spanColour(predicted)}, was ${spanColour(colour)}</span>`;
   };
 
   const trafficLightRevertInfo = (light) => {
-    return `auto-revert back to <span class="${light.colour}">${light.index - 2}</span>`;
+    return `auto-revert back to ${spanColour(light.colour, light.index - 2)}</span>`;
+  };
+
+  const spanColour = (colour, text = colour) => {
+    return `<span class="${colour}">${text}</span>`;
   };
 
   const trafficLightCheckoutInfo = (light) => {
