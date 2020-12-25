@@ -24,9 +24,7 @@ var cyberDojo = (function(cd, $) {
     const $tr = $('<tr>');
     $tr.append($trafficLightIndexTd(light, index));
     $tr.append($trafficLightImageTd(light));
-    $tr.append($trafficLightPredictInfoTd(light));
-    $tr.append($trafficLightRevertInfoTd(light));
-    $tr.append($trafficLightCheckoutInfoTd(light));
+    $tr.append($('<td class="mini-text">').html(miniTextInfo(light)));
     return $('<table>').append($tr);
   };
 
@@ -45,45 +43,44 @@ var cyberDojo = (function(cd, $) {
     return $('<td>').append($img);
   };
 
-  const $trafficLightPredictInfoTd = (light) => {
+  const miniTextInfo = (light) => {
+    if (light.colour === 'pulling') {
+      return 'image being prepared';
+    }
+    else if (light.colour === 'faulty') {
+      return 'fault! not red, amber, or green';
+    }
+    else if (cd.lib.hasPrediction(light)) {
+      return trafficLightPredictInfo(light);
+    }
+    else if (cd.lib.isRevert(light)) {
+      return trafficLightRevertInfo(light);
+    }
+    else if (cd.lib.isCheckout(light)) {
+      return trafficLightCheckoutInfo(light);
+    }
+    else {
+      return `<span class="${light.colour}">${light.colour}</span>`;
+    }
+  };
+
+  const trafficLightPredictInfo = (light) => {
     const colour = light.colour
-    if (!cd.lib.hasPrediction(light) || colour === 'pulling' || colour == 'faulty') {
-      return '';
-    }
     const predicted = light.predicted;
-    const actual = (predicted === colour)
-        ? 'correct'
-        : `incorrect (<span class="${colour}">${colour}</span>)`;
-    const info = [
+    return [
        `predicted <span class="${predicted}">${predicted}</span>`,
-       `&rarr; ${actual}`
-     ].join('<br/>');
-    return $('<td class="mini-text">').html(info);
+       `was <span class="${colour}">${colour}</span>`
+     ].join(', ');
   };
 
-  const $trafficLightRevertInfoTd = (light) => {
-    if (cd.lib.isRevert(light)) {
-      const info = [
-        'auto-revert',
-        `back to <span class="${light.colour}">${light.index - 2}</span>`
-      ].join('<br/>')
-      return $('<td class="mini-text">').html(info);
-    } else {
-      return '';
-    }
+  const trafficLightRevertInfo = (light) => {
+    return `auto-revert back to <span class="${light.colour}">${light.index - 2}</span>`;
   };
 
-  const $trafficLightCheckoutInfoTd = (light) => {
-    if (cd.lib.isCheckout(light)) {
-      const info = [
-        'checkout',
-        cd.lib.avatarName(light.checkout.avatarIndex),
-        light.checkout.index
-      ].join(' ');
-      return $('<td class="mini-text">').html(info);
-    } else {
-      return '';
-    }
+  const trafficLightCheckoutInfo = (light) => {
+    const name = cd.lib.avatarName(light.checkout.avatarIndex);
+    const index = light.checkout.index;
+    return `checkout ${name} ${index}`;
   };
 
   const $diffLinesTable = (diffs) => {
