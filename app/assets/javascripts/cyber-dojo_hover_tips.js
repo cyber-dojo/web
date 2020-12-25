@@ -2,16 +2,6 @@
 'use strict';
 var cyberDojo = (function(cd, $) {
 
-  cd.setupAvatarNameHoverTip = ($element, textBefore, avatarIndex, textAfter) => {
-    cd.setTip($element, () => {
-      $.getJSON('/images/avatars/names.json', '', (avatarsNames) => {
-        const avatarName = avatarsNames[avatarIndex];
-        const tip = `${textBefore}${avatarName}${textAfter}`;
-        cd.showHoverTip($element, tip);
-      });
-    });
-  };
-
   cd.setupTrafficLightTip = ($light, light, kataId, wasIndex, nowIndex) => {
     cd.setTip($light, () => {
       const args = { id:kataId, was_index:wasIndex, now_index:nowIndex };

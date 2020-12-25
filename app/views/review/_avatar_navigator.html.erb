@@ -54,7 +54,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
 
   const setupActiveAvatar = ($img, index, avatar, $selector) => {
-    cd.setupAvatarNameHoverTip($img, '', index, '');
+    cd.createTip($img, cd.lib.avatarName(index));
     $img.click(() => {
       cd.removeTip();
       $selector.dialog('close');
