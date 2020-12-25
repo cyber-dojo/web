@@ -1,4 +1,14 @@
 
+Add lib method to get avatar-name which caches getJSON retrieval.
+Use this in simple hovertTips
+Drop custom hover-tip method for avatarName.
+
+In review-mode, always do diff-summary of index,index-1
+and always show file-type markers. Make the diff[x] checkbox
+control whether the [+][-] diffs are visible. Need to try this.
+What about [+] created files and [-] deleted files?
+
+
 Recolour diff[x] checkbox cell backgrounds to match checkboxes on edit page.
 
 Make the [checkout] button disabled for an incorrect prediction

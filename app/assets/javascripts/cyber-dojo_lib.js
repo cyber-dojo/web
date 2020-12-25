@@ -8,9 +8,9 @@ var cyberDojo = ((cd, $) => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  // Used by both app/views/kata and app/view/review
 
   cd.lib.isVisible = (event) => {
+    // Used by both app/views/kata and app/view/review
     // Eg don't show event[0] == creation
     switch (event.colour) {
     case 'red':
@@ -26,9 +26,28 @@ var cyberDojo = ((cd, $) => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  // Used by both app/views/kata and app/view/review
+
+  let avatarNamesCache = undefined;
+
+  cd.lib.avatarName = (n) => {
+    if (avatarNamesCache === undefined) {
+      $.ajax({
+              type: 'GET',
+               url: '/images/avatars/names.json',
+          dataType: 'json',
+             async: false,
+           success: (avatarsNames) => {
+             avatarNamesCache = avatarsNames;
+           }
+      });
+    }
+    return avatarNamesCache[n];
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.lib.openAvatarSelectorDialog = ($from, kataId, setupActiveAvatar) => {
+    // Used by both app/views/kata and app/view/review
     const xPos = $from.offset().left;
     const yPos = $from.offset().top + 40;
     const $selector = $('<div>', { id:'avatar-selector-dialog'} );
@@ -102,7 +121,7 @@ var cyberDojo = ((cd, $) => {
         src:`/images/avatars/${avatarIndex}.jpg`,
         alt:`avatar number ${avatarIndex}`
     });
-    cd.setupAvatarNameHoverTip($img, '', avatarIndex, '');
+    cd.createTip($img, cd.lib.avatarName(avatarIndex));
     return $img;
   };
 
@@ -111,12 +130,6 @@ var cyberDojo = ((cd, $) => {
   //   - an auto-revert (from an incorrect test prediction)
   //   - a [checkout]   (from the review page)
   // Both were light.revert == [id,index]
-
-  const clog = (s) => {
-    if (false) {
-      console.log(s);
-    }
-  };
 
   cd.lib.appendImageIfPrediction = ($lights, light) => {
     const colour = light.colour;
