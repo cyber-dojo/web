@@ -65,17 +65,16 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const isOwnRevertedIncorrectPredictionLight = (light) => {
-    const isCurrentIndex = (light.index === review.index);
-    const predictedWrong = (light.colour != light.predicted);
-    const wasReverted = (light.revert_if_wrong === 'on');
-    const reviewingOwnLight = () => (cd.kata.id === cd.review.id);
-
+    const isCurrentIndex    = (light.index === review.index);
+    const predictedWrong    = (light.colour != light.predicted);
+    const wasReverted       = (light.revert_if_wrong === 'on');
+    const reviewingOwnLight = (cd.kata.id === cd.review.id);
     return isCurrentIndex
       && cd.lib.hasPrediction(light)
         && predictedWrong
           && wasReverted
             && !cd.review.isIndependent()
-              && reviewingOwnLight();
+              && reviewingOwnLight;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
