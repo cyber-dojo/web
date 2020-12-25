@@ -75,7 +75,11 @@ var cyberDojo = (function(cd, $) {
 
   const $trafficLightCheckoutInfoTd = (light) => {
     if (cd.lib.isCheckout(light)) {
-      const info = 'checkout';
+      const info = [
+        'checkout',
+        cd.lib.avatarName(light.checkout.avatarIndex),
+        light.checkout.index
+      ].join(' ');
       return $('<td class="mini-text">').html(info);
     } else {
       return '';
