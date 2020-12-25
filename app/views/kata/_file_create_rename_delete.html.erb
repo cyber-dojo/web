@@ -173,14 +173,14 @@ $(() => {
 
   cd.createTip(cd.createFileButton(), 'create a new file');
 
-  cd.setTip(cd.deleteFileButton(), () => {
+  cd.createTip(cd.deleteFileButton(), () => {
     const currentFilename = kata.tabs.filename().text();
-    cd.showHoverTip(cd.deleteFileButton(), `delete ${currentFilename}`);
+    return `delete ${currentFilename}`;
   });
 
-  cd.setTip(cd.renameFileButton(), () => {
+  cd.createTip(cd.renameFileButton(), () => {
     const currentFilename = kata.tabs.filename().text();
-    cd.showHoverTip(cd.renameFileButton(), `rename ${currentFilename}`);
+    return `rename ${currentFilename}`;
   });
 
   cd.createFileButton().click(() => openCreateFileDialog());

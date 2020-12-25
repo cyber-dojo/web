@@ -3,12 +3,12 @@
 var cyberDojo = (function(cd, $) {
 
   cd.setupTrafficLightTip = ($light, light, kataId, wasIndex, nowIndex) => {
-    cd.setTip($light, () => {
+    setTip($light, () => {
       const args = { id:kataId, was_index:wasIndex, now_index:nowIndex };
       $.getJSON('/differ/diff_summary', args, (data) => {
         const diff = data.diff_summary;
         const $tip = $trafficLightTip(light, nowIndex, diff);
-        cd.showHoverTip($light, $tip);
+        showHoverTip($light, $tip);
       });
     });
   };
@@ -155,53 +155,53 @@ var cyberDojo = (function(cd, $) {
     return $('#hover-tip-container');
   };
 
-  cd.removeTip = ($node) => {
+  cd.removeTip = () => {
     hoverTipContainer().empty();
   };
 
-  cd.createTip = (node, tip, where) => {
-    node.off('mouseenter mouseleave');
-    cd.setTip(node, () => {
-      cd.showHoverTip(node, tip, where);
-    });
+  cd.createTip = ($node, tip, where) => {
+    $node.off('mouseenter mouseleave');
+    setTip($node, () => showHoverTip($node, tip, where));
   };
 
-  cd.setTip = (node, setTipCallBack) => {
-    // The speed of the mouse could easily exceed
+  const setTip = ($node, setTipCallBack) => {
+    // The speed of the mouse can exceed
     // the speed of the getJSON callback...
     // The mouse-has-left attribute caters for this.
-    node.mouseenter(() => {
-      node.removeClass('mouse-has-left');
-      setTipCallBack(node);
+    $node.mouseenter(() => {
+      $node.removeClass('mouse-has-left');
+      setTipCallBack($node);
     });
-    node.mouseleave(() => {
-      node.addClass('mouse-has-left');
+    $node.mouseleave(() => {
+      $node.addClass('mouse-has-left');
       cd.removeTip();
     });
   };
 
-  cd.showHoverTip = (node, tip, where) => {
+  const showHoverTip = ($node, tip, where) => {
     if (where === undefined) {
       where = {};
     }
     if (where.my === undefined) { where.my = 'top'; }
     if (where.at === undefined) { where.at = 'bottom'; }
-    if (where.of === undefined) { where.of = node; }
+    if (where.of === undefined) { where.of = $node; }
 
-    if (!node.attr('disabled')) {
-      if (!node.hasClass('mouse-has-left')) {
-        // position() is the jQuery UI plug-in
-        // https://jqueryui.com/position/
-        const hoverTip = $('<div>', {
-          'class': 'hover-tip'
-        }).html(tip).position({
-          my: where.my,
-          at: where.at,
-          of: where.of,
-          collision: 'fit'
-        });
-        hoverTipContainer().html(hoverTip);
+    if (!$node.attr('disabled') && !$node.hasClass('mouse-has-left')) {
+      if (typeof tip === 'function') {
+        tip = tip();
       }
+      // position() is the jQuery UI plug-in
+      // https://jqueryui.com/position/
+      const $hoverTip =
+        $('<div>', { class: 'hover-tip' })
+          .html(tip)
+          .position({
+            my: where.my,
+            at: where.at,
+            of: where.of,
+            collision: 'fit'
+          });
+      hoverTipContainer().html($hoverTip);
     }
   };
 
