@@ -14,6 +14,16 @@ $(() => {
   cd.deleteFileButton = () => $('.delete-file');
   cd.renameFileButton = () => $('.rename-file');
 
+  cd.createTip(cd.createFileButton(), 'create a new file');
+  cd.createTip(cd.deleteFileButton(), () => `delete ${currentFilename()}`);
+  cd.createTip(cd.renameFileButton(), () => `rename ${currentFilename()}`);
+
+  const currentFilename = () => kata.tabs.filename().text();
+
+  cd.createFileButton().click(() => openCreateFileDialog());
+  cd.deleteFileButton().click(() => openDeleteFileDialog());
+  cd.renameFileButton().click(() => openRenameFileDialog());
+
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   const openCreateFileDialog = () => {
@@ -168,24 +178,6 @@ $(() => {
     if (filename === '') { return false; }
     return true;
   };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.createTip(cd.createFileButton(), 'create a new file');
-
-  cd.createTip(cd.deleteFileButton(), () => {
-    const currentFilename = kata.tabs.filename().text();
-    return `delete ${currentFilename}`;
-  });
-
-  cd.createTip(cd.renameFileButton(), () => {
-    const currentFilename = kata.tabs.filename().text();
-    return `rename ${currentFilename}`;
-  });
-
-  cd.createFileButton().click(() => openCreateFileDialog());
-  cd.deleteFileButton().click(() => openDeleteFileDialog());
-  cd.renameFileButton().click(() => openRenameFileDialog());
 
 });
 </script>
