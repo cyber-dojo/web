@@ -8,10 +8,10 @@
 .info
 {
   @include plaintext-font();
-  @include rounded-corner(6px);
+  border-radius: 6px;
   background: lighten($darker-color, 5%);
-     padding: 10px;
-    margin: { left:0px; right:0px; top:10px; bottom:10px }
+  padding: 10px;
+  margin: { left:0px; right:0px; top:10px; bottom:10px }
   text-align: left;
   img { width:20px; height:20px; margin-right:5px; }
   ul { margin: { top:5px; bottom:5px; } }
@@ -35,7 +35,7 @@
 
   img.avatar-image {
     float: right;
-    @include rounded-corner(3px);
+    border-radius: 3px;
     display: block;
     cursor: pointer;
     width: 39px;

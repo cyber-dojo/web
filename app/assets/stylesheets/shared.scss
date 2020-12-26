@@ -5,10 +5,10 @@
 
 @mixin edged-panel
 {
-  @include rounded-corner(5px);
-     display: inline-block;
-      border: 1px solid lighten(black,25%);
-     padding: 4px;
+  display: inline-block;
+  border: 1px solid lighten(black,25%);
+  border-radius: 5px;
+  padding: 4px;
 }
 
 //----------------------------------------------
@@ -59,10 +59,10 @@ img.diff-traffic-light
 
 .avatar-image img
 {
-  @include rounded-corner(6px);
-    width: 30px;
-   height: 30px;
-   margin: 0px;
+  border-radius: 6px;
+  width: 30px;
+  height: 30px;
+  margin: 0px;
   padding: 0px;
 }
 

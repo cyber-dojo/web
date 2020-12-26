@@ -6,20 +6,20 @@
   {
     &.small
     {
-      @include rounded-corner(2px);
-        width:44px;
-       height:44px;
-      display:block;
-       border:1px solid $darker-color;
+      border-radius: 2px;
+      width: 44px;
+      height: 44px;
+      display: block;
+      border: 1px solid $darker-color;
     }
     &.grey
     {
-      filter:grayscale(100%);
-      opacity:0.20;
+      filter: grayscale(100%);
+      opacity: 0.20;
     }
     &.colour
     {
-      cursor:pointer;
+      cursor: pointer;
       &:hover { border: 1px dotted DarkGray; }
     }
   }

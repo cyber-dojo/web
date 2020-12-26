@@ -13,7 +13,6 @@
  *
  *= depend_on colors.scss
  *= depend_on color-gradients.scss
- *= depend_on rounded-corner.scss
  *= depend_on fonts.scss
  *= depend_on force-scrollbars.scss
  *= depend_on wide-list-item.scss
@@ -42,7 +41,7 @@
  *= depend_on wait-spinner.scss
  *= depend_on yin-yang-logo.scss
  *= depend_on hotkeys.scss
- *= depend_on charity.scss 
+ *= depend_on charity.scss
  *= depend_on sponsors.scss
  *= depend_on xterm.css
  *= depend_on jquery-ui-1.8.16.custom.scss
@@ -58,7 +57,6 @@
 
 @import "colors.scss";
 @import "color-gradients.scss";
-@import "rounded-corner.scss";
 @import "fonts.scss";
 @import "force-scrollbars.scss";
 @import "wide-list-item.scss";

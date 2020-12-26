@@ -31,13 +31,12 @@
   {
     img.avatar-image
     {
-      @include rounded-corner(6px);
-       cursor: pointer;
-        width: 25px;
-       height: 25px;
-       margin: 0px;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 25px;
+      height: 25px;
+      margin: 0px;
       padding: 0px;
-       margin: 0px;
     }
   }
 
@@ -60,7 +59,7 @@
 
   #fork-button, #checkout-button
   {
-    @include rounded-corner(3px);
+    border-radius: 3px;
     text-align: left;
     font-size: 10px;
     margin-left: 5px;
@@ -124,17 +123,17 @@
       min-width: 30px;
       #index-number
       {
-        @include rounded-corner(4px);
-           padding: { left: 3px; right: 3px; }
-         font-size: 21px;
+        border-radius: 4px;
+        padding: { left: 3px; right: 3px; }
+        font-size: 21px;
         text-align: center;
-          position: relative;
-               top: -3px;
+        position: relative;
+        top: -3px;
       }
     }
     .triangle.button
     {
-      @include rounded-corner(4px);
+      border-radius: 4px;
       width: 20px;
       height: 20px;
       padding: 0px;
@@ -151,11 +150,11 @@
     {
       img
       {
-        @include rounded-corner(0px);
-           width: 12px;
-          height: 12px;
-         padding: 0px;
-         position: relative; top: 1px; // down
+        border-radius: 0px;
+        width: 12px;
+        height: 12px;
+        padding: 0px;
+        position: relative; top: 1px; // down
       }
     }
     #first-index, #last-index
@@ -192,16 +191,16 @@
     .filename
     {
       @include wide-list-item();
-      @include rounded-corner(3px);
+      border-radius: 3px;
       letter-spacing: 0.03em;
 
-       height: 16px;
+      height: 16px;
       padding: { left: 4px; top: 2px; bottom: 4px; }
-       border: 1px solid $darker-color;
-       margin: { bottom: 2px; }
+      border: 1px solid $darker-color;
+      margin: { bottom: 2px; }
 
-           width: 230px;
-       max-width: 230px;
+      width: 230px;
+      max-width: 230px;
 
       color: lighten($darker-color,50%);
 
