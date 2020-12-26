@@ -51,7 +51,7 @@ var cyberDojo = (function(cd, $) {
       return 'timed out';
     }
     else if (light.colour === 'faulty') {
-      return 'fault! not red, amber, or green';
+      return `fault! not ${cssColour('red')}, ${cssColour('amber')}, or ${cssColour('green')}`;
     }
     else if (cd.lib.hasPrediction(light)) {
       return trafficLightPredictInfo(light);
@@ -63,21 +63,21 @@ var cyberDojo = (function(cd, $) {
       return trafficLightCheckoutInfo(light);
     }
     else {
-      return spanColour(light.colour);
+      return cssColour(light.colour);
     }
   };
 
   const trafficLightPredictInfo = (light) => {
     const colour = light.colour
     const predicted = light.predicted;
-    return `predicted ${spanColour(predicted)}, was ${spanColour(colour)}</span>`;
+    return `predicted ${cssColour(predicted)}, was ${cssColour(colour)}</span>`;
   };
 
   const trafficLightRevertInfo = (light) => {
-    return `auto-revert back to ${spanColour(light.colour, light.index - 2)}</span>`;
+    return `auto-revert back to ${cssColour(light.colour, light.index - 2)}</span>`;
   };
 
-  const spanColour = (colour, text = colour) => {
+  const cssColour = (colour, text = colour) => {
     return `<span class="${colour}">${text}</span>`;
   };
 
