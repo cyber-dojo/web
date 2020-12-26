@@ -20,11 +20,11 @@
 
   .top-row
   {
-    max-width:1000px;
-    margin-left:35px;
-    margin-bottom:6px;
-    padding-top:2px;
-    display:flex;
+    max-width: 1000px;
+    margin-left: 35px;
+    margin-bottom: 6px;
+    padding-top: 2px;
+    display: flex;
   }
 
   img.avatar-image {
@@ -42,8 +42,8 @@
       min-height: 18px; // prevent flex shrinkage
       width: 18px;
       height: 18px;
-      margin:0px;
-      border-radius:9px; // half width
+      margin: 0px;
+      border-radius: 9px; // half width
     }
   }
 
@@ -51,8 +51,8 @@
 
   #traffic-lights
   {
-       display: flex;
-        margin: { left:3px; top:0px; right:0px; bottom:0px; }
+    display: flex;
+    margin: { left:3px; top:0px; right:0px; bottom:0px; }
     overflow-x: auto;
     overflow-y: hidden;
     &::-webkit-scrollbar:horizontal { height:0px; }
@@ -65,8 +65,8 @@
 
   img.revert, img.tick, img.cross
   {
-    width:16px;
-    height:16px;
+    width: 16px;
+    height: 16px;
     &.hide { display:none; }
   }
 
@@ -74,29 +74,29 @@
 
   .lhs-column
   {
-    display:flexbox;
-    width:335px;
-    height:570px;
-    max-height:575px;
-    display:inline-block;
-    vertical-align:top;
+    display: flexbox;
+    width: 335px;
+    height: 570px;
+    max-height: 575px;
+    display: inline-block;
+    vertical-align: top;
   }
   .middle-column
   {
-    display:flexbox;
-    width:770px;
-    height:575px;
-    max-height:575px;
-    display:inline-block;
-    vertical-align:top;
+    display: flexbox;
+    width: 770px;
+    height: 575px;
+    max-height: 575px;
+    display: inline-block;
+    vertical-align: top;
   }
   .rhs-column
   {
-    display:flexbox;
-    width:100px;
-    height:570px;
-    max-height:575px;
-    display:inline-block;
+    display: flexbox;
+    width: 100px;
+    height: 570px;
+    max-height: 575px;
+    display: inline-block;
     position: absolute;
     top: 33px;
     right: 73px;
