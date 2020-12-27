@@ -47,19 +47,22 @@
     margin-right: 2px;
     &.revert
     {
-      width: 16px;
-      height: 16px;
+      width: 14px;
+      height: 14px;
+      border-radius: 7px;      
     }
   }
   img.tick, img.cross
   {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
+    border-radius: 7px;
   }
   img.large.revert
   {
     width: 25px;
     height: 25px;
+    border-radius: 12px;
     position: relative;
     left: -3px;
   }
