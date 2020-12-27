@@ -45,12 +45,24 @@
   img.diff-traffic-light
   {
     margin-right: 2px;
+    &.revert
+    {
+      width: 16px;
+      height: 16px;
+    }
   }
-
-  img.revert, img.tick, img.cross
+  img.tick, img.cross
   {
     width: 16px;
     height: 16px;
+  }
+  img.revert
+  {
+    width: 25px;
+    height: 25px;
+  }
+  img.revert, img.tick, img.cross
+  {
     &.hide { display:none; }
   }
 

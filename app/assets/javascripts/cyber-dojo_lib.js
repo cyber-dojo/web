@@ -134,30 +134,11 @@ var cyberDojo = ((cd, $) => {
   cd.lib.appendImageIfPrediction = ($lights, light) => {
     const colour = light.colour;
     if (cd.lib.hasPrediction(light) && colour != 'pulling' && colour != 'faulty') {
-      $lights.append($imgForPredict(light));
+      $lights.append(cd.lib.$predictImage(light));
     }
   };
 
-  cd.lib.appendImageIfRevert = ($lights, light) => {
-    if (cd.lib.isRevert(light)) {
-      $lights.append($imgForRevert(light));
-    }
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  cd.lib.appendImageIfCheckout = ($lights, light) => {
-    if (cd.lib.isCheckout(light)) {
-      $lights.append($imgForCheckout(light));
-    }
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  cd.lib.hasPrediction = (light) => light.predicted != undefined && light.predicted != 'none';
-  cd.lib.isRevert = (light) => light.revert != undefined;
-  cd.lib.isCheckout = (light) => light.checkout != undefined;
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const $imgForPredict = (light) => {
+  cd.lib.$predictImage = (light) => {
     const correct = (light.predicted === light.colour);
     const icon = correct ? 'tick' : 'cross';
     return $('<img>', {
@@ -167,7 +148,13 @@ var cyberDojo = ((cd, $) => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const $imgForRevert = (light) => {
+  cd.lib.appendImageIfRevert = ($lights, light) => {
+    if (cd.lib.isRevert(light)) {
+      $lights.append(cd.lib.$revertImage(light));
+    }
+  };
+
+  cd.lib.$revertImage = (light) => {
     return $('<img>', {
       class: 'revert',
         src: '/images/traffic-light/circle-revert.png'
@@ -175,7 +162,13 @@ var cyberDojo = ((cd, $) => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const $imgForCheckout = (light) => {
+  cd.lib.appendImageIfCheckout = ($lights, light) => {
+    if (cd.lib.isCheckout(light)) {
+      $lights.append($checkoutImage(light));
+    }
+  };
+
+  cd.lib.$checkoutImage = (light) => {
     if (light.checkout.avatarIndex != '') {
       return $('<img>', {
         class:'avatar-image checkout',
@@ -185,6 +178,11 @@ var cyberDojo = ((cd, $) => {
       return $('<span>');
     }
   };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  cd.lib.hasPrediction = (light) => light.predicted != undefined && light.predicted != 'none';
+  cd.lib.isRevert = (light) => light.revert != undefined;
+  cd.lib.isCheckout = (light) => light.checkout != undefined;
 
   return cd;
 

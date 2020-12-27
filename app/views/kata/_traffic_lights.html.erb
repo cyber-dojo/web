@@ -31,11 +31,36 @@ $(() => {
 
   kata.appendTrafficLight = (light, option={scrollIntoView:false}) => {
     if (cd.lib.isVisible(light)) {
-      cd.lib.appendImageIfPrediction($lights, light);
-      cd.lib.appendImageIfRevert($lights, light);
-      cd.lib.appendImageIfCheckout($lights, light);
-      const $light = $trafficLightImage(light);
-      $lights.append($light);
+      let $light = $trafficLightImage(light);
+      if (light.colour === 'pulling') {
+        $lights.append($light);
+      }
+      else if (light.colour === 'timed_out') {
+        $lights.append($light);
+      }
+      else if (light.colour === 'faulty') {
+        $lights.append($light);
+      }
+      else if (cd.lib.hasPrediction(light)) {
+        $lights.append(cd.lib.$predictImage(light));
+        $lights.append($light);
+      }
+      else if (cd.lib.isRevert(light)) {
+        $lights.append($trafficLightImage(light, 'revert'));
+        $lights.append($light = cd.lib.$revertImage(light));
+      }
+      else if (cd.lib.isCheckout(light)) {
+        $lights.append(cd.lib.$checkoutImage(light));
+        $lights.append($light);
+      }
+      else {
+        $lights.append($light);
+      }
+      //cd.lib.appendImageIfPrediction($lights, light);
+      //cd.lib.appendImageIfRevert($lights, light);
+      //cd.lib.appendImageIfCheckout($lights, light);
+      //const $light = $trafficLightImage(light);
+      //$lights.append($light);
       if (option.scrollIntoView) {
         $light.scrollIntoView({
           direction: 'horizontal',
@@ -67,12 +92,12 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const $trafficLightImage = (light) => {
+  const $trafficLightImage = (light, klass='') => {
     return $('<img>', {
-      class: 'diff-traffic-light',
+      class: `diff-traffic-light ${klass}`,
         src: `/images/traffic-light/${light.colour}.png`,
         alt: `${light.colour} traffic-light`,
-      'data-colour': light.colour, // Revert needs colour+index 
+      'data-colour': light.colour, // Revert needs colour+index
       'data-index': light.index
     });
   };
