@@ -1,20 +1,41 @@
 #!/bin/bash -Eeu
 
-source "${ROOT_DIR}/sh/wait_until_ready.sh"
+# - - - - - - - - - - - - - - - - - - - - -
+wait_until_healthy()
+{
+  printf "Waiting until ${1} is healthy."
+  local n=50
+  while [ $(( n -= 1 )) -ge 0 ]
+  do
+    if docker ps --filter health=healthy --format '{{.Names}}' | grep -q "^${1}$" ; then
+      printf "\n"
+      return
+    else
+      printf .
+      sleep 0.1
+    fi
+  done
+  echo "ERROR: ${1} not healthy after 5 seconds."
+  docker logs "${1}"
+  exit 1
+}
 
 # - - - - - - - - - - - - - - - - - - - - -
 wait_until_running()
 {
-  local n=20
+  printf "Waiting until ${1} is running."
+  local n=50
   while [ $(( n -= 1 )) -ge 0 ]
   do
     if docker ps --filter status=running --format '{{.Names}}' | grep -q "^${1}$" ; then
+      printf "\n"
       return
     else
+      printf .
       sleep 0.1
     fi
   done
-  echo "${1} not up after 2 seconds"
+  echo "ERROR: ${1} not running after 5 seconds."
   docker logs "${1}"
   exit 1
 }
@@ -32,9 +53,8 @@ containers_up()
     --force-recreate \
     web
 
-  wait_until_ready model     4528
-  wait_until_ready runner    4597
-  wait_until_ready saver     4537
-
+  wait_until_healthy test_web_model
+  wait_until_healthy test_web_runner
+  wait_until_running test_web_saver
   wait_until_running test_web
 }
