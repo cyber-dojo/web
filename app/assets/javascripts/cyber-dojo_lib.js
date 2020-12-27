@@ -156,7 +156,7 @@ var cyberDojo = ((cd, $) => {
 
   cd.lib.$revertImage = (light) => {
     return $('<img>', {
-      class: 'revert',
+      class: 'large revert',
         src: '/images/traffic-light/circle-revert.png'
     });
   };

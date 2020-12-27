@@ -74,7 +74,7 @@ var cyberDojo = (function(cd, $) {
   };
 
   const trafficLightRevertInfo = (light) => {
-    return `auto-revert back to ${cssColour(light.colour, light.index - 2)}`;
+    return `auto-revert to ${cssColour(light.colour, light.index - 2)}`;
   };
 
   const trafficLightCheckoutInfo = (light) => {

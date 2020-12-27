@@ -56,14 +56,12 @@
     width: 16px;
     height: 16px;
   }
-  img.revert
+  img.large.revert
   {
     width: 25px;
     height: 25px;
-  }
-  img.revert, img.tick, img.cross
-  {
-    &.hide { display:none; }
+    position: relative;
+    left: -3px;
   }
 
   //--------------------------------------------------------------
