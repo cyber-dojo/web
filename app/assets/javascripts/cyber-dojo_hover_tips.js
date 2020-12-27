@@ -77,14 +77,13 @@ var cyberDojo = (function(cd, $) {
     return `auto-revert back to ${cssColour(light.colour, light.index - 2)}</span>`;
   };
 
-  const cssColour = (colour, text = colour) => {
-    return `<span class="${colour}">${text}</span>`;
-  };
-
   const trafficLightCheckoutInfo = (light) => {
     const name = cd.lib.avatarName(light.checkout.avatarIndex);
-    const index = light.checkout.index;
-    return `checkout ${name} ${index}`;
+    return `checkout ${name} ${cssColour(light.colour, light.checkout.index)}`;
+  };
+
+  const cssColour = (colour, text = colour) => {
+    return `<span class="${colour}">${text}</span>`;
   };
 
   const $diffLinesTable = (diffs) => {
