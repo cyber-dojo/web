@@ -17,7 +17,7 @@ services:
     user: nobody
     container_name: test_web
     env_file: [ .env ]
-    #tmpfs: /tmp   # Interferes with test-coverage extraction 
+    #tmpfs: /tmp   # Interferes with test-coverage extraction
     restart: 'no'
 
   # - - - - - - - - - - - - - - - -
@@ -65,7 +65,6 @@ services:
   # - - - - - - - - - - - - - - - -
   model:
     image: ${CYBER_DOJO_MODEL_IMAGE}:${CYBER_DOJO_MODEL_TAG}
-    ports: [ "${CYBER_DOJO_MODEL_PORT}:${CYBER_DOJO_MODEL_PORT}" ]
     user: nobody
     container_name: test_web_model
     env_file: [ .env ]
@@ -91,7 +90,6 @@ services:
   # - - - - - - - - - - - - - - - -
   runner:
     image: ${CYBER_DOJO_RUNNER_IMAGE}:${CYBER_DOJO_RUNNER_TAG}
-    ports: [ "${CYBER_DOJO_RUNNER_PORT}:${CYBER_DOJO_RUNNER_PORT}" ]
     user: root
     container_name: test_web_runner
     env_file: [ .env ]
@@ -114,7 +112,6 @@ services:
   # - - - - - - - - - - - - - - - -
   shas:
     image: ${CYBER_DOJO_SHAS_IMAGE}:${CYBER_DOJO_SHAS_TAG}
-    ports: [ "${CYBER_DOJO_SHAS_PORT}:${CYBER_DOJO_SHAS_PORT}" ]
     user: nobody
     container_name: test_web_shas
     env_file: [ .env ]
@@ -125,7 +122,6 @@ services:
   # - - - - - - - - - - - - - - - -
   differ:
     image: ${CYBER_DOJO_DIFFER_IMAGE}:${CYBER_DOJO_DIFFER_TAG}
-    ports: [ "${CYBER_DOJO_DIFFER_PORT}:${CYBER_DOJO_DIFFER_PORT}" ]
     user: nobody
     container_name: test_web_differ
     env_file: [ .env ]
@@ -136,7 +132,6 @@ services:
 # - - - - - - - - - - - - - - - -
   dashboard:
     image: ${CYBER_DOJO_DASHBOARD_IMAGE}:${CYBER_DOJO_DASHBOARD_TAG}
-    ports: [ "${CYBER_DOJO_DASHBOARD_PORT}:${CYBER_DOJO_DASHBOARD_PORT}" ]
     user: nobody
     container_name: test_web_dashboard
     env_file: [ .env ]
