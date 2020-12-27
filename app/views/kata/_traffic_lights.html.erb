@@ -30,6 +30,10 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   kata.appendTrafficLight = (light, option={scrollIntoView:false}) => {
+    // IDEA: no of full size diff traffic-lights == no of [test] runs
+    // - auto-revert is a <-  arrow
+    // - checkout from your own kata is a <- arrow too ?
+    // - checkout from a different kata is a down-arrow?
     if (cd.lib.isVisible(light)) {
       let $light = $trafficLightImage(light);
       if (light.colour === 'pulling') {
