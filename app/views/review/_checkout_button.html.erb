@@ -15,7 +15,11 @@ $(() => {
   review.checkoutButton = {
     show: () => $button.show(),
     enable: () => $button.prop('disabled', false),
-    disable: () => $button.prop('disabled', true)
+    disable: () => $button.prop('disabled', true),
+    refresh: () => {
+      const title = (kata.id === review.id) ? 'revert' : 'checkout!';
+      $button.html(title);
+    }
   };
 
   const checkout = () => {
