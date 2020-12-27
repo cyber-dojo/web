@@ -164,7 +164,7 @@ var cyberDojo = ((cd, $) => {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   cd.lib.appendImageIfCheckout = ($lights, light) => {
     if (cd.lib.isCheckout(light)) {
-      $lights.append($checkoutImage(light));
+      $lights.append(cd.lib.$checkoutImage(light));
     }
   };
 
