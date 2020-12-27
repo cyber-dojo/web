@@ -46,12 +46,17 @@ $(() => {
         $lights.append($light);
       }
       else if (cd.lib.isRevert(light)) {
-        $lights.append($trafficLightImage(light, 'revert'));
+        $lights.append($trafficLightImage(light, 'mini'));
         $lights.append($light = cd.lib.$revertImage(light));
       }
       else if (cd.lib.isCheckout(light)) {
-        $lights.append(cd.lib.$checkoutImage(light));
-        $lights.append($light);
+        if (light.checkout.id === kata.id) {
+          $lights.append($trafficLightImage(light, 'mini'));
+          $lights.append($light = cd.lib.$revertImage(light));
+        } else {
+          $lights.append($trafficLightImage(light, 'mini'));
+          $lights.append($light = cd.lib.$checkoutImage(light));
+        }
       }
       else {
         $lights.append($light);

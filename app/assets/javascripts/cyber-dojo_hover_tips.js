@@ -7,24 +7,24 @@ var cyberDojo = (function(cd, $) {
       const args = { id:kataId, was_index:wasIndex, now_index:nowIndex };
       $.getJSON('/differ/diff_summary', args, (data) => {
         const diff = data.diff_summary;
-        const $tip = $trafficLightTip(light, nowIndex, diff);
+        const $tip = $trafficLightTip(light, kataId, nowIndex, diff);
         showHoverTip($light, $tip);
       });
     });
   };
 
-  const $trafficLightTip = (light, index, diff) => {
+  const $trafficLightTip = (light, kataId, index, diff) => {
     const $holder = $(document.createDocumentFragment());
-    $holder.append($trafficLightSummary(light, index));
+    $holder.append($trafficLightSummary(light, kataId, index));
     $holder.append($diffLinesTable(diff));
     return $holder;
   };
 
-  const $trafficLightSummary = (light, index) => {
+  const $trafficLightSummary = (light, kataId, index) => {
     const $tr = $('<tr>');
     $tr.append($trafficLightIndexTd(light, index));
     $tr.append($trafficLightImageTd(light));
-    $tr.append($('<td class="mini-text">').html(miniTextInfo(light)));
+    $tr.append($('<td class="mini-text">').html(miniTextInfo(kataId, light)));
     return $('<table>').append($tr);
   };
 
@@ -43,7 +43,7 @@ var cyberDojo = (function(cd, $) {
     return $('<td>').append($img);
   };
 
-  const miniTextInfo = (light) => {
+  const miniTextInfo = (kataId, light) => {
     if (light.colour === 'pulling') {
       return 'image being prepared';
     }
@@ -60,7 +60,7 @@ var cyberDojo = (function(cd, $) {
       return trafficLightRevertInfo(light);
     }
     else if (cd.lib.isCheckout(light)) {
-      return trafficLightCheckoutInfo(light);
+      return trafficLightCheckoutInfo(kataId, light);
     }
     else {
       return cssColour(light.colour);
@@ -77,15 +77,21 @@ var cyberDojo = (function(cd, $) {
     return `auto-reverted to ${cssColour(light.colour, light.index - 2)}`;
   };
 
-  const trafficLightCheckoutInfo = (light) => {
-    const name = cd.lib.avatarName(light.checkout.avatarIndex);
-    return `checked-out ${name} ${cssColour(light.colour, light.checkout.index)}`;
+  const trafficLightCheckoutInfo = (kataId, light) => {
+    const colour = cssColour(light.colour, light.checkout.index);
+    if (kataId === light.checkout.id) {
+      return `revert to ${colour}`;
+    } else {
+      const name = cd.lib.avatarName(light.checkout.avatarIndex);
+      return `checked-out ${name} ${colour}`;
+    }
   };
 
   const cssColour = (colour, text = colour) => {
     return `<span class="${colour}">${text}</span>`;
   };
 
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const $diffLinesTable = (diffs) => {
     const $table = $('<table>', { class:'filenames' });
     const $tr = $('<tr>');

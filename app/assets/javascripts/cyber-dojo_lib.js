@@ -156,7 +156,7 @@ var cyberDojo = ((cd, $) => {
 
   cd.lib.$revertImage = (light) => {
     return $('<img>', {
-      class: 'large revert',
+      class: 'revert',
         src: '/images/traffic-light/circle-revert.png'
     });
   };
@@ -171,8 +171,8 @@ var cyberDojo = ((cd, $) => {
   cd.lib.$checkoutImage = (light) => {
     if (light.checkout.avatarIndex != '') {
       return $('<img>', {
-        class:'avatar-image checkout',
-          src:`/images/avatars/${light.checkout.avatarIndex}.jpg`
+        class:'checkout',
+          src:'/images/traffic-light/circle-checkout.png'
       });
     } else {
       return $('<span>');

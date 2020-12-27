@@ -42,23 +42,21 @@
     &::-webkit-scrollbar:horizontal { height:0px; }
   }
 
-  img.diff-traffic-light
+  img.mini
   {
     margin-right: 2px;
-    &.revert
-    {
-      width: 14px;
-      height: 14px;
-      border-radius: 7px;      
-    }
+    width: 14px;
+    height: 14px;
+    border-radius: 7px;
   }
   img.tick, img.cross
   {
     width: 14px;
     height: 14px;
     border-radius: 7px;
+    margin-right: -1px;
   }
-  img.large.revert
+  img.revert, img.checkout
   {
     width: 25px;
     height: 25px;
