@@ -74,12 +74,12 @@ var cyberDojo = (function(cd, $) {
   };
 
   const trafficLightRevertInfo = (light) => {
-    return `auto-revert to ${cssColour(light.colour, light.index - 2)}`;
+    return `auto-reverted to ${cssColour(light.colour, light.index - 2)}`;
   };
 
   const trafficLightCheckoutInfo = (light) => {
     const name = cd.lib.avatarName(light.checkout.avatarIndex);
-    return `checkout ${name} ${cssColour(light.colour, light.checkout.index)}`;
+    return `checked-out ${name} ${cssColour(light.colour, light.checkout.index)}`;
   };
 
   const cssColour = (colour, text = colour) => {
