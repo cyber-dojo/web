@@ -116,6 +116,7 @@ $(() => {
 
   kata.predictedColour = () => $predicted.val();
   kata.noPrediction = () => $predicted.val('none');
+  kata.predict = (colour) => $(`.predict.${colour}`).click();
 
   const $buttonsCell = $('#predict-buttons-cell');
   const $buttons = $('button.predict');

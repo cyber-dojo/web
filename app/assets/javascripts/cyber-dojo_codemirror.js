@@ -182,6 +182,29 @@ var cyberDojo = ((cd, $) => {
     return false;
   };
 
+  const predictRed = () => {
+    if (cd.settings.predict() === 'on') {
+      cd.kata.predict('red');
+    }
+    return false;
+  };
+
+  const predictAmber = () => {
+    if (cd.settings.predict() === 'on') {
+      cd.kata.predict('amber');
+    }
+    return false;
+  };
+
+  const predictGreen = () => {
+    if (cd.settings.predict() === 'on') {
+      cd.kata.predict('green');
+    }
+    return false;
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   const selectNext = () => {
     cd.kata.filenames.selectNext();
     return false;
@@ -200,6 +223,9 @@ var cyberDojo = ((cd, $) => {
   const bindHotKeys = (editor) => {
     editor.setOption('extraKeys', {
       'Alt-T': runTests,
+      'Alt-R': predictRed,
+      'Alt-A': predictAmber,
+      'Alt-G': predictGreen,
       'Alt-J': selectNext,
       'Alt-K': selectPrevious,
       'Alt-O': toggleOutput
@@ -209,6 +235,9 @@ var cyberDojo = ((cd, $) => {
   cd.setupHotkeys = () => {
     // Called from app/views/kata/edit.html.erb
     $(document).bind('keyup', 'alt+t', runTests);
+    $(document).bind('keyup', 'alt+r', predictRed);
+    $(document).bind('keyup', 'alt+a', predictAmber);
+    $(document).bind('keyup', 'alt+g', predictGreen);
     $(document).bind('keyup', 'alt+j', selectNext);
     $(document).bind('keyup', 'alt+k', selectPrevious);
     $(document).bind('keyup', 'alt+o', toggleOutput);

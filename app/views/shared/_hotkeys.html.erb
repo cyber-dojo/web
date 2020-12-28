@@ -18,13 +18,15 @@ $(() => {
     html += tr3('find previous',   'Shift-Ctrl-G', `${cmd}${shift}&thinsp;G`);
     html += tr3('replace',         'Shift-Ctrl-F', `${cmd}${option}&thinsp;F`);
     html += tr3('replace all',     'Shift-Ctrl-R', `${cmd}${option}${shift}&thinsp;F`);
-    html += tr3('jump to line',    'Alt-G',        `${option}&thinsp;G`);
     html += '</table>';
     html += '<table class="info" style="width:400px;">';
     html += tr2('Alt-J', 'cycle&darr; through the filenames');
     html += tr2('Alt-K', 'cycle&uarr; through the filenames');
     html += tr2('Alt-O', 'toggle to/from the output tab');
-    html += tr2('Alt-T', 'run the tests');
+    html += tr2('Alt-T', 'run the tests (predict off)');
+    html += tr2('Alt-R', 'predict Red (predict on)');
+    html += tr2('Alt-A', 'predict Amber (predict on)');
+    html += tr2('Alt-G', 'predict Green (predict on)');
     html += '</table>';
     html += '</div>';
 
