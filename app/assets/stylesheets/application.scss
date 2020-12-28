@@ -12,7 +12,6 @@
  * http://stackoverflow.com/questions/7046495/rails-3-1-asset-pipeline-doesnt-pick-up-changes-to-importd-sheets
  *
  *= depend_on colors.scss
- *= depend_on color-gradients.scss
  *= depend_on fonts.scss
  *= depend_on force-scrollbars.scss
  *= depend_on wide-list-item.scss
@@ -58,7 +57,6 @@
 */
 
 @import "colors.scss";
-@import "color-gradients.scss";
 @import "fonts.scss";
 @import "force-scrollbars.scss";
 @import "wide-list-item.scss";
