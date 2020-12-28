@@ -14,56 +14,31 @@ $(() => {
         if (review.index === -1) {
           review.index = events.length - 1; // Need by [fork] and [checkout]
         }
-        trafficLightsRefresher(events);
+        $trafficLights.empty();
+        appendTrafficLights(events);
+        scrollCurrentTrafficLightIntoView();
         review.refreshTrafficLightsNavigator(events);
       });
     }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const trafficLightsRefresher = (events) => {
-    $trafficLights.empty();
-    appendTrafficLights(events);
-    scrollCurrentTrafficLightIntoView();
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
   const appendTrafficLights = (events) => {
-    cd.review.checkoutButton.enable();
+    review.checkoutButton.enable();
     events.forEach(event => {
       if (cd.lib.isVisible(event)) {
-        appendTrafficLight(event);
-        if (isOwnRevertedIncorrectPredictionLight(event)) {
-          cd.review.checkoutButton.disable();
+        const light = event;
+        const $light = cd.lib.appendTrafficLight($trafficLights, light);
+        $light.click(() => review.refresh(review.id, light.index));
+        cd.setupTrafficLightTip($light, light, review.id, light.index-1, light.index);
+        if (review.index === light.index) {
+          $trafficLightMarkerHtml(light).insertAfter($light);
+          if (isOwnRevertedIncorrectPredictionLight(event)) {
+            review.checkoutButton.disable();
+          }
         }
       }
     });
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  const appendTrafficLight = (light) => {
-    const $light = cd.lib.appendTrafficLight($trafficLights, light);
-    $light.click(() => cd.review.refresh(review.id, light.index));
-    const wasIndex = light.index - 1;
-    const nowIndex = light.index;
-    cd.setupTrafficLightTip($light, light, review.id, wasIndex, nowIndex);
-    if (cd.review.index === light.index) {
-      $trafficLightMarkerHtml(light).insertAfter($light);
-    }
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  const isOwnRevertedIncorrectPredictionLight = (light) => {
-    const isCurrentIndex    = (light.index === review.index);
-    const predictedWrong    = (light.colour != light.predicted);
-    const wasReverted       = (light.revert_if_wrong === 'on');
-    const reviewingOwnLight = (cd.kata.id === cd.review.id);
-    return isCurrentIndex
-      && cd.lib.hasPrediction(light)
-        && predictedWrong
-          && wasReverted
-            && !cd.review.isIndependent()
-              && reviewingOwnLight;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -72,6 +47,18 @@ $(() => {
       id: 'traffic-light-marker',
       src: `/images/traffic-light/marker_${light.colour}.png`
     });
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  const isOwnRevertedIncorrectPredictionLight = (light) => {
+    const predictedWrong    = (light.colour != light.predicted);
+    const wasReverted       = (light.revert_if_wrong === 'on');
+    const reviewingOwnLight = (cd.kata.id === review.id);
+    return cd.lib.hasPrediction(light)
+        && predictedWrong
+          && wasReverted
+            && !review.isIndependent()
+              && reviewingOwnLight;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
