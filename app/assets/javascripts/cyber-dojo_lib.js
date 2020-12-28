@@ -133,11 +133,11 @@ var cyberDojo = ((cd, $) => {
 
   cd.lib.appendTrafficLight = ($lights, light) => {
     let $light = $trafficLightImage(light);
-    if (['pulling','timed_out','faulty'].includes(light.colour)) {
+    if (cd.lib.hasPrediction(light)) {
+      $lights.append($predictImage(light));
       $lights.append($light);
     }
-    else if (cd.lib.hasPrediction(light)) {
-      $lights.append($predictImage(light));
+    else if (['pulling','timed_out','faulty'].includes(light.colour)) {
       $lights.append($light);
     }
     else if (cd.lib.isRevert(light)) {
