@@ -137,17 +137,17 @@ var cyberDojo = ((cd, $) => {
       $lights.append($light);
     }
     else if (cd.lib.hasPrediction(light)) {
-      $lights.append(cd.lib.$predictImage(light));
+      $lights.append($predictImage(light));
       $lights.append($light);
     }
     else if (cd.lib.isRevert(light)) {
-      $lights.append($light = cd.lib.$revertImage(light));
+      $lights.append($light = $revertImage(light));
     }
     else if (cd.lib.isCheckout(light)) {
       if (light.checkout.id === cd.kata.id) {
-        $lights.append($light = cd.lib.$revertImage(light));
+        $lights.append($light = $revertImage(light));
       } else {
-        $lights.append($light = cd.lib.$checkoutImage(light));
+        $lights.append($light = $checkoutImage(light));
       }
     }
     else {
@@ -168,7 +168,7 @@ var cyberDojo = ((cd, $) => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  cd.lib.$predictImage = (light) => {
+  const $predictImage = (light) => {
     const correct = (light.predicted === light.colour);
     const icon = correct ? 'tick' : 'cross';
     return $('<img>', {
@@ -178,7 +178,7 @@ var cyberDojo = ((cd, $) => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  cd.lib.$revertImage = (light) => {
+  const $revertImage = (light) => {
     return $('<img>', {
       class: `diff-traffic-light revert ${light.colour}`,
         src: '/images/traffic-light/circle-revert.png'
@@ -186,7 +186,7 @@ var cyberDojo = ((cd, $) => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  cd.lib.$checkoutImage = (light) => {
+  const $checkoutImage = (light) => {
     if (light.checkout.avatarIndex != '') {
       return $('<img>', {
         class:`diff-traffic-light checkout ${light.colour}`,
