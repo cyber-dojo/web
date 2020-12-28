@@ -6,7 +6,7 @@ $(() => {
 
   const review = cd.review;
 
-  const $trafficLights = $('#review-traffic-lights');
+  const $lights = $('#review-traffic-lights');
 
   review.trafficLights = {
     refresh: () => {
@@ -14,7 +14,7 @@ $(() => {
         if (review.index === -1) {
           review.index = events.length - 1; // Need by [fork] and [checkout]
         }
-        $trafficLights.empty();
+        $lights.empty();
         appendTrafficLights(events);
         scrollCurrentTrafficLightIntoView();
         review.refreshTrafficLightsNavigator(events);
@@ -28,7 +28,7 @@ $(() => {
     events.forEach(event => {
       if (cd.lib.isVisible(event)) {
         const light = event;
-        const $light = cd.lib.appendTrafficLight($trafficLights, light);
+        const $light = cd.lib.appendTrafficLight($lights, light);
         $light.click(() => review.refresh(review.id, light.index));
         cd.setupTrafficLightTip($light, light, review.id, light.index-1, light.index);
         if (review.index === light.index) {

@@ -1,19 +1,7 @@
 
-number of full size diff traffic-lights == no of [test] runs
-- auto-revert is a large <-  arrow
-- checkout from your own kata is a large <- arrow too
-- checkout from a different kata is a down-arrow
-
-full-size revert/checkout images need to be used on review page.
-
-On kata+review page, hover-tip for traffic-lights
-- uses word 'revert' for going back to one of your own
-  traffic-lights, either via auto-revert, or [revert]
-  and does not mention the avatar's name (if there is one).
-- uses word 'checkout' for doing a [checkout] from
-  a different avatar's traffic-light.
-
 When checkout button says [checkout] use fuller hover-tip.
 
-make sure to update dashboard traffic-lights CSS
-with half-width border-radius before pushing nginx.
+Use [diff [x] in same colour as predict checkbox.
+
+Update dashboard traffic-lights CSS with half-width border-radius
+Then push nginx.
