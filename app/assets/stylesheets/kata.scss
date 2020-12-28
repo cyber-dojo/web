@@ -1,17 +1,7 @@
 #kata-page
 {
-  margin: { top: 36px; left: 0px; }
-
-  .top-row
+  img.avatar-image
   {
-    max-width: 1000px;
-    margin-left: 35px;
-    margin-bottom: 6px;
-    padding-top: 2px;
-    display: flex;
-  }
-
-  img.avatar-image {
     float: right;
     border-radius: 3px;
     display: block;
@@ -19,38 +9,6 @@
     width: 39px;
     height: 39px;
     margin-right: 7px;
-  }
-
-  //--------------------------------------------------------------
-
-  .lhs-column
-  {
-    display: flexbox;
-    width: 335px;
-    height: 570px;
-    max-height: 575px;
-    display: inline-block;
-    vertical-align: top;
-  }
-  .middle-column
-  {
-    display: flexbox;
-    width: 770px;
-    height: 575px;
-    max-height: 575px;
-    display: inline-block;
-    vertical-align: top;
-  }
-  .rhs-column
-  {
-    display: flexbox;
-    width: 100px;
-    height: 570px;
-    max-height: 575px;
-    display: inline-block;
-    position: absolute;
-    top: 33px;
-    right: 73px;
   }
 
   //--------------------------------------------------------------
@@ -64,54 +22,6 @@
     &::-webkit-scrollbar:vertical { width: 0px; }
     position: relative;
     top: -23px;
-  }
-
-  //--------------------------------------------------------------
-  // tabs
-
-  .tab-filenames { position:relative; top:-1px; }
-
-  .tab
-  {
-    @include selectable();
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
-    display: inline-block;
-    margin: { left: 0px; right: 0px; }
-    padding-right: 7px;
-    position: relative;
-    top: 2px;
-
-    &.light
-    {
-      color: lighten($darker-color, 10%);
-      background: white;
-      border: 1px solid white;
-    }
-    &.dark
-    {
-      color: lighten($darker-color, 50%);
-      background: black;
-      border: 1px solid black;
-    }
-    &:not(.selected)
-    {
-      cursor: pointer;
-      color: lighten($darker-color, 50%);
-      background: lighten($darker-color, 10%);
-      border: 1px solid lighten($darker-color, 10%);
-      &:hover
-      {
-        border-left: 1px dotted lighten($darker-color, 50%);
-        border-top: 1px dotted lighten($darker-color, 50%);
-        border-right: 1px dotted lighten($darker-color, 50%);
-      }
-    }
-    &.output, &.REPL { float: right; margin-left: 2px; }
-
-    &.REPL.light { border-bottom: 2px solid white; }
-    &.REPL.dark  { border-bottom: 2px solid black; }
-    &:not(.selected).REPL { border-bottom: 2px solid lighten($darker-color, 10%); }
   }
 
   //--------------------------------------------------------------

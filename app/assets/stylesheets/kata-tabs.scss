@@ -1,0 +1,47 @@
+#kata-page
+{
+  .tab-filenames { position:relative; top:-1px; }
+
+  .tab
+  {
+    @include selectable();
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    display: inline-block;
+    margin: { left: 0px; right: 0px; }
+    padding-right: 7px;
+    position: relative;
+    top: 2px;
+
+    &.light
+    {
+      color: lighten($darker-color, 10%);
+      background: white;
+      border: 1px solid white;
+    }
+    &.dark
+    {
+      color: lighten($darker-color, 50%);
+      background: black;
+      border: 1px solid black;
+    }
+    &:not(.selected)
+    {
+      cursor: pointer;
+      color: lighten($darker-color, 50%);
+      background: lighten($darker-color, 10%);
+      border: 1px solid lighten($darker-color, 10%);
+      &:hover
+      {
+        border-left: 1px dotted lighten($darker-color, 50%);
+        border-top: 1px dotted lighten($darker-color, 50%);
+        border-right: 1px dotted lighten($darker-color, 50%);
+      }
+    }
+    &.output, &.REPL { float: right; margin-left: 2px; }
+
+    &.REPL.light { border-bottom: 2px solid white; }
+    &.REPL.dark  { border-bottom: 2px solid black; }
+    &:not(.selected).REPL { border-bottom: 2px solid lighten($darker-color, 10%); }
+  }
+}

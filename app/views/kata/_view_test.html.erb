@@ -2,34 +2,34 @@
 <%= render partial: 'traffic_lights_scroller' %>
 <%= render partial: 'run_tests' %>
 
-<div class="top-row">
-  <%= render partial: 'traffic_lights' %>
+<div class="main-content">
+  <div class="top-row">
+    <%= render partial: 'traffic_lights' %>
+  </div>
+
+  <%= form_tag( action: 'run_tests', id: @id ) do %>
+    <%= render partial: 'image_name' %>
+    <%= render partial: 'index' %>
+    <%= render partial: 'max_seconds' %>
+    <div class="lhs-column">
+      <%= render partial: 'avatar_image' %>
+      <div id="test-control">
+        <%= render partial: 'predict_revert' %>
+        <%= render partial: 'test_button' %>
+      </div>
+      <%= render partial: 'file_create_rename_delete' %>
+      <%= render partial: 'filenames' %>
+    </div><div class="middle-column">
+      <%= render partial: 'tabs' %>
+      <%= render partial: 'repl' %>
+      <%= render partial: 'files' %>
+    </div>
+  <% end %>
 </div>
 
-<%= form_tag( action: 'run_tests', id: @id ) do %>
-  <%= render partial: 'image_name' %>
-  <%= render partial: 'index' %>
-  <%= render partial: 'max_seconds' %>
-  <div class="lhs-column">
-    <%= render partial: 'avatar_image' %>
-    <div id="test-control">
-      <%= render partial: 'predict_revert' %>
-      <%= render partial: 'test_button' %>
-    </div>
-    <%= render partial: 'file_create_rename_delete' %>
-    <%= render partial: 'filenames' %>
-  </div><div class="middle-column">
-    <%= render partial: 'tabs' %>
-    <%= render partial: 'repl' %>
-    <%= render partial: 'files' %>
-  </div>
-<% end %>
-
 <div class="rhs-column">
-  <div class="counts-box">
-    <%= render partial: 'traffic_lights_counts' %>
-    <%= render partial: 'predict_counts' %>
-  </div>
+  <%= render partial: 'traffic_lights_counts' %>
+  <%= render partial: 'predict_counts' %>
   <%= render partial: 'shared/charity' %>
   <%= render partial: 'sponsors' %>
 </div>

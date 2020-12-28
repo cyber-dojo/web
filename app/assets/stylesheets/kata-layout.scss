@@ -1,0 +1,45 @@
+#kata-page
+{
+  display: flex;
+  margin: { top: 36px; left: 0px; }
+
+  .main-content
+  {
+    width: 1110px;
+    max-width: 1110px;
+    display: inline-block;
+  }
+  .top-row
+  {
+    max-width: 1000px;
+    margin-left: 35px;
+    margin-bottom: 6px;
+    padding-top: 2px;
+  }
+  
+  $column-height: 575px;
+
+  .rhs-column
+  {
+    width: 100px;
+    height: $column-height;
+    max-height: $column-height;
+    display: inline-block;
+  }
+
+  .lhs-column
+  {
+    width: 335px;
+    height: $column-height;
+    max-height: $column-height;
+    display: inline-block;
+  }
+  .middle-column
+  {
+    width: 770px;
+    height: $column-height;
+    max-height: $column-height;
+    display: inline-block;
+    vertical-align: top;
+  }
+}

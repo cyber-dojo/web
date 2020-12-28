@@ -28,6 +28,8 @@
  *= depend_on diff-checkbox.scss
  *= depend_on info.scss
  *= depend_on kata.scss
+ *= depend_on kata-layout.scss
+ *= depend_on kata-tabs.scss
  *= depend_on file_create_delete_rename.scss
  *= depend_on repl-terminal.scss
  *= depend_on test-button.scss
@@ -73,6 +75,8 @@
 @import "diff-line-count.scss";
 @import "info.scss";
 @import "kata.scss";
+@import "kata-layout.scss";
+@import "kata-tabs.scss";
 @import "file_create_delete_rename.scss";
 @import "repl-terminal.scss";
 @import "test-button.scss";
