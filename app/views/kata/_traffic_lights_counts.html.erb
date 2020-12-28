@@ -50,7 +50,7 @@ $(() => {
     // The 2nd revert light does _not_ contribute to the count
     // totals which is the number of times there has been
     // a test submission (with or without a prediction).
-    if (!cd.lib.isRevert(light)) {
+    if (!cd.lib.isRevert(light) && !cd.lib.isCheckout(light)) {
       $count.text(counts[colour] += 1);
       const total = counts.red + counts.amber + counts.green +
                     counts.timed_out + counts.pulling + counts.faulty;

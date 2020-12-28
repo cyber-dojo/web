@@ -82,32 +82,34 @@
       margin-right: 2px;
     }
 
-    img.revert, img.tick, img.cross
+    img.tick, img.cross
     {
-      width:16px;
-      height:16px;
+      width:14px;
+      height:14px;
+      border-radius: 7px;
       border-radius: 8px;
     }
-    img.checkout
+    img.revert, img.checkout
     {
-      width:18px;
-      height:18px;
-      border-radius:9px;
+      width:24px;
+      height:24px;
+      border-radius:13px;
+      &.red   { border: 1px solid $red  ; }
+      &.amber { border: 1px solid $amber; }
+      &.green { border: 1px solid $green; }
     }
 
-    img.diff-traffic-light, img#traffic-light-marker
-    {
-      width: 25px;
-    }
-    img.diff-traffic-light
-    {
-      height:25px;
-    }
     img#traffic-light-marker
     {
-      height:3px;
-      vertical-align:top;
-      margin-top:4px;
+      width: 25px;
+      height: 3px;
+      // shift left and down. CSS hack to use position:relative
+      // _without_ leaving empty space behind!
+      // https://stackoverflow.com/questions/5229081
+      position: relative;
+      margin-left: -29px;
+      margin-top: 27px;
+      padding-right: 4px;
     }
   }
 

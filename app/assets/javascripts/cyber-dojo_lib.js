@@ -131,6 +131,43 @@ var cyberDojo = ((cd, $) => {
   //   - a [checkout]   (from the review page)
   // Both were light.revert == [id,index]
 
+  cd.lib.appendTrafficLight = ($lights, light) => {
+    let $light = $trafficLightImage(light);
+    if (['pulling','timed_out','faulty'].includes(light.colour)) {
+      $lights.append($light);
+    }
+    else if (cd.lib.hasPrediction(light)) {
+      $lights.append(cd.lib.$predictImage(light));
+      $lights.append($light);
+    }
+    else if (cd.lib.isRevert(light)) {
+      $lights.append($light = cd.lib.$revertImage(light));
+    }
+    else if (cd.lib.isCheckout(light)) {
+      if (light.checkout.id === cd.kata.id) {
+        $lights.append($light = cd.lib.$revertImage(light));
+      } else {
+        $lights.append($light = cd.lib.$checkoutImage(light));
+      }
+    }
+    else {
+      $lights.append($light);
+    }
+    return $light;
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  const $trafficLightImage = (light) => {
+    return $('<img>', {
+      class: 'diff-traffic-light',
+        src: `/images/traffic-light/${light.colour}.png`,
+        alt: `${light.colour} traffic-light`,
+      'data-colour': light.colour, // Revert needs colour+index
+      'data-index': light.index
+    });
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   cd.lib.appendImageIfPrediction = ($lights, light) => {
     const colour = light.colour;
     if (cd.lib.hasPrediction(light) && colour != 'pulling' && colour != 'faulty') {

@@ -32,9 +32,6 @@ $(() => {
     cd.review.checkoutButton.enable();
     events.forEach(event => {
       if (cd.lib.isVisible(event)) {
-        cd.lib.appendImageIfPrediction($trafficLights, event);
-        cd.lib.appendImageIfRevert($trafficLights, event);
-        cd.lib.appendImageIfCheckout($trafficLights, event);
         appendTrafficLight(event);
         if (isOwnRevertedIncorrectPredictionLight(event)) {
           cd.review.checkoutButton.disable();
@@ -45,22 +42,14 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const appendTrafficLight = (light) => {
-    const colour = light.colour;
-    const $lightBox = $('<div class="light box">');
-    const $light = $('<img>', {
-      class: 'diff-traffic-light',
-        src: `/images/traffic-light/${colour}.png`,
-        alt: `${colour} traffic-light`
-    });
+    const $light = cd.lib.appendTrafficLight($trafficLights, light);
     $light.click(() => cd.review.refresh(review.id, light.index));
     const wasIndex = light.index - 1;
     const nowIndex = light.index;
     cd.setupTrafficLightTip($light, light, review.id, wasIndex, nowIndex);
-    $lightBox.append($light);
-    if (review.index === light.index) {
-      $lightBox.append(makeTrafficLightMarkerHtml(light));
+    if (cd.review.index === light.index) {
+      $trafficLightMarkerHtml(light).insertAfter($light);
     }
-    $trafficLights.append($lightBox);
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -78,9 +67,11 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const makeTrafficLightMarkerHtml = (light) => {
-    return `<img id='traffic-light-marker'
-                 src='/images/traffic-light/marker_${light.colour}.png'/>`;
+  const $trafficLightMarkerHtml = (light) => {
+    return $('<img>', {
+      id: 'traffic-light-marker',
+      src: `/images/traffic-light/marker_${light.colour}.png`
+    });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
