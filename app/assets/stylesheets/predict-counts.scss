@@ -1,3 +1,5 @@
+.counts-box { display: ruby; }
+
 #predict-counts
 {
    display: grid;
@@ -6,8 +8,6 @@
    padding: { left:5px; right:4px; top:4px; bottom:2px; }
    background: lighten($darker-color, 15%);
    margin: 8px;
-
-   .counts-box { display: ruby; }
 
    .total
    {
