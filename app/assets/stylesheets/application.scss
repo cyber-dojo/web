@@ -36,6 +36,7 @@
  *= depend_on predict-buttons.scss
  *= depend_on predict-counts.scss
  *= depend_on revert-checkboxes.scss
+ *= depend_on traffic-lights.scss
  *= depend_on traffic-lights-counts.scss
  *= depend_on review.scss
  *= depend_on app-bar.scss
@@ -81,6 +82,7 @@
 @import "predict-buttons.scss";
 @import "predict-counts.scss";
 @import "revert-checkboxes.scss";
+@import "traffic-lights.scss";
 @import "traffic-lights-counts.scss";
 @import "review.scss";
 @import "app-bar.scss";

@@ -33,34 +33,6 @@
 
   //--------------------------------------------------------------
 
-  #traffic-lights
-  {
-    display: flex;
-    margin: { left:3px; top:0px; right:0px; bottom:0px; }
-    overflow-x: auto;
-    overflow-y: hidden;
-    &::-webkit-scrollbar:horizontal { height:0px; }
-  }
-
-  img.tick, img.cross
-  {
-    width: 14px;
-    height: 14px;
-    border-radius: 7px;
-    margin-right: -1px;
-  }
-  img.revert, img.checkout
-  {
-    width: 24px;
-    height: 24px;
-    border-radius: 13px;
-    &.red   { border: 1px solid $red  ; }
-    &.amber { border: 1px solid $amber; }
-    &.green { border: 1px solid $green; }
-  }
-
-  //--------------------------------------------------------------
-
   .lhs-column
   {
     display: flexbox;

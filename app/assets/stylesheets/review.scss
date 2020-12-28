@@ -68,51 +68,6 @@
     top: -3px;
   }
 
-  #review-traffic-lights
-  {
-    display: flex;
-    margin-top: 3px;
-    overflow-x: auto;
-    overflow-y: auto;
-    &::-webkit-scrollbar:horizontal { height: 0px; }
-
-    .light.box
-    {
-      display: grid;
-      margin-right: 2px;
-    }
-
-    img.tick, img.cross
-    {
-      width:14px;
-      height:14px;
-      border-radius: 7px;
-      border-radius: 8px;
-    }
-    img.revert, img.checkout
-    {
-      width:24px;
-      height:24px;
-      border-radius:13px;
-      &.red   { border: 1px solid $red  ; }
-      &.amber { border: 1px solid $amber; }
-      &.green { border: 1px solid $green; }
-    }
-
-    img#traffic-light-marker
-    {
-      width: 25px;
-      height: 3px;
-      // shift left and down. CSS hack to use position:relative
-      // _without_ leaving empty space behind!
-      // https://stackoverflow.com/questions/5229081
-      position: relative;
-      margin-left: -29px;
-      margin-top: 27px;
-      padding-right: 4px;
-    }
-  }
-
   #traffic-light-navigator, #avatar-navigator
   {
     @include edged-panel();
