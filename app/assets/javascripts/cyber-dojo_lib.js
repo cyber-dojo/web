@@ -168,13 +168,6 @@ var cyberDojo = ((cd, $) => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  cd.lib.appendImageIfPrediction = ($lights, light) => {
-    const colour = light.colour;
-    if (cd.lib.hasPrediction(light) && colour != 'pulling' && colour != 'faulty') {
-      $lights.append(cd.lib.$predictImage(light));
-    }
-  };
-
   cd.lib.$predictImage = (light) => {
     const correct = (light.predicted === light.colour);
     const icon = correct ? 'tick' : 'cross';
@@ -185,12 +178,6 @@ var cyberDojo = ((cd, $) => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  cd.lib.appendImageIfRevert = ($lights, light) => {
-    if (cd.lib.isRevert(light)) {
-      $lights.append(cd.lib.$revertImage(light));
-    }
-  };
-
   cd.lib.$revertImage = (light) => {
     return $('<img>', {
       class: `diff-traffic-light revert ${light.colour}`,
@@ -199,12 +186,6 @@ var cyberDojo = ((cd, $) => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  cd.lib.appendImageIfCheckout = ($lights, light) => {
-    if (cd.lib.isCheckout(light)) {
-      $lights.append(cd.lib.$checkoutImage(light));
-    }
-  };
-
   cd.lib.$checkoutImage = (light) => {
     if (light.checkout.avatarIndex != '') {
       return $('<img>', {
