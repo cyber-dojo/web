@@ -1,3 +1,15 @@
+.traffic-light-count
+{
+  @include non-code-font();
+  cursor: default;
+  margin: 0px;
+  padding: { left: 8px; right: 5px; }
+  font-size: 22px;
+  text-align: center;
+  position: relative;
+  top: -2px;
+}
+
 #traffic-lights-counts
 {
   display: grid;

@@ -74,16 +74,19 @@ var cyberDojo = (function(cd, $) {
   };
 
   const trafficLightRevertInfo = (light) => {
-    return `auto-reverted to ${cssColour(light.colour, light.index - 2)}`;
+    const colour = cssColour(light.colour);
+    const index = cssColour(light.colour, light.index - 2)
+    return `auto-reverted to ${colour} ${index}`;
   };
 
   const trafficLightCheckoutInfo = (kataId, light) => {
-    const colour = cssColour(light.colour, light.checkout.index);
+    const colour = cssColour(light.colour);
+    const index = cssColour(light.colour, light.checkout.index);
     if (kataId === light.checkout.id) {
-      return `revert to ${colour}`;
+      return `reverted to ${colour} ${index}`;
     } else {
       const name = cd.lib.avatarName(light.checkout.avatarIndex);
-      return `checked-out ${name} ${colour}`;
+      return `checked-out ${name}'s ${colour} ${index}`;
     }
   };
 

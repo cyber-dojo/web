@@ -28,32 +28,12 @@ a:link, a:visited { color: $text-color; }
 
 //----------------------------------------------
 
-.right-arrow
-{
-   font-size: 15px;
-  padding-bottom: 5px;
-}
-
-//----------------------------------------------
-
-.traffic-light-count
-{
-  @include non-code-font();
-  cursor: default;
-  margin: 0px;
-  padding: { left: 8px; right: 5px; }
-  font-size: 22px;
-  text-align: center;
-  position: relative;
-  top: -2px;
-}
-
 img.diff-traffic-light
 {
   cursor: pointer;
   width: 25px;
   height: 25px;
-  border-radius: 12px;
+  border-radius: 13px;
   padding: { left:0px; right:0px; }
   margin: { left:0px; right:4px; }
 }
@@ -70,13 +50,4 @@ img.diff-traffic-light
 .avatar_name, #id {
   @include font-size-tiny();
   text-align: right;
-}
-
-//----------------------------------------------
-
-.dojo-id
-{
-  position: absolute;
-  left: 120px;
-  top: 30px;
 }

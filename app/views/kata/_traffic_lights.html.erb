@@ -32,13 +32,7 @@ $(() => {
   kata.appendTrafficLight = (light, option={scrollIntoView:false}) => {
     if (cd.lib.isVisible(light)) {
       let $light = $trafficLightImage(light);
-      if (light.colour === 'pulling') {
-        $lights.append($light);
-      }
-      else if (light.colour === 'timed_out') {
-        $lights.append($light);
-      }
-      else if (light.colour === 'faulty') {
+      if (['pulling','timed_out','faulty'].includes(light.colour)) {
         $lights.append($light);
       }
       else if (cd.lib.hasPrediction(light)) {
@@ -46,15 +40,12 @@ $(() => {
         $lights.append($light);
       }
       else if (cd.lib.isRevert(light)) {
-        $lights.append($trafficLightImage(light, 'mini'));
         $lights.append($light = cd.lib.$revertImage(light));
       }
       else if (cd.lib.isCheckout(light)) {
         if (light.checkout.id === kata.id) {
-          $lights.append($trafficLightImage(light, 'mini'));
           $lights.append($light = cd.lib.$revertImage(light));
         } else {
-          $lights.append($trafficLightImage(light, 'mini'));
           $lights.append($light = cd.lib.$checkoutImage(light));
         }
       }
@@ -74,9 +65,9 @@ $(() => {
     }
   };
 
-  const $trafficLightImage = (light, klass='') => {
+  const $trafficLightImage = (light) => {
     return $('<img>', {
-      class: `diff-traffic-light ${klass}`,
+      class: 'diff-traffic-light',
         src: `/images/traffic-light/${light.colour}.png`,
         alt: `${light.colour} traffic-light`,
       'data-colour': light.colour, // Revert needs colour+index
