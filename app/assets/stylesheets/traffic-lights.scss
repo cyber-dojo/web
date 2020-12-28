@@ -24,15 +24,11 @@ img.revert, img.checkout
   &.green { border: 1px solid $green; }
 }
 
+.current-light-box { display: grid; }
+
 img#traffic-light-marker
 {
   width: 25px;
   height: 3px;
-  // shift left and down. CSS hack to use position:relative
-  // _without_ leaving empty space behind!
-  // https://stackoverflow.com/questions/5229081
-  position: relative;
-  margin-left: -27px;
-  margin-top: 27px;
-  padding-right: 6px;
+  margin-top: 1px;
 }

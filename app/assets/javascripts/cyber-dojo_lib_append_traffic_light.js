@@ -8,33 +8,47 @@ var cyberDojo = ((cd, $) => {
   //   - a [checkout]   (from the review page)
   // Both were light.revert == [id,index]
 
-  cd.lib.appendTrafficLight = ($lights, light) => {
-    let $light = $trafficLightImage(light);
+  cd.lib.appendTrafficLight = ($lights, light, option={isCurrentIndex:false}) => {
     if (cd.lib.hasPrediction(light)) {
       $lights.append($predictImage(light));
-      $lights.append($light);
     }
-    else if (['pulling','timed_out','faulty'].includes(light.colour)) {
-      $lights.append($light);
-    }
-    else if (cd.lib.isRevert(light)) {
-      $lights.append($light = $revertImage(light));
-    }
-    else if (cd.lib.isCheckout(light)) {
-      if (light.checkout.id === cd.kata.id) {
-        $lights.append($light = $revertImage(light));
-      } else {
-        $lights.append($light = $checkoutImage(light));
-      }
-    }
-    else {
+    const $light = $trafficLightImage(light);
+    if (option.isCurrentIndex) {
+      const $lightBox = $('<div>', { class:'current-light-box' });
+      $lightBox.append($light, $lightMarker(light.colour));
+      $lights.append($lightBox);
+    } else {
       $lights.append($light);
     }
     return $light;
   };
 
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  const $lightMarker = (colour) => {
+    return $('<img>', {
+      src: `/images/traffic-light/marker_${colour}.png`,
+      alt: 'current light marker',
+       id: 'traffic-light-marker'
+    });
+  };
+
   const $trafficLightImage = (light) => {
+    if (cd.lib.isRevert(light)) {
+      return $revertImage(light);
+    }
+    else if (cd.lib.isCheckout(light)) {
+      if (light.checkout.id === cd.kata.id) {
+        return $revertImage(light);
+      } else {
+        return $checkoutImage(light);
+      }
+    } else {
+      return $ragImage(light);
+    }
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  const $ragImage = (light) => {
     return $('<img>', {
       class: 'diff-traffic-light',
         src: `/images/traffic-light/${light.colour}.png`,

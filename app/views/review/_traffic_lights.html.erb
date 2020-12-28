@@ -28,33 +28,25 @@ $(() => {
     events.forEach(event => {
       if (cd.lib.isVisible(event)) {
         const light = event;
-        const $light = cd.lib.appendTrafficLight($lights, light);
+        const isCurrentIndex = (review.index === light.index);
+        const $light = cd.lib.appendTrafficLight($lights, light, {isCurrentIndex:isCurrentIndex});
         $light.click(() => review.refresh(review.id, light.index));
         cd.setupTrafficLightTip($light, light, review.id, light.index-1, light.index);
-        if (review.index === light.index) {
-          $trafficLightMarkerHtml(light).insertAfter($light);
-          if (isOwnRevertedIncorrectPredictionLight(event)) {
-            review.checkoutButton.disable();
-          }
+        if (isOwnRevertedIncorrectPredictionLight(light)) {
+          review.checkoutButton.disable();
         }
       }
     });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const $trafficLightMarkerHtml = (light) => {
-    return $('<img>', {
-      id: 'traffic-light-marker',
-      src: `/images/traffic-light/marker_${light.colour}.png`
-    });
-  };
-
-  // - - - - - - - - - - - - - - - - - - - - - - - -
   const isOwnRevertedIncorrectPredictionLight = (light) => {
+    const isCurrentIndex    = (review.index === light.index);
     const predictedWrong    = (light.colour != light.predicted);
     const wasReverted       = (light.revert_if_wrong === 'on');
     const reviewingOwnLight = (cd.kata.id === review.id);
-    return cd.lib.hasPrediction(light)
+    return isCurrentIndex
+      && cd.lib.hasPrediction(light)
         && predictedWrong
           && wasReverted
             && !review.isIndependent()
