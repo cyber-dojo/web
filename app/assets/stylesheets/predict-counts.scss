@@ -7,6 +7,8 @@
    background: lighten($darker-color, 15%);
    margin: 8px;
 
+   .counts-box { display: ruby; }
+
    .total
    {
      font-family: sans-serif;

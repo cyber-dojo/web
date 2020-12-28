@@ -19,16 +19,6 @@
     width: 39px;
     height: 39px;
     margin-right: 7px;
-
-    &.checkout
-    {
-      min-width: 18px; // prevent flex shrinkage
-      min-height: 18px; // prevent flex shrinkage
-      width: 18px;
-      height: 18px;
-      margin: 0px;
-      border-radius: 9px; // half width
-    }
   }
 
   //--------------------------------------------------------------
@@ -62,7 +52,6 @@
     top: 33px;
     right: 73px;
   }
-  .counts-box { display: ruby; }
 
   //--------------------------------------------------------------
 
