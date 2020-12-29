@@ -9,21 +9,46 @@
 {
   display: none; // Because also present in edit page
 
-  .controls { margin-top: 10px; }
+  .diff-help-icon
+  {
+    @include plaintext-font();
+    margin-right:6px;
+    border-radius:14px;
+    border:1px solid lighten($darker-color, 15%);
+    color:lighten($darker-color, 15%);
+    background:$darker-color;
+    padding:{ left:6px; right:6px; }
+    cursor:pointer;
+    position: relative;
+    left: 62px;
+    top: -2px;
+  }
+
+  .controls { margin: { top:1px; bottom: 10px; } }
 
   #avatar-navigator, #traffic-light-navigator { max-height: 25px; }
 
-  #avatar-navigator { width: 66px; }
+  #avatar-navigator
+  {
+    width: 66px;
+    padding: 4px;
+    margin-left: 65px;
+    position: relative;
+    top: -2px;
+    left: -4px;
+  }
 
   #traffic-light-navigator
   {
     width: 100px;
     vertical-align: top;
   }
+
   #review-traffic-lights
   {
     display: inline-flex;
-    width: 642px;
+    width: 651px;
+    margin: { top:2px; bottom:5px; }
   }
 
   #review-avatar-image-box
@@ -32,9 +57,9 @@
     {
       border-radius: 6px;
       cursor: pointer;
-      width: 25px;
-      height: 25px;
-      margin: 0px;
+      width: 21px;
+      height: 21px;
+      margin: { left:2px; right:2px; }
       padding: 0px;
     }
   }
@@ -69,13 +94,11 @@
 
   #traffic-light-navigator, #avatar-navigator
   {
+    display: inline-flex;
     border-radius: 5px;
     background: lighten($darker-color,10%);
     padding: 4px;
     padding-bottom: 0px;
-    display: inline-flex;
-    margin-left: 1px;
-    margin-right: 6px;
     #review-index-box
     {
       min-width: 30px;
@@ -83,7 +106,7 @@
       {
         border-radius: 4px;
         padding: { left: 3px; right: 3px; }
-        font-size: 21px;
+        font-size: 22px;
         text-align: center;
         position: relative;
         top: -3px;

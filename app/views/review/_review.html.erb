@@ -20,17 +20,15 @@
   <div class="left-column">
     <table class="controls">
       <tr>
-        <td>
-          <%= render partial: 'review/help_icon' %>
-          <%= render partial: 'review/avatar_navigator' %>
-        </td>
         <td><%= render partial: 'review/resume_button' %></td>
-        <td><%= render partial: 'review/diff_checkbox' %></td>
         <td><%= render partial: 'review/fork_button' %></td>
         <td><%= render partial: 'review/checkout_button' %></td>
+        <td><%= render partial: 'review/help_icon' %></td>
+        <td><%= render partial: 'review/avatar_navigator' %></td>
       </tr>
     </table>
     <table>
+      <tr><td><%= render partial: 'review/diff_checkbox' %></td></tr>
       <tr><td><%= render partial: 'review/filenames' %></td></tr>
       <tr><td><%= render partial: 'review/files' %></td></tr>
       <tr><td><%= render partial: 'review/output' %></td></tr>
