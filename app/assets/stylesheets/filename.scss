@@ -5,7 +5,7 @@
   @include selectable();
   &[class~='highlight'] { &:before { content: "> "; } }
   color: lighten($darker-color, 50%);
-  padding-left:34px;
+  padding-left:10px;
   padding-right:0px;
 }
 

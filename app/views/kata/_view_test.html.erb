@@ -3,6 +3,13 @@
 <%= render partial: 'traffic_lights_scroller' %>
 <%= render partial: 'run_tests' %>
 
+<div class="lhs-gutter">
+  <%= render partial: 'traffic_lights_counts' %>
+  <%= render partial: 'predict_counts' %>
+  <%= render partial: 'charity' %>
+  <%= render partial: 'shared/sponsors' %>
+</div>
+
 <div class="main-content">
   <div class="top-row">
     <%= render partial: 'traffic_lights' %>
@@ -12,7 +19,7 @@
     <%= render partial: 'image_name' %>
     <%= render partial: 'index' %>
     <%= render partial: 'max_seconds' %>
-    <div class="lhs-column">
+    <div class="left-column">
       <%= render partial: 'avatar_image' %>
       <div id="test-control">
         <%= render partial: 'predict_revert' %>
@@ -20,17 +27,10 @@
       </div>
       <%= render partial: 'file_create_rename_delete' %>
       <%= render partial: 'filenames' %>
-    </div><div class="middle-column">
+    </div><div class="right-column">
       <%= render partial: 'tabs' %>
       <%= render partial: 'repl' %>
       <%= render partial: 'files' %>
     </div>
   <% end %>
-</div>
-
-<div class="rhs-column">
-  <%= render partial: 'traffic_lights_counts' %>
-  <%= render partial: 'predict_counts' %>
-  <%= render partial: 'charity' %>
-  <%= render partial: 'shared/sponsors' %>
 </div>
