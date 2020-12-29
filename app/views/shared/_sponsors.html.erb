@@ -1,5 +1,6 @@
 <div class="sponsors-cell">
-  <div class="sponsors-title">our sponsors</div>
+  <%= render partial: 'shared/charity_button' %>
+  <%= render partial: 'shared/sponsors_button' %>
   <div class="sponsors">
     <%= render partial: 'shared/sponsors/praqma' %>
     <%= render partial: 'shared/sponsors/cucumber' %>
@@ -8,24 +9,3 @@
     <div class="sponsor your-logo-here">your&nbsp;logo&nbsp;here?</div>
   </div>
 </div>
-
-<script>
-'use strict';
-$(() => {
-
-  $('.sponsor').each(function() {
-    const $sponsor = $(this);
-    cd.createTip($sponsor, [
-        "100% of donations and license fees go",
-        "to the cyber-dojo Foundation charity.",
-        "Thank you to all our sponsors who help to",
-        "cover https://cyber-dojo.org hosting costs.",
-        '',
-        "Interested in being a sponsor?",
-        "Please email sponsor@cyber-dojo.org"
-      ].join('<br/>')
-    );
-  });
-
-});
-</script>

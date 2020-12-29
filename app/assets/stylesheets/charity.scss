@@ -1,13 +1,12 @@
-.charity-button
+button.charity
 {
   border-radius: 3px;
-  padding: { left:7px; right:7px; top:0px; bottom:1px; }
-  margin: { top:0px; bottom:0px; left:8px; right:3px; }
+  margin: { left:0px; right:0px; top:0px; bottom:7px; }
+  padding: { left:2px; right:2px; top:0px; bottom:1px; }
   color: darken($darker-color, 10%);
   font-size: 10px;
   font-weight: bold;
-  letter-spacing: 0.03em;
-  width: 84px;
+  width: 74px;
   text-align: center;
 }
 

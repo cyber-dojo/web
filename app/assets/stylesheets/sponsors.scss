@@ -1,19 +1,29 @@
+button.sponsors
+{
+  border-radius: 3px;
+  margin: { left:0px; right:0px; top:0px; bottom:7px; }
+  padding: { left:2px; right:2px; top:0px; bottom:1px; }
+  color: darken($darker-color, 10%);
+  font-size: 10px;
+  font-weight: bold;
+  width: 74px;
+  text-align: center;
+}
+
+#sponsors-dialog
+{
+  a { color: khaki !important; }
+}
+
 .sponsors-cell
 {
   display: grid;
   margin: 8px;
+  margin-top: 3px;
   padding: 5px;
   border-radius: 3px;
   background: lighten($darker-color, 15%);
   max-width: 75px;
-}
-
-.sponsors-title
-{
-  margin: { left:1px; bottom:6px; }
-  font-size: 12px;
-  @include plaintext-font()
-  letter-spacing: 0.03em;
 }
 
 .sponsor { display: inline-flex; }

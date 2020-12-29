@@ -1,10 +1,10 @@
-<button type="button" class="kata charity-button">our&nbsp;charity</button>
+<button type="button" class="charity">charity</button>
 
 <script>
 'use strict';
 $(() => {
 
-  const $button = $('.kata.charity-button');
+  const $button = $('button.charity');
 
   $button.click(() => openCharityInfoDialog());
 
@@ -14,7 +14,7 @@ $(() => {
            autoOpen: true,
       closeOnEscape: true,
               modal: true,
-              title: cd.dialogTitle('cyber-dojo Foundation'),
+              title: cd.dialogTitle('charity'),
         beforeClose: () => cd.kata.editor.refocus()
     });
   };
