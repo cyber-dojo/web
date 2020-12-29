@@ -5,14 +5,14 @@
 
   $column-height: 575px;
 
-  .lhs-gutter
+  .lhs-gutter, .rhs-gutter
   {
-    width: 100px;
     height: $column-height;
     max-height: $column-height;
     display: inline-block;
-    margin-top: 3px;
   }
+  .lhs-gutter { width: 95px; margin-top: 3px; }
+  .rhs-gutter { width: 132px; }
 
   .main-content
   {
