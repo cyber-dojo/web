@@ -7,19 +7,36 @@
   &::-webkit-scrollbar:horizontal { height:0px; }
 }
 
+$traffic-light-size: 19px;
+
+img.diff-traffic-light
+{
+  cursor: pointer;
+  width: $traffic-light-size;
+  height: $traffic-light-size;
+  border-radius: 10px;
+  padding: { left:0px; right:0px; }
+  margin: { left:0px; right:2px; }
+}
+
+@mixin circle-border($width)
+{
+  border-radius: $width / 2 + 1;
+}
+
 img.tick, img.cross
 {
   width: 11px;
   height: 11px;
-  border-radius: 6px; // half-width + 1
+  @include circle-border(11px);
   margin-right: -1px;
 }
 
 img.revert, img.checkout
 {
-  width: 18px;
-  height: 18px;
-  border-radius: 10px; // half-width + 1
+  width: $traffic-light-size - 1px;  // -1px for the border
+  height: $traffic-light-size - 1px;
+  @include circle-border($traffic-light-size);
   &.red   { border: 1px solid $red  ; }
   &.amber { border: 1px solid $amber; }
   &.green { border: 1px solid $green; }
@@ -29,7 +46,7 @@ img.revert, img.checkout
 
 img#traffic-light-marker
 {
-  width: 25px;
+  width: $traffic-light-size;
   height: 3px;
-  margin-top: 1px;
+  margin-top: 2px;
 }
