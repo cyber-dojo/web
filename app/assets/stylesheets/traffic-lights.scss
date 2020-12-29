@@ -9,17 +9,17 @@
 
 img.tick, img.cross
 {
-  width: 14px;
-  height: 14px;
-  border-radius: 8px; // half-width + 1
+  width: 11px;
+  height: 11px;
+  border-radius: 6px; // half-width + 1
   margin-right: -1px;
 }
 
 img.revert, img.checkout
 {
-  width: 24px;
-  height: 24px;
-  border-radius: 13px; // half-width + 1
+  width: 18px;
+  height: 18px;
+  border-radius: 10px; // half-width + 1
   &.red   { border: 1px solid $red  ; }
   &.amber { border: 1px solid $amber; }
   &.green { border: 1px solid $green; }
