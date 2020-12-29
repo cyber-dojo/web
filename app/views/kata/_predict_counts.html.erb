@@ -26,9 +26,11 @@ $(() => {
       $('.count', $predictCounts).removeClass('red amber green');
       const isRight = (colour === light.predicted);
       const name = isRight ? 'tick' : 'cross';
-      $(`.${name}.count`, $predictCounts)
-        .text(counts[name] += 1)
-        .addClass(light.predicted);
+      const $count = $(`.${name}.count`, $predictCounts);
+      $count.text(counts[name] += 1);
+      if (!isRight) {
+        $count.addClass(light.predicted);
+      }
       const total = counts.tick + counts.cross;
       $('.total', $predictCounts).html(`${total}&nbsp;prediction${plural(total)}`);
     }
