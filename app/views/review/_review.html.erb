@@ -21,10 +21,9 @@
     <table class="controls">
       <tr>
         <td><%= render partial: 'review/resume_button' %></td>
+        <td><%= render partial: 'review/help_icon' %></td>
         <td><%= render partial: 'review/fork_button' %></td>
         <td><%= render partial: 'review/checkout_button' %></td>
-        <td><%= render partial: 'review/help_icon' %></td>
-        <td><%= render partial: 'review/avatar_navigator' %></td>
       </tr>
     </table>
     <table>
@@ -36,6 +35,7 @@
   </div>
 
   <div class="right-column">
+    <%= render partial: 'review/avatar_navigator' %>
     <%= render partial: 'review/traffic_light_navigator' %>
     <%= render partial: 'review/traffic_lights' %>
     <div id="diff-content"></div>
