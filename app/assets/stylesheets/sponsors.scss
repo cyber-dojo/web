@@ -1,13 +1,14 @@
-#sponsors-cell
+.sponsors-cell
 {
   display: grid;
   margin: 8px;
   padding: 5px;
   border-radius: 3px;
   background: lighten($darker-color, 15%);
+  max-width: 75px;
 }
 
-#sponsors-title
+.sponsors-title
 {
   margin: { left:1px; bottom:6px; }
   font-size: 12px;

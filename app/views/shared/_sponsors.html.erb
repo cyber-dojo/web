@@ -1,6 +1,6 @@
-<div id="sponsors-cell">
-  <div id="sponsors-title">our sponsors</div>
-  <div id="sponsors">
+<div class="sponsors-cell">
+  <div class="sponsors-title">our sponsors</div>
+  <div class="sponsors">
     <%= render partial: 'shared/sponsors/praqma' %>
     <%= render partial: 'shared/sponsors/cucumber' %>
     <%= render partial: 'shared/sponsors/curbralan' %>
@@ -20,7 +20,7 @@ $(() => {
     "Please email sponsor@cyber-dojo.org if you'd<br/>" +
     'like to become a sponsor.'
     ,
-    { of: cd.kata.tabs.filename() }
+    { of: $('#yin-yang-logo') }
   );
 
 });
