@@ -25,6 +25,8 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const appendTrafficLights = (events) => {
     review.checkoutButton.enable();
+    review.trafficLightsCounts.reset();
+    review.predictCounts.reset();
     events.forEach(event => {
       if (cd.lib.isVisible(event)) {
         const light = event;
@@ -32,6 +34,8 @@ $(() => {
         const $light = cd.lib.appendTrafficLight($lights, light, {isCurrentIndex:isCurrentIndex});
         $light.click(() => review.refresh(review.id, light.index));
         cd.setupTrafficLightTip($light, light, review.id, light.index-1, light.index);
+        cd.review.trafficLightsCounts.update(light);
+        cd.review.predictCounts.update(light);
         if (isOwnRevertedIncorrectPredictionLight(light)) {
           review.checkoutButton.disable();
         }

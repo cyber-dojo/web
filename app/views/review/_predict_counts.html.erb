@@ -1,4 +1,4 @@
-<div class="kata predict-counts">
+<div class="review predict-counts">
   <div class="tick box">
     <div class="tick count">0</div>
     <img src="/images/traffic-light/circle-tick.png">
@@ -12,15 +12,17 @@
 
 <script>
 'use strict';
-const $predictCounts = $('.kata.predict-counts');
-cd.kata.predictCounts = {
-  show: () => $predictCounts.show('slow'),
-  hide: () => $predictCounts.hide('slow')
-};
-
 $(() => {
 
-  cd.kata.predictCounts.update = (light) => {
+  const $predictCounts = $('.review.predict-counts');
+
+  cd.review.predictCounts = {};
+
+  cd.review.predictCounts.reset = () => {
+    Object.keys(counts).forEach(key => counts[key] = 0);
+  };
+
+  cd.review.predictCounts.update = (light) => {
     const colour = light.colour;
     if (cd.lib.hasPrediction(light) && colour != 'pulling' && colour != 'faulty') {
       $('.count', $predictCounts).removeClass('red amber green');

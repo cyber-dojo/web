@@ -38,8 +38,8 @@ $(() => {
            duration: 'slow'
         });
       }
-      kata.updateTrafficLightsCounts(light);
-      kata.updatePredictCounts(light);
+      kata.trafficLightsCounts.update(light);
+      kata.predictCounts.update(light);
       $light.click(() => cd.review.fromTestPage(kata.id, light.index));
       cd.setupTrafficLightTip($light, light, kata.id, light.index-1, light.index);
     }

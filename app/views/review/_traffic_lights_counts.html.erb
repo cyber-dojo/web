@@ -1,4 +1,4 @@
-<div class="kata traffic-lights-counts">
+<div class="review traffic-lights-counts">
   <div class="box">
     <div class="red count">0</div>
     <img src="/images/traffic-light/red.png">
@@ -36,11 +36,15 @@ $(() => {
   //   2) views/kata/run_tests.js.erb when [test] is clicked.
   //   3) views/review/_review.html.erb when [checkout] is clicked.
 
-  const $counts = $('.kata.traffic-lights-counts');
+  const $counts = $('.review.traffic-lights-counts');
 
-  cd.kata.trafficLightsCounts = {};
+  cd.review.trafficLightsCounts = {};
 
-  cd.kata.trafficLightsCounts.update = (light) => {
+  cd.review.trafficLightsCounts.reset = () => {
+    Object.keys(counts).forEach(key => counts[key] = 0);
+  };
+
+  cd.review.trafficLightsCounts.update = (light) => {
     // An incorrect prediction with revert-on for the predicted
     // colour results in two traffic-lights; a 1st for the
     // incorrect prediction, a 2nd to revert it.

@@ -87,7 +87,7 @@ $(() => {
     kata.testButton.hide(() => {
       $revertTitle.show('slow');
       $buttonsCell.slideDown('slow');
-      kata.showPredictCounts();
+      kata.predictCounts.show();
       setFilenameListMaxHeight(470);
       kata.editor.refocus();
     });
@@ -98,7 +98,7 @@ $(() => {
     $revertTitle.hide('slow');
     $buttonsCell.slideUp('slow', () => {
       kata.testButton.show();
-      kata.hidePredictCounts();
+      kata.predictCounts.hide();
       setFilenameListMaxHeight(530);
       kata.editor.refocus();
     });

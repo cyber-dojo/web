@@ -22,8 +22,13 @@
   }
 
   .left-column { width: 365px; }
-
   .controls { margin-top: 10px; }
+  .right-column
+  {
+    position: absolute;
+    top: 39px;
+    right: 18px;
+  }
 
   #avatar-navigator, #traffic-light-navigator { max-height: 25px; }
 
