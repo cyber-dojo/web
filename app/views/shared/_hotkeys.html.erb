@@ -22,11 +22,13 @@ $(() => {
     html += '<table class="info" style="width:400px;">';
     html += tr2('Alt-J', 'cycle&darr; through the filenames');
     html += tr2('Alt-K', 'cycle&uarr; through the filenames');
-    html += tr2('Alt-O', 'toggle to/from the output tab');
-    html += tr2('Alt-T', 'run the tests (predict off)');
-    html += tr2('Alt-R', 'predict Red (predict on)');
-    html += tr2('Alt-A', 'predict Amber (predict on)');
-    html += tr2('Alt-G', 'predict Green (predict on)');
+    html += tr2('Alt-O', 'toggle to/from the <u>O</u>utput tab');
+    html += tr1('predict off');
+    html += tr2('&nbsp;Alt-T', 'run the <u>T</u>ests');
+    html += tr1('predict on');
+    html += tr2('&nbsp;Alt-R', `predict ${spanColour('red'  , '<u>R</u>ed'  )}`);
+    html += tr2('&nbsp;Alt-A', `predict ${spanColour('amber', '<u>A</u>mber')}`);
+    html += tr2('&nbsp;Alt-G', `predict ${spanColour('green', '<u>G</u>reen')}`);
     html += '</table>';
     html += '</div>';
 
@@ -42,9 +44,17 @@ $(() => {
     });
   };
 
+  const spanColour = (colour, text) => {
+    return `<span class="${colour}">${text}</span>`;
+  };
+
   const cmd    = "<span class='mac-cmd'></span>";
   const option = "<span class='mac-option'></span>";
   const shift  = "<span class='mac-shift'></span>";
+
+  const tr1 = (text) => {
+    return `<tr><td>&nbsp;&nbsp;${text}<td><td></td><td></td></tr>`;
+  };
 
   const tr2 = (key, what) => {
     return '<tr>' +
