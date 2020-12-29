@@ -5,6 +5,7 @@
     <%= render partial: 'shared/sponsors/cucumber' %>
     <%= render partial: 'shared/sponsors/curbralan' %>
     <%= render partial: 'shared/sponsors/wingman' %>
+    <div class="sponsor your-logo-here">your&nbsp;logo&nbsp;here?</div>
   </div>
 </div>
 
@@ -15,12 +16,13 @@ $(() => {
   $('.sponsor').each(function() {
     const $sponsor = $(this);
     cd.createTip($sponsor, [
-        "100% of donations and license fees go to",
-        "the cyber-dojo Foundation charity.",
+        "100% of donations and license fees go",
+        "to the cyber-dojo Foundation charity.",
         "Thank you to all our sponsors who help to",
         "cover https://cyber-dojo.org hosting costs.",
-        "If you'd like to become a sponsor,",
-        'please email sponsor@cyber-dojo.org"
+        '',
+        "Interested in being a sponsor?",
+        "Please email sponsor@cyber-dojo.org"
       ].join('<br/>')
     );
   });
