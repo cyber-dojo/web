@@ -1,26 +1,26 @@
 <div class="review traffic-lights-counts">
   <div class="box">
-    <div class="red count">0</div>
+    <div class="actual red count">0</div>
     <img src="/images/traffic-light/red.png">
   </div>
   <div class="box">
-    <div class="amber count">0</div>
+    <div class="actual amber count">0</div>
     <img src="/images/traffic-light/amber.png">
   </div>
   <div class="box">
-    <div class="green count">0</div>
+    <div class="actual green count">0</div>
     <img src="/images/traffic-light/green.png">
   </div>
   <div class="timed_out box" style="display:none;">
-    <div class="timed_out count">0</div>
+    <div class="actual timed_out count">0</div>
     <img src="/images/traffic-light/timed_out.png">
   </div>
   <div class="pulling box" style="display:none;">
-    <div class="pulling count">0</div>
+    <div class="actual pulling count">0</div>
     <img src="/images/traffic-light/pulling.png">
   </div>
   <div class="faulty box" style="display:none;">
-    <div class="faulty count">0</div>
+    <div class="actual faulty count">0</div>
     <img src="/images/traffic-light/faulty.png">
   </div>
   <div class="total">0&nbsp;tests</div>
@@ -48,11 +48,8 @@ $(() => {
     // An incorrect prediction with revert-on for the predicted
     // colour results in two traffic-lights; a 1st for the
     // incorrect prediction, a 2nd to revert it.
-    // The 2nd revert light contributes to the current colour-outcome.
     const colour = light.colour;
     const $count = $(`.${colour}.count`, $counts);
-    $('.count', $counts).removeClass('actual');
-    $count.addClass('actual');
     // The 2nd revert light does _not_ contribute to the count
     // totals which is the number of times there has been
     // a test submission (with or without a prediction).

@@ -25,17 +25,11 @@ $(() => {
   cd.review.predictCounts.update = (light) => {
     const colour = light.colour;
     if (cd.lib.hasPrediction(light) && colour != 'pulling' && colour != 'faulty') {
-      $('.count', $predictCounts).removeClass('red amber green');
       const isRight = (colour === light.predicted);
       const name = isRight ? 'tick' : 'cross';
-      $(`.${name}.count`, $predictCounts)
-        .text(counts[name] += 1)
-        .addClass(light.predicted);
+      $(`.${name}.count`, $predictCounts).text(counts[name] += 1);
       const total = counts.tick + counts.cross;
       $('.total', $predictCounts).html(`${total}&nbsp;prediction${plural(total)}`);
-    }
-    else if (!cd.lib.isRevert(light)) {
-      $('.count', $predictCounts).removeClass('red amber green');
     }
   };
 
