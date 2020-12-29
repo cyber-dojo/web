@@ -12,17 +12,18 @@
 'use strict';
 $(() => {
 
-  cd.createTip($('.sponsor'),
-    '100% of donations and license fees go to<br/>' +
-    "the cyber-dojo Foundation charity.<br/>" +
-    'Thank you to all our sponsors who help to<br/>' +
-    'cover https://cyber-dojo.org hosting costs.<br/>' +
-    "Please email sponsor@cyber-dojo.org if you'd<br/>" +
-    'like to become a sponsor.'
-  );
-    //,
-    //{ of: $('#yin-yang-logo') }
-  //);
+  $('.sponsor').each(function() {
+    const $sponsor = $(this);
+    cd.createTip($sponsor, [
+        "100% of donations and license fees go to",
+        "the cyber-dojo Foundation charity.",
+        "Thank you to all our sponsors who help to",
+        "cover https://cyber-dojo.org hosting costs.",
+        "If you'd like to become a sponsor,",
+        'please email sponsor@cyber-dojo.org"
+      ].join('<br/>')
+    );
+  });
 
 });
 </script>

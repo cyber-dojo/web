@@ -20,17 +20,9 @@
     display: inline-block;
   }
 
-  .top-row
-  {
-    max-width: 1000px;
-    margin-left: 9px;
-    margin-bottom: 6px;
-    padding-top: 2px;
-  }
-
   .left-column
   {
-    width: 335px;
+    width: 290px; // Controls width of filenames
     height: $column-height;
     max-height: $column-height;
     display: inline-block;

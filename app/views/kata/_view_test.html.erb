@@ -11,10 +11,6 @@
 </div>
 
 <div class="main-content">
-  <div class="top-row">
-    <%= render partial: 'traffic_lights' %>
-  </div>
-
   <%= form_tag( action: 'run_tests', id: @id ) do %>
     <%= render partial: 'image_name' %>
     <%= render partial: 'index' %>
@@ -28,6 +24,7 @@
       <%= render partial: 'file_create_rename_delete' %>
       <%= render partial: 'filenames' %>
     </div><div class="right-column">
+      <%= render partial: 'traffic_lights' %>
       <%= render partial: 'tabs' %>
       <%= render partial: 'repl' %>
       <%= render partial: 'files' %>
