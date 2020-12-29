@@ -27,7 +27,7 @@
   {
     position: absolute;
     top: 39px;
-    right: 2px;
+    right: 21px;
   }
 
   #avatar-navigator, #traffic-light-navigator { max-height: 25px; }
@@ -175,7 +175,11 @@
     }
   }
 
-  #diff-content, #diff-content-output { position:relative; top:10px; }
+  #diff-content, #diff-content-output
+  {
+    margin-left: -12px; // flush to right edge of filename
+    position:relative; top:10px;
+  }
 
   .diff-line-numbers,
   .diff-sheet
@@ -183,7 +187,7 @@
     background: $projector-background;
     @include code-font();
      font-size: 11.4pt; // Matches font used in CodeMirror
-        height: 560px; // Controls height of file content view
+        height: 560px;  // Controls height of file content view
         margin: 0px;
        padding: 0px;
         cursor: default;
@@ -214,7 +218,7 @@
 
   .diff-sheet
   {
-         width: 735px; // Just enough for 80 characters at 11.4pt font.
+    width: 725px;       // Enough for ~80 characters at 11.4pt font.
     text-align: left;
     overflow-x: auto;
     overflow-y: auto;
