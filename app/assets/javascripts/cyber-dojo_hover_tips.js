@@ -193,7 +193,6 @@ var cyberDojo = (function(cd, $) {
     if (where.my === undefined) { where.my = 'top'; }
     if (where.at === undefined) { where.at = 'bottom'; }
     if (where.of === undefined) { where.of = $node; }
-
     if (!$node.attr('disabled') && !$node.hasClass('mouse-has-left')) {
       if (typeof tip === 'function') {
         tip = tip();
@@ -207,7 +206,7 @@ var cyberDojo = (function(cd, $) {
             my: where.my,
             at: where.at,
             of: where.of,
-            collision: 'fit'
+            collision: 'flip flip'
           });
       hoverTipContainer().html($hoverTip);
     }

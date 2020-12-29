@@ -14,14 +14,17 @@
   .left-gutter
   {
     width: 100px;
+    height: 610px;
+    max-height: 610px;
     display: inline-block;
+    position: relative;
   }
 
   .left-column
   {
     width: 365px;
   }
-  
+
   .right-column
   {
     width: 1110px;
