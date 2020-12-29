@@ -6,19 +6,19 @@ $text-color: darken($lighter-color, 10%);
 
 $fadePercent: 15%;
 
+$pulling: #2CDFF0;
 $red:   lighten(#F00, $fadePercent);
 $amber: lighten(#FF0, $fadePercent);
 $green: lighten(#0F0, $fadePercent);
 
 $blue:  #00F;
 
-.red       { color: $red;   }
-.amber     { color: $amber; }
-.green     { color: $green; }
-
-.timed_out { color: Gray; }
+.pulling   { color: $pulling; }
+.red       { color: $red    ; }
+.amber     { color: $amber  ; }
+.green     { color: $green  ; }
+.timed_out { color: Gray    ; }
 .faulty    { color: DarkGray; }
-.pulling   { color: #2CDFF0; }
 
 $diff-added-count-color: lighten($green, 20%);
 $diff-deleted-count-color: lighten($red, 20%);

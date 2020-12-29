@@ -48,12 +48,10 @@
     background: lighten($darker-color, 40%);
     &.actual
     {
-      &.red   { background: $red  ; }
-      &.amber { background: $amber; }
-      &.green { background: $green; }
-      &.timed_out { background: #2CDFF0; }
-      &.faulty    { background: #2CDFF0; }
-      &.pulling   { background: #2CDFF0; }
+      &.pulling { background: $pulling; }
+      &.red     { background: $red    ; }
+      &.amber   { background: $amber  ; }
+      &.green   { background: $green  ; }
     }
   }
   img
