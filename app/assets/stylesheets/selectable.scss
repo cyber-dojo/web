@@ -2,7 +2,6 @@
 @mixin selectable
 {
   @include wide-list-item();
-  border-radius: 3px;
   letter-spacing: 0.03em;
   padding: { top:2px; bottom:3px; left:7px;}
   &:hover

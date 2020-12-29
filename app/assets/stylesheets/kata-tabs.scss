@@ -7,6 +7,8 @@
     @include selectable();
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
     display: inline-block;
     margin: { left: 0px; right: 0px; }
     padding-right: 7px;
