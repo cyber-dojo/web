@@ -1,0 +1,29 @@
+
+#review-page
+{
+  .review-grid
+  {
+    display: flex;
+    @include non-code-font();
+    margin: { top:39px; left:2px; }
+    padding: 0px;
+    background: $darker-color;
+    color: $lighter-color;
+  }
+
+  .left-gutter
+  {
+    width: 100px;
+    display: inline-block;
+  }
+
+  .left-column
+  {
+    width: 365px;
+  }
+  
+  .right-column
+  {
+    width: 1110px;
+  }
+}

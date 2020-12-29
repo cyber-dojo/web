@@ -7,30 +7,24 @@
 
 #review-page
 {
-  @include non-code-font();
-  margin: { top: 36px; left: 35px; }
-  display: none;
-     padding: 0px;
-  background: $darker-color;
-       color: $lighter-color;
+  display: none; // Because also present in edit page
 
-  #review-top-row
-  {
-    max-width: 1118px;
-    padding-top: 3px;
-    display: flex;
-  }
-
-  .left-column { width: 365px; }
   .controls { margin-top: 10px; }
-  .right-column
-  {
-    position: absolute;
-    top: 39px;
-    right: 21px;
-  }
 
   #avatar-navigator, #traffic-light-navigator { max-height: 25px; }
+
+  #avatar-navigator { width: 66px; }
+
+  #traffic-light-navigator
+  {
+    width: 100px;
+    vertical-align: top;
+  }
+  #review-traffic-lights
+  {
+    display: inline-flex;
+    width: 642px;
+  }
 
   #review-avatar-image-box
   {
@@ -75,10 +69,11 @@
 
   #traffic-light-navigator, #avatar-navigator
   {
-    @include edged-panel();
+    border-radius: 5px;
     background: lighten($darker-color,10%);
+    padding: 4px;
     padding-bottom: 0px;
-    display: flex;
+    display: inline-flex;
     margin-left: 1px;
     margin-right: 6px;
     #review-index-box
@@ -177,7 +172,6 @@
 
   #diff-content, #diff-content-output
   {
-    margin-left: -12px; // flush to right edge of filename
     position:relative; top:10px;
   }
 

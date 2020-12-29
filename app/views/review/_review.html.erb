@@ -8,42 +8,42 @@
 <%= render partial: 'review/lib/pick_file' %>
 <%= render partial: 'shared/sorted_filenames' %>
 
-<div id="review-top-row">
-  <%= render partial: 'review/help_icon' %>
-  <%= render partial: 'review/avatar_navigator' %>
-  <%= render partial: 'review/traffic_light_navigator' %>
-  <%= render partial: 'review/traffic_lights' %>
-</div>
+<div class="review-grid">
 
-<table>
-  <tr valign="top">
-    <td class="left-column">
-      <table class="controls">
-        <tr>
-          <td><%= render partial: 'review/resume_button' %></td>
-          <td><%= render partial: 'review/diff_checkbox' %></td>
-          <td><%= render partial: 'review/fork_button' %></td>
-          <td><%= render partial: 'review/checkout_button' %></td>
-        </tr>
-      </table>
-      <table>
-        <tr><td><%= render partial: 'review/filenames' %></td></tr>
-        <tr><td><%= render partial: 'review/files' %></td></tr>
-        <tr><td><%= render partial: 'review/output' %></td></tr>
-      </table>
-    </td>
-    <td>
-      <div id="diff-content"></div>
-      <div id="diff-content-output"></div>
-    </td>
-  </tr>
-</table>
+  <div class="lhs-gutter">
+    <%= render partial: 'review/traffic_lights_counts' %>
+    <%= render partial: 'review/predict_counts' %>
+    <%= render partial: 'charity' %>
+    <%= render partial: 'shared/sponsors' %>
+  </div>
 
-<div class="right-column">
-  <%= render partial: 'review/traffic_lights_counts' %>
-  <%= render partial: 'review/predict_counts' %>
-  <%= render partial: 'charity' %>
-  <%= render partial: 'shared/sponsors' %>
+  <div class="left-column">
+    <table class="controls">
+      <tr>
+        <td>
+          <%= render partial: 'review/help_icon' %>
+          <%= render partial: 'review/avatar_navigator' %>
+        </td>
+        <td><%= render partial: 'review/resume_button' %></td>
+        <td><%= render partial: 'review/diff_checkbox' %></td>
+        <td><%= render partial: 'review/fork_button' %></td>
+        <td><%= render partial: 'review/checkout_button' %></td>
+      </tr>
+    </table>
+    <table>
+      <tr><td><%= render partial: 'review/filenames' %></td></tr>
+      <tr><td><%= render partial: 'review/files' %></td></tr>
+      <tr><td><%= render partial: 'review/output' %></td></tr>
+    </table>
+  </div>
+
+  <div class="right-column">
+    <%= render partial: 'review/traffic_light_navigator' %>
+    <%= render partial: 'review/traffic_lights' %>
+    <div id="diff-content"></div>
+    <div id="diff-content-output"></div>
+  </div>
+
 </div>
 
 <script>

@@ -40,6 +40,7 @@
  *= depend_on traffic-lights.scss
  *= depend_on traffic-lights-counts.scss
  *= depend_on review.scss
+ *= depend_on review-grid.scss
  *= depend_on app-bar.scss
  *= depend_on wait-spinner.scss
  *= depend_on yin-yang-logo.scss
@@ -87,6 +88,7 @@
 @import "traffic-lights.scss";
 @import "traffic-lights-counts.scss";
 @import "review.scss";
+@import "review-grid.scss";
 @import "app-bar.scss";
 @import "wait-spinner.scss";
 @import "yin-yang-logo.scss";
