@@ -59,7 +59,7 @@ var cyberDojo = ((cd, $) => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  cd.lib.hasPrediction = (light) => light.predicted != undefined && light.predicted != 'none';
+  cd.lib.hasPrediction = (light) => ['red','amber','green'].includes(light.predicted);
 
   const $predictImage = (light) => {
     const correct = (light.predicted === light.colour);
