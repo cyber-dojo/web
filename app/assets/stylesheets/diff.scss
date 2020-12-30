@@ -34,15 +34,16 @@
   @include plaintext-font();
   &.created   { color: lighten($green,15%); }
   &.deleted   { color: lighten($red,  15%); }
-  &.renamed   { color: lighten($blue, 20%); }
+  &.renamed   { color: lighten($blue, 25%); }
   &.changed   { color: white; }
   &.unchanged { color: darken(DarkGray,15%); }
 }
 
 .diff-type
 {
-  &.added   { color: lighten($green,15%); }
-  &.deleted { color: lighten($red,  15%); }
+  &.added     { color: lighten($green,15%); }
+  &.deleted   { color: lighten($red,  15%); }
+  &.unchanged { color: darken(DarkGray,15%); }
 }
 
 table.sss { margin-top: 15px; }
