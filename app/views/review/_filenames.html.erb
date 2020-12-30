@@ -22,9 +22,7 @@ $(() => {
   const $makeDiffTr = (diff) => {
     const $tr = $('<tr>');
     if (review.diffCheckBox.isChecked()) {
-      $tr.append(
-        $makeDiffTypeTd(diff)
-      );
+      $tr.append($makeDiffTypeTd(diff));
     }
     $tr.append($makeTd(review.makeDiffFilename(diff)));
     return $tr;
@@ -40,13 +38,13 @@ $(() => {
     }
     if (diff.chunkCount > 0) {
       if (tip != '') { tip += '<br/>'; }
-      tip += plural(diff.chunkCount, 'diff chunk');
+      tip += diffChunkPlural(diff.chunkCount);
       tip += '<br/>';
-      tip += plural(diff.line_counts.deleted, 'deleted line');
+      tip += linesPlural(diff.line_counts.deleted, 'deleted');
       tip += '<br/>';
-      tip += plural(diff.line_counts.added, 'added line');
+      tip += linesPlural(diff.line_counts.added, 'added');
       tip += '<br/>';
-      tip += plural(diff.line_counts.same, 'unchanged line');
+      tip += linesPlural(diff.line_counts.same, 'unchanged');
     }
     if (tip != '') {
       cd.createTip($div, tip);
@@ -59,8 +57,12 @@ $(() => {
     return `was<span class="diff-filename renamed">${filename}</span>`;
   };
 
-  const plural = (count, text) => {
-    return `${count} ${text}${count === 1 ? '' : 's'}`;
+  const diffChunkPlural = (count) => {
+    return `${count} diff chunk${count === 1 ? '' : 's'}`;
+  };
+
+  const linesPlural = (count, type) => {
+    return `<span class="diff-type ${type}">${count} ${type} line${count === 1 ? '' : 's'}</span>`;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
