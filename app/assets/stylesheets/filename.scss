@@ -5,25 +5,25 @@
   @include selectable();
   &[class~='highlight'] { &:before { content: "> "; } }
   color: lighten($darker-color, 50%);
-  padding-left:10px;
-  padding-right:0px;
+  padding-left: $left-gutter-width;
+  padding-right: 0px;
 }
 
 .file_content
 {
-   // height and width are set in codemirror.scss
-   @include code-font;
-   background: lighten($darker-color, 4%);
-       border: 0px;
-       margin: 0px;
-      display: block;
-     overflow: auto;
-        color: $lighter-color;
+  // height and width are set in codemirror.scss
+  @include code-font;
+  background: lighten($darker-color, 4%);
+  border: 0px;
+  margin: 0px;
+  display: block;
+  overflow: auto;
+  color: $lighter-color;
   font-weight: 500;
-      padding: { left: 2px; top: 2px; right: 0px; bottom: 0px; }
-      outline: none;
-       cursor: text;
+  padding: { left: 2px; top: 2px; right: 0px; bottom: 0px; }
+  outline: none;
+  cursor: text;
 
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
 }

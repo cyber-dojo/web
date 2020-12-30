@@ -34,8 +34,8 @@ img.tick, img.cross
 
 img.revert, img.checkout
 {
-  width: $traffic-light-size - 1px;  // -1px for the border
-  height: $traffic-light-size - 1px;
+  width: $traffic-light-size - 2px;
+  height: $traffic-light-size - 2px;
   @include circle-border($traffic-light-size);
   &.red   { border: 1px solid $red  ; }
   &.amber { border: 1px solid $amber; }

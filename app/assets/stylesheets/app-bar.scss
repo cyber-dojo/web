@@ -2,22 +2,22 @@
 #app-bar
 {
   @include plaintext-font();
-     display: flex;
+  display: flex;
   background: lighten($darker-color, 8%);
-       color: $lighter-color;
-   font-size: 1.05em;
-       width: 100%;
-      height: 23px;
+  color: $lighter-color;
+  font-size: 1.05em;
+  width: 100%;
+  height: 23px;
   text-align: left;
-     padding: { left: 12px; top: 4px; bottom: 3px; }
-    position: fixed;
-         top: 0px;
-     z-index: 1000;
+  padding: { left: $left-gutter-width; top: 4px; bottom: 3px; }
+  position: fixed;
+  top: 0px;
+  z-index: 1000;
 
   #settings-button, #info-button
   {
     padding: { left:1px; right:1px; top:0px; bottom:0px; }
-     margin: { left:1px; right:1px; top:0px; bottom:0px; }
+    margin: { left:1px; right:1px; top:0px; bottom:0px; }
     cursor: pointer;
   }
   #settings-button

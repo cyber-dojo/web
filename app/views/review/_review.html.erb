@@ -15,16 +15,14 @@
   <div class="left-gutter">
     <%= render partial: 'review/traffic_lights_counts' %>
     <%= render partial: 'review/predict_counts' %>
-    <%= render partial: 'shared/sponsorship' %>    
+    <%= render partial: 'shared/sponsorship' %>
   </div>
 
   <div class="left-column">
     <table class="controls">
-      <tr>
-        <td><%= render partial: 'review/resume_button' %></td>
-        <td><%= render partial: 'review/fork_button' %></td>
-        <td><%= render partial: 'review/checkout_button' %></td>
-      </tr>
+      <tr><td><%= render partial: 'review/resume_button' %></td></tr>
+      <tr><td><%= render partial: 'review/checkout_button' %>
+              <%= render partial: 'review/fork_button' %></td></tr>
     </table>
     <table>
       <tr><td><%= render partial: 'review/diff_checkbox' %>
