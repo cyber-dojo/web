@@ -2,15 +2,15 @@
 {
   display: initial;
   @include plaintext-font();
-  border-radius: 14px;
-  border: 1px solid lighten($darker-color, 15%);
-  color: lighten($darker-color, 15%);
+  border-radius: 11px;
+  font-size: 12px;
+  border: 1px solid lighten($darker-color, 20%);
+  color: lighten($darker-color, 20%);
   background: $darker-color;
-  padding: { left:6px; right:6px; }
+  padding: { left:5px; right:5px; }
   margin: 2px;
-  cursor: pointer;
   position: relative;
-  top: -2px;
+  top: -1px;
 }
 
 //- - - - - - - - - - - - - - - -

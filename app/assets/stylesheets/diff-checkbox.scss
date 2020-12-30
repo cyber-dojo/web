@@ -1,30 +1,31 @@
 #diff-checkbox-cell
 {
-  @include edged-panel();
-  background: lighten($darker-color,30%);
-  margin: 0px;
-  padding: { top:4px; bottom:0px; right:0px; }
   display: inline-block;
-  max-width: 55px;
+  width: 39px;
+  border-radius: 3px;
+  color: Black;
+  background: lighten($darker-color,40%);
+  padding: { left:3px; right:1px; top:0px; bottom:0px; }
+  margin: 0px;
 }
 
 #diff-checkbox-title
 {
-  @include plaintext-font();
-  cursor: pointer;
-  font-size: 12px;
   display: inline;
+  font: bold 10px sans-serif;
+  padding-left: 4px;
+  cursor: pointer;
   position: relative;
-  bottom: 3px;
-  left: 3px;
+  bottom: 2px;
 }
 
 #diff-checkbox
 {
-  width: 15px;
-  height: 15px;
-  -moz-transform: scale(1.1);
+  display: inline;
+  margin: 0px;
+  vertical-align: middle;
   cursor: pointer;
+  transform: scale(0.9);
   position: relative;
-  top: -3px;
+  top: -1px;
 }
