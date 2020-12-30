@@ -1,27 +1,12 @@
 
-Add light-counts to review page.
-
-Add predict-counts to review page.
-
-Add sponsors to review page.
-
 In review-mode, always do diff-summary of index,index-1
 and always show file-type markers. Make the diff[x] checkbox
 control whether the [+][-] diffs are visible. Need to try this.
 What about [+] created files and [-] deleted files?
 
-Recolour diff[x] checkbox cell backgrounds to match checkboxes on edit page.
-
 Polyfill old checkouts on model?
 
-Reduce width of hovertip filename will help too. Does not need fixed-width like filename-knave.
-  - Same for review page.
-
 Add hover-tip for individual counts?
-
-Maybe colour the bg of [revert if wrong!] title-text to something
-   other than grey (to be distinct from predict text) and colour
-   bg of 3 auto-revert checkboxes to match.
 
 provide model.revert() method as alias for model.ran_tests() and use in kata-controller
 
