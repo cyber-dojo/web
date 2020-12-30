@@ -10,22 +10,7 @@
     color: $lighter-color;
   }
 
-  .left-gutter
-  {
-    width: 100px;
-    height: 610px;
-    max-height: 610px;
-    display: inline-block;
-    position: relative;
-  }
-
-  .left-column
-  {
-    width: 365px;
-  }
-
-  .right-column
-  {
-    width: 1110px;
-  }
+  .right-gutter { width: 132px; }
+  .left-column { width: 275px; }
+  .right-column {}
 }

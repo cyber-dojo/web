@@ -120,12 +120,12 @@ table.sss
 
 .diff-filename
 {
-  font-size:12pt;
+  font-size: 12pt;
   color: lighten($darker-color, 50%);
   border: 1px solid $darker-color;
-  width:250px;
-  padding-left:3px;
-  cursor:pointer;
+  width: 250px;
+  padding-left: 6px;
+  cursor: pointer;
   &:hover
   {
     background: lighten($darker-color, 5%);
