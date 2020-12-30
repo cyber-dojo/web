@@ -48,7 +48,7 @@ $(() => {
   const makeLine = (type, line, number) => {
     return { type:type, line:line, number:number };
   };
-  const lines = (str) => str.replace(/\n$/, '').split(/\r?\n/);
+  const lines = (str) => str.toString().replace(/\n$/, '').split(/\r?\n/);
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const $makeOutputFilenames = (stdout, stderr, status) => {
