@@ -12,22 +12,10 @@ $(() => {
   if ($box.length > 0) {
     const avatarIndex = parseInt("<%= @manifest['group_index'] %>");
     const $img = cd.lib.$makeAvatarImage(avatarIndex);
-    cd.createTip($img, [
-      'review or checkout!',
-      "any avatar's files"
-    ].join('<br/>'));
-    $img.click(() => cd.lib.openAvatarSelectorDialog($img, cd.kata.id, setupActiveAvatar));
+    cd.createTip($img, 'switch to review mode');
+    $img.click(() => cd.review.fromTestPage(cd.kata.id, -1));
     $box.append($img);
   }
-
-  const setupActiveAvatar = ($img, index, avatar, $selector) => {
-    cd.createTip($img, cd.lib.avatarName(index));
-    $img.click(() => {
-      cd.removeTip();
-      $selector.dialog('close');
-      cd.review.fromTestPage(avatar.id, -1);
-    });
-  };
 
 });
 </script>
