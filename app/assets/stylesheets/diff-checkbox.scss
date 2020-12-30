@@ -2,10 +2,10 @@
 {
   @include edged-panel();
   background: lighten($darker-color,30%);
-    margin: 0px;
-   padding: { top:4px; bottom:0px; right:0px; }
-   display: inline;
-   max-width:55px;
+  margin: 0px;
+  padding: { top:4px; bottom:0px; right:0px; }
+  display: inline-block;
+  max-width: 55px;
 }
 
 #diff-checkbox-title
