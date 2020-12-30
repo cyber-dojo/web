@@ -40,7 +40,13 @@ $(() => {
     }
     if (diff.chunkCount > 0) {
       if (tip != '') { tip += '<br/>'; }
-      tip += chunkCountTip(diff);
+      tip += plural(diff.chunkCount, 'diff chunk');
+      tip += '<br/>';
+      tip += plural(diff.line_counts.deleted, 'deleted line');
+      tip += '<br/>';
+      tip += plural(diff.line_counts.added, 'added line');
+      tip += '<br/>';
+      tip += plural(diff.line_counts.same, 'unchanged line');
     }
     if (tip != '') {
       cd.createTip($div, tip);
@@ -53,8 +59,8 @@ $(() => {
     return `was<span class="diff-filename renamed">${filename}</span>`;
   };
 
-  const chunkCountTip = (diff) => {
-    return `diff chunk count == ${diff.chunkCount}`;
+  const plural = (count, text) => {
+    return `${count} ${text}${count === 1 ? '' : 's'}`;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
