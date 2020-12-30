@@ -14,75 +14,10 @@ table.controls, table.filenames
   border-collapse: collapse;
   th, td { padding: 0px; }
 }
+
 table.sss
 {
   margin-top:15px;
-}
-
-.diff-line-count, .diff-line-count-icon
-{
-  @include plaintext-font();
-  @include right-align(0px);
-  @include diff-line-count;
-  color: $darker-color;
-  border: 1px solid lighten($darker-color,6%);
-  border-radius: 3px;
-  margin: { right: 2px; }
-  &:hover { border: 1px dotted lighten($darker-color,6%); }
-  &[disabled]:hover { border: 1px solid lighten($darker-color,6%); }
-  &.deleted, &.added, &.same { cursor:pointer; }
-
-  &.deleted[disabled], &.added[disabled], &.same[disabled]
-  {
-    background: lighten($darker-color,10%);
-    border: 1px solid lighten($darker-color,10%);
-    cursor: default;
-  }
-}
-
-//- - - - - - - - - - - - - - - -
-
-.diff-line-count.deleted,
-.diff-line-count-icon.deleted
-{
-  background: $diff-deleted-count-color;
-  border: 1px solid $diff-deleted-count-color;
-  &[disabled] { color: lighten($diff-deleted-count-color,5%); }
-}
-
-.diff-line-count.added,
-.diff-line-count-icon.added
-{
-  background: $diff-added-count-color;
-  border: 1px solid $diff-added-count-color;
-  &[disabled] { color: lighten($diff-added-count-color,5%); }
-}
-
-.diff-line-count.same,
-.diff-line-count-icon.same
-{
-  background: $diff-same-count-color;
-  border: 1px solid $diff-same-count-color;
-  &[disabled] { color: lighten($diff-same-count-color,5%); }
-}
-
-//- - - - - - - - - - - - - - - -
-
-.diff-line-count-icon.added
-{
-  &:hover { border: 1px solid $diff-added-count-color; }
-}
-
-.diff-line-count-icon.deleted
-{
-  &:hover { border: 1px solid $diff-deleted-count-color; }
-}
-
-.diff-line-count-icon
-{
-  cursor:default;
-  text-align:center;
-  margin: { top:2px; bottom:4px; }
 }
 
 //- - - - - - - - - - - - - - - -
@@ -136,12 +71,4 @@ table.sss
     background: lighten($darker-color, 10%);
     border: 1px solid lighten($darker-color, 10%);
   }
-}
-
-//- - - - - - - - - - - - - - - -
-
-.diff-line-count
-{
-  &.on  { &:before { content: ' '; } }
-  &.off { &:before { content: '*'; } }
 }
