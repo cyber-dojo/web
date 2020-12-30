@@ -8,19 +8,6 @@
 {
   display: none; // Because also present in edit page
 
-  .diff-help-icon
-  {
-    display: initial;
-    @include plaintext-font();
-    border-radius:14px;
-    border:1px solid lighten($darker-color, 15%);
-    color:lighten($darker-color, 15%);
-    background:$darker-color;
-    padding: { left:6px; right:6px; }
-    margin: 2px;
-    cursor:pointer;
-  }
-
   .controls { margin: { top:1px; bottom: 10px; } }
 
   #avatar-navigator, #traffic-light-navigator { max-height: 25px; }

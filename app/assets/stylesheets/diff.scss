@@ -1,24 +1,19 @@
-
-@mixin diff-line-count
+.diff-help-icon
 {
-  text-align: right;
-      margin: 0px;
-      margin: { bottom: 2px; }
-     padding: 2px;
-   font-size: 11px;
-       width: 20px;
+  display: initial;
+  @include plaintext-font();
+  border-radius: 14px;
+  border: 1px solid lighten($darker-color, 15%);
+  color: lighten($darker-color, 15%);
+  background: $darker-color;
+  padding: { left:6px; right:6px; }
+  margin: 2px;
+  cursor: pointer;
+  position: relative;
+  top: -2px;
 }
 
-table.controls, table.filenames
-{
-  border-collapse: collapse;
-  th, td { padding: 0px; }
-}
-
-table.sss
-{
-  margin-top:15px;
-}
+table.sss { margin-top:15px; }
 
 //- - - - - - - - - - - - - - - -
 

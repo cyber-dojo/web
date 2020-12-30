@@ -24,8 +24,8 @@
  *= depend_on dialog.scss
  *= depend_on filename.scss
  *= depend_on fork-dialog.scss
- *= depend_on diff-line-count.scss
  *= depend_on diff-checkbox.scss
+ *= depend_on diff.scss
  *= depend_on info.scss
  *= depend_on kata.scss
  *= depend_on kata-grid.scss
@@ -73,7 +73,7 @@
 @import "filename.scss";
 @import "fork-dialog.scss";
 @import "diff-checkbox.scss";
-@import "diff-line-count.scss";
+@import "diff.scss";
 @import "info.scss";
 @import "kata.scss";
 @import "kata-grid.scss";

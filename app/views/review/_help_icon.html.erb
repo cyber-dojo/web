@@ -7,12 +7,13 @@ $(() => {
   const setupHelpIconHoverTip = () => {
     let tip = '';
     tip += 'when moving to a new avatar:<br/>';
-    tip += '&nbsp;&bull;if diff is checked, you move to the <em>first</em> traffic-light.<br/>';
-    tip += '&nbsp;&bull;if diff is unchecked, you move to the <em>last</em> traffic-light.<br/>';
+    tip += '&nbsp;&bull;&nbsp;if diff is checked, you move to the <em>first</em> traffic-light.<br/>';
+    tip += '&nbsp;&bull;&nbsp;if diff is unchecked, you move to the <em>last</em> traffic-light.<br/>';
     tip += '';
     tip += '<hr/>';
-    tip += 'click a filename to review it.<br/>';
-    tip += 'reclick the filename to cycle through its diff-chunks.<br/>';
+    tip += 'filenames:<br/>';
+    tip += '&nbsp;&bull;&nbsp;click to review.<br/>';
+    tip += '&nbsp;&bull;&nbsp;<u>re</u>click to cycle through diff-chunks.<br/>';
     tip += '<hr/>';
     tip += '<table>';
     tip += tr3('changed', 'hover over <span class="diff-type-marker changed"></span> for diff-chunk count');
