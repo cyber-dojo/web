@@ -10,7 +10,18 @@
     color: $lighter-color;
   }
 
-  .right-gutter { width: 132px; }
-  .left-column { width: 275px; }
-  .right-column {}
+  .left-gutter
+  {
+    height: 610px;
+    max-height: 610px;
+    display: inline-block;
+    margin: { left:5px; }
+    position: relative; // To allow charity/sponsor absolute:bottom
+  }
+
+  .left-column
+  {
+    margin-left: 20px;
+    width: 275px; // Prevent movement when diff checkbox toggles
+  }
 }

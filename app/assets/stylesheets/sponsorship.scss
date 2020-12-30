@@ -24,6 +24,8 @@ button.sponsorship
   border-radius: 3px;
   background: lighten($darker-color, 15%);
   max-width: 75px;
+  position: absolute;
+  bottom: 0px;
 }
 
 .sponsor { display: inline-flex; }

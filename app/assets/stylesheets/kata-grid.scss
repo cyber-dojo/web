@@ -1,25 +1,18 @@
 #kata-page
 {
   display: flex;
-  margin: { top: 36px; left: 0px; }
+  margin: { top:36px; left:0px; }
 
-  $column-height: 575px;
+  $column-height: 610px;
 
-  .lhs-gutter, .rhs-gutter
+  .lhs-gutter
   {
     height: $column-height;
     max-height: $column-height;
     display: inline-block;
-  }
-  .lhs-gutter { width: 95px; margin-top: 3px; }
-  .rhs-gutter { width: 132px; }
-
-  .main-content
-  {
-    width: 1110px;
-    max-width: 1110px;
-    display: inline-block;
-    margin-top: 3px;
+    width: 95px;
+    margin: { top:3px; left:5px; }
+    position: relative; // To allow charity/sponsor absolute:bottom
   }
 
   .left-column
@@ -28,6 +21,7 @@
     height: $column-height;
     max-height: $column-height;
     display: inline-block;
+    margin: { top:2px; left:10px; }
   }
   .right-column
   {
@@ -36,5 +30,6 @@
     max-height: $column-height;
     display: inline-block;
     vertical-align: top;
+    margin-top: 2px;
   }
 }

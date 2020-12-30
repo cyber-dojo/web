@@ -13,13 +13,10 @@
 
   #filename-list
   {
-    border-top: 1px solid lighten($darker-color,15%);
     margin: { top: 0px; right: 0px; }
     overflow-y: scroll;
     overflow-x: hidden;
     &::-webkit-scrollbar:vertical { width: 0px; }
-    position: relative;
-    top: -23px;
   }
 
   //--------------------------------------------------------------
