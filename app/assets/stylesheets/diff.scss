@@ -13,7 +13,7 @@
   top: -1px;
 }
 // Use large left margin when _not_ in diff-help-icon's hover-tip text.
-.diff-filename:not(.hover) { padding-left: $left-gutter-width; }
+.diff-filename:not(.hover) { padding-left: $left-column-left-margin; }
 .diff-type-marker:not(.hover) { margin-right: -123px; }
 
 //- - - - - - - - - - - - - - - -

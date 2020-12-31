@@ -1,4 +1,3 @@
-
 #app-bar
 {
   @include plaintext-font();
@@ -9,7 +8,7 @@
   width: 100%;
   height: 23px;
   text-align: left;
-  padding: { left: $left-gutter-width; top: 4px; bottom: 3px; }
+  padding: { left: $left-column-left-margin; top: 4px; bottom: 3px; }
   position: fixed;
   top: 0px;
   z-index: 1000;
