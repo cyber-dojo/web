@@ -96,15 +96,14 @@ $(() => {
            id: `radio_${filename}`,
          text: filename
     });
-    if (isHighlightFile(filename)) {
+    if (cd.isHighlightFile(filename)) {
       $div.addClass('highlight');
+    }
+    if (cd.isSourceFile(filename)) {
+      $div.addClass('source');
     }
     $div.click(() => filenames.select(filename));
     return $div;
-  };
-
-  const isHighlightFile = (filename) => {
-    return cd.highlightFilenames().includes(filename);
   };
 
 });

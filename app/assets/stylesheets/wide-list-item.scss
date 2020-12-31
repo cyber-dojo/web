@@ -12,8 +12,6 @@
       margin: 0px;
       cursor: pointer;
 
-  &:hover { background: lighten($darker-color, 5%); }
-
   // no up/down scrolling, #filename-list has its own
   overflow-y: hidden;
   &::-webkit-scrollbar:vertical { width: 0px; }

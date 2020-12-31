@@ -1,19 +1,19 @@
-
 @mixin selectable
 {
+  // If you edit these be careful as they also affect the filename tabs
   @include wide-list-item();
   letter-spacing: 0.03em;
-  padding: { top:2px; bottom:3px; left:7px;}
+  padding: { top:2px; bottom:3px; left:7px; }
   &:hover
   {
-    background: lighten($darker-color, 5%);
-    border-left: 1px solid lighten($darker-color, 5%);
-    border-right: 1px solid lighten($darker-color, 5%);
+    background: lighten($darker-color, 4%);
+    border-left: 1px solid lighten($darker-color, 4%);
+    border-right: 1px solid lighten($darker-color, 4%);
   }
   &.selected
   {
     cursor: default;
-    background: lighten($darker-color, 10%);
-    border: 1px solid lighten($darker-color, 10%);
+    background: lighten($darker-color, 8%);
+    border: 1px solid lighten($darker-color, 8%);
   }
 }

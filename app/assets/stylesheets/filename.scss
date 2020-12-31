@@ -4,9 +4,14 @@
 {
   @include selectable();
   &[class~='highlight'] { &:before { content: "> "; } }
-  color: lighten($darker-color, 50%);
+  color: lighten($darker-color, 25%);
   padding-left: $left-column-left-margin;
   padding-right: 0px;
+}
+
+#filename-list .source.filename
+{
+  color: lighten($darker-color, 50%);
 }
 
 .file_content

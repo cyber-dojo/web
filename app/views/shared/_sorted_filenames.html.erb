@@ -21,25 +21,21 @@ $(() => {
   };
 
   const fileCategory = (filename) => {
-    let category = undefined;
-    if (isHighlight(filename))    { category = 1; }
-    else if (isSource(filename))  { category = 2; }
-    else                          { category = 3; }
-    // Special cases
-    if (filename === 'readme.txt')    { category = 0; } // [A]
-    if (filename === 'cyber-dojo.sh') { category = 3; } // [B]
-    return category;
-    // [A] Always at the top
-    // [B] Shell test frameworks (eg shunit2) use .sh extension
-    //     but cyber-dojo.sh is not a user source file.
+    if (filename === 'readme.txt')         { return 0; } // Always at the top
+    else if (cd.isHighlightFile(filename)) { return 1; }
+    else if (cd.isSourceFile(filename))    { return 2; }
+    else                                   { return 3; }
   };
 
-  const isHighlight = (filename) => {
+  cd.isHighlightFile = (filename) => {
     return cd.highlightFilenames().includes(filename);
   };
 
-  const isSource = (filename) => {
-    return cd.extensionFilenames().find(ext => filename.endsWith(ext));
+  cd.isSourceFile = (filename) => {
+    // Shell test frameworks (eg shunit2) use .sh extension
+    // but cyber-dojo.sh is not a user source file.
+    return cd.extensionFilenames().find(ext => filename.endsWith(ext)) &&
+      filename != 'cyber-dojo.sh';
   };
 
   cd.highlightFilenames = () => {
