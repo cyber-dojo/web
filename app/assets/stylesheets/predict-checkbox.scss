@@ -1,19 +1,19 @@
 #predict-checkbox-cell
 {
   display: inline-block;
-  width: 58px;
+  width: 66px;
   border-radius: 3px;
   color: Black;
   background: lighten($darker-color,40%);
   padding: { left:3px; right:1px; top:0px; bottom:0px; }
-  margin-top: 1px;
+  margin-top: 2px;
 }
 
 #predict-checkbox-title,
 {
   display: inline;
-  font: bold 10px sans-serif;
-  padding-left: 4px;
+  font: bold 11px sans-serif;
+  padding: { left:7px; right:2px; }
   cursor: pointer;
   vertical-align: middle;
   letter-spacing: 0.02em;
