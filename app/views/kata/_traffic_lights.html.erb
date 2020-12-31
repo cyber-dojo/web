@@ -45,5 +45,23 @@ $(() => {
     }
   };
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // Don't use show() or hide() here as the animation is far
+  // too slow (even on 'fast') when you have a reasonably
+  // large number of traffic-lights.
+
+  const $predictImages = () => $('img.tick, img.cross', $lights);
+
+  kata.predictImages = {
+    hide: () => {
+      $predictImages().addClass('hide');
+      cd.kata.scrollLastTrafficLightIntoView();
+    },
+    show: () => {
+      $predictImages().removeClass('hide');
+      cd.kata.scrollLastTrafficLightIntoView();
+    }
+  };
+
 });
 </script>

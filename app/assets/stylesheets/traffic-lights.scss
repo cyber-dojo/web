@@ -30,6 +30,7 @@ img.tick, img.cross
   height: 11px;
   @include circle-border(11px);
   margin-right: -1px;
+  &.hide { display:none; }  
 }
 
 img.revert, img.checkout
