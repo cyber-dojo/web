@@ -2,7 +2,10 @@
 {
   display: none; // Because also present in edit page
 
-  .controls { margin: { top:1px; bottom: 10px; } }
+  .controls
+  {
+    margin: { top:1px; bottom: 10px; left:$left-gutter-width; }
+  }
 
   #avatar-navigator, #traffic-light-navigator { max-height: 25px; }
 
@@ -54,7 +57,7 @@
   {
     font-size: 25px;
     padding: { top:0px; bottom:2px; left:5px; right:5px; }
-    margin-right: 5px;
+    margin: { bottom:10px; right:5px; }
     text-align: center;
     font-weight: bold;
     letter-spacing: 0.02em;
@@ -63,7 +66,6 @@
   {
     font-size: 10px;
     padding: { top:1px; bottom:1px; left:3px; right:3px; }
-    margin-top: 4px;
     text-align: center;
     font-weight: bold;
     letter-spacing: 0.02em;

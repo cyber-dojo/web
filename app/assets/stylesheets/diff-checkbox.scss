@@ -6,7 +6,7 @@
   color: Black;
   background: lighten($darker-color,40%);
   padding: { left:3px; right:1px; top:0px; bottom:0px; }
-  margin-top: 25px;
+  margin: { top: 25px; left:$left-gutter-width; } 
 }
 
 #diff-checkbox-title

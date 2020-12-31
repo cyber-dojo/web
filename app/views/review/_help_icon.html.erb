@@ -16,8 +16,8 @@ $(() => {
     tip += '&nbsp;&bull;&nbsp;<u>re</u>click to cycle through the diffs<br/>';
     tip += '<hr/>';
     tip += '<table>';
-    tip += tr3('changed', 'hover over <span class="diff-type-marker changed"></span> for diff info');
-    tip += tr3('renamed', 'hover over <span class="diff-type-marker renamed"></span> for old filename');
+    tip += tr3('changed', 'hover over <span class="hover diff-type-marker changed"></span> for diff info');
+    tip += tr3('renamed', 'hover over <span class="hover diff-type-marker renamed"></span> for old filename');
     tip += tr3('created', '');
     tip += tr3('deleted', '');
     tip += tr3('unchanged', '');
@@ -26,8 +26,8 @@ $(() => {
   };
 
   const tr3 = (type, info) => {
-    return `<tr><td><span class="diff-type-marker ${type}"></span></td>` +
-               `<td><span class="diff-filename ${type}">${type}-file</span></td>` +
+    return `<tr><td><span class="hover diff-type-marker ${type}"></span></td>` +
+               `<td><span class="hover diff-filename ${type}">${type}-file</span></td>` +
                `<td>${info}</td>`;
   };
 

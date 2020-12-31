@@ -3,11 +3,9 @@
   display: flex;
   margin: { top:41px; left:0px; }
 
-  $column-height: 610px;
-
   .left-column
   {
-    width: 320px; // Controls width of filenames
+    width: $left-column-width; // Controls width of filenames
     height: $column-height;
     max-height: $column-height;
     display: inline-block;
@@ -15,20 +13,20 @@
   }
   .right-column
   {
-    width: 770px;
+    width: $right-column-width;
     height: $column-height;
     max-height: $column-height;
     display: inline-block;
     vertical-align: top;
     margin-top: 2px;
   }
-  .rhs-gutter
+  .right-gutter
   {
     height: $column-height;
     max-height: $column-height;
     display: inline-block;
-    width: 95px;
+    width: $right-gutter-width;
     margin: { top:1px; left:5px; }
     position: relative; // To allow charity/sponsor absolute:bottom
-  }  
+  }
 }

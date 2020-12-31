@@ -12,14 +12,17 @@
   position: relative;
   top: -1px;
 }
+// Use large left margin when _not_ in diff-help-icon's hover-tip text.
+.diff-filename:not(.hover) { padding-left: $left-gutter-width; }
+.diff-type-marker:not(.hover) { margin-right: -123px; }
 
 //- - - - - - - - - - - - - - - -
 
 .diff-type-marker
 {
-  font-size:18px;
-  padding:2px;
-  text-align:center;
+  font-size: 18px;
+  padding: 2px;
+  text-align: center;
   $n_dash: '\2013';
   $curved_right_arrow: '\21B7';
   &.created   { &:before { content: '+'; } }
@@ -61,7 +64,6 @@ table.sss { margin-top: 15px; }
   color: lighten($darker-color, 50%);
   border: 1px solid $darker-color;
   width: 268px;
-  padding-left: 6px;
   cursor: pointer;
   &:hover
   {

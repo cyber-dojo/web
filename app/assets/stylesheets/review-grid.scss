@@ -10,18 +10,17 @@
     color: $lighter-color;
   }
 
-  .left-gutter
-  {
-    height: 610px;
-    max-height: 610px;
-    display: inline-block;
-    margin: { top:1px; left:5px; }
-    position: relative; // To allow charity/sponsor absolute:bottom
-  }
-
   .left-column
   {
-    margin-left: 20px;
-    width: 275px; // Prevent movement when diff checkbox toggles
+    width: $left-column-width; // Prevents movement when diff checkbox toggles
+  }
+
+  .right-gutter
+  {
+    height: $column-height;
+    max-height: $column-height;
+    display: inline-block;
+    margin: { top:1px; left:5px; }
+    position: relative; // For charity/sponsor absolute:bottom
   }
 }
