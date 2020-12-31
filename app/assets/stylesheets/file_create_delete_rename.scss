@@ -9,7 +9,7 @@
   {
     display: inline-block;
     border-radius: 3px;
-    margin:{ bottom:1px; right:0px }
+    margin:{ bottom:1px; right:3px }
     padding:{ left:3px; right:3px; top:0px; bottom:2px; }
     width: 23px;
     height: 23px;
@@ -18,6 +18,15 @@
     background: lighten($darker-color,50%);
     border: 2px solid lighten($darker-color,50%);
     &:hover { border: 2px dotted lighten(Black,10%); }
+    &[disabled] { display: none; }
+  }
+
+  .rename-file img
+  {
+    width: 18px;
+    position: relative;
+    left: -2px;
+    top: 1px;
   }
 }
 
