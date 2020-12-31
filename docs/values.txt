@@ -1,0 +1,31 @@
+
+Cyber-dojo values
+-----------------
+
+1. It should support teams first, and individuals second.
+In fact, early versions only supported teams.
+
+2. Use should be anonymous.
+More specifically, it should be possible (and the default)
+that reviews are done against the visible code without
+knowledge of who wrote it. For example, a reviewer might
+suggest the lion(s) wrote the code this way because of such
+and such. And it is up to the lions to decide whether to
+reveal who they are, and whether the reviewer is correct.
+
+3. Tests and code have equal importance.
+Stable systems tend to oppose their own proper function.
+The Equilibrium Law.
+
+4. Part of practice is going slower, not faster.
+More carefully. More deliberately.
+
+5. Outputs are important.
+For example, one feature request was for the output to always be
+visible, below the source, and only a few lines in height.
+I decided not to do that. Partly because cyber-dojo is not about speeding up.
+Also, an important part of TDD is carefully reading the output.
+So instead, output has its own tab, on the rhs.
+
+An overall UX theme is that inputs happen on the left, outputs on the right.
+And moving between the two does slow you down a little, but that's ok.
