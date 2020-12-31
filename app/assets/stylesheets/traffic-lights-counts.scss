@@ -19,14 +19,6 @@
   background: lighten($darker-color, 15%);
   margin: { left:8px; bottom:8px; }
 
-  .total
-  {
-    font-family: sans-serif;
-    font-size: 9px;
-    color: DarkGray;
-    margin-top: 4px;
-    letter-spacing: 0.06em;
-  }
   .box
   {
     display: inline-flex;
@@ -60,5 +52,17 @@
     height: 20px;
     border-radius: 10px;
     margin: { left:5px; top:3px; right:3px; }
+  }
+  .total
+  {
+    font-family: sans-serif;
+    font-size: 9px;
+    color: DarkGray;
+    margin-top: 4px;
+    letter-spacing: 0.06em;
+  }
+  .rag-spacer
+  {
+    height: 10px;
   }
 }
