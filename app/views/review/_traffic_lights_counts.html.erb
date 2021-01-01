@@ -11,7 +11,7 @@
     <div class="actual green count">0</div>
     <img src="/images/traffic-light/green.png">
   </div>
-  <div class="rag-spacer"></div>  
+  <div class="rag-spacer"></div>
   <div class="timed_out box" style="display:none;">
     <div class="actual timed_out count">0</div>
     <img src="/images/traffic-light/timed_out.png">
@@ -42,7 +42,7 @@ $(() => {
   cd.review.trafficLightsCounts = {};
 
   cd.review.trafficLightsCounts.reset = () => {
-    Object.keys(counts).forEach(key => counts[key] = 0);
+    Object.keys(counts).forEach(key => counts[key] = 0);    
   };
 
   cd.review.trafficLightsCounts.update = (light) => {

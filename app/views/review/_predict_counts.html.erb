@@ -25,7 +25,7 @@ $(() => {
     removeRagBackground();
     setPredict('cross', 0);
     setPredict('tick', 0);
-    setTotal(0);
+    updateTotal();
   };
 
   cd.review.predictCounts.update = (light) => {
@@ -38,7 +38,7 @@ $(() => {
       if (!isRight) {
         $count.addClass(light.predicted);
       }
-      setTotal(counts.tick + counts.cross);
+      updateTotal();
     }
     else if (!cd.lib.isRevert(light)) {
       removeRagBackground();
@@ -55,8 +55,9 @@ $(() => {
     return $count;
   };
 
-  const setTotal = (n) => {
-    $('.total', $predictCounts).html(`${n}&nbsp;prediction${plural(n)}`);
+  const updateTotal = () => {
+    const total = counts.tick + counts.cross;
+    $('.total', $predictCounts).html(`${total}&nbsp;prediction${plural(total)}`);
   };
 
   const plural = (n) => n == 1 ? '' : 's';
