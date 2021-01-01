@@ -39,6 +39,11 @@ $(() => {
 
   const $counts = $('.kata.traffic-lights-counts');
 
+  const counts = {
+    red: 0, amber: 0, green: 0,
+    timed_out: 0, pulling: 0, faulty:0,
+  };
+
   cd.kata.trafficLightsCounts = {};
 
   cd.kata.trafficLightsCounts.update = (light) => {
@@ -67,16 +72,6 @@ $(() => {
   };
 
   const plural = (n) => n == 1 ? '' : 's';
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const counts = {
-    red: 0,
-    amber: 0,
-    green: 0,
-    timed_out: 0,
-    pulling: 0,
-    faulty:0,
-  };
 
 });
 </script>
