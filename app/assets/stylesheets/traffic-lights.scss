@@ -30,7 +30,7 @@ img.tick, img.cross
   height: 11px;
   @include circle-border(11px);
   margin-right: -1px;
-  &.hide { display:none; }  
+  &.hide { display:none; }
 }
 
 img.revert, img.checkout
@@ -38,6 +38,10 @@ img.revert, img.checkout
   width: $traffic-light-size - 2px;
   height: $traffic-light-size - 2px;
   @include circle-border($traffic-light-size);
+}
+
+img.revert, img.checkout, img.tick, img.cross
+{
   &.red   { border: 1px solid $red  ; }
   &.amber { border: 1px solid $amber; }
   &.green { border: 1px solid $green; }

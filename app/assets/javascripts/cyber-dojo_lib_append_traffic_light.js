@@ -65,7 +65,7 @@ var cyberDojo = ((cd, $) => {
     const correct = (light.predicted === light.colour);
     const icon = correct ? 'tick' : 'cross';
     return $('<img>', {
-      class: icon,
+      class: `${icon} ${light.predicted}`,
         src: `/images/traffic-light/circle-${icon}.png`
     });
   };
