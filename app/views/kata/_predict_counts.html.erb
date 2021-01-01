@@ -29,15 +29,8 @@ $(() => {
       const name = isRight ? 'tick' : 'cross';
       const $count = $(`.${name}.count`, $predictCounts);
       $count.text(counts[name] += 1);
-      $('.count', $predictCounts).removeClass('red amber green');
-      if (!isRight) {
-        $count.addClass(light.predicted);
-      }
       const total = counts.tick + counts.cross;
       $('.total', $predictCounts).html(`${total}&nbsp;prediction${plural(total)}`);
-    }
-    else if (!cd.lib.isRevert(light)) {
-      $('.count', $predictCounts).removeClass('red amber green');
     }
   };
 

@@ -34,9 +34,6 @@
      color: lighten(Black, 20%);
      padding: { left:4px; right:4px; top:3px; bottom:1px; }
      background: lighten($darker-color, 40%);
-     &.red   { background: $red  ; }
-     &.amber { background: $amber; }
-     &.green { background: $green; }
    }
    img
    {

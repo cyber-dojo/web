@@ -1,10 +1,10 @@
 <div class="review predict-counts">
   <div class="circle box">
-    <div class="cross count">0</div>
+    <div class="cross count"></div>
     <img src="/images/traffic-light/circle-cross.png">
   </div>
   <div class="tick box">
-    <div class="tick count">0</div>
+    <div class="tick count"></div>
     <img src="/images/traffic-light/circle-tick.png">
   </div>
   <div class="total"></div>
@@ -21,7 +21,6 @@ $(() => {
   cd.review.predictCounts = {};
 
   cd.review.predictCounts.reset = () => {
-    removeRagBackground();
     Object.keys(counts).forEach(key => setPredict(key, 0));
     updateTotal();
   };
@@ -31,26 +30,14 @@ $(() => {
     if (cd.lib.hasPrediction(light) && colour != 'pulling' && colour != 'faulty') {
       const isRight = (colour === light.predicted);
       const name = isRight ? 'tick' : 'cross';
-      const $count = setPredict(name, counts[name] + 1);
-      removeRagBackground();
-      if (!isRight) {
-        $count.addClass(light.predicted);
-      }
+      setPredict(name, counts[name] + 1);
       updateTotal();
     }
-    else if (!cd.lib.isRevert(light)) {
-      removeRagBackground();
-    }
-  };
-
-  const removeRagBackground = () => {
-    $('.count', $predictCounts).removeClass('red amber green');
   };
 
   const setPredict = (name, n) => {
     const $count = $(`.${name}.count`, $predictCounts);
     $count.text(counts[name] = n);
-    return $count;
   };
 
   const updateTotal = () => {
