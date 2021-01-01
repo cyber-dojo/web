@@ -23,11 +23,11 @@ $(() => {
   cd.kata.predictCounts.update = (light) => {
     const colour = light.colour;
     if (cd.lib.hasPrediction(light) && colour != 'pulling' && colour != 'faulty') {
-      $('.count', $predictCounts).removeClass('red amber green');
       const isRight = (colour === light.predicted);
       const name = isRight ? 'tick' : 'cross';
       const $count = $(`.${name}.count`, $predictCounts);
       $count.text(counts[name] += 1);
+      $('.count', $predictCounts).removeClass('red amber green');
       if (!isRight) {
         $count.addClass(light.predicted);
       }

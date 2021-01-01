@@ -34,8 +34,10 @@ $(() => {
         const $light = cd.lib.appendTrafficLight($lights, light, {isCurrentIndex:isCurrentIndex});
         $light.click(() => review.refresh(review.id, light.index));
         cd.setupTrafficLightTip($light, light, review.id, light.index-1, light.index);
-        cd.review.trafficLightsCounts.update(light);
-        cd.review.predictCounts.update(light);
+        if (light.index <= review.index) {
+          cd.review.trafficLightsCounts.update(light);
+          cd.review.predictCounts.update(light);
+        }
         if (isOwnRevertedIncorrectPredictionLight(light)) {
           review.checkoutButton.disable();
         }

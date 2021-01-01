@@ -16,10 +16,16 @@ $(() => {
 
   const $predictCounts = $('.review.predict-counts');
 
+  const counts = { tick: 0, cross: 0 };
+
   cd.review.predictCounts = {};
 
   cd.review.predictCounts.reset = () => {
     Object.keys(counts).forEach(key => counts[key] = 0);
+    removeRagBackground();
+    setPredict('cross', 0);
+    setPredict('tick', 0);
+    setTotal(0);
   };
 
   cd.review.predictCounts.update = (light) => {
@@ -27,19 +33,33 @@ $(() => {
     if (cd.lib.hasPrediction(light) && colour != 'pulling' && colour != 'faulty') {
       const isRight = (colour === light.predicted);
       const name = isRight ? 'tick' : 'cross';
-      $(`.${name}.count`, $predictCounts).text(counts[name] += 1);
-      const total = counts.tick + counts.cross;
-      $('.total', $predictCounts).html(`${total}&nbsp;prediction${plural(total)}`);
+      const $count = setPredict(name, counts[name] += 1);
+      removeRagBackground();
+      if (!isRight) {
+        $count.addClass(light.predicted);
+      }
+      setTotal(counts.tick + counts.cross);
+    }
+    else if (!cd.lib.isRevert(light)) {
+      removeRagBackground();
     }
   };
 
-  const plural = (n) => n == 1 ? '' : 's';
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const counts = {
-    tick: 0,
-    cross: 0
+  const removeRagBackground = () => {
+    $('.count', $predictCounts).removeClass('red amber green');
   };
+
+  const setPredict = (name, count) => {
+    const $count = $(`.${name}.count`, $predictCounts);
+    $count.text(count);
+    return $count;
+  };
+
+  const setTotal = (n) => {
+    $('.total', $predictCounts).html(`${n}&nbsp;prediction${plural(n)}`);
+  };
+
+  const plural = (n) => n == 1 ? '' : 's';
 
 });
 </script>
