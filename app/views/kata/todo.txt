@@ -1,4 +1,0 @@
-
-When checkout button says [checkout] use fuller hover-tip.
-
-Use [diff [x] in same colour as predict checkbox.

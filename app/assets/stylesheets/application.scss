@@ -24,6 +24,7 @@
  *= depend_on avatar-selector-dialog.scss
  *= depend_on button.scss
  *= depend_on dialog.scss
+ *= depend_on filename-list.scss
  *= depend_on filename.scss
  *= depend_on file-content.scss
  *= depend_on fork-dialog.scss
@@ -31,7 +32,7 @@
  *= depend_on diff-checkbox.scss
  *= depend_on diff-hover-tip.scss
  *= depend_on info.scss
- *= depend_on kata.scss
+ *= depend_on errors.scss
  *= depend_on kata-grid.scss
  *= depend_on kata-tabs.scss
  *= depend_on file_create_delete_rename.scss
@@ -76,6 +77,7 @@
 @import "avatar-selector-dialog.scss";
 @import "button.scss";
 @import "dialog.scss";
+@import "filename-list.scss";
 @import "filename.scss";
 @import "file-content.scss";
 @import "fork-dialog.scss";
@@ -83,7 +85,7 @@
 @import "diff-checkbox.scss";
 @import "diff-hover-tip.scss";
 @import "info.scss";
-@import "kata.scss";
+@import "errors.scss";
 @import "kata-grid.scss";
 @import "kata-tabs.scss";
 @import "file_create_delete_rename.scss";

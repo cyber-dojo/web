@@ -1,0 +1,15 @@
+#error
+{
+  width: 580px;
+  height: 280px;
+  background: red;
+  font-size: 12px;
+}
+
+#timed-out, #faulty, #out-of-sync, #pulling
+{
+  height: 240px;
+  background: gray;
+  font-size: 14px;
+  width: 450px;
+}
