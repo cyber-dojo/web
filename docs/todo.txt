@@ -8,8 +8,6 @@ What about [+] created files and [-] deleted files?
 
 Polyfill old checkouts on model?
 
-Add hover-tip for individual counts?
-
 provide model.revert() method as alias for model.ran_tests() and use in kata-controller
 
 provide model.checkout() method as alias for model.ran_tests() and use in kata-controller
