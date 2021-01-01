@@ -11,7 +11,6 @@
     <div class="green count">0</div>
     <img src="/images/traffic-light/green.png">
   </div>
-  <div class="rag-spacer"></div>
   <div class="timed_out box" style="display:none;">
     <div class="timed_out count">0</div>
     <img src="/images/traffic-light/timed_out.png">
@@ -24,7 +23,6 @@
     <div class="faulty count">0</div>
     <img src="/images/traffic-light/faulty.png">
   </div>
-  <div class="total">0&nbsp;tests</div>
 </div>
 
 <script>
@@ -60,9 +58,6 @@ $(() => {
     // a test submission (with or without a prediction).
     if (!cd.lib.isRevert(light) && !cd.lib.isCheckout(light)) {
       $count.text(counts[colour] += 1);
-      const total = counts.red + counts.amber + counts.green +
-                    counts.timed_out + counts.pulling + counts.faulty;
-      $('.total', $counts).html(`${total}&nbsp;test${plural(total)}`);
     }
     // Most katas will have only red/amber/green totals,
     // so don't show timed_out,pulling,faulty unless they occur.
@@ -70,8 +65,6 @@ $(() => {
       $(`.${colour}.box`, $counts).show();
     }
   };
-
-  const plural = (n) => n == 1 ? '' : 's';
 
 });
 </script>

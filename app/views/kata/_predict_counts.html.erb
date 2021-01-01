@@ -7,7 +7,6 @@
     <div class="tick count">0</div>
     <img src="/images/traffic-light/circle-tick.png">
   </div>
-  <div class="total">0&nbsp;predictions</div>
 </div>
 
 <script>
@@ -30,11 +29,8 @@ $(() => {
       const $count = $(`.${name}.count`, $predictCounts);
       $count.text(counts[name] += 1);
       const total = counts.tick + counts.cross;
-      $('.total', $predictCounts).html(`${total}&nbsp;prediction${plural(total)}`);
     }
   };
-
-  const plural = (n) => n == 1 ? '' : 's';
 
 });
 </script>
