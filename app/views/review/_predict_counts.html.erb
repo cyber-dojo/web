@@ -21,10 +21,8 @@ $(() => {
   cd.review.predictCounts = {};
 
   cd.review.predictCounts.reset = () => {
-    Object.keys(counts).forEach(key => counts[key] = 0);
     removeRagBackground();
-    setPredict('cross', 0);
-    setPredict('tick', 0);
+    Object.keys(counts).forEach(key => setPredict(key, 0));
     updateTotal();
   };
 
@@ -33,7 +31,7 @@ $(() => {
     if (cd.lib.hasPrediction(light) && colour != 'pulling' && colour != 'faulty') {
       const isRight = (colour === light.predicted);
       const name = isRight ? 'tick' : 'cross';
-      const $count = setPredict(name, counts[name] += 1);
+      const $count = setPredict(name, counts[name] + 1);
       removeRagBackground();
       if (!isRight) {
         $count.addClass(light.predicted);
@@ -49,9 +47,9 @@ $(() => {
     $('.count', $predictCounts).removeClass('red amber green');
   };
 
-  const setPredict = (name, count) => {
+  const setPredict = (name, n) => {
     const $count = $(`.${name}.count`, $predictCounts);
-    $count.text(count);
+    $count.text(counts[name] = n);
     return $count;
   };
 
