@@ -1,4 +1,4 @@
-<div class="review predict-counts">
+<div class="review predict-counts" style="display:none;">
   <div class="circle box">
     <div class="cross count"></div>
     <img src="/images/traffic-light/circle-cross.png">
@@ -13,7 +13,7 @@
 'use strict';
 $(() => {
 
-  const $predictCounts = $('.review.predict-counts');
+  const $counts = $('.review.predict-counts');
 
   const counts = { cross: 0, tick: 0 };
 
@@ -29,11 +29,12 @@ $(() => {
       const isRight = (colour === light.predicted);
       const name = isRight ? 'tick' : 'cross';
       setPredict(name, counts[name] + 1);
+      $counts.show();
     }
   };
 
   const setPredict = (name, n) => {
-    const $count = $(`.${name}.count`, $predictCounts);
+    const $count = $(`.${name}.count`, $counts);
     $count.text(counts[name] = n);
   };
 
