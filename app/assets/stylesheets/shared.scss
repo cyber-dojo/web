@@ -28,15 +28,6 @@ a:link, a:visited { color: $text-color; }
 
 //----------------------------------------------
 
-.avatar-image img
-{
-  border-radius: 6px;
-  width: 30px;
-  height: 30px;
-  margin: 0px;
-  padding: 0px;
-}
-
 .avatar_name, #id {
   @include font-size-tiny();
   text-align: right;

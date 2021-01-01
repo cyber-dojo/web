@@ -1,16 +1,5 @@
 #kata-page
 {
-  img.avatar-image
-  {
-    float: right;
-    border-radius: 3px;
-    display: block;
-    cursor: pointer;
-    width: 45px;
-    height: 45px;
-    margin-right: 7px;
-  }
-
   #filename-list
   {
     margin: { top: 0px; right: 0px; }
@@ -27,17 +16,7 @@
     position: relative;
     top: -4px;
   }
-
-  .file_content
-  {
-    overflow-x:auto;
-    overflow-y:auto;
-    &::-webkit-scrollbar:vertical   {  width:7px; }
-    &::-webkit-scrollbar:horizontal { height:0px; }
-  }
 }
-
-//--------------------------------------------------------------
 
 #error
 {
