@@ -13,14 +13,26 @@ suggest the lion(s) wrote the code this way because of such
 and such. And it is up to the lions to decide whether to
 reveal who they are, and whether the reviewer is correct.
 
-3. Tests and code have equal importance.
+3. Transparency
+A very important part of cyber-dojo is the review.
+Everything that happens should be reviewable.
+Nothing should be hidden.
+
+4. Trust
+cyber-dojo should not put 'checks' in place to prevent people
+doing what they want to do. For example, in a group the
+anonymity means anyone can try to 'take over' as a specific animal.
+This should be allowed, and in fact has become a feature!
+One exception is that cyber-dojo.sh cannot be deleted/renamed.
+
+5. Tests and code have equal importance.
 Stable systems tend to oppose their own proper function.
 The Equilibrium Law.
 
-4. Part of practice is going slower, not faster.
+6. Part of practice is going slower, not faster.
 More carefully. More deliberately.
 
-5. Outputs are important.
+7. Outputs are important.
 For example, one feature request was for the output to always be
 visible, below the source, and only a few lines in height.
 I decided not to do that. Partly because cyber-dojo is not about speeding up.

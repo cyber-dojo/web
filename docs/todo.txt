@@ -1,4 +1,6 @@
 
+Make review page avatar navigator larger.
+
 In review-mode, always do diff-summary of index,index-1
 and always show file-type markers. Make the diff[x] checkbox
 control whether the [+][-] diffs are visible. Need to try this.
