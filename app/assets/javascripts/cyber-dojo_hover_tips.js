@@ -140,13 +140,13 @@ var cyberDojo = (function(cd, $) {
 
   const $diffTypeTd = (diff) => {
     const $type = $('<div>', {
-      class:`diff-type-marker ${diff.type}`
+      class:`hover diff-type-marker ${diff.type}`
     });
     return $('<td>').append($type);
   };
 
   const $diffFilenameTd = (diff) => {
-    const $filename = $('<div>', { class:`diff-filename ${diff.type}` });
+    const $filename = $('<div>', { class:`hover diff-filename ${diff.type}` });
     $filename.text(diffFilename(diff));
     return $('<td>').append($filename);
   };
