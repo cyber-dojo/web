@@ -1,11 +1,11 @@
 <div class="review predict-counts">
-  <div class="tick box">
-    <div class="tick count">0</div>
-    <img src="/images/traffic-light/circle-tick.png">
-  </div>
   <div class="circle box">
     <div class="cross count">0</div>
     <img src="/images/traffic-light/circle-cross.png">
+  </div>
+  <div class="tick box">
+    <div class="tick count">0</div>
+    <img src="/images/traffic-light/circle-tick.png">
   </div>
   <div class="total"></div>
 </div>
@@ -16,7 +16,7 @@ $(() => {
 
   const $predictCounts = $('.review.predict-counts');
 
-  const counts = { tick: 0, cross: 0 };
+  const counts = { cross: 0, tick: 0 };
 
   cd.review.predictCounts = {};
 
