@@ -1,11 +1,11 @@
 <div class="kata predict-counts" style="display:none;">
-  <div class="tick box">
-    <div class="tick count">0</div>
-    <img src="/images/traffic-light/circle-tick.png">
-  </div>
   <div class="circle box">
     <div class="cross count">0</div>
     <img src="/images/traffic-light/circle-cross.png">
+  </div>
+  <div class="tick box">
+    <div class="tick count">0</div>
+    <img src="/images/traffic-light/circle-tick.png">
   </div>
   <div class="total">0&nbsp;predictions</div>
 </div>
@@ -19,6 +19,8 @@ cd.kata.predictCounts = {
 };
 
 $(() => {
+
+  const counts = { cross: 0, tick: 0 };
 
   cd.kata.predictCounts.update = (light) => {
     const colour = light.colour;
@@ -40,12 +42,6 @@ $(() => {
   };
 
   const plural = (n) => n == 1 ? '' : 's';
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const counts = {
-    tick: 0,
-    cross: 0
-  };
 
 });
 </script>
