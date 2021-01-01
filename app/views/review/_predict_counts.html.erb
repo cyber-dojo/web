@@ -7,7 +7,6 @@
     <div class="tick count"></div>
     <img src="/images/traffic-light/circle-tick.png">
   </div>
-  <div class="total"></div>
 </div>
 
 <script>
@@ -22,7 +21,6 @@ $(() => {
 
   cd.review.predictCounts.reset = () => {
     Object.keys(counts).forEach(key => setPredict(key, 0));
-    updateTotal();
   };
 
   cd.review.predictCounts.update = (light) => {
@@ -31,7 +29,6 @@ $(() => {
       const isRight = (colour === light.predicted);
       const name = isRight ? 'tick' : 'cross';
       setPredict(name, counts[name] + 1);
-      updateTotal();
     }
   };
 
@@ -39,13 +36,6 @@ $(() => {
     const $count = $(`.${name}.count`, $predictCounts);
     $count.text(counts[name] = n);
   };
-
-  const updateTotal = () => {
-    const total = counts.tick + counts.cross;
-    $('.total', $predictCounts).html(`${total}&nbsp;prediction${plural(total)}`);
-  };
-
-  const plural = (n) => n == 1 ? '' : 's';
 
 });
 </script>
