@@ -24,7 +24,7 @@
     <div class="actual faulty count">0</div>
     <img src="/images/traffic-light/faulty.png">
   </div>
-  <div class="total">0&nbsp;tests</div>
+  <div class="total"></div>
 </div>
 
 <script>
@@ -39,10 +39,16 @@ $(() => {
 
   const $counts = $('.review.traffic-lights-counts');
 
+  const counts = {
+    red: 0, amber: 0, green: 0,
+    timed_out: 0, pulling: 0, faulty:0,
+  };
+
   cd.review.trafficLightsCounts = {};
 
   cd.review.trafficLightsCounts.reset = () => {
-    Object.keys(counts).forEach(key => counts[key] = 0);    
+    Object.keys(counts).forEach(key => setCount(key, 0));
+    updateTotal();
   };
 
   cd.review.trafficLightsCounts.update = (light) => {
@@ -50,15 +56,12 @@ $(() => {
     // colour results in two traffic-lights; a 1st for the
     // incorrect prediction, a 2nd to revert it.
     const colour = light.colour;
-    const $count = $(`.${colour}.count`, $counts);
     // The 2nd revert light does _not_ contribute to the count
     // totals which is the number of times there has been
     // a test submission (with or without a prediction).
     if (!cd.lib.isRevert(light) && !cd.lib.isCheckout(light)) {
-      $count.text(counts[colour] += 1);
-      const total = counts.red + counts.amber + counts.green +
-                    counts.timed_out + counts.pulling + counts.faulty;
-      $('.total', $counts).html(`${total}&nbsp;test${plural(total)}`);
+      setCount(colour, counts[colour] + 1);
+      updateTotal();
     }
     // Most katas will have only red/amber/green totals,
     // so don't show timed_out,pulling,faulty unless they occur.
@@ -67,17 +70,18 @@ $(() => {
     }
   };
 
-  const plural = (n) => n == 1 ? '' : 's';
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const counts = {
-    red: 0,
-    amber: 0,
-    green: 0,
-    timed_out: 0,
-    pulling: 0,
-    faulty:0,
+  const setCount = (name, n) => {
+    const $count = $(`.${name}.count`, $counts);
+    $count.text(counts[name] = n);
   };
+
+  const updateTotal = () => {
+    const total = counts.red + counts.amber + counts.green +
+                  counts.timed_out + counts.pulling + counts.faulty;
+    $('.total', $counts).html(`${total}&nbsp;test${plural(total)}`);
+  };
+
+  const plural = (n) => n == 1 ? '' : 's';
 
 });
 </script>
