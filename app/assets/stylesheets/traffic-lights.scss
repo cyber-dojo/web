@@ -9,19 +9,27 @@
 
 $traffic-light-size: 19px;
 
+@mixin circle-border($width)
+{
+  border-radius: $width / 2 + 1;
+}
+
 img.diff-traffic-light
 {
   cursor: pointer;
   width: $traffic-light-size;
   height: $traffic-light-size;
+  @include circle-border($traffic-light-size);
   border-radius: 10px;
   padding: { left:0px; right:0px; }
   margin: { left:0px; right:2px; }
 }
 
-@mixin circle-border($width)
+img.revert, img.checkout
 {
-  border-radius: $width / 2 + 1;
+  width: $traffic-light-size - 2px;
+  height: $traffic-light-size - 2px;
+  @include circle-border($traffic-light-size);
 }
 
 img.tick, img.cross
@@ -31,13 +39,6 @@ img.tick, img.cross
   @include circle-border(11px);
   margin-right: -1px;
   &.hide { display:none; }
-}
-
-img.revert, img.checkout
-{
-  width: $traffic-light-size - 2px;
-  height: $traffic-light-size - 2px;
-  @include circle-border($traffic-light-size);
 }
 
 img.revert, img.checkout, img.tick, img.cross
