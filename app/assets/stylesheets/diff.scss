@@ -42,22 +42,6 @@
   &.unchanged { color: darken(DarkGray,15%); }
 }
 
-.diff-type
-{
-  &.added     { color: lighten($green,15%); }
-  &.deleted   { color: lighten($red,  15%); }
-  &.unchanged { color: darken(DarkGray,15%); }
-}
-
-table.sss { margin-top: 15px; }
-
-#diff-filename-stdout,
-#diff-filename-stderr,
-#diff-filename-status
-{
-  color: darken(DarkGray,20%);
-}
-
 .diff-filename
 {
   font-size: 12pt;
@@ -68,7 +52,6 @@ table.sss { margin-top: 15px; }
   &:hover
   {
     background: lighten($darker-color, 5%);
-    border: 1px solid lighten($darker-color, 5%);
   }
   &.selected
   {
@@ -113,6 +96,22 @@ table.sss { margin-top: 15px; }
       color: $darker-color;
     }
   }
+}
+
+.diff-type
+{
+  &.added     { color: lighten($green,15%); }
+  &.deleted   { color: lighten($red,  15%); }
+  &.unchanged { color: darken(DarkGray,15%); }
+}
+
+table.sss { margin-top: 15px; }
+
+#diff-filename-stdout,
+#diff-filename-stderr,
+#diff-filename-status
+{
+  color: darken(DarkGray,20%);
 }
 
 #diff-content, #diff-content-output

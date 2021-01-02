@@ -3,14 +3,14 @@
 {
   @include plaintext-font();
 
-       color: $lighter-color;
+  color: $lighter-color;
   background: $darker-color;
 
   text-align: left;
 
-      border: 1px solid $darker-color;
-      margin: 0px;
-      cursor: pointer;
+  border: 1px solid $darker-color;
+  margin: 0px;
+  cursor: pointer;
 
   // no up/down scrolling, #filename-list has its own
   overflow-y: hidden;
