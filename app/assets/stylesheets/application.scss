@@ -45,6 +45,7 @@
  *= depend_on traffic-lights.scss
  *= depend_on traffic-lights-counts.scss
  *= depend_on review.scss
+ *= depend_on avatar-navigator.scss
  *= depend_on review-grid.scss
  *= depend_on app-bar.scss
  *= depend_on wait-spinner.scss
@@ -98,6 +99,7 @@
 @import "traffic-lights.scss";
 @import "traffic-lights-counts.scss";
 @import "review.scss";
+@import "avatar-navigator.scss";
 @import "review-grid.scss";
 @import "app-bar.scss";
 @import "wait-spinner.scss";

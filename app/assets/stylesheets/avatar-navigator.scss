@@ -1,0 +1,23 @@
+#avatar-navigator
+{
+  width: 66px;
+  height: 25px;
+  padding: 4px;
+  margin-right:24px;
+  position: absolute;
+  right: 0px;
+  top: 5px;
+  transform: scale(1.4);
+}
+#review-avatar-image-box
+{
+  img.avatar-image
+  {
+    border-radius: 6px;
+    cursor: pointer;
+    width: 21px;
+    height: 21px;
+    margin: { left:2px; right:2px; }
+    padding: 0px;
+  }
+}

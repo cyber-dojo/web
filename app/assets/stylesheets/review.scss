@@ -7,21 +7,10 @@
     margin: { top:1px; bottom: 10px; left:$left-column-left-margin; }
   }
 
-  #avatar-navigator, #traffic-light-navigator { max-height: 25px; }
-
-  #avatar-navigator
-  {
-    width: 66px;
-    padding: 4px;
-    margin-left: -77px;
-    position: relative;
-    top: -2px;
-    left: -4px;
-  }
-
   #traffic-light-navigator
   {
     width: 100px;
+    max-height: 25px;
     vertical-align: top;
   }
 
@@ -30,19 +19,6 @@
     display: inline-flex;
     width: 651px;
     margin: { top:2px; bottom:5px; }
-  }
-
-  #review-avatar-image-box
-  {
-    img.avatar-image
-    {
-      border-radius: 6px;
-      cursor: pointer;
-      width: 21px;
-      height: 21px;
-      margin: { left:2px; right:2px; }
-      padding: 0px;
-    }
   }
 
   //- - - - - - - - - - - - - - - - - -

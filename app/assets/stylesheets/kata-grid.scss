@@ -26,6 +26,6 @@
     max-height: $column-height;
     display: inline-block;
     margin: { left:$right-column-left-margin; top:1px; }
-    position: relative; // To allow charity/sponsor absolute:bottom
+    position: relative; // For charity/sponsor absolute:bottom
   }
 }

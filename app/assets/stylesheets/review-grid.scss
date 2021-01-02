@@ -13,6 +13,7 @@
   .left-column
   {
     width: $left-column-width; // Prevents movement when diff checkbox toggles
+    position: relative;        // For avatar-navigator absolute:right    
   }
 
   .right-gutter
