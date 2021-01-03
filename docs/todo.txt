@@ -1,13 +1,7 @@
 
-Make review page avatar navigator larger.
-
 In review-mode, always do diff-summary of index,index-1
 and always show file-type markers. Make the diff[x] checkbox
 control whether the [+][-] diffs are visible. Need to try this.
 What about [+] created files and [-] deleted files?
 
 Polyfill old checkouts on model?
-
-provide model.revert() method as alias for model.ran_tests() and use in kata-controller
-
-provide model.checkout() method as alias for model.ran_tests() and use in kata-controller

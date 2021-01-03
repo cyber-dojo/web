@@ -67,11 +67,52 @@ class ModelServiceTest < AppServicesTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'eJ4',
+  test 'QJ4',
   'kata_ran_tests() smoke test' do
     manifest = starter_manifest
     kid = model.kata_create(manifest)
     model.kata_ran_tests(kid, 1, manifest['visible_files'], 'stdout', 'stderr', 0, ran_summary('amber'))
+    assert_equal 2, model.kata_events(kid).size
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'QJ5',
+  'kata_reverted() smoke test' do
+    manifest = starter_manifest
+    kid = model.kata_create(manifest)
+    model.kata_ran_tests(kid, 1, manifest['visible_files'], 'stdout', 'stderr', 0, ran_summary('green'))
+    model.kata_ran_tests(kid, 2, manifest['visible_files'], 'stdout', 'stderr', 0, {
+      duration: duration,
+      colour: 'amber',
+      predicted: 'red'
+    })
+    model.kata_reverted(kid, 3, manifest['visible_files'], 'stdout', 'stderr', 0, {
+      colour: 'green',
+      revert: [kid, 1]
+    })
+    assert_equal 4, model.kata_events(kid).size
+  end
+
+  #- - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  test 'QJ6',
+  'kata_checked_out() smoke test' do
+    manifest = starter_manifest
+    gid = model.group_create(manifest)
+    kid1 = model.group_join(gid)
+    model.kata_ran_tests(kid1, 1, manifest['visible_files'], 'stdout', 'stderr', 0, ran_summary('red'))
+    model.kata_ran_tests(kid1, 2, manifest['visible_files'], 'stdout', 'stderr', 0, ran_summary('amber'))
+    kid2 = model.group_join(gid)
+    model.kata_checked_out(kid2, 1, manifest['visible_files'], 'stdout', 'stderr', 0, {
+      colour: 'red',
+      checkout: {
+        id: kid1,
+        index: 2,
+        avatarIndex: 46
+      }
+    })
+    assert_equal 2, model.kata_events(kid2).size
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -

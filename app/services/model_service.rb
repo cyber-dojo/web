@@ -77,4 +77,28 @@ class ModelService
     })
   end
 
+  def kata_reverted(id, index, files, stdout, stderr, status, summary)
+    @http.post(__method__, {
+      id:id,
+      index:index,
+      files:files,
+      stdout:stdout,
+      stderr:stderr,
+      status:status,
+      summary:summary
+    })
+  end
+
+  def kata_checked_out(id, index, files, stdout, stderr, status, summary)
+    @http.post(__method__, {
+      id:id,
+      index:index,
+      files:files,
+      stdout:stdout,
+      stderr:stderr,
+      status:status,
+      summary:summary
+    })
+  end
+
 end

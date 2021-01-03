@@ -21,6 +21,7 @@ $hoverFadePercent: 5%;
   border: 1px solid lighten($darker-color, $hoverFadePercent);
   width: auto; min-width: 0; // reset width
 }
+
 .hover-tip .mini-text
 {
   color: lighten(Gray,10%);

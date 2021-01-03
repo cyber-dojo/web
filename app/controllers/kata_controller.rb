@@ -67,11 +67,11 @@ class KataController < ApplicationController
 
   # - - - - - - - - - - - - - - - - - -
 
-  def revert
+  def revert # An auto-revert for an incorrect prediction from the test page.
     # Eg 14=green, 15=incorrect prediction, index==16 ==> revert to 14
     args = [ id, index-2 ]
     json = source_event(id, index-2, :revert, args)
-    model.kata_ran_tests(id, index, @files, @stdout, @stderr, @status, {
+    model.kata_reverted(id, index, @files, @stdout, @stderr, @status, {
       colour: @colour,
       revert: args
     });
@@ -80,14 +80,14 @@ class KataController < ApplicationController
 
   # - - - - - - - - - - - - - - - - - -
 
-  def checkout
+  def checkout # A [revert][checkout!] from the review page.
     from = {
       id:source_id,
       index:source_index,
       avatarIndex:source_avatar_index,
     }
     json = source_event(from[:id], from[:index], :checkout, from)
-    model.kata_ran_tests(id, index, @files, @stdout, @stderr, @status, {
+    model.kata_checked_out(id, index, @files, @stdout, @stderr, @status, {
         colour: @colour,
       checkout: from
     });
