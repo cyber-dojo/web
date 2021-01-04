@@ -40,7 +40,7 @@ class KataController < ApplicationController
     @saved = true
     @out_of_sync = false
     begin
-      model.kata_ran_tests(@id, index, files, @stdout, @stderr, @status, {
+      kata_ran_tests(@id, index, files, @stdout, @stderr, @status, {
         duration: duration,
         colour: @outcome,
         predicted: params['predicted'],
@@ -96,6 +96,18 @@ class KataController < ApplicationController
 
   private
 
+  def kata_ran_tests(id, index, files, stdout, stderr, status, summary)
+    if summary[:predicted] === 'none'
+      model.kata_ran_tests(id, index, files, stdout, stderr, status, summary)
+    elsif summary[:predicted] === summary[:colour]
+      model.kata_predicted_right(id, index, files, stdout, stderr, status, summary)
+    else
+      model.kata_predicted_wrong(id, index, files, stdout, stderr, status, summary)
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - -
+
   def source_event(src_id, src_index, name, value)
     event = model.kata_event(src_id, src_index)
     @files = event['files']
@@ -115,6 +127,8 @@ class KataController < ApplicationController
        }
     }
   end
+
+  # - - - - - - - - - - - - - - - - - -
 
   def id
     params[:id]

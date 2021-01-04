@@ -67,11 +67,35 @@ class ModelServiceTest < AppServicesTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test 'QJ4',
+  test 'QJ2',
   'kata_ran_tests() smoke test' do
     manifest = starter_manifest
     kid = model.kata_create(manifest)
     model.kata_ran_tests(kid, 1, manifest['visible_files'], 'stdout', 'stderr', 0, ran_summary('amber'))
+    assert_equal 2, model.kata_events(kid).size
+  end
+
+  test 'QJ3',
+  'kata_predicted_right() smoke test' do
+    manifest = starter_manifest
+    kid = model.kata_create(manifest)
+    model.kata_predicted_right(kid, 1, manifest['visible_files'], 'stdout', 'stderr', 0, {
+      duration: duration,      
+      colour: 'red',
+      predicted: 'red'
+    })
+    assert_equal 2, model.kata_events(kid).size
+  end
+
+  test 'QJ4',
+  'kata_predicted_wrong() smoke test' do
+    manifest = starter_manifest
+    kid = model.kata_create(manifest)
+    model.kata_predicted_wrong(kid, 1, manifest['visible_files'], 'stdout', 'stderr', 0, {
+      duration: duration,
+      colour: 'red',
+      predicted: 'green'
+    })
     assert_equal 2, model.kata_events(kid).size
   end
 
