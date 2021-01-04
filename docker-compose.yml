@@ -23,7 +23,6 @@ services:
   # - - - - - - - - - - - - - - - -
   creator:
     image: ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}
-    ports: [ "${CYBER_DOJO_CREATOR_PORT}:${CYBER_DOJO_CREATOR_PORT}" ]
     user: nobody
     container_name: test_web_creator
     env_file: [ .env ]
