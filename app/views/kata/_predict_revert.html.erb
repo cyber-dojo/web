@@ -14,21 +14,21 @@
   <table>
     <tr>
       <td><button class="predict red" data-colour="red" type="button">red</button></td>
-      <td><div class="revert-checkbox-cell">
+      <td><div class="revert-checkbox-cell" style="display:none;">
             <input type="checkbox" class="revert-checkbox" data-colour="red"  />
           </div>
       </td>
     </tr>
     <tr>
       <td><button class="predict amber" data-colour="amber" type="button">amber</button></td>
-      <td><div class="revert-checkbox-cell">
+      <td><div class="revert-checkbox-cell" style="display:none;">
           <input type="checkbox" class="revert-checkbox" data-colour="amber"/>
         </div>
       </td>
     </tr>
     <tr>
       <td><button class="predict green" data-colour="green" type="button">green</button></td>
-      <td><div class="revert-checkbox-cell">
+      <td><div class="revert-checkbox-cell" style="display:none;">
           <input type="checkbox" class="revert-checkbox" data-colour="green"/>
         </div>
       </td>
@@ -85,8 +85,8 @@ $(() => {
   const predictOn = () => {
     settings.predict('on');
     kata.testButton.hide(() => {
-      $revertTitle.show('slow');
       $buttonsCell.slideDown('slow');
+      setupAutoRevert();
       kata.predictCounts.show();
       kata.predictImages.show();
       setFilenameListMaxHeight(470);
@@ -132,9 +132,20 @@ $(() => {
   });
 
   //- - - - - - - - - - - - - - - - - - - - - - -
-  // Revert title and checkboxes
+  // Auto-Revert title and checkboxes
 
   const $revertTitle = $('#revert-title-cell');
+
+  const setupAutoRevert = () => {
+    if (kata.index > 1) {
+      $revertTitle.show('slow');
+      $('.revert-checkbox-cell').show();
+      ['red','amber','green'].forEach((colour) => {
+        const $box = $(`.revert-checkbox[data-colour=${colour}]`);
+        $box.prop('checked', settings.revert(colour) === 'on');
+      });
+    }
+  };
 
   cd.createTip($revertTitle, [
     'creates an <em>extra</em> traffic-light',
@@ -153,12 +164,11 @@ $(() => {
   });
 
   cd.kata.setupPrediction = () => {
-    ['red','amber','green'].forEach((colour) => {
-      const $box = $(`.revert-checkbox[data-colour=${colour}]`);
-      $box.prop('checked', settings.revert(colour) === 'on');
-    });
+    // called from
+    // 1) edit.html.erb when page refreshes
+    // 2) run_tests.js.erb when test has run
     if (settings.predict() === 'on') {
-      predictOn();
+      predictOn(); // enables auto-revert after first test
     } else {
       predictOff();
     }

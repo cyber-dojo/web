@@ -127,12 +127,10 @@
     const isRagOutcome = ['red','amber','green'].includes(outcome);
     const predictedWrong = (predicted != outcome);
     const revertIsOn = () => (cd.settings.revert(predicted) === 'on');
-    const isLightToRevertTo = (cd.kata.index > 2);
     return predictIsOn()
       && isRagOutcome
         && predictedWrong
-          && revertIsOn()
-            && isLightToRevertTo;
+          && revertIsOn();
   };
 
   //- - - - - - - - - - - - - - - - - - - - - -
@@ -146,6 +144,7 @@
     cd.kata.editor.output(stdout, stderr, status);
     cd.kata.tabs.output().click();
     cd.kata.appendTrafficLight(light, {scrollIntoView:true});
+    cd.kata.setupPrediction();
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
