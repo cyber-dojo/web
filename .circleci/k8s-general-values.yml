@@ -33,3 +33,8 @@ containers:
       path: /alive?
     readinessProbe:
       path: /ready?
+    env:
+      CYBER_DOJO_PROMETHEUS: "true"
+      CYBER_DOJO_MODEL_PORT: "4528"
+      CYBER_DOJO_RUNNER_PORT: "4597"
+      CYBER_DOJO_WEB_PORT: "3000"
