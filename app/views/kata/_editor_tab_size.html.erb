@@ -2,7 +2,11 @@
 'use strict';
 $(() => {
 
-  cd.kata.editor.tabSize = () => <%= @manifest['tab_size'] %>;
+  cd.kata.editor.tabSize = () => {
+    const manifest = cd.kata.manifest(cd.kata.id);
+    console.log(JSON.stringify(manifest));
+    return manifest.tab_size;
+  };
 
 });
 </script>
