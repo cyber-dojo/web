@@ -5,7 +5,7 @@
 'use strict';
 $(() => {
 
-  const manifest = cd.lib.kataManifest(cd.kata.id);
+  const manifest = cd.kata.manifest(cd.kata.id);
   const avatarIndex = manifest.group_index;
 
   if (avatarIndex) {

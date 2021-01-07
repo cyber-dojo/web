@@ -4,7 +4,7 @@ var cyberDojo = ((cd, $) => {
 
   let kataManifestCache = undefined;
 
-  cd.lib.kataManifest = (id) => {
+  cd.kata.manifest = (id) => {
     if (kataManifestCache === undefined) {
       $.ajax({
               type: 'GET',

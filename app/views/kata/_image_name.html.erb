@@ -5,7 +5,7 @@
 $(() => {
 
   const $imageName = $("input[name='image_name']");
-  const manifest = cd.lib.kataManifest(cd.kata.id);
+  const manifest = cd.kata.manifest(cd.kata.id);
   const imageName = manifest.image_name;
 
   $imageName.val(imageName);
