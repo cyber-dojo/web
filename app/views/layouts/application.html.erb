@@ -10,9 +10,14 @@
 
     <script type="text/javascript">
       var cyberDojo = {
-        kata: { filenames:{}, tabs:{}, repl:{} },
+        kata: {
+          id: "<%= @id %>",
+          filenames:{},
+          tabs:{},
+          repl:{}
+        },
         review: {},
-        lib:{}
+        lib: {}
       };
       var cd = cyberDojo;
     </script>
