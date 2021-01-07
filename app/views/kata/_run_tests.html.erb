@@ -3,10 +3,9 @@
 $(() => {
 
   cd.kata.runTests = (onComplete) => {
-    // Called from 3 places
+    // Called from 2 places
     // 1. when you click the [test] button.
-    // 2. when you hot-key Alt-T (and predict === 'off')
-    // 3. when you click a [predict] button.
+    // 2. when you click a [predict] button.
     const form = $('form');
     cd.saveCodeFromSyntaxHighlightEditors();
     cd.waitSpinner.fadeIn('slow', () => {
