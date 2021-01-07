@@ -1,20 +1,18 @@
-<% if @manifest['group_index'] %>
-  <div class='avatar-image-box'>
-  </div>
-<% end %>
+<div class='avatar-image-box'>
+</div>
 
 <script>
 'use strict';
 $(() => {
 
-  const $box = $('.avatar-image-box');
+  const manifest = cd.lib.kataManifest(cd.kata.id);
+  const avatarIndex = manifest.group_index;
 
-  if ($box.length > 0) {
-    const avatarIndex = parseInt("<%= @manifest['group_index'] %>");
+  if (avatarIndex) {
     const $img = cd.lib.$makeAvatarImage(avatarIndex);
+    $('.avatar-image-box').append($img);
     cd.createTip($img, 'switch to review mode');
     $img.click(() => cd.review.fromTestPage(cd.kata.id, -1));
-    $box.append($img);
   }
 
 });
