@@ -6,9 +6,7 @@ $(() => {
 
   const $maxSeconds = $("input[name='max_seconds']");
   const manifest = cd.kata.manifest(cd.kata.id);
-  const maxSeconds = manifest.max_seconds;
-
-  $maxSeconds.val(maxSeconds);
+  $maxSeconds.val(manifest.max_seconds);
 
 });
 </script>
