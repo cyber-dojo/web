@@ -21,7 +21,7 @@ export $(echo_versioner_env_vars)
 containers_down
 remove_old_images
 build_tagged_images
-exit_zero_if_build_only
+exit_zero_if_build_only "$@"
 containers_up
 run_tests_in_container "$@"
 on_ci_publish_tagged_images
