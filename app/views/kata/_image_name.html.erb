@@ -1,1 +1,14 @@
-<input name="image_name" type="hidden" value="<%= raw @manifest['image_name'] %>">
+<input name="image_name" type="hidden" value="">
+
+<script>
+'use strict';
+$(() => {
+
+  const $imageName = $("input[name='image_name']");
+  const manifest = cd.lib.kataManifest(cd.kata.id);
+  const imageName = manifest.image_name;
+
+  $imageName.val(imageName);
+
+});
+</script>

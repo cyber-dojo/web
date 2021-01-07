@@ -4,13 +4,15 @@
 
 <script>
 'use strict';
+$(() => {
 
-const $index = $("input[name='index']");
+  const $index = $("input[name='index']");
 
-cd.kata.index = 0;
+  cd.kata.index = 0;
 
-cd.kata.incrementIndex = () => {
-  $index.val(cd.kata.index += 1);
-};
+  cd.kata.incrementIndex = () => {
+    $index.val(cd.kata.index += 1);
+  };
 
+});
 </script>
