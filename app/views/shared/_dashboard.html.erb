@@ -9,6 +9,7 @@ $(() => {
   const groupId = manifest.group_id;
 
   if (groupId === undefined) {
+    // (i) button fadeIn/fadeOut toggle uses CSS class info-button
     $dashboardButton.removeClass('info-button').hide();
   } else {
     $dashboardButton.click(() => {
