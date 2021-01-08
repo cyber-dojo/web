@@ -1,19 +1,22 @@
-<% unless @manifest['group_id'].nil? %>
-  <button type="button" id="dashboard-button" class="info-button">dashboard</button>
-<% end %>
+<button type="button" id="dashboard-button" class="info-button">dashboard</button>
 
 <script>
 'use strict';
 $(() => {
 
-  const dashboardButton = $('#dashboard-button');
+  const $dashboardButton = $('#dashboard-button');
+  const manifest = cd.kata.manifest(cd.kata.id);
+  const groupId = manifest.group_id;
 
-  dashboardButton.click(() => {
-    const url = `/dashboard/show/<%= @manifest['group_id'] %>`;
-    window.open(url);
-  });
-
-  cd.createTip(dashboardButton, 'open dashboard page');
+  if (groupId === undefined) {
+    $dashboardButton.removeClass('info-button').hide();
+  } else {
+    $dashboardButton.click(() => {
+      const url = `/dashboard/show/${manifest.group_id}`;
+      window.open(url);
+    });
+    cd.createTip($dashboardButton, 'open dashboard page');
+  }
 
 });
 </script>
