@@ -4,7 +4,6 @@ class KataController < ApplicationController
   def edit
     @env = ENV
     @id = @title = id
-    @manifest = model.kata_manifest(id)
     @events = model.kata_events(id)
     # most recent event
     last = model.kata_event(id, -1)

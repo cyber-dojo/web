@@ -2,10 +2,9 @@
 class ReviewController < ApplicationController
 
   def show
-    @env = ENV    
+    @env = ENV
     @id = id
     @title = "review:#{id}"
-    @manifest = model.kata_manifest(id)
   end
 
   private
