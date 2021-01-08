@@ -1,17 +1,13 @@
-<div id="exercise-name-box"></div>
+<div id="exercise-name-box" style="display:none;"></div>
 
 <script>
 'use strict';
 $(() => {
 
-  const $exerciseNameBox = $('#exercise-name-box');
   const manifest = cd.kata.manifest(cd.kata.id);
   const exercise = manifest.exercise;
   if (exercise != "") {
-    $exerciseNameBox.html(exercise);
-  }
-  else {
-    $exerciseNameBox.hide();
+    $('#exercise-name-box').show().html(exercise);
   }
 
 });
