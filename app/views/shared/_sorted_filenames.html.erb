@@ -33,17 +33,19 @@ $(() => {
 
   cd.isSourceFile = (filename) => {
     // Shell test frameworks (eg shunit2) use .sh extension
-    // but cyber-dojo.sh is not a user source file.
+    // but cyber-dojo.sh does not count a user source file.
     return cd.extensionFilenames().find(ext => filename.endsWith(ext)) &&
       filename != 'cyber-dojo.sh';
   };
 
   cd.highlightFilenames = () => {
-    return $.parseJSON('<%= raw @manifest['highlight_filenames'] %>');
+    const manifest = cd.kata.manifest(cd.kata.id);
+    return manifest.highlight_filenames;
   };
 
   cd.extensionFilenames = () => {
-    return $.parseJSON('<%= raw @manifest['filename_extension'] %>');
+    const manifest = cd.kata.manifest(cd.kata.id);
+    return manifest.filename_extension;
   };
 
 });
