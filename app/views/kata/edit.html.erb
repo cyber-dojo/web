@@ -11,7 +11,7 @@ $(() => {
   cd.kata.page = $('#kata-page');
 
   cd.codeMirror.resetTheme();
-  cd.kata.tabs.setup({repl:"<%= @env['REPL'] %>"});
+  cd.kata.tabs.setup();
 
   <% @files.each do |filename,file| %>
     cd.kata.editor.createFile(
@@ -38,7 +38,7 @@ $(() => {
 
   cd.showSettingsButton();
   cd.setupHotkeys();
-  cd.showStartingInfoDialog("<%= @env['STARTING_INFO_DIALOG'] %>");
+  cd.showStartingInfoDialog();
 
 });
 </script>

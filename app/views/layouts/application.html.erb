@@ -10,6 +10,11 @@
 
     <script type="text/javascript">
       var cyberDojo = {
+        env: {
+          "forkButton":         "<%= @env['FORK_BUTTON'] %>",
+          "startingInfoDialog": "<%= @env['STARTING_INFO_DIALOG'] %>",
+          "repl":               "<%= @env['REPL'] %>",
+        },
         kata: {
           id: "<%= @id %>",
           filenames:{},

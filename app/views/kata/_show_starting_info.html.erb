@@ -2,8 +2,8 @@
 'use strict';
 $(() => {
 
-  cd.showStartingInfoDialog = (onOff) => {
-    if (cd.kata.index === 1 && onOff !== 'off') {
+  cd.showStartingInfoDialog = () => {
+    if (cd.kata.index === 1 && cd.env.startingInfoDialog !== 'off') {
       cd.trafficLightsButton().click();
     }
   };
