@@ -3,7 +3,7 @@
 $(() => {
 
   cd.showStartingInfoDialog = () => {
-    if (cd.kata.index === 1 && cd.env.startingInfoDialog !== 'off') {
+    if (cd.kata.index === 1 && cd.env.STARTING_INFO_DIALOG !== 'off') {
       cd.trafficLightsButton().click();
     }
   };

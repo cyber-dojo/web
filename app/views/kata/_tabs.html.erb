@@ -15,7 +15,7 @@ $(() => {
   tabs.setup = () => {
     const manifest = cd.kata.manifest(cd.kata.id);
     const imageName = manifest.image_name;
-    if (cd.env.repl === 'on' && imageName.includes('python')) {
+    if (cd.env.REPL === 'on' && imageName.includes('python')) {
       tabs.repl().show();
     } else {
       tabs.repl().hide();
