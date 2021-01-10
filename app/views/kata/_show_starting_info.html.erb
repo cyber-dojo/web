@@ -3,20 +3,10 @@
 $(() => {
 
   cd.showStartingInfoDialog = () => {
-    if (cd.kata.index === 1 && !turnItOff()) {
+    const theDefault = 'on';
+    if (cd.kata.index === 1 && cd.lib.setting('starting_info_dialog',theDefault) === 'on') {
       cd.trafficLightsButton().click();
     }
-  };
-
-  const turnItOff = () => {
-    let value = 'on'; // source-level default
-    value = override(value, cd.kata.manifest().starting_info_dialog);
-    value = override(value, cd.env.STARTING_INFO_DIALOG);
-    return value === 'off';
-  };
-
-  const override = (current, value) => {
-    return (value === "" || value === undefined) ? current : value;
   };
 
 });

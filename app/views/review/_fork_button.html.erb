@@ -18,21 +18,11 @@ $(() => {
 
   cd.review.forkButton = {
     refresh: () => {
-      if (!turnItOff()) {
+      const theDefault = 'on';
+      if (cd.lib.setting('fork_button',theDefault) === 'on') {
         $button.show();
       }
     }
-  };
-
-  const turnItOff = () => {
-    let value = 'on';
-    value = override(value, cd.kata.manifest().fork_button);
-    value = override(value, cd.env.FORK_BUTTON);
-    return value === 'off'
-  };
-
-  const override = (current, value) => {
-    return (value === "" || value === undefined) ? current : value;
   };
 
   const tip = [
