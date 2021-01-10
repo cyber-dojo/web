@@ -16,7 +16,7 @@ $(() => {
   cd.trafficLightsButton().click(() => openTrafficLightsInfoDialog());
 
   const openTrafficLightsInfoDialog = () => {
-    const manifest = cd.kata.manifest(cd.kata.id);
+    const manifest = cd.kata.manifest();
     $('#traffic-lights-dialog').append(
       $('<div>', { class:'info' }).html(`Tests must complete in ${manifest.max_seconds} seconds`)
     ).dialog({

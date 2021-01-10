@@ -4,7 +4,7 @@
 'use strict';
 $(() => {
 
-  const manifest = cd.kata.manifest(cd.kata.id);
+  const manifest = cd.kata.manifest();
   const exercise = manifest.exercise;
   if (exercise != "") {
     $('#exercise-name-box').show().html(exercise);

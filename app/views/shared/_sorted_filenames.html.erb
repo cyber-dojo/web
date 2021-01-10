@@ -39,12 +39,12 @@ $(() => {
   };
 
   cd.highlightFilenames = () => {
-    const manifest = cd.kata.manifest(cd.kata.id);
+    const manifest = cd.kata.manifest();
     return manifest.highlight_filenames;
   };
 
   cd.extensionFilenames = () => {
-    const manifest = cd.kata.manifest(cd.kata.id);
+    const manifest = cd.kata.manifest();
     return manifest.filename_extension;
   };
 

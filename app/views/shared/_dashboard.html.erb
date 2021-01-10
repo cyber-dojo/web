@@ -5,7 +5,7 @@
 $(() => {
 
   const $dashboardButton = $('#dashboard-button');
-  const manifest = cd.kata.manifest(cd.kata.id);
+  const manifest = cd.kata.manifest();
   const groupId = manifest.group_id;
 
   if (groupId === undefined) {

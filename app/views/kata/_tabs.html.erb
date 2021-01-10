@@ -13,7 +13,7 @@ $(() => {
   const $tabs = () => $('.tab');
 
   tabs.setup = () => {
-    const manifest = cd.kata.manifest(cd.kata.id);
+    const manifest = cd.kata.manifest();
     const imageName = manifest.image_name;
     if (cd.env.REPL === 'on' && imageName.includes('python')) {
       tabs.repl().show();

@@ -5,7 +5,7 @@
 $(() => {
 
   const $idBox = $("#id-box");
-  const manifest = cd.kata.manifest(cd.kata.id);
+  const manifest = cd.kata.manifest();
   const id = manifest.group_id || cd.kata.id;
   $idBox.html(id);
 

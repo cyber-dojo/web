@@ -18,7 +18,7 @@ $(() => {
 
   cd.review.forkButton = {};
   cd.review.forkButton.refresh = () => {
-    if (cd.env.FORK_BUTTON != 'off' && cd.kata.manifest(cd.kata.id).fork_button != 'off') {
+    if (cd.env.FORK_BUTTON != 'off' && cd.kata.manifest().fork_button != 'off') {
       $button.show();
     }
   };
