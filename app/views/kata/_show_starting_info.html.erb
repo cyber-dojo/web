@@ -9,10 +9,14 @@ $(() => {
   };
 
   const turnItOff = () => {
-    // Default is to show starting-info dialog
-    // Either env-var or manifest can turn it off.
-    return (cd.env.STARTING_INFO_DIALOG === 'off') ||
-      (cd.kata.manifest().starting_info_dialog === 'off');
+    let value = 'on'; // source-level default
+    value = override(value, cd.kata.manifest().starting_info_dialog);
+    value = override(value, cd.env.STARTING_INFO_DIALOG);
+    return value === 'off';
+  };
+
+  const override = (current, value) => {
+    return (value === "") ? current : value;
   };
 
 });

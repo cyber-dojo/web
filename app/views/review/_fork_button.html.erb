@@ -25,10 +25,14 @@ $(() => {
   };
 
   const turnItOff = () => {
-    // Default is to show the fork-button
-    // Either env-var or manifest can turn it off.
-    return (cd.env.FORK_BUTTON === 'off') ||
-      (cd.kata.manifest().fork_button === 'off');
+    let value = 'on';
+    value = override(value, cd.kata.manifest().fork_button);
+    value = override(value, cd.env.FORK_BUTTON);
+    return value === 'off'
+  };
+
+  const override = (current, value) => {
+    return (value === "" || value === undefined) ? current : value;
   };
 
   const tip = [
