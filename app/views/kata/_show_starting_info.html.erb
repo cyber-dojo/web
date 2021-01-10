@@ -16,7 +16,7 @@ $(() => {
   };
 
   const override = (current, value) => {
-    return (value === "") ? current : value;
+    return (value === "" || value === undefined) ? current : value;
   };
 
 });
