@@ -9,8 +9,10 @@ $(() => {
   };
 
   const turnItOff = () => {
-    return cd.env.STARTING_INFO_DIALOG === 'off' ||
-      cd.kata.manifest().starting_info_dialog === 'off';
+    // Default is to show starting-info dialog
+    // Either env-var or manifest can turn it off.
+    return (cd.env.STARTING_INFO_DIALOG === 'off') ||
+      (cd.kata.manifest().starting_info_dialog === 'off');
   };
 
 });

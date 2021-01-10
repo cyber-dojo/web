@@ -16,11 +16,19 @@ $(() => {
   const $button = $('#fork-button');
   const $fork = $('#fork-dialog');
 
-  cd.review.forkButton = {};
-  cd.review.forkButton.refresh = () => {
-    if (cd.env.FORK_BUTTON != 'off' && cd.kata.manifest().fork_button != 'off') {
-      $button.show();
+  cd.review.forkButton = {
+    refresh: () => {
+      if (!turnItOff()) {
+        $button.show();
+      }
     }
+  };
+
+  const turnItOff = () => {
+    // Default is to show the fork-button
+    // Either env-var or manifest can turn it off.
+    return (cd.env.FORK_BUTTON === 'off') ||
+      (cd.kata.manifest().fork_button === 'off');
   };
 
   const tip = [
@@ -28,11 +36,6 @@ $(() => {
     'exercise from this',
     "traffic-light's files"
   ].join('<br/>');
-  cd.createTip($button, tip);
-  $button.click(() => openForkDialog());
-
-  $('.individual', $fork).click(() => fork('individual'));
-  $('.group',      $fork).click(() => fork('group'     ));
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const openForkDialog = () => {
@@ -70,6 +73,12 @@ $(() => {
         }
     });
   };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  cd.createTip($button, tip);
+  $button.click(() => openForkDialog());
+  $('.individual', $fork).click(() => fork('individual'));
+  $('.group',      $fork).click(() => fork('group'     ));
 
 });
 </script>
