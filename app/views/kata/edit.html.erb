@@ -1,10 +1,4 @@
-<script>
-'use strict';
-cd.kata.id = "<%= @id %>";
-</script>
-
-<%= render partial: 'starting_info' %>
-<%= render partial: 'shared/hover_tip_container' %>
+<%= render partial: 'show_starting_info' %>
 <%= render partial: 'shared/app_bar' %>
 <div id="top-spacer"></div>
 <div id="review-page"><%= render partial: 'review/review' %></div>
@@ -17,7 +11,7 @@ $(() => {
   cd.kata.page = $('#kata-page');
 
   cd.codeMirror.resetTheme();
-  cd.kata.tabs.setup({repl:"<%= @env['REPL'] %>"});
+  cd.kata.tabs.setup();
 
   <% @files.each do |filename,file| %>
     cd.kata.editor.createFile(
@@ -44,7 +38,7 @@ $(() => {
 
   cd.showSettingsButton();
   cd.setupHotkeys();
-  cd.showStartingInfoDialog("<%= @env['STARTING_INFO_DIALOG'] %>");
+  cd.showStartingInfoDialog();
 
 });
 </script>

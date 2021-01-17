@@ -1,0 +1,13 @@
+<script>
+'use strict';
+$(() => {
+
+  cd.showStartingInfoDialog = () => {
+    const theDefault = 'on';
+    if (cd.kata.index === 1 && cd.lib.setting('starting_info_dialog',theDefault) === 'on') {
+      cd.trafficLightsButton().click();
+    }
+  };
+
+});
+</script>

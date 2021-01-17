@@ -2,15 +2,16 @@ FROM cyberdojo/web-base:f1ae4be
 LABEL maintainer=jon@jaggersoft.com
 
 WORKDIR /cyber-dojo
-COPY . .
-RUN chown -R nobody:nogroup /cyber-dojo
+RUN chown nobody:nogroup .
+COPY --chown=nobody:nogroup . .
 
 # Note
-# COPY --chown=nobody:nogroup . /cyber-dojo
-# causes a failure when you run
-# ./build_test_publish.sh
-# /usr/lib/ruby/2.6.0/fileutils.rb:239:in `mkdir': Permission denied @ dir_s_mkdir - /cyber-dojo/tmp (Errno::EACCES)
-# This error comes from the very first script/rails call!
+# originally the copy+chown was
+#    COPY . .
+#    RUN chown -R nobody:nogroup /cyber-dojo
+# That works but is _much_ slower than
+#    RUN chown nobody:nogroup .
+#    COPY --chown=nobody:nogroup . /cyber-dojo
 
 ARG COMMIT_SHA
 ENV SHA=${COMMIT_SHA}

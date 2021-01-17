@@ -1,1 +1,13 @@
-<div id="id-box"><%= @manifest['group_id'] || @id %></div>
+<div id="id-box"></div>
+
+<script>
+'use strict';
+$(() => {
+
+  const $idBox = $("#id-box");
+  const manifest = cd.kata.manifest();
+  const id = manifest.group_id || cd.kata.id;
+  $idBox.html(id);
+
+});
+</script>

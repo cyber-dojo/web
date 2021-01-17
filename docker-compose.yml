@@ -16,7 +16,7 @@ services:
       args: [ COMMIT_SHA ]
     user: nobody
     container_name: test_web
-    env_file: [ .env ]
+    env_file: [ web.env ]
     #tmpfs: /tmp   # Interferes with test-coverage extraction
     restart: 'no'
 

@@ -1,1 +1,12 @@
-<div id="display-name-box"><%= @manifest['display_name'] %></div>
+<div id="display-name-box"></div>
+
+<script>
+'use strict';
+$(() => {
+
+  const $displayNameBox = $("#display-name-box");
+  const manifest = cd.kata.manifest();
+  $displayNameBox.html(manifest.display_name);
+
+});
+</script>

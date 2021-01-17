@@ -1,3 +1,14 @@
-<% if @manifest['exercise'] != '' %>
-  <div id="exercise-name-box"><%= @manifest['exercise'] %></div>
-<% end %>
+<div id="exercise-name-box" style="display:none;"></div>
+
+<script>
+'use strict';
+$(() => {
+
+  const manifest = cd.kata.manifest();
+  const exercise = manifest.exercise;
+  if (exercise != "") {
+    $('#exercise-name-box').show().html(exercise);
+  }
+
+});
+</script>

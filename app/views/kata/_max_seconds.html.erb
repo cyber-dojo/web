@@ -1,1 +1,12 @@
-<input name="max_seconds"  type="hidden" value="<%= @manifest['max_seconds'] %>">
+<input name="max_seconds"  type="hidden" value="">
+
+<script>
+'use strict';
+$(() => {
+
+  const $maxSeconds = $("input[name='max_seconds']");
+  const manifest = cd.kata.manifest();
+  $maxSeconds.val(manifest.max_seconds);
+
+});
+</script>

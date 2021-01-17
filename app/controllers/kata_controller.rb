@@ -4,7 +4,6 @@ class KataController < ApplicationController
   def edit
     @env = ENV
     @id = @title = id
-    @manifest = model.kata_manifest(id)
     @events = model.kata_events(id)
     # most recent event
     last = model.kata_event(id, -1)
@@ -40,7 +39,7 @@ class KataController < ApplicationController
     @saved = true
     @out_of_sync = false
     begin
-      kata_ran_tests(@id, index, files, @stdout, @stderr, @status, {
+      ran_tests(@id, index, files, @stdout, @stderr, @status, {
         duration: duration,
         colour: @outcome,
         predicted: params['predicted'],
@@ -96,7 +95,7 @@ class KataController < ApplicationController
 
   private
 
-  def kata_ran_tests(id, index, files, stdout, stderr, status, summary)
+  def ran_tests(id, index, files, stdout, stderr, status, summary)
     if summary[:predicted] === 'none'
       model.kata_ran_tests(id, index, files, stdout, stderr, status, summary)
     elsif summary[:predicted] === summary[:colour]

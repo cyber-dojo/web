@@ -16,10 +16,12 @@ $(() => {
   const $button = $('#fork-button');
   const $fork = $('#fork-dialog');
 
-  cd.review.forkButton = {};
-  cd.review.forkButton.refresh = () => {
-    if ("<%= @env['FORK_BUTTON'] %>" != 'off') {
-      $button.show();
+  cd.review.forkButton = {
+    refresh: () => {
+      const theDefault = 'on';
+      if (cd.lib.setting('fork_button',theDefault) === 'on') {
+        $button.show();
+      }
     }
   };
 
@@ -28,11 +30,6 @@ $(() => {
     'exercise from this',
     "traffic-light's files"
   ].join('<br/>');
-  cd.createTip($button, tip);
-  $button.click(() => openForkDialog());
-
-  $('.individual', $fork).click(() => fork('individual'));
-  $('.group',      $fork).click(() => fork('group'     ));
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   const openForkDialog = () => {
@@ -70,6 +67,12 @@ $(() => {
         }
     });
   };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  cd.createTip($button, tip);
+  $button.click(() => openForkDialog());
+  $('.individual', $fork).click(() => fork('individual'));
+  $('.group',      $fork).click(() => fork('group'     ));
 
 });
 </script>

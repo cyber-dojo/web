@@ -3,7 +3,6 @@
 <div id="traffic-lights-dialog" style="display:none;">
   <%= render partial: 'shared/traffic_lights_bulb_info' %>
   <%= render partial: 'shared/traffic_lights_click_info' %>
-  <div class="info">Tests must complete in <%= @manifest['max_seconds'] %> seconds</div>
 </div>
 
 <script>
@@ -17,7 +16,10 @@ $(() => {
   cd.trafficLightsButton().click(() => openTrafficLightsInfoDialog());
 
   const openTrafficLightsInfoDialog = () => {
-    $('#traffic-lights-dialog').dialog({
+    const manifest = cd.kata.manifest();
+    $('#traffic-lights-dialog').append(
+      $('<div>', { class:'info' }).html(`Tests must complete in ${manifest.max_seconds} seconds`)
+    ).dialog({
               width: 400,
            autoOpen: true,
       closeOnEscape: true,
