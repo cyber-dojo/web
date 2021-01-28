@@ -13,8 +13,10 @@ class TextFileChangesTest  < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '9DC', %w(
-  when a test-event deletes an existing text file
-  then the model records it
+  |when cyber-dojo.sh deletes an existing text file
+  |then the model does NOT record it
+  |because the illusion is the [test] is running in the browser
+  |see also https://github.com/cyber-dojo/cyber-dojo/issues/7
   ) do
     filename = 'readme.txt'
     in_kata do |kata|
@@ -23,15 +25,16 @@ class TextFileChangesTest  < AppControllerTestBase
       post_run_tests
       files = kata.event(-1)['files']
       filenames = files.keys.sort
-      refute filenames.include?(filename), filenames
+      assert filenames.include?(filename), filenames
     end
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '9DD', %w(
-  when a test-event creates a new text file
-  then the model records it
+  |given cyber-dojo.sh contains a command to create new text file
+  |when the test-event occurs
+  |then the model records the new file
   ) do
     filename = 'wibble.txt'
     in_kata do |kata|
@@ -47,8 +50,10 @@ class TextFileChangesTest  < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '9DE', %w(
-  when a test-event changes a regular text-file
-  then the model records it ) do
+  |given cyber-dojo.sh contains a command to change an existing text file
+  |when the test-event occurs
+  |then the model records the changed file
+  ) do
     filename = 'readme.txt'
     in_kata do |kata|
       assert kata.event(-1)['files'].keys.include?(filename)
@@ -64,8 +69,9 @@ class TextFileChangesTest  < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '736', %w(
-  when cyber-dojo.sh creates a new text file called stdout
-  then the model records it separately to the stdout 'output' file
+  |given cyber-dojo.sh contains a command to create a new text file called stdout
+  |when the test-event occurs
+  |then the model records it separately to the standard stdout stream
   ) do
     in_kata do |kata|
       script = [
@@ -85,8 +91,9 @@ class TextFileChangesTest  < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '737', %w(
-  when cyber-dojo.sh creates a new text file called stderr
-  then the model records it separately to the stderr 'output' file
+  |given cyber-dojo.sh contains a command to create new text file called 'stderr'
+  |when the test-event occurs
+  |then the model records it separately to the standard 'stderr' stream
   ) do
     in_kata do |kata|
       script = [
@@ -106,9 +113,10 @@ class TextFileChangesTest  < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '738', %w(
-  when a test-event creates a new text file called status
-  then the model does _not_ record it because it already records
-  stdout,stderr,status as 'output' files
+  |given cyber-dojo.sh contains a command to create a new text file called 'status'
+  |when the test-event occurs
+  |then the model does records it
+  |and keeps it separate from the file called 'status' in the multiplex
   ) do
     in_kata do |kata|
       script = [
@@ -129,7 +137,8 @@ class TextFileChangesTest  < AppControllerTestBase
 
   test 'A28', %w(
   generated files are returned from runner
-  unless cyber-dojo.sh explicitly deletes them ) do
+  unless cyber-dojo.sh explicitly deletes them
+  ) do
     generated_filename = 'xxxx.txt'
     in_kata do |kata|
       change_file('cyber-dojo.sh', "cat xxxx > #{generated_filename}")

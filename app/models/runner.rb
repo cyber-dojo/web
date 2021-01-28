@@ -23,16 +23,14 @@ class Runner
     result = runner.run_cyber_dojo_sh(args)
 
     created = result.delete('created')
-    deleted = result.delete('deleted')
     changed = result.delete('changed')
 
     # Ensure files sent to saver.kata_ran_tests() reflect
     # changes; refreshing the browser should be a no-op.
     created.each { |filename,file| files[filename] = file }
-    deleted.each { |filename     | files.delete(filename) }
     changed.each { |filename,file| files[filename] = file }
 
-    [result,files,created,deleted,changed]
+    [result,files,created,changed]
   end
 
   private

@@ -20,17 +20,6 @@
     <% end %>
   };
 
-  const removeDeletedFiles = () => {
-    // cyber-dojo.sh cannot be deleted in the browser
-    // but it can be deleted inside the container
-    // and that will come back to here...
-    <% @deleted.each do |filename| %>
-      if ("<%= j raw(filename) %>" !== 'cyber-dojo.sh') {
-        editor.deleteFile("<%= j raw(filename) %>");
-      }
-    <% end %>
-  };
-
   const updateChangedFiles = () => {
     <% @changed.each do |filename,file| %>
       editor.changeFile(
@@ -138,7 +127,6 @@
   const refreshFromTest = () => {
     cd.kata.incrementIndex();
     insertCreatedFiles();
-    removeDeletedFiles();
     updateChangedFiles();
     cd.kata.filenames.refresh();
     cd.kata.editor.output(stdout, stderr, status);

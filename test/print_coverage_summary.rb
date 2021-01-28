@@ -167,7 +167,11 @@ end
 #- - - - - - - - - - - - - - - - - - - - -
 
 def coverage(stats, name)
-  min = 100
+  if name === 'app_controllers'
+    min = 97
+  else
+    min = 100
+  end  
   percent = stats[name][:coverage]
   [ "#{name} coverage >= #{min}", percent.to_f >= min ]
 end
