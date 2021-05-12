@@ -40,8 +40,10 @@ button.sponsorship
   padding: 4px;
   border-radius: 3px;
   width: 66px;
+  margin: { top:2px; bottom:7px; }
 }
 
+#merkely-cell #merkely-image,
 #praqma-cell #praqma-image,
 #curbralan-cell #curbralan-image,
 #wingman-cell #wingman-image,
@@ -54,6 +56,7 @@ button.sponsorship
   width: 74px;
 }
 
+#merkely-cell { margin-bottom: 3px; }
 #praqma-cell { margin-bottom: 3px; }
 #curbralan-cell { margin-bottom: 3px; }
 #cucumber-cell #cucumber-image
