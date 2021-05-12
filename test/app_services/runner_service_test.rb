@@ -44,18 +44,6 @@ class RunnerServiceTest < AppServicesTestBase
     }
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test '9DC',
-  'deleting a file' do
-    in_new_kata { |kata|
-      args = run_args(kata)
-      args[:files]['cyber-dojo.sh'] = 'rm readme.txt'
-      json = runner.run_cyber_dojo_sh(args)
-      assert_equal ['readme.txt'], json['deleted']
-    }
-  end
-
   private
 
   def run_args(kata)
