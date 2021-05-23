@@ -140,7 +140,7 @@ class KataTest < AppModelsTestBase
   given two laptops as the same avatar
   when one is behind (has not synced by hitting refresh in their browser)
   and they hit the [test] button
-  a ModelService::Error is raised
+  a SaverService::Error is raised
   and a new event is not created in the saver
   ) do
     in_new_kata do |kata|
@@ -155,18 +155,18 @@ class KataTest < AppModelsTestBase
 
       events = kata.events
       assert_equal 4, events.size, :event_not_appended_to_events_json
-      assert_raises(ModelService::Error) {
+      assert_raises(SaverService::Error) {
         kata.event(4) # /4/event.json not created
       }
 
       # 2nd avatar - no refresh, so index not advanced to 2
-      assert_raises(ModelService::Error) {
+      assert_raises(SaverService::Error) {
         kata_ran_tests(kata.id, 1, files, stdout, stderr, status, ran_summary('green'))
       }
 
       events = kata.events
       assert_equal 4, events.size, :event_not_appended_to_events_json
-      assert_raises(ModelService::Error) {
+      assert_raises(SaverService::Error) {
         kata.event(4) # /4.event.json not created
       }
 

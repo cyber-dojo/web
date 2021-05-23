@@ -10,8 +10,8 @@ services:
 
   web:
     depends_on:
-      - model
       - runner
+      - saver
 
   # - - - - - - - - - - - - - - - -
   creator:
@@ -20,20 +20,15 @@ services:
       - exercises-start-points
       - languages-start-points
       - runner
-      - model
+      - saver
 
   # - - - - - - - - - - - - - - - -
   dashboard:
     depends_on:
-      - model
       - saver
 
   # - - - - - - - - - - - - - - - -
   differ:
     depends_on:
-      - model
-
-  # - - - - - - - - - - - - - - - -
-  model:
-    depends_on:
       - saver
+

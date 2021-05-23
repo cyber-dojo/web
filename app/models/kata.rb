@@ -11,7 +11,7 @@ class Kata
   attr_reader :id
 
   def manifest
-    model.kata_manifest(id)
+    saver.kata_manifest(id)
   end
 
   def run_tests(params)
@@ -19,17 +19,17 @@ class Kata
   end
 
   def events
-    model.kata_events(id)
+    saver.kata_events(id)
   end
 
   def event(index)
-    model.kata_event(id, index)
+    saver.kata_event(id, index)
   end
 
   private
 
-  def model
-    @externals.model
+  def saver
+    @externals.saver
   end
 
 end

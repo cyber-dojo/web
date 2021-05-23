@@ -21,7 +21,7 @@ $(() => {
   review.avatarNavigator = {
        hide: () => $avatarNavigator.hide(),
     refresh: () => {
-      review.getJSON('model', 'group_joined', {id:review.id}, (joined) => {
+      review.getJSON('saver', 'group_joined', {id:review.id}, (joined) => {
         avatarNavigatorRefresher(joined);
       });
     }

@@ -15,10 +15,10 @@ class CheckoutTest  < AppControllerTestBase
       filename = 'hiker.sh'
       change_file(filename, old_content='the_answer')
       post_run_tests # 1
-      assert_equal old_content, model.kata_event(kata.id,-1)['files'][filename]['content']
+      assert_equal old_content, saver.kata_event(kata.id,-1)['files'][filename]['content']
       change_file(filename, new_content='something_different')
       post_run_tests # 2
-      assert_equal new_content, model.kata_event(kata.id,-1)['files'][filename]['content']
+      assert_equal new_content, saver.kata_event(kata.id,-1)['files'][filename]['content']
 
       post '/kata/checkout', params: {
         'src_id' => kata.id,

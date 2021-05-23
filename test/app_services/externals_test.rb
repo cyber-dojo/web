@@ -11,8 +11,8 @@ class ExternalsTest < AppServicesTestBase
 
   test '2sK',
   'default http-proxy adapter classes' do
-    assert model.is_a?(ModelService)
     assert runner.is_a?(RunnerStub)
+    assert saver.is_a?(SaverService)
   end
 
 end

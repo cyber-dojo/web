@@ -53,7 +53,6 @@ containers_up()
     --force-recreate \
     web
 
-  wait_until_healthy test_web_model
   wait_until_healthy test_web_runner
   wait_until_running test_web_saver
   wait_until_running test_web

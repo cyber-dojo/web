@@ -17,7 +17,5 @@ copy_in_saver_test_data()
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 saver_cid()
 {
-  # locally, the container name is model_saver_1
-  # on CI the contains name is, eg, project_saver_1_1bebf84ac62f
   docker ps --filter status=running --format '{{.Names}}' | grep "saver"
 }

@@ -1,5 +1,4 @@
-
-module TestDomainHelpers # mix-in
+module TestDomainHelpers
 
   def v_test?(n)
     hex_test_name.start_with?("<version=#{n}>")
@@ -8,7 +7,7 @@ module TestDomainHelpers # mix-in
   # - - - - - - - - - - - - - - - -
 
   def in_new_kata(&block)
-    id = model.kata_create(starter_manifest)
+    id = saver.kata_create(starter_manifest)
     kata = Kata.new(self, id)
     block.call(kata)
   end
@@ -17,7 +16,7 @@ module TestDomainHelpers # mix-in
 
   def starter_manifest
     v1_id = '5U2J18' # "Bash, bats" v1
-    manifest = model.kata_manifest(v1_id)
+    manifest = saver.kata_manifest(v1_id)
     %w( id created group_id group_index ).each {|key| manifest.delete(key) }
     manifest['created'] = time.now
     if v_test?(0)

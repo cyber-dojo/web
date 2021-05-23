@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ModelRaiser
+class SaverRaiser
 
   def initialize(_externals)
   end

@@ -34,7 +34,7 @@ do
     export COVERAGE_DIR=${coverage_dir}
 
     # set defaults for externals
-    export CYBER_DOJO_MODEL_CLASS=ModelService
+    export CYBER_DOJO_SAVER_CLASS=SaverService
     export CYBER_DOJO_RUNNER_CLASS=RunnerStub
 
     # run-the-tests!

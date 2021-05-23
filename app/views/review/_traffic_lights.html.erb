@@ -10,7 +10,7 @@ $(() => {
 
   review.trafficLights = {
     refresh: () => {
-      review.getJSON('model', 'kata_events', {id:review.id}, (events) => {
+      review.getJSON('saver', 'kata_events', {id:review.id}, (events) => {
         if (review.index === -1) {
           review.index = events.length - 1; // Need by [fork] and [checkout]
         }

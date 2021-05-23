@@ -14,7 +14,7 @@ class TextFileChangesTest  < AppControllerTestBase
 
   test '9DC', %w(
   |when cyber-dojo.sh deletes an existing text file
-  |then the model does NOT record it
+  |then the saver does NOT record it
   |because the illusion is the [test] is running in the browser
   |see also https://github.com/cyber-dojo/cyber-dojo/issues/7
   ) do
@@ -34,7 +34,7 @@ class TextFileChangesTest  < AppControllerTestBase
   test '9DD', %w(
   |given cyber-dojo.sh contains a command to create new text file
   |when the test-event occurs
-  |then the model records the new file
+  |then the saver records the new file
   ) do
     filename = 'wibble.txt'
     in_kata do |kata|
@@ -52,7 +52,7 @@ class TextFileChangesTest  < AppControllerTestBase
   test '9DE', %w(
   |given cyber-dojo.sh contains a command to change an existing text file
   |when the test-event occurs
-  |then the model records the changed file
+  |then the saver records the changed file
   ) do
     filename = 'readme.txt'
     in_kata do |kata|
@@ -71,7 +71,7 @@ class TextFileChangesTest  < AppControllerTestBase
   test '736', %w(
   |given cyber-dojo.sh contains a command to create a new text file called stdout
   |when the test-event occurs
-  |then the model records it separately to the standard stdout stream
+  |then the saver records it separately to the standard stdout stream
   ) do
     in_kata do |kata|
       script = [
@@ -93,7 +93,7 @@ class TextFileChangesTest  < AppControllerTestBase
   test '737', %w(
   |given cyber-dojo.sh contains a command to create new text file called 'stderr'
   |when the test-event occurs
-  |then the model records it separately to the standard 'stderr' stream
+  |then the saver records it separately to the standard 'stderr' stream
   ) do
     in_kata do |kata|
       script = [
@@ -115,7 +115,7 @@ class TextFileChangesTest  < AppControllerTestBase
   test '738', %w(
   |given cyber-dojo.sh contains a command to create a new text file called 'status'
   |when the test-event occurs
-  |then the model does records it
+  |then the saver does records it
   |and keeps it separate from the file called 'status' in the multiplex
   ) do
     in_kata do |kata|

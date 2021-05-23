@@ -2,7 +2,7 @@
 require_relative 'http_json/requester'
 require_relative 'http_json/responder'
 
-class ModelService
+class SaverService
 
   class Error < RuntimeError
     def initialize(message)
@@ -11,8 +11,8 @@ class ModelService
   end
 
   def initialize(externals)
-    hostname = 'model'
-    port = ENV['CYBER_DOJO_MODEL_PORT'].to_i
+    hostname = 'saver'
+    port = ENV['CYBER_DOJO_SAVER_PORT'].to_i
     requester = HttpJson::Requester.new(externals.http, hostname, port)
     @http = HttpJson::Responder.new(requester, Error)
   end

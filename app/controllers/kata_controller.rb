@@ -4,9 +4,9 @@ class KataController < ApplicationController
   def edit
     @env = ENV
     @id = @title = id
-    @events = model.kata_events(id)
+    @events = saver.kata_events(id)
     # most recent event
-    last = model.kata_event(id, -1)
+    last = saver.kata_event(id, -1)
     polyfill(last)
     @files = last['files']
     @stdout = last['stdout']
@@ -45,14 +45,14 @@ class KataController < ApplicationController
         predicted: params['predicted'],
         revert_if_wrong: params['revert_if_wrong']
       })
-    rescue ModelService::Error => error
+    rescue SaverService::Error => error
       @saved = false
       $stdout.puts(error.message);
       $stdout.flush
       unless id?(@id)
         raise
       end
-      if model.kata_exists?(@id)
+      if saver.kata_exists?(@id)
         @out_of_sync = true
       end
     end
@@ -70,7 +70,7 @@ class KataController < ApplicationController
     # Eg 14=green, 15=incorrect prediction, index==16 ==> revert to 14
     args = [ id, index-2 ]
     json = source_event(id, index-2, :revert, args)
-    model.kata_reverted(id, index, @files, @stdout, @stderr, @status, {
+    saver.kata_reverted(id, index, @files, @stdout, @stderr, @status, {
       colour: @colour,
       revert: args
     });
@@ -86,7 +86,7 @@ class KataController < ApplicationController
       avatarIndex:source_avatar_index,
     }
     json = source_event(from[:id], from[:index], :checkout, from)
-    model.kata_checked_out(id, index, @files, @stdout, @stderr, @status, {
+    saver.kata_checked_out(id, index, @files, @stdout, @stderr, @status, {
         colour: @colour,
       checkout: from
     });
@@ -97,18 +97,18 @@ class KataController < ApplicationController
 
   def ran_tests(id, index, files, stdout, stderr, status, summary)
     if summary[:predicted] === 'none'
-      model.kata_ran_tests(id, index, files, stdout, stderr, status, summary)
+      saver.kata_ran_tests(id, index, files, stdout, stderr, status, summary)
     elsif summary[:predicted] === summary[:colour]
-      model.kata_predicted_right(id, index, files, stdout, stderr, status, summary)
+      saver.kata_predicted_right(id, index, files, stdout, stderr, status, summary)
     else
-      model.kata_predicted_wrong(id, index, files, stdout, stderr, status, summary)
+      saver.kata_predicted_wrong(id, index, files, stdout, stderr, status, summary)
     end
   end
 
   # - - - - - - - - - - - - - - - - - -
 
   def source_event(src_id, src_index, name, value)
-    event = model.kata_event(src_id, src_index)
+    event = saver.kata_event(src_id, src_index)
     @files = event['files']
     @stdout = event['stdout']
     @stderr = event['stderr']
