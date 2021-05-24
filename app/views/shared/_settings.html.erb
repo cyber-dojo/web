@@ -72,10 +72,10 @@ $(() => {
             type: 'GET',
         dataType: 'json',
              url: '/saver/kata_option_get',
-            data: {
+            data: JSON.stringify({
                 id: cd.kata.id,
               name: name
-            },
+            }),
            async: false,
          success: (data) => cache[name] = data['kata_option_get']
       });
@@ -89,13 +89,13 @@ $(() => {
           type: 'POST',
       dataType: 'json',
            url: '/saver/kata_option_set',
-          data: {
+          data: JSON.stringify({
                id: cd.kata.id,
              name: name,
             value: value
-          },
+          }),
          async: false,
-       success: (data) => cache[name] = value
+       success: () => cache[name] = value
     });
   };
 
