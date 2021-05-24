@@ -72,10 +72,10 @@ $(() => {
             type: 'GET',
         dataType: 'json',
              url: '/saver/kata_option_get',
-            data: JSON.stringify({
+            data: {
                 id: cd.kata.id,
               name: name
-            }),
+            },
            async: false,
          success: (data) => cache[name] = data['kata_option_get']
       });
