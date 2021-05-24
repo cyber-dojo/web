@@ -69,9 +69,13 @@ $(() => {
   const getOption = (name) => {
     if (cache[name] === undefined) {
       $.ajax({
+            type: 'GET',
         dataType: 'json',
              url: '/saver/kata_option_get',
-            data: { id: cd.kata.id, name: name },
+            data: {
+                id: cd.kata.id,
+              name: name
+            },
            async: false,
          success: (data) => cache[name] = data['kata_option_get']
       });
@@ -81,12 +85,18 @@ $(() => {
 
   const setOption = (name, value) => {
     // Only available in edit mode.
-    $.post('/saver/kata_option_set', {
-         id: cd.kata.id,
-       name: name,
-      value: value
+    $.ajax({
+          type: 'POST',
+      dataType: 'json',
+           url: '/saver/kata_option_set',
+          data: {
+               id: cd.kata.id,
+             name: name,
+            value: value
+          },
+         async: false,
+       success: (data) => cache[name] = value
     });
-    cache[name] = value;
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
