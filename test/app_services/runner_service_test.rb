@@ -18,9 +18,10 @@ class RunnerServiceTest < AppServicesTestBase
   test '3A7',
   'response.body failure is mapped to exception' do
     set_http(HttpJsonRequesterNotJsonStub)
-    error = assert_raises(RunnerService::Error) { runner.ready? }
-    json = JSON.parse(error.message)
-    assert_equal 'body is not JSON', json['message'], error.message
+    stdout,stderr = capture_stdout_stderr do        
+      error = assert_raises(RunnerService::Error) { runner.ready? }
+      assert_equal 'body is not JSON', error.message, :error_message
+    end
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -

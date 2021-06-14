@@ -14,9 +14,10 @@ class SaverServiceTest < AppServicesTestBase
   test 'eJX',
   'response.body failure is mapped to exception' do
     set_http(HttpJsonRequesterNotJsonStub)
-    error = assert_raises(SaverService::Error) { saver.ready? }
-    json = JSON.parse(error.message)
-    assert_equal 'body is not JSON', json['message'], error.message
+    stdout,stderr = capture_stdout_stderr do            
+      error = assert_raises(SaverService::Error) { saver.ready? }
+      assert_equal 'body is not JSON', error.message, :error_message
+    end
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - -

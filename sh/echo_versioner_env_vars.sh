@@ -5,8 +5,8 @@ echo_versioner_env_vars()
 {
   docker run --rm cyberdojo/versioner:latest
   #
-  echo CYBER_DOJO_WEB_SHA="$(image_sha)"
-  echo CYBER_DOJO_WEB_TAG="$(image_tag)"
+  #echo CYBER_DOJO_SAVER_SHA=29f0936e9a44deaa58526f06ddd7924310cbd3dc
+  #echo CYBER_DOJO_SAVER_TAG=29f0936
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -

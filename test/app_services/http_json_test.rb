@@ -25,9 +25,22 @@ class HttpJsonTest < AppServicesTestBase
   test '2C7',
   'response.body is not JSON Hash raises' do
     set_http(HttpJsonRequesterNotJsonHashStub)
-    error = assert_raises(RunnerService::Error) { runner.ready? }
-    json = JSON.parse(error.message)
-    assert_equal 'body is not JSON Hash', json['message'], error.message
+    stdout,stderr = capture_stdout_stderr do
+      error = assert_raises(RunnerService::Error) { runner.ready? }
+      assert_equal 'body is not JSON Hash', error.message, :error_message
+    end
+    assert_equal '', stderr, :stderr_is_empty
+    refute_equal '', stdout, :stdout_is_not_empty
+    json = JSON.parse!(stdout)
+    expected = {
+      'Exception: HttpJson::Responder' => {
+        'path' => 'ready?',
+        'args' => {},
+        'body' => '[42]',
+        'message' => 'body is not JSON Hash'
+      }
+    }
+    assert_equal expected, JSON.parse!(stdout), :exception_info_printed_to_stdout
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -43,9 +56,22 @@ class HttpJsonTest < AppServicesTestBase
   test '2C9',
   'response.body has exception key raises' do
     set_http(HttpJsonRequesterExceptionKeyStub)
-    error = assert_raises(RunnerService::Error) { runner.ready? }
-    json = JSON.parse(error.message)
-    assert_equal 'body has embedded exception', json['message'], error.message
+    stdout,stderr = capture_stdout_stderr do
+      error = assert_raises(RunnerService::Error) { runner.ready? }
+      assert_equal 'http-stub-threw', error.message, :error_message
+    end
+    assert_equal '', stderr, :stderr_is_empty
+    refute_equal '', stdout, :stdout_is_not_empty
+    json = JSON.parse!(stdout)
+    expected = {
+      'Exception: HttpJson::Responder' => {
+        'path' => 'ready?',
+        'args' => {},
+        'body' => '{"exception":"http-stub-threw"}',
+        'message' => 'http-stub-threw'
+      }
+    }
+    assert_equal expected, JSON.parse!(stdout), :exception_info_printed_to_stdout    
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -61,9 +87,22 @@ class HttpJsonTest < AppServicesTestBase
   test '2C8',
   'JSON Hash with no key to match path raises' do
     set_http(HttpJsonRequesterNoPathKeyStub)
-    error = assert_raises(RunnerService::Error) { runner.ready? }
-    json = JSON.parse(error.message)
-    assert_equal 'body is missing :path key', json['message'], error.message
+    stdout,stderr = capture_stdout_stderr do    
+      error = assert_raises(RunnerService::Error) { runner.ready? }
+      assert_equal 'body is missing :path key', error.message, :error_message
+    end
+    assert_equal '', stderr, :stderr_is_empty
+    refute_equal '', stdout, :stdout_is_not_empty
+    json = JSON.parse!(stdout)
+    expected = {
+      'Exception: HttpJson::Responder' => {
+        'path' => 'ready?',
+        'args' => {},
+        'body' => '{"different":true}',
+        'message' => 'body is missing :path key'
+      }
+    }
+    assert_equal expected, JSON.parse!(stdout), :exception_info_printed_to_stdout        
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -

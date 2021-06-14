@@ -1,4 +1,4 @@
-
+  
 class KataController < ApplicationController
 
   def edit
@@ -36,8 +36,6 @@ class KataController < ApplicationController
       'revert_if_wrong' => params['revert_if_wrong']
     }
 
-    @saved = true
-    @out_of_sync = false
     begin
       ran_tests(@id, index, files, @stdout, @stderr, @status, {
         duration: duration,
@@ -49,12 +47,7 @@ class KataController < ApplicationController
       @saved = false
       $stdout.puts(error.message);
       $stdout.flush
-      unless id?(@id)
-        raise
-      end
-      if saver.kata_exists?(@id)
-        @out_of_sync = true
-      end
+      @out_of_sync = error.message.include?('Out of order event')
     end
 
     respond_to do |format|
@@ -161,19 +154,5 @@ class KataController < ApplicationController
   def content(s)
     { 'content' => s, 'truncated' => false }
   end
-
-  # - - - - - - - - - - - - - - - - - -
-
-  def id?(s)
-    s.is_a?(String) &&
-      s.length === 6 &&
-        s.chars.all?{ |ch| ALPHABET.include?(ch) }
-  end
-
-  ALPHABET = %w{
-    0 1 2 3 4 5 6 7 8 9
-    A B C D E F G H   J K L M N   P Q R S T U V W X Y Z
-    a b c d e f g h   j k l m n   p q r s t u v w x y z
-  }.join.freeze
 
 end
