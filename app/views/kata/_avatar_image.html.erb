@@ -7,7 +7,7 @@ $(() => {
   const manifest = cd.kata.manifest();
   const avatarIndex = manifest.group_index;
 
-  if (avatarIndex) {
+  if (avatarIndex != undefined) {
     const $img = cd.lib.$makeAvatarImage(avatarIndex);
     $('.avatar-image-box').append($img);
     cd.createTip($img, 'switch to review mode');
