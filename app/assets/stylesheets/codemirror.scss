@@ -7,8 +7,8 @@
   // Some test frameworks print to 80 columns, eg pytest.
   font-size: 11.4pt;
   color: black;
-  height: 550px;
-  width: 770px;
+  height: calc(100vh - 125px);
+  width: calc(100vw - 500px);
 }
 
 /* PADDING */
