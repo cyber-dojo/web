@@ -72,7 +72,7 @@ class KataController < ApplicationController
 
   # - - - - - - - - - - - - - - - - - -
 
-  def checkout # A [revert][checkout!] from the review page.
+  def checkout # A [checkout!] from the review page.
     from = {
       id:source_id,
       index:source_index,
