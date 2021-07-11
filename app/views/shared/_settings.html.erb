@@ -15,6 +15,9 @@
     <input type="radio" id="light" name="theme" value="light">
     <label for="light">light</label><br/>
   </div>
+  <div class="info">
+    <button id="downloadMyKata">Download my Kata</button>
+  </div>
 </div>
 
 <script>
@@ -98,6 +101,48 @@ $(() => {
        success: () => cache[name] = value
     });
   };
+
+  const downloadMyKataElement = document.getElementById("downloadMyKata");
+  downloadMyKataElement.addEventListener("click", function (e) {
+    getKataFromSaver('getKataFromSaverCache');
+  }, false);
+
+  const getKataFromSaver = (name) => {
+    $.ajax({
+          type: 'GET',
+      dataType: 'json',
+            url: '/saver/kata_download',
+          data: {
+              id: cd.kata.id
+          },
+          async: false,
+        success: (data) => downloadKata(data['kata_download'])
+    });
+  };
+
+  const downloadKata = ([fileName, fileContentsBase64]) => {
+    const blobLinkText = ''
+    const blobAnchorTitle = '';
+    const url = `data:application/gzip;base64,${fileContentsBase64}`;
+
+    const blobAnchor = document.createElement('a');
+    var blobLinkTextNode = document.createTextNode(blobLinkText);
+    blobAnchor.appendChild(blobLinkTextNode);
+    blobAnchor.title = blobAnchorTitle;
+    blobAnchor.href = url;
+    blobAnchor.download = fileName;
+    blobAnchor.setAttribute("type", "hidden");
+    blobAnchor.style.display = 'none';
+    document.getElementById("settings-dialog").appendChild(blobAnchor);
+    
+    blobAnchor.onclick = function () {
+      requestAnimationFrame(function () {
+          setTimeout(() => blobAnchor.remove(), 300);
+      });
+    };
+
+    blobAnchor.click();
+  }
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   // UI
