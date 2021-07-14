@@ -1,0 +1,62 @@
+
+<button type="button" class="review download">download</button>
+
+<script>
+'use strict';
+$(() => {
+
+  const $button = $(".download");
+
+  const tip = [
+    "Download your practice session as",
+    "a git repository (in a .tgz file)",
+    "with one commit per test."
+  ].join('<br/>');
+
+  cd.createTip($button, tip);
+
+  if (cd.kata.manifest().version < 2) {
+    $button.hide();
+  } else {
+    $button.click(() => {
+      $.ajax({
+            type: 'GET',
+        dataType: 'json',
+              url: '/saver/kata_download',
+            data: { id: cd.kata.id },
+            async: false,
+            error: (xhr, text, thrown) => downloadError(xhr, text, thrown),
+          success: (data) => downloadKata(data['kata_download'])
+      });
+    });
+  }
+
+  const downloadError = (xhr, textStatus, errorThrown) => {
+    alert(`Download Error\nxhr:${xhr}\ntextStatus:${textStatus}\nerrorThrown:${errorThrown}`);
+  };
+
+  const downloadKata = ([fileName, fileContentsBase64]) => {
+    const blobLinkText = ''
+    const blobAnchorTitle = '';
+    const url = `data:application/gzip;base64,${fileContentsBase64}`;
+
+    const blobAnchor = document.createElement('a');
+    var blobLinkTextNode = document.createTextNode(blobLinkText);
+    blobAnchor.appendChild(blobLinkTextNode);
+    blobAnchor.title = blobAnchorTitle;
+    blobAnchor.href = url;
+    blobAnchor.download = fileName;
+    blobAnchor.setAttribute("type", "hidden");
+    blobAnchor.style.display = 'none';
+    document.getElementById("settings-dialog").appendChild(blobAnchor);
+
+    blobAnchor.onclick = function () {
+      requestAnimationFrame(function () {
+          setTimeout(() => blobAnchor.remove(), 300);
+      });
+    };
+    blobAnchor.click();
+  };
+
+});
+</script>

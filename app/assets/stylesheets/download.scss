@@ -1,4 +1,4 @@
-button.charity
+button.download
 {
   border-radius: 3px;
   margin: { left:0px; right:0px; top:0px; bottom:2px; }
@@ -8,12 +8,6 @@ button.charity
   font-weight: bold;
   width: 74px;
   text-align: center;
-  position: relative;
-  right: -1px;
-}
-
-#charity-dialog
-{
-  a { color: khaki !important; }
-  li { margin-top: 10px; }
+  margin-left: 56px;
+  margin-top: 20px;
 }
