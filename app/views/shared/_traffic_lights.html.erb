@@ -1,8 +1,10 @@
 <button type="button" id="traffic-lights-button" class="info-button">traffic-lights</button>
 
 <div id="traffic-lights-dialog" style="display:none;">
+  <div class="info">cyber-dojo has <b>built-in version control</b>...</div>
   <%= render partial: 'shared/traffic_lights_bulb_info' %>
   <%= render partial: 'shared/traffic_lights_click_info' %>
+  <div class="info">Tests must complete in <span id="max-seconds"></span> seconds</div>
 </div>
 
 <script>
@@ -17,10 +19,9 @@ $(() => {
 
   const openTrafficLightsInfoDialog = () => {
     const manifest = cd.kata.manifest();
-    $('#traffic-lights-dialog').append(
-      $('<div>', { class:'info' }).html(`Tests must complete in ${manifest.max_seconds} seconds`)
-    ).dialog({
-              width: 400,
+    $('#max-seconds').html(manifest.max_seconds);
+    $('#traffic-lights-dialog').dialog({
+              width: 500,
            autoOpen: true,
       closeOnEscape: true,
               modal: true,
