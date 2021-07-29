@@ -49,7 +49,8 @@ button.sponsorship
 #praqma-cell #praqma-image,
 #curbralan-cell #curbralan-image,
 #wingman-cell #wingman-image,
-#showcode-cell, #showcode-image
+#showcode-cell #showcode-image,
+#bluefruit-cell #bluefruit-image,
 {
   border-radius: 2px;
   padding: 0px;
@@ -57,10 +58,17 @@ button.sponsorship
   margin-top:0px;
   width: 74px;
 }
+#bluefruit-cell #bluefruit-image 
+{
+  width: 72px;
+  border: 1px solid white;
+}
+
 
 #merkely-cell { margin-bottom: 3px; }
 #praqma-cell { margin-bottom: 3px; }
 #curbralan-cell { margin-bottom: 3px; }
+#bluefruit-cell { margin-bottom: 3px; }
 #cucumber-cell #cucumber-image
 {
   margin-bottom: 3px;
