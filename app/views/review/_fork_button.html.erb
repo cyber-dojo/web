@@ -53,26 +53,40 @@ $(() => {
 
   const fork = (type) => {
     $fork.dialog('close');
+    const method = `${type}_fork`;
     $.ajax({
             type: 'POST',
-             url: `/forker/fork_${type}?id=${cd.review.id}&index=${cd.review.index}`,
+             url: `/saver/${method}?id=${cd.review.id}&index=${cd.review.index}`,
         dataType: 'json', // format we want response in
            async: false,
+           error: error,
          success: (response) => {
-           if (response.forked) {
-             window.open(`/creator/enter?id=${response.id}`);
+           const id = response[method];
+           if (id) {
+             window.open(`/creator/enter?id=${id}`);
            } else {
-             cd.dialogError(response.message);
+             cd.dialogError(response);
            }
         }
     });
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
+  const error = (request, status, thrown) => {
+    const message = [
+      request.responseText,
+      '----------------------------',
+      `Status=${status}`,
+      thrown
+    ].join("\n");
+    cd.dialogError(message);
+  };
+
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
   cd.createTip($button, tip);
   $button.click(() => openForkDialog());
-  $('.individual', $fork).click(() => fork('individual'));
-  $('.group',      $fork).click(() => fork('group'     ));
+  $('.individual', $fork).click(() => fork('kata'));
+  $('.group',      $fork).click(() => fork('group'));
 
 });
 </script>
