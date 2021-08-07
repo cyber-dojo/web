@@ -79,5 +79,6 @@
 
 #traffic-lights-dialog 
 {
-  font-size: 130%;
+  .kata-id { font-size: 130%; color: $green; font-weight: bold; }
+  .phonetic-id { font-size: 110%; font-weight: bold; }
 }
