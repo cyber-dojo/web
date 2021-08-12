@@ -58,7 +58,7 @@ $(() => {
             type: 'POST',
              url: `/saver/${method}?id=${cd.review.id}&index=${cd.review.index}`,
         dataType: 'json', // format we want response in
-           async: false,
+           async: true,
            error: error,
          success: (response) => {
            const id = response[method];
