@@ -47,9 +47,11 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - -
-  // NB: logically there is a 3rd possibility.
-  // In a group, you could fork a new avatar.
-  // At present, there is no support for this.
+  // NB: logically there is other possibilities
+  // - In a group, you could fork a new avatar (in that group)
+  // - A "Deep-Fork" where the new session has the full git
+  //   history of the forked-from session.
+  // At present, there is no support for these.
 
   const fork = (type) => {
     $fork.dialog('close');
