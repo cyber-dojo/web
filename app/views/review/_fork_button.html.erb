@@ -63,7 +63,11 @@ $(() => {
          success: (response) => {
            const id = response[method];
            if (id) {
-             window.open(`/creator/enter?id=${id}`);
+             if (type === 'group') {
+               window.open(`/creator/enter?id=${id}`);
+             } else {
+               window.open(`/kata/edit/${id}`);
+             }
            } else {
              cd.dialogError(response);
            }
