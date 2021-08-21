@@ -24,7 +24,7 @@ class SaverService
   # - - - - - - - - - - - - - - - - - -
 
   def group_create(manifest)
-    @http.post(__method__, {manifest: manifest})
+    @http.post(__method__, {manifest:manifest})
   end
 
   def group_exists?(id)
