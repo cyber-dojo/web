@@ -109,11 +109,11 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  v_tests [0,1], '824', %w(
+  v_tests [0,1,2], '824', %w(
   given a saver outage during a session
   when kata.event(-1) is called
   then v0 raises
-  but v1 handles it
+  but v1 v2 handles it
   ) do
     in_new_kata do |kata|
       files = kata.event(-1)['files']
@@ -127,7 +127,9 @@ class KataTest < AppModelsTestBase
       kata_ran_tests(kata.id, 6, files, stdout, stderr, status, ran_summary('red'))
 
       if v_test?(0)
-        assert_raises { kata.event(-1) }
+        captured_stdout {
+          assert_raises { kata.event(-1) }
+        }
       else
         assert_equal 'x1x2x3', kata.event(-1)['stdout']['content']
       end
@@ -136,7 +138,7 @@ class KataTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  v_tests [0,1], '825', %w(
+  v_tests [0,1,2], '825', %w(
   given two laptops as the same avatar
   when one is behind (has not synced by hitting refresh in their browser)
   and they hit the [test] button
@@ -155,19 +157,26 @@ class KataTest < AppModelsTestBase
 
       events = kata.events
       assert_equal 4, events.size, :event_not_appended_to_events_json
-      assert_raises(SaverService::Error) {
-        kata.event(4) # /4/event.json not created
+      captured_stdout {
+        assert_raises(SaverService::Error) {
+          kata.event(4) # /4/event.json not created
+        }
       }
 
       # 2nd avatar - no refresh, so index not advanced to 2
-      assert_raises(SaverService::Error) {
-        kata_ran_tests(kata.id, 1, files, stdout, stderr, status, ran_summary('green'))
+      captured_stdout {
+        assert_raises(SaverService::Error) {
+          kata_ran_tests(kata.id, 1, files, stdout, stderr, status, ran_summary('green'))
+        }
       }
 
       events = kata.events
       assert_equal 4, events.size, :event_not_appended_to_events_json
-      assert_raises(SaverService::Error) {
-        kata.event(4) # /4.event.json not created
+
+      captured_stdout {
+        assert_raises(SaverService::Error) {
+          kata.event(4) # /4.event.json not created
+        }
       }
 
       assert_equal 0, events[0]['index'] # creation
@@ -179,6 +188,20 @@ class KataTest < AppModelsTestBase
       assert_equal 'amber', events[2]['colour']
       assert_equal 'green', events[3]['colour']
     end
+  end
+
+  private
+
+  def captured_stdout
+    begin
+      old_stdout = $stdout
+      $stdout = StringIO.new('', 'w')
+      yield
+      captured = $stdout.string
+    ensure
+      $stdout = old_stdout
+    end
+    captured
   end
 
 end

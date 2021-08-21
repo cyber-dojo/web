@@ -24,7 +24,7 @@ class SaverService
   # - - - - - - - - - - - - - - - - - -
 
   def group_create(manifest)
-    @http.post(__method__, {manifests:[manifest], options:{}})
+    @http.post(__method__, {manifest: manifest})
   end
 
   def group_exists?(id)
@@ -46,7 +46,7 @@ class SaverService
   # - - - - - - - - - - - - - - - - - -
 
   def kata_create(manifest)
-    @http.post(__method__, {manifest:manifest, options:{}})
+    @http.post(__method__, {manifest:manifest})
   end
 
   def kata_exists?(id)
