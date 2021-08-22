@@ -31,7 +31,6 @@ $(() => {
     "traffic-light's files"
   ].join('<br/>');
 
-  //- - - - - - - - - - - - - - - - - - - - - - - - -
   const openForkDialog = () => {
     const xPos = $button.offset().left;
     const yPos = $button.offset().top + 30;
@@ -45,13 +44,6 @@ $(() => {
       closeOnEscape: true,
     });
   };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - -
-  // NB: logically there is other possibilities
-  // - In a group, you could fork a new avatar (in that group)
-  // - A "Deep-Fork" where the new session has the full git
-  //   history of the forked-from session.
-  // At present, there is no support for these.
 
   const fork = (type) => {
     $fork.dialog('close');
@@ -73,7 +65,6 @@ $(() => {
     });
   };
 
-  //- - - - - - - - - - - - - - - - - - - - - - - - -
   const error = (request, status, thrown) => {
     const message = [
       request.responseText,
@@ -87,6 +78,13 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   cd.createTip($button, tip);
   $button.click(() => openForkDialog());
+
+  // NB: logically there are two other possibilities:
+  // - In a group, you could fork a new avatar (in that group)
+  // - A "Deep-Fork" where the new session has the full git
+  //   history of the forked-from session.
+  // At present, there is no support for these.
+
   $('.individual', $fork).click(() => fork('kata'));
   $('.group',      $fork).click(() => fork('group'));
 
