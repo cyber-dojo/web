@@ -2,24 +2,31 @@
 
 <div id="fork-dialog" style="display:none;">
   <div class="info">
-    create a new exercise<br/>
+    create a new practice<br/>
     from this traffic-light's files
   </div>
-  <button class="individual" type="button">individual exercise</button>
-  <button class="group"      type="button">group exercise</button>
+  <button class="kata"  type="button">ensemble style</button>
+  <button class="group" type="button">classroom style</button>
+  <button class="kata"  type="button">solo style</button>
 </div>
 
 <script>
 'use strict';
 $(() => {
 
+  //- - - - - - - - - - - - - - - - - - - - - - - - -
+  // NB: logically there are other possibilities here...
+  // - In a classroom practice, you could fork a new avatar (in that group)
+  // - A "Deep-Fork" where the new session has the full git
+  //   history of the forked-from session.
+  // At present, there is no support for these.
+
   const $button = $('#fork-button');
   const $fork = $('#fork-dialog');
 
   cd.review.forkButton = {
     refresh: () => {
-      const theDefault = 'on';
-      if (cd.lib.setting('fork_button',theDefault) === 'on') {
+      if (cd.env['FORK_BUTTON'] !== 'off') {
         $button.show();
       }
     }
@@ -27,7 +34,7 @@ $(() => {
 
   const tip = [
     'create a new',
-    'exercise from this',
+    'practice from this',
     "traffic-light's files"
   ].join('<br/>');
 
@@ -37,7 +44,7 @@ $(() => {
     $fork.dialog({
               title: cd.dialogTitle('fork'),
               width: 270,
-             height: 300,
+             height: 350,
               modal: true,
            autoOpen: true,
            position: [ xPos, yPos ],
@@ -78,15 +85,8 @@ $(() => {
   //- - - - - - - - - - - - - - - - - - - - - - - - -
   cd.createTip($button, tip);
   $button.click(() => openForkDialog());
-
-  // NB: logically there are two other possibilities:
-  // - In a group, you could fork a new avatar (in that group)
-  // - A "Deep-Fork" where the new session has the full git
-  //   history of the forked-from session.
-  // At present, there is no support for these.
-
-  $('.individual', $fork).click(() => fork('kata'));
-  $('.group',      $fork).click(() => fork('group'));
+  $('.kata' , $fork).click(() => fork('kata'));
+  $('.group', $fork).click(() => fork('group'));
 
 });
 </script>
