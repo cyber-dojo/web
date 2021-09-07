@@ -8,14 +8,14 @@ $(() => {
   const manifest = cd.kata.manifest();
   const groupId = manifest.group_id;
 
-  if (groupId === undefined) {
-    $dashboardButton.remove();
+  if (groupId === undefined || cd.env['DASHBOARD_BUTTON'] === 'off') {
+	  $dashboardButton.remove();
   } else {
-    $dashboardButton.click(() => {
-      const url = `/dashboard/show/${manifest.group_id}`;
-      window.open(url);
-    });
-    cd.createTip($dashboardButton, 'open dashboard page');
+	  $dashboardButton.click(() => {
+	      const url = `/dashboard/show/${manifest.group_id}`;
+	      window.open(url);
+      });
+      cd.createTip($dashboardButton, 'open dashboard page');
   }
 
 });
