@@ -1,7 +1,7 @@
 <input name="predicted"       type="hidden" value="none">
 <input name="revert_if_wrong" type="hidden" value="off">
 
-<div id="predict-checkbox-cell">
+<div id="predict-checkbox-cell" style="display:none;">
   <div id="predict-checkbox-title">predict</div>
   <input type="checkbox" id="predict-checkbox"/>
 </div>
@@ -168,15 +168,18 @@ $(() => {
     // called from
     // 1) edit.html.erb when page refreshes
     // 2) run_tests.js.erb when test has run
-
-    // TODO: $predictCell.hide(); if turned off at server
-
     if (settings.predict() === 'on') {
       predictOn(); // enables auto-revert after first test
     } else {
       predictOff();
     }
   };
+
+  if (cd.env['PREDICT'] !== 'off') {
+    $predictCheckboxCell.show();
+    $revertTitle.show();
+    $buttonsCell.show();
+  }
 
 });
 </script>
