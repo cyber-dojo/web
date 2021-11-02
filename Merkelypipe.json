@@ -1,0 +1,9 @@
+{
+    "owner": "cyber-dojo",
+    "name": "web",
+    "description": "UX for practicing TDD",
+    "visibility": "public",
+    "template": [
+        "artifact"
+    ]
+}
