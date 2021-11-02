@@ -13,6 +13,16 @@ jobs:
             ./build_test_publish.sh
             docker logout
 
+  log-beta-deployment-to-merkely:
+    machine:
+      image: ubuntu-2004:202008-01
+    steps:
+      - checkout
+      - run:
+          name: Log deployment to beta in Merkely
+          command: |
+            ./.circleci/merkely_log_deployment.sh beta
+
   deploy-to-beta:
     docker:
       - image: cyberdojo/gcloud-kubectl-helm
@@ -21,6 +31,16 @@ jobs:
       - run:
           name: Authenticate with gcloud, deploy to beta with helm
           command: ./.circleci/deploy_to_namespace.sh beta
+
+  log-prod-deployment-to-merkely:
+    machine:
+      image: ubuntu-2004:202008-01
+    steps:
+      - checkout
+      - run:
+          name: Log deployment to prod in Merkely
+          command: |
+            ./.circleci/merkely_log_deployment.sh prod
 
   deploy-to-prod:
     docker:
@@ -41,15 +61,23 @@ workflows:
             branches:
               only:
                   - master
-      - deploy-to-beta:
+      - log-beta-deployment-to-merkely:
           context: cyberdojo-context
           requires:
             - build-publish
+      - deploy-to-beta:
+          context: cyberdojo-context
+          requires: 
+            - log-beta-deployment-to-merkely 
       - approve-to-prod:
           type: approval
           requires:
             - deploy-to-beta
+      - log-prod-deployment-to-merkely:
+          context: cyberdojo-context
+          requires: 
+            - approve-to-prod
       - deploy-to-prod:
           context: cyberdojo-context
           requires:
-            - approve-to-prod
+            - log-prod-deployment-to-merkely
