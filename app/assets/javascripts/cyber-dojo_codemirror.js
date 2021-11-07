@@ -99,7 +99,7 @@ var cyberDojo = ((cd, $) => {
   };
 
   const codeMirrorLineWrapping = (filename) => {
-    return ['readme.txt', 'output'].includes(filename);
+    return filename === 'output' || filename.startsWith('readme');
   };
 
   const codeMirrorIndentWithTabs = (filename) => {

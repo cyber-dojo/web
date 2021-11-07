@@ -100,7 +100,7 @@ $(() => {
     if (cd.isHighlightFile(filename)) {
       $div.addClass('highlight');
     }
-    if (cd.isSourceFile(filename) || filename === 'readme.txt') {
+    if (cd.isSourceFile(filename)) {
       $div.addClass('source');
     }
     $div.click(() => filenames.select(filename));

@@ -21,7 +21,7 @@ $(() => {
   };
 
   const fileCategory = (filename) => {
-    if (filename === 'readme.txt')         { return 0; } // Always at the top
+    if (filename.startsWith('readme'))     { return 0; } // Always at the top
     else if (cd.isHighlightFile(filename)) { return 1; }
     else if (cd.isSourceFile(filename))    { return 2; }
     else                                   { return 3; }
