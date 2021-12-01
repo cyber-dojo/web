@@ -125,6 +125,7 @@ var cyberDojo = ((cd, $) => {
       case '.coffee' : return 'text/x-coffeescript';
       case '.cs'     : return 'text/x-csharp';
       case '.d'      : return 'text/x-d';
+      case '.diff'   : return 'text/x-diff';
       case '.feature': return 'text/x-feature';
       case '.go'     : return 'text/x-go';
       case '.groovy' : return 'text/x-groovy';

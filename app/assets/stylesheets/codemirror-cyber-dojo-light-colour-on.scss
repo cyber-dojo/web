@@ -78,6 +78,9 @@ $default: $syntax-text-color;
 .cm-s-cyber-dojo-light-colour-on .cm-comment {color: $syntax-comment-color;}
 .cm-s-cyber-dojo-light-colour-on .cm-string {color: $red;}
 .cm-s-cyber-dojo-light-colour-on .cm-string-2 {color: $red;}
+.cm-s-cyber-dojo-light-colour-on .cm-diff-negative { color: #d44; }
+.cm-s-cyber-dojo-light-colour-on .cm-diff-positive { color: #292; }
+.cm-s-cyber-dojo-light-colour-on .cm-diff-meta { color: $green; }
 .cm-s-cyber-dojo-light-colour-on .cm-meta { color: $green; }
 .cm-s-cyber-dojo-light-colour-on .cm-qualifier {color: $default;}
 .cm-s-cyber-dojo-light-colour-on .cm-builtin {color: $purple;}
