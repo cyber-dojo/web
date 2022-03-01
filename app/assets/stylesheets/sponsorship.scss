@@ -51,6 +51,8 @@ button.sponsorship
 #wingman-cell #wingman-image,
 #showcode-cell #showcode-image,
 #bluefruit-cell #bluefruit-image,
+#samman-coaching-cell #samman-coaching-image,
+#pro-agile-cell #pro-agile-image
 {
   border-radius: 2px;
   padding: 0px;
@@ -58,7 +60,9 @@ button.sponsorship
   margin-top:0px;
   width: 74px;
 }
-#bluefruit-cell #bluefruit-image 
+
+#bluefruit-cell #bluefruit-image,
+#samman-coaching-cell #samman-coaching-image
 {
   width: 72px;
   border: 1px solid white;
@@ -69,7 +73,12 @@ button.sponsorship
 #praqma-cell { margin-bottom: 3px; }
 #curbralan-cell { margin-bottom: 3px; }
 #bluefruit-cell { margin-bottom: 3px; }
-#cucumber-cell #cucumber-image
+#samman-coaching-cell { margin-bottom: 3px; }
+#pro-agile-cell { margin-bottom: 3px; }
+
+#cucumber-cell #cucumber-image,
+#showcode-cell #showcode-image,
+#pro-agile-cell #pro-agile-image,
 {
   margin-bottom: 3px;
   border: 1px solid Gray;
