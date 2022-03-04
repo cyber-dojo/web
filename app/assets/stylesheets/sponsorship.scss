@@ -57,12 +57,11 @@ button.sponsorship
   border-radius: 2px;
   padding: 0px;
   height: 15px;
-  margin-top:0px;
+  margin-top: 0px;
   width: 74px;
 }
 
-#bluefruit-cell #bluefruit-image,
-#samman-coaching-cell #samman-coaching-image
+#bluefruit-cell #bluefruit-image
 {
   width: 72px;
   border: 1px solid white;
@@ -77,8 +76,7 @@ button.sponsorship
 #pro-agile-cell { margin-bottom: 3px; }
 
 #cucumber-cell #cucumber-image,
-#showcode-cell #showcode-image,
-#pro-agile-cell #pro-agile-image,
+#showcode-cell #showcode-image
 {
   margin-bottom: 3px;
   border: 1px solid Gray;
