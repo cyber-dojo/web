@@ -11,7 +11,10 @@ class SaverService
   end
 
   def initialize(externals)
-    hostname = 'saver'
+    hostname = ENV['CYBER_DOJO_SAVER_HOSTNAME']
+    if hostname.nil?
+      hostname = 'saver'
+    end    
     port = ENV['CYBER_DOJO_SAVER_PORT'].to_i
     requester = HttpJson::Requester.new(externals.http, hostname, port)
     @http = HttpJson::Responder.new(requester, Error)
