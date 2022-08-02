@@ -1,0 +1,17 @@
+*.zip
+
+# Terraform
+**/.terraform/*
+.terraform.*
+*.tfstate
+*.tfstate.*
+crash.log
+variables.tfvars
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+*terraform.tfvars
+.terraform.lock.hcl
+*plan.json
+**/.terraform.lock.hcl

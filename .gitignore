@@ -12,6 +12,7 @@
 !/test
 !/docs
 !/.circleci
+!/deployment
 
 # and these files...
 
