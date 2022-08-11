@@ -13,6 +13,7 @@
 !/docs
 !/.circleci
 !/deployment
+!/.github
 
 # and these files...
 

@@ -1,4 +1,4 @@
-env          = "staging"
+env = "staging"
 
 # Allow to replicate app docker images to these accounts
 ecr_replication_targets = [

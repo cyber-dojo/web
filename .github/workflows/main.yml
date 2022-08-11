@@ -1,0 +1,62 @@
+name: Main
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  pre-build:
+    runs-on: ubuntu-20.04
+    outputs:
+      tag: ${{ steps.prep.outputs.tag }}
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - name: Prepare
+      id: prep
+      run: |
+        TAG=$(echo $GITHUB_SHA | head -c7)
+        echo "TAG=${TAG}" >> ${GITHUB_ENV}
+        echo ::set-output name=tag::${TAG}
+
+  build-test-push:
+    needs: [pre-build]
+    uses: cyber-dojo/reusable-actions-workflows/.github/workflows/build_test_push.yml@master
+    secrets:
+      MERKELY_API_TOKEN: ${{ secrets.MERKELY_API_TOKEN }}
+      DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
+      DOCKER_USER: ${{ secrets.DOCKER_USER }}
+    with:
+      CIRCLE_BUILD_NUM: ${{github.run_number}}
+      CIRCLE_BUILD_URL: ${{github.server_url}}/${{github.repository}}/actions/runs/${{github.run_id}}
+      BUILD_COMMAND: build_test_publish.sh
+      tag: ${{ needs.pre-build.outputs.tag }}
+      AWS_ACCOUNT_ID: 244531986313
+      AWS_REGION: eu-central-1
+      ecr_registry: 244531986313.dkr.ecr.eu-central-1.amazonaws.com
+      service_name: web
+      gh_actions_iam_role_name: gh_actions_services
+  
+  deploy-staging:
+    needs: [pre-build, build-test-push]
+    uses: cyber-dojo/reusable-actions-workflows/.github/workflows/deploy.yml@master
+    with:
+      tagged_image: 244531986313.dkr.ecr.eu-central-1.amazonaws.com/web:${{ needs.pre-build.outputs.tag }}
+      AWS_ACCOUNT_ID: 244531986313
+      AWS_REGION: eu-central-1
+      gh_actions_iam_role_name: gh_actions_services
+      environment_url: https://beta.cyber-dojo.org
+      environment_name: staging
+
+  deploy-prod:
+    needs: [pre-build, build-test-push, deploy-staging]
+    uses: cyber-dojo/reusable-actions-workflows/.github/workflows/deploy.yml@master
+    with:
+      tagged_image: 274425519734.dkr.ecr.eu-central-1.amazonaws.com/web:${{ needs.pre-build.outputs.tag }}
+      AWS_ACCOUNT_ID: 274425519734
+      AWS_REGION: eu-central-1
+      gh_actions_iam_role_name: gh_actions_services
+      environment_url: https://prod.cyber-dojo.org
+      environment_name: production

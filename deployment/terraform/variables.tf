@@ -1,5 +1,5 @@
 variable "service_name" {
-  type = string
+  type    = string
   default = "web"
 }
 
@@ -8,22 +8,22 @@ variable "env" {
 }
 
 variable "app_port" {
-  type = number
+  type    = number
   default = 3000
 }
 
 variable "cpu_limit" {
-  type = number
+  type    = number
   default = 100
 }
 
 variable "mem_limit" {
-  type = number
+  type    = number
   default = 1024
 }
 
 variable "mem_reservation" {
-  type = number
+  type    = number
   default = 128
 }
 
