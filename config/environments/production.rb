@@ -31,7 +31,7 @@ CyberDojo::Application.configure do
   # config.force_ssl = true
 
   # See everything in the log (default is :info)
-  config.log_level = :warn
+  config.log_level = :info
 
   # Prepend all log lines with the following tags
   # config.log_tags = [ :subdomain, :uuid ]
@@ -60,6 +60,13 @@ CyberDojo::Application.configure do
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
+
+  # Show raw exceptions
+  config.action_dispatch.show_exceptions = false
+  # Show full error reports
+  config.consider_all_requests_local = false
+
+  #config.exceptions_app = self.routes
 
   # Add configuration option for STDOUT logging
   if ENV["RAILS_LOG_TO_STDOUT"].present?
