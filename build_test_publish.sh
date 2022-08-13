@@ -12,7 +12,7 @@ source "${SH_DIR}/exit_non_zero_unless_installed.sh"
 source "${SH_DIR}/on_ci_publish_tagged_images.sh"
 source "${SH_DIR}/remove_old_images.sh"
 source "${SH_DIR}/run_tests_in_container.sh"
-source "${SH_DIR}/merkely.sh"
+source "${SH_DIR}/kosli.sh"
 
 exit_non_zero_unless_installed docker
 exit_non_zero_unless_installed docker-compose
@@ -22,10 +22,10 @@ export $(echo_versioner_env_vars)
 
 containers_down
 remove_old_images
-on_ci_merkely_declare_pipeline
+on_ci_kosli_declare_pipeline
 build_tagged_images
 exit_zero_if_build_only "$@"
 containers_up
 run_tests_in_container "$@"
 on_ci_publish_tagged_images
-on_ci_merkely_log_artifact
+on_ci_kosli_log_artifact
