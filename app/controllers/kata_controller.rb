@@ -1,4 +1,4 @@
-  
+
 class KataController < ApplicationController
 
   def edit

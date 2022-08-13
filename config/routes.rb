@@ -20,4 +20,6 @@ CyberDojo::Application.routes.draw do
     get 'show(/:id)' => :show
   end
 
+  get '*path', to: 'error#render_404', via: :all
+
 end

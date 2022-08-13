@@ -66,7 +66,7 @@ CyberDojo::Application.configure do
   # Show full error reports
   config.consider_all_requests_local = false
 
-  #config.exceptions_app = self.routes
+  config.exceptions_app = self.routes
 
   # Add configuration option for STDOUT logging
   if ENV["RAILS_LOG_TO_STDOUT"].present?
