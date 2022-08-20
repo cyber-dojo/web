@@ -40,7 +40,7 @@ jobs:
       gh_actions_iam_role_name: gh_actions_services
 
   deploy-staging:
-    needs: [build-test-push]
+    needs: [pre-build, build-test-push]
     uses: cyber-dojo/reusable-actions-workflows/.github/workflows/deploy.yml@master
     secrets:
       MERKELY_API_TOKEN: ${{ secrets.MERKELY_API_TOKEN }}
@@ -58,7 +58,7 @@ jobs:
       circle_build_url: ${{github.server_url}}/${{github.repository}}/actions/runs/${{github.run_id}}
 
   deploy-prod:
-    needs: [deploy-staging]
+    needs: [pre-build, build-test-push, deploy-staging]
     uses: cyber-dojo/reusable-actions-workflows/.github/workflows/deploy.yml@master
     secrets:
       MERKELY_API_TOKEN: ${{ secrets.MERKELY_API_TOKEN }}
