@@ -39,5 +39,5 @@ export CYBER_DOJO_WEB_TAG="${CIRCLE_SHA1:0:7}"
 docker pull ${CYBER_DOJO_WEB_IMAGE}:${CYBER_DOJO_WEB_TAG}
 
 readonly ENVIRONMENT="${1}"
-merkely_log_deployment "${ENVIRONMENT}" https://staging.app.merkely.com
-merkely_log_deployment "${ENVIRONMENT}" https://app.merkely.com
+readonly HOSTNAME="${2}"
+merkely_log_deployment "${ENVIRONMENT}" "${HOSTNAME}"
