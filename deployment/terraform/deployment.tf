@@ -4,6 +4,7 @@ module "ecs-service" {
   TAGGED_IMAGE            = var.TAGGED_IMAGE
   enable_execute_command  = "true"
   app_port                = var.app_port
+  desired_count           = var.desired_count
   cpu_limit               = var.cpu_limit
   mem_reservation         = var.mem_reservation
   mem_limit               = var.mem_limit

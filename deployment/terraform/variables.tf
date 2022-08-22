@@ -12,6 +12,11 @@ variable "app_port" {
   default = 3000
 }
 
+variable "desired_count" {
+  type    = number
+  default = 3
+}
+
 variable "cpu_limit" {
   type    = number
   default = 100
