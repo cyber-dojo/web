@@ -17,8 +17,6 @@ echo_versioner_env_vars()
   #
   # echo CYBER_DOJO_SAVER_SHA=3203fa65b8fbb90023ae104fe259a93432de2681
   # echo CYBER_DOJO_SAVER_TAG=3203fa6
-  echo CYBER_DOJO_NGINX_SHA=09d17055a5596ba07a9019d57bcf5e25f7ac310a
-  echo CYBER_DOJO_NGINX_TAG=09d1705
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
