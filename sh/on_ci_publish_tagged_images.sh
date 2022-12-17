@@ -1,4 +1,5 @@
-#!/bin/bash -Eeu
+#!/usr/bin/env bash
+set -Eeu
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
 on_ci_publish_tagged_images()

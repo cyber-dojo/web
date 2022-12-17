@@ -5,14 +5,6 @@ WORKDIR /cyber-dojo
 RUN chown nobody:nogroup .
 COPY --chown=nobody:nogroup . .
 
-# Note
-# originally the copy+chown was
-#    COPY . .
-#    RUN chown -R nobody:nogroup /cyber-dojo
-# That works but is _much_ slower than
-#    RUN chown nobody:nogroup .
-#    COPY --chown=nobody:nogroup . /cyber-dojo
-
 ARG COMMIT_SHA
 ENV SHA=${COMMIT_SHA}
 

@@ -1,4 +1,5 @@
-#!/bin/bash -Eeu
+#!/usr/bin/env bash
+set -Eeu
 
 #- - - - - - - - - - - - - - - - - - - -
 # Copy saver-test-data into saver container

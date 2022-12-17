@@ -1,4 +1,5 @@
-#!/bin/bash -Eeu
+#!/usr/bin/env bash
+set -Eeu
 
 export ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export SH_DIR="${ROOT_DIR}/sh"
@@ -28,4 +29,5 @@ exit_zero_if_build_only "$@"
 containers_up
 run_tests_in_container "$@"
 on_ci_publish_tagged_images
-on_ci_kosli_log_artifact
+on_ci_kosli_report_artifact_creation
+on_ci_kosli_assert_artifact

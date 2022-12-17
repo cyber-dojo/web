@@ -1,4 +1,5 @@
-#!/bin/bash -Eeu
+#!/usr/bin/env bash
+set -Eeu
 
 readonly SH_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "${SH_DIR}/ip_address.sh"

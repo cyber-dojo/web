@@ -1,4 +1,5 @@
-#!/bin/bash -Eeu
+#!/usr/bin/env bash
+set -Eeu
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
 remove_old_images()

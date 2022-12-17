@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
 docker rm test-web --force
-set -e
+set -Eeu
 
 readonly SH_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 export SHA=$(cd "${ROOT_DIR}" && git rev-parse HEAD)
