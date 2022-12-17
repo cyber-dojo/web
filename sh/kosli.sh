@@ -80,7 +80,9 @@ kosli_expect_deployment()
 # - - - - - - - - - - - - - - - - - - -
 on_ci_kosli_declare_pipeline()
 {
-  if on_ci ; then
+  if ! on_ci ; then
+    echo "Not on CI so not declaring kosli pipeline"
+  else
     kosli_declare_pipeline "${KOSLI_HOST_STAGING}"
     kosli_declare_pipeline "${KOSLI_HOST_PRODUCTION}"
   fi
@@ -89,26 +91,32 @@ on_ci_kosli_declare_pipeline()
 # - - - - - - - - - - - - - - - - - - -
 on_ci_kosli_report_artifact_creation()
 {
-  if on_ci ; then
+  if ! on_ci ; then
+    echo "Not on CI so not reporting artifact creation"
+  else
     kosli_report_artifact_creation "${KOSLI_HOST_STAGING}"
     kosli_report_artifact_creation "${KOSLI_HOST_PRODUCTION}"
   fi
 }
 
 # - - - - - - - - - - - - - - - - - - -
-on_ci_kosli_log_evidence()
+on_ci_kosli_report_coverage_evidence()
 {
-  if on_ci ; then
-    write_evidence_json
-    kosli_log_evidence "${KOSLI_HOST_STAGING}"
-    kosli_log_evidence "${KOSLI_HOST_PRODUCTION}"
+  if ! on_ci ; then
+    echo "Not on CI so not reporting coverage evidence"
+  else
+    write_coverage_json
+    kosli_report_coverage_evidence "${KOSLI_HOST_STAGING}"
+    kosli_report_coverage_evidence "${KOSLI_HOST_PRODUCTION}"
   fi
 }
 
 # - - - - - - - - - - - - - - - - - - -
 on_ci_kosli_assert_artifact()
 {
-  if on_ci ; then
+  if ! on_ci ; then
+    echo "Not on CI so not asserting kosli artifact"
+  else
     kosli_assert_artifact "${KOSLI_HOST_STAGING}"
     kosli_assert_artifact "${KOSLI_HOST_PRODUCTION}"
   fi
@@ -129,7 +137,7 @@ root_dir()
 }
 
 # - - - - - - - - - - - - - - - - - - -
-write_evidence_json()
+write_coverage_json()
 {
   {
     echo '{ "server":'
