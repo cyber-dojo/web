@@ -23,11 +23,11 @@ export $(echo_versioner_env_vars)
 
 containers_down
 remove_old_images
-on_ci_kosli_declare_pipeline
+on_ci_kosli_create_flow
 build_tagged_images
 exit_zero_if_build_only "$@"
 containers_up
 run_tests_in_container "$@"
 on_ci_publish_tagged_images
-on_ci_kosli_report_artifact_creation
+on_ci_kosli_report_artifact
 on_ci_kosli_assert_artifact
