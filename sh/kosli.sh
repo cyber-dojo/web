@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -Eeu
 
-export KOSLI_OWNER=cyber-dojo
+export KOSLI_ORG=cyber-dojo
 export KOSLI_FLOW=web
 
 readonly KOSLI_HOST_STAGING=https://staging.app.kosli.com
@@ -24,13 +24,13 @@ kosli_report_artifact()
 {
   local -r hostname="${1}"
 
-  pushd "$(root_dir)"  # So we don't need --repo-root flag
+  pushd "$(root_dir)" > /dev/null # So we don't need --repo-root flag
 
   kosli report artifact "$(artifact_name)" \
       --artifact-type docker \
       --host "${hostname}"
 
-  popd
+  popd > /dev/null
 }
 
 # - - - - - - - - - - - - - - - - - - -
@@ -41,7 +41,7 @@ kosli_report_coverage_evidence()
   kosli report evidence artifact generic "$(artifact_name)" \
       --artifact-type docker \
       --description "server & client branch-coverage reports" \
-      --evidence-type "branch-coverage" \
+      --name "branch-coverage" \
       --user-data "$(coverage_json_path)" \
       --host "${hostname}"
 }
