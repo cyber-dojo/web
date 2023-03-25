@@ -1,4 +1,11 @@
-FROM cyberdojo/web-base:8e7b046
+# I would like to upgrade to Rails 7 and Ruby 3+
+# (and have built the web-base images) but there
+# is currently a problem caused by a change in
+# how keyword arguments are handled in Ruby 3.
+# See https://stackoverflow.com/questions/66750055
+# The base image :f1ae4be is Rails 6.0.0 and Ruby 2.7.1
+
+FROM cyberdojo/web-base:f1ae4be
 LABEL maintainer=jon@jaggersoft.com
 
 WORKDIR /cyber-dojo
