@@ -3,7 +3,7 @@ name: Main
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   pre-build:
