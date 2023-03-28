@@ -32,6 +32,12 @@ image_sha()
   echo "$(cd "$(root_dir)" && git rev-parse HEAD)"
 }
 
+# - - - - - - - - - - - - - - - - - - -
+root_dir()
+{
+  git rev-parse --show-toplevel
+}
+
 # - - - - - - - - - - - - - - - - - - - - - - - -
 image_tag()
 {
