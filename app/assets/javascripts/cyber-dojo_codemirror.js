@@ -144,6 +144,7 @@ var cyberDojo = ((cd, $) => {
       case '.scala'  : return 'text/x-scala';
       case '.sh'     : return 'text/x-sh';
       case '.swift'  : return 'text/x-swift';
+      case '.ts'     : return 'text/javascript'; // reasonable fit
       case '.vb'     : return 'text/x-vb';
       case '.vhdl'   : return 'text/x-vhdl';
       case '.xml'    : return 'text/xml';
