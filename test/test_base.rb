@@ -3,7 +3,7 @@ require_relative 'test_external_helpers'
 require_relative 'test_hex_id_helpers'
 require 'minitest/autorun'
 
-class TestBase < MiniTest::Test
+class TestBase < Minitest::Test
 
   def self.v_tests(versions, hex_prefix, *lines, &block)
     versions.each do |version|
