@@ -52,7 +52,7 @@ jobs:
 
   deploy-prod:
     needs: [pre-build, build-test-push, deploy-staging]
-    uses: cyber-dojo/reusable-actions-workflows/.github/workflows/kosli_deploy.yml@v0.0.1
+    uses: cyber-dojo/reusable-actions-workflows/.github/workflows/kosli_deploy.yml@v0.0.2
     secrets:
       KOSLI_API_TOKEN: ${{ secrets.KOSLI_API_TOKEN }}
     with:
