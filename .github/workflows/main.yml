@@ -37,6 +37,9 @@ jobs:
   deploy-staging:
     needs: [pre-build, build-test-push]
     uses: cyber-dojo/reusable-actions-workflows/.github/workflows/kosli_deploy.yml@v0.0.1
+    permissions:
+      id-token: write
+      contents: write
     secrets:
       KOSLI_API_TOKEN: ${{ secrets.KOSLI_API_TOKEN }}
     with:
