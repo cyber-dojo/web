@@ -7,7 +7,7 @@ on:
 
 jobs:
   pre-build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     outputs:
       image_tag: ${{ steps.prep.outputs.image_tag }}
     steps:
@@ -25,6 +25,7 @@ jobs:
       KOSLI_API_TOKEN: ${{ secrets.KOSLI_API_TOKEN }}
       DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
       DOCKER_USER: ${{ secrets.DOCKER_USER }}
+      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
     with:
       BUILD_COMMAND: build_test_publish.sh
       image_tag: ${{ needs.pre-build.outputs.image_tag }}

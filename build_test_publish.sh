@@ -30,4 +30,6 @@ containers_up
 run_tests_in_container "$@"
 on_ci_publish_tagged_images
 on_ci_kosli_report_artifact
+on_ci_kosli_report_coverage_evidence
+on_ci_kosli_report_snyk_scan_evidence
 on_ci_kosli_assert_artifact

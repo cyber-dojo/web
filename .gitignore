@@ -19,6 +19,8 @@
 !/.dockerignore
 !/.gitignore
 !/.env
+!/.snyk
+
 !/config.ru
 !/docker-compose.yml
 !/docker-compose-choosers.yml
