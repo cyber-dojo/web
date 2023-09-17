@@ -17,7 +17,7 @@ kosli_create_flow()
   kosli create flow "${KOSLI_FLOW}" \
     --description="UX for practicing TDD" \
     --host="${hostname}" \
-    --template=artifact,branch-coverage,snyk-scan \
+    --template=artifact,snyk-scan \
     --visibility=public
 }
 
