@@ -112,6 +112,7 @@ on_ci_kosli_report_coverage_evidence()
   fi
 }
 
+# - - - - - - - - - - - - - - - - - - -
 on_ci_kosli_report_snyk_scan_evidence()
 {
   if on_ci; then
