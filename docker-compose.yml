@@ -81,10 +81,10 @@ services:
     tmpfs: [ "/cyber-dojo:uid=19663,gid=65533", "/tmp:uid=19663,gid=65533" ]
 
   # - - - - - - - - - - - - - - - -
-  shas:
-    image: ${CYBER_DOJO_SHAS_IMAGE}:${CYBER_DOJO_SHAS_TAG}
+  version-reporter:
+    image: ${CYBER_DOJO_VERSION_REPORTER_IMAGE}:${CYBER_DOJO_VERSION_REPORTER_TAG}
     user: nobody
-    container_name: test_web_shas
+    container_name: test_web_version_reporter
     env_file: [ .env ]
     read_only: true
     tmpfs: /tmp

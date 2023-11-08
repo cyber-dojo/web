@@ -1,0 +1,12 @@
+<button type="button" id="versions-button" class="info-button">versions</button>
+
+<script>
+'use strict';
+$(() => {
+
+  const versionsButton = $('#versions-button');
+  versionsButton.click(() => window.open('/version-reporter/index'));
+  cd.createTip(versionsButton, 'open page of service git-commit shas');
+
+});
+</script>
