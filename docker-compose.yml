@@ -59,21 +59,6 @@ services:
     restart: 'no'
 
   # - - - - - - - - - - - - - - - -
-  repler:
-    image: ${CYBER_DOJO_REPLER_IMAGE}:${CYBER_DOJO_REPLER_TAG}
-    ports: [ "${CYBER_DOJO_REPLER_PORT}:${CYBER_DOJO_REPLER_PORT}" ]
-    user: root
-    container_name: test_web_repler
-    env_file: [ .env ]
-    read_only: true
-    tmpfs: /tmp
-    restart: 'no'
-    volumes: [ "/var/run/docker.sock:/var/run/docker.sock" ]
-    networks:
-      - cyber-dojo
-      - default
-
-  # - - - - - - - - - - - - - - - -
   runner:
     image: ${CYBER_DOJO_RUNNER_IMAGE}:${CYBER_DOJO_RUNNER_TAG}
     user: root
