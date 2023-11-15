@@ -1,5 +1,5 @@
 module "ecs-service" {
-  source                    = "s3::https://s3-eu-central-1.amazonaws.com/terraform-modules-9d7e951c290ec5bbe6506e0ddb064808764bc636/terraform-modules.zip//ecs-service/v2"
+  source                    = "s3::https://s3-eu-central-1.amazonaws.com/terraform-modules-9d7e951c290ec5bbe6506e0ddb064808764bc636/terraform-modules.zip//ecs-service/v3"
   service_name              = var.service_name
   TAGGED_IMAGE              = var.TAGGED_IMAGE
   enable_execute_command    = "true"
