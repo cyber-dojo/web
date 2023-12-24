@@ -5,8 +5,13 @@
 $(() => {
 
   const versionsButton = $('#versions-button');
-  versionsButton.click(() => window.open('/version-reporter/index'));
-  cd.createTip(versionsButton, 'open page of service git-commit shas');
+
+  versionsButton.click(() => {
+    const url = "https://app.kosli.com/cyber-dojo/environments/aws-prod/snapshots/";
+    window.open(url);
+  });
+
+  cd.createTip(versionsButton, 'what cyberdojo microservices are running');
 
 });
 </script>
