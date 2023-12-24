@@ -14,3 +14,4 @@
 !config.ru
 !script/rails
 !up.sh
+!healthcheck.sh

@@ -15,5 +15,7 @@ ENV BASE_IMAGE=${BASE_IMAGE}
 
 EXPOSE 3000
 USER nobody
+
+HEALTHCHECK --interval=1s --timeout=1s --retries=5 --start-period=5s CMD ./healthcheck.sh
 ENTRYPOINT ["/sbin/tini", "-g", "--"]
 CMD [ "./up.sh" ]
