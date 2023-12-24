@@ -4,7 +4,7 @@
 <%= render partial: 'shared/feedback' %>
 <%= render partial: 'shared/help' %>
 <%= render partial: 'shared/hotkeys' %>
-<%= render partial: 'shared/version_reporter' %>
+<%= render partial: 'shared/micro_services' %>
 <%= render partial: 'shared/traffic_lights' %>
 
 <script>
@@ -15,6 +15,7 @@ $(() => {
   const $buttons = () => $('.info-button');
   cd.createTip($button, 'toggle information buttons on/off');
   $button.clickToggle(() => $buttons().fadeIn(), () => $buttons().fadeOut());
+  $button.click();
 
 });
 </script>

@@ -1,0 +1,17 @@
+<button type="button" id="micro-services-button" class="info-button">micro-services</button>
+
+<script>
+'use strict';
+$(() => {
+
+  const microServicesButton = $('#micro-services-button');
+
+  microServicesButton.click(() => {
+    const url = "https://app.kosli.com/cyber-dojo/environments/aws-prod/snapshots/";
+    window.open(url);
+  });
+
+  cd.createTip(microServicesButton, 'show running cyber-dojo micro-services');
+
+});
+</script>
