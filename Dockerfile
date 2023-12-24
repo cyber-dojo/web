@@ -8,7 +8,6 @@ COPY --chown=nobody:nogroup . .
 
 ARG COMMIT_SHA
 ENV SHA=${COMMIT_SHA}
-ENV COMMIT_SHA=${COMMIT_SHA}
 
 # ARGs are reset after FROM See https://github.com/moby/moby/issues/34129
 ARG BASE_IMAGE

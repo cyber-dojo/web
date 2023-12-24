@@ -12,7 +12,6 @@ services:
     image: ${CYBER_DOJO_NGINX_IMAGE}:${CYBER_DOJO_NGINX_TAG}
     depends_on:
       - web
-      - version-reporter
     user: root
     init: true
     container_name: test_web_nginx
@@ -25,4 +24,3 @@ services:
       - creator
       - dashboard
       - differ
-      - version-reporter

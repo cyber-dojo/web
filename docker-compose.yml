@@ -81,16 +81,6 @@ services:
     tmpfs: [ "/cyber-dojo:uid=19663,gid=65533", "/tmp:uid=19663,gid=65533" ]
 
   # - - - - - - - - - - - - - - - -
-  version-reporter:
-    image: ${CYBER_DOJO_VERSION_REPORTER_IMAGE}:${CYBER_DOJO_VERSION_REPORTER_TAG}
-    user: nobody
-    container_name: test_web_version_reporter
-    env_file: [ .env ]
-    read_only: true
-    tmpfs: /tmp
-    restart: 'no'
-
-  # - - - - - - - - - - - - - - - -
   differ:
     image: ${CYBER_DOJO_DIFFER_IMAGE}:${CYBER_DOJO_DIFFER_TAG}
     user: nobody
