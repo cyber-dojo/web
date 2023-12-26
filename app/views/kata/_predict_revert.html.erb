@@ -138,14 +138,12 @@ $(() => {
   const $revertTitle = $('#revert-title-cell');
 
   const setupAutoRevert = () => {
-    if (kata.index > 1) {
-      $revertTitle.show('slow');
-      $('.revert-checkbox-cell').show();
-      ['red','amber','green'].forEach((colour) => {
-        const $box = $(`.revert-checkbox[data-colour=${colour}]`);
-        $box.prop('checked', settings.revert(colour) === 'on');
-      });
-    }
+    $revertTitle.show('slow');
+    $('.revert-checkbox-cell').show();
+    ['red','amber','green'].forEach((colour) => {
+      const $box = $(`.revert-checkbox[data-colour=${colour}]`);
+      $box.prop('checked', settings.revert(colour) === 'on');
+    });
   };
 
   cd.createTip($revertTitle, [

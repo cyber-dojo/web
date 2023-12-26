@@ -22,7 +22,13 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const diffDelta = () => review.diffCheckBox.isChecked() ? 1 : 0;
+  const diffDelta = () => {
+    if (review.index === 0) {
+      return 0;
+    } else {
+      return review.diffCheckBox.isChecked() ? 1 : 0;
+    }
+  };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const filesRefresher = (diffs) => {

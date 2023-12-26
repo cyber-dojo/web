@@ -26,7 +26,7 @@ $(() => {
 
   review.refreshTrafficLightsNavigator = (events) => {
     const index = review.index;
-    refreshMoveTo($('#first-index'), prevEventIndex(index, 1));
+    refreshMoveTo($('#first-index'), prevEventIndex(index, 0));
     refreshMoveTo($('#prev-index'),  prevEventIndex(index, index-1));
     $('#review-index-box').html($makeIndexNumber(index, events));
     refreshMoveTo($('#next-index'),  nextEventIndex(events, index, index+1));
@@ -43,7 +43,7 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const prevEventIndex = (index, n) => {
-    if (index === 1) { // 0 is creation event
+    if (index === 0) { // 0 is creation event
       return null; // Disable
     } else {
       return n;
