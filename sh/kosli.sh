@@ -5,6 +5,7 @@ export KOSLI_FLOW=web
 
 # KOSLI_ORG is set in CI
 # KOSLI_API_TOKEN is set in CI
+# KOSLI_API_TOKEN_STAGING is set in CI
 # KOSLI_HOST_STAGING is set in CI
 # KOSLI_HOST_PRODUCTION is set in CI
 # SNYK_TOKEN is set in CI
@@ -13,10 +14,12 @@ export KOSLI_FLOW=web
 kosli_create_flow()
 {
   local -r hostname="${1}"
+  local -r api_token="${2}"
 
   kosli create flow "${KOSLI_FLOW}" \
     --description="UX for practicing TDD" \
     --host="${hostname}" \
+    --api-token="${api_token}" \
     --template=artifact,snyk-scan \
     --visibility=public
 }
@@ -25,46 +28,54 @@ kosli_create_flow()
 kosli_report_artifact()
 {
   local -r hostname="${1}"
+  local -r api_token="${2}"
 
   kosli report artifact "$(artifact_name)" \
-      --artifact-type=docker \
-      --host="${hostname}" \
-      --repo-root="$(root_dir)"
+    --artifact-type=docker \
+    --host="${hostname}" \
+    --api-token="${api_token}" \
+    --repo-root="$(root_dir)"
 }
 
 # - - - - - - - - - - - - - - - - - - -
 kosli_report_coverage_evidence()
 {
   local -r hostname="${1}"
+  local -r api_token="${2}"
 
   kosli report evidence artifact generic "$(artifact_name)" \
-      --artifact-type=docker \
-      --description="server & client branch-coverage reports" \
-      --name="branch-coverage" \
-      --user-data="$(coverage_json_path)" \
-      --host="${hostname}"
+    --artifact-type=docker \
+    --description="server & client branch-coverage reports" \
+    --name="branch-coverage" \
+    --user-data="$(coverage_json_path)" \
+    --host="${hostname}" \
+    --api-token="${api_token}"
 }
 
 # - - - - - - - - - - - - - - - - - - -
 kosli_report_snyk()
 {
   local -r hostname="${1}"
+  local -r api_token="${2}"
 
   kosli report evidence artifact snyk "$(artifact_name)" \
-      --artifact-type=docker \
-      --host="${hostname}" \
-      --name=snyk-scan \
-      --scan-results="$(root_dir)/snyk.json"
+    --artifact-type=docker \
+    --host="${hostname}" \
+    --api-token="${api_token}" \
+    --name=snyk-scan \
+    --scan-results="$(root_dir)/snyk.json"
 }
 
 # - - - - - - - - - - - - - - - - - - -
 kosli_assert_artifact()
 {
   local -r hostname="${1}"
+  local -r api_token="${2}"
 
   kosli assert artifact "$(artifact_name)" \
-      --artifact-type=docker \
-      --host="${hostname}"
+    --artifact-type=docker \
+    --host="${hostname}" \
+    --api-token="${api_token}"
 }
 
 # - - - - - - - - - - - - - - - - - - -
@@ -72,6 +83,7 @@ kosli_expect_deployment()
 {
   local -r environment="${1}"
   local -r hostname="${2}"
+  local -r api_token="${3}"
 
   # In .github/workflows/main.yml deployment is its own job
   # and the image must be present to get its sha256 fingerprint.
@@ -81,15 +93,16 @@ kosli_expect_deployment()
     --artifact-type=docker \
     --description="Deployed to ${environment} in Github Actions pipeline" \
     --environment="${environment}" \
-    --host="${hostname}"
+    --host="${hostname}" \
+    --api-token="${api_token}"
 }
 
 # - - - - - - - - - - - - - - - - - - -
 on_ci_kosli_create_flow()
 {
   if on_ci; then
-    kosli_create_flow "${KOSLI_HOST_STAGING}"
-    kosli_create_flow "${KOSLI_HOST_PRODUCTION}"
+    kosli_create_flow "${KOSLI_HOST_STAGING}"    "${KOSLI_API_TOKEN_STAGING}"
+    kosli_create_flow "${KOSLI_HOST_PRODUCTION}" "${KOSLI_API_TOKEN}"
   fi
 }
 
@@ -97,8 +110,8 @@ on_ci_kosli_create_flow()
 on_ci_kosli_report_artifact()
 {
   if on_ci; then
-    kosli_report_artifact "${KOSLI_HOST_STAGING}"
-    kosli_report_artifact "${KOSLI_HOST_PRODUCTION}"
+    kosli_report_artifact "${KOSLI_HOST_STAGING}"    "${KOSLI_API_TOKEN_STAGING}"
+    kosli_report_artifact "${KOSLI_HOST_PRODUCTION}" "${KOSLI_API_TOKEN}"
   fi
 }
 
@@ -107,8 +120,8 @@ on_ci_kosli_report_coverage_evidence()
 {
   if on_ci; then
     write_coverage_json
-    kosli_report_coverage_evidence "${KOSLI_HOST_STAGING}"
-    kosli_report_coverage_evidence "${KOSLI_HOST_PRODUCTION}"
+    kosli_report_coverage_evidence "${KOSLI_HOST_STAGING}"    "${KOSLI_API_TOKEN_STAGING}"
+    kosli_report_coverage_evidence "${KOSLI_HOST_PRODUCTION}" "${KOSLI_API_TOKEN}"
   fi
 }
 
@@ -122,8 +135,8 @@ on_ci_kosli_report_snyk_scan_evidence()
       --policy-path="$(root_dir)/.snyk"
     set -e
 
-    kosli_report_snyk "${KOSLI_HOST_STAGING}"
-    kosli_report_snyk "${KOSLI_HOST_PRODUCTION}"
+    kosli_report_snyk "${KOSLI_HOST_STAGING}"    "${KOSLI_API_TOKEN_STAGING}"
+    kosli_report_snyk "${KOSLI_HOST_PRODUCTION}" "${KOSLI_API_TOKEN}"
   fi
 }
 
@@ -131,8 +144,8 @@ on_ci_kosli_report_snyk_scan_evidence()
 on_ci_kosli_assert_artifact()
 {
   if on_ci; then
-    kosli_assert_artifact "${KOSLI_HOST_STAGING}"
-    kosli_assert_artifact "${KOSLI_HOST_PRODUCTION}"
+    kosli_assert_artifact "${KOSLI_HOST_STAGING}"    "${KOSLI_API_TOKEN_STAGING}"
+    kosli_assert_artifact "${KOSLI_HOST_PRODUCTION}" "${KOSLI_API_TOKEN}"
   fi
 }
 

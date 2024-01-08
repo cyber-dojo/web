@@ -20,9 +20,10 @@ jobs:
 
   build-test-push:
     needs: [pre-build]
-    uses: cyber-dojo/reusable-actions-workflows/.github/workflows/kosli_build_test_push.yml@v0.0.1
+    uses: cyber-dojo/reusable-actions-workflows/.github/workflows/kosli_build_test_push.yml@v0.0.5
     secrets:
       KOSLI_API_TOKEN: ${{ secrets.KOSLI_API_TOKEN }}
+      KOSLI_API_TOKEN_STAGING: ${{ secrets.KOSLI_API_TOKEN_STAGING }}
       DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
       DOCKER_USER: ${{ secrets.DOCKER_USER }}
       SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
@@ -37,9 +38,10 @@ jobs:
 
   deploy-staging:
     needs: [pre-build, build-test-push]
-    uses: cyber-dojo/reusable-actions-workflows/.github/workflows/kosli_deploy.yml@v0.0.2
+    uses: cyber-dojo/reusable-actions-workflows/.github/workflows/kosli_deploy.yml@v0.0.5
     secrets:
       KOSLI_API_TOKEN: ${{ secrets.KOSLI_API_TOKEN }}
+      KOSLI_API_TOKEN_STAGING: ${{ secrets.KOSLI_API_TOKEN_STAGING }}
     with:
       tagged_image: 244531986313.dkr.ecr.eu-central-1.amazonaws.com/web:${{ needs.pre-build.outputs.image_tag }}
       AWS_ACCOUNT_ID: 244531986313
@@ -53,9 +55,10 @@ jobs:
 
   deploy-prod:
     needs: [pre-build, build-test-push, deploy-staging]
-    uses: cyber-dojo/reusable-actions-workflows/.github/workflows/kosli_deploy.yml@v0.0.2
+    uses: cyber-dojo/reusable-actions-workflows/.github/workflows/kosli_deploy.yml@v0.0.5
     secrets:
       KOSLI_API_TOKEN: ${{ secrets.KOSLI_API_TOKEN }}
+      KOSLI_API_TOKEN_STAGING: ${{ secrets.KOSLI_API_TOKEN_STAGING }}
     with:
       tagged_image: 274425519734.dkr.ecr.eu-central-1.amazonaws.com/web:${{ needs.pre-build.outputs.image_tag }}
       AWS_ACCOUNT_ID: 274425519734
