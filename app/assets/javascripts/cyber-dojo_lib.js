@@ -13,6 +13,7 @@ var cyberDojo = ((cd, $) => {
     // Used by both app/views/kata and app/view/review
     // Eg don't show event[0] == creation
     switch (event.colour) {
+    case 'create':
     case 'red':
     case 'amber':
     case 'green':
