@@ -6,5 +6,3 @@ trail:
       attestations:
         - name: snyk-scan
           type: snyk
-        - name: branch-coverage
-          type: generic
