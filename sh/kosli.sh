@@ -65,6 +65,8 @@ kosli_attest_snyk()
   local -r hostname="${1}"
   local -r api_token="${2}"
 
+  pwd
+
   kosli attest snyk "$(artifact_name)" \
     --artifact-type=docker \
     --host="${hostname}" \
@@ -79,6 +81,8 @@ kosli_assert_artifact()
   local -r hostname="${1}"
   local -r api_token="${2}"
 
+  pwd
+  
   kosli assert artifact "$(artifact_name)" \
     --artifact-type=docker \
     --host="${hostname}" \
