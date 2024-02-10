@@ -84,8 +84,7 @@ kosli_assert_artifact()
   kosli assert artifact "$(artifact_name)" \
     --artifact-type=docker \
     --host="${hostname}" \
-    --api-token="${api_token}" \
-    --repo-root="$(repo_root)"
+    --api-token="${api_token}"
 }
 
 # - - - - - - - - - - - - - - - - - - -
