@@ -18,6 +18,7 @@
 
 !/.dockerignore
 !/.gitignore
+!/.kosli.yml
 !/.env
 !/.snyk
 
