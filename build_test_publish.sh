@@ -29,7 +29,6 @@ exit_zero_if_build_only "$@"
 containers_up
 run_tests_in_container "$@"
 on_ci_publish_tagged_images
-set -x
 on_ci_kosli_attest_artifact
 # on_ci_kosli_attest_coverage_evidence
 on_ci_kosli_attest_snyk_scan_evidence

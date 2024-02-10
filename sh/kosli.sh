@@ -56,7 +56,8 @@ kosli_attest_coverage_evidence()
     --name=web.branch-coverage \
     --user-data="$(coverage_json_path)" \
     --host="${hostname}" \
-    --api-token="${api_token}"
+    --api-token="${api_token}" \
+    --repo-root="$(repo_root)"
 }
 
 # - - - - - - - - - - - - - - - - - - -
@@ -65,14 +66,13 @@ kosli_attest_snyk()
   local -r hostname="${1}"
   local -r api_token="${2}"
 
-  pwd
-
   kosli attest snyk "$(artifact_name)" \
     --artifact-type=docker \
     --host="${hostname}" \
     --api-token="${api_token}" \
     --name=web.snyk-scan \
-    --scan-results="$(repo_root)/snyk.json"
+    --scan-results="$(repo_root)/snyk.json" \
+    --repo-root="$(repo_root)"
 }
 
 # - - - - - - - - - - - - - - - - - - -
@@ -81,12 +81,11 @@ kosli_assert_artifact()
   local -r hostname="${1}"
   local -r api_token="${2}"
 
-  pwd
-  
   kosli assert artifact "$(artifact_name)" \
     --artifact-type=docker \
     --host="${hostname}" \
-    --api-token="${api_token}"
+    --api-token="${api_token}" \
+    --repo-root="$(repo_root)"
 }
 
 # - - - - - - - - - - - - - - - - - - -
