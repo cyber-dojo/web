@@ -122,8 +122,9 @@ on_ci_kosli_attest_snyk_scan_evidence()
   if on_ci; then
     set +e
     snyk container test "$(artifact_name)" \
-      --json-file-output="$(repo_root)/snyk.json" \
-      --policy-path="$(repo_root)/.snyk"
+      --policy-path="$(repo_root)/.snyk" \
+      --sarif \
+      --sarif-file-output=snyk.json
     set -e
 
     kosli_attest_snyk "${KOSLI_HOST_STAGING}"    "${KOSLI_API_TOKEN_STAGING}"
