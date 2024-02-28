@@ -66,6 +66,8 @@ kosli_attest_snyk()
   local -r hostname="${1}"
   local -r api_token="${2}"
 
+  echo "kosli attest snyk $(artifact_name) ..."
+  
   kosli attest snyk "$(artifact_name)" \
     --artifact-type=docker \
     --host="${hostname}" \
@@ -124,7 +126,7 @@ on_ci_kosli_attest_snyk_scan_evidence()
     snyk container test "$(artifact_name)" \
       --policy-path="$(repo_root)/.snyk" \
       --sarif \
-      --sarif-file-output=snyk.json
+      --sarif-file-output="$(repo_root)/snyk.json"
     set -e
 
     kosli_attest_snyk "${KOSLI_HOST_STAGING}"    "${KOSLI_API_TOKEN_STAGING}"
