@@ -20,7 +20,7 @@
 !/.gitignore
 !/.kosli.yml
 !/.env
-!/.snyk
+!/snyk.policy
 
 !/healthcheck.sh
 !/config.ru
