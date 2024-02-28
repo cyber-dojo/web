@@ -66,14 +66,12 @@ kosli_attest_snyk()
   local -r hostname="${1}"
   local -r api_token="${2}"
 
-  echo "kosli attest snyk $(artifact_name) ..."
-  
   kosli attest snyk "$(artifact_name)" \
     --artifact-type=docker \
     --host="${hostname}" \
     --api-token="${api_token}" \
     --name=web.snyk-scan \
-    --attachments="$(repo_root)/snyk.policy" \
+    --attachments="$(repo_root)/.snyk" \
     --scan-results="$(repo_root)/snyk.json" \
     --repo-root="$(repo_root)"
 }
@@ -124,7 +122,7 @@ on_ci_kosli_attest_snyk_scan_evidence()
   if on_ci; then
     set +e
     snyk container test "$(artifact_name)" \
-      --policy-path="$(repo_root)/snyk.policy" \
+      --policy-path="$(repo_root)/.snyk" \
       --sarif \
       --sarif-file-output="$(repo_root)/snyk.json"
     set -e
