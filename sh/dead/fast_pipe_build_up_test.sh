@@ -3,7 +3,7 @@ docker rm test-web --force
 set -Eeu
 
 readonly SH_DIR="$( cd "$( dirname "${0}" )" && pwd )"
-export SHA=$(cd "${ROOT_DIR}" && git rev-parse HEAD)
+export SHA=$(git rev-parse HEAD)
 export TAG=${SHA:0:7}
 
 "${SH_DIR}/build_docker_images.sh"

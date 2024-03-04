@@ -14,7 +14,7 @@ build_web_image()
 {
   echo
   docker-compose \
-    --file "${ROOT_DIR}/docker-compose.yml" \
+    --file "$(repo_root)/docker-compose.yml" \
     build \
     --build-arg COMMIT_SHA=$(git_commit_sha)
 }
@@ -33,7 +33,7 @@ assert_web_image_has_sha_env_var()
 # - - - - - - - - - - - - - - - - - - - - - - -
 git_commit_sha()
 {
-  cd "${ROOT_DIR}" && git rev-parse HEAD
+  git rev-parse HEAD
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - -

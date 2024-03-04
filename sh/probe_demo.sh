@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 set -Eeu
 
-readonly SH_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "${SH_DIR}/ip_address.sh"
-source "${SH_DIR}/versioner_env_vars.sh"
-export $(versioner_env_vars)
-readonly IP_ADDRESS="$(ip_address)" # slow
+repo_root() { git rev-parse --show-toplevel; }
+readonly SH_DIR="$(repo_root)/sh"
+source "${SH_DIR}/echo_versioner_env_vars.sh"
+export $(echo_versioner_env_vars)
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 main()
@@ -28,7 +27,7 @@ curl_200()
     --request "${type}" \
     --silent \
     --verbose \
-      "http://${IP_ADDRESS}:$(port)/${route}" \
+      "http://localhost:$(port)/${route}" \
       > "${log}" 2>&1
 
   grep --quiet 200 "${log}"             # eg HTTP/1.1 200 OK

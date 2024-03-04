@@ -4,5 +4,9 @@ trail:
   artifacts:
     - name: web
       attestations:
-        - name: snyk-scan
+        - name: pull-request
+          type: pull_request
+        - name: snyk-container-scan
+          type: snyk
+        - name: snyk-code-scan
           type: snyk

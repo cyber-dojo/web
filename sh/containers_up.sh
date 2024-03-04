@@ -47,8 +47,8 @@ containers_up()
 {
   echo
   docker-compose \
-    --file "${ROOT_DIR}/docker-compose-depends.yml" \
-    --file "${ROOT_DIR}/docker-compose.yml" \
+    --file "$(repo_root)/docker-compose-depends.yml" \
+    --file "$(repo_root)/docker-compose.yml" \
     up \
     -d \
     --force-recreate \
