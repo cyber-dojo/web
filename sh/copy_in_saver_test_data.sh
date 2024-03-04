@@ -3,7 +3,7 @@
 copy_in_saver_test_data()
 {
   local -r SAVER_CID="$(saver_cid)"
-  local -r SRC_PATH=${ROOT_DIR}/test/data/cyber-dojo
+  local -r SRC_PATH=$(repo_root)/test/data/cyber-dojo
   local -r DEST_PATH=/cyber-dojo
   # Empty the /cyber-dojo dir ready for tar-pipe
   docker exec "${SAVER_CID}" bash -c 'rm -rf /cyber-dojo/groups/*'

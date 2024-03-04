@@ -1,0 +1,196 @@
+name: Sub - deploy to aws-prod
+
+on:
+  workflow_call:
+    inputs:
+      IMAGE_TAG:
+        required: true
+        type: string
+    secrets:
+      KOSLI_API_TOKEN_STAGING:
+        required: true
+      KOSLI_API_TOKEN:
+        required: true
+
+
+env:
+  KOSLI_DRY_RUN: ${{ vars.KOSLI_DRY_RUN }}           # False
+  KOSLI_HOST: "https://app.kosli.com"
+  KOSLI_HOST_STAGING: "https://staging.app.kosli.com"
+  KOSLI_ORG: ${{ vars.KOSLI_ORG }}                   # cyber-dojo
+  KOSLI_FLOW: ${{ vars.KOSLI_FLOW  }}                # web-ci
+  KOSLI_TRAIL: ${{ github.sha }}
+  SERVICE_NAME: ${{ github.event.repository.name }}  # web
+
+jobs:
+
+  variables:
+    runs-on: ubuntu-latest
+    outputs:
+      service_name: ${{ steps.vars.outputs.service_name }}
+      image_tag: ${{ steps.vars.outputs.image_tag }}
+      aws_account_id: ${{ steps.vars.outputs.aws_account_id }}
+      ecr_registry: ${{ steps.vars.outputs.ecr_registry }}
+      aws_region: ${{ steps.vars.outputs.aws_region }}
+      gh_actions_iam_role_name: ${{ steps.vars.outputs.gh_actions_iam_role_name }}
+    steps:
+    - name: Prepare outputs for fivexl deployment workflow
+      id: vars
+      run: |
+        echo "service_name=${{ env.SERVICE_NAME }}"                         >> ${GITHUB_OUTPUT}        
+        echo "image_tag=${{ inputs.IMAGE_TAG }}"                            >> ${GITHUB_OUTPUT}
+        echo "aws_account_id=274425519734"                                  >> ${GITHUB_OUTPUT}
+        echo "ecr_registry=274425519734.dkr.ecr.eu-central-1.amazonaws.com" >> ${GITHUB_OUTPUT}
+        echo "aws_region=eu-central-1"                                      >> ${GITHUB_OUTPUT}
+        echo "gh_actions_iam_role_name=gh_actions_services"                 >> ${GITHUB_OUTPUT}
+
+  push-image-to-prod-ecr:
+    needs: [variables]
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ needs.variables.outputs.aws_region }}
+          role-duration-seconds: 2400
+          role-session-name: ${{ github.event.repository.name }}
+          role-to-assume: arn:aws:iam::${{ needs.variables.outputs.aws_account_id }}:role/${{ needs.variables.outputs.gh_actions_iam_role_name }}
+
+      - name: Login to Amazon ECR (Elastic Container Registry)
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Push image to private prod-ECR
+        run: |
+          PUBLIC_IMAGE_NAME=cyberdojo/${{ needs.variables.outputs.service_name }}:${{ inputs.IMAGE_TAG }}
+          PRIVATE_IMAGE_NAME=${{ needs.variables.outputs.ecr_registry }}/${{ needs.variables.outputs.service_name }}:${{ inputs.IMAGE_TAG }}
+          docker pull ${PUBLIC_IMAGE_NAME}
+          docker tag ${PUBLIC_IMAGE_NAME} ${PRIVATE_IMAGE_NAME}
+          docker push ${PRIVATE_IMAGE_NAME}
+
+  deploy-to-aws-prod:
+    needs: [variables, push-image-to-prod-ecr]
+    permissions:
+      id-token: write
+      contents: write
+    uses: fivexl/gh-workflow-tf-plan-apply/.github/workflows/base.yml@v0.0.19
+    with:
+      aws_region: ${{ needs.variables.outputs.aws_region }}
+      aws_role_arn: arn:aws:iam::${{ needs.variables.outputs.aws_account_id }}:role/${{ needs.variables.outputs.gh_actions_iam_role_name }}
+      aws_default_region: ${{ needs.variables.outputs.aws_region }}
+      aws_role_duration: 900
+      working_directory: deployment/terraform/
+      tf_apply: 'true'
+      tf_version: v1.4.5
+      tf_additional_env_vars: '{"TF_VAR_TAGGED_IMAGE": "${{ needs.variables.outputs.ecr_registry }}/${{ needs.variables.outputs.service_name }}:${{ needs.variables.outputs.image_tag }}"}'
+#      tf_sh_version: 0.2.1
+#      tf_upload_artifact_name_suffix: "_prod"
+#      tf_upload_artifact_state_file: 'true'
+#      tf_upload_artifact_plan: 'true'
+#      tf_state_file_dir_on_s3: "terraform/${{ needs.variables.outputs.service_name }}"
+#      tf_state_file_name: "${{ needs.variables.outputs.service_name }}.tfstate"
+
+
+  trail-attest-terraform:
+    needs: deploy-to-aws-prod
+    if: false  # WIP
+    permissions:
+      actions: write
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup kosli cli
+        uses: kosli-dev/setup-cli-action@v2
+        with:
+          version:
+            ${{ vars.KOSLI_CLI_VERSION }}
+
+      - name: Download a plan artifact
+        uses: actions/download-artifact@v4.1.1
+        with:
+          name: tf_artifacts_plan_prod
+
+      - name: Download a state file artifact
+        uses: actions/download-artifact@v4.1.1
+        with:
+          name: tf_artifacts_state_file_prod
+      
+      - name: Attest tf plan to Kosli trail (production)
+        run:
+          kosli attest generic
+            --name tf-apply-plan-prod
+            --flow ${{ env.KOSLI_FLOW }}
+            --trail ${{ env.KOSLI_TRAIL }}
+            --attachments ./tfplan
+            --host ${{ env.KOSLI_HOST }}
+            --api-token ${{ secrets.KOSLI_API_TOKEN }}
+
+      - name: Attest tf plan to Kosli trail (staging)
+        run:
+          kosli attest generic
+            --name tf-apply-plan-prod
+            --flow ${{ env.KOSLI_FLOW }}
+            --trail ${{ env.KOSLI_TRAIL }}
+            --attachments ./tfplan
+            --host ${{ env.KOSLI_HOST_STAGING }}
+            --api-token ${{ secrets.KOSLI_API_TOKEN_STAGING }}
+
+      - name: Delete tf plan artifact
+        run: |
+          # Get the list of artifacts
+          artifact_id=$(curl -s -L \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/${{ github.repository}}/actions/runs/${{ github.run_id }}/artifacts | jq -r '.artifacts[] | select(.name == "tf_artifacts_${{ matrix.environment }}").id')
+
+          # Delete each artifact
+          curl -L \
+            -X DELETE \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/${{ github.repository}}/actions/artifacts/${artifact_id}
+
+      - name: Attest tf state artifact (production)
+        run: |
+          kosli attest artifact \
+            --artifact-type file ./${{ needs.variables.outputs.service_name }}.tfstate \
+            --name state-prod \
+            --flow ${{ env.KOSLI_FLOW }} \
+            --trail ${{ env.KOSLI_TRAIL }} \
+            --host ${{ env.KOSLI_HOST }} \
+            --api-token ${{ secrets.KOSLI_API_TOKEN }}
+
+      - name: Attest tf state artifact (staging)
+        run: |
+          kosli attest artifact \
+            --artifact-type file ./${{ needs.variables.outputs.service_name }}.tfstate \
+            --name state-prod \
+            --flow ${{ env.KOSLI_FLOW }} \
+            --trail ${{ env.KOSLI_TRAIL }} \
+            --host ${{ env.KOSLI_HOST_STAGING }} \
+            --api-token ${{ secrets.KOSLI_API_TOKEN_STAGING }}
+
+      - name: Delete tf state file artifact
+        run: |
+          # Get the list of artifacts
+          artifact_id=$(curl -s -L \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/${{ github.repository}}/actions/runs/${{ github.run_id }}/artifacts | jq -r '.artifacts[] | select(.name == "tf_artifacts_state_file_${{ matrix.environment }}").id')
+
+          # Delete each artifact
+          curl -L \
+            -X DELETE \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/${{ github.repository}}/actions/artifacts/${artifact_id}

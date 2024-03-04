@@ -1,8 +1,8 @@
 
-If you are working on web-service there are 2 ways of
+If you are working on web there are 2 ways of
 getting feedback on your local work:
 
-1) /build_test_publish.sh
+1) /build_test.sh
    This runs the tests locally.
    To use locally built dependent services you may need to add SHA/TAG
    env-vars to the echo_versioner_env_vars.sh file.

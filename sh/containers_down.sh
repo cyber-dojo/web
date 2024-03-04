@@ -6,7 +6,7 @@ containers_down()
 {
   echo
   docker-compose \
-    --file "${ROOT_DIR}/docker-compose.yml" \
+    --file "$(repo_root)/docker-compose.yml" \
     down \
     --remove-orphans
 }
