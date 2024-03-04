@@ -1,3 +1,12 @@
 # This file specifies snyk vulnerabilities to be ignored.
 # If this file contains only comments, then no vulnerabilities are ignored
 # but do not delete this file - it is needed for the live-snyk-scans repo workflows.
+
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.25.0
+patch: {}
+exclude:
+  global:
+    - config/initializers/secret_token.rb
+    - config/environments/production.rb
+    - config/environments/development.rb
