@@ -38,6 +38,7 @@ jobs:
       - name: Begin Kosli Trail
         run:
           kosli begin trail "${{ env.KOSLI_TRAIL }}"
+            --description="${{ github.actor }} - ${{ github.event.head_commit.message }}"
 
       - name: Set outputs
         id: variables
