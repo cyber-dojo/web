@@ -40,39 +40,12 @@ jobs:
         echo "service_name=${{ env.SERVICE_NAME }}"                         >> ${GITHUB_OUTPUT}        
         echo "image_tag=${{ inputs.IMAGE_TAG }}"                            >> ${GITHUB_OUTPUT}
         echo "aws_account_id=274425519734"                                  >> ${GITHUB_OUTPUT}
-        echo "ecr_registry=274425519734.dkr.ecr.eu-central-1.amazonaws.com" >> ${GITHUB_OUTPUT}
+        echo "ecr_registry=244531986313.dkr.ecr.eu-central-1.amazonaws.com" >> ${GITHUB_OUTPUT}
         echo "aws_region=eu-central-1"                                      >> ${GITHUB_OUTPUT}
         echo "gh_actions_iam_role_name=gh_actions_services"                 >> ${GITHUB_OUTPUT}
 
-  push-image-to-prod-ecr:
-    needs: [variables]
-    runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: write
-    steps:
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-region: ${{ needs.variables.outputs.aws_region }}
-          role-duration-seconds: 2400
-          role-session-name: ${{ github.event.repository.name }}
-          role-to-assume: arn:aws:iam::${{ needs.variables.outputs.aws_account_id }}:role/${{ needs.variables.outputs.gh_actions_iam_role_name }}
-
-      - name: Login to Amazon ECR (Elastic Container Registry)
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
-
-      - name: Push image to private prod-ECR
-        run: |
-          PUBLIC_IMAGE_NAME=cyberdojo/${{ needs.variables.outputs.service_name }}:${{ inputs.IMAGE_TAG }}
-          PRIVATE_IMAGE_NAME=${{ needs.variables.outputs.ecr_registry }}/${{ needs.variables.outputs.service_name }}:${{ inputs.IMAGE_TAG }}
-          docker pull ${PUBLIC_IMAGE_NAME}
-          docker tag ${PUBLIC_IMAGE_NAME} ${PRIVATE_IMAGE_NAME}
-          docker push ${PRIVATE_IMAGE_NAME}
-
   deploy-to-aws-prod:
-    needs: [variables, push-image-to-prod-ecr]
+    needs: [variables]
     permissions:
       id-token: write
       contents: write
