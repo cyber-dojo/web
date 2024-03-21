@@ -66,7 +66,7 @@ jobs:
         run:
           kosli attest pullrequest github
             --github-token=${{ secrets.GITHUB_TOKEN }}
-            --name=web.pull-request
+            --name=pull-request
 
 
   build-image:
@@ -238,7 +238,6 @@ jobs:
       IMAGE_TAG: ${{ needs.kosli-trail.outputs.image_tag }}
     secrets:
       KOSLI_API_TOKEN: ${{ secrets.KOSLI_API_TOKEN }}
-      KOSLI_API_TOKEN_STAGING: ${{ secrets.KOSLI_API_TOKEN_STAGING }}
 
 
   approve-deployment-to-prod:
@@ -274,4 +273,3 @@ jobs:
       IMAGE_TAG: ${{ needs.kosli-trail.outputs.image_tag }}
     secrets:
       KOSLI_API_TOKEN: ${{ secrets.KOSLI_API_TOKEN }}
-      KOSLI_API_TOKEN_STAGING: ${{ secrets.KOSLI_API_TOKEN_STAGING }}

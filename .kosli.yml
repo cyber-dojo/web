@@ -1,11 +1,12 @@
 version: 1
 
 trail:
+  attestations:
+    - name: pull-request
+      type: pull_request
   artifacts:
     - name: web
       attestations:
-        - name: pull-request
-          type: pull_request
         - name: snyk-container-scan
           type: snyk
         - name: snyk-code-scan
