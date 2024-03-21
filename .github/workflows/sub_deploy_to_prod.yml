@@ -7,16 +7,13 @@ on:
         required: true
         type: string
     secrets:
-      KOSLI_API_TOKEN_STAGING:
-        required: true
       KOSLI_API_TOKEN:
         required: true
 
 
 env:
   KOSLI_DRY_RUN: ${{ vars.KOSLI_DRY_RUN }}           # False
-  KOSLI_HOST: "https://app.kosli.com"
-  KOSLI_HOST_STAGING: "https://staging.app.kosli.com"
+  KOSLI_HOST: ${{ vars.KOSLI_HOST }}                 # https://app.kosli.com
   KOSLI_ORG: ${{ vars.KOSLI_ORG }}                   # cyber-dojo
   KOSLI_FLOW: ${{ vars.KOSLI_FLOW  }}                # web-ci
   KOSLI_TRAIL: ${{ github.sha }}
@@ -94,7 +91,7 @@ jobs:
         with:
           name: tf_artifacts_state_file_prod
       
-      - name: Attest tf plan to Kosli trail (production)
+      - name: Attest tf plan to Kosli trail
         run:
           kosli attest generic
             --name tf-apply-plan-prod
@@ -103,16 +100,6 @@ jobs:
             --attachments ./tfplan
             --host ${{ env.KOSLI_HOST }}
             --api-token ${{ secrets.KOSLI_API_TOKEN }}
-
-      - name: Attest tf plan to Kosli trail (staging)
-        run:
-          kosli attest generic
-            --name tf-apply-plan-prod
-            --flow ${{ env.KOSLI_FLOW }}
-            --trail ${{ env.KOSLI_TRAIL }}
-            --attachments ./tfplan
-            --host ${{ env.KOSLI_HOST_STAGING }}
-            --api-token ${{ secrets.KOSLI_API_TOKEN_STAGING }}
 
       - name: Delete tf plan artifact
         run: |
@@ -131,7 +118,7 @@ jobs:
             -H "X-GitHub-Api-Version: 2022-11-28" \
             https://api.github.com/repos/${{ github.repository}}/actions/artifacts/${artifact_id}
 
-      - name: Attest tf state artifact (production)
+      - name: Attest tf state artifact
         run: |
           kosli attest artifact \
             --artifact-type file ./${{ needs.variables.outputs.service_name }}.tfstate \
@@ -140,16 +127,6 @@ jobs:
             --trail ${{ env.KOSLI_TRAIL }} \
             --host ${{ env.KOSLI_HOST }} \
             --api-token ${{ secrets.KOSLI_API_TOKEN }}
-
-      - name: Attest tf state artifact (staging)
-        run: |
-          kosli attest artifact \
-            --artifact-type file ./${{ needs.variables.outputs.service_name }}.tfstate \
-            --name state-prod \
-            --flow ${{ env.KOSLI_FLOW }} \
-            --trail ${{ env.KOSLI_TRAIL }} \
-            --host ${{ env.KOSLI_HOST_STAGING }} \
-            --api-token ${{ secrets.KOSLI_API_TOKEN_STAGING }}
 
       - name: Delete tf state file artifact
         run: |
