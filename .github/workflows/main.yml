@@ -273,3 +273,30 @@ jobs:
       IMAGE_TAG: ${{ needs.kosli-trail.outputs.image_tag }}
     secrets:
       KOSLI_API_TOKEN: ${{ secrets.KOSLI_API_TOKEN }}
+
+
+  # The cyberdojo/versioner refresh-env.sh script
+  # https://github.com/cyber-dojo/versioner/blob/master/sh/refresh-env.sh
+  # relies on being able to:
+  #   - get the :latest image
+  #   - extract the SHA env-var embedded inside it
+  #   - use the 1st 7 chars of the SHA as a latest-equivalent tag
+
+  push-latest:
+    needs: [deploy-to-prod, kosli-trail]
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: ${{ needs.kosli-trail.outputs.image_name }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASS }}
+
+      - name: Tag image to :latest and push to Dockerhub Registry
+        run: |
+          docker pull "${IMAGE_NAME}"
+          docker tag "${IMAGE_NAME}" cyberdojo/${{ env.SERVICE_NAME }}:latest
+          docker push cyberdojo/${{ env.SERVICE_NAME }}:latest
