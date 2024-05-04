@@ -1,11 +1,10 @@
-#!/bin/bash -Eeu
+#!/usr/bin/env bash
+set -Eeu
 
 # Default Alpine image has wget (but not curl)
 
 # Dockerfile has this
-# HEALTHCHECK \
-#    --interval=1s --timeout=1s --retries=5 --start-period=5s \
-#    CMD ./heathcheck.sh
+# HEALTHCHECK --interval=1s --timeout=1s --retries=5 --start-period=5s CMD ./healthcheck.sh
 
 # --interval=S     time until 1st healthcheck
 # --timeout=S      fail if single healthcheck takes longer than this
@@ -15,7 +14,7 @@
 readonly PORT="${CYBER_DOJO_WEB_PORT}"
 readonly READY_LOG_FILENAME=/tmp/ready.log
 
-wget localhost:${PORT}/ready -q -O - > "${READY_LOG_FILENAME}" 2>&1
+wget http://0.0.0.0:${PORT}/ready -q -O - >> "${READY_LOG_FILENAME}" 2>&1
 
 # keep only most recent 500 lines
 sed -i '501,$ d' "${READY_LOG_FILENAME}"
