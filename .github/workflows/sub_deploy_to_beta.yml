@@ -18,6 +18,9 @@ env:
   KOSLI_FLOW: ${{ vars.KOSLI_FLOW  }}                # web-ci
   KOSLI_TRAIL: ${{ github.sha }}
   SERVICE_NAME: ${{ github.event.repository.name }}  # web
+  AWS_ECR_ID: ${{ vars.AWS_ECR_ID }}
+  AWS_REGION: ${{ vars.AWS_REGION }}
+  AWS_ACCOUNT_ID: ${{ vars.AWS_ACCOUNT_ID_BETA }}
 
 jobs:
 
@@ -34,12 +37,12 @@ jobs:
     - name: Prepare outputs for fivexl deployment workflow
       id: vars
       run: |
-        echo "service_name=${{ env.SERVICE_NAME }}"                         >> ${GITHUB_OUTPUT}
-        echo "image_tag=${{ inputs.IMAGE_TAG }}"                            >> ${GITHUB_OUTPUT}
-        echo "aws_account_id=244531986313"                                  >> ${GITHUB_OUTPUT}
-        echo "ecr_registry=244531986313.dkr.ecr.eu-central-1.amazonaws.com" >> ${GITHUB_OUTPUT}
-        echo "aws_region=eu-central-1"                                      >> ${GITHUB_OUTPUT}
-        echo "gh_actions_iam_role_name=gh_actions_services"                 >> ${GITHUB_OUTPUT}
+        echo "service_name=${{ env.SERVICE_NAME }}"                                           >> ${GITHUB_OUTPUT}
+        echo "image_tag=${{ inputs.IMAGE_TAG }}"                                              >> ${GITHUB_OUTPUT}
+        echo "aws_account_id=${{ env.AWS_ACCOUNT_ID }}"                                       >> ${GITHUB_OUTPUT}
+        echo "ecr_registry=${{ env.AWS_ECR_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com" >> ${GITHUB_OUTPUT}
+        echo "aws_region=${{ env.AWS_REGION }}"                                               >> ${GITHUB_OUTPUT}
+        echo "gh_actions_iam_role_name=gh_actions_services"                                   >> ${GITHUB_OUTPUT}
 
   push-image-to-beta-ecr:
     needs: [variables]
