@@ -1,6 +1,4 @@
 
-version: '3.7'
-
 networks:
   cyber-dojo:
     driver: bridge
