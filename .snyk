@@ -8,5 +8,6 @@ patch: {}
 exclude:
   global:
     - config/initializers/secret_token.rb
+    - config/initializers/session_store.rb
     - config/environments/production.rb
     - config/environments/development.rb
