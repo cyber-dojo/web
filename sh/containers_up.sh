@@ -46,7 +46,7 @@ wait_until_running()
 containers_up()
 {
   echo
-  docker-compose \
+  docker compose \
     --file "$(repo_root)/docker-compose-depends.yml" \
     --file "$(repo_root)/docker-compose.yml" \
     up \

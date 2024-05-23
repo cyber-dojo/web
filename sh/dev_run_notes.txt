@@ -9,4 +9,4 @@ getting feedback on your local work:
 
 2) /demo.sh
    This runs a local server
-   It uses docker-compose, versioner, and its own docker-compose yml files. 
+   It uses versioner, and its own docker-compose yml files.

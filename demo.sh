@@ -21,7 +21,7 @@ docker_rm()
 # - - - - - - - - - - - - - - - - - - - - - - -
 web_build()
 {
-  docker-compose \
+  docker compose \
     --file "$(repo_root)/docker-compose.yml" \
     build \
     --build-arg COMMIT_SHA="$(git_commit_sha)"
@@ -36,7 +36,7 @@ git_commit_sha()
 # - - - - - - - - - - - - - - - - - - - - - - -
 up_nginx()
 {
-  docker-compose \
+  docker compose \
     --file "$(repo_root)/docker-compose-depends.yml" \
     --file "$(repo_root)/docker-compose-nginx.yml" \
     --file "$(repo_root)/docker-compose.yml" \
@@ -55,7 +55,6 @@ demo_URL()
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 exit_non_zero_unless_installed docker
-exit_non_zero_unless_installed docker-compose
 docker_rm test_web
 web_build
 docker_rm test_web_nginx
