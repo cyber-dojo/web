@@ -13,7 +13,7 @@ build_tagged_images()
 build_web_image()
 {
   echo
-  docker-compose \
+  docker compose \
     --file "$(repo_root)/docker-compose.yml" \
     build \
     --build-arg COMMIT_SHA=$(git_commit_sha)

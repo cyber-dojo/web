@@ -5,7 +5,7 @@ set -Eeu
 containers_down()
 {
   echo
-  docker-compose \
+  docker compose \
     --file "$(repo_root)/docker-compose.yml" \
     down \
     --remove-orphans
