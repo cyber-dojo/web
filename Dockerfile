@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=cyberdojo/web-base:691fc1d
+ARG BASE_IMAGE=cyberdojo/web-base:c318830
 FROM ${BASE_IMAGE}
 LABEL maintainer=jon@jaggersoft.com
 
