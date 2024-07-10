@@ -57,7 +57,7 @@ jobs:
       aws_role_duration: 900
       working_directory: deployment/terraform/
       tf_apply: 'true'
-      tf_version: v1.4.5
+      tf_version: v1.9.1
       tf_additional_env_vars: '{"TF_VAR_TAGGED_IMAGE": "${{ needs.variables.outputs.ecr_registry }}/${{ needs.variables.outputs.service_name }}:${{ needs.variables.outputs.image_tag }}"}'
 #      tf_sh_version: 0.2.1
 #      tf_upload_artifact_name_suffix: "_prod"
