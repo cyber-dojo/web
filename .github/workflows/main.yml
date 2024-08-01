@@ -38,6 +38,7 @@ jobs:
       - name: Begin Kosli Trail
         run:
           kosli begin trail "${{ env.KOSLI_TRAIL }}"
+            --description="$(git log -1 --pretty='%aN - %s')"
 
       - name: Set outputs
         id: variables
