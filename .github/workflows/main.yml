@@ -24,22 +24,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Kosli CLI
-        uses: kosli-dev/setup-cli-action@v2
-        with:
-          version: ${{ vars.KOSLI_CLI_VERSION }}
-
-      - name: Create Kosli Flow
-        run:
-          kosli create flow "${{ env.KOSLI_FLOW }}"
-            --description="UX for practicing TDD"          
-            --template-file=.kosli.yml
-
-      - name: Begin Kosli Trail
-        run:
-          kosli begin trail "${{ env.KOSLI_TRAIL }}"
-            --description="$(git log -1 --pretty='%aN - %s')"
-
       - name: Set outputs
         id: variables
         run: |
