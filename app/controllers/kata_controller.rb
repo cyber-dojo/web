@@ -29,6 +29,14 @@ class KataController < ApplicationController
     @status = result['status']
     @log = result['log']
     @outcome = result['outcome']
+
+    if files.key?('outcome.special')
+      @outcome = "#{@outcome}_special"
+      @created.delete('outcome.special')
+      @changed.delete('outcome.special')
+      files.delete('outcome.special')
+    end
+
     @light = {
       'index' => index,
       'colour' => @outcome,
