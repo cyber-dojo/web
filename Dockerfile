@@ -1,5 +1,9 @@
 ARG BASE_IMAGE=cyberdojo/web-base:ea6086b
 FROM ${BASE_IMAGE}
+# ARGs are reset after FROM See https://github.com/moby/moby/issues/34129
+ARG BASE_IMAGE
+ENV BASE_IMAGE=${BASE_IMAGE}
+
 LABEL maintainer=jon@jaggersoft.com
 
 WORKDIR /cyber-dojo
@@ -8,10 +12,6 @@ COPY --chown=nobody:nogroup . .
 
 ARG COMMIT_SHA
 ENV SHA=${COMMIT_SHA}
-
-# ARGs are reset after FROM See https://github.com/moby/moby/issues/34129
-ARG BASE_IMAGE
-ENV BASE_IMAGE=${BASE_IMAGE}
 
 EXPOSE 3000
 USER nobody
