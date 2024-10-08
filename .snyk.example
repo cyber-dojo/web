@@ -1,0 +1,10 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.25.0
+# ignores vulnerabilities until expiry date; change duration by modifying expiry date
+ignore:
+  SNYK-GOLANG-GITHUBCOMOPENCONTAINERSRUNCLIBCONTAINERUTILS-7856945:
+    - '*':
+        reason: Waiting for base image upgrade
+        expires: 2024-10-08T15:47:10.182Z
+        created: 2024-09-08T15:47:10.201Z
+patch: {}
