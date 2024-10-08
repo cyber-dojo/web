@@ -21,6 +21,7 @@
 !/.kosli.yml
 !/.env
 !/.snyk
+!/.snyk.example
 
 !/healthcheck.sh
 !/config.ru
@@ -33,7 +34,7 @@
 !/docker-compose-web-volume-mount.yml
 !/Makefile
 !/Dockerfile
-!/build_test_publish.sh
+!/build_test.sh
 !/demo.sh
 !/up.sh
 !/web.env
