@@ -31,6 +31,7 @@
 !/docker-compose-saver-dir-volume-mount.yml
 !/docker-compose-saver-tmpfs-volume-mount.yml
 !/docker-compose-web-volume-mount.yml
+!/Makefile
 !/Dockerfile
 !/build_test_publish.sh
 !/demo.sh
