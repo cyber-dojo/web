@@ -2,8 +2,6 @@ name: Main - Attests to https://app.kosli.com
 
 on:
   push:
-    branches:
-      - main
 
 env:
   KOSLI_DRY_RUN: ${{ vars.KOSLI_DRY_RUN }}           # false
@@ -35,6 +33,7 @@ jobs:
           
 
   pull-request:
+    if: ${{ github.ref == 'refs/heads/main' }}
     needs: []
     runs-on: ubuntu-latest
     permissions:
@@ -47,17 +46,52 @@ jobs:
           fetch-depth: 1
 
       - name: Setup Kosli CLI
-        if: ${{ github.ref == 'refs/heads/main' }}
         uses: kosli-dev/setup-cli-action@v2
         with:
           version: ${{ vars.KOSLI_CLI_VERSION }}
 
       - name: Attest pull-request evidence to Kosli
-        if: ${{ github.ref == 'refs/heads/main' }}
         run:
           kosli attest pullrequest github
             --github-token=${{ secrets.GITHUB_TOKEN }}
             --name=pull-request
+
+
+  snyk-code-scan:
+    needs: []
+    runs-on: ubuntu-latest
+    env:
+      SARIF_FILENAME: snyk.code.scan.json
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Snyk
+        uses: snyk/actions/setup@master
+
+      - name: Run Snyk code scan
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run:
+          snyk code test 
+            --sarif 
+            --sarif-file-output="${SARIF_FILENAME}" 
+            --policy-path=.snyk 
+            .
+
+      - name: Setup Kosli CLI
+        if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
+        uses: kosli-dev/setup-cli-action@v2
+        with:
+          version: ${{ vars.KOSLI_CLI_VERSION }}
+
+      - name: Attest evidence to Kosli
+        if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
+        run:
+          kosli attest snyk 
+            --name=web.snyk-code-scan 
+            --scan-results="${SARIF_FILENAME}"
 
 
   build-image:
@@ -78,6 +112,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASS }}
 
       - name: Build and push image to Registry
+        id: docker_build
         uses: docker/build-push-action@v5
         with:
           context: .
@@ -86,25 +121,25 @@ jobs:
           build-args:
             COMMIT_SHA=${{ github.sha }}
 
+      - name: Make Artifact fingerprint available to following jobs
+        id: variables
+        run: |
+          FINGERPRINT=$(echo ${{ steps.docker_build.outputs.digest }} | sed 's/.*://')                    
+          echo "kosli_fingerprint=${FINGERPRINT}" >> ${GITHUB_OUTPUT}
+
       - name: Setup Kosli CLI
         if: ${{ github.ref == 'refs/heads/main' }}
         uses: kosli-dev/setup-cli-action@v2
         with:
           version: ${{ vars.KOSLI_CLI_VERSION }}
 
-      - name: Attest image evidence to Kosli
+      - name: Attest image provenance to Kosli
         if: ${{ github.ref == 'refs/heads/main' }}
         run:
           kosli attest artifact "${IMAGE_NAME}"
             --artifact-type=docker
             --name=web
             --trail="${GITHUB_SHA}"
-
-      - name: Make Artifact fingerprint available to following jobs
-        id: variables
-        run: |
-          FINGERPRINT=$(kosli fingerprint "${IMAGE_NAME}" --artifact-type=docker)
-          echo "kosli_fingerprint=${FINGERPRINT}" >> ${GITHUB_OUTPUT}
 
 
   snyk-container-scan:
@@ -137,7 +172,7 @@ jobs:
         with:
           version: ${{ vars.KOSLI_CLI_VERSION }}
 
-      - name: Attest results to Kosli
+      - name: Attest evidence to Kosli
         if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
         env:
           KOSLI_FINGERPRINT: ${{ needs.build-image.outputs.kosli_fingerprint }}
@@ -147,57 +182,17 @@ jobs:
             --scan-results="${SARIF_FILENAME}"
 
 
-  snyk-code-scan:
-    needs: [setup, build-image]
-    runs-on: ubuntu-latest
-    env:
-      SARIF_FILENAME: snyk.code.scan.json
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
-
-      - name: Setup Snyk
-        uses: snyk/actions/setup@master
-
-      - name: Run Snyk code scan
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        run:
-          snyk code test 
-            --sarif 
-            --sarif-file-output="${SARIF_FILENAME}" 
-            --policy-path=.snyk 
-            .
-
-      - name: Setup Kosli CLI
-        if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
-        uses: kosli-dev/setup-cli-action@v2
-        with:
-          version: ${{ vars.KOSLI_CLI_VERSION }}
-
-      - name: Attest results to Kosli
-        if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
-        env:
-          KOSLI_FINGERPRINT: ${{ needs.build-image.outputs.kosli_fingerprint }}
-        run:
-          kosli attest snyk 
-            --name=web.snyk-code-scan 
-            --scan-results="${SARIF_FILENAME}"
-
-
   sdlc-control-gate:
+    if: ${{ github.ref == 'refs/heads/main' }}
     needs: [setup, build-image, pull-request, snyk-container-scan, snyk-code-scan]
     runs-on: ubuntu-latest
     steps:
       - name: Setup Kosli CLI
-        if: ${{ github.ref == 'refs/heads/main' }}
         uses: kosli-dev/setup-cli-action@v2
         with:
           version: ${{ vars.KOSLI_CLI_VERSION }}
 
       - name: Kosli SDLC gate to short-circuit the workflow
-        if: ${{ github.ref == 'refs/heads/main' }}
         env:
           IMAGE_NAME:        ${{ needs.setup.outputs.image_name }}
           KOSLI_FINGERPRINT: ${{ needs.build-image.outputs.kosli_fingerprint }}
@@ -217,13 +212,11 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Kosli CLI
-        if: ${{ github.ref == 'refs/heads/main' }}
         uses: kosli-dev/setup-cli-action@v2
         with:
           version: ${{ vars.KOSLI_CLI_VERSION }}
 
       - name: Attest approval of deployment to Kosli
-        if: ${{ github.ref == 'refs/heads/main' }}
         env:
           IMAGE_NAME:        ${{ needs.setup.outputs.image_name }}
           KOSLI_FINGERPRINT: ${{ needs.build-image.outputs.kosli_fingerprint }}
@@ -254,13 +247,11 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Kosli CLI
-        if: ${{ github.ref == 'refs/heads/main' }}
         uses: kosli-dev/setup-cli-action@v2
         with:
           version: ${{ vars.KOSLI_CLI_VERSION }}
 
       - name: Attest approval of deployment to Kosli
-        if: ${{ github.ref == 'refs/heads/main' }}
         env:
           IMAGE_NAME:        ${{ needs.setup.outputs.image_name }}
           KOSLI_FINGERPRINT: ${{ needs.build-image.outputs.kosli_fingerprint }}
