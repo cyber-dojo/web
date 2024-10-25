@@ -1,7 +1,8 @@
-FROM cyberdojo/web-base:f2863fe
+FROM cyberdojo/web-base:03b525e
 LABEL maintainer=jon@jaggersoft.com
 
 WORKDIR /cyber-dojo
+RUN chown nobody:nogroup .
 COPY --chown=nobody:nogroup . .
 
 ARG COMMIT_SHA
