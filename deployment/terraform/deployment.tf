@@ -10,5 +10,6 @@ module "ecs-service" {
   mem_limit                 = var.mem_limit
   app_env_vars              = local.app_env_vars
   ecs_wait_for_steady_state = true
+  ecs_service_update_timeout = "10m"
   tags                      = module.tags.result
 }
