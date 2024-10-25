@@ -2,7 +2,7 @@ FROM cyberdojo/web-base:f2863fe
 LABEL maintainer=jon@jaggersoft.com
 
 WORKDIR /cyber-dojo
-COPY . .
+COPY --chown=nobody:nogroup . .
 
 ARG COMMIT_SHA
 ENV SHA=${COMMIT_SHA}
