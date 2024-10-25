@@ -16,7 +16,7 @@ services:
     container_name: test_web
     env_file: [ web.env ]
     #tmpfs: /tmp   # Interferes with test-coverage extraction
-    restart: 'no'
+    restart: no
 
   # - - - - - - - - - - - - - - - -
   creator:
@@ -26,7 +26,7 @@ services:
     env_file: [ .env ]
     read_only: true
     tmpfs: /tmp
-    restart: 'no'
+    restart: no
 
   # - - - - - - - - - - - - - - - -
   custom-start-points:
@@ -36,7 +36,7 @@ services:
     env_file: [ .env ]
     read_only: true
     tmpfs: /tmp
-    restart: 'no'
+    restart: no
 
   exercises-start-points:
     image: ${CYBER_DOJO_EXERCISES_START_POINTS_IMAGE}:${CYBER_DOJO_EXERCISES_START_POINTS_TAG}
@@ -45,7 +45,7 @@ services:
     env_file: [ .env ]
     read_only: true
     tmpfs: /tmp
-    restart: 'no'
+    restart: no
 
   languages-start-points:
     image: ${CYBER_DOJO_LANGUAGES_START_POINTS_IMAGE}:${CYBER_DOJO_LANGUAGES_START_POINTS_TAG}
@@ -54,7 +54,7 @@ services:
     env_file: [ .env ]
     read_only: true
     tmpfs: /tmp
-    restart: 'no'
+    restart: no
 
   # - - - - - - - - - - - - - - - -
   runner:
@@ -64,7 +64,7 @@ services:
     env_file: [ .env ]
     read_only: true
     tmpfs: /tmp
-    restart: 'no'
+    restart: no
     volumes: [ "/var/run/docker.sock:/var/run/docker.sock" ]
 
   # - - - - - - - - - - - - - - - -
@@ -75,7 +75,7 @@ services:
     container_name: test_web_saver
     env_file: [ .env ]
     read_only: true
-    restart: 'no'
+    restart: no
     tmpfs: [ "/cyber-dojo:uid=19663,gid=65533", "/tmp:uid=19663,gid=65533" ]
 
   # - - - - - - - - - - - - - - - -
@@ -86,7 +86,7 @@ services:
     env_file: [ .env ]
     read_only: true
     tmpfs: /tmp
-    restart: 'no'
+    restart: no
 
 # - - - - - - - - - - - - - - - -
   dashboard:
@@ -95,5 +95,5 @@ services:
     container_name: test_web_dashboard
     env_file: [ .env ]
     read_only: true
-    restart: "no"
+    restart: no
     tmpfs: /tmp
