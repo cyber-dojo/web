@@ -32,6 +32,12 @@ variable "mem_reservation" {
   default = 128
 }
 
+variable "container_restart_policy_enabled" {
+  description = "Whether to enable restart policy for the container."
+  type        = bool
+  default     = true
+}
+
 variable "TAGGED_IMAGE" {
   type = string
 }
