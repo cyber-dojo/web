@@ -1,4 +1,4 @@
-name: Main - Attests to https://app.kosli.com
+name: Main
 
 on:
   push:
