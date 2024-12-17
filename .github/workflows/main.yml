@@ -91,6 +91,7 @@ jobs:
         if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
         run:
           kosli attest snyk 
+            --attachments=.snyk
             --name=web.snyk-code-scan 
             --scan-results="${SARIF_FILENAME}"
 
@@ -179,6 +180,7 @@ jobs:
           KOSLI_FINGERPRINT: ${{ needs.build-image.outputs.kosli_fingerprint }}
         run:
           kosli attest snyk 
+            --attachments=.snyk          
             --name=web.snyk-container-scan 
             --scan-results="${SARIF_FILENAME}"
 
