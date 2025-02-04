@@ -190,6 +190,16 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: Retrieve Docker image from cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.IMAGE_TAR_FILENAME }}
+          key: ${{ env.IMAGE_NAME }}
+
+      - name: Load Docker image
+        run:
+          docker image load --input "${IMAGE_TAR_FILENAME}"
+
       - name: Setup Snyk
         uses: snyk/actions/setup@master
 
