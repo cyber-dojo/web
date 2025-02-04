@@ -18,7 +18,6 @@ services:
     #tmpfs: /tmp   # Interferes with test-coverage extraction
     restart: no
 
-  # - - - - - - - - - - - - - - - -
   creator:
     image: ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}
     user: nobody
@@ -28,7 +27,6 @@ services:
     tmpfs: /tmp
     restart: no
 
-  # - - - - - - - - - - - - - - - -
   custom-start-points:
     image: ${CYBER_DOJO_CUSTOM_START_POINTS_IMAGE}:${CYBER_DOJO_CUSTOM_START_POINTS_TAG}
     user: nobody
@@ -56,7 +54,6 @@ services:
     tmpfs: /tmp
     restart: no
 
-  # - - - - - - - - - - - - - - - -
   runner:
     image: ${CYBER_DOJO_RUNNER_IMAGE}:${CYBER_DOJO_RUNNER_TAG}
     user: root
@@ -67,7 +64,6 @@ services:
     restart: no
     volumes: [ "/var/run/docker.sock:/var/run/docker.sock" ]
 
-  # - - - - - - - - - - - - - - - -
   saver:
     image: ${CYBER_DOJO_SAVER_IMAGE}:${CYBER_DOJO_SAVER_TAG}
     ports: [ "${CYBER_DOJO_SAVER_PORT}:${CYBER_DOJO_SAVER_PORT}" ]
@@ -78,7 +74,6 @@ services:
     restart: no
     tmpfs: [ "/cyber-dojo:uid=19663,gid=65533", "/tmp:uid=19663,gid=65533" ]
 
-  # - - - - - - - - - - - - - - - -
   differ:
     image: ${CYBER_DOJO_DIFFER_IMAGE}:${CYBER_DOJO_DIFFER_TAG}
     user: nobody
@@ -88,7 +83,6 @@ services:
     tmpfs: /tmp
     restart: no
 
-# - - - - - - - - - - - - - - - -
   dashboard:
     image: ${CYBER_DOJO_DASHBOARD_IMAGE}:${CYBER_DOJO_DASHBOARD_TAG}
     user: nobody

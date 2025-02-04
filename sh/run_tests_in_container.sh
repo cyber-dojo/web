@@ -26,6 +26,8 @@ run_tests_in_container()
   set +e
   docker exec --user nobody "${WEB_CID}" sh -c "cd /cyber-dojo/test && ./run.sh ${*:-}"
   readonly STATUS=$?
+  set -e
+
   mkdir -p "${DST}"
   docker cp "${SRC}/." "${DST}"
   return ${STATUS}

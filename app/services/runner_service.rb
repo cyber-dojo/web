@@ -25,6 +25,18 @@ class RunnerService
   end
 
   def run_cyber_dojo_sh(args)
+    pull_args = { id: args[:id], image_name: args[:manifest][:image_name] }
+    outcome = 'pulling'
+    n = 0
+    while outcome != 'pulled' && n < 10
+      outcome = pull_image(pull_args)
+      n += 1
+      sleep(0.25)
+    end
+    @http.get(__method__, args)
+  end
+
+  def pull_image(args)
     @http.get(__method__, args)
   end
 
