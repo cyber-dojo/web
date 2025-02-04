@@ -22,9 +22,6 @@ run_tests_in_container()
   local -r SRC=${WEB_CID}:/tmp/cyber-dojo/coverage
   local -r DST=$(repo_root)/coverage/
 
-  # Pull image used in test/app_services/runner_service_test.rb to prevent timeout/pulling error
-  docker pull cyberdojofoundation/bash_bats:53d0c9c
-
   # Drop set -e because we want to get coverage stats out
   set +e
   docker exec --user nobody "${WEB_CID}" sh -c "cd /cyber-dojo/test && ./run.sh ${*:-}"

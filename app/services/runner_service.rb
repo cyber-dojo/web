@@ -28,4 +28,8 @@ class RunnerService
     @http.get(__method__, args)
   end
 
+  def pull_image(args)
+    @http.get(__method__, args)
+  end
+
 end
