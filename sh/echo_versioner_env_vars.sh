@@ -9,6 +9,10 @@ echo_versioner_env_vars()
   echo CYBER_DOJO_WEB_SHA="$(image_sha)"
   echo CYBER_DOJO_WEB_TAG="$(image_tag)"
 
+  local -r AWS_ACCOUNT_ID=244531986313
+  local -r AWS_REGION=eu-central-1
+  echo CYBER_DOJO_WEB_IMAGE="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/web"
+
   # Here you can add SHA/TAG env-vars for any service whose
   # local repos you have edited, have new git commits in,
   # and have built new images from. Their build scripts

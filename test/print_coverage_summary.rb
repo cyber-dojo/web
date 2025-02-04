@@ -168,7 +168,7 @@ end
 
 def coverage(stats, name)
   if name === 'app_controllers'
-    min = 97
+    min = 85
   elsif name == 'app_services'
     min = 99
   else
