@@ -36,18 +36,7 @@ class RunnerServiceTest < AppServicesTestBase
   test '812',
   'run() tests expecting 42 actual 6*9' do
     in_new_kata { |kata|
-      args = run_args(kata)
-
-      pull_args = { id: kata.id, image_name: args[:manifest][:image_name] }
-      outcome = 'pulling'
-      n = 0
-      while outcome != 'pulled' && n < 10
-        outcome = runner.pull_image(pull_args)
-        n += 1
-      end
-      assert outcome == 'pulled'
-
-      json = runner.run_cyber_dojo_sh(args)
+      json = runner.run_cyber_dojo_sh(run_args(kata))
       stdout = json['stdout']['content']
       assert stdout.include?('not ok 1 life the universe and everything'), json
       assert stdout.include?('in test file test_hiker.sh'), json
