@@ -5,7 +5,7 @@ getting feedback on your local work:
 1) /build_test.sh
    This runs the tests locally.
    To use locally built dependent services you may need to add SHA/TAG
-   env-vars to the echo_versioner_env_vars.sh file.
+   env-vars to the echo_env_vars.sh file.
 
 2) /demo.sh
    This runs a local server

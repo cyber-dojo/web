@@ -15,8 +15,8 @@ source "${SH_DIR}/run_tests_in_container.sh"
 
 exit_non_zero_unless_installed docker
 
-source "${SH_DIR}/echo_versioner_env_vars.sh"
-export $(echo_versioner_env_vars)
+source "${SH_DIR}/echo_env_vars.sh"
+export $(echo_env_vars)
 
 containers_down
 remove_old_images

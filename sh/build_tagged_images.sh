@@ -6,7 +6,13 @@ build_tagged_images()
 {
   build_web_image
   assert_web_image_has_sha_env_var
-  docker tag ${CYBER_DOJO_WEB_IMAGE}:$(image_tag) ${CYBER_DOJO_WEB_IMAGE}:latest
+  docker tag "${CYBER_DOJO_WEB_IMAGE}:$(image_tag)" "${CYBER_DOJO_WEB_IMAGE}:latest"
+  docker tag "${CYBER_DOJO_WEB_IMAGE}:$(image_tag)" "cyberdojo/web:$(image_tag)"
+  docker tag "${CYBER_DOJO_WEB_IMAGE}:$(image_tag)" cyberdojo/web:latest
+  echo "CYBER_DOJO_WEB_SHA=${CYBER_DOJO_WEB_SHA}"
+  echo "CYBER_DOJO_WEB_TAG=${CYBER_DOJO_WEB_TAG}"
+  echo "${CYBER_DOJO_WEB_IMAGE}:$(image_tag)"
+  echo "cyberdojo/web:$(image_tag)"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -15,8 +21,7 @@ build_web_image()
   echo
   docker compose \
     --file "$(repo_root)/docker-compose.yml" \
-    build \
-    --build-arg COMMIT_SHA=$(git_commit_sha)
+    build
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -

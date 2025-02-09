@@ -11,7 +11,9 @@ services:
     ports: [ "${CYBER_DOJO_WEB_PORT}:${CYBER_DOJO_WEB_PORT}" ]
     build:
       context: .
-      args: [ COMMIT_SHA ]
+      args:
+        - COMMIT_SHA
+        - BASE_IMAGE
     user: nobody
     container_name: test_web
     env_file: [ web.env ]
