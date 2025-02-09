@@ -3,7 +3,7 @@ set -Eeu
 
 echo_base_image()
 {
-  echo cyberdojo/web-base:510250f
+  echo cyberdojo/web-base:ec9ffc9
 }
 
 echo_env_vars()
