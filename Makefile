@@ -11,7 +11,7 @@ test:
 	${PWD}/build_test.sh
 
 probe:
-	${PWD}/probe_demo.sh
+	${PWD}/sh/probe_demo.sh
 
 demo:
 	${PWD}/demo.sh

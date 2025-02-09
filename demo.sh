@@ -6,11 +6,11 @@ set -Eeu
 repo_root() { git rev-parse --show-toplevel; }
 readonly SH_DIR="$(repo_root)/sh"
 
-source "${SH_DIR}/echo_versioner_env_vars.sh"
+source "${SH_DIR}/echo_env_vars.sh"
 source "${SH_DIR}/exit_non_zero_unless_installed.sh"
 source "${SH_DIR}/copy_in_saver_test_data.sh"
 
-export $(echo_versioner_env_vars)
+export $(echo_env_vars)
 
 # - - - - - - - - - - - - - - - - - - - - - - -
 docker_rm()
