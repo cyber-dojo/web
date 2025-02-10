@@ -13,7 +13,7 @@ RUN apk --update --upgrade --no-cache add git
 
 WORKDIR /cyber-dojo
 RUN chown nobody:nogroup .
-COPY --chown=nobody:nogroup . .
+COPY --chown=nobody:nogroup source .
 EXPOSE 3000
 USER nobody
 HEALTHCHECK --interval=1s --timeout=1s --retries=5 --start-period=5s CMD ./healthcheck.sh

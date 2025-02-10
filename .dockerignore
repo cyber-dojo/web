@@ -1,18 +1,2 @@
-# ignore everything
-/*
-/*/
-
-# except these dirs...
-
-!app/
-!test/
-!config/
-!lib/
-
-# and these files...
-
-!config.ru
-!script/rails
-!healthcheck.sh
-!up.sh
-
+*
+!source
