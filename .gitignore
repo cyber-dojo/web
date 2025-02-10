@@ -5,14 +5,10 @@
 # except these dirs...
 
 !/.github
-!/app
-!/config
 !/deployment
 !/docs
-!/lib
-!/script
 !/sh
-!/test
+!/source
 
 # and these files...
 
@@ -21,15 +17,12 @@
 !/.kosli.yml
 !/.snyk
 !/.snyk.example
-!/config.ru
 !/CONTRIBUTING.md
 !/docker-compose.yml
 !/docker-compose-depends.yml
 !/docker-compose-nginx.yml
 !/Dockerfile
-!/healthcheck.sh
 !/LICENSE.md
 !/Makefile
 !/README.md
-!/up.sh
 !/web.env

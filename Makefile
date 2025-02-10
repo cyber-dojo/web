@@ -13,7 +13,7 @@ test:
 demo:
 	${PWD}/sh/demo.sh
 
-probe_demo: demo
+probe_demo:
 	${PWD}/sh/probe_demo.sh
 
 snyk-container: image
