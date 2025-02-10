@@ -4,40 +4,32 @@
 
 # except these dirs...
 
+!/.github
 !/app
 !/config
+!/deployment
+!/docs
 !/lib
 !/script
 !/sh
 !/test
-!/docs
-!/deployment
-!/.github
 
 # and these files...
 
 !/.dockerignore
 !/.gitignore
 !/.kosli.yml
-!/.env
 !/.snyk
 !/.snyk.example
-
-!/healthcheck.sh
 !/config.ru
+!/CONTRIBUTING.md
 !/docker-compose.yml
-!/docker-compose-choosers.yml
 !/docker-compose-depends.yml
 !/docker-compose-nginx.yml
-!/docker-compose-saver-dir-volume-mount.yml
-!/docker-compose-saver-tmpfs-volume-mount.yml
-!/docker-compose-web-volume-mount.yml
-!/Makefile
 !/Dockerfile
-!/build_test.sh
-!/demo.sh
+!/healthcheck.sh
+!/LICENSE.md
+!/Makefile
+!/README.md
 !/up.sh
 !/web.env
-!/LICENSE.md
-!/README.md
-!/CONTRIBUTING.md
