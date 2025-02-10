@@ -12,13 +12,11 @@ source "${SH_DIR}/copy_in_saver_test_data.sh"
 
 export $(echo_env_vars)
 
-# - - - - - - - - - - - - - - - - - - - - - - -
 docker_rm()
 {
   docker rm --force "${1}" 2> /dev/null || true
 }
 
-# - - - - - - - - - - - - - - - - - - - - - - -
 web_build()
 {
   docker compose \
@@ -27,13 +25,11 @@ web_build()
     --build-arg COMMIT_SHA="$(git_commit_sha)"
 }
 
-# - - - - - - - - - - - - - - - - - - - - - - -
 git_commit_sha()
 {
   git rev-parse HEAD
 }
 
-# - - - - - - - - - - - - - - - - - - - - - - -
 up_nginx()
 {
   docker compose \
@@ -47,7 +43,6 @@ up_nginx()
       nginx
 }
 
-# - - - - - - - - - - - - - - - - - - - - - - - -
 demo_URL()
 {
   echo "http://localhost:80/kata/edit/5U2J18"

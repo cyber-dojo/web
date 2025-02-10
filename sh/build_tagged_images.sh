@@ -20,7 +20,7 @@ build_web_image()
 {
   echo
   docker compose \
-    --file "$(repo_root)/docker-compose.yml" \
+    --file="$(repo_root)/docker-compose.yml" \
     build
 }
 

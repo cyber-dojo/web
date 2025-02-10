@@ -16,10 +16,9 @@ echo_env_vars()
     echo COMMIT_SHA="$(image_sha)"  # --build-arg
   fi
 
-  # TODO: Setup port env-vars in .env file using versioner
-  #local -r env_filename="${ROOT_DIR}/.env"
-  #docker run --rm cyberdojo/versioner | grep PORT > "${env_filename}"
-  #echo "CYBER_DOJO_SAVER_CLIENT_PORT=4538" >> "${env_filename}"
+  local -r env_filename="$(repo_root)/.env"
+  echo CYBER_DOJO_PROMETHEUS=true > "${env_filename}"
+  docker run --rm cyberdojo/versioner | grep PORT >> "${env_filename}"
 
   # Get identities of all docker-compose.yml dependent services (from versioner)
   docker run --rm cyberdojo/versioner:latest
