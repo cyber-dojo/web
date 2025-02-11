@@ -1,5 +1,4 @@
 
-# - - - - - - - - - - - - - - - - - - -
 copy_in_saver_test_data()
 {
   local -r SAVER_CID="$(saver_cid)"
@@ -14,7 +13,6 @@ copy_in_saver_test_data()
     | docker exec -i ${SAVER_CID} tar x -C ${DEST_PATH}
 }
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - -
 saver_cid()
 {
   docker ps --filter status=running --format '{{.Names}}' | grep "web_saver"

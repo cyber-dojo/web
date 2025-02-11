@@ -1,5 +1,4 @@
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 exit_non_zero_unless_installed()
 {
   printf "Checking ${1} is installed..."
@@ -21,7 +20,6 @@ exit_non_zero_unless_installed()
   echo It is
 }
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 installed()
 {
   if hash "${1}" 2> /dev/null; then
@@ -31,7 +29,6 @@ installed()
   fi
 }
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 stderr()
 {
   >&2 echo "${1}"

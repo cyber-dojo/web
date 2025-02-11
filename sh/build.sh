@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 set -Eeu
 
-# - - - - - - - - - - - - - - - - - - - - - - - -
 build_tagged_images()
 {
   build_web_image
@@ -15,7 +14,6 @@ build_tagged_images()
   echo "cyberdojo/web:$(image_tag)"
 }
 
-# - - - - - - - - - - - - - - - - - - - - - - - -
 build_web_image()
 {
   echo
@@ -24,7 +22,6 @@ build_web_image()
     build
 }
 
-# - - - - - - - - - - - - - - - - - - - - - - - -
 assert_web_image_has_sha_env_var()
 {
   if [ "$(git_commit_sha)" != $(sha_inside_image) ]; then
@@ -35,13 +32,11 @@ assert_web_image_has_sha_env_var()
   fi
 }
 
-# - - - - - - - - - - - - - - - - - - - - - - -
 git_commit_sha()
 {
   git rev-parse HEAD
 }
 
-#- - - - - - - - - - - - - - - - - - - - - - - -
 sha_inside_image()
 {
   docker run --rm "$(image_name):$(image_tag)" sh -c 'echo ${SHA}'
