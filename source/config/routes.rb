@@ -5,9 +5,10 @@ end
 
 CyberDojo::Application.routes.draw do
 
-  get '/alive'  , to: proc { json_triple('alive?' => true      ) }
-  get '/ready'  , to: proc { json_triple('ready?' => true      ) }
-  get '/web/sha', to: proc { json_triple(   'sha' => ENV['SHA']) }
+  get '/alive'  ,        to: proc { json_triple(    'alive?' => true      ) }
+  get '/ready'  ,        to: proc { json_triple(    'ready?' => true      ) }
+  get '/web/sha',        to: proc { json_triple(       'sha' => ENV['SHA']) }
+  get '/web/base_image', to: proc { json_triple('base_image' => ENV['BASE_IMAGE']) }
 
   scope path: '/kata', controller: :kata do
     get  'edit(/:id)'       => :edit

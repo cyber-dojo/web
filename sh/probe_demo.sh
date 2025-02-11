@@ -14,6 +14,7 @@ main()
   curl_200 GET /alive?
   curl_200 GET /ready?
   curl_200 GET /web/sha
+  curl_200 GET /web/base_image
   echo
 }
 

@@ -1,7 +1,23 @@
-name: Main
+name: Sub - main
 
 on:
-  push:
+  workflow_call:
+    inputs:
+      BASE_IMAGE:
+        required: true
+        type: string
+      KOSLI_TRAIL:
+        required: true
+        type: string
+    secrets:
+      DOCKER_USER:
+        required: true
+      DOCKER_PASS:
+        required: true
+      SNYK_TOKEN:
+        required: true
+      KOSLI_API_TOKEN:
+        required: true
 
 
 env:
@@ -10,7 +26,7 @@ env:
   KOSLI_ORG: ${{ vars.KOSLI_ORG }}                   # cyber-dojo
   KOSLI_API_TOKEN: ${{ secrets.KOSLI_API_TOKEN }}
   KOSLI_FLOW: ${{ vars.KOSLI_FLOW  }}                # web-ci
-  KOSLI_TRAIL: ${{ github.sha }}
+  KOSLI_TRAIL: ${{ inputs.KOSLI_TRAIL }}
 
   AWS_ACCOUNT_ID: ${{ vars.AWS_ACCOUNT_ID }}
   AWS_ECR_ID: ${{ vars.AWS_ECR_ID }}
@@ -35,10 +51,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-#      - name: Check BASE_IMAGE
-#        run: |
-#          source ./sh/lib.sh
-#          exit_non_zero_if_bad_base_image "${{ inputs.BASE_IMAGE }}"
+      - name: Check BASE_IMAGE
+        run: |
+          source ./sh/exit_non_zero_if_bad_base_image.sh
+          exit_non_zero_if_bad_base_image "${{ inputs.BASE_IMAGE }}"
 
       - name: Set outputs
         id: vars
@@ -158,7 +174,7 @@ jobs:
           tags: ${{ env.IMAGE_NAME }}
           build-args: |
             COMMIT_SHA=${{ github.sha }}
-            BASE_IMAGE=cyberdojo/web-base:ec9ffc9
+            BASE_IMAGE=${{ inputs.BASE_IMAGE }}
 
       - name: Run tests
         run:
