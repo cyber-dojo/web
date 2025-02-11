@@ -158,7 +158,7 @@ jobs:
           tags: ${{ env.IMAGE_NAME }}
           build-args: |
             COMMIT_SHA=${{ github.sha }}
-            BASE_IMAGE=${{ inputs.BASE_IMAGE }}
+            BASE_IMAGE=cyberdojo/web-base:ec9ffc9
 
       - name: Run tests
         run:
