@@ -182,9 +182,9 @@ jobs:
           DIGEST=$(echo ${{ steps.docker_build.outputs.digest }} | sed 's/.*://')          
           echo "digest=${DIGEST}" >> ${GITHUB_OUTPUT}
 
-#      - name: Run tests
-#        run:
-#          make test
+      - name: Run tests
+        run:
+          make test
 
       - name: Save Docker image
         run:
