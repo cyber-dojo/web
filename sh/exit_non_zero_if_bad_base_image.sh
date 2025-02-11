@@ -14,3 +14,9 @@ exit_non_zero_if_bad_base_image()
     exit 42
   fi
 }
+
+stderr()
+{
+  local -r message="${1}"
+  >&2 echo "ERROR: ${message}"
+}
