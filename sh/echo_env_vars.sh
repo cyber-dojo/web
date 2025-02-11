@@ -3,7 +3,7 @@ set -Eeu
 
 echo_base_image()
 {
-  echo cyberdojo/web-base:ec9ffc9
+  echo cyberdojo/web-base:ec9ffc9@sha256:be3b6c61c36e6a266217521e65f1496a11e4184438f020c78135f9c543effc5e
 }
 
 echo_env_vars()
