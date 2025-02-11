@@ -45,13 +45,15 @@ wait_until_running()
 
 containers_up()
 {
+#    --force-recreate \
+
   echo
   docker compose \
     --file "$(repo_root)/docker-compose-depends.yml" \
     --file "$(repo_root)/docker-compose.yml" \
     up \
     -d \
-    --force-recreate \
+    --no-build \
     web
 
   wait_until_healthy test_web_runner

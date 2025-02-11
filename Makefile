@@ -8,7 +8,7 @@ image:
 	${PWD}/sh/build_test.sh -bo
 
 test:
-	${PWD}/sh/build_test.sh
+	${PWD}/sh/run_tests.sh
 
 demo:
 	${PWD}/sh/demo.sh
