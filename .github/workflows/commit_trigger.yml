@@ -1,0 +1,35 @@
+name: Main
+
+on:
+  push:
+
+
+jobs:
+  get-base-image:
+    runs-on: ubuntu-latest
+    outputs:
+      base_image: ${{ steps.vars.outputs.base_image }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Output the base-image
+        id: vars
+        run: |
+          source ./sh/echo_env_vars.sh
+          echo "base_image=$(echo_base_image)" >> ${GITHUB_OUTPUT}
+
+
+  trigger:
+    needs: [get-base-image]
+    uses: ./.github/workflows/main.yml
+    with:
+      BASE_IMAGE:  ${{ needs.get-base-image.outputs.base_image }}
+      KOSLI_TRAIL: ${{ github.sha }}
+    secrets:
+      DOCKER_USER:     ${{ secrets.DOCKER_USER }}
+      DOCKER_PASS:     ${{ secrets.DOCKER_PASS }}
+      SNYK_TOKEN:      ${{ secrets.SNYK_TOKEN }}
+      KOSLI_API_TOKEN: ${{ secrets.KOSLI_API_TOKEN }}
+
