@@ -3,6 +3,7 @@ name: Main
 on:
   push:
 
+
 env:
   KOSLI_DRY_RUN: ${{ vars.KOSLI_DRY_RUN }}           # false
   KOSLI_HOST: ${{ vars.KOSLI_HOST }}                 # https://app.kosli.com
@@ -33,6 +34,11 @@ jobs:
       image_name: ${{ steps.vars.outputs.image_name }}
     steps:
       - uses: actions/checkout@v4
+
+#      - name: Check BASE_IMAGE
+#        run: |
+#          source ./sh/lib.sh
+#          exit_non_zero_if_bad_base_image "${{ inputs.BASE_IMAGE }}"
 
       - name: Set outputs
         id: vars
@@ -129,10 +135,6 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Build image and run tests
-        run:
-          make image test
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -146,9 +148,21 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Push image to registry
+      - name: Build and push Docker image to Amazon ECR
+        id: docker_build
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          no-cache: true
+          push: true
+          tags: ${{ env.IMAGE_NAME }}
+          build-args: |
+            COMMIT_SHA=${{ github.sha }}
+            BASE_IMAGE=${{ inputs.BASE_IMAGE }}
+
+      - name: Run tests
         run:
-          docker push "${IMAGE_NAME}"
+          make test
 
       - name: Save Docker image
         run:
