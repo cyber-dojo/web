@@ -176,6 +176,12 @@ jobs:
             COMMIT_SHA=${{ github.sha }}
             BASE_IMAGE=${{ inputs.BASE_IMAGE }}
 
+      - name: Make artifact digest available to following jobs
+        id: variables
+        run: |
+          DIGEST=$(echo ${{ steps.docker_build.outputs.digest }} | sed 's/.*://')          
+          echo "digest=${DIGEST}" >> ${GITHUB_OUTPUT}
+
       - name: Run tests
         run:
           make test
@@ -194,12 +200,6 @@ jobs:
         uses: kosli-dev/setup-cli-action@v2
         with:
           version: ${{ vars.KOSLI_CLI_VERSION }}
-
-      - name: Make artifact digest available to following jobs
-        id: variables
-        run: |
-          DIGEST=$(echo ${{ steps.docker_build.outputs.digest }} | sed 's/.*://')          
-          echo "digest=${DIGEST}" >> ${GITHUB_OUTPUT}
 
       - name: Attest image provenance to Kosli
         if: ${{ github.ref == 'refs/heads/main' }}
