@@ -3,7 +3,20 @@ set -Eeu
 
 echo_base_image()
 {
-  echo cyberdojo/web-base:ec9ffc9@sha256:be3b6c61c36e6a266217521e65f1496a11e4184438f020c78135f9c543effc5e
+  # This is set to the env-var BASE_IMAGE which is set as a docker compose build --build-arg
+  # and used the Dockerfile's 'FROM ${BASE_IMAGE}' statement
+  # This BASE_IMAGE abstraction is to facilitate the base_image_trigger.yml workflow.
+  local -r json="$(curl --fail --silent --request GET https://beta.cyber-dojo.org/web/base_image)"
+  local -r via_curl="$(echo "${json}" | jq -r '.base_image')"
+  local -r via_code="cyberdojo/web-base:ec9ffc9@sha256:be3b6c61c36e6a266217521e65f1496a11e4184438f020c78135f9c543effc5e"
+  if [ "${via_curl}" != "${via_code}" ] ; then
+    stderr "BASE_IMAGE sources disagree"
+    stderr "Via curl: '${via_curl}'"
+    stderr "Via code: '${via_code}'"
+    exit 42
+  else
+    echo "${via_code}"
+  fi
 }
 
 echo_env_vars()
