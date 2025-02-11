@@ -13,7 +13,7 @@ remove_all_web_images_except_latest()
 {
   local -r docker_image_ls="${1}"
   local -r name="${2}"
-  for image_name in `echo "${docker_image_ls}" | grep "${name}:"`
+  for image_name in `echo "${docker_image_ls}" | grep "web:"`
   do
     if [ "${image_name}" != "${name}" ]; then
       docker image rm --force "${image_name}"
