@@ -182,7 +182,7 @@ jobs:
       - name: Make artifact digest available to following jobs
         id: variables
         run: |
-          DIGEST=$(kosli fingerprint "${IMAGE_NAME}" --artifact-type=docker)
+          DIGEST=$(echo ${{ steps.docker_build.outputs.digest }} | sed 's/.*://')          
           echo "digest=${DIGEST}" >> ${GITHUB_OUTPUT}
 
       - name: Attest image provenance to Kosli
