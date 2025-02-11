@@ -11,7 +11,6 @@ services:
       - runner
       - saver
 
-  # - - - - - - - - - - - - - - - -
   creator:
     depends_on:
       - custom-start-points
@@ -20,12 +19,10 @@ services:
       - runner
       - saver
 
-  # - - - - - - - - - - - - - - - -
   dashboard:
     depends_on:
       - saver
 
-  # - - - - - - - - - - - - - - - -
   differ:
     depends_on:
       - saver

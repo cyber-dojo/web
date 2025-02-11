@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 set -Eeu
 
-# - - - - - - - - - - - - - - - - - - - - - - - -
 containers_down()
 {
   echo
