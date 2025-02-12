@@ -30,7 +30,7 @@ class RunnerService
     pull_args = { id: args[:id], image_name: args[:manifest][:image_name] }
     outcome = 'pulling'
     n = 0
-    while outcome != 'pulled' && n < 10
+    while outcome != 'pulled' && n < 20
       outcome = pull_image(pull_args)
       # p("Pull_image #{args[:manifest][:image_name]} ==> #{outcome}")
       n += 1
