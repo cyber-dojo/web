@@ -9,7 +9,7 @@ readonly SH_DIR="$(repo_root)/sh"
 source "${SH_DIR}/echo_env_vars.sh"
 source "${SH_DIR}/exit_non_zero_unless_installed.sh"
 source "${SH_DIR}/copy_in_saver_test_data.sh"
-
+source "${SH_DIR}/lib.sh"
 export $(echo_env_vars)
 
 docker_rm()
