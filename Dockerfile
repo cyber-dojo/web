@@ -9,8 +9,6 @@ ENV BASE_IMAGE=${BASE_IMAGE}
 ARG COMMIT_SHA
 ENV SHA=${COMMIT_SHA}
 
-RUN apk --update --upgrade --no-cache add git
-
 WORKDIR /cyber-dojo
 RUN chown nobody:nogroup .
 COPY --chown=nobody:nogroup source .

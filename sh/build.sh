@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 set -Eeu
 
+repo_root() { git rev-parse --show-toplevel; }
+readonly SH_DIR="$(repo_root)/sh"
+source "${SH_DIR}/lib.sh"
+source "${SH_DIR}/echo_env_vars.sh"
+export $(echo_env_vars)
+
 build_tagged_images()
 {
   build_web_image
@@ -41,3 +47,5 @@ sha_inside_image()
 {
   docker run --rm "$(image_name):$(image_tag)" sh -c 'echo ${SHA}'
 }
+
+build_tagged_images
