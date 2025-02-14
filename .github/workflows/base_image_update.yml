@@ -2,19 +2,7 @@ name: Base Image Update
 
 on:
   repository_dispatch:
-    inputs:
-      base_image_name:
-        description: "Dockerfile FROM ${BASE_IMAGE} : name, eg cyberdojo/web-base"
-        required: true
-        type: string
-      base_image_tag:
-        description: "Dockerfile FROM ${BASE_IMAGE} : tag (7 chars), eg edb2887"
-        required: true
-        type: string
-      base_image_digest:
-        description: "Dockerfile FROM ${BASE_IMAGE} : digest (64 chars), eg 4e8ab221dcf6378dda480cc59cd657314a2a5fcb3220d319b4a9f6cbbf5d5a3a"
-        required: true
-        type: string
+    types: [base-image-update]
 
 
 jobs:
@@ -27,11 +15,11 @@ jobs:
       - name: Outputs
         id: vars
         run: | 
-          NAME="${{ inputs.base_image_name }}"
-          TAG="${{ inputs.base_image_tag }}"
-          DIGEST="${{ inputs.base_image_digest }}"
-          echo "base_image=${NAME}:${TAG}@sha256:${DIGEST}"                 >> ${GITHUB_OUTPUT}
-          echo "kosli_trail=base-image-update-${{ inputs.base_image_tag }}" >> ${GITHUB_OUTPUT}
+          NAME="${{ github.event.client_payload.base_image_name }}"
+          TAG="${{ github.event.client_payload.base_image_tag }}"
+          DIGEST="${{ github.event.client_payload.base_image_digest }}"
+          echo "base_image=${NAME}:${TAG}@sha256:${DIGEST}" >> ${GITHUB_OUTPUT}
+          echo "kosli_trail=base-image-update-${TAG}"       >> ${GITHUB_OUTPUT}
       
 
   trigger:
