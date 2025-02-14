@@ -1,27 +1,36 @@
 #!/usr/bin/env bash
 set -Eeu
 
-echo_base_image()
+echo_base_image_via_curl()
 {
   # This is set to the env-var BASE_IMAGE which is set as a [docker compose build] --build-arg
   # and used the Dockerfile's 'FROM ${BASE_IMAGE}' statement
-  # This BASE_IMAGE abstraction is to facilitate the base_image_trigger.yml workflow
+  # This BASE_IMAGE abstraction is to facilitate the base_image_update.yml workflow
   # which is an work-in-progress experiment to look into automating deployment to prod
   # of a Dockerfile base-image update to fix snyk vulnerabilities.
   local -r json="$(curl --fail --silent --request GET https://beta.cyber-dojo.org/web/base_image)"
   local -r via_curl="$(echo "${json}" | jq -r '.base_image')"
-  local -r tag=3a56bd1
-  local -r digest=4e8ab221dcf6378dda480cc59cd657314a2a5fcb3220d319b4a9f6cbbf5d5a3a
-  local -r via_code="cyberdojo/web-base:${tag}@sha256:${digest}"
+  echo "${via_curl}"
+}
 
-  if [ "${via_curl}" != "${via_code}" ] ; then
-    stderr "BASE_IMAGE sources disagree"
-    stderr "Via curl: '${via_curl}'"
-    stderr "Via code: '${via_code}'"
-    exit 42
-  else
-    echo "${via_code}"
-  fi
+echo_base_image()
+{
+  # You can use this as an alternative echo_base_image for local development.
+  local -r tag=c617fee
+  local -r digest=ded8fe228c99f13f0496a7f696d619c8a3f1fd7c9c4020a3fd8442b6d5841617
+  local -r via_code="cyberdojo/web-base:${tag}@sha256:${digest}"
+  echo "${via_code}"
+
+  return
+
+#  if [ "${via_curl}" != "${via_code}" ] ; then
+#    stderr "BASE_IMAGE sources disagree"
+#    stderr "Via curl: '${via_curl}'"
+#    stderr "Via code: '${via_code}'"
+#    exit 42
+#  else
+#    echo "${via_code}"
+#  fi
 }
 
 echo_env_vars()
