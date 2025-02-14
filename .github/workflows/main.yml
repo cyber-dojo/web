@@ -55,7 +55,7 @@ jobs:
 
       - name: Check BASE_IMAGE
         run: |
-          source ./sh/exit_non_zero_if_bad_base_image.sh
+          source ./sh/lib.sh
           exit_non_zero_if_bad_base_image "${{ inputs.BASE_IMAGE }}"
 
       - name: Set outputs
