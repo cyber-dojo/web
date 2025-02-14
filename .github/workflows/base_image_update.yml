@@ -1,7 +1,7 @@
 name: Base Image Update
 
 on:
-  workflow_call:
+  repository_dispatch:
     inputs:
       base_image_name:
         description: "Dockerfile FROM ${BASE_IMAGE} : name, eg cyberdojo/web-base"
