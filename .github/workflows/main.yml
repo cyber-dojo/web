@@ -30,7 +30,6 @@ env:
 
   AWS_ECR_ID: ${{ vars.AWS_ECR_ID }}
   AWS_REGION: ${{ vars.AWS_REGION }}
-  AWS_ACCOUNT_ID: ${{ vars.AWS_ACCOUNT_ID }}
   AWS_ACCOUNT_ID_BETA: ${{ vars.AWS_ACCOUNT_ID_BETA }}
   AWS_ACCOUNT_ID_PROD: ${{ vars.AWS_ACCOUNT_ID_PROD }}
   SERVICE_NAME: ${{ github.event.repository.name }}  # web
@@ -43,7 +42,6 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     outputs:
-      aws_account_id: ${{ steps.vars.outputs.aws_account_id }}
       aws_account_id_beta: ${{ steps.vars.outputs.aws_account_id_beta }}
       aws_account_id_prod: ${{ steps.vars.outputs.aws_account_id_prod }}
       ecr_registry: ${{ steps.vars.outputs.ecr_registry }}
@@ -67,7 +65,6 @@ jobs:
           ECR_REGISTRY="${AWS_ECR_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"          
           IMAGE_NAME="${ECR_REGISTRY}/${{ env.SERVICE_NAME }}:${IMAGE_TAG}"
 
-          echo "aws_account_id=${AWS_ACCOUNT_ID}"             >> ${GITHUB_OUTPUT}          
           echo "aws_account_id_beta=${AWS_ACCOUNT_ID_BETA}"   >> ${GITHUB_OUTPUT}          
           echo "aws_account_id_prod=${AWS_ACCOUNT_ID_PROD}"   >> ${GITHUB_OUTPUT}          
           echo "ecr_registry=${ECR_REGISTRY}"                 >> ${GITHUB_OUTPUT}
@@ -163,7 +160,7 @@ jobs:
           aws-region: ${{ needs.setup.outputs.aws_region }}
           role-duration-seconds: 900
           role-session-name: ${{ github.event.repository.name }}
-          role-to-assume: arn:aws:iam::${{ needs.setup.outputs.aws_account_id }}:role/${{ needs.setup.outputs.gh_actions_iam_role_name }}
+          role-to-assume: arn:aws:iam::${{ needs.setup.outputs.aws_account_id_beta }}:role/${{ needs.setup.outputs.gh_actions_iam_role_name }}
           mask-aws-account-id: no
 
       - name: Login to Amazon ECR
