@@ -319,7 +319,7 @@ jobs:
       aws_default_region: ${{ needs.setup.outputs.aws_region }}
       aws_role_duration: 900
       working_directory: deployment/terraform/
-      tf_apply: 'true'
+      tf_apply: true
       tf_version: v1.9.1
       tf_additional_env_vars: '{"TF_VAR_TAGGED_IMAGE": "${{ needs.setup.outputs.ecr_registry }}/${{ needs.setup.outputs.service_name }}:${{ needs.setup.outputs.image_tag }}@sha256:${{ needs.build-image.outputs.digest }}"}'
 
@@ -363,7 +363,7 @@ jobs:
       aws_default_region: ${{ needs.setup.outputs.aws_region }}
       aws_role_duration: 900
       working_directory: deployment/terraform/
-      tf_apply: 'true'
+      tf_apply: true
       tf_version: v1.9.1
       tf_additional_env_vars: '{"TF_VAR_TAGGED_IMAGE": "${{ needs.setup.outputs.ecr_registry }}/${{ needs.setup.outputs.service_name }}:${{ needs.setup.outputs.image_tag }}@sha256:${{ needs.build-image.outputs.digest }}"}'
 
