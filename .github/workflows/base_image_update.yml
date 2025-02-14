@@ -1,18 +1,20 @@
 name: Base Image Update
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       base_image_name:
-        description: "Dockerfile FROM ${BASE_IMAGE} : name"
+        description: "Dockerfile FROM ${BASE_IMAGE} : name, eg cyberdojo/web-base"
         required: true
-        default: "cyberdojo/web-base"
+        type: string
       base_image_tag:
-        description: "Dockerfile FROM ${BASE_IMAGE} : tag, eg edb2887"
+        description: "Dockerfile FROM ${BASE_IMAGE} : tag (7 chars), eg edb2887"
         required: true
+        type: string
       base_image_digest:
-        description: "Dockerfile FROM ${BASE_IMAGE} : digest, eg ddab9080c..."
+        description: "Dockerfile FROM ${BASE_IMAGE} : digest (64 chars), eg 4e8ab221dcf6378dda480cc59cd657314a2a5fcb3220d319b4a9f6cbbf5d5a3a"
         required: true
+        type: string
 
 
 jobs:
