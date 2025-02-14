@@ -160,7 +160,7 @@ jobs:
           aws-region: ${{ needs.setup.outputs.aws_region }}
           role-duration-seconds: 900
           role-session-name: ${{ github.event.repository.name }}
-          role-to-assume: arn:aws:iam::${{ needs.setup.outputs.aws_account_id }}:role/${{ needs.setup.outputs.gh_actions_iam_role_name }}
+          role-to-assume: arn:aws:iam::${{ needs.setup.outputs.aws_account_id_beta }}:role/${{ needs.setup.outputs.gh_actions_iam_role_name }}
           mask-aws-account-id: no
 
       - name: Login to Amazon ECR
