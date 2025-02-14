@@ -15,9 +15,9 @@ jobs:
       - name: Outputs
         id: vars
         run: | 
-          NAME="${{ github.event.client_payload.base_image_name }}"
-          TAG="${{ github.event.client_payload.base_image_tag }}"
-          DIGEST="${{ github.event.client_payload.base_image_digest }}"
+          NAME="${{ github.event.client_payload.name }}"
+          TAG="${{ github.event.client_payload.tag }}"
+          DIGEST="${{ github.event.client_payload.digest }}"
           echo "base_image=${NAME}:${TAG}@sha256:${DIGEST}" >> ${GITHUB_OUTPUT}
           echo "kosli_trail=base-image-update-${TAG}"       >> ${GITHUB_OUTPUT}
       
