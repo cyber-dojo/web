@@ -28,9 +28,10 @@ env:
   KOSLI_FLOW: ${{ vars.KOSLI_FLOW  }}                # web-ci
   KOSLI_TRAIL: ${{ inputs.KOSLI_TRAIL }}
 
-  AWS_ACCOUNT_ID: ${{ vars.AWS_ACCOUNT_ID }}
   AWS_ECR_ID: ${{ vars.AWS_ECR_ID }}
   AWS_REGION: ${{ vars.AWS_REGION }}
+  AWS_ACCOUNT_ID_BETA: ${{ vars.AWS_ACCOUNT_ID_BETA }}
+  AWS_ACCOUNT_ID_PROD: ${{ vars.AWS_ACCOUNT_ID_PROD }}
   SERVICE_NAME: ${{ github.event.repository.name }}  # web
   IMAGE_TAR_FILENAME: /tmp/${{ github.event.repository.name }}:${{ github.sha }}.tar
   DOCKER_API_VERSION: ${{ vars.DOCKER_API_VERSION }}
@@ -41,7 +42,8 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     outputs:
-      aws_account_id: ${{ steps.vars.outputs.aws_account_id }}
+      aws_account_id_beta: ${{ steps.vars.outputs.aws_account_id_beta }}
+      aws_account_id_prod: ${{ steps.vars.outputs.aws_account_id_prod }}
       ecr_registry: ${{ steps.vars.outputs.ecr_registry }}
       aws_region: ${{ steps.vars.outputs.aws_region }}
       gh_actions_iam_role_name: ${{ steps.vars.outputs.gh_actions_iam_role_name }}
@@ -63,7 +65,8 @@ jobs:
           ECR_REGISTRY="${AWS_ECR_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"          
           IMAGE_NAME="${ECR_REGISTRY}/${{ env.SERVICE_NAME }}:${IMAGE_TAG}"
 
-          echo "aws_account_id=${AWS_ACCOUNT_ID}"             >> ${GITHUB_OUTPUT}          
+          echo "aws_account_id_beta=${AWS_ACCOUNT_ID_BETA}"   >> ${GITHUB_OUTPUT}          
+          echo "aws_account_id_prod=${AWS_ACCOUNT_ID_PROD}"   >> ${GITHUB_OUTPUT}          
           echo "ecr_registry=${ECR_REGISTRY}"                 >> ${GITHUB_OUTPUT}
           echo "aws_region=${AWS_REGION}"                     >> ${GITHUB_OUTPUT}
           echo "gh_actions_iam_role_name=gh_actions_services" >> ${GITHUB_OUTPUT}
@@ -157,7 +160,7 @@ jobs:
           aws-region: ${{ needs.setup.outputs.aws_region }}
           role-duration-seconds: 900
           role-session-name: ${{ github.event.repository.name }}
-          role-to-assume: arn:aws:iam::${{ needs.setup.outputs.aws_account_id }}:role/${{ needs.setup.outputs.gh_actions_iam_role_name }}
+          role-to-assume: arn:aws:iam::${{ needs.setup.outputs.aws_account_id_beta }}:role/${{ needs.setup.outputs.gh_actions_iam_role_name }}
           mask-aws-account-id: no
 
       - name: Login to Amazon ECR
@@ -304,13 +307,29 @@ jobs:
             --approver="${{ github.actor }}"
 
 
+#  deploy-to-beta:
+#    needs: [setup, build-image, approve-deployment-to-beta]
+#    uses: ./.github/workflows/sub_deploy_to_beta.yml
+#    with:
+#      IMAGE_TAG: ${{ needs.setup.outputs.image_tag }}@sha256:${{ needs.build-image.outputs.digest }}
+#    secrets:
+#      KOSLI_API_TOKEN: ${{ secrets.KOSLI_API_TOKEN }}
+
   deploy-to-beta:
     needs: [setup, build-image, approve-deployment-to-beta]
-    uses: ./.github/workflows/sub_deploy_to_beta.yml
+    permissions:
+      id-token: write
+      contents: write
+    uses: fivexl/gh-workflow-tf-plan-apply/.github/workflows/base.yml@v0.0.20
     with:
-      IMAGE_TAG: ${{ needs.setup.outputs.image_tag }}@sha256:${{ needs.build-image.outputs.digest }}
-    secrets:
-      KOSLI_API_TOKEN: ${{ secrets.KOSLI_API_TOKEN }}
+      aws_region: ${{ needs.setup.outputs.aws_region }}
+      aws_role_arn: arn:aws:iam::${{ needs.setup.outputs.aws_account_id_beta }}:role/${{ needs.setup.outputs.gh_actions_iam_role_name }}
+      aws_default_region: ${{ needs.setup.outputs.aws_region }}
+      aws_role_duration: 900
+      working_directory: deployment/terraform/
+      tf_apply: true
+      tf_version: v1.9.1
+      tf_additional_env_vars: '{"TF_VAR_TAGGED_IMAGE": "${{ needs.variables.outputs.ecr_registry }}/${{ needs.variables.outputs.service_name }}:${{ needs.variables.outputs.image_tag }}@sha256:${{ needs.build-image.outputs.digest }}"}'
 
 
   approve-deployment-to-prod:
@@ -340,13 +359,29 @@ jobs:
             --approver="${{ github.actor }}"
 
 
+#  deploy-to-prod:
+#    needs: [setup, build-image, approve-deployment-to-prod]
+#    uses: ./.github/workflows/sub_deploy_to_prod.yml
+#    with:
+#      IMAGE_TAG: ${{ needs.setup.outputs.image_tag }}@sha256:${{ needs.build-image.outputs.digest }}
+#    secrets:
+#      KOSLI_API_TOKEN: ${{ secrets.KOSLI_API_TOKEN }}
+
   deploy-to-prod:
     needs: [setup, build-image, approve-deployment-to-prod]
-    uses: ./.github/workflows/sub_deploy_to_prod.yml
+    permissions:
+      id-token: write
+      contents: write
+    uses: fivexl/gh-workflow-tf-plan-apply/.github/workflows/base.yml@v0.0.20
     with:
-      IMAGE_TAG: ${{ needs.setup.outputs.image_tag }}@sha256:${{ needs.build-image.outputs.digest }}
-    secrets:
-      KOSLI_API_TOKEN: ${{ secrets.KOSLI_API_TOKEN }}
+      aws_region: ${{ needs.setup.outputs.aws_region }}
+      aws_role_arn: arn:aws:iam::${{ needs.setup.outputs.aws_account_id_prod }}:role/${{ needs.setup.outputs.gh_actions_iam_role_name }}
+      aws_default_region: ${{ needs.setup.outputs.aws_region }}
+      aws_role_duration: 900
+      working_directory: deployment/terraform/
+      tf_apply: true
+      tf_version: v1.9.1
+      tf_additional_env_vars: '{"TF_VAR_TAGGED_IMAGE": "${{ needs.variables.outputs.ecr_registry }}/${{ needs.variables.outputs.service_name }}:${{ needs.variables.outputs.image_tag }}@sha256:${{ needs.build-image.outputs.digest }}"}'
 
 
   # The cyberdojo/versioner refresh-env.sh script
