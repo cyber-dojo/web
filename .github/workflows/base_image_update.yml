@@ -9,7 +9,7 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     outputs:
-      base_image: ${{ steps.vars.outputs.base_image }}
+      base_image:  ${{ steps.vars.outputs.base_image }}
       kosli_trail: ${{ steps.vars.outputs.kosli_trail }}
     steps:
       - name: Outputs
