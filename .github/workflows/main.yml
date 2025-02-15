@@ -21,20 +21,20 @@ on:
 
 
 env:
-  KOSLI_DRY_RUN: ${{ vars.KOSLI_DRY_RUN }}           # false
-  KOSLI_HOST: ${{ vars.KOSLI_HOST }}                 # https://app.kosli.com
-  KOSLI_ORG: ${{ vars.KOSLI_ORG }}                   # cyber-dojo
+  KOSLI_DRY_RUN:   ${{ vars.KOSLI_DRY_RUN }}           # false
+  KOSLI_HOST:      ${{ vars.KOSLI_HOST }}              # https://app.kosli.com
+  KOSLI_ORG:       ${{ vars.KOSLI_ORG }}               # cyber-dojo
   KOSLI_API_TOKEN: ${{ secrets.KOSLI_API_TOKEN }}
-  KOSLI_FLOW: ${{ vars.KOSLI_FLOW  }}                # web-ci
-  KOSLI_TRAIL: ${{ inputs.KOSLI_TRAIL }}
+  KOSLI_FLOW:      ${{ vars.KOSLI_FLOW  }}             # web-ci
+  KOSLI_TRAIL:     ${{ inputs.KOSLI_TRAIL }}
 
-  AWS_ECR_ID: ${{ vars.AWS_ECR_ID }}
-  AWS_REGION: ${{ vars.AWS_REGION }}
+  AWS_ECR_ID:          ${{ vars.AWS_ECR_ID }}
+  AWS_REGION:          ${{ vars.AWS_REGION }}
   AWS_ACCOUNT_ID_BETA: ${{ vars.AWS_ACCOUNT_ID_BETA }}
   AWS_ACCOUNT_ID_PROD: ${{ vars.AWS_ACCOUNT_ID_PROD }}
-  SERVICE_NAME: ${{ github.event.repository.name }}  # web
-  IMAGE_TAR_FILENAME: /tmp/${{ github.event.repository.name }}:${{ github.sha }}.tar
-  DOCKER_API_VERSION: ${{ vars.DOCKER_API_VERSION }}
+  DOCKER_API_VERSION:  ${{ vars.DOCKER_API_VERSION }}
+  SERVICE_NAME:        ${{ github.event.repository.name }}  # web
+  IMAGE_TAR_FILENAME:  /tmp/${{ github.event.repository.name }}:${{ github.sha }}.tar
 
 
 jobs:
@@ -42,14 +42,14 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     outputs:
-      aws_account_id_beta: ${{ steps.vars.outputs.aws_account_id_beta }}
-      aws_account_id_prod: ${{ steps.vars.outputs.aws_account_id_prod }}
-      ecr_registry: ${{ steps.vars.outputs.ecr_registry }}
-      aws_region: ${{ steps.vars.outputs.aws_region }}
+      aws_account_id_beta:      ${{ steps.vars.outputs.aws_account_id_beta }}
+      aws_account_id_prod:      ${{ steps.vars.outputs.aws_account_id_prod }}
+      ecr_registry:             ${{ steps.vars.outputs.ecr_registry }}
+      aws_region:               ${{ steps.vars.outputs.aws_region }}
       gh_actions_iam_role_name: ${{ steps.vars.outputs.gh_actions_iam_role_name }}
-      service_name: ${{ steps.vars.outputs.service_name }}
-      image_tag: ${{ steps.vars.outputs.image_tag }}
-      image_name: ${{ steps.vars.outputs.image_name }}
+      service_name:             ${{ steps.vars.outputs.service_name }}
+      image_tag:                ${{ steps.vars.outputs.image_tag }}
+      image_name:               ${{ steps.vars.outputs.image_name }}
     steps:
       - uses: actions/checkout@v4
 
@@ -61,8 +61,8 @@ jobs:
       - name: Set outputs
         id: vars
         run: |
-          IMAGE_TAG=${GITHUB_SHA:0:7}
           ECR_REGISTRY="${AWS_ECR_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"          
+          IMAGE_TAG=${GITHUB_SHA:0:7}
           IMAGE_NAME="${ECR_REGISTRY}/${{ env.SERVICE_NAME }}:${IMAGE_TAG}"
 
           echo "aws_account_id_beta=${AWS_ACCOUNT_ID_BETA}"   >> ${GITHUB_OUTPUT}          
@@ -70,7 +70,7 @@ jobs:
           echo "ecr_registry=${ECR_REGISTRY}"                 >> ${GITHUB_OUTPUT}
           echo "aws_region=${AWS_REGION}"                     >> ${GITHUB_OUTPUT}
           echo "gh_actions_iam_role_name=gh_actions_services" >> ${GITHUB_OUTPUT}
-          echo "service_name=${{ env.SERVICE_NAME }}"         >> ${GITHUB_OUTPUT}
+          echo "service_name=${SERVICE_NAME}"                 >> ${GITHUB_OUTPUT}
           echo "image_tag=${IMAGE_TAG}"                       >> ${GITHUB_OUTPUT}
           echo "image_name=${IMAGE_NAME}"                     >> ${GITHUB_OUTPUT}          
           
@@ -80,8 +80,8 @@ jobs:
     needs: []
     runs-on: ubuntu-latest
     permissions:
-      id-token: write
-      contents: read
+      id-token:      write
+      contents:      read
       pull-requests: read
     steps:
       - uses: actions/checkout@v4
@@ -118,9 +118,9 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         run:
           snyk code test 
+            --policy-path=.snyk 
             --sarif 
             --sarif-file-output="${SARIF_FILENAME}" 
-            --policy-path=.snyk 
             .
 
       - name: Setup Kosli CLI
@@ -157,11 +157,11 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-region: ${{ needs.setup.outputs.aws_region }}
+          aws-region:            ${{ needs.setup.outputs.aws_region }}
           role-duration-seconds: 900
-          role-session-name: ${{ github.event.repository.name }}
-          role-to-assume: arn:aws:iam::${{ needs.setup.outputs.aws_account_id_beta }}:role/${{ needs.setup.outputs.gh_actions_iam_role_name }}
-          mask-aws-account-id: no
+          role-session-name:     ${{ github.event.repository.name }}
+          role-to-assume:        arn:aws:iam::${{ needs.setup.outputs.aws_account_id_beta }}:role/${{ needs.setup.outputs.gh_actions_iam_role_name }}
+          mask-aws-account-id:   no
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -171,10 +171,10 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v6
         with:
-          context: .
+          context:  .
           no-cache: true
-          push: true
-          tags: ${{ env.IMAGE_NAME }}
+          push:     true
+          tags:     ${{ env.IMAGE_NAME }}
           build-args: |
             COMMIT_SHA=${{ github.sha }}
             BASE_IMAGE=${{ inputs.BASE_IMAGE }}
@@ -197,7 +197,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ env.IMAGE_TAR_FILENAME }}
-          key: ${{ env.IMAGE_NAME }}
+          key:  ${{ env.IMAGE_NAME }}
 
       - name: Setup Kosli CLI
         uses: kosli-dev/setup-cli-action@v2
@@ -228,7 +228,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ env.IMAGE_TAR_FILENAME }}
-          key: ${{ env.IMAGE_NAME }}
+          key:  ${{ env.IMAGE_NAME }}
 
       - name: Load Docker image
         run:
@@ -288,7 +288,7 @@ jobs:
       KOSLI_FINGERPRINT: ${{ needs.build-image.outputs.digest }}
     environment:
       name: staging
-      url: https://beta.cyber-dojo.org
+      url:  https://beta.cyber-dojo.org
     steps:
       - uses: actions/checkout@v4
         with:
@@ -314,13 +314,13 @@ jobs:
       contents: write
     uses: fivexl/gh-workflow-tf-plan-apply/.github/workflows/base.yml@v0.0.20
     with:
-      aws_region: ${{ needs.setup.outputs.aws_region }}
-      aws_role_arn: arn:aws:iam::${{ needs.setup.outputs.aws_account_id_beta }}:role/${{ needs.setup.outputs.gh_actions_iam_role_name }}
-      aws_default_region: ${{ needs.setup.outputs.aws_region }}
-      aws_role_duration: 900
-      working_directory: deployment/terraform/
-      tf_apply: true
-      tf_version: v1.9.1
+      aws_region:             ${{ needs.setup.outputs.aws_region }}
+      aws_role_arn:           arn:aws:iam::${{ needs.setup.outputs.aws_account_id_beta }}:role/${{ needs.setup.outputs.gh_actions_iam_role_name }}
+      aws_default_region:     ${{ needs.setup.outputs.aws_region }}
+      aws_role_duration:      900
+      working_directory:      deployment/terraform/
+      tf_apply:               true
+      tf_version:             v1.9.1
       tf_additional_env_vars: '{"TF_VAR_TAGGED_IMAGE": "${{ needs.setup.outputs.ecr_registry }}/${{ needs.setup.outputs.service_name }}:${{ needs.setup.outputs.image_tag }}@sha256:${{ needs.build-image.outputs.digest }}"}'
 
 
@@ -332,7 +332,7 @@ jobs:
       KOSLI_FINGERPRINT: ${{ needs.build-image.outputs.digest }}
     environment:
       name: production
-      url: https://cyber-dojo.org
+      url:  https://cyber-dojo.org
     steps:
       - uses: actions/checkout@v4
         with:
@@ -358,13 +358,13 @@ jobs:
       contents: write
     uses: fivexl/gh-workflow-tf-plan-apply/.github/workflows/base.yml@v0.0.20
     with:
-      aws_region: ${{ needs.setup.outputs.aws_region }}
-      aws_role_arn: arn:aws:iam::${{ needs.setup.outputs.aws_account_id_prod }}:role/${{ needs.setup.outputs.gh_actions_iam_role_name }}
-      aws_default_region: ${{ needs.setup.outputs.aws_region }}
-      aws_role_duration: 900
-      working_directory: deployment/terraform/
-      tf_apply: true
-      tf_version: v1.9.1
+      aws_region:             ${{ needs.setup.outputs.aws_region }}
+      aws_role_arn:           arn:aws:iam::${{ needs.setup.outputs.aws_account_id_prod }}:role/${{ needs.setup.outputs.gh_actions_iam_role_name }}
+      aws_default_region:     ${{ needs.setup.outputs.aws_region }}
+      aws_role_duration:      900
+      working_directory:      deployment/terraform/
+      tf_apply:               true
+      tf_version:             v1.9.1
       tf_additional_env_vars: '{"TF_VAR_TAGGED_IMAGE": "${{ needs.setup.outputs.ecr_registry }}/${{ needs.setup.outputs.service_name }}:${{ needs.setup.outputs.image_tag }}@sha256:${{ needs.build-image.outputs.digest }}"}'
 
 
@@ -380,13 +380,13 @@ jobs:
     runs-on: ubuntu-latest
     env:
       IMAGE_NAME: ${{ needs.setup.outputs.image_name }}
-      IMAGE_TAG: ${{ needs.setup.outputs.image_tag }}
+      IMAGE_TAG:  ${{ needs.setup.outputs.image_tag }}
     steps:
       - name: Retrieve Docker image from cache
         uses: actions/cache@v4
         with:
           path: ${{ env.IMAGE_TAR_FILENAME }}
-          key: ${{ env.IMAGE_NAME }}
+          key:  ${{ env.IMAGE_NAME }}
 
       - name: Load Docker image
         run:
