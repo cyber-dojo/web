@@ -66,7 +66,7 @@ class ReviewTest < AppControllerTestBase
 
   def assert_review_show(id, was_index, now_index)
     params = { id:id, was_index:was_index, now_index:now_index }
-    get '/review/show', params:params, as: :html
+    get '/review/show', params:params
     assert_response :success
   end
 
