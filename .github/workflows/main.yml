@@ -21,10 +21,11 @@ on:
 
 
 env:
+  KOSLI_API_TOKEN: ${{ secrets.KOSLI_API_TOKEN }}
+  KOSLI_DEBUG:     ${{ vars.KOSLI_DEBUG }}             # true/false
   KOSLI_DRY_RUN:   ${{ vars.KOSLI_DRY_RUN }}           # false
   KOSLI_HOST:      ${{ vars.KOSLI_HOST }}              # https://app.kosli.com
   KOSLI_ORG:       ${{ vars.KOSLI_ORG }}               # cyber-dojo
-  KOSLI_API_TOKEN: ${{ secrets.KOSLI_API_TOKEN }}
   KOSLI_FLOW:      ${{ vars.KOSLI_FLOW  }}             # web-ci
   KOSLI_TRAIL:     ${{ inputs.KOSLI_TRAIL }}
 
@@ -278,6 +279,7 @@ jobs:
       - name: Kosli SDLC gate to short-circuit the workflow
         run:
           kosli assert artifact ${IMAGE_NAME}
+            --environment=aws-beta
 
 
   approve-deployment-to-beta:
@@ -300,11 +302,10 @@ jobs:
           version: ${{ vars.KOSLI_CLI_VERSION }}
 
       - name: Attest approval of deployment to Kosli
-        env:
-          KOSLI_ENVIRONMENT: aws-beta
         run:
           kosli report approval ${IMAGE_NAME}
             --approver="${{ github.actor }}"
+            --environment=aws-beta
 
 
   deploy-to-beta:
@@ -344,11 +345,10 @@ jobs:
           version: ${{ vars.KOSLI_CLI_VERSION }}
 
       - name: Attest approval of deployment to Kosli
-        env:
-          KOSLI_ENVIRONMENT: aws-prod
         run:
           kosli report approval ${IMAGE_NAME}
             --approver="${{ github.actor }}"
+            --environment=aws-prod
 
 
   deploy-to-prod:
