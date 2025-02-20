@@ -22,6 +22,8 @@ on:
 
 env:
   KOSLI_API_TOKEN: ${{ secrets.KOSLI_API_TOKEN }}
+  KOSLI_AWS_BETA:  ${{ vars.KOSLI_AWS_BETA }}          # aws-beta
+  KOSLI_AWS_PROD:  ${{ vars.KOSLI_AWS_PROD }}          # aws-prod
   KOSLI_DEBUG:     ${{ vars.KOSLI_DEBUG }}             # true/false
   KOSLI_DRY_RUN:   ${{ vars.KOSLI_DRY_RUN }}           # false
   KOSLI_HOST:      ${{ vars.KOSLI_HOST }}              # https://app.kosli.com
@@ -78,7 +80,7 @@ jobs:
 
   pull-request:
     if: ${{ github.ref == 'refs/heads/main' }}
-    needs: []
+    needs: [setup]
     runs-on: ubuntu-latest
     permissions:
       id-token:      write
@@ -102,7 +104,7 @@ jobs:
 
 
   snyk-code-scan:
-    needs: []
+    needs: [setup]
     runs-on: ubuntu-latest
     env:
       SARIF_FILENAME: snyk.code.scan.json
@@ -243,7 +245,6 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         run:
           snyk container test ${IMAGE_NAME} 
-            --file=Dockerfile 
             --policy-path=.snyk
             --sarif 
             --sarif-file-output="${SARIF_FILENAME}" 
@@ -279,7 +280,7 @@ jobs:
       - name: Kosli SDLC gate to short-circuit the workflow
         run:
           kosli assert artifact ${IMAGE_NAME}
-            --environment=aws-beta
+            --environment=${KOSLI_AWS_BETA}
 
 
   approve-deployment-to-beta:
@@ -305,7 +306,7 @@ jobs:
         run:
           kosli report approval ${IMAGE_NAME}
             --approver="${{ github.actor }}"
-            --environment=aws-beta
+            --environment=${KOSLI_AWS_BETA}
 
 
   deploy-to-beta:
@@ -348,7 +349,7 @@ jobs:
         run:
           kosli report approval ${IMAGE_NAME}
             --approver="${{ github.actor }}"
-            --environment=aws-prod
+            --environment=${KOSLI_AWS_PROD}
 
 
   deploy-to-prod:
