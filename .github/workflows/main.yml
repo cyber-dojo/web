@@ -86,6 +86,7 @@ jobs:
         if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
         run:
           kosli begin trail "${KOSLI_TRAIL}"
+            --template-file=.kosli.yml
 
 
   pull-request:
