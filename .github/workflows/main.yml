@@ -19,7 +19,6 @@ on:
       KOSLI_API_TOKEN:
         required: true
 
-
 env:
   KOSLI_API_TOKEN: ${{ secrets.KOSLI_API_TOKEN }}
   KOSLI_AWS_BETA:  ${{ vars.KOSLI_AWS_BETA }}          # aws-beta
@@ -77,6 +76,17 @@ jobs:
           echo "image_tag=${IMAGE_TAG}"                       >> ${GITHUB_OUTPUT}
           echo "image_name=${IMAGE_NAME}"                     >> ${GITHUB_OUTPUT}          
           
+      - name: Setup Kosli CLI
+        if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
+        uses: kosli-dev/setup-cli-action@v2
+        with:
+          version: ${{ vars.KOSLI_CLI_VERSION }}
+
+      - name: Begin Kosli Trail
+        if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
+        run:
+          kosli begin trail "${KOSLI_TRAIL}"
+
 
   pull-request:
     if: ${{ github.ref == 'refs/heads/main' }}
@@ -194,7 +204,8 @@ jobs:
 
       - name: Save Docker image
         run:
-          docker image save ${IMAGE_NAME} --output ${IMAGE_TAR_FILENAME}
+          docker image save ${IMAGE_NAME}
+            --output ${IMAGE_TAR_FILENAME}
 
       - name: Cache Docker image
         uses: actions/cache@v4
@@ -235,7 +246,8 @@ jobs:
 
       - name: Load Docker image
         run:
-          docker image load --input "${IMAGE_TAR_FILENAME}"
+          docker image load
+            --input "${IMAGE_TAR_FILENAME}"
 
       - name: Setup Snyk
         uses: snyk/actions/setup@master
