@@ -327,7 +327,7 @@ jobs:
     permissions:
       id-token: write
       contents: write
-    uses: fivexl/gh-workflow-tf-plan-apply/.github/workflows/base.yml@v0.0.21
+    uses: fivexl/gh-workflow-tf-plan-apply/.github/workflows/base.yml@v0.0.23
     with:
       aws_region:             ${{ needs.setup.outputs.aws_region }}
       aws_role_arn:           arn:aws:iam::${{ needs.setup.outputs.aws_account_id_beta }}:role/${{ needs.setup.outputs.gh_actions_iam_role_name }}
@@ -339,44 +339,5 @@ jobs:
       tf_additional_env_vars: '{"TF_VAR_TAGGED_IMAGE": "${{ needs.setup.outputs.ecr_registry }}/${{ needs.setup.outputs.service_name }}:${{ needs.setup.outputs.image_tag }}@sha256:${{ needs.build-image.outputs.digest }}"}'
 
 
-  approve-deployment-to-prod:
-    needs: [setup, build-image, deploy-to-beta]
-    runs-on: ubuntu-latest
-    env:
-      IMAGE_NAME:        ${{ needs.setup.outputs.image_name }}
-      KOSLI_FINGERPRINT: ${{ needs.build-image.outputs.digest }}
-    environment:
-      name: production
-      url:  https://cyber-dojo.org
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Setup Kosli CLI
-        uses: kosli-dev/setup-cli-action@v2
-        with:
-          version: ${{ vars.KOSLI_CLI_VERSION }}
-
-      - name: Attest approval of deployment to Kosli
-        run:
-          kosli report approval ${IMAGE_NAME}
-            --approver="${{ github.actor }}"
-            --environment=${KOSLI_AWS_PROD}
-
-
-  deploy-to-prod:
-    needs: [setup, build-image, approve-deployment-to-prod]
-    permissions:
-      id-token: write
-      contents: write
-    uses: fivexl/gh-workflow-tf-plan-apply/.github/workflows/base.yml@v0.0.21
-    with:
-      aws_region:             ${{ needs.setup.outputs.aws_region }}
-      aws_role_arn:           arn:aws:iam::${{ needs.setup.outputs.aws_account_id_prod }}:role/${{ needs.setup.outputs.gh_actions_iam_role_name }}
-      aws_default_region:     ${{ needs.setup.outputs.aws_region }}
-      aws_role_duration:      900
-      working_directory:      deployment/terraform/
-      tf_apply:               true
-      tf_version:             v1.9.1
-      tf_additional_env_vars: '{"TF_VAR_TAGGED_IMAGE": "${{ needs.setup.outputs.ecr_registry }}/${{ needs.setup.outputs.service_name }}:${{ needs.setup.outputs.image_tag }}@sha256:${{ needs.build-image.outputs.digest }}"}'
+# Deployment to aws-prod Environment is done with a Promotion workflow.
+# See https://github.com/cyber-dojo/aws-prod-co-promotion
