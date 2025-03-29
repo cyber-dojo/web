@@ -4,6 +4,14 @@
 
 # Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
 version: v1.25.0
+
+ignore:
+  SNYK-ALPINE321-EXPAT-9459843:
+    - '*':
+        reason: Waiting for fix
+        expires: 2025-04-08T10:03:36.581Z
+        created: 2025-03-08T10:03:36.589Z
+
 patch: {}
 exclude:
   global:
