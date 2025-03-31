@@ -10,10 +10,6 @@ on:
         required: true
         type: string
     secrets:
-      DOCKER_USER:
-        required: true
-      DOCKER_PASS:
-        required: true
       SNYK_TOKEN:
         required: true
       KOSLI_API_TOKEN:
