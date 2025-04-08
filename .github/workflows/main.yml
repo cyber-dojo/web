@@ -18,7 +18,6 @@ on:
 env:
   KOSLI_API_TOKEN: ${{ secrets.KOSLI_API_TOKEN }}
   KOSLI_AWS_BETA:  ${{ vars.KOSLI_AWS_BETA }}          # aws-beta
-  KOSLI_AWS_PROD:  ${{ vars.KOSLI_AWS_PROD }}          # aws-prod
   KOSLI_DEBUG:     ${{ vars.KOSLI_DEBUG }}             # true/false
   KOSLI_DRY_RUN:   ${{ vars.KOSLI_DRY_RUN }}           # false
   KOSLI_HOST:      ${{ vars.KOSLI_HOST }}              # https://app.kosli.com
@@ -29,10 +28,8 @@ env:
   AWS_ECR_ID:          ${{ vars.AWS_ECR_ID }}
   AWS_REGION:          ${{ vars.AWS_REGION }}
   AWS_ACCOUNT_ID_BETA: ${{ vars.AWS_ACCOUNT_ID_BETA }}
-  AWS_ACCOUNT_ID_PROD: ${{ vars.AWS_ACCOUNT_ID_PROD }}
   DOCKER_API_VERSION:  ${{ vars.DOCKER_API_VERSION }}
   SERVICE_NAME:        ${{ github.event.repository.name }}  # web
-  IMAGE_TAR_FILENAME:  /tmp/${{ github.event.repository.name }}:${{ github.sha }}.tar
 
 
 jobs:
@@ -41,7 +38,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       aws_account_id_beta:      ${{ steps.vars.outputs.aws_account_id_beta }}
-      aws_account_id_prod:      ${{ steps.vars.outputs.aws_account_id_prod }}
       ecr_registry:             ${{ steps.vars.outputs.ecr_registry }}
       aws_region:               ${{ steps.vars.outputs.aws_region }}
       gh_actions_iam_role_name: ${{ steps.vars.outputs.gh_actions_iam_role_name }}
@@ -64,7 +60,6 @@ jobs:
           IMAGE_NAME="${ECR_REGISTRY}/${{ env.SERVICE_NAME }}:${IMAGE_TAG}"
 
           echo "aws_account_id_beta=${AWS_ACCOUNT_ID_BETA}"   >> ${GITHUB_OUTPUT}          
-          echo "aws_account_id_prod=${AWS_ACCOUNT_ID_PROD}"   >> ${GITHUB_OUTPUT}          
           echo "ecr_registry=${ECR_REGISTRY}"                 >> ${GITHUB_OUTPUT}
           echo "aws_region=${AWS_REGION}"                     >> ${GITHUB_OUTPUT}
           echo "gh_actions_iam_role_name=gh_actions_services" >> ${GITHUB_OUTPUT}
@@ -150,15 +145,34 @@ jobs:
 
   build-image:
     needs: [setup]
-    runs-on: ubuntu-latest
-    env:
-      IMAGE_NAME: ${{ needs.setup.outputs.image_name }}
-      IMAGE_TAG:  ${{ needs.setup.outputs.image_tag }}
+    uses: cyber-dojo/reusable-actions-workflows/.github/workflows/secure-docker-build.yml@main
+    with:
+      CHECKOUT_REPOSITORY: cyber-dojo/web
+      CHECKOUT_REF: ${{ github.sha }}
+      CHECKOUT_FETCH_DEPTH: 1
+      IMAGE_NAME: ${{ needs.setup.outputs.ecr_registry }}/${{ needs.setup.outputs.service_name }}
+      IMAGE_TAG: ${{ needs.setup.outputs.image_tag }}
+      IMAGE_BUILD_ARGS: |
+        COMMIT_SHA=${{ github.sha }}
+        BASE_IMAGE=${{ inputs.BASE_IMAGE }}
+      ATTEST_TO_KOSLI: ${{ github.ref == 'refs/heads/main' }}
+      KOSLI_FLOW: ${{ vars.KOSLI_FLOW }}
+      KOSLI_TRAIL: ${{ github.sha }}
+      KOSLI_REFERENCE_NAME: ${{ needs.setup.outputs.service_name }}
+    secrets:
+      KOSLI_API_TOKEN: ${{ secrets.KOSLI_API_TOKEN }}
+
+
+  run-tests:
+    needs: [setup, build-image]
     permissions:
       id-token: write
-      contents: write
-    outputs:
-      digest: ${{ steps.variables.outputs.digest }}
+      contents: read
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME:        ${{ needs.setup.outputs.image_name }}
+      IMAGE_TAG:         ${{ needs.setup.outputs.image_tag }}
+      KOSLI_FINGERPRINT: ${{ needs.build-image.outputs.digest }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -177,54 +191,20 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build and push Docker image to Amazon ECR
-        id: docker_build
-        uses: docker/build-push-action@v6
-        with:
-          context:  .
-          no-cache: true
-          push:     true
-          tags:     ${{ env.IMAGE_NAME }}
-          build-args: |
-            COMMIT_SHA=${{ github.sha }}
-            BASE_IMAGE=${{ inputs.BASE_IMAGE }}
-
-      - name: Make artifact digest available to following jobs
-        id: variables
-        run: |
-          DIGEST=$(echo ${{ steps.docker_build.outputs.digest }} | sed 's/.*://')          
-          echo "digest=${DIGEST}" >> ${GITHUB_OUTPUT}
+      - name: Pull image from ECR registry
+        run:
+          docker image pull "${IMAGE_NAME}@sha256:${KOSLI_FINGERPRINT}"
 
       - name: Run tests
         run:
           make test
 
-      - name: Save Docker image
-        run:
-          docker image save ${IMAGE_NAME}
-            --output ${IMAGE_TAR_FILENAME}
-
-      - name: Cache Docker image
-        uses: actions/cache@v4
-        with:
-          path: ${{ env.IMAGE_TAR_FILENAME }}
-          key:  ${{ env.IMAGE_NAME }}
-
-      - name: Setup Kosli CLI
-        uses: kosli-dev/setup-cli-action@v2
-        with:
-          version: ${{ vars.KOSLI_CLI_VERSION }}
-
-      - name: Attest image provenance to Kosli
-        if: ${{ github.ref == 'refs/heads/main' }}
-        run:
-          kosli attest artifact "${IMAGE_NAME}"
-            --artifact-type=docker
-            --name=web
-
 
   snyk-container-scan:
     needs: [setup, build-image]
+    permissions:
+      id-token: write
+      contents: read
     runs-on: ubuntu-latest
     env:
       IMAGE_NAME:        ${{ needs.setup.outputs.image_name }}
@@ -235,16 +215,22 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Retrieve Docker image from cache
-        uses: actions/cache@v4
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          path: ${{ env.IMAGE_TAR_FILENAME }}
-          key:  ${{ env.IMAGE_NAME }}
+          aws-region:            ${{ needs.setup.outputs.aws_region }}
+          role-duration-seconds: 900
+          role-session-name:     ${{ github.event.repository.name }}
+          role-to-assume:        arn:aws:iam::${{ needs.setup.outputs.aws_account_id_beta }}:role/${{ needs.setup.outputs.gh_actions_iam_role_name }}
+          mask-aws-account-id:   no
 
-      - name: Load Docker image
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Pull image from ECR registry
         run:
-          docker image load
-            --input "${IMAGE_TAR_FILENAME}"
+          docker image pull "${IMAGE_NAME}@sha256:${KOSLI_FINGERPRINT}"
 
       - name: Setup Snyk
         uses: snyk/actions/setup@master
