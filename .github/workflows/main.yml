@@ -147,7 +147,7 @@ jobs:
     needs: [setup]
     uses: cyber-dojo/reusable-actions-workflows/.github/workflows/secure-docker-build.yml@main
     with:
-      CHECKOUT_REPOSITORY: cyber-dojo/nginx
+      CHECKOUT_REPOSITORY: cyber-dojo/web
       CHECKOUT_REF: ${{ github.sha }}
       CHECKOUT_FETCH_DEPTH: 1
       IMAGE_NAME: ${{ needs.setup.outputs.ecr_registry }}/${{ needs.setup.outputs.service_name }}
