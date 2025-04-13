@@ -20,9 +20,9 @@ echo_base_image_via_curl()
 
 echo_base_image_via_code()
 {
-  # An alternative echo_base_image for local development.
-  local -r tag=c617fee
-  local -r digest=ded8fe228c99f13f0496a7f696d619c8a3f1fd7c9c4020a3fd8442b6d5841617
+  # An alternative echo_base_image for local development and initial base-image update.
+  local -r tag=14645a0
+  local -r digest=1c01ad578dac7f384c727aef4300018c69f3e2abcaf5472eedf53ab7da91cc67
   echo "cyberdojo/web-base:${tag}@sha256:${digest}"
 }
 
