@@ -16,14 +16,14 @@ demo:
 probe_demo:
 	${PWD}/sh/probe_demo.sh
 
-snyk-container: image
+snyk-container-scan: image
 	snyk container test ${IMAGE_NAME} \
 		--file=Dockerfile \
 		--policy-path=.snyk \
 		--sarif \
 		--sarif-file-output=snyk.container.scan.json
 
-snyk-code:
+snyk-code-scan:
 	snyk code test \
 		--policy-path=.snyk \
 		--sarif \
