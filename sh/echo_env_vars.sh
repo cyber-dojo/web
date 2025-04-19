@@ -8,8 +8,8 @@ echo_base_image()
   # This BASE_IMAGE abstraction is to facilitate the base_image_update.yml workflow
   # which is an work-in-progress experiment to look into automating deployment to the staging environment
   # (https://beta.cyber-dojo.org) of a Dockerfile base-image update (eg to fix snyk vulnerabilities).
-  echo_base_image_via_curl
-  # echo_base_image_via_code
+  # echo_base_image_via_curl
+  echo_base_image_via_code
 }
 
 echo_base_image_via_curl()
@@ -21,8 +21,8 @@ echo_base_image_via_curl()
 echo_base_image_via_code()
 {
   # An alternative echo_base_image for local development and initial base-image update.
-  local -r tag=14645a0
-  local -r digest=1c01ad578dac7f384c727aef4300018c69f3e2abcaf5472eedf53ab7da91cc67
+  local -r tag=4338dc1
+  local -r digest=0c8b19058ec9b145e485aa19aa77da57d4b3e031c3e3afc2615baf75049356f4
   echo "cyberdojo/web-base:${tag}@sha256:${digest}"
 }
 
