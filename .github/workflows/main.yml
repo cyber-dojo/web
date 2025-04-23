@@ -147,53 +147,38 @@ jobs:
     needs: [setup]
     uses: cyber-dojo/reusable-actions-workflows/.github/workflows/secure-docker-build.yml@main
     with:
-      CHECKOUT_REPOSITORY: cyber-dojo/web
-      CHECKOUT_REF: ${{ github.sha }}
-      CHECKOUT_FETCH_DEPTH: 1
-      IMAGE_NAME: ${{ needs.setup.outputs.ecr_registry }}/${{ needs.setup.outputs.service_name }}
-      IMAGE_TAG: ${{ needs.setup.outputs.image_tag }}
-      IMAGE_BUILD_ARGS: |
+      checkout_repository: cyber-dojo/web
+      checkout_ref: ${{ github.sha }}
+      checkout_fetch_depth: 1
+      image_name: ${{ needs.setup.outputs.ecr_registry }}/${{ needs.setup.outputs.service_name }}
+      image_tag: ${{ needs.setup.outputs.image_tag }}
+      image_build_args: |
         COMMIT_SHA=${{ github.sha }}
         BASE_IMAGE=${{ inputs.BASE_IMAGE }}
-      ATTEST_TO_KOSLI: ${{ github.ref == 'refs/heads/main' }}
-      KOSLI_FLOW: ${{ vars.KOSLI_FLOW }}
-      KOSLI_TRAIL: ${{ github.sha }}
-      KOSLI_REFERENCE_NAME: ${{ needs.setup.outputs.service_name }}
+      kosli_flow: ${{ vars.KOSLI_FLOW }}
+      kosli_trail: ${{ github.sha }}
+      kosli_reference_name: ${{ needs.setup.outputs.service_name }}
+      attest_to_kosli: ${{ github.ref == 'refs/heads/main' }}
     secrets:
-      KOSLI_API_TOKEN: ${{ secrets.KOSLI_API_TOKEN }}
+      kosli_api_token: ${{ secrets.KOSLI_API_TOKEN }}
 
 
   run-tests:
     needs: [setup, build-image]
-    permissions:
-      id-token: write
-      contents: read
     runs-on: ubuntu-latest
     env:
       IMAGE_NAME:        ${{ needs.setup.outputs.image_name }}
       IMAGE_TAG:         ${{ needs.setup.outputs.image_tag }}
       KOSLI_FINGERPRINT: ${{ needs.build-image.outputs.digest }}
     steps:
+      - name: Download docker image
+        uses: cyber-dojo/download-artifact@main
+        with:
+          image_digest: ${{ needs.build-image.outputs.digest }}
+
       - uses: actions/checkout@v4
         with:
           fetch-depth: 1
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-region:            ${{ needs.setup.outputs.aws_region }}
-          role-duration-seconds: 900
-          role-session-name:     ${{ github.event.repository.name }}
-          role-to-assume:        arn:aws:iam::${{ needs.setup.outputs.aws_account_id_beta }}:role/${{ needs.setup.outputs.gh_actions_iam_role_name }}
-          mask-aws-account-id:   no
-
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
-
-      - name: Pull image from ECR registry
-        run:
-          docker image pull "${IMAGE_NAME}@sha256:${KOSLI_FINGERPRINT}"
 
       - name: Run tests
         run:
@@ -202,35 +187,20 @@ jobs:
 
   snyk-container-scan:
     needs: [setup, build-image]
-    permissions:
-      id-token: write
-      contents: read
     runs-on: ubuntu-latest
     env:
       IMAGE_NAME:        ${{ needs.setup.outputs.image_name }}
       KOSLI_FINGERPRINT: ${{ needs.build-image.outputs.digest }}
       SARIF_FILENAME:    snyk.container.scan.json
     steps:
+      - name: Download docker image
+        uses: cyber-dojo/download-artifact@main
+        with:
+          image_digest: ${{ needs.build-image.outputs.digest }}
+
       - uses: actions/checkout@v4
         with:
           fetch-depth: 1
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-region:            ${{ needs.setup.outputs.aws_region }}
-          role-duration-seconds: 900
-          role-session-name:     ${{ github.event.repository.name }}
-          role-to-assume:        arn:aws:iam::${{ needs.setup.outputs.aws_account_id_beta }}:role/${{ needs.setup.outputs.gh_actions_iam_role_name }}
-          mask-aws-account-id:   no
-
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
-
-      - name: Pull image from ECR registry
-        run:
-          docker image pull "${IMAGE_NAME}@sha256:${KOSLI_FINGERPRINT}"
 
       - name: Setup Snyk
         uses: snyk/actions/setup@master
