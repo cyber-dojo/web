@@ -1,8 +1,9 @@
 module "aws_ecr_repository" {
-  count               = var.env == "staging" ? 1 : 0
-  source              = "s3::https://s3-eu-central-1.amazonaws.com/terraform-modules-dacef8339fbd41ce31c346f854a85d0c74f7c4e8/terraform-modules.zip//ecr/v6"
-  ecr_repository_name = var.service_name
-  tags                = module.tags.result
+  count                = var.env == "staging" ? 1 : 0
+  source               = "s3::https://s3-eu-central-1.amazonaws.com/terraform-modules-dacef8339fbd41ce31c346f854a85d0c74f7c4e8/terraform-modules.zip//ecr/v6"
+  ecr_repository_name  = var.service_name
+  image_tag_mutability = "IMMUTABLE"
+  tags                 = module.tags.result
 }
 
 # Allow pull dev image for all Kosli org
