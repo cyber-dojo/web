@@ -242,6 +242,10 @@ jobs:
         with:
           version: ${{ vars.KOSLI_CLI_VERSION }}
 
+      - name: Display current compliance
+        run:
+          kosli get trail "${KOSLI_TRAIL}"
+
       - name: Kosli SDLC gate to short-circuit the workflow
         run:
           kosli assert artifact ${IMAGE_NAME}
