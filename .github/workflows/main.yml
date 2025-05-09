@@ -31,6 +31,7 @@ jobs:
       service_name:             ${{ steps.vars.outputs.service_name }}
       image_tag:                ${{ steps.vars.outputs.image_tag }}
       image_name:               ${{ steps.vars.outputs.image_name }}
+      kosli_trail:              ${{ steps.vars.outputs.kosli_trail }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -50,7 +51,8 @@ jobs:
           echo "service_name=${SERVICE_NAME}"                 >> ${GITHUB_OUTPUT}
           echo "image_tag=${IMAGE_TAG}"                       >> ${GITHUB_OUTPUT}
           echo "image_name=${IMAGE_NAME}"                     >> ${GITHUB_OUTPUT}          
-          
+          echo "kosli_trail=${KOSLI_TRAIL}"                   >> ${GITHUB_OUTPUT}          
+
       - name: Setup Kosli CLI
         if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
         uses: kosli-dev/setup-cli-action@v2
@@ -139,7 +141,7 @@ jobs:
       image_build_args: |
         COMMIT_SHA=${{ github.sha }}
       kosli_flow: ${{ vars.KOSLI_FLOW }}
-      kosli_trail: ${{ github.sha }}
+      kosli_trail: ${{ needs.setup.outputs.kosli_trail }}
       kosli_reference_name: ${{ needs.setup.outputs.service_name }}
       attest_to_kosli: ${{ github.ref == 'refs/heads/main' }}
     secrets:
