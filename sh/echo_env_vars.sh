@@ -1,37 +1,9 @@
 #!/usr/bin/env bash
 set -Eeu
 
-echo_base_image()
-{
-  # This is set to the env-var BASE_IMAGE which is set as a [docker compose build] --build-arg
-  # and used the Dockerfile's 'FROM ${BASE_IMAGE}' statement
-  # This BASE_IMAGE abstraction is to facilitate the base_image_update.yml workflow
-  # which is an work-in-progress experiment to look into automating deployment to the staging environment
-  # (https://beta.cyber-dojo.org) of a Dockerfile base-image update (eg to fix snyk vulnerabilities).
-  # echo_base_image_via_curl
-  echo_base_image_via_code
-}
-
-echo_base_image_via_curl()
-{
-  local -r json="$(curl --fail --silent --request GET https://beta.cyber-dojo.org/web/base_image)"
-  echo "${json}" | jq -r '.base_image'
-}
-
-echo_base_image_via_code()
-{
-  # An alternative echo_base_image for local development and initial base-image update.
-  local -r tag=9d9bcdf
-  local -r digest=fb42330022e2ed35b150724b9c105e163c634e103a69b4ca87e7c7deded93a96
-  echo "cyberdojo/web-base:${tag}@sha256:${digest}"
-}
-
 echo_env_vars()
 {
   # Set env-vars for this repo
-  if [[ ! -v BASE_IMAGE ]] ; then
-    echo BASE_IMAGE="$(echo_base_image)"  # --build-arg
-  fi
   if [[ ! -v COMMIT_SHA ]] ; then
     echo COMMIT_SHA="$(image_sha)"  # --build-arg
   fi
