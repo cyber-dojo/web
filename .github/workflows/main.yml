@@ -1,19 +1,7 @@
-name: Sub - main
+name: Main
 
 on:
-  workflow_call:
-    inputs:
-      BASE_IMAGE:
-        required: true
-        type: string
-      KOSLI_TRAIL:
-        required: true
-        type: string
-    secrets:
-      SNYK_TOKEN:
-        required: true
-      KOSLI_API_TOKEN:
-        required: true
+  push:
 
 env:
   KOSLI_API_TOKEN: ${{ secrets.KOSLI_API_TOKEN }}
@@ -23,14 +11,13 @@ env:
   KOSLI_HOST:      ${{ vars.KOSLI_HOST }}              # https://app.kosli.com
   KOSLI_ORG:       ${{ vars.KOSLI_ORG }}               # cyber-dojo
   KOSLI_FLOW:      ${{ vars.KOSLI_FLOW  }}             # web-ci
-  KOSLI_TRAIL:     ${{ inputs.KOSLI_TRAIL }}
+  KOSLI_TRAIL:     ${{ github.sha }}
 
   AWS_ECR_ID:          ${{ vars.AWS_ECR_ID }}
   AWS_REGION:          ${{ vars.AWS_REGION }}
   AWS_ACCOUNT_ID_BETA: ${{ vars.AWS_ACCOUNT_ID_BETA }}
   DOCKER_API_VERSION:  ${{ vars.DOCKER_API_VERSION }}
   SERVICE_NAME:        ${{ github.event.repository.name }}  # web
-
 
 jobs:
 
