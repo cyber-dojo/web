@@ -214,7 +214,7 @@ jobs:
 
   sdlc-control-gate:
     if: ${{ github.ref == 'refs/heads/main' }}
-    needs: [setup, build-image, pull-request, snyk-container-scan, snyk-code-scan]
+    needs: [setup, build-image, pull-request, snyk-container-scan, snyk-code-scan, run-tests]
     runs-on: ubuntu-latest
     env:
       IMAGE_NAME:        ${{ needs.setup.outputs.image_name }}
