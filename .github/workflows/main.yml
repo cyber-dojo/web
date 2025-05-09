@@ -33,11 +33,8 @@ jobs:
       image_name:               ${{ steps.vars.outputs.image_name }}
     steps:
       - uses: actions/checkout@v4
-
-      - name: Check BASE_IMAGE
-        run: |
-          source ./sh/lib.sh
-          exit_non_zero_if_bad_base_image "${{ inputs.BASE_IMAGE }}"
+        with:
+          fetch-depth: 1
 
       - name: Set outputs
         id: vars
@@ -141,7 +138,6 @@ jobs:
       image_tag: ${{ needs.setup.outputs.image_tag }}
       image_build_args: |
         COMMIT_SHA=${{ github.sha }}
-        BASE_IMAGE=${{ inputs.BASE_IMAGE }}
       kosli_flow: ${{ vars.KOSLI_FLOW }}
       kosli_trail: ${{ github.sha }}
       kosli_reference_name: ${{ needs.setup.outputs.service_name }}
