@@ -151,10 +151,6 @@ jobs:
   run-tests:
     needs: [setup, build-image]
     runs-on: ubuntu-latest
-    env:
-      IMAGE_NAME:        ${{ needs.setup.outputs.image_name }}
-      IMAGE_TAG:         ${{ needs.setup.outputs.image_tag }}
-      KOSLI_FINGERPRINT: ${{ needs.build-image.outputs.digest }}
     steps:
       - name: Download docker image
         uses: cyber-dojo/download-artifact@main
@@ -171,10 +167,10 @@ jobs:
 
 
   snyk-container-scan:
-    needs: [setup, build-image]
+    needs: [build-image]
     runs-on: ubuntu-latest
     env:
-      IMAGE_NAME:        ${{ needs.setup.outputs.image_name }}
+      IMAGE_NAME:        ${{ needs.build-image.outputs.tagged_image_name }}
       KOSLI_FINGERPRINT: ${{ needs.build-image.outputs.digest }}
       SARIF_FILENAME:    snyk.container.scan.json
     steps:
@@ -216,10 +212,9 @@ jobs:
 
   sdlc-control-gate:
     if: ${{ github.ref == 'refs/heads/main' }}
-    needs: [setup, build-image, pull-request, snyk-container-scan, snyk-code-scan, run-tests]
+    needs: [build-image, pull-request, snyk-container-scan, snyk-code-scan, run-tests]
     runs-on: ubuntu-latest
     env:
-      IMAGE_NAME:        ${{ needs.setup.outputs.image_name }}
       KOSLI_FINGERPRINT: ${{ needs.build-image.outputs.digest }}
     steps:
       - name: Setup Kosli CLI
@@ -233,15 +228,14 @@ jobs:
 
       - name: Kosli SDLC gate to short-circuit the workflow
         run:
-          kosli assert artifact ${IMAGE_NAME}
+          kosli assert artifact
             --environment=${KOSLI_AWS_BETA}
 
 
   approve-deployment-to-beta:
-    needs: [setup, build-image, sdlc-control-gate]
+    needs: [build-image, sdlc-control-gate]
     runs-on: ubuntu-latest
     env:
-      IMAGE_NAME:        ${{ needs.setup.outputs.image_name }}
       KOSLI_FINGERPRINT: ${{ needs.build-image.outputs.digest }}
     environment:
       name: staging
@@ -258,7 +252,7 @@ jobs:
 
       - name: Attest approval of deployment to Kosli
         run:
-          kosli report approval ${IMAGE_NAME}
+          kosli report approval
             --approver="${{ github.actor }}"
             --environment=${KOSLI_AWS_BETA}
 
@@ -277,7 +271,7 @@ jobs:
       working_directory:      deployment/terraform/
       tf_apply:               true
       tf_version:             v1.9.1
-      tf_additional_env_vars: '{"TF_VAR_TAGGED_IMAGE": "${{ needs.setup.outputs.ecr_registry }}/${{ needs.setup.outputs.service_name }}:${{ needs.setup.outputs.image_tag }}@sha256:${{ needs.build-image.outputs.digest }}"}'
+      tf_additional_env_vars: '{"TF_VAR_TAGGED_IMAGE": "${{ needs.build-image.outputs.tagged_image_name }}@sha256:${{ needs.build-image.outputs.digest }}"}'
 
 
 # Deployment to aws-prod Environment is done with a Promotion workflow.
