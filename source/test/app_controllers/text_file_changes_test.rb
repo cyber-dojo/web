@@ -121,7 +121,7 @@ class TextFileChangesTest  < AppControllerTestBase
     in_kata do |kata|
       script = [
         "echo -n Bonjour3 > status",
-        "kill -INT $$"
+        "exit 42"
       ].join("\n")
       change_file('cyber-dojo.sh', script)
       post_run_tests
