@@ -115,13 +115,13 @@ class TextFileChangesTest  < AppControllerTestBase
   test '738', %w(
   |given cyber-dojo.sh contains a command to create a new text file called 'status'
   |when the test-event occurs
-  |then the saver does records it
+  |then the saver does record it
   |and keeps it separate from the file called 'status' in the multiplex
   ) do
     in_kata do |kata|
       script = [
         "echo -n Bonjour3 > status",
-        "exit 42"
+        "kill -INT $$"
       ].join("\n")
       change_file('cyber-dojo.sh', script)
       post_run_tests

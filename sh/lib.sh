@@ -6,7 +6,7 @@ exit_non_zero_unless_installed()
   printf "Checking ${1} is installed..."
   if ! installed "${1}" ; then
     stderr "ERROR: ${1} is not installed!"
-    exit 42
+    exit_non_zero
   fi
   if [ "${1}" == docker ]; then
     set +e
@@ -16,7 +16,7 @@ exit_non_zero_unless_installed()
     if [ "${STATUS}" != "0" ]; then
       stderr ERROR: docker not working
       cat /tmp/cyber-dojo.env-vars
-      exit 42
+      exit_non_zero
     fi
   fi
   echo It is
@@ -34,4 +34,9 @@ installed()
 stderr()
 {
   >&2 echo "${1}"
+}
+
+exit_non_zero()
+{
+  kill -INT $$
 }

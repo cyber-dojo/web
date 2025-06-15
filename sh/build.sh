@@ -34,7 +34,7 @@ assert_web_image_has_sha_env_var()
     echo "unexpected env-var inside image $(image_name):latest"
     echo "expected: 'SHA=$(git_commit_sha)'"
     echo "  actual: '$(sha_inside_image)'"
-    exit 42
+    exit_non_zero
   fi
 }
 
