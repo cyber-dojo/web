@@ -3,6 +3,7 @@ set -Eeu
 
 repo_root() { git rev-parse --show-toplevel; }
 readonly SH_DIR="$(repo_root)/sh"
+source "${SH_DIR}/lib.sh"
 source "${SH_DIR}/echo_env_vars.sh"
 export $(echo_env_vars)
 
@@ -38,7 +39,7 @@ curl_200()
   if [[ ${HTTP_CODE} -lt 200 || ${HTTP_CODE} -gt 299 ]] ; then
       echo "$(tab)${type} ${route} => ${HTTP_CODE}"
       # cat "${log}"
-      exit 42
+      exit_non_zero
   else
     echo "$(tab)${type} ${route} => 200"
   fi
