@@ -6,6 +6,7 @@ RUN apk add --upgrade libexpat=2.7.0-r0  # https://security.snyk.io/vuln/SNYK-AL
 RUN apk add --upgrade c-ares=1.34.5-r0   # https://security.snyk.io/vuln/SNYK-ALPINE321-CARES-9680227
 RUN apk add --upgrade git=2.47.3-r0      # https://security.snyk.io/vuln/SNYK-ALPINE320-GIT-10669667
 RUN apk add --upgrade icu=74.2-r1        # https://security.snyk.io/vuln/SNYK-ALPINE321-ICU-10691539
+RUN apk add --upgrade sqlite=3.48.0-r3   # https://security.snyk.io/vuln/SNYK-ALPINE321-SQLITE-11191065
 
 ARG COMMIT_SHA
 ENV SHA=${COMMIT_SHA}
