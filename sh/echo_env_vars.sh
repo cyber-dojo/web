@@ -8,9 +8,11 @@ echo_env_vars()
     echo COMMIT_SHA="$(image_sha)"  # --build-arg
   fi
 
-  local -r env_filename="$(repo_root)/.env"
-  echo CYBER_DOJO_PROMETHEUS=true > "${env_filename}"
-  docker run --rm cyberdojo/versioner | grep PORT >> "${env_filename}"
+  {
+    echo "# This file is generated in sh/lib.sh echo_env_vars()"
+    docker run --rm cyberdojo/versioner | grep PORT
+    echo CYBER_DOJO_PROMETHEUS=true
+  } > "$(repo_root)/.env"
 
   # Get identities of all docker-compose.yml dependent services (from versioner)
   docker run --rm cyberdojo/versioner:latest
