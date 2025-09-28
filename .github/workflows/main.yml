@@ -48,24 +48,31 @@ jobs:
           ECR_REGISTRY="${AWS_ECR_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"          
           IMAGE_TAG=${GITHUB_SHA:0:7}
           IMAGE_NAME="${ECR_REGISTRY}/${{ env.SERVICE_NAME }}:${IMAGE_TAG}"
-
-          echo "aws_account_id_beta=${AWS_ACCOUNT_ID_BETA}"   >> ${GITHUB_OUTPUT}          
-          echo "ecr_registry=${ECR_REGISTRY}"                 >> ${GITHUB_OUTPUT}
-          echo "aws_region=${AWS_REGION}"                     >> ${GITHUB_OUTPUT}
-          echo "gh_actions_iam_role_name=gh_actions_services" >> ${GITHUB_OUTPUT}
-          echo "service_name=${SERVICE_NAME}"                 >> ${GITHUB_OUTPUT}
-          echo "image_tag=${IMAGE_TAG}"                       >> ${GITHUB_OUTPUT}
-          echo "image_name=${IMAGE_NAME}"                     >> ${GITHUB_OUTPUT}          
-          echo "kosli_trail=${KOSLI_TRAIL}"                   >> ${GITHUB_OUTPUT}          
+          {
+            echo "aws_account_id_beta=${AWS_ACCOUNT_ID_BETA}"
+            echo "ecr_registry=${ECR_REGISTRY}"
+            echo "aws_region=${AWS_REGION}"
+            echo "gh_actions_iam_role_name=gh_actions_services"
+            echo "service_name=${SERVICE_NAME}"
+            echo "image_tag=${IMAGE_TAG}"
+            echo "image_name=${IMAGE_NAME}"          
+            echo "kosli_trail=${KOSLI_TRAIL}"                  
+          } >> ${GITHUB_OUTPUT}          
 
       - name: Setup Kosli CLI
-        if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
+        if: ${{ github.ref == 'refs/heads/main' }}
         uses: kosli-dev/setup-cli-action@v2
         with:
           version: ${{ vars.KOSLI_CLI_VERSION }}
 
+      - name: Create Kosli Flow
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run:
+          kosli create flow "${KOSLI_FLOW}"
+            --description="UX for practicing TDD"
+
       - name: Begin Kosli Trail
-        if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
+        if: ${{ github.ref == 'refs/heads/main' }}
         run:
           kosli begin trail "${KOSLI_TRAIL}"
             --template-file=.kosli.yml
