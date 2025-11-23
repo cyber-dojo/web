@@ -59,23 +59,13 @@ jobs:
             echo "kosli_trail=${KOSLI_TRAIL}"                  
           } >> ${GITHUB_OUTPUT}          
 
-      - name: Setup Kosli CLI
-        if: ${{ github.ref == 'refs/heads/main' }}
-        uses: kosli-dev/setup-cli-action@v2
-        with:
-          version: ${{ vars.KOSLI_CLI_VERSION }}
-
-      - name: Create Kosli Flow
-        if: ${{ github.ref == 'refs/heads/main' }}
-        run:
-          kosli create flow "${KOSLI_FLOW}"
-            --description="UX for practicing TDD"
-
+      # https://github.com/cyber-dojo/kosli-begin-trail
       - name: Begin Kosli Trail
         if: ${{ github.ref == 'refs/heads/main' }}
-        run:
-          kosli begin trail "${KOSLI_TRAIL}"
-            --template-file=.kosli.yml
+        uses: cyber-dojo/kosli-begin-trail@main
+        with:
+          cli_version: "${{ vars.KOSLI_CLI_VERSION }}"
+          flow_description: "UX for practicing TDD"
 
 
   pull-request:
