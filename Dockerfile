@@ -8,9 +8,14 @@ LABEL maintainer=jon@jaggersoft.com
 #RUN apk add --upgrade sqlite=3.48.0-r4        # https://security.snyk.io/vuln/SNYK-ALPINE321-SQLITE-11191066
 #RUN apk add --upgrade sqlite-libs=3.48.0-r4   # https://security.snyk.io/vuln/SNYK-ALPINE321-SQLITE-11191066
 #RUN apk upgrade musl                          # https://security.snyk.io/vuln/SNYK-ALPINE320-MUSL-8720638
-#RUN apk upgrade libcrypto3 libssl3            # https://security.snyk.io/vuln/SNYK-ALPINE322-OPENSSL-13174133
-#RUN apk upgrade git                           # https://security.snyk.io/vuln/SNYK-ALPINE320-GIT-10669667
-#RUN apk upgrade curl                          # https://security.snyk.io/vuln/SNYK-ALPINE321-CURL-13277278
+RUN apk upgrade libcrypto3 libssl3            # https://security.snyk.io/vuln/SNYK-ALPINE322-OPENSSL-13174133
+RUN apk upgrade busybox                       # https://security.snyk.io/vuln/SNYK-ALPINE321-BUSYBOX-14102399
+RUN apk upgrade git                           # https://security.snyk.io/vuln/SNYK-ALPINE320-GIT-10669667
+RUN apk upgrade curl                          # https://security.snyk.io/vuln/SNYK-ALPINE321-CURL-13277278
+RUN apk upgrade libexpat                      # https://security.snyk.io/vuln/SNYK-ALPINE321-EXPAT-13003711
+RUN apk upgrade icu                           # https://security.snyk.io/vuln/SNYK-ALPINE321-ICU-10691539
+RUN apk upgrade sqlite                        # https://security.snyk.io/vuln/SNYK-ALPINE321-SQLITE-11191066
+RUN apk upgrade sqlite                        # https://security.snyk.io/vuln/SNYK-ALPINE321-SQLITE-11191066
 
 ARG COMMIT_SHA
 ENV SHA=${COMMIT_SHA}
