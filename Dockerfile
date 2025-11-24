@@ -11,7 +11,6 @@ RUN apk upgrade libcrypto3 libssl3            # https://security.snyk.io/vuln/SN
 RUN apk upgrade busybox                       # https://security.snyk.io/vuln/SNYK-ALPINE321-BUSYBOX-14102399
 RUN apk upgrade git                           # https://security.snyk.io/vuln/SNYK-ALPINE320-GIT-10669667
 RUN apk upgrade curl                          # https://security.snyk.io/vuln/SNYK-ALPINE321-CURL-13277278
-#RUN apk upgrade icu                           # https://security.snyk.io/vuln/SNYK-ALPINE321-ICU-10691539
 
 ARG COMMIT_SHA
 ENV SHA=${COMMIT_SHA}
