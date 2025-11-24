@@ -3,8 +3,7 @@ FROM cyberdojo/web-base:cb220be@sha256:6e78ae1635acf8a11762f4a3d86fa79150a523aba
 LABEL maintainer=jon@jaggersoft.com
 
 RUN apk add --upgrade libexpat=2.7.3-r0       # https://security.snyk.io/vuln/SNYK-ALPINE321-EXPAT-13003711
-#RUN apk add --upgrade c-ares=1.34.5-r0        # https://security.snyk.io/vuln/SNYK-ALPINE321-CARES-9680227
-#RUN apk add --upgrade icu=74.2-r1             # https://security.snyk.io/vuln/SNYK-ALPINE321-ICU-10691539
+RUN apk add --upgrade icu=74.2-r1             # https://security.snyk.io/vuln/SNYK-ALPINE321-ICU-10691539
 RUN apk add --upgrade sqlite=3.48.0-r4        # https://security.snyk.io/vuln/SNYK-ALPINE321-SQLITE-11191066
 RUN apk add --upgrade sqlite-libs=3.48.0-r4   # https://security.snyk.io/vuln/SNYK-ALPINE321-SQLITE-11191066
 RUN apk upgrade musl                          # https://security.snyk.io/vuln/SNYK-ALPINE320-MUSL-8720638
