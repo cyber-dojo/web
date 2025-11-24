@@ -13,9 +13,9 @@ exclude:
     - config/environments/production.rb
     - config/environments/development.rb
 
-ignore:
-  SNYK-ALPINE321-RUBY-14100871:
-    - '*':
-      reason: Waiting for fix
-      expires: 2025-12-23T10:53:10.182Z
-      created: 2025-11-23T10:53:10.201Z
+# ignore:
+#   SNYK-ALPINE321-RUBY-14100871:
+#     - '*':
+#       reason: Waiting for fix
+#       expires: 2025-12-23T10:53:10.182Z
+#       created: 2025-11-23T10:53:10.201Z
