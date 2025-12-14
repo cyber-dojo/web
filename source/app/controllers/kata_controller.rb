@@ -1,17 +1,14 @@
 
 class KataController < ApplicationController
-
   def edit
     @env = ENV
     @id = @title = id
     @events = saver.kata_events(id)
-    # most recent event
-    last = saver.kata_event(id, -1)
-    polyfill(last)
+    last = saver.kata_event(id, -1) # most recent event
     @files = last['files']
-    @stdout = last['stdout']
-    @stderr = last['stderr']
-    @status = last['status']
+    @stdout = last['stdout'] || { 'content' => '', 'truncated' => false }
+    @stderr = last['stderr'] || { 'content' => '', 'truncated' => false }
+    @status = last['status'] || ''
   end
 
   # - - - - - - - - - - - - - - - - - -
@@ -19,7 +16,7 @@ class KataController < ApplicationController
   def run_tests
     kata = Kata.new(self, id)
     t1 = time.now
-    result,files,@created,@changed = kata.run_tests(params)
+    result, files, @created, @changed = kata.run_tests(params)
     t2 = time.now
 
     duration = Time.mktime(*t2) - Time.mktime(*t1)
@@ -68,9 +65,9 @@ class KataController < ApplicationController
   # - - - - - - - - - - - - - - - - - -
 
   def revert # An auto-revert for an incorrect prediction from the test page.
-    # Eg 14=green, 15=incorrect prediction, index==16 ==> revert to 14
-    args = [ id, index-2 ]
-    json = source_event(id, index-2, :revert, args)
+    # Eg [14=green], [15=incorrect prediction], [index=16 ==> revert to 14]
+    args = [id, index - 2]
+    json = source_event(id, index - 2, :revert, args)
     saver.kata_reverted(id, index, @files, @stdout, @stderr, @status, {
       colour: @colour,
       revert: args
@@ -150,17 +147,4 @@ class KataController < ApplicationController
     param = params[:src_avatar_index]
     (param != '') ? param.to_i : ''
   end
-
-  # - - - - - - - - - - - - - - - - - -
-
-  def polyfill(event)
-    event['stdout'] ||= content('')
-    event['stderr'] ||= content('')
-    event['status'] ||= ''
-  end
-
-  def content(s)
-    { 'content' => s, 'truncated' => false }
-  end
-
 end
