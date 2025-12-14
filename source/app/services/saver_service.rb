@@ -68,6 +68,40 @@ class SaverService
     @http.get(__method__, {id:id, index:index})
   end
 
+  # - - - - - - - - - - - - - - - - - -
+
+  def file_create(id, index, files, filename)
+    @http.post(__method__, {
+      id:id, index:index,
+      files:files, filename:filename
+    })
+  end
+
+  def file_delete(id, index, files, filename)
+    @http.post(__method__, {
+      id:id, index:index,
+      files:files, filename:filename
+    })
+  end
+
+  def file_rename(id, index, files, old_filename, new_filename)
+    @http.post(__method__, {
+      id:id, index:index,
+      files:files, 
+      old_filename:old_filename,
+      new_filename:new_filename
+    })
+  end
+
+  def file_switch(id, index, files)
+    @http.post(__method__, {
+      id:id, index:index,
+      files:files
+    })
+  end
+
+  # - - - - - - - - - - - - - - - - - -
+
   def kata_ran_tests(id, index, files, stdout, stderr, status, summary)
     @http.post(__method__, {
       id:id, index:index,
@@ -107,5 +141,4 @@ class SaverService
       summary:summary
     })
   end
-
 end

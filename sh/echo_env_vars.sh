@@ -29,10 +29,10 @@ echo_env_vars()
   # and have built new images from. Their build scripts
   # finish by printing echo env-var statements you need to
   # add to this function if you want the new images to be
-  # part of the demo. For example:
+  # part of the dev-loop/demo. For example:
   #
-  # echo CYBER_DOJO_SAVER_SHA=3203fa65b8fbb90023ae104fe259a93432de2681
-  # echo CYBER_DOJO_SAVER_TAG=3203fa6
+  # echo CYBER_DOJO_SAVER_SHA=491a1d64acc721eaaa1d0338c3bb43fbfadaf78b
+  # echo CYBER_DOJO_SAVER_TAG=491a1d6
 }
 
 image_name()
