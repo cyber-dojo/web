@@ -10,12 +10,12 @@ echo_env_vars()
 
   {
     echo "# This file is generated in sh/lib.sh echo_env_vars()"
-    docker run --rm cyberdojo/versioner | grep PORT
+    run_versioner | grep PORT
     echo CYBER_DOJO_PROMETHEUS=true
   } > "$(repo_root)/.env"
 
   # Get identities of all docker-compose.yml dependent services (from versioner)
-  docker run --rm cyberdojo/versioner:latest
+  run_versioner
   #
   echo CYBER_DOJO_WEB_SHA="$(image_sha)"
   echo CYBER_DOJO_WEB_TAG="$(image_tag)"
@@ -33,6 +33,13 @@ echo_env_vars()
   #
   # echo CYBER_DOJO_SAVER_SHA=491a1d64acc721eaaa1d0338c3bb43fbfadaf78b
   # echo CYBER_DOJO_SAVER_TAG=491a1d6
+}
+
+run_versioner()
+{
+  # Hide platform warnings
+  docker run --rm cyberdojo/versioner >/tmp/log.stdout 2>/tmp/log.stderr
+  cat /tmp/log.stdout
 }
 
 image_name()
