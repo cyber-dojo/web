@@ -18,7 +18,7 @@ docker_rm()
 
 web_build()
 {
-  docker compose \
+  docker --log-level=ERROR compose \
     --file "$(repo_root)/docker-compose.yml" \
     build \
     --build-arg COMMIT_SHA="$(git_commit_sha)"
@@ -31,13 +31,12 @@ git_commit_sha()
 
 up_nginx()
 {
-  docker compose \
+  docker --log-level=ERROR compose \
     --file "$(repo_root)/docker-compose-depends.yml" \
     --file "$(repo_root)/docker-compose-nginx.yml" \
     --file "$(repo_root)/docker-compose.yml" \
     run \
       --detach \
-      --name test_web_nginx \
       --service-ports \
       nginx
 }

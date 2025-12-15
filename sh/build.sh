@@ -23,14 +23,14 @@ build_tagged_images()
 build_web_image()
 {
   echo
-  docker compose \
+  docker --log-level=ERROR compose \
     --file="$(repo_root)/docker-compose.yml" \
     build
 }
 
 assert_web_image_has_sha_env_var()
 {
-  if [ "$(git_commit_sha)" != $(sha_inside_image) ]; then
+  if [ "$(git_commit_sha)" != "$(sha_inside_image)" ]; then
     echo "unexpected env-var inside image $(image_name):latest"
     echo "expected: 'SHA=$(git_commit_sha)'"
     echo "  actual: '$(sha_inside_image)'"
@@ -45,7 +45,7 @@ git_commit_sha()
 
 sha_inside_image()
 {
-  docker run --rm "$(image_name):$(image_tag)" sh -c 'echo ${SHA}'
+  docker --log-level=ERROR compose run --rm web sh -c 'echo ${SHA}'
 }
 
 build_tagged_images
