@@ -34,26 +34,59 @@ class KataController < ApplicationController
       files.delete('outcome.special')
     end
 
-    @light = {
-      'index' => index,
-      'colour' => @outcome,
-      'predicted' => params['predicted'],
-      'revert_if_wrong' => params['revert_if_wrong']
-    }
-
     begin
-      ran_tests(@id, index, files, @stdout, @stderr, @status, {
+      # Currently: index is assumed to be the index of the RAG that _will_
+      # be stored in saver. For example, suppose saver already has events
+      # with indexes [0,1,2,3] then index in the ran_tests() call will be 4.
+      # This incoming index is useful - it can check for out of sequence events.
+      # Put another way, the current assumption is that:
+      #  1. ran_tests() only creates a single saver event
+      #  2. previous_index == index-1
+      # Now ran_tests() returns the next index, to allow ran_tests() to return 2 events.
+      # Examples
+      # [1,2,3] res_index = rand_test(..., index==4, ...)
+      # Single event stored
+      #   res_index == 5, events now == [1,2,3,4]
+      #     Need @light = { previous_index:3, index:4}
+      #     ==   @light = { previous_index:index-1, index:res_index-1}
+      # Two events stored
+      #   res_indes == 6, events now == [1,2,3,4,5]
+      #     Need @light = { previous_index:3, index:5}
+      #     ==   @light = { previous_index:index-1, index:res_index-1}
+      #
+      # source/app/views/kata/_index.html.erb holds the hidden input index value
+      # cd.kata.incrementIndex() is called in source/app/views/kata/run_tests.js.erb 
+      #  L128 in refreshFromTest()
+      #  L145 in revert()
+      # Also called in source/app/views/kata/edit.html.erb @ L34 
+      # Also called in source/app/views/review/_checkout_button.html.erb @ L40
+      #
+      # TODO: start by hard-wiring previous_index in @light (dont use return of saver.ran_tests())
+      # and use previous_index in Javascript instead of -1 delta.
+      # 
+      
+      in_index = index
+      out_index = ran_tests(@id, in_index, files, @stdout, @stderr, @status, {
         duration: duration,
         colour: @outcome,
         predicted: params['predicted'],
         revert_if_wrong: params['revert_if_wrong']
       })
     rescue SaverService::Error => error
+      out_index = in_index
       @saved = false
       $stdout.puts(error.message);
       $stdout.flush
       @out_of_sync = error.message.include?('Out of order event')
     end
+
+    @light = {
+      'previous_index' => in_index - 1,
+      'index' => out_index - 1,
+      'colour' => @outcome,
+      'predicted' => params['predicted'],
+      'revert_if_wrong' => params['revert_if_wrong']
+    }
 
     respond_to do |format|
       format.js {
