@@ -30,6 +30,7 @@
  *= depend_on fork-dialog.scss
  *= depend_on diff.scss
  *= depend_on diff-checkbox.scss
+ *= depend_on extra-checkbox.scss
  *= depend_on diff-hover-tip.scss
  *= depend_on info.scss
  *= depend_on errors.scss
@@ -85,6 +86,7 @@
 @import "fork-dialog.scss";
 @import "diff.scss";
 @import "diff-checkbox.scss";
+@import "extra-checkbox.scss";
 @import "diff-hover-tip.scss";
 @import "info.scss";
 @import "errors.scss";

@@ -21,7 +21,8 @@
     </table>
     <table>
       <tr><td><%= render partial: 'review/diff_checkbox' %>
-              <%= render partial: 'review/help_icon' %></td></tr>
+              <%= render partial: 'review/help_icon' %>
+              <%= render partial: 'review/extra_checkbox' %></td></tr>
       <tr><td><%= render partial: 'review/filenames' %></td></tr>
       <tr><td><%= render partial: 'review/files' %></td></tr>
       <tr><td><%= render partial: 'review/output' %></td></tr>
@@ -55,11 +56,26 @@ $(() => {
 
   review.refresh = (id, index, showDiff = review.diffCheckBox.isChecked()) => {
     cd.settings.hideButton();
-    review.id = id;
+    review.id = id;    
     review.index = index;
     review.avatarNavigator.refresh();
     review.diffCheckBox   .refresh(showDiff);
     review.files          .refresh();
+    review.output         .refresh();
+    review.trafficLights  .refresh();
+    review.checkoutButton .refresh();
+    review.forkButton     .refresh();
+  };
+
+  review.refresh2 = (id, was_index, now_index, showDiff = review.diffCheckBox.isChecked()) => {
+    cd.settings.hideButton();
+    review.id = id;    
+    review.was_index = was_index
+    review.now_index = now_index
+    review.index = now_index;
+    review.avatarNavigator.refresh();
+    review.diffCheckBox   .refresh(showDiff);
+    review.files          .refresh2();
     review.output         .refresh();
     review.trafficLights  .refresh();
     review.checkoutButton .refresh();
@@ -88,7 +104,8 @@ $(() => {
     const nowIndex = parseInt(cd.urlParam('now_index', -1));
     const showDiff = (wasIndex != nowIndex);
     review.page.show();
-    review.refresh("<%= @id %>", nowIndex, showDiff);
+    //review.refresh("<%= @id %>", nowIndex, showDiff);
+    review.refresh2("<%= @id %>", wasIndex, nowIndex, showDiff);
   }
 
 });
