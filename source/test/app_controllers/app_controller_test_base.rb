@@ -19,7 +19,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   def create_language_kata(options = {})
     manifest = starter_manifest
-    manifest['version'] = (options[:version] || 1)
+    manifest['version'] = (options[:version] || 2)
     @id = saver.kata_create(manifest)
     nil
   end
