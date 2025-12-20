@@ -104,8 +104,8 @@
     showInfoIfTimedOut();
     showInfoIfFaulty();
     showInfoIfImagePulling();
-    //showInfoIfTruncatedFiles();
-    //showInfoIfSaveFailed()
+    // showInfoIfTruncatedFiles();
+    // showInfoIfSaveFailed()
   };
 
   //- - - - - - - - - - - - - - - - - - - - - -
@@ -125,7 +125,7 @@
   //- - - - - - - - - - - - - - - - - - - - - -
 
   const refreshFromTest = () => {
-    cd.kata.incrementIndex();
+    cd.kata.setIndex(light.index + 1);
     insertCreatedFiles();
     updateChangedFiles();
     cd.kata.filenames.refresh();
@@ -142,7 +142,7 @@
       index: cd.kata.index // eg 18 (reverting to 16)
     };
     $.post('/kata/revert', args, (data) => {
-      cd.kata.incrementIndex();
+      cd.kata.incrementIndex(); // TODO
       cd.kata.editor.deleteFiles();
       for (const filename in data.files) {
         cd.kata.editor.createFile(filename, { content:data.files[filename] });
@@ -152,8 +152,8 @@
       cd.kata.editor.output(data.stdout.content, data.stderr.content, data.status);
       cd.kata.tabs.output().click();
       cd.kata.appendTrafficLight(data.light, {scrollIntoView:true});
-      //Switching directly to a review of the reverted light is possible here...
-      //cd.review.fromTestPage(cd.kata.id, cd.kata.index - 2);
+      // Switching directly to a review of the reverted light is possible here...
+      // cd.review.fromTestPage(cd.kata.id, cd.kata.index - 2);
     }, 'json');
   };
 

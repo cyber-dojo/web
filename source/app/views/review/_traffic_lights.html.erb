@@ -15,6 +15,7 @@ $(() => {
           review.index = events.length - 1; // Need by [fork] and [checkout]
         }
         $lights.empty();
+        // TODO: review.extraCheckBox.isChecked --> controls events filtering
         appendTrafficLights(events);
         scrollCurrentTrafficLightIntoView();
         review.refreshTrafficLightsNavigator(events);

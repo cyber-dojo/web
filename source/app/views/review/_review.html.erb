@@ -51,7 +51,7 @@ $(() => {
   const review = cd.review;
 
   review.page = $('#review-page'); // Used by faders
-
+  
   review.isIndependent = () => $('#kata-page').length === 0;
 
   review.refresh = (id, index, showDiff = review.diffCheckBox.isChecked()) => {
@@ -67,15 +67,27 @@ $(() => {
     review.forkButton     .refresh();
   };
 
-  review.refresh2 = (id, was_index, now_index, showDiff = review.diffCheckBox.isChecked()) => {
+  review.refresh2 = (id, wasIndex, nowIndex, showDiff=null) => {
+
+    // called...
+    // diff-checkbox is clicked  (showDiff not passed)
+    // traffic-light is clicked  (showDiff is not passed)
+    // traffic-light < > navigator is clicked (showDiff is not passed)
+    // avatar-navigator is clicked (showDiff is not passed)
+    // TODO: fromTestPage(), needs to pass wasIndex
+
+    if (showDiff === null) {
+      showDiff = review.diffCheckBox.isChecked()
+    }
+
     cd.settings.hideButton();
-    review.id = id;    
-    review.was_index = was_index
-    review.now_index = now_index
-    review.index = now_index;
+    review.id = id;
+    review.wasIndex = wasIndex;
+    review.nowIndex = nowIndex;
+    review.index = nowIndex;
     review.avatarNavigator.refresh();
     review.diffCheckBox   .refresh(showDiff);
-    review.files          .refresh2();
+    review.files          .refresh2(); // looks at review.wasIndex, review.nowIndex
     review.output         .refresh();
     review.trafficLights  .refresh();
     review.checkoutButton .refresh();
@@ -87,16 +99,20 @@ $(() => {
   //    o) wasIndex == -1, nowIndex == -1
   //    o) we are *not* showing a diff.
   // When arriving from traffic-light (on test-page or dashboard-page)
-  //    o) wasIndex == nowIndex-1
+  //    o) wasIndex != nowIndex
   //    o) we *are* showing a diff.
 
   review.fromTestPage = (id, index) => {
+    // Called from source/app/views/kata/_traffic_lights.html.erb
+    // Called from source/app/views/kata/_avatar_image.html.erb with index == -1
     review.fadeIn(() => {
       review.checkoutButton.show();
       review.resumeButton.show();
     });
     const showDiff = true;
-    review.refresh(id, index, showDiff);
+    review.refresh(id, index, showDiff); 
+    // TODO: 
+    // review.refresh2(id, wasIndex, nowIndex, showDiff)
   };
 
   if (review.isIndependent()) {
@@ -104,7 +120,6 @@ $(() => {
     const nowIndex = parseInt(cd.urlParam('now_index', -1));
     const showDiff = (wasIndex != nowIndex);
     review.page.show();
-    //review.refresh("<%= @id %>", nowIndex, showDiff);
     review.refresh2("<%= @id %>", wasIndex, nowIndex, showDiff);
   }
 

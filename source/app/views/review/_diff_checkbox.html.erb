@@ -8,7 +8,6 @@
 $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // inDiffMode() affects other controls in the following ways
   // o) when moving to a new avatar...
   //    -   checked ==> move to its _first_ traffic-light
   //    - unchecked ==> move to its _last_  traffic-light
@@ -34,7 +33,7 @@ $(() => {
         .on('click', () => {
           $checkBox.prop('checked', !review.diffCheckBox.isChecked());
           review.refresh(review.id, review.index);
-        });
+      });
     }
   };
 

@@ -34,26 +34,42 @@ class KataController < ApplicationController
       files.delete('outcome.special')
     end
 
-    @light = {
-      'index' => index,
-      'colour' => @outcome,
-      'predicted' => params['predicted'],
-      'revert_if_wrong' => params['revert_if_wrong']
-    }
-
     begin
-      ran_tests(@id, index, files, @stdout, @stderr, @status, {
+      # index is maintained in the browser. If saver's JSON events are currently
+      #  [..., {'index':23 }] 
+      # then index == 24. Saver uses it to detect out-of-order events.
+      # Historically, ran_tests() only ever created a single new saved event. Eg
+      #  [..., {'index':24, 'colour':'red'}] CASE-1
+      # However it might now create two events, a file-edit, and a red/amber/green. Eg
+      #  [..., {'index':24, 'event':'file-edit'},
+      #        {'index':25,'colour':'red'}]  CASE-2
+      # So ran_tests() now returns the new "next index", which is:
+      # - 25 in the first case
+      # - 26 in the second case
+      # The index of the red/amber/green light is always new_index - 1.
+      # The browser used to simply increment its index after a ran_tests()
+      # but now it has to set it directly from light.index+1
+      # 
+      new_index = ran_tests(@id, index, files, @stdout, @stderr, @status, {
         duration: duration,
         colour: @outcome,
         predicted: params['predicted'],
         revert_if_wrong: params['revert_if_wrong']
       })
     rescue SaverService::Error => error
+      new_index = index
       @saved = false
       $stdout.puts(error.message);
       $stdout.flush
       @out_of_sync = error.message.include?('Out of order event')
     end
+
+    @light = {
+      'index' => new_index - 1,
+      'colour' => @outcome,
+      'predicted' => params['predicted'],
+      'revert_if_wrong' => params['revert_if_wrong']
+    }
 
     respond_to do |format|
       format.js {

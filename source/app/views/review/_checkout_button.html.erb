@@ -37,7 +37,7 @@ $(() => {
     };
     cd.settings.showButton();
     $.post('/kata/checkout', args, (data) => {
-      kata.incrementIndex();
+      kata.incrementIndex(); // TODO:
       kata.editor.deleteFiles();
       for (const filename in data.files) {
         kata.editor.createFile(filename, { content:data.files[filename] });
