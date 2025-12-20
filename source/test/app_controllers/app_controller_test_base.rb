@@ -63,7 +63,8 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
       'image_name'       => kata.manifest['image_name'],
       'max_seconds'      => (options['max_seconds'] || kata.manifest['max_seconds']),
       'index'            => @index + 1,
-      'file_content'     => @files
+      'file_content'     => @files,
+      'predicted'        => (options['predicted'] || 'none')
     }
   end
 

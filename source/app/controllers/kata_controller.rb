@@ -43,9 +43,9 @@ class KataController < ApplicationController
       # However it might now create two events, a file-edit, and a red/amber/green. Eg
       #  [..., {'index':24, 'event':'file-edit'},
       #        {'index':25,'colour':'red'}]  CASE-2
-      # So ran_tests() now returns the new "next index", which is:
-      # - 25 in the first case
-      # - 26 in the second case
+      # So ran_tests() now returns the new_index, which is:
+      #  - 25 in CASE-1
+      #  - 26 in CASE-2
       # The index of the red/amber/green light is always new_index - 1.
       # The browser used to simply increment its index after a ran_tests()
       # but now it has to set it directly from light.index+1
@@ -59,7 +59,7 @@ class KataController < ApplicationController
     rescue SaverService::Error => error
       new_index = index + 1 # Act as if CASE-1 occurred.
       @saved = false
-      $stdout.puts(error.message);
+      $stdout.puts(error.message)
       $stdout.flush
       @out_of_sync = error.message.include?('Out of order event')
     end
