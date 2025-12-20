@@ -49,7 +49,7 @@ class KataController < ApplicationController
       # The index of the red/amber/green light is always new_index - 1.
       # The browser used to simply increment its index after a ran_tests()
       # but now it has to set it directly from light.index+1
-      # 
+
       new_index = ran_tests(@id, index, files, @stdout, @stderr, @status, {
         duration: duration,
         colour: @outcome,
@@ -57,7 +57,7 @@ class KataController < ApplicationController
         revert_if_wrong: params['revert_if_wrong']
       })
     rescue SaverService::Error => error
-      new_index = index
+      new_index = index + 1 # Act as if CASE-1 occurred.
       @saved = false
       $stdout.puts(error.message);
       $stdout.flush
