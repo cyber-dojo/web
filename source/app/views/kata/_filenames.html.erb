@@ -68,6 +68,20 @@ $(() => {
     filenames.unselectAll();
     $filename.addClass('selected');
     cd.kata.tabs.setFilename(filename);
+    
+    // TODO: Get plumbing working before making saver.kata_file_switch() call
+    // 1. call kata_controller.file_switch() - will delegate to new model/saver.rb
+    // 2. update kata.setIndex() with its return value
+    // 
+    // responseText = $.ajax({
+    //        type: 'POST',
+    //         url: 'file_switch',
+    //        data: $('form').serialize(),
+    //       error: error, // see _run_tests.html.erb
+    //    complete: (_xhr, _status) => { }
+    // });
+    // alert(responseText);
+    
     const disabled = (filename === 'cyber-dojo.sh');
     cd.deleteFileButton().attr('disabled', disabled);
     cd.renameFileButton().attr('disabled', disabled);
