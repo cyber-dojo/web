@@ -76,8 +76,7 @@ $(() => {
       data: $('form').serialize()
     };
     $.post('/kata/file_switch', args, (newIndex) => {
-      // TODO: cd.kata.setIndex(newIndex);
-      alert(`new-index=${newIndex}`);
+      cd.kata.setIndex(newIndex);
     });
     
     const disabled = (filename === 'cyber-dojo.sh');

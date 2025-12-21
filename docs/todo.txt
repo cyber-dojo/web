@@ -5,6 +5,12 @@ in v1, saver.ran_tests() does not return the new-index.
 
 ------------------------------------------------------------------
 
+Switching files, in a v2 kata now successfully creates a new event 
+in saver via kata_file_switch(). Running [test] after that, you
+get a new traffic-light, review diffs dont generate errors.
+
+------------------------------------------------------------------
+
 Controller-tests currently use v1 kata which means that
 in app_controller_test_base.rb we have this:
 
