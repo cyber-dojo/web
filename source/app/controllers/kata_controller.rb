@@ -15,12 +15,13 @@ class KataController < ApplicationController
   # - - - - - - - - - - - - - - - - - -
 
   def file_switch
-    # id == params[:id]
-    # index == params[:index]
     data = Rack::Utils.parse_nested_query(params[:data])
     files = files_from(data['file_content'])
-
-    render json: 23
+    #puts("id=#{id}")
+    #puts("index=#{index}") # TODO: This is zero on initial page load
+    new_index = saver.kata_file_switch(id, index, files)
+    #puts("new_index=#{new_index}")
+    render json: new_index
   end
 
   # - - - - - - - - - - - - - - - - - -

@@ -70,21 +70,21 @@ class SaverService
 
   # - - - - - - - - - - - - - - - - - -
 
-  def file_create(id, index, files, filename)
+  def kata_file_create(id, index, files, filename)
     @http.post(__method__, {
       id:id, index:index,
       files:files, filename:filename
     })
   end
 
-  def file_delete(id, index, files, filename)
+  def kata_file_delete(id, index, files, filename)
     @http.post(__method__, {
       id:id, index:index,
       files:files, filename:filename
     })
   end
 
-  def file_rename(id, index, files, old_filename, new_filename)
+  def kata_file_rename(id, index, files, old_filename, new_filename)
     @http.post(__method__, {
       id:id, index:index,
       files:files, 
@@ -93,7 +93,7 @@ class SaverService
     })
   end
 
-  def file_switch(id, index, files)
+  def kata_file_switch(id, index, files)
     @http.post(__method__, {
       id:id, index:index,
       files:files
