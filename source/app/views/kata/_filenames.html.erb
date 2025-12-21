@@ -11,7 +11,7 @@ $(() => {
     const all = cd.kata.editor.filenames();
     const listed = all.filter(filename => !cd.kata.tabs.reserves(filename));
     return cd.sortedFilenames(listed);
-  }
+  };
 
   filenames.length = () => filenames.sorted().length;
   filenames.selected = () => $('.filename.selected', $filenames).text().trim();

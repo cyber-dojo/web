@@ -10,9 +10,15 @@ $(() => {
 
   cd.kata.index = 0;
 
-  cd.kata.incrementIndex = () => $index.val(cd.kata.index += 1);
+  cd.kata.incrementIndex = () => {
+    cd.kata.index += 1;
+    $index.val(cd.kata.index);
+  };
 
-  cd.kata.setIndex = (index) => $index.val(index);
+  cd.kata.setIndex = (index) => {
+    cd.kata.index = index;
+    $index.val(cd.kata.index);
+  };
 
 });
 </script>
