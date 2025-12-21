@@ -1,3 +1,4 @@
+require_relative '../../lib/cleaner'
 
 class KataController < ApplicationController
   def edit
@@ -9,6 +10,31 @@ class KataController < ApplicationController
     @stdout = last['stdout'] || { 'content' => '', 'truncated' => false }
     @stderr = last['stderr'] || { 'content' => '', 'truncated' => false }
     @status = last['status'] || ''
+  end
+
+  # - - - - - - - - - - - - - - - - - -
+
+  def file_switch
+    # id == params[:id]
+    # index == params[:index]
+    data = Rack::Utils.parse_nested_query(params[:data])
+    files = files_from2(data['file_content'])
+
+    render json: 23
+  end
+
+  include Cleaner
+
+  def files_from2(file_content)
+    files = cleaned_files(file_content)
+    files.delete('output')
+    files.each.with_object({}) do |(filename,content),memo|
+      memo[filename] = { 'content' => sanitized2(content) }
+    end
+  end  
+  def sanitized2(content)
+    max_file_size = 50 * 1024
+    content[0..max_file_size]
   end
 
   # - - - - - - - - - - - - - - - - - -

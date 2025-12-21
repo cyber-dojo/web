@@ -69,18 +69,16 @@ $(() => {
     $filename.addClass('selected');
     cd.kata.tabs.setFilename(filename);
     
-    // TODO: Get plumbing working before making saver.kata_file_switch() call
-    // 1. call kata_controller.file_switch() - will delegate to new model/saver.rb
-    // 2. update kata.setIndex() with its return value
-    // 
-    // responseText = $.ajax({
-    //        type: 'POST',
-    //         url: 'file_switch',
-    //        data: $('form').serialize(),
-    //       error: error, // see _run_tests.html.erb
-    //    complete: (_xhr, _status) => { }
-    // });
-    // alert(responseText);
+    cd.saveCodeFromSyntaxHighlightEditors();
+    const args = {
+      id: cd.kata.id,       // eg 'Xd4f2P'
+      index: cd.kata.index, // eg 18
+      data: $('form').serialize()
+    };
+    $.post('/kata/file_switch', args, (newIndex) => {
+      // TODO: cd.kata.setIndex(newIndex);
+      alert(`new-index=${newIndex}`);
+    });
     
     const disabled = (filename === 'cyber-dojo.sh');
     cd.deleteFileButton().attr('disabled', disabled);
@@ -92,7 +90,17 @@ $(() => {
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  const error = (request, status, thrown) => {
+    const message = [
+      request.responseText,
+      'FileSwitch----------------------------',
+      `Status=${status}`,
+      thrown
+    ].join("\n");
+    cd.dialogError(message);
+  };
 
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const rebuildFilenameList = () => {
     const selected = filenames.selected(); // Try to keep selected
     const sorted = filenames.sorted();
@@ -105,6 +113,7 @@ $(() => {
     }
   };
 
+  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const makeFilename = (filename) => {
     const $div = $('<div>', {
         class: 'filename',

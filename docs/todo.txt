@@ -1,4 +1,10 @@
 
+run-tests works for v2 katas, but is currently broken for the demo 
+kata of 5U2J18 because it is a v1 kata. I'm guessing this is because
+in v1, saver.ran_tests() does not return the new-index.
+
+------------------------------------------------------------------
+
 Controller-tests currently use v1 kata which means that
 in app_controller_test_base.rb we have this:
 

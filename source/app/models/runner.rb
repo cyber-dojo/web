@@ -37,6 +37,14 @@ class Runner
 
   include Cleaner
 
+  # def files_from2(file_content)
+  #   files = cleaned_files(file_content])
+  #   files.delete('output')
+  #   files.each.with_object({}) do |(filename,content),memo|
+  #     memo[filename] = { 'content' => sanitized(content) }
+  #   end
+  # end
+
   def files_from(params)
     files = cleaned_files(params[:file_content])
     files.delete('output')

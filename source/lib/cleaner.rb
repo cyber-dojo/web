@@ -6,7 +6,7 @@ module Cleaner # mix-in
 
   def cleaned_files(files)
     # files is an ActionController::Parameters
-    # so you can use .map or .transform_values!
+    # so you can't use .map or .transform_values
     cleaned = {}
     files.each do |filename,content|
       content = cleaned_string(content)
