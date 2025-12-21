@@ -15,11 +15,6 @@ $(() => {
   tabs.setup = () => {
     const manifest = cd.kata.manifest();
     const imageName = manifest.image_name;
-    if (cd.env.REPL === 'on' && imageName.includes('python')) {
-      tabs.repl().show();
-    } else {
-      tabs.repl().hide();
-    }
     $tabs().addClass(cd.settings.theme());
   };
 
@@ -29,14 +24,11 @@ $(() => {
 
   tabs.output   = () => $('.tab.output');
 
-  tabs.repl     = () => $('.tab.REPL');
-
   tabs.selected = () => $('.tab.selected');
 
   tabs.reserves = (filename) => {
     const tabNames = [];
     tabNames.push(tabs.output().text());
-    tabNames.push(tabs.repl().text());
     return tabNames.includes(filename);
   };
 
@@ -45,7 +37,6 @@ $(() => {
     const $tab = tabs.filename();
     $tab.text(filename).show();
     cd.kata.editor.showFile(filename);
-    cd.kata.repl.close();
     select($tab);
   };
 
@@ -73,7 +64,6 @@ $(() => {
     $tab.click(() => {
       const filename = $tab.text();
       cd.kata.editor.showFile(filename);
-      cd.kata.repl.close();
       select($tab);
       if (filename === 'output') {
         cd.kata.filenames.unselectAll();
@@ -89,16 +79,13 @@ $(() => {
     $tab.click(() => {
       if ($tab.is('.selected')) { return; }
       select($tab);
-      tabs.repl().show();
       cd.kata.editor.hideCurrentFile();
-      cd.kata.repl.open();
     });
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - -
   setupFileTabClickHandler(tabs.filename());
   setupFileTabClickHandler(tabs.output());
-  setupReplTabClickHandler(tabs.repl());
 
 });
 </script>
