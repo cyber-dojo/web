@@ -1,4 +1,4 @@
-require_relative '../../lib/cleaner'
+require_relative '../../lib/files_from'
 
 class KataController < ApplicationController
   def edit
@@ -18,23 +18,9 @@ class KataController < ApplicationController
     # id == params[:id]
     # index == params[:index]
     data = Rack::Utils.parse_nested_query(params[:data])
-    files = files_from2(data['file_content'])
+    files = files_from(data['file_content'])
 
     render json: 23
-  end
-
-  include Cleaner
-
-  def files_from2(file_content)
-    files = cleaned_files(file_content)
-    files.delete('output')
-    files.each.with_object({}) do |(filename,content),memo|
-      memo[filename] = { 'content' => sanitized2(content) }
-    end
-  end  
-  def sanitized2(content)
-    max_file_size = 50 * 1024
-    content[0..max_file_size]
   end
 
   # - - - - - - - - - - - - - - - - - -
@@ -76,6 +62,7 @@ class KataController < ApplicationController
       # The browser used to simply increment its index after a ran_tests()
       # but now it has to set it directly from light.index+1
 
+      # TODO: This fails on v0,v1 katas
       new_index = ran_tests(@id, index, files, @stdout, @stderr, @status, {
         duration: duration,
         colour: @outcome,
@@ -134,6 +121,8 @@ class KataController < ApplicationController
   end
 
   private
+
+  include FilesFrom
 
   def ran_tests(id, index, files, stdout, stderr, status, summary)
     if summary[:predicted] === 'none'
