@@ -7,12 +7,17 @@ but not the preceeding edit-file event.
 Problem was missing cd.saveCodeFromSyntaxHighlightEditors();
 
 Now the events.json shows the expected initial index=1 edit-file event.
-But there is no event for create-file.
+But there is no event for index=2 create-file.
 log of saver shows...
 
 files does contain newfile.txt
 
-"body": "{\n  \"exception\": \"{\\\"command\\\":\\\"sh -c \\\\\\\"cd /cyber-dojo//katas/qz/0v/Zm && git merge --ff-only YCWMp9QR\\\\\\\"\\\",\\\"stdout\\\":\\\"Updating 56ed9b5..12d680a\\\\n\\\",\\\"stderr\\\":\\\"error: Your local changes to the following files would be overwritten by merge:\\\\n\\\\tevents.json\\\\n\\\\tfiles/readme.txt\\\\nPlease commit your changes or stash them before you merge.\\\\nerror: The following untracked working tree files would be overwritten by merge:\\\\n\\\\tfiles/newfile.txt\\\\n\\\\tstatus\\\\n\\\\tstderr\\\\n\\\\tstdout\\\\n\\\\ttruncations.json\\\\nPlease move or remove them before you merge.\\\\nAborting\\\\n\\\",\\\"exit_status\\\":1}\"\n}",
+"body": {  
+    "exception": {
+        "command": "sh -c \\\\\\\"cd /cyber-dojo//katas/qz/0v/Zm && git merge --ff-only YCWMp9QR\\\\\\\"\\\",
+        "stdout\\\":\\\"Updating 56ed9b5..12d680a\\\\n\\\",
+        "stderr\\\":\\\"error: Your local changes to the following files would be overwritten by merge:\\\\n\\\\tevents.json\\\\n\\\\tfiles/readme.txt\\\\nPlease commit your changes or stash them before you merge.\\\\nerror: The following untracked working tree files would be overwritten by merge:\\\\n\\\\tfiles/newfile.txt\\\\n\\\\tstatus\\\\n\\\\tstderr\\\\n\\\\tstdout\\\\n\\\\ttruncations.json\\\\nPlease move or remove them before you merge.\\\\nAborting\\\\n\\\",
+        "exit_status\\\":1}\"\n}",
 "message": {
     "command": "sh -c \\\"cd /cyber-dojo//katas/qz/0v/Zm && git merge --ff-only YCWMp9QR\\\"\",
     "stdout\":\"Updating 56ed9b5..12d680a",
@@ -26,9 +31,44 @@ error: The following untracked working tree files would be overwritten by merge:
   status 
   stderr 
   stdout 
-  truncations.json
-  
+  truncations.json  
 Please move or remove them before you merge.
 Aborting",
 "exit_status":1
 }
+
+So two errors:
+1. Your local changes to the following files would be overwritten by merge:
+  events.json
+  files/readme.txt
+Please commit your changes or stash them before you merge.
+
+2. The following untracked working tree files would be overwritten by merge:
+  files/newfile.txt
+  status 
+  stderr 
+  stdout 
+  truncations.json  
+Please move or remove them before you merge.
+
+But saver trace says this is coming from kata_file_switch()
+Should be kata_file_create()
+Lets turn off kata_file_switch() and see what happens...
+Now it is ok!
+events.json is...
+[
+    {index=0, event:created, ...},
+    {index=1, event:file-edit, filename:readme.txt, ...},
+    {index=2, event:file-create, filename:newfile.txt, ...}
+]
+
+Then I hit [test], get red traffic-light. And events.json Now
+[
+    {index=0, event:created, ...},
+    {index=1, event:file-edit, filename:readme.txt, ...},
+    {index=2, event:file-create, filename:newfile.txt, ...},
+    {index=3, colour:red, prediced:none, ...}
+]
+
+Next step is to put alert() calls in to see where cd.kataFileSwitch()
+is being called...

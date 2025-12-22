@@ -68,7 +68,11 @@ $(() => {
     filenames.unselectAll();
     $filename.addClass('selected');
     cd.kata.tabs.setFilename(filename);
-    cd.kataFileSwitch();
+
+    // This line is currently commented out because it breaks file-create use-case 
+    // See docs/error.txt 
+    
+    //cd.kataFileSwitch();
     
     const disabled = (filename === 'cyber-dojo.sh');
     cd.deleteFileButton().attr('disabled', disabled);
