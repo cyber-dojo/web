@@ -3,3 +3,32 @@ Made kata_file_create/delete/rename live.
 Tried kata_file_create with an edit to the initial readme.txt file.
 Saver successfully adds the create-file event
 but not the preceeding edit-file event.
+
+Problem was missing cd.saveCodeFromSyntaxHighlightEditors();
+
+Now the events.json shows the expected initial index=1 edit-file event.
+But there is no event for create-file.
+log of saver shows...
+
+files does contain newfile.txt
+
+"body": "{\n  \"exception\": \"{\\\"command\\\":\\\"sh -c \\\\\\\"cd /cyber-dojo//katas/qz/0v/Zm && git merge --ff-only YCWMp9QR\\\\\\\"\\\",\\\"stdout\\\":\\\"Updating 56ed9b5..12d680a\\\\n\\\",\\\"stderr\\\":\\\"error: Your local changes to the following files would be overwritten by merge:\\\\n\\\\tevents.json\\\\n\\\\tfiles/readme.txt\\\\nPlease commit your changes or stash them before you merge.\\\\nerror: The following untracked working tree files would be overwritten by merge:\\\\n\\\\tfiles/newfile.txt\\\\n\\\\tstatus\\\\n\\\\tstderr\\\\n\\\\tstdout\\\\n\\\\ttruncations.json\\\\nPlease move or remove them before you merge.\\\\nAborting\\\\n\\\",\\\"exit_status\\\":1}\"\n}",
+"message": {
+    "command": "sh -c \\\"cd /cyber-dojo//katas/qz/0v/Zm && git merge --ff-only YCWMp9QR\\\"\",
+    "stdout\":\"Updating 56ed9b5..12d680a",
+    "stderr": 
+"error: Your local changes to the following files would be overwritten by merge:
+  events.json
+  files/readme.txt
+Please commit your changes or stash them before you merge.
+error: The following untracked working tree files would be overwritten by merge:
+  files/newfile.txt
+  status 
+  stderr 
+  stdout 
+  truncations.json
+  
+Please move or remove them before you merge.
+Aborting",
+"exit_status":1
+}
