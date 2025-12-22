@@ -14,13 +14,27 @@ class KataController < ApplicationController
 
   # - - - - - - - - - - - - - - - - - -
 
+  def file_create
+    filename = params[:filename]
+    new_index = saver.kata_file_create(id, index, params_files, filename)
+    render json: new_index
+  end
+
+  def file_delete
+    filename = params[:filename]
+    new_index = saver.kata_file_delete(id, index, params_files, filename)
+    render json: new_index
+  end
+
+  def file_rename
+    old_filename = params[:old_filename]
+    new_filename = params[:new_filename]
+    new_index = saver.kata_file_delete(id, index, params_files, old_filename, new_filename)
+    render json: new_index
+  end
+
   def file_switch
-    data = Rack::Utils.parse_nested_query(params[:data])
-    files = files_from(data['file_content'])
-    #puts("id=#{id}")
-    #puts("index=#{index}") # TODO: This is zero on initial page load
-    new_index = saver.kata_file_switch(id, index, files)
-    #puts("new_index=#{new_index}")
+    new_index = saver.kata_file_switch(id, index, params_files)
     render json: new_index
   end
 
@@ -124,6 +138,11 @@ class KataController < ApplicationController
   private
 
   include FilesFrom
+
+  def params_files
+    data = Rack::Utils.parse_nested_query(params[:data])
+    files_from(data['file_content'])
+  end
 
   def ran_tests(id, index, files, stdout, stderr, status, summary)
     if summary[:predicted] === 'none'

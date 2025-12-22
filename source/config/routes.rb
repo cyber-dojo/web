@@ -14,6 +14,9 @@ CyberDojo::Application.routes.draw do
     post 'run_tests(/:id)'   => :run_tests,   :constraints => { :format => :json }
     post 'checkout'          => :checkout,    :constraints => { :format => :json }
     post 'revert'            => :revert,      :constraints => { :format => :json }
+    post 'file_create'       => :file_switch, :constraints => { :format => :json }
+    post 'file_delete'       => :file_switch, :constraints => { :format => :json }
+    post 'file_rename'       => :file_switch, :constraints => { :format => :json }
     post 'file_switch'       => :file_switch, :constraints => { :format => :json }
   end
 

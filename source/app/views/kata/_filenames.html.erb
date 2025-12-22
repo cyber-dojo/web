@@ -68,16 +68,7 @@ $(() => {
     filenames.unselectAll();
     $filename.addClass('selected');
     cd.kata.tabs.setFilename(filename);
-    
-    cd.saveCodeFromSyntaxHighlightEditors();
-    const args = {
-      id: cd.kata.id,       // eg 'Xd4f2P'
-      index: cd.kata.index, // eg 18
-      data: $('form').serialize()
-    };
-    $.post('/kata/file_switch', args, (newIndex) => {
-      cd.kata.setIndex(newIndex);
-    });
+    cd.kataFileSwitch();
     
     const disabled = (filename === 'cyber-dojo.sh');
     cd.deleteFileButton().attr('disabled', disabled);

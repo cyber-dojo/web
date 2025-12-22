@@ -12,6 +12,62 @@ $(() => {
 
   const kata = cd.kata;
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // These methods are called whenever a file is created, deleted,
+  // renamed, or selected from the filename-list. They save inter-test 
+  // events, which are visible only in review mode.
+
+  cd.kataFileCreate = (newFilename) => {
+    const args = {
+      id: cd.kata.id,
+      index: cd.kata.index,
+      filename: newFilename,
+      data: $('form').serialize()
+    };
+    $.post('/kata/file_create', args, (newIndex) => {
+      cd.kata.setIndex(newIndex);
+    });
+  };
+
+  cd.kataFileDelete = (newFilename) => {
+    const args = {
+      id: cd.kata.id,
+      index: cd.kata.index,
+      filename: newFilename,
+      data: $('form').serialize()
+    };
+    $.post('/kata/file_delete', args, (newIndex) => {
+      cd.kata.setIndex(newIndex);
+    });
+  };
+
+  cd.kataFileRename = (oldFilename, newFilename) => {
+    const args = {
+      id: cd.kata.id,
+      index: cd.kata.index,
+      old_filename: oldFilename,
+      new_filename: newFilename,
+      data: $('form').serialize()
+    };
+    $.post('/kata/file_rename', args, (newIndex) => {
+      cd.kata.setIndex(newIndex);
+    });
+  };
+
+  cd.kataFileSwitch = () => {
+    cd.saveCodeFromSyntaxHighlightEditors();
+    const args = {
+      id: cd.kata.id,
+      index: cd.kata.index,
+      data: $('form').serialize()
+    };
+    $.post('/kata/file_switch', args, (newIndex) => {
+      cd.kata.setIndex(newIndex);
+    });
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   cd.createFileButton = () => $('.create-file');
   cd.deleteFileButton = () => $('.delete-file');
   cd.renameFileButton = () => $('.rename-file');
@@ -32,6 +88,7 @@ $(() => {
     const initialFilename = `filename${cd.extensionFilenames()[0]}`;
     const okInitiallyDisabled = !isValidFilename(initialFilename);
     const okClicked = (newFilename) => {
+      //cd.kataFileCreate(newFilename);
       kata.editor.createFile(newFilename, {content:''});
       kata.filenames.refresh();
       kata.filenames.select(newFilename);
@@ -45,6 +102,7 @@ $(() => {
     const filename = kata.tabs.filename().click().text();
     const okInitiallyDisabled = false;
     const okClicked = () => {
+      //cd.kataFileDelete(filename);
       kata.editor.deleteFile(filename);
       kata.filenames.refresh();
       kata.filenames.select(kata.filenames.top());
@@ -58,6 +116,7 @@ $(() => {
     const oldFilename = kata.tabs.filename().click().text();
     const okInitiallyDisabled = true;
     const okClicked = (newFilename) => {
+      //cd.kataFileRename(oldFilename, newFilename);
       kata.editor.renameFile(oldFilename, newFilename);
       kata.filenames.refresh();
       kata.filenames.select(newFilename);
@@ -176,7 +235,6 @@ $(() => {
     if (contains('..')) { return false; }
     if (contains('\\')) { return false; }
     if (contains(' '))  { return false; }
-    if (filename === '+REPL') { return false; }
     if (filename === '') { return false; }
     return true;
   };
