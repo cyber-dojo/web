@@ -1,0 +1,5 @@
+
+Made kata_file_create/delete/rename live.
+Tried kata_file_create with an edit to the initial readme.txt file.
+Saver successfully adds the create-file event
+but not the preceeding edit-file event.

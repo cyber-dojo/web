@@ -88,7 +88,7 @@ $(() => {
     const initialFilename = `filename${cd.extensionFilenames()[0]}`;
     const okInitiallyDisabled = !isValidFilename(initialFilename);
     const okClicked = (newFilename) => {
-      //cd.kataFileCreate(newFilename);
+      cd.kataFileCreate(newFilename);
       kata.editor.createFile(newFilename, {content:''});
       kata.filenames.refresh();
       kata.filenames.select(newFilename);
@@ -102,7 +102,7 @@ $(() => {
     const filename = kata.tabs.filename().click().text();
     const okInitiallyDisabled = false;
     const okClicked = () => {
-      //cd.kataFileDelete(filename);
+      cd.kataFileDelete(filename);
       kata.editor.deleteFile(filename);
       kata.filenames.refresh();
       kata.filenames.select(kata.filenames.top());
@@ -116,7 +116,7 @@ $(() => {
     const oldFilename = kata.tabs.filename().click().text();
     const okInitiallyDisabled = true;
     const okClicked = (newFilename) => {
-      //cd.kataFileRename(oldFilename, newFilename);
+      cd.kataFileRename(oldFilename, newFilename);
       kata.editor.renameFile(oldFilename, newFilename);
       kata.filenames.refresh();
       kata.filenames.select(newFilename);
