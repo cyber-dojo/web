@@ -72,3 +72,47 @@ Then I hit [test], get red traffic-light. And events.json Now
 
 Next step is to put alert() calls in to see where cd.kataFileSwitch()
 is being called...
+
+      alert("1");
+      cd.kataFileCreate(newFilename);
+      alert("2");
+      kata.editor.createFile(newFilename, {content:''});
+      alert("3");
+      kata.filenames.refresh();
+      alert("4");
+      kata.filenames.select(newFilename);
+      alert("5");
+
+Output is...
+    1
+    2
+    3
+    cd.kataFileSwitch
+    4
+    cd.kataFileSwitch
+    5
+
+Now put cd.kataFileSwitch() call back.
+Before doing rename, enter saver and do git log.
+...On branch main
+...nothing to commit, working tree clean
+
+Now it works!? Did I fail to rebuild an image?
+Trying delete a file... works
+Trying rename a file... from newfile.txt to newfile2.txt Did not work 
+
+Javascript console shows lots of 500 errors on web server
+eg
+kata_file_switch
+index=6
+"message": "undefined method `[]' for nil"
+
+saver logs
+	    current_content = current_files[filename]['content']
+	                                             ^^^^^^^^^^^
+	/saver/source/model/kata_v2.rb:539:in `block in edited_file'
+
+Need to know what filename this is...
+
+
+
