@@ -7,11 +7,12 @@ require_source 'services/externals'
 include Externals
 
 def create_v2_kata()
-  puts("create_v2_kata")  
   http = saver.instance_variable_get(:@http)
   v0_kid = '5U2J18'
   manifest = http.get('kata_manifest', {id: v0_kid})
   manifest['version'] = 2
+  manifest.delete('group_id')
+  manifest.delete('group_index')
   
   id = http.post('kata_create', {manifest: manifest})
   files = http.get('kata_event', {id:id, index:0 })['files']
@@ -59,10 +60,7 @@ def create_v2_kata()
     summary: {'colour' => 'green', 'predicted' => 'none'}
   })
 
-  events = http.get('kata_events', {id:id})
-  puts(events)
-  puts(id)
-
+  print(id)
 end
 
 create_v2_kata

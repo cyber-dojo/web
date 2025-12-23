@@ -8,6 +8,7 @@ readonly SH_DIR="$(repo_root)/sh"
 
 source "${SH_DIR}/echo_env_vars.sh"
 source "${SH_DIR}/copy_in_saver_test_data.sh"
+source "${SH_DIR}/create_v2_kata.sh"
 source "${SH_DIR}/lib.sh"
 export $(echo_env_vars)
 
@@ -54,4 +55,6 @@ web_build
 docker_rm test_web_nginx
 up_nginx
 copy_in_saver_test_data # eg 5U2J18 (v1)  5rTJv5 (v0)
-open "$(demo_URL)"
+id="$(create_v2_kata)"
+echo "v2 Kata ID=${id}"
+open "http://localhost:80/kata/edit/${id}"
