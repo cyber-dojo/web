@@ -15,7 +15,7 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // Inter-Test-Events
   // Called whenever a file is created, deleted, renamed, or selected 
-  // (from the filename-list). Their saves inter-test events are only
+  // (from the filename-list). Their saved inter-test events are only
   // visible in review mode.
 
   cd.fileCreateITE = (newFilename) => {
@@ -58,14 +58,14 @@ $(() => {
     });
   };
 
-  cd.fileSwitchITE = () => {
+  cd.fileEditITE = () => {
     cd.saveCodeFromSyntaxHighlightEditors();
     const args = {
       id: cd.kata.id,
       index: cd.kata.index,
       data: $('form').serialize()
     };
-    $.post('/kata/file_switch', args, (newIndex) => {
+    $.post('/kata/file_edit', args, (newIndex) => {
       cd.kata.setIndex(newIndex);
     });
   };

@@ -31,8 +31,8 @@ echo_env_vars()
   # add to this function if you want the new images to be
   # part of the dev-loop/demo. For example:
   #
-  echo CYBER_DOJO_SAVER_SHA=157b8ed2ff801a902ca3a7ff830f1bb00867df02
-  echo CYBER_DOJO_SAVER_TAG=157b8ed  
+  echo CYBER_DOJO_SAVER_SHA=dd92121238afc2d5b7349d877124c9393b775f8b
+  echo CYBER_DOJO_SAVER_TAG=dd92121
 }
 
 run_versioner()

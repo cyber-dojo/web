@@ -17,7 +17,7 @@ CyberDojo::Application.routes.draw do
     post 'file_create'       => :file_create, :constraints => { :format => :json }
     post 'file_delete'       => :file_delete, :constraints => { :format => :json }
     post 'file_rename'       => :file_rename, :constraints => { :format => :json }
-    post 'file_switch'       => :file_switch, :constraints => { :format => :json }
+    post 'file_edit'         => :file_edit,   :constraints => { :format => :json }
   end
 
   scope path: '/review', controller: :review do

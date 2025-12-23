@@ -14,32 +14,6 @@ class KataController < ApplicationController
 
   # - - - - - - - - - - - - - - - - - -
 
-  def file_create
-    filename = params[:filename]
-    new_index = saver.kata_file_create(id, index, params_files, filename)
-    render json: new_index
-  end
-
-  def file_delete
-    filename = params[:filename]
-    new_index = saver.kata_file_delete(id, index, params_files, filename)
-    render json: new_index
-  end
-
-  def file_rename
-    old_filename = params[:old_filename]
-    new_filename = params[:new_filename]
-    new_index = saver.kata_file_rename(id, index, params_files, old_filename, new_filename)
-    render json: new_index
-  end
-
-  def file_switch
-    new_index = saver.kata_file_switch(id, index, params_files)
-    render json: new_index
-  end
-
-  # - - - - - - - - - - - - - - - - - -
-
   def run_tests
     kata = Kata.new(self, id)
     t1 = time.now
@@ -62,7 +36,8 @@ class KataController < ApplicationController
     end
 
     begin
-      # index is maintained in the browser. If saver's JSON events are currently
+      # index is maintained in the browser and holds the next-available event index.
+      # For example, if saver's JSON events are currently
       #  [..., {'index':23 }] 
       # then index == 24. Saver uses it to detect out-of-order events.
       # Historically, ran_tests() only ever created a single new saved event. Eg
@@ -76,6 +51,8 @@ class KataController < ApplicationController
       # The index of the red/amber/green light is always new_index - 1.
       # The browser used to simply increment its index after a ran_tests()
       # but now it has to set it directly from light.index+1
+      # index is also set directly in the inter-test-event (ITE) functions
+      # in app/views/kata/_file_create_rename_delete.html.erb
 
       # TODO: This fails on v0,v1 katas
       new_index = ran_tests(@id, index, files, @stdout, @stderr, @status, {
@@ -107,8 +84,36 @@ class KataController < ApplicationController
   end
 
   # - - - - - - - - - - - - - - - - - -
+  # Inter-Test-Events
+  
+  def file_create
+    filename = params[:filename]
+    new_index = saver.kata_file_create(id, index, params_files, filename)
+    render json: new_index
+  end
 
-  def revert # An auto-revert for an incorrect prediction from the test page.
+  def file_delete
+    filename = params[:filename]
+    new_index = saver.kata_file_delete(id, index, params_files, filename)
+    render json: new_index
+  end
+
+  def file_rename
+    old_filename = params[:old_filename]
+    new_filename = params[:new_filename]
+    new_index = saver.kata_file_rename(id, index, params_files, old_filename, new_filename)
+    render json: new_index
+  end
+
+  def file_edit
+    new_index = saver.kata_file_edit(id, index, params_files)
+    render json: new_index
+  end
+
+  # - - - - - - - - - - - - - - - - - -
+  # An auto-revert for an incorrect prediction from the test page.
+
+  def revert
     # Eg [14=green], [15=incorrect prediction], [index=16 ==> revert to 14]
     args = [id, index - 2]
     json = source_event(id, index - 2, :revert, args)
@@ -120,8 +125,9 @@ class KataController < ApplicationController
   end
 
   # - - - - - - - - - - - - - - - - - -
+  # Checkout from the review page.
 
-  def checkout # A [checkout!] from the review page.
+  def checkout 
     from = {
       id:source_id,
       index:source_index,
