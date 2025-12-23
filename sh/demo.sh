@@ -38,6 +38,7 @@ up_nginx()
     run \
       --detach \
       --service-ports \
+      --name test_web_nginx \
       nginx
 }
 
