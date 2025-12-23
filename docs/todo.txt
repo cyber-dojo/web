@@ -9,10 +9,6 @@ Upgrade demo to bring up a v2 kata
 
 ------------------------------------------------------------------
 
-Check behaviour when saver is offline.
-
-------------------------------------------------------------------
-
 See if removing error-route from app/config/routes.rb 
 improves dialog-box errors, eg when you get a server 500
 
@@ -20,24 +16,19 @@ improves dialog-box errors, eg when you get a server 500
 
 In a v2 kata, if you create inter-test-events, and traffic-lights are at
 indexes 2,4,7 then these indexes are visible in the diff-tool-tip.
-If you click light(index=4) then in review mode you see that light 
-underbarred and the index shown is 4.
-You can use [<][>] to navigate to a non-test-event then the index 
-will update, and the underbar will be removed.
-Perhaps this is almost enough?
+If you click light(eg index=4) then in review mode you see that light 
+underbarred and the navigator-index shown is 4.
+You can use [<][>] to navigate to a non-test-event and
+- the diff is shown
+- the index will update
+- the underbar will be removed.
+Perhaps this is almost enough?!
 Could extra[x] only control what the underlying events are?
 
 ------------------------------------------------------------------
 
-The extra[x] checkbox in review mode should go next to the 
+The extra[x] checkbox in review mode should go nearer to the 
 << < 8 > >> navigator.
-
-------------------------------------------------------------------
-
-run-tests works for v2 katas, but is currently broken for the demo 
-kata of 5U2J18 because it is a v1 kata. I'm guessing this is because
-in v1, saver.ran_tests() does not return the new-index. Fix this.
-Simplest might be to return an index from v0,v1 in saver.
 
 ------------------------------------------------------------------
 

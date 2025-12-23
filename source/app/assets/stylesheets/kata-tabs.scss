@@ -44,10 +44,6 @@
         border-right: 1px dotted lighten($darker-color, 50%);
       }
     }
-    &.output, &.REPL { float: right; margin-left: 2px; }
-
-    &.REPL.light { border-bottom: 2px solid white; }
-    &.REPL.dark  { border-bottom: 2px solid black; }
-    &:not(.selected).REPL { border-bottom: 2px solid lighten($darker-color, 10%); }
+    &.output { float: right; margin-left: 2px; }
   }
 }
