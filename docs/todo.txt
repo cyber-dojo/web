@@ -1,4 +1,21 @@
 
+In a v2 kata, if you create inter-test-events, and traffic-lights are at
+indexes 2,4,7 then these indexes are visible in the diff-tool-tip.
+If you click light(index=4) then in review mode you see that light 
+underbarred and the index shown is 4.
+You can use [<][>] to navigate to a non-test-event then the index 
+will update, and the underbar will be removed.
+Perhaps this is almost enough?
+Maybe the extra checkbox will only control what the underlying events
+are?
+
+------------------------------------------------------------------
+
+The extra[x] checkbox in review mode should go next to the 
+<< < 8 > >> navigator.
+
+------------------------------------------------------------------
+
 run-tests works for v2 katas, but is currently broken for the demo 
 kata of 5U2J18 because it is a v1 kata. I'm guessing this is because
 in v1, saver.ran_tests() does not return the new-index.
@@ -11,8 +28,9 @@ get a new traffic-light, review diffs dont generate errors.
 
 ------------------------------------------------------------------
 
-Controller-tests currently use v1 kata which means that
-in app_controller_test_base.rb we have this:
+Controller-tests currently use v1 kata.
+
+In app_controller_test_base.rb we have this:
 
   def post_run_tests(options = {})
     post '/kata/run_tests', params:run_test_params(options)
@@ -20,31 +38,20 @@ in app_controller_test_base.rb we have this:
     assert_response :success, response.body
   end
 
-which cannot be updated to get the POST response.
 Need to upgrade the tests so they use a v2 kata
 
 Switched to default v2 in create_language_kata()
 
-Now only 3 controller-tests fail
+------------------------------------------------------------------
+
+1 controller-test fails
 
   1) Failure:
 CheckoutTest#test_'7de177',
  in group kata, checkout a different avatar's traffic-light
  [checkout_test.rb:68]:
  ====> "message": "Out of order event"
- Is this because of moving to v2?
-
-  2) Failure:
-ReviewTest#test_'1CB441',
- |(was_index,now_index)=(-1,-1)
- [app_controller_test_base.rb:54]:
- Updated to v2. Now passing
-
-  3) Failure:
-ReviewTest#test_'1CB440',
- |was_index!=now_index
- [app_controller_test_base.rb:54]:
-Updated to v2. Now passing
+ I think this is because of moving to v2...
 
 ------------------------------------------------------------------
 
