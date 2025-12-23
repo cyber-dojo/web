@@ -114,5 +114,10 @@ saver logs
 
 Need to know what filename this is...
 
+Plan 
+1. See if kata_file_rename works as very first action (without an edit)
+2. Try to replicate above error for kata_file_switch() and find what filename is
+
+
 
 
