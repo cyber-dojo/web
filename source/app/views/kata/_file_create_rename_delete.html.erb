@@ -13,11 +13,12 @@ $(() => {
   const kata = cd.kata;
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // These methods are called whenever a file is created, deleted,
-  // renamed, or selected from the filename-list. They save inter-test 
-  // events, which are visible only in review mode.
+  // Inter-Test-Events
+  // Called whenever a file is created, deleted, renamed, or selected 
+  // (from the filename-list). Their saves inter-test events are only
+  // visible in review mode.
 
-  cd.kataFileCreate = (newFilename) => {
+  cd.fileCreateITE = (newFilename) => {
     cd.saveCodeFromSyntaxHighlightEditors();
     const args = {
       id: cd.kata.id,
@@ -30,7 +31,7 @@ $(() => {
     });
   };
 
-  cd.kataFileDelete = (newFilename) => {
+  cd.fileDeleteITE = (newFilename) => {
     cd.saveCodeFromSyntaxHighlightEditors();
     const args = {
       id: cd.kata.id,
@@ -43,7 +44,7 @@ $(() => {
     });
   };
 
-  cd.kataFileRename = (oldFilename, newFilename) => {
+  cd.fileRenameITE = (oldFilename, newFilename) => {
     cd.saveCodeFromSyntaxHighlightEditors();
     const args = {
       id: cd.kata.id,
@@ -57,7 +58,7 @@ $(() => {
     });
   };
 
-  cd.kataFileSwitch = () => {
+  cd.fileSwitchITE = () => {
     cd.saveCodeFromSyntaxHighlightEditors();
     const args = {
       id: cd.kata.id,
@@ -91,7 +92,7 @@ $(() => {
     const initialFilename = `filename${cd.extensionFilenames()[0]}`;
     const okInitiallyDisabled = !isValidFilename(initialFilename);
     const okClicked = (newFilename) => {
-      cd.kataFileCreate(newFilename);
+      cd.fileCreateITE(newFilename);
       kata.editor.createFile(newFilename, {content:''});
       kata.filenames.refresh();
       kata.filenames.select(newFilename);
@@ -105,7 +106,7 @@ $(() => {
     const filename = kata.tabs.filename().click().text();
     const okInitiallyDisabled = false;
     const okClicked = () => {
-      cd.kataFileDelete(filename);
+      cd.fileDeleteITE(filename);
       kata.editor.deleteFile(filename);
       kata.filenames.refresh();
       kata.filenames.select(kata.filenames.top());
@@ -119,7 +120,7 @@ $(() => {
     const oldFilename = kata.tabs.filename().click().text();
     const okInitiallyDisabled = true;
     const okClicked = (newFilename) => {
-      cd.kataFileRename(oldFilename, newFilename);
+      cd.fileRenameITE(oldFilename, newFilename);
       kata.editor.renameFile(oldFilename, newFilename);
       kata.filenames.refresh();
       kata.filenames.select(newFilename);
