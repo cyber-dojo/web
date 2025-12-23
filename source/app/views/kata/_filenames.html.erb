@@ -68,7 +68,6 @@ $(() => {
     filenames.unselectAll();
     $filename.addClass('selected');
     cd.kata.tabs.setFilename(filename);
-    cd.kataFileSwitch();
     
     const disabled = (filename === 'cyber-dojo.sh');
     cd.deleteFileButton().attr('disabled', disabled);
@@ -116,7 +115,10 @@ $(() => {
     if (cd.isSourceFile(filename)) {
       $div.addClass('source');
     }
-    $div.click(() => filenames.select(filename));
+    $div.click(() => {
+      filenames.select(filename);
+      cd.kataFileSwitch();
+    });
     return $div;
   };
 
