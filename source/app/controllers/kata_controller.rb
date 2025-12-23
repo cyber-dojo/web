@@ -29,7 +29,7 @@ class KataController < ApplicationController
   def file_rename
     old_filename = params[:old_filename]
     new_filename = params[:new_filename]
-    new_index = saver.kata_file_delete(id, index, params_files, old_filename, new_filename)
+    new_index = saver.kata_file_rename(id, index, params_files, old_filename, new_filename)
     render json: new_index
   end
 
