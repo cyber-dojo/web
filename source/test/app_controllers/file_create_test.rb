@@ -7,10 +7,6 @@ class FileCreateTest  < AppControllerTestBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # I think the problem with this test is KataController.file_create
-  # is using params_files and that is calling 
-  #   data = Rack::Utils.parse_nested_query(params[:data])
-  #   files_from(data['file_content'])
 
   test '276', %w(
   file_create() creates a file-create event in saver 
@@ -21,7 +17,7 @@ class FileCreateTest  < AppControllerTestBase
         'format' => 'js',
         'id' => @id,
         'index' => @index + 1,
-        'data' => { 'file_content' => @files },
+        'data' => Rack::Utils.build_nested_query({ 'file_content' => @files }),
         'filename' => 'newfile.txt'
       }
       assert_response :success
