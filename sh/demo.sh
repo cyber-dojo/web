@@ -12,11 +12,6 @@ source "${SH_DIR}/create_v2_kata.sh"
 source "${SH_DIR}/lib.sh"
 export $(echo_env_vars)
 
-docker_rm()
-{
-  docker rm --force "${1}" 2> /dev/null || true
-}
-
 web_build()
 {
   docker --log-level=ERROR compose \
@@ -43,16 +38,10 @@ up_nginx()
       nginx
 }
 
-demo_URL()
-{
-  echo "http://localhost:80/kata/edit/5U2J18"
-}
-
 # - - - - - - - - - - - - - - - - - - - - - - -
 exit_non_zero_unless_installed docker
-docker_rm test_web
+docker ps -aq | xargs docker rm -f
 web_build
-docker_rm test_web_nginx
 up_nginx
 copy_in_saver_test_data # eg 5U2J18 (v1)  5rTJv5 (v0)
 id="$(create_v2_kata)"
