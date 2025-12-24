@@ -22,14 +22,17 @@ def create_v2_kata()
   index = 1
   index = file_create(id, index, files, 'wibble.txt')
   index = red_traffic_light(id, index, files)
-  #index = file_edit(id, index, files)
+  index = file_edit(id, index, files)
   index = file_rename(id, index, files, 'readme.txt', 'readme2.txt')
   index = amber_traffic_light(id, index, files)
   index = file_delete(id, index, files, 'readme2.txt')
   index = green_traffic_light(id, index, files)
+  index = file_edit(id, index, files)
 
   print(id)
 end
+
+# - - - - - - - - - - - - - - - - - - - - -
 
 def file_create(id, index, files, filename)
   index = $http.post('kata_file_create', {
@@ -65,6 +68,19 @@ def file_rename(id, index, files, old_filename, new_filename)
   files.delete(old_filename)
   index
 end
+
+def file_edit(id, index, files)
+  hiker_sh = files['hiker.sh']['content']
+  files['hiker.sh']['content'] = hiker_sh + "\n#comment"
+  index = $http.post('kata_file_edit', {
+    id: id,
+    index: index,
+    files: files
+  })
+  index
+end
+
+# - - - - - - - - - - - - - - - - - - - - -
 
 def red_traffic_light(id, index, files)
   $http.post('kata_ran_tests', {
@@ -114,5 +130,6 @@ def file(content)
   { 'content' => content, 'truncated' => false }
 end
 
+# - - - - - - - - - - - - - - - - - - - - -
 
 create_v2_kata
