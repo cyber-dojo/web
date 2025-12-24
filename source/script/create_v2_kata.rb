@@ -14,8 +14,8 @@ def create_v2_kata()
   manifest['version'] = 2
   manifest.delete('group_id')
   manifest.delete('group_index')
-  
-  id = $http.post('kata_create', {manifest: manifest})
+  gid = $http.post('group_create', {manifest: manifest})
+  id = $http.post('group_join', {id: gid})  
   files = $http.get('kata_event', {id:id, index:0 })['files']
   # [ bats_help.txt cyber-dojo.sh hiker.sh readme.txt test_hiker.sh ]
 
