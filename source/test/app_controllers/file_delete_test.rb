@@ -11,7 +11,6 @@ class FileDeleteTest  < AppControllerTestBase
   test '145', %w(
   file_delete() creates a file-delete event in saver 
   ) do
-    set_saver_class('SaverService')
     in_kata do
       post '/kata/file_delete', params: {
         'format' => 'js',
@@ -24,6 +23,7 @@ class FileDeleteTest  < AppControllerTestBase
       assert_equal 2, kata.events.size
       event = kata.event(1)
       assert_equal 'file-delete', event['event']
+      assert_equal 'readme.txt', event['filename']
     end
   end
 

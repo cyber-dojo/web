@@ -1,4 +1,8 @@
 
+Note: app/controllers/application_controller.rb container render 404, 500
+Note: after test run, coverage is in, eg
+  file:///Users/jonjagger/repos/cyber-dojo/web/coverage/app_controllers/index.html#_appcontrollers
+
 ------------------------------------------------------------------
 
 - update remaining kata.incrementIndex() calls
