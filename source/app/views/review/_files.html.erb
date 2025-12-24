@@ -22,7 +22,7 @@ $(() => {
     refresh2: () => {
       const args = {
         id:review.id,
-        was_index:revew.wasIndex,
+        was_index:review.wasIndex,
         now_index:review.nowIndex
       };
       review.getJSON('differ', 'diff_lines', args, (diffs) => {
