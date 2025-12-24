@@ -39,7 +39,9 @@ const checkout = () => {
     $.post('/kata/checkout', args, (data) => {...});
 
 So I think this is for checking out a different avatar's traffic-light.
-So demo needs a second avatar.
+So demo needs a second avatar. Done.
+Confirmed. In review mode, pick another avatar.
+[revert] changes into [checkout!]
 
 ------------------------------------------------------------------
 
