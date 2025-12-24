@@ -1,11 +1,37 @@
 
-Note that all web code is on a branch and so is not even on beta yet.
+Note: all web code is on a branch and so is not even on beta yet.
 When it is deployed to beta/prod then inter-test-events will start to
 be created, since saver has inter-test-events in beta/prod already.
 
+Note: reconnect with Bob.
+
 ------------------------------------------------------------------
 
-Upgrade demo to bring up a v2 kata
+Upgrade demo to bring up a v2 kata with inter-test events.
+Use it to get into review page for working on showing inter-test events.
+Have to think about how to handle [revert]
+Do I allow revert from an inter-test event? I think yes.
+Will need (C)(D)(R)(E) icons with an underbar.
+
+------------------------------------------------------------------
+
+extra[x] checkbox is not very visible.
+When you open a review page, should it be checked by default so
+that inter-test-events are immeidately visible?
+
+------------------------------------------------------------------
+
+diff tool-tips will need a little work. Will need to add a 'title'
+eg created/red/amber/green will now also need 
+file-created/file-deleted/file-renamed/file-edited
+
+------------------------------------------------------------------
+
+Have to think about how to handle auto-revert on the kata page 
+(when [test] is pressed).
+Do I go back to the previous traffic-light? 
+That would retain current behaviour from the edit page point of view.
+What other options are there?
 
 ------------------------------------------------------------------
 
