@@ -3,7 +3,7 @@ require_relative 'cleaner'
 
 module FilesFrom # mix-in
 
-  include Cleaner 
+  module_function
 
   def files_from(file_content)
     files = cleaned_files(file_content)
@@ -17,5 +17,7 @@ module FilesFrom # mix-in
     max_file_size = 50 * 1024
     content[0..max_file_size]
   end
+
+  include Cleaner
 
 end

@@ -1,6 +1,7 @@
 
 ------------------------------------------------------------------
 
+- add lib/files_from test
 - update remaining kata.incrementIndex() calls
   - L13  source/app/views/kata/_index.html.erb (definition)
   - L145 source/app/views/kata/run_tests.js.erb (in revert())
