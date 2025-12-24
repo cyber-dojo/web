@@ -15,7 +15,7 @@ module FilesFrom # mix-in
 
   def sanitized(content)
     max_file_size = 50 * 1024
-    content[0..max_file_size]
+    content[0...max_file_size]
   end
 
   include Cleaner
