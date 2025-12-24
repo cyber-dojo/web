@@ -7,6 +7,10 @@ class FileDeleteTest  < AppControllerTestBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # I think the problem with this test is KataController.file_delete
+  # is using params_files and that is calling 
+  #   data = Rack::Utils.parse_nested_query(params[:data])
+  #   files_from(data['file_content'])
 
   test '145', %w(
   file_delete() creates a file-delete event in saver 
@@ -17,7 +21,7 @@ class FileDeleteTest  < AppControllerTestBase
         'format' => 'js',
         'id' => @id,
         'index' => @index + 1,
-        'files' => @files,
+        'data' => { 'file_content' => @files }, # <<<<
         'filename' => 'readme.txt'
       }
       assert_response :success
