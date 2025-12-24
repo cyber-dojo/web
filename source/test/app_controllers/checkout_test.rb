@@ -62,7 +62,7 @@ class CheckoutTest  < AppControllerTestBase
           'src_avatar_index' => lion_avatar_index,
           'src_index' => 1,
           'id'     => hippo.id,
-          'index'  => 2,
+          'index'  => 1,
           'format' => 'json'
         }
         assert_response :success
