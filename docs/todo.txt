@@ -1,4 +1,19 @@
 
+- fix checkout test Failure
+- update remaining kata.incrementIndex() calls
+  - L13  source/app/views/kata/_index.html.erb (definition)
+  - L145 source/app/views/kata/run_tests.js.erb (in revert())
+  - L40  source/app/views/review/_checkout_button.html.erb 
+- handle auto-revert on [test] page
+- fix existing tests. See app_controller_test_base.rb post_run_tests()
+  which does an auto-increment of index
+- start adding new controller tests
+
+- make (C)(D)(R)(E) icons visible when extra[x] is ticked
+- add diff_summary tooltips for (C)(D)(R)(E) icons
+
+------------------------------------------------------------------
+
 Note: all web code is on a branch and so is not even on beta yet.
 When it is deployed to beta/prod then inter-test-events will start to
 be created, since saver has inter-test-events in beta/prod already.
@@ -20,7 +35,7 @@ Will need (C)(D)(R)(E) icons with an underbar.
 
 extra[x] checkbox is not very visible.
 When you open a review page, should it be checked by default so
-that inter-test-events are immeidately visible?
+that inter-test-events are immediately visible?
 
 ------------------------------------------------------------------
 

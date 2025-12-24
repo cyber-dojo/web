@@ -29,7 +29,7 @@ $(() => {
   const events = <%= raw @events.to_json %>;
   events.forEach((event) => {
     cd.kata.appendTrafficLight(event);
-    cd.kata.incrementIndex();
+    cd.kata.setIndex(event.index);
   });
   cd.kata.scrollLastTrafficLightIntoView();
   cd.kata.setupPrediction();
