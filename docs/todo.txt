@@ -3,7 +3,10 @@ Note: all web code is on a branch and so is not even on beta yet.
 When it is deployed to beta/prod then inter-test-events will start to
 be created, since saver has inter-test-events in beta/prod already.
 
-Note: reconnect with Bob.
+------------------------------------------------------------------
+
+stdout/stderr/status appear below the file knave when reviewing 
+an inter-test-event index. They should not.
 
 ------------------------------------------------------------------
 

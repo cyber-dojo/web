@@ -23,8 +23,9 @@ def create_v2_kata()
   index = file_create(id, index, files, 'wibble.txt')
   index = red_traffic_light(id, index, files)
   #index = file_edit(id, index, files)
-  index = file_delete(id, index, files, 'wibble.txt')
+  index = file_rename(id, index, files, 'readme.txt', 'readme2.txt')
   index = amber_traffic_light(id, index, files)
+  index = file_delete(id, index, files, 'readme2.txt')
   index = green_traffic_light(id, index, files)
 
   print(id)
@@ -49,6 +50,19 @@ def file_delete(id, index, files, filename)
     filename: filename
   })
   files.delete(filename)
+  index
+end
+
+def file_rename(id, index, files, old_filename, new_filename)
+  index = $http.post('kata_file_rename', {
+    id: id,
+    index: index,
+    files: files,
+    old_filename: old_filename,
+    new_filename: new_filename
+  })
+  files[new_filename] = file(files[old_filename]['content'])
+  files.delete(old_filename)
   index
 end
 
