@@ -1,6 +1,6 @@
 require_relative 'app_controller_test_base'
 
-class FileDeleteTest  < AppControllerTestBase
+class FileRenameTest  < AppControllerTestBase
 
   def self.hex_prefix
     '87C'
