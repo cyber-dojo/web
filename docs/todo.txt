@@ -11,6 +11,12 @@ Fix test warnings:
   - L13  source/app/views/kata/_index.html.erb (definition)
   - L145 source/app/views/kata/run_tests.js.erb (in revert())
   - L40  source/app/views/review/_checkout_button.html.erb 
+- comment out JS calls to file-create/delete/rename/edit 
+  and do careful check that everything still works, revert,checkout,predict
+  and then do a release
+
+------------------------------------------------------------------
+
 - handle auto-revert on [test] page
 - fix existing tests. See app_controller_test_base.rb post_run_tests()
   which does an auto-increment of index
