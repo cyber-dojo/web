@@ -7,13 +7,22 @@ Fix test warnings:
 
 ------------------------------------------------------------------
 
+- comment out JS calls to file-create/delete/rename/edit 
+  and do careful check that everything still works, revert,checkout,predict
+  and then do a release
+- check dashboard passes previous-index correctly and review-page
+  that gets opened honours the (was-index,now-index). eg 5-7
+  It does. In review page we see 5-7
+- ? make saver.ran_tests() create two events, file-edit, and then a colour
+  release that
+- ? switch on file-create/delete/rename/edit
+
+------------------------------------------------------------------
+
 - update remaining kata.incrementIndex() calls
   - L13  source/app/views/kata/_index.html.erb (definition)
   - L145 source/app/views/kata/run_tests.js.erb (in revert())
   - L40  source/app/views/review/_checkout_button.html.erb 
-- comment out JS calls to file-create/delete/rename/edit 
-  and do careful check that everything still works, revert,checkout,predict
-  and then do a release
 
 ------------------------------------------------------------------
 

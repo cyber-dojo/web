@@ -20,4 +20,18 @@ class RedAmberGreenTest  < AppControllerTestBase
     end
   end
 
+  # - - - - - - - - - - - - - - - - - - - -
+
+  test '224', %w(
+  |when run_tests() is 'red' and creates a file called outcome.special
+  |then the colour becomes 'red_special
+  ) do
+    set_runner_class('RunnerService')
+    in_kata do |kata|
+      @files['cyber-dojo.sh'] += "\necho Hi > outcome.special"
+      post_run_tests
+      assert_equal 'green_special', kata.event(-1)['colour']
+    end
+  end
+
 end
