@@ -3,8 +3,6 @@ require_relative 'cleaner'
 
 module FilesFrom # mix-in
 
-  module_function
-
   def files_from(file_content)
     files = cleaned_files(file_content)
     files.delete('output')

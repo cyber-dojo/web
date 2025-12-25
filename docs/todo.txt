@@ -8,10 +8,6 @@ Note: after test run, coverage is in, eg
 Fix test warnings:
   /cyber-dojo/test/test_hex_id_helpers.rb:71: warning: finalizer references object to be finalized
 
-Fix:
-  SimpleCov failed to recognize the test framework and/or suite used. 
-  Please specify manually using SimpleCov.command_name 'Unit Tests'.  
-
 ------------------------------------------------------------------
 
 - update remaining kata.incrementIndex() calls

@@ -2,8 +2,6 @@
 
 module Cleaner # mix-in
 
-  module_function
-
   def cleaned_files(files)
     # files is an ActionController::Parameters
     # so you can't use .map or .transform_values
