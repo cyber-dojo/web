@@ -30,5 +30,11 @@ run_tests_in_container()
 
   mkdir -p "${DST}"
   docker cp "${SRC}/." "${DST}"
+  echo
+  echo "${DST}/lib/index.html"
+  echo "${DST}/app_models/index.html"
+  echo "${DST}/app_services/index.html"
+  echo "${DST}/app_controllers/index.html"
+
   return ${STATUS}
 }
