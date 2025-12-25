@@ -13,7 +13,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   def in_kata(options={}, &block)
     create_language_kata(options)
     @files = plain(kata.event(-1)['files'])
-    @index = 0
+    @index = 1
     block.call(kata)
   end
 
@@ -54,13 +54,14 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
       params['data'] = Rack::Utils.build_nested_query(params['data'])
     end
     post path, params: params
+    events = saver.kata_events(@id)
+    @index = events[-1]['index'] + 1
   end
 
   # - - - - - - - - - - - - - - - -
 
   def post_run_tests(options = {})
     post_json '/kata/run_tests', run_test_params(options)
-    @index += 1
     assert_response :success, response.body
   end
 
@@ -71,7 +72,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
       'id'               => (options['id'] || kata.id),
       'image_name'       => kata.manifest['image_name'],
       'max_seconds'      => (options['max_seconds'] || kata.manifest['max_seconds']),
-      'index'            => @index + 1,
+      'index'            => @index,
       'file_content'     => @files,
       'predicted'        => (options['predicted'] || 'none')
     }

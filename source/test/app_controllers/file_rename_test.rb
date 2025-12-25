@@ -14,7 +14,7 @@ class FileRenameTest  < AppControllerTestBase
     in_kata do
       post_json '/kata/file_rename', {
         'id' => @id,
-        'index' => @index + 1,
+        'index' => @index,
         'data' => { 'file_content' => @files },
         'old_filename' => 'readme.txt',
         'new_filename' => 'readme2.txt'

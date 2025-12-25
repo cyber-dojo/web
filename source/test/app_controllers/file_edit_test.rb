@@ -15,7 +15,7 @@ class FileEditTest  < AppControllerTestBase
       @files['readme.txt'] += 'Hello world'
       post_json '/kata/file_edit', {
         'id' => @id,
-        'index' => @index + 1,
+        'index' => @index,
         'data' => { 'file_content' => @files }
       }
       assert_response :success

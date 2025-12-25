@@ -14,7 +14,7 @@ class FileDeleteTest  < AppControllerTestBase
     in_kata do
       post_json '/kata/file_delete', {
         'id' => @id,
-        'index' => @index + 1,
+        'index' => @index,
         'data' => { 'file_content' => @files },
         'filename' => 'readme.txt'
       }

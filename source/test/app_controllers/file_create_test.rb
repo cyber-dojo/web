@@ -14,7 +14,7 @@ class FileCreateTest  < AppControllerTestBase
     in_kata do
       post_json '/kata/file_create', {
         'id' => @id,
-        'index' => @index + 1,
+        'index' => @index,
         'data' => { 'file_content' => @files },
         'filename' => 'newfile.txt'
       }
