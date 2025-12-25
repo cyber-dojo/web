@@ -12,11 +12,10 @@ class FileCreateTest  < AppControllerTestBase
   file_create() creates a file-create event in saver 
   ) do
     in_kata do
-      post '/kata/file_create', params: {
-        'format' => 'js',
+      post_json '/kata/file_create', {
         'id' => @id,
         'index' => @index + 1,
-        'data' => Rack::Utils.build_nested_query({ 'file_content' => @files }),
+        'data' => { 'file_content' => @files },
         'filename' => 'newfile.txt'
       }
       assert_response :success

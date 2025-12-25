@@ -13,7 +13,7 @@ class KataControllerTest  < AppControllerTestBase
     set_runner_class('RunnerService')
     in_kata do |kata|
       stdout,stderr = capture_stdout_stderr do
-        post '/kata/run_tests', params:run_test_params({ 'id' => 'bad' })
+        post_json '/kata/run_tests', run_test_params({ 'id' => 'bad' })
       end
       assert_equal '', stderr
       assert stdout.include?('no implicit conversion of String into Integer')

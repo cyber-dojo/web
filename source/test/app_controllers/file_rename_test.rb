@@ -12,11 +12,10 @@ class FileRenameTest  < AppControllerTestBase
   file_rename() creates a file-rename event in saver 
   ) do
     in_kata do
-      post '/kata/file_rename', params: {
-        'format' => 'js',
+      post_json '/kata/file_rename', {
         'id' => @id,
         'index' => @index + 1,
-        'data' => Rack::Utils.build_nested_query({ 'file_content' => @files }),
+        'data' => { 'file_content' => @files },
         'old_filename' => 'readme.txt',
         'new_filename' => 'readme2.txt'
       }

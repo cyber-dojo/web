@@ -12,11 +12,10 @@ class FileDeleteTest  < AppControllerTestBase
   file_delete() creates a file-delete event in saver 
   ) do
     in_kata do
-      post '/kata/file_delete', params: {
-        'format' => 'js',
+      post_json '/kata/file_delete', {
         'id' => @id,
         'index' => @index + 1,
-        'data' => Rack::Utils.build_nested_query({ 'file_content' => @files }),
+        'data' => { 'file_content' => @files },
         'filename' => 'readme.txt'
       }
       assert_response :success

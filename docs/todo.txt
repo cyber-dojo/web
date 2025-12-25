@@ -1,11 +1,17 @@
 
 Note: app/controllers/application_controller.rb container render 404, 500
+Need to improve dialog-box errors, eg when you get a server 500
+
 Note: after test run, coverage is in, eg
   file:///Users/jonjagger/repos/cyber-dojo/web/coverage/app_controllers/index.html#_appcontrollers
 
 Fix test warnings:
   /cyber-dojo/test/test_hex_id_helpers.rb:71: warning: finalizer references object to be finalized
-  
+
+Fix:
+  SimpleCov failed to recognize the test framework and/or suite used. 
+  Please specify manually using SimpleCov.command_name 'Unit Tests'.  
+
 ------------------------------------------------------------------
 
 - update remaining kata.incrementIndex() calls
@@ -58,11 +64,6 @@ Have to think about how to handle auto-revert on the kata page
 Do I go back to the previous traffic-light? 
 That would retain current behaviour from the edit page point of view.
 What other options are there?
-
-------------------------------------------------------------------
-
-See if removing error-route from app/config/routes.rb 
-improves dialog-box errors, eg when you get a server 500
 
 ------------------------------------------------------------------
 

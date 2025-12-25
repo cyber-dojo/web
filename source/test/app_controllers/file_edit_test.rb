@@ -13,11 +13,10 @@ class FileEditTest  < AppControllerTestBase
   ) do
     in_kata do
       @files['readme.txt'] += 'Hello world'
-      post '/kata/file_edit', params: {
-        'format' => 'js',
+      post_json '/kata/file_edit', {
         'id' => @id,
         'index' => @index + 1,
-        'data' => Rack::Utils.build_nested_query({ 'file_content' => @files })
+        'data' => { 'file_content' => @files }
       }
       assert_response :success
       assert_equal 2, kata.events.size

@@ -48,8 +48,18 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   # - - - - - - - - - - - - - - - -
 
+  def post_json(path, params)
+    params['format'] = 'js'
+    if params.key?('data')
+      params['data'] = Rack::Utils.build_nested_query(params['data'])
+    end
+    post path, params: params
+  end
+
+  # - - - - - - - - - - - - - - - -
+
   def post_run_tests(options = {})
-    post '/kata/run_tests', params:run_test_params(options)
+    post_json '/kata/run_tests', run_test_params(options)
     @index += 1
     assert_response :success, response.body
   end
@@ -58,7 +68,6 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   def run_test_params(options = {})
     {
-      'format'           => 'js',
       'id'               => (options['id'] || kata.id),
       'image_name'       => kata.manifest['image_name'],
       'max_seconds'      => (options['max_seconds'] || kata.manifest['max_seconds']),
