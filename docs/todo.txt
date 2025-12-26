@@ -13,6 +13,8 @@ source/app/services/externals.rb does this
   end
 Is this ok? Tests need ability to set their own runner.
 
+How do you call only certain tests?
+
 ------------------------------------------------------------------
 
 - comment out JS calls to file-create/delete/rename/edit 

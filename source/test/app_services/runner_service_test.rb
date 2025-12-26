@@ -27,7 +27,7 @@ class RunnerServiceTest < AppServicesTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '3A8',
-  'smoke test ready?' do
+  'ready? smoke test' do
     assert runner.ready?
   end
 

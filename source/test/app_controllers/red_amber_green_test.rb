@@ -29,12 +29,18 @@ class RedAmberGreenTest  < AppControllerTestBase
   test '224', %w(
   |when run_tests() is 'red' and creates a file called outcome.special
   |then the colour becomes 'red_special
+  |and the outcome.special file is not saved
   ) do
-    with_runner_class('RunnerService') do
+    with_runner_class('RunnerStub') do
       in_kata do |kata|
-        @files['cyber-dojo.sh'] += "\necho Hi > outcome.special"
-        post_run_tests
-        assert_equal 'green_special', kata.event(-1)['colour']
+        runner.stub_run({
+          outcome: 'red',
+          created: {'outcome.special' => content('Hello')}
+        })
+        post_run_tests 
+        last = kata.event(-1)
+        assert_equal 'red_special', last['colour']
+        refute last['files'].keys.include?('outcome.special')
       end
     end
   end
