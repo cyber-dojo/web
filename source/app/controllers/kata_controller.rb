@@ -54,7 +54,6 @@ class KataController < ApplicationController
       # index is also set directly in the inter-test-event (ITE) functions
       # in app/views/kata/_file_create_rename_delete.html.erb
 
-      # TODO: This fails on v0,v1 katas
       new_index = ran_tests(@id, index, files, @stdout, @stderr, @status, {
         duration: duration,
         colour: @outcome,

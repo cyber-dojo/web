@@ -61,7 +61,8 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   # - - - - - - - - - - - - - - - -
 
   def post_run_tests(options = {})
-    post_json '/kata/run_tests', run_test_params(options)
+    params = run_test_params(options)
+    post_json '/kata/run_tests', params
     assert_response :success, response.body
   end
 
@@ -72,7 +73,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
       'id'               => (options['id'] || kata.id),
       'image_name'       => kata.manifest['image_name'],
       'max_seconds'      => (options['max_seconds'] || kata.manifest['max_seconds']),
-      'index'            => @index,
+      'index'            => (options['index'] || @index),
       'file_content'     => @files,
       'predicted'        => (options['predicted'] || 'none')
     }
