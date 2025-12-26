@@ -15,14 +15,14 @@ class TextFileChangesTest  < AppControllerTestBase
   |see also https://github.com/cyber-dojo/cyber-dojo/issues/7
   ) do
     with_runner_class('RunnerStub') do
-      filename = 'readme.txt'
+      existing_filename = 'readme.txt'
       in_kata do |kata|
-        assert kata.event(-1)['files'].keys.include?(filename)
-        runner.stub_run({deleted: ['readme.txt']})
+        assert kata.event(-1)['files'].keys.include?(existing_filename)
+        runner.stub_run({deleted: [existing_filename]})
         post_run_tests
         files = kata.event(-1)['files']
         filenames = files.keys.sort
-        assert filenames.include?(filename), filenames
+        assert filenames.include?(existing_filename), filenames
       end
     end
   end
@@ -34,15 +34,17 @@ class TextFileChangesTest  < AppControllerTestBase
   |when the test-event occurs
   |then the saver records the new file
   ) do
-    with_runner_class('RunnerService') do
-      filename = 'wibble.txt'
+    with_runner_class('RunnerStub') do
+      new_filename = 'wibble.txt'
+      content = 'Hello world'
       in_kata do |kata|
-        change_file('cyber-dojo.sh', "echo -n Hello > #{filename}")
+        refute kata.event(-1)['files'].keys.include?(new_filename)
+        runner.stub_run({created: {new_filename => {'content'=>content, 'truncated'=>false}}})
         post_run_tests
         files = kata.event(-1)['files']
         filenames = files.keys.sort
-        assert filenames.include?(filename), filenames
-        assert_equal 'Hello', files[filename]['content']
+        assert filenames.include?(new_filename), filenames
+        assert_equal content, files[new_filename]['content']
       end
     end
   end
@@ -54,16 +56,17 @@ class TextFileChangesTest  < AppControllerTestBase
   |when the test-event occurs
   |then the saver records the changed file
   ) do
-    with_runner_class('RunnerService') do
-      filename = 'readme.txt'
+    with_runner_class('RunnerStub') do
+      existing_filename = 'readme.txt'
+      content = 'Hello world'
       in_kata do |kata|
-        assert kata.event(-1)['files'].keys.include?(filename)
-        change_file('cyber-dojo.sh', "echo -n Hello > #{filename}")
+        assert kata.event(-1)['files'].keys.include?(existing_filename)
+        runner.stub_run({changed: {existing_filename => {'content'=>content, 'truncated'=>false}}})
         post_run_tests
         files = kata.event(-1)['files']
         filenames = files.keys.sort
-        assert filenames.include?(filename), filenames
-        assert_equal 'Hello', files[filename]['content']
+        assert filenames.include?(existing_filename), filenames
+        assert_equal content, files[existing_filename]['content']
       end
     end
   end
