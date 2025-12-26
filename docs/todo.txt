@@ -11,7 +11,7 @@ source/app/services/externals.rb does this
   def runner
     @runner ||= external
   end
-which I think is a mistake. Tests need ability to set their own runner.
+Is this ok? Tests need ability to set their own runner.
 
 ------------------------------------------------------------------
 

@@ -7,14 +7,17 @@ class RedAmberGreenTest  < AppControllerTestBase
   end
 
   test '223', %w( red-green-amber ) do
-    with_runner_class('RunnerService') do
+    with_runner_class('RunnerStub') do
       in_kata do |kata|
+        runner.stub_run({outcome: 'red'})
         post_run_tests
         assert_equal 'red', kata.event(-1)['colour']
-        sub_file('hiker.sh', '6 * 9', '6 * 7')
+
+        runner.stub_run({outcome: 'green'})
         post_run_tests
         assert_equal 'green', kata.event(-1)['colour']
-        change_file('hiker.sh', 'syntax-error')
+
+        runner.stub_run({outcome: 'amber'})
         post_run_tests
         assert_equal 'amber', kata.event(-1)['colour']
       end
