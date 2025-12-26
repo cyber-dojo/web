@@ -11,18 +11,19 @@ class FileDeleteTest  < AppControllerTestBase
   test '145', %w(
   file_delete() creates a file-delete event in saver 
   ) do
+    deleted_filename = 'readme.txt'
     in_kata do
       post_json '/kata/file_delete', {
         'id' => @id,
         'index' => @index,
         'data' => { 'file_content' => @files },
-        'filename' => 'readme.txt'
+        'filename' => deleted_filename
       }
       assert_response :success
       assert_equal 2, kata.events.size
       event = kata.event(1)
       assert_equal 'file-delete', event['event']
-      assert_equal 'readme.txt', event['filename']
+      assert_equal deleted_filename, event['filename']
     end
   end
 
