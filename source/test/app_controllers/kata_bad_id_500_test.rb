@@ -9,13 +9,15 @@ class KataControllerTest  < AppControllerTestBase
     'BE8'
   end
 
-  test '76E', %w( run_tests with bad ID is a 200 because SaverExceptions are swallowed ) do
-    with_runner_class('RunnerService') do
+  test '76E', %w(
+  |run_tests with bad ID is a 200 because SaverExceptions are swallowed
+  ) do
+    with_runner_class('RunnerStub') do
       in_kata do |kata|
         stdout,stderr = capture_stdout_stderr do
           post_json '/kata/run_tests', run_test_params({ 'id' => 'bad' })
         end
-        assert_equal '', stderr
+        assert_equal '', stderr        
         assert stdout.include?('no implicit conversion of String into Integer')
         assert_response 200
       end
