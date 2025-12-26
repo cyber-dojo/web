@@ -7,10 +7,11 @@ class KataEdit200Test  < AppControllerTestBase
   end
 
   test '9B9', %w( edit landing page ) do
-    set_runner_class('RunnerService')
-    in_kata do |kata|
-      get "/kata/edit/#{kata.id}"
-      assert_response :success
+    with_runner_class('RunnerService') do
+      in_kata do |kata|
+        get "/kata/edit/#{kata.id}"
+        assert_response :success
+      end
     end
   end
 

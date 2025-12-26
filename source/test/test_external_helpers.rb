@@ -21,15 +21,26 @@ module TestExternalHelpers # mix-in
 
   # - - - - - - - - - - - - - - - - - - -
 
+  def with_runner_class(name)
+    before = get_class('runner')
+    begin
+      set_runner_class(name)
+      yield
+    ensure 
+      set_runner_class(before)
+    end
+  end
+
   def set_runner_class(name)
     set_class('runner', name)
   end
 
-  def set_saver_class(name)
-    set_class('saver', name)
-  end
-
   # - - - - - - - - - - - - - - - - - - -
+
+  def get_class(name)
+    key = 'CYBER_DOJO_' + name.upcase + '_CLASS'
+    ENV[key]
+  end
 
   def set_class(name, value)
     key = 'CYBER_DOJO_' + name.upcase + '_CLASS'

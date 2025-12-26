@@ -19,20 +19,21 @@ class MobbingOutOfSyncTest  < AppControllerTestBase
   then it is a 200 (and not a 500)
   but no extra saver event is created.
   ) do
-    set_runner_class('RunnerStub')
-    in_kata do |kata|
-      post_run_tests
-      assert_equal 2, @index
+    with_runner_class('RunnerStub') do
+      in_kata do |kata|
+        post_run_tests
+        assert_equal 2, @index
 
-      post_run_tests
-      assert_equal 3, @index
+        post_run_tests
+        assert_equal 3, @index
 
-      stdout,stderr = capture_stdout_stderr {
-        post_run_tests({'index' => 2})
-      }
-      assert_equal 3, @index
-      assert_equal '', stderr
-      assert stdout.include?('"message": "Out of order event"')
+        stdout,stderr = capture_stdout_stderr {
+          post_run_tests({'index' => 2})
+        }
+        assert_equal 3, @index
+        assert_equal '', stderr
+        assert stdout.include?('"message": "Out of order event"')
+      end
     end
   end
 
