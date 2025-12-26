@@ -4,35 +4,24 @@ Need to improve dialog-box errors, eg when you get a server 500
 
 Fix test warnings:
   /cyber-dojo/test/test_hex_id_helpers.rb:71: warning: finalizer references object to be finalized
+  trickier than it looks. Inside a module...
+  First step is to get new empty Minitest.after_run in place. See differ. Done.
+  Then inline the module directly into the base class.
 
-Many app-controller tests use RunnerService when they could use RunnerStub
-
-source/app/services/externals.rb does this
-  def runner
-    @runner ||= external
-  end
-Is this ok? Tests need ability to set their own runner.
+Any remaining app-controller tests use RunnerService when they could use RunnerStub?
 
 How do you call only certain tests?
 
 ------------------------------------------------------------------
 
+- check how revert handles logic to know if reverting to specific 
+  traffic-lights is allowed or not.
 - comment out JS calls to file-create/delete/rename/edit 
   and do careful check that everything still works, revert,checkout,predict
   and then do a release
-- check dashboard passes previous-index correctly and review-page
-  that gets opened honours the (was-index,now-index). eg 5-7
-  It does. In review page we see 5-7
 - ? make saver.ran_tests() create two events, file-edit, and then a colour
   release that
 - ? switch on file-create/delete/rename/edit
-
-------------------------------------------------------------------
-
-- update remaining kata.incrementIndex() calls
-  - L13  source/app/views/kata/_index.html.erb (definition)
-  - L145 source/app/views/kata/run_tests.js.erb (in revert())
-  - L40  source/app/views/review/_checkout_button.html.erb 
 
 ------------------------------------------------------------------
 
