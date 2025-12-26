@@ -14,8 +14,8 @@ class TextFileChangesTest  < AppControllerTestBase
   |because the illusion is the [test] is running in the browser
   |see also https://github.com/cyber-dojo/cyber-dojo/issues/7
   ) do
+    existing_filename = 'readme.txt'
     with_runner_class('RunnerStub') do
-      existing_filename = 'readme.txt'
       in_kata do |kata|
         assert kata.event(-1)['files'].keys.include?(existing_filename)
         runner.stub_run({deleted: [existing_filename]})
@@ -31,20 +31,19 @@ class TextFileChangesTest  < AppControllerTestBase
 
   test '9DD', %w(
   |given cyber-dojo.sh contains a command to create new text file
-  |when the test-event occurs
   |then the saver records the new file
   ) do
+    new_filename = 'wibble.txt'
+    new_content = 'Hello world'
     with_runner_class('RunnerStub') do
-      new_filename = 'wibble.txt'
-      content = 'Hello world'
       in_kata do |kata|
         refute kata.event(-1)['files'].keys.include?(new_filename)
-        runner.stub_run({created: {new_filename => {'content'=>content, 'truncated'=>false}}})
+        runner.stub_run({created: {new_filename => content(new_content)}})
         post_run_tests
         files = kata.event(-1)['files']
         filenames = files.keys.sort
         assert filenames.include?(new_filename), filenames
-        assert_equal content, files[new_filename]['content']
+        assert_equal new_content, files[new_filename]['content']
       end
     end
   end
@@ -53,20 +52,19 @@ class TextFileChangesTest  < AppControllerTestBase
 
   test '9DE', %w(
   |given cyber-dojo.sh contains a command to change an existing text file
-  |when the test-event occurs
   |then the saver records the changed file
   ) do
+    existing_filename = 'readme.txt'
+    changed_content = 'Hello world'
     with_runner_class('RunnerStub') do
-      existing_filename = 'readme.txt'
-      content = 'Hello world'
       in_kata do |kata|
         assert kata.event(-1)['files'].keys.include?(existing_filename)
-        runner.stub_run({changed: {existing_filename => {'content'=>content, 'truncated'=>false}}})
+        runner.stub_run({changed: {existing_filename => content(changed_content)}})
         post_run_tests
         files = kata.event(-1)['files']
         filenames = files.keys.sort
         assert filenames.include?(existing_filename), filenames
-        assert_equal content, files[existing_filename]['content']
+        assert_equal changed_content, files[existing_filename]['content']
       end
     end
   end
@@ -75,22 +73,24 @@ class TextFileChangesTest  < AppControllerTestBase
 
   test '736', %w(
   |given cyber-dojo.sh contains a command to create a new text file called stdout
-  |when the test-event occurs
-  |then the saver records it separately to the standard stdout stream
+  |then the saver records it
+  |but does not confuse it with the standard stdout stream
   ) do
-    with_runner_class('RunnerService') do
+    new_filename = 'stdout'
+    new_content = 'Bonjour'
+    stdout_content = 'Hello'
+    with_runner_class('RunnerStub') do
       in_kata do |kata|
-        script = [
-          "echo -n Hello",
-          "echo -n Bonjour > stdout"
-        ].join("\n")
-        change_file('cyber-dojo.sh', script)
+        runner.stub_run({
+          stdout: stdout_content,
+          created: {new_filename => content(new_content)}
+        })
         post_run_tests
 
         last = kata.event(-1)
         assert last['files'].keys.include?('stdout')
-        assert_equal 'Bonjour', last['files']['stdout']['content']
-        assert_equal 'Hello', last['stdout']['content']
+        assert_equal new_content, last['files']['stdout']['content']
+        assert_equal stdout_content, last['stdout']['content']
       end
     end
   end
@@ -99,22 +99,24 @@ class TextFileChangesTest  < AppControllerTestBase
 
   test '737', %w(
   |given cyber-dojo.sh contains a command to create new text file called 'stderr'
-  |when the test-event occurs
-  |then the saver records it separately to the standard 'stderr' stream
+  |then the saver records it 
+  |but does not confuse it with the standard stdout stream
   ) do
-    with_runner_class('RunnerService') do
+    new_filename = 'stderr'
+    new_content = 'Bonjour2'
+    stderr_content = 'Hello2'
+    with_runner_class('RunnerStub') do
       in_kata do |kata|
-        script = [
-          ">&2 echo -n Hello2",
-          "echo -n Bonjour2 > stderr"
-        ].join("\n")
-        change_file('cyber-dojo.sh', script)
+        runner.stub_run({
+          stderr: stderr_content,
+          created: {new_filename => content(new_content)}
+        })
         post_run_tests
 
         last = kata.event(-1)
         assert last['files'].keys.include?('stderr')
-        assert_equal 'Bonjour2', last['files']['stderr']['content']
-        assert_equal 'Hello2', last['stderr']['content']
+        assert_equal new_content, last['files']['stderr']['content']
+        assert_equal stderr_content, last['stderr']['content']
       end
     end
   end
@@ -123,23 +125,24 @@ class TextFileChangesTest  < AppControllerTestBase
 
   test '738', %w(
   |given cyber-dojo.sh contains a command to create a new text file called 'status'
-  |when the test-event occurs
   |then the saver does record it
-  |and keeps it separate from the file called 'status' in the multiplex
+  |but does not confuse it with the standard status
   ) do
-    with_runner_class('RunnerService') do
+    new_filename = 'status'
+    new_content = 'Bonjour3'
+    status_value = '42'
+    with_runner_class('RunnerStub') do
       in_kata do |kata|
-        script = [
-          "echo -n Bonjour3 > status",
-          "exit 42"
-        ].join("\n")
-        change_file('cyber-dojo.sh', script)
+        runner.stub_run({
+          status: status_value,
+          created: {new_filename => content(new_content)}
+        })
         post_run_tests
 
         last = kata.event(-1)
         assert last['files'].keys.include?('status')
-        assert_equal 'Bonjour3', last['files']['status']['content']
-        assert_equal '42', last['status']
+        assert_equal new_content, last['files']['status']['content']
+        assert_equal status_value, last['status']
       end
     end
   end
