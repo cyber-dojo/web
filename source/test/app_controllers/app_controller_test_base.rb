@@ -30,16 +30,6 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   # - - - - - - - - - - - - - - - -
 
-  def sub_file(filename, from, to)
-    refute_nil @files
-    assert @files.keys.include?(filename), @files.keys.sort
-    content = @files[filename]
-    assert content.include?(from)
-    @files[filename] = content.sub(from, to)
-  end
-
-  # - - - - - - - - - - - - - - - -
-
   def change_file(filename, content)
     refute_nil @files
     assert @files.keys.include?(filename), @files.keys.sort
