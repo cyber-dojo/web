@@ -142,7 +142,7 @@
       index: cd.kata.index // eg 18 (reverting to 16)
     };
     $.post('/kata/revert', args, (data) => {
-      cd.kata.incrementIndex(); // TODO
+      cd.kata.incrementIndex();
       cd.kata.editor.deleteFiles();
       for (const filename in data.files) {
         cd.kata.editor.createFile(filename, { content:data.files[filename] });

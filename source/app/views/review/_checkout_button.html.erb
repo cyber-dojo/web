@@ -37,16 +37,16 @@ $(() => {
     };
     cd.settings.showButton();
     $.post('/kata/checkout', args, (data) => {
-      kata.incrementIndex(); // TODO:
+      kata.incrementIndex();
       kata.editor.deleteFiles();
       for (const filename in data.files) {
-        kata.editor.createFile(filename, { content:data.files[filename] });
+        kata.editor.createFile(filename, { content: data.files[filename] });
         kata.editor.showFile(filename);
       }
       kata.editor.output(data.stdout.content, data.stderr.content, data.status);
       kata.tabs.output().click();
       kata.filenames.refresh();
-      kata.appendTrafficLight(data.light, {scrollIntoView:true});
+      kata.appendTrafficLight(data.light, {scrollIntoView: true});
     }, 'json');
   };
 
