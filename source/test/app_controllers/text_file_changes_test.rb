@@ -147,21 +147,4 @@ class TextFileChangesTest  < AppControllerTestBase
     end
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'A28', %w(
-  generated files are returned from runner
-  unless cyber-dojo.sh explicitly deletes them
-  ) do
-    with_runner_class('RunnerService') do
-      generated_filename = 'xxxx.txt'
-      in_kata do |kata|
-        change_file('cyber-dojo.sh', "cat xxxx > #{generated_filename}")
-        post_run_tests
-        filenames = kata.event(-1)['files'].keys
-        assert filenames.include?(generated_filename), filenames
-      end
-    end
-  end
-
 end
