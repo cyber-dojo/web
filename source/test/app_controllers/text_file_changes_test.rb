@@ -14,11 +14,11 @@ class TextFileChangesTest  < AppControllerTestBase
   |because the illusion is the [test] is running in the browser
   |see also https://github.com/cyber-dojo/cyber-dojo/issues/7
   ) do
-    with_runner_class('RunnerService') do
+    with_runner_class('RunnerStub') do
       filename = 'readme.txt'
       in_kata do |kata|
         assert kata.event(-1)['files'].keys.include?(filename)
-        change_file('cyber-dojo.sh', "rm #{filename}")
+        runner.stub_run({deleted: ['readme.txt']})
         post_run_tests
         files = kata.event(-1)['files']
         filenames = files.keys.sort

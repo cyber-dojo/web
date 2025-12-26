@@ -14,13 +14,15 @@ class RunnerStub
     stub[:stderr] ||= ''
     stub[:status] ||= 0
     stub[:outcome] ||= 'red'
+    stub[:deleted] ||= []
     dir_write(JSON.generate({
       'stdout' => file(stub[:stdout]),
       'stderr' => file(stub[:stderr]),
       'status' => stub[:status],
       'outcome' => stub[:outcome],
       'created' => {},
-      'deleted' => [],
+      #'deleted' => [],
+      'deleted' => stub[:deleted],
       'changed' => {}
     }))
   end
