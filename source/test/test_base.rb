@@ -16,4 +16,7 @@ class TestBase < Minitest::Test
   include TestExternalHelpers
   include TestHexIdHelpers
 
+  Minitest.after_run do
+    # puts("Minitest.after_run")
+  end
 end
