@@ -11,12 +11,14 @@ class CheckoutTest  < AppControllerTestBase
   test '176', %w(
   in individual kata, checkout your own previous traffic-light
   ) do
+    filename = 'hiker.sh'
+    old_content = 'the_answer'
+    new_content = 'something_different'
     in_kata {
-      filename = 'hiker.sh'
-      change_file(filename, old_content='the_answer')
+      @files[filename] = old_content
       post_run_tests # 1
       assert_equal old_content, saver.kata_event(kata.id,-1)['files'][filename]['content']
-      change_file(filename, new_content='something_different')
+      @files[filename] = new_content
       post_run_tests # 2
       assert_equal new_content, saver.kata_event(kata.id,-1)['files'][filename]['content']
 
@@ -48,11 +50,11 @@ class CheckoutTest  < AppControllerTestBase
   test '177', %w(
   in group kata, checkout a different avatar's traffic-light
   ) do
+    filename = 'hiker.sh'
     new_content = 'and now for something_different'
     in_kata do |lion|
       lion_avatar_index = 28
-      filename = 'hiker.sh'
-      change_file(filename, new_content)
+      @files[filename] = new_content
       post_run_tests # 1
 
       in_kata do |hippo|

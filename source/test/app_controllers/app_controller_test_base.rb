@@ -8,8 +8,6 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   include TestExternalHelpers
   include TestHexIdHelpers
 
-  # - - - - - - - - - - - - - - - -
-
   def in_kata(options={}, &block)
     create_language_kata(options)
     @files = plain(kata.event(-1)['files'])
@@ -28,16 +26,6 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     Kata.new(self, @id)
   end
 
-  # - - - - - - - - - - - - - - - -
-
-  def change_file(filename, content)
-    refute_nil @files
-    assert @files.keys.include?(filename), @files.keys.sort
-    @files[filename] = content
-  end
-
-  # - - - - - - - - - - - - - - - -
-
   def post_json(path, params)
     params['format'] = 'js'
     if params.key?('data')
@@ -48,28 +36,22 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     @index = events[-1]['index'] + 1
   end
 
-  # - - - - - - - - - - - - - - - -
-
   def post_run_tests(options = {})
     params = run_test_params(options)
     post_json '/kata/run_tests', params
     assert_response :success, response.body
   end
 
-  # - - - - - - - - - - - - - - - -
-
   def run_test_params(options = {})
     {
-      'id'               => (options['id'] || kata.id),
-      'image_name'       => kata.manifest['image_name'],
-      'max_seconds'      => (options['max_seconds'] || kata.manifest['max_seconds']),
-      'index'            => (options['index'] || @index),
-      'file_content'     => @files,
-      'predicted'        => (options['predicted'] || 'none')
+      'id'           => (options['id'] || kata.id),
+      'image_name'   => kata.manifest['image_name'],
+      'max_seconds'  => (options['max_seconds'] || kata.manifest['max_seconds']),
+      'index'        => (options['index'] || @index),
+      'file_content' => @files,
+      'predicted'    => (options['predicted'] || 'none')
     }
   end
-
-  # - - - - - - - - - - - - - - - -
 
   def json
     ActiveSupport::JSON.decode(html)

@@ -13,10 +13,13 @@ class ReverterTest  < AppControllerTestBase
   ) do
     in_kata {
       filename = 'hiker.sh'
-      change_file(filename, old_content='the_answer')
+      old_content = 'the_answer'
+      new_content = 'something_different'
+
+      @files[filename] = old_content
       post_run_tests # 1
       assert_equal old_content, kata.event(-1)['files'][filename]['content']
-      change_file(filename, new_content='something_different')
+      @files[filename] = new_content
       post_run_tests # 2
       assert_equal new_content, kata.event(-1)['files'][filename]['content']
 
