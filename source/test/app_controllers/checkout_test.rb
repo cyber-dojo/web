@@ -9,7 +9,7 @@ class CheckoutTest  < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '176', %w(
-  in individual kata, checkout our own previous traffic-light
+  in individual kata, checkout your own previous traffic-light
   ) do
     in_kata {
       filename = 'hiker.sh'
@@ -20,13 +20,12 @@ class CheckoutTest  < AppControllerTestBase
       post_run_tests # 2
       assert_equal new_content, saver.kata_event(kata.id,-1)['files'][filename]['content']
 
-      post '/kata/checkout', params: {
+      post_json '/kata/checkout', {
         'src_id' => kata.id,
         'src_avatar_index' => '',
         'src_index' => 1,
         'id'     => kata.id,
-        'index'  => 3,
-        'format' => 'json'
+        'index'  => 3
       }
       assert_response :success
 
@@ -57,13 +56,12 @@ class CheckoutTest  < AppControllerTestBase
       post_run_tests # 1
 
       in_kata do |hippo|
-        post '/kata/checkout', params: {
+        post_json '/kata/checkout', {
           'src_id' => lion.id,
           'src_avatar_index' => lion_avatar_index,
           'src_index' => 1,
           'id'     => hippo.id,
-          'index'  => 1,
-          'format' => 'json'
+          'index'  => 1
         }
         assert_response :success
 

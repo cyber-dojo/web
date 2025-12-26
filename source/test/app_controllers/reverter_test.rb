@@ -20,12 +20,11 @@ class ReverterTest  < AppControllerTestBase
       post_run_tests # 2
       assert_equal new_content, kata.event(-1)['files'][filename]['content']
 
-      post '/kata/revert', params: {
+      post_json '/kata/revert', {
         'src_id' => kata.id,
         'src_index' => 1,
         'id'     => kata.id,
-        'index'  => 3,
-        'format' => 'json'
+        'index'  => 3
       }
       assert_response :success
 
