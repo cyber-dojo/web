@@ -6,13 +6,15 @@ Any remaining app-controller tests use RunnerService when they could use RunnerS
 
 ------------------------------------------------------------------
 
+- do I really need refresh2() with wasIndex,nowIndex? from test page I will see only RAGs.
+  might be cleaner if review always calculates wasIndex?
+  remove refresh2() code and deploy?
+
 - extra[x] checkbox visible only if there are inter-test-events 
   modify demo so one avatar has inter-test-events and one avatar does not
 - extra[x] selected changes lib.isVisible so appendTrafficLights() gets inter-test-events too 
   and unselected loses them
 - when you click on a RAG and previous RAG is -4 (say), the diff is correctly shown
-- do I really need refresh2() with wasIndex,nowIndex? from test page I will see only RAGs
-  might be cleaner if review always calculates wasIndex?
 
 - check how revert handles logic to know if reverting to specific 
   traffic-lights is allowed or not.

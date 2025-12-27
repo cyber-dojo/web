@@ -15,8 +15,12 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // Inter-Test-Events
   // Called whenever a file is created, deleted, renamed, or selected 
-  // (from the filename-list). Their saved inter-test events are only
+  // (from the filename-list). Saved inter-test events are only
   // visible in review mode.
+
+  cd.interTestEvents = () => {
+    return true;
+  };
 
   cd.fileCreateITE = (newFilename) => {
     cd.saveCodeFromSyntaxHighlightEditors();
@@ -92,7 +96,9 @@ $(() => {
     const initialFilename = `filename${cd.extensionFilenames()[0]}`;
     const okInitiallyDisabled = !isValidFilename(initialFilename);
     const okClicked = (newFilename) => {
-      cd.fileCreateITE(newFilename);
+      if (cd.interTestEvents()) {
+        cd.fileCreateITE(newFilename);
+      }
       kata.editor.createFile(newFilename, {content:''});
       kata.filenames.refresh();
       kata.filenames.select(newFilename);
@@ -106,7 +112,9 @@ $(() => {
     const filename = kata.tabs.filename().click().text();
     const okInitiallyDisabled = false;
     const okClicked = () => {
-      cd.fileDeleteITE(filename);
+      if (cd.interTestEvents()) {
+        cd.fileDeleteITE(filename);
+      }
       kata.editor.deleteFile(filename);
       kata.filenames.refresh();
       kata.filenames.select(kata.filenames.top());
@@ -120,7 +128,9 @@ $(() => {
     const oldFilename = kata.tabs.filename().click().text();
     const okInitiallyDisabled = true;
     const okClicked = (newFilename) => {
-      cd.fileRenameITE(oldFilename, newFilename);
+      if (cd.interTestEvents()) {
+        cd.fileRenameITE(oldFilename, newFilename);
+      }
       kata.editor.renameFile(oldFilename, newFilename);
       kata.filenames.refresh();
       kata.filenames.select(newFilename);
