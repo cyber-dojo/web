@@ -15,25 +15,33 @@ def create_v2_kata()
   manifest.delete('group_id')
   manifest.delete('group_index')
   gid = $http.post('group_create', {manifest: manifest})
-  create_avatar(gid)
-  id = create_avatar(gid)
+  create_avatar(gid, inter_test_events=true)
+  id = create_avatar(gid, inter_test_events=false)
   print(id)
 end
 
-def create_avatar(gid)
+def create_avatar(gid, inter_test_events)
   id = $http.post('group_join', {id: gid})  
   files = $http.get('kata_event', {id:id, index:0 })['files']
   # [ bats_help.txt cyber-dojo.sh hiker.sh readme.txt test_hiker.sh ]
 
   index = 1
-  index = file_create(id, index, files, 'wibble.txt')
+  if inter_test_events
+    index = file_create(id, index, files, 'wibble.txt')
+  end
   index = red_traffic_light(id, index, files)
-  index = file_edit(id, index, files)
-  index = file_rename(id, index, files, 'readme.txt', 'readme2.txt')
+  if inter_test_events
+    index = file_edit(id, index, files)  
+    index = file_rename(id, index, files, 'readme.txt', 'readme2.txt')
+  end
   index = amber_traffic_light(id, index, files)
-  index = file_delete(id, index, files, 'readme2.txt')
+  if inter_test_events
+    index = file_delete(id, index, files, 'readme2.txt')
+  end
   index = green_traffic_light(id, index, files)
-  index = file_edit(id, index, files)
+  if inter_test_events
+    index = file_edit(id, index, files)
+  end
   id
 end
 

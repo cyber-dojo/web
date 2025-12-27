@@ -11,7 +11,6 @@ Any remaining app-controller tests use RunnerService when they could use RunnerS
   remove refresh2() code and deploy?
 
 - extra[x] checkbox visible only if there are inter-test-events 
-  modify demo so one avatar has inter-test-events and one avatar does not
 - extra[x] selected changes lib.isVisible so appendTrafficLights() gets inter-test-events too 
   and unselected loses them
 - when you click on a RAG and previous RAG is -4 (say), the diff is correctly shown
