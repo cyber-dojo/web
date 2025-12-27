@@ -7,12 +7,10 @@ class TimedOutTest  < AppControllerTestBase
   end
 
   test '221', %w( timed_out ) do
-    with_runner_class('RunnerStub') do
-      in_kata do |kata|
-        runner.stub_run({outcome: 'timed_out'})
-        post_run_tests
-        assert_equal 'timed_out', kata.event(-1)['colour']
-      end
+    in_kata do |kata|
+      runner.stub_run({outcome: 'timed_out'})
+      post_run_tests
+      assert_equal 'timed_out', kata.event(-1)['colour']
     end
   end
 

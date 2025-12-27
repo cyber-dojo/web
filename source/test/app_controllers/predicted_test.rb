@@ -7,28 +7,24 @@ class PredictedTest  < AppControllerTestBase
   end
 
   test '5b7', %w( predicted right ) do
-    with_runner_class('RunnerStub') do
-      in_kata do |kata|
-        runner.stub_run({outcome: 'red'})
-        post_run_tests({'predicted'=>'red'})
-        last = kata.event(-1)
-        assert_equal 'red', last['predicted']
-        assert_equal 'red', last['colour']
-      end
+    in_kata do |kata|
+      runner.stub_run({outcome: 'red'})
+      post_run_tests({'predicted'=>'red'})
+      last = kata.event(-1)
+      assert_equal 'red', last['predicted']
+      assert_equal 'red', last['colour']
     end
   end
 
   # - - - - - - - - - - - - - - - - - - - -
 
   test '5b8', %w( predicted wrong ) do
-    with_runner_class('RunnerStub') do
-      in_kata do |kata|
-        runner.stub_run({outcome: 'amber'})
-        post_run_tests({'predicted'=>'red'})
-        last = kata.event(-1)
-        assert_equal 'red', last['predicted']
-        assert_equal 'amber', last['colour']
-      end
+    in_kata do |kata|
+      runner.stub_run({outcome: 'amber'})
+      post_run_tests({'predicted'=>'red'})
+      last = kata.event(-1)
+      assert_equal 'red', last['predicted']
+      assert_equal 'amber', last['colour']
     end
   end
 

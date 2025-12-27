@@ -7,20 +7,18 @@ class RedAmberGreenTest  < AppControllerTestBase
   end
 
   test '223', %w( red-green-amber ) do
-    with_runner_class('RunnerStub') do
-      in_kata do |kata|
-        runner.stub_run({outcome: 'red'})
-        post_run_tests
-        assert_equal 'red', kata.event(-1)['colour']
+    in_kata do |kata|
+      runner.stub_run({outcome: 'red'})
+      post_run_tests
+      assert_equal 'red', kata.event(-1)['colour']
 
-        runner.stub_run({outcome: 'green'})
-        post_run_tests
-        assert_equal 'green', kata.event(-1)['colour']
+      runner.stub_run({outcome: 'green'})
+      post_run_tests
+      assert_equal 'green', kata.event(-1)['colour']
 
-        runner.stub_run({outcome: 'amber'})
-        post_run_tests
-        assert_equal 'amber', kata.event(-1)['colour']
-      end
+      runner.stub_run({outcome: 'amber'})
+      post_run_tests
+      assert_equal 'amber', kata.event(-1)['colour']
     end
   end
 
@@ -31,17 +29,15 @@ class RedAmberGreenTest  < AppControllerTestBase
   |then the colour becomes 'red_special
   |and the outcome.special file is not saved
   ) do
-    with_runner_class('RunnerStub') do
-      in_kata do |kata|
-        runner.stub_run({
-          outcome: 'red',
-          created: {'outcome.special' => content('Hello')}
-        })
-        post_run_tests 
-        last = kata.event(-1)
-        assert_equal 'red_special', last['colour']
-        refute last['files'].keys.include?('outcome.special')
-      end
+    in_kata do |kata|
+      runner.stub_run({
+        outcome: 'red',
+        created: {'outcome.special' => content('Hello')}
+      })
+      post_run_tests 
+      last = kata.event(-1)
+      assert_equal 'red_special', last['colour']
+      refute last['files'].keys.include?('outcome.special')
     end
   end
 

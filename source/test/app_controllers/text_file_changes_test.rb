@@ -15,15 +15,13 @@ class TextFileChangesTest  < AppControllerTestBase
   |see also https://github.com/cyber-dojo/cyber-dojo/issues/7
   ) do
     existing_filename = 'readme.txt'
-    with_runner_class('RunnerStub') do
-      in_kata do |kata|
-        assert kata.event(-1)['files'].keys.include?(existing_filename)
-        runner.stub_run({deleted: [existing_filename]})
-        post_run_tests
-        files = kata.event(-1)['files']
-        filenames = files.keys.sort
-        assert filenames.include?(existing_filename), filenames
-      end
+    in_kata do |kata|
+      assert kata.event(-1)['files'].keys.include?(existing_filename)
+      runner.stub_run({deleted: [existing_filename]})
+      post_run_tests
+      files = kata.event(-1)['files']
+      filenames = files.keys.sort
+      assert filenames.include?(existing_filename), filenames
     end
   end
 
@@ -35,16 +33,14 @@ class TextFileChangesTest  < AppControllerTestBase
   ) do
     new_filename = 'wibble.txt'
     new_content = 'Hello world'
-    with_runner_class('RunnerStub') do
-      in_kata do |kata|
-        refute kata.event(-1)['files'].keys.include?(new_filename)
-        runner.stub_run({created: {new_filename => content(new_content)}})
-        post_run_tests
-        files = kata.event(-1)['files']
-        filenames = files.keys.sort
-        assert filenames.include?(new_filename), filenames
-        assert_equal new_content, files[new_filename]['content']
-      end
+    in_kata do |kata|
+      refute kata.event(-1)['files'].keys.include?(new_filename)
+      runner.stub_run({created: {new_filename => content(new_content)}})
+      post_run_tests
+      files = kata.event(-1)['files']
+      filenames = files.keys.sort
+      assert filenames.include?(new_filename), filenames
+      assert_equal new_content, files[new_filename]['content']
     end
   end
 
@@ -56,16 +52,14 @@ class TextFileChangesTest  < AppControllerTestBase
   ) do
     existing_filename = 'readme.txt'
     changed_content = 'Hello world'
-    with_runner_class('RunnerStub') do
-      in_kata do |kata|
-        assert kata.event(-1)['files'].keys.include?(existing_filename)
-        runner.stub_run({changed: {existing_filename => content(changed_content)}})
-        post_run_tests
-        files = kata.event(-1)['files']
-        filenames = files.keys.sort
-        assert filenames.include?(existing_filename), filenames
-        assert_equal changed_content, files[existing_filename]['content']
-      end
+    in_kata do |kata|
+      assert kata.event(-1)['files'].keys.include?(existing_filename)
+      runner.stub_run({changed: {existing_filename => content(changed_content)}})
+      post_run_tests
+      files = kata.event(-1)['files']
+      filenames = files.keys.sort
+      assert filenames.include?(existing_filename), filenames
+      assert_equal changed_content, files[existing_filename]['content']
     end
   end
 
@@ -79,19 +73,17 @@ class TextFileChangesTest  < AppControllerTestBase
     new_filename = 'stdout'
     new_content = 'Bonjour'
     stdout_content = 'Hello'
-    with_runner_class('RunnerStub') do
-      in_kata do |kata|
-        runner.stub_run({
-          stdout: stdout_content,
-          created: {new_filename => content(new_content)}
-        })
-        post_run_tests
+    in_kata do |kata|
+      runner.stub_run({
+        stdout: stdout_content,
+        created: {new_filename => content(new_content)}
+      })
+      post_run_tests
 
-        last = kata.event(-1)
-        assert last['files'].keys.include?('stdout')
-        assert_equal new_content, last['files']['stdout']['content']
-        assert_equal stdout_content, last['stdout']['content']
-      end
+      last = kata.event(-1)
+      assert last['files'].keys.include?('stdout')
+      assert_equal new_content, last['files']['stdout']['content']
+      assert_equal stdout_content, last['stdout']['content']
     end
   end
 
@@ -105,19 +97,17 @@ class TextFileChangesTest  < AppControllerTestBase
     new_filename = 'stderr'
     new_content = 'Bonjour2'
     stderr_content = 'Hello2'
-    with_runner_class('RunnerStub') do
-      in_kata do |kata|
-        runner.stub_run({
-          stderr: stderr_content,
-          created: {new_filename => content(new_content)}
-        })
-        post_run_tests
+    in_kata do |kata|
+      runner.stub_run({
+        stderr: stderr_content,
+        created: {new_filename => content(new_content)}
+      })
+      post_run_tests
 
-        last = kata.event(-1)
-        assert last['files'].keys.include?('stderr')
-        assert_equal new_content, last['files']['stderr']['content']
-        assert_equal stderr_content, last['stderr']['content']
-      end
+      last = kata.event(-1)
+      assert last['files'].keys.include?('stderr')
+      assert_equal new_content, last['files']['stderr']['content']
+      assert_equal stderr_content, last['stderr']['content']
     end
   end
 
@@ -131,19 +121,17 @@ class TextFileChangesTest  < AppControllerTestBase
     new_filename = 'status'
     new_content = 'Bonjour3'
     status_value = '42'
-    with_runner_class('RunnerStub') do
-      in_kata do |kata|
-        runner.stub_run({
-          status: status_value,
-          created: {new_filename => content(new_content)}
-        })
-        post_run_tests
+    in_kata do |kata|
+      runner.stub_run({
+        status: status_value,
+        created: {new_filename => content(new_content)}
+      })
+      post_run_tests
 
-        last = kata.event(-1)
-        assert last['files'].keys.include?('status')
-        assert_equal new_content, last['files']['status']['content']
-        assert_equal status_value, last['status']
-      end
+      last = kata.event(-1)
+      assert last['files'].keys.include?('status')
+      assert_equal new_content, last['files']['status']['content']
+      assert_equal status_value, last['status']
     end
   end
 
