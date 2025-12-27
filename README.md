@@ -34,4 +34,6 @@ Finished in 1.604879s, 2.4924 runs/s, 10.5927 assertions/s.
 app_controllers     4     17  0  0  0   1.60      2     10    40.37
 ```
 
+# Screenshots
+
 ![cyber-dojo.org home page](https://github.com/cyber-dojo/cyber-dojo/blob/master/shared/home_page_snapshot.png)
