@@ -7,29 +7,42 @@ Any remaining app-controller tests use RunnerService when they could use RunnerS
 ------------------------------------------------------------------
 
 - do I really need refresh2() with wasIndex,nowIndex? from test page I will see only RAGs.
-  might be cleaner if review always calculates wasIndex?
+  might be cleaner if review always calculates wasIndex (the diff delta)?
   remove refresh2() code and deploy?
 
-- extra[x] checkbox visible only if there are inter-test-events 
-- extra[x] selected changes lib.isVisible so appendTrafficLights() gets inter-test-events too 
+- extra[x] checkbox visible only if there actually are inter-test-events
+- extra[x] selected => changes lib.isVisible so appendTrafficLights() gets inter-test-events too 
   and unselected loses them
 - when you click on a RAG and previous RAG is -4 (say), the diff is correctly shown
 
 - check how revert handles logic to know if reverting to specific 
   traffic-lights is allowed or not.
 - comment out JS calls to file-create/delete/rename/edit 
-  and do careful check that everything still works, revert,checkout,predict
+  and do careful check that everything still works: revert,checkout,predict,etc
   and then do a release
 - ? make saver.ran_tests() create two events, file-edit, and then a colour
   release that
-- ? switch on file-create/delete/rename/edit
+- ? turn on file-create/delete/rename/edit
 
 ------------------------------------------------------------------
 
-- handle auto-revert on [test] page
-- fix existing tests. See app_controller_test_base.rb post_run_tests()
-  which does an auto-increment of index
-- start adding new controller tests
+- handle auto-revert on [test] page.
+Have to think about how to handle auto-revert on the kata page 
+(when [test] is pressed).
+Do I go back to the previous traffic-light (even if there are inter-test-events)?
+That would retain current behaviour from the edit page point of view.
+What other options are there?
+
+------------------------------------------------------------------
+
+checkout is prevented if it undoes an auto-revert.
+Suppose RAG -> RAG was 6->7->8 where 8 is same as 6
+then you are prevented from checking out 7.
+Suppose RAG -> RAG is now 6 -> ite(7,8,9) -> 10 -> 11 where 11 is same as 6.
+Are you now prevented from checking out 7,8,9,10 ?
+Or should this restriction be turned off completely?
+
+------------------------------------------------------------------
 
 - make (C)(D)(R)(E) icons visible when extra[x] is ticked
 - add diff_summary tooltips for (C)(D)(R)(E) icons
@@ -64,14 +77,6 @@ that inter-test-events are immediately visible?
 diff tool-tips will need a little work. Will need to add a 'title'
 eg created/red/amber/green will now also need 
 file-created/file-deleted/file-renamed/file-edited
-
-------------------------------------------------------------------
-
-Have to think about how to handle auto-revert on the kata page 
-(when [test] is pressed).
-Do I go back to the previous traffic-light? 
-That would retain current behaviour from the edit page point of view.
-What other options are there?
 
 ------------------------------------------------------------------
 
