@@ -74,7 +74,7 @@ $(() => {
     // traffic-light is clicked  (showDiff is not passed)
     // traffic-light < > navigator is clicked (showDiff is not passed)
     // avatar-navigator is clicked (showDiff is not passed)
-    // TODO: fromTestPage(), needs to pass wasIndex
+    // TODO: fromTestPage(), needs to pass wasIndex?
 
     if (showDiff === null) {
       showDiff = review.diffCheckBox.isChecked()
@@ -97,9 +97,11 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   // When arriving from a dashboard *avatar*
   //    o) wasIndex == -1, nowIndex == -1
+  //    o) we are showing the latest event for the given avatar
   //    o) we are *not* showing a diff.
   // When arriving from traffic-light (on test-page or dashboard-page)
   //    o) wasIndex != nowIndex
+  //    o) we are showing the event given by nowIndex (which does not equal -1)
   //    o) we *are* showing a diff.
 
   review.fromTestPage = (id, index) => {
@@ -121,6 +123,7 @@ $(() => {
     const showDiff = (wasIndex != nowIndex);
     review.page.show();
     review.refresh2("<%= @id %>", wasIndex, nowIndex, showDiff);
+    //review.refresh("<%= @id %>", nowIndex, showDiff);
   }
 
 });

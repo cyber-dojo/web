@@ -8,7 +8,43 @@ Any remaining app-controller tests use RunnerService when they could use RunnerS
 
 - do I really need refresh2() with wasIndex,nowIndex? from test page I will see only RAGs.
   might be cleaner if review always calculates wasIndex (the diff delta)?
-  remove refresh2() code and deploy?
+  so only nowIndex is passed?
+  But if dashboard, at some point, gets inter-test-events, then it would be nice if
+  clicking an inter-test-event on the dashboard opened that specific event in kata/review.  
+  That means you need to pass wasIndex AND nowIndex.
+  Concrete use-case:
+    dashboard has ITE enabled 4,8 are RAGs
+      see [4 (5,6,7) 8]   you click on 8 - review page shows 7-8
+    dashboard has ITE disabled, 4,8 are RAGs
+      see [4, 8]          you click on 8 - review page shows 4-8
+
+  Plan:
+    - for review.isIndependent() take (wasIndex,nowIndex)
+    - keep all events in an array 
+    - if (-1,-1) we want to look at latest RAG (avatar was clicked on dashboard)
+        - diff[x] is unchecked
+        - extras[x] is unchecked
+      if nowIndex != -1, we want to look at (wasIndex,nowIndex) 
+        - diff[x] is checked iff (wasIndex != nowIndex)
+        - extras[x] is checked iff events[wasIndex] is an ITE OR events[nowIndex] is an ITE
+      no need to store wasIndex
+      From this point on, wasIndex does not need to be stored, and can be calculated
+      (and will need to be calculated as you << < [navigate] > >>)
+
+      Now review.fromTestPage currently only passes nowIndex but could pass wasIndex too.
+      Same processing, wasIndex is used to determine initial state of 
+      diffs[x] and extras[x] checkboxes, but wasIndex is not stored.
+
+    
+- where is review.refresh() called?
+     _diff_checkbox.html.erb
+     _traffic_lights.html.erb
+     _review.html.erb (review.fromTestPage L115) (review.isIndependent() L126)
+     _traffic_light_navigator.html.erb : lots of explicit +1/-1 literals here...
+       key functionality required == being able to find event in events array by index
+       which should be just [indexer] and then calculating what the +- delta is for 
+       the << < [ ] > >> navigator
+      
 
 - extra[x] checkbox visible only if there actually are inter-test-events
 - extra[x] selected => changes lib.isVisible so appendTrafficLights() gets inter-test-events too 
