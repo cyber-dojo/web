@@ -104,6 +104,16 @@ $(() => {
   //    o) we are showing the event given by nowIndex (which does not equal -1)
   //    o) we *are* showing a diff.
 
+  review.fromTestPage2 = (id, wasIndex, nowIndex) => {
+    // Called from source/app/views/kata/_traffic_lights.html.erb
+    review.fadeIn(() => {
+      review.checkoutButton.show();
+      review.resumeButton.show();
+    });
+    const showDiff = true;
+    review.refresh2(id, wasIndex, nowIndex, showDiff)
+  };
+
   review.fromTestPage = (id, index) => {
     // Called from source/app/views/kata/_traffic_lights.html.erb
     // Called from source/app/views/kata/_avatar_image.html.erb with index == -1

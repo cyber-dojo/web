@@ -15,7 +15,9 @@ $(() => {
           review.index = events.length - 1; // Need by [fork] and [checkout]
         }
         $lights.empty();
-        // TODO: review.extraCheckBox.isChecked --> controls events filtering
+        // TODO: review.extraCheckBox.isChecked 
+        // controls events filtering, filter here or in appendTrafficLights()?
+
         appendTrafficLights(events);
         scrollCurrentTrafficLightIntoView();
         review.refreshTrafficLightsNavigator(events);
@@ -28,14 +30,17 @@ $(() => {
     review.checkoutButton.enable();
     review.trafficLightsCounts.reset();
     review.predictCounts.reset();
+
+    var previousIndex = 0;
     events.forEach(event => {
       if (cd.lib.isVisible(event)) {
         const light = event;
         const isCurrentIndex = (review.index === light.index);
         const $light = cd.lib.appendTrafficLight($lights, light, {isCurrentIndex:isCurrentIndex});
-        $light.click(() => review.refresh(review.id, light.index));
-        const delta = light.index === 0 ? 0 : 1;
-        cd.setupTrafficLightTip($light, light, review.id, light.index-delta, light.index);
+        $light.click(() => review.refresh2(review.id, previousIndex, light.index));      
+        cd.setupTrafficLightTip($light, light, review.id, previousIndex, light.index);
+        previousIndex = light.index;
+
         if (light.index <= review.index) {
           cd.review.trafficLightsCounts.update(light);
           cd.review.predictCounts.update(light);

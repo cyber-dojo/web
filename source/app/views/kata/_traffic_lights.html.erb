@@ -29,6 +29,20 @@ $(() => {
   //      - When you click [checkout].
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  kata.appendTrafficLight2 = (previousIndex, light, option={scrollIntoView:false}) => {
+    const $light = cd.lib.appendTrafficLight($lights, light);
+    if (option.scrollIntoView) {
+      $light.scrollIntoView({
+        direction: 'horizontal',
+          duration: 'slow'
+      });
+    }
+    kata.trafficLightsCounts.update(light);
+    kata.predictCounts.update(light);
+    $light.click(() => cd.review.fromTestPage2(kata.id, previousIndex, light.index));
+    cd.setupTrafficLightTip($light, light, kata.id, previousIndex, light.index);
+  };
+
   kata.appendTrafficLight = (light, option={scrollIntoView:false}) => {
     if (cd.lib.isVisible(light)) {
       const $light = cd.lib.appendTrafficLight($lights, light);

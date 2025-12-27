@@ -39,7 +39,6 @@ Any remaining app-controller tests use RunnerService when they could use RunnerS
       until they are actually clicked.
         // Un-check
         $('#someID').prop('checked', false);
-
         // check
         $('#someID').prop('checked', true);      
 

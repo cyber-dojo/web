@@ -15,8 +15,8 @@ def create_v2_kata()
   manifest.delete('group_id')
   manifest.delete('group_index')
   gid = $http.post('group_create', {manifest: manifest})
-  create_avatar(gid, inter_test_events=true)
-  id = create_avatar(gid, inter_test_events=false)
+  create_avatar(gid, inter_test_events=false)
+  id = create_avatar(gid, inter_test_events=true)
   print(id)
 end
 
@@ -96,6 +96,8 @@ end
 # - - - - - - - - - - - - - - - - - - - - -
 
 def red_traffic_light(id, index, files)
+  hiker_sh = files['hiker.sh']['content']
+  files['hiker.sh']['content'] = hiker_sh.sub('6 * 9', '6 * 99')
   $http.post('kata_ran_tests', {
     id: id,
     index: index,
@@ -109,7 +111,7 @@ end
 
 def amber_traffic_light(id, index, files)
   hiker_sh = files['hiker.sh']['content']
-  files['hiker.sh']['content'] = hiker_sh.sub('6 * 9', '6 * 9s')
+  files['hiker.sh']['content'] = hiker_sh.sub('6 * 99', '6 * 99s')
   $http.post('kata_ran_tests', {
     id: id,
     index: index,
@@ -123,7 +125,7 @@ end
 
 def green_traffic_light(id, index, files)
   hiker_sh = files['hiker.sh']['content']
-  files['hiker.sh']['content'] = hiker_sh.sub('6 * 9', '6 * 7')
+  files['hiker.sh']['content'] = hiker_sh.sub('6 * 99s', '6 * 7')
   $http.post('kata_ran_tests', {
     id: id,
     index: index,
