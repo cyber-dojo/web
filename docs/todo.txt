@@ -35,6 +35,14 @@ Any remaining app-controller tests use RunnerService when they could use RunnerS
       Same processing, wasIndex is used to determine initial state of 
       diffs[x] and extras[x] checkboxes, but wasIndex is not stored.
 
+      Will need methods on checkboxes to set/unset the value without causing "refresh-cascade"
+      until they are actually clicked.
+        // Un-check
+        $('#someID').prop('checked', false);
+
+        // check
+        $('#someID').prop('checked', true);      
+
     
 - where is review.refresh() called?
      _diff_checkbox.html.erb
