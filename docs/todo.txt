@@ -2,14 +2,6 @@
 Note: app/controllers/application_controller.rb container render 404, 500
 Need to improve dialog-box errors, eg when you get a server 500
 
-Fix test warnings:
-  /cyber-dojo/test/test_hex_id_helpers.rb:71: warning: finalizer references object to be finalized
-  trickier than it looks. Inside a module...
-  First step is to get new empty Minitest.after_run in place. See differ. Done.
-  Then inline the module directly into the base class.
-  This is trickier than it looks because app-controller-tests have a different base class
-  and get the test methods via an includes module.
-
 Any remaining app-controller tests use RunnerService when they could use RunnerStub?
 
 How do you call only certain tests?
@@ -17,9 +9,12 @@ How do you call only certain tests?
 ------------------------------------------------------------------
 
 - extra[x] checkbox visible only if there are inter-test-events 
+  modify demo so one avatar has inter-test-events and one avatar does not
 - extra[x] selected changes lib.isVisible so appendTrafficLights() gets inter-test-events too 
   and unselected loses them
-- when you click on a RAG and previous RAG is -4 (say), the diff is correctly shown 
+- when you click on a RAG and previous RAG is -4 (say), the diff is correctly shown
+- do I really need refresh2() with wasIndex,nowIndex? from test page I will see only RAGs
+  might be cleaner if review always calculates wasIndex?
 
 - check how revert handles logic to know if reverting to specific 
   traffic-lights is allowed or not.
