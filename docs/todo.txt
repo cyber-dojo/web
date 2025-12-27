@@ -4,8 +4,6 @@ Need to improve dialog-box errors, eg when you get a server 500
 
 Any remaining app-controller tests use RunnerService when they could use RunnerStub?
 
-How do you call only certain tests?
-
 ------------------------------------------------------------------
 
 - extra[x] checkbox visible only if there are inter-test-events 
