@@ -7,24 +7,13 @@
 'use strict';
 $(() => {
 
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // o) when moving to a new avatar
-  //    - [x] ==> ?
-  //    - [ ] ==> ?
-  // o) when moving to a new traffic-light
-  //    - [x] ==> ?
-  //    - [ ] ==> ?
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   const review = cd.review;
 
   const $checkBox = $('#extra-checkbox');
 
   review.extraCheckBox = {
     isChecked: () => $checkBox.is(':checked'),
-    refresh: (events) => {
-      const event = events[review.index];
-      const checked = cd.lib.isFileEvent(event);
+    refresh: (checked) => {
       $checkBox
         .prop('checked', checked)
         .off('click')

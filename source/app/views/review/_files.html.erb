@@ -18,18 +18,6 @@ $(() => {
         review.refreshFilenames(diffs);
         filesRefresher(diffs);
       });
-    },
-    refresh2: (events) => {
-      const args = {
-        id:review.id,
-        was_index:review.wasIndex,
-        now_index:review.nowIndex
-      };
-      review.getJSON('differ', 'diff_lines', args, (diffs) => {
-        augmentDiffs(diffs);
-        review.refreshFilenames(diffs);
-        filesRefresher(diffs);
-      });
     }
   };
 

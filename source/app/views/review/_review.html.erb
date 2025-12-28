@@ -54,62 +54,24 @@ $(() => {
   
   review.isIndependent = () => $('#kata-page').length === 0;
 
-  review.refresh = (id, index, showDiff = review.diffCheckBox.isChecked()) => {
+  review.refresh = (id, index) => {
+    $.getJSON('/saver/kata_events', {id: review.id}, (json) => {
+      const events = json['kata_events'];
+      review.refreshFromEvents(id, index, events);
+    });
+  };
+
+  review.refreshFromEvents = (id, index, events) => {
     cd.settings.hideButton();
     review.id = id;    
     review.index = index;
 
-    $.getJSON('/saver/kata_events', {id: review.id}, (json) => {
-      const events = json['kata_events'];
-      review.trafficLights  .refresh(events);
-      review.avatarNavigator.refresh();
-      review.diffCheckBox   .refresh(showDiff);
-      review.extraCheckBox  .refresh(events);
-      review.files          .refresh(events);
-      review.output         .refresh();
-      review.checkoutButton .refresh();
-      review.forkButton     .refresh();
-    });
-  };
-
-  review.refresh2 = (id, wasIndex, nowIndex, showDiff=null) => {
-
-    // called...
-    // diff-checkbox is clicked  (showDiff not passed)
-    // traffic-light is clicked  (showDiff not passed)
-    // traffic-light < > navigator is clicked (showDiff not passed)
-    // avatar-navigator is clicked (showDiff is not passed)
-    // TODO: fromTestPage(), needs to pass wasIndex?
-
-    if (showDiff === null) {
-      showDiff = review.diffCheckBox.isChecked()
-    }
-
-    // extraCheckBox.isChecked() iff 
-    // events[wasIndex] is an ITE OR events[nowIndex] is an ITE
-    // So, saver.events needs to be loaded so we can determine this...
-    // Need to extract this from _traffic_light.html.erb
-    //review.diffCheckBox.refresh(wasIndex != nowIndex);
-    //review.extraCheckBox.refresh(...);
-
-    cd.settings.hideButton();
-    review.id = id;
-    review.index = nowIndex;
-
-    review.wasIndex = wasIndex;
-    review.nowIndex = nowIndex;
-
-    $.getJSON('/saver/kata_events', {id: review.id}, (json) => {
-      const events = json['kata_events'];
-      review.trafficLights  .refresh(events);    
-      review.avatarNavigator.refresh();
-      review.diffCheckBox   .refresh(showDiff);
-      review.extraCheckBox  .refresh(events);
-      review.files          .refresh2(events);
-      review.output         .refresh();
-      review.checkoutButton .refresh();
-      review.forkButton     .refresh();
-    });
+    review.trafficLights  .refresh(events);
+    review.avatarNavigator.refresh();
+    review.files          .refresh(events);
+    review.output         .refresh();
+    review.checkoutButton .refresh();
+    review.forkButton     .refresh();
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -122,37 +84,47 @@ $(() => {
   //    o) we are showing the event given by nowIndex (which does not equal -1)
   //    o) we *are* showing a diff.
 
-  review.fromTestPage2 = (id, wasIndex, nowIndex) => {
+  review.fromTestPage = (id, wasIndex, nowIndex) => {
     // Called from source/app/views/kata/_traffic_lights.html.erb
     // Called from source/app/views/kata/_avatar_image.html.erb with (id,-1,-1)
     review.fadeIn(() => {
       review.checkoutButton.show();
       review.resumeButton.show();
     });
-    const showDiff = true;
-    review.refresh2(id, wasIndex, nowIndex, showDiff)
+
+    review.id = id;
+    review.index = nowIndex;
+
+    $.getJSON('/saver/kata_events', {id: review.id}, (json) => {
+      const events = json['kata_events'];
+      review.diffCheckBox .refresh(wasIndex != nowIndex);
+      review.extraCheckBox.refresh(false);
+      review.refreshFromEvents(id, nowIndex, events);
+    });
   };
 
-  //review.fromTestPage = (id, index) => {
-  //  // Called from source/app/views/kata/_traffic_lights.html.erb
-  //  // Called from source/app/views/kata/_avatar_image.html.erb with index == -1
-  //  review.fadeIn(() => {
-  //    review.checkoutButton.show();
-  //    review.resumeButton.show();
-  //  });
-  //  const showDiff = true;
-  //  review.refresh(id, index, showDiff); 
-  //  // TODO: 
-  //  // review.refresh2(id, wasIndex, nowIndex, showDiff)
-  //};
-
   if (review.isIndependent()) {
-    const wasIndex = parseInt(cd.urlParam('was_index', -1));
-    const nowIndex = parseInt(cd.urlParam('now_index', -1));
-    const showDiff = (wasIndex != nowIndex);
+    let wasIndex = parseInt(cd.urlParam('was_index', -1));
+    let nowIndex = parseInt(cd.urlParam('now_index', -1));
+    review.id = "<%= @id %>";
     review.page.show();
-    review.refresh2("<%= @id %>", wasIndex, nowIndex, showDiff);
-    //review.refresh("<%= @id %>", nowIndex, showDiff);
+    review.diffCheckBox .refresh(wasIndex != nowIndex);
+    $.getJSON('/saver/kata_events', {id: review.id}, (json) => {
+      const events = json['kata_events'];
+      
+      // JavaScript does not support negative indexes
+      if (wasIndex == -1) {
+        wasIndex = events.length - 1;
+      }
+      if (nowIndex == -1) {
+        nowIndex = events.length - 1;
+      }
+
+      const wasFileEvent = cd.lib.isFileEvent(events[wasIndex]);
+      const nowFileEvent = cd.lib.isFileEvent(events[nowIndex]);
+      review.extraCheckBox.refresh(wasFileEvent || nowFileEvent);
+      review.refreshFromEvents(review.id, nowIndex, events);
+    });
   }
 
 });

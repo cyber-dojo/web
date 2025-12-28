@@ -11,7 +11,7 @@ $(() => {
     const $img = cd.lib.$makeAvatarImage(avatarIndex);
     $('.avatar-image-box').append($img);
     cd.createTip($img, 'switch to review mode');
-    $img.click(() => cd.review.fromTestPage2(cd.kata.id, -1, -1));
+    $img.click(() => cd.review.fromTestPage(cd.kata.id, -1, -1));
   }
 
 });
