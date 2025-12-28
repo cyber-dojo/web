@@ -152,8 +152,6 @@
       cd.kata.editor.output(data.stdout.content, data.stderr.content, data.status);
       cd.kata.tabs.output().click();
       cd.kata.appendTrafficLight(data.light, {scrollIntoView:true});
-      // Switching directly to a review of the reverted light is possible here...
-      // cd.review.fromTestPage(cd.kata.id, cd.kata.index - 2);
     }, 'json');
   };
 

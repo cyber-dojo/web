@@ -58,13 +58,17 @@ $(() => {
     cd.settings.hideButton();
     review.id = id;    
     review.index = index;
-    review.avatarNavigator.refresh();
-    review.diffCheckBox   .refresh(showDiff);
-    review.files          .refresh();
-    review.output         .refresh();
-    review.trafficLights  .refresh();
-    review.checkoutButton .refresh();
-    review.forkButton     .refresh();
+
+    $.getJSON('/saver/kata_events', {id: review.id}, (json) => {
+      const events = json['kata_events'];
+      review.trafficLights  .refresh(events);
+      review.avatarNavigator.refresh();
+      review.diffCheckBox   .refresh(showDiff);
+      review.files          .refresh();
+      review.output         .refresh();
+      review.checkoutButton .refresh();
+      review.forkButton     .refresh();
+    });
   };
 
   review.refresh2 = (id, wasIndex, nowIndex, showDiff=null) => {
@@ -80,18 +84,30 @@ $(() => {
       showDiff = review.diffCheckBox.isChecked()
     }
 
+    // extraCheckBox.isChecked() iff 
+    // events[wasIndex] is an ITE OR events[nowIndex] is an ITE
+    // So, saver.events needs to be loaded so we can determine this...
+    // Need to extract this from _traffic_light.html.erb
+    //review.diffCheckBox.refresh(wasIndex != nowIndex);
+    //review.extraCheckBox.refresh(...);
+
     cd.settings.hideButton();
     review.id = id;
+    review.index = nowIndex;
+
     review.wasIndex = wasIndex;
     review.nowIndex = nowIndex;
-    review.index = nowIndex;
-    review.avatarNavigator.refresh();
-    review.diffCheckBox   .refresh(showDiff);
-    review.files          .refresh2(); // looks at review.wasIndex, review.nowIndex
-    review.output         .refresh();
-    review.trafficLights  .refresh();
-    review.checkoutButton .refresh();
-    review.forkButton     .refresh();
+
+    $.getJSON('/saver/kata_events', {id: review.id}, (json) => {
+      const events = json['kata_events'];
+      review.trafficLights  .refresh(events);    
+      review.avatarNavigator.refresh();
+      review.diffCheckBox   .refresh(showDiff);
+      review.files          .refresh2(); // looks at review.wasIndex, review.nowIndex
+      review.output         .refresh();
+      review.checkoutButton .refresh();
+      review.forkButton     .refresh();
+    });
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -106,6 +122,7 @@ $(() => {
 
   review.fromTestPage2 = (id, wasIndex, nowIndex) => {
     // Called from source/app/views/kata/_traffic_lights.html.erb
+    // Called from source/app/views/kata/_avatar_image.html.erb with (id,-1,-1)
     review.fadeIn(() => {
       review.checkoutButton.show();
       review.resumeButton.show();
@@ -114,18 +131,18 @@ $(() => {
     review.refresh2(id, wasIndex, nowIndex, showDiff)
   };
 
-  review.fromTestPage = (id, index) => {
-    // Called from source/app/views/kata/_traffic_lights.html.erb
-    // Called from source/app/views/kata/_avatar_image.html.erb with index == -1
-    review.fadeIn(() => {
-      review.checkoutButton.show();
-      review.resumeButton.show();
-    });
-    const showDiff = true;
-    review.refresh(id, index, showDiff); 
-    // TODO: 
-    // review.refresh2(id, wasIndex, nowIndex, showDiff)
-  };
+  //review.fromTestPage = (id, index) => {
+  //  // Called from source/app/views/kata/_traffic_lights.html.erb
+  //  // Called from source/app/views/kata/_avatar_image.html.erb with index == -1
+  //  review.fadeIn(() => {
+  //    review.checkoutButton.show();
+  //    review.resumeButton.show();
+  //  });
+  //  const showDiff = true;
+  //  review.refresh(id, index, showDiff); 
+  //  // TODO: 
+  //  // review.refresh2(id, wasIndex, nowIndex, showDiff)
+  //};
 
   if (review.isIndependent()) {
     const wasIndex = parseInt(cd.urlParam('was_index', -1));

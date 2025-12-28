@@ -9,19 +9,17 @@ $(() => {
   const $lights = $('#review-traffic-lights');
 
   review.trafficLights = {
-    refresh: () => {
-      review.getJSON('saver', 'kata_events', {id:review.id}, (events) => {
-        if (review.index === -1) {
-          review.index = events.length - 1; // Need by [fork] and [checkout]
-        }
-        $lights.empty();
-        // TODO: review.extraCheckBox.isChecked 
-        // controls events filtering, filter here or in appendTrafficLights()?
+    refresh: (events) => {
+      if (review.index === -1) {
+        review.index = events.length - 1; // Need by [fork] and [checkout]
+      }
+      $lights.empty();
+      // TODO: review.extraCheckBox.isChecked 
+      // controls events filtering, filter here or in appendTrafficLights()?
 
-        appendTrafficLights(events);
-        scrollCurrentTrafficLightIntoView();
-        review.refreshTrafficLightsNavigator(events);
-      });
+      appendTrafficLights(events);
+      scrollCurrentTrafficLightIntoView();
+      review.refreshTrafficLightsNavigator(events);
     }
   };
 
