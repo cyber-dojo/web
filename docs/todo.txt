@@ -15,6 +15,8 @@ settings of diff-checkbox and extras-checkbox.
   and you click [>] then you get to 5. You should get to 8
   if extras[x] is off. 
 
+- Aim to delete cd.lib.isVisible, use cd.lib.isLight() and cd.lib.isFileEvent()
+
 ------------------------------------------------------------------
 
 - do I really need refresh2() with wasIndex,nowIndex? from test page I will see only RAGs.

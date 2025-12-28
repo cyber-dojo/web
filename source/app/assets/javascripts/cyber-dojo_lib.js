@@ -7,11 +7,35 @@ var cyberDojo = ((cd, $) => {
     return params.get(name) || fallBack;
   };
 
-  // - - - - - - - - - - - - - - - - - - - - - - - -
+  cd.lib.isLight = (event) => {
+    switch (event.colour) {
+    case 'create':
+    case 'red':
+    case 'red_special':
+    case 'amber':
+    case 'amber_special':
+    case 'green':
+    case 'green_special':
+      return true;
+    default:
+      return false;
+    }
+  };
+
+  cd.lib.isFileEvent = (event) => {
+    switch (event.colour) {
+    case 'file_create':
+    case 'file_delete':
+    case 'file_rename':
+    case 'file_edit':
+      return true;
+    default:
+      return false;
+    }
+  };
 
   cd.lib.isVisible = (event) => {
     // Used by both app/views/kata and app/view/review
-    // Eg don't show event[0] == creation
     switch (event.colour) {
     case 'create':
     case 'red':
@@ -29,7 +53,6 @@ var cyberDojo = ((cd, $) => {
     }
   };
 
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   cd.lib.$makeAvatarImage = (avatarIndex) => {
     const $img = $('<img>', {
       class:'avatar-image',

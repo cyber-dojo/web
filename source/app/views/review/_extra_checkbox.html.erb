@@ -24,7 +24,7 @@ $(() => {
     isChecked: () => $checkBox.is(':checked'),
     refresh: (events) => {
       const event = events[review.index];
-      const checked = (event.colour === undefined);
+      const checked = cd.lib.isFileEvent(event);
       $checkBox
         .prop('checked', checked)
         .off('click')
