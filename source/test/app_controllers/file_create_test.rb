@@ -22,7 +22,7 @@ class FileCreateTest  < AppControllerTestBase
       assert_response :success
       assert_equal 2, kata.events.size
       event = kata.event(1)
-      assert_equal 'file-create', event['event']
+      assert_equal 'file_create', event['colour']
       assert_equal created_filename, event['filename']
     end
   end

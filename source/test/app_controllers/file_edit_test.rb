@@ -22,7 +22,7 @@ class FileEditTest  < AppControllerTestBase
       assert_response :success
       assert_equal 2, kata.events.size
       event = kata.event(1)
-      assert_equal 'file-edit', event['event']
+      assert_equal 'file_edit', event['colour']
       assert_equal edited_filename, event['filename']
     end
   end
