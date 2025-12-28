@@ -41,9 +41,11 @@ var cyberDojo = ((cd, $) => {
         return $revertImage(light);
       } else {
         return $checkoutImage(light);
-      }
-    } else {
+      }      
+    } else if (cd.lib.isLight(light)) {
       return $ragImage(light);
+    } else {
+      return $fileEventImage(light);
     }
   };
 
@@ -55,6 +57,17 @@ var cyberDojo = ((cd, $) => {
         alt: `${light.colour} traffic-light`,
       'data-colour': light.colour, // Revert needs colour+index
       'data-index': light.index
+    });
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  const $fileEventImage = (event) => {
+    return $('<img>', {
+      class: 'diff-traffic-light',
+        src: `/images/traffic-light/${event.colour}.png`,
+        alt: `${event.colour} traffic-light`,
+      'data-colour': event.colour,
+      'data-index': event.index
     });
   };
 

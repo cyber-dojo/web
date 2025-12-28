@@ -53,11 +53,11 @@ $(() => {
   const isVisible = (event) => {
     if (cd.lib.isLight(event)) {
       return true;
-    }
-    if (cd.lib.isFileEvent(event) && cd.review.extraCheckBox.isChecked()) {
+    } else if (cd.lib.isFileEvent(event) && cd.review.extraCheckBox.isChecked()) {
       return true;
+    } else {
+      return false;
     }
-    return false;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
