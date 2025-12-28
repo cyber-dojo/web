@@ -22,7 +22,9 @@ $(() => {
 
   review.extraCheckBox = {
     isChecked: () => $checkBox.is(':checked'),
-    refresh: (checked) => {
+    refresh: (events) => {
+      const event = events[review.index];
+      const checked = (event.colour === undefined);
       $checkBox
         .prop('checked', checked)
         .off('click')
@@ -31,7 +33,7 @@ $(() => {
       $('#extra-checkbox-title')
         .off('click')
         .on('click', () => {
-          $checkBox.prop('checked', !review.diffCheckBox.isChecked());
+          $checkBox.prop('checked', !review.extraCheckBox.isChecked());
           review.refresh(review.id, review.index);
       });
     }

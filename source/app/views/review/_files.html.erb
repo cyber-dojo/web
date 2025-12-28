@@ -7,7 +7,7 @@ $(() => {
   const review = cd.review;
 
   review.files = {
-    refresh: () => {
+    refresh: (events) => {
       const args = {
         id:review.id,
         was_index:review.index - diffDelta(),
@@ -19,7 +19,7 @@ $(() => {
         filesRefresher(diffs);
       });
     },
-    refresh2: () => {
+    refresh2: (events) => {
       const args = {
         id:review.id,
         was_index:review.wasIndex,
@@ -33,7 +33,18 @@ $(() => {
     }
   };
 
+  // TODO: move into its own partial
+  review.previousIndex = (events, index) => {
+    const extrasOn = review.extraCheckBox.isChecked();
+
+    // find previousIndex for events[index]
+    // if extrasOn  then iterate backwards to find colour or ite
+    // if extrasOff then iterate backwards to find colour
+
+  };
+
   // - - - - - - - - - - - - - - - - - - - - - - - -
+  // TODO: aim to drop this
   const diffDelta = () => {
     if (review.index === 0) {
       return 0;

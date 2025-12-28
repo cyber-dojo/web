@@ -11,6 +11,10 @@ The idea is that events will be stored and there will be a new function
 to calculate previousIndexes for a given events[index], based on the 
 settings of diff-checkbox and extras-checkbox.
 
+- Currently, if you have [4, (5,6,7), 8] and you are on 4
+  and you click [>] then you get to 5. You should get to 8
+  if extras[x] is off. 
+
 ------------------------------------------------------------------
 
 - do I really need refresh2() with wasIndex,nowIndex? from test page I will see only RAGs.

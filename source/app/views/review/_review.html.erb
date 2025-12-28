@@ -64,7 +64,8 @@ $(() => {
       review.trafficLights  .refresh(events);
       review.avatarNavigator.refresh();
       review.diffCheckBox   .refresh(showDiff);
-      review.files          .refresh();
+      review.extraCheckBox  .refresh(events);
+      review.files          .refresh(events);
       review.output         .refresh();
       review.checkoutButton .refresh();
       review.forkButton     .refresh();
@@ -75,8 +76,8 @@ $(() => {
 
     // called...
     // diff-checkbox is clicked  (showDiff not passed)
-    // traffic-light is clicked  (showDiff is not passed)
-    // traffic-light < > navigator is clicked (showDiff is not passed)
+    // traffic-light is clicked  (showDiff not passed)
+    // traffic-light < > navigator is clicked (showDiff not passed)
     // avatar-navigator is clicked (showDiff is not passed)
     // TODO: fromTestPage(), needs to pass wasIndex?
 
@@ -103,7 +104,8 @@ $(() => {
       review.trafficLights  .refresh(events);    
       review.avatarNavigator.refresh();
       review.diffCheckBox   .refresh(showDiff);
-      review.files          .refresh2(); // looks at review.wasIndex, review.nowIndex
+      review.extraCheckBox  .refresh(events);
+      review.files          .refresh2(events);
       review.output         .refresh();
       review.checkoutButton .refresh();
       review.forkButton     .refresh();
