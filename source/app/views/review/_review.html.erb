@@ -17,12 +17,13 @@
       <tr><td><%= render partial: 'review/resume_button' %>
               <%= render partial: 'review/avatar_navigator' %></td></tr>
       <tr><td><%= render partial: 'review/checkout_button' %>
-              <%= render partial: 'review/fork_button' %></td></tr>
-    </table>
-    <table>
+              <%= render partial: 'review/fork_button' %>
+              <%= render partial: 'review/traffic_light_navigator' %></td></tr>
       <tr><td><%= render partial: 'review/diff_checkbox' %>
               <%= render partial: 'review/help_icon' %>
               <%= render partial: 'review/extra_checkbox' %></td></tr>
+    </table>
+    <table>
       <tr><td><%= render partial: 'review/filenames' %></td></tr>
       <tr><td><%= render partial: 'review/files' %></td></tr>
       <tr><td><%= render partial: 'review/output' %></td></tr>
@@ -30,7 +31,6 @@
   </div>
 
   <div class="right-column">
-    <%= render partial: 'review/traffic_light_navigator' %>
     <%= render partial: 'review/traffic_lights' %>
     <div id="diff-content"></div>
     <div id="diff-content-output"></div>
