@@ -55,7 +55,7 @@ $(() => {
   review.isIndependent = () => $('#kata-page').length === 0;
 
   review.refresh = (id, index) => {
-    $.getJSON('/saver/kata_events', {id: review.id}, (json) => {
+    $.getJSON('/saver/kata_events', {id: id}, (json) => {
       const events = json['kata_events'];
       review.refreshFromEvents(id, index, events);
     });
