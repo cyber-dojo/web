@@ -6,14 +6,12 @@ Any remaining app-controller tests use RunnerService when they could use RunnerS
 
 ------------------------------------------------------------------
 
-New function to calculate previousIndexes for a given events[index]
-based on the settings of diff-checkbox and extras-checkbox.
-When this is done, remove wasIndex from initial setup functions 
-and dont pass previousIndex in click handler for [test] page's RAG handler.
+- In kata page, still need previousIndex to calculate diff-tool-tips.
+  Use function to calculate previousIndex from given index.
 
 - When extras[x] is checked and you are on an inter-test-event 
   and you turn off extras[ ] then you need to change the index 
-  going to the previous/next RAG
+  going to the previous/next RAG or no traffic-light gets an underbar
 
 ------------------------------------------------------------------
 
