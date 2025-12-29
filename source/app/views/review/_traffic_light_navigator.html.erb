@@ -22,6 +22,9 @@
 'use strict';
 $(() => {
 
+  const createIndex = 0;
+  const disableIndex = null;
+
   const review = cd.review;
 
   review.refreshTrafficLightsNavigator = (events) => {
@@ -36,72 +39,90 @@ $(() => {
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const refreshMoveTo = (button, index) => {
     button
-      .attr('disabled', index === null)
+      .attr('disabled', index == disableIndex)
       .off('click')
       .on('click', () => review.refresh(review.id, index));
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const firstEventIndex = (events, index) => {
-    if (index === 0) { // 0 is creation event
-      return null; // Disable
+    if (index == createIndex) {
+      return disableIndex;
     } else {
-      return 0;
+      return createIndex;
     }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  // TODO: Need to be able to go back to [0]==creation
-
   const prevEventIndex = (events, index) => {
     const event = events[index];
-    if (index === 0) { // creation event
-      return null; // Disable
+    if (index == createIndex) {
+      return disableIndex;
     } else if (cd.review.extraCheckBox.isChecked()) {
       return index - 1;
     } else {
+      return prevLightIndex(events, index);
+    }
+  };
+
+  const prevLightIndex = (events, index) => {
       index -= 1;
-      while (index > 0) {
+      while (index >= 0) {
         if (cd.lib.isLight(events[index])) {
           return index;
         } else {
           index -= 1;
         }
       }
-      return null; // Disable
-    }
+      return disableIndex;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const nextEventIndex = (events, index) => {
     const event = events[index];
-    if (index === events.length - 1) {
-      return null; // Disable
+    if (index == events.length - 1) {
+      return disableIndex;
     } else if (cd.review.extraCheckBox.isChecked()) {
       return index + 1;
     } else {
+      return nextLightIndex(events, index);
+    }
+  };
+
+  const nextLightIndex = (events, index) => {
       index += 1;
-      while (index < events.length - 1) {
+      while (index < events.length) {
         if (cd.lib.isLight(events[index])) {
           return index;
         } else {
           index += 1;
         }
       }
-      return null; // Disable
-    }
+      return disableIndex;
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const lastEventIndex = (events, index) => {
     const event = events[index];
-    if (index === events.length - 1) {
-      return null; // Disable
+    if (index == events.length - 1) {
+      return disableIndex;
     } else if (cd.review.extraCheckBox.isChecked()) {
       return events.length - 1;
     } else {
-      // TODO: return index of last light, or null
+      return lastLightIndex(events, index);
     }
+  };
+
+  const lastLightIndex = (events, index) => {
+      let lastLightIndex = null;
+      index += 1;
+      while (index < events.length) {
+        if (cd.lib.isLight(events[index])) {
+          lastLightIndex = index;
+        }
+        index += 1;
+      }
+      return lastLightIndex;  
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
