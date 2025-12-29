@@ -34,25 +34,6 @@ var cyberDojo = ((cd, $) => {
     }
   };
 
-  cd.lib.isVisible = (event) => {
-    // Used by both app/views/kata and app/view/review
-    switch (event.colour) {
-    case 'create':
-    case 'red':
-    case 'red_special':
-    case 'amber':
-    case 'amber_special':
-    case 'green':
-    case 'green_special':
-    case 'pulling':
-    case 'timed_out':
-    case 'faulty':
-      return true;
-    default:
-      return false;
-    }
-  };
-
   cd.lib.$makeAvatarImage = (avatarIndex) => {
     const $img = $('<img>', {
       class:'avatar-image',

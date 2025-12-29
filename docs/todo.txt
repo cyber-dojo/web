@@ -15,7 +15,25 @@ settings of diff-checkbox and extras-checkbox.
   and you click [>] then you get to 5. You should get to 8
   if extras[x] is off. 
 
-- Aim to delete cd.lib.isVisible, use cd.lib.isLight() and cd.lib.isFileEvent()
+------------------------------------------------------------------
+
+- [test] when there are inter-test-events causes Out-of-sync-are-you-mobbing error
+
+------------------------------------------------------------------
+
+Have moved review's traffic-light navigator below the avatar-navigator.
+- Review page from dashboard click is really messed up
+
+- need underbar icons for create/delete/rename/edit
+- make CDRE icons smaller?
+- drop CDRE icon from diff-tool-tip?
+- s/file_name/file rename/ in diif-tool-tip?
+
+- stdout/stderr/status appear below the file knave when reviewing 
+  an inter-test-event index. They should not.
+
+- extra[x] checkbox visible only if there actually are inter-test-events
+- when you click on a RAG and previous RAG is -4 (say), the diff is correctly shown
 
 ------------------------------------------------------------------
 
@@ -53,14 +71,6 @@ settings of diff-checkbox and extras-checkbox.
       Same processing, wasIndex is used to determine initial state of 
       diffs[x] and extras[x] checkboxes, but wasIndex is not stored.
 
-      Will need methods on checkboxes to set/unset the value without causing "refresh-cascade"
-      until they are actually clicked.
-        // Un-check
-        $('#someID').prop('checked', false);
-        // check
-        $('#someID').prop('checked', true);      
-
-    
 - where is review.refresh() called?
      _diff_checkbox.html.erb
      _traffic_lights.html.erb
@@ -70,12 +80,6 @@ settings of diff-checkbox and extras-checkbox.
        which should be just [indexer] and then calculating what the +- delta is for 
        the << < [ ] > >> navigator
       
-
-- extra[x] checkbox visible only if there actually are inter-test-events
-- extra[x] selected => changes lib.isVisible so appendTrafficLights() gets inter-test-events too 
-  and unselected loses them
-- when you click on a RAG and previous RAG is -4 (say), the diff is correctly shown
-
 - check how revert handles logic to know if reverting to specific 
   traffic-lights is allowed or not.
 - comment out JS calls to file-create/delete/rename/edit 
@@ -105,19 +109,9 @@ Or should this restriction be turned off completely?
 
 ------------------------------------------------------------------
 
-- make (C)(D)(R)(E) icons visible when extra[x] is ticked
-- add diff_summary tooltips for (C)(D)(R)(E) icons
-
-------------------------------------------------------------------
-
 Note: all web code is on a branch and so is not even on beta yet.
 When it is deployed to beta/prod then inter-test-events will start to
 be created, since saver has inter-test-events in beta/prod already.
-
-------------------------------------------------------------------
-
-stdout/stderr/status appear below the file knave when reviewing 
-an inter-test-event index. They should not.
 
 ------------------------------------------------------------------
 
@@ -126,18 +120,6 @@ Use it to get into review page for working on showing inter-test events.
 Have to think about how to handle [revert]
 Do I allow revert from an inter-test event? I think yes.
 Will need (C)(D)(R)(E) icons with an underbar.
-
-------------------------------------------------------------------
-
-extra[x] checkbox is not very visible.
-When you open a review page, should it be checked by default so
-that inter-test-events are immediately visible?
-
-------------------------------------------------------------------
-
-diff tool-tips will need a little work. Will need to add a 'title'
-eg created/red/amber/green will now also need 
-file-created/file-deleted/file-renamed/file-edited
 
 ------------------------------------------------------------------
 
@@ -151,11 +133,6 @@ You can use [<][>] to navigate to a non-test-event and
 - the underbar will be removed.
 Perhaps this is almost enough?!
 Could extra[x] only control what the underlying events are?
-
-------------------------------------------------------------------
-
-The extra[x] checkbox in review mode should go nearer to the 
-<< < 8 > >> navigator.
 
 ------------------------------------------------------------------
 
