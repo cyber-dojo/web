@@ -66,9 +66,10 @@ $(() => {
     review.id = id;    
     review.index = index;
 
+    review.extraCheckBox  .setVisibility(events);
     review.trafficLights  .refresh(events);
-    review.avatarNavigator.refresh();
     review.files          .refresh(events);
+    review.avatarNavigator.refresh();
     review.output         .refresh();
     review.checkoutButton .refresh();
     review.forkButton     .refresh();
@@ -84,47 +85,35 @@ $(() => {
   //    o) we are showing the event given by nowIndex (which does not equal -1)
   //    o) we *are* showing a diff.
 
+  const oneTimeSetup = (id, index) => {
+    $.getJSON('/saver/kata_events', {id: id}, (json) => {
+      const events = json['kata_events'];
+      if (index == -1) {
+        review.diffCheckBox.refresh(false);
+        index = events.length - 1;
+      } else {
+        review.diffCheckBox.refresh(true);        
+      }
+      review.extraCheckBox.refresh(false);
+      review.refreshFromEvents(id, index, events);
+    });
+  };
+
   review.fromTestPage = (id, wasIndex, nowIndex) => {
-    // Called from source/app/views/kata/_traffic_lights.html.erb
-    // Called from source/app/views/kata/_avatar_image.html.erb with (id,-1,-1)
+    // Called from source/app/views/kata/_traffic_lights.html.erb with nowIndex != -1
+    // Called from source/app/views/kata/_avatar_image.html.erb with nowIndex == -1
     review.fadeIn(() => {
       review.checkoutButton.show();
       review.resumeButton.show();
     });
-
-    review.id = id;
-    review.index = nowIndex;
-
-    $.getJSON('/saver/kata_events', {id: review.id}, (json) => {
-      const events = json['kata_events'];
-      review.diffCheckBox .refresh(wasIndex != nowIndex);
-      review.extraCheckBox.refresh(false);
-      review.refreshFromEvents(id, nowIndex, events);
-    });
+    oneTimeSetup("<%= @id %>", nowIndex);
   };
 
   if (review.isIndependent()) {
-    let wasIndex = parseInt(cd.urlParam('was_index', -1));
-    let nowIndex = parseInt(cd.urlParam('now_index', -1));
-    review.id = "<%= @id %>";
+    // Called from dashboard
     review.page.show();
-    review.diffCheckBox .refresh(wasIndex != nowIndex);
-    $.getJSON('/saver/kata_events', {id: review.id}, (json) => {
-      const events = json['kata_events'];
-      
-      // JavaScript does not support negative indexes
-      if (wasIndex == -1) {
-        wasIndex = events.length - 1;
-      }
-      if (nowIndex == -1) {
-        nowIndex = events.length - 1;
-      }
-
-      const wasFileEvent = cd.lib.isFileEvent(events[wasIndex]);
-      const nowFileEvent = cd.lib.isFileEvent(events[nowIndex]);
-      review.extraCheckBox.refresh(wasFileEvent || nowFileEvent);
-      review.refreshFromEvents(review.id, nowIndex, events);
-    });
+    const nowIndex = parseInt(cd.urlParam('now_index', -1));
+    oneTimeSetup("<%= @id %>", nowIndex);
   }
 
 });

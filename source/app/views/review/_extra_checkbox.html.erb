@@ -8,23 +8,29 @@
 $(() => {
 
   const review = cd.review;
-
-  const $checkBox = $('#extra-checkbox');
+  const $cell = $('#extra-checkbox-cell');
+  const $box = $('#extra-checkbox');
 
   review.extraCheckBox = {
-    isChecked: () => $checkBox.is(':checked'),
+    isChecked: () => $box.is(':checked'),
+    setVisibility: (events) => {
+      let fileEventsPresent = false;
+      events.forEach((event) => {
+        if (cd.lib.isFileEvent(event)) {
+          fileEventsPresent = true;
+        }
+      });
+      if (fileEventsPresent) {
+        $cell.show();
+      } else {
+        $cell.hide();
+      }
+    },
     refresh: (checked) => {
-      $checkBox
+      $box
         .prop('checked', checked)
         .off('click')
         .on('click', () => review.refresh(review.id, review.index));
-
-      $('#extra-checkbox-title')
-        .off('click')
-        .on('click', () => {
-          $checkBox.prop('checked', !review.extraCheckBox.isChecked());
-          review.refresh(review.id, review.index);
-      });
     }
   };
 

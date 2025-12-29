@@ -26,11 +26,11 @@ $(() => {
 
   review.refreshTrafficLightsNavigator = (events) => {
     const index = review.index;
-    refreshMoveTo($('#first-index'), prevEventIndex(index, 0));
-    refreshMoveTo($('#prev-index'),  prevEventIndex(index, index-1));
-    $('#review-index-box').html($makeIndexNumber(index, events));
-    refreshMoveTo($('#next-index'),  nextEventIndex(events, index, index+1));
-    refreshMoveTo($('#last-index'),  nextEventIndex(events, index, events.length-1));
+    refreshMoveTo($('#first-index'), firstEventIndex(events, index));
+    refreshMoveTo($('#prev-index'),  prevEventIndex(events, index));
+    $('#review-index-box').html($makeIndexNumber(events, index));
+    refreshMoveTo($('#next-index'),  nextEventIndex(events, index));
+    refreshMoveTo($('#last-index'),  lastEventIndex(events, index));
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -42,25 +42,70 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const prevEventIndex = (index, n) => {
+  const firstEventIndex = (events, index) => {
     if (index === 0) { // 0 is creation event
       return null; // Disable
     } else {
-      return n;
+      return 0;
     }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const nextEventIndex = (events, index, n) => {
-    if (index === events.length-1) {
+  // TODO: Need to be able to go back to [0]==creation
+
+  const prevEventIndex = (events, index) => {
+    const event = events[index];
+    if (index === 0) { // creation event
       return null; // Disable
+    } else if (cd.review.extraCheckBox.isChecked()) {
+      return index - 1;
     } else {
-      return n;
+      index -= 1;
+      while (index > 0) {
+        if (cd.lib.isLight(events[index])) {
+          return index;
+        } else {
+          index -= 1;
+        }
+      }
+      return null; // Disable
     }
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const $makeIndexNumber = (index, events) => {
+  const nextEventIndex = (events, index) => {
+    const event = events[index];
+    if (index === events.length - 1) {
+      return null; // Disable
+    } else if (cd.review.extraCheckBox.isChecked()) {
+      return index + 1;
+    } else {
+      index += 1;
+      while (index < events.length - 1) {
+        if (cd.lib.isLight(events[index])) {
+          return index;
+        } else {
+          index += 1;
+        }
+      }
+      return null; // Disable
+    }
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  const lastEventIndex = (events, index) => {
+    const event = events[index];
+    if (index === events.length - 1) {
+      return null; // Disable
+    } else if (cd.review.extraCheckBox.isChecked()) {
+      return events.length - 1;
+    } else {
+      // TODO: return index of last light, or null
+    }
+  };
+
+  // - - - - - - - - - - - - - - - - - - - - - - - -
+  const $makeIndexNumber = (events, index) => {
     return $('<div>', {
       id:'index-number',
       class:events[index].colour

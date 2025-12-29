@@ -27,13 +27,6 @@ $(() => {
         .prop('checked', checked)
         .off('click')
         .on('click', () => review.refresh(review.id, review.index));
-
-      $('#diff-checkbox-title')
-        .off('click')
-        .on('click', () => {
-          $checkBox.prop('checked', !review.diffCheckBox.isChecked());
-          review.refresh(review.id, review.index);
-      });
     }
   };
 
