@@ -63,10 +63,6 @@ Have moved review's traffic-light navigator below the avatar-navigator.
       and *all* traffic-lights are re-retrieved from saver. So you could get 
       extra events!
 
-      Now review.fromTestPage currently only passes nowIndex but could pass wasIndex too.
-      Same processing, wasIndex is used to determine initial state of 
-      diffs[x] and extras[x] checkboxes, but wasIndex is not stored.
-
 - where is review.refresh() called?
      _diff_checkbox.html.erb
      _traffic_lights.html.erb

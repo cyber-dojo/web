@@ -99,21 +99,21 @@ $(() => {
     });
   };
 
-  review.fromTestPage = (id, wasIndex, nowIndex) => {
-    // Called from source/app/views/kata/_traffic_lights.html.erb with nowIndex != -1
-    // Called from source/app/views/kata/_avatar_image.html.erb with nowIndex == -1
+  review.fromTestPage = (id, index) => {
+    // Called from source/app/views/kata/_traffic_lights.html.erb with index != -1
+    // Called from source/app/views/kata/_avatar_image.html.erb with index == -1
     review.fadeIn(() => {
       review.checkoutButton.show();
       review.resumeButton.show();
     });
-    oneTimeSetup("<%= @id %>", nowIndex);
+    oneTimeSetup("<%= @id %>", index);
   };
 
   if (review.isIndependent()) {
     // Called from dashboard
     review.page.show();
-    const nowIndex = parseInt(cd.urlParam('now_index', -1));
-    oneTimeSetup("<%= @id %>", nowIndex);
+    const index = parseInt(cd.urlParam('now_index', -1));
+    oneTimeSetup("<%= @id %>", index);
   }
 
 });

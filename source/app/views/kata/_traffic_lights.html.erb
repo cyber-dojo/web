@@ -39,7 +39,7 @@ $(() => {
     }
     kata.trafficLightsCounts.update(light);
     kata.predictCounts.update(light);
-    $light.click(() => cd.review.fromTestPage(kata.id, previousIndex, light.index));
+    $light.click(() => cd.review.fromTestPage(kata.id, light.index));
     cd.setupTrafficLightTip($light, light, kata.id, previousIndex, light.index);
   };
 
