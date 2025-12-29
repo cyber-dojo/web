@@ -11,10 +11,6 @@ based on the settings of diff-checkbox and extras-checkbox.
 When this is done, remove wasIndex from initial setup functions 
 and dont pass previousIndex in click handler for [test] page's RAG handler.
 
-- Currently, if you have [4, (5,6,7), 8] and you are on 4
-  and you click [>] then you get to 5. You should get to 8
-  if extras[x] is off. 
-
 - When extras[x] is checked and you are on an inter-test-event 
   and you turn off extras[ ] then you need to change the index 
   going to the previous/next RAG
