@@ -13,6 +13,10 @@ Any remaining app-controller tests use RunnerService when they could use RunnerS
   and you turn off extras[ ] then you need to change the index 
   going to the previous/next RAG or no traffic-light gets an underbar
 
+- In avatar-navigator, when [<] [>] is selected, JS code currently
+  hard-wires the index to ? (1 : avatar.events.length - 1);
+  This needs to use traffc-light functions.
+  
 ------------------------------------------------------------------
 
 Have moved review's traffic-light navigator below the avatar-navigator.
