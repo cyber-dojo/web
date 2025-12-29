@@ -31,9 +31,9 @@ $(() => {
   events.forEach((event) => {
     if (cd.lib.isLight(event)) {
       cd.kata.appendTrafficLight2(previousIndex, event);
-      cd.kata.setIndex(event.index + 1);
       previousIndex = event.index;
     }
+    cd.kata.setIndex(event.index + 1);
   });
   cd.kata.scrollLastTrafficLightIntoView();
   cd.kata.setupPrediction();
