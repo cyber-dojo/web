@@ -14,7 +14,7 @@ $(() => {
         review.index = events.length - 1; // Need by [fork] and [checkout]
       }
       $lights.empty();
-      // TODO: review.extraCheckBox.isChecked 
+      // TODO: review.detailsCheckBox.isChecked 
       // controls events filtering, filter here or in appendTrafficLights()?
 
       appendTrafficLights(events);
@@ -53,7 +53,7 @@ $(() => {
   const isVisible = (event) => {
     if (cd.lib.isLight(event)) {
       return true;
-    } else if (cd.lib.isFileEvent(event) && cd.review.extraCheckBox.isChecked()) {
+    } else if (cd.lib.isFileEvent(event) && cd.review.detailsCheckBox.isChecked()) {
       return true;
     } else {
       return false;

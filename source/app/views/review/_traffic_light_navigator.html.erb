@@ -57,7 +57,7 @@ $(() => {
   const prevEventIndex = (events, index) => {
     if (index == createIndex) {
       return disableIndex;
-    } else if (cd.review.extraCheckBox.isChecked()) {
+    } else if (cd.review.detailsCheckBox.isChecked()) {
       return index - 1;
     } else {
       return prevLightIndex(events, index - 1);
@@ -79,7 +79,7 @@ $(() => {
   const nextEventIndex = (events, index) => {
     if (index == events.length - 1) {
       return disableIndex;
-    } else if (cd.review.extraCheckBox.isChecked()) {
+    } else if (cd.review.detailsCheckBox.isChecked()) {
       return index + 1;
     } else {
       return nextLightIndex(events, index + 1);
@@ -101,7 +101,7 @@ $(() => {
   const lastEventIndex = (events, index) => {
     if (index == events.length - 1) {
       return disableIndex;
-    } else if (cd.review.extraCheckBox.isChecked()) {
+    } else if (cd.review.detailsCheckBox.isChecked()) {
       return events.length - 1;
     } else {
       return lastLightIndex(events, index + 1);

@@ -6,7 +6,8 @@ Any remaining app-controller tests use RunnerService when they could use RunnerS
 
 ------------------------------------------------------------------
 
-- Rename extras[x] to details[x]
+- stdout/stderr/status appear below the file knave when reviewing 
+  an inter-test-event index. They should not.
 
 - In kata page, still need previousIndex to calculate diff-tool-tips.
   Use function to calculate previousIndex from given index.
@@ -21,62 +22,20 @@ Any remaining app-controller tests use RunnerService when they could use RunnerS
   hard-wires the index to ? (1 : avatar.events.length - 1);
   This needs to use traffc-light functions.
 
-------------------------------------------------------------------
-
-Have moved review's traffic-light navigator below the avatar-navigator.
-- Review page from dashboard click is really messed up
+- Selection of highlight filename when file-events are enabled needs reworking.
+  When diff[x] is off:
+    create -> created-filename: The file is not selected
+    delete -> deleted-filename: The file is not selected
+    rename -> renamed-filename: The file is not selected. No tooltip for the old filename
+    edit   ->  edited-filename: The file is not selected.
+  Should diff[x] be fixed to on when in details[x] is on?
 
 - need underbar icons for create/delete/rename/edit
 - make CDRE icons smaller?
 - drop CDRE icon from diff-tool-tip?
 - s/file_name/file rename/ in diif-tool-tip?
 
-- stdout/stderr/status appear below the file knave when reviewing 
-  an inter-test-event index. They should not.
-
-- extra[x] checkbox visible only if there actually are inter-test-events
-- when you click on a RAG and previous RAG is -4 (say), the diff is correctly shown
-
 ------------------------------------------------------------------
-
-- do I really need refresh2() with wasIndex,nowIndex? from test page I will see only RAGs.
-  might be cleaner if review always calculates wasIndex (the diff delta)?
-  so only nowIndex is passed?
-  But if dashboard, at some point, gets inter-test-events, then it would be nice if
-  clicking an inter-test-event on the dashboard opened that specific event in kata/review.  
-  That means you need to pass wasIndex AND nowIndex.
-  Concrete use-case:
-    dashboard has ITE enabled 4,8 are RAGs
-      see [4 (5,6,7) 8]   you click on 8 - review page shows 7-8
-    dashboard has ITE disabled, 4,8 are RAGs
-      see [4, 8]          you click on 8 - review page shows 4-8
-
-  Plan:
-    - for review.isIndependent() take (wasIndex,nowIndex)
-    - keep all events in an array 
-    - if (-1,-1) we want to look at latest RAG (avatar was clicked on test/dashboard)
-        - diff[x] is unchecked
-        - extras[x] is unchecked
-      if nowIndex != -1, we want to look at (wasIndex,nowIndex) 
-        - diff[x] is checked iff (wasIndex != nowIndex)
-        - extras[x] is checked iff events[wasIndex] is an ITE OR events[nowIndex] is an ITE
-      Now no need to store wasIndex
-      From this point on, wasIndex does not need to be stored, and can be calculated
-      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      (and needs to be *Calculated* as you << < [navigate] > >>)
-      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      In review, when you click a new traffic-light review.refresh() is called 
-      and *all* traffic-lights are re-retrieved from saver. So you could get 
-      extra events!
-
-- where is review.refresh() called?
-     _diff_checkbox.html.erb
-     _traffic_lights.html.erb
-     _review.html.erb (review.fromTestPage L115) (review.isIndependent() L126)
-     _traffic_light_navigator.html.erb : lots of explicit +1/-1 literals here...
-       key functionality required == being able to find event in events array by index
-       which should be just [indexer] and then calculating what the +- delta is for 
-       the << < [ ] > >> navigator
       
 - check how revert handles logic to know if reverting to specific 
   traffic-lights is allowed or not.

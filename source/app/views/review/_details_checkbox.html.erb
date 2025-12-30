@@ -1,6 +1,6 @@
-<div id="extra-checkbox-cell">
-  <div id="extra-checkbox-title">extra</div>
-  <input type="checkbox" id="extra-checkbox" checked=""/>
+<div id="details-checkbox-cell">
+  <div id="details-checkbox-title">details</div>
+  <input type="checkbox" id="details-checkbox" checked=""/>
 </div>
 
 <script>
@@ -8,10 +8,10 @@
 $(() => {
 
   const review = cd.review;
-  const $cell = $('#extra-checkbox-cell');
-  const $box = $('#extra-checkbox');
+  const $cell = $('#details-checkbox-cell');
+  const $box = $('#details-checkbox');
 
-  review.extraCheckBox = {
+  review.detailsCheckBox = {
     isChecked: () => $box.is(':checked'),
     setVisibility: (events) => {
       let fileEventsPresent = false;

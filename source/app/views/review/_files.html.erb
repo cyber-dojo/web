@@ -23,11 +23,12 @@ $(() => {
 
   // TODO: move into its own partial
   review.previousIndex = (events, index) => {
-    const extrasOn = review.extraCheckBox.isChecked();
+    const extrasOn = review.detailsCheckBox.isChecked();
 
     // find previousIndex for events[index]
     // if extrasOn  then iterate backwards to find colour or ite
     // if extrasOff then iterate backwards to find colour
+    // similar to traffic-light navigator code
 
   };
 

@@ -21,7 +21,7 @@
           <td><%= render partial: 'review/avatar_navigator' %></td></tr>
       <tr><td><%= render partial: 'review/diff_checkbox' %>
               <%= render partial: 'review/help_icon' %></td>
-          <td><%= render partial: 'review/extra_checkbox' %></td></tr>
+          <td><%= render partial: 'review/details_checkbox' %></td></tr>
     </table>
     <table>
       <tr><td><%= render partial: 'review/filenames' %></td></tr>
@@ -65,7 +65,7 @@ $(() => {
     review.id = id;    
     review.index = index;
 
-    review.extraCheckBox  .setVisibility(events);
+    review.detailsCheckBox.setVisibility(events);
     review.trafficLights  .refresh(events);
     review.files          .refresh(events);
     review.avatarNavigator.refresh();
@@ -86,7 +86,7 @@ $(() => {
         // We *are* showing a diff.
         review.diffCheckBox.refresh(true);        
       }
-      review.extraCheckBox.refresh(false);
+      review.detailsCheckBox.refresh(false);
       review.refreshFromEvents(id, index, events);
     });
   };

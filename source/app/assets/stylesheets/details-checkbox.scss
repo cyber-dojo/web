@@ -1,7 +1,7 @@
-#extra-checkbox-cell
+#details-checkbox-cell
 {
   display: inline-block;
-  width: 50px;
+  width: 54px;
   border-radius: 3px;
   color: Black;
   background: lighten($darker-color,40%);
@@ -9,7 +9,7 @@
   margin: { top: 10px; left:$left-column-left-margin; } 
 }
 
-#extra-checkbox-title
+#details-checkbox-title
 {
   display: inline;
   font: bold 10px sans-serif;
@@ -19,7 +19,7 @@
   bottom: 2px;
 }
 
-#extra-checkbox
+#details-checkbox
 {
   display: inline;
   margin: 0px;
