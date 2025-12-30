@@ -9,17 +9,17 @@ $(() => {
   const $lights = $('#review-traffic-lights');
 
   review.trafficLights = {
-    refresh: (events) => {
+    refresh: () => {
       if (review.index === -1) {
-        review.index = events.length - 1; // Need by [fork] and [checkout]
+        review.index = review.events.length - 1; // Need by [fork] and [checkout]
       }
       $lights.empty();
       // TODO: review.detailsCheckBox.isChecked 
       // controls events filtering, filter here or in appendTrafficLights()?
 
-      appendTrafficLights(events);
+      appendTrafficLights(review.events);
       scrollCurrentTrafficLightIntoView();
-      review.refreshTrafficLightsNavigator(events);
+      review.refreshTrafficLightsNavigator();
     }
   };
 

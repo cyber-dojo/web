@@ -7,10 +7,10 @@ $(() => {
   const review = cd.review;
 
   review.files = {
-    refresh: (events) => {
+    refresh: () => {
       const args = {
         id:review.id,
-        was_index:review.index - diffDelta(),
+        was_index:review.index - diffDelta(), // TODO:
         now_index:review.index
       };
       review.getJSON('differ', 'diff_lines', args, (diffs) => {

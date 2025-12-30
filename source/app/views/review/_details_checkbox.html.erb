@@ -13,9 +13,9 @@ $(() => {
 
   review.detailsCheckBox = {
     isChecked: () => $box.is(':checked'),
-    setVisibility: (events) => {
+    setVisibility: () => {
       let fileEventsPresent = false;
-      events.forEach((event) => {
+      review.events.forEach((event) => {
         if (cd.lib.isFileEvent(event)) {
           fileEventsPresent = true;
         }

@@ -55,27 +55,24 @@ $(() => {
   review.isIndependent = () => $('#kata-page').length === 0;
 
   review.refresh = (id, index) => {
-    cd.lib.getEvents(id, (events) => {
-      review.refreshFromEvents(id, index, events);
-    });
-  };
-
-  review.refreshFromEvents = (id, index, events) => {
     cd.settings.hideButton();
     review.id = id;    
     review.index = index;
 
-    review.detailsCheckBox.setVisibility(events);
-    review.trafficLights  .refresh(events);
-    review.files          .refresh(events);
+    review.detailsCheckBox.setVisibility();
+    review.trafficLights  .refresh();
+    review.files          .refresh();
+
     review.avatarNavigator.refresh();
     review.output         .refresh();
     review.checkoutButton .refresh();
     review.forkButton     .refresh();
   };
 
-  const oneTimeSetup = (id, index) => {
+  const oneTimeSetup = (id, index) => {    
     cd.lib.getEvents(id, (events) => {
+      review.events = events;
+
       if (index == -1) {
        // We are showing the latest event for the given avatar
        // We are *not* showing a diff.
@@ -87,7 +84,7 @@ $(() => {
         review.diffCheckBox.refresh(true);        
       }
       review.detailsCheckBox.refresh(false);
-      review.refreshFromEvents(id, index, events);
+      review.refresh(id, index);
     });
   };
 

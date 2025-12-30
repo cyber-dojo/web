@@ -27,13 +27,13 @@ $(() => {
 
   const review = cd.review;
 
-  review.refreshTrafficLightsNavigator = (events) => {
+  review.refreshTrafficLightsNavigator = () => {
     const index = review.index;
-    refreshMoveTo($('#first-index'), firstEventIndex(events, index));
-    refreshMoveTo($('#prev-index'),  prevEventIndex(events, index));
-    $('#review-index-box').html($makeIndexNumber(events, index));
-    refreshMoveTo($('#next-index'),  nextEventIndex(events, index));
-    refreshMoveTo($('#last-index'),  lastEventIndex(events, index));
+    refreshMoveTo($('#first-index'), firstEventIndex(index));
+    refreshMoveTo($('#prev-index'),  prevEventIndex(index));
+    $('#review-index-box').html($makeIndexNumber(index));
+    refreshMoveTo($('#next-index'),  nextEventIndex(index));
+    refreshMoveTo($('#last-index'),  lastEventIndex(index));
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
@@ -45,7 +45,7 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const firstEventIndex = (events, index) => {
+  const firstEventIndex = (index) => {
     if (index == createIndex) {
       return disableIndex;
     } else {
@@ -54,19 +54,19 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const prevEventIndex = (events, index) => {
+  const prevEventIndex = (index) => {
     if (index == createIndex) {
       return disableIndex;
     } else if (cd.review.detailsCheckBox.isChecked()) {
       return index - 1;
     } else {
-      return prevLightIndex(events, index - 1);
+      return prevLightIndex(index - 1);
     }
   };
 
-  const prevLightIndex = (events, index) => {
+  const prevLightIndex = (index) => {
       while (index >= 0) {
-        if (cd.lib.isLight(events[index])) {
+        if (cd.lib.isLight(review.events[index])) {
           return index;
         } else {
           index -= 1;
@@ -76,19 +76,19 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const nextEventIndex = (events, index) => {
-    if (index == events.length - 1) {
+  const nextEventIndex = (index) => {
+    if (index == review.events.length - 1) {
       return disableIndex;
     } else if (cd.review.detailsCheckBox.isChecked()) {
       return index + 1;
     } else {
-      return nextLightIndex(events, index + 1);
+      return nextLightIndex(index + 1);
     }
   };
 
-  const nextLightIndex = (events, index) => {
-      while (index < events.length) {
-        if (cd.lib.isLight(events[index])) {
+  const nextLightIndex = (index) => {
+      while (index < review.events.length) {
+        if (cd.lib.isLight(review.events[index])) {
           return index;
         } else {
           index += 1;
@@ -98,20 +98,20 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const lastEventIndex = (events, index) => {
-    if (index == events.length - 1) {
+  const lastEventIndex = (index) => {
+    if (index == review.events.length - 1) {
       return disableIndex;
     } else if (cd.review.detailsCheckBox.isChecked()) {
-      return events.length - 1;
+      return review.events.length - 1;
     } else {
-      return lastLightIndex(events, index + 1);
+      return lastLightIndex(index + 1);
     }
   };
 
-  const lastLightIndex = (events, index) => {
+  const lastLightIndex = (index) => {
       let lastLightIndex = null;
-      while (index < events.length) {
-        if (cd.lib.isLight(events[index])) {
+      while (index < review.events.length) {
+        if (cd.lib.isLight(review.events[index])) {
           lastLightIndex = index;
         }
         index += 1;
@@ -120,10 +120,10 @@ $(() => {
   };
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
-  const $makeIndexNumber = (events, index) => {
+  const $makeIndexNumber = (index) => {
     return $('<div>', {
       id:'index-number',
-      class:events[index].colour
+      class:review.events[index].colour
     }).html(index);
   };
 
