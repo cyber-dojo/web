@@ -8,9 +8,6 @@ Any remaining app-controller tests use RunnerService when they could use RunnerS
 
 - Refactor JS so refresh methods are called only when needed.
 
-- Would it be simpler to have a single icon for file create/delete/rename/edit ?
-  Maybe a mini file (with turned corner?) with a few mini lines?
-
 - stdout/stderr/status appear below the file knave when reviewing 
   an inter-test-event index. They should not.
 
