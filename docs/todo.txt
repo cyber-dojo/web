@@ -8,6 +8,8 @@ Any remaining app-controller tests use RunnerService when they could use RunnerS
 
 - In kata page, still need previousIndex to calculate diff-tool-tips.
   Use function to calculate previousIndex from given index.
+  Has to use $.getJSON() to get saver events since it has to 
+  filter out file-events which are not saved in kata page.
 
 - When extras[x] is checked and you are on an inter-test-event 
   and you turn off extras[ ] then you need to change the index 
@@ -16,7 +18,7 @@ Any remaining app-controller tests use RunnerService when they could use RunnerS
 - In avatar-navigator, when [<] [>] is selected, JS code currently
   hard-wires the index to ? (1 : avatar.events.length - 1);
   This needs to use traffc-light functions.
-  
+
 ------------------------------------------------------------------
 
 Have moved review's traffic-light navigator below the avatar-navigator.

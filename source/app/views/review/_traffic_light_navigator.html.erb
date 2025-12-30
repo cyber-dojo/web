@@ -55,18 +55,16 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const prevEventIndex = (events, index) => {
-    const event = events[index];
     if (index == createIndex) {
       return disableIndex;
     } else if (cd.review.extraCheckBox.isChecked()) {
       return index - 1;
     } else {
-      return prevLightIndex(events, index);
+      return prevLightIndex(events, index - 1);
     }
   };
 
   const prevLightIndex = (events, index) => {
-      index -= 1;
       while (index >= 0) {
         if (cd.lib.isLight(events[index])) {
           return index;
@@ -79,18 +77,16 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const nextEventIndex = (events, index) => {
-    const event = events[index];
     if (index == events.length - 1) {
       return disableIndex;
     } else if (cd.review.extraCheckBox.isChecked()) {
       return index + 1;
     } else {
-      return nextLightIndex(events, index);
+      return nextLightIndex(events, index + 1);
     }
   };
 
   const nextLightIndex = (events, index) => {
-      index += 1;
       while (index < events.length) {
         if (cd.lib.isLight(events[index])) {
           return index;
@@ -103,19 +99,17 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const lastEventIndex = (events, index) => {
-    const event = events[index];
     if (index == events.length - 1) {
       return disableIndex;
     } else if (cd.review.extraCheckBox.isChecked()) {
       return events.length - 1;
     } else {
-      return lastLightIndex(events, index);
+      return lastLightIndex(events, index + 1);
     }
   };
 
   const lastLightIndex = (events, index) => {
       let lastLightIndex = null;
-      index += 1;
       while (index < events.length) {
         if (cd.lib.isLight(events[index])) {
           lastLightIndex = index;
