@@ -55,8 +55,7 @@ $(() => {
   review.isIndependent = () => $('#kata-page').length === 0;
 
   review.refresh = (id, index) => {
-    $.getJSON('/saver/kata_events', {id: id}, (json) => {
-      const events = json['kata_events'];
+    cd.lib.getEvents(id, (events) => {
       review.refreshFromEvents(id, index, events);
     });
   };
@@ -75,23 +74,16 @@ $(() => {
     review.forkButton     .refresh();
   };
 
-  // - - - - - - - - - - - - - - - - - - - - - - - -
-  // When arriving from a dashboard *avatar*
-  //    o) wasIndex == -1, nowIndex == -1
-  //    o) we are showing the latest event for the given avatar
-  //    o) we are *not* showing a diff.
-  // When arriving from traffic-light (on test-page or dashboard-page)
-  //    o) wasIndex != nowIndex
-  //    o) we are showing the event given by nowIndex (which does not equal -1)
-  //    o) we *are* showing a diff.
-
   const oneTimeSetup = (id, index) => {
-    $.getJSON('/saver/kata_events', {id: id}, (json) => {
-      const events = json['kata_events'];
+    cd.lib.getEvents(id, (events) => {
       if (index == -1) {
+       // We are showing the latest event for the given avatar
+       // We are *not* showing a diff.
         review.diffCheckBox.refresh(false);
         index = events.length - 1;
       } else {
+        // We are showing the event given by index (!= -1)
+        // We *are* showing a diff.
         review.diffCheckBox.refresh(true);        
       }
       review.extraCheckBox.refresh(false);
@@ -100,8 +92,7 @@ $(() => {
   };
 
   review.fromTestPage = (id, index) => {
-    // Called from source/app/views/kata/_traffic_lights.html.erb with index != -1
-    // Called from source/app/views/kata/_avatar_image.html.erb with index == -1
+    // Called from test page 
     review.fadeIn(() => {
       review.checkoutButton.show();
       review.resumeButton.show();
@@ -110,7 +101,7 @@ $(() => {
   };
 
   if (review.isIndependent()) {
-    // Called from dashboard
+    // Called from dashboard page
     review.page.show();
     const index = parseInt(cd.urlParam('now_index', -1));
     oneTimeSetup("<%= @id %>", index);

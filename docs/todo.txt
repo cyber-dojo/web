@@ -6,6 +6,8 @@ Any remaining app-controller tests use RunnerService when they could use RunnerS
 
 ------------------------------------------------------------------
 
+- Rename extras[x] to details[x]
+
 - In kata page, still need previousIndex to calculate diff-tool-tips.
   Use function to calculate previousIndex from given index.
   Has to use $.getJSON() to get saver events since it has to 

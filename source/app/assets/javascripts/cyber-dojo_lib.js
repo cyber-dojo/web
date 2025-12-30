@@ -7,6 +7,14 @@ var cyberDojo = ((cd, $) => {
     return params.get(name) || fallBack;
   };
 
+  cd.lib.getEvents = (id, callback) => {
+    const name = 'kata_events';
+    $.getJSON(`/saver/${name}`, {id: id}, (json) => {
+      const events = json[name];
+      callback(events);
+    });
+  };
+
   cd.lib.isLight = (event) => {
     switch (event.colour) {
     case 'create':
