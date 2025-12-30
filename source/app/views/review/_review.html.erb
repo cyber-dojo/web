@@ -50,26 +50,34 @@ $(() => {
 
   const review = cd.review;
 
+  review.id = undefined;
+  review.index = undefined;
+  review.events = undefined;
+
   review.page = $('#review-page'); // Used by faders
   
   review.isIndependent = () => $('#kata-page').length === 0;
 
   review.refresh = (id, index) => {
-    cd.settings.hideButton();
+    cd.settings.hideButton(); // TODO: only needed once?
+    const newAvatar = (id != review.id);
+
     review.id = id;    
     review.index = index;
 
-    review.detailsCheckBox.setVisibility();
-    review.trafficLights  .refresh();
-    review.files          .refresh();
+    //if (newAvatar) {
+      review.trafficLights  .refresh(); // TODO: also does navigator update
+      review.detailsCheckBox.setVisibility();
+    //}
 
-    review.avatarNavigator.refresh();
+    review.files          .refresh();
+    review.avatarNavigator.refresh(); // TODO: only needed once?
     review.output         .refresh();
     review.checkoutButton .refresh();
-    review.forkButton     .refresh();
+    review.forkButton     .refresh(); // TODO: only needed once?
   };
 
-  const oneTimeSetup = (id, index) => {    
+  const startup = (id, index) => {    
     cd.lib.getEvents(id, (events) => {
       review.events = events;
 
@@ -84,6 +92,8 @@ $(() => {
         review.diffCheckBox.refresh(true);        
       }
       review.detailsCheckBox.refresh(false);
+
+
       review.refresh(id, index);
     });
   };
@@ -94,14 +104,14 @@ $(() => {
       review.checkoutButton.show();
       review.resumeButton.show();
     });
-    oneTimeSetup("<%= @id %>", index);
+    startup("<%= @id %>", index);
   };
 
   if (review.isIndependent()) {
     // Called from dashboard page
     review.page.show();
     const index = parseInt(cd.urlParam('now_index', -1));
-    oneTimeSetup("<%= @id %>", index);
+    startup("<%= @id %>", index);
   }
 
 });

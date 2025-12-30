@@ -17,7 +17,7 @@ $(() => {
       // TODO: review.detailsCheckBox.isChecked 
       // controls events filtering, filter here or in appendTrafficLights()?
 
-      appendTrafficLights(review.events);
+      appendTrafficLights(review.events); // TODO: only need to do this for new avatar
       scrollCurrentTrafficLightIntoView();
       review.refreshTrafficLightsNavigator();
     }
@@ -36,7 +36,9 @@ $(() => {
         const isCurrentIndex = (review.index === light.index);
         const $light = cd.lib.appendTrafficLight($lights, light, {isCurrentIndex:isCurrentIndex});
         $light.click(() => review.refresh(review.id, light.index));      
+
         cd.setupTrafficLightTip($light, light, review.id, previousIndex, light.index);
+        
         previousIndex = light.index;
 
         if (light.index <= review.index) {

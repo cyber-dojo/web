@@ -65,7 +65,8 @@ $(() => {
 
   // - - - - - - - - - - - - - - - - - - - - - - - -
   const moveToAvatar = (avatar) => {
-    const index = review.diffCheckBox.isChecked() ? 1 : avatar.events.length - 1;
+    review.events = avatar.events;
+    const index = review.diffCheckBox.isChecked() ? 0 : avatar.events.length - 1;
     review.refresh(avatar.id, index);
   };
 

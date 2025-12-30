@@ -30,7 +30,10 @@ $(() => {
       $box
         .prop('checked', checked)
         .off('click')
-        .on('click', () => review.refresh(review.id, review.index));
+        .on('click', () => {
+          review.trafficLights.refresh(); // TODO: don't need to refresh the traffic-light-navigator
+          review.refresh(review.id, review.index);
+        });
     }
   };
 
