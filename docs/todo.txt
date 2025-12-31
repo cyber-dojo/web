@@ -6,6 +6,13 @@ Need to improve dialog-box errors, eg when you get a server 500
 NOTE: saver.ran_test2() is ENABLED
 ------------------------------------------------------------------
 
+In revert_test.rb instead of 
+  @files[filename] = 'Hello'
+if you write
+  @files[filename] = {'content' => 'Hello'}
+then it seems to cause saver to silently drop its incoming call.
+There needs to be some pydantic-like checking of the parameters.
+
 Any remaining app-controller tests use RunnerService when they could use RunnerStub?
 Are some tests are failing because they are not using v2 manifests? Use v2 in all tests
 
@@ -56,15 +63,6 @@ Are some tests are failing because they are not using v2 manifests? Use v2 in al
 - ? make saver.ran_tests() create two events, file-edit, and then a colour
   release that
 - ? turn on file-create/delete/rename/edit
-
-------------------------------------------------------------------
-
-- handle auto-revert on [test] page.
-Have to think about how to handle auto-revert on the kata page 
-(when [test] is pressed).
-Do I go back to the previous traffic-light (even if there are inter-test-events)?
-That would retain current behaviour from the edit page point of view.
-What other options are there?
 
 ------------------------------------------------------------------
 
