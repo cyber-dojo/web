@@ -106,7 +106,8 @@ class SaverService
   # - - - - - - - - - - - - - - - - - -
 
   def kata_ran_tests(id, index, files, stdout, stderr, status, summary)
-    @http.post(__method__, {
+    #@http.post(__method__, {
+    @http.post('kata_ran_tests2', {
       id:id, 
       index:index,
       files:files, 

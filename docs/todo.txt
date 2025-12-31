@@ -5,11 +5,15 @@ Need to improve dialog-box errors, eg when you get a server 500
 Any remaining app-controller tests use RunnerService when they could use RunnerStub?
 
 ------------------------------------------------------------------
+NOTE: saver.ran_test2() is ENABLED
+------------------------------------------------------------------
+
+- From demo, if you add a new traffic-lights by hitting [test] 
+  these get the correct RAG and diff tool-tip. But if you click it
+  then in review mode, when you select one of these new RAGs, with diff[x] on, 
+  then you get no diff. You should. 
 
 - Refactor JS so refresh methods are called only when needed.
-
-- stdout/stderr/status appear below the file knave when reviewing 
-  an inter-test-event index. They should not.
 
 - In kata page, still need previousIndex to calculate diff-tool-tips.
   Use function to calculate previousIndex from given index.
@@ -32,10 +36,15 @@ Any remaining app-controller tests use RunnerService when they could use RunnerS
     edit   ->  edited-filename: The file is not selected.
   Should diff[x] be fixed to on when in details[x] is on?
 
-- need underbar icons for create/delete/rename/edit
-- make CDRE icons smaller?
 - drop CDRE icon from diff-tool-tip?
 - s/file_name/file rename/ in diif-tool-tip?
+
+- stdout/stderr/status appear below the file knave when reviewing 
+  an inter-test-event index. They should not.
+
+- could the inter-test-events store the number of lines added/deleted 
+  in the events.json summary? This would enable fast calculation of 
+  RAG<->RAG stats, eg on a dashboard.
 
 ------------------------------------------------------------------
       

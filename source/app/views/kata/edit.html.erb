@@ -26,12 +26,10 @@ $(() => {
     "<%= j raw(@status) %>"
   );
 
-  var previousIndex = 0;
   const events = <%= raw @events.to_json %>;
   events.forEach((event) => {
     if (cd.lib.isLight(event)) {
-      cd.kata.appendTrafficLight2(previousIndex, event);
-      previousIndex = event.index;
+      cd.kata.appendTrafficLight(event);
     }
   });
   cd.kata.setIndex(events.length);
