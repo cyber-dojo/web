@@ -2,11 +2,31 @@
 Note: app/controllers/application_controller.rb container render 404, 500
 Need to improve dialog-box errors, eg when you get a server 500
 
-Any remaining app-controller tests use RunnerService when they could use RunnerStub?
-
 ------------------------------------------------------------------
 NOTE: saver.ran_test2() is ENABLED
+Breaks app-controller tests for revert
+  1) Failure:
+ReverterTest#test_'81F276',
+ in individual kata, revert back to our own previous traffic-light
+ [reverter_test.rb:32]:
+Expected response to be a <2XX: success>, but was a <500: Internal Server Error>
+
+kata_controller.revert() looks like this:
+  def revert
+    # Eg [14=green], [15=incorrect prediction], [index=16 ==> revert to 14]
+    args = [id, index - 2]
+    json = source_event(id, index - 2, :revert, args)
+    saver.kata_reverted(id, index, @files, @stdout, @stderr, @status, {
+      colour: @colour,
+      revert: args
+    });
+    render json: json
+  end
+which is hard-wiring the index-2
 ------------------------------------------------------------------
+
+Any remaining app-controller tests use RunnerService when they could use RunnerStub?
+Are some tests are failing because they are not using v2 manifests? Use v2 in all tests
 
 - From demo, if you add a new traffic-lights by hitting [test] 
   these get the correct RAG and diff tool-tip. But if you click it
@@ -40,6 +60,10 @@ NOTE: saver.ran_test2() is ENABLED
 - could the inter-test-events store the number of lines added/deleted 
   in the events.json summary? This would enable fast calculation of 
   RAG<->RAG stats, eg on a dashboard.
+  $ git diff --help
+  says it can show diffs between a commit and a worktree.
+  --shortstat option gives 
+  1 file changed, 3 insertions(+), 2 deletions(-)
 
 ------------------------------------------------------------------
       

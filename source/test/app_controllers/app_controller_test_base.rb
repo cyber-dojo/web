@@ -19,6 +19,7 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
     manifest = starter_manifest
     manifest['version'] = (options[:version] || 2)
     @id = saver.kata_create(manifest)
+    @manifest = manifest
     nil
   end
 
