@@ -12,12 +12,12 @@ class MobbingOutOfSyncTest  < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'B30', %w(
-  given two (or more) laptops as the same avatar
-  and one has not synced (by hitting refresh in their browser)
-  and so their current traffic-light-index lags behind
-  when they run their tests
-  then it is a 200 (and not a 500)
-  but no extra saver event is created.
+  | given two (or more) laptops as the same avatar
+  | and one has not synced (by hitting refresh in their browser)
+  | and so their current traffic-light-index lags behind
+  | when they run their tests
+  | then it is a 200 (and not a 500)
+  | but no extra saver event is created.
   ) do
     in_kata do |kata|
       post_run_tests
@@ -31,7 +31,7 @@ class MobbingOutOfSyncTest  < AppControllerTestBase
       }
       assert_equal 3, @index
       assert_equal '', stderr
-      assert stdout.include?('"message": "Out of order event"')
+      assert stdout.include?('"message": "Out of order event"'), stdout
     end
   end
 

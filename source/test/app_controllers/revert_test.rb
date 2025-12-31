@@ -153,11 +153,13 @@ class RevertTest  < AppControllerTestBase
   | when there are multiple file-events to skip over before you
   | get to the previous traffic-light
   ) do
-    skip "WIP: Currently failing. kata/file_delete giving 500"
     in_kata do            
       runner.stub_run({outcome: 'green'})
       post_run_tests # 1==ran-tests
+      events = kata.events
+      assert_equal 2, kata.events.size, kata.events
 
+      assert_equal 2, @index
       filename = 'newfile.txt'
       post_json '/kata/file_create', {
         id: @id,
@@ -166,8 +168,11 @@ class RevertTest  < AppControllerTestBase
         filename: filename
       }
       assert_response :success
+      events = kata.events
+      assert_equal 3, kata.events.size, kata.events
+      @files[filename] = ''
 
-      @files[filename] = {'content' => 'Hello'}
+      assert_equal 3, @index
       post_json '/kata/file_delete', {
         id: @id,
         index: @index, # 3==file-delete
@@ -175,16 +180,19 @@ class RevertTest  < AppControllerTestBase
         filename: filename
       }
       assert_response :success
+      events = kata.events
+      assert_equal 4, kata.events.size, kata.events
 
+      # REVERT
+      assert_equal 4, @index
       post_json '/kata/revert', {
         id: @id,
         index: 4 # revert back to 1st traffic-light @[1]
       }
       assert_response :success
-
       events = kata.events
-      assert_equal 4, kata.events.size
-      event = kata.event(3)
+      assert_equal 5, kata.events.size
+      event = kata.event(4)
       expected = [@id, 1]
       assert_equal expected, event['revert']
       assert_equal 'green', event['colour']
