@@ -16,10 +16,9 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
   end
 
   def create_language_kata(options = {})
-    manifest = starter_manifest
-    manifest['version'] = (options[:version] || 2)
-    @id = saver.kata_create(manifest)
-    @manifest = manifest
+    @manifest = starter_manifest
+    @manifest['version'] = (options[:version] || 2)
+    @id = saver.kata_create(@manifest)
     nil
   end
 
@@ -45,12 +44,12 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   def run_test_params(options = {})
     {
-      'id'           => (options['id'] || kata.id),
-      'image_name'   => kata.manifest['image_name'],
-      'max_seconds'  => (options['max_seconds'] || kata.manifest['max_seconds']),
-      'index'        => (options['index'] || @index),
-      'file_content' => @files,
-      'predicted'    => (options['predicted'] || 'none')
+      id: (options[:id] || kata.id),
+      image_name: @manifest['image_name'],
+      max_seconds: (options[:max_seconds] || @manifest['max_seconds']),
+      index: (options[:index] || @index),
+      file_content: @files,
+      predicted: (options[:predicted] || 'none')
     }
   end
 

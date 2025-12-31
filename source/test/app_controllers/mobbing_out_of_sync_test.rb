@@ -27,7 +27,7 @@ class MobbingOutOfSyncTest  < AppControllerTestBase
       assert_equal 3, @index
 
       stdout,stderr = capture_stdout_stderr {
-        post_run_tests({'index' => 2})
+        post_run_tests({index: 2})
       }
       assert_equal 3, @index
       assert_equal '', stderr

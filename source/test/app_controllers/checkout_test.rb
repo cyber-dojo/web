@@ -24,11 +24,11 @@ class CheckoutTest  < AppControllerTestBase
       assert_equal new_content, saver.kata_event(@id, -1)['files'][filename]['content']
 
       post_json '/kata/checkout', {
-        'src_id' => @id,
-        'src_avatar_index' => '',
-        'src_index' => 2,
-        'id'     => @id,
-        'index'  => 5
+        src_id: @id,
+        src_avatar_index: '',
+        src_index: 2,
+        id: @id,
+        index: 5
       }
       assert_response :success
 
@@ -60,11 +60,11 @@ class CheckoutTest  < AppControllerTestBase
 
       in_kata do |hippo|
         post_json '/kata/checkout', {
-          'src_id' => lion.id,
-          'src_avatar_index' => lion_avatar_index,
-          'src_index' => 1,
-          'id'     => hippo.id,
-          'index'  => 1
+          src_id: lion.id,
+          src_avatar_index: lion_avatar_index,
+          src_index: 1,
+          id: hippo.id,
+          index: 1
         }
         assert_response :success
 
