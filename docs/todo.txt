@@ -12,86 +12,32 @@ ReverterTest#test_'81F276',
 Expected: ["lBsH1E", 2]
   Actual: ["lBsH1E", 3]  
 
-Note: You do not get an extra EVENT for prediction.
-      You get extra 'predicted'=>'red' in the event
-
 Use cases:
  ran_tests() with prediction, wrong, no edit-event 
    3(green)         4(amber, predict=red) 5(back to 3) ==-2
  ran_tests() with prediction, wrong, with edit-event
    3(green) 4(edit) 5(amber, predict=red) 6(wrong-prediction) 6(back to 3) ==-3
 
-
 Note: kata.revert is ALSO used for explicit [revert] in review page.
-
-kata.runTests() is in app/views/kata/_run_tests.html.erb
-  makes an $.ajax call then runs app/views/kata/run_tests.js.erb:
-
-  refreshFromTest();
-  if (runNeedsReverting()) {
-    revert();
-  }
-
-  const refreshFromTest = () => {
-    cd.kata.setIndex(light.index + 1);
-    ...
-  };
-
-  const revert = () => {
-    const args = {
-      id: cd.kata.id,      // eg 'Xd4f2P'
-      index: cd.kata.index // eg 18 (reverting to 16)
-    };
-    $.post('/kata/revert', args, (data) => {
-      cd.kata.incrementIndex(); <<<<<
-      cd.kata.editor.deleteFiles();
-      for (const filename in data.files) {
-        cd.kata.editor.createFile(filename, { content:data.files[filename] });
-        cd.kata.editor.showFile(filename);
-      }
-      cd.kata.filenames.refresh();
-      cd.kata.editor.output(data.stdout.content, data.stderr.content, data.status);
-      cd.kata.tabs.output().click();
-      cd.kata.appendTrafficLight(data.light, {scrollIntoView:true});
-    }, 'json');
-  };
 
 kata_controller.revert() looks like this:
 
   def revert
-    # Eg [14=green], [15=incorrect prediction], [index=16 ==> revert to 14]
+    # Eg [14=green], [15=incorrect prediction(eg red)], [index=16 ==> revert to 14]
     args = [id, index - 2]
     json = source_event(id, index - 2, :revert, args)
-    saver.kata_reverted(id, index, @files, @stdout, @stderr, @status, {
-      colour: @colour,
-      revert: args
-    });
+    ...
     render json: json
-  end
-
-  def source_event(src_id, src_index, name, value)
-    event = saver.kata_event(src_id, src_index)
-    @files = event['files']
-    @stdout = event['stdout']
-    @stderr = event['stderr']
-    @status = event['status']
-    @colour = event['colour']
-    {
-       files: @files.map{ |filename,file| [filename, file['content']] }.to_h,
-      stdout: @stdout,
-      stderr: @stderr,
-      status: @status,
-       light: {
-         colour: @colour,
-          index: index,
-          name => value
-       }
-    }
   end
 
 which is hard-wiring the index-2 and sometimes it needs to be 
 index-3, index-4, index-5, etc, depending on how many file-events 
 there have been since the previous traffic-light.
+
+TODO: Add new revert_test with multiple file-events, eg index-5 
+
+TODO: kata_controller.revert() needs to do saver.kata_events()
+and then find the index of the previous traffic-light.
 
 ------------------------------------------------------------------
 
