@@ -139,7 +139,7 @@
   const revert = () => {
     const args = {
       id: cd.kata.id,      // eg 'Xd4f2P'
-      index: cd.kata.index // eg 18 (reverting to 16)
+      index: cd.kata.index // eg 18 (reverting to, eg 16)
     };
     $.post('/kata/revert', args, (data) => {
       cd.kata.incrementIndex();

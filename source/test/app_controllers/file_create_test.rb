@@ -16,7 +16,7 @@ class FileCreateTest  < AppControllerTestBase
       post_json '/kata/file_create', {
         id: @id,
         index: @index,
-        data: { 'file_content' => @files },
+        data: { file_content: @files },
         filename: created_filename
       }
       assert_response :success

@@ -17,7 +17,7 @@ class FileRenameTest  < AppControllerTestBase
       post_json '/kata/file_rename', {
         id: @id,
         index: @index,
-        data: { 'file_content' => @files },
+        data: { file_content: @files },
         old_filename: old_filename,
         new_filename: new_filename
       }

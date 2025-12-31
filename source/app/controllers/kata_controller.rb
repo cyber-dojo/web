@@ -110,17 +110,40 @@ class KataController < ApplicationController
   end
 
   # - - - - - - - - - - - - - - - - - -
-  # An auto-revert for an incorrect prediction from the test page.
+  # A revert, eg for an incorrect prediction with auto-revert from the test page.
 
   def revert
-    # Eg [14=green], [15=incorrect prediction], [index=16 ==> revert to 14]
-    args = [id, index - 2]
-    json = source_event(id, index - 2, :revert, args)
+    # Eg [14=green], [15=red (amber=incorrect)], [index=16 ==> revert to 14]
+    # Eg [14=green], [15=file-edit], [16=red (amber=incorrect)], [index=17 ==> revert to 14]
+    events = saver.kata_events(id)
+    previous_index = index - 2
+    while !light?(events[previous_index])
+      previous_index -= 1
+    end
+
+    args = [id, previous_index]
+    json = source_event(id, previous_index, :revert, args)
+
     saver.kata_reverted(id, index, @files, @stdout, @stderr, @status, {
       colour: @colour,
       revert: args
     });
     render json: json
+  end
+
+  def light?(event)
+    create_index = 0
+    if event['index'] == create_index
+      return true
+    end
+    case event['colour']
+    when 'red', 'amber', 'green'
+      true
+    when 'red_special', 'amber_special', 'green_special'
+      true 
+    else 
+      false
+    end
   end
 
   # - - - - - - - - - - - - - - - - - -
@@ -159,15 +182,17 @@ class KataController < ApplicationController
     end
   end
 
-  # - - - - - - - - - - - - - - - - - -
-
   def source_event(src_id, src_index, name, value)
     event = saver.kata_event(src_id, src_index)
     @files = event['files']
     @stdout = event['stdout']
     @stderr = event['stderr']
     @status = event['status']
-    @colour = event['colour']
+    if src_index == 0
+      @colour = 'create'
+    else
+      @colour = event['colour']
+    end
     {
        files: @files.map{ |filename,file| [filename, file['content']] }.to_h,
       stdout: @stdout,

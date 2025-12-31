@@ -16,7 +16,7 @@ class FileDeleteTest  < AppControllerTestBase
       post_json '/kata/file_delete', {
         id: @id,
         index: @index,
-        data: { 'file_content' => @files },
+        data: { file_content: @files },
         filename: deleted_filename
       }
       assert_response :success

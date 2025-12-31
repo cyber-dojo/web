@@ -4,40 +4,8 @@ Need to improve dialog-box errors, eg when you get a server 500
 
 ------------------------------------------------------------------
 NOTE: saver.ran_test2() is ENABLED
-Breaks app-controller tests for revert
-  1) Failure:
-ReverterTest#test_'81F276',
- in individual kata, revert back to our own previous traffic-light
- [reverter_test.rb:91]:
-Expected: ["lBsH1E", 2]
-  Actual: ["lBsH1E", 3]  
 
-Use cases:
- ran_tests() with prediction, wrong, no edit-event 
-   3(green)         4(amber, predict=red) 5(back to 3) ==-2
- ran_tests() with prediction, wrong, with edit-event
-   3(green) 4(edit) 5(amber, predict=red) 6(wrong-prediction) 6(back to 3) ==-3
-
-Note: kata.revert is ALSO used for explicit [revert] in review page.
-
-kata_controller.revert() looks like this:
-
-  def revert
-    # Eg [14=green], [15=incorrect prediction(eg red)], [index=16 ==> revert to 14]
-    args = [id, index - 2]
-    json = source_event(id, index - 2, :revert, args)
-    ...
-    render json: json
-  end
-
-which is hard-wiring the index-2 and sometimes it needs to be 
-index-3, index-4, index-5, etc, depending on how many file-events 
-there have been since the previous traffic-light.
-
-TODO: Add new revert_test with multiple file-events, eg index-5 
-TODO: Add new revert_test with revert with no file-events so you go back to creation index=0 
-TODO: kata_controller.revert() needs to call saver.kata_events()
-and then find the index of the previous traffic-light/creation in events
+WIP: Add new revert_test with multiple file-events, eg index-5 
 
 ------------------------------------------------------------------
 
