@@ -89,8 +89,9 @@ kata_controller.revert() looks like this:
     }
   end
 
-which is hard-wiring the index-2 and sometimes it needs to be index-3
-
+which is hard-wiring the index-2 and sometimes it needs to be 
+index-3, index-4, index-5, etc, depending on how many file-events 
+there have been since the previous traffic-light.
 
 ------------------------------------------------------------------
 
