@@ -10,15 +10,10 @@ NOTE: saver.ran_test2() is ENABLED
 
 - From demo, if you add a new traffic-lights by hitting [test] 
   these get the correct RAG and diff tool-tip. But if you click it
-  then in review mode, when you select one of these new RAGs, with diff[x] on, 
-  then you get no diff. You should. 
+  then in review mode, when you select one of these new RAGs, 
+  with diff[x] on, then you get no diff in the files. You should. 
 
 - Refactor JS so refresh methods are called only when needed.
-
-- In kata page, still need previousIndex to calculate diff-tool-tips.
-  Use function to calculate previousIndex from given index.
-  Has to use $.getJSON() to get saver events since it has to 
-  filter out file-events which are not saved in kata page.
 
 - When extras[x] is checked and you are on an inter-test-event 
   and you turn off extras[ ] then you need to change the index 
@@ -37,7 +32,7 @@ NOTE: saver.ran_test2() is ENABLED
   Should diff[x] be fixed to on when in details[x] is on?
 
 - drop CDRE icon from diff-tool-tip?
-- s/file_name/file rename/ in diif-tool-tip?
+- s/file_edit/edit file/ in diff-tool-tip?
 
 - stdout/stderr/status appear below the file knave when reviewing 
   an inter-test-event index. They should not.
