@@ -192,14 +192,17 @@ class KataController < ApplicationController
   end
 
   def source_id
+    # Used in checkout (not in revert)
     params[:src_id]
   end
 
   def source_index
+    # Used in checkout (not in revert)
     params[:src_index].to_i
   end
 
   def source_avatar_index
+    # Used in checkout (not in revert)
     param = params[:src_avatar_index]
     (param != '') ? param.to_i : ''
   end

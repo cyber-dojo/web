@@ -6,7 +6,7 @@ class PredictedTest  < AppControllerTestBase
     '1D3'
   end
 
-  test '5b7', %w( predicted right ) do
+  test '5b7', %w( predicted right, no auto-revert when wrong ) do
     in_kata do |kata|
       runner.stub_run({outcome: 'red'})
       post_run_tests({'predicted'=>'red'})
@@ -18,7 +18,7 @@ class PredictedTest  < AppControllerTestBase
 
   # - - - - - - - - - - - - - - - - - - - -
 
-  test '5b8', %w( predicted wrong ) do
+  test '5b8', %w( predicted wrong, no auto-revert when wrong ) do
     in_kata do |kata|
       runner.stub_run({outcome: 'amber'})
       post_run_tests({'predicted'=>'red'})
