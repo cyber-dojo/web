@@ -4,9 +4,6 @@ Need to improve dialog-box errors, eg when you get a server 500
 
 ------------------------------------------------------------------
 NOTE: saver.ran_test2() is ENABLED
-
-WIP: Add new revert_test with multiple file-events, eg index-5 
-
 ------------------------------------------------------------------
 
 Any remaining app-controller tests use RunnerService when they could use RunnerStub?
