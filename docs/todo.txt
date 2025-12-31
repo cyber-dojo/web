@@ -35,9 +35,9 @@ index-3, index-4, index-5, etc, depending on how many file-events
 there have been since the previous traffic-light.
 
 TODO: Add new revert_test with multiple file-events, eg index-5 
-
-TODO: kata_controller.revert() needs to do saver.kata_events()
-and then find the index of the previous traffic-light.
+TODO: Add new revert_test with revert with no file-events so you go back to creation index=0 
+TODO: kata_controller.revert() needs to call saver.kata_events()
+and then find the index of the previous traffic-light/creation in events
 
 ------------------------------------------------------------------
 

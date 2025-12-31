@@ -15,11 +15,11 @@ class FileRenameTest  < AppControllerTestBase
     new_filename = 'readme2.txt'
     in_kata do
       post_json '/kata/file_rename', {
-        'id' => @id,
-        'index' => @index,
-        'data' => { 'file_content' => @files },
-        'old_filename' => old_filename,
-        'new_filename' => new_filename
+        id: @id,
+        index: @index,
+        data: { 'file_content' => @files },
+        old_filename: old_filename,
+        new_filename: new_filename
       }
       assert_response :success
       assert_equal 2, kata.events.size

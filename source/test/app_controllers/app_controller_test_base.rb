@@ -29,8 +29,8 @@ class AppControllerTestBase < ActionDispatch::IntegrationTest
 
   def post_json(path, params)
     params['format'] = 'js'
-    if params.key?('data')
-      params['data'] = Rack::Utils.build_nested_query(params['data'])
+    if params.key?(:data)
+      params[:data] = Rack::Utils.build_nested_query(params[:data])
     end
     post path, params: params
     events = saver.kata_events(@id)

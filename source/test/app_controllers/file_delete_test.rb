@@ -14,10 +14,10 @@ class FileDeleteTest  < AppControllerTestBase
     deleted_filename = 'readme.txt'
     in_kata do
       post_json '/kata/file_delete', {
-        'id' => @id,
-        'index' => @index,
-        'data' => { 'file_content' => @files },
-        'filename' => deleted_filename
+        id: @id,
+        index: @index,
+        data: { 'file_content' => @files },
+        filename: deleted_filename
       }
       assert_response :success
       assert_equal 2, kata.events.size

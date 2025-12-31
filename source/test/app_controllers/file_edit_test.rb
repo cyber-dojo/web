@@ -15,9 +15,9 @@ class FileEditTest  < AppControllerTestBase
     in_kata do
       @files[edited_filename] += 'Hello world'
       post_json '/kata/file_edit', {
-        'id' => @id,
-        'index' => @index,
-        'data' => { 'file_content' => @files }
+        id: @id,
+        index: @index,
+        data: { 'file_content' => @files }
       }
       assert_response :success
       assert_equal 2, kata.events.size

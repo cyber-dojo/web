@@ -14,10 +14,10 @@ class FileCreateTest  < AppControllerTestBase
     created_filename = 'newfile.txt'
     in_kata do
       post_json '/kata/file_create', {
-        'id' => @id,
-        'index' => @index,
-        'data' => { 'file_content' => @files },
-        'filename' => created_filename
+        id: @id,
+        index: @index,
+        data: { 'file_content' => @files },
+        filename: created_filename
       }
       assert_response :success
       assert_equal 2, kata.events.size
