@@ -1,10 +1,10 @@
 
-Note: app/controllers/application_controller.rb container render 404, 500
-Need to improve dialog-box errors, eg when you get a server 500
+app/controllers/application_controller.rb container render 404, 500
+In web, improve dialog-box errors, eg when you get a server 500
+ this needs to be logged so it is visible in a docker-logs command.
 
-------------------------------------------------------------------
-NOTE: saver.ran_test2() is ENABLED
-------------------------------------------------------------------
+Polyfill old checkouts on saver model?
+  having index=0 -> colour="create" would be handy.
 
 In revert_test.rb instead of 
   @files[filename] = 'Hello'
@@ -13,37 +13,13 @@ if you write
 then it seems to cause saver to silently drop its incoming call.
 There needs to be some pydantic-like checking of the parameters.
 
-Any remaining app-controller tests use RunnerService when they could use RunnerStub?
-Are some tests are failing because they are not using v2 manifests? Use v2 in all tests
+Any app-controller tests use RunnerService when they could use RunnerStub?
 
-- From demo, if you add a new traffic-lights by hitting [test] 
-  these get the correct RAG and diff tool-tip. But if you click it
-  then in review mode, when you select one of these new RAGs, 
-  with diff[x] on, then you get no diff in the files. You should. 
+Are app-controller tests still using v0/v1 manifests?
+  Use v2 in all tests.
+  Create multi-version-tests?
 
-- Refactor JS so refresh methods are called only when needed.
-
-- When extras[x] is checked and you are on an inter-test-event 
-  and you turn off extras[ ] then you need to change the index 
-  going to the previous/next RAG or no traffic-light gets an underbar
-
-- In avatar-navigator, when [<] [>] is selected, JS code currently
-  hard-wires the index to ? (1 : avatar.events.length - 1);
-  This needs to use traffc-light functions.
-
-- Selection of highlight filename when file-events are enabled needs reworking.
-  When diff[x] is off:
-    create -> created-filename: The file is not selected
-    delete -> deleted-filename: The file is not selected
-    rename -> renamed-filename: The file is not selected. No tooltip for the old filename
-    edit   ->  edited-filename: The file is not selected.
-  Should diff[x] be fixed to on when in details[x] is on?
-
-- drop CDRE icon from diff-tool-tip?
-- s/file_edit/edit file/ in diff-tool-tip?
-
-- stdout/stderr/status appear below the file knave when reviewing 
-  an inter-test-event index. They should not.
+------------------------------------------------------------------
 
 - could the inter-test-events store the number of lines added/deleted 
   in the events.json summary? This would enable fast calculation of 
@@ -53,16 +29,33 @@ Are some tests are failing because they are not using v2 manifests? Use v2 in al
   --shortstat option gives 
   1 file changed, 3 insertions(+), 2 deletions(-)
 
-------------------------------------------------------------------
-      
-- check how revert handles logic to know if reverting to specific 
-  traffic-lights is allowed or not.
-- comment out JS calls to file-create/delete/rename/edit 
-  and do careful check that everything still works: revert,checkout,predict,etc
-  and then do a release
-- ? make saver.ran_tests() create two events, file-edit, and then a colour
-  release that
-- ? turn on file-create/delete/rename/edit
+- In avatar-navigator, when [<] [>] is selected, JS code currently
+  hard-wires the index to ? (1 : avatar.events.length - 1);
+  This needs to use traffc-light functions.
+
+- s/file_edit/edit file/ in diff-tool-tip?
+
+- stdout/stderr/status appear below the file knave when reviewing 
+  an inter-test-event index. They should not.
+
+- Selection of highlight filename when file-events are enabled needs reworking.
+  When diff[x] is off:
+    create -> created-filename: The file is not selected
+    delete -> deleted-filename: The file is not selected
+    rename -> renamed-filename: The file is not selected. No tooltip for the old filename
+    edit   ->  edited-filename: The file is not selected.
+  Should diff[x] be fixed to on when in details[x] is on?
+
+- In review mode, when details[x] is checked and you are on an 
+  inter-test-event (eg 6) and you turn OFF details[x] then you need to edit the index 
+  going to the previous?/next? RAG to ensure a traffic-light gets an underbar
+
+- From demo, if you add a new traffic-lights by hitting [test] 
+  these get the correct RAG and diff tool-tip. But if you click it
+  then in review mode, when you select one of these new RAGs, 
+  with diff[x] on, then you get no diff in the files. You should. 
+
+- Refactor JS so refresh methods are called only when needed.
 
 ------------------------------------------------------------------
 
@@ -75,36 +68,18 @@ Or should this restriction be turned off completely?
 
 ------------------------------------------------------------------
 
-Note: all web code is on a branch and so is not even on beta yet.
-When it is deployed to beta/prod then inter-test-events will start to
-be created, since saver has inter-test-events in beta/prod already.
+- pre-release
+- switch web to call saver.ran_tests() instead of saver.ran_tests2()      
+- comment out JS calls to file-create/delete/rename/edit 
+- do careful check that everything still works: 
+    [test]-review, [dashboard]-review, revert, checkout, predict, etc
+- check for stability, continue testing/checking
 
-------------------------------------------------------------------
+- release
+  - use saver.ran_tests2()
+  - turn on file-create/delete/rename/edit
 
-Upgrade demo to bring up a v2 kata with inter-test events.
-Use it to get into review page for working on showing inter-test events.
-Have to think about how to handle [revert]
-Do I allow revert from an inter-test event? I think yes.
-Will need (C)(D)(R)(E) icons with an underbar.
-
-------------------------------------------------------------------
-
-In a v2 kata, if you create inter-test-events, and traffic-lights are at
-indexes 2,4,7 then these indexes are visible in the diff-tool-tip.
-If you click light(eg index=4) then in review mode you see that light 
-underbarred and the navigator-index shown is 4.
-You can use [<][>] to navigate to a non-test-event and
-- the diff is shown
-- the index will update
-- the underbar will be removed.
-Perhaps this is almost enough?!
-Could extra[x] only control what the underlying events are?
-
-------------------------------------------------------------------
-
-In review-mode, always do diff-summary of index-1,index
-and always show file-type markers. Make the diff[x] checkbox
-control whether the [+][-] diffs are visible. Need to try this.
-What about [+] created files and [-] deleted files?
-
-Polyfill old checkouts on model?
+- post-release
+  o) reimplement saver.ran_test() to be the same as saver.ran_tests2()
+  o) switch web to call saver.ran_tests()
+  o) delete saver.ran_tests2()
