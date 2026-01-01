@@ -98,7 +98,7 @@ end
 def red_traffic_light(id, index, files)
   hiker_sh = files['hiker.sh']['content']
   files['hiker.sh']['content'] = hiker_sh.sub('6 * 9', '6 * 99')
-  $http.post('kata_ran_tests', {
+  $http.post('kata_ran_tests2', {
     id: id,
     index: index,
     files: files,
@@ -112,7 +112,7 @@ end
 def amber_traffic_light(id, index, files)
   hiker_sh = files['hiker.sh']['content']
   files['hiker.sh']['content'] = hiker_sh.sub('6 * 99', '6 * 99s')
-  $http.post('kata_ran_tests', {
+  $http.post('kata_ran_tests2', {
     id: id,
     index: index,
     files: files,
@@ -126,7 +126,7 @@ end
 def green_traffic_light(id, index, files)
   hiker_sh = files['hiker.sh']['content']
   files['hiker.sh']['content'] = hiker_sh.sub('6 * 99s', '6 * 7')
-  $http.post('kata_ran_tests', {
+  $http.post('kata_ran_tests2', {
     id: id,
     index: index,
     files: files,
