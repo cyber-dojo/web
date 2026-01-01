@@ -35,13 +35,7 @@ Are app-controller tests still using v0/v1 manifests?
 
 - In review mode when a RAG is chosen should stdout/stderr/status be selected?
 
-- Selection of highlight filename when file-events are enabled needs reworking.
-  When diff[x] is off:
-    create -> created-filename: The file is not selected
-    delete -> deleted-filename: The file is not selected
-    rename -> renamed-filename: The file is not selected. No tooltip for the old filename
-    edit   ->  edited-filename: The file is not selected.
-  Should diff[x] be fixed to on when in details[x] is on?
+- Should diff[x] be fixed to on when in details[x] is on?
 
 - In review mode, when details[x] is checked and you are on an 
   inter-test-event (eg 6) and you turn OFF details[x] then you need to edit the index 
