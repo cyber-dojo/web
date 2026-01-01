@@ -15,13 +15,13 @@
   <div class="left-column">
     <table class="controls">
       <tr><td><%= render partial: 'review/resume_button' %></td>
-          <td><%= render partial: 'review/traffic_light_navigator' %></td></tr>
+          <td><%= render partial: 'review/avatar_navigator' %></td></tr>
+          
       <tr><td><%= render partial: 'review/checkout_button' %>
               <%= render partial: 'review/fork_button' %></td>
-          <td><%= render partial: 'review/avatar_navigator' %></td></tr>
-      <tr><td><%= render partial: 'review/diff_checkbox' %>
-              <%= render partial: 'review/help_icon' %></td>
-          <td><%= render partial: 'review/details_checkbox' %></td></tr>
+          <td><%= render partial: 'review/details_checkbox' %>
+              <%= render partial: 'review/diff_checkbox' %>
+              <%= render partial: 'review/help_icon' %></td></tr>                  
     </table>
     <table>
       <tr><td><%= render partial: 'review/filenames' %></td></tr>
@@ -31,6 +31,7 @@
   </div>
 
   <div class="right-column">
+    <%= render partial: 'review/traffic_light_navigator' %>
     <%= render partial: 'review/traffic_lights' %>
     <div id="diff-content"></div>
     <div id="diff-content-output"></div>

@@ -32,7 +32,10 @@ echo_env_vars()
   # part of the dev-loop/demo. For example:
   #
   # echo CYBER_DOJO_SAVER_SHA=fef7a58e2eb3c3b16c51ef0f2c71fc6b7bfb53af
-  # echo CYBER_DOJO_SAVER_TAG=fef7a58  
+  # echo CYBER_DOJO_SAVER_TAG=fef7a58
+  #
+  echo CYBER_DOJO_SAVER_SHA=15886daaaf6dd99651db397591578fd90387e636
+  echo CYBER_DOJO_SAVER_TAG=15886da
 }
 
 run_versioner()

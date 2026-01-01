@@ -28,14 +28,16 @@ Are app-controller tests still using v0/v1 manifests?
   says it can show diffs between a commit and a worktree.
   --shortstat option gives 
   1 file changed, 3 insertions(+), 2 deletions(-)
+  STARTED: saver branch added-file-event-diff-counts
 
 - In avatar-navigator, when [<] [>] is selected, JS code currently
-  hard-wires the index to ? (1 : avatar.events.length - 1);
-  This needs to use traffc-light functions.
+  hard-wires the index to (expression) ? 1 : avatar.events.length - 1;
+  This needs to use traffic-light functions.
 
-- In review mode when a RAG is chosen should stdout/stderr/status be selected?
-
-- Should diff[x] be fixed to on when in details[x] is on?
+- In review mode when a RAG is chosen should stdout/stderr be selected?
+  If so, how to choose?
+  - could look at stdout/stderr and see is either is empty?
+  - could use light.colour as a guide?
 
 - In review mode, when details[x] is checked and you are on an 
   inter-test-event (eg 6) and you turn OFF details[x] then you need to edit the index 
@@ -48,6 +50,8 @@ Are app-controller tests still using v0/v1 manifests?
   This would be seen in the tool-tips too.
   This would also need to be implemented on the dashboard.
 
+- don't show stdout/stderr/status for creation event index=0
+
 - From demo, if you add a new traffic-lights by hitting [test] 
   these get the correct RAG and diff tool-tip. But if you click it
   then in review mode, when you select one of these new RAGs, 
@@ -56,6 +60,8 @@ Are app-controller tests still using v0/v1 manifests?
 - Refactor JS so refresh methods are called only when needed.
 
 - Fix layout/CSS for review-mode from dashboard
+
+- Should diff[x] be fixed to on when in details[x] is on?
 
 ------------------------------------------------------------------
 
