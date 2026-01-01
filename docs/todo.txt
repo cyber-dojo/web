@@ -33,8 +33,7 @@ Are app-controller tests still using v0/v1 manifests?
   hard-wires the index to ? (1 : avatar.events.length - 1);
   This needs to use traffc-light functions.
 
-- stdout/stderr/status appear below the file knave when reviewing 
-  an inter-test-event index. They should not.
+- In review mode when a RAG is chosen should stdout/stderr/status be selected?
 
 - Selection of highlight filename when file-events are enabled needs reworking.
   When diff[x] is off:
