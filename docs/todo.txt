@@ -33,8 +33,6 @@ Are app-controller tests still using v0/v1 manifests?
   hard-wires the index to ? (1 : avatar.events.length - 1);
   This needs to use traffc-light functions.
 
-- s/file_edit/edit file/ in diff-tool-tip?
-
 - stdout/stderr/status appear below the file knave when reviewing 
   an inter-test-event index. They should not.
 
@@ -49,6 +47,13 @@ Are app-controller tests still using v0/v1 manifests?
 - In review mode, when details[x] is checked and you are on an 
   inter-test-event (eg 6) and you turn OFF details[x] then you need to edit the index 
   going to the previous?/next? RAG to ensure a traffic-light gets an underbar
+  One idea here is to switch to a "dotted index view"?
+  Eg 6 -> ite(7,8,9) -> 10 
+  currently, each index is shown, 7,8,9,10, etc.
+  But the view could be 6, 6.1(7), 6.2(8), 6.3(9), 7(10)
+  With this, switching off details[x] when on 6.2(8) would go back to "plain" 6
+  This would be seen in the tool-tips too.
+  This would also need to be implemented on the dashboard.
 
 - From demo, if you add a new traffic-lights by hitting [test] 
   these get the correct RAG and diff tool-tip. But if you click it
@@ -56,6 +61,8 @@ Are app-controller tests still using v0/v1 manifests?
   with diff[x] on, then you get no diff in the files. You should. 
 
 - Refactor JS so refresh methods are called only when needed.
+
+- Fix layout/CSS for review-mode from dashboard
 
 ------------------------------------------------------------------
 
@@ -78,6 +85,7 @@ Or should this restriction be turned off completely?
 - release
   - use saver.ran_tests2()
   - turn on file-create/delete/rename/edit
+  - check index numbering in details mode
 
 - post-release
   o) reimplement saver.ran_test() to be the same as saver.ran_tests2()

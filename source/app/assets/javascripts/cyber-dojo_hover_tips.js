@@ -44,14 +44,19 @@ var cyberDojo = (function(cd, $) {
   };
 
   const miniTextInfo = (kataId, light) => {
-    if (light.colour === 'pulling') {
-      return 'image being prepared';
+    switch (light.colour) {
+      case 'pulling':     return 'image being prepared';
+      case 'timed_out':   return 'timed out';
+      case 'file_create': return 'create file';
+      case 'file_delete': return 'delete file';
+      case 'file_rename': return 'rename file';    
+      case 'file_edit':   return 'edit file';
     }
-    else if (light.colour === 'timed_out') {
-      return 'timed out';
-    }
-    else if (light.colour === 'faulty') {
-      return `fault! not ${cssColour('red')}, ${cssColour('amber')}, or ${cssColour('green')}`;
+    if (light.colour == 'faulty') {
+      const cssRed = cssColour('red');
+      const cssAmber = cssColour('amber');
+      const cssGreen = cssColour('green');
+      return `fault! not ${cssRed}, ${cssAmber}, or ${cssGreen}`;
     }
     else if (cd.lib.hasPrediction(light)) {
       return trafficLightPredictInfo(light);
