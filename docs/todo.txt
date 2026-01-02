@@ -3,9 +3,6 @@ app/controllers/application_controller.rb container render 404, 500
 In web, improve dialog-box errors, eg when you get a server 500
  this needs to be logged so it is visible in a docker-logs command.
 
-Polyfill old checkouts on saver model?
-  having index=0 -> colour="create" would be handy.
-
 In revert_test.rb instead of 
   @files[filename] = 'Hello'
 if you write
@@ -38,6 +35,10 @@ Are app-controller tests still using v0/v1 manifests?
   If so, how to choose?
   - could look at stdout/stderr and see is either is empty?
   - could use light.colour as a guide?
+
+- Polyfill old checkouts on saver model?
+  having index=0 -> colour="create" would be handy.
+  adding diff-added/deleted-count in index=0 also
 
 - In review mode, when details[x] is checked and you are on an 
   inter-test-event (eg 6) and you turn OFF details[x] then you need to edit the index 
