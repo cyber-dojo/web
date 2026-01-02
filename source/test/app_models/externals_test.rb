@@ -13,16 +13,18 @@ class ExternalsTest < AppModelsTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '880',
-  'setting an external class to the name of an existing class succeeds' do
+  test '880', %w(
+  | setting an external class to the name of an existing class succeeds
+  )  do
     exists = 'ExternalDouble'
     set_runner_class(exists) && assert_equal(exists, runner.class.name)
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - -
 
-  test '881',
-  'setting an external class to the name of a non-existent class raises StandardError' do
+  test '881', %w(
+  | setting an external class to the name of a non-existent class raises StandardError
+  ) do
     error = StandardError
     does_not_exist = 'DoesNotExist'
     set_runner_class(does_not_exist) && assert_raises(error) { runner.class }

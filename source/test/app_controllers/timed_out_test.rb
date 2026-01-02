@@ -6,7 +6,9 @@ class TimedOutTest  < AppControllerTestBase
     'jB4'
   end
 
-  test '221', %w( timed_out ) do
+  test '221', %w( 
+  | timed_out 
+  ) do
     in_kata do |kata|
       runner.stub_run({outcome: 'timed_out'})
       post_run_tests

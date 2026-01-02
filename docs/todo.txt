@@ -14,7 +14,7 @@ Any app-controller tests use RunnerService when they could use RunnerStub?
 
 Are app-controller tests still using v0/v1 manifests?
   Use v2 in all tests.
-  Create multi-version-tests?
+  Create multi-version-tests? See source/test/test_base.rb v_tests
 
 ------------------------------------------------------------------
 
@@ -30,6 +30,13 @@ Are app-controller tests still using v0/v1 manifests?
 - In avatar-navigator, when [<] [>] is selected, JS code currently
   hard-wires the index to (expression) ? 1 : avatar.events.length - 1;
   This needs to use traffic-light functions.
+
+- In demo, add events for 'faulty' and 'pulling'.
+  Check review with details[x] and moving [<][>] across them
+
+- cd.lib.isLight(event) also gives true for create event. Not clear.
+  Add cd.lib.isTest(event) and check that also gives true for 
+  'faulty' and 'pulling'
 
 - In review mode when a RAG is chosen should stdout/stderr be selected?
   If so, how to choose?

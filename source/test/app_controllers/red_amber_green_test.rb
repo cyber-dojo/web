@@ -6,7 +6,9 @@ class RedAmberGreenTest  < AppControllerTestBase
     'gh6'
   end
 
-  test '223', %w( red-green-amber ) do
+  test '223', %w( 
+  | red-green-amber 
+  ) do
     in_kata do |kata|
       runner.stub_run({outcome: 'red'})
       post_run_tests
@@ -25,9 +27,9 @@ class RedAmberGreenTest  < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - -
 
   test '224', %w(
-  |when run_tests() is 'red' and creates a file called outcome.special
-  |then the colour becomes 'red_special
-  |and the outcome.special file is not saved
+  | when run_tests() is 'red' and creates a file called outcome.special
+  | then the colour becomes 'red_special
+  | and the outcome.special file is not saved
   ) do
     in_kata do |kata|
       runner.stub_run({

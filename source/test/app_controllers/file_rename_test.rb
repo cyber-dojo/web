@@ -9,7 +9,7 @@ class FileRenameTest  < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '3ed', %w(
-  file_rename() creates a file-rename event in saver 
+  | file_rename() creates a file-rename event in saver 
   ) do
     old_filename = 'readme.txt'
     new_filename = 'readme2.txt'

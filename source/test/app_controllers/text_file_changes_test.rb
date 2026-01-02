@@ -28,8 +28,8 @@ class TextFileChangesTest  < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '9DD', %w(
-  |given cyber-dojo.sh contains a command to create new text file
-  |then the saver records the new file
+  | given cyber-dojo.sh contains a command to create new text file
+  | then the saver records the new file
   ) do
     new_filename = 'wibble.txt'
     new_content = 'Hello world'
@@ -47,8 +47,8 @@ class TextFileChangesTest  < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '9DE', %w(
-  |given cyber-dojo.sh contains a command to change an existing text file
-  |then the saver records the changed file
+  | given cyber-dojo.sh contains a command to change an existing text file
+  | then the saver records the changed file
   ) do
     existing_filename = 'readme.txt'
     changed_content = 'Hello world'
@@ -66,9 +66,9 @@ class TextFileChangesTest  < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '736', %w(
-  |given cyber-dojo.sh contains a command to create a new text file called stdout
-  |then the saver records it
-  |but does not confuse it with the standard stdout stream
+  | given cyber-dojo.sh contains a command to create a new text file called stdout
+  | then the saver records it
+  | but does not confuse it with the standard stdout stream
   ) do
     new_filename = 'stdout'
     new_content = 'Bonjour'
@@ -90,9 +90,9 @@ class TextFileChangesTest  < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '737', %w(
-  |given cyber-dojo.sh contains a command to create new text file called 'stderr'
-  |then the saver records it 
-  |but does not confuse it with the standard stdout stream
+  | given cyber-dojo.sh contains a command to create new text file called 'stderr'
+  | then the saver records it 
+  | but does not confuse it with the standard stdout stream
   ) do
     new_filename = 'stderr'
     new_content = 'Bonjour2'
@@ -114,9 +114,9 @@ class TextFileChangesTest  < AppControllerTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '738', %w(
-  |given cyber-dojo.sh contains a command to create a new text file called 'status'
-  |then the saver does record it
-  |but does not confuse it with the standard status
+  | given cyber-dojo.sh contains a command to create a new text file called 'status'
+  | then the saver does record it
+  | but does not confuse it with the standard status
   ) do
     new_filename = 'status'
     new_content = 'Bonjour3'

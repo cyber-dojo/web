@@ -9,7 +9,7 @@ class FileCreateTest  < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '276', %w(
-  file_create() creates a file-create event in saver 
+  | file_create() creates a file-create event in saver 
   ) do
     created_filename = 'newfile.txt'
     in_kata do

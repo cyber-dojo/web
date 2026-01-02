@@ -9,7 +9,7 @@ class FileDeleteTest  < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '145', %w(
-  file_delete() creates a file-delete event in saver 
+  | file_delete() creates a file-delete event in saver 
   ) do
     deleted_filename = 'readme.txt'
     in_kata do

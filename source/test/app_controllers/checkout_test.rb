@@ -9,7 +9,7 @@ class CheckoutTest  < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '176', %w(
-  in individual kata, checkout your own previous traffic-light
+  | in individual kata, checkout your own previous traffic-light
   ) do
     filename = 'hiker.sh'
     old_content = 'the_answer'
@@ -49,7 +49,7 @@ class CheckoutTest  < AppControllerTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '177', %w(
-  in group kata, checkout a different avatar's traffic-light
+  | in group kata, checkout a different avatar's traffic-light
   ) do
     filename = 'hiker.sh'
     new_content = 'and now for something_different'

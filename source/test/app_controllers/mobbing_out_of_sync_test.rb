@@ -9,8 +9,6 @@ class MobbingOutOfSyncTest  < AppControllerTestBase
     'zW7'
   end
 
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   test 'B30', %w(
   | given two (or more) laptops as the same avatar
   | and one has not synced (by hitting refresh in their browser)
