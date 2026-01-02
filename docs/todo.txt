@@ -76,14 +76,6 @@ Are app-controller tests still using v0/v1 manifests?
 
 - Should diff[x] be fixed to on when in details[x] is on?
 
-- Perhaps file-event icons could be tweaked so they subtely show the type 
-  Keep the look of a code file, but in the center add a small mark
-  which matches the symbols used in the diff tool-tip
-    + for created file (only the + in green)
-    - for deleted file (only the - in red)
-    ! for edited file  (only the ! in white)
-    ± for renamed file (only the ± in blue)
-
 ------------------------------------------------------------------
 
 checkout is prevented if it undoes an auto-revert.

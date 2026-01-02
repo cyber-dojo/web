@@ -25,18 +25,6 @@ img.diff-traffic-light
   margin: { left:0px; right:2px; }
 }
 
-img.diff-traffic-light[data-colour|='file_create'],
-img.diff-traffic-light[data-colour|='file_delete'],
-img.diff-traffic-light[data-colour|='file_rename'],
-img.diff-traffic-light[data-colour|='file_edit']
-{
-  width: $traffic-light-size - 2;
-  height: $traffic-light-size - 2;
-  margin: { left:1px; right:3px; }
-  position: relative; top: 2px;
-  padding-bottom: 2px;
-}
-
 img.revert, img.checkout
 {
   width: $traffic-light-size - 2px;
