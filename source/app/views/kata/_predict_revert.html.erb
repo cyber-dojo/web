@@ -46,7 +46,6 @@ $(() => {
   const kata = cd.kata;
   const settings = cd.settings;
 
-  const $predictCheckboxCell = $('#predict-checkbox-cell');
   const $predict = $('#predict-checkbox');
   const $predictCell = $('#predict-checkbox-cell');
 
@@ -59,7 +58,7 @@ $(() => {
     ].join('');
   };
 
-  cd.createTip($predictCheckboxCell, [
+  cd.createTip($predictCell, [
     '<table>',
       colourTr(  'red', 'some tests will fail'),
       colourTr('amber', 'tests will not run'  ),
@@ -174,7 +173,7 @@ $(() => {
   };
 
   if (cd.env['PREDICT'] !== 'off') {
-    $predictCheckboxCell.show();
+    $predictCell.show();
     $revertTitle.show();
     $buttonsCell.show();
   }

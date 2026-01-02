@@ -18,6 +18,14 @@ Are app-controller tests still using v0/v1 manifests?
 
 ------------------------------------------------------------------
 
+- In demo, add events for 'faulty' and 'pulling'.
+  Check review with details[x] and moving [<][>] across them
+
+- cd.lib.isLight(event) also gives true for create event. Not clear.
+  Add cd.lib.isTest(event) and check that also gives true for 
+  'faulty' and 'pulling'
+  Maybe rename cd.lib.isFileEvent to cd.lib.isMinor(event)
+
 - could the inter-test-events store the number of lines added/deleted 
   in the events.json summary? This would enable fast calculation of 
   RAG<->RAG stats, eg on a dashboard.
@@ -30,13 +38,6 @@ Are app-controller tests still using v0/v1 manifests?
 - In avatar-navigator, when [<] [>] is selected, JS code currently
   hard-wires the index to (expression) ? 1 : avatar.events.length - 1;
   This needs to use traffic-light functions.
-
-- In demo, add events for 'faulty' and 'pulling'.
-  Check review with details[x] and moving [<][>] across them
-
-- cd.lib.isLight(event) also gives true for create event. Not clear.
-  Add cd.lib.isTest(event) and check that also gives true for 
-  'faulty' and 'pulling'
 
 - In review mode when a RAG is chosen should stdout/stderr be selected?
   If so, how to choose?
@@ -57,6 +58,12 @@ Are app-controller tests still using v0/v1 manifests?
   With this, switching off details[x] when on 6.2(8) would go back to "plain" 6
   This would be seen in the tool-tips too.
   This would also need to be implemented on the dashboard.
+  How to display? 
+     [<] [6.13] [>] 
+  Replace all displays of 'index' with result of function that returns 'index'.
+  Then update the function.
+  Note the variable size is a good reason to put them with the RAGs.
+  Check CSS copes with variable size.
 
 - From demo, if you add a new traffic-lights by hitting [test] 
   these get the correct RAG and diff tool-tip. But if you click it
@@ -68,6 +75,14 @@ Are app-controller tests still using v0/v1 manifests?
 - Fix layout/CSS for review-mode from dashboard
 
 - Should diff[x] be fixed to on when in details[x] is on?
+
+- Perhaps file-event icons could be tweaked so they subtely show the type 
+  Keep the look of a code file, but in the center add a small mark
+  which matches the symbols used in the diff tool-tip
+    + for created file (only the + in green)
+    - for deleted file (only the - in red)
+    ! for edited file  (only the ! in white)
+    ± for renamed file (only the ± in blue)
 
 ------------------------------------------------------------------
 
