@@ -50,8 +50,6 @@ Are app-controller tests still using v0/v1 manifests?
   This would be seen in the tool-tips too.
   This would also need to be implemented on the dashboard.
 
-- don't show stdout/stderr/status for creation event index=0
-
 - From demo, if you add a new traffic-lights by hitting [test] 
   these get the correct RAG and diff tool-tip. But if you click it
   then in review mode, when you select one of these new RAGs, 
